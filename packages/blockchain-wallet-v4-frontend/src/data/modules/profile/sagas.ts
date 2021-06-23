@@ -5,6 +5,7 @@ import { call, cancel, delay, fork, put, race, select, spawn, take } from 'redux
 import { Remote } from 'blockchain-wallet-v4/src'
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import { actions, actionTypes, selectors } from 'data'
+import * as C from 'services/alerts'
 import { promptForSecondPassword } from 'services/sagas'
 
 import * as A from './actions'
@@ -196,15 +197,11 @@ export default ({ api, coreSagas, networks }) => {
     yield call(setSession, userId, lifetimeToken, email, guid)
   }
 
-  const signIn = function* (action) {
+  const signIn = function* () {
     try {
       const email = (yield select(selectors.core.settings.getEmail)).getOrFail('No email')
       const guid = yield select(selectors.core.wallet.getGuid)
       yield call(coreSagas.kvStore.userCredentials.fetchMetadataUserCredentials)
-      if (action.payload.fromRestoredFlow) {
-        yield put(A.resetUserKyc())
-      }
-
       const userId = (yield select(selectors.core.kvStore.userCredentials.getUserId)).getOrElse(
         null
       )
@@ -258,17 +255,6 @@ export default ({ api, coreSagas, networks }) => {
     const { token: lifetimeToken, userId } = yield call(api.createUser, retailToken)
     yield put(actions.core.kvStore.userCredentials.setUserCredentials(userId, lifetimeToken))
     return { lifetimeToken, userId }
-  }
-
-  const resetUserKyc = function* () {
-    const retailToken = yield call(generateRetailToken)
-    const userId = (yield select(selectors.core.kvStore.userCredentials.getUserId)).getOrElse(null)
-    const lifetimeToken = (yield select(
-      selectors.core.kvStore.userCredentials.getLifetimeToken
-    )).getOrFail()
-    if (userId) {
-      yield call(api.resetUserKyc, userId, lifetimeToken, retailToken)
-    }
   }
 
   const createUser = function* () {
@@ -526,7 +512,6 @@ export default ({ api, coreSagas, networks }) => {
     renewApiSockets,
     renewSession,
     renewUser,
-    resetUserKyc,
     setSession,
     shareWalletAddressesWithExchange,
     signIn,

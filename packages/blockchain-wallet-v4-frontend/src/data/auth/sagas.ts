@@ -94,13 +94,13 @@ export default ({ api, coreSagas }) => {
     yield put(actions.middleware.webSocket.xlm.startStreams())
   }
 
-  const authNabu = function* (fromRestoredFlow) {
+  const authNabu = function* () {
     yield put(actions.components.identityVerification.fetchSupportedCountries())
     yield take([
       actionTypes.components.identityVerification.SET_SUPPORTED_COUNTRIES_SUCCESS,
       actionTypes.components.identityVerification.SET_SUPPORTED_COUNTRIES_FAILURE
     ])
-    yield put(actions.modules.profile.signIn(fromRestoredFlow))
+    yield put(actions.modules.profile.signIn())
   }
 
   const fetchBalances = function* () {
@@ -285,6 +285,8 @@ export default ({ api, coreSagas }) => {
       yield call(coreSagas.data.xlm.fetchLedgerDetails)
       yield call(coreSagas.data.xlm.fetchData)
 
+      yield call(authNabu)
+
       if (firstLogin) {
         const countryCode = navigator.language.slice(-2) || 'US'
         const currency = guessCurrencyBasedOnCountry(countryCode)
@@ -296,8 +298,6 @@ export default ({ api, coreSagas }) => {
       } else {
         yield put(actions.router.push('/home'))
       }
-
-      yield call(authNabu, fromRestoredFlow)
       yield call(fetchBalances)
       yield call(saveGoals, firstLogin)
       yield put(actions.goals.runGoals())
@@ -512,7 +512,34 @@ export default ({ api, coreSagas }) => {
         coreSagas.wallet.restoreWalletCredentialsFromMetadata,
         mnemonic
       )
-      yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
+      const { guid, sharedKey } = metadataInfo
+      // during recovery we reset user kyc
+      // we generate a retail token from nabu using guid/shared key
+      const { token } = yield call(api.generateRetailToken, guid, sharedKey)
+      // pass that token to /user. if a user already exists, it returns
+      // information associated with that user
+      const { token: lifetimeToken, userId } = yield call(api.createUser, token)
+      // if (userId) {
+      try {
+        // call reset kyc
+        yield call(api.resetUserKyc, userId, lifetimeToken, token)
+        yield put(A.setKycResetStatus(true))
+        yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
+      } catch (e) {
+        // if it fails with user already being reset, shuold be allowed
+        // to continue with flow
+        if (e.description === 'User reset in progress') {
+          yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
+          yield put(A.setKycResetStatus(true))
+        } else {
+          yield put(actions.alerts.displayError(C.KYC_RESET_ERROR))
+          yield put(actions.auth.restoreFromMetadataFailure({ e }))
+          yield put(A.setKycResetStatus(false))
+        }
+      }
+      // } else {
+      //   yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
+      // }
     } catch (e) {
       yield put(actions.auth.restoreFromMetadataFailure({ e }))
       yield put(actions.logs.logErrorMessage(logLocation, 'restoreFromMetadata', e))
@@ -530,12 +557,13 @@ export default ({ api, coreSagas }) => {
         ...action.payload,
         kvCredentials
       })
-      yield put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS))
+
       yield call(loginRoutineSaga, {
         email: action.payload.email,
         firstLogin: true,
         fromRestoredFlow: true
       })
+      yield put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS))
       yield put(actions.auth.restoreSuccess())
     } catch (e) {
       yield put(actions.auth.restoreFailure())

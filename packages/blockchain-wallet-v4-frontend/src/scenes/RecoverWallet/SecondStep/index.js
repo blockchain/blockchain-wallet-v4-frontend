@@ -6,6 +6,7 @@ import { formValueSelector } from 'redux-form'
 import { SpinningLoader } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 
+import Error from './error.template'
 import Recover from './template'
 
 class RecoverContainer extends React.PureComponent {
@@ -20,8 +21,7 @@ class RecoverContainer extends React.PureComponent {
   }
 
   render() {
-    const { metadataRestore, password, previousStep, registering } = this.props
-
+    const { kycReset, metadataRestore, password, previousStep, registering } = this.props
     const isRegistering = registering.cata({
       Failure: () => false,
       Loading: () => true,
@@ -30,14 +30,17 @@ class RecoverContainer extends React.PureComponent {
     })
 
     return metadataRestore.cata({
-      Failure: () => (
-        <Recover
-          previousStep={previousStep}
-          onSubmit={this.onSubmit}
-          isRegistering={isRegistering}
-          password={password}
-        />
-      ),
+      Failure: () =>
+        kycReset ? (
+          <Recover
+            previousStep={previousStep}
+            onSubmit={this.onSubmit}
+            isRegistering={isRegistering}
+            password={password}
+          />
+        ) : (
+          <Error previousStep={previousStep} />
+        ),
       Loading: () => <SpinningLoader width='36px' height='36px' />,
       NotAsked: () => <SpinningLoader width='36px' height='36px' />,
       Success: (val) => (
