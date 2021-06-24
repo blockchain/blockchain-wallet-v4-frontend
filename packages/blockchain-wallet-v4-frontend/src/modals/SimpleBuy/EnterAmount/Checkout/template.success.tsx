@@ -22,6 +22,7 @@ import { SBCheckoutFormValuesType, SwapBaseCounterTypes } from 'data/types'
 import ErrorCodeMappings from 'services/ErrorCodeMappings'
 import { CRYPTO_DECIMALS, FIAT_DECIMALS, formatTextAmount } from 'services/forms'
 
+import Scheduler from '../../../RecurringBuys/Scheduler'
 import { Row } from '../../../Swap/EnterAmount/Checkout'
 import CryptoItem from '../../CryptoSelection/CryptoSelector/CryptoItem'
 import { BuyOrSell } from '../../model'
@@ -467,7 +468,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               </CustomErrorCartridge>
             </Amounts>
           )}
-
         {props.isSddFlow && props.orderType === OrderType.BUY && (
           <ActionsRow>
             <ActionsItem>
@@ -497,7 +497,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             </ActionsItem>
           </ActionsRow>
         )}
-
+        {props.isRecuringBuy && <Scheduler />}
         <Payment
           {...props}
           method={method}

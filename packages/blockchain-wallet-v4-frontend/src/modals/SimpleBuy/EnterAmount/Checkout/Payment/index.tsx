@@ -37,24 +37,14 @@ const Payment: React.FC<Props> = (props: Props) => {
   return (
     <>
       <SectionTitle color='grey900' size='14px' weight={500}>
-        {props.orderType === 'BUY' ? (
-          <FormattedMessage
-            id='modals.simplebuy.checkout.payment_method'
-            defaultMessage='Payment Method'
-          />
-        ) : (
+        {props.orderType === 'SELL' && (
           <FormattedMessage
             id='modals.simplebuy.checkout.receive'
             defaultMessage='Recipient Account'
           />
         )}
       </SectionTitle>
-      <Box
-        role='button'
-        data-e2e='paymentMethodSelect'
-        onClick={onPaymentMethodClick}
-        isMethod={!!props.method}
-      >
+      <Box role='button' data-e2e='paymentMethodSelect' onClick={onPaymentMethodClick}>
         <DisplayPaymentIcon showBackground={!props.method}>
           {getIcon(props.method, props.isSddFlow)}
         </DisplayPaymentIcon>

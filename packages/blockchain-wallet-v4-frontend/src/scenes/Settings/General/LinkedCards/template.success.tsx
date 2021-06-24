@@ -70,7 +70,7 @@ const Success: React.FC<
           const cardLabel = (card?.card.label && card?.card.label.toLowerCase()) || card?.card.type
 
           return (
-            <Box isMethod isMobile={media.mobile} key={card.id} style={{ width: '430px' }}>
+            <Box isMobile={media.mobile} key={card.id} style={{ width: '430px' }}>
               <Child>
                 <CardIconWrapper>
                   <CardImg src={cardType ? cardType.logo : DEFAULT_CARD_SVG_LOGO} />

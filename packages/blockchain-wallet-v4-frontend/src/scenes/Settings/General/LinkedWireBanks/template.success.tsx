@@ -54,7 +54,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               beneficiary.currency as WalletFiatType
             )
             return (
-              <Box style={{ width: '430px' }} isMethod isMobile={media.mobile} key={beneficiary.id}>
+              <Box style={{ width: '430px' }} isMobile={media.mobile} key={beneficiary.id}>
                 <Child>
                   <BankIconWrapper>
                     <Image name={getBankLogoImageName(beneficiary.agent)} />
