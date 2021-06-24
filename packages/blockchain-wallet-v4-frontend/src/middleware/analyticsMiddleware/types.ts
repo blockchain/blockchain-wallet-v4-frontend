@@ -214,7 +214,7 @@ type DepositViewedPayload = BasePayload & PageViewPayload & {}
 type EmailVerificationClickedOrigin = 'SIGN_UP' | 'VERIFICATION'
 
 type EmailVerificationClickedPayload = BasePayload & {
-  // origin: EmailVerificationClickedOrigin
+  origin: EmailVerificationClickedOrigin
 }
 
 type InterestClickedOrigin = 'NAVIGATION'

@@ -293,21 +293,54 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
+      case AT.modules.securityCenter.VERIFY_EMAIL: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
 
+        const origin = 'SIGN_UP'
+
+        analytics.push(AnalyticsKey.AMOUNT_SWITCHED, {
+          analyticsType: AnalyticsType.EVENT,
+          id,
+          nabuId,
+          origin,
+          originalTimestamp: getOriginalTimestamp()
+        })
+
+        break
+      }
+      case AT.modules.securityCenter.RESEND_VERIFY_EMAIL: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
+
+        const origin = 'VERIFICATION'
+
+        analytics.push(AnalyticsKey.AMOUNT_SWITCHED, {
+          analyticsType: AnalyticsType.EVENT,
+          id,
+          nabuId,
+          origin,
+          originalTimestamp: getOriginalTimestamp()
+        })
+
+        break
+      }
       case AT.components.interest.SET_COIN_DISPLAY: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id
         const id = state.walletPath.wallet.guid
         const { isCoinDisplayed } = action.payload
-
         const fix = isCoinDisplayed ? CoinType.CRYPTO : CoinType.FIAT
+        const product = 'SAVINGS'
 
         analytics.push(AnalyticsKey.AMOUNT_SWITCHED, {
           analyticsType: AnalyticsType.EVENT,
           id,
           nabuId,
           originalTimestamp: getOriginalTimestamp(),
-          product: 'SAVINGS',
+          product,
           switch_to: fix
         })
 
