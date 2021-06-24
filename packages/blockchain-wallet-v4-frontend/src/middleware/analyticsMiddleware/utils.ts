@@ -1,16 +1,16 @@
 import crypto from 'crypto'
 import type {
   BuySellClickedOrigin,
-  InterestDepositClickedOrigin
+  InterestDepositClickedOrigin,
+  SwapClickedOrigin,
+  UpgradeVerificationClickedOrigin
 } from 'middleware/analyticsMiddleware/types'
 import { PaymentType } from 'middleware/analyticsMiddleware/types'
 
 import { PaymentValue, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
-import { SBShowModalOriginType } from 'data/types'
+import { SBShowModalOriginType, VerifyIdentityOriginType } from 'data/types'
 
-const buySellClickedOriginDictionary = (
-  rawOrigin: SBShowModalOriginType | string
-): BuySellClickedOrigin => {
+const buySellClickedOriginDictionary = (rawOrigin: SBShowModalOriginType): BuySellClickedOrigin => {
   switch (rawOrigin) {
     case 'InterestPage':
       return 'SAVINGS'
@@ -24,7 +24,6 @@ const buySellClickedOriginDictionary = (
       return 'LINK_BANK'
     case 'PriceChart':
       return 'PRICE_CHART'
-    case 'GOALS':
     case 'SimpleBuyLink':
       return 'BUY_WIDGET'
     case 'CurrencyList':
@@ -49,24 +48,18 @@ const buyPaymentMethodSelectedPaymentTypeDictionary = (
   rawPaymentType: SBPaymentTypes
 ): PaymentType => {
   switch (rawPaymentType) {
-    case SBPaymentTypes.USER_CARD: {
+    case SBPaymentTypes.USER_CARD:
       return PaymentType.PAYMENT_CARD
-    }
-    case SBPaymentTypes.LINK_BANK: {
+    case SBPaymentTypes.LINK_BANK:
       return PaymentType.BANK_ACCOUNT
-    }
-    case SBPaymentTypes.BANK_ACCOUNT: {
+    case SBPaymentTypes.BANK_ACCOUNT:
       return PaymentType.BANK_ACCOUNT
-    }
-    case SBPaymentTypes.FUNDS: {
+    case SBPaymentTypes.FUNDS:
       return PaymentType.FUNDS
-    }
-    case SBPaymentTypes.BANK_TRANSFER: {
+    case SBPaymentTypes.BANK_TRANSFER:
       return PaymentType.BANK_TRANSFER
-    }
-    default: {
+    default:
       return PaymentType.BANK_ACCOUNT
-    }
   }
 }
 
@@ -84,7 +77,9 @@ const getNetworkFee = (paymentValue: PaymentValue | null) => {
     : 0
 }
 
-const interestDepositClickedOriginDictionary = (rawOrigin): InterestDepositClickedOrigin => {
+const interestDepositClickedOriginDictionary = (
+  rawOrigin: string
+): InterestDepositClickedOrigin => {
   switch (rawOrigin) {
     case 'InterestPage':
       return 'SAVINGS_PAGE'
@@ -94,11 +89,61 @@ const interestDepositClickedOriginDictionary = (rawOrigin): InterestDepositClick
   }
 }
 
+// TODO: add types for origin on swap origin
+const swapClickedOriginDictionary = (rawOrigin: string): SwapClickedOrigin => {
+  switch (rawOrigin) {
+    case 'Goals':
+      return 'DEEP_LINK'
+    case 'TransactionList':
+      return 'CURRENCY_PAGE'
+    case 'SettingsProfile':
+      return 'SETTINGS'
+    case 'FeaturesTopNav':
+      return 'NAVIGATION'
+    case 'Send':
+      return 'SEND'
+    case 'Prices':
+      return 'PRICES_PAGE'
+    default: {
+      throw new Error('Origin not found')
+    }
+  }
+}
+
+const upgradeVerificationClickedOriginDictionary = (
+  rawOrigin: VerifyIdentityOriginType
+): UpgradeVerificationClickedOrigin => {
+  switch (rawOrigin) {
+    case 'DashboardPromo':
+      return 'DASHBOARD_PROMO'
+    case 'Goals':
+      return 'DEEP_LINK'
+    case 'Interest':
+      return 'INTEREST'
+    case 'Onboarding':
+      return 'ONBOARDING'
+    case 'Resubmission':
+      return 'RESUBMISSION'
+    case 'Settings':
+      return 'SETTINGS'
+    case 'SimpleBuy':
+      return 'SIMPLEBUY'
+    case 'Swap':
+      return 'SWAP'
+    case 'Unknown':
+      return 'UNKNOWN'
+    default:
+      throw new Error('Origin not found')
+  }
+}
+
 export {
   buyPaymentMethodSelectedPaymentTypeDictionary,
   buySellClickedOriginDictionary,
   generateUniqueUserId,
   getNetworkFee,
   getOriginalTimestamp,
-  interestDepositClickedOriginDictionary
+  interestDepositClickedOriginDictionary,
+  swapClickedOriginDictionary,
+  upgradeVerificationClickedOriginDictionary
 }

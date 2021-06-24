@@ -4,12 +4,18 @@ import * as AT from './actionTypes'
 
 export type EmailSmsStepType = 'edit' | 'verify'
 
-export type StepsType =
-  | 'personal'
-  | 'moreInfo'
-  | 'mobile'
-  | 'verify'
-  | 'submitted'
+export type VerifyIdentityOriginType =
+  | 'DashboardPromo'
+  | 'Unknown'
+  | 'Swap'
+  | 'Goals'
+  | 'Resubmission'
+  | 'Onboarding'
+  | 'Settings'
+  | 'SimpleBuy'
+  | 'Interest'
+
+export type StepsType = 'personal' | 'moreInfo' | 'mobile' | 'verify' | 'submitted'
 
 export type KycStatesType =
   | 'NONE'
@@ -214,6 +220,7 @@ interface VerifyIdentityAction {
     checkSddEligibility?: boolean
     needMoreInfo?: boolean
     onCompletionCallback?: () => void
+    origin: VerifyIdentityOriginType
     tier: number
   }
   type: typeof AT.VERIFY_IDENTITY

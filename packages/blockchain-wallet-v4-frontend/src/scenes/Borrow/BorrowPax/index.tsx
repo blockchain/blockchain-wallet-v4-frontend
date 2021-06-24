@@ -50,7 +50,13 @@ class BorrowPax extends PureComponent<Props & State> {
                 nature='primary'
                 data-e2e='verifyIdentityBorrow'
                 disabled={val.kycState !== 'NONE'}
-                onClick={() => this.props.identityVerificationActions.verifyIdentity(2, false)}
+                onClick={() =>
+                  this.props.identityVerificationActions.verifyIdentity({
+                    needMoreInfo: false,
+                    origin: 'Unknown',
+                    tier: 2
+                  })
+                }
               >
                 {val.kycState === 'UNDER_REVIEW' || val.kycState === 'PENDING' ? (
                   <FormattedMessage

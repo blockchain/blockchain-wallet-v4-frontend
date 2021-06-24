@@ -19,7 +19,7 @@ enum AnalyticsKey {
   INTEREST_DEPOSIT_MAX_AMOUNT_CLICKED = 'Interest Deposit Max Amount Clicked',
   INTEREST_DEPOSIT_MIN_AMOUNT_CLICKED = 'Interest Deposit Min Amount Clicked',
   INTEREST_DEPOSIT_VIEWED = 'Interest Deposit Viewed',
-  INTEREST_SUBMIT_INFORMATION_CLICKED = 'Interest Submit Information Clicked', // TODO
+  INTEREST_SUBMIT_INFORMATION_CLICKED = 'Interest Submit Information Clicked',
   INTEREST_VIEWED = 'Interest Viewed',
   INTEREST_WITHDRAWAL_CLICKED = 'Interest Withdrawal Clicked',
   INTEREST_WITHDRAWAL_VIEWED = 'Interest Withdrawal Viewed',
@@ -214,7 +214,7 @@ type DepositViewedPayload = BasePayload & PageViewPayload & {}
 type EmailVerificationClickedOrigin = 'SIGN_UP' | 'VERIFICATION'
 
 type EmailVerificationClickedPayload = BasePayload & {
-  origin: EmailVerificationClickedOrigin
+  // origin: EmailVerificationClickedOrigin
 }
 
 type InterestClickedOrigin = 'NAVIGATION'
@@ -278,7 +278,7 @@ type InterestWithdrawalViewedPayload = BasePayload & PageViewPayload & {}
 type LinkBankClickedOrigin = 'BUY' | 'DEPOSIT' | 'SETTINGS' | 'WITHDRAW'
 
 type LinkBankClickedPayload = BasePayload & {
-  origin: LinkBankClickedOrigin
+  // origin: LinkBankClickedOrigin
 }
 
 type ReceiveCurrencySelectedPayload = BasePayload & {
@@ -355,7 +355,14 @@ type SignedInPayload = BasePayload & {}
 
 type SignedOutPayload = BasePayload & {}
 
-type SwapClickedOrigin = 'CURRENCY_PAGE' | 'DASHBOARD_PROMO' | 'NAVIGATION'
+type SwapClickedOrigin =
+  | 'CURRENCY_PAGE'
+  | 'DASHBOARD_PROMO'
+  | 'DEEP_LINK'
+  | 'NAVIGATION'
+  | 'PRICES_PAGE'
+  | 'SEND'
+  | 'SETTINGS'
 
 type SwapClickedPayload = BasePayload & {
   origin: SwapClickedOrigin
@@ -418,14 +425,15 @@ type SwapRequestedPayload = BasePayload & {
 }
 
 type UpgradeVerificationClickedOrigin =
-  | 'AIRDROP'
-  | 'FIAT_FUNDS'
+  | 'DASHBOARD_PROMO'
+  | 'ONBOARDING'
+  | 'DEEP_LINK'
+  | 'INTEREST'
   | 'RESUBMISSION'
-  | 'SAVINGS'
   | 'SETTINGS'
   | 'SIMPLEBUY'
-  | 'SIMPLETRADE'
   | 'SWAP'
+  | 'UNKNOWN'
 
 type UpgradeVerificationClickedPayload = BasePayload & {
   origin: UpgradeVerificationClickedOrigin
@@ -537,6 +545,7 @@ export type {
   PageNamesType,
   SendReceiveClickedOrigin,
   SwapClickedOrigin,
+  UpgradeVerificationClickedOrigin,
   WithdrawalClickedOrigin
 }
 

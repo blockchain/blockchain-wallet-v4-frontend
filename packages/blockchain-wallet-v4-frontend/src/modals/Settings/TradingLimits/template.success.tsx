@@ -247,7 +247,11 @@ const Template: React.FC<Props> = (props) => {
           onClick={() =>
             isUserVerifiedSilver
               ? null
-              : props.identityVerificationActions.verifyIdentity(TIER_TYPES.SILVER, false)
+              : props.identityVerificationActions.verifyIdentity({
+                  needMoreInfo: false,
+                  origin: 'Settings',
+                  tier: TIER_TYPES.SILVER
+                })
           }
           isClickable={!isUserVerifiedSilver}
           data-e2e={`continueKycTier${TIER_TYPES.SILVER}Btn`}
