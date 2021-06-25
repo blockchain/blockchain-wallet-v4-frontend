@@ -7,7 +7,7 @@ import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 
-import { getData } from './selectors'
+import getData from './selectors'
 import LockTime from './template'
 
 class LockTimeContainer extends React.PureComponent<Props> {
@@ -20,17 +20,15 @@ class LockTimeContainer extends React.PureComponent<Props> {
     const { data, ...rest } = this.props
 
     return data.cata({
-      Success: val => (
+      Failure: () => null,
+      Loading: () => null,
+      NotAsked: () => null,
+      Success: (val) => (
         <LockTime
           {...rest}
-          lockTime={moment
-            .duration(val.withdrawLockCheck?.lockTime, 'seconds')
-            .days()}
+          lockTime={moment.duration(val.withdrawLockCheck?.lockTime, 'seconds').days()}
         />
-      ),
-      Failure: () => null,
-      NotAsked: () => null,
-      Loading: () => null
+      )
     })
   }
 }
@@ -39,7 +37,7 @@ const mapStateToProps = (state: RootState) => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   sendActions: bindActionCreators(actions.components.send, dispatch)
 })
 

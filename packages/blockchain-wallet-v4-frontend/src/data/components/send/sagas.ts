@@ -173,8 +173,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // Lock rule can only be called with BANK_TRANSFER and PAYMENT_CARD
       // Adding check here to only pass those too, else pass BANK_TRANSFER
       const withdrawalCheckPayment: SBPaymentTypes =
-        payment.paymentType === SBPaymentTypes.BANK_TRANSFER ||
-        payment.paymentType === SBPaymentTypes.PAYMENT_CARD
+        payment &&
+        (payment.paymentType === SBPaymentTypes.BANK_TRANSFER ||
+          payment.paymentType === SBPaymentTypes.PAYMENT_CARD)
           ? payment.paymentType
           : SBPaymentTypes.BANK_TRANSFER
 
