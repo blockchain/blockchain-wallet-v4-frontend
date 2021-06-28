@@ -42,7 +42,7 @@ const EmailSentNotification = styled(Text)<{ className?: string }>`
   `}
 `
 
-const EmailReminder = props => {
+const EmailReminder = (props) => {
   const { email, emailReminded, onEmailResend } = props
 
   return (
@@ -50,7 +50,7 @@ const EmailReminder = props => {
       <ItemWrapper>
         <Icon name='email' color='white' size='24px' />
         <Text
-          style={{ marginLeft: '12px', marginBottom: '1px' }}
+          style={{ marginBottom: '1px', marginLeft: '12px' }}
           color='white'
           size='14px'
           weight={500}

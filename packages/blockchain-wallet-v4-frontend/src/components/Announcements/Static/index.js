@@ -21,6 +21,11 @@ const Wrapper = styled.div`
 `
 
 class StaticAnnouncementsContainer extends React.PureComponent {
+  constructor(props) {
+    super(props)
+    this.state = { emailReminded: false }
+  }
+
   onEmailResend = (email) => {
     if (this.state.emailReminded) return
     this.props.resendEmail(email)
