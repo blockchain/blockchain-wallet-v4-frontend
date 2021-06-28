@@ -58,9 +58,10 @@ enum AnalyticsKey {
   WRONG_RECEIVE_CACHE = 'Wrong Receive Cache'
 }
 
-enum AnalyticsType {
-  EVENT = 'EVENT',
-  VIEW = 'VIEW'
+type AnalyticsTraits = {
+  email?: string
+  nabuId: string
+  tier?: number
 }
 
 enum AccountType {
@@ -108,9 +109,7 @@ enum WithdrawalMethodType {
 }
 
 type BasePayload = {
-  analyticsType: AnalyticsType
   id: string
-  nabuId: string
   originalTimestamp: string
 }
 
@@ -473,7 +472,7 @@ type WrongChangeCachePayload = BasePayload & {}
 
 type WrongReceiveCachePayload = BasePayload & {}
 
-type AnalyticsPayload =
+type AnalyticsProperties =
   | AmountSwitchedPayload
   | BuyAmountEnteredPayload
   | BuyAmountMaxClickedPayload
@@ -532,8 +531,15 @@ type AnalyticsPayload =
   | WrongChangeCachePayload
   | WrongReceiveCachePayload
 
+type AnalyticsValue = {
+  properties: AnalyticsProperties
+  traits: AnalyticsTraits
+}
+
 export type {
-  AnalyticsPayload,
+  AnalyticsProperties,
+  AnalyticsTraits,
+  AnalyticsValue,
   BuySellClickedOrigin,
   DashboardClickedOrigin,
   DepositClickedOrigin,
@@ -552,7 +558,6 @@ export type {
 export {
   AccountType,
   AnalyticsKey,
-  AnalyticsType,
   CoinType,
   DepositMethodType,
   FeeRateType,
