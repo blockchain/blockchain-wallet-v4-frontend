@@ -278,7 +278,7 @@ type InterestWithdrawalViewedPayload = BasePayload & PageViewPayload & {}
 type LinkBankClickedOrigin = 'BUY' | 'DEPOSIT' | 'SETTINGS' | 'WITHDRAW'
 
 type LinkBankClickedPayload = BasePayload & {
-  // origin: LinkBankClickedOrigin
+  origin: LinkBankClickedOrigin
 }
 
 type ReceiveCurrencySelectedPayload = BasePayload & {

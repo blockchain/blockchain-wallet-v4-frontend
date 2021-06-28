@@ -2,13 +2,18 @@ import crypto from 'crypto'
 import type {
   BuySellClickedOrigin,
   InterestDepositClickedOrigin,
+  LinkBankClickedOrigin,
   SwapClickedOrigin,
   UpgradeVerificationClickedOrigin
 } from 'middleware/analyticsMiddleware/types'
 import { PaymentType } from 'middleware/analyticsMiddleware/types'
 
 import { PaymentValue, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
-import { SBShowModalOriginType, VerifyIdentityOriginType } from 'data/types'
+import {
+  BrokerageModalOriginType,
+  SBShowModalOriginType,
+  VerifyIdentityOriginType
+} from 'data/types'
 
 const buySellClickedOriginDictionary = (rawOrigin: SBShowModalOriginType): BuySellClickedOrigin => {
   switch (rawOrigin) {
@@ -89,7 +94,23 @@ const interestDepositClickedOriginDictionary = (
   }
 }
 
-// TODO: add types for origin on swap origin
+const linkBankClickedOriginDictionary = (
+  rawOrigin: BrokerageModalOriginType
+): LinkBankClickedOrigin => {
+  switch (rawOrigin) {
+    case BrokerageModalOriginType.ADD_BANK_BUY:
+      return 'BUY'
+    case BrokerageModalOriginType.ADD_BANK_DEPOSIT:
+      return 'DEPOSIT'
+    case BrokerageModalOriginType.ADD_BANK_SETTINGS:
+      return 'SETTINGS'
+    case BrokerageModalOriginType.ADD_BANK_WITHDRAW:
+      return 'WITHDRAW'
+    default:
+      throw new Error('Origin not found')
+  }
+}
+
 const swapClickedOriginDictionary = (rawOrigin: string): SwapClickedOrigin => {
   switch (rawOrigin) {
     case 'Goals':
@@ -144,6 +165,7 @@ export {
   getNetworkFee,
   getOriginalTimestamp,
   interestDepositClickedOriginDictionary,
+  linkBankClickedOriginDictionary,
   swapClickedOriginDictionary,
   upgradeVerificationClickedOriginDictionary
 }

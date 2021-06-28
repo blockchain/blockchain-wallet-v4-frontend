@@ -201,7 +201,7 @@ const Account = ({
         // else take them to enter amount form with default bank
         if (!bankTransferAccounts.length) {
           brokerageActions.showModal(
-            BrokerageModalOriginType.ADD_BANK,
+            BrokerageModalOriginType.ADD_BANK_DEPOSIT,
             fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL'
           )
           brokerageActions.setAddBankStep({

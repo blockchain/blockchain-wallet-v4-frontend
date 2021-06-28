@@ -16,6 +16,7 @@ import {
   getNetworkFee,
   getOriginalTimestamp,
   interestDepositClickedOriginDictionary,
+  linkBankClickedOriginDictionary,
   swapClickedOriginDictionary,
   upgradeVerificationClickedOriginDictionary
 } from 'middleware/analyticsMiddleware/utils'
@@ -243,11 +244,13 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const state = store.getState()
             const nabuId = state.profile.userData.getOrElse({})?.id
             const id = state.walletPath.wallet.guid
+            const origin = linkBankClickedOriginDictionary(action.payload.origin)
 
             analytics.push(AnalyticsKey.LINK_BANK_CLICKED, {
               analyticsType: AnalyticsType.EVENT,
               id,
               nabuId,
+              origin,
               originalTimestamp: getOriginalTimestamp()
             })
 
@@ -257,11 +260,13 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const state = store.getState()
             const nabuId = state.profile.userData.getOrElse({})?.id
             const id = state.walletPath.wallet.guid
+            const origin = linkBankClickedOriginDictionary(action.payload.origin)
 
             analytics.push(AnalyticsKey.LINK_BANK_CLICKED, {
               analyticsType: AnalyticsType.EVENT,
               id,
               nabuId,
+              origin,
               originalTimestamp: getOriginalTimestamp()
             })
 
