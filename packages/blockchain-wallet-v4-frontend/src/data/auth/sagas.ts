@@ -518,22 +518,26 @@ export default ({ api, coreSagas }) => {
       const { token } = yield call(api.generateRetailToken, guid, sharedKey)
       // pass that token to /user. if a user already exists, it returns
       // information associated with that user
-      const { token: lifetimeToken, userId } = yield call(api.createUser, token)
-      try {
-        // call reset kyc
-        yield call(api.resetUserKyc, userId, lifetimeToken, token)
-        yield put(A.setKycResetStatus(true))
-        yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
-      } catch (e) {
-        // if it fails with user already being reset, shuold be allowed
-        // to continue with flow
-        if (e.description === 'User reset in progress') {
-          yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
+      const { created, token: lifetimeToken, userId } = yield call(api.createUser, token)
+      // if the recovered user never had a nabu account, we're creating a new user
+      // so created will return true. No need to reset their kyc
+      if (!created) {
+        try {
+          // call reset kyc
+          yield call(api.resetUserKyc, userId, lifetimeToken, token)
           yield put(A.setKycResetStatus(true))
-        } else {
-          yield put(actions.alerts.displayError(C.KYC_RESET_ERROR))
-          yield put(actions.auth.restoreFromMetadataFailure({ e }))
-          yield put(A.setKycResetStatus(false))
+          yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
+        } catch (e) {
+          // if it fails with user already being reset, shuold be allowed
+          // to continue with flow
+          if (e.description === 'User reset in progress') {
+            yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
+            yield put(A.setKycResetStatus(true))
+          } else {
+            yield put(actions.alerts.displayError(C.KYC_RESET_ERROR))
+            yield put(actions.auth.restoreFromMetadataFailure({ e }))
+            yield put(A.setKycResetStatus(false))
+          }
         }
       }
     } catch (e) {
