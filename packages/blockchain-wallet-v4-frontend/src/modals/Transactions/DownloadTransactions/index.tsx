@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import locale from 'browser-locale'
-import * as moment from 'moment'
+import moment from 'moment'
 import { prop, toLower } from 'ramda'
 import { compose, Dispatch } from 'redux'
 
@@ -47,12 +47,8 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
   componentDidMount() {
     const { initForm } = this.props
     initForm({
-      // @ts-ignore
       end: moment().endOf('day'),
-
       from: 'all',
-
-      // @ts-ignore
       start: moment().startOf('day').subtract(7, 'day')
     })
   }
