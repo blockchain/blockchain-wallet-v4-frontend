@@ -25,7 +25,7 @@ const CheckEmail = (props: Props) => {
     <>
       <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} />
       <FormBody>
-        <CircleBackground>
+        <CircleBackground color='blue600'>
           <Icon name='computer' color='white' size='24px' />
         </CircleBackground>
         <Text color='grey900' size='20px' weight={600} lineHeight='1.5'>

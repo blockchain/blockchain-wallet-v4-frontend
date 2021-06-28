@@ -5,7 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { Button, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
+import { Badge, Button, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
 import { crypto as wCrypto } from 'blockchain-wallet-v4/src'
 import { SuccessCartridge } from 'components/Cartridge'
 import QRCodeWrapper from 'components/QRCodeWrapper'
@@ -14,65 +14,93 @@ import { actions, selectors } from 'data'
 import { LoginSteps } from 'data/types'
 
 import { Props as OwnProps } from '..'
-import { BackArrowFormHeader, CartridgeSentContainer, LOGIN_FORM_NAME } from '../model'
+import { BackArrowFormHeader, CartridgeSentContainer, Column, Row } from '../model'
 
 const Body = styled.div`
   display: flex;
-  margin-bottom: 24px;
+  margin-bottom: 8px;
 `
-const TextColumn = styled.div`
-  display: flex;
-  flex-direction: column;
+const TextColumn = styled(Column)`
   max-width: 55%;
   margin-right: 24px;
-  > div {
-    margin-bottom: 16px;
-  }
 `
-const LinkRow = styled.div`
-  display: flex;
-  flex-direction: column;
+const ActionButtons = styled(Column)`
   align-items: center;
 `
-
-const MessageSentColumn = styled.div`
-  display: flex;
-  flex-direction: column;
+const BadgeRow = styled(Row)`
+  margin-bottom: 24px;
+  & > :first-child {
+    margin-right: 16px;
+  }
 `
 
-const VerificationMobile = (props: Props) => {
-  const { cacheActions, middlewareActions, qrData, setStep } = props
-
-  const handleBackArrowClick = () => {
-    props.cacheActions.removedStoredLogin()
-    props.formActions.destroy(LOGIN_FORM_NAME)
-    props.setStep(LoginSteps.ENTER_EMAIL_GUID)
-    props.authActions.clearLoginError()
-  }
+const CloudRecovery = (props: Props) => {
+  const {
+    authActions,
+    cacheActions,
+    formActions,
+    formValues,
+    middlewareActions,
+    qrData,
+    setStep
+  } = props
 
   return (
     <>
-      <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} />
+      <BackArrowFormHeader
+        handleBackArrowClick={() => props.setStep(LoginSteps.ENTER_EMAIL_GUID)}
+        formValues={formValues}
+      />
       <Icon name='padlock' color='green600' size='20px' style={{ padding: '0 0 16px 4px' }} />
       <Body>
         {!props.phonePubKey && (
           <TextColumn>
-            <Text color='grey900' size='16px' weight={600} lineHeight='1.5'>
+            <Text
+              color='grey900'
+              size='16px'
+              weight={600}
+              lineHeight='1.5'
+              style={{ marginBottom: '8px' }}
+            >
               <FormattedMessage
-                id='scenes.login.wallet.mobile_login.title'
-                defaultMessage='Log in with mobile app'
+                id='scenes.recovery.cloud_backup.title'
+                defaultMessage='Cloud Backup Recovery'
               />
             </Text>
-            <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
+            <Text
+              color='grey600'
+              size='12px'
+              weight={500}
+              lineHeight='1.5'
+              style={{ marginBottom: '16px' }}
+            >
               <FormattedMessage
-                id='scenes.login.wallet.mobile_login.description_1'
-                defaultMessage='Scan this QR code with the Blockchain.com mobile app.'
+                id='scenes.recovery.cloud_backup.subtitle'
+                defaultMessage='It seems like your wallet had at one point been backed up to the cloud.'
               />
             </Text>
-            <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
+            <Text color='grey600' size='12px' weight={500} lineHeight='1.5'>
               <FormattedMessage
-                id='scenes.login.wallet.mobile_login.description_2'
-                defaultMessage='You can tap on the scanning icon on the top right corner of the app.'
+                id='scenes.recovery.cloud_backup.instructions'
+                defaultMessage='To attempt a recovery:'
+              />
+            </Text>
+            <Text color='grey600' size='12px' weight={500} lineHeight='1.5'>
+              <FormattedMessage
+                id='scenes.recovery.cloud_backup.step_one'
+                defaultMessage='1. Download the Blockchain.com mobile app'
+              />
+            </Text>
+            <Text color='grey600' size='12px' weight={500} lineHeight='1.5'>
+              <FormattedMessage
+                id='scenes.recovery.cloud_backup.step_two'
+                defaultMessage='2. Enter your PIN'
+              />
+            </Text>
+            <Text color='grey600' size='12px' weight={500} lineHeight='1.5'>
+              <FormattedMessage
+                id='scenes.recovery.cloud_backup.step_three'
+                defaultMessage='3. Scan the QR code'
               />
             </Text>
           </TextColumn>
@@ -113,7 +141,7 @@ const VerificationMobile = (props: Props) => {
           }
         })}
         {props.phonePubKey && (
-          <MessageSentColumn>
+          <Column>
             <CartridgeSentContainer>
               <SuccessCartridge>
                 <FormattedMessage
@@ -133,7 +161,7 @@ const VerificationMobile = (props: Props) => {
             <Text size='12px' color='grey900' weight={500} style={{ marginTop: '8px' }}>
               <FormattedMessage
                 id='scenes.login.wallet.connected.description_1'
-                defaultMessage='We sent your connected mobile device a notification. Open the app to confirm auto-log in on the web.'
+                defaultMessage='We sent your connected mobile device a notification. Open the app to confirm to auto-log in on the web.'
               />
             </Text>
             <Text size='12px' color='grey900' weight={500} style={{ marginTop: '24px' }}>
@@ -166,10 +194,14 @@ const VerificationMobile = (props: Props) => {
                 />
               </Link>
             </TextGroup>
-          </MessageSentColumn>
+          </Column>
         )}
       </Body>
-      <LinkRow>
+      <BadgeRow>
+        <Badge size='40px' type='applestore' />
+        <Badge size='40px' type='googleplay' />
+      </BadgeRow>
+      <ActionButtons>
         <Button
           nature='empty-blue'
           fullwidth
@@ -181,12 +213,11 @@ const VerificationMobile = (props: Props) => {
           <FormattedMessage id='buttons.login_with_password' defaultMessage='Login with Password' />
         </Button>
         <LinkContainer to='/help'>
-          <FormattedMessage
-            id='scenes.login.trouble_logging_in'
-            defaultMessage='Trouble logging in?'
-          />
+          <Link size='13px' weight={600} data-e2e='loginGetHelp'>
+            <FormattedMessage id='copy.need_some_help' defaultMessage='Need some help?' />
+          </Link>
         </LinkContainer>
-      </LinkRow>
+      </ActionButtons>
     </>
   )
 }
@@ -215,4 +246,4 @@ type Props = OwnProps & {
   setStep: (step: LoginSteps) => void
 } & ConnectedProps<typeof connector>
 
-export default connector(VerificationMobile)
+export default connector(CloudRecovery)

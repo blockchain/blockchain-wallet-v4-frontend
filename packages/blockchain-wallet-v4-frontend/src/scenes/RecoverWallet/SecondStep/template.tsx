@@ -15,6 +15,8 @@ import {
   validStrongPassword
 } from 'services/forms'
 
+import { Props as OwnProps } from '.'
+
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
@@ -33,16 +35,8 @@ const GoBackLink = styled(Link)`
 
 const validatePasswordConfirmation = validPasswordConfirmation('password')
 
-const SecondStep = (props) => {
-  const {
-    handleSubmit,
-    invalid,
-    isRegistering,
-    isRestoringFromMetadata,
-    password,
-    previousStep
-  } = props
-
+const SecondStep = (props: Props) => {
+  const { invalid, isRegistering, isRestoringFromMetadata, password, previousStep } = props
   return (
     <Wrapper>
       <Header>
@@ -50,7 +44,7 @@ const SecondStep = (props) => {
           <FormattedMessage id='scenes.recover.secondstep.funds' defaultMessage='Recover Funds' />
         </Text>
       </Header>
-      <Form onSubmit={handleSubmit}>
+      <Form>
         {!isRestoringFromMetadata && (
           <FormGroup>
             <FormLabel htmlFor='email'>
@@ -119,7 +113,8 @@ const SecondStep = (props) => {
   )
 }
 
-export default reduxForm({
-  destroyOnUnmount: false,
-  form: 'recover'
-})(SecondStep)
+type Props = OwnProps & {
+  isRegistering?: boolean
+  isRestoringFromMetadata?: boolean
+}
+export default SecondStep

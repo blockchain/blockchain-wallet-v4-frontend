@@ -602,6 +602,40 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const parseMagicLink = function* (params) {
+    const loginData = JSON.parse(atob(params[2])) as WalletDataFromMagicLink
+    const walletData = loginData.wallet
+    const nabuData = walletData.nabu
+    const exchangeData = walletData.exchange
+    // grab all the data from the JSON
+    // wallet data
+    // store data in the cache and update form values
+    // to be used to submit login
+    yield put(actions.cache.emailStored(walletData.email))
+    yield put(actions.cache.guidStored(walletData.guid))
+    yield put(actions.cache.mobileConnectedStored(walletData.is_mobile_setup))
+    yield put(actions.form.change('login', 'emailToken', walletData.email_code))
+    yield put(actions.form.change('login', 'guid', walletData.guid))
+    yield put(actions.form.change('login', 'email', walletData.email))
+    yield put(
+      A.setMagicLinkInfo(
+        walletData.auth_type,
+        nabuData.exchange_linked,
+        exchangeData.user_id,
+        walletData.has_cloud_backup,
+        nabuData.user_id,
+        nabuData.recovery_eligible,
+        exchangeData.two_fa_mode
+      )
+    )
+    // check if mobile detected
+    if (walletData.is_mobile_setup) {
+      yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
+    } else {
+      yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
+    }
+  }
+
   const initializeLogin = function* () {
     try {
       yield put(A.initializeLoginLoading())
@@ -643,24 +677,25 @@ export default ({ api, coreSagas }) => {
         yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
         // if path has base64 encrypted JSON
       } else {
-        const loginData = JSON.parse(atob(loginLinkParameter)) as WalletDataFromMagicLink
-        // this flag is stored as a string in JSON object
-        // this converts it to a variable
-        const mobileSetup = loginData.is_mobile_setup === 'true'
-        // store data in the cache and update form values
-        // to be used to submit login
-        yield put(actions.cache.emailStored(loginData.email))
-        yield put(actions.cache.guidStored(loginData.guid))
-        yield put(actions.cache.mobileConnectedStored(mobileSetup))
-        yield put(actions.form.change('login', 'emailToken', loginData.email_code))
-        yield put(actions.form.change('login', 'guid', loginData.guid))
-        yield put(actions.form.change('login', 'email', loginData.email))
-        // check if mobile detected
-        if (mobileSetup) {
-          yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
-        } else {
-          yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
-        }
+        yield call(parseMagicLink, params)
+        //   const loginData = JSON.parse(atob(loginLinkParameter)) as WalletDataFromMagicLink
+        //   // this flag is stored as a string in JSON object
+        //   // this converts it to a variable
+        //   const mobileSetup = loginData.is_mobile_setup === 'true'
+        //   // store data in the cache and update form values
+        //   // to be used to submit login
+        //   yield put(actions.cache.emailStored(loginData.email))
+        //   yield put(actions.cache.guidStored(loginData.guid))
+        //   yield put(actions.cache.mobileConnectedStored(mobileSetup))
+        //   yield put(actions.form.change('login', 'emailToken', loginData.email_code))
+        //   yield put(actions.form.change('login', 'guid', loginData.guid))
+        //   yield put(actions.form.change('login', 'email', loginData.email))
+        //   // check if mobile detected
+        //   if (mobileSetup) {
+        //     yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
+        //   } else {
+        //     yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
+        //   }
       }
       yield put(A.initializeLoginSuccess())
     } catch (e) {

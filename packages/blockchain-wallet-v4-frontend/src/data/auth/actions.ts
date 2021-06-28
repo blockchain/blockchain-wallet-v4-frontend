@@ -108,6 +108,27 @@ export const clearLoginError = () => ({
   type: AT.CLEAR_LOGIN_ERROR
 })
 
+export const setMagicLinkInfo = (
+  authType: number,
+  exchangeLinked: boolean,
+  exchangeId: string,
+  hadCloudBackup: boolean,
+  nabuId: string,
+  recoveryEligible: boolean,
+  twoFAMode: boolean
+): AuthActionTypes => ({
+  payload: {
+    authType,
+    exchangeId,
+    exchangeLinked,
+    hadCloudBackup,
+    nabuId,
+    recoveryEligible,
+    twoFAMode
+  },
+  type: AT.SET_MAGIC_LINK_INFO
+})
+
 // INITIALIZE LOGIN
 export const initializeLogin = () => ({
   type: AT.INITIALIZE_LOGIN

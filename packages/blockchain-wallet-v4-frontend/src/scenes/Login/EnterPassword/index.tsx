@@ -21,7 +21,7 @@ import {
 } from '../model'
 
 const EnterPassword = (props: Props) => {
-  const { authType, busy, guid, invalid, loginError, password, submitting } = props
+  const { authType, busy, formActions, guid, invalid, loginError, password, submitting } = props
   const passwordError = loginError && loginError.toLowerCase().includes('wrong_wallet_password')
   const accountLocked =
     loginError &&
@@ -147,7 +147,19 @@ const EnterPassword = (props: Props) => {
             </Text>
           )}
         </ActionButton>
-        <NeedHelpLink />
+        <Text
+          size='13px'
+          weight={600}
+          color='blue600'
+          data-e2e='troubleLoggingIn'
+          cursor='pointer'
+          onClick={() => formActions.change('login', 'step', LoginSteps.RECOVERY_OPTIONS)}
+        >
+          <FormattedMessage
+            id='scenes.login.trouble_logging_ing'
+            defaultMessage='Trouble logging in?'
+          />
+        </Text>
       </LinkRow>
     </>
   )

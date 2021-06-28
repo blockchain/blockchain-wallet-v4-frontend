@@ -6,13 +6,20 @@ import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
   auth_type: 0,
+  exchangId: undefined,
+  exchangeAuthType: 0,
+  exchangeLinked: false,
+  exchangetwoFa: false,
   firstLogin: false,
+  hadCloudBackup: false,
   isAuthenticated: false,
   isLoggingIn: false,
   kycReset: undefined,
   login: Remote.NotAsked,
   metadataRestore: Remote.NotAsked,
   mobileLoginStarted: false,
+  nabuId: undefined,
+  recoveryEligible: false,
   registerEmail: undefined,
   registering: Remote.NotAsked,
   restoring: Remote.NotAsked,
@@ -86,6 +93,27 @@ const auth = (state = INITIAL_STATE, action) => {
     case AT.SET_AUTH_TYPE: {
       const { authType } = payload
       return assoc('auth_type', authType, state)
+    }
+    case AT.SET_MAGIC_LINK_INFO: {
+      const {
+        authType,
+        exchangeId,
+        exchangeLinked,
+        hadCloudBackup,
+        nabuId,
+        recoveryEligible,
+        twoFAMode
+      } = payload
+      return {
+        ...state,
+        exchangId: exchangeId,
+        exchangeAuthType: authType,
+        exchangeLinked,
+        exchangetwoFa: twoFAMode,
+        hadCloudBackup,
+        nabuId,
+        recoveryEligible
+      }
     }
     case AT.SET_REGISTER_EMAIL: {
       const { email } = payload

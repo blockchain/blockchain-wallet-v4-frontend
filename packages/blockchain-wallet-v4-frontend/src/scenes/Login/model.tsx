@@ -61,6 +61,18 @@ export const CircleBackground = styled.div`
   border-radius: 40px;
   margin-bottom: 8px;
 `
+export const RecoveryCircleBackground = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  background-color: ${(props) => props.theme.blue000};
+  border-radius: 48px;
+  margin: 8px 8px 8px 0;
+`
+
 export const RectangleBackground = styled.div`
   height: 48px;
   width: 100%;
@@ -85,9 +97,13 @@ export const IconTextRow = styled.div`
   }
 `
 
-const Column = styled.div`
+export const Column = styled.div`
   display: flex;
   flex-direction: column;
+`
+
+export const Row = styled.div`
+  display: flex;
 `
 
 export const Loader = styled(SpinningLoader)`
@@ -109,6 +125,11 @@ export const BackArrowFormHeader = (props: {
   formValues: LoginFormType
   handleBackArrowClick: () => void
 }) => {
+  const isRecovery =
+    LoginSteps.RECOVERY_OPTIONS ||
+    LoginSteps.RECOVERY_PHRASE ||
+    LoginSteps.RESET_ACCOUNT ||
+    LoginSteps.RESET_PASSWORD
   return (
     <>
       <TopRow>
@@ -123,11 +144,19 @@ export const BackArrowFormHeader = (props: {
           onClick={() => props.handleBackArrowClick()}
         />
         <Column>
-          {props.formValues.email ? (
+          {props.formValues.email && !isRecovery ? (
             <Text color='grey400' size='14px' weight={600} lineHeight='1.5'>
               <FormattedMessage
                 id='scenes.login.signingin_email'
                 defaultMessage='Signing in with {email}'
+                values={{ email: props.formValues.email }}
+              />
+            </Text>
+          ) : props.formValues.email && isRecovery ? (
+            <Text color='grey400' size='14px' weight={600} lineHeight='1.5'>
+              <FormattedMessage
+                id='scenes.recovery.email'
+                defaultMessage='Recovering {email}'
                 values={{ email: props.formValues.email }}
               />
             </Text>
@@ -164,7 +193,10 @@ export const LinkRow = styled.div`
 export const NeedHelpLink = () => (
   <LinkContainer to='/help'>
     <Link size='13px' weight={600} data-e2e='loginGetHelp'>
-      <FormattedMessage id='scenes.login.needhelp' defaultMessage='Need some help?' />
+      <FormattedMessage
+        id='scenes.login.trouble_logging_ing'
+        defaultMessage='Trouble logging in?'
+      />
     </Link>
   </LinkContainer>
 )

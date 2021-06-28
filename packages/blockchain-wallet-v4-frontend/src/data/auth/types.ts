@@ -2,9 +2,14 @@ import * as AT from './actionTypes'
 
 export enum LoginSteps {
   CHECK_EMAIL = 'CHECK_EMAIL',
+  CLOUD_RECOVERY = 'CLOUD_RECOVERY',
   ENTER_EMAIL_GUID = 'ENTER_EMAIL_GUID',
   ENTER_PASSWORD = 'ENTER_PASSWORD',
   LOADING = 'LOADING',
+  RECOVERY_OPTIONS = 'RECOVERY_OPTIONS',
+  RECOVERY_PHRASE = 'RECOVERY_PHRASE',
+  RESET_ACCOUNT = 'RESET_ACCOUNT',
+  RESET_PASSWORD = 'RESET_PASSWORD',
   VERIFICATION_MOBILE = 'VERIFICATION_MOBILE'
 }
 
@@ -19,13 +24,25 @@ export type LoginFormType = {
 }
 
 export type WalletDataFromMagicLink = {
-  email: string
-  email_code?: string
-  guid: string
-  is_mobile_setup: string | boolean
-  mobile_device_type: number | null
+  wallet: {
+    auth_type: number
+    email: string
+    email_code?: string
+    exchange: {
+      two_fa_mode: boolean
+      user_id: string
+    }
+    guid: string
+    has_cloud_backup: boolean
+    is_mobile_setup: string | boolean
+    mobile_device_type: number | null
+    nabu: {
+      exchange_linked: boolean
+      recovery_eligible: boolean
+      user_id: string
+    }
+  }
 }
-
 // actions
 
 interface LoginFailureActionType {
@@ -68,6 +85,19 @@ interface TriggerWalletMagicLinkFailureActionType {
   type: typeof AT.TRIGGER_WALLET_MAGIC_LINK_FAILURE
 }
 
+interface SetMagicLinkInfoActionType {
+  payload: {
+    authType: number
+    exchangeId: string
+    exchangeLinked: boolean
+    hadCloudBackup: boolean
+    nabuId: string
+    recoveryEligible: boolean
+    twoFAMode: boolean
+  }
+  type: typeof AT.SET_MAGIC_LINK_INFO
+}
+
 interface UpgradeWalletActionType {
   payload: {
     version: number
@@ -81,6 +111,7 @@ export type AuthActionTypes =
   | InitializeLoginFailureActionType
   | InitializeLoginLoadingActionType
   | InitializeLoginSuccessActionType
+  | SetMagicLinkInfoActionType
   | TriggerWalletMagicLinkFailureActionType
   | TriggerWalletMagicLinkLoadingActionType
   | TriggerWalletMagicLinkSuccessActionType

@@ -12,12 +12,16 @@ import { actions, selectors } from 'data'
 import { LoginFormType, LoginSteps } from 'data/types'
 import { isGuid } from 'services/forms'
 
+// step templates
 import Loading from '../loading.public'
 import CheckEmail from './CheckEmail'
-// step templates
+import CloudRecovery from './CloudRecovery'
 import EnterEmailOrGuid from './EnterEmailOrGuid'
 import EnterPassword from './EnterPassword'
 import { LOGIN_FORM_NAME, PhishingWarning } from './model'
+import RecoveryOptions from './RecoveryOptions'
+import RecoveryPhrase from './RecoveryPhrase'
+import ResetAccount from './ResetAccount'
 import VerificationMobile from './VerificationMobile'
 
 class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StateProps> {
@@ -114,11 +118,23 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       handleSmsResend: this.handleSmsResend,
       loginError: error
     }
+
+    const isRecovery =
+      step === LoginSteps.RECOVERY_OPTIONS ||
+      step === LoginSteps.RECOVERY_PHRASE ||
+      step === LoginSteps.RESET_ACCOUNT ||
+      step === LoginSteps.RESET_PASSWORD
+
     return (
       <>
         <Text color='white' size='24px' weight={600} style={{ marginBottom: '24px' }}>
           {step === LoginSteps.ENTER_PASSWORD ? (
             <FormattedMessage id='scenes.login.authorize' defaultMessage='Authorize login' />
+          ) : isRecovery ? (
+            <FormattedMessage
+              id='scenes.login.account_recovery'
+              defaultMessage='Account Recovery'
+            />
           ) : (
             <FormattedMessage id='scenes.login.welcome' defaultMessage='Welcome back!' />
           )}
@@ -155,6 +171,14 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
                   return (
                     <VerificationMobile {...this.props} {...loginProps} setStep={this.setStep} />
                   )
+                case LoginSteps.RECOVERY_OPTIONS:
+                  return <RecoveryOptions {...this.props} {...loginProps} setStep={this.setStep} />
+                case LoginSteps.RECOVERY_PHRASE:
+                  return <RecoveryPhrase {...this.props} {...loginProps} setStep={this.setStep} />
+                case LoginSteps.CLOUD_RECOVERY:
+                  return <CloudRecovery {...this.props} {...loginProps} setStep={this.setStep} />
+                case LoginSteps.RESET_ACCOUNT:
+                  return <ResetAccount {...this.props} {...loginProps} setStep={this.setStep} />
                 default:
                   return null
               }
@@ -208,6 +232,7 @@ type FormProps = {
   busy: boolean
   invalid: boolean
   loginError?: string
+  pristine: boolean
   setStep: (step: LoginSteps) => void
   submitting: boolean
 }
