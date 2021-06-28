@@ -15,7 +15,10 @@ import {
   buySellClickedOriginDictionary,
   getNetworkFee,
   getOriginalTimestamp,
-  interestDepositClickedOriginDictionary
+  interestDepositClickedOriginDictionary,
+  linkBankClickedOriginDictionary,
+  swapClickedOriginDictionary,
+  upgradeVerificationClickedOriginDictionary
 } from 'middleware/analyticsMiddleware/utils'
 
 import { actionTypes as AT } from 'data'
@@ -39,12 +42,13 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           case '/home': {
             const { href, pathname, search } = window.location
             const { referrer, title } = document
+            const origin = 'SIGN_IN' // TODO change this one to add 'NAVIGATION'
 
             analytics.push(AnalyticsKey.DASHBOARD_CLICKED, {
               analyticsType: AnalyticsType.EVENT,
               id,
               nabuId,
-              origin: 'SIGN_IN',
+              origin,
               originalTimestamp: getOriginalTimestamp()
             })
 
@@ -65,12 +69,13 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           case '/interest': {
             const { href, pathname, search } = window.location
             const { referrer, title } = document
+            const origin = 'NAVIGATION'
 
             analytics.push(AnalyticsKey.INTEREST_CLICKED, {
               analyticsType: AnalyticsType.EVENT,
               id,
               nabuId,
-              origin: 'NAVIGATION',
+              origin,
               originalTimestamp: getOriginalTimestamp()
             })
 
@@ -106,7 +111,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const rawOrigin = action.payload.props.origin
             const { href, pathname, search } = window.location
             const { referrer, title } = document
-
             const origin = buySellClickedOriginDictionary(rawOrigin)
 
             analytics.push(AnalyticsKey.BUY_SELL_CLICKED, {
@@ -134,9 +138,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             break
           }
           case 'SWAP_MODAL': {
-            const { origin } = action.payload.props
             const { href, pathname, search } = window.location
             const { referrer, title } = document
+            const origin = swapClickedOriginDictionary(action.payload.props.origin)
 
             analytics.push(AnalyticsKey.SWAP_CLICKED, {
               analyticsType: AnalyticsType.EVENT,
@@ -161,11 +165,13 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             break
           }
           case 'REQUEST_CRYPTO_MODAL': {
+            const origin = 'NAVIGATION'
+
             analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
               analyticsType: AnalyticsType.EVENT,
               id,
               nabuId,
-              origin: 'NAVIGATION',
+              origin,
               originalTimestamp: getOriginalTimestamp(),
               type: SendReceiveType.RECEIVE
             })
@@ -183,7 +189,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           case 'BANK_DEPOSIT_MODAL': {
             const { href, pathname, search } = window.location
             const { referrer, title } = document
-
             const origin = 'CURRENCY_PAGE'
 
             analytics.push(AnalyticsKey.DEPOSIT_CLICKED, {
@@ -239,29 +244,53 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const state = store.getState()
             const nabuId = state.profile.userData.getOrElse({})?.id
             const id = state.walletPath.wallet.guid
+            const origin = linkBankClickedOriginDictionary(action.payload.origin)
 
             analytics.push(AnalyticsKey.LINK_BANK_CLICKED, {
               analyticsType: AnalyticsType.EVENT,
               id,
               nabuId,
+              origin,
               originalTimestamp: getOriginalTimestamp()
             })
+
             break
           }
           case 'ADD_BANK_YODLEE_MODAL': {
             const state = store.getState()
             const nabuId = state.profile.userData.getOrElse({})?.id
             const id = state.walletPath.wallet.guid
+            const origin = linkBankClickedOriginDictionary(action.payload.origin)
 
             analytics.push(AnalyticsKey.LINK_BANK_CLICKED, {
               analyticsType: AnalyticsType.EVENT,
               id,
               nabuId,
+              origin,
               originalTimestamp: getOriginalTimestamp()
             })
+
             break
           }
+          case 'KYC_MODAL': {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id
+            const id = state.walletPath.wallet.guid
+            const { tier } = action.payload.props
 
+            const origin = upgradeVerificationClickedOriginDictionary(action.payload.props.origin)
+
+            analytics.push(AnalyticsKey.UPGRADE_VERIFICATION_CLICKED, {
+              analyticsType: AnalyticsType.EVENT,
+              id,
+              nabuId,
+              origin,
+              originalTimestamp: getOriginalTimestamp(),
+              tier
+            })
+
+            break
+          }
           default: {
             break
           }
@@ -269,21 +298,54 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
+      case AT.modules.securityCenter.VERIFY_EMAIL: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
 
+        const origin = 'SIGN_UP'
+
+        analytics.push(AnalyticsKey.AMOUNT_SWITCHED, {
+          analyticsType: AnalyticsType.EVENT,
+          id,
+          nabuId,
+          origin,
+          originalTimestamp: getOriginalTimestamp()
+        })
+
+        break
+      }
+      case AT.modules.securityCenter.RESEND_VERIFY_EMAIL: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
+
+        const origin = 'VERIFICATION'
+
+        analytics.push(AnalyticsKey.AMOUNT_SWITCHED, {
+          analyticsType: AnalyticsType.EVENT,
+          id,
+          nabuId,
+          origin,
+          originalTimestamp: getOriginalTimestamp()
+        })
+
+        break
+      }
       case AT.components.interest.SET_COIN_DISPLAY: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id
         const id = state.walletPath.wallet.guid
         const { isCoinDisplayed } = action.payload
-
         const fix = isCoinDisplayed ? CoinType.CRYPTO : CoinType.FIAT
+        const product = 'SAVINGS'
 
         analytics.push(AnalyticsKey.AMOUNT_SWITCHED, {
           analyticsType: AnalyticsType.EVENT,
           id,
           nabuId,
           originalTimestamp: getOriginalTimestamp(),
-          product: 'SAVINGS',
+          product,
           switch_to: fix
         })
 
@@ -715,7 +777,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const rawOrigin = action.payload.props.origin
         const { href, pathname, search } = window.location
         const { referrer, title } = document
-
         const origin = buySellClickedOriginDictionary(rawOrigin)
 
         analytics.push(AnalyticsKey.BUY_SELL_CLICKED, {
@@ -748,7 +809,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const rawOrigin = action.payload.props.origin
         const { href, pathname, search } = window.location
         const { referrer, title } = document
-
         const origin = buySellClickedOriginDictionary(rawOrigin)
 
         analytics.push(AnalyticsKey.BUY_SELL_CLICKED, {

@@ -131,7 +131,7 @@ const Success = ({
               */
               if (addNew) {
                 brokerageActions.showModal(
-                  BrokerageModalOriginType.ADD_BANK,
+                  BrokerageModalOriginType.ADD_BANK_DEPOSIT,
                   fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL'
                 )
                 brokerageActions.setAddBankStep({
