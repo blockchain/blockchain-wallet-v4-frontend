@@ -5,6 +5,7 @@ import CarouselTemplate from './template'
 type Props = {
   auto?: boolean
   delay?: number
+  stepChange: (number) => void
 }
 
 type State = {
@@ -39,11 +40,15 @@ class AnimatedCarousel extends React.PureComponent<Props, State> {
   }
 
   handlePrevious = () => {
-    this.setState({ index: this.getPreviousIndex() })
+    const index = this.getPreviousIndex()
+    this.props.stepChange(index)
+    this.setState({ index })
   }
 
   handleNext = () => {
-    this.setState({ index: this.getNextIndex() })
+    const index = this.getNextIndex()
+    this.props.stepChange(index)
+    this.setState({ index })
   }
 
   getPreviousIndex = () => {
