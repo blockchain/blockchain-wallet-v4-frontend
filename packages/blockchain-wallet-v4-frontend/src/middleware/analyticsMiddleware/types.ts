@@ -58,9 +58,15 @@ enum AnalyticsKey {
   WRONG_RECEIVE_CACHE = 'Wrong Receive Cache'
 }
 
-enum AnalyticsType {
-  EVENT = 'EVENT',
-  VIEW = 'VIEW'
+type AnalyticsTraits = {
+  email?: string
+  nabuId: string
+  tier?: number
+}
+
+type RawEvent = {
+  key: AnalyticsKey
+  payload: AnalyticsValue
 }
 
 enum AccountType {
@@ -108,9 +114,7 @@ enum WithdrawalMethodType {
 }
 
 type BasePayload = {
-  analyticsType: AnalyticsType
   id: string
-  nabuId: string
   originalTimestamp: string
 }
 
@@ -122,7 +126,7 @@ type PageViewPayload = {
   url: string
 }
 
-type PageNamesType = '/home' | '/interest'
+type PageNames = '/home' | '/interest'
 // | '/settings/general'
 // | '/settings/preferences'
 // | '/settings/addresses'
@@ -473,7 +477,7 @@ type WrongChangeCachePayload = BasePayload & {}
 
 type WrongReceiveCachePayload = BasePayload & {}
 
-type AnalyticsPayload =
+type AnalyticsProperties =
   | AmountSwitchedPayload
   | BuyAmountEnteredPayload
   | BuyAmountMaxClickedPayload
@@ -532,8 +536,15 @@ type AnalyticsPayload =
   | WrongChangeCachePayload
   | WrongReceiveCachePayload
 
+type AnalyticsValue = {
+  properties: AnalyticsProperties
+  traits: AnalyticsTraits
+}
+
 export type {
-  AnalyticsPayload,
+  AnalyticsProperties,
+  AnalyticsTraits,
+  AnalyticsValue,
   BuySellClickedOrigin,
   DashboardClickedOrigin,
   DepositClickedOrigin,
@@ -542,7 +553,8 @@ export type {
   InterestSubmitInformationClickedOrigin,
   InterestWithdrawalClickedOrigin,
   LinkBankClickedOrigin,
-  PageNamesType,
+  PageNames,
+  RawEvent,
   SendReceiveClickedOrigin,
   SwapClickedOrigin,
   UpgradeVerificationClickedOrigin,
@@ -552,7 +564,6 @@ export type {
 export {
   AccountType,
   AnalyticsKey,
-  AnalyticsType,
   CoinType,
   DepositMethodType,
   FeeRateType,
