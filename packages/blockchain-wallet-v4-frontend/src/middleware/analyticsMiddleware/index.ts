@@ -1,5 +1,5 @@
 import analytics from 'middleware/analyticsMiddleware/analytics'
-import type { PageNamesType } from 'middleware/analyticsMiddleware/types'
+import type { PageNames } from 'middleware/analyticsMiddleware/types'
 import {
   AccountType,
   AnalyticsKey,
@@ -37,7 +37,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.email
         const tier = state.profile.userData.getOrElse({})?.tiers.current
         const id = state.walletPath.wallet.guid
-        const pageName: PageNamesType = action.payload.route
+        const pageName: PageNames = action.payload.route
 
         switch (pageName) {
           case '/home': {

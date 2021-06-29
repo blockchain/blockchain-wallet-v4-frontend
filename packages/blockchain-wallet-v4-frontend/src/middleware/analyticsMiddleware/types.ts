@@ -64,6 +64,11 @@ type AnalyticsTraits = {
   tier?: number
 }
 
+type RawEvent = {
+  key: AnalyticsKey
+  payload: AnalyticsValue
+}
+
 enum AccountType {
   SAVINGS = 'SAVINGS',
   TRADING = 'TRADING',
@@ -121,7 +126,7 @@ type PageViewPayload = {
   url: string
 }
 
-type PageNamesType = '/home' | '/interest'
+type PageNames = '/home' | '/interest'
 // | '/settings/general'
 // | '/settings/preferences'
 // | '/settings/addresses'
@@ -548,7 +553,8 @@ export type {
   InterestSubmitInformationClickedOrigin,
   InterestWithdrawalClickedOrigin,
   LinkBankClickedOrigin,
-  PageNamesType,
+  PageNames,
+  RawEvent,
   SendReceiveClickedOrigin,
   SwapClickedOrigin,
   UpgradeVerificationClickedOrigin,
