@@ -188,18 +188,22 @@ export const getText = (
 ): ReactElement => {
   if (isSddFlow && !method) {
     return (
-      <FormattedMessage
-        id='modals.simplebuy.confirm.credit_or_debit'
-        defaultMessage='Credit or Debit Card'
-      />
+      <Text weight={600} color='grey900' style={{ paddingBottom: '3px', paddingTop: '4px' }}>
+        <FormattedMessage
+          id='modals.simplebuy.confirm.credit_or_debit'
+          defaultMessage='Credit or Debit Card'
+        />
+      </Text>
     )
   }
   if (!method) {
     return (
-      <FormattedMessage
-        id='modals.simplebuy.confirm.jump_to_payment'
-        defaultMessage='Add Payment Method'
-      />
+      <Text weight={600} color='grey900' style={{ paddingBottom: '3px', paddingTop: '4px' }}>
+        <FormattedMessage
+          id='modals.simplebuy.confirm.jump_to_payment'
+          defaultMessage='Add Payment Method'
+        />
+      </Text>
     )
   }
 

@@ -1,17 +1,26 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Icon, Text } from 'blockchain-info-components'
+import { Icon, Text, Tooltip, TooltipHost } from 'blockchain-info-components'
 import { SelectBox } from 'components/Form'
 
 const StyledSelectBox = styled(SelectBox)`
+  opacity: ${(p) => (p.disabled ? '0.5' : '1')};
+
   & svg {
     padding-right: 12px;
     fill: ${(p) => p.theme.grey600};
   }
 `
+const TooltipWrapper = styled.div`
+  display: flex;
 
+  & > div {
+    flex: 1;
+  }
+`
 const LeftRow = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -52,7 +61,8 @@ const renderDisplay = (props) => {
     </DisplalyContainer>
   )
 }
-const SchedulerContainer = (props) => {
+
+const SchedulerSelectBox = (props) => {
   return (
     <StyledSelectBox
       {...props}
@@ -76,11 +86,33 @@ const SchedulerContainer = (props) => {
   )
 }
 
-const Scheduler = (props: InjectedFormProps) => {
+const SchedulerContainer = (props) => {
+  return (
+    <>
+      {props.disabled ? (
+        <TooltipWrapper>
+          <TooltipHost id='recurringBuyTT'>
+            <SchedulerSelectBox {...props} />
+          </TooltipHost>
+          <Tooltip id='recurringBuyTT'>
+            <FormattedMessage
+              id='modals.recurringbuys.disabled.paymentmethod'
+              defaultMessage='Recurring buys are not available for this payment method yet.'
+            />
+          </Tooltip>
+        </TooltipWrapper>
+      ) : (
+        <SchedulerSelectBox {...props} />
+      )}
+    </>
+  )
+}
+
+const Scheduler = (props: InjectedFormProps & { disabled: boolean }) => {
   return <Field {...props} component={SchedulerContainer} name='frequency' />
 }
 
-export default reduxForm<{}>({
+export default reduxForm<{}, { disabled: boolean }>({
   destroyOnUnmount: false,
   form: 'recurringBuyScheduler'
 })(Scheduler)

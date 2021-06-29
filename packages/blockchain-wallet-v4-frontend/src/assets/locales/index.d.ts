@@ -1205,7 +1205,7 @@ type MessagesType = {
 
   'modals.recurringbuys.notification.title': 'Recurring buys'
   'modals.recurringbuys.notification.button': 'Setup recurring buy'
-
+  'modals.recurringbuys.disabled.paymentmethod': 'Recurring buys are not available for this payment method yet.'
   'modals.recurringbuys.notification.page_1.title': 'Instead of timing the market, many smart investors use'
   'modals.recurringbuys.notification.page_1.description': 'Dollar cost averaging'
 

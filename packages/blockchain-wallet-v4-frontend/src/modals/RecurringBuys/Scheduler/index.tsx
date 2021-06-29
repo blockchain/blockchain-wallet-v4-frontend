@@ -11,14 +11,17 @@ const SchedulerContainer = (props: Props) => {
   const dispatch = useDispatch()
   const { methods } = props.formValues
   const { method } = props
-
-  const showScheduler = methods.find((m) => method.type === m)
+  const showScheduler = methods.some((m) => method && method.type === m)
 
   useEffect(() => {
     dispatch(actions.components.brokerage.fetchRBMethods())
   }, [methods.join(''), method])
 
-  return <>{showScheduler ? <Success /> : <></>}</>
+  return (
+    <>
+      <Success disabled={!showScheduler} />
+    </>
+  )
 }
 
 const mapStateToProps = (state: RootState) => ({
@@ -29,7 +32,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const connector = connect(mapStateToProps)
 
-type OwnProps = { method: SBPaymentMethodType }
+type OwnProps = { method?: SBPaymentMethodType }
 // export type SuccessStateType = ReturnType<typeof getData>['data']
 export type Props = ConnectedProps<typeof connector> & OwnProps
 
