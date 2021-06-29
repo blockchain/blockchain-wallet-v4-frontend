@@ -515,7 +515,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             </ActionsRow>
           )}
 
-          {props.isRecuringBuy && <Scheduler method={method} />}
+          {props.isRecurringBuy && <Scheduler method={method} />}
 
           <Payment
             {...props}
