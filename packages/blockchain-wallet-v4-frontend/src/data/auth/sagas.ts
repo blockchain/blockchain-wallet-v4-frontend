@@ -530,7 +530,7 @@ export default ({ api, coreSagas }) => {
         } catch (e) {
           // if it fails with user already being reset, shuold be allowed
           // to continue with flow
-          if (e.description === 'User reset in progress') {
+          if (e.status === 409) {
             yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
             yield put(A.setKycResetStatus(true))
           } else {
