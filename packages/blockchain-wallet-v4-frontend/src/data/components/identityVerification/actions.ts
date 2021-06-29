@@ -1,18 +1,20 @@
 import * as AT from './actionTypes'
-import { CampaignsType, DocumentType, IdentityVerificationActionTypes, StepsType } from './types'
+import {
+  CampaignsType,
+  DocumentType,
+  IdentityVerificationActionTypes,
+  StepsType,
+  VerifyIdentityOriginType
+} from './types'
 
-export const verifyIdentity = (
-  tier: number,
-  needMoreInfo?: boolean,
-  checkSddEligibility?: boolean,
+export const verifyIdentity = (payload: {
+  checkSddEligibility?: boolean
+  needMoreInfo?: boolean
   onCompletionCallback?: () => void
-): IdentityVerificationActionTypes => ({
-  payload: {
-    checkSddEligibility,
-    needMoreInfo,
-    onCompletionCallback,
-    tier
-  },
+  origin: VerifyIdentityOriginType
+  tier: number
+}): IdentityVerificationActionTypes => ({
+  payload,
   type: AT.VERIFY_IDENTITY
 })
 

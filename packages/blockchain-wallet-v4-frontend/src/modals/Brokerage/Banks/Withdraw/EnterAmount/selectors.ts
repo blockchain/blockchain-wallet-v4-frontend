@@ -13,7 +13,7 @@ import { BankTransferAccountType } from 'data/types'
 
 import { OwnProps } from '.'
 
-export const getData = (state: RootState, ownProps: OwnProps) => {
+const getData = (state: RootState, ownProps: OwnProps) => {
   const withdrawableBalanceR = getWithdrawableFiatBalance(ownProps.fiatCurrency, state)
   const availableBalanceR = getFiatBalance(ownProps.fiatCurrency, state)
   const defaultBeneficiaryR = selectors.custodial.getDefaultBeneficiary(
@@ -45,9 +45,7 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
   const lockR = selectors.components.withdraw.getWithdrawalLocks(state)
 
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
-  const supportedCoins = supportedCoinsR.getOrElse(
-    {} as SupportedWalletCurrenciesType
-  )
+  const supportedCoins = supportedCoinsR.getOrElse({} as SupportedWalletCurrenciesType)
 
   return lift(
     (
@@ -83,3 +81,5 @@ export const getData = (state: RootState, ownProps: OwnProps) => {
     lockR
   )
 }
+
+export default getData

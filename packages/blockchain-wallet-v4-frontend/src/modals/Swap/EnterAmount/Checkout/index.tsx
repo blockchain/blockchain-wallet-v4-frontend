@@ -277,7 +277,13 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   <Button
                     data-e2e='swapLimitUpgradePrompt'
                     nature='primary'
-                    onClick={() => props.idvActions.verifyIdentity(2, false)}
+                    onClick={() =>
+                      props.idvActions.verifyIdentity({
+                        needMoreInfo: false,
+                        origin: 'Swap',
+                        tier: 2
+                      })
+                    }
                     height='48px'
                     width='192px'
                   >

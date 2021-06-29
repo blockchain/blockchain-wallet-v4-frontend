@@ -984,7 +984,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       case SBPaymentTypes.LINK_BANK:
         yield put(
           actions.components.brokerage.showModal(
-            BrokerageModalOriginType.ADD_BANK,
+            BrokerageModalOriginType.ADD_BANK_BUY,
             fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL'
           )
         )

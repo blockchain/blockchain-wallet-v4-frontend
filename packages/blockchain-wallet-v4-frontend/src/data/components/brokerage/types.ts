@@ -161,7 +161,10 @@ export enum AddBankStepType {
 }
 
 export enum BrokerageModalOriginType {
-  ADD_BANK = 'AddBankModal',
+  ADD_BANK_BUY = 'AddBankModalBuy',
+  ADD_BANK_DEPOSIT = 'AddBankModalDeposit',
+  ADD_BANK_SETTINGS = 'AddBankModalSettings',
+  ADD_BANK_WITHDRAW = 'AddBankModalWithdraw',
   BANK = 'BankDetailsModal',
   DEPOSIT_BUTTON = 'BankDeposit',
   DW = 'DepositWithdrawalModal',

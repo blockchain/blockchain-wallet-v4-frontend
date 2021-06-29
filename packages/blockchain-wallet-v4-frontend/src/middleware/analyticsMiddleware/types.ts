@@ -19,7 +19,7 @@ enum AnalyticsKey {
   INTEREST_DEPOSIT_MAX_AMOUNT_CLICKED = 'Interest Deposit Max Amount Clicked',
   INTEREST_DEPOSIT_MIN_AMOUNT_CLICKED = 'Interest Deposit Min Amount Clicked',
   INTEREST_DEPOSIT_VIEWED = 'Interest Deposit Viewed',
-  INTEREST_SUBMIT_INFORMATION_CLICKED = 'Interest Submit Information Clicked', // TODO
+  INTEREST_SUBMIT_INFORMATION_CLICKED = 'Interest Submit Information Clicked',
   INTEREST_VIEWED = 'Interest Viewed',
   INTEREST_WITHDRAWAL_CLICKED = 'Interest Withdrawal Clicked',
   INTEREST_WITHDRAWAL_VIEWED = 'Interest Withdrawal Viewed',
@@ -58,9 +58,15 @@ enum AnalyticsKey {
   WRONG_RECEIVE_CACHE = 'Wrong Receive Cache'
 }
 
-enum AnalyticsType {
-  EVENT = 'EVENT',
-  VIEW = 'VIEW'
+type AnalyticsTraits = {
+  email?: string
+  nabuId: string
+  tier?: number
+}
+
+type RawEvent = {
+  key: AnalyticsKey
+  payload: AnalyticsValue
 }
 
 enum AccountType {
@@ -108,9 +114,7 @@ enum WithdrawalMethodType {
 }
 
 type BasePayload = {
-  analyticsType: AnalyticsType
   id: string
-  nabuId: string
   originalTimestamp: string
 }
 
@@ -122,7 +126,7 @@ type PageViewPayload = {
   url: string
 }
 
-type PageNamesType = '/home' | '/interest'
+type PageNames = '/home' | '/interest'
 // | '/settings/general'
 // | '/settings/preferences'
 // | '/settings/addresses'
@@ -355,7 +359,14 @@ type SignedInPayload = BasePayload & {}
 
 type SignedOutPayload = BasePayload & {}
 
-type SwapClickedOrigin = 'CURRENCY_PAGE' | 'DASHBOARD_PROMO' | 'NAVIGATION'
+type SwapClickedOrigin =
+  | 'CURRENCY_PAGE'
+  | 'DASHBOARD_PROMO'
+  | 'DEEP_LINK'
+  | 'NAVIGATION'
+  | 'PRICES_PAGE'
+  | 'SEND'
+  | 'SETTINGS'
 
 type SwapClickedPayload = BasePayload & {
   origin: SwapClickedOrigin
@@ -418,14 +429,15 @@ type SwapRequestedPayload = BasePayload & {
 }
 
 type UpgradeVerificationClickedOrigin =
-  | 'AIRDROP'
-  | 'FIAT_FUNDS'
+  | 'DASHBOARD_PROMO'
+  | 'ONBOARDING'
+  | 'DEEP_LINK'
+  | 'INTEREST'
   | 'RESUBMISSION'
-  | 'SAVINGS'
   | 'SETTINGS'
   | 'SIMPLEBUY'
-  | 'SIMPLETRADE'
   | 'SWAP'
+  | 'UNKNOWN'
 
 type UpgradeVerificationClickedPayload = BasePayload & {
   origin: UpgradeVerificationClickedOrigin
@@ -465,7 +477,7 @@ type WrongChangeCachePayload = BasePayload & {}
 
 type WrongReceiveCachePayload = BasePayload & {}
 
-type AnalyticsPayload =
+type AnalyticsProperties =
   | AmountSwitchedPayload
   | BuyAmountEnteredPayload
   | BuyAmountMaxClickedPayload
@@ -524,8 +536,15 @@ type AnalyticsPayload =
   | WrongChangeCachePayload
   | WrongReceiveCachePayload
 
+type AnalyticsValue = {
+  properties: AnalyticsProperties
+  traits: AnalyticsTraits
+}
+
 export type {
-  AnalyticsPayload,
+  AnalyticsProperties,
+  AnalyticsTraits,
+  AnalyticsValue,
   BuySellClickedOrigin,
   DashboardClickedOrigin,
   DepositClickedOrigin,
@@ -534,16 +553,17 @@ export type {
   InterestSubmitInformationClickedOrigin,
   InterestWithdrawalClickedOrigin,
   LinkBankClickedOrigin,
-  PageNamesType,
+  PageNames,
+  RawEvent,
   SendReceiveClickedOrigin,
   SwapClickedOrigin,
+  UpgradeVerificationClickedOrigin,
   WithdrawalClickedOrigin
 }
 
 export {
   AccountType,
   AnalyticsKey,
-  AnalyticsType,
   CoinType,
   DepositMethodType,
   FeeRateType,

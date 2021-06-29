@@ -524,8 +524,20 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             <Banner type='warning' style={{ marginBottom: '15px' }}>
               {isLimitError(props.error) && props.userData?.tiers?.current < 2 ? (
                 <div
-                  onClick={() => props.identityVerificationActions.verifyIdentity(2, false)}
-                  onKeyDown={() => props.identityVerificationActions.verifyIdentity(2, false)}
+                  onClick={() =>
+                    props.identityVerificationActions.verifyIdentity({
+                      needMoreInfo: false,
+                      origin: 'SimpleBuy',
+                      tier: 2
+                    })
+                  }
+                  onKeyDown={() =>
+                    props.identityVerificationActions.verifyIdentity({
+                      needMoreInfo: false,
+                      origin: 'SimpleBuy',
+                      tier: 2
+                    })
+                  }
                   role='button'
                   tabIndex={0}
                   style={{ cursor: 'pointer' }}

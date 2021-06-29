@@ -68,7 +68,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const createRegisterUserCampaign = function* () {
     try {
-      yield call(verifyIdentity, { payload: { tier: 2 } })
+      yield call(verifyIdentity, { payload: { origin: 'Unknown', tier: 2 } })
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'createRegisterUserCampaign', e))
     }

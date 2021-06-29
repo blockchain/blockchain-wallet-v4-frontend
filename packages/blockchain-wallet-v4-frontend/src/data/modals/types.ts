@@ -53,6 +53,10 @@ export type ModalNamesType = keyof typeof ModalNamesEnum
 export type ModalOriginType =
   | 'AirdropClaimGoal'
   | 'AddBankModal'
+  | 'AddBankModalBuy'
+  | 'AddBankModalDeposit'
+  | 'AddBankModalSettings'
+  | 'AddBankModalWithdraw'
   | 'BankDetailsModal'
   | 'BorrowHistorySection'
   | 'BorrowLandingPage'
