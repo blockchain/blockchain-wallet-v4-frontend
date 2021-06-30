@@ -249,11 +249,7 @@ export default ({ api, coreSagas }) => {
     yield call(logout)
   }
 
-  const loginRoutineSaga = function* ({
-    email = undefined,
-    firstLogin = false,
-    fromRestoredFlow = false
-  }) {
+  const loginRoutineSaga = function* ({ email = undefined, firstLogin = false }) {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
       const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
@@ -492,8 +488,7 @@ export default ({ api, coreSagas }) => {
       yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
       yield call(loginRoutineSaga, {
         email: action.payload.email,
-        firstLogin: true,
-        fromRestoredFlow: false
+        firstLogin: true
       })
       yield put(actions.auth.registerSuccess())
     } catch (e) {
@@ -539,6 +534,8 @@ export default ({ api, coreSagas }) => {
             yield put(A.setKycResetStatus(false))
           }
         }
+      } else {
+        yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
       }
     } catch (e) {
       yield put(actions.auth.restoreFromMetadataFailure({ e }))
@@ -560,8 +557,7 @@ export default ({ api, coreSagas }) => {
 
       yield call(loginRoutineSaga, {
         email: action.payload.email,
-        firstLogin: true,
-        fromRestoredFlow: true
+        firstLogin: true
       })
       yield put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS))
       yield put(actions.auth.restoreSuccess())

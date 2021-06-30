@@ -112,62 +112,6 @@ const VerificationMobile = (props: Props) => {
             )
           }
         })}
-        {props.phonePubKey && (
-          <MessageSentColumn>
-            <CartridgeSentContainer>
-              <SuccessCartridge>
-                <FormattedMessage
-                  id='scenes.login.wallet.message.sent'
-                  defaultMessage='Message Sent'
-                />
-              </SuccessCartridge>
-            </CartridgeSentContainer>
-
-            <Text size='16px' color='grey900' weight={600} style={{ marginTop: '8px' }}>
-              <FormattedMessage
-                id='scenes.login.wallet.connected.title'
-                defaultMessage='Mobile Device Connected'
-              />
-            </Text>
-
-            <Text size='12px' color='grey900' weight={500} style={{ marginTop: '8px' }}>
-              <FormattedMessage
-                id='scenes.login.wallet.connected.description_1'
-                defaultMessage='We sent your connected mobile device a notification. Open the app to confirm auto-log in on the web.'
-              />
-            </Text>
-            <Text size='12px' color='grey900' weight={500} style={{ marginTop: '24px' }}>
-              <FormattedMessage
-                id='scenes.login.wallet.connected.description_2'
-                defaultMessage='Didn’t get the notification? Make sure you have push notifications enabled. You can also scan this QR with your mobile app to login.'
-              />
-            </Text>
-
-            <TextGroup inline style={{ lineHeight: '18px', marginTop: '8px' }}>
-              <Link
-                size='12px'
-                weight={500}
-                onClick={() => middlewareActions.resendMessageSocket()}
-              >
-                <FormattedMessage
-                  id='scenes.login.wallet.connected.send_it_again'
-                  defaultMessage='Send Again'
-                />
-              </Link>
-
-              <Text size='12px' color='grey900' weight={500}>
-                <FormattedMessage id='copy.or' defaultMessage='or' />
-              </Text>
-
-              <Link size='12px' weight={500} onClick={() => cacheActions.disconnectChannelPhone()}>
-                <FormattedMessage
-                  id='scenes.login.wallet.connected.add_a_new_device'
-                  defaultMessage='Add a New Device'
-                />
-              </Link>
-            </TextGroup>
-          </MessageSentColumn>
-        )}
       </Body>
       <LinkRow>
         <Button

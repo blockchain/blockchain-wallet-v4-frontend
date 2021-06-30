@@ -20,13 +20,11 @@ export const setFirstLogin = (firstLogin) => ({
 export const loginRoutine = (
   email?: string,
   firstLogin?: boolean,
-  fromRestoredFlow?: boolean,
   mobileLogin?: boolean
 ): AuthActionTypes => ({
   payload: {
     email,
     firstLogin,
-    fromRestoredFlow,
     mobileLogin
   },
   type: AT.LOGIN_ROUTINE_SAGA
