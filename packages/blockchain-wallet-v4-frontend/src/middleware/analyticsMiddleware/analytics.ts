@@ -15,7 +15,7 @@ const queueCallback = async (rawEvents: RawEvent[]) => {
     rawEvents.find((event) => event.payload.traits.nabuId)?.payload.traits.nabuId || null
   const email = rawEvents.find((event) => event.payload.traits.email)?.payload.traits.email || null
   const tier =
-    Number(rawEvents.find((event) => event.payload.traits.tier)?.payload.traits.tier) || null
+    String(rawEvents.find((event) => event.payload.traits.tier)?.payload.traits.tier) || null
 
   const context = {
     traits: {
