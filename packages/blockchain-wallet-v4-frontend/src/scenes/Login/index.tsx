@@ -161,6 +161,21 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
             })()}
           </Form>
         </Wrapper>
+        {step === LoginSteps.ENTER_PASSWORD && (
+          <Text
+            color='white'
+            weight={600}
+            size='16px'
+            cursor='pointer'
+            style={{ marginTop: '24px' }}
+            onClick={() => this.setStep(LoginSteps.VERIFICATION_MOBILE)}
+          >
+            <FormattedMessage
+              id='scenes.login.loginwithmobile'
+              defaultMessage='Log In with Mobile App ->'
+            />
+          </Text>
+        )}
         {step === LoginSteps.ENTER_EMAIL_GUID && (
           <>
             <Text color='grey400' weight={500} style={{ margin: '16px 0 8px 0' }}>
