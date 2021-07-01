@@ -17,7 +17,7 @@ const TX_PER_PAGE = 10
 export default ({ api }: { api: APIType }) => {
   const { fetchCustodialOrdersAndTransactions } = custodialSagas({ api })
 
-  const fetchRates = function * () {
+  const fetchRates = function* () {
     try {
       yield put(A.fetchRatesLoading())
       const data = yield call(api.getCoinTicker, 'DOT')
@@ -27,16 +27,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const watchTransactions = function * () {
-    while (true) {
-      const action = yield take(AT.FETCH_DOT_TRANSACTIONS)
-      yield call(fetchTransactions, action)
-    }
-  }
-
-  const fetchTransactions = function * (
-    action: ReturnType<typeof A.fetchTransactions>
-  ) {
+  const fetchTransactions = function* (action: ReturnType<typeof A.fetchTransactions>) {
     try {
       const { payload } = action
       const { reset } = payload
@@ -46,7 +37,7 @@ export default ({ api }: { api: APIType }) => {
       if (Remote.Loading.is(last(pages))) return
       if (transactionsAtBound && !reset) return
       yield put(A.fetchTransactionsLoading(reset))
-      let txs: Array<any> = []
+      const txs: Array<any> = []
       const txPage: Array<any> = txs
       const nextSBTransactionsURL = selectors.data.custodial.getNextSBTransactionsURL(
         yield select(),
@@ -69,8 +60,35 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const watchTransactions = function* () {
+    while (true) {
+      const action = yield take(AT.FETCH_DOT_TRANSACTIONS)
+      yield call(fetchTransactions, action)
+    }
+  }
+
+  const fetchTransactionHistory = function* (action) {
+    try {
+      const { address, end, start } = action.payload
+
+      const fromValue = moment(start).utc().format()
+      const toValue = moment(end).utc().format()
+
+      yield put(A.fetchTransactionHistoryLoading())
+      const data = yield call(api.getTransactionsHistory, {
+        currency: 'DOT',
+        fromValue,
+        toValue
+      })
+      yield put(A.fetchTransactionHistorySuccess(data))
+    } catch (e) {
+      yield put(A.fetchTransactionHistoryFailure(e.message))
+    }
+  }
+
   return {
     fetchRates,
+    fetchTransactionHistory,
     fetchTransactions,
     watchTransactions
   }

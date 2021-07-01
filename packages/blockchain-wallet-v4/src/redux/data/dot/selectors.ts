@@ -11,3 +11,7 @@ export const getTransactions = (state: RootState) => {
 export const getTransactionsAtBound = (state: RootState) => {
   return state.dataPath.dot.transactions_at_bound
 }
+
+export const getTransactionHistory = (state: RootState) => {
+  return state.dataPath.dot.transaction_history
+}

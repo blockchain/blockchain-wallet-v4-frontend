@@ -153,6 +153,22 @@ const getBchData = createSelector(
     }
   }
 )
+const getDOTData = createSelector(
+  [selectors.core.data.dot.getTransactionHistory, selectors.core.settings.getCurrency],
+  (dataR, currencyR) => {
+    const currency = currencyR.getOrElse('USD')
+    const transform = (data) => {
+      if (data) {
+        const transformedData = map((tx) => formatHaskoinData(tx, 'DOT', currency), data)
+        return [reportHeaders].concat(transformedData)
+      }
+      return []
+    }
+    return {
+      csvData: dataR.map(transform).getOrElse([])
+    }
+  }
+)
 
 const getData = (state, coin) => {
   switch (coin) {
@@ -172,6 +188,8 @@ const getData = (state, coin) => {
       return getXlmData(state)
     case 'YFI':
       return getYfiData(state)
+    case 'DOT':
+      return getDOTData(state)
     default:
       return getBtcData(state)
   }
