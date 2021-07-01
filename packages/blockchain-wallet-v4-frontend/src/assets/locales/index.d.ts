@@ -2131,6 +2131,7 @@ type MessagesType = {
   'scenes.login.guid_error': 'Unknown Wallet ID. Please check that it was entered correctly or try signing in with your email.'
   'scenes.login.login': 'Log In'
   'scenes.login.loginmobile': 'Login via Mobile'
+  'scenes.login.loginwithmobile': 'Log In with Mobile App ->'
   'scenes.logins.twofa.code': 'Enter the Two Factor Authentication code from your code generator or the SMS message just sent'
   'scenes.logins.twofa.enter_code': 'Enter your Two Factor Authentication Code'
   'scenes.login.mobile': 'SMS Code'
