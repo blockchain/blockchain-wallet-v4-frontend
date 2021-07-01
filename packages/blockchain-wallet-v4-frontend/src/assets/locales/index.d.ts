@@ -391,6 +391,7 @@ type MessagesType = {
   'copy.forms.amount_max': 'The maximum amount is {amount}'
   'copy.forms.amount_min': 'The minimum amount is {amount}'
   'copy.free': 'FREE'
+  'copy.frequency': 'Frequency'
   'copy.from': 'From'
   'copy.from:': 'From: '
   'copy.home': 'Home'
