@@ -19,7 +19,7 @@ import {
 
 import { actionTypes as AT } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { BankDWStepType, ModalNamesType, SwapBaseCounterTypes } from 'data/types'
+import { BankDWStepType, InterestStep, ModalNamesType, SwapBaseCounterTypes } from 'data/types'
 
 const analyticsMiddleware = () => (store) => (next) => (action) => {
   try {
@@ -59,7 +59,31 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               url: href
             })
 
-            analytics.clear()
+            break
+          }
+          case '/interest': {
+            const { href, pathname, search } = window.location
+            const { referrer, title } = document
+
+            analytics.push(AnalyticsKey.INTEREST_CLICKED, {
+              analyticsType: AnalyticsType.EVENT,
+              id,
+              nabuId,
+              origin: 'NAVIGATION',
+              originalTimestamp: getOriginalTimestamp()
+            })
+
+            analytics.push(AnalyticsKey.INTEREST_VIEWED, {
+              analyticsType: AnalyticsType.EVENT,
+              id,
+              nabuId,
+              originalTimestamp: getOriginalTimestamp(),
+              path: pathname,
+              referrer,
+              search,
+              title,
+              url: href
+            })
 
             break
           }
@@ -235,6 +259,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             })
             break
           }
+
           default: {
             break
           }
@@ -371,34 +396,37 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case AT.auth.VERIFY_EMAIL_TOKEN_SUCCESS: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const id = state.walletPath.wallet.guid
-        analytics.push(AnalyticsKey.EMAIL_VERIFICATION_REQUESTED, {
-          analyticsType: AnalyticsType.EVENT,
-          id,
-          nabuId,
-          originalTimestamp: getOriginalTimestamp()
-        })
-        break
-      }
+      // case AT.auth.VERIFY_EMAIL_TOKEN_SUCCESS: {
+      //   const state = store.getState()
+      //   const nabuId = state.profile.userData.getOrElse({})?.id
+      //   const id = state.walletPath.wallet.guid
+      //   analytics.push(AnalyticsKey.EMAIL_VERIFICATION_REQUESTED, {
+      //     analyticsType: AnalyticsType.EVENT,
+      //     id,
+      //     nabuId,
+      //     originalTimestamp: getOriginalTimestamp()
+      //   })
+      //   break
+      // }
       case AT.auth.LOGIN_SUCCESS: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id
         const id = state.walletPath.wallet.guid
+
         analytics.push(AnalyticsKey.SIGNED_IN, {
           analyticsType: AnalyticsType.EVENT,
           id,
           nabuId,
           originalTimestamp: getOriginalTimestamp()
         })
+
         break
       }
       case AT.auth.LOGOUT: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id
         const id = state.walletPath.wallet.guid
+
         analytics.push(AnalyticsKey.SIGNED_OUT, {
           analyticsType: AnalyticsType.EVENT,
           id,
@@ -411,6 +439,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id
         const id = state.walletPath.wallet.guid
+
         analytics.push(AnalyticsKey.WRONG_CHANGE_CACHE, {
           analyticsType: AnalyticsType.EVENT,
           id,
@@ -423,6 +452,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id
         const id = state.walletPath.wallet.guid
+
         analytics.push(AnalyticsKey.WRONG_RECEIVE_CACHE, {
           analyticsType: AnalyticsType.EVENT,
           id,
@@ -1018,41 +1048,170 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      /*       case '': {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const id = state.walletPath.wallet.guid
-        const partner = ''
-        const provider = ''
-        
-        analytics.push(AnalyticsKey.LINK_BANK_CONDITIONS_APPROVED, {
-          analyticsType: AnalyticsType.EVENT,
-          id,
-          nabuId,
-          bank_name: bankName,
-          partner,
-          provider,
-          originalTimestamp: getOriginalTimestamp()
-        })
+      case AT.components.interest.SHOW_INTEREST_MODAL: {
+        const stepName: InterestStep = action.payload.step
+
+        switch (stepName) {
+          case 'DEPOSIT': {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id
+            const id = state.walletPath.wallet.guid
+            // const { origin } = action.payload.props
+            const { href, pathname, search } = window.location
+            const { referrer, title } = document
+            const currency = action.payload.coin
+
+            analytics.push(AnalyticsKey.INTEREST_DEPOSIT_CLICKED, {
+              analyticsType: AnalyticsType.EVENT,
+              currency,
+              id,
+              nabuId,
+              // origin,
+              originalTimestamp: getOriginalTimestamp()
+            })
+
+            analytics.push(AnalyticsKey.INTEREST_DEPOSIT_VIEWED, {
+              analyticsType: AnalyticsType.EVENT,
+              id,
+              nabuId,
+              originalTimestamp: getOriginalTimestamp(),
+              path: pathname,
+              referrer,
+              search,
+              title,
+              url: href
+            })
+
+            break
+          }
+          case 'WITHDRAWAL': {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id
+            const id = state.walletPath.wallet.guid
+            // const { origin } = action.payload.props
+            const { href, pathname, search } = window.location
+            const { referrer, title } = document
+
+            analytics.push(AnalyticsKey.INTEREST_WITHDRAWAL_CLICKED, {
+              analyticsType: AnalyticsType.EVENT,
+              id,
+              nabuId,
+              // origin,
+              originalTimestamp: getOriginalTimestamp()
+            })
+
+            analytics.push(AnalyticsKey.INTEREST_WITHDRAWAL_VIEWED, {
+              analyticsType: AnalyticsType.EVENT,
+              id,
+              nabuId,
+              originalTimestamp: getOriginalTimestamp(),
+              path: pathname,
+              referrer,
+              search,
+              title,
+              url: href
+            })
+
+            break
+          }
+          default: {
+            break
+          }
+        }
+
         break
       }
-      case '': {
+      case AT.components.interest.HANDLE_TRANSFER_MAX_AMOUNT_CLICK: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id
         const id = state.walletPath.wallet.guid
-        const bankName = ''
-        const partner = ''
-          
-        analytics.push(AnalyticsKey.LINK_BANK_SELECTED, {
+        const amountCurrency = state.components.interest.isCoinDisplayed
+          ? action.payload.coin
+          : state.settingsPath.getOrElse({})?.currency
+        const currency = state.components.interest.coin
+        const fromAccountType =
+          state.components.interest.account.getOrElse({})?.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
+
+        analytics.push(AnalyticsKey.INTEREST_DEPOSIT_MAX_AMOUNT_CLICKED, {
+          amount_currency: amountCurrency,
           analyticsType: AnalyticsType.EVENT,
-          bank_name: bankName,
-          partner
+          currency,
+          from_account_type: fromAccountType,
           id,
           nabuId,
           originalTimestamp: getOriginalTimestamp()
         })
+
         break
-      } */
+      }
+      case AT.components.interest.HANDLE_TRANSFER_MIN_AMOUNT_CLICK: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
+        const amountCurrency = state.components.interest.isCoinDisplayed
+          ? action.payload.coin
+          : state.settingsPath.getOrElse({})?.currency
+        const currency = state.components.interest.coin
+        const fromAccountType =
+          state.components.interest.account.getOrElse({})?.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
+
+        analytics.push(AnalyticsKey.INTEREST_DEPOSIT_MIN_AMOUNT_CLICKED, {
+          amount_currency: amountCurrency,
+          analyticsType: AnalyticsType.EVENT,
+          currency,
+          from_account_type: fromAccountType,
+          id,
+          nabuId,
+          originalTimestamp: getOriginalTimestamp()
+        })
+
+        break
+      }
+      case AT.components.interest.SUBMIT_DEPOSIT_FORM: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
+        const currency = state.components.interest.coin
+        const inputAmount = Number(state.form.interestDepositForm.values.depositAmount)
+        const interestRate = state.components.interest.interestRate.getOrElse({})?.[currency]
+        const fromAccountType =
+          state.components.interest.account.getOrElse({})?.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
+
+        analytics.push(AnalyticsKey.INTEREST_DEPOSIT_AMOUNT_ENTERED, {
+          analyticsType: AnalyticsType.EVENT,
+          currency,
+          from_account_type: fromAccountType,
+          id,
+          input_amount: inputAmount,
+          interest_rate: interestRate,
+          nabuId,
+          originalTimestamp: getOriginalTimestamp()
+        })
+
+        break
+      }
+      case AT.components.interest.HANDLE_WITHDRAWAL_SUPPLY_INFORMATION: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const id = state.walletPath.wallet.guid
+        const { origin } = action.payload
+
+        analytics.push(AnalyticsKey.INTEREST_SUBMIT_INFORMATION_CLICKED, {
+          analyticsType: AnalyticsType.EVENT,
+          id,
+          nabuId,
+          origin,
+          originalTimestamp: getOriginalTimestamp()
+        })
+
+        break
+      }
 
       default: {
         break

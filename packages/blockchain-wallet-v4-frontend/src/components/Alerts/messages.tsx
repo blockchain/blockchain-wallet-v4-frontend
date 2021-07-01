@@ -390,10 +390,7 @@ const getAlertContent = (message, data = undefined) => {
             <Text>
               <LinkContainer to='/help'>
                 <Link size='12px' weight={500}>
-                  <FormattedMessage
-                    id='components.alerts.iprestriction_login_error-link'
-                    defaultMessage='Need some help?'
-                  />
+                  <FormattedMessage id='copy.need_some_help' defaultMessage='Need some help?' />
                 </Link>
               </LinkContainer>
             </Text>
@@ -1112,6 +1109,13 @@ const getAlertContent = (message, data = undefined) => {
             values={data}
           />
         )
+      )
+    case C.KYC_RESET_ERROR:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.kyc_reset_error'
+          defaultMessage='Restoring account failed. Please try again.'
+        />
       )
     default:
       return buildMessageTemplate(

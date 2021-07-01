@@ -1,4 +1,5 @@
 import * as AT from './actionTypes'
+import { AuthActionTypes } from './types'
 
 // LOGIN
 export const login = (guid, password, code, sharedKey, mobileLogin) => ({
@@ -7,13 +8,26 @@ export const login = (guid, password, code, sharedKey, mobileLogin) => ({
 })
 export const loginLoading = () => ({ type: AT.LOGIN_LOADING })
 export const loginSuccess = () => ({ payload: {}, type: AT.LOGIN_SUCCESS })
-export const loginFailure = (err) => ({
+export const loginFailure = (err?: string): AuthActionTypes => ({
   payload: { err },
   type: AT.LOGIN_FAILURE
 })
 export const setFirstLogin = (firstLogin) => ({
   payload: { firstLogin },
   type: AT.SET_FIRST_LOGIN
+})
+
+export const loginRoutine = (
+  email?: string,
+  firstLogin?: boolean,
+  mobileLogin?: boolean
+): AuthActionTypes => ({
+  payload: {
+    email,
+    firstLogin,
+    mobileLogin
+  },
+  type: AT.LOGIN_ROUTINE_SAGA
 })
 
 // LOGOUT
@@ -87,6 +101,46 @@ export const secureChannelLoginFailure = (err) => ({
   type: AT.SECURE_CHANNEL_LOGIN_FAILURE
 })
 
+// LOGIN
+export const clearLoginError = () => ({
+  type: AT.CLEAR_LOGIN_ERROR
+})
+
+// INITIALIZE LOGIN
+export const initializeLogin = () => ({
+  type: AT.INITIALIZE_LOGIN
+})
+
+export const initializeLoginLoading = (): AuthActionTypes => ({
+  type: AT.INITIALIZE_LOGIN_LOADING
+})
+
+export const initializeLoginSuccess = (): AuthActionTypes => ({
+  type: AT.INITIALIZE_LOGIN_SUCCESS
+})
+
+export const initializeLoginFailure = (): AuthActionTypes => ({
+  type: AT.INITIALIZE_LOGIN_FAILURE
+})
+
+// LOGIN GUID
+export const triggerWalletMagicLink = (email: string, captchaToken?: string) => ({
+  payload: { captchaToken, email },
+  type: AT.TRIGGER_WALLET_MAGIC_LINK
+})
+export const triggerWalletMagicLinkLoading = (): AuthActionTypes => ({
+  type: AT.TRIGGER_WALLET_MAGIC_LINK_LOADING
+})
+export const triggerWalletMagicLinkSuccess = (): AuthActionTypes => ({
+  type: AT.TRIGGER_WALLET_MAGIC_LINK_SUCCESS
+})
+export const triggerWalletMagicLinkFailure = (): AuthActionTypes => ({
+  type: AT.TRIGGER_WALLET_MAGIC_LINK_FAILURE
+})
+export const triggerWalletMagicLinkNotAsked = () => ({
+  type: AT.TRIGGER_WALLET_MAGIC_LINK_NOTASKED
+})
+
 // MISC
 export const authenticate = () => ({ type: AT.AUTHENTICATE })
 export const deauthorizeBrowser = () => ({ type: AT.DEAUTHORIZE_BROWSER })
@@ -98,7 +152,7 @@ export const setRegisterEmail = (email) => ({
   payload: { email },
   type: AT.SET_REGISTER_EMAIL
 })
-export const upgradeWallet = (version) => ({
+export const upgradeWallet = (version: number): AuthActionTypes => ({
   payload: { version },
   type: AT.UPGRADE_WALLET
 })
@@ -108,4 +162,9 @@ export const logWrongChangeCache = () => ({
 })
 export const logWrongReceiveCache = () => ({
   type: AT.WRONG_RECEIVE_CACHE
+})
+
+export const setKycResetStatus = (kycResetStatus) => ({
+  payload: { kycResetStatus },
+  type: AT.SET_KYC_RESET
 })
