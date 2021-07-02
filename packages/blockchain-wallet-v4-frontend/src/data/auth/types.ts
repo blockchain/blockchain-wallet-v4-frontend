@@ -67,7 +67,6 @@ interface LoginRouteSagaActionType {
   payload: {
     email?: string
     firstLogin?: boolean
-    fromRestoredFlow?: boolean
     mobileLogin?: boolean
   }
   type: typeof AT.LOGIN_ROUTINE_SAGA
