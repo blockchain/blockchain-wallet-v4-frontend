@@ -2,11 +2,15 @@ import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 import * as AT from './actionTypes'
 import { EMAIL_STEPS } from './model'
-import { IdentityVerificationActionTypes, IdentityVerificationState } from './types'
+import {
+  EmailSmsStepType,
+  IdentityVerificationActionTypes,
+  IdentityVerificationState
+} from './types'
 
 const INITIAL_STATE: IdentityVerificationState = {
   addressRefetchVisible: false,
-  emailStep: EMAIL_STEPS.edit,
+  emailStep: EMAIL_STEPS.edit as EmailSmsStepType,
   flowConfig: Remote.NotAsked,
   preIdvData: Remote.NotAsked,
   smsStep: Remote.Loading,
