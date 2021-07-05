@@ -94,7 +94,7 @@
     "reselect": "4.0.0",
     "scrypt-js": "3.0.1",
     "seedrandom": "2.4.3",
-    "stellar-sdk": "6.0.0",
+    "stellar-sdk": "8.2.3",
     "unorm": "1.6.0"
   }
 }
