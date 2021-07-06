@@ -13,6 +13,14 @@ export enum LoginSteps {
   VERIFICATION_MOBILE = 'VERIFICATION_MOBILE'
 }
 
+export enum RecoverSteps {
+  CLOUD_RECOVERY = 'CLOUD_RECOVERY',
+  RECOVERY_OPTIONS = 'RECOVERY_OPTIONS',
+  RECOVERY_PHRASE = 'RECOVERY_PHRASE',
+  RESET_ACCOUNT = 'RESET_ACCOUNT',
+  RESET_PASSWORD = 'RESET_PASSWORD'
+}
+
 export type LoginFormType = {
   email: string
   emailToken?: string

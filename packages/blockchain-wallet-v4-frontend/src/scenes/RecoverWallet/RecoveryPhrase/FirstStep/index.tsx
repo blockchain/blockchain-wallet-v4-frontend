@@ -10,7 +10,6 @@ import { Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { required, requiredNoErrorText, validMnemonic } from 'services/forms'
 
-import { BackArrowFormHeader } from '../../Login/model'
 import { Props } from '..'
 
 const FormBody = styled.div`

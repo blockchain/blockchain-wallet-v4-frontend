@@ -5,11 +5,12 @@ import { formValueSelector, getFormMeta, InjectedFormProps, reduxForm } from 're
 
 import { Form } from 'components/Form'
 import { actions, selectors } from 'data'
-import { RecoverSteps } from 'data/types'
+import { LoginSteps } from 'data/types'
 
-import RecoveryPhrase from './RecoveryPhrase'
+import FirstStep from './FirstStep'
+import SecondStep from './SecondStep'
 
-class RecoverWalletContainer extends React.PureComponent<
+class RecoveryPhraseContainer extends React.PureComponent<
   InjectedFormProps<{}, Props> & Props,
   StateProps
 > {
@@ -17,7 +18,6 @@ class RecoverWalletContainer extends React.PureComponent<
     super(props)
     this.state = {
       step: 1
-      // captchaToken: undefined
     }
   }
 
@@ -25,7 +25,7 @@ class RecoverWalletContainer extends React.PureComponent<
     this.props.formActions.destroy('recover')
   }
 
-  setStep = (step: RecoverSteps) => {
+  setStep = (step: LoginSteps) => {
     this.props.formActions.change('recover', 'step', step)
   }
 
@@ -50,7 +50,8 @@ class RecoverWalletContainer extends React.PureComponent<
     // } //   } //     return <FirstStep onSubmit={() => this.setState({ step: 2 })} {...this.props} /> //     } //       return <SecondStep previousStep={() => this.setState({ step: 1 })} {...this.props} /> //     if (this.state.step === 2) { //   {
     return (
       <Form onSubmit={this.handleSubmit}>
-        <RecoveryPhrase />
+        {this.state.step === 2 && <SecondStep previousStep={this.previousStep} {...this.props} />}
+        {this.state.step === 1 && <FirstStep {...this.props} />}
       </Form>
     )
   }
@@ -95,4 +96,4 @@ const enhance = compose<any>(
   connector
 )
 
-export default enhance(RecoverWalletContainer)
+export default enhance(RecoveryPhraseContainer)
