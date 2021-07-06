@@ -15,7 +15,6 @@ import {
   ExtractSuccess,
   FiatType,
   FiatTypeEnum,
-  SupportedCoinType,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
 import CoinDisplay from 'components/Display/CoinDisplay'

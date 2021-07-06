@@ -136,16 +136,19 @@ export const getData = (
     }
   ]
 
-  const toInterestDropdown = (x) => [
-    {
-      label: buildInterestDisplay(x),
-      value: {
-        ...x,
-        label: 'Interest Account',
-        type: ADDRESS_TYPES.INTEREST
-      }
-    }
-  ]
+  const toInterestDropdown = (x) =>
+    x
+      ? [
+          {
+            label: buildInterestDisplay(x),
+            value: {
+              ...x,
+              label: 'Interest Account',
+              type: ADDRESS_TYPES.INTEREST
+            }
+          }
+        ]
+      : []
 
   const exchangeAddress = selectors.components.send.getPaymentsAccountExchange('BCH', state)
   const hasExchangeAddress = Remote.Success.is(exchangeAddress)
