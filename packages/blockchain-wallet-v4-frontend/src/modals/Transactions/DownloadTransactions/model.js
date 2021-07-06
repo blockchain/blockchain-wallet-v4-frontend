@@ -51,7 +51,4 @@ const formatHaskoinData = (d, coin, currency) => [
   d.description || d.note
 ]
 
-const isErc20Coin = (coin) =>
-  coin === 'PAX' || coin === 'USDT' || coin === 'WDGLD' || coin === 'AAVE' || coin === 'YFI'
-
-export { formatHaskoinData, formatTxData, isErc20Coin, reportHeaders }
+export { formatHaskoinData, formatTxData, reportHeaders }
