@@ -75,7 +75,7 @@ export default ({ api }: { api: APIType }) => {
         before
       })
       const filteredOrders = orders.filter((order) => {
-        return !window.coins[order.inputCurrency].coinfig.type.isFiat
+        return order.side === 'SELL'
           ? order.inputCurrency === currency
           : order.outputCurrency === currency
       })
