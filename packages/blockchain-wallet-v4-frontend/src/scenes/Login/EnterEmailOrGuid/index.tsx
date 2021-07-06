@@ -55,6 +55,7 @@ const EnterEmailOrGuid = (props: Props) => {
             normalize={removeWhitespace}
             validate={[required, validWalletIdOrEmail]}
             placeholder='Enter your email or wallet ID'
+            autoFocus
           />
         </FormItem>
         {guidError && (

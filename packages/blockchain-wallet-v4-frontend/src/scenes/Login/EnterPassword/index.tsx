@@ -68,6 +68,7 @@ const EnterPassword = (props: Props) => {
             validate={[required]}
             component={PasswordBox}
             data-e2e='loginPassword'
+            autoFocus
             placeholder='Enter your password'
           />
           {passwordError && (
