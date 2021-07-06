@@ -123,7 +123,10 @@ const Success = ({
           <BankTransfer
             icon={getIcon(bankTransfer)}
             onClick={() => {
-              brokerageActions.showModal(BrokerageModalOriginType.ADD_BANK, 'ADD_BANK_YODLEE_MODAL')
+              brokerageActions.showModal(
+                BrokerageModalOriginType.ADD_BANK_WITHDRAW,
+                'ADD_BANK_YODLEE_MODAL'
+              )
               brokerageActions.setAddBankStep({
                 addBankStep: AddBankStepType.ADD_BANK
               })

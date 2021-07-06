@@ -9,7 +9,7 @@ import { BankTransferAccountType } from 'data/types'
 
 import { OwnProps } from '.'
 
-export const getData = (state: RootState, ownProps: OwnProps) => {
+const getData = (state: RootState, ownProps: OwnProps) => {
   const withdrawableBalanceR = getWithdrawableFiatBalance(ownProps.fiatCurrency, state)
   const availableBalanceR = getFiatBalance(ownProps.fiatCurrency, state)
   const defaultBeneficiaryR = selectors.custodial.getDefaultBeneficiary(

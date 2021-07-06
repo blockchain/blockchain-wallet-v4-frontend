@@ -1083,6 +1083,13 @@ const getAlertContent = (message, data = undefined) => {
           />
         )
       )
+    case C.KYC_RESET_ERROR:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.kyc_reset_error'
+          defaultMessage='Restoring account failed. Please try again.'
+        />
+      )
     default:
       return buildMessageTemplate(
         message || (

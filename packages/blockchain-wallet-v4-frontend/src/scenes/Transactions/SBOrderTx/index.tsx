@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { BuyOrSell, displayFiat } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/model'
+import { path } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
@@ -49,7 +50,7 @@ const LastCol = styled(Col)`
   justify-content: flex-end;
 `
 class SimpleBuyListItem extends PureComponent<Props, State> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props)
     this.state = { isToggled: false }
   }

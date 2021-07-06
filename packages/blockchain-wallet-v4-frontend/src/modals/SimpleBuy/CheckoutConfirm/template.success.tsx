@@ -269,7 +269,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
                     />
                   </Text>
                   <Link
-                    href='https://support.blockchain.com/hc/en-us/articles/360061672651'
+                    href='https://support.blockchain.com/hc/en-us/articles/360061672651-Wallet-Pricing'
                     size='14px'
                     rel='noopener noreferrer'
                     target='_blank'

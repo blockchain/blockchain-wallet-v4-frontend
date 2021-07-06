@@ -86,11 +86,6 @@ export const linkToExchangeAccountSuccess = (): ProfileActionTypes => ({
 export const linkToExchangeAccountReset = (): ProfileActionTypes => ({
   type: AT.LINK_TO_EXCHANGE_ACCOUNT_RESET
 })
-
-export const resetUserKyc = (): ProfileActionTypes => ({
-  type: AT.RESET_USER_KYC
-})
-
 export const setApiTokenFailure = (error): ProfileActionTypes => ({
   payload: { error },
   type: AT.SET_API_TOKEN_FAILURE
@@ -116,8 +111,7 @@ export const setLinkToExchangeAccountDeepLink = (deeplink): ProfileActionTypes =
   type: AT.SET_LINK_TO_EXCHANGE_ACCOUNT_DEEPLINK
 })
 // event, not used by reducer, not yet typed
-export const signIn = (fromRestoredFlow) => ({
-  payload: { fromRestoredFlow },
+export const signIn = () => ({
   type: AT.SIGN_IN
 })
 export const shareWalletAddressesWithExchange = (): ProfileActionTypes => ({

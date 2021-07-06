@@ -3,8 +3,9 @@ import { prop } from 'ramda'
 import { RemoteDataType } from 'core/types'
 
 import { settingsPath } from '../paths'
-import { InvitationsType } from '.'
+import { InvitationsType } from './types'
 
+// @ts-ignore
 export const getSettings = prop(settingsPath) as any
 export const getLanguage = (state) => getSettings(state).map(prop('language'))
 export const getCountryCode = (state) => getSettings(state).map(prop('country_code'))

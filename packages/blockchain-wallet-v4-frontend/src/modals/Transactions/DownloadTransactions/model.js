@@ -10,7 +10,7 @@ const reportHeaders = [
   'value_now',
   'exchange_rate_then',
   'tx',
-  'note',
+  'note'
 ]
 
 const formatTxData = (d, coin) => [
@@ -23,7 +23,7 @@ const formatTxData = (d, coin) => [
   d.value_now,
   d.exchange_rate_then,
   d.hash || d.tx,
-  d.description || d.note,
+  d.description || d.note
 ]
 
 // haskoin returns data differently fiat values in
@@ -37,18 +37,21 @@ const formatHaskoinData = (d, coin, currency) => [
   d.amount || d.amount_btc || d.amount_bch,
   fiatToString({
     unit: currency,
-    value: d.value_then,
+    value: d.value_then
   }),
   fiatToString({
     unit: currency,
-    value: d.value_now,
+    value: d.value_now
   }),
   fiatToString({
     unit: currency,
-    value: d.exchange_rate_then,
+    value: d.exchange_rate_then
   }),
   d.hash || d.tx,
-  d.description || d.note,
+  d.description || d.note
 ]
 
-export { formatHaskoinData, formatTxData, reportHeaders }
+const isErc20Coin = (coin) =>
+  coin === 'PAX' || coin === 'USDT' || coin === 'WDGLD' || coin === 'AAVE' || coin === 'YFI'
+
+export { formatHaskoinData, formatTxData, isErc20Coin, reportHeaders }

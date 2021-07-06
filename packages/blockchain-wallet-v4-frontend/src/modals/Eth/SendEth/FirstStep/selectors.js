@@ -6,7 +6,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { model, selectors } from 'data'
 
-export const getData = createDeepEqualSelector(
+const getData = createDeepEqualSelector(
   [
     selectors.core.wallet.isMnemonicVerified,
     selectors.components.sendEth.getPayment,

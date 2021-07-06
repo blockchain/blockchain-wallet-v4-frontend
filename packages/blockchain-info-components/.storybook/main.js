@@ -1,7 +1,9 @@
 module.exports = {
+  stories: ['../stories/**/*.stories.js'],
   addons: [
-    '@storybook/preset-typescript',
-    '@storybook/addon-actions/register',
-    '@storybook/addon-links/register'
+    '@storybook/addon-essentials',
+    '@storybook/addon-actions',
+    '@storybook/addon-links',
+    'themeprovider-storybook/register'
   ]
 }

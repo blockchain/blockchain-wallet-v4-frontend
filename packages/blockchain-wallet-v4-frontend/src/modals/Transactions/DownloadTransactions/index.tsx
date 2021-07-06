@@ -5,7 +5,7 @@ import * as moment from 'moment'
 import { prop } from 'ramda'
 import { compose, Dispatch } from 'redux'
 
-import { CoinType, SupportedCoinType } from 'blockchain-wallet-v4/src/types'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import modalEnhancer from 'providers/ModalEnhancer'
@@ -37,7 +37,7 @@ type LinkDispatchPropsType = {
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
 class DownloadTransactionsModal extends Component<Props, StateProps> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props)
     this.state = { filename: '', generating: false }
   }

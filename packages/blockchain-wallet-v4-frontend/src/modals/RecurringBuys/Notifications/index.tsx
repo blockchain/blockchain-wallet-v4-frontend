@@ -2,11 +2,12 @@ import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Button, Icon, Image, Text } from 'blockchain-info-components'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 
 import { TopText } from '../../components'
 import AnimatedCarousel from './AnimatedCarousel'
+import AnimatedGraph from './AnimatedGraph'
 
 const Wrapper = styled.div`
   display: flex;
@@ -61,10 +62,20 @@ const TitleText = styled(Text)`
 const FooterWrapper = styled(FlyoutWrapper)`
   padding-top: 0px;
 `
-class Notifications extends PureComponent<Props> {
+class Notifications extends PureComponent<Props, State> {
+  constructor(props: Props) {
+    super(props)
+    this.state = { stepIndex: 0 } as State
+    this.stepChange = this.stepChange.bind(this)
+  }
+
   handleSubmit = (e) => {
     e.preventDefault()
     // TODO add proper call to start recurring buys setup
+  }
+
+  stepChange = (stepIndex) => {
+    this.setState({ stepIndex })
   }
 
   render() {
@@ -96,7 +107,8 @@ class Notifications extends PureComponent<Props> {
         </FlyoutWrapper>
 
         <MainContent>
-          <AnimatedCarousel>
+          <AnimatedGraph stepIndex={this.state.stepIndex} />
+          <AnimatedCarousel stepChange={this.stepChange}>
             <Slide>
               <SlideContent>
                 <Text size='32px' weight={600} color='grey900' style={{ marginBottom: '40px' }}>
@@ -114,7 +126,6 @@ class Notifications extends PureComponent<Props> {
               </SlideContent>
             </Slide>
             <SlideStart>
-              <Image name='graph-recurring-buys' width='100%' height='164' />
               <SlideContent>
                 <Text size='32px' weight={600} color='grey900' style={{ marginBottom: '40px' }}>
                   <FormattedMessage
@@ -131,7 +142,6 @@ class Notifications extends PureComponent<Props> {
               </SlideContent>
             </SlideStart>
             <SlideStart>
-              <Image name='graph-recurring-buys-2' width='100%' height='164' />
               <SlideContent>
                 <Text size='32px' weight={600} color='grey900' style={{ marginBottom: '40px' }}>
                   <FormattedMessage
@@ -148,7 +158,6 @@ class Notifications extends PureComponent<Props> {
               </SlideContent>
             </SlideStart>
             <SlideStart>
-              <Image name='graph-recurring-buys-3' width='100%' height='164' />
               <SlideContent>
                 <Text size='32px' weight={600} color='grey900' style={{ marginBottom: '40px' }}>
                   <FormattedMessage
@@ -214,6 +223,10 @@ class Notifications extends PureComponent<Props> {
 
 type Props = {
   handleClose: () => void
+}
+
+type State = {
+  stepIndex: number
 }
 
 export default Notifications
