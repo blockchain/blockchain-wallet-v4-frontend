@@ -683,7 +683,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.fetchSBPairsLoading())
       const { pairs }: ReturnType<typeof api.getSBPairs> = yield call(api.getSBPairs, currency)
       const filteredPairs = pairs.filter((pair) => {
-        return !window.coins[getCoinFromPair(pair.pair)].coinfig.type.isFiat
+        return (
+          window.coins[getCoinFromPair(pair.pair)] &&
+          !window.coins[getCoinFromPair(pair.pair)].coinfig.type.isFiat
+        )
       })
       yield put(A.fetchSBPairsSuccess(filteredPairs, coin))
     } catch (e) {
