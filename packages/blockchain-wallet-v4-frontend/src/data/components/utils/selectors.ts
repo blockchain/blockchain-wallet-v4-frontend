@@ -33,7 +33,7 @@ export const getCoinsWithMethodAndOrder = (state: RootState) => {
       coins.DOT,
       // ...coins.rest // erc20s
       ...erc20s.map((value) => {
-        return window.coins[value.symbol!]
+        return window.coins[value.tokenSymbol]
       })
     ])
 

@@ -24,7 +24,7 @@ import {
   toUpper,
   values
 } from 'ramda'
-import { call, put, select, take } from 'redux-saga/effects'
+import { all, call, put, select, take } from 'redux-saga/effects'
 
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
@@ -235,37 +235,25 @@ export default ({ api }: { api: APIType }) => {
       ethAddr
     )
 
-    // TODO: erc20 phase 2, remove
-    const REMOVE_ME_WHEN_BE_SENDS_TOKENNAME_TOKEN_ACCOUNTS = data.tokenAccounts.map((value) => {
-      const token = Object.keys(window.coins).find(
-        (val) =>
-          window.coins[val].coinfig &&
-          window.coins[val].coinfig.type.erc20Address?.toLowerCase() ===
-            value.tokenHash.toLowerCase()
-      )
-      return { ...value, symbol: token }
-    })
-
-    yield put(
-      A.fetchErc20AccountTokenBalancesSuccess(REMOVE_ME_WHEN_BE_SENDS_TOKENNAME_TOKEN_ACCOUNTS)
-    )
+    yield put(A.fetchErc20AccountTokenBalancesSuccess(data.tokenAccounts))
     try {
-      for (const i in REMOVE_ME_WHEN_BE_SENDS_TOKENNAME_TOKEN_ACCOUNTS) {
-        const token = REMOVE_ME_WHEN_BE_SENDS_TOKENNAME_TOKEN_ACCOUNTS[i]
-        const symbol = token.symbol!
-        yield put(A.fetchErc20DataLoading(symbol))
-        yield put(A.fetchErc20Rates(symbol))
-        const contract = token.tokenHash
-        const tokenData = REMOVE_ME_WHEN_BE_SENDS_TOKENNAME_TOKEN_ACCOUNTS.find(
-          ({ tokenHash }) => toLower(tokenHash) === toLower(contract as string)
-        )
-        yield put(
-          A.fetchErc20DataSuccess(
-            symbol,
-            tokenData || constructDefaultErc20Data(ethAddr, contract!)
+      yield all(
+        data.tokenAccounts.map(function* (val) {
+          const symbol = val.tokenSymbol
+          yield put(A.fetchErc20DataLoading(symbol))
+          yield put(A.fetchErc20Rates(symbol))
+          const contract = val.tokenHash
+          const tokenData = data.tokenAccounts.find(
+            ({ tokenHash }) => toLower(tokenHash) === toLower(contract as string)
           )
-        )
-      }
+          yield put(
+            A.fetchErc20DataSuccess(
+              symbol,
+              tokenData || constructDefaultErc20Data(ethAddr, contract)
+            )
+          )
+        })
+      )
     } catch (e) {
       yield put(A.fetchErc20DataFailure(coin, prop('message', e)))
     }
