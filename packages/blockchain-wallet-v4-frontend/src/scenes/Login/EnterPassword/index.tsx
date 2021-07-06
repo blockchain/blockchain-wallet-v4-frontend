@@ -37,6 +37,7 @@ const EnterPassword = (props: Props) => {
     props.cacheActions.removedStoredLogin()
     props.formActions.destroy(LOGIN_FORM_NAME)
     props.setStep(LoginSteps.ENTER_EMAIL_GUID)
+    props.initCaptcha()
     props.authActions.clearLoginError()
   }
 
@@ -67,6 +68,7 @@ const EnterPassword = (props: Props) => {
             validate={[required]}
             component={PasswordBox}
             data-e2e='loginPassword'
+            autoFocus
             placeholder='Enter your password'
           />
           {passwordError && (

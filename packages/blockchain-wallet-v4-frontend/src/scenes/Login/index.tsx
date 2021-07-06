@@ -92,6 +92,9 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       formValues.step === LoginSteps.ENTER_EMAIL_GUID ||
       formValues.step === LoginSteps.CHECK_EMAIL
     ) {
+      if (formValues.step === LoginSteps.CHECK_EMAIL) {
+        this.initCaptcha()
+      }
       if (isGuid(guidOrEmail)) {
         formActions.change(LOGIN_FORM_NAME, 'guid', guidOrEmail)
         formActions.change(LOGIN_FORM_NAME, 'step', LoginSteps.VERIFICATION_MOBILE)
@@ -160,12 +163,26 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
             {(() => {
               switch (step) {
                 case LoginSteps.ENTER_EMAIL_GUID:
-                  return <EnterEmailOrGuid {...this.props} {...loginProps} setStep={this.setStep} />
+                  return (
+                    <EnterEmailOrGuid
+                      {...this.props}
+                      {...loginProps}
+                      setStep={this.setStep}
+                      initCaptcha={this.initCaptcha}
+                    />
+                  )
                 case LoginSteps.ENTER_PASSWORD:
                   return <EnterPassword {...this.props} {...loginProps} setStep={this.setStep} />
 
                 case LoginSteps.CHECK_EMAIL:
-                  return <CheckEmail {...this.props} {...loginProps} setStep={this.setStep} />
+                  return (
+                    <CheckEmail
+                      {...this.props}
+                      {...loginProps}
+                      setStep={this.setStep}
+                      initCaptcha={this.initCaptcha}
+                    />
+                  )
 
                 case LoginSteps.VERIFICATION_MOBILE:
                   return (
@@ -245,6 +262,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type FormProps = {
   busy: boolean
+  initCaptcha: () => void
   invalid: boolean
   loginError?: string
   pristine: boolean
