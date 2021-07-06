@@ -12,14 +12,20 @@ import { RootState } from 'data/rootReducer'
 // eslint-disable-next-line import/prefer-default-export
 export const getCoinsWithMethodAndOrder = (state: RootState) => {
   const sbMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(state)
+  // TODO, check all custodial features
+  const sbBalancesR = selectors.components.simpleBuy.getSBBalances(state)
   const coinsR = selectors.core.walletOptions.getSupportedCoins(state)
   const erc20sR = selectors.core.data.eth.getErc20AccountTokenBalances(state)
 
   const transform = (
     paymentMethods: ExtractSuccess<typeof sbMethodsR>,
+    sbBalances: ExtractSuccess<typeof sbBalancesR>,
     coins: ExtractSuccess<typeof coinsR>,
     erc20s: AccountTokensBalancesResponseType['tokenAccounts']
   ) => {
+    const custodialErc20s = Object.keys(sbBalances).filter(
+      (coin) => window.coins[coin] && window.coins[coin].coinfig.type.erc20Address
+    )
     // remove coins that may not yet exist in wallet options to avoid app crash
     const coinOrder = reject(isNil)([
       coins.USD,
@@ -32,9 +38,11 @@ export const getCoinsWithMethodAndOrder = (state: RootState) => {
       coins.ALGO,
       coins.DOT,
       // ...coins.rest // erc20s
-      ...erc20s.map((value) => {
-        return window.coins[value.tokenSymbol]
-      })
+      ...[...new Set([...erc20s.map(({ tokenSymbol }) => tokenSymbol), ...custodialErc20s])].map(
+        (value) => {
+          return window.coins[value]
+        }
+      )
     ])
 
     return values(
@@ -51,7 +59,7 @@ export const getCoinsWithMethodAndOrder = (state: RootState) => {
     )
   }
 
-  return lift(transform)(sbMethodsR, coinsR, erc20sR)
+  return lift(transform)(sbMethodsR, sbBalancesR, coinsR, erc20sR)
 }
 
 export default getCoinsWithMethodAndOrder
