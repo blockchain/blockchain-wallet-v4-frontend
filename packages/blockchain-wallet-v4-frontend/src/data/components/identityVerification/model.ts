@@ -1,6 +1,6 @@
 import { compose, includes, propOr } from 'ramda'
+import { WalletFormType } from 'redux-form'
 
-import { WalletFormType } from '../../../../../../typings/redux-form'
 import { TIERS } from '../../modules/profile/model'
 
 export const KYC_MODAL = 'KYC_MODAL'
