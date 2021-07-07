@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 import styled, { css } from 'styled-components'
 
 import { Banner } from 'blockchain-info-components'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { CoinType, CustodialFromType } from 'blockchain-wallet-v4/src/types'
 import { BlueCartridge } from 'components/Cartridge'
 import { FormGroup, FormLabel } from 'components/Form'
@@ -104,6 +105,7 @@ export const CustodyToAccountMessage = ({
   }
   coin: CoinType
 }) => {
+  if (account.type !== ADDRESS_TYPES.CUSTODIAL) return null
   const isAvailableNone = new BigNumber(account.available).isLessThanOrEqualTo('0')
   const isWithdrawableNone = new BigNumber(account.withdrawable).isLessThanOrEqualTo('0')
   const isAvailableEqualToWithdrawable = new BigNumber(account.available).isEqualTo(
