@@ -94,6 +94,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       } else {
         formActions.change(LOGIN_FORM_NAME, 'email', guidOrEmail)
         authActions.triggerWalletMagicLink(guidOrEmail, this.state.captchaToken)
+        this.initCaptcha()
       }
     } else {
       authActions.login(guid, password, auth, null, null)
@@ -144,12 +145,26 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
             {(() => {
               switch (step) {
                 case LoginSteps.ENTER_EMAIL_GUID:
-                  return <EnterEmailOrGuid {...this.props} {...loginProps} setStep={this.setStep} />
+                  return (
+                    <EnterEmailOrGuid
+                      {...this.props}
+                      {...loginProps}
+                      setStep={this.setStep}
+                      initCaptcha={this.initCaptcha}
+                    />
+                  )
                 case LoginSteps.ENTER_PASSWORD:
                   return <EnterPassword {...this.props} {...loginProps} setStep={this.setStep} />
 
                 case LoginSteps.CHECK_EMAIL:
-                  return <CheckEmail {...this.props} {...loginProps} setStep={this.setStep} />
+                  return (
+                    <CheckEmail
+                      {...this.props}
+                      {...loginProps}
+                      setStep={this.setStep}
+                      initCaptcha={this.initCaptcha}
+                    />
+                  )
 
                 case LoginSteps.VERIFICATION_MOBILE:
                   return (
@@ -221,6 +236,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type FormProps = {
   busy: boolean
+  initCaptcha: () => void
   invalid: boolean
   loginError?: string
   setStep: (step: LoginSteps) => void
