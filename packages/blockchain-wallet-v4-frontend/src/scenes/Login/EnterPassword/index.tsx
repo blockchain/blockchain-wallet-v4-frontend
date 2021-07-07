@@ -13,8 +13,8 @@ import {
   ActionButton,
   BackArrowFormHeader,
   BrowserWarning,
+  CenteredColumn,
   isSupportedBrowser,
-  LinkRow,
   LOGIN_FORM_NAME,
   NeedHelpLink,
   removeWhitespace
@@ -131,7 +131,7 @@ const EnterPassword = (props: Props) => {
           </FormItem>
         </FormGroup>
       )}
-      <LinkRow>
+      <CenteredColumn>
         <ActionButton
           type='submit'
           nature='primary'
@@ -149,20 +149,8 @@ const EnterPassword = (props: Props) => {
             </Text>
           )}
         </ActionButton>
-        <Text
-          size='13px'
-          weight={600}
-          color='blue600'
-          data-e2e='troubleLoggingIn'
-          cursor='pointer'
-          onClick={() => formActions.change('login', 'step', LoginSteps.RECOVERY_OPTIONS)}
-        >
-          <FormattedMessage
-            id='scenes.login.trouble_logging_ing'
-            defaultMessage='Trouble logging in?'
-          />
-        </Text>
-      </LinkRow>
+        <NeedHelpLink />
+      </CenteredColumn>
     </>
   )
 }

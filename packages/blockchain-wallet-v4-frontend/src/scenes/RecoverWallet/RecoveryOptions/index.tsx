@@ -9,7 +9,7 @@ import { selectors } from 'data'
 import { RecoverSteps } from 'data/types'
 
 import { Props as OwnProps } from '..'
-import { BackArrowFormHeader, RecoveryCircleBackground } from '../model'
+import { BackArrowFormHeader, GoBackArrow, RecoveryCircleBackground } from '../model'
 
 const FormBody = styled.div`
   display: flex;
@@ -17,7 +17,7 @@ const FormBody = styled.div`
 `
 const Row = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   margin-top: 24px;
 `
 const IconTextRow = styled.div`
@@ -31,13 +31,28 @@ const TextStack = styled.div`
   max-width: 312px;
 `
 const RecoveryOptions = (props: Props) => {
-  const { authActions, cacheActions, formActions, formValues, nabuId, setStep } = props
+  const {
+    authActions,
+    cacheActions,
+    cachedEmail,
+    cachedGuid,
+    formActions,
+    formValues,
+    nabuId,
+    routerActions,
+    setStep
+  } = props
   return (
     <>
-      {/* <BackArrowFormHeader
-        handleBackArrowClick={() => props.setStep(LoginSteps.ENTER_EMAIL_GUID)}
-        formValues={formValues}
-      /> */}
+      {!cachedEmail ? (
+        <GoBackArrow handleBackArrowClick={() => routerActions.push('/login')} />
+      ) : (
+        <BackArrowFormHeader
+          handleBackArrowClick={() => routerActions.push('/login')}
+          email={cachedEmail}
+          guid={cachedGuid}
+        />
+      )}
       <FormBody>
         <Text color='grey900' size='20px' weight={600} lineHeight='1.5'>
           <FormattedMessage
@@ -94,7 +109,7 @@ const RecoveryOptions = (props: Props) => {
         <Text size='13px' weight={600} color='grey600'>
           <FormattedMessage
             id='scenes.login.trouble_logging_in'
-            defaultMessage='Trouble logging in?'
+            defaultMessage='Trouble Logging In?'
           />
         </Text>
         {nabuId ? (
@@ -108,8 +123,8 @@ const RecoveryOptions = (props: Props) => {
             style={{ marginLeft: '4px' }}
           >
             <FormattedMessage
-              id='scenes.login.reset_your_account'
-              defaultMessage='Reset your account'
+              id='scenes.login.reset_your_account.arrow'
+              defaultMessage='Reset your account ->'
             />
           </Text>
         ) : (

@@ -2,14 +2,9 @@ import * as AT from './actionTypes'
 
 export enum LoginSteps {
   CHECK_EMAIL = 'CHECK_EMAIL',
-  CLOUD_RECOVERY = 'CLOUD_RECOVERY',
   ENTER_EMAIL_GUID = 'ENTER_EMAIL_GUID',
   ENTER_PASSWORD = 'ENTER_PASSWORD',
   LOADING = 'LOADING',
-  RECOVERY_OPTIONS = 'RECOVERY_OPTIONS',
-  RECOVERY_PHRASE = 'RECOVERY_PHRASE',
-  RESET_ACCOUNT = 'RESET_ACCOUNT',
-  RESET_PASSWORD = 'RESET_PASSWORD',
   VERIFICATION_MOBILE = 'VERIFICATION_MOBILE'
 }
 
@@ -48,14 +43,17 @@ export type WalletDataFromMagicLink = {
     guid: string
     has_cloud_backup: boolean
     is_mobile_setup: string | boolean
+    mergeable: boolean
     mobile_device_type: number | null
     nabu: {
       exchange_linked: boolean
       recovery_eligible: boolean
       user_id: string
     }
+    upgradable: boolean
   }
 }
+
 // actions
 
 interface LoginFailureActionType {

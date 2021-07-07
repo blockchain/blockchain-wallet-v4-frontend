@@ -21,14 +21,15 @@ const Body = styled.div`
   margin-bottom: 8px;
 `
 const TextColumn = styled(Column)`
-  max-width: 55%;
-  margin-right: 24px;
+  max-width: 60%;
+  margin-right: 16px;
 `
 const ActionButtons = styled(Column)`
   align-items: center;
 `
 const BadgeRow = styled(Row)`
-  margin-bottom: 24px;
+  justify-content: center;
+  margin: 24px 0;
   & > :first-child {
     margin-right: 16px;
   }
@@ -55,10 +56,10 @@ const CloudRecovery = (props: Props) => {
         email={cachedEmail}
         guid={cachedGuid}
       />
-      <Icon name='padlock' color='green600' size='20px' style={{ padding: '0 0 16px 4px' }} />
       <Body>
         {!props.phonePubKey && (
           <TextColumn>
+            <Icon name='padlock' color='blue600' size='20px' style={{ padding: '0 0 16px 4px' }} />
             <Text
               color='grey900'
               size='16px'
@@ -66,13 +67,10 @@ const CloudRecovery = (props: Props) => {
               lineHeight='1.5'
               style={{ marginBottom: '8px' }}
             >
-              <FormattedMessage
-                id='scenes.recovery.cloud_backup.title'
-                defaultMessage='Cloud Backup Recovery'
-              />
+              <FormattedMessage id='scenes.login.qrcodelogin' defaultMessage='QR Code Log In' />
             </Text>
             <Text
-              color='grey600'
+              color='grey900'
               size='12px'
               weight={500}
               lineHeight='1.5'
@@ -83,28 +81,37 @@ const CloudRecovery = (props: Props) => {
                 defaultMessage='It seems like your wallet had at one point been backed up to the cloud.'
               />
             </Text>
-            <Text color='grey600' size='12px' weight={500} lineHeight='1.5'>
+            <Text
+              color='grey900'
+              size='12px'
+              weight={500}
+              lineHeight='1.5'
+              style={{ marginBottom: '16px' }}
+            >
               <FormattedMessage
-                id='scenes.recovery.cloud_backup.instructions'
-                defaultMessage='To attempt a recovery:'
+                id='scenes.recovery.cloud_backup.instructions_one'
+                defaultMessage='Scan this QR code with your Blockchain.com mobile app.'
               />
             </Text>
-            <Text color='grey600' size='12px' weight={500} lineHeight='1.5'>
+            <Row>
+              <Text
+                color='grey900'
+                size='12px'
+                weight={500}
+                lineHeight='1.5'
+                style={{ marginRight: '4px' }}
+              >
+                <FormattedMessage
+                  id='scenes.recovery.cloud_backup.instructions_two'
+                  defaultMessage='Tap the QR Code Scanner icon'
+                />
+              </Text>
+              <Icon name='qr-code' color='grey600' size='12px' />
+            </Row>
+            <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
               <FormattedMessage
-                id='scenes.recovery.cloud_backup.step_one'
-                defaultMessage='1. Download the Blockchain.com mobile app'
-              />
-            </Text>
-            <Text color='grey600' size='12px' weight={500} lineHeight='1.5'>
-              <FormattedMessage
-                id='scenes.recovery.cloud_backup.step_two'
-                defaultMessage='2. Enter your PIN'
-              />
-            </Text>
-            <Text color='grey600' size='12px' weight={500} lineHeight='1.5'>
-              <FormattedMessage
-                id='scenes.recovery.cloud_backup.step_three'
-                defaultMessage='3. Scan the QR code'
+                id='scenes.recovery.cloud_backup.instructions_three'
+                defaultMessage='in the top right & point here.'
               />
             </Text>
           </TextColumn>
@@ -144,62 +151,6 @@ const CloudRecovery = (props: Props) => {
             )
           }
         })}
-        {props.phonePubKey && (
-          <Column>
-            <CartridgeSentContainer>
-              <SuccessCartridge>
-                <FormattedMessage
-                  id='scenes.login.wallet.message.sent'
-                  defaultMessage='Message Sent'
-                />
-              </SuccessCartridge>
-            </CartridgeSentContainer>
-
-            <Text size='16px' color='grey900' weight={600} style={{ marginTop: '8px' }}>
-              <FormattedMessage
-                id='scenes.login.wallet.connected.title'
-                defaultMessage='Mobile Device Connected'
-              />
-            </Text>
-
-            <Text size='12px' color='grey900' weight={500} style={{ marginTop: '8px' }}>
-              <FormattedMessage
-                id='scenes.login.wallet.connected.description_1'
-                defaultMessage='We sent your connected mobile device a notification. Open the app to confirm to auto-log in on the web.'
-              />
-            </Text>
-            <Text size='12px' color='grey900' weight={500} style={{ marginTop: '24px' }}>
-              <FormattedMessage
-                id='scenes.login.wallet.connected.description_2'
-                defaultMessage='Didn’t get the notification? Make sure you have push notifications enabled. You can also scan this QR with your mobile app to login.'
-              />
-            </Text>
-
-            <TextGroup inline style={{ lineHeight: '18px', marginTop: '8px' }}>
-              <Link
-                size='12px'
-                weight={500}
-                onClick={() => middlewareActions.resendMessageSocket()}
-              >
-                <FormattedMessage
-                  id='scenes.login.wallet.connected.send_it_again'
-                  defaultMessage='Send Again'
-                />
-              </Link>
-
-              <Text size='12px' color='grey900' weight={500}>
-                <FormattedMessage id='copy.or' defaultMessage='or' />
-              </Text>
-
-              <Link size='12px' weight={500} onClick={() => cacheActions.disconnectChannelPhone()}>
-                <FormattedMessage
-                  id='scenes.login.wallet.connected.add_a_new_device'
-                  defaultMessage='Add a New Device'
-                />
-              </Link>
-            </TextGroup>
-          </Column>
-        )}
       </Body>
       <BadgeRow>
         <Badge size='40px' type='applestore' />

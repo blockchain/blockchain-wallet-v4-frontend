@@ -8,10 +8,11 @@ import styled from 'styled-components'
 import { Button, HeartbeatLoader, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
 import { Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
+import { RecoverSteps } from 'data/types'
 import { required, requiredNoErrorText, validMnemonic } from 'services/forms'
 
 import { Props } from '../..'
-import { ActionButton, BackArrowFormHeader } from '../../model'
+import { ActionButton, BackArrowFormHeader, GoBackArrow } from '../../model'
 
 const FormBody = styled.div`
   display: flex;
@@ -39,7 +40,15 @@ const WordColumn = styled.div`
 `
 
 const FirstStep = (props: Props) => {
-  const { formActions, formValues, invalid, loginFormValues, submitting } = props
+  const {
+    cachedEmail,
+    cachedGuid,
+    formActions,
+    formValues,
+    invalid,
+    loginFormValues,
+    submitting
+  } = props
   const phraseRange = range(1, 13)
   const columnOneNumbers = range(1, 7)
   const columnTwoNumbers = range(7, 13)
@@ -55,11 +64,15 @@ const FirstStep = (props: Props) => {
 
   return (
     <>
-      {/* <BackArrowFormHeader
-        handleBackArrowClick={() => console.log('make this go back to /login')}
-        formValues={loginFormValues}
-      /> */}
-
+      {!cachedEmail ? (
+        <GoBackArrow handleBackArrowClick={() => props.setStep(RecoverSteps.RECOVERY_OPTIONS)} />
+      ) : (
+        <BackArrowFormHeader
+          handleBackArrowClick={() => props.setStep(RecoverSteps.RECOVERY_OPTIONS)}
+          email={cachedEmail}
+          guid={cachedGuid}
+        />
+      )}
       <FormBody>
         <Text
           color='grey900'
@@ -142,7 +155,7 @@ const FirstStep = (props: Props) => {
         <Text size='13px' weight={600} color='grey600'>
           <FormattedMessage
             id='scenes.login.trouble_logging_in'
-            defaultMessage='Trouble logging in?'
+            defaultMessage='Trouble Logging In?'
           />
         </Text>
         <LinkContainer to='/login'>

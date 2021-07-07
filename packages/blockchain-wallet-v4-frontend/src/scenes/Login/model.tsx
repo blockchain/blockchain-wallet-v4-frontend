@@ -101,6 +101,9 @@ export const Column = styled.div`
   display: flex;
   flex-direction: column;
 `
+export const CenteredColumn = styled(Column)`
+  align-items: center;
+`
 
 export const Row = styled.div`
   display: flex;
@@ -125,11 +128,6 @@ export const BackArrowFormHeader = (props: {
   formValues: LoginFormType
   handleBackArrowClick: () => void
 }) => {
-  const isRecovery =
-    LoginSteps.RECOVERY_OPTIONS ||
-    LoginSteps.RECOVERY_PHRASE ||
-    LoginSteps.RESET_ACCOUNT ||
-    LoginSteps.RESET_PASSWORD
   return (
     <>
       <TopRow>
@@ -144,7 +142,7 @@ export const BackArrowFormHeader = (props: {
           onClick={() => props.handleBackArrowClick()}
         />
         <Column>
-          {props.formValues.email && !isRecovery ? (
+          {props.formValues.email ? (
             <Text color='grey400' size='14px' weight={600} lineHeight='1.5'>
               <FormattedMessage
                 id='scenes.login.signingin_email'
@@ -152,7 +150,7 @@ export const BackArrowFormHeader = (props: {
                 values={{ email: props.formValues.email }}
               />
             </Text>
-          ) : props.formValues.email && isRecovery ? (
+          ) : props.formValues.email ? (
             <Text color='grey400' size='14px' weight={600} lineHeight='1.5'>
               <FormattedMessage
                 id='scenes.recovery.email'
@@ -193,10 +191,7 @@ export const LinkRow = styled.div`
 export const NeedHelpLink = () => (
   <LinkContainer to='/help'>
     <Link size='13px' weight={600} data-e2e='loginGetHelp'>
-      <FormattedMessage
-        id='scenes.login.trouble_logging_ing'
-        defaultMessage='Trouble logging in?'
-      />
+      <FormattedMessage id='copy.need_some_help' defaultMessage='Need some help?' />
     </Link>
   </LinkContainer>
 )

@@ -14,7 +14,13 @@ import { actions, selectors } from 'data'
 import { LoginSteps } from 'data/types'
 
 import { Props as OwnProps } from '..'
-import { BackArrowFormHeader, CartridgeSentContainer, LOGIN_FORM_NAME } from '../model'
+import {
+  BackArrowFormHeader,
+  CartridgeSentContainer,
+  LOGIN_FORM_NAME,
+  NeedHelpLink,
+  Row
+} from '../model'
 
 const Body = styled.div`
   display: flex;
@@ -25,19 +31,11 @@ const TextColumn = styled.div`
   flex-direction: column;
   max-width: 55%;
   margin-right: 24px;
-  > div {
-    margin-bottom: 16px;
-  }
 `
 const LinkRow = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`
-
-const MessageSentColumn = styled.div`
-  display: flex;
-  flex-direction: column;
 `
 
 const VerificationMobile = (props: Props) => {
@@ -53,26 +51,53 @@ const VerificationMobile = (props: Props) => {
   return (
     <>
       <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} />
-      <Icon name='padlock' color='green600' size='20px' style={{ padding: '0 0 16px 4px' }} />
       <Body>
         {!props.phonePubKey && (
           <TextColumn>
-            <Text color='grey900' size='16px' weight={600} lineHeight='1.5'>
+            <Icon name='padlock' color='blue600' size='20px' style={{ padding: '0 0 16px 4px' }} />
+            <Text
+              color='grey900'
+              size='16px'
+              weight={600}
+              lineHeight='1.5'
+              style={{ marginBottom: '16px' }}
+            >
               <FormattedMessage
                 id='scenes.login.wallet.mobile_login.title'
                 defaultMessage='Log in with mobile app'
               />
             </Text>
-            <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
+            <Text
+              color='grey900'
+              size='12px'
+              weight={500}
+              lineHeight='1.5'
+              style={{ marginBottom: '16px' }}
+            >
               <FormattedMessage
                 id='scenes.login.wallet.mobile_login.description_1'
                 defaultMessage='Scan this QR code with the Blockchain.com mobile app.'
               />
             </Text>
+            <Row>
+              <Text
+                color='grey900'
+                size='12px'
+                weight={500}
+                lineHeight='1.5'
+                style={{ marginRight: '4px' }}
+              >
+                <FormattedMessage
+                  id='scenes.recovery.cloud_backup.instructions_two'
+                  defaultMessage='Tap the QR Code Scanner icon'
+                />
+              </Text>
+              <Icon name='qr-code' color='grey600' size='12px' />
+            </Row>
             <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
               <FormattedMessage
-                id='scenes.login.wallet.mobile_login.description_2'
-                defaultMessage='You can tap on the scanning icon on the top right corner of the app.'
+                id='scenes.recovery.cloud_backup.instructions_three'
+                defaultMessage='in the top right & point here.'
               />
             </Text>
           </TextColumn>
@@ -124,12 +149,7 @@ const VerificationMobile = (props: Props) => {
         >
           <FormattedMessage id='buttons.login_with_password' defaultMessage='Login with Password' />
         </Button>
-        <LinkContainer to='/help'>
-          <FormattedMessage
-            id='scenes.login.trouble_logging_in'
-            defaultMessage='Trouble logging in?'
-          />
-        </LinkContainer>
+        <NeedHelpLink />
       </LinkRow>
     </>
   )
