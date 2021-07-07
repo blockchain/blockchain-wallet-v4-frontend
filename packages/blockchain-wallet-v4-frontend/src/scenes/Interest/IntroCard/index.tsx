@@ -124,7 +124,9 @@ class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType
 
     return (
       <>
-        {interestEDDStatus?.eddNeeded && this.renderAdditionalInfo()}
+        {interestEDDStatus?.eddNeeded &&
+          !interestEDDStatus?.eddPassed &&
+          this.renderAdditionalInfo()}
         {showInterestInfoBox && !interestEDDStatus?.eddNeeded && (
           <BoxStyled>
             {isGoldTier ? (
