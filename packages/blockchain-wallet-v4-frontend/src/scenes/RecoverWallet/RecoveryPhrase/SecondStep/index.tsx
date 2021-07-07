@@ -6,7 +6,7 @@ import { formValueSelector } from 'redux-form'
 import { SpinningLoader } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 
-import { Props as OwnProps } from '..'
+import { Props as OwnProps } from '../..'
 import Error from './error.template'
 import Recover from './template'
 

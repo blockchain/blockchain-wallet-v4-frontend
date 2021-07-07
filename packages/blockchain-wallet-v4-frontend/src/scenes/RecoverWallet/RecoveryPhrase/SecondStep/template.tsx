@@ -38,7 +38,7 @@ const validatePasswordConfirmation = validPasswordConfirmation('password')
 const SecondStep = (props: Props) => {
   const { invalid, isRegistering, isRestoringFromMetadata, password, previousStep } = props
   return (
-    <Wrapper>
+    <>
       <Header>
         <Text size='20px' color='blue900' weight={600} capitalize>
           <FormattedMessage id='scenes.recover.secondstep.funds' defaultMessage='Recover Funds' />
@@ -109,7 +109,7 @@ const SecondStep = (props: Props) => {
           </Button>
         </Footer>
       </Form>
-    </Wrapper>
+    </>
   )
 }
 

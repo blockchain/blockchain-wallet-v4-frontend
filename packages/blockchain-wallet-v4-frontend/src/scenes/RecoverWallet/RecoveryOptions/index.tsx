@@ -6,7 +6,7 @@ import styled from 'styled-components'
 
 import { Icon, Link, Text } from 'blockchain-info-components'
 import { selectors } from 'data'
-import { LoginSteps } from 'data/types'
+import { RecoverSteps } from 'data/types'
 
 import { Props as OwnProps } from '..'
 import { BackArrowFormHeader, RecoveryCircleBackground } from '../model'
@@ -34,10 +34,10 @@ const RecoveryOptions = (props: Props) => {
   const { authActions, cacheActions, formActions, formValues, nabuId, setStep } = props
   return (
     <>
-      <BackArrowFormHeader
+      {/* <BackArrowFormHeader
         handleBackArrowClick={() => props.setStep(LoginSteps.ENTER_EMAIL_GUID)}
         formValues={formValues}
-      />
+      /> */}
       <FormBody>
         <Text color='grey900' size='20px' weight={600} lineHeight='1.5'>
           <FormattedMessage
@@ -45,7 +45,9 @@ const RecoveryOptions = (props: Props) => {
             defaultMessage='Recovery Options'
           />
         </Text>
-        <IconTextRow onClick={() => formActions.change('login', 'step', LoginSteps.CLOUD_RECOVERY)}>
+        <IconTextRow
+          onClick={() => formActions.change('recover', 'step', RecoverSteps.CLOUD_RECOVERY)}
+        >
           <RecoveryCircleBackground color='blue000'>
             <Icon name='cloud' color='blue600' size='16px' />
           </RecoveryCircleBackground>
@@ -65,30 +67,28 @@ const RecoveryOptions = (props: Props) => {
           </TextStack>
           <Icon name='chevron-right' size='20px' color='grey400' />
         </IconTextRow>
-        <LinkContainer to='/recover'>
-          <IconTextRow
-          // onClick={() => formActions.change('login', 'step', LoginSteps.RECOVERY_PHRASE)}
-          >
-            <RecoveryCircleBackground color='blue000'>
-              <Icon name='keyboard' color='blue600' size='22px' />
-            </RecoveryCircleBackground>
-            <TextStack>
-              <Text color='grey900' size='14px' weight={600} lineHeight='1.5'>
-                <FormattedMessage
-                  id='scenes.login.recovery_options.phrase.title'
-                  defaultMessage='Recover Account with Recovery Phrase'
-                />
-              </Text>
-              <Text color='grey600' size='12px' weight={500} lineHeight='1.5'>
-                <FormattedMessage
-                  id='scenes.login.recovery_options.phrase'
-                  defaultMessage='Restore your account with your 12-word Secret Private key Recovery Phrase.'
-                />
-              </Text>
-            </TextStack>
-            <Icon name='chevron-right' size='20px' color='grey400' />
-          </IconTextRow>
-        </LinkContainer>
+        <IconTextRow
+          onClick={() => formActions.change('recover', 'step', RecoverSteps.RECOVERY_PHRASE)}
+        >
+          <RecoveryCircleBackground color='blue000'>
+            <Icon name='keyboard' color='blue600' size='22px' />
+          </RecoveryCircleBackground>
+          <TextStack>
+            <Text color='grey900' size='14px' weight={600} lineHeight='1.5'>
+              <FormattedMessage
+                id='scenes.login.recovery_options.phrase.title'
+                defaultMessage='Recover Account with Recovery Phrase'
+              />
+            </Text>
+            <Text color='grey600' size='12px' weight={500} lineHeight='1.5'>
+              <FormattedMessage
+                id='scenes.login.recovery_options.phrase'
+                defaultMessage='Restore your account with your 12-word Secret Private key Recovery Phrase.'
+              />
+            </Text>
+          </TextStack>
+          <Icon name='chevron-right' size='20px' color='grey400' />
+        </IconTextRow>
       </FormBody>
       <Row>
         <Text size='13px' weight={600} color='grey600'>
@@ -104,7 +104,7 @@ const RecoveryOptions = (props: Props) => {
             color='blue600'
             data-e2e='troubleLoggingIn'
             cursor='pointer'
-            onClick={() => formActions.change('login', 'step', LoginSteps.RESET_ACCOUNT)}
+            onClick={() => formActions.change('recover', 'step', RecoverSteps.RESET_ACCOUNT)}
             style={{ marginLeft: '4px' }}
           >
             <FormattedMessage
@@ -135,7 +135,7 @@ const mapStateToProps = (state) => ({
 const connector = connect(mapStateToProps)
 
 type Props = OwnProps & {
-  setStep: (step: LoginSteps) => void
+  setStep: (step: RecoverSteps) => void
 } & ConnectedProps<typeof connector>
 
 export default connector(RecoveryOptions)

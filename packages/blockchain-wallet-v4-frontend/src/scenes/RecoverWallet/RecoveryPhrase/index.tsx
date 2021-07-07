@@ -7,6 +7,7 @@ import { Form } from 'components/Form'
 import { actions, selectors } from 'data'
 import { LoginSteps } from 'data/types'
 
+import { Props } from '..'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
@@ -57,43 +58,42 @@ class RecoveryPhraseContainer extends React.PureComponent<
   }
 }
 
-const mapStateToProps = (state) => ({
-  email: formValueSelector('recover')(state, 'email'),
-  formMeta: getFormMeta('recover')(state),
-  formValues: selectors.form.getFormValues('recover')(state),
-  kycReset: selectors.auth.getKycResetStatus(state),
-  language: selectors.preferences.getLanguage(state),
-  loginFormValues: selectors.form.getFormValues('login')(state),
+// const mapStateToProps = (state) => ({
+//   email: formValueSelector('recover')(state, 'email'),
+//   formMeta: getFormMeta('recover')(state),
+//   formValues: selectors.form.getFormValues('recover')(state),
+//   kycReset: selectors.auth.getKycResetStatus(state),
+//   language: selectors.preferences.getLanguage(state),
+//   loginFormValues: selectors.form.getFormValues('login')(state),
+//   mnemonic: formValueSelector('recover')(state, 'mnemonic'),
+//   password: formValueSelector('recover')(state, 'password') || '',
+//   registering: selectors.auth.getRegistering(state)
+// })
 
-  mnemonic: formValueSelector('recover')(state, 'mnemonic'),
-  password: formValueSelector('recover')(state, 'password') || '',
-  registering: selectors.auth.getRegistering(state)
-})
+// const mapDispatchToProps = (dispatch) => ({
+//   authActions: bindActionCreators(actions.auth, dispatch),
+//   formActions: bindActionCreators(actions.form, dispatch)
+// })
 
-const mapDispatchToProps = (dispatch) => ({
-  authActions: bindActionCreators(actions.auth, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch)
-})
-
-type FormProps = {
-  busy: boolean
-  invalid: boolean
-  pristine: boolean
-  submitting: boolean
-}
+// type FormProps = {
+//   busy: boolean
+//   invalid: boolean
+//   pristine: boolean
+//   submitting: boolean
+// }
 
 export type StateProps = {
   step: number
 }
-export type Props = ConnectedProps<typeof connector> & FormProps
+// export type Props = ConnectedProps<typeof connector> & FormProps
 
-const connector = connect(mapStateToProps, mapDispatchToProps)
-const enhance = compose<any>(
-  reduxForm({
-    destroyOnUnmount: false,
-    form: 'recover'
-  }),
-  connector
-)
+// const connector = connect(mapStateToProps, mapDispatchToProps)
+// const enhance = compose<any>(
+//   reduxForm({
+//     destroyOnUnmount: false,
+//     form: 'recover'
+//   }),
+//   connector
+// )
 
-export default enhance(RecoveryPhraseContainer)
+export default RecoveryPhraseContainer

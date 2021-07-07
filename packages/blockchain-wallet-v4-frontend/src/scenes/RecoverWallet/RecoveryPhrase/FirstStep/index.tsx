@@ -10,7 +10,8 @@ import { Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { required, requiredNoErrorText, validMnemonic } from 'services/forms'
 
-import { Props } from '..'
+import { Props } from '../..'
+import { ActionButton, BackArrowFormHeader } from '../../model'
 
 const FormBody = styled.div`
   display: flex;
@@ -53,7 +54,7 @@ const FirstStep = (props: Props) => {
   const removeWhitespace = (string) => string.replace(/\s/g, ``)
 
   return (
-    <Wrapper>
+    <>
       {/* <BackArrowFormHeader
         handleBackArrowClick={() => console.log('make this go back to /login')}
         formValues={loginFormValues}
@@ -161,7 +162,7 @@ const FirstStep = (props: Props) => {
           </Text>
         </LinkContainer>
       </BottomRow>
-    </Wrapper>
+    </>
   )
 }
 

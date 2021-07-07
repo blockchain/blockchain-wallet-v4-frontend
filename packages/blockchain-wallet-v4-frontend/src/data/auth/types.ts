@@ -21,6 +21,11 @@ export enum RecoverSteps {
   RESET_PASSWORD = 'RESET_PASSWORD'
 }
 
+export type RecoverFormType = {
+  password: string
+  step: RecoverSteps
+}
+
 export type LoginFormType = {
   email: string
   emailToken?: string

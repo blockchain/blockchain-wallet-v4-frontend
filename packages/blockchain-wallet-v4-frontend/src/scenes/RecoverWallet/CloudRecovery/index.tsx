@@ -11,7 +11,7 @@ import { SuccessCartridge } from 'components/Cartridge'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import { RemoteDataType } from 'core/types'
 import { actions, selectors } from 'data'
-import { LoginSteps } from 'data/types'
+import { RecoverSteps } from 'data/types'
 
 import { Props as OwnProps } from '..'
 import { BackArrowFormHeader, CartridgeSentContainer, Column, Row } from '../model'
@@ -38,8 +38,11 @@ const CloudRecovery = (props: Props) => {
   const {
     authActions,
     cacheActions,
+    cachedEmail,
+    cachedGuid,
     formActions,
     formValues,
+    loginFormValues,
     middlewareActions,
     qrData,
     setStep
@@ -48,8 +51,9 @@ const CloudRecovery = (props: Props) => {
   return (
     <>
       <BackArrowFormHeader
-        handleBackArrowClick={() => props.setStep(LoginSteps.ENTER_EMAIL_GUID)}
-        formValues={formValues}
+        handleBackArrowClick={() => props.setStep(RecoverSteps.RECOVERY_OPTIONS)}
+        email={cachedEmail}
+        guid={cachedGuid}
       />
       <Icon name='padlock' color='green600' size='20px' style={{ padding: '0 0 16px 4px' }} />
       <Body>
@@ -208,7 +212,8 @@ const CloudRecovery = (props: Props) => {
           height='48px'
           data-e2e='loginWithPassword'
           style={{ marginBottom: '24px' }}
-          onClick={() => setStep(LoginSteps.ENTER_PASSWORD)}
+          // we want to send them to login here
+          // onClick={() => setStep(RecoverSteps.ENTER_PASSWORD)}
         >
           <FormattedMessage id='buttons.login_with_password' defaultMessage='Login with Password' />
         </Button>
@@ -243,7 +248,7 @@ const mapDispatchToProps = (dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = OwnProps & {
-  setStep: (step: LoginSteps) => void
+  setStep: (step: RecoverSteps) => void
 } & ConnectedProps<typeof connector>
 
 export default connector(CloudRecovery)
