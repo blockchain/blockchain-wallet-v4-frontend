@@ -169,7 +169,7 @@ class WalletBalanceDropdown extends Component<Props> {
     }
     if (selectProps.value) {
       // Account balance
-      if (selectProps.value.balance) {
+      if (selectProps.value.balance !== undefined) {
         return selectProps.value.balance
         // Custodial balance
       }
