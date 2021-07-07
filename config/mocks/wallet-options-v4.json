@@ -131,7 +131,7 @@
           "coinTicker": "BCH",
           "coinfig": {
             "name": "Bitcoin Cash",
-            "precision": 18,
+            "precision": 8,
             "products": ["PrivateKey"],
             "symbol": "BCH",
             "type": {
