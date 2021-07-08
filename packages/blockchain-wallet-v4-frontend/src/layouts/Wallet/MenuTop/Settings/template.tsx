@@ -3,16 +3,8 @@ import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
 
-import {
-  NavbarNavItem,
-  NavbarNavItemButton,
-  NavbarNavItemIcon
-} from 'components/Navbar'
-import {
-  DropdownMenu,
-  DropdownMenuArrow,
-  DropdownMenuItem
-} from 'components/Navbar/NavbarDropdown'
+import { NavbarNavItem, NavbarNavItemButton, NavbarNavItemIcon } from 'components/Navbar'
+import { DropdownMenu, DropdownMenuArrow, DropdownMenuItem } from 'components/Navbar/NavbarDropdown'
 import { Destination } from 'layouts/Wallet/components'
 import { useOnClickOutside } from 'services/misc'
 
@@ -23,7 +15,7 @@ const DropdownSeparator = styled.div`
   width: 24px;
   margin-left: 16px;
   margin-bottom: 8px;
-  background: ${props => props.theme.grey000};
+  background: ${(props) => props.theme.grey000};
 `
 
 const Settings = (props: Props) => {
@@ -31,12 +23,13 @@ const Settings = (props: Props) => {
   const [isMenuOpen, toggleIsMenuOpen] = useState(false)
   useOnClickOutside(ref, () => toggleIsMenuOpen(false))
 
+  const handleMenuToggle = () => {
+    toggleIsMenuOpen((isMenuOpen) => !isMenuOpen)
+  }
+
   return (
     <NavbarNavItem>
-      <NavbarNavItemButton
-        data-e2e='settingsLink'
-        onClick={() => toggleIsMenuOpen(!isMenuOpen)}
-      >
+      <NavbarNavItemButton data-e2e='settingsLink' onClick={handleMenuToggle}>
         <NavbarNavItemIcon persist name='cog-filled' size='18px' />
         {isMenuOpen && (
           <DropdownMenu ref={ref}>
@@ -44,10 +37,7 @@ const Settings = (props: Props) => {
             <LinkContainer to='/settings/general' activeClassName='active'>
               <DropdownMenuItem data-e2e='settings_generalLink'>
                 <Destination>
-                  <FormattedMessage
-                    id='layouts.wallet.header.general'
-                    defaultMessage='General'
-                  />
+                  <FormattedMessage id='layouts.wallet.header.general' defaultMessage='General' />
                 </Destination>
               </DropdownMenuItem>
             </LinkContainer>
@@ -87,15 +77,9 @@ const Settings = (props: Props) => {
               </DropdownMenuItem>
             </LinkContainer>
             <DropdownSeparator />
-            <DropdownMenuItem
-              onClick={props.authActions.logout}
-              data-e2e='logoutLink'
-            >
+            <DropdownMenuItem onClick={props.authActions.logout} data-e2e='logoutLink'>
               <Destination>
-                <FormattedMessage
-                  id='layouts.wallet.header.Sign Out'
-                  defaultMessage='Sign Out'
-                />
+                <FormattedMessage id='layouts.wallet.header.Sign Out' defaultMessage='Sign Out' />
               </Destination>
             </DropdownMenuItem>
           </DropdownMenu>

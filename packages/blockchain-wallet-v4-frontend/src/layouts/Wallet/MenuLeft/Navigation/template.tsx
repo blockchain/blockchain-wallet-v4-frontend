@@ -21,7 +21,7 @@ import { Props } from '.'
 const HelperTipContainer = styled.div`
   position: relative;
   > div span {
-    color: ${props => props.theme['grey400']};
+    color: ${(props) => props.theme['grey400']};
   }
 `
 const HelperTip = styled(TooltipHost)`
@@ -30,13 +30,13 @@ const HelperTip = styled(TooltipHost)`
   top: -8px;
 `
 export const NewCartridge = styled(Cartridge)`
-  color: ${props => props.theme.orange600} !important;
-  background-color: ${props => props.theme.white};
+  color: ${(props) => props.theme.orange600} !important;
+  background-color: ${(props) => props.theme.white};
   letter-spacing: 1px;
   margin-left: auto;
   margin-right: -4px;
   padding: 4px 4px;
-  border: 1px solid ${props => props.theme.grey000};
+  border: 1px solid ${(props) => props.theme.grey000};
   border-radius: 4px;
 `
 const PortfolioSeparator = styled.div`
@@ -50,7 +50,7 @@ const PortfolioSeparator = styled.div`
 `
 const SeparatorWrapper = styled.div<{ margin?: string }>`
   width: calc(100% - 32px);
-  margin: ${props => (props.margin ? props.margin : '8px 16px')};
+  margin: ${(props) => (props.margin ? props.margin : '8px 16px')};
   box-sizing: border-box;
 `
 
@@ -64,14 +64,9 @@ const Divider = (props: { margin?: string }) => (
   </SeparatorWrapper>
 )
 
-const ExchangeNavItem = props => (
+const ExchangeNavItem = (props) => (
   <>
-    <MenuIcon
-      className='icon'
-      name='blockchain-logo'
-      style={{ marginLeft: '-2px' }}
-      size='21px'
-    />
+    <MenuIcon className='icon' name='blockchain-logo' style={{ marginLeft: '-2px' }} size='21px' />
     <Destination style={{ marginLeft: '2px' }}>
       <FormattedMessage
         id='layouts.wallet.menuleft.navigation.blockchain-exchange-1'
@@ -111,20 +106,12 @@ const Navigation = (props: OwnProps & Props) => {
         </MenuItem>
       </LinkContainer>
       {coinList.cata({
-        Success: coinList =>
+        Success: (coinList) =>
           coinList.length ? (
             <>
               <PortfolioSeparator>
-                <Text
-                  color='grey600'
-                  lineHeight='20px'
-                  weight={600}
-                  size='14px'
-                >
-                  <FormattedMessage
-                    id='copy.portfolio'
-                    defaultMessage='Portfolio'
-                  />
+                <Text color='grey600' lineHeight='20px' weight={600} size='14px'>
+                  <FormattedMessage id='copy.portfolio' defaultMessage='Portfolio' />
                 </Text>
                 <Divider />
               </PortfolioSeparator>
@@ -187,12 +174,7 @@ const Navigation = (props: OwnProps & Props) => {
       {lockboxDevices?.length > 0 ? (
         <LinkContainer to='/lockbox' activeClassName='active'>
           <MenuItem data-e2e='lockboxLink'>
-            <MenuIcon
-              className='icon'
-              name='hardware'
-              style={{ paddingLeft: '2px' }}
-              size='24px'
-            />
+            <MenuIcon className='icon' name='hardware' style={{ paddingLeft: '2px' }} size='24px' />
             <Destination style={{ marginLeft: '-2px' }}>
               <FormattedMessage
                 id='layouts.wallet.menuleft.navigation.hardware'

@@ -41,3 +41,8 @@ export const setMainPassword = (password) => ({
   payload: { password },
   type: AT.SET_MAIN_PASSWORD
 })
+
+export const setManageWallet = (currency) => ({
+  payload: { currency },
+  type: AT.MANAGE_WALLET
+})

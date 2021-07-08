@@ -27,7 +27,7 @@ const MobileNumber = styled.div`
   }
 `
 
-const MobileNumberChange = (props) => {
+const MobileNumberAdd = (props) => {
   const {
     close,
     closeAll,
@@ -45,8 +45,8 @@ const MobileNumberChange = (props) => {
       <Form onSubmit={handleSubmit}>
         <ModalHeader icon='mobile' onClose={closeAll}>
           <FormattedMessage
-            id='modals.mobilenumberchange.changenumbertitle'
-            defaultMessage='Change Mobile Number'
+            id='modals.mobilenumberchange.addnumbertitle'
+            defaultMessage='Add Mobile Number'
           />
         </ModalHeader>
         <ModalBody>
@@ -90,4 +90,4 @@ const MobileNumberChange = (props) => {
   )
 }
 
-export default reduxForm({ form: 'mobileNumberChange' })(MobileNumberChange)
+export default reduxForm({ form: 'mobileNumberAdd' })(MobileNumberAdd)
