@@ -22,7 +22,7 @@ export const getRatesSelector = (
   state
 ): RemoteDataType<string, RatesType> => {
   const { coinfig } = window.coins[coin]
-  const coinLower = coinfig.type.parentChain.toLowerCase()
+  const coinLower = coin.toLowerCase()
   if (coinfig.type.erc20Address) {
     return selectors.data.eth.getErc20Rates(state, coin)
   }
