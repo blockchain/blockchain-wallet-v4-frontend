@@ -20,18 +20,9 @@ import {
   SelectBoxUSState,
   TextBox
 } from 'components/Form'
-import {
-  normalizeCreditCard,
-  validateCreditCard
-} from 'components/Form/CreditCardBox'
-import {
-  DEFAULT_SECURITY_CODE_NAME,
-  getCardTypeByValue
-} from 'components/Form/CreditCardBox/model'
-import {
-  normalizeCreditCardCVC,
-  validateCreditCardCVC
-} from 'components/Form/CreditCardCVCBox'
+import { normalizeCreditCard, validateCreditCard } from 'components/Form/CreditCardBox'
+import { DEFAULT_SECURITY_CODE_NAME, getCardTypeByValue } from 'components/Form/CreditCardBox/model'
+import { normalizeCreditCardCVC, validateCreditCardCVC } from 'components/Form/CreditCardCVCBox'
 import {
   normalizeCreditCardExpiry,
   validateCreditCardExpiry
@@ -70,7 +61,7 @@ export const Label = styled.label`
   font-weight: 500;
   margin-bottom: 12px;
   display: block;
-  color: ${props => props.theme.grey900};
+  color: ${(props) => props.theme.grey900};
 `
 export const CaptionContainer = styled.div`
   margin-top: 8px;
@@ -87,30 +78,29 @@ export const Caption = styled(Text)`
   font-weight: 500;
   font-size: 12px;
   line-height: 150%;
-  color: ${props => props.theme.grey600};
+  color: ${(props) => props.theme.grey600};
 `
-const getCountryElements = countries => [
+const getCountryElements = (countries) => [
   {
     group: '',
     items: map(
-      country => ({
-        value: country,
-        text: country.name
+      (country) => ({
+        text: country.name,
+        value: country
       }),
       countries
     )
   }
 ]
 
-const getCountryCode = country => {
+const getCountryCode = (country) => {
   if (country.code) {
     return country.code
   }
   return country
 }
 
-const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
-  Props> = props => {
+const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = (props) => {
   const [billingAddress, setBillingAddress] = useState(false)
 
   const countryCode =
@@ -123,18 +113,13 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
   const countryUsesZipOrPostcode =
     countryUsesZipcode(countryCode) || countryUsesPostalCode(countryCode)
 
-  const defaultCountry = props.supportedCountries.find(
-    country => country.code === countryCode
-  )
+  const defaultCountry = props.supportedCountries.find((country) => country.code === countryCode)
 
-  if (
-    defaultCountry &&
-    (!props.formValues ||
-      (props.formValues &&
-        props.formValues.billingaddress &&
-        props.formValues.billingaddress.country))
-  ) {
-    props.updateDefaultCountry(defaultCountry)
+  const changeBillingAddress = (defaultCountry: CountryType | undefined) => {
+    setBillingAddress((billingAddress) => !billingAddress)
+    if (defaultCountry && props.isSddFlow) {
+      props.updateDefaultCountry(defaultCountry)
+    }
   }
 
   useEffect(() => {
@@ -154,15 +139,15 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
           onClick={() =>
             props.order
               ? props.simpleBuyActions.setStep({
-                  step: 'CHECKOUT_CONFIRM',
-                  order: props.order as SBSellOrderType | SBBuyOrderType
+                  order: props.order as SBSellOrderType | SBBuyOrderType,
+                  step: 'CHECKOUT_CONFIRM'
                 })
               : props.simpleBuyActions.setStep({
-                  fiatCurrency: props.fiatCurrency,
-                  step: 'PAYMENT_METHODS',
-                  pair: props.pair,
                   cryptoCurrency: props.cryptoCurrency || 'BTC',
-                  order: props.order
+                  fiatCurrency: props.fiatCurrency,
+                  order: props.order,
+                  pair: props.pair,
+                  step: 'PAYMENT_METHODS'
                 })
           }
         />
@@ -187,23 +172,13 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
       <Form onSubmit={props.handleSubmit}>
         <FormGroup margin='24px'>
           <FormLabel>
-            <FormattedMessage
-              id='modals.simplebuy.name_on_card'
-              defaultMessage='Name on Card'
-            />
+            <FormattedMessage id='modals.simplebuy.name_on_card' defaultMessage='Name on Card' />
           </FormLabel>
-          <Field
-            name='name-on-card'
-            component={TextBox}
-            validate={[required]}
-          />
+          <Field name='name-on-card' component={TextBox} validate={[required]} />
         </FormGroup>
         <FormGroup margin='24px'>
           <FormLabel>
-            <FormattedMessage
-              id='modals.simplebuy.card_number'
-              defaultMessage='Card Number'
-            />
+            <FormattedMessage id='modals.simplebuy.card_number' defaultMessage='Card Number' />
           </FormLabel>
           <Field
             name='card-number'
@@ -216,10 +191,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
         <FormGroup inline margin='24px'>
           <FormItem>
             <FormLabel>
-              <FormattedMessage
-                id='modals.simplebuy.expiry_date'
-                defaultMessage='Expiry Date'
-              />
+              <FormattedMessage id='modals.simplebuy.expiry_date' defaultMessage='Expiry Date' />
             </FormLabel>
             <Field
               name='expiry-date'
@@ -232,8 +204,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
           <FormItem>
             <FormLabel>
               {(props.formValues &&
-                getCardTypeByValue(props.formValues['card-number'])
-                  ?.securityCodeName) ||
+                getCardTypeByValue(props.formValues['card-number'])?.securityCodeName) ||
                 DEFAULT_SECURITY_CODE_NAME}
             </FormLabel>
             <Field
@@ -247,11 +218,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
         {props.error && (
           <FormGroup>
             <ErrorCartridge>
-              <Icon
-                name='alert-filled'
-                color='red600'
-                style={{ marginRight: '4px' }}
-              />
+              <Icon name='alert-filled' color='red600' style={{ marginRight: '4px' }} />
               <Error error={props.error} />
             </ErrorCartridge>
           </FormGroup>
@@ -264,9 +231,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
                 textAlign: 'center',
                 width: '100%'
               }}
-              onClick={() =>
-                props.simpleBuyActions.setStep({ step: 'CC_BILLING_ADDRESS' })
-              }
+              onClick={() => props.simpleBuyActions.setStep({ step: 'CC_BILLING_ADDRESS' })}
             >
               <FormattedMessage
                 id='modals.simplebuy.change_billing_address'
@@ -297,9 +262,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
                   id='sameAsBillingAddress'
                   component={CheckBox}
                   type='checkbox'
-                  onChange={() =>
-                    setBillingAddress(billingAddress => !billingAddress)
-                  }
+                  onChange={() => changeBillingAddress(defaultCountry)}
                 >
                   <Text weight={500} size='14px'>
                     <FormattedMessage
@@ -341,11 +304,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
                         />
                       </Text>
                     </Label>
-                    <Field
-                      name='billingaddress.line2'
-                      errorBottom
-                      component={TextBox}
-                    />
+                    <Field name='billingaddress.line2' errorBottom component={TextBox} />
                   </FormItem>
                 </FormGroup>
 
@@ -388,7 +347,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> &
                         component={SelectBoxUSState}
                         errorBottom
                         validate={[required]}
-                        normalize={val => val && val.code}
+                        normalize={(val) => val && val.code}
                       />
                     ) : (
                       <Field name='state' component={TextBox} />
@@ -489,6 +448,6 @@ export type Props = OwnProps &
 export type ErrorType = SBAddCardErrorType
 
 export default reduxForm<{}, Props, ErrorType>({
-  form: 'addCCForm',
-  destroyOnUnmount: false
+  destroyOnUnmount: false,
+  form: 'addCCForm'
 })(Success)
