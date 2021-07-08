@@ -127,9 +127,6 @@ const WalletRow = (props) => {
                 margin='0 3px 0 0'
                 width='165px'
                 textAlign='end'
-                onClick={() => {
-                  walletActions.setManageWallet('BCH')
-                }}
                 selectedComponent={
                   <Link weight={500} size='13px' data-e2e='bchManageWalletLink'>
                     <FormattedMessage id='buttons.manage' defaultMessage='Manage' />

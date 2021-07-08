@@ -188,9 +188,6 @@ class UnusedAddressesContainer extends React.PureComponent<Props> {
               margin='0 3px 0 0'
               width='100px'
               textAlign='end'
-              onClick={() => {
-                this.props.walletActions.setManageWallet('BTC')
-              }}
               selectedComponent={
                 <Link weight={500} size='13px' data-e2e='btcWalletMoreOptionsDropdown'>
                   <FormattedMessage id='buttons.manage' defaultMessage='Manage' />
