@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Icon, Text } from 'blockchain-info-components'
+import { Box, Image, Text } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import {
   SBPaymentMethodType,
@@ -13,13 +13,14 @@ import {
 } from 'blockchain-wallet-v4/src/types'
 import { SettingContainer, SettingSummary } from 'components/Setting'
 import { convertBaseToStandard } from 'data/components/exchange/services'
+import { getBankLogoImageName } from 'services/images'
+import { media } from 'services/styles'
 
-import { CardDetails, CardWrapper, Child } from '../styles'
+import { CardDetails, Child } from '../styles'
 import { Props as OwnProps, SuccessStateType } from '.'
 
 const BankIconWrapper = styled.div`
   margin-right: 14px;
-  width: 24px;
   justify-content: center;
   flex-direction: column;
   display: flex;
@@ -53,10 +54,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               beneficiary.currency as WalletFiatType
             )
             return (
-              <CardWrapper key={beneficiary.id}>
+              <Box style={{ width: '430px' }} isMobile={media.mobile} key={beneficiary.id}>
                 <Child>
                   <BankIconWrapper>
-                    <Icon name='bank-filled' color='blue600' size='16px' />
+                    <Image name={getBankLogoImageName(beneficiary.agent)} />
                   </BankIconWrapper>
                   <CardDetails>
                     <Text size='16px' color='grey800' weight={600}>
@@ -86,7 +87,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     </Text>
                   </CardDetails>
                 </Child>
-              </CardWrapper>
+              </Box>
             )
           })}
         </div>

@@ -20,15 +20,13 @@ export const getData = createDeepEqualSelector(
   ],
   (accounts, coinAvailabilitiesR, isSilverOrAbove, { ownProps }) => {
     const { selectedCoin } = ownProps?.formValues || {}
-    const coinAvailabilities = coinAvailabilitiesR.getOrFail(
-      'No available coins.'
-    )
+    const coinAvailabilities = coinAvailabilitiesR.getOrFail('No available coins.')
     const prunedAccounts = [] as Array<SwapAccountType>
     const isAtLeastTier1 = isSilverOrAbove
 
     // @ts-ignore
     map(
-      coin =>
+      (coin) =>
         map((acct: any) => {
           // remove account if any if either of following are true
           // - coin receive feature is currently disabled
@@ -44,6 +42,8 @@ export const getData = createDeepEqualSelector(
       accounts
     )
 
-    return { isAtLeastTier1, accounts: prunedAccounts }
+    return { accounts: prunedAccounts, isAtLeastTier1 }
   }
 )
+
+export default getData

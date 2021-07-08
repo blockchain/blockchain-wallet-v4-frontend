@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import { Box, Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 import { FiatType, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
@@ -20,7 +20,6 @@ import { AddBankStepType, BankDWStepType, BrokerageModalOriginType } from 'data/
 import {
   getIcon,
   PaymentArrowContainer,
-  PaymentContainer,
   PaymentText
 } from '../../../../SimpleBuy/EnterAmount/Checkout/Payment/model'
 import { Row } from '../../components'
@@ -193,7 +192,7 @@ const Account = ({
   const dMethod = getDefaultMethod(defaultMethod, bankTransferAccounts)
 
   return (
-    <PaymentContainer
+    <Box
       disabled={invalid}
       role='button'
       data-e2e='paymentMethodSelect'
@@ -202,7 +201,7 @@ const Account = ({
         // else take them to enter amount form with default bank
         if (!bankTransferAccounts.length) {
           brokerageActions.showModal({
-            origin: BrokerageModalOriginType.ADD_BANK,
+            origin: BrokerageModalOriginType.ADD_BANK_DEPOSIT,
             modalType: fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL'
           })
           brokerageActions.setAddBankStep({
@@ -224,7 +223,7 @@ const Account = ({
       <PaymentArrowContainer>
         <RightArrowIcon cursor disabled={invalid} name='arrow-back' size='20px' color='grey600' />
       </PaymentArrowContainer>
-    </PaymentContainer>
+    </Box>
   )
 }
 

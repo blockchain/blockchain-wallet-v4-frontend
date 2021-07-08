@@ -94,6 +94,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       } else {
         formActions.change(LOGIN_FORM_NAME, 'email', guidOrEmail)
         authActions.triggerWalletMagicLink(guidOrEmail, this.state.captchaToken)
+        this.initCaptcha()
       }
     } else {
       authActions.login(guid, password, auth, null, null)
@@ -144,12 +145,26 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
             {(() => {
               switch (step) {
                 case LoginSteps.ENTER_EMAIL_GUID:
-                  return <EnterEmailOrGuid {...this.props} {...loginProps} setStep={this.setStep} />
+                  return (
+                    <EnterEmailOrGuid
+                      {...this.props}
+                      {...loginProps}
+                      setStep={this.setStep}
+                      initCaptcha={this.initCaptcha}
+                    />
+                  )
                 case LoginSteps.ENTER_PASSWORD:
                   return <EnterPassword {...this.props} {...loginProps} setStep={this.setStep} />
 
                 case LoginSteps.CHECK_EMAIL:
-                  return <CheckEmail {...this.props} {...loginProps} setStep={this.setStep} />
+                  return (
+                    <CheckEmail
+                      {...this.props}
+                      {...loginProps}
+                      setStep={this.setStep}
+                      initCaptcha={this.initCaptcha}
+                    />
+                  )
 
                 case LoginSteps.VERIFICATION_MOBILE:
                   return (
@@ -161,6 +176,21 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
             })()}
           </Form>
         </Wrapper>
+        {step === LoginSteps.ENTER_PASSWORD && (
+          <Text
+            color='white'
+            weight={600}
+            size='16px'
+            cursor='pointer'
+            style={{ marginTop: '24px' }}
+            onClick={() => this.setStep(LoginSteps.VERIFICATION_MOBILE)}
+          >
+            <FormattedMessage
+              id='scenes.login.loginwithmobile'
+              defaultMessage='Log In with Mobile App ->'
+            />
+          </Text>
+        )}
         {step === LoginSteps.ENTER_EMAIL_GUID && (
           <>
             <Text color='grey400' weight={500} style={{ margin: '16px 0 8px 0' }}>
@@ -206,6 +236,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type FormProps = {
   busy: boolean
+  initCaptcha: () => void
   invalid: boolean
   loginError?: string
   setStep: (step: LoginSteps) => void

@@ -20,13 +20,11 @@ export const setFirstLogin = (firstLogin) => ({
 export const loginRoutine = (
   email?: string,
   firstLogin?: boolean,
-  fromRestoredFlow?: boolean,
   mobileLogin?: boolean
 ): AuthActionTypes => ({
   payload: {
     email,
     firstLogin,
-    fromRestoredFlow,
     mobileLogin
   },
   type: AT.LOGIN_ROUTINE_SAGA
@@ -164,4 +162,9 @@ export const logWrongChangeCache = () => ({
 })
 export const logWrongReceiveCache = () => ({
   type: AT.WRONG_RECEIVE_CACHE
+})
+
+export const setKycResetStatus = (kycResetStatus) => ({
+  payload: { kycResetStatus },
+  type: AT.SET_KYC_RESET
 })

@@ -87,9 +87,14 @@ class Checkout extends PureComponent<Props> {
         this.props.simpleBuyActions.createSBOrder(SBPaymentTypes.PAYMENT_CARD)
       } else {
         // user in SDD but needs to confirm KYC and SDD eligibility
-        this.props.identityVerificationActions.verifyIdentity(2, false, true, () =>
-          this.props.simpleBuyActions.createSBOrder(SBPaymentTypes.PAYMENT_CARD)
-        )
+        this.props.identityVerificationActions.verifyIdentity({
+          checkSddEligibility: true,
+          needMoreInfo: false,
+          onCompletionCallback: () =>
+            this.props.simpleBuyActions.createSBOrder(SBPaymentTypes.PAYMENT_CARD),
+          origin: 'SimpleBuy',
+          tier: 2
+        })
       }
     } else if (!method) {
       const { fiatCurrency } = this.props

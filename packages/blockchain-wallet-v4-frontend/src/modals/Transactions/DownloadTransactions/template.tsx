@@ -23,6 +23,7 @@ import {
 import { required } from 'services/forms'
 
 import { OwnProps, StateProps } from '.'
+import { isErc20Coin } from './model'
 
 const Container = styled.div`
   display: flex;
@@ -69,10 +70,8 @@ const DownloadButton = styled(CSVLink)`
   width: 100%;
 `
 
-export const validAddressOrWallet = value => {
-  return value !== 'all' ? (
-    undefined
-  ) : (
+export const validAddressOrWallet = (value) => {
+  return value !== 'all' ? undefined : (
     <FormattedMessage
       id='modals.transactions.report.required'
       defaultMessage='Wallet selection required'
@@ -82,11 +81,9 @@ export const validAddressOrWallet = value => {
 
 type Props = OwnProps & StateProps
 
-const DownloadTransactions: React.FunctionComponent<InjectedFormProps<
-  {},
-  Props
-> &
-  Props> = props => {
+const DownloadTransactions: React.FunctionComponent<InjectedFormProps<{}, Props> & Props> = (
+  props
+) => {
   const {
     closeAll,
     coin,
@@ -112,10 +109,7 @@ const DownloadTransactions: React.FunctionComponent<InjectedFormProps<
           <Container>
             <Row>
               <Text size='14px' weight={500} capitalize>
-                <FormattedMessage
-                  id='modals.transactions.report.wallet'
-                  defaultMessage='Wallet'
-                />
+                <FormattedMessage id='modals.transactions.report.wallet' defaultMessage='Wallet' />
               </Text>
             </Row>
             <Row>
@@ -137,10 +131,7 @@ const DownloadTransactions: React.FunctionComponent<InjectedFormProps<
                   validate={[required, validAddressOrWallet]}
                 />
               )}
-              {(coin === 'ETH' ||
-                coin === 'PAX' ||
-                coin === 'USDT' ||
-                coin === 'WDGLD') && (
+              {(coin === 'ETH' || isErc20Coin(coin)) && (
                 <Field
                   coin={coin}
                   component={SelectBoxEthAddresses}
@@ -203,12 +194,7 @@ const DownloadTransactions: React.FunctionComponent<InjectedFormProps<
                   onClick={closeAll}
                   width='100%'
                 >
-                  <Button
-                    data-e2e='downloadReport'
-                    height='45px'
-                    nature='success'
-                    width='100%'
-                  >
+                  <Button data-e2e='downloadReport' height='45px' nature='success' width='100%'>
                     <FormattedMessage
                       id='modals.transactions.report.download'
                       defaultMessage='Download Report'
@@ -248,6 +234,4 @@ const DownloadTransactions: React.FunctionComponent<InjectedFormProps<
   )
 }
 
-export default reduxForm<{}, Props>({ form: 'transactionReport' })(
-  DownloadTransactions
-)
+export default reduxForm<{}, Props>({ form: 'transactionReport' })(DownloadTransactions)

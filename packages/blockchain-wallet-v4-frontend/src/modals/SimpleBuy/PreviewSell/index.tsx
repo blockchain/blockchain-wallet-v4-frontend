@@ -333,7 +333,7 @@ class PreviewSell extends PureComponent<
                           />
                         </Text>
                         <Link
-                          href='https://support.blockchain.com/hc/en-us/articles/360061675191'
+                          href='https://support.blockchain.com/hc/en-us/articles/360061672651-Wallet-Pricing'
                           size='14px'
                           rel='noopener noreferrer'
                           target='_blank'

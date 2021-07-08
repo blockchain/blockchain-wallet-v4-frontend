@@ -32,7 +32,7 @@ class LinkedBanks extends PureComponent<Props> {
       fiatCurrency = this.props.userData?.limits[0]?.currency as WalletFiatType
     }
     this.props.brokerageActions.showModal({
-      origin: BrokerageModalOriginType.ADD_BANK,
+      origin: BrokerageModalOriginType.ADD_BANK_SETTINGS,
       modalType: this.props.fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL'
     })
 

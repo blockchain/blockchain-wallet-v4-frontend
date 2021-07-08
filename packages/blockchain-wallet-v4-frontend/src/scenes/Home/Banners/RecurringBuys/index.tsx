@@ -82,7 +82,7 @@ const RecurringBuys = (props: Props) => {
     <Wrapper>
       <Row>
         <SyncIconWrapper>
-          <Icon name='sync-regular' color='orange600' size='20px' />
+          <Icon name='sync-regular' color='blue600' size='20px' />
         </SyncIconWrapper>
         <Column>
           <Text size='20px' weight={600} color='grey800'>

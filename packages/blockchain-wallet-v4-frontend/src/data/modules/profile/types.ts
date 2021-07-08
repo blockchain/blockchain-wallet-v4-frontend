@@ -234,10 +234,6 @@ interface LinkToExchangeAccountResetAction {
 interface LinkToExchangeAccountSuccessAction {
   type: typeof AT.LINK_TO_EXCHANGE_ACCOUNT_SUCCESS
 }
-
-interface ResetUserKycAction {
-  type: typeof AT.RESET_USER_KYC
-}
 interface SetApiTokenFailureAction {
   // FIXME: TypeScript error: Error?
   payload: {
@@ -310,7 +306,6 @@ export type ProfileActionTypes =
   | LinkToExchangeAccountResetAction
   | LinkToExchangeAccountLoadingAction
   | LinkToExchangeAccountSuccessAction
-  | ResetUserKycAction
   | SetApiTokenFailureAction
   | SetApiTokenNotAskedAction
   | SetApiTokenLoadingAction

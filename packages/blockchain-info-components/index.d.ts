@@ -15,6 +15,7 @@ type AllCoinsType = WalletCurrencyType | 'BSV' | 'STX'
 
 export const Badge: FunctionComponent<any>
 export const Banner: FunctionComponent<any>
+export const Box: FunctionComponent<any>
 export const BlockchainLoader: FunctionComponent<{
   width?: string
   height?: string
