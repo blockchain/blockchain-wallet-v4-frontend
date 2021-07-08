@@ -45,6 +45,7 @@ export default ({ coreSagas, networks }) => {
       const addressOrIndex = prop('address', source)
       const addressType = prop('type', source)
       const { coinfig } = window.coins[coin]
+      isSourceErc20 = coinfig.type.erc20Address
       const [network, provisionalScript] = coinfig.type.erc20Address
         ? ethOptions
         : prop(coin, {
