@@ -205,7 +205,5 @@
     "webpack-dev-server": "3.11.2",
     "wsrun": "5.2.4"
   },
-  "dependencies": {
-    "@reduxjs/toolkit": "^1.6.0"
-  }
+  "dependencies": {}
 }
