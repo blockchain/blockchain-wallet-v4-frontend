@@ -18,11 +18,12 @@ export const formatCoin = (value, minDigits = 0, maxDigits = 8) => {
 }
 
 // deprecated
-export const formatFiat = (value, digits = 2) =>
-  Number(value).toLocaleString(undefined, {
+export const formatFiat = (value, digits = 2) => {
+  return Number(value || 0).toLocaleString(undefined, {
     maximumFractionDigits: digits,
     minimumFractionDigits: digits
   })
+}
 
 export const coinToString = ({
   maxDigits = 8,

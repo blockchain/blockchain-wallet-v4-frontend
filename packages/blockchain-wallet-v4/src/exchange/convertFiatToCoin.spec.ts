@@ -10,13 +10,13 @@ describe('convertFiatToCoin', () => {
       coin: 'BTC',
       currency: 'USD',
       rates: btcRates as RatesType,
-      value: 1,
+      value: 1
     })
     expect(result).toEqual(expectedOutput)
   })
 
   it('should return value 0 if value is undefined', () => {
-    const expectedOutput = '0'
+    const expectedOutput = '0.00000000'
     const result = Conversion.convertFiatToCoin({
       coin: 'BTC',
 
@@ -24,7 +24,7 @@ describe('convertFiatToCoin', () => {
 
       rates: btcRates as RatesType,
       // @ts-ignore
-      value: undefined,
+      value: undefined
     })
     expect(result).toEqual(expectedOutput)
   })

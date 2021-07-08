@@ -23,7 +23,7 @@ const convertCoinToCoin = ({
   baseToStandard = true,
   coin,
   isFiat = false,
-  value,
+  value = '0',
 }: {
   baseToStandard?: boolean
   coin: string
@@ -47,7 +47,7 @@ const convertCoinToCoin = ({
 
 const convertCoinToFiat = ({
   coin,
-  value,
+  value = '0',
   currency,
   rates,
   isStandard,
@@ -75,7 +75,7 @@ const convertFiatToCoin = ({
   coin,
   currency,
   rates,
-  value,
+  value = '0',
   maxPrecision
 }: {
   coin: CoinType
@@ -97,7 +97,7 @@ const convertFiatToFiat = ({
   fromCurrency,
   rates,
   toCurrency,
-  value,
+  value = '0',
 }: {
   fromCurrency: WalletFiatType
   rates: RatesType
@@ -120,7 +120,7 @@ const convertFiatToFiat = ({
 const displayCoinToCoin = ({
   coin,
   isFiat,
-  value = 0,
+  value = '0',
 }: {
   coin: string
   isFiat?: boolean
@@ -137,15 +137,16 @@ const displayCoinToCoin = ({
 const displayCoinToFiat = ({
   rates,
   toCurrency,
-  value,
+  value = '0',
 }: {
   rates: RatesType
   toCurrency: keyof FiatCurrenciesType
   value: number | string
 }): string => {
+  const options = { style: 'currency', currency: toCurrency }
+  
   const { last } = rates[toCurrency as FiatType]
   const number = new BigNumber(value).times(last).toNumber()
-  const options = { style: 'currency', currency: toCurrency }
   return new Intl.NumberFormat(getLang(), options).format(number)
 }
 
