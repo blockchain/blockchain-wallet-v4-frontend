@@ -5,6 +5,7 @@ import styled from 'styled-components'
 
 import { Icon, Text, Tooltip, TooltipHost } from 'blockchain-info-components'
 import { SelectBox } from 'components/Form'
+import { RecurringBuyPeriods } from 'data/types'
 
 const StyledSelectBox = styled(SelectBox)`
   opacity: ${(p) => (p.disabled ? '0.5' : '1')};
@@ -45,9 +46,48 @@ const DisplalyContainer = styled.div`
   margin-left: 16px;
 `
 
-const renderDisplay = (props) => {
-  const { text } = props
+const getText = (value: RecurringBuyPeriods) => {
+  switch (value) {
+    case RecurringBuyPeriods.DAILY:
+      return (
+        <FormattedMessage
+          id='modals.recurringbuys.timeframe.every_day'
+          defaultMessage='Every day'
+        />
+      )
+    case RecurringBuyPeriods.WEEKLY:
+      return (
+        <FormattedMessage
+          id='modals.recurringbuys.timeframe.every_week'
+          defaultMessage='Every week'
+        />
+      )
+    case RecurringBuyPeriods.BI_WEEKLY:
+      return (
+        <FormattedMessage
+          id='modals.recurringbuys.timeframe.2_weeks'
+          defaultMessage='Every 2 weeks'
+        />
+      )
+    case RecurringBuyPeriods.MONTHLY:
+      return (
+        <FormattedMessage
+          id='modals.recurringbuys.timeframe.every_month'
+          defaultMessage='Every month'
+        />
+      )
+    case RecurringBuyPeriods.ONE_TIME:
+    default:
+      return (
+        <FormattedMessage
+          id='modals.recurringbuys.timeframe.one_time'
+          defaultMessage='One time purchase'
+        />
+      )
+  }
+}
 
+const renderDisplay = ({ value }: { value: RecurringBuyPeriods }) => {
   return (
     <DisplalyContainer>
       <LeftRow>
@@ -55,11 +95,15 @@ const renderDisplay = (props) => {
           <Icon data-e2e='recurringBuyScheduler' name='sync-regular' size='16px' color='blue600' />
         </IconWrapper>
         <Text size='16px' weight={600}>
-          {text}
+          {getText(value)}
         </Text>
       </LeftRow>
     </DisplalyContainer>
   )
+}
+
+const renderItem = ({ value }: { value: RecurringBuyPeriods }) => {
+  return <Text>{getText(value)}</Text>
 }
 
 const SchedulerSelectBox = (props) => {
@@ -71,17 +115,18 @@ const SchedulerSelectBox = (props) => {
         {
           group: '',
           items: [
-            { text: 'One time purchase', value: 0 },
-            { text: 'Every day', value: 1 },
-            { text: 'Every week', value: 2 },
-            { text: 'Every 2 weeks', value: 3 },
-            { text: 'Every month', value: 4 }
+            { value: RecurringBuyPeriods.ONE_TIME },
+            { value: RecurringBuyPeriods.DAILY },
+            { value: RecurringBuyPeriods.WEEKLY },
+            { value: RecurringBuyPeriods.BI_WEEKLY },
+            { value: RecurringBuyPeriods.MONTHLY }
           ]
         }
       ]}
-      value={0}
+      value={RecurringBuyPeriods.ONE_TIME}
       grouped={false}
       templateDisplay={renderDisplay}
+      templateItem={renderItem}
     />
   )
 }

@@ -33,7 +33,7 @@ const mapStateToProps = (state: RootState) => ({
 const connector = connect(mapStateToProps)
 
 type OwnProps = { method?: SBPaymentMethodType }
-// export type SuccessStateType = ReturnType<typeof getData>['data']
+
 export type Props = ConnectedProps<typeof connector> & OwnProps
 
 export default connector(SchedulerContainer)
