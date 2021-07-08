@@ -34,7 +34,13 @@ const Settings = (props: Props) => {
         {isMenuOpen && (
           <DropdownMenu ref={ref}>
             <DropdownMenuArrow />
-            <LinkContainer to='/settings/general' activeClassName='active'>
+            <LinkContainer
+              onClick={() => {
+                props.settingsActions.generalSettingsInternalRedirect('General')
+              }}
+              to='/settings/general'
+              activeClassName='active'
+            >
               <DropdownMenuItem data-e2e='settings_generalLink'>
                 <Destination>
                   <FormattedMessage id='layouts.wallet.header.general' defaultMessage='General' />
@@ -43,11 +49,13 @@ const Settings = (props: Props) => {
             </LinkContainer>
             <DropdownMenuItem
               data-e2e='settings_profileLink'
-              onClick={() =>
+              onClick={() => {
                 props.modalActions.showModal('TRADING_LIMITS', {
                   origin: 'TradingLimits'
                 })
-              }
+
+                props.settingsActions.generalSettingsInternalRedirect('TradingLimits')
+              }}
             >
               <Destination>
                 <FormattedMessage
@@ -56,7 +64,13 @@ const Settings = (props: Props) => {
                 />
               </Destination>
             </DropdownMenuItem>
-            <LinkContainer to='/settings/preferences' activeClassName='active'>
+            <LinkContainer
+              onClick={() => {
+                props.settingsActions.generalSettingsInternalRedirect('Preferences')
+              }}
+              to='/settings/preferences'
+              activeClassName='active'
+            >
               <DropdownMenuItem data-e2e='settings_preferencesLink'>
                 <Destination>
                   <FormattedMessage
@@ -66,7 +80,13 @@ const Settings = (props: Props) => {
                 </Destination>
               </DropdownMenuItem>
             </LinkContainer>
-            <LinkContainer to='/settings/addresses' activeClassName='active'>
+            <LinkContainer
+              onClick={() => {
+                props.settingsActions.generalSettingsInternalRedirect('WalletAndAddresses')
+              }}
+              to='/settings/addresses'
+              activeClassName='active'
+            >
               <DropdownMenuItem data-e2e='settings_walletsLink'>
                 <Destination>
                   <FormattedMessage
@@ -77,7 +97,12 @@ const Settings = (props: Props) => {
               </DropdownMenuItem>
             </LinkContainer>
             <DropdownSeparator />
-            <DropdownMenuItem onClick={props.authActions.logout} data-e2e='logoutLink'>
+            <DropdownMenuItem
+              onClick={() => {
+                props.authActions.logout()
+              }}
+              data-e2e='logoutLink'
+            >
               <Destination>
                 <FormattedMessage id='layouts.wallet.header.Sign Out' defaultMessage='Sign Out' />
               </Destination>

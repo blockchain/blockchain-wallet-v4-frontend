@@ -188,9 +188,6 @@ class UnusedAddressesContainer extends React.PureComponent<Props> {
               margin='0 3px 0 0'
               width='100px'
               textAlign='end'
-              onClick={() => {
-                this.props.walletActions.setManageWallet('BTC')
-              }}
               selectedComponent={
                 <Link weight={500} size='13px' data-e2e='btcWalletMoreOptionsDropdown'>
                   <FormattedMessage id='buttons.manage' defaultMessage='Manage' />
@@ -200,7 +197,13 @@ class UnusedAddressesContainer extends React.PureComponent<Props> {
                 <ClickableText
                   key='editName'
                   size='small'
-                  onClick={this.onEditBtcAccountLabel}
+                  onClick={() => {
+                    this.onEditBtcAccountLabel()
+                    this.props.walletActions.setManageWallet({
+                      currency: 'BTC',
+                      selection: 'EditWalletName'
+                    })
+                  }}
                   data-e2e='btcEditWalletNameLink'
                 >
                   <FormattedMessage
@@ -235,7 +238,13 @@ class UnusedAddressesContainer extends React.PureComponent<Props> {
                 <ClickableText
                   key='showXpub'
                   size='small'
-                  onClick={this.onShowXPub}
+                  onClick={() => {
+                    this.onShowXPub()
+                    this.props.walletActions.setManageWallet({
+                      currency: 'BTC',
+                      selection: 'ShowXPub'
+                    })
+                  }}
                   data-e2e='btcShowWalletXpubLink'
                 >
                   <FormattedMessage
@@ -246,7 +255,13 @@ class UnusedAddressesContainer extends React.PureComponent<Props> {
                 <ClickableText
                   key='recoverFunds'
                   size='small'
-                  onClick={() => this.onShowFundRecovery(walletIndex)}
+                  onClick={() => {
+                    this.onShowFundRecovery(walletIndex)
+                    this.props.walletActions.setManageWallet({
+                      currency: 'BTC',
+                      selection: 'RecoverFunds'
+                    })
+                  }}
                   data-e2e='btcShowWalletXpubLink'
                 >
                   <FormattedMessage

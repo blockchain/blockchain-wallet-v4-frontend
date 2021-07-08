@@ -10,7 +10,8 @@ const SettingsContainer = (props: Props) => <Settings {...props} />
 
 const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
 const connector = connect(undefined, mapDispatchToProps)

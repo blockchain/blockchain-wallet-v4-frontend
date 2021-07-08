@@ -16,6 +16,9 @@ import {
   getOriginalTimestamp,
   interestDepositClickedOriginDictionary,
   linkBankClickedOriginDictionary,
+  manageTabSelectionClickedSelectionDictionary,
+  settingsHyperlinkClickedDestinationDictionary,
+  settingsTabClickedDestinationDictionary,
   swapClickedOriginDictionary,
   upgradeVerificationClickedOriginDictionary
 } from 'middleware/analyticsMiddleware/utils'
@@ -122,7 +125,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const id = state.walletPath.wallet.guid
             const currency = 'BTC'
 
-            analytics.push(AnalyticsKey.MANAGE_TAB_SELECTION_CLICKED, {
+            analytics.push(AnalyticsKey.SETTINGS_CURRENCY_CLICKED, {
               properties: {
                 currency,
                 id,
@@ -145,7 +148,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const id = state.walletPath.wallet.guid
             const currency = 'BCH'
 
-            analytics.push(AnalyticsKey.MANAGE_TAB_SELECTION_CLICKED, {
+            analytics.push(AnalyticsKey.SETTINGS_CURRENCY_CLICKED, {
               properties: {
                 currency,
                 id,
@@ -168,7 +171,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const id = state.walletPath.wallet.guid
             const currency = 'ETH'
 
-            analytics.push(AnalyticsKey.MANAGE_TAB_SELECTION_CLICKED, {
+            analytics.push(AnalyticsKey.SETTINGS_CURRENCY_CLICKED, {
               properties: {
                 currency,
                 id,
@@ -191,7 +194,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const id = state.walletPath.wallet.guid
             const currency = 'XLM'
 
-            analytics.push(AnalyticsKey.MANAGE_TAB_SELECTION_CLICKED, {
+            analytics.push(AnalyticsKey.SETTINGS_CURRENCY_CLICKED, {
               properties: {
                 currency,
                 id,
@@ -1854,19 +1857,21 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-      case AT.wallet.MANAGE_WALLET: {
+      case AT.wallet.MANAGE_WALLET_SELECTION: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id
         const email = state.profile.userData.getOrElse({})?.email
         const tier = state.profile.userData.getOrElse({})?.tiers.current
         const id = state.walletPath.wallet.guid
         const { currency } = action.payload
+        const selection = manageTabSelectionClickedSelectionDictionary(action.payload.selection)
 
-        analytics.push(AnalyticsKey.MANAGE_WALLET_CLICKED, {
+        analytics.push(AnalyticsKey.MANAGE_TAB_SELECTION_CLICKED, {
           properties: {
             currency,
             id,
-            originalTimestamp: getOriginalTimestamp()
+            originalTimestamp: getOriginalTimestamp(),
+            selection
           },
           traits: {
             email,
@@ -1886,12 +1891,129 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const isEmailEnabled = action.payload.types.includes(32)
         const isSMSEnabled = action.payload.types.includes(32)
 
-        analytics.push(AnalyticsKey.MANAGE_WALLET_CLICKED, {
+        analytics.push(AnalyticsKey.NOTIFICATION_PREFERENCES_UPDATED, {
           properties: {
             email_enabled: isEmailEnabled,
             id,
             originalTimestamp: getOriginalTimestamp(),
             sms_enabled: isSMSEnabled
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.modules.settings.SHOW_BTC_PRIV_KEY: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const email = state.profile.userData.getOrElse({})?.email
+        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const id = state.walletPath.wallet.guid
+        const currency = 'BTC'
+
+        analytics.push(AnalyticsKey.PRIVATE_KEYS_SHOWN, {
+          properties: {
+            currency,
+            id,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.modules.settings.SHOW_ETH_PRIV_KEY: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const email = state.profile.userData.getOrElse({})?.email
+        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const id = state.walletPath.wallet.guid
+        const currency = 'ETH'
+
+        analytics.push(AnalyticsKey.PRIVATE_KEYS_SHOWN, {
+          properties: {
+            currency,
+            id,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.modules.settings.SHOW_XLM_PRIV_KEY: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const email = state.profile.userData.getOrElse({})?.email
+        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const id = state.walletPath.wallet.guid
+        const currency = 'XLM'
+
+        analytics.push(AnalyticsKey.PRIVATE_KEYS_SHOWN, {
+          properties: {
+            currency,
+            id,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.modules.settings.GENERAL_SETTINGS_EXTERNAL_REDIRECT: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const email = state.profile.userData.getOrElse({})?.email
+        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const id = state.walletPath.wallet.guid
+        const destination = settingsHyperlinkClickedDestinationDictionary(
+          action.payload.destination
+        )
+
+        analytics.push(AnalyticsKey.SETTINGS_HYPERLINK_CLICKED, {
+          properties: {
+            destination,
+            id,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.modules.settings.GENERAL_SETTINGS_INTERNAL_REDIRECT: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const email = state.profile.userData.getOrElse({})?.email
+        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const id = state.walletPath.wallet.guid
+        const destination = settingsTabClickedDestinationDictionary(action.payload.destination)
+
+        analytics.push(AnalyticsKey.SETTINGS_TAB_CLICKED, {
+          properties: {
+            destination,
+            id,
+            originalTimestamp: getOriginalTimestamp()
           },
           traits: {
             email,

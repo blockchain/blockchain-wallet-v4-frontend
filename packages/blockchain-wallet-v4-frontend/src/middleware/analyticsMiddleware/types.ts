@@ -30,9 +30,8 @@ enum AnalyticsKey {
   INTEREST_WITHDRAWAL_VIEWED = 'Interest Withdrawal Viewed',
   LINK_BANK_CLICKED = 'Link Bank Clicked',
   MANAGE_TAB_SELECTION_CLICKED = 'Manage Tab Selection Clicked',
-  MANAGE_WALLET_CLICKED = 'Manage Wallet Clicked',
   NOTIFICATION_PREFERENCES_UPDATED = 'Notification Preferences Updated',
-  PRIVATE_KEYS_SHOWN = 'Private Keys Shown', // TODO
+  PRIVATE_KEYS_SHOWN = 'Private Keys Shown',
   RECEIVE_CURRENCY_SELECTED = 'Receive Currency Selected',
   RECEIVE_DETAILS_COPIED = 'Receive Details Copied',
   SELL_AMOUNT_ENTERED = 'Sell Amount Entered',
@@ -45,9 +44,9 @@ enum AnalyticsKey {
   SEND_RECEIVE_CLICKED = 'Send Receive Clicked', // HALF DONE
   SEND_RECEIVE_VIEWED = 'Send Receive Viewed', // HALF DONE
   SEND_SUBMITTED = 'Send Submitted', // BLOCKED
-  SETTINGS_CURRENCY_CLICKED = 'Settings Currency Clicked', // TODO
-  SETTINGS_HYPERLINK_CLICKED = 'Settings Hyperlink Clicked', // TODO
-  SETTINGS_TAB_CLICKED = 'Settings Tab Clicked', // TODO
+  SETTINGS_CURRENCY_CLICKED = 'Settings Currency Clicked',
+  SETTINGS_HYPERLINK_CLICKED = 'Settings Hyperlink Clicked',
+  SETTINGS_TAB_CLICKED = 'Settings Tab Clicked',
   SIGNED_IN = 'Signed In',
   SIGNED_OUT = 'Signed Out',
   SWAP_ACCOUNTS_SELECTED = 'Swap Accounts Selected',
@@ -314,13 +313,15 @@ type LinkBankClickedPayload = BasePayload & {
   origin: LinkBankClickedOrigin
 }
 
+type ManageTabSelectionClickedSelection =
+  | 'EDIT_WALLET_NAME'
+  | 'RECOVER_FUNDS'
+  | 'SHOW_CHANGE_ADDRESSES'
+  | 'SHOW_XPUB'
+
 type ManageTabSelectionClickedPayload = BasePayload & {
   currency: string
-  selection: 'EDIT_WALLET_NAME' | 'RECOVER_FUNDS' | 'SHOW_CHANGE_ADDRESSES' | 'SHOW_XPUB'
-}
-
-type ManageWalletClickedPayload = BasePayload & {
-  currency: string
+  selection: ManageTabSelectionClickedSelection
 }
 
 type NotificationPreferencesUpdatedPayload = BasePayload & {
@@ -406,12 +407,20 @@ type SettingsCurrencyClickedPayload = BasePayload & {
   currency: string
 }
 
+type SettingsHyperlinkClickedDestination = 'ABOUT' | 'PRIVACY_POLICY' | 'TERMS_OF_SERVICE'
+
 type SettingsHyperlinkClickedPayload = BasePayload & {
-  destination: 'ABOUT' | 'PRIVACY_POLICY' | 'TERMS_OF_SERVICE'
+  destination: SettingsHyperlinkClickedDestination
 }
 
+type SettingsTabClickedDestination =
+  | 'GENERAL'
+  | 'PREFERENCES'
+  | 'TRADING_LIMITS'
+  | 'WALLETS&ADDRESSES'
+
 type SettingsTabClickedPayload = BasePayload & {
-  settings_tab: 'GENERAL' | 'PREFERENCES' | 'TRADING_LIMITS' | 'WALLETS&ADDRESSES'
+  destination: SettingsTabClickedDestination
 }
 
 type SignedInPayload = BasePayload & {}
@@ -570,7 +579,6 @@ type AnalyticsProperties =
   | InterestWithdrawalViewedPayload
   | LinkBankClickedPayload
   | ManageTabSelectionClickedPayload
-  | ManageWalletClickedPayload
   | NotificationPreferencesUpdatedPayload
   | PrivateKeysShownPayload
   | ReceiveCurrencySelectedPayload
@@ -627,9 +635,12 @@ export type {
   InterestSubmitInformationClickedOrigin,
   InterestWithdrawalClickedOrigin,
   LinkBankClickedOrigin,
+  ManageTabSelectionClickedSelection,
   PageNames,
   RawEvent,
   SendReceiveClickedOrigin,
+  SettingsHyperlinkClickedDestination,
+  SettingsTabClickedDestination,
   SwapClickedOrigin,
   UpgradeVerificationClickedOrigin,
   WithdrawalClickedOrigin
