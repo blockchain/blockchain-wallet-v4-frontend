@@ -2,8 +2,6 @@ import { head, isNil, nth } from 'ramda'
 import { call, CallEffect, put, select, take } from 'redux-saga/effects'
 
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { UnitType } from 'blockchain-wallet-v4/src/exchange'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import { NO_DEFAULT_ACCOUNT } from 'blockchain-wallet-v4/src/model'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import {
@@ -13,7 +11,7 @@ import {
   PaymentType,
   PaymentValue,
   RatesType,
-  SBBalancesType,
+  SBBalancesType
 } from 'blockchain-wallet-v4/src/types'
 import { actions, actionTypes, selectors } from 'data'
 import { promptForSecondPassword } from 'services/sagas'
@@ -26,7 +24,7 @@ import * as S from './selectors'
 export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
   const { calculateProvisionalPayment } = exchangeSagaUtils({
     coreSagas,
-    networks,
+    networks
   })
 
   const buildAndPublishPayment = function* (
@@ -86,17 +84,17 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
         coin,
         currency: userCurrency,
         rates,
-        value: baseUnitBalance,
+        value: baseUnitBalance
       })
       const maxCoin = Exchange.convertCoinToCoin({
         coin,
-        value: baseUnitBalance,
+        value: baseUnitBalance
       })
       const minCoin = Exchange.convertFiatToCoin({
         coin,
         currency: walletCurrency,
         rates,
-        value: Number(convertBaseToStandard('FIAT', minFiat)),
+        value: Number(convertBaseToStandard('FIAT', minFiat))
       })
 
       yield put(
@@ -106,7 +104,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
 
           maxFiat: Number(maxFiat),
           minCoin: Number(minCoin),
-          minFiat: Number(convertBaseToStandard('FIAT', minFiat)),
+          minFiat: Number(convertBaseToStandard('FIAT', minFiat))
         })
       )
     } catch (e) {
@@ -135,8 +133,8 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
         ...restDetails,
         address: currencyDetails.address,
         label: 'Trading Account',
-        type: ADDRESS_TYPES.CUSTODIAL,
-      },
+        type: ADDRESS_TYPES.CUSTODIAL
+      }
     ]
   }
 
@@ -146,7 +144,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     yield put(actions.components.send.fetchPaymentsTradingAccount(coin))
     yield take([
       actionTypes.components.send.FETCH_PAYMENTS_TRADING_ACCOUNTS_SUCCESS,
-      actionTypes.components.send.FETCH_PAYMENTS_TRADING_ACCOUNTS_FAILURE,
+      actionTypes.components.send.FETCH_PAYMENTS_TRADING_ACCOUNTS_FAILURE
     ])
 
     const accountAddress = selectors.components.send.getPaymentsTradingAccountAddress(
@@ -160,7 +158,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
       .map((x) => ({
         ...x[coin],
         address: accountAddress ? accountAddress.data : null,
-        coin,
+        coin
       }))
       .map(toCustodialDropdown)
 
@@ -184,6 +182,6 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     buildAndPublishPayment,
     createLimits,
     createPayment,
-    getCustodialAccountForCoin,
+    getCustodialAccountForCoin
   }
 }
