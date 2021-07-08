@@ -14,13 +14,11 @@ const Icon = styled(BCIcon)`
   font-weight: 600;
 `
 const getSymbolDisplayName = (props: Props) => {
-  const { coinfig } = window.coins[props.tx.amount.symbol]
-  return coinfig.type.isFiat ? 'Bank' : props.tx.amount.symbol
+  return props.tx.amount.symbol
 }
 
 const getCoinDisplayName = (props: Props) => {
-  const { coinfig } = window.coins[props.coin]
-  return coinfig.type.isFiat ? 'Bank' : props.coin
+  return props.coin
 }
 
 export const IconTx = (props: Props) => {
@@ -195,7 +193,11 @@ export const Origin = (props: Props) => {
     case 'CHARGE':
     case 'REFUNDED':
     case 'DEPOSIT':
-      return <>{getCoinDisplayName(props)} Account</>
+      return !window.coins[props.tx.amount.symbol]?.coinfig?.type?.isFiat ? (
+        <>{getCoinDisplayName(props)} Account</>
+      ) : (
+        <>Bank Account</>
+      )
     case 'SELL':
       return props.tx.extraAttributes?.direction === 'FROM_USERKEY' ? (
         <> {getSymbolDisplayName(props)} Account</>
@@ -217,7 +219,11 @@ export const Destination = (props: Props) => {
     case 'SELL':
       return <>{getCoinDisplayName(props)} Account</>
     case 'WITHDRAWAL':
-      return <>{getSymbolDisplayName(props)} Account</>
+      return !window.coins[props.tx.amount.symbol]?.coinfig?.type?.isFiat ? (
+        <>{getSymbolDisplayName(props)} Account</>
+      ) : (
+        <>Bank Account</>
+      )
     default:
       return <></>
   }
