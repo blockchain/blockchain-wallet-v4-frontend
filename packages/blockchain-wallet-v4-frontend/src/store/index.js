@@ -1,10 +1,11 @@
+/* eslint-disable */
 import BitcoinCash from 'bitcoinforksjs-lib'
 import * as Bitcoin from 'bitcoinjs-lib'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { createHashHistory } from 'history'
-import { applyMiddleware, compose, createStore } from 'redux'
 import { persistCombineReducers, persistStore } from 'redux-persist'
 import { configureStore } from '@reduxjs/toolkit'
+import { compose } from 'redux'
 import getStoredStateMigrateV4 from 'redux-persist/lib/integration/getStoredStateMigrateV4'
 import storage from 'redux-persist/lib/storage'
 import createSagaMiddleware from 'redux-saga'
@@ -50,9 +51,6 @@ const devToolsConfig = {
 const configuredStore = async function () {
   const history = createHashHistory()
   const sagaMiddleware = createSagaMiddleware()
-  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(devToolsConfig)
-    : compose
   const walletPath = 'wallet.payload'
   const kvStorePath = 'wallet.kvstore'
   const { isAuthenticated } = selectors.auth
@@ -90,9 +88,21 @@ const configuredStore = async function () {
     reauthenticate
   })
   const persistWhitelist = ['session', 'preferences', 'cache']
-
+  // console.log('fooooo', [
+  //   sagaMiddleware,
+  //   routerMiddleware(history),
+  //   coreMiddleware.kvStore({ api, isAuthenticated, kvStorePath }),
+  //   streamingXlm(xlmStreamingService, api),
+  //   webSocketRates(ratesSocket),
+  //   webSocketCoins(coinsSocket),
+  //   coreMiddleware.walletSync({ api, isAuthenticated, walletPath }),
+  //   matomoMiddleware(),
+  //   analyticsMiddleware(),
+  //   autoDisconnection()
+  // ])
   const store = configureStore({
-    middleware: [
+    devTools: devToolsConfig,
+    middleware: compose([
       sagaMiddleware,
       routerMiddleware(history),
       coreMiddleware.kvStore({ api, isAuthenticated, kvStorePath }),
@@ -103,7 +113,7 @@ const configuredStore = async function () {
       matomoMiddleware(),
       analyticsMiddleware(),
       autoDisconnection()
-    ],
+    ]),
     reducer: connectRouter(history)(
       persistCombineReducers(
         {
@@ -121,39 +131,7 @@ const configuredStore = async function () {
       )
     )
   })
-  // TODO: remove getStoredStateMigrateV4 someday (at least a year from now)
-  // const store = createStore(
-  //   connectRouter(history)(
-  //     persistCombineReducers(
-  //       {
-  //         getStoredState: getStoredStateMigrateV4({
-  //           whitelist: persistWhitelist,
-  //         }),
-  //         key: 'root',
-  //         storage,
-  //         whitelist: persistWhitelist,
-  //       },
-  //       {
-  //         router: connectRouter(history),
-  //         ...rootReducer,
-  //       }
-  //     )
-  //   ),
-  //   composeEnhancers(
-  //     applyMiddleware(
-        // sagaMiddleware,
-        // routerMiddleware(history),
-        // coreMiddleware.kvStore({ api, isAuthenticated, kvStorePath }),
-        // streamingXlm(xlmStreamingService, api),
-        // webSocketRates(ratesSocket),
-        // webSocketCoins(coinsSocket),
-        // coreMiddleware.walletSync({ api, isAuthenticated, walletPath }),
-        // matomoMiddleware(),
-        // analyticsMiddleware(),
-        // autoDisconnection()
-  //     )
-  //   )
-  // )
+
   const persistor = persistStore(store, null)
 
   sagaMiddleware.run(rootSaga, {
