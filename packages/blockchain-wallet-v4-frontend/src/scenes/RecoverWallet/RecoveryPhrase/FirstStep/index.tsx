@@ -47,6 +47,7 @@ const FirstStep = (props: Props) => {
     formValues,
     invalid,
     loginFormValues,
+    setStep,
     submitting
   } = props
   const phraseRange = range(1, 13)
@@ -68,7 +69,7 @@ const FirstStep = (props: Props) => {
         <GoBackArrow handleBackArrowClick={() => props.setStep(RecoverSteps.RECOVERY_OPTIONS)} />
       ) : (
         <BackArrowFormHeader
-          handleBackArrowClick={() => props.setStep(RecoverSteps.RECOVERY_OPTIONS)}
+          handleBackArrowClick={() => setStep(RecoverSteps.RECOVERY_OPTIONS)}
           email={cachedEmail}
           guid={cachedGuid}
         />
@@ -158,22 +159,20 @@ const FirstStep = (props: Props) => {
             defaultMessage='Trouble Logging In?'
           />
         </Text>
-        <LinkContainer to='/login'>
-          <Text
-            size='13px'
-            weight={600}
-            color='blue600'
-            data-e2e='troubleLoggingIn'
-            cursor='pointer'
-            // onClick={() => formActions.change('login', 'step', LoginSteps.RECOVERY_OPTIONS)}
-            style={{ marginLeft: '4px' }}
-          >
-            <FormattedMessage
-              id='scenes.login.reset_your_account'
-              defaultMessage='Reset your account'
-            />
-          </Text>
-        </LinkContainer>
+        <Text
+          size='13px'
+          weight={600}
+          color='blue600'
+          data-e2e='troubleLoggingIn'
+          cursor='pointer'
+          onClick={() => formActions.change('recover', 'step', RecoverSteps.RESET_ACCOUNT)}
+          style={{ marginLeft: '4px' }}
+        >
+          <FormattedMessage
+            id='scenes.login.reset_your_account'
+            defaultMessage='Reset your account'
+          />
+        </Text>
       </BottomRow>
     </>
   )

@@ -11,7 +11,7 @@ import { RecoverFormType, RecoverSteps } from 'data/types'
 import CloudRecovery from './CloudRecovery'
 import RecoveryOptions from './RecoveryOptions'
 import RecoveryPhrase from './RecoveryPhrase'
-// import ResetAccount from './ResetAccount'
+import ResetAccount from './ResetAccount'
 
 class RecoverWalletContainer extends React.PureComponent<InjectedFormProps<{}, Props> & Props> {
   componentDidMount() {
@@ -40,6 +40,8 @@ class RecoverWalletContainer extends React.PureComponent<InjectedFormProps<{}, P
                 return <CloudRecovery {...this.props} setStep={this.setStep} />
               case RecoverSteps.RECOVERY_PHRASE:
                 return <RecoveryPhrase {...this.props} setStep={this.setStep} />
+              case RecoverSteps.RESET_ACCOUNT:
+                return <ResetAccount {...this.props} setStep={this.setStep} />
               default:
                 return <RecoveryOptions {...this.props} setStep={this.setStep} />
             }

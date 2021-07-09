@@ -106,7 +106,7 @@ const CloudRecovery = (props: Props) => {
                   defaultMessage='Tap the QR Code Scanner icon'
                 />
               </Text>
-              <Icon name='qr-code' color='grey600' size='12px' />
+              <Icon name='qr-scanner' color='grey900' size='16px' />
             </Row>
             <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
               <FormattedMessage

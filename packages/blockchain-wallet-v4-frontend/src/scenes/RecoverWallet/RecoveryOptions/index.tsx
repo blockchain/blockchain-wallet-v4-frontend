@@ -9,7 +9,7 @@ import { selectors } from 'data'
 import { RecoverSteps } from 'data/types'
 
 import { Props as OwnProps } from '..'
-import { BackArrowFormHeader, GoBackArrow, RecoveryCircleBackground } from '../model'
+import { BackArrowFormHeader, CircleBackground, GoBackArrow } from '../model'
 
 const FormBody = styled.div`
   display: flex;
@@ -63,9 +63,9 @@ const RecoveryOptions = (props: Props) => {
         <IconTextRow
           onClick={() => formActions.change('recover', 'step', RecoverSteps.CLOUD_RECOVERY)}
         >
-          <RecoveryCircleBackground color='blue000'>
+          <CircleBackground color='blue000'>
             <Icon name='cloud' color='blue600' size='16px' />
-          </RecoveryCircleBackground>
+          </CircleBackground>
           <TextStack>
             <Text color='grey900' size='14px' weight={600} lineHeight='1.5'>
               <FormattedMessage
@@ -85,9 +85,9 @@ const RecoveryOptions = (props: Props) => {
         <IconTextRow
           onClick={() => formActions.change('recover', 'step', RecoverSteps.RECOVERY_PHRASE)}
         >
-          <RecoveryCircleBackground color='blue000'>
+          <CircleBackground color='blue000'>
             <Icon name='keyboard' color='blue600' size='22px' />
-          </RecoveryCircleBackground>
+          </CircleBackground>
           <TextStack>
             <Text color='grey900' size='14px' weight={600} lineHeight='1.5'>
               <FormattedMessage

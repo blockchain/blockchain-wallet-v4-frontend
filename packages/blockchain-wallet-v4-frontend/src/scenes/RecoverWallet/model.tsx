@@ -12,21 +12,21 @@ export const CartridgeSentContainer = styled.div`
   width: auto;
 `
 
-export const RecoveryCircleBackground = styled.div`
+export const CircleBackground = styled.div<{ color?: string; size?: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 48px;
-  height: 48px;
-  min-width: 48px;
-  background-color: ${(props) => props.theme.blue000};
-  border-radius: 48px;
+  width: ${(props) => (props.size ? props.size : '48px')};
+  height: ${(props) => (props.size ? props.size : '48px')};
+  min-width: ${(props) => (props.size ? props.size : '48px')};
+  background-color: ${(props) => (props.color ? props.theme[props.color] : props.theme.blue000)};
+  border-radius: ${(props) => (props.size ? props.size : '48px')};
   margin: 8px 8px 8px 0;
 `
 
 const TopRow = styled.div`
   display: flex;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 `
 
 export const Column = styled.div`

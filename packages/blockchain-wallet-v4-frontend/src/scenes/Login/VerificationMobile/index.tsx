@@ -14,13 +14,7 @@ import { actions, selectors } from 'data'
 import { LoginSteps } from 'data/types'
 
 import { Props as OwnProps } from '..'
-import {
-  BackArrowFormHeader,
-  CartridgeSentContainer,
-  LOGIN_FORM_NAME,
-  NeedHelpLink,
-  Row
-} from '../model'
+import { BackArrowFormHeader, LOGIN_FORM_NAME, NeedHelpLink, Row } from '../model'
 
 const Body = styled.div`
   display: flex;
@@ -29,7 +23,7 @@ const Body = styled.div`
 const TextColumn = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 55%;
+  max-width: 60%;
   margin-right: 24px;
 `
 const LinkRow = styled.div`
@@ -80,19 +74,13 @@ const VerificationMobile = (props: Props) => {
               />
             </Text>
             <Row>
-              <Text
-                color='grey900'
-                size='12px'
-                weight={500}
-                lineHeight='1.5'
-                style={{ marginRight: '4px' }}
-              >
+              <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
                 <FormattedMessage
                   id='scenes.recovery.cloud_backup.instructions_two'
                   defaultMessage='Tap the QR Code Scanner icon'
                 />
               </Text>
-              <Icon name='qr-code' color='grey600' size='12px' />
+              <Icon name='qr-scanner' color='grey900' size='16px' />
             </Row>
             <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
               <FormattedMessage
