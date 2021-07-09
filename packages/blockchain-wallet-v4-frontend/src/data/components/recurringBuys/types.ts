@@ -1,7 +1,8 @@
 import * as AT from './actionTypes'
 
 export enum RecurringBuysStepType {
-  'INIT_PAGE'
+  'INIT_PAGE',
+  'GET_STARTED'
 }
 
 // state

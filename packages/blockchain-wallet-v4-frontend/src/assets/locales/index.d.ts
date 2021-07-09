@@ -1231,6 +1231,11 @@ type MessagesType = {
   'modals.recurringbuys.timeframe.2_weeks': 'Every 2 weeks'
   'modals.recurringbuys.timeframe.every_month': 'Every month'
 
+  'modals.recurringbuys.get_started.title': 'Set Up a Recurring Buy'
+  'modals.recurringbuys.get_started.description': 'Buy {amount} of {currency} every day, week or month with a Recurring Buy. No need to ever time the market.'
+  'modals.recurringbuys.get_started.get_started': 'Get Started'
+  'modals.recurringbuys.get_started.maybe_later': 'Maybe Later'
+
   'modals.repayloan.chooseamttorepay': 'Choose how much you want to repay'
   'modals.repayloan.choosewaytopay': 'How do you want to repay?'
   'modals.repayloan.repayamount': 'Repay amount'
