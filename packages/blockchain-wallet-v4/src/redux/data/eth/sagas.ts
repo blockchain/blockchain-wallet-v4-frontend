@@ -239,7 +239,8 @@ export default ({ api }: { api: APIType }) => {
     try {
       yield all(
         data.tokenAccounts.map(function* (val) {
-          const symbol = val.tokenSymbol
+          // TODO: erc20 phase 2, key off hash not symbol
+          const symbol = toUpper(val.tokenSymbol)
           yield put(A.fetchErc20DataLoading(symbol))
           yield put(A.fetchErc20Rates(symbol))
           const contract = val.tokenHash
