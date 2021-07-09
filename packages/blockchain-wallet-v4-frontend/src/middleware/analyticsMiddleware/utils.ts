@@ -3,6 +3,9 @@ import type {
   BuySellClickedOrigin,
   InterestDepositClickedOrigin,
   LinkBankClickedOrigin,
+  ManageTabSelectionClickedSelection,
+  SettingsHyperlinkClickedDestination,
+  SettingsTabClickedDestination,
   SwapClickedOrigin,
   UpgradeVerificationClickedOrigin
 } from 'middleware/analyticsMiddleware/types'
@@ -111,6 +114,57 @@ const linkBankClickedOriginDictionary = (
   }
 }
 
+const manageTabSelectionClickedSelectionDictionary = (
+  rawSelection: string
+): ManageTabSelectionClickedSelection => {
+  switch (rawSelection) {
+    case 'EditWalletName':
+      return 'EDIT_WALLET_NAME'
+    case 'RecoverFunds':
+      return 'RECOVER_FUNDS'
+    case 'ShowChangeAddresses':
+      return 'SHOW_CHANGE_ADDRESSES'
+    case 'ShowXPub':
+      return 'SHOW_XPUB'
+    default:
+      throw new Error('Selection not found')
+  }
+}
+
+const settingsHyperlinkClickedDestinationDictionary = (
+  rawDestination: string
+): SettingsHyperlinkClickedDestination => {
+  switch (rawDestination) {
+    case '/about':
+      return 'ABOUT'
+    case '/legal/privacy':
+      return 'PRIVACY_POLICY'
+    case '/legal/terms':
+      return 'TERMS_OF_SERVICE'
+    default: {
+      throw new Error('Destination not found')
+    }
+  }
+}
+
+const settingsTabClickedDestinationDictionary = (
+  rawDestination: string
+): SettingsTabClickedDestination => {
+  switch (rawDestination) {
+    case 'General':
+      return 'GENERAL'
+    case 'Preferences':
+      return 'PREFERENCES'
+    case 'TradingLimits':
+      return 'TRADING_LIMITS'
+    case 'WalletAndAddresses':
+      return 'WALLETS&ADDRESSES'
+    default: {
+      throw new Error('Destination not found')
+    }
+  }
+}
+
 const swapClickedOriginDictionary = (rawOrigin: string): SwapClickedOrigin => {
   switch (rawOrigin) {
     case 'Goals':
@@ -166,6 +220,9 @@ export {
   getOriginalTimestamp,
   interestDepositClickedOriginDictionary,
   linkBankClickedOriginDictionary,
+  manageTabSelectionClickedSelectionDictionary,
+  settingsHyperlinkClickedDestinationDictionary,
+  settingsTabClickedDestinationDictionary,
   swapClickedOriginDictionary,
   upgradeVerificationClickedOriginDictionary
 }

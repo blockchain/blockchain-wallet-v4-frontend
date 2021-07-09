@@ -7,7 +7,7 @@ import { addLanguageToUrl } from 'services/locales'
 export default () => {
   const logLocation = 'preferences/sagas'
 
-  const setLanguage = function * (action) {
+  const setLanguage = function* (action) {
     const { language, showAlert } = action.payload
     try {
       addLanguageToUrl(language)
@@ -20,7 +20,16 @@ export default () => {
     }
   }
 
+  const setLinkHandling = function () {
+    // Register BTC links
+    window.navigator.registerProtocolHandler('bitcoin', '/#/open/%s', 'Blockchain')
+
+    // Register BCH links
+    window.navigator.registerProtocolHandler('web+bitcoincash', '/#/open/%s', 'Blockchain')
+  }
+
   return {
-    setLanguage
+    setLanguage,
+    setLinkHandling
   }
 }

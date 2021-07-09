@@ -4,10 +4,8 @@ import { forEach, keysIn, map, prop, range, sortBy, split, take } from 'ramda'
 import { compose } from 'redux'
 import { SubmissionError } from 'redux-form'
 
-import { LinkDispatchPropsType, LinkStatePropsType, OwnPropsType } from '../index'
+import { Props } from '../index'
 import ConfirmWordsForm from './template'
-
-export type Props = OwnPropsType & LinkDispatchPropsType & LinkStatePropsType
 
 class ConfirmWords extends PureComponent<Props, StateType> {
   constructor(props) {
@@ -27,7 +25,7 @@ class ConfirmWords extends PureComponent<Props, StateType> {
       pair
     )(range(0, 12))
     /* eslint-disable */
-    this.setState({ indexes})
+    this.setState({ indexes })
     /* eslint-enable */
   }
 

@@ -17,17 +17,17 @@ class MobileNumberVerifyContainer extends React.PureComponent {
     this.handleChange = this.handleChange.bind(this)
   }
 
-  onSubmit() {
-    this.props.settingsActions.verifyMobile(this.props.code)
-  }
-
   handleResend() {
     this.props.settingsActions.resendMobile(this.props.mobileNumber)
   }
 
   handleChange() {
     this.props.modalActions.closeModal()
-    this.props.modalActions.showModal('MobileNumberChange')
+    this.props.modalActions.showModal('MOBILE_NUMBER_VERIFY_MODAL')
+  }
+
+  onSubmit() {
+    this.props.settingsActions.verifyMobile(this.props.code)
   }
 
   render() {
@@ -46,18 +46,18 @@ MobileNumberVerifyContainer.propTypes = {
   mobileNumber: PropTypes.string.isRequired
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   code: formValueSelector('mobileNumberVerify')(state, 'code'),
   smsVerified: selectors.core.settings.getSmsVerified(state).getOrElse()
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
 const enhance = compose(
-  modalEnhancer('MobileNumberVerify'),
+  modalEnhancer('MOBILE_NUMBER_VERIFY_MODAL'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

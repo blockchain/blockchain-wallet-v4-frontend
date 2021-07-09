@@ -10,7 +10,7 @@ import * as A from './actions'
 export const logLocation = 'components/settings/sagas'
 
 export default ({ api, coreSagas }) => {
-  const notificationsInitialized = function * () {
+  const notificationsInitialized = function* () {
     try {
       const typesR = yield select(selectors.core.settings.getNotificationsType)
       const types = typesR.getOrElse([])
@@ -20,19 +20,15 @@ export default ({ api, coreSagas }) => {
       }
       yield put(actions.form.initialize('settingsNotifications', initialValues))
     } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'notificationsInitialized', e)
-      )
+      yield put(actions.logs.logErrorMessage(logLocation, 'notificationsInitialized', e))
     }
   }
 
-  const notificationsFormChanged = function * (action) {
+  const notificationsFormChanged = function* (action) {
     try {
       const form = path(['meta', 'form'], action)
       if (!equals('settingsNotifications', form)) return
-      const formValues = yield select(
-        selectors.form.getFormValues('settingsNotifications')
-      )
+      const formValues = yield select(selectors.form.getFormValues('settingsNotifications'))
       const emailEnabled = prop('emailEnabled', formValues)
       const mobileEnabled = prop('mobileEnabled', formValues)
       const types = {
@@ -41,18 +37,14 @@ export default ({ api, coreSagas }) => {
       }
       yield call(coreSagas.settings.setNotificationsType, { types })
     } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'notificationsFormChanged', e)
-      )
+      yield put(actions.logs.logErrorMessage(logLocation, 'notificationsFormChanged', e))
     }
   }
 
-  const fetchProductsEligibility = function * () {
+  const fetchProductsEligibility = function* () {
     try {
       yield put(A.fetchProductsEligibilityLoading())
-      const userIdR = yield select(
-        selectors.core.kvStore.userCredentials.getUserId
-      )
+      const userIdR = yield select(selectors.core.kvStore.userCredentials.getUserId)
       const userId = userIdR.getOrElse(null)
       if (userId) {
         const data = yield call(api.getProductsEligibility)
