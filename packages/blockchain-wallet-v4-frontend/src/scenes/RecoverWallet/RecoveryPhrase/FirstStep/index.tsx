@@ -1,18 +1,16 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
 import { range } from 'ramda'
-import { Field, reduxForm } from 'redux-form'
+import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, HeartbeatLoader, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
-import { Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
-import { Wrapper } from 'components/Public'
+import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
+import { TextBox } from 'components/Form'
 import { RecoverSteps } from 'data/types'
-import { required, requiredNoErrorText, validMnemonic } from 'services/forms'
+import { requiredNoErrorText, validMnemonic } from 'services/forms'
 
 import { Props } from '../..'
-import { ActionButton, BackArrowFormHeader, GoBackArrow } from '../../model'
+import { BackArrowFormHeader, GoBackArrow } from '../../model'
 
 const FormBody = styled.div`
   display: flex;
@@ -27,7 +25,7 @@ const WordContainer = styled.div`
 `
 const BottomRow = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   margin-top: 24px;
 `
 const WordColumn = styled.div`
@@ -46,7 +44,7 @@ const FirstStep = (props: Props) => {
     formActions,
     formValues,
     invalid,
-    loginFormValues,
+    nabuId,
     setStep,
     submitting
   } = props
@@ -143,14 +141,13 @@ const FirstStep = (props: Props) => {
         style={{ marginBottom: '16px' }}
         onClick={() => formActions.change('recover', 'mnemonic', phrase)}
       >
-        {/* {submitting ? (
-        <HeartbeatLoader height='20px' width='20px' color='white' />
-      ) : (
-        <Text color='whiteFade900' size='16px' weight={600}>
-          <FormattedMessage id='scenes.login.recover_account' defaultMessage='Recover account' />
-        </Text>
-      )} */}
-        Change me
+        {submitting ? (
+          <HeartbeatLoader height='20px' width='20px' color='white' />
+        ) : (
+          <Text color='whiteFade900' size='16px' weight={600}>
+            <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
+          </Text>
+        )}
       </Button>
       <BottomRow>
         <Text size='13px' weight={600} color='grey600'>
@@ -159,20 +156,32 @@ const FirstStep = (props: Props) => {
             defaultMessage='Trouble Logging In?'
           />
         </Text>
-        <Text
-          size='13px'
-          weight={600}
-          color='blue600'
-          data-e2e='troubleLoggingIn'
-          cursor='pointer'
-          onClick={() => formActions.change('recover', 'step', RecoverSteps.RESET_ACCOUNT)}
-          style={{ marginLeft: '4px' }}
-        >
-          <FormattedMessage
-            id='scenes.login.reset_your_account'
-            defaultMessage='Reset your account'
-          />
-        </Text>
+        {nabuId ? (
+          <Text
+            size='13px'
+            weight={600}
+            color='blue600'
+            data-e2e='troubleLoggingIn'
+            cursor='pointer'
+            onClick={() => formActions.change('recover', 'step', RecoverSteps.RESET_ACCOUNT)}
+            style={{ marginLeft: '4px' }}
+          >
+            <FormattedMessage
+              id='scenes.login.reset_your_account'
+              defaultMessage='Reset your account'
+            />
+          </Text>
+        ) : (
+          <Link
+            weight={600}
+            size='13px'
+            target='_blank'
+            href='https://support.blockchain.com/'
+            style={{ marginLeft: '2px' }}
+          >
+            <FormattedMessage id='buttons.contact_support' defaultMessage='Contact Support' />
+          </Link>
+        )}
       </BottomRow>
     </>
   )

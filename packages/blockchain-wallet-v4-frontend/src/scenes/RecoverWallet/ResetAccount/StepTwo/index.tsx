@@ -44,9 +44,10 @@ const SecondStep = (props: Props) => {
   return (
     <>
       <BackArrowFormHeader
-        handleBackArrowClick={() => props.setStep(RecoverSteps.RECOVERY_OPTIONS)}
+        handleBackArrowClick={() => setStep(RecoverSteps.RECOVERY_OPTIONS)}
         email={cachedEmail}
         guid={cachedGuid}
+        step={RecoverSteps.RESET_ACCOUNT}
       />
       <FormGroup>
         <FormLabel htmlFor='password'>
@@ -82,7 +83,7 @@ const SecondStep = (props: Props) => {
         <Terms recovery />
       </FormGroup>
       <RectangleBackground>
-        <Text size='12px' weight={500} lineHeight='1.5'>
+        <Text size='12px' weight={500} lineHeight='1.5' color='grey900'>
           <FormattedMessage
             id='scenes.recovery.reverify'
             defaultMessage='For your security, you may have to re-verify your identity before accessing your trading or interest account. <a>Learn more</a>'

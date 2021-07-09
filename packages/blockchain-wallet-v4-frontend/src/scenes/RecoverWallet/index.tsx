@@ -62,6 +62,7 @@ const mapStateToProps = (state) => ({
   language: selectors.preferences.getLanguage(state),
   loginFormValues: selectors.form.getFormValues('login')(state),
   mnemonic: formValueSelector('recover')(state, 'mnemonic'),
+  nabuId: selectors.auth.getNabuId(state),
   password: formValueSelector('recover')(state, 'password') || '',
   registering: selectors.auth.getRegistering(state)
 })

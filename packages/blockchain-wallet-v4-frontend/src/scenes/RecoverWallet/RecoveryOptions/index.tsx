@@ -1,14 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
-import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
 
 import { Icon, Link, Text } from 'blockchain-info-components'
-import { selectors } from 'data'
 import { RecoverSteps } from 'data/types'
 
-import { Props as OwnProps } from '..'
+import { Props } from '..'
 import { BackArrowFormHeader, CircleBackground, GoBackArrow } from '../model'
 
 const FormBody = styled.div`
@@ -31,17 +28,7 @@ const TextStack = styled.div`
   max-width: 312px;
 `
 const RecoveryOptions = (props: Props) => {
-  const {
-    authActions,
-    cacheActions,
-    cachedEmail,
-    cachedGuid,
-    formActions,
-    formValues,
-    nabuId,
-    routerActions,
-    setStep
-  } = props
+  const { cachedEmail, cachedGuid, formActions, nabuId, routerActions } = props
   return (
     <>
       {!cachedEmail ? (
@@ -143,14 +130,4 @@ const RecoveryOptions = (props: Props) => {
   )
 }
 
-const mapStateToProps = (state) => ({
-  nabuId: selectors.auth.getNabuId(state)
-})
-
-const connector = connect(mapStateToProps)
-
-type Props = OwnProps & {
-  setStep: (step: RecoverSteps) => void
-} & ConnectedProps<typeof connector>
-
-export default connector(RecoveryOptions)
+export default RecoveryOptions

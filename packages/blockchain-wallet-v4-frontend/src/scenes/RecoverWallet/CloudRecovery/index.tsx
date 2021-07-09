@@ -24,11 +24,10 @@ const TextColumn = styled(Column)`
   max-width: 60%;
   margin-right: 16px;
 `
-const ActionButtons = styled(Column)`
-  align-items: center;
-`
-const BadgeRow = styled(Row)`
+const CenteredRow = styled(Row)`
   justify-content: center;
+`
+const BadgeRow = styled(CenteredRow)`
   margin: 24px 0;
   & > :first-child {
     margin-right: 16px;
@@ -36,18 +35,7 @@ const BadgeRow = styled(Row)`
 `
 
 const CloudRecovery = (props: Props) => {
-  const {
-    authActions,
-    cacheActions,
-    cachedEmail,
-    cachedGuid,
-    formActions,
-    formValues,
-    loginFormValues,
-    middlewareActions,
-    qrData,
-    setStep
-  } = props
+  const { cachedEmail, cachedGuid, qrData } = props
 
   return (
     <>
@@ -156,24 +144,13 @@ const CloudRecovery = (props: Props) => {
         <Badge size='40px' type='applestore' />
         <Badge size='40px' type='googleplay' />
       </BadgeRow>
-      <ActionButtons>
-        <Button
-          nature='empty-blue'
-          fullwidth
-          height='48px'
-          data-e2e='loginWithPassword'
-          style={{ marginBottom: '24px' }}
-          // we want to send them to login here
-          // onClick={() => setStep(RecoverSteps.ENTER_PASSWORD)}
-        >
-          <FormattedMessage id='buttons.login_with_password' defaultMessage='Login with Password' />
-        </Button>
+      <CenteredRow>
         <LinkContainer to='/help'>
           <Link size='13px' weight={600} data-e2e='loginGetHelp'>
             <FormattedMessage id='copy.need_some_help' defaultMessage='Need some help?' />
           </Link>
         </LinkContainer>
-      </ActionButtons>
+      </CenteredRow>
     </>
   )
 }

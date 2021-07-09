@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
+import { RecoverSteps } from 'data/types'
 
 export const ActionButton = styled(Button)`
   margin-top: 15px;
@@ -58,6 +59,7 @@ export const BackArrowFormHeader = (props: {
   email: string
   guid: string
   handleBackArrowClick: () => void
+  step?: RecoverSteps
 }) => {
   return (
     <>
@@ -80,13 +82,15 @@ export const BackArrowFormHeader = (props: {
               values={{ email: props.email }}
             />
           </Text>
-          <Text color='grey400' size='14px' weight={600} lineHeight='1.5'>
-            <FormattedMessage
-              id='scences.login.wallet_guid'
-              defaultMessage='Wallet: {guid}'
-              values={{ guid: props.guid }}
-            />
-          </Text>
+          {props.step !== RecoverSteps.RESET_ACCOUNT && (
+            <Text color='grey400' size='14px' weight={600} lineHeight='1.5'>
+              <FormattedMessage
+                id='scences.login.wallet_guid'
+                defaultMessage='Wallet: {guid}'
+                values={{ guid: props.guid }}
+              />
+            </Text>
+          )}
         </Column>
       </TopRow>
     </>

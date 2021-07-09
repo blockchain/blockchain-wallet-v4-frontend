@@ -6,7 +6,7 @@ import { Icon, Text } from 'blockchain-info-components'
 import { RecoverSteps } from 'data/types'
 
 import { ActionButton, BackArrowFormHeader, CircleBackground } from '../../model'
-import { Props } from '..'
+import { Props as OwnProps } from '..'
 
 const FormBody = styled.div`
   display: flex;
@@ -25,7 +25,7 @@ class StepOne extends React.PureComponent<Props, State> {
     if (this.state.firstModal === true) {
       this.setState({ firstModal: false })
     } else {
-      // do action that resets account, take them to new password screen
+      this.props.setFormStep()
     }
   }
 
@@ -45,6 +45,7 @@ class StepOne extends React.PureComponent<Props, State> {
           handleBackArrowClick={() => setStep(RecoverSteps.RECOVERY_OPTIONS)}
           email={cachedEmail}
           guid={cachedGuid}
+          step={RecoverSteps.RESET_ACCOUNT}
         />
         {this.state.firstModal ? (
           <FormBody>
@@ -131,5 +132,9 @@ class StepOne extends React.PureComponent<Props, State> {
 }
 
 type State = { firstModal: boolean }
+
+type Props = {
+  setFormStep: () => void
+} & OwnProps
 
 export default StepOne
