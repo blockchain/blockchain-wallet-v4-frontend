@@ -88,15 +88,13 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       formValues.step === LoginSteps.ENTER_EMAIL_GUID ||
       formValues.step === LoginSteps.CHECK_EMAIL
     ) {
-      if (formValues.step === LoginSteps.CHECK_EMAIL) {
-        this.initCaptcha()
-      }
       if (isGuid(guidOrEmail)) {
         formActions.change(LOGIN_FORM_NAME, 'guid', guidOrEmail)
         formActions.change(LOGIN_FORM_NAME, 'step', LoginSteps.VERIFICATION_MOBILE)
       } else {
         formActions.change(LOGIN_FORM_NAME, 'email', guidOrEmail)
         authActions.triggerWalletMagicLink(guidOrEmail, this.state.captchaToken)
+        this.initCaptcha()
       }
     } else {
       authActions.login(guid, password, auth, null, null)
