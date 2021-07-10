@@ -132,6 +132,10 @@ export const setBankDetails = (payload: BankDetailsPayload): BrokerageActionType
   type: AT.SET_BANK_DETAILS
 })
 
+export const fetchRBMethods = () => ({
+  type: AT.FETCH_RECURRING_BUY_METHODS
+})
+
 export const showModal = (origin: BrokerageModalOriginType, modalType: ModalNamesType) => ({
   payload: {
     modalType,

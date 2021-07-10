@@ -1205,7 +1205,7 @@ type MessagesType = {
 
   'modals.recurringbuys.notification.title': 'Recurring buys'
   'modals.recurringbuys.notification.button': 'Setup recurring buy'
-
+  'modals.recurringbuys.disabled.paymentmethod': 'Recurring buys are not available for this payment method yet.'
   'modals.recurringbuys.notification.page_1.title': 'Instead of timing the market, many smart investors use'
   'modals.recurringbuys.notification.page_1.description': 'Dollar cost averaging'
 
@@ -1221,6 +1221,11 @@ type MessagesType = {
   'modals.recurringbuys.notification.page_5.title': 'But does it work?'
   'modals.recurringbuys.notification.page_5.description': 'Over the past 5 years, buying Bitcoin every week performed better than timing the market'
   'modals.recurringbuys.notification.page_5.disclaimer': '82% of the time.'
+  'modals.recurringbuys.timeframe.one_time': 'One time purchase'
+  'modals.recurringbuys.timeframe.every_day': 'Every day'
+  'modals.recurringbuys.timeframe.every_week': 'Every week'
+  'modals.recurringbuys.timeframe.2_weeks': 'Every 2 weeks'
+  'modals.recurringbuys.timeframe.every_month': 'Every month'
 
   'modals.repayloan.chooseamttorepay': 'Choose how much you want to repay'
   'modals.repayloan.choosewaytopay': 'How do you want to repay?'

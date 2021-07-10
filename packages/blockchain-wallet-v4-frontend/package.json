@@ -67,7 +67,6 @@
     }
   },
   "dependencies": {
-    "axios": "0.21.1",
     "@babel/polyfill": "7.12.1",
     "@blockchain-com/components": "6.1.1",
     "@blockchain-com/constellation": "^0.0.2",
@@ -82,6 +81,7 @@
     "@visx/scale": "1.7.0",
     "@visx/shape": "1.8.0",
     "@visx/tooltip": "1.7.2",
+    "axios": "0.21.1",
     "base-64": "0.1.0",
     "bignumber.js": "8.0.2",
     "bip21": "2.0.3",
