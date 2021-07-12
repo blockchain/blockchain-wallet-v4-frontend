@@ -184,6 +184,16 @@ export const getCloutBalance = createDeepEqualSelector(
   }
 )
 
+export const getDogeBalance = createDeepEqualSelector(
+  [selectors.components.simpleBuy.getSBBalances],
+  (sbBalancesR: RemoteDataType<string, SBBalancesType>) => {
+    const sbDogeBalance = sbBalancesR.getOrElse({ DOGE: DEFAULT_SB_BALANCE }).DOGE
+    const sbBalance = sbDogeBalance ? sbDogeBalance.available : '0'
+
+    return Remote.of(new BigNumber(sbBalance))
+  }
+)
+
 export const getFiatBalance = curry(
   (
     currency: WalletFiatType,
