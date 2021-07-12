@@ -3,14 +3,16 @@ import { SBCoreActionTypes, SBCoreStateType } from './types'
 
 const DEFAULT_COIN_SB_STATE = {
   nextSBTransactionsURL: null,
-  pendingTxsN: 0,
+  pendingTxsN: 0
 }
 
+// TODO: erc20 phase 2, remove hardcoded list
 const INITIAL_STATE: SBCoreStateType = {
   AAVE: DEFAULT_COIN_SB_STATE,
   ALGO: DEFAULT_COIN_SB_STATE,
   BCH: DEFAULT_COIN_SB_STATE,
   BTC: DEFAULT_COIN_SB_STATE,
+  CLOUT: DEFAULT_COIN_SB_STATE,
   DOT: DEFAULT_COIN_SB_STATE,
   ETH: DEFAULT_COIN_SB_STATE,
   EUR: DEFAULT_COIN_SB_STATE,
@@ -20,7 +22,7 @@ const INITIAL_STATE: SBCoreStateType = {
   USDT: DEFAULT_COIN_SB_STATE,
   WDGLD: DEFAULT_COIN_SB_STATE,
   XLM: DEFAULT_COIN_SB_STATE,
-  YFI: DEFAULT_COIN_SB_STATE,
+  YFI: DEFAULT_COIN_SB_STATE
 }
 
 export function custodialReducer(state = INITIAL_STATE, action: SBCoreActionTypes) {
@@ -31,13 +33,15 @@ export function custodialReducer(state = INITIAL_STATE, action: SBCoreActionType
         [action.payload.coin]: {
           ...state[action.payload.coin],
           nextSBTransactionsURL: action.payload.next,
-          pendingTxsN: action.payload.pendingTxsN,
-        },
+          pendingTxsN: action.payload.pendingTxsN
+        }
       }
     }
     default:
       return {
-        ...state,
+        ...state
       }
   }
 }
+
+export default custodialReducer

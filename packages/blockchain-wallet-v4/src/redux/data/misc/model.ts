@@ -11,21 +11,23 @@ export const DEFAULT_PRICE_CHANGE: PriceChangeType = {
   overallChange: {
     diff: '0',
     movement: 'none',
-    percentChange: '0',
+    percentChange: '0'
   },
   positionChange: {
     diff: '0',
     movement: 'none',
-    percentChange: '0',
+    percentChange: '0'
   },
-  previousPrice: 1,
+  previousPrice: 1
 }
 
+// TODO: erc20 phase 2, remove hardcoded list
 export const initialPriceChange = {
   AAVE: Remote.NotAsked,
   ALGO: Remote.NotAsked,
   BCH: Remote.NotAsked,
   BTC: Remote.NotAsked,
+  CLOUT: Remote.NotAsked,
   DOT: Remote.NotAsked,
   ETH: Remote.NotAsked,
   EUR: Remote.Success(DEFAULT_PRICE_CHANGE),
@@ -35,7 +37,7 @@ export const initialPriceChange = {
   USDT: Remote.NotAsked,
   WDGLD: Remote.NotAsked,
   XLM: Remote.NotAsked,
-  YFI: Remote.NotAsked,
+  YFI: Remote.NotAsked
 }
 
 export const start: { [key in string]: number } = {
@@ -49,7 +51,7 @@ export const start: { [key in string]: number } = {
   USDT: 0,
   WDGLD: 0,
   XLM: 1409788800,
-  YFI: 0,
+  YFI: 0
 }
 
 export const calculateStart = (coin: CoinType, time: TimeRange) => {

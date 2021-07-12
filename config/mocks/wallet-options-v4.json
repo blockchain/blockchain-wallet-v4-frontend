@@ -262,6 +262,28 @@
           "learnMoreLink": "https://support.blockchain.com/hc/en-us/articles/360044952032",
           "minConfirmations": 20,
           "txExplorerBaseUrl": "https://polkascan.io/polkadot"
+        },
+        "CLOUT": {
+          "coinCode": "CLOUT",
+          "coinTicker": "CLOUT",
+          "coinfig": {
+            "name": "BitClout",
+            "precision": 9,
+            "products": [],
+            "symbol": "CLOUT",
+            "type": {
+              "logoPngUrl": "https://raw.githubusercontent.com/blockchain/coin-definitions/master/extensions/blockchains/bitclout/info/logo.png",
+              "minimumOnChainConfirmations": 4,
+              "name": "BitClout",
+              "parentChain": "CLOUT",
+              "websiteUrl": ""
+            }
+          },
+          "displayName": "BitClout",
+          "hasLockboxSupport": false,
+          "learnMoreLink": "",
+          "minConfirmations": 9,
+          "txExplorerBaseUrl": "https://bitclout.com"
         }
       },
       "sift": {

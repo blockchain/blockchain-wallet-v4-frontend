@@ -11,6 +11,7 @@ import { RootState } from 'data/rootReducer'
 import * as ALGO from './coins/algo'
 import * as BCH from './coins/bch'
 import * as BTC from './coins/btc'
+import * as CLOUT from './coins/clout'
 import * as DOT from './coins/dot'
 import * as ERC20 from './coins/erc20'
 import * as ETH from './coins/eth'
@@ -24,6 +25,7 @@ const coinSelectors = {
   ALGO,
   BCH,
   BTC,
+  CLOUT,
   DOT,
   ERC20,
   ETH,

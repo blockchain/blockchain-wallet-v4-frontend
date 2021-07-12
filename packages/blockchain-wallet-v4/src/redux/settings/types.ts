@@ -3,6 +3,7 @@ export type InvitationsType = {
   ALGO: boolean
   BCH: boolean
   BTC: boolean
+  CLOUT: boolean
   DOT: boolean
   ETH: boolean
   PAX: boolean

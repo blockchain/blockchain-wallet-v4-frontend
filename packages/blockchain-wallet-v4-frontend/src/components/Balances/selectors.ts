@@ -174,6 +174,16 @@ export const getAlgoBalance = createDeepEqualSelector(
   }
 )
 
+export const getCloutBalance = createDeepEqualSelector(
+  [selectors.components.simpleBuy.getSBBalances],
+  (sbBalancesR: RemoteDataType<string, SBBalancesType>) => {
+    const sbCloutBalance = sbBalancesR.getOrElse({ CLOUT: DEFAULT_SB_BALANCE }).CLOUT
+    const sbBalance = sbCloutBalance ? sbCloutBalance.available : '0'
+
+    return Remote.of(new BigNumber(sbBalance))
+  }
+)
+
 export const getFiatBalance = curry(
   (
     currency: WalletFiatType,
@@ -305,6 +315,8 @@ export const getBalanceSelector = (coin: string) => {
       return getBchBalance
     case 'BTC':
       return getBtcBalance
+    case 'CLOUT':
+      return getCloutBalance
     case 'DOT':
       return getDotBalance
     case 'ETH':
@@ -326,6 +338,7 @@ export const getAllCoinsBalancesSelector = (state) => {
     ALGO: getAlgoBalance(state).getOrElse(new BigNumber(0)).valueOf(),
     BCH: new BigNumber(getBchBalance(state).getOrElse(0)).valueOf(),
     BTC: new BigNumber(getBtcBalance(state).getOrElse(0)).valueOf(),
+    CLOUT: new BigNumber(getCloutBalance(state).getOrElse(0)).valueOf(),
     DOT: getDotBalance(state).getOrElse(new BigNumber(0)).valueOf(),
     ETH: getEthBalance(state).getOrElse(new BigNumber(0)).valueOf(),
     XLM: getXlmBalance(state).getOrElse(new BigNumber(0)).valueOf()

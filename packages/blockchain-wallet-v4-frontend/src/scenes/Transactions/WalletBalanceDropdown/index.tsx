@@ -152,7 +152,7 @@ class WalletBalanceDropdown extends Component<Props> {
   isTotalBalanceType = (selectProps) => {
     // BTC/BCH
     if (selectProps.value === 'all') return true
-    // ETH/PAX/STELLAR/ALGO
+    // ETH/PAX/STELLAR...
     return !selectProps.value
   }
 
