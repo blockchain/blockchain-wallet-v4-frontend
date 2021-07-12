@@ -11,6 +11,7 @@ import { getData as getAlgoAddressData } from 'components/Form/SelectBoxAlgoAddr
 import { getData as getBchAddressData } from 'components/Form/SelectBoxBchAddresses/selectors'
 import { getData as getBtcAddressData } from 'components/Form/SelectBoxBtcAddresses/selectors'
 import { getData as getCloutAddressData } from 'components/Form/SelectBoxCloutAddresses/selectors'
+import { getData as getDogeAddressData } from 'components/Form/SelectBoxDogeAddresses/selectors'
 import { getData as getDotAddressData } from 'components/Form/SelectBoxDotAddresses/selectors'
 import {
   getErc20Data as getErc20AddressData,
@@ -80,6 +81,12 @@ export const getData = (state, ownProps: OwnProps) => {
         includeCustodial: true
       })
       balanceDataR = balanceSelectors.getCloutBalance(state)
+      break
+    case 'DOGE':
+      addressDataR = getDogeAddressData(state, {
+        includeCustodial: true
+      })
+      balanceDataR = balanceSelectors.getDogeBalance(state)
       break
     case 'DOT':
       addressDataR = getDotAddressData(state, {

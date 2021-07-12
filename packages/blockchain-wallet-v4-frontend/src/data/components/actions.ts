@@ -4,6 +4,7 @@ import * as borrow from './borrow/actions'
 import * as brokerage from './brokerage/actions'
 import * as btcTransactions from './btcTransactions/actions'
 import * as cloutTransactions from './cloutTransactions/actions'
+import * as dogeTransactions from './dogeTransactions/actions'
 import * as dotTransactions from './dotTransactions/actions'
 import * as ethTransactions from './ethTransactions/actions'
 import * as fiatTransactions from './fiatTransactions/actions'
@@ -44,6 +45,7 @@ export {
   brokerage,
   btcTransactions,
   cloutTransactions,
+  dogeTransactions,
   dotTransactions,
   ethTransactions,
   fiatTransactions,

@@ -4,6 +4,7 @@ import borrow from './borrow/sagas'
 import brokerage from './brokerage/sagas'
 import btcTransactions from './btcTransactions/sagas'
 import cloutTransactions from './cloutTransactions/sagas'
+import dogeTransactions from './dogeTransactions/sagas'
 import dotTransactions from './dotTransactions/sagas'
 import ethTransactions from './ethTransactions/sagas'
 import fiatTransactions from './fiatTransactions/sagas'
@@ -40,6 +41,7 @@ export default ({ api, coreSagas, networks }) => ({
   brokerage: brokerage({ api, coreSagas, networks }),
   btcTransactions: btcTransactions(),
   cloutTransactions: cloutTransactions(),
+  dogeTransactions: dogeTransactions(),
   dotTransactions: dotTransactions(),
   ethTransactions: ethTransactions(),
   fiatTransactions: fiatTransactions(),

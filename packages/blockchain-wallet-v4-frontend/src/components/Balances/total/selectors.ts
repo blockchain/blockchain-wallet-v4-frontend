@@ -13,6 +13,7 @@ export const getTotalBalance = createDeepEqualSelector(
     S.getBchBalanceInfo,
     S.getBtcBalanceInfo,
     S.getCloutBalanceInfo,
+    S.getDogeBalanceInfo,
     S.getDotBalanceInfo,
     S.getEthBalanceInfo,
     S.getXlmBalanceInfo,
@@ -27,6 +28,7 @@ export const getTotalBalance = createDeepEqualSelector(
     btcBalanceInfoR,
     dotBalanceInfoR,
     cloutBalanceInfoR,
+    dogeBalanceInfoR,
     ethBalanceInfoR,
     xlmBalanceInfoR,
     fiatBalanceInfoR,
@@ -38,8 +40,9 @@ export const getTotalBalance = createDeepEqualSelector(
       algoBalance,
       bchBalance,
       btcBalance,
-      cloutBalance,
-      dotBalance,
+      // cloutBalance,
+      // dogeBalance,
+      // dotBalance,
       ethBalance,
       xlmBalance,
       fiatBalance,
@@ -54,9 +57,10 @@ export const getTotalBalance = createDeepEqualSelector(
         Number(algoBalance) +
           Number(bchBalance) +
           Number(btcBalance) +
-          Number(cloutBalance) +
+          Number(cloutBalanceInfoR.getOrElse('0')) +
+          Number(dogeBalanceInfoR.getOrElse('0')) +
+          Number(dotBalanceInfoR.getOrElse('0')) +
           Number(ethBalance) +
-          Number(dotBalance) +
           Number(xlmBalance) +
           Number(fiatBalance) +
           erc20Balance
@@ -68,8 +72,9 @@ export const getTotalBalance = createDeepEqualSelector(
       algoBalanceInfoR,
       bchBalanceInfoR,
       btcBalanceInfoR,
-      cloutBalanceInfoR,
-      dotBalanceInfoR,
+      // cloutBalanceInfoR,
+      // dogeBalanceInfoR,
+      // dotBalanceInfoR,
       ethBalanceInfoR,
       xlmBalanceInfoR,
       fiatBalanceInfoR,

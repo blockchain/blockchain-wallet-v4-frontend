@@ -38,6 +38,7 @@ export const getCoinsWithMethodAndOrder = (state: RootState) => {
       coins.ALGO,
       coins.DOT,
       coins.CLOUT,
+      coins.DOGE,
       // ...coins.rest // erc20s
       ...[...new Set([...erc20s.map(({ tokenSymbol }) => tokenSymbol), ...custodialErc20s])].map(
         (value) => {

@@ -6,6 +6,7 @@ export const DEFAULT_INVITATIONS: InvitationsType = {
   BCH: true,
   BTC: true,
   CLOUT: true,
+  DOGE: true,
   DOT: true,
   ETH: true,
   PAX: true,

@@ -12,6 +12,7 @@ import * as ALGO from './coins/algo'
 import * as BCH from './coins/bch'
 import * as BTC from './coins/btc'
 import * as CLOUT from './coins/clout'
+import * as DOGE from './coins/doge'
 import * as DOT from './coins/dot'
 import * as ERC20 from './coins/erc20'
 import * as ETH from './coins/eth'
@@ -26,6 +27,7 @@ const coinSelectors = {
   BCH,
   BTC,
   CLOUT,
+  DOGE,
   DOT,
   ERC20,
   ETH,
