@@ -338,7 +338,7 @@ export const getAllCoinsBalancesSelector = (state) => {
     ALGO: getAlgoBalance(state).getOrElse(new BigNumber(0)).valueOf(),
     BCH: new BigNumber(getBchBalance(state).getOrElse(0)).valueOf(),
     BTC: new BigNumber(getBtcBalance(state).getOrElse(0)).valueOf(),
-    CLOUT: new BigNumber(getCloutBalance(state).getOrElse(0)).valueOf(),
+    CLOUT: getCloutBalance(state).getOrElse(new BigNumber(0)).valueOf(),
     DOT: getDotBalance(state).getOrElse(new BigNumber(0)).valueOf(),
     ETH: getEthBalance(state).getOrElse(new BigNumber(0)).valueOf(),
     XLM: getXlmBalance(state).getOrElse(new BigNumber(0)).valueOf()
