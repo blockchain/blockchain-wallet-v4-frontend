@@ -5,7 +5,7 @@ import { KycStateType, Tiers } from 'data/modules/types'
 
 import { STEP_TIERS, STEPS } from './model'
 
-export const computeSteps = ({
+const computeSteps = ({
   kycState,
   needMoreInfo,
   tiers
@@ -27,14 +27,11 @@ export const computeSteps = ({
   // in similar vein, if selected is 1 and next is 2, need to force selected to be 2
   selectedTier = next === 2 && selected === 1 ? 2 : selectedTier
 
-  const isStepRequired = step => {
+  const isStepRequired = (step) => {
     if ((!needMoreInfo || next < TIERS[2]) && step === STEPS.moreInfo) {
       return false
     }
-    if (
-      (kycState === 'PENDING' || kycState === 'VERIFIED') &&
-      step === STEPS.verify
-    ) {
+    if ((kycState === 'PENDING' || kycState === 'VERIFIED') && step === STEPS.verify) {
       return false
     }
 
@@ -42,3 +39,5 @@ export const computeSteps = ({
   }
   return filter(isStepRequired, values(STEPS))
 }
+
+export default computeSteps

@@ -8,6 +8,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, model, selectors } from 'data'
 
 import ImportedAddresses from './template'
+
 const { WALLET_TX_SEARCH } = model.form
 
 class ImportedAddressesContainer extends React.Component<Props> {
@@ -16,12 +17,12 @@ class ImportedAddressesContainer extends React.Component<Props> {
   }
 
   handleClickVerify = () => {
-    this.props.modalActions.showModal('VERIFY_MESSAGE_AIRDROP', {
+    this.props.modalActions.showModal('VERIFY_MESSAGE_MODAL', {
       origin: 'SettingsPage'
     })
   }
 
-  handleShowPriv = address => {
+  handleShowPriv = (address) => {
     this.props.modalActions.showModal('SHOW_BTC_PRIVATE_KEY_MODAL', {
       addr: address.addr,
       balance: address.info.final_balance,
@@ -29,26 +30,26 @@ class ImportedAddressesContainer extends React.Component<Props> {
     })
   }
 
-  handleSignMessage = address => {
+  handleSignMessage = (address) => {
     this.props.modalActions.showModal('SIGN_MESSAGE_MODAL', {
       address: address.addr,
       origin: 'SettingsPage'
     })
   }
 
-  handleEditLabel = address => {
+  handleEditLabel = (address) => {
     this.props.componentActions.editImportedAddressLabel(address.addr)
   }
 
-  handleToggleArchived = address => {
-    let isArchived = address.tag === 2
+  handleToggleArchived = (address) => {
+    const isArchived = address.tag === 2
     this.props.coreActions.setAddressArchived(address.addr, !isArchived)
   }
 
   handleTransferAll = () => {
     this.props.modalActions.showModal(model.components.sendBtc.MODAL, {
-      from: 'allImportedAddresses',
       excludeHDWallets: true,
+      from: 'allImportedAddresses',
       origin: 'SettingsPage'
     })
   }
@@ -56,18 +57,6 @@ class ImportedAddressesContainer extends React.Component<Props> {
   render() {
     const { addressesWithoutRemoteData, search } = this.props
     return this.props.activeAddresses.cata({
-      Success: value => (
-        <ImportedAddresses
-          importedAddresses={value}
-          onClickVerify={this.handleClickVerify}
-          search={search && search.toLowerCase()}
-          onToggleArchived={this.handleToggleArchived}
-          onTransferAll={this.handleTransferAll}
-          onShowPriv={this.handleShowPriv}
-          onShowSignMessage={this.handleSignMessage}
-          onEditLabel={this.handleEditLabel}
-        />
-      ),
       Failure: () => (
         <ImportedAddresses
           failure
@@ -82,24 +71,33 @@ class ImportedAddressesContainer extends React.Component<Props> {
         />
       ),
       Loading: () => <div />,
-      NotAsked: () => <div />
+      NotAsked: () => <div />,
+      Success: (value) => (
+        <ImportedAddresses
+          importedAddresses={value}
+          onClickVerify={this.handleClickVerify}
+          search={search && search.toLowerCase()}
+          onToggleArchived={this.handleToggleArchived}
+          onTransferAll={this.handleTransferAll}
+          onShowPriv={this.handleShowPriv}
+          onShowSignMessage={this.handleSignMessage}
+          onEditLabel={this.handleEditLabel}
+        />
+      )
     })
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   activeAddresses: selectors.core.common.btc.getActiveAddresses(state),
-  search: formValueSelector(WALLET_TX_SEARCH)(state, 'search'),
-  addressesWithoutRemoteData: selectors.core.wallet.getAddresses(state)
+  addressesWithoutRemoteData: selectors.core.wallet.getAddresses(state),
+  search: formValueSelector(WALLET_TX_SEARCH)(state, 'search')
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
+  componentActions: bindActionCreators(actions.components.manageAddresses, dispatch),
   coreActions: bindActionCreators(actions.core.wallet, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  componentActions: bindActionCreators(
-    actions.components.manageAddresses,
-    dispatch
-  )
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

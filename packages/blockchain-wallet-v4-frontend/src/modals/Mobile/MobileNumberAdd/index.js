@@ -6,9 +6,9 @@ import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { getData } from './selectors'
-import MobileNumberChange from './template.js'
+import MobileNumberAdd from './template.js'
 
-class MobileNumberChangeContainer extends React.PureComponent {
+class MobileNumberAddContainer extends React.PureComponent {
   constructor(props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
@@ -26,7 +26,7 @@ class MobileNumberChangeContainer extends React.PureComponent {
   render() {
     const { countryCode, smsNumber } = this.props
     return (
-      <MobileNumberChange
+      <MobileNumberAdd
         {...this.props}
         smsNumber={smsNumber}
         countryCode={countryCode}
@@ -44,8 +44,8 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const enhance = compose(
-  modalEnhancer('MOBILE_NUMBER_CHANGE_MODAL'),
+  modalEnhancer('MOBILE_NUMBER_ADD_MODAL'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 
-export default enhance(MobileNumberChangeContainer)
+export default enhance(MobileNumberAddContainer)

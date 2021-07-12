@@ -1,88 +1,39 @@
-import React from 'react'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import styled from 'styled-components'
+import React, { useEffect } from 'react'
+import { connect, ConnectedProps, useDispatch } from 'react-redux'
 
-import { Icon, Text } from 'blockchain-info-components'
-import { SelectBox } from 'components/Form'
+import { SBPaymentMethodType, SBPaymentTypes } from 'core/types'
+import { actions, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 
-const StyledSelectBox = styled(SelectBox)`
-  & svg {
-    padding-right: 12px;
-    fill: ${(p) => p.theme.grey600};
-  }
-`
+import Success from './template.success'
 
-const LeftRow = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-`
+const SchedulerContainer = (props: Props) => {
+  const dispatch = useDispatch()
+  const { methods } = props.formValues
+  const { method } = props
+  const showScheduler = methods.some((m) => method && method.type === m)
 
-const IconWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  background: ${(p) => p.theme.blue000};
-  border-radius: 50%;
-  padding: 8px;
-  margin-right: 16px;
-  height: 16px;
-  width: 16px;
-`
-
-const DisplalyContainer = styled.div`
-  flex: 1;
-  display: flex;
-  justify-content: space-between;
-  margin-left: 16px;
-`
-
-const renderDisplay = (props) => {
-  const { text } = props
+  useEffect(() => {
+    dispatch(actions.components.brokerage.fetchRBMethods())
+  }, [methods.join(''), method])
 
   return (
-    <DisplalyContainer>
-      <LeftRow>
-        <IconWrapper>
-          <Icon data-e2e='recurringBuyScheduler' name='sync-regular' size='16px' color='blue600' />
-        </IconWrapper>
-        <Text size='16px' weight={600}>
-          {text}
-        </Text>
-      </LeftRow>
-    </DisplalyContainer>
+    <>
+      <Success disabled={!showScheduler} />
+    </>
   )
 }
-class SchedulerContainer extends React.PureComponent {
-  render() {
-    return (
-      <StyledSelectBox
-        {...this.props}
-        data-e2e='recurringBuyTimeFrame'
-        elements={[
-          {
-            group: '',
-            items: [
-              { text: 'One time purchase', value: 0 },
-              { text: 'Every day', value: 1 },
-              { text: 'Every week', value: 2 },
-              { text: 'Every 2 weeks', value: 3 },
-              { text: 'Every month', value: 4 }
-            ]
-          }
-        ]}
-        value={0}
-        grouped={false}
-        templateDisplay={renderDisplay}
-      />
-    )
-  }
-}
 
-const Scheduler = (props: InjectedFormProps) => {
-  return <Field {...props} component={SchedulerContainer} name='frequency' />
-}
+const mapStateToProps = (state: RootState) => ({
+  formValues: (selectors.form.getFormValues('recurringBuyScheduler')(state) as {
+    methods: SBPaymentTypes[]
+  }) || { methods: [] }
+})
 
-export default reduxForm<{}>({
-  destroyOnUnmount: false,
-  form: 'recurringBuyScheduler'
-})(Scheduler)
+const connector = connect(mapStateToProps)
+
+type OwnProps = { method?: SBPaymentMethodType }
+
+export type Props = ConnectedProps<typeof connector> & OwnProps
+
+export default connector(SchedulerContainer)

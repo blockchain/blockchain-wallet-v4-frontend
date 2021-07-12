@@ -1,5 +1,10 @@
+/* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
+import { WalletFiatType } from 'core/types'
+import { ModalNamesType } from 'data/modals/types'
+import { BankTransferAccountType } from 'data/types'
 
 import {
   AddBankStepType,
@@ -13,9 +18,6 @@ import {
   OBType,
   YodleeAccountType
 } from './types'
-import { BankTransferAccountType } from 'data/types'
-import { WalletFiatType } from 'core/types'
-import { ModalNamesType } from 'data/modals/types'
 
 const INITIAL_STATE: BrokerageState = {
   account: undefined,
@@ -31,36 +33,38 @@ const INITIAL_STATE: BrokerageState = {
 }
 
 const brokerageSlice = createSlice({
-  name: 'brokerage',
   initialState: INITIAL_STATE,
+  name: 'brokerage',
   reducers: {
     createFiatDeposit: () => {},
     deleteSavedBank: (state, action: PayloadAction<BankTransferAccountType['id']>) => {},
-    handleWithdrawClick: (state, action: PayloadAction<WalletFiatType>) => {},
+    fetchBTUpdateLoading: (state) => {
+      state.fastLink = Remote.Loading
+    },
     fetchBankLinkCredentials: (state, action: PayloadAction<WalletFiatType>) => {},
+    fetchBankLinkCredentialsError: (state, action: PayloadAction<string>) => {
+      state.bankCredentials = Remote.Failure(action.payload)
+    },
     fetchBankLinkCredentialsLoading: (state) => {
       state.bankCredentials = Remote.Loading
     },
-    fetchBankLinkCredentialsError: (state, action: PayloadAction<string>) => {
-      state.bankCredentials = Remote.Failure(action.payload);
-    },
     fetchBankTransferAccounts: () => {},
+    fetchBankTransferAccountsError: (state, action: PayloadAction<string>) => {
+      state.bankTransferAccounts = Remote.Failure(action.payload)
+    },
     fetchBankTransferAccountsLoading: (state) => {
       state.bankCredentials = Remote.Loading
     },
     fetchBankTransferAccountsSuccess: (state, action: PayloadAction<BankTransferAccountType[]>) => {
-      const accounts = action.payload.filter(
-        a => a.state !== 'PENDING' && a.state !== 'BLOCKED'
-      )
+      const accounts = action.payload.filter((a) => a.state !== 'PENDING' && a.state !== 'BLOCKED')
       state.bankTransferAccounts = Remote.Success(accounts)
     },
-    fetchBankTransferAccountsError: (state, action: PayloadAction<string>) => {
-      state.bankTransferAccounts = Remote.Failure(action.payload)
-    },
     fetchBankTransferUpdate: (state, action: PayloadAction<YodleeAccountType | string>) => {},
-    fetchBTUpdateLoading: (state) => {
-      state.fastLink = Remote.Loading
+    fetchRBMethods: () => {},
+    handleDepositFiatClick: (state, action: PayloadAction<WalletFiatType>) => {
+      state.fiatCurrency = action.payload
     },
+    handleWithdrawClick: (state, action: PayloadAction<WalletFiatType>) => {},
     setAddBankStep: (state, action: PayloadAction<BrokerageAddBankStepPayload>) => {
       state.addBankStep = action.payload.addBankStep
       if (action.payload.addBankStep === AddBankStepType.ADD_BANK_STATUS) {
@@ -71,11 +75,8 @@ const brokerageSlice = createSlice({
       state.bankCredentials = Remote.Success(action.payload)
     },
     setBankDetails: (state, action: PayloadAction<BankDetailsPayload>) => {
-      state.account = action.payload.account,
+      state.account = action.payload.account
       state.redirectBackToStep = action.payload.redirectBackToStep || false
-    },
-    setFastLink: (state, action: PayloadAction<FastLinkType>) => {
-      state.fastLink = Remote.Success(action.payload)
     },
     setDWStep: (state, action: PayloadAction<BrokerageDWStepPayload>) => {
       state.dwStep = action.payload.dwStep
@@ -83,33 +84,38 @@ const brokerageSlice = createSlice({
         state.addNew = action.payload.addNew || false
       }
     },
-    showModal: (state, action: PayloadAction<{origin: BrokerageModalOriginType, modalType: ModalNamesType}>) => {},
-    handleDepositFiatClick: (state, action: PayloadAction<WalletFiatType>) => {
-      state.fiatCurrency = action.payload
+    setFastLink: (state, action: PayloadAction<FastLinkType>) => {
+      state.fastLink = Remote.Success(action.payload)
     },
+    showModal: (
+      state,
+      action: PayloadAction<{ modalType: ModalNamesType; origin: BrokerageModalOriginType }>
+    ) => {}
   }
 })
+
 export const {
   createFiatDeposit,
   deleteSavedBank,
+  fetchBTUpdateLoading,
   fetchBankLinkCredentials,
-  fetchBankLinkCredentialsLoading,
   fetchBankLinkCredentialsError,
+  fetchBankLinkCredentialsLoading,
   fetchBankTransferAccounts,
+  fetchBankTransferAccountsError,
   fetchBankTransferAccountsLoading,
   fetchBankTransferAccountsSuccess,
-  fetchBankTransferAccountsError,
   fetchBankTransferUpdate,
-  fetchBTUpdateLoading,
+  fetchRBMethods,
+  handleDepositFiatClick,
   handleWithdrawClick,
   setAddBankStep,
   setBankCredentials,
   setBankDetails,
-  setFastLink,
   setDWStep,
-  showModal,
-  handleDepositFiatClick
+  setFastLink,
+  showModal
 } = brokerageSlice.actions
-const actions = brokerageSlice.actions
+const { actions } = brokerageSlice
 const brokerageReducer = brokerageSlice.reducer
-export { brokerageReducer, actions }
+export { actions, brokerageReducer }

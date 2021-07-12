@@ -8,6 +8,7 @@ import {
   fetchBankTransferUpdate,
   fetchBankTransferAccounts,
   fetchBankLinkCredentials,
+  fetchRBMethods,
   showModal
 } from './slice'
 import sagas from './sagas'
@@ -21,9 +22,9 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(handleDepositFiatClick.type, brokerageSagas.handleDepositFiatClick)
     yield takeLatest(handleWithdrawClick.type, brokerageSagas.handleWithdrawClick)
     yield takeLatest(createFiatDeposit.type, brokerageSagas.createFiatDeposit)
-
     yield takeLatest(deleteSavedBank.type, brokerageSagas.deleteSavedBank)
     yield takeLatest(fetchBankLinkCredentials.type, brokerageSagas.fetchBankLinkCredentials)
+    yield takeLatest(fetchRBMethods.type, brokerageSagas.fetchRBMethods)
     yield takeLatest(showModal.type, brokerageSagas.showModal)
   }
 }

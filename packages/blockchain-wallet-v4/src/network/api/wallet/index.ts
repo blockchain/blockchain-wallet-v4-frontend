@@ -198,7 +198,8 @@ export default ({ get, post, rootUrl }) => {
         contact_email: newEmail,
         email,
         guid,
-        method: 'reset-two-factor-form'
+        method: 'reset-two-factor-form',
+        siteKey: window.CAPTCHA_KEY
       },
       endPoint: '/wallet',
       sessionToken,

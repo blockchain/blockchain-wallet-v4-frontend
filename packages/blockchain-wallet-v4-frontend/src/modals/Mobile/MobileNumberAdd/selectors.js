@@ -3,7 +3,7 @@ import { formValueSelector } from 'redux-form'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { selectors } from 'data'
 
-const formSelector = formValueSelector('mobileNumberChange')
+const formSelector = formValueSelector('mobileNumberAdd')
 
 export const getData = createDeepEqualSelector(
   [selectors.core.settings.getSmsNumber, (state) => formSelector(state, 'mobileNumber')],
