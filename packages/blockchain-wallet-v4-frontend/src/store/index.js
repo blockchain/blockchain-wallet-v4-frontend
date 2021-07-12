@@ -88,18 +88,6 @@ const configuredStore = async function () {
     reauthenticate
   })
   const persistWhitelist = ['session', 'preferences', 'cache']
-  // console.log('fooooo', [
-  //   sagaMiddleware,
-  //   routerMiddleware(history),
-  //   coreMiddleware.kvStore({ api, isAuthenticated, kvStorePath }),
-  //   streamingXlm(xlmStreamingService, api),
-  //   webSocketRates(ratesSocket),
-  //   webSocketCoins(coinsSocket),
-  //   coreMiddleware.walletSync({ api, isAuthenticated, walletPath }),
-  //   matomoMiddleware(),
-  //   analyticsMiddleware(),
-  //   autoDisconnection()
-  // ])
   const store = configureStore({
     devTools: devToolsConfig,
     middleware: compose([
