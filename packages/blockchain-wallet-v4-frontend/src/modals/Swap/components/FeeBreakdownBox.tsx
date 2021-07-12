@@ -68,19 +68,16 @@ const FeeBreakdownBox = ({
       : 0
   }
   const baseFiatFee = convertCoinToFiat({
-    coin: base.coin,
+    coin: base.type === SwapBaseCounterTypes.ACCOUNT ? base.baseCoin : base.coin,
     currency: walletCurrency,
     rates: baseRates,
-    value: (convertBaseToStandard(base.coin, networkFee(paymentR)) as unknown) as string
+    value: networkFee(paymentR)
   })
   const counterFiatFee = convertCoinToFiat({
     coin: counter.coin,
     currency: walletCurrency,
     rates: counterRates,
-    value: (convertBaseToStandard(
-      counter.coin,
-      quoteR?.quote?.networkFee || '0'
-    ) as unknown) as string
+    value: quoteR?.quote?.networkFee || '0'
   })
   const counterName = window.coins[counter.coin].coinfig
     ? window.coins[counter.coin].coinfig.name
@@ -177,7 +174,12 @@ const FeeBreakdownBox = ({
                               value: convertBaseToStandard(base.baseCoin, networkFee(value))
                             })}
                           </Text>
-                          <FiatDisplay size='12px' weight={500} color='grey400' coin={base.coin}>
+                          <FiatDisplay
+                            size='12px'
+                            weight={500}
+                            color='grey400'
+                            coin={base.baseCoin}
+                          >
                             {networkFee(value)}
                           </FiatDisplay>
                         </>
@@ -275,7 +277,12 @@ const FeeBreakdownBox = ({
 
 const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   baseRates: selectors.core.data.misc
-    .getRatesSelector(ownProps.base.coin, state)
+    .getRatesSelector(
+      ownProps.base.type === SwapBaseCounterTypes.ACCOUNT
+        ? ownProps.base.baseCoin
+        : ownProps.base.coin,
+      state
+    )
     .getOrElse({} as RatesType),
   counterRates: selectors.core.data.misc
     .getRatesSelector(ownProps.counter.coin, state)
