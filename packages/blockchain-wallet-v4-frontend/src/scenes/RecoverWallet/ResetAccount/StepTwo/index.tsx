@@ -37,7 +37,7 @@ const SecondStep = (props: Props) => {
     cachedGuid,
     formActions,
     formValues,
-    invalid,
+    resetPassword,
     setStep
   } = props
 
@@ -58,11 +58,11 @@ const SecondStep = (props: Props) => {
         </FormLabel>
         <Field
           bgColor='grey000'
-          name='password'
+          name='resetPassword'
           validate={[required, validStrongPassword]}
           component={PasswordBox}
           showPasswordScore
-          // passwordScore={has('zxcvbn', window) ? window.zxcvbn(password).score : 0}
+          passwordScore={has('zxcvbn', window) ? window.zxcvbn(resetPassword).score : 0}
         />
       </FormGroup>
       <FormGroup>

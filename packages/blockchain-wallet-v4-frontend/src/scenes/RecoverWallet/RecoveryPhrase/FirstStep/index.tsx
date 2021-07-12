@@ -25,7 +25,8 @@ const WordContainer = styled.div`
 `
 const BottomRow = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: center;
   margin-top: 24px;
 `
 const WordColumn = styled.div`
@@ -63,7 +64,7 @@ const FirstStep = (props: Props) => {
 
   return (
     <>
-      {!cachedEmail ? (
+      {/* {!cachedEmail ? (
         <GoBackArrow handleBackArrowClick={() => props.setStep(RecoverSteps.RECOVERY_OPTIONS)} />
       ) : (
         <BackArrowFormHeader
@@ -71,7 +72,7 @@ const FirstStep = (props: Props) => {
           email={cachedEmail}
           guid={cachedGuid}
         />
-      )}
+      )} */}
       <FormBody>
         <Text
           color='grey900'
@@ -150,6 +151,12 @@ const FirstStep = (props: Props) => {
         )}
       </Button>
       <BottomRow>
+        {!cachedEmail && (
+          <GoBackArrow
+            handleBackArrowClick={() => props.setStep(RecoverSteps.RECOVERY_OPTIONS)}
+            minWidth='120px'
+          />
+        )}
         <Text size='13px' weight={600} color='grey600'>
           <FormattedMessage
             id='scenes.login.trouble_logging_in'

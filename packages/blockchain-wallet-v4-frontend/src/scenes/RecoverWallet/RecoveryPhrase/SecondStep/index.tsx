@@ -22,7 +22,7 @@ class RecoverContainer extends React.PureComponent<Props> {
   // }
 
   render() {
-    const { kycReset, metadataRestore, password, previousStep, registering } = this.props
+    const { kycReset, metadataRestore, previousStep, recoverPassword, registering } = this.props
     const isRegistering = registering.cata({
       Failure: () => false,
       Loading: () => true,

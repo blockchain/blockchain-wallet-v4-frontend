@@ -63,8 +63,9 @@ const mapStateToProps = (state) => ({
   loginFormValues: selectors.form.getFormValues('login')(state),
   mnemonic: formValueSelector('recover')(state, 'mnemonic'),
   nabuId: selectors.auth.getNabuId(state),
-  password: formValueSelector('recover')(state, 'password') || '',
-  registering: selectors.auth.getRegistering(state)
+  recoverPassword: formValueSelector('recover')(state, 'recoverPassword') || '',
+  registering: selectors.auth.getRegistering(state),
+  resetPassword: formValueSelector('recover')(state, 'resetPassword') || ''
 })
 
 const mapDispatchToProps = (dispatch) => ({

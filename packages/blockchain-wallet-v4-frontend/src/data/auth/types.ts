@@ -32,6 +32,12 @@ export type LoginFormType = {
 }
 
 export type WalletDataFromMagicLink = {
+  exchange: {
+    email: string
+    two_fa_mode: boolean
+    user_id: string
+  }
+  upgradeable: boolean
   wallet: {
     auth_type: number
     email: string
@@ -50,7 +56,6 @@ export type WalletDataFromMagicLink = {
       recovery_eligible: boolean
       user_id: string
     }
-    upgradable: boolean
   }
 }
 

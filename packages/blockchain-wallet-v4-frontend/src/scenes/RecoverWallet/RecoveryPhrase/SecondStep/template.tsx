@@ -36,7 +36,7 @@ const GoBackLink = styled(Link)`
 const validatePasswordConfirmation = validPasswordConfirmation('password')
 
 const SecondStep = (props: Props) => {
-  const { invalid, isRegistering, isRestoringFromMetadata, password, previousStep } = props
+  const { invalid, isRegistering, isRestoringFromMetadata, previousStep, recoverPassword } = props
   return (
     <>
       <Header>
@@ -64,11 +64,11 @@ const SecondStep = (props: Props) => {
           </FormLabel>
           <Field
             bgColor='grey000'
-            name='password'
+            name='recoverPassword'
             validate={[required, validStrongPassword]}
             component={PasswordBox}
             showPasswordScore
-            passwordScore={has('zxcvbn', window) ? window.zxcvbn(password).score : 0}
+            passwordScore={has('zxcvbn', window) ? window.zxcvbn(recoverPassword).score : 0}
           />
         </FormGroup>
         <FormGroup>

@@ -14,7 +14,8 @@ const FormBody = styled.div`
 `
 const Row = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: center;
   margin-top: 24px;
 `
 const IconTextRow = styled.div`
@@ -31,9 +32,7 @@ const RecoveryOptions = (props: Props) => {
   const { cachedEmail, cachedGuid, formActions, nabuId, routerActions } = props
   return (
     <>
-      {!cachedEmail ? (
-        <GoBackArrow handleBackArrowClick={() => routerActions.push('/login')} />
-      ) : (
+      {cachedEmail && (
         <BackArrowFormHeader
           handleBackArrowClick={() => routerActions.push('/login')}
           email={cachedEmail}
@@ -93,6 +92,9 @@ const RecoveryOptions = (props: Props) => {
         </IconTextRow>
       </FormBody>
       <Row>
+        {!cachedEmail && (
+          <GoBackArrow handleBackArrowClick={() => routerActions.push('/login')} minWidth='120px' />
+        )}
         <Text size='13px' weight={600} color='grey600'>
           <FormattedMessage
             id='scenes.login.trouble_logging_in'

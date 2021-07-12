@@ -40,18 +40,26 @@ export const Row = styled.div`
   align-items: center;
 `
 
-export const GoBackArrow = (props: { handleBackArrowClick: () => void }) => {
+export const GoBackRow = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+export const GoBackArrow = (props: { handleBackArrowClick: () => void; minWidth: string }) => {
   return (
-    <Icon
-      cursor
-      data-e2e='signupBack'
-      name='arrow-left'
-      size='24px'
-      color='grey400'
-      style={{ marginRight: '8px' }}
-      role='button'
-      onClick={() => props.handleBackArrowClick()}
-    />
+    <GoBackRow style={{ minWidth: props.minWidth }} onClick={() => props.handleBackArrowClick()}>
+      <Icon
+        cursor
+        data-e2e='recoverBack'
+        name='arrow-left'
+        size='24px'
+        color='grey400'
+        role='button'
+      />
+      <Text size='13px' weight={600} color='grey600' cursor='pointer'>
+        <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
+      </Text>
+    </GoBackRow>
   )
 }
 

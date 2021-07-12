@@ -33,13 +33,13 @@ class RecoveryPhraseContainer extends React.PureComponent<
   handleSubmit = (e) => {
     e.preventDefault()
 
-    const { authActions, email, formActions, language, mnemonic, password } = this.props
+    const { authActions, email, formActions, language, mnemonic, recoverPassword } = this.props
     if (this.state.step === 1) {
       // formActions.change('recover', 'mnemonic', phrase)
       this.setState({ step: 2 })
     } else {
       // TODO: last argument is network, do we even need this?
-      authActions.restore(mnemonic, email, password, language, undefined)
+      authActions.restore(mnemonic, email, recoverPassword, language, undefined)
     }
   }
 
