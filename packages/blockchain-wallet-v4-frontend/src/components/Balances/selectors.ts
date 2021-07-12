@@ -270,6 +270,15 @@ export const getAlgoBalanceInfo = createDeepEqualSelector(
   }
 )
 
+export const getCloutBalanceInfo = createDeepEqualSelector(
+  [getAlgoBalance, selectors.core.data.clout.getRates, selectors.core.settings.getCurrency],
+  (cloutBalanceR, cloutRatesR, currencyR) => {
+    const transform = (value, rates, toCurrency) =>
+      Exchange.convertCoinToFiat({ coin: 'CLOUT', currency: toCurrency, rates, value })
+    return lift(transform)(cloutBalanceR, cloutRatesR, currencyR)
+  }
+)
+
 export const getFiatBalanceInfo = createDeepEqualSelector(
   [
     selectors.core.data.btc.getRates,

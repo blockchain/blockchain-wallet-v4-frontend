@@ -282,7 +282,7 @@
           "displayName": "BitClout",
           "hasLockboxSupport": false,
           "learnMoreLink": "",
-          "minConfirmations": 9,
+          "minConfirmations": 4,
           "txExplorerBaseUrl": "https://bitclout.com"
         }
       },
