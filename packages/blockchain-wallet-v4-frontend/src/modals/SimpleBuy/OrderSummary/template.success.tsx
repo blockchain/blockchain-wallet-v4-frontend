@@ -11,6 +11,7 @@ import { getBaseAmount, getBaseCurrency, getOrderType } from 'data/components/si
 import { Props as OwnProps, SuccessStateType } from '.'
 import InterestBanner from './InterestBanner'
 import { CloseContainer } from './styles'
+import { RecurringBuysStepType } from 'data/types'
 
 const Wrapper = styled.div`
   display: flex;
@@ -103,7 +104,11 @@ const Success: React.FC<Props> = (props) => {
             size='20px'
             color='grey600'
             role='button'
-            onClick={props.handleClose}
+            onClick={() => {
+              // props.handleClose()
+              props.recurringBuyActions.showModal('SimpleBuyStatus')
+              props.recurringBuyActions.setStep({ step: RecurringBuysStepType.GET_STARTED })
+            }}
           />
         </CloseContainer>
       </FlyoutWrapper>
