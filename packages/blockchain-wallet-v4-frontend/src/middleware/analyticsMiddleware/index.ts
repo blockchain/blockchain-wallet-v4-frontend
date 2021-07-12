@@ -16,13 +16,16 @@ import {
   getOriginalTimestamp,
   interestDepositClickedOriginDictionary,
   linkBankClickedOriginDictionary,
+  manageTabSelectionClickedSelectionDictionary,
+  settingsHyperlinkClickedDestinationDictionary,
+  settingsTabClickedDestinationDictionary,
   swapClickedOriginDictionary,
   upgradeVerificationClickedOriginDictionary
 } from 'middleware/analyticsMiddleware/utils'
 
 import { actionTypes as AT } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { BankDWStepType, InterestStep, ModalNamesType, SwapBaseCounterTypes } from 'data/types'
+import { BankDWStepType, InterestStep, ModalNamesEnum, SwapBaseCounterTypes } from 'data/types'
 
 const analyticsMiddleware = () => (store) => (next) => (action) => {
   try {
@@ -31,19 +34,19 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         analytics.clear()
         break
       }
-      case AT.analytics.LOG_PAGE_VIEW: {
+      case AT.router.LOCATION_CHANGE: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id
         const email = state.profile.userData.getOrElse({})?.email
         const tier = state.profile.userData.getOrElse({})?.tiers.current
         const id = state.walletPath.wallet.guid
-        const pageName: PageNames = action.payload.route
+        const pageName: PageNames = action.payload.location.pathname
 
         switch (pageName) {
           case '/home': {
             const { href, pathname, search } = window.location
             const { referrer, title } = document
-            const origin = 'SIGN_IN' // TODO change this one to add 'NAVIGATION'
+            const origin = 'SIGN_IN' // TODO add way to add 'NAVIGATION' here
 
             analytics.push(AnalyticsKey.DASHBOARD_CLICKED, {
               properties: {
@@ -114,6 +117,98 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             break
           }
+          case '/settings/addresses/btc': {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id
+            const email = state.profile.userData.getOrElse({})?.email
+            const tier = state.profile.userData.getOrElse({})?.tiers.current
+            const id = state.walletPath.wallet.guid
+            const currency = 'BTC'
+
+            analytics.push(AnalyticsKey.SETTINGS_CURRENCY_CLICKED, {
+              properties: {
+                currency,
+                id,
+                originalTimestamp: getOriginalTimestamp()
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            break
+          }
+          case '/settings/addresses/bch': {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id
+            const email = state.profile.userData.getOrElse({})?.email
+            const tier = state.profile.userData.getOrElse({})?.tiers.current
+            const id = state.walletPath.wallet.guid
+            const currency = 'BCH'
+
+            analytics.push(AnalyticsKey.SETTINGS_CURRENCY_CLICKED, {
+              properties: {
+                currency,
+                id,
+                originalTimestamp: getOriginalTimestamp()
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            break
+          }
+          case '/settings/addresses/eth': {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id
+            const email = state.profile.userData.getOrElse({})?.email
+            const tier = state.profile.userData.getOrElse({})?.tiers.current
+            const id = state.walletPath.wallet.guid
+            const currency = 'ETH'
+
+            analytics.push(AnalyticsKey.SETTINGS_CURRENCY_CLICKED, {
+              properties: {
+                currency,
+                id,
+                originalTimestamp: getOriginalTimestamp()
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            break
+          }
+          case '/settings/addresses/xlm': {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id
+            const email = state.profile.userData.getOrElse({})?.email
+            const tier = state.profile.userData.getOrElse({})?.tiers.current
+            const id = state.walletPath.wallet.guid
+            const currency = 'XLM'
+
+            analytics.push(AnalyticsKey.SETTINGS_CURRENCY_CLICKED, {
+              properties: {
+                currency,
+                id,
+                originalTimestamp: getOriginalTimestamp()
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            break
+          }
           default: {
             break
           }
@@ -127,10 +222,10 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.email
         const tier = state.profile.userData.getOrElse({})?.tiers.current
         const id = state.walletPath.wallet.guid
-        const modalName: ModalNamesType = action.payload.type
+        const modalName: ModalNamesEnum = action.payload.type
 
         switch (modalName) {
-          case 'SIMPLE_BUY_MODAL': {
+          case ModalNamesEnum.SIMPLE_BUY_MODAL: {
             const rawOrigin = action.payload.props.origin
             const { href, pathname, search } = window.location
             const { referrer, title } = document
@@ -170,7 +265,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             break
           }
-          case 'SWAP_MODAL': {
+          case ModalNamesEnum.SWAP_MODAL: {
             const { href, pathname, search } = window.location
             const { referrer, title } = document
             const origin = swapClickedOriginDictionary(action.payload.props.origin)
@@ -207,7 +302,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             break
           }
-          case 'REQUEST_CRYPTO_MODAL': {
+          case ModalNamesEnum.REQUEST_CRYPTO_MODAL: {
             const origin = 'NAVIGATION'
 
             analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
@@ -239,7 +334,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             break
           }
-          case 'BANK_DEPOSIT_MODAL': {
+          case ModalNamesEnum.BANK_DEPOSIT_MODAL: {
             const { href, pathname, search } = window.location
             const { referrer, title } = document
             const origin = 'CURRENCY_PAGE'
@@ -276,7 +371,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             break
           }
-          case 'CUSTODY_WITHDRAW_MODAL': {
+          case ModalNamesEnum.CUSTODY_WITHDRAW_MODAL: {
             const { href, pathname, search } = window.location
             const { referrer, title } = document
             const origin = 'CURRENCY_PAGE'
@@ -313,7 +408,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             break
           }
-          case 'ADD_BANK_YAPILY_MODAL': {
+          case ModalNamesEnum.ADD_BANK_YAPILY_MODAL: {
             const state = store.getState()
             const nabuId = state.profile.userData.getOrElse({})?.id
             const email = state.profile.userData.getOrElse({})?.email
@@ -336,7 +431,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             break
           }
-          case 'ADD_BANK_YODLEE_MODAL': {
+          case ModalNamesEnum.ADD_BANK_YODLEE_MODAL: {
             const state = store.getState()
             const nabuId = state.profile.userData.getOrElse({})?.id
             const email = state.profile.userData.getOrElse({})?.email
@@ -359,7 +454,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             break
           }
-          case 'KYC_MODAL': {
+          case ModalNamesEnum.KYC_MODAL: {
             const state = store.getState()
             const nabuId = state.profile.userData.getOrElse({})?.id
             const email = state.profile.userData.getOrElse({})?.email
@@ -375,6 +470,90 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
                 origin,
                 originalTimestamp: getOriginalTimestamp(),
                 tier: upgradeTier
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            break
+          }
+          case ModalNamesEnum.VERIFY_MESSAGE_MODAL: {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id
+            const email = state.profile.userData.getOrElse({})?.email
+            const tier = state.profile.userData.getOrElse({})?.tiers.current
+            const id = state.walletPath.wallet.guid
+
+            analytics.push(AnalyticsKey.ADDRESS_VERIFY_MESSAGE_CLICKED, {
+              properties: {
+                id,
+                originalTimestamp: getOriginalTimestamp()
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            break
+          }
+          case ModalNamesEnum.MOBILE_NUMBER_CHANGE_MODAL: {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id
+            const email = state.profile.userData.getOrElse({})?.email
+            const tier = state.profile.userData.getOrElse({})?.tiers.current
+            const id = state.walletPath.wallet.guid
+
+            analytics.push(AnalyticsKey.CHANGE_MOBILE_NUMBER_CLICKED, {
+              properties: {
+                id,
+                originalTimestamp: getOriginalTimestamp()
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            break
+          }
+          case ModalNamesEnum.MOBILE_NUMBER_ADD_MODAL: {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id
+            const email = state.profile.userData.getOrElse({})?.email
+            const tier = state.profile.userData.getOrElse({})?.tiers.current
+            const id = state.walletPath.wallet.guid
+
+            analytics.push(AnalyticsKey.ADD_MOBILE_NUMBER_CLICKED, {
+              properties: {
+                id,
+                originalTimestamp: getOriginalTimestamp()
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            break
+          }
+          case ModalNamesEnum.IMPORT_BTC_ADDRESS_MODAL: {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id
+            const email = state.profile.userData.getOrElse({})?.email
+            const tier = state.profile.userData.getOrElse({})?.tiers.current
+            const id = state.walletPath.wallet.guid
+
+            analytics.push(AnalyticsKey.IMPORT_ADDRESS_CLICKED, {
+              properties: {
+                id,
+                originalTimestamp: getOriginalTimestamp()
               },
               traits: {
                 email,
@@ -1657,7 +1836,194 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
+      case AT.preferences.SET_LINK_HANDLING: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const email = state.profile.userData.getOrElse({})?.email
+        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const id = state.walletPath.wallet.guid
 
+        analytics.push(AnalyticsKey.CRYPTO_LINK_HANDLING_CLICKED, {
+          properties: {
+            id,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.wallet.MANAGE_WALLET_SELECTION: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const email = state.profile.userData.getOrElse({})?.email
+        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const id = state.walletPath.wallet.guid
+        const { currency } = action.payload
+        const selection = manageTabSelectionClickedSelectionDictionary(action.payload.selection)
+
+        analytics.push(AnalyticsKey.MANAGE_TAB_SELECTION_CLICKED, {
+          properties: {
+            currency,
+            id,
+            originalTimestamp: getOriginalTimestamp(),
+            selection
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.core.settings.SET_NOTIFICATIONS_TYPE: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const email = state.profile.userData.getOrElse({})?.email
+        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const id = state.walletPath.wallet.guid
+        const isEmailEnabled = action.payload.types.includes(32)
+        const isSMSEnabled = action.payload.types.includes(32)
+
+        analytics.push(AnalyticsKey.NOTIFICATION_PREFERENCES_UPDATED, {
+          properties: {
+            email_enabled: isEmailEnabled,
+            id,
+            originalTimestamp: getOriginalTimestamp(),
+            sms_enabled: isSMSEnabled
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.modules.settings.SHOW_BTC_PRIV_KEY: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const email = state.profile.userData.getOrElse({})?.email
+        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const id = state.walletPath.wallet.guid
+        const currency = 'BTC'
+
+        analytics.push(AnalyticsKey.PRIVATE_KEYS_SHOWN, {
+          properties: {
+            currency,
+            id,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.modules.settings.SHOW_ETH_PRIV_KEY: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const email = state.profile.userData.getOrElse({})?.email
+        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const id = state.walletPath.wallet.guid
+        const currency = 'ETH'
+
+        analytics.push(AnalyticsKey.PRIVATE_KEYS_SHOWN, {
+          properties: {
+            currency,
+            id,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.modules.settings.SHOW_XLM_PRIV_KEY: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const email = state.profile.userData.getOrElse({})?.email
+        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const id = state.walletPath.wallet.guid
+        const currency = 'XLM'
+
+        analytics.push(AnalyticsKey.PRIVATE_KEYS_SHOWN, {
+          properties: {
+            currency,
+            id,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.modules.settings.GENERAL_SETTINGS_EXTERNAL_REDIRECT: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const email = state.profile.userData.getOrElse({})?.email
+        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const id = state.walletPath.wallet.guid
+        const destination = settingsHyperlinkClickedDestinationDictionary(
+          action.payload.destination
+        )
+
+        analytics.push(AnalyticsKey.SETTINGS_HYPERLINK_CLICKED, {
+          properties: {
+            destination,
+            id,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.modules.settings.GENERAL_SETTINGS_INTERNAL_REDIRECT: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const email = state.profile.userData.getOrElse({})?.email
+        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const id = state.walletPath.wallet.guid
+        const destination = settingsTabClickedDestinationDictionary(action.payload.destination)
+
+        analytics.push(AnalyticsKey.SETTINGS_TAB_CLICKED, {
+          properties: {
+            destination,
+            id,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
       default: {
         break
       }

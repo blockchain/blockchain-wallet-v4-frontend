@@ -6,7 +6,7 @@ import { LoanType, OfferType } from 'blockchain-wallet-v4/src/types'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 
-import { getData } from './selectors'
+import getData from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
 

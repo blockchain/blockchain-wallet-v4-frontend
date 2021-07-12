@@ -102,13 +102,12 @@ const EnterPassword = (props: Props) => {
                   defaultMessage='Verify with your Yubikey'
                 />
               )}
-              {authType === 4 ||
-                (authType === 5 && (
-                  <FormattedMessage
-                    id='scenes.logins.twofa.enter_code'
-                    defaultMessage='Enter your Two Factor Authentication Code'
-                  />
-                ))}
+              {(authType === 4 || authType === 5) && (
+                <FormattedMessage
+                  id='scenes.logins.twofa.enter_code'
+                  defaultMessage='Enter your Two Factor Authentication Code'
+                />
+              )}
             </FormLabel>
             <Field
               name='code'

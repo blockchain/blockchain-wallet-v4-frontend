@@ -15,6 +15,7 @@ export default ({ api, coreSagas, networks }) => {
 
     yield takeLatest(AT.DELETE_SAVED_BANK, brokerageSagas.deleteSavedBank)
     yield takeLatest(AT.FETCH_BANK_LINK_CREDENTIALS, brokerageSagas.fetchBankLinkCredentials)
+    yield takeLatest(AT.FETCH_RECURRING_BUY_METHODS, brokerageSagas.fetchRBMethods)
     yield takeLatest(AT.SHOW_MODAL, brokerageSagas.showModal)
   }
 }

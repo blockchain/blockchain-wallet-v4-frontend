@@ -24,7 +24,7 @@ import {
   UPDATE_FAILURE
 } from './model'
 import * as S from './selectors'
-import { computeSteps } from './services'
+import computeSteps from './services'
 import { StateType, StepsType } from './types'
 
 export const logLocation = 'components/identityVerification/sagas'

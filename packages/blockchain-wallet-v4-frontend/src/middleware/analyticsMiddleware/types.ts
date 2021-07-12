@@ -1,4 +1,6 @@
 enum AnalyticsKey {
+  ADDRESS_VERIFY_MESSAGE_CLICKED = 'Address Verify Message Clicked',
+  ADD_MOBILE_NUMBER_CLICKED = 'Add Mobile Number Clicked',
   AMOUNT_SWITCHED = 'Amount Switched',
   BUY_AMOUNT_ENTERED = 'Buy Amount Entered',
   BUY_AMOUNT_MAX_CLICKED = 'Buy Amount Max Clicked',
@@ -6,6 +8,8 @@ enum AnalyticsKey {
   BUY_PAYMENT_METHOD_SELECTED = 'Buy Payment Method Selected',
   BUY_SELL_CLICKED = 'Buy Sell Clicked',
   BUY_SELL_VIEWED = 'Buy Sell Viewed',
+  CHANGE_MOBILE_NUMBER_CLICKED = 'Change Mobile Number Clicked',
+  CRYPTO_LINK_HANDLING_CLICKED = 'Crypto Link Handling Clicked',
   DASHBOARD_CLICKED = 'Dashboard Clicked',
   DASHBOARD_VIEWED = 'Dashboard Viewed',
   DEPOSIT_AMOUNT_ENTERED = 'Deposit Amount Entered',
@@ -13,6 +17,7 @@ enum AnalyticsKey {
   DEPOSIT_METHOD_SELECTED = 'Deposit Method Selected',
   DEPOSIT_VIEWED = 'Deposit Viewed',
   EMAIL_VERIFICATION_REQUESTED = 'Email Verification Requested',
+  IMPORT_ADDRESS_CLICKED = 'Import Address Clicked',
   INTEREST_CLICKED = 'Interest Clicked',
   INTEREST_DEPOSIT_AMOUNT_ENTERED = 'Interest Deposit Amount Entered',
   INTEREST_DEPOSIT_CLICKED = 'Interest Deposit Clicked',
@@ -24,18 +29,24 @@ enum AnalyticsKey {
   INTEREST_WITHDRAWAL_CLICKED = 'Interest Withdrawal Clicked',
   INTEREST_WITHDRAWAL_VIEWED = 'Interest Withdrawal Viewed',
   LINK_BANK_CLICKED = 'Link Bank Clicked',
+  MANAGE_TAB_SELECTION_CLICKED = 'Manage Tab Selection Clicked',
+  NOTIFICATION_PREFERENCES_UPDATED = 'Notification Preferences Updated',
+  PRIVATE_KEYS_SHOWN = 'Private Keys Shown',
   RECEIVE_CURRENCY_SELECTED = 'Receive Currency Selected',
   RECEIVE_DETAILS_COPIED = 'Receive Details Copied',
   SELL_AMOUNT_ENTERED = 'Sell Amount Entered',
   SELL_AMOUNT_MAX_CLICKED = 'Sell Amount Max Clicked',
   SELL_AMOUNT_MIN_CLICKED = 'Sell Amount Min Clicked',
   SELL_FROM_SELECTED = 'Sell From Selected',
-  SEND_AMOUNT_MAX_CLICKED = 'Send Amount Max Clicked', // blocked
-  SEND_FEE_RATE_SELECTED = 'Send Fee Rate Selected', // blocked
-  SEND_FROM_SELECTED = 'Send From Selected', // blocked
-  SEND_RECEIVE_CLICKED = 'Send Receive Clicked', // half implemented
-  SEND_RECEIVE_VIEWED = 'Send Receive Viewed', // half implemented
-  SEND_SUBMITTED = 'Send Submitted', // blocked
+  SEND_AMOUNT_MAX_CLICKED = 'Send Amount Max Clicked', // BLOCKED
+  SEND_FEE_RATE_SELECTED = 'Send Fee Rate Selected', // BLOCKED
+  SEND_FROM_SELECTED = 'Send From Selected', // BLOCKED
+  SEND_RECEIVE_CLICKED = 'Send Receive Clicked', // HALF DONE
+  SEND_RECEIVE_VIEWED = 'Send Receive Viewed', // HALF DONE
+  SEND_SUBMITTED = 'Send Submitted', // BLOCKED
+  SETTINGS_CURRENCY_CLICKED = 'Settings Currency Clicked',
+  SETTINGS_HYPERLINK_CLICKED = 'Settings Hyperlink Clicked',
+  SETTINGS_TAB_CLICKED = 'Settings Tab Clicked',
   SIGNED_IN = 'Signed In',
   SIGNED_OUT = 'Signed Out',
   SWAP_ACCOUNTS_SELECTED = 'Swap Accounts Selected',
@@ -47,6 +58,7 @@ enum AnalyticsKey {
   SWAP_RECEIVE_SELECTED = 'Swap Receive Selected',
   SWAP_REQUESTED = 'Swap Requested',
   SWAP_VIEWED = 'Swap Viewed',
+  TRANSFER_IMPORTED_ADDRESS_CLICKED = 'Transfer Imported Addresses Clicked', // TODO
   UPGRADE_VERIFICATION_CLICKED = 'Upgrade Verification Clicked',
   WITHDRAWAL_AMOUNT_ENTERED = 'Withdrawal Amount Entered',
   WITHDRAWAL_AMOUNT_MAX_CLICKED = 'Withdrawal Amount Max Clicked',
@@ -126,10 +138,20 @@ type PageViewPayload = {
   url: string
 }
 
-type PageNames = '/home' | '/interest'
+type PageNames =
+  | '/home'
+  | '/interest'
+  | '/settings/addresses/btc'
+  | '/settings/addresses/bch'
+  | '/settings/addresses/eth'
+  | '/settings/addresses/xlm'
 // | '/settings/general'
 // | '/settings/preferences'
-// | '/settings/addresses'
+//
+
+type AddressVerifyMessageClickedPayload = BasePayload & { currency: string }
+
+type AddMobileNumberClickedPayload = BasePayload & {}
 
 type AmountSwitchedPayload = BasePayload & {
   product: 'SAVINGS' | 'SIMPLEBUY' | 'SWAP'
@@ -188,6 +210,10 @@ type BuySellViewedPayload = BasePayload &
     type: OrderType
   }
 
+type ChangeMobileNumberClickedPayload = BasePayload & {}
+
+type CryptoLinkHandlingClickedPayload = BasePayload & {}
+
 type DashboardClickedOrigin = 'SIGN_IN'
 
 type DashboardClickedPayload = BasePayload & {
@@ -220,6 +246,8 @@ type EmailVerificationClickedOrigin = 'SIGN_UP' | 'VERIFICATION'
 type EmailVerificationClickedPayload = BasePayload & {
   origin: EmailVerificationClickedOrigin
 }
+
+type ImportAddressClickedPayload = BasePayload & {}
 
 type InterestClickedOrigin = 'NAVIGATION'
 
@@ -283,6 +311,26 @@ type LinkBankClickedOrigin = 'BUY' | 'DEPOSIT' | 'SETTINGS' | 'WITHDRAW'
 
 type LinkBankClickedPayload = BasePayload & {
   origin: LinkBankClickedOrigin
+}
+
+type ManageTabSelectionClickedSelection =
+  | 'EDIT_WALLET_NAME'
+  | 'RECOVER_FUNDS'
+  | 'SHOW_CHANGE_ADDRESSES'
+  | 'SHOW_XPUB'
+
+type ManageTabSelectionClickedPayload = BasePayload & {
+  currency: string
+  selection: ManageTabSelectionClickedSelection
+}
+
+type NotificationPreferencesUpdatedPayload = BasePayload & {
+  email_enabled: boolean
+  sms_enabled: boolean
+}
+
+type PrivateKeysShownPayload = BasePayload & {
+  currency: string
 }
 
 type ReceiveCurrencySelectedPayload = BasePayload & {
@@ -353,6 +401,26 @@ type SendSubmittedPayload = BasePayload & {
   fee_rate: FeeRateType
   from_account_type: AccountType
   to_account_type: AccountType
+}
+
+type SettingsCurrencyClickedPayload = BasePayload & {
+  currency: string
+}
+
+type SettingsHyperlinkClickedDestination = 'ABOUT' | 'PRIVACY_POLICY' | 'TERMS_OF_SERVICE'
+
+type SettingsHyperlinkClickedPayload = BasePayload & {
+  destination: SettingsHyperlinkClickedDestination
+}
+
+type SettingsTabClickedDestination =
+  | 'GENERAL'
+  | 'PREFERENCES'
+  | 'TRADING_LIMITS'
+  | 'WALLETS&ADDRESSES'
+
+type SettingsTabClickedPayload = BasePayload & {
+  destination: SettingsTabClickedDestination
 }
 
 type SignedInPayload = BasePayload & {}
@@ -428,6 +496,8 @@ type SwapRequestedPayload = BasePayload & {
   output_type: string
 }
 
+type TransferImportedAddressesClickedPayload = BasePayload & {}
+
 type UpgradeVerificationClickedOrigin =
   | 'DASHBOARD_PROMO'
   | 'ONBOARDING'
@@ -478,6 +548,8 @@ type WrongChangeCachePayload = BasePayload & {}
 type WrongReceiveCachePayload = BasePayload & {}
 
 type AnalyticsProperties =
+  | AddressVerifyMessageClickedPayload
+  | AddMobileNumberClickedPayload
   | AmountSwitchedPayload
   | BuyAmountEnteredPayload
   | BuyAmountMaxClickedPayload
@@ -485,6 +557,8 @@ type AnalyticsProperties =
   | BuyPaymentMethodSelectedPayload
   | BuySellClickedPayload
   | BuySellViewedPayload
+  | ChangeMobileNumberClickedPayload
+  | CryptoLinkHandlingClickedPayload
   | DashboardClickedPayload
   | DashboardViewedPayload
   | DepositAmountEnteredPayload
@@ -492,6 +566,7 @@ type AnalyticsProperties =
   | DepositMethodSelectedPayload
   | DepositViewedPayload
   | EmailVerificationClickedPayload
+  | ImportAddressClickedPayload
   | InterestClickedPayload
   | InterestDepositAmountEnteredPayload
   | InterestDepositClickedPayload
@@ -503,6 +578,9 @@ type AnalyticsProperties =
   | InterestWithdrawalClickedPayload
   | InterestWithdrawalViewedPayload
   | LinkBankClickedPayload
+  | ManageTabSelectionClickedPayload
+  | NotificationPreferencesUpdatedPayload
+  | PrivateKeysShownPayload
   | ReceiveCurrencySelectedPayload
   | ReceiveDetailsCopiedPayload
   | SellAmountEnteredPayload
@@ -515,6 +593,9 @@ type AnalyticsProperties =
   | SendReceiveClickedPayload
   | SendReceiveViewedPayload
   | SendSubmittedPayload
+  | SettingsCurrencyClickedPayload
+  | SettingsHyperlinkClickedPayload
+  | SettingsTabClickedPayload
   | SignedInPayload
   | SignedOutPayload
   | SwapClickedPayload
@@ -526,6 +607,7 @@ type AnalyticsProperties =
   | SwapFromSelectedPayload
   | SwapReceiveSelectedPayload
   | SwapRequestedPayload
+  | TransferImportedAddressesClickedPayload
   | UpgradeVerificationClickedPayload
   | WithdrawalAmountEnteredPayload
   | WithdrawalAmountMaxClickedPayload
@@ -553,9 +635,12 @@ export type {
   InterestSubmitInformationClickedOrigin,
   InterestWithdrawalClickedOrigin,
   LinkBankClickedOrigin,
+  ManageTabSelectionClickedSelection,
   PageNames,
   RawEvent,
   SendReceiveClickedOrigin,
+  SettingsHyperlinkClickedDestination,
+  SettingsTabClickedDestination,
   SwapClickedOrigin,
   UpgradeVerificationClickedOrigin,
   WithdrawalClickedOrigin

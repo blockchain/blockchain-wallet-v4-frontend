@@ -275,6 +275,13 @@ export default ({
       url: nabuUrl
     })
 
+  const getRBPaymentMethods = (): { eligibleMethods: SBPaymentTypes[] } =>
+    authorizedGet({
+      contentType: 'application/json',
+      endPoint: '/recurring-buy/eligible-payment-methods',
+      url: nabuUrl
+    })
+
   const getSBQuote = (
     currencyPair: SBPairsType,
     action: SBOrderActionType,
@@ -435,6 +442,7 @@ export default ({
     getBankTransferAccountDetails,
     getBankTransferAccounts,
     getPaymentById,
+    getRBPaymentMethods,
     getSBBalances,
     getSBCard,
     getSBCards,
