@@ -38,10 +38,10 @@ enum AnalyticsKey {
   SELL_AMOUNT_MAX_CLICKED = 'Sell Amount Max Clicked',
   SELL_AMOUNT_MIN_CLICKED = 'Sell Amount Min Clicked',
   SELL_FROM_SELECTED = 'Sell From Selected',
-  SEND_AMOUNT_ENTERED = 'Send Amount Entered', // TO DO
+  SEND_AMOUNT_ENTERED = 'Send Amount Entered',
   SEND_RECEIVE_CLICKED = 'Send Receive Clicked',
   SEND_RECEIVE_VIEWED = 'Send Receive Viewed',
-  SEND_SUBMITTED = 'Send Submitted', // TO DO
+  SEND_SUBMITTED = 'Send Submitted',
   SETTINGS_CURRENCY_CLICKED = 'Settings Currency Clicked',
   SETTINGS_HYPERLINK_CLICKED = 'Settings Hyperlink Clicked',
   SETTINGS_TAB_CLICKED = 'Settings Tab Clicked',

@@ -42,6 +42,7 @@ const queueCallback = async (rawEvents: RawEvent[]) => {
   await fetch(analyticsURL, {
     body: JSON.stringify({
       context,
+      device: 'WEB',
       events,
       id: id ? generateUniqueUserId(id) : null,
       platform: 'WALLET'
