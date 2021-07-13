@@ -17,17 +17,17 @@ export function sendXlmReducer(state = INITIAL_STATE, action) {
   const { payload, type } = action
 
   switch (type) {
-    case AT.INITIALIZED:
-    case AT.DESTROYED: {
+    case AT.SEND_XLM_INITIALIZED:
+    case AT.SEND_XLM_DESTROYED: {
       return INITIAL_STATE
     }
-    case AT.PAYMENT_UPDATED_LOADING: {
+    case AT.SEND_XLM_PAYMENT_UPDATED_LOADING: {
       return assoc('payment', Remote.Loading, state)
     }
-    case AT.PAYMENT_UPDATED_SUCCESS: {
+    case AT.SEND_XLM_PAYMENT_UPDATED_SUCCESS: {
       return assoc('payment', Remote.Success(payload), state)
     }
-    case AT.PAYMENT_UPDATED_FAILURE: {
+    case AT.SEND_XLM_PAYMENT_UPDATED_FAILURE: {
       return assoc('payment', Remote.Failure(payload), state)
     }
     case AT.SEND_XLM_CHECK_DESTINATION_ACCOUNT_EXISTS_LOADING: {
@@ -48,16 +48,16 @@ export function sendXlmReducer(state = INITIAL_STATE, action) {
     case AT.SEND_XLM_CHECK_IF_DESTINATION_IS_EXCHANGE_FAILURE: {
       return assoc('isDestinationExchange', Remote.Failure(payload), state)
     }
-    case AT.FIRST_STEP_SUBMIT_CLICKED: {
+    case AT.SEND_XLM_FIRST_STEP_SUBMIT_CLICKED: {
       return assoc('step', 2, state)
     }
-    case AT.SECOND_STEP_CANCEL_CLICKED: {
+    case AT.SEND_XLM_SECOND_STEP_CANCEL_CLICKED: {
       return assoc('step', 1, state)
     }
-    case AT.FIRST_STEP_FEE_TOGGLED: {
+    case AT.SEND_XLM_FIRST_STEP_FEE_TOGGLED: {
       return assoc('feeToggled', !state.feeToggled, state)
     }
-    case AT.SHOW_NO_ACCOUNT_FORM: {
+    case AT.SEND_XLM_SHOW_NO_ACCOUNT_FORM: {
       return assoc('showNoAccountForm', payload.shouldShow, state)
     }
     default:
