@@ -4,7 +4,7 @@ import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
-export const getData = (state: RootState) => {
+const getData = (state: RootState) => {
   const loanTransactionsR = selectors.components.borrow.getLoanTransactions(state)
   const ratesR = selectors.components.borrow.getRates(state)
 
