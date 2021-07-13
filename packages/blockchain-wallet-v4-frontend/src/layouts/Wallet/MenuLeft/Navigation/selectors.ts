@@ -2,8 +2,8 @@ import BigNumber from 'bignumber.js'
 import { head, last, lift, map, not, reject, toPairs } from 'ramda'
 
 import {
+  CoinfigType,
   ExtractSuccess,
-  SupportedCoinType,
   SupportedWalletCurrencyType,
   WalletFiatEnum
 } from 'blockchain-wallet-v4/src/types'
@@ -26,7 +26,7 @@ export const getData = createDeepEqualSelector(
         not,
         map((coin) => {
           if (coin.coinCode in WalletFiatEnum && coin.method === true) {
-            return coin
+            return coin.coinfig
           }
         }, coins)
       )
@@ -38,7 +38,7 @@ export const getData = createDeepEqualSelector(
           not,
           map((x) => last(x) !== '0' && head(x), toPairs(balances))
         )
-      )
+      ).map((coin) => coin?.coinfig)
 
       const erc20List = coins.reduce((acc, coin: SupportedWalletCurrencyType) => {
         if (!coin.coinfig.type.erc20Address) return acc
@@ -48,11 +48,11 @@ export const getData = createDeepEqualSelector(
         if (balance.isEqualTo(0)) {
           return [...acc]
         }
-        return [...acc, coin]
-      }, [] as SupportedWalletCurrencyType[])
+        return [...acc, coin.coinfig]
+      }, [] as CoinfigType[])
 
       // returns list of fiats eligible and then cryptos with balances as single list
-      return [...fiatList, ...cryptoList, ...erc20List] as Array<SupportedCoinType>
+      return [...fiatList, ...cryptoList, ...erc20List] as CoinfigType[]
     }
 
     return lift(transform)(coinsR)

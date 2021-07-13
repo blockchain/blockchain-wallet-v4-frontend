@@ -8,7 +8,7 @@ export const getData = (state: RootState) => {
   const coinsR = selectors.components.utils.getCoinsWithMethodAndOrder(state)
 
   return lift((coins: ExtractSuccess<typeof coinsR>) => ({
-    coins
+    coins: coins.filter((val) => !val.coinfig.type.isFiat).map((val) => val.coinfig)
   }))(coinsR)
 }
 

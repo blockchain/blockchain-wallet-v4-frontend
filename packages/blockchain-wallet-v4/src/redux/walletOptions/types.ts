@@ -3,7 +3,7 @@ import { CoinType, RemoteDataType, WalletFiatType } from '../../types'
 
 export type WalletOptionsType = typeof WalletOptions
 
-type CoinfigType = {
+export type CoinfigType = {
   name: string
   precision: number
   products: string[]

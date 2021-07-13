@@ -7,9 +7,10 @@ import styled from 'styled-components'
 import { SkeletonCircle, SkeletonRectangle, Text } from 'blockchain-info-components'
 import { ExtractSuccess } from 'core/remote/types'
 import { actions } from 'data'
+import { getData } from 'layouts/Wallet/MenuLeft/Navigation/selectors'
 import { media } from 'services/styles'
 
-import { getData } from './selectors'
+import { getData as getBackupData } from './selectors'
 import Table from './template'
 
 const Wrapper = styled.div`
@@ -55,7 +56,7 @@ const Loading = () => (
   </>
 )
 
-const HoldingsTableContainer = (props) => (
+const HoldingsTableContainer = (props: Props) => (
   <Wrapper>
     <TitleText size='16px' weight={500} color='grey400' capitalize>
       <FormattedMessage id='copy.holdings' defaultMessage='Holdings' />
@@ -68,12 +69,13 @@ const HoldingsTableContainer = (props) => (
       ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
-      Success: (val) => <Table {...props} {...val} />
+      Success: (val) => <Table {...props} coins={val.length > 0 ? val : props.backupCoins.coins} />
     })}
   </Wrapper>
 )
 
 const mapStateToProps = (state) => ({
+  backupCoins: getBackupData(state).getOrElse({ coins: [] }),
   data: getData(state)
 })
 

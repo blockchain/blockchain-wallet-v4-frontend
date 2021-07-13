@@ -6,7 +6,7 @@ import { map, toLower } from 'ramda'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
-import { SupportedCoinType } from 'core/types'
+import { CoinfigType, SupportedCoinType } from 'core/types'
 import { CoinIcon, Destination, MenuItem } from 'layouts/Wallet/components'
 
 import { Divider } from '../template'
@@ -31,15 +31,15 @@ const Success: React.FC<Props> = ({ coinList }) => {
         <Divider />
       </PortfolioSeparator>
       {map(
-        (coin: SupportedCoinType) => (
+        (coinfig) => (
           <LinkContainer
-            to={`/${coin.coinfig.symbol}/transactions`}
+            to={`/${coinfig.symbol}/transactions`}
             activeClassName='active'
-            key={coin.coinfig.symbol}
+            key={coinfig.symbol}
           >
-            <MenuItem data-e2e={`${toLower(coin.coinfig.symbol)}Link`} className='coin'>
-              <CoinIcon className='coin-icon' name={coin.coinfig.symbol as CoinType} size='24px' />
-              <Destination>{coin.coinfig.name}</Destination>
+            <MenuItem data-e2e={`${toLower(coinfig.symbol)}Link`} className='coin'>
+              <CoinIcon className='coin-icon' name={coinfig.symbol as CoinType} size='24px' />
+              <Destination>{coinfig.name}</Destination>
             </MenuItem>
           </LinkContainer>
         ),
@@ -50,7 +50,7 @@ const Success: React.FC<Props> = ({ coinList }) => {
 }
 
 type Props = {
-  coinList: SupportedCoinType[]
+  coinList: CoinfigType[]
 }
 
 export default Success
