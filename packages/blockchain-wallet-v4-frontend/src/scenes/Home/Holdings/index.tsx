@@ -4,11 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import {
-  SkeletonCircle,
-  SkeletonRectangle,
-  Text
-} from 'blockchain-info-components'
+import { SkeletonCircle, SkeletonRectangle, Text } from 'blockchain-info-components'
 import { ExtractSuccess } from 'core/remote/types'
 import { actions } from 'data'
 import { media } from 'services/styles'
@@ -23,7 +19,7 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   border-radius: 8px;
   padding: 24px 24px 0;
-  border: 1px solid ${props => props.theme.grey000};
+  border: 1px solid ${(props) => props.theme.grey000};
 
   ${media.mobile`
     padding: 12px;
@@ -59,29 +55,29 @@ const Loading = () => (
   </>
 )
 
-const HoldingsTableContainer = props => (
+const HoldingsTableContainer = (props) => (
   <Wrapper>
     <TitleText size='16px' weight={500} color='grey400' capitalize>
       <FormattedMessage id='copy.holdings' defaultMessage='Holdings' />
     </TitleText>
     {props.data.cata({
-      Success: val => <Table {...props} {...val} />,
-      Failure: e => (
+      Failure: (e) => (
         <Text size='16px' weight={500} color='grey400' capitalize>
           {e?.toString() || 'Failed to load balances'}
         </Text>
       ),
+      Loading: () => <Loading />,
       NotAsked: () => <Loading />,
-      Loading: () => <Loading />
+      Success: (val) => <Table {...props} {...val} />
     })}
   </Wrapper>
 )
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.refresh, dispatch)
 })
 

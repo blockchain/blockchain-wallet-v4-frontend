@@ -2,21 +2,14 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Cartridge } from '@blockchain-com/components'
-import { map, toLower } from 'ramda'
 import styled from 'styled-components'
 
-import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
-import { CoinType, SupportedCoinType } from 'blockchain-wallet-v4/src/types'
-import {
-  CoinIcon,
-  Destination,
-  MenuIcon,
-  MenuItem,
-  Separator,
-  Wrapper
-} from 'layouts/Wallet/components'
+import { TooltipHost, TooltipIcon } from 'blockchain-info-components'
+import { Destination, MenuIcon, MenuItem, Separator, Wrapper } from 'layouts/Wallet/components'
 
 import { Props } from '.'
+import Loading from './CoinList/template.loading'
+import Success from './CoinList/template.success'
 
 const HelperTipContainer = styled.div`
   position: relative;
@@ -29,6 +22,11 @@ const HelperTip = styled(TooltipHost)`
   left: 74px;
   top: -8px;
 `
+const SeparatorWrapper = styled.div<{ margin?: string }>`
+  width: calc(100% - 32px);
+  margin: ${(props) => (props.margin ? props.margin : '8px 16px')};
+  box-sizing: border-box;
+`
 export const NewCartridge = styled(Cartridge)`
   color: ${(props) => props.theme.orange600} !important;
   background-color: ${(props) => props.theme.white};
@@ -39,30 +37,15 @@ export const NewCartridge = styled(Cartridge)`
   border: 1px solid ${(props) => props.theme.grey000};
   border-radius: 4px;
 `
-const PortfolioSeparator = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-left: 16px;
-  margin-bottom: 4px;
-  width: calc(100% - 16px);
-  box-sizing: content-box;
-`
-const SeparatorWrapper = styled.div<{ margin?: string }>`
-  width: calc(100% - 32px);
-  margin: ${(props) => (props.margin ? props.margin : '8px 16px')};
-  box-sizing: border-box;
-`
-
-type OwnProps = {
-  exchangeUrl: string
-}
-
-const Divider = (props: { margin?: string }) => (
+export const Divider = (props: { margin?: string }) => (
   <SeparatorWrapper {...props}>
     <Separator />
   </SeparatorWrapper>
 )
+
+type OwnProps = {
+  exchangeUrl: string
+}
 
 const ExchangeNavItem = (props) => (
   <>
@@ -107,38 +90,9 @@ const Navigation = (props: OwnProps & Props) => {
       </LinkContainer>
       {coinList.cata({
         Failure: () => null,
-        Loading: () => null,
-        NotAsked: () => null,
-        Success: (coinList) =>
-          coinList.length ? (
-            <>
-              <PortfolioSeparator>
-                <Text color='grey600' lineHeight='20px' weight={600} size='14px'>
-                  <FormattedMessage id='copy.portfolio' defaultMessage='Portfolio' />
-                </Text>
-                <Divider />
-              </PortfolioSeparator>
-              {map(
-                (coin: SupportedCoinType) => (
-                  <LinkContainer
-                    to={`/${coin.coinfig.symbol}/transactions`}
-                    activeClassName='active'
-                    key={coin.coinfig.symbol}
-                  >
-                    <MenuItem data-e2e={`${toLower(coin.coinfig.symbol)}Link`} className='coin'>
-                      <CoinIcon
-                        className='coin-icon'
-                        name={coin.coinfig.symbol as CoinType}
-                        size='24px'
-                      />
-                      <Destination>{coin.coinfig.name}</Destination>
-                    </MenuItem>
-                  </LinkContainer>
-                ),
-                coinList
-              )}
-            </>
-          ) : null
+        Loading: () => <Loading />,
+        NotAsked: () => <Loading />,
+        Success: (coinList) => <Success coinList={coinList} />
       })}
       <Divider margin='0 16px 8px 16px' />
       <LinkContainer to='/airdrops' activeClassName='active'>
