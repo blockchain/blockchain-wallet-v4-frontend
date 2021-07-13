@@ -294,7 +294,7 @@
             "products": [],
             "symbol": "DOGE",
             "type": {
-              "logoPngUrl": "https://raw.githubusercontent.com/blockchain/coin-definitions/master/extensions/blockchains/doge/info/logo.png",
+              "logoPngUrl": "",
               "minimumOnChainConfirmations": 40,
               "name": "DogeCoin",
               "parentChain": "DOGE",
