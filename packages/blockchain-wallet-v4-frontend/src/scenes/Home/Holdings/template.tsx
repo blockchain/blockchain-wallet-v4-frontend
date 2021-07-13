@@ -1,13 +1,13 @@
 import React from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
-import { mapObjIndexed, toLower, values } from 'ramda'
+import { toLower } from 'ramda'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
-import { CoinfigType, CoinType, SupportedWalletCurrencyType } from 'blockchain-wallet-v4/src/types'
+import { CoinfigType, CoinType } from 'blockchain-wallet-v4/src/types'
 import { HomeBalanceRow, HomeBalanceTable } from 'components/Balances'
 
-import { Props, SuccessStateType } from '.'
+import { Props } from '.'
 import CoinBalance from './CoinBalance'
 
 const TxLink = styled(LinkContainer)`
@@ -43,9 +43,12 @@ const Amount = styled.div`
 `
 
 const Success = (props: OwnProps & Props) => {
+  const useBackup = props.coins.length === 0
+  const coins = useBackup ? props.backupCoins.coins : props.coins
+
   return (
     <HomeBalanceTable>
-      {props.coins.map((val) => {
+      {coins.map((val) => {
         return (
           <HomeBalanceRow
             key={val.symbol + val.name}

@@ -474,6 +474,7 @@ type MessagesType = {
   'copy.swap_upgrade_upload': 'Upload Your ID. Swap More Crypto Everyday.'
   'copy.swap_verify_email': 'Verify Your Email & Swap Today.'
   'copy.swap_verify_id': 'Verify your identity to increase how much you can Swap everyday.'
+  'copy.view_prices': 'View Prices'
   'copy.swap_your_crypto': 'Swap Your Crypto'
   'copy.viewTransaction': 'View Transaction'
   'copy.viewTransactions': 'View Transactions'
