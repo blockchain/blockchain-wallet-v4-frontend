@@ -17,6 +17,7 @@ enum AnalyticsKey {
   DEPOSIT_METHOD_SELECTED = 'Deposit Method Selected',
   DEPOSIT_VIEWED = 'Deposit Viewed',
   EMAIL_VERIFICATION_REQUESTED = 'Email Verification Requested',
+  EMAIL_VERIFICATION_SKIPPED = 'Email Verification Skipped',
   IMPORT_ADDRESS_CLICKED = 'Import Address Clicked',
   INTEREST_CLICKED = 'Interest Clicked',
   INTEREST_DEPOSIT_AMOUNT_ENTERED = 'Interest Deposit Amount Entered',
@@ -239,10 +240,14 @@ type DepositMethodSelectedPayload = BasePayload & {
 
 type DepositViewedPayload = BasePayload & PageViewPayload & {}
 
-type EmailVerificationClickedOrigin = 'SIGN_UP' | 'VERIFICATION'
+type EmailVerificationSkippedPayload = BasePayload & {
+  origin: 'SIGN_UP'
+}
 
-type EmailVerificationClickedPayload = BasePayload & {
-  origin: EmailVerificationClickedOrigin
+type EmailVerificationRequestedOrigin = 'SIGN_UP' | 'VERIFICATION'
+
+type EmailVerificationRequestedPayload = BasePayload & {
+  origin: EmailVerificationRequestedOrigin
 }
 
 type ImportAddressClickedPayload = BasePayload & {}
@@ -571,7 +576,8 @@ type AnalyticsProperties =
   | DepositClickedPayload
   | DepositMethodSelectedPayload
   | DepositViewedPayload
-  | EmailVerificationClickedPayload
+  | EmailVerificationRequestedPayload
+  | EmailVerificationSkippedPayload
   | ImportAddressClickedPayload
   | InterestClickedPayload
   | InterestDepositAmountEnteredPayload
@@ -637,7 +643,7 @@ export type {
   BuySellClickedOrigin,
   DashboardClickedOrigin,
   DepositClickedOrigin,
-  EmailVerificationClickedOrigin,
+  EmailVerificationRequestedOrigin,
   InterestDepositClickedOrigin,
   InterestSubmitInformationClickedOrigin,
   InterestWithdrawalClickedOrigin,

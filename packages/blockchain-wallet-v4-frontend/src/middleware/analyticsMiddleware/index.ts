@@ -578,10 +578,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.email
         const tier = state.profile.userData.getOrElse({})?.tiers.current
         const id = state.walletPath.wallet.guid
-
         const origin = 'SIGN_UP'
 
-        analytics.push(AnalyticsKey.AMOUNT_SWITCHED, {
+        analytics.push(AnalyticsKey.EMAIL_VERIFICATION_REQUESTED, {
           properties: {
             id,
             origin,
@@ -602,10 +601,32 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.email
         const tier = state.profile.userData.getOrElse({})?.tiers.current
         const id = state.walletPath.wallet.guid
-
         const origin = 'VERIFICATION'
 
-        analytics.push(AnalyticsKey.AMOUNT_SWITCHED, {
+        analytics.push(AnalyticsKey.EMAIL_VERIFICATION_REQUESTED, {
+          properties: {
+            id,
+            origin,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.modules.securityCenter.SKIP_VERIFY_EMAIL: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id
+        const email = state.profile.userData.getOrElse({})?.email
+        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const id = state.walletPath.wallet.guid
+        const origin = 'SIGN_UP'
+
+        analytics.push(AnalyticsKey.EMAIL_VERIFICATION_SKIPPED, {
           properties: {
             id,
             origin,
