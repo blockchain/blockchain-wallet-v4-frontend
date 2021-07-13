@@ -200,10 +200,10 @@ const Account = ({
         // If user has no saved banks take them to add bank flow
         // else take them to enter amount form with default bank
         if (!bankTransferAccounts.length) {
-          brokerageActions.showModal(
-            BrokerageModalOriginType.ADD_BANK_DEPOSIT,
-            fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL'
-          )
+          brokerageActions.showModal({
+            origin: BrokerageModalOriginType.ADD_BANK_DEPOSIT,
+            modalType: fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL'
+          })
           brokerageActions.setAddBankStep({
             addBankStep: AddBankStepType.ADD_BANK
           })

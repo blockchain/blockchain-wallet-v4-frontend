@@ -35,7 +35,6 @@ import {
 } from 'data/types'
 
 import profileSagas from '../../modules/profile/sagas'
-import { FETCH_BANK_TRANSFER_ACCOUNTS_SUCCESS } from '../brokerage/actionTypes'
 import brokerageSagas from '../brokerage/sagas'
 import { convertBaseToStandard, convertStandardToBase } from '../exchange/services'
 import sendSagas from '../send/sagas'
@@ -983,10 +982,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         )
       case SBPaymentTypes.LINK_BANK:
         yield put(
-          actions.components.brokerage.showModal(
-            BrokerageModalOriginType.ADD_BANK_BUY,
-            fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL'
-          )
+          actions.components.brokerage.showModal({
+            origin: BrokerageModalOriginType.ADD_BANK_BUY,
+            modalType: fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL'
+          })
         )
         return yield put(
           actions.components.brokerage.setAddBankStep({
@@ -1205,7 +1204,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   // to more details about the bank
   const getBankInformation = function* (order: SBOrderType) {
     yield put(actions.components.brokerage.fetchBankTransferAccounts())
-    yield take(FETCH_BANK_TRANSFER_ACCOUNTS_SUCCESS)
+    yield take(actions.components.brokerage.fetchBankTransferAccountsSuccess.type)
     const bankAccountsR = selectors.components.brokerage.getBankTransferAccounts(yield select())
     const bankAccounts = bankAccountsR.getOrElse([])
     const [bankAccount] = filter(
