@@ -1,4 +1,3 @@
-import * as AT from './actionTypes'
 import {
   append,
   assoc,
@@ -9,7 +8,9 @@ import {
   over,
   prepend
 } from 'ramda'
+
 import Remote from '../../../remote'
+import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
   ledgerDetails: Remote.NotAsked,
@@ -21,7 +22,7 @@ const INITIAL_STATE = {
 }
 
 export default (state = INITIAL_STATE, action) => {
-  const { type, payload } = action
+  const { payload, type } = action
 
   switch (type) {
     case AT.SET_LEDGER_DETAILS_LOADING: {
@@ -66,7 +67,7 @@ export default (state = INITIAL_STATE, action) => {
         : over(lensProp('transactions'), append(Remote.Loading), state)
     }
     case AT.FETCH_TRANSACTIONS_SUCCESS: {
-      const { txs, reset } = payload
+      const { reset, txs } = payload
       return reset
         ? assoc('transactions', [Remote.Success(txs)], state)
         : over(

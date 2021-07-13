@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { SkeletonRectangle } from 'blockchain-info-components'
-import { spacing } from 'services/StyleService'
+import { spacing } from 'services/styles'
 
 const Wrapper = styled.div`
   width: 100%;

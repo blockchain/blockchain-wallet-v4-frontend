@@ -1,7 +1,8 @@
-import { SelectInput } from 'blockchain-info-components'
-import PropTypes from 'prop-types'
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
+
+import { SelectInput } from 'blockchain-info-components'
 
 const Container = styled.div`
   position: relative;
@@ -24,7 +25,7 @@ const Error = styled.label`
 `
 
 class SelectBox extends React.PureComponent {
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (this.props.meta.active && !prevProps.meta.active) {
       this.selectRef.focus()
     }
@@ -42,17 +43,17 @@ class SelectBox extends React.PureComponent {
     }
   }
 
-  render () {
+  render() {
     const {
+      className,
+      errorBottom,
+      hideErrors,
       input,
       meta,
-      hideErrors,
-      errorBottom,
-      className,
       zIndex,
       ...rest
     } = this.props
-    const { touched, invalid, error, pristine } = meta
+    const { error, invalid, pristine, touched } = meta
     const errorState = touched && invalid ? 'invalid' : 'initial'
 
     return (

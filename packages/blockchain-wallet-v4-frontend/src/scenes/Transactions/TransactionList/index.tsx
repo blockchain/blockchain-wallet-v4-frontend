@@ -1,19 +1,23 @@
+import React, { PureComponent } from 'react'
+import styled from 'styled-components'
+
 import {
+  CoinType,
+  FiatSBAndSwapTransactionType,
   FiatType,
   ProcessedTxType,
   RemoteDataType,
   SBOrderType,
   SBTransactionType,
   WalletCurrencyType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
-import React, { PureComponent } from 'react'
-import styled from 'styled-components'
 
 import CustodialTxListItem from '../CustodialTx'
-import Loading from './template.loading'
+import NonCustodialTxListItem from '../NonCustodialTx'
 import SimpleBuyListItem from '../SBOrderTx'
-import TransactionListItem from 'components/TransactionListItem'
+import SwapOrderTx from '../SwapOrderTx'
+import Loading from './template.loading'
 
 // width: 99%; to prevent scrolling weirdness
 const TransactionsWrapper = styled.div`
@@ -22,33 +26,38 @@ const TransactionsWrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 99%;
-  &:last-child {
-    > div {
-      border: none;
-    }
-  }
+  border-radius: 8px;
+  border: 1px solid ${props => props.theme.grey000};
 `
 
 class TransactionList extends PureComponent<Props> {
-  render () {
+  render() {
     const { coin, coinTicker, currency, data } = this.props
 
     return data.cata({
       Success: (transactions: SuccessStateType) => (
         <TransactionsWrapper>
           {transactions.map(tx => {
+            // @ts-ignore
             return 'hash' in tx ? (
-              <TransactionListItem
+              <NonCustodialTxListItem
                 key={tx.hash}
                 transaction={tx}
-                coin={coin}
+                coin={coin as CoinType}
                 coinTicker={coinTicker}
                 currency={currency}
               />
+            ) : 'priceFunnel' in tx ? (
+              // @ts-ignore
+              <SwapOrderTx key={tx.id} order={tx} coin={coin as CoinType} />
             ) : 'pair' in tx ? (
-              <SimpleBuyListItem order={tx} />
+              <SimpleBuyListItem key={tx.id} order={tx} />
             ) : (
-              <CustodialTxListItem tx={tx} {...this.props} />
+              <CustodialTxListItem
+                key={tx.id}
+                tx={tx as FiatSBAndSwapTransactionType}
+                {...this.props}
+              />
             )
           })}
         </TransactionsWrapper>

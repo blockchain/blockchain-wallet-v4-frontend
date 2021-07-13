@@ -1,10 +1,12 @@
-import * as A from './actions.js'
-import * as C from 'services/AlertService'
+import { call, put, select } from 'redux-saga/effects'
+
+import { Types } from 'blockchain-wallet-v4/src'
 import * as signer from 'blockchain-wallet-v4/src/signer'
 import { actions, selectors } from 'data'
-import { call, put, select } from 'redux-saga/effects'
-import { promptForSecondPassword } from 'services/SagaService'
-import { Types } from 'blockchain-wallet-v4/src'
+import * as C from 'services/alerts'
+import { promptForSecondPassword } from 'services/sagas'
+
+import * as A from './actions.js'
 
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))

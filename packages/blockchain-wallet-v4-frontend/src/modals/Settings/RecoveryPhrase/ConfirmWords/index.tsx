@@ -1,24 +1,22 @@
-import { compose } from 'redux'
-import { forEach, keysIn, map, prop, range, sortBy, split, take } from 'ramda'
-import { FormattedMessage } from 'react-intl'
-import {
-  LinkDispatchPropsType,
-  LinkStatePropsType,
-  OwnPropsType
-} from '../index'
-import { SubmissionError } from 'redux-form'
-import ConfirmWordsForm from './template'
 import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { forEach, keysIn, map, prop, range, sortBy, split, take } from 'ramda'
+import { compose } from 'redux'
+import { SubmissionError } from 'redux-form'
 
-export type Props = OwnPropsType & LinkDispatchPropsType & LinkStatePropsType
+import { Props } from '../index'
+import ConfirmWordsForm from './template'
 
-class ConfirmWords extends PureComponent<Props> {
-  state = { indexes: [] }
+class ConfirmWords extends PureComponent<Props, StateType> {
+  constructor(props) {
+    super(props)
+    this.state = { indexes: [] }
+  }
 
-  componentDidMount () {
+  componentDidMount() {
     // @ts-ignore
     const randomize = sortBy(prop(0))
-    const pair = map(x => [Math.random(), x])
+    const pair = map((x) => [Math.random(), x])
     const indexes = compose(
       take(5),
       // @ts-ignore
@@ -30,10 +28,11 @@ class ConfirmWords extends PureComponent<Props> {
     this.setState({ indexes })
     /* eslint-enable */
   }
-  handleSubmit = values => {
+
+  handleSubmit = (values) => {
     const errors = {}
     compose(
-      forEach(word => {
+      forEach((word) => {
         // @ts-ignore
         if (values[word] !== this.props.recoveryPhrase[split('w', word)[1]]) {
           // @ts-ignore
@@ -52,20 +51,19 @@ class ConfirmWords extends PureComponent<Props> {
       throw new SubmissionError(errors)
     } else {
       this.props.walletActions.verifyMnemonic()
+      this.props.walletActions.updateMnemonicBackup()
       this.props.recoveryPhraseActions.setStep('CONFIRM_WORDS_SUCCESS')
     }
   }
 
-  render () {
+  render() {
     const { ...rest } = this.props
-    return (
-      <ConfirmWordsForm
-        {...rest}
-        indexes={this.state.indexes}
-        onSubmit={this.handleSubmit}
-      />
-    )
+    return <ConfirmWordsForm {...rest} indexes={this.state.indexes} onSubmit={this.handleSubmit} />
   }
+}
+
+type StateType = {
+  indexes: Array<any>
 }
 
 export default ConfirmWords

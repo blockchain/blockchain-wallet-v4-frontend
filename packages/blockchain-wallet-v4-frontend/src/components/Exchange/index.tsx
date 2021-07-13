@@ -1,8 +1,9 @@
-import { Button, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { Button, Text } from 'blockchain-info-components'
+
 import { AutosizeTextBox } from '../Form'
-import { ResizeableFontInputHOC } from '../ResizeableFontInputHOC'
+import { ResizeableFontInput } from '../Form/ResizeableFontInput'
 
 export const Wrapper = styled.div`
   padding: 32px;
@@ -15,11 +16,11 @@ export const Wrapper = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
 `
-export const AmountTextBox = styled(ResizeableFontInputHOC(AutosizeTextBox))<{
+export const AmountTextBox = styled(ResizeableFontInput(AutosizeTextBox))<{
   fiatActive: boolean
 }>`
   height: 86px;
-  max-width: ${({ fiatActive }) => (fiatActive ? '100%' : '50%')};
+  max-width: ${({ fiatActive }) => (fiatActive ? '100%' : '75%')};
   > div {
     border: none;
     height: 100%;
@@ -32,7 +33,7 @@ export const AmountTextBox = styled(ResizeableFontInputHOC(AutosizeTextBox))<{
   input {
     outline: 0;
     position: relative;
-    font-weight: 400;
+    font-weight: 500;
     font-size: 62px;
     line-height: 88px;
     height: 88px;
@@ -44,6 +45,8 @@ export const AmountTextBox = styled(ResizeableFontInputHOC(AutosizeTextBox))<{
     text-align: center;
     color: ${props => props.theme.textBlack};
     background-color: ${props => props.theme.white};
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+      Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
   }
 `
 export const ExchangeText = styled(Text)`

@@ -1,16 +1,15 @@
-import * as AT from './actionTypes'
-
 import {
   CoinType,
-  FiatType,
-  PriceChangeTimeRangeType,
-  SBOrderActionType
-} from 'core/types'
+  SBOrderActionType,
+  TimeRange
+} from 'blockchain-wallet-v4/src/types'
 import { SBFixType } from 'data/components/types'
+
+import * as AT from './actionTypes'
 
 export type PriceChartPreferenceType = {
   coin?: CoinType
-  time?: PriceChangeTimeRangeType
+  time?: TimeRange
 }
 
 // State
@@ -24,7 +23,6 @@ export type PreferencesState = {
       fix: SBFixType
     }
   }
-  sbFiatCurrency: undefined | FiatType
   showAirdropClaimModal: boolean
   showBackupReminder: boolean
   showInterestInfoBox: boolean

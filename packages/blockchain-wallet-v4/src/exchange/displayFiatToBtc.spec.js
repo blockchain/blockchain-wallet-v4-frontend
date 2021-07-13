@@ -1,5 +1,5 @@
-import * as Conversion from './index'
 import { btcRates } from './conversion.textures'
+import * as Conversion from './index'
 
 describe('displayFiatToBtc', () => {
   it('should return correct value', () => {

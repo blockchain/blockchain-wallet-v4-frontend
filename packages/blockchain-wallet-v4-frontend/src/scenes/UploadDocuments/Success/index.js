@@ -1,8 +1,9 @@
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
 
 import { selectors } from 'data'
+
 import UploadDocumentsSuccess from './template'
 
 class UploadDocumentsSuccessContainer extends Component {
@@ -10,7 +11,7 @@ class UploadDocumentsSuccessContainer extends Component {
     reference: PropTypes.string.isRequired
   }
 
-  render () {
+  render() {
     return <UploadDocumentsSuccess reference={this.props.reference} />
   }
 }

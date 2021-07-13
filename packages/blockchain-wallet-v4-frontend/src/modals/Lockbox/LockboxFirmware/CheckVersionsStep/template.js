@@ -1,9 +1,10 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { BlockchainLoader, Button, Text } from 'blockchain-info-components'
-import { RotateSync } from 'components/RotateSync'
+
+import { RotateSync } from '../../components/RotateSync'
 
 const Title = styled.div`
   text-align: center;
@@ -60,10 +61,7 @@ const CheckVersionsStep = props => {
       <ButtonContainer>
         {status ? (
           <Button fullwidth nature='primary' onClick={onStartInstall}>
-            <FormattedMessage
-              id='buttons.continue'
-              defaultMessage='Install Update'
-            />
+            Install Update
           </Button>
         ) : (
           <Button fullwidth disabled nature='dark'>

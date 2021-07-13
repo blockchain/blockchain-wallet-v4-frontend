@@ -1,5 +1,6 @@
-import * as A from './actions'
 import { call, put } from 'redux-saga/effects'
+
+import * as A from './actions'
 
 export default ({ api }) => {
   const fetchOptions = function * () {

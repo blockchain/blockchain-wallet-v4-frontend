@@ -1,12 +1,12 @@
-import { Field, reduxForm } from 'redux-form'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
-import React from 'react'
+import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { CheckBox } from 'components/Form'
 import { Text } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
+import { CheckBox } from 'components/Form'
+import { media } from 'services/styles'
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,18 +24,17 @@ const Wrapper = styled.div`
 
 const Setting = props => (
   <Wrapper>
-    <Text>
-      <FormattedMessage
-        id='scenes.settings.preferences.notifications.settings.receive'
-        defaultMessage='Receive By:'
-      />
-    </Text>
     <Field
       name='emailEnabled'
       component={CheckBox}
       disabled={props.emailDisabled}
     >
-      <Text size='14' weight={400} style={{ marginLeft: '4px' }}>
+      <Text
+        color='grey800'
+        size='14px'
+        weight={600}
+        style={{ marginLeft: '4px' }}
+      >
         <FormattedMessage
           id='scenes.settings.preferences.notifications.settings.email'
           defaultMessage='Email'
@@ -47,7 +46,12 @@ const Setting = props => (
       component={CheckBox}
       disabled={props.mobileDisabled}
     >
-      <Text size='14' weight={400} style={{ marginLeft: '12px' }}>
+      <Text
+        color='grey800'
+        size='14px'
+        weight={600}
+        style={{ marginLeft: '10px' }}
+      >
         <FormattedMessage
           id='scenes.settings.preferences.notifications.settings.sms'
           defaultMessage='SMS'

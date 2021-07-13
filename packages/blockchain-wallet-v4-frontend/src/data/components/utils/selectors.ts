@@ -1,12 +1,15 @@
+import { isNil, lift, mapObjIndexed, reject, values } from 'ramda'
+
 import {
   CoinTypeEnum,
   ExtractSuccess,
+  SBPaymentTypes,
   SupportedWalletCurrencyType
 } from 'blockchain-wallet-v4/src/types'
-import { lift, mapObjIndexed, values } from 'ramda'
-import { RootState } from 'data/rootReducer'
 import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 
+// eslint-disable-next-line import/prefer-default-export
 export const getSupportedCoinsWithMethodAndOrder = (state: RootState) => {
   const sbMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(state)
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
@@ -15,7 +18,8 @@ export const getSupportedCoinsWithMethodAndOrder = (state: RootState) => {
     paymentMethods: ExtractSuccess<typeof sbMethodsR>,
     supportedCoins: ExtractSuccess<typeof supportedCoinsR>
   ) => {
-    const coinOrder = [
+    // remove coins that may not yet exist in wallet options to avoid app crash
+    const coinOrder = reject(isNil)([
       supportedCoins.USD,
       supportedCoins.EUR,
       supportedCoins.GBP,
@@ -23,10 +27,15 @@ export const getSupportedCoinsWithMethodAndOrder = (state: RootState) => {
       supportedCoins.ETH,
       supportedCoins.BCH,
       supportedCoins.XLM,
+      supportedCoins.WDGLD,
       supportedCoins.ALGO,
       supportedCoins.PAX,
-      supportedCoins.USDT
-    ]
+      supportedCoins.USDT,
+      supportedCoins.AAVE,
+      supportedCoins.DOT,
+      supportedCoins.YFI
+    ])
+
     return values(
       mapObjIndexed((coin: SupportedWalletCurrencyType) => {
         return {
@@ -34,8 +43,7 @@ export const getSupportedCoinsWithMethodAndOrder = (state: RootState) => {
           method:
             coin.coinCode in CoinTypeEnum ||
             !!paymentMethods.methods.find(
-              method =>
-                method.currency === coin.coinCode && method.type === 'FUNDS'
+              (method) => method.currency === coin.coinCode && method.type === SBPaymentTypes.FUNDS
             )
         }
       }, coinOrder)

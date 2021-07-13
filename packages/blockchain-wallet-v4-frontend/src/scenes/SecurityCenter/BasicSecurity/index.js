@@ -1,22 +1,37 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators } from 'redux'
+import React from 'react'
 import { connect } from 'react-redux'
 import { pathOr } from 'ramda'
-import BasicSecurity from './template'
-import React from 'react'
+import { bindActionCreators } from 'redux'
+import styled from 'styled-components'
+
+import { actions, selectors } from 'data'
+
+import EmailAddress from './EmailAddress'
+import TwoStepVerification from './TwoStepVerification'
+import WalletRecoveryPhrase from './WalletRecoveryPhrase'
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 100%;
+  & > * {
+    margin-top: 20px;
+  }
+`
 
 class BasicSecurityContainer extends React.PureComponent {
   state = {
     changeEmail: pathOr(false, ['location', 'state', 'changeEmail'], this.props)
   }
 
-  render () {
+  render() {
     return (
-      <BasicSecurity
-        data={this.props}
-        onClose={this.onClose}
-        changeEmail={this.state.changeEmail}
-      />
+      <Wrapper>
+        <EmailAddress changeEmail={this.state.changeEmail} />
+        <TwoStepVerification />
+        <WalletRecoveryPhrase />
+      </Wrapper>
     )
   }
 }

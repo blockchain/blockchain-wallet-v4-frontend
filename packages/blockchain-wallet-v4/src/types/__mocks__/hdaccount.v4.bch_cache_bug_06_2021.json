@@ -1,0 +1,27 @@
+{
+  "label": "BTC Private Key Wallet",
+  "archived": false,
+  "default_derivation": "bech32",
+  "derivations": [
+    {
+      "type": "legacy",
+      "purpose": 44,
+      "xpriv": "UtBRtikYO1OzXlLdVUFoeznUSduTTqun27yX2ca89F6Pcg3/B74LdKNVeCVhMiXLo8k6XFs6khf6rNt43HBzwhaqXgjByVQNujbNGmlEK2CJOolkNAvgHxvkJlHhbKTLkIW1dzwisPkF6z45m5VOZc1epOttbP2Fra15baNUq2w=",
+      "xpub": "xpub6BqjKXdaDLL6YhAt36SjPe1bZEhGCEcYoAwh5uUDCxK8MCJeLj6do7oWrGSB7JzTXQSJ1nS3gnpuvw1gNCTE9Lt5BF89SSRovhvSpVgMWtB",
+      "cache": {
+        "receiveAccount": "xpub6DiVpLnjaQA4zQPUsRp1gC9WTDSg1Dqp46xo4Pja7ERccrkzqP7u2WGTXUxMpYFqamaT8h458KMZVr5CgLhrCDQfAzL7UiR3SWodMmGDfZ1",
+        "changeAccount": "xpub6DiVpLnjaQA52qDbgry9dvovPZBQbFjoELZVoSCSAKZyRR9krRNyQXYqycBZv3tLqvfH8EVrdB183qhYPLVfpkTs5NSpytRxxKvARnPZzPX"
+      }
+    },
+    {
+      "type": "bech32",
+      "purpose": 84,
+      "xpriv": "KSh6ZRWuEsn2Eo70Qn6vzQiPrJcl6XbjKMbFcQsxjXWIm8Dp09VUrE9hBTiymrPzvUo6ZuEKEPV0oTmcnR7wa/FoLWTVjzC9Nik0gsg78Kc0L7ClvGb5mareuFSjGo7UZucIWus6NlUqdzDATTl5xsXnzclDdJZI8A6lJv+gPOc=",
+      "xpub": "xpub6CHFutrcaTBHF8Gon5nALd9ZeDb26P1EVNbhcivc76qX87tngaXryxiQVeq6PGodZQ5smqewwLwM8GdQbnvKEoDVu41Kw33UDfHqvHusrJF",
+      "cache": {
+        "receiveAccount": "xpub6DiVpLnjaQA4zQPUsRp1gC9WTDSg1Dqp46xo4Pja7ERccrkzqP7u2WGTXUxMpYFqamaT8h458KMZVr5CgLhrCDQfAzL7UiR3SWodMmGDfZ1",
+        "changeAccount": "xpub6DiVpLnjaQA52qDbgry9dvovPZBQbFjoELZVoSCSAKZyRR9krRNyQXYqycBZv3tLqvfH8EVrdB183qhYPLVfpkTs5NSpytRxxKvARnPZzPX"
+      }
+    }
+  ]
+}

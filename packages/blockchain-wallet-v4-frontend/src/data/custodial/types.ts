@@ -1,4 +1,7 @@
-import { BeneficiariesType, RemoteDataType } from 'core/types'
+import {
+  BeneficiariesType,
+  RemoteDataType
+} from 'blockchain-wallet-v4/src/types'
 
 import * as AT from './actionTypes'
 

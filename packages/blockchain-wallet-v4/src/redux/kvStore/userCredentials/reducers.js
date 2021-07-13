@@ -1,14 +1,15 @@
-import * as AT from './actionTypes'
 import { __, compose, merge } from 'ramda'
-import { KVStoreEntry } from '../../../types'
 import { mapped, over } from 'ramda-lens'
+
 import Remote from '../../../remote'
+import { KVStoreEntry } from '../../../types'
+import * as AT from './actionTypes'
 
 // initial state should be a kvstore object
 const INITIAL_STATE = Remote.NotAsked
 
 export default (state = INITIAL_STATE, action) => {
-  const { type, payload } = action
+  const { payload, type } = action
 
   switch (type) {
     case AT.FETCH_METADATA_USER_CREDENTIALS_LOADING: {
@@ -22,7 +23,7 @@ export default (state = INITIAL_STATE, action) => {
       return Remote.Failure(payload)
     }
     case AT.SET_USER_CREDENTIALS: {
-      const { user_id, lifetime_token } = payload
+      const { lifetime_token, user_id } = payload
       return over(
         compose(mapped, KVStoreEntry.value),
         merge(__, { user_id, lifetime_token }),

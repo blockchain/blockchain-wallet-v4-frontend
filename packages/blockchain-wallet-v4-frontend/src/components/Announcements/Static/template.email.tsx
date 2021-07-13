@@ -1,11 +1,11 @@
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Icon, Text } from 'blockchain-info-components'
 import { LinkContainer } from 'react-router-bootstrap'
 import PropTypes from 'prop-types'
-import React from 'react'
 import styled, { css, keyframes } from 'styled-components'
 
-import media from 'services/ResponsiveService'
+import { Icon, Text } from 'blockchain-info-components'
+import { media } from 'services/styles'
 
 const revealFrames = keyframes`
   0% { top: 30px; }
@@ -42,15 +42,15 @@ const EmailSentNotification = styled(Text)<{ className?: string }>`
   `}
 `
 
-const EmailReminder = props => {
-  const { onEmailResend, emailReminded, email } = props
+const EmailReminder = (props) => {
+  const { email, emailReminded, onEmailResend } = props
 
   return (
-    <React.Fragment>
+    <>
       <ItemWrapper>
         <Icon name='email' color='white' size='24px' />
         <Text
-          style={{ marginLeft: '12px', marginBottom: '1px' }}
+          style={{ marginBottom: '1px', marginLeft: '12px' }}
           color='white'
           size='14px'
           weight={500}
@@ -93,7 +93,7 @@ const EmailReminder = props => {
           </Action>
         </LinkContainer>
       </ItemWrapper>
-    </React.Fragment>
+    </>
   )
 }
 

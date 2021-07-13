@@ -1,5 +1,5 @@
-import { FormattedHTMLMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
@@ -30,7 +30,7 @@ const FinishSetupStep = props => {
         width='100%'
       />
       <IntroText size='12px' weight={400}>
-        <FormattedHTMLMessage
+        <FormattedMessage
           id='modals.lockboxsetup.finishstep.intro'
           defaultMessage="Congratulations! Your Lockbox is ready. You'll be able to view your Lockbox balance in your Wallet any time, but will need your device connected to transfer funds."
         />
@@ -40,13 +40,13 @@ const FinishSetupStep = props => {
         weight={400}
         onClick={() => onFinishSetup(false)}
       >
-        <FormattedHTMLMessage
+        <FormattedMessage
           id='modals.lockboxsetup.finishstep.skiptour'
           defaultMessage='Skip Tour'
         />
       </SkipTourText>
       <Button fullwidth onClick={() => onFinishSetup(true)} nature='primary'>
-        <FormattedHTMLMessage
+        <FormattedMessage
           id='modals.lockboxsetup.finishstep.starttour'
           defaultMessage='Start Tour'
         />

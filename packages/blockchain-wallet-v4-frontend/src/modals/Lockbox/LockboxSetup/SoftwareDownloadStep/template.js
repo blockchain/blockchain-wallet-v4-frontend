@@ -1,7 +1,10 @@
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { prop } from 'ramda'
-import Bowser from 'bowser'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import linuxUpdater from 'assets/lockbox/lockbox-updater-1.0.0.AppImage'
+import macUpdater from 'assets/lockbox/lockbox-updater-1.0.0.dmg'
+import windowsUpdater from 'assets/lockbox/lockbox-updater-1.0.0.exe'
+import Bowser from 'bowser'
+import { prop } from 'ramda'
 import styled from 'styled-components'
 
 import {
@@ -11,10 +14,6 @@ import {
   Link,
   Text
 } from 'blockchain-info-components'
-
-import linuxUpdater from 'assets/lockbox/lockbox-updater-1.0.0.AppImage'
-import macUpdater from 'assets/lockbox/lockbox-updater-1.0.0.dmg'
-import windowsUpdater from 'assets/lockbox/lockbox-updater-1.0.0.exe'
 
 const Wrapper = styled.div`
   display: flex;
@@ -67,9 +66,9 @@ const SoftwareDownloadStep = props => {
   const {
     hasDownloaded,
     onGoBackToDownload,
+    onSkipDownload,
     onStartDownload,
-    onStepChange,
-    onSkipDownload
+    onStepChange
   } = props
   return hasDownloaded ? (
     <Wrapper>
@@ -83,7 +82,7 @@ const SoftwareDownloadStep = props => {
         />
       </Text>
       <Text size='13px' weight={500} style={{ marginTop: '10px' }}>
-        <FormattedHTMLMessage
+        <FormattedMessage
           id='modals.lockboxsetup.softwaredownloadstep.downloaded.body2'
           defaultMessage='Once you have updated your device and <b>installed the Bitcoin app</b>, press the continue button below.'
         />

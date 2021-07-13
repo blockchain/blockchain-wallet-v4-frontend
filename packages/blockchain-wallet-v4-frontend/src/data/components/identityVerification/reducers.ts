@@ -1,33 +1,41 @@
+import Remote from 'blockchain-wallet-v4/src/remote/remote'
+
 import * as AT from './actionTypes'
 import { EMAIL_STEPS } from './model'
 import {
+  EmailSmsStepType,
   IdentityVerificationActionTypes,
   IdentityVerificationState
 } from './types'
-import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 const INITIAL_STATE: IdentityVerificationState = {
   addressRefetchVisible: false,
-  verificationStep: null,
-  smsStep: Remote.Loading,
-  emailStep: EMAIL_STEPS.edit,
-  supportedCountries: Remote.NotAsked,
-  supportedDocuments: Remote.NotAsked,
+  emailStep: EMAIL_STEPS.edit as EmailSmsStepType,
   flowConfig: Remote.NotAsked,
   preIdvData: Remote.NotAsked,
+  smsStep: Remote.Loading,
   states: Remote.NotAsked,
-  steps: Remote.NotAsked
+  steps: Remote.NotAsked,
+  supportedCountries: Remote.NotAsked,
+  supportedDocuments: Remote.NotAsked,
+  verificationStep: null
 }
 
-export function identityVerificationReducer (
+const identityVerificationReducer = (
   state = INITIAL_STATE,
   action: IdentityVerificationActionTypes
-): IdentityVerificationState {
+): IdentityVerificationState => {
   switch (action.type) {
     case AT.SET_VERIFICATION_STEP: {
       return {
         ...state,
         verificationStep: action.payload.step
+      }
+    }
+    case AT.RESET_VERIFICATION_STEP: {
+      return {
+        ...state,
+        verificationStep: null
       }
     }
     case AT.SET_SMS_STEP: {
@@ -148,3 +156,5 @@ export function identityVerificationReducer (
       return state
   }
 }
+
+export default identityVerificationReducer

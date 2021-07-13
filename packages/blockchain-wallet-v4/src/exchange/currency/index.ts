@@ -1,21 +1,25 @@
+import BigRational from 'big-rational'
 import { BigNumber } from 'bignumber.js'
+import Maybe from 'data.maybe'
 // @ts-ignore
 import { compose, curry, flip, is, prop, sequence } from 'ramda'
-import { FiatType } from 'core/types'
 import { view } from 'ramda-lens'
-import BigRational from 'big-rational'
-import Currencies, { CurrenciesType } from '../currencies'
-import Maybe from 'data.maybe'
+
+import { FiatType } from 'core/types'
+
 import Type from '../../types/Type'
+import Currencies, { CurrenciesType } from '../currencies'
 
 export class Currency extends Type {
   'value': typeof BigRational
+
   'currency': CurrenciesType[keyof CurrenciesType]
 
-  toString () {
+  toString() {
     return `Currency(${this.value} ${this.currency.code}-${this.currency.base})`
   }
-  toUnit (unit) {
+
+  toUnit(unit) {
     if (unit && unit.currency === this.currency.code) {
       return Maybe.Just({
         value: this.value
@@ -27,7 +31,8 @@ export class Currency extends Type {
       return Maybe.Nothing()
     }
   }
-  convert (pairs, toCurrency) {
+
+  convert(pairs, toCurrency) {
     let ratio = BigRational.one
     const toCurrencyM = Maybe.fromNullable(toCurrency)
     const pairsM = Maybe.fromNullable(pairs)
@@ -52,7 +57,7 @@ export class Currency extends Type {
     )
   }
 
-  convertWithRate (toCurrency, rate, reverse) {
+  convertWithRate(toCurrency, rate, reverse) {
     let ratio = BigRational(rate)
     const toCurrencyM = Maybe.fromNullable(toCurrency)
 
@@ -91,7 +96,7 @@ export const toUnit = curry((unit, currencyObject) =>
   currencyObject.toUnit(unit)
 )
 
-export const fromUnit = ({ value, unit }) => {
+export const fromUnit = ({ unit, value }) => {
   const unitM = Maybe.fromNullable(unit)
   const currencyM = unitM.map(prop('currency')).map(flip(prop)(Currencies))
 
@@ -104,9 +109,9 @@ export const fromUnit = ({ value, unit }) => {
 }
 
 export const unsafe_deprecated_fiatToString = ({
-  value,
+  digits = 2,
   unit,
-  digits = 2
+  value
 }: {
   digits: number
   unit: {
@@ -119,9 +124,9 @@ export const unsafe_deprecated_fiatToString = ({
 }) => `${unit.symbol}${formatFiat(value, digits)}`
 
 export const fiatToString = ({
-  value,
+  digits = 2,
   unit,
-  digits = 2
+  value
 }: {
   digits?: number
   unit: FiatType
@@ -131,10 +136,10 @@ export const fiatToString = ({
 }
 
 export const coinToString = ({
-  value,
-  unit,
+  maxDigits = 8,
   minDigits = 0,
-  maxDigits = 8
+  unit,
+  value
 }: {
   maxDigits?: number
   minDigits?: number

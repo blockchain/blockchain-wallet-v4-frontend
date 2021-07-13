@@ -1,17 +1,16 @@
-import { Banner } from 'blockchain-info-components'
-import { BlueCartridge } from 'components/Cartridge'
-import { CoinType, CustodialFromType } from 'core/types'
-import {
-  convertBaseToStandard,
-  convertStandardToBase
-} from 'data/components/exchange/services'
-import { FormattedMessage } from 'react-intl'
-import { FormGroup, FormLabel } from 'components/Form'
-import { WITHDRAWAL_LOCK_TIME_DAYS } from 'data/components/simpleBuy/model'
-import BigNumber from 'bignumber.js'
-import media from 'services/ResponsiveService'
 import React from 'react'
+import BigNumber from 'bignumber.js'
 import styled, { css } from 'styled-components'
+
+import { Banner } from 'blockchain-info-components'
+import { CoinType, CustodialFromType } from 'blockchain-wallet-v4/src/types'
+import { BlueCartridge } from 'components/Cartridge'
+import { FormGroup, FormLabel } from 'components/Form'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import { media } from 'services/styles'
+
+import ExchangePromo from './ExchangePromo'
+import LockTime from './LockTime'
 
 export const Row = styled.div`
   display: flex;
@@ -41,15 +40,15 @@ export const AddressButton = styled.div`
   width: 40px;
   height: 40px;
   box-sizing: border-box;
-  border: 1px solid ${props => props.theme.grey200};
+  border: 1px solid ${(props) => props.theme.grey200};
 
   &:hover {
-    background-color: ${props => props.theme.grey000};
+    background-color: ${(props) => props.theme.grey000};
   }
 `
 export const FeeFormContainer = styled.div<{ toggled: boolean }>`
   display: flex;
-  flex-direction: ${props => (props.toggled ? 'column' : 'row')};
+  flex-direction: ${(props) => (props.toggled ? 'column' : 'row')};
   align-items: center;
   justify-content: space-between;
   width: 100%;
@@ -88,16 +87,16 @@ const customCartridge = css`
   align-items: center;
   font-size: 14px;
 `
-const CustomBlueCartridge = styled(BlueCartridge)`
+export const CustomBlueCartridge = styled(BlueCartridge)`
   ${customCartridge}
 `
 
 export const CustodyToAccountMessage = ({
   account,
-  amount,
   coin
 }: {
   account: CustodialFromType
+  // eslint-disable-next-line
   amount?: {
     coin: string
     coinCode: CoinType
@@ -105,54 +104,21 @@ export const CustodyToAccountMessage = ({
   }
   coin: CoinType
 }) => {
-  const baseAmt = amount ? convertStandardToBase(coin, amount.coin) : 0
-  const isAvailableNone = new BigNumber(account.available).isLessThanOrEqualTo(
-    '0'
-  )
-  const isWithdrawableNone = new BigNumber(
-    account.withdrawable
-  ).isLessThanOrEqualTo('0')
-  const isAmtGreaterThanWithdrawable = new BigNumber(baseAmt).isGreaterThan(
+  const isAvailableNone = new BigNumber(account.available).isLessThanOrEqualTo('0')
+  const isWithdrawableNone = new BigNumber(account.withdrawable).isLessThanOrEqualTo('0')
+  const isAvailableEqualToWithdrawable = new BigNumber(account.available).isEqualTo(
     account.withdrawable
   )
-
-  const lockTime = WITHDRAWAL_LOCK_TIME_DAYS
 
   switch (true) {
     // all funds are 'locked'
     case isWithdrawableNone && !isAvailableNone:
+      return <LockTime coin={coin} />
+    case !isWithdrawableNone && !isAvailableEqualToWithdrawable:
       return (
-        <CustomBlueCartridge>
-          <FormattedMessage
-            id='modals.send.firststep.available_in_x_days'
-            defaultMessage='Your {coin} will be available to be withdrawn within {lockTime} days.'
-            values={{ coin, lockTime }}
-          />
-        </CustomBlueCartridge>
-      )
-    case isAmtGreaterThanWithdrawable && !isWithdrawableNone:
-      return (
-        <CustomBlueCartridge>
-          <FormattedMessage
-            id='modals.send.firststep.amt_greater_than_custody_withdraw'
-            defaultMessage='Your available balance is {withdrawable} {coin}. The remaining balance will be available to be withdrawn within {lockTime} days.'
-            values={{
-              coin,
-              lockTime,
-              withdrawable: convertBaseToStandard(coin, account.withdrawable)
-            }}
-          />
-        </CustomBlueCartridge>
+        <LockTime coin={coin} withdrawable={convertBaseToStandard(coin, account.withdrawable)} />
       )
     default:
-      return (
-        <CustomBlueCartridge>
-          <FormattedMessage
-            id='modals.send.firststep.fromcustody1'
-            defaultMessage='At this time, Blockchain.com only allows sending from your {coin} Trading Wallet to your {coin} Wallet.'
-            values={{ coin }}
-          />
-        </CustomBlueCartridge>
-      )
+      return <ExchangePromo />
   }
 }

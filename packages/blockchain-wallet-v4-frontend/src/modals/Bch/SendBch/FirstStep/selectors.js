@@ -1,7 +1,8 @@
-import { formValueSelector } from 'redux-form'
-import { model, selectors } from 'data'
+import * as Bitcoin from 'bitcoinjs-lib'
 import { path, prop } from 'ramda'
-import Bitcoin from 'bitcoinjs-lib'
+import { formValueSelector } from 'redux-form'
+
+import { model, selectors } from 'data'
 
 export const getData = state => {
   const amount = formValueSelector(model.components.sendBch.FORM)(

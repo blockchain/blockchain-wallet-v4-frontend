@@ -17,7 +17,7 @@ const DisplayContainer = styled.div`
         cursor: pointer;
       }
       &:hover {
-        background-color: ${props => props.theme.grey000};
+        background-color: ${props => props.theme.blue000};
       }
     `}
 `

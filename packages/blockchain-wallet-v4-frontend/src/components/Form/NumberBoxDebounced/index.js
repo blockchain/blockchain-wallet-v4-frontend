@@ -1,7 +1,7 @@
 import React from 'react'
+import { equals, isNil } from 'ramda'
 import styled from 'styled-components'
 
-import { equals, isNil } from 'ramda'
 import { NumberInput, Text } from 'blockchain-info-components'
 
 const Container = styled.div`
@@ -36,7 +36,7 @@ const getErrorState = meta => {
 }
 
 class NumberBoxDebounced extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { updatedValue: props.input.value, value: props.input.value }
     this.timeout = undefined
@@ -45,7 +45,7 @@ class NumberBoxDebounced extends React.Component {
     this.handleFocus = this.handleFocus.bind(this)
   }
 
-  static getDerivedStateFromProps (nextProps, prevState) {
+  static getDerivedStateFromProps(nextProps, prevState) {
     if (isNil(prevState)) {
       return {
         updatedValue: nextProps.input.value,
@@ -67,11 +67,11 @@ class NumberBoxDebounced extends React.Component {
     return null
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     clearTimeout(this.timeout)
   }
 
-  handleChange (e) {
+  handleChange(e) {
     e.preventDefault()
     const value = e.target.value
     this.setState({ updatedValue: value })
@@ -82,24 +82,24 @@ class NumberBoxDebounced extends React.Component {
     }, 500)
   }
 
-  handleBlur () {
+  handleBlur() {
     this.props.input.onBlur(this.state.value)
   }
 
-  handleFocus () {
+  handleFocus() {
     this.props.input.onFocus(this.state.value)
   }
 
-  render () {
+  render() {
     const {
       className,
       disabled,
       errorBottom,
       errorLeft,
+      height,
       meta,
       placeholder,
       unit,
-      height,
       ...rest
     } = this.props
     const errorState = getErrorState(meta)

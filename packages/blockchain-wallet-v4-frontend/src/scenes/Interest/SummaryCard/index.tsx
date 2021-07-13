@@ -1,26 +1,35 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
+import styled from 'styled-components'
 
-import { actions } from 'data'
-import { CoinType, InterestRateType, RemoteDataType } from 'core/types'
 import { SkeletonRectangle } from 'blockchain-info-components'
+import {
+  CoinType,
+  InterestRateType,
+  RemoteDataType
+} from 'blockchain-wallet-v4/src/types'
+import { actions } from 'data'
 
-import { getData } from './selectors'
 import {
   StateType as ParentStateType,
   SuccessStateType as ParentSuccessStateType
 } from '..'
-
+import { getData } from './selectors'
 import SummaryCard from './template.success'
 
+const LoadingBox = styled(SkeletonRectangle)`
+  margin-bottom: 24px;
+`
+const LoadingCard = () => <LoadingBox width='330px' height='275px' />
+
 class SummaryCardContainer extends PureComponent<Props> {
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => <SummaryCard {...this.props} {...val} />,
       Failure: () => null,
-      Loading: () => <SkeletonRectangle width='330px' height='275px' />,
-      NotAsked: () => <SkeletonRectangle width='330px' height='275px' />
+      Loading: () => <LoadingCard />,
+      NotAsked: () => <LoadingCard />
     })
   }
 }

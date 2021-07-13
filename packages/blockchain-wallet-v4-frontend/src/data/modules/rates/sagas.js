@@ -1,14 +1,15 @@
 import { and, compose, head, last, prop } from 'ramda'
 import { call, put, select } from 'redux-saga/effects'
 
-import * as A from './actions'
-import * as S from './selectors'
 import { actions, selectors } from 'data'
+
+import * as A from './actions'
 import { configEquals, splitPair } from './model'
+import * as S from './selectors'
 
 export default ({ api }) => {
   const subscribeToAdvice = function * ({ payload }) {
-    const { pair, volume, fix, fiatCurrency } = payload
+    const { fiatCurrency, fix, pair, volume } = payload
 
     yield put(A.updatePairConfig(pair, volume, fix, fiatCurrency))
     yield put(
@@ -67,7 +68,7 @@ export default ({ api }) => {
   }
 
   const updateAdvice = function * ({ payload: { quote } }) {
-    const { pair, fix, volume, fiatCurrency } = quote
+    const { fiatCurrency, fix, pair, volume } = quote
     const currentConfig = yield select(S.getPairConfig(pair))
     if (configEquals(currentConfig, { fix, volume, fiatCurrency })) {
       yield put(A.setPairQuote(pair, quote))

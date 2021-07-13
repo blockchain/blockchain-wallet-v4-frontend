@@ -1,8 +1,7 @@
-import { actions } from 'data'
-import { bindActionCreators, Dispatch } from 'redux'
-import { BorrowMinMaxType } from 'data/types'
+import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { getData } from './selectors'
+import { bindActionCreators, Dispatch } from 'redux'
+
 import {
   LoanTransactionsType,
   LoanType,
@@ -11,17 +10,18 @@ import {
   RatesType,
   RemoteDataType,
   SupportedWalletCurrenciesType
-} from 'core/types'
-import { RootState } from 'data/rootReducer'
+} from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
+import { actions } from 'data'
+import { RootState } from 'data/rootReducer'
+import { BorrowMinMaxType } from 'data/types'
+
+import { getData } from './selectors'
 import Loading from './template.loading'
-import React, { PureComponent } from 'react'
 import Success from './template.success'
 
 class RepayLoan extends PureComponent<Props> {
-  state = {}
-
-  componentDidMount () {
+  componentDidMount() {
     this.props.borrowActions.initializeRepayLoan('PAX')
   }
 
@@ -33,16 +33,12 @@ class RepayLoan extends PureComponent<Props> {
     this.props.borrowActions.repayLoan()
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
-      Success: val => (
-        <Success {...val} {...this.props} onSubmit={this.handleSubmit} />
-      ),
-      Failure: e => (
-        <DataError message={{ message: e }} onClick={this.handleRefresh} />
-      ),
+      Failure: (e) => <DataError message={{ message: e }} onClick={this.handleRefresh} />,
       Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      NotAsked: () => <Loading />,
+      Success: (val) => <Success {...val} {...this.props} onSubmit={this.handleSubmit} />
     })
   }
 }

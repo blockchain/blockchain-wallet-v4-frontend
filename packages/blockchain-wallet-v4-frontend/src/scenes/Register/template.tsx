@@ -1,7 +1,8 @@
-import { FormattedMessage } from 'react-intl'
-import { InjectedFormProps, reduxForm } from 'redux-form'
-import { LinkContainer } from 'react-router-bootstrap'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
+import { find, isEmpty, isNil, propEq, propOr } from 'ramda'
+import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled, { DefaultTheme } from 'styled-components'
 
 import {
@@ -10,14 +11,17 @@ import {
   HeartbeatLoader,
   Icon,
   Link,
-  Text
+  Text,
+  TextGroup
 } from 'blockchain-info-components'
-import { GoalsType } from 'data/goals/types'
-import media from 'services/ResponsiveService'
+import { SimpleBuyWidgetGoalDataType } from 'data/types'
+import { media } from 'services/styles'
 
+import { PropsType as OwnProps } from '.'
 import Header from './Header'
 import LinkExchangeAccount from './LinkExchangeAccount'
 import SignupForm from './SignupForm'
+import SimpleBuyInfo from './SimpleBuyInfo'
 
 const SignupWrapper = styled.div`
   display: flex;
@@ -59,7 +63,7 @@ const CardWrapper = styled.div`
 `
 const Card = styled.div`
   padding: 2rem;
-  background: ${props => props.theme.white};
+  background: ${(props) => props.theme.white};
   border-radius: 0.75rem;
   box-sizing: border-box;
 
@@ -68,13 +72,18 @@ const Card = styled.div`
     padding: 1.5rem;
   `}
 `
+
+const SimpleBuyCard = styled(Card)`
+  max-width: 27rem;
+`
+
 const CardHeader = styled.div`
   align-items: center;
   display: flex;
 `
 const IconWrapper = styled.div<{ color: keyof DefaultTheme }>`
   display: flex;
-  background: ${props => props.theme[props.color]};
+  background: ${(props) => props.theme[props.color]};
   height: 3rem;
   width: 3rem;
   justify-content: center;
@@ -118,13 +127,13 @@ const SubCard = styled.div`
   margin-bottom: 2.5rem;
 `
 const ExchangeButton = styled(Button)`
-  color: ${props => props.theme.white};
-  background-color: ${props => props.theme.black};
+  color: ${(props) => props.theme.white};
+  background-color: ${(props) => props.theme.black};
   position: relative;
   border: none;
 
   &:hover {
-    background-color: ${props => props.theme.greyFade800};
+    background-color: ${(props) => props.theme.greyFade800};
   }
 `
 const TabIcon = styled(Icon)`
@@ -138,9 +147,9 @@ const TabIcon = styled(Icon)`
 const Line = styled.div<{ showForm: boolean }>`
   height: 1px;
   width: 12.5rem;
-  margin: ${props => (props.showForm ? '1.5rem auto 0' : '0')};
-  background-color: ${props => props.theme.grey000};
-  visibility: ${props => (props.showForm ? 'visible' : 'hidden')};
+  margin: ${(props) => (props.showForm ? '1.5rem auto 0' : '0')};
+  background-color: ${(props) => props.theme.grey000};
+  visibility: ${(props) => (props.showForm ? 'visible' : 'hidden')};
   transition: all 0.5s ease;
 `
 const AppButtons = styled.footer<{ showForm: boolean }>`
@@ -150,8 +159,8 @@ const AppButtons = styled.footer<{ showForm: boolean }>`
   align-items: center;
   text-align: center;
   width: 100%;
-  max-height: ${props => (props.showForm ? '5.25rem' : '0')};
-  visibility: ${props => (props.showForm ? 'visible' : 'hidden')};
+  max-height: ${(props) => (props.showForm ? '5.25rem' : '0')};
+  visibility: ${(props) => (props.showForm ? 'visible' : 'hidden')};
   transition: all 0.5s ease;
   ${media.mobile`
     img {
@@ -168,7 +177,7 @@ const Bottom = styled.div`
 `
 const SignInText = styled(Text)`
   &:hover {
-    color: ${props => props.theme.white};
+    color: ${(props) => props.theme.white};
     font-weight: 600;
   }
 `
@@ -181,6 +190,7 @@ const SignupCard = ({
   handleSubmit,
   invalid,
   isLinkAccountGoal,
+  isSimpleBuyGoal,
   password,
   passwordLength,
   showForm,
@@ -215,54 +225,60 @@ const SignupCard = ({
           <CardInfo>
             <InfoTitle color='grey800' size='18px' weight={600}>
               <FormattedMessage
-                id='scenes.register.walletcard.infotitle'
-                defaultMessage='Be your own bank.'
+                id='scenes.register.walletcard.infotitleuppercase'
+                defaultMessage='Be Your Own Bank'
               />
             </InfoTitle>
 
             <InfoItem>
-              <Text color='grey800' size='16px' weight={600}>
-                <FormattedMessage
-                  id='scenes.register.walletcard.item.1.bold'
-                  defaultMessage='Easily buy and sell'
-                />
-              </Text>
-              <Text color='grey600' size='16px' weight={500}>
-                <FormattedMessage
-                  id='scenes.register.walletcard.item.1.regular'
-                  defaultMessage='Bitcoin, Ether, and more.'
-                />
-              </Text>
+              <TextGroup inline>
+                <Text color='grey800' size='16px' weight={600}>
+                  <FormattedMessage
+                    id='scenes.register.walletcard.item.1.bold'
+                    defaultMessage='Easily buy and sell'
+                  />
+                </Text>
+                <Text color='grey600' size='16px' weight={500}>
+                  <FormattedMessage
+                    id='scenes.register.walletcard.item.1.regular1'
+                    defaultMessage='Bitcoin, Ether and more.'
+                  />
+                </Text>
+              </TextGroup>
             </InfoItem>
 
             <InfoItem>
-              <Text color='grey800' size='16px' weight={600}>
-                <FormattedMessage
-                  id='scenes.register.walletcard.item.2.bold'
-                  defaultMessage='Securely store your'
-                />
-              </Text>
-              <Text color='grey600' size='16px' weight={500}>
-                <FormattedMessage
-                  id='scenes.register.walletcard.item.2.regular'
-                  defaultMessage='crypto on mobile and desktop.'
-                />
-              </Text>
+              <TextGroup inline>
+                <Text color='grey800' size='16px' weight={600}>
+                  <FormattedMessage
+                    id='scenes.register.walletcard.item.2.bold'
+                    defaultMessage='Securely store your'
+                  />
+                </Text>
+                <Text color='grey600' size='16px' weight={500}>
+                  <FormattedMessage
+                    id='scenes.register.walletcard.item.2.regular'
+                    defaultMessage='crypto on mobile and desktop.'
+                  />
+                </Text>
+              </TextGroup>
             </InfoItem>
 
             <InfoItem>
-              <Text color='grey800' size='16px' weight={600}>
-                <FormattedMessage
-                  id='scenes.register.walletcard.item.3.bold'
-                  defaultMessage='Control your money'
-                />
-              </Text>
-              <Text color='grey600' size='16px' weight={500}>
-                <FormattedMessage
-                  id='scenes.register.walletcard.item.3.regular'
-                  defaultMessage='by holding your private keys.'
-                />
-              </Text>
+              <TextGroup inline>
+                <Text color='grey800' size='16px' weight={600}>
+                  <FormattedMessage
+                    id='scenes.register.walletcard.item.3.bold'
+                    defaultMessage='Control your money'
+                  />
+                </Text>
+                <Text color='grey600' size='16px' weight={500}>
+                  <FormattedMessage
+                    id='scenes.register.walletcard.item.3.regular'
+                    defaultMessage='by holding your private keys.'
+                  />
+                </Text>
+              </TextGroup>
             </InfoItem>
           </CardInfo>
         )}
@@ -315,19 +331,17 @@ const SignupCard = ({
       <LinkContainer to='/login'>
         <Link>
           <SubCard>
-            <Text size='14px' color='whiteFade600' weight={500}>
+            <Text size='14px' color='white' weight={500}>
               <FormattedMessage
                 id='scenes.register.wallet.link'
                 defaultMessage='Already have a wallet?'
               />
             </Text>
             &nbsp;
-            <SignInText color='whiteFade900' size='14px' weight={500}>
-              <FormattedMessage
-                id='scenes.register.wallet.signin'
-                defaultMessage='Sign In'
-              />
+            <SignInText color='white' size='14px' weight={500}>
+              <FormattedMessage id='scenes.register.wallet.signin' defaultMessage='Sign In' />
             </SignInText>
+            <Icon size='18px' color='white' name='arrow-right' />
           </SubCard>
         </Link>
       </LinkContainer>
@@ -336,7 +350,9 @@ const SignupCard = ({
 }
 
 const Register = (props: InjectedFormProps<{}, Props> & Props) => {
-  const { isLinkAccountGoal } = props
+  const { goals, isLinkAccountGoal, isSimpleBuyGoal } = props
+  const dataGoal = find(propEq('name', 'simpleBuy'), goals)
+  const goalData: SimpleBuyWidgetGoalDataType = propOr({}, 'data', dataGoal)
 
   if (isLinkAccountGoal) {
     return (
@@ -345,6 +361,66 @@ const Register = (props: InjectedFormProps<{}, Props> & Props) => {
           <LinkExchangeAccount />
           <SignupCard {...props} />
         </CardsWrapper>
+      </SignupWrapper>
+    )
+  }
+
+  if (isSimpleBuyGoal) {
+    return (
+      <SignupWrapper>
+        <CardsWrapper>
+          <SimpleBuyCard>
+            <CardHeader>
+              <Text size='24px' color='textBlack' weight={600}>
+                <FormattedMessage
+                  defaultMessage='Sign Up to Continue Your Crypto Purchase.'
+                  id='scenes.register.simplebuy.signup'
+                />
+              </Text>
+            </CardHeader>
+
+            {!isNil(goalData) &&
+              !isEmpty(goalData) &&
+              !!goalData.fiatCurrency &&
+              !!goalData.crypto &&
+              !!goalData.amount && (
+                <>
+                  <SimpleBuyInfo goalData={goalData} supportedCoins={props.supportedCoins} />
+
+                  <Text size='14px' color='grey600' weight={500}>
+                    <FormattedMessage
+                      id='scenes.register.simplebuy.change'
+                      defaultMessage='You will be able to change your amount later.'
+                    />
+                  </Text>
+                </>
+              )}
+
+            <SignupForm
+              busy={props.busy}
+              handleSubmit={props.handleSubmit}
+              invalid={props.invalid}
+              password={props.password}
+              passwordLength={props.passwordLength}
+            />
+          </SimpleBuyCard>
+        </CardsWrapper>
+        <LinkContainer to='/login'>
+          <Link>
+            <SubCard>
+              <Text size='14px' color='whiteFade600' weight={500}>
+                <FormattedMessage
+                  id='scenes.register.wallet.link'
+                  defaultMessage='Already have a wallet?'
+                />
+              </Text>
+              &nbsp;
+              <SignInText color='whiteFade900' size='14px' weight={500}>
+                <FormattedMessage id='scenes.register.wallet.signin' defaultMessage='Sign In' />
+              </SignInText>
+            </SubCard>
+          </Link>
+        </LinkContainer>
       </SignupWrapper>
     )
   }
@@ -378,48 +454,54 @@ const Register = (props: InjectedFormProps<{}, Props> & Props) => {
               </InfoTitle>
 
               <InfoItem>
-                <Text color='grey800' size='16px' weight={600}>
-                  <FormattedMessage
-                    id='scenes.register.exchangecard.item.1.bold'
-                    defaultMessage='Lightning-fast trades'
-                  />
-                </Text>
-                <Text color='grey600' size='16px' weight={500}>
-                  <FormattedMessage
-                    id='scenes.register.exchangecard.item.1.regular'
-                    defaultMessage='mean you get the best price.'
-                  />
-                </Text>
+                <TextGroup inline>
+                  <Text color='grey800' size='16px' weight={600}>
+                    <FormattedMessage
+                      id='scenes.register.exchangecard.item.1.bold'
+                      defaultMessage='Lightning-fast trades'
+                    />
+                  </Text>
+                  <Text color='grey600' size='16px' weight={500}>
+                    <FormattedMessage
+                      id='scenes.register.exchangecard.item.1.regular'
+                      defaultMessage='mean you get the best price.'
+                    />
+                  </Text>
+                </TextGroup>
               </InfoItem>
 
               <InfoItem>
-                <Text color='grey800' size='16px' weight={600}>
-                  <FormattedMessage
-                    id='scenes.register.exchangecard.item.2.bold'
-                    defaultMessage='Over 20 trading pairs'
-                  />
-                </Text>
-                <Text color='grey600' size='16px' weight={500}>
-                  <FormattedMessage
-                    id='scenes.register.exchangecard.item.2.regular'
-                    defaultMessage='including USD, GBP, and EUR.'
-                  />
-                </Text>
+                <TextGroup inline>
+                  <Text color='grey800' size='16px' weight={600}>
+                    <FormattedMessage
+                      id='scenes.register.exchangecard.item.2.bold1'
+                      defaultMessage='Many trading pairs'
+                    />
+                  </Text>
+                  <Text color='grey600' size='16px' weight={500}>
+                    <FormattedMessage
+                      id='scenes.register.exchangecard.item.2.regular1'
+                      defaultMessage='including USD, GBP and EUR.'
+                    />
+                  </Text>
+                </TextGroup>
               </InfoItem>
 
               <InfoItem>
-                <Text color='grey800' size='16px' weight={600}>
-                  <FormattedMessage
-                    id='scenes.register.exchangecard.item.3.bold'
-                    defaultMessage='Control your money'
-                  />
-                </Text>
-                <Text color='grey600' size='16px' weight={500}>
-                  <FormattedMessage
-                    id='scenes.register.exchangecard.item.3.regular'
-                    defaultMessage='by connecting your Wallet.'
-                  />
-                </Text>
+                <TextGroup inline>
+                  <Text color='grey800' size='16px' weight={600}>
+                    <FormattedMessage
+                      id='scenes.register.exchangecard.item.3.bold'
+                      defaultMessage='Control your money'
+                    />
+                  </Text>
+                  <Text color='grey600' size='16px' weight={500}>
+                    <FormattedMessage
+                      id='scenes.register.exchangecard.item.3.regular'
+                      defaultMessage='by connecting your Wallet.'
+                    />
+                  </Text>
+                </TextGroup>
               </InfoItem>
             </CardInfo>
             <Link
@@ -446,14 +528,6 @@ const Register = (props: InjectedFormProps<{}, Props> & Props) => {
               </ExchangeButton>
             </Link>
           </Card>
-          <SubCard>
-            <Text size='14px' color='whiteFade600' weight={500}>
-              <FormattedMessage
-                id='scenes.register.exchange.subcard'
-                defaultMessage='You will be taken to our trading experience to continue sign up.'
-              />
-            </Text>
-          </SubCard>
         </CardWrapper>
       </CardsWrapper>
     </SignupWrapper>
@@ -462,14 +536,12 @@ const Register = (props: InjectedFormProps<{}, Props> & Props) => {
 
 type Props = {
   busy: boolean
-  email: string
-  goals: Array<{ data: any; id: string; name: GoalsType }>
   isLinkAccountGoal: boolean
-  language: string
+  isSimpleBuyGoal: boolean
   password: string
   passwordLength: number
   showForm: boolean
   toggleForm: any
-}
+} & OwnProps
 
 export default reduxForm<{}, Props>({ form: 'register' })(Register)

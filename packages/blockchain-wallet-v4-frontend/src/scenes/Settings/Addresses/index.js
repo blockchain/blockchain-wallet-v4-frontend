@@ -1,11 +1,12 @@
+import React from 'react'
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom'
+import styled from 'styled-components'
+
 import Bch from './Bch'
 import Btc from './Btc'
 import BtcManage from './Btc/ManageAddresses'
 import Eth from './Eth'
 import Menu from './Menu'
-import React from 'react'
-import styled from 'styled-components'
 import Xlm from './Xlm'
 
 const Wrapper = styled.div`
@@ -15,11 +16,10 @@ const Wrapper = styled.div`
 `
 const ContentWrapper = styled.section`
   width: 100%;
-  padding: 30px;
   box-sizing: border-box;
 `
 class AddressesContainer extends React.PureComponent {
-  render () {
+  render() {
     return (
       <Wrapper>
         <Menu />
@@ -27,7 +27,7 @@ class AddressesContainer extends React.PureComponent {
           <Switch>
             <Route
               component={BtcManage}
-              path='/settings/addresses/btc/:index'
+              path='/settings/addresses/btc/:walletIndex/:derivation'
             />
             <Route component={Btc} exact path='/settings/addresses/btc' />
             <Route component={Bch} exact path='/settings/addresses/bch' />

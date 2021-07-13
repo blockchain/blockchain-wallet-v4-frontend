@@ -1,63 +1,57 @@
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import BigNumber from 'bignumber.js'
+import { bindActionCreators, Dispatch } from 'redux'
 
-import { actions } from 'data'
 import {
   CoinType,
   FiatType,
   InterestAccountBalanceType,
+  InterestEDDStatus,
   InterestLimitsType,
   RatesType,
   RemoteDataType,
   SupportedWalletCurrenciesType,
-  WithdrawalMinimumType
-} from 'core/types'
+  WithdrawalMinimumType,
+  WithdrawLimits
+} from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
+import { actions } from 'data'
 
-import { getData } from './selectors'
-import BigNumber from 'bignumber.js'
+import getData from './selectors'
 import Loading from './template.loading'
 import WithdrawalForm from './template.success'
 
 class WithdrawalFormContainer extends PureComponent<Props> {
-  componentDidMount () {
-    const { coin } = this.props
-    this.props.interestActions.initializeWithdrawalForm(coin)
+  componentDidMount() {
+    const { walletCurrency } = this.props
+    this.handleRefresh()
+    this.props.interestActions.fetchEddWithdrawLimits(walletCurrency)
   }
 
-  handleDisplayToggle = isCoin => {
+  handleDisplayToggle = (isCoin: boolean) => {
     const { displayCoin } = this.props.data.getOrElse({
       displayCoin: false
     } as SuccessStateType)
     if (isCoin === displayCoin) return
-    this.props.formActions.clearFields(
-      'interestWithdrawalForm',
-      false,
-      false,
-      'withdrawalAmount'
-    )
+    this.props.formActions.clearFields('interestWithdrawalForm', false, false, 'withdrawalAmount')
     this.props.interestActions.setCoinDisplay(isCoin)
   }
 
   handleRefresh = () => {
-    const { coin } = this.props
-    this.props.interestActions.initializeWithdrawalForm(coin)
+    const { coin, interestActions, walletCurrency } = this.props
+    interestActions.initializeWithdrawalForm(coin, walletCurrency)
   }
 
-  render () {
+  render() {
     const { data } = this.props
     return data.cata({
-      Success: val => (
-        <WithdrawalForm
-          {...val}
-          {...this.props}
-          handleDisplayToggle={this.handleDisplayToggle}
-        />
-      ),
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      NotAsked: () => <Loading />,
+      Success: (val) => (
+        <WithdrawalForm {...val} {...this.props} handleDisplayToggle={this.handleDisplayToggle} />
+      )
     })
   }
 }
@@ -78,10 +72,11 @@ export type SuccessStateType = {
   availToWithdraw: BigNumber
   coin: CoinType
   displayCoin: boolean
+  interestEDDStatus: InterestEDDStatus
+  interestEDDWithdrawLimits: WithdrawLimits
   interestLimits: InterestLimitsType
   rates: RatesType
   supportedCoins: SupportedWalletCurrenciesType
-  walletCurrency: FiatType
   withdrawalMinimums: WithdrawalMinimumType
 }
 
@@ -91,6 +86,8 @@ type LinkStatePropsType = {
 
 export type OwnProps = {
   coin: CoinType
+  setShowSupply: (boolean) => void
+  walletCurrency: FiatType
 }
 
 export type LinkDispatchPropsType = {

@@ -10,22 +10,22 @@ references:
   container_config: &container_config
     working_directory: /home/circleci/blockchain-wallet-v4-frontend
     docker:
-      - image: circleci/node:12.18-browsers
+      - image: circleci/node:14.16-browsers
 
-  npm_cache_key: &npm_cache_key v15-dependency-npm-{{ checksum "yarn.lock" }}
+  npm_cache_key: &npm_cache_key v16-dependency-npm-{{ checksum "yarn.lock" }}
 
   restore_node_modules: &restore_node_modules
     restore_cache:
       keys:
         - *npm_cache_key
-        - v15-dependency-npm
+        - v16-dependency-npm
 
   restore_repo: &restore_repo
     restore_cache:
       keys:
-        - v15-repo-{{ .Branch }}-{{ .Revision }}
-        - v15-repo-{{ .Branch }}
-        - v15-repo
+        - v16-repo-{{ .Branch }}-{{ .Revision }}
+        - v16-repo-{{ .Branch }}
+        - v16-repo
 
 jobs:
   pull_code:
@@ -34,7 +34,7 @@ jobs:
       - *restore_repo
       - checkout
       - save_cache:
-          key: v15-repo-{{ .Branch }}-{{ .Revision }}
+          key: v16-repo-{{ .Branch }}-{{ .Revision }}
           paths:
             - .
   npm_install:
@@ -53,13 +53,13 @@ jobs:
           root: /home/circleci
           paths:
             - blockchain-wallet-v4-frontend
-  lint:
-    <<: *container_config
-    steps:
-      - *attach_workspace
-      - run:
-          name: Lint Code
-          command: yarn ci:lint
+  # lint:
+  #   <<: *container_config
+  #   steps:
+  #     - *attach_workspace
+  #     - run:
+  #         name: Lint Code
+  #         command: yarn ci:lint
   test:
     <<: *container_config
     steps:
@@ -76,9 +76,9 @@ workflows:
       - npm_install:
           requires:
             - pull_code
-      - lint:
-          requires:
-            - npm_install
+      # - lint:
+      #     requires:
+      #       - npm_install
       - test:
           requires:
             - npm_install

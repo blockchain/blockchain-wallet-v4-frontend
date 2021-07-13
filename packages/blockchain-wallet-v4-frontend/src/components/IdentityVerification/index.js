@@ -1,7 +1,7 @@
-import { Button, Image } from 'blockchain-info-components'
-import { FaqMessage, FormGroup } from 'components/Form'
-import media from 'services/ResponsiveService'
 import styled from 'styled-components'
+
+import { Button, Image } from 'blockchain-info-components'
+import { media } from 'services/styles'
 
 export const Form = styled.form`
   width: 100%;
@@ -183,37 +183,6 @@ export const IdentityVerificationSubHeader = styled(PartnerSubHeader)`
   margin-top: 10px;
   ${media.mobile`
     font-size: 16px;
-  `};
-`
-
-export const FaqFormMessage = styled(FaqMessage)`
-  position: absolute;
-  margin-top: 30px;
-  width: 240px;
-  left: 100%;
-`
-
-export const FaqHeaderHelper = styled.div`
-  position: absolute;
-  text-align: right;
-  right: 0px;
-  top: 0px;
-`
-
-export const FaqFormGroup = styled(FormGroup)`
-  position: relative;
-  margin-bottom: 24px;
-  max-width: 576px;
-  width: calc(100% - 260px);
-  padding-right: 24px;
-  ${media.tablet`
-    max-width: 768px;
-    padding-right: 0;
-    width: 100%;
-  `};
-  ${media.mobile`
-    padding-right: 0;
-    width: 100%;
   `};
 `
 

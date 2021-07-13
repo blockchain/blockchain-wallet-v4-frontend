@@ -1,10 +1,11 @@
-import * as eth from '../utils/eth'
-import { curry } from 'ramda'
-import BigNumber from 'bignumber.js'
 import Eth from '@ledgerhq/hw-app-eth'
+import BigNumber from 'bignumber.js'
+import Task from 'data.task'
 import EthereumAbi from 'ethereumjs-abi'
 import EthereumTx from 'ethereumjs-tx'
-import Task from 'data.task'
+import { curry } from 'ramda'
+
+import * as eth from '../utils/eth'
 
 const isOdd = str => str.length % 2 !== 0
 const toHex = value => {
@@ -14,9 +15,15 @@ const toHex = value => {
 
 export const signErc20 = curry(
   (network = 1, mnemonic, data, contractAddress) => {
-    const { index, to, amount, nonce, gasPrice, gasLimit } = data
+    const { amount, gasLimit, gasPrice, index, nonce, to } = data
     const privateKey = eth.getPrivateKey(mnemonic, index)
     const transferMethodHex = '0xa9059cbb'
+
+    // block ERC20 transfers/sends that are being created with 0 amount
+    if (new BigNumber(amount).isZero()) {
+      return Task.rejected(new Error('erc20_amount_cannot_be_zero'))
+    }
+
     const txParams = {
       to: contractAddress,
       nonce: toHex(nonce),
@@ -37,7 +44,7 @@ export const signErc20 = curry(
 )
 
 export const sign = curry((network = 1, mnemonic, data) => {
-  const { index, to, amount, nonce, gasPrice, gasLimit } = data
+  const { amount, gasLimit, gasPrice, index, nonce, to } = data
   const privateKey = eth.getPrivateKey(mnemonic, index)
   const txParams = {
     to,
@@ -59,7 +66,7 @@ export const signWithLockbox = function * (
   scrambleKey,
   data
 ) {
-  const { to, amount, nonce, gasPrice, gasLimit } = data
+  const { amount, gasLimit, gasPrice, nonce, to } = data
   const txParams = {
     to,
     nonce: toHex(nonce),
@@ -79,7 +86,7 @@ export const signWithLockbox = function * (
 }
 
 export const serialize = (network, raw, signature) => {
-  const { to, amount, nonce, gasPrice, gasLimit } = raw
+  const { amount, gasLimit, gasPrice, nonce, to } = raw
   const txParams = {
     to,
     nonce: toHex(nonce),
@@ -96,7 +103,7 @@ export const serialize = (network, raw, signature) => {
 }
 
 export const signLegacy = curry((network = 1, seedHex, data) => {
-  const { index, to, amount, nonce, gasPrice, gasLimit } = data
+  const { amount, gasLimit, gasPrice, index, nonce, to } = data
   const privateKey = eth.getLegacyPrivateKey(seedHex, index)
   const txParams = {
     to,

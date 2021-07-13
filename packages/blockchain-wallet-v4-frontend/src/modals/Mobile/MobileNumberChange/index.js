@@ -1,28 +1,29 @@
-import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
 
 import { actions } from 'data'
-import { getData } from './selectors'
-import MobileNumberChange from './template.js'
 import modalEnhancer from 'providers/ModalEnhancer'
 
+import { getData } from './selectors'
+import MobileNumberChange from './template.js'
+
 class MobileNumberChangeContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onSubmit () {
+  onSubmit() {
     const { smsNumberNew } = this.props
     this.props.settingsActions.updateMobile(smsNumberNew)
     this.props.modalActions.closeModal()
-    this.props.modalActions.showModal('MobileNumberVerify', {
+    this.props.modalActions.showModal('MOBILE_NUMBER_VERIFY_MODAL', {
       mobileNumber: smsNumberNew
     })
   }
 
-  render () {
+  render() {
     const { countryCode, smsNumber } = this.props
     return (
       <MobileNumberChange
@@ -35,15 +36,15 @@ class MobileNumberChangeContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => getData(state)
+const mapStateToProps = (state) => getData(state)
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
 const enhance = compose(
-  modalEnhancer('MobileNumberChange'),
+  modalEnhancer('MOBILE_NUMBER_CHANGE_MODAL'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

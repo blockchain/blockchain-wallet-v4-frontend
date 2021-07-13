@@ -1,5 +1,6 @@
-import * as AT from './actionTypes'
 import { CoinType, FiatType, RemoteDataType, WalletFiatType } from 'core/types'
+
+import * as AT from './actionTypes'
 
 // types
 export type RateType = {
@@ -28,21 +29,23 @@ export type PriceChangeType = {
   previousPrice: number
 }
 
-export type PriceChangeTimeRangeType = 'day' | 'week' | 'month' | 'year' | 'all'
+export enum TimeRange {
+  ALL = 'all',
+  DAY = 'day',
+  MONTH = 'month',
+  WEEK = 'week',
+  YEAR = 'year'
+}
 
 // state
 export type MiscStateType = {
   authorize_login: RemoteDataType<any, any>
-  captcha: RemoteDataType<any, any>
   handle_2fa_reset: RemoteDataType<any, any>
   logs: RemoteDataType<any, any>
   pairing_code: RemoteDataType<any, any>
   price_change: {
-    [key in PriceChangeTimeRangeType]: {
-      [key in CoinType | WalletFiatType]: RemoteDataType<
-        string,
-        PriceChangeType
-      >
+    [key in TimeRange]: {
+      [key in CoinType | WalletFiatType]: RemoteDataType<string, PriceChangeType>
     }
   }
   price_index_series: RemoteDataType<any, any>
@@ -77,38 +80,25 @@ interface EncodePairingCodeSuccessActionType {
   payload: any
   type: typeof AT.ENCODE_PAIRING_CODE_SUCCESS
 }
-interface FetchCaptchaFailureActionType {
-  payload: {
-    error: string
-  }
-  type: typeof AT.FETCH_CAPTCHA_FAILURE
-}
-interface FetchCaptchaLoadingActionType {
-  type: typeof AT.FETCH_CAPTCHA_LOADING
-}
-interface FetchCaptchaSuccessActionType {
-  payload: any
-  type: typeof AT.FETCH_CAPTCHA_SUCCESS
-}
 interface FetchPriceChangeFailureActionType {
   payload: {
     base: CoinType
     error: string
-    range: PriceChangeTimeRangeType
+    range: TimeRange
   }
   type: typeof AT.FETCH_PRICE_CHANGE_FAILURE
 }
 interface FetchPriceChangeLoadingActionType {
   payload: {
     base: CoinType
-    range: PriceChangeTimeRangeType
+    range: TimeRange
   }
   type: typeof AT.FETCH_PRICE_CHANGE_LOADING
 }
 interface FetchPriceChangeSuccessActionType {
   payload: {
     base: CoinType
-    range: PriceChangeTimeRangeType
+    range: TimeRange
   } & PriceChangeType
   type: typeof AT.FETCH_PRICE_CHANGE_SUCCESS
 }
@@ -159,9 +149,6 @@ export type MiscActionTypes =
   | EncodePairingCodeFailureActionType
   | EncodePairingCodeLoadingActionType
   | EncodePairingCodeSuccessActionType
-  | FetchCaptchaFailureActionType
-  | FetchCaptchaLoadingActionType
-  | FetchCaptchaSuccessActionType
   | FetchPriceChangeFailureActionType
   | FetchPriceChangeLoadingActionType
   | FetchPriceChangeSuccessActionType

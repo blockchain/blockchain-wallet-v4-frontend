@@ -1,8 +1,9 @@
-import { Button, Link, Separator, Text } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
-import { Wrapper } from 'components/Public'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
+
+import { Button, Link, Separator, Text } from 'blockchain-info-components'
+import { Wrapper } from 'components/Public'
 
 const Header = styled.div`
   display: flex;
@@ -20,17 +21,14 @@ const Footer = styled.div`
   }
 `
 
-const Logout = props => {
+const Logout = (props) => {
   const { onDeauthorizeBrowser, onGoToLogin, secondsRemaining } = props
 
   return (
     <Wrapper>
       <Header>
         <Text size='22px' weight={400}>
-          <FormattedMessage
-            id='scenes.logout.title'
-            defaultMessage='You are now logged out!'
-          />
+          <FormattedMessage id='scenes.logout.title' defaultMessage='You are now logged out!' />
         </Text>
         {secondsRemaining >= 6 ? null : (
           <Text size='12px' weight={400}>
@@ -52,16 +50,10 @@ const Logout = props => {
           nature='primary'
           onClick={onDeauthorizeBrowser}
         >
-          <FormattedMessage
-            id='scenes.logout.deauth'
-            defaultMessage='De-Authorize Browser'
-          />
+          <FormattedMessage id='scenes.logout.deauth' defaultMessage='De-Authorize Browser' />
         </Button>
         <Link size='13px' weight={500} onClick={onGoToLogin}>
-          <FormattedMessage
-            id='scenes.logout.continue'
-            defaultMessage='Continue to Login'
-          />
+          <FormattedMessage id='buttons.continue_to_login' defaultMessage='Continue to Login' />
         </Link>
       </Footer>
     </Wrapper>

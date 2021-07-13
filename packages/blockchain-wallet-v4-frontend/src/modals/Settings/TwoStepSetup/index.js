@@ -1,13 +1,14 @@
-import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
 
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+
 import TwoStepSetup from './template.js'
 
 class TwoStepSetupContainer extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.handleGoogleAuthenticator = this.handleGoogleAuthenticator.bind(this)
     this.handleMobile = this.handleMobile.bind(this)
@@ -15,21 +16,21 @@ class TwoStepSetupContainer extends React.PureComponent {
     this.handleDisable = this.handleDisable.bind(this)
   }
 
-  handleGoogleAuthenticator () {
+  handleGoogleAuthenticator() {
     this.props.settingsActions.showGoogleAuthenticatorSecretUrl()
   }
 
-  handleYubico () {
-    this.props.modalActions.showModal('TwoStepYubico')
+  handleYubico() {
+    this.props.modalActions.showModal('TWO_STEP_YUBICO_MODAL')
   }
 
-  handleMobile () {
+  handleMobile() {
     const { smsNumber, smsVerified } = this.props
 
     if (!smsNumber) {
-      this.props.modalActions.showModal('MobileNumberChange')
+      this.props.modalActions.showModal('MOBILE_NUMBER_ADD_MODAL')
     } else if (!smsVerified) {
-      this.props.modalActions.showModal('MobileNumberVerify', {
+      this.props.modalActions.showModal('MOBILE_NUMBER_VERIFY_MODAL', {
         mobileNumber: smsNumber
       })
     } else {
@@ -37,11 +38,11 @@ class TwoStepSetupContainer extends React.PureComponent {
     }
   }
 
-  handleDisable () {
+  handleDisable() {
     this.props.settingsActions.disableTwoStep()
   }
 
-  render () {
+  render() {
     return (
       <TwoStepSetup
         {...this.props}
@@ -54,20 +55,17 @@ class TwoStepSetupContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   authType: selectors.core.settings.getAuthType(state),
   smsNumber: selectors.core.settings.getSmsNumber(state),
   smsVerified: selectors.core.settings.getSmsVerified(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
-const enhance = compose(
-  modalEnhancer('TwoStepSetup'),
-  connect(mapStateToProps, mapDispatchToProps)
-)
+const enhance = compose(modalEnhancer('TwoStepSetup'), connect(mapStateToProps, mapDispatchToProps))
 
 export default enhance(TwoStepSetupContainer)

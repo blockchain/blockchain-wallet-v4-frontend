@@ -1,6 +1,10 @@
-import { actions, model, selectors } from 'data'
 import { equals, path, prop } from 'ramda'
 import { put, select } from 'redux-saga/effects'
+
+import { actions, model } from 'data'
+
+import * as S from './selectors'
+
 export const logLocation = 'components/bchTransactions/sagas'
 
 export default () => {
@@ -23,13 +27,7 @@ export default () => {
 
   const loadMore = function * () {
     try {
-      const formValues = yield select(
-        selectors.form.getFormValues(WALLET_TX_SEARCH)
-      )
-      const source = prop('source', formValues)
-      const onlyShow = equals(source, 'all')
-        ? ''
-        : source.xpub || source.address
+      const onlyShow = yield select(S.selectOnlyShow)
       yield put(actions.core.data.bch.fetchTransactions(onlyShow, false))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'loadMore', e))
@@ -45,10 +43,30 @@ export default () => {
 
       switch (field) {
         case 'source':
-          const onlyShow = equals(payload, 'all')
-            ? ''
-            : payload.xpub || payload.address
+          const onlyShow = yield select(S.selectOnlyShow, payload)
           yield put(actions.core.data.bch.fetchTransactions(onlyShow, true))
+          break
+        case 'status':
+          const filter = payload => {
+            switch (payload) {
+              case 'sent':
+                return 1
+              case 'received':
+                return 2
+              case 'transferred':
+                return 3
+              default:
+                break
+            }
+          }
+          yield put(
+            actions.core.data.bch.fetchTransactions(
+              onlyShow,
+              true,
+              filter(payload)
+            )
+          )
+          break
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))

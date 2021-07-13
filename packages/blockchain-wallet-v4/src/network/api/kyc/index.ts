@@ -1,79 +1,60 @@
-export default ({
-  nabuUrl,
-  get,
-  post,
-  authorizedGet,
-  authorizedPost,
-  authorizedPut
-}) => {
+import { SDDEligibleType, SDDVerifiedType } from './types'
+
+export default ({ authorizedGet, authorizedPost, get, nabuUrl, post }) => {
   const getSupportedCountries = () =>
     get({
-      url: nabuUrl,
+      data: { scope: 'kyc' },
       endPoint: '/countries',
-      data: { scope: 'kyc' }
+      url: nabuUrl
     })
 
-  const getSupportedDocuments = countryCode =>
+  const getSupportedDocuments = (countryCode) =>
     authorizedGet({
-      url: nabuUrl,
-      endPoint: `/kyc/supported-documents/${countryCode}`
+      endPoint: `/kyc/supported-documents/${countryCode}`,
+      url: nabuUrl
     })
 
   const getStates = () =>
     get({
-      url: nabuUrl,
-      endPoint: '/countries/US/states'
+      endPoint: '/countries/US/states',
+      url: nabuUrl
     })
 
   const fetchKycAddresses = (filter, cancelToken) =>
     authorizedGet({
-      url: nabuUrl,
-      endPoint: `/addresses/find`,
+      cancelToken,
       data: { ...filter },
-      cancelToken
+      endPoint: `/addresses/find`,
+      url: nabuUrl
     })
 
-  const fetchOnfidoSDKKey = () =>
-    authorizedGet({
-      url: nabuUrl,
-      endPoint: '/kyc/credentials/ONFIDO',
-      headers: {
-        'x-client-type': 'WEB'
-      }
-    })
-
-  const syncOnfido = (applicantId, isSelfie) => {
-    return authorizedPost({
-      url: nabuUrl,
-      endPoint: '/kyc/verifications',
-      contentType: 'application/json',
-      data: { applicantId },
-      headers: {
-        'x-client-type': isSelfie ? 'WEB' : 'APP'
-      }
-    })
-  }
-
-  const fetchUploadData = token =>
+  const fetchUploadData = (token) =>
     get({
-      url: nabuUrl,
-      endPoint: `/upload/data/${token}`
+      endPoint: `/upload/data/${token}`,
+      url: nabuUrl
+    })
+
+  const fetchSDDEligible = (): SDDEligibleType =>
+    get({
+      endPoint: `/sdd/eligible`,
+      ignoreQueryParams: true,
+      url: nabuUrl
     })
 
   const fetchVeriffUrl = () =>
     authorizedGet({
-      url: nabuUrl,
       endPoint: '/kyc/credentials/veriff',
-      headers: { 'x-client-type': 'WEB' }
+      headers: { 'x-client-type': 'WEB' },
+      url: nabuUrl
     })
 
-  const syncVeriff = applicantId =>
+  const syncVeriff = (applicantId) =>
     authorizedPost({
-      url: nabuUrl,
-      endPoint: '/kyc/verifications',
       contentType: 'application/json',
       data: { applicantId },
-      headers: { 'x-client-type': 'WEB' }
+      endPoint: '/kyc/verifications',
+      headers: { 'x-client-type': 'WEB' },
+      url: nabuUrl
     })
 
   const uploadDocuments = (token, data) =>
@@ -86,55 +67,56 @@ export default ({
 
   const fetchKycConfig = () =>
     authorizedGet({
-      url: nabuUrl,
       contentType: 'application/json',
       endPoint: '/kyc/configuration',
-      headers: { 'x-client-type': 'WEB' }
+      headers: { 'x-client-type': 'WEB' },
+      url: nabuUrl
     })
 
   const fetchPreIdvData = () =>
     authorizedGet({
-      url: nabuUrl,
       contentType: 'application/json',
-      endPoint: '/kyc/sift/session'
+      endPoint: '/kyc/sift/session',
+      url: nabuUrl
     })
 
   const fetchTiers = () =>
     authorizedGet({
-      url: nabuUrl,
-      contentType: 'application/json',
-      endPoint: '/kyc/tiers'
-    })
-
-  const selectTier = selectedTier =>
-    authorizedPost({
-      url: nabuUrl,
       contentType: 'application/json',
       endPoint: '/kyc/tiers',
+      url: nabuUrl
+    })
+
+  const selectTier = (selectedTier) =>
+    authorizedPost({
+      contentType: 'application/json',
+      data: { selectedTier },
+      endPoint: '/kyc/tiers',
       ignoreQueryParams: true,
-      data: { selectedTier }
+      url: nabuUrl
     })
 
   const sendDeeplink = () =>
     authorizedPost({
-      url: nabuUrl,
       contentType: 'application/json',
-      endPoint: '/kyc/verifications/mobile-email'
+      endPoint: '/kyc/verifications/mobile-email',
+      url: nabuUrl
     })
 
-  const sendCoinifyKyc = coinifyTraderId =>
-    authorizedPut({
-      url: nabuUrl,
-      endPoint: `/kyc/update-coinify-id`,
-      contentType: `application/json`,
-      data: { coinifyTraderId }
+  const fetchSDDVerified = (): SDDVerifiedType =>
+    authorizedGet({
+      contentType: 'application/json',
+      endPoint: `/sdd/verified`,
+      ignoreQueryParams: true,
+      url: nabuUrl
     })
 
   return {
     fetchKycAddresses,
     fetchKycConfig,
-    fetchOnfidoSDKKey,
     fetchPreIdvData,
+    fetchSDDEligible,
+    fetchSDDVerified,
     fetchTiers,
     fetchUploadData,
     fetchVeriffUrl,
@@ -142,9 +124,7 @@ export default ({
     getSupportedCountries,
     getSupportedDocuments,
     selectTier,
-    sendCoinifyKyc,
     sendDeeplink,
-    syncOnfido,
     syncVeriff,
     uploadDocuments
   }

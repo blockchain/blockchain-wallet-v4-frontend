@@ -1,3 +1,8 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   Button,
   HeartbeatLoader,
@@ -7,12 +12,8 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import { Form } from 'components/Form'
-import { FormattedMessage } from 'react-intl'
-import { InjectedFormProps, reduxForm } from 'redux-form'
 import CoinDisplay from 'components/Display/CoinDisplay'
-import React from 'react'
-import styled from 'styled-components'
+import { Form } from 'components/Form'
 
 const Container = styled.div`
   display: flex;
@@ -50,8 +51,8 @@ const TransferEth = (props: InjectedFormProps<{}, Props> & Props) => {
           <TextGroup inline>
             <Text size='14px' weight={400}>
               <FormattedMessage
-                id='modals.transfereth.para1'
-                defaultMessage='As we leave our beta program we want to make sure your backup phrase is compatible with other Ethereum wallets.'
+                id='modals.transfereth.para1_new'
+                defaultMessage='As we leave our beta program we want to make sure your Secret Private Key Recovery Phrase is compatible with other Ethereum wallets.'
               />
             </Text>
             <Text size='14px' weight={400}>
@@ -70,7 +71,8 @@ const TransferEth = (props: InjectedFormProps<{}, Props> & Props) => {
           <Container>
             <Row>
               <Text size='14px' weight={600}>
-                <FormattedMessage id='copy.from:' defaultMessage='From:' />
+                <FormattedMessage id='copy.from:' defaultMessage='From' />
+                :
               </Text>
               <Text size='14px' weight={400}>
                 {legacyEthAddr}

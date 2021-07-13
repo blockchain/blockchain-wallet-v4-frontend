@@ -50,7 +50,7 @@
       "default_account_idx": 0,
       "accounts": [
         {
-          "label": "My Bitcoin Wallet",
+          "label": "Private Key Wallet",
           "archived": false,
           "xpriv": "G1XRCumvdvM10xN1n9ub2JNyk3PphNhoYGQsVKnFi7tKmaDpQVaBmLX4XTWMkFENIGGmKd4PCxwZr6g1RC6RWJFWyXcAs+17DQdv7ZqdiKkj8p0Td3mEM/Ta41KYyxJdjlrT1FyW4HpH0AGejy4rJI43nHlxjpDl0rldP58eaEE=",
           "xpub": "xpub6CKNDRQEZmyHUrFdf1HapGEn27ramwpqxZUMEJYUUokoQrz9yLBAiKjGVWDuiCT39udj1r3whqQN89Tar5KrojH8oqSy7ytzJKW8gwmhwD3",

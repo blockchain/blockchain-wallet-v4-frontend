@@ -1,29 +1,37 @@
-import { actions } from 'data'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
 import React from 'react'
+import { connect } from 'react-redux'
+import { compose } from 'redux'
+
+import { utils } from 'blockchain-wallet-v4/src'
+import { actions } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
 
 import { getData } from './selectors'
-import { utils } from 'blockchain-wallet-v4/src'
 import ImportBtcAddress from './template.js'
-import modalEnhancer from 'providers/ModalEnhancer'
 
 class ImportBtcAddressContainer extends React.PureComponent {
   handleSubmit = () => {
     this.props.importBtcAddress()
   }
 
-  render () {
-    const { position, close, submitting, invalid, network, priv } = this.props
+  render() {
+    const {
+      closeAll,
+      invalid,
+      network,
+      position,
+      priv,
+      submitting
+    } = this.props
 
     return (
       <ImportBtcAddress
-        submitting={submitting}
-        position={position}
         invalid={invalid}
-        close={close}
-        priv={utils.btc.isValidBtcPrivateKey(priv, network)}
+        onClose={closeAll}
         onSubmit={this.handleSubmit}
+        position={position}
+        priv={utils.btc.isValidBtcPrivateKey(priv, network)}
+        submitting={submitting}
       />
     )
   }
@@ -39,7 +47,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('ImportBtcAddress'),
+  modalEnhancer('IMPORT_BTC_ADDRESS_MODAL'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

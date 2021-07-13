@@ -1,4 +1,4 @@
-export default ({ apiUrl, rootUrl, get }) => {
+export default ({ apiUrl, get, rootUrl }) => {
   const checkExchangeUsage = (xpub: string) =>
     get({
       url: apiUrl,

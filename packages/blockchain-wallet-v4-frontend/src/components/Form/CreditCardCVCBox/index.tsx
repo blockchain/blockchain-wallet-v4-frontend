@@ -1,14 +1,16 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import {
   CommonFieldProps,
   Normalizer,
   Validator,
   WrappedFieldMetaProps
 } from 'redux-form'
-import { DEFAULT_CVC_LENGTH, getCardTypeByValue } from '../CreditCardBox/model'
-import { FormattedMessage } from 'react-intl'
-import { SBAddCardFormValuesType } from 'data/types'
+
 import { TextBox } from 'components/Form'
-import React from 'react'
+import { SBAddCardFormValuesType } from 'data/types'
+
+import { DEFAULT_CVC_LENGTH, getCardTypeByValue } from '../CreditCardBox/model'
 
 export const normalizeCreditCardCVC: Normalizer = (
   value,

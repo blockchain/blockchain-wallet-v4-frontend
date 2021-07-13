@@ -45,8 +45,6 @@ packages/blockchain-wallet-v4-frontend/dist
 packages/blockchain-wallet-v4-frontend/extracted-ts
 packages/blockchain-wallet-v4-frontend/node_modules
 packages/blockchain-wallet-v4-frontend/package-lock.json
-packages/blockchain-wallet-v4-frontend/src/assets/locales/defaultMessages.json
-packages/blockchain-wallet-v4-frontend/src/assets/locales/whitelists
 
 # Config Files
 config/env/development.js

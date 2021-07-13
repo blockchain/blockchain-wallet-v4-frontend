@@ -1,4 +1,5 @@
 import { compose, either, identity, prop, whereEq } from 'ramda'
+
 import { noop } from '../utils/functional'
 
 const isHeartbeatMsg = either(
@@ -17,19 +18,24 @@ const isServerRebootMsg = whereEq({
 })
 
 export default class ApiSocket {
-  constructor ({ options = {}, url, maxReconnects = Infinity }) {
+  constructor({ options = {}, url, maxReconnects = Infinity }) {
     this.wsUrl = url
     this.headers = { Origin: options.domains.root }
     this.maxReconnects = maxReconnects
   }
+
   rebootTimeout = 10000
+
   // Slow connections can suffer a significant heartbeat delay
   heartbeatInterval = 15000
+
   heartbeatIntervalPID = null
+
   reconnect = null
+
   reconnectCount = 0
 
-  connect (
+  connect(
     onOpen = identity,
     onMessage = identity,
     onClose = identity,
@@ -70,7 +76,7 @@ export default class ApiSocket {
     }
   }
 
-  extractMessage (msg) {
+  extractMessage(msg) {
     return compose(JSON.parse, prop('data'))(msg)
   }
 

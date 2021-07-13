@@ -1,9 +1,9 @@
-import { connect } from 'react-redux'
 import React from 'react'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 
-import { actions } from 'data'
 import { Icon } from 'blockchain-info-components'
+import { actions } from 'data'
 
 const ModalIcon = styled(Icon)`
   margin-top: 4px;
@@ -13,7 +13,7 @@ const ModalIcon = styled(Icon)`
   color: ${props => props.theme['brand-secondary']};
 `
 
-const ModalIconContainer = ({ showModal, className }) => (
+const ModalIconContainer = ({ className, showModal }) => (
   <ModalIcon
     onMouseDown={showModal}
     name='arrow-right'

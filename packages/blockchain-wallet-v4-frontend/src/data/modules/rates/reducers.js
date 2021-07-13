@@ -8,10 +8,11 @@ import {
   set
 } from 'ramda'
 
-import * as AT from './actionTypes'
-import * as socketActionTypes from 'data/middleware/webSocket/rates/actionTypes'
-import { FIX_TYPES, MAX_ERROR, MIN_ERROR } from './model'
 import { Remote } from 'blockchain-wallet-v4/src'
+import * as socketActionTypes from 'data/middleware/webSocket/rates/actionTypes'
+
+import * as AT from './actionTypes'
+import { FIX_TYPES, MAX_ERROR, MIN_ERROR } from './model'
 
 const INITIAL_STATE = {
   availablePairs: Remote.NotAsked,
@@ -43,7 +44,7 @@ const getError = error => {
 }
 
 export default (state = INITIAL_STATE, action) => {
-  const { type, payload } = action
+  const { payload, type } = action
 
   switch (type) {
     case AT.AVAILABLE_PAIRS_LOADING:

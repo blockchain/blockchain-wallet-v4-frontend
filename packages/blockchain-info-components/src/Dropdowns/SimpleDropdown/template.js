@@ -1,10 +1,10 @@
-import PropTypes from 'prop-types'
 import React from 'react'
+import PropTypes from 'prop-types'
+import { keysIn } from 'ramda'
 import styled from 'styled-components'
 
-import { Icon } from '../../Icons'
-import { keysIn } from 'ramda'
 import { Palette } from '../../Colors/index.ts'
+import { Icon } from '../../Icons'
 
 const Wrapper = styled.div`
   display: inline-flex;
@@ -18,7 +18,7 @@ const ButtonContainer = styled.div`
   align-items: center;
   cursor: pointer;
   width: inherit;
-  font-size: 14px;
+  font-size: ${props => props.size};
   font-weight: 600;
 
   & > * {
@@ -73,18 +73,23 @@ const DropdownItem = styled.li`
   text-align: left;
   text-size-adjust: 100%;
   white-space: nowrap;
+
+  &:hover {
+    color: ${props => props.theme.blue600};
+  }
 `
 
 const Dropdown = props => {
   const {
     color,
     down,
-    uppercase,
-    toggled,
-    selectedItem,
-    items,
+    handleCallback,
     handleClick,
-    handleCallback
+    items,
+    selectedItem,
+    size,
+    toggled,
+    uppercase
   } = props
 
   return (
@@ -98,7 +103,7 @@ const Dropdown = props => {
           )
         })}
       </DropdownList>
-      <ButtonContainer color={color} onClick={handleClick}>
+      <ButtonContainer size={size} color={color} onClick={handleClick}>
         <Button>{selectedItem.text}</Button>
         <DropdownIcon name='chevron-down-large' size='12px' />
       </ButtonContainer>

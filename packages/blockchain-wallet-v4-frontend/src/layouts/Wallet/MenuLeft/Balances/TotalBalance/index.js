@@ -1,10 +1,11 @@
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import { getTotalBalance } from 'components/Balances/total/selectors'
-import { LinkContainer } from 'react-router-bootstrap'
-import { SkeletonRectangle, Text } from 'blockchain-info-components'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
+
+import { SkeletonRectangle, Text } from 'blockchain-info-components'
+import { getTotalBalance } from 'components/Balances/total/selectors'
 
 const ErrorWrapper = styled.div`
   display: flex;
@@ -31,7 +32,7 @@ const SuccessWrapper = styled.div`
   }
 `
 class TotalBalance extends React.PureComponent {
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => (
         <>

@@ -1,11 +1,5 @@
-import * as A from './actions'
-import * as C from 'services/AlertService'
-import * as Lockbox from 'services/LockboxService'
-import * as S from './selectors'
-import { actions, model, selectors } from 'data'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { APIType } from 'core/network/api'
-import { call, delay, put, select } from 'redux-saga/effects'
+import BigNumber from 'bignumber.js'
+import { equals, head, includes, last, path, pathOr, prop, propOr } from 'ramda'
 import {
   change,
   destroy,
@@ -14,22 +8,50 @@ import {
   stopSubmit,
   touch
 } from 'redux-form'
-import { CustodialFromType, FromType, XlmPaymentType } from 'core/types'
-import { equals, head, includes, last, path, pathOr, prop, propOr } from 'ramda'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { call, delay, put, select } from 'redux-saga/effects'
+
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { FORM } from './model'
+import { APIType } from 'blockchain-wallet-v4/src/network/api'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import {
+  AddressTypesType,
+  CustodialFromType,
+  XlmPaymentType
+} from 'blockchain-wallet-v4/src/types'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { actions, model, selectors } from 'data'
 import { ModalNamesType } from 'data/modals/types'
-import { promptForLockbox, promptForSecondPassword } from 'services/SagaService'
+import * as C from 'services/alerts'
+import * as Lockbox from 'services/lockbox'
+import { promptForSecondPassword } from 'services/sagas'
+
+import sendSagas from '../send/sagas'
+import * as A from './actions'
+import { FORM } from './model'
+import * as S from './selectors'
 
 const { TRANSACTION_EVENTS } = model.analytics
 export const logLocation = 'components/sendXlm/sagas'
 export const INITIAL_MEMO_TYPE = 'text'
-export default ({ api, coreSagas }: { api: APIType; coreSagas: any }) => {
+export default ({
+  api,
+  coreSagas,
+  networks
+}: {
+  api: APIType
+  coreSagas: any
+  networks: any
+}) => {
+  const { showWithdrawalLockAlert } = sendSagas({
+    api,
+    coreSagas,
+    networks
+  })
+
   const initialized = function * (action) {
     try {
       const from = path<string | undefined>(['payload', 'from'], action)
-      const type = path<FromType>(['payload', 'type'], action)
+      const type = path<AddressTypesType>(['payload', 'type'], action)
       const to = path(['payload', 'to'], action)
       const memo = path(['payload', 'memo'], action)
       yield put(A.paymentUpdatedLoading())
@@ -94,7 +116,7 @@ export default ({ api, coreSagas }: { api: APIType; coreSagas: any }) => {
           yield put(actions.modals.closeAllModals())
           yield put(
             actions.modals.showModal(
-              `@MODAL.SEND.${modalName}` as ModalNamesType,
+              `SEND_${modalName}_MODAL` as ModalNamesType,
               {
                 coin: payload,
                 origin: 'SendXlm'
@@ -105,10 +127,21 @@ export default ({ api, coreSagas }: { api: APIType; coreSagas: any }) => {
         case 'from':
           const source = prop('address', payload) || payload
           const fromType = prop('type', payload)
-          payment = yield call(setFrom, payment, source, fromType)
           if (fromType === 'CUSTODIAL') {
+            const response: ReturnType<typeof api.getWithdrawalFees> = yield call(
+              api.getWithdrawalFees,
+              'simplebuy',
+              'DEFAULT'
+            )
+            const fee =
+              response.fees.find(({ symbol }) => symbol === 'XLM')
+                ?.minorValue || '0'
+            payment = yield call(setFrom, payment, payload, fromType, fee)
+            payment = yield payment.fee(fee)
             yield put(A.paymentUpdatedSuccess(payment.value()))
             yield put(change(FORM, 'to', null))
+          } else {
+            payment = yield call(setFrom, payment, source, fromType)
           }
           break
         case 'to':
@@ -117,6 +150,15 @@ export default ({ api, coreSagas }: { api: APIType; coreSagas: any }) => {
           // @ts-ignore
           const splitValue = propOr(value, 'address', value).split(':')
           const address = head(splitValue)
+          if (includes('.', (address as unknown) as string)) {
+            yield put(
+              actions.components.send.fetchUnstoppableDomainResults(
+                (value as unknown) as string,
+                'XLM'
+              )
+            )
+            return
+          }
           payment = yield payment.to(address)
           // do not block payment update when to is changed w/ destinationAccount check
           yield put(A.paymentUpdatedSuccess(payment.value()))
@@ -248,7 +290,7 @@ export default ({ api, coreSagas }: { api: APIType; coreSagas: any }) => {
           fromAddress
         )).getOrFail('missing_device')
         const deviceType = prop('device_type', device)
-        yield call(promptForLockbox, 'XLM', deviceType, [toAddress])
+        yield call(Lockbox.promptForLockbox, 'XLM', deviceType, [toAddress])
         let connection = yield select(
           selectors.components.lockbox.getCurrentConnection
         )
@@ -326,7 +368,7 @@ export default ({ api, coreSagas }: { api: APIType; coreSagas: any }) => {
         )
         if (fromType === ADDRESS_TYPES.CUSTODIAL && error) {
           if (error === 'Pending withdrawal locks') {
-            yield put(actions.alerts.displayError(C.LOCKED_WITHDRAW_ERROR))
+            yield call(showWithdrawalLockAlert)
           } else {
             yield put(actions.alerts.displayError(error))
           }
@@ -365,7 +407,8 @@ export default ({ api, coreSagas }: { api: APIType; coreSagas: any }) => {
   const setFrom = function * (
     payment: XlmPaymentType,
     from?: string | CustodialFromType,
-    type?: FromType
+    type?: AddressTypesType,
+    fee?: string
   ) {
     let updatedPayment
     try {
@@ -377,7 +420,9 @@ export default ({ api, coreSagas }: { api: APIType; coreSagas: any }) => {
             payment.from,
             fromCustodialT.label,
             type,
-            fromCustodialT.available
+            new BigNumber(fromCustodialT.withdrawable)
+              .minus(fee || '0')
+              .toString()
           )
           break
         default:

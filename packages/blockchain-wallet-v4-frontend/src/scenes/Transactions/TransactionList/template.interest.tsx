@@ -1,10 +1,10 @@
-import { Button, Icon, Text } from 'blockchain-info-components'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
-import media from 'services/ResponsiveService'
-import React from 'react'
-
 import styled from 'styled-components'
+
+import { Button, Text } from 'blockchain-info-components'
+import { media } from 'services/styles'
 
 const Container = styled.div`
   display: flex;
@@ -52,23 +52,18 @@ const InterestTransactions: React.FC<Props> = () => {
       <Column>
         <NavLink
           style={{ textDecoration: 'none' }}
-          to='/interest'
+          to='/interest/history'
           data-e2e='visitEarnInterestPage'
         >
           <Button
-            data-e2e='visitEarnInterestPageButton'
+            data-e2e='viewInterestTransaction'
             nature='primary'
             height='48px'
             size='16px'
           >
-            <Icon
-              name='percentage'
-              color='white'
-              style={{ marginRight: '8px' }}
-            />
             <FormattedMessage
-              id='layouts.wallet.menuleft.navigation.earninterest'
-              defaultMessage='Earn Interest'
+              id='copy.viewTransactions'
+              defaultMessage='View Transactions'
             />
           </Button>
         </NavLink>

@@ -1,5 +1,8 @@
-import { FlatLoader, Text } from 'blockchain-info-components'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
+
+import { FlatLoader, Text } from 'blockchain-info-components'
+
 import {
   SecurityComponent,
   SecurityContainer,
@@ -7,10 +10,9 @@ import {
   SecurityHeader,
   SecurityIcon,
   SecuritySummary
-} from 'components/Security'
-import React from 'react'
+} from '../../components'
 
-const TwoStepVerification = props => {
+const TwoStepVerification = () => {
   return (
     <SecurityContainer>
       <SecurityIcon name='lock' enabled={false} />

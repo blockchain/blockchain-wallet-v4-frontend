@@ -1,5 +1,7 @@
-import * as wCrypto from './'
 import { repeat } from 'ramda'
+
+import * as wCrypto from './'
+import * as U from './utils'
 import data from './wallet-data.json'
 
 describe('WalletCrypto', () => {
@@ -28,7 +30,7 @@ describe('WalletCrypto', () => {
       let key = wCrypto.sha256('mykey')
       let iv = Buffer.from(repeat(3, 16))
       let message = 'hello'
-      let encrypted = wCrypto.encryptDataWithKey(message, key, iv)
+      let encrypted = wCrypto.encryptDataWithKey(message, key, iv, null)
       let decrypted = wCrypto.decryptDataWithKey(encrypted, key, iv)
       expect(decrypted).toBe(message)
     })
@@ -39,7 +41,9 @@ describe('WalletCrypto', () => {
       let message = '155 is a bad number'
       wCrypto
         .encryptDataWithPassword(message, '1714', 11)
-        .chain(msg => wCrypto.decryptDataWithPassword(msg, '1714', 11))
+        .chain(msg =>
+          wCrypto.decryptDataWithPassword(msg, '1714', 11, { mode: U.AES.CBC })
+        )
         .fork(done, text => {
           expect(text).toEqual(message)
           done()
@@ -139,18 +143,12 @@ describe('WalletCrypto', () => {
     })
   })
 
-  describe('decryptWallet (V3)', () => {
+  describe('decryptWallet (V4)', () => {
     it('should decrypt the wallet correctly', done => {
-      wCrypto.decryptWallet('mypassword', data.v3).fork(done, wallet => {
-        expect(wallet.guid).toEqual('e01a59a0-31f2-4403-8488-32ffd8fdb3cc')
+      wCrypto.decryptWallet('blockchain', data.v4).fork(done, wallet => {
+        expect(wallet.guid).toEqual('d9e5766d-d646-4b3a-b32e-4bda649e4c45')
         done()
       })
-    })
-    it('should fail because of wrong password', done => {
-      wCrypto.decryptWallet('wrong password', data.v3).fork(failure => {
-        expect(failure).toEqual('v2v3: wrong_wallet_password')
-        done()
-      }, done)
     })
   })
 
@@ -169,6 +167,73 @@ describe('WalletCrypto', () => {
       expect(hash.toString('hex')).toBe(
         '5df6e0e2761359d30a8275058e299fcc0381534545f55cf43e41983f5d4c9456'
       )
+    })
+  })
+
+  describe('correctly work with shared secret', () => {
+    it('should correctly derive public from secret', () => {
+      const priv = Buffer.from(
+        '8ca745f6ff8c67a63dcb448b18c5cf111e44d16a6e587987d4212d0fba12c74f',
+        'hex'
+      )
+      expect(wCrypto.derivePubFromPriv(priv).toString('hex')).toBe(
+        '03a4ddec8d6b42cce5eef709e1e99858caa47755e335564c42aafc61fb87aa8830'
+      )
+    })
+    it('should correctly calculate shared secret', () => {
+      const priv = Buffer.from(
+        '9cd3b16e10bd574fed3743d8e0de0b7b4e6c69f3245ab5a168ef010d22bfefa0',
+        'hex'
+      )
+      const pub = Buffer.from(
+        '02a18a98316b5f52596e75bfa5ca9fa9912edd0c989b86b73d41bb64c9c6adb992',
+        'hex'
+      )
+      expect(wCrypto.deriveSharedSecret(priv, pub).toString('hex')).toBe(
+        'c87e593a1b22bad696489aa7c240356ffc8ff453d4637dc9cd32b4696df93f5c'
+      )
+    })
+    it('should correctly encrypt and decrypt', () => {
+      const key = Buffer.from(
+        '9cd3b16e10bd574fed3743d8e0de0b7b4e6c69f3245ab5a168ef010d22bfefa0',
+        'hex'
+      )
+      const msg = 'This is a test sentence!'
+      const cipher = wCrypto.encryptAESGCM(key, Buffer.from(msg, 'utf8'))
+      const decrypted = wCrypto.decryptAESGCM(key, cipher).toString('utf8')
+      expect(decrypted).toBe(msg)
+    })
+    it('should fail for modified message', () => {
+      const key = Buffer.from(
+        '9cd3b16e10bd574fed3743d8e0de0b7b4e6c69f3245ab5a168ef010d22bfefa0',
+        'hex'
+      )
+      const msg = 'This is a test sentence!'
+      const cipher = wCrypto.encryptAESGCM(key, Buffer.from(msg, 'utf8'))
+      for (let position = 0; position < cipher.length; position++) {
+        let c = Buffer.from(cipher)
+        c[position]++
+        expect(() => {
+          wCrypto.decryptAESGCM(key, c)
+        }).toThrow('Unsupported state or unable to authenticate data')
+      }
+    })
+    it('should correctly decrypt from test vector', () => {
+      const key = Buffer.from(
+        '9cd3b16e10bd574fed3743d8e0de0b7b4e6c69f3245ab5a168ef010d22bfefa0',
+        'hex'
+      )
+      const msg = 'This is a test sentence!'
+      const decrypted = wCrypto
+        .decryptAESGCM(
+          key,
+          Buffer.from(
+            '83e77704adf28646b602047763a179b5991a5d5d4457658200c84936c71e5e7ffb54a1dcf665d836cb2ce34a471747eb64392e80',
+            'hex'
+          )
+        )
+        .toString('utf8')
+      expect(decrypted).toBe(msg)
     })
   })
 })

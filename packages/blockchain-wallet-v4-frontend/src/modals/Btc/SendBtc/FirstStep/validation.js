@@ -1,3 +1,8 @@
+import React from 'react'
+import { path, prop } from 'ramda'
+
+import { Exchange, utils } from 'blockchain-wallet-v4/src'
+
 import {
   AddressMatchesPriv,
   InsufficientFundsMessage,
@@ -8,9 +13,6 @@ import {
   MinimumFeeMessage,
   MinimumOneSatoshiMessage
 } from './validationMessages'
-import { Exchange, utils } from 'blockchain-wallet-v4/src'
-import { path, prop } from 'ramda'
-import React from 'react'
 
 const DUST = 546
 
@@ -76,11 +78,11 @@ export const maximumFeePerByte = (value, allValues, props) =>
   )
 
 export const shouldError = ({
-  values,
+  initialRender,
   nextProps,
   props,
-  initialRender,
-  structure
+  structure,
+  values
 }) => {
   if (initialRender) {
     return true
@@ -93,11 +95,11 @@ export const shouldError = ({
 }
 
 export const shouldWarn = ({
-  values,
+  initialRender,
   nextProps,
   props,
-  initialRender,
-  structure
+  structure,
+  values
 }) => {
   if (initialRender) {
     return true
@@ -113,5 +115,9 @@ export const isAddressDerivedFromPriv = (value, allValues, props) => {
   const format = utils.btc.detectPrivateKeyFormat(value)
   const address = path(['from', 'address'], allValues)
   const key = utils.btc.privateKeyStringToKey(value, format, props.network)
-  return key.getAddress() === address ? undefined : <AddressMatchesPriv />
+  return utils.btc.keyPairToAddress(key) === address ? (
+    undefined
+  ) : (
+    <AddressMatchesPriv />
+  )
 }

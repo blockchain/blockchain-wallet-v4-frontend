@@ -1,30 +1,34 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-import { actions } from 'data'
-import { getBtcData, getData } from './selectors'
 import DataError from 'components/DataError'
+import { actions } from 'data'
+
+import { getBtcData, getData } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
 
 class FirstStep extends React.Component {
   handleRefresh = () => {
-    const { from, to, description, amount, lockboxIndex, payPro } = this.props
+    const { amount, description, from, lockboxIndex, payPro, to } = this.props
     this.props.actions.initialized({
-      from,
-      to,
-      description,
       amount,
+      description,
+      from,
       lockboxIndex,
-      payPro
+      payPro,
+      to
     })
   }
 
-  render () {
+  render() {
     const { actions, amount, data, excludeHDWallets, payPro, to } = this.props
     return data.cata({
-      Success: value => (
+      Failure: (message) => <DataError onClick={this.handleRefresh} message={message} />,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />,
+      Success: (value) => (
         <Success
           {...value}
           autofilled={!!(amount && to)}
@@ -34,22 +38,17 @@ class FirstStep extends React.Component {
           onSubmit={actions.sendBtcFirstStepSubmitClicked}
           payPro={payPro}
         />
-      ),
-      Failure: message => (
-        <DataError onClick={this.handleRefresh} message={message} />
-      ),
-      NotAsked: () => <Loading />,
-      Loading: () => <Loading />
+      )
     })
   }
 }
 
-const mapStateToProps = state => ({
-  data: getData(state),
-  btcData: getBtcData(state)
+const mapStateToProps = (state) => ({
+  btcData: getBtcData(state),
+  data: getData(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.sendBtc, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })

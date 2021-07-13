@@ -1,16 +1,17 @@
-import * as Coin from '../coinSelection/coin'
-import * as crypto from '../walletCrypto'
-import { addHDWalletWIFS, addLegacyWIFS } from './wifs'
+import Btc from '@ledgerhq/hw-app-btc'
+import BitcoinCash from 'bitcoinforksjs-lib'
 import { addIndex, compose, curry, forEach, lensProp, over } from 'ramda'
-import { addressToScript } from '../utils/btc'
+import { mapped } from 'ramda-lens'
+
+import * as Coin from '../coinSelection/coin'
 import {
   convertFromCashAddrIfCashAddr,
   fromCashAddr,
   isCashAddr
 } from '../utils/bch'
-import { mapped } from 'ramda-lens'
-import BitcoinCash from 'bitcoinforksjs-lib'
-import Btc from '@ledgerhq/hw-app-btc'
+import { addressToScript } from '../utils/btc'
+import * as crypto from '../walletCrypto'
+import { addHDWalletWIFS, addLegacyWIFS } from './wifs'
 
 export const signSelection = curry((network, coinDust, selection) => {
   const hashType =

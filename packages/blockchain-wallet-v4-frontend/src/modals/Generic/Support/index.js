@@ -1,5 +1,5 @@
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Image, Link, Modal, Text } from 'blockchain-info-components'
@@ -47,9 +47,9 @@ export const Support = ({ position, total }) => (
   <Modal size='small' position={position} total={total}>
     <Body data-e2e='swapGetStarted'>
       <Title size='20px'>
-        <FormattedHTMLMessage
+        <FormattedMessage
           defaultMessage='Need some help?'
-          id='modals.support.need_some_help'
+          id='copy.need_some_help'
         />
       </Title>
       <Message>

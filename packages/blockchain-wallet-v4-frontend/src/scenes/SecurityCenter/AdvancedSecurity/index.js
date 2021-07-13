@@ -1,10 +1,11 @@
+import React from 'react'
+import styled from 'styled-components'
+
 import APIAccess from './APIAccess'
 import IPWhitelist from './IPWhitelist'
 import LoginIpRestriction from './LoginIpRestriction'
 import PasswordStretching from './PasswordStretching'
-import React from 'react'
 import SecondPasswordWallet from './SecondPasswordWallet'
-import styled from 'styled-components'
 import TwoStepVerificationRemember from './TwoStepVerificationRemember'
 import WalletAccessTor from './WalletAccessTor'
 import WalletPassword from './WalletPassword'
@@ -15,7 +16,7 @@ const Wrapper = styled.div`
 `
 
 export default class AdvancedSecurity extends React.PureComponent {
-  render () {
+  render() {
     return (
       <Wrapper>
         <WalletPassword />

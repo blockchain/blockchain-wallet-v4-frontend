@@ -1,7 +1,7 @@
-import { cond, contains, filter, identity, isEmpty, T } from 'ramda'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
-import React from 'react'
+import { cond, contains, filter, identity, isEmpty, T } from 'ramda'
 
 import SelectBox from '../SelectBox'
 
@@ -10,15 +10,19 @@ class SelectBoxCountry extends React.PureComponent {
     whiteList: PropTypes.arrayOf(PropTypes.string),
     blackList: PropTypes.arrayOf(PropTypes.string)
   }
+
   static defaultProps = {
     whiteList: null,
     blackList: null
   }
 
-  render () {
-    const { whiteList, blackList, ...rest } = this.props
+  render() {
+    const { blackList, whiteList, ...rest } = this.props
     const elements = [
-      { group: '', items: applyWhiteBlackList(whiteList, blackList)(countries) }
+      {
+        group: '',
+        items: applyWhiteBlackList(whiteList, blackList)(countries)
+      }
     ]
 
     return (

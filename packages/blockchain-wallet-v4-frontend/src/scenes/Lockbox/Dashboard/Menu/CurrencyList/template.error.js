@@ -1,7 +1,8 @@
-import { FormattedHTMLMessage } from 'react-intl'
-import { Text } from 'blockchain-info-components'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
+
+import { Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -31,7 +32,7 @@ const Error = props => {
     <Wrapper>
       <Refresh onClick={() => props.handleRefresh()}>
         <Text weight={400} size='14px'>
-          <FormattedHTMLMessage
+          <FormattedMessage
             id='scenes.lockbox.menu.currencylist.error'
             defaultMessage='Oops. Something went wrong. Click <span class="link">here</span> to refresh.'
           />

@@ -1,5 +1,9 @@
-import { Button, Icon, Link } from 'blockchain-info-components'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
+import { Button, Icon, Link } from 'blockchain-info-components'
 import {
   SettingComponent,
   SettingContainer,
@@ -7,17 +11,14 @@ import {
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
-import React from 'react'
+import { actions } from 'data'
 
-const About = () => {
+const About = (props: Props) => {
   return (
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage
-            id='scenes.settings.general.about.title'
-            defaultMessage='About'
-          />
+          <FormattedMessage id='scenes.settings.general.about.title' defaultMessage='About' />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
@@ -27,8 +28,14 @@ const About = () => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Link href='https://www.blockchain.com/about' target='_blank'>
-          <Button data-e2e='aboutLink' nature='empty'>
+        <Link
+          onClick={() => {
+            props.settingsActions.generalSettingsExternalRedirect('/about')
+          }}
+          href='https://www.blockchain.com/about'
+          target='_blank'
+        >
+          <Button data-e2e='aboutLink' nature='empty-blue'>
             <Icon name='open-in-new-tab' size='20px' />
           </Button>
         </Link>
@@ -37,4 +44,12 @@ const About = () => {
   )
 }
 
-export default About
+const mapDispatchToProps = (dispatch) => ({
+  settingsActions: bindActionCreators(actions.modules.settings, dispatch)
+})
+
+const connector = connect(null, mapDispatchToProps)
+
+type Props = {} & ConnectedProps<typeof connector>
+
+export default connector(About)

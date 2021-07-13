@@ -1,16 +1,14 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Banner } from 'blockchain-info-components'
 import { model } from 'data'
+
 import MaximumAmountLink from './MaximumAmountLink'
 import ModalIcon from './ModalIcon'
 
-const {
-  CREATE_ACCOUNT_LEARN_MODAL,
-  RESERVE_LEARN_MODAL
-} = model.components.sendXlm
+const { CREATE_ACCOUNT_LEARN_MODAL, RESERVE_LEARN_MODAL } = model.components.sendXlm
 
 const ErrorBanner = styled(Banner)`
   > span {
@@ -27,14 +25,11 @@ const ErrorBanner = styled(Banner)`
 
 export const InvalidAmountMessage = () => (
   <div data-e2e='sendXlmInvalidAmount'>
-    <FormattedMessage
-      id='modals.sendxlm.amountnotzeromessage'
-      defaultMessage='Invalid amount'
-    />
+    <FormattedMessage id='modals.sendxlm.amountnotzeromessage' defaultMessage='Invalid amount' />
   </div>
 )
 
-export const ShouldCreateAccountMessage = props => (
+export const ShouldCreateAccountMessage = (props) => (
   <ErrorBanner type='warning' data-e2e='sendXlmErrorSendAtLeast'>
     <FormattedMessage
       id='modals.sendxlm.shouldcreateaccountmessage'
@@ -45,7 +40,7 @@ export const ShouldCreateAccountMessage = props => (
   </ErrorBanner>
 )
 
-export const NoFundsMessage = props => (
+export const NoFundsMessage = (props) => (
   <ErrorBanner type='warning'>
     <FormattedMessage
       id='modals.sendxlm.nofunds'
@@ -55,7 +50,7 @@ export const NoFundsMessage = props => (
   </ErrorBanner>
 )
 
-export const ReserveMessage = props => (
+export const ReserveMessage = (props) => (
   <ErrorBanner type='warning' data-e2e='sendXlmUseTotalBalance'>
     <div>
       <FormattedMessage
@@ -83,10 +78,7 @@ export const InsufficientFundsMessage = () => (
 
 export const WrongIdMemoFormat = () => (
   <div data-e2e='sendXlmWrongIdMemoFormat'>
-    <FormattedMessage
-      id='modals.sendxlm.wrongidmemo'
-      defaultMessage='Memo should be a number'
-    />
+    <FormattedMessage id='modals.sendxlm.wrongidmemo' defaultMessage='Memo should be a number' />
   </div>
 )
 

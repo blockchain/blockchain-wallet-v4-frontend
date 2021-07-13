@@ -1,6 +1,5 @@
-import { FormattedMessage } from 'react-intl'
-import QRCodeWrapper from 'components/QRCodeWrapper'
 import React, { Component } from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import {
@@ -12,6 +11,7 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
+import QRCodeWrapper from 'components/QRCode/Wrapper'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 const Content = styled.div`
@@ -32,8 +32,8 @@ const WarningBanner = styled(Banner)`
 `
 
 class ShowXPubContainer extends Component {
-  render () {
-    const { position, closeAll, total, xpub } = this.props
+  render() {
+    const { closeAll, position, total, xpub } = this.props
 
     return (
       <Modal size='large' position={position} total={total}>
@@ -77,4 +77,4 @@ class ShowXPubContainer extends Component {
   }
 }
 
-export default modalEnhancer('ShowXPub')(ShowXPubContainer)
+export default modalEnhancer('SHOW_XPUB_MODAL')(ShowXPubContainer)

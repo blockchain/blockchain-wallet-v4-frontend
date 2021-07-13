@@ -1,13 +1,14 @@
-import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import PropTypes from 'prop-types'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { bindActionCreators, compose } from 'redux'
 
-import { actions } from 'data'
-import { AppManager } from 'components/Lockbox'
 import { Modal, ModalBody, ModalHeader } from 'blockchain-info-components'
+import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
+
+import AppManager from '../components/AppManager'
 
 class LockboxAppManagerModal extends React.PureComponent {
   onClose = () => {
@@ -15,7 +16,7 @@ class LockboxAppManagerModal extends React.PureComponent {
     this.props.closeAll()
   }
 
-  render () {
+  render() {
     const { deviceIndex, position, total } = this.props
     return (
       <Modal size='small' position={position} total={total}>

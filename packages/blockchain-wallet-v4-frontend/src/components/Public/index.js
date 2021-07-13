@@ -1,11 +1,12 @@
-import media from 'services/ResponsiveService'
 import styled from 'styled-components'
+
+import { media } from 'services/styles'
 
 export const Wrapper = styled.div`
   padding: 32px;
   border-radius: 8px;
   box-sizing: border-box;
-  background-color: ${props => props.theme.white};
+  background-color: ${(props) => props.theme.white};
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.21);
   width: 480px;
 
@@ -16,3 +17,5 @@ export const Wrapper = styled.div`
     padding: 20px;
   `}
 `
+
+export default Wrapper

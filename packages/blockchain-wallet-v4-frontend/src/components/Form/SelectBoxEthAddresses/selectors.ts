@@ -1,15 +1,12 @@
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 // @ts-ignore
 import { concat, curry, filter, has, map, reduce, sequence } from 'ramda'
 
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import {
   Erc20CoinType,
-  InterestAccountBalanceType,
-  SupportedWalletCurrenciesType
-} from 'core/types'
-
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-
+  InterestAccountBalanceType
+} from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 
 export const getEthData = (
@@ -51,21 +48,21 @@ export const getEthData = (
     }
     return wallet.label
   }
-  const buildCustodialDisplay = x => {
+  const buildCustodialDisplay = account => {
     return (
-      `ETH Trading Wallet` +
+      `Trading Account` +
       ` (${Exchange.displayEtherToEther({
-        value: x ? x.available : 0,
+        value: account ? account.available : 0,
         fromUnit: 'WEI',
         toUnit: 'ETH'
       })})`
     )
   }
-  const buildInterestDisplay = (x: InterestAccountBalanceType['ETH']) => {
+  const buildInterestDisplay = (account: InterestAccountBalanceType['ETH']) => {
     return (
-      `ETH Interest Wallet` +
+      `Interest Account` +
       ` (${Exchange.displayEtherToEther({
-        value: x ? x.balance : 0,
+        value: account ? account.balance : 0,
         fromUnit: 'WEI',
         toUnit: 'ETH'
       })})`
@@ -75,25 +72,25 @@ export const getEthData = (
   const excluded = filter(x => !exclude.includes(x.label))
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
   const toGroup = curry((label, options) => [{ label, options, value: '' }])
-  const toExchange = x => [{ label: `Exchange ETH Address`, value: x }]
+  const toExchange = x => [{ label: `ETH Exchange Account`, value: x }]
   const toCustodialDropdown = currencyDetails => [
     {
       label: buildCustodialDisplay(currencyDetails),
       value: {
         ...currencyDetails,
         type: ADDRESS_TYPES.CUSTODIAL,
-        label: 'ETH Trading Wallet'
+        label: 'Trading Account'
       }
     }
   ]
 
-  const toInterestDropdown = x => [
+  const toInterestDropdown = account => [
     {
-      label: buildInterestDisplay(x),
+      label: buildInterestDisplay(account),
       value: {
-        ...x,
+        ...account,
         type: ADDRESS_TYPES.INTEREST,
-        label: 'ETH Interest Wallet'
+        label: 'Interest Account'
       }
     }
   ]
@@ -139,7 +136,7 @@ export const getEthData = (
             .getInterestAccountBalance(state)
             .map(x => x.ETH)
             .map(toInterestDropdown)
-            .map(toGroup('Interest Wallet'))
+            .map(toGroup('Interest Account'))
         : Remote.of([]),
       excludeLockbox
         ? Remote.of([])
@@ -180,11 +177,6 @@ export const getErc20Data = (
     includeInterest,
     forceCustodialFirst
   } = ownProps
-  const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
-  const supportedCoins = supportedCoinsR.getOrElse(
-    {} as SupportedWalletCurrenciesType
-  )
-
   const displayErc20Fixed = data => {
     // TODO: ERC20 make more generic
     if (coin === 'PAX') {
@@ -203,32 +195,48 @@ export const getErc20Data = (
         toUnit: 'USDT'
       })
     }
+    if (coin === 'WDGLD') {
+      const wdgldAmount = Exchange.convertWdgldToWdgld(data)
+      return Exchange.displayWdgldToWdgld({
+        value: Number(wdgldAmount.value).toFixed(8),
+        fromUnit: 'WDGLD',
+        toUnit: 'WDGLD'
+      })
+    }
+    if (coin === 'AAVE') {
+      const aaveAmount = Exchange.convertAaveToAave(data)
+      return Exchange.displayAaveToAave({
+        value: Number(aaveAmount.value).toFixed(8),
+        fromUnit: 'AAVE',
+        toUnit: 'AAVE'
+      })
+    }
+    if (coin === 'YFI') {
+      const yfiAmount = Exchange.convertYfiToYfi(data)
+      return Exchange.displayYfiToYfi({
+        value: Number(yfiAmount.value).toFixed(8),
+        fromUnit: 'YFI',
+        toUnit: 'YFI'
+      })
+    }
     return {}
   }
-  const buildCustodialDisplay = (
-    x,
-    coin: Erc20CoinType,
-    displayName: string
-  ) => {
+  const buildCustodialDisplay = (coin: Erc20CoinType, account) => {
     return (
-      `${displayName} Trading Wallet` +
+      `Trading Account` +
       ` (${displayErc20Fixed({
-        value: x ? x.available : 0,
+        value: account ? account.available : 0,
         fromUnit: 'WEI',
         toUnit: coin
       })})`
     )
   }
 
-  const buildInterestDisplay = (
-    coin: Erc20CoinType,
-    displayName: string,
-    x
-  ) => {
+  const buildInterestDisplay = (coin: Erc20CoinType, account) => {
     return (
-      `${displayName} Interest Wallet` +
+      `Interest Account` +
       ` (${Exchange.displayEtherToEther({
-        value: x ? x.balance : 0,
+        value: account ? account.balance : 0,
         fromUnit: 'WEI',
         toUnit: coin
       })})`
@@ -236,7 +244,7 @@ export const getErc20Data = (
   }
 
   // @ts-ignore
-  const excluded = filter(x => !exclude.includes(x.label))
+  const excluded = filter(account => !exclude.includes(account.label))
   const buildDisplay = wallet => {
     let erc20BalanceDisplay = displayErc20Fixed({
       value: wallet.balance,
@@ -252,35 +260,28 @@ export const getErc20Data = (
   const toGroup = curry((label, options) => [{ label, options }])
   const toExchange = x => [
     {
-      label:
-        coin === 'PAX'
-          ? 'Exhange USD Digital Address'
-          : `Exchange ${coin} Address`,
+      label: 'Exchange Account',
       value: x
     }
   ]
-  const toCustodialDropdown = currencyDetails => [
+  const toCustodialDropdown = account => [
     {
-      label: buildCustodialDisplay(
-        currencyDetails,
-        coin,
-        supportedCoins[coin].displayName
-      ),
+      label: buildCustodialDisplay(coin, account),
       value: {
-        ...currencyDetails,
+        ...account,
         type: ADDRESS_TYPES.CUSTODIAL,
-        label: `${supportedCoins[coin].coinTicker} Trading Wallet`
+        label: `Trading Account`
       }
     }
   ]
 
-  const toInterestDropdown = x => [
+  const toInterestDropdown = account => [
     {
-      label: buildInterestDisplay(x, coin, supportedCoins[coin].displayName),
+      label: buildInterestDisplay(coin, account),
       value: {
-        ...x,
+        ...account,
         type: ADDRESS_TYPES.INTEREST,
-        label: `${supportedCoins[coin].coinTicker} Interest Wallet`
+        label: `Interest Account`
       }
     }
   ]
@@ -326,12 +327,12 @@ export const getErc20Data = (
             .getInterestAccountBalance(state)
             .map(x => x[coin])
             .map(toInterestDropdown)
-            .map(toGroup('Interest Wallet'))
+            .map(toGroup('Interest Account'))
         : Remote.of([])
-    ]).map(([b1, b2, b3, b4]) => {
+    ]).map(([b1, b2, b3, b4, b5]) => {
       const orderArray = forceCustodialFirst
-        ? [b2, b1, b3, b4]
-        : [b1, b2, b3, b4]
+        ? [b2, b1, b3, b4, b5]
+        : [b1, b2, b3, b4, b5]
       // @ts-ignore
       const data = reduce(concat, [], orderArray)
       return { data }

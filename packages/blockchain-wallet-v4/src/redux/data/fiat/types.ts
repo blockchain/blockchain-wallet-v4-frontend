@@ -1,13 +1,24 @@
-import { RemoteDataType, SBTransactionsType, WalletFiatType } from 'core/types'
+import { RemoteDataType, WalletFiatType } from 'core/types'
 
+import { FiatSBAndSwapTransactionType } from '../custodial/types'
 import * as AT from './actionTypes'
 
 // state
 export type FiatStateType = {
   [key in WalletFiatType]?: {
-    next: RemoteDataType<string, SBTransactionsType['next']>
-    prev: RemoteDataType<string, SBTransactionsType['prev']>
-    transactions: Array<RemoteDataType<string, SBTransactionsType['items']>>
+    nextSbTxId: RemoteDataType<
+      string | undefined,
+      FiatTransactionPageResponseType['nextSbTxId']
+    >
+    nextSbTxTimestamp: RemoteDataType<
+      string | undefined,
+      FiatTransactionPageResponseType['nextSbTxTimestamp']
+    >
+    nextSwapPageTimestamp: RemoteDataType<
+      string | undefined,
+      FiatTransactionPageResponseType['nextSwapPageTimestamp']
+    >
+    page: Array<RemoteDataType<string, FiatTransactionPageResponseType['page']>>
   }
 }
 
@@ -24,9 +35,17 @@ interface FetchTransactionsSuccessActionType {
   payload: {
     currency: WalletFiatType
     reset?: boolean
-    response: SBTransactionsType
+    response: FiatTransactionPageResponseType
   }
   type: typeof AT.FETCH_FIAT_TRANSACTIONS_SUCCESS
+}
+
+// TODO: remove type once we have consolidated custodial transaction endpoints
+export type FiatTransactionPageResponseType = {
+  nextSbTxId?: string
+  nextSbTxTimestamp?: string
+  nextSwapPageTimestamp?: string
+  page: Array<FiatSBAndSwapTransactionType>
 }
 
 export type FiatActionTypes =

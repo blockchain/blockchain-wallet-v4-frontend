@@ -1,15 +1,13 @@
-import { FormattedMessage } from 'react-intl'
-import { SpinningLoader, Text } from 'blockchain-info-components'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
+import { SpinningLoader, Text } from 'blockchain-info-components'
 import Header from 'layouts/Wallet/MenuTop'
-import media from 'services/ResponsiveService'
-
-interface Props {}
+import { media } from 'services/styles'
 
 const Wrapper = styled.div`
-  background-color: ${props => props.theme.grey900};
+  background-color: ${(props) => props.theme.grey900};
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -36,18 +34,13 @@ const LoaderContainer = styled.div`
   margin-top: -90px;
 `
 
-const WalletLoading: React.FC<Props> = () => {
+const WalletLoading = () => {
   return (
     <Wrapper>
       <Header />
       <LoaderContainer>
         <SpinningLoader width='36px' height='36px' />
-        <Text
-          size='18px'
-          weight={600}
-          color='white'
-          style={{ marginTop: '16px' }}
-        >
+        <Text size='18px' weight={600} color='white' style={{ marginTop: '16px' }}>
           <FormattedMessage id='copy.loading' defaultMessage='Loading...' />
         </Text>
       </LoaderContainer>

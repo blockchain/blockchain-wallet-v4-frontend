@@ -1,8 +1,9 @@
-import { Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
+import { Text } from 'blockchain-info-components'
+
 export const Title = styled(Text)`
-  margin: 16px 0;
+  margin: 16px 0 20px;
   text-align: left;
 `
 
@@ -13,7 +14,6 @@ export const SubTitle = styled(Title)`
 `
 
 export const DisplayTitle = styled(Text)`
-  align-items: left;
   font-weight: 600;
   font-size: 14px;
   display: flex;

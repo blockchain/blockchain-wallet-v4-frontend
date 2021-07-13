@@ -1,4 +1,5 @@
 import { add, compose, identity, lift, map, multiply, toUpper } from 'ramda'
+
 import Remote from './index'
 
 describe('Remote', () => {

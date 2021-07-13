@@ -1,5 +1,3 @@
-import * as walletSelectors from '../../wallet/selectors'
-import { ADDRESS_TYPES } from '../../payment/btc/utils'
 import {
   assoc,
   compose,
@@ -9,33 +7,43 @@ import {
   map,
   path,
   prop,
+  propEq,
   sequence,
   split,
   values
 } from 'ramda'
-import { getAccountsList } from '../../kvStore/bch/selectors'
+
+import Remote from '../../../remote'
+import { HDAccount, HDAccountList, HDWallet } from '../../../types'
+import { toCashAddr } from '../../../utils/bch'
 import {
   getAddresses,
   getChangeIndex,
   getReceiveIndex
 } from '../../data/bch/selectors'
+import { getAccountsList } from '../../kvStore/bch/selectors'
 import {
   getLockboxBchAccount,
   getLockboxBchAccounts
 } from '../../kvStore/lockbox/selectors'
-import { HDAccount, HDAccountList, HDWallet } from '../../../types'
-import { toCashAddr } from '../../../utils/bch'
-import Remote from '../../../remote'
+import { ADDRESS_TYPES } from '../../payment/btc/utils'
+import * as walletSelectors from '../../wallet/selectors'
 
 export const getLockboxBchBalances = state => {
-  const digest = (addresses, account) => ({
-    coin: 'BCH',
-    label: account.label,
-    balance: path([account.xpub, 'final_balance'], addresses),
-    xpub: account.xpub,
-    address: account.xpub,
-    type: ADDRESS_TYPES.LOCKBOX
-  })
+  const digest = (addresses, account) => {
+    const xpub = prop(
+      'xpub',
+      account.derivations.find(propEq('type', 'bch-145'))
+    )
+    return {
+      coin: 'BCH',
+      label: account.label,
+      balance: path([xpub, 'final_balance'], addresses),
+      xpub: xpub,
+      address: xpub,
+      type: ADDRESS_TYPES.LOCKBOX
+    }
+  }
   const balances = Remote.of(getAddresses(state).getOrElse([]))
   return map(lift(digest)(balances), getLockboxBchAccounts(state))
 }
@@ -46,7 +54,17 @@ export const getActiveHDAccounts = state => {
   const bchAccounts = getAccountsList(state).getOrElse([])
   const addInfo = account =>
     balancesRD
-      .map(prop(prop('xpub', account)))
+      .map(
+        prop(
+          prop(
+            'xpub',
+            // TODO: SEGWIT remove w/ DEPRECATED_V3
+            account.derivations
+              ? account.derivations.find(d => d.type === 'legacy')
+              : account
+          )
+        )
+      )
       .map(x => assoc('info', x, account))
   const addBchLabel = account =>
     account.map(a =>
@@ -97,15 +115,24 @@ const digestAddress = acc => ({
   type: ADDRESS_TYPES.LEGACY
 })
 
-const digestAccount = acc => ({
-  coin: 'BCH',
-  label: prop('label', acc) ? prop('label', acc) : prop('xpub', acc),
-  balance: path(['info', 'final_balance'], acc),
-  archived: prop('archived', acc),
-  xpub: prop('xpub', acc),
-  index: prop('index', acc),
-  type: ADDRESS_TYPES.ACCOUNT
-})
+const digestAccount = acc => {
+  const xpub = prop(
+    'xpub',
+    // TODO: SEGWIT remove w/ DEPRECATED_V3
+    acc.derivations ? acc.derivations.find(d => d.type === 'legacy') : acc
+  )
+
+  return {
+    archived: prop('archived', acc),
+    balance: path(['info', 'final_balance'], acc),
+    coin: 'BCH',
+    derivations: prop('derivations', acc),
+    index: prop('index', acc),
+    label: prop('label', acc) ? prop('label', acc) : xpub,
+    type: ADDRESS_TYPES.ACCOUNT,
+    xpub
+  }
+}
 
 export const getAccountsBalances = state =>
   map(map(digestAccount), getActiveHDAccounts(state))
@@ -160,7 +187,7 @@ export const getAddress = curry((network, path, state) => {
     HDWallet.selectAccount(accId),
     walletSelectors.getDefaultHDWallet
   )(state)
-  return HDAccount.getAddress(account, `M/${chain}/${index}`, network)
+  return HDAccount.getAddress(account, `M/${chain}/${index}`, network, 'legacy')
 })
 
 export const getNextAvailableChangeAddress = curry(
@@ -169,7 +196,7 @@ export const getNextAvailableChangeAddress = curry(
       HDWallet.selectAccount(accountIndex),
       walletSelectors.getDefaultHDWallet
     )(state)
-    const xpub = HDAccount.selectXpub(account)
+    const xpub = HDAccount.selectXpub(account, 'legacy')
     const index = getChangeIndex(xpub)(state)
     return index.map(x =>
       getAddress(network, `${accountIndex}/${1}/${x}`, state)
@@ -183,7 +210,7 @@ export const getNextAvailableReceiveAddress = curry(
       HDWallet.selectAccount(accountIndex),
       walletSelectors.getDefaultHDWallet
     )(state)
-    const xpub = HDAccount.selectXpub(account)
+    const xpub = HDAccount.selectXpub(account, 'legacy')
     const index = getReceiveIndex(xpub)(state)
     return index.map(x =>
       getAddress(network, `${accountIndex}/${0}/${x}`, state)

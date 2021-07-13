@@ -1,8 +1,9 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import { Carousel, Text } from 'blockchain-info-components'
 import { CustomBox } from 'components/Layout'
-import { FormattedMessage } from 'react-intl'
-import React from 'react'
-import styled from 'styled-components'
 
 const Slide = styled.div`
   width: 100%;
@@ -16,12 +17,7 @@ const ExchangeInfo = () => {
     <CustomBox>
       <Carousel height={220} arrows={false} chips={false}>
         <Slide>
-          <Text
-            size='20px'
-            weight={600}
-            color='grey800'
-            style={{ marginBottom: '20px' }}
-          >
+          <Text size='20px' weight={600} color='grey800' style={{ marginBottom: '20px' }}>
             <FormattedMessage
               id='scenes.exchange.empty.carousel.access'
               defaultMessage='Access More Assets'
@@ -35,12 +31,7 @@ const ExchangeInfo = () => {
           </Text>
         </Slide>
         <Slide>
-          <Text
-            size='20px'
-            weight={600}
-            color='grey800'
-            style={{ marginBottom: '20px' }}
-          >
+          <Text size='20px' weight={600} color='grey800' style={{ marginBottom: '20px' }}>
             <FormattedMessage
               id='scenes.exchange.empty.carousel.unlock'
               defaultMessage='Unlock Unlimited Trading'
@@ -54,12 +45,7 @@ const ExchangeInfo = () => {
           </Text>
         </Slide>
         <Slide>
-          <Text
-            size='20px'
-            weight={600}
-            color='grey800'
-            style={{ marginBottom: '20px' }}
-          >
+          <Text size='20px' weight={600} color='grey800' style={{ marginBottom: '20px' }}>
             <FormattedMessage
               id='scenes.exchange.empty.carousel.seamless'
               defaultMessage='Seamlessly Transfer Crypto'

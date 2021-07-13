@@ -1,10 +1,12 @@
-import { actions } from 'data'
-import { bindActionCreators, compose } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { getData } from './selectors'
-import { Remote } from 'blockchain-wallet-v4/src'
-import modalEnhancer from 'providers/ModalEnhancer'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+
+import { Remote } from 'blockchain-wallet-v4/src'
+import { actions } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
+
+import { getData } from './selectors'
 import TransferEth from './template'
 
 const DEFAULTS = {
@@ -14,16 +16,16 @@ const DEFAULTS = {
 }
 
 class TransferEthContainer extends React.PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     this.props.transferEthActions.initialized({
       from: this.props.legacyEthAddr,
       type: 'LEGACY'
     })
   }
 
-  componentDidUpdate () {
+  componentDidUpdate() {
     if (Remote.Success.is(this.props.data)) {
-      const { txFee, ethBalance } = this.props.data.getOrElse(DEFAULTS)
+      const { ethBalance, txFee } = this.props.data.getOrElse(DEFAULTS)
       if (parseFloat(txFee) > parseFloat(ethBalance)) {
         this.props.modalActions.closeAllModals()
       }
@@ -38,7 +40,7 @@ class TransferEthContainer extends React.PureComponent<Props> {
     })
   }
 
-  render () {
+  render() {
     const { data, legacyEthAddr } = this.props
     return data.cata({
       Success: val => (
@@ -69,7 +71,7 @@ const mapDispatchToProps = dispatch => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-const enhance = compose(modalEnhancer('TransferEth'), connector)
+const enhance = compose(modalEnhancer('TRANSFER_ETH_MODAL'), connector)
 
 type OwnProps = {
   legacyEthAddr: string

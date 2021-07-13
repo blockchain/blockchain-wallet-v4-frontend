@@ -1,12 +1,12 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+
+import { SBOrderType } from 'blockchain-wallet-v4/src/types'
 import {
   ErrorCartridge,
   GreyCartridge,
-  OrangeCartridge,
   SuccessCartridge
 } from 'components/Cartridge'
-import { FormattedMessage } from 'react-intl'
-import { SBOrderType } from 'core/types'
-import React from 'react'
 
 export const Status = ({ order }: { order: SBOrderType }) => {
   switch (order.state) {
@@ -47,12 +47,6 @@ export const Status = ({ order }: { order: SBOrderType }) => {
             defaultMessage='Trade Complete'
           />
         </SuccessCartridge>
-      )
-    case 'DEPOSIT_MATCHED':
-      return (
-        <OrangeCartridge>
-          <FormattedMessage id='copy.pending' defaultMessage='Pending' />
-        </OrangeCartridge>
       )
     default:
       return (

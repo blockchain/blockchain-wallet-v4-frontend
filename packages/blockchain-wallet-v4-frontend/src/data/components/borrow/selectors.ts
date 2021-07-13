@@ -1,6 +1,7 @@
-import { RatesType, RemoteDataType } from 'core/types'
-import { RootState } from '../../rootReducer'
+import { RatesType, RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
+
+import { RootState } from '../../rootReducer'
 
 export const getCoinType = (state: RootState) => state.components.borrow.coin
 

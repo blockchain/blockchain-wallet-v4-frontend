@@ -1,7 +1,8 @@
 import { curry, is, pipe } from 'ramda'
-import { iLensProp } from './util'
 import { view } from 'ramda-lens'
+
 import Type from './Type'
+import { iLensProp } from './util'
 
 export class TXNotes extends Type {}
 

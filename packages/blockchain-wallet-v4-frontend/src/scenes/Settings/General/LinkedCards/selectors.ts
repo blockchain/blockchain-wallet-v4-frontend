@@ -1,6 +1,7 @@
 import { lift } from 'ramda'
-import { RootState } from 'data/rootReducer'
+
 import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 
 export const getData = (state: RootState) => {
   const cardsR = selectors.components.simpleBuy.getSBCards(state)

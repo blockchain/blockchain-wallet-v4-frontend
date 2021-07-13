@@ -1,12 +1,12 @@
-import { bindActionCreators, compose, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, compose, Dispatch } from 'redux'
 
-import { actions, selectors } from 'data'
-import { CoinType } from 'core/types'
-import { InterestStep, InterestStepMetadata, InterestSteps } from 'data/types'
-import { RootState } from 'data/rootReducer'
+import { CoinType, FiatType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import { actions, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
+import { InterestStep, InterestStepMetadata } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
@@ -15,22 +15,16 @@ import DepositForm from './DepositForm'
 import WithdrawalForm from './WithdrawalForm'
 
 class Interest extends PureComponent<Props, State> {
-  state: State = { show: false, direction: 'left' }
-
-  componentDidMount () {
-    this.setState({ show: true }) //eslint-disable-line
+  constructor(props: Props) {
+    super(props)
+    this.state = { show: false, showSupplyInformation: false }
   }
 
-  componentDidUpdate (prevProps: Props) {
-    const { step } = this.props
-    if (step === prevProps.step) return
-    if (InterestSteps[step.name] > InterestSteps[prevProps.step.name]) {
-      /* eslint-disable */
-      this.setState({ direction: 'left' })
-    } else {
-      this.setState({ direction: 'right' })
-      /* eslint-enable */
-    }
+  componentDidMount() {
+    /* eslint-disable */
+    this.setState({ show: true })
+    /* eslint-enable */
+    this.props.fetchInterestEDDStatus()
   }
 
   handleClose = () => {
@@ -40,7 +34,7 @@ class Interest extends PureComponent<Props, State> {
     }, duration)
   }
 
-  handleSBClick = coin => {
+  handleSBClick = (coin: CoinType) => {
     this.setState({ show: false })
     setTimeout(() => {
       this.props.close()
@@ -48,13 +42,18 @@ class Interest extends PureComponent<Props, State> {
     }, duration / 2)
   }
 
-  render () {
-    const { coin, step, position, total } = this.props
+  showSupply = (show: boolean) => {
+    this.setState({
+      showSupplyInformation: show
+    })
+  }
+
+  render() {
+    const { coin, position, step, total, walletCurrency } = this.props
     return (
       <Flyout
         position={position}
-        in={this.state.show}
-        direction={this.state.direction}
+        isOpen={this.state.show}
         userClickedOutside={this.props.userClickedOutside}
         onClose={this.handleClose}
         data-e2e='interestModal'
@@ -67,17 +66,26 @@ class Interest extends PureComponent<Props, State> {
               handleSBClick={() => this.handleSBClick(coin)}
               stepMetadata={step.data}
               coin={coin}
+              showSupply={this.state.showSupplyInformation}
             />
           </FlyoutChild>
         )}
         {step.name === 'DEPOSIT' && (
           <FlyoutChild>
-            <DepositForm coin={coin} />
+            <DepositForm
+              coin={coin}
+              walletCurrency={walletCurrency}
+              setShowSupply={this.showSupply}
+            />
           </FlyoutChild>
         )}
         {step.name === 'WITHDRAWAL' && (
           <FlyoutChild>
-            <WithdrawalForm coin={coin} />
+            <WithdrawalForm
+              coin={coin}
+              walletCurrency={walletCurrency}
+              setShowSupply={this.showSupply}
+            />
           </FlyoutChild>
         )}
       </Flyout>
@@ -86,11 +94,13 @@ class Interest extends PureComponent<Props, State> {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+  coin: selectors.components.interest.getCoinType(state),
   step: selectors.components.interest.getStep(state),
-  coin: selectors.components.interest.getCoinType(state)
+  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  fetchInterestEDDStatus: () => dispatch(actions.components.interest.fetchEDDStatus()),
   interestActions: bindActionCreators(actions.components.interest, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
@@ -104,14 +114,12 @@ type LinkStatePropsType = {
     data: InterestStepMetadata
     name: InterestStep
   }
+  walletCurrency: FiatType
 }
 
-type State = { direction: 'left' | 'right'; show: boolean }
+type State = { show: boolean; showSupplyInformation: boolean }
 type Props = OwnProps & ConnectedProps<typeof connector>
 
-const enhance = compose<any>(
-  modalEnhancer('INTEREST_MODAL', { transition: duration }),
-  connector
-)
+const enhance = compose(modalEnhancer('INTEREST_MODAL', { transition: duration }), connector)
 
 export default enhance(Interest)

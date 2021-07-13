@@ -1,8 +1,10 @@
-import { actions } from 'data'
-import { Badge, Button, Text } from 'blockchain-info-components'
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import styled from 'styled-components'
+
+import { Badge, Button, Text } from 'blockchain-info-components'
 import {
   SettingComponent,
   SettingContainer,
@@ -10,8 +12,7 @@ import {
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
-import React from 'react'
-import styled from 'styled-components'
+import { actions } from 'data'
 
 const BadgesContainer = styled.div`
   display: block;
@@ -24,10 +25,12 @@ const BadgesContainer = styled.div`
 
 class PairingCode extends React.PureComponent<Props> {
   onShowCode = () => {
-    this.props.modalActions.showModal('PairingCode', { origin: 'SettingsPage' })
+    this.props.modalActions.showModal('PAIRING_CODE_MODAL', {
+      origin: 'SettingsPage'
+    })
   }
 
-  render () {
+  render() {
     return (
       <SettingContainer>
         <SettingSummary>
@@ -41,29 +44,27 @@ class PairingCode extends React.PureComponent<Props> {
             <FormattedMessage
               id='scenes.settings.general.pairingcode.description'
               defaultMessage="Scan the code (click on 'Show Pairing Code') with your Blockchain Wallet (iOS or Android) for a seamless connection to your wallet."
-              // altFont
-              // light
             />
             <FormattedMessage
               id='scenes.settings.general.pairingcode.description2'
               defaultMessage='Download our mobile applications below.'
             />
-            <Text size='14px' weight={400} color='error'>
+            <Text color='error' size='13px' weight={600}>
               <FormattedMessage
                 id='scenes.settings.general.pairingcode.warning'
                 defaultMessage='Do not share your Pairing Code with others.'
               />
             </Text>
             <BadgesContainer>
-              <Badge type='applestore' />
-              <Badge type='googleplay' />
+              <Badge size='34px' type='applestore' />
+              <Badge size='34px' type='googleplay' />
             </BadgesContainer>
           </SettingDescription>
         </SettingSummary>
         <SettingComponent>
           <Button
             data-e2e='showQrCode'
-            nature='primary'
+            nature='empty-blue'
             onClick={this.onShowCode}
           >
             <FormattedMessage

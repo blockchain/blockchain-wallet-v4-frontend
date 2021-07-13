@@ -1,4 +1,6 @@
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
+
 import {
   SettingComponent,
   SettingContainer,
@@ -6,7 +8,7 @@ import {
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
-import React from 'react'
+
 import Settings from './Settings'
 
 const Notifications = () => {
@@ -21,8 +23,8 @@ const Notifications = () => {
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage
-            id='scenes.settings.preferences.notifications.description'
-            defaultMessage='Get notified when you receive bitcoin.'
+            id='scenes.settings.preferences.notifications.desc'
+            defaultMessage='Choose how to get notified when you receive crypto.'
           />
         </SettingDescription>
       </SettingSummary>

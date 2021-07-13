@@ -1,15 +1,17 @@
-import { BorrowFormValuesType } from 'data/types'
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
+import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import {
   coinToString,
   fiatToString,
   formatFiat
 } from 'blockchain-wallet-v4/src/exchange/currency'
-import { FormattedMessage } from 'react-intl'
-import { OfferType, RatesType } from 'core/types'
-import { TableRow, Title, Value } from 'components/Borrow'
-import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
-import React from 'react'
-import styled from 'styled-components'
+import { OfferType, RatesType } from 'blockchain-wallet-v4/src/types'
+import { BorrowFormValuesType } from 'data/types'
+
+import { TableRow, Title, Value } from '../../components'
 
 type Props = {
   collateral: number

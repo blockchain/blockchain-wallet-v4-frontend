@@ -1,5 +1,9 @@
-import { call, CallEffect, put, select } from 'redux-saga/effects'
+import { head, isNil, nth } from 'ramda'
+import { call, CallEffect, put, select, take } from 'redux-saga/effects'
 
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { NO_DEFAULT_ACCOUNT } from 'blockchain-wallet-v4/src/model'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import {
   AccountTypes,
   CoinType,
@@ -7,24 +11,23 @@ import {
   PaymentType,
   PaymentValue,
   RatesType,
-  RemoteDataType
-} from 'core/types'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
-import { promptForSecondPassword } from 'services/SagaService'
-import { selectors } from 'data'
+  SBBalancesType
+} from 'blockchain-wallet-v4/src/types'
+import { actions, actionTypes, selectors } from 'data'
+import coinSagas from 'data/coins/sagas'
+import { promptForSecondPassword } from 'services/sagas'
 
+import exchangeSagaUtils from '../exchange/sagas.utils'
+import { convertBaseToStandard } from '../exchange/services'
 import * as A from './actions'
 import * as S from './selectors'
-import { convertBaseToStandard } from '../exchange/services'
-import exchangeSagaUtils from '../exchange/sagas.utils'
 
 export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
   const { calculateProvisionalPayment } = exchangeSagaUtils({
     coreSagas,
     networks
   })
+  const { convertCoinFromBaseUnitToFiat } = coinSagas({ coreSagas, networks })
 
   const buildAndPublishPayment = function * (
     coin: CoinType,
@@ -32,7 +35,27 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     destination: string
   ): Generator<PaymentType | CallEffect, PaymentValue, any> {
     try {
-      payment = yield payment.to(destination, ADDRESS_TYPES.CUSTODIAL)
+      if (coin === 'XLM') {
+        // separate out addresses and memo
+        const depositAddressMemo = destination.split(':')
+        const txMemo = depositAddressMemo[1]
+        // throw error if we cant parse the memo for tx
+        if (
+          isNil(txMemo) ||
+          (typeof txMemo === 'string' && txMemo.length === 0)
+        ) {
+          throw new Error('Memo for transaction is missing')
+        }
+        payment = yield payment.to(depositAddressMemo[0], 'CUSTODIAL')
+        // @ts-ignore
+        payment = yield payment.memo(txMemo)
+        // @ts-ignore
+        payment = yield payment.memoType('text')
+        // @ts-ignore
+        payment = yield payment.setDestinationAccountExists(true)
+      } else {
+        payment = yield payment.to(destination, 'CUSTODIAL')
+      }
       payment = yield payment.build()
       // ask for second password
       const password = yield call(promptForSecondPassword)
@@ -45,12 +68,17 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     return payment.value()
   }
 
-  const createLimits = function * (payment: PaymentValue) {
+  const createLimits = function * (
+    payment: PaymentValue,
+    custodialBalances?: SBBalancesType
+  ) {
     try {
       const coin = S.getCoinType(yield select())
       const limitsR = S.getInterestLimits(yield select())
       const limits = limitsR.getOrFail('NO_LIMITS_AVAILABLE')
-      const balance = payment.effectiveBalance
+      const balance = payment && payment.effectiveBalance
+      const custodialBalance =
+        custodialBalances && custodialBalances[coin]?.available
       const ratesR = S.getRates(yield select())
       const rates = ratesR.getOrElse({} as RatesType)
       const userCurrency = (yield select(
@@ -58,52 +86,20 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
       )).getOrFail('Failed to get user currency')
       const walletCurrencyR = S.getWalletCurrency(yield select())
       const walletCurrency = walletCurrencyR.getOrElse({} as FiatType)
+      const baseUnitBalance = custodialBalance || balance || 0
 
-      let maxFiat
-      switch (coin) {
-        case 'BTC':
-          maxFiat = Exchange.convertBtcToFiat({
-            value: balance,
-            fromUnit: 'SAT',
-            toCurrency: userCurrency,
-            rates
-          }).value
-          break
-        case 'ETH':
-          maxFiat = Exchange.convertEthToFiat({
-            value: balance,
-            fromUnit: 'WEI',
-            toCurrency: userCurrency,
-            rates
-          }).value
-          break
-        case 'PAX':
-          maxFiat = Exchange.convertPaxToFiat({
-            value: balance,
-            fromUnit: 'WEI',
-            toCurrency: userCurrency,
-            rates
-          }).value
-          break
-        case 'USDT':
-          maxFiat = Exchange.convertUsdtToFiat({
-            value: balance,
-            fromUnit: 'WEI',
-            toCurrency: userCurrency,
-            rates
-          }).value
-          break
-        default:
-          throw new Error(INVALID_COIN_TYPE)
-      }
       const minFiat = limits[coin]?.minDepositAmount || 100
-
+      const maxFiat = convertCoinFromBaseUnitToFiat(
+        coin,
+        baseUnitBalance,
+        userCurrency,
+        rates
+      )
       const maxCoin = Exchange.convertCoinToCoin({
-        value: balance,
+        value: baseUnitBalance,
         coin,
         baseToStandard: true
       }).value
-
       const minCoin = Exchange.convertFiatToCoin(
         Number(convertBaseToStandard('FIAT', minFiat)),
         coin,
@@ -137,32 +133,65 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     return payment
   }
 
-  const paymentGetOrElse = (
-    coin: CoinType,
-    paymentR: RemoteDataType<string | Error, PaymentValue>
-  ): PaymentType => {
-    switch (coin) {
-      case 'USDT':
-      case 'PAX':
-      case 'ETH':
-        return coreSagas.payment.eth.create({
-          payment: paymentR.getOrElse(<PaymentValue>{}),
-          network: networks.eth
-        })
-      case 'BTC':
-        return coreSagas.payment.btc.create({
-          payment: paymentR.getOrElse(<PaymentValue>{}),
-          network: networks.btc
-        })
-      default:
-        throw new Error(INVALID_COIN_TYPE)
+  const toCustodialDropdown = currencyDetails => {
+    // this object has to be equal to object we do expect in dropdown
+    const { ...restDetails } = currencyDetails
+    return [
+      {
+        ...restDetails,
+        address: currencyDetails.address,
+        type: ADDRESS_TYPES.CUSTODIAL,
+        label: 'Trading Account'
+      }
+    ]
+  }
+
+  const getCustodialAccountForCoin = function * (coin: CoinType) {
+    let defaultAccountR
+
+    yield put(actions.components.send.fetchPaymentsTradingAccount(coin))
+    yield take([
+      actionTypes.components.send.FETCH_PAYMENTS_TRADING_ACCOUNTS_SUCCESS,
+      actionTypes.components.send.FETCH_PAYMENTS_TRADING_ACCOUNTS_FAILURE
+    ])
+
+    const accountAddress = selectors.components.send.getPaymentsTradingAccountAddress(
+      coin,
+      yield select()
+    )
+    const state = yield select()
+
+    const sellAndBuyAccount = selectors.components.simpleBuy
+      .getSBBalances(state)
+      .map(x => ({
+        ...x[coin],
+        coin,
+        address: accountAddress ? accountAddress.data : null
+      }))
+      .map(toCustodialDropdown)
+
+    if (coin === 'ALGO' || coin === 'WDGLD') {
+      throw new Error('Invalid Coin Type')
     }
+
+    if (coin === 'BCH' || coin === 'BTC') {
+      const sellAndBuyAccountDefaultIndex = yield select(
+        selectors.core.wallet.getDefaultAccountIndex
+      )
+      defaultAccountR = sellAndBuyAccount.map(
+        nth(sellAndBuyAccountDefaultIndex)
+      )
+    } else {
+      defaultAccountR = sellAndBuyAccount.map(head)
+    }
+
+    return defaultAccountR.getOrFail(NO_DEFAULT_ACCOUNT)
   }
 
   return {
     buildAndPublishPayment,
     createLimits,
     createPayment,
-    paymentGetOrElse
+    getCustodialAccountForCoin
   }
 }

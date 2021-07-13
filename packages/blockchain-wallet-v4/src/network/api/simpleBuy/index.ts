@@ -1,9 +1,12 @@
-import {
-  CoinType,
-  CurrenciesType,
-  FiatType,
-  WalletCurrencyType
-} from '../../../types'
+import axios from 'axios'
+import { Moment } from 'moment'
+import { v4 as uuidv4 } from 'uuid'
+
+import { BankTransferAccountType, UserDataType } from 'data/types'
+
+import { CoinType, CurrenciesType, FiatType, WalletCurrencyType } from '../../../types'
+import { NabuCustodialProductType, ProductTypes } from '../custodial/types'
+import { SwapOrderStateType, SwapOrderType, SwapUserLimitsType } from '../swap/types'
 import {
   FiatEligibleType,
   NabuAddressType,
@@ -17,14 +20,13 @@ import {
   SBPairType,
   SBPaymentMethodsType,
   SBPaymentMethodType,
+  SBPaymentTypes,
   SBProviderAttributesType,
   SBQuoteType,
   SBTransactionStateType,
-  SBTransactionsType
+  SBTransactionsType,
+  SBTransactionType
 } from './types'
-import { Moment } from 'moment'
-import { UserDataType } from 'data/types'
-import axios from 'axios'
 
 export default ({
   authorizedDelete,
@@ -35,25 +37,22 @@ export default ({
   get,
   nabuUrl
 }) => {
-  const activateSBCard = (
-    cardId: SBCardType['id'],
-    customerUrl: string
-  ): SBCardType =>
+  const activateSBCard = (cardId: SBCardType['id'], customerUrl: string): SBCardType =>
     authorizedPost({
-      url: nabuUrl,
-      endPoint: `/payments/cards/${cardId}/activate`,
       contentType: 'application/json',
       data: {
         everypay: {
           customerUrl
         }
-      }
+      },
+      endPoint: `/payments/cards/${cardId}/activate`,
+      url: nabuUrl
     })
 
   const cancelSBOrder = (order: SBOrderType) =>
     authorizedDelete({
-      url: nabuUrl,
-      endPoint: `/simple-buy/trades/${order.id}`
+      endPoint: `/simple-buy/trades/${order.id}`,
+      url: nabuUrl
     })
 
   const createSBCard = (
@@ -62,15 +61,34 @@ export default ({
     email: UserDataType['email']
   ): SBCardType =>
     authorizedPost({
-      url: nabuUrl,
-      endPoint: '/payments/cards',
       contentType: 'application/json',
-      removeDefaultPostData: true,
       data: {
-        currency,
         address,
+        currency,
         email
-      }
+      },
+      endPoint: '/payments/cards',
+      removeDefaultPostData: true,
+      url: nabuUrl
+    })
+
+  const createFiatDeposit = (
+    amount: number,
+    bankId: string,
+    currency: FiatType,
+    attributes: { callback: string | undefined }
+  ) =>
+    authorizedPost({
+      contentType: 'application/json',
+      data: {
+        amount,
+        attributes,
+        currency,
+        orderId: uuidv4(),
+        product: 'SIMPLEBUY'
+      },
+      endPoint: `/payments/banktransfer/${bankId}/payment`,
+      url: nabuUrl
     })
 
   const createSBOrder = (
@@ -83,18 +101,52 @@ export default ({
     paymentMethodId?: SBCardType['id']
   ): SBOrderType =>
     authorizedPost({
-      url: nabuUrl,
-      removeDefaultPostData: true,
-      endPoint: `/simple-buy/trades${pending ? '?action=pending' : ''}`,
       contentType: 'application/json',
       data: {
-        pair,
         action,
         input,
         output,
+        pair,
         paymentMethodId,
         paymentType
-      }
+      },
+      endPoint: `/simple-buy/trades${pending ? '?action=pending' : ''}`,
+      removeDefaultPostData: true,
+      url: nabuUrl
+    })
+
+  const getBankTransferAccounts = () =>
+    authorizedGet({
+      contentType: 'application/json',
+      endPoint: `/payments/banktransfer`,
+      url: nabuUrl
+    })
+
+  const getBankTransferAccountDetails = (bankId: string) =>
+    authorizedGet({
+      contentType: 'application/json',
+      endPoint: `/payments/banktransfer/${bankId}`,
+      url: nabuUrl
+    })
+
+  const createBankAccountLink = (currency: WalletCurrencyType) =>
+    authorizedPost({
+      contentType: 'application/json',
+      data: {
+        currency
+      },
+      endPoint: `/payments/banktransfer`,
+      removeDefaultPostData: true,
+      url: nabuUrl
+    })
+
+  const updateBankAccountLink = (bankId: string, attributes) =>
+    authorizedPost({
+      contentType: 'application/json',
+      data: { attributes },
+      endPoint: `/payments/banktransfer/${bankId}/update`,
+      removeDefaultPostData: true,
+      url: nabuUrl
     })
 
   const confirmSBOrder = (
@@ -103,116 +155,131 @@ export default ({
     paymentMethodId?: string
   ): SBOrderType =>
     authorizedPost({
-      url: nabuUrl,
-      endPoint: `/simple-buy/trades/${order.id}`,
       contentType: 'application/json',
-      removeDefaultPostData: true,
       data: {
         action: 'confirm',
         attributes,
         paymentMethodId
-      }
+      },
+      endPoint: `/simple-buy/trades/${order.id}`,
+      removeDefaultPostData: true,
+      url: nabuUrl
     })
 
-  const deleteSBCard = (cardId: SBCardType['id']): SBCardType =>
+  const getPaymentById = (pId: string): SBTransactionType =>
+    authorizedGet({
+      endPoint: `/payments/payment/${pId}`,
+      url: nabuUrl
+    })
+
+  // TODO: move this BROKERAGE component
+  const deleteSavedAccount = (
+    accountId: SBCardType['id'] | BankTransferAccountType['id'],
+    accountType: 'cards' | 'banktransfer'
+  ): SBCardType | BankTransferAccountType =>
     authorizedDelete({
-      url: nabuUrl,
-      endPoint: `/payments/cards/${cardId}`
+      endPoint: `/payments/${accountType}/${accountId}`,
+      url: nabuUrl
     })
 
   const getSBBalances = (currency?: CoinType): SBBalancesType =>
     authorizedGet({
-      url: nabuUrl,
-      endPoint: '/accounts/simplebuy',
       data: {
         ccy: currency,
         includeAllEligible: false
-      }
+      },
+      endPoint: '/accounts/simplebuy',
+      url: nabuUrl
     })
 
   const getSBCard = (cardId: SBCardType['id']): SBCardType =>
     authorizedGet({
-      url: nabuUrl,
-      endPoint: `/payments/cards/${cardId}`
+      endPoint: `/payments/cards/${cardId}`,
+      url: nabuUrl
     })
 
   const getSBCards = (): Array<SBCardType> =>
     authorizedGet({
-      url: nabuUrl,
-      endPoint: '/payments/cards'
+      endPoint: '/payments/cards',
+      url: nabuUrl
     })
 
-  const getSBFiatEligible = (
-    currency: keyof CurrenciesType
-  ): FiatEligibleType =>
+  const getSBFiatEligible = (currency: keyof CurrenciesType): FiatEligibleType =>
     authorizedGet({
-      url: nabuUrl,
-      endPoint: '/simple-buy/eligible',
       data: {
         fiatCurrency: currency,
-        methods: 'PAYMENT_CARD,BANK_ACCOUNT'
-      }
+        methods: `${SBPaymentTypes.PAYMENT_CARD},${SBPaymentTypes.BANK_ACCOUNT},${SBPaymentTypes.BANK_TRANSFER}`
+      },
+      endPoint: '/simple-buy/eligible',
+      url: nabuUrl
     })
 
   const getSBOrder = (orderId: string): SBOrderType =>
     authorizedGet({
-      url: nabuUrl,
       endPoint: `/simple-buy/trades/${orderId}`,
-      ignoreQueryParams: true
+      ignoreQueryParams: true,
+      url: nabuUrl
     })
 
   const getSBOrders = ({
-    pendingOnly = false,
+    after,
     before,
-    after
+    pendingOnly = false
   }: {
     after?: string
     before?: string
     pendingOnly?: boolean
-  }): { orders: Array<SBOrderType> } =>
+  }): Array<SBOrderType> =>
     authorizedGet({
-      url: nabuUrl,
-      endPoint: '/simple-buy/trades',
       data: {
         after,
         before,
         pendingOnly
-      }
+      },
+      endPoint: '/simple-buy/trades',
+      url: nabuUrl
     })
 
-  const getSBPairs = (
-    currency: keyof CurrenciesType
-  ): { pairs: Array<SBPairType> } =>
+  const getSBPairs = (currency: keyof CurrenciesType): { pairs: Array<SBPairType> } =>
     get({
-      url: nabuUrl,
-      endPoint: '/simple-buy/pairs',
       data: {
         fiatCurrency: currency
-      }
+      },
+      endPoint: '/simple-buy/pairs',
+      url: nabuUrl
     })
 
   const getSBPaymentAccount = (currency: keyof CurrenciesType): SBAccountType =>
     authorizedPut({
-      url: nabuUrl,
-      endPoint: '/payments/accounts/simplebuy',
       contentType: 'application/json',
       data: {
         currency
-      }
+      },
+      endPoint: '/payments/accounts/simplebuy',
+      url: nabuUrl
     })
 
   const getSBPaymentMethods = (
-    currency: FiatType,
-    checkEligibility?: true
+    currency: FiatType | undefined,
+    includeNonEligibleMethods?: boolean,
+    includeTierLimits?: number
   ): SBPaymentMethodsType =>
     authorizedGet({
-      url: nabuUrl,
-      endPoint: '/payments/methods',
       contentType: 'application/json',
       data: {
         currency,
-        checkEligibility
-      }
+        eligibleOnly: includeNonEligibleMethods,
+        tier: includeTierLimits
+      },
+      endPoint: '/eligible/payment-methods',
+      url: nabuUrl
+    })
+
+  const getRBPaymentMethods = (): { eligibleMethods: SBPaymentTypes[] } =>
+    authorizedGet({
+      contentType: 'application/json',
+      endPoint: '/recurring-buy/eligible-payment-methods',
+      url: nabuUrl
     })
 
   const getSBQuote = (
@@ -221,40 +288,75 @@ export default ({
     amount: string
   ): SBQuoteType =>
     authorizedGet({
-      url: nabuUrl,
-      endPoint: '/simple-buy/quote',
       data: {
-        currencyPair,
         action,
-        amount
-      }
+        amount,
+        currencyPair
+      },
+      endPoint: '/simple-buy/quote',
+      url: nabuUrl
     })
 
-  const getSBTransactions = (
-    currency: WalletCurrencyType,
-    next?: string | null,
-    limit?: string,
-    type?: 'DEPOSIT' | 'WITHDRAWAL',
+  type getSBTransactionsType = {
+    currency: WalletCurrencyType
+    fromId?: string
+    fromValue?: string
+    limit?: number
+    next?: string | null
     state?: SBTransactionStateType
-  ): SBTransactionsType =>
+    type?: 'DEPOSIT' | 'WITHDRAWAL'
+  }
+
+  const getSBTransactions = ({
+    currency,
+    fromId,
+    fromValue,
+    limit,
+    next,
+    state,
+    type
+  }: getSBTransactionsType): SBTransactionsType =>
     next
       ? authorizedGet({
-          url: nabuUrl,
           endPoint: next,
-          ignoreQueryParams: true
+          ignoreQueryParams: true,
+          url: nabuUrl
         })
       : authorizedGet({
-          url: nabuUrl,
-          endPoint: '/payments/transactions',
           data: {
             currency,
+            fromId,
+            fromValue,
             limit,
             pending: true,
             product: 'SIMPLEBUY',
             state,
             type
-          }
+          },
+          endPoint: '/payments/transactions',
+          url: nabuUrl
         })
+  // This is to get unified Sell trades from sellp3 using the swap 2.0 api
+  // Will eventually be used to get all trades, buy/sell/swap included
+  // keeping all the swap types until buy/sell everything else is together
+  const getUnifiedSellTrades = (
+    currency: FiatType,
+    limit?: number,
+    before?: string,
+    after?: string,
+    v2states?: SwapOrderStateType
+  ): Array<SwapOrderType> =>
+    authorizedGet({
+      data: {
+        after,
+        before,
+        currency,
+        limit,
+        states: v2states
+      },
+      endPoint: `/trades/unified`,
+      url: nabuUrl
+    })
 
   const submitSBCardDetailsToEverypay = ({
     accessToken,
@@ -274,66 +376,93 @@ export default ({
     nonce: string
   }) =>
     axios({
-      url: `${everypayUrl}/api/v3/mobile_payments/card_details`,
-      method: 'POST',
       data: {
         api_username: apiUserName,
         cc_details: {
           cc_number: ccNumber,
+
+          cvc,
+
+          holder_name: holderName,
           // months are 0 indexed
           month: expirationDate.month() + 1,
-          year: expirationDate.year(),
-          cvc: cvc,
-          holder_name: holderName
+          year: expirationDate.year()
         },
         nonce: nonce.slice(0, 8),
-        token_consented: true,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
+        token_consented: true
       },
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + accessToken
-      }
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      url: `${everypayUrl}/api/v3/mobile_payments/card_details`
     })
 
   const withdrawSBFunds = (
     address: string,
     currency: keyof CurrenciesType,
-    amount: string
+    amount: string,
+    fee?: number
   ) =>
     authorizedPost({
-      url: nabuUrl,
-      endPoint: '/payments/withdrawals',
       contentType: 'application/json',
+      data: {
+        address,
+        amount,
+        currency,
+        fee: fee?.toString(),
+        product: ProductTypes.SIMPLEBUY
+      },
+      endPoint: '/payments/withdrawals',
       headers: {
         'blockchain-origin': 'simplebuy'
       },
-      data: {
-        address,
-        currency,
-        amount
-      }
+      url: nabuUrl
+    })
+
+  const getSBLimits = (
+    currency: FiatType,
+    product: NabuCustodialProductType,
+    networkFee: CoinType,
+    side: SBOrderActionType
+  ): SwapUserLimitsType =>
+    authorizedGet({
+      contentType: 'application/json',
+      endPoint: `/trades/limits?currency=${currency}&product=${product}&networkFee=${networkFee}&side=${side}`,
+      ignoreQueryParams: true,
+      url: nabuUrl
     })
 
   return {
     activateSBCard,
     cancelSBOrder,
+    confirmSBOrder,
+    createBankAccountLink,
+    createFiatDeposit,
     createSBCard,
     createSBOrder,
-    confirmSBOrder,
-    deleteSBCard,
+    deleteSavedAccount,
+    getBankTransferAccountDetails,
+    getBankTransferAccounts,
+    getPaymentById,
+    getRBPaymentMethods,
     getSBBalances,
     getSBCard,
     getSBCards,
+    getSBFiatEligible,
+    getSBLimits,
     getSBOrder,
     getSBOrders,
     getSBPairs,
     getSBPaymentAccount,
     getSBPaymentMethods,
-    getSBFiatEligible,
     getSBQuote,
     getSBTransactions,
+    getUnifiedSellTrades,
     submitSBCardDetailsToEverypay,
+    updateBankAccountLink,
     withdrawSBFunds
   }
 }

@@ -3,8 +3,7 @@ module.exports = {
   plugins: [
     '@babel/plugin-proposal-class-properties',
     '@babel/plugin-proposal-object-rest-spread',
-    ['module-resolver', { root: ['./src'] }],
-    ['react-intl', { messagesDir: './build/extractedMessages' }]
+    ['module-resolver', { root: ['./src'] }]
   ],
   ignore: [],
   env: {
@@ -16,8 +15,7 @@ module.exports = {
       plugins: [
         '@babel/plugin-proposal-class-properties',
         '@babel/plugin-proposal-object-rest-spread',
-        ['module-resolver', { root: ['./src'] }],
-        ['react-intl', { messagesDir: './build/extractedMessages' }]
+        ['module-resolver', { root: ['./src'] }]
       ]
     },
     development: {
@@ -44,6 +42,11 @@ module.exports = {
         ['module-resolver', { root: ['./src'] }],
         'react-hot-loader/babel',
         ['babel-plugin-styled-components', { displayName: true }]
+      ]
+    },
+    test: {
+      plugins: [
+        '@babel/plugin-transform-runtime'
       ]
     }
   }

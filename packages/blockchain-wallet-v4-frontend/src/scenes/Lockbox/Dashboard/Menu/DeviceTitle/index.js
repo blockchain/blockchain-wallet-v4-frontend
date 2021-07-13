@@ -1,12 +1,12 @@
-import { actions } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { Icon, Text } from 'blockchain-info-components'
-import { LinkContainer } from 'react-router-bootstrap'
 import React from 'react'
+import { connect } from 'react-redux'
+import { LinkContainer } from 'react-router-bootstrap'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import media from 'services/ResponsiveService'
+import { Icon, Text } from 'blockchain-info-components'
+import { actions } from 'data'
+import { media } from 'services/styles'
 
 const Wrapper = styled.div`
   display: flex;
@@ -47,8 +47,8 @@ class DeviceTitle extends React.PureComponent {
   //   })
   // }
 
-  render () {
-    const { deviceInfo, deviceIndex, location } = this.props
+  render() {
+    const { deviceIndex, deviceInfo, location } = this.props
     const onDashboard = location.pathname.includes('/lockbox/dashboard')
     const linkTo = onDashboard
       ? `/lockbox/settings/${deviceIndex}`

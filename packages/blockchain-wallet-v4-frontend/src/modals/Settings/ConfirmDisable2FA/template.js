@@ -1,6 +1,5 @@
-import { flex, spacing } from 'services/StyleService'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import {
@@ -13,6 +12,7 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
+import { flex, spacing } from 'services/styles'
 
 const Wrapper = styled.div`
   display: flex;
@@ -39,19 +39,18 @@ const Buttons = styled(ButtonGroup)`
 
 const ConfirmDisable2FA = props => {
   const {
+    authName,
+    extraCopy,
+    handleContinue,
     position,
     total,
-    close,
-    handleContinue,
-    extraCopy,
-    authName,
     ...rest
   } = props
   const { closeAll } = rest
 
   return (
     <Modal size='large' position={position} total={total}>
-      <ModalHeader onClose={close}>
+      <ModalHeader onClose={closeAll}>
         <div style={flex('row align/center')}>
           <Icon name='lock' size='20px' style={spacing('pr-5')} />
           <FormattedMessage

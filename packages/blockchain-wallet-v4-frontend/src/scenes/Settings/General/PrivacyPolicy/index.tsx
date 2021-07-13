@@ -1,5 +1,7 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 import { Button, Icon, Link } from 'blockchain-info-components'
 import {
@@ -9,8 +11,9 @@ import {
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
+import { actions } from 'data'
 
-const PrivacyPolicy = () => {
+const PrivacyPolicy = (props: Props) => {
   return (
     <SettingContainer>
       <SettingSummary>
@@ -28,8 +31,14 @@ const PrivacyPolicy = () => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Link href='https://www.blockchain.com/legal/privacy' target='_blank'>
-          <Button data-e2e='privacyLink' nature='empty'>
+        <Link
+          onClick={() => {
+            props.settingsActions.generalSettingsExternalRedirect('/legal/privacy')
+          }}
+          href='https://www.blockchain.com/legal/privacy'
+          target='_blank'
+        >
+          <Button data-e2e='privacyLink' nature='empty-blue'>
             <Icon name='open-in-new-tab' size='20px' />
           </Button>
         </Link>
@@ -38,4 +47,12 @@ const PrivacyPolicy = () => {
   )
 }
 
-export default PrivacyPolicy
+const mapDispatchToProps = (dispatch) => ({
+  settingsActions: bindActionCreators(actions.modules.settings, dispatch)
+})
+
+const connector = connect(null, mapDispatchToProps)
+
+type Props = {} & ConnectedProps<typeof connector>
+
+export default connector(PrivacyPolicy)

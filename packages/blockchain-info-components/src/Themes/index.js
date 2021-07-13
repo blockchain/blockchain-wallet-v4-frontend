@@ -1,10 +1,11 @@
-import { Palette } from '../Colors/index.ts'
-import { ThemeProvider } from 'styled-components'
-import PropTypes from 'prop-types'
 import React from 'react'
+import PropTypes from 'prop-types'
+import { ThemeProvider } from 'styled-components'
+
+import { Palette } from '../Colors/index.ts'
 
 const Themes = props => {
-  const { theme, children } = props
+  const { children, theme } = props
   const colors = Palette(theme)
 
   return <ThemeProvider theme={colors}>{children}</ThemeProvider>

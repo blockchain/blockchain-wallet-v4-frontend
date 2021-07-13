@@ -1,16 +1,11 @@
 import { CoinType, Erc20CoinType } from 'core/types'
-import { EthAccountFromType, EthAddressFromType } from './eth/types'
+
 import { UTXOType } from './btc/types'
+import { ADDRESS_TYPES } from './btc/utils'
+import { EthAccountFromType, EthAddressFromType } from './eth/types'
 import { XlmAccountFromType, XlmAddressFromType } from './xlm/types'
 
-export type FromType =
-  | 'ACCOUNT'
-  | 'LEGACY'
-  | 'WATCH_ONLY'
-  | 'EXTERNAL'
-  | 'LOCKBOX'
-  | 'ADDRESS'
-  | 'CUSTODIAL'
+export type AddressTypesType = keyof typeof ADDRESS_TYPES
 
 type IPaymentValue = {
   change: string
@@ -25,12 +20,12 @@ type IPaymentValue = {
     regular: number
   }
   from?: Array<string>
-  fromType: FromType
+  fromType: AddressTypesType
   to?: Array<{
     accountIndex?: number
     address: string
     addressIndex?: number
-    type: FromType
+    type: AddressTypesType
   }>
 }
 
@@ -51,11 +46,12 @@ type BtcPaymentValue = IPaymentValue & {
 
 type EthPaymentValue = IPaymentValue & {
   amount?: string
-  coin: 'ETH' | 'PAX' | 'USDT'
+  coin: 'ETH' | 'PAX' | 'USDT' | 'WDGLD'
   description?: string
+  fee?: number
   from: {
     address: string
-    type: FromType
+    type: AddressTypesType
   }
   isRetryAttempt: boolean | undefined
   isSufficientEthForErc20: boolean
@@ -68,24 +64,27 @@ type XlmPaymentValue = IPaymentValue & {
   amount?: string
   coin: 'XLM'
   description?: string
+  fee?: number
   to?: XlmAccountFromType | XlmAddressFromType
   txId?: string
 }
 
 type IPaymentType = {
   build: () => PaymentType
+  chain: () => PaymentType
+  done: () => PaymentType
   from: (
     addressOrIndex?: string | number,
-    addressType?: FromType,
+    addressType?: AddressTypesType,
     effectiveBalance?: string
   ) => PaymentType
   publish: () => PaymentType
   sign: (pw: string) => PaymentType
-  to: (addressOrIndex: string | number, addressType?: FromType) => PaymentType
+  to: (addressOrIndex: string | number, addressType?: AddressTypesType) => PaymentType
 }
 
 export type BchPaymentType = IPaymentType & {
-  amount: (n: number) => BchPaymentType
+  amount: (n: number | string) => BchPaymentType
   coin: 'BCH'
   description: (arg: string) => BtcPaymentType
   fee: (arg: number) => BtcPaymentType
@@ -93,7 +92,7 @@ export type BchPaymentType = IPaymentType & {
 }
 
 export type BtcPaymentType = IPaymentType & {
-  amount: (n: number) => BtcPaymentType
+  amount: (n: number | string) => BtcPaymentType
   coin: 'BTC'
   description: (arg: string) => BtcPaymentType
   fee: (arg: number) => BtcPaymentType
@@ -101,10 +100,14 @@ export type BtcPaymentType = IPaymentType & {
 }
 
 export type EthPaymentType = IPaymentType & {
-  amount: (n: string) => EthPaymentType
-  coin: 'ETH' | 'PAX' | 'USDT'
+  amount: (n: number | string) => EthPaymentType
+  coin: 'ETH' | 'PAX' | 'USDT' | 'WDGLD' | 'YFI' | 'AAVE'
   description: (arg: string) => EthPaymentType
-  fee: (arg: number, account: string) => EthPaymentType
+  fee: (
+    arg: number,
+    account: string,
+    coin?: Erc20CoinType | 'ETH'
+  ) => EthPaymentType
   init: (arg: {
     coin: 'ETH' | Erc20CoinType
     isErc20?: boolean
@@ -119,19 +122,16 @@ export type EthPaymentType = IPaymentType & {
 }
 
 export type XlmPaymentType = IPaymentType & {
-  amount: (n: string) => XlmPaymentType
+  amount: (n: number | string) => XlmPaymentType
   coin: 'XLM'
   description: (arg: string) => XlmPaymentType
+  fee: (arg: string) => XlmPaymentType
   memo: (arg: string) => XlmPaymentType
   memoType: (arg: string) => XlmPaymentType
   value: () => XlmPaymentValue
 }
 
-export type PaymentType =
-  | BchPaymentType
-  | BtcPaymentType
-  | EthPaymentType
-  | XlmPaymentType
+export type PaymentType = BchPaymentType | BtcPaymentType | EthPaymentType | XlmPaymentType
 
 export type PaymentValue = BtcPaymentValue | EthPaymentValue | XlmPaymentValue
 

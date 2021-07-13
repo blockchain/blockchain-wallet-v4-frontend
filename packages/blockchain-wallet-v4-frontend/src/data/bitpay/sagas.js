@@ -1,6 +1,7 @@
-import { actions } from 'data'
-import { put } from 'redux-saga/effects'
 import crypto from 'crypto'
+import { put } from 'redux-saga/effects'
+
+import { actions } from 'data'
 
 export const logLocation = 'bitpay'
 

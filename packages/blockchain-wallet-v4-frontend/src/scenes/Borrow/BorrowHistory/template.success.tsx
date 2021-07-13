@@ -1,5 +1,9 @@
-import { CollateralAmt, Status, Value } from './model'
+import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
+import CollateralizationBar from 'blockchain-wallet-v4-frontend/src/modals/Borrow/BorrowDetails/CollateralizationBar'
+import moment from 'moment'
+import styled from 'styled-components'
+
 import {
   Link,
   Table,
@@ -8,13 +12,11 @@ import {
   TableRow,
   Text
 } from 'blockchain-info-components'
-import { LoanType, OfferType } from 'core/types'
-import { SuccessStateType } from '.'
+import { LoanType, OfferType } from 'blockchain-wallet-v4/src/types'
 import CoinDisplay from 'components/Display/CoinDisplay'
-import CollateralizationBar from 'blockchain-wallet-v4-frontend/src/modals/Borrow/BorrowDetails/CollateralizationBar'
-import moment from 'moment'
-import React, { ReactElement } from 'react'
-import styled from 'styled-components'
+
+import { SuccessStateType } from '.'
+import { CollateralAmt, Status, Value } from './model'
 
 const CollateralizationTableCell = styled(TableCell)`
   align-items: center;
@@ -31,7 +33,7 @@ const ViewDetailsCell = styled(TableCell)`
   justify-content: flex-end;
 `
 
-function Success (
+function Success(
   props: SuccessStateType & {
     showLoanDetails: (loan: LoanType, offer: OfferType) => void
   }

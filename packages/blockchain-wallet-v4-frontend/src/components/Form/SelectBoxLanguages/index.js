@@ -1,9 +1,10 @@
-import { assoc, curry, keys, map, reduce } from 'ramda'
-import { connect } from 'react-redux'
 import React from 'react'
+import { connect } from 'react-redux'
+import { assoc, curry, keys, map, reduce } from 'ramda'
 
-import { languagesSortedByName } from 'services/LocalesService'
 import { selectors } from 'data'
+import { languagesSortedByName } from 'services/locales'
+
 import SelectBox from '../SelectBox'
 
 const renameKeys = curry((keysMap, obj) =>
@@ -11,7 +12,7 @@ const renameKeys = curry((keysMap, obj) =>
 )
 
 class SelectBoxLanguages extends React.PureComponent {
-  render () {
+  render() {
     const { language, languages, ...rest } = this.props
     const items = [
       ...map(renameKeys({ name: 'text', language: 'value' }))(languages)

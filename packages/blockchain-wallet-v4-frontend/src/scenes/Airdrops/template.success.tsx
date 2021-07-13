@@ -1,7 +1,9 @@
+import React from 'react'
+
 import { Container } from 'components/Box'
+
 import { Props as OwnProps, SuccessStateType } from '.'
 import AirdropInfo from './AirdropInfo'
-import React from 'react'
 import StxAirdrop from './StxAirdrop'
 
 const Success = (props: Props) => {

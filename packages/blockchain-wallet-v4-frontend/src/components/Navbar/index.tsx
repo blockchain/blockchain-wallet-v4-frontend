@@ -1,7 +1,8 @@
-import { Button, Icon, Text } from 'blockchain-info-components'
 import styled from 'styled-components'
 
-import media from 'services/ResponsiveService'
+import { Button, Icon, Text } from 'blockchain-info-components'
+import { media } from 'services/styles'
+
 import Navbar from './Navbar'
 import NavbarBrand from './NavbarBrand'
 import NavbarHeader from './NavbarHeader'
@@ -66,9 +67,6 @@ export const NavbarNavItem = styled.li`
   padding: 0px 16px;
   margin: 0 -1px;
   cursor: pointer;
-  &:first-child {
-    padding-left: 0px;
-  }
 
   &.active {
     background: ${props => props.theme.grey800};

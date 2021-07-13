@@ -1,5 +1,6 @@
-import * as AT from './actionTypes'
 import { assoc, compose } from 'ramda'
+
+import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
   step: 1,
@@ -7,7 +8,7 @@ const INITIAL_STATE = {
 }
 
 export default (state = INITIAL_STATE, action) => {
-  const { type, payload } = action
+  const { payload, type } = action
 
   switch (type) {
     case AT.SIGN_MESSAGE_INITIALIZED: {

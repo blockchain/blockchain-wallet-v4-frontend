@@ -1,19 +1,22 @@
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { formValueSelector } from 'redux-form'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
 
-import { actions, selectors } from 'data'
 import { FlatLoader } from 'blockchain-info-components'
+import { HDDerivationType } from 'core/types'
+import { actions, selectors } from 'data'
+
 import UsedAddressesTable from './template'
 
 class UsedAddressesTableContainer extends React.PureComponent<Props> {
-  componentDidMount () {
-    this.props.componentActions.fetchUsedAddresses(this.props.walletIndex)
+  componentDidMount() {
+    const { derivation, walletIndex } = this.props
+    this.props.componentActions.fetchUsedAddresses(walletIndex, derivation)
   }
 
-  render () {
-    const { usedAddresses, search } = this.props
+  render() {
+    const { search, usedAddresses } = this.props
 
     return !usedAddresses
       ? null
@@ -38,7 +41,8 @@ const mapStateToProps = (state, ownProps) => ({
   search: formValueSelector('manageAddresses')(state, 'search'),
   usedAddresses: selectors.components.manageAddresses.getWalletUsedAddresses(
     state,
-    ownProps.walletIndex
+    ownProps.walletIndex,
+    ownProps.derivation
   )
 })
 
@@ -51,6 +55,9 @@ const mapDispatchToProps = dispatch => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type Props = { walletIndex: number } & ConnectedProps<typeof connector>
+type Props = {
+  derivation: HDDerivationType
+  walletIndex: number
+} & ConnectedProps<typeof connector>
 
 export default connector(UsedAddressesTableContainer)

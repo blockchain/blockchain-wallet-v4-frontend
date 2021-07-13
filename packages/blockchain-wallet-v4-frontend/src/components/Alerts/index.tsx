@@ -1,10 +1,12 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import Alerts from './template'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
-const AlertsContainer = ({ alerts, alertActions }: Props) => {
+import { actions, selectors } from 'data'
+
+import Alerts from './template'
+
+const AlertsContainer = ({ alertActions, alerts }: Props) => {
   return (
     <Alerts
       alerts={alerts || []}

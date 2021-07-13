@@ -1,23 +1,25 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import { compose } from 'redux'
 import { BaseFieldProps, Field, InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
+import { FlyoutWrapper } from 'components/Flyout'
 import {
   CoinBalanceDropdown,
   Form,
   FormLabel,
   NumberBox
 } from 'components/Form'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import { FlyoutWrapper } from 'components/Flyout'
-import { FormattedMessage } from 'react-intl'
+import { selectors } from 'data'
+import { RepayLoanFormType } from 'data/components/borrow/types'
+
 import { maximumAmount, minimumAmount } from '../BorrowForm/validation'
 import { Props as OwnProps, SuccessStateType } from '.'
-import { RepayLoanFormType } from 'data/components/borrow/types'
-import { selectors } from 'data'
-import CoinDisplay from 'components/Display/CoinDisplay'
-import FiatDisplay from 'components/Display/FiatDisplay'
-import React from 'react'
-import styled from 'styled-components'
 import TabMenuPaymentMethod from './TabMenuPaymentMethod'
 import TabMenuPaymentType from './TabMenuPaymentType'
 
@@ -103,7 +105,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   const principalDisplayName =
     props.supportedCoins[props.loan.principal.amount[0].currency].displayName
   const isSufficientEthForErc20 =
-    (props.payment.coin === 'PAX' || props.payment.coin === 'USDT') &&
+    (props.payment.coin === 'PAX' ||
+      props.payment.coin === 'USDT' ||
+      props.payment.coin === 'WDGLD') &&
     props.payment.isSufficientEthForErc20
 
   return (
@@ -196,7 +200,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             />
           </Text>
         </CustomFormLabel>
-        <CoinBalanceDropdown {...props} coin='PAX' name='repay-principal' />
+        <CoinBalanceDropdown
+          {...props}
+          includeCustodial={false}
+          coin='PAX'
+          name='repay-principal'
+        />
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
@@ -299,6 +308,7 @@ const mapStateToProps = state => ({
   values: selectors.form.getFormValues('repayLoanForm')(state)
 })
 
+// @ts-ignore
 const enhance = compose(
   reduxForm<{}, Props>({ form: 'repayLoanForm', destroyOnUnmount: false }),
   connect(mapStateToProps)

@@ -18,12 +18,12 @@ const Error = styled(Text)`
   top: ${props => (props.errorBottom ? '40px' : '-20px')};
   right: 0;
 `
-const getErrorState = ({ touched, invalid }) => {
+const getErrorState = ({ invalid, touched }) => {
   return touched && invalid ? 'invalid' : 'initial'
 }
 
 class AutosizeTextBox extends React.Component {
-  render () {
+  render() {
     const {
       autoComplete,
       autoFocus,
@@ -39,7 +39,7 @@ class AutosizeTextBox extends React.Component {
       noLastPass,
       placeholder
     } = this.props
-    const { initial, active, touched, error, warning } = meta
+    const { active, error, initial, touched, warning } = meta
     const errorState = getErrorState(meta)
 
     return (

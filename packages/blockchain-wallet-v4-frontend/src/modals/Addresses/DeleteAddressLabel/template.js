@@ -1,5 +1,5 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import {
@@ -22,7 +22,7 @@ const TitleGroup = styled(TextGroup)`
 `
 
 const DeleteAdresssLabel = props => {
-  const { onDeleteConfirm, close } = props
+  const { close, onDeleteConfirm } = props
 
   return (
     <Modal size='large'>

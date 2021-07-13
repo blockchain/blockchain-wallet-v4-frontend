@@ -1,9 +1,10 @@
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import { Icon, Text } from 'blockchain-info-components'
 import { MediaContextConsumer } from 'providers/MatchMediaProvider'
-import media from 'services/ResponsiveService'
-import React from 'react'
-import styled from 'styled-components'
+import { media } from 'services/styles'
 
 const Wrapper = styled.div`
   padding: 10px 30px 30px;
@@ -88,10 +89,10 @@ const StepText = styled(Text)`
 const SecurityCenter = props => {
   const { children, progress } = props
   const {
-    twoFactorComplete,
     emailComplete,
     mnemonicComplete,
-    overallProgress
+    overallProgress,
+    twoFactorComplete
   } = progress
 
   return (
@@ -207,8 +208,8 @@ const SecurityCenter = props => {
                   weight={400}
                 >
                   <FormattedMessage
-                    id='scenes.securitycenter.steps.step3.save'
-                    defaultMessage='Save Backup Phrase'
+                    id='scenes.securitycenter.steps.step3.savephrase'
+                    defaultMessage='Save Secret Private Key Recovery Phrase'
                   />
                 </StepText>
               </StepSection>

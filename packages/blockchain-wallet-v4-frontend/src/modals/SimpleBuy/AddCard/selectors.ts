@@ -1,8 +1,9 @@
-import { ExtractSuccess } from 'core/types'
 import { lift } from 'ramda'
+
+import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
+import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { SBAddCardFormValuesType } from 'data/types'
-import { selectors } from 'data'
 
 export const getData = (state: RootState) => {
   const formValues = selectors.form.getFormValues('addCCForm')(
@@ -12,10 +13,22 @@ export const getData = (state: RootState) => {
   const paymentMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(
     state
   )
+  const supportedCountriesR = selectors.components.identityVerification.getSupportedCountries(
+    state
+  )
+  const userDataR = selectors.modules.profile.getUserData(state)
 
-  return lift((paymentMethods: ExtractSuccess<typeof paymentMethodsR>) => ({
-    formValues,
-    order,
-    paymentMethods
-  }))(paymentMethodsR)
+  return lift(
+    (
+      paymentMethods: ExtractSuccess<typeof paymentMethodsR>,
+      supportedCountries: ExtractSuccess<typeof supportedCountriesR>,
+      userData: ExtractSuccess<typeof userDataR>
+    ) => ({
+      formValues,
+      order,
+      paymentMethods,
+      supportedCountries,
+      userData
+    })
+  )(paymentMethodsR, supportedCountriesR, userDataR)
 }

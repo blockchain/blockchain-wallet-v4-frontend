@@ -1,14 +1,13 @@
-import * as A from './actions'
-import * as C from 'services/AlertService'
-import * as S from './selectors'
-import { actions, selectors } from 'data'
-import { addLanguageToUrl } from 'services/LocalesService'
-import { put, select } from 'redux-saga/effects'
+import { put } from 'redux-saga/effects'
+
+import { actions } from 'data'
+import * as C from 'services/alerts'
+import { addLanguageToUrl } from 'services/locales'
 
 export default () => {
   const logLocation = 'preferences/sagas'
 
-  const setLanguage = function * (action) {
+  const setLanguage = function* (action) {
     const { language, showAlert } = action.payload
     try {
       addLanguageToUrl(language)
@@ -21,24 +20,16 @@ export default () => {
     }
   }
 
-  const setSBFiatCurrency = function * () {
-    try {
-      const walletCurrencyR = selectors.core.settings.getCurrency(
-        yield select()
-      )
-      const walletCurrency = walletCurrencyR.getOrElse(undefined)
-      const sbFiatCurrency = S.getSBFiatCurrency(yield select())
-      if (!walletCurrency) return
-      if (!sbFiatCurrency) return
+  const setLinkHandling = function () {
+    // Register BTC links
+    window.navigator.registerProtocolHandler('bitcoin', '/#/open/%s', 'Blockchain')
 
-      if (sbFiatCurrency !== walletCurrency) {
-        yield put(A.setSBFiatCurrency(walletCurrency))
-      }
-    } catch (e) {}
+    // Register BCH links
+    window.navigator.registerProtocolHandler('web+bitcoincash', '/#/open/%s', 'Blockchain')
   }
 
   return {
     setLanguage,
-    setSBFiatCurrency
+    setLinkHandling
   }
 }

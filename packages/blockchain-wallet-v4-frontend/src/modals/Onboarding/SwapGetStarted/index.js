@@ -1,11 +1,11 @@
-import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
 import styled from 'styled-components'
 
-import { actions } from 'data'
 import { Button, Modal, Text } from 'blockchain-info-components'
+import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 const Header = styled.div`
@@ -60,12 +60,12 @@ const CenteredText = styled(Text)`
 `
 
 class SwapGetStarted extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     this.props.preferencesActions.hideKycGetStarted()
   }
 
-  render () {
-    const { position, total, close, actions } = this.props
+  render() {
+    const { actions, close, position, total } = this.props
     return (
       <Modal
         size='small'
@@ -126,7 +126,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   connect(undefined, mapDispatchToProps),
-  modalEnhancer('SwapGetStarted')
+  modalEnhancer('SWAP_GET_STARTED_MODAL')
 )
 
 export default enhance(SwapGetStarted)

@@ -1,8 +1,8 @@
-import { connect, ConnectedProps } from 'react-redux'
-import { WalletOptionsType } from 'core/types'
 import React, { Component } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
 import styled from 'styled-components'
 
+import { WalletOptionsType } from 'blockchain-wallet-v4/src/types'
 import { RootState } from 'data/rootReducer'
 
 const SiftScienceIframe = styled.iframe`
@@ -15,7 +15,7 @@ const SiftScienceIframe = styled.iframe`
 `
 
 class SiftScience extends Component<Props> {
-  componentDidMount () {
+  componentDidMount() {
     let receiveMessage = e => {
       if (!e.data.command) return
       if (e.data.from !== 'sift-science') return
@@ -31,8 +31,8 @@ class SiftScience extends Component<Props> {
     window.addEventListener('message', receiveMessage, false)
   }
 
-  render () {
-    const { userId, sessionId = '' } = this.props
+  render() {
+    const { sessionId = '', userId } = this.props
 
     if (!userId) {
       return null

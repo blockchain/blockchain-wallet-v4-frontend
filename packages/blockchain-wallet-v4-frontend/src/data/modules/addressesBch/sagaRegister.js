@@ -1,11 +1,12 @@
-import * as AT from './actionTypes'
 import { takeEvery } from 'redux-saga/effects'
+
+import * as AT from './actionTypes'
 import sagas from './sagas'
 
 export default ({ coreSagas, networks }) => {
   const addressesBchSagas = sagas({ coreSagas, networks })
 
-  return function * addressesBchSaga () {
+  return function * addressesBchSaga() {
     yield takeEvery(
       AT.EDIT_BCH_ACCOUNT_LABEL,
       addressesBchSagas.editBchAccountLabel

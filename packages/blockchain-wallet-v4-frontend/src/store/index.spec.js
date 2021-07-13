@@ -1,12 +1,14 @@
-import * as coreMiddleware from 'blockchain-wallet-v4/src/redux/middleware'
-import * as Middleware from '../middleware'
 import * as Redux from 'redux'
+import { persistStore } from 'redux-persist'
+
 import {
   ApiSocket,
   createWalletApi,
   Socket
 } from 'blockchain-wallet-v4/src/network'
-import { persistStore } from 'redux-persist'
+import * as coreMiddleware from 'blockchain-wallet-v4/src/redux/middleware'
+
+import * as Middleware from '../middleware'
 import configureStore from './index'
 // setup mocks
 jest.mock('redux-saga', () => () => ({
@@ -38,6 +40,7 @@ jest.mock('blockchain-wallet-v4/src/redux/middleware', () => ({
 jest.mock('../middleware', () => ({
   autoDisconnection: jest.fn(),
   matomoMiddleware: jest.fn(),
+  analyticsMiddleware: jest.fn(),
   streamingXlm: jest.fn(),
   webSocketCoins: jest.fn(),
   webSocketRates: jest.fn()
@@ -82,6 +85,7 @@ describe('App Store Config', () => {
     walletSyncSpy,
     autoDisconnectSpy,
     matomoMiddlewareSpy,
+    analyticsMiddlewareSpy,
     coinsSocketSpy
 
   beforeAll(() => {
@@ -97,6 +101,7 @@ describe('App Store Config', () => {
     walletSyncSpy = jest.spyOn(coreMiddleware, 'walletSync')
     coinsSocketSpy = jest.spyOn(Middleware, 'webSocketCoins')
     matomoMiddlewareSpy = jest.spyOn(Middleware, 'matomoMiddleware')
+    analyticsMiddlewareSpy = jest.spyOn(Middleware, 'analyticsMiddleware')
     autoDisconnectSpy = jest.spyOn(Middleware, 'autoDisconnection')
   })
 
@@ -107,7 +112,7 @@ describe('App Store Config', () => {
     // assertions
     // wallet options
     expect(fetch.mock.calls.length).toEqual(1)
-    expect(fetch.mock.calls[0][0]).toEqual('/Resources/wallet-options-v4.json')
+    expect(fetch.mock.calls[0][0]).toEqual('/wallet-options-v4.json')
     // socket registration
     expect(Socket.mock.calls.length).toEqual(1)
     expect(Socket.mock.calls[0][0]).toEqual({
@@ -145,6 +150,7 @@ describe('App Store Config', () => {
       walletPath: 'wallet.payload'
     })
     expect(matomoMiddlewareSpy).toHaveBeenCalledTimes(1)
+    expect(analyticsMiddlewareSpy).toHaveBeenCalledTimes(1)
     expect(autoDisconnectSpy).toHaveBeenCalledTimes(1)
     // middleware compose
     expect(composeSpy).toHaveBeenCalledTimes(1)

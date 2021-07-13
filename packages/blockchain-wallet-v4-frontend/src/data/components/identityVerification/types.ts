@@ -1,15 +1,21 @@
+import { NabuAddressType, RemoteDataType } from 'blockchain-wallet-v4/src/types'
+
 import * as AT from './actionTypes'
-import { ModalOriginType } from 'data/modals/types'
-import { RemoteDataType } from 'core/types'
 
 export type EmailSmsStepType = 'edit' | 'verify'
 
-export type StepsType =
-  | 'personal'
-  | 'moreInfo'
-  | 'mobile'
-  | 'verify'
-  | 'submitted'
+export type VerifyIdentityOriginType =
+  | 'DashboardPromo'
+  | 'Unknown'
+  | 'Swap'
+  | 'Goals'
+  | 'Resubmission'
+  | 'Onboarding'
+  | 'Settings'
+  | 'SimpleBuy'
+  | 'Interest'
+
+export type StepsType = 'personal' | 'moreInfo' | 'mobile' | 'verify' | 'submitted'
 
 export type KycStatesType =
   | 'NONE'
@@ -205,10 +211,16 @@ interface SetVerificationStepAction {
   type: typeof AT.SET_VERIFICATION_STEP
 }
 
+interface ResetVerificationStepAction {
+  type: typeof AT.RESET_VERIFICATION_STEP
+}
+
 interface VerifyIdentityAction {
   payload: {
+    checkSddEligibility?: boolean
     needMoreInfo?: boolean
-    origin: ModalOriginType
+    onCompletionCallback?: () => void
+    origin: VerifyIdentityOriginType
     tier: number
   }
   type: typeof AT.VERIFY_IDENTITY
@@ -237,4 +249,16 @@ export type IdentityVerificationActionTypes =
   | SetSupportedDocumentLoadingAction
   | SetSupportedDocumentSuccessAction
   | SetVerificationStepAction
+  | ResetVerificationStepAction
   | VerifyIdentityAction
+
+export type InfoAndResidentialFormValuesType = {
+  country: CountryType
+  dob: string
+  firstName: string
+  lastName: string
+} & NabuAddressType['country']
+
+export type VerifyEmailFormValuesType = {
+  email: string
+}

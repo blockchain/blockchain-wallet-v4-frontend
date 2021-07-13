@@ -1,14 +1,14 @@
-import { FormattedMessage } from 'react-intl'
-import { SpinningLoader } from 'blockchain-info-components'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
+import { SpinningLoader } from 'blockchain-info-components'
 import {
   SettingContainer,
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 
 const CustomSettingContainer = styled(SettingContainer)`
   ${media.atLeastTabletL`

@@ -1,79 +1,89 @@
-import { CoinType, FiatType } from 'core/types'
+import { CoinType, FiatType, WalletFiatType } from 'core/types'
+
 import {
+  CustodialTransferResponseType,
+  DepositLimits,
   InterestAccountBalanceType,
   InterestAccountType,
+  InterestAfterTransactionType,
+  InterestEDDStatus,
   InterestEligibleType,
   InterestInstrumentsType,
   InterestLimitsType,
   InterestRateType,
   InterestTransactionResponseType,
   InterestWithdrawalResponseType,
-  WithdrawalMinimumType
+  WithdrawalMinimumType,
+  WithdrawLimits
 } from './types'
 
-export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
-  const getInterestAccountBalance = (
-    ccy?: CoinType,
-    din?: FiatType
-  ): InterestAccountBalanceType =>
+export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
+  // TODO - consider removing parameters since we never pass anything here
+  const getInterestAccountBalance = (ccy?: CoinType, din?: FiatType): InterestAccountBalanceType =>
     authorizedGet({
-      url: nabuUrl,
-      endPoint: '/accounts/savings',
       data: {
         ccy,
         din
-      }
+      },
+      endPoint: '/accounts/savings',
+      url: nabuUrl
     })
 
   const getInterestEligible = (): InterestEligibleType =>
     authorizedGet({
-      url: nabuUrl,
-      endPoint: '/savings/eligible'
+      endPoint: '/savings/eligible',
+      url: nabuUrl
     })
 
   const getInterestInstruments = (): InterestInstrumentsType =>
     authorizedGet({
-      url: nabuUrl,
-      endPoint: '/savings/instruments'
+      endPoint: '/savings/instruments',
+      url: nabuUrl
     })
 
-  const getInterestLimits = (
-    ccy: CoinType,
-    currency: FiatType
-  ): { limits: InterestLimitsType } =>
+  const getInterestLimits = (ccy: CoinType, currency: FiatType): { limits: InterestLimitsType } =>
     authorizedGet({
-      url: nabuUrl,
-      endPoint: `/savings/limits?ccy=${ccy}&currency=${currency}&`
+      endPoint: `/savings/limits?ccy=${ccy}&currency=${currency}&`,
+      url: nabuUrl
     })
 
   const getInterestTransactions = (
+    currency?: CoinType,
     nextPageUrl?: string
   ): InterestTransactionResponseType =>
-    authorizedGet({
-      url: nabuUrl,
-      endPoint: nextPageUrl
-        ? nextPageUrl + '&'
-        : '/payments/transactions?product=savings&pending=true&'
-    })
+    nextPageUrl
+      ? authorizedGet({
+          endPoint: `${nextPageUrl}&pending=true&`,
+          url: nabuUrl
+        })
+      : authorizedGet({
+          data: {
+            currency,
+            pending: true,
+            product: 'SAVINGS'
+          },
+          endPoint: '/payments/transactions',
+          url: nabuUrl
+        })
 
   const getInterestSavingsRate = (): InterestRateType =>
     authorizedGet({
-      url: nabuUrl,
-      endPoint: '/savings/rates'
+      endPoint: '/savings/rates',
+      url: nabuUrl
     })
 
   const getInterestAccount = (ccy: CoinType): InterestAccountType =>
     authorizedGet({
-      url: nabuUrl,
+      endPoint: `/payments/accounts/savings?ccy=${ccy}`,
       ignoreQueryParams: true,
-      endPoint: `/payments/accounts/savings?ccy=${ccy}`
+      url: nabuUrl
     })
 
   const getWithdrawalMinsAndFees = (): WithdrawalMinimumType =>
     authorizedGet({
-      url: nabuUrl,
+      endPoint: '/payments/withdrawals/fees?product=SAVINGS',
       ignoreQueryParams: true,
-      endPoint: '/payments/withdrawals/fees?product=SAVINGS'
+      url: nabuUrl
     })
 
   const initiateInterestWithdrawal = (
@@ -92,15 +102,80 @@ export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
       url: nabuUrl
     })
 
+  const transferFromCustodial = (
+    amount: string,
+    currency: CoinType
+  ): CustodialTransferResponseType =>
+    authorizedPost({
+      contentType: 'application/json',
+      data: {
+        amount,
+        currency,
+        destination: 'SAVINGS',
+        origin: 'SIMPLEBUY'
+      },
+      endpoint: '/user/balance/transfer'
+    })
+
+  const getInterestCtaAfterTransaction = (
+    currency?: WalletFiatType
+  ): InterestAfterTransactionType =>
+    authorizedGet({
+      data: {
+        currency
+      },
+      endPoint: '/savings/cta/after-transaction',
+      url: nabuUrl
+    })
+
+  const stopInterestCtaAfterTransaction = (enabled: boolean): InterestAfterTransactionType =>
+    authorizedPut({
+      data: {
+        enabled
+      },
+      endPoint: '/savings/cta/after-transaction/enabled',
+      url: nabuUrl
+    })
+
+  const getSavingsEDDStatus = (): InterestEDDStatus =>
+    authorizedGet({
+      endPoint: '/savings/edd/status',
+      url: nabuUrl
+    })
+
+  const getSavingsEDDDepositLimits = (currency?: WalletFiatType): DepositLimits =>
+    authorizedGet({
+      data: {
+        currency
+      },
+      endPoint: '/savings/edd/limits/deposit',
+      url: nabuUrl
+    })
+
+  const getSavingsEDDWithdrawLimits = (currency: FiatType): WithdrawLimits =>
+    authorizedGet({
+      data: {
+        currency
+      },
+      endPoint: '/savings/edd/limits/withdraw',
+      url: nabuUrl
+    })
+
   return {
+    getInterestAccount,
     getInterestAccountBalance,
+    getInterestCtaAfterTransaction,
     getInterestEligible,
     getInterestInstruments,
     getInterestLimits,
-    getInterestAccount,
     getInterestSavingsRate,
     getInterestTransactions,
+    getSavingsEDDDepositLimits,
+    getSavingsEDDStatus,
+    getSavingsEDDWithdrawLimits,
     getWithdrawalMinsAndFees,
-    initiateInterestWithdrawal
+    initiateInterestWithdrawal,
+    stopInterestCtaAfterTransaction,
+    transferFromCustodial
   }
 }

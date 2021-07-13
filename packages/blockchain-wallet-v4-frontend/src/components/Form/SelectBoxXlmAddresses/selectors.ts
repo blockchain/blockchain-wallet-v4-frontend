@@ -1,7 +1,9 @@
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 // @ts-ignore
 import { concat, curry, filter, has, map, reduce, sequence } from 'ramda'
+
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { InterestAccountBalanceType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 
 export const getData = (
@@ -12,6 +14,7 @@ export const getData = (
     forceCustodialFirst?: boolean
     includeCustodial?: boolean
     includeExchangeAddress?: boolean
+    includeInterest?: boolean
   }
 ) => {
   const {
@@ -19,6 +22,7 @@ export const getData = (
     excludeLockbox,
     includeExchangeAddress,
     includeCustodial,
+    includeInterest,
     forceCustodialFirst
   } = ownProps
 
@@ -33,11 +37,21 @@ export const getData = (
     }
     return wallet.label
   }
-  const buildCustodialDisplay = x => {
+  const buildCustodialDisplay = account => {
     return (
-      `XLM Trading Wallet` +
+      `Trading Account` +
       ` (${Exchange.displayXlmToXlm({
-        value: x ? x.available : 0,
+        value: account ? account.available : 0,
+        fromUnit: 'STROOP',
+        toUnit: 'XLM'
+      })})`
+    )
+  }
+  const buildInterestDisplay = (account: InterestAccountBalanceType['XLM']) => {
+    return (
+      `Interest Account` +
+      ` (${Exchange.displayXlmToXlm({
+        value: account ? account.balance : 0,
         fromUnit: 'STROOP',
         toUnit: 'XLM'
       })})`
@@ -47,14 +61,24 @@ export const getData = (
   const excluded = filter(x => !exclude.includes(x.label))
   const toDropdown = map(x => ({ label: buildDisplay(x), value: x }))
   const toGroup = curry((label, options) => [{ label, options }])
-  const toExchange = x => [{ label: `Exchange XLM Address`, value: x }]
+  const toExchange = x => [{ label: `XLM Exchange Account`, value: x }]
   const toCustodialDropdown = currencyDetails => [
     {
       label: buildCustodialDisplay(currencyDetails),
       value: {
         ...currencyDetails,
         type: ADDRESS_TYPES.CUSTODIAL,
-        label: 'XLM Trading Wallet'
+        label: 'Trading Account'
+      }
+    }
+  ]
+  const toInterestDropdown = account => [
+    {
+      label: buildInterestDisplay(account),
+      value: {
+        ...account,
+        type: ADDRESS_TYPES.INTEREST,
+        label: 'Interest Account'
       }
     }
   ]
@@ -99,9 +123,18 @@ export const getData = (
           }))
           .map(toCustodialDropdown)
           .map(toGroup('Custodial Wallet'))
+      : Remote.of([]),
+    includeInterest
+      ? selectors.components.interest
+          .getInterestAccountBalance(state)
+          .map(x => x.XLM)
+          .map(toInterestDropdown)
+          .map(toGroup('Interest Account'))
       : Remote.of([])
-  ]).map(([b1, b2, b3, b4]) => {
-    const orderArray = forceCustodialFirst ? [b2, b1, b3, b4] : [b1, b2, b3, b4]
+  ]).map(([b1, b2, b3, b4, b5]) => {
+    const orderArray = forceCustodialFirst
+      ? [b2, b1, b3, b4, b5]
+      : [b1, b2, b3, b4, b5]
     // @ts-ignore
     const data = reduce(concat, [], orderArray)
     return { data }

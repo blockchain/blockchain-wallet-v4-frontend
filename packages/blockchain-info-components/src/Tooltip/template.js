@@ -1,7 +1,6 @@
 import React from 'react'
-import styled from 'styled-components'
-
 import ReactTooltip from 'react-tooltip'
+import styled from 'styled-components'
 
 const StyledTip = styled(ReactTooltip)`
   cursor: pointer;
@@ -21,7 +20,7 @@ const StyledTip = styled(ReactTooltip)`
 `
 
 const Tooltip = props => {
-  const { id, children, bgColor, opacity, padding, ...rest } = props
+  const { bgColor, children, id, opacity, padding, ...rest } = props
 
   return (
     <StyledTip

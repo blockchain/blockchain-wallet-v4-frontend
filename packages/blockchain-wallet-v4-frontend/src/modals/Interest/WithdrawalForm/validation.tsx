@@ -1,11 +1,11 @@
-import { convertBaseToStandard } from 'data/components/exchange/services'
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { FormattedMessage } from 'react-intl'
-import { propEq } from 'ramda'
-import BigNumber from 'bignumber.js'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import BigNumber from 'bignumber.js'
+import { propEq } from 'ramda'
 
-import { convertCoinToFiat } from 'core/exchange'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { convertCoinToFiat } from 'blockchain-wallet-v4/src/exchange'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { InterestWithdrawalFormType } from 'data/types'
 
 export const maximumWithdrawalAmount = (
@@ -13,7 +13,7 @@ export const maximumWithdrawalAmount = (
   allValues: InterestWithdrawalFormType,
   props: any
 ) => {
-  const { coin, displayCoin, availToWithdraw, walletCurrency, rates } = props
+  const { availToWithdraw, coin, displayCoin, rates, walletCurrency } = props
   const availToWithdrawCrypto = convertBaseToStandard(coin, availToWithdraw)
   const withdrawalLimit = displayCoin
     ? availToWithdrawCrypto

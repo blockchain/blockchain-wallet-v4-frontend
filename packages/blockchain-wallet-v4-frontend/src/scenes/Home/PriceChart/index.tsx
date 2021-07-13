@@ -1,11 +1,14 @@
+import React from 'react'
+import styled from 'styled-components'
+
+import { media } from 'services/styles'
+
+import Actions from './Actions'
 import Chart from './Chart'
 import CoinCurrentPrice from './CoinCurrentPrice'
 import CoinPerformance from './CoinPerformance'
-import CoinSelectBox from './CoinSelectBox'
-import Footer from './Footer'
-import React from 'react'
-import styled from 'styled-components'
-import TimeFilters from './TimeFilters'
+import CoinSelector from './CoinSelector'
+import TimeFilter from './TimeFilter'
 
 const Wrapper = styled.div`
   display: flex;
@@ -14,37 +17,68 @@ const Wrapper = styled.div`
   position: relative;
   align-items: center;
   width: 100%;
-  height: 542px;
   border-radius: 8px;
   box-sizing: border-box;
   border: 1px solid ${props => props.theme.grey000};
+  margin-bottom: 36px;
 `
+
 const Row = styled.div`
   display: flex;
-  flex-direction: row;
+
+  flex-direction: column;
+  ${media.atLeastTabletL`
+    flex-direction: row;
+  `}
   justify-content: space-between;
-  align-items: center;
   width: 100%;
 `
-const TitleRow = styled(Row)`
+
+const Column = styled.div`
+  margin-bottom: 16px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+
+  ${media.atLeastTabletL`
+    margin: 0;
+    align-items: flex-start;
+  `}
 `
-const PriceChart = () => (
-  <Wrapper>
-    <TitleRow>
-      <CoinSelectBox />
-      <CoinCurrentPrice />
-      <CoinPerformance />
-    </TitleRow>
-    <Row>
-      <Chart />
-      <TimeFilters />
-    </Row>
-    <Row>
-      <Footer />
-    </Row>
-  </Wrapper>
-)
+
+const Header = styled(Row)`
+  margin-bottom: 16px;
+`
+
+const Main = styled(Row)`
+  margin-bottom: 24px;
+`
+
+const Footer = styled(Row)`
+  justify-content: flex-end;
+`
+
+const PriceChart = () => {
+  return (
+    <Wrapper>
+      <Header>
+        <Column>
+          <CoinSelector />
+          <CoinCurrentPrice />
+          <CoinPerformance />
+        </Column>
+        <Column>
+          <Actions />
+        </Column>
+      </Header>
+      <Main>
+        <Chart />
+      </Main>
+      <Footer>
+        <TimeFilter />
+      </Footer>
+    </Wrapper>
+  )
+}
 
 export default PriceChart

@@ -1,9 +1,9 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import { FormattedMessage } from 'react-intl'
-
-import React from 'react'
-import styled from 'styled-components'
 
 import {
   DisplayTitle,

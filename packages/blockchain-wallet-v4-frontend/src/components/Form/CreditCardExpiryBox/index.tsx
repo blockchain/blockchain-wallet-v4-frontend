@@ -1,8 +1,9 @@
-import { CommonFieldProps, WrappedFieldMetaProps } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
-import { TextBox } from 'components/Form'
-import moment from 'moment'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import moment from 'moment'
+import { CommonFieldProps, WrappedFieldMetaProps } from 'redux-form'
+
+import { TextBox } from 'components/Form'
 
 export const normalizeCreditCardExpiry = (value, previousValue) => {
   if (!value) return value
@@ -25,9 +26,12 @@ export const normalizeCreditCardExpiry = (value, previousValue) => {
   } else {
     if (onlyNumsOrSlash.length === 2) {
       return onlyNumsOrSlash + '/'
-    } else {
-      return onlyNumsOrSlash
     }
+    if (onlyNumsOrSlash.length === 4 && !onlyNumsOrSlash.includes('/')) {
+      const num = onlyNumsOrSlash
+      return `${num.substring(0, 2)}/${num.substring(2, 4)}`
+    }
+    return onlyNumsOrSlash
   }
 }
 

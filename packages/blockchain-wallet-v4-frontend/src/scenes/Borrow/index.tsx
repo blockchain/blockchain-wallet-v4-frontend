@@ -1,9 +1,14 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { Container } from 'components/Box'
+import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
+
 import { Icon } from 'blockchain-info-components'
+import {
+  NabuApiErrorType,
+  RemoteDataType
+} from 'blockchain-wallet-v4/src/types'
+import { Container } from 'components/Box'
 import {
   IconBackground,
   SceneHeader,
@@ -11,27 +16,23 @@ import {
   SceneSubHeaderText,
   SceneWrapper
 } from 'components/Layout'
-import { NabuApiErrorType, RemoteDataType } from 'core/types'
+import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
+
 import BorrowHistory from './BorrowHistory'
 import BorrowPax from './BorrowPax'
 import InitBorrowForm from './InitBorrowForm'
-import React, { PureComponent } from 'react'
 
 class Borrow extends PureComponent<Props, State> {
   state: State = { isDisabled: true }
 
-  componentDidMount () {
-    if (!this.props.invitationsR.getOrElse({ borrow: false }).borrow) {
-      this.props.routerActions.push('/home')
-    }
-
+  componentDidMount() {
     this.props.borrowActions.fetchBorrowOffers()
     this.checkUserData()
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     if (
       this.props.userDataR.getOrElse({} as UserDataType) !==
       prevProps.userDataR.getOrElse({} as UserDataType)
@@ -53,7 +54,7 @@ class Borrow extends PureComponent<Props, State> {
     this.props.borrowActions.fetchUserBorrowHistory()
   }
 
-  render () {
+  render() {
     return (
       <SceneWrapper>
         <SceneHeader>
@@ -84,7 +85,6 @@ class Borrow extends PureComponent<Props, State> {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  invitationsR: selectors.core.settings.getInvitations(state),
   userDataR: selectors.modules.profile.getUserData(state)
 })
 
@@ -99,7 +99,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 type LinkStatePropsType = {
-  invitationsR: RemoteDataType<string | Error, { [key in string]: boolean }>
   userDataR: RemoteDataType<NabuApiErrorType, UserDataType>
 }
 export type Props = ConnectedProps<typeof connector>

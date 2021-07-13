@@ -1,34 +1,39 @@
-import * as C from 'services/AlertService'
-import { actions } from 'data'
-import { bindActionCreators } from 'redux'
+import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { isEmpty, isNil } from 'ramda'
+import { bindActionCreators } from 'redux'
+
+import { actions, selectors } from 'data'
+import * as C from 'services/alerts'
+
 import MobileLogin from './template'
-import React from 'react'
 
-class MobileLoginContainer extends React.PureComponent<Props> {
-  handleScan = result => {
+const MobileLoginContainer = (props: Props) => {
+  const handleScan = result => {
     if (!isNil(result) && !isEmpty(result)) {
-      this.props.authActions.mobileLogin(result)
+      props.authActions.mobileLogin(result)
     }
   }
 
-  handleError = error => {
+  const handleError = error => {
     if (isNil(error) && isEmpty(error)) {
-      this.props.alertsActions.displayError(C.MOBILE_LOGIN_SCAN_ERROR)
+      props.alertsActions.displayError(C.MOBILE_LOGIN_SCAN_ERROR)
     }
   }
 
-  render () {
-    return (
-      <MobileLogin
-        {...this.props}
-        handleScan={this.handleScan}
-        handleError={this.handleError}
-      />
-    )
-  }
+  return (
+    <MobileLogin
+      {...props}
+      handleScan={handleScan}
+      handleError={handleError}
+      isScanning={props.logginStarted}
+    />
+  )
 }
+
+const mapStateToProps = state => ({
+  logginStarted: selectors.auth.getMobileLoginStarted(state)
+})
 
 const mapDispatchToProps = dispatch => ({
   alertsActions: bindActionCreators(actions.alerts, dispatch),
@@ -36,7 +41,7 @@ const mapDispatchToProps = dispatch => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-const connector = connect(undefined, mapDispatchToProps)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector>
 

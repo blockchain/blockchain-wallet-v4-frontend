@@ -1,15 +1,18 @@
-import * as AT from './actionTypes'
 import { Remote } from 'blockchain-wallet-v4/src'
+
+import * as AT from './actionTypes'
 import { TransferEthState } from './types'
 
 const INITIAL_STATE: TransferEthState = {
   payment: Remote.NotAsked
 }
 
-export function transferEthReducer (state = INITIAL_STATE, action) {
+export function transferEthReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case AT.TRANSFER_ETH_INITIALIZED:
-      return INITIAL_STATE
+      return {
+        payment: Remote.NotAsked
+      }
     case AT.TRANSFER_ETH_PAYMENT_UPDATED_LOADING: {
       return {
         ...state,

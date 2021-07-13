@@ -1,6 +1,8 @@
-import * as AT from './actionTypes'
 import { assoc } from 'ramda'
+
 import { Remote } from 'blockchain-wallet-v4/src'
+
+import * as AT from './actionTypes'
 import { SendBchState } from './types'
 
 const INITIAL_STATE: SendBchState = {
@@ -8,7 +10,7 @@ const INITIAL_STATE: SendBchState = {
   payment: Remote.NotAsked
 }
 
-export function sendBchReducer (state = INITIAL_STATE, action) {
+export function sendBchReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case AT.SEND_BCH_INITIALIZED:
     case AT.SEND_BCH_DESTROYED: {

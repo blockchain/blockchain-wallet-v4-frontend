@@ -1,17 +1,17 @@
-import PropTypes from 'prop-types'
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import { Icon } from '../Icons'
 import { selectBorderColor, selectFocusBorderColor } from './helper'
 
-const BaseTextInput = styled.input.attrs({
+const BaseTextInput = styled.input.attrs(props => ({
   type: 'text',
-  'data-lpignore': props => props.noLastPass,
-  disabled: props => props.disabled,
-  maxLength: props => props.maxLength,
-  spellCheck: props => (props.disableSpellcheck ? 'false' : 'true')
-})`
+  'data-lpignore': props.noLastPass,
+  disabled: props.disabled,
+  maxLength: props.maxLength,
+  spellCheck: props.disableSpellcheck ? 'false' : 'true'
+}))`
   display: block;
   width: 100%;
   height: ${props => props.height};
@@ -75,7 +75,7 @@ class TextInput extends React.Component {
     minHeight: '48px'
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (this.props.active && !prevProps.active && this.input) {
       this.input.focus()
     }
@@ -93,8 +93,20 @@ class TextInput extends React.Component {
     }
   }
 
-  render () {
-    const { disabled, errorState, icon, iconSize, value, ...rest } = this.props
+  render() {
+    const {
+      active,
+      borderColor,
+      borderRightNone,
+      disabled,
+      errorState,
+      focusedBorderColor,
+      icon,
+      iconSize,
+      minHeight,
+      value,
+      ...rest
+    } = this.props
 
     return (
       <Container>
@@ -108,6 +120,7 @@ class TextInput extends React.Component {
           onKeyDown={this.onKeyPressed}
           ref={this.refInput}
           value={value}
+          minHeight={minHeight}
           {...rest}
         />
       </Container>

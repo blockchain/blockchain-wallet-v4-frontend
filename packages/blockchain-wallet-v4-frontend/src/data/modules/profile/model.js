@@ -1,5 +1,5 @@
-import { complement, findLast, propEq } from 'ramda'
 import PropTypes from 'prop-types'
+import { complement, findLast, propEq } from 'ramda'
 
 export const USER_ACTIVATION_STATES = {
   NONE: 'NONE',
@@ -84,3 +84,5 @@ export const getLastUnrejectedTier = findLast(
 export const getLastVerifiedTier = findLast(
   propEq('state', TIERS_STATES.VERIFIED)
 )
+
+export const WITHDRAW_LOCK_DEFAULT_DAYS = 3

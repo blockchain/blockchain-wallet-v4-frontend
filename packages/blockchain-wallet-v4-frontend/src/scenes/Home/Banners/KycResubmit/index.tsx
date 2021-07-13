@@ -1,13 +1,11 @@
-import { actions, model } from 'data'
-import { Button, Text } from 'blockchain-info-components'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 
-import media from 'services/ResponsiveService'
-
-const { TIERS } = model.profile
+import { Button, Text } from 'blockchain-info-components'
+import { actions } from 'data'
+import { media } from 'services/styles'
 
 const Wrapper = styled.div`
   display: flex;
@@ -15,7 +13,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
-  background-color: ${props => props.theme.grey000};
+  background-color: ${(props) => props.theme.grey000};
   border-radius: 4px;
   overflow: hidden;
   padding: 20px;
@@ -28,7 +26,7 @@ const Wrapper = styled.div`
 `
 
 const Column = styled.div<{ hiddenOnMobile?: boolean }>`
-  display: ${props => (props.hiddenOnMobile ? 'none' : 'flex')};
+  display: ${(props) => (props.hiddenOnMobile ? 'none' : 'flex')};
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
@@ -40,7 +38,7 @@ const Column = styled.div<{ hiddenOnMobile?: boolean }>`
   }
 `
 const Title = styled(Text)`
-  color: ${props => props.theme['marketing-primary']};
+  color: ${(props) => props.theme['marketing-primary']};
   margin-bottom: 4px;
 `
 
@@ -79,14 +77,14 @@ const KycResubmit = ({ verifyIdentity }) => (
   </Wrapper>
 )
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   verifyIdentity: () =>
     dispatch(
-      actions.components.identityVerification.verifyIdentity(
-        TIERS[2],
-        true,
-        'KycDocResubmitGoal'
-      )
+      actions.components.identityVerification.verifyIdentity({
+        needMoreInfo: false,
+        origin: 'Resubmission',
+        tier: 2
+      })
     )
 })
 

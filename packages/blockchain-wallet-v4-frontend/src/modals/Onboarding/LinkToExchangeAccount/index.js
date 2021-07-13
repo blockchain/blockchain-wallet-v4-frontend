@@ -1,16 +1,17 @@
-import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
-import modalEnhancer from 'providers/ModalEnhancer'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
 
 import { actions, selectors } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
+
 import LinkToExchangeAccountError from './template.error'
 import LinkToExchangeAccountLoading from './template.loading'
 import LinkToExchangeAccountNotAsked from './template.notasked'
 import LinkToExchangeAccountSuccess from './template.success'
 
 class LinkToExchangeAccountContainer extends React.PureComponent {
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.actions.linkToExchangeAccountReset()
   }
 
@@ -30,7 +31,7 @@ class LinkToExchangeAccountContainer extends React.PureComponent {
     actions.resendVerifyEmail(email)
   }
 
-  render () {
+  render() {
     return this.props.linkToExchangeStatus.cata({
       Success: () => (
         <LinkToExchangeAccountSuccess
@@ -81,7 +82,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('LinkToExchangeAccount'),
+  modalEnhancer('LINK_TO_EXCHANGE_ACCOUNT_MODAL'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

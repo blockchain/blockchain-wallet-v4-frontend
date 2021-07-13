@@ -1,5 +1,6 @@
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { lift } from 'ramda'
+
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 
 export const getData = (coin, amount, hideCoinTicker) => {
   const convert = (coin, value) => {

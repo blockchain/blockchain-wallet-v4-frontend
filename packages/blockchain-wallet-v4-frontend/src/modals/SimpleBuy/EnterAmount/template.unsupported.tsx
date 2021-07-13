@@ -1,9 +1,11 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import { FormattedMessage } from 'react-intl'
+
 import { LinkStatePropsType, Props as OwnProps, SuccessStateType } from '.'
-import React from 'react'
-import styled from 'styled-components'
 
 export type Props = OwnProps & SuccessStateType & LinkStatePropsType
 
@@ -39,7 +41,7 @@ const Subcontent = styled(Text)`
   text-align: center;
 `
 
-const Unsupported: React.FC<Props> = props => {
+const Unsupported: React.FC<Props> = (props) => {
   const { paymentAccountEligible } = props.eligibility
 
   return (
@@ -50,9 +52,7 @@ const Unsupported: React.FC<Props> = props => {
         size='20px'
         color='grey600'
         role='button'
-        onClick={() =>
-          props.simpleBuyActions.setStep({ step: 'CURRENCY_SELECTION' })
-        }
+        onClick={props.handleClose}
       />
       <Container>
         <Image
@@ -80,7 +80,7 @@ const Unsupported: React.FC<Props> = props => {
             <>
               <FormattedMessage
                 id='modals.simplebuy.unsupported-subcontent'
-                defaultMessage="Currently, we don't support buying crypto with"
+                defaultMessage="Currently we don't support buying crypto with"
               />{' '}
               {props.fiatCurrency}
               {'. '}
@@ -91,10 +91,7 @@ const Unsupported: React.FC<Props> = props => {
                 id='modals.simplebuy.unsupported-subcontent-1'
                 defaultMessage="Well this is awkward. We don't support buying crypto yet for"
               />{' '}
-              <FormattedMessage
-                id='modals.simplebuy.fiatregion'
-                defaultMessage='your region'
-              />
+              <FormattedMessage id='modals.simplebuy.fiatregion' defaultMessage='your region' />
               {'. '}
             </>
           )}

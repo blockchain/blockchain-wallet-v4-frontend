@@ -1,0 +1,30 @@
+{
+  "sync_pubkeys": false,
+  "serverTime": 1616446422812,
+  "real_auth_type": 0,
+  "auth_type": 0,
+  "payload_checksum": "bf1bc80f8a75ce629ddf7104c2198f11b2930884e555995074f5e83d907475f7",
+  "version": 2,
+  "language": "en",
+  "wallet": {
+    "addresses": {},
+    "tx_notes": {},
+    "paidTo": {},
+    "guid": "03e433df-f87b-4d45-be8f-e1b9564fa0b1",
+    "tx_names": [],
+    "double_encryption": false,
+    "address_book": [],
+    "hd_wallets": [],
+    "sharedKey": "c6a9d95e-6a1c-40c5-bfaa-01143fb51dc5",
+    "options": {
+      "pbkdf2_iterations": 5000,
+      "fee_per_kb": 10000,
+      "html5_notifications": false,
+      "logout_time": 600000
+    }
+  },
+  "war_checksum": "55a6195360e0675b",
+  "password": "blockchain",
+  "clientTimeDiff": 644,
+  "pbkdf2_iterations": 5000
+}

@@ -1,5 +1,6 @@
-import PropTypes from 'prop-types'
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import TabMenuTransactionStatus from './template.js'
 
 class TabMenuTransactionStatusContainer extends React.PureComponent {
@@ -7,7 +8,7 @@ class TabMenuTransactionStatusContainer extends React.PureComponent {
     this.props.input.onChange(value)
   }
 
-  render () {
+  render() {
     return (
       <TabMenuTransactionStatus
         value={this.props.input.value}

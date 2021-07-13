@@ -1,12 +1,14 @@
-import { CreatableInputField } from 'components/Form'
-import { Field, reduxForm } from 'redux-form'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Text } from 'blockchain-info-components'
 import { toLower } from 'ramda'
+import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
+import { Text } from 'blockchain-info-components'
+import { CreatableInputField } from 'components/Form'
+
 import CurrencyList from './CurrencyList'
 import DeviceTitle from './DeviceTitle'
-import React from 'react'
-import styled from 'styled-components'
 
 const Container = styled.div`
   width: 100%;
@@ -81,8 +83,8 @@ const multiValueContainer = props => {
 }
 
 const Menu = props => {
-  const { deviceInfo, deviceIndex, ...rest } = props
-  const { location, formValues } = rest
+  const { deviceIndex, deviceInfo, ...rest } = props
+  const { formValues, location } = rest
   const onDashboard = location.pathname.includes('/lockbox/dashboard')
 
   return (

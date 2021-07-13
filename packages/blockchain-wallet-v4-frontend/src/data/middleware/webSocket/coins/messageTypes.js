@@ -11,7 +11,7 @@ export const ethReceivedConfirmed = message =>
   checkMessage(message, 'confirmed', 'to')
 
 const checkMessage = (message, state, direction) => {
-  const { transaction, address } = message
+  const { address, transaction } = message
   return (
     transaction &&
     address === transaction[direction] &&

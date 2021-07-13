@@ -1,78 +1,85 @@
-import { merge } from 'ramda'
+import { merge, toUpper } from 'ramda'
 
 export default ({ apiUrl, get, post }) => {
   const fetchBchData = (
     context,
-    { n = 50, offset = 0, onlyShow = false } = {}
+    { n = 50, offset = 0, onlyShow = false } = {},
+    filter?: Number
   ) => {
     const data = {
       active: (Array.isArray(context) ? context : [context]).join('|'),
-      format: 'json',
-      offset: offset,
-      no_compact: true,
       ct: new Date().getTime(),
-      n: n,
+      filter,
+      format: 'json',
       language: 'en',
-      no_buttons: true
+      n,
+      no_buttons: true,
+      no_compact: true,
+      offset
     }
     return post({
-      url: apiUrl,
-      endPoint: '/bch/multiaddr',
       data: onlyShow
         ? merge(data, {
-            onlyShow: (Array.isArray(onlyShow) ? onlyShow : [onlyShow]).join(
-              '|'
-            )
+            onlyShow: (Array.isArray(onlyShow) ? onlyShow : [onlyShow]).join('|')
           })
-        : data
+        : data,
+      endPoint: '/bch/multiaddr',
+      url: apiUrl
     })
   }
 
   const getBchTicker = () =>
     get({
-      url: apiUrl,
+      data: { base: 'BCH' },
       endPoint: '/ticker',
-      data: { base: 'BCH' }
+      url: apiUrl
     })
 
+  const getBchTransactionHistory = (active, currency, start, end) => {
+    return post({
+      data: { active, currency: toUpper(currency), end, start },
+      endPoint: '/bch/v2/export-history',
+      url: apiUrl
+    })
+  }
   const getBchUnspents = (fromAddresses, confirmations = 0) =>
     post({
-      url: apiUrl,
-      endPoint: '/bch/unspent',
       data: {
         active: fromAddresses.join('|'),
         confirmations: Math.max(confirmations, -1),
         format: 'json'
-      }
+      },
+      endPoint: '/bch/unspent',
+      url: apiUrl
     })
 
   const pushBchTx = (tx, lock_secret) =>
     post({
-      url: apiUrl,
+      data: { format: 'plain', lock_secret, tx },
       endPoint: '/bch/pushtx',
-      data: { tx, lock_secret, format: 'plain' }
+      url: apiUrl
     })
 
-  const getBchRawTx = txHex =>
+  const getBchRawTx = (txHex) =>
     get({
-      url: apiUrl,
-      endPoint: '/bch/rawtx/' + txHex,
       data: {
-        format: 'hex',
-        cors: 'true'
-      }
+        cors: 'true',
+        format: 'hex'
+      },
+      endPoint: `/bch/rawtx/${txHex}`,
+      url: apiUrl
     })
 
   const getBchDust = () =>
     get({
-      url: apiUrl,
-      endPoint: '/bch/dust'
+      endPoint: '/bch/dust',
+      url: apiUrl
     })
 
   const getBchFees = () =>
     get({
-      url: apiUrl,
-      endPoint: '/mempool/fees/bch'
+      endPoint: '/mempool/fees/bch',
+      url: apiUrl
     })
 
   return {
@@ -81,6 +88,7 @@ export default ({ apiUrl, get, post }) => {
     getBchFees,
     getBchRawTx,
     getBchTicker,
+    getBchTransactionHistory,
     getBchUnspents,
     pushBchTx
   }

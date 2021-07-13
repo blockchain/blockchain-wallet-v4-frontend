@@ -1,12 +1,13 @@
-import { connect, ConnectedProps } from 'react-redux'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
 
 import { Erc20CoinsEnum } from 'blockchain-wallet-v4/src/types'
+
 import { getErc20Data, getEthData } from './selectors'
 import SelectBoxEth from './template'
 
 class SelectBoxEthAddresses extends React.PureComponent<Props> {
-  render () {
+  render() {
     const { data, ...rest } = this.props
     return data.cata({
       Success: value => (

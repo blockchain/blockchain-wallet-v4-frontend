@@ -1,4 +1,6 @@
-import * as Coin from './coin.js'
+import memoize from 'fast-memoize'
+import shuffle from 'fisher-yates'
+import { List } from 'immutable-ext'
 import {
   clamp,
   curry,
@@ -8,45 +10,124 @@ import {
   isEmpty,
   isNil,
   last,
-  length,
   map,
+  reduce,
   sort,
   tail,
   unfold
 } from 'ramda'
-import { List } from 'immutable-ext'
-import memoize from 'fast-memoize'
 import seedrandom from 'seedrandom'
-import shuffle from 'fisher-yates'
+
+import * as Coin from './coin.js'
+
+// getByteCount implementation
+// based on https://gist.github.com/junderw/b43af3253ea5865ed52cb51c200ac19c
+// Usage:
+// - getByteCount({'P2WPKH':45},{'P2PKH':1}) Means "45 inputs of P2WPKH and 1 output of P2PKH"
+// - getByteCount({'P2PKH':1,'P2WPKH':2},{'P2PKH':2}) means "1 P2PKH input and 2 P2WPKH inputs along with 2 P2PKH outputs"
+
+// assumes compressed pubkeys in all cases.
+// TODO: SEGWIT  we need to account for uncompressed pubkeys!
+export const IO_TYPES = {
+  inputs: {
+    P2PKH: 148, // legacy
+    P2WPKH: 67.75 // native segwit
+  },
+  outputs: {
+    P2PKH: 34,
+    P2SH: 32,
+    P2WPKH: 31,
+    P2WSH: 43
+  }
+}
+const VBYTES_PER_WEIGHT_UNIT = 4
 
 // isFromAccount :: selection -> boolean
-export const isFromAccount = selection =>
+export const isFromAccount = (selection) =>
   selection.inputs[0] ? selection.inputs[0].isFromAccount() : false
 
 // isFromLegacy :: selection -> boolean
-export const isFromLegacy = selection =>
+export const isFromLegacy = (selection) =>
   selection.inputs[0] ? selection.inputs[0].isFromLegacy() : false
 
-export const dustThreshold = feeRate =>
-  (Coin.inputBytes({}) + Coin.outputBytes({})) * feeRate
-export const transactionBytes = (inputs, outputs) =>
+export const dustThreshold = (feeRate, change) =>
+  Math.ceil((Coin.inputBytes(change) + Coin.outputBytes(change)) * feeRate)
+
+export const getByteCount = (inputs, outputs) => {
+  let vBytesTotal = 0
+  let hasWitness = false
+  let inputCount = 0
+  let outputCount = 0
+  // assumes compressed pubkeys in all cases.
+
+  function checkUInt53(n) {
+    if (n < 0 || n > Number.MAX_SAFE_INTEGER || n % 1 !== 0)
+      throw new RangeError('value out of range')
+  }
+
+  function varIntLength(number) {
+    checkUInt53(number)
+
+    return number < 0xfd ? 1 : number <= 0xffff ? 3 : number <= 0xffffffff ? 5 : 9
+  }
+
+  Object.keys(inputs).forEach(function (key) {
+    checkUInt53(inputs[key])
+    vBytesTotal += IO_TYPES.inputs[key] * inputs[key]
+    inputCount += inputs[key]
+    if (key.indexOf('W') >= 0) hasWitness = true
+  })
+
+  Object.keys(outputs).forEach(function (key) {
+    checkUInt53(outputs[key])
+    vBytesTotal += IO_TYPES.outputs[key] * outputs[key]
+    outputCount += outputs[key]
+  })
+
+  // segwit marker + segwit flag + witness element count
+  let overhead = hasWitness ? 0.25 + 0.25 + varIntLength(inputCount) / VBYTES_PER_WEIGHT_UNIT : 0
+
+  overhead += 4 // nVersion
+  overhead += varIntLength(inputCount)
+  overhead += varIntLength(outputCount)
+  overhead += 4 // nLockTime
+
+  vBytesTotal += overhead
+  return vBytesTotal
+}
+
+export const transactionBytes = (inputs, outputs) => {
+  const coinTypeReducer = (acc, coin) => {
+    const type = coin.type ? coin.type() : 'P2PKH'
+    if (acc[type]) acc[type] += 1
+    else acc[type] = 1
+    return acc
+  }
+
+  const inputTypeCollection = reduce(coinTypeReducer, {}, inputs)
+  const outputTypeCollection = reduce(coinTypeReducer, {}, outputs)
+  return getByteCount(inputTypeCollection, outputTypeCollection)
+}
+
+export const changeBytes = (type) => IO_TYPES.outputs[type]
+
+export const DEPRECATED_transactionBytes = (inputs, outputs) =>
   Coin.TX_EMPTY_SIZE +
   inputs.reduce((a, c) => a + Coin.inputBytes(c), 0) +
   outputs.reduce((a, c) => a + Coin.outputBytes(c), 0)
-export const changeBytes = () => Coin.TX_OUTPUT_BASE + Coin.TX_OUTPUT_PUBKEYHASH
 
 export const effectiveBalance = curry((feePerByte, inputs, outputs = [{}]) =>
   List(inputs)
     .fold(Coin.empty)
-    .overValue(v =>
-      clamp(0, Infinity, v - transactionBytes(inputs, outputs) * feePerByte)
+    .overValue((v) =>
+      clamp(0, Infinity, v - Math.ceil(transactionBytes(inputs, outputs) * feePerByte))
     )
 )
 
 // findTarget :: [Coin(x), ..., Coin(y)] -> Number -> [Coin(a), ..., Coin(b)] -> Selection
 const ft = (targets, feePerByte, coins, changeAddress) => {
   const target = List(targets).fold(Coin.empty).value
-  const _findTarget = seed => {
+  const _findTarget = (seed) => {
     const acc = seed[0]
     const newCoin = head(seed[2])
     if (isNil(newCoin) || acc > target + seed[1]) {
@@ -62,70 +143,54 @@ const ft = (targets, feePerByte, coins, changeAddress) => {
           [nextAcc, partialFee, restCoins]
         ]
   }
-  const partialFee = transactionBytes([], targets) * feePerByte
-  const effectiveCoins = filter(
-    c => Coin.effectiveValue(feePerByte, c) > 0,
-    coins
-  )
+  const partialFee = Math.ceil(transactionBytes([], targets) * feePerByte)
+  const effectiveCoins = filter((c) => Coin.effectiveValue(feePerByte, c) > 0, coins)
   const selection = unfold(_findTarget, [0, partialFee, effectiveCoins])
   if (isEmpty(selection)) {
     // no coins to select
     return { fee: 0, inputs: [], outputs: [] }
-  } else {
-    const maxBalance = last(selection)[0]
-    const fee = last(selection)[1]
-    const selectedCoins = map(e => e[2], selection)
-    if (maxBalance < target + fee) {
-      // not enough money to satisfy target
-      return { fee: fee, inputs: [], outputs: targets }
-    } else {
-      const extra = maxBalance - target - fee
-      const feeChange = changeBytes() * feePerByte
-      const extraWithChangeFee = extra - feeChange
-      if (extraWithChangeFee >= dustThreshold(feePerByte)) {
-        // add change
-        const change = Coin.fromJS({
-          value: extraWithChangeFee,
-          address: changeAddress,
-          change: true
-        })
-        return {
-          fee: fee + feeChange,
-          inputs: selectedCoins,
-          outputs: [...targets, change]
-        }
-      } else {
-        // burn change
-        return { fee: fee + extra, inputs: selectedCoins, outputs: targets }
-      }
+  }
+  const maxBalance = last(selection)[0]
+  const fee = last(selection)[1]
+  const selectedCoins = map((e) => e[2], selection)
+  if (maxBalance < target + fee) {
+    // not enough money to satisfy target
+    return { fee, inputs: [], outputs: targets }
+  }
+  const extra = maxBalance - target - fee
+  const change = Coin.fromJS({
+    address: changeAddress,
+    change: true,
+    value: extra
+  })
+  // should we add change?
+  if (extra >= dustThreshold(feePerByte, change)) {
+    const feeForAdditionalChangeOutput = changeBytes(change.type()) * feePerByte
+    return {
+      fee: fee + feeForAdditionalChangeOutput,
+      inputs: selectedCoins,
+      outputs: [...targets, change]
     }
   }
+  // burn change
+  return { fee: fee + extra, inputs: selectedCoins, outputs: targets }
 }
 export const findTarget = memoize(ft)
 
 // singleRandomDraw :: Number -> [Coin(a), ..., Coin(b)] -> String -> Selection
 export const selectAll = (feePerByte, coins, outAddress) => {
-  const effectiveCoins = filter(
-    c => Coin.effectiveValue(feePerByte, c) > 0,
-    coins
-  )
+  const effectiveCoins = filter((c) => Coin.effectiveValue(feePerByte, c) > 0, coins)
   const effBalance = effectiveBalance(feePerByte, effectiveCoins).value
   const Balance = List(effectiveCoins).fold(Coin.empty).value
   const fee = Balance - effBalance
   return {
-    fee: fee,
+    fee,
     inputs: effectiveCoins,
-    outputs: [Coin.fromJS({ value: effBalance, address: outAddress })]
+    outputs: [Coin.fromJS({ address: outAddress, value: effBalance })]
   }
 }
 // singleRandomDraw :: [Coin(x), ..., Coin(y)] -> Number -> [Coin(a), ..., Coin(b)] -> String -> Selection
-export const singleRandomDraw = (
-  targets,
-  feePerByte,
-  coins,
-  changeAddress,
-  seed
-) => {
+export const singleRandomDraw = (targets, feePerByte, coins, changeAddress, seed) => {
   const rng = is(String, seed) ? seedrandom(seed) : undefined
   return findTarget(targets, feePerByte, shuffle(coins, rng), changeAddress)
 }
@@ -146,77 +211,3 @@ export const ascentDraw = (targets, feePerByte, coins, changeAddress) =>
     sort((a, b) => b.lte(a), coins),
     changeAddress
   )
-
-// branchAndBound implementation of the coin selection algorithm
-// from http://murch.one/wp-content/uploads/2016/11/erhardt2016coinselection.pdf
-// presented by Mark Erhardt
-// branchAndBound :: [Coin(x), ..., Coin(y)] -> Number -> [Coin(a), ..., Coin(b)] -> String -> Selection
-const bnb = (targets, feePerByte, coins, changeAddress, seed) => {
-  const rng = is(String, seed) ? seedrandom(seed) : undefined
-  const sortedCoins = filter(
-    c => Coin.effectiveValue(feePerByte, c) > 0,
-    sort((a, b) => a.lte(b), coins)
-  )
-  let bnbTries = 1000000
-  const target = List(targets).fold(Coin.empty).value
-  const targetForMatch = target + transactionBytes([], targets) * feePerByte
-  const matchRange = dustThreshold(feePerByte)
-
-  const _branchAndBound = (depth, currentSelection, effValue) => {
-    bnbTries = bnbTries - 1
-    if (effValue > targetForMatch + matchRange) {
-      // cut branch
-      return []
-    } else if (effValue >= targetForMatch) {
-      // match
-      return currentSelection
-    } else if (bnbTries < 1) {
-      // max tries reached
-      return []
-    } else if (depth >= length(sortedCoins)) {
-      // end of branch
-      return []
-    } else if ((rng && rng()) || Math.random() > 0.5) {
-      // explore include or exclude randomly
-      const include = _branchAndBound(
-        depth + 1,
-        currentSelection.concat(sortedCoins[depth]),
-        effValue + Coin.effectiveValue(feePerByte, sortedCoins[depth])
-      )
-      if (!isEmpty(include)) {
-        return include
-      } else {
-        return _branchAndBound(depth + 1, currentSelection, effValue)
-      }
-    } else {
-      const exclude = _branchAndBound(depth + 1, currentSelection, effValue)
-      if (!isEmpty(exclude)) {
-        return exclude
-      } else {
-        return _branchAndBound(
-          depth + 1,
-          currentSelection.concat(sortedCoins[depth]),
-          effValue + Coin.effectiveValue(feePerByte, sortedCoins[depth])
-        )
-      }
-    }
-  }
-
-  const bnbSelection = _branchAndBound(0, [], 0)
-  if (isEmpty(bnbSelection)) {
-    return singleRandomDraw(
-      targets,
-      feePerByte,
-      sortedCoins,
-      changeAddress,
-      seed
-    )
-  } else {
-    return {
-      fee: List(bnbSelection).fold(Coin.empty).value - target,
-      inputs: bnbSelection,
-      outputs: targets
-    }
-  }
-}
-export const branchAndBound = memoize(bnb)

@@ -1,17 +1,18 @@
-import { Color } from '../Colors/index.ts'
+import React, { PureComponent } from 'react'
 import { FormattedMessage, IntlProvider } from 'react-intl'
+import styled, { createGlobalStyle, ThemeProvider } from 'styled-components'
+import Cookies from 'universal-cookie'
+
+import { Color } from '../Colors/index.ts'
 import { Image } from '../Images'
-import { trackEvent } from './Events'
+import Normalize8 from '../Normalize.js'
 import Button from './Button'
 import ButtonGroup from './ButtonGroup'
-import Cookies from 'universal-cookie'
+import { trackEvent } from './Events'
 import Link from './Link'
 import Logomark from './Logomark'
 import MenuButton from './MenuButton'
 import MenuDropdown from './MenuDropdown'
-import Normalize8 from '../Normalize.js'
-import React, { PureComponent } from 'react'
-import styled, { createGlobalStyle, ThemeProvider } from 'styled-components'
 import throttle from './throttle.js'
 
 const publicRuntimeConfig = {
@@ -483,7 +484,7 @@ class Header extends PureComponent {
     searchURL: SEARCH_URL
   }
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.previousScroll = 100
   }
@@ -495,21 +496,21 @@ class Header extends PureComponent {
     searchText: ''
   }
 
-  componentDidMount () {
+  componentDidMount() {
     if (window) {
       window.addEventListener('scroll', this.handleScroll, true)
       window.addEventListener('resize', this.handleResize, true)
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     if (window) {
       window.removeEventListener('scroll', this.handleScroll)
       window.removeEventListener('resize', this.handleResize)
     }
   }
 
-  getScrollTop () {
+  getScrollTop() {
     if (window && document) {
       let supportScrollY = window.scrollY !== undefined
       let supportPageOffset = window.pageYOffset !== undefined
@@ -593,7 +594,7 @@ class Header extends PureComponent {
     document.location = this.props.searchURL + encodeURIComponent(text)
   }
 
-  render () {
+  render() {
     let themeObj = this.props.theme === 'light' ? darkTheme : lightTheme
     let searchActive = this.state.search ? 'search-active' : ''
     let navVisibility = this.state.showNav ? 'visible' : 'hidden'

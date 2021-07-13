@@ -1,20 +1,99 @@
+import { lift } from 'ramda'
+
+import { Remote } from 'blockchain-wallet-v4/src'
+import { getData as getBchAddressData } from 'components/Form/SelectBoxBchAddresses/selectors'
+import { getData as getBtcAddressData } from 'components/Form/SelectBoxBtcAddresses/selectors'
+import {
+  getErc20Data as getErc20AddressData,
+  getEthData as getEthAddressData
+} from 'components/Form/SelectBoxEthAddresses/selectors'
+import { getData as getXlmAddressData } from 'components/Form/SelectBoxXlmAddresses/selectors'
+
 import { OwnProps } from '.'
-import { selectors } from 'data'
-import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
-export const getData = (state, ownProps?: OwnProps) => {
-  if (!ownProps) return Remote.Success([])
+const getData = (state, ownProps: OwnProps) => {
+  const { coin, includeCustodial } = ownProps
+  let addressDataR
 
-  switch (ownProps.coin) {
+  switch (coin) {
+    case 'BCH':
+      addressDataR = getBchAddressData(state, {
+        excludeImported: true,
+        excludeLockbox: true,
+        includeAll: false,
+        includeCustodial,
+        includeInterest: false
+      })
+      break
     case 'BTC':
-      return selectors.core.common.btc.getActiveAccountsBalances(state)
+      addressDataR = getBtcAddressData(state, {
+        excludeImported: true,
+        excludeLockbox: true,
+        includeAll: false,
+        includeCustodial,
+        includeInterest: false
+      })
+      break
     case 'ETH':
-      return selectors.core.common.eth.getAccountBalances(state)
+      addressDataR = getEthAddressData(state, {
+        excludeLockbox: true,
+        includeCustodial,
+        includeInterest: false
+      })
+      break
     case 'PAX':
-      return selectors.core.common.eth.getErc20AccountBalances(state, 'PAX')
+      addressDataR = getErc20AddressData(state, {
+        coin: 'PAX',
+        includeCustodial,
+        includeInterest: false
+      })
+      break
     case 'USDT':
-      return selectors.core.common.eth.getErc20AccountBalances(state, 'USDT')
+      addressDataR = getErc20AddressData(state, {
+        coin: 'USDT',
+        includeCustodial,
+        includeInterest: false
+      })
+      break
+    case 'WDGLD':
+      addressDataR = getErc20AddressData(state, {
+        coin: 'WDGLD',
+        includeCustodial,
+        includeInterest: false
+      })
+      break
+    case 'XLM':
+      addressDataR = getXlmAddressData(state, {
+        excludeLockbox: true,
+        includeCustodial,
+        includeInterest: false
+      })
+      break
+    case 'AAVE':
+      addressDataR = getErc20AddressData(state, {
+        coin: 'AAVE',
+        includeCustodial,
+        includeInterest: false
+      })
+      break
+    case 'YFI':
+      addressDataR = getErc20AddressData(state, {
+        coin: 'YFI',
+        includeCustodial,
+        includeInterest: false
+      })
+      break
     default:
-      return Remote.Success([])
+      addressDataR = Remote.Success({ data: [] })
   }
+
+  const transform = (addressData) => {
+    return {
+      addressData
+    }
+  }
+
+  return lift(transform)(addressDataR)
 }
+
+export default getData

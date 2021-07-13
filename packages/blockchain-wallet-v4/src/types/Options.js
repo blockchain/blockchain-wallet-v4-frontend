@@ -1,5 +1,6 @@
 import { is, pipe } from 'ramda'
 import { set, view } from 'ramda-lens'
+
 import Type from './Type'
 
 export class Options extends Type {}

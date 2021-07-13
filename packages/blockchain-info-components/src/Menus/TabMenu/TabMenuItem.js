@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const BaseTabMenuItem = styled.span`
@@ -38,7 +38,7 @@ const BaseTabMenuItem = styled.span`
 `
 
 const TabMenuItem = props => {
-  const { children, selected, className, ...rest } = props
+  const { children, className, selected, ...rest } = props
   const isSelectedOrActive = selected || className === 'active'
 
   return (

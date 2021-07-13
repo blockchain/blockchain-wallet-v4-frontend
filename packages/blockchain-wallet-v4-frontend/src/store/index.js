@@ -1,34 +1,33 @@
-import { applyMiddleware, compose, createStore } from 'redux'
+import BitcoinCash from 'bitcoinforksjs-lib'
+import * as Bitcoin from 'bitcoinjs-lib'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { createHashHistory } from 'history'
-import { head } from 'ramda'
+import { applyMiddleware, compose, createStore } from 'redux'
 import { persistCombineReducers, persistStore } from 'redux-persist'
-import Bitcoin from 'bitcoinjs-lib'
-import BitcoinCash from 'bitcoinforksjs-lib'
-import createSagaMiddleware from 'redux-saga'
 import getStoredStateMigrateV4 from 'redux-persist/lib/integration/getStoredStateMigrateV4'
 import storage from 'redux-persist/lib/storage'
+import createSagaMiddleware from 'redux-saga'
 
-import { actions, rootReducer, rootSaga, selectors } from 'data'
+import { coreMiddleware } from 'blockchain-wallet-v4/src'
 import {
   ApiSocket,
   createWalletApi,
   HorizonStreamingService,
   Socket
 } from 'blockchain-wallet-v4/src/network/index.ts'
+import { serializer } from 'blockchain-wallet-v4/src/types'
+import { actions, rootReducer, rootSaga, selectors } from 'data'
+
 import {
+  analyticsMiddleware,
   autoDisconnection,
   matomoMiddleware,
   streamingXlm,
   webSocketCoins,
   webSocketRates
 } from '../middleware'
-import { coreMiddleware } from 'blockchain-wallet-v4/src'
-import { serializer } from 'blockchain-wallet-v4/src/types'
 
 const devToolsConfig = {
-  maxAge: 1000,
-  serialize: serializer,
   actionsBlacklist: [
     // '@@redux-form/INITIALIZE',
     // '@@redux-form/CHANGE',
@@ -42,7 +41,9 @@ const devToolsConfig = {
     '@CORE.COINS_WEBSOCKET_MESSAGE',
     '@CORE.FETCH_ETH_LATEST_BLOCK_SUCCESS',
     '@EVENT.RATES_SOCKET.WEBSOCKET_MESSAGE'
-  ]
+  ],
+  maxAge: 1000,
+  serialize: serializer
 }
 
 const configureStore = async function () {
@@ -53,41 +54,39 @@ const configureStore = async function () {
     : compose
   const walletPath = 'wallet.payload'
   const kvStorePath = 'wallet.kvstore'
-  const isAuthenticated = selectors.auth.isAuthenticated
+  const { isAuthenticated } = selectors.auth
 
-  const res = await fetch('/Resources/wallet-options-v4.json')
+  const res = await fetch('/wallet-options-v4.json')
   const options = await res.json()
   const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
-  // TODO: deprecate when wallet-options-v4 is updated on prod
-  const socketUrl = head(options.domains.webSocket.split('/inv'))
+  const socketUrl = options.domains.webSocket
   const horizonUrl = options.domains.horizon
   const coinsSocket = new Socket({
     options,
     url: `${socketUrl}/coins`
   })
   const ratesSocket = new ApiSocket({
+    maxReconnects: 3,
     options,
-    url: `${socketUrl.split('/coins').join('')}/nabu-gateway/markets/quotes`,
-    maxReconnects: 3
+    url: `${socketUrl}/nabu-gateway/markets/quotes`
   })
   const xlmStreamingService = new HorizonStreamingService({
     url: horizonUrl
   })
-  const getAuthCredentials = () =>
-    selectors.modules.profile.getAuthCredentials(store.getState())
+  const getAuthCredentials = () => selectors.modules.profile.getAuthCredentials(store.getState())
   const reauthenticate = () => store.dispatch(actions.modules.profile.signIn())
   const networks = {
-    btc: Bitcoin.networks[options.platforms.web.coins.BTC.config.network],
     bch: BitcoinCash.networks[options.platforms.web.coins.BTC.config.network],
+    btc: Bitcoin.networks[options.platforms.web.coins.BTC.config.network],
     eth: options.platforms.web.coins.ETH.config.network,
     xlm: options.platforms.web.coins.XLM.config.network
   }
   const api = createWalletApi({
-    options,
     apiKey,
     getAuthCredentials,
-    reauthenticate,
-    networks
+    networks,
+    options,
+    reauthenticate
   })
   const persistWhitelist = ['session', 'preferences', 'cache']
 
@@ -113,12 +112,13 @@ const configureStore = async function () {
       applyMiddleware(
         sagaMiddleware,
         routerMiddleware(history),
-        coreMiddleware.kvStore({ isAuthenticated, api, kvStorePath }),
+        coreMiddleware.kvStore({ api, isAuthenticated, kvStorePath }),
         streamingXlm(xlmStreamingService, api),
         webSocketRates(ratesSocket),
         webSocketCoins(coinsSocket),
-        coreMiddleware.walletSync({ isAuthenticated, api, walletPath }),
+        coreMiddleware.walletSync({ api, isAuthenticated, walletPath }),
         matomoMiddleware(),
+        analyticsMiddleware(),
         autoDisconnection()
       )
     )
@@ -141,9 +141,9 @@ const configureStore = async function () {
   store.dispatch(actions.goals.defineGoals())
 
   return {
-    store,
     history,
-    persistor
+    persistor,
+    store
   }
 }
 

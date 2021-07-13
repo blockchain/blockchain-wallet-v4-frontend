@@ -1,10 +1,10 @@
-import PropTypes from 'prop-types'
 import React from 'react'
+import PropTypes from 'prop-types'
+import { keysIn } from 'ramda'
 import styled from 'styled-components'
 
-import { Icon } from '../../Icons'
-import { keysIn } from 'ramda'
 import { Palette } from '../../Colors/index.ts'
+import { Icon } from '../../Icons'
 
 const Wrapper = styled.div`
   display: inline-flex;
@@ -37,52 +37,68 @@ const DropdownList = styled.ul`
   display: ${props => (props.toggled ? 'block' : 'none')};
   float: none;
   height: auto;
-  width: inherit;
-  line-height: 20px;
+  width: ${props => (props.width ? props.width : 'inherit')};
+  line-height: 24px;
   list-style-image: none;
   list-style-position: outside;
   list-style-type: none;
-  margin: 2px 0;
+  margin: ${props => (props.margin ? props.margin : '2px 0')};
   min-width: 20px;
   overflow: auto;
   padding: 5px;
   position: absolute;
   right: 0;
+  z-index: 10;
   ${props =>
-    props.down
-      ? 'top: 25px; bottom: auto;'
-      : 'top: auto; bottom: 25px;'} z-index: 10;
+    props.down ? 'top: 25px; bottom: auto;' : 'top: auto; bottom: 25px;'};
 `
 
 const DropdownItem = styled.li`
-  color: ${props => props.theme['grey800']};
+  color: ${props => props.theme['grey900']};
   cursor: pointer;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 14px;
-  font-weight: 400;
-  text-align: left;
+  font-weight: 500;
+  text-align: ${props => (props.textAlign ? props.textAlign : 'left')};
   white-space: nowrap;
+
+  > div:hover {
+    color: ${props => props.theme.blue600};
+  }
 `
 
 const Dropdown = props => {
   const {
     color,
-    down,
-    uppercase,
-    toggled,
-    selectedComponent,
     components,
+    down,
+    handleCallback,
     handleClick,
-    handleCallback
+    margin,
+    selectedComponent,
+    textAlign,
+    toggled,
+    uppercase,
+    width
   } = props
 
   return (
     <Wrapper uppercase={uppercase}>
-      <DropdownList toggled={toggled} down={down} data-e2e={props['data-e2e']}>
+      <DropdownList
+        data-e2e={props['data-e2e']}
+        down={down}
+        margin={margin}
+        toggled={toggled}
+        width={width}
+      >
         {components.map((comp, index) => {
           return (
-            <DropdownItem key={index} onClick={handleCallback.bind(null, comp)}>
+            <DropdownItem
+              key={index}
+              onClick={handleCallback.bind(null, comp)}
+              textAlign={textAlign}
+            >
               {comp}
             </DropdownItem>
           )
@@ -109,12 +125,15 @@ Dropdown.defaultProps = {
 }
 
 Dropdown.propTypes = {
-  selectedValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   callback: PropTypes.func,
-  toggled: PropTypes.bool,
   color: PropTypes.oneOf(keysIn(Palette())),
+  down: PropTypes.bool,
+  margin: PropTypes.string,
+  selectedValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  textAlign: PropTypes.string,
+  toggled: PropTypes.bool,
   uppercase: PropTypes.bool,
-  down: PropTypes.bool
+  width: PropTypes.string
 }
 
 export default Dropdown

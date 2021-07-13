@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import { Icon } from '../Icons'
@@ -36,7 +36,7 @@ const HeaderIcon = styled(Icon)`
 `
 
 const ModalHeader = props => {
-  const { closeButton, onClose, icon, children, paddingHorizontal } = props
+  const { children, closeButton, icon, onClose, paddingHorizontal } = props
 
   return (
     <Wrapper

@@ -1,3 +1,7 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import {
   Button,
   Modal,
@@ -7,13 +11,10 @@ import {
   SelectInput,
   Text
 } from 'blockchain-info-components'
-import { flex, spacing } from 'services/StyleService'
-import { FormattedMessage } from 'react-intl'
 import { utils } from 'blockchain-wallet-v4/src'
 import CoinDisplay from 'components/Display/CoinDisplay'
-import QRCodeWrapper from 'components/QRCodeWrapper'
-import React from 'react'
-import styled from 'styled-components'
+import QRCodeWrapper from 'components/QRCode/Wrapper'
+import { flex, spacing } from 'services/styles'
 
 const DropdownWrapper = styled.div`
   position: relative;
@@ -69,10 +70,10 @@ const FirstStep = () => (
 const SecondStep = ({
   addr,
   balance,
-  priv,
   format,
   formats,
-  onChangeFormat
+  onChangeFormat,
+  priv
 }) => (
   <div style={flex('row')}>
     <div style={spacing('mr-25')}>
@@ -145,11 +146,11 @@ const SecondStep = ({
 )
 
 const ShowBtcPrivateKeyTemplate = ({
-  position,
-  total,
   close,
-  step,
   onContinue,
+  position,
+  step,
+  total,
   ...rest
 }) => (
   <Modal size='large' position={position} total={total}>

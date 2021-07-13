@@ -1,9 +1,10 @@
-import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Wrapper } from 'components/Public'
-import React from 'react'
 import styled from 'styled-components'
+
+import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
+import { Wrapper } from 'components/Public'
 
 const Row = styled.div`
   display: flex;
@@ -53,37 +54,11 @@ const Help = () => {
       <Header>
         <Text size='20px' color='blue900' weight={600} capitalize>
           <FormattedMessage
-            id='scenes.help.needsomehelp'
+            id='copy.need_some_help'
             defaultMessage='Need some help?'
           />
         </Text>
       </Header>
-      <Row>
-        <Left>
-          <Text size='14px' color='grey800' weight={600}>
-            <FormattedMessage
-              id='scenes.help.lostguid'
-              defaultMessage="Don't know your Wallet ID?"
-            />
-          </Text>
-          <Text size='12px' color='grey800' weight={400}>
-            <FormattedMessage
-              id='scenes.help.lostguidrecover'
-              defaultMessage='We can send you a reminder email right now.'
-            />
-          </Text>
-        </Left>
-        <Right>
-          <LinkContainer to='/reminder'>
-            <Button data-e2e='linkToReminder' nature='light'>
-              <FormattedMessage
-                id='scenes.help.remind'
-                defaultMessage='Remind Me'
-              />
-            </Button>
-          </LinkContainer>
-        </Right>
-      </Row>
       <Row>
         <Left>
           <Text size='14px' color='grey800' weight={600}>
@@ -94,8 +69,8 @@ const Help = () => {
           </Text>
           <Text size='12px' color='grey800' weight={400}>
             <FormattedMessage
-              id='scenes.help.password.explain'
-              defaultMessage='Use your 12 word recovery phrase to access your Wallet.'
+              id='scenes.help.password.explain_phrase'
+              defaultMessage='Use your 12 word Secret Private Key Recovery Phrase to access your Wallet.'
             />
           </Text>
         </Left>

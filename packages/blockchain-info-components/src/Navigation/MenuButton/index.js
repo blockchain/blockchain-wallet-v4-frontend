@@ -81,8 +81,9 @@ class MenuButton extends PureComponent {
     active: false
   }
 
-  static getDerivedStateFromProps (nextProps, prevState) {
+  static getDerivedStateFromProps(nextProps, prevState) {
     let active = prevState.active
+    // eslint-disable-next-line no-prototype-builtins
     if (nextProps.hasOwnProperty('active')) {
       active = nextProps.active
     }
@@ -97,7 +98,7 @@ class MenuButton extends PureComponent {
     }
   }
 
-  render () {
+  render() {
     let classes = this.state.active ? 'is-active' : ''
     return (
       <ButtonContainer

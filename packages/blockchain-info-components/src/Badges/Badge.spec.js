@@ -1,5 +1,5 @@
-import { render } from 'enzyme'
 import React from 'react'
+import { render } from 'enzyme'
 import toJson from 'enzyme-to-json'
 
 import Badge from './Badge'

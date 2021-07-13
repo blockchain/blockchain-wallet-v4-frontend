@@ -1,5 +1,5 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { SpinningLoader, Text } from 'blockchain-info-components'
@@ -13,18 +13,13 @@ const Wrapper = styled.div`
   flex-direction: column;
 `
 
-const Loading: React.FC<{}> = () => {
-  return (
-    <Wrapper>
-      <SpinningLoader />
-      <Text weight={600} color='grey800' style={{ marginTop: '24px' }}>
-        <FormattedMessage
-          id='modals.interest.loading.doingwork'
-          defaultMessage='Doing Work...'
-        />
-      </Text>
-    </Wrapper>
-  )
-}
+const Loading = () => (
+  <Wrapper>
+    <SpinningLoader />
+    <Text weight={600} color='grey800' style={{ marginTop: '24px' }}>
+      <FormattedMessage id='modals.interest.loading.doingwork' defaultMessage='Doing Work...' />
+    </Text>
+  </Wrapper>
+)
 
 export default Loading

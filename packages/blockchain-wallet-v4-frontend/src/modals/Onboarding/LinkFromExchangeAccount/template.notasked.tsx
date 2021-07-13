@@ -1,7 +1,9 @@
-import { BlockchainLoader } from 'blockchain-info-components'
-import { Content } from './styles'
-import { Props } from '.'
 import React from 'react'
+
+import { BlockchainLoader } from 'blockchain-info-components'
+
+import { Props } from '.'
+import { Content } from './styles'
 
 const NotAsked: React.FC<Props> = () => {
   return (

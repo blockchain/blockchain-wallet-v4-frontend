@@ -1,12 +1,13 @@
+import React from 'react'
 import { connect } from 'react-redux'
 import { pathOr } from 'ramda'
-import React from 'react'
 import styled from 'styled-components'
 
-import { getCoins } from './selectors'
 import { Icon, Text } from 'blockchain-info-components'
 import { selectors } from 'data'
+
 import SelectBox from '../SelectBox'
+import { getCoins } from './selectors'
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -31,12 +32,12 @@ const ItemIcon = styled(Icon)`
 class SelectBoxCoin extends React.PureComponent {
   renderItem = props => {
     const { supportedCoins } = this.props
-    const { value, text, ...rest } = props
+    const { text, value, ...rest } = props
     return (
       <HeaderWrapper {...rest}>
         <ItemIcon
-          name={pathOr('', [value, 'icons', 'circleFilled'], supportedCoins)}
-          color={pathOr('textBlack', [value, 'colorCode'], supportedCoins)}
+          name={pathOr('', [value, 'coinCode'], supportedCoins)}
+          color={pathOr('textBlack', [value, 'coinCode'], supportedCoins)}
           size='20px'
         />
         <Text size='14px' cursor='pointer' data-e2e=''>
@@ -45,6 +46,7 @@ class SelectBoxCoin extends React.PureComponent {
       </HeaderWrapper>
     )
   }
+
   renderDisplay = (props, children) => {
     const { supportedCoins } = this.props
     const { value, ...rest } = props
@@ -54,8 +56,8 @@ class SelectBoxCoin extends React.PureComponent {
     return (
       <HeaderWrapper {...rest}>
         <ItemIcon
-          name={pathOr('', [value, 'icons', 'circleFilled'], supportedCoins)}
-          color={pathOr('textBlack', [value, 'colorCode'], supportedCoins)}
+          name={pathOr('', [value, 'coinCode'], supportedCoins)}
+          color={pathOr('textBlack', [value, 'coinCode'], supportedCoins)}
           size='20px'
         />
         <Text size='16px' cursor='pointer' data-e2e={e2eTag} weight={500}>
@@ -64,13 +66,24 @@ class SelectBoxCoin extends React.PureComponent {
       </HeaderWrapper>
     )
   }
-  render () {
-    const { coins, supportedCoins, ...rest } = this.props
-    const elements = [{ group: '', items: coins }]
+
+  render() {
+    const {
+      additionalOptions = [],
+      coins,
+      limitTo = [],
+      supportedCoins,
+      ...rest
+    } = this.props
+    const items =
+      limitTo.length > 0
+        ? [...additionalOptions, ...limitTo]
+        : [...additionalOptions, ...coins]
+
     return (
       <SelectBox
         supportedCoins={supportedCoins}
-        elements={elements}
+        elements={[{ group: '', items }]}
         templateDisplay={this.renderDisplay}
         templateItem={this.renderItem}
         zIndex={3}

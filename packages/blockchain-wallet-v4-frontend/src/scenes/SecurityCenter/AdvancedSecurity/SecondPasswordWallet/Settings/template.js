@@ -1,19 +1,19 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
+import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   Button,
   ButtonGroup,
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import { Field, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
-import { FormGroup, FormItem, FormLabel, PasswordBox } from 'components/Form'
-import { required, validPasswordConfirmation } from 'services/FormHelper'
-import { SettingForm, SettingWrapper } from 'components/Setting'
-import PropTypes from 'prop-types'
-import React from 'react'
-import styled from 'styled-components'
-
 import { Types } from 'blockchain-wallet-v4/src'
+import { FormGroup, FormItem, FormLabel, PasswordBox } from 'components/Form'
+import { SettingForm, SettingWrapper } from 'components/Setting'
+import { required, validPasswordConfirmation } from 'services/forms'
 
 const SecondPasswordWrapper = styled(SettingWrapper)`
   width: ${props => (props.toggled ? '150%' : 'initial')};
@@ -50,13 +50,13 @@ const isMainPassword = (value, allValues, { mainPassword }) =>
 
 const Settings = props => {
   const {
-    updateToggled,
-    handleToggle,
+    handleCancel,
     handleSubmit,
-    submitting,
+    handleToggle,
     invalid,
     secondPasswordEnabled,
-    handleCancel
+    submitting,
+    updateToggled
   } = props
   if (secondPasswordEnabled) {
     return (
@@ -133,8 +133,8 @@ const Settings = props => {
             <TextGroup inline style={{ 'margin-bottom': '10px' }}>
               <Text size='14px' weight={400} color='error'>
                 <FormattedMessage
-                  id='scenes.securitysettings.advanced.secondpasswordwallet.settings.warning'
-                  defaultMessage="We highly recommend you backup your wallet's recovery phrase before setting a second password."
+                  id='scenes.securitysettings.advanced.secondpasswordwallet.settings.phrase_warning'
+                  defaultMessage="We highly recommend you backup your wallet's Secret Private Key Recovery Phrase before setting a second password."
                 />
               </Text>
               <Text size='14px' weight={400} color='error'>

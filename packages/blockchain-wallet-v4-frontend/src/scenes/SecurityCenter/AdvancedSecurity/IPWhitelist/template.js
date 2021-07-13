@@ -1,6 +1,11 @@
-import { Button, Text } from 'blockchain-info-components'
-import { Field, reduxForm } from 'redux-form'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
+import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
+import { Button, Text } from 'blockchain-info-components'
+import { TextBox } from 'components/Form'
 import {
   SettingComponent,
   SettingContainer,
@@ -10,11 +15,7 @@ import {
   SettingSummary,
   SettingWrapper
 } from 'components/Setting'
-import { TextBox } from 'components/Form'
-import { validIpList } from 'services/FormHelper'
-import PropTypes from 'prop-types'
-import React from 'react'
-import styled from 'styled-components'
+import { validIpList } from 'services/forms'
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -29,13 +30,13 @@ const Input = styled(Field)`
 `
 const IPWhitelist = props => {
   const {
-    updateToggled,
-    handleToggle,
-    handleSubmit,
     currentWhitelist,
-    submitting,
+    handleCancel,
+    handleSubmit,
+    handleToggle,
     invalid,
-    handleCancel
+    submitting,
+    updateToggled
   } = props
 
   return (

@@ -1,11 +1,12 @@
-import { bindActionCreators } from 'redux'
+import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import React from 'react'
+import { bindActionCreators } from 'redux'
 
-import { actions } from 'data'
-import { getData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
+import { actions } from 'data'
+
+import { getData } from './selectors'
 import Announcement from './template.js'
 
 class ServiceAnnouncement extends React.PureComponent {
@@ -17,7 +18,7 @@ class ServiceAnnouncement extends React.PureComponent {
     this.props.cacheActions.announcementToggled(id, !isCollapsed)
   }
 
-  render () {
+  render() {
     const { alertArea, data } = this.props
     return data.cata({
       Success: val => {

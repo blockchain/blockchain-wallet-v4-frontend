@@ -1,5 +1,4 @@
 import * as AT from './actionTypes'
-
 import { RecoveryPhraseActionTypes } from './types'
 
 export const setStep = (

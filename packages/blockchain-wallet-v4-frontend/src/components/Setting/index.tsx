@@ -14,8 +14,8 @@ export {
   SettingDescription,
   SettingForm,
   SettingHeader,
-  SettingSummary,
+  SettingSelectBoxWrapper,
   SettingStatus,
-  SettingWrapper,
-  SettingSelectBoxWrapper
+  SettingSummary,
+  SettingWrapper
 }

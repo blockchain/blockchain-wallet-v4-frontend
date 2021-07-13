@@ -1,10 +1,11 @@
-import { bindActionCreators } from 'redux'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Base64 from 'base-64'
 import PropTypes from 'prop-types'
-import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
+
 import UploadDocuments from './template'
 
 class UploadDocumentsContainer extends Component {
@@ -15,7 +16,7 @@ class UploadDocumentsContainer extends Component {
     uploadDocuments: PropTypes.func.isRequired
   }
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.dropzone = null
     const search = new URLSearchParams(props.location.search)
@@ -27,13 +28,13 @@ class UploadDocumentsContainer extends Component {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.props.fetchUploadData(this.state.token)
   }
 
   onSubmit = () => {
     let filesLoaded = []
-    const { token, redirectUrl } = this.state
+    const { redirectUrl, token } = this.state
     this.state.files.forEach(file => {
       const fileReader = new FileReader()
       // One single upload for the array of all byte arrays
@@ -83,7 +84,7 @@ class UploadDocumentsContainer extends Component {
     this.dropzone = element
   }
 
-  render () {
+  render() {
     const { loading } = this.props.uploaded.cata({
       Success: val => ({ loading: false }),
       Failure: val => ({ loading: false }),

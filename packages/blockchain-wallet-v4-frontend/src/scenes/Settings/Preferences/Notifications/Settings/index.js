@@ -1,19 +1,20 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
+
 import { getData } from './selectors'
 import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
 class SettingContainer extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     this.props.actions.notificationsInitialized()
   }
 
-  render () {
+  render() {
     return this.props.data.cata({
       Success: value => <Success {...value} />,
       Failure: message => <Error>{message}</Error>,

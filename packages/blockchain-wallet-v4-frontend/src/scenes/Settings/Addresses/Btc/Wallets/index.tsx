@@ -1,75 +1,83 @@
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { formValueSelector } from 'redux-form'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
 
-import { actions, model } from 'data'
-import { getData, getWalletsWithoutRemoteData } from './selectors'
 import { Remote } from 'blockchain-wallet-v4/src'
-import { requireUniqueWalletName } from 'services/FormHelper'
+import { actions, model } from 'data'
+import { requireUniqueWalletName } from 'services/forms'
+
+import { getData, getWalletsWithoutRemoteData } from './selectors'
 import Template from './template'
 
 const { WALLET_TX_SEARCH } = model.form
 
 class BtcWalletsContainer extends React.Component<Props> {
-  shouldComponentUpdate (nextProps) {
+  shouldComponentUpdate(nextProps) {
     return !Remote.Loading.is(nextProps.data)
   }
 
-  onAddNewWallet = wallets => {
-    const allWalletLabels = wallets.map(wallet => wallet.label)
-    this.props.modalActions.showModal('AddBtcWallet', {
-      uniqueWalletName: value =>
-        requireUniqueWalletName(value, allWalletLabels),
+  onAddNewWallet = (wallets) => {
+    const allWalletLabels = wallets.map((wallet) => wallet.label)
+    this.props.modalActions.showModal('ADD_BTC_WALLET_MODAL', {
+      origin: 'SettingsPage',
+      uniqueWalletName: (value) => requireUniqueWalletName(value, allWalletLabels)
+    })
+  }
+
+  onUnarchive = (i) => {
+    this.props.coreActions.setAccountArchived(i, false)
+  }
+
+  onClickImport = () => {
+    this.props.modalActions.showModal('IMPORT_BTC_ADDRESS_MODAL', {
       origin: 'SettingsPage'
     })
   }
 
-  onUnarchive = i => {
-    this.props.coreActions.setAccountArchived(i, false)
-  }
-
-  render () {
-    const { search, data, walletsWithoutRemoteData, ...rest } = this.props
+  render() {
+    const { data, search, walletsWithoutRemoteData, ...rest } = this.props
 
     return data.cata({
-      Success: value => (
-        <Template
-          wallets={value}
-          search={search && search.toLowerCase()}
-          onUnarchive={this.onUnarchive}
-          onAddNewWallet={() => {
-            this.onAddNewWallet(value)
-          }}
-          {...rest}
-        />
-      ),
-      Failure: message => (
+      Failure: (message) => (
         <Template
           failure
           message={message}
           wallets={walletsWithoutRemoteData}
           search={search && search.toLowerCase()}
           onUnarchive={this.onUnarchive}
-          onAddNewWallet={() => {
-            this.onAddNewWallet(walletsWithoutRemoteData)
-          }}
+          onClickImport={this.onClickImport}
+          // onAddNewWallet={() => {
+          //   this.onAddNewWallet(walletsWithoutRemoteData)
+          // }}
           {...rest}
         />
       ),
       Loading: () => <div />,
-      NotAsked: () => <div />
+      NotAsked: () => <div />,
+      Success: (value) => (
+        <Template
+          wallets={value}
+          search={search && search.toLowerCase()}
+          onUnarchive={this.onUnarchive}
+          onClickImport={this.onClickImport}
+          // onAddNewWallet={() => {
+          //   this.onAddNewWallet(value)
+          // }}
+          {...rest}
+        />
+      )
     })
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  modalActions: bindActionCreators(actions.modals, dispatch),
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(actions.core.data.btc, dispatch),
   coreActions: bindActionCreators(actions.core.wallet, dispatch),
-  actions: bindActionCreators(actions.core.data.btc, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state),
   search: formValueSelector(WALLET_TX_SEARCH)(state, 'search'),
   walletsWithoutRemoteData: getWalletsWithoutRemoteData(state)

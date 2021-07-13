@@ -1,15 +1,18 @@
-import { any, includes, propOr } from 'ramda'
-import { connect } from 'react-redux'
-import { IntlProvider } from 'react-intl'
 import React from 'react'
+import { IntlProvider } from 'react-intl'
+import { connect } from 'react-redux'
+import { any, includes, propOr } from 'ramda'
 
-import { languages, loadLocaleData } from 'services/LocalesService'
 import { selectors } from 'data'
+import { languages, loadLocaleData } from 'services/locales'
 
 class TranslationsProvider extends React.Component {
-  state = {
-    locale: 'en',
-    messages: {}
+  constructor(props) {
+    super(props)
+    this.state = {
+      locale: 'en',
+      messages: {}
+    }
   }
 
   // ⚠️ HACK ALERT ⚠️
@@ -19,7 +22,7 @@ class TranslationsProvider extends React.Component {
   // the links.  Users are then unable to log into their wallets. This is a hack
   // to prevent the language update to cause a re-render on these pages. The downside
   // is that these pages will never be translated.
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     const urlHash = window.location.hash
     if (
       this.props.locale !== prevProps.locale &&
@@ -31,25 +34,33 @@ class TranslationsProvider extends React.Component {
   }
 
   initLocale = () => {
-    const locale = any(propOr('en', this.props.locale), languages)
-      ? this.props.locale
-      : 'en'
-    loadLocaleData(locale, messages => {
-      this.setState({ messages, locale })
+    const locale = any(propOr('en', this.props.locale), languages) ? this.props.locale : 'en'
+    loadLocaleData(locale, (messages) => {
+      this.setState({ locale, messages })
     })
   }
 
-  render () {
+  render() {
     const { locale, messages } = this.state
     return (
-      <IntlProvider locale={locale} key={locale} messages={messages}>
+      <IntlProvider
+        locale={locale}
+        key={locale}
+        messages={messages}
+        defaultRichTextElements={{
+          a: (chunks) => <a>{chunks}</a>,
+          b: (chunks) => <b>{chunks}</b>,
+          br: () => <br />,
+          p: (chunks) => <p>{chunks}</p>
+        }}
+      >
         {this.props.children}
       </IntlProvider>
     )
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   locale: selectors.preferences.getLanguage(state)
 })
 

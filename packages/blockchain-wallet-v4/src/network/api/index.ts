@@ -15,19 +15,14 @@ import lockbox from './lockbox'
 import misc from './misc'
 import profile from './profile'
 import rates from './rates'
+import send from './send'
 import settings from './settings'
 import simpleBuy from './simpleBuy'
-import trades from './trades'
+import swap from './swap'
 import wallet from './wallet'
 import xlm from './xlm'
 
-const api = ({
-  options,
-  apiKey,
-  getAuthCredentials,
-  reauthenticate,
-  networks
-}: any = {}) => {
+const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: any = {}) => {
   const http = httpService({ apiKey })
   const authorizedHttp = apiAuthorize(http, getAuthCredentials, reauthenticate)
   const apiUrl = options.domains.api
@@ -43,54 +38,60 @@ const api = ({
     ...bch({ apiUrl, ...http }),
     ...bitpay({ bitpayUrl }),
     ...borrow({
-      nabuUrl,
-      authorizedGet: authorizedHttp.get,
-      authorizedPost: authorizedHttp.post
-    }),
-    ...btc({ rootUrl, apiUrl, ...http }),
-    ...coin({ apiUrl, ...http }),
-    ...custodial({
-      nabuUrl,
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
+      nabuUrl
+    }),
+    ...btc({ apiUrl, rootUrl, ...http }),
+    ...coin({ apiUrl, ...http }),
+    ...custodial({
+      authorizedGet: authorizedHttp.get,
+      authorizedPost: authorizedHttp.post,
+      nabuUrl,
       ...http
     }),
     ...eth({ apiUrl, ...http }),
     ...kvStore({ apiUrl, networks, ...http }),
     ...kyc({
-      nabuUrl,
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
-      authorizedPut: authorizedHttp.put,
+      nabuUrl,
       ...http
     }),
     ...interest({
-      nabuUrl,
       authorizedGet: authorizedHttp.get,
-      authorizedPost: authorizedHttp.post
+      authorizedPost: authorizedHttp.post,
+      authorizedPut: authorizedHttp.put,
+      nabuUrl
     }),
     ...lockbox({ ledgerUrl, ...http }),
-    ...misc({ rootUrl, apiUrl, ...http }),
+    ...misc({ apiUrl, ...http }),
     ...profile({
-      rootUrl,
-      nabuUrl,
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
       authorizedPut: authorizedHttp.put,
+      nabuUrl,
+      rootUrl,
       ...http
     }),
+    ...send({ apiUrl, ...http }),
     ...settings({ rootUrl, ...http }),
     ...simpleBuy({
-      everypayUrl,
-      nabuUrl,
+      authorizedDelete: authorizedHttp.deleteRequest,
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
       authorizedPut: authorizedHttp.put,
-      authorizedDelete: authorizedHttp.deleteRequest,
+      everypayUrl,
+      nabuUrl,
+      ...http
+    }),
+    ...swap({
+      authorizedGet: authorizedHttp.get,
+      authorizedPost: authorizedHttp.post,
+      nabuUrl,
       ...http
     }),
     ...rates({ nabuUrl, ...authorizedHttp }),
-    ...trades({ nabuUrl, ...authorizedHttp }),
     ...wallet({ rootUrl, ...http }),
     ...xlm({ apiUrl, horizonUrl, ...http })
   }
@@ -106,8 +107,11 @@ export type APIType = ReturnType<typeof analytics> &
   ReturnType<typeof custodial> &
   ReturnType<typeof eth> &
   ReturnType<typeof interest> &
+  ReturnType<typeof kyc> &
   ReturnType<typeof misc> &
   ReturnType<typeof profile> &
   ReturnType<typeof simpleBuy> &
+  ReturnType<typeof send> &
+  ReturnType<typeof swap> &
   ReturnType<typeof wallet> &
   ReturnType<typeof xlm>

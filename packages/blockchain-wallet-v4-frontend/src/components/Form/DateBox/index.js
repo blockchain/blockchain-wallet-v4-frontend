@@ -1,7 +1,8 @@
-import { DateInput, Text } from 'blockchain-info-components'
-import locale from 'browser-locale'
 import React from 'react'
+import locale from 'browser-locale'
 import styled from 'styled-components'
+
+import { DateInput, Text } from 'blockchain-info-components'
 
 const Container = styled.div`
   position: relative;

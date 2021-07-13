@@ -1,25 +1,26 @@
-import { bindActionCreators, compose } from 'redux'
+import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import React from 'react'
+import { bindActionCreators, compose } from 'redux'
 
 import { actions, selectors } from 'data'
-import FirstStep from './FirstStep'
 import modalEnhancer from 'providers/ModalEnhancer'
+
+import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 import SignMessage from './template'
 
 class SignMessageContainer extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     this.props.signMessageActions.signMessageInitialized()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.formActions.destroy('signMessage')
   }
 
-  render () {
-    const { step, position, total, closeAll, ...rest } = this.props
+  render() {
+    const { closeAll, position, step, total, ...rest } = this.props
 
     return (
       <SignMessage position={position} total={total} closeAll={closeAll}>
@@ -50,7 +51,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('SignMessage'),
+  modalEnhancer('SIGN_MESSAGE_MODAL'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

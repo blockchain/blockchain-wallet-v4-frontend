@@ -1,14 +1,15 @@
-import * as A from './actions'
-import { call, put, select } from 'redux-saga/effects'
+import BIP39 from 'bip39'
 import { compose, isNil, prop } from 'ramda'
+import { call, put, select } from 'redux-saga/effects'
+
+import { KVStoreEntry } from '../../../types'
 import {
   getGuid,
   getMainPassword,
   getMnemonic,
   getSharedKey
 } from '../../wallet/selectors'
-import { KVStoreEntry } from '../../../types'
-import BIP39 from 'bip39'
+import * as A from './actions'
 const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
 

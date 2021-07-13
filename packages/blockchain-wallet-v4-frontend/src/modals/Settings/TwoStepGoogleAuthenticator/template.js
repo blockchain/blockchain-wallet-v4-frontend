@@ -1,7 +1,6 @@
-import { Field, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
-import QRCodeWrapper from 'components/QRCodeWrapper'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import {
@@ -14,7 +13,8 @@ import {
   Text
 } from 'blockchain-info-components'
 import { Form, TextBox } from 'components/Form'
-import { required } from 'services/FormHelper'
+import QRCodeWrapper from 'components/QRCode/Wrapper'
+import { required } from 'services/forms'
 
 const QRCode = styled.div`
   display: flex;
@@ -37,15 +37,15 @@ const Code = styled.div`
 
 const TwoStepGoogleAuthenticator = props => {
   const {
-    position,
-    total,
-    closeAll,
     close,
-    submitting,
+    closeAll,
     invalid,
+    position,
+    submitting,
+    total,
     ...rest
   } = props
-  const { handleSubmit, googleAuthenticatorSecretUrl } = rest
+  const { googleAuthenticatorSecretUrl, handleSubmit } = rest
 
   return (
     <Modal size='large' position={position} total={total}>

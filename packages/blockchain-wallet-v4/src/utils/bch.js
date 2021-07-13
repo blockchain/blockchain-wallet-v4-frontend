@@ -1,4 +1,4 @@
-import Bitcoin from 'bitcoinjs-lib'
+import * as Bitcoin from 'bitcoinjs-lib'
 import cashaddress from 'cashaddress'
 
 export const TX_PER_PAGE = 10
@@ -8,7 +8,7 @@ const formatAddr = (address, displayOnly) => {
   return displayOnly ? address.split('bitcoincash:')[1] : address
 }
 
-const hasPrefix = address => address.substring(0, 12) === 'bitcoincash:'
+const hasPrefix = (address) => address.substring(0, 12) === 'bitcoincash:'
 
 export const toCashAddr = (address, displayOnly) => {
   const pubKeyHash = 0
@@ -16,19 +16,13 @@ export const toCashAddr = (address, displayOnly) => {
   const cashAddrPrefix = 'bitcoincash'
 
   try {
-    const { version, hash } = Bitcoin.address.fromBase58Check(address)
+    const { hash, version } = Bitcoin.address.fromBase58Check(address)
 
     switch (version) {
       case pubKeyHash:
-        return formatAddr(
-          cashaddress.encode(cashAddrPrefix, 'pubkeyhash', hash),
-          displayOnly
-        )
+        return formatAddr(cashaddress.encode(cashAddrPrefix, 'pubkeyhash', hash), displayOnly)
       case scriptHash:
-        return formatAddr(
-          cashaddress.encode(cashAddrPrefix, 'scripthash', hash),
-          displayOnly
-        )
+        return formatAddr(cashaddress.encode(cashAddrPrefix, 'scripthash', hash), displayOnly)
       default:
         throw new Error('toBitcoinCash: Address type not supported')
     }
@@ -37,27 +31,21 @@ export const toCashAddr = (address, displayOnly) => {
   }
 }
 
-export const fromCashAddr = address => {
+export const fromCashAddr = (address) => {
   const { hash, version } = hasPrefix(address)
     ? cashaddress.decode(address)
     : cashaddress.decode(`bitcoincash:${address}`)
   switch (version) {
     case 'pubkeyhash':
-      return Bitcoin.address.toBase58Check(
-        hash,
-        Bitcoin.networks.bitcoin.pubKeyHash
-      )
+      return Bitcoin.address.toBase58Check(hash, Bitcoin.networks.bitcoin.pubKeyHash)
     case 'scripthash':
-      return Bitcoin.address.toBase58Check(
-        hash,
-        Bitcoin.networks.bitcoin.scriptHash
-      )
+      return Bitcoin.address.toBase58Check(hash, Bitcoin.networks.bitcoin.scriptHash)
     default:
       throw new Error('fromBitcoinCash: Address type not supported')
   }
 }
 
-export const isCashAddr = address => {
+export const isCashAddr = (address) => {
   try {
     return fromCashAddr(address)
   } catch (e) {
@@ -65,5 +53,5 @@ export const isCashAddr = address => {
   }
 }
 
-export const convertFromCashAddrIfCashAddr = addr =>
+export const convertFromCashAddrIfCashAddr = (addr) =>
   isCashAddr(addr) ? fromCashAddr(addr) : addr

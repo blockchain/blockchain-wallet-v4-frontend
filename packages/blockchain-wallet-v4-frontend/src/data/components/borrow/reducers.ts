@@ -1,6 +1,7 @@
+import Remote from 'blockchain-wallet-v4/src/remote/remote'
+
 import * as AT from './actionTypes'
 import { BorrowActionTypes, BorrowState } from './types'
-import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
 const INITIAL_STATE: BorrowState = {
   borrowHistory: Remote.NotAsked,
@@ -17,7 +18,7 @@ const INITIAL_STATE: BorrowState = {
   step: 'CHECKOUT'
 }
 
-export function borrowReducer (
+export function borrowReducer(
   state = INITIAL_STATE,
   action: BorrowActionTypes
 ): BorrowState {

@@ -1,6 +1,7 @@
+import * as Bitcoin from 'bitcoinjs-lib'
 import { formValueSelector } from 'redux-form'
+
 import { selectors } from 'data'
-import Bitcoin from 'bitcoinjs-lib'
 
 export const getData = state => {
   const priv = formValueSelector('importBtcAddress')(state, 'addrOrPriv')

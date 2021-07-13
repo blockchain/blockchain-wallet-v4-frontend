@@ -11,8 +11,9 @@ import {
   toLower,
   values
 } from 'ramda'
-import { ETH } from '../config'
+
 import { kvStorePath } from '../../paths'
+import { ETH } from '../config'
 
 export const getMetadata = path([kvStorePath, ETH])
 

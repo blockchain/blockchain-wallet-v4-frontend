@@ -1,5 +1,5 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import {
@@ -9,7 +9,8 @@ import {
   Link,
   Text
 } from 'blockchain-info-components'
-import { CountdownTimer } from 'components/Form'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
 import {
   ExchangeAmount,
   ExchangeAmounts,
@@ -17,8 +18,7 @@ import {
   SubExchangeAmount,
   Wrapper
 } from 'components/Exchange'
-import CoinDisplay from 'components/Display/CoinDisplay'
-import FiatDisplay from 'components/Display/FiatDisplay'
+import { CountdownTimer } from 'components/Form'
 
 const ConfirmWrapper = styled(Wrapper)`
   padding: 0px;
@@ -57,9 +57,9 @@ const Success = props => {
     description,
     fee,
     fromAddress,
+    handleBack,
     handleBitPayInvoiceExpiration,
     handleSubmit,
-    handleBack,
     isLegacy,
     payPro,
     submitting,
@@ -80,7 +80,7 @@ const Success = props => {
       <ConfirmWrapper>
         <LargeTableRow>
           <Text size='16px' weight={500}>
-            <FormattedMessage id='copy.from:' defaultMessage='From:' />
+            <FormattedMessage id='copy.from:' defaultMessage='From' />:
           </Text>
           <Text size='16px' weight={400} data-e2e='bchFromWallet'>
             {fromAddress}
@@ -112,7 +112,7 @@ const Success = props => {
         )}
         <LargeTableRow>
           <Text size='16px' weight={500}>
-            <FormattedMessage id='copy.amount' defaultMessage='Amount:' />
+            <FormattedMessage id='copy.amount' defaultMessage='Amount' />:
           </Text>
           <ExchangeAmounts>
             <SummaryExchangeAmount>
@@ -155,12 +155,12 @@ const Success = props => {
             />
           </Text>
           <ExchangeAmounts>
-            <SummaryExchangeAmount>
+            <SummaryExchangeAmount data-e2e={`${coin}SendTotal`}>
               <FiatDisplay coin={coin} size='16px' weight={500}>
                 {total}
               </FiatDisplay>
             </SummaryExchangeAmount>
-            <SummarySubExchangeAmount>
+            <SummarySubExchangeAmount data-e2e={`${coin}SendSubTotal`}>
               <CoinDisplay coin={coin} size='14px' weight={300}>
                 {total}
               </CoinDisplay>

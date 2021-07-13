@@ -26,6 +26,8 @@ const selectColor = (nature, disabled) => {
     case 'logout':
     case 'dark':
       return 'white'
+    case 'success':
+      return 'success'
     case 'light':
     case 'white-transparent':
     case 'white-blue':
@@ -36,7 +38,7 @@ const selectColor = (nature, disabled) => {
 }
 
 const IconButton = props => {
-  const { name, children, nature, ...rest } = props
+  const { children, name, nature, ...rest } = props
   const color = selectColor(nature)
 
   return (

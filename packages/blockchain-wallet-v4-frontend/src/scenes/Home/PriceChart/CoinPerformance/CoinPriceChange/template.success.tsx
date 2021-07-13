@@ -1,26 +1,31 @@
 import React from 'react'
-
-import { getPriceChartTime } from './services'
-import { Props as OwnProps, SuccessStateType } from '.'
 import { PriceChange } from 'blockchain-wallet-v4-frontend/src/scenes/Transactions/model'
 import styled from 'styled-components'
 
+import { PriceChangeType } from 'blockchain-wallet-v4/src/redux/data/misc/types'
+import { media } from 'services/styles'
+
+import { Props as OwnProps, SuccessStateType } from '.'
+
 const Wrapper = styled.div`
-  z-index: 1;
   margin-top: 8px;
+  margin-left: 0;
+
+  ${media.atLeastTabletL`
+    margin-left: 24px;
+  `}
 `
 
-const Success: React.FC<Props> = props => {
+const Success = ({ currency, priceChange }: Props) => {
   return (
     <Wrapper>
-      <PriceChange {...props}>
+      <PriceChange currency={currency} priceChange={priceChange}>
         {' '}
-        {getPriceChartTime(props.priceChart.time)}
       </PriceChange>
     </Wrapper>
   )
 }
 
-type Props = OwnProps & SuccessStateType
+type Props = OwnProps & SuccessStateType & { priceChange: PriceChangeType }
 
 export default Success

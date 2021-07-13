@@ -1,5 +1,10 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import { compose } from 'redux'
 import { BaseFieldProps, Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { BorrowFormValuesType } from 'data/components/borrow/types'
+import styled from 'styled-components'
+
 import {
   Button,
   HeartbeatLoader,
@@ -7,22 +12,19 @@ import {
   Text,
   TooltipHost
 } from 'blockchain-info-components'
+import { FlyoutWrapper } from 'components/Flyout'
 import {
   CoinBalanceDropdown,
   Form,
   FormLabel,
   NumberBox
 } from 'components/Form'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import { FlyoutWrapper } from 'components/Flyout'
-import { FormattedMessage } from 'react-intl'
-import { LinkDispatchPropsType, OwnProps, State, SuccessStateType } from '.'
-import { maximumAmount, minimumAmount } from '../BorrowForm/validation'
+import QRCodeWrapper from 'components/QRCode/Wrapper'
 import { model, selectors } from 'data'
-import QRCodeWrapper from 'components/QRCodeWrapper'
-import React from 'react'
-import styled from 'styled-components'
+import { BorrowFormValuesType } from 'data/components/borrow/types'
+
+import { maximumAmount, minimumAmount } from '../BorrowForm/validation'
+import { LinkDispatchPropsType, OwnProps, State, SuccessStateType } from '.'
 
 const { getCollateralAmtRequired } = model.components.borrow
 
@@ -171,7 +173,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             />
           </Text>
         </CustomFormLabel>
-        <CoinBalanceDropdown {...props} name='collateral' />
+        <CoinBalanceDropdown
+          {...props}
+          includeCustodial={false}
+          name='collateral'
+        />
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage

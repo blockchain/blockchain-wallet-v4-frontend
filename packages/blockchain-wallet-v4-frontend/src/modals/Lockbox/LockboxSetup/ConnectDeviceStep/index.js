@@ -1,16 +1,17 @@
-import { bindActionCreators } from 'redux'
+import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import React from 'react'
+import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
+
 import { SETUP_TIMEOUT } from './../model'
 import Template from './template'
 
 class ConnectDeviceStepContainer extends React.PureComponent {
   state = { connectTimeout: false }
 
-  componentDidMount () {
+  componentDidMount() {
     if (this.props.setupType === 'existing') {
       this.props.lockboxActions.initializeNewDeviceSetup()
       this.startConnectionTimeout()
@@ -39,8 +40,8 @@ class ConnectDeviceStepContainer extends React.PureComponent {
     }, SETUP_TIMEOUT)
   }
 
-  render () {
-    const { deviceType, connection, setupType, supportLink } = this.props
+  render() {
+    const { connection, deviceType, setupType, supportLink } = this.props
 
     return (
       <Template

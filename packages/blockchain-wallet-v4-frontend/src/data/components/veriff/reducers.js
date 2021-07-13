@@ -1,6 +1,8 @@
-import * as AT from './actionTypes'
 import { assoc } from 'ramda'
+
 import { Remote } from 'blockchain-wallet-v4/src'
+
+import * as AT from './actionTypes'
 
 export const INITIAL_STATE = {
   veriffUrl: Remote.NotAsked,
@@ -9,7 +11,7 @@ export const INITIAL_STATE = {
 }
 
 export default (state = INITIAL_STATE, action) => {
-  const { type, payload } = action
+  const { payload, type } = action
 
   switch (type) {
     case AT.FETCH_VERIFF_URL_ERROR: {

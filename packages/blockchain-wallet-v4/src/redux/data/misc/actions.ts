@@ -1,46 +1,26 @@
-import * as AT from './actionTypes'
-import {
-  CoinType,
-  FiatType,
-  MiscActionTypes,
-  PriceChangeTimeRangeType,
-  PriceMovementDirType
-} from 'core/types'
+import { CoinType, FiatType, MiscActionTypes, PriceMovementDirType, TimeRange } from 'core/types'
 
-// FETCH_CAPTCHA
-export const fetchCaptcha = () => ({ type: AT.FETCH_CAPTCHA })
-export const fetchCaptchaLoading = () => ({ type: AT.FETCH_CAPTCHA_LOADING })
-export const fetchCaptchaSuccess = data => ({
-  type: AT.FETCH_CAPTCHA_SUCCESS,
-  payload: data
-})
-export const fetchCaptchaFailure = error => ({
-  type: AT.FETCH_CAPTCHA_FAILURE,
-  payload: error
-})
+import * as AT from './actionTypes'
 
 // FETCH_PRICE_CHANGE
 export const fetchPriceChange = (
   base: CoinType,
   quote: FiatType,
-  range: PriceChangeTimeRangeType,
+  range: TimeRange,
   positionAmt?: string
 ) => ({
-  type: AT.FETCH_PRICE_CHANGE,
-  payload: { base, quote, range, positionAmt }
+  payload: { base, positionAmt, quote, range },
+  type: AT.FETCH_PRICE_CHANGE
 })
-export const fetchPriceChangeLoading = (
-  base: CoinType,
-  range: PriceChangeTimeRangeType
-): MiscActionTypes => ({
-  type: AT.FETCH_PRICE_CHANGE_LOADING,
-  payload: { base, range }
+export const fetchPriceChangeLoading = (base: CoinType, range: TimeRange): MiscActionTypes => ({
+  payload: { base, range },
+  type: AT.FETCH_PRICE_CHANGE_LOADING
 })
 export const fetchPriceChangeSuccess = (
   base: CoinType,
   previousPrice: number,
   currentPrice: number,
-  range: PriceChangeTimeRangeType,
+  range: TimeRange,
   overallChange: {
     diff: string
     movement: PriceMovementDirType
@@ -52,7 +32,6 @@ export const fetchPriceChangeSuccess = (
     percentChange: string
   }
 ): MiscActionTypes => ({
-  type: AT.FETCH_PRICE_CHANGE_SUCCESS,
   payload: {
     base,
     currentPrice,
@@ -60,36 +39,33 @@ export const fetchPriceChangeSuccess = (
     positionChange,
     previousPrice,
     range
-  }
+  },
+  type: AT.FETCH_PRICE_CHANGE_SUCCESS
 })
-export const fetchPriceChangeFailure = (
-  base,
-  error,
-  range: PriceChangeTimeRangeType
-): MiscActionTypes => ({
-  type: AT.FETCH_PRICE_CHANGE_FAILURE,
+export const fetchPriceChangeFailure = (base, error, range: TimeRange): MiscActionTypes => ({
   payload: {
     base,
     error,
     range
-  }
+  },
+  type: AT.FETCH_PRICE_CHANGE_FAILURE
 })
 
 // FETCH_PRICE_INDEX_SERIES
 export const fetchPriceIndexSeries = (coin, currency, start, scale) => ({
-  type: AT.FETCH_PRICE_INDEX_SERIES,
-  payload: { coin, currency, start, scale }
+  payload: { coin, currency, scale, start },
+  type: AT.FETCH_PRICE_INDEX_SERIES
 })
 export const fetchPriceIndexSeriesLoading = () => ({
   type: AT.FETCH_PRICE_INDEX_SERIES_LOADING
 })
-export const fetchPriceIndexSeriesSuccess = data => ({
-  type: AT.FETCH_PRICE_INDEX_SERIES_SUCCESS,
-  payload: data
+export const fetchPriceIndexSeriesSuccess = (data) => ({
+  payload: data,
+  type: AT.FETCH_PRICE_INDEX_SERIES_SUCCESS
 })
-export const fetchPriceIndexSeriesFailure = error => ({
-  type: AT.FETCH_PRICE_INDEX_SERIES_FAILURE,
-  payload: error
+export const fetchPriceIndexSeriesFailure = (error) => ({
+  payload: error,
+  type: AT.FETCH_PRICE_INDEX_SERIES_FAILURE
 })
 
 // ENCODE_PAIRING_CODE
@@ -97,62 +73,67 @@ export const encodePairingCode = () => ({ type: AT.ENCODE_PAIRING_CODE })
 export const encodePairingCodeLoading = () => ({
   type: AT.ENCODE_PAIRING_CODE_LOADING
 })
-export const encodePairingCodeSuccess = data => ({
-  type: AT.ENCODE_PAIRING_CODE_SUCCESS,
-  payload: data
+export const encodePairingCodeSuccess = (data) => ({
+  payload: data,
+  type: AT.ENCODE_PAIRING_CODE_SUCCESS
 })
-export const encodePairingCodeFailure = error => ({
-  type: AT.ENCODE_PAIRING_CODE_FAILURE,
-  payload: error
+export const encodePairingCodeFailure = (error) => ({
+  payload: error,
+  type: AT.ENCODE_PAIRING_CODE_FAILURE
 })
 
 // AUTHORIZE_LOGIN
 export const authorizeLogin = (token, confirm?: any) => ({
-  type: AT.AUTHORIZE_LOGIN,
-  payload: { token, confirm }
+  payload: { confirm, token },
+  type: AT.AUTHORIZE_LOGIN
 })
 export const authorizeLoginLoading = () => ({
   type: AT.AUTHORIZE_LOGIN_LOADING
 })
-export const authorizeLoginSuccess = data => ({
-  type: AT.AUTHORIZE_LOGIN_SUCCESS,
-  payload: data
+export const authorizeLoginSuccess = (data) => ({
+  payload: data,
+  type: AT.AUTHORIZE_LOGIN_SUCCESS
 })
-export const authorizeLoginFailure = data => ({
-  type: AT.AUTHORIZE_LOGIN_FAILURE,
-  payload: data
+export const authorizeLoginFailure = (data) => ({
+  payload: data,
+  type: AT.AUTHORIZE_LOGIN_FAILURE
 })
 
 // HANDLE_2FA_RESET
-export const handle2FAReset = token => ({
-  type: AT.HANDLE_2FA_RESET,
-  payload: { token }
+export const handle2FAReset = (token) => ({
+  payload: { token },
+  type: AT.HANDLE_2FA_RESET
 })
 export const handle2FAResetLoading = () => ({
   type: AT.HANDLE_2FA_RESET_LOADING
 })
-export const handle2FAResetSuccess = data => ({
-  type: AT.HANDLE_2FA_RESET_SUCCESS,
-  payload: data
+export const handle2FAResetSuccess = (data) => ({
+  payload: data,
+  type: AT.HANDLE_2FA_RESET_SUCCESS
 })
-export const handle2FAResetFailure = data => ({
-  type: AT.HANDLE_2FA_RESET_FAILURE,
-  payload: data
+export const handle2FAResetFailure = (data) => ({
+  payload: data,
+  type: AT.HANDLE_2FA_RESET_FAILURE
 })
 
 // VERIFY_EMAIL_TOKEN
-export const verifyEmailToken = token => ({
-  type: AT.VERIFY_EMAIL_TOKEN,
-  payload: { token }
+export const verifyEmailToken = (token) => ({
+  payload: { token },
+  type: AT.VERIFY_EMAIL_TOKEN
 })
 export const verifyEmailTokenLoading = () => ({
   type: AT.VERIFY_EMAIL_TOKEN_LOADING
 })
-export const verifyEmailTokenSuccess = data => ({
-  type: AT.VERIFY_EMAIL_TOKEN_SUCCESS,
-  payload: data
+export const verifyEmailTokenSuccess = (data) => ({
+  payload: data,
+  type: AT.VERIFY_EMAIL_TOKEN_SUCCESS
 })
-export const verifyEmailTokenFailure = data => ({
-  type: AT.VERIFY_EMAIL_TOKEN_FAILURE,
-  payload: data
+export const verifyEmailTokenFailure = (data) => ({
+  payload: data,
+  type: AT.VERIFY_EMAIL_TOKEN_FAILURE
+})
+
+export const sendSecureChannelMessage = (data) => ({
+  payload: data,
+  type: AT.SECURE_CHANNEL_SEND
 })

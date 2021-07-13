@@ -1,9 +1,9 @@
-import PropTypes from 'prop-types'
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled, { ThemeProvider } from 'styled-components'
 
-import { Color, Palette } from '../../src/Colors/index.ts'
 import { FontGlobalStyles, IconGlobalStyles } from '../../src'
+import { Color, Palette } from '../../src/Colors/index.ts'
 import { SimpleDropdown } from '../../src/Dropdowns'
 
 const BasePage = styled.div`
@@ -43,7 +43,7 @@ const Content = styled.div`
 `
 
 class Layout extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = { theme: 'defaut' }
     this.themes = [
@@ -55,11 +55,11 @@ class Layout extends React.PureComponent {
     this.selectTheme = this.selectTheme.bind(this)
   }
 
-  selectTheme (item) {
+  selectTheme(item) {
     this.setState({ theme: item.value })
   }
 
-  render () {
+  render() {
     const theme = Palette(this.state.theme)
 
     return (

@@ -1,9 +1,10 @@
-import { createDeepEqualSelector } from 'services/ReselectHelper'
 import { lift, prop, propOr } from 'ramda'
-import { model, selectors } from 'data'
-import { Remote } from 'blockchain-wallet-v4/src'
 
-export const getData = createDeepEqualSelector(
+import { Remote } from 'blockchain-wallet-v4/src'
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
+import { model, selectors } from 'data'
+
+const getData = createDeepEqualSelector(
   [
     selectors.components.sendXlm.getPayment,
     selectors.components.sendXlm.getCheckDestination,
@@ -34,21 +35,14 @@ export const getData = createDeepEqualSelector(
   ) => {
     const amount = prop('amount', formValues)
     const destination = prop('to', formValues)
-    const excludeLockbox = !prop(
-      'lockbox',
-      coinAvailabilityR('XLM').getOrElse({})
-    )
+    const excludeLockbox = !prop('lockbox', coinAvailabilityR('XLM').getOrElse({}))
     const from = prop('from', formValues)
     const isDestinationExchange = isDestinationExchangeR.getOrElse(false)
 
     const transform = (payment, currency, rates) => {
       const effectiveBalance = propOr('0', 'effectiveBalance', payment)
       const reserve = propOr('0', 'reserve', payment)
-      const destinationAccountExists = propOr(
-        false,
-        'destinationAccountExists',
-        payment
-      )
+      const destinationAccountExists = propOr(false, 'destinationAccountExists', payment)
       const fee = propOr('0', 'fee', payment)
       const isDestinationChecked = Remote.Success.is(checkDestinationR)
 
@@ -74,3 +68,5 @@ export const getData = createDeepEqualSelector(
     return lift(transform)(paymentR, currencyR, ratesR)
   }
 )
+
+export default getData

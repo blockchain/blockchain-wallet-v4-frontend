@@ -1,19 +1,26 @@
-import { actions } from 'data'
-import { bindActionCreators, Dispatch } from 'redux'
-import { CoinType, FiatType, PriceMovementDirType } from 'core/types'
-import { connect, ConnectedProps } from 'react-redux'
-import { getData } from './selectors'
-import { Remote } from 'blockchain-wallet-v4/src'
-import { RootState } from 'data/rootReducer'
-import { SkeletonRectangle } from 'blockchain-info-components'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
 import styled, { DefaultTheme } from 'styled-components'
+
+import { SkeletonRectangle } from 'blockchain-info-components'
+import { Remote } from 'blockchain-wallet-v4/src'
+import {
+  CoinType,
+  FiatType,
+  PriceMovementDirType,
+  TimeRange
+} from 'blockchain-wallet-v4/src/types'
+import { actions } from 'data'
+import { RootState } from 'data/rootReducer'
+
+import { getData } from './selectors'
 
 const Container = styled.span`
   margin-left: 4px;
 `
 const Change = styled.span<{ color: keyof DefaultTheme }>`
-  font-weight: 500;
+  font-weight: 600;
   color: ${props => props.theme[props.color]};
 `
 
@@ -40,18 +47,18 @@ const getColorFromMovement = (movement: PriceMovementDirType) => {
 }
 
 class PriceMovement extends PureComponent<Props, State> {
-  componentDidMount () {
+  componentDidMount() {
     if (!Remote.Success.is(this.props.data)) {
       const coin = this.props.coin
       this.props.miscActions.fetchPriceChange(
         coin,
         this.props.fiat || 'EUR',
-        'day'
+        TimeRange.DAY
       )
     }
   }
 
-  render () {
+  render() {
     return (
       <Container>
         {this.props.data.cata({

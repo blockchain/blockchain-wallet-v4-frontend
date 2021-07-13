@@ -1,12 +1,12 @@
+import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import React from 'react'
 
 import { getData } from './selectors'
 import SelectBoxXlm from './template'
 
 class SelectBoxXlmAddresses extends React.PureComponent {
-  render () {
+  render() {
     const { data, includeAll, ...rest } = this.props
 
     return data.cata({

@@ -1,16 +1,17 @@
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
+import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import { actions } from 'data'
-import { ExtractSuccess } from 'core/types'
+
 import { getData } from './selectors'
 import Failure from './template.failure'
 import Loading from './template.loading'
 import MenuLeft from './template.success'
 
 class MenuLeftContainer extends React.PureComponent<Props> {
-  render () {
+  render() {
     const { data } = this.props
 
     return data.cata({
@@ -33,8 +34,13 @@ const mapDispatchToProps = dispatch => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
+export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>> & {
+  lockboxDevices: Array<any>
+}
 
-export type Props = ConnectedProps<typeof connector>
+export type Props = ConnectedProps<typeof connector> & {
+  domains?: any
+  menuOpened?: boolean
+}
 
 export default connector(MenuLeftContainer)

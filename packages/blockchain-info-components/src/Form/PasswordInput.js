@@ -3,12 +3,12 @@ import styled from 'styled-components'
 
 import { selectBorderColor, selectFocusBorderColor } from './helper'
 
-const BasePasswordInput = styled.input.attrs({
+const BasePasswordInput = styled.input.attrs(props => ({
   type: 'password',
   spellCheck: 'false',
-  disabled: props => props.disabled,
-  'data-lpignore': props => props.noLastPass
-})`
+  disabled: props.disabled,
+  'data-lpignore': props.noLastPass
+}))`
   position: relative;
   display: block;
   width: 100%;
@@ -55,7 +55,7 @@ const BasePasswordInput = styled.input.attrs({
 `
 
 class PasswordInput extends React.Component {
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (this.props.active && !prevProps.active && this.input) {
       this.input.focus()
     }
@@ -65,8 +65,8 @@ class PasswordInput extends React.Component {
     this.input = input
   }
 
-  render () {
-    const { active, errorState, value, ...rest } = this.props
+  render() {
+    const { active, errorState, noLastPass, value, ...rest } = this.props
 
     return (
       <BasePasswordInput

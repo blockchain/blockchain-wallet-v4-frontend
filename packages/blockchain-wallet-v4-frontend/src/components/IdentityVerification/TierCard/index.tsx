@@ -1,25 +1,26 @@
-import { actions, model } from 'data'
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
 import { all, path, propEq } from 'ramda'
 import { bindActionCreators } from 'redux'
-import { Button, Icon, Text, TextGroup } from 'blockchain-info-components'
-import { connect, ConnectedProps } from 'react-redux'
-import { ctas, headers, limits, messages, status } from './services'
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { formatFiat } from 'core/exchange/currency'
-import { FormattedMessage } from 'react-intl'
-import { getData } from './selectors'
-import { TIERS } from './model'
-import { UserDataType, UserTiersType } from 'data/types'
-import media from 'services/ResponsiveService'
-import React from 'react'
 import styled from 'styled-components'
+
+import { Button, Icon, Text, TextGroup } from 'blockchain-info-components'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { formatFiat } from 'blockchain-wallet-v4/src/exchange/currency'
+import { actions, model } from 'data'
+import { media } from 'services/styles'
+
+import { TIERS } from './model'
+import { getData } from './selectors'
+import { ctas, headers, limits, messages, status } from './services'
 
 const Wrapper = styled.div`
   display: flex;
   border-radius: 8px;
   position: relative;
   flex-direction: column;
-  border: 1px solid ${props => props.theme.grey000};
+  border: 1px solid ${(props) => props.theme.grey000};
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.21);
   width: 375px;
   &.column {
@@ -74,27 +75,18 @@ const Column = styled.div`
   width: ${(props: { width?: string }) => props.width || '100%'};
   &:first-child {
     margin-right: 20px;
-    border-right: 1px solid ${props => props.theme.grey000};
+    border-right: 1px solid ${(props) => props.theme.grey000};
   }
   ${Wrapper}.column & {
     text-align: center;
     &:first-child {
       margin-right: 0px;
       border-right: 0px;
-      border-bottom: 1px solid ${props => props.theme.grey000};
+      border-bottom: 1px solid ${(props) => props.theme.grey000};
       padding-bottom: 15px;
       margin-bottom: 15px;
     }
   }
-`
-const Announcement = styled(Text)`
-  display: flex;
-  background: linear-gradient(180deg, #162241 0%, #324069 100%);
-  border-radius: 8px 8px 0 0;
-  justify-content: center;
-  align-items: center;
-  letter-spacing: 2px;
-  height: 50px;
 `
 const Content = styled.div`
   margin-top: 10px;
@@ -108,20 +100,19 @@ const { TIERS_STATES } = model.profile
 export const TierCard = ({
   column,
   emailVerified,
-  goToSwap,
+  identityVerificationActions,
   mobileVerified,
+  simpleBuyActions,
+  swapActions,
   tier,
   userData,
-  userTiers,
-  identityVerificationActions,
-  simpleBuyActions
+  userTiers
 }: Props) => {
-  const tierData = userTiers.find(userTier => userTier.index === tier)
+  const tierData = userTiers.find((userTier) => userTier.index === tier)
   if (!tierData) return null
   const limitType: 'daily' | 'annual' = TIERS[tier].limit.toLowerCase()
   const tierFiatLimit =
-    Exchange.getSymbol(tierData.limits.currency) +
-    formatFiat(tierData.limits[limitType], 0)
+    Exchange.getSymbol(tierData.limits.currency) + formatFiat(tierData.limits[limitType], 0)
   const tierLimit = limits[path([tier, 'limit'], TIERS)]
   const tierStatus = status(tier, userTiers, path([tier, 'time'], TIERS))
   const isRejected = all(propEq('state', TIERS_STATES.REJECTED), userTiers)
@@ -135,14 +126,6 @@ export const TierCard = ({
 
   return (
     <Wrapper className={className}>
-      {tier === 2 && (
-        <Announcement uppercase weight={500} size='18px' color='white'>
-          <FormattedMessage
-            id='components.identityverification.tiercard.getfreecrypto'
-            defaultMessage='Get Free Crypto'
-          />
-        </Announcement>
-      )}
       <Container>
         <Header color='marketing-primary' uppercase>
           {headers[path([tier, 'level'], TIERS)]}
@@ -153,20 +136,10 @@ export const TierCard = ({
               <Text size='32px' weight={600} color='marketing-secondary'>
                 {tierFiatLimit}
               </Text>
-              <Text
-                size='14px'
-                weight={500}
-                color='textBlack'
-                style={{ marginTop: '8px' }}
-              >
+              <Text size='14px' weight={500} color='textBlack' style={{ marginTop: '8px' }}>
                 {tierLimit}
               </Text>
-              <Text
-                size='14px'
-                weight={500}
-                color='grey400'
-                style={{ marginTop: '7px' }}
-              >
+              <Text size='14px' weight={500} color='grey400' style={{ marginTop: '7px' }}>
                 {tierStatus}
               </Text>
             </Column>
@@ -175,17 +148,12 @@ export const TierCard = ({
                 <TextGroup inline key={i} style={{ marginBottom: '8px' }}>
                   {messages[requirement.name]}
                   {requirement.complete({
-                    userData,
-                    userTiers,
+                    emailVerified,
                     mobileVerified,
-                    emailVerified
+                    userData,
+                    userTiers
                   }) && (
-                    <Icon
-                      style={{ marginLeft: '5px' }}
-                      color='success'
-                      size='12px'
-                      name='check'
-                    />
+                    <Icon style={{ marginLeft: '5px' }} color='success' size='12px' name='check' />
                   )}
                 </TextGroup>
               ))}
@@ -199,19 +167,16 @@ export const TierCard = ({
             fullwidth
             nature='primary'
             onClick={() =>
-              identityVerificationActions.verifyIdentity(
-                tier,
-                false,
-                'SettingsProfile'
-              )
+              identityVerificationActions.verifyIdentity({
+                needMoreInfo: false,
+                origin: 'Unknown',
+                tier
+              })
             }
             data-e2e={`continueKycTier${tier}Btn`}
           >
             {tierStarted ? (
-              <FormattedMessage
-                id='buttons.continue'
-                defaultMessage='Continue'
-              />
+              <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
             ) : (
               ctas[path([tier, 'level'], TIERS)]
             )}
@@ -224,7 +189,7 @@ export const TierCard = ({
               jumbo
               fullwidth
               nature='primary'
-              onClick={goToSwap}
+              onClick={() => swapActions.showModal('SettingsProfile')}
               data-e2e='swapNowBtn'
             >
               <FormattedMessage
@@ -252,24 +217,22 @@ export const TierCard = ({
   )
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
   ),
-  goToSwap: () => dispatch(actions.router.push('/swap')),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
+  swapActions: bindActionCreators(actions.components.swap, dispatch)
 })
 
 const connector = connect(getData, mapDispatchToProps)
 
 type OwnProps = {
   column: boolean
-  emailVerified: boolean
-  mobileVerified: boolean
+  emailVerified?: boolean
+  mobileVerified?: boolean
   tier: 1 | 2
-  userData: UserDataType
-  userTiers: UserTiersType
 }
 type Props = OwnProps & ConnectedProps<typeof connector>
 

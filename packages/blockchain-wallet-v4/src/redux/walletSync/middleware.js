@@ -1,6 +1,6 @@
-import * as A from '../actions'
-import * as selectors from '../selectors'
-import * as T from '../actionTypes'
+import { networks } from 'bitcoinjs-lib'
+import Task from 'data.task'
+import { futurizeP } from 'futurize'
 import {
   assoc,
   compose,
@@ -14,10 +14,11 @@ import {
   range,
   uniq
 } from 'ramda'
-import { futurizeP } from 'futurize'
+
 import { HDAccount, Wallet, Wrapper } from '../../types'
-import { networks } from 'bitcoinjs-lib'
-import Task from 'data.task'
+import * as A from '../actions'
+import * as T from '../actionTypes'
+import * as selectors from '../selectors'
 
 /**
  * Number of addresses for each HD Account to sync with platform
@@ -64,9 +65,9 @@ export const getHDAccountAddressPromises = curry((state, account) => {
  * getWalletAddresses :: (state, api) -> Promise<String[]>
  */
 export const getUnusedLabeledAddresses = async (state, api) => {
-  const labeledAddresses = await api.fetchBlockchainData(
-    selectors.kvStore.btc.getAddressLabelKeys(state)
-  )
+  const labeledAddresses = await api.fetchBlockchainData({
+    addresses: selectors.kvStore.btc.getAddressLabelKeys(state)
+  })
   return compose(
     pluck('address'),
     filter(propEq('n_tx', 0))
@@ -99,8 +100,8 @@ export const getWalletAddresses = async (state, api) => {
  * TODO: refactor to sagas, VERY painful to test/write mocks
  */
 const walletSync = ({
-  isAuthenticated,
-  api
+  api,
+  isAuthenticated
 } = {}) => store => next => action => {
   const prevState = store.getState()
   const prevWallet = selectors.wallet.getWrapper(prevState)

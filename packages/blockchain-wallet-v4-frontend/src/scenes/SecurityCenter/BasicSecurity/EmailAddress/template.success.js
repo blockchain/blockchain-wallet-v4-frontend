@@ -1,6 +1,12 @@
 /* stylelint-disable */
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { reduxForm } from 'redux-form'
+import styled from 'styled-components'
+
 import { Button, Text } from 'blockchain-info-components'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
+import { media } from 'services/styles'
+
 import {
   IconContainer,
   SecurityComponent,
@@ -9,12 +15,8 @@ import {
   SecurityHeader,
   SecurityIcon,
   SecuritySummary
-} from 'components/Security'
-import { reduxForm } from 'redux-form'
+} from '../../components'
 import ChangeEmailSteps from './ChangeEmailSteps'
-import media from 'services/ResponsiveService'
-import React from 'react'
-import styled from 'styled-components'
 
 const EmailExplanation = styled.div``
 const ChangeEmailText = styled(Text)`
@@ -53,7 +55,7 @@ const EmailButton = styled(Button)`
   }
 `
 const IconAndHeaderContainer = styled.div`
-  opacity: ${props => (props.success ? 0.3 : 1)};
+  opacity: ${(props) => (props.success ? 0.3 : 1)};
   display: grid;
   grid-template-columns: 15% 85%;
   ${media.mobile`
@@ -78,8 +80,8 @@ const EmailSecuritySummary = styled(SecuritySummary)`
     display: inline;
   `};
 `
-const EmailAddress = props => {
-  const { data, uiState, invalid } = props
+const EmailAddress = (props) => {
+  const { data, invalid, uiState } = props
   const { email, verified } = data
   const isVerified = verified === 1
 
@@ -122,20 +124,20 @@ const EmailAddress = props => {
     if (!uiState.verifyToggled && !uiState.isEditing) {
       if (isVerified) {
         return (
-          <React.Fragment>
+          <>
             <EmailExplanation>
-              <FormattedHTMLMessage
+              <FormattedMessage
                 id='scenes.security.email.verifieddescription.success'
                 defaultMessage='You’ve verified <b>{email}</b>. Select "Change Email" to modify this existing address. We will use this email to authorize logins, send payment notifications, and notify you of wallet updates.'
                 values={{ email }}
               />
             </EmailExplanation>
-          </React.Fragment>
+          </>
         )
       }
       return (
         <EmailExplanation>
-          <FormattedHTMLMessage
+          <FormattedMessage
             id='scenes.security.email.unverifiedemaildescription'
             defaultMessage='We have sent a verification email to <b>{email}</b>. Please click on the email that you’ve received to verify your email. We’ll use this email to authorize logins, send payment notifications, and notify you of wallet updates.'
             values={{ email }}
@@ -155,7 +157,7 @@ const EmailAddress = props => {
 
   const renderFields = () => {
     if (!uiState.verifyToggled && !uiState.isEditing) return null
-    else if (uiState.isEditing) {
+    if (uiState.isEditing) {
       return (
         <ChangeEmailSteps
           handleEmailChangeCancel={props.handleEmailChangeCancel}
@@ -163,9 +165,8 @@ const EmailAddress = props => {
           invalid={invalid}
         />
       )
-    } else {
-      return null
     }
+    return null
   }
 
   return (
@@ -176,14 +177,12 @@ const EmailAddress = props => {
         </IconContainer>
         <EmailSecuritySummary>
           <SecurityHeader>{securityHeaderHelper()}</SecurityHeader>
-          <SecurityDescription>
-            {securityDescriptionHelper()}
-          </SecurityDescription>
+          <SecurityDescription>{securityDescriptionHelper()}</SecurityDescription>
         </EmailSecuritySummary>
       </IconAndHeaderContainer>
       <EmailSecurityComponent>
         {uiHelper() && !verified ? (
-          <React.Fragment>
+          <>
             <EmailButton nature='primary' onClick={props.handleVerifyClick}>
               <FormattedMessage
                 id='scenes.security.email.settings.updateform.resendemail'
@@ -197,24 +196,23 @@ const EmailAddress = props => {
               data-e2e='changeYourEmailLink'
             >
               <FormattedMessage
-                id='scenes.security.email.upateform.changetext'
-                defaultMessage='Change Your Email'
+                id='scenes.security.email.updateform.change'
+                defaultMessage='Change Email'
               />
             </ChangeEmailText>
-          </React.Fragment>
+          </>
         ) : null}
         {uiHelper() && verified ? (
-          <Text
-            color='blue600'
-            size='13px'
-            style={{ cursor: 'pointer' }}
+          <Button
+            nature='primary'
             onClick={props.handleChangeEmailView}
+            data-e2e='changeEmailButton'
           >
             <FormattedMessage
-              id='scenes.security.email.settings.updateform.changeyouremail'
-              defaultMessage='Change Your Email'
+              id='scenes.security.email.settings.updateform.change'
+              defaultMessage='Change Email'
             />
-          </Text>
+          </Button>
         ) : null}
       </EmailSecurityComponent>
       <FieldsContainer>

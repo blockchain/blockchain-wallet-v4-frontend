@@ -1,12 +1,11 @@
-import { ExtractSuccess, SupportedWalletCurrenciesType } from 'core/types'
 import { lift } from 'ramda'
-import { RootState } from 'data/rootReducer'
-import { selectors } from 'data'
 
-export const getData = (state: RootState) => {
-  const loanTransactionsR = selectors.components.borrow.getLoanTransactions(
-    state
-  )
+import { ExtractSuccess, SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/types'
+import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
+
+const getData = (state: RootState) => {
+  const loanTransactionsR = selectors.components.borrow.getLoanTransactions(state)
   const ratesR = selectors.components.borrow.getRates(state)
   const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
 
@@ -22,3 +21,5 @@ export const getData = (state: RootState) => {
 
   return lift(transform)(loanTransactionsR, ratesR, supportedCoinsR)
 }
+
+export default getData

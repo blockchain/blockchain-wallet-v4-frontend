@@ -1,16 +1,12 @@
-import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
-import {
-  ButtonWrapper,
-  ItemIcon,
-  ListWrapper,
-  MainWrapper,
-  TitleWrapper
-} from './styles'
-import { DisplayPaymentIcon } from 'components/SimpleBuy'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { Props } from '.'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
+
+import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
+import { DisplayPaymentIcon } from 'components/SimpleBuy'
+
+import { Props } from '.'
+import { ButtonWrapper, ItemIcon, ListWrapper, MainWrapper, TitleWrapper } from './styles'
 
 const shouldRenderInfo = (tier: number) => {
   switch (tier) {
@@ -23,7 +19,7 @@ const shouldRenderInfo = (tier: number) => {
   }
 }
 
-const getStatus = tier => {
+const getStatus = (tier) => {
   switch (tier) {
     case 1:
       return 'Silver Verified'
@@ -50,7 +46,7 @@ const InfoText = styled(Text)`
   display: flex;
   text-align: left;
   a {
-    color: ${props => props.theme.blue600};
+    color: ${(props) => props.theme.blue600};
     text-decoration: none;
   }
 `
@@ -72,7 +68,7 @@ const ListText = styled(Text)`
   }
 `
 
-const Success: React.FC<Props & { close: () => void; data: any }> = props => {
+const Success: React.FC<Props & { close: () => void; data: any }> = (props) => {
   const { close, userTiers } = props
 
   // @ts-ignore
@@ -86,12 +82,7 @@ const Success: React.FC<Props & { close: () => void; data: any }> = props => {
         </DisplayPaymentIcon>
       </IconWrapper>
       <TitleWrapper>
-        <Text
-          color='grey900'
-          size='24px'
-          weight={600}
-          style={{ justifyContent: 'flex-start' }}
-        >
+        <Text color='grey900' size='24px' weight={600} style={{ justifyContent: 'flex-start' }}>
           <FormattedMessage
             id='modals.onboarding.linkfromexchange.successheader'
             defaultMessage='Your Accounts are Connected!'
@@ -110,7 +101,7 @@ const Success: React.FC<Props & { close: () => void; data: any }> = props => {
           color='grey600'
           size='16px'
           weight={500}
-          style={{ textAlign: 'left', marginLeft: '18px' }}
+          style={{ marginLeft: '18px', textAlign: 'left' }}
         >
           <FormattedMessage
             id='modals.onboarding.linkfromexchange.success_info1'
@@ -132,7 +123,7 @@ const Success: React.FC<Props & { close: () => void; data: any }> = props => {
             color='grey600'
             size='16px'
             weight={500}
-            style={{ textAlign: 'left', marginLeft: '18px' }}
+            style={{ marginLeft: '18px', textAlign: 'left' }}
           >
             <FormattedMessage
               id='modals.onboarding.linkfromexchange.success_info2'
@@ -145,12 +136,7 @@ const Success: React.FC<Props & { close: () => void; data: any }> = props => {
         </InfoWrapper>
       )}
 
-      <InfoText
-        color='grey900'
-        size='16px'
-        weight={600}
-        style={{ marginTop: '8px' }}
-      >
+      <InfoText color='grey900' size='16px' weight={600} style={{ marginTop: '8px' }}>
         <FormattedMessage
           id='modals.onboarding.linkfromexchange.success_remember_title'
           defaultMessage='Remember!'
@@ -178,7 +164,7 @@ const Success: React.FC<Props & { close: () => void; data: any }> = props => {
             color='grey900'
             size='16px'
             weight={600}
-            style={{ textAlign: 'left', marginLeft: '18px' }}
+            style={{ marginLeft: '18px', textAlign: 'left' }}
           >
             <FormattedMessage
               id='modals.onboarding.linkfromexchange.success_subinfo1_title'
@@ -200,7 +186,7 @@ const Success: React.FC<Props & { close: () => void; data: any }> = props => {
             color='grey600'
             size='16px'
             weight={500}
-            style={{ textAlign: 'left', marginLeft: '18px' }}
+            style={{ marginLeft: '18px', textAlign: 'left' }}
           >
             <FormattedMessage
               id='modals.onboarding.linkfromexchange.success_subinfo1_description2'
@@ -219,7 +205,7 @@ const Success: React.FC<Props & { close: () => void; data: any }> = props => {
             color='grey900'
             size='16px'
             weight={600}
-            style={{ textAlign: 'left', marginLeft: '18px' }}
+            style={{ marginLeft: '18px', textAlign: 'left' }}
           >
             <FormattedMessage
               id='modals.onboarding.linkfromexchange.success_subinfo2_title'
@@ -244,15 +230,21 @@ const Success: React.FC<Props & { close: () => void; data: any }> = props => {
         </ListWrapper>
       </InfoWrapper>
 
-      <InfoText
-        color='grey600'
-        size='16px'
-        weight={500}
-        style={{ marginBottom: '24px' }}
-      >
-        <FormattedHTMLMessage
+      <InfoText color='grey600' size='16px' weight={500} style={{ marginBottom: '24px' }}>
+        <FormattedMessage
           id='modals.onboarding.linkfromexchange.success_disclaimer'
-          defaultMessage="Having different Exchange and Wallet passwords helps to keep your accounts safe! <a href='https://support.blockchain.com/hc/en-us/articles/360029029911-Your-Wallet-101' rel='noopener noreferrer' target='_blank'>Learn more.</a> about the Wallet."
+          defaultMessage='Having different Exchange and Wallet passwords helps to keep your accounts safe! <a>Learn more</a> about the Wallet.'
+          values={{
+            a: (msg) => (
+              <a
+                href='https://support.blockchain.com/hc/en-us/articles/360029029911-Your-Wallet-101'
+                rel='noopener noreferrer'
+                target='_blank'
+              >
+                {msg}
+              </a>
+            )
+          }}
         />
       </InfoText>
 
@@ -278,13 +270,7 @@ const Success: React.FC<Props & { close: () => void; data: any }> = props => {
           rel='noopener noreferrer'
           href='https://exchange.blockchain.com/trade'
         >
-          <Button
-            nature='primary'
-            height='56px'
-            fullwidth
-            onClick={close}
-            data-e2e='linkDone'
-          >
+          <Button nature='primary' height='56px' fullwidth onClick={close} data-e2e='linkDone'>
             <Text color='white' size='16px' weight={500}>
               <FormattedMessage
                 id='modals.onboarding.linkfromexchange.back_to_exchange'

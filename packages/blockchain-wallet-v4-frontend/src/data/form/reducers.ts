@@ -1,6 +1,7 @@
-import * as AT from './actionTypes'
 import { assocPath } from 'ramda'
 import { reducer as formReducer } from 'redux-form'
+
+import * as AT from './actionTypes'
 
 const reducerReducers = (...reducers) => (prevState, value, ...args) =>
   reducers.reduce(
@@ -9,10 +10,10 @@ const reducerReducers = (...reducers) => (prevState, value, ...args) =>
   )
 
 const extendedReducer = (state, action) => {
-  const { type, payload } = action
+  const { payload, type } = action
   switch (type) {
     case AT.CHANGE2: {
-      const { form, field, value } = payload
+      const { field, form, value } = payload
       return assocPath([...form.split('.'), 'values', field], value, state)
     }
     default:

@@ -5,6 +5,7 @@ import * as custodial from './custodial/sagas'
 import * as middleware from './middleware/sagas'
 import * as modules from './modules/sagas'
 import * as preferences from './preferences/sagas'
+import * as prices from './prices/sagas'
 import * as router from './router/sagas'
 import * as wallet from './wallet/sagas'
 
@@ -16,6 +17,7 @@ export {
   middleware,
   modules,
   preferences,
+  prices,
   router,
   wallet
 }

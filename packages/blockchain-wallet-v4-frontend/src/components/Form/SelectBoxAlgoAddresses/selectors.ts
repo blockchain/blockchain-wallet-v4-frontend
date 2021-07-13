@@ -1,7 +1,8 @@
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 // @ts-ignore
 import { concat, curry, reduce, sequence } from 'ramda'
+
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { selectors } from 'data'
 
 export const getData = (
@@ -13,13 +14,13 @@ export const getData = (
   }
 ) => {
   const {
-    /* exclude = [], */ includeExchangeAddress,
-    includeCustodial
+    /* exclude = [], */ includeCustodial,
+    includeExchangeAddress
   } = ownProps
 
   const buildCustodialDisplay = x => {
     return (
-      `ALGO Trading Wallet` +
+      `Trading Account` +
       ` (${Exchange.displayAlgoToAlgo({
         value: x ? x.available : 0,
         fromUnit: 'mALGO',
@@ -30,14 +31,14 @@ export const getData = (
   // @ts-ignore
   // const excluded = filter(x => !exclude.includes(x.label))
   const toGroup = curry((label, options) => [{ label, options }])
-  const toExchange = x => [{ label: `Exchange ALGO Address`, value: x }]
+  const toExchange = x => [{ label: `Exchange Account`, value: x }]
   const toCustodialDropdown = currencyDetails => [
     {
       label: buildCustodialDisplay(currencyDetails),
       value: {
         ...currencyDetails,
         type: ADDRESS_TYPES.CUSTODIAL,
-        label: 'ALGO Trading Wallet'
+        label: 'Trading Account'
       }
     }
   ]

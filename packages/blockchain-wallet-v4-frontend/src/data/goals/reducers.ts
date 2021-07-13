@@ -1,14 +1,16 @@
-import * as AT from './actionTypes'
 import { append, assoc, filter } from 'ramda'
+
+import * as AT from './actionTypes'
 import { GoalsState } from './types'
 
 const INITIAL_STATE: GoalsState = {
   goals: [],
+  initialModalDisplayed: false,
   initialModals: {},
-  initialModalDisplayed: false
+  initialRedirect: ''
 }
 
-export function goalsReducer (state = INITIAL_STATE, action): GoalsState {
+const goalsReducer = (state = INITIAL_STATE, action): GoalsState => {
   switch (action.type) {
     case AT.SAVE_GOAL: {
       return assoc('goals', append(action.payload, state.goals), state)
@@ -17,7 +19,7 @@ export function goalsReducer (state = INITIAL_STATE, action): GoalsState {
       const { id } = action.payload
       return assoc(
         'goals',
-        filter(a => a.id !== id, state.goals),
+        filter((a) => a.id !== id, state.goals),
         state
       )
     }
@@ -30,10 +32,21 @@ export function goalsReducer (state = INITIAL_STATE, action): GoalsState {
         }
       }
     }
+    case AT.ADD_INITIAL_REDIRECT: {
+      return {
+        ...state,
+        initialRedirect: action.payload.path
+      }
+    }
     case AT.INITIAL_MODAL_DISPLAYED: {
-      return assoc('initialModalDisplayed', true, state)
+      return {
+        ...state,
+        initialModalDisplayed: true
+      }
     }
     default:
       return state
   }
 }
+
+export default goalsReducer

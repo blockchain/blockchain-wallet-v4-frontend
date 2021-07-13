@@ -1,15 +1,17 @@
-import * as actions from '../../actions'
-import * as C from 'services/AlertService'
-import * as selectors from '../../selectors'
-import { addLanguageToUrl } from 'services/LocalesService'
+import { propEq } from 'ramda'
+import { call, put, select } from 'redux-saga/effects'
+
+import { Types, utils } from 'blockchain-wallet-v4/src'
+import profileSagas from 'data/modules/profile/sagas.ts'
+import * as C from 'services/alerts'
+import { addLanguageToUrl } from 'services/locales'
 import {
   askSecondPasswordEnhancer,
   promptForSecondPassword
-} from 'services/SagaService'
-import { call, put, select } from 'redux-saga/effects'
-import { propEq } from 'ramda'
-import { Types, utils } from 'blockchain-wallet-v4/src'
-import profileSagas from 'data/modules/profile/sagas.ts'
+} from 'services/sagas'
+
+import * as actions from '../../actions'
+import * as selectors from '../../selectors'
 
 export const taskToPromise = t =>
   new Promise((resolve, reject) => t.fork(reject, resolve))
@@ -89,10 +91,7 @@ export default ({ api, coreSagas }) => {
   const updateMobile = function * (action) {
     try {
       yield call(coreSagas.settings.setMobile, action.payload)
-      const userFlowSupported = (yield select(
-        selectors.modules.profile.userFlowSupported
-      )).getOrElse(false)
-      if (userFlowSupported) yield call(syncUserWithWallet)
+      yield call(syncUserWithWallet)
       yield put(actions.alerts.displaySuccess(C.MOBILE_UPDATE_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'updateMobile', e))
@@ -114,11 +113,7 @@ export default ({ api, coreSagas }) => {
   const verifyMobile = function * (action) {
     try {
       yield call(coreSagas.settings.setMobileVerified, action.payload)
-
-      const userFlowSupported = (yield select(
-        selectors.modules.profile.userFlowSupported
-      )).getOrElse(false)
-      if (userFlowSupported) yield call(syncUserWithWallet)
+      yield call(syncUserWithWallet)
       yield put(actions.alerts.displaySuccess(C.MOBILE_VERIFY_SUCCESS))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'verifyMobile', e))
@@ -142,10 +137,12 @@ export default ({ api, coreSagas }) => {
   const updateCurrency = function * (action) {
     try {
       yield call(coreSagas.settings.setCurrency, action.payload)
-      yield put(actions.preferences.setSBFiatCurrency(action.payload.currency))
       if (!action.payload.hideAlert) {
         yield put(actions.alerts.displaySuccess(C.CURRENCY_UPDATE_SUCCESS))
       }
+      // update prices based on new currency
+      yield put(actions.prices.fetchCoinPrices())
+      yield put(actions.prices.fetchCoinPricesPreviousDay())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'updateCurrency', e))
       yield put(actions.alerts.displayError(C.CURRENCY_UPDATE_ERROR))

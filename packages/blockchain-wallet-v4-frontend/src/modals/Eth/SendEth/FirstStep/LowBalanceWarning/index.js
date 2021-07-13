@@ -1,12 +1,13 @@
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import { formValueSelector } from 'redux-form'
-import { lt, propOr } from 'ramda'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import { lt, propOr } from 'ramda'
+import { formValueSelector } from 'redux-form'
 
-import { Exchange } from 'blockchain-wallet-v4/src'
 import { Link, Text } from 'blockchain-info-components'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { model, selectors } from 'data'
+
 import {
   WarningLeftColumn,
   WarningRightColumn,
@@ -14,7 +15,7 @@ import {
 } from '../Components'
 
 const LowBalanceWarning = props => {
-  const { totalBalance, ethRates, amount } = props
+  const { amount, ethRates, totalBalance } = props
   const totalEthValue = Exchange.convertEthToFiat({
     value: totalBalance,
     toCurrency: 'USD',
@@ -46,15 +47,16 @@ const LowBalanceWarning = props => {
           <Text size='13px' weight={400}>
             <FormattedMessage
               id='modals.sendeth.lowethwarningforerc20.explain1'
-              defaultMessage="You'll need ETH to send your ERC20 Tokens."
+              defaultMessage="You'll need ETH to send your ERC20 Tokens"
             />
+            .
           </Text>
         </WarningLeftColumn>
         <WarningRightColumn>
           <Link
             size='13px'
             weight={500}
-            href='https://support.blockchain.com/hc/en-us/sections/360004368351-USD-Pax-FAQ'
+            href='https://support.blockchain.com/hc/en-us/articles/360027492092-Why-do-I-need-ETH-to-send-USD-Digital-previously-USD-PAX-'
             target='_blank'
           >
             <FormattedMessage

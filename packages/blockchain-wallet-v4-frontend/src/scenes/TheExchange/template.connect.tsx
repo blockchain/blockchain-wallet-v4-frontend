@@ -1,12 +1,13 @@
-import { Box } from 'components/Box'
-import { Button, Text } from 'blockchain-info-components'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import styled, { css } from 'styled-components'
+
+import { Button, Text } from 'blockchain-info-components'
+import { Box } from 'components/Box'
 import { OrangeCartridge, SuccessCartridge } from 'components/Cartridge'
+
 import { Props } from './template'
 import LinkToExchange from './template.linktoexchange'
-
-import React from 'react'
-import styled, { css } from 'styled-components'
 
 const Content = styled.div`
   display: flex;

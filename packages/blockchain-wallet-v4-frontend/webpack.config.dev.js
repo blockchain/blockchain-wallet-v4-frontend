@@ -3,7 +3,7 @@ const Webpack = require('webpack')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const { evolve, update } = require('ramda')
 
-const webpackBuilder = require('./utils/webpackBuilder')
+const webpackBuilder = require('./webpackBuilder')
 const CONFIG_PATH = require('../../config/paths')
 
 // get dev server config, envConfig, SSL flag and base webpack config from builder

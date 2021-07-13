@@ -1,8 +1,10 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { RootState } from 'data/rootReducer'
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
+
+import { actions, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
+
 import Template from './template'
 
 export type LinkDispatchPropsType = {
@@ -11,9 +13,7 @@ export type LinkDispatchPropsType = {
 }
 
 class KycRequired extends PureComponent<Props> {
-  state = {}
-
-  render () {
+  render() {
     return <Template {...this.props} />
   }
 }

@@ -1,35 +1,22 @@
-import * as T from 'services/AlertService'
-import {
-  append,
-  compose,
-  includes,
-  intersection,
-  isEmpty,
-  map,
-  path,
-  test
-} from 'ramda'
+import { append, compose, includes, intersection, isEmpty, map, path, test } from 'ramda'
 import { call, put, select } from 'redux-saga/effects'
 
-import { actions, selectors } from 'data'
 import { transactions } from 'blockchain-wallet-v4/src'
+import { actions, selectors } from 'data'
+import * as T from 'services/alerts'
 
 const { decodeOperations, getDestination } = transactions.xlm
 
 export default () => {
-  const getAccountIds = tx =>
-    compose(
-      append(tx.source_account),
-      map(getDestination),
-      decodeOperations
-    )(tx)
+  const getAccountIds = (tx) =>
+    compose(append(tx.source_account), map(getDestination), decodeOperations)(tx)
 
-  const addWalletTransaction = function * (tx) {
+  const addWalletTransaction = function* () {
     // refresh transaction list
     yield put(actions.core.data.xlm.fetchTransactions(null, true))
   }
 
-  const addLockboxTransaction = function * (tx, deviceIndex) {
+  const addLockboxTransaction = function* (tx, deviceIndex) {
     const deviceAccountIds = (yield select(
       selectors.core.kvStore.lockbox.getXlmContextForDevice,
       deviceIndex
@@ -39,7 +26,7 @@ export default () => {
       yield put(actions.core.data.xlm.addNewTransactions([tx]))
   }
 
-  const onMessage = function * ({ payload }) {
+  const onMessage = function* ({ payload }) {
     try {
       const { accountId, tx } = payload
       if (tx.source_account !== accountId) {
@@ -47,8 +34,7 @@ export default () => {
       }
       yield put(actions.core.data.xlm.fetchData())
       const pathname = yield select(selectors.router.getPathname)
-      if (includes(pathname, ['/xlm/transactions', '/home']))
-        yield call(addWalletTransaction, tx)
+      if (includes(pathname, ['/xlm/transactions', '/home'])) yield call(addWalletTransaction, tx)
       if (test(/\/lockbox\/dashboard\//, pathname))
         yield call(
           addLockboxTransaction,
@@ -56,17 +42,11 @@ export default () => {
           pathname.replace(/\/lockbox\/dashboard\/(.*)/, ($0, $1) => $1)
         )
     } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(
-          'middleware/webSocket/xlm/sagas',
-          'onOpen',
-          e.message
-        )
-      )
+      yield put(actions.logs.logErrorMessage('middleware/webSocket/xlm/sagas', 'onOpen', e.message))
     }
   }
 
-  const onError = action => {
+  const onError = (action) => {
     const message = path(['payload', 'error', 'message'], action)
     actions.logs.logErrorMessage(
       'middleware/webSocket/xlm/sagas',
@@ -76,7 +56,7 @@ export default () => {
   }
 
   return {
+    onError,
     onMessage,
-    onError
   }
 }

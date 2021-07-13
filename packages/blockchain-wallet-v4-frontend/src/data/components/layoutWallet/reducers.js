@@ -1,15 +1,16 @@
-import * as AT from './actionTypes'
 import { assoc, merge, path } from 'ramda'
+
+import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
   balancesTable: 'total',
+  lockboxOpened: false,
   menuOpened: true,
-  settingsOpened: false,
-  lockboxOpened: false
+  settingsOpened: false
 }
 
 export default (state = INITIAL_STATE, action) => {
-  const { type, payload } = action
+  const { payload, type } = action
 
   switch (type) {
     case AT.SET_BALANCES_CHART_TAB: {
@@ -20,11 +21,11 @@ export default (state = INITIAL_STATE, action) => {
       const settingsOpened = pathname && pathname.split('/')[1] === 'settings'
       const lockboxOpened = pathname && pathname.split('/')[1] === 'lockbox'
       return merge(state, {
-        trayOpened: false,
-        trayContent: '',
+        lockboxOpened,
         menuOpened: false,
         settingsOpened,
-        lockboxOpened
+        trayContent: '',
+        trayOpened: false
       })
     }
     case AT.LAYOUT_WALLET_MENU_TOGGLE_CLICKED: {

@@ -1,17 +1,19 @@
-import { actions, model } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { formValueSelector } from 'redux-form'
-import { fromCashAddr } from 'blockchain-wallet-v4/src/utils/bch'
-import { getData } from './selectors'
-import { Remote } from 'blockchain-wallet-v4/src'
-import BchImportedAddresses from './template'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { formValueSelector } from 'redux-form'
+
+import { Remote } from 'blockchain-wallet-v4/src'
+import { fromCashAddr } from 'blockchain-wallet-v4/src/utils/bch'
+import { actions, model } from 'data'
+
+import { getData } from './selectors'
+import BchImportedAddresses from './template'
 
 const { WALLET_TX_SEARCH } = model.form
 
 class ImportedAddressesContainer extends React.Component {
-  shouldComponentUpdate (nextProps) {
+  shouldComponentUpdate(nextProps) {
     return !Remote.Loading.is(nextProps.data)
   }
 
@@ -26,7 +28,8 @@ class ImportedAddressesContainer extends React.Component {
     const btcAddr = fromCashAddr(address.addr)
     this.props.componentActions.editImportedAddressLabel(btcAddr)
   }
-  render () {
+
+  render() {
     const { data, ...rest } = this.props
     return data.cata({
       Success: addresses => {

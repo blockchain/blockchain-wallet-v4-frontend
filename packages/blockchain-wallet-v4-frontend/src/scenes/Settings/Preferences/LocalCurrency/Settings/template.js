@@ -1,5 +1,5 @@
-import { Field, reduxForm } from 'redux-form'
 import React from 'react'
+import { Field, reduxForm } from 'redux-form'
 
 import { SelectBoxCurrency } from 'components/Form'
 import { SettingSelectBoxWrapper } from 'components/Setting'

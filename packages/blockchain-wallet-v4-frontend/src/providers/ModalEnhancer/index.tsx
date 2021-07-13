@@ -1,10 +1,11 @@
-import { actions, selectors } from 'data'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import { equals } from 'ramda'
-import { ModalNamesType, ModalType } from 'data/types'
 import React, { PureComponent } from 'react'
 import ReactDOM from 'react-dom'
+import { connect } from 'react-redux'
+import { equals } from 'ramda'
+import { compose } from 'redux'
+
+import { actions, selectors } from 'data'
+import { ModalNamesType, ModalType } from 'data/types'
 
 const mapDispatchToProps = (dispatch): LinkDispatchPropsType => ({
   close: compose(dispatch, actions.modals.closeModal),
@@ -60,6 +61,7 @@ export default (type: ModalNamesType, options: OptionsType = {}) => Component =>
         if (
           modalContainer &&
           !this.props.disableOutsideClose &&
+          // @ts-ignore
           equals(modalContainer.children[0], e.target)
         ) {
           this.handleClose()
@@ -73,7 +75,7 @@ export default (type: ModalNamesType, options: OptionsType = {}) => Component =>
         }
       }
 
-      render () {
+      render() {
         const { modals, ...rest } = this.props
         const filtered = modals.filter(m => m.type === type)
         const setRef = node => {

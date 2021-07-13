@@ -1,8 +1,9 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
+
 import SetupTypeStep from './template'
 
 class DeviceSelectStepContainer extends React.PureComponent {
@@ -20,7 +21,7 @@ class DeviceSelectStepContainer extends React.PureComponent {
     restoreWindow.focus()
   }
 
-  render () {
+  render() {
     return (
       <SetupTypeStep
         handleStepChange={this.onChangeStep}

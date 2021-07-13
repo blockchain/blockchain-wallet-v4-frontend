@@ -1,9 +1,22 @@
-import * as walletSelectors from '../../wallet/selectors'
-import { concat, curry, filter, keysIn, map, not, path, prop } from 'ramda'
+import {
+  concat,
+  curry,
+  filter,
+  flatten,
+  keysIn,
+  map,
+  not,
+  path,
+  pathOr,
+  prop
+} from 'ramda'
+
+import * as Types from '../../../types'
 import { createDeepEqualSelector } from '../../../utils'
-import { dataPath } from '../../paths'
 import { getAccounts } from '../../kvStore/bch/selectors'
 import { getLockboxBchContext } from '../../kvStore/lockbox/selectors'
+import { dataPath } from '../../paths'
+import * as walletSelectors from '../../wallet/selectors'
 
 export const getWalletContext = createDeepEqualSelector(
   [
@@ -18,7 +31,12 @@ export const getWalletContext = createDeepEqualSelector(
         const metadataAccount = metadataAccounts[index]
         return not(prop('archived', metadataAccount))
       }, btcHDAccounts)
-      return map(prop('xpub'), activeAccounts)
+      return flatten(
+        map(
+          a => Types.HDAccount.selectXpub(Types.HDAccount.fromJS(a), 'legacy'),
+          activeAccounts
+        )
+      )
     }
     const activeAccounts = metadataAccountsR.map(transform).getOrElse([])
     const addresses = keysIn(activeAddresses)
@@ -56,11 +74,11 @@ export const getCoins = path([dataPath, 'bch', 'payment', 'coins'])
 
 // Specific
 export const getChangeIndex = curry((xpub, state) =>
-  getAddresses(state).map(path([xpub, 'change_index']))
+  getAddresses(state).map(pathOr(0, [xpub, 'change_index']))
 )
 
 export const getReceiveIndex = curry((xpub, state) =>
-  getAddresses(state).map(path([xpub, 'account_index']))
+  getAddresses(state).map(pathOr(0, [xpub, 'account_index']))
 )
 
 export const getTotalTxPerAccount = curry((xpubOrAddress, state) =>

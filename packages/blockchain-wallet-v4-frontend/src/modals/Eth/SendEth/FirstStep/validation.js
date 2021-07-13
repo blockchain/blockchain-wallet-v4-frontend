@@ -1,4 +1,9 @@
+import React from 'react'
+import BigNumber from 'bignumber.js'
+import { prop } from 'ramda'
+
 import { Exchange } from 'blockchain-wallet-v4/src'
+
 import {
   InsufficientFundsMessage,
   InvalidAmountMessage,
@@ -6,9 +11,6 @@ import {
   MaximumFeeMessage,
   MinimumFeeMessage
 } from './validationMessages'
-import { prop } from 'ramda'
-import BigNumber from 'bignumber.js'
-import React from 'react'
 
 export const insufficientFunds = (value, allValues, props) => {
   return props.effectiveBalance > 0 ? undefined : <InsufficientFundsMessage />
@@ -59,11 +61,11 @@ export const maximumFee = (value, allValues, props) =>
   )
 
 export const shouldError = ({
-  values,
+  initialRender,
   nextProps,
   props,
-  initialRender,
-  structure
+  structure,
+  values
 }) => {
   if (initialRender) {
     return true
@@ -76,11 +78,11 @@ export const shouldError = ({
 }
 
 export const shouldWarn = ({
-  values,
+  initialRender,
   nextProps,
   props,
-  initialRender,
-  structure
+  structure,
+  values
 }) => {
   if (initialRender) {
     return true

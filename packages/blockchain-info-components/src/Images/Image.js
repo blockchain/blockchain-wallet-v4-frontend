@@ -1,8 +1,9 @@
-import { keysIn } from 'ramda'
-import Images from './Images'
-import PropTypes from 'prop-types'
 import React from 'react'
+import PropTypes from 'prop-types'
+import { keysIn } from 'ramda'
 import styled from 'styled-components'
+
+import Images from './Images'
 
 const BaseImage = styled.img`
   width: ${props => props.width};

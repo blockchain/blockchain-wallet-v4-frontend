@@ -2,25 +2,25 @@ import { compose, concat, identity, prop, propEq } from 'ramda'
 
 const WebSocket = global.WebSocket || global.MozWebSocket
 
-function WS (uri, protocols, opts) {
+function WS(uri, protocols, opts) {
   return protocols ? new WebSocket(uri, protocols) : new WebSocket(uri)
 }
 
 if (WebSocket) {
   WS.prototype = WebSocket.prototype
 
-  WS.prototype.on = function (event, callback) {
+  WS.prototype.on = function(event, callback) {
     this['on' + event] = callback
   }
 
-  WS.prototype.once = function (event, callback) {
-    this['on' + event] = function () {
+  WS.prototype.once = function(event, callback) {
+    this['on' + event] = function() {
       callback.apply(callback, arguments)
       this['on' + event] = null
     }.bind(this)
   }
 
-  WS.prototype.off = function (event) {
+  WS.prototype.off = function(event) {
     this['on' + event] = null
   }
 }
@@ -28,18 +28,24 @@ if (WebSocket) {
 let toArrayFormat = a => (Array.isArray(a) ? a : [a])
 
 class Socket {
-  constructor ({ options = {}, url }) {
+  constructor({ options = {}, url }) {
     this.wsUrl = url
     this.headers = { Origin: options.domains.root }
   }
+
   pingInterval = 30000
+
   pingIntervalPID = null
+
   pingTimeout = 5000
+
   pingTimeoutPID = null
+
   reconnect = null
+
   reconnectCount = 0
 
-  connect (
+  connect(
     onOpen = identity,
     onMessage = identity,
     onClose = identity,
@@ -64,11 +70,11 @@ class Socket {
     }
   }
 
-  extractMessage (msg) {
+  extractMessage(msg) {
     return compose(JSON.parse, prop('data'))(msg)
   }
 
-  send (message) {
+  send(message) {
     if (this.socket && this.socket.readyState === 1) {
       this.socket.send(message)
     }
@@ -102,7 +108,7 @@ class Socket {
     clearTimeout(this.pingTimeoutPID)
   }
 
-  static addrSubMessage (addresses) {
+  static addrSubMessage(addresses) {
     if (addresses == null) return ''
     let toMsg = addr => JSON.stringify({ op: 'addr_sub', addr })
     return toArrayFormat(addresses)
@@ -110,7 +116,7 @@ class Socket {
       .reduce(concat, '')
   }
 
-  static pingMessage () {
+  static pingMessage() {
     return JSON.stringify({ command: 'ping' })
   }
 }

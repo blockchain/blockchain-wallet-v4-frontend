@@ -1,17 +1,17 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
+import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
-import { Icon, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
-import { LinkContainer } from 'react-router-bootstrap'
-import { model } from 'data'
-import { withRouter } from 'react-router-dom'
-import React from 'react'
 import styled from 'styled-components'
 
-import { StickyHeader } from 'components/Layout'
+import { Icon, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
-import media from 'services/ResponsiveService'
+import { StickyHeader } from 'components/Layout'
+import { model } from 'data'
+import { media } from 'services/styles'
 
 const { WALLET_TX_SEARCH } = model.form
 
@@ -21,7 +21,6 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
 `
-
 const Search = styled.div`
   position: relative;
   display: flex;
@@ -37,56 +36,30 @@ const SearchIcon = styled(Icon)`
   top: 10px;
   right: 10px;
 `
-
 const MenuHeader = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 1.5rem;
 `
-
-const IconWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: ${props => props.theme.blue000};
-  height: 2.5rem;
-  width: 2.5rem;
-  border-radius: 50%;
-`
-
-const Row = styled.div`
-  display: flex;
-`
-
 const Title = styled(Text)`
-  margin-left: 1rem;
-`
-
-const Subtitle = styled(Text)`
-  margin-top: 1rem;
+  margin: 4px 0;
 `
 
 const MenuTop = () => (
   <StickyHeader>
     <MenuHeader>
-      <Row>
-        <IconWrapper>
-          <Icon color='blue600' name='wallet-filled' size='24px' />
-        </IconWrapper>
-        <Title size='32px' weight={600} color='black'>
-          <FormattedMessage
-            id='scenes.settings.menu.title'
-            defaultMessage='Wallets & Addresses'
-          />
-        </Title>
-      </Row>
-
-      <Subtitle size='16px' weight={500} color='grey600'>
+      <Title size='26px' weight={600} color='black'>
         <FormattedMessage
-          id='scenes.settings.menu.subtitle'
-          defaultMessage='Manage your wallet names, addresses and private keys.'
+          id='scenes.settings.menu.title'
+          defaultMessage='Wallets & Addresses'
         />
-      </Subtitle>
+      </Title>
+      <Text size='14px' weight={500} color='grey700'>
+        <FormattedMessage
+          id='scenes.settings.addresses.subtitle'
+          defaultMessage='Manage your wallets, addresses and private keys.'
+        />
+      </Text>
     </MenuHeader>
     <HorizontalMenu border={false}>
       <Container>
@@ -137,7 +110,12 @@ const MenuTop = () => (
           </LinkContainer>
         </TabMenu>
         <Search data-e2e='walletSettingsSearch'>
-          <Field name='search' height='40px' component={TextBox} />
+          <Field
+            name='search'
+            height='40px'
+            placeholder='Search'
+            component={TextBox}
+          />
           <SearchIcon name='magnifier' size='20px' />
         </Search>
       </Container>

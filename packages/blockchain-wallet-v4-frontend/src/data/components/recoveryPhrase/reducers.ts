@@ -5,7 +5,7 @@ const INITIAL_STATE: RecoveryPhraseState = {
   step: 'RECOVERY_PHRASE_INTRO'
 }
 
-export function recoveryPhraseReducer (
+export function recoveryPhraseReducer(
   state = INITIAL_STATE,
   action: RecoveryPhraseActionTypes
 ): RecoveryPhraseState {
@@ -14,7 +14,6 @@ export function recoveryPhraseReducer (
       ...state,
       step: action.payload.step
     }
-  } else {
-    return state
   }
+  return state
 }

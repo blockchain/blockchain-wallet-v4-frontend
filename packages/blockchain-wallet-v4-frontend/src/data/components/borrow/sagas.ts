@@ -1,36 +1,38 @@
-import * as A from './actions'
-import * as S from './selectors'
-import { actions, selectors } from 'data'
-import { all, call, put, select } from 'redux-saga/effects'
-import { APIType } from 'blockchain-wallet-v4/src/network/api'
-import { BorrowFormValuesType, RepayLoanFormType } from './types'
-import {
-  convertBaseToStandard,
-  convertStandardToBase
-} from '../exchange/services'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import {
-  fiatDisplayName,
-  getCollateralAmtRequired,
-  NO_LOAN_EXISTS,
-  NO_OFFER_EXISTS
-} from './model'
-import { FormAction, initialize, touch } from 'redux-form'
+import BigNumber from 'bignumber.js'
+import EthUtil from 'ethereumjs-util'
+import moment from 'moment'
 import { head, nth } from 'ramda'
+import { FormAction, initialize, touch } from 'redux-form'
+import { all, call, put, select } from 'redux-saga/effects'
+
 import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
+import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import {
   LoanFinancialsType,
   LoanType,
   PaymentType,
   PaymentValue,
   RatesType
-} from 'core/types'
-import BigNumber from 'bignumber.js'
-import EthUtil from 'ethereumjs-util'
-import exchangeSagaUtils from '../exchange/sagas.utils'
-import moment from 'moment'
+} from 'blockchain-wallet-v4/src/types'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { actions, selectors } from 'data'
+
 import profileSagas from '../../../data/modules/profile/sagas'
+import exchangeSagaUtils from '../exchange/sagas.utils'
+import {
+  convertBaseToStandard,
+  convertStandardToBase
+} from '../exchange/services'
+import * as A from './actions'
+import {
+  fiatDisplayName,
+  getCollateralAmtRequired,
+  NO_LOAN_EXISTS,
+  NO_OFFER_EXISTS
+} from './model'
 import utils from './sagas.utils'
+import * as S from './selectors'
+import { BorrowFormValuesType, RepayLoanFormType } from './types'
 
 export default ({
   api,
@@ -46,10 +48,10 @@ export default ({
     .calculateProvisionalPayment
   const {
     buildAndPublishPayment,
-    createPayment,
     createLimits,
-    paymentGetOrElse,
-    notifyDeposit
+    createPayment,
+    notifyDeposit,
+    paymentGetOrElse
   } = utils({
     api,
     coreSagas,

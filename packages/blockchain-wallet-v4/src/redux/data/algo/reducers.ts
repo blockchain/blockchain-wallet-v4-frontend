@@ -1,7 +1,6 @@
-import * as AT from './actionTypes'
-
-import { AlgoActionTypes, AlgoState } from './types'
 import Remote from '../../../remote'
+import * as AT from './actionTypes'
+import { AlgoActionTypes, AlgoState } from './types'
 
 const INITIAL_STATE: AlgoState = {
   rates: Remote.NotAsked,

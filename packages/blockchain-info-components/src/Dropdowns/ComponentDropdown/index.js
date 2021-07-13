@@ -1,9 +1,10 @@
 import React from 'react'
+import onClickOutside from 'react-onclickoutside'
 
 import Dropdown from './template'
 
 class ComponentDropdown extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -13,29 +14,28 @@ class ComponentDropdown extends React.PureComponent {
     this.handleCallback = this.handleCallback.bind(this)
   }
 
-  handleClick () {
-    this.setState({ toggled: !this.state.toggled })
+  handleClick() {
+    this.setState((prevState) => ({ toggled: !prevState.toggled }))
+
+    if (this.props.onClick && !this.state.toggled) this.props.onClick()
   }
 
-  handleClickOutside () {
+  handleClickOutside() {
     this.setState({ toggled: false })
   }
 
-  handleCallback (item) {
+  handleCallback(item) {
     const { toggled } = this.state
     const { toggleOnCallback } = this.props
     this.setState({
-      toggled: toggleOnCallback ? false : toggled,
-      selectedComponent: this.props.forceSelected
-        ? this.props.selectedComponent
-        : item
+      toggled: toggleOnCallback ? false : toggled
     })
     if (this.props.callback) {
       this.props.callback(item)
     }
   }
 
-  render () {
+  render() {
     const { ...rest } = this.props
 
     return (
@@ -52,10 +52,10 @@ class ComponentDropdown extends React.PureComponent {
 
 ComponentDropdown.defaultProps = {
   color: 'blue600',
-  toggleOnCallback: true,
-  uppercase: false,
+  down: false,
   opened: false,
-  down: false
+  toggleOnCallback: true,
+  uppercase: false
 }
 
-export default ComponentDropdown
+export default onClickOutside(ComponentDropdown)

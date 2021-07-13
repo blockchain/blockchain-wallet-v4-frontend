@@ -1,15 +1,17 @@
-import { CoinType, FiatType, NabuMoneyFloatType } from 'core/types'
+import { CoinType, FiatType, NabuMoneyFloatType, WalletFiatType } from 'core/types'
+
+export type InterestBalanceType = {
+  balance: string
+  fiatAmount: string | null
+  locked: string
+  pendingDeposit: string
+  pendingInterest: string
+  pendingWithdrawal: string
+  totalInterest: string
+}
 
 export type InterestAccountBalanceType = {
-  [key in CoinType]?: {
-    balance: string
-    fiatAmount: string | null
-    locked: string
-    pendingDeposit: string
-    pendingInterest: string
-    pendingWithdrawal: string
-    totalInterest: string
-  }
+  [key in CoinType]?: InterestBalanceType
 }
 
 export type InterestEligibleType = {
@@ -19,7 +21,33 @@ export type InterestEligibleType = {
   }
 }
 
+export type InterestAfterTransactionType = {
+  amount: number
+  currency: CoinType
+  fiatAmount: number | null
+  fiatCurrency: WalletFiatType | null
+  show: boolean
+}
+
+type LimitDetails = {
+  amount: number
+  currency: WalletFiatType
+  savingsCurrency: CoinType
+}
+
+export type DepositLimits = {
+  depositLimits: LimitDetails[] | []
+}
+
+export type WithdrawLimits = {
+  withdrawLimits: LimitDetails
+}
+
 export type InterestInstrumentsType = Array<CoinType>
+
+export type InterestFormErrorsType = {
+  depositAmount?: 'ABOVE_MAX' | 'BELOW_MIN' | boolean
+}
 
 export type InterestLimitsType = {
   [key in CoinType]: {
@@ -46,11 +74,12 @@ export type InterestTransactionType = {
     value: string
   }
   extraAttributes: {
-    address: 'string'
-    confirmations: number
-    hash: string
-    id: string
-    txHash: string
+    address?: 'string'
+    confirmations?: number
+    hash?: string
+    id?: string
+    transferType?: string
+    txHash?: string
   }
   id: string
   insertedAt: string
@@ -80,3 +109,13 @@ export type InterestWithdrawalResponseType = {
 }
 
 export type WithdrawalMinimumType = Array<NabuMoneyFloatType>
+
+export type CustodialTransferResponseType = {
+  amount: string
+  coin: CoinType
+}
+
+export type InterestEDDStatus = {
+  eddNeeded: boolean
+  eddPassed: boolean
+}

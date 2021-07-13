@@ -1,15 +1,7 @@
-import * as AT from './actionTypes'
-import {
-  append,
-  assoc,
-  assocPath,
-  compose,
-  dropLast,
-  lensProp,
-  merge,
-  over
-} from 'ramda'
+import { append, assoc, assocPath, compose, dropLast, lensProp, merge, over } from 'ramda'
+
 import Remote from '../../../remote'
+import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
   addresses: Remote.NotAsked,
@@ -17,13 +9,13 @@ const INITIAL_STATE = {
   info: Remote.NotAsked,
   latest_block: Remote.NotAsked,
   rates: Remote.NotAsked,
+  transaction_history: Remote.NotAsked,
   transactions: [],
-  transactions_at_bound: false,
-  transaction_history: Remote.NotAsked
+  transactions_at_bound: false
 }
 
 const bchReducer = (state = INITIAL_STATE, action) => {
-  const { type, payload } = action
+  const { payload, type } = action
 
   switch (type) {
     case AT.SET_BCH_LATEST_BLOCK: {

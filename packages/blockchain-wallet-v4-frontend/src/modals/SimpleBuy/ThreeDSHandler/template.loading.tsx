@@ -1,8 +1,9 @@
-import { FlyoutWrapper } from 'components/Flyout'
-import { FormattedMessage } from 'react-intl'
-import { SpinningLoader, Text } from 'blockchain-info-components'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
+
+import { BlockchainLoader, Text } from 'blockchain-info-components'
+import { FlyoutWrapper } from 'components/Flyout'
 
 const Wrapper = styled(FlyoutWrapper)`
   width: 100%;
@@ -17,7 +18,7 @@ const Wrapper = styled(FlyoutWrapper)`
 const Loading: React.FC<Props> = ({ order, polling }) => {
   return (
     <Wrapper>
-      <SpinningLoader height='50px' width='50px' />
+      <BlockchainLoader width='80px' height='80px' />
       <Text
         weight={600}
         size='20px'
@@ -26,8 +27,8 @@ const Loading: React.FC<Props> = ({ order, polling }) => {
       >
         {polling || order ? (
           <FormattedMessage
-            id='modals.simplebuy.gatheringinfo'
-            defaultMessage='Gathering Some Info...'
+            id='modals.simplebuy.processing'
+            defaultMessage='Processing…'
           />
         ) : (
           <FormattedMessage

@@ -1,8 +1,8 @@
-import * as StellarSdk from 'stellar-sdk'
-import { assoc } from 'ramda'
 import { BigNumber } from 'bignumber.js'
 import BIP39 from 'bip39'
 import queryString from 'query-string'
+import { assoc } from 'ramda'
+import * as StellarSdk from 'stellar-sdk'
 
 export const calculateEffectiveBalance = (balance, reserve, fee) =>
   new BigNumber(balance)
@@ -47,7 +47,7 @@ export const decodeXlmURI = uri => {
   if (!/web\+stellar:pay/.test(uri)) return { address: uri }
 
   const query = uri.replace(/web\+stellar:pay(.*)/, ($0, $1) => $1)
-  const { destination, amount, memo, msg } = queryString.parse(query)
+  const { amount, destination, memo, msg } = queryString.parse(query)
   return { address: destination, amount, memo, note: msg }
 }
 

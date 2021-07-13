@@ -1,8 +1,10 @@
-import { Button, Image, Text } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
-import { LinkDispatchPropsType, LinkStatePropsType, OwnProps } from '.'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
+
+import { Button, Image, Text } from 'blockchain-info-components'
+
+import { LinkDispatchPropsType, LinkStatePropsType, OwnProps } from '.'
 
 const Wrapper = styled.div`
   height: 100%;
@@ -52,10 +54,7 @@ const Failure: React.FC<LinkDispatchPropsType & {
             })
           }
         >
-          <FormattedMessage
-            id='modals.simplebuy.eligible.tryagain'
-            defaultMessage='Try Again'
-          />
+          <FormattedMessage id='buttons.tryagain' defaultMessage='Try Again' />
         </Button>
       </div>
     </Wrapper>

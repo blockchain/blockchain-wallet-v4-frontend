@@ -1,10 +1,12 @@
-import { countries } from 'components/Form/SelectBoxCountry'
-import { Field } from 'redux-form'
-import { Props } from '../template.success'
-import { SelectBox } from 'components/Form'
-import { Text } from 'blockchain-info-components'
 import React from 'react'
+import { Field } from 'redux-form'
 import styled from 'styled-components'
+
+import { Text } from 'blockchain-info-components'
+import { SelectBox } from 'components/Form'
+import { countries } from 'components/Form/SelectBoxCountry'
+
+import { Props } from '../template.success'
 
 const SelectBoxCountry = styled(SelectBox)`
   margin-bottom: 24px;
@@ -97,7 +99,7 @@ class CountrySelect extends React.PureComponent<Props> {
     )
   }
 
-  render () {
+  render() {
     return (
       <Field
         component={SelectBoxCountry}

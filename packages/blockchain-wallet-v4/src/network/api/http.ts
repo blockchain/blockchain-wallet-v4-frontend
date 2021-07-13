@@ -1,6 +1,6 @@
-import { merge, mergeRight, path, pathOr, prop } from 'ramda'
 import axios, { AxiosRequestConfig } from 'axios'
 import queryString from 'query-string'
+import { merge, mergeRight, path, pathOr, prop } from 'ramda'
 
 axios.defaults.withCredentials = false
 axios.defaults.timeout = Infinity
@@ -85,9 +85,9 @@ export default ({ apiKey }: { apiKey: string }): HTTPService => {
   }
 
   const get = <T>({
-    ignoreQueryParams,
-    endPoint,
     data,
+    endPoint,
+    ignoreQueryParams,
     ...options
   }: Partial<RequestConfig>) =>
     request<T>({

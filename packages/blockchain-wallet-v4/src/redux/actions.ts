@@ -5,4 +5,4 @@ import * as wallet from './wallet/actions'
 import * as walletOptions from './walletOptions/actions'
 import * as walletSync from './walletSync/actions'
 
-export { data, kvStore, settings, wallet, walletSync, walletOptions }
+export { data, kvStore, settings, wallet, walletOptions, walletSync }

@@ -1,9 +1,11 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import { FormattedMessage } from 'react-intl'
+
 import { Props as OwnProps, SuccessStateType } from '.'
-import React from 'react'
-import styled from 'styled-components'
 
 export type Props = OwnProps & SuccessStateType
 
@@ -41,7 +43,6 @@ const Subcontent = styled(Text)`
 
 const Unsupported: React.FC<Props> = props => {
   const { paymentAccountEligible } = props.eligibility
-
   return (
     <Top>
       <CloseIcon
@@ -50,9 +51,7 @@ const Unsupported: React.FC<Props> = props => {
         size='20px'
         color='grey600'
         role='button'
-        onClick={() =>
-          props.simpleBuyActions.setStep({ step: 'CURRENCY_SELECTION' })
-        }
+        onClick={props.handleClose}
       />
       <Container>
         <Image
@@ -80,7 +79,7 @@ const Unsupported: React.FC<Props> = props => {
             <>
               <FormattedMessage
                 id='modals.simplebuy.unsupported-subcontent'
-                defaultMessage="Currently, we don't support buying crypto with"
+                defaultMessage="Currently we don't support buying crypto with"
               />{' '}
               {props.fiatCurrency}
               {'. '}
@@ -108,9 +107,7 @@ const Unsupported: React.FC<Props> = props => {
           height='48px'
           size='16px'
           nature='primary'
-          onClick={() =>
-            props.simpleBuyActions.setStep({ step: 'CURRENCY_SELECTION' })
-          }
+          onClick={props.handleClose}
           fullwidth
         >
           <FormattedMessage id='buttons.ok' defaultMessage='OK' />

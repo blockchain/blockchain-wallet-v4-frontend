@@ -1,27 +1,37 @@
-import { actions } from 'data'
-import { bindActionCreators, Dispatch } from 'redux'
+import React, { memo } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { getData } from './selectors'
+import { bindActionCreators, Dispatch } from 'redux'
+import styled from 'styled-components'
+
+import { actions, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
+import { UserDataType } from 'data/types'
+
+import BuyCrypto from './BuyCrypto'
+import ContinueToGold from './ContinueToGold'
 import FinishKyc from './FinishKyc'
 import KycResubmit from './KycResubmit'
-import NoneKyc from './NoneKyc'
-import React from 'react'
+import NewCurrency from './NewCurrency'
+import RecurringBuys from './RecurringBuys'
 import SBOrderBanner from './SBOrderBanner'
-import styled from 'styled-components'
-import VerifiedKyc from './VerifiedKyc'
+import { getData } from './selectors'
 
 const BannerWrapper = styled.div`
   margin-bottom: 25px;
-  max-width: 1200px;
 `
 
 class Banners extends React.PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     this.props.simpleBuyActions.fetchSBOrders()
+    this.props.simpleBuyActions.fetchSDDEligible()
+    if (this.props.userData.tiers?.current > 0) {
+      // TODO move this away from SB
+      this.props.simpleBuyActions.fetchLimits(this.props.fiatCurrency)
+    }
   }
 
-  render () {
-    const { bannerToShow } = this.props
+  render() {
+    const { bannerToShow } = this.props.data
 
     switch (bannerToShow) {
       case 'resubmit':
@@ -42,16 +52,28 @@ class Banners extends React.PureComponent<Props> {
             <SBOrderBanner />
           </BannerWrapper>
         )
-      case 'noneKyc':
+      case 'newCurrency':
         return (
           <BannerWrapper>
-            <NoneKyc />
+            <NewCurrency />
           </BannerWrapper>
         )
-      case 'verifiedKyc':
+      case 'buyCrypto':
         return (
           <BannerWrapper>
-            <VerifiedKyc />
+            <BuyCrypto />
+          </BannerWrapper>
+        )
+      case 'continueToGold':
+        return (
+          <BannerWrapper>
+            <ContinueToGold />
+          </BannerWrapper>
+        )
+      case 'recurringBuys':
+        return (
+          <BannerWrapper>
+            <RecurringBuys />
           </BannerWrapper>
         )
       default:
@@ -60,7 +82,13 @@ class Banners extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = state => getData(state)
+const mapStateToProps = (state: RootState) => ({
+  data: getData(state),
+  fiatCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD'),
+  userData: selectors.modules.profile.getUserData(state).getOrElse({
+    tiers: { current: 0 }
+  } as UserDataType)
+})
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
@@ -70,4 +98,4 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector>
 
-export default connector(Banners)
+export default connector(memo(Banners))

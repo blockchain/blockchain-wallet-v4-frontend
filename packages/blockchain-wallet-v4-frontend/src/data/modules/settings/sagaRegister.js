@@ -1,11 +1,12 @@
-import * as AT from './actionTypes'
 import { takeLatest } from 'redux-saga/effects'
+
+import * as AT from './actionTypes'
 import sagas from './sagas'
 
 export default ({ api, coreSagas }) => {
   const settingsSagas = sagas({ api, coreSagas })
 
-  return function * settingsModuleSaga () {
+  return function * settingsModuleSaga() {
     yield takeLatest(AT.INIT_SETTINGS_INFO, settingsSagas.initSettingsInfo)
     yield takeLatest(
       AT.INIT_SETTINGS_PREFERENCES,

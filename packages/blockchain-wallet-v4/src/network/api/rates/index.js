@@ -1,4 +1,4 @@
-export default ({ nabuUrl, get, post }) => {
+export default ({ get, nabuUrl, post }) => {
   const fetchAdvice = (pair, volume, fix, fiatCurrency) =>
     post({
       url: nabuUrl,

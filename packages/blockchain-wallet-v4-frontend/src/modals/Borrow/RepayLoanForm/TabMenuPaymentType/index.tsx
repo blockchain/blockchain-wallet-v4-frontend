@@ -1,7 +1,8 @@
-import { FormattedMessage } from 'react-intl'
-import { TabMenu, TabMenuItem, TooltipHost } from 'blockchain-info-components'
-import { WrappedFieldProps } from 'redux-form'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { WrappedFieldProps } from 'redux-form'
+
+import { TabMenu, TabMenuItem, TooltipHost } from 'blockchain-info-components'
 
 type Props = WrappedFieldProps
 

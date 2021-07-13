@@ -1,13 +1,8 @@
-import PropTypes from 'prop-types'
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import {
-  Icon,
-  PasswordGauge,
-  PasswordInput,
-  Text
-} from 'blockchain-info-components'
+import { Icon, PasswordGauge, PasswordInput, Text } from 'blockchain-info-components'
 
 const Container = styled.div`
   position: relative;
@@ -38,21 +33,22 @@ const WarningIcon = styled(Icon)`
   top: 14px;
 `
 
-const getErrorState = ({ touched, invalid }) => {
+const getErrorState = ({ invalid, touched }) => {
   return touched && invalid ? 'invalid' : 'initial'
 }
 
-const PasswordBox = field => {
+const PasswordBox = (field) => {
   const {
-    meta,
-    input,
-    showPasswordScore,
-    disabled,
+    autoFocus,
     borderColor,
+    disabled,
+    input,
+    meta,
     noLastPass,
-    passwordScore
+    passwordScore,
+    showPasswordScore
   } = field
-  const { touched, error, active } = meta
+  const { active, error, touched } = meta
   const errorState = getErrorState(meta)
   const scoreVisible = showPasswordScore ? input.value.length > 0 : false
 
@@ -61,6 +57,7 @@ const PasswordBox = field => {
       <PasswordContainer>
         <PasswordInput
           {...input}
+          autoFocus={autoFocus}
           disabled={disabled}
           active={active}
           controlledBorderColor={borderColor}
@@ -72,17 +69,10 @@ const PasswordBox = field => {
       </PasswordContainer>
       {touched && error && (
         <>
-          <Error
-            size='12px'
-            weight={500}
-            color='error'
-            data-e2e='passwordsNotMatchError'
-          >
+          <Error size='12px' weight={500} color='error' data-e2e='passwordsNotMatchError'>
             {error}
           </Error>
-          {noLastPass && (
-            <WarningIcon name='alert-filled' color='red600' size='20px' />
-          )}
+          {noLastPass && <WarningIcon name='alert-filled' color='red600' size='20px' />}
         </>
       )}
     </Container>

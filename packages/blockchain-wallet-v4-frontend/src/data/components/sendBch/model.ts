@@ -1,2 +1,2 @@
 export const FORM = '@SEND.BCH.FORM'
-export const MODAL = '@MODAL.SEND.BCH'
+export const MODAL = 'SEND_BCH_MODAL'

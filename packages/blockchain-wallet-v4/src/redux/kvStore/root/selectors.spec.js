@@ -1,5 +1,5 @@
-import * as selectors from './selectors'
 import Remote from '../../../remote'
+import * as selectors from './selectors'
 
 describe('kvstore root selectors', () => {
   const rootMetadata = {

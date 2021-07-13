@@ -4,7 +4,7 @@ import {
   ExtractSuccess,
   FiatType,
   SupportedWalletCurrenciesType
-} from 'core/types'
+} from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 
 export const getData = state => {

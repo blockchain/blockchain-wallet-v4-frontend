@@ -1,12 +1,16 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
 import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Icon, Link, Text } from 'blockchain-info-components'
-import { InterestEligibleType, RemoteDataType } from 'core/types'
+import {
+  InterestEligibleType,
+  RemoteDataType
+} from 'blockchain-wallet-v4/src/types'
+import { actions, selectors } from 'data'
+
 import { SuccessStateType } from '..'
 
 const AbsoluteWarning = styled(Text)`
@@ -16,11 +20,12 @@ const AbsoluteWarning = styled(Text)`
   margin-bottom: 20px;
 `
 class IneligibiltyWarning extends PureComponent<Props & SuccessStateType> {
-  componentDidMount () {
+  componentDidMount() {
     this.props.interestActions.fetchInterestEligible()
   }
-  render () {
-    const { interestEligible, instruments } = this.props
+
+  render() {
+    const { instruments, interestEligible } = this.props
 
     return interestEligible.cata({
       Success: val => {

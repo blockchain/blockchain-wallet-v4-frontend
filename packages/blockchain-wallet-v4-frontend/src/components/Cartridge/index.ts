@@ -5,7 +5,7 @@ export const CustomCartridge = styled(Cartridge)`
   text-transform: none;
   border-radius: 8px;
   padding: 6px 8px;
-  font-size: 14px;
+  font-size: ${props => (props.fontSize ? props.fontSize : '14px')};
   font-weight: 600;
   margin-left: 0px;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,

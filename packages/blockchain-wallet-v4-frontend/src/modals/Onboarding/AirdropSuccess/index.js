@@ -1,5 +1,10 @@
-import { actions } from 'data'
+import React from 'react'
+import CopyToClipBoard from 'react-copy-to-clipboard'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+import styled from 'styled-components'
+
 import {
   Button,
   Icon,
@@ -10,12 +15,8 @@ import {
   Text,
   TooltipHost
 } from 'blockchain-info-components'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import CopyToClipBoard from 'react-copy-to-clipboard'
+import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
-import React from 'react'
-import styled from 'styled-components'
 
 const AirdropSuccessModalHeader = styled(ModalHeader)`
   position: absolute;
@@ -73,7 +74,7 @@ class AirdropSuccess extends React.PureComponent {
     this.setState({ isLinkCopied: false })
   }
 
-  render () {
+  render() {
     const { isLinkCopied } = this.state
     const { close, position, total } = this.props
     const link = 'https://www.blockchain.com/getcrypto'
@@ -159,7 +160,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const enhance = compose(
-  modalEnhancer('AirdropSuccess'),
+  modalEnhancer('AIRDROP_SUCCESS_MODAL'),
   connect(null, mapDispatchToProps)
 )
 

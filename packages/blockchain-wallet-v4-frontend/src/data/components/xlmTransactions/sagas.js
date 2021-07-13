@@ -1,5 +1,6 @@
-import { actions } from 'data'
 import { put } from 'redux-saga/effects'
+
+import { actions } from 'data'
 
 export const logLocation = 'components/btcTransactions/sagas'
 

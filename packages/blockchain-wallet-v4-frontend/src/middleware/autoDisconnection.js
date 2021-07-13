@@ -1,5 +1,6 @@
-import { actions, actionTypes, selectors } from 'data'
 import { contains } from 'ramda'
+
+import { actions, actionTypes, selectors } from 'data'
 
 let timer, counter, interval
 // Actions that won't refresh the autodisconnection timer
@@ -41,9 +42,6 @@ let blackListedActivityTypes = [
   actionTypes.middleware.webSocket.rates.START_SOCKET,
   actionTypes.middleware.webSocket.rates.STOP_SOCKET,
   actionTypes.middleware.webSocket.rates.OPEN_SOCKET,
-  actionTypes.components.exchange.FETCH_LIMITS_SUCCESS,
-  actionTypes.components.exchange.SET_MIN_MAX,
-  actionTypes.components.exchange.SET_SOURCE_FEE,
   actionTypes.modules.rates.UPDATE_BEST_RATES,
   // COINS
   actionTypes.middleware.webSocket.coins.OPEN_SOCKET,

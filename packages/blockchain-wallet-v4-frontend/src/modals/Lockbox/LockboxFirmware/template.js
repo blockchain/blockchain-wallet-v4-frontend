@@ -1,17 +1,18 @@
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
-import React from 'react'
 import styled from 'styled-components'
 
 import { Modal, ModalBody, ModalHeader } from 'blockchain-info-components'
-import ModalStepper from 'components/ModalStepper'
+
+import ModalStepper from '../components'
 
 const ContentWrapper = styled(ModalBody)`
   padding: 20px;
 `
 
 const LockboxFirmware = props => {
-  const { children, onClose, position, total, step, totalSteps } = props
+  const { children, onClose, position, step, total, totalSteps } = props
   return (
     <Modal size='small' position={position} total={total}>
       <ModalHeader onClose={onClose}>

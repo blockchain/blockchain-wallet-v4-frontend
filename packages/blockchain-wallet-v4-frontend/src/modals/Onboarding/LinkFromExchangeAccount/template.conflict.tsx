@@ -1,10 +1,11 @@
-import { Button, Icon, Text } from 'blockchain-info-components'
-import { ButtonWrapper, MainWrapper } from './styles'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { Props } from '.'
-
 import React, { PureComponent } from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
+
+import { Button, Icon, Text } from 'blockchain-info-components'
+
+import { Props } from '.'
+import { ButtonWrapper, MainWrapper } from './styles'
 
 const HeadingContainer = styled.div`
   width: 100%;
@@ -65,10 +66,10 @@ class Conflict extends PureComponent<
   Props & { close: () => void; error: LinkExchangeErrorType },
   State
 > {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
-    const { email, address } = props.error
+    const { address, email } = props.error
     const isEmail =
       email && email.wallet !== 'null' && email.exchange !== 'null'
     const isAddress =
@@ -84,7 +85,7 @@ class Conflict extends PureComponent<
   }
 
   handleAddress = event => {
-    const { allowSubmit, selectedEmail, considerEmail } = this.state
+    const { allowSubmit, considerEmail, selectedEmail } = this.state
     this.setState({ selectedAddress: event.target.value })
     if (!allowSubmit && (selectedEmail !== null || !considerEmail)) {
       this.setState({ allowSubmit: true })
@@ -92,14 +93,15 @@ class Conflict extends PureComponent<
   }
 
   handleEmail = event => {
-    const { allowSubmit, selectedAddress, considerAddress } = this.state
+    const { allowSubmit, considerAddress, selectedAddress } = this.state
     this.setState({ selectedEmail: event.target.value })
     if (!allowSubmit && (selectedAddress !== null || !considerAddress)) {
       this.setState({ allowSubmit: true })
     }
   }
+
   handleSubmit = () => {
-    const { actions, linkId, error } = this.props
+    const { actions, error, linkId } = this.props
     const { selectedAddress, selectedEmail } = this.state
     let chosenAddress, chosenEmail
 
@@ -164,7 +166,7 @@ class Conflict extends PureComponent<
     )
   }
 
-  render () {
+  render() {
     const {
       allowSubmit,
       considerAddress,
@@ -172,7 +174,7 @@ class Conflict extends PureComponent<
       selectedAddress,
       selectedEmail
     } = this.state
-    const { email, address } = this.props.error
+    const { address, email } = this.props.error
 
     return (
       <MainWrapper>
@@ -327,7 +329,7 @@ class Conflict extends PureComponent<
                   marginTop: '34px'
                 }}
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   id='modals.onboarding.linkfromexchange.email_disclaimer1'
                   defaultMessage='Keep using <span class="grey900">{exchangeEmail}</span> to log into the Exchange'
                   values={{ exchangeEmail: email.exchange }}
@@ -344,7 +346,7 @@ class Conflict extends PureComponent<
                   marginTop: '16px'
                 }}
               >
-                <FormattedHTMLMessage
+                <FormattedMessage
                   id='modals.onboarding.linkfromexchange.email_disclaimer2'
                   defaultMessage={`If you have 2FA enabled for your Wallet, nothing changes. You will still use <span className="grey900">{walletEmail}</span> to securely log in.`}
                   values={{ walletEmail: email.wallet }}

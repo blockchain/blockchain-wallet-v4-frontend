@@ -1,72 +1,89 @@
-import { Icon as BCIcon, Text } from 'blockchain-info-components'
-import moment from 'moment'
 import React from 'react'
-import styled, { DefaultTheme } from 'styled-components'
+import { FormattedMessage } from 'react-intl'
+import { path } from 'ramda'
+import styled from 'styled-components'
 
-import { CoinTypeEnum } from 'core/types'
+import { Icon as BCIcon, Text } from 'blockchain-info-components'
+import {
+  CoinType,
+  CoinTypeEnum,
+  WalletFiatEnum
+} from 'blockchain-wallet-v4/src/types'
+
+import {
+  IconTx as SharedIconTx,
+  IconWrapper,
+  Timestamp as SharedTimestamp
+} from '../components'
+import Confirmations from '../NonCustodialTx/Confirmations'
 import { Props } from '.'
-
-const IconWrapper = styled.div<{ color: keyof DefaultTheme }>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 32px;
-  width: 32px;
-  border-radius: 16px;
-  background: ${props => props.theme[props.color]};
-`
 
 const Icon = styled(BCIcon)`
   size: 18px;
   font-weight: 600;
 `
+const getSymbolDisplayName = (props: Props) => {
+  return path([props.tx.amount.symbol, 'coinTicker'], props.supportedCoins)
+}
+
+const getCoinDisplayName = (props: Props) => {
+  return path([props.coin, 'coinTicker'], props.supportedCoins)
+}
 
 export const IconTx = (props: Props) => {
   switch (props.tx.state) {
-    case 'COMPLETE':
+    case 'FINISHED':
       return (
-        <IconWrapper color='fiat-light'>
+        <IconWrapper color='green400'>
+          <Icon size='20px' color='USD' name='plus' />
+        </IconWrapper>
+      )
+    case 'REFUNDED':
+    case 'COMPLETE':
+      return props.coin in WalletFiatEnum ? (
+        <IconWrapper color='green400'>
           <Icon
-            color='fiat'
+            size='20px'
+            color='USD'
             name={props.tx.type === 'DEPOSIT' ? 'arrow-down' : 'arrow-up'}
           />
         </IconWrapper>
+      ) : (
+        <SharedIconTx
+          type={props.tx.type === 'DEPOSIT' ? 'received' : 'sent'}
+          coin={props.coin as CoinType}
+        />
       )
+    case 'CLEARED':
     case 'CREATED':
     case 'FRAUD_REVIEW':
     case 'MANUAL_REVIEW':
     case 'PENDING':
     case 'PENDING_DEPOSIT':
-    case 'CLEARED':
-      return (
-        <IconWrapper color='grey000'>
-          <Icon
-            color='grey600'
-            name={props.tx.type === 'DEPOSIT' ? 'arrow-down' : 'arrow-up'}
-          />
-        </IconWrapper>
-      )
+      return <SharedIconTx type='PENDING' />
+    case 'CANCELED':
+    case 'EXPIRED':
     case 'FAILED':
-    case 'REFUNDED':
     case 'REJECTED':
     case 'UNIDENTIFIED':
-      return (
-        <IconWrapper color='red000'>
+      return props.coin in WalletFiatEnum ? (
+        <IconWrapper color='red500'>
           <Icon
             color='red600'
+            size='20px'
             name={props.tx.type === 'DEPOSIT' ? 'arrow-down' : 'arrow-up'}
           />
         </IconWrapper>
+      ) : (
+        <SharedIconTx
+          type={props.tx.type === 'DEPOSIT' ? 'received' : 'sent'}
+          coin={props.coin as CoinType}
+        />
       )
     default:
       return (
-        <IconWrapper color='grey000'>
-          <Icon
-            size='16px'
-            weight={500}
-            color='grey600'
-            name={'question-in-circle'}
-          />
+        <IconWrapper color='grey500'>
+          <Icon size='20px' weight={500} color='grey600' name='timer' />
         </IconWrapper>
       )
   }
@@ -76,22 +93,17 @@ export const Timestamp = (props: Props) => {
   const getTimeOrStatus = () => {
     switch (props.tx.state) {
       case 'COMPLETE':
-        return moment(props.tx.insertedAt).format('MMM. D, YYYY')
-      case 'FAILED':
+      case 'FINISHED':
       case 'REFUNDED':
-      case 'REJECTED':
-      case 'UNIDENTIFIED':
-        return 'Failed'
-      case 'MANUAL_REVIEW':
-        return 'In Review'
+        return <SharedTimestamp time={props.tx.insertedAt} />
       default:
-        return 'In Progress'
+        return <Status {...props} />
     }
   }
 
   return (
     <Text
-      size='14px'
+      size='13px'
       weight={500}
       color='grey600'
       style={{ marginTop: '4px' }}
@@ -102,28 +114,129 @@ export const Timestamp = (props: Props) => {
   )
 }
 
+export const TransactionType = (props: Props) => {
+  if (props.tx.amount.symbol in CoinTypeEnum) {
+    switch (props.tx.type) {
+      case 'DEPOSIT':
+        return (
+          <FormattedMessage
+            id='components.form.tabmenutransactionstatus.received'
+            defaultMessage='Received'
+          />
+        )
+      case 'WITHDRAWAL':
+        return (
+          <FormattedMessage
+            id='components.form.tabmenutransactionstatus.sent'
+            defaultMessage='Sent'
+          />
+        )
+      case 'REFUNDED':
+        return <FormattedMessage id='copy.refunded' defaultMessage='Refunded' />
+      case 'SELL':
+        return <FormattedMessage id='copy.sold' defaultMessage='Sold' />
+      default:
+        return <></>
+    }
+  } else {
+    switch (props.tx.type) {
+      case 'DEPOSIT':
+        return props.tx.state === 'REFUNDED' ? (
+          <FormattedMessage id='copy.refunded' defaultMessage='Refunded' />
+        ) : (
+          <FormattedMessage id='buttons.deposited' defaultMessage='Deposited' />
+        )
+      case 'REFUNDED':
+        return <FormattedMessage id='copy.refunded' defaultMessage='Refunded' />
+      case 'SELL':
+        return <FormattedMessage id='copy.sold' defaultMessage='Sold' />
+      case 'WITHDRAWAL':
+        return (
+          <FormattedMessage id='buttons.withdrew' defaultMessage='Withdrew' />
+        )
+      default:
+        return <></>
+    }
+  }
+}
+
 export const Origin = (props: Props) => {
   switch (props.tx.type) {
+    case 'CHARGE':
+    case 'REFUNDED':
     case 'DEPOSIT':
-      if (props.tx.amount.symbol in CoinTypeEnum) {
-        return <>Wallet</>
-      }
-
-      return <>Bank Account</>
+      return props.tx.amount.symbol in CoinTypeEnum ? (
+        <>{getCoinDisplayName(props)} Account</>
+      ) : (
+        <>Bank Account</>
+      )
+    case 'SELL':
+      return props.tx.extraAttributes?.direction === 'FROM_USERKEY' ? (
+        <> {getSymbolDisplayName(props)} Account</>
+      ) : (
+        <>{getSymbolDisplayName(props)} Trading Account</>
+      )
     case 'WITHDRAWAL':
-      return <>Trading Wallet</>
+      return <>{getSymbolDisplayName(props)} Account</>
+    default:
+      return <></>
   }
 }
 
 export const Destination = (props: Props) => {
   switch (props.tx.type) {
+    case 'CHARGE':
+    case 'REFUNDED':
     case 'DEPOSIT':
-      return <>Trading Wallet</>
+    case 'SELL':
+      return <>{getCoinDisplayName(props)} Account</>
     case 'WITHDRAWAL':
-      if (props.tx.amount.symbol in CoinTypeEnum) {
-        return <>Wallet</>
-      }
+      return props.tx.amount.symbol in CoinTypeEnum ? (
+        <>{getSymbolDisplayName(props)} Account</>
+      ) : (
+        <>Bank Account</>
+      )
+    default:
+      return <></>
+  }
+}
 
-      return <>Bank Account</>
+export const Status = (props: Props) => {
+  switch (props.tx.state) {
+    case 'COMPLETE':
+    case 'FINISHED':
+      if (
+        props.tx.amount.symbol in CoinTypeEnum &&
+        props.tx.extraAttributes?.confirmations
+      ) {
+        return (
+          <Confirmations
+            coin={props.tx.amount.symbol}
+            hash={props.tx.extraAttributes.hash}
+            isConfirmed={props.tx.extraAttributes.confirmations >= 1}
+            onViewTxDetails={() => {}}
+          />
+        )
+      }
+      return <FormattedMessage id='copy.complete' defaultMessage='Complete' />
+    case 'REFUNDED':
+      return <FormattedMessage id='copy.refunded' defaultMessage='Refunded' />
+    case 'FAILED':
+    case 'REJECTED':
+    case 'UNIDENTIFIED':
+      return <FormattedMessage id='copy.failed' defaultMessage='Failed' />
+    case 'MANUAL_REVIEW':
+      return <FormattedMessage id='copy.in_review' defaultMessage='In Review' />
+    case 'CANCELED':
+      return <FormattedMessage id='copy.canceled' defaultMessage='Canceled' />
+    case 'EXPIRED':
+      return (
+        <FormattedMessage
+          id='scenes.exchangehistory.list.orderstatus.expired'
+          defaultMessage='Expired'
+        />
+      )
+    default:
+      return <FormattedMessage id='copy.pending' defaultMessage='Pending' />
   }
 }

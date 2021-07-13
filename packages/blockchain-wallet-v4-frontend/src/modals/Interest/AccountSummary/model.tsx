@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
-import { FlyoutWrapper } from 'components/Flyout'
 import { Text } from 'blockchain-info-components'
+import { FlyoutWrapper } from 'components/Flyout'
 
 export const Wrapper = styled.div`
   height: 100%;
@@ -24,7 +24,7 @@ export const Row = styled.div`
 `
 export const Container = styled(Row)`
   flex-direction: column;
-  height: 48px;
+  min-height: 48px;
   justify-content: space-between;
 
   &:first-child {
@@ -56,6 +56,7 @@ export const LineVector = styled.div`
   width: 100%;
   background: ${({ theme }) => theme.grey000};
   margin: 24px 0 8px 0;
+  display: flex;
 `
 export const Bottom = styled(FlyoutWrapper)`
   display: flex;
@@ -77,14 +78,26 @@ export const StatusWrapper = styled.div`
   margin-top: 20px;
   align-items: center;
 `
+
+export const StatusSupplyWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  margin-top: 32px;
+  border-radius: 8px;
+  background-color: ${({ theme }) => theme.grey000};
+`
 export const StatusIconWrapper = styled.div<{ color: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
   margin-right: 16px;
-  background: ${props => props.theme[props.color]};
+  background: ${(props) => props.theme[props.color]};
   border-radius: 20px;
   min-height: 38px;
   min-width: 38px;
   max-height: 38px;
+`
+export const LinkWrapper = styled.div`
+  padding: 16px 0;
 `

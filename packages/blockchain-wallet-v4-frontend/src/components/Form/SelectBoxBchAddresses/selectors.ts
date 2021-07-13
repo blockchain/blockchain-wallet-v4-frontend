@@ -1,4 +1,3 @@
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import {
   assoc,
   assocPath,
@@ -24,15 +23,18 @@ import {
   set,
   sort
 } from 'ramda'
-import { collapse } from 'utils/helpers'
+
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { InterestAccountBalanceType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
+import { collapse } from 'utils/helpers'
 
 const allWallets = {
   label: 'All',
   options: [
     {
-      label: 'All Bitcoin Cash Wallets',
+      label: 'All BCH Private Key Wallets',
       value: 'all'
     }
   ]
@@ -42,7 +44,7 @@ const allImportedAddresses = {
   label: 'Imported Addresses',
   options: [
     {
-      label: 'All Imported Bitcoin Cash Addresses',
+      label: 'All Imported BCH Addresses',
       value: 'allImportedAddresses'
     }
   ]
@@ -51,7 +53,7 @@ const allImportedAddresses = {
 export const getData = (
   state,
   ownProps: {
-    coin: 'BCH'
+    coin?: 'BCH'
     exclude?: Array<string>
     excludeHDWallets?: boolean
     excludeImported?: boolean
@@ -60,6 +62,7 @@ export const getData = (
     includeAll?: boolean
     includeCustodial?: boolean
     includeExchangeAddress?: boolean
+    includeInterest?: boolean
   }
 ) => {
   const {
@@ -71,6 +74,7 @@ export const getData = (
     includeAll = true,
     includeExchangeAddress,
     includeCustodial,
+    includeInterest,
     forceCustodialFirst
   } = ownProps
 
@@ -89,9 +93,20 @@ export const getData = (
 
   const buildCustodialDisplay = x => {
     return (
-      `BCH Trading Wallet` +
+      `Trading Account` +
       ` (${Exchange.displayBchToBch({
         value: x ? x.available : 0,
+        fromUnit: 'SAT',
+        toUnit: 'BCH'
+      })})`
+    )
+  }
+
+  const buildInterestDisplay = (x: InterestAccountBalanceType['BCH']) => {
+    return (
+      `Interest Account` +
+      ` (${Exchange.displayBchToBch({
+        value: x ? x.balance : 0,
         fromUnit: 'SAT',
         toUnit: 'BCH'
       })})`
@@ -109,7 +124,7 @@ export const getData = (
   const toGroup = curry((label, options) => [{ label, options }])
   const toExchange = x => [
     {
-      label: `Exchange BCH Address`,
+      label: `Exchange Account`,
       value: x
     }
   ]
@@ -119,7 +134,18 @@ export const getData = (
       value: {
         ...currencyDetails,
         type: ADDRESS_TYPES.CUSTODIAL,
-        label: 'BCH Trading Wallet'
+        label: 'Trading Account'
+      }
+    }
+  ]
+
+  const toInterestDropdown = x => [
+    {
+      label: buildInterestDisplay(x),
+      value: {
+        ...x,
+        type: ADDRESS_TYPES.INTEREST,
+        label: 'Interest Account'
       }
     }
   ]
@@ -194,6 +220,13 @@ export const getData = (
             }))
             .map(toCustodialDropdown)
             .map(toGroup('Custodial Wallet'))
+        : Remote.of([]),
+      includeInterest
+        ? selectors.components.interest
+            .getInterestAccountBalance(state)
+            .map(x => x.BCH)
+            .map(toInterestDropdown)
+            .map(toGroup('Interest Account'))
         : Remote.of([]),
       excludeImported
         ? Remote.of([])

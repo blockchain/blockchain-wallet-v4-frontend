@@ -2,81 +2,89 @@ import {
   ButtonHTMLAttributes,
   ComponentClass,
   CSSProperties,
-  FunctionComponent
+  FunctionComponent,
+  ReactNode
 } from 'react'
 import { DefaultTheme } from 'styled-components'
 import { IcoMoonType } from './src/Icons/Icomoon'
 import { ImageType } from './src/Images/Images'
-import { CoinType } from 'core/types'
+import { CoinType, WalletCurrencyType } from 'core/types'
+import { SwapBaseCounterTypes } from 'data/types'
+
+type AllCoinsType = WalletCurrencyType | 'BSV' | 'STX'
 
 export const Badge: FunctionComponent<any>
 export const Banner: FunctionComponent<any>
+export const Box: FunctionComponent<any>
 export const BlockchainLoader: FunctionComponent<{
   width?: string
   height?: string
 }>
-export const Button: FunctionComponent<{
-  'data-e2e': string
-  nature?:
-    | 'copy'
-    | 'dark'
-    | 'dark-grey'
-    | 'empty-secondary'
-    | 'empty'
-    | 'empty-blue'
-    | 'grey400'
-    | 'green'
-    | 'grey800'
-    | 'light'
-    | 'light-red'
-    | 'primary'
-    | 'purple'
-    | 'received'
-    | 'secondary'
-    | 'sent'
-    | 'success'
-    | 'transferred'
-    | 'warning'
-    | 'white-blue'
-    | 'white-transparent'
-  bold?: boolean
-  capitalize?: boolean
-  className?: string
-  disabled?: boolean
-  fullwidth?: boolean
-  height?: string
-  jumbo?: boolean
-  margin?: string
-  onClick?: () => void
-  padding?: string
-  rounded?: boolean
-  size?: string
-  small?: boolean
-  style?: CSSProperties
-  uppercase?: boolean
-  width?: string
-} & ButtonHTMLAttributes<{}>>
+export const Button: FunctionComponent<
+  {
+    'data-e2e': string
+    nature?:
+      | 'copy'
+      | 'dark'
+      | 'dark-grey'
+      | 'empty-secondary'
+      | 'empty'
+      | 'empty-blue'
+      | 'grey400'
+      | 'green'
+      | 'grey800'
+      | 'light'
+      | 'light-red'
+      | 'primary'
+      | 'purple'
+      | 'received'
+      | 'secondary'
+      | 'sent'
+      | 'success'
+      | 'transferred'
+      | 'warning'
+      | 'white-blue'
+      | 'white-transparent'
+    bold?: boolean
+    capitalize?: boolean
+    className?: string
+    disabled?: boolean
+    fullwidth?: boolean
+    height?: string
+    jumbo?: boolean
+    margin?: string
+    onClick?: () => void
+    padding?: string
+    rounded?: boolean
+    size?: string
+    small?: boolean
+    style?: CSSProperties
+    uppercase?: boolean
+    width?: string
+  } & ButtonHTMLAttributes<{}>
+>
 export const Carousel: FunctionComponent<{
   height: number
   arrows: boolean
   chips: boolean
 }>
 export const ComponentDropdown: ComponentClass<{
-  components: Array<JSX.Element | boolean>
+  callback?: () => void
   color?: string
-  toggleOnCallback?: boolean
-  opened?: boolean
-  uppercase?: boolean
+  components: Array<JSX.Element | boolean>
   down?: boolean
   forceSelected?: boolean
-  selectedComponent?: JSX.Element
+  opened?: boolean
   onClick?: () => void
-  callback?: () => void
+  margin?: string
+  selectedComponent?: JSX.Element
+  textAlign?: string
+  toggleOnCallback?: boolean
+  uppercase?: boolean
+  width?: string
 }>
 
-export function Color(
-  color: keyof DefaultTheme
-): DefaultTheme[keyof DefaultTheme]
+export function Color(color: keyof DefaultTheme): DefaultTheme[keyof DefaultTheme]
 
 export const FontGlobalStyles: FunctionComponent<{}>
 export const FlatLoader: FunctionComponent<{
@@ -91,7 +99,7 @@ export const HeartbeatLoader: FunctionComponent<{
 }>
 export const Icon: FunctionComponent<{
   className?: string
-  name: keyof IcoMoonType
+  name: keyof IcoMoonType | AllCoinsType
   weight?: number
   size?: string
   cursor?: boolean
@@ -100,44 +108,51 @@ export const Icon: FunctionComponent<{
   onClick?: () => void
   role?: 'button'
 }>
-export const IconButton: FunctionComponent<{
-  'data-e2e': string
-  nature?:
-    | 'copy'
-    | 'dark'
-    | 'dark-grey'
-    | 'empty-secondary'
-    | 'empty'
-    | 'grey400'
-    | 'green'
-    | 'light'
-    | 'primary'
-    | 'purple'
-    | 'received'
-    | 'secondary'
-    | 'sent'
-    | 'success'
-    | 'transferred'
-    | 'warning'
-    | 'white-blue'
-    | 'white-transparent'
-  bold?: boolean
-  capitalize?: boolean
-  className?: string
-  disabled?: boolean
-  fullwidth?: boolean
-  height?: string
-  jumbo?: boolean
-  margin?: string
-  name: keyof IcoMoonType
-  onClick?: () => void
-  padding?: string
-  rounded?: boolean
-  small?: boolean
+export const CoinAccountIcon: FunctionComponent<{
+  accountType: SwapBaseCounterTypes | 'EXCHANGE' | 'INTEREST'
+  coin: AllCoinsType
   style?: CSSProperties
-  uppercase?: boolean
-  width?: string
-} & ButtonHTMLAttributes<{}>>
+}>
+export const IconButton: FunctionComponent<
+  {
+    'data-e2e': string
+    nature?:
+      | 'copy'
+      | 'dark'
+      | 'dark-grey'
+      | 'empty-secondary'
+      | 'empty'
+      | 'grey400'
+      | 'green'
+      | 'light'
+      | 'primary'
+      | 'purple'
+      | 'received'
+      | 'secondary'
+      | 'sent'
+      | 'success'
+      | 'transferred'
+      | 'warning'
+      | 'white-blue'
+      | 'white-transparent'
+    bold?: boolean
+    capitalize?: boolean
+    className?: string
+    disabled?: boolean
+    fullwidth?: boolean
+    height?: string
+    jumbo?: boolean
+    margin?: string
+    name: keyof IcoMoonType | AllCoinsType
+    onClick?: () => void
+    padding?: string
+    rounded?: boolean
+    small?: boolean
+    style?: CSSProperties
+    uppercase?: boolean
+    width?: string
+  } & ButtonHTMLAttributes<{}>
+>
 export const IconGlobalStyles: FunctionComponent<{}>
 export const Image: FunctionComponent<{
   name: keyof ImageType
@@ -148,8 +163,10 @@ export const Image: FunctionComponent<{
   height?: string
   color?: string
   size?: string
+  style?: CSSProperties
 }>
 export const Link: FunctionComponent<{
+  altFont?: boolean
   weight?: number
   size?: string
   color?: keyof DefaultTheme
@@ -163,6 +180,7 @@ export const Link: FunctionComponent<{
   onClick?: (e?: KeyboardEvent) => void
 }>
 export const Modal: FunctionComponent<{
+  children: ReactNode
   size?: '' | 'xsmall' | 'small' | 'medium' | 'large' | 'xlarge'
   type?: 'tray' | 'flyout'
   position?: number
@@ -178,7 +196,10 @@ export const ModalBody: FunctionComponent<{
 export const ModalHeader: FunctionComponent<{
   closeButton?: boolean
   onClose?: () => void
-  icon?: keyof IcoMoonType
+  icon?: keyof IcoMoonType | AllCoinsType
+}>
+export const ModalFooter: FunctionComponent<{
+  align: 'left' | 'right' | 'center' | 'spaced'
 }>
 export function Palette(theme: string): DefaultTheme
 export const Separator: FunctionComponent<{}>
@@ -195,6 +216,7 @@ export const SkeletonRectangle: FunctionComponent<{
 export const SpinningLoader: FunctionComponent<{
   width?: string
   height?: string
+  borderWidth?: string
 }>
 export const TabMenu: FunctionComponent<{}>
 export const TabMenuItem: FunctionComponent<{
@@ -242,9 +264,17 @@ export const Toast: FunctionComponent<{
   persist?: boolean
   timeout?: number
 }>
+export const Tooltip: FunctionComponent<{ id: string; offset?: any }>
 export const TooltipHost: FunctionComponent<{ id: string }>
 export const TooltipIcon: FunctionComponent<{
   color?: keyof DefaultTheme
-  name: keyof IcoMoonType
+  name: keyof IcoMoonType | AllCoinsType
   size?: string
+}>
+export const CheckBoxInput: FunctionComponent<{
+  name: string
+  checked?: boolean
+  disabled?: boolean
+  onClick?: () => void
+  onChange?: () => void
 }>

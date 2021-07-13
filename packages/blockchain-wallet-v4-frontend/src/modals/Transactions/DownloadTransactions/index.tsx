@@ -1,17 +1,20 @@
-import { compose, Dispatch } from 'redux'
-import { connect } from 'react-redux'
 import React, { Component } from 'react'
-
-import * as moment from 'moment'
-import { actions, selectors } from 'data'
+import { connect } from 'react-redux'
+import locale from 'browser-locale'
+import moment from 'moment'
 import { prop, toLower } from 'ramda'
-import modalEnhancer from 'providers/ModalEnhancer'
-import momentHelper from 'services/MomentHelper'
+import { compose, Dispatch } from 'redux'
 
-import { CoinType, SupportedCoinType } from 'core/types'
-import { getData } from './selectors'
+import { CoinType, SupportedCoinType } from 'blockchain-wallet-v4/src/types'
+import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import modalEnhancer from 'providers/ModalEnhancer'
+
+import { isErc20Coin } from './model'
+import getData from './selectors'
 import DownloadTransactions from './template'
+
+moment.locale(locale())
 
 export type StateProps = {
   filename: string
@@ -30,34 +33,27 @@ type LinkStatePropsType = {
 }
 type LinkDispatchPropsType = {
   clearTransactions: () => void
-  fetchTransactions: (
-    address: string,
-    startDate: string,
-    endDate: string
-  ) => void
-  initForm: (formDefaults: {
-    end: moment.Moment
-    from: 'all'
-    start: moment.Moment
-  }) => void
+  fetchTransactions: (address: string, startDate: string, endDate: string) => void
+  initForm: (formDefaults: { end: moment.Moment; from: 'all'; start: moment.Moment }) => void
 }
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
 class DownloadTransactionsModal extends Component<Props, StateProps> {
-  state: StateProps = { filename: '', generating: false }
+  constructor(props: Props) {
+    super(props)
+    this.state = { filename: '', generating: false }
+  }
 
-  componentDidMount () {
+  componentDidMount() {
     const { initForm } = this.props
     initForm({
+      end: moment().endOf('day'),
       from: 'all',
-      start: momentHelper()
-        .startOf('day')
-        .subtract(7, 'day'),
-      end: momentHelper().endOf('day')
+      start: moment().startOf('day').subtract(7, 'day')
     })
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.clearTransactions()
   }
 
@@ -66,16 +62,22 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
     const from = prop('from', formValues)
     const startDate = prop('start', formValues)
     const endDate = prop('end', formValues)
-    const address = from && (from.xpub || from.address || from)
+    const addressDerivations =
+      from.derivations &&
+      from.derivations.map((derivation) => ({
+        address: derivation.xpub,
+        type: derivation.type
+      }))
+    const address = from && (addressDerivations || from.xpub || from.address || from)
     const filename =
       `${coinModel.coinTicker}_${startDate.format('MM-DD-YYYY')}` +
       `_${endDate.format('MM-DD-YYYY')}.csv`
-    this.setState({ generating: true, filename })
+    this.setState({ filename, generating: true })
     fetchTransactions(address, startDate, endDate)
   }
 
-  render () {
-    const { props, onFetchHistory, state } = this
+  render() {
+    const { onFetchHistory, props, state } = this
     const { filename, generating } = state
     const { closeAll, coin, csvData, position, total } = props
 
@@ -103,46 +105,31 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch, { coin }: OwnProps) => {
-  const coinCode = coin === 'PAX' || coin === 'USDT' ? 'eth' : toLower(coin)
+  const coinCode = isErc20Coin(coin) ? 'eth' : toLower(coin)
   return {
-    clearTransactions: () =>
-      dispatch(actions.core.data[coinCode].clearTransactionHistory()),
+    clearTransactions: () => dispatch(actions.core.data[coinCode].clearTransactionHistory()),
     fetchTransactions: (address, startDate, endDate) => {
-      if (coin === 'PAX') {
+      if (isErc20Coin(coin)) {
         return dispatch(
           actions.core.data.eth.fetchErc20TransactionHistory(
             address,
             startDate,
             endDate,
-            'pax'
-          )
-        )
-      }
-      if (coin === 'USDT') {
-        return dispatch(
-          actions.core.data.eth.fetchErc20TransactionHistory(
-            address,
-            startDate,
-            endDate,
-            'usdt'
+            coin.toLowerCase()
           )
         )
       }
       return dispatch(
-        actions.core.data[coinCode].fetchTransactionHistory(
-          address,
-          startDate,
-          endDate
-        )
+        actions.core.data[coinCode].fetchTransactionHistory(address, startDate, endDate)
       )
     },
-    initForm: initialValues =>
+    initForm: (initialValues) =>
       dispatch(actions.form.initialize('transactionReport', initialValues))
   }
 }
 
 const enhance = compose<any>(
-  modalEnhancer('TRANSACTION_REPORT'),
+  modalEnhancer('TRANSACTION_REPORT_MODAL'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

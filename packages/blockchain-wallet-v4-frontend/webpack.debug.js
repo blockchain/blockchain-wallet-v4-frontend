@@ -1,5 +1,5 @@
 /* eslint-disable */
-const webpackBuilder = require('./utils/webpackBuilder')
+const webpackBuilder = require('./webpackBuilder')
 
 // get dev server config, envConfig, SSL flag and base webpack config from builder
 const { devServerConfig, webpackConfig } = webpackBuilder({

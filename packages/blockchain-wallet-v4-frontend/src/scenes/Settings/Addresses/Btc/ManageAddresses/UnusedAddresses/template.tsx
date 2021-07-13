@@ -1,6 +1,7 @@
-import { filter } from 'ramda'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { filter } from 'ramda'
+import styled from 'styled-components'
 
 import {
   Icon,
@@ -12,11 +13,18 @@ import {
   Text
 } from 'blockchain-info-components'
 
+const TableStyled = styled(Table)`
+  margin-top: 8px;
+  > div:last-child {
+    border-bottom: none;
+  }
+`
+
 const UnusedAddressesTemplate = ({
-  unusedAddresses,
-  onEditLabel,
   onDeleteLabel,
-  search
+  onEditLabel,
+  search,
+  unusedAddresses
 }) => {
   const isMatch = addr =>
     !search ||
@@ -28,8 +36,8 @@ const UnusedAddressesTemplate = ({
         <TableCell width='40%' style={{ wordBreak: 'break-all' }}>
           <Link
             href={`https://blockchain.info/address/${entry.address}`}
-            size='small'
-            weight={400}
+            size='13px'
+            weight={500}
             target='_blank'
             data-e2e='btcUnusedAddressLink'
           >
@@ -37,7 +45,7 @@ const UnusedAddressesTemplate = ({
           </Link>
         </TableCell>
         <TableCell width='40%'>
-          <Text size='13px' data-e2e='btcUnusedAddressLabel'>
+          <Text size='13px' weight={500} data-e2e='btcUnusedAddressLabel'>
             {entry.label}
           </Text>
         </TableCell>
@@ -47,16 +55,16 @@ const UnusedAddressesTemplate = ({
         >
           <Icon
             cursor
+            data-e2e='btcEditAddressLabelLink'
             name='pencil'
             onClick={() => onEditLabel(entry.derivationIndex)}
             style={{ marginRight: 10 }}
-            data-e2e='btcEditAddressLabelLink'
           />
           <Icon
             cursor
+            data-e2e='btcDeleteAddressLink'
             name='trash'
             onClick={() => onDeleteLabel(entry.derivationIndex)}
-            data-e2e='btcDeleteAddressLink'
           />
         </TableCell>
       </TableRow>
@@ -65,9 +73,11 @@ const UnusedAddressesTemplate = ({
 
   return unusedAddresses.length === 0 ? (
     <Text
-      weight={400}
-      style={{ marginTop: 20, textAlign: 'center' }}
+      color='grey700'
       data-e2e='btcWalletNoUnusedAddresses'
+      size='16px'
+      style={{ marginTop: 20, textAlign: 'center' }}
+      weight={500}
     >
       <FormattedMessage
         id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.nounusedmessage'
@@ -75,15 +85,15 @@ const UnusedAddressesTemplate = ({
       />
     </Text>
   ) : (
-    <Table>
+    <TableStyled>
       <TableHeader>
         <TableCell width='40%'>
-          <Text size='13px' weight={500}>
+          <Text color='grey900' size='14px' weight={500}>
             <FormattedMessage id='copy.address' defaultMessage='Address' />
           </Text>
         </TableCell>
         <TableCell width='40%'>
-          <Text size='13px' weight={500}>
+          <Text color='grey900' size='14px' weight={500}>
             <FormattedMessage
               id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.label'
               defaultMessage='Label'
@@ -94,7 +104,7 @@ const UnusedAddressesTemplate = ({
           width='20%'
           style={{ display: 'flex', justifyContent: 'flex-end' }}
         >
-          <Text size='13px' weight={500}>
+          <Text color='grey900' size='14px' weight={500}>
             <FormattedMessage
               id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.actions'
               defaultMessage='Actions'
@@ -103,7 +113,7 @@ const UnusedAddressesTemplate = ({
         </TableCell>
       </TableHeader>
       {addresses}
-    </Table>
+    </TableStyled>
   )
 }
 

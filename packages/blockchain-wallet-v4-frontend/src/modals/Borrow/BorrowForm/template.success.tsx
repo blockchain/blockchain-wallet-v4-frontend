@@ -1,23 +1,25 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import { compose } from 'redux'
 import { BaseFieldProps, Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { BorrowFormValuesType } from 'data/components/borrow/types'
+import styled from 'styled-components'
+
 import { Button, Icon, Text } from 'blockchain-info-components'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { FlyoutWrapper } from 'components/Flyout'
 import {
   CoinBalanceDropdown,
   Form,
   FormLabel,
   NumberBox
 } from 'components/Form'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
-import { FlyoutWrapper } from 'components/Flyout'
-import { FormattedMessage } from 'react-intl'
-import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
-import { maximumAmount, minimumAmount } from './validation'
 import { selectors } from 'data'
-import React from 'react'
-import styled from 'styled-components'
+import { BorrowFormValuesType } from 'data/components/borrow/types'
+
+import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 import Summary from './Summary'
+import { maximumAmount, minimumAmount } from './validation'
 
 const CustomForm = styled(Form)`
   height: 100%;
@@ -142,7 +144,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             />
           </Text>
         </CustomFormLabel>
-        <CoinBalanceDropdown {...props} name='collateral' />
+        <CoinBalanceDropdown
+          includeCustodial={false}
+          {...props}
+          name='collateral'
+        />
         <CustomFormLabel>
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
@@ -213,6 +219,7 @@ const mapStateToProps = state => ({
   values: selectors.form.getFormValues('borrowForm')(state)
 })
 
+// @ts-ignore
 const enhance = compose(
   reduxForm<{}, Props>({ form: 'borrowForm', destroyOnUnmount: false }),
   connect(mapStateToProps)

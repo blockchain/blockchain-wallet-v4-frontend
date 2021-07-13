@@ -1,7 +1,8 @@
-import { FormattedMessage } from 'react-intl'
-import { SpinningLoader, Text } from 'blockchain-info-components'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
+
+import { BlockchainLoader, Text } from 'blockchain-info-components'
 
 interface Props {}
 
@@ -17,11 +18,11 @@ const Wrapper = styled.div`
 const Loading: React.FC<Props> = () => {
   return (
     <Wrapper>
-      <SpinningLoader />
+      <BlockchainLoader width='80px' height='80px' />
       <Text weight={600} color='grey600' style={{ marginTop: '24px' }}>
         <FormattedMessage
-          id='modals.simplebuy.checkingeligiblity'
-          defaultMessage='Checking Eligibility...'
+          id='modals.simplebuy.processing'
+          defaultMessage='Processing…'
         />
       </Text>
     </Wrapper>

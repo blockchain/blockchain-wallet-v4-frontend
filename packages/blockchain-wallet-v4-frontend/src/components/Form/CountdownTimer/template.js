@@ -1,8 +1,8 @@
-import PropTypes from 'prop-types'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { FormattedMessage } from 'react-intl'
 import { Icon, Text, Tooltip, TooltipHost } from 'blockchain-info-components'
 
 const Wrapper = styled.div`

@@ -1,52 +1,41 @@
 import React from 'react'
-import ReactHighcharts from 'react-highcharts'
 import styled from 'styled-components'
 
 import { SceneWrapper } from 'components/Layout'
-import Balances from './Balances'
+import { media } from 'services/styles'
+
 import Banners from './Banners'
-import media, { mediaHeight } from 'services/ResponsiveService'
+import Holdings from './Holdings'
 import PriceChart from './PriceChart'
 
-ReactHighcharts.Highcharts.setOptions({ lang: { thousandsSep: ',' } })
-
 const ColumnWrapper = styled.section`
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  width: 100%;
-  ${media.atLeastTabletL`
+
+  ${media.atLeastLaptop`
     flex-direction: row;
   `}
 `
 const Column = styled.div`
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  height: 100%;
   width: 100%;
-  display: flex;
-  max-width: 600px;
   box-sizing: border-box;
-  padding-bottom: 25px;
-  ${mediaHeight.big`
-    height: auto;
-    display: block;
-  `}
-  ${media.tablet`
-    height: auto;
-    display: block;
-  `}
+  margin-bottom: 24px;
 `
 const ColumnLeft = styled(Column)`
-  ${media.atLeastTabletL`
-    padding-right: 30px;
+  flex: 2;
+  ${media.atLeastLaptop`
+    margin-right: 24px;
   `}
 `
+
 const ColumnRight = styled(Column)`
-  & > :not(:first-child) {
-    margin-top: 20px;
-  }
+  flex: 3;
+  margin-top: 24px;
+
+  ${media.atLeastLaptop`
+    margin-top: 0;
+  `}
 `
 
 const Home = () => {
@@ -55,7 +44,7 @@ const Home = () => {
       <Banners />
       <ColumnWrapper>
         <ColumnLeft>
-          <Balances />
+          <Holdings />
         </ColumnLeft>
         <ColumnRight>
           <PriceChart />

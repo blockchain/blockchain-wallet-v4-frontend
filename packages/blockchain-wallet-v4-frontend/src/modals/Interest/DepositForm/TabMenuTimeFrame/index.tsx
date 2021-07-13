@@ -1,9 +1,10 @@
-import { equals } from 'ramda'
-import { FormattedMessage } from 'react-intl'
-import { TabMenu, TabMenuItem } from 'blockchain-info-components'
-import { WrappedFieldProps } from 'redux-form'
 import React, { useState } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { equals } from 'ramda'
+import { WrappedFieldProps } from 'redux-form'
 import styled from 'styled-components'
+
+import { TabMenu, TabMenuItem } from 'blockchain-info-components'
 
 type Props = WrappedFieldProps
 

@@ -1,3 +1,4 @@
+import Remote from '../remote'
 import * as Address from './Address'
 import * as AddressBook from './AddressBook'
 import * as AddressBookEntry from './AddressBookEntry'
@@ -5,6 +6,8 @@ import * as AddressLabel from './AddressLabel'
 import * as AddressLabelMap from './AddressLabelMap'
 import * as AddressMap from './AddressMap'
 import * as Cache from './Cache'
+import * as Derivation from './Derivation'
+import * as DerivationList from './DerivationList'
 import * as HDAccount from './HDAccount'
 import * as HDAccountList from './HDAccountList'
 import * as HDWallet from './HDWallet'
@@ -15,10 +18,9 @@ import * as TXNames from './TXNames'
 import * as TXNotes from './TXNotes'
 import * as Wallet from './Wallet'
 import * as Wrapper from './Wrapper'
-import Remote from '../remote'
 
 const serializer = {
-  replacer: function (key, value) {
+  replacer: function(key, value) {
     // Remove all functions from the state
     if (value && typeof value === 'function') {
       return ''
@@ -33,7 +35,7 @@ const serializer = {
     }
     return value
   },
-  reviver: function (key, value) {
+  reviver: function(key, value) {
     if (
       typeof value === 'object' &&
       value !== null &&
@@ -63,6 +65,10 @@ const serializer = {
           return AddressBookEntry.reviver(data)
         case 'AddressBook':
           return AddressBook.reviver(data)
+        case 'Derivation':
+          return Derivation.reviver(data)
+        case 'DerivationList':
+          return DerivationList.reviver(data)
         case 'HDAccountList':
           return HDAccountList.reviver(data)
         case 'HDWalletList':

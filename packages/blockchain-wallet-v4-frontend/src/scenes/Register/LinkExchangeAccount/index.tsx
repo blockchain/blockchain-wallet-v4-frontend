@@ -1,7 +1,8 @@
-import { FormattedMessage } from 'react-intl'
-import { Image, Text } from 'blockchain-info-components'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
+
+import { Image, Text } from 'blockchain-info-components'
 
 const InfoWrapper = styled.div`
   box-sizing: border-box;

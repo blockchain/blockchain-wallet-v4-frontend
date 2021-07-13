@@ -1,7 +1,9 @@
-import * as AT from './actionTypes'
 import { AxiosError } from 'axios'
+
+import { NabuAddressType, NabuApiErrorType, RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { CampaignsType } from 'data/types'
-import { NabuAddressType, NabuApiErrorType, RemoteDataType } from 'core/types'
+
+import * as AT from './actionTypes'
 
 // Types
 
@@ -20,18 +22,10 @@ export type CampaignInfoType = {
   campaignState: CampaignState
   updatedAt: string
   userCampaignState?: UserCampaignState
-  userCampaignTransactionResponseList: Array<
-    UserCampaignTransactionResponseType
-  >
+  userCampaignTransactionResponseList: Array<UserCampaignTransactionResponseType>
 }
 
-export type KycStateType =
-  | 'NONE'
-  | 'PENDING'
-  | 'UNDER_REVIEW'
-  | 'REJECTED'
-  | 'VERIFIED'
-  | 'EXPIRED'
+export type KycStateType = 'NONE' | 'PENDING' | 'UNDER_REVIEW' | 'REJECTED' | 'VERIFIED' | 'EXPIRED'
 
 export type LimitType = {
   annual: string
@@ -82,6 +76,12 @@ export type UserCampaignsType = {
   userCampaignsInfoResponseList: Array<CampaignInfoType>
 }
 
+export type Tiers = {
+  current: 0 | 1 | 2 | 3
+  next: 0 | 1 | 2 | 3
+  selected: 0 | 1 | 2 | 3
+}
+
 export type UserDataType = {
   address?: NabuAddressType
   dob: string
@@ -98,11 +98,7 @@ export type UserDataType = {
   settings: null
   state: UserActivationStateType
   tags: TagsType
-  tiers: {
-    current: 0 | 1 | 2
-    next: 0 | 1 | 2
-    selected: 0 | 1 | 2
-  }
+  tiers: Tiers
   userName?: string
   walletAddresses: {}
   walletGuid: string

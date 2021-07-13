@@ -1,26 +1,13 @@
-import { actions } from 'data'
-import { bindActionCreators, compose } from 'redux'
-import { Button, Icon, Image, Text } from 'blockchain-info-components'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import Flyout, { duration, FlyoutWrapper } from 'components/Flyout'
-import modalEnhancer from 'providers/ModalEnhancer'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
 import styled from 'styled-components'
 
-type OwnPropsType = {
-  close: () => void
-  position: number
-  total: number
-  userClickedOutside: boolean
-}
-
-type LinkDispatchPropsType = {
-  onboardingActions: typeof actions.components.onboarding
-  simpleBuyActions: typeof actions.components.simpleBuy
-}
-
-type Props = OwnPropsType & LinkDispatchPropsType
+import { Button, Icon, Image, Text } from 'blockchain-info-components'
+import Flyout, { duration, FlyoutWrapper } from 'components/Flyout'
+import { actions, selectors } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
 
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`
   width: 100%;
@@ -82,7 +69,7 @@ const ButtonWrapper = styled.div`
 class WelcomeContainer extends React.PureComponent<Props> {
   state = { show: false }
 
-  componentDidMount () {
+  componentDidMount() {
     this.setState({ show: true }) //eslint-disable-line
   }
 
@@ -94,23 +81,27 @@ class WelcomeContainer extends React.PureComponent<Props> {
   }
 
   handleSBClick = () => {
+    const { cryptoCurrency } = this.props
     this.setState({ show: false })
     setTimeout(() => {
       this.props.close()
-      this.props.simpleBuyActions.showModal('WelcomeModal')
+      if (cryptoCurrency) {
+        this.props.simpleBuyActions.showModal('WelcomeModal', cryptoCurrency)
+      } else {
+        this.props.simpleBuyActions.showModal('WelcomeModal')
+      }
     }, duration / 2)
   }
 
-  render () {
+  render() {
     const { show } = this.state
     const { ...rest } = this.props
     return (
       <Flyout
         {...rest}
         onClose={this.props.close}
-        in={show}
+        isOpen={show}
         data-e2e='welcomeModal'
-        direction='left'
       >
         <CustomFlyoutWrapper>
           <Header>
@@ -176,6 +167,11 @@ class WelcomeContainer extends React.PureComponent<Props> {
   }
 }
 
+const mapStateToProps = state => ({
+  cryptoCurrency:
+    selectors.components.simpleBuy.getCryptoCurrency(state) || undefined
+})
+
 const mapDispatchToProps = (dispatch): LinkDispatchPropsType => ({
   onboardingActions: bindActionCreators(
     actions.components.onboarding,
@@ -184,9 +180,27 @@ const mapDispatchToProps = (dispatch): LinkDispatchPropsType => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type OwnPropsType = {
+  close: () => void
+  position: number
+  total: number
+  userClickedOutside: boolean
+}
+
+type LinkDispatchPropsType = {
+  onboardingActions: typeof actions.components.onboarding
+  simpleBuyActions: typeof actions.components.simpleBuy
+}
+
+type Props = OwnPropsType &
+  LinkDispatchPropsType &
+  ConnectedProps<typeof connector>
+
 const enhance = compose<any>(
   modalEnhancer('WELCOME_MODAL', { transition: duration }),
-  connect(null, mapDispatchToProps)
+  connector
 )
 
 export default enhance(WelcomeContainer)

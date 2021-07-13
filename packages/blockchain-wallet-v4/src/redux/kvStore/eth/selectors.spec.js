@@ -1,6 +1,6 @@
-import * as selectors from './selectors'
-import { ETH } from '../config'
 import Remote from '../../../remote'
+import { ETH } from '../config'
+import * as selectors from './selectors'
 
 describe('kvstore eth selectors', () => {
   const accounts = [

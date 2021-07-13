@@ -1,102 +1,115 @@
-import { merge } from 'ramda'
+import { concat, mergeRight, prop, propOr } from 'ramda'
 
-export default ({ rootUrl, get, post }) => {
+export default ({ get, post, rootUrl }) => {
   const fetchPayloadWithSharedKey = (guid, sharedKey) =>
     post({
-      url: rootUrl,
+      data: { format: 'json', guid, method: 'wallet.aes.json', sharedKey },
       endPoint: '/wallet',
-      data: { guid, sharedKey, method: 'wallet.aes.json', format: 'json' }
+      url: rootUrl
     })
 
   const fetchPayloadWithSession = (guid, sessionToken) =>
     get({
-      url: rootUrl,
-      endPoint: `/wallet/${guid}`,
       data: { format: 'json', resend_code: null },
-      sessionToken
+      endPoint: `/wallet/${guid}`,
+      sessionToken,
+      url: rootUrl
     })
 
   const fetchPayloadWithTwoFactorAuth = (guid, sessionToken, twoFactorCode) => {
     return post({
-      url: rootUrl,
-      endPoint: '/wallet',
       data: {
+        format: 'plain',
         guid,
-        payload: twoFactorCode,
         length: twoFactorCode.length,
         method: 'get-wallet',
-        format: 'plain'
+        payload: twoFactorCode
       },
-      sessionToken
+      endPoint: '/wallet',
+      sessionToken,
+      url: rootUrl
     })
   }
 
-  const savePayload = data =>
+  const savePayload = (data) =>
     post({
-      url: rootUrl,
+      data: mergeRight({ format: 'plain', method: 'update' }, data),
       endPoint: '/wallet',
-      data: merge({ method: 'update', format: 'plain' }, data)
+      url: rootUrl
     }).then(() => data.checksum)
 
   const createPayload = (email, data) =>
     post({
-      url: rootUrl,
+      data: mergeRight({ email, format: 'plain', method: 'insert' }, data),
       endPoint: '/wallet',
-      data: merge({ method: 'insert', format: 'plain', email }, data)
+      url: rootUrl
     }).then(() => data.checksum)
 
+  // context => {
+  //  addresses: [],
+  //  legacy: [],
+  //  bech32: []
+  // }
   // onlyShow is xpub or address to filter data with
   const fetchBlockchainData = (
     context,
-    { n = 50, offset = 0, onlyShow = false } = {}
+    { n = 50, offset = 0, onlyShow = false } = {},
+    filter?: Number
   ) => {
+    const addresses = prop('addresses', context)
+    const addressArray = Array.isArray(addresses) ? addresses : [addresses]
+    // both addresses and legacy xpubs
+    const active = concat(addressArray, propOr([], 'legacy', context)).join('|')
+    // bech32 xpubs only
+    // @ts-ignore
+    const activeBech32 = propOr([], 'bech32', context).join('|')
     const data = {
-      active: (Array.isArray(context) ? context : [context]).join('|'),
-      format: 'json',
-      offset: offset,
-      no_compact: true,
+      active,
+      activeBech32,
       ct: new Date().getTime(),
-      n: n,
+      filter,
+      format: 'json',
       language: 'en',
-      no_buttons: true
+      n,
+      no_buttons: true,
+      no_compact: true,
+      offset
     }
     return post({
-      url: rootUrl,
-      endPoint: '/multiaddr',
       data: onlyShow
-        ? merge(data, {
-            onlyShow: (Array.isArray(onlyShow) ? onlyShow : [onlyShow]).join(
-              '|'
-            )
+        ? mergeRight(data, {
+            onlyShow: (Array.isArray(onlyShow) ? onlyShow : [onlyShow]).join('|')
           })
-        : data
+        : data,
+      endPoint: '/multiaddr',
+      url: rootUrl
     })
   }
 
   const obtainSessionToken = () =>
     post({
-      url: rootUrl,
-      endPoint: '/wallet/sessions'
-    }).then(data =>
+      endPoint: '/wallet/sessions',
+      url: rootUrl
+    }).then((data) =>
       !data.token || !data.token.length
         ? Promise.reject(new Error('INVALID_SESSION_TOKEN'))
         : data.token
     )
 
-  const pollForSessionGUID = sessionToken =>
+  const pollForSessionGUID = (sessionToken) =>
     get({
-      url: rootUrl,
-      endPoint: '/wallet/poll-for-session-guid',
       data: { format: 'json' },
-      sessionToken
+      endPoint: '/wallet/poll-for-session-guid',
+      sessionToken,
+      url: rootUrl
     })
 
-  const generateUUIDs = count =>
+  const generateUUIDs = (count) =>
     get({
-      url: rootUrl,
+      data: { format: 'json', n: count },
       endPoint: '/uuid-generator',
-      data: { format: 'json', n: count }
-    }).then(data =>
+      url: rootUrl
+    }).then((data) =>
       !data.uuids || data.uuids.length !== count
         ? Promise.reject(new Error('Could not generate uuids'))
         : data.uuids
@@ -105,103 +118,141 @@ export default ({ rootUrl, get, post }) => {
   // createPinEntry :: HEXString(32Bytes) -> HEXString(32Bytes) -> String -> Promise Response
   const createPinEntry = (key, value, pin) =>
     post({
-      url: rootUrl,
+      data: { format: 'json', key, method: 'put', pin, value },
       endPoint: '/pin-store',
-      data: { format: 'json', method: 'put', value, pin, key }
+      url: rootUrl
     })
 
   // getPinValue :: HEXString(32Bytes) -> String -> Promise Response
   const getPinValue = (key, pin) =>
     get({
-      url: rootUrl,
+      data: { format: 'json', key, method: 'get', pin },
       endPoint: '/pin-store',
-      data: { format: 'json', method: 'get', pin, key }
+      url: rootUrl
     })
 
   const resendSmsLoginCode = (guid, sessionToken) =>
     get({
-      url: rootUrl,
-      endPoint: `/wallet/${guid}`,
       data: { format: 'json', resend_code: true },
-      sessionToken
+      endPoint: `/wallet/${guid}`,
+      sessionToken,
+      url: rootUrl
     })
 
-  const remindGuid = (email, captcha, sessionToken) =>
+  const remindGuid = (email, captchaToken, sessionToken) => {
     post({
-      url: rootUrl,
-      endPoint: '/wallet',
-      data: { method: 'send-guid-reminder', email, captcha },
-      sessionToken
-    })
-
-  const deauthorizeBrowser = sessionToken =>
-    get({
-      url: rootUrl,
-      endPoint: '/wallet/logout',
-      data: { format: 'plain' },
-      sessionToken
-    })
-
-  const reset2fa = (
-    guid,
-    email,
-    newEmail,
-    secretPhrase,
-    message,
-    code,
-    sessionToken
-  ) =>
-    post({
-      url: rootUrl,
-      endPoint: '/wallet',
       data: {
-        method: 'reset-two-factor-form',
-        guid,
+        captcha: captchaToken,
         email,
-        contact_email: newEmail,
-        secret_phrase: secretPhrase,
-        message,
-        kaptcha: code
+        method: 'send-guid-reminder',
+        siteKey: window.CAPTCHA_KEY
       },
-      sessionToken
+      endPoint: '/wallet',
+      sessionToken,
+      url: rootUrl
+    })
+  }
+
+  const triggerWalletMagicLink = (email, captchaToken, sessionToken) => {
+    post({
+      data: {
+        captcha: captchaToken,
+        email,
+        method: 'send-guid-reminder',
+        siteKey: window.CAPTCHA_KEY
+      },
+      endPoint: '/wallet',
+      sessionToken,
+      url: rootUrl
+    })
+  }
+
+  // marks timestamp when user last backed up phrase
+  const updateMnemonicBackup = (sharedKey, guid) =>
+    post({
+      data: { guid, method: 'update-mnemonic-backup', sharedKey },
+      endPoint: '/wallet',
+      url: rootUrl
     })
 
-  const getPairingPassword = guid =>
+  // endpoint is triggered when mnemonic is viewed
+  const triggerMnemonicViewedAlert = (sharedKey, guid) =>
     post({
-      url: rootUrl,
+      data: { guid, method: 'trigger-alert', sharedKey },
       endPoint: '/wallet',
-      data: { method: 'pairing-encryption-password', guid }
+      url: rootUrl
+    })
+
+  const deauthorizeBrowser = (sessionToken) =>
+    get({
+      data: { format: 'plain' },
+      endPoint: '/wallet/logout',
+      sessionToken,
+      url: rootUrl
+    })
+
+  const reset2fa = (guid, email, newEmail, captchaToken, sessionToken) =>
+    post({
+      data: {
+        captcha: captchaToken,
+        contact_email: newEmail,
+        email,
+        guid,
+        method: 'reset-two-factor-form',
+        siteKey: window.CAPTCHA_KEY
+      },
+      endPoint: '/wallet',
+      sessionToken,
+      url: rootUrl
+    })
+
+  const getPairingPassword = (guid) =>
+    post({
+      data: { guid, method: 'pairing-encryption-password' },
+      endPoint: '/wallet',
+      url: rootUrl
     })
 
   const authorizeLogin = (token, confirm) =>
     post({
-      url: rootUrl,
-      endPoint: '/wallet',
       data: {
-        token: token,
         confirm_approval: confirm,
-        method: 'authorize-approve'
-      }
+        method: 'authorize-approve',
+        token
+      },
+      endPoint: '/wallet',
+      url: rootUrl
     })
 
-  const handle2faReset = token =>
+  const sendSecureChannel = (message) =>
     post({
-      url: rootUrl,
-      endPoint: '/wallet',
       data: {
-        token: token,
-        method: 'reset-two-factor-token'
-      }
+        length: message.length,
+        method: 'send-secure-channel-browser',
+        payload: message
+      },
+      endPoint: '/wallet',
+      url: rootUrl
     })
 
-  const verifyEmailToken = token =>
+  const handle2faReset = (token) =>
     post({
-      url: rootUrl,
-      endPoint: '/wallet',
       data: {
-        token: token,
-        method: 'verify-email-token'
-      }
+        method: 'reset-two-factor-token',
+        token
+      },
+      endPoint: '/wallet',
+      url: rootUrl
+    })
+
+  const verifyEmailToken = (token) =>
+    post({
+      data: {
+        method: 'verify-email-token',
+        token
+      },
+      endPoint: '/wallet',
+      url: rootUrl
     })
 
   return {
@@ -223,6 +274,10 @@ export default ({ rootUrl, get, post }) => {
     resendSmsLoginCode,
     reset2fa,
     savePayload,
+    sendSecureChannel,
+    triggerMnemonicViewedAlert,
+    triggerWalletMagicLink,
+    updateMnemonicBackup,
     verifyEmailToken
   }
 }

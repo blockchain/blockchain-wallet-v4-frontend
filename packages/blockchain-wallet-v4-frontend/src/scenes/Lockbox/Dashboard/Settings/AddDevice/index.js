@@ -1,9 +1,11 @@
-import { actions } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import AddDevice from './template'
-import PropTypes from 'prop-types'
 import React from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { bindActionCreators } from 'redux'
+
+import { actions } from 'data'
+
+import AddDevice from './template'
 
 class AddDeviceContainer extends React.PureComponent {
   onClick = () => {
@@ -11,7 +13,7 @@ class AddDeviceContainer extends React.PureComponent {
     this.props.modalActions.showModal('LockboxSetup')
   }
 
-  render () {
+  render() {
     return (
       <AddDevice
         onClick={this.onClick}

@@ -1,32 +1,34 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
-import PropTypes from 'prop-types'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { bindActionCreators, compose } from 'redux'
 
-import { RESTORE_DEVICE_LINK, SUPPORT_LINK } from './model'
+import { actions, selectors } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
+
 import AppManagerStep from './AppManagerStep'
 import ConnectDeviceStep from './ConnectDeviceStep'
 import CustomizeStep from './CustomizeStep'
 import DeviceSelectStep from './DeviceSelectStep'
 import ErrorStep from './ErrorStep'
 import FinishSetupStep from './FinishSetupStep'
-import LockboxSetup from './template'
-import modalEnhancer from 'providers/ModalEnhancer'
+import { RESTORE_DEVICE_LINK, SUPPORT_LINK } from './model'
 import PairDeviceStep from './PairDeviceStep'
 import SetupTypeStep from './SetupTypeStep'
 import SoftwareDownloadStep from './SoftwareDownloadStep'
+import LockboxSetup from './template'
 
 class LockboxSetupContainer extends React.PureComponent {
-  componentWillMount () {
+  UNSAFE_componentWillMount() {
     this.props.lockboxActions.resetNewDeviceSetup()
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.lockboxActions.resetConnectionStatus()
     this.props.lockboxActions.changeDeviceSetupStep('device-select')
   }
+
   onClose = () => {
     const { closeAll, currentStep, lockboxActions } = this.props
     // if lockbox setup complete but the user clicks the modal close X
@@ -37,7 +39,7 @@ class LockboxSetupContainer extends React.PureComponent {
     closeAll()
   }
 
-  render () {
+  render() {
     const { currentStep, position, total } = this.props
     const steps = {
       'device-select': {

@@ -1,5 +1,6 @@
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
 
 import {
   Link,
@@ -13,16 +14,22 @@ import {
 } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 
+const TableStyled = styled(Table)`
+  > div:last-child {
+    border-bottom: none;
+  }
+`
+
 const UsedTable = ({ children }) => (
-  <Table data-e2e='btcUsedAddressesTable'>
+  <TableStyled data-e2e='btcUsedAddressesTable'>
     <TableHeader>
       <TableCell width='40%'>
-        <Text size='13px' weight={500}>
+        <Text color='grey900' size='14px' weight={500}>
           <FormattedMessage id='copy.address' defaultMessage='Address' />
         </Text>
       </TableCell>
       <TableCell width='40%'>
-        <Text size='13px' weight={500}>
+        <Text color='grey900' size='14px' weight={500}>
           <FormattedMessage
             id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.label'
             defaultMessage='Label'
@@ -33,7 +40,12 @@ const UsedTable = ({ children }) => (
         width='20%'
         style={{ display: 'flex', justifyContent: 'flex-end' }}
       >
-        <Text size='13px' weight={500} style={{ marginRight: '8px' }}>
+        <Text
+          color='grey900'
+          size='14px'
+          weight={500}
+          style={{ marginRight: '8px' }}
+        >
           <FormattedMessage id='copy.balance' defaultMessage='Balance' />
         </Text>
         <TooltipHost id='settingsBtcUsedBalace'>
@@ -42,7 +54,7 @@ const UsedTable = ({ children }) => (
       </TableCell>
     </TableHeader>
     {children}
-  </Table>
+  </TableStyled>
 )
 
 const UsedTableEntry = ({ address, search }) => {
@@ -60,8 +72,8 @@ const UsedTableEntry = ({ address, search }) => {
       <TableCell width='40%' style={{ wordBreak: 'break-all' }}>
         <Link
           href={`https://blockchain.com/btc/address/${address.address}`}
-          size='small'
-          weight={400}
+          size='13px'
+          weight={500}
           target='_blank'
           data-e2e='btcUsedAddressLink'
         >
@@ -69,13 +81,15 @@ const UsedTableEntry = ({ address, search }) => {
         </Link>
       </TableCell>
       <TableCell width='40%'>
-        <Text size='13px'>{address.label}</Text>
+        <Text size='13px' weight={500}>
+          {address.label}
+        </Text>
       </TableCell>
       <TableCell
         width='20%'
         style={{ display: 'flex', justifyContent: 'flex-end' }}
       >
-        <Text size='13px'>
+        <Text size='13px' weight={500}>
           <CoinDisplay coin={'BTC'} size='13px' weight={400}>
             {address.final_balance}
           </CoinDisplay>
@@ -85,14 +99,8 @@ const UsedTableEntry = ({ address, search }) => {
   )
 }
 
-const UsedAddressesTable = ({ usedAddresses, search }) => (
-  <React.Fragment>
-    <Text weight={400} size='small' style={{ marginTop: 10, marginBottom: 15 }}>
-      <FormattedMessage
-        id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.message'
-        defaultMessage='Previously used addresses are helpful for debugging purposes and viewing associated balances. For privacy reasons, we do not recommend re-using these addresses. Change addresses are not included here.'
-      />
-    </Text>
+const UsedAddressesTable = ({ search, usedAddresses }) => (
+  <>
     {usedAddresses.length ? (
       <UsedTable>
         {usedAddresses.map((address, i) => (
@@ -101,9 +109,11 @@ const UsedAddressesTable = ({ usedAddresses, search }) => (
       </UsedTable>
     ) : (
       <Text
-        weight={400}
-        style={{ marginTop: 20, textAlign: 'center' }}
+        color='grey700'
         data-e2e='btcNoUsedAddresses'
+        size='16px'
+        style={{ marginTop: 20, textAlign: 'center' }}
+        weight={500}
       >
         <FormattedMessage
           id='scenes.settings.addresses.btc.manageaddresses.usedaddresses.usedaddressestable.nousedmessage'
@@ -111,7 +121,7 @@ const UsedAddressesTable = ({ usedAddresses, search }) => (
         />
       </Text>
     )}
-  </React.Fragment>
+  </>
 )
 
 export default UsedAddressesTable

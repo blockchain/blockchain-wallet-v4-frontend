@@ -8,18 +8,22 @@ import { InterestActionTypes, InterestState } from './types'
 const INITIAL_STATE: InterestState = {
   account: Remote.NotAsked,
   accountBalance: Remote.NotAsked,
+  afterTransaction: Remote.NotAsked,
   coin: 'BTC',
   depositLimits: {
-    maxFiat: 0,
-    minFiat: 0,
     maxCoin: 0,
-    minCoin: 0
+    maxFiat: 0,
+    minCoin: 0,
+    minFiat: 0
   },
-  interestEligible: Remote.NotAsked,
   instruments: Remote.NotAsked,
+  interestEDDStatus: Remote.NotAsked,
+  interestEDDWithdrawLimits: Remote.NotAsked,
+  interestEligible: Remote.NotAsked,
   interestLimits: Remote.NotAsked,
   interestRate: Remote.NotAsked,
   isCoinDisplayed: false,
+  isFromBuySell: false,
   payment: Remote.NotAsked,
   step: {
     data: {},
@@ -27,13 +31,11 @@ const INITIAL_STATE: InterestState = {
   },
   transactions: [],
   transactionsNextPage: null,
+  transactionsReport: Remote.NotAsked,
   withdrawalMinimums: Remote.NotAsked
 }
 
-export function interestReducer (
-  state = INITIAL_STATE,
-  action: InterestActionTypes
-): InterestState {
+const interestReducer = (state = INITIAL_STATE, action: InterestActionTypes): InterestState => {
   // @ts-ignore
   const { payload, type } = action
   switch (type) {
@@ -127,6 +129,61 @@ export function interestReducer (
         ...state,
         interestRate: Remote.Success(payload.interestRate.rates)
       }
+    case AT.CLEAR_INTEREST_TRANSACTIONS_REPORT: {
+      return {
+        ...state,
+        transactionsReport: Remote.NotAsked
+      }
+    }
+    case AT.FETCH_INTEREST_TRANSACTIONS_REPORT_LOADING: {
+      return {
+        ...state,
+        transactionsReport: Remote.Loading
+      }
+    }
+    case AT.FETCH_INTEREST_TRANSACTIONS_REPORT_FAILURE: {
+      return {
+        ...state,
+        transactionsReport: Remote.Failure(payload)
+      }
+    }
+    case AT.FETCH_INTEREST_TRANSACTIONS_REPORT_SUCCESS: {
+      const { transactions } = payload
+      return {
+        ...state,
+        transactionsReport: Remote.Success(transactions)
+      }
+    }
+    case AT.FETCH_EDD_STATUS_FAILURE:
+      return {
+        ...state,
+        interestEDDStatus: Remote.Failure(payload.error)
+      }
+    case AT.FETCH_EDD_STATUS_LOADING:
+      return {
+        ...state,
+        interestEDDStatus: Remote.Loading
+      }
+    case AT.FETCH_EDD_STATUS_SUCCESS:
+      return {
+        ...state,
+        interestEDDStatus: Remote.Success(payload.eddStatus)
+      }
+    case AT.FETCH_EDD_WITHDRAW_LIMITS_FAILURE:
+      return {
+        ...state,
+        interestEDDWithdrawLimits: Remote.Failure(payload.error)
+      }
+    case AT.FETCH_EDD_WITHDRAW_LIMITS_LOADING:
+      return {
+        ...state,
+        interestEDDWithdrawLimits: Remote.Loading
+      }
+    case AT.FETCH_EDD_WITHDRAW_LIMITS_SUCCESS:
+      return {
+        ...state,
+        interestEDDWithdrawLimits: Remote.Success(payload.interestEDDWithdrawLimits)
+      }
     case AT.FETCH_INTEREST_TRANSACTIONS_LOADING: {
       const { reset } = payload
       return reset
@@ -215,17 +272,37 @@ export function interestReducer (
     case AT.SET_WITHDRAWAL_MINIMUMS_SUCCESS:
       return {
         ...state,
-        withdrawalMinimums: Remote.Success(
-          payload.withdrawalMinimums.minAmounts
-        )
+        withdrawalMinimums: Remote.Success(payload.withdrawalMinimums.minAmounts)
       }
     case AT.SHOW_INTEREST_MODAL:
       return {
         ...state,
-        coin: payload.coin
+        coin: payload.coin,
+        isFromBuySell: payload.isFromBuySell
       }
-
+    case AT.FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION_FAILURE:
+      return {
+        ...state,
+        afterTransaction: Remote.Failure(payload.error)
+      }
+    case AT.FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION_LOADING:
+      return {
+        ...state,
+        afterTransaction: Remote.Loading
+      }
+    case AT.FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION_SUCCESS:
+      return {
+        ...state,
+        afterTransaction: Remote.Success(payload.afterTransaction)
+      }
+    case AT.RESET_SHOW_INTEREST_CARD_AFTER_TRANSACTION:
+      return {
+        ...state,
+        afterTransaction: Remote.NotAsked
+      }
     default:
       return state
   }
 }
+
+export default interestReducer

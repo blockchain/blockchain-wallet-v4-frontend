@@ -1,5 +1,9 @@
 // Verify the signature of a message signed with a Bitcoin address.
 
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import {
   Banner,
   Button,
@@ -10,14 +14,11 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
+import { FormItem, FormLabel, TextArea, TextBox } from 'components/Form'
+import modalEnhancer from 'providers/ModalEnhancer'
+import { validBtcAddress } from 'services/forms'
 
 import * as services from './services'
-import { FormattedMessage } from 'react-intl'
-import { FormItem, FormLabel, TextArea, TextBox } from 'components/Form'
-import { validBtcAddress } from 'services/FormHelper'
-import modalEnhancer from 'providers/ModalEnhancer'
-import React from 'react'
-import styled from 'styled-components'
 
 const Item = styled(FormItem)`
   margin-bottom: 15px;
@@ -32,15 +33,12 @@ const ItemAddress = ({ address, network, onChange }) => (
   <Item>
     <FormLabel>
       <LabelMessage>
-        <FormattedMessage
-          id='modals.verifyMessage.address'
-          defaultMessage='Bitcoin Address:'
-        />
+        <FormattedMessage id='modals.verifyMessage.address' defaultMessage='Bitcoin Address:' />
       </LabelMessage>
       <TextBox
         input={{
-          onChange,
-          name: 'address'
+          name: 'address',
+          onChange
         }}
         meta={{
           error: validBtcAddress(address, null, { network }),
@@ -56,10 +54,7 @@ const ItemMessage = ({ onChange }) => (
   <Item>
     <FormLabel>
       <LabelMessage>
-        <FormattedMessage
-          id='modals.verifyMessage.message'
-          defaultMessage='Message:'
-        />
+        <FormattedMessage id='modals.verifyMessage.message' defaultMessage='Message:' />
       </LabelMessage>
       <TextArea
         input={{
@@ -77,10 +72,7 @@ const ItemSignature = ({ onChange }) => (
   <Item>
     <FormLabel>
       <LabelMessage>
-        <FormattedMessage
-          id='modals.verifyMessage.signature'
-          defaultMessage='Signature:'
-        />
+        <FormattedMessage id='modals.verifyMessage.signature' defaultMessage='Signature:' />
       </LabelMessage>
       <TextArea
         input={{
@@ -107,26 +99,19 @@ class VerifyMessage extends React.PureComponent {
     this.setState({ [name]: value })
   }
 
-  render () {
-    const { close, network } = this.props
+  render() {
+    const { closeAll, network } = this.props
 
     return (
       <Modal>
-        <ModalHeader onClose={close}>
-          <FormattedMessage
-            id='modals.verifyMessage.title'
-            defaultMessage='Verify Message'
-          />
+        <ModalHeader onClose={closeAll}>
+          <FormattedMessage id='modals.verifyMessage.title' defaultMessage='Verify Message' />
           <TooltipHost id='verifyMessage'>
             <TooltipIcon name='info' />
           </TooltipHost>
         </ModalHeader>
         <ModalBody>
-          <ItemAddress
-            address={this.state.address}
-            network={network}
-            onChange={this.onChange}
-          />
+          <ItemAddress address={this.state.address} network={network} onChange={this.onChange} />
           <ItemMessage onChange={this.onChange} />
           <ItemSignature onChange={this.onChange} />
           <Result visible={services.showResult(this.state)}>
@@ -148,11 +133,7 @@ class VerifyMessage extends React.PureComponent {
           </Result>
         </ModalBody>
         <ModalFooter align='right'>
-          <Button
-            onClick={close}
-            nature='primary'
-            data-e2e='closeVerifyMessageButton'
-          >
+          <Button onClick={close} nature='primary' data-e2e='closeVerifyMessageButton'>
             <FormattedMessage id='buttons.close' defaultMessage='Close' />
           </Button>
         </ModalFooter>
@@ -161,4 +142,4 @@ class VerifyMessage extends React.PureComponent {
   }
 }
 
-export default modalEnhancer('VerifyMessage')(VerifyMessage)
+export default modalEnhancer('VERIFY_MESSAGE_MODAL')(VerifyMessage)

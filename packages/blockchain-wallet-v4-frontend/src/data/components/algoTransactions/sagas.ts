@@ -1,7 +1,8 @@
-import { actions } from 'data'
 import { put } from 'redux-saga/effects'
 
-export const logLocation = 'components/btcTransactions/sagas'
+import { actions } from 'data'
+
+export const logLocation = 'components/algoTransactions/sagas'
 
 export default () => {
   const initialized = function * () {

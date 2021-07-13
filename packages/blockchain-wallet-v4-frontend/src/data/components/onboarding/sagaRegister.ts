@@ -1,11 +1,12 @@
-import * as AT from './actionTypes'
 import { takeLatest } from 'redux-saga/effects'
+
+import * as AT from './actionTypes'
 import sagas from './sagas'
 
 export default () => {
   const onboardingSagas = sagas()
 
-  return function * swapGetStartedSaga () {
+  return function * swapGetStartedSaga() {
     yield takeLatest(
       // @ts-ignore
       AT.AIRDROP_CLAIM_SUBMIT_CLICKED,

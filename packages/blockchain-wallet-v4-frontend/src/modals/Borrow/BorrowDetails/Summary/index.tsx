@@ -1,21 +1,23 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import {
   CollateralAmt,
   Status
 } from 'blockchain-wallet-v4-frontend/src/scenes/Borrow/BorrowHistory/model'
-import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
+import { Text } from 'blockchain-info-components'
+import { OfferType } from 'blockchain-wallet-v4/src/types'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import { model } from 'data'
 import {
   isLastTxStatus,
   showBorrowSummary,
   showCollateralizationStatus
 } from 'data/components/borrow/model'
-import { model } from 'data'
-import { OfferType } from 'core/types'
+
+import { TableRow, Title, Value } from '../../components'
 import { Props as OwnProps, SuccessStateType } from '..'
-import { TableRow, Title, Value } from 'components/Borrow'
-import { Text } from 'blockchain-info-components'
-import CoinDisplay from 'components/Display/CoinDisplay'
-import React from 'react'
-import styled from 'styled-components'
 
 type Props = OwnProps & SuccessStateType & { offer: OfferType }
 

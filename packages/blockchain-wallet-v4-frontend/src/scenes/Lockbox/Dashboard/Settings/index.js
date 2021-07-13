@@ -1,15 +1,17 @@
-import { Banner, Text } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
-import { model } from 'data'
-import AddDevice from './AddDevice'
-import Bowser from 'bowser'
-import DownloadUpdater from './DownloadUpdater'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import Bowser from 'bowser'
+import styled from 'styled-components'
+
+import { Banner, Text } from 'blockchain-info-components'
+import { model } from 'data'
+
+import AddDevice from './AddDevice'
+import DownloadUpdater from './DownloadUpdater'
 import RemoveDevice from './RemoveDevice'
 import RenameDevice from './RenameDevice'
 import RestoreDevice from './RestoreDevice'
 import ShowXPubs from './ShowXPubs'
-import styled from 'styled-components'
 import TakeTour from './TakeTour'
 
 const SettingsContainer = styled.div`
@@ -24,7 +26,7 @@ const isBrowserSupported = browser.satisfies(
 )
 
 export default class LockboxSettings extends React.PureComponent {
-  render () {
+  render() {
     const { deviceIndex } = this.props
     return (
       <SettingsContainer>
@@ -40,11 +42,6 @@ export default class LockboxSettings extends React.PureComponent {
         )}
         <RenameDevice deviceIndex={deviceIndex} />
         <DownloadUpdater />
-        {/* TODO: re-enable once new firmware is released */}
-        {/* <UpdateDevice */}
-        {/*  deviceIndex={deviceIndex} */}
-        {/*  isBrowserSupported={isBrowserSupported} */}
-        {/* /> */}
         <AddDevice isBrowserSupported={isBrowserSupported} />
         <RestoreDevice />
         <ShowXPubs deviceIndex={deviceIndex} />

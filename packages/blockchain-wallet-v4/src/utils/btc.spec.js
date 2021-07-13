@@ -1,5 +1,6 @@
-import * as utils from './btc'
 import { networks } from 'bitcoinjs-lib'
+
+import * as utils from './btc'
 
 const fromHex = hex => Buffer.from(hex, 'hex')
 
@@ -29,6 +30,9 @@ describe('Btc Utils', () => {
     '3QX3B2UqEiQ8kZPwAoySuzFCLawH8GbRe8': undefined,
     bc1qud8x3munrjf70t6l9dd5dt5dygnpq2vz3u8ksv: fromHex(
       '0014e34e68ef931c93e7af5f2b5b46ae8d2226102982'
+    ),
+    bc1pmfr3p9j00pfxjh0zmgp99y8zftmd3s5pmedqhyptwy6lm87hf5ss52r5n8: fromHex(
+      '5120da4710964f7852695de2da025290e24af6d8c281de5a0b902b7135fd9fd74d21'
     ),
     bc1qud8x3munrjf70t6l9dd5dt5dygnpq2vz3u8ksw: undefined,
     bc1qwqdg6squsna38e46795at95yu9atm8azzmyvckulcc7kytlcckxswvvzej: fromHex(

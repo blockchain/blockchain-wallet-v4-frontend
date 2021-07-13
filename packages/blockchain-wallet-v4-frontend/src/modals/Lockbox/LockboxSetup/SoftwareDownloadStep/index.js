@@ -1,9 +1,10 @@
-import { bindActionCreators } from 'redux'
+import React from 'react'
 import { connect } from 'react-redux'
 import { equals } from 'ramda'
-import React from 'react'
+import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
+
 import SoftwareDownloadStep from './template'
 
 class SoftwareDownloadContainer extends React.PureComponent {
@@ -17,6 +18,7 @@ class SoftwareDownloadContainer extends React.PureComponent {
       this.props.lockboxActions.finalizeNewDeviceSetup()
     }
   }
+
   onSkipDownload = () => {
     if (equals('existing', this.props.setupType)) {
       this.props.lockboxActions.changeDeviceSetupStep('connect-device')
@@ -26,7 +28,7 @@ class SoftwareDownloadContainer extends React.PureComponent {
     }
   }
 
-  render () {
+  render() {
     return (
       <SoftwareDownloadStep
         hasDownloaded={this.state.hasDownloaded}

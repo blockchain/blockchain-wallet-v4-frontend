@@ -1,12 +1,12 @@
-import { FormattedMessage, injectIntl } from 'react-intl'
-import { replace } from 'ramda'
-import moment from 'moment'
 import React from 'react'
+import { FormattedMessage, injectIntl } from 'react-intl'
+import moment from 'moment'
+import { replace } from 'ramda'
 import styled from 'styled-components'
 
-import media from 'services/ResponsiveService'
-
 import { Text } from 'blockchain-info-components'
+import { media } from 'services/styles'
+
 import NumberBox from '../NumberBox'
 import SelectBox from '../SelectBox'
 
@@ -80,7 +80,7 @@ const removeExtraDigits = maxDigits =>
 const formatDate = removeExtraDigits(2)
 const formatYear = removeExtraDigits(4)
 
-const MonthBox = ({ input, otherMeta, onBlur, onMonthChange, onFocus }) => (
+const MonthBox = ({ input, onBlur, onFocus, onMonthChange, otherMeta }) => (
   <MonthWrapper>
     <SelectBox
       label={
@@ -103,7 +103,7 @@ const MonthBox = ({ input, otherMeta, onBlur, onMonthChange, onFocus }) => (
   </MonthWrapper>
 )
 
-const DateBox = ({ intl, input, otherMeta, onBlur, onDateChange, onFocus }) => (
+const DateBox = ({ input, intl, onBlur, onDateChange, onFocus, otherMeta }) => (
   <InputWrapper className='first'>
     <NumberBox
       placeholder={intl.formatMessage({
@@ -123,7 +123,7 @@ const DateBox = ({ intl, input, otherMeta, onBlur, onDateChange, onFocus }) => (
   </InputWrapper>
 )
 
-const YearBox = ({ intl, input, otherMeta, onBlur, onYearChange, onFocus }) => (
+const YearBox = ({ input, intl, onBlur, onFocus, onYearChange, otherMeta }) => (
   <InputWrapper>
     <NumberBox
       placeholder={intl.formatMessage({
@@ -181,17 +181,17 @@ class DateInputBox extends React.PureComponent {
       date: formatDate(e.target.value)
     })
 
-  render () {
+  render() {
     const {
-      input,
-      meta,
-      errorBottom,
-      intl,
       className,
-      countryIsUS
+      countryIsUS,
+      errorBottom,
+      input,
+      intl,
+      meta
     } = this.props
     const { error, ...otherMeta } = meta
-    const { onBlur, onDateChange, onMonthChange, onYearChange, onFocus } = this
+    const { onBlur, onDateChange, onFocus, onMonthChange, onYearChange } = this
 
     return (
       <Container className={className}>

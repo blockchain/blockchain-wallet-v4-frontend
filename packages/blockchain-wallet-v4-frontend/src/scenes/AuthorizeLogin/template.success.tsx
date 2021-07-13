@@ -1,8 +1,9 @@
-import { Banner, Button, Icon, Image, Text } from 'blockchain-info-components'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import media from 'services/ResponsiveService'
-import React, { useEffect } from 'react'
 import styled from 'styled-components'
+
+import { Banner, Button, Icon, Image, Text } from 'blockchain-info-components'
+import { media } from 'services/styles'
 
 const Fragment = React.Fragment
 
@@ -78,42 +79,31 @@ const ApproveRejectButtons = styled(Button)`
 `}
 `
 
-const Title = styled(Text)`
-  margin: 40px 0 14px 0;
-  line-height: 22px;
-  width: 252px;
-`
-
-const Content = styled(Text)`
-  line-height: 22px;
-  width: 252px;
-`
-
 const Success = props => {
   /* eslint-disable */
   const {
     approver_device_description,
-    requester_device_description
+    requester_device_description,
+    approver_country,
+    requester_country,
+    approver_ip,
+    requester_ip,
+    device_change_reason
   } = props.value
-  const { approver_country, requester_country } = props.value
-  const { approver_ip, requester_ip } = props.value
+
   const requestDenied = props.value['request-denied']
   /* eslint-enable */
 
-  useEffect(() => {
-    if (!props.value.device_change_reason) props.handleSuccessContainer()
-  })
-
   return (
     <Wrapper>
-      {props.value.device_change_reason ? (
+      {device_change_reason ? (
         <Fragment>
-          <Image name='blockchain-icon' width='50px' height='50px' />
+          <Image name='blockchain-icon' width='40px' height='40px' />
           <InfoWrapper>
             <Text
-              size='24px'
-              weight={500}
-              color='grey700'
+              size='20px'
+              weight={600}
+              color='black'
               style={{ marginTop: '24px' }}
             >
               <FormattedMessage
@@ -122,10 +112,10 @@ const Success = props => {
               />
             </Text>
             <Text
-              size='13px'
-              weight={400}
               color='grey700'
-              style={{ marginTop: '10px' }}
+              style={{ marginTop: '8px' }}
+              size='14px'
+              weight={500}
             >
               <FormattedMessage
                 id='scenes.authorizelogin.attemptfrombrowsermsg'
@@ -162,27 +152,32 @@ const Success = props => {
                     {approver_device_description ===
                     requester_device_description ? (
                       <Icon
-                        name="checkmark-in-circle-filled"
-                        color="success"
-                        size="15px"
+                        name='checkmark-circle-filled'
+                        color='success'
+                        size='16px'
                       />
                     ) : (
-                      <Icon name="close" color="error" size="22px" />
+                      <Icon
+                        name='close-circle'
+                        color='error'
+                        size='20px'
+                        style={{ marginLeft: '-2px', marginRight: '-2px' }}
+                      />
                     )}
                     &nbsp;
-                    <Text size="14px" style={{ paddingLeft: '6px' }}>
+                    <Text size='14px' style={{ paddingLeft: '6px' }}>
                       <FormattedMessage
-                        id="scenes.authorizelogin.browser"
-                        defaultMessage="Browser: "
+                        id='scenes.authorizelogin.browser'
+                        defaultMessage='Browser: '
                       />
                     </Text>
                   </DeviceInfoTitleRow>
-                  <Banner type="success" inline>
+                  <Banner type='success' inline>
                     {approver_device_description}
                   </Banner>
                   {approver_device_description !==
                     requester_device_description && (
-                    <Banner type="warning" inline>
+                    <Banner type='warning' inline>
                       {requester_device_description}
                     </Banner>
                   )}
@@ -193,26 +188,31 @@ const Success = props => {
                     {/* eslint-disable */}
                     {approver_ip === requester_ip ? (
                       <Icon
-                        name="checkmark-in-circle-filled"
-                        color="success"
-                        size="13px"
+                        name='checkmark-circle-filled'
+                        color='success'
+                        size='16px'
                       />
                     ) : (
-                      <Icon name="close" color="error" size="22px" />
+                      <Icon
+                        name='close-circle'
+                        color='error'
+                        size='20px'
+                        style={{ marginLeft: '-2px', marginRight: '-2px' }}
+                      />
                     )}
                     &nbsp;
-                    <Text size="14px">
+                    <Text size='14px' style={{ paddingLeft: '6px' }}>
                       <FormattedMessage
-                        id="scenes.authorizelogin.ipaddress"
-                        defaultMessage="IP Address: "
+                        id='scenes.authorizelogin.ipaddress'
+                        defaultMessage='IP Address: '
                       />
                     </Text>
                   </DeviceInfoTitleRow>
-                  <Banner type="success" inline>
+                  <Banner type='success' inline>
                     {approver_ip}
                   </Banner>
                   {approver_ip !== requester_ip && (
-                    <Banner type="warning" inline>
+                    <Banner type='warning' inline>
                       {requester_ip}
                     </Banner>
                   )}
@@ -223,26 +223,31 @@ const Success = props => {
                     {/* eslint-disable */}
                     {approver_country === requester_country ? (
                       <Icon
-                        name="checkmark-in-circle-filled"
-                        color="success"
-                        size="13px"
+                        name='checkmark-circle-filled'
+                        color='success'
+                        size='16px'
                       />
                     ) : (
-                      <Icon name="close" color="error" size="22px" />
+                      <Icon
+                        name='close-circle'
+                        color='error'
+                        size='20px'
+                        style={{ marginLeft: '-2px', marginRight: '-2px' }}
+                      />
                     )}
                     &nbsp;
-                    <Text size="14px">
+                    <Text size='14px' style={{ paddingLeft: '6px' }}>
                       <FormattedMessage
-                        id="scenes.authorizelogin.country"
-                        defaultMessage="Country of Origin: "
+                        id='scenes.authorizelogin.country'
+                        defaultMessage='Country of Origin: '
                       />
                     </Text>
                   </DeviceInfoTitleRow>
-                  <Banner type="success" inline>
+                  <Banner type='success' inline>
                     {approver_country}
                   </Banner>
                   {approver_country !== requester_country && (
-                    <Banner type="warning" inline>
+                    <Banner type='warning' inline>
                       {requester_country}
                     </Banner>
                   )}
@@ -262,10 +267,7 @@ const Success = props => {
                 />
               </ApproveRejectButtons>
               <OrText size='12px' weight={400}>
-                <FormattedMessage
-                  id='scenes.authorizelogin.or'
-                  defaultMessage='Or'
-                />
+                <FormattedMessage id='copy.or' defaultMessage='or' />
               </OrText>
               <ApproveRejectButtons
                 data-e2e='rejectLogin'
@@ -283,11 +285,16 @@ const Success = props => {
       ) : (
         <Fragment>
           {requestDenied ? (
-            <Icon name='close' color='error' size='52px' />
+            <Icon color='error' name='close-circle' size='40px' />
           ) : (
-            <Image name='checkmark-green' width='56px' height='56px' />
+            <Icon color='success' name='checkmark-circle-filled' size='40px' />
           )}
-          <Title size='20px' weight={600} color='blue900'>
+          <Text
+            size='20px'
+            weight={600}
+            color='black'
+            style={{ marginTop: '8px' }}
+          >
             {requestDenied ? (
               <FormattedMessage
                 id='scenes.authorizelogin.loading.rejected.title'
@@ -299,8 +306,13 @@ const Success = props => {
                 defaultMessage='Login Approved!'
               />
             )}
-          </Title>
-          <Content size='16px' weight={500} color='grey700'>
+          </Text>
+          <Text
+            color='grey900'
+            style={{ marginTop: '8px' }}
+            size='16px'
+            weight={500}
+          >
             {requestDenied ? (
               <FormattedMessage
                 id='scenes.authorizelogin.loading.rejected.content'
@@ -312,7 +324,7 @@ const Success = props => {
                 defaultMessage='Please return to your previous tab to view your wallet.'
               />
             )}
-          </Content>
+          </Text>
         </Fragment>
       )}
     </Wrapper>

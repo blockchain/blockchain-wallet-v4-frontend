@@ -1,8 +1,9 @@
-import { assoc, equals, filter, flatten, head, path } from 'ramda'
-import { selectBorderColor, selectFocusBorderColor } from '../helper'
 import React from 'react'
 import Select, { components, NonceProvider } from 'react-select'
+import { assoc, equals, filter, flatten, head, path } from 'ramda'
 import styled, { css } from 'styled-components'
+
+import { selectBorderColor, selectFocusBorderColor } from '../helper'
 
 // 🚨🚨🚨
 // react-select overrides

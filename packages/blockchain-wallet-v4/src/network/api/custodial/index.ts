@@ -1,24 +1,32 @@
+import { CoinType, SBPaymentTypes, WalletFiatType } from 'core/types'
+import { BankTransferAccountType, ProductEligibility } from 'data/types'
+
+import { SBTransactionsType } from '../simpleBuy/types'
 import {
   BeneficiariesType,
   BeneficiaryType,
+  CustodialTransferRequestType,
+  GetTransactionsHistoryType,
   NabuCustodialProductType,
   PaymentDepositPendingResponseType,
+  WithdrawalFeesProductType,
+  WithdrawalLockCheckResponseType,
   WithdrawalLockResponseType,
+  WithdrawalMinsAndFeesResponse,
   WithdrawResponseType
 } from './types'
-import { CoinType, WalletFiatType } from 'core/types'
 
 export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
   const getBeneficiaries = (): BeneficiariesType =>
     authorizedGet({
-      url: nabuUrl,
-      endPoint: '/payments/beneficiaries'
+      endPoint: '/payments/beneficiaries',
+      url: nabuUrl
     })
 
   const getWithdrawalLocks = (): WithdrawalLockResponseType =>
     authorizedGet({
-      url: nabuUrl,
-      endPoint: '/payments/withdrawals/locks'
+      endPoint: '/payments/withdrawals/locks',
+      url: nabuUrl
     })
 
   const notifyNonCustodialToCustodialTransfer = (
@@ -29,40 +37,103 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
     product: NabuCustodialProductType
   ): PaymentDepositPendingResponseType =>
     authorizedPost({
-      url: nabuUrl,
-      endPoint: '/payments/deposits/pending',
       contentType: 'application/json',
       data: {
+        amount,
         currency,
         depositAddress,
-        txHash,
-        amount,
-        product
-      }
+        product,
+        txHash
+      },
+      endPoint: '/payments/deposits/pending',
+      url: nabuUrl
     })
 
   const withdrawFunds = (
-    beneficiary: BeneficiaryType,
+    beneficiary: BeneficiaryType | BankTransferAccountType,
     currency: WalletFiatType,
     baseAmount: string
   ): WithdrawResponseType =>
     authorizedPost({
-      url: nabuUrl,
-      endPoint: '/payments/withdrawals',
       contentType: 'application/json',
+      data: {
+        amount: baseAmount,
+        beneficiary: beneficiary.id,
+        currency
+      },
+      endPoint: '/payments/withdrawals',
       headers: {
         'blockchain-origin': 'simplebuy'
       },
+      url: nabuUrl
+    })
+
+  const getWithdrawalFees = (
+    product: WithdrawalFeesProductType,
+    paymentMethod?: SBPaymentTypes | 'DEFAULT' | 'ALL'
+  ): WithdrawalMinsAndFeesResponse =>
+    authorizedGet({
       data: {
-        beneficiary: beneficiary.id,
+        paymentMethod,
+        product
+      },
+      endPoint: `/payments/withdrawals/fees`,
+      url: nabuUrl
+    })
+
+  const checkWithdrawalLocks = (
+    paymentMethod: SBPaymentTypes,
+    currency: WalletFiatType
+  ): WithdrawalLockCheckResponseType =>
+    authorizedPost({
+      contentType: 'application/json',
+      data: {
         currency,
-        amount: baseAmount
-      }
+        paymentMethod
+      },
+      endPoint: '/payments/withdrawals/locks/check',
+      url: nabuUrl
+    })
+
+  const initiateCustodialTransfer = (request: CustodialTransferRequestType) =>
+    authorizedPost({
+      contentType: 'application/json',
+      data: request,
+      endPoint: '/custodial/transfer',
+      url: nabuUrl
+    })
+
+  const getProductsEligibility = (): ProductEligibility[] =>
+    authorizedGet({
+      endPoint: '/eligible/products',
+      url: nabuUrl
+    })
+
+  const getTransactionsHistory = ({
+    currency,
+    fromValue,
+    toValue
+  }: GetTransactionsHistoryType): SBTransactionsType =>
+    authorizedGet({
+      data: {
+        currency,
+        fromValue,
+        pending: true,
+        product: 'SIMPLEBUY',
+        toValue
+      },
+      endPoint: '/payments/transactions',
+      url: nabuUrl
     })
 
   return {
+    checkWithdrawalLocks,
     getBeneficiaries,
+    getProductsEligibility,
+    getTransactionsHistory,
+    getWithdrawalFees,
     getWithdrawalLocks,
+    initiateCustodialTransfer,
     notifyNonCustodialToCustodialTransfer,
     withdrawFunds
   }

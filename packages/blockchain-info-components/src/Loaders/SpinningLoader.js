@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled, { css, keyframes } from 'styled-components'
 
 const spinFrames = keyframes`
@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   position: relative;
   width: ${props => props.width};
   height: ${props => props.height};
-  border: 8px solid ${props => props.theme.blue200};
+  border: ${props => props.borderWidth} solid ${props => props.theme.blue200};
   border-radius: 50%;
   overflow: hidden;
   border-top-color: ${props => props.theme.blue600};
@@ -29,7 +29,8 @@ SpinningLoader.propTypes = {
 
 SpinningLoader.defaultProps = {
   width: '75px',
-  height: '75px'
+  height: '75px',
+  borderWidth: '8px'
 }
 
 export default SpinningLoader

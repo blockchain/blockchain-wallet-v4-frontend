@@ -1,13 +1,18 @@
-import Remote from 'blockchain-wallet-v4/src/remote/remote'
+import { RemoteDataType } from 'core/types'
 
+import Remote from '../../../remote'
 import * as AT from './actionTypes'
-import { FiatActionTypes, FiatStateType } from './types'
-import { RemoteDataType, SBTransactionsType } from 'core/types'
+import {
+  FiatActionTypes,
+  FiatStateType,
+  FiatTransactionPageResponseType
+} from './types'
 
 const DEFAULT_STATE = {
-  transactions: [],
-  next: Remote.NotAsked,
-  prev: Remote.NotAsked
+  page: [],
+  nextSbTxId: Remote.NotAsked,
+  nextSbTxTimestamp: Remote.NotAsked,
+  nextSwapPageTimestamp: Remote.NotAsked
 }
 
 const INITIAL_STATE: FiatStateType = {
@@ -16,7 +21,7 @@ const INITIAL_STATE: FiatStateType = {
   USD: DEFAULT_STATE
 }
 
-let txs: Array<RemoteDataType<string, SBTransactionsType['items']>>
+let txs: Array<RemoteDataType<string, FiatTransactionPageResponseType['page']>>
 
 export const fiatReducer = (
   state = INITIAL_STATE,
@@ -27,36 +32,43 @@ export const fiatReducer = (
       return {
         ...state,
         [action.payload.currency]: {
-          transactions: [Remote.Failure(action.payload.error)],
-          next: Remote.Failure(action.payload.error),
-          prev: Remote.Failure(action.payload.error)
+          page: [Remote.Failure(action.payload.error)],
+          nextSbTxId: Remote.Failure(action.payload.error),
+          nextSbTxTimestamp: Remote.Failure(action.payload.error),
+          nextSwapPageTimestamp: Remote.Failure(action.payload.error)
         }
       }
     case AT.FETCH_FIAT_TRANSACTIONS_LOADING:
-      txs = state[action.payload.currency]?.transactions || []
+      txs = state[action.payload.currency]?.page || []
       return {
         ...state,
         [action.payload.currency]: {
-          transactions: action.payload.reset
+          page: action.payload.reset
             ? [Remote.Loading]
             : txs
             ? [...txs, Remote.Loading]
             : [Remote.Loading],
-          next: Remote.Loading,
-          prev: Remote.Loading
+          nextSbTxId: Remote.Loading,
+          nextSbTxTimestamp: Remote.Loading,
+          nextSwapPageTimestamp: Remote.Loading
         }
       }
     case AT.FETCH_FIAT_TRANSACTIONS_SUCCESS:
-      txs = state[action.payload.currency]?.transactions || []
+      txs = state[action.payload.currency]?.page || []
       return {
         ...state,
         [action.payload.currency]: {
-          transactions: [
+          page: [
             ...txs.filter((tx, i) => i !== txs.length - 1),
-            Remote.Success(action.payload.response.items)
+            Remote.Success(action.payload.response.page)
           ],
-          next: Remote.Success(action.payload.response.next),
-          prev: Remote.Success(action.payload.response.prev)
+          nextSbTxId: Remote.Success(action.payload.response.nextSbTxId),
+          nextSbTxTimestamp: Remote.Success(
+            action.payload.response.nextSbTxTimestamp
+          ),
+          nextSwapPageTimestamp: Remote.Success(
+            action.payload.response.nextSwapPageTimestamp
+          )
         }
       }
     default: {

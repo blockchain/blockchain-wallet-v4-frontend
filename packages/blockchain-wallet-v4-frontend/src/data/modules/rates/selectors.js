@@ -8,6 +8,7 @@ import {
   propOr,
   values
 } from 'ramda'
+
 import { Remote } from 'blockchain-wallet-v4/src'
 
 export const getActivePairs = compose(

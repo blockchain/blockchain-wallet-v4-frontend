@@ -1,8 +1,9 @@
+import React from 'react'
+import styled from 'styled-components'
+
 import { Color } from '../../Colors/index.ts'
 import { trackButtonEvent } from '../Events'
 import Link from '../Link'
-import React from 'react'
-import styled from 'styled-components'
 
 const DefaultButton = styled('button', 'input[type=submit]')`
   display: inline-block;
@@ -57,7 +58,7 @@ const SecondaryButton = styled(DefaultButton)`
 `
 
 const Button = props => {
-  let { href, target, download, rel } = props
+  let { download, href, rel, target } = props
   if (href) {
     return (
       <Link

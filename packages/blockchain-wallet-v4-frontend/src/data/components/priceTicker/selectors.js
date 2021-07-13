@@ -1,7 +1,8 @@
 import { includes, lift, toLower } from 'ramda'
 
-import * as selectors from '../../selectors'
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+
+import * as selectors from '../../selectors'
 
 const selectRates = (coin, state) => {
   const erc20List = selectors.core.walletOptions

@@ -1,5 +1,5 @@
-import onClickOutside from 'react-onclickoutside'
 import React, { PureComponent } from 'react'
+import onClickOutside from 'react-onclickoutside'
 import styled from 'styled-components'
 
 import ButtonGroup from '../ButtonGroup'
@@ -43,7 +43,7 @@ const Dropdown = props => {
 }
 
 class MenuDropdown extends PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.mouseX = 0
     this.mouseY = 0
@@ -64,13 +64,13 @@ class MenuDropdown extends PureComponent {
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     if (document) {
       document.addEventListener('mousemove', this.handleMouseMove)
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     if (document) {
       document.removeEventListener('mousemove', this.handleMouseMove)
     }
@@ -100,7 +100,7 @@ class MenuDropdown extends PureComponent {
     this.setState({ dropDown: null })
   }
 
-  toggleDropdown (name, onlyOn) {
+  toggleDropdown(name, onlyOn) {
     return e => {
       let dropDownVal = null
       if (typeof name === 'string') {
@@ -124,11 +124,11 @@ class MenuDropdown extends PureComponent {
     }
   }
 
-  getLink (kind, name) {
+  getLink(kind, name) {
     return (
       <li key={kind}>
         <DropdownLink
-          callback={({ left, top, height }) => {
+          callback={({ height, left, top }) => {
             this.setState({ [kind]: { left, top, height } })
           }}
           onClick={this.toggleDropdown(kind)}
@@ -140,7 +140,7 @@ class MenuDropdown extends PureComponent {
     )
   }
 
-  render () {
+  render() {
     let dropX = 0
     let dropY = 0
     let dropdownTip = null

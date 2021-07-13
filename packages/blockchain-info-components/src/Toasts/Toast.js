@@ -1,15 +1,15 @@
-import { Icon } from '../Icons'
-import { propOr } from 'ramda'
-import PropTypes from 'prop-types'
 import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { propOr } from 'ramda'
 import styled from 'styled-components'
+
+import { Icon } from '../Icons'
 
 const duration = 200
 
 const Wrapper = styled.div`
   width: 100%;
   margin-top: 5px;
-  background-color: ${props => props.theme.white};
 
   @media (min-width: 768px) {
     width: 450px;
@@ -57,12 +57,12 @@ const selectColor = (type, coin) => {
     case 'warn':
       return 'orange'
     default:
-      return propOr('blue600', 'colorCode', coin)
+      return propOr('blue600', 'coinCode', coin)
   }
 }
 
 const Toast = props => {
-  const { children, nature, coin, onClose, persist, timeout } = props
+  const { children, coin, nature, onClose, persist, timeout } = props
   const color = selectColor(nature, coin)
 
   useEffect(() => {
@@ -78,9 +78,7 @@ const Toast = props => {
     <Wrapper>
       <Container color={color}>
         <Content>
-          {coin && (
-            <CustomIcon name={coin.icons.circleFilled} color={coin.colorCode} />
-          )}
+          {coin && <CustomIcon name={coin.coinCode} color={coin.coinCode} />}
           {children}
         </Content>
         <CloseIcon

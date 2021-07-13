@@ -1,3 +1,11 @@
+import React, { Fragment } from 'react'
+import Dropzone from 'react-dropzone'
+import { FormattedMessage } from 'react-intl'
+import { FasIdBadge, FasIdCard, FasPassport } from '@blockchain-com/components'
+import PropTypes from 'prop-types'
+import { prop } from 'ramda'
+import styled from 'styled-components'
+
 import {
   Button,
   HeartbeatLoader,
@@ -5,15 +13,7 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import { FasIdBadge, FasIdCard, FasPassport } from '@blockchain-com/components'
-import { FormattedMessage } from 'react-intl'
-import { prop } from 'ramda'
-import Dropzone from 'react-dropzone'
-import PropTypes from 'prop-types'
-import React, { Fragment } from 'react'
-import styled from 'styled-components'
-
-import media from 'services/ResponsiveService'
+import { media } from 'services/styles'
 
 const FileContainer = styled.div`
   display: flex;
@@ -98,12 +98,11 @@ const UploadDocuments = ({
   data,
   deleteFileAt,
   files,
+  loading,
   onDropAccepted,
   onSubmit,
   openDropzone,
-  setDropzoneRef,
-  submitted,
-  loading
+  setDropzoneRef
 }) => (
   <Wrapper>
     <TextContainer>
@@ -137,13 +136,6 @@ const UploadDocuments = ({
             {type}
           </Text>
         ))}
-      {/* Add back when link is provided */}
-      {/* <Link>
-        <FormattedMessage
-          id='scenes.uploaddoc.need'
-          defaultMessage='Why do you need this?'
-        />
-      </Link> */}
     </TextContainer>
     <UploadZoneContainer>
       <UploadZone

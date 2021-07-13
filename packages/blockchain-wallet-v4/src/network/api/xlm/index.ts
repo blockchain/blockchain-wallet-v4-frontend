@@ -1,7 +1,7 @@
-import * as StellarSDK from 'stellar-sdk'
 import { compose, head, prop } from 'ramda'
+import * as StellarSDK from 'stellar-sdk'
 
-export default ({ apiUrl, horizonUrl, get }) => {
+export default ({ apiUrl, get, horizonUrl }) => {
   const server = new StellarSDK.Server(horizonUrl)
   const createXlmAccount = publicKey =>
     get({
@@ -23,11 +23,11 @@ export default ({ apiUrl, horizonUrl, get }) => {
   const pushXlmTx = tx => server.submitTransaction(tx)
 
   const getXlmTransactions = ({
-    publicKey,
     limit,
+    order = 'desc',
     pagingToken,
-    reset = false,
-    order = 'desc'
+    publicKey,
+    reset = false
   }: {
     limit?: number
     order?: 'asc' | 'desc'

@@ -1,15 +1,21 @@
-import { actions } from 'data'
-import { bindActionCreators, Dispatch } from 'redux'
-import { CoinType, FiatType, SBOrderActionType } from 'core/types'
-import { connect, ConnectedProps } from 'react-redux'
-import { getData } from './selectors'
-import { RootState } from 'data/rootReducer'
-
 import React, { PureComponent } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
+
+import {
+  CoinType,
+  FiatType,
+  SBOrderActionType
+} from 'blockchain-wallet-v4/src/types'
+import { actions } from 'data'
+import { RootState } from 'data/rootReducer'
+import { SwapAccountType } from 'data/types'
+
+import { getData } from './selectors'
 import Success from './template.success'
 
 class CryptoItem extends PureComponent<Props> {
-  render () {
+  render() {
     return this.props.data.cata({
       Success: val => <Success {...this.props} {...val} />,
       Failure: () => null,
@@ -30,6 +36,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
+  account?: SwapAccountType
   coin: CoinType
   fiat: FiatType
   onClick?: (string) => void

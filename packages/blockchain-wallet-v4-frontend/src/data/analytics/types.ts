@@ -1,14 +1,17 @@
+import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
+
 import * as AT from './actionTypes'
-import { MempoolFeeType } from 'data/components/types'
-import { RemoteDataType } from 'core/types'
+import { AB_TESTS } from './model'
 
 // types
-export type ABTestNameType = ''
+export type ABTestNameType = AB_TESTS
+
+export type VerifyEmailType = 'home' | 'verify-email'
 
 export type ABTestCmdType = {
-  command: MempoolFeeType
+  command: VerifyEmailType
   from: 'matomo'
-  to: 'swap'
+  to: 'signup'
 }
 
 // state

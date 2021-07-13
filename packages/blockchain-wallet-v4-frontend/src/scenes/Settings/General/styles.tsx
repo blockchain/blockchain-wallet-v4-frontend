@@ -1,22 +1,8 @@
-import { Button } from 'blockchain-info-components'
-import { SettingHeader } from 'components/Setting'
-import media from 'services/ResponsiveService'
 import styled from 'styled-components'
 
-export const CardWrapper = styled.div`
-  display: flex;
-  padding: 16px;
-  border-radius: 8px;
-  margin-bottom: 12px;
-  justify-content: space-between;
-  border: 1px solid ${props => props.theme.grey000};
-  cursor: pointer;
-  width: 430px;
+import { Button } from 'blockchain-info-components'
+import { SettingHeader } from 'components/Setting'
 
-  ${media.mobile`
-  width: 100%;
-`}
-`
 export const CustomSettingHeader = styled(SettingHeader)`
   margin-bottom: 18px;
 `
@@ -27,11 +13,11 @@ export const Child = styled.div`
   }
 `
 export const CardDetails = styled.div<{ right?: boolean }>`
-  text-align: ${props => (props.right ? 'right' : 'initial')};
+  text-align: ${(props) => (props.right ? 'right' : 'initial')};
 `
 export const RemoveButton = styled(Button)`
   &:hover {
-    border-color: ${props => props.theme.red400};
+    border-color: ${(props) => props.theme.red400};
     background-color: transparent;
   }
 `

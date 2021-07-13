@@ -1,7 +1,8 @@
 import { CoinType } from 'core/types'
+
 import { LoanTransactionsType, LoanType, MoneyType, OfferType } from './types'
 
-export default ({ nabuUrl, authorizedGet, authorizedPost }) => {
+export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
   const closeLoanWithPrincipal = (
     loan: LoanType,
     collateralWithdrawAddresses: { [key in CoinType]?: string }

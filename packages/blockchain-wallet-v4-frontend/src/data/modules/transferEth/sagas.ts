@@ -1,10 +1,12 @@
-import * as A from './actions'
-import * as C from 'services/AlertService'
-import * as S from './selectors'
-import { actions } from 'data'
 import { call, put, select } from 'redux-saga/effects'
-import { EthPaymentType } from 'core/types'
-import { promptForSecondPassword } from 'services/SagaService'
+
+import { EthPaymentType } from 'blockchain-wallet-v4/src/types'
+import { actions } from 'data'
+import * as C from 'services/alerts'
+import { promptForSecondPassword } from 'services/sagas'
+
+import * as A from './actions'
+import * as S from './selectors'
 
 export const logLocation = 'modules/transferEth/sagas'
 
@@ -28,7 +30,7 @@ export default ({ coreSagas, networks }) => {
   const confirmTransferEth = function * (action) {
     try {
       yield put(actions.form.startSubmit('transferEth'))
-      const { to, effectiveBalance } = action.payload
+      const { effectiveBalance, to } = action.payload
       let p = S.getPayment(yield select())
       let payment: EthPaymentType = coreSagas.payment.eth.create({
         payment: p.getOrElse({}),

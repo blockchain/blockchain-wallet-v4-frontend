@@ -1,9 +1,11 @@
-import { AddressType } from './.'
-import media from 'services/ResponsiveService'
-import QrCodeAddressInfo from '../QrCodeAddressInfo'
 import React from 'react'
 import styled from 'styled-components'
+
+import { media } from 'services/styles'
+
+import QrCodeAddressInfo from '../QrCodeAddressInfo'
 import ViewKeys from '../ViewKeys'
+import { AddressType } from './.'
 
 const Wrapper = styled.div<{ showQrCode?: boolean }>`
   display: ${props => (props.showQrCode ? 'flex' : 'inline-block')};

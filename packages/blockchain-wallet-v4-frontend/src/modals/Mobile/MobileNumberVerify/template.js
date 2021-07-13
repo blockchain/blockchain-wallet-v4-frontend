@@ -1,7 +1,7 @@
-import { Field, reduxForm } from 'redux-form'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
-import React from 'react'
+import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import {
@@ -14,8 +14,8 @@ import {
   Text
 } from 'blockchain-info-components'
 import { Form, TextBox } from 'components/Form'
-import { required } from 'services/FormHelper'
-import { spacing } from 'services/StyleService'
+import { required } from 'services/forms'
+import { spacing } from 'services/styles'
 
 export const Code = styled.div`
   width: 60%;
@@ -35,15 +35,15 @@ const OptionsText = styled(Text)`
 `
 const MobileNumberVerify = props => {
   const {
-    position,
-    total,
     close,
     closeAll,
-    submitting,
     invalid,
+    position,
+    submitting,
+    total,
     ...rest
   } = props
-  const { handleSubmit, handleChange, handleResend } = rest
+  const { handleChange, handleResend, handleSubmit } = rest
 
   return (
     <Modal size='large' position={position} total={total}>

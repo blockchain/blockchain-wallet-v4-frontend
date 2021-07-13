@@ -1,10 +1,12 @@
-import { actions } from 'data'
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-import { getData } from './selectors'
-import { LoanType, OfferType } from 'core/types'
 import React, { Component } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
+
+import { LoanType, OfferType } from 'blockchain-wallet-v4/src/types'
+import { actions } from 'data'
+
+import { getData } from './selectors'
 import Success from './template.success'
 
 const History = styled.div`
@@ -22,7 +24,7 @@ class BorrowHistory extends Component<Props> {
     })
   }
 
-  render () {
+  render() {
     return (
       <History>
         {this.props.data.cata({

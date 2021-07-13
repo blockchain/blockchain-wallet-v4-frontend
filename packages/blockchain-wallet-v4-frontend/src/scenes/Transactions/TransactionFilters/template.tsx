@@ -1,12 +1,13 @@
-import { Field } from 'redux-form'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { IconButton } from 'blockchain-info-components'
-import { StickyHeader } from 'components/Layout'
+import { Field } from 'redux-form'
+import styled from 'styled-components'
+
+import { IconButton, TooltipHost } from 'blockchain-info-components'
 import { TabMenuTransactionStatus, TextBox } from 'components/Form'
 import HorizontalMenu from 'components/HorizontalMenu'
-import media from 'services/ResponsiveService'
-import React from 'react'
-import styled from 'styled-components'
+import { StickyHeader } from 'components/Layout'
+import { media } from 'services/styles'
 
 const StyledIconButton = styled(IconButton)`
   border: 1px solid ${props => props.theme['grey100']};
@@ -35,26 +36,25 @@ const SearchField = styled<any>(Field)`
 
 const TransactionFilters = ({ handleClickReporting }) => (
   <StickyHeader>
-    <HorizontalMenu marginBottom='0px'>
+    <HorizontalMenu marginBottom='0px' border={false}>
       <Field
         name='status'
         statuses={['', 'sent', 'received', 'transferred']}
         component={TabMenuTransactionStatus}
       />
       <Search>
-        <StyledIconButton
-          data-e2e='generateTxReport'
-          height='45px'
-          name='download'
-          nature='light'
-          onClick={handleClickReporting}
-          width='120px'
-        >
-          <FormattedMessage
-            id='scenes.transactions.export.download'
-            defaultMessage='Download'
-          />
-        </StyledIconButton>
+        <TooltipHost id='copy.on_chain_txs'>
+          <StyledIconButton
+            data-e2e='generateTxReport'
+            height='45px'
+            name='download'
+            nature='light'
+            onClick={handleClickReporting}
+            width='120px'
+          >
+            <FormattedMessage id='copy.download' defaultMessage='Download' />
+          </StyledIconButton>
+        </TooltipHost>
         <SearchField
           component={TextBox}
           data-e2e='transactionsMenuSearchBox'

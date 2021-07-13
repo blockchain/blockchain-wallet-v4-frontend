@@ -1,5 +1,9 @@
-import { actions } from 'data'
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
+import styled from 'styled-components'
+
 import {
   Button,
   Icon,
@@ -10,11 +14,8 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
+import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
-import React from 'react'
-import styled from 'styled-components'
 
 const AbsoluteModalHeader = styled(ModalHeader)`
   position: absolute;
@@ -100,12 +101,12 @@ const LearnMoreLink = styled(Link)`
 `
 
 class UpgradeForAirdrop extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     this.props.preferencesActions.hideUpgradeForAirdropModal()
   }
 
-  render () {
-    const { campaign, position, total, close, actions } = this.props
+  render() {
+    const { actions, campaign, close, position, total } = this.props
     return (
       <Modal
         size='small'
@@ -183,7 +184,7 @@ const mapDispatchToProps = dispatch => ({
 
 const enhance = compose(
   connect(undefined, mapDispatchToProps),
-  modalEnhancer('UpgradeForAirdrop')
+  modalEnhancer('UPGRADE_FOR_AIRDROP_MODAL')
 )
 
 export default enhance(UpgradeForAirdrop)

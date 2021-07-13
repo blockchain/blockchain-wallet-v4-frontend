@@ -1,7 +1,7 @@
-import { defaultTo, find, map, pipe, prop, propEq } from 'ramda'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
-import React from 'react'
+import { defaultTo, find, map, pipe, prop, propEq } from 'ramda'
 
 import SelectBox from '../SelectBox'
 
@@ -15,11 +15,12 @@ class SelectBoxRegion extends React.PureComponent {
   static propTypes = {
     countryCode: PropTypes.string
   }
+
   static defaultProps = {
     countryCode: null
   }
 
-  render () {
+  render() {
     const { countryCode } = this.props
     const regions = pipe(
       find(propEq('countryShortCode', countryCode)),

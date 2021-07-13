@@ -1,10 +1,11 @@
-import { Button, Text, TextGroup } from 'blockchain-info-components'
-import { FarCheckCircle } from '@blockchain-com/components'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
+import { FarCheckCircle } from '@blockchain-com/components'
 import PropTypes from 'prop-types'
-import React from 'react'
 import styled from 'styled-components'
+
+import { Button, Text, TextGroup } from 'blockchain-info-components'
 
 const CheckCircleIcon = styled(FarCheckCircle)`
   fill: ${props => props.theme['success']};

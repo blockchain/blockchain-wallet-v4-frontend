@@ -1,8 +1,8 @@
 import { equals, path } from 'ramda'
 import { put, select } from 'redux-saga/effects'
 
-import * as C from 'services/AlertService'
 import { actions, model, selectors } from 'data'
+import * as C from 'services/alerts'
 
 export default () => {
   const { WALLET_TX_SEARCH } = model.form

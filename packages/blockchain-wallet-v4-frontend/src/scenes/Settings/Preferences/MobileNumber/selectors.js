@@ -1,4 +1,5 @@
 import { lift } from 'ramda'
+
 import { selectors } from 'data'
 
 // getData :: state -> Remote( [smsNumber, smsVerified ])

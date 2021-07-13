@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -28,7 +28,7 @@ const BaseSeparator = styled.div`
 `
 
 const Separator = props => {
-  const { children, align, className, margin } = props
+  const { align, children, className, margin } = props
 
   return children ? (
     <Wrapper className={className}>

@@ -1,11 +1,12 @@
-import * as AT from './actionTypes'
 import { takeEvery, takeLatest } from 'redux-saga/effects'
+
+import * as AT from './actionTypes'
 import sagas from './sagas'
 
 export default () => {
   const algoTransactionsSagas = sagas()
 
-  return function * algoTransactionsSaga () {
+  return function * algoTransactionsSaga() {
     yield takeEvery(
       AT.TRANSACTIONS_INITIALIZED,
       algoTransactionsSagas.initialized

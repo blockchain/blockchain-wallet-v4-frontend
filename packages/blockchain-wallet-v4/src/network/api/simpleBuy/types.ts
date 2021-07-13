@@ -1,5 +1,6 @@
 import { CardNameType } from 'components/Form/CreditCardBox/model'
-import { CoinType, FiatType, WalletCurrencyType } from 'core/types'
+import { BeneficiaryType, CoinType, FiatType, WalletCurrencyType } from 'core/types'
+import { BankDetails } from 'data/types'
 
 export type Everypay3DSResponseType = {
   payment_state: null | 'waiting_for_3DS_response'
@@ -20,9 +21,12 @@ type AgentSimple = {
 }
 
 export type AgentType = AgentSimple & {
+  accountType: string
   address: string
   country: string
+  recipientAddress: string
   routingNumber: string
+  swiftCode: string
 }
 
 export type SBAccountType =
@@ -94,12 +98,7 @@ export type SBCardType = {
 
 export type SBCardPartnerType = 'EVERYPAY'
 
-export type SBCardStateType =
-  | 'PENDING'
-  | 'CREATED'
-  | 'ACTIVE'
-  | 'BLOCKED'
-  | 'FRAUD_REVIEW'
+export type SBCardStateType = 'PENDING' | 'CREATED' | 'ACTIVE' | 'BLOCKED' | 'FRAUD_REVIEW'
 
 export type SBPairsType = string
 
@@ -111,11 +110,14 @@ export type SBPairType = {
   sellMin: string
 }
 
-export type SBPaymentTypes =
-  | 'PAYMENT_CARD'
-  | 'BANK_ACCOUNT'
-  | 'FUNDS'
-  | 'USER_CARD'
+export enum SBPaymentTypes {
+  BANK_ACCOUNT = 'BANK_ACCOUNT',
+  BANK_TRANSFER = 'BANK_TRANSFER',
+  FUNDS = 'FUNDS',
+  LINK_BANK = 'LINK_BANK',
+  PAYMENT_CARD = 'PAYMENT_CARD',
+  USER_CARD = 'USER_CARD'
+}
 
 export type SBPaymentMethodType = {
   addedAt?: string
@@ -123,7 +125,10 @@ export type SBPaymentMethodType = {
   attributes?: {}
   card?: SBCard
   currency: FiatType
+  details?: BankDetails
+  eligible?: boolean
   id?: string
+  ineligibleReason?: string
   limits: {
     max: string
     min: string
@@ -162,11 +167,15 @@ export type SBMoneyType = {
 
 export type ISBBuyOrderType = {
   attributes?: {
+    authorisationUrl?: string
+    consentId?: string
     everypay: {
       paymentLink: string
       paymentState: 'WAITING_FOR_3DS_RESPONSE' | null
     }
+    expiresAt?: string
     paymentId: string
+    qrcodeUrl?: string
   }
   expiresAt: string
   fee?: string
@@ -177,10 +186,15 @@ export type ISBBuyOrderType = {
   paymentMethodId?: string
   paymentType?: SBPaymentMethodType['type']
   price?: string
+  side: SBOrderActionType
   state: SBOrderStateType
   updatedAt: string
 }
-export type SBOrderActionType = 'BUY' | 'SELL'
+export enum OrderType {
+  BUY = 'BUY',
+  SELL = 'SELL'
+}
+export type SBOrderActionType = keyof typeof OrderType
 export type SBBuyOrderType = ISBBuyOrderType & {
   inputCurrency: FiatType
   outputCurrency: CoinType
@@ -193,10 +207,10 @@ export type SBSellOrderType = ISBBuyOrderType & {
 }
 export type SBOrderType = SBBuyOrderType | SBSellOrderType
 
+// TODO: refactor this into an enum
 export type SBOrderStateType =
   | 'PENDING_CONFIRMATION'
   | 'PENDING_DEPOSIT'
-  | 'DEPOSIT_MATCHED'
   | 'FINISHED'
   | 'CANCELED'
   | 'FAILED'
@@ -212,14 +226,45 @@ export type SBQuoteType = {
 }
 
 export type SBTransactionType = {
-  amount: { symbol: FiatType; value: string }
+  amount: { symbol: WalletCurrencyType; value: string }
   amountMinor: string
-  extraAttributes: null
   id: string
   insertedAt: string
   state: SBTransactionStateType
-  type: 'DEPOSIT' | 'WITHDRAWAL'
-}
+} & (
+  | {
+      extraAttributes: null | {
+        address: string
+        amount: {
+          [key in WalletCurrencyType]: number
+        }
+        authorisationUrl?: string
+        confirmations: number
+        dsr: number
+        hash: string
+        id: string
+        qrcodeUrl?: string
+        status: 'UNCONFIRMED' | 'CONFIRMED' | 'COMPLETED' | 'CLEARED' | 'FAILED'
+        txHash: string
+      }
+      type: 'DEPOSIT' | 'REFUNDED' | 'SELL'
+    }
+  | {
+      extraAttributes: null | {
+        amount: {
+          [key in WalletCurrencyType]: number
+        }
+        beneficiary: BeneficiaryType
+        externalRef: string
+        fee: {
+          BTC: 0
+        }
+        product: 'SIMPLEBUY'
+        user: 'adea2fd5-acc3-4a71-987d-3741811cdeaa'
+      }
+      type: 'WITHDRAWAL' | 'REFUNDED'
+    }
+)
 
 export type SBTransactionsType = {
   items: Array<SBTransactionType>
@@ -239,9 +284,25 @@ export type SBTransactionStateType =
   | 'CLEARED'
   | 'COMPLETE'
   | 'REFUNDED'
+  | 'CANCELED'
+  | 'EXPIRED'
+
+export enum SBPendingTransactionStateEnum {
+  CLEARED = 'CLEARED',
+  CREATED = 'CREATED',
+  FRAUD_REVIEW = 'FRAUD_REVIEW',
+  MANUAL_REVIEW = 'MANUAL_REVIEW',
+  PENDING = 'PENDING',
+  PENDING_DEPOSIT = 'PENDING_DEPOSIT'
+}
 
 export type FiatEligibleType = {
   eligible: boolean
   paymentAccountEligible: boolean
   simpleBuyTradingEligible: boolean
+}
+
+export type Limits = {
+  max: string
+  min: string
 }

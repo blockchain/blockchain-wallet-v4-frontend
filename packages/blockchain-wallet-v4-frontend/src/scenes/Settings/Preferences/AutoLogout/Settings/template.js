@@ -1,13 +1,15 @@
-import { Button, Text } from 'blockchain-info-components'
-import { Field, reduxForm } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
-import { FormGroup, FormItem, NumberBox } from 'components/Form'
-import { isValidAutoLogoutTime } from './validation'
-import { SettingForm, SettingWrapper } from 'components/Setting'
-import { spacing } from 'services/StyleService'
-import PropTypes from 'prop-types'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import PropTypes from 'prop-types'
+import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
+
+import { Button, Text } from 'blockchain-info-components'
+import { FormGroup, FormItem, NumberBox } from 'components/Form'
+import { SettingForm, SettingWrapper } from 'components/Setting'
+import { spacing } from 'services/styles'
+
+import { isValidAutoLogoutTime } from './validation'
 
 const Wrapper = styled.div`
   display: flex;
@@ -25,7 +27,7 @@ const ButtonWrapper = styled.div`
 `
 
 const Settings = props => {
-  const { handleToggle, handleSubmit, submitting, invalid } = props
+  const { handleSubmit, handleToggle, invalid, submitting } = props
 
   return (
     <SettingWrapper>
@@ -39,7 +41,7 @@ const Settings = props => {
                 validate={[isValidAutoLogoutTime]}
               />
             </FormItem>
-            <Text size='14' weight={400} style={spacing('pl-10')}>
+            <Text size='14px' weight={500} style={spacing('pl-10')}>
               <FormattedMessage
                 id='scenes.settings.preferences.autologout.updateform.minutes'
                 defaultMessage='Minutes'

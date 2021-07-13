@@ -1,22 +1,28 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators, Dispatch } from 'redux'
-import { Button, Icon, Text } from 'blockchain-info-components'
-import { BuyOrSell } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/model'
-import { connect, ConnectedProps } from 'react-redux'
+import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { BuyOrSell } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/model'
+import { bindActionCreators, Dispatch } from 'redux'
+import styled from 'styled-components'
+
+import { Button, Icon, Text } from 'blockchain-info-components'
+import {
+  SBOrderType,
+  SBPaymentTypes,
+  SupportedWalletCurrenciesType,
+  WalletCurrencyType
+} from 'blockchain-wallet-v4/src/types'
+import { actions, selectors } from 'data'
 import { getOrderType } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
-import { SBOrderType } from 'core/types'
-import media from 'services/ResponsiveService'
-import React, { PureComponent } from 'react'
-import styled from 'styled-components'
+import { media } from 'services/styles'
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid ${props => props.theme.grey000};
+  border: 1px solid ${(props) => props.theme.grey000};
   border-radius: 8px;
   padding: 20px;
 
@@ -50,7 +56,7 @@ const PendingIconWrapper = styled.div`
   min-width: 40px;
   border-radius: 20px;
   margin-right: 20px;
-  background-color: ${props => props.theme.orange000};
+  background-color: ${(props) => props.theme.orange000};
 `
 const Copy = styled(Text)`
   display: flex;
@@ -76,7 +82,7 @@ class SBOrderBanner extends PureComponent<Props> {
     this.props.simpleBuyActions.showModal('PendingOrder')
   }
 
-  render () {
+  render() {
     const { latestPendingOrder } = this.props
 
     if (!latestPendingOrder) return null
@@ -92,11 +98,15 @@ class SBOrderBanner extends PureComponent<Props> {
           <Column>
             <Text size='20px' weight={600} color='grey800'>
               <FormattedMessage id='copy.pending' defaultMessage='Pending' />{' '}
-              <BuyOrSell orderType={orderType} />
+              <BuyOrSell
+                orderType={orderType}
+                coinModel={
+                  this.props.supportedCoins[latestPendingOrder.outputCurrency as WalletCurrencyType]
+                }
+              />
             </Text>
             <Copy size='16px' color='grey600' weight={500}>
-              {latestPendingOrder.paymentMethodId ||
-              latestPendingOrder.paymentType === 'PAYMENT_CARD' ? (
+              {latestPendingOrder.paymentType === SBPaymentTypes.PAYMENT_CARD ? (
                 <FormattedMessage
                   id='scenes.home.banner.receive_cc_order'
                   defaultMessage='Once you finalize your credit card information, your buy order will complete.'
@@ -121,10 +131,7 @@ class SBOrderBanner extends PureComponent<Props> {
           data-e2e='openPendingSBOrder'
           nature='primary'
         >
-          <FormattedMessage
-            id='scenes.home.banner.sborder.details'
-            defaultMessage='View Details'
-          />
+          <FormattedMessage id='scenes.home.banner.sborder.details' defaultMessage='View Details' />
         </BannerButton>
       </Wrapper>
     )
@@ -132,9 +139,10 @@ class SBOrderBanner extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  latestPendingOrder: selectors.components.simpleBuy.getSBLatestPendingOrder(
-    state
-  )
+  latestPendingOrder: selectors.components.simpleBuy.getSBLatestPendingOrder(state),
+  supportedCoins: selectors.core.walletOptions
+    .getSupportedCoins(state)
+    .getOrElse({} as SupportedWalletCurrenciesType)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -146,6 +154,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkStatePropsType = {
   latestPendingOrder?: SBOrderType
+  supportedCoins: SupportedWalletCurrenciesType
 }
 type Props = ConnectedProps<typeof connector>
 

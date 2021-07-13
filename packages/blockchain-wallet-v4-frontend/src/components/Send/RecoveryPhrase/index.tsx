@@ -1,12 +1,12 @@
-import { actions } from 'data'
-import { bindActionCreators, Dispatch } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
-
-import { BlueCartridge } from 'components/Cartridge'
-import { FormattedMessage } from 'react-intl'
-import { Icon } from 'blockchain-info-components'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
 import styled, { css } from 'styled-components'
+
+import { Icon } from 'blockchain-info-components'
+import { BlueCartridge } from 'components/Cartridge'
+import { actions } from 'data'
 
 const customCartridge = css`
   display: flex;
@@ -20,7 +20,7 @@ const BackupCopy = styled.div`
   display: inline;
 `
 const BackupLink = styled.span`
-  color: ${props => props.theme.blue600};
+  color: ${(props) => props.theme.blue600};
   text-decoration: underline;
   cursor: pointer;
 `
@@ -31,25 +31,18 @@ class MnemonicRequiredForCustodySend extends React.PureComponent<Props> {
       origin: 'Send'
     })
   }
-  render () {
+
+  render() {
     return (
       <CustomBlueCartridge>
-        <Icon
-          name='alert-filled'
-          color='blue600'
-          size='24px'
-          style={{ marginRight: '12px' }}
-        />
+        <Icon name='alert-filled' color='blue600' size='24px' style={{ marginRight: '12px' }} />
         <BackupCopy>
           <FormattedMessage
             id='modals.send.firststep.fromcustody2'
             defaultMessage='Please backup your Wallet before before sending crypto to it.'
           />{' '}
           <BackupLink onClick={this.handleClick} data-e2e='withdrawBackupLink'>
-            <FormattedMessage
-              id='modals.send.firststep.backupnow'
-              defaultMessage='Backup now.'
-            />
+            <FormattedMessage id='modals.send.firststep.backupnow' defaultMessage='Backup now.' />
           </BackupLink>
         </BackupCopy>
       </CustomBlueCartridge>

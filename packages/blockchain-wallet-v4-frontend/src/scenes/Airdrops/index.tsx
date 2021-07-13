@@ -1,23 +1,28 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators } from 'redux'
-import { connect, ConnectedProps } from 'react-redux'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { lift } from 'ramda'
+import { bindActionCreators } from 'redux'
+import styled from 'styled-components'
+
 import { Icon, Text } from 'blockchain-info-components'
+import {
+  NabuApiErrorType,
+  RemoteDataType
+} from 'blockchain-wallet-v4/src/types'
 import {
   IconBackground,
   SceneHeader,
   SceneHeaderText,
   SceneSubHeaderText
 } from 'components/Layout'
-import { lift } from 'ramda'
-import { NabuApiErrorType, RemoteDataType } from 'core/types'
+import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { UserCampaignsType, UserDataType } from 'data/types'
-import EmailRequired from 'components/EmailRequired'
-import Loading from './template.loading'
+
+import EmailRequired from './components'
 import PastAirdropsSuccess from './PastAirdrops/template.success'
-import React from 'react'
-import styled from 'styled-components'
+import Loading from './template.loading'
 import Success from './template.success'
 
 const Wrapper = styled.div`
@@ -34,11 +39,11 @@ export const MainTitle = styled(Text)`
 `
 
 class Airdrops extends React.PureComponent<Props> {
-  componentDidMount () {
+  componentDidMount() {
     this.props.profileActions.fetchUserCampaigns()
   }
 
-  render () {
+  render() {
     const { data, hasEmail } = this.props
     const userData = this.props.data.getOrElse({
       kycState: 'NONE'

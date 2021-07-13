@@ -1,11 +1,15 @@
-import * as crypto from '../walletCrypto'
-import * as Options from './Options'
-import * as Wallet from './Wallet'
-import { assoc, compose, curry, dissoc, is, lensProp, pipe, prop } from 'ramda'
-import { over, set, traverseOf, view } from 'ramda-lens'
 import Either from 'data.either'
 import Task from 'data.task'
+import { assoc, compose, curry, dissoc, is, lensProp, pipe, prop } from 'ramda'
+import { over, set, traverseOf, view } from 'ramda-lens'
+
+import * as crypto from '../walletCrypto'
+import * as Options from './Options'
 import Type from './Type'
+import * as Wallet from './Wallet'
+import * as Wallet_DEPRECATED_V3 from './Wallet_DEPRECATED_V3'
+
+const PAYLOAD_VERSION = crypto.SUPPORTED_ENCRYPTION_VERSION
 
 /* Wrapper :: {
   wallet             :: Wallet
@@ -47,29 +51,72 @@ export const selectRealAuthType = view(realAuthType)
 export const selectWallet = view(wallet)
 export const selectSyncPubKeys = view(syncPubKeys)
 
-// traverseWallet :: Monad m => (a -> m a) -> (Wallet -> m Wallet) -> Wrapper
+// traverseWallet :: Monad m => (a -> m a) -> (Wallet -> m Wallet) -> Wrapper -> m Wrapper
 export const traverseWallet = curry((of, f, wrapper) =>
   of(wrapper).chain(traverseOf(wallet, of, f))
 )
 
-// fromJS :: JSON -> wrapper
-export const fromJS = x => {
-  if (isWrapper(x)) {
-    return x
+// fromJS :: JSON -> Wrapper
+export const fromJS = wrapper => {
+  if (isWrapper(wrapper)) {
+    return wrapper
   }
-  const wrapperCons = compose(over(wallet, Wallet.fromJS))
-  return wrapperCons(new Wrapper(x))
+  // TODO: SEGWIT remove w/ DEPRECATED_V3
+  const wrapperCons = over(
+    wallet,
+    (wrapper.version === 4 ? Wallet : Wallet_DEPRECATED_V3).fromJS
+  )
+  return wrapperCons(new Wrapper(wrapper))
 }
 
 // toJS :: wrapper -> JSON
 export const toJS = pipe(Wrapper.guard, wrapper => {
-  const wrapperDecons = over(wallet, Wallet.toJS)
+  // TODO: SEGWIT remove w/ DEPRECATED_V3
+  const wrapperDecons = over(
+    wallet,
+    (wrapper.version === 4 ? Wallet : Wallet_DEPRECATED_V3).toJS
+  )
   return wrapperDecons(wrapper).toJS()
 })
 
 export const reviver = jsObject => {
   return new Wrapper(jsObject)
 }
+
+// isLatestVersion :: Wrapper -> Boolean
+export const isLatestVersion = wrapper => {
+  return selectVersion(wrapper) === PAYLOAD_VERSION
+}
+
+export const upgradeToV3 = curry((mnemonic, password, network, wrapper) => {
+  let upgradeWallet = Wallet.upgradeToV3(
+    mnemonic,
+    'BTC Private Key Wallet',
+    password,
+    network
+  )
+
+  const upgradeWrapper = compose(
+    traverseWallet(Task.of, upgradeWallet),
+    // TODO: SEGWIT remove w/ DEPRECATED_V3
+    set(version, 3)
+    // set(version, PAYLOAD_VERSION)
+  )
+
+  return upgradeWrapper(wrapper)
+})
+
+// upgradeToV4 :: String -> String -> Network -> Wrapper -> Task Error Wrapper
+export const upgradeToV4 = curry((seedHex, password, network, wrapper) => {
+  const upgradeWallet = Wallet.upgradeToV4(seedHex, password, network)
+
+  const upgradeWrapper = compose(
+    traverseWallet(Task.of, upgradeWallet),
+    set(version, PAYLOAD_VERSION)
+  )
+
+  return upgradeWrapper(wrapper)
+})
 
 // computeChecksum :: encJSON -> String
 export const computeChecksum = compose(
@@ -96,10 +143,20 @@ export const fromEncJSON = curry((password, json) => {
       .map(payload => assoc('version', payload.version, wrapper))
       .getOrElse(wrapper)
 
+  // TODO: SEGWIT remove w/ DEPRECATED_V3
+  let v
+  try {
+    v = JSON.parse(json.payload).version
+  } catch (e) {
+    // eslint-disable-next-line
+    v = 3
+  }
+
   return traverseOf(
     payloadL,
     Task.of,
-    Wallet.fromEncryptedPayload(password),
+    // TODO: SEGWIT remove w/ DEPRECATED_V3
+    (v === 4 ? Wallet : Wallet_DEPRECATED_V3).fromEncryptedPayload(password),
     json
   )
     .map(assocVersion)
@@ -126,10 +183,14 @@ export const fromEncPayload = curry((password, payload) => {
     pbkdf2Iterations,
     version
   }
+
   return traverseOf(
     lensProp('payload'),
     Task.of,
-    Wallet.fromEncryptedPayload(password),
+    // TODO: SEGWIT remove w/ DEPRECATED_V3
+    (version === 4 ? Wallet : Wallet_DEPRECATED_V3).fromEncryptedPayload(
+      password
+    ),
     wrapper
   )
     .map(o => assoc('wallet', o.payload, o))
@@ -139,31 +200,41 @@ export const fromEncPayload = curry((password, payload) => {
 
 // toEncJSON :: Wrapper -> Either Error JSON
 export const toEncJSON = wrapper => {
+  // TODO: SEGWIT remove w/ DEPRECATED_V3
+  const W = wrapper.version === 4 ? Wallet : Wallet_DEPRECATED_V3
   const plens = lensProp('payload')
   const response = {
-    guid: compose(Wallet.selectGuid, selectWallet)(wrapper),
-    sharedKey: compose(Wallet.selectSharedKey, selectWallet)(wrapper),
+    guid: compose(W.selectGuid, selectWallet)(wrapper),
+    sharedKey: compose(W.selectSharedKey, selectWallet)(wrapper),
     payload: selectWallet(wrapper),
     old_checksum: selectPayloadChecksum(wrapper),
     language: selectLanguage(wrapper)
   }
-  const encrypt = Wallet.toEncryptedPayload(
-    selectPassword(wrapper),
-    selectPbkdf2Iterations(wrapper) || 5000
-  )
+  // TODO: SEGWIT remove w/ DEPRECATED_V3
+  const encrypt =
+    wrapper.version === 4
+      ? W.toEncryptedPayload(
+          selectPassword(wrapper),
+          selectPbkdf2Iterations(wrapper) || 5000,
+          selectVersion(wrapper)
+        )
+      : W.toEncryptedPayload(
+          selectPassword(wrapper),
+          selectPbkdf2Iterations(wrapper) || 5000
+        )
   const hash = x => crypto.sha256(x).toString('hex')
   return traverseOf(plens, Task.of, encrypt, response)
     .map(r => assoc('length', view(plens, r).length, r))
     .map(r => assoc('checksum', hash(view(plens, r)), r))
 }
 
+// new wallets
 export const js = (
   password,
   guid,
   sharedKey,
   label,
   mnemonic,
-  xpub,
   language,
   nAccounts = 1,
   network
@@ -171,9 +242,19 @@ export const js = (
   sync_pubkeys: false,
   payload_checksum: '',
   storage_token: '',
+  // version: PAYLOAD_VERSION,
+  // TODO: SEGWIT remove w/ DEPRECATED_V3
   version: 3,
   language: language,
-  wallet: Wallet.js(guid, sharedKey, label, mnemonic, xpub, nAccounts, network),
+  // TODO: SEGWIT remove w/ DEPRECATED_V3
+  wallet: Wallet_DEPRECATED_V3.js(
+    guid,
+    sharedKey,
+    label,
+    mnemonic,
+    nAccounts,
+    network
+  ),
   war_checksum: '',
   password: password,
   pbkdf2_iterations: 5000
@@ -192,7 +273,7 @@ export const createNew = (
   sharedKey,
   mnemonic,
   language,
-  firstAccountName = 'My Bitcoin Wallet',
+  firstAccountName = 'Private Key Wallet',
   nAccounts = 1,
   network
 ) =>
@@ -203,7 +284,6 @@ export const createNew = (
       sharedKey,
       firstAccountName,
       mnemonic,
-      undefined,
       language,
       nAccounts,
       network

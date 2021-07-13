@@ -1,17 +1,16 @@
+import React from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
 import { toLower } from 'ramda'
-import React from 'react'
 import styled from 'styled-components'
 
 import { SkeletonRectangle, Text } from 'blockchain-info-components'
-
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 
 import { Props as OwnProps } from './WalletBalance/Balance/template.success'
 
-const CoinBalanceMain = styled.div`
+export const CoinBalanceMain = styled.div`
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -49,7 +48,7 @@ export const BalancesWrapper = styled.div`
   overflow: hidden;
   transition: max-height 0.3s;
   &.active {
-    max-height: ${props => React.Children.count(props.children) * 20}px;
+    max-height: ${props => React.Children.count(props.children) * 30}px;
   }
 `
 

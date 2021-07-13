@@ -1,21 +1,11 @@
-import {
-  add,
-  always,
-  clamp,
-  complement,
-  compose,
-  curry,
-  ifElse,
-  is,
-  length,
-  sort,
-  split,
-  tryCatch
-} from 'ramda'
-import { addressToScript, scriptToAddress } from '../utils/btc'
 import { inputComparator, sortOutputs } from 'bip69'
+import * as Bitcoin from 'bitcoinjs-lib'
+import { clamp, curry, is, length, sort, split } from 'ramda'
 import { over, view } from 'ramda-lens'
+
 import Type from '../types/Type'
+import { addressToScript, scriptToAddress } from '../utils/btc'
+import { IO_TYPES } from './index'
 
 export const TX_EMPTY_SIZE = 4 + 1 + 1 + 4
 export const TX_INPUT_BASE = 32 + 4 + 1 + 4
@@ -24,29 +14,75 @@ export const TX_OUTPUT_BASE = 8 + 1
 export const TX_OUTPUT_PUBKEYHASH = 25
 
 export class Coin extends Type {
-  toString () {
+  toString() {
     return `Coin(${this.value})`
   }
-  concat (coin) {
+
+  concat(coin) {
     return new Coin({ value: this.value + coin.value })
   }
-  equals (coin) {
+
+  equals(coin) {
     return this.value === coin.value
   }
-  lte (coin) {
+
+  lte(coin) {
     return this.value <= coin.value
   }
-  ge (coin) {
+
+  ge(coin) {
     return this.value >= coin.value
   }
-  overValue (f) {
+
+  overValue(f) {
+    // eslint-disable-next-line
     return over(value, f, this)
   }
-  isFromAccount () {
+
+  isFromAccount() {
     return length(split('/', this.priv)) > 1
   }
-  isFromLegacy () {
+
+  isFromLegacy() {
     return !this.isFromAccount()
+  }
+
+  type() {
+    let type = 'P2PKH'
+    try {
+      const output = Bitcoin.address.toOutputScript(this.address)
+      // TODO: is addr var even needed doesnt seem to be used?
+      // eslint-disable-next-line
+      let addr = null
+
+      try {
+        // eslint-disable-next-line
+        addr = Bitcoin.payments.p2pkh({ output }).address
+        type = 'P2PKH'
+        // eslint-disable-next-line
+      } catch (e) {}
+      try {
+        // eslint-disable-next-line
+        addr = Bitcoin.payments.p2sh({ output }).address
+        type = 'P2SH'
+        // eslint-disable-next-line
+      } catch (e) {}
+      try {
+        // eslint-disable-next-line
+        addr = Bitcoin.payments.p2wpkh({ output }).address
+        type = 'P2WPKH'
+        // eslint-disable-next-line
+      } catch (e) {}
+      try {
+        // eslint-disable-next-line
+        addr = Bitcoin.payments.p2wsh({ output }).address
+        type = 'P2WSH'
+        // eslint-disable-next-line
+      } catch (e) {}
+      // eslint-disable-next-line
+    } catch (e) {}
+
+    return type
   }
 }
 
@@ -71,40 +107,31 @@ export const selectPath = view(path)
 
 export const fromJS = (o, network) => {
   return new Coin({
-    value: parseInt(o.value),
+    address: o.address ? o.address : scriptToAddress(o.script, network),
+    change: o.change || false,
+    index: o.tx_output_n,
+    path: o.path,
+    priv: o.priv,
     script: o.script ? o.script : addressToScript(o.address, network),
     txHash: o.tx_hash_big_endian,
-    index: o.tx_output_n,
-    change: o.change || false,
-    priv: o.priv,
-    path: o.path,
-    xpub: o.xpub,
-    address: o.address ? o.address : scriptToAddress(o.script, network)
+    // eslint-disable-next-line
+    value: parseInt(o.value),
+    xpub: o.xpub
   })
 }
 
 export const empty = new Coin({ value: 0 })
 
-export const inputBytes = input => {
-  // const coin = isCoin(input) ? input : new Coin(input)
-  // return TX_INPUT_BASE + (isNil(coin.script) ? TX_INPUT_PUBKEYHASH : coin.script.length)
-  return TX_INPUT_BASE + TX_INPUT_PUBKEYHASH
+export const inputBytes = (input) => {
+  return IO_TYPES.inputs[input.type ? input.type() : 'P2PKH']
 }
 
-export const outputBytes = ifElse(
-  complement(isCoin),
-  always(TX_OUTPUT_BASE + TX_OUTPUT_PUBKEYHASH),
-  compose(
-    add(TX_OUTPUT_BASE),
-    tryCatch(
-      compose(s => s.length, selectScript),
-      always(TX_OUTPUT_PUBKEYHASH)
-    )
-  )
-)
+export const outputBytes = (output) => {
+  return IO_TYPES.outputs[output.type ? output.type() : 'P2PKH']
+}
 
 export const effectiveValue = curry((feePerByte, coin) =>
-  clamp(0, Infinity, coin.value - feePerByte * inputBytes(coin))
+  clamp(0, Infinity, Math.ceil(coin.value - feePerByte * inputBytes(coin)))
 )
 
 export const bip69SortInputs = sort((inputA, inputB) =>

@@ -1,7 +1,8 @@
-import { isHex, isPositiveInteger } from '../utils/checks'
 import assert from 'assert'
 import Either from 'data.either'
 import randomBytes from 'randombytes'
+
+import { isHex, isPositiveInteger } from '../utils/checks'
 
 const FORMAT = 'hex'
 const DEFAULT_BYTES = 32

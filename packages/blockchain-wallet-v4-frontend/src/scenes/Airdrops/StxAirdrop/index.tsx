@@ -1,6 +1,10 @@
+import React from 'react'
+import styled from 'styled-components'
+
+import { Icon, Text } from 'blockchain-info-components'
 import { Box } from 'components/Box'
 import { CampaignInfoType } from 'data/types'
-import { Icon, Text } from 'blockchain-info-components'
+
 import { Props } from '../template.success'
 import {
   StxDateOrAmount,
@@ -9,8 +13,6 @@ import {
   StxInfo,
   StxStatus
 } from './model'
-import React from 'react'
-import styled from 'styled-components'
 
 const Header = styled.div`
   display: flex;
@@ -45,7 +47,7 @@ const StxAirdrop = (props: Props) => {
     <Box>
       <div>
         <Header>
-          <Icon name='stx' color='stx' size='32px' />
+          <Icon name='STX' color='STX' size='32px' />
           <Text
             size='20px'
             color='grey800'

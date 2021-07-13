@@ -1,6 +1,6 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { actions, selectors } from 'data'
@@ -15,7 +15,7 @@ const Iframe = styled.iframe`
 `
 
 class AnalyticsTracker extends React.PureComponent {
-  render () {
+  render() {
     const { domains, siteId } = this.props
     return (
       <Iframe

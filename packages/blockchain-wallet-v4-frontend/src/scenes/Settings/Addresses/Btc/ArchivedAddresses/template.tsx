@@ -1,11 +1,13 @@
-import { filter } from 'ramda'
-import { FormattedMessage } from 'react-intl'
-import { SettingDescription, SettingHeader } from 'components/Setting'
-import { spacing } from 'services/StyleService'
-import { Table, TableCell, TableHeader, Text } from 'blockchain-info-components'
-import AddressRow from '../AddressRow'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { filter } from 'ramda'
 import styled from 'styled-components'
+
+import { Table, TableCell, TableHeader, Text } from 'blockchain-info-components'
+import { SettingDescription, SettingHeader } from 'components/Setting'
+import { spacing } from 'services/styles'
+
+import AddressRow from '../../components/AddressRow'
 
 const Wrapper = styled.section`
   box-sizing: border-box;
@@ -18,7 +20,7 @@ const ClickableText = styled(Text)`
   cursor: pointer;
 `
 
-const Success = ({ archivedAddresses, onToggleArchived, onDelete, search }) => {
+const Success = ({ archivedAddresses, onDelete, onToggleArchived, search }) => {
   const isMatch = address =>
     !search || address.addr.toLowerCase().indexOf(search) > -1
   const archivedAddressesTableRows = filter(isMatch, archivedAddresses).map(

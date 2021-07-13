@@ -1,17 +1,15 @@
-import { Props as AddCardProps } from '../../../modals/SimpleBuy/AddCard/template.success'
-import { CommonFieldProps, WrappedFieldMetaProps } from 'redux-form'
-import {
-  DEFAULT_CARD_FORMAT,
-  DEFAULT_CARD_SVG_LOGO,
-  getCardTypeByValue
-} from './model'
-import { FormattedMessage } from 'react-intl'
-import { TextBox } from 'components/Form'
 import React, { useEffect, useState } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { CommonFieldProps, WrappedFieldMetaProps } from 'redux-form'
 import styled from 'styled-components'
 
-const duration = 250
+import { SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
+import { TextBox } from 'components/Form'
 
+import { Props as AddCardProps } from '../../../modals/SimpleBuy/AddCard/template.success'
+import { DEFAULT_CARD_FORMAT, DEFAULT_CARD_SVG_LOGO, getCardTypeByValue } from './model'
+
+const duration = 250
 export const normalizeCreditCard = (value, previousValue) => {
   if (!value) return value
 
@@ -33,7 +31,7 @@ export const normalizeCreditCard = (value, previousValue) => {
   if (execResult) {
     return execResult
       .splice(1, 3)
-      .filter(x => x)
+      .filter((x) => x)
       .join(' ')
   }
 
@@ -43,24 +41,18 @@ export const normalizeCreditCard = (value, previousValue) => {
 export const validateCreditCard = (value, allValues, props: AddCardProps) => {
   const cardType = getCardTypeByValue(value)
   const cardMethod = props.paymentMethods.methods.find(
-    method => method.type === 'PAYMENT_CARD'
+    (method) => method.type === SBPaymentTypes.PAYMENT_CARD
   )
 
   if (!cardType) {
     return (
-      <FormattedMessage
-        id='formhelper.invalid_card_number'
-        defaultMessage='Invalid card number'
-      />
+      <FormattedMessage id='formhelper.invalid_card_number' defaultMessage='Invalid card number' />
     )
   }
 
   if (value.replace(/[^\d]/g, '').length < cardType.minCardNumberLength) {
     return (
-      <FormattedMessage
-        id='formhelper.invalid_card_number'
-        defaultMessage='Invalid card number'
-      />
+      <FormattedMessage id='formhelper.invalid_card_number' defaultMessage='Invalid card number' />
     )
   }
 
@@ -68,7 +60,7 @@ export const validateCreditCard = (value, allValues, props: AddCardProps) => {
     !(
       cardMethod &&
       cardMethod.subTypes &&
-      cardMethod.subTypes.find(subType => subType === cardType.type)
+      cardMethod.subTypes.find((subType) => subType === cardType.type)
     )
   ) {
     return (
@@ -97,7 +89,7 @@ const CardLogo = styled.img`
   }
 `
 
-const CreditCardBox: React.FC<Props> = props => {
+const CreditCardBox: React.FC<Props> = (props) => {
   const [isActive, setIsActive] = useState(false)
   const [cardType, setCardType] = useState({ logo: DEFAULT_CARD_SVG_LOGO })
   const newCardType = getCardTypeByValue(props.input.value) || {
@@ -117,10 +109,7 @@ const CreditCardBox: React.FC<Props> = props => {
   return (
     <Wrapper>
       <TextBox {...props} />
-      <CardLogo
-        src={cardType.logo || DEFAULT_CARD_SVG_LOGO}
-        className={isActive ? 'active' : ''}
-      />
+      <CardLogo src={cardType.logo || DEFAULT_CARD_SVG_LOGO} className={isActive ? 'active' : ''} />
     </Wrapper>
   )
 }

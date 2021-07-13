@@ -1,9 +1,9 @@
-import { Text } from 'blockchain-info-components'
-import PropTypes from 'prop-types'
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import media from 'services/ResponsiveService'
+import { Text } from 'blockchain-info-components'
+import { media } from 'services/styles'
 
 const Wrapper = styled.div`
   display: flex;
@@ -20,14 +20,14 @@ const FiatText = styled(Text)<{ mobileSize: string }>`
 
 const FiatDisplay = props => {
   const {
-    coin,
     children,
-    size,
-    weight,
+    className,
+    coin,
     color,
     cursor,
     mobileSize,
-    className,
+    size,
+    weight,
     ...rest
   } = props
 

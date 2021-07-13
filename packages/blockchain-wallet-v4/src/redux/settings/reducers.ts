@@ -1,11 +1,12 @@
-import * as AT from './actionTypes'
 import { assoc, compose } from 'ramda'
+
 import Remote from '../../remote'
+import * as AT from './actionTypes'
 
 const INITIAL_STATE = Remote.NotAsked
 
 const settingsReducer = (state = INITIAL_STATE, action) => {
-  const { type, payload } = action
+  const { payload, type } = action
 
   switch (type) {
     case AT.SET_EMAIL: {

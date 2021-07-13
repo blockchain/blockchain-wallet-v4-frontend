@@ -1,9 +1,10 @@
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { FormattedMessage } from 'react-intl'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import Bowser from 'bowser'
+import { bindActionCreators } from 'redux'
+import styled from 'styled-components'
 
-import { actions, model } from 'data'
 import { Button, Text, TextGroup } from 'blockchain-info-components'
 import {
   SettingComponent,
@@ -12,29 +13,37 @@ import {
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
+import { actions, model } from 'data'
+
+const browser = Bowser.getParser(window.navigator.userAgent)
+const isSafari = browser.satisfies({
+  safari: '>8'
+})
+
+const TextWrapper = styled(Text)`
+  a {
+    color: ${(props) => props.theme.blue600};
+    text-decoration: none;
+  }
+`
 
 const { ENABLE_BTC_LINKS } = model.analytics.PREFERENCE_EVENTS.GENERAL
 class CryptoLinkHandlingContainer extends React.PureComponent {
-  state = { warningDisplayed: false }
+  constructor(props) {
+    super(props)
+    this.state = { warningDisplayed: false }
+  }
 
   onEnableClick = () => {
-    this.setState({ warningDisplayed: !this.state.warningDisplayed })
-    // Register BTC links
-    window.navigator.registerProtocolHandler(
-      'bitcoin',
-      '/#/open/%s',
-      'Blockchain'
-    )
-    // Register BCH links
-    window.navigator.registerProtocolHandler(
-      'web+bitcoincash',
-      '/#/open/%s',
-      'Blockchain'
-    )
+    this.setState((prevState) => ({ warningDisplayed: !prevState.warningDisplayed }))
+
+    this.props.preferencesActions.setLinkHandling()
+
+    // LEGACY
     this.props.analyticsActions.logEvent(ENABLE_BTC_LINKS)
   }
 
-  render () {
+  render() {
     return (
       <SettingContainer>
         <SettingSummary>
@@ -66,6 +75,26 @@ class CryptoLinkHandlingContainer extends React.PureComponent {
                   defaultMessage="We can't detect whether or not handling of crypto links has been enabled. If it has already been enabled, nothing will happen."
                 />
               </Text>
+
+              {isSafari && (
+                <TextWrapper size='12px' weight={400} color='error'>
+                  <FormattedMessage
+                    id='scenes.settings.preferences.cryptolinkhandling.unknownstatus.safari'
+                    defaultMessage='This feature is not supported in Safari <a>more details</a>.'
+                    values={{
+                      a: (msg) => (
+                        <a
+                          href='https://caniuse.com/?search=registerProtocolHandler'
+                          target='_blank'
+                          rel='noopener noreferrrer noreferrer'
+                        >
+                          {msg}
+                        </a>
+                      )
+                    }}
+                  />
+                </TextWrapper>
+              )}
             </TextGroup>
           )}
         </SettingComponent>
@@ -74,8 +103,9 @@ class CryptoLinkHandlingContainer extends React.PureComponent {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+const mapDispatchToProps = (dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
 export default connect(null, mapDispatchToProps)(CryptoLinkHandlingContainer)

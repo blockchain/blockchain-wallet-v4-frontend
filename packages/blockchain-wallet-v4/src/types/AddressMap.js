@@ -1,4 +1,3 @@
-import * as Address from './Address'
 import {
   compose,
   curry,
@@ -10,9 +9,11 @@ import {
   prop,
   reject
 } from 'ramda'
-import { iLensProp } from './util'
 import { view } from 'ramda-lens'
+
+import * as Address from './Address'
 import Type from './Type'
+import { iLensProp } from './util'
 
 export class AddressMap extends Type {}
 
@@ -45,7 +46,7 @@ export const toJS = pipe(AddressMap.guard, addressMap => {
   return map(Address.toJS, addressList).toArray()
 })
 
-export const fromJS = keys => {
+export const fromJS = (keys = []) => {
   if (is(AddressMap, keys)) {
     return keys
   } else {

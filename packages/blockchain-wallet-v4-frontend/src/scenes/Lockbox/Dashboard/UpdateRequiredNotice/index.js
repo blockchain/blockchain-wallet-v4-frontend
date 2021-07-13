@@ -1,17 +1,18 @@
-import * as C from 'services/ConfirmService'
-import { actions, selectors } from 'data'
-import { bindActionCreators } from 'redux'
-import { Button, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
-import { connect } from 'react-redux'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { prop } from 'ramda'
-import Bowser from 'bowser'
+import { connect } from 'react-redux'
 import linuxUpdater from 'assets/lockbox/lockbox-updater-1.0.0.AppImage'
 import macUpdater from 'assets/lockbox/lockbox-updater-1.0.0.dmg'
-import media from 'services/ResponsiveService'
-import React from 'react'
-import styled from 'styled-components'
 import windowsUpdater from 'assets/lockbox/lockbox-updater-1.0.0.exe'
+import Bowser from 'bowser'
+import { prop } from 'ramda'
+import { bindActionCreators } from 'redux'
+import styled from 'styled-components'
+
+import { Button, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
+import { actions, selectors } from 'data'
+import * as C from 'services/alerts'
+import { media } from 'services/styles'
 
 const Wrapper = styled.div`
   display: flex;
@@ -94,7 +95,7 @@ class UpdateRequiredNotice extends React.PureComponent {
   }
 
   onSoftwareDownload = () => {
-    this.props.modalActions.showModal('Confirm', {
+    this.props.modalActions.showModal('CONFIRMATION_MODAL', {
       hideCancel: true,
       title: C.LOCKBOX_SOFTWARE_DOWNLOAD_TITLE,
       message: C.LOCKBOX_SOFTWARE_DOWNLOAD_MSG
@@ -102,7 +103,7 @@ class UpdateRequiredNotice extends React.PureComponent {
     this.props.preferencesActions.hideLockboxSoftwareDownload()
   }
 
-  render () {
+  render() {
     const { preferencesActions, showLockboxDownload } = this.props
 
     return (

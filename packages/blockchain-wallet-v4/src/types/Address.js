@@ -1,14 +1,15 @@
-import * as crypto from '../walletCrypto'
-import * as utils from '../utils'
-import { compose, curry, equals, is, isNil, not, pipe } from 'ramda'
 import { ECPair } from 'bitcoinjs-lib'
-import { iToJS } from './util'
-import { parseBIP38toECPair } from '../walletCrypto/importExport'
-import { set, traverseOf, view } from 'ramda-lens'
 import Base58 from 'bs58'
 import Either from 'data.either'
 import Task from 'data.task'
+import { compose, curry, equals, is, isNil, not, pipe } from 'ramda'
+import { set, traverseOf, view } from 'ramda-lens'
+
+import * as utils from '../utils'
+import * as crypto from '../walletCrypto'
+import { parseBIP38toECPair } from '../walletCrypto/importExport'
 import Type from './Type'
+import { iToJS } from './util'
 
 const eitherToTask = e => e.fold(Task.rejected, Task.of)
 const wrapPromiseInTask = fP =>
@@ -100,13 +101,13 @@ export const importAddress = (key, createdTime, label, network) => {
       object.priv = null
       break
     case utils.btc.isKey(key):
-      object.addr = key.getAddress()
-      object.priv = Base58.encode(key.d.toBuffer(32))
+      object.addr = utils.btc.keyPairToAddress(key)
+      object.priv = Base58.encode(key.privateKey)
       break
     case utils.btc.isValidBtcPrivateKey(key, network):
       key = ECPair.fromWIF(key, network)
-      object.addr = key.getAddress()
-      object.priv = Base58.encode(key.d.toBuffer(32))
+      object.addr = utils.btc.keyPairToAddress(key)
+      object.priv = Base58.encode(key.privateKey)
       break
     default:
       throw new Error('unsupported_address_import_format')
@@ -121,7 +122,7 @@ export const fromString = (
   createdTime,
   label,
   bipPass,
-  { network, api }
+  { api, network }
 ) => {
   if (utils.btc.isValidBtcAddress(keyOrAddr)) {
     return Task.of(importAddress(keyOrAddr, createdTime, label, network))
@@ -145,9 +146,9 @@ export const fromString = (
         return Task.rejected(e)
       }
       key.compressed = true
-      let cad = key.getAddress()
+      let cad = utils.btc.keyPairToAddress(key)
       key.compressed = false
-      let uad = key.getAddress()
+      let uad = utils.btc.keyPairToAddress(key)
       return wrapPromiseInTask(() => api.getBalances([cad, uad])).fold(
         e => {
           key.compressed = true

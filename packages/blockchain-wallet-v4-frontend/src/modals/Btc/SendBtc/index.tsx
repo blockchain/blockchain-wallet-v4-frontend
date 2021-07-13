@@ -1,9 +1,11 @@
-import { actions, model, selectors } from 'data'
-import { bindActionCreators, compose } from 'redux'
-import { connect } from 'react-redux'
-import FirstStep from './FirstStep'
-import modalEnhancer from 'providers/ModalEnhancer'
 import React from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators, compose } from 'redux'
+
+import { actions, model, selectors } from 'data'
+import modalEnhancer from 'providers/ModalEnhancer'
+
+import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 import SendBtc from './template'
 
@@ -26,8 +28,8 @@ type LinkDispatchPropsType = {
 type Props = OwnProps & LinkDispatchPropsType
 
 class SendBtcContainer extends React.PureComponent<Props> {
-  componentDidMount () {
-    const { from, to, description, amount, lockboxIndex, payPro } = this.props
+  componentDidMount() {
+    const { amount, description, from, lockboxIndex, payPro, to } = this.props
     this.props.actions.initialized({
       from,
       to,
@@ -38,21 +40,21 @@ class SendBtcContainer extends React.PureComponent<Props> {
     })
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.props.actions.destroyed()
   }
 
-  render () {
+  render() {
     const {
-      to,
-      step,
-      total,
       amount,
-      position,
       closeAll,
       description,
       excludeHDWallets,
-      payPro
+      payPro,
+      position,
+      step,
+      to,
+      total
     } = this.props
 
     return (

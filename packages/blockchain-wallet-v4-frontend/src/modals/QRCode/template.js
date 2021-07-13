@@ -1,7 +1,6 @@
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
-import QRCodeWrapper from 'components/QRCodeWrapper'
-import React from 'react'
 import styled from 'styled-components'
 
 import {
@@ -14,7 +13,8 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import CopyClipboard from 'components/CopyClipboard'
+import CopyClipboard from 'components/Clipboard/CopyClipboard'
+import QRCodeWrapper from 'components/QRCode/Wrapper'
 
 const QRCodeContainer = styled.div`
   display: flex;
@@ -25,8 +25,8 @@ const QRCodeContainer = styled.div`
 `
 
 const QRCode = props => {
-  const { position, total, close, closeAll, ...rest } = props
-  const { receiveAddress, amount, message } = rest.value
+  const { close, closeAll, position, total, ...rest } = props
+  const { amount, message, receiveAddress } = rest.value
   let btcAddress = `bitcoin:${receiveAddress}`
   let amt = amount > 0 ? amount : null
   if (amt || message) btcAddress += '?'
@@ -56,7 +56,7 @@ const QRCode = props => {
       </ModalBody>
       <ModalFooter>
         <Link onClick={close} size='13px' weight={500} data-e2e='qrModalGoBack'>
-          <FormattedMessage id='buttons.go_back' defaultMessage='Go back' />
+          <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
         </Link>
       </ModalFooter>
     </Modal>

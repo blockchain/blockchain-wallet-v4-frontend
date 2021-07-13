@@ -2,10 +2,28 @@
 const chalk = require('chalk')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
-const webpackBuilder = require('./utils/webpackBuilder')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const webpackBuilder = require('./webpackBuilder')
+const CONFIG_PATH = require('../../config/paths')
+
 const runBundleAnalyzer = process.env.ANALYZE
 
-let extraPluginsList = []
+let extraPluginsList = [
+  new CopyWebpackPlugin({
+    patterns: [
+      {
+        force: true,
+        from: CONFIG_PATH.legacyPages,
+        to: CONFIG_PATH.ciBuild + '/legacy-pages'
+      },
+      {
+        force: true,
+        from: CONFIG_PATH.wellKnownConfig,
+        to: CONFIG_PATH.ciBuild + '/.well-known'
+      }
+    ]
+  })
+]
 if (runBundleAnalyzer) {
   console.log(chalk.blue('\u{1F6A7} CONFIGURATION \u{1F6A7}'))
   console.log(chalk.cyan('Running Bundle Analyzer'))

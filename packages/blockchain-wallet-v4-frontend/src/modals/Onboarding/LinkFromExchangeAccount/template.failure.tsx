@@ -1,3 +1,6 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+
 import {
   Button,
   Image,
@@ -5,11 +8,10 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
-import { MainWrapperCentered, Status } from './styles'
+
 import { Props } from '.'
+import { MainWrapperCentered, Status } from './styles'
 import Conflict from './template.conflict'
-import React from 'react'
 
 const Failure: React.FC<Props & { close: () => void; error: any }> = props => {
   if (props.error.email) {

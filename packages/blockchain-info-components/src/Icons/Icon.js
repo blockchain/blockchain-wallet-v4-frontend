@@ -1,7 +1,11 @@
-import Icomoon from './Icomoon'
-import PropTypes from 'prop-types'
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
+
+import { WalletCurrencyEnum } from 'blockchain-wallet-v4/src/types'
+
+import { Image } from '../..'
+import Icomoon from './Icomoon'
 
 const BaseIcon = styled.span`
   font-weight: ${props => props.weight};
@@ -21,8 +25,21 @@ const BaseIcon = styled.span`
 `
 
 const Icon = props => {
-  const { name, cursor, ...rest } = props
+  const { cursor, name, ...rest } = props
   const code = Icomoon[name]
+
+  // phase 1 of icomoon removal - coin icons are now images
+  if (name in WalletCurrencyEnum) {
+    return (
+      <BaseIcon {...props}>
+        <Image
+          height={props.height || props.size || '32px'}
+          name={name.toLowerCase()}
+          width={props.width || props.size || '32px'}
+        />
+      </BaseIcon>
+    )
+  }
 
   return <BaseIcon {...rest} code={code} cursorEnabled={cursor} />
 }

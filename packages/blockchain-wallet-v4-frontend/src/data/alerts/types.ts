@@ -1,4 +1,4 @@
-import { CoinType } from 'core/types'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
 
 // types
 export type AlertNatureType = 'info' | 'warn' | 'success' | 'error'

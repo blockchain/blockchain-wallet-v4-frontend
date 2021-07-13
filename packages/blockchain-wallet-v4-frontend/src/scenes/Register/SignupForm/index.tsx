@@ -1,23 +1,19 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import Bowser from 'bowser'
+import { Field } from 'redux-form'
+import styled from 'styled-components'
+
 import {
   Banner,
   Button,
   HeartbeatLoader,
-  Text
+  Link,
+  Text,
+  TextGroup
 } from 'blockchain-info-components'
-import { Field } from 'redux-form'
-import { FormattedMessage } from 'react-intl'
 import {
-  required,
-  validEmail,
-  validPasswordConfirmation,
-  validStrongPassword
-} from 'services/FormHelper'
-
-import Bowser from 'bowser'
-import React from 'react'
-import styled from 'styled-components'
-
-import {
+  CheckBox,
   Form,
   FormGroup,
   FormItem,
@@ -26,6 +22,12 @@ import {
   TextBox
 } from 'components/Form'
 import Terms from 'components/Terms'
+import {
+  required,
+  validEmail,
+  validPasswordConfirmation,
+  validStrongPassword
+} from 'services/forms'
 
 const browser = Bowser.getParser(window.navigator.userAgent)
 const isSupportedBrowser = browser.satisfies({
@@ -40,11 +42,9 @@ const isSupportedBrowser = browser.satisfies({
 
 const RegisterForm = styled(Form)`
   margin-top: 20px;
-  max-height: 26rem;
 
   > div * {
     max-height: 26rem;
-    opacity: 1;
     z-index: 1;
     transition: all 0.5s ease;
   }
@@ -54,6 +54,11 @@ const BrowserWarning = styled.div`
 `
 const PasswordTip = styled(Text)`
   margin-top: 4px;
+`
+
+const FieldWrapper = styled.div`
+  margin-top: 0.25rem;
+  margin-right: 0 !important;
 `
 
 const validatePasswordConfirmation = validPasswordConfirmation('password')
@@ -171,6 +176,44 @@ const SignupForm = ({
             validate={[required, validatePasswordConfirmation]}
           />
         </FormItem>
+      </FormGroup>
+      <FormGroup inline>
+        <FieldWrapper>
+          <Field
+            name='secretPhase'
+            validate={[required]}
+            component={CheckBox}
+            hideErrors
+          />
+        </FieldWrapper>
+        <FormLabel>
+          <TextGroup inline>
+            <Text color='grey800' size='12px' weight={500}>
+              <FormattedMessage
+                id='scenes.register.backupphrase1'
+                defaultMessage='I understand that Blockchain.com never stores passwords and therefore cannot recover or reset my password. If I lose access to my wallet, I must use my'
+              />
+            </Text>
+            <Link
+              href='https://support.blockchain.com/hc/en-us/articles/209564506-Make-a-Wallet-Backup'
+              target='_blank'
+              size='12px'
+              weight={500}
+              data-e2e='blockchainTermsLink'
+            >
+              <FormattedMessage
+                id='scenes.securitysettings.basicsecurity.secretrecoveryphrase.title'
+                defaultMessage='Secret Private Key Recovery Phrase'
+              />
+            </Link>
+            <Text color='grey800' size='12px' weight={500}>
+              <FormattedMessage
+                id='scenes.register.backupphrase2'
+                defaultMessage='to access my funds.'
+              />
+            </Text>
+          </TextGroup>
+        </FormLabel>
       </FormGroup>
       <FormGroup>
         <FormItem>

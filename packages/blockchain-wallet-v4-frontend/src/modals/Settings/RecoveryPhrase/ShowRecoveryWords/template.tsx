@@ -1,8 +1,9 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper, Title, Value } from 'components/Flyout'
-import { FormattedMessage } from 'react-intl'
-import React from 'react'
-import styled from 'styled-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -50,15 +51,15 @@ const WordsList = ({ handleBackArrow, handleNextButton, step, words }) => {
           />
           <Text color='grey800' size='20px' weight={600}>
             <FormattedMessage
-              id='modals.recoveryphrase.firstsetwords.header'
-              defaultMessage='Recovery Phrase'
+              id='modals.recoveryphrase.firstsetwords.header_new'
+              defaultMessage='Secret Private Key Recovery Phrase'
             />
           </Text>
         </Header>
         <Text color='grey600' weight={500}>
           <FormattedMessage
-            id='modals.recoveryphrase.firstsetwords.body'
-            defaultMessage='Carefully write down these 12 words in order. Do not email or screenshot your recovery phrase.'
+            id='modals.recoveryphrase.firstsetwords.body_new'
+            defaultMessage='Carefully write down these 12 words in order. Do not email or screenshot your Secret Private Key Recovery Phrase.'
           />
         </Text>
       </FlyoutWrapper>

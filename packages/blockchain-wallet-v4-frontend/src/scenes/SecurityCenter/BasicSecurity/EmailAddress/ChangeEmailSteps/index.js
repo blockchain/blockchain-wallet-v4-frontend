@@ -1,12 +1,13 @@
-import { Button, Text } from 'blockchain-info-components'
-import { Field } from 'redux-form'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { SecuritySummary } from 'components/Security'
-import { TextBox } from 'components/Form'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { validEmail } from 'services/FormHelper'
+import { Button, Text } from 'blockchain-info-components'
+import { TextBox } from 'components/Form'
+import { validEmail } from 'services/forms'
+
+import { SecuritySummary } from '../../../components'
 
 const ChangeEmailWrapper = styled.div`
   width: 100%;
@@ -26,7 +27,7 @@ const ButtonContainer = styled.div`
   }
 `
 
-function ChangeEmailSteps (props) {
+function ChangeEmailSteps(props) {
   return (
     <SecuritySummary>
       <ChangeEmailWrapper>
@@ -60,7 +61,7 @@ function ChangeEmailSteps (props) {
           </ButtonContainer>
         </ChangeEmailInputWrapper>
         <Text size='12px' color='grey500' weight={400}>
-          <FormattedHTMLMessage
+          <FormattedMessage
             id='scenes.security.email.changeemail.description'
             defaultMessage='<b>Note:</b> This will change your wallet’s email address. The email address you use to buy or sell with will remain the same.'
           />

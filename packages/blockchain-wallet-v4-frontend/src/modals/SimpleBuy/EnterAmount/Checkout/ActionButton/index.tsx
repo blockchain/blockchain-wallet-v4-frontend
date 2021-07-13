@@ -1,16 +1,23 @@
-import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
-import { FormattedMessage } from 'react-intl'
-import { Props as OwnProps, SuccessStateType } from '..'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+
+import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
+
+import { Props as OwnProps, SuccessStateType } from '..'
 
 type Props = {
   invalid: boolean
+  isAmountInBounds: boolean
+  isDailyLimitExceeded: boolean
+  isSufficientEthForErc20: boolean
   submitting: boolean
 } & OwnProps &
   SuccessStateType
 
-const ActionButton: React.FC<Props> = props => {
-  const disabled = props.invalid || props.submitting
+const ActionButton: React.FC<Props> = (props) => {
+  const disabled = props.invalid || props.submitting || !props.isAmountInBounds
+  const disableInsufficientEth = props.isSufficientEthForErc20
+  const dailyLimitExceeded = props.isDailyLimitExceeded
 
   switch (props.userData.kycState) {
     case 'EXPIRED':
@@ -25,10 +32,7 @@ const ActionButton: React.FC<Props> = props => {
           fullwidth
           disabled
         >
-          <FormattedMessage
-            id='modals.simplebuy.failed'
-            defaultMessage='ID Verification Failed'
-          />
+          <FormattedMessage id='modals.simplebuy.failed' defaultMessage='ID Verification Failed' />
         </Button>
       )
     case 'UNDER_REVIEW':
@@ -52,13 +56,10 @@ const ActionButton: React.FC<Props> = props => {
           <Link
             size='14px'
             weight={600}
-            style={{ textAlign: 'center', marginTop: '24px', display: 'block' }}
+            style={{ display: 'block', marginTop: '24px', textAlign: 'center' }}
             onClick={() => props.profileActions.fetchUser()}
           >
-            <FormattedMessage
-              id='modals.simplebuy.refresh'
-              defaultMessage='Refresh'
-            />
+            <FormattedMessage id='modals.simplebuy.refresh' defaultMessage='Refresh' />
           </Link>
         </div>
       )
@@ -84,7 +85,7 @@ const ActionButton: React.FC<Props> = props => {
             color='grey600'
             weight={500}
             size='14px'
-            style={{ textAlign: 'center', marginTop: '24px' }}
+            style={{ marginTop: '24px', textAlign: 'center' }}
           >
             <FormattedMessage
               id='modals.simplebuy.setupaccount'
@@ -102,7 +103,7 @@ const ActionButton: React.FC<Props> = props => {
           nature='primary'
           type='submit'
           fullwidth
-          disabled={disabled}
+          disabled={disabled || disableInsufficientEth || dailyLimitExceeded}
         >
           {props.submitting ? (
             <HeartbeatLoader height='16px' width='16px' color='white' />
@@ -111,6 +112,8 @@ const ActionButton: React.FC<Props> = props => {
           )}
         </Button>
       )
+    default:
+      return <></>
   }
 }
 

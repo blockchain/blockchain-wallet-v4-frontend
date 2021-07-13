@@ -1,7 +1,9 @@
-import * as actions from './actions'
 import { all, call, delay, fork, put } from 'redux-saga/effects'
+
 import { coreRootSagaFactory, coreSagasFactory } from 'blockchain-wallet-v4/src'
-import { tryParseLanguageFromUrl } from 'services/LocalesService'
+import { tryParseLanguageFromUrl } from 'services/locales'
+
+import * as actions from './actions'
 import alerts from './alerts/sagaRegister'
 import analytics from './analytics/sagaRegister'
 import auth from './auth/sagaRegister'
@@ -11,14 +13,15 @@ import goals from './goals/sagaRegister'
 import middleware from './middleware/sagaRegister'
 import modules from './modules/sagaRegister'
 import preferences from './preferences/sagaRegister'
+import prices from './prices/sagaRegister'
 import router from './router/sagaRegister'
 import wallet from './wallet/sagaRegister'
 
 const logLocation = 'data/rootSaga'
 
-const welcomeSaga = function * () {
+const welcomeSaga = function* () {
   try {
-    const version = APP_VERSION
+    const version = window.APP_VERSION
     const style1 = 'background: #F00; color: #FFF; font-size: 24px;'
     const style2 = 'font-size: 18px;'
     /* eslint-disable */
@@ -38,7 +41,7 @@ const welcomeSaga = function * () {
   }
 }
 
-const languageInitSaga = function * () {
+const languageInitSaga = function* () {
   try {
     yield delay(250)
     const lang = tryParseLanguageFromUrl()
@@ -53,26 +56,21 @@ const languageInitSaga = function * () {
   }
 }
 
-export default function * rootSaga ({
-  api,
-  ratesSocket,
-  networks,
-  options,
-  coinsSocket
-}) {
+export default function* rootSaga({ api, coinsSocket, networks, options, ratesSocket }) {
   const coreSagas = coreSagasFactory({ api, networks, options })
   yield all([
     call(welcomeSaga),
     fork(alerts),
-    fork(analytics({ api })),
+    fork(analytics()),
     fork(auth({ api, coreSagas })),
     fork(components({ api, coreSagas, networks, options })),
     fork(custodial({ api })),
     fork(modules({ api, coreSagas, networks })),
     fork(preferences()),
+    fork(prices({ api })),
     fork(goals({ api, coreSagas, networks })),
-    fork(wallet({ coreSagas })),
-    fork(middleware({ api, ratesSocket, coinsSocket })),
+    fork(wallet({ api, coreSagas })),
+    fork(middleware({ api, coinsSocket, ratesSocket })),
     fork(coreRootSagaFactory({ api, networks, options })),
     fork(router()),
     call(languageInitSaga)

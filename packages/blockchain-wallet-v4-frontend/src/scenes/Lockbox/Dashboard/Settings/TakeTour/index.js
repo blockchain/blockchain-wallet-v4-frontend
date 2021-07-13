@@ -1,8 +1,9 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators } from 'redux'
-import { Button } from 'blockchain-info-components'
-import { connect } from 'react-redux'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
+import { Button } from 'blockchain-info-components'
 import {
   SettingComponent,
   SettingContainer,
@@ -10,7 +11,7 @@ import {
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
-import React from 'react'
+import { actions, selectors } from 'data'
 
 class TakeTourContainer extends React.PureComponent {
   onStartTour = () => {
@@ -20,7 +21,7 @@ class TakeTourContainer extends React.PureComponent {
     this.props.lockboxActions.setProductTourVisibility(true)
   }
 
-  render () {
+  render() {
     return (
       <SettingContainer>
         <SettingSummary>

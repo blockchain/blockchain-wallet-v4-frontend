@@ -1,16 +1,16 @@
-import * as AT from './actionTypes'
-import * as priceChartActionTypes from '../components/priceChart/actionTypes'
+import { TimeRange } from 'blockchain-wallet-v4/src/types'
 
+import * as priceChartActionTypes from '../components/priceChart/actionTypes'
+import * as AT from './actionTypes'
 import { PreferencesActionTypes, PreferencesState } from './types'
 
 const INITIAL_STATE: PreferencesState = {
-  language: 'en',
-  culture: 'en-GB',
-  theme: 'default',
   coinDisplayed: true,
+  culture: 'en-GB',
+  language: 'en',
   priceChart: {
     coin: 'BTC',
-    time: 'month'
+    time: TimeRange.MONTH
   },
   sbCheckout: {
     BUY: {
@@ -20,25 +20,25 @@ const INITIAL_STATE: PreferencesState = {
       fix: 'CRYPTO'
     }
   },
-  sbFiatCurrency: undefined,
-  showKycCompleted: true,
+  showAirdropClaimModal: true,
   showBackupReminder: true,
   showInterestInfoBox: true,
+  showKycCompleted: true,
   showKycGetStarted: true,
   showLockboxSoftwareDownload: true,
   showSwapBanner: true,
   showSwapUpgradeModal: true,
   showUpgradeForAirdropModal: false,
-  showAirdropClaimModal: true,
   showUpgradeForStxAirdropModal: true,
+  theme: 'default',
   totalBalancesDropdown: {
-    wallet: true,
     lockbox: false,
-    pending: false
+    pending: false,
+    wallet: true
   }
 }
 
-export function preferencesReducer (
+export function preferencesReducer(
   state = INITIAL_STATE,
   action: PreferencesActionTypes
 ): PreferencesState {
@@ -71,15 +71,6 @@ export function preferencesReducer (
             fix: action.payload.fix
           }
         }
-      }
-    }
-    // @ts-ignore
-    case AT.SET_SB_FIAT_CURRENCY: {
-      // @ts-ignore
-      const { currency } = action.payload
-      return {
-        ...state,
-        sbFiatCurrency: currency
       }
     }
     // @ts-ignore
@@ -197,6 +188,6 @@ export function preferencesReducer (
       }
     }
     default:
-      return state
+      return { ...state }
   }
 }

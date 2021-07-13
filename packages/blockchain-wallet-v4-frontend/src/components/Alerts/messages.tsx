@@ -1,10 +1,10 @@
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import React from 'react'
 import styled from 'styled-components'
 
-import * as C from 'services/AlertService'
 import { Icon, Link, Text, TextGroup } from 'blockchain-info-components'
+import * as C from 'services/alerts'
 
 const Content = styled.div`
   display: flex;
@@ -26,18 +26,18 @@ const IconColumn = styled.div`
   margin: 0 10px 0 0;
 `
 
-const buildMessageTemplate = messageText => (
+const buildMessageTemplate = (messageText) => (
   <Text
     size='14px'
     weight={600}
-    style={{ marginLeft: '10px' }}
+    style={{ marginLeft: '10px', wordBreak: 'break-all' }}
     data-e2e='toastMessage'
   >
     {messageText}
   </Text>
 )
 
-export const getAlertContent = (message, data = undefined) => {
+const getAlertContent = (message, data = undefined) => {
   switch (message) {
     case C.ETH_LOW_BALANCE_WARNING:
       return (
@@ -61,9 +61,7 @@ export const getAlertContent = (message, data = undefined) => {
               </Text>
               <Text>
                 <Link
-                  href={
-                    'https://support.blockchain.com/hc/en-us/sections/360004368351-USD-Pax-FAQ'
-                  }
+                  href='https://support.blockchain.com/hc/en-us/sections/360004368351-USD-Pax-FAQ'
                   target='_blank'
                   weight={500}
                   size='12px'
@@ -298,7 +296,7 @@ export const getAlertContent = (message, data = undefined) => {
       )
     case C.FIRST_PAX_TRADE_INFO:
       return buildMessageTemplate(
-        <React.Fragment>
+        <>
           <Text>
             <FormattedMessage
               id='components.alerts.first_pax_trade_info_dyk'
@@ -313,20 +311,15 @@ export const getAlertContent = (message, data = undefined) => {
               />
             </Text>
             <Link
-              href={
-                'https://support.blockchain.com/hc/en-us/articles/360027492092-Why-do-I-need-ETH-to-send-my-PAX-'
-              }
+              href='https://support.blockchain.com/hc/en-us/articles/360027492092-Why-do-I-need-ETH-to-send-my-PAX-'
               target='_blank'
               weight={500}
               size='12px'
             >
-              <FormattedMessage
-                id='buttons.learn_more'
-                defaultMessage='Learn More'
-              />
+              <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
             </Link>
           </TextGroup>
-        </React.Fragment>
+        </>
       )
     case C.FETCH_UNUSED_ADDRESSES_ERROR:
       return buildMessageTemplate(
@@ -354,20 +347,6 @@ export const getAlertContent = (message, data = undefined) => {
         <FormattedMessage
           id='components.alerts.google_auth_verify_success'
           defaultMessage='Google auth verified'
-        />
-      )
-    case C.GUID_SENT_ERROR:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.guid_sent_error'
-          defaultMessage='Wallet guid could not be sent to your email address'
-        />
-      )
-    case C.GUID_SENT_SUCCESS:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.guid_sent_success'
-          defaultMessage='Your wallet ID has been sent to your email address'
         />
       )
     case C.HINT_UPDATE_ERROR:
@@ -411,10 +390,7 @@ export const getAlertContent = (message, data = undefined) => {
             <Text>
               <LinkContainer to='/help'>
                 <Link size='12px' weight={500}>
-                  <FormattedMessage
-                    id='components.alerts.iprestriction_login_error-link'
-                    defaultMessage='Need some help?'
-                  />
+                  <FormattedMessage id='copy.need_some_help' defaultMessage='Need some help?' />
                 </Link>
               </LinkContainer>
             </Text>
@@ -493,10 +469,7 @@ export const getAlertContent = (message, data = undefined) => {
       )
     case C.LOGIN_ERROR:
       return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.login_failed'
-          defaultMessage='Login failed'
-        />
+        <FormattedMessage id='components.alerts.login_failed' defaultMessage='Login failed' />
       )
 
     case C.MESSAGE_SIGN_ERROR:
@@ -509,8 +482,8 @@ export const getAlertContent = (message, data = undefined) => {
     case C.MNEMONIC_VERIFY_SUCCESS:
       return buildMessageTemplate(
         <FormattedMessage
-          id='components.alerts.mnemonic_verify_success'
-          defaultMessage='Your backup phrase has been verified!'
+          id='components.alerts.mnemonic_verify_success_new'
+          defaultMessage='Your Secret Private Key Recovery Phrase has been verified!'
         />
       )
     case C.MOBILE_CODE_SENT_ERROR:
@@ -931,34 +904,6 @@ export const getAlertContent = (message, data = undefined) => {
           defaultMessage='2FA required for login.'
         />
       )
-    case C.TWOFA_RESET_UNKNOWN_GUID_ERROR:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.twofa_reset_unknown_guid_error'
-          defaultMessage='Unknown Wallet ID.'
-        />
-      )
-    case C.TWOFA_RESET_ERROR:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.twofa_reset_error'
-          defaultMessage='Error resetting two-step authentication.'
-        />
-      )
-    case C.TWOFA_RESET_NOT_ENABLED_ERROR:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.twofa_reset_not_enabled_error'
-          defaultMessage='2FA has not been enabled for this wallet.'
-        />
-      )
-    case C.TWOFA_RESET_EMAIL_ERROR:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.twofa_reset_email_error'
-          defaultMessage='Email does not match the email address associated with this wallet.'
-        />
-      )
     case C.TWOFA_UPDATE_ERROR:
       return buildMessageTemplate(
         <FormattedMessage
@@ -1064,13 +1009,6 @@ export const getAlertContent = (message, data = undefined) => {
           defaultMessage='Yubikey verified'
         />
       )
-    case C.CAPTCHA_CODE_INCORRECT:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.captcha_code_incorrect'
-          defaultMessage='The captcha you provided was incorrect, please try again'
-        />
-      )
     case C.BTC_ADDRESS_INVALID:
       return buildMessageTemplate(
         <FormattedMessage
@@ -1159,9 +1097,24 @@ export const getAlertContent = (message, data = undefined) => {
       )
     case C.LOCKED_WITHDRAW_ERROR:
       return buildMessageTemplate(
+        data === 0 || data === 1 ? (
+          <FormattedMessage
+            id='modals.withdraw.tooltip_info_day'
+            defaultMessage='The remaining balance will be available to be withdrawn within 1 day.'
+          />
+        ) : (
+          <FormattedMessage
+            id='copy.error.locked_withdraw_error'
+            defaultMessage='Your crypto will be available to be withdrawn within {days} days.'
+            values={data}
+          />
+        )
+      )
+    case C.KYC_RESET_ERROR:
+      return buildMessageTemplate(
         <FormattedMessage
-          id='copy.error.locked_withdraw_error'
-          defaultMessage='Your crypto will be available to be withdrawn within 3 days.'
+          id='components.alerts.kyc_reset_error'
+          defaultMessage='Restoring account failed. Please try again.'
         />
       )
     default:
@@ -1175,3 +1128,5 @@ export const getAlertContent = (message, data = undefined) => {
       )
   }
 }
+
+export default getAlertContent

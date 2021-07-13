@@ -1,8 +1,9 @@
-import { FormattedMessage } from 'react-intl'
-import { Text } from 'blockchain-info-components'
-import media from 'services/ResponsiveService'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
+
+import { Text } from 'blockchain-info-components'
+import { media } from 'services/styles'
 
 const Wrapper = styled.div`
   display: flex;
@@ -47,7 +48,7 @@ const Header = () => (
       >
         <FormattedMessage
           id='scenes.register.securelybuy'
-          defaultMessage='Securely buy, sell, and store crypto.'
+          defaultMessage='Securely Buy, Sell, and Store Crypto.'
         />
       </HeaderText>
       <SubHeader
@@ -57,7 +58,7 @@ const Header = () => (
       >
         <FormattedMessage
           id='scenes.register.getstarted'
-          defaultMessage='Get started by signing up.'
+          defaultMessage='Get Started by Signing Up Now.'
         />
       </SubHeader>
     </Column>

@@ -1,18 +1,20 @@
-import { BorrowFormValuesType } from 'data/types'
-import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
-import { CheckBox, Form, FormItem } from 'components/Form'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
-import { FlyoutWrapper } from 'components/Flyout'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
-import { selectors } from 'data'
-import CoinDisplay from 'components/Display/CoinDisplay'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
+import { compose } from 'redux'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
+
+import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import { FlyoutWrapper } from 'components/Flyout'
+import { CheckBox, Form, FormItem } from 'components/Form'
 import Terms from 'components/Terms'
+import { selectors } from 'data'
+import { BorrowFormValuesType } from 'data/types'
+
+import { LinkDispatchPropsType, OwnProps, SuccessStateType } from '.'
 
 const CustomForm = styled(Form)`
   height: 100%;
@@ -130,7 +132,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           />
         </TopText>
         <BasicTerms>
-          <FormattedHTMLMessage
+          <FormattedMessage
             id='modals.borrow.basicterms1'
             defaultMessage='You are requesting to borrow <b>{principalAmt}</b> and using'
             values={{
@@ -223,6 +225,7 @@ const mapStateToProps = state => ({
   values: selectors.form.getFormValues('borrowForm')(state)
 })
 
+// @ts-ignore
 const enhance = compose(
   reduxForm<{}, Props>({ form: 'borrowForm', destroyOnUnmount: false }),
   connect(mapStateToProps)

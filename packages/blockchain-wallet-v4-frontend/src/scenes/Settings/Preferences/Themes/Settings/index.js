@@ -1,20 +1,22 @@
-import { actions, selectors } from 'data'
-import { bindActionCreators } from 'redux'
+import React from 'react'
 import { connect } from 'react-redux'
 import { equals, isNil } from 'ramda'
+import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
-import React from 'react'
+
+import { actions, selectors } from 'data'
+
 import Settings from './template'
 
 class SettingsContainer extends React.PureComponent {
-  componentDidMount () {
+  componentDidMount() {
     this.props.formActions.initialize('settingTheme', {
       theme: this.props.theme
     })
   }
 
-  componentDidUpdate (prevProps) {
-    const { theme, newTheme } = this.props
+  componentDidUpdate(prevProps) {
+    const { newTheme, theme } = this.props
     if (
       !isNil(newTheme) &&
       !equals(theme, newTheme) &&
@@ -24,7 +26,7 @@ class SettingsContainer extends React.PureComponent {
     }
   }
 
-  render () {
+  render() {
     return <Settings />
   }
 }

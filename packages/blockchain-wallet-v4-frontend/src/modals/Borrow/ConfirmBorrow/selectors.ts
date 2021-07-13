@@ -1,6 +1,7 @@
 import { lift } from 'ramda'
-import { RootState } from 'data/rootReducer'
+
 import { selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 
 export const getData = (state: RootState) => {
   const ratesR = selectors.components.borrow.getRates(state)

@@ -1,6 +1,13 @@
-import { assoc, compose, curry, identity, is, prop, reduceRight } from 'ramda'
-import { lens } from 'ramda-lens'
 import { Map } from 'immutable'
+import {
+  assoc,
+  compose,
+  curry,
+  identity,
+  /* is, */ prop,
+  reduceRight
+} from 'ramda'
+import { lens } from 'ramda-lens'
 
 export const iRename = curry((from, to, i) =>
   i.set(to, i.get(from)).delete(from)
@@ -41,8 +48,11 @@ export const typeError = (T, val) =>
       (val == null ? val : val.constructor.name + ': ' + val)
   )
 
-export const typeGuard = curry((Type, x) =>
-  is(Type, x) ? x : error(typeError(Type, x))
+export const typeGuard = curry(
+  (Type, x) =>
+    // TODO: SEGWIT remove w/ DEPRECATED_V3
+    // is(Type, x) ? x : error(typeError(Type, x))
+    x
 )
 
 export const typeLens = Type => lens(typeGuard(Type), val => new Type(val))

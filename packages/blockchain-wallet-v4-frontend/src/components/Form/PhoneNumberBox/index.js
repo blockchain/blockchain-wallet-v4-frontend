@@ -1,13 +1,13 @@
-import { prop, toLower } from 'ramda'
-import PropTypes from 'prop-types'
 import React from 'react'
+import PropTypes from 'prop-types'
+import { prop, toLower } from 'ramda'
 import styled from 'styled-components'
+
+import { Text } from 'blockchain-info-components'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 import 'react-intl-tel-input/dist/libphonenumber.js'
 import 'react-intl-tel-input/dist/main.css'
-
-import { Remote } from 'blockchain-wallet-v4/src'
-import { Text } from 'blockchain-info-components'
 
 const IntlTelInput = React.lazy(() => import('react-intl-tel-input'))
 
@@ -50,7 +50,7 @@ const Error = styled(Text)`
 `
 
 class PhoneNumberBox extends React.Component {
-  componentDidMount () {
+  componentDidMount() {
     if (this.tel) {
       this.tel.onfocus = this.props.input.onFocus
     }
@@ -69,10 +69,10 @@ class PhoneNumberBox extends React.Component {
     if (tel) this.tel = tel
   }
 
-  render () {
+  render() {
     const field = this.props
-    const { input, defaultValue, meta, errorBottom, disabled } = field
-    const { touched, error, warning } = meta
+    const { defaultValue, disabled, errorBottom, input, meta } = field
+    const { error, touched, warning } = meta
     const countryCodeField = prop('countryCode', field)
     const upperCountryCode = Remote.is(countryCodeField)
       ? countryCodeField.getOrElse('US')

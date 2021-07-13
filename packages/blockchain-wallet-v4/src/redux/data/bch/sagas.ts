@@ -1,32 +1,34 @@
-import * as A from './actions'
-import * as AT from './actionTypes'
-import * as S from './selectors'
-import * as selectors from '../../selectors'
-import * as transactions from '../../../transactions'
-import * as walletSelectors from '../../wallet/selectors'
-import { addFromToAccountNames } from '../../../utils/accounts'
+import moment from 'moment'
+import { flatten, indexBy, length, map, path, prop } from 'ramda'
+import { call, put, select, take } from 'redux-saga/effects'
+
 import { APIType } from 'core/network/api'
+import { BchTxType } from 'core/transactions/types'
+import { FetchCustodialOrdersAndTransactionsReturnType } from 'core/types'
+
+import Remote from '../../../remote'
+import * as transactions from '../../../transactions'
+import { HDAccountList } from '../../../types'
+import { errorHandler, MISSING_WALLET } from '../../../utils'
+import { addFromToAccountNames } from '../../../utils/accounts'
 import {
   BCH_FORK_TIME,
   convertFromCashAddrIfCashAddr,
   TX_PER_PAGE
 } from '../../../utils/bch'
-import { BchTxType } from 'core/transactions/types'
-import { call, put, select, take } from 'redux-saga/effects'
-import { errorHandler, MISSING_WALLET } from '../../../utils'
-import { FetchSBOrdersAndTransactionsReturnType } from 'core/types'
-import { flatten, indexBy, length, map, path, prop } from 'ramda'
 import { getAccountsList, getBchTxNotes } from '../../kvStore/bch/selectors'
 import { getLockboxBchAccounts } from '../../kvStore/lockbox/selectors'
-import { HDAccountList } from '../../../types'
-import moment from 'moment'
-import Remote from '../../../remote'
-import simpleBuySagas from '../simpleBuy/sagas'
+import * as selectors from '../../selectors'
+import * as walletSelectors from '../../wallet/selectors'
+import custodialSagas from '../custodial/sagas'
+import * as A from './actions'
+import * as AT from './actionTypes'
+import * as S from './selectors'
 
 const transformTx = transactions.bch.transformTx
 
 export default ({ api }: { api: APIType }) => {
-  const { fetchSBOrdersAndTransactions } = simpleBuySagas({ api })
+  const { fetchCustodialOrdersAndTransactions } = custodialSagas({ api })
 
   const fetchData = function * () {
     try {
@@ -62,9 +64,10 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchTransactions = function * ({ payload }) {
-    const { address, reset } = payload
+  const fetchTransactions = function * (action) {
     try {
+      const { payload } = action
+      const { address, filter, reset } = payload
       const pages = yield select(S.getTransactions)
       const offset = reset ? 0 : length(pages) * TX_PER_PAGE
       const transactionsAtBound = yield select(S.getTransactionsAtBound)
@@ -73,28 +76,33 @@ export default ({ api }: { api: APIType }) => {
       const walletContext = yield select(S.getWalletContext)
       const context = yield select(S.getContext)
       const convertedAddress = convertFromCashAddrIfCashAddr(address)
-      const data = yield call(api.fetchBchData, context, {
-        n: TX_PER_PAGE,
-        onlyShow: convertedAddress || walletContext.join('|'),
-        offset
-      })
+      const data = yield call(
+        api.fetchBchData,
+        context,
+        {
+          n: TX_PER_PAGE,
+          onlyShow: convertedAddress || walletContext.join('|'),
+          offset
+        },
+        filter
+      )
       const filteredTxs = data.txs.filter(tx => tx.time > BCH_FORK_TIME)
       const atBounds = length(filteredTxs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
       const txPage: Array<BchTxType> = yield call(__processTxs, filteredTxs)
-      const nextSBTransactionsURL = selectors.data.sbCore.getNextSBTransactionsURL(
+      const nextSBTransactionsURL = selectors.data.custodial.getNextSBTransactionsURL(
         yield select(),
         'BCH'
       )
-      const sbPage: FetchSBOrdersAndTransactionsReturnType = yield call(
-        fetchSBOrdersAndTransactions,
+      const custodialPage: FetchCustodialOrdersAndTransactionsReturnType = yield call(
+        fetchCustodialOrdersAndTransactions,
         txPage,
         offset,
         atBounds,
         'BCH',
         reset ? null : nextSBTransactionsURL
       )
-      const page = flatten([txPage, sbPage.orders]).sort((a, b) => {
+      const page = flatten([txPage, custodialPage.orders]).sort((a, b) => {
         return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
       })
       yield put(A.fetchTransactionsSuccess(page, reset))
@@ -132,17 +140,27 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const fetchTransactionHistory = function * ({ payload }) {
-    const { address, start, end } = payload
+    const { address, end, start } = payload
     const startDate = moment(start).format('DD/MM/YYYY')
     const endDate = moment(end).format('DD/MM/YYYY')
     try {
       yield put(A.fetchTransactionHistoryLoading())
       const currency = yield select(selectors.settings.getCurrency)
       if (address) {
-        const convertedAddress = convertFromCashAddrIfCashAddr(address)
+        // TODO: SEGWIT remove w/ DEPRECATED_V3
+        // remove address.length check, all
+        // wallets will have a derivations array
+        const bchLegacyAddress = prop(
+          'address',
+          address.length === 2 && address.find(add => add.type === 'legacy')
+        )
+        // TODO: SEGWIT remove w/ DEPRECATED_V3
+        // Just pass bchLegacy to function
+        const convertedAddress = convertFromCashAddrIfCashAddr(
+          bchLegacyAddress || address
+        )
         const data = yield call(
-          api.getTransactionHistory,
-          'BCH',
+          api.getBchTransactionHistory,
           convertedAddress,
           currency.getOrElse('USD'),
           startDate,
@@ -153,8 +171,7 @@ export default ({ api }: { api: APIType }) => {
         const context = yield select(S.getContext)
         const active = context.join('|')
         const data = yield call(
-          api.getTransactionHistory,
-          'BCH',
+          api.getBchTransactionHistory,
           active,
           currency.getOrElse('USD'),
           startDate,

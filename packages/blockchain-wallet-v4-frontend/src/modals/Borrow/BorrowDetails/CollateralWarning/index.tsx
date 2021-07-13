@@ -1,16 +1,18 @@
-import { Button, Icon, Text } from 'blockchain-info-components'
-import { fiatToString } from 'core/exchange/currency'
-import { FiatType } from 'core/types'
-import { FormattedHTMLMessage, FormattedMessage } from 'react-intl'
-import { model } from 'data'
-import { percentageFormatter } from '../CollateralizationBar'
-import { Props } from '../template.success'
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
+import { Button, Icon, Text } from 'blockchain-info-components'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { FiatType } from 'blockchain-wallet-v4/src/types'
+import { model } from 'data'
+
+import { percentageFormatter } from '../CollateralizationBar'
+import { Props } from '../template.success'
+
 const {
-  getCollateralizationDisplayName,
   getCollateralAmtRequired,
+  getCollateralizationDisplayName,
   isLastTxStatus
 } = model.components.borrow
 
@@ -129,7 +131,7 @@ const CollateralWarning: React.FC<Props> = props => {
           <CustomIcon name='info' color='orange600' />
           <div>
             <Text size='14px' weight={500} color='grey600' lineHeight={'20px'}>
-              <FormattedHTMLMessage
+              <FormattedMessage
                 id='scenes.borrow.warning.risky'
                 defaultMessage='Your collateralization ratio of <span class="orange900">{currentRatio}</span> is below the recommended level. <span class="grey900">You need to add {collateralAmtRequired} of additional collateral.</span> If it drops below {liquidationHardPerc} we will sell your collateral.'
                 values={{
@@ -156,7 +158,7 @@ const CollateralWarning: React.FC<Props> = props => {
           <CustomIcon name='info' color='grey400' />
           <div>
             <Text size='14px' weight={500} color='grey600' lineHeight={'20px'}>
-              <FormattedHTMLMessage
+              <FormattedMessage
                 id='scenes.borrow.warning.safe'
                 defaultMessage='Your collateralization ratio is <span class="green600">{currentRatio}</span>, no action needed at this time.'
                 values={{
