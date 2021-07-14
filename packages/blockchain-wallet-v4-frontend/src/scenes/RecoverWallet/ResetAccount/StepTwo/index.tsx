@@ -20,7 +20,7 @@ const Footer = styled(FormGroup)`
   align-items: center;
 `
 
-const validatePasswordConfirmation = validPasswordConfirmation('password')
+const validatePasswordConfirmation = validPasswordConfirmation('resetPassword')
 
 const SecondStep = (props: Props) => {
   const {

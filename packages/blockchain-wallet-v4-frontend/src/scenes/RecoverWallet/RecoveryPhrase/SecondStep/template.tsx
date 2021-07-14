@@ -35,10 +35,10 @@ const GoBackLink = styled(Link)`
   margin-right: 15px;
 `
 
-const validatePasswordConfirmation = validPasswordConfirmation('password')
+const validatePasswordConfirmation = validPasswordConfirmation('recoverPassword')
 
 const SecondStep = (props: Props) => {
-  const { invalid, isRegistering, isRestoringFromMetadata, previousStep, recoverPassword } = props
+  const { invalid, isRestoring, isRestoringFromMetadata, previousStep, recoverPassword } = props
   return (
     <>
       <Header>
@@ -97,11 +97,11 @@ const SecondStep = (props: Props) => {
           </GoBackLink>
           <Button
             data-e2e='recoverSubmit'
-            disabled={isRegistering || invalid}
+            disabled={isRestoring || invalid}
             nature='primary'
             type='submit'
           >
-            {isRegistering ? (
+            {isRestoring ? (
               <HeartbeatLoader height='20px' width='20px' color='white' />
             ) : (
               <FormattedMessage
@@ -117,7 +117,7 @@ const SecondStep = (props: Props) => {
 }
 
 type Props = OwnProps & {
-  isRegistering?: boolean
+  isRestoring?: boolean
   isRestoringFromMetadata?: boolean
 }
 export default SecondStep

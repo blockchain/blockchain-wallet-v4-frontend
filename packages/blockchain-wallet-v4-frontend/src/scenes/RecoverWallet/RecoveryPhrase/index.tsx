@@ -22,9 +22,9 @@ class RecoveryPhraseContainer extends React.PureComponent<
     }
   }
 
-  // componentWillUnmount() {
-  //  TODO: add action here that will clear recovery words
-  // }
+  componentWillUnmount() {
+    this.props.formActions.destroy('recover')
+  }
 
   setStep = (step: LoginSteps) => {
     this.props.formActions.change('recover', 'step', step)

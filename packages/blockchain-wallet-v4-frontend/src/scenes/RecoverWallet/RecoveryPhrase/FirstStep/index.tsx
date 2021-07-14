@@ -148,7 +148,7 @@ const FirstStep = (props: Props) => {
           </Text>
         )}
       </Button>
-      <BottomRow cachedEmail>
+      <BottomRow cachedEmail={cachedEmail}>
         {!cachedEmail && (
           <GoBackArrow
             handleBackArrowClick={() => props.setStep(RecoverSteps.RECOVERY_OPTIONS)}
