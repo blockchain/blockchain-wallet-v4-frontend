@@ -34,6 +34,21 @@ export default () => {
     yield put(actions.core.data.algo.fetchTransactions(null, true))
   }
 
+  const refreshRates = function* () {
+    // TODO: remove all of this
+    yield put(actions.core.data.bch.fetchRates())
+    yield put(actions.core.data.btc.fetchRates())
+    yield put(actions.core.data.eth.fetchRates())
+    yield put(actions.core.data.xlm.fetchRates())
+    yield put(actions.core.data.dot.fetchRates())
+    yield put(actions.core.data.algo.fetchRates())
+    yield put(actions.core.data.eth.fetchErc20Rates('pax'))
+    yield put(actions.core.data.eth.fetchErc20Rates('usdt'))
+    yield put(actions.core.data.eth.fetchErc20Rates('wdgld'))
+    yield put(actions.core.data.eth.fetchErc20Rates('aave'))
+    yield put(actions.core.data.eth.fetchErc20Rates('yfi'))
+  }
+
   const refreshClicked = function* () {
     try {
       // User
@@ -50,17 +65,7 @@ export default () => {
       // Prices (new approach)
       yield put(actions.prices.fetchCoinPrices())
       // Rates
-      // TODO: remove all of this
-      yield put(actions.core.data.bch.fetchRates())
-      yield put(actions.core.data.btc.fetchRates())
-      yield put(actions.core.data.eth.fetchRates())
-      yield put(actions.core.data.xlm.fetchRates())
-      yield put(actions.core.data.dot.fetchRates())
-      yield put(actions.core.data.eth.fetchErc20Rates('pax'))
-      yield put(actions.core.data.eth.fetchErc20Rates('usdt'))
-      yield put(actions.core.data.eth.fetchErc20Rates('wdgld'))
-      yield put(actions.core.data.eth.fetchErc20Rates('aave'))
-      yield put(actions.core.data.eth.fetchErc20Rates('yfi'))
+      yield put(actions.components.refresh.refreshRates())
 
       const pathname = yield select(selectors.router.getPathname)
       const maybeCoin = toUpper(pathname.split('/')[1])
@@ -130,6 +135,7 @@ export default () => {
   return {
     refreshBchTransactions,
     refreshBtcTransactions,
-    refreshClicked
+    refreshClicked,
+    refreshRates
   }
 }

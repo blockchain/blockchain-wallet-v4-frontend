@@ -1,13 +1,14 @@
 import React from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
-import { mapObjIndexed, toLower, values } from 'ramda'
+import { toLower } from 'ramda'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
-import { CoinType, SupportedWalletCurrencyType } from 'blockchain-wallet-v4/src/types'
+import { CoinfigType, CoinType } from 'blockchain-wallet-v4/src/types'
 import { HomeBalanceRow, HomeBalanceTable } from 'components/Balances'
+import coin from 'core/network/api/coin'
 
-import { Props, SuccessStateType } from '.'
+import { Props } from '.'
 import CoinBalance from './CoinBalance'
 
 const TxLink = styled(LinkContainer)`
@@ -42,30 +43,45 @@ const Amount = styled.div`
   }
 `
 
-const Success = (props: Props & SuccessStateType) => (
-  <HomeBalanceTable>
-    {values(
-      mapObjIndexed((coin: SupportedWalletCurrencyType, i) => {
+const Success = (props: OwnProps & Props) => {
+  const useBackup = props.coins.length === 0
+  const useCombo = props.coins.every((coin) => coin.type.isFiat)
+  const coins = useBackup
+    ? props.backupCoins
+    : useCombo
+    ? [...props.coins, ...props.backupCoins]
+    : props.coins
+
+  return (
+    <HomeBalanceTable>
+      {coins.map((val) => {
         return (
-          <HomeBalanceRow key={i} data-e2e={`${toLower(coin.coinfig.symbol)}BalanceTable`}>
-            <TxLink to={`/${coin.coinfig.symbol}/transactions`}>
+          <HomeBalanceRow
+            key={val.symbol + val.name}
+            data-e2e={`${toLower(val.symbol)}BalanceTable`}
+          >
+            <TxLink to={`/${val.symbol}/transactions`}>
               <div>
                 <Wrapper>
                   <Coin>
-                    <CoinIcon name={coin.coinfig.symbol as CoinType} size='32px' />
-                    <CoinName color='grey700'>{coin.coinfig.name}</CoinName>
+                    <CoinIcon name={val.symbol as CoinType} size='32px' />
+                    <CoinName color='grey700'>{val.name}</CoinName>
                   </Coin>
                   <Amount>
-                    <CoinBalance {...props} coin={coin.coinfig.symbol} />
+                    <CoinBalance {...props} coin={val.symbol} />
                   </Amount>
                 </Wrapper>
               </div>
             </TxLink>
           </HomeBalanceRow>
         )
-      }, props.coins)
-    )}
-  </HomeBalanceTable>
-)
+      })}
+    </HomeBalanceTable>
+  )
+}
+
+type OwnProps = {
+  coins: CoinfigType[]
+}
 
 export default Success

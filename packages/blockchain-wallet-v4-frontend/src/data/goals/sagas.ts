@@ -464,25 +464,6 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runSwapGetStartedGoal = function* (goal: GoalType) {
-    const { id } = goal
-    yield put(actions.goals.deleteGoal(id))
-
-    // check if user has already seen kyc modal
-    const showKycGetStarted = yield select(selectors.preferences.getShowKycGetStarted)
-    if (!showKycGetStarted) return
-    // check/wait for balances to be available
-    const balances = yield call(waitForAllBalances)
-    const isFunded = sum(values(balances)) !== 0
-    if (!isFunded) return
-    yield call(waitForUserData)
-    const kycNotFinished = yield call(isKycNotFinished)
-    if (kycNotFinished)
-      yield put(
-        actions.goals.addInitialModal('swapGetStarted', 'SWAP_GET_STARTED_MODAL', { origin })
-      )
-  }
-
   const runSyncPitGoal = function* (goal: GoalType) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -695,9 +676,6 @@ export default ({ api, coreSagas, networks }) => {
           break
         case 'swap':
           yield call(runSwapModal, goal)
-          break
-        case 'swapGetStarted':
-          yield call(runSwapGetStartedGoal, goal)
           break
         case 'swapUpgrade':
           yield call(runSwapUpgradeGoal, goal)

@@ -474,6 +474,7 @@ type MessagesType = {
   'copy.swap_upgrade_upload': 'Upload Your ID. Swap More Crypto Everyday.'
   'copy.swap_verify_email': 'Verify Your Email & Swap Today.'
   'copy.swap_verify_id': 'Verify your identity to increase how much you can Swap everyday.'
+  'copy.view_prices': 'View Prices'
   'copy.swap_your_crypto': 'Swap Your Crypto'
   'copy.viewTransaction': 'View Transaction'
   'copy.viewTransactions': 'View Transactions'
@@ -1670,7 +1671,7 @@ type MessagesType = {
   'modals.swapgetstarted.description': 'A Swap by Blockchain enables you to trade crypto with best prices and quick settlement, all while maintaining full control of your funds.'
   'modals.swapgetstarted.getstarted': 'Get Started'
   'modals.swapgetstarted.later': "I'll do this later"
-  'modals.swapgetstarted.trading_your_crypto': "Trading your crypto doesn't mean trading away control."
+
   'modals.transactions.report.download': 'Download Report'
   'modals.transactions.report.enddate': 'end date'
   'modals.transactions.report.generate': 'Generate Report'
