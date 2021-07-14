@@ -12,16 +12,16 @@ const queueCallback = async (rawEvents: RawEvent[]) => {
   const id = rawEvents.find((event) => event.payload.properties.id)?.payload.properties.id
 
   const nabuId =
-    rawEvents.find((event) => event.payload.traits.nabuId)?.payload.traits.nabuId || null
-  const email = rawEvents.find((event) => event.payload.traits.email)?.payload.traits.email || null
-  const tier =
-    String(rawEvents.find((event) => event.payload.traits.tier)?.payload.traits.tier) || null
+    rawEvents.find((event) => event.payload.traits.nabuId)?.payload.traits.nabuId ?? null
+  const email = rawEvents.find((event) => event.payload.traits.email)?.payload.traits.email ?? null
+  const tier = rawEvents.find((event) => event.payload.traits.tier)?.payload.traits.tier ?? null
+  const parsedTier = tier ? String(tier) : null
 
   const context = {
     traits: {
       email,
       nabu_id: nabuId,
-      tier
+      tier: parsedTier
     }
   } as const
 
