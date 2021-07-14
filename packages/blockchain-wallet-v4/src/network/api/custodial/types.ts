@@ -144,3 +144,9 @@ export type PaymentMethod = {
   subTypes: string[]
   type: SBPaymentTypes.PAYMENT_CARD | SBPaymentTypes.BANK_ACCOUNT
 }
+
+export type GetTransactionsHistoryType = {
+  currency: WalletCurrencyType
+  fromValue?: string
+  toValue?: string
+}

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { path } from 'ramda'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
@@ -25,12 +25,6 @@ export type OwnPropsType = {
   userClickedOutside: boolean
 }
 
-export type LinkDispatchPropsType = {
-  recoveryPhraseActions: typeof actions.components.recoveryPhrase
-  settingsActions: typeof actions.modules.settings
-  walletActions: typeof actions.wallet
-}
-
 export type LinkStatePropsType = {
   step:
     | 'RECOVERY_PHRASE_INTRO'
@@ -40,7 +34,8 @@ export type LinkStatePropsType = {
     | 'CONFIRM_WORDS_SUCCESS'
 }
 
-export type Props = OwnPropsType & LinkDispatchPropsType & LinkStatePropsType
+export type Props = OwnPropsType & ConnectedProps<typeof connector> & LinkStatePropsType
+
 type State = { show: boolean }
 
 class RecoveryPhraseFlyout extends PureComponent<Props, State> {
@@ -127,15 +122,17 @@ const mapStateToProps = (state: RootState) => ({
   step: selectors.components.recoveryPhrase.getStep(state)
 })
 
-const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   recoveryPhraseActions: bindActionCreators(actions.components.recoveryPhrase, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch),
   walletActions: bindActionCreators(actions.core.wallet, dispatch)
 })
 
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
 const enhance = compose<any>(
   modalEnhancer('RECOVERY_PHRASE_MODAL', { transition: duration }),
-  connect(mapStateToProps, mapDispatchToProps)
+  connector
 )
 
 export default enhance(RecoveryPhraseFlyout)

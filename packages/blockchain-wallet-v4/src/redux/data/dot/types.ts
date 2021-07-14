@@ -5,6 +5,7 @@ import * as AT from './actionTypes'
 // state
 export type DotState = {
   rates: RemoteDataType<string, RatesType>
+  transaction_history: RemoteDataType<string, any>
   transactions: Array<any>
   transactions_at_bound: boolean
 }
@@ -39,6 +40,21 @@ interface FetchTransactionsSuccessActionType {
   }
   type: typeof AT.FETCH_DOT_TRANSACTIONS_SUCCESS
 }
+interface FetchTransactionsHistoryLoadingType {
+  type: typeof AT.FETCH_DOT_TRANSACTION_HISTORY_LOADING
+}
+interface ClearTransactionsHistoryLoadingType {
+  type: typeof AT.CLEAR_DOT_TRANSACTION_HISTORY
+}
+
+interface FetchTransactionsHistorySuccessType {
+  payload: { transaction_history: any }
+  type: typeof AT.FETCH_DOT_TRANSACTION_HISTORY_SUCCESS
+}
+interface FetchTransactionsHistoryFailureType {
+  payload: { error: string }
+  type: typeof AT.FETCH_DOT_TRANSACTION_HISTORY_FAILURE
+}
 
 export type DotActionTypes =
   | FetchRatesFailureActionType
@@ -47,3 +63,7 @@ export type DotActionTypes =
   | FetchTransactionsFailureActionType
   | FetchTransactionsLoadingActionType
   | FetchTransactionsSuccessActionType
+  | FetchTransactionsHistoryLoadingType
+  | FetchTransactionsHistoryFailureType
+  | FetchTransactionsHistorySuccessType
+  | ClearTransactionsHistoryLoadingType

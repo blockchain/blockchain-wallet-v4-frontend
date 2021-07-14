@@ -58,6 +58,7 @@ const LockboxShowXPubs = React.lazy(() => import('./Lockbox/LockboxShowXPubs'))
 
 // MOBILE
 const MobileNumberChange = React.lazy(() => import('./Mobile/MobileNumberChange'))
+const MobileNumberAdd = React.lazy(() => import('./Mobile/MobileNumberAdd'))
 const MobileNumberVerify = React.lazy(() => import('./Mobile/MobileNumberVerify'))
 
 // SETTINGS
@@ -128,6 +129,7 @@ const Modals = () => (
       <LockboxSetup disableOutsideClose />
       <LockboxShowXPubs />
       <MobileNumberChange />
+      <MobileNumberAdd />
       <MobileNumberVerify />
       <PairingCode />
       <PromptInput />

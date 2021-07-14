@@ -15,7 +15,9 @@ class ComponentDropdown extends React.PureComponent {
   }
 
   handleClick() {
-    this.setState({ toggled: !this.state.toggled })
+    this.setState((prevState) => ({ toggled: !prevState.toggled }))
+
+    if (this.props.onClick && !this.state.toggled) this.props.onClick()
   }
 
   handleClickOutside() {
@@ -26,10 +28,7 @@ class ComponentDropdown extends React.PureComponent {
     const { toggled } = this.state
     const { toggleOnCallback } = this.props
     this.setState({
-      toggled: toggleOnCallback ? false : toggled,
-      selectedComponent: this.props.forceSelected
-        ? this.props.selectedComponent
-        : item
+      toggled: toggleOnCallback ? false : toggled
     })
     if (this.props.callback) {
       this.props.callback(item)
@@ -53,10 +52,10 @@ class ComponentDropdown extends React.PureComponent {
 
 ComponentDropdown.defaultProps = {
   color: 'blue600',
-  toggleOnCallback: true,
-  uppercase: false,
+  down: false,
   opened: false,
-  down: false
+  toggleOnCallback: true,
+  uppercase: false
 }
 
 export default onClickOutside(ComponentDropdown)

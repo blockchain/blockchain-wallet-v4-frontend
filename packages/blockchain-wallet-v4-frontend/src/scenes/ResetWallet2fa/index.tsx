@@ -68,7 +68,7 @@ class ResetWallet2fa extends React.PureComponent<InjectedFormProps<{}, Props> & 
     // @ts-ignore
     window.grecaptcha.enterprise.ready(() => {
       // @ts-ignore
-      window.grecaptcha.enterprise.execute(window.RECAPTCHA_KEY, {
+      window.grecaptcha.enterprise.execute(window.CAPTCHA_KEY, {
         action: 'RESET_2FA',
       })
         .then((captchaToken) => {

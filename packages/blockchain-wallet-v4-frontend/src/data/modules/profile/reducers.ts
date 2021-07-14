@@ -15,15 +15,12 @@ const INITIAL_STATE: ProfileState = {
     linkToExchangeAccountStatus: Remote.NotAsked,
     shareWalletAddressesWithExchange: Remote.NotAsked
   },
-  userData: Remote.NotAsked,
   userCampaigns: Remote.NotAsked,
+  userData: Remote.NotAsked,
   userTiers: Remote.Success(INITIAL_TIERS)
 }
 
-export function profileReducer(
-  state = INITIAL_STATE,
-  action: ProfileActionTypes
-): ProfileState {
+export function profileReducer(state = INITIAL_STATE, action: ProfileActionTypes): ProfileState {
   switch (action.type) {
     case AT.FETCH_USER_CAMPAIGNS_FAILURE:
       return {

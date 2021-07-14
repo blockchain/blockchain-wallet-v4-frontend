@@ -3,7 +3,7 @@ import {
   FormAction,
   FormDecorator,
   GetFormState,
-  InitializeOptions,
+  InitializeOptions
   // eslint-disable-next-line import/no-extraneous-dependencies
 } from 'redux-form'
 
@@ -32,6 +32,8 @@ export type WalletFormType =
   | 'previewSell'
   | 'prices'
   | 'priceChartCoin'
+  | 'recover'
+  | 'recurringBuyScheduler'
   | 'register'
   | 'repayLoanForm'
   | 'requestCrypto'
@@ -228,5 +230,7 @@ declare module 'redux-form' {
     CustomConfigProps<FormData, P, ErrorType>,
     ErrorType
   >
+
+  export type WalletFormType = WalletFormType
   /* eslint-enable */
 }

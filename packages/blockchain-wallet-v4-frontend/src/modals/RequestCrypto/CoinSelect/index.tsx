@@ -44,6 +44,7 @@ class RequestCoinSelect extends React.PureComponent<Props> {
       supportedCoins,
       walletCurrency
     } = this.props
+
     return (
       <Wrapper>
         <StickyHeaderFlyoutWrapper>
@@ -91,7 +92,7 @@ class RequestCoinSelect extends React.PureComponent<Props> {
         </StickyHeaderFlyoutWrapper>
         {data.accounts.map((account) => (
           <CoinAccountListOption
-            key={account.address}
+            key={account.coin + account.address}
             account={account}
             coinModel={supportedCoins[account.coin]}
             onClick={() => {

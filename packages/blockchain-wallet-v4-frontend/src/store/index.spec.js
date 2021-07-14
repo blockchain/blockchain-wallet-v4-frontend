@@ -1,15 +1,11 @@
 import * as Redux from 'redux'
 import { persistStore } from 'redux-persist'
 
-import {
-  ApiSocket,
-  createWalletApi,
-  Socket
-} from 'blockchain-wallet-v4/src/network'
+import { ApiSocket, createWalletApi, Socket } from 'blockchain-wallet-v4/src/network'
 import * as coreMiddleware from 'blockchain-wallet-v4/src/redux/middleware'
 
 import * as Middleware from '../middleware'
-import configureStore from './index'
+import configuredStore from './index'
 // setup mocks
 jest.mock('redux-saga', () => () => ({
   run: () => jest.fn()
@@ -26,10 +22,10 @@ jest.mock('connected-react-router', () => ({
 }))
 
 jest.mock('blockchain-wallet-v4/src/network', () => ({
-  Socket: jest.fn().mockImplementation(() => 'FAKE_SOCKET'),
   ApiSocket: jest.fn().mockImplementation(() => 'FAKE_API_SOCKET'),
-  createWalletApi: jest.fn().mockImplementation(() => 'FAKE_WALLET_API'),
-  HorizonStreamingService: jest.fn()
+  HorizonStreamingService: jest.fn(),
+  Socket: jest.fn().mockImplementation(() => 'FAKE_SOCKET'),
+  createWalletApi: jest.fn().mockImplementation(() => 'FAKE_WALLET_API')
 }))
 
 jest.mock('blockchain-wallet-v4/src/redux/middleware', () => ({
@@ -38,18 +34,18 @@ jest.mock('blockchain-wallet-v4/src/redux/middleware', () => ({
 }))
 
 jest.mock('../middleware', () => ({
+  analyticsMiddleware: jest.fn(),
   autoDisconnection: jest.fn(),
   matomoMiddleware: jest.fn(),
-  analyticsMiddleware: jest.fn(),
   streamingXlm: jest.fn(),
   webSocketCoins: jest.fn(),
   webSocketRates: jest.fn()
 }))
 
 describe('App Store Config', () => {
-  let apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
-  let fakeWalletOptions = {
-    domains: { webSocket: 'MOCK_SOCKET', root: 'MOCK_ROOT' },
+  const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
+  const fakeWalletOptions = {
+    domains: { root: 'MOCK_ROOT', webSocket: 'MOCK_SOCKET' },
     platforms: {
       web: {
         coins: {
@@ -60,7 +56,7 @@ describe('App Store Config', () => {
       }
     }
   }
-  let mockNetworks = {
+  const mockNetworks = {
     bch: {
       bech32: 'bc',
       bip32: { private: 76066276, public: 76067358 },
@@ -78,15 +74,13 @@ describe('App Store Config', () => {
     },
     eth: 1
   }
-  let createStoreSpy,
-    applyMiddlewareSpy,
-    composeSpy,
-    kvStoreSpy,
-    walletSyncSpy,
-    autoDisconnectSpy,
-    matomoMiddlewareSpy,
-    analyticsMiddlewareSpy,
-    coinsSocketSpy
+  let composeSpy
+  let kvStoreSpy
+  let walletSyncSpy
+  let autoDisconnectSpy
+  let matomoMiddlewareSpy
+  let analyticsMiddlewareSpy
+  let coinsSocketSpy
 
   beforeAll(() => {
     // setup fetch mock
@@ -94,8 +88,6 @@ describe('App Store Config', () => {
     fetch.mockResponseOnce(JSON.stringify(fakeWalletOptions))
 
     // setup spies
-    createStoreSpy = jest.spyOn(Redux, 'createStore')
-    applyMiddlewareSpy = jest.spyOn(Redux, 'applyMiddleware')
     composeSpy = jest.spyOn(Redux, 'compose').mockImplementation(jest.fn())
     kvStoreSpy = jest.spyOn(coreMiddleware, 'kvStore')
     walletSyncSpy = jest.spyOn(coreMiddleware, 'walletSync')
@@ -107,36 +99,36 @@ describe('App Store Config', () => {
 
   it('the entire app should bootstrap correctly', async () => {
     // bootstrap
-    let mockStore = await configureStore()
+    const mockStore = await configuredStore()
 
     // assertions
     // wallet options
-    expect(fetch.mock.calls.length).toEqual(1)
+    expect(fetch.mock.calls).toHaveLength(1)
     expect(fetch.mock.calls[0][0]).toEqual('/wallet-options-v4.json')
     // socket registration
-    expect(Socket.mock.calls.length).toEqual(1)
+    expect(Socket.mock.calls).toHaveLength(1)
     expect(Socket.mock.calls[0][0]).toEqual({
       options: fakeWalletOptions,
       url: `${fakeWalletOptions.domains.webSocket}/coins`
     })
     expect(ApiSocket).toHaveBeenCalledTimes(1)
     expect(ApiSocket).toHaveBeenCalledWith({
+      maxReconnects: 3,
       options: fakeWalletOptions,
-      url: `${fakeWalletOptions.domains.webSocket}/nabu-gateway/markets/quotes`,
-      maxReconnects: 3
+      url: `${fakeWalletOptions.domains.webSocket}/nabu-gateway/markets/quotes`
     })
     // build api
-    expect(createWalletApi.mock.calls.length).toBe(1)
+    expect(createWalletApi.mock.calls).toHaveLength(1)
     expect(createWalletApi.mock.calls[0][0]).toMatchObject({
-      options: fakeWalletOptions,
+      apiKey,
       networks: mockNetworks,
-      apiKey: apiKey
+      options: fakeWalletOptions
     })
     // middleware registration
     expect(kvStoreSpy).toHaveBeenCalledTimes(1)
     expect(kvStoreSpy).toHaveBeenCalledWith({
-      isAuthenticated: expect.any(Function),
       api: 'FAKE_WALLET_API',
+      isAuthenticated: expect.any(Function),
       kvStorePath: 'wallet.kvstore'
     })
 
@@ -145,8 +137,8 @@ describe('App Store Config', () => {
 
     expect(walletSyncSpy).toHaveBeenCalledTimes(1)
     expect(walletSyncSpy).toHaveBeenCalledWith({
-      isAuthenticated: expect.any(Function),
       api: 'FAKE_WALLET_API',
+      isAuthenticated: expect.any(Function),
       walletPath: 'wallet.payload'
     })
     expect(matomoMiddlewareSpy).toHaveBeenCalledTimes(1)
@@ -154,12 +146,10 @@ describe('App Store Config', () => {
     expect(autoDisconnectSpy).toHaveBeenCalledTimes(1)
     // middleware compose
     expect(composeSpy).toHaveBeenCalledTimes(1)
-    expect(applyMiddlewareSpy).toHaveBeenCalledTimes(1)
     // store creation
-    expect(createStoreSpy).toHaveBeenCalledTimes(1)
-    expect(persistStore.mock.calls.length).toBe(1)
+    expect(persistStore.mock.calls).toHaveLength(1)
     expect(persistStore.mock.calls[0][0]).toEqual(expect.any(Object))
-    expect(persistStore.mock.calls[0][1]).toEqual(null)
+    expect(persistStore.mock.calls[0][1]).toBeNull()
     expect(mockStore.history).toBeDefined()
     expect(mockStore.store).toBeDefined()
   })

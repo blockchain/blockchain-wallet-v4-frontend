@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid ${props => props.theme.grey000};
+  border: 1px solid ${(props) => props.theme.grey000};
   border-radius: 8px;
   padding: 20px;
 
@@ -48,7 +48,7 @@ const PendingIconWrapper = styled.div`
   min-width: 40px;
   border-radius: 20px;
   margin-right: 20px;
-  background-color: ${props => props.theme.orange000};
+  background-color: ${(props) => props.theme.orange000};
 `
 const Copy = styled(Text)`
   display: flex;
@@ -94,7 +94,11 @@ class FinishKyc extends PureComponent<Props> {
         </Row>
         <BannerButton
           onClick={() =>
-            this.props.identityVerificationActions.verifyIdentity(2, false)
+            this.props.identityVerificationActions.verifyIdentity({
+              needMoreInfo: false,
+              origin: 'DashboardPromo',
+              tier: 2
+            })
           }
           jumbo
           data-e2e='openKycTier2'
@@ -108,10 +112,7 @@ class FinishKyc extends PureComponent<Props> {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  identityVerificationActions: bindActionCreators(
-    actions.components.identityVerification,
-    dispatch
-  )
+  identityVerificationActions: bindActionCreators(actions.components.identityVerification, dispatch)
 })
 
 const connector = connect(undefined, mapDispatchToProps)

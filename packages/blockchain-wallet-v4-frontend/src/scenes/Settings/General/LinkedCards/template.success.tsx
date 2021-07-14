@@ -3,13 +3,13 @@ import { FormattedMessage } from 'react-intl'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, Text } from 'blockchain-info-components'
+import { Box, Button, Text } from 'blockchain-info-components'
 import { FiatType, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
 import { CARD_TYPES, DEFAULT_CARD_SVG_LOGO } from 'components/Form/CreditCardBox/model'
 import { SettingComponent, SettingContainer, SettingSummary } from 'components/Setting'
 import { media } from 'services/styles'
 
-import { CardDetails, CardWrapper, Child, CustomSettingHeader, RemoveButton } from '../styles'
+import { CardDetails, Child, CustomSettingHeader, RemoveButton } from '../styles'
 import { Props as OwnProps, SuccessStateType } from '.'
 
 const CustomSettingContainer = styled(SettingContainer)`
@@ -28,6 +28,13 @@ const CustomSettingComponent = styled(SettingComponent)`
 const CardImg = styled.img`
   margin-right: 14px;
   width: 24px;
+`
+
+const CardIconWrapper = styled.div`
+  margin-right: 14px;
+  justify-content: center;
+  flex-direction: column;
+  display: flex;
 `
 
 const Success: React.FC<
@@ -63,9 +70,11 @@ const Success: React.FC<
           const cardLabel = (card?.card.label && card?.card.label.toLowerCase()) || card?.card.type
 
           return (
-            <CardWrapper key={card.id}>
+            <Box isMobile={media.mobile} key={card.id} style={{ width: '430px' }}>
               <Child>
-                <CardImg src={cardType ? cardType.logo : DEFAULT_CARD_SVG_LOGO} />
+                <CardIconWrapper>
+                  <CardImg src={cardType ? cardType.logo : DEFAULT_CARD_SVG_LOGO} />
+                </CardIconWrapper>
                 <CardDetails>
                   <Text size='16px' color='grey800' weight={600} capitalize>
                     {cardLabel.length > 22 ? `${cardLabel.slice(0, 22)}…` : cardLabel}
@@ -96,7 +105,7 @@ const Success: React.FC<
                   <FormattedMessage id='buttons.remove' defaultMessage='Remove' />
                 </RemoveButton>
               </Child>
-            </CardWrapper>
+            </Box>
           )
         })}
       </SettingSummary>

@@ -1,4 +1,3 @@
-import { BrokerageActionTypes } from './brokerage/types'
 import { FundRecoveryActionType } from './fundRecovery/types'
 import { IdentityVerificationActionTypes } from './identityVerification/types'
 import { RecoveryPhraseActionTypes } from './recoveryPhrase/types'
@@ -8,7 +7,6 @@ import { SimpleBuyActionTypes } from './simpleBuy/types'
 // All relative ActionTypes should go here
 // export type ComponentsActionTypes = IdentityVerificationActionTypes | ActivityListActionTypes | BchTransactionsActionTypes
 export type ComponentsActionTypes =
-  | BrokerageActionTypes
   | FundRecoveryActionType
   | IdentityVerificationActionTypes
   | RecoveryPhraseActionTypes

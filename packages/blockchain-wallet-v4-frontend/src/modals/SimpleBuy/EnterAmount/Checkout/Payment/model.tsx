@@ -32,26 +32,6 @@ const DisablableIcon = styled(Icon)<{
     `}
 `
 
-export const PaymentContainer = styled.div<PaymentContainerProps>`
-  border: 1px solid ${(props) => props.theme.grey100};
-  box-sizing: border-box;
-  height: 80px;
-  border-radius: 8px;
-  margin-bottom: 24px;
-  display: flex;
-  flex-direction: row;
-  cursor: pointer;
-  padding: ${(props) => (props.isMethod ? `12px 28px` : `23px 28px`)};
-  justify-content: space-between;
-  ${(props) => !props.isMethod && `line-height: 32px;`}
-  ${(props) =>
-    props.disabled &&
-    css`
-      background-color: ${(props) => props.theme.grey000};
-      cursor: not-allowed;
-    `}
-`
-
 export const PaymentText = styled(Text)<PaymentContainerProps>`
   flex: 1;
   justify-content: center;
@@ -208,18 +188,22 @@ export const getText = (
 ): ReactElement => {
   if (isSddFlow && !method) {
     return (
-      <FormattedMessage
-        id='modals.simplebuy.confirm.credit_or_debit'
-        defaultMessage='Credit or Debit Card'
-      />
+      <Text weight={600} color='grey900' style={{ paddingBottom: '3px', paddingTop: '4px' }}>
+        <FormattedMessage
+          id='modals.simplebuy.confirm.credit_or_debit'
+          defaultMessage='Credit or Debit Card'
+        />
+      </Text>
     )
   }
   if (!method) {
     return (
-      <FormattedMessage
-        id='modals.simplebuy.confirm.jump_to_payment'
-        defaultMessage='Add Payment Method'
-      />
+      <Text weight={600} color='grey900' style={{ paddingBottom: '3px', paddingTop: '4px' }}>
+        <FormattedMessage
+          id='modals.simplebuy.confirm.jump_to_payment'
+          defaultMessage='Add Payment Method'
+        />
+      </Text>
     )
   }
 

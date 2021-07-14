@@ -1,6 +1,6 @@
 import * as algoTransactions from './algoTransactions/actions'
 import * as bchTransactions from './bchTransactions/actions'
-import * as brokerage from './brokerage/actions'
+import { actions as brokerage } from './brokerage/slice'
 import * as btcTransactions from './btcTransactions/actions'
 import * as dotTransactions from './dotTransactions/actions'
 import * as ethTransactions from './ethTransactions/actions'

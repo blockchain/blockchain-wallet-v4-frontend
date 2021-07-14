@@ -149,6 +149,7 @@ type MessagesType = {
   'components.alerts.ipwhitelist_update_error': 'Failed to update IP whitelist'
   'components.alerts.ipwhitelist_update_success': 'IP whitelist has been successfully updated'
   'components.alerts.kyc_start_error': 'Failed to update a tier. Please try again'
+  'components.alerts.kyc_reset_error': 'Restoring account failed. Please try again.'
   'components.alerts.language_update_error': 'Failed to update language'
   'components.alerts.language_update_success': 'Language has been successfully updated.'
   'components.alerts.lockbox_delete_error': 'Failed to remove Lockbox.'
@@ -390,6 +391,7 @@ type MessagesType = {
   'copy.forms.amount_max': 'The maximum amount is {amount}'
   'copy.forms.amount_min': 'The minimum amount is {amount}'
   'copy.free': 'FREE'
+  'copy.frequency': 'Frequency'
   'copy.from': 'From'
   'copy.from:': 'From: '
   'copy.home': 'Home'
@@ -1203,7 +1205,7 @@ type MessagesType = {
 
   'modals.recurringbuys.notification.title': 'Recurring buys'
   'modals.recurringbuys.notification.button': 'Setup recurring buy'
-
+  'modals.recurringbuys.disabled.paymentmethod': 'Recurring buys are not available for this payment method yet.'
   'modals.recurringbuys.notification.page_1.title': 'Instead of timing the market, many smart investors use'
   'modals.recurringbuys.notification.page_1.description': 'Dollar cost averaging'
 
@@ -1219,6 +1221,11 @@ type MessagesType = {
   'modals.recurringbuys.notification.page_5.title': 'But does it work?'
   'modals.recurringbuys.notification.page_5.description': 'Over the past 5 years, buying Bitcoin every week performed better than timing the market'
   'modals.recurringbuys.notification.page_5.disclaimer': '82% of the time.'
+  'modals.recurringbuys.timeframe.one_time': 'One time purchase'
+  'modals.recurringbuys.timeframe.every_day': 'Every day'
+  'modals.recurringbuys.timeframe.every_week': 'Every week'
+  'modals.recurringbuys.timeframe.2_weeks': 'Every 2 weeks'
+  'modals.recurringbuys.timeframe.every_month': 'Every month'
 
   'modals.repayloan.chooseamttorepay': 'Choose how much you want to repay'
   'modals.repayloan.choosewaytopay': 'How do you want to repay?'
@@ -2129,6 +2136,7 @@ type MessagesType = {
   'scenes.login.guid_error': 'Unknown Wallet ID. Please check that it was entered correctly or try signing in with your email.'
   'scenes.login.login': 'Log In'
   'scenes.login.loginmobile': 'Login via Mobile'
+  'scenes.login.loginwithmobile': 'Log In with Mobile App ->'
   'scenes.logins.twofa.code': 'Enter the Two Factor Authentication code from your code generator or the SMS message just sent'
   'scenes.logins.twofa.enter_code': 'Enter your Two Factor Authentication Code'
   'scenes.login.mobile': 'SMS Code'
@@ -2226,6 +2234,7 @@ type MessagesType = {
   'scenes.recover.secondstep.funds': 'Recover Funds'
   'scenes.recover.secondstep.password': 'Password'
   'scenes.recover.secondstep.recover': 'Recover Funds'
+  'scenes.recover.restore_fails': 'Restoring Account Failed'
   'scenes.register.browserwarning': 'Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera '
   'scenes.register.confirmpassword': 'Confirm Password'
   'scenes.register.exchange.subcard': 'You will be taken to our trading experience to continue sign up.'

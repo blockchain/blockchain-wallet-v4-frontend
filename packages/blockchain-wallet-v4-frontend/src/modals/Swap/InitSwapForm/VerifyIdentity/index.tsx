@@ -10,32 +10,18 @@ import { actions } from 'data'
 import { Border, FlexStartRow, IconBackground, TopText } from '../../components'
 import { Props as BaseProps } from '../../index'
 
-const VerifyIdentity: React.FC<Props> = props => {
+const VerifyIdentity: React.FC<Props> = (props) => {
   return (
     <>
       <FlyoutWrapper>
         <TopText spaceBetween marginBottom>
           <Icon name='arrow-switch-thick' color='blue600' size='24px' />
-          <Icon
-            name='close'
-            color='grey600'
-            role='button'
-            cursor
-            onClick={props.handleClose}
-          />
+          <Icon name='close' color='grey600' role='button' cursor onClick={props.handleClose} />
         </TopText>
         <Text size='24px' color='grey900' weight={600}>
-          <FormattedMessage
-            id='copy.swap_your_crypto'
-            defaultMessage='Swap Your Crypto'
-          />
+          <FormattedMessage id='copy.swap_your_crypto' defaultMessage='Swap Your Crypto' />
         </Text>
-        <Text
-          size='16px'
-          color='grey600'
-          weight={500}
-          style={{ marginTop: '10px' }}
-        >
+        <Text size='16px' color='grey600' weight={500} style={{ marginTop: '10px' }}>
           <FormattedMessage
             id='copy.instantly_exchange'
             defaultMessage='Instantly exchange your crypto into any currency we offer in your wallet.'
@@ -44,23 +30,13 @@ const VerifyIdentity: React.FC<Props> = props => {
       </FlyoutWrapper>
       <Border />
       <FlyoutWrapper>
-        <Text
-          size='20px'
-          color='grey800'
-          weight={600}
-          style={{ marginBottom: '8px' }}
-        >
+        <Text size='20px' color='grey800' weight={600} style={{ marginBottom: '8px' }}>
           <FormattedMessage
             id='copy.swap_verify_email'
             defaultMessage='Verify Your Email & Swap Today.'
           />
         </Text>
-        <Text
-          size='14px'
-          color='grey600'
-          weight={500}
-          style={{ marginBottom: '30px' }}
-        >
+        <Text size='14px' color='grey600' weight={500} style={{ marginBottom: '30px' }}>
           <FormattedMessage
             id='copy.swap_get_access'
             defaultMessage='Get access to swap in seconds by completing your profile and getting Silver access.'
@@ -74,10 +50,7 @@ const VerifyIdentity: React.FC<Props> = props => {
           </IconBackground>
           <div>
             <Text color='grey900' size='14px' weight={600} lineHeight='150%'>
-              <FormattedMessage
-                id='scenes.verifyemail.title'
-                defaultMessage='Verify Your Email'
-              />
+              <FormattedMessage id='scenes.verifyemail.title' defaultMessage='Verify Your Email' />
             </Text>
             <Text size='12px' lineHeight='150%' weight={500}>
               <FormattedMessage
@@ -116,10 +89,7 @@ const VerifyIdentity: React.FC<Props> = props => {
           </IconBackground>
           <div>
             <Text color='grey900' size='14px' weight={600} lineHeight='150%'>
-              <FormattedMessage
-                id='copy.swap_start'
-                defaultMessage='Start Swapping'
-              />
+              <FormattedMessage id='copy.swap_start' defaultMessage='Start Swapping' />
             </Text>
             <Text size='12px' lineHeight='150%' weight={500}>
               <FormattedMessage
@@ -133,13 +103,16 @@ const VerifyIdentity: React.FC<Props> = props => {
           nature='primary'
           data-e2e='swapVerify'
           height='48px'
-          onClick={() => props.idvActions.verifyIdentity(1, false)}
+          onClick={() =>
+            props.idvActions.verifyIdentity({
+              needMoreInfo: false,
+              origin: 'Swap',
+              tier: 1
+            })
+          }
           fullwidth
         >
-          <FormattedMessage
-            id='buttons.verify_now'
-            defaultMessage='Verify Now'
-          />
+          <FormattedMessage id='buttons.verify_now' defaultMessage='Verify Now' />
         </Button>
       </FlyoutWrapper>
     </>
@@ -147,10 +120,7 @@ const VerifyIdentity: React.FC<Props> = props => {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  idvActions: bindActionCreators(
-    actions.components.identityVerification,
-    dispatch
-  )
+  idvActions: bindActionCreators(actions.components.identityVerification, dispatch)
 })
 const connector = connect(undefined, mapDispatchToProps)
 
