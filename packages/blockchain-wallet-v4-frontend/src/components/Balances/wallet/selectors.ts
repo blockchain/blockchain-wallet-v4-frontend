@@ -42,15 +42,14 @@ export const getTotalBalance = createDeepEqualSelector(
         (acc, cur) => (acc += Number(cur.getOrElse('0'))),
         0
       )
-      const total = formatFiat(
+      const total =
         Number(btcBalance) +
-          Number(dotBalance) +
-          Number(ethBalance) +
-          Number(bchBalance) +
-          Number(xlmBalance) +
-          Number(fiatBalance) +
-          erc20Balance
-      )
+        Number(dotBalance) +
+        Number(ethBalance) +
+        Number(bchBalance) +
+        Number(xlmBalance) +
+        Number(fiatBalance) +
+        erc20Balance
       const totalBalance = `${fiatToString({ unit: currency, value: total })}`
       return { totalBalance }
     }
