@@ -97,7 +97,7 @@ const HoldingsTableContainer = (props: Props) => (
 )
 
 const mapStateToProps = (state) => ({
-  backupCoins: getBackupData(state).getOrElse({ coins: [] }),
+  backupCoins: getBackupData(state).getOrElse([]),
   data: getData(state)
 })
 
