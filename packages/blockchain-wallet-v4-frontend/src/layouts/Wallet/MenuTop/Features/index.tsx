@@ -43,6 +43,7 @@ class FeaturesContainer extends React.PureComponent<Props> {
     }
     if (window.coins[coin]) {
       return this.props.modalActions.showModal(`SEND_${coin}_MODAL` as ModalNamesType, {
+        coin,
         lockboxIndex: lockboxPath ? lockboxDeviceId : null,
         origin: 'FeaturesTopNav'
       })
