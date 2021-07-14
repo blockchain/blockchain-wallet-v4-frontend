@@ -35,6 +35,13 @@ export const Column = styled.div`
   flex-direction: column;
 `
 
+const RectangleBackground = styled.div`
+  background-color: ${(props) => props.theme.grey000};
+  border-radius: 8px;
+  margin-top: 24px;
+  padding: 16px;
+`
+
 export const Row = styled.div`
   display: flex;
   align-items: center;
@@ -44,6 +51,30 @@ export const GoBackRow = styled.div`
   display: flex;
   align-items: center;
 `
+
+export const ReverifyIdentityInfoBox = () => {
+  return (
+    <RectangleBackground>
+      <Text size='12px' weight={500} lineHeight='1.5' color='grey900'>
+        <FormattedMessage
+          id='scenes.recovery.reverify'
+          defaultMessage='For your security, you may have to re-verify your identity before accessing your trading or interest account. <a>Learn more</a>'
+          values={{
+            a: (msg) => (
+              <a
+                href='https://support.blockchain.com/hc/en-us'
+                rel='noopener noreferrer'
+                target='_blank'
+              >
+                {msg}
+              </a>
+            )
+          }}
+        />
+      </Text>
+    </RectangleBackground>
+  )
+}
 
 export const GoBackArrow = (props: { handleBackArrowClick: () => void; minWidth: string }) => {
   return (

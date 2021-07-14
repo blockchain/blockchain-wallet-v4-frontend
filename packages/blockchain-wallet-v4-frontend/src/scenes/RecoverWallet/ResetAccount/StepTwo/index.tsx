@@ -10,7 +10,7 @@ import Terms from 'components/Terms'
 import { LoginSteps, RecoverSteps } from 'data/types'
 import { required, validPasswordConfirmation, validStrongPassword } from 'services/forms'
 
-import { ActionButton, BackArrowFormHeader } from '../../model'
+import { ActionButton, BackArrowFormHeader, ReverifyIdentityInfoBox } from '../../model'
 import { Props } from '..'
 
 const Footer = styled(FormGroup)`
@@ -18,13 +18,6 @@ const Footer = styled(FormGroup)`
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
-`
-
-export const RectangleBackground = styled.div`
-  background-color: ${(props) => props.theme.grey000};
-  border-radius: 8px;
-  margin-top: 24px;
-  padding: 16px;
 `
 
 const validatePasswordConfirmation = validPasswordConfirmation('password')
@@ -82,25 +75,7 @@ const SecondStep = (props: Props) => {
       <FormGroup>
         <Terms recovery />
       </FormGroup>
-      <RectangleBackground>
-        <Text size='12px' weight={500} lineHeight='1.5' color='grey900'>
-          <FormattedMessage
-            id='scenes.recovery.reverify'
-            defaultMessage='For your security, you may have to re-verify your identity before accessing your trading or interest account. <a>Learn more</a>'
-            values={{
-              a: (msg) => (
-                <a
-                  href='https://support.blockchain.com/hc/en-us'
-                  rel='noopener noreferrer'
-                  target='_blank'
-                >
-                  {msg}
-                </a>
-              )
-            }}
-          />
-        </Text>
-      </RectangleBackground>
+      <ReverifyIdentityInfoBox />
       <Footer>
         <ActionButton
           data-e2e='recoverSubmit'

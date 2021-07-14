@@ -12,9 +12,9 @@ const FormBody = styled.div`
   display: flex;
   flex-direction: column;
 `
-const Row = styled.div`
+const Row = styled.div<{ cachedEmail: boolean }>`
   display: flex;
-  justify-content: flex-start;
+  justify-content: ${(props) => (props.cachedEmail ? 'center' : 'flex-start')};
   align-items: center;
   margin-top: 24px;
 `
@@ -91,7 +91,7 @@ const RecoveryOptions = (props: Props) => {
           <Icon name='chevron-right' size='20px' color='grey400' />
         </IconTextRow>
       </FormBody>
-      <Row>
+      <Row cachedEmail>
         {!cachedEmail && (
           <GoBackArrow handleBackArrowClick={() => routerActions.push('/login')} minWidth='120px' />
         )}

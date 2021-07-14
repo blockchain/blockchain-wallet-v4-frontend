@@ -32,10 +32,8 @@ class RecoveryPhraseContainer extends React.PureComponent<
 
   handleSubmit = (e) => {
     e.preventDefault()
-
-    const { authActions, email, formActions, language, mnemonic, recoverPassword } = this.props
+    const { authActions, email, language, mnemonic, recoverPassword } = this.props
     if (this.state.step === 1) {
-      // formActions.change('recover', 'mnemonic', phrase)
       this.setState({ step: 2 })
     } else {
       // TODO: last argument is network, do we even need this?
@@ -48,7 +46,6 @@ class RecoveryPhraseContainer extends React.PureComponent<
   }
 
   render() {
-    // } //   } //     return <FirstStep onSubmit={() => this.setState({ step: 2 })} {...this.props} /> //     } //       return <SecondStep previousStep={() => this.setState({ step: 1 })} {...this.props} /> //     if (this.state.step === 2) { //   {
     return (
       <Form onSubmit={this.handleSubmit}>
         {this.state.step === 2 && <SecondStep previousStep={this.previousStep} {...this.props} />}

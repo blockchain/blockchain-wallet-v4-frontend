@@ -15,6 +15,7 @@ import {
   validStrongPassword
 } from 'services/forms'
 
+import { ReverifyIdentityInfoBox } from '../../model'
 import { Props as OwnProps } from '.'
 
 const Header = styled.div`
@@ -28,6 +29,7 @@ const Footer = styled(FormGroup)`
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
+  margin-top: 24px;
 `
 const GoBackLink = styled(Link)`
   margin-right: 15px;
@@ -88,6 +90,7 @@ const SecondStep = (props: Props) => {
         <FormGroup>
           <Terms recovery />
         </FormGroup>
+        <ReverifyIdentityInfoBox />
         <Footer>
           <GoBackLink onClick={previousStep} size='13px' weight={400}>
             <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />

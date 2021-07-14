@@ -23,9 +23,9 @@ const WordContainer = styled.div`
   margin: 16px 0;
   align-items: space-between;
 `
-const BottomRow = styled.div`
+const BottomRow = styled.div<{ cachedEmail: boolean }>`
   display: flex;
-  justify-content: flex-start;
+  justify-content: ${(props) => (props.cachedEmail ? 'center' : 'flex-start')};
   align-items: center;
   margin-top: 24px;
 `
@@ -64,15 +64,13 @@ const FirstStep = (props: Props) => {
 
   return (
     <>
-      {/* {!cachedEmail ? (
-        <GoBackArrow handleBackArrowClick={() => props.setStep(RecoverSteps.RECOVERY_OPTIONS)} />
-      ) : (
+      {cachedEmail && (
         <BackArrowFormHeader
           handleBackArrowClick={() => setStep(RecoverSteps.RECOVERY_OPTIONS)}
           email={cachedEmail}
           guid={cachedGuid}
         />
-      )} */}
+      )}
       <FormBody>
         <Text
           color='grey900'
@@ -150,7 +148,7 @@ const FirstStep = (props: Props) => {
           </Text>
         )}
       </Button>
-      <BottomRow>
+      <BottomRow cachedEmail>
         {!cachedEmail && (
           <GoBackArrow
             handleBackArrowClick={() => props.setStep(RecoverSteps.RECOVERY_OPTIONS)}

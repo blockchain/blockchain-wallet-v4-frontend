@@ -714,7 +714,8 @@ export default ({ api, coreSagas }) => {
       const sessionToken = yield call(api.obtainSessionToken)
       const { captchaToken, email } = action.payload
       yield put(actions.session.saveSession(assoc(email, sessionToken, {})))
-      yield call(api.triggerWalletMagicLink, email, captchaToken, sessionToken)
+      // yield call(api.triggerWalletMagicLink, email, captchaToken, sessionToken)
+      yield call(api.getMagicLinkMock, 'E')
       if (step === LoginSteps.CHECK_EMAIL) {
         yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
       } else {
