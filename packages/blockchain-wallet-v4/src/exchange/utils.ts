@@ -2,8 +2,6 @@ import { BigNumber } from 'bignumber.js'
 
 import { FiatType } from 'blockchain-wallet-v4/src/types'
 
-import Currencies from './currencies'
-
 export const getLang = (): string => {
   if (navigator.languages !== undefined) return navigator.languages[0]
   return navigator.language
@@ -46,5 +44,7 @@ export const fiatToString = ({
   unit: FiatType
   value: string | number
 }): string => {
-  return `${Currencies[unit].units[unit].symbol}${formatFiat(value, digits)}`
+  const options = { currency: unit, style: 'currency' }
+
+  return new Intl.NumberFormat(getLang(), options).format(new BigNumber(value).toNumber())
 }
