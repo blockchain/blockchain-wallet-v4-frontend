@@ -109,6 +109,7 @@ export default ({ api, coreSagas }) => {
     yield put(actions.core.data.xlm.fetchData())
     yield put(actions.core.data.eth.fetchData())
     yield put(actions.core.data.eth.fetchErc20Data())
+    yield put(actions.components.refresh.refreshRates())
   }
 
   const checkAndHandleVulnerableAddress = function* (data) {

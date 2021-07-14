@@ -59,6 +59,7 @@ export const getTotalBalance = createDeepEqualSelector(
       const totalBalance = `${fiatToString({ unit: currency, value: total })}`
       return { path, totalBalance }
     }
+
     return lift(transform)(
       algoBalanceInfoR,
       bchBalanceInfoR,
