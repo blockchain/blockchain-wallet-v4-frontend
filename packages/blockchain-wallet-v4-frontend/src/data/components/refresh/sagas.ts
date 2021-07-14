@@ -113,10 +113,6 @@ export default () => {
         case contains('/settings/general', pathname):
           yield put(actions.components.simpleBuy.fetchSBCards(true))
           break
-        case contains('/borrow', pathname):
-          yield put(actions.components.borrow.fetchUserBorrowHistory())
-          yield put(actions.components.borrow.fetchBorrowOffers())
-          break
         default:
           yield put(actions.core.data.bch.fetchTransactions('', true))
           yield put(actions.core.data.btc.fetchTransactions('', true))
