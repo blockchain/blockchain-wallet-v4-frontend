@@ -97,7 +97,6 @@ export type ModalOriginType =
   | 'SideNav'
   | 'SimpleBuyLink'
   | 'Swap'
-  | 'SwapGetStarted'
   | 'SwapPrompt'
   | 'SwapLimitPrompt'
   | 'SwapNoHoldings'
