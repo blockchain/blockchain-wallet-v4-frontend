@@ -42,6 +42,8 @@ export default () => {
     yield put(actions.core.data.xlm.fetchRates())
     yield put(actions.core.data.dot.fetchRates())
     yield put(actions.core.data.algo.fetchRates())
+    yield put(actions.core.data.doge.fetchRates())
+    yield put(actions.core.data.clout.fetchRates())
     yield put(actions.core.data.eth.fetchErc20Rates('pax'))
     yield put(actions.core.data.eth.fetchErc20Rates('usdt'))
     yield put(actions.core.data.eth.fetchErc20Rates('wdgld'))
