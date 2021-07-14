@@ -83,20 +83,6 @@ const FeaturesLarge = (
           </NavbarNavItemButton>
         </NavbarNavItem>
       </LinkContainer>
-      <NavbarDivider />
-      <LinkContainer to='/borrow' activeClassName='active'>
-        <NavbarNavItem>
-          <NavbarNavItemButton data-e2e='borrowLink'>
-            <NavbarNavItemIcon size='18px' name='borrow' />
-            <NavbarNavItemTextHeader size='14px' weight={600}>
-              <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.borrow'
-                defaultMessage='Borrow'
-              />
-            </NavbarNavItemTextHeader>
-          </NavbarNavItemButton>
-        </NavbarNavItem>
-      </LinkContainer>
     </>
   )
 }
