@@ -22,7 +22,8 @@ export const getData = (state: RootState) => {
     state
   )
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
-  const accounts = getCoinAccounts(state, SWAP_ACCOUNTS_SELECTOR)
+  const coins = selectors.components.swap.getCoins()
+  const accounts = getCoinAccounts(state, { coins, ...SWAP_ACCOUNTS_SELECTOR })
   return lift(
     (
       incomingAmount: ExtractSuccess<typeof incomingAmountR>,
@@ -39,7 +40,7 @@ export const getData = (state: RootState) => {
       limits,
       payment: paymentR.getOrElse(undefined),
       quote,
-      walletCurrency,
+      walletCurrency
     })
   )(incomingAmountR, limitsR, quoteR, baseRatesR, walletCurrencyR)
 }
