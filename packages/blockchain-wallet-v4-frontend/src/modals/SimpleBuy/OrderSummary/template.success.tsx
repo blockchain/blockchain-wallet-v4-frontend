@@ -8,7 +8,7 @@ import { SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { getBaseAmount, getBaseCurrency, getOrderType } from 'data/components/simpleBuy/model'
 
-import { Props as OwnProps, SuccessStateType } from '.'
+import { Props as _P, SuccessStateType } from '.'
 import InterestBanner from './InterestBanner'
 import { CloseContainer } from './styles'
 import { RecurringBuysStepType } from 'data/types'
@@ -105,9 +105,7 @@ const Success: React.FC<Props> = (props) => {
             color='grey600'
             role='button'
             onClick={() => {
-              // props.handleClose()
-              props.recurringBuyActions.showModal('SimpleBuyStatus')
-              props.recurringBuyActions.setStep({ step: RecurringBuysStepType.GET_STARTED })
+              props.handleClose()
             }}
           />
         </CloseContainer>
@@ -236,7 +234,6 @@ const Success: React.FC<Props> = (props) => {
           )}
 
           {orderType === 'BUY' &&
-            props.order.paymentType === SBPaymentTypes.BANK_TRANSFER &&
             props.order.state !== 'FAILED' && (
               <Bottom>
                 <Button
@@ -244,7 +241,7 @@ const Success: React.FC<Props> = (props) => {
                   size='16px'
                   height='48px'
                   nature='primary'
-                  onClick={props.handleClose}
+                  onClick={props.okButtonHandler}
                   style={{ marginBottom: '16px' }}
                 >
                   <FormattedMessage id='buttons.ok' defaultMessage='OK' />
@@ -320,6 +317,7 @@ const Success: React.FC<Props> = (props) => {
   )
 }
 
-type Props = OwnProps & SuccessStateType
+type OwnProps = { okButtonHandler: () => void }
+type Props = OwnProps & _P & SuccessStateType
 
 export default Success

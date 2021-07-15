@@ -9,25 +9,25 @@ import Success from './template.success'
 
 const SchedulerContainer = (props: Props) => {
   const dispatch = useDispatch()
-  const { methods } = props.formValues
+  // const { methods } = props.formValues
   const { method } = props
-  const showScheduler = methods.some((m) => method && method.type === m)
+  // const showScheduler = methods.some((m) => method && method.type === m)
 
   useEffect(() => {
     dispatch(actions.components.brokerage.fetchRBMethods())
-  }, [methods.join(''), method])
+  }, [method])
 
   return (
     <>
-      <Success disabled={!showScheduler} />
+      <Success disabled={false} />
     </>
   )
 }
 
 const mapStateToProps = (state: RootState) => ({
-  formValues: (selectors.form.getFormValues('recurringBuyScheduler')(state) as {
-    methods: SBPaymentTypes[]
-  }) || { methods: [] }
+  // formValues: (selectors.form.getFormValues('recurringBuyScheduler')(state) as {
+  //   methods: SBPaymentTypes[]
+  // }) || { methods: [] }
 })
 
 const connector = connect(mapStateToProps)

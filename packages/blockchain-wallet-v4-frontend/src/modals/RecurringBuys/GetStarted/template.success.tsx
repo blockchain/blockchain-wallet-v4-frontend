@@ -2,8 +2,13 @@ import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
+import { Button, Icon, Image, Link, Text, FlyoutHeader } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
+import { RecurringBuyPeriods, SBCheckoutFormValuesType } from 'data/types'
+import { SBOrderType } from 'core/types'
+import { getBaseAmount } from 'data/components/simpleBuy/model'
+
+import { Props } from '.'
 
 const Wrapper = styled.div`
   display: flex;
@@ -56,22 +61,15 @@ class GetStarted extends PureComponent<Props> {
   }
 
   render() {
+    const baseAmount = getBaseAmount(this.props.order)
+    const closeModal = () => this.props.close()
     return (
       <Wrapper>
-        <FlyoutWrapper>
-          <IconsContainer>
-            <Icon
-              cursor
-              data-e2e='RecurringBuysCloseButton'
-              name='close'
-              size='20px'
-              color='grey600'
-              role='button'
-              onClick={this.props.handleClose}
-            />
-          </IconsContainer>
-        </FlyoutWrapper>
-
+        <FlyoutHeader
+          data-e2e="RecurringBuysCloseButton"
+          mode="close"
+          onClick={closeModal}
+        />
         <MainContent>
           <ContentWrapper>
             <Image name='recurring-buy-get-started' height='130px' width='222px' />
@@ -91,8 +89,8 @@ class GetStarted extends PureComponent<Props> {
                   id='modals.recurringbuys.get_started.description'
                   defaultMessage='Buy {amount} of {currency} every day, week or month with a Recurring Buy. No need to ever time the market.'
                   values={{
-                    amount: '100',
-                    currency: 'BTC'
+                    amount: baseAmount,
+                    currency: this.props.order.outputCurrency 
                   }}
                 />
                 <Link
@@ -131,9 +129,7 @@ class GetStarted extends PureComponent<Props> {
             fullwidth
             height='48px'
             style={{ marginTop: '16px' }}
-            onClick={() => {
-              // alert
-            }}
+            onClick={closeModal}
           >
             <FormattedMessage
               id='modals.recurringbuys.get_started.maybe_later'
@@ -144,10 +140,6 @@ class GetStarted extends PureComponent<Props> {
       </Wrapper>
     )
   }
-}
-
-type Props = {
-  handleClose: () => void
 }
 
 export default GetStarted

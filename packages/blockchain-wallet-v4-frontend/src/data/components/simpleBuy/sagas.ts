@@ -62,6 +62,7 @@ import {
 import * as S from './selectors'
 import * as T from './types'
 import { getDirection } from './utils'
+import { RecurringBuyPeriods } from '../brokerage/types'
 
 export const logLocation = 'components/simpleBuy/sagas'
 
@@ -1091,6 +1092,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           amount,
           cryptoAmount,
           fix,
+          frequency: RecurringBuyPeriods.ONE_TIME,
           orderType
         } as T.SBCheckoutFormValuesType)
       )

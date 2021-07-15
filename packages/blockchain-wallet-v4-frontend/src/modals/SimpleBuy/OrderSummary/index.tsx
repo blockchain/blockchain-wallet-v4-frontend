@@ -8,6 +8,7 @@ import { ExtractSuccess, RemoteDataType, SBOrderType } from 'blockchain-wallet-v
 import DataError from 'components/DataError'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { RecurringBuyPeriods, RecurringBuysStepType } from 'data/types'
 
 import Loading from '../template.loading'
 import { getData } from './selectors'
@@ -38,6 +39,20 @@ class OrderSummary extends PureComponent<Props> {
     this.props.simpleBuyActions.fetchSBCards()
   }
 
+  okButtonHandler = () => {
+    // first time buyers have 1 tx at this point so and RB is set to one time buy so send them to RB walkthrough flow
+    // FIXME: The logic on the line below is hacked to be wrong so I can test.
+    if (
+      this.props.orders.length > 1 &&
+      this.props.order.frequency !== RecurringBuyPeriods.ONE_TIME
+    ) {
+      this.props.recurringBuyActions.showModal('SimpleBuyStatus')
+      this.props.recurringBuyActions.setStep({ step: RecurringBuysStepType.GET_STARTED })
+    } else {
+      this.props.handleClose()
+    }
+  }
+
   render() {
     const { state } = this.props.order
     return this.props.data.cata({
@@ -50,7 +65,7 @@ class OrderSummary extends PureComponent<Props> {
         ) : val.userData?.tiers?.current !== 2 ? (
           <SuccessSdd {...val} {...this.props} />
         ) : (
-          <Success {...val} {...this.props} />
+          <Success okButtonHandler={this.okButtonHandler} {...val} {...this.props} />
         )
       }
     })
@@ -59,7 +74,8 @@ class OrderSummary extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state),
-  isGoldVerified: equals(selectors.modules.profile.getCurrentTier(state), 2)
+  isGoldVerified: equals(selectors.modules.profile.getCurrentTier(state), 2),
+  orders: selectors.components.simpleBuy.getSBOrders(state).getOrElse([])
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -79,6 +95,7 @@ export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
   isGoldVerified: boolean
+  orders: SBOrderType[]
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>
 

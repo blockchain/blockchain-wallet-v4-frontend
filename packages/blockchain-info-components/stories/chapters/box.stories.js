@@ -32,6 +32,4 @@ export default {
 
 export const BrokerageBox = (args) => <Box {...args}>Brokerage Box</Box>
 
-BrokerageBox.story = {
-  name: 'Brokerage Box'
-}
+BrokerageBox.storyName = 'Brokerage Box'

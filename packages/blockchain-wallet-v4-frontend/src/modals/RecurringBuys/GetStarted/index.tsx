@@ -10,13 +10,12 @@ import { LoadingUpdating as Loading } from '../../components'
 import { getData } from './selectors'
 // import Failure from './template.error'
 import Success from './template.success'
+import { SBOrderType } from 'core/types'
+import { Props as _P } from '../'
 
 const GetStartedContainer = (props: Props) => {
   return (
-    <>
-      <>{props.rbFormValues?.frequency}</>
-      <>{props.sbFormValues?.amount}</>
-    </>
+    <Success {...props} />
   )
 }
 
@@ -24,13 +23,11 @@ const mapStateToProps = (state: RootState) => ({
   rbFormValues: selectors.form.getFormValues('recurringBuyScheduler')(state) as
     | { frequency: RecurringBuyPeriods }
     | undefined,
-  sbFormValues: selectors.form.getFormValues('simpleBuyCheckout')(state) as
-    | SBCheckoutFormValuesType
-    | undefined,
+  order: selectors.components.simpleBuy.getSBOrder(state) as SBOrderType
 })
 
 const connector = connect(mapStateToProps)
 
-export type Props = ConnectedProps<typeof connector>
+export type Props = _P & ConnectedProps<typeof connector>
 
 export default connector(GetStartedContainer)

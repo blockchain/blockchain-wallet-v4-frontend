@@ -41,7 +41,7 @@ class RecurringBuys extends PureComponent<Props, State> {
         )}
         {this.props.step === RecurringBuysStepType.GET_STARTED && (
           <FlyoutChild>
-            <GetStarted handleClose={this.handleClose} {...this.props} />
+            <GetStarted {...this.props} />
           </FlyoutChild>
         )}
       </Flyout>
