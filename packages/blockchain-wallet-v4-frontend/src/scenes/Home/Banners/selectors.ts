@@ -34,13 +34,14 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const isKycStateNone =
     // @ts-ignore
     selectors.modules.profile.getUserKYCState(state).getOrElse('') === 'NONE'
+
   const isFirstLogin = selectors.auth.getFirstLogin(state)
 
   const userDataR = selectors.modules.profile.getUserData(state)
   const userData = userDataR.getOrElse({
     tiers: { current: 0 }
   } as UserDataType)
-
+  const isKycStatePending = userData.kycState === 'PENDING' || userData.kycState === 'UNDER_REVIEW'
   const sddEligibleTier = selectors.components.simpleBuy.getUserSddEligibleTier(state).getOrElse(1)
 
   const limits = selectors.components.simpleBuy.getLimits(state).getOrElse({
@@ -56,7 +57,7 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const isTier3SDD = sddEligibleTier === 3
 
   let bannerToShow: BannerType = null
-  if (showDocResubmitBanner) {
+  if (showDocResubmitBanner && !isKycStatePending) {
     bannerToShow = 'resubmit'
   } else if (isSimpleBuyOrderPending && !isTier3SDD) {
     bannerToShow = 'sbOrder'
