@@ -35,7 +35,7 @@ const BadgeRow = styled(CenteredRow)`
 `
 
 const CloudRecovery = (props: Props) => {
-  const { cachedEmail, cachedGuid, qrData } = props
+  const { cachedEmail, cachedGuid, lastGuid, qrData } = props
 
   return (
     <>
@@ -43,7 +43,7 @@ const CloudRecovery = (props: Props) => {
         <BackArrowFormHeader
           handleBackArrowClick={() => props.setStep(RecoverSteps.RECOVERY_OPTIONS)}
           email={cachedEmail}
-          guid={cachedGuid}
+          guid={cachedGuid || lastGuid}
         />
       )}
       <Body>

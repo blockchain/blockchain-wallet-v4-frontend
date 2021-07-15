@@ -38,13 +38,13 @@ class StepOne extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { cachedEmail, cachedGuid, setStep } = this.props
+    const { cachedEmail, cachedGuid, lastGuid, setStep } = this.props
     return (
       <>
         <BackArrowFormHeader
           handleBackArrowClick={() => setStep(RecoverSteps.RECOVERY_OPTIONS)}
           email={cachedEmail}
-          guid={cachedGuid}
+          guid={cachedGuid || lastGuid}
           step={RecoverSteps.RESET_ACCOUNT}
         />
         {this.state.firstModal ? (

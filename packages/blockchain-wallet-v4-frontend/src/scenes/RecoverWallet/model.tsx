@@ -108,13 +108,13 @@ export const BackArrowFormHeader = (props: {
           data-e2e='signupBack'
           name='arrow-left'
           size='24px'
-          color='grey400'
+          color='grey600'
           style={{ marginRight: '8px' }}
           role='button'
           onClick={() => props.handleBackArrowClick()}
         />
         <Column>
-          <Text color='grey400' size='14px' weight={600} lineHeight='1.5'>
+          <Text color='grey900' size='14px' weight={600} lineHeight='1.5'>
             <FormattedMessage
               id='scenes.recovery.email'
               defaultMessage='Recovering {email}'
@@ -122,7 +122,7 @@ export const BackArrowFormHeader = (props: {
             />
           </Text>
           {props.step !== RecoverSteps.RESET_ACCOUNT && (
-            <Text color='grey400' size='14px' weight={600} lineHeight='1.5'>
+            <Text color='grey600' size='12px' weight={600} lineHeight='1.5'>
               <FormattedMessage
                 id='scences.login.wallet_guid'
                 defaultMessage='Wallet: {guid}'

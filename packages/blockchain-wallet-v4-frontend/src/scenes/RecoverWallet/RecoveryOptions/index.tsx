@@ -29,14 +29,14 @@ const TextStack = styled.div`
   max-width: 312px;
 `
 const RecoveryOptions = (props: Props) => {
-  const { cachedEmail, cachedGuid, formActions, nabuId, routerActions } = props
+  const { cachedEmail, cachedGuid, formActions, lastGuid, nabuId, routerActions } = props
   return (
     <>
       {cachedEmail && (
         <BackArrowFormHeader
           handleBackArrowClick={() => routerActions.push('/login')}
           email={cachedEmail}
-          guid={cachedGuid}
+          guid={cachedGuid || lastGuid}
         />
       )}
       <FormBody>

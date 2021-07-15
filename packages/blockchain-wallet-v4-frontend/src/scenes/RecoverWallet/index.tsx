@@ -60,6 +60,7 @@ const mapStateToProps = (state) => ({
   formValues: selectors.form.getFormValues('recover')(state) as RecoverFormType,
   kycReset: selectors.auth.getKycResetStatus(state),
   language: selectors.preferences.getLanguage(state),
+  lastGuid: selectors.cache.getLastGuid(state),
   loginFormValues: selectors.form.getFormValues('login')(state),
   mnemonic: formValueSelector('recover')(state, 'mnemonic'),
   nabuId: selectors.auth.getNabuId(state),

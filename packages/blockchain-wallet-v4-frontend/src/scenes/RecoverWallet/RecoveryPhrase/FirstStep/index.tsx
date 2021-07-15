@@ -45,6 +45,7 @@ const FirstStep = (props: Props) => {
     formActions,
     formValues,
     invalid,
+    lastGuid,
     nabuId,
     setStep,
     submitting
@@ -68,7 +69,7 @@ const FirstStep = (props: Props) => {
         <BackArrowFormHeader
           handleBackArrowClick={() => setStep(RecoverSteps.RECOVERY_OPTIONS)}
           email={cachedEmail}
-          guid={cachedGuid}
+          guid={cachedGuid || lastGuid}
         />
       )}
       <FormBody>

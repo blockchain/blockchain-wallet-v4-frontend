@@ -30,6 +30,7 @@ const SecondStep = (props: Props) => {
     cachedGuid,
     formActions,
     formValues,
+    lastGuid,
     resetPassword,
     setStep
   } = props
@@ -39,7 +40,7 @@ const SecondStep = (props: Props) => {
       <BackArrowFormHeader
         handleBackArrowClick={() => setStep(RecoverSteps.RECOVERY_OPTIONS)}
         email={cachedEmail}
-        guid={cachedGuid}
+        guid={cachedGuid || lastGuid}
         step={RecoverSteps.RESET_ACCOUNT}
       />
       <FormGroup>
