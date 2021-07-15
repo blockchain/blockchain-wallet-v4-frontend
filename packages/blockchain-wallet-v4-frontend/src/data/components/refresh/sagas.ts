@@ -42,11 +42,7 @@ export default () => {
     yield put(actions.core.data.xlm.fetchRates())
     yield put(actions.core.data.dot.fetchRates())
     yield put(actions.core.data.algo.fetchRates())
-    yield put(actions.core.data.eth.fetchErc20Rates('pax'))
-    yield put(actions.core.data.eth.fetchErc20Rates('usdt'))
-    yield put(actions.core.data.eth.fetchErc20Rates('wdgld'))
-    yield put(actions.core.data.eth.fetchErc20Rates('aave'))
-    yield put(actions.core.data.eth.fetchErc20Rates('yfi'))
+    yield put(actions.core.data.eth.fetchErc20Rates())
   }
 
   const refreshClicked = function* () {

@@ -46,7 +46,7 @@ const IconBackground = styled.div`
   background: white;
 `
 const StyledIcon = styled(Icon)<{ background: string }>`
-  background: rgba(${(props) => hexToRgb(props.theme[props.background])}, 0.15);
+  background: rgba(${(props) => hexToRgb(props.theme[props.background] || '#000000')}, 0.15);
   border-radius: 50%;
 
   & :not(::before) {
