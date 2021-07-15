@@ -30,6 +30,15 @@ const TopRow = styled.div`
   margin-bottom: 16px;
 `
 
+export const placeholder = () => {
+  return (
+    <FormattedMessage
+      id='scenes.recover.firststep.placeholder'
+      defaultMessage='Enter your secret private key recovery phrase'
+    />
+  )
+}
+
 export const Column = styled.div`
   display: flex;
   flex-direction: column;
