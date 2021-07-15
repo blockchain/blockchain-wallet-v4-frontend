@@ -13,15 +13,15 @@ import {
   ActionButton,
   BackArrowFormHeader,
   BrowserWarning,
+  CenteredColumn,
   isSupportedBrowser,
-  LinkRow,
   LOGIN_FORM_NAME,
   NeedHelpLink,
   removeWhitespace
 } from '../model'
 
 const EnterPassword = (props: Props) => {
-  const { authType, busy, guid, invalid, loginError, password, submitting } = props
+  const { authType, busy, formActions, guid, invalid, loginError, password, submitting } = props
   const passwordError = loginError && loginError.toLowerCase().includes('wrong_wallet_password')
   const accountLocked =
     loginError &&
@@ -130,7 +130,7 @@ const EnterPassword = (props: Props) => {
           </FormItem>
         </FormGroup>
       )}
-      <LinkRow>
+      <CenteredColumn>
         <ActionButton
           type='submit'
           nature='primary'
@@ -149,7 +149,7 @@ const EnterPassword = (props: Props) => {
           )}
         </ActionButton>
         <NeedHelpLink />
-      </LinkRow>
+      </CenteredColumn>
     </>
   )
 }

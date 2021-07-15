@@ -15,6 +15,9 @@ import {
   validStrongPassword
 } from 'services/forms'
 
+import { ReverifyIdentityInfoBox } from '../../model'
+import { Props as OwnProps } from '.'
+
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
@@ -26,31 +29,24 @@ const Footer = styled(FormGroup)`
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
+  margin-top: 24px;
 `
 const GoBackLink = styled(Link)`
   margin-right: 15px;
 `
 
-const validatePasswordConfirmation = validPasswordConfirmation('password')
+const validatePasswordConfirmation = validPasswordConfirmation('recoverPassword')
 
-const SecondStep = (props) => {
-  const {
-    handleSubmit,
-    invalid,
-    isRegistering,
-    isRestoringFromMetadata,
-    password,
-    previousStep
-  } = props
-
+const SecondStep = (props: Props) => {
+  const { invalid, isRestoring, isRestoringFromMetadata, previousStep, recoverPassword } = props
   return (
-    <Wrapper>
+    <>
       <Header>
         <Text size='20px' color='blue900' weight={600} capitalize>
           <FormattedMessage id='scenes.recover.secondstep.funds' defaultMessage='Recover Funds' />
         </Text>
       </Header>
-      <Form onSubmit={handleSubmit}>
+      <Form>
         {!isRestoringFromMetadata && (
           <FormGroup>
             <FormLabel htmlFor='email'>
@@ -70,11 +66,11 @@ const SecondStep = (props) => {
           </FormLabel>
           <Field
             bgColor='grey000'
-            name='password'
+            name='recoverPassword'
             validate={[required, validStrongPassword]}
             component={PasswordBox}
             showPasswordScore
-            passwordScore={has('zxcvbn', window) ? window.zxcvbn(password).score : 0}
+            passwordScore={has('zxcvbn', window) ? window.zxcvbn(recoverPassword).score : 0}
           />
         </FormGroup>
         <FormGroup>
@@ -94,17 +90,18 @@ const SecondStep = (props) => {
         <FormGroup>
           <Terms recovery />
         </FormGroup>
+        <ReverifyIdentityInfoBox />
         <Footer>
           <GoBackLink onClick={previousStep} size='13px' weight={400}>
             <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
           </GoBackLink>
           <Button
             data-e2e='recoverSubmit'
-            disabled={isRegistering || invalid}
+            disabled={isRestoring || invalid}
             nature='primary'
             type='submit'
           >
-            {isRegistering ? (
+            {isRestoring ? (
               <HeartbeatLoader height='20px' width='20px' color='white' />
             ) : (
               <FormattedMessage
@@ -115,11 +112,12 @@ const SecondStep = (props) => {
           </Button>
         </Footer>
       </Form>
-    </Wrapper>
+    </>
   )
 }
 
-export default reduxForm({
-  destroyOnUnmount: false,
-  form: 'recover'
-})(SecondStep)
+type Props = OwnProps & {
+  isRestoring?: boolean
+  isRestoringFromMetadata?: boolean
+}
+export default SecondStep

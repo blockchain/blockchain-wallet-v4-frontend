@@ -8,6 +8,19 @@ export enum LoginSteps {
   VERIFICATION_MOBILE = 'VERIFICATION_MOBILE'
 }
 
+export enum RecoverSteps {
+  CLOUD_RECOVERY = 'CLOUD_RECOVERY',
+  RECOVERY_OPTIONS = 'RECOVERY_OPTIONS',
+  RECOVERY_PHRASE = 'RECOVERY_PHRASE',
+  RESET_ACCOUNT = 'RESET_ACCOUNT',
+  RESET_PASSWORD = 'RESET_PASSWORD'
+}
+
+export type RecoverFormType = {
+  password: string
+  step: RecoverSteps
+}
+
 export type LoginFormType = {
   email: string
   emailToken?: string
@@ -19,11 +32,31 @@ export type LoginFormType = {
 }
 
 export type WalletDataFromMagicLink = {
-  email: string
-  email_code?: string
-  guid: string
-  is_mobile_setup: string | boolean
-  mobile_device_type: number | null
+  exchange: {
+    email: string
+    two_fa_mode: boolean
+    user_id: string
+  }
+  upgradeable: boolean
+  wallet: {
+    auth_type: number
+    email: string
+    email_code?: string
+    exchange: {
+      two_fa_mode: boolean
+      user_id: string
+    }
+    guid: string
+    has_cloud_backup: boolean
+    is_mobile_setup: string | boolean
+    mergeable: boolean
+    mobile_device_type: number | null
+    nabu: {
+      exchange_linked: boolean
+      recovery_eligible: boolean
+      user_id: string
+    }
+  }
 }
 
 // actions
@@ -67,6 +100,19 @@ interface TriggerWalletMagicLinkFailureActionType {
   type: typeof AT.TRIGGER_WALLET_MAGIC_LINK_FAILURE
 }
 
+interface SetMagicLinkInfoActionType {
+  payload: {
+    authType: number
+    exchangeId: string
+    exchangeLinked: boolean
+    hadCloudBackup: boolean
+    nabuId: string
+    recoveryEligible: boolean
+    twoFAMode: boolean
+  }
+  type: typeof AT.SET_MAGIC_LINK_INFO
+}
+
 interface UpgradeWalletActionType {
   payload: {
     version: number
@@ -80,6 +126,7 @@ export type AuthActionTypes =
   | InitializeLoginFailureActionType
   | InitializeLoginLoadingActionType
   | InitializeLoginSuccessActionType
+  | SetMagicLinkInfoActionType
   | TriggerWalletMagicLinkFailureActionType
   | TriggerWalletMagicLinkLoadingActionType
   | TriggerWalletMagicLinkSuccessActionType
