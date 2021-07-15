@@ -11,9 +11,7 @@ const btcToLabel = curry((payment, state) => {
     case ADDRESS_TYPES.ACCOUNT:
       return selectors.core.wallet.getAccountLabel(state)(target.accountIndex)
     case ADDRESS_TYPES.ADDRESS:
-      let label = selectors.core.wallet.getLegacyAddressLabel(state)(
-        target.address
-      )
+      const label = selectors.core.wallet.getLegacyAddressLabel(state)(target.address)
       return label || target.address
     case ADDRESS_TYPES.LOCKBOX:
       return selectors.core.kvStore.lockbox
@@ -28,25 +26,19 @@ const btcToLabel = curry((payment, state) => {
 const btcFromLabel = curry((payment, state) => {
   switch (payment.fromType) {
     case ADDRESS_TYPES.ACCOUNT:
-      return selectors.core.wallet.getAccountLabel(state)(
-        payment.fromAccountIdx
-      )
+      return selectors.core.wallet.getAccountLabel(state)(payment.fromAccountIdx)
     case ADDRESS_TYPES.CUSTODIAL:
       return payment.from
     case ADDRESS_TYPES.LEGACY:
-      const label = selectors.core.wallet.getLegacyAddressLabel(state)(
-        payment.from[0]
-      )
-      const formValues = selectors.form.getFormValues(
-        model.components.sendBtc.FORM
-      )(state)
+      const label = selectors.core.wallet.getLegacyAddressLabel(state)(payment.from[0])
+      const formValues = selectors.form.getFormValues(model.components.sendBtc.FORM)(state)
       // @ts-ignore
       const { from } = formValues
       if (from === 'allImportedAddresses') {
         return 'All Imported Bitcoin Addresses'
-      } else {
-        return label || payment.from[0]
       }
+      return label || payment.from[0]
+
     case ADDRESS_TYPES.LOCKBOX:
       return selectors.core.kvStore.lockbox
         .getLockboxBtcAccount(state, payment.from[0])
@@ -59,24 +51,22 @@ const btcFromLabel = curry((payment, state) => {
   }
 })
 
-export const getData = state => {
+export const getData = (state) => {
   const paymentR = selectors.components.sendBtc.getPayment(state)
 
-  const transform = payment => {
+  const transform = (payment) => {
     const fromLabel = btcFromLabel(payment, state)
     const toLabel = btcToLabel(payment, state)
 
     return {
-      submitting: isSubmitting(state),
-      description: payment.description,
-      fromType: payment.type,
-      fromAddress: fromLabel,
-      toAddress: toLabel,
       amount: payment.amount[0],
+      description: payment.description,
       fee: payment.selection ? payment.selection.fee : 0,
-      total: payment.selection
-        ? payment.selection.fee + payment.amount[0]
-        : payment.amount[0]
+      fromAddress: fromLabel,
+      fromType: payment.type,
+      submitting: isSubmitting(state),
+      toAddress: toLabel,
+      total: payment.selection ? payment.selection.fee + payment.amount[0] : payment.amount[0]
     }
   }
 

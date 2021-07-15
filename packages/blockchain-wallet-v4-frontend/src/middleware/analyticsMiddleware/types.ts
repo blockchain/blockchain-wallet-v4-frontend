@@ -17,6 +17,7 @@ enum AnalyticsKey {
   DEPOSIT_METHOD_SELECTED = 'Deposit Method Selected',
   DEPOSIT_VIEWED = 'Deposit Viewed',
   EMAIL_VERIFICATION_REQUESTED = 'Email Verification Requested',
+  EMAIL_VERIFICATION_SKIPPED = 'Email Verification Skipped',
   IMPORT_ADDRESS_CLICKED = 'Import Address Clicked',
   INTEREST_CLICKED = 'Interest Clicked',
   INTEREST_DEPOSIT_AMOUNT_ENTERED = 'Interest Deposit Amount Entered',
@@ -38,12 +39,10 @@ enum AnalyticsKey {
   SELL_AMOUNT_MAX_CLICKED = 'Sell Amount Max Clicked',
   SELL_AMOUNT_MIN_CLICKED = 'Sell Amount Min Clicked',
   SELL_FROM_SELECTED = 'Sell From Selected',
-  SEND_AMOUNT_MAX_CLICKED = 'Send Amount Max Clicked', // BLOCKED
-  SEND_FEE_RATE_SELECTED = 'Send Fee Rate Selected', // BLOCKED
-  SEND_FROM_SELECTED = 'Send From Selected', // BLOCKED
-  SEND_RECEIVE_CLICKED = 'Send Receive Clicked', // HALF DONE
-  SEND_RECEIVE_VIEWED = 'Send Receive Viewed', // HALF DONE
-  SEND_SUBMITTED = 'Send Submitted', // BLOCKED
+  SEND_AMOUNT_ENTERED = 'Send Amount Entered',
+  SEND_RECEIVE_CLICKED = 'Send Receive Clicked',
+  SEND_RECEIVE_VIEWED = 'Send Receive Viewed',
+  SEND_SUBMITTED = 'Send Submitted',
   SETTINGS_CURRENCY_CLICKED = 'Settings Currency Clicked',
   SETTINGS_HYPERLINK_CLICKED = 'Settings Hyperlink Clicked',
   SETTINGS_TAB_CLICKED = 'Settings Tab Clicked',
@@ -58,7 +57,6 @@ enum AnalyticsKey {
   SWAP_RECEIVE_SELECTED = 'Swap Receive Selected',
   SWAP_REQUESTED = 'Swap Requested',
   SWAP_VIEWED = 'Swap Viewed',
-  TRANSFER_IMPORTED_ADDRESS_CLICKED = 'Transfer Imported Addresses Clicked', // TODO
   UPGRADE_VERIFICATION_CLICKED = 'Upgrade Verification Clicked',
   WITHDRAWAL_AMOUNT_ENTERED = 'Withdrawal Amount Entered',
   WITHDRAWAL_AMOUNT_MAX_CLICKED = 'Withdrawal Amount Max Clicked',
@@ -87,12 +85,12 @@ enum AccountType {
   USERKEY = 'USERKEY'
 }
 
-enum CoinType {
+enum Coin {
   CRYPTO = 'CRYPTO',
   FIAT = 'FIAT'
 }
 
-enum OrderType {
+enum Order {
   BUY = 'BUY',
   SELL = 'SELL'
 }
@@ -104,23 +102,24 @@ enum PaymentType {
   PAYMENT_CARD = 'PAYMENT_CARD'
 }
 
-enum FeeRateType {
+enum FeeRate {
+  BACKEND = 'BACKEND',
   CUSTOM = 'CUSTOM',
   NORMAL = 'NORMAL',
   PRIORITY = 'PRIORITY'
 }
 
-enum DepositMethodType {
+enum DepositMethod {
   BANK_ACCOUNT = 'BANK_ACCOUNT',
   BANK_TRANSFER = 'BANK_TRANSFER'
 }
 
-enum SendReceiveType {
+enum SendReceive {
   RECEIVE = 'RECEIVE',
   SEND = 'SEND'
 }
 
-enum WithdrawalMethodType {
+enum WithdrawalMethod {
   BANK_ACCOUNT = 'BANK_ACCOUNT',
   BANK_TRANSFER = 'BANK_TRANSFER'
 }
@@ -155,7 +154,7 @@ type AddMobileNumberClickedPayload = BasePayload & {}
 
 type AmountSwitchedPayload = BasePayload & {
   product: 'SAVINGS' | 'SIMPLEBUY' | 'SWAP'
-  switch_to: CoinType
+  switch_to: Coin
 }
 
 type BuyAmountEnteredPayload = BasePayload & {
@@ -202,12 +201,12 @@ type BuySellClickedOrigin =
 
 type BuySellClickedPayload = BasePayload & {
   origin: BuySellClickedOrigin
-  type: OrderType
+  type: Order
 }
 
 type BuySellViewedPayload = BasePayload &
   PageViewPayload & {
-    type: OrderType
+    type: Order
   }
 
 type ChangeMobileNumberClickedPayload = BasePayload & {}
@@ -225,7 +224,7 @@ type DashboardViewedPayload = BasePayload & PageViewPayload & {}
 type DepositAmountEnteredPayload = BasePayload & {
   amount: number
   currency: string
-  deposit_method: DepositMethodType
+  deposit_method: DepositMethod
 }
 
 type DepositClickedOrigin = 'CURRENCY_PAGE'
@@ -236,15 +235,19 @@ type DepositClickedPayload = BasePayload & {
 
 type DepositMethodSelectedPayload = BasePayload & {
   currency: string
-  deposit_method: DepositMethodType
+  deposit_method: DepositMethod
 }
 
 type DepositViewedPayload = BasePayload & PageViewPayload & {}
 
-type EmailVerificationClickedOrigin = 'SIGN_UP' | 'VERIFICATION'
+type EmailVerificationSkippedPayload = BasePayload & {
+  origin: 'SIGN_UP'
+}
 
-type EmailVerificationClickedPayload = BasePayload & {
-  origin: EmailVerificationClickedOrigin
+type EmailVerificationRequestedOrigin = 'SIGN_UP' | 'VERIFICATION'
+
+type EmailVerificationRequestedPayload = BasePayload & {
+  origin: EmailVerificationRequestedOrigin
 }
 
 type ImportAddressClickedPayload = BasePayload & {}
@@ -367,6 +370,13 @@ type SellFromSelectedPayload = BasePayload & {
   input_currency: string
 }
 
+type SendAmountEnteredPayload = BasePayload & {
+  currency: string
+  fee_rate: FeeRate
+  from_account_type: AccountType
+  to_account_type: AccountType
+}
+
 type SendAmountMaxClickedPayload = BasePayload & {
   currency: string
   from_account_type: AccountType
@@ -375,7 +385,7 @@ type SendAmountMaxClickedPayload = BasePayload & {
 
 type SendFeeRateSelectedPayload = BasePayload & {
   currency: string
-  fee_rate: FeeRateType
+  fee_rate: FeeRate
   from_account_type: AccountType
   to_account_type: AccountType
 }
@@ -388,6 +398,7 @@ type SendFromSelectedPayload = BasePayload & {
 type SendReceiveClickedOrigin = 'NAVIGATION'
 
 type SendReceiveClickedPayload = BasePayload & {
+  currency: string
   origin: SendReceiveClickedOrigin
   type: 'RECEIVE' | 'SEND'
 }
@@ -398,7 +409,7 @@ type SendReceiveViewedPayload = BasePayload & {
 
 type SendSubmittedPayload = BasePayload & {
   currency: string
-  fee_rate: FeeRateType
+  fee_rate: FeeRate
   from_account_type: AccountType
   to_account_type: AccountType
 }
@@ -518,16 +529,16 @@ type WithdrawalAmountEnteredPayload = BasePayload & {
   currency: string
   input_amount: number
   output_amount: number
-  withdrawal_method: WithdrawalMethodType
+  withdrawal_method: WithdrawalMethod
 }
 
 type WithdrawalAmountMaxClickedPayload = BasePayload & {
   currency: string
-  withdrawal_method: WithdrawalMethodType
+  withdrawal_method: WithdrawalMethod
 }
 type WithdrawalAmountMinClickedPayload = BasePayload & {
   currency: string
-  withdrawal_method: WithdrawalMethodType
+  withdrawal_method: WithdrawalMethod
 }
 
 type WithdrawalClickedOrigin = 'CURRENCY_PAGE'
@@ -538,7 +549,7 @@ type WithdrawalClickedPayload = BasePayload & {
 
 type WithdrawalMethodSelectedPayload = BasePayload & {
   currency: string
-  withdrawal_method: WithdrawalMethodType
+  withdrawal_method: WithdrawalMethod
 }
 
 type WithdrawalViewedPayload = BasePayload & PageViewPayload & {}
@@ -565,7 +576,8 @@ type AnalyticsProperties =
   | DepositClickedPayload
   | DepositMethodSelectedPayload
   | DepositViewedPayload
-  | EmailVerificationClickedPayload
+  | EmailVerificationRequestedPayload
+  | EmailVerificationSkippedPayload
   | ImportAddressClickedPayload
   | InterestClickedPayload
   | InterestDepositAmountEnteredPayload
@@ -587,6 +599,7 @@ type AnalyticsProperties =
   | SellAmountMaxClickedPayload
   | SellAmountMinClickedPayload
   | SellFromSelectedPayload
+  | SendAmountEnteredPayload
   | SendAmountMaxClickedPayload
   | SendFeeRateSelectedPayload
   | SendFromSelectedPayload
@@ -630,7 +643,7 @@ export type {
   BuySellClickedOrigin,
   DashboardClickedOrigin,
   DepositClickedOrigin,
-  EmailVerificationClickedOrigin,
+  EmailVerificationRequestedOrigin,
   InterestDepositClickedOrigin,
   InterestSubmitInformationClickedOrigin,
   InterestWithdrawalClickedOrigin,
@@ -649,11 +662,11 @@ export type {
 export {
   AccountType,
   AnalyticsKey,
-  CoinType,
-  DepositMethodType,
-  FeeRateType,
-  OrderType,
+  Coin,
+  DepositMethod,
+  FeeRate,
+  Order,
   PaymentType,
-  SendReceiveType,
-  WithdrawalMethodType
+  SendReceive,
+  WithdrawalMethod
 }
