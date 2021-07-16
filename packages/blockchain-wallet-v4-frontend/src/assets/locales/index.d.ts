@@ -1999,7 +1999,7 @@ type MessagesType = {
   'scenes.home.banner.sborder.details': 'View Details'
   'scenes.home.banner.signupapprove': 'Once you finish and get approved, start buying crypto.'
   'scenes.home.banners.kycresubmit.resubmit': 'Resubmit Now'
-  'scenes.home.banners.kycresubmit.subtitle': "We had some issues with the documents you've supplied.  Please try uploading the documents again to continue with your verification."
+  'scenes.home.banners.kycresubmit.copy': 'Please re-verify your identity to access our full products and services.'
   'scenes.home.banners.kycresubmit.title': 'Documents Needed'
   'scenes.home.banners.verifiedkyc.tag': 'NEW'
   'scenes.home.banners.verifiedkyc.title': 'Keep Cash in Your Wallet'

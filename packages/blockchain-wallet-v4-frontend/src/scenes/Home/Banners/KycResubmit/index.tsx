@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   box-sizing: border-box;
-  background-color: ${props => props.theme.grey000};
+  background-color: ${(props) => props.theme.grey000};
   border-radius: 4px;
   overflow: hidden;
   padding: 20px;
@@ -26,7 +26,7 @@ const Wrapper = styled.div`
 `
 
 const Column = styled.div<{ hiddenOnMobile?: boolean }>`
-  display: ${props => (props.hiddenOnMobile ? 'none' : 'flex')};
+  display: ${(props) => (props.hiddenOnMobile ? 'none' : 'flex')};
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
@@ -38,14 +38,14 @@ const Column = styled.div<{ hiddenOnMobile?: boolean }>`
   }
 `
 const Title = styled(Text)`
-  color: ${props => props.theme['marketing-primary']};
+  color: ${(props) => props.theme['marketing-primary']};
   margin-bottom: 4px;
 `
 
 const ResubmitBtn = styled(Button).attrs({
+  height: '40px',
   nature: 'primary',
-  width: '150px',
-  height: '40px'
+  width: '150px'
 })`
   font-weight: 500;
 `
@@ -61,8 +61,8 @@ const KycResubmit = ({ verifyIdentity }) => (
       </Title>
       <Text size='13px' weight={400}>
         <FormattedMessage
-          id='scenes.home.banners.kycresubmit.subtitle'
-          defaultMessage="We had some issues with the documents you've supplied.  Please try uploading the documents again to continue with your verification."
+          id='scenes.home.banners.kycresubmit.copy'
+          defaultMessage='Please re-verify your identity to access our full products and services.'
         />
       </Text>
     </Column>
@@ -77,9 +77,8 @@ const KycResubmit = ({ verifyIdentity }) => (
   </Wrapper>
 )
 
-const mapDispatchToProps = dispatch => ({
-  verifyIdentity: () =>
-    dispatch(actions.components.identityVerification.verifyIdentity(2, true))
+const mapDispatchToProps = (dispatch) => ({
+  verifyIdentity: () => dispatch(actions.components.identityVerification.verifyIdentity(2, true))
 })
 
 export default connect(null, mapDispatchToProps)(KycResubmit)
