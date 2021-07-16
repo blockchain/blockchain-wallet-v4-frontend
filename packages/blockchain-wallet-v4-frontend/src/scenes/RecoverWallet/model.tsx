@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { RecoverSteps } from 'data/types'
 
 export const ActionButton = styled(Button)`
@@ -56,9 +56,9 @@ export const Row = styled.div`
   align-items: center;
 `
 
-export const GoBackRow = styled.div`
-  display: flex;
-  align-items: center;
+export const LoaderRow = styled(Row)`
+  justify-content: center;
+  padding: 108px 0;
 `
 
 export const ReverifyIdentityInfoBox = () => {
@@ -87,7 +87,7 @@ export const ReverifyIdentityInfoBox = () => {
 
 export const GoBackArrow = (props: { handleBackArrowClick: () => void; minWidth: string }) => {
   return (
-    <GoBackRow style={{ minWidth: props.minWidth }} onClick={() => props.handleBackArrowClick()}>
+    <Row style={{ minWidth: props.minWidth }} onClick={() => props.handleBackArrowClick()}>
       <Icon
         cursor
         data-e2e='recoverBack'
@@ -99,7 +99,7 @@ export const GoBackArrow = (props: { handleBackArrowClick: () => void; minWidth:
       <Text size='13px' weight={600} color='grey600' cursor='pointer'>
         <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
       </Text>
-    </GoBackRow>
+    </Row>
   )
 }
 
@@ -142,5 +142,13 @@ export const BackArrowFormHeader = (props: {
         </Column>
       </TopRow>
     </>
+  )
+}
+
+export const SpinningLoaderCentered = () => {
+  return (
+    <LoaderRow>
+      <SpinningLoader width='56px' height='56px' />,
+    </LoaderRow>
   )
 }

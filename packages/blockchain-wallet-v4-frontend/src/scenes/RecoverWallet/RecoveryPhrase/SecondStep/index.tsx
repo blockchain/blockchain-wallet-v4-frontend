@@ -1,12 +1,11 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { formValueSelector } from 'redux-form'
 
-import { SpinningLoader } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 
 import { Props as OwnProps } from '../..'
+import { SpinningLoaderCentered } from '../../model'
 import Error from './error.template'
 import Recover from './template'
 
@@ -28,8 +27,8 @@ class RecoverContainer extends React.PureComponent<Props> {
     return metadataRestore.cata({
       Failure: () =>
         kycReset ? <Recover {...this.props} /> : <Error previousStep={previousStep} />,
-      Loading: () => <SpinningLoader width='36px' height='36px' />,
-      NotAsked: () => <SpinningLoader width='36px' height='36px' />,
+      Loading: () => <SpinningLoaderCentered />,
+      NotAsked: () => <SpinningLoaderCentered />,
       Success: (val) => (
         <Recover
           isRestoring={isRestoring}

@@ -4,7 +4,7 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
-import { TextBox } from 'components/Form'
+import { TextArea } from 'components/Form'
 import { RecoverSteps } from 'data/types'
 import { required, validMnemonic } from 'services/forms'
 
@@ -87,17 +87,12 @@ const FirstStep = (props: Props) => {
           bgColor='grey000'
           autoComplete='off'
           autoFocus
-          component={TextBox}
+          component={TextArea}
           disableSpellcheck
           name='mnemonic'
           validate={[required, validMnemonic]}
           height='96px'
-          placeholder={
-            <FormattedMessage
-              id='scenes.recover.firststep.placeholder'
-              defaultMessage='Enter your secret private key recovery phrase'
-            />
-          }
+          placeholder='Enter your secret private key recovery phrase'
         />
       </FormBody>
       <Text
