@@ -67,18 +67,7 @@ export const ReverifyIdentityInfoBox = () => {
       <Text size='12px' weight={500} lineHeight='1.5' color='grey900'>
         <FormattedMessage
           id='scenes.recovery.reverify'
-          defaultMessage='For your security, you may have to re-verify your identity before accessing your trading or interest account. <a>Learn more</a>'
-          values={{
-            a: (msg) => (
-              <a
-                href='https://support.blockchain.com/hc/en-us'
-                rel='noopener noreferrer'
-                target='_blank'
-              >
-                {msg}
-              </a>
-            )
-          }}
+          defaultMessage='For your security, you may have to re-verify your identity before accessing your trading or interest account.'
         />
       </Text>
     </RectangleBackground>

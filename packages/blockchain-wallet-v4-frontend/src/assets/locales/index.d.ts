@@ -2250,7 +2250,7 @@ type MessagesType = {
   'scenes.recovery.email': 'Recovering {email}'
   'scenes.recovery.reset': 'Reset Your Account?'
   'scenes.recovery.resetting': 'Resetting will restore your Trading, Interest, and Exchange accounts.'
-  'scenes.recovery.reverify': 'For your security, you may have to re-verify your identity before accessing your trading or interest account. <a>Learn more</a>'
+  'scenes.recovery.reverify': 'For your security, you may have to re-verify your identity before accessing your trading or interest account.'
   'scenes.recovery.reset_warning_title': 'Resetting Account May Result in Lost Funds'
   'scenes.recovery.reset_warning_body': 'This means that if you lose your recovery phrase, you will lose access to your Private Key Wallet funds. You can restore your Private Key Wallet funds later if you find your recovery phrase.'
   'scenes.recover.invalid_phrase': 'Invalid Phrase'
