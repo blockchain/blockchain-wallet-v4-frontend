@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import styled, { css } from 'styled-components'
 
 import { Icon } from '../Icons'
@@ -9,6 +9,10 @@ const Header = styled.div`
   box-sizing: border-box;
   padding: 40px;
   border-bottom: ${(p) => p.theme.grey000};
+
+  @media (max-width: 767px) {
+    padding: 20px;
+  }
 `
 
 const TopText = styled(Text)`
@@ -20,27 +24,27 @@ const TopText = styled(Text)`
 const LeftTopCol = styled.div`
   display: flex;
   align-items: center;
-`    
+`
 
 const FlyoutHeader = (props: Props) => {
   return (
     <Header>
       <TopText color='grey800' size='20px' weight={600}>
-          <LeftTopCol>
-            {props.mode === 'back' && (
-              <Icon
-                cursor
-                data-e2e={props['data-e2e']}
-                name='arrow-back'
-                size='20px'
-                color='grey600'
-                role='button'
-                style={{ marginRight: '8px' }}
-                onClick={props.onClick}
-              />
-            )}
-            {props.children}
-          </LeftTopCol>
+        <LeftTopCol>
+          {props.mode === 'back' && (
+            <Icon
+              cursor
+              data-e2e={props['data-e2e']}
+              name='arrow-back'
+              size='20px'
+              color='grey600'
+              role='button'
+              style={{ marginRight: '8px' }}
+              onClick={props.onClick}
+            />
+          )}
+          {props.children}
+        </LeftTopCol>
         {props.mode === 'close' && (
           <Icon
             cursor
@@ -58,10 +62,10 @@ const FlyoutHeader = (props: Props) => {
 }
 
 export type Props = {
-  children?: React.ReactNode,
+  children?: React.ReactNode
+  'data-e2e': string
   mode: 'close' | 'back'
-  'data-e2e': string,
-  onClick: () => void,
+  onClick: () => void
 }
 
-export default FlyoutHeader
+export default memo(FlyoutHeader, () => true)

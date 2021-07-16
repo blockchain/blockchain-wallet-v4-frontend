@@ -2,8 +2,8 @@ import { put } from 'redux-saga/effects'
 
 import { actions } from 'data'
 
-import * as A from './actions'
-import { RecurringBuysStepType } from './types'
+import { actions as A } from './slice'
+import { RecurringBuyStepType } from './types'
 
 export default () => {
   const showModal = function* ({ payload }: ReturnType<typeof A.showModal>) {
@@ -16,7 +16,7 @@ export default () => {
 
     yield put(
       A.setStep({
-        step: RecurringBuysStepType.INIT_PAGE
+        step: RecurringBuyStepType.INIT_PAGE
       })
     )
   }

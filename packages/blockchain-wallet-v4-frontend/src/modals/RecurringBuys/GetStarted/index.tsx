@@ -1,29 +1,34 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators, Dispatch } from 'redux'
 
-import { actions, selectors } from 'data'
+import { SBOrderType } from 'core/types'
+import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { OBEntityType, SBCheckoutFormValuesType, RecurringBuyPeriods } from 'data/types'
+import { RecurringBuyPeriods, RecurringBuyStepType } from 'data/types'
 
 import { LoadingUpdating as Loading } from '../../components'
+import { Props as _P } from '..'
 import { getData } from './selectors'
 // import Failure from './template.error'
 import Success from './template.success'
-import { SBOrderType } from 'core/types'
-import { Props as _P } from '../'
 
 const GetStartedContainer = (props: Props) => {
-  return (
-    <Success {...props} />
+  const nextStep = useCallback(
+    () =>
+      props.recurringBuyActions.setStep({
+        step: RecurringBuyStepType.FREQUENCY
+      }),
+    [RecurringBuyStepType.FREQUENCY]
   )
+
+  return <Success nextStep={nextStep} {...props} />
 }
 
 const mapStateToProps = (state: RootState) => ({
+  order: selectors.components.simpleBuy.getSBOrder(state) as SBOrderType,
   rbFormValues: selectors.form.getFormValues('recurringBuyScheduler')(state) as
     | { frequency: RecurringBuyPeriods }
-    | undefined,
-  order: selectors.components.simpleBuy.getSBOrder(state) as SBOrderType
+    | undefined
 })
 
 const connector = connect(mapStateToProps)

@@ -9,6 +9,12 @@ export default {
     'data-e2e': 'foooo',
     onClick: () => {},
     mode: 'back'
+  },
+  argTypes: {
+    mode: {
+      type: 'select',
+      options: ['close', 'back']
+    }
   }
 }
 

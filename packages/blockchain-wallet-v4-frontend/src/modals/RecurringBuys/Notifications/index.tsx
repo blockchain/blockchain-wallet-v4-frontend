@@ -2,12 +2,12 @@ import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Button, Icon, Text } from 'blockchain-info-components'
-import { FlyoutWrapper } from 'components/Flyout'
+import { Button, FlyoutFooter, FlyoutHeader, Icon, Text } from 'blockchain-info-components'
 
-import { TopText } from '../../components'
 import AnimatedCarousel from './AnimatedCarousel'
 import AnimatedGraph from './AnimatedGraph'
+
+const foo = [5, 4, 3, 2, 1, 1, 2]
 
 const Wrapper = styled.div`
   display: flex;
@@ -59,9 +59,7 @@ const TitleText = styled(Text)`
   flex-direction: row;
   flex: 1;
 `
-const FooterWrapper = styled(FlyoutWrapper)`
-  padding-top: 0px;
-`
+
 class Notifications extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props)
@@ -81,30 +79,19 @@ class Notifications extends PureComponent<Props, State> {
   render() {
     return (
       <Wrapper>
-        <FlyoutWrapper>
-          <TopText spaceBetween={false} marginBottom>
-            <SyncIconWrapper>
-              <Icon name='sync-regular' color='blue600' size='20px' />
-            </SyncIconWrapper>
-            <TitleText size='20px' color='grey900' weight={600}>
-              <FormattedMessage
-                id='modals.recurringbuys.notification.title'
-                defaultMessage='Recurring buys'
-              />
-            </TitleText>
-            <IconsContainer>
-              <Icon
-                cursor
-                data-e2e='RecurringBuysCloseButton'
-                name='close'
-                size='20px'
-                color='grey600'
-                role='button'
-                onClick={this.props.handleClose}
-              />
-            </IconsContainer>
-          </TopText>
-        </FlyoutWrapper>
+        <FlyoutHeader
+          mode='close'
+          onClick={this.props.handleClose}
+          data-e2e='RecurringBuysCloseButton'
+        >
+          <SyncIconWrapper>
+            <Icon name='sync-regular' color='blue600' size='20px' />
+          </SyncIconWrapper>
+          <FormattedMessage
+            id='modals.recurringbuys.notification.title'
+            defaultMessage='Recurring buys'
+          />
+        </FlyoutHeader>
 
         <MainContent>
           <AnimatedGraph stepIndex={this.state.stepIndex} />
@@ -197,7 +184,7 @@ class Notifications extends PureComponent<Props, State> {
             </Slide>
           </AnimatedCarousel>
         </MainContent>
-        <FooterWrapper>
+        <FlyoutFooter>
           <Button
             nature='primary'
             data-e2e='setUpRecurringBuys'
@@ -215,7 +202,7 @@ class Notifications extends PureComponent<Props, State> {
               defaultMessage='Setup recurring buy'
             />
           </Button>
-        </FooterWrapper>
+        </FlyoutFooter>
       </Wrapper>
     )
   }

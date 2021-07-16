@@ -11,6 +11,7 @@ import { ImageType } from './src/Images/Images'
 import { CoinType, WalletCurrencyType } from 'core/types'
 import { SwapBaseCounterTypes } from 'data/types'
 import { Props as FlyoutHeaderPropsType } from './src/Flyouts/Header' 
+import { Props as FlyoutFooterPropsType } from './src/Flyouts/' 
 
 type AllCoinsType = WalletCurrencyType | 'STX'
 
@@ -18,6 +19,7 @@ export const Badge: FunctionComponent<any>
 export const Banner: FunctionComponent<any>
 export const Box: FunctionComponent<any>
 export const FlyoutHeader: FunctionComponent<FlyoutHeaderPropsType>
+export const FlyoutFooter: FunctionComponent<FlyoutFooterPropsType>
 export const BlockchainLoader: FunctionComponent<{
   width?: string
   height?: string

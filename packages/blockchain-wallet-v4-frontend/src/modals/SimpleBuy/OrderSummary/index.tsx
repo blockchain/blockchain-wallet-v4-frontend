@@ -8,7 +8,7 @@ import { ExtractSuccess, RemoteDataType, SBOrderType } from 'blockchain-wallet-v
 import DataError from 'components/DataError'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { RecurringBuyPeriods, RecurringBuysStepType } from 'data/types'
+import { RecurringBuyPeriods, RecurringBuyStepType } from 'data/types'
 
 import Loading from '../template.loading'
 import { getData } from './selectors'
@@ -46,8 +46,8 @@ class OrderSummary extends PureComponent<Props> {
       this.props.orders.length > 1 &&
       this.props.order.frequency !== RecurringBuyPeriods.ONE_TIME
     ) {
-      this.props.recurringBuyActions.showModal('SimpleBuyStatus')
-      this.props.recurringBuyActions.setStep({ step: RecurringBuysStepType.GET_STARTED })
+      this.props.recurringBuyActions.showModal({ origin: 'SimpleBuyStatus' })
+      this.props.recurringBuyActions.setStep({ step: RecurringBuyStepType.GET_STARTED })
     } else {
       this.props.handleClose()
     }
@@ -80,6 +80,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   interestActions: bindActionCreators(actions.components.interest, dispatch),
+  recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),
   sendActions: bindActionCreators(actions.components.send, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })

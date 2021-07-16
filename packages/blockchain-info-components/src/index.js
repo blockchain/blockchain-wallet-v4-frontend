@@ -1,11 +1,12 @@
 export { Badge } from './Badges'
 export { Banner } from './Banners'
 export { default as Box } from './Box'
-export { default as FlyoutHeader } from './Flyouts/Header'
 export { Button, ButtonGroup, IconButton } from './Buttons'
 export { Carousel } from './Carousels'
 export { Color, Palette } from './Colors/index.ts'
 export { ComponentDropdown, SimpleDropdown } from './Dropdowns'
+export { default as FlyoutFooter } from './Flyouts/Footer'
+export { default as FlyoutHeader } from './Flyouts/Header'
 export { FontGlobalStyles, IconGlobalStyles } from './Fonts'
 export {
   AutosizeTextInput,

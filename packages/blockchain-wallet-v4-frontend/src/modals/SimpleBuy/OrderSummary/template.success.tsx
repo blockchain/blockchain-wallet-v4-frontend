@@ -11,7 +11,6 @@ import { getBaseAmount, getBaseCurrency, getOrderType } from 'data/components/si
 import { Props as _P, SuccessStateType } from '.'
 import InterestBanner from './InterestBanner'
 import { CloseContainer } from './styles'
-import { RecurringBuysStepType } from 'data/types'
 
 const Wrapper = styled.div`
   display: flex;
@@ -233,21 +232,20 @@ const Success: React.FC<Props> = (props) => {
             </Bottom>
           )}
 
-          {orderType === 'BUY' &&
-            props.order.state !== 'FAILED' && (
-              <Bottom>
-                <Button
-                  data-e2e='sbDone'
-                  size='16px'
-                  height='48px'
-                  nature='primary'
-                  onClick={props.okButtonHandler}
-                  style={{ marginBottom: '16px' }}
-                >
-                  <FormattedMessage id='buttons.ok' defaultMessage='OK' />
-                </Button>
-              </Bottom>
-            )}
+          {orderType === 'BUY' && props.order.state !== 'FAILED' && (
+            <Bottom>
+              <Button
+                data-e2e='sbDone'
+                size='16px'
+                height='48px'
+                nature='primary'
+                onClick={props.okButtonHandler}
+                style={{ marginBottom: '16px' }}
+              >
+                <FormattedMessage id='buttons.ok' defaultMessage='OK' />
+              </Button>
+            </Bottom>
+          )}
 
           {orderType === 'BUY' &&
             (props.order.paymentType === SBPaymentTypes.PAYMENT_CARD ||

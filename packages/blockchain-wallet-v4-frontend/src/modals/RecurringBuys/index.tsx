@@ -5,12 +5,15 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { ModalName, RecurringBuysStepType } from 'data/types'
+import { ModalName, RecurringBuyStepType } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
+import CheckoutConfirm from './CheckoutConfirm'
+import Frequency from './Frequency'
 import GetStarted from './GetStarted'
 import Notifications from './Notifications'
+import Summary from './Summary'
 
 class RecurringBuys extends PureComponent<Props, State> {
   constructor(props: Props) {
@@ -34,14 +37,29 @@ class RecurringBuys extends PureComponent<Props, State> {
   render() {
     return (
       <Flyout {...this.props} isOpen={this.state.show} onClose={this.handleClose}>
-        {this.props.step === RecurringBuysStepType.INIT_PAGE && (
+        {this.props.step === RecurringBuyStepType.INIT_PAGE && (
           <FlyoutChild>
             <Notifications handleClose={this.handleClose} {...this.props} />
           </FlyoutChild>
         )}
-        {this.props.step === RecurringBuysStepType.GET_STARTED && (
+        {this.props.step === RecurringBuyStepType.GET_STARTED && (
           <FlyoutChild>
             <GetStarted {...this.props} />
+          </FlyoutChild>
+        )}
+        {this.props.step === RecurringBuyStepType.CHECKOUT_CONFIRM && (
+          <FlyoutChild>
+            <CheckoutConfirm {...this.props} />
+          </FlyoutChild>
+        )}
+        {this.props.step === RecurringBuyStepType.FREQUENCY && (
+          <FlyoutChild>
+            <Frequency {...this.props} />
+          </FlyoutChild>
+        )}
+        {this.props.step === RecurringBuyStepType.SUMMARY && (
+          <FlyoutChild>
+            <Summary {...this.props} />
           </FlyoutChild>
         )}
       </Flyout>
@@ -50,11 +68,11 @@ class RecurringBuys extends PureComponent<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  step: selectors.components.recurringBuys.getStep(state)
+  step: selectors.components.recurringBuy.getStep(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  recurringBuysActions: bindActionCreators(actions.components.recurringBuys, dispatch)
+  recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
