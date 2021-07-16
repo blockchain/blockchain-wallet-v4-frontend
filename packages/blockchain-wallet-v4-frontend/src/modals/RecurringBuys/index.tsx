@@ -9,6 +9,7 @@ import { ModalNamesEnum, RecurringBuysStepType } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
+import GetStarted from './GetStarted'
 import Notifications from './Notifications'
 
 class RecurringBuys extends PureComponent<Props, State> {
@@ -36,6 +37,11 @@ class RecurringBuys extends PureComponent<Props, State> {
         {this.props.step === RecurringBuysStepType.INIT_PAGE && (
           <FlyoutChild>
             <Notifications handleClose={this.handleClose} {...this.props} />
+          </FlyoutChild>
+        )}
+        {this.props.step === RecurringBuysStepType.GET_STARTED && (
+          <FlyoutChild>
+            <GetStarted handleClose={this.handleClose} {...this.props} />
           </FlyoutChild>
         )}
       </Flyout>

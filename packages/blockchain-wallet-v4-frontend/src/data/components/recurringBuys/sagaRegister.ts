@@ -6,7 +6,7 @@ import sagas from './sagas'
 export default () => {
   const recurringBuysSagas = sagas()
 
-  return function* swapSaga() {
+  return function* recurringBuysSaga() {
     yield takeLatest(AT.SHOW_MODAL, recurringBuysSagas.showModal)
   }
 }

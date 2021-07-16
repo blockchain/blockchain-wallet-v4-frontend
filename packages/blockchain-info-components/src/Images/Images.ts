@@ -122,6 +122,7 @@ import printer from './img/printer.svg'
 import qrCode from './img/qr-code.png'
 import recoverPadlock from './img/recover-padlock.svg'
 import recurringBuyBackground from './img/recurring-buy-background.png'
+import recurringBuyGetStarted from './img/recurring-buys-get-started.svg'
 import refresh from './img/refresh.svg'
 import safeConnect from './img/safe-connect.svg'
 import search from './img/search.svg'
@@ -276,6 +277,7 @@ const Images = {
   printer,
   'qr-code': qrCode,
   'recover-padlock': recoverPadlock,
+  'recurring-buy-get-started': recurringBuyGetStarted,
   refresh,
   'safe-connect': safeConnect,
   search,
