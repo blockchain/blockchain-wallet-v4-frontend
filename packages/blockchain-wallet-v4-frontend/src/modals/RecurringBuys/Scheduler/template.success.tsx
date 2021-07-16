@@ -154,7 +154,7 @@ const SchedulerContainer = (props) => {
 }
 
 const Scheduler = ({ disabled: boolean }) => {
-  return <Field component={SchedulerContainer} name='frequency' />
+  return <Field component={SchedulerContainer} name='period' />
 }
 
 // export default reduxForm<{}, { disabled: boolean }>({

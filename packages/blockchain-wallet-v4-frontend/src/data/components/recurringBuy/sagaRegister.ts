@@ -7,6 +7,6 @@ export default () => {
   const recurringBuySagas = sagas()
 
   return function* recurringBuySaga() {
-    yield takeLatest(actions.showModal, recurringBuySagas.showModal)
+    yield takeLatest(actions.showModal.type, recurringBuySagas.showModal)
   }
 }
