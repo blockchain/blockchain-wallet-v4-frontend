@@ -3,9 +3,10 @@ import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
 import { getCoinAccounts } from 'data/coins/selectors'
 import { RootState } from 'data/rootReducer'
 
-export const getData = createDeepEqualSelector(
+const getData = createDeepEqualSelector(
   [(state: RootState) => getCoinAccounts(state, SWAP_ACCOUNTS_SELECTOR)],
-  accounts => {
+  (accounts) => {
     return { accounts }
   }
 )
+export default getData

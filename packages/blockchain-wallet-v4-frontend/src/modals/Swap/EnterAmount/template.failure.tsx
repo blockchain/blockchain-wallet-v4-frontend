@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   flex-direction: column;
 `
 
-const Failure: React.FC<Props> = props => {
+const Failure: React.FC<Props> = (props) => {
   return (
     <>
       <FlyoutWrapper>
@@ -39,10 +39,7 @@ const Failure: React.FC<Props> = props => {
                 onClick={() => props.swapActions.setStep({ step: 'INIT_SWAP' })}
                 style={{ marginTop: '16px' }}
               >
-                <FormattedMessage
-                  id='buttons.tryagain'
-                  defaultMessage='Try Again'
-                />
+                <FormattedMessage id='buttons.tryagain' defaultMessage='Try Again' />
               </Button>
             </>
           ) : (
@@ -61,27 +58,13 @@ const Failure: React.FC<Props> = props => {
                 onClick={() => props.swapActions.initAmountForm()}
                 style={{ marginTop: '16px' }}
               >
-                <FormattedMessage
-                  id='buttons.tryagain'
-                  defaultMessage='Try Again'
-                />
+                <FormattedMessage id='buttons.tryagain' defaultMessage='Try Again' />
               </Button>
             </>
           )}
-          <Link
-            href='https://support.blockchain.com'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            <Text
-              size='12px'
-              color='blue600'
-              style={{ textAlign: 'center', marginTop: '8px' }}
-            >
-              <FormattedMessage
-                id='buttons.contact_support'
-                defaultMessage='Contact Support'
-              />
+          <Link href='https://support.blockchain.com' target='_blank' rel='noopener noreferrer'>
+            <Text size='12px' color='blue600' style={{ marginTop: '8px', textAlign: 'center' }}>
+              <FormattedMessage id='buttons.contact_support' defaultMessage='Contact Support' />
             </Text>
           </Link>
         </Wrapper>
@@ -89,9 +72,7 @@ const Failure: React.FC<Props> = props => {
       <Wrapper>
         <ErrorCartridge>
           Server Error:{' '}
-          {typeof props.error === 'string'
-            ? props.error
-            : JSON.stringify(props.error)}
+          {typeof props.error === 'string' ? props.error : JSON.stringify(props.error)}
         </ErrorCartridge>
       </Wrapper>
     </>

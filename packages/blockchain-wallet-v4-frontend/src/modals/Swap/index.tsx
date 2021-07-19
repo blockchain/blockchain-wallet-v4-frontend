@@ -15,7 +15,7 @@ import InitSwapForm from './InitSwapForm'
 import NoHoldings from './NoHoldings'
 import OrderDetails from './OrderDetails'
 import PreviewSwap from './PreviewSwap'
-import { getData } from './selectors'
+import getData from './selectors'
 import SuccessfulSwap from './SuccessfulSwap'
 import UpgradePrompt from './UpgradePrompt'
 
