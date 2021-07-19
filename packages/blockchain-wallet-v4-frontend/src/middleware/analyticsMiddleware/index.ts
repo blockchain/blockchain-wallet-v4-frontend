@@ -6,7 +6,7 @@ import {
   DepositMethod,
   FeeRate,
   Order,
-  PageNames,
+  PageName,
   SendReceive,
   WithdrawalMethod
 } from 'middleware/analyticsMiddleware/types'
@@ -24,7 +24,7 @@ import {
   upgradeVerificationClickedOriginDictionary
 } from 'middleware/analyticsMiddleware/utils'
 
-import { actionTypes as AT, actions } from 'data'
+import { actions, actionTypes as AT } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { BankDWStepType, InterestStep, ModalNamesEnum, SwapBaseCounterTypes } from 'data/types'
 
@@ -41,7 +41,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.email
         const tier = state.profile.userData.getOrElse({})?.tiers.current
         const id = state.walletPath.wallet.guid
-        const pageName: PageNames = action.payload.location.pathname
+        const pageName: PageName = action.payload.location.pathname
 
         switch (pageName) {
           case '/home': {
