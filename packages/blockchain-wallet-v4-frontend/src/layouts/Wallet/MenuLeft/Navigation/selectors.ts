@@ -56,9 +56,11 @@ export const getData = createDeepEqualSelector(
 
       // list of fiats eligible and then coins with balances as single list
       const coinsWithBalance = [...fiatList, ...cryptoList, ...erc20List]
-      const coinsInRecentSwaps = recentSwapTxsR
-        .getOrElse([] as SwapOrderType[])
-        .map((tx) => getOutputFromPair(tx.pair))
+      const coinsInRecentSwaps = [
+        ...new Set(
+          recentSwapTxsR.getOrElse([] as SwapOrderType[]).map((tx) => getOutputFromPair(tx.pair))
+        )
+      ]
       const coinsWithoutBalanceToTrack = coinsInRecentSwaps
         .filter((coin) => !coinsWithBalance.find((coinfig) => coinfig?.symbol === coin))
         .map((coin) => window.coins[coin].coinfig)
