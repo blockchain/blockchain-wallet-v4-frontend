@@ -3,33 +3,17 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import styled from 'styled-components'
 
-import {
-  CoinAccountIcon,
-  Icon,
-  SpinningLoader,
-  Text
-} from 'blockchain-info-components'
+import { CoinAccountIcon, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { formatCoin } from 'blockchain-wallet-v4/src/exchange/currency'
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import {
-  InitSwapFormValuesType,
-  SwapAccountType,
-  SwapCoinType
-} from 'data/types'
+import { InitSwapFormValuesType, SwapAccountType, SwapCoinType } from 'data/types'
 import checkAccountZeroBalance from 'services/CheckAccountZeroBalance'
 
 import { Props as BaseProps, SuccessStateType as SuccessType } from '..'
-import {
-  BalanceRow,
-  Border,
-  Option,
-  OptionTitle,
-  OptionValue,
-  TopText
-} from '../components'
+import { BalanceRow, Border, Option, OptionTitle, OptionValue, TopText } from '../components'
 import Checkout from './Checkout'
 import { getData } from './selectors'
 import Failure from './template.failure'
@@ -48,8 +32,8 @@ const Toggler = styled.div`
   transform: translateY(-50%);
   position: absolute;
   border-radius: 4px;
-  border: 1px solid ${props => props.theme['grey000']};
-  background: ${props => props.theme['white']};
+  border: 1px solid ${(props) => props.theme.grey000};
+  background: ${(props) => props.theme.white};
   right: 33px;
   display: flex;
   cursor: pointer;
@@ -71,9 +55,7 @@ class EnterAmount extends PureComponent<Props> {
     this.props.swapActions.initAmountForm()
   }
 
-  handleStepCoinSelection = (
-    accounts: { [key in SwapCoinType]: Array<SwapAccountType> }
-  ) => {
+  handleStepCoinSelection = (accounts: { [key in SwapCoinType]: Array<SwapAccountType> }) => {
     const isAccountZeroBalance = checkAccountZeroBalance(accounts)
 
     if (isAccountZeroBalance) {
@@ -82,19 +64,16 @@ class EnterAmount extends PureComponent<Props> {
       })
     } else {
       this.props.swapActions.setStep({
-        step: 'COIN_SELECTION',
         options: {
           side: 'BASE'
-        }
+        },
+        step: 'COIN_SELECTION'
       })
     }
   }
 
   render() {
-    if (
-      !this.props.initSwapFormValues?.BASE ||
-      !this.props.initSwapFormValues?.COUNTER
-    ) {
+    if (!this.props.initSwapFormValues?.BASE || !this.props.initSwapFormValues?.COUNTER) {
       return this.props.swapActions.setStep({ step: 'INIT_SWAP' })
     }
 
@@ -119,38 +98,29 @@ class EnterAmount extends PureComponent<Props> {
                   })
                 }
               />{' '}
-              <Text
-                size='20px'
-                color='grey900'
-                weight={600}
-                style={{ marginLeft: '16px' }}
-              >
-                <FormattedMessage
-                  id='copy.new_swap'
-                  defaultMessage='New Swap'
-                />
+              <Text size='20px' color='grey900' weight={600} style={{ marginLeft: '16px' }}>
+                <FormattedMessage id='copy.new_swap' defaultMessage='New Swap' />
               </Text>
             </SubTopText>
             {this.props.quoteR.cata({
-              Success: val => (
+              Failure: () => null,
+              Loading: () => <SpinningLoader borderWidth='4px' height='14px' width='14px' />,
+              NotAsked: () => <SpinningLoader borderWidth='4px' height='14px' width='14px' />,
+              Success: (val) => (
                 <Text size='14px' color='grey900' weight={500}>
                   1 {coins[BASE.coin].coinTicker} = {formatCoin(val.rate)}{' '}
                   {coins[COUNTER.coin].coinTicker}
                 </Text>
-              ),
-              Failure: () => null,
-              Loading: () => (
-                <SpinningLoader borderWidth='4px' height='14px' width='14px' />
-              ),
-              NotAsked: () => (
-                <SpinningLoader borderWidth='4px' height='14px' width='14px' />
               )
             })}
           </TopText>
         </FlyoutWrapper>
         <div>
           {this.props.data.cata({
-            Success: val => (
+            Failure: (e) => <Failure {...this.props} error={e} />,
+            Loading: () => <Loading />,
+            NotAsked: () => <Loading />,
+            Success: (val) => (
               <>
                 <Options>
                   <Option
@@ -160,10 +130,7 @@ class EnterAmount extends PureComponent<Props> {
                   >
                     <div>
                       <Text color='grey600' weight={500} size='14px'>
-                        <FormattedMessage
-                          id='copy.swap'
-                          defaultMessage='Swap'
-                        />
+                        <FormattedMessage id='copy.swap' defaultMessage='Swap' />
                       </Text>
                       <OptionTitle>{BASE.label}</OptionTitle>
                       <OptionValue>
@@ -176,10 +143,7 @@ class EnterAmount extends PureComponent<Props> {
                         </BalanceRow>
                       </OptionValue>
                     </div>
-                    <CoinAccountIcon
-                      accountType={BASE.type}
-                      coin={coins[BASE.coin].coinCode}
-                    />
+                    <CoinAccountIcon accountType={BASE.type} coin={coins[BASE.coin].coinCode} />
                   </Option>
                   <Toggler
                     onClick={this.props.swapActions.toggleBaseAndCounter}
@@ -193,10 +157,10 @@ class EnterAmount extends PureComponent<Props> {
                     data-e2e='selectToAcct'
                     onClick={() =>
                       this.props.swapActions.setStep({
-                        step: 'COIN_SELECTION',
                         options: {
                           side: 'COUNTER'
-                        }
+                        },
+                        step: 'COIN_SELECTION'
                       })
                     }
                   >
@@ -225,18 +189,10 @@ class EnterAmount extends PureComponent<Props> {
                   </Option>
                   <Border />
                 </Options>
-                <Checkout
-                  {...val}
-                  {...this.props}
-                  BASE={BASE}
-                  COUNTER={COUNTER}
-                />
+                <Checkout {...val} {...this.props} BASE={BASE} COUNTER={COUNTER} />
                 {userData.tiers.current === 1 && <Upgrade {...this.props} />}
               </>
-            ),
-            Failure: e => <Failure {...this.props} error={e} />,
-            Loading: () => <Loading />,
-            NotAsked: () => <Loading />
+            )
           })}
         </div>
       </>
@@ -247,9 +203,7 @@ class EnterAmount extends PureComponent<Props> {
 const mapStateToProps = (state: RootState) => {
   return {
     data: getData(state),
-    initSwapFormValues: selectors.form.getFormValues('initSwap')(
-      state
-    ) as InitSwapFormValuesType,
+    initSwapFormValues: selectors.form.getFormValues('initSwap')(state) as InitSwapFormValuesType,
     quoteR: selectors.components.swap.getQuote(state)
   }
 }

@@ -62,6 +62,7 @@ const CircleBorder = styled.div`
   justify-content: center;
   align-items: center;
   width: 24px;
+  min-width: 24px;
   height: 24px;
   background-color: white;
   border: 1px solid ${(props) => props.theme.grey300};
@@ -118,7 +119,7 @@ const CoinAccountListOption: React.FC<Props> = (props) => {
             name='checkmark-circle-filled'
             color='green600'
             size='24px'
-            style={{ padding: '0 2px', marginLeft: '24px' }}
+            style={{ marginLeft: '24px', padding: '0 2px' }}
           />
         )}
         {isSwap && !isAccountSelected && <CircleBorder />}
