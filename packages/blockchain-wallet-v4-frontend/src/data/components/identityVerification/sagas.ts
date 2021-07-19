@@ -67,6 +67,10 @@ export default ({ api, coreSagas, networks }) => {
       )
     }
   }
+    
+    const verifyIdentity = function * ({ payload }) {
+      yield put(actions.modals.showModal(KYC_MODAL, payload))
+    }
 
   const createRegisterUserCampaign = function * () {
     try {
@@ -130,10 +134,6 @@ export default ({ api, coreSagas, networks }) => {
     yield call(fetchUser)
   }
 
-  const verifyIdentity = function * ({ payload }) {
-    yield put(actions.modals.showModal(KYC_MODAL, payload))
-  }
-
   const defineSteps = function * (tier, needMoreInfo) {
     yield put(A.setStepsLoading())
     try {
@@ -143,7 +143,7 @@ export default ({ api, coreSagas, networks }) => {
     } catch (e) {
       return yield put(A.setStepsFailure(e))
     }
-    const tiers = (yield select(
+    let tiers = (yield select(
       selectors.modules.profile.getUserTiers
     )).getOrElse({
       next: 0,
@@ -152,6 +152,28 @@ export default ({ api, coreSagas, networks }) => {
     const kycState = (selectors.modules.profile.getUserKYCState(
       yield select()
     ) as RemoteDataType<string, KycStateType>).getOrElse('NONE')
+    // Case where user recovers their wallet with mnemonic
+    // and we reset their KYC. We have to force next and 
+    // selected into certain states to reliable send user
+    // through correct reverification flow
+    const kycDocResubmissionStatus = (yield select(selectors.modules.profile.getKycDocResubmissionStatus)).getOrElse({})
+    const tiersState = (yield select(selectors.modules.profile.getTiers)).getOrElse({})
+    if (kycDocResubmissionStatus === 1) {
+     if (tiers.current === 0) {
+       // case where user already went through first step 
+       // of verficatin but was rejected, want to set
+       // next to 2
+       if (tiersState[0].state === 'rejected') {
+        tiers = {current: 0, next: 2, selected: 2}
+       } else {
+        tiers = {current: 0, next: 1, selected: 2}
+       }
+      } else if (tiers.current === 1 || tiers.current === 3)  {
+        tiers = {current: 1, next: 2, selected: 2}
+      } else {
+        return
+      }
+    }
     const steps = computeSteps({
       kycState,
       needMoreInfo,
@@ -161,16 +183,16 @@ export default ({ api, coreSagas, networks }) => {
     yield put(A.setStepsSuccess(steps))
   }
 
+  const initializeStep = function * () {
+    const steps: Array<StepsType> = (yield select(S.getSteps)).getOrElse([])
+    return yield put(A.setVerificationStep(steps[0]))
+  }
+
   const initializeVerification = function * ({ payload }) {
     const { tier = TIERS[2], needMoreInfo = false } = payload
     yield put(A.setEmailStep(EMAIL_STEPS.edit))
     yield call(defineSteps, tier, needMoreInfo)
     yield call(initializeStep)
-  }
-
-  const initializeStep = function * () {
-    const steps: Array<StepsType> = (yield select(S.getSteps)).getOrElse([])
-    return yield put(A.setVerificationStep(steps[0]))
   }
 
   const goToPrevStep = function * () {
@@ -469,28 +491,28 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   return {
+    checkKycFlow,
     claimCampaignClicked,
+    createRegisterUserCampaign,
+    createUser,
     defineSteps,
-    verifyIdentity,
-    initializeVerification,
-    initializeStep,
     fetchStates,
     fetchSupportedCountries,
     fetchSupportedDocuments,
     goToNextStep,
     goToPrevStep,
+    initializeStep,
+    initializeVerification,
     resendSmsCode,
     registerUserCampaign,
-    createUser,
-    createRegisterUserCampaign,
+    saveInfoAndResidentialData,
+    selectTier,
+    sendDeeplink,
+    sendEmailVerification,
     updateSmsStep,
     updateSmsNumber,
+    verifyIdentity,
     verifySmsNumber,
-    checkKycFlow,
-    sendDeeplink,
-    saveInfoAndResidentialData,
-    sendEmailVerification,
-    selectTier,
     updateEmail
   }
 }
