@@ -214,6 +214,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           step: 'SUCCESSFUL_SWAP'
         })
       )
+      yield put(actions.custodial.fetchRecentSwapTxs())
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('previewSwap', { _error: error }))
@@ -412,7 +413,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       return
     }
 
-    const accounts = getCoinAccounts(yield select(), SWAP_ACCOUNTS_SELECTOR)
+    const coins = S.getCoins()
+    const accounts = getCoinAccounts(yield select(), { coins, ...SWAP_ACCOUNTS_SELECTOR })
     const baseAccount = accounts[initSwapFormValues.BASE.coin].find(
       (val) => val.label === initSwapFormValues.BASE?.label
     )

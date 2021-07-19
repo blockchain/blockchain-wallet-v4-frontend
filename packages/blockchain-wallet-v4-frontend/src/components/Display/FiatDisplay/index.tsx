@@ -21,7 +21,7 @@ class FiatDisplayContainer extends React.PureComponent<Props> {
         return
       }
       if (coinfig.type.erc20Address) {
-        return this.props.ethActions.fetchErc20Rates(this.props.coin)
+        return
       }
       return this.props[`${toLower(coin)}Actions`].fetchRates()
     }

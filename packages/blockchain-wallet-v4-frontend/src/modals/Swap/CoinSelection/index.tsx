@@ -124,7 +124,7 @@ class CoinSelection extends PureComponent<Props> {
             )}
           </Text>
         </StickyHeaderFlyoutWrapper>
-        {SUPPORTED_COINS.map((coin) => {
+        {coins?.map((coin) => {
           const accounts = (this.props.accounts[coin] as Array<SwapAccountType>) || []
           return accounts.map((account) => {
             const isAccountSelected = this.checkAccountSelected(this.props.side, values, account)
@@ -170,6 +170,7 @@ class CoinSelection extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
+  coins: selectors.components.swap.getCoins(),
   custodialEligibility: selectors.components.swap.getCustodialEligibility(state).getOrElse(false),
   values: selectors.form.getFormValues('initSwap')(state) as InitSwapFormValuesType,
   ...getData(state, ownProps)
