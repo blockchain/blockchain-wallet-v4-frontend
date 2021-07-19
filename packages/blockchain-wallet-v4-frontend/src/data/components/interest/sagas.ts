@@ -218,7 +218,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           if (paymentR) {
             let payment = yield getOrUpdateProvisionalPaymentForCoin(coin, paymentR)
             const paymentAmount = generateProvisionalPaymentAmount(coin, value)
-            payment = yield payment.amount(paymentAmount)
+            payment = yield payment.amount(paymentAmount || 0)
             if (!isCustodialDeposit && accountBalance > 0) {
               payment = yield payment.build()
               yield put(A.setPaymentSuccess(payment.value()))
