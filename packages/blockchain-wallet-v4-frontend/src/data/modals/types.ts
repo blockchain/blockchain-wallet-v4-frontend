@@ -9,7 +9,6 @@ export enum ModalNamesEnum {
   BANK_DEPOSIT_MODAL = 'BANK_DEPOSIT_MODAL',
   BANK_DETAILS_MODAL = 'BANK_DETAILS_MODAL',
   BITPAY_INVOICE_EXPIRED_MODAL = 'BITPAY_INVOICE_EXPIRED_MODAL',
-  BORROW_MODAL = 'BORROW_MODAL',
   CONFIRMATION_MODAL = 'CONFIRMATION_MODAL',
   CUSTODY_WITHDRAW_MODAL = 'CUSTODY_WITHDRAW_MODAL',
   DELETE_ADDRESS_LABEL_MODAL = 'DELETE_ADDRESS_LABEL_MODAL',
@@ -62,8 +61,6 @@ export type ModalOriginType =
   | 'AddBankModalSettings'
   | 'AddBankModalWithdraw'
   | 'BankDetailsModal'
-  | 'BorrowHistorySection'
-  | 'BorrowLandingPage'
   | 'BankDeposit'
   | 'DepositWithdrawalModal'
   | 'EmptyFeed'

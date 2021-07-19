@@ -21,7 +21,8 @@ export const getData = (state) => {
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
 
   // for sell, get 'swap' accounts
-  const accounts = getCoinAccounts(state, SWAP_ACCOUNTS_SELECTOR)
+  const coins = selectors.components.swap.getCoins()
+  const accounts = getCoinAccounts(state, { coins, ...SWAP_ACCOUNTS_SELECTOR })
 
   return lift(
     (

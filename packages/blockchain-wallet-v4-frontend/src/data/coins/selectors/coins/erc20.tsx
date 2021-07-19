@@ -50,7 +50,7 @@ export const getTransactionPageHeaderText = (coin) => {
         />
       )
     default:
-      return <span>Coin introduction missing!</span>
+      return null
   }
 }
 

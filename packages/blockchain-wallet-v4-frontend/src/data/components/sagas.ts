@@ -1,6 +1,5 @@
 import algoTransactions from './algoTransactions/sagas'
 import bchTransactions from './bchTransactions/sagas'
-import borrow from './borrow/sagas'
 import brokerage from './brokerage/sagas'
 import btcTransactions from './btcTransactions/sagas'
 import cloutTransactions from './cloutTransactions/sagas'
@@ -37,7 +36,6 @@ import xlmTransactions from './xlmTransactions/sagas'
 export default ({ api, coreSagas, networks }) => ({
   algoTransactions: algoTransactions(),
   bchTransactions: bchTransactions(),
-  borrow: borrow({ api, coreSagas, networks }),
   brokerage: brokerage({ api, coreSagas, networks }),
   btcTransactions: btcTransactions(),
   cloutTransactions: cloutTransactions(),

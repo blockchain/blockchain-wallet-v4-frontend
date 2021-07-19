@@ -42,13 +42,7 @@ export default () => {
     yield put(actions.core.data.xlm.fetchRates())
     yield put(actions.core.data.dot.fetchRates())
     yield put(actions.core.data.algo.fetchRates())
-    yield put(actions.core.data.doge.fetchRates())
-    yield put(actions.core.data.clout.fetchRates())
-    yield put(actions.core.data.eth.fetchErc20Rates('pax'))
-    yield put(actions.core.data.eth.fetchErc20Rates('usdt'))
-    yield put(actions.core.data.eth.fetchErc20Rates('wdgld'))
-    yield put(actions.core.data.eth.fetchErc20Rates('aave'))
-    yield put(actions.core.data.eth.fetchErc20Rates('yfi'))
+    yield put(actions.core.data.eth.fetchErc20Rates())
   }
 
   const refreshClicked = function* () {
@@ -68,6 +62,8 @@ export default () => {
       yield put(actions.prices.fetchCoinPrices())
       // Rates
       yield put(actions.components.refresh.refreshRates())
+      // Custodial Swaps
+      yield put(actions.custodial.fetchRecentSwapTxs())
 
       const pathname = yield select(selectors.router.getPathname)
       const maybeCoin = toUpper(pathname.split('/')[1])
@@ -114,10 +110,6 @@ export default () => {
           break
         case contains('/settings/general', pathname):
           yield put(actions.components.simpleBuy.fetchSBCards(true))
-          break
-        case contains('/borrow', pathname):
-          yield put(actions.components.borrow.fetchUserBorrowHistory())
-          yield put(actions.components.borrow.fetchBorrowOffers())
           break
         default:
           yield put(actions.core.data.bch.fetchTransactions('', true))

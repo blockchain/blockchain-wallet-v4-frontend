@@ -1,6 +1,6 @@
 import { lift } from 'ramda'
 
-import { fiatToString, formatFiat } from 'blockchain-wallet-v4/src/exchange/utils'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { selectors } from 'data'
 
@@ -52,18 +52,17 @@ export const getTotalBalance = createDeepEqualSelector(
         (acc, cur) => (acc += Number(cur.getOrElse('0'))),
         0
       )
-      const total = formatFiat(
+      const total =
         Number(algoBalance) +
-          Number(bchBalance) +
-          Number(btcBalance) +
-          Number(cloutBalanceInfoR.getOrElse('0')) +
-          Number(dogeBalanceInfoR.getOrElse('0')) +
-          Number(dotBalanceInfoR.getOrElse('0')) +
-          Number(ethBalance) +
-          Number(xlmBalance) +
-          Number(fiatBalance) +
-          erc20Balance
-      )
+        Number(bchBalance) +
+        Number(btcBalance) +
+        Number(ethBalance) +
+        Number(cloutBalanceInfoR.getOrElse('0')) +
+        Number(dogeBalanceInfoR.getOrElse('0')) +
+        Number(dotBalanceInfoR.getOrElse('0')) +
+        Number(xlmBalance) +
+        Number(fiatBalance) +
+        erc20Balance
       const totalBalance = `${fiatToString({ unit: currency, value: total })}`
       return { path, totalBalance }
     }

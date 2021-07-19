@@ -170,8 +170,7 @@ export const fetchErc20DataFailure = (token, error) => ({
 })
 
 // RATES
-export const fetchErc20Rates = (token) => ({
-  payload: { token },
+export const fetchErc20Rates = () => ({
   type: AT.FETCH_ERC20_RATES
 })
 export const fetchErc20RatesLoading = (token) => ({

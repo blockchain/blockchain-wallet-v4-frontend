@@ -18,6 +18,9 @@ import {
   VerifyIdentityOriginType
 } from 'data/types'
 
+// The origin dictionaries are only necessary until we remove the MATOMO tracker,
+// after that, we should refactor those origins to use the correct origins with enums
+
 const buySellClickedOriginDictionary = (rawOrigin: SBShowModalOriginType): BuySellClickedOrigin => {
   switch (rawOrigin) {
     case 'InterestPage':

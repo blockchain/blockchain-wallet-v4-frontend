@@ -8,13 +8,9 @@ export const SUPPORTED_COINS: Array<CoinType | string> = [
   'BTC',
   'ETH',
   'BCH',
-  'AAVE',
   'YFI',
   'DOT',
   'XLM',
-  'PAX',
-  'USDT',
-  'WDGLD',
   'ALGO',
   'CLOUT',
   'DOGE'
@@ -22,7 +18,6 @@ export const SUPPORTED_COINS: Array<CoinType | string> = [
 
 // used in the coin/account selector in Swap
 export const SWAP_ACCOUNTS_SELECTOR: CoinAccountSelectorType = {
-  coins: SUPPORTED_COINS,
   nonCustodialAccounts: true,
   tradingAccounts: true
 }

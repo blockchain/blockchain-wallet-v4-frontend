@@ -242,7 +242,6 @@ export default ({ api }: { api: APIType }) => {
           // TODO: erc20 phase 2, key off hash not symbol
           const symbol = toUpper(val.tokenSymbol)
           yield put(A.fetchErc20DataLoading(symbol))
-          yield put(A.fetchErc20Rates(symbol))
           const contract = val.tokenHash
           const tokenData = data.tokenAccounts.find(
             ({ tokenHash }) => toLower(tokenHash) === toLower(contract as string)
@@ -260,15 +259,20 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchErc20Rates = function* (action) {
-    const { token } = action.payload
-    try {
-      yield put(A.fetchErc20RatesLoading(token))
-      const data = yield call(api.getErc20Ticker, toUpper(token))
-      yield put(A.fetchErc20RatesSuccess(token, data))
-    } catch (e) {
-      yield put(A.fetchErc20RatesFailure(token, e.message))
-    }
+  const fetchErc20Rates = function* () {
+    const tokens = S.getErc20Coins()
+
+    yield all(
+      tokens.map(function* (token) {
+        try {
+          yield put(A.fetchErc20RatesLoading(token))
+          const data = yield call(api.getErc20Ticker, toUpper(token))
+          yield put(A.fetchErc20RatesSuccess(token, data))
+        } catch (e) {
+          yield put(A.fetchErc20RatesFailure(token, e.message))
+        }
+      })
+    )
   }
 
   const watchErc20Transactions = function* () {

@@ -1,12 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { CoinType } from 'middleware/analyticsMiddleware/types'
 import { map, toLower } from 'ramda'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
-import { CoinfigType, SupportedCoinType } from 'core/types'
+import { CoinfigType, CoinType } from 'core/types'
 import { CoinIcon, Destination, MenuItem } from 'layouts/Wallet/components'
 
 import { Divider } from '../template'

@@ -23,7 +23,7 @@ const UpgradePrompt: React.FC<Props> = (props) => {
               step: 'ENTER_AMOUNT'
             })
           }
-          style={{ padding: '0', marginBottom: '28px' }}
+          style={{ marginBottom: '28px', padding: '0' }}
         />
 
         <Text size='20px' color='grey800' weight={600} style={{ marginBottom: '8px' }}>
