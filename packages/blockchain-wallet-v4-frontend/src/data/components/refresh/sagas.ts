@@ -62,6 +62,8 @@ export default () => {
       yield put(actions.prices.fetchCoinPrices())
       // Rates
       yield put(actions.components.refresh.refreshRates())
+      // Custodial Swaps
+      yield put(actions.custodial.fetchRecentSwapTxs())
 
       const pathname = yield select(selectors.router.getPathname)
       const maybeCoin = toUpper(pathname.split('/')[1])

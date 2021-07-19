@@ -214,6 +214,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           step: 'SUCCESSFUL_SWAP'
         })
       )
+      yield put(actions.custodial.fetchRecentSwapTxs())
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('previewSwap', { _error: error }))
