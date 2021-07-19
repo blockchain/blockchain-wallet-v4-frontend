@@ -7,7 +7,7 @@ import { getCoinAccounts } from 'data/coins/selectors'
 import { RootState } from 'data/rootReducer'
 import { InitSwapFormValuesType, SwapAmountFormValues } from 'data/types'
 
-export const getData = (state: RootState) => {
+const getData = (state: RootState) => {
   const formErrors = selectors.form.getFormSyncErrors('swapAmount')(state)
   const formValues = selectors.form.getFormValues('swapAmount')(state) as SwapAmountFormValues
   const initSwapFormValues = selectors.form.getFormValues('initSwap')(

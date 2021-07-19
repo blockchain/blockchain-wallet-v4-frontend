@@ -27,7 +27,7 @@ import {
   TopText,
   TrendingIconRow
 } from '../components'
-import { getData } from './selectors'
+import getData from './selectors'
 
 const SuggestedTextCustomBorder = styled.span`
   width: 100%;

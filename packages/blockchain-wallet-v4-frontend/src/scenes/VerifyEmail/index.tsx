@@ -27,8 +27,10 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
   }
 
   skipVerification = () => {
+    const { email } = this.props
     this.props.authActions.setRegisterEmail(undefined)
     this.props.analyticsActions.logEvent(DISMISS_VERIFICATION)
+    this.props.securityCenterActions.skipVerifyEmail(email)
     this.props.routerActions.push('/home')
     // for first time login users we need to run goal since this is a first page we show them
     this.props.saveGoal('welcomeModal', { firstLogin: true })

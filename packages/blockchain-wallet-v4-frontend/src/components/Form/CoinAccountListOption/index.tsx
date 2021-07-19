@@ -62,6 +62,7 @@ const CircleBorder = styled.div`
   justify-content: center;
   align-items: center;
   width: 24px;
+  min-width: 24px;
   height: 24px;
   background-color: white;
   border: 1px solid ${(props) => props.theme.grey300};
