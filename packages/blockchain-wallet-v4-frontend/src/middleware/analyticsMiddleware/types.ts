@@ -137,7 +137,7 @@ type PageViewPayload = {
   url: string
 }
 
-type PageNames =
+type PageName =
   | '/home'
   | '/interest'
   | '/settings/addresses/btc'
@@ -150,7 +150,7 @@ type PageNames =
 
 type AddressVerifyMessageClickedPayload = BasePayload & { currency: string }
 
-type AddMobileNumberClickedPayload = BasePayload & {}
+type AddMobileNumberClickedPayload = BasePayload
 
 type AmountSwitchedPayload = BasePayload & {
   product: 'SAVINGS' | 'SIMPLEBUY' | 'SWAP'
@@ -209,9 +209,9 @@ type BuySellViewedPayload = BasePayload &
     type: Order
   }
 
-type ChangeMobileNumberClickedPayload = BasePayload & {}
+type ChangeMobileNumberClickedPayload = BasePayload
 
-type CryptoLinkHandlingClickedPayload = BasePayload & {}
+type CryptoLinkHandlingClickedPayload = BasePayload
 
 type DashboardClickedOrigin = 'SIGN_IN'
 
@@ -219,7 +219,7 @@ type DashboardClickedPayload = BasePayload & {
   origin: DashboardClickedOrigin
 }
 
-type DashboardViewedPayload = BasePayload & PageViewPayload & {}
+type DashboardViewedPayload = BasePayload & PageViewPayload
 
 type DepositAmountEnteredPayload = BasePayload & {
   amount: number
@@ -238,7 +238,7 @@ type DepositMethodSelectedPayload = BasePayload & {
   deposit_method: DepositMethod
 }
 
-type DepositViewedPayload = BasePayload & PageViewPayload & {}
+type DepositViewedPayload = BasePayload & PageViewPayload
 
 type EmailVerificationSkippedPayload = BasePayload & {
   origin: 'SIGN_UP'
@@ -250,7 +250,7 @@ type EmailVerificationRequestedPayload = BasePayload & {
   origin: EmailVerificationRequestedOrigin
 }
 
-type ImportAddressClickedPayload = BasePayload & {}
+type ImportAddressClickedPayload = BasePayload
 
 type InterestClickedOrigin = 'NAVIGATION'
 
@@ -291,7 +291,7 @@ type InterestDepositMinAmountClickedPayload = BasePayload & {
   from_account_type: AccountType
 }
 
-type InterestDepositViewedPayload = BasePayload & PageViewPayload & {}
+type InterestDepositViewedPayload = BasePayload & PageViewPayload
 
 type InterestSubmitInformationClickedOrigin = 'SAVINGS_CONFIRMATION' | 'SAVINGS_PAGE'
 
@@ -299,7 +299,7 @@ type InterestSubmitInformationClickedPayload = BasePayload & {
   origin: InterestSubmitInformationClickedOrigin
 }
 
-type InterestViewedPayload = BasePayload & PageViewPayload & {}
+type InterestViewedPayload = BasePayload & PageViewPayload
 
 type InterestWithdrawalClickedOrigin = 'CURRENCY_PAGE'
 
@@ -308,7 +308,7 @@ type InterestWithdrawalClickedPayload = BasePayload & {
   origin: InterestWithdrawalClickedOrigin
 }
 
-type InterestWithdrawalViewedPayload = BasePayload & PageViewPayload & {}
+type InterestWithdrawalViewedPayload = BasePayload & PageViewPayload
 
 type LinkBankClickedOrigin = 'BUY' | 'DEPOSIT' | 'SETTINGS' | 'WITHDRAW'
 
@@ -434,9 +434,9 @@ type SettingsTabClickedPayload = BasePayload & {
   destination: SettingsTabClickedDestination
 }
 
-type SignedInPayload = BasePayload & {}
+type SignedInPayload = BasePayload
 
-type SignedOutPayload = BasePayload & {}
+type SignedOutPayload = BasePayload
 
 type SwapClickedOrigin =
   | 'CURRENCY_PAGE'
@@ -451,7 +451,7 @@ type SwapClickedPayload = BasePayload & {
   origin: SwapClickedOrigin
 }
 
-type SwapViewedPayload = BasePayload & PageViewPayload & {}
+type SwapViewedPayload = BasePayload & PageViewPayload
 
 type SwapAccountsSelectedPayload = BasePayload & {
   input_currency: string
@@ -507,7 +507,7 @@ type SwapRequestedPayload = BasePayload & {
   output_type: string
 }
 
-type TransferImportedAddressesClickedPayload = BasePayload & {}
+type TransferImportedAddressesClickedPayload = BasePayload
 
 type UpgradeVerificationClickedOrigin =
   | 'DASHBOARD_PROMO'
@@ -552,11 +552,11 @@ type WithdrawalMethodSelectedPayload = BasePayload & {
   withdrawal_method: WithdrawalMethod
 }
 
-type WithdrawalViewedPayload = BasePayload & PageViewPayload & {}
+type WithdrawalViewedPayload = BasePayload & PageViewPayload
 
-type WrongChangeCachePayload = BasePayload & {}
+type WrongChangeCachePayload = BasePayload
 
-type WrongReceiveCachePayload = BasePayload & {}
+type WrongReceiveCachePayload = BasePayload
 
 type AnalyticsProperties =
   | AddressVerifyMessageClickedPayload
@@ -649,7 +649,7 @@ export type {
   InterestWithdrawalClickedOrigin,
   LinkBankClickedOrigin,
   ManageTabSelectionClickedSelection,
-  PageNames,
+  PageName,
   RawEvent,
   SendReceiveClickedOrigin,
   SettingsHyperlinkClickedDestination,
