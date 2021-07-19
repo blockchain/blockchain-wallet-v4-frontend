@@ -29,3 +29,5 @@ export function custodialReducer(state = INITIAL_STATE, action: SBCoreActionType
       }
   }
 }
+
+export default custodialReducer

@@ -42,6 +42,8 @@ export const getCoinsWithMethodAndOrder = (state: RootState) => {
       coins.XLM,
       coins.ALGO,
       coins.DOT,
+      coins.CLOUT,
+      coins.DOGE,
       // ...coins.rest // erc20s
       ...[
         ...new Set([

@@ -15,6 +15,7 @@ const getData = (state, ownProps: OwnProps) => {
   const { coin, includeCustodial } = ownProps
   let addressDataR
 
+  // TODO: erc20 phase 2, remove hardcoded list
   switch (coin) {
     case 'BCH':
       addressDataR = getBchAddressData(state, {
@@ -41,6 +42,13 @@ const getData = (state, ownProps: OwnProps) => {
         includeInterest: false
       })
       break
+    case 'XLM':
+      addressDataR = getXlmAddressData(state, {
+        excludeLockbox: true,
+        includeCustodial,
+        includeInterest: false
+      })
+      break
     case 'PAX':
       addressDataR = getErc20AddressData(state, {
         coin: 'PAX',
@@ -58,13 +66,6 @@ const getData = (state, ownProps: OwnProps) => {
     case 'WDGLD':
       addressDataR = getErc20AddressData(state, {
         coin: 'WDGLD',
-        includeCustodial,
-        includeInterest: false
-      })
-      break
-    case 'XLM':
-      addressDataR = getXlmAddressData(state, {
-        excludeLockbox: true,
         includeCustodial,
         includeInterest: false
       })

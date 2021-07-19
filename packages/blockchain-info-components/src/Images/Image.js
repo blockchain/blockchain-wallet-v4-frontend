@@ -16,7 +16,7 @@ const Image = (props) => {
   const file = Images[name]
   const srcSet = srcset ? keysIn(srcset).map((name) => `${Images[name]} ${srcset[name]}`) : []
   if (!file) {
-    return <img />
+    return <img alt='empty-img' />
   }
   return <BaseImage src={file} srcSet={srcSet.join(', ')} {...rest} />
 }
@@ -24,14 +24,14 @@ const Image = (props) => {
 Image.defaultProps = {
   color: 'auto',
   height: 'auto',
-  width: 'auto',
+  width: 'auto'
 }
 
 Image.propTypes = {
   color: PropTypes.string,
   height: PropTypes.string,
   name: PropTypes.string.isRequired,
-  width: PropTypes.string,
+  width: PropTypes.string
 }
 
 export default Image

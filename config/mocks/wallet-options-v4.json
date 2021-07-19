@@ -241,6 +241,28 @@
           "minConfirmations": 3,
           "txExplorerBaseUrl": ""
         },
+        "CLOUT": {
+          "coinCode": "CLOUT",
+          "coinTicker": "CLOUT",
+          "coinfig": {
+            "name": "BitClout",
+            "precision": 9,
+            "products": [],
+            "symbol": "CLOUT",
+            "type": {
+              "logoPngUrl": "https://raw.githubusercontent.com/blockchain/coin-definitions/master/extensions/blockchains/bitclout/info/logo.png",
+              "minimumOnChainConfirmations": 4,
+              "name": "BitClout",
+              "parentChain": "CLOUT",
+              "websiteUrl": ""
+            }
+          },
+          "displayName": "BitClout",
+          "hasLockboxSupport": false,
+          "learnMoreLink": "",
+          "minConfirmations": 4,
+          "txExplorerBaseUrl": "https://bitclout.com"
+        },
         "DOT": {
           "coinCode": "DOT",
           "coinTicker": "DOT",
@@ -262,6 +284,28 @@
           "learnMoreLink": "https://support.blockchain.com/hc/en-us/articles/360044952032",
           "minConfirmations": 20,
           "txExplorerBaseUrl": "https://polkascan.io/polkadot"
+        },
+        "DOGE": {
+          "coinCode": "DOGE",
+          "coinTicker": "DOGE",
+          "coinfig": {
+            "name": "DogeCoin",
+            "precision": 8,
+            "products": [],
+            "symbol": "DOGE",
+            "type": {
+              "logoPngUrl": "",
+              "minimumOnChainConfirmations": 40,
+              "name": "DogeCoin",
+              "parentChain": "DOGE",
+              "websiteUrl": ""
+            }
+          },
+          "displayName": "DogeCoin",
+          "hasLockboxSupport": false,
+          "learnMoreLink": "",
+          "minConfirmations": 40,
+          "txExplorerBaseUrl": "https://dogechain.info/"
         }
       },
       "sift": {

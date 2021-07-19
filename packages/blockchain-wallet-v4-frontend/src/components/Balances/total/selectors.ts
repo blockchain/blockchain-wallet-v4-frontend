@@ -1,6 +1,6 @@
 import { lift } from 'ramda'
 
-import { fiatToString, formatFiat } from 'blockchain-wallet-v4/src/exchange/utils'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { selectors } from 'data'
 
@@ -11,6 +11,8 @@ export const getTotalBalance = createDeepEqualSelector(
     S.getAlgoBalanceInfo,
     S.getBchBalanceInfo,
     S.getBtcBalanceInfo,
+    S.getCloutBalanceInfo,
+    S.getDogeBalanceInfo,
     S.getDotBalanceInfo,
     S.getEthBalanceInfo,
     S.getXlmBalanceInfo,
@@ -24,6 +26,8 @@ export const getTotalBalance = createDeepEqualSelector(
     bchBalanceInfoR,
     btcBalanceInfoR,
     dotBalanceInfoR,
+    cloutBalanceInfoR,
+    dogeBalanceInfoR,
     ethBalanceInfoR,
     xlmBalanceInfoR,
     fiatBalanceInfoR,
@@ -35,7 +39,9 @@ export const getTotalBalance = createDeepEqualSelector(
       algoBalance,
       bchBalance,
       btcBalance,
-      dotBalance,
+      // cloutBalance,
+      // dogeBalance,
+      // dotBalance,
       ethBalance,
       xlmBalance,
       fiatBalance,
@@ -51,7 +57,9 @@ export const getTotalBalance = createDeepEqualSelector(
         Number(bchBalance) +
         Number(btcBalance) +
         Number(ethBalance) +
-        Number(dotBalance) +
+        Number(cloutBalanceInfoR.getOrElse('0')) +
+        Number(dogeBalanceInfoR.getOrElse('0')) +
+        Number(dotBalanceInfoR.getOrElse('0')) +
         Number(xlmBalance) +
         Number(fiatBalance) +
         erc20Balance
@@ -63,7 +71,9 @@ export const getTotalBalance = createDeepEqualSelector(
       algoBalanceInfoR,
       bchBalanceInfoR,
       btcBalanceInfoR,
-      dotBalanceInfoR,
+      // cloutBalanceInfoR,
+      // dogeBalanceInfoR,
+      // dotBalanceInfoR,
       ethBalanceInfoR,
       xlmBalanceInfoR,
       fiatBalanceInfoR,

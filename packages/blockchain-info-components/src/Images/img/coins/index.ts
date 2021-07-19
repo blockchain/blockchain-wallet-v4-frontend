@@ -2,6 +2,7 @@ import algo from './algo.png'
 import bch from './bch.png'
 import bsv from './bsv.png'
 import btc from './btc.png'
+import doge from './doge.png'
 import dot from './dot.png'
 import enj from './enj.png'
 import eos from './eos.png'
@@ -23,6 +24,7 @@ export default {
   bch,
   bsv,
   btc,
+  doge,
   dot,
   enj,
   eos,
@@ -37,5 +39,5 @@ export default {
   uni,
   usd,
   xlm,
-  zrx,
+  zrx
 }

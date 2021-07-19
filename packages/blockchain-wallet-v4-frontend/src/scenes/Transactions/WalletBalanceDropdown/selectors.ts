@@ -4,16 +4,18 @@ import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import {
   // CoinType,
   ExtractSuccess,
-  FiatType,
+  FiatType
 } from 'blockchain-wallet-v4/src/types'
 import * as balanceSelectors from 'components/Balances/selectors'
 import { getData as getAlgoAddressData } from 'components/Form/SelectBoxAlgoAddresses/selectors'
 import { getData as getBchAddressData } from 'components/Form/SelectBoxBchAddresses/selectors'
 import { getData as getBtcAddressData } from 'components/Form/SelectBoxBtcAddresses/selectors'
+import { getData as getCloutAddressData } from 'components/Form/SelectBoxCloutAddresses/selectors'
+import { getData as getDogeAddressData } from 'components/Form/SelectBoxDogeAddresses/selectors'
 import { getData as getDotAddressData } from 'components/Form/SelectBoxDotAddresses/selectors'
 import {
   getErc20Data as getErc20AddressData,
-  getEthData as getEthAddressData,
+  getEthData as getEthAddressData
 } from 'components/Form/SelectBoxEthAddresses/selectors'
 import { getData as getXlmAddressData } from 'components/Form/SelectBoxXlmAddresses/selectors'
 import { selectors } from 'data'
@@ -39,7 +41,7 @@ export const getData = (state, ownProps: OwnProps) => {
         excludeLockbox: true,
         includeAll: false,
         includeCustodial: true,
-        includeInterest: true,
+        includeInterest: true
       })
       balanceDataR = balanceSelectors.getBtcBalance(state)
       break
@@ -48,7 +50,7 @@ export const getData = (state, ownProps: OwnProps) => {
         coin: 'BCH',
         excludeLockbox: true,
         includeCustodial: true,
-        includeInterest: true,
+        includeInterest: true
       })
       balanceDataR = balanceSelectors.getBchBalance(state)
       break
@@ -56,7 +58,7 @@ export const getData = (state, ownProps: OwnProps) => {
       addressDataR = getEthAddressData(state, {
         excludeLockbox: true,
         includeCustodial: true,
-        includeInterest: true,
+        includeInterest: true
       })
       balanceDataR = balanceSelectors.getEthBalance(state)
       break
@@ -64,19 +66,31 @@ export const getData = (state, ownProps: OwnProps) => {
       addressDataR = getXlmAddressData(state, {
         excludeLockbox: true,
         includeCustodial: true,
-        includeInterest: true,
+        includeInterest: true
       })
       balanceDataR = balanceSelectors.getXlmBalance(state)
       break
     case 'ALGO':
       addressDataR = getAlgoAddressData(state, {
-        includeCustodial: true,
+        includeCustodial: true
       })
       balanceDataR = balanceSelectors.getAlgoBalance(state)
       break
+    case 'CLOUT':
+      addressDataR = getCloutAddressData(state, {
+        includeCustodial: true
+      })
+      balanceDataR = balanceSelectors.getCloutBalance(state)
+      break
+    case 'DOGE':
+      addressDataR = getDogeAddressData(state, {
+        includeCustodial: true
+      })
+      balanceDataR = balanceSelectors.getDogeBalance(state)
+      break
     case 'DOT':
       addressDataR = getDotAddressData(state, {
-        includeCustodial: true,
+        includeCustodial: true
       })
       balanceDataR = balanceSelectors.getDotBalance(state)
       break
@@ -91,7 +105,7 @@ export const getData = (state, ownProps: OwnProps) => {
       addressDataR = getErc20AddressData(state, {
         coin,
         includeCustodial: true,
-        includeInterest: true,
+        includeInterest: true
       })
       balanceDataR = balanceSelectors.getErc20Balance(coin)(state)
   }
@@ -109,7 +123,7 @@ export const getData = (state, ownProps: OwnProps) => {
       balanceData,
       currency,
       currencySymbol: Exchange.getSymbol(currency),
-      sbBalance: sbBalances[coin],
+      sbBalance: sbBalances[coin]
     }
   }
 
