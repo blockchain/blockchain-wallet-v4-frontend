@@ -23,11 +23,12 @@ export default ({ api }: { api: APIType }) => {
   ) {
     // 🤯
     // Nabu (as of this writing) has multiple types of 'txs' and endpoints
-    // this saga is used to fetch 2 of those endpoints and join them
+    // this saga is used to fetch 3 of those endpoints and join them
     // for the purpose of viewing alongside your noncustodial txs.
     //
     // 1. /simple-buy/trades a.k.a getSBOrders
     // 2. /payments/transactions a.k.a getSBTransactions
+    // 3. /unified a.k.a swaps
     //
     // getSBOrders takes a before and after param, so we can tell the BE
     // the appropriate range of transactions to return
