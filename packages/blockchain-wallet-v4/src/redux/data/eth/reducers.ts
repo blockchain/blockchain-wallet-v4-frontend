@@ -8,8 +8,7 @@ import {
   mergeRight,
   over,
   path,
-  prop,
-  toLower
+  prop
 } from 'ramda'
 import { mapped } from 'ramda-lens'
 
@@ -214,7 +213,7 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.FETCH_ERC20_TX_FEE_LOADING: {
       const { hash, token } = payload
-      const txListLens = lensPath(['transactions', toLower(token), 0])
+      const txListLens = lensPath(['transactions', token, 0])
       const setData = (target) => (tx) => (tx.hash === target ? { ...tx, fee: Remote.Loading } : tx)
 
       // @ts-ignore
@@ -222,7 +221,7 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.FETCH_ERC20_TX_FEE_SUCCESS: {
       const { fee, hash, token } = payload
-      const txListLens = lensPath(['transactions', toLower(token), 0])
+      const txListLens = lensPath(['transactions', token, 0])
       const setData = (target) => (tx) =>
         tx.hash === target ? { ...tx, fee: Remote.Success(fee) } : tx
 
@@ -231,7 +230,7 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.FETCH_ERC20_TX_FEE_FAILURE: {
       const { error, hash, token } = payload
-      const txListLens = lensPath(['transactions', toLower(token), 0])
+      const txListLens = lensPath(['transactions', token, 0])
       const setData = (target) => (tx) =>
         tx.hash === target ? { ...tx, fee: Remote.Failure(error) } : tx
 
