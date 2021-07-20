@@ -119,6 +119,7 @@ class CoinBalanceDropdown extends PureComponent<Props> {
       Success: (values) => {
         const { addressData } = values
         const options = addressData.data
+
         return (
           <Field
             component={SelectBox}
@@ -148,7 +149,7 @@ export type OwnProps = {
   coin: string
   fiatCurrency?: string
   includeCustodial: boolean
-  name: 'collateral' | 'interestDepositAccount' | 'interestWithdrawalAccount' | 'repay-principal'
+  name: 'interestDepositAccount' | 'interestWithdrawalAccount'
   rates: RatesType
 }
 

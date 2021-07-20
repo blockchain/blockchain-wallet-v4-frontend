@@ -207,8 +207,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const rates = ratesR.getOrElse({} as RatesType)
       const rate = rates[userCurrency].last
       const isDisplayed = S.getCoinDisplay(yield select())
-      const isCustodialDeposit = prop('type', formValues.interestDepositAccount) === 'CUSTODIAL'
+      const isCustodialAccountSelected =
+        prop('type', formValues.interestDepositAccount) === 'CUSTODIAL'
       const accountBalance = prop('balance', formValues.interestDepositAccount)
+
       switch (action.meta.field) {
         case 'depositAmount':
           const value = isDisplayed
@@ -219,7 +221,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             let payment = yield getOrUpdateProvisionalPaymentForCoin(coin, paymentR)
             const paymentAmount = generateProvisionalPaymentAmount(coin, value)
             payment = yield payment.amount(paymentAmount || 0)
-            if (!isCustodialDeposit && accountBalance > 0) {
+            if (!isCustodialAccountSelected && accountBalance > 0) {
               payment = yield payment.build()
               yield put(A.setPaymentSuccess(payment.value()))
             } else {
@@ -229,21 +231,26 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           break
         case 'interestDepositAccount':
           let custodialBalances: SBBalancesType | undefined
+          let depositPayment: PaymentValue
 
           yield put(A.setPaymentLoading())
           yield put(actions.form.change(DEPOSIT_FORM, 'depositAmount', undefined))
           yield put(actions.form.focus(DEPOSIT_FORM, 'depositAmount'))
 
-          if (isCustodialDeposit) {
+          if (isCustodialAccountSelected) {
             custodialBalances = (yield select(
               selectors.components.simpleBuy.getSBBalances
             )).getOrFail('Failed to get balance')
-          }
 
-          const depositPayment: PaymentValue = yield call(createPayment, {
-            ...formValues.interestDepositAccount,
-            address: getAccountIndexOrAccount(coin, formValues.interestDepositAccount)
-          })
+            depositPayment = yield call(createPayment, {
+              ...formValues.interestDepositAccount
+            })
+          } else {
+            depositPayment = yield call(createPayment, {
+              ...formValues.interestDepositAccount,
+              address: getAccountIndexOrAccount(coin, formValues.interestDepositAccount)
+            })
+          }
 
           yield call(createLimits, depositPayment, custodialBalances)
           yield put(A.setPaymentSuccess(depositPayment))
@@ -268,29 +275,57 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield put(actions.form.change('interestDepositForm', 'depositAmount', amount))
   }
 
+  const initializeCustodialAccountForm = function* (coin) {
+    // re-fetch the custodial balances to ensure we have the latest for proper form initialization
+    yield put(actions.components.simpleBuy.fetchSBBalances(undefined, true))
+    // wait until balances are loaded we must have deep equal objects to initialize form correctly
+    yield take([
+      actionTypes.components.simpleBuy.FETCH_SB_BALANCES_SUCCESS,
+      actionTypes.components.simpleBuy.FETCH_SB_BALANCES_FAILURE
+    ])
+    const custodialBalances = (yield select(
+      selectors.components.simpleBuy.getSBBalances
+    )).getOrFail('Failed to get balances')
+    const custodialAccount = (yield call(getCustodialAccountForCoin, coin)).getOrFail(
+      'Failed to fetch account'
+    )
+    yield call(createLimits, undefined, custodialBalances)
+    yield put(A.setPaymentSuccess())
+
+    return custodialAccount
+  }
+
+  const initializeNonCustodialAccountForm = function* (coin, depositAddress) {
+    const noncustodialAccount = yield call(getDefaultAccountForCoin, coin)
+    const payment: PaymentValue = yield call(createPayment, {
+      ...noncustodialAccount,
+      address: getAccountIndexOrAccount(coin, noncustodialAccount)
+    })
+    let newPayment = yield getOrUpdateProvisionalPaymentForCoin(coin, Remote.of(payment))
+    newPayment = yield newPayment.to(depositAddress, 'ADDRESS')
+    newPayment = yield newPayment.value()
+    yield call(createLimits, newPayment)
+    yield put(A.setPaymentSuccess(newPayment))
+
+    return noncustodialAccount
+  }
+
   const initializeDepositForm = function* ({
     payload
   }: ReturnType<typeof A.initializeDepositForm>) {
     const { coin, currency } = payload
+    // const isFromBuySell = S.getIsFromBuySell(yield select())
+    // TODO: fix
+    const coinIsOnlyCustodial = coin === 'DOT'
+    let initialAccount
 
-    const isFromBuySell = S.getIsFromBuySell(yield select())
     try {
-      if (isFromBuySell) {
-        // re-fetch the custodial balances to ensure we have the latest for proper form initialization
-        yield put(actions.components.simpleBuy.fetchSBBalances(undefined, true))
-        // wait until balances are loaded super important to have deep equal object on form
-        yield take([
-          actionTypes.components.simpleBuy.FETCH_SB_BALANCES_SUCCESS,
-          actionTypes.components.simpleBuy.FETCH_SB_BALANCES_FAILURE
-        ])
-      }
-      // non-custodial deposit
-      // fetch deposit address to build provisional payment
       yield put(A.fetchInterestAccount(coin))
       yield take([
         AT.FETCH_INTEREST_PAYMENT_ACCOUNT_SUCCESS,
         AT.FETCH_INTEREST_PAYMENT_ACCOUNT_FAILURE
       ])
+      // fetch deposit address to build provisional payment
       const depositAddr = yield select(S.getDepositAddress)
       // abort if deposit address missing
       if (isEmpty(depositAddr) || isNil(depositAddr)) {
@@ -301,55 +336,18 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.fetchInterestLimits(coin, currency))
       yield take([AT.FETCH_INTEREST_LIMITS_SUCCESS, AT.FETCH_INTEREST_LIMITS_FAILURE])
 
-      const defaultAccount = isFromBuySell
-        ? yield call(getCustodialAccountForCoin, coin)
-        : yield call(getDefaultAccountForCoin, coin)
-
-      const payment: PaymentValue = yield call(createPayment, {
-        ...defaultAccount,
-        address: getAccountIndexOrAccount(coin, defaultAccount)
-      })
-
-      let newPayment = yield getOrUpdateProvisionalPaymentForCoin(coin, Remote.of(payment))
-
-      newPayment = yield newPayment.to(depositAddress, 'ADDRESS')
-      newPayment = yield newPayment.value()
-      const custodialBalances = isFromBuySell
-        ? (yield select(selectors.components.simpleBuy.getSBBalances)).getOrFail(
-            'Failed to get balance'
-          )
-        : null
-
-      yield call(createLimits, newPayment, custodialBalances)
-      yield put(A.setPaymentSuccess(newPayment))
-      let additionalParameters = {}
-      if (isFromBuySell) {
-        yield put(A.setCoinDisplay(true))
-        const afterTransactionR = yield select(selectors.components.interest.getAfterTransaction)
-        const afterTransaction = afterTransactionR.getOrElse({
-          show: false
-        } as InterestAfterTransactionType)
-        additionalParameters = {
-          depositAmount: afterTransaction.amount || 0
-        }
-
-        // update payment since initial one was with 0
-        const value = new BigNumber(afterTransaction.amount).toNumber()
-        const paymentR = S.getPayment(yield select())
-        if (paymentR) {
-          let payment = yield getOrUpdateProvisionalPaymentForCoin(coin, paymentR)
-          const paymentAmount = generateProvisionalPaymentAmount(coin, value)
-          payment = yield payment.amount(paymentAmount)
-          yield put(A.setPaymentSuccess(payment.value()))
-        }
-        yield put(actions.modals.closeModal('SIMPLE_BUY_MODAL'))
+      if (coinIsOnlyCustodial) {
+        initialAccount = yield call(initializeCustodialAccountForm, coin)
+      } else {
+        initialAccount = yield call(initializeNonCustodialAccountForm, coin, depositAddress)
       }
+
+      // finally, initialize the form
       yield put(
         initialize(DEPOSIT_FORM, {
           coin,
           currency,
-          interestDepositAccount: defaultAccount,
-          ...additionalParameters
+          interestDepositAccount: initialAccount
         })
       )
     } catch (e) {

@@ -24,6 +24,9 @@
     "@typescript-eslint/no-empty-function": "off",
     "consistent-return": "off",
     "func-names": "off",
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "import/prefer-default-export": "off",
+    "radix": "off",
     "simple-import-sort/imports": [
       "error",
       {
