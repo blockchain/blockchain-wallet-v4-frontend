@@ -68,7 +68,7 @@ const calculateBalance = balance =>
     value: balance,
     coin: 'XLM',
     baseToStandard: false
-  }).value
+  })
 
 export const getBalance = curry((state, accountId) =>
   compose(

@@ -1,17 +1,16 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import locale from 'browser-locale'
-import moment from 'moment'
-import { prop, toLower } from 'ramda'
+import * as moment from 'moment'
+import { prop } from 'ramda'
 import { compose, Dispatch } from 'redux'
 
-import { CoinType, SupportedCoinType } from 'blockchain-wallet-v4/src/types'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import modalEnhancer from 'providers/ModalEnhancer'
 
-import { isErc20Coin } from './model'
-import getData from './selectors'
+import { getData } from './selectors'
 import DownloadTransactions from './template'
 
 moment.locale(locale())
@@ -28,7 +27,6 @@ export type OwnProps = {
   total: number
 }
 type LinkStatePropsType = {
-  coinModel: SupportedCoinType
   formValues: any
 }
 type LinkDispatchPropsType = {
@@ -47,8 +45,12 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
   componentDidMount() {
     const { initForm } = this.props
     initForm({
+      // @ts-ignore
       end: moment().endOf('day'),
+
       from: 'all',
+
+      // @ts-ignore
       start: moment().startOf('day').subtract(7, 'day')
     })
   }
@@ -58,7 +60,7 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
   }
 
   onFetchHistory = () => {
-    const { coinModel, fetchTransactions, formValues } = this.props
+    const { coin, fetchTransactions, formValues } = this.props
     const from = prop('from', formValues)
     const startDate = prop('start', formValues)
     const endDate = prop('end', formValues)
@@ -69,9 +71,7 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
         type: derivation.type
       }))
     const address = from && (addressDerivations || from.xpub || from.address || from)
-    const filename =
-      `${coinModel.coinTicker}_${startDate.format('MM-DD-YYYY')}` +
-      `_${endDate.format('MM-DD-YYYY')}.csv`
+    const filename = `${coin}_${startDate.format('MM-DD-YYYY')}_${endDate.format('MM-DD-YYYY')}.csv`
     this.setState({ filename, generating: true })
     fetchTransactions(address, startDate, endDate)
   }
@@ -97,28 +97,22 @@ class DownloadTransactionsModal extends Component<Props, StateProps> {
 }
 
 const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
-  coinModel: selectors.core.walletOptions
-    .getCoinModel(state, ownProps.coin)
-    .getOrElse({ coinTicker: 'ETH' }),
   formValues: selectors.form.getFormValues('transactionReport')(state),
   ...getData(state, ownProps.coin)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch, { coin }: OwnProps) => {
-  const coinCode = isErc20Coin(coin) ? 'eth' : toLower(coin)
+  const { erc20Address, parentChain } = window.coins[coin].coinfig.type
+  const coinCode = parentChain.toLowerCase()
   return {
     clearTransactions: () => dispatch(actions.core.data[coinCode].clearTransactionHistory()),
     fetchTransactions: (address, startDate, endDate) => {
-      if (isErc20Coin(coin)) {
+      if (erc20Address) {
         return dispatch(
-          actions.core.data.eth.fetchErc20TransactionHistory(
-            address,
-            startDate,
-            endDate,
-            coin.toLowerCase()
-          )
+          actions.core.data.eth.fetchErc20TransactionHistory(address, startDate, endDate, coin)
         )
       }
+
       return dispatch(
         actions.core.data[coinCode].fetchTransactionHistory(address, startDate, endDate)
       )

@@ -16,9 +16,11 @@ export type FetchCustodialOrdersAndTransactionsReturnType = {
 
 // state
 export type SBCoreStateType = {
-  [key in WalletCurrencyType]: {
-    nextSBTransactionsURL: string | null
-    pendingTxsN: number
+  coins: {
+    [key in string]: {
+      nextSBTransactionsURL: string | null
+      pendingTxsN: number
+    }
   }
 }
 

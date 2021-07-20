@@ -18,7 +18,6 @@ export type GoalsType =
   | 'transferEth'
   | 'upgradeForAirdrop'
   | 'welcomeModal'
-  | 'xlmPayment'
   | 'interest'
   | 'interestPromo'
 
@@ -49,6 +48,5 @@ export enum DeepLinkGoal {
   LOG_LEVEL = 'log-level',
   REFERRAL = 'referral',
   SIMPLE_BUY = 'simple-buy',
-  SWAP = 'swap',
-  XLM = 'xlm'
+  SWAP = 'swap'
 }

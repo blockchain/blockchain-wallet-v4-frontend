@@ -50,7 +50,7 @@ export type SBBalanceType = {
 }
 
 export type SBBalancesType = {
-  [key in WalletCurrencyType]?: SBBalanceType
+  [key in string]?: SBBalanceType
 }
 
 export type CustodialFromType = SBBalanceType & {

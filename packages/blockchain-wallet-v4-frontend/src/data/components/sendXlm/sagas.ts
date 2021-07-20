@@ -53,13 +53,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         payment = yield payment.memo(memo)
       }
       const prepareTo = (to) => {
-        return to ? { value: { value: to, label: to } } : null
+        return to ? { value: { label: to, value: to } } : null
       }
       const initialValues = {
         coin: 'XLM',
         fee: defaultFee,
         from: defaultAccount,
-        memo: memo,
+        memo,
         memoType: INITIAL_MEMO_TYPE,
         to: prepareTo(to)
       }
@@ -81,13 +81,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (!equals(FORM, form)) return
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
-      const erc20List = (yield select(selectors.core.walletOptions.getErc20CoinList)).getOrElse([])
       let payment: XlmPaymentType = (yield select(S.getPayment)).getOrElse({})
       payment = yield call(coreSagas.payment.xlm.create, { payment })
 
       switch (field) {
         case 'coin':
-          const modalName = includes(payload, erc20List) ? 'ETH' : payload
+          const { coinfig } = window.coins[payload]
+          const modalName = coinfig.type.erc20Address ? 'ETH' : payload
           yield put(actions.modals.closeAllModals())
           yield put(
             actions.modals.showModal(`SEND_${modalName}_MODAL` as ModalNamesType, {
@@ -116,7 +116,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           break
         case 'to':
           // payload may be either an account type (wallet/lockbox) or an address
-          let value = pathOr(payload, ['value', 'value'], payload)
+          const value = pathOr(payload, ['value', 'value'], payload)
           // @ts-ignore
           const splitValue = propOr(value, 'address', value).split(':')
           const address = head(splitValue)
@@ -144,11 +144,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           return
         case 'amount':
           const xlmAmount = prop('coin', payload)
-          const stroopAmount = Exchange.convertXlmToXlm({
-            value: xlmAmount,
-            fromUnit: 'XLM',
-            toUnit: 'STROOP'
-          }).value
+          const stroopAmount = Exchange.convertCoinToCoin({
+            baseToStandard: false,
+            coin: 'XLM',
+            value: xlmAmount
+          })
           payment = yield call(payment.amount, stroopAmount)
           break
         case 'description':
@@ -239,7 +239,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     try {
       // Sign payment
       if (fromType !== ADDRESS_TYPES.LOCKBOX) {
-        let password = yield call(promptForSecondPassword)
+        const password = yield call(promptForSecondPassword)
         if (fromType !== ADDRESS_TYPES.CUSTODIAL) {
           payment = yield call(payment.sign, password)
         }
@@ -250,7 +250,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         )).getOrFail('missing_device')
         const deviceType = prop('device_type', device)
         yield call(Lockbox.promptForLockbox, 'XLM', deviceType, [toAddress])
-        let connection = yield select(selectors.components.lockbox.getCurrentConnection)
+        const connection = yield select(selectors.components.lockbox.getCurrentConnection)
         const transport = prop('transport', connection)
         const scrambleKey = Lockbox.utils.getScrambleKey('XLM', deviceType)
         payment = yield call(payment.sign, null, transport, scrambleKey)
@@ -266,7 +266,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
       yield put(actions.core.data.xlm.fetchData())
       yield put(A.paymentUpdatedSuccess(value))
-      const description = value.description
+      const { description } = value
       if (description) yield put(actions.core.kvStore.xlm.setTxNotesXlm(value.txId, description))
       // Display success
       if (fromType === ADDRESS_TYPES.LOCKBOX) {
@@ -292,10 +292,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           ...TRANSACTION_EVENTS.SEND,
           'XLM',
           Exchange.convertCoinToCoin({
-            value: payment.value().amount,
             coin: 'XLM',
-            baseToStandard: true
-          }).value
+            value: payment.value().amount
+          })
         ])
       )
       yield put(actions.modals.closeAllModals())
@@ -332,17 +331,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const xlmRates = (yield select(selectors.core.data.xlm.getRates)).getOrFail(
       'Can not retrieve stellar rates.'
     )
-    const coin = Exchange.convertXlmToXlm({
-      value: amount,
-      fromUnit: 'STROOP',
-      toUnit: 'XLM'
-    }).value
-    const fiat = Exchange.convertXlmToFiat({
-      value: amount,
-      fromUnit: 'STROOP',
-      toCurrency: currency,
-      rates: xlmRates
-    }).value
+    const coin = Exchange.convertCoinToCoin({
+      baseToStandard: false,
+      coin: 'XLM',
+      value: amount
+    })
+    const fiat = Exchange.convertCoinToFiat({
+      coin: 'XLM',
+      currency,
+      rates: xlmRates,
+      value: amount
+    })
     yield put(change(FORM, 'amount', { coin, fiat }))
   }
 
@@ -382,14 +381,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   return {
-    initialized,
     checkDestinationAccountExists,
     checkIfDestinationIsExchange,
     destroyed,
     firstStepSubmitClicked,
+    formChanged,
+    initialized,
     maximumAmountClicked,
     secondStepSubmitClicked,
-    formChanged,
     setAmount,
     setFrom
   }

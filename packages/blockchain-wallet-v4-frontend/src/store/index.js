@@ -57,6 +57,28 @@ const configuredStore = async function () {
 
   const res = await fetch('/wallet-options-v4.json')
   const options = await res.json()
+  const erc20Res = await fetch(`${options.domains.api}/assets/currencies/erc20`)
+  const erc20s = await erc20Res.json()
+  // TODO: erc20 phase 2, remove this whitelist
+  const coins = ['AAVE', 'PAX', 'USDC', 'USDT', 'WDGLD', 'YFI']
+  const erc20sSupportedBeforeDynamicChange = erc20s.currencies.filter((erc20) =>
+    coins.includes(erc20.symbol)
+  )
+
+  // hmmmm....
+  window.coins = {
+    ...options.platforms.web.coins,
+    // TODO: erc20 phase 2, replace w/ all erc20 currencies
+    // ...erc20s.currencies.reduce(
+    ...erc20sSupportedBeforeDynamicChange.reduce(
+      (acc, curr) => ({
+        ...acc,
+        [curr.symbol]: { coinfig: curr }
+      }),
+      {}
+    )
+  }
+
   const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
   const socketUrl = options.domains.webSocket
   const horizonUrl = options.domains.horizon

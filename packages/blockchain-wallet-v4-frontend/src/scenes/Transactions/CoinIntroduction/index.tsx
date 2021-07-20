@@ -5,15 +5,8 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
-import {
-  CoinType,
-  SupportedCoinType,
-  SupportedFiatType,
-  SupportedWalletCurrenciesType,
-  WalletFiatEnum,
-  WalletFiatType
-} from 'blockchain-wallet-v4/src/types'
-import { actions, selectors } from 'data'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
+import { actions } from 'data'
 import { media } from 'services/styles'
 
 const Container = styled.div`
@@ -64,15 +57,8 @@ class CoinIntroductionContainer extends React.PureComponent<Props> {
     })
 
   render() {
-    const {
-      brokerageActions,
-      coin,
-      simpleBuyActions,
-      supportedCoins
-    } = this.props
-    const coinModel = supportedCoins[coin] as
-      | SupportedCoinType
-      | SupportedFiatType
+    const { brokerageActions, coin, simpleBuyActions } = this.props
+    const { coinfig } = window.coins[coin]
 
     return (
       <Container>
@@ -90,7 +76,7 @@ class CoinIntroductionContainer extends React.PureComponent<Props> {
                   id='scenes.transaction.content.empty.cointxs'
                   defaultMessage='All your {coinName} transactions will show up here.'
                   values={{
-                    coinName: coinModel.displayName
+                    coinName: coinfig.name
                   }}
                 />
               </Content>
@@ -102,33 +88,27 @@ class CoinIntroductionContainer extends React.PureComponent<Props> {
             data-e2e='buyCoinFromTxList'
             nature='empty-secondary'
             onClick={() => {
-              if (coinModel.coinCode in WalletFiatEnum) {
+              if (coinfig.type.isFiat) {
                 // ACH Deposits/Withdrawals is only for USD right now
                 // so keeping the existing functionality for EUR
-                return coinModel.coinCode === 'USD'
-                  ? brokerageActions.handleDepositFiatClick(
-                      coinModel.coinCode as WalletFiatType
-                    )
-                  : simpleBuyActions.handleSBDepositFiatClick(
-                      coinModel.coinCode as WalletFiatType,
-                      'TransactionList'
-                    )
-              } else {
-                simpleBuyActions.showModal('EmptyFeed')
+                return coin === 'USD'
+                  ? brokerageActions.handleDepositFiatClick(coin)
+                  : simpleBuyActions.handleSBDepositFiatClick(coin, 'TransactionList')
               }
+              simpleBuyActions.showModal('EmptyFeed')
             }}
           >
-            {coinModel.coinCode in WalletFiatEnum ? (
+            {coinfig.type.isFiat ? (
               <FormattedMessage
                 id='scenes.transaction.content.empty.depositnow'
                 defaultMessage='Deposit {coin} Now'
-                values={{ coin: coinModel.displayName }}
+                values={{ coin: coinfig.name }}
               />
             ) : (
               <FormattedMessage
                 id='scenes.transaction.content.empty.buycoinnow'
                 defaultMessage='Buy {coin} Now'
-                values={{ coin: coinModel.displayName }}
+                values={{ coin: coinfig.name }}
               />
             )}
           </BuyButton>
@@ -138,19 +118,13 @@ class CoinIntroductionContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = state => ({
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrElse({} as SupportedWalletCurrenciesType)
-})
-
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
-const connector = connect(mapStateToProps, mapDispatchToProps)
+const connector = connect(undefined, mapDispatchToProps)
 
 type OwnProps = {
   coin: CoinType

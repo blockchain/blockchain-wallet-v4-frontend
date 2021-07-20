@@ -23,7 +23,6 @@ import {
 import { required } from 'services/forms'
 
 import { OwnProps, StateProps } from '.'
-import { isErc20Coin } from './model'
 
 const Container = styled.div`
   display: flex;
@@ -131,7 +130,7 @@ const DownloadTransactions: React.FunctionComponent<InjectedFormProps<{}, Props>
                   validate={[required, validAddressOrWallet]}
                 />
               )}
-              {(coin === 'ETH' || isErc20Coin(coin)) && (
+              {coin === 'ETH' && (
                 <Field
                   coin={coin}
                   component={SelectBoxEthAddresses}
@@ -143,6 +142,14 @@ const DownloadTransactions: React.FunctionComponent<InjectedFormProps<{}, Props>
                 <Field
                   coin={coin}
                   component={SelectBoxXlmAddresses}
+                  name='from'
+                  validate={[required, validAddressOrWallet]}
+                />
+              )}
+              {window.coins[coin].coinfig.type.erc20Address && (
+                <Field
+                  coin={coin}
+                  component={SelectBoxEthAddresses}
                   name='from'
                   validate={[required, validAddressOrWallet]}
                 />

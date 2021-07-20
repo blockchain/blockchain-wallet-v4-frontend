@@ -16,7 +16,7 @@ export const getData = (state, props) => {
         coin: 'XLM',
         value: amount,
         baseToStandard: false
-      }).value,
+      }),
       priv: state.securityCenter.shownXlmPrivKey
     },
     coin: 'XLM'

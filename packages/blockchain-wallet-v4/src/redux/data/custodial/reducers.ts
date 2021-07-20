@@ -1,40 +1,25 @@
+import Remote from 'blockchain-wallet-v4/src/remote/remote'
+
 import * as AT from './actionTypes'
 import { SBCoreActionTypes, SBCoreStateType } from './types'
 
-const DEFAULT_COIN_SB_STATE = {
-  nextSBTransactionsURL: null,
-  pendingTxsN: 0
-}
-
 const INITIAL_STATE: SBCoreStateType = {
-  AAVE: DEFAULT_COIN_SB_STATE,
-  ALGO: DEFAULT_COIN_SB_STATE,
-  BCH: DEFAULT_COIN_SB_STATE,
-  BTC: DEFAULT_COIN_SB_STATE,
-  DOT: DEFAULT_COIN_SB_STATE,
-  ETH: DEFAULT_COIN_SB_STATE,
-  EUR: DEFAULT_COIN_SB_STATE,
-  GBP: DEFAULT_COIN_SB_STATE,
-  PAX: DEFAULT_COIN_SB_STATE,
-  USD: DEFAULT_COIN_SB_STATE,
-  USDT: DEFAULT_COIN_SB_STATE,
-  WDGLD: DEFAULT_COIN_SB_STATE,
-  XLM: DEFAULT_COIN_SB_STATE,
-  YFI: DEFAULT_COIN_SB_STATE
+  coins: {}
 }
 
-export function custodialReducer(
-  state = INITIAL_STATE,
-  action: SBCoreActionTypes
-) {
+/* eslint-disable import/prefer-default-export */
+export function custodialReducer(state = INITIAL_STATE, action: SBCoreActionTypes) {
   switch (action.type) {
     case AT.SET_SB_CORE_COIN_DATA: {
       return {
         ...state,
-        [action.payload.coin]: {
-          ...state[action.payload.coin],
-          nextSBTransactionsURL: action.payload.next,
-          pendingTxsN: action.payload.pendingTxsN
+        coins: {
+          ...state.coins,
+          [action.payload.coin]: {
+            ...state.coins[action.payload.coin],
+            nextSBTransactionsURL: action.payload.next,
+            pendingTxsN: action.payload.pendingTxsN
+          }
         }
       }
     }
@@ -44,3 +29,5 @@ export function custodialReducer(
       }
   }
 }
+
+export default custodialReducer

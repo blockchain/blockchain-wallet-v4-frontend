@@ -6,12 +6,4 @@ import * as sendEth from './sendEth/model'
 import * as sendXlm from './sendXlm/model'
 import * as simpleBuy from './simpleBuy/model'
 
-export {
-  identityVerification,
-  lockbox,
-  sendBch,
-  sendBtc,
-  sendEth,
-  sendXlm,
-  simpleBuy
-}
+export { identityVerification, lockbox, sendBch, sendBtc, sendEth, sendXlm, simpleBuy }

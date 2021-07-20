@@ -2,11 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import {
-  CoinType,
-  FiatType,
-  SBOrderActionType
-} from 'blockchain-wallet-v4/src/types'
+import { CoinType, FiatType, SBOrderActionType } from 'blockchain-wallet-v4/src/types'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 import { SwapAccountType } from 'data/types'
@@ -17,10 +13,10 @@ import Success from './template.success'
 class CryptoItem extends PureComponent<Props> {
   render() {
     return this.props.data.cata({
-      Success: val => <Success {...this.props} {...val} />,
       Failure: () => null,
       Loading: () => null,
-      NotAsked: () => null
+      NotAsked: () => null,
+      Success: (val) => <Success {...this.props} {...val} />
     })
   }
 }

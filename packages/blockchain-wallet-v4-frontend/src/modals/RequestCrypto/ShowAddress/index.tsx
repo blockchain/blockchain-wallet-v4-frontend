@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Button, Icon, SkeletonRectangle, Text } from 'blockchain-info-components'
-import { SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/redux/walletOptions/types'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 import { FlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption } from 'components/Form'
@@ -82,9 +81,9 @@ class RequestShowAddress extends React.PureComponent<Props> {
   }
 
   render() {
-    const { formValues, handleClose, setStep, supportedCoins, walletCurrency } = this.props
+    const { formValues, handleClose, setStep, walletCurrency } = this.props
     const { selectedAccount } = formValues
-    const coinModel = supportedCoins[selectedAccount.coin]
+    const { coinfig } = window.coins[selectedAccount.coin]
 
     return (
       <Wrapper>
@@ -108,7 +107,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
         </FlyoutWrapper>
         <CoinAccountListOption
           account={selectedAccount}
-          coinModel={coinModel}
+          coin={selectedAccount.coin}
           displayOnly
           hideActionIcon
           walletCurrency={walletCurrency}
@@ -176,13 +175,13 @@ class RequestShowAddress extends React.PureComponent<Props> {
                 ))
               : null
         })}
-        {coinModel.isMemoBased && selectedAccount.type === SwapBaseCounterTypes.CUSTODIAL && (
+        {coinfig.type.isMemoBased && selectedAccount.type === SwapBaseCounterTypes.CUSTODIAL && (
           <InfoContainer>
             <Text color='grey600' size='12px' weight={500}>
               <FormattedMessage
                 id='modals.requestcrypto.showaddress.memo_required'
                 defaultMessage='If you send funds without the {coin} Memo Text, your funds will be lost and not credited to your account. Please send only {coin} to this address.'
-                values={{ coin: coinModel.coinCode }}
+                values={{ coin: selectedAccount.coin }}
               />
             </Text>
           </InfoContainer>
@@ -225,10 +224,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
 }
 
 const mapStateToProps = (state, ownProps: OwnProps) => ({
-  addressR: selectors.components.request.getNextAddress(state, ownProps.formValues.selectedAccount),
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrElse({} as SupportedWalletCurrenciesType)
+  addressR: selectors.components.request.getNextAddress(state, ownProps.formValues.selectedAccount)
 })
 
 const mapDispatchToProps = (dispatch) => ({

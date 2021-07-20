@@ -12,7 +12,7 @@ import {
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import { getFiatFromPair, getOrderType } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
 import {
@@ -151,10 +151,7 @@ class CheckoutConfirm extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  data: getData(state),
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrFail('Failed to load coin models')
+  data: getData(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

@@ -31,15 +31,18 @@ class RecoverContainer extends React.PureComponent {
 
     return metadataRestore.cata({
       Failure: () =>
-        kycReset ? (
+        // strict check here to only show error if kyc cannot be reset
+        // if metadataRestore fails, we still allow users to restore with
+        // a valid phrase, and kycReset is undefined
+        kycReset === false ? (
+          <Error previousStep={previousStep} />
+        ) : (
           <Recover
             previousStep={previousStep}
             onSubmit={this.onSubmit}
             isRegistering={isRegistering}
             password={password}
           />
-        ) : (
-          <Error previousStep={previousStep} />
         ),
       Loading: () => <SpinningLoader width='36px' height='36px' />,
       NotAsked: () => <SpinningLoader width='36px' height='36px' />,

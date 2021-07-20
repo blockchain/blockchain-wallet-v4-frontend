@@ -2,6 +2,7 @@ import { CoinType, SBCoreActionTypes } from 'core/types'
 
 import * as AT from './actionTypes'
 
+/* eslint-disable import/prefer-default-export */
 export const setSBCoreCoinData = (
   coin: CoinType,
   next: string | null,

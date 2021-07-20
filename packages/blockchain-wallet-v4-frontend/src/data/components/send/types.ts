@@ -10,10 +10,10 @@ import * as AT from './actionTypes'
 
 export type SendState = {
   exchangePaymentsAccount: {
-    [key in CoinType]: RemoteDataType<any, any>
+    [key in string]: RemoteDataType<any, any>
   }
   tradingPaymentsAccount: {
-    [key in CoinType]: RemoteDataType<any, BeneficiaryType>
+    [key in string]: RemoteDataType<any, BeneficiaryType>
   }
   unstoppableDomainResults: RemoteDataType<string, UnstoppableDomainResultsType>
   withdrawLockCheck: RemoteDataType<string, WithdrawalLockCheckResponseType>

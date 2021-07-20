@@ -12,10 +12,18 @@ const BalanceDisplay = styled(CoinDisplay)`
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
-  color: ${props => props.color};
+  color: ${(props) => props.color};
 `
 
 export const getBalanceColumn = () => ({
+  Cell: ({ row: { original: values } }) => {
+    const { balance, coin } = values
+    return (
+      <BalanceDisplay coin={coin} color={balance !== '0' ? 'grey900' : 'grey400'}>
+        {balance}
+      </BalanceDisplay>
+    )
+  },
   Header: () => (
     <CellHeaderText>
       <FormattedMessage id='copy.balance' defaultMessage='Balance' />
@@ -26,31 +34,20 @@ export const getBalanceColumn = () => ({
   sortType: (a, b) => {
     const aBalance = Number(
       Exchange.convertCoinToCoin({
-        value: a.original.balance,
         coin: a.original.coin,
-        baseToStandard: true
-      }).value
+        value: a.original.balance
+      })
     )
     const bBalance = Number(
       Exchange.convertCoinToCoin({
-        value: b.original.balance,
         coin: b.original.coin,
-        baseToStandard: true
-      }).value
+        value: b.original.balance
+      })
     )
     if (aBalance > bBalance) return 1
     if (bBalance > aBalance) return -1
     return 0
-  },
-  Cell: ({ row: { original: values } }) => {
-    const { balance, coin } = values
-    return (
-      <BalanceDisplay
-        coin={coin}
-        color={balance !== '0' ? 'grey900' : 'grey400'}
-      >
-        {balance}
-      </BalanceDisplay>
-    )
   }
 })
+
+export default getBalanceColumn

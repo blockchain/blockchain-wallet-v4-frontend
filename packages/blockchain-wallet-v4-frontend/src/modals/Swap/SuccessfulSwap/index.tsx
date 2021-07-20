@@ -27,7 +27,7 @@ const SwapIcon = styled.div`
   height: 72px;
   width: 72px;
   border-radius: 50%;
-  background: ${props => props.theme.blue600};
+  background: ${(props) => props.theme.blue600};
 `
 const CheckIcon = styled.div`
   position: absolute;
@@ -38,10 +38,10 @@ const CheckIcon = styled.div`
   align-items: center;
   padding: 2px;
   border-radius: 50%;
-  background: ${props => props.theme.white};
+  background: ${(props) => props.theme.white};
 `
 
-const SuccessfulSwap: React.FC<Props> = props => {
+const SuccessfulSwap: React.FC<Props> = (props) => {
   if (!props.order) return null
   return (
     <Wrapper>
@@ -53,46 +53,27 @@ const SuccessfulSwap: React.FC<Props> = props => {
           <Icon name='checkmark-circle-filled' color='green400' size='32px' />
         </CheckIcon>
       </IconContainer>
-      <Text
-        size='20px'
-        color='grey800'
-        weight={600}
-        style={{ marginTop: '24px' }}
-      >
-        <FormattedMessage
-          id='copy.swap_complete'
-          defaultMessage='Swap Complete'
-        />
+      <Text size='20px' color='grey800' weight={600} style={{ marginTop: '24px' }}>
+        <FormattedMessage id='copy.swap_complete' defaultMessage='Swap Complete' />
       </Text>
       {props.order.state === 'FINISHED' ? (
-        <Text
-          size='14px'
-          color='grey600'
-          weight={600}
-          style={{ marginTop: '4px' }}
-        >
+        <Text size='14px' color='grey600' weight={600} style={{ marginTop: '4px' }}>
           <FormattedMessage
             id='copy.swap_in_wallet'
             defaultMessage='Your {coin} is now in your Wallet.'
             values={{
-              // @ts-ignore
-              coin: props.coins[getOutput(props.order)].displayName
+              coin: window.coins[getOutput(props.order)].coinfig.name
             }}
           />
         </Text>
       ) : (
-        <Text
-          size='14px'
-          color='grey600'
-          weight={600}
-          style={{ marginTop: '4px' }}
-        >
+        <Text size='14px' color='grey600' weight={600} style={{ marginTop: '4px' }}>
           <FormattedMessage
             id='copy.swap_arrive_soon'
             defaultMessage='Your {coin} will arrive soon.'
             values={{
               // @ts-ignore
-              coin: props.coins[getOutput(props.order)].coinTicker
+              coin: getOutput(props.order)
             }}
           />
         </Text>
@@ -111,8 +92,7 @@ const SuccessfulSwap: React.FC<Props> = props => {
   )
 }
 
-type OwnProps = BaseProps &
-  SuccessStateType & { handleClose: () => void; order?: SwapOrderType }
+type OwnProps = BaseProps & SuccessStateType & { handleClose: () => void; order?: SwapOrderType }
 export type Props = OwnProps
 
 export default SuccessfulSwap

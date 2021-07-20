@@ -7,11 +7,9 @@ import { getCoinAccounts } from 'data/coins/selectors'
 import { RootState } from 'data/rootReducer'
 import { InitSwapFormValuesType, SwapAmountFormValues } from 'data/types'
 
-export const getData = (state: RootState) => {
+const getData = (state: RootState) => {
   const formErrors = selectors.form.getFormSyncErrors('swapAmount')(state)
-  const formValues = selectors.form.getFormValues('swapAmount')(
-    state
-  ) as SwapAmountFormValues
+  const formValues = selectors.form.getFormValues('swapAmount')(state) as SwapAmountFormValues
   const initSwapFormValues = selectors.form.getFormValues('initSwap')(
     state
   ) as InitSwapFormValuesType
@@ -24,7 +22,8 @@ export const getData = (state: RootState) => {
     state
   )
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
-  const accounts = getCoinAccounts(state, SWAP_ACCOUNTS_SELECTOR)
+  const coins = selectors.components.swap.getCoins()
+  const accounts = getCoinAccounts(state, { coins, ...SWAP_ACCOUNTS_SELECTOR })
   return lift(
     (
       incomingAmount: ExtractSuccess<typeof incomingAmountR>,
@@ -33,15 +32,17 @@ export const getData = (state: RootState) => {
       baseRates: ExtractSuccess<typeof baseRatesR>,
       walletCurrency: FiatType
     ) => ({
+      accounts,
+      baseRates,
       formErrors,
       formValues,
       incomingAmount,
       limits,
       payment: paymentR.getOrElse(undefined),
       quote,
-      baseRates,
-      walletCurrency,
-      accounts
+      walletCurrency
     })
   )(incomingAmountR, limitsR, quoteR, baseRatesR, walletCurrencyR)
 }
+
+export default getData

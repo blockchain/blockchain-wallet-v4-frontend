@@ -130,7 +130,6 @@ type MessagesType = {
   'components.alerts.fetch_unused_addresses_error': 'Failed to retrieve unused addresses.'
   'components.alerts.fetch_used_addresses_error': 'Failed to retrieve used addresses.'
   'components.alerts.first_pax_trade_info_dyk': 'Did you know?'
-  'components.alerts.first_usdd_trade_info': 'Now that you own USD Digital, you need to own ETH to Send or Swap.'
   'components.alerts.get_googleauth_secret_error': 'Could not retrieve Google Authenticator secret.'
   'components.alerts.google_auth_verify_error': 'Failed to verify Google Authenticator code'
   'components.alerts.google_auth_verify_success': 'Google auth verified'
@@ -159,7 +158,7 @@ type MessagesType = {
   'components.alerts.logginglevel_update_error': 'Failed to update logging level'
   'components.alerts.logginglevel_update_success': 'Logging level has been successfully updated'
   'components.alerts.login_failed': 'Login failed'
-  'components.alerts.loweth.body1': 'Sending USD Digital requires ETH. Your balance is low, Swap to get more ETH.'
+  'components.alerts.loweth.body2': 'Sending Erc20s requires ETH. Your balance is low, Swap to get more ETH.'
   'components.alerts.loweth.header': 'Running Low!'
   'components.alerts.loweth.learnmore': 'Learn More.'
   'components.alerts.message_sign_error': 'Failed to sign message.'
@@ -475,6 +474,7 @@ type MessagesType = {
   'copy.swap_upgrade_upload': 'Upload Your ID. Swap More Crypto Everyday.'
   'copy.swap_verify_email': 'Verify Your Email & Swap Today.'
   'copy.swap_verify_id': 'Verify your identity to increase how much you can Swap everyday.'
+  'copy.view_prices': 'View Prices'
   'copy.swap_your_crypto': 'Swap Your Crypto'
   'copy.viewTransaction': 'View Transaction'
   'copy.viewTransactions': 'View Transactions'
@@ -1671,7 +1671,7 @@ type MessagesType = {
   'modals.swapgetstarted.description': 'A Swap by Blockchain enables you to trade crypto with best prices and quick settlement, all while maintaining full control of your funds.'
   'modals.swapgetstarted.getstarted': 'Get Started'
   'modals.swapgetstarted.later': "I'll do this later"
-  'modals.swapgetstarted.trading_your_crypto': "Trading your crypto doesn't mean trading away control."
+
   'modals.transactions.report.download': 'Download Report'
   'modals.transactions.report.enddate': 'end date'
   'modals.transactions.report.generate': 'Generate Report'

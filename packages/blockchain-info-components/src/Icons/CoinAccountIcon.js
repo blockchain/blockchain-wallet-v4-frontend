@@ -1,13 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Image } from '../..'
 import Icomoon from './Icomoon'
+import Icon from './Icon'
 
 const Wrapper = styled.div`
   position: relative;
-  height: ${props => props.height || '32px'};
-  width: ${props => props.height || '32px'};
+  height: ${(props) => props.height || '32px'};
+  width: ${(props) => props.height || '32px'};
 `
 const SubIconWrapper = styled.div`
   position: absolute;
@@ -15,28 +15,28 @@ const SubIconWrapper = styled.div`
   right: -3px;
   width: 14px;
   height: 14px;
-  background: ${props => props.theme.white};
+  background: ${(props) => props.theme.white};
   border-radius: 14px;
 `
 const SubIcon = styled.span`
   display: flex;
   font-size: 12px;
   margin: 1px;
-  color: ${props => props.theme[props.color] || props.color};
-  cursor: ${props => (props.cursorEnabled ? 'pointer' : 'inherit')};
+  color: ${(props) => props.theme[props.color] || props.color};
+  cursor: ${(props) => (props.cursorEnabled ? 'pointer' : 'inherit')};
   -webkit-font-smoothing: antialiased;
 
   * {
     color: red !important;
   }
-  
+
   &:before {
     font-family: 'icomoon', sans-serif;
-    content: '${props => props.icon}';
+    content: '${(props) => props.icon}';
   }
 `
 
-const CoinAccountIcon = props => {
+const CoinAccountIcon = (props) => {
   const { accountType, coin } = props
 
   let icon
@@ -48,7 +48,7 @@ const CoinAccountIcon = props => {
       icon = Icomoon['blockchain-logo-circle']
       break
     case accountType === 'INTEREST':
-      icon = Icomoon['percentage']
+      icon = Icomoon.percentage
       break
     case accountType === 'ACCOUNT':
     default:
@@ -58,12 +58,7 @@ const CoinAccountIcon = props => {
 
   return (
     <Wrapper {...props}>
-      <Image
-        alt={`${coin} ${accountType === 'ACCOUNT' ? accountType : `${accountType} account`}`}
-        height='32px'
-        name={coin.toLowerCase()}
-        width='32px'
-      />
+      <Icon height='32px' name={coin} width='32px' />
       <SubIconWrapper>
         <SubIcon icon={icon} color={coin} />
       </SubIconWrapper>

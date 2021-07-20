@@ -3,11 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
-import {
-  BlueCartridge,
-  GreyCartridge,
-  SuccessCartridge
-} from 'components/Cartridge'
+import { BlueCartridge, GreyCartridge, SuccessCartridge } from 'components/Cartridge'
 import { CampaignInfoType } from 'data/types'
 
 const TypeWrapper = styled.div`
@@ -20,12 +16,7 @@ export const Type = ({ campaignName }: CampaignInfoType) => {
     case 'SUNRIVER':
       return (
         <TypeWrapper>
-          <Icon
-            name='XLM'
-            color='XLM'
-            size='24px'
-            style={{ marginRight: '8px' }}
-          />
+          <Icon name='XLM' color='XLM' size='24px' style={{ marginRight: '8px' }} />
           <Text size='14px' weight={500}>
             Stellar (XLM)
           </Text>
@@ -34,7 +25,6 @@ export const Type = ({ campaignName }: CampaignInfoType) => {
     case 'POWER_PAX':
       return (
         <TypeWrapper>
-          <Icon name='PAX' size='24px' style={{ marginRight: '8px' }} />
           <Text size='14px' weight={500}>
             USD Digital
           </Text>
@@ -43,12 +33,7 @@ export const Type = ({ campaignName }: CampaignInfoType) => {
     case 'BLOCKSTACK':
       return (
         <TypeWrapper>
-          <Icon
-            name='STX'
-            color='STX'
-            size='24px'
-            style={{ marginRight: '8px' }}
-          />
+          <Icon name='STX' color='STX' size='24px' style={{ marginRight: '8px' }} />
           <Text size='14px' weight={500}>
             Blockstack (STX)
           </Text>
@@ -59,11 +44,7 @@ export const Type = ({ campaignName }: CampaignInfoType) => {
   }
 }
 
-export const Status = ({
-  campaignName,
-  campaignState,
-  userCampaignState
-}: CampaignInfoType) => {
+export const Status = ({ campaignName, campaignState, userCampaignState }: CampaignInfoType) => {
   // Special case for BLOCKSTACK campaign
   // See convo: https://blockc.slack.com/archives/GSAK5CKD5/p1578309118000200
   if (campaignName === 'BLOCKSTACK') {
@@ -72,10 +53,7 @@ export const Status = ({
         return (
           <BlueCartridge>
             <Text size='14px' weight={700} color='blue600'>
-              <FormattedMessage
-                id='scenes.pastairdrops.pending'
-                defaultMessage='Reward Pending'
-              />
+              <FormattedMessage id='scenes.pastairdrops.pending' defaultMessage='Reward Pending' />
             </Text>
           </BlueCartridge>
         )
@@ -86,10 +64,7 @@ export const Status = ({
       return (
         <SuccessCartridge>
           <Text size='14px' weight={700} color='green600'>
-            <FormattedMessage
-              id='scenes.pastairdrops.received'
-              defaultMessage='Received'
-            />
+            <FormattedMessage id='scenes.pastairdrops.received' defaultMessage='Received' />
           </Text>
         </SuccessCartridge>
       )

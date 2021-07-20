@@ -1,26 +1,23 @@
 import { lift, map, not, reject, values } from 'ramda'
 
-import {
-  CoinTypeEnum,
-  ExtractSuccess,
-  SupportedCoinType
-} from 'blockchain-wallet-v4/src/types'
+import { ExtractSuccess, SupportedCoinType } from 'blockchain-wallet-v4/src/types'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
-import { getAllCoinsBalancesSelector } from 'components/Balances/selectors'
+import { getAllCoinsBalancesSelector, getErc20Balance } from 'components/Balances/selectors'
 import { selectors } from 'data'
 
 export const getData = createDeepEqualSelector(
   [
     selectors.prices.getAllCoinPrices,
     selectors.prices.getAllCoinPricesPreviousDay,
-    selectors.core.walletOptions.getSupportedCoins,
-    getAllCoinsBalancesSelector
+    selectors.components.utils.getCoinsWithMethodAndOrder,
+    getAllCoinsBalancesSelector,
+    (state) => state
   ],
-  (coinPricesR, coinPricesPreviousR, supportedCoinsR, coinBalances) => {
+  (coinPricesR, coinPricesPreviousR, coinsWithMethodAndOrderR, coinBalances, state) => {
     const transform = (
       coinPrices: ExtractSuccess<typeof coinPricesR>,
       coinPricesPrevious: ExtractSuccess<typeof coinPricesPreviousR>,
-      supportedCoins: ExtractSuccess<typeof supportedCoinsR>
+      coinsWithMethodAndOrder: ExtractSuccess<typeof coinsWithMethodAndOrderR>
     ) => {
       // logic to exclude fiat currencies from list
       return reject(
@@ -28,25 +25,31 @@ export const getData = createDeepEqualSelector(
         values(
           // @ts-ignore
           map((coin: SupportedCoinType) => {
-            const currentPrice = coinPrices[coin.coinCode]
-            const yesterdayPrice = coinPricesPrevious[coin.coinCode]
+            const { coinfig } = coin
+
+            const currentPrice = coinPrices[coinfig.symbol]
+            const yesterdayPrice = coinPricesPrevious[coinfig.symbol]
             return (
-              coin.coinCode in CoinTypeEnum && {
-                coin: coin.coinCode,
+              !coinfig.type.isFiat && {
+                balance:
+                  coinBalances[coinfig.symbol] ||
+                  getErc20Balance(coinfig.symbol)(state).getOrElse(0),
+                coin: coinfig.symbol,
                 coinModel: coin,
-                name: `${coin.displayName} (${coin.coinTicker})`,
+                name: `${coinfig.name} (${coinfig.symbol})`,
                 price: currentPrice,
                 priceChange: Number(
                   ((currentPrice - yesterdayPrice) / yesterdayPrice) * 100
-                ).toPrecision(2),
-                balance: coinBalances[coin.coinCode]
+                ).toPrecision(2)
               }
             )
-          }, supportedCoins)
+          }, coinsWithMethodAndOrder)
         )
       )
     }
 
-    return lift(transform)(coinPricesR, coinPricesPreviousR, supportedCoinsR)
+    return lift(transform)(coinPricesR, coinPricesPreviousR, coinsWithMethodAndOrderR)
   }
 )
+
+export default getData

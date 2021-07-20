@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { gt, head, includes, isEmpty, path, prop, propOr } from 'ramda'
+import { gt, head, isEmpty, path, prop, propOr } from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
@@ -13,15 +13,14 @@ const getData = createDeepEqualSelector(
     selectors.components.sendEth.getIsContract,
     selectors.components.sendEth.getFeeToggled,
     (state, coin) => {
-      const erc20List = selectors.core.walletOptions.getErc20CoinList(state).getOrFail()
-      return includes(coin, erc20List)
+      const { coinfig } = window.coins[coin]
+      return coinfig.type.erc20Address
         ? selectors.core.data.eth.getErc20CurrentBalance(state, coin)
         : selectors.core.data.eth.getCurrentBalance(state)
     },
     (state) => selectors.core.common.eth.getErc20AccountBalances(state, 'PAX').map(head),
     selectors.core.kvStore.lockbox.getDevices,
-    selectors.form.getFormValues(model.components.sendEth.FORM),
-    (state, coin) => selectors.core.walletOptions.getCoinAvailability(state, coin)
+    selectors.form.getFormValues(model.components.sendEth.FORM)
   ],
   (
     isMnemonicVerified,
@@ -31,11 +30,9 @@ const getData = createDeepEqualSelector(
     balanceR,
     paxBalanceR,
     lockboxDevicesR,
-    formValues,
-    coinAvailability
+    formValues
   ) => {
     const enableToggle = !isEmpty(lockboxDevicesR.getOrElse([]))
-    const excludeLockbox = !prop('lockbox', coinAvailability.getOrElse({}))
     // TODO: include any/all ERC20 balances in future
     const hasErc20Balance = gt(prop('balance', paxBalanceR.getOrElse(0)), 0)
 
@@ -84,7 +81,7 @@ const getData = createDeepEqualSelector(
         balanceStatus: balanceR,
         effectiveBalance,
         enableToggle,
-        excludeLockbox,
+        excludeLockbox: true,
         fee,
         feeElements,
         feeToggled,

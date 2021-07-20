@@ -7,9 +7,9 @@ import { call, cancel, delay, fork, put, race, retry, select, take } from 'redux
 import { Remote } from 'blockchain-wallet-v4/src'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import {
-  CoinTypeEnum,
   Everypay3DSResponseType,
   FiatEligibleType,
+  FiatType,
   OrderType,
   ProductTypes,
   SBAccountType,
@@ -19,7 +19,6 @@ import {
   SBPaymentTypes,
   SBProviderDetailsType,
   SBQuoteType,
-  SupportedWalletCurrenciesType,
   SwapOrderType,
   WalletOptionsType
 } from 'blockchain-wallet-v4/src/types'
@@ -682,13 +681,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     try {
       yield put(A.fetchSBPairsLoading())
       const { pairs }: ReturnType<typeof api.getSBPairs> = yield call(api.getSBPairs, currency)
-      const supportedCoins = selectors.core.walletOptions
-        .getSupportedCoins(yield select())
-        .getOrElse({} as SupportedWalletCurrenciesType)
       const filteredPairs = pairs.filter((pair) => {
         return (
-          getCoinFromPair(pair.pair) in CoinTypeEnum &&
-          supportedCoins[getCoinFromPair(pair.pair)].invited
+          window.coins[getCoinFromPair(pair.pair)] &&
+          !window.coins[getCoinFromPair(pair.pair)].coinfig.type.isFiat
         )
       })
       yield put(A.fetchSBPairsSuccess(filteredPairs, coin))
@@ -885,7 +881,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(
         A.setStep({
           displayBack: false,
-          fiatCurrency: coin,
+          fiatCurrency: coin as FiatType,
           step: 'BANK_WIRE_DETAILS'
         })
       )

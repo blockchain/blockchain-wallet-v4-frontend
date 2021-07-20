@@ -1,20 +1,20 @@
 export default {
-  code: 'SEK',
   base: 'CENT',
+  code: 'SEK',
   displayName: 'Swedish Krona',
   trade: 'SEK',
   units: {
     CENT: {
+      currency: 'SEK',
+      decimal_digits: 0,
       rate: '1',
       symbol: '¢kr',
-      decimal_digits: 0,
-      currency: 'SEK'
     },
     SEK: {
+      currency: 'SEK',
+      decimal_digits: 2,
       rate: '100',
       symbol: 'kr',
-      decimal_digits: 2,
-      currency: 'SEK'
-    }
-  }
+    },
+  },
 }

@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 import { Box, Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import { FiatType, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
 import { ErrorCartridge } from 'components/Cartridge'
 import { AmountTextBox } from 'components/Exchange'
@@ -117,7 +117,7 @@ const Header = ({ brokerageActions, fiatCurrency }) => {
   )
 }
 
-const LimitSection = ({ fiatCurrency, paymentMethods, supportedCoins }) => {
+const LimitSection = ({ fiatCurrency, paymentMethods }) => {
   const bankTransfer = paymentMethods.methods.find(
     (method) => method.type === SBPaymentTypes.BANK_TRANSFER
   )
@@ -138,11 +138,7 @@ const LimitSection = ({ fiatCurrency, paymentMethods, supportedCoins }) => {
           </Text>
         </LimitWrapper>
         <FiatIconWrapper>
-          <Icon
-            color={supportedCoins[fiatCurrency].coinCode}
-            name={supportedCoins[fiatCurrency].coinCode}
-            size='32px'
-          />
+          <Icon color={fiatCurrency} name={fiatCurrency} size='32px' />
           <SubIconWrapper>
             <Icon size='24px' color='USD' name='arrow-down' />
           </SubIconWrapper>
