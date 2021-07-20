@@ -53,13 +53,13 @@ class NabuUserConflictRedirect extends React.PureComponent<Props> {
           </Text>
         </Header>
         <Body>
-          <Text size='14px' weight={400}>
+          <Text size='14px' weight={500}>
             <FormattedMessage
               defaultMessage='Your Blockchain.com trading account is associated with another wallet. Please log into your wallet referenced below for account access.'
               id='modals.nabuuserconflict.body'
             />
           </Text>
-          <Text size='14px' weight={400} color='red600'>
+          <Text size='14px' weight={400}>
             {errorMessage}
           </Text>
         </Body>

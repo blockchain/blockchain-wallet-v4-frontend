@@ -186,7 +186,7 @@ export default ({ api, coreSagas, networks }) => {
           actions.modals.showModal(
             'NABU_USER_CONFLICT_REDIRECT',
             { origin: 'NabuUserAuth' },
-            { errorMessage: e.toString() }
+            { errorMessage: e.message }
           )
         )
       }
