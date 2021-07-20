@@ -169,9 +169,7 @@ export default ({ api, coreSagas, networks }) => {
       yield spawn(renewSession, userId, lifetimeToken, email, guid, expiresIn)
     } catch (e) {
       if (prop('status', e) === 409) {
-        yield put(
-          actions.modals.showModal('NABU_USER_CONFLICT_REDIRECT', { origin: 'NabuUserAuth' }, e)
-        )
+        throw new Error(e.description)
       }
       throw e
     }
@@ -183,6 +181,15 @@ export default ({ api, coreSagas, networks }) => {
       yield call(setSession, userId, lifetimeToken, email, guid)
     } catch (e) {
       yield put(A.setApiTokenFailure(e))
+      if (e.message.includes('User linked to another wallet')) {
+        return yield put(
+          actions.modals.showModal(
+            'NABU_USER_CONFLICT_REDIRECT',
+            { origin: 'NabuUserAuth' },
+            { errorMessage: e.toString() }
+          )
+        )
+      }
       yield spawn(renewSession, userId, lifetimeToken, email, guid, authRetryDelay)
     }
   }
