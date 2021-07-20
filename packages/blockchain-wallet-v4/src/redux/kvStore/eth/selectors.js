@@ -55,7 +55,7 @@ export const getErc20Accounts = state =>
 export const getErc20Account = (state, token) =>
   getErc20Accounts(state).map(path([token]))
 export const getErc20ContractAddr = (state, token) =>
-  getErc20Accounts(state).map(path([token, 'contract']))
+  getErc20Accounts(state).map(path([toLower(token), 'contract']))
 export const getErc20ContractAddrs = state =>
   getErc20Accounts(state)
     .map(mapObjIndexed(prop('contract')))

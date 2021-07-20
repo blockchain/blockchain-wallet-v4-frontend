@@ -2,7 +2,6 @@ import moment from 'moment'
 import { FormAction } from 'redux-form'
 import { call, CallEffect, delay, put, select } from 'redux-saga/effects'
 
-import { INVALID_COIN_TYPE } from 'blockchain-wallet-v4/src/model'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import {
   BeneficiaryType,
@@ -30,7 +29,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const { waitForUserData } = profileSagas({ api, coreSagas, networks })
 
   const buildAndPublishPayment = function* (
-    coin: CoinType,
+    coin: string,
     payment: PaymentType,
     destination: string
   ): Generator<PaymentType | CallEffect, PaymentValue, any> {
@@ -214,38 +213,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     coin: CoinType,
     paymentR: RemoteDataType<string | Error, PaymentValue | undefined>
   ): PaymentType => {
-    switch (coin) {
-      case 'BCH':
-        return coreSagas.payment.bch.create({
-          network: networks.bch,
-          payment: paymentR.getOrElse(<PaymentValue>{})
-        })
-      case 'BTC':
-        return coreSagas.payment.btc.create({
-          network: networks.btc,
-          payment: paymentR.getOrElse(<PaymentValue>{})
-        })
-      case 'ETH':
-      case 'PAX':
-      case 'USDT':
-      case 'WDGLD':
-      case 'AAVE':
-      case 'YFI':
-        return coreSagas.payment.eth.create({
-          network: networks.eth,
-          payment: paymentR.getOrElse(<PaymentValue>{})
-        })
-      case 'XLM':
-        return coreSagas.payment.xlm.create({
-          payment: paymentR.getOrElse(<PaymentValue>{})
-        })
-      case 'ALGO':
-      case 'DOT':
-        // @ts-ignore
-        return {}
-      default:
-        throw new Error(INVALID_COIN_TYPE)
+    const coinLower = window.coins[coin].coinfig.type.parentChain.toLowerCase()
+    const saga = coreSagas.payment[coinLower]
+
+    if (saga) {
+      return saga.create({
+        network: networks[coinLower],
+        payment: paymentR.getOrElse(<PaymentValue>{})
+      })
     }
+    // @ts-ignore
+    return {}
   }
 
   const formChanged = function* (action: FormAction) {

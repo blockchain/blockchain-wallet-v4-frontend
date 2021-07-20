@@ -79,7 +79,7 @@ const BottomInfo = styled(Bottom)`
 const Success: React.FC<Props> = (props) => {
   const orderType = getOrderType(props.order)
   const baseAmount = getBaseAmount(props.order)
-  const baseCurrency = getBaseCurrency(props.order, props.supportedCoins)
+  const baseCurrency = getBaseCurrency(props.order)
   const days =
     props.withdrawLockCheck && props.withdrawLockCheck.lockTime
       ? moment.duration(props.withdrawLockCheck.lockTime, 'seconds').days()
@@ -111,8 +111,8 @@ const Success: React.FC<Props> = (props) => {
         <Content>
           <IconWrapper>
             <Icon
-              color={props.supportedCoins[props.order.outputCurrency].coinCode}
-              name={props.supportedCoins[props.order.outputCurrency].coinCode}
+              color={props.order.outputCurrency}
+              name={props.order.outputCurrency}
               size='64px'
             />
 

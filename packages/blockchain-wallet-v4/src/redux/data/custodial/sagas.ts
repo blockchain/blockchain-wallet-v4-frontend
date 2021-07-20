@@ -3,10 +3,8 @@ import { call, put, select } from 'redux-saga/effects'
 
 import {
   CoinType,
-  CoinTypeEnum,
   ProcessedSwapOrderType,
-  SBPendingTransactionStateEnum,
-  WalletCurrencyType
+  SBPendingTransactionStateEnum
 } from 'blockchain-wallet-v4/src/types'
 import { APIType } from 'core/network/api'
 import { ProcessedTxType } from 'core/transactions/types'
@@ -20,16 +18,17 @@ export default ({ api }: { api: APIType }) => {
     page: Array<ProcessedTxType>,
     offset: number,
     transactionsAtBound: boolean,
-    currency: WalletCurrencyType,
+    currency: string,
     nextSBTransactionsURL: string | null
   ) {
     // 🤯
     // Nabu (as of this writing) has multiple types of 'txs' and endpoints
-    // this saga is used to fetch 2 of those endpoints and join them
+    // this saga is used to fetch 3 of those endpoints and join them
     // for the purpose of viewing alongside your noncustodial txs.
     //
     // 1. /simple-buy/trades a.k.a getSBOrders
     // 2. /payments/transactions a.k.a getSBTransactions
+    // 3. /unified a.k.a swaps
     //
     // getSBOrders takes a before and after param, so we can tell the BE
     // the appropriate range of transactions to return
@@ -77,7 +76,7 @@ export default ({ api }: { api: APIType }) => {
         before
       })
       const filteredOrders = orders.filter((order) => {
-        return order.inputCurrency in CoinTypeEnum
+        return order.side === 'SELL'
           ? order.inputCurrency === currency
           : order.outputCurrency === currency
       })

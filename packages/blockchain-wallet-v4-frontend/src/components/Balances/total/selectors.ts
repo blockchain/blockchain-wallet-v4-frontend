@@ -1,7 +1,6 @@
 import { lift } from 'ramda'
 
-import { Exchange } from 'blockchain-wallet-v4/src'
-import * as Currency from 'blockchain-wallet-v4/src/exchange/currency'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { selectors } from 'data'
 
@@ -12,11 +11,13 @@ export const getTotalBalance = createDeepEqualSelector(
     S.getAlgoBalanceInfo,
     S.getBchBalanceInfo,
     S.getBtcBalanceInfo,
+    S.getCloutBalanceInfo,
+    S.getDogeBalanceInfo,
     S.getDotBalanceInfo,
     S.getEthBalanceInfo,
     S.getXlmBalanceInfo,
     S.getFiatBalanceInfo,
-    S.getErc20BalancesInfo,
+    S.getErc20BalancesInfoV2,
     selectors.core.settings.getCurrency,
     selectors.router.getPathname
   ],
@@ -25,10 +26,12 @@ export const getTotalBalance = createDeepEqualSelector(
     bchBalanceInfoR,
     btcBalanceInfoR,
     dotBalanceInfoR,
+    cloutBalanceInfoR,
+    dogeBalanceInfoR,
     ethBalanceInfoR,
     xlmBalanceInfoR,
     fiatBalanceInfoR,
-    erc20BalancesInfo,
+    erc20BalancesInfoV2,
     currency,
     path
   ) => {
@@ -36,35 +39,45 @@ export const getTotalBalance = createDeepEqualSelector(
       algoBalance,
       bchBalance,
       btcBalance,
-      dotBalance,
+      // cloutBalance,
+      // dogeBalance,
+      // dotBalance,
       ethBalance,
       xlmBalance,
       fiatBalance,
-      erc20BalancesInfo,
+      erc20BalancesInfoV2,
       currency
     ) => {
-      const total = Currency.formatFiat(
-        Number(algoBalance) +
-          Number(bchBalance) +
-          Number(btcBalance) +
-          Number(ethBalance) +
-          Number(dotBalance) +
-          Number(xlmBalance) +
-          Number(erc20BalancesInfo) +
-          Number(fiatBalance)
+      const erc20Balance = erc20BalancesInfoV2.reduce(
+        (acc, cur) => (acc += Number(cur.getOrElse('0'))),
+        0
       )
-      const totalBalance = `${Exchange.getSymbol(currency)}${total}`
-      return { totalBalance, path }
+      const total =
+        Number(algoBalance) +
+        Number(bchBalance) +
+        Number(btcBalance) +
+        Number(ethBalance) +
+        Number(cloutBalanceInfoR.getOrElse('0')) +
+        Number(dogeBalanceInfoR.getOrElse('0')) +
+        Number(dotBalanceInfoR.getOrElse('0')) +
+        Number(xlmBalance) +
+        Number(fiatBalance) +
+        erc20Balance
+      const totalBalance = `${fiatToString({ unit: currency, value: total })}`
+      return { path, totalBalance }
     }
+
     return lift(transform)(
       algoBalanceInfoR,
       bchBalanceInfoR,
       btcBalanceInfoR,
-      dotBalanceInfoR,
+      // cloutBalanceInfoR,
+      // dogeBalanceInfoR,
+      // dotBalanceInfoR,
       ethBalanceInfoR,
       xlmBalanceInfoR,
       fiatBalanceInfoR,
-      erc20BalancesInfo,
+      erc20BalancesInfoV2,
       currency
     )
   }

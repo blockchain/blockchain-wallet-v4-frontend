@@ -27,7 +27,7 @@ const TransactionsWrapper = styled.div`
   align-items: flex-start;
   width: 99%;
   border-radius: 8px;
-  border: 1px solid ${props => props.theme.grey000};
+  border: 1px solid ${(props) => props.theme.grey000};
 `
 
 class TransactionList extends PureComponent<Props> {
@@ -35,9 +35,12 @@ class TransactionList extends PureComponent<Props> {
     const { coin, coinTicker, currency, data } = this.props
 
     return data.cata({
+      Failure: (message) => <DataError onClick={this.props.onRefresh} message={message} />,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />,
       Success: (transactions: SuccessStateType) => (
         <TransactionsWrapper>
-          {transactions.map(tx => {
+          {transactions.map((tx) => {
             // @ts-ignore
             return 'hash' in tx ? (
               <NonCustodialTxListItem
@@ -61,12 +64,7 @@ class TransactionList extends PureComponent<Props> {
             )
           })}
         </TransactionsWrapper>
-      ),
-      Failure: message => (
-        <DataError onClick={this.props.onRefresh} message={message} />
-      ),
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      )
     })
   }
 }
@@ -75,18 +73,13 @@ export type Props = {
   coin: WalletCurrencyType
   coinTicker: string
   currency: FiatType
-  data: RemoteDataType<
-    { message: string },
-    Array<SBOrderType | ProcessedTxType>
-  >
+  data: RemoteDataType<{ message: string }, Array<SBOrderType | ProcessedTxType>>
   onArchive: (address: string) => void
   onLoadMore: () => void
   onRefresh: () => void
   sourceType?: string
 }
 
-export type SuccessStateType = Array<
-  SBOrderType | SBTransactionType | ProcessedTxType
->
+export type SuccessStateType = Array<SBOrderType | SBTransactionType | ProcessedTxType>
 
 export default TransactionList

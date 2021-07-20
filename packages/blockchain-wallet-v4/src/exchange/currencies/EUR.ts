@@ -1,20 +1,20 @@
 export default {
-  code: 'EUR',
   base: 'CENT',
+  code: 'EUR',
   displayName: 'Euros',
   trade: 'EUR',
   units: {
     CENT: {
+      currency: 'EUR',
+      decimal_digits: 0,
       rate: '1',
       symbol: '¢€',
-      decimal_digits: 0,
-      currency: 'EUR'
     },
     EUR: {
+      currency: 'EUR',
+      decimal_digits: 2,
       rate: '100',
       symbol: '€',
-      decimal_digits: 2,
-      currency: 'EUR'
-    }
-  }
+    },
+  },
 }

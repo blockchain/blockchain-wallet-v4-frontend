@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { formatFiat } from 'blockchain-wallet-v4/src/exchange/currency'
+import { formatFiat } from 'blockchain-wallet-v4/src/exchange/utils'
 import {
   FiatType,
   PriceChangeType,

@@ -113,7 +113,6 @@
   "components.alerts.fetch_unused_addresses_error": "Échec de la récupération des adresses non utilisées.",
   "components.alerts.fetch_used_addresses_error": "Échec de la récupération des adresses utilisées.",
   "components.alerts.first_pax_trade_info_dyk": "Le saviez-vous ?",
-  "components.alerts.first_usdd_trade_info": "Maintenant que vous possédez USD Digital, vous devez posséder ETH pour envoyer ou échanger.",
   "components.alerts.get_googleauth_secret_error": "Impossible de récupérer le code secret Google Authenticator.",
   "components.alerts.google_auth_verify_error": "Impossible de vérifier le code Google Authenticator",
   "components.alerts.google_auth_verify_success": "Google Auth vérifié",

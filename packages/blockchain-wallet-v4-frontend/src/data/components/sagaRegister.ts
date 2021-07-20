@@ -4,6 +4,8 @@ import algoTransactions from './algoTransactions/sagaRegister'
 import bchTransactions from './bchTransactions/sagaRegister'
 import brokerage from './brokerage/sagaRegister'
 import btcTransactions from './btcTransactions/sagaRegister'
+import cloutTransactions from './cloutTransactions/sagaRegister'
+import dogeTransactions from './dogeTransactions/sagaRegister'
 import dotTransactions from './dotTransactions/sagaRegister'
 import ethTransactions from './ethTransactions/sagaRegister'
 import fiatTransactions from './fiatTransactions/sagaRegister'
@@ -40,6 +42,8 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(brokerage({ api, coreSagas, networks }))
     yield fork(bchTransactions())
     yield fork(btcTransactions())
+    yield fork(cloutTransactions())
+    yield fork(dogeTransactions())
     yield fork(dotTransactions())
     yield fork(ethTransactions())
     yield fork(xlmTransactions())

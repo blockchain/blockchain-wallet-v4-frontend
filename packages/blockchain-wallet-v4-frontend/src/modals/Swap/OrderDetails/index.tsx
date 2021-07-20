@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { coinToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { coinToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import { SwapOrderType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { convertBaseToStandard } from 'data/components/exchange/services'
@@ -18,8 +18,7 @@ class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 
     const baseCoin = getInput(this.props.order)
     const counterCoin = getOutput(this.props.order)
-    // @ts-ignore
-    const { coins, handleClose, order } = this.props
+    const { handleClose, order } = this.props
     return (
       <>
         <FlyoutWrapper>
@@ -55,7 +54,7 @@ class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           </Title>
           <Value>
             {coinToString({
-              unit: { symbol: coins[baseCoin].coinTicker },
+              unit: { symbol: baseCoin },
               value: convertBaseToStandard(baseCoin, order.priceFunnel.inputMoney)
             })}
           </Value>
@@ -66,7 +65,7 @@ class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           </Title>
           <Value>
             {coinToString({
-              unit: { symbol: coins[counterCoin].coinTicker },
+              unit: { symbol: counterCoin },
               value: convertBaseToStandard(counterCoin, this.props.order.priceFunnel.outputMoney)
             })}
           </Value>

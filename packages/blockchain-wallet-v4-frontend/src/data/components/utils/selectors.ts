@@ -1,39 +1,59 @@
 import { isNil, lift, mapObjIndexed, reject, values } from 'ramda'
 
 import {
-  CoinTypeEnum,
+  AccountTokensBalancesResponseType,
   ExtractSuccess,
   SBPaymentTypes,
-  SupportedWalletCurrencyType
+  SupportedWalletCurrencyType,
+  SwapOrderType
 } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
+import { getOutputFromPair } from '../swap/model'
+
 // eslint-disable-next-line import/prefer-default-export
-export const getSupportedCoinsWithMethodAndOrder = (state: RootState) => {
+export const getCoinsWithMethodAndOrder = (state: RootState) => {
   const sbMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(state)
-  const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
+  // TODO, check all custodial features
+  const sbBalancesR = selectors.components.simpleBuy.getSBBalances(state)
+  const coinsR = selectors.core.walletOptions.getSupportedCoins(state)
+  const erc20sR = selectors.core.data.eth.getErc20AccountTokenBalances(state)
+  const recentSwapTxs = selectors.custodial.getRecentSwapTxs(state).getOrElse([] as SwapOrderType[])
 
   const transform = (
     paymentMethods: ExtractSuccess<typeof sbMethodsR>,
-    supportedCoins: ExtractSuccess<typeof supportedCoinsR>
+    sbBalances: ExtractSuccess<typeof sbBalancesR>,
+    coins: ExtractSuccess<typeof coinsR>,
+    erc20s: AccountTokensBalancesResponseType['tokenAccounts']
   ) => {
+    const custodialErc20s = Object.keys(sbBalances).filter(
+      (coin) => window.coins[coin] && window.coins[coin].coinfig.type.erc20Address
+    )
+    const coinsInRecentSwaps = recentSwapTxs.map((tx) => getOutputFromPair(tx.pair))
     // remove coins that may not yet exist in wallet options to avoid app crash
     const coinOrder = reject(isNil)([
-      supportedCoins.USD,
-      supportedCoins.EUR,
-      supportedCoins.GBP,
-      supportedCoins.BTC,
-      supportedCoins.ETH,
-      supportedCoins.BCH,
-      supportedCoins.XLM,
-      supportedCoins.WDGLD,
-      supportedCoins.ALGO,
-      supportedCoins.PAX,
-      supportedCoins.USDT,
-      supportedCoins.AAVE,
-      supportedCoins.DOT,
-      supportedCoins.YFI
+      coins.USD,
+      coins.EUR,
+      coins.GBP,
+      coins.BTC,
+      coins.ETH,
+      coins.BCH,
+      coins.XLM,
+      coins.ALGO,
+      coins.DOT,
+      coins.CLOUT,
+      coins.DOGE,
+      // ...coins.rest // erc20s
+      ...[
+        ...new Set([
+          ...erc20s.map(({ tokenSymbol }) => tokenSymbol),
+          ...custodialErc20s,
+          ...coinsInRecentSwaps
+        ])
+      ].map((value) => {
+        return window.coins[value]
+      })
     ])
 
     return values(
@@ -41,7 +61,7 @@ export const getSupportedCoinsWithMethodAndOrder = (state: RootState) => {
         return {
           ...coin,
           method:
-            coin.coinCode in CoinTypeEnum ||
+            !coin.coinfig.type.isFiat ||
             !!paymentMethods.methods.find(
               (method) => method.currency === coin.coinCode && method.type === SBPaymentTypes.FUNDS
             )
@@ -50,5 +70,7 @@ export const getSupportedCoinsWithMethodAndOrder = (state: RootState) => {
     )
   }
 
-  return lift(transform)(sbMethodsR, supportedCoinsR)
+  return lift(transform)(sbMethodsR, sbBalancesR, coinsR, erc20sR)
 }
+
+export default getCoinsWithMethodAndOrder

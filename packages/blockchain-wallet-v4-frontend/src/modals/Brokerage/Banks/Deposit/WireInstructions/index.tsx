@@ -45,7 +45,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
-  fiatCurrency: FiatType,
+  fiatCurrency: FiatType
   handleClose: () => void
 }
 

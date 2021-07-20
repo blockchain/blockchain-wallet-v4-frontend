@@ -8,27 +8,19 @@ import { SuccessStateType } from '.'
 
 const getData = (state: RootState): RemoteDataType<string, SuccessStateType> => {
   const userDataR = selectors.modules.profile.getUserData(state)
-  const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
   const interestRateR = selectors.components.interest.getInterestRate(state)
   const instrumentsR = selectors.components.interest.getInterestInstruments(state)
   const interestEDDStatusR = selectors.components.interest.getInterestEDDStatus(state)
 
-  const transform = (instruments, interestRate, supportedCoins, userData, interestEDDStatus) => ({
+  const transform = (instruments, interestRate, userData, interestEDDStatus) => ({
     instruments,
     interestEDDStatus,
     interestRate,
     interestRateArray: values(interestRate),
-    supportedCoins,
     userData
   })
 
-  return lift(transform)(
-    instrumentsR,
-    interestRateR,
-    supportedCoinsR,
-    userDataR,
-    interestEDDStatusR
-  )
+  return lift(transform)(instrumentsR, interestRateR, userDataR, interestEDDStatusR)
 }
 
 export default getData

@@ -68,7 +68,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   }
 
   render() {
-    const { accounts, coins, userData, values } = this.props
+    const { accounts, userData, values } = this.props
     return userData.tiers && userData.tiers.current !== 0 ? (
       <>
         <FlyoutWrapper>
@@ -126,10 +126,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                         </BalanceRow>
                       </OptionValue>
                     </div>
-                    <CoinAccountIcon
-                      accountType={values.BASE.type}
-                      coin={coins[values.BASE.coin].coinCode}
-                    />
+                    <CoinAccountIcon accountType={values.BASE.type} coin={values.BASE.coin} />
                   </>
                 ) : (
                   <>
@@ -186,10 +183,7 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                         </BalanceRow>
                       </OptionValue>
                     </div>
-                    <CoinAccountIcon
-                      accountType={values.COUNTER.type}
-                      coin={coins[values.COUNTER.coin].coinCode}
-                    />
+                    <CoinAccountIcon accountType={values.COUNTER.type} coin={values.COUNTER.coin} />
                   </>
                 ) : (
                   <>

@@ -35,16 +35,7 @@ const NoAccountsText = styled.div`
 
 class RequestCoinSelect extends React.PureComponent<Props> {
   render() {
-    const {
-      data,
-      formActions,
-      handleClose,
-      requestableCoins,
-      setStep,
-      supportedCoins,
-      walletCurrency
-    } = this.props
-
+    const { data, formActions, handleClose, requestableCoins, setStep, walletCurrency } = this.props
     return (
       <Wrapper>
         <StickyHeaderFlyoutWrapper>
@@ -94,7 +85,7 @@ class RequestCoinSelect extends React.PureComponent<Props> {
           <CoinAccountListOption
             key={account.coin + account.address}
             account={account}
-            coinModel={supportedCoins[account.coin]}
+            coin={account.coin}
             onClick={() => {
               if (account.type === SwapBaseCounterTypes.CUSTODIAL && !data.isAtLeastTier1) {
                 setStep(RequestSteps.IDV_INTRO)

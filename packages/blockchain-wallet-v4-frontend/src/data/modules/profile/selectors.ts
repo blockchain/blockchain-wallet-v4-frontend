@@ -128,11 +128,11 @@ export const getShareWalletAddressesStatus = (state: RootState) =>
   state.profile.exchangeOnboarding.shareWalletAddressesWithExchange
 
 export const getRemainingCoins = (state) => {
-  const supportedCoinsList = selectors.core.walletOptions.getSyncToExchangeList(state).getOrElse([])
+  const exchangeCoinsList = selectors.core.walletOptions.getSyncToExchangeList(state).getOrElse([])
   const walletAddressesR = getWalletAddresses(state) as RemoteDataType<string, any>
   const walletAddresses = walletAddressesR.getOrElse({})
   const walletAddressesList = keys(walletAddresses)
-  return difference(supportedCoinsList, walletAddressesList)
+  return difference(exchangeCoinsList, walletAddressesList)
 }
 
 // initially a wallet was linked if the user had a `settings` prop in their user data

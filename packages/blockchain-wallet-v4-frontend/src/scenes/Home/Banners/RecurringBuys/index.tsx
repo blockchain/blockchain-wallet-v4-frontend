@@ -5,7 +5,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { SBOrderType, SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/types'
+import { SBOrderType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { media } from 'services/styles'
@@ -112,10 +112,7 @@ const RecurringBuys = (props: Props) => {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  latestPendingOrder: selectors.components.simpleBuy.getSBLatestPendingOrder(state),
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrElse({} as SupportedWalletCurrenciesType)
+  latestPendingOrder: selectors.components.simpleBuy.getSBLatestPendingOrder(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -127,7 +124,6 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkStatePropsType = {
   latestPendingOrder?: SBOrderType
-  supportedCoins: SupportedWalletCurrenciesType
 }
 type Props = ConnectedProps<typeof connector>
 

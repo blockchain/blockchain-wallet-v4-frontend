@@ -7,14 +7,14 @@ import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import {
   ExtractSuccess,
+  FiatType,
   RemoteDataType,
-  SBOrderType,
-  SupportedWalletCurrenciesType
+  SBOrderType
 } from 'blockchain-wallet-v4/src/types'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import {
   getBaseAmount,
@@ -78,20 +78,17 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
   }
 
   render() {
-    const { data, order, supportedCoins } = this.props
+    const { data, order } = this.props
     const bankAccounts = data.getOrElse([]) as Array<BankTransferAccountType>
     const coin = getCoinFromPair(order.pair)
-    const coinDisplayName = path(
-      [this.props.order.outputCurrency, 'coinTicker'],
-      this.props.supportedCoins
-    )
+    const coinDisplayName = coin
     const orderType = getOrderType(order)
     const baseAmount = getBaseAmount(order)
-    const baseCurrency = getBaseCurrency(order, supportedCoins)
+    const baseCurrency = getBaseCurrency(order)
     const counterAmount = getCounterAmount(order)
-    const counterCurrency = getCounterCurrency(order, supportedCoins)
+    const counterCurrency = getCounterCurrency(order)
     const totalTxAmount = fiatToString({
-      unit: counterCurrency,
+      unit: counterCurrency as FiatType,
       value: counterAmount
     })
 
@@ -102,11 +99,7 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
             <IconTx {...this.props} />
             <StatusAndType>
               <Text size='16px' color='grey800' weight={600} data-e2e='txTypeText'>
-                <BuyOrSell
-                  crypto={coin}
-                  orderType={orderType}
-                  coinModel={this.props.supportedCoins[order.outputCurrency]}
-                />
+                <BuyOrSell crypto={coin} orderType={orderType} />
               </Text>
               <Timestamp {...this.props} />
             </StatusAndType>
@@ -184,7 +177,7 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
               </RowHeader>
               <RowValue data-e2e='sbRate'>
                 {fiatToString({
-                  unit: counterCurrency,
+                  unit: counterCurrency as FiatType,
                   value: convertBaseToStandard('FIAT', order.price)
                 })}{' '}
                 / {baseCurrency}
@@ -194,9 +187,7 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
                   <RowHeader>
                     <FormattedMessage id='copy.fee' defaultMessage='Fee' />
                   </RowHeader>
-                  <RowValue data-e2e='sbFee'>
-                    {displayFiat(order, supportedCoins, order.fee || '0')}
-                  </RowValue>
+                  <RowValue data-e2e='sbFee'>{displayFiat(order, order.fee || '0')}</RowValue>
                 </>
               )}
             </DetailsColumn>
@@ -232,10 +223,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 })
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  data: getData(state),
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrElse({} as SupportedWalletCurrenciesType)
+  data: getData(state)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -246,7 +234,6 @@ type OwnProps = {
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
-  supportedCoins: SupportedWalletCurrenciesType
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>
 type State = { isToggled: boolean }

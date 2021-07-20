@@ -172,11 +172,7 @@ const Success: React.FC<InjectedFormProps<WithdrawCheckoutFormValuesType, Props>
           )}
         </LimitWrapper>
         <FiatIconWrapper>
-          <Icon
-            color={props.supportedCoins[props.fiatCurrency].coinCode}
-            name={props.supportedCoins[props.fiatCurrency].coinCode}
-            size='32px'
-          />
+          <Icon color={props.fiatCurrency} name={props.fiatCurrency} size='32px' />
           <SubIconWrapper>
             <Icon size='24px' color='USD' name='arrow-up' />
           </SubIconWrapper>

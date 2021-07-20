@@ -22,74 +22,14 @@ const assocBCHNotes = curry((notes, transactions) => {
   })
 })
 
-const getXlmData = createSelector(
-  [selectors.core.data.xlm.getTransactionHistory],
-  (dataR: selectors.core.data.xlm.getTransactionHistory) => {
+const getErc20Data = createSelector(
+  [
+    (state, coin) => selectors.core.data.eth.getErc20TransactionHistory(state, coin),
+    (_, coin) => coin
+  ],
+  (dataR, coin) => {
     const transform = (data) => {
-      const transformedData = map((tx) => formatTxData(tx, 'XLM'), data)
-      return [reportHeaders].concat(transformedData)
-    }
-    return {
-      csvData: dataR.map(transform).getOrElse([])
-    }
-  }
-)
-
-const getPaxData = createSelector(
-  [(state) => selectors.core.data.eth.getErc20TransactionHistory(state, 'pax')],
-  (dataR) => {
-    const transform = (data) => {
-      const transformedData = map((tx) => formatTxData(tx, 'USD-D'), data)
-      return [reportHeaders].concat(transformedData)
-    }
-    return {
-      csvData: dataR.map(transform).getOrElse([])
-    }
-  }
-)
-const getUsdtData = createSelector(
-  [(state) => selectors.core.data.eth.getErc20TransactionHistory(state, 'usdt')],
-  (dataR) => {
-    const transform = (data) => {
-      const transformedData = map((tx) => formatTxData(tx, 'USDT'), data)
-      return [reportHeaders].concat(transformedData)
-    }
-    return {
-      csvData: dataR.map(transform).getOrElse([])
-    }
-  }
-)
-const getWdgldData = createSelector(
-  [(state) => selectors.core.data.eth.getErc20TransactionHistory(state, 'wdgld')],
-  (dataR) => {
-    const transform = (data) => {
-      const transformedData = map((tx) => formatTxData(tx, 'WDGLD'), data)
-      return [reportHeaders].concat(transformedData)
-    }
-    return {
-      csvData: dataR.map(transform).getOrElse([])
-    }
-  }
-)
-
-const getAaveData = createSelector(
-  [(state) => selectors.core.data.eth.getErc20TransactionHistory(state, 'aave')],
-  (dataR) => {
-    const transform = (data) => {
-      const transformedData = map((tx) => formatTxData(tx, 'AAVE'), data)
-      return [reportHeaders].concat(transformedData)
-    }
-    return {
-      csvData: dataR.map(transform).getOrElse([])
-    }
-  }
-)
-
-const getYfiData = createSelector(
-  [(state) => selectors.core.data.eth.getErc20TransactionHistory(state, 'yfi')],
-  (dataR) => {
-    const transform = (data) => {
-      const transformedData = map((tx) => formatTxData(tx, 'YFI'), data)
+      const transformedData = map((tx) => formatTxData(tx, coin), data)
       return [reportHeaders].concat(transformedData)
     }
     return {
@@ -117,7 +57,7 @@ const getBtcData = createSelector(
     selectors.core.settings.getCurrency,
     selectors.core.data.btc.getTransactionHistory
   ],
-  (wallet, currencyR, dataR: selectors.core.data.btc.getTransactionHistory) => {
+  (wallet, currencyR, dataR: any) => {
     const currency = currencyR.getOrElse('USD')
     const transform = (data) => {
       const transformedData = map((tx) => formatHaskoinData(tx, 'BTC', currency), data)
@@ -153,45 +93,30 @@ const getBchData = createSelector(
     }
   }
 )
-const getDOTData = createSelector(
-  [selectors.core.data.dot.getTransactionHistory, selectors.core.settings.getCurrency],
-  (dataR, currencyR) => {
-    const currency = currencyR.getOrElse('USD')
-    const transform = (data) => {
-      if (data) {
-        const transformedData = map((tx) => formatHaskoinData(tx, 'DOT', currency), data)
-        return [reportHeaders].concat(transformedData)
-      }
-      return []
-    }
-    return {
-      csvData: dataR.map(transform).getOrElse([])
-    }
-  }
-)
 
-const getData = (state, coin) => {
+const getXlmData = createSelector([selectors.core.data.xlm.getTransactionHistory], (dataR) => {
+  const transform = (data) => {
+    const transformedData = map((tx) => formatTxData(tx, 'XLM'), data)
+    return [reportHeaders].concat(transformedData)
+  }
+  return {
+    // @ts-ignore
+    csvData: dataR.map(transform).getOrElse([])
+  }
+})
+
+export const getData = (state, coin) => {
   switch (coin) {
-    case 'AAVE':
-      return getAaveData(state)
+    case 'BTC':
+      return getBtcData(state)
     case 'BCH':
       return getBchData(state)
-    case 'PAX':
-      return getPaxData(state)
-    case 'USDT':
-      return getUsdtData(state)
-    case 'WDGLD':
-      return getWdgldData(state)
     case 'ETH':
       return getEthData(state)
     case 'XLM':
       return getXlmData(state)
-    case 'YFI':
-      return getYfiData(state)
-    case 'DOT':
-      return getDOTData(state)
     default:
-      return getBtcData(state)
+      return getErc20Data(state, coin)
   }
 }
 

@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import styled from 'styled-components'
 
 import { CoinAccountIcon, Icon, SpinningLoader, Text } from 'blockchain-info-components'
-import { formatCoin } from 'blockchain-wallet-v4/src/exchange/currency'
+import { formatCoin } from 'blockchain-wallet-v4/src/exchange/utils'
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { selectors } from 'data'
@@ -78,8 +78,7 @@ class EnterAmount extends PureComponent<Props> {
     }
 
     const { BASE, COUNTER } = this.props.initSwapFormValues
-    // @ts-ignore
-    const { coins, userData } = this.props
+    const { userData } = this.props
 
     return (
       <>
@@ -108,8 +107,7 @@ class EnterAmount extends PureComponent<Props> {
               NotAsked: () => <SpinningLoader borderWidth='4px' height='14px' width='14px' />,
               Success: (val) => (
                 <Text size='14px' color='grey900' weight={500}>
-                  1 {coins[BASE.coin].coinTicker} = {formatCoin(val.rate)}{' '}
-                  {coins[COUNTER.coin].coinTicker}
+                  1 {BASE.coin} = {formatCoin(val.rate)} {COUNTER.coin}
                 </Text>
               )
             })}
@@ -136,14 +134,12 @@ class EnterAmount extends PureComponent<Props> {
                       <OptionValue>
                         <BalanceRow>
                           {val.formValues?.amount
-                            ? `${formatCoin(val.formValues.cryptoAmount)} ${
-                                coins[BASE.coin].coinTicker
-                              }`
-                            : `0 ${coins[BASE.coin].coinTicker}`}
+                            ? `${formatCoin(val.formValues.cryptoAmount)} ${BASE.coin}`
+                            : `0 ${BASE.coin}`}
                         </BalanceRow>
                       </OptionValue>
                     </div>
-                    <CoinAccountIcon accountType={BASE.type} coin={coins[BASE.coin].coinCode} />
+                    <CoinAccountIcon accountType={BASE.type} coin={BASE.coin} />
                   </Option>
                   <Toggler
                     onClick={this.props.swapActions.toggleBaseAndCounter}
@@ -175,17 +171,12 @@ class EnterAmount extends PureComponent<Props> {
                       <OptionValue>
                         <BalanceRow>
                           {val.formValues?.amount
-                            ? `${formatCoin(val.incomingAmount.amt)} ${
-                                coins[COUNTER.coin].coinTicker
-                              }`
-                            : `0 ${coins[COUNTER.coin].coinTicker}`}
+                            ? `${formatCoin(val.incomingAmount.amt)} ${COUNTER.coin}`
+                            : `0 ${COUNTER.coin}`}
                         </BalanceRow>
                       </OptionValue>
                     </div>
-                    <CoinAccountIcon
-                      accountType={COUNTER.type}
-                      coin={coins[COUNTER.coin].coinCode}
-                    />
+                    <CoinAccountIcon accountType={COUNTER.type} coin={COUNTER.coin} />
                   </Option>
                   <Border />
                 </Options>

@@ -69,8 +69,4 @@ export type XlmTxType = {
   type: 'sent' | 'received' | 'transferred'
 }
 
-export type ProcessedTxType =
-  | BtcTxType
-  | BchTxType
-  | EthProcessedTxType
-  | XlmTxType
+export type ProcessedTxType = BtcTxType | BchTxType | EthProcessedTxType | XlmTxType

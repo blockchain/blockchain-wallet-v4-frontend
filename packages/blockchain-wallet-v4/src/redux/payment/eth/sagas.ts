@@ -71,10 +71,8 @@ export default ({ api }) => {
         const mnemonicT = S.wallet.getMnemonic(appState, password)
         const mnemonic = yield call(() => taskToPromise(mnemonicT))
         if (p.isErc20) {
-          const contractAddress = (yield select(
-            S.kvStore.eth.getErc20ContractAddr,
-            toLower(p.coin)
-          )).getOrFail('missing_contract_addr')
+          const { coinfig } = window.coins[p.coin]
+          const contractAddress = coinfig.type.erc20Address
           sign = (data) => taskToPromise(eth.signErc20(network, mnemonic, data, contractAddress))
         } else {
           sign = (data) => taskToPromise(eth.sign(network, mnemonic, data))
@@ -195,7 +193,7 @@ export default ({ api }) => {
             baseToStandard: true,
             coin,
             value
-          }).value
+          })
 
           return makePayment(
             mergeRight(p, {
@@ -266,9 +264,7 @@ export default ({ api }) => {
           const ethData = yield call(api.getEthBalances, account)
           const nonce = path([account, 'nonce'], ethData)
           const balance = p.isErc20
-            ? (yield select(S.data.eth.getErc20Balance, toLower(p.coin))).getOrFail(
-                'missing_erc20_balance'
-              )
+            ? (yield select(S.data.eth.getErc20Balance, p.coin)).getOrFail('missing_erc20_balance')
             : path([account, 'balance'], ethData)
 
           effectiveBalance = calculateEffectiveBalance(balance, prop('fee', p), prop('isErc20', p))
@@ -288,10 +284,7 @@ export default ({ api }) => {
         let contractAddress, fees
         try {
           if (isErc20) {
-            contractAddress = (yield select(
-              S.kvStore.eth.getErc20ContractAddr,
-              toLower(coin)
-            )).getOrFail('missing_contract_addr')
+            contractAddress = window.coins[coin].coinfig.type.erc20Address
           }
           fees = yield call(api.getEthFees, contractAddress)
         } catch (e) {

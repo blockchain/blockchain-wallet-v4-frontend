@@ -1,9 +1,8 @@
 import { equals, includes, prop, toLower } from 'ramda'
-import { cancel, fork, join, select } from 'redux-saga/effects'
+import { cancel, fork, join } from 'redux-saga/effects'
 
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { AccountTypes } from 'blockchain-wallet-v4/src/types'
-import { selectors } from 'data'
 
 import { MempoolFeeType } from '../swap/types'
 import { convertStandardToBase } from './services'
@@ -21,20 +20,11 @@ export default ({ coreSagas, networks }) => {
   let paymentTask
   let isSourceErc20
 
-  const calculatePaymentMemo = function * (
-    source,
-    amount,
-    fee: MempoolFeeType = 'priority'
-  ) {
-    if (
-      !equals(source, prevPaymentSource) ||
-      !equals(amount, prevPaymentAmount)
-    ) {
+  const calculatePaymentMemo = function* (source, amount, fee: MempoolFeeType = 'priority') {
+    if (!equals(source, prevPaymentSource) || !equals(amount, prevPaymentAmount)) {
       const coin = prop('coin', source)
-      const erc20List = (yield select(
-        selectors.core.walletOptions.getErc20CoinList
-      )).getOrElse([])
-      isSourceErc20 = includes(coin, erc20List)
+      const { coinfig } = window.coins[coin]
+      isSourceErc20 = coinfig.type.erc20Address
       if (paymentTask) cancel(paymentTask)
       paymentTask = yield fork(calculateProvisionalPayment, source, amount, fee)
       prevPayment = yield join(paymentTask)
@@ -45,7 +35,7 @@ export default ({ coreSagas, networks }) => {
     return prevPayment
   }
 
-  const calculateProvisionalPayment = function * (
+  const calculateProvisionalPayment = function* (
     source: AccountTypes,
     amount,
     fee: MempoolFeeType = 'priority'
@@ -54,15 +44,13 @@ export default ({ coreSagas, networks }) => {
       const coin = prop('coin', source)
       const addressOrIndex = prop('address', source)
       const addressType = prop('type', source)
-      const erc20List = (yield select(
-        selectors.core.walletOptions.getErc20CoinList
-      )).getOrElse([])
-      isSourceErc20 = includes(coin, erc20List)
-      const [network, provisionalScript] = isSourceErc20
+      const { coinfig } = window.coins[coin]
+      isSourceErc20 = coinfig.type.erc20Address
+      const [network, provisionalScript] = coinfig.type.erc20Address
         ? ethOptions
         : prop(coin, {
-            BTC: btcOptions,
             BCH: bchOptions,
+            BTC: btcOptions,
             ETH: ethOptions,
             XLM: xlmOptions
           })
@@ -70,7 +58,7 @@ export default ({ coreSagas, networks }) => {
       const payment = yield coreSagas.payment[paymentType]
         .create({ network })
         .chain()
-        .init({ isErc20: isSourceErc20, coin })
+        .init({ coin, isErc20: isSourceErc20 })
         .fee(fee)
         .from(addressOrIndex, addressType)
         .done()

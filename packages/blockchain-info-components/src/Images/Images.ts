@@ -38,7 +38,6 @@ import blockchainIcon from './img/bc-icon.svg'
 import blockchainLogo from './img/bc-logo.svg'
 import blockchainLogoCircle from './img/bc-logo-circle.svg'
 import bgBannerPattern from './img/bg-banner-pattern.svg'
-import bgBannerBigPattern from './img/bg-banner-pattern-big.svg'
 import bgPattern from './img/bg-pattern.svg'
 import bitpayLogo from './img/bitpay-logo.svg'
 import blankCard from './img/blank-card.svg'
@@ -189,7 +188,6 @@ const Images = {
   'bank-logo-wells-fargo': bankLogoWellsFargo,
   'bank-rejected': bankRejected,
   'bank-success': bankSuccess,
-  'bg-banner-big-pattern': bgBannerBigPattern,
   'bg-banner-pattern': bgBannerPattern,
   'bg-pattern': bgPattern,
   'bitpay-logo': bitpayLogo,

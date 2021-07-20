@@ -1,4 +1,4 @@
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 
 const reportHeaders = [
   'date',
@@ -51,7 +51,4 @@ const formatHaskoinData = (d, coin, currency) => [
   d.description || d.note
 ]
 
-const isErc20Coin = (coin) =>
-  coin === 'PAX' || coin === 'USDT' || coin === 'WDGLD' || coin === 'AAVE' || coin === 'YFI'
-
-export { formatHaskoinData, formatTxData, isErc20Coin, reportHeaders }
+export { formatHaskoinData, formatTxData, reportHeaders }

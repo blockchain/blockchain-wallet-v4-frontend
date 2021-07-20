@@ -16,8 +16,7 @@ const getData = createDeepEqualSelector(
     selectors.core.wallet.isMnemonicVerified,
     selectors.form.getFormValues(model.components.sendXlm.FORM),
     selectors.form.getActiveField(model.components.sendXlm.FORM),
-    selectors.components.sendXlm.showNoAccountForm,
-    selectors.core.walletOptions.getCoinAvailability
+    selectors.components.sendXlm.showNoAccountForm
   ],
   (
     paymentR,
@@ -30,12 +29,10 @@ const getData = createDeepEqualSelector(
     isMnemonicVerified,
     formValues,
     activeField,
-    noAccount,
-    coinAvailabilityR
+    noAccount
   ) => {
     const amount = prop('amount', formValues)
     const destination = prop('to', formValues)
-    const excludeLockbox = !prop('lockbox', coinAvailabilityR('XLM').getOrElse({}))
     const from = prop('from', formValues)
     const isDestinationExchange = isDestinationExchangeR.getOrElse(false)
 
@@ -54,7 +51,7 @@ const getData = createDeepEqualSelector(
         destination,
         destinationAccountExists,
         effectiveBalance,
-        excludeLockbox,
+        excludeLockbox: false,
         fee,
         from,
         isDestinationChecked,

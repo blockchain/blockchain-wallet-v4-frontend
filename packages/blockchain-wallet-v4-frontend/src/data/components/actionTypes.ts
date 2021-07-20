@@ -2,6 +2,8 @@ import * as algoTransactions from './algoTransactions/actionTypes'
 import * as bchTransactions from './bchTransactions/actionTypes'
 import { actions as brokerage } from './brokerage/slice'
 import * as btcTransactions from './btcTransactions/actionTypes'
+import * as cloutTransactions from './cloutTransactions/actionTypes'
+import * as dogeTransactions from './dogeTransactions/actionTypes'
 import * as dotTransactions from './dotTransactions/actionTypes'
 import * as ethTransactions from './ethTransactions/actionTypes'
 import * as fiatTransactions from './fiatTransactions/actionTypes'
@@ -40,6 +42,8 @@ export {
   bchTransactions,
   brokerage,
   btcTransactions,
+  cloutTransactions,
+  dogeTransactions,
   dotTransactions,
   ethTransactions,
   fiatTransactions,

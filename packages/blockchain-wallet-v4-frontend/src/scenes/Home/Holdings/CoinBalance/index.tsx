@@ -1,11 +1,10 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { includes, toLower } from 'ramda'
+import { toLower } from 'ramda'
 import { bindActionCreators } from 'redux'
 
 import { SkeletonRectangle } from 'blockchain-info-components'
-import { WalletCurrencyType } from 'blockchain-wallet-v4/src/types'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 
 import { Props as TableProps } from '..'
 import { getData } from './selectors'
@@ -18,10 +17,11 @@ class CoinBalance extends React.PureComponent<Props> {
       e.preventDefault()
     }
     const { coin } = this.props
-    const coinLower = toLower(coin)
-    if (includes(coin, this.props.erc20List)) {
-      this.props.ethActions.fetchErc20Data(coinLower)
+    const { coinfig } = window.coins[coin]
+    if (coinfig.type.erc20Address) {
+      this.props.ethActions.fetchErc20Data(coin)
     } else {
+      const coinLower = toLower(coin)
       this.props[`${coinLower}Actions`].fetchData()
     }
   }
@@ -30,22 +30,19 @@ class CoinBalance extends React.PureComponent<Props> {
     const { coin, data } = this.props
 
     return data.cata({
-      Success: value => <Success balance={value} coin={coin} />,
-      Failure: () => (
-        <Error coin={coin} onRefresh={e => this.handleRefresh(e)} />
-      ),
+      Failure: () => <Error coin={coin} onRefresh={(e) => this.handleRefresh(e)} />,
       Loading: () => <SkeletonRectangle height='35px' width='60px' />,
-      NotAsked: () => <SkeletonRectangle height='35px' width='60px' />
+      NotAsked: () => <SkeletonRectangle height='35px' width='60px' />,
+      Success: (value) => <Success balance={value} coin={coin} />
     })
   }
 }
 
 const mapStateToProps = (state, ownProps: OwnProps) => ({
-  data: getData(state, ownProps),
-  erc20List: selectors.core.walletOptions.getErc20CoinList(state).getOrElse([])
+  data: getData(state, ownProps)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   bchActions: bindActionCreators(actions.core.data.bch, dispatch),
   btcActions: bindActionCreators(actions.core.data.btc, dispatch),
   ethActions: bindActionCreators(actions.core.data.eth, dispatch),
@@ -55,7 +52,7 @@ const mapDispatchToProps = dispatch => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type OwnProps = TableProps & { coin: WalletCurrencyType }
+export type OwnProps = TableProps & { coin: string }
 type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default connector(CoinBalance)

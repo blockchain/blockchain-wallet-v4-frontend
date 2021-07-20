@@ -1,4 +1,4 @@
-import { Erc20CurrenciesType, FiatCurrenciesType } from 'core/exchange/currencies'
+import { FiatCurrenciesType } from 'blockchain-wallet-v4/src/exchange/currencies'
 
 import * as Address from './Address'
 import * as AddressBook from './AddressBook'
@@ -44,19 +44,6 @@ export {
   Wrapper
 }
 
-export enum CoinTypeEnum {
-  AAVE,
-  ALGO,
-  BCH,
-  BTC,
-  DOT,
-  ETH,
-  PAX,
-  USDT,
-  WDGLD,
-  XLM,
-  YFI
-}
 export enum FiatTypeEnum {
   EUR,
   USD,
@@ -81,19 +68,16 @@ export enum FiatTypeEnum {
   THB,
   TWD
 }
+
 export enum WalletFiatEnum {
   EUR,
   GBP,
   USD
 }
 
-export const WalletCurrencyEnum = {
-  ...CoinTypeEnum,
-  ...WalletFiatEnum
-}
-export type CoinType = keyof typeof CoinTypeEnum
+export type CoinType = string
 
-export type Erc20CoinType = keyof Erc20CurrenciesType
+export type Erc20CoinType = string
 
 // All Fiats
 export type FiatType = keyof FiatCurrenciesType
