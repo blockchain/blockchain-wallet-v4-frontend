@@ -504,7 +504,7 @@ export default ({ api, coreSagas, networks }) => {
     // check if user is under review. resubmission status sometimes only
     // is removed from user profile after they are verified
     const kycState = (yield select(selectors.modules.profile.getUserKYCState)).getOrElse('NONE')
-    const isKycPending = kycState === 'UNDER_REVIEW' || kycState === 'PENDING'
+    const isKycPending = kycState === KYC_STATES.UNDER_REVIEW || kycState === KYC_STATES.PENDING
     if (showKycDocResubmitModal && !isKycPending) {
       yield put(
         actions.goals.addInitialModal('kycDocResubmit', 'KYC_RESUBMIT_MODAL', {
