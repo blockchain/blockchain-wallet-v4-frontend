@@ -39,7 +39,6 @@ export const getData = (state: RootState) => {
   const afterTransaction = selectors.components.interest
     .getAfterTransaction(state)
     .getOrElse({} as InterestAfterTransactionType)
-  const isFromBuySell = selectors.components.interest.getIsFromBuySell(state)
 
   const prefillAmount = afterTransaction?.show ? afterTransaction.amount : undefined
 
@@ -82,7 +81,6 @@ export const getData = (state: RootState) => {
         interestEDDWithdrawLimits,
         interestLimits,
         interestRate,
-        isFromBuySell,
         payment,
         prefillAmount,
         rates

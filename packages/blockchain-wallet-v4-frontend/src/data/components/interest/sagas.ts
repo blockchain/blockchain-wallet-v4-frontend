@@ -295,8 +295,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     return custodialAccount
   }
 
-  const initializeNonCustodialAccountForm = function* (coin, depositAddress) {
+  const initializeNonCustodialAccountForm = function* (coin) {
+    // fetch deposit address to build provisional payment
+    const depositAddr = yield select(S.getDepositAddress)
+    // abort if deposit address missing
+    if (isEmpty(depositAddr) || isNil(depositAddr)) {
+      throw new Error('Missing deposit address')
+    }
+    const depositAddress = depositAddr.split(':')[0]
+    // fetch default account
     const noncustodialAccount = yield call(getDefaultAccountForCoin, coin)
+    // create provisional payment
     const payment: PaymentValue = yield call(createPayment, {
       ...noncustodialAccount,
       address: getAccountIndexOrAccount(coin, noncustodialAccount)
@@ -314,9 +323,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     payload
   }: ReturnType<typeof A.initializeDepositForm>) {
     const { coin, currency } = payload
-    // const isFromBuySell = S.getIsFromBuySell(yield select())
-    // TODO: fix
-    const coinIsOnlyCustodial = coin === 'DOT'
+    const { coinfig } = window.coins[coin]
     let initialAccount
 
     try {
@@ -325,21 +332,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         AT.FETCH_INTEREST_PAYMENT_ACCOUNT_SUCCESS,
         AT.FETCH_INTEREST_PAYMENT_ACCOUNT_FAILURE
       ])
-      // fetch deposit address to build provisional payment
-      const depositAddr = yield select(S.getDepositAddress)
-      // abort if deposit address missing
-      if (isEmpty(depositAddr) || isNil(depositAddr)) {
-        throw new Error('Missing deposit address')
-      }
-      const depositAddress = depositAddr.split(':')[0]
       yield put(A.setPaymentLoading())
       yield put(A.fetchInterestLimits(coin, currency))
       yield take([AT.FETCH_INTEREST_LIMITS_SUCCESS, AT.FETCH_INTEREST_LIMITS_FAILURE])
 
-      if (coinIsOnlyCustodial) {
-        initialAccount = yield call(initializeCustodialAccountForm, coin)
+      // initialize the form depending upon account types for coin
+      if (coinfig.products.includes('PrivateKey')) {
+        initialAccount = yield call(initializeNonCustodialAccountForm, coin)
       } else {
-        initialAccount = yield call(initializeNonCustodialAccountForm, coin, depositAddress)
+        initialAccount = yield call(initializeCustodialAccountForm, coin)
       }
 
       // finally, initialize the form

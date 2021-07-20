@@ -247,8 +247,8 @@ export const setCoinDisplay = (isCoinDisplayed: boolean) => ({
   payload: { isCoinDisplayed },
   type: AT.SET_COIN_DISPLAY
 })
-export const showInterestModal = (step: InterestStep, coin: CoinType, isFromBuySell?: boolean) => ({
-  payload: { coin, isFromBuySell, step },
+export const showInterestModal = (step: InterestStep, coin: CoinType) => ({
+  payload: { coin, step },
   type: AT.SHOW_INTEREST_MODAL
 })
 export const stopShowingInterestModal = () => ({
@@ -278,6 +278,7 @@ export const handleWithdrawalSupplyInformation = ({ origin }: { origin: string }
   payload: { origin },
   type: AT.HANDLE_WITHDRAWAL_SUPPLY_INFORMATION
 })
+
 // INTEREST CTA/Card AFTER TRANSACTION
 export const fetchShowInterestCardAfterTransaction = (currency?: WalletFiatType) => ({
   payload: { currency },
