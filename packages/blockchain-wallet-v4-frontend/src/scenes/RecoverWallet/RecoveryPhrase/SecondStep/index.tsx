@@ -26,7 +26,7 @@ class RecoverContainer extends React.PureComponent<Props> {
 
     return metadataRestore.cata({
       Failure: () =>
-        kycReset ? <Recover {...this.props} /> : <Error previousStep={previousStep} />,
+        kycReset === false ? <Error previousStep={previousStep} /> : <Recover {...this.props} />,
       Loading: () => <SpinningLoaderCentered />,
       NotAsked: () => <SpinningLoaderCentered />,
       Success: (val) => (
