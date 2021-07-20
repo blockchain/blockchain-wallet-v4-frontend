@@ -50,7 +50,7 @@ export default ({ api, coreSagas, networks }) => {
     networks
   })
 
-  const registerUserCampaign = function * (payload) {
+  const registerUserCampaign = function* (payload) {
     const { newUser = false } = payload
     const campaign = yield select(selectors.modules.profile.getCampaign)
     try {
@@ -58,31 +58,23 @@ export default ({ api, coreSagas, networks }) => {
       const campaignData = yield call(getCampaignData, campaign)
       yield call(api.registerUserCampaign, campaign.name, campaignData, newUser)
     } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(
-          logLocation,
-          'registerUserCampaign',
-          e.message
-        )
-      )
+      yield put(actions.logs.logErrorMessage(logLocation, 'registerUserCampaign', e.message))
     }
   }
 
-  const createRegisterUserCampaign = function * () {
+  const verifyIdentity = function* ({ payload }) {
+    yield put(actions.modals.showModal(KYC_MODAL, payload))
+  }
+
+  const createRegisterUserCampaign = function* () {
     try {
       yield call(verifyIdentity, { payload: { tier: 2 } })
     } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(
-          logLocation,
-          'createRegisterUserCampaign',
-          e
-        )
-      )
+      yield put(actions.logs.logErrorMessage(logLocation, 'createRegisterUserCampaign', e))
     }
   }
 
-  const claimCampaignClicked = function * ({ payload }) {
+  const claimCampaignClicked = function* ({ payload }) {
     const { campaign } = payload
     try {
       yield put(actions.form.startSubmit(ID_VERIFICATION_SUBMITTED_FORM))
@@ -91,10 +83,7 @@ export default ({ api, coreSagas, networks }) => {
       // Buffer for tagging user
       const wallet = yield select(selectors.core.wallet.getWallet)
       if (Types.Wallet.isDoubleEncrypted(wallet)) {
-        yield take([
-          actionTypes.wallet.SUBMIT_SECOND_PASSWORD,
-          actionTypes.modals.CLOSE_MODAL
-        ])
+        yield take([actionTypes.wallet.SUBMIT_SECOND_PASSWORD, actionTypes.modals.CLOSE_MODAL])
       }
       yield delay(3000)
       yield put(actions.modules.profile.fetchUser())
@@ -123,18 +112,14 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const selectTier = function * (tier = 2) {
+  const selectTier = function* (tier = 2) {
     const { selected } = yield select(selectors.modules.profile.getUserTiers)
     if (selected === tier) return
     yield call(api.selectTier, tier)
     yield call(fetchUser)
   }
 
-  const verifyIdentity = function * ({ payload }) {
-    yield put(actions.modals.showModal(KYC_MODAL, payload))
-  }
-
-  const defineSteps = function * (tier, needMoreInfo) {
+  const defineSteps = function* (tier, needMoreInfo) {
     yield put(A.setStepsLoading())
     try {
       yield call(createUser)
@@ -143,15 +128,38 @@ export default ({ api, coreSagas, networks }) => {
     } catch (e) {
       return yield put(A.setStepsFailure(e))
     }
-    const tiers = (yield select(
-      selectors.modules.profile.getUserTiers
-    )).getOrElse({
+    let tiers = (yield select(selectors.modules.profile.getUserTiers)).getOrElse({
       next: 0,
       selected: 2
     })
-    const kycState = (selectors.modules.profile.getUserKYCState(
-      yield select()
-    ) as RemoteDataType<string, KycStateType>).getOrElse('NONE')
+    const kycState = (selectors.modules.profile.getUserKYCState(yield select()) as RemoteDataType<
+      string,
+      KycStateType
+    >).getOrElse('NONE')
+    // Case where user recovers their wallet with mnemonic
+    // and we reset their KYC. We have to force next and
+    // selected into certain states to reliably send user
+    // through correct reverification flow
+    const kycDocResubmissionStatus = (yield select(
+      selectors.modules.profile.getKycDocResubmissionStatus
+    )).getOrElse({})
+    const tiersState = (yield select(selectors.modules.profile.getTiers)).getOrElse({})
+    if (kycDocResubmissionStatus === 1) {
+      if (tiers.current === 0) {
+        // case where user already went through first step
+        // of verfication but was rejected, want to set
+        // next to 2
+        if (tiersState[0].state === 'rejected') {
+          tiers = { current: 0, next: 2, selected: 2 }
+        } else {
+          tiers = { current: 0, next: 1, selected: 2 }
+        }
+      } else if (tiers.current === 1 || tiers.current === 3) {
+        tiers = { current: 1, next: 2, selected: 2 }
+      } else {
+        return
+      }
+    }
     const steps = computeSteps({
       kycState,
       needMoreInfo,
@@ -161,19 +169,19 @@ export default ({ api, coreSagas, networks }) => {
     yield put(A.setStepsSuccess(steps))
   }
 
-  const initializeVerification = function * ({ payload }) {
+  const initializeStep = function* () {
+    const steps: Array<StepsType> = (yield select(S.getSteps)).getOrElse([])
+    return yield put(A.setVerificationStep(steps[0]))
+  }
+
+  const initializeVerification = function* ({ payload }) {
     const { tier = TIERS[2], needMoreInfo = false } = payload
     yield put(A.setEmailStep(EMAIL_STEPS.edit))
     yield call(defineSteps, tier, needMoreInfo)
     yield call(initializeStep)
   }
 
-  const initializeStep = function * () {
-    const steps: Array<StepsType> = (yield select(S.getSteps)).getOrElse([])
-    return yield put(A.setVerificationStep(steps[0]))
-  }
-
-  const goToPrevStep = function * () {
+  const goToPrevStep = function* () {
     const stepsR = S.getSteps(yield select())
     const steps = stepsR.getOrElse<Array<StepsType>, any[]>([])
     const currentStep = S.getVerificationStep(yield select())
@@ -186,7 +194,7 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.modals.closeModal(KYC_MODAL))
   }
 
-  const goToNextStep = function * () {
+  const goToNextStep = function* () {
     const steps = (yield select(S.getSteps)).getOrElse([])
     const currentStep = S.getVerificationStep(yield select())
     const currentStepIndex = steps.indexOf(currentStep)
@@ -203,11 +211,9 @@ export default ({ api, coreSagas, networks }) => {
     return SMS_STEPS.edit
   }
 
-  const updateSmsNumber = function * () {
+  const updateSmsNumber = function* () {
     try {
-      const { smsNumber } = yield select(
-        selectors.form.getFormValues(SMS_NUMBER_FORM)
-      )
+      const { smsNumber } = yield select(selectors.form.getFormValues(SMS_NUMBER_FORM))
       yield put(actions.form.startSubmit(SMS_NUMBER_FORM))
       yield call(coreSagas.settings.setMobile, { mobile: smsNumber })
       yield put(A.setSmsStep(SMS_STEPS.verify))
@@ -221,12 +227,10 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const verifySmsNumber = function * () {
+  const verifySmsNumber = function* () {
     try {
       yield put(actions.form.startSubmit(SMS_NUMBER_FORM))
-      const { code } = yield select(
-        selectors.form.getFormValues(SMS_NUMBER_FORM)
-      )
+      const { code } = yield select(selectors.form.getFormValues(SMS_NUMBER_FORM))
       yield call(coreSagas.settings.setMobileVerified, { code })
       yield call(syncUserWithWallet)
       yield put(actions.form.stopSubmit(SMS_NUMBER_FORM))
@@ -242,12 +246,10 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const resendSmsCode = function * () {
+  const resendSmsCode = function* () {
     try {
       yield put(actions.form.startSubmit(SMS_NUMBER_FORM))
-      const smsNumber = (yield select(
-        selectors.core.settings.getSmsNumber
-      )).getOrFail()
+      const smsNumber = (yield select(selectors.core.settings.getSmsNumber)).getOrFail()
       yield call(coreSagas.settings.setMobile, { mobile: smsNumber })
       yield put(actions.form.stopSubmit(SMS_NUMBER_FORM))
       yield put(actions.alerts.displaySuccess(C.SMS_RESEND_SUCCESS))
@@ -260,7 +262,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const fetchSupportedCountries = function * () {
+  const fetchSupportedCountries = function* () {
     try {
       yield put(A.setSupportedCountriesLoading())
       const countries = yield call(api.getSupportedCountries)
@@ -275,16 +277,13 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const fetchSupportedDocuments = function * () {
+  const fetchSupportedDocuments = function* () {
     try {
       yield put(A.setSupportedDocumentsLoading())
-      const countryCode = (yield select(
-        selectors.modules.profile.getUserCountryCode
-      )).getOrElse('US')
-      const { documentTypes } = yield call(
-        api.getSupportedDocuments,
-        countryCode
+      const countryCode = (yield select(selectors.modules.profile.getUserCountryCode)).getOrElse(
+        'US'
       )
+      const { documentTypes } = yield call(api.getSupportedDocuments, countryCode)
       yield put(A.setSupportedDocumentsSuccess(documentTypes))
     } catch (e) {
       yield put(A.setSupportedDocumentsFailure(e))
@@ -296,7 +295,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const fetchStates = function * () {
+  const fetchStates = function* () {
     try {
       let stateList: Array<StateType> = []
       yield put(A.setStatesLoading())
@@ -312,7 +311,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const checkKycFlow = function * () {
+  const checkKycFlow = function* () {
     try {
       yield put(A.setKycFlowLoading())
       try {
@@ -332,7 +331,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const sendDeeplink = function * () {
+  const sendDeeplink = function* () {
     try {
       yield call(api.sendDeeplink)
     } catch (e) {
@@ -340,7 +339,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const sendEmailVerification = function * ({ payload }) {
+  const sendEmailVerification = function* ({ payload }) {
     try {
       yield put(actions.form.startAsyncValidation(PERSONAL_FORM))
       const { email } = payload
@@ -348,23 +347,18 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
     } catch (e) {
       yield put(actions.alerts.displayError(C.VERIFY_EMAIL_SENT_ERROR))
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'resendVerifyEmail', e)
-      )
+      yield put(actions.logs.logErrorMessage(logLocation, 'resendVerifyEmail', e))
     } finally {
       yield put(actions.form.stopAsyncValidation(PERSONAL_FORM))
     }
   }
 
-  const updateEmail = function * ({ payload }) {
+  const updateEmail = function* ({ payload }) {
     try {
       yield put(actions.form.startAsyncValidation(PERSONAL_FORM))
-      const prevEmail = (yield select(
-        selectors.core.settings.getEmail
-      )).getOrElse('')
+      const prevEmail = (yield select(selectors.core.settings.getEmail)).getOrElse('')
       const { email } = payload
-      if (prevEmail === email)
-        yield call(coreSagas.settings.resendVerifyEmail, { email })
+      if (prevEmail === email) yield call(coreSagas.settings.resendVerifyEmail, { email })
       else yield call(coreSagas.settings.setEmail, { email })
       yield put(actions.form.stopAsyncValidation(PERSONAL_FORM))
       yield put(A.setEmailStep(EMAIL_STEPS.verify))
@@ -377,7 +371,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const saveInfoAndResidentialData = function * ({ payload }) {
+  const saveInfoAndResidentialData = function* ({ payload }) {
     try {
       yield put(actions.form.startSubmit(INFO_AND_RESIDENTIAL_FORM))
       yield call(syncUserWithWallet)
@@ -421,9 +415,7 @@ export default ({ api, coreSagas, networks }) => {
           }
           sddVerified = yield call(api.fetchSDDVerified)
           if (sddVerified?.taskComplete) {
-            yield put(
-              actions.components.simpleBuy.fetchSDDVerifiedSuccess(sddVerified)
-            )
+            yield put(actions.components.simpleBuy.fetchSDDVerifiedSuccess(sddVerified))
             break
           }
           yield delay(POLL_SDD_DELAY)
@@ -455,9 +447,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.form.stopSubmit(INFO_AND_RESIDENTIAL_FORM))
       yield put(actions.modules.profile.fetchUser())
     } catch (e) {
-      yield put(
-        actions.form.stopSubmit(INFO_AND_RESIDENTIAL_FORM, { _error: e })
-      )
+      yield put(actions.form.stopSubmit(INFO_AND_RESIDENTIAL_FORM, { _error: e }))
       yield put(
         actions.logs.logErrorMessage(
           logLocation,
@@ -469,28 +459,28 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   return {
+    checkKycFlow,
     claimCampaignClicked,
+    createRegisterUserCampaign,
+    createUser,
     defineSteps,
-    verifyIdentity,
-    initializeVerification,
-    initializeStep,
     fetchStates,
     fetchSupportedCountries,
     fetchSupportedDocuments,
     goToNextStep,
     goToPrevStep,
+    initializeStep,
+    initializeVerification,
     resendSmsCode,
     registerUserCampaign,
-    createUser,
-    createRegisterUserCampaign,
+    saveInfoAndResidentialData,
+    selectTier,
+    sendDeeplink,
+    sendEmailVerification,
     updateSmsStep,
     updateSmsNumber,
+    verifyIdentity,
     verifySmsNumber,
-    checkKycFlow,
-    sendDeeplink,
-    saveInfoAndResidentialData,
-    sendEmailVerification,
-    selectTier,
     updateEmail
   }
 }
