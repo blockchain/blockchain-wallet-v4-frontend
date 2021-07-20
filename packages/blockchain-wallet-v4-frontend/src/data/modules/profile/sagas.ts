@@ -168,12 +168,9 @@ export default ({ api, coreSagas, networks }) => {
       const expiresIn = moment(expiresAt).subtract(5, 's').diff(moment())
       yield spawn(renewSession, userId, lifetimeToken, email, guid, expiresIn)
     } catch (e) {
-      if (prop('description', e) === userRequiresRestoreError) {
-        return yield call(recoverUser)
-      }
       if (prop('status', e) === 409) {
         yield put(
-          actions.modals.showModal('NABU_USER_CONFLICT_REDIRECT', { origin: 'NabuUserAuth' })
+          actions.modals.showModal('NABU_USER_CONFLICT_REDIRECT', { origin: 'NabuUserAuth' }, e)
         )
       }
       throw e

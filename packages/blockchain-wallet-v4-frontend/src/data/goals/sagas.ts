@@ -1,6 +1,7 @@
 import base64 from 'base-64'
 import BigNumber from 'bignumber.js'
 import bip21 from 'bip21'
+import NabuUserConflictRedirect from 'blockchain-wallet-v4-frontend/src/modals/Onboarding/NabuUserConflictRedirect'
 import { anyPass, equals, includes, map, path, pathOr, prop, startsWith, sum, values } from 'ramda'
 import { all, call, delay, join, put, select, spawn, take } from 'redux-saga/effects'
 
@@ -511,6 +512,16 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const runNabuAuthorizationErrorGoal = function* (goal: GoalType) {
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+    yield call(waitForUserData)
+    // check for nabu auth user conflict error
+    const isNabuUserAuthErrorConflict = (yield select(
+      selectors.modules.profile.getApiToken
+    )).getOrElse({})
+  }
+
   const runSwapGetStartedGoal = function* (goal: GoalType) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -647,6 +658,7 @@ export default ({ api, coreSagas, networks }) => {
       interestPromo,
       kycDocResubmit,
       linkAccount,
+      nabuAuthError,
       payment,
       simpleBuyModal,
       swap,
@@ -664,6 +676,13 @@ export default ({ api, coreSagas, networks }) => {
     }
     if (transferEth) {
       return yield put(actions.modals.showModal(transferEth.name, transferEth.data))
+    }
+    if (nabuAuthError) {
+      return yield put(
+        actions.modals.showModal(nabuAuthError.name, {
+          origin: 'NabuUserAuth'
+        })
+      )
     }
     if (kycDocResubmit) {
       return yield put(
@@ -731,6 +750,9 @@ export default ({ api, coreSagas, networks }) => {
           break
         case 'linkAccount':
           yield call(runLinkAccountGoal, goal)
+          break
+        case 'nabuAuthorizationError':
+          yield call(runNabuAuthorizationErrorGoal, goal)
           break
         case 'payment':
           yield call(runSendBtcGoal, goal)

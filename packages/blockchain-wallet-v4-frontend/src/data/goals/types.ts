@@ -7,6 +7,7 @@ export type GoalsType =
   | 'kyc'
   | 'kycDocResubmit'
   | 'linkAccount'
+  | 'nabuAuthorizationError'
   | 'payment'
   | 'paymentProtocol'
   | 'referral'

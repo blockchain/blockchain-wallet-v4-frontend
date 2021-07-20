@@ -35,6 +35,7 @@ const Body = styled.div`
 
 class NabuUserConflictRedirect extends React.PureComponent<Props> {
   render() {
+    const { description } = this.props
     return (
       <Modal size='small'>
         <Header>
@@ -52,12 +53,13 @@ class NabuUserConflictRedirect extends React.PureComponent<Props> {
           </Text>
         </Header>
         <Body>
-          <Text size='14px' weight={400}>
+          <Text size='14px' weight={500}>
             <FormattedMessage
-              defaultMessage='Your Blockchain.com trading account is associated with another wallet. Please log into your wallet starting with {placeholder} for account access.'
+              defaultMessage='Your Blockchain.com trading account is associated with another wallet. Please log into your wallet referenced below for account access.'
               id='modals.nabuuserconflict.body'
             />
           </Text>
+          <Text size='14px'>{description}</Text>
         </Body>
       </Modal>
     )
@@ -70,7 +72,9 @@ const mapDispatchToProps = (dispatch) => ({
 
 const connector = connect(null, mapDispatchToProps)
 
-type Props = ConnectedProps<typeof connector>
+type Props = ConnectedProps<typeof connector> & {
+  description: string
+}
 
 const enhance = compose<any>(
   connect(null, mapDispatchToProps),
