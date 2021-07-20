@@ -35,6 +35,7 @@ type MessagesType = {
   'buttons.email_didnt_arrive': "Email didn't arrive?"
   'buttons.go_back': 'Go Back'
   'buttons.hide': 'Hide'
+  'buttons.import_now': 'Import Now'
   'buttons.learn_more': 'Learn More'
   'buttons.learn_more_arrow': 'Learn more ->'
   'buttons.link_bank': 'Link a Bank Account'
@@ -2248,6 +2249,8 @@ type MessagesType = {
   'scenes.recovery.subtitle': 'Your 12 word Secret Private Key Recovery Phrase grants access to your account. Please input it in the order specified.'
   'scenes.recovery.title': 'Input your secret private key recovery phrase'
   'scenes.recovery.email': 'Recovering {email}'
+  'scenes.recovery.import.title': 'Import Your Wallet'
+  'scenes.recovery.import.body': 'There’s no account associated with the seed phrase you entered. You can import and manage your wallet instead.'
   'scenes.recovery.reset': 'Reset Your Account?'
   'scenes.recovery.resetting': 'Resetting will restore your Trading, Interest, and Exchange accounts.'
   'scenes.recovery.reverify': 'For your security, you may have to re-verify your identity before accessing your trading or interest account.'

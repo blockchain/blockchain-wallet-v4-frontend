@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { has } from 'ramda'
+import { has, props } from 'ramda'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
@@ -8,6 +8,7 @@ import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import { Form, FormGroup, FormLabel, PasswordBox, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import Terms from 'components/Terms'
+import { RecoverSteps } from 'data/types'
 import {
   required,
   validEmail,
@@ -17,6 +18,7 @@ import {
 
 import { ReverifyIdentityInfoBox } from '../../model'
 import { Props as OwnProps } from '.'
+import ImportWallet from './import.template'
 
 const Header = styled.div`
   display: flex;
@@ -37,84 +39,128 @@ const GoBackLink = styled(Link)`
 
 const validatePasswordConfirmation = validPasswordConfirmation('recoverPassword')
 
-const SecondStep = (props: Props) => {
-  const { invalid, isRestoring, isRestoringFromMetadata, previousStep, recoverPassword } = props
-  return (
-    <>
-      <Header>
-        <Text size='20px' color='blue900' weight={600} capitalize>
-          <FormattedMessage id='scenes.recover.secondstep.funds' defaultMessage='Recover Funds' />
-        </Text>
-      </Header>
-      <Form>
-        {!isRestoringFromMetadata && (
-          <FormGroup>
-            <FormLabel htmlFor='email'>
-              <FormattedMessage id='scenes.recover.secondstep.email' defaultMessage='New Email' />
-            </FormLabel>
-            <Field
-              bgColor='grey000'
-              name='email'
-              validate={[required, validEmail]}
-              component={TextBox}
-            />
-          </FormGroup>
+class SecondStep extends React.PureComponent<Props, State> {
+  constructor(props) {
+    super(props)
+    this.state = {
+      importWalletPrompt: true
+    }
+  }
+
+  handleImportNowClick = () => {
+    this.setState({ importWalletPrompt: false })
+  }
+
+  handleGoBackClick = () => {
+    this.props.setStep(RecoverSteps.RECOVERY_OPTIONS)
+  }
+
+  render() {
+    const {
+      invalid,
+      isRestoring,
+      isRestoringFromMetadata,
+      previousStep,
+      recoverPassword
+    } = this.props
+    return (
+      <>
+        {!isRestoringFromMetadata && this.state.importWalletPrompt ? (
+          <ImportWallet
+            handleGoBackClick={this.handleGoBackClick}
+            handleImportNowClick={this.handleImportNowClick}
+            {...this.props}
+          />
+        ) : (
+          <>
+            <Header>
+              <Text size='20px' color='blue900' weight={600} capitalize>
+                <FormattedMessage
+                  id='scenes.recover.secondstep.funds'
+                  defaultMessage='Recover Funds'
+                />
+              </Text>
+            </Header>
+            <Form>
+              {!isRestoringFromMetadata && (
+                <FormGroup>
+                  <FormLabel htmlFor='email'>
+                    <FormattedMessage
+                      id='scenes.recover.secondstep.email'
+                      defaultMessage='New Email'
+                    />
+                  </FormLabel>
+                  <Field
+                    bgColor='grey000'
+                    name='email'
+                    validate={[required, validEmail]}
+                    component={TextBox}
+                  />
+                </FormGroup>
+              )}
+              <FormGroup>
+                <FormLabel htmlFor='password'>
+                  <FormattedMessage
+                    id='scenes.recover.secondstep.password'
+                    defaultMessage='Password'
+                  />
+                </FormLabel>
+                <Field
+                  bgColor='grey000'
+                  name='recoverPassword'
+                  validate={[required, validStrongPassword]}
+                  component={PasswordBox}
+                  showPasswordScore
+                  passwordScore={has('zxcvbn', window) ? window.zxcvbn(recoverPassword).score : 0}
+                />
+              </FormGroup>
+              <FormGroup>
+                <FormLabel htmlFor='confirmationPassword'>
+                  <FormattedMessage
+                    id='scenes.recover.secondstep.confirmapassword'
+                    defaultMessage='Confirm Password'
+                  />
+                </FormLabel>
+                <Field
+                  bgColor='grey000'
+                  name='confirmationPassword'
+                  validate={[required, validatePasswordConfirmation]}
+                  component={PasswordBox}
+                />
+              </FormGroup>
+              <FormGroup>
+                <Terms recovery />
+              </FormGroup>
+              {isRestoringFromMetadata && <ReverifyIdentityInfoBox />}
+              <Footer>
+                <GoBackLink onClick={previousStep} size='13px' weight={400}>
+                  <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
+                </GoBackLink>
+                <Button
+                  data-e2e='recoverSubmit'
+                  disabled={isRestoring || invalid}
+                  nature='primary'
+                  type='submit'
+                >
+                  {isRestoring ? (
+                    <HeartbeatLoader height='20px' width='20px' color='white' />
+                  ) : (
+                    <FormattedMessage
+                      id='scenes.recover.secondstep.recover'
+                      defaultMessage='Recover Funds'
+                    />
+                  )}
+                </Button>
+              </Footer>
+            </Form>
+          </>
         )}
-        <FormGroup>
-          <FormLabel htmlFor='password'>
-            <FormattedMessage id='scenes.recover.secondstep.password' defaultMessage='Password' />
-          </FormLabel>
-          <Field
-            bgColor='grey000'
-            name='recoverPassword'
-            validate={[required, validStrongPassword]}
-            component={PasswordBox}
-            showPasswordScore
-            passwordScore={has('zxcvbn', window) ? window.zxcvbn(recoverPassword).score : 0}
-          />
-        </FormGroup>
-        <FormGroup>
-          <FormLabel htmlFor='confirmationPassword'>
-            <FormattedMessage
-              id='scenes.recover.secondstep.confirmapassword'
-              defaultMessage='Confirm Password'
-            />
-          </FormLabel>
-          <Field
-            bgColor='grey000'
-            name='confirmationPassword'
-            validate={[required, validatePasswordConfirmation]}
-            component={PasswordBox}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Terms recovery />
-        </FormGroup>
-        <ReverifyIdentityInfoBox />
-        <Footer>
-          <GoBackLink onClick={previousStep} size='13px' weight={400}>
-            <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
-          </GoBackLink>
-          <Button
-            data-e2e='recoverSubmit'
-            disabled={isRestoring || invalid}
-            nature='primary'
-            type='submit'
-          >
-            {isRestoring ? (
-              <HeartbeatLoader height='20px' width='20px' color='white' />
-            ) : (
-              <FormattedMessage
-                id='scenes.recover.secondstep.recover'
-                defaultMessage='Recover Funds'
-              />
-            )}
-          </Button>
-        </Footer>
-      </Form>
-    </>
-  )
+      </>
+    )
+  }
 }
+
+type State = { importWalletPrompt: boolean }
 
 type Props = OwnProps & {
   isRestoring?: boolean
