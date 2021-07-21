@@ -7,7 +7,6 @@ import { Palette } from '../src/Colors/index'
 import { FontGlobalStyles, IconGlobalStyles } from '../src'
 
 const withTheme = () => (story, context) => {
-  console.log('fooo', context)
   const theme1= Palette('default')
   const theme2 = Palette('darkmode')
   const theme3 = Palette('compliment')

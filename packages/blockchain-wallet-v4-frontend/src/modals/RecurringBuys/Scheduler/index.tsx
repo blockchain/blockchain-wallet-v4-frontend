@@ -14,7 +14,7 @@ const SchedulerContainer = (props: Props) => {
   // const showScheduler = methods.some((m) => method && method.type === m)
 
   useEffect(() => {
-    dispatch(actions.components.brokerage.fetchRBMethods())
+    dispatch(actions.components.recurringBuy.fetchMethods())
   }, [method])
 
   return (

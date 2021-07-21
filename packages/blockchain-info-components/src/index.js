@@ -5,8 +5,12 @@ export { Button, ButtonGroup, IconButton } from './Buttons'
 export { Carousel } from './Carousels'
 export { Color, Palette } from './Colors/index.ts'
 export { ComponentDropdown, SimpleDropdown } from './Dropdowns'
+export { default as FlyoutContainer } from './Flyouts/Container'
 export { default as FlyoutFooter } from './Flyouts/Footer'
+export { default as FlyoutContent } from './Flyouts/Content'
 export { default as FlyoutHeader } from './Flyouts/Header'
+export { default as AmountSubHeader } from './Flyouts/AmountSubHeader'
+export { default as CheckoutRow } from './Rows/CheckoutRow'
 export { FontGlobalStyles, IconGlobalStyles } from './Fonts'
 export {
   AutosizeTextInput,

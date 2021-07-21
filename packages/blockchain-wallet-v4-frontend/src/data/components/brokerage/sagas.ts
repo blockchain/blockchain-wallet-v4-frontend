@@ -381,7 +381,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchBankLinkCredentials,
     fetchBankTransferAccounts,
     fetchBankTransferUpdate,
-    fetchRBMethods,
     handleDepositFiatClick,
     handleWithdrawClick,
     showModal

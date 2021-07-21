@@ -26,6 +26,18 @@ const Text = ({ children, ...props }) => {
   )
 }
 
+// type Props = {
+//   weight: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
+//   size: string
+//   uppercase: boolean
+//   capitalize: boolean
+//   lineHeight: string
+//   italic: boolean
+//   altFont: boolean
+//   cursor: string
+//   opacity: number
+// }
+
 Text.propTypes = {
   weight: PropTypes.oneOf([100, 200, 300, 400, 500, 600, 700, 800, 900]),
   size: PropTypes.string,

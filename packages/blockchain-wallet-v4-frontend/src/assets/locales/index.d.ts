@@ -398,6 +398,7 @@ type MessagesType = {
   'copy.holdings': 'Holdings'
   'copy.in_review': 'In Review'
   'copy.incoming_fee': 'Incoming Fee'
+  'copy.instantly': 'Instantly'
   'copy.instantly_available': 'Instantly Available'
   'copy.instantly_exchange': 'Instantly exchange your crypto into any currency we offer in your wallet.'
   'copy.instantly_fund': 'Send, Receive and instantly fund your trades using the Trading Account.'
@@ -496,6 +497,7 @@ type MessagesType = {
   'copy.view_outgoing_tx': 'View Outgoing Transaction'
   'copy.yourlink': 'Your Link'
   'copy.all': 'All'
+  'copy.available_to_trade': 'Available to Trade'
   'copy.day': '1D'
   'copy.month': '1M'
   'copy.week': '1W'
@@ -1231,8 +1233,14 @@ type MessagesType = {
   'modals.recurringbuys.timeframe.2_weeks': 'Every 2 weeks'
   'modals.recurringbuys.timeframe.every_month': 'Every month'
 
+  'modals.recurringbuys.time_options.daily': 'Daily'
+  'modals.recurringbuys.time_options.weekly': 'Weekly'
+  'modals.recurringbuys.time_options.bi_weekly': 'Twice a Month'
+  'modals.recurringbuys.time_options.monthly': 'Monthly'
+
   'modals.recurringbuys.get_started.title': 'Set Up a Recurring Buy'
   'modals.recurringbuys.get_started.description': 'Buy {amount} of {currency} every day, week or month with a Recurring Buy. No need to ever time the market.'
+  'modals.recurringbuys.get_started.buy_amount_of_currency': 'Buy {amount} of {currency}'
   'modals.recurringbuys.get_started.get_started': 'Get Started'
   'modals.recurringbuys.get_started.maybe_later': 'Maybe Later'
 

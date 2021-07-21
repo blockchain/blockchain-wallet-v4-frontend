@@ -51,7 +51,7 @@ export default ({ api, coreSagas, networks }) => ({
   onboarding: onboarding(),
   priceChart: priceChart(),
   priceTicker: priceTicker({ coreSagas }),
-  recurringBuy: recurringBuy(),
+  recurringBuy: recurringBuy({ api }),
   refresh: refresh(),
   request: request({ api, coreSagas, networks }),
   resetWallet2fa: resetWallet2fa({ api }),

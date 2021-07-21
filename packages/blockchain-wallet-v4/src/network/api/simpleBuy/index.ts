@@ -2,7 +2,7 @@ import axios from 'axios'
 import { Moment } from 'moment'
 import { v4 as uuidv4 } from 'uuid'
 
-import { BankTransferAccountType, UserDataType } from 'data/types'
+import { BankTransferAccountType, RecurringBuyPeriods, UserDataType } from 'data/types'
 
 import { CoinType, FiatCurrenciesType, FiatType, WalletCurrencyType } from '../../../types'
 import { NabuCustodialProductType, ProductTypes } from '../custodial/types'
@@ -98,6 +98,7 @@ export default ({
     input: SBMoneyType,
     output: SBMoneyType,
     paymentType: SBPaymentMethodType['type'],
+    period: RecurringBuyPeriods,
     paymentMethodId?: SBCardType['id']
   ): SBOrderType =>
     authorizedPost({
@@ -108,7 +109,8 @@ export default ({
         output,
         pair,
         paymentMethodId,
-        paymentType
+        paymentType,
+        period
       },
       endPoint: `/simple-buy/trades${pending ? '?action=pending' : ''}`,
       removeDefaultPostData: true,

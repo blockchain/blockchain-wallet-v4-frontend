@@ -59,7 +59,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(priceTicker({ coreSagas }))
     yield fork(refresh())
     yield fork(request({ api, coreSagas, networks }))
-    yield fork(recurringBuy())
+    yield fork(recurringBuy({ api }))
     yield fork(resetWallet2fa({ api }))
     yield fork(send({ api, coreSagas, networks }))
     yield fork(sendBch({ api, coreSagas, networks }))
