@@ -1,5 +1,10 @@
 import { CoinType, SBPaymentTypes, WalletFiatType } from 'core/types'
-import { BankTransferAccountType, ProductEligibility } from 'data/types'
+import {
+  BankTransferAccountType,
+  NabuProductType,
+  ProductEligibility,
+  ProductEligibilityResponse
+} from 'data/types'
 
 import { SBTransactionsType } from '../simpleBuy/types'
 import {
@@ -109,6 +114,12 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       url: nabuUrl
     })
 
+  const getEligibilityForProduct = (product: NabuProductType): ProductEligibilityResponse =>
+    authorizedGet({
+      endPoint: `/eligible/product/${product}`,
+      url: nabuUrl
+    })
+
   const getTransactionsHistory = ({
     currency,
     fromValue,
@@ -129,6 +140,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
   return {
     checkWithdrawalLocks,
     getBeneficiaries,
+    getEligibilityForProduct,
     getProductsEligibility,
     getTransactionsHistory,
     getWithdrawalFees,
