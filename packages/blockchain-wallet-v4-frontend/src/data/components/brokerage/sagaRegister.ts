@@ -1,17 +1,17 @@
 import { takeLatest } from 'redux-saga/effects'
 
+import sagas from './sagas'
 import {
   createFiatDeposit,
-  handleDepositFiatClick,
   deleteSavedBank,
-  handleWithdrawClick,
-  fetchBankTransferUpdate,
-  fetchBankTransferAccounts,
   fetchBankLinkCredentials,
+  fetchBankTransferAccounts,
+  fetchBankTransferUpdate,
   fetchRBMethods,
+  handleDepositFiatClick,
+  handleWithdrawClick,
   showModal
 } from './slice'
-import sagas from './sagas'
 
 export default ({ api, coreSagas, networks }) => {
   const brokerageSagas = sagas({ api, coreSagas, networks })

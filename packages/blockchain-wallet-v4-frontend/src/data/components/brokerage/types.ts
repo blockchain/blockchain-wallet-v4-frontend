@@ -195,5 +195,6 @@ export type BrokerageState = {
   dwStep: BankDWStepType
   fastLink: RemoteDataType<string, FastLinkType>
   fiatCurrency: WalletFiatType | undefined
+  isFlow: boolean
   redirectBackToStep: boolean
 }
