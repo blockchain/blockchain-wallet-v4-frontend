@@ -27,18 +27,8 @@ class AddCard extends PureComponent<Props> {
   }
 
   setDefaultCountry = (country: CountryType) => {
-    this.props.formActions.change(
-      'addCCForm',
-      'billingaddress.country',
-      country.code
-    )
-
-    this.props.formActions.clearFields(
-      'addCCForm',
-      false,
-      false,
-      'billingaddress.state'
-    )
+    this.props.formActions.change('addCCForm', 'billingaddress.country', country)
+    this.props.formActions.clearFields('addCCForm', false, false, 'billingaddress.state')
   }
 
   onCountryChange = (e, value) => {
@@ -47,7 +37,15 @@ class AddCard extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Success: val => (
+      Failure: (e) => (
+        <DataError
+          message={{ message: e }}
+          onClick={this.props.simpleBuyActions.fetchSBPaymentMethods}
+        />
+      ),
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />,
+      Success: (val) => (
         <Success
           {...this.props}
           {...val}
@@ -56,32 +54,24 @@ class AddCard extends PureComponent<Props> {
           onCountrySelect={this.onCountryChange}
           updateDefaultCountry={this.setDefaultCountry}
         />
-      ),
-      Failure: e => (
-        <DataError
-          message={{ message: e }}
-          onClick={this.props.simpleBuyActions.fetchSBPaymentMethods}
-        />
-      ),
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      )
     })
   }
 }
 
 const mapStateToProps = (state: RootState) => ({
+  countryCode: selectors.core.settings.getCountryCode(state).getOrElse(null),
   data: getData(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'EUR',
-  countryCode: selectors.core.settings.getCountryCode(state).getOrElse(null)
+  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'EUR'
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
   ),
-  formActions: bindActionCreators(actions.form, dispatch)
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

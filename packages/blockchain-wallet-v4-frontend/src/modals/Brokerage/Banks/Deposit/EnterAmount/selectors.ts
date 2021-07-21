@@ -1,10 +1,6 @@
 import { lift } from 'ramda'
 
-import {
-  ExtractSuccess,
-  SBPaymentTypes,
-  SupportedWalletCurrenciesType
-} from 'blockchain-wallet-v4/src/types'
+import { ExtractSuccess, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 import { BankTransferAccountType } from 'data/types'
 
@@ -19,8 +15,6 @@ const getData = (state) => {
     SBPaymentTypes.BANK_TRANSFER
   )
   const formErrors = selectors.form.getFormSyncErrors('brokerageTx')(state)
-  const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
-  const supportedCoins = supportedCoinsR.getOrElse({} as SupportedWalletCurrenciesType)
   return lift(
     (
       depositLimits: ExtractSuccess<typeof depositLimitsR>,
@@ -32,8 +26,7 @@ const getData = (state) => {
       depositLimits,
       eligibility,
       formErrors,
-      paymentMethods,
-      supportedCoins
+      paymentMethods
     })
   )(depositLimitsR, eligibilityR, paymentMethodsR)
 }

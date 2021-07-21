@@ -1,4 +1,4 @@
-import { CoinType, Erc20CoinType } from 'core/types'
+import { CoinType } from 'core/types'
 
 import { UTXOType } from './btc/types'
 import { ADDRESS_TYPES } from './btc/utils'
@@ -101,17 +101,10 @@ export type BtcPaymentType = IPaymentType & {
 
 export type EthPaymentType = IPaymentType & {
   amount: (n: number | string) => EthPaymentType
-  coin: 'ETH' | 'PAX' | 'USDT' | 'WDGLD' | 'YFI' | 'AAVE'
+  coin: 'ETH' | string
   description: (arg: string) => EthPaymentType
-  fee: (
-    arg: number,
-    account: string,
-    coin?: Erc20CoinType | 'ETH'
-  ) => EthPaymentType
-  init: (arg: {
-    coin: 'ETH' | Erc20CoinType
-    isErc20?: boolean
-  }) => EthPaymentType
+  fee: (arg: number, account: string, coin?: string) => EthPaymentType
+  init: (arg: { coin: 'ETH' | string; isErc20?: boolean }) => EthPaymentType
   setIsRetryAttempt: (
     isRetryAttempt: boolean,
     nonce: string,

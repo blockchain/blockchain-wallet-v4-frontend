@@ -4,14 +4,14 @@ import { any } from 'ramda'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, Image, Text } from 'blockchain-info-components'
+import { Box, Button, Image, Text } from 'blockchain-info-components'
 import { SBPaymentMethodType, SBPaymentTypes, WalletFiatEnum } from 'blockchain-wallet-v4/src/types'
 import { SettingComponent, SettingContainer, SettingSummary } from 'components/Setting'
 import { BankTransferAccountType } from 'data/types'
 import { getBankLogoImageName } from 'services/images'
 import { media } from 'services/styles'
 
-import { CardDetails, CardWrapper, Child, CustomSettingHeader, RemoveButton } from '../styles'
+import { CardDetails, Child, CustomSettingHeader, RemoveButton } from '../styles'
 import { Props as OwnProps, SuccessStateType } from '.'
 
 const BankIconWrapper = styled.div`
@@ -57,10 +57,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           )}
           {walletBeneficiaries.map((account) => {
             return (
-              <CardWrapper
+              <Box
                 key={account.id}
                 onClick={() => props.handleShowBankClick(account)}
                 data-e2e={`bankAccountRow-${account.id}`}
+                isMethod
+                isMobile={media.mobile}
+                style={{ width: '430px' }}
               >
                 <Child>
                   <BankIconWrapper>
@@ -95,7 +98,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     <FormattedMessage id='buttons.remove' defaultMessage='Remove' />
                   </RemoveButton>
                 </Child>
-              </CardWrapper>
+              </Box>
             )
           })}
         </div>

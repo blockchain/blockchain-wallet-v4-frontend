@@ -1,6 +1,5 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { BigNumber } from 'bignumber.js'
 
 import {
   Table,
@@ -14,18 +13,11 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 import { Props } from '../template.success'
 import { Status, To, Type } from './model'
 
-const getQuantity = (amt, currency) => {
-  switch (currency) {
-    case 'STX':
-      // TODO: use Exchange converter once implemented
-      return new BigNumber(amt).dividedBy(10000000).toString()
-    case 'XLM':
-      return Exchange.convertXlmToXlm({
-        value: amt,
-        fromUnit: 'STROOP',
-        toUnit: 'XLM'
-      }).value
-  }
+const getQuantity = (amt, coin) => {
+  return Exchange.convertCoinToCoin({
+    coin,
+    value: amt
+  })
 }
 
 export default function Success({ userCampaignsInfoResponseList }: Props) {

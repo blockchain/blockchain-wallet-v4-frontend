@@ -1,23 +1,19 @@
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import {
-  CoinType,
-  Erc20CoinsEnum,
-  InterestBalanceType,
-  SBBalanceType
-} from 'blockchain-wallet-v4/src/types'
+import { CoinType, InterestBalanceType, SBBalanceType } from 'blockchain-wallet-v4/src/types'
 import { convertStandardToBase } from 'data/components/exchange/services'
+import { SwapAccountType, SwapBaseCounterTypes } from 'data/components/types'
 
 export const generateTradingAccount = (
   coin: CoinType,
   sbBalance?: SBBalanceType
-) => {
+): SwapAccountType[] => {
+  const { coinfig } = window.coins[coin]
   return [
     {
-      baseCoin: coin in Erc20CoinsEnum ? 'ETH' : coin,
+      balance: sbBalance?.available || '0',
+      baseCoin: coinfig.type.erc20Address ? 'ETH' : (coin as SwapAccountType['baseCoin']),
       coin,
       label: 'Trading Account',
-      type: ADDRESS_TYPES.CUSTODIAL,
-      balance: sbBalance?.available || '0'
+      type: SwapBaseCounterTypes.CUSTODIAL
     }
   ]
 }
@@ -25,16 +21,16 @@ export const generateTradingAccount = (
 export const generateInterestAccount = (
   coin: CoinType,
   interestBalance?: InterestBalanceType
-) => {
-  // hack to support PAX rebrand 🤬
-  const ticker = coin === 'PAX' ? 'USD-D' : coin
+): SwapAccountType[] => {
+  const { coinfig } = window.coins[coin]
   return [
     {
-      baseCoin: coin in Erc20CoinsEnum ? 'ETH' : coin,
+      balance: interestBalance?.balance || '0',
+      baseCoin: coinfig.type.erc20Address ? 'ETH' : (coin as SwapAccountType['baseCoin']),
       coin,
-      label: `${ticker} Interest Account`,
-      type: ADDRESS_TYPES.INTEREST,
-      balance: interestBalance?.balance
+      label: `${coin} Interest Account`,
+      // @ts-ignore
+      type: 'INTEREST'
     }
   ]
 }
@@ -44,7 +40,7 @@ export const generateProvisionalPaymentAmount = (
   amount: number
 ): string | number => {
   if (coin === 'BTC' || coin === 'BCH') {
-    return parseInt(convertStandardToBase(coin, amount))
+    return parseInt(convertStandardToBase(coin, amount), 10)
   }
 
   return convertStandardToBase(coin, amount)

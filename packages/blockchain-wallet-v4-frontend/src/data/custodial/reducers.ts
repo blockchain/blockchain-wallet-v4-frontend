@@ -4,9 +4,11 @@ import * as AT from './actionTypes'
 import { CustodialActionTypes, CustodialState } from './types'
 
 const INITIAL_STATE: CustodialState = {
-  beneficiaries: Remote.NotAsked
+  beneficiaries: Remote.NotAsked,
+  recentSwapTxs: Remote.NotAsked
 }
 
+/* eslint-disable import/prefer-default-export */
 export function custodialReducer(
   state = INITIAL_STATE,
   action: CustodialActionTypes
@@ -28,6 +30,24 @@ export function custodialReducer(
         ...state,
         beneficiaries: Remote.Success(action.payload.beneficiaries)
       }
+    case AT.FETCH_RECENT_SWAP_TXS_FAILURE: {
+      return {
+        ...state,
+        recentSwapTxs: Remote.Failure('Error getting recent swap txs')
+      }
+    }
+    case AT.FETCH_RECENT_SWAP_TXS_LOADING: {
+      return {
+        ...state,
+        recentSwapTxs: Remote.Loading
+      }
+    }
+    case AT.FETCH_RECENT_SWAP_TXS_SUCCESS: {
+      return {
+        ...state,
+        recentSwapTxs: Remote.Success(action.payload.data)
+      }
+    }
     default:
       return state
   }

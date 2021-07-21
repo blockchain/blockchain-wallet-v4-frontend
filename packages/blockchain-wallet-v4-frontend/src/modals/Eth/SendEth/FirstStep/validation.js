@@ -18,11 +18,11 @@ export const insufficientFunds = (value, allValues, props) => {
 
 export const invalidAmount = (value, allValues, props) => {
   const valueEth = prop('coin', value)
-  const valueWei = Exchange.convertEtherToEther({
+  const valueWei = Exchange.convertCoinToCoin({
     value: valueEth,
-    fromUnit: 'ETH',
-    toUnit: 'WEI'
-  }).value
+    baseToStandard: false,
+    coin: 'ETH'
+  })
   return valueWei > 0 ? undefined : <InvalidAmountMessage />
 }
 
@@ -33,9 +33,8 @@ export const maximumAmount = (value, allValues, props) => {
     const effectiveBalanceWei = prop('effectiveBalance', props)
     const effectiveBalance = Exchange.convertCoinToCoin({
       value: effectiveBalanceWei,
-      coin,
-      baseToStandard: true
-    }).value
+      coin
+    })
     return new BigNumber(coinValue).isLessThanOrEqualTo(
       new BigNumber(effectiveBalance || 0)
     ) ? (

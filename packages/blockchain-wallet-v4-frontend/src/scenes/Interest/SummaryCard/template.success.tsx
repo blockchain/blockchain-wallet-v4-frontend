@@ -46,20 +46,20 @@ function SummaryCard(props: OwnProps & SuccessStateType): ReactElement {
     interestEligible,
     interestRate,
     isGoldTier,
-    supportedCoins,
-    walletCurrency,
+    walletCurrency
   } = props
-  const { coinCode, coinTicker, displayName } = supportedCoins[coin]
+  const displayName = window.coins[coin].coinfig.name
   const account = interestAccountBalance && interestAccountBalance[coin]
   const accountBalanceBase = account ? account.balance : 0
-  const interestBalanceBase = account && account.totalInterest
+  const interestBalanceBase = account ? account.totalInterest : 0
   const accountBalanceStandard = convertBaseToStandard(coin, accountBalanceBase)
   const interestBalanceStandard = convertBaseToStandard(coin, interestBalanceBase)
   const interestEligibleCoin = interestEligible[coin] && interestEligible[coin]?.eligible
+
   return (
     <DepositBox>
       <Row>
-        <Icon name={coinCode} color={coinCode} size='32px' />
+        <Icon name={coin} color={coin} size='32px' />
         <Text
           size='20px'
           color='grey800'
@@ -79,8 +79,8 @@ function SummaryCard(props: OwnProps & SuccessStateType): ReactElement {
               id='scenes.interest.summarycard.earning'
               defaultMessage='Earning up to {interestRate}% annually on your {coinTicker}.'
               values={{
-                coinTicker,
-                interestRate: interestRate[coin],
+                coinTicker: coin,
+                interestRate: interestRate[coin]
               }}
             />
           ) : (
@@ -88,8 +88,8 @@ function SummaryCard(props: OwnProps & SuccessStateType): ReactElement {
               id='scenes.interest.summarycard.earn'
               defaultMessage='Earn up to {interestRate}% annually on your {coinTicker}.'
               values={{
-                coinTicker,
-                interestRate: interestRate[coin],
+                coinTicker: coin,
+                interestRate: interestRate[coin]
               }}
             />
           )}
@@ -107,15 +107,15 @@ function SummaryCard(props: OwnProps & SuccessStateType): ReactElement {
             <FormattedMessage
               id='modals.interest.detailsbalance'
               defaultMessage='{coin} Balance'
-              values={{ coin: coinTicker }}
+              values={{ coin }}
             />
           </Text>
           <Text data-e2e='btcBalance' size='14px' weight={600} style={{ lineHeight: '1.5' }}>
-            {accountBalanceStandard} {coinTicker}
+            {accountBalanceStandard} {coin}
           </Text>
           <FiatDisplay
             color='grey600'
-            coin={coinTicker}
+            coin={coin}
             currency={walletCurrency}
             loadingHeight='24px'
             size='12px'
@@ -138,11 +138,11 @@ function SummaryCard(props: OwnProps & SuccessStateType): ReactElement {
             />
           </Text>
           <Text data-e2e='btcInterest' size='14px' weight={600} style={{ lineHeight: '1.5' }}>
-            {interestBalanceStandard} {coinTicker}
+            {interestBalanceStandard} {coin}
           </Text>
           <FiatDisplay
             color='grey600'
-            coin={coinTicker}
+            coin={coin}
             currency={walletCurrency}
             loadingHeight='24px'
             size='12px'

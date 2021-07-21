@@ -1,7 +1,7 @@
 import { lift } from 'ramda'
 
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { formatFiat } from 'blockchain-wallet-v4/src/exchange/currency'
+import { fiatToString, formatFiat } from 'blockchain-wallet-v4/src/exchange/utils'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { selectors } from 'data'
 
@@ -15,7 +15,7 @@ export const getTotalBalance = createDeepEqualSelector(
     S.getEthBalanceInfo,
     S.getXlmBalanceInfo,
     S.getFiatBalanceInfo,
-    S.getErc20BalancesInfo,
+    S.getErc20BalancesInfoV2,
     selectors.core.settings.getCurrency
   ],
   (
@@ -25,7 +25,7 @@ export const getTotalBalance = createDeepEqualSelector(
     ethBalanceInfoR,
     xlmBalanceInfoR,
     fiatBalanceInfoR,
-    erc20BalancesInfo,
+    erc20BalancesInfoV2,
     currency
   ) => {
     const transform = (
@@ -35,19 +35,22 @@ export const getTotalBalance = createDeepEqualSelector(
       ethBalance,
       xlmBalance,
       fiatBalance,
-      erc20Balances,
+      erc20BalancesInfoV2,
       currency
     ) => {
-      const total = formatFiat(
-        Number(btcBalance) +
-          Number(dotBalance) +
-          Number(ethBalance) +
-          Number(bchBalance) +
-          Number(xlmBalance) +
-          Number(erc20Balances) +
-          Number(fiatBalance)
+      const erc20Balance = erc20BalancesInfoV2.reduce(
+        (acc, cur) => (acc += Number(cur.getOrElse('0'))),
+        0
       )
-      const totalBalance = `${Exchange.getSymbol(currency)}${total}`
+      const total =
+        Number(btcBalance) +
+        Number(dotBalance) +
+        Number(ethBalance) +
+        Number(bchBalance) +
+        Number(xlmBalance) +
+        Number(fiatBalance) +
+        erc20Balance
+      const totalBalance = `${fiatToString({ unit: currency, value: total })}`
       return { totalBalance }
     }
     return lift(transform)(
@@ -57,7 +60,7 @@ export const getTotalBalance = createDeepEqualSelector(
       ethBalanceInfoR,
       xlmBalanceInfoR,
       fiatBalanceInfoR,
-      erc20BalancesInfo,
+      erc20BalancesInfoV2,
       currency
     )
   }

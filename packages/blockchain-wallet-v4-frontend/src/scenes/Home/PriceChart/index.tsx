@@ -14,12 +14,14 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  position: relative;
+  position: sticky;
+  top: 0;
+  right: 0;
   align-items: center;
   width: 100%;
   border-radius: 8px;
   box-sizing: border-box;
-  border: 1px solid ${props => props.theme.grey000};
+  border: 1px solid ${(props) => props.theme.grey000};
   margin-bottom: 36px;
 `
 

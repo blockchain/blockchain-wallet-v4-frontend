@@ -87,3 +87,6 @@ export const getIncomingAmount = (state: RootState) => {
     }
   })(quoteR)
 }
+
+export const getCoins = () =>
+  Object.keys(window.coins).filter((coin) => !window.coins[coin].coinfig.type.isFiat)

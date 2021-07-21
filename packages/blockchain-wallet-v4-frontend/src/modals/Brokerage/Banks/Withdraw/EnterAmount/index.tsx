@@ -15,7 +15,7 @@ import {
   WithdrawStepEnum
 } from 'data/types'
 
-import { getData } from './selectors'
+import getData from './selectors'
 import Failure from './template.failure'
 import Loading from './template.loading'
 import Success from './template.success'

@@ -27,13 +27,13 @@ const Title = styled(Text)`
   margin: 20px 0 8px;
 `
 const ContentContainer = styled(FlyoutWrapper)`
-  border-top: 1px solid ${props => props.theme.grey000};
+  border-top: 1px solid ${(props) => props.theme.grey000};
 `
 const DisplayTitle = styled(Text)`
   font-weight: 600;
   font-size: 15px;
   display: flex;
-  color: ${props => props.theme.textBlack};
+  color: ${(props) => props.theme.textBlack};
   width: 100%;
 `
 const IconsContainer = styled.div`
@@ -42,7 +42,7 @@ const IconsContainer = styled.div`
   justify-content: space-between;
   width: 100%;
 `
-const Template: React.FC<Props> = props => {
+const Template: React.FC<Props> = (props) => {
   return (
     <Wrapper>
       <FlyoutWrapper>
@@ -148,19 +148,13 @@ const Template: React.FC<Props> = props => {
           nature='primary'
           data-e2e='upgradeNowBtn'
           onClick={() => {
-            props.analyticsActions.logEvent([
-              'UPGRADE_TO_GOLD',
-              'upgrade_now_clicked'
-            ])
+            props.analyticsActions.logEvent(['UPGRADE_TO_GOLD', 'upgrade_now_clicked'])
             props.verifyIdentity()
           }}
           style={{ marginTop: '16px' }}
           type='button'
         >
-          <FormattedMessage
-            id='scenes.airdrops.success.upgradenow'
-            defaultMessage='Upgrade Now'
-          />
+          <FormattedMessage id='scenes.airdrops.success.upgradenow' defaultMessage='Upgrade Now' />
         </Button>
         <Button
           fullwidth
@@ -169,10 +163,7 @@ const Template: React.FC<Props> = props => {
           nature='empty-blue'
           data-e2e='doLaterBtn'
           onClick={() => {
-            props.analyticsActions.logEvent([
-              'UPGRADE_TO_GOLD',
-              'Ill_do_it_later_clicked'
-            ])
+            props.analyticsActions.logEvent(['UPGRADE_TO_GOLD', 'Ill_do_it_later_clicked'])
             props.handleClose()
           }}
           style={{ marginTop: '8px' }}

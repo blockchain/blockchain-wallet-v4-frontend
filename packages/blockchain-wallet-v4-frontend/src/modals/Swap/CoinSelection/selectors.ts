@@ -11,7 +11,8 @@ import { RootState } from 'data/rootReducer'
 import { OwnProps } from '.'
 
 export const getData = (state: RootState, { side }: OwnProps) => {
-  const accounts = getCoinAccounts(state, SWAP_ACCOUNTS_SELECTOR)
+  const coins = selectors.components.swap.getCoins()
+  const accounts = getCoinAccounts(state, { coins, ...SWAP_ACCOUNTS_SELECTOR })
   const pairs = selectors.components.swap.getPairs(state).getOrElse([])
   let coinsForSide
 
@@ -22,17 +23,14 @@ export const getData = (state: RootState, { side }: OwnProps) => {
   coinsForSide = uniq(pairs.map(sideF))
 
   // This will only work if the coin is disabled for to and from
-  const accountsForSide = coinsForSide.reduce(
-    (prevValue, curValue: CoinType) => {
-      if (!prevValue[curValue]) {
-        return {
-          ...prevValue,
-          [curValue]: accounts[curValue]
-        }
+  const accountsForSide = coinsForSide.reduce((prevValue, curValue: CoinType) => {
+    if (!prevValue[curValue]) {
+      return {
+        ...prevValue,
+        [curValue]: accounts[curValue]
       }
-    },
-    {}
-  ) as { [key in CoinType]: Array<SwapAccountType> }
+    }
+  }, {}) as { [key in CoinType]: Array<SwapAccountType> }
 
   return { accounts: accountsForSide }
 }

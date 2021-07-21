@@ -7,6 +7,12 @@ import { UserTierType } from 'data/types'
 
 const getData = (state: RootState) => {
   const userData = selectors.modules.profile.getUserData(state).getOrElse({
+    address: undefined,
+    id: '',
+    kycState: 'NONE',
+    mobile: '',
+    mobileVerified: false,
+    state: 'NONE',
     tiers: { current: 0 }
   } as UserDataType)
   // @ts-ignore

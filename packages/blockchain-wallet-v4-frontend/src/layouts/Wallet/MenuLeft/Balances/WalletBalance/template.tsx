@@ -8,7 +8,7 @@ import { BalancesWrapper } from '../model'
 import Balance from './Balance'
 import PendingSBTransactions from './PendingSBTransactions'
 
-const Template = props => {
+const Template = (props) => {
   const { coins } = props
 
   return (
@@ -17,15 +17,13 @@ const Template = props => {
       <BalancesWrapper className={props.isActive ? 'active' : ''}>
         {values(
           mapObjIndexed(
-            (coin: SupportedWalletCurrencyType) =>
-              coin.method &&
-              coin.invited && (
-                <Balance
-                  coin={coin.coinCode}
-                  coinTicker={coin.coinTicker}
-                  key={coin.coinCode}
-                />
-              ),
+            (coin: SupportedWalletCurrencyType) => (
+              <Balance
+                coin={coin.coinfig.symbol}
+                coinTicker={coin.coinfig.symbol}
+                key={coin.coinfig.symbol}
+              />
+            ),
             coins
           )
         )}

@@ -79,10 +79,10 @@ export default ({ api }: { api: APIType }) => {
       yield put(actions.modals.closeAllModals())
       yield put(
         actions.alerts.displaySuccess(
-          `${displayCoinToCoin(
-            selection.outputs[0].value,
-            coin
-          )} successfully recovered to ${recoveryAddress}.`
+          `${displayCoinToCoin({
+            coin,
+            value: selection.outputs[0].value
+          })} successfully recovered to ${recoveryAddress}.`
         )
       )
       yield put(actions.components.refresh.refreshClicked())

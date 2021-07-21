@@ -43,11 +43,7 @@ const Subcontent = styled(Text)`
   text-align: center;
 `
 // This component is shared by Yapily and Yodlee add bank modals
-const BankLinkError: React.FC<Props> = ({
-  bankStatus,
-  brokerageActions,
-  handleClose
-}) => {
+const BankLinkError: React.FC<Props> = ({ bankStatus, brokerageActions, handleClose }) => {
   return (
     <Top>
       <CloseIcon
@@ -56,7 +52,7 @@ const BankLinkError: React.FC<Props> = ({
         size='20px'
         color='grey600'
         role='button'
-        onClick={() => handleClose}
+        onClick={handleClose}
       />
       <Container>
         <Image
@@ -70,14 +66,12 @@ const BankLinkError: React.FC<Props> = ({
           }
         />
         <Title color='grey800' size='20px' weight={600}>
-          {bankStatus ===
-          BankStatusType.BANK_TRANSFER_ACCOUNT_ALREADY_LINKED ? (
+          {bankStatus === BankStatusType.BANK_TRANSFER_ACCOUNT_ALREADY_LINKED ? (
             <FormattedMessage
               id='copy.bank_linked_error_title_already_linked'
               defaultMessage='This bank has already been linked to your account.'
             />
-          ) : bankStatus ===
-            BankStatusType.BANK_TRANSFER_ACCOUNT_NAME_MISMATCH ? (
+          ) : bankStatus === BankStatusType.BANK_TRANSFER_ACCOUNT_NAME_MISMATCH ? (
             <FormattedMessage
               id='copy.bank_linked_error_title_yourbank'
               defaultMessage='Is this your bank?'
@@ -110,8 +104,7 @@ const BankLinkError: React.FC<Props> = ({
           )}
         </Title>
         <Subcontent color='grey600' weight={500}>
-          {bankStatus ===
-          BankStatusType.BANK_TRANSFER_ACCOUNT_ALREADY_LINKED ? (
+          {bankStatus === BankStatusType.BANK_TRANSFER_ACCOUNT_ALREADY_LINKED ? (
             <>
               <FormattedMessage
                 id='copy.bank_linked_error_alreadylinked1'
@@ -123,18 +116,14 @@ const BankLinkError: React.FC<Props> = ({
                 target='_blank'
                 href='https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360000190032'
               >
-                <FormattedMessage
-                  id='copy.contact_us'
-                  defaultMessage='contact us'
-                />
+                <FormattedMessage id='copy.contact_us' defaultMessage='contact us' />
               </Link>{' '}
               <FormattedMessage
                 id='copy.bank_linked_error_alreadylinked2'
                 defaultMessage='immediately.'
               />
             </>
-          ) : bankStatus ===
-            BankStatusType.BANK_TRANSFER_ACCOUNT_NAME_MISMATCH ? (
+          ) : bankStatus === BankStatusType.BANK_TRANSFER_ACCOUNT_NAME_MISMATCH ? (
             <>
               <FormattedMessage
                 id='copy.bank_linked_error_yourbank'
@@ -146,10 +135,7 @@ const BankLinkError: React.FC<Props> = ({
                 target='_blank'
                 href='https://support.blockchain.com/hc/en-us/'
               >
-                <FormattedMessage
-                  id='buttons.learn_more_arrow'
-                  defaultMessage='Learn more ->'
-                />
+                <FormattedMessage id='buttons.learn_more_arrow' defaultMessage='Learn more ->' />
               </Link>
             </>
           ) : bankStatus === BankStatusType.BANK_TRANSFER_ACCOUNT_INVALID ? (
@@ -171,12 +157,9 @@ const BankLinkError: React.FC<Props> = ({
                 target='_blank'
                 href='https://support.blockchain.com/hc/en-us/'
               >
-                <FormattedMessage
-                  id='buttons.contact_support'
-                  defaultMessage='Contact Support'
-                />
+                <FormattedMessage id='buttons.contact_support' defaultMessage='Contact Support' />
               </Link>
-              {'.'}
+              .
             </>
           )}
         </Subcontent>
@@ -203,10 +186,7 @@ const BankLinkError: React.FC<Props> = ({
           onClick={handleClose}
           fullwidth
         >
-          <FormattedMessage
-            id='buttons.cancel_goback'
-            defaultMessage='Cancel & Go Back'
-          />
+          <FormattedMessage id='buttons.cancel_goback' defaultMessage='Cancel & Go Back' />
         </Button>
       </Container>
     </Top>

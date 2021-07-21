@@ -19,8 +19,6 @@ const getData = (state) => {
   const invitations: InvitationsType = selectors.core.settings.getInvitations(state).getOrElse({
     openBanking: false
   } as InvitationsType)
-
-  const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
 
   return lift(
@@ -31,7 +29,6 @@ const getData = (state) => {
       eligibility: ExtractSuccess<typeof eligibilityR>,
       pairs: ExtractSuccess<typeof pairsR>,
       paymentMethods: ExtractSuccess<typeof paymentMethodsR>,
-      supportedCoins: ExtractSuccess<typeof supportedCoinsR>,
       walletCurrency: FiatType
     ) => ({
       balances,
@@ -50,7 +47,6 @@ const getData = (state) => {
           )
         }) ||
         paymentMethods,
-      supportedCoins,
       walletCurrency
     })
   )(
@@ -60,7 +56,6 @@ const getData = (state) => {
     eligibilityR,
     pairsR,
     paymentMethodsR,
-    supportedCoinsR,
     walletCurrencyR
   )
 }

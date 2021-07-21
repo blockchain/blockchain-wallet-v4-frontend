@@ -73,10 +73,12 @@ class FundRecoveryModal extends PureComponent<Props> {
                   <Text size='16px' weight={600}>
                     We found{' '}
                     <b>
-                      {displayCoinToCoin(
-                        val.searchChain.selection.inputs.map(({ value }) => value).reduce(add),
-                        this.props.coin as WalletCurrencyType
-                      )}{' '}
+                      {displayCoinToCoin({
+                        coin: this.props.coin,
+                        value: val.searchChain.selection.inputs
+                          .map(({ value }) => value)
+                          .reduce(add)
+                      })}{' '}
                     </b>
                     that is available for recovery.
                   </Text>

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import * as C from 'services/alerts'
 
 import CopyClipboard from './template'
@@ -21,14 +21,14 @@ class CopyClipboardContainer extends React.PureComponent {
   }
 
   handleClick() {
-    const { alertActions, coin, supportedCoins } = this.props
+    const { alertActions, coin } = this.props
     this.setState({ active: true })
     this.timeout = setTimeout(() => {
       this.setState({ active: false })
     }, 2000)
     if (coin) {
       alertActions.displaySuccess(C.COPY_ADDRESS_CLIPBOARD_SUCCESS, {
-        coinName: supportedCoins[coin].displayName
+        coinName: window.coins[coin].name
       })
     } else {
       alertActions.displaySuccess(C.COPY_LINK_CLIPBOARD_SUCCESS)
@@ -51,17 +51,8 @@ CopyClipboardContainer.propTypes = {
   address: PropTypes.string.isRequired
 }
 
-const mapStateToProps = state => ({
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrFail()
-})
-
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CopyClipboardContainer)
+export default connect(undefined, mapDispatchToProps)(CopyClipboardContainer)

@@ -1,17 +1,12 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { replace } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
-import { coinToString, fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
-import {
-  CoinType,
-  ProcessedSwapOrderType,
-  SupportedWalletCurrenciesType
-} from 'blockchain-wallet-v4/src/types'
+import { coinToString, fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
+import { CoinType, ProcessedSwapOrderType, WalletOptionsType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { getInput, getOutput } from 'data/components/swap/model'
@@ -69,7 +64,7 @@ class SwapOrderTx extends PureComponent<Props, State> {
   }
 
   render() {
-    const { coin, order, supportedCoins } = this.props
+    const { coin, domains, order } = this.props
     const base = getInput(order)
     const counter = getOutput(order)
     const { outputMoney } = this.props.order.priceFunnel
@@ -80,7 +75,7 @@ class SwapOrderTx extends PureComponent<Props, State> {
             <IconTx {...this.props} />
             <StatusAndType>
               <Text size='16px' color='grey800' weight={600} data-e2e='txTypeText'>
-                Swap {replace('PAX', 'USD-D', this.props.order.pair)}
+                Swap {this.props.order.pair}
               </Text>
               <Timestamp {...this.props} />
             </StatusAndType>
@@ -161,7 +156,7 @@ class SwapOrderTx extends PureComponent<Props, State> {
                     />
                   </Text>
                   <Link
-                    href={`${supportedCoins[base].txExplorerBaseUrl}/${order.kind.depositTxHash}`}
+                    href={`${domains.comRoot}/search/?search=/${order.kind.depositTxHash}`}
                     target='_blank'
                     data-e2e='swapOutgoingTransactionListItemExplorerLink'
                   >
@@ -178,7 +173,7 @@ class SwapOrderTx extends PureComponent<Props, State> {
                     />
                   </Text>
                   <Link
-                    href={`${supportedCoins[counter].txExplorerBaseUrl}/${order.kind.withdrawalTxHash}`}
+                    href={`${domains.comRoot}/search/?search=/${order.kind.depositTxHash}`}
                     target='_blank'
                     data-e2e='swapIncomingTransactionListItemExplorerLink'
                   >
@@ -218,9 +213,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 })
 
 const mapStateToProps = (state: RootState) => ({
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrElse({} as SupportedWalletCurrenciesType)
+  domains: selectors.core.walletOptions.getDomains(state).getOrElse({
+    comRoot: 'https://www.blockchain.com'
+  } as WalletOptionsType['domains'])
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

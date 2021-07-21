@@ -291,7 +291,8 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   balances={
                     this.props.balances[fund.value.currency] || {
                       available: '0',
-                      pending: '0'
+                      pending: '0',
+                      withdrawable: '0'
                     }
                   }
                   walletCurrency={this.props.walletCurrency}

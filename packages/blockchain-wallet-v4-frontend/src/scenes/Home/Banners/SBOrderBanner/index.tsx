@@ -6,12 +6,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
-import {
-  SBOrderType,
-  SBPaymentTypes,
-  SupportedWalletCurrenciesType,
-  WalletCurrencyType
-} from 'blockchain-wallet-v4/src/types'
+import { SBOrderType, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { getOrderType } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
@@ -98,12 +93,7 @@ class SBOrderBanner extends PureComponent<Props> {
           <Column>
             <Text size='20px' weight={600} color='grey800'>
               <FormattedMessage id='copy.pending' defaultMessage='Pending' />{' '}
-              <BuyOrSell
-                orderType={orderType}
-                coinModel={
-                  this.props.supportedCoins[latestPendingOrder.outputCurrency as WalletCurrencyType]
-                }
-              />
+              <BuyOrSell orderType={orderType} />
             </Text>
             <Copy size='16px' color='grey600' weight={500}>
               {latestPendingOrder.paymentType === SBPaymentTypes.PAYMENT_CARD ? (
@@ -139,10 +129,7 @@ class SBOrderBanner extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  latestPendingOrder: selectors.components.simpleBuy.getSBLatestPendingOrder(state),
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrElse({} as SupportedWalletCurrenciesType)
+  latestPendingOrder: selectors.components.simpleBuy.getSBLatestPendingOrder(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -154,7 +141,6 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkStatePropsType = {
   latestPendingOrder?: SBOrderType
-  supportedCoins: SupportedWalletCurrenciesType
 }
 type Props = ConnectedProps<typeof connector>
 

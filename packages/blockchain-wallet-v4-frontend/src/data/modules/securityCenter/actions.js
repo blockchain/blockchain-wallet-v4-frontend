@@ -25,6 +25,11 @@ export const resendVerifyEmail = (email) => ({
   type: AT.RESEND_VERIFY_EMAIL
 })
 
+export const skipVerifyEmail = (email) => ({
+  payload: { email },
+  type: AT.SKIP_VERIFY_EMAIL
+})
+
 export const getGoogleAuthenticatorSecretUrl = () => ({
   type: AT.GET_GOOGLE_AUTHENTICATOR_SECRET_URL
 })

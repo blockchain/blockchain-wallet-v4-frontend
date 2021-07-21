@@ -1,29 +1,27 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { includes } from 'ramda'
 import { bindActionCreators } from 'redux'
 
-import {
-  CoinType,
-  FiatType,
-  ProcessedTxType
-} from 'blockchain-wallet-v4/src/types'
-import { actions, model, selectors } from 'data'
+import { CoinType, FiatType, ProcessedTxType } from 'blockchain-wallet-v4/src/types'
+import { actions, model } from 'data'
 
 import NonCustodialTx from './template'
 
 const { TRANSACTION_EVENTS } = model.analytics
 
-class NonCustodialTxListItem extends React.PureComponent<Props> {
-  state = { isToggled: false }
-
-  handleToggle = () => {
-    this.setState({ isToggled: !this.state.isToggled })
+class NonCustodialTxListItem extends React.PureComponent<Props, { isToggled: boolean }> {
+  constructor(props) {
+    super(props)
+    this.state = { isToggled: false }
   }
 
-  handleEditDescription = value => {
-    const { coin, erc20List, transaction } = this.props
-    // TODO: ERC20 make more generic
+  handleToggle = () => {
+    this.setState((prevState) => ({ isToggled: !prevState.isToggled }))
+  }
+
+  handleEditDescription = (value) => {
+    const { coin, transaction } = this.props
+    const { coinfig } = window.coins[coin]
     switch (true) {
       case coin === 'ETH': {
         this.props.ethActions.setTxNotesEth(transaction.hash, value)
@@ -41,7 +39,8 @@ class NonCustodialTxListItem extends React.PureComponent<Props> {
         this.props.xlmActions.setTxNotesXlm(transaction.hash, value)
         break
       }
-      case includes(coin, erc20List): {
+      case !!coinfig.type.erc20Address: {
+        // TODO: erc20 phase 2, set tx notes?
         this.props.ethActions.setTxNotesErc20(coin, transaction.hash, value)
         break
       }
@@ -60,11 +59,8 @@ class NonCustodialTxListItem extends React.PureComponent<Props> {
     this.props.sendEthActions.retrySendEth(txHash, isErc20)
   }
 
-  onViewTxDetails = coin => {
-    this.props.analyticsActions.logEvent([
-      ...TRANSACTION_EVENTS.VIEW_TX_ON_EXPLORER,
-      coin
-    ])
+  onViewTxDetails = (coin) => {
+    this.props.analyticsActions.logEvent([...TRANSACTION_EVENTS.VIEW_TX_ON_EXPLORER, coin])
   }
 
   render() {
@@ -81,11 +77,7 @@ class NonCustodialTxListItem extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = state => ({
-  erc20List: selectors.core.walletOptions.getErc20CoinList(state).getOrElse([])
-})
-
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   bchActions: bindActionCreators(actions.core.kvStore.bch, dispatch),
   ethActions: bindActionCreators(actions.core.kvStore.eth, dispatch),
@@ -97,7 +89,7 @@ const mapDispatchToProps = dispatch => ({
   xlmActions: bindActionCreators(actions.core.kvStore.xlm, dispatch)
 })
 
-const connector = connect(mapStateToProps, mapDispatchToProps)
+const connector = connect(undefined, mapDispatchToProps)
 
 type OwnProps = {
   coin: CoinType

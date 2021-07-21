@@ -11,7 +11,6 @@ import {
   InterestLimitsType,
   RatesType,
   RemoteDataType,
-  SupportedWalletCurrenciesType,
   WithdrawalMinimumType,
   WithdrawLimits
 } from 'blockchain-wallet-v4/src/types'
@@ -76,7 +75,6 @@ export type SuccessStateType = {
   interestEDDWithdrawLimits: WithdrawLimits
   interestLimits: InterestLimitsType
   rates: RatesType
-  supportedCoins: SupportedWalletCurrenciesType
   withdrawalMinimums: WithdrawalMinimumType
 }
 

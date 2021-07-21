@@ -116,7 +116,7 @@ export const getDefaultPaymentMethod = (state: RootState) => {
               return (
                 method.currency === lastOrder.inputCurrency &&
                 method.currency === fiatCurrency &&
-                sbBalances[method?.currency]?.available > 0
+                (sbBalances[method?.currency]?.available || 0) > 0
               )
             })
           case SBPaymentTypes.LINK_BANK:
@@ -147,7 +147,8 @@ export const getDefaultPaymentMethod = (state: RootState) => {
 export const hasFiatBalances = (state: RootState) => {
   const fiatBalances = Object.keys(state.components.simpleBuy.balances.data).filter(
     (currency) =>
-      currency in FiatTypeEnum && state.components.simpleBuy.balances.data[currency].available > 0
+      currency in FiatTypeEnum &&
+      (state.components.simpleBuy.balances.data[currency]?.available || 0) > 0
   )
   return fiatBalances.length > 0
 }
