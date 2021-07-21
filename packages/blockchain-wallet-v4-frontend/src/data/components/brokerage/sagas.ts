@@ -21,9 +21,9 @@ import {
 } from 'data/types'
 
 import profileSagas from '../../modules/profile/sagas'
-import {actions as A} from './slice'
 import { DEFAULT_METHODS, POLLING } from './model'
 import * as S from './selectors'
+import { actions as A } from './slice'
 import { OBType } from './types'
 
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
@@ -147,6 +147,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             yield put(
               actions.components.simpleBuy.handleSBMethodChange({
                 ...bankData,
+                isFlow: false,
                 limits: bankTransferMethod.limits,
                 type: SBPaymentTypes.BANK_TRANSFER
               })
@@ -204,10 +205,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }: ReturnType<typeof A.handleDepositFiatClick>) {
     yield put(
       actions.components.brokerage.showModal({
-        origin: BrokerageModalOriginType.DEPOSIT_BUTTON,
-        modalType: 'BANK_DEPOSIT_MODAL'
-      }
-      )
+        modalType: 'BANK_DEPOSIT_MODAL',
+        origin: BrokerageModalOriginType.DEPOSIT_BUTTON
+      })
     )
     yield put(
       actions.components.brokerage.setDWStep({
@@ -215,11 +215,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       })
     )
 
-    const paymentMethods: SBPaymentMethodType[] = yield call(
-      api.getSBPaymentMethods,
-      payload,
-      true
-    )
+    const paymentMethods: SBPaymentMethodType[] = yield call(api.getSBPaymentMethods, payload, true)
 
     const eligibleMethods = paymentMethods.filter(
       (method) =>

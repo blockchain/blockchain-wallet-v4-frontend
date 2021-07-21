@@ -708,8 +708,10 @@ type MessagesType = {
   'modals.brokerage.remove_bank.description': "You're about to remove your {bankAccount}"
   'modals.brokerage.link_bank': 'Blockchain.com uses Yodlee to verify your bank credentials & securely link your accounts.'
   'modals.brokerage.link_bank_yodlee_terms': "By hitting Continue, you Agree to Yodlee's"
+  'modals.brokerage.pay_via_desktop': 'Pay via desktop'
   'modals.brokerage.link_via_desktop': 'Link via desktop'
   'modals.brokerage.link_via_mobile': 'Link via mobile'
+  'modals.brokerage.pay_via_mobile': 'Pay via mobile'
   'modals.brokerage.updating_your_wallet': 'Updating Your Wallet...'
   'modals.brokerage.this_could_take': 'This could take up to 30 seconds. Please do not go back or close the app.'
   'modals.brokerage.timed_out_title': 'We timed out waiting to hear from your bank.'
