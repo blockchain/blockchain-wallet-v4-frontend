@@ -1,4 +1,4 @@
-import { isNil, lift, mapObjIndexed, reject, toUpper, values } from 'ramda'
+import { lift, mapObjIndexed, toUpper, values } from 'ramda'
 
 import {
   AccountTokensBalancesResponseType,
