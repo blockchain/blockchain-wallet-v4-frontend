@@ -613,23 +613,13 @@ export default ({ api, coreSagas }) => {
     // to be used to submit login
     yield put(actions.cache.emailStored(walletData.email))
     yield put(actions.cache.guidStored(walletData.guid))
-    yield put(actions.cache.mobileConnectedStored(walletData.is_mobile_setup))
-    yield put(actions.form.change('login', 'emailToken', walletData.email_code))
+    yield put(actions.cache.mobileConnectedStored(walletData.isMobileSetup))
+    yield put(actions.form.change('login', 'emailToken', walletData.emailCode))
     yield put(actions.form.change('login', 'guid', walletData.guid))
     yield put(actions.form.change('login', 'email', walletData.email))
-    yield put(
-      A.setMagicLinkInfo(
-        walletData.auth_type,
-        nabuData.exchange_linked,
-        exchangeData.user_id,
-        walletData.has_cloud_backup,
-        nabuData.user_id,
-        nabuData.recovery_eligible,
-        exchangeData.two_fa_mode
-      )
-    )
+    yield put(A.setMagicLinkInfo(loginData))
     // check if mobile detected
-    if (walletData.is_mobile_setup) {
+    if (walletData.isMobileSetup) {
       yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
     } else {
       yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
@@ -678,24 +668,6 @@ export default ({ api, coreSagas }) => {
         // if path has base64 encrypted JSON
       } else {
         yield call(parseMagicLink, params)
-        //   const loginData = JSON.parse(atob(loginLinkParameter)) as WalletDataFromMagicLink
-        //   // this flag is stored as a string in JSON object
-        //   // this converts it to a variable
-        //   const mobileSetup = loginData.is_mobile_setup === 'true'
-        //   // store data in the cache and update form values
-        //   // to be used to submit login
-        //   yield put(actions.cache.emailStored(loginData.email))
-        //   yield put(actions.cache.guidStored(loginData.guid))
-        //   yield put(actions.cache.mobileConnectedStored(mobileSetup))
-        //   yield put(actions.form.change('login', 'emailToken', loginData.email_code))
-        //   yield put(actions.form.change('login', 'guid', loginData.guid))
-        //   yield put(actions.form.change('login', 'email', loginData.email))
-        //   // check if mobile detected
-        //   if (mobileSetup) {
-        //     yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
-        //   } else {
-        //     yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
-        //   }
       }
       yield put(A.initializeLoginSuccess())
     } catch (e) {
@@ -714,8 +686,9 @@ export default ({ api, coreSagas }) => {
       const sessionToken = yield call(api.obtainSessionToken)
       const { captchaToken, email } = action.payload
       yield put(actions.session.saveSession(assoc(email, sessionToken, {})))
-      // yield call(api.triggerWalletMagicLink, email, captchaToken, sessionToken)
-      yield call(api.getMagicLinkMock, 'E')
+      yield call(api.triggerWalletMagicLink, email, captchaToken, sessionToken)
+      // below is link to trigger mock response
+      // yield call(api.getMagicLinkMock, 'E')
       if (step === LoginSteps.CHECK_EMAIL) {
         yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
       } else {
@@ -731,6 +704,13 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const resetAccount = function* (action) {
+    // first we want to create a new wallet
+    // then we ping POST /ngw/users/recovery/$USER_ID
+    // and pass it the recovery token we've received from the magic link
+    // then we get a new lifetime token in the repsonse
+    // save this lifetime token to metadata
+  }
   return {
     authNabu,
     checkAndHandleVulnerableAddress,
@@ -746,6 +726,7 @@ export default ({ api, coreSagas }) => {
     pollingSession,
     register,
     resendSmsLoginCode,
+    resetAccount,
     restore,
     restoreFromMetadata,
     saveGoals,

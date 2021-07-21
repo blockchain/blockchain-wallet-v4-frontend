@@ -1,5 +1,5 @@
 import * as AT from './actionTypes'
-import { AuthActionTypes } from './types'
+import { AuthActionTypes, WalletDataFromMagicLink } from './types'
 
 // LOGIN
 export const login = (guid, password, code, sharedKey, mobileLogin) => ({
@@ -54,6 +54,15 @@ export const registerLoading = () => ({ type: AT.REGISTER_LOADING })
 export const registerSuccess = () => ({ type: AT.REGISTER_SUCCESS })
 export const registerFailure = () => ({ type: AT.REGISTER_FAILURE })
 
+// RESET ACCOUNT (ASSIGN NABU ACCOUNT TO NEW WALLET)
+export const resetAccount = (email, password, language) => ({
+  payload: { email, language, password },
+  type: AT.RESET_ACCOUNT
+})
+export const resetAccountLoading = () => ({ type: AT.RESET_ACCOUNT_LOADING })
+export const resetAccountSuccess = () => ({ type: AT.RESET_ACCOUNT_SUCCESS })
+export const resetAccountFailure = () => ({ type: AT.RESET_ACCOUNT_FAILURE })
+
 // 2FA
 export const resendSmsCode = (guid) => ({
   payload: { guid },
@@ -106,24 +115,8 @@ export const clearLoginError = () => ({
   type: AT.CLEAR_LOGIN_ERROR
 })
 
-export const setMagicLinkInfo = (
-  authType: number,
-  exchangeLinked: boolean,
-  exchangeId: string,
-  hadCloudBackup: boolean,
-  nabuId: string,
-  recoveryEligible: boolean,
-  twoFAMode: boolean
-): AuthActionTypes => ({
-  payload: {
-    authType,
-    exchangeId,
-    exchangeLinked,
-    hadCloudBackup,
-    nabuId,
-    recoveryEligible,
-    twoFAMode
-  },
+export const setMagicLinkInfo = (magicLinkInfo: WalletDataFromMagicLink): AuthActionTypes => ({
+  payload: { magicLinkInfo },
   type: AT.SET_MAGIC_LINK_INFO
 })
 

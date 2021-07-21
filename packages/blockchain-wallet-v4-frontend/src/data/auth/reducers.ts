@@ -6,20 +6,44 @@ import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
   auth_type: 0,
-  exchangId: undefined,
-  exchangeAuthType: 0,
-  exchangeLinked: false,
-  exchangetwoFa: false,
   firstLogin: false,
-  hadCloudBackup: false,
   isAuthenticated: false,
   isLoggingIn: false,
   kycReset: undefined,
   login: Remote.NotAsked,
+  magicLinkData: {},
   metadataRestore: Remote.NotAsked,
   mobileLoginStarted: false,
-  nabuId: undefined,
-  recoveryEligible: false,
+  // {
+  //   exchange: {
+  //     email: undefined,
+  //     twoFaMode: false,
+  //     userId: undefined
+  //   },
+  //   upgradeable: null,
+  //   mergeable: null,
+  //   wallet: {
+  //     authType: undefined,
+  //     email: undefined,
+  //     emailCode: undefined,
+  //     exchange: {
+  //       email: undefined,
+  //       twoFaMode: undefined,
+  //       userId: undefined
+  //     },
+  //     guid: undefined,
+  //     hasCloudBackup: undefined,
+  //     isMobileSetup: undefined,
+  //     lastMnemonicBackup: undefined,
+
+  //     mobileDeviceType: undefined,
+  //     nabu: {
+  //       recoveryToken: undefined,
+  //       recoveryEligible: undefined,
+  //       userId: undefined
+  //     }
+  //   }
+  // },
   registerEmail: undefined,
   registering: Remote.NotAsked,
   restoring: Remote.NotAsked,
@@ -95,24 +119,10 @@ const auth = (state = INITIAL_STATE, action) => {
       return assoc('auth_type', authType, state)
     }
     case AT.SET_MAGIC_LINK_INFO: {
-      const {
-        authType,
-        exchangeId,
-        exchangeLinked,
-        hadCloudBackup,
-        nabuId,
-        recoveryEligible,
-        twoFAMode
-      } = payload
+      const { magicLinkInfo } = payload
       return {
         ...state,
-        exchangId: exchangeId,
-        exchangeAuthType: authType,
-        exchangeLinked,
-        exchangetwoFa: twoFAMode,
-        hadCloudBackup,
-        nabuId,
-        recoveryEligible
+        magicLinkData: magicLinkInfo
       }
     }
     case AT.SET_REGISTER_EMAIL: {

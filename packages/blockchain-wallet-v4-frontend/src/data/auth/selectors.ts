@@ -1,4 +1,4 @@
-import { path } from 'ramda'
+import { compose, lift, path } from 'ramda'
 
 export const isAuthenticated = path(['auth', 'isAuthenticated'])
 export const getRegistering = path(['auth', 'registering'])
@@ -11,4 +11,7 @@ export const getMobileLoginStarted = path(['auth', 'mobileLoginStarted'])
 export const getRegisterEmail = path(['auth', 'registerEmail'])
 export const getMetadataRestore = path(['auth', 'metadataRestore'])
 export const getKycResetStatus = path(['auth', 'kycReset'])
-export const getNabuId = path(['auth', 'nabuId'])
+
+export const getMagicLinkData = path(['auth', 'magicLinkData'])
+export const getNabuId = compose(lift(path(['nabu', 'userId'])), getMagicLinkData)
+export const getRecoveryToken = compose(lift(path(['nabu', 'recoveryToken'])), getMagicLinkData)

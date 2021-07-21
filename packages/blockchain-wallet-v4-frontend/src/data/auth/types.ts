@@ -32,29 +32,32 @@ export type LoginFormType = {
 }
 
 export type WalletDataFromMagicLink = {
-  exchange: {
-    email: string
-    two_fa_mode: boolean
-    user_id: string
+  exchange?: {
+    email?: string
+    twoFaMode?: boolean
+    userId?: string
   }
-  upgradeable: boolean
+  mergeable: boolean | null
+  upgradeable: boolean | null
   wallet: {
-    auth_type: number
+    authType?: number
     email: string
-    email_code?: string
-    exchange: {
-      two_fa_mode: boolean
-      user_id: string
+    emailCode?: string
+    exchange?: {
+      email?: string
+      twoFaMode?: boolean
+      userId?: string
     }
     guid: string
-    has_cloud_backup: boolean
-    is_mobile_setup: string | boolean
-    mergeable: boolean
-    mobile_device_type: number | null
-    nabu: {
-      exchange_linked: boolean
-      recovery_eligible: boolean
-      user_id: string
+    hasCloudBackup: boolean
+    isMobileSetup?: string | boolean
+    lastMnemonicBackup: number | null
+
+    mobileDeviceType: number | null
+    nabu?: {
+      recoveryEligible?: boolean
+      recoveryToken?: string
+      userId?: string
     }
   }
 }
@@ -102,13 +105,7 @@ interface TriggerWalletMagicLinkFailureActionType {
 
 interface SetMagicLinkInfoActionType {
   payload: {
-    authType: number
-    exchangeId: string
-    exchangeLinked: boolean
-    hadCloudBackup: boolean
-    nabuId: string
-    recoveryEligible: boolean
-    twoFAMode: boolean
+    magicLinkInfo: WalletDataFromMagicLink
   }
   type: typeof AT.SET_MAGIC_LINK_INFO
 }
