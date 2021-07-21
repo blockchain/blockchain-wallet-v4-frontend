@@ -227,7 +227,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       yield put(A.fetchCustodialEligibilityLoading())
       const { eligible }: ReturnType<typeof api.getEligibilityForProduct> = yield call(
         api.getEligibilityForProduct,
-        NabuProducts.SIMPLEBUY
+        NabuProducts.BROKERAGE
       )
       yield put(A.fetchCustodialEligibilitySuccess(eligible))
     } catch (e) {
