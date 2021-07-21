@@ -23,7 +23,7 @@ class RecoveryPhraseContainer extends React.PureComponent<
   }
 
   componentWillUnmount() {
-    this.props.formActions.destroy('recover')
+    this.props.formActions.clearFields('recover', false, false, 'mnemonic')
   }
 
   setStep = (step: LoginSteps) => {

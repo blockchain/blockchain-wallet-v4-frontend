@@ -710,6 +710,7 @@ export default ({ api, coreSagas }) => {
     // and pass it the recovery token we've received from the magic link
     // then we get a new lifetime token in the repsonse
     // save this lifetime token to metadata
+    // TODOs - how do we handle failure?
   }
   return {
     authNabu,
