@@ -1671,7 +1671,9 @@ type MessagesType = {
   'modals.swapgetstarted.description': 'A Swap by Blockchain enables you to trade crypto with best prices and quick settlement, all while maintaining full control of your funds.'
   'modals.swapgetstarted.getstarted': 'Get Started'
   'modals.swapgetstarted.later': "I'll do this later"
-
+  'modals.swapgetstarted.trading_your_crypto': "Trading your crypto doesn't mean trading away control."
+  'modals.swap.unsuported.title': 'SWAP crypto coming soon to your region.'
+  'modals.swap.unsuported.subcontent': "We don’t support swapping crypto yet for your region. We’ll let you know as soon as we do."
   'modals.transactions.report.download': 'Download Report'
   'modals.transactions.report.enddate': 'end date'
   'modals.transactions.report.generate': 'Generate Report'
