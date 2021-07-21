@@ -124,3 +124,7 @@ export const getBrokerageDepositsWithdrawals = (state: RootState) =>
 // recurring buys flag
 export const getFeatureFlagRecurringBuys = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'recurringBuys']))
+
+// legacy recovery flag
+export const getFeatureLegacyWalletRecovery = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'legacyWalletRecovery']))

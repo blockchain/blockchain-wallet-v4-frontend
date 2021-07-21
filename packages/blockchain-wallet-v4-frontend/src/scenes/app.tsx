@@ -25,6 +25,7 @@ const Login = React.lazy(() => import('./Login'))
 const Logout = React.lazy(() => import('./Logout'))
 const MobileLogin = React.lazy(() => import('./MobileLogin'))
 const RecoverWallet = React.lazy(() => import('./RecoverWallet'))
+const RecoverWalletLegacy = React.lazy(() => import('./RecoverWalletLegacy'))
 const Register = React.lazy(() => import('./Register'))
 const ResetWallet2fa = React.lazy(() => import('./ResetWallet2fa'))
 const ResetWallet2faToken = React.lazy(() => import('./ResetWallet2faToken'))
@@ -50,7 +51,7 @@ const Transactions = React.lazy(() => import('./Transactions'))
 
 class App extends React.PureComponent<Props> {
   render() {
-    const { history, isAuthenticated, persistor, store } = this.props
+    const { history, isAuthenticated, legacyWalletRecovery, persistor, store } = this.props
     const Loading = isAuthenticated ? WalletLoading : PublicLoading
     return (
       <Provider store={store}>
@@ -66,7 +67,11 @@ class App extends React.PureComponent<Props> {
                       <PublicLayout path='/login' component={Login} />
                       <PublicLayout path='/logout' component={Logout} />
                       <PublicLayout path='/mobile-login' component={MobileLogin} />
-                      <PublicLayout path='/recover' component={RecoverWallet} />
+                      {/* <PublicLayout path='/recover' component={RecoverWallet} /> */}
+                      <PublicLayout
+                        path='/recover'
+                        component={legacyWalletRecovery ? RecoverWalletLegacy : RecoverWallet}
+                      />
                       <PublicLayout path='/reset-2fa' component={ResetWallet2fa} />
                       <PublicLayout path='/reset-two-factor' component={ResetWallet2faToken} />
                       <PublicLayout path='/signup' component={Register} />
@@ -127,6 +132,9 @@ class App extends React.PureComponent<Props> {
 
 const mapStateToProps = (state) => ({
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
+  legacyWalletRecovery: selectors.core.walletOptions
+    .getFeatureLegacyWalletRecovery(state)
+    .getOrElse(false) as boolean,
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrFail('No supported coins.'),
@@ -138,6 +146,7 @@ const connector = connect(mapStateToProps)
 type Props = {
   history: any
   isAuthenticated: boolean
+  legacyWalletRecovery: boolean
   persistor: any
   store: any
   supportedCoins: any
