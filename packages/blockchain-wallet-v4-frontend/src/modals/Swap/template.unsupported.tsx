@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Button, Icon, Image, Text } from 'blockchain-info-components'
+import { Button, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 
 export type Props = {
@@ -13,13 +13,6 @@ const Top = styled(FlyoutWrapper)`
   padding-bottom: 0px;
   position: relative;
   height: 100%;
-`
-
-const CloseIcon = styled(Icon)`
-  position: absolute;
-  padding: inherit;
-  left: 0px;
-  top: 0px;
 `
 
 const Container = styled.div`
