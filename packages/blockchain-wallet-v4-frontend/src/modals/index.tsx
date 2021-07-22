@@ -45,6 +45,7 @@ const LinkToExchangeAccount = React.lazy(() => import('./Onboarding/LinkToExchan
 const IdentityVerification = React.lazy(() => import('./Onboarding/KycVerification'))
 const KycDocResubmit = React.lazy(() => import('./Onboarding/KycDocResubmit'))
 const KycTierUpgrade = React.lazy(() => import('./Onboarding/KycTierUpgrade'))
+const NabuUserConflictRedirect = React.lazy(() => import('./Onboarding/NabuUserConflictRedirect'))
 const SwapGetStarted = React.lazy(() => import('./Onboarding/SwapGetStarted'))
 const UpgradeForAirdrop = React.lazy(() => import('./Onboarding/UpgradeForAirdrop'))
 const Welcome = React.lazy(() => import('./Onboarding/Welcome'))
@@ -131,6 +132,7 @@ const Modals = () => (
       <LockboxShowXPubs />
       <MobileNumberChange />
       <MobileNumberVerify />
+      <NabuUserConflictRedirect />
       <PairingCode />
       <PromptInput />
       <QRCode />
