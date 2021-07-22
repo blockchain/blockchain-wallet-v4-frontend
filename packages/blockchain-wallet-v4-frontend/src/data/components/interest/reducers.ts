@@ -22,7 +22,7 @@ const INITIAL_STATE: InterestState = {
   interestEligible: Remote.NotAsked,
   interestLimits: Remote.NotAsked,
   interestRate: Remote.NotAsked,
-  isCoinDisplayed: false,
+  isAmountDisplayedInCrypto: false,
   payment: Remote.NotAsked,
   step: {
     data: {},
@@ -237,7 +237,7 @@ const interestReducer = (state = INITIAL_STATE, action: InterestActionTypes): In
     case AT.SET_COIN_DISPLAY: {
       return {
         ...state,
-        isCoinDisplayed: payload.isCoinDisplayed
+        isAmountDisplayedInCrypto: payload.isAmountDisplayedInCrypto
       }
     }
 

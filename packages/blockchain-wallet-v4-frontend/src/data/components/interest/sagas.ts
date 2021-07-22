@@ -199,21 +199,22 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const formValues: InterestDepositFormType = yield select(
         selectors.form.getFormValues(DEPOSIT_FORM)
       )
-      const coin = S.getCoinType(yield select())
-      const ratesR = S.getRates(yield select())
       const userCurrency = (yield select(selectors.core.settings.getCurrency)).getOrFail(
         'Failed to get user currency'
       )
-      const rates = ratesR.getOrElse({} as RatesType)
+      const coin = S.getCoinType(yield select())
+      const rates = S.getRates(yield select()).getOrElse({} as RatesType)
       const rate = rates[userCurrency].last
-      const isDisplayed = S.getCoinDisplay(yield select())
       const isCustodialAccountSelected =
         prop('type', formValues.interestDepositAccount) === 'CUSTODIAL'
-      const accountBalance = prop('balance', formValues.interestDepositAccount)
 
       switch (action.meta.field) {
         case 'depositAmount':
-          const value = isDisplayed
+          if (isCustodialAccountSelected) {
+            return yield put(A.setPaymentSuccess())
+          }
+          const isAmountDisplayedInCrypto = S.getIsAmountDisplayedInCrypto(yield select())
+          const value = isAmountDisplayedInCrypto
             ? new BigNumber(action.payload).toNumber()
             : new BigNumber(action.payload).dividedBy(rate).toNumber()
           const paymentR = S.getPayment(yield select())
@@ -221,7 +222,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             let payment = yield getOrUpdateProvisionalPaymentForCoin(coin, paymentR)
             const paymentAmount = generateProvisionalPaymentAmount(coin, value)
             payment = yield payment.amount(paymentAmount || 0)
-            if (!isCustodialAccountSelected && accountBalance > 0) {
+            if (formValues.interestDepositAccount.balance > 0) {
               payment = yield payment.build()
               yield put(A.setPaymentSuccess(payment.value()))
             } else {
@@ -230,30 +231,26 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           }
           break
         case 'interestDepositAccount':
-          let custodialBalances: SBBalancesType | undefined
-          let depositPayment: PaymentValue
-
-          yield put(A.setPaymentLoading())
-          yield put(actions.form.change(DEPOSIT_FORM, 'depositAmount', undefined))
+          // focus amount to ensure deposit amount validation will be triggered
           yield put(actions.form.focus(DEPOSIT_FORM, 'depositAmount'))
 
+          // custodial account selected
           if (isCustodialAccountSelected) {
-            custodialBalances = (yield select(
+            const custodialBalances: SBBalancesType = (yield select(
               selectors.components.simpleBuy.getSBBalances
             )).getOrFail('Failed to get balance')
 
-            depositPayment = yield call(createPayment, {
-              ...formValues.interestDepositAccount
-            })
+            yield call(createLimits, undefined, custodialBalances)
+            yield put(A.setPaymentSuccess())
           } else {
-            depositPayment = yield call(createPayment, {
+            // noncustodial account selected
+            const depositPayment: PaymentValue = yield call(createPayment, {
               ...formValues.interestDepositAccount,
               address: getAccountIndexOrAccount(coin, formValues.interestDepositAccount)
             })
+            yield call(createLimits, depositPayment)
+            yield put(A.setPaymentSuccess(depositPayment))
           }
-
-          yield call(createLimits, depositPayment, custodialBalances)
-          yield put(A.setPaymentSuccess(depositPayment))
           break
         default:
         // do nothing

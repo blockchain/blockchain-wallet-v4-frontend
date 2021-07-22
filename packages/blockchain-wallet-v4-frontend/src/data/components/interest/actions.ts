@@ -243,8 +243,8 @@ export const setInterestStep = (name: InterestStep, data?: InterestStepMetadata)
   payload: { data, name },
   type: AT.SET_INTEREST_STEP
 })
-export const setCoinDisplay = (isCoinDisplayed: boolean) => ({
-  payload: { isCoinDisplayed },
+export const setCoinDisplay = (isAmountDisplayedInCrypto: boolean) => ({
+  payload: { isAmountDisplayedInCrypto },
   type: AT.SET_COIN_DISPLAY
 })
 export const showInterestModal = (step: InterestStep, coin: CoinType) => ({
