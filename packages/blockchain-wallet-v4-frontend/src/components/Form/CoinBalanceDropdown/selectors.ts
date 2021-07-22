@@ -74,6 +74,13 @@ const getData = (state, ownProps: OwnProps) => {
         includeInterest: false
       })
       break
+    case 'USDC':
+      addressDataR = getErc20AddressData(state, {
+        coin: 'USDC',
+        includeCustodial,
+        includeInterest: false
+      })
+      break
     case 'USDT':
       addressDataR = getErc20AddressData(state, {
         coin: 'USDT',
