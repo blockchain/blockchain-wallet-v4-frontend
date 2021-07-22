@@ -60,7 +60,7 @@ const configuredStore = async function () {
   const erc20Res = await fetch(`${options.domains.api}/assets/currencies/erc20`)
   const erc20s = await erc20Res.json()
   // TODO: erc20 phase 2, remove this whitelist
-  const coins = ['AAVE', 'PAX', 'USDC', 'USDT', 'WDGLD', 'YFI']
+  const coins = options.platforms.web.erc20s
   const erc20sSupportedBeforeDynamicChange = erc20s.currencies.filter((erc20) =>
     coins.includes(erc20.symbol)
   )
