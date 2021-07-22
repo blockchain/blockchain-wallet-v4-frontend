@@ -107,18 +107,18 @@ const BalancesContainer = () => {
           />
         </TitleText>
       )}
-      {/* <BalanceDropdown> */}
-      {/*  <ComponentDropdown */}
-      {/*    down */}
-      {/*    forceSelected */}
-      {/*    toggleOnCallback={false} */}
-      {/*    selectedComponent={<TotalBalance large />} */}
-      {/*    components={[ */}
-      {/*      <WalletBalance key='wallet-balance' />, */}
-      {/*      <CurrencySwitch key='currency-switch' /> */}
-      {/*    ]} */}
-      {/*  /> */}
-      {/* </BalanceDropdown> */}
+      <BalanceDropdown>
+        <ComponentDropdown
+          down
+          forceSelected
+          toggleOnCallback={false}
+          selectedComponent={<TotalBalance large />}
+          components={[
+            <WalletBalance key='wallet-balance' />,
+            <CurrencySwitch key='currency-switch' />
+          ]}
+        />
+      </BalanceDropdown>
     </Wrapper>
   )
 }

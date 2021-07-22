@@ -88,12 +88,12 @@ const Navigation = (props: OwnProps & Props) => {
           </Destination>
         </MenuItem>
       </LinkContainer>
-      {/* {coinList.cata({ */}
-      {/*  Failure: () => null, */}
-      {/*  Loading: () => <Loading />, */}
-      {/*  NotAsked: () => <Loading />, */}
-      {/*  Success: (coinList) => <Success coinList={coinList} /> */}
-      {/* })} */}
+      {coinList.cata({
+        Failure: () => null,
+        Loading: () => <Loading />,
+        NotAsked: () => <Loading />,
+        Success: (coinList) => <Success coinList={coinList} />
+      })}
       <Divider margin='0 16px 8px 16px' />
       <LinkContainer to='/airdrops' activeClassName='active'>
         <MenuItem data-e2e='airdropLink' className='airdrop'>
