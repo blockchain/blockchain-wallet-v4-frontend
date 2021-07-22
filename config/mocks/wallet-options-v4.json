@@ -308,6 +308,7 @@
           "txExplorerBaseUrl": "https://dogechain.info/"
         }
       },
+      "erc20s": ["AAVE", "PAX", "USDC", "USDT", "WDGLD", "YFI"],
       "sift": {
         "apiKey": "0ecd212038",
         "paymentKey": "4a0510ff14"
