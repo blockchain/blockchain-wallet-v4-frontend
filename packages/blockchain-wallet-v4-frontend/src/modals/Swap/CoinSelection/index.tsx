@@ -6,7 +6,6 @@ import { Icon, Text } from 'blockchain-info-components'
 import { StickyHeaderFlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption } from 'components/Form'
 import { selectors } from 'data'
-import { SUPPORTED_COINS } from 'data/coins/model/swap'
 import {
   InitSwapFormValuesType,
   SwapBaseCounterTypes,
@@ -22,7 +21,6 @@ import { getData } from './selectors'
 class CoinSelection extends PureComponent<Props> {
   componentDidMount() {
     this.props.swapActions.fetchPairs()
-    this.props.swapActions.fetchCustodialEligibility()
   }
 
   checkAccountSelected = (

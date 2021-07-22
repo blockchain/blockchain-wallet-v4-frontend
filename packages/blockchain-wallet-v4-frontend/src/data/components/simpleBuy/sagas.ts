@@ -929,7 +929,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       selectors.form.getFormValues('simpleBuyCheckout')
     )
 
-    const { method } = action
+    const { isFlow, method } = action
     const cryptoCurrency = S.getCryptoCurrency(yield select()) || 'BTC'
     const originalFiatCurrency = S.getFiatCurrency(yield select())
     const fiatCurrency = method.currency || S.getFiatCurrency(yield select())
@@ -979,8 +979,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       case SBPaymentTypes.LINK_BANK:
         yield put(
           actions.components.brokerage.showModal({
-            origin: BrokerageModalOriginType.ADD_BANK_BUY,
-            modalType: fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL'
+            isFlow,
+            modalType: fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL',
+            origin: BrokerageModalOriginType.ADD_BANK_BUY
           })
         )
         return yield put(

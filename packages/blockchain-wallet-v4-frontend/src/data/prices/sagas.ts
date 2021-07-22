@@ -7,39 +7,21 @@ import { selectors } from 'data'
 import * as A from './actions'
 import { CoinPricesRequestType } from './types'
 
-// TODO: get list from somewhere
-// assume all coins if no list was not passed in
-const defaultCoins = [
-  'AAVE',
-  'ALGO',
-  'BCH',
-  'BTC',
-  'DOT',
-  'ETH',
-  'PAX',
-  'USDT',
-  'WDGLD',
-  'XLM',
-  'YFI'
-]
-
 export default ({ api }: { api: APIType }) => {
-  const fetchCoinPrices = function * (action) {
-    const {
-      coins,
-      fiatCurrency,
-      timestamp
-    }: CoinPricesRequestType = action.payload
+  const defaultCoins = Object.keys(window.coins).filter(
+    (coin) => !window.coins[coin].coinfig.type.isFiat
+  )
+
+  const fetchCoinPrices = function* (action) {
+    const { coins, fiatCurrency, timestamp }: CoinPricesRequestType = action.payload
     try {
       yield put(A.fetchCoinPricesLoading())
 
       // assume wallet currency if one was not passed in
-      const defaultFiat = (yield select(
-        selectors.core.settings.getCurrency
-      )).getOrElse('USD')
+      const defaultFiat = (yield select(selectors.core.settings.getCurrency)).getOrElse('USD')
 
       // build request model
-      const request = (coins || defaultCoins).map(coin => ({
+      const request = (coins || defaultCoins).map((coin) => ({
         base: coin,
         quote: fiatCurrency || defaultFiat
       }))
@@ -50,23 +32,19 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchCoinPricesPreviousDay = function * (action) {
+  const fetchCoinPricesPreviousDay = function* (action) {
     const { coins, fiatCurrency }: CoinPricesRequestType = action.payload
     try {
       yield put(A.fetchCoinPricesPreviousDayLoading())
 
       // get timestamp from 24 hours ago
-      const timestamp = moment()
-        .subtract(1, 'days')
-        .unix()
+      const timestamp = moment().subtract(1, 'days').unix()
 
       // assume wallet currency if one was not passed in
-      const defaultFiat = (yield select(
-        selectors.core.settings.getCurrency
-      )).getOrElse('USD')
+      const defaultFiat = (yield select(selectors.core.settings.getCurrency)).getOrElse('USD')
 
       // build request model
-      const request = (coins || defaultCoins).map(coin => ({
+      const request = (coins || defaultCoins).map((coin) => ({
         base: coin,
         quote: fiatCurrency || defaultFiat
       }))

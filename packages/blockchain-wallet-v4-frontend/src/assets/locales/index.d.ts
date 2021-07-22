@@ -708,8 +708,10 @@ type MessagesType = {
   'modals.brokerage.remove_bank.description': "You're about to remove your {bankAccount}"
   'modals.brokerage.link_bank': 'Blockchain.com uses Yodlee to verify your bank credentials & securely link your accounts.'
   'modals.brokerage.link_bank_yodlee_terms': "By hitting Continue, you Agree to Yodlee's"
+  'modals.brokerage.pay_via_desktop': 'Pay via desktop'
   'modals.brokerage.link_via_desktop': 'Link via desktop'
   'modals.brokerage.link_via_mobile': 'Link via mobile'
+  'modals.brokerage.pay_via_mobile': 'Pay via mobile'
   'modals.brokerage.updating_your_wallet': 'Updating Your Wallet...'
   'modals.brokerage.this_could_take': 'This could take up to 30 seconds. Please do not go back or close the app.'
   'modals.brokerage.timed_out_title': 'We timed out waiting to hear from your bank.'
@@ -1178,6 +1180,8 @@ type MessagesType = {
   'modals.onboarding.linktoexchangeaccount.na.subtitle-1': "There's a new way to trade. Link your Wallet for instant access. "
   'modals.onboarding.linktoexchangeaccount.success.subtitle-1': 'Your Blockchain Wallet is now connected to Exchange!'
   'modals.onboarding.linktoexchangeaccount.success.title': 'Success!'
+  'modals.nabuuserconflict.title': 'Your Trading Account is linked to another wallet'
+  'modals.nabuuserconflict.body': 'Your Blockchain.com trading account is associated with another wallet. Please log into your wallet starting with {placeholder} for account access.'
   'modals.pairingcode.title': 'Pairing Code'
   'modals.prompt.button': 'Submit'
   'modals.qrcode.scan': 'Scan QR Code'
@@ -1671,7 +1675,9 @@ type MessagesType = {
   'modals.swapgetstarted.description': 'A Swap by Blockchain enables you to trade crypto with best prices and quick settlement, all while maintaining full control of your funds.'
   'modals.swapgetstarted.getstarted': 'Get Started'
   'modals.swapgetstarted.later': "I'll do this later"
-
+  'modals.swapgetstarted.trading_your_crypto': "Trading your crypto doesn't mean trading away control."
+  'modals.swap.unsuported.title': 'SWAP crypto coming soon to your region.'
+  'modals.swap.unsuported.subcontent': "We don’t support swapping crypto yet for your region. We’ll let you know as soon as we do."
   'modals.transactions.report.download': 'Download Report'
   'modals.transactions.report.enddate': 'end date'
   'modals.transactions.report.generate': 'Generate Report'
@@ -2159,8 +2165,8 @@ type MessagesType = {
   'scenes.login.wallet.connected.description_1': 'We sent your connected mobile device a notification. Open the app to confirm auto-log in on the web.'
   'scenes.login.wallet.connected.description_2': 'Didn’t get the notification? Make sure you have push notifications enabled. You can also scan this QR with your mobile app to login.'
   'scenes.login.wallet.mobile_login.title': 'Log in with mobile app'
-  'scenes.login.wallet.mobile_login.description_1': 'Scan this QR code with the Blockchain.com mobile app.'
-  'scenes.login.wallet.mobile_login.description_2': 'You can tap on the scanning icon on the top right corner of the app.'
+  'scenes.login.wallet.mobile_login.description_one': 'Scan this QR code with the Blockchain.com mobile app.'
+  'scenes.login.wallet.mobile_login.description_two': 'Tap the Menu button at the top left corner of the app to reveal Web Log In option'
   'scenes.login.wallet.connected.send_it_again': 'Send Again'
   'scenes.login.wallet.connected.add_a_new_device': 'Add a New Device'
   'scenes.login.welcome': 'Welcome back!'

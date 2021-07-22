@@ -10,9 +10,11 @@ import { actions, selectors } from 'data'
 import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
 import { getCoinAccounts } from 'data/coins/selectors'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
+import { NabuProducts } from 'data/types'
 
 import profileSagas from '../../modules/profile/sagas'
 import { convertStandardToBase } from '../exchange/services'
+import { swap } from '../selectors'
 import sendSagas from '../send/sagas'
 import { selectReceiveAddress } from '../utils/sagas'
 import * as A from './actions'
@@ -224,8 +226,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
   const fetchCustodialEligibility = function* () {
     try {
       yield put(A.fetchCustodialEligibilityLoading())
-      const { eligible }: ReturnType<typeof api.checkCustodialSwapEligibility> = yield call(
-        api.checkCustodialSwapEligibility
+      const { eligible }: ReturnType<typeof api.getEligibilityForProduct> = yield call(
+        api.getEligibilityForProduct,
+        NabuProducts.BROKERAGE
       )
       yield put(A.fetchCustodialEligibilitySuccess(eligible))
     } catch (e) {
@@ -385,6 +388,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         return yield put(A.setStep({ step: 'INIT_SWAP' }))
       }
 
+      const swapAmountFormValues = selectors.form.getFormValues('swapAmount')(
+        yield select()
+      ) as SwapAmountFormValues
+
       yield race({
         failure: take(AT.FETCH_QUOTE_FAILURE),
         success: take(AT.FETCH_QUOTE_SUCCESS)
@@ -393,7 +400,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
 
       const { BASE } = initSwapFormValues
       if (BASE.type === SwapBaseCounterTypes.ACCOUNT) {
-        payment = yield call(calculateProvisionalPayment, BASE, quote.quote, 0)
+        payment = yield call(
+          calculateProvisionalPayment,
+          BASE,
+          quote.quote,
+          swapAmountFormValues?.cryptoAmount || 0
+        )
         yield put(A.updatePaymentSuccess(payment))
       } else {
         yield put(A.updatePaymentSuccess(undefined))

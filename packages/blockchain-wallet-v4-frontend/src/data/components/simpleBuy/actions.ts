@@ -165,7 +165,8 @@ export const destroyCheckout = () => ({
   type: AT.DESTROY_CHECKOUT
 })
 
-export const handleSBMethodChange = (method: SBPaymentMethodType) => ({
+export const handleSBMethodChange = (method: SBPaymentMethodType, isFlow?: boolean) => ({
+  isFlow,
   method,
   type: AT.HANDLE_SB_METHOD_CHANGE
 })

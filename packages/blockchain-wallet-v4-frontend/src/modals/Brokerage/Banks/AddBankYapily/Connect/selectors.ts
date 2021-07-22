@@ -4,12 +4,14 @@ import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
-export const getData = (state: RootState) => {
-  const bankCredentialsR = selectors.components.brokerage.getBankCredentials(
-    state
-  )
+const getData = (state: RootState) => {
+  const bankCredentialsR = selectors.components.brokerage.getBankCredentials(state)
+  const isFlow = selectors.components.brokerage.getIsFlow(state)
 
   return lift((bankCredentials: ExtractSuccess<typeof bankCredentialsR>) => ({
-    bankCredentials
+    bankCredentials,
+    isFlow
   }))(bankCredentialsR)
 }
+
+export default getData

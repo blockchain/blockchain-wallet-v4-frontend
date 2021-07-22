@@ -32,10 +32,17 @@ const Success = (props: Props) => {
           logo={logo as string}
           qrCode={props.account?.attributes?.qrcodeUrl as string}
         >
-          <FormattedMessage
-            id='modals.brokerage.link_via_mobile'
-            defaultMessage='Link via mobile'
-          />
+          {props.isFlow ? (
+            <FormattedMessage
+              id='modals.brokerage.pay_via_mobile'
+              defaultMessage='Pay via mobile'
+            />
+          ) : (
+            <FormattedMessage
+              id='modals.brokerage.link_via_mobile'
+              defaultMessage='Link via mobile'
+            />
+          )}
         </ScanWithPhone>
         <Hr />
         <Section>
@@ -45,10 +52,17 @@ const Success = (props: Props) => {
               props.analyticsActions.logEvent(YAPILY_CONT_IN_BROWSER)
             }}
           >
-            <FormattedMessage
-              id='modals.brokerage.link_via_desktop'
-              defaultMessage='Link via desktop'
-            />
+            {props.isFlow ? (
+              <FormattedMessage
+                id='modals.brokerage.pay_via_desktop'
+                defaultMessage='Pay via desktop'
+              />
+            ) : (
+              <FormattedMessage
+                id='modals.brokerage.link_via_desktop'
+                defaultMessage='Link via desktop'
+              />
+            )}
           </LinkViaDesktop>
           <BankWaitIndicator qrCode={props.account?.attributes?.qrcodeUrl as string} />
         </Section>
