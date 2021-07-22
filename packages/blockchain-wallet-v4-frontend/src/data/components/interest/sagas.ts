@@ -3,7 +3,7 @@ import { concat, isEmpty, isNil, last, prop } from 'ramda'
 import { FormAction, initialize } from 'redux-form'
 import { call, delay, put, select, take } from 'redux-saga/effects'
 
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import {
   AccountTypes,
@@ -390,31 +390,40 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const formValues: InterestDepositFormType = yield select(
         selectors.form.getFormValues(DEPOSIT_FORM)
       )
-      const isCustodialDeposit = prop('type', formValues.interestDepositAccount) === 'CUSTODIAL'
+      const isCustodialDeposit = formValues.interestDepositAccount.type === 'CUSTODIAL'
       const coin = S.getCoinType(yield select())
-      const paymentR = S.getPayment(yield select())
-      const payment = yield getOrUpdateProvisionalPaymentForCoin(
-        coin,
-        paymentR as RemoteDataType<string, any>
-      )
 
+      // custodial account deposit
       if (isCustodialDeposit) {
-        const { amount } = payment.value()
-        if (amount === null || amount === undefined) {
-          throw Error('Deposit amount unknown')
-        }
-        // BTC/BCH amounts from payments are returned as objects
-        const amountString = typeof amount === 'object' ? amount[0].toString() : amount.toString()
+        const { depositAmount } = formValues
+        const isAmountDisplayedInCrypto = S.getIsAmountDisplayedInCrypto(yield select())
+        const userCurrency = (yield select(selectors.core.settings.getCurrency)).getOrFail(
+          'Failed to get user currency'
+        )
+        const rates = S.getRates(yield select()).getOrElse({} as RatesType)
+        const rate = rates[userCurrency].last
+        const baseCrypto = Exchange.convertCoinToCoin({
+          baseToStandard: false,
+          coin,
+          value: isAmountDisplayedInCrypto
+            ? new BigNumber(depositAmount).toNumber()
+            : new BigNumber(depositAmount).dividedBy(rate).toNumber()
+        })
 
-        // custodial deposit
         yield call(api.initiateCustodialTransfer, {
-          amount: amountString as string,
+          amount: new BigNumber(baseCrypto).integerValue(BigNumber.ROUND_DOWN).toString(),
           currency: coin,
           destination: 'SAVINGS',
           origin: 'SIMPLEBUY'
         })
       } else {
-        // non-custodial deposit
+        // non-custodial account deposit
+        // get payment
+        const paymentR = S.getPayment(yield select())
+        const payment = yield getOrUpdateProvisionalPaymentForCoin(
+          coin,
+          paymentR as RemoteDataType<string, any>
+        )
         // fetch deposit address
         yield put(A.fetchInterestAccount(coin))
         yield take([
