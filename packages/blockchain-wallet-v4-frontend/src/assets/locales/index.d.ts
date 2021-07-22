@@ -442,6 +442,7 @@ type MessagesType = {
   'copy.private_key': 'Private Key'
   'copy.refunded': 'Refunded'
   'copy.saved': 'Saved'
+  'copy.schedule': 'Schdule'
   'copy.select_swap_wallets': 'Select the Wallet you want to Swap from and the crypto you want to receive.'
   'copy.sold': 'Sold'
   'copy.suggested': 'Suggested'

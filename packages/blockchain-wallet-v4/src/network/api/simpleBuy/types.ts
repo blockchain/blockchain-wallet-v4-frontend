@@ -179,7 +179,7 @@ export type ISBBuyOrderType = {
   }
   expiresAt: string
   fee?: string
-  frequency?: RecurringBuyPeriods
+  period?: RecurringBuyPeriods
   id: string
   inputQuantity: string
   insertedAt: string

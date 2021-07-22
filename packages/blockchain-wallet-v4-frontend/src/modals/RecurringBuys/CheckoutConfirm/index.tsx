@@ -2,7 +2,6 @@ import React, { useCallback } from 'react'
 import { bindActionCreators, Dispatch } from 'redux'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import styled from 'styled-components'
 
 import { AmountSubHeader, Button, CheckoutRow, FlyoutContainer, FlyoutContent, FlyoutHeader, FlyoutFooter, Text, TextGroup, Link } from 'blockchain-info-components'
 import { RootState } from 'data/rootReducer'
@@ -10,17 +9,18 @@ import { actions, selectors } from 'data'
 import { SBOrderType } from 'core/types'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
 
-import { getBaseAmount, getBaseCurrency, getCounterAmount, getCounterCurrency } from 'data/components/simpleBuy/model'
-import { RecurringBuyPeriods } from 'data/types'
+import { getBankAccount, getBaseAmount, getBaseCurrency, getCounterAmount, getCounterCurrency, getPaymentMethodId } from 'data/components/simpleBuy/model'
+import { BankTransferAccountType, RecurringBuyPeriods } from 'data/types'
 
 import { Props as _P } from '..'
-import { displayFiat } from '../../SimpleBuy/model'
-import { FlyoutWrapper } from 'components/Flyout'
+import { displayFiat, getPaymentMethod, getPaymentMethodDetails } from '../../SimpleBuy/model'
+import { getPeriodSubTitleText, getPeriodTitleText } from '../Frequency/model'
 
-const Confirm = ({ close, order, supportedCoins, quote }: Props) => {
+const Confirm = ({ bankAccounts, cards, close, order, period, recurringBuyActions, supportedCoins, quote }: Props) => {
   const amount = getBaseAmount(order)
   const currency = order.outputCurrency
   const baseCurrency = getBaseCurrency(order, supportedCoins)
+  const paymentMethodId = getPaymentMethodId(order)
   const subTotalAmount = fiatToString({
     unit: getCounterCurrency(order, supportedCoins),
     value: getCounterAmount(order)
@@ -28,13 +28,14 @@ const Confirm = ({ close, order, supportedCoins, quote }: Props) => {
   const fee = order.fee || quote.fee
   const totalAmount = fiatToString({
     unit: getCounterCurrency(order, supportedCoins),
-    value: getCounterAmount(order) + fee
+    value: getCounterAmount(order)
   })
-  const foo = getCounterAmount(order)
-  const feed = fee
-  // ONE_TIME is not a recurring buy option so take it out before displaying
-  const periods = Object.values(RecurringBuyPeriods).filter((p) => p !== RecurringBuyPeriods.ONE_TIME)
-
+  const bankAccount = getBankAccount(order, bankAccounts)
+  const cardDetails =
+    (cards.filter((card) => card.id === paymentMethodId)[0]) || null
+  const createRecurringBuy = useCallback(() => {
+    recurringBuyActions.createRecurringBuy()
+  }, [])
   return (
     <FlyoutContainer>
       <FlyoutHeader
@@ -117,8 +118,8 @@ const Confirm = ({ close, order, supportedCoins, quote }: Props) => {
               defaultMessage='Payment Method'
             />
           )}
-          text={displayFiat(order, supportedCoins, fee || '0')}
-          additionalText={''}
+          text={getPaymentMethod(order, supportedCoins, {} as BankTransferAccountType)}
+          additionalText={getPaymentMethodDetails(order, bankAccount, cardDetails)}
         />
 
         <CheckoutRow
@@ -128,8 +129,8 @@ const Confirm = ({ close, order, supportedCoins, quote }: Props) => {
               defaultMessage='Frequency'
             />
           )}
-          text={displayFiat(order, supportedCoins, fee || '0')}
-          additionalText={''}
+          text={getPeriodTitleText(period)}
+          additionalText={getPeriodSubTitleText(period)}
         />
 
         <CheckoutRow
@@ -155,31 +156,36 @@ const Confirm = ({ close, order, supportedCoins, quote }: Props) => {
       </FlyoutContent>
       <FlyoutFooter>
         <Button
+          bold
+          size='16px'
           nature='primary'
           data-e2e='getStartedWithRecurringBuys'
           type='button'
           fullwidth
           height='48px'
           style={{ marginTop: '16px' }}
-          onClick={close}
+          onClick={createRecurringBuy}
         >
           <FormattedMessage
-            id='modals.recurringbuys.get_started.get_started'
-            defaultMessage='Get Started'
+            id='copy.schdule'
+            defaultMessage='Schedule'
           />
         </Button>
         <Button
-          nature='light'
+          bold
+          size='16px'
+          nature='light-red'
           data-e2e='maybeLaterRecurringBuys'
           type='button'
           fullwidth
+          color='red600'
           height='48px'
           style={{ marginTop: '16px' }}
           onClick={close}
         >
           <FormattedMessage
-            id='modals.recurringbuys.get_started.maybe_later'
-            defaultMessage='Maybe Later'
+            id='copy.cancel'
+            defaultMessage='Cancel'
           />
         </Button>
       </FlyoutFooter>
@@ -188,7 +194,12 @@ const Confirm = ({ close, order, supportedCoins, quote }: Props) => {
 }
 
 const mapStateToProps = (state: RootState) => ({
+  bankAccounts: selectors.components.brokerage.getBankTransferAccounts(
+    state
+  ).getOrElse([]),
+  cards: selectors.components.simpleBuy.getSBCards(state).getOrElse([]),
   order: selectors.components.simpleBuy.getSBOrder(state) as SBOrderType,
+  period: selectors.components.recurringBuy.getPeriod(state) as RecurringBuyPeriods,
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
     .getOrFail('Failed to load coin models'),

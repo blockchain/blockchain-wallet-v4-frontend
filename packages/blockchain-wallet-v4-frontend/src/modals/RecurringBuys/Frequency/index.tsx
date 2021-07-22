@@ -3,7 +3,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 
-import { FlyoutHeader } from 'blockchain-info-components'
+import { FlyoutHeader, Text } from 'blockchain-info-components'
 import { RootState } from 'data/rootReducer'
 import { actions, selectors } from 'data'
 import { SBOrderType } from 'core/types'
@@ -42,8 +42,8 @@ const Frequency = ({ close, order, recurringBuyActions }: Props) => {
           onClick={setPeriod(period)}
         >
           <>
-            {getPeriodTitleText(period)}
-            {getPeriodSubTitleText(period)}
+            <Text weight={500} size='14px' color='grey600'>{getPeriodTitleText(period)}</Text>
+            <Text weight={600} size='16px' color='grey900'>{getPeriodSubTitleText(period)}</Text>
           </>
         </OptionRightActionRow>
       ))}

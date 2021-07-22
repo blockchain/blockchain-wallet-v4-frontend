@@ -1,11 +1,21 @@
-import { RemoteDataType } from "core/types"
+import { RemoteDataType, SBPaymentTypes, WalletCurrencyType } from "core/types"
+
+// state
+export type RecurringBuyState = {
+  active?: RecurringBuyRegisteredList,
+  methods: RemoteDataType<string, RecurringBuyPeriods[]>,
+  period: RecurringBuyPeriods,
+  registeredList: RemoteDataType<string, RecurringBuyRegisteredList[]>,
+  step: RecurringBuyStepType
+}
 
 export enum RecurringBuyStepType {
   'INIT_PAGE',
   'GET_STARTED',
   'FREQUENCY',
   'CHECKOUT_CONFIRM',
-  'SUMMARY'
+  'SUMMARY',
+  'FAILURE'
 }
 
 export enum RecurringBuyPeriods {
@@ -16,13 +26,25 @@ export enum RecurringBuyPeriods {
   ONE_TIME = 'ONE_TIME',
 }
 
-// state
-export type RecurringBuyState = {
-  step: RecurringBuyStepType,
-  methods: RemoteDataType<string, RecurringBuyPeriods[]>,
-  period: RecurringBuyPeriods
-}
-
 export type RecurringBuyStepPayload = {
   step: RecurringBuyStepType
+}
+
+export enum RecurringBuyItemState {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE'
+}
+
+export type RecurringBuyRegisteredList = {
+  id: string
+  userId: string
+  inputValue: string
+  destinationCurrency: WalletCurrencyType
+  paymentMethod: SBPaymentTypes
+  paymentMethodId: string | null
+  period: RecurringBuyPeriods
+  nextPayment: string
+  state: RecurringBuyItemState
+  insertedAt: string
+  updatedAt: string
 }

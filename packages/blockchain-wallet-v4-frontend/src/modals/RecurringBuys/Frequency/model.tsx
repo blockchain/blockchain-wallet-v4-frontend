@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 import styled from 'styled-components'
 
-import { Icon, Text } from 'blockchain-info-components'
+import { Icon } from 'blockchain-info-components'
 import { RecurringBuyPeriods } from 'data/types'
 import { Row } from 'components/Flyout'
 
@@ -31,7 +31,7 @@ const getPeriodTitleText = (period: RecurringBuyPeriods): React.ReactNode => {
               defaultMessage='Monthly' />
       break;
   }
-  return <Text weight={500} size='14px' color='grey600'>{text}</Text>
+  return text
 }
 
 const getPeriodSubTitleText = (period: RecurringBuyPeriods): React.ReactNode => {
@@ -53,7 +53,7 @@ const getPeriodSubTitleText = (period: RecurringBuyPeriods): React.ReactNode => 
       text = <>On the {moment().format('Do')}</>
       break;
   }
-  return <Text weight={600} size='16px' color='grey900'>{text}</Text>
+  return text
 }
 
 const FlexWrapper = styled(Row)`

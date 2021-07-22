@@ -44,7 +44,7 @@ class OrderSummary extends PureComponent<Props> {
     // FIXME: The logic on the line below is hacked to be wrong so I can test.
     if (
       this.props.orders.length > 1 &&
-      this.props.order.frequency !== RecurringBuyPeriods.ONE_TIME
+      this.props.order.period !== RecurringBuyPeriods.ONE_TIME
     ) {
       this.props.recurringBuyActions.showModal({ origin: 'SimpleBuyStatus' })
       this.props.recurringBuyActions.setStep({ step: RecurringBuyStepType.GET_STARTED })
