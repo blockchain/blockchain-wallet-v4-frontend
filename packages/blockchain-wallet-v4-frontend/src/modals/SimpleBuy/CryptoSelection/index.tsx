@@ -24,7 +24,6 @@ class CryptoSelection extends PureComponent<Props> {
   render() {
     return this.props.data.cata({
       Failure: (e) => {
-        console.log(e)
         return <Failure {...this.props} />
       },
       Loading: () => <Loading />,
