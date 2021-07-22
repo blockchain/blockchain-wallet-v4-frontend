@@ -168,8 +168,8 @@ export default ({ api, coreSagas, networks }) => {
       const expiresIn = moment(expiresAt).subtract(5, 's').diff(moment())
       yield spawn(renewSession, userId, lifetimeToken, email, guid, expiresIn)
     } catch (e) {
-      if (prop('description', e) === userRequiresRestoreError) {
-        return yield call(recoverUser)
+      if (prop('status', e) === 409) {
+        throw new Error(e.description)
       }
       throw e
     }
@@ -181,6 +181,15 @@ export default ({ api, coreSagas, networks }) => {
       yield call(setSession, userId, lifetimeToken, email, guid)
     } catch (e) {
       yield put(A.setApiTokenFailure(e))
+      if (e.message.includes('User linked to another wallet')) {
+        return yield put(
+          actions.modals.showModal(
+            'NABU_USER_CONFLICT_REDIRECT',
+            { origin: 'NabuUserAuth' },
+            { errorMessage: e.message }
+          )
+        )
+      }
       yield spawn(renewSession, userId, lifetimeToken, email, guid, authRetryDelay)
     }
   }
@@ -293,15 +302,7 @@ export default ({ api, coreSagas, networks }) => {
       state: 'NONE'
     } as UserDataType)
     /* eslint-disable */
-    const {
-      id,
-      address,
-      mobile,
-      mobileVerified,
-      state,
-      kycState,
-      ...userData
-    } = user
+    const { id, address, mobile, mobileVerified, state, kycState, ...userData } = user
     /* eslint-enable */
     const updatedData = { ...userData, ...data }
 
@@ -397,59 +398,43 @@ export default ({ api, coreSagas, networks }) => {
       yield delay(10000)
       /* eslint-disable */
       attemptCount++
-        /* eslint-disable */
+      /* eslint-disable */
       // if 5 minutes has passed, cancel poll and mark as timeout
       if (equals(30, attemptCount)) {
-        yield put(
-          A.linkToExchangeAccountFailure(
-            'Timeout waiting for account connection status.'
-          )
-        )
+        yield put(A.linkToExchangeAccountFailure('Timeout waiting for account connection status.'))
         return
       }
       yield call(fetchUser)
-      const isExchangeAccountLinked = (yield select(
-        S.isExchangeAccountLinked
-      )).getOrElse(false)
+      const isExchangeAccountLinked = (yield select(S.isExchangeAccountLinked)).getOrElse(false)
       if (isExchangeAccountLinked) {
         yield put(A.linkToExchangeAccountSuccess())
       } else {
         yield call(pollForAccountLinkSuccess, attemptCount)
       }
     } catch (e) {
-      yield put(
-        A.linkToExchangeAccountFailure(
-          'Unable to check current account status.'
-        )
-      )
+      yield put(A.linkToExchangeAccountFailure('Unable to check current account status.'))
     }
   }
 
-  const linkToExchangeAccount = function * ({ payload }) {
+  const linkToExchangeAccount = function* ({ payload }) {
     try {
       const { utmCampaign } = payload
       yield put(A.linkToExchangeAccountLoading())
 
       // check if wallet is already linked
-      const isExchangeAccountLinked = (yield select(
-        S.isExchangeAccountLinked
-      )).getOrFail()
+      const isExchangeAccountLinked = (yield select(S.isExchangeAccountLinked)).getOrFail()
       if (isExchangeAccountLinked) {
         throw new Error('Account has already been linked.')
       }
 
       // ensure email address is verified
-      const isEmailVerified = (yield select(
-        selectors.core.settings.getEmailVerified
-      )).getOrFail()
+      const isEmailVerified = (yield select(selectors.core.settings.getEmailVerified)).getOrFail()
       if (!isEmailVerified) {
         throw new Error('Email address is not verified.')
       }
 
       // check if wallet relink should be attempted
-      const isRelinkAttempt = (yield select(
-        S.isExchangeRelinkRequired
-      )).getOrFail()
+      const isRelinkAttempt = (yield select(S.isExchangeRelinkRequired)).getOrFail()
 
       if (isRelinkAttempt) {
         yield put(A.shareWalletAddressesWithExchange())
@@ -459,19 +444,16 @@ export default ({ api, coreSagas, networks }) => {
         const isUserStateNone = (yield select(S.isUserStateNone)).getOrFail()
         if (isUserStateNone) yield call(createUser)
         // get exchange linkId, exchange domain and user email
-        const domains = (yield select(
-          selectors.core.walletOptions.getDomains
-        )).getOrFail()
+        const domains = (yield select(selectors.core.walletOptions.getDomains)).getOrFail()
         const exchangeDomain = prop('exchange', domains)
         const data = yield call(api.createLinkAccountId)
         const exchangeLinkId = prop('linkId', data)
-        const email = (yield select(
-          selectors.core.settings.getEmail
-        )).getOrFail()
+        const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
         const accountDeeplinkUrl = `${exchangeDomain}/trade/link/${exchangeLinkId}?email=${encodeURIComponent(
           email
-        )}&utm_source=web_wallet&utm_medium=referral&utm_campaign=${utmCampaign ||
-          'wallet_exchange_page'}`
+        )}&utm_source=web_wallet&utm_medium=referral&utm_campaign=${
+          utmCampaign || 'wallet_exchange_page'
+        }`
         // share addresses
         yield put(A.shareWalletAddressesWithExchange())
         // simulate wait while allowing user to read modal
@@ -493,8 +475,6 @@ export default ({ api, coreSagas, networks }) => {
       yield put(A.linkToExchangeAccountFailure(e.message))
     }
   }
-
-
 
   return {
     clearSession,

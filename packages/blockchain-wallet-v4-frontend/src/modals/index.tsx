@@ -130,6 +130,7 @@ const Modals = () => (
       <MobileNumberChange />
       <MobileNumberAdd />
       <MobileNumberVerify />
+      <NabuUserConflictRedirect />
       <PairingCode />
       <PromptInput />
       <QRCode />

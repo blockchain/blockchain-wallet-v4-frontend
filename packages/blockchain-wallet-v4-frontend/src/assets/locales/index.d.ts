@@ -1180,6 +1180,8 @@ type MessagesType = {
   'modals.onboarding.linktoexchangeaccount.na.subtitle-1': "There's a new way to trade. Link your Wallet for instant access. "
   'modals.onboarding.linktoexchangeaccount.success.subtitle-1': 'Your Blockchain Wallet is now connected to Exchange!'
   'modals.onboarding.linktoexchangeaccount.success.title': 'Success!'
+  'modals.nabuuserconflict.title': 'Your Trading Account is linked to another wallet'
+  'modals.nabuuserconflict.body': 'Your Blockchain.com trading account is associated with another wallet. Please log into your wallet starting with {placeholder} for account access.'
   'modals.pairingcode.title': 'Pairing Code'
   'modals.prompt.button': 'Submit'
   'modals.qrcode.scan': 'Scan QR Code'
