@@ -23,7 +23,7 @@ const convertCoinToCoin = ({
   baseToStandard = true,
   coin,
   isFiat = false,
-  value = '0',
+  value = '0'
 }: {
   baseToStandard?: boolean
   coin: string
@@ -50,7 +50,7 @@ const convertCoinToFiat = ({
   value = '0',
   currency,
   rates,
-  isStandard,
+  isStandard
 }: {
   coin: string
   value?: number | string
@@ -89,7 +89,9 @@ const convertFiatToCoin = ({
   const { coinfig } = window.coins[coin]
   const { last } = rates[currency]
 
-  return new BigNumber(value).dividedBy(last).toFixed(maxPrecision || coinfig.precision)
+  return new BigNumber(value)
+    .dividedBy(last)
+    .toFixed(maxPrecision ? Math.min(maxPrecision, coinfig.precision) : coinfig.precision)
 }
 
 // 🔺Triangulate Wallet Fiat -> BTC -> To other Fiat
@@ -97,7 +99,7 @@ const convertFiatToFiat = ({
   fromCurrency,
   rates,
   toCurrency,
-  value = '0',
+  value = '0'
 }: {
   fromCurrency: WalletFiatType
   rates: RatesType
@@ -108,7 +110,7 @@ const convertFiatToFiat = ({
     coin: 'BTC',
     value,
     currency: fromCurrency,
-    rates,
+    rates
   })
   const { last } = rates[toCurrency as FiatType]
   return new BigNumber(btcAmt).times(last).toFixed(2)
@@ -120,7 +122,7 @@ const convertFiatToFiat = ({
 const displayCoinToCoin = ({
   coin,
   isFiat,
-  value = '0',
+  value = '0'
 }: {
   coin: string
   isFiat?: boolean
@@ -137,14 +139,14 @@ const displayCoinToCoin = ({
 const displayCoinToFiat = ({
   rates,
   toCurrency,
-  value = '0',
+  value = '0'
 }: {
   rates: RatesType
   toCurrency: keyof FiatCurrenciesType
   value: number | string
 }): string => {
   const options = { style: 'currency', currency: toCurrency }
-  
+
   const { last } = rates[toCurrency as FiatType]
   const number = new BigNumber(value).times(last).toNumber()
   return new Intl.NumberFormat(getLang(), options).format(number)
@@ -162,5 +164,5 @@ export {
   displayCoinToCoin,
   displayCoinToFiat,
   displayFiatToFiat,
-  getSymbol,
+  getSymbol
 }
