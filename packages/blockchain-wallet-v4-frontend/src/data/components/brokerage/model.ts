@@ -6,6 +6,6 @@ export const DEFAULT_METHODS = {
 }
 
 export const POLLING = {
-  SECONDS: 10,
-  RETRY_AMOUNT: 30
+  RETRY_AMOUNT: 30,
+  SECONDS: 10
 }
