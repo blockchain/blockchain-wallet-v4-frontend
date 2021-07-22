@@ -364,16 +364,27 @@ export const getBalanceSelector = (coin: string) => {
 }
 
 export const getAllCoinsBalancesSelector = (state) => {
-  return {
-    ALGO: getAlgoBalance(state).getOrElse(new BigNumber(0)).valueOf(),
-    BCH: new BigNumber(getBchBalance(state).getOrElse(0)).valueOf(),
-    BTC: new BigNumber(getBtcBalance(state).getOrElse(0)).valueOf(),
-    CLOUT: getCloutBalance(state).getOrElse(new BigNumber(0)).valueOf(),
-    DOGE: getDogeBalance(state).getOrElse(new BigNumber(0)).valueOf(),
-    DOT: getDotBalance(state).getOrElse(new BigNumber(0)).valueOf(),
-    ETH: getEthBalance(state).getOrElse(new BigNumber(0)).valueOf(),
-    XLM: getXlmBalance(state).getOrElse(new BigNumber(0)).valueOf()
-  }
+  return Object.keys(window.coins).reduce(
+    (acc, curr) => {
+      if (window.coins[curr].coinfig.type.erc20Address) {
+        return {
+          ...acc,
+          [curr]: getErc20Balance(curr)(state).getOrElse(new BigNumber(0)).valueOf()
+        }
+      }
+      return { ...acc }
+    },
+    {
+      ALGO: getAlgoBalance(state).getOrElse(new BigNumber(0)).valueOf(),
+      BCH: new BigNumber(getBchBalance(state).getOrElse(0)).valueOf(),
+      BTC: new BigNumber(getBtcBalance(state).getOrElse(0)).valueOf(),
+      CLOUT: getCloutBalance(state).getOrElse(new BigNumber(0)).valueOf(),
+      DOGE: getDogeBalance(state).getOrElse(new BigNumber(0)).valueOf(),
+      DOT: getDotBalance(state).getOrElse(new BigNumber(0)).valueOf(),
+      ETH: getEthBalance(state).getOrElse(new BigNumber(0)).valueOf(),
+      XLM: getXlmBalance(state).getOrElse(new BigNumber(0)).valueOf()
+    }
+  )
 }
 
 export const getErc20BalancesInfoV2 = createDeepEqualSelector(

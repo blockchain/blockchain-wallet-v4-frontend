@@ -6,8 +6,10 @@ export const getData = (state) => {
     .getSupportedCoins(state)
     .getOrElse({} as SupportedWalletCurrenciesType)
 
-  return Object.keys(coins).filter((value) =>
-    window.coins[value].coinfig.products.includes('PrivateKey')
+  return Object.keys(coins).filter(
+    (value) =>
+      window.coins[value].coinfig.products.includes('PrivateKey') ||
+      window.coins[value].coinfig.products.includes('SimpleBuyBalance')
   )
 }
 
