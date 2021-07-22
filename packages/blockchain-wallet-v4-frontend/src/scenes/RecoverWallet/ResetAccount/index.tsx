@@ -1,8 +1,11 @@
 import React from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
 import { InjectedFormProps } from 'redux-form'
-import styled from 'styled-components'
 
 import { Form } from 'components/Form'
+import { actions, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 import { RecoverSteps } from 'data/types'
 
 import { Props as OwnProps } from '..'
@@ -36,6 +39,18 @@ class ResetAccount extends React.PureComponent<InjectedFormProps<{}, Props> & Pr
   }
 }
 
+const mapStateToProps = (state: RootState) => ({
+  // email from state where we stored it from magic link
+  language: selectors.preferences.getLanguage(state)
+  // password from reset form
+})
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  authActions: bindActionCreators(actions.auth, dispatch)
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
 export type StateProps = {
   step: number
 }
@@ -44,4 +59,4 @@ export type Props = OwnProps & {
   setStep: (step: RecoverSteps) => void
 }
 
-export default ResetAccount
+export default connector(ResetAccount)
