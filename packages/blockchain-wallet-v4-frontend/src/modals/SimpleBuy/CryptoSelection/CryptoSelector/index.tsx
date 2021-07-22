@@ -239,7 +239,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
                       <CoinAccountListOption
                         key={account.index}
                         account={account}
-                        coinModel={props.coins[account.coin]}
+                        coin={account.coin}
                         isAccountSelected={false}
                         isSwap={false}
                         onClick={() => handleSell(account)}

@@ -15,16 +15,13 @@ import {
   TextGroup
 } from 'blockchain-info-components'
 import { Exchange } from 'blockchain-wallet-v4/src'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-import { coinToString, formatFiat } from 'blockchain-wallet-v4/src/exchange/currency'
+import { coinToString, formatFiat } from 'blockchain-wallet-v4/src/exchange/utils'
 import {
   CoinType,
-  Erc20CoinsEnum,
   PaymentValue,
   RatesType,
   SBOrderActionType,
-  SBPairType,
-  SupportedWalletCurrenciesType
+  SBPairType
 } from 'blockchain-wallet-v4/src/types'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Value } from 'components/Flyout'
@@ -33,7 +30,7 @@ import { convertBaseToStandard } from 'data/components/exchange/services'
 import { getFiatFromPair } from 'data/components/simpleBuy/model'
 import { getInputFromPair, getOutputFromPair } from 'data/components/swap/model'
 import { RootState } from 'data/rootReducer'
-import { SBCheckoutFormValuesType, SwapBaseCounterTypes } from 'data/types'
+import { SBCheckoutFormValuesType, SwapAccountType, SwapBaseCounterTypes } from 'data/types'
 
 import { Border, TopText } from '../../Swap/components'
 import Loading from '../template.loading'
@@ -166,25 +163,29 @@ class PreviewSell extends PureComponent<
 
   networkFee = (value: PaymentValue | undefined) => (value ? getNetworkValue(value) : 0)
 
-  displayAmount = (formValues, coins, account) => {
+  displayAmount = (formValues, account) => {
     return coinToString({
       unit: {
-        symbol: coins[account.coin].coinTicker
+        symbol: account.coin
       },
       value: formValues?.cryptoAmount
     })
   }
 
-  getFeeInFiat = (account, BASE, COUNTER) => {
+  getFeeInFiat = (account: SwapAccountType, BASE, COUNTER) => {
     const { payment, rates, ratesEth } = this.props
+    const isErc20 = window.coins[account.coin].coinfig.type.erc20Address
     return (
       (account.type === SwapBaseCounterTypes.ACCOUNT &&
-        (Exchange.convertCoinToFiat(
-          convertBaseToStandard(account.baseCoin, this.networkFee(payment)),
-          BASE,
-          COUNTER,
-          BASE in Erc20CoinsEnum ? ratesEth : rates
-        ) as number)) ||
+        Number(
+          Exchange.convertCoinToFiat({
+            coin: BASE,
+            currency: COUNTER,
+            isStandard: true,
+            rates: isErc20 ? ratesEth : rates,
+            value: convertBaseToStandard(account.baseCoin, this.networkFee(payment))
+          })
+        )) ||
       0
     )
   }
@@ -207,17 +208,17 @@ class PreviewSell extends PureComponent<
       Loading: () => <Loading />,
       NotAsked: () => null,
       Success: (val) => {
-        const { account, coins, formValues } = this.props
+        const { account, formValues } = this.props
         if (!formValues) return null
         if (!account) return null
         const BASE = getInputFromPair(val.quote.pair)
         const COUNTER = getOutputFromPair(val.quote.pair)
         const feeInFiat = this.getFeeInFiat(account, BASE, COUNTER)
-        const counterCoinTicker = coins[COUNTER].coinTicker
-        const baseCoinTicker = coins[BASE].coinTicker
+        const counterCoinTicker = COUNTER
+        const baseCoinTicker = BASE
         const { rates, ratesEth } = this.props
         const fiatCurrency = getFiatFromPair(this.props.pair.pair)
-        const isErc20 = coins[COUNTER].contractAddress
+        const isErc20 = window.coins[COUNTER].coinfig.type.erc20Address
 
         return (
           <CustomForm onSubmit={this.handleSubmit}>
@@ -251,7 +252,7 @@ class PreviewSell extends PureComponent<
               <Amount data-e2e='sbTotalAmount'>
                 <div>
                   <Text size='32px' weight={600} color='grey800'>
-                    {this.displayAmount(formValues, coins, account)}
+                    {this.displayAmount(formValues, account)}
                   </Text>
                 </div>
                 <div>
@@ -270,7 +271,7 @@ class PreviewSell extends PureComponent<
                       Success: (success) => {
                         return (
                           <>
-                            {Currencies[counterCoinTicker].units[counterCoinTicker].symbol}
+                            {counterCoinTicker}
                             {formatFiat(Number(success.amt) + Number(feeInFiat))}
                           </>
                         )
@@ -289,7 +290,7 @@ class PreviewSell extends PureComponent<
                       <FormattedMessage
                         id='modals.simplebuy.confirm.coin_price'
                         defaultMessage='{coin} Price'
-                        values={{ coin: coins[account.coin].coinTicker }}
+                        values={{ coin: account.coin }}
                       />
                     </RowText>
                     <IconWrapper>
@@ -315,7 +316,7 @@ class PreviewSell extends PureComponent<
                       NotAsked: () => <SkeletonRectangle height='18px' width='70px' />,
                       Success: (success) => (
                         <>
-                          {Currencies[counterCoinTicker].units[counterCoinTicker].symbol}
+                          {counterCoinTicker}
                           {formatFiat(convertBaseToStandard('FIAT', success.rate))}
                         </>
                       )
@@ -333,7 +334,7 @@ class PreviewSell extends PureComponent<
                           />
                         </Text>
                         <Link
-                          href='https://support.blockchain.com/hc/en-us/articles/360061675191'
+                          href='https://support.blockchain.com/hc/en-us/articles/360061672651-Wallet-Pricing'
                           size='14px'
                           rel='noopener noreferrer'
                           target='_blank'
@@ -379,22 +380,22 @@ class PreviewSell extends PureComponent<
                         NotAsked: () => <SkeletonRectangle height='18px' width='70px' />,
                         Success: (success) => {
                           const saleAmount = formatFiat(Number(success.amt))
-                          const saleInCoin = Exchange.convertFiatToCoin(
-                            Number(saleAmount),
-                            BASE,
-                            fiatCurrency,
-                            BASE in Erc20CoinsEnum ? ratesEth : rates
-                          )
+                          const saleInCoin = Exchange.convertFiatToCoin({
+                            coin: BASE,
+                            currency: fiatCurrency,
+                            rates: window.coins[BASE].coinfig.type.erc20Address ? ratesEth : rates,
+                            value: Number(saleAmount)
+                          })
                           return (
                             <>
                               <Value data-e2e='sbSaleAccount'>
-                                {Currencies[counterCoinTicker].units[counterCoinTicker].symbol}
+                                {counterCoinTicker}
                                 {saleAmount}
                               </Value>
                               <AdditionalText>
                                 {coinToString({
                                   unit: {
-                                    symbol: coins[account.baseCoin].coinTicker
+                                    symbol: account.baseCoin
                                   },
                                   value: saleInCoin
                                 })}
@@ -427,12 +428,12 @@ class PreviewSell extends PureComponent<
                       </RowIcon>
                       <RowText data-e2e='sbTransactionFee'>
                         <RowTextWrapper>
-                          {Currencies[counterCoinTicker].units[counterCoinTicker].symbol}
+                          {counterCoinTicker}
                           {formatFiat(feeInFiat)}
                           <AdditionalText>
                             {coinToString({
                               unit: {
-                                symbol: coins[account.baseCoin].coinTicker
+                                symbol: account.baseCoin
                               },
                               value: convertBaseToStandard(
                                 account.baseCoin,
@@ -499,14 +500,14 @@ class PreviewSell extends PureComponent<
                       Success: (success) => {
                         return (
                           <>
-                            {Currencies[counterCoinTicker].units[counterCoinTicker].symbol}
+                            {counterCoinTicker}
                             {formatFiat(Number(success.amt) + Number(feeInFiat))}
                           </>
                         )
                       }
                     })}
                   </Value>
-                  <AdditionalText>{this.displayAmount(formValues, coins, account)}</AdditionalText>
+                  <AdditionalText>{this.displayAmount(formValues, account)}</AdditionalText>
                 </RowTextWrapper>
               </RowText>
             </RowItem>
@@ -549,7 +550,7 @@ class PreviewSell extends PureComponent<
                         id='buttons.sell_coin'
                         defaultMessage='Sell {displayName}'
                         values={{
-                          displayName: this.displayAmount(formValues, coins, account)
+                          displayName: this.displayAmount(formValues, account)
                         }}
                       />
                     </Text>
@@ -610,9 +611,6 @@ const mapStateToProps = (state: RootState) => {
   return {
     account: selectors.components.simpleBuy.getSwapAccount(state),
     coin,
-    coins: selectors.core.walletOptions
-      .getSupportedCoins(state)
-      .getOrElse({} as SupportedWalletCurrenciesType),
     formValues: selectors.form.getFormValues('simpleBuyCheckout')(
       state
     ) as SBCheckoutFormValuesType,

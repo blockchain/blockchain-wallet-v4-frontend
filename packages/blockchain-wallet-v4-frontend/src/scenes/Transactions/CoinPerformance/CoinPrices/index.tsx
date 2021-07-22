@@ -4,8 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
-import { SupportedCoinType } from 'blockchain-wallet-v4/src/types'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 
 import { PriceChange } from '../../model'
 import { Skeletons } from '../../WalletBalanceDropdown/template.loading'
@@ -21,13 +20,13 @@ const TitleText = styled(Text)`
   font-weight: 500;
   font-size: 16px;
   line-height: 150%;
-  color: ${props => props.theme.grey400};
+  color: ${(props) => props.theme.grey400};
 `
 const PriceText = styled(Text)`
   font-weight: 500;
   font-size: 24px;
   line-height: 135%;
-  color: ${props => props.theme.grey800};
+  color: ${(props) => props.theme.grey800};
 `
 
 class CoinPricesContainer extends React.PureComponent<Props> {
@@ -35,7 +34,10 @@ class CoinPricesContainer extends React.PureComponent<Props> {
     const { data } = this.props
 
     return data.cata({
-      Success: val => {
+      Failure: (e) => <Text>{typeof e === 'string' ? e : 'Unknown Error'}</Text>,
+      Loading: () => <Skeletons />,
+      NotAsked: () => <Skeletons />,
+      Success: (val) => {
         const { priceChange } = val
 
         return (
@@ -44,13 +46,13 @@ class CoinPricesContainer extends React.PureComponent<Props> {
               <FormattedMessage
                 id='scenes.transactions.performance.account.price'
                 defaultMessage='{account} Price'
-                values={{ account: this.props.coinModel.coinTicker }}
+                values={{ account: this.props.coin }}
               />
             </TitleText>
             <PriceText>
               {fiatToString({
-                value: priceChange.currentPrice,
-                unit: val.currency
+                unit: val.currency,
+                value: priceChange.currentPrice
               })}
             </PriceText>
             <PriceChange {...val}>
@@ -62,10 +64,7 @@ class CoinPricesContainer extends React.PureComponent<Props> {
             </PriceChange>
           </Wrapper>
         )
-      },
-      Failure: e => <Text>{typeof e === 'string' ? e : 'Unknown Error'}</Text>,
-      Loading: () => <Skeletons />,
-      NotAsked: () => <Skeletons />
+      }
     })
   }
 }
@@ -77,7 +76,7 @@ const mapStateToProps = (state, ownProps) => ({
 const connector = connect(mapStateToProps)
 
 export type OwnProps = {
-  coinModel: SupportedCoinType
+  coin: string
 }
 
 type Props = OwnProps & ConnectedProps<typeof connector>

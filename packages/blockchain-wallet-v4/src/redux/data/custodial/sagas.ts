@@ -3,10 +3,8 @@ import { call, put, select } from 'redux-saga/effects'
 
 import {
   CoinType,
-  CoinTypeEnum,
   ProcessedSwapOrderType,
-  SBPendingTransactionStateEnum,
-  WalletCurrencyType
+  SBPendingTransactionStateEnum
 } from 'blockchain-wallet-v4/src/types'
 import { APIType } from 'core/network/api'
 import { ProcessedTxType } from 'core/transactions/types'
@@ -16,20 +14,21 @@ import * as S from './selectors'
 import { FetchCustodialOrdersAndTransactionsReturnType } from './types'
 
 export default ({ api }: { api: APIType }) => {
-  const fetchCustodialOrdersAndTransactions = function * (
+  const fetchCustodialOrdersAndTransactions = function* (
     page: Array<ProcessedTxType>,
     offset: number,
     transactionsAtBound: boolean,
-    currency: WalletCurrencyType,
+    currency: string,
     nextSBTransactionsURL: string | null
   ) {
     // 🤯
     // Nabu (as of this writing) has multiple types of 'txs' and endpoints
-    // this saga is used to fetch 2 of those endpoints and join them
+    // this saga is used to fetch 3 of those endpoints and join them
     // for the purpose of viewing alongside your noncustodial txs.
     //
     // 1. /simple-buy/trades a.k.a getSBOrders
     // 2. /payments/transactions a.k.a getSBTransactions
+    // 3. /unified a.k.a swaps
     //
     // getSBOrders takes a before and after param, so we can tell the BE
     // the appropriate range of transactions to return
@@ -72,15 +71,12 @@ export default ({ api }: { api: APIType }) => {
       }
 
       // 1. /simple-buy/trades a.k.a getSBOrders
-      const orders: ReturnType<typeof api.getSBOrders> = yield call(
-        api.getSBOrders,
-        {
-          before,
-          after
-        }
-      )
-      const filteredOrders = orders.filter(order => {
-        return order.inputCurrency in CoinTypeEnum
+      const orders: ReturnType<typeof api.getSBOrders> = yield call(api.getSBOrders, {
+        after,
+        before
+      })
+      const filteredOrders = orders.filter((order) => {
+        return order.side === 'SELL'
           ? order.inputCurrency === currency
           : order.outputCurrency === currency
       })
@@ -90,28 +86,23 @@ export default ({ api }: { api: APIType }) => {
         // if offset > 0 & !nextSBTransactionsURL
         // then there are no more transactions to fetch
         offset > 0 && !nextSBTransactionsURL
-          ? yield { prev: null, next: null, items: [] }
+          ? yield { items: [], next: null, prev: null }
           : // get transactions whether or not nextSBTransactionsURL is null
             yield call(api.getSBTransactions, {
               currency,
               next: nextSBTransactionsURL
             })
 
-      const pendingTxsOnState = S.getSBTransactionsPending(
-        yield select(),
-        currency
-      )
+      const pendingTxsOnState = S.getSBTransactionsPending(yield select(), currency)
       const pendingTxs = transactions.items.filter(
-        val => val.state in SBPendingTransactionStateEnum
+        (val) => val.state in SBPendingTransactionStateEnum
       )
 
       yield put(
         A.setSBCoreCoinData(
           currency as CoinType,
           transactions.next,
-          offset === 0
-            ? pendingTxs.length
-            : pendingTxs.length + pendingTxsOnState
+          offset === 0 ? pendingTxs.length : pendingTxs.length + pendingTxsOnState
         )
       )
 
@@ -123,7 +114,7 @@ export default ({ api }: { api: APIType }) => {
         before,
         after
       )
-      const processedSwaps: Array<ProcessedSwapOrderType> = swaps.map(swap => ({
+      const processedSwaps: Array<ProcessedSwapOrderType> = swaps.map((swap) => ({
         ...swap,
         insertedAt: swap.createdAt
       }))

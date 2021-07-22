@@ -1,20 +1,20 @@
 export default {
-  code: 'THB',
   base: 'CENT',
+  code: 'THB',
   displayName: 'Thai Baht',
   trade: 'THB',
   units: {
     CENT: {
+      currency: 'THB',
+      decimal_digits: 0,
       rate: '1',
       symbol: '¢฿',
-      decimal_digits: 0,
-      currency: 'THB'
     },
     THB: {
+      currency: 'THB',
+      decimal_digits: 2,
       rate: '100',
       symbol: '฿',
-      decimal_digits: 2,
-      currency: 'THB'
-    }
-  }
+    },
+  },
 }

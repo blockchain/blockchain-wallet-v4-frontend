@@ -8,12 +8,7 @@ import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { actions } from 'data'
 
-import {
-  Border,
-  FlexStartRow,
-  IconBackground,
-  TopText
-} from '../../../modals/Swap/components'
+import { Border, FlexStartRow, IconBackground, TopText } from '../../../modals/Swap/components'
 
 const BackLink = styled(Link)`
   text-align: center;
@@ -21,48 +16,27 @@ const BackLink = styled(Link)`
   display: block;
 `
 
-const IdvIntro: React.FC<Props> = props => {
+const IdvIntro: React.FC<Props> = (props) => {
   return (
     <>
       <FlyoutWrapper>
         <TopText spaceBetween marginBottom>
           <Icon name='arrow-switch-thick' color='blue600' size='24px' />
-          <Icon
-            name='close'
-            color='grey600'
-            role='button'
-            cursor
-            onClick={props.handleClose}
-          />
+          <Icon name='close' color='grey600' role='button' cursor onClick={props.handleClose} />
         </TopText>
         <Text size='24px' color='grey900' weight={600}>
           {props.title}
         </Text>
-        <Text
-          size='16px'
-          color='grey600'
-          weight={500}
-          style={{ marginTop: '10px' }}
-        >
+        <Text size='16px' color='grey600' weight={500} style={{ marginTop: '10px' }}>
           {props.subTitle}
         </Text>
       </FlyoutWrapper>
       <Border />
       <FlyoutWrapper>
-        <Text
-          size='20px'
-          color='grey800'
-          weight={600}
-          style={{ marginBottom: '8px' }}
-        >
+        <Text size='20px' color='grey800' weight={600} style={{ marginBottom: '8px' }}>
           {props.subHeaderTitle}
         </Text>
-        <Text
-          size='14px'
-          color='grey600'
-          weight={500}
-          style={{ marginBottom: '30px' }}
-        >
+        <Text size='14px' color='grey600' weight={500} style={{ marginBottom: '30px' }}>
           {props.subHeaderCopy}
         </Text>
         <FlexStartRow style={{ marginBottom: '28px' }}>
@@ -73,10 +47,7 @@ const IdvIntro: React.FC<Props> = props => {
           </IconBackground>
           <div>
             <Text color='grey900' size='14px' weight={600} lineHeight='150%'>
-              <FormattedMessage
-                id='scenes.verifyemail.title'
-                defaultMessage='Verify Your Email'
-              />
+              <FormattedMessage id='scenes.verifyemail.title' defaultMessage='Verify Your Email' />
             </Text>
             <Text size='12px' lineHeight='150%' weight={500}>
               <FormattedMessage
@@ -127,22 +98,18 @@ const IdvIntro: React.FC<Props> = props => {
           data-e2e='swapVerify'
           height='48px'
           onClick={() =>
-            props.idvActions.verifyIdentity(props.selectedTier, false)
+            props.idvActions.verifyIdentity({
+              needMoreInfo: false,
+              origin: 'Unknown',
+              tier: props.selectedTier
+            })
           }
           fullwidth
         >
-          <FormattedMessage
-            id='buttons.verify_now'
-            defaultMessage='Verify Now'
-          />
+          <FormattedMessage id='buttons.verify_now' defaultMessage='Verify Now' />
         </Button>
         {props.goBack && (
-          <BackLink
-            data-e2e='goBack'
-            onClick={props.goBack}
-            weight={500}
-            size={'14px'}
-          >
+          <BackLink data-e2e='goBack' onClick={props.goBack} weight={500} size='14px'>
             <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
           </BackLink>
         )}
@@ -152,10 +119,7 @@ const IdvIntro: React.FC<Props> = props => {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  idvActions: bindActionCreators(
-    actions.components.identityVerification,
-    dispatch
-  )
+  idvActions: bindActionCreators(actions.components.identityVerification, dispatch)
 })
 const connector = connect(undefined, mapDispatchToProps)
 

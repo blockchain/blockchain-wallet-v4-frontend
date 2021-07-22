@@ -1,28 +1,11 @@
-import {
-  curry,
-  filter,
-  keys,
-  lensProp,
-  map,
-  mapObjIndexed,
-  path,
-  prop,
-  propOr,
-  set,
-  toUpper
-} from 'ramda'
+import { keys, lift, path, prop } from 'ramda'
 
-import { CoinType, RemoteDataType } from 'core/types'
+import { /* AccountTokensBalancesResponseType, */ ExtractSuccess, RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 
 import { createDeepEqualSelector } from '../../utils'
-import { getInvitations } from '../settings/selectors'
-import {
-  SupportedCoinType,
-  SupportedWalletCurrenciesType,
-  SupportedWalletCurrencyType,
-  WalletOptionsType
-} from './types'
+import { getErc20AccountTokenBalances } from '../data/eth/selectors.js'
+import { SupportedWalletCurrenciesType, WalletOptionsType } from './types'
 
 // general
 export const getOptions = (state: RootState) =>
@@ -41,71 +24,62 @@ export const getAnnouncements = (state) =>
   getWebOptions(state).map(path(['application', 'announcements']))
 
 // coins
-// @ts-ignore
 export const getSupportedCoins = createDeepEqualSelector(
-  [getInvitations, getWebOptions],
-  (invitationsR, webOptionsR) => {
-    const addInvited = (obj, coin) => {
-      // @ts-ignore
-      const invited = invitationsR.map(propOr(true, coin)).getOrElse(false)
-      return set(lensProp('invited'), invited, obj)
+  [getWebOptions, getErc20AccountTokenBalances],
+  (webOptionsR /* , erc20CoinsR */) => {
+    const newSupportedCoinAccount = (symbol: string) => {
+      const { coinfig } = window.coins[symbol]
+
+      return {
+        coinCode: coinfig.symbol,
+        coinTicker: coinfig.symbol,
+        coinfig,
+        displayName: coinfig.name,
+        minConfirmations: 3
+      }
     }
-    // @ts-ignore
-    return webOptionsR.map(prop('coins')).map(mapObjIndexed(addInvited))
+
+    const transform = (
+      webOptions: ExtractSuccess<typeof webOptionsR>
+      // TODO: erc20 phase 2, use erc20s from AccountTokenBalances
+      // erc20Coins: AccountTokensBalancesResponseType['tokenAccounts']
+    ) => {
+      return {
+        ...webOptions.coins,
+        // TODO: erc20 phase 2, remove this
+        ...Object.keys(window.coins).reduce((previousValue, currentValue) => {
+          const { coinfig } = window.coins[currentValue]
+          if (!coinfig.type.erc20Address) return previousValue
+          return {
+            ...previousValue,
+            [coinfig.symbol]: newSupportedCoinAccount(coinfig.symbol)
+          }
+        }, {})
+        // TODO: erc20 phase 2, add this
+        // ...erc20Coins.reduce((previousValue, currentValue) => {
+        //   return {
+        //     ...previousValue,
+        //     [currentValue.symbol!]: newSupportedCoinAccount(currentValue.symbol!)
+        //   }
+        // }, {})
+      }
+    }
+    // TODO: erc20 phase 2, add back erc20CoinsR
+    return lift(transform)(webOptionsR /* , erc20CoinsR */)
   }
 ) as (state: RootState) => RemoteDataType<string, SupportedWalletCurrenciesType>
-export const getSyncToExchangeList = (state) =>
-  getSupportedCoins(state)
-    .map(
-      filter(
-        (value: SupportedWalletCurrencyType) =>
-          // @ts-ignore
-          value.availability.syncToPit
-      )
-    )
-    .map(keys)
-export const getBtcNetwork = (state) =>
-  getSupportedCoins(state).map(path(['BTC', 'config', 'network']))
-export const getEthTxFuse = (state) => getSupportedCoins(state).map(path(['ETH', 'lastTxFuse']))
+
+export const getSyncToExchangeList = (state) => getSupportedCoins(state).map(keys)
 export const getXlmSendTimeOutSeconds = (state) =>
   getSupportedCoins(state).map(path(['XLM', 'config', 'sendTimeOutSeconds']))
 export const getXlmExchangeAddresses = (state) =>
   getSupportedCoins(state).map(path(['XLM', 'exchangeAddresses']))
-export const getStxCampaign = (state) =>
-  getWebOptions(state).map(path(['coins', 'STX', 'campaign']))
-
-// coin feature availability
-export const getCoinAvailability = curry((state, coin) =>
-  getSupportedCoins(state).map(path([toUpper(coin), 'availability']))
-)
-export const getAllCoinAvailabilities = (state) => {
-  return map(map(prop('availability')), getSupportedCoins(state)) as RemoteDataType<
-    any,
-    {
-      [key in CoinType]: {
-        [key in keyof SupportedCoinType['availability']]: boolean
-      }
-    }
-  >
-}
-
-export const getErc20CoinList = (state) =>
-  getSupportedCoins(state).map((x) =>
-    // @ts-ignore
-    keys(filter((c: SupportedCoinType) => !!c.contractAddress, x))
-  )
-export const getCoinModel = (state, coin) =>
-  // @ts-ignore
-  getSupportedCoins(state).map((x) => prop(toUpper(coin), x))
-export const getCoinIcons = (state: RootState, coin) =>
-  // @ts-ignore
-  getCoinModel(state, coin).map(path(['icons']))
 
 // domains
-export const getVeriffDomain = (state: RootState) => getDomains(state).map(prop('veriff'))
+export const getVeriffDomain = (state) => getDomains(state).map(prop('veriff'))
 
 // partners
-export const getSiftKey = (state: RootState) => getWebOptions(state).map(path(['sift', 'apiKey']))
+export const getSiftKey = (state) => getWebOptions(state).map(path(['sift', 'apiKey']))
 export const getSiftPaymentKey = (state: RootState) => {
   return getWebOptions(state).map((options) => options.sift.paymentKey)
 }
@@ -114,11 +88,11 @@ export const getPairingCodeFlag = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'legacyMobilePairing']))
 
 // mobile auth flag
-export const getMobileAuthFlag = (state: RootState) =>
+export const getMobileAuthFlag = (state) =>
   getWebOptions(state).map(path(['mobile_auth', 'enabled']))
 
 // brokerage deposits withdrawals flag
-export const getBrokerageDepositsWithdrawals = (state: RootState) =>
+export const getBrokerageDepositsWithdrawals = (state) =>
   getWebOptions(state).map(path(['brokerage_deposits_withdrawals', 'enabled']))
 
 // recurring buys flag

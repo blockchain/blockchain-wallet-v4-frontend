@@ -64,7 +64,8 @@ const WalletRow = (props) => {
     onShowChangeAddrs,
     onShowFundRecovery,
     onShowXPub,
-    search
+    search,
+    walletActions
   } = props
   const isMatch = (wallet) => !search || wallet.label.toLowerCase().indexOf(search) > -1
   const matchedWallets = filter(isMatch, take(bchAccounts.length, wallets))
@@ -135,7 +136,14 @@ const WalletRow = (props) => {
                   <ClickableText
                     key='edit'
                     size='small'
-                    onClick={() => onEditBchAccountLabel(wallet.value)}
+                    onClick={() => {
+                      onEditBchAccountLabel(wallet.value)
+
+                      walletActions.setManageWallet({
+                        currency: 'BCH',
+                        selection: 'EditWalletName'
+                      })
+                    }}
                     data-e2e='bchEditWalletNameLink'
                   >
                     <FormattedMessage
@@ -182,7 +190,14 @@ const WalletRow = (props) => {
                   <ClickableText
                     size='small'
                     key='xpub'
-                    onClick={() => onShowXPub(wallet.value)}
+                    onClick={() => {
+                      onShowXPub(wallet.value)
+
+                      walletActions.setManageWallet({
+                        currency: 'BCH',
+                        selection: 'ShowXPub'
+                      })
+                    }}
                     data-e2e='bchShowWalletXpub'
                   >
                     <FormattedMessage
@@ -193,7 +208,14 @@ const WalletRow = (props) => {
                   <ClickableText
                     size='small'
                     key='change'
-                    onClick={() => onShowChangeAddrs(wallet.value)}
+                    onClick={() => {
+                      onShowChangeAddrs(wallet.value)
+
+                      walletActions.setManageWallet({
+                        currency: 'BCH',
+                        selection: 'ShowChangeAddresses'
+                      })
+                    }}
                     data-e2e='bchShowChangeAddressesLink'
                   >
                     <FormattedMessage
@@ -204,7 +226,14 @@ const WalletRow = (props) => {
                   <ClickableText
                     size='small'
                     key='recovery'
-                    onClick={() => onShowFundRecovery(wallet.value)}
+                    onClick={() => {
+                      onShowFundRecovery(wallet.value)
+
+                      walletActions.setManageWallet({
+                        currency: 'BCH',
+                        selection: 'RecoverFunds'
+                      })
+                    }}
                     data-e2e='bchShowFundRecovery'
                   >
                     <FormattedMessage

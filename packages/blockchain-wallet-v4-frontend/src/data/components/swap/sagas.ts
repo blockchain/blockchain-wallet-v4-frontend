@@ -4,21 +4,17 @@ import { call, delay, put, race, select, take } from 'redux-saga/effects'
 
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
-import {
-  CoinType,
-  Erc20CoinsEnum,
-  PaymentType,
-  PaymentValue,
-  SwapQuoteType
-} from 'blockchain-wallet-v4/src/types'
+import { CoinType, PaymentType, PaymentValue, SwapQuoteType } from 'blockchain-wallet-v4/src/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { actions, selectors } from 'data'
 import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
 import { getCoinAccounts } from 'data/coins/selectors'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
+import { NabuProducts } from 'data/types'
 
 import profileSagas from '../../modules/profile/sagas'
 import { convertStandardToBase } from '../exchange/services'
+import { swap } from '../selectors'
 import sendSagas from '../send/sagas'
 import { selectReceiveAddress } from '../utils/sagas'
 import * as A from './actions'
@@ -133,7 +129,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const { coin } = source
       const addressOrIndex = source.address
       const addressType = source.type
-      const isSourceErc20 = coin in Erc20CoinsEnum
+      const isSourceErc20 = window.coins[source.coin].coinfig.type.erc20Address
       const paymentType = isSourceErc20 ? 'eth' : coin.toLowerCase()
       let payment: PaymentType = yield coreSagas.payment[paymentType]
         .create({ network: networks[paymentType] })
@@ -220,6 +216,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           step: 'SUCCESSFUL_SWAP'
         })
       )
+      yield put(actions.custodial.fetchRecentSwapTxs())
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('previewSwap', { _error: error }))
@@ -229,8 +226,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
   const fetchCustodialEligibility = function* () {
     try {
       yield put(A.fetchCustodialEligibilityLoading())
-      const { eligible }: ReturnType<typeof api.checkCustodialSwapEligibility> = yield call(
-        api.checkCustodialSwapEligibility
+      const { eligible }: ReturnType<typeof api.getEligibilityForProduct> = yield call(
+        api.getEligibilityForProduct,
+        NabuProducts.BROKERAGE
       )
       yield put(A.fetchCustodialEligibilitySuccess(eligible))
     } catch (e) {
@@ -348,7 +346,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     const amountFieldValue =
       fix === 'CRYPTO'
         ? action.payload
-        : Exchange.convertFiatToCoin(action.payload, BASE.coin, userCurrency, rates)
+        : Exchange.convertFiatToCoin({
+            coin: BASE.coin,
+            currency: userCurrency,
+            rates,
+            value: action.payload
+          })
     yield put(actions.form.change('swapAmount', 'cryptoAmount', amountFieldValue))
 
     if (BASE.type === SwapBaseCounterTypes.CUSTODIAL) return
@@ -385,6 +388,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         return yield put(A.setStep({ step: 'INIT_SWAP' }))
       }
 
+      const swapAmountFormValues = selectors.form.getFormValues('swapAmount')(
+        yield select()
+      ) as SwapAmountFormValues
+
       yield race({
         failure: take(AT.FETCH_QUOTE_FAILURE),
         success: take(AT.FETCH_QUOTE_SUCCESS)
@@ -393,7 +400,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
 
       const { BASE } = initSwapFormValues
       if (BASE.type === SwapBaseCounterTypes.ACCOUNT) {
-        payment = yield call(calculateProvisionalPayment, BASE, quote.quote, 0)
+        payment = yield call(
+          calculateProvisionalPayment,
+          BASE,
+          quote.quote,
+          swapAmountFormValues?.cryptoAmount || 0
+        )
         yield put(A.updatePaymentSuccess(payment))
       } else {
         yield put(A.updatePaymentSuccess(undefined))
@@ -413,7 +425,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       return
     }
 
-    const accounts = getCoinAccounts(yield select(), SWAP_ACCOUNTS_SELECTOR)
+    const coins = S.getCoins()
+    const accounts = getCoinAccounts(yield select(), { coins, ...SWAP_ACCOUNTS_SELECTOR })
     const baseAccount = accounts[initSwapFormValues.BASE.coin].find(
       (val) => val.label === initSwapFormValues.BASE?.label
     )

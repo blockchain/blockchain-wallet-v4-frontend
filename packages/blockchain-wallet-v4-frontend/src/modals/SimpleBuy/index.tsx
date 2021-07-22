@@ -36,7 +36,7 @@ import OpenBankingConnect from './OpenBankingConnect'
 import OrderSummary from './OrderSummary'
 import PaymentMethods from './PaymentMethods'
 import PreviewSell from './PreviewSell'
-import { getData } from './selectors'
+import getData from './selectors'
 import SellOrderSummary from './SellOrderSummary'
 // step wrappers
 import Loading from './template.loading'

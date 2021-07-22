@@ -106,13 +106,11 @@ export default ({ api, coreSagas }) => {
   const fetchBalances = function* () {
     yield put(actions.core.data.bch.fetchData())
     yield put(actions.core.data.btc.fetchData())
-    yield put(actions.core.data.eth.fetchData())
     yield put(actions.core.data.xlm.fetchData())
-    yield put(actions.core.data.eth.fetchErc20Data('pax'))
-    yield put(actions.core.data.eth.fetchErc20Data('usdt'))
-    yield put(actions.core.data.eth.fetchErc20Data('wdgld'))
-    yield put(actions.core.data.eth.fetchErc20Data('aave'))
-    yield put(actions.core.data.eth.fetchErc20Data('yfi'))
+    yield put(actions.core.data.eth.fetchData())
+    yield put(actions.core.data.eth.fetchErc20Data())
+    yield put(actions.components.refresh.refreshRates())
+    yield put(actions.custodial.fetchRecentSwapTxs())
   }
 
   const checkAndHandleVulnerableAddress = function* (data) {

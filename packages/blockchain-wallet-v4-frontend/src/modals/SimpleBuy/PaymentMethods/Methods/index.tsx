@@ -8,7 +8,6 @@ import {
   OrderType,
   SBPaymentMethodType,
   SBPaymentTypes,
-  SupportedFiatType,
   WalletCurrencyType,
   WalletFiatEnum
 } from 'blockchain-wallet-v4/src/types'
@@ -85,7 +84,7 @@ class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   }
 
   handleSubmit = (method: SBPaymentMethodType) => {
-    this.props.simpleBuyActions.handleSBMethodChange(method)
+    this.props.simpleBuyActions.handleSBMethodChange(method, true)
   }
 
   getIcon = (value: SBPaymentMethodType): ReactElement => {
@@ -180,10 +179,6 @@ class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     const availableMethods =
       funds.length || cardMethods.length || paymentCard !== undefined || bankAccount !== undefined
 
-    const canDeposit =
-      fiatCurrency &&
-      (this.props.supportedCoins[fiatCurrency] as SupportedFiatType)?.availability?.deposit
-
     return (
       <Wrapper>
         <Form>
@@ -250,7 +245,7 @@ class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 }
               />
             )}
-            {bankAccount && fiatCurrency && canDeposit && (
+            {bankAccount && fiatCurrency && (
               <>
                 <BankWire
                   {...bankAccount}

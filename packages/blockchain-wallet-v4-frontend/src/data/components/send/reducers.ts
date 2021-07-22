@@ -34,10 +34,7 @@ const INITIAL_STATE: SendState = {
   withdrawLockCheck: Remote.NotAsked
 }
 
-export function sendReducer(
-  state = INITIAL_STATE,
-  action: SendActionTypes
-): SendState {
+export function sendReducer(state = INITIAL_STATE, action: SendActionTypes): SendState {
   switch (action.type) {
     case AT.FETCH_PAYMENTS_ACCOUNT_EXCHANGE_SUCCESS: {
       const { currency, data } = action.payload
@@ -132,9 +129,7 @@ export function sendReducer(
     case AT.GET_LOCK_RULE_SUCCESS: {
       return {
         ...state,
-        withdrawLockCheck: Remote.Success(
-          action.payload.withdrawalLockCheckResponse
-        )
+        withdrawLockCheck: Remote.Success(action.payload.withdrawalLockCheckResponse)
       }
     }
     case AT.GET_LOCK_RULE_FAILURE: {

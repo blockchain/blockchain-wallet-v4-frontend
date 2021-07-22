@@ -13,58 +13,84 @@
       },
       "coins": {
         "EUR": {
-          "availability": {
-            "send": false,
-            "request": false,
-            "deposit": true,
-            "withdrawal": true
-          },
           "coinCode": "EUR",
           "coinTicker": "EUR",
+          "coinfig": {
+            "name": "Euros",
+            "precision": 2,
+            "products": [],
+            "symbol": "EUR",
+            "type": {
+              "logoPngUrl": "",
+              "isFiat": true,
+              "name": "Euros",
+              "parentChain": "EUR",
+              "websiteUrl": ""
+            }
+          },
           "displayName": "Euros",
+          "isFiat": true,
           "learnMoreLink": "",
-          "minConfirmations": 0,
-          "txListAppRoute": "/eur/transactions"
+          "minConfirmations": 0
         },
         "GBP": {
-          "availability": {
-            "send": false,
-            "request": false,
-            "deposit": true,
-            "withdrawal": true
-          },
           "coinCode": "GBP",
           "coinTicker": "GBP",
+          "coinfig": {
+            "name": "Pounds",
+            "precision": 2,
+            "products": [],
+            "symbol": "GBP",
+            "type": {
+              "logoPngUrl": "",
+              "isFiat": true,
+              "name": "Pounds",
+              "parentChain": "GBP",
+              "websiteUrl": ""
+            }
+          },
           "displayName": "Pounds",
+          "isFiat": true,
           "learnMoreLink": "",
-          "minConfirmations": 0,
-          "txListAppRoute": "/gbp/transactions"
+          "minConfirmations": 0
         },
         "USD": {
-          "availability": {
-            "send": false,
-            "request": false,
-            "deposit": true,
-            "withdrawal": true
-          },
           "coinCode": "USD",
           "coinTicker": "USD",
+          "coinfig": {
+            "name": "U.S. Dollars",
+            "precision": 2,
+            "products": [],
+            "symbol": "USD",
+            "type": {
+              "logoPngUrl": "",
+              "isFiat": true,
+              "name": "U.S. Dollars",
+              "parentChain": "USD",
+              "websiteUrl": ""
+            }
+          },
           "displayName": "U.S. Dollars",
           "learnMoreLink": "",
-          "minConfirmations": 0,
-          "txListAppRoute": "/usd/transactions"
+          "isFiat": true,
+          "minConfirmations": 0
         },
         "BTC": {
-          "availability": {
-            "send": true,
-            "request": true,
-            "lockbox": true,
-            "exchangeTo": true,
-            "exchangeFrom": true,
-            "syncToPit": true
-          },
           "coinCode": "BTC",
           "coinTicker": "BTC",
+          "coinfig": {
+            "name": "Bitcoin",
+            "precision": 8,
+            "products": ["PrivateKey", "SimpleBuyBalance"],
+            "symbol": "BTC",
+            "type": {
+              "logoPngUrl": "",
+              "minimumOnChainConfirmations": 3,
+              "name": "Bitcoin",
+              "parentChain": "BTC",
+              "websiteUrl": ""
+            }
+          },
           "displayName": "Bitcoin",
           "config": {
             "network": "bitcoin"
@@ -72,20 +98,24 @@
           "hasLockboxSupport": true,
           "learnMoreLink": "https://www.blockchain.com/learning-portal/bitcoin-faq",
           "minConfirmations": 3,
-          "txExplorerBaseUrl": "https://blockchain.com/btc/tx",
-          "txListAppRoute": "/btc/transactions"
+          "txExplorerBaseUrl": "https://blockchain.com/btc/tx"
         },
         "ETH": {
-          "availability": {
-            "send": true,
-            "request": true,
-            "lockbox": true,
-            "exchangeTo": true,
-            "exchangeFrom": true,
-            "syncToPit": true
-          },
           "coinCode": "ETH",
           "coinTicker": "ETH",
+          "coinfig": {
+            "name": "Ethereum",
+            "precision": 18,
+            "products": ["PrivateKey", "SimpleBuyBalance"],
+            "symbol": "ETH",
+            "type": {
+              "logoPngUrl": "",
+              "minimumOnChainConfirmations": 12,
+              "name": "Ethereum",
+              "parentChain": "ETH",
+              "websiteUrl": ""
+            }
+          },
           "displayName": "Ether",
           "config": {
             "network": 1
@@ -94,61 +124,53 @@
           "learnMoreLink": "https://support.blockchain.com/hc/en-us/sections/360000003163-Ethereum-FAQ",
           "lastTxFuse": 600,
           "minConfirmations": 12,
-          "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
-          "txListAppRoute": "/eth/transactions"
+          "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx"
         },
         "BCH": {
-          "availability": {
-            "send": true,
-            "request": true,
-            "lockbox": true,
-            "exchangeTo": true,
-            "exchangeFrom": true,
-            "syncToPit": true
-          },
           "coinCode": "BCH",
           "coinTicker": "BCH",
+          "coinfig": {
+            "name": "Bitcoin Cash",
+            "precision": 8,
+            "products": ["PrivateKey", "SimpleBuyBalance"],
+            "symbol": "BCH",
+            "type": {
+              "logoPngUrl": "",
+              "minimumOnChainConfirmations": 3,
+              "name": "Bitcoin Cash",
+              "parentChain": "BTC",
+              "websiteUrl": ""
+            }
+          },
           "displayName": "Bitcoin Cash",
           "config": {},
           "hasLockboxSupport": true,
           "learnMoreLink": "https://support.blockchain.com/hc/en-us/sections/115001633403-Bitcoin-Cash-FAQ",
           "minConfirmations": 3,
-          "txExplorerBaseUrl": "https://blockchain.com/bch/tx",
-          "txListAppRoute": "/bch/transactions"
-        },
-        "BSV": {
-          "availability": {
-            "send": false,
-            "request": false,
-            "lockbox": false,
-            "exchangeTo": false,
-            "exchangeFrom": true,
-            "syncToPit": false
-          },
-          "coinCode": "BSV",
-          "coinTicker": "BSV",
-          "displayName": "Bitcoin SV",
-          "config": {},
-          "hasLockboxSupport": false,
-          "minConfirmations": 3,
-          "txExplorerBaseUrl": "https://blockchair.com/bitcoin-sv/transaction"
+          "txExplorerBaseUrl": "https://blockchain.com/bch/tx"
         },
         "XLM": {
           "airdrop": {
             "link": "https://support.blockchain.com/hc/en-us/categories/360001126692-Crypto-Giveaway",
             "image": "stellar-planet"
           },
-          "availability": {
-            "send": true,
-            "request": true,
-            "lockbox": true,
-            "exchangeTo": true,
-            "exchangeFrom": true,
-            "syncToPit": true
-          },
           "campaign": "sunriver",
           "coinCode": "XLM",
           "coinTicker": "XLM",
+          "coinfig": {
+            "name": "Stellar",
+            "precision": 7,
+            "products": ["PrivateKey", "SimpleBuyBalance"],
+            "symbol": "XLM",
+            "type": {
+              "logoPngUrl": "",
+              "minimumOnChainConfirmations": 1,
+              "isMemoBased": true,
+              "name": "Stellar",
+              "parentChain": "XLM",
+              "websiteUrl": ""
+            }
+          },
           "config": {
             "network": "public",
             "sendTimeOutSeconds": 600
@@ -195,139 +217,95 @@
           "isMemoBased": true,
           "learnMoreLink": "https://support.blockchain.com/hc/en-us/articles/360019105171-What-is-Stellar-",
           "minConfirmations": 1,
-          "txExplorerBaseUrl": "https://stellarchain.io/tx",
-          "txListAppRoute": "/xlm/transactions"
+          "txExplorerBaseUrl": "https://stellarchain.io/tx"
         },
         "ALGO": {
-          "availability": {
-            "send": false,
-            "request": false,
-            "lockbox": false,
-            "exchangeTo": false,
-            "exchangeFrom": false,
-            "syncToPit": false
-          },
           "coinCode": "ALGO",
           "coinTicker": "ALGO",
+          "coinfig": {
+            "name": "Algorand",
+            "precision": 6,
+            "products": ["SimpleBuyBalance"],
+            "symbol": "ALGO",
+            "type": {
+              "logoPngUrl": "",
+              "minimumOnChainConfirmations": 3,
+              "name": "Algorand",
+              "parentChain": "ALGO",
+              "websiteUrl": ""
+            }
+          },
           "displayName": "Algorand",
           "hasLockboxSupport": false,
           "learnMoreLink": "",
           "minConfirmations": 3,
-          "txExplorerBaseUrl": "",
-          "txListAppRoute": "/algo/transactions"
+          "txExplorerBaseUrl": ""
         },
-        "PAX": {
-          "availability": {
-            "send": true,
-            "request": true,
-            "lockbox": false,
-            "exchangeTo": true,
-            "exchangeFrom": true,
-            "syncToPit": true
+        "CLOUT": {
+          "coinCode": "CLOUT",
+          "coinTicker": "CLOUT",
+          "coinfig": {
+            "name": "BitClout",
+            "precision": 9,
+            "products": ["SimpleBuyBalance"],
+            "symbol": "CLOUT",
+            "type": {
+              "logoPngUrl": "https://raw.githubusercontent.com/blockchain/coin-definitions/master/extensions/blockchains/bitclout/info/logo.png",
+              "minimumOnChainConfirmations": 4,
+              "name": "BitClout",
+              "parentChain": "CLOUT",
+              "websiteUrl": ""
+            }
           },
-          "coinCode": "PAX",
-          "coinTicker": "USD-D",
-          "contractAddress": "0x8e870d67f660d95d5be530380d0ec0bd388289e1",
-          "displayName": "USD Digital",
+          "displayName": "BitClout",
           "hasLockboxSupport": false,
-          "learnMoreLink": "https://support.blockchain.com/hc/en-us/sections/360004368351-USD-Digital-previously-USD-PAX-FAQ",
-          "minConfirmations": 12,
-          "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
-          "txListAppRoute": "/usd-d/transactions"
-        },
-        "USDT": {
-          "availability": {
-            "send": true,
-            "request": true,
-            "lockbox": false,
-            "exchangeTo": true,
-            "exchangeFrom": true,
-            "syncToPit": true
-          },
-          "coinCode": "USDT",
-          "coinTicker": "USDT",
-          "contractAddress": "0xdac17f958d2ee523a2206206994597c13d831ec7",
-          "displayName": "Tether",
-          "hasLockboxSupport": false,
-          "learnMoreLink": " https://support.blockchain.com/hc/en-us/articles/360044952032",
-          "minConfirmations": 12,
-          "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
-          "txListAppRoute": "/usdt/transactions"
-        },
-        "WDGLD": {
-          "availability": {
-            "send": true,
-            "request": true,
-            "lockbox": false,
-            "exchangeTo": true,
-            "exchangeFrom": true,
-            "syncToPit": true
-          },
-          "coinCode": "WDGLD",
-          "coinTicker": "WDGLD",
-          "contractAddress": "0x123151402076fc819B7564510989e475c9cD93CA",
-          "displayName": "Wrapped-DGLD",
-          "hasLockboxSupport": false,
-          "learnMoreLink": "https://support.blockchain.com/hc/en-us/articles/360052952171",
-          "minConfirmations": 12,
-          "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
-          "txListAppRoute": "/wdgld/transactions"
-        },
-        "AAVE": {
-          "availability": {
-            "send": true,
-            "request": true,
-            "lockbox": false,
-            "exchangeTo": true,
-            "exchangeFrom": true,
-            "syncToPit": true
-          },
-          "coinCode": "AAVE",
-          "coinTicker": "AAVE",
-          "contractAddress": "0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9",
-          "displayName": "Aave",
-          "hasLockboxSupport": false,
-          "learnMoreLink": "https://support.blockchain.com/hc/en-us/articles/360044952032",
-          "minConfirmations": 12,
-          "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
-          "txListAppRoute": "/aave/transactions"
-        },
-        "YFI": {
-          "availability": {
-            "send": true,
-            "request": true,
-            "lockbox": false,
-            "exchangeTo": true,
-            "exchangeFrom": true,
-            "syncToPit": true
-          },
-          "coinCode": "YFI",
-          "coinTicker": "YFI",
-          "contractAddress": "0x0bc529c00C6401aEF6D220BE8C6Ea1667F6Ad93e",
-          "displayName": "Yearn Finance",
-          "hasLockboxSupport": false,
-          "learnMoreLink": "https://support.blockchain.com/hc/en-us/articles/360044952032",
-          "minConfirmations": 12,
-          "txExplorerBaseUrl": "https://www.blockchain.com/eth/tx",
-          "txListAppRoute": "/yfi/transactions"
+          "learnMoreLink": "",
+          "minConfirmations": 4,
+          "txExplorerBaseUrl": "https://bitclout.com"
         },
         "DOT": {
-          "availability": {
-            "send": false,
-            "request": false,
-            "lockbox": false,
-            "exchangeTo": true,
-            "exchangeFrom": true,
-            "syncToPit": false
-          },
           "coinCode": "DOT",
           "coinTicker": "DOT",
+          "coinfig": {
+            "name": "Polkadot",
+            "precision": 10,
+            "products": ["SimpleBuyBalance"],
+            "symbol": "DOT",
+            "type": {
+              "logoPngUrl": "",
+              "minimumOnChainConfirmations": 20,
+              "name": "Polkadot",
+              "parentChain": "DOT",
+              "websiteUrl": ""
+            }
+          },
           "displayName": "Polkadot",
           "hasLockboxSupport": false,
           "learnMoreLink": "https://support.blockchain.com/hc/en-us/articles/360044952032",
           "minConfirmations": 20,
-          "txExplorerBaseUrl": "https://polkascan.io/polkadot",
-          "txListAppRoute": "/dot/transactions"
+          "txExplorerBaseUrl": "https://polkascan.io/polkadot"
+        },
+        "DOGE": {
+          "coinCode": "DOGE",
+          "coinTicker": "DOGE",
+          "coinfig": {
+            "name": "DogeCoin",
+            "precision": 8,
+            "products": ["SimpleBuyBalance"],
+            "symbol": "DOGE",
+            "type": {
+              "logoPngUrl": "",
+              "minimumOnChainConfirmations": 40,
+              "name": "DogeCoin",
+              "parentChain": "DOGE",
+              "websiteUrl": ""
+            }
+          },
+          "displayName": "DogeCoin",
+          "hasLockboxSupport": false,
+          "learnMoreLink": "",
+          "minConfirmations": 40,
+          "txExplorerBaseUrl": "https://dogechain.info/"
         }
       },
       "sift": {

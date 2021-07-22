@@ -24,7 +24,6 @@ const WhitelistActionTypesEnum = {
   '@CORE.SET_EMAIL_VERIFIED': '@CORE.SET_EMAIL_VERIFIED',
   '@EVENT.KYC.INITIALIZE_VERIFICATION': '@EVENT.KYC.INITIALIZE_VERIFICATION',
   '@EVENT.KYC.UPDATE_EMAIL': '@EVENT.KYC.UPDATE_EMAIL',
-  '@EVENT.BORROW.SET_STEP': '@EVENT.BORROW.SET_STEP',
   '@EVENT.SET_SB_STEP': '@EVENT.SET_SB_STEP',
   '@EVENT.SET_SWAP_STEP': '@EVENT.SET_SWAP_STEP',
   CLOSE_MODAL: 'CLOSE_MODAL',
@@ -38,13 +37,9 @@ const TYPE_WHITELIST = Object.keys(WhitelistActionTypesEnum)
 
 const EVENT_ACTION_BLACKLIST = ['SHOW_XPUB_MODAL']
 
-const formatEvent = x => (typeof x !== 'string' ? JSON.stringify(x) : x)
+const formatEvent = (x) => (typeof x !== 'string' ? JSON.stringify(x) : x)
 
-const sanitizeEvent = (
-  nextCategory: WhitelistActions,
-  nextAction,
-  nextName
-) => {
+const sanitizeEvent = (nextCategory: WhitelistActions, nextAction, nextName) => {
   switch (nextCategory) {
     case '@@router/LOCATION_CHANGE':
       return [nextCategory, formatEvent(nextAction.split('/')[1])]
@@ -156,7 +151,7 @@ const sanitizeEvent = (
 
 let lastEvent = []
 
-const matomoMiddleware = () => () => next => action => {
+const matomoMiddleware = () => () => (next) => (action) => {
   try {
     const nextCategory: WhitelistActions = prop('type', action)
     const nextAction: string | undefined =
@@ -165,8 +160,7 @@ const matomoMiddleware = () => () => next => action => {
       path(TYPE, action) ||
       path(LOCATION, action) ||
       path(PAYLOAD, action)
-    const nextName =
-      path(FIELD, action) || path(_ERROR, action) || path(PROPS, action)
+    const nextName = path(FIELD, action) || path(_ERROR, action) || path(PROPS, action)
     const logEvent = includes(action.type, TYPE_WHITELIST)
     const nextEvent = sanitizeEvent(nextCategory, nextAction, nextName)
 

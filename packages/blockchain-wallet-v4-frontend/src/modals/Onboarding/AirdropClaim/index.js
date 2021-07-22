@@ -42,14 +42,14 @@ const Header = styled(Text)`
   font-size: 24px;
   font-weight: 600;
   margin-top: 18px;
-  color: ${props => props.theme['grey800']};
+  color: ${(props) => props.theme.grey800};
 `
 const Copy = styled(Text)`
   margin-top: 16px;
   font-weight: 500;
   line-height: 1.6;
   max-width: 300px;
-  color: ${props => props.theme['grey800']};
+  color: ${(props) => props.theme.grey800};
 `
 const FooterButton = styled(Button)`
   height: 56px;
@@ -63,22 +63,9 @@ class AirdropClaim extends React.PureComponent {
   }
 
   render() {
-    const {
-      actions,
-      campaign,
-      close,
-      isCampaignTagged,
-      position,
-      submitting,
-      total
-    } = this.props
+    const { actions, campaign, close, isCampaignTagged, position, submitting, total } = this.props
     return (
-      <Modal
-        size='small'
-        position={position}
-        total={total}
-        dataE2e='infoModalAirdropClaim'
-      >
+      <Modal size='small' position={position} total={total} dataE2e='infoModalAirdropClaim'>
         <AbsoluteModalHeader onClose={close} />
         <Body>
           <Image width='52px' name='gold-verified' />
@@ -94,8 +81,8 @@ class AirdropClaim extends React.PureComponent {
                 id='modals.airdropclaim.thanksforparticipatingairdropprogram'
                 defaultMessage='Thanks for already joining our Airdrop Program. If you are eligible you should be receiving your {coinName} ({coinCode}) soon!'
                 values={{
-                  coinName: prop('coinName', CAMPAIGNS[campaign]),
-                  coinCode: prop('coinCode', CAMPAIGNS[campaign])
+                  coinCode: prop('coinCode', CAMPAIGNS[campaign]),
+                  coinName: prop('coinName', CAMPAIGNS[campaign])
                 }}
               />
             </Copy>
@@ -136,13 +123,11 @@ AirdropClaim.defaultProps = {
   campaign: 'sunriver'
 }
 
-const mapStateToProps = state => ({
-  isCampaignTagged: selectors.modules.profile
-    .getSunRiverTag(state)
-    .getOrElse(false)
+const mapStateToProps = (state) => ({
+  isCampaignTagged: selectors.modules.profile.getSunRiverTag(state).getOrElse(false)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.onboarding, dispatch),
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })

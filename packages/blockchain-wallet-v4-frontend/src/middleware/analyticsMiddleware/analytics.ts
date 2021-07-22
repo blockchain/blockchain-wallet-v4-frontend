@@ -1,47 +1,50 @@
 import { queuevent } from '@blockchain-com/constellation'
-import type { AnalyticsPayload } from 'middleware/analyticsMiddleware/types'
+import type { AnalyticsValue, RawEvent } from 'middleware/analyticsMiddleware/types'
 import { AnalyticsKey } from 'middleware/analyticsMiddleware/types'
 import { generateUniqueUserId } from 'middleware/analyticsMiddleware/utils'
-import { v4 } from 'uuid'
 
-const queueCallback = async (rawEvents) => {
+const queueCallback = async (rawEvents: RawEvent[]) => {
   const res = await fetch('/wallet-options-v4.json')
   const options = await res.json()
 
   const analyticsURL = `${options.domains.api}/events/publish`
 
-  const id = rawEvents.find((event) => event.payload.id)?.payload.id
+  const id = rawEvents.find((event) => event.payload.properties.id)?.payload.properties.id
 
-  const randomId = v4()
-
-  const nabuId = rawEvents.find((event) => event.payload.nabuId)?.payload.nabuId || null
+  const nabuId =
+    rawEvents.find((event) => event.payload.traits.nabuId)?.payload.traits.nabuId ?? null
+  const email = rawEvents.find((event) => event.payload.traits.email)?.payload.traits.email ?? null
+  const tier = rawEvents.find((event) => event.payload.traits.tier)?.payload.traits.tier ?? null
+  const parsedTier = tier ? String(tier) : null
 
   const context = {
     traits: {
-      nabu_id: nabuId
+      email,
+      nabu_id: nabuId,
+      tier: parsedTier
     }
   } as const
 
   const events = rawEvents.map((event) => {
     const name = event.key
 
-    const { analyticsType, id, nabuId, originalTimestamp, ...properties } = event.payload
+    const { id, originalTimestamp, ...properties } = event.payload.properties
 
     return {
-      id: generateUniqueUserId(id || randomId),
+      id: id ? generateUniqueUserId(id) : null,
       nabuId,
       name,
       originalTimestamp,
-      properties,
-      type: analyticsType
+      properties
     }
   })
 
   await fetch(analyticsURL, {
     body: JSON.stringify({
       context,
+      device: 'WEB',
       events,
-      id: generateUniqueUserId(id || randomId),
+      id: id ? generateUniqueUserId(id) : null,
       platform: 'WALLET'
     }),
     credentials: 'include',
@@ -52,7 +55,7 @@ const queueCallback = async (rawEvents) => {
   })
 }
 
-const analytics = queuevent<AnalyticsKey, AnalyticsPayload>({
+const analytics = queuevent<AnalyticsKey, AnalyticsValue>({
   queueCallback,
   queueName: 'analytics'
 })

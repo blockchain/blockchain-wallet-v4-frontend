@@ -11,10 +11,7 @@ import { model } from 'data'
 
 import ModalIcon from '../ModalIcon'
 
-const currencySymbolMap = mapObjIndexed(
-  (value, code) => value.units[code].symbol,
-  Currencies
-)
+const currencySymbolMap = mapObjIndexed((value, code) => value.units[code].symbol, Currencies)
 
 const { RESERVE_LEARN_MODAL } = model.components.sendXlm
 
@@ -26,28 +23,26 @@ const BannerTemplate = styled(Banner)`
   margin-bottom: 16px;
 `
 
-export const InfoBanner = props => {
+export const InfoBanner = (props) => {
   const effectiveBalance = prop('effectiveBalance', props)
   const reserve = prop('reserve', props)
   const fee = prop('fee', props)
-  const reserveXlm = Exchange.convertXlmToXlm({
+  const reserveXlm = Exchange.convertCoinToCoin({
+    coin: 'XLM',
     value: reserve,
-    fromUnit: 'STROOP',
-    toUnit: 'XLM'
-  }).value
+  })
   const currency = prop('currency', props)
   const rates = prop('rates', props)
-  const effectiveBalanceFiat = Exchange.convertXlmToFiat({
+  const effectiveBalanceFiat = Exchange.convertCoinToFiat({
+    coin: 'XLM',
+    currency,
+    rates,
     value: new BigNumber.sum(effectiveBalance, fee),
-    fromUnit: 'STROOP',
-    toCurrency: currency,
-    rates
-  }).value
-  const effectiveBalanceXlm = Exchange.convertXlmToXlm({
+  })
+  const effectiveBalanceXlm = Exchange.convertCoinToCoin({
+    coin: 'XLM',
     value: new BigNumber.sum(effectiveBalance, fee),
-    fromUnit: 'STROOP',
-    toUnit: 'XLM'
-  }).value
+  })
   const modalProps = { currency, effectiveBalanceXlm, fee, rates, reserveXlm }
 
   return (
@@ -56,8 +51,8 @@ export const InfoBanner = props => {
         id='modals.sendxlm.reserveinfo'
         defaultMessage='Your available balance is {currencySymbol}{effectiveBalanceFiat} (minus fee). Learn about Stellar’s minimum balance.'
         values={{
+          currencySymbol: currencySymbolMap[currency],
           effectiveBalanceFiat,
-          currencySymbol: currencySymbolMap[currency]
         }}
       />
       <ModalIcon modal={RESERVE_LEARN_MODAL} {...modalProps} />

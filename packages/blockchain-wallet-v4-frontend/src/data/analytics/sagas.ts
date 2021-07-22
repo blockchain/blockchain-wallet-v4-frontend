@@ -58,24 +58,11 @@ export default () => {
       const ethBalance = (yield select(
         selectors.core.data.eth.getBalance
       )).getOrElse(0)
-      const paxBalance = (yield select(
-        selectors.core.data.eth.getErc20Balance,
-        'pax'
-      )).getOrElse(0)
-      const usdtBalance = (yield select(
-        selectors.core.data.eth.getErc20Balance,
-        'usdt'
-      )).getOrElse(0)
-      const wdgldBalance = (yield select(
-        selectors.core.data.eth.getErc20Balance,
-        'wdgld'
-      )).getOrElse(0)
       const xlmBalance = (yield select(
         selectors.core.data.xlm.getTotalBalance
       )).getOrElse(0)
       const btcContext = yield select(selectors.core.wallet.getSpendableContext)
-      const btcBalance = reduce(
-        // @ts-ignore
+      const btcBalance = reduce<number, number>(
         add,
         0,
         map(
@@ -89,8 +76,7 @@ export default () => {
       const bchContext = yield select(
         selectors.core.kvStore.bch.getSpendableContext
       )
-      const bchBalance = reduce(
-        // @ts-ignore
+      const bchBalance = reduce<number, number>(
         add,
         0,
         map(
@@ -110,10 +96,7 @@ export default () => {
             BTC: not(equals(btcBalance, 0)),
             BCH: not(equals(bchBalance, 0)),
             ETH: not(equals(ethBalance, 0)),
-            PAX: not(equals(paxBalance, 0)),
-            USDT: not(equals(usdtBalance, 0)),
-            XLM: not(equals(xlmBalance, 0)),
-            WDGLD: not(equals(wdgldBalance, 0))
+            XLM: not(equals(xlmBalance, 0))
           }),
           variableScope: 'visit'
         }

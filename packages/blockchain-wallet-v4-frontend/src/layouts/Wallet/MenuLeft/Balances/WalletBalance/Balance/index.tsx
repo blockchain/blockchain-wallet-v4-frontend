@@ -1,10 +1,10 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { includes, toLower } from 'ramda'
+import { toLower } from 'ramda'
 import { bindActionCreators } from 'redux'
 
 import { CoinType, ExtractSuccess } from 'blockchain-wallet-v4/src/types'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 
 import { LoadingBalance } from '../../model'
 import { getData } from './selectors'
@@ -14,10 +14,11 @@ import Success from './template.success'
 class Balance extends React.PureComponent<Props> {
   handleRefresh = () => {
     const { coin } = this.props
-    const coinLower = toLower(coin)
-    if (includes(coin, this.props.erc20List)) {
-      this.props.ethActions.fetchErc20Data(coinLower)
+    const { coinfig } = window.coins[coin]
+    if (coinfig.type.erc20Address) {
+      this.props.ethActions.fetchErc20Data(coin)
     } else {
+      const coinLower = toLower(coin)
       this.props[`${coinLower}Actions`].fetchData()
     }
   }
@@ -26,7 +27,10 @@ class Balance extends React.PureComponent<Props> {
     const { coin, coinTicker, data, large } = this.props
 
     return data.cata({
-      Success: value => (
+      Failure: () => <Error onRefresh={this.handleRefresh} />,
+      Loading: () => <LoadingBalance large={large} coinTicker={coinTicker} />,
+      NotAsked: () => <LoadingBalance large={large} coinTicker={coinTicker} />,
+      Success: (value) => (
         <Success
           {...this.props}
           balance={value}
@@ -34,20 +38,16 @@ class Balance extends React.PureComponent<Props> {
           coin={coin}
           coinTicker={coinTicker}
         />
-      ),
-      Failure: () => <Error onRefresh={this.handleRefresh} />,
-      Loading: () => <LoadingBalance large={large} coinTicker={coinTicker} />,
-      NotAsked: () => <LoadingBalance large={large} coinTicker={coinTicker} />
+      )
     })
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  data: getData(state, ownProps),
-  erc20List: selectors.core.walletOptions.getErc20CoinList(state).getOrElse([])
+  data: getData(state, ownProps)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   bchActions: bindActionCreators(actions.core.data.bch, dispatch),
   btcActions: bindActionCreators(actions.core.data.btc, dispatch),
   ethActions: bindActionCreators(actions.core.data.eth, dispatch),

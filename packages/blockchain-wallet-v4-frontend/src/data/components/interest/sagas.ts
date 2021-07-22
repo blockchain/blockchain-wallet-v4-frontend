@@ -23,7 +23,6 @@ import profileSagas from '../../modules/profile/sagas'
 import { convertStandardToBase } from '../exchange/services'
 import * as A from './actions'
 import * as AT from './actionTypes'
-import { DEFAULT_INTEREST_BALANCES } from './model'
 import utils from './sagas.utils'
 import * as S from './selectors'
 import { InterestDepositFormType, InterestWithdrawalFormType } from './types'
@@ -62,10 +61,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const fetchInterestBalance = function* () {
     try {
       yield put(A.fetchInterestBalanceLoading())
-      if (!(yield call(isTier2))) {
-        yield put(A.fetchInterestBalanceSuccess(DEFAULT_INTEREST_BALANCES))
-        return
-      }
+      if (!(yield call(isTier2))) return yield put(A.fetchInterestBalanceSuccess({}))
       const response: ReturnType<typeof api.getInterestAccountBalance> = yield call(
         api.getInterestAccountBalance
       )
@@ -222,7 +218,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           if (paymentR) {
             let payment = yield getOrUpdateProvisionalPaymentForCoin(coin, paymentR)
             const paymentAmount = generateProvisionalPaymentAmount(coin, value)
-            payment = yield payment.amount(paymentAmount)
+            payment = yield payment.amount(paymentAmount || 0)
             if (!isCustodialDeposit && accountBalance > 0) {
               payment = yield payment.build()
               yield put(A.setPaymentSuccess(payment.value()))
@@ -387,11 +383,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const routeToTxHash = function* ({ payload }: ReturnType<typeof A.routeToTxHash>) {
     const { coin, txHash } = payload
-    if (coin === 'PAX') {
-      yield put(actions.router.push(`/usd-d/transactions`))
-    } else {
-      yield put(actions.router.push(`/${coin}/transactions`))
-    }
+    yield put(actions.router.push(`/${coin}/transactions`))
     yield delay(1000)
     yield put(actions.form.change('walletTxSearch', 'search', txHash))
   }

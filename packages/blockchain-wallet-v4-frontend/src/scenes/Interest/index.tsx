@@ -11,8 +11,7 @@ import {
   CoinType,
   InterestEDDStatus,
   InterestRateType,
-  RemoteDataType,
-  SupportedWalletCurrenciesType
+  RemoteDataType
 } from 'blockchain-wallet-v4/src/types'
 import { Container } from 'components/Box'
 import { SceneWrapper } from 'components/Layout'
@@ -104,7 +103,7 @@ class Interest extends React.PureComponent<Props, StateType> {
                 <IntroCard {...val} {...this.props} isGoldTier={isGoldTier} />
                 {isGoldTier &&
                   val.instruments.map((instrument) => {
-                    return (
+                    return window.coins[instrument] ? (
                       <SummaryCard
                         {...val}
                         {...this.props}
@@ -112,7 +111,7 @@ class Interest extends React.PureComponent<Props, StateType> {
                         coin={instrument}
                         key={instrument}
                       />
-                    )
+                    ) : null
                   })}
               </ContainerStyled>
               <IneligibilityCard {...val} {...this.props} />
@@ -143,7 +142,6 @@ export type SuccessStateType = {
   interestEDDStatus: InterestEDDStatus
   interestRate: InterestRateType
   interestRateArray: Array<number>
-  supportedCoins: SupportedWalletCurrenciesType
   userData: UserDataType
 }
 type LinkStatePropsType = {

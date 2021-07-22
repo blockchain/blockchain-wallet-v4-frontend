@@ -124,7 +124,9 @@ class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType
 
     return (
       <>
-        {interestEDDStatus?.eddNeeded && this.renderAdditionalInfo()}
+        {interestEDDStatus?.eddNeeded &&
+          !interestEDDStatus?.eddPassed &&
+          this.renderAdditionalInfo()}
         {showInterestInfoBox && !interestEDDStatus?.eddNeeded && (
           <BoxStyled>
             {isGoldTier ? (
@@ -202,7 +204,13 @@ class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType
                   data-e2e='verifyIdentityBorrow'
                   style={{ marginTop: '20px' }}
                   disabled={userData.kycState !== 'NONE'}
-                  onClick={() => idvActions.verifyIdentity(2, false)}
+                  onClick={() =>
+                    idvActions.verifyIdentity({
+                      needMoreInfo: false,
+                      origin: 'Interest',
+                      tier: 2
+                    })
+                  }
                 >
                   {userData.kycState === 'UNDER_REVIEW' || userData.kycState === 'PENDING' ? (
                     <FormattedMessage

@@ -1,20 +1,30 @@
 import { takeLatest } from 'redux-saga/effects'
 
-import * as AT from './actionTypes'
 import sagas from './sagas'
+import {
+  createFiatDeposit,
+  deleteSavedBank,
+  fetchBankLinkCredentials,
+  fetchBankTransferAccounts,
+  fetchBankTransferUpdate,
+  fetchRBMethods,
+  handleDepositFiatClick,
+  handleWithdrawClick,
+  showModal
+} from './slice'
 
 export default ({ api, coreSagas, networks }) => {
   const brokerageSagas = sagas({ api, coreSagas, networks })
 
   return function* brokerageSaga() {
-    yield takeLatest(AT.FETCH_BANK_TRANSFER_ACCOUNTS, brokerageSagas.fetchBankTransferAccounts)
-    yield takeLatest(AT.FETCH_BANK_TRANSFER_UPDATE, brokerageSagas.fetchBankTransferUpdate)
-    yield takeLatest(AT.HANDLE_DEPOSIT_FIAT_CLICK, brokerageSagas.handleDepositFiatClick)
-    yield takeLatest(AT.HANDLE_WITHDRAW_CLICK, brokerageSagas.handleWithdrawClick)
-    yield takeLatest(AT.CREATE_FIAT_DEPOSIT, brokerageSagas.createFiatDeposit)
-
-    yield takeLatest(AT.DELETE_SAVED_BANK, brokerageSagas.deleteSavedBank)
-    yield takeLatest(AT.FETCH_BANK_LINK_CREDENTIALS, brokerageSagas.fetchBankLinkCredentials)
-    yield takeLatest(AT.SHOW_MODAL, brokerageSagas.showModal)
+    yield takeLatest(fetchBankTransferAccounts.type, brokerageSagas.fetchBankTransferAccounts)
+    yield takeLatest(fetchBankTransferUpdate.type, brokerageSagas.fetchBankTransferUpdate)
+    yield takeLatest(handleDepositFiatClick.type, brokerageSagas.handleDepositFiatClick)
+    yield takeLatest(handleWithdrawClick.type, brokerageSagas.handleWithdrawClick)
+    yield takeLatest(createFiatDeposit.type, brokerageSagas.createFiatDeposit)
+    yield takeLatest(deleteSavedBank.type, brokerageSagas.deleteSavedBank)
+    yield takeLatest(fetchBankLinkCredentials.type, brokerageSagas.fetchBankLinkCredentials)
+    yield takeLatest(fetchRBMethods.type, brokerageSagas.fetchRBMethods)
+    yield takeLatest(showModal.type, brokerageSagas.showModal)
   }
 }

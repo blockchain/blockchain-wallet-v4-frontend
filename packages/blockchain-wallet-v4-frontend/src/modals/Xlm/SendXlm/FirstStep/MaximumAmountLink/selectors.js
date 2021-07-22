@@ -5,11 +5,10 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 
 export const getData = (state, props) => {
   const fee = prop('fee', props)
-  const feeXlm = Exchange.convertXlmToXlm({
+  const feeXlm = Exchange.convertCoinToCoin({
     value: fee,
-    fromUnit: 'STROOP',
-    toUnit: 'XLM'
-  }).value
+    coin: 'XLM'
+  })
   const effectiveBalanceXlm = prop('effectiveBalanceXlm', props)
   return {
     effectiveBalance: new BigNumber(effectiveBalanceXlm)
