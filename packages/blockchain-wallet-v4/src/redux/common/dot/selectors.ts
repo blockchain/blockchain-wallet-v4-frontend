@@ -1,4 +1,3 @@
 import { RootState } from 'data/rootReducer'
 
-export const getWalletTransactions = (state: RootState) =>
-  state.dataPath.dot.transactions
+export const getWalletTransactions = (state: RootState) => state.dataPath.dot.transactions
