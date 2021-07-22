@@ -7,7 +7,7 @@ import DataError from 'components/DataError'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { BankDWStepType } from 'data/types'
+import { BankDWStepType, ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { BROKERAGE_INELIGIBLE, Loading, LoadingTextEnum } from '../../../components'
@@ -142,7 +142,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-const enhance = compose(ModalEnhancer('BANK_DEPOSIT_MODAL', { transition: duration }), connector)
+const enhance = compose(
+  ModalEnhancer(ModalName.BANK_DEPOSIT_MODAL, { transition: duration }),
+  connector
+)
 
 type OwnProps = ModalPropsType
 type LinkStatePropsType = {

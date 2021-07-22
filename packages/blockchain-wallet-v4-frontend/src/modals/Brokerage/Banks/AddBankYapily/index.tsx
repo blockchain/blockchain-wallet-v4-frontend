@@ -6,7 +6,7 @@ import { compose } from 'redux'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { AddBankStepType } from 'data/types'
+import { AddBankStepType, ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { Loading, LoadingTextEnum } from '../../../components'
@@ -45,18 +45,12 @@ class Banks extends PureComponent<Props> {
       >
         {this.props.step === AddBankStepType.ADD_BANK && (
           <FlyoutChild>
-            <SelectBank
-              setYapilyBankId={this.setYapilyBankId}
-              handleClose={this.handleClose}
-            />
+            <SelectBank setYapilyBankId={this.setYapilyBankId} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
         {this.props.step === AddBankStepType.ADD_BANK_CONNECT && (
           <FlyoutChild>
-            <Connect
-              handleClose={this.handleClose}
-              yapilyBankId={this.state.yapilyBankId}
-            />
+            <Connect handleClose={this.handleClose} yapilyBankId={this.state.yapilyBankId} />
           </FlyoutChild>
         )}
         {this.props.step === AddBankStepType.ADD_BANK_AUTHORIZE && (
@@ -66,10 +60,7 @@ class Banks extends PureComponent<Props> {
         )}
         {this.props.step === AddBankStepType.ADD_BANK_STATUS && (
           <FlyoutChild>
-            <AddBankStatus
-              handleClose={this.handleClose}
-              yapilyBankId={this.state.yapilyBankId}
-            />
+            <AddBankStatus handleClose={this.handleClose} yapilyBankId={this.state.yapilyBankId} />
           </FlyoutChild>
         )}
         {this.props.step === AddBankStepType.LOADING && (
@@ -89,7 +80,7 @@ const mapStateToProps = (state: RootState) => ({
 const connector = connect(mapStateToProps)
 
 const enhance = compose(
-  ModalEnhancer('ADD_BANK_YAPILY_MODAL', { transition: duration }),
+  ModalEnhancer(ModalName.ADD_BANK_YAPILY_MODAL, { transition: duration }),
   connector
 )
 
@@ -100,9 +91,7 @@ type LinkStatePropsType = {
   step: AddBankStepType
 }
 
-export type Props = OwnProps &
-  LinkStatePropsType &
-  ConnectedProps<typeof connector>
+export type Props = OwnProps & LinkStatePropsType & ConnectedProps<typeof connector>
 
 type State = {
   show: boolean

@@ -11,7 +11,7 @@ import DataError from 'components/DataError'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { WithdrawStepEnum } from 'data/types'
+import { ModalName, WithdrawStepEnum } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { BROKERAGE_INELIGIBLE } from '../../../components'
@@ -101,7 +101,7 @@ const mapStateToProps = (state: RootState) => ({
 const connector = connect(mapStateToProps)
 
 const enhance = compose(
-  ModalEnhancer('CUSTODY_WITHDRAW_MODAL', { transition: duration }),
+  ModalEnhancer(ModalName.CUSTODY_WITHDRAW_MODAL, { transition: duration }),
   connector
 )
 

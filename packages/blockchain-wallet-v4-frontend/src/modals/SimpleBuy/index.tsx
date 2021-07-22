@@ -17,7 +17,7 @@ import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { GoalsType } from 'data/goals/types'
 import { RootState } from 'data/rootReducer'
-import { BankStatusType, FastLinkType } from 'data/types'
+import { BankStatusType, FastLinkType, ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { Loading as StdLoading, LoadingTextEnum } from '../components'
@@ -266,7 +266,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-const enhance = compose(ModalEnhancer('SIMPLE_BUY_MODAL', { transition: duration }), connector)
+const enhance = compose(
+  ModalEnhancer(ModalName.SIMPLE_BUY_MODAL, { transition: duration }),
+  connector
+)
 
 type OwnProps = ModalPropsType
 export type LinkDispatchPropsType = {

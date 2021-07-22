@@ -8,8 +8,9 @@ import { Exchange, utils } from 'blockchain-wallet-v4/src'
 import { InterestAfterTransactionType, WalletFiatType } from 'blockchain-wallet-v4/src/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { actions, actionTypes, model, selectors } from 'data'
-import { getBchBalance, getBtcBalance, waitForAllBalances } from 'data/balance/sagas'
+import { getBchBalance, getBtcBalance } from 'data/balance/sagas'
 import { parsePaymentRequest } from 'data/bitpay/sagas'
+import { ModalName } from 'data/modals/types'
 import profileSagas from 'data/modules/profile/sagas'
 import * as C from 'services/alerts'
 
@@ -489,7 +490,7 @@ export default ({ api, coreSagas, networks }) => {
 
     if (firstLogin) {
       yield put(
-        actions.goals.addInitialModal('welcomeModal', 'WELCOME_MODAL', {
+        actions.goals.addInitialModal('welcomeModal', ModalName.WELCOME_MODAL, {
           origin
         })
       )

@@ -26,7 +26,7 @@ import {
 
 import { actions, actionTypes as AT } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { BankDWStepType, InterestStep, ModalNamesEnum, SwapBaseCounterTypes } from 'data/types'
+import { BankDWStepType, InterestStep, ModalName, SwapBaseCounterTypes } from 'data/types'
 
 const analyticsMiddleware = () => (store) => (next) => (action) => {
   try {
@@ -43,11 +43,13 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const id = state.walletPath.wallet.guid
         const pageName: PageName = action.payload.location.pathname
 
+        // We should find a way to add origins to page changes
+
         switch (pageName) {
           case '/home': {
             const { href, pathname, search } = window.location
             const { referrer, title } = document
-            const origin = 'SIGN_IN' // TODO add way to add 'NAVIGATION' here
+            const origin = 'SIGN_IN'
 
             analytics.push(AnalyticsKey.DASHBOARD_CLICKED, {
               properties: {
@@ -223,10 +225,10 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.email
         const tier = state.profile.userData.getOrElse({})?.tiers.current
         const id = state.walletPath.wallet.guid
-        const modalName: ModalNamesEnum = action.payload.type
+        const modalName: ModalName = action.payload.type
 
         switch (modalName) {
-          case ModalNamesEnum.SIMPLE_BUY_MODAL: {
+          case ModalName.SIMPLE_BUY_MODAL: {
             const rawOrigin = action.payload.props.origin
             const { href, pathname, search } = window.location
             const { referrer, title } = document
@@ -266,7 +268,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             break
           }
-          case ModalNamesEnum.SWAP_MODAL: {
+          case ModalName.SWAP_MODAL: {
             const { href, pathname, search } = window.location
             const { referrer, title } = document
             const origin = swapClickedOriginDictionary(action.payload.props.origin)
@@ -303,7 +305,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             break
           }
-          case ModalNamesEnum.REQUEST_CRYPTO_MODAL: {
+          case ModalName.REQUEST_CRYPTO_MODAL: {
             const origin = 'NAVIGATION'
 
             analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
@@ -335,7 +337,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             break
           }
-          case ModalNamesEnum.BANK_DEPOSIT_MODAL: {
+          case ModalName.BANK_DEPOSIT_MODAL: {
             const { href, pathname, search } = window.location
             const { referrer, title } = document
             const origin = 'CURRENCY_PAGE'
@@ -372,7 +374,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             break
           }
-          case ModalNamesEnum.CUSTODY_WITHDRAW_MODAL: {
+          case ModalName.CUSTODY_WITHDRAW_MODAL: {
             const { href, pathname, search } = window.location
             const { referrer, title } = document
             const origin = 'CURRENCY_PAGE'
@@ -409,7 +411,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             break
           }
-          case ModalNamesEnum.ADD_BANK_YAPILY_MODAL: {
+          case ModalName.ADD_BANK_YAPILY_MODAL: {
             const state = store.getState()
             const nabuId = state.profile.userData.getOrElse({})?.id
             const email = state.profile.userData.getOrElse({})?.email
@@ -432,7 +434,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             break
           }
-          case ModalNamesEnum.ADD_BANK_YODLEE_MODAL: {
+          case ModalName.ADD_BANK_YODLEE_MODAL: {
             const state = store.getState()
             const nabuId = state.profile.userData.getOrElse({})?.id
             const email = state.profile.userData.getOrElse({})?.email
@@ -455,7 +457,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             break
           }
-          case ModalNamesEnum.KYC_MODAL: {
+          case ModalName.KYC_MODAL: {
             const state = store.getState()
             const nabuId = state.profile.userData.getOrElse({})?.id
             const email = state.profile.userData.getOrElse({})?.email
@@ -481,7 +483,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             break
           }
-          case ModalNamesEnum.VERIFY_MESSAGE_MODAL: {
+          case ModalName.VERIFY_MESSAGE_MODAL: {
             const state = store.getState()
             const nabuId = state.profile.userData.getOrElse({})?.id
             const email = state.profile.userData.getOrElse({})?.email
@@ -502,7 +504,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             break
           }
-          case ModalNamesEnum.MOBILE_NUMBER_CHANGE_MODAL: {
+          case ModalName.MOBILE_NUMBER_CHANGE_MODAL: {
             const state = store.getState()
             const nabuId = state.profile.userData.getOrElse({})?.id
             const email = state.profile.userData.getOrElse({})?.email
@@ -523,7 +525,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             break
           }
-          case ModalNamesEnum.MOBILE_NUMBER_ADD_MODAL: {
+          case ModalName.MOBILE_NUMBER_ADD_MODAL: {
             const state = store.getState()
             const nabuId = state.profile.userData.getOrElse({})?.id
             const email = state.profile.userData.getOrElse({})?.email
@@ -544,7 +546,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             break
           }
-          case ModalNamesEnum.IMPORT_BTC_ADDRESS_MODAL: {
+          case ModalName.IMPORT_BTC_ADDRESS_MODAL: {
             const state = store.getState()
             const nabuId = state.profile.userData.getOrElse({})?.id
             const email = state.profile.userData.getOrElse({})?.email

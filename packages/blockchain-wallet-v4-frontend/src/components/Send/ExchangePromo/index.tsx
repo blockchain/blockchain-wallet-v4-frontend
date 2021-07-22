@@ -125,7 +125,7 @@ class ExchangePromo extends PureComponent<Props> {
                 ...EXCHANGE_EVENTS.PROMO,
                 'verify_account_promo_clicked'
               ])
-              this.props.modalActions.showModal('TRADING_LIMITS', {
+              this.props.modalActions.showModal('TRADING_LIMITS_MODAL', {
                 origin: 'TradingLimits'
               })
             }}

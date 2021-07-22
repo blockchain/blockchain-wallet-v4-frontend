@@ -59,6 +59,9 @@ const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-const enhance = compose(modalEnhancer('AutoDisconnection'), connect(undefined, mapDispatchToProps))
+const enhance = compose(
+  modalEnhancer('AUTO_DISCONNECTION_MODAL'),
+  connect(undefined, mapDispatchToProps)
+)
 
 export default enhance(AutoDisconnectionContainer)

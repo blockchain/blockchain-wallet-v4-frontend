@@ -6,6 +6,7 @@ import { Text } from 'blockchain-info-components'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
+import { ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../types'
@@ -76,7 +77,10 @@ const mapStateToProps = (state: RootState) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-const enhance = compose(ModalEnhancer('TRADING_LIMITS', { transition: duration }), connector)
+const enhance = compose(
+  ModalEnhancer(ModalName.TRADING_LIMITS_MODAL, { transition: duration }),
+  connector
+)
 
 export type SuccessStateType = ReturnType<typeof getData>['data']
 

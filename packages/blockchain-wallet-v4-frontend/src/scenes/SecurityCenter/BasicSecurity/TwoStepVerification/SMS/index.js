@@ -13,8 +13,8 @@ class SmsAuthContainer extends React.PureComponent {
     super(props)
     this.state = {
       changeNumberToggled: false,
-      verifyMobileNumberStep: false,
-      successToggled: false
+      successToggled: false,
+      verifyMobileNumberStep: false
     }
     this.handleMount = this.handleMount.bind(this)
     this.handleUpdate = this.handleUpdate.bind(this)
@@ -53,16 +53,14 @@ class SmsAuthContainer extends React.PureComponent {
   }
 
   handleClick() {
-    this.props.modalActions.showModal('TwoStepSetup')
+    this.props.modalActions.showModal('TWO_STEP_SETUP_MODAL')
   }
 
   onSubmit() {
     const { smsNumber, smsVerified } = this.props.data.getOrElse({})
 
     if (this.state.changeNumberToggled || (!smsNumber && !smsVerified)) {
-      this.props.securityCenterActions.sendMobileVerificationCode(
-        this.props.mobileNumber
-      )
+      this.props.securityCenterActions.sendMobileVerificationCode(this.props.mobileNumber)
       this.setState({
         changeNumberToggled: false
       })
@@ -75,7 +73,10 @@ class SmsAuthContainer extends React.PureComponent {
     const { data, goBack, verificationCode } = this.props
 
     return data.cata({
-      Success: value => (
+      Failure: () => null,
+      Loading: () => null,
+      NotAsked: () => null,
+      Success: (value) => (
         <Sms
           data={value}
           handleClick={this.handleClick}
@@ -85,27 +86,21 @@ class SmsAuthContainer extends React.PureComponent {
           uiState={this.state}
           code={verificationCode}
         />
-      ),
-      Failure: () => null,
-      Loading: () => null,
-      NotAsked: () => null
+      )
     })
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
+  data: getData(state),
   mobileNumber: formValueSelector('securitySms')(state, 'mobileNumber'),
-  verificationCode: formValueSelector('securitySms')(state, 'verificationCode'),
-  data: getData(state)
+  verificationCode: formValueSelector('securitySms')(state, 'verificationCode')
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
-  settingsActions: bindActionCreators(actions.core.settings, dispatch),
-  securityCenterActions: bindActionCreators(
-    actions.modules.securityCenter,
-    dispatch
-  )
+  securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch),
+  settingsActions: bindActionCreators(actions.core.settings, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SmsAuthContainer)
