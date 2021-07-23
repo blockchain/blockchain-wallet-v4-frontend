@@ -12,13 +12,13 @@ export const Container = styled.div<{ toggled?: boolean }>`
   position: absolute;
   flex-direction: column;
   justify-content: space-between;
-  left: ${props => (props.toggled ? '0' : '-250px')};
+  left: ${(props) => (props.toggled ? '0' : '-250px')};
   width: 250px;
   height: 100%;
   padding: 8px;
   overflow: scroll;
   box-sizing: border-box;
-  background: ${props => props.theme.white};
+  background: ${(props) => props.theme.white};
   transition: left 0.3s ease-in-out;
   z-index: 11;
   ::-webkit-scrollbar {

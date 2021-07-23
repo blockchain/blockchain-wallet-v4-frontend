@@ -13,7 +13,7 @@ const getData = (state: RootState): RemoteDataType<string, SuccessStateType> => 
   const interestEDDStatusR = selectors.components.interest.getInterestEDDStatus(state)
 
   const transform = (instruments, interestRate, userData, interestEDDStatus) => ({
-    instruments,
+    instruments: instruments.sort(),
     interestEDDStatus,
     interestRate,
     interestRateArray: values(interestRate),

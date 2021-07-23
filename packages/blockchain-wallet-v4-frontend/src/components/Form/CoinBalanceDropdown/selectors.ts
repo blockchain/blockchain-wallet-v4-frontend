@@ -3,6 +3,9 @@ import { lift } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { getData as getBchAddressData } from 'components/Form/SelectBoxBchAddresses/selectors'
 import { getData as getBtcAddressData } from 'components/Form/SelectBoxBtcAddresses/selectors'
+import { getData as getCloutAddressData } from 'components/Form/SelectBoxCloutAddresses/selectors'
+import { getData as getDogeAddressData } from 'components/Form/SelectBoxDogeAddresses/selectors'
+import { getData as getDotAddressData } from 'components/Form/SelectBoxDotAddresses/selectors'
 import {
   getErc20Data as getErc20AddressData,
   getEthData as getEthAddressData
@@ -35,6 +38,21 @@ const getData = (state, ownProps: OwnProps) => {
         includeInterest: false
       })
       break
+    case 'CLOUT':
+      addressDataR = getCloutAddressData(state, {
+        includeCustodial
+      })
+      break
+    case 'DOGE':
+      addressDataR = getDogeAddressData(state, {
+        includeCustodial
+      })
+      break
+    case 'DOT':
+      addressDataR = getDotAddressData(state, {
+        includeCustodial
+      })
+      break
     case 'ETH':
       addressDataR = getEthAddressData(state, {
         excludeLockbox: true,
@@ -52,6 +70,13 @@ const getData = (state, ownProps: OwnProps) => {
     case 'PAX':
       addressDataR = getErc20AddressData(state, {
         coin: 'PAX',
+        includeCustodial,
+        includeInterest: false
+      })
+      break
+    case 'USDC':
+      addressDataR = getErc20AddressData(state, {
+        coin: 'USDC',
         includeCustodial,
         includeInterest: false
       })
