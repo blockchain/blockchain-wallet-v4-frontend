@@ -24,7 +24,7 @@ import {
   UPDATE_FAILURE
 } from './model'
 import * as S from './selectors'
-import { computeSteps } from './services'
+import computeSteps from './services'
 import { StateType, StepsType } from './types'
 
 export const logLocation = 'components/identityVerification/sagas'
@@ -50,6 +50,10 @@ export default ({ api, coreSagas, networks }) => {
     networks
   })
 
+  const verifyIdentity = function* ({ payload }) {
+    yield put(actions.modals.showModal(KYC_MODAL, payload))
+  }
+
   const registerUserCampaign = function* (payload) {
     const { newUser = false } = payload
     const campaign = yield select(selectors.modules.profile.getCampaign)
@@ -62,13 +66,9 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const verifyIdentity = function* ({ payload }) {
-    yield put(actions.modals.showModal(KYC_MODAL, payload))
-  }
-
   const createRegisterUserCampaign = function* () {
     try {
-      yield call(verifyIdentity, { payload: { tier: 2 } })
+      yield call(verifyIdentity, { payload: { origin: 'Unknown', tier: 2 } })
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'createRegisterUserCampaign', e))
     }
@@ -386,14 +386,17 @@ export default ({ api, coreSagas, networks }) => {
         postCode,
         state
       } = yield select(selectors.form.getFormValues(INFO_AND_RESIDENTIAL_FORM))
-      const personalData = { firstName, lastName, dob }
+      const personalData = { dob, firstName, lastName }
+
+      // in case of US we have to append state with prefix
+      const userState = country.code === 'US' ? `US-${state}` : state
       const address = {
-        line1,
-        line2,
         city,
         country: country.code,
-        state,
-        postCode
+        line1,
+        line2,
+        postCode,
+        state: userState
       }
       yield call(updateUser, { payload: { data: personalData } })
       yield call(updateUserAddress, {
@@ -408,9 +411,9 @@ export default ({ api, coreSagas, networks }) => {
         // poll for SDD verified check to complete
         // 10 call max * 3 second intervals = 30 second wait before forcing gold flow
         while (true) {
-          callCount++
+          callCount += 1
           if (callCount >= 10) {
-            sddVerified = { verified: false, taskComplete: true }
+            sddVerified = { taskComplete: true, verified: false }
             break
           }
           sddVerified = yield call(api.fetchSDDVerified)
@@ -425,7 +428,9 @@ export default ({ api, coreSagas, networks }) => {
           // SDD verified, refetch user profile
           yield put(actions.modules.profile.fetchUser())
           // run callback to get back to SB flow
-          payload.onCompletionCallback && payload.onCompletionCallback()
+          if (payload.onCompletionCallback) {
+            payload.onCompletionCallback()
+          }
 
           // wait for SB create to finish
           yield take([
@@ -438,7 +443,9 @@ export default ({ api, coreSagas, networks }) => {
           // SDD denied, continue to veriff
           yield call(goToNextStep)
           // create SB order in background in case user drops out of veriff flow
-          payload.onCompletionCallback && payload.onCompletionCallback()
+          if (payload.onCompletionCallback) {
+            payload.onCompletionCallback()
+          }
         }
       } else {
         yield call(goToNextStep)

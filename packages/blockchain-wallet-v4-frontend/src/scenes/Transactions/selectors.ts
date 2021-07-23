@@ -23,8 +23,8 @@ import {
   RemoteDataType,
   SBOrderType,
   SBTransactionType,
-  SupportedWalletCurrenciesType,
-  WalletCurrencyType
+  SupportedCoinType,
+  SupportedWalletCurrencyType
 } from 'blockchain-wallet-v4/src/types'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -42,7 +42,7 @@ const filterTransactions = curry(
   ) => {
     const isOfTxType = curry((filter: TransferType, tx) => {
       return propSatisfies(
-        x =>
+        (x) =>
           filter === '' ||
           // @ts-ignore
           (x && toUpper(x) === toUpper(filter)) ||
@@ -70,10 +70,7 @@ const filterTransactions = curry(
     const sourceTypeFilter = (tx: TxType) => {
       switch (sourceType) {
         case 'CUSTODIAL':
-          return (
-            (tx as SBOrderType).attributes ||
-            (tx as SBTransactionType).extraAttributes
-          )
+          return (tx as SBOrderType).attributes || (tx as SBTransactionType).extraAttributes
         case '':
           return tx
         default:
@@ -89,46 +86,32 @@ const filterTransactions = curry(
 const coinSelectorMap = (
   state,
   coin,
-  isCoinErc20
+  coinfig: SupportedWalletCurrencyType['coinfig']
 ): ((state: RootState) => Array<RemoteDataType<any, Array<TxType>>>) => {
-  if (isCoinErc20) {
-    return state =>
-      selectors.core.common.eth.getErc20WalletTransactions(state, coin)
+  if (coinfig.type.erc20Address) {
+    return (state) => selectors.core.common.eth.getErc20WalletTransactions(state, coin)
   }
   if (selectors.core.common[toLower(coin)]) {
     return selectors.core.common[toLower(coin)].getWalletTransactions
   }
 
   // default to fiat
-  return state => selectors.core.data.fiat.getTransactions(coin, state)
+  return (state) => selectors.core.data.fiat.getTransactions(coin, state)
 }
 
-export const getData = (state, coin, isCoinErc20) =>
+export const getData = (state, coin, coinfig: SupportedWalletCurrencyType['coinfig']) =>
   createSelector(
     [
       () => selectors.core.settings.getInvitations(state),
       selectors.form.getFormValues(WALLET_TX_SEARCH),
-      coinSelectorMap(state, coin, isCoinErc20),
-      selectors.core.settings.getCurrency,
-      () => selectors.core.walletOptions.getCoinModel(state, coin),
-      () => selectors.core.walletOptions.getSupportedCoins(state)
+      coinSelectorMap(state, coin, coinfig),
+      selectors.core.settings.getCurrency
     ],
-    (
-      invitationsR,
-      userSearch,
-      pagesR,
-      currencyR,
-      coinModelR,
-      supportedCoinsR
-    ) => {
-      const empty = page => isEmpty(page.data)
+    (invitationsR, userSearch, pagesR, currencyR) => {
+      const empty = (page) => isEmpty(page.data)
       const search = propOr('', 'search', userSearch)
       const status: TransferType = propOr('', 'status', userSearch)
-      const sourceType: '' | AddressTypesType = pathOr(
-        '',
-        ['source', 'type'],
-        userSearch
-      )
+      const sourceType: '' | AddressTypesType = pathOr('', ['source', 'type'], userSearch)
       const filteredPages =
         pagesR && !isEmpty(pagesR)
           ? pagesR.map((pages: typeof pagesR[0]) =>
@@ -137,23 +120,17 @@ export const getData = (state, coin, isCoinErc20) =>
           : []
 
       return {
-        coinModel: coinModelR.getOrElse(
-          {} as <P extends WalletCurrencyType>(
-            p: P
-          ) => SupportedWalletCurrenciesType[P]
-        ),
         currency: currencyR.getOrElse(''),
         hasTxResults: !all(empty)(filteredPages),
+        isInvited: invitationsR
+          .map(propOr(false, 'openBanking'))
+          .getOrElse({ openBanking: false }) as boolean,
         // @ts-ignore
         isSearchEntered: search.length > 0 || status !== '',
         pages: filteredPages,
-        sourceType,
-        supportedCoins: supportedCoinsR.getOrElse(
-          {} as SupportedWalletCurrenciesType
-        ),
-        isInvited: invitationsR
-          .map(propOr(false, 'openBanking'))
-          .getOrElse({ openBanking: false })
+        sourceType
       }
     }
   )(state)
+
+export default getData

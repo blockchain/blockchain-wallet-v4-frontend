@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { coinToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { coinToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import { SwapOrderType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { convertBaseToStandard } from 'data/components/exchange/services'
@@ -13,24 +13,18 @@ import { Props as BaseProps, SuccessStateType } from '..'
 import { TopText } from '../components'
 
 class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
-  state = {}
-
   render() {
     if (!this.props.order) return null
 
     const baseCoin = getInput(this.props.order)
     const counterCoin = getOutput(this.props.order)
-    // @ts-ignore
-    const { coins, handleClose, order } = this.props
+    const { handleClose, order } = this.props
     return (
       <>
         <FlyoutWrapper>
           <TopText spaceBetween marginBottom>
             <Text size='20px' color='grey900' weight={600}>
-              <FormattedMessage
-                id='copy.swap_details'
-                defaultMessage='Swap Details'
-              />
+              <FormattedMessage id='copy.swap_details' defaultMessage='Swap Details' />
             </Text>
             <Icon
               onClick={handleClose}
@@ -44,19 +38,13 @@ class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
         </FlyoutWrapper>
         <Row>
           <Title>
-            <FormattedMessage
-              id='modals.exchangeresults.orderid'
-              defaultMessage='Order ID'
-            />
+            <FormattedMessage id='modals.exchangeresults.orderid' defaultMessage='Order ID' />
           </Title>
           <Value>{order.id}</Value>
         </Row>
         <Row>
           <Title>
-            <FormattedMessage
-              id='components.txlistitem.status'
-              defaultMessage='Status'
-            />
+            <FormattedMessage id='components.txlistitem.status' defaultMessage='Status' />
           </Title>
           <Value>{order.state}</Value>
         </Row>
@@ -66,11 +54,8 @@ class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           </Title>
           <Value>
             {coinToString({
-              value: convertBaseToStandard(
-                baseCoin,
-                order.priceFunnel.inputMoney
-              ),
-              unit: { symbol: coins[baseCoin].coinTicker }
+              unit: { symbol: baseCoin },
+              value: convertBaseToStandard(baseCoin, order.priceFunnel.inputMoney)
             })}
           </Value>
         </Row>
@@ -80,11 +65,8 @@ class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
           </Title>
           <Value>
             {coinToString({
-              value: convertBaseToStandard(
-                counterCoin,
-                this.props.order.priceFunnel.outputMoney
-              ),
-              unit: { symbol: coins[counterCoin].coinTicker }
+              unit: { symbol: counterCoin },
+              value: convertBaseToStandard(counterCoin, this.props.order.priceFunnel.outputMoney)
             })}
           </Value>
         </Row>
@@ -104,10 +86,7 @@ class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 fullwidth
                 jumbo
               >
-                <FormattedMessage
-                  id='buttons.cancel_order'
-                  defaultMessage='Cancel Order'
-                />
+                <FormattedMessage id='buttons.cancel_order' defaultMessage='Cancel Order' />
               </Button>
             </Form>
           </FlyoutWrapper>
@@ -117,8 +96,7 @@ class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   }
 }
 
-type OwnProps = BaseProps &
-  SuccessStateType & { handleClose: () => void; order?: SwapOrderType }
+type OwnProps = BaseProps & SuccessStateType & { handleClose: () => void; order?: SwapOrderType }
 export type Props = OwnProps
 
 export default reduxForm<{}, Props>({ form: 'swapOrderDetails' })(OrderDetails)

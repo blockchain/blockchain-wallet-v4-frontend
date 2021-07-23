@@ -7,9 +7,9 @@ import { call, cancel, delay, fork, put, race, retry, select, take } from 'redux
 import { Remote } from 'blockchain-wallet-v4/src'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import {
-  CoinTypeEnum,
   Everypay3DSResponseType,
   FiatEligibleType,
+  FiatType,
   OrderType,
   ProductTypes,
   SBAccountType,
@@ -19,7 +19,6 @@ import {
   SBPaymentTypes,
   SBProviderDetailsType,
   SBQuoteType,
-  SupportedWalletCurrenciesType,
   SwapOrderType,
   WalletOptionsType
 } from 'blockchain-wallet-v4/src/types'
@@ -35,7 +34,6 @@ import {
 } from 'data/types'
 
 import profileSagas from '../../modules/profile/sagas'
-import { FETCH_BANK_TRANSFER_ACCOUNTS_SUCCESS } from '../brokerage/actionTypes'
 import brokerageSagas from '../brokerage/sagas'
 import { convertBaseToStandard, convertStandardToBase } from '../exchange/services'
 import sendSagas from '../send/sagas'
@@ -683,13 +681,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     try {
       yield put(A.fetchSBPairsLoading())
       const { pairs }: ReturnType<typeof api.getSBPairs> = yield call(api.getSBPairs, currency)
-      const supportedCoins = selectors.core.walletOptions
-        .getSupportedCoins(yield select())
-        .getOrElse({} as SupportedWalletCurrenciesType)
       const filteredPairs = pairs.filter((pair) => {
         return (
-          getCoinFromPair(pair.pair) in CoinTypeEnum &&
-          supportedCoins[getCoinFromPair(pair.pair)].invited
+          window.coins[getCoinFromPair(pair.pair)] &&
+          !window.coins[getCoinFromPair(pair.pair)].coinfig.type.isFiat
         )
       })
       yield put(A.fetchSBPairsSuccess(filteredPairs, coin))
@@ -886,7 +881,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(
         A.setStep({
           displayBack: false,
-          fiatCurrency: coin,
+          fiatCurrency: coin as FiatType,
           step: 'BANK_WIRE_DETAILS'
         })
       )
@@ -934,7 +929,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       selectors.form.getFormValues('simpleBuyCheckout')
     )
 
-    const { method } = action
+    const { isFlow, method } = action
     const cryptoCurrency = S.getCryptoCurrency(yield select()) || 'BTC'
     const originalFiatCurrency = S.getFiatCurrency(yield select())
     const fiatCurrency = method.currency || S.getFiatCurrency(yield select())
@@ -983,10 +978,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         )
       case SBPaymentTypes.LINK_BANK:
         yield put(
-          actions.components.brokerage.showModal(
-            BrokerageModalOriginType.ADD_BANK,
-            fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL'
-          )
+          actions.components.brokerage.showModal({
+            isFlow,
+            modalType: fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL',
+            origin: BrokerageModalOriginType.ADD_BANK_BUY
+          })
         )
         return yield put(
           actions.components.brokerage.setAddBankStep({
@@ -1205,7 +1201,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   // to more details about the bank
   const getBankInformation = function* (order: SBOrderType) {
     yield put(actions.components.brokerage.fetchBankTransferAccounts())
-    yield take(FETCH_BANK_TRANSFER_ACCOUNTS_SUCCESS)
+    yield take(actions.components.brokerage.fetchBankTransferAccountsSuccess.type)
     const bankAccountsR = selectors.components.brokerage.getBankTransferAccounts(yield select())
     const bankAccounts = bankAccountsR.getOrElse([])
     const [bankAccount] = filter(

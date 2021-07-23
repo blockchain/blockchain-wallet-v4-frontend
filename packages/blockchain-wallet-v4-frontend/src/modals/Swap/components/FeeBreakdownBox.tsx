@@ -4,18 +4,11 @@ import { connect, ConnectedProps } from 'react-redux'
 import styled from 'styled-components'
 
 import { Icon, Link, SkeletonRectangle, Text, TextGroup } from 'blockchain-info-components'
-import { convertCoinToFiat, UnitType } from 'blockchain-wallet-v4/src/exchange'
-import { coinToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { convertCoinToFiat } from 'blockchain-wallet-v4/src/exchange'
+import { coinToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Row, Title, Value } from 'components/Flyout'
-import {
-  FiatType,
-  PaymentValue,
-  RatesType,
-  RemoteDataType,
-  SupportedWalletCurrenciesType,
-  SwapQuoteType
-} from 'core/types'
+import { FiatType, PaymentValue, RatesType, RemoteDataType, SwapQuoteType } from 'core/types'
 import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { RootState } from 'data/rootReducer'
@@ -59,13 +52,11 @@ const FeeBreakdownBox = ({
   base,
   basePayment,
   baseRates,
-  coins,
   counter,
   counterQuote,
   counterRates,
   paymentR,
   quoteR,
-  supportedCoins,
   walletCurrency
 }: Props): React.ReactElement => {
   const [toggle, setToggle] = useState(false)
@@ -76,20 +67,24 @@ const FeeBreakdownBox = ({
         : value.fee
       : 0
   }
-  const baseFiatFee = convertCoinToFiat(
-    (convertBaseToStandard(base.coin, networkFee(paymentR)) as unknown) as string,
-    base.coin as UnitType,
-    walletCurrency,
-    baseRates
-  )
-  const counterFiatFee = convertCoinToFiat(
-    (convertBaseToStandard(counter.coin, quoteR?.quote?.networkFee || '0') as unknown) as string,
-    counter.coin as UnitType,
-    walletCurrency,
-    counterRates
-  )
-  const counterName = supportedCoins[counter.coin]?.displayName || counter.coin
-  const baseName = supportedCoins[base.coin]?.displayName || base.coin
+  const baseFiatFee = convertCoinToFiat({
+    coin: base.type === SwapBaseCounterTypes.ACCOUNT ? base.baseCoin : base.coin,
+    currency: walletCurrency,
+    rates: baseRates,
+    value: networkFee(paymentR)
+  })
+  const counterFiatFee = convertCoinToFiat({
+    coin: counter.coin,
+    currency: walletCurrency,
+    rates: counterRates,
+    value: quoteR?.quote?.networkFee || '0'
+  })
+  const counterName = window.coins[counter.coin].coinfig
+    ? window.coins[counter.coin].coinfig.name
+    : counter.coin
+  const baseName = window.coins[base.coin].coinfig
+    ? window.coins[base.coin].coinfig.name
+    : base.coin
   const bothCustodial =
     base.type === SwapBaseCounterTypes.CUSTODIAL && counter.type === SwapBaseCounterTypes.CUSTODIAL
   const bothNonCustodial =
@@ -157,7 +152,7 @@ const FeeBreakdownBox = ({
                   <FormattedMessage
                     id='copy.coin_network_fee'
                     defaultMessage='{coin} Network Fee'
-                    values={{ coin: coins[base.coin].coinTicker }}
+                    values={{ coin: base.coin }}
                   />
                 </Title>
                 <Value
@@ -175,11 +170,16 @@ const FeeBreakdownBox = ({
                         <>
                           <Text size='12px' color='grey900'>
                             {coinToString({
-                              unit: { symbol: coins[base.baseCoin].coinTicker },
+                              unit: { symbol: base.baseCoin },
                               value: convertBaseToStandard(base.baseCoin, networkFee(value))
                             })}
                           </Text>
-                          <FiatDisplay size='12px' weight={500} color='grey400' coin={base.coin}>
+                          <FiatDisplay
+                            size='12px'
+                            weight={500}
+                            color='grey400'
+                            coin={base.baseCoin}
+                          >
                             {networkFee(value)}
                           </FiatDisplay>
                         </>
@@ -195,7 +195,7 @@ const FeeBreakdownBox = ({
                   <FormattedMessage
                     id='copy.coin_network_fee'
                     defaultMessage='{coin} Network Fee'
-                    values={{ coin: coins[counter.coin].coinTicker }}
+                    values={{ coin: counter.coin }}
                   />
                 </Title>
                 <Value
@@ -211,7 +211,7 @@ const FeeBreakdownBox = ({
                         <Text size='12px' color='grey900'>
                           {coinToString({
                             unit: {
-                              symbol: coins[counter.coin].coinTicker
+                              symbol: counter.coin
                             },
                             value: convertBaseToStandard(counter.coin, value.quote.networkFee)
                           })}
@@ -277,7 +277,12 @@ const FeeBreakdownBox = ({
 
 const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   baseRates: selectors.core.data.misc
-    .getRatesSelector(ownProps.base.coin, state)
+    .getRatesSelector(
+      ownProps.base.type === SwapBaseCounterTypes.ACCOUNT
+        ? ownProps.base.baseCoin
+        : ownProps.base.coin,
+      state
+    )
     .getOrElse({} as RatesType),
   counterRates: selectors.core.data.misc
     .getRatesSelector(ownProps.counter.coin, state)
@@ -294,7 +299,6 @@ const connector = connect(mapStateToProps)
 interface OwnProps {
   base: SwapAccountType
   basePayment: RemoteDataType<string, PaymentValue | undefined>
-  coins: SupportedWalletCurrenciesType
   counter: SwapAccountType
   counterQuote: RemoteDataType<
     string,
@@ -303,7 +307,6 @@ interface OwnProps {
       rate: number
     }
   >
-  supportedCoins: SupportedWalletCurrenciesType | {}
 }
 type Props = OwnProps & ConnectedProps<typeof connector>
 

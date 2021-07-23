@@ -9,7 +9,6 @@ export enum ModalNamesEnum {
   BANK_DEPOSIT_MODAL = 'BANK_DEPOSIT_MODAL',
   BANK_DETAILS_MODAL = 'BANK_DETAILS_MODAL',
   BITPAY_INVOICE_EXPIRED_MODAL = 'BITPAY_INVOICE_EXPIRED_MODAL',
-  BORROW_MODAL = 'BORROW_MODAL',
   CONFIRMATION_MODAL = 'CONFIRMATION_MODAL',
   CUSTODY_WITHDRAW_MODAL = 'CUSTODY_WITHDRAW_MODAL',
   DELETE_ADDRESS_LABEL_MODAL = 'DELETE_ADDRESS_LABEL_MODAL',
@@ -23,6 +22,10 @@ export enum ModalNamesEnum {
   KYC_TIER_UPGRADE_MODAL = 'KYC_TIER_UPGRADE_MODAL',
   LINK_FROM_EXCHANGE_ACCOUNT_MODAL = 'LINK_FROM_EXCHANGE_ACCOUNT_MODAL',
   LINK_TO_EXCHANGE_ACCOUNT_MODAL = 'LINK_TO_EXCHANGE_ACCOUNT_MODAL',
+  NABU_USER_CONFLICT_REDIRECT = 'NABU_USER_CONFLICT_REDIRECT',
+  MOBILE_NUMBER_ADD_MODAL = 'MOBILE_NUMBER_ADD_MODAL',
+  MOBILE_NUMBER_CHANGE_MODAL = 'MOBILE_NUMBER_CHANGE_MODAL',
+  MOBILE_NUMBER_VERIFY_MODAL = 'MOBILE_NUMBER_VERIFY_MODAL',
   PAIRING_CODE_MODAL = 'PAIRING_CODE_MODAL',
   RECOVERY_PHRASE_MODAL = 'RECOVERY_PHRASE_MODAL',
   RECURRING_BUYS_MODAL = 'RECURRING_BUYS_MODAL',
@@ -42,9 +45,10 @@ export enum ModalNamesEnum {
   TRADING_LIMITS = 'TRADING_LIMITS',
   TRANSACTION_REPORT_MODAL = 'TRANSACTION_REPORT_MODAL',
   TRANSFER_ETH_MODAL = 'TRANSFER_ETH_MODAL',
+  TWO_STEP_YUBICO_MODAL = 'TWO_STEP_YUBICO_MODAL',
   UPGRADE_ADDRESS_LABELS_MODAL = 'UPGRADE_ADDRESS_LABELS_MODAL',
   UPGRADE_FOR_AIRDROP_MODAL = 'UPGRADE_FOR_AIRDROP_MODAL',
-  VERIFY_MESSAGE_AIRDROP = 'VERIFY_MESSAGE_AIRDROP',
+  VERIFY_MESSAGE_MODAL = 'VERIFY_MESSAGE_MODAL',
   WELCOME_MODAL = 'WELCOME_MODAL'
 }
 
@@ -53,9 +57,11 @@ export type ModalNamesType = keyof typeof ModalNamesEnum
 export type ModalOriginType =
   | 'AirdropClaimGoal'
   | 'AddBankModal'
+  | 'AddBankModalBuy'
+  | 'AddBankModalDeposit'
+  | 'AddBankModalSettings'
+  | 'AddBankModalWithdraw'
   | 'BankDetailsModal'
-  | 'BorrowHistorySection'
-  | 'BorrowLandingPage'
   | 'BankDeposit'
   | 'DepositWithdrawalModal'
   | 'EmptyFeed'
@@ -67,6 +73,7 @@ export type ModalOriginType =
   | 'KycDocResubmitGoal'
   | 'KycRequiredStep'
   | 'LoginSaga'
+  | 'NabuUserAuth'
   | 'PaymentProtocolGoal'
   | 'PendingOrder'
   | 'PriceChart'
@@ -89,7 +96,6 @@ export type ModalOriginType =
   | 'SideNav'
   | 'SimpleBuyLink'
   | 'Swap'
-  | 'SwapGetStarted'
   | 'SwapPrompt'
   | 'SwapLimitPrompt'
   | 'SwapNoHoldings'

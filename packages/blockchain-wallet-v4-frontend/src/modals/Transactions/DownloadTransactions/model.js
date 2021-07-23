@@ -1,4 +1,4 @@
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 
 const reportHeaders = [
   'date',
@@ -36,16 +36,16 @@ const formatHaskoinData = (d, coin, currency) => [
   d.type,
   d.amount || d.amount_btc || d.amount_bch,
   fiatToString({
-    value: d.value_then,
-    unit: currency
+    unit: currency,
+    value: d.value_then
   }),
   fiatToString({
-    value: d.value_now,
-    unit: currency
+    unit: currency,
+    value: d.value_now
   }),
   fiatToString({
-    value: d.exchange_rate_then,
-    unit: currency
+    unit: currency,
+    value: d.exchange_rate_then
   }),
   d.hash || d.tx,
   d.description || d.note

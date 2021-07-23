@@ -4,7 +4,7 @@ import { path } from 'ramda'
 import styled from 'styled-components'
 
 import { Button, Icon, Image, Link, Text, TextGroup } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import { WalletFiatType } from 'blockchain-wallet-v4/src/types'
 import {
   BlueCartridge,
@@ -192,7 +192,8 @@ const Template: React.FC<Props> = (props) => {
   const silverTier = userTiers.find((userTier) => userTier.index === TIER_TYPES.SILVER)
   const goldTier = userTiers.find((userTier) => userTier.index === TIER_TYPES.GOLD)
 
-  const userCurrentTier = path(['tiers', 'current'], userData) as number
+  const userCurrentTier = (path(['tiers', 'current'], userData) as number) ?? 0
+
   const sddCheckTier =
     sddEligible && sddEligible.tier === TIER_TYPES.SILVER_PLUS
       ? TIER_TYPES.SILVER_PLUS
@@ -247,7 +248,11 @@ const Template: React.FC<Props> = (props) => {
           onClick={() =>
             isUserVerifiedSilver
               ? null
-              : props.identityVerificationActions.verifyIdentity(TIER_TYPES.SILVER, false)
+              : props.identityVerificationActions.verifyIdentity({
+                  needMoreInfo: false,
+                  origin: 'Settings',
+                  tier: TIER_TYPES.SILVER
+                })
           }
           isClickable={!isUserVerifiedSilver}
           data-e2e={`continueKycTier${TIER_TYPES.SILVER}Btn`}

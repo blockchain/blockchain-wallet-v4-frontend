@@ -1,6 +1,5 @@
 import {
   CoinType,
-  Erc20CoinType,
   PaymentValue,
   RemoteDataType,
   SwapOrderType,
@@ -18,12 +17,12 @@ export enum SwapBaseCounterTypes {
 }
 export type SwapAccountType = {
   accountIndex?: number
-  address: number | string
-  archived: boolean
+  address?: number | string
+  archived?: boolean
   balance: number | string
-  baseCoin: Exclude<CoinType, Erc20CoinType>
+  baseCoin: string
   coin: CoinType
-  index: number
+  index?: number
   label: string
   type: SwapBaseCounterTypes
 }

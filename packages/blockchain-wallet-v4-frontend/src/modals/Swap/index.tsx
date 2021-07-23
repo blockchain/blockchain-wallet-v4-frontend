@@ -15,8 +15,9 @@ import InitSwapForm from './InitSwapForm'
 import NoHoldings from './NoHoldings'
 import OrderDetails from './OrderDetails'
 import PreviewSwap from './PreviewSwap'
-import { getData } from './selectors'
+import getData from './selectors'
 import SuccessfulSwap from './SuccessfulSwap'
+import Unsuported from './template.unsupported'
 import UpgradePrompt from './UpgradePrompt'
 
 class Swap extends PureComponent<Props, State> {
@@ -29,6 +30,7 @@ class Swap extends PureComponent<Props, State> {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
+    this.props.swapActions.fetchCustodialEligibility()
   }
 
   componentWillUnmount() {
@@ -44,7 +46,16 @@ class Swap extends PureComponent<Props, State> {
 
   render() {
     return this.props.data.cata({
-      Failure: () => null,
+      Failure: () => (
+        <Flyout
+          {...this.props}
+          onClose={this.handleClose}
+          isOpen={this.state.show}
+          data-e2e='swapModal'
+        >
+          <Unsuported handleClose={this.handleClose} />
+        </Flyout>
+      ),
       Loading: () => null,
       NotAsked: () => null,
       Success: (val) => (

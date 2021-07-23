@@ -43,10 +43,10 @@ class BankDetails extends PureComponent<Props, {}> {
 
   handleSubmit = () => {
     if (this.props.account) {
-      this.props.brokerageActions.showModal(
-        BrokerageModalOriginType.BANK,
-        'REMOVE_BANK_MODAL'
-      )
+      this.props.brokerageActions.showModal({
+        origin: BrokerageModalOriginType.BANK,
+        modalType: 'REMOVE_BANK_MODAL'
+      })
       this.props.brokerageActions.setBankDetails({
         account: this.props.account,
         redirectBackToStep: true

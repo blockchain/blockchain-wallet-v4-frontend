@@ -130,10 +130,10 @@ const Success = ({
                  modal else I want to go to the enter amount screen
               */
               if (addNew) {
-                brokerageActions.showModal(
-                  BrokerageModalOriginType.ADD_BANK,
-                  fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL'
-                )
+                brokerageActions.showModal({
+                  origin: BrokerageModalOriginType.ADD_BANK_DEPOSIT,
+                  modalType: fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL'
+                })
                 brokerageActions.setAddBankStep({
                   addBankStep: AddBankStepType.ADD_BANK
                 })

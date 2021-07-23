@@ -44,9 +44,10 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     // @ts-ignore
     window.grecaptcha.enterprise.ready(() => {
       // @ts-ignore
-      window.grecaptcha.enterprise.execute(window.CAPTCHA_KEY, {
-        action: 'LOGIN',
-      })
+      window.grecaptcha.enterprise
+        .execute(window.CAPTCHA_KEY, {
+          action: 'LOGIN'
+        })
         .then((captchaToken) => {
           console.log('Captcha success')
           this.setState({ captchaToken })
@@ -192,14 +193,14 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
         )}
         {step === LoginSteps.ENTER_EMAIL_GUID && (
           <>
-            <Text color='grey400' weight={500} style={{ margin: '16px 0 8px 0' }}>
+            <Text size='14px' color='grey400' weight={500} style={{ margin: '32px 0 16px 0' }}>
               <FormattedMessage
                 id='scenes.login.phishingwarning'
                 defaultMessage='Please check that you are visiting the correct URL'
               />
             </Text>
             <PhishingWarning>
-              <Icon name='padlock' color='grey400' size='16px' />
+              <Icon name='padlock' color='grey400' size='14px' />
               <Text color='grey400' weight={500} style={{ paddingLeft: '8px' }}>
                 https://login.blockchain.com
               </Text>

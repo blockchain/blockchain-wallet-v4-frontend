@@ -2,7 +2,6 @@ import analytics from './analytics'
 import apiAuthorize from './apiAuthorize'
 import bch from './bch'
 import bitpay from './bitpay'
-import borrow from './borrow'
 import btc from './btc'
 import coin from './coin'
 import custodial from './custodial'
@@ -37,11 +36,6 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
     ...analytics({ apiUrl, rootUrl, ...http }),
     ...bch({ apiUrl, ...http }),
     ...bitpay({ bitpayUrl }),
-    ...borrow({
-      authorizedGet: authorizedHttp.get,
-      authorizedPost: authorizedHttp.post,
-      nabuUrl
-    }),
     ...btc({ apiUrl, rootUrl, ...http }),
     ...coin({ apiUrl, ...http }),
     ...custodial({
@@ -100,7 +94,6 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
 export default api
 
 export type APIType = ReturnType<typeof analytics> &
-  ReturnType<typeof borrow> &
   ReturnType<typeof bch> &
   ReturnType<typeof btc> &
   ReturnType<typeof coin> &

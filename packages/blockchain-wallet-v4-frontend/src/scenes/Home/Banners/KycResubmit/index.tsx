@@ -78,7 +78,14 @@ const KycResubmit = ({ verifyIdentity }) => (
 )
 
 const mapDispatchToProps = (dispatch) => ({
-  verifyIdentity: () => dispatch(actions.components.identityVerification.verifyIdentity(2, true))
+  verifyIdentity: () =>
+    dispatch(
+      actions.components.identityVerification.verifyIdentity({
+        needMoreInfo: false,
+        origin: 'Resubmission',
+        tier: 2
+      })
+    )
 })
 
 export default connect(null, mapDispatchToProps)(KycResubmit)

@@ -29,10 +29,7 @@ const stepMap = {
     />
   ),
   [STEPS.moreInfo]: (
-    <FormattedMessage
-      id='modals.identityverification.steps.more_info'
-      defaultMessage='Info'
-    />
+    <FormattedMessage id='modals.identityverification.steps.more_info' defaultMessage='Info' />
   ),
   [STEPS.additionalInfo]: (
     <FormattedMessage
@@ -41,16 +38,10 @@ const stepMap = {
     />
   ),
   [STEPS.verify]: (
-    <FormattedMessage
-      id='modals.identityverification.steps.verify'
-      defaultMessage='Verify'
-    />
+    <FormattedMessage id='modals.identityverification.steps.verify' defaultMessage='Verify' />
   ),
   [STEPS.submitted]: (
-    <FormattedMessage
-      id='modals.identityverification.steps.submitted'
-      defaultMessage='Submitted'
-    />
+    <FormattedMessage id='modals.identityverification.steps.submitted' defaultMessage='Submitted' />
   )
 }
 
@@ -61,7 +52,7 @@ type OwnProps = {
   needMoreInfo: boolean
   onCompletionCallback?: () => void
   position: number
-  step: number
+  step: string
   steps: RemoteDataType<any, any>
   tier: number
   total: number
@@ -75,7 +66,10 @@ type Props = OwnProps & LinkDispatchPropsType
 type State = { show: boolean }
 
 class IdentityVerification extends React.PureComponent<Props, State> {
-  state: State = { show: false }
+  constructor(props: Props) {
+    super(props)
+    this.state = { show: false }
+  }
 
   componentDidMount() {
     /* eslint-disable */
@@ -85,7 +79,7 @@ class IdentityVerification extends React.PureComponent<Props, State> {
     this.initializeVerification()
   }
 
-  getSteps = steps => pickBy((_, step) => includes(step, steps), stepMap)
+  getSteps = (steps) => pickBy((_, step) => includes(step, steps), stepMap)
 
   handleClose = () => {
     this.setState({ show: false })
@@ -97,7 +91,7 @@ class IdentityVerification extends React.PureComponent<Props, State> {
     this.props.actions.initializeVerification(tier, needMoreInfo)
   }
 
-  getStepComponent = (emailVerified: boolean, step: number) => {
+  getStepComponent = (emailVerified: boolean, step: string) => {
     if (step === STEPS.infoAndResidential) {
       if (!emailVerified) {
         return <EmailVerification handleClose={this.handleClose} />
@@ -130,16 +124,14 @@ class IdentityVerification extends React.PureComponent<Props, State> {
     const { emailVerified, step, steps } = this.props
 
     return steps.cata({
-      Success: () => (
+      Failure: (error) => (
         <Flyout
           {...this.props}
-          isOpen={show}
           onClose={this.handleClose}
+          isOpen={this.state.show}
           data-e2e='identityVerificationModal'
         >
-          <FlyoutChild>
-            {this.getStepComponent(emailVerified, step)}
-          </FlyoutChild>
+          <DataError onClick={this.initializeVerification} message={error} />
         </Flyout>
       ),
       Loading: () => (
@@ -164,14 +156,14 @@ class IdentityVerification extends React.PureComponent<Props, State> {
           <Loading />
         </Flyout>
       ),
-      Failure: error => (
+      Success: () => (
         <Flyout
           {...this.props}
+          isOpen={show}
           onClose={this.handleClose}
-          isOpen={this.state.show}
           data-e2e='identityVerificationModal'
         >
-          <DataError onClick={this.initializeVerification} message={error} />
+          <FlyoutChild>{this.getStepComponent(emailVerified, step)}</FlyoutChild>
         </Flyout>
       )
     })
@@ -183,7 +175,7 @@ IdentityVerification.defaultProps = {
   step: STEPS.infoAndResidential
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.identityVerification, dispatch)
 })
 

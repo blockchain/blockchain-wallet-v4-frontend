@@ -9,8 +9,9 @@ import { ExtractSuccess } from 'blockchain-wallet-v4/src/remote/types'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { generateTradingAccount } from 'data/coins/utils'
 import { convertStandardToBase } from 'data/components/exchange/services'
+import { SwapAccountType } from 'data/components/types'
 
-import { getTradingBalance } from '../'
+import { getTradingBalance } from '..'
 
 // retrieves introduction text for coin on its transaction page
 export const getTransactionPageHeaderText = () => (
@@ -31,22 +32,18 @@ export const getAccounts = createDeepEqualSelector(
     (state, ownProps) => ownProps // selector config
   ],
   (xlmData, xlmMetadataR, sbBalanceR, ownProps) => {
-    const transform = (
-      xlmMetadata,
-      sbBalance: ExtractSuccess<typeof sbBalanceR>
-    ) => {
+    const transform = (xlmMetadata, sbBalance: ExtractSuccess<typeof sbBalanceR>) => {
       const { coin } = ownProps
-      let accounts = []
+      let accounts: SwapAccountType[] = []
 
       // add non-custodial accounts if requested
       if (ownProps?.nonCustodialAccounts) {
         accounts = accounts.concat(
           xlmMetadata
-            .map(acc => {
+            .map((acc) => {
               const address = prop('publicKey', acc)
               const account = prop(address, xlmData)
-              const noAccount =
-                path(['error', 'message'], account) === 'Not Found'
+              const noAccount = path(['error', 'message'], account) === 'Not Found'
               const balance = convertStandardToBase(
                 coin,
                 account
@@ -55,12 +52,12 @@ export const getAccounts = createDeepEqualSelector(
                   .getOrElse(0)
               )
               return {
+                address,
                 archived: prop('archived', acc),
+                balance,
                 baseCoin: coin,
                 coin,
                 label: prop('label', acc) || address,
-                address,
-                balance,
                 noAccount,
                 type: ADDRESS_TYPES.ACCOUNT
               }
@@ -71,10 +68,7 @@ export const getAccounts = createDeepEqualSelector(
 
       // add trading accounts if requested
       if (ownProps?.tradingAccounts) {
-        accounts = accounts.concat(
-          // @ts-ignore
-          generateTradingAccount(coin, sbBalance as SBBalanceType)
-        )
+        accounts = accounts.concat(generateTradingAccount(coin, sbBalance as SBBalanceType))
       }
 
       return accounts

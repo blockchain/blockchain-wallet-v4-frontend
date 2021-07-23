@@ -69,7 +69,7 @@ const VerificationMobile = (props: Props) => {
               style={{ marginBottom: '16px' }}
             >
               <FormattedMessage
-                id='scenes.login.wallet.mobile_login.description_1'
+                id='scenes.login.wallet.mobile_login.description_one'
                 defaultMessage='Scan this QR code with the Blockchain.com mobile app.'
               />
             </Text>
@@ -84,8 +84,8 @@ const VerificationMobile = (props: Props) => {
             </Row>
             <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
               <FormattedMessage
-                id='scenes.recovery.cloud_backup.instructions_three'
-                defaultMessage='in the top right & point here.'
+                id='scenes.login.wallet.mobile_login.description_two'
+                defaultMessage='Tap the Menu button at the top left corner of the app to reveal Web Log In option'
               />
             </Text>
           </TextColumn>

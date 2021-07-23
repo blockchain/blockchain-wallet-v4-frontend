@@ -55,16 +55,8 @@ const InterestTransactions: React.FC<Props> = () => {
           to='/interest/history'
           data-e2e='visitEarnInterestPage'
         >
-          <Button
-            data-e2e='viewInterestTransaction'
-            nature='primary'
-            height='48px'
-            size='16px'
-          >
-            <FormattedMessage
-              id='copy.viewTransactions'
-              defaultMessage='View Transactions'
-            />
+          <Button data-e2e='viewInterestTransaction' nature='primary' height='48px' size='16px'>
+            <FormattedMessage id='copy.viewTransactions' defaultMessage='View Transactions' />
           </Button>
         </NavLink>
       </Column>

@@ -102,15 +102,14 @@ export const _transformTx = curry((addresses, erc20Contracts, state, tx: EthRawT
 // ERC20
 //
 export const getErc20Label = (address, token, state) => {
-  const erc20AccountsR = getErc20Accounts(state)
   const ethAddressR = getDefaultAddress(state)
-  const transform = (ethAddress, erc20Accounts) => {
+  const transform = (ethAddress) => {
     if (equals(toLower(ethAddress), toLower(address))) {
-      return path([token, 'label'], erc20Accounts)
+      return `${token} Private Key Wallet`
     }
     return address
   }
-  const labelR = lift(transform)(ethAddressR, erc20AccountsR)
+  const labelR = lift(transform)(ethAddressR)
   return labelR.getOrElse(address)
 }
 

@@ -197,7 +197,13 @@ class UnusedAddressesContainer extends React.PureComponent<Props> {
                 <ClickableText
                   key='editName'
                   size='small'
-                  onClick={this.onEditBtcAccountLabel}
+                  onClick={() => {
+                    this.onEditBtcAccountLabel()
+                    this.props.walletActions.setManageWallet({
+                      currency: 'BTC',
+                      selection: 'EditWalletName'
+                    })
+                  }}
                   data-e2e='btcEditWalletNameLink'
                 >
                   <FormattedMessage
@@ -232,7 +238,13 @@ class UnusedAddressesContainer extends React.PureComponent<Props> {
                 <ClickableText
                   key='showXpub'
                   size='small'
-                  onClick={this.onShowXPub}
+                  onClick={() => {
+                    this.onShowXPub()
+                    this.props.walletActions.setManageWallet({
+                      currency: 'BTC',
+                      selection: 'ShowXPub'
+                    })
+                  }}
                   data-e2e='btcShowWalletXpubLink'
                 >
                   <FormattedMessage
@@ -243,7 +255,13 @@ class UnusedAddressesContainer extends React.PureComponent<Props> {
                 <ClickableText
                   key='recoverFunds'
                   size='small'
-                  onClick={() => this.onShowFundRecovery(walletIndex)}
+                  onClick={() => {
+                    this.onShowFundRecovery(walletIndex)
+                    this.props.walletActions.setManageWallet({
+                      currency: 'BTC',
+                      selection: 'RecoverFunds'
+                    })
+                  }}
                   data-e2e='btcShowWalletXpubLink'
                 >
                   <FormattedMessage

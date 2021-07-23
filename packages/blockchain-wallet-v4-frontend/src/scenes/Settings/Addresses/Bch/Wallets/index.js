@@ -72,7 +72,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   addressesBchActions: bindActionCreators(actions.modules.addressesBch, dispatch),
   kvStoreBchActions: bindActionCreators(actions.core.kvStore.bch, dispatch),
-  modalsActions: bindActionCreators(actions.modals, dispatch)
+  modalsActions: bindActionCreators(actions.modals, dispatch),
+  walletActions: bindActionCreators(actions.wallet, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(BchWalletsContainer)

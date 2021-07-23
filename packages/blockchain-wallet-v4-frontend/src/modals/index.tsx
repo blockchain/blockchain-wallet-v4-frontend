@@ -45,7 +45,7 @@ const LinkToExchangeAccount = React.lazy(() => import('./Onboarding/LinkToExchan
 const IdentityVerification = React.lazy(() => import('./Onboarding/KycVerification'))
 const KycDocResubmit = React.lazy(() => import('./Onboarding/KycDocResubmit'))
 const KycTierUpgrade = React.lazy(() => import('./Onboarding/KycTierUpgrade'))
-const SwapGetStarted = React.lazy(() => import('./Onboarding/SwapGetStarted'))
+const NabuUserConflictRedirect = React.lazy(() => import('./Onboarding/NabuUserConflictRedirect'))
 const UpgradeForAirdrop = React.lazy(() => import('./Onboarding/UpgradeForAirdrop'))
 const Welcome = React.lazy(() => import('./Onboarding/Welcome'))
 
@@ -58,6 +58,7 @@ const LockboxShowXPubs = React.lazy(() => import('./Lockbox/LockboxShowXPubs'))
 
 // MOBILE
 const MobileNumberChange = React.lazy(() => import('./Mobile/MobileNumberChange'))
+const MobileNumberAdd = React.lazy(() => import('./Mobile/MobileNumberAdd'))
 const MobileNumberVerify = React.lazy(() => import('./Mobile/MobileNumberVerify'))
 
 // SETTINGS
@@ -80,7 +81,6 @@ const ShowXPub = React.lazy(() => import('./Wallet/ShowXPub'))
 const InterestPromo = React.lazy(() => import('./Wallet/InterestPromo'))
 
 // SOLO
-const Borrow = React.lazy(() => import('./Borrow'))
 const FundRecovery = React.lazy(() => import('./FundRecovery'))
 const Interest = React.lazy(() => import('./Interest'))
 const QRCode = React.lazy(() => import('./QRCode'))
@@ -108,7 +108,6 @@ const Modals = () => (
       <AutoDisconnection />
       <BitpayInformational />
       <BitpayInvoiceExpired />
-      <Borrow />
       <BankDetails />
       <Confirm />
       <ConfirmDisable2FA />
@@ -130,7 +129,9 @@ const Modals = () => (
       <LockboxSetup disableOutsideClose />
       <LockboxShowXPubs />
       <MobileNumberChange />
+      <MobileNumberAdd />
       <MobileNumberVerify />
+      <NabuUserConflictRedirect />
       <PairingCode />
       <PromptInput />
       <QRCode />
@@ -150,7 +151,6 @@ const Modals = () => (
       <SimpleBuy />
       <Support />
       <Swap />
-      <SwapGetStarted />
       <TransferEth />
       <TradingLimits />
       <TwoStepGoogleAuthenticator />

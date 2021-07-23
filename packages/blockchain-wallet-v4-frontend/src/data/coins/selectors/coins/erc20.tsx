@@ -1,19 +1,18 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { lift, prop, toLower } from 'ramda'
+import { lift } from 'ramda'
 
 import { coreSelectors } from 'blockchain-wallet-v4/src'
 import { SBBalanceType } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/remote/types'
-import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { generateTradingAccount } from 'data/coins/utils'
+import { SwapAccountType, SwapBaseCounterTypes } from 'data/components/types'
 
-import { getTradingBalance } from '../'
+import { getTradingBalance } from '..'
 
 // retrieves introduction text for coin on its transaction page
-export const getTransactionPageHeaderText = coin => {
+export const getTransactionPageHeaderText = (coin) => {
   switch (coin) {
     case 'AAVE':
       return (
@@ -23,12 +22,10 @@ export const getTransactionPageHeaderText = coin => {
         />
       )
     case 'PAX':
-    case 'USDD':
-    case 'USD-D':
       return (
         <FormattedMessage
-          id='coins.pax.intro'
-          defaultMessage='USD Digital (USD-D) is a stablecoin backed by the U.S. dollar.'
+          id='coins.pax.intro1'
+          defaultMessage='Paxos Standard (PAX) is a stablecoin backed by the U.S. dollar.'
         />
       )
     case 'USDT':
@@ -53,7 +50,7 @@ export const getTransactionPageHeaderText = coin => {
         />
       )
     default:
-      return <span>Coin introduction missing!</span>
+      return null
   }
 }
 
@@ -63,56 +60,36 @@ export const getTransactionPageHeaderText = coin => {
 export const getAccounts = createDeepEqualSelector(
   [
     coreSelectors.data.eth.getDefaultAddress,
-    (state, { coin }) =>
-      coreSelectors.kvStore.eth.getErc20Account(
-        state,
-        toLower(coin) as CoinType
-      ), // non-custodial accounts
-    (state, { coin }) =>
-      coreSelectors.data.eth.getErc20Balance(state, toLower(coin) as CoinType), // non-custodial metadata
+    (state, { coin }) => coreSelectors.data.eth.getErc20Balance(state, coin), // non-custodial metadata
     (state, { coin }) => getTradingBalance(coin, state), // custodial accounts
     (state, ownProps) => ownProps // selector config
   ],
-  (ethAddressR, erc20AccountR, erc20BalanceR, sbBalanceR, ownProps) => {
-    const transform = (
-      ethAddress,
-      erc20Account,
-      erc20Balance,
-      sbBalance: ExtractSuccess<typeof sbBalanceR>
-    ) => {
+  (ethAddressR, erc20BalanceR, sbBalanceR, ownProps) => {
+    const transform = (ethAddress, erc20Balance, sbBalance: ExtractSuccess<typeof sbBalanceR>) => {
       const { coin } = ownProps
-      let accounts = []
+      let accounts: SwapAccountType[] = []
 
       // add non-custodial accounts if requested
       if (ownProps?.nonCustodialAccounts) {
-        // @ts-ignore
         accounts = accounts.concat([
           {
-            baseCoin: 'ETH',
-            coin,
-            label: prop('label', erc20Account),
             address: ethAddress,
             balance: erc20Balance,
-            type: ADDRESS_TYPES.ACCOUNT
+            baseCoin: 'ETH',
+            coin,
+            label: 'Private Key Wallet',
+            type: SwapBaseCounterTypes.ACCOUNT
           }
         ])
       }
 
       // add trading accounts if requested
       if (ownProps?.tradingAccounts) {
-        accounts = accounts.concat(
-          // @ts-ignore
-          generateTradingAccount(coin, sbBalance as SBBalanceType)
-        )
+        accounts = accounts.concat(generateTradingAccount(coin, sbBalance as SBBalanceType))
       }
       return accounts
     }
 
-    return lift(transform)(
-      ethAddressR,
-      erc20AccountR,
-      erc20BalanceR,
-      sbBalanceR
-    )
+    return lift(transform)(ethAddressR, erc20BalanceR, sbBalanceR)
   }
 )

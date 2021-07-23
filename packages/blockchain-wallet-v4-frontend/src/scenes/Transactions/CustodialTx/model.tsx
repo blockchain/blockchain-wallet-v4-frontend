@@ -1,20 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { path } from 'ramda'
 import styled from 'styled-components'
 
 import { Icon as BCIcon, Text } from 'blockchain-info-components'
-import {
-  CoinType,
-  CoinTypeEnum,
-  WalletFiatEnum
-} from 'blockchain-wallet-v4/src/types'
+import { CoinType, WalletFiatEnum } from 'blockchain-wallet-v4/src/types'
 
-import {
-  IconTx as SharedIconTx,
-  IconWrapper,
-  Timestamp as SharedTimestamp
-} from '../components'
+import { IconTx as SharedIconTx, IconWrapper, Timestamp as SharedTimestamp } from '../components'
 import Confirmations from '../NonCustodialTx/Confirmations'
 import { Props } from '.'
 
@@ -23,11 +14,11 @@ const Icon = styled(BCIcon)`
   font-weight: 600;
 `
 const getSymbolDisplayName = (props: Props) => {
-  return path([props.tx.amount.symbol, 'coinTicker'], props.supportedCoins)
+  return props.tx.amount.symbol
 }
 
 const getCoinDisplayName = (props: Props) => {
-  return path([props.coin, 'coinTicker'], props.supportedCoins)
+  return props.coin
 }
 
 export const IconTx = (props: Props) => {
@@ -89,6 +80,44 @@ export const IconTx = (props: Props) => {
   }
 }
 
+export const Status = (props: Props) => {
+  const { coinfig } = window.coins[props.tx.amount.symbol]
+  switch (props.tx.state) {
+    case 'COMPLETE':
+    case 'FINISHED':
+      if (!coinfig.type.isFiat && props.tx.extraAttributes?.confirmations) {
+        return (
+          <Confirmations
+            coin={props.tx.amount.symbol}
+            hash={props.tx.extraAttributes.hash}
+            isConfirmed={props.tx.extraAttributes.confirmations >= 1}
+            onViewTxDetails={() => undefined}
+          />
+        )
+      }
+      return <FormattedMessage id='copy.complete' defaultMessage='Complete' />
+    case 'REFUNDED':
+      return <FormattedMessage id='copy.refunded' defaultMessage='Refunded' />
+    case 'FAILED':
+    case 'REJECTED':
+    case 'UNIDENTIFIED':
+      return <FormattedMessage id='copy.failed' defaultMessage='Failed' />
+    case 'MANUAL_REVIEW':
+      return <FormattedMessage id='copy.in_review' defaultMessage='In Review' />
+    case 'CANCELED':
+      return <FormattedMessage id='copy.canceled' defaultMessage='Canceled' />
+    case 'EXPIRED':
+      return (
+        <FormattedMessage
+          id='scenes.exchangehistory.list.orderstatus.expired'
+          defaultMessage='Expired'
+        />
+      )
+    default:
+      return <FormattedMessage id='copy.pending' defaultMessage='Pending' />
+  }
+}
+
 export const Timestamp = (props: Props) => {
   const getTimeOrStatus = () => {
     switch (props.tx.state) {
@@ -115,7 +144,8 @@ export const Timestamp = (props: Props) => {
 }
 
 export const TransactionType = (props: Props) => {
-  if (props.tx.amount.symbol in CoinTypeEnum) {
+  const { coinfig } = window.coins[props.tx.amount.symbol]
+  if (!coinfig.type.isFiat) {
     switch (props.tx.type) {
       case 'DEPOSIT':
         return (
@@ -151,9 +181,7 @@ export const TransactionType = (props: Props) => {
       case 'SELL':
         return <FormattedMessage id='copy.sold' defaultMessage='Sold' />
       case 'WITHDRAWAL':
-        return (
-          <FormattedMessage id='buttons.withdrew' defaultMessage='Withdrew' />
-        )
+        return <FormattedMessage id='buttons.withdrew' defaultMessage='Withdrew' />
       default:
         return <></>
     }
@@ -165,7 +193,7 @@ export const Origin = (props: Props) => {
     case 'CHARGE':
     case 'REFUNDED':
     case 'DEPOSIT':
-      return props.tx.amount.symbol in CoinTypeEnum ? (
+      return !window.coins[props.tx.amount.symbol]?.coinfig?.type?.isFiat ? (
         <>{getCoinDisplayName(props)} Account</>
       ) : (
         <>Bank Account</>
@@ -191,52 +219,12 @@ export const Destination = (props: Props) => {
     case 'SELL':
       return <>{getCoinDisplayName(props)} Account</>
     case 'WITHDRAWAL':
-      return props.tx.amount.symbol in CoinTypeEnum ? (
+      return !window.coins[props.tx.amount.symbol]?.coinfig?.type?.isFiat ? (
         <>{getSymbolDisplayName(props)} Account</>
       ) : (
         <>Bank Account</>
       )
     default:
       return <></>
-  }
-}
-
-export const Status = (props: Props) => {
-  switch (props.tx.state) {
-    case 'COMPLETE':
-    case 'FINISHED':
-      if (
-        props.tx.amount.symbol in CoinTypeEnum &&
-        props.tx.extraAttributes?.confirmations
-      ) {
-        return (
-          <Confirmations
-            coin={props.tx.amount.symbol}
-            hash={props.tx.extraAttributes.hash}
-            isConfirmed={props.tx.extraAttributes.confirmations >= 1}
-            onViewTxDetails={() => {}}
-          />
-        )
-      }
-      return <FormattedMessage id='copy.complete' defaultMessage='Complete' />
-    case 'REFUNDED':
-      return <FormattedMessage id='copy.refunded' defaultMessage='Refunded' />
-    case 'FAILED':
-    case 'REJECTED':
-    case 'UNIDENTIFIED':
-      return <FormattedMessage id='copy.failed' defaultMessage='Failed' />
-    case 'MANUAL_REVIEW':
-      return <FormattedMessage id='copy.in_review' defaultMessage='In Review' />
-    case 'CANCELED':
-      return <FormattedMessage id='copy.canceled' defaultMessage='Canceled' />
-    case 'EXPIRED':
-      return (
-        <FormattedMessage
-          id='scenes.exchangehistory.list.orderstatus.expired'
-          defaultMessage='Expired'
-        />
-      )
-    default:
-      return <FormattedMessage id='copy.pending' defaultMessage='Pending' />
   }
 }

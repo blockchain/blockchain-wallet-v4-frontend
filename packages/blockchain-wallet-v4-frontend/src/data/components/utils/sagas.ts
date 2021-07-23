@@ -1,24 +1,19 @@
 import EthUtil from 'ethereumjs-util'
-import { equals, identity, includes, is, isEmpty, prop } from 'ramda'
+import { equals, identity, is, isEmpty, prop } from 'ramda'
 import { select } from 'redux-saga/effects'
 
 import { utils } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { selectors } from 'data'
 
-export const selectReceiveAddress = function * (source, networks) {
+export const selectReceiveAddress = function* (source, networks) {
   const appState = yield select(identity)
-  const erc20List = (yield select(
-    selectors.core.walletOptions.getErc20CoinList
-  )).getOrFail()
   const coin = prop('coin', source)
   const type = prop('type', source)
   const address = prop('address', source)
+  const { coinfig } = window.coins[coin]
   if (equals('XLM', coin) && is(String, address)) return address
-  if (
-    (includes(coin, erc20List) || equals('ETH', coin)) &&
-    is(String, address)
-  ) {
+  if ((coinfig.type.erc20Address || equals('ETH', coin)) && is(String, address)) {
     return EthUtil.toChecksumAddress(address)
   }
   if (equals('BCH', coin)) {
@@ -59,3 +54,5 @@ export const selectReceiveAddress = function * (source, networks) {
   }
   throw new Error('Could not generate receive address')
 }
+
+export default selectReceiveAddress

@@ -344,6 +344,7 @@ FirstStep.propTypes = {
   effectiveBalance: PropTypes.string.isRequired,
   fee: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  // eslint-disable-next-line
   handleToToggle: PropTypes.func.isRequired,
   hasErc20Balance: PropTypes.bool.isRequired,
   invalid: PropTypes.bool.isRequired,

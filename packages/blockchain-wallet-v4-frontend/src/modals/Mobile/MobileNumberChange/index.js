@@ -18,7 +18,7 @@ class MobileNumberChangeContainer extends React.PureComponent {
     const { smsNumberNew } = this.props
     this.props.settingsActions.updateMobile(smsNumberNew)
     this.props.modalActions.closeModal()
-    this.props.modalActions.showModal('MobileNumberVerify', {
+    this.props.modalActions.showModal('MOBILE_NUMBER_VERIFY_MODAL', {
       mobileNumber: smsNumberNew
     })
   }
@@ -36,15 +36,15 @@ class MobileNumberChangeContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => getData(state)
+const mapStateToProps = (state) => getData(state)
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
 const enhance = compose(
-  modalEnhancer('MobileNumberChange'),
+  modalEnhancer('MOBILE_NUMBER_CHANGE_MODAL'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

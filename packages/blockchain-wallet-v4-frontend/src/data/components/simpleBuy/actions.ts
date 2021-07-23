@@ -19,8 +19,7 @@ import {
   SDDEligibleType,
   SDDVerifiedType,
   SwapQuoteType,
-  SwapUserLimitsType,
-  WalletFiatType
+  SwapUserLimitsType
 } from 'blockchain-wallet-v4/src/types'
 import { ModalOriginType } from 'data/modals/types'
 import { BankTransferAccountType } from 'data/types'
@@ -166,7 +165,8 @@ export const destroyCheckout = () => ({
   type: AT.DESTROY_CHECKOUT
 })
 
-export const handleSBMethodChange = (method: SBPaymentMethodType) => ({
+export const handleSBMethodChange = (method: SBPaymentMethodType, isFlow?: boolean) => ({
+  isFlow,
   method,
   type: AT.HANDLE_SB_METHOD_CHANGE
 })
@@ -463,7 +463,7 @@ export const fetchSellQuoteSuccess = (
   type: AT.FETCH_SELL_QUOTE_SUCCESS
 })
 
-export const handleSBDepositFiatClick = (coin: WalletFiatType, origin: ModalOriginType) => ({
+export const handleSBDepositFiatClick = (coin: string, origin: ModalOriginType) => ({
   payload: {
     coin,
     origin
