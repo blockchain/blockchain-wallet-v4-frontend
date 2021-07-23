@@ -2,14 +2,7 @@ import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import {
-  Button,
-  FlyoutFooter,
-  FlyoutHeader,
-  Image,
-  Link,
-  Text
-} from 'blockchain-info-components'
+import { Button, FlyoutFooter, FlyoutHeader, Image, Link, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { getBaseAmount } from 'data/components/simpleBuy/model'
 
@@ -62,7 +55,9 @@ const FooterWrapper = styled(FlyoutWrapper)`
 const GetStarted = ({ close, nextStep, order }: Props) => {
   const amount = getBaseAmount(order)
   const currency = order.outputCurrency
-  const closeModal = useCallback(() => { close() }, [])
+  const closeModal = useCallback(() => {
+    close()
+  }, [])
 
   return (
     <Wrapper>

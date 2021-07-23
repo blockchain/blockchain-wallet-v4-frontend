@@ -15,8 +15,8 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
-import { SBOrderType } from 'core/types'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
+import { FiatType, SBOrderType } from 'core/types'
 import { actions, selectors } from 'data'
 import {
   getBankAccount,
@@ -40,20 +40,19 @@ const Confirm = ({
   order,
   period,
   quote,
-  recurringBuyActions,
-  supportedCoins
+  recurringBuyActions
 }: Props) => {
   const amount = getBaseAmount(order)
   const currency = order.outputCurrency
-  const baseCurrency = getBaseCurrency(order, supportedCoins)
+  const baseCurrency = getBaseCurrency(order)
   const paymentMethodId = getPaymentMethodId(order)
   const subTotalAmount = fiatToString({
-    unit: getCounterCurrency(order, supportedCoins),
+    unit: getCounterCurrency(order) as FiatType,
     value: getCounterAmount(order)
   })
   const fee = order.fee || quote.fee
   const totalAmount = fiatToString({
-    unit: getCounterCurrency(order, supportedCoins),
+    unit: getCounterCurrency(order) as FiatType,
     value: getCounterAmount(order)
   })
   const bankAccount = getBankAccount(order, bankAccounts)
@@ -79,7 +78,7 @@ const Confirm = ({
           }
           text={
             <div data-e2e='rbExchangeRate'>
-              {displayFiat(order, supportedCoins, quote.rate)} / {baseCurrency}
+              {displayFiat(order, quote.rate)} / {baseCurrency}
             </div>
           }
           toolTip={
@@ -109,7 +108,7 @@ const Confirm = ({
 
         <CheckoutRow
           title={<FormattedMessage id='copy.fee' defaultMessage='Fee' />}
-          text={displayFiat(order, supportedCoins, fee || '0')}
+          text={displayFiat(order, fee || '0')}
         />
 
         <CheckoutRow
@@ -119,7 +118,7 @@ const Confirm = ({
 
         <CheckoutRow
           title={<FormattedMessage id='checkout.payment_method' defaultMessage='Payment Method' />}
-          text={getPaymentMethod(order, supportedCoins, {} as BankTransferAccountType)}
+          text={getPaymentMethod(order, {} as BankTransferAccountType)}
           additionalText={getPaymentMethodDetails(order, bankAccount, cardDetails)}
         />
 

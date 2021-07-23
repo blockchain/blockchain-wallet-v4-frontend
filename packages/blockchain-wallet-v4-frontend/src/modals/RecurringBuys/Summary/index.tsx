@@ -12,8 +12,8 @@ import {
   Icon,
   Text
 } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
-import { SBOrderType, WithdrawalLockCheckRule } from 'core/types'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
+import { FiatType, SBOrderType, WithdrawalLockCheckRule } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 import { getCounterAmount, getCounterCurrency } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
@@ -56,9 +56,9 @@ const StyledIcon = styled(Icon)`
   }
 `
 
-const Success = ({ close, order, period, supportedCoins, withdrawLockCheck }: Props) => {
+const Success = ({ close, order, period, withdrawLockCheck }: Props) => {
   const fiatAmount = fiatToString({
-    unit: getCounterCurrency(order, supportedCoins),
+    unit: getCounterCurrency(order) as FiatType,
     value: getCounterAmount(order)
   })
   const coin = order.outputCurrency

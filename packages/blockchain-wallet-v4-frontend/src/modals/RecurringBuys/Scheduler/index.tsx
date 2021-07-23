@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { connect, ConnectedProps, useDispatch } from 'react-redux'
 
-import { SBPaymentMethodType, SBPaymentTypes } from 'core/types'
-import { actions, selectors } from 'data'
+import { SBPaymentMethodType } from 'core/types'
+import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 
 import Success from './template.success'
