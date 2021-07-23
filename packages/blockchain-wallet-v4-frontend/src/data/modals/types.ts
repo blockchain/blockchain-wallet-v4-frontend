@@ -33,6 +33,7 @@ export enum ModalName {
   MOBILE_NUMBER_ADD_MODAL = 'MOBILE_NUMBER_ADD_MODAL',
   MOBILE_NUMBER_CHANGE_MODAL = 'MOBILE_NUMBER_CHANGE_MODAL',
   MOBILE_NUMBER_VERIFY_MODAL = 'MOBILE_NUMBER_VERIFY_MODAL',
+  NABU_USER_CONFLICT_REDIRECT = 'NABU_USER_CONFLICT_REDIRECT',
   PAIRING_CODE_MODAL = 'PAIRING_CODE_MODAL',
   PROMPT_INPUT_MODAL = 'PROMPT_INPUT_MODAL',
   QR_CODE_MODAL = 'QR_CODE_MODAL',
@@ -88,6 +89,7 @@ export type ModalOriginType =
   | 'KycDocResubmitGoal'
   | 'KycRequiredStep'
   | 'LoginSaga'
+  | 'NabuUserAuth'
   | 'PaymentProtocolGoal'
   | 'PendingOrder'
   | 'PriceChart'

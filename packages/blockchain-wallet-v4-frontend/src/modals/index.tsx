@@ -49,6 +49,7 @@ const LinkToExchangeAccount = React.lazy(() => import('./Onboarding/LinkToExchan
 const IdentityVerification = React.lazy(() => import('./Onboarding/KycVerification'))
 const KycDocResubmit = React.lazy(() => import('./Onboarding/KycDocResubmit'))
 const KycTierUpgrade = React.lazy(() => import('./Onboarding/KycTierUpgrade'))
+const NabuUserConflictRedirect = React.lazy(() => import('./Onboarding/NabuUserConflictRedirect'))
 const UpgradeForAirdrop = React.lazy(() => import('./Onboarding/UpgradeForAirdrop'))
 const Welcome = React.lazy(() => import('./Onboarding/Welcome'))
 
@@ -199,6 +200,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.MOBILE_NUMBER_VERIFY_MODAL) ? (
           <MobileNumberVerify />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.NABU_USER_CONFLICT_REDIRECT) ? (
+          <NabuUserConflictRedirect />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.PAIRING_CODE_MODAL) ? (
           <PairingCode />

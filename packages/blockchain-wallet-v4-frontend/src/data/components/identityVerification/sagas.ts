@@ -128,7 +128,7 @@ export default ({ api, coreSagas, networks }) => {
     } catch (e) {
       return yield put(A.setStepsFailure(e))
     }
-    const tiers = (yield select(selectors.modules.profile.getUserTiers)).getOrElse({
+    let tiers = (yield select(selectors.modules.profile.getUserTiers)).getOrElse({
       next: 0,
       selected: 2
     })
@@ -136,6 +136,30 @@ export default ({ api, coreSagas, networks }) => {
       string,
       KycStateType
     >).getOrElse('NONE')
+    // Case where user recovers their wallet with mnemonic
+    // and we reset their KYC. We have to force next and
+    // selected into certain states to reliably send user
+    // through correct reverification flow
+    const kycDocResubmissionStatus = (yield select(
+      selectors.modules.profile.getKycDocResubmissionStatus
+    )).getOrElse({})
+    const tiersState = (yield select(selectors.modules.profile.getTiers)).getOrElse({})
+    if (kycDocResubmissionStatus === 1) {
+      if (tiers.current === 0) {
+        // case where user already went through first step
+        // of verfication but was rejected, want to set
+        // next to 2
+        if (tiersState[0].state === 'rejected') {
+          tiers = { current: 0, next: 2, selected: 2 }
+        } else {
+          tiers = { current: 0, next: 1, selected: 2 }
+        }
+      } else if (tiers.current === 1 || tiers.current === 3) {
+        tiers = { current: 1, next: 2, selected: 2 }
+      } else {
+        return
+      }
+    }
     const steps = computeSteps({
       kycState,
       needMoreInfo,
@@ -454,16 +478,16 @@ export default ({ api, coreSagas, networks }) => {
     goToPrevStep,
     initializeStep,
     initializeVerification,
-    registerUserCampaign,
     resendSmsCode,
+    registerUserCampaign,
     saveInfoAndResidentialData,
     selectTier,
     sendDeeplink,
     sendEmailVerification,
-    updateEmail,
-    updateSmsNumber,
     updateSmsStep,
+    updateSmsNumber,
     verifyIdentity,
-    verifySmsNumber
+    verifySmsNumber,
+    updateEmail
   }
 }
