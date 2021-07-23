@@ -158,7 +158,7 @@ export const BackArrowFormHeader = (props: {
 export const LinkRow = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: center;
 `
 
 export const NeedHelpLink = () => (
