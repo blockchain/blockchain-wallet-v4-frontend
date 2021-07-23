@@ -23,7 +23,6 @@ import {
   RemoteDataType,
   SBOrderType,
   SBTransactionType,
-  SupportedCoinType,
   SupportedWalletCurrencyType
 } from 'blockchain-wallet-v4/src/types'
 import { model, selectors } from 'data'

@@ -49,7 +49,12 @@ export const getCoinsWithMethodAndOrder = (state: RootState) => {
         ...custodialErc20s,
         ...coinsInRecentSwaps
       ])
-    ].map((coin) => window.coins[coin])
+    ]
+      .map((coin) => window.coins[coin])
+      // TODO: erc20 phase 2, remove
+      // reject coins that have not been attached to window
+      // maybe erc20s that have been sent to users account
+      .filter(Boolean)
 
     return values(
       mapObjIndexed((coin: SupportedWalletCurrencyType) => {
