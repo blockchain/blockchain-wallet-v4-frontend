@@ -6,7 +6,7 @@ import { Palette } from '../Colors/index.ts'
 
 console.log(Palette)
 
-const Themes = props => {
+const Themes = (props) => {
   const { children, theme } = props
   const colors = Palette(theme)
 
@@ -20,4 +20,5 @@ Themes.propTypes = {
 Themes.defaultProps = {
   theme: 'default'
 }
+// eslint-disable-next-line
 export { Themes }
