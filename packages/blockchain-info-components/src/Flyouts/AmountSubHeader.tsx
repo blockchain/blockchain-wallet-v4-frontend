@@ -1,7 +1,6 @@
 import React, { memo } from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
-import { Icon } from '../Icons'
 import { Text } from '../Text'
 
 const Amount = styled.div`
@@ -33,10 +32,12 @@ const AmountSubHeader = (props: Props) => {
 
 export type Props = {
   'data-e2e': string
-  title: string
   subTitle: string
+  title: string
 }
 
-export default memo(AmountSubHeader,
-  (prevProps, nextProps) => 
-    prevProps.title === nextProps.title && prevProps.subTitle === nextProps.subTitle)
+export default memo(
+  AmountSubHeader,
+  (prevProps, nextProps) =>
+    prevProps.title === nextProps.title && prevProps.subTitle === nextProps.subTitle
+)
