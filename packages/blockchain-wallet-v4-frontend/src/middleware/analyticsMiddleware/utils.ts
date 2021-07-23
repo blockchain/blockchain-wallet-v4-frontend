@@ -159,7 +159,7 @@ const settingsTabClickedDestinationDictionary = (
     case 'Preferences':
       return 'PREFERENCES'
     case 'TradingLimits':
-      return 'TRADING_LIMITS'
+      return 'TRADING_LIMITS_MODAL'
     case 'WalletAndAddresses':
       return 'WALLETS&ADDRESSES'
     default: {

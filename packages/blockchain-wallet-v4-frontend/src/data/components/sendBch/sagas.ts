@@ -9,7 +9,7 @@ import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { BtcAccountFromType, BtcFromType, BtcPaymentType } from 'blockchain-wallet-v4/src/types'
 import { actions, actionTypes, model, selectors } from 'data'
-import { ModalNamesType } from 'data/modals/types'
+import { ModalNameType } from 'data/modals/types'
 import * as C from 'services/alerts'
 import * as Lockbox from 'services/lockbox'
 import { promptForSecondPassword } from 'services/sagas'
@@ -157,7 +157,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           const modalName = coinfig.type.erc20Address ? 'ETH' : payload
           yield put(actions.modals.closeAllModals())
           yield put(
-            actions.modals.showModal(`SEND_${modalName}_MODAL` as ModalNamesType, {
+            actions.modals.showModal(`SEND_${modalName}_MODAL` as ModalNameType, {
               coin: payload,
               origin: 'SendBch'
             })

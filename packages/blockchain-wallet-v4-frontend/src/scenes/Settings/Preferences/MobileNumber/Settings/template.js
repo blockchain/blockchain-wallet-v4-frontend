@@ -23,7 +23,7 @@ const Setting = (props) => {
             nature='primary'
             onClick={() => {
               resetWarning()
-              modalActions.showModal('ConfirmDisable2FA', {
+              modalActions.showModal('CONFIRM_DISABLE_2FA', {
                 authName: '2FA using SMS',
                 extraCopy: (
                   <FormattedMessage

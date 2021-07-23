@@ -50,7 +50,7 @@ const Settings = (props: Props) => {
             <DropdownMenuItem
               data-e2e='settings_profileLink'
               onClick={() => {
-                props.modalActions.showModal('TRADING_LIMITS', {
+                props.modalActions.showModal('TRADING_LIMITS_MODAL', {
                   origin: 'TradingLimits'
                 })
 

@@ -6,6 +6,7 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import ConfirmWords from './ConfirmWords'
@@ -131,7 +132,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 const enhance = compose<any>(
-  modalEnhancer('RECOVERY_PHRASE_MODAL', { transition: duration }),
+  modalEnhancer(ModalName.RECOVERY_PHRASE_MODAL, { transition: duration }),
   connector
 )
 
