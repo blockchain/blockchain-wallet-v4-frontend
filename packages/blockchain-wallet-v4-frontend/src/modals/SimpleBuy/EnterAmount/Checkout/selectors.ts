@@ -28,7 +28,7 @@ const getData = (state: RootState, ownProps: OwnProps) => {
     .getOrElse([])
   const limitsR = selectors.components.simpleBuy.getLimits(state)
   const hasFiatBalance = selectors.components.simpleBuy.hasFiatBalances(state)
-  const isRecuringBuy = selectors.core.walletOptions
+  const isRecurringBuy = selectors.core.walletOptions
     .getFeatureFlagRecurringBuys(state)
     .getOrElse(false) as boolean
 
@@ -48,7 +48,7 @@ const getData = (state: RootState, ownProps: OwnProps) => {
       formErrors,
       hasFiatBalance,
       hasPaymentAccount: hasFiatBalance || cards.length > 0 || bankTransferAccounts.length > 0,
-      isRecuringBuy,
+      isRecurringBuy,
       isSddFlow: sddEligible.eligible || userSDDTier === 3,
       limits: limitsR.getOrElse(undefined),
       payment: paymentR.getOrElse(undefined),

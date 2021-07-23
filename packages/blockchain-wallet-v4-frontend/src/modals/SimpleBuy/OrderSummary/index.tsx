@@ -43,6 +43,7 @@ class OrderSummary extends PureComponent<Props> {
     // first time buyers have 1 tx at this point so and RB is set to one time buy so send them to RB walkthrough flow
     // FIXME: The logic on the line below is hacked to be wrong so I can test.
     if (
+      this.props.isRecurringBuy &&
       this.props.orders.length > 1 &&
       this.props.order.period !== RecurringBuyPeriods.ONE_TIME
     ) {
@@ -75,6 +76,9 @@ class OrderSummary extends PureComponent<Props> {
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state),
   isGoldVerified: equals(selectors.modules.profile.getCurrentTier(state), 2),
+  isRecurringBuy: selectors.core.walletOptions
+    .getFeatureFlagRecurringBuys(state)
+    .getOrElse(false) as boolean,
   orders: selectors.components.simpleBuy.getSBOrders(state).getOrElse([])
 })
 
@@ -96,6 +100,7 @@ export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
   isGoldVerified: boolean
+  isRecurringBuy: boolean
   orders: SBOrderType[]
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>

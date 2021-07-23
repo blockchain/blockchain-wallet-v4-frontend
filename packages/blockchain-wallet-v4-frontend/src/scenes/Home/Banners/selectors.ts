@@ -52,7 +52,7 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     }
   } as SwapUserLimitsType)
 
-  const isRecuringBuy = selectors.core.walletOptions
+  const isRecurringBuy = selectors.core.walletOptions
     .getFeatureFlagRecurringBuys(state)
     .getOrElse(false) as boolean
 
@@ -74,7 +74,7 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     Number(limits?.annual.available) > 0
   ) {
     bannerToShow = 'continueToGold'
-  } else if (isRecuringBuy) {
+  } else if (isRecurringBuy) {
     bannerToShow = 'recurringBuys'
   }
 
