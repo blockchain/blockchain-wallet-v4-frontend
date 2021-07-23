@@ -4,32 +4,36 @@ import moment from 'moment'
 import styled from 'styled-components'
 
 import { Icon } from 'blockchain-info-components'
-import { RecurringBuyPeriods } from 'data/types'
 import { Row } from 'components/Flyout'
-
+import { RecurringBuyPeriods } from 'data/types'
 
 const getPeriodTitleText = (period: RecurringBuyPeriods): React.ReactNode => {
   let text
   switch (period) {
     default:
     case RecurringBuyPeriods.DAILY:
-      text = <></>
-      break;
+      text = (
+        <FormattedMessage id='modals.recurringbuys.time_options.daily' defaultMessage='Daily' />
+      )
+      break
     case RecurringBuyPeriods.WEEKLY:
-      text = <FormattedMessage
-              id='modals.recurringbuys.time_options.weekly'
-              defaultMessage='Weekly' />
-      break;
+      text = (
+        <FormattedMessage id='modals.recurringbuys.time_options.weekly' defaultMessage='Weekly' />
+      )
+      break
     case RecurringBuyPeriods.BI_WEEKLY:
-      text = <FormattedMessage
-              id='modals.recurringbuys.time_options.bi_weekly'
-              defaultMessage='Twice a Month' />
-      break;
+      text = (
+        <FormattedMessage
+          id='modals.recurringbuys.time_options.bi_weekly'
+          defaultMessage='Twice a Month'
+        />
+      )
+      break
     case RecurringBuyPeriods.MONTHLY:
-      text = <FormattedMessage
-              id='modals.recurringbuys.time_options.monthly'
-              defaultMessage='Monthly' />
-      break;
+      text = (
+        <FormattedMessage id='modals.recurringbuys.time_options.monthly' defaultMessage='Monthly' />
+      )
+      break
   }
   return text
 }
@@ -39,19 +43,21 @@ const getPeriodSubTitleText = (period: RecurringBuyPeriods): React.ReactNode => 
   switch (period) {
     default:
     case RecurringBuyPeriods.DAILY:
-      text = <FormattedMessage
-              id='modals.recurringbuys.time_options.daily'
-              defaultMessage='Daily' />
-      break;
+      text = <></>
+      break
     case RecurringBuyPeriods.WEEKLY:
       text = <>On {moment().format('dddd')}s</>
-      break;
+      break
     case RecurringBuyPeriods.BI_WEEKLY:
-      text = <>On the {moment().format('Do')} and {moment().add(2, 'weeks').format('Do')}</>
-      break;
+      text = (
+        <>
+          On the {moment().format('Do')} and {moment().add(2, 'weeks').format('Do')}
+        </>
+      )
+      break
     case RecurringBuyPeriods.MONTHLY:
       text = <>On the {moment().format('Do')}</>
-      break;
+      break
   }
   return text
 }
@@ -68,10 +74,10 @@ const FlexWrapper = styled(Row)`
   cursor: pointer;
 `
 type OptionRightActionRowType = {
-  onClick: () => void
   children: React.ReactChild
+  onClick: () => void
 }
-const OptionRightActionRow = ({ onClick, children }: OptionRightActionRowType) => {
+const OptionRightActionRow = ({ children, onClick }: OptionRightActionRowType) => {
   return (
     <FlexWrapper role='button' onClick={onClick}>
       <div>{children}</div>
@@ -80,4 +86,4 @@ const OptionRightActionRow = ({ onClick, children }: OptionRightActionRowType) =
   )
 }
 
-export { getPeriodTitleText, getPeriodSubTitleText, OptionRightActionRow }
+export { getPeriodSubTitleText, getPeriodTitleText, OptionRightActionRow }

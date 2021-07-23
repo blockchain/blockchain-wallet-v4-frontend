@@ -1,22 +1,48 @@
 import React, { useCallback } from 'react'
-import { bindActionCreators, Dispatch } from 'redux'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
 
-import { AmountSubHeader, Button, CheckoutRow, FlyoutContainer, FlyoutContent, FlyoutHeader, FlyoutFooter, Text, TextGroup, Link } from 'blockchain-info-components'
-import { RootState } from 'data/rootReducer'
-import { actions, selectors } from 'data'
-import { SBOrderType } from 'core/types'
+import {
+  AmountSubHeader,
+  Button,
+  CheckoutRow,
+  FlyoutContainer,
+  FlyoutContent,
+  FlyoutFooter,
+  FlyoutHeader,
+  Link,
+  Text,
+  TextGroup
+} from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
-
-import { getBankAccount, getBaseAmount, getBaseCurrency, getCounterAmount, getCounterCurrency, getPaymentMethodId } from 'data/components/simpleBuy/model'
+import { SBOrderType } from 'core/types'
+import { actions, selectors } from 'data'
+import {
+  getBankAccount,
+  getBaseAmount,
+  getBaseCurrency,
+  getCounterAmount,
+  getCounterCurrency,
+  getPaymentMethodId
+} from 'data/components/simpleBuy/model'
+import { RootState } from 'data/rootReducer'
 import { BankTransferAccountType, RecurringBuyPeriods } from 'data/types'
 
-import { Props as _P } from '..'
 import { displayFiat, getPaymentMethod, getPaymentMethodDetails } from '../../SimpleBuy/model'
+import { Props as _P } from '..'
 import { getPeriodSubTitleText, getPeriodTitleText } from '../Frequency/model'
 
-const Confirm = ({ bankAccounts, cards, close, order, period, recurringBuyActions, supportedCoins, quote }: Props) => {
+const Confirm = ({
+  bankAccounts,
+  cards,
+  close,
+  order,
+  period,
+  quote,
+  recurringBuyActions,
+  supportedCoins
+}: Props) => {
   const amount = getBaseAmount(order)
   const currency = order.outputCurrency
   const baseCurrency = getBaseCurrency(order, supportedCoins)
@@ -31,23 +57,16 @@ const Confirm = ({ bankAccounts, cards, close, order, period, recurringBuyAction
     value: getCounterAmount(order)
   })
   const bankAccount = getBankAccount(order, bankAccounts)
-  const cardDetails =
-    (cards.filter((card) => card.id === paymentMethodId)[0]) || null
+  const cardDetails = cards.filter((card) => card.id === paymentMethodId)[0] || null
   const createRecurringBuy = useCallback(() => {
     recurringBuyActions.createRecurringBuy()
   }, [])
   return (
     <FlyoutContainer>
-      <FlyoutHeader
-        data-e2e="closeRecurringBuyModalCheckoutStep"
-        mode="back"
-        onClick={close}
-      >
-        <FormattedMessage
-          id='simplebuy.checkoutconfirm'
-          defaultMessage='Checkout' />
+      <FlyoutHeader data-e2e='closeRecurringBuyModalCheckoutStep' mode='back' onClick={close}>
+        <FormattedMessage id='simplebuy.checkoutconfirm' defaultMessage='Checkout' />
       </FlyoutHeader>
-      <FlyoutContent>
+      <FlyoutContent mode='top'>
         <AmountSubHeader
           data-e2e='recurringBuySubTotalAmount'
           title={`${amount} ${currency}`}
@@ -55,18 +74,15 @@ const Confirm = ({ bankAccounts, cards, close, order, period, recurringBuyAction
         />
 
         <CheckoutRow
-          title={(
-            <FormattedMessage
-              id='modals.simplebuy.confirm.rate'
-              defaultMessage='Exchange Rate'
-            />
-          )}
-          text={(
+          title={
+            <FormattedMessage id='modals.simplebuy.confirm.rate' defaultMessage='Exchange Rate' />
+          }
+          text={
             <div data-e2e='rbExchangeRate'>
               {displayFiat(order, supportedCoins, quote.rate)} / {baseCurrency}
             </div>
-          )}
-          toolTip={(
+          }
+          toolTip={
             <Text size='12px' weight={500} color='grey600'>
               <TextGroup inline>
                 <Text size='14px'>
@@ -88,66 +104,43 @@ const Confirm = ({ bankAccounts, cards, close, order, period, recurringBuyAction
                 </Link>
               </TextGroup>
             </Text>
-          )}
+          }
         />
 
         <CheckoutRow
-          title={(
-            <FormattedMessage
-              id='copy.fee'
-              defaultMessage='Fee'
-            />
-          )}
+          title={<FormattedMessage id='copy.fee' defaultMessage='Fee' />}
           text={displayFiat(order, supportedCoins, fee || '0')}
         />
 
         <CheckoutRow
-          title={(
-            <FormattedMessage
-              id='copy.total'
-              defaultMessage='Total'
-            />
-          )}
+          title={<FormattedMessage id='copy.total' defaultMessage='Total' />}
           text={totalAmount}
         />
 
         <CheckoutRow
-          title={(
-            <FormattedMessage
-              id='checkout.payment_method'
-              defaultMessage='Payment Method'
-            />
-          )}
+          title={<FormattedMessage id='checkout.payment_method' defaultMessage='Payment Method' />}
           text={getPaymentMethod(order, supportedCoins, {} as BankTransferAccountType)}
           additionalText={getPaymentMethodDetails(order, bankAccount, cardDetails)}
         />
 
         <CheckoutRow
-          title={(
-            <FormattedMessage
-              id='copy.frequency'
-              defaultMessage='Frequency'
-            />
-          )}
+          title={<FormattedMessage id='copy.frequency' defaultMessage='Frequency' />}
           text={getPeriodTitleText(period)}
           additionalText={getPeriodSubTitleText(period)}
         />
 
         <CheckoutRow
-          title={(
-            <FormattedMessage
-              id='copy.available_to_trade'
-              defaultMessage='Available to Trade'
-            />
-          )}
-          text={(
-            <FormattedMessage
-              id='copy.instantly'
-              defaultMessage='Instantly'
-            />
-          )}
+          title={
+            <FormattedMessage id='copy.available_to_trade' defaultMessage='Available to Trade' />
+          }
+          text={<FormattedMessage id='copy.instantly' defaultMessage='Instantly' />}
         />
-        <Text size='12px' weight={500} color='grey600' style={{ textAlign: 'center', padding: '40px' }}>
+        <Text
+          size='12px'
+          weight={500}
+          color='grey600'
+          style={{ padding: '40px', textAlign: 'center' }}
+        >
           <FormattedMessage
             id='modals.simplebuy.confirm.activity_card11'
             defaultMessage='Your final amount might change due to market activity. For your security, buy orders with a bank account are subject to up to a 14 day holding period. You can Swap or Sell during this time. We will notify you once the funds are fully available.'
@@ -166,10 +159,7 @@ const Confirm = ({ bankAccounts, cards, close, order, period, recurringBuyAction
           style={{ marginTop: '16px' }}
           onClick={createRecurringBuy}
         >
-          <FormattedMessage
-            id='copy.schdule'
-            defaultMessage='Schedule'
-          />
+          <FormattedMessage id='copy.schdule' defaultMessage='Schedule' />
         </Button>
         <Button
           bold
@@ -183,10 +173,7 @@ const Confirm = ({ bankAccounts, cards, close, order, period, recurringBuyAction
           style={{ marginTop: '16px' }}
           onClick={close}
         >
-          <FormattedMessage
-            id='copy.cancel'
-            defaultMessage='Cancel'
-          />
+          <FormattedMessage id='copy.cancel' defaultMessage='Cancel' />
         </Button>
       </FlyoutFooter>
     </FlyoutContainer>
@@ -194,16 +181,14 @@ const Confirm = ({ bankAccounts, cards, close, order, period, recurringBuyAction
 }
 
 const mapStateToProps = (state: RootState) => ({
-  bankAccounts: selectors.components.brokerage.getBankTransferAccounts(
-    state
-  ).getOrElse([]),
+  bankAccounts: selectors.components.brokerage.getBankTransferAccounts(state).getOrElse([]),
   cards: selectors.components.simpleBuy.getSBCards(state).getOrElse([]),
   order: selectors.components.simpleBuy.getSBOrder(state) as SBOrderType,
   period: selectors.components.recurringBuy.getPeriod(state) as RecurringBuyPeriods,
+  quote: selectors.components.simpleBuy.getSBQuote(state).getOrFail('Could not get exchange rate'),
   supportedCoins: selectors.core.walletOptions
     .getSupportedCoins(state)
-    .getOrFail('Failed to load coin models'),
-  quote: selectors.components.simpleBuy.getSBQuote(state).getOrFail('Could not get exchange rate')
+    .getOrFail('Failed to load coin models')
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
