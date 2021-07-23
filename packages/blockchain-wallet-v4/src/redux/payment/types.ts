@@ -65,6 +65,7 @@ type XlmPaymentValue = IPaymentValue & {
   coin: 'XLM'
   description?: string
   fee?: number
+  memo?: string
   to?: XlmAccountFromType | XlmAddressFromType
   txId?: string
 }
