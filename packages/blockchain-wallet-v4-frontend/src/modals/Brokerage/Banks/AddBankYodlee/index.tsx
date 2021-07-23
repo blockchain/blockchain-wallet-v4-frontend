@@ -5,7 +5,7 @@ import { compose } from 'redux'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { AddBankStepType } from 'data/types'
+import { AddBankStepType, ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../../types'
@@ -64,7 +64,7 @@ const mapStateToProps = (state: RootState) => ({
 const connector = connect(mapStateToProps)
 
 const enhance = compose(
-  ModalEnhancer('ADD_BANK_YODLEE_MODAL', { transition: duration }),
+  ModalEnhancer(ModalName.ADD_BANK_YODLEE_MODAL, { transition: duration }),
   connector
 )
 
@@ -73,9 +73,7 @@ type LinkStatePropsType = {
   step: AddBankStepType
 }
 
-export type Props = OwnProps &
-  LinkStatePropsType &
-  ConnectedProps<typeof connector>
+export type Props = OwnProps & LinkStatePropsType & ConnectedProps<typeof connector>
 
 type State = { show: boolean }
 

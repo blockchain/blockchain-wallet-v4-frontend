@@ -2,7 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 
-import { actions, model, selectors } from 'data'
+import { actions, selectors } from 'data'
+import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import FirstStep from './FirstStep'
@@ -31,12 +32,12 @@ class SendBtcContainer extends React.PureComponent<Props> {
   componentDidMount() {
     const { amount, description, from, lockboxIndex, payPro, to } = this.props
     this.props.actions.initialized({
-      from,
-      to,
-      description,
       amount,
+      description,
+      from,
       lockboxIndex,
-      payPro
+      payPro,
+      to
     })
   }
 
@@ -74,16 +75,16 @@ class SendBtcContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   step: selectors.components.sendBtc.getStep(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.sendBtc, dispatch)
 })
 
 const enhance = compose(
-  modalEnhancer(model.components.sendBtc.MODAL),
+  modalEnhancer(ModalName.SEND_BTC_MODAL),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

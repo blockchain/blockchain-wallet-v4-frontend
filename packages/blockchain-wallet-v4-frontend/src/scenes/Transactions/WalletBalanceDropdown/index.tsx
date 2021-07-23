@@ -22,7 +22,7 @@ import FiatDisplay from 'components/Display/FiatDisplay'
 import SelectBox from 'components/Form/SelectBox'
 import { actions } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { ModalNamesType } from 'data/modals/types'
+import { ModalNameType } from 'data/modals/types'
 
 import { getData } from './selectors'
 import Loading from './template.loading'
@@ -143,7 +143,7 @@ class WalletBalanceDropdown extends Component<Props> {
 
   handleRequest = () => {
     const { coinfig } = window.coins[this.props.coin]
-    this.props.modalActions.showModal('REQUEST_CRYPTO_MODAL' as ModalNamesType, {
+    this.props.modalActions.showModal('REQUEST_CRYPTO_MODAL' as ModalNameType, {
       coin: !coinfig.type.isFiat && this.props.coin,
       origin: 'WalletBalanceDropdown'
     })

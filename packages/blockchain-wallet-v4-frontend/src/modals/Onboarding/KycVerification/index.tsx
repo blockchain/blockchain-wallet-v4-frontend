@@ -8,6 +8,7 @@ import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, model } from 'data'
+import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import AdditionalInfo from './AdditionalInfo'
@@ -19,7 +20,7 @@ import Submitted from './Submitted'
 import Loading from './template.loading'
 import Verify from './Verify'
 
-const { KYC_MODAL, STEPS } = model.components.identityVerification
+const { STEPS } = model.components.identityVerification
 
 const stepMap = {
   [STEPS.infoAndResidential]: (
@@ -180,7 +181,7 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const enhance = compose(
-  modalEnhancer(KYC_MODAL, { preventEscapeClose: true }),
+  modalEnhancer(ModalName.KYC_MODAL, { preventEscapeClose: true }),
   connect(getData, mapDispatchToProps)
 )
 

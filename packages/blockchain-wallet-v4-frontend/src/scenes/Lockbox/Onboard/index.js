@@ -16,7 +16,7 @@ const Wrapper = styled.div`
 
 class OnboardContainer extends React.PureComponent {
   launchLockboxSetup = () => {
-    this.props.modalActions.showModal('LockboxSetup')
+    this.props.modalActions.showModal('LOCKBOX_SETUP_MODAL')
   }
 
   render() {
@@ -30,7 +30,7 @@ class OnboardContainer extends React.PureComponent {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })

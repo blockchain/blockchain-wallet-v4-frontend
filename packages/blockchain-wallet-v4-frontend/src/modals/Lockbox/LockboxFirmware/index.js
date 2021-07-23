@@ -34,11 +34,11 @@ class LockboxFirmwareContainer extends React.PureComponent {
   render() {
     const { currentStep, deviceIndex, position, total } = this.props
     const steps = {
-      'connect-device': 1,
       'check-versions': 2,
-      'uninstall-apps': 3,
+      'connect-device': 1,
+      'install-complete': 5,
       'install-firmware': 4,
-      'install-complete': 5
+      'uninstall-apps': 3
     }
     const step = currentStep ? steps[currentStep.step] : 1
     const status = prop('status', currentStep)
@@ -67,16 +67,16 @@ LockboxFirmwareContainer.propTypes = {
   total: PropTypes.number.isRequired
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentStep: selectors.components.lockbox.getFirmwareUpdateStep(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
 const enhance = compose(
-  modalEnhancer('LockboxFirmware'),
+  modalEnhancer('LOCKBOX_FIRMWARE_MODAL'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

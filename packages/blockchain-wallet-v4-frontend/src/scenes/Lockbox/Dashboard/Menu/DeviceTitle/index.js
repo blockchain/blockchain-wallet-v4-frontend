@@ -24,7 +24,7 @@ const ToggleIcon = styled(Icon)`
   transition: color 0.3s;
   &:hover {
     cursor: pointer;
-    color: ${props => props.theme.blue600};
+    color: ${(props) => props.theme.blue600};
   }
 `
 const RightCol = styled.div`
@@ -42,7 +42,7 @@ const RightCol = styled.div`
 
 class DeviceTitle extends React.PureComponent {
   // onOpenAppManager = () => {
-  //   this.props.modalActions.showModal('LockboxAppManager', {
+  //   this.props.modalActions.showModal('LOCKBOX_APP_MANAGER_MODAL', {
   //     deviceIndex: this.props.deviceIndex
   //   })
   // }
@@ -75,7 +75,7 @@ class DeviceTitle extends React.PureComponent {
           {/*  /> */}
           {/* </Button> */}
           <LinkContainer to={linkTo} className='tour-step5'>
-            <ToggleIcon name={icon} size={'24px'} />
+            <ToggleIcon name={icon} size='24px' />
           </LinkContainer>
         </RightCol>
       </Wrapper>
@@ -87,7 +87,7 @@ class DeviceTitle extends React.PureComponent {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

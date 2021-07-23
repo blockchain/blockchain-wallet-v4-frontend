@@ -33,8 +33,8 @@ class ShowBtcPrivateKeyContainer extends Component {
   }
 
   render() {
-    let step = this.props.priv == null ? 0 : 1
-    let nextStep = () => this.props.actions.showBtcPrivateKey(this.props.addr)
+    const step = this.props.priv == null ? 0 : 1
+    const nextStep = () => this.props.actions.showBtcPrivateKey(this.props.addr)
     return (
       <ShowBtcPrivateKeyTemplate
         {...this.props}
@@ -48,11 +48,11 @@ class ShowBtcPrivateKeyContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   priv: state.securityCenter.shownBtcPrivKey
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.modules.settings, dispatch)
 })
 

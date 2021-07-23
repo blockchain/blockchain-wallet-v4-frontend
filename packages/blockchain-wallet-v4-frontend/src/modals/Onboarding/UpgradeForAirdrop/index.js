@@ -68,7 +68,7 @@ const CopyHeader = styled(Text)`
   width: 100%;
   font-size: 24px;
   font-weight: 600;
-  color: ${props => props.theme.grey800};
+  color: ${(props) => props.theme.grey800};
   padding: 0 25px;
 `
 const CopyContainer = styled.div`
@@ -78,7 +78,7 @@ const Copy = styled(Text)`
   font-weight: 500;
   line-height: 1.6;
   max-width: 400px;
-  color: ${props => props.theme.grey600};
+  color: ${(props) => props.theme.grey600};
 `
 const FooterButton = styled(Button)`
   height: 46px;
@@ -86,11 +86,11 @@ const FooterButton = styled(Button)`
   margin: 38px auto 0;
   width: 285px;
   border-radius: 8px;
-  background-color: ${props => props.theme.green600};
+  background-color: ${(props) => props.theme.green600};
   border: none;
   color: white;
   &:hover {
-    background-color: ${props => props.theme.green700};
+    background-color: ${(props) => props.theme.green700};
   }
 `
 const FooterTextGroup = styled(TextGroup)`
@@ -108,12 +108,7 @@ class UpgradeForAirdrop extends React.PureComponent {
   render() {
     const { actions, campaign, close, position, total } = this.props
     return (
-      <Modal
-        size='small'
-        position={position}
-        total={total}
-        dataE2e='infoModalUpgradeForAirdrop'
-      >
+      <Modal size='small' position={position} total={total} dataE2e='infoModalUpgradeForAirdrop'>
         <AbsoluteModalHeader onClose={close} />
         <Body>
           <BgHeader />
@@ -160,10 +155,7 @@ class UpgradeForAirdrop extends React.PureComponent {
                 target='_blank'
                 rel='noopener noreferrer'
               >
-                <FormattedMessage
-                  id='buttons.learn_more'
-                  defaultMessage='Learn More'
-                />
+                <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
               </LearnMoreLink>
             </FooterTextGroup>
           </CopyContainer>
@@ -177,7 +169,7 @@ UpgradeForAirdrop.defaultProps = {
   campaign: 'BLOCKSTACK'
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.onboarding, dispatch),
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })

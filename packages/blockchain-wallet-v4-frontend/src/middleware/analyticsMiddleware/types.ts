@@ -427,7 +427,7 @@ type SettingsHyperlinkClickedPayload = BasePayload & {
 type SettingsTabClickedDestination =
   | 'GENERAL'
   | 'PREFERENCES'
-  | 'TRADING_LIMITS'
+  | 'TRADING_LIMITS_MODAL'
   | 'WALLETS&ADDRESSES'
 
 type SettingsTabClickedPayload = BasePayload & {

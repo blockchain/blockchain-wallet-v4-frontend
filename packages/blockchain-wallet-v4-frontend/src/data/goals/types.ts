@@ -1,5 +1,5 @@
 import { CoinType, WalletFiatType } from 'blockchain-wallet-v4/src/types'
-import { ModalNamesType } from 'data/modals/types'
+import { ModalNameType } from 'data/modals/types'
 
 // State
 export type GoalsType =
@@ -34,7 +34,7 @@ export type GoalsState = {
   initialModalDisplayed: boolean
   initialModals:
     | {
-        [key in GoalsType]: { data: any; key: key; name: ModalNamesType }
+        [key in GoalsType]: { data: any; key: key; name: ModalNameType }
       }
     | {}
   initialRedirect: string

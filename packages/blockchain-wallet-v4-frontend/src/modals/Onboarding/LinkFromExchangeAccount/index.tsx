@@ -5,7 +5,7 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
-import { UserTiersType } from 'data/types'
+import { ModalName, UserTiersType } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../types'
@@ -37,11 +37,8 @@ export type Props = OwnPropsType & LinkStatePropsType & LinkDispatchPropsType
 
 type State = { direction: 'left' | 'right'; show: boolean }
 
-class LinkFromExchangeAccountContainer extends React.PureComponent<
-  Props,
-  State
-> {
-  state: State = { show: true, direction: 'left' }
+class LinkFromExchangeAccountContainer extends React.PureComponent<Props, State> {
+  state: State = { direction: 'left', show: true }
 
   componentDidMount() {
     const { linkId } = this.props
@@ -57,19 +54,7 @@ class LinkFromExchangeAccountContainer extends React.PureComponent<
 
   render() {
     return this.props.linkFromExchangeAccountStatus.cata({
-      Success: val => (
-        <Flyout
-          {...this.props}
-          onClose={this.handleClose}
-          isOpen={this.state.show}
-          data-e2e='infoModalLinkFromExchangeAccount'
-        >
-          <FlyoutChild>
-            <Success data={val} {...this.props} close={this.handleClose} />
-          </FlyoutChild>
-        </Flyout>
-      ),
-      Failure: error => (
+      Failure: (error) => (
         <Flyout
           {...this.props}
           onClose={this.handleClose}
@@ -104,19 +89,27 @@ class LinkFromExchangeAccountContainer extends React.PureComponent<
             <NotAsked {...this.props} close={this.handleClose} />
           </FlyoutChild>
         </Flyout>
+      ),
+      Success: (val) => (
+        <Flyout
+          {...this.props}
+          onClose={this.handleClose}
+          isOpen={this.state.show}
+          data-e2e='infoModalLinkFromExchangeAccount'
+        >
+          <FlyoutChild>
+            <Success data={val} {...this.props} close={this.handleClose} />
+          </FlyoutChild>
+        </Flyout>
       )
     })
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   email: selectors.core.settings.getEmail(state).getOrElse(false),
-  emailVerified: selectors.core.settings
-    .getEmailVerified(state)
-    .getOrElse(true),
-  linkFromExchangeAccountStatus: selectors.modules.profile.getLinkFromExchangeAccountStatus(
-    state
-  ),
+  emailVerified: selectors.core.settings.getEmailVerified(state).getOrElse(true),
+  linkFromExchangeAccountStatus: selectors.modules.profile.getLinkFromExchangeAccountStatus(state),
   userTiers: selectors.modules.profile.getUserTiers(state),
   walletId: selectors.core.wallet.getGuid(state) as string
 })
@@ -132,6 +125,6 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 })
 
 export default compose<any>(
-  modalEnhancer('LINK_FROM_EXCHANGE_ACCOUNT_MODAL'),
+  modalEnhancer(ModalName.LINK_FROM_EXCHANGE_ACCOUNT_MODAL),
   connect(mapStateToProps, mapDispatchToProps)
 )(LinkFromExchangeAccountContainer)

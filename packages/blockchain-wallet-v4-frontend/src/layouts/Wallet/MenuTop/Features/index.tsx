@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
-import { ModalNamesType } from 'data/types'
+import { ModalNameType } from 'data/types'
 
 import { getData } from './selectors'
 import Features from './template'
@@ -19,7 +19,7 @@ class FeaturesContainer extends React.PureComponent<Props> {
         })
       }
 
-      return this.props.modalActions.showModal(`SEND_BTC_MODAL` as ModalNamesType, {
+      return this.props.modalActions.showModal(`SEND_BTC_MODAL` as ModalNameType, {
         lockboxIndex: lockboxPath ? lockboxDeviceId : null,
         origin: 'FeaturesTopNav'
       })
@@ -36,19 +36,19 @@ class FeaturesContainer extends React.PureComponent<Props> {
 
     // TODO: remove with send refactor 🙏
     if (coinfig.type.erc20Address) {
-      return modalActions.showModal(`SEND_ETH_MODAL` as ModalNamesType, {
+      return modalActions.showModal(`SEND_ETH_MODAL` as ModalNameType, {
         coin,
         origin: 'FeaturesTopNav'
       })
     }
     if (window.coins[coin]) {
-      return this.props.modalActions.showModal(`SEND_${coin}_MODAL` as ModalNamesType, {
+      return this.props.modalActions.showModal(`SEND_${coin}_MODAL` as ModalNameType, {
         coin,
         lockboxIndex: lockboxPath ? lockboxDeviceId : null,
         origin: 'FeaturesTopNav'
       })
     }
-    return this.props.modalActions.showModal(`SEND_BTC_MODAL` as ModalNamesType, {
+    return this.props.modalActions.showModal(`SEND_BTC_MODAL` as ModalNameType, {
       lockboxIndex: lockboxPath ? lockboxDeviceId : null,
       origin: 'FeaturesTopNav'
     })
