@@ -179,13 +179,13 @@ export type ISBBuyOrderType = {
   }
   expiresAt: string
   fee?: string
-  period?: RecurringBuyPeriods
   id: string
   inputQuantity: string
   insertedAt: string
   outputQuantity: string
   paymentMethodId?: string
   paymentType?: SBPaymentMethodType['type']
+  period?: RecurringBuyPeriods
   price?: string
   side: SBOrderActionType
   state: SBOrderStateType
