@@ -3,7 +3,6 @@ import { any, isEmpty, isNil, map, values } from 'ramda'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { CoinType, RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
-import { SUPPORTED_COINS } from 'data/coins/model/swap'
 import { CoinAccountSelectorType } from 'data/coins/types'
 import { SwapAccountType } from 'data/components/swap/types'
 import { RootState } from 'data/rootReducer'
@@ -67,6 +66,7 @@ export const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorT
         ? Remote.of({})
         : coinList.reduce((accounts, coin) => {
             const { coinfig } = window.coins[coin]
+            // eslint-disable-next-line
             accounts[coin] = coinSelectors[
               coinfig.type.erc20Address ? 'ERC20' : coin
             ]?.getAccounts(state, { coin, ...ownProps })

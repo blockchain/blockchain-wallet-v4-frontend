@@ -8,44 +8,39 @@ import { selectors } from 'data'
 export const getData = (
   state,
   ownProps: {
+    coin: string
     exclude?: Array<string>
     includeCustodial?: boolean
     includeExchangeAddress?: boolean
   }
 ) => {
-  const {
-    /* exclude = [], */ includeCustodial,
-    includeExchangeAddress
-  } = ownProps
+  const { /* exclude = [], */ coin, includeCustodial, includeExchangeAddress } = ownProps
 
-  const buildCustodialDisplay = x => {
+  const buildCustodialDisplay = (x) => {
     return (
       `Trading Account` +
       ` (${Exchange.displayCoinToCoin({
-        value: x ? x.available : 0,
-        coin: 'ALGO'
+        coin,
+        value: x ? x.available : 0
       })})`
     )
   }
   // @ts-ignore
   // const excluded = filter(x => !exclude.includes(x.label))
   const toGroup = curry((label, options) => [{ label, options }])
-  const toExchange = x => [{ label: `Exchange Account`, value: x }]
-  const toCustodialDropdown = currencyDetails => [
+  const toExchange = (x) => [{ label: `Exchange Account`, value: x }]
+  const toCustodialDropdown = (currencyDetails) => [
     {
       label: buildCustodialDisplay(currencyDetails),
       value: {
         ...currencyDetails,
-        type: ADDRESS_TYPES.CUSTODIAL,
-        label: 'Trading Account'
+        label: 'Trading Account',
+        type: ADDRESS_TYPES.CUSTODIAL
       }
     }
   ]
 
-  const exchangeAddress = selectors.components.send.getPaymentsAccountExchange(
-    'ALGO',
-    state
-  )
+  const exchangeAddress = selectors.components.send.getPaymentsAccountExchange(coin, state)
   const hasExchangeAddress = Remote.Success.is(exchangeAddress)
 
   return sequence(Remote.of, [
@@ -55,7 +50,7 @@ export const getData = (
     includeCustodial
       ? selectors.components.simpleBuy
           .getSBBalances(state)
-          .map(x => x.ALGO)
+          .map((x) => x[coin])
           .map(toCustodialDropdown)
           .map(toGroup('Custodial Wallet'))
       : Remote.of([])

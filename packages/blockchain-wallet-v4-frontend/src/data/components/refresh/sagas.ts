@@ -45,6 +45,7 @@ export default () => {
     yield put(actions.core.data.clout.fetchRates())
     yield put(actions.core.data.doge.fetchRates())
     yield put(actions.core.data.eth.fetchErc20Rates())
+    yield put(actions.core.data.coins.fetchCoinsRates())
   }
 
   const refreshClicked = function* () {
