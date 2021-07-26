@@ -1546,6 +1546,8 @@
   "scenes.home.banners.kycresubmit.title": "Documents Needed",
   "scenes.home.banners.recurringbuys.description": "It’s really hard to time the market, which is why many investors use dollar cost averaging.",
   "scenes.home.banners.recurringbuys.title": "Recurring buys are now available",
+  "scenes.home.banners.usddispaxnow.description": "USD Digital was built with the Paxos Standard. All balances are unaffected.",
+  "scenes.home.banners.usddispaxnow.title": "USD Digital (USD-D) is now Paxos Standard (PAX).",
   "scenes.interest.additional_information_required_description": "Supply additional information here to avoid delays on withdrawal.",
   "scenes.interest.earnbody.access": "Upgrade to Gold Level and access benefits like earning up to {highestRate}% annually on your crypto.",
   "scenes.interest.earnheaderverified": "Earn interest on your crypto today.",
