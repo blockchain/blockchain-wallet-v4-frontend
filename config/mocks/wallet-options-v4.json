@@ -81,7 +81,7 @@
           "coinfig": {
             "name": "Bitcoin",
             "precision": 8,
-            "products": ["PrivateKey", "SimpleBuyBalance"],
+            "products": ["PrivateKey", "CustodialWalletBalance"],
             "symbol": "BTC",
             "type": {
               "logoPngUrl": "",
@@ -106,7 +106,7 @@
           "coinfig": {
             "name": "Ethereum",
             "precision": 18,
-            "products": ["PrivateKey", "SimpleBuyBalance"],
+            "products": ["PrivateKey", "CustodialWalletBalance"],
             "symbol": "ETH",
             "type": {
               "logoPngUrl": "",
@@ -132,7 +132,7 @@
           "coinfig": {
             "name": "Bitcoin Cash",
             "precision": 8,
-            "products": ["PrivateKey", "SimpleBuyBalance"],
+            "products": ["PrivateKey", "CustodialWalletBalance"],
             "symbol": "BCH",
             "type": {
               "logoPngUrl": "",
@@ -160,7 +160,7 @@
           "coinfig": {
             "name": "Stellar",
             "precision": 7,
-            "products": ["PrivateKey", "SimpleBuyBalance"],
+            "products": ["PrivateKey", "CustodialWalletBalance"],
             "symbol": "XLM",
             "type": {
               "logoPngUrl": "",
@@ -225,7 +225,7 @@
           "coinfig": {
             "name": "Algorand",
             "precision": 6,
-            "products": ["SimpleBuyBalance"],
+            "products": ["CustodialWalletBalance"],
             "symbol": "ALGO",
             "type": {
               "logoPngUrl": "",
@@ -247,7 +247,7 @@
           "coinfig": {
             "name": "BitClout",
             "precision": 9,
-            "products": ["SimpleBuyBalance"],
+            "products": ["CustodialWalletBalance"],
             "symbol": "CLOUT",
             "type": {
               "logoPngUrl": "https://raw.githubusercontent.com/blockchain/coin-definitions/master/extensions/blockchains/bitclout/info/logo.png",
@@ -269,7 +269,7 @@
           "coinfig": {
             "name": "Polkadot",
             "precision": 10,
-            "products": ["SimpleBuyBalance"],
+            "products": ["CustodialWalletBalance"],
             "symbol": "DOT",
             "type": {
               "logoPngUrl": "",
@@ -291,7 +291,7 @@
           "coinfig": {
             "name": "DogeCoin",
             "precision": 8,
-            "products": ["SimpleBuyBalance"],
+            "products": ["CustodialWalletBalance"],
             "symbol": "DOGE",
             "type": {
               "logoPngUrl": "",
