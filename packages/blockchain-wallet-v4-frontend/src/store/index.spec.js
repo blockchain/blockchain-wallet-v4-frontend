@@ -45,16 +45,61 @@ jest.mock('../middleware', () => ({
 describe('App Store Config', () => {
   const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
   const fakeWalletOptions = {
-    domains: { root: 'MOCK_ROOT', webSocket: 'MOCK_SOCKET' },
+    domains: { api: 'MOCK_API', root: 'MOCK_ROOT', webSocket: 'MOCK_SOCKET' },
     platforms: {
       web: {
         coins: {
           BTC: { config: { network: 'bitcoin' } },
           ETH: { config: { network: 1 } },
           XLM: { config: { network: 'public' } }
-        }
+        },
+        erc20s: ['AAVE', 'PAX', 'USDC', 'USDT', 'WDGLD', 'YFI']
       }
     }
+  }
+  const fakeCurrencies = {
+    currencies: [
+      {
+        name: 'Aave',
+        precision: 18,
+        products: [
+          'MercuryDeposits',
+          'MercuryWithdrawals',
+          'InterestBalance',
+          'CustodialWalletBalance',
+          'PrivateKey'
+        ],
+        symbol: 'AAVE',
+        type: {
+          erc20Address: '0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9',
+          logoPngUrl:
+            'https://raw.githubusercontent.com/blockchain/coin-definitions/master/extensions/blockchains/ethereum/assets/0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9/logo.png',
+          name: 'ERC20',
+          parentChain: 'ETH',
+          websiteUrl: 'https://aave.com'
+        }
+      },
+      {
+        name: 'USD Coin',
+        precision: 6,
+        products: [
+          'MercuryDeposits',
+          'MercuryWithdrawals',
+          'InterestBalance',
+          'CustodialWalletBalance',
+          'PrivateKey'
+        ],
+        symbol: 'USDC',
+        type: {
+          erc20Address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+          logoPngUrl:
+            'https://raw.githubusercontent.com/blockchain/coin-definitions/master/extensions/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png',
+          name: 'ERC20',
+          parentChain: 'ETH',
+          websiteUrl: 'https://centre.io/usdc'
+        }
+      }
+    ]
   }
   const mockNetworks = {
     bch: {
@@ -86,6 +131,12 @@ describe('App Store Config', () => {
     // setup fetch mock
     fetch.resetMocks()
     fetch.mockResponseOnce(JSON.stringify(fakeWalletOptions))
+    fetch.mockImplementation((url) => {
+      if (url === `${fakeWalletOptions.domains.api}/assets/currencies/erc20`) {
+        return Promise.resolve({ json: () => fakeCurrencies })
+      }
+      return Promise.resolve(new Response(JSON.stringify({})))
+    })
 
     // setup spies
     composeSpy = jest.spyOn(Redux, 'compose').mockImplementation(jest.fn())
@@ -103,8 +154,12 @@ describe('App Store Config', () => {
 
     // assertions
     // wallet options
-    expect(fetch.mock.calls).toHaveLength(1)
+    expect(fetch.mock.calls).toHaveLength(2)
     expect(fetch.mock.calls[0][0]).toEqual('/wallet-options-v4.json')
+    // erc coins
+    expect(fetch.mock.calls[1][0]).toEqual(
+      `${fakeWalletOptions.domains.api}/assets/currencies/erc20`
+    )
     // socket registration
     expect(Socket.mock.calls).toHaveLength(1)
     expect(Socket.mock.calls[0][0]).toEqual({
