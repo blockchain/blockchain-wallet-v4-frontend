@@ -31,7 +31,7 @@ export const coinsReducer = (state = INITIAL_STATE, action: CoinsActionTypes): C
         ...state,
         rates: {
           ...state.rates,
-          [action.payload.coin]: Remote.Success(action.payload)
+          [action.payload.coin]: Remote.Success(action.payload.rates)
         }
       }
     default: {
