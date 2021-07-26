@@ -349,13 +349,12 @@ export const getCoinsBalanceInfo = createDeepEqualSelector(
   [selectors.core.data.coins.getCoins, selectors.core.settings.getCurrency, (state) => state],
   (coins, currencyR, state) => {
     const transform = (currency) => {
-      return coins.map((coin, balance) => {
-        const transform2 = (rates) => {
+      return coins.map((coin) => {
+        const transform2 = (rates, balance) => {
           return Exchange.convertCoinToFiat({ coin, currency, rates, value: balance })
         }
 
         const balanceR = getCoinBalance(coin)(state)
-        // @ts-ignore
         const ratesR = selectors.core.data.coins.getRates(coin, state)
         return ratesR ? lift(transform2)(ratesR, balanceR) : Remote.of('0')
       })
