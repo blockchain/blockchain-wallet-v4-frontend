@@ -20,7 +20,7 @@ const Footer = styled(FormGroup)`
   align-items: center;
 `
 
-const validatePasswordConfirmation = validPasswordConfirmation('resetPassword')
+const validatePasswordConfirmation = validPasswordConfirmation('resetAccountPassword')
 
 const SecondStep = (props: Props) => {
   const {
@@ -52,7 +52,7 @@ const SecondStep = (props: Props) => {
         </FormLabel>
         <Field
           bgColor='grey000'
-          name='resetPassword'
+          name='resetAccountPassword'
           validate={[required, validStrongPassword]}
           component={PasswordBox}
           showPasswordScore

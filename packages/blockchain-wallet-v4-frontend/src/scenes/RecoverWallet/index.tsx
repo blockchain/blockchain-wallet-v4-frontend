@@ -28,6 +28,7 @@ class RecoverWalletContainer extends React.PureComponent<InjectedFormProps<{}, P
 
   render() {
     const { step } = this.props.formValues || RecoverSteps.RECOVERY_OPTIONS
+    console.log(this.props.walletData, 'nabuId')
     return (
       <Wrapper>
         <Form>
@@ -64,9 +65,10 @@ const mapStateToProps = (state) => ({
   loginFormValues: selectors.form.getFormValues('login')(state),
   mnemonic: formValueSelector('recover')(state, 'mnemonic'),
   nabuId: selectors.auth.getNabuId(state),
+  walletData: selectors.auth.getWalletData(state),
   recoverPassword: formValueSelector('recover')(state, 'recoverPassword') || '',
   registering: selectors.auth.getRegistering(state),
-  resetPassword: formValueSelector('recover')(state, 'resetPassword') || ''
+  resetPassword: formValueSelector('recover')(state, 'resetAccountPassword') || ''
 })
 
 const mapDispatchToProps = (dispatch) => ({

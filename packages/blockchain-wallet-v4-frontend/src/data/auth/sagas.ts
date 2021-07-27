@@ -10,15 +10,18 @@ import * as C from 'services/alerts'
 import { isGuid } from 'services/forms'
 import { checkForVulnerableAddressError } from 'services/misc'
 import { askSecondPasswordEnhancer, confirm, promptForSecondPassword } from 'services/sagas'
+import profileSagas from '../modules/profile/sagas'
 
 import * as A from './actions'
+import * as S from './selectors'
 import { guessCurrencyBasedOnCountry } from './helpers'
 import { LoginSteps, WalletDataFromMagicLink } from './types'
 
 const { MOBILE_LOGIN } = model.analytics
 
-export default ({ api, coreSagas }) => {
+export default ({ api, coreSagas, networks }) => {
   const logLocation = 'auth/sagas'
+  const { generateRetailToken } = profileSagas({ api, coreSagas, networks })
 
   const forceSyncWallet = function* () {
     yield put(actions.core.walletSync.forceSync())
@@ -332,9 +335,12 @@ export default ({ api, coreSagas }) => {
       yield fork(checkExchangeUsage)
       yield fork(checkDataErrors)
       // @ts-ignore
-      yield fork(logoutRoutine, yield call(setLogoutEventListener))
+      // TODO: figure out how to set this listener
+      // and still complete saga
+      // yield fork(logoutRoutine, yield call(setLogoutEventListener))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'loginRoutineSaga', e))
+      console.log(e, 'error')
       // Redirect to error page instead of notification
       yield put(actions.alerts.displayError(C.WALLET_LOADING_ERROR))
     }
@@ -484,10 +490,15 @@ export default ({ api, coreSagas }) => {
       yield put(actions.auth.setRegisterEmail(action.payload.email))
       yield call(coreSagas.wallet.createWalletSaga, action.payload)
       yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
-      yield call(loginRoutineSaga, {
-        email: action.payload.email,
-        firstLogin: true
-      })
+      try {
+        yield call(loginRoutineSaga, {
+          email: action.payload.email,
+          firstLogin: true
+        })
+      } catch (e) {
+        yield put(actions.auth.registerFailure())
+      }
+      debugger
       yield put(actions.auth.registerSuccess())
     } catch (e) {
       yield put(actions.auth.registerFailure())
@@ -685,8 +696,9 @@ export default ({ api, coreSagas }) => {
       const { captchaToken, email } = action.payload
       yield put(actions.session.saveSession(assoc(email, sessionToken, {})))
       yield call(api.triggerWalletMagicLink, email, captchaToken, sessionToken)
+      // TODO: remove
       // below is link to trigger mock response
-      // yield call(api.getMagicLinkMock, 'E')
+      yield call(api.getMagicLinkMock, 'E')
       if (step === LoginSteps.CHECK_EMAIL) {
         yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
       } else {
@@ -703,7 +715,20 @@ export default ({ api, coreSagas }) => {
   }
 
   const resetAccount = function* (action) {
+    // const { email, password, language } = action.payload
+    const email = 'leora@blockchain.com'
+    const password = 'blockchain'
+    const language = 'en'
+    // const recoveryToken = yield select(S.getMagicLinkData)
+    const recoveryToken = '00000000-0000-0000-0000-000000000008'
+    const userId = 'ddca03d6-3c58-4bbf-bfae-ae666f6b448a'
+    yield call(register, actions.auth.register(email, password, language))
+    const retailToken = yield call(generateRetailToken)
+    const { lifetimeToken } = yield call(api.resetUserAccount(userId, recoveryToken, retailToken))
+    console.log(lifetimeToken, 'lifetime token')
+    // yield put(actions.core.kvStore.userCredentials.setUserCredentials(userId, lifetimeToken))
     // first we want to create a new wallet
+
     // then we ping POST /ngw/users/recovery/$USER_ID
     // and pass it the recovery token we've received from the magic link
     // then we get a new lifetime token in the repsonse
