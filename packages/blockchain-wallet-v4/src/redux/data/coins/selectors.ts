@@ -14,10 +14,10 @@ export const getRates = (coin: string, state: RootState) => {
   return state.dataPath.coins.rates[coin] || Remote.NotAsked
 }
 
-export const getTransactions = (state: RootState) => {
-  return state.dataPath.algo.transactions
+export const getTransactions = (coin: string, state: RootState) => {
+  return state.dataPath.coins.transactions[coin] || []
 }
 
-export const getTransactionsAtBound = (state: RootState) => {
-  return state.dataPath.algo.transactions_at_bound
+export const getTransactionsAtBound = (coin: string, state: RootState) => {
+  return state.dataPath.coins.transactions_at_bound[coin] || false
 }

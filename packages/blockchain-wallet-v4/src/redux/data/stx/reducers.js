@@ -12,5 +12,7 @@ export default (state = INITIAL_STATE, action) => {
     case AT.SET_ADDRESS: {
       return assoc('address', payload.address, state)
     }
+    default:
+      return state
   }
 }

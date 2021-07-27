@@ -39,9 +39,9 @@ export default ({ api }: { api: APIType }) => {
     const { payload } = action
     try {
       const { reset } = payload
-      const pages = yield select(S.getTransactions)
+      const pages = S.getTransactions(payload.coin, yield select())
       const offset = reset ? 0 : length(pages) * TX_PER_PAGE
-      const transactionsAtBound = yield select(S.getTransactionsAtBound)
+      const transactionsAtBound = S.getTransactionsAtBound(payload.coin, yield select())
       if (Remote.Loading.is(last(pages))) return
       if (transactionsAtBound && !reset) return
       yield put(A.fetchTransactionsLoading(payload.coin, reset))
@@ -49,14 +49,14 @@ export default ({ api }: { api: APIType }) => {
       const txPage: Array<any> = txs
       const nextSBTransactionsURL = selectors.data.custodial.getNextSBTransactionsURL(
         yield select(),
-        action.payload.coin
+        payload.coin
       )
       const custodialPage: FetchCustodialOrdersAndTransactionsReturnType = yield call(
         fetchCustodialOrdersAndTransactions,
         txPage,
         offset,
         true,
-        action.payload.coin,
+        payload.coin,
         reset ? null : nextSBTransactionsURL
       )
       const page = flatten([txPage, custodialPage.orders]).sort((a, b) => {

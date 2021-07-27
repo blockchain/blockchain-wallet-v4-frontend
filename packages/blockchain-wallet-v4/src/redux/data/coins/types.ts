@@ -5,8 +5,8 @@ import * as AT from './actionTypes'
 // state
 export type CoinsState = {
   rates: { [key in string]: RemoteDataType<string, RatesType> }
-  transactions: Array<any>
-  transactions_at_bound: boolean
+  transactions: { [key in string]: Array<any> }
+  transactions_at_bound: { [key in string]: boolean }
 }
 
 // actions

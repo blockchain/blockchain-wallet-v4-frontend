@@ -24,19 +24,19 @@ export const fetchTransactions = (coin: string, reset?) => ({
   payload: { coin, reset },
   type: AT.FETCH_COINS_TRANSACTIONS
 })
-export const fetchTransactionsFailure = (coin, error): CoinsActionTypes => ({
+export const fetchTransactionsFailure = (coin: string, error: string): CoinsActionTypes => ({
   payload: { coin, error },
   type: AT.FETCH_COINS_TRANSACTIONS_FAILURE
 })
-export const fetchTransactionsLoading = (coin, reset): CoinsActionTypes => ({
+export const fetchTransactionsLoading = (coin: string, reset: boolean): CoinsActionTypes => ({
   payload: { coin, reset },
   type: AT.FETCH_COINS_TRANSACTIONS_LOADING
 })
 export const fetchTransactionsSuccess = (
-  coin,
+  coin: string,
   transactions,
-  reset,
-  isFinalPage
+  reset: boolean,
+  isFinalPage: boolean
 ): CoinsActionTypes => ({
   payload: { coin, isFinalPage, reset, transactions },
   type: AT.FETCH_COINS_TRANSACTIONS_SUCCESS
