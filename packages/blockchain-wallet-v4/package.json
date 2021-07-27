@@ -48,7 +48,8 @@
     "transform": {
       "^.+\\.jsx?$": "babel-jest",
       "^.+\\.tsx?$": "ts-jest"
-    }
+    },
+    "testEnvironment": "jsdom"
   },
   "dependencies": {
     "axios": "0.21.1",
