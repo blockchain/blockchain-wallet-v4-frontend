@@ -1,10 +1,7 @@
-import algoTransactions from './algoTransactions/sagas'
 import bchTransactions from './bchTransactions/sagas'
 import brokerage from './brokerage/sagas'
 import btcTransactions from './btcTransactions/sagas'
-import cloutTransactions from './cloutTransactions/sagas'
-import dogeTransactions from './dogeTransactions/sagas'
-import dotTransactions from './dotTransactions/sagas'
+import coinTransactions from './coinTransactions/sagas'
 import ethTransactions from './ethTransactions/sagas'
 import fiatTransactions from './fiatTransactions/sagas'
 import fundRecovery from './fundRecovery/sagas'
@@ -34,13 +31,10 @@ import withdraw from './withdraw/sagas'
 import xlmTransactions from './xlmTransactions/sagas'
 
 export default ({ api, coreSagas, networks }) => ({
-  algoTransactions: algoTransactions(),
   bchTransactions: bchTransactions(),
   brokerage: brokerage({ api, coreSagas, networks }),
   btcTransactions: btcTransactions(),
-  cloutTransactions: cloutTransactions(),
-  dogeTransactions: dogeTransactions(),
-  dotTransactions: dotTransactions(),
+  coinTransactions: coinTransactions(),
   ethTransactions: ethTransactions(),
   fiatTransactions: fiatTransactions(),
   fundRecovery: fundRecovery({ api }),

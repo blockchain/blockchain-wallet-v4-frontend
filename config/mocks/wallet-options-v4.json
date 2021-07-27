@@ -228,7 +228,7 @@
             "products": ["CustodialWalletBalance"],
             "symbol": "ALGO",
             "type": {
-              "logoPngUrl": "",
+              "logoPngUrl": "https://raw.githubusercontent.com/blockchain/coin-definitions/master/extensions/blockchains/algorand/info/logo.png",
               "minimumOnChainConfirmations": 3,
               "name": "Algorand",
               "parentChain": "ALGO",
@@ -272,7 +272,7 @@
             "products": ["CustodialWalletBalance"],
             "symbol": "DOT",
             "type": {
-              "logoPngUrl": "",
+              "logoPngUrl": "https://raw.githubusercontent.com/blockchain/coin-definitions/master/extensions/blockchains/polkadot/info/logo.png",
               "minimumOnChainConfirmations": 20,
               "name": "Polkadot",
               "parentChain": "DOT",
@@ -294,7 +294,7 @@
             "products": ["CustodialWalletBalance"],
             "symbol": "DOGE",
             "type": {
-              "logoPngUrl": "",
+              "logoPngUrl": "https://raw.githubusercontent.com/blockchain/coin-definitions/master/extensions/blockchains/doge/info/logo.png",
               "minimumOnChainConfirmations": 40,
               "name": "DogeCoin",
               "parentChain": "DOGE",
