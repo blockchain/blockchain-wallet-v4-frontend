@@ -2,20 +2,18 @@ import moment from 'moment'
 import { flatten, indexBy, length, map, path, prop } from 'ramda'
 import { call, put, select, take } from 'redux-saga/effects'
 
+import {
+  FetchCustodialOrdersAndTransactionsReturnType,
+  HDAccountList
+} from 'blockchain-wallet-v4/src/types'
 import { APIType } from 'core/network/api'
 import { BchTxType } from 'core/transactions/types'
-import { FetchCustodialOrdersAndTransactionsReturnType } from 'core/types'
 
 import Remote from '../../../remote'
 import * as transactions from '../../../transactions'
-import { HDAccountList } from '../../../types'
 import { errorHandler, MISSING_WALLET } from '../../../utils'
 import { addFromToAccountNames } from '../../../utils/accounts'
-import {
-  BCH_FORK_TIME,
-  convertFromCashAddrIfCashAddr,
-  TX_PER_PAGE
-} from '../../../utils/bch'
+import { BCH_FORK_TIME, convertFromCashAddrIfCashAddr, TX_PER_PAGE } from '../../../utils/bch'
 import { getAccountsList, getBchTxNotes } from '../../kvStore/bch/selectors'
 import { getLockboxBchAccounts } from '../../kvStore/lockbox/selectors'
 import * as selectors from '../../selectors'
@@ -25,12 +23,12 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 
-const transformTx = transactions.bch.transformTx
+const { transformTx } = transactions.bch
 
 export default ({ api }: { api: APIType }) => {
   const { fetchCustodialOrdersAndTransactions } = custodialSagas({ api })
 
-  const fetchData = function * () {
+  const fetchData = function* () {
     try {
       yield put(A.fetchDataLoading())
       const context = yield select(S.getContext)
@@ -47,24 +45,26 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchRates = function * () {
+  const fetchRates = function* () {
     try {
       yield put(A.fetchRatesLoading())
-      const data = yield call(api.getBchTicker)
+      const currencyR = selectors.settings.getCurrency(yield select())
+      const currency = currencyR.getOrElse('USD')
+      const data = yield call(api.getCoinTicker, 'BCH', currency)
       yield put(A.fetchRatesSuccess(data))
     } catch (e) {
       yield put(A.fetchRatesFailure(e.message))
     }
   }
 
-  const watchTransactions = function * () {
+  const watchTransactions = function* () {
     while (true) {
       const action = yield take(AT.FETCH_BCH_TRANSACTIONS)
       yield call(fetchTransactions, action)
     }
   }
 
-  const fetchTransactions = function * (action) {
+  const fetchTransactions = function* (action) {
     try {
       const { payload } = action
       const { address, filter, reset } = payload
@@ -81,12 +81,12 @@ export default ({ api }: { api: APIType }) => {
         context,
         {
           n: TX_PER_PAGE,
-          onlyShow: convertedAddress || walletContext.join('|'),
-          offset
+          offset,
+          onlyShow: convertedAddress || walletContext.join('|')
         },
         filter
       )
-      const filteredTxs = data.txs.filter(tx => tx.time > BCH_FORK_TIME)
+      const filteredTxs = data.txs.filter((tx) => tx.time > BCH_FORK_TIME)
       const atBounds = length(filteredTxs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
       const txPage: Array<BchTxType> = yield call(__processTxs, filteredTxs)
@@ -111,7 +111,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const __processTxs = function * (txs) {
+  const __processTxs = function* (txs) {
     // Page == Remote ([Tx])
     // Remote(wallet)
     const wallet = yield select(walletSelectors.getWallet)
@@ -126,12 +126,7 @@ export default ({ api }: { api: APIType }) => {
     // ProcessPage :: wallet -> [Tx] -> [Tx]
     const ProcessTxs = (wallet, lockboxAccountList, txList, txNotes) =>
       map(
-        transformTx.bind(
-          undefined,
-          wallet.getOrFail(MISSING_WALLET),
-          lockboxAccountList,
-          txNotes
-        ),
+        transformTx.bind(undefined, wallet.getOrFail(MISSING_WALLET), lockboxAccountList, txNotes),
         txList
       )
     // ProcessRemotePage :: Page -> Page
@@ -139,7 +134,7 @@ export default ({ api }: { api: APIType }) => {
     return addFromToAccountNames(wallet, accountList, processedTxs)
   }
 
-  const fetchTransactionHistory = function * ({ payload }) {
+  const fetchTransactionHistory = function* ({ payload }) {
     const { address, end, start } = payload
     const startDate = moment(start).format('DD/MM/YYYY')
     const endDate = moment(end).format('DD/MM/YYYY')
@@ -152,13 +147,11 @@ export default ({ api }: { api: APIType }) => {
         // wallets will have a derivations array
         const bchLegacyAddress = prop(
           'address',
-          address.length === 2 && address.find(add => add.type === 'legacy')
+          address.length === 2 && address.find((add) => add.type === 'legacy')
         )
         // TODO: SEGWIT remove w/ DEPRECATED_V3
         // Just pass bchLegacy to function
-        const convertedAddress = convertFromCashAddrIfCashAddr(
-          bchLegacyAddress || address
-        )
+        const convertedAddress = convertFromCashAddrIfCashAddr(bchLegacyAddress || address)
         const data = yield call(
           api.getBchTransactionHistory,
           convertedAddress,
@@ -185,11 +178,11 @@ export default ({ api }: { api: APIType }) => {
   }
 
   return {
+    __processTxs,
     fetchData,
     fetchRates,
     fetchTransactionHistory,
     fetchTransactions,
-    watchTransactions,
-    __processTxs
+    watchTransactions
   }
 }

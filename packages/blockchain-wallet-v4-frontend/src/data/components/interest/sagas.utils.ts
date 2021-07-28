@@ -10,7 +10,6 @@ import {
   FiatType,
   PaymentType,
   PaymentValue,
-  RatesType,
   SBBalancesType
 } from 'blockchain-wallet-v4/src/types'
 import { actions, actionTypes, selectors } from 'data'
@@ -71,7 +70,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
       const balance = payment && payment.effectiveBalance
       const custodialBalance = custodialBalances && custodialBalances[coin]?.available
       const ratesR = S.getRates(yield select())
-      const rates = ratesR.getOrElse({} as RatesType)
+      const rates = ratesR.getOrElse(0)
       const userCurrency = (yield select(selectors.core.settings.getCurrency)).getOrFail(
         'Failed to get user currency'
       )
