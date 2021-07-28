@@ -2,7 +2,7 @@ import React, { Suspense } from 'react'
 import { connect, ConnectedProps, Provider } from 'react-redux'
 import { Redirect, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
-import { has, map, values } from 'ramda'
+import { map, values } from 'ramda'
 import { PersistGate } from 'redux-persist/integration/react'
 
 import SiftScience from 'components/SiftScience'
@@ -36,7 +36,6 @@ const VerifyEmail = React.lazy(() => import('./VerifyEmail'))
 // WALLET
 const Addresses = React.lazy(() => import('./Settings/Addresses'))
 const Airdrops = React.lazy(() => import('./Airdrops'))
-const Borrow = React.lazy(() => import('./Borrow'))
 const General = React.lazy(() => import('./Settings/General'))
 const Home = React.lazy(() => import('./Home'))
 const Interest = React.lazy(() => import('./Interest'))
@@ -80,7 +79,6 @@ class App extends React.PureComponent<Props> {
                       <PublicLayout path='/wallet' component={Login} />
                       <PublicLayout path='/verify-email-step' component={VerifyEmail} />
                       <WalletLayout path='/airdrops' component={Airdrops} />
-                      <WalletLayout path='/borrow' component={Borrow} />
                       <WalletLayout path='/exchange' component={TheExchange} />
                       <WalletLayout path='/home' component={Home} />
                       <WalletLayout path='/interest' component={Interest} exact />
@@ -93,22 +91,17 @@ class App extends React.PureComponent<Props> {
                       <WalletLayout path='/prices' component={Prices} />
                       {values(
                         map((coinModel) => {
-                          const coin = coinModel.coinCode
-                          const isFiat = coin === 'USD' || coin === 'EUR' || coin === 'GBP'
+                          const { coinfig } = coinModel
                           return (
-                            coinModel.txListAppRoute &&
-                            coinModel.invited && (
-                              <WalletLayout
-                                path={coinModel.txListAppRoute}
-                                component={Transactions}
-                                coin={coin}
-                                isCoinErc20={has('contractAddress', coinModel)}
-                                isFiat={isFiat}
-                                key={coin}
-                              />
-                            )
+                            <WalletLayout
+                              path={`/${coinfig.symbol}/transactions`}
+                              component={Transactions}
+                              coinfig={coinfig}
+                              coin={coinfig.symbol}
+                              key={coinfig.symbol}
+                            />
                           )
-                        }, this.props.supportedCoins)
+                        }, this.props.coinsWithMethodAndOrder)
                       )}
                       {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
                     </Switch>
@@ -126,21 +119,21 @@ class App extends React.PureComponent<Props> {
 }
 
 const mapStateToProps = (state) => ({
+  coinsWithMethodAndOrder: selectors.components.utils
+    .getCoinsWithMethodAndOrder(state)
+    .getOrElse([]),
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrFail('No supported coins.'),
   userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType)
 })
 
 const connector = connect(mapStateToProps)
 
 type Props = {
+  coinsWithMethodAndOrder: any
   history: any
   isAuthenticated: boolean
   persistor: any
   store: any
-  supportedCoins: any
 } & ConnectedProps<typeof connector>
 
 export default connector(App)

@@ -53,11 +53,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
         if (to) payment = yield payment.to(to)
         if (amount && amount.coin) {
-          const satAmount = Exchange.convertBchToBch({
-            fromUnit: 'BCH',
-            toUnit: 'SAT',
+          const satAmount = Exchange.convertCoinToCoin({
+            baseToStandard: false,
+            coin: 'BCH',
             value: amount.coin
-          }).value
+          })
           payment = yield payment.amount(parseInt(satAmount))
         }
         if (description) payment = yield payment.description(description)
@@ -145,7 +145,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (!equals(FORM, form)) return
       const field = path(['meta', 'field'], action)
       const payload = prop('payload', action)
-      const erc20List = (yield select(selectors.core.walletOptions.getErc20CoinList)).getOrElse([])
       const p = yield select(S.getPayment)
       let payment: BtcPaymentType = coreSagas.payment.bch.create({
         network: networks.bch,
@@ -154,7 +153,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       switch (field) {
         case 'coin':
-          const modalName = includes(payload, erc20List) ? 'ETH' : payload
+          const { coinfig } = window.coins[payload]
+          const modalName = coinfig.type.erc20Address ? 'ETH' : payload
           yield put(actions.modals.closeAllModals())
           yield put(
             actions.modals.showModal(`SEND_${modalName}_MODAL` as ModalNamesType, {
@@ -230,9 +230,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
                 )
               )
               break
-            case !isNil(tryParsePayPro()) &&
-              hasPath(['options', 'r'], payProInvoice) &&
-              !includes('bitpay', (address as unknown) as string):
+            case !isNil(tryParsePayPro()) && hasPath(['options', 'r'], payProInvoice):
               yield call(bitPayInvoiceEntered, payProInvoice)
               break
             default:
@@ -241,16 +239,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           break
         case 'amount':
           const bchAmount = prop('coin', payload)
-          const satAmount = Exchange.convertBchToBch({
-            fromUnit: 'BCH',
-            toUnit: 'SAT',
+          const satAmount = Exchange.convertCoinToCoin({
+            baseToStandard: false,
+            coin: 'BCH',
             value: bchAmount
-          }).value
+          })
           payment = yield payment.amount(parseInt(satAmount))
           break
         case 'description':
           payment = yield payment.description(payload)
           break
+        default:
       }
       try {
         payment = yield payment.build()
@@ -273,17 +272,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
       const effectiveBalance = prop('effectiveBalance', payment)
-      const coin = Exchange.convertBchToBch({
-        fromUnit: 'SAT',
-        toUnit: 'BCH',
+      const coin = Exchange.convertCoinToCoin({
+        coin: 'BCH',
         value: effectiveBalance
-      }).value
-      const fiat = Exchange.convertBchToFiat({
-        fromUnit: 'SAT',
+      })
+      const fiat = Exchange.convertCoinToFiat({
+        coin: 'BCH',
+        currency,
         rates: bchRates,
-        toCurrency: currency,
         value: effectiveBalance
-      }).value
+      })
       yield put(change(FORM, 'amount', { coin, fiat }))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'maximumAmountClicked', e))
@@ -373,10 +371,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           ...TRANSACTION_EVENTS.SEND,
           'BCH',
           Exchange.convertCoinToCoin({
-            baseToStandard: true,
             coin: 'BCH',
             value: amt.reduce(add, 0)
-          }).value
+          })
         ])
       )
       yield put(actions.modals.closeAllModals())

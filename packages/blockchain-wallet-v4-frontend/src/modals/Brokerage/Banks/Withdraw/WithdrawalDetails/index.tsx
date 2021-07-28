@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import {
   WalletFiatType,
   WithdrawResponseType

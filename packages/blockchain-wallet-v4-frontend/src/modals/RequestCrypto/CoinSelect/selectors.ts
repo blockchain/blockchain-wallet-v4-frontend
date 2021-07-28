@@ -14,36 +14,26 @@ export const getData = createDeepEqualSelector(
         coins: ownProps.requestableCoins,
         ...REQUEST_ACCOUNTS_SELECTOR
       } as CoinAccountSelectorType),
-    selectors.core.walletOptions.getAllCoinAvailabilities,
     selectors.modules.profile.isSilverOrAbove,
     (state, ownProps) => ({ ownProps, state })
   ],
-  (accounts, coinAvailabilitiesR, isSilverOrAbove, { ownProps }) => {
+  (accounts, isSilverOrAbove, { ownProps }) => {
     const { selectedCoin } = ownProps?.formValues || {}
-    const coinAvailabilities = coinAvailabilitiesR.getOrFail(
-      'No available coins.'
-    )
     const prunedAccounts = [] as Array<SwapAccountType>
     const isAtLeastTier1 = isSilverOrAbove
 
     // @ts-ignore
     map(
-      coin =>
+      (coin) =>
         map((acct: any) => {
-          // remove account if any if either of following are true
-          // - coin receive feature is currently disabled
-          // - form has a selected coin and it doesnt match accounts coin type
-          if (
-            selectedCoin === 'ALL'
-              ? coinAvailabilities[acct.coin].request
-              : acct.coin === selectedCoin
-          ) {
+          if (selectedCoin === 'ALL' ? true : acct.coin === selectedCoin) {
             prunedAccounts.push(acct)
           }
         }, coin),
       accounts
     )
 
-    return { isAtLeastTier1, accounts: prunedAccounts }
+    return { accounts: prunedAccounts, isAtLeastTier1 }
   }
 )
+export default getData

@@ -4,7 +4,7 @@ import moment from 'moment'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import { OrderType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import {
@@ -36,13 +36,11 @@ const Amount = styled.div`
   }
 `
 
-const Success: React.FC<Props> = props => {
-  const { sellOrder, supportedCoins } = props
+const Success: React.FC<Props> = (props) => {
+  const { sellOrder } = props
   const sellBaseAmount = sellOrder && getSellBaseAmount(sellOrder)
   const sellBaseCurrency = sellOrder ? getCoinFromPair(sellOrder.pair) : 'BTC'
-  const sellCounterCurrency = sellOrder
-    ? getFiatFromPair(sellOrder.pair)
-    : 'USD'
+  const sellCounterCurrency = sellOrder ? getFiatFromPair(sellOrder.pair) : 'USD'
   const isInternal = sellOrder?.kind.direction === 'INTERNAL'
   const sellCounterAmount = sellOrder ? getSellCounterAmount(sellOrder) : 0
   return sellOrder ? (
@@ -51,11 +49,7 @@ const Success: React.FC<Props> = props => {
         <FlyoutWrapper>
           <TopText color='grey800' size='20px' weight={600}>
             <span>
-              <BuyOrSell
-                orderType={OrderType.SELL}
-                crypto={sellBaseCurrency}
-                coinModel={supportedCoins[sellBaseCurrency]}
-              />
+              <BuyOrSell orderType={OrderType.SELL} crypto={sellBaseCurrency} />
             </span>
             <Icon
               cursor
@@ -69,12 +63,8 @@ const Success: React.FC<Props> = props => {
             <Text color='grey800' data-e2e='sbAmount' size='32px' weight={600}>
               {sellBaseAmount} of
             </Text>
-            <Text
-              size='32px'
-              weight={600}
-              color={supportedCoins[sellBaseCurrency].coinCode}
-            >
-              {supportedCoins[sellBaseCurrency].coinTicker}
+            <Text size='32px' weight={600} color={sellBaseCurrency}>
+              {sellBaseCurrency}
             </Text>
           </Amount>
           <div style={{ margin: '16px 0' }}>
@@ -83,23 +73,15 @@ const Success: React.FC<Props> = props => {
         </FlyoutWrapper>
         <Row>
           <Title color='grey600' size='14px' weight={500}>
-            <FormattedMessage
-              id='modals.simplebuy.summary.txid'
-              defaultMessage='Transaction ID'
-            />
+            <FormattedMessage id='modals.simplebuy.summary.txid' defaultMessage='Transaction ID' />
           </Title>
           <Value data-e2e='sbTransactionId'>{sellOrder.id}</Value>
         </Row>
         <Row>
           <Title>
-            <FormattedMessage
-              id='modals.simplebuy.summary.created'
-              defaultMessage='Created'
-            />
+            <FormattedMessage id='modals.simplebuy.summary.created' defaultMessage='Created' />
           </Title>
-          <Value data-e2e='sbCreated'>
-            {moment(sellOrder.createdAt).format('LLL')}
-          </Value>
+          <Value data-e2e='sbCreated'>{moment(sellOrder.createdAt).format('LLL')}</Value>
         </Row>
 
         <>
@@ -116,7 +98,7 @@ const Success: React.FC<Props> = props => {
                   unit: sellCounterCurrency,
                   value: sellOrder.priceFunnel.price
                 })}{' '}
-                / 1 {supportedCoins[sellBaseCurrency].coinTicker}
+                / 1 {sellBaseCurrency}
               </Value>
             </Row>
           )}
@@ -125,22 +107,18 @@ const Success: React.FC<Props> = props => {
               <FormattedMessage id='copy.amount' defaultMessage='Amount' />
             </Title>
             <Value data-e2e='sbPurchasing'>
-              {sellBaseAmount} of {supportedCoins[sellBaseCurrency].coinTicker}
+              {sellBaseAmount} of {sellBaseCurrency}
             </Value>
           </Row>
         </>
-        {sellOrder.priceFunnel.outputMoney !== '0' &&
-          sellOrder.state !== 'FAILED' && (
-            <Row>
-              <Title>
-                <FormattedMessage
-                  id='modals.simplebuy.summary.sent_to'
-                  defaultMessage='Sent To'
-                />
-              </Title>
-              <Value data-e2e='sbSentTo'>{sellCounterCurrency} Wallet</Value>
-            </Row>
-          )}
+        {sellOrder.priceFunnel.outputMoney !== '0' && sellOrder.state !== 'FAILED' && (
+          <Row>
+            <Title>
+              <FormattedMessage id='modals.simplebuy.summary.sent_to' defaultMessage='Sent To' />
+            </Title>
+            <Value data-e2e='sbSentTo'>{sellCounterCurrency} Wallet</Value>
+          </Row>
+        )}
         {sellOrder.priceFunnel.outputMoney !== '0' && (
           <Row>
             <Title>
@@ -163,8 +141,8 @@ const Success: React.FC<Props> = props => {
           </Title>
           <Value data-e2e='sbPaymentMethod'>
             {isInternal
-              ? `${supportedCoins[sellBaseCurrency].coinTicker} Trading Account`
-              : `${supportedCoins[sellBaseCurrency].coinTicker} Private Key Wallet`}
+              ? `${sellBaseCurrency} Trading Account`
+              : `${sellBaseCurrency} Private Key Wallet`}
           </Value>
         </Row>
       </div>

@@ -23,7 +23,15 @@ const CoinIcon = styled(Icon)`
   margin-right: 16px;
 `
 
-export const getNameColumn = routerActions => ({
+export const getNameColumn = (routerActions) => ({
+  Cell: ({ row: { original: values } }) => {
+    return (
+      <CellWrapper onClick={() => routerActions.push(`${values.coin}/transactions`)}>
+        <CoinIcon name={values.coin} size='32px' color={values.coin} />
+        <CellText>{values.name}</CellText>
+      </CellWrapper>
+    )
+  },
   Header: () => (
     <HeaderWrapper>
       <CellHeaderText>
@@ -32,19 +40,7 @@ export const getNameColumn = routerActions => ({
     </HeaderWrapper>
   ),
   accessor: 'name',
-  sortType: 'alphanumeric',
-  Cell: ({ row: { original: values } }) => {
-    return (
-      <CellWrapper
-        onClick={() => routerActions.push(values.coinModel.txListAppRoute)}
-      >
-        <CoinIcon
-          name={values.coinModel?.coinCode}
-          size='32px'
-          color={values.coinModel?.coinCode}
-        />
-        <CellText>{values.name}</CellText>
-      </CellWrapper>
-    )
-  }
+  sortType: 'alphanumeric'
 })
+
+export default getNameColumn

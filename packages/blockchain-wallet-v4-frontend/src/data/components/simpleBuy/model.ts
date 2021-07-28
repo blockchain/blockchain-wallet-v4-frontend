@@ -8,7 +8,6 @@ import {
   SBOrderType,
   SBPairsType,
   SBPaymentTypes,
-  SupportedWalletCurrenciesType,
   SwapOrderType,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
@@ -89,23 +88,14 @@ export const getCounterAmount = (order: SBOrderType): string => {
   return convertBaseToStandard('FIAT', order.outputQuantity)
 }
 
-export const getBaseCurrency = (
-  order: SBOrderType,
-  supportedCoins: SupportedWalletCurrenciesType
-) => {
+export const getBaseCurrency = (order: SBOrderType) => {
   const orderType = getOrderType(order)
-  return supportedCoins[orderType === 'BUY' ? order.outputCurrency : order.inputCurrency].coinTicker
+  return orderType === 'BUY' ? order.outputCurrency : order.inputCurrency
 }
 
-export const getCounterCurrency = (
-  order: SBOrderType,
-  supportedCoins: SupportedWalletCurrenciesType
-) => {
+export const getCounterCurrency = (order: SBOrderType) => {
   const orderType = getOrderType(order)
-  return (
-    supportedCoins[orderType === 'BUY' ? order.inputCurrency : order.outputCurrency]?.coinTicker ||
-    'USD'
-  )
+  return orderType === 'BUY' ? order.inputCurrency : order.outputCurrency
 }
 // These methods are being used for just sell p3, since we're release sell first
 // Separately from Buy and the order types are different. Once buy is migrated

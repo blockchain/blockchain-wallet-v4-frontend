@@ -4,7 +4,7 @@ import { InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import { FiatType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { BankPartners } from 'data/types'
@@ -57,7 +57,7 @@ const CheckIcon = styled.div`
   align-items: center;
   padding: 2px;
   border-radius: 50%;
-  background: ${props => props.theme.white};
+  background: ${(props) => props.theme.white};
 `
 const DescriptionText = styled(Text)`
   text-align: center;
@@ -65,7 +65,7 @@ const DescriptionText = styled(Text)`
 
 type Props = OwnProps & SuccessStateType
 
-const Success: React.FC<InjectedFormProps<Props> & Props> = props => {
+const Success: React.FC<InjectedFormProps<Props> & Props> = (props) => {
   const coin = props.formValues?.currency || 'USD'
   const amount = props.formValues?.amount || 0
   const unit = (props.formValues?.currency as FiatType) || 'USD'
@@ -89,18 +89,10 @@ const Success: React.FC<InjectedFormProps<Props> & Props> = props => {
         <CenterWrapper>
           <IconContainer>
             <FiatIcon>
-              <Icon
-                color={props.supportedCoins[coin].coinCode}
-                name={props.supportedCoins[coin].coinCode}
-                size='64px'
-              />
+              <Icon color={coin} name={coin} size='64px' />
             </FiatIcon>
             <CheckIcon>
-              <Icon
-                name='checkmark-circle-filled'
-                color='green400'
-                size='32px'
-              />
+              <Icon name='checkmark-circle-filled' color='green400' size='32px' />
             </CheckIcon>
           </IconContainer>
         </CenterWrapper>
@@ -112,9 +104,9 @@ const Success: React.FC<InjectedFormProps<Props> & Props> = props => {
               defaultMessage='{amount} Deposited!'
               values={{
                 amount: fiatToString({
-                  value: amount,
+                  digits: 0,
                   unit,
-                  digits: 0
+                  value: amount
                 })
               }}
             />
@@ -125,21 +117,16 @@ const Success: React.FC<InjectedFormProps<Props> & Props> = props => {
               defaultMessage='While we wait for your bank to send the cash, here’s early access to {amount} in your {currency} Cash Account so you can buy crypto right away.'
               values={{
                 amount: fiatToString({
-                  value: amount,
+                  digits: 0,
                   unit,
-                  digits: 0
+                  value: amount
                 }),
-                currency: props.supportedCoins[coin].coinCode
+                currency: coin
               }}
             />
           </DescriptionText>
           {!isOpenBanking && (
-            <DescriptionText
-              color='grey600'
-              size='14px'
-              weight={600}
-              style={{ marginTop: '16px' }}
-            >
+            <DescriptionText color='grey600' size='14px' weight={600} style={{ marginTop: '16px' }}>
               <FormattedMessage
                 id='modals.brokerage.deposit_success.funds_available'
                 defaultMessage='Your funds will be available to withdraw once the bank transfer is complete in 3-5 business days.'

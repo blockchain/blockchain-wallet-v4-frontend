@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled, { css, DefaultTheme } from 'styled-components'
 
 import { CoinAccountIcon, Icon, Text } from 'blockchain-info-components'
-import { FiatType, SupportedCoinType } from 'blockchain-wallet-v4/src/types'
+import { FiatType } from 'blockchain-wallet-v4/src/types'
 import { SuccessCartridge } from 'components/Cartridge'
 import { SwapAccountType, SwapBaseCounterTypes } from 'data/types'
 
@@ -62,6 +62,7 @@ const CircleBorder = styled.div`
   justify-content: center;
   align-items: center;
   width: 24px;
+  min-width: 24px;
   height: 24px;
   background-color: white;
   border: 1px solid ${(props) => props.theme.grey300};
@@ -77,7 +78,7 @@ const LowFeeCartridge = styled(SuccessCartridge)`
 const CoinAccountListOption: React.FC<Props> = (props) => {
   const {
     account,
-    coinModel,
+    coin,
     displayOnly,
     hideActionIcon,
     isAccountSelected,
@@ -89,11 +90,7 @@ const CoinAccountListOption: React.FC<Props> = (props) => {
   return (
     <Option data-e2e='changeAcct' displayOnly={displayOnly} onClick={props.onClick} role='button'>
       <FlexStartRow>
-        <CoinAccountIcon
-          accountType={account.type}
-          coin={coinModel.coinCode}
-          style={{ marginRight: '12px' }}
-        />
+        <CoinAccountIcon accountType={account.type} coin={coin} style={{ marginRight: '12px' }} />
         <div>
           <OptionTitle data-e2e={account.label}>{account.label}</OptionTitle>
           <OptionValue>
@@ -118,7 +115,7 @@ const CoinAccountListOption: React.FC<Props> = (props) => {
             name='checkmark-circle-filled'
             color='green600'
             size='24px'
-            style={{ padding: '0 2px', marginLeft: '24px' }}
+            style={{ marginLeft: '24px', padding: '0 2px' }}
           />
         )}
         {isSwap && !isAccountSelected && <CircleBorder />}
@@ -130,7 +127,7 @@ const CoinAccountListOption: React.FC<Props> = (props) => {
 
 type Props = {
   account: SwapAccountType
-  coinModel: SupportedCoinType
+  coin: string
   displayOnly?: boolean
   hideActionIcon?: boolean
   isAccountSelected?: boolean

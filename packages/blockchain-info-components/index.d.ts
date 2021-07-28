@@ -11,10 +11,11 @@ import { ImageType } from './src/Images/Images'
 import { CoinType, WalletCurrencyType } from 'core/types'
 import { SwapBaseCounterTypes } from 'data/types'
 
-type AllCoinsType = WalletCurrencyType | 'BSV' | 'STX'
+type AllCoinsType = WalletCurrencyType | 'STX'
 
 export const Badge: FunctionComponent<any>
 export const Banner: FunctionComponent<any>
+export const Box: FunctionComponent<any>
 export const BlockchainLoader: FunctionComponent<{
   width?: string
   height?: string
@@ -102,7 +103,7 @@ export const Icon: FunctionComponent<{
   weight?: number
   size?: string
   cursor?: boolean
-  color?: keyof DefaultTheme
+  color?: keyof DefaultTheme | string
   style?: CSSProperties
   onClick?: () => void
   role?: 'button'
@@ -238,7 +239,7 @@ export const TableCell: FunctionComponent<{
 export const TableHeader: FunctionComponent<{}>
 export const TableRow: FunctionComponent<{}>
 export const Text: FunctionComponent<{
-  color?: keyof DefaultTheme
+  color?: keyof DefaultTheme | string
   size?: string
   weight?: number
   style?: CSSProperties

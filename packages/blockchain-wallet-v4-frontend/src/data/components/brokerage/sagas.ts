@@ -21,10 +21,9 @@ import {
 } from 'data/types'
 
 import profileSagas from '../../modules/profile/sagas'
-import * as A from './actions'
-import * as AT from './actionTypes'
 import { DEFAULT_METHODS, POLLING } from './model'
 import * as S from './selectors'
+import { actions as A } from './slice'
 import { OBType } from './types'
 
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
@@ -33,12 +32,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     coreSagas,
     networks
   })
-  const deleteSavedBank = function* ({ bankId }: ReturnType<typeof A.deleteSavedBank>) {
+  const deleteSavedBank = function* ({ payload }: ReturnType<typeof A.deleteSavedBank>) {
+    const bankId = payload
     try {
       yield put(actions.form.startSubmit('linkedBanks'))
       yield call(api.deleteSavedAccount, bankId, 'banktransfer')
       yield put(A.fetchBankTransferAccounts())
-      yield take([AT.FETCH_BANK_TRANSFER_ACCOUNTS_SUCCESS, AT.FETCH_BANK_TRANSFER_UPDATE_ERROR])
+      yield take([A.fetchBankTransferAccountsSuccess.type, A.fetchBankTransferAccountsError.type])
       yield put(actions.form.stopSubmit('linkedBanks'))
       yield put(actions.alerts.displaySuccess('Bank removed.'))
       yield put(actions.modals.closeModal('BANK_DETAILS_MODAL'))
@@ -69,9 +69,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     return data
   }
 
-  const fetchBankTransferUpdate = function* (action: ReturnType<typeof A.fetchBankTransferUpdate>) {
+  const fetchBankTransferUpdate = function* ({
+    payload
+  }: ReturnType<typeof A.fetchBankTransferUpdate>) {
     try {
-      const { account } = action.payload
+      const account = payload
 
       let bankId
       let attributes
@@ -166,11 +168,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const fetchBankLinkCredentials = function* (action) {
+  const fetchBankLinkCredentials = function* ({
+    payload
+  }: ReturnType<typeof A.fetchBankLinkCredentials>) {
     try {
       yield put(A.fetchBankLinkCredentialsLoading())
-      const { fiatCurrency } = action.payload
-      const credentials = yield call(api.createBankAccountLink, fiatCurrency)
+      const credentials = yield call(api.createBankAccountLink, payload)
       if (credentials.partner === BankPartners.YODLEE) {
         yield put(A.setFastLink(credentials))
       } else if (credentials.partner === BankPartners.YAPILY) {
@@ -203,10 +206,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     payload
   }: ReturnType<typeof A.handleDepositFiatClick>) {
     yield put(
-      actions.components.brokerage.showModal(
-        BrokerageModalOriginType.DEPOSIT_BUTTON,
-        'BANK_DEPOSIT_MODAL'
-      )
+      actions.components.brokerage.showModal({
+        modalType: 'BANK_DEPOSIT_MODAL',
+        origin: BrokerageModalOriginType.DEPOSIT_BUTTON
+      })
     )
     yield put(
       actions.components.brokerage.setDWStep({
@@ -214,15 +217,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       })
     )
 
-    const paymentMethods: SBPaymentMethodType[] = yield call(
-      api.getSBPaymentMethods,
-      payload.fiatCurrency,
-      true
-    )
+    const paymentMethods: SBPaymentMethodType[] = yield call(api.getSBPaymentMethods, payload, true)
 
     const eligibleMethods = paymentMethods.filter(
       (method) =>
-        method.currency === payload.fiatCurrency &&
+        method.currency === payload &&
         (method.type === SBPaymentTypes.BANK_ACCOUNT ||
           method.type === SBPaymentTypes.BANK_TRANSFER)
     )
@@ -243,7 +242,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(
         actions.components.brokerage.setBankDetails({
           account: bankTransferAccounts.filter(
-            (a) => a.currency === payload.fiatCurrency && a.state === 'ACTIVE'
+            (a) => a.currency === payload && a.state === 'ACTIVE'
           )[0]
         })
       )
@@ -264,7 +263,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const handleWithdrawClick = function* ({ payload }: ReturnType<typeof A.handleWithdrawClick>) {
-    yield put(actions.components.withdraw.showModal(payload.fiatCurrency))
+    yield put(actions.components.withdraw.showModal(payload))
 
     const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(
       yield select()
@@ -274,7 +273,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(
         actions.components.brokerage.setBankDetails({
           account: bankTransferAccounts.filter(
-            (a) => a.currency === payload.fiatCurrency && a.state === 'ACTIVE'
+            (a) => a.currency === payload && a.state === 'ACTIVE'
           )[0]
         })
       )
@@ -370,46 +369,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const handleMethodChange = function* (action) {
-    const { method } = action
-    const isUserTier2 = yield call(isTier2)
-
-    // check if user is tier 2
-    // if not, kick to KYC flow
-    if (!isUserTier2) {
-      switch (method.type) {
-        case SBPaymentTypes.BANK_ACCOUNT:
-        case SBPaymentTypes.BANK_TRANSFER:
-          // identityVerificationActions.verifyIdentity(2, false)
-          // return yield put(actions)
-          // return yield put(
-          //   ShowModal KYC
-          //   A.setStep({
-          //     step: 'KYC_REQUIRED'
-          //   })
-          // )
-          break
-        default:
-          return
-      }
-    }
-
-    // if yes, kick to bank transfer or wire `action.method.type`
-    switch (method.type) {
-      default:
-      case SBPaymentTypes.BANK_ACCOUNT:
-        return yield put(
-          actions.components.brokerage.setDWStep({
-            dwStep: BankDWStepType.WIRE_INSTRUCTIONS
-          })
-        )
-      case SBPaymentTypes.BANK_TRANSFER:
-        return yield put(
-          actions.components.brokerage.setDWStep({
-            dwStep: BankDWStepType.ENTER_AMOUNT
-          })
-        )
-    }
+  const fetchRBMethods = function* () {
+    const data: { eligibleMethods: SBPaymentTypes[] } = yield call(api.getRBPaymentMethods)
+    yield put(actions.form.change('recurringBuyScheduler', 'methods', data.eligibleMethods))
   }
 
   return {
@@ -418,8 +380,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchBankLinkCredentials,
     fetchBankTransferAccounts,
     fetchBankTransferUpdate,
+    fetchRBMethods,
     handleDepositFiatClick,
-    handleMethodChange,
     handleWithdrawClick,
     showModal
   }

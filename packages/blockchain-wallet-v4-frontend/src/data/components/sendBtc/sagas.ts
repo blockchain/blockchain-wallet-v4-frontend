@@ -64,11 +64,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         payment = yield payment.from(defaultIndex, ADDRESS_TYPES.ACCOUNT)
         if (to) payment = yield payment.to(to)
         if (amount && amount.coin) {
-          const satAmount = Exchange.convertBtcToBtc({
-            fromUnit: 'BTC',
-            toUnit: 'SAT',
+          const satAmount = Exchange.convertCoinToCoin({
+            baseToStandard: false,
+            coin: 'BTC',
             value: amount.coin
-          }).value
+          })
           payment = yield payment.amount(parseInt(satAmount))
         }
         if (description) payment = yield payment.description(description)
@@ -162,7 +162,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (!equals(FORM, form)) return
       const payload = prop('payload', action)
       const field = path(['meta', 'field'], action)
-      const erc20List = (yield select(selectors.core.walletOptions.getErc20CoinList)).getOrFail()
       const p = yield select(S.getPayment)
       let payment: BtcPaymentType = coreSagas.payment.btc.create({
         network: networks.btc,
@@ -171,7 +170,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       switch (field) {
         case 'coin':
-          const modalName = includes(payload, erc20List) ? 'ETH' : payload
+          const { coinfig } = window.coins[payload]
+          const modalName = coinfig.type.erc20Address ? 'ETH' : payload
           yield put(actions.modals.closeAllModals())
           yield put(
             actions.modals.showModal(`SEND_${modalName}_MODAL` as ModalNamesType, {
@@ -262,11 +262,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           break
         case 'amount':
           const btcAmount = prop('coin', payload)
-          const satAmount = Exchange.convertBtcToBtc({
-            fromUnit: 'BTC',
-            toUnit: 'SAT',
+          const satAmount = Exchange.convertCoinToCoin({
+            baseToStandard: false,
+            coin: 'BTC',
             value: btcAmount
-          }).value
+          })
           payment = yield payment.amount(parseInt(satAmount))
           break
         case 'description':
@@ -275,6 +275,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         case 'feePerByte':
           payment = yield payment.fee(parseInt(payload))
           break
+        default:
       }
       try {
         payment = yield payment.build()
@@ -297,12 +298,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         .getRates(appState)
         .getOrFail('Can not retrieve bitcoin rates.')
       const coin = DUST_BTC
-      const fiat = Exchange.convertBtcToFiat({
-        fromUnit: 'SAT',
+      const fiat = Exchange.convertCoinToFiat({
+        coin: 'BTC',
+        currency,
         rates: btcRates,
-        toCurrency: currency,
         value: DUST
-      }).value
+      })
       yield put(change(FORM, 'amount', { coin, fiat }))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'minimumAmountClicked', e))
@@ -321,17 +322,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
       const effectiveBalance = prop('effectiveBalance', payment)
-      const coin = Exchange.convertBtcToBtc({
-        fromUnit: 'SAT',
-        toUnit: 'BTC',
+      const coin = Exchange.convertCoinToCoin({
+        coin: 'BTC',
         value: effectiveBalance
-      }).value
-      const fiat = Exchange.convertBtcToFiat({
-        fromUnit: 'SAT',
+      })
+      const fiat = Exchange.convertCoinToFiat({
+        coin: 'BTC',
+        currency,
         rates: btcRates,
-        toCurrency: currency,
         value: effectiveBalance
-      }).value
+      })
       yield put(change(FORM, 'amount', { coin, fiat }))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'maximumAmountClicked', e))
@@ -498,18 +498,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           ...TRANSACTION_EVENTS.SEND,
           'BTC',
           Exchange.convertCoinToCoin({
-            baseToStandard: true,
             coin: 'BTC',
             value: amt.reduce(add, 0)
-          }).value
+          })
         ])
       )
       if (payPro) {
         const coinAmount = Exchange.convertCoinToCoin({
-          baseToStandard: true,
           coin: 'BTC',
           value: amt.reduce(add, 0)
-        }).value
+        })
         yield put(
           actions.analytics.logEvent([...TRANSACTION_EVENTS.BITPAY_SUCCESS, `${coinAmount} BTC`])
         )

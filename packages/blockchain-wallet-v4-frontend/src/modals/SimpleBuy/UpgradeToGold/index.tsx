@@ -23,7 +23,13 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
   verifyIdentity: () => {
     dispatch(actions.components.identityVerification.resetVerificationStep())
-    dispatch(actions.components.identityVerification.verifyIdentity(2, false))
+    dispatch(
+      actions.components.identityVerification.verifyIdentity({
+        needMoreInfo: false,
+        origin: 'SimpleBuy',
+        tier: 2
+      })
+    )
   }
 })
 

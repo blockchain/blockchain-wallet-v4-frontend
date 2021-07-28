@@ -112,7 +112,6 @@
   "components.alerts.fetch_unused_addresses_error": "Recupero degli indirizzi non utilizzati fallito.",
   "components.alerts.fetch_used_addresses_error": "Recupero degli indirizzi utilizzati fallito.",
   "components.alerts.first_pax_trade_info_dyk": "Lo sapevi?",
-  "components.alerts.first_usdd_trade_info": "Ora che possiedi USD Digital, devi  avere anche ETH per inviare o convertire.",
   "components.alerts.get_googleauth_secret_error": "Impossibile recuperare il segreto di Google Authenticator.",
   "components.alerts.google_auth_verify_error": "Verifica del codice Google Authenticator fallita",
   "components.alerts.google_auth_verify_success": "Google auth verificato",

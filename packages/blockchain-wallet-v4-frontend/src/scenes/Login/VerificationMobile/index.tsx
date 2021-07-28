@@ -65,14 +65,20 @@ const VerificationMobile = (props: Props) => {
             </Text>
             <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
               <FormattedMessage
-                id='scenes.login.wallet.mobile_login.description_1'
+                id='scenes.login.wallet.mobile_login.description_one'
                 defaultMessage='Scan this QR code with the Blockchain.com mobile app.'
               />
             </Text>
             <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
               <FormattedMessage
-                id='scenes.login.wallet.mobile_login.description_2'
-                defaultMessage='You can tap on the scanning icon on the top right corner of the app.'
+                id='scenes.login.wallet.mobile_login.description.ios'
+                defaultMessage='iOS - Tap the Menu button at the top left corner of the app to reveal Web Log In option.'
+              />
+            </Text>
+            <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
+              <FormattedMessage
+                id='scenes.login.wallet.mobile_login.description.android'
+                defaultMessage='Android - Tap the QR code icon at the top right corner of the app.'
               />
             </Text>
           </TextColumn>

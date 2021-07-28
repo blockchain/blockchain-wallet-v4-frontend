@@ -1,20 +1,20 @@
 export default {
-  code: 'SGD',
   base: 'CENT',
+  code: 'SGD',
   displayName: 'Singapore Dollar',
   trade: 'SGD',
   units: {
     CENT: {
+      currency: 'SGD',
+      decimal_digits: 0,
       rate: '1',
       symbol: '¢S$',
-      decimal_digits: 0,
-      currency: 'SGD'
     },
     SGD: {
+      currency: 'SGD',
+      decimal_digits: 2,
       rate: '100',
       symbol: 'S$',
-      decimal_digits: 2,
-      currency: 'SGD'
-    }
-  }
+    },
+  },
 }

@@ -130,7 +130,6 @@ type MessagesType = {
   'components.alerts.fetch_unused_addresses_error': 'Failed to retrieve unused addresses.'
   'components.alerts.fetch_used_addresses_error': 'Failed to retrieve used addresses.'
   'components.alerts.first_pax_trade_info_dyk': 'Did you know?'
-  'components.alerts.first_usdd_trade_info': 'Now that you own USD Digital, you need to own ETH to Send or Swap.'
   'components.alerts.get_googleauth_secret_error': 'Could not retrieve Google Authenticator secret.'
   'components.alerts.google_auth_verify_error': 'Failed to verify Google Authenticator code'
   'components.alerts.google_auth_verify_success': 'Google auth verified'
@@ -159,7 +158,7 @@ type MessagesType = {
   'components.alerts.logginglevel_update_error': 'Failed to update logging level'
   'components.alerts.logginglevel_update_success': 'Logging level has been successfully updated'
   'components.alerts.login_failed': 'Login failed'
-  'components.alerts.loweth.body1': 'Sending USD Digital requires ETH. Your balance is low, Swap to get more ETH.'
+  'components.alerts.loweth.body2': 'Sending Erc20s requires ETH. Your balance is low, Swap to get more ETH.'
   'components.alerts.loweth.header': 'Running Low!'
   'components.alerts.loweth.learnmore': 'Learn More.'
   'components.alerts.message_sign_error': 'Failed to sign message.'
@@ -391,6 +390,7 @@ type MessagesType = {
   'copy.forms.amount_max': 'The maximum amount is {amount}'
   'copy.forms.amount_min': 'The minimum amount is {amount}'
   'copy.free': 'FREE'
+  'copy.frequency': 'Frequency'
   'copy.from': 'From'
   'copy.from:': 'From: '
   'copy.home': 'Home'
@@ -474,6 +474,7 @@ type MessagesType = {
   'copy.swap_upgrade_upload': 'Upload Your ID. Swap More Crypto Everyday.'
   'copy.swap_verify_email': 'Verify Your Email & Swap Today.'
   'copy.swap_verify_id': 'Verify your identity to increase how much you can Swap everyday.'
+  'copy.view_prices': 'View Prices'
   'copy.swap_your_crypto': 'Swap Your Crypto'
   'copy.viewTransaction': 'View Transaction'
   'copy.viewTransactions': 'View Transactions'
@@ -1204,7 +1205,7 @@ type MessagesType = {
 
   'modals.recurringbuys.notification.title': 'Recurring buys'
   'modals.recurringbuys.notification.button': 'Setup recurring buy'
-
+  'modals.recurringbuys.disabled.paymentmethod': 'Recurring buys are not available for this payment method yet.'
   'modals.recurringbuys.notification.page_1.title': 'Instead of timing the market, many smart investors use'
   'modals.recurringbuys.notification.page_1.description': 'Dollar cost averaging'
 
@@ -1220,6 +1221,11 @@ type MessagesType = {
   'modals.recurringbuys.notification.page_5.title': 'But does it work?'
   'modals.recurringbuys.notification.page_5.description': 'Over the past 5 years, buying Bitcoin every week performed better than timing the market'
   'modals.recurringbuys.notification.page_5.disclaimer': '82% of the time.'
+  'modals.recurringbuys.timeframe.one_time': 'One time purchase'
+  'modals.recurringbuys.timeframe.every_day': 'Every day'
+  'modals.recurringbuys.timeframe.every_week': 'Every week'
+  'modals.recurringbuys.timeframe.2_weeks': 'Every 2 weeks'
+  'modals.recurringbuys.timeframe.every_month': 'Every month'
 
   'modals.repayloan.chooseamttorepay': 'Choose how much you want to repay'
   'modals.repayloan.choosewaytopay': 'How do you want to repay?'
@@ -1665,7 +1671,7 @@ type MessagesType = {
   'modals.swapgetstarted.description': 'A Swap by Blockchain enables you to trade crypto with best prices and quick settlement, all while maintaining full control of your funds.'
   'modals.swapgetstarted.getstarted': 'Get Started'
   'modals.swapgetstarted.later': "I'll do this later"
-  'modals.swapgetstarted.trading_your_crypto': "Trading your crypto doesn't mean trading away control."
+
   'modals.transactions.report.download': 'Download Report'
   'modals.transactions.report.enddate': 'end date'
   'modals.transactions.report.generate': 'Generate Report'
@@ -2153,8 +2159,9 @@ type MessagesType = {
   'scenes.login.wallet.connected.description_1': 'We sent your connected mobile device a notification. Open the app to confirm auto-log in on the web.'
   'scenes.login.wallet.connected.description_2': 'Didn’t get the notification? Make sure you have push notifications enabled. You can also scan this QR with your mobile app to login.'
   'scenes.login.wallet.mobile_login.title': 'Log in with mobile app'
-  'scenes.login.wallet.mobile_login.description_1': 'Scan this QR code with the Blockchain.com mobile app.'
-  'scenes.login.wallet.mobile_login.description_2': 'You can tap on the scanning icon on the top right corner of the app.'
+  'scenes.login.wallet.mobile_login.description_one': 'Scan this QR code with the Blockchain.com mobile app.'
+  'scenes.login.wallet.mobile_login.description.ios': 'iOS - Tap the Menu button at the top left corner of the app to reveal Web Log In option.'
+  'scenes.login.wallet.mobile_login.description.android': 'Android - Tap the QR code icon at the top right corner of the app.'
   'scenes.login.wallet.connected.send_it_again': 'Send Again'
   'scenes.login.wallet.connected.add_a_new_device': 'Add a New Device'
   'scenes.login.welcome': 'Welcome back!'

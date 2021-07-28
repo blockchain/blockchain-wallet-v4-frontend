@@ -2,7 +2,7 @@ import { contains, merge, path, prop, values } from 'ramda'
 import { call, select } from 'redux-saga/effects'
 import * as StellarSdk from 'stellar-sdk'
 
-import { convertXlmToXlm } from '../../../exchange'
+import { convertCoinToCoin } from '../../../exchange'
 import settingsSagaFactory from '../../../redux/settings/sagas'
 import { xlm as xlmSigner } from '../../../signer'
 import {
@@ -101,11 +101,10 @@ export default ({ api }) => {
   }
 
   const createOperation = (to, value, destinationAccountExists) => {
-    const amount = convertXlmToXlm({
+    const amount = convertCoinToCoin({
       value,
-      fromUnit: 'STROOP',
-      toUnit: 'XLM'
-    }).value
+      coin: 'XLM'
+    })
     if (destinationAccountExists)
       return StellarSdk.Operation.payment({
         destination: to,

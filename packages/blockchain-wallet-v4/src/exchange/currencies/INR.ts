@@ -1,20 +1,20 @@
 export default {
-  code: 'INR',
   base: 'CENT',
-  trade: 'INR',
+  code: 'INR',
   displayName: 'Indian Rupee',
+  trade: 'INR',
   units: {
     CENT: {
+      currency: 'INR',
+      decimal_digits: 0,
       rate: '1',
       symbol: '¢₹',
-      decimal_digits: 0,
-      currency: 'INR'
     },
     INR: {
+      currency: 'INR',
+      decimal_digits: 2,
       rate: '100',
       symbol: '₹',
-      decimal_digits: 2,
-      currency: 'INR'
-    }
-  }
+    },
+  },
 }

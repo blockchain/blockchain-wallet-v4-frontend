@@ -14,7 +14,6 @@ import {
   SBBalancesType
 } from 'blockchain-wallet-v4/src/types'
 import { actions, actionTypes, selectors } from 'data'
-import coinSagas from 'data/coins/sagas'
 import { promptForSecondPassword } from 'services/sagas'
 
 import exchangeSagaUtils from '../exchange/sagas.utils'
@@ -27,9 +26,8 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     coreSagas,
     networks
   })
-  const { convertCoinFromBaseUnitToFiat } = coinSagas({ coreSagas, networks })
 
-  const buildAndPublishPayment = function * (
+  const buildAndPublishPayment = function* (
     coin: CoinType,
     payment: PaymentType,
     destination: string
@@ -40,10 +38,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
         const depositAddressMemo = destination.split(':')
         const txMemo = depositAddressMemo[1]
         // throw error if we cant parse the memo for tx
-        if (
-          isNil(txMemo) ||
-          (typeof txMemo === 'string' && txMemo.length === 0)
-        ) {
+        if (isNil(txMemo) || (typeof txMemo === 'string' && txMemo.length === 0)) {
           throw new Error('Memo for transaction is missing')
         }
         payment = yield payment.to(depositAddressMemo[0], 'CUSTODIAL')
@@ -68,51 +63,48 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     return payment.value()
   }
 
-  const createLimits = function * (
-    payment: PaymentValue,
-    custodialBalances?: SBBalancesType
-  ) {
+  const createLimits = function* (payment: PaymentValue, custodialBalances?: SBBalancesType) {
     try {
       const coin = S.getCoinType(yield select())
       const limitsR = S.getInterestLimits(yield select())
       const limits = limitsR.getOrFail('NO_LIMITS_AVAILABLE')
       const balance = payment && payment.effectiveBalance
-      const custodialBalance =
-        custodialBalances && custodialBalances[coin]?.available
+      const custodialBalance = custodialBalances && custodialBalances[coin]?.available
       const ratesR = S.getRates(yield select())
       const rates = ratesR.getOrElse({} as RatesType)
-      const userCurrency = (yield select(
-        selectors.core.settings.getCurrency
-      )).getOrFail('Failed to get user currency')
+      const userCurrency = (yield select(selectors.core.settings.getCurrency)).getOrFail(
+        'Failed to get user currency'
+      )
       const walletCurrencyR = S.getWalletCurrency(yield select())
       const walletCurrency = walletCurrencyR.getOrElse({} as FiatType)
       const baseUnitBalance = custodialBalance || balance || 0
 
       const minFiat = limits[coin]?.minDepositAmount || 100
-      const maxFiat = convertCoinFromBaseUnitToFiat(
+      const maxFiat = Exchange.convertCoinToFiat({
         coin,
-        baseUnitBalance,
-        userCurrency,
-        rates
-      )
+        currency: userCurrency,
+        rates,
+        value: baseUnitBalance
+      })
       const maxCoin = Exchange.convertCoinToCoin({
-        value: baseUnitBalance,
         coin,
-        baseToStandard: true
-      }).value
-      const minCoin = Exchange.convertFiatToCoin(
-        Number(convertBaseToStandard('FIAT', minFiat)),
+        value: baseUnitBalance
+      })
+      const minCoin = Exchange.convertFiatToCoin({
         coin,
-        walletCurrency,
-        rates
-      )
+        currency: walletCurrency,
+        rates,
+        value: Number(convertBaseToStandard('FIAT', minFiat))
+      })
 
       yield put(
         A.setDepositLimits({
-          maxFiat: maxFiat,
-          minFiat: Number(convertBaseToStandard('FIAT', minFiat)), // default unit is cents, convert to standard
-          maxCoin: maxCoin,
-          minCoin: minCoin
+          // default unit is cents, convert to standard
+          maxCoin: Number(maxCoin),
+
+          maxFiat: Number(maxFiat),
+          minCoin: Number(minCoin),
+          minFiat: Number(convertBaseToStandard('FIAT', minFiat))
         })
       )
     } catch (e) {
@@ -120,7 +112,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     }
   }
 
-  const createPayment = function * (source: AccountTypes) {
+  const createPayment = function* (source: AccountTypes) {
     const coin = S.getCoinType(yield select())
 
     const payment: PaymentValue = yield call(
@@ -133,20 +125,20 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     return payment
   }
 
-  const toCustodialDropdown = currencyDetails => {
+  const toCustodialDropdown = (currencyDetails) => {
     // this object has to be equal to object we do expect in dropdown
     const { ...restDetails } = currencyDetails
     return [
       {
         ...restDetails,
         address: currencyDetails.address,
-        type: ADDRESS_TYPES.CUSTODIAL,
-        label: 'Trading Account'
+        label: 'Trading Account',
+        type: ADDRESS_TYPES.CUSTODIAL
       }
     ]
   }
 
-  const getCustodialAccountForCoin = function * (coin: CoinType) {
+  const getCustodialAccountForCoin = function* (coin: CoinType) {
     let defaultAccountR
 
     yield put(actions.components.send.fetchPaymentsTradingAccount(coin))
@@ -163,10 +155,10 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
 
     const sellAndBuyAccount = selectors.components.simpleBuy
       .getSBBalances(state)
-      .map(x => ({
+      .map((x) => ({
         ...x[coin],
-        coin,
-        address: accountAddress ? accountAddress.data : null
+        address: accountAddress ? accountAddress.data : null,
+        coin
       }))
       .map(toCustodialDropdown)
 
@@ -178,9 +170,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
       const sellAndBuyAccountDefaultIndex = yield select(
         selectors.core.wallet.getDefaultAccountIndex
       )
-      defaultAccountR = sellAndBuyAccount.map(
-        nth(sellAndBuyAccountDefaultIndex)
-      )
+      defaultAccountR = sellAndBuyAccount.map(nth(sellAndBuyAccountDefaultIndex))
     } else {
       defaultAccountR = sellAndBuyAccount.map(head)
     }

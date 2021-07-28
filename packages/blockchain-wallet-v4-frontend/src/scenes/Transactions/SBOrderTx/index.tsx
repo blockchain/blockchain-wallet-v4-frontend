@@ -1,23 +1,20 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import {
-  BuyOrSell,
-  displayFiat
-} from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/model'
+import { BuyOrSell, displayFiat } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/model'
 import { path } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import {
   ExtractSuccess,
+  FiatType,
   RemoteDataType,
-  SBOrderType,
-  SupportedWalletCurrenciesType
+  SBOrderType
 } from 'blockchain-wallet-v4/src/types'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import {
   getBaseAmount,
@@ -53,10 +50,13 @@ const LastCol = styled(Col)`
   justify-content: flex-end;
 `
 class SimpleBuyListItem extends PureComponent<Props, State> {
-  state: State = { isToggled: false }
+  constructor(props: Props) {
+    super(props)
+    this.state = { isToggled: false }
+  }
 
   handleToggle = () => {
-    this.setState({ isToggled: !this.state.isToggled })
+    this.setState((prevState) => ({ isToggled: !prevState.isToggled }))
   }
 
   showModal = (order: SBOrderType) => {
@@ -64,13 +64,13 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
       origin: 'TransactionList'
     })
     this.props.simpleBuyActions.setStep({
+      order,
       step:
         order.state === 'PENDING_CONFIRMATION'
           ? 'CHECKOUT_CONFIRM'
           : order.attributes?.authorisationUrl
           ? 'OPEN_BANKING_CONNECT'
-          : 'ORDER_SUMMARY',
-      order
+          : 'ORDER_SUMMARY'
     })
     if (order.attributes?.authorisationUrl) {
       this.props.simpleBuyActions.confirmOrderPoll(order)
@@ -78,43 +78,28 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
   }
 
   render() {
-    const { data, order, supportedCoins } = this.props
+    const { data, order } = this.props
     const bankAccounts = data.getOrElse([]) as Array<BankTransferAccountType>
     const coin = getCoinFromPair(order.pair)
-    const coinDisplayName = path(
-      [this.props.order.outputCurrency, 'coinTicker'],
-      this.props.supportedCoins
-    )
+    const coinDisplayName = coin
     const orderType = getOrderType(order)
     const baseAmount = getBaseAmount(order)
-    const baseCurrency = getBaseCurrency(order, supportedCoins)
+    const baseCurrency = getBaseCurrency(order)
     const counterAmount = getCounterAmount(order)
-    const counterCurrency = getCounterCurrency(order, supportedCoins)
+    const counterCurrency = getCounterCurrency(order)
     const totalTxAmount = fiatToString({
-      unit: counterCurrency,
+      unit: counterCurrency as FiatType,
       value: counterAmount
     })
 
     return (
-      <TxRowContainer
-        className={this.state.isToggled ? 'active' : ''}
-        data-e2e='transactionRow'
-      >
+      <TxRowContainer className={this.state.isToggled ? 'active' : ''} data-e2e='transactionRow'>
         <TxRow onClick={this.handleToggle}>
           <Row width='30%' data-e2e='orderStatusColumn'>
             <IconTx {...this.props} />
             <StatusAndType>
-              <Text
-                size='16px'
-                color='grey800'
-                weight={600}
-                data-e2e='txTypeText'
-              >
-                <BuyOrSell
-                  crypto={coin}
-                  orderType={orderType}
-                  coinModel={this.props.supportedCoins[order.outputCurrency]}
-                />
+              <Text size='16px' color='grey800' weight={600} data-e2e='txTypeText'>
+                <BuyOrSell crypto={coin} orderType={orderType} />
               </Text>
               <Timestamp {...this.props} />
             </StatusAndType>
@@ -125,11 +110,10 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
               to={<>{coinDisplayName} Trading Account</>}
             />
           </Col>
-          {order.state === 'PENDING_CONFIRMATION' ||
-          order.state === 'PENDING_DEPOSIT' ? (
+          {order.state === 'PENDING_CONFIRMATION' || order.state === 'PENDING_DEPOSIT' ? (
             <LastCol
               width='20%'
-              style={{ textAlign: 'right', alignItems: 'flex-end' }}
+              style={{ alignItems: 'flex-end', textAlign: 'right' }}
               data-e2e='orderAmountColumn'
             >
               <Button
@@ -138,7 +122,7 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
                 height='35px'
                 nature='light'
                 // @ts-ignore
-                onClick={e => {
+                onClick={(e) => {
                   e.preventDefault()
                   e.stopPropagation()
                   return this.showModal(order)
@@ -153,18 +137,11 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
           ) : (
             <Col width='20%' data-e2e='orderAmountColumn'>
               <StyledCoinDisplay coin={coin} data-e2e='orderCoinAmt'>
-                {orderType === 'BUY'
-                  ? order.outputQuantity
-                  : order.inputQuantity}
+                {orderType === 'BUY' ? order.outputQuantity : order.inputQuantity}
               </StyledCoinDisplay>
               {orderType === 'BUY' ? (
                 <StyledBuyFiatDisplay>
-                  <Text
-                    color='grey600'
-                    data-e2e='orderFiatAmt'
-                    size='14px'
-                    weight={500}
-                  >
+                  <Text color='grey600' data-e2e='orderFiatAmt' size='14px' weight={500}>
                     {totalTxAmount}
                   </Text>
                 </StyledBuyFiatDisplay>
@@ -200,7 +177,7 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
               </RowHeader>
               <RowValue data-e2e='sbRate'>
                 {fiatToString({
-                  unit: counterCurrency,
+                  unit: counterCurrency as FiatType,
                   value: convertBaseToStandard('FIAT', order.price)
                 })}{' '}
                 / {baseCurrency}
@@ -210,19 +187,14 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
                   <RowHeader>
                     <FormattedMessage id='copy.fee' defaultMessage='Fee' />
                   </RowHeader>
-                  <RowValue data-e2e='sbFee'>
-                    {displayFiat(order, supportedCoins, order.fee || '0')}
-                  </RowValue>
+                  <RowValue data-e2e='sbFee'>{displayFiat(order, order.fee || '0')}</RowValue>
                 </>
               )}
             </DetailsColumn>
             <DetailsColumn />
             <DetailsColumn>
               <RowHeader>
-                <FormattedMessage
-                  defaultMessage='Status'
-                  id='components.txlistitem.status'
-                />
+                <FormattedMessage defaultMessage='Status' id='components.txlistitem.status' />
               </RowHeader>
               <RowValue>
                 <Status {...this.props} />
@@ -251,10 +223,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 })
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  data: getData(state),
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrElse({} as SupportedWalletCurrenciesType)
+  data: getData(state)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -265,7 +234,6 @@ type OwnProps = {
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
-  supportedCoins: SupportedWalletCurrenciesType
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>
 type State = { isToggled: boolean }

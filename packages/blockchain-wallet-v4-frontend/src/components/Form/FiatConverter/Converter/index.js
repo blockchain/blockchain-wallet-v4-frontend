@@ -6,20 +6,23 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 
 import Converter from './template'
 
-const convertFiatToCoin = (value, unit, currency, rates) => ({
+const convertFiatToCoin = (unit, value, currency, rates) => ({
+  coin: Exchange.convertFiatToCoin({ coin: unit, currency, maxPrecision: 8, rates, value }),
   coinCode: unit,
-  coin: Exchange.convertFiatToCoin(value, unit, currency, rates),
   fiat: value
 })
 
-const convertCoinToFiat = (value, unit, currency, rates) => ({
-  coinCode: unit,
+const convertCoinToFiat = (unit, value, currency, rates) => ({
   coin: value,
-  fiat: Exchange.convertCoinToFiat(value, unit, currency, rates)
+  coinCode: unit,
+  fiat: Exchange.convertCoinToFiat({ coin: unit, currency, isStandard: true, rates, value })
 })
 
 class ConverterContainer extends React.PureComponent {
-  state = { coin: '', fiat: '' }
+  constructor(props) {
+    super(props)
+    this.state = { coin: '', fiat: '' }
+  }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (!equals(nextProps.value, prevState)) {
@@ -28,21 +31,19 @@ class ConverterContainer extends React.PureComponent {
     return null
   }
 
-  handleCoinChange = e => {
+  handleCoinChange = (e) => {
     const { currency, rates, unit } = this.props
-    const nextProps = convertCoinToFiat(e.target.value, unit, currency, rates)
+    const nextProps = convertCoinToFiat(unit, e.target.value, currency, rates)
     this.props.onChange(nextProps)
   }
 
-  handleFiatChange = e => {
+  handleFiatChange = (e) => {
     const { currency, rates, unit } = this.props
     const decimals = e.target.value.split('.')[1]
     const needsFormatting = decimals && decimals.length > 2
-    const val = needsFormatting
-      ? Number(e.target.value).toFixed(2)
-      : e.target.value
+    const val = needsFormatting ? Number(e.target.value).toFixed(2) : e.target.value
 
-    const nextProps = convertFiatToCoin(val, unit, currency, rates)
+    const nextProps = convertFiatToCoin(unit, val, currency, rates)
     this.props.onChange(nextProps)
   }
 
@@ -89,12 +90,12 @@ class ConverterContainer extends React.PureComponent {
 }
 
 ConverterContainer.propTypes = {
-  unit: PropTypes.string.isRequired,
   currency: PropTypes.string.isRequired,
-  rates: PropTypes.object.isRequired,
   onBlur: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onFocus: PropTypes.func.isRequired,
+  rates: PropTypes.object.isRequired,
+  unit: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired
 }
 

@@ -1,21 +1,17 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { path } from 'ramda'
 
 import { Text } from 'blockchain-info-components'
 import { getInput, getOutput } from 'data/components/swap/model'
 
-import {
-  IconTx as SharedIconTx,
-  Timestamp as SharedTimestamp
-} from '../components'
+import { IconTx as SharedIconTx, Timestamp as SharedTimestamp } from '../components'
 import { Props } from '.'
 
 const getOutputCoinDisplayName = (props: Props) => {
-  return path([getOutput(props.order), 'coinTicker'], props.supportedCoins)
+  return getOutput(props.order)
 }
 const getInputCoinDisplayName = (props: Props) => {
-  return path([getInput(props.order), 'coinTicker'], props.supportedCoins)
+  return getInput(props.order)
 }
 export const IconTx = (props: Props) => {
   return <SharedIconTx type='SWAP' coin={props.coin} />

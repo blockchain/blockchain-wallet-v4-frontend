@@ -4,13 +4,7 @@ import { defaultTo, map, replace } from 'ramda'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import {
-  BlockchainLoader,
-  Button,
-  HeartbeatLoader,
-  Icon,
-  Text
-} from 'blockchain-info-components'
+import { BlockchainLoader, Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import {
   DateInputBox,
@@ -43,7 +37,7 @@ export const Label = styled.label`
   font-weight: 500;
   margin-bottom: 12px;
   display: block;
-  color: ${props => props.theme.grey900};
+  color: ${(props) => props.theme.grey900};
 `
 const SpinnerWrapper = styled.div`
   width: 100%;
@@ -69,7 +63,7 @@ export const Caption = styled(Text)`
   font-weight: 500;
   font-size: 12px;
   line-height: 150%;
-  color: ${props => props.theme.grey600};
+  color: ${(props) => props.theme.grey600};
 `
 const CustomForm = styled(Form)`
   height: 100%;
@@ -98,28 +92,28 @@ const ErrorText = styled(Text)`
   font-size: 14px;
   padding: 6px 12px;
   border-radius: 32px;
-  background-color: ${props => props.theme.red000};
-  color: ${props => props.theme.red800};
+  background-color: ${(props) => props.theme.red000};
+  color: ${(props) => props.theme.red800};
   margin-bottom: 16px;
 `
-const getCountryElements = countries => [
+const getCountryElements = (countries) => [
   {
     group: '',
     items: map(
-      country => ({
-        value: country,
-        text: country.name
+      (country) => ({
+        text: country.name,
+        value: country
       }),
       countries
     )
   }
 ]
 
-const addTrailingZero = string => (string.length >= 2 ? string : `0${string}`)
+const addTrailingZero = (string) => (string.length >= 2 ? string : `0${string}`)
 const removeTrailingZero = replace(/^0/, '')
 const objectToDOB = ({ date = '', month = '', year = '' }) =>
   `${year}-${month}-${addTrailingZero(date)}`
-const DOBToObject = value => {
+const DOBToObject = (value) => {
   const [year = '', month = '', date = ''] = defaultTo('', value).split('-')
   return {
     date: removeTrailingZero(date),
@@ -127,7 +121,7 @@ const DOBToObject = value => {
     year
   }
 }
-const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const disabled = props.invalid || props.submitting
 
   if (props.submitting) {
@@ -139,28 +133,21 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
   }
 
   const countryCode =
-    (props.formValues &&
-      props.formValues.country &&
-      props.formValues.country.code) ||
+    (props.formValues && props.formValues.country && props.formValues.country.code) ||
     props.countryCode
   const countryIsUS = countryCode === 'US'
   const countryUsesZipOrPostcode =
     countryUsesZipcode(countryCode) || countryUsesPostalCode(countryCode)
 
-  const defaultCountry = props.supportedCountries.find(
-    country => country.code === countryCode
-  )
+  const defaultCountry = props.supportedCountries.find((country) => country.code === countryCode)
 
-  if (
-    defaultCountry &&
-    (!props.formValues || (props.formValues && !props.formValues.country))
-  ) {
+  if (defaultCountry && (!props.formValues || (props.formValues && !props.formValues.country))) {
     props.updateDefaultCountry(defaultCountry)
   }
 
   return (
     <CustomForm onSubmit={props.handleSubmit}>
-      <FlyoutWrapper style={{ paddingBottom: '0px', borderBottom: 'grey000' }}>
+      <FlyoutWrapper style={{ borderBottom: 'grey000', paddingBottom: '0px' }}>
         <TopText color='grey800' size='20px' weight={600}>
           <LeftTopCol>
             <Icon
@@ -193,11 +180,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         {props.error && (
           <ErrorTextContainer>
             <ErrorText>
-              <Icon
-                name='alert-filled'
-                color='red600'
-                style={{ marginRight: '4px' }}
-              />
+              <Icon name='alert-filled' color='red600' style={{ marginRight: '4px' }} />
               Error: {props.error}
             </ErrorText>
           </ErrorTextContainer>
@@ -297,12 +280,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 )}
               </Text>
             </Label>
-            <Field
-              name='line1'
-              errorBottom
-              validate={required}
-              component={TextBox}
-            />
+            <Field name='line1' errorBottom validate={required} component={TextBox} />
           </FormItem>
         </FormGroup>
 
@@ -337,12 +315,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 />
               </Text>
             </Label>
-            <Field
-              name='city'
-              errorBottom
-              validate={required}
-              component={TextBox}
-            />
+            <Field name='city' errorBottom validate={required} component={TextBox} />
           </FormItem>
         </FormGroup>
         <FormGroup inline>
@@ -366,19 +339,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                 component={SelectBoxUSState}
                 errorBottom
                 validate={[required]}
-                normalize={val => val && val.code}
-                format={val => ({
-                  name: getStateNameFromAbbreviation(val),
-                  code: val
+                normalize={(val) => val && val.code}
+                format={(val) => ({
+                  code: val,
+                  name: getStateNameFromAbbreviation(val)
                 })}
               />
             ) : (
-              <Field
-                name='state'
-                component={TextBox}
-                errorBottom
-                countryCode={countryCode}
-              />
+              <Field name='state' component={TextBox} errorBottom countryCode={countryCode} />
             )}
           </FormItem>
           {countryUsesZipOrPostcode && (
@@ -398,12 +366,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   )}
                 </Text>
               </FormLabel>
-              <Field
-                name='postCode'
-                errorBottom
-                validate={requiredZipCode}
-                component={TextBox}
-              />
+              <Field name='postCode' errorBottom validate={requiredZipCode} component={TextBox} />
             </FormItem>
           )}
         </FormGroup>
@@ -463,6 +426,6 @@ export type Props = OwnProps &
   }
 
 export default reduxForm<{}, Props>({
-  form: INFO_AND_RESIDENTIAL_FORM,
-  destroyOnUnmount: false
+  destroyOnUnmount: false,
+  form: INFO_AND_RESIDENTIAL_FORM
 })(Success)

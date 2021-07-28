@@ -5,15 +5,13 @@ import { actions, actionTypes } from 'data'
 export const logLocation = 'components/onboarding/sagas'
 
 export default () => {
-  const airdropClaimSubmitClicked = function * ({ payload }) {
+  const airdropClaimSubmitClicked = function* ({ payload }) {
     // TODO: REFACTOR TO USE claimCampaignClicked
     const { campaign } = payload
     try {
       yield put(actions.form.startSubmit('airdropClaim'))
       yield put(actions.modules.profile.setCampaign({ name: campaign }))
-      yield put(
-        actions.components.identityVerification.registerUserCampaign(false)
-      )
+      yield put(actions.components.identityVerification.registerUserCampaign(false))
       // Buffer for tagging user
       yield delay(3000)
       yield put(actions.modules.profile.fetchUser())
@@ -26,51 +24,35 @@ export default () => {
         })
       )
     } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(
-          logLocation,
-          'airdropClaimSubmitClicked',
-          e
-        )
-      )
+      yield put(actions.logs.logErrorMessage(logLocation, 'airdropClaimSubmitClicked', e))
     }
   }
 
-  const swapGetStartedSubmitClicked = function * () {
+  const swapGetStartedSubmitClicked = function* () {
     try {
       yield put(actions.preferences.hideKycGetStarted())
       yield put(actions.modals.closeModal())
       yield put(
-        actions.components.identityVerification.verifyIdentity(1, false)
+        actions.components.identityVerification.verifyIdentity({
+          needMoreInfo: false,
+          origin: 'Swap',
+          tier: 1
+        })
       )
     } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(
-          logLocation,
-          'swapGetStartedSubmitClicked',
-          e
-        )
-      )
+      yield put(actions.logs.logErrorMessage(logLocation, 'swapGetStartedSubmitClicked', e))
     }
   }
 
-  const upgradeForAirdropSubmitClicked = function * ({ payload }) {
+  const upgradeForAirdropSubmitClicked = function* ({ payload }) {
     const { campaign } = payload
     try {
       yield put(actions.preferences.hideUpgradeForAirdropModal())
       yield put(actions.modals.closeModal())
       yield put(actions.modules.profile.setCampaign({ name: campaign }))
-      yield put(
-        actions.components.identityVerification.createRegisterUserCampaign()
-      )
+      yield put(actions.components.identityVerification.createRegisterUserCampaign())
     } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(
-          logLocation,
-          'upgradeForAirdropSubmitClicked',
-          e
-        )
-      )
+      yield put(actions.logs.logErrorMessage(logLocation, 'upgradeForAirdropSubmitClicked', e))
     }
   }
 

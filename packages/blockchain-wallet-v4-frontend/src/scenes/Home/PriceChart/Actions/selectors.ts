@@ -1,27 +1,19 @@
-import {
-  CoinType,
-  SupportedWalletCurrenciesType
-} from 'blockchain-wallet-v4/src/types'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { selectors } from 'data'
 
 export const getData = createDeepEqualSelector(
-  [
-    selectors.components.priceChart.getCoin,
-    selectors.core.walletOptions.getSupportedCoins
-  ],
-  (coinTicker, supportedCoins) => {
-    const cryptoCurrency = supportedCoins.getOrElse(
-      {} as SupportedWalletCurrenciesType
-    )[coinTicker as CoinType].coinCode
-    const coinName = supportedCoins.getOrElse(
-      {} as SupportedWalletCurrenciesType
-    )[coinTicker as CoinType].displayName
+  [selectors.components.priceChart.getCoin],
+  (coinTicker) => {
+    const { coinfig } = window.coins[coinTicker]
+    const cryptoCurrency = coinfig.symbol
+    const coinName = coinfig.name
 
     return {
-      cryptoCurrency,
+      coinName,
       coinTicker,
-      coinName
+      cryptoCurrency
     }
   }
 )
+
+export default getData

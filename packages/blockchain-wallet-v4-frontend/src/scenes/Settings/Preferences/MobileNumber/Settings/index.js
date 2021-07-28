@@ -7,17 +7,27 @@ import { actions } from 'data'
 import Settings from './template.js'
 
 class SettingContainer extends Component {
-  state = { show2FAWarning: false }
+  constructor(props) {
+    super(props)
+
+    this.state = { show2FAWarning: false }
+  }
 
   handleClick = () => {
     const { authType, modalActions, smsNumber, smsVerified } = this.props
 
     if (!smsVerified && smsNumber) {
-      modalActions.showModal('MobileNumberVerify', { mobileNumber: smsNumber })
+      modalActions.showModal('MOBILE_NUMBER_VERIFY_MODAL', { mobileNumber: smsNumber })
     } else if (authType === 5) {
       this.setState({ show2FAWarning: true })
+    } else if (smsVerified === 1) {
+      modalActions.showModal('MOBILE_NUMBER_CHANGE_MODAL')
+    } else if (smsNumber) {
+      modalActions.showModal('MOBILE_NUMBER_VERIFY_MODAL', {
+        mobileNumber: smsNumber
+      })
     } else {
-      modalActions.showModal('MobileNumberChange')
+      modalActions.showModal('MOBILE_NUMBER_ADD_MODAL')
     }
   }
 
@@ -37,7 +47,7 @@ class SettingContainer extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

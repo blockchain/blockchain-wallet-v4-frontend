@@ -7,7 +7,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { Props as BaseProps } from '..'
 import { FlexStartRow, IconBackground } from '../components'
 
-const UpgradePrompt: React.FC<Props> = props => {
+const UpgradePrompt: React.FC<Props> = (props) => {
   return (
     <>
       <FlyoutWrapper>
@@ -23,26 +23,16 @@ const UpgradePrompt: React.FC<Props> = props => {
               step: 'ENTER_AMOUNT'
             })
           }
-          style={{ padding: '0', marginBottom: '28px' }}
+          style={{ marginBottom: '28px', padding: '0' }}
         />
 
-        <Text
-          size='20px'
-          color='grey800'
-          weight={600}
-          style={{ marginBottom: '8px' }}
-        >
+        <Text size='20px' color='grey800' weight={600} style={{ marginBottom: '8px' }}>
           <FormattedMessage
             id='copy.swap_upgrade_upload'
             defaultMessage='Upload Your ID. Swap More Crypto Everyday.'
           />
         </Text>
-        <Text
-          size='14px'
-          color='grey600'
-          weight={500}
-          style={{ marginBottom: '30px' }}
-        >
+        <Text size='14px' color='grey600' weight={500} style={{ marginBottom: '30px' }}>
           <FormattedMessage
             id='copy.swap_verify_id'
             defaultMessage='Verify your identity to increase how much you can Swap everyday.'
@@ -98,10 +88,7 @@ const UpgradePrompt: React.FC<Props> = props => {
           </IconBackground>
           <div>
             <Text color='grey900' size='14px' weight={600} lineHeight='150%'>
-              <FormattedMessage
-                id='copy.swap_start'
-                defaultMessage='Start Swapping'
-              />
+              <FormattedMessage id='copy.swap_start' defaultMessage='Start Swapping' />
             </Text>
             <Text size='12px' lineHeight='150%' weight={500}>
               <FormattedMessage
@@ -115,13 +102,16 @@ const UpgradePrompt: React.FC<Props> = props => {
           nature='primary'
           data-e2e='swapVerify'
           height='48px'
-          onClick={() => props.idvActions.verifyIdentity(2, false)}
+          onClick={() =>
+            props.idvActions.verifyIdentity({
+              needMoreInfo: false,
+              origin: 'Swap',
+              tier: 2
+            })
+          }
           fullwidth
         >
-          <FormattedMessage
-            id='buttons.verify_id_now'
-            defaultMessage='Verify My ID Now'
-          />
+          <FormattedMessage id='buttons.verify_id_now' defaultMessage='Verify My ID Now' />
         </Button>
       </FlyoutWrapper>
     </>

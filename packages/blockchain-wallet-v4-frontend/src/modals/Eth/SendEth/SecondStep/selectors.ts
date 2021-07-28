@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import { curry, equals, lift, prop, toLower } from 'ramda'
 
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { FiatType } from 'blockchain-wallet-v4/src/types'
 import { model, selectors } from 'data'
@@ -28,9 +28,7 @@ const erc20FromLabel = curry((coin, payment, state) => {
   const { from } = payment
   switch (from.type) {
     case ADDRESS_TYPES.ACCOUNT:
-      return selectors.core.kvStore.eth
-        .getErc20AccountLabel(state, toLower(coin))
-        .getOrElse(from.address)
+      return selectors.core.kvStore.eth.getErc20AccountLabel(state, coin).getOrElse(from.address)
     default:
       return from.address
   }
@@ -41,31 +39,30 @@ export const getData = (state, coin) => {
   const paymentR = selectors.components.sendEth.getPayment(state)
   const ethRatesR = selectors.core.data.eth.getRates(state)
   const currencyR = selectors.core.settings.getCurrency(state)
-  const erc20Rates = selectors.core.data.eth.getErc20Rates(state, toLower(coin)).getOrElse({})
+  const erc20Rates = selectors.core.data.eth.getErc20Rates(state, coin).getOrElse({})
 
   const transform = (payment, ethRates, currency: FiatType) => {
     const rates = isErc20 ? erc20Rates : ethRates
     // Convert WEI to base for amount
-    const { value: amountStandard } = Exchange.convertCoinToCoin({
+    const amountStandard = Exchange.convertCoinToCoin({
       baseToStandard: true,
       coin,
       value: payment.amount
     })
-    // Convert WEI to base for fee (ETH)
-    const { value: feeStandard } = Exchange.convertCoinToCoin({
-      baseToStandard: true,
-      coin: 'ETH',
+    const amount = Exchange.convertCoinToFiat({
+      coin,
+      currency,
+      isStandard: true,
+      rates,
+      value: amountStandard
+    })
+    // Fee for ETH or ERC20 txs should always be in ETH
+    const fee = Exchange.convertCoinToFiat({
+      coin,
+      currency,
+      rates: isErc20 && payment.from.type === 'CUSTODIAL' ? erc20Rates : ethRates,
       value: payment.fee
     })
-    // Convert ETH or ERC20 amount to Fiat
-    const amount = Exchange.convertCoinToFiat(amountStandard, coin, currency, rates)
-    // Fee for ETH or ERC20 txs should always be in ETH
-    const fee = Exchange.convertCoinToFiat(
-      feeStandard,
-      'ETH',
-      currency,
-      isErc20 && payment.from.type === 'CUSTODIAL' ? erc20Rates : ethRates
-    )
     const totalFiat = fiatToString({
       unit: currency,
       value: Number(amount) + Number(fee)
@@ -88,3 +85,5 @@ export const getData = (state, coin) => {
 
   return lift(transform)(paymentR, ethRatesR, currencyR)
 }
+
+export default getData

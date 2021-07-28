@@ -6,7 +6,7 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { SwapAccountType } from 'data/types'
 
-const CoinAccountListBalance: React.FC<Props> = props => {
+const CoinAccountListBalance: React.FC<Props> = (props) => {
   return (
     <>
       <FiatDisplay

@@ -13,19 +13,22 @@ class FirstStep extends React.Component {
   handleRefresh = () => {
     const { amount, description, from, lockboxIndex, payPro, to } = this.props
     this.props.actions.initialized({
-      from,
-      to,
-      description,
       amount,
+      description,
+      from,
       lockboxIndex,
-      payPro
+      payPro,
+      to
     })
   }
 
   render() {
     const { actions, amount, data, excludeHDWallets, payPro, to } = this.props
     return data.cata({
-      Success: value => (
+      Failure: (message) => <DataError onClick={this.handleRefresh} message={message} />,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />,
+      Success: (value) => (
         <Success
           {...value}
           autofilled={!!(amount && to)}
@@ -35,22 +38,17 @@ class FirstStep extends React.Component {
           onSubmit={actions.sendBtcFirstStepSubmitClicked}
           payPro={payPro}
         />
-      ),
-      Failure: message => (
-        <DataError onClick={this.handleRefresh} message={message} />
-      ),
-      NotAsked: () => <Loading />,
-      Loading: () => <Loading />
+      )
     })
   }
 }
 
-const mapStateToProps = state => ({
-  data: getData(state),
-  btcData: getBtcData(state)
+const mapStateToProps = (state) => ({
+  btcData: getBtcData(state),
+  data: getData(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.sendBtc, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })

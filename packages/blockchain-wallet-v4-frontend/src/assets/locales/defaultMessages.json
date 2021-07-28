@@ -155,10 +155,6 @@
         "id": "components.alerts.first_pax_trade_info_dyk"
       },
       {
-        "defaultMessage": "Now that you own USD Digital, you need to own ETH to Send or Swap.",
-        "id": "components.alerts.first_usdd_trade_info"
-      },
-      {
         "defaultMessage": "Learn More",
         "id": "buttons.learn_more"
       },

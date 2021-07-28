@@ -26,7 +26,7 @@ const ContentWrapper = styled(FlyoutWrapper)`
   height: 70%;
 `
 
-const ConfirmWordsSuccess: React.FC<Props> = props => {
+const ConfirmWordsSuccess = (props: Props) => {
   return (
     <Wrapper>
       <IconWrapper>
@@ -47,23 +47,10 @@ const ConfirmWordsSuccess: React.FC<Props> = props => {
           style={{ marginBottom: '25px' }}
         />
 
-        <Text
-          color='grey800'
-          size='20px'
-          weight={600}
-          style={{ lineHeight: 1.7 }}
-        >
-          <FormattedMessage
-            id='modals.recoveryphrase.success'
-            defaultMessage='Success!'
-          />
+        <Text color='grey800' size='20px' weight={600} style={{ lineHeight: 1.7 }}>
+          <FormattedMessage id='modals.recoveryphrase.success' defaultMessage='Success!' />
         </Text>
-        <Text
-          size='14px'
-          color='grey500'
-          weight={500}
-          style={{ lineHeight: 1.7 }}
-        >
+        <Text size='14px' color='grey500' weight={500} style={{ lineHeight: 1.7 }}>
           <FormattedMessage
             id='modals.recoveryphrase.success.body'
             defaultMessage='Your Wallet is now backed up.'
@@ -80,10 +67,7 @@ const ConfirmWordsSuccess: React.FC<Props> = props => {
           onClick={props.handleClose}
           style={{ marginTop: '40px' }}
         >
-          <FormattedMessage
-            id='modals.recoveryphrase.success.close'
-            defaultMessage='Close'
-          />
+          <FormattedMessage id='modals.recoveryphrase.success.close' defaultMessage='Close' />
         </Button>
       </ContentWrapper>
     </Wrapper>

@@ -1,12 +1,4 @@
-import {
-  CoinType,
-  CurrenciesType,
-  Erc20CoinsEnum,
-  PaymentType,
-  PaymentValue,
-  RatesType,
-  RemoteDataType
-} from 'blockchain-wallet-v4/src/types'
+import { CoinType, PaymentType, PaymentValue, RemoteDataType } from 'blockchain-wallet-v4/src/types'
 
 // import * as ALGO from './coins/algo'
 import * as BCH from './coins/bch'
@@ -40,8 +32,9 @@ const coinSagas = {
 export default ({ coreSagas, networks }) => {
   // gets the default account/address for requested coin
   const getDefaultAccountForCoin = function* (coin: CoinType): Generator<string> {
+    const { coinfig } = window.coins[coin]
     const defaultAccountR = yield coinSagas[
-      coin in Erc20CoinsEnum ? 'ERC20' : coin
+      coinfig.type.erc20Address ? 'ERC20' : coin
     ]?.getDefaultAccount(coin)
     // @ts-ignore
     return defaultAccountR.getOrFail('Failed to find default account')
@@ -53,7 +46,8 @@ export default ({ coreSagas, networks }) => {
     coin: CoinType,
     index?: number
   ): Generator<string> {
-    return yield coinSagas[coin in Erc20CoinsEnum ? 'ERC20' : coin]?.getNextReceiveAddress(
+    const { coinfig } = window.coins[coin]
+    return yield coinSagas[coinfig.type.erc20Address ? 'ERC20' : coin]?.getNextReceiveAddress(
       coin,
       networks,
       index
@@ -67,30 +61,13 @@ export default ({ coreSagas, networks }) => {
     coin: CoinType,
     paymentR: RemoteDataType<string | Error, PaymentValue | undefined>
   ): Generator<PaymentType> {
-    return yield coinSagas[coin in Erc20CoinsEnum ? 'ERC20' : coin]?.getOrUpdateProvisionalPayment(
-      coreSagas,
-      networks,
-      paymentR
-    ) as PaymentType
-  }
-
-  // convert from a coins base unit into fiat
-  const convertCoinFromBaseUnitToFiat = (
-    coin: CoinType,
-    baseUnitValue: number | string,
-    userCurrency: keyof CurrenciesType,
-    rates: RatesType
-  ): number => {
-    return coinSagas[coin in Erc20CoinsEnum ? 'ERC20' : coin]?.convertFromBaseUnitToFiat(
-      coin,
-      baseUnitValue,
-      userCurrency,
-      rates
-    )
+    const { coinfig } = window.coins[coin]
+    return yield coinSagas[
+      coinfig.type.erc20Address ? 'ERC20' : coin
+    ]?.getOrUpdateProvisionalPayment(coreSagas, networks, paymentR) as PaymentType
   }
 
   return {
-    convertCoinFromBaseUnitToFiat,
     getDefaultAccountForCoin,
     getNextReceiveAddressForCoin,
     getOrUpdateProvisionalPaymentForCoin

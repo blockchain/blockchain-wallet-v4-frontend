@@ -1,4 +1,4 @@
-import { EthRawTxType } from './types'
+import { AccountTokensBalancesResponseType, EthRawTxType } from './types'
 
 export default ({ apiUrl, get, post }) => {
   //
@@ -74,6 +74,14 @@ export default ({ apiUrl, get, post }) => {
       data: { page, size: pageSize }
     })
 
+  const getAccountTokensBalances = (
+    ethAddr
+  ): AccountTokensBalancesResponseType =>
+    get({
+      url: apiUrl,
+      endPoint: `/eth/v2/account/${ethAddr}/tokens`
+    })
+
   const getErc20AccountSummaryV2 = (ethAddr, tokenAddr, page = 0, pageSize) =>
     get({
       url: apiUrl,
@@ -131,6 +139,7 @@ export default ({ apiUrl, get, post }) => {
 
   return {
     checkContract,
+    getAccountTokensBalances,
     getEthAccountSummaryV2,
     getEthBalances,
     getEthData,
