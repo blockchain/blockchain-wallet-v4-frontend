@@ -16,10 +16,7 @@ const InterestMenu = () => {
       <TabMenu>
         <LinkContainer to='/interest' exact>
           <TabMenuItem data-e2e='interestTabMenuAccountss'>
-            <FormattedMessage
-              id='scenes.interest.tab.accounts'
-              defaultMessage='Accounts'
-            />
+            <FormattedMessage id='scenes.interest.tab.accounts' defaultMessage='Accounts' />
           </TabMenuItem>
         </LinkContainer>
         <LinkContainer to='/interest/history'>
