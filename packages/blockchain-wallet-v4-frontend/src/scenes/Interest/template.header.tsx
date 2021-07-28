@@ -23,6 +23,9 @@ const SubheaderSeparator = styled.div`
   display: flex;
   flex-grow: 2;
 `
+const SceneSubHeaderTextCustom = styled(SceneSubHeaderText)`
+  display: contents;
+`
 const InterestHeader = () => {
   return (
     <>
@@ -37,7 +40,7 @@ const InterestHeader = () => {
           />
         </SceneHeaderText>
       </SceneHeader>
-      <SceneSubHeaderText>
+      <SceneSubHeaderTextCustom>
         <FormattedMessage
           id='scenes.interest.subheader'
           defaultMessage='Deposit crypto and watch it grow. Interest is paid by the end of the day on the 1st of each month.'
@@ -62,7 +65,7 @@ const InterestHeader = () => {
             </Text>
           </TooltipHost>
         </DisclaimerText>
-      </SceneSubHeaderText>
+      </SceneSubHeaderTextCustom>
     </>
   )
 }
