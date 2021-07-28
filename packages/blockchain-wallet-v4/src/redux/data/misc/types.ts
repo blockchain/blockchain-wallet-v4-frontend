@@ -11,9 +11,7 @@ export type RateType = {
   symbol: string
 }
 
-export type RatesType = {
-  [key in FiatType]: RateType
-}
+export type RatesType = number
 
 export type PriceMovementDirType = 'none' | 'up' | 'down'
 export type PriceDiffType = {

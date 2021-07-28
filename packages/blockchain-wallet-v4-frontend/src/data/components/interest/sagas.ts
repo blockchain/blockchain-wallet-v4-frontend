@@ -203,7 +203,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         'Failed to get user currency'
       )
       const coin = S.getCoinType(yield select())
-      const rates = S.getRates(yield select()).getOrElse({} as RatesType)
+      const rates = S.getRates(yield select()).getOrElse(0)
       const rate = rates[userCurrency].last
       const isCustodialAccountSelected =
         prop('type', formValues.interestDepositAccount) === 'CUSTODIAL'
@@ -400,7 +400,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const userCurrency = (yield select(selectors.core.settings.getCurrency)).getOrFail(
           'Failed to get user currency'
         )
-        const rates = S.getRates(yield select()).getOrElse({} as RatesType)
+        const rates = S.getRates(yield select()).getOrElse(0)
         const rate = rates[userCurrency].last
         const baseCrypto = Exchange.convertCoinToCoin({
           baseToStandard: false,
