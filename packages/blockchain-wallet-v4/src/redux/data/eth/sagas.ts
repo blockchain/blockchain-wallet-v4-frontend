@@ -99,7 +99,9 @@ export default ({ api }: { api: APIType }) => {
   const fetchRates = function* () {
     try {
       yield put(A.fetchRatesLoading())
-      const data = yield call(api.getEthTicker)
+      const currencyR = selectors.settings.getCurrency(yield select())
+      const currency = currencyR.getOrElse('USD')
+      const data = yield call(api.getCoinTicker, 'ETH', currency)
       yield put(A.fetchRatesSuccess(data))
     } catch (e) {
       yield put(A.fetchRatesFailure(e.message))
@@ -266,7 +268,9 @@ export default ({ api }: { api: APIType }) => {
       tokens.map(function* (token) {
         try {
           yield put(A.fetchErc20RatesLoading(token))
-          const data = yield call(api.getErc20Ticker, toUpper(token))
+          const currencyR = selectors.settings.getCurrency(yield select())
+          const currency = currencyR.getOrElse('USD')
+          const data = yield call(api.getCoinTicker, toUpper(token), currency)
           yield put(A.fetchErc20RatesSuccess(token, data))
         } catch (e) {
           yield put(A.fetchErc20RatesFailure(token, e.message))

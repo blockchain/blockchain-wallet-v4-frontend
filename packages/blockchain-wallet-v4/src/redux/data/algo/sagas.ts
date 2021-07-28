@@ -17,26 +17,19 @@ const TX_PER_PAGE = 10
 export default ({ api }: { api: APIType }) => {
   const { fetchCustodialOrdersAndTransactions } = custodialSagas({ api })
 
-  const fetchRates = function * () {
+  const fetchRates = function* () {
     try {
       yield put(A.fetchRatesLoading())
-      const data = yield call(api.getCoinTicker, 'ALGO')
+      const currencyR = selectors.settings.getCurrency(yield select())
+      const currency = currencyR.getOrElse('USD')
+      const data = yield call(api.getCoinTicker, 'ALGO', currency)
       yield put(A.fetchRatesSuccess(data))
     } catch (e) {
       yield put(A.fetchRatesFailure(e.message))
     }
   }
 
-  const watchTransactions = function * () {
-    while (true) {
-      const action = yield take(AT.FETCH_ALGO_TRANSACTIONS)
-      yield call(fetchTransactions, action)
-    }
-  }
-
-  const fetchTransactions = function * (
-    action: ReturnType<typeof A.fetchTransactions>
-  ) {
+  const fetchTransactions = function* (action: ReturnType<typeof A.fetchTransactions>) {
     try {
       const { payload } = action
       const { reset } = payload
@@ -46,7 +39,7 @@ export default ({ api }: { api: APIType }) => {
       if (Remote.Loading.is(last(pages))) return
       if (transactionsAtBound && !reset) return
       yield put(A.fetchTransactionsLoading(reset))
-      let txs: Array<any> = []
+      const txs: Array<any> = []
       const txPage: Array<any> = txs
       const nextSBTransactionsURL = selectors.data.custodial.getNextSBTransactionsURL(
         yield select(),
@@ -66,6 +59,13 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchTransactionsSuccess(page, reset, true))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
+    }
+  }
+
+  const watchTransactions = function* () {
+    while (true) {
+      const action = yield take(AT.FETCH_ALGO_TRANSACTIONS)
+      yield call(fetchTransactions, action)
     }
   }
 

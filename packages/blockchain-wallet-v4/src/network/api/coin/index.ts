@@ -1,4 +1,4 @@
-import { CoinType } from 'core/types'
+import moment from 'moment'
 
 export default ({ apiUrl, get, post }) => {
   const getCoinPrices = (coins, timestamp) =>
@@ -10,12 +10,15 @@ export default ({ apiUrl, get, post }) => {
       url: apiUrl
     })
 
-  const getCoinTicker = (coin: CoinType) =>
-    get({
-      data: { base: coin },
-      endPoint: '/ticker',
+  const getCoinTicker = async (base: string, quote: string) => {
+    const index = await get({
+      data: { base, quote, time: moment().unix() },
+      endPoint: '/price/index',
       url: apiUrl
     })
+
+    return index.price
+  }
   return {
     getCoinPrices,
     getCoinTicker
