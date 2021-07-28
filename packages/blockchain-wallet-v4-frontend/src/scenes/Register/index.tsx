@@ -8,23 +8,35 @@ import { actions, selectors } from 'data'
 import { GoalsType } from 'data/goals/types'
 import { RootState } from 'data/rootReducer'
 
+import { REGISTER_FORM } from './model'
 import Register from './template'
 
 class RegisterContainer extends React.PureComponent<PropsType, StateType> {
   constructor(props) {
     super(props)
     this.state = {
-      showForm: false
+      showForm: false,
+      showState: false
     }
   }
 
   onSubmit = () => {
-    const { authActions, email, language, password } = this.props
-    authActions.register(email, password, language)
+    const { authActions, country, email, language, password, state } = this.props
+    authActions.register(email, password, language, country, state)
   }
 
   toggleForm = () => {
     this.setState({ showForm: true })
+  }
+
+  onCountryChange = (e: React.SyntheticEvent, value: string) => {
+    this.setDefaultCountry(value)
+    this.props.formActions.clearFields(REGISTER_FORM, false, false, 'state')
+  }
+
+  setDefaultCountry = (country: string) => {
+    const countryIsUS = country === 'US'
+    this.setState({ showState: countryIsUS })
   }
 
   render() {
@@ -56,6 +68,8 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
         passwordLength={passwordLength}
         showForm={this.state.showForm || showWalletFormQuery}
         toggleForm={this.toggleForm}
+        onCountrySelect={this.onCountryChange}
+        showState={this.state.showState}
         {...this.props}
       />
     )
@@ -63,24 +77,28 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+  country: formValueSelector(REGISTER_FORM)(state, 'country'),
   data: selectors.auth.getRegistering(state),
   domainsR: selectors.core.walletOptions.getDomains(state),
-  email: formValueSelector('register')(state, 'email'),
+  email: formValueSelector(REGISTER_FORM)(state, 'email'),
   goals: selectors.goals.getGoals(state),
   language: selectors.preferences.getLanguage(state),
-  password: formValueSelector('register')(state, 'password') || '',
-  search: selectors.router.getSearch(state) as string
+  password: formValueSelector(REGISTER_FORM)(state, 'password') || '',
+  search: selectors.router.getSearch(state) as string,
+  state: formValueSelector(REGISTER_FORM)(state, 'state')
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  authActions: bindActionCreators(actions.auth, dispatch)
+  authActions: bindActionCreators(actions.auth, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkStatePropsType = {
+  country: string
   data: any
   domainsR: any
   email: string
@@ -88,10 +106,12 @@ type LinkStatePropsType = {
   language: string
   password: string
   search: string
+  state: string
 }
 
 type StateType = {
   showForm: boolean
+  showState: boolean
 }
 
 export type PropsType = ConnectedProps<typeof connector> & LinkStatePropsType

@@ -62,7 +62,7 @@ export default function* rootSaga({ api, coinsSocket, networks, options, ratesSo
     call(welcomeSaga),
     fork(alerts),
     fork(analytics()),
-    fork(auth({ api, coreSagas })),
+    fork(auth({ api, coreSagas, networks })),
     fork(components({ api, coreSagas, networks, options })),
     fork(custodial({ api, coreSagas, networks })),
     fork(modules({ api, coreSagas, networks })),

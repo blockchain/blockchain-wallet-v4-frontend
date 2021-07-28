@@ -147,6 +147,14 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
       url: nabuUrl
     })
 
+  const setUserInitialAddress = (country: string, state?: string) =>
+    authorizedPut({
+      contentType: 'application/json',
+      data: { country, state },
+      endPoint: '/users/current/address/initial',
+      url: nabuUrl
+    })
+
   const updateUserAddress = (address) =>
     authorizedPut({
       contentType: 'application/json',
@@ -176,6 +184,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     recoverUser,
     registerUserCampaign,
     resetUserKyc,
+    setUserInitialAddress,
     shareWalletDepositAddresses,
     syncUserWithWallet,
     updateUser,

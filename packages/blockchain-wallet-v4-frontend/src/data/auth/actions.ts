@@ -46,8 +46,8 @@ export const mobileLoginStarted = () => ({ type: AT.MOBILE_LOGIN_START })
 export const mobileLoginFinish = () => ({ type: AT.MOBILE_LOGIN_FINISH })
 
 // REGISTER
-export const register = (email, password, language) => ({
-  payload: { email, language, password },
+export const register = (email, password, language, country, state) => ({
+  payload: { country, email, language, password, state },
   type: AT.REGISTER
 })
 export const registerLoading = () => ({ type: AT.REGISTER_LOADING })
