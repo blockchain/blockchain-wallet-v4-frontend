@@ -1,9 +1,7 @@
 import { CoinType, PaymentType, PaymentValue, RemoteDataType } from 'blockchain-wallet-v4/src/types'
 
-// import * as ALGO from './coins/algo'
 import * as BCH from './coins/bch'
 import * as BTC from './coins/btc'
-// import * as DOT from './coins/dot'
 import * as ERC20 from './coins/erc20'
 import * as ETH from './coins/eth'
 // import * as EUR from './coins/eur'
@@ -13,7 +11,6 @@ import * as XLM from './coins/xlm'
 
 // create a function map of all coins
 const coinSagas = {
-  // ALGO,
   BCH,
   BTC,
   ERC20,

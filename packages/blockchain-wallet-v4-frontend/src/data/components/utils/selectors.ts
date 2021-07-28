@@ -19,6 +19,7 @@ export const getCoinsWithMethodAndOrder = (state: RootState) => {
   const sbBalancesR = selectors.components.simpleBuy.getSBBalances(state)
   const erc20sR = selectors.core.data.eth.getErc20AccountTokenBalances(state)
   const recentSwapTxs = selectors.custodial.getRecentSwapTxs(state).getOrElse([] as SwapOrderType[])
+  const custodials = selectors.core.data.coins.getCoins()
 
   const transform = (
     paymentMethods: ExtractSuccess<typeof sbMethodsR>,
@@ -39,10 +40,7 @@ export const getCoinsWithMethodAndOrder = (state: RootState) => {
         'ETH',
         'BCH',
         'XLM',
-        'ALGO',
-        'DOT',
-        'CLOUT',
-        'DOGE',
+        ...custodials,
         // ...coins.rest // erc20s
         // TODO: erc20 phase 2, key off hash not symbol
         ...erc20s.map(({ tokenSymbol }) => toUpper(tokenSymbol)),
