@@ -11,39 +11,9 @@ const INITIAL_STATE = {
   isLoggingIn: false,
   kycReset: undefined,
   login: Remote.NotAsked,
-  magicLinkData: {},
+  magicLinkData: null,
   metadataRestore: Remote.NotAsked,
   mobileLoginStarted: false,
-  // {
-  //   exchange: {
-  //     email: undefined,
-  //     twoFaMode: false,
-  //     userId: undefined
-  //   },
-  //   upgradeable: null,
-  //   mergeable: null,
-  //   wallet: {
-  //     authType: undefined,
-  //     email: undefined,
-  //     emailCode: undefined,
-  //     exchange: {
-  //       email: undefined,
-  //       twoFaMode: undefined,
-  //       userId: undefined
-  //     },
-  //     guid: undefined,
-  //     hasCloudBackup: undefined,
-  //     isMobileSetup: undefined,
-  //     lastMnemonicBackup: undefined,
-
-  //     mobileDeviceType: undefined,
-  //     nabu: {
-  //       recoveryToken: undefined,
-  //       recoveryEligible: undefined,
-  //       userId: undefined
-  //     }
-  //   }
-  // },
   registerEmail: undefined,
   registering: Remote.NotAsked,
   restoring: Remote.NotAsked,
@@ -119,10 +89,9 @@ const auth = (state = INITIAL_STATE, action) => {
       return assoc('auth_type', authType, state)
     }
     case AT.SET_MAGIC_LINK_INFO: {
-      const { magicLinkInfo } = payload
       return {
         ...state,
-        magicLinkData: magicLinkInfo
+        magicLinkData: action.payload.magicLinkInfo
       }
     }
     case AT.SET_REGISTER_EMAIL: {

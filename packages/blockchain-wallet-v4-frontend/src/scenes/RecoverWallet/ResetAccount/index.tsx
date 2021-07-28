@@ -4,6 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { InjectedFormProps } from 'redux-form'
 
 import { Form } from 'components/Form'
+import { RemoteType } from 'core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { RecoverSteps } from 'data/types'
@@ -26,15 +27,21 @@ class ResetAccount extends React.PureComponent<InjectedFormProps<{}, Props> & Pr
 
   handleSubmit = (e) => {
     e.preventDefault()
-    const { authActions, email, language, resetPassword } = this.props
-    authActions.resetAccount(email, resetPassword, language)
+    const { authActions, cachedEmail, language, resetPassword } = this.props
+    authActions.resetAccount(cachedEmail, resetPassword, language)
   }
 
   render() {
+    const isRegistering = this.props.registering.cata({
+      Failure: () => false,
+      Loading: () => true,
+      NotAsked: () => false,
+      Success: () => false
+    })
     return (
       <Form onSubmit={this.handleSubmit}>
         {this.state.step === 1 && <StepOne {...this.props} setFormStep={this.setFormStep} />}
-        {this.state.step === 2 && <StepTwo {...this.props} />}
+        {this.state.step === 2 && <StepTwo {...this.props} isRegistering={isRegistering} />}
       </Form>
     )
   }

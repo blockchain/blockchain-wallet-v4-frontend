@@ -4,14 +4,14 @@ import { has } from 'ramda'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
-import { FormGroup, FormLabel, PasswordBox, TextBox } from 'components/Form'
+import { HeartbeatLoader } from 'blockchain-info-components'
+import { FormGroup, FormLabel, PasswordBox } from 'components/Form'
 import Terms from 'components/Terms'
-import { LoginSteps, RecoverSteps } from 'data/types'
+import { RecoverSteps } from 'data/types'
 import { required, validPasswordConfirmation, validStrongPassword } from 'services/forms'
 
 import { ActionButton, BackArrowFormHeader, ReverifyIdentityInfoBox } from '../../model'
-import { Props } from '..'
+import { Props as OwnProps } from '..'
 
 const Footer = styled(FormGroup)`
   display: flex;
@@ -24,12 +24,10 @@ const validatePasswordConfirmation = validPasswordConfirmation('resetAccountPass
 
 const SecondStep = (props: Props) => {
   const {
-    authActions,
-    cacheActions,
     cachedEmail,
     cachedGuid,
-    formActions,
-    formValues,
+    invalid,
+    isRegistering,
     lastGuid,
     resetPassword,
     setStep
@@ -80,20 +78,26 @@ const SecondStep = (props: Props) => {
       <Footer>
         <ActionButton
           data-e2e='recoverSubmit'
-          // disabled={isRegistering || invalid}
+          disabled={isRegistering || invalid}
           nature='primary'
           type='submit'
           fullwidth
         >
-          {/* {isRegistering ? (
-              <HeartbeatLoader height='20px' width='20px' color='white' />
-            ) : ( */}
-          <FormattedMessage id='scenes.recover.secondstep.recover' defaultMessage='Recover Funds' />
-          {/* )} */}
+          {isRegistering ? (
+            <HeartbeatLoader height='20px' width='20px' color='white' />
+          ) : (
+            <FormattedMessage
+              id='scenes.recover.secondstep.recover'
+              defaultMessage='Recover Funds'
+            />
+          )}
         </ActionButton>
       </Footer>
     </>
   )
 }
 
+type Props = OwnProps & {
+  isRegistering: boolean
+}
 export default SecondStep

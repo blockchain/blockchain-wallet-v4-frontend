@@ -10,11 +10,11 @@ import * as C from 'services/alerts'
 import { isGuid } from 'services/forms'
 import { checkForVulnerableAddressError } from 'services/misc'
 import { askSecondPasswordEnhancer, confirm, promptForSecondPassword } from 'services/sagas'
-import profileSagas from '../modules/profile/sagas'
 
+import profileSagas from '../modules/profile/sagas'
 import * as A from './actions'
-import * as S from './selectors'
 import { guessCurrencyBasedOnCountry } from './helpers'
+import * as S from './selectors'
 import { LoginSteps, WalletDataFromMagicLink } from './types'
 
 const { MOBILE_LOGIN } = model.analytics
@@ -340,7 +340,6 @@ export default ({ api, coreSagas, networks }) => {
       // yield fork(logoutRoutine, yield call(setLogoutEventListener))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'loginRoutineSaga', e))
-      console.log(e, 'error')
       // Redirect to error page instead of notification
       yield put(actions.alerts.displayError(C.WALLET_LOADING_ERROR))
     }
@@ -498,7 +497,6 @@ export default ({ api, coreSagas, networks }) => {
       } catch (e) {
         yield put(actions.auth.registerFailure())
       }
-      debugger
       yield put(actions.auth.registerSuccess())
     } catch (e) {
       yield put(actions.auth.registerFailure())
@@ -614,8 +612,6 @@ export default ({ api, coreSagas, networks }) => {
   const parseMagicLink = function* (params) {
     const loginData = JSON.parse(atob(params[2])) as WalletDataFromMagicLink
     const walletData = loginData.wallet
-    const nabuData = walletData.nabu
-    const exchangeData = walletData.exchange
     // grab all the data from the JSON
     // wallet data
     // store data in the cache and update form values
@@ -715,24 +711,29 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const resetAccount = function* (action) {
-    // const { email, password, language } = action.payload
-    const email = 'leora@blockchain.com'
-    const password = 'blockchain'
-    const language = 'en'
-    // const recoveryToken = yield select(S.getMagicLinkData)
-    const recoveryToken = '00000000-0000-0000-0000-000000000008'
-    const userId = 'ddca03d6-3c58-4bbf-bfae-ae666f6b448a'
-    yield call(register, actions.auth.register(email, password, language))
-    const retailToken = yield call(generateRetailToken)
-    const { lifetimeToken } = yield call(api.resetUserAccount(userId, recoveryToken, retailToken))
-    console.log(lifetimeToken, 'lifetime token')
-    // yield put(actions.core.kvStore.userCredentials.setUserCredentials(userId, lifetimeToken))
-    // first we want to create a new wallet
+    // If user is resetting their custodial account
+    // Creating a new wallet and assigning an existing custodial account
+    // to that wallet
 
-    // then we ping POST /ngw/users/recovery/$USER_ID
-    // and pass it the recovery token we've received from the magic link
-    // then we get a new lifetime token in the repsonse
-    // save this lifetime token to metadata
+    const { email, language, password } = action.payload
+    // We get recovery token and nabu ID
+    const recoveryToken = yield select(S.getRecoveryToken)
+    const userId = yield select(S.getNabuId)
+    // create a new wallet
+    yield call(register, actions.auth.register(email, password, language))
+    // generate a retail token for new wallet
+    const retailToken = yield call(generateRetailToken)
+    // call the reset nabu user endpoint, receive new lifetime
+    // token for nabu user
+    const { token: lifetimeToken } = yield call(
+      api.resetUserAccount,
+      userId,
+      recoveryToken,
+      retailToken
+    )
+    // set new lifetime token for user in metadata
+    yield put(actions.core.kvStore.userCredentials.setUserCredentials(userId, lifetimeToken))
+    // first we want to create a new wallet
     // TODOs - how do we handle failure?
   }
   return {

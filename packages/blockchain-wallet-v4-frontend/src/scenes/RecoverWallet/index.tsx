@@ -5,6 +5,7 @@ import { formValueSelector, getFormMeta, InjectedFormProps, reduxForm } from 're
 
 import { Form } from 'components/Form'
 import { Wrapper } from 'components/Public'
+import { RemoteDataType } from 'core/types'
 import { actions, selectors } from 'data'
 import { RecoverFormType, RecoverSteps } from 'data/types'
 
@@ -28,7 +29,6 @@ class RecoverWalletContainer extends React.PureComponent<InjectedFormProps<{}, P
 
   render() {
     const { step } = this.props.formValues || RecoverSteps.RECOVERY_OPTIONS
-    console.log(this.props.walletData, 'nabuId')
     return (
       <Wrapper>
         <Form>
@@ -36,7 +36,6 @@ class RecoverWalletContainer extends React.PureComponent<InjectedFormProps<{}, P
             switch (step) {
               case RecoverSteps.RECOVERY_OPTIONS:
                 return <RecoveryOptions {...this.props} setStep={this.setStep} />
-
               case RecoverSteps.CLOUD_RECOVERY:
                 return <CloudRecovery {...this.props} setStep={this.setStep} />
               case RecoverSteps.RECOVERY_PHRASE:
@@ -65,9 +64,8 @@ const mapStateToProps = (state) => ({
   loginFormValues: selectors.form.getFormValues('login')(state),
   mnemonic: formValueSelector('recover')(state, 'mnemonic'),
   nabuId: selectors.auth.getNabuId(state),
-  walletData: selectors.auth.getWalletData(state),
   recoverPassword: formValueSelector('recover')(state, 'recoverPassword') || '',
-  registering: selectors.auth.getRegistering(state),
+  registering: selectors.auth.getRegistering(state) as RemoteDataType<string, any>,
   resetPassword: formValueSelector('recover')(state, 'resetAccountPassword') || ''
 })
 

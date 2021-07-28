@@ -1,5 +1,8 @@
-import { compose, lift, path, prop } from 'ramda'
+import { path } from 'ramda'
+
 import { RootState } from 'data/rootReducer'
+
+import { WalletDataFromMagicLink } from './types'
 
 export const isAuthenticated = path(['auth', 'isAuthenticated'])
 export const getRegistering = path(['auth', 'registering'])
@@ -13,7 +16,8 @@ export const getRegisterEmail = path(['auth', 'registerEmail'])
 export const getMetadataRestore = path(['auth', 'metadataRestore'])
 export const getKycResetStatus = path(['auth', 'kycReset'])
 
-export const getMagicLinkData = (state: RootState) => state.auth.magicLinkData
-export const getWalletData = compose(lift(prop('wallet')), getMagicLinkData)
-export const getNabuId = compose(lift(path(['nabu', 'userId'])), getWalletData)
-export const getRecoveryToken = compose(lift(path(['nabu', 'recoveryToken'])), getWalletData)
+export const getMagicLinkData = (state: RootState): WalletDataFromMagicLink | null =>
+  state.auth.magicLinkData
+export const getWalletData = (state) => getMagicLinkData(state)?.wallet
+export const getNabuId = (state) => getWalletData(state)?.nabu?.userId
+export const getRecoveryToken = (state) => getWalletData(state)?.nabu?.recoveryToken
