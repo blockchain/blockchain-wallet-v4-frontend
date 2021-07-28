@@ -21,7 +21,7 @@ const { MOBILE_LOGIN } = model.analytics
 
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'auth/sagas'
-  const { generateRetailToken } = profileSagas({ api, coreSagas, networks })
+  const { generateRetailToken, setSession } = profileSagas({ api, coreSagas, networks })
 
   const forceSyncWallet = function* () {
     yield put(actions.core.walletSync.forceSync())
@@ -721,6 +721,7 @@ export default ({ api, coreSagas, networks }) => {
     const userId = yield select(S.getNabuId)
     // create a new wallet
     yield call(register, actions.auth.register(email, password, language))
+    const guid = yield select(selectors.core.wallet.getGuid)
     // generate a retail token for new wallet
     const retailToken = yield call(generateRetailToken)
     // call the reset nabu user endpoint, receive new lifetime
@@ -733,7 +734,8 @@ export default ({ api, coreSagas, networks }) => {
     )
     // set new lifetime token for user in metadata
     yield put(actions.core.kvStore.userCredentials.setUserCredentials(userId, lifetimeToken))
-    // first we want to create a new wallet
+    // fetch user in new wallet
+    yield call(setSession, userId, lifetimeToken, email, guid)
     // TODOs - how do we handle failure?
   }
   return {
