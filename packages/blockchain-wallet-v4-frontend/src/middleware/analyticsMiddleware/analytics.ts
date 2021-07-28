@@ -17,12 +17,18 @@ const queueCallback = async (rawEvents: RawEvent[]) => {
   const tier = rawEvents.find((event) => event.payload.traits.tier)?.payload.traits.tier ?? null
   const parsedTier = tier ? String(tier) : null
 
+  const rawCampaign = sessionStorage.getItem('utm')
+  const campaign = rawCampaign ? JSON.parse(rawCampaign) : {}
+
+  const traits = {
+    email,
+    nabu_id: nabuId,
+    tier: parsedTier
+  }
+
   const context = {
-    traits: {
-      email,
-      nabu_id: nabuId,
-      tier: parsedTier
-    }
+    campaign,
+    traits
   } as const
 
   const events = rawEvents.map((event) => {

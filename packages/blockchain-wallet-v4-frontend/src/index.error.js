@@ -32,8 +32,7 @@ export default () => (
     <Row>
       <TextGroup>
         <Text size='18px' weight={400} color='blue900'>
-          Sorry for the inconvenience but we&rsquo;re performing some
-          maintenance at the moment.
+          Sorry for the inconvenience but we&rsquo;re performing some maintenance at the moment.
         </Text>
         <Text size='18px' weight={400} color='blue900'>
           &mdash; The Blockchain Team

@@ -1,8 +1,10 @@
-import React, { Suspense } from 'react'
+import React, { Suspense, useEffect } from 'react'
 import { connect, ConnectedProps, Provider } from 'react-redux'
 import { Redirect, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
+import { utmParser } from 'middleware/analyticsMiddleware/utils'
 import { map, values } from 'ramda'
+import { Store } from 'redux'
 import { PersistGate } from 'redux-persist/integration/react'
 
 import SiftScience from 'components/SiftScience'
@@ -47,75 +49,86 @@ const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
 const TheExchange = React.lazy(() => import('./TheExchange'))
 const Transactions = React.lazy(() => import('./Transactions'))
 
-class App extends React.PureComponent<Props> {
-  render() {
-    const { history, isAuthenticated, persistor, store } = this.props
-    const Loading = isAuthenticated ? WalletLoading : PublicLoading
-    return (
-      <Provider store={store}>
-        <ThemeProvider>
-          <TranslationsProvider>
-            <PersistGate loading={<Loading />} persistor={persistor}>
-              <MediaContextProvider>
-                <ConnectedRouter history={history}>
-                  <Suspense fallback={<Loading />}>
-                    <Switch>
-                      <PublicLayout path='/authorize-approve' component={AuthorizeLogin} />
-                      <PublicLayout path='/help' component={Help} />
-                      <PublicLayout path='/login' component={Login} />
-                      <PublicLayout path='/logout' component={Logout} />
-                      <PublicLayout path='/mobile-login' component={MobileLogin} />
-                      <PublicLayout path='/recover' component={RecoverWallet} />
-                      <PublicLayout path='/reset-2fa' component={ResetWallet2fa} />
-                      <PublicLayout path='/reset-two-factor' component={ResetWallet2faToken} />
-                      <PublicLayout path='/signup' component={Register} />
-                      <PublicLayout path='/verify-email' component={VerifyEmailToken} />
-                      <PublicLayout
-                        path='/upload-document/success'
-                        component={UploadDocumentsSuccess}
-                        exact
-                      />
-                      <PublicLayout path='/upload-document/:token' component={UploadDocuments} />
-                      <PublicLayout path='/wallet' component={Login} />
-                      <PublicLayout path='/verify-email-step' component={VerifyEmail} />
-                      <WalletLayout path='/airdrops' component={Airdrops} />
-                      <WalletLayout path='/exchange' component={TheExchange} />
-                      <WalletLayout path='/home' component={Home} />
-                      <WalletLayout path='/interest' component={Interest} exact />
-                      <WalletLayout path='/interest/history' component={InterestHistory} />
-                      <WalletLayout path='/lockbox' component={Lockbox} />
-                      <WalletLayout path='/security-center' component={SecurityCenter} />
-                      <WalletLayout path='/settings/addresses' component={Addresses} />
-                      <WalletLayout path='/settings/general' component={General} />
-                      <WalletLayout path='/settings/preferences' component={Preferences} />
-                      <WalletLayout path='/prices' component={Prices} />
-                      {values(
-                        map((coinModel) => {
-                          const { coinfig } = coinModel
-                          return (
-                            <WalletLayout
-                              path={`/${coinfig.symbol}/transactions`}
-                              component={Transactions}
-                              coinfig={coinfig}
-                              coin={coinfig.symbol}
-                              key={coinfig.symbol}
-                            />
-                          )
-                        }, this.props.coinsWithMethodAndOrder)
-                      )}
-                      {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
-                    </Switch>
-                  </Suspense>
-                </ConnectedRouter>
-                <SiftScience userId={this.props.userData.id} />
-                <AnalyticsTracker />
-              </MediaContextProvider>
-            </PersistGate>
-          </TranslationsProvider>
-        </ThemeProvider>
-      </Provider>
-    )
-  }
+const App = ({
+  coinsWithMethodAndOrder,
+  history,
+  isAuthenticated,
+  persistor,
+  store,
+  userData
+}: Props) => {
+  const Loading = isAuthenticated ? WalletLoading : PublicLoading
+
+  useEffect(() => {
+    const utm = utmParser(window.location.hash)
+
+    sessionStorage.setItem('utm', JSON.stringify(utm))
+  }, [])
+
+  return (
+    <Provider store={store}>
+      <ThemeProvider>
+        <TranslationsProvider>
+          <PersistGate loading={<Loading />} persistor={persistor}>
+            <MediaContextProvider>
+              <ConnectedRouter history={history}>
+                <Suspense fallback={<Loading />}>
+                  <Switch>
+                    <PublicLayout path='/authorize-approve' component={AuthorizeLogin} />
+                    <PublicLayout path='/help' component={Help} />
+                    <PublicLayout path='/login' component={Login} />
+                    <PublicLayout path='/logout' component={Logout} />
+                    <PublicLayout path='/mobile-login' component={MobileLogin} />
+                    <PublicLayout path='/recover' component={RecoverWallet} />
+                    <PublicLayout path='/reset-2fa' component={ResetWallet2fa} />
+                    <PublicLayout path='/reset-two-factor' component={ResetWallet2faToken} />
+                    <PublicLayout path='/signup' component={Register} />
+                    <PublicLayout path='/verify-email' component={VerifyEmailToken} />
+                    <PublicLayout
+                      path='/upload-document/success'
+                      component={UploadDocumentsSuccess}
+                      exact
+                    />
+                    <PublicLayout path='/upload-document/:token' component={UploadDocuments} />
+                    <PublicLayout path='/wallet' component={Login} />
+                    <PublicLayout path='/verify-email-step' component={VerifyEmail} />
+                    <WalletLayout path='/airdrops' component={Airdrops} />
+                    <WalletLayout path='/exchange' component={TheExchange} />
+                    <WalletLayout path='/home' component={Home} />
+                    <WalletLayout path='/interest' component={Interest} exact />
+                    <WalletLayout path='/interest/history' component={InterestHistory} />
+                    <WalletLayout path='/lockbox' component={Lockbox} />
+                    <WalletLayout path='/security-center' component={SecurityCenter} />
+                    <WalletLayout path='/settings/addresses' component={Addresses} />
+                    <WalletLayout path='/settings/general' component={General} />
+                    <WalletLayout path='/settings/preferences' component={Preferences} />
+                    <WalletLayout path='/prices' component={Prices} />
+                    {values(
+                      map((coinModel) => {
+                        const { coinfig } = coinModel
+                        return (
+                          <WalletLayout
+                            path={`/${coinfig.symbol}/transactions`}
+                            component={Transactions}
+                            coinfig={coinfig}
+                            coin={coinfig.symbol}
+                            key={coinfig.symbol}
+                          />
+                        )
+                      }, coinsWithMethodAndOrder)
+                    )}
+                    {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
+                  </Switch>
+                </Suspense>
+              </ConnectedRouter>
+              <SiftScience userId={userData.id} />
+              <AnalyticsTracker />
+            </MediaContextProvider>
+          </PersistGate>
+        </TranslationsProvider>
+      </ThemeProvider>
+    </Provider>
+  )
 }
 
 const mapStateToProps = (state) => ({
@@ -129,11 +142,9 @@ const mapStateToProps = (state) => ({
 const connector = connect(mapStateToProps)
 
 type Props = {
-  coinsWithMethodAndOrder: any
-  history: any
-  isAuthenticated: boolean
-  persistor: any
-  store: any
+  history: History
+  persistor
+  store: Store
 } & ConnectedProps<typeof connector>
 
 export default connector(App)
