@@ -83,25 +83,16 @@ const CloudRecovery = (props: Props) => {
                 defaultMessage='Scan this QR code with your Blockchain.com mobile app.'
               />
             </Text>
-            <Row>
-              <Text
-                color='grey900'
-                size='12px'
-                weight={500}
-                lineHeight='1.5'
-                style={{ marginRight: '4px' }}
-              >
-                <FormattedMessage
-                  id='scenes.recovery.cloud_backup.instructions_two'
-                  defaultMessage='Tap the QR Code Scanner icon'
-                />
-              </Text>
-              <Icon name='qr-scanner' color='grey900' size='16px' />
-            </Row>
             <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
               <FormattedMessage
-                id='scenes.recovery.cloud_backup.instructions_three'
-                defaultMessage='in the top right & point here.'
+                id='scenes.login.wallet.mobile_login.description.ios'
+                defaultMessage='iOS - Tap the Menu button at the top left corner of the app to reveal Web Log In option.'
+              />
+            </Text>
+            <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
+              <FormattedMessage
+                id='scenes.login.wallet.mobile_login.description.android'
+                defaultMessage='Android - Tap the QR code icon at the top right corner of the app.'
               />
             </Text>
           </TextColumn>

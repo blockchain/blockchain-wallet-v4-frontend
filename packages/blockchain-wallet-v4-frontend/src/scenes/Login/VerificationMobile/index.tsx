@@ -1,13 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { LinkContainer } from 'react-router-bootstrap'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { Button, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { crypto as wCrypto } from 'blockchain-wallet-v4/src'
-import { SuccessCartridge } from 'components/Cartridge'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import { RemoteDataType } from 'core/types'
 import { actions, selectors } from 'data'
@@ -73,19 +71,16 @@ const VerificationMobile = (props: Props) => {
                 defaultMessage='Scan this QR code with the Blockchain.com mobile app.'
               />
             </Text>
-            <Row>
-              <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
-                <FormattedMessage
-                  id='scenes.recovery.cloud_backup.instructions_two'
-                  defaultMessage='Tap the QR Code Scanner icon'
-                />
-              </Text>
-              <Icon name='qr-scanner' color='grey900' size='16px' />
-            </Row>
             <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
               <FormattedMessage
-                id='scenes.login.wallet.mobile_login.description_two'
-                defaultMessage='Tap the Menu button at the top left corner of the app to reveal Web Log In option'
+                id='scenes.login.wallet.mobile_login.description.ios'
+                defaultMessage='iOS - Tap the Menu button at the top left corner of the app to reveal Web Log In option.'
+              />
+            </Text>
+            <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
+              <FormattedMessage
+                id='scenes.login.wallet.mobile_login.description.android'
+                defaultMessage='Android - Tap the QR code icon at the top right corner of the app.'
               />
             </Text>
           </TextColumn>
