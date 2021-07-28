@@ -2,7 +2,7 @@
 import { BigNumber } from 'bignumber.js'
 import { path, prop } from 'ramda'
 
-import { CoinType, FiatType, RatesType, WalletCurrencyType, WalletFiatType } from 'core/types'
+import { CoinType, FiatType, WalletFiatType } from 'core/types'
 
 import Currencies, { FiatCurrenciesType } from './currencies'
 import { formatCoin, getLang } from './utils'
@@ -55,18 +55,17 @@ const convertCoinToFiat = ({
   coin: string
   value?: number | string
   currency: FiatType
-  rates: RatesType
+  rates: number
   isStandard?: boolean
 }): string => {
   if (!value) return new BigNumber(0).toFixed(2)
 
   const { coinfig } = window.coins[coin]
-  const { last } = rates[currency]
   const amt = isStandard
     ? new BigNumber(value)
     : new BigNumber(value).dividedBy(Math.pow(10, coinfig.precision))
 
-  const fiatAmt = amt.times(last).toFixed(2)
+  const fiatAmt = amt.times(rates).toFixed(2)
 
   return fiatAmt
 }
@@ -80,17 +79,16 @@ const convertFiatToCoin = ({
 }: {
   coin: CoinType
   currency: keyof FiatCurrenciesType
-  rates: RatesType
+  rates: number
   value: number | string
   maxPrecision?: number
 }): string => {
   if (!value) return '0'
 
   const { coinfig } = window.coins[coin]
-  const { last } = rates[currency]
 
   return new BigNumber(value)
-    .dividedBy(last)
+    .dividedBy(rates)
     .toFixed(maxPrecision ? Math.min(maxPrecision, coinfig.precision) : coinfig.precision)
 }
 
@@ -102,7 +100,7 @@ const convertFiatToFiat = ({
   value = '0'
 }: {
   fromCurrency: WalletFiatType
-  rates: RatesType
+  rates: number,
   toCurrency: WalletFiatType
   value: number | string
 }) => {
@@ -112,8 +110,7 @@ const convertFiatToFiat = ({
     currency: fromCurrency,
     rates
   })
-  const { last } = rates[toCurrency as FiatType]
-  return new BigNumber(btcAmt).times(last).toFixed(2)
+  return new BigNumber(btcAmt).times(rates).toFixed(2)
 }
 
 // =====================================================================
@@ -141,14 +138,13 @@ const displayCoinToFiat = ({
   toCurrency,
   value = '0'
 }: {
-  rates: RatesType
+  rates: number
   toCurrency: keyof FiatCurrenciesType
   value: number | string
 }): string => {
   const options = { style: 'currency', currency: toCurrency }
 
-  const { last } = rates[toCurrency as FiatType]
-  const number = new BigNumber(value).times(last).toNumber()
+  const number = new BigNumber(value).times(rates).toNumber()
   return new Intl.NumberFormat(getLang(), options).format(number)
 }
 

@@ -10,7 +10,6 @@ import {
   CoinType,
   InterestAfterTransactionType,
   PaymentValue,
-  RatesType,
   RemoteDataType,
   SBBalancesType
 } from 'blockchain-wallet-v4/src/types'
@@ -204,7 +203,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const userCurrency = (yield select(selectors.core.settings.getCurrency)).getOrFail(
         'Failed to get user currency'
       )
-      const rates = ratesR.getOrElse({} as RatesType)
+      const rates = ratesR.getOrElse(0)
       const rate = rates[userCurrency].last
       const isDisplayed = S.getCoinDisplay(yield select())
       const isCustodialDeposit = prop('type', formValues.interestDepositAccount) === 'CUSTODIAL'

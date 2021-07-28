@@ -8,7 +8,7 @@ import { convertCoinToFiat } from 'blockchain-wallet-v4/src/exchange'
 import { coinToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Row, Title, Value } from 'components/Flyout'
-import { FiatType, PaymentValue, RatesType, RemoteDataType, SwapQuoteType } from 'core/types'
+import { FiatType, PaymentValue, RemoteDataType, SwapQuoteType } from 'core/types'
 import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { RootState } from 'data/rootReducer'
@@ -283,10 +283,10 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
         : ownProps.base.coin,
       state
     )
-    .getOrElse({} as RatesType),
+    .getOrElse(0),
   counterRates: selectors.core.data.misc
     .getRatesSelector(ownProps.counter.coin, state)
-    .getOrElse({} as RatesType),
+    .getOrElse(0),
   paymentR: selectors.components.swap.getPayment(state).getOrElse({} as PaymentValue),
   quoteR: selectors.components.swap
     .getQuote(state)

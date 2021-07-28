@@ -19,7 +19,6 @@ import { coinToString, formatFiat } from 'blockchain-wallet-v4/src/exchange/util
 import {
   CoinType,
   PaymentValue,
-  RatesType,
   SBOrderActionType,
   SBPairType
 } from 'blockchain-wallet-v4/src/types'
@@ -618,8 +617,8 @@ const mapStateToProps = (state: RootState) => {
     pair: selectors.components.simpleBuy.getSBPair(state),
     payment,
     quoteR: selectors.components.simpleBuy.getSellQuote(state),
-    rates: selectors.core.data.misc.getRatesSelector(coin, state).getOrElse({} as RatesType),
-    ratesEth: selectors.core.data.misc.getRatesSelector('ETH', state).getOrElse({} as RatesType)
+    rates: selectors.core.data.misc.getRatesSelector(coin, state).getOrElse(0),
+    ratesEth: selectors.core.data.misc.getRatesSelector('ETH', state).getOrElse(0)
   }
 }
 

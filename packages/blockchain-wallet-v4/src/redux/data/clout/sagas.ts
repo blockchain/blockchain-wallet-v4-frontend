@@ -20,7 +20,9 @@ export default ({ api }: { api: APIType }) => {
   const fetchRates = function* () {
     try {
       yield put(A.fetchRatesLoading())
-      const data = yield call(api.getCoinTicker, 'CLOUT')
+      const currencyR = selectors.settings.getCurrency(yield select())
+      const currency = currencyR.getOrElse('USD')
+      const data = yield call(api.getCoinTicker, 'CLOUT', currency)
       yield put(A.fetchRatesSuccess(data))
     } catch (e) {
       yield put(A.fetchRatesFailure(e.message))
