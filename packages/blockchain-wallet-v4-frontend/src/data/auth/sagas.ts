@@ -293,7 +293,7 @@ export default ({ api, coreSagas, networks }) => {
       yield call(authNabu)
 
       if (firstLogin) {
-        const countryCode = navigator.language.slice(-2) || 'US'
+        const countryCode = country || 'US'
         const currency = guessCurrencyBasedOnCountry(countryCode)
 
         yield put(actions.core.settings.setCurrency(currency))
