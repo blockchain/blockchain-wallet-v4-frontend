@@ -37,9 +37,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.router.LOCATION_CHANGE: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const pageName: PageName = action.payload.location.pathname
 
@@ -122,9 +124,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           }
           case '/settings/addresses/btc': {
             const state = store.getState()
-            const nabuId = state.profile.userData.getOrElse({})?.id
-            const email = state.profile.userData.getOrElse({})?.email
-            const tier = state.profile.userData.getOrElse({})?.tiers.current
+            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+            const email = state.profile.userData.getOrElse({})?.emailVerified
+              ? state.profile.userData.getOrElse({})?.email
+              : null
+            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
             const id = state.walletPath.wallet.guid
             const currency = 'BTC'
 
@@ -145,9 +149,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           }
           case '/settings/addresses/bch': {
             const state = store.getState()
-            const nabuId = state.profile.userData.getOrElse({})?.id
-            const email = state.profile.userData.getOrElse({})?.email
-            const tier = state.profile.userData.getOrElse({})?.tiers.current
+            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+            const email = state.profile.userData.getOrElse({})?.emailVerified
+              ? state.profile.userData.getOrElse({})?.email
+              : null
+            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
             const id = state.walletPath.wallet.guid
             const currency = 'BCH'
 
@@ -168,9 +174,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           }
           case '/settings/addresses/eth': {
             const state = store.getState()
-            const nabuId = state.profile.userData.getOrElse({})?.id
-            const email = state.profile.userData.getOrElse({})?.email
-            const tier = state.profile.userData.getOrElse({})?.tiers.current
+            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+            const email = state.profile.userData.getOrElse({})?.emailVerified
+              ? state.profile.userData.getOrElse({})?.email
+              : null
+            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
             const id = state.walletPath.wallet.guid
             const currency = 'ETH'
 
@@ -191,9 +199,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           }
           case '/settings/addresses/xlm': {
             const state = store.getState()
-            const nabuId = state.profile.userData.getOrElse({})?.id
-            const email = state.profile.userData.getOrElse({})?.email
-            const tier = state.profile.userData.getOrElse({})?.tiers.current
+            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+            const email = state.profile.userData.getOrElse({})?.emailVerified
+              ? state.profile.userData.getOrElse({})?.email
+              : null
+            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
             const id = state.walletPath.wallet.guid
             const currency = 'XLM'
 
@@ -221,9 +231,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.modals.SHOW_MODAL: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const modalName: ModalName = action.payload.type
 
@@ -413,9 +425,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           }
           case ModalName.ADD_BANK_YAPILY_MODAL: {
             const state = store.getState()
-            const nabuId = state.profile.userData.getOrElse({})?.id
-            const email = state.profile.userData.getOrElse({})?.email
-            const tier = state.profile.userData.getOrElse({})?.tiers.current
+            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+            const email = state.profile.userData.getOrElse({})?.emailVerified
+              ? state.profile.userData.getOrElse({})?.email
+              : null
+            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
             const id = state.walletPath.wallet.guid
             const origin = linkBankClickedOriginDictionary(action.payload.origin)
 
@@ -436,9 +450,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           }
           case ModalName.ADD_BANK_YODLEE_MODAL: {
             const state = store.getState()
-            const nabuId = state.profile.userData.getOrElse({})?.id
-            const email = state.profile.userData.getOrElse({})?.email
-            const tier = state.profile.userData.getOrElse({})?.tiers.current
+            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+            const email = state.profile.userData.getOrElse({})?.emailVerified
+              ? state.profile.userData.getOrElse({})?.email
+              : null
+            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
             const id = state.walletPath.wallet.guid
             const origin = linkBankClickedOriginDictionary(action.payload.origin)
 
@@ -459,9 +475,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           }
           case ModalName.KYC_MODAL: {
             const state = store.getState()
-            const nabuId = state.profile.userData.getOrElse({})?.id
-            const email = state.profile.userData.getOrElse({})?.email
-            const tier = state.profile.userData.getOrElse({})?.tiers.current
+            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+            const email = state.profile.userData.getOrElse({})?.emailVerified
+              ? state.profile.userData.getOrElse({})?.email
+              : null
+            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
             const id = state.walletPath.wallet.guid
             const upgradeTier = action.payload.props.tier
 
@@ -485,9 +503,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           }
           case ModalName.VERIFY_MESSAGE_MODAL: {
             const state = store.getState()
-            const nabuId = state.profile.userData.getOrElse({})?.id
-            const email = state.profile.userData.getOrElse({})?.email
-            const tier = state.profile.userData.getOrElse({})?.tiers.current
+            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+            const email = state.profile.userData.getOrElse({})?.emailVerified
+              ? state.profile.userData.getOrElse({})?.email
+              : null
+            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
             const id = state.walletPath.wallet.guid
 
             analytics.push(AnalyticsKey.ADDRESS_VERIFY_MESSAGE_CLICKED, {
@@ -506,9 +526,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           }
           case ModalName.MOBILE_NUMBER_CHANGE_MODAL: {
             const state = store.getState()
-            const nabuId = state.profile.userData.getOrElse({})?.id
-            const email = state.profile.userData.getOrElse({})?.email
-            const tier = state.profile.userData.getOrElse({})?.tiers.current
+            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+            const email = state.profile.userData.getOrElse({})?.emailVerified
+              ? state.profile.userData.getOrElse({})?.email
+              : null
+            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
             const id = state.walletPath.wallet.guid
 
             analytics.push(AnalyticsKey.CHANGE_MOBILE_NUMBER_CLICKED, {
@@ -527,9 +549,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           }
           case ModalName.MOBILE_NUMBER_ADD_MODAL: {
             const state = store.getState()
-            const nabuId = state.profile.userData.getOrElse({})?.id
-            const email = state.profile.userData.getOrElse({})?.email
-            const tier = state.profile.userData.getOrElse({})?.tiers.current
+            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+            const email = state.profile.userData.getOrElse({})?.emailVerified
+              ? state.profile.userData.getOrElse({})?.email
+              : null
+            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
             const id = state.walletPath.wallet.guid
 
             analytics.push(AnalyticsKey.ADD_MOBILE_NUMBER_CLICKED, {
@@ -548,9 +572,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           }
           case ModalName.IMPORT_BTC_ADDRESS_MODAL: {
             const state = store.getState()
-            const nabuId = state.profile.userData.getOrElse({})?.id
-            const email = state.profile.userData.getOrElse({})?.email
-            const tier = state.profile.userData.getOrElse({})?.tiers.current
+            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+            const email = state.profile.userData.getOrElse({})?.emailVerified
+              ? state.profile.userData.getOrElse({})?.email
+              : null
+            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
             const id = state.walletPath.wallet.guid
 
             analytics.push(AnalyticsKey.IMPORT_ADDRESS_CLICKED, {
@@ -576,9 +602,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.modules.securityCenter.VERIFY_EMAIL: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const origin = 'SIGN_UP'
 
@@ -599,9 +627,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.modules.securityCenter.RESEND_VERIFY_EMAIL: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const origin = 'VERIFICATION'
 
@@ -622,9 +652,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.modules.securityCenter.SKIP_VERIFY_EMAIL: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const origin = 'SIGN_UP'
 
@@ -645,9 +677,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.interest.SET_COIN_DISPLAY: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const { isCoinDisplayed } = action.payload
         const fix = isCoinDisplayed ? Coin.CRYPTO : Coin.FIAT
@@ -672,9 +706,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
       case AT.components.swap.SWITCH_FIX: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const { fix } = action.payload
 
@@ -697,9 +733,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
       case AT.components.simpleBuy.SWITCH_FIX: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const { fix } = action.payload
 
@@ -722,9 +760,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
       case AT.components.simpleBuy.CREATE_ORDER: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const inputCurrency = state.components.simpleBuy.fiatCurrency
         const inputAmount = Number(state.form.simpleBuyCheckout.values.amount)
@@ -750,9 +790,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.simpleBuy.HANDLE_BUY_MAX_AMOUNT_CLICK: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const maxCardLimit = Number(action.payload.amount) / 100
         const inputCurrency = state.components.simpleBuy.fiatCurrency
@@ -776,9 +818,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.simpleBuy.HANDLE_BUY_MIN_AMOUNT_CLICK: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const inputCurrency = state.components.simpleBuy.fiatCurrency
         const outputCurrency = state.components.simpleBuy.cryptoCurrency
@@ -800,9 +844,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.simpleBuy.HANDLE_SB_METHOD_CHANGE: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const paymentType = buyPaymentMethodSelectedPaymentTypeDictionary(action.method.type)
 
@@ -822,9 +868,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.auth.LOGIN_SUCCESS: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
 
         analytics.push(AnalyticsKey.SIGNED_IN, {
@@ -843,9 +891,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.auth.LOGOUT: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
 
         analytics.push(AnalyticsKey.SIGNED_OUT, {
@@ -863,9 +913,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.auth.WRONG_CHANGE_CACHE: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
 
         analytics.push(AnalyticsKey.WRONG_CHANGE_CACHE, {
@@ -883,9 +935,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.auth.WRONG_RECEIVE_CACHE: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
 
         analytics.push(AnalyticsKey.WRONG_RECEIVE_CACHE, {
@@ -903,9 +957,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.swap.SET_STEP: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const stepName = action.payload.step
 
@@ -983,9 +1039,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.swap.HANDLE_SWAP_MAX_AMOUNT_CLICK: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const inputCurrency = state.form.initSwap.values.BASE.coin
         const inputType =
@@ -1018,9 +1076,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.swap.HANDLE_SWAP_MIN_AMOUNT_CLICK: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const inputCurrency = state.form.initSwap.values.BASE.coin
         const inputType =
@@ -1052,9 +1112,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.swap.CHANGE_BASE: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const inputCurrency = action.payload.account.coin
         const inputType =
@@ -1079,9 +1141,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.swap.CHANGE_COUNTER: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const outputCurrency = action.payload.account.coin
         const outputType =
@@ -1106,9 +1170,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.swap.CREATE_ORDER: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const exchangeRate = state.components.swap.quote.getOrElse({})?.rate || 1
         const inputAmount = Number(state.form.swapAmount.values.cryptoAmount)
@@ -1165,9 +1231,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
       case AT.components.request.GET_NEXT_ADDRESS: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const accountType =
           state.form.requestCrypto.values.selectedAccount.type === SwapBaseCounterTypes.CUSTODIAL
@@ -1194,9 +1262,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.request.SET_ADDRESS_COPIED: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const accountType =
           state.form.requestCrypto.values.selectedAccount.type === SwapBaseCounterTypes.CUSTODIAL
@@ -1223,9 +1293,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.simpleBuy.SET_BUY_CRYPTO: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const rawOrigin = action.payload.props.origin
         const { href, pathname, search } = window.location
@@ -1267,9 +1339,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.simpleBuy.SET_SELL_CRYPTO: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const rawOrigin = action.payload.props.origin
         const { href, pathname, search } = window.location
@@ -1313,9 +1387,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
       case AT.components.simpleBuy.SET_STEP: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const stepName = action.payload.step
 
@@ -1382,9 +1458,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.simpleBuy.HANDLE_SELL_MAX_AMOUNT_CLICK: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const accountType =
           state.components.simpleBuy.swapAccount.type === SwapBaseCounterTypes.CUSTODIAL
@@ -1411,9 +1489,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.simpleBuy.HANDLE_SELL_MIN_AMOUNT_CLICK: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const accountType =
           state.components.simpleBuy.swapAccount.type === SwapBaseCounterTypes.CUSTODIAL
@@ -1440,9 +1520,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case actions.components.brokerage.setDWStep.type: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const stepName = action.payload.dwStep as BankDWStepType
 
@@ -1481,9 +1563,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case actions.components.brokerage.setBankDetails.type: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
 
         const originModal = state.modals.find((modal) => modal.type).type
@@ -1544,9 +1628,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.withdraw.SET_STEP: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const stepName = action.payload.step
 
@@ -1589,9 +1675,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.withdraw.HANDLE_WITHDRAWAL_MAX_AMOUNT_CLICK: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const currency = state.components.withdraw.fiatCurrency
         const withdrawalMethod = state.components.brokerage.account
@@ -1616,9 +1704,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.withdraw.HANDLE_WITHDRAWAL_MIN_AMOUNT_CLICK: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const currency = state.components.withdraw.fiatCurrency
         const withdrawalMethod = state.components.brokerage.account
@@ -1646,9 +1736,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         switch (stepName) {
           case 'DEPOSIT': {
             const state = store.getState()
-            const nabuId = state.profile.userData.getOrElse({})?.id
-            const email = state.profile.userData.getOrElse({})?.email
-            const tier = state.profile.userData.getOrElse({})?.tiers.current
+            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+            const email = state.profile.userData.getOrElse({})?.emailVerified
+              ? state.profile.userData.getOrElse({})?.email
+              : null
+            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
             const id = state.walletPath.wallet.guid
             const { href, pathname, search } = window.location
             const { referrer, title } = document
@@ -1691,9 +1783,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           }
           case 'WITHDRAWAL': {
             const state = store.getState()
-            const nabuId = state.profile.userData.getOrElse({})?.id
-            const email = state.profile.userData.getOrElse({})?.email
-            const tier = state.profile.userData.getOrElse({})?.tiers.current
+            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+            const email = state.profile.userData.getOrElse({})?.emailVerified
+              ? state.profile.userData.getOrElse({})?.email
+              : null
+            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
             const id = state.walletPath.wallet.guid
             const { href, pathname, search } = window.location
             const { referrer, title } = document
@@ -1741,9 +1835,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.interest.HANDLE_TRANSFER_MAX_AMOUNT_CLICK: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const amountCurrency = state.components.interest.isCoinDisplayed
           ? action.payload.coin
@@ -1774,9 +1870,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.interest.HANDLE_TRANSFER_MIN_AMOUNT_CLICK: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const amountCurrency = state.components.interest.isCoinDisplayed
           ? action.payload.coin
@@ -1807,9 +1905,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.interest.SUBMIT_DEPOSIT_FORM: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const currency = state.components.interest.coin
         const inputAmount = Number(state.form.interestDepositForm.values.depositAmount)
@@ -1839,9 +1939,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.interest.HANDLE_WITHDRAWAL_SUPPLY_INFORMATION: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const { origin } = action.payload
 
@@ -1862,9 +1964,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.preferences.SET_LINK_HANDLING: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
 
         analytics.push(AnalyticsKey.CRYPTO_LINK_HANDLING_CLICKED, {
@@ -1883,9 +1987,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.wallet.MANAGE_WALLET_SELECTION: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const { currency } = action.payload
         const selection = manageTabSelectionClickedSelectionDictionary(action.payload.selection)
@@ -1908,9 +2014,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.core.settings.SET_NOTIFICATIONS_TYPE: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const isEmailEnabled = action.payload.types.includes(32)
         const isSMSEnabled = action.payload.types.includes(32)
@@ -1933,9 +2041,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.modules.settings.SHOW_BTC_PRIV_KEY: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const currency = 'BTC'
 
@@ -1956,9 +2066,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.modules.settings.SHOW_ETH_PRIV_KEY: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const currency = 'ETH'
 
@@ -1979,9 +2091,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.modules.settings.SHOW_XLM_PRIV_KEY: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const currency = 'XLM'
 
@@ -2002,9 +2116,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.modules.settings.GENERAL_SETTINGS_EXTERNAL_REDIRECT: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const destination = settingsHyperlinkClickedDestinationDictionary(
           action.payload.destination
@@ -2027,9 +2143,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.modules.settings.GENERAL_SETTINGS_INTERNAL_REDIRECT: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const destination = settingsTabClickedDestinationDictionary(action.payload.destination)
 
@@ -2050,9 +2168,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.sendBtc.SEND_BTC_INITIALIZED: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const { href, pathname, search } = window.location
         const { referrer, title } = document
@@ -2092,9 +2212,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.sendBch.SEND_BCH_INITIALIZED: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const { href, pathname, search } = window.location
         const { referrer, title } = document
@@ -2134,9 +2256,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.sendXlm.SEND_XLM_INITIALIZED: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const { href, pathname, search } = window.location
         const { referrer, title } = document
@@ -2176,9 +2300,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.sendEth.SEND_ETH_INITIALIZED: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const { href, pathname, search } = window.location
         const { referrer, title } = document
@@ -2218,9 +2344,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.sendBtc.SEND_BTC_FIRST_STEP_SUBMIT_CLICKED: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const feePriority = state.components.sendBtc.payment.getOrElse({})?.fees.priority
         const currency = state.form['@SEND'].BTC.FORM.values.coin
@@ -2259,9 +2387,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.sendBch.SEND_BCH_FIRST_STEP_SUBMIT_CLICKED: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const feePriority = state.components.sendBch.payment.getOrElse({})?.fees.priority
         const currency = state.form['@SEND'].BCH.FORM.values.coin
@@ -2300,9 +2430,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.sendXlm.SEND_XLM_FIRST_STEP_SUBMIT_CLICKED: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const feePriority = state.components.sendXlm.payment.getOrElse({})?.fees.priority
         const currency = state.form['@SEND'].XLM.FORM.values.coin
@@ -2341,9 +2473,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.sendEth.SEND_ETH_FIRST_STEP_SUBMIT_CLICKED: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const feePriority = state.components.sendEth.payment.getOrElse({})?.fees.priority
         const currency = state.form['@SEND'].ETH.FORM.values.coin
@@ -2382,9 +2516,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.sendBtc.SEND_BTC_SECOND_STEP_SUBMIT_CLICKED: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const feePriority = state.components.sendBtc.payment.getOrElse({})?.fees.priority
         const currency = state.form['@SEND'].BTC.FORM.values.coin
@@ -2423,9 +2559,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.sendBch.SEND_BCH_SECOND_STEP_SUBMIT_CLICKED: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const feePriority = state.components.sendBch.payment.getOrElse({})?.fees.priority
         const currency = state.form['@SEND'].BCH.FORM.values.coin
@@ -2464,9 +2602,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.sendXlm.SEND_XLM_SECOND_STEP_SUBMIT_CLICKED: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const feePriority = state.components.sendXlm.payment.getOrElse({})?.fees.priority
         const currency = state.form['@SEND'].XLM.FORM.values.coin
@@ -2505,9 +2645,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.sendEth.SEND_ETH_SECOND_STEP_SUBMIT_CLICKED: {
         const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id
-        const email = state.profile.userData.getOrElse({})?.email
-        const tier = state.profile.userData.getOrElse({})?.tiers.current
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
         const id = state.walletPath.wallet.guid
         const feePriority = state.components.sendEth.payment.getOrElse({})?.fees.priority
         const currency = state.form['@SEND'].ETH.FORM.values.coin

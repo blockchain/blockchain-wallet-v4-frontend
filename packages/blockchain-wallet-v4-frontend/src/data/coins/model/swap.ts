@@ -5,3 +5,5 @@ export const SWAP_ACCOUNTS_SELECTOR: CoinAccountSelectorType = {
   nonCustodialAccounts: true,
   tradingAccounts: true
 }
+
+export default SWAP_ACCOUNTS_SELECTOR
