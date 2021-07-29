@@ -16,6 +16,7 @@ import { Props as FlyoutHeaderPropsType } from './src/Flyouts/Header'
 import { Props as AmountSubHeaderPropsType } from './src/Flyouts/AmountSubHeader'
 import { Props as FlyoutFooterPropsType } from './src/Flyouts/'
 import { Props as CheckoutRowPropsType } from './src/Rows/CheckoutRow'
+import { Props as OptionRightActionRowType } from './src/Rows/OptionRightAction'
 
 type AllCoinsType = WalletCurrencyType | 'STX'
 
@@ -28,6 +29,7 @@ export const FlyoutHeader: FunctionComponent<FlyoutHeaderPropsType>
 export const AmountSubHeader: FunctionComponent<AmountSubHeaderPropsType>
 export const FlyoutFooter: FunctionComponent<FlyoutFooterPropsType>
 export const CheckoutRow: FunctionComponent<CheckoutRowPropsType>
+export const OptionRightActionRow: FunctionComponent<OptionRightActionRowType>
 export const BlockchainLoader: FunctionComponent<{
   width?: string
   height?: string

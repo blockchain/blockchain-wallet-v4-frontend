@@ -62,28 +62,4 @@ const getPeriodSubTitleText = (period: RecurringBuyPeriods): React.ReactNode => 
   return text
 }
 
-const FlexWrapper = styled(Row)`
-  display: flex;
-  flex: 1;
-  justify-content: space-between;
-  align-items: center;
-  vertical-align: center;
-  padding-top: 0;
-  padding-bottom: 0;
-  height: 80px;
-  cursor: pointer;
-`
-type OptionRightActionRowType = {
-  children: React.ReactChild
-  onClick: () => void
-}
-const OptionRightActionRow = ({ children, onClick }: OptionRightActionRowType) => {
-  return (
-    <FlexWrapper role='button' onClick={onClick}>
-      <div>{children}</div>
-      <Icon name='chevron-right' size='25px' color='grey400' />
-    </FlexWrapper>
-  )
-}
-
-export { getPeriodSubTitleText, getPeriodTitleText, OptionRightActionRow }
+export { getPeriodSubTitleText, getPeriodTitleText }

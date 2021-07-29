@@ -3,7 +3,13 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { FlyoutHeader, Text } from 'blockchain-info-components'
+import {
+  FlyoutContainer,
+  FlyoutContent,
+  FlyoutHeader,
+  OptionRightActionRow,
+  Text
+} from 'blockchain-info-components'
 import { SBOrderType } from 'core/types'
 import { actions, selectors } from 'data'
 import { getBaseAmount } from 'data/components/simpleBuy/model'
@@ -11,7 +17,7 @@ import { RootState } from 'data/rootReducer'
 import { RecurringBuyPeriods, RecurringBuyStepType } from 'data/types'
 
 import { Props as _P } from '..'
-import { getPeriodSubTitleText, getPeriodTitleText, OptionRightActionRow } from './model'
+import { getPeriodSubTitleText, getPeriodTitleText } from './model'
 
 const Frequency = ({ close, order, recurringBuyActions }: Props) => {
   const amount = getBaseAmount(order)
@@ -26,7 +32,7 @@ const Frequency = ({ close, order, recurringBuyActions }: Props) => {
   }
 
   return (
-    <>
+    <FlyoutContainer>
       <FlyoutHeader data-e2e='closeRecurringBuyModalFrequencyStep' mode='back' onClick={close}>
         <FormattedMessage
           id='modals.recurringbuys.get_started.buy_amount_of_currency'
@@ -34,19 +40,21 @@ const Frequency = ({ close, order, recurringBuyActions }: Props) => {
           values={{ amount, currency }}
         />
       </FlyoutHeader>
-      {periods.map((period) => (
-        <OptionRightActionRow key={period} onClick={setPeriod(period)}>
-          <>
-            <Text weight={600} size='16px' color='grey900'>
-              {getPeriodTitleText(period)}
-            </Text>
-            <Text weight={500} size='14px' color='grey600'>
-              {getPeriodSubTitleText(period)}
-            </Text>
-          </>
-        </OptionRightActionRow>
-      ))}
-    </>
+      <FlyoutContent mode='top'>
+        {periods.map((period) => (
+          <OptionRightActionRow key={period} onClick={setPeriod(period)}>
+            <>
+              <Text weight={600} size='16px' color='grey900'>
+                {getPeriodTitleText(period)}
+              </Text>
+              <Text weight={500} size='14px' color='grey600'>
+                {getPeriodSubTitleText(period)}
+              </Text>
+            </>
+          </OptionRightActionRow>
+        ))}
+      </FlyoutContent>
+    </FlyoutContainer>
   )
 }
 
