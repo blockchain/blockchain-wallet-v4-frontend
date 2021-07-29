@@ -9,7 +9,6 @@ import { OrderType, SBPairType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption } from 'components/Form'
 import { model } from 'data'
-import { SUPPORTED_COINS } from 'data/coins/model/swap'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/simpleBuy/model'
 import { SwapAccountType } from 'data/types'
 
@@ -230,7 +229,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
         <Currencies>
           {orderType === OrderType.SELL ? (
             checkAccountsBalances ? (
-              SUPPORTED_COINS.map((coin) => {
+              props.coins.map((coin) => {
                 const accounts = props.accounts[coin] as Array<SwapAccountType>
                 return accounts.map(
                   (account) =>
