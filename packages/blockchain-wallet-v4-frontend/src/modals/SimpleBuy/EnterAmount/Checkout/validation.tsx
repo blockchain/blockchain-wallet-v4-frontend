@@ -242,7 +242,7 @@ export const getMaxMin = (
             isSddFlow ? method.limits.min : limitMinAmount
           ).toString()
 
-          const minFiat = !limitMinChanged ? convertBaseToStandard('FIAT', min) : min
+          const minFiat = convertBaseToStandard('FIAT', min)
           const minCrypto = getQuote(quote.pair, quote.rate, 'FIAT', minFiat)
 
           return { CRYPTO: minCrypto, FIAT: minFiat }
