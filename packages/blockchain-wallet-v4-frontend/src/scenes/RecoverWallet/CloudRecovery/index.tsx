@@ -23,6 +23,9 @@ const Body = styled.div`
 const TextColumn = styled(Column)`
   max-width: 60%;
   margin-right: 16px;
+  > div {
+    margin-bottom: 16px;
+  }
 `
 const CenteredRow = styled(Row)`
   justify-content: center;

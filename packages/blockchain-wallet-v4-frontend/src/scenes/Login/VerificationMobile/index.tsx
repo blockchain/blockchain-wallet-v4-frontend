@@ -23,6 +23,9 @@ const TextColumn = styled.div`
   flex-direction: column;
   max-width: 60%;
   margin-right: 24px;
+  > div {
+    margin-bottom: 16px;
+  }
 `
 const LinkRow = styled.div`
   display: flex;
