@@ -1,10 +1,7 @@
-import * as algoTransactions from './algoTransactions/actionTypes'
 import * as bchTransactions from './bchTransactions/actionTypes'
 import { actions as brokerage } from './brokerage/slice'
 import * as btcTransactions from './btcTransactions/actionTypes'
-import * as cloutTransactions from './cloutTransactions/actionTypes'
-import * as dogeTransactions from './dogeTransactions/actionTypes'
-import * as dotTransactions from './dotTransactions/actionTypes'
+import * as coinTransactions from './coinTransactions/actionTypes'
 import * as ethTransactions from './ethTransactions/actionTypes'
 import * as fiatTransactions from './fiatTransactions/actionTypes'
 import * as fundRecovery from './fundRecovery/actionTypes'
@@ -30,7 +27,6 @@ import * as sendXlm from './sendXlm/actionTypes'
 import * as settings from './settings/actionTypes'
 import * as signMessage from './signMessage/actionTypes'
 import * as simpleBuy from './simpleBuy/actionTypes'
-import * as stxTransactions from './stxTransactions/actionTypes'
 import * as swap from './swap/actionTypes'
 import * as uploadDocuments from './uploadDocuments/actionTypes'
 import * as veriff from './veriff/actionTypes'
@@ -38,13 +34,10 @@ import * as withdraw from './withdraw/actionTypes'
 import * as xlmTransactions from './xlmTransactions/actionTypes'
 
 export {
-  algoTransactions,
   bchTransactions,
   brokerage,
   btcTransactions,
-  cloutTransactions,
-  dogeTransactions,
-  dotTransactions,
+  coinTransactions,
   ethTransactions,
   fiatTransactions,
   fundRecovery,
@@ -70,7 +63,6 @@ export {
   settings,
   signMessage,
   simpleBuy,
-  stxTransactions,
   swap,
   uploadDocuments,
   veriff,

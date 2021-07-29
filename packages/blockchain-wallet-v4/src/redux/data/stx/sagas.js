@@ -6,7 +6,7 @@ import { getMnemonic } from '../../wallet/selectors'
 import * as A from './actions'
 
 export default () => {
-  const generateAddress = function * (action) {
+  const generateAddress = function* (action) {
     const { payload } = action
     const { password } = payload
     const mnemonicT = yield select(getMnemonic, password)

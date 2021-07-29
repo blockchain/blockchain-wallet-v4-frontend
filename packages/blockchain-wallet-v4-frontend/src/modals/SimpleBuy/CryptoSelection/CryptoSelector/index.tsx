@@ -10,6 +10,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption } from 'components/Form'
 import { model } from 'data'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/simpleBuy/model'
+import { getCoins } from 'data/components/swap/selectors'
 import { SwapAccountType } from 'data/types'
 
 import { Props as OwnProps, SuccessStateType } from '../index'
@@ -229,7 +230,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
         <Currencies>
           {orderType === OrderType.SELL ? (
             checkAccountsBalances ? (
-              props.coins.map((coin) => {
+              getCoins().map((coin) => {
                 const accounts = props.accounts[coin] as Array<SwapAccountType>
                 return accounts.map(
                   (account) =>

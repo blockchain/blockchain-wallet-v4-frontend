@@ -19,7 +19,7 @@ import {
 import EmptyResults from 'components/EmptyResults'
 import { SceneWrapper } from 'components/Layout'
 import LazyLoadContainer from 'components/LazyLoadContainer'
-import { actions, model } from 'data'
+import { actions, model, selectors } from 'data'
 import { getIntroductionText } from 'data/coins/selectors'
 import { media } from 'services/styles'
 
@@ -295,6 +295,14 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
       fetchData: () => dispatch(actions.core.data.eth.fetchErc20Data(coin)),
       initTxs: () => dispatch(actions.components.ethTransactions.initializedErc20(coin)),
       loadMoreTxs: () => dispatch(actions.components.ethTransactions.loadMoreErc20(coin))
+    }
+  }
+  if (selectors.core.data.coins.getCoins().includes(coin)) {
+    return {
+      ...baseActions,
+      fetchData: () => {},
+      initTxs: () => dispatch(actions.components.coinTransactions.initialized(coin)),
+      loadMoreTxs: () => dispatch(actions.components.coinTransactions.loadMore(coin))
     }
   }
   if (coinfig.type.isFiat) {

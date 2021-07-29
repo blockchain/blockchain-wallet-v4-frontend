@@ -29,5 +29,8 @@ export const getRatesSelector = (
   if (coinfig.type.isFiat) {
     return selectors.data.btc.getRates(state)
   }
+  if (selectors.data.coins.getCoins().includes(coin)) {
+    return selectors.data.coins.getRates(coin, state)
+  }
   return selectors.data[coinLower].getRates(state)
 }

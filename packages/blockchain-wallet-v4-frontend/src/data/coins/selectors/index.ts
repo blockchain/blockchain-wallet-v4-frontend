@@ -1,18 +1,15 @@
 import { any, isEmpty, isNil, map, values } from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4/src'
-import { CoinType, RemoteDataType } from 'blockchain-wallet-v4/src/types'
+import { CoinfigType, CoinType, RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 import { CoinAccountSelectorType } from 'data/coins/types'
 import { SwapAccountType } from 'data/components/swap/types'
 import { RootState } from 'data/rootReducer'
 
-import * as ALGO from './coins/algo'
 import * as BCH from './coins/bch'
 import * as BTC from './coins/btc'
-import * as CLOUT from './coins/clout'
-import * as DOGE from './coins/doge'
-import * as DOT from './coins/dot'
+import * as CUSTODIAL from './coins/custodial'
 import * as ERC20 from './coins/erc20'
 import * as ETH from './coins/eth'
 import * as EUR from './coins/eur'
@@ -22,12 +19,9 @@ import * as XLM from './coins/xlm'
 
 // create a function map of all coins
 const coinSelectors = {
-  ALGO,
   BCH,
   BTC,
-  CLOUT,
-  DOGE,
-  DOT,
+  CUSTODIAL,
   ERC20,
   ETH,
   EUR,
@@ -36,12 +30,21 @@ const coinSelectors = {
   XLM
 }
 
+export const getSelector = (coinfig: CoinfigType) => {
+  if (coinfig.type.erc20Address) {
+    return 'ERC20'
+  }
+  if (selectors.core.data.coins.getCoins().includes(coinfig.symbol)) {
+    return 'CUSTODIAL'
+  }
+  return coinfig.symbol
+}
+
 // retrieves introduction text for coin on its transaction page
 export const getIntroductionText = (coin: string) => {
   const { coinfig } = window.coins[coin]
-  return coinSelectors[
-    coinfig.type.erc20Address ? 'ERC20' : coinfig.symbol
-  ]?.getTransactionPageHeaderText(coinfig.symbol)
+  const selector = getSelector(coinfig)
+  return coinSelectors[selector]?.getTransactionPageHeaderText(coinfig.symbol)
 }
 
 // retrieves custodial account balances
@@ -66,9 +69,9 @@ export const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorT
         ? Remote.of({})
         : coinList.reduce((accounts, coin) => {
             const { coinfig } = window.coins[coin]
-            accounts[coin] = coinSelectors[
-              coinfig.type.erc20Address ? 'ERC20' : coin
-            ]?.getAccounts(state, { coin, ...ownProps })
+            const selector = getSelector(coinfig)
+            // eslint-disable-next-line
+            accounts[coin] = coinSelectors[selector]?.getAccounts(state, { coin, ...ownProps })
             return accounts
           }, {})
 
