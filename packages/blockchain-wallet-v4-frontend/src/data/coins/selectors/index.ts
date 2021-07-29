@@ -66,6 +66,7 @@ export const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorT
         ? Remote.of({})
         : coinList.reduce((accounts, coin) => {
             const { coinfig } = window.coins[coin]
+            // eslint-disable-next-line
             accounts[coin] = coinSelectors[
               coinfig.type.erc20Address ? 'ERC20' : coin
             ]?.getAccounts(state, { coin, ...ownProps })

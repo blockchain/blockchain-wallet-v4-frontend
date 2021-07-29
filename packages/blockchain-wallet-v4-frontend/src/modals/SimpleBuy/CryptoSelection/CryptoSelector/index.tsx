@@ -10,6 +10,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption } from 'components/Form'
 import { model } from 'data'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/simpleBuy/model'
+import { getCoins } from 'data/components/swap/selectors'
 import { SwapAccountType } from 'data/types'
 
 import { Props as OwnProps, SuccessStateType } from '../index'
