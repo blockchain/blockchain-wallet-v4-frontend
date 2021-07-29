@@ -15,7 +15,7 @@ window.matchMedia =
     return {
       matches: false,
       addListener: function () {},
-      removeListener: function () {},
+      removeListener: function () {}
     }
   }
 
@@ -28,9 +28,9 @@ window.coins = {
       symbol: 'BTC',
       type: {
         name: 'Bitcoin',
-        parentChain: 'BTC',
-      },
-    },
+        parentChain: 'BTC'
+      }
+    }
   },
   XLM: {
     coinfig: {
@@ -40,8 +40,8 @@ window.coins = {
       symbol: 'XLM',
       type: {
         name: 'Stellar',
-        parentChain: 'XLM',
-      },
-    },
-  },
+        parentChain: 'XLM'
+      }
+    }
+  }
 }
