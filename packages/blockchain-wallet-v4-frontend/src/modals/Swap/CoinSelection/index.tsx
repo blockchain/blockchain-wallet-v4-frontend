@@ -21,7 +21,6 @@ import { getData } from './selectors'
 class CoinSelection extends PureComponent<Props> {
   componentDidMount() {
     this.props.swapActions.fetchPairs()
-    this.props.swapActions.fetchCustodialEligibility()
   }
 
   checkAccountSelected = (

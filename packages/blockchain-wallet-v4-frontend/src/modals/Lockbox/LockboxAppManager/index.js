@@ -21,10 +21,7 @@ class LockboxAppManagerModal extends React.PureComponent {
     return (
       <Modal size='small' position={position} total={total}>
         <ModalHeader onClose={this.onClose}>
-          <FormattedMessage
-            id='modals.lockbox.appmanager.title'
-            defaultMessage='App Manager'
-          />
+          <FormattedMessage id='modals.lockbox.appmanager.title' defaultMessage='App Manager' />
         </ModalHeader>
         <ModalBody style={{ padding: '18px' }}>
           <AppManager
@@ -44,18 +41,18 @@ class LockboxAppManagerModal extends React.PureComponent {
 }
 
 LockboxAppManagerModal.propTypes = {
+  closeAll: PropTypes.func.isRequired,
   deviceIndex: PropTypes.string.isRequired,
   position: PropTypes.number.isRequired,
-  total: PropTypes.number.isRequired,
-  closeAll: PropTypes.func.isRequired
+  total: PropTypes.number.isRequired
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
 const enhance = compose(
-  modalEnhancer('LockboxAppManager'),
+  modalEnhancer('LOCKBOX_APP_MANAGER_MODAL'),
   connect(null, mapDispatchToProps)
 )
 

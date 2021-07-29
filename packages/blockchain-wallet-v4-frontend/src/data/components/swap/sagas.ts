@@ -10,6 +10,7 @@ import { actions, selectors } from 'data'
 import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
 import { getCoinAccounts } from 'data/coins/selectors'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
+import { NabuProducts } from 'data/types'
 
 import profileSagas from '../../modules/profile/sagas'
 import { convertStandardToBase } from '../exchange/services'
@@ -225,8 +226,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
   const fetchCustodialEligibility = function* () {
     try {
       yield put(A.fetchCustodialEligibilityLoading())
-      const { eligible }: ReturnType<typeof api.checkCustodialSwapEligibility> = yield call(
-        api.checkCustodialSwapEligibility
+      const { eligible }: ReturnType<typeof api.getEligibilityForProduct> = yield call(
+        api.getEligibilityForProduct,
+        NabuProducts.BROKERAGE
       )
       yield put(A.fetchCustodialEligibilitySuccess(eligible))
     } catch (e) {

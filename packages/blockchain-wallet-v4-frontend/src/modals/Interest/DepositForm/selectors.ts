@@ -25,7 +25,7 @@ export const getData = (state: RootState) => {
   const interestLimitsR = selectors.components.interest.getInterestLimits(state)
   const interestRateR = selectors.components.interest.getInterestRate(state)
   const depositLimits = selectors.components.interest.getDepositLimits(state)
-  const displayCoin = selectors.components.interest.getCoinDisplay(state)
+  const displayCoin = selectors.components.interest.getIsAmountDisplayedInCrypto(state)
   const ethRatesR = selectors.core.data.misc.getRatesSelector('ETH', state)
   const paymentR = selectors.components.interest.getPayment(state)
   const walletCurrencyR = selectors.core.settings.getCurrency(state) as RemoteDataType<
@@ -39,7 +39,6 @@ export const getData = (state: RootState) => {
   const afterTransaction = selectors.components.interest
     .getAfterTransaction(state)
     .getOrElse({} as InterestAfterTransactionType)
-  const isFromBuySell = selectors.components.interest.getIsFromBuySell(state)
 
   const prefillAmount = afterTransaction?.show ? afterTransaction.amount : undefined
 
@@ -82,7 +81,6 @@ export const getData = (state: RootState) => {
         interestEDDWithdrawLimits,
         interestLimits,
         interestRate,
-        isFromBuySell,
         payment,
         prefillAmount,
         rates

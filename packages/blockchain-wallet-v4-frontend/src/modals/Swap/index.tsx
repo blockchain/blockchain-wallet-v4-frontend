@@ -6,6 +6,7 @@ import { ExtractSuccess, SwapOrderType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
@@ -17,6 +18,7 @@ import OrderDetails from './OrderDetails'
 import PreviewSwap from './PreviewSwap'
 import getData from './selectors'
 import SuccessfulSwap from './SuccessfulSwap'
+import Unsuported from './template.unsupported'
 import UpgradePrompt from './UpgradePrompt'
 
 class Swap extends PureComponent<Props, State> {
@@ -29,6 +31,7 @@ class Swap extends PureComponent<Props, State> {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
+    this.props.swapActions.fetchCustodialEligibility()
   }
 
   componentWillUnmount() {
@@ -44,7 +47,16 @@ class Swap extends PureComponent<Props, State> {
 
   render() {
     return this.props.data.cata({
-      Failure: () => null,
+      Failure: () => (
+        <Flyout
+          {...this.props}
+          onClose={this.handleClose}
+          isOpen={this.state.show}
+          data-e2e='swapModal'
+        >
+          <Unsuported handleClose={this.handleClose} />
+        </Flyout>
+      ),
       Loading: () => null,
       NotAsked: () => null,
       Success: (val) => (
@@ -140,7 +152,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-const enhance = compose(ModalEnhancer('SWAP_MODAL', { transition: duration }), connector)
+const enhance = compose(ModalEnhancer(ModalName.SWAP_MODAL, { transition: duration }), connector)
 
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 export type Props = ModalPropsType & ConnectedProps<typeof connector>

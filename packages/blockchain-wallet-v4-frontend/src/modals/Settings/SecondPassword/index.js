@@ -12,14 +12,9 @@ import SecondPassword from './template.js'
 class SecondPasswordContainer extends React.PureComponent {
   state = { secondPassword: '' }
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault()
-    if (
-      Types.Wallet.isValidSecondPwd(
-        this.state.secondPassword,
-        this.props.wallet
-      )
-    ) {
+    if (Types.Wallet.isValidSecondPwd(this.state.secondPassword, this.props.wallet)) {
       this.props.walletActions.submitSecondPassword(this.state.secondPassword)
       this.props.modalActions.closeModal()
     } else {
@@ -28,7 +23,7 @@ class SecondPasswordContainer extends React.PureComponent {
     }
   }
 
-  handleChange = event => {
+  handleChange = (event) => {
     this.setState({ secondPassword: event.target.value })
   }
 
@@ -43,18 +38,18 @@ class SecondPasswordContainer extends React.PureComponent {
     )
   }
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   wallet: selectors.core.wallet.getWallet(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   walletActions: bindActionCreators(actions.wallet, dispatch)
 })
 
 const enhance = compose(
-  modalEnhancer('SecondPassword'),
+  modalEnhancer('SECOND_PASSWORD_MODAL'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

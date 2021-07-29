@@ -149,6 +149,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             yield put(
               actions.components.simpleBuy.handleSBMethodChange({
                 ...bankData,
+                isFlow: false,
                 limits: bankTransferMethod.limits,
                 type: SBPaymentTypes.BANK_TRANSFER
               })

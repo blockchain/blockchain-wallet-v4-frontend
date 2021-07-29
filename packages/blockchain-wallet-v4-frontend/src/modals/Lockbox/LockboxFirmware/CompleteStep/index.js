@@ -10,21 +10,18 @@ import CompleteStep from './template'
 class CompleteStepContainer extends React.PureComponent {
   onInstallApps = () => {
     this.props.onClose()
-    const deviceIndex = this.props.match.params.deviceIndex
-    this.props.modalActions.showModal('LockboxAppManager', { deviceIndex })
+
+    const { deviceIndex } = this.props.match.params
+
+    this.props.modalActions.showModal('LOCKBOX_APP_MANAGER_MODAL', { deviceIndex })
   }
 
   render() {
-    return (
-      <CompleteStep
-        status={this.props.status}
-        onInstallApps={this.onInstallApps}
-      />
-    )
+    return <CompleteStep status={this.props.status} onInstallApps={this.onInstallApps} />
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
