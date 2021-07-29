@@ -2,7 +2,7 @@
 import { BigNumber } from 'bignumber.js'
 import { path, prop } from 'ramda'
 
-import { CoinType, FiatType, RatesType, WalletCurrencyType, WalletFiatType } from 'core/types'
+import { CoinType, FiatType, RatesType, WalletFiatType } from 'core/types'
 
 import Currencies, { FiatCurrenciesType } from './currencies'
 import { formatCoin, getLang } from './utils'
@@ -66,9 +66,7 @@ const convertCoinToFiat = ({
     ? new BigNumber(value)
     : new BigNumber(value).dividedBy(Math.pow(10, coinfig.precision))
 
-  const fiatAmt = amt.times(last).toFixed(2)
-
-  return fiatAmt
+  return amt.times(last).toFixed(2)
 }
 
 const convertFiatToCoin = ({

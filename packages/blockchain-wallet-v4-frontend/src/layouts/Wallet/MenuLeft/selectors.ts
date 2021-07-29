@@ -13,19 +13,8 @@ export const getData = createDeepEqualSelector(
     selectors.core.settings.getCountryCode,
     selectors.core.walletOptions.getDomains
   ],
-  (
-    menuOpened: boolean,
-    firstLogin: boolean,
-    pathname,
-    lockboxDevicesR,
-    countryCodeR,
-    domainsR
-  ) => {
-    const transform = (
-      countryCode,
-      domains: ExtractSuccess<typeof domainsR>,
-      lockboxDevices
-    ) => {
+  (menuOpened: boolean, firstLogin: boolean, pathname, lockboxDevicesR, countryCodeR, domainsR) => {
+    const transform = (countryCode, domains: ExtractSuccess<typeof domainsR>, lockboxDevices) => {
       return {
         countryCode,
         domains,

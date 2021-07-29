@@ -9,7 +9,7 @@ export const getData = (state) => {
   return Object.keys(coins).filter(
     (value) =>
       window.coins[value].coinfig.products.includes('PrivateKey') ||
-      window.coins[value].coinfig.products.includes('SimpleBuyBalance')
+      window.coins[value].coinfig.products.includes('CustodialWalletBalance')
   )
 }
 
