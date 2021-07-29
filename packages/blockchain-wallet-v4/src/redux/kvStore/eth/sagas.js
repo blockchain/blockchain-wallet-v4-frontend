@@ -94,7 +94,8 @@ export default ({ api, networks } = {}) => {
       } else if (newkv.value.ethereum && !prop('correct', head(newkv.value.ethereum.accounts))) {
         yield call(secondPasswordSagaEnhancer(transitionFromLegacy), { newkv })
       } else {
-        // TODO: erc20 phase 2, remove this whitelist
+        // TODO: erc20 phase 2, remove this whitelist, figure out plan
+        // for storing transaction notes per hash
         const erc20List = ['AAVE', 'PAX', 'USDT', 'WDGLD', 'YFI']
         // use new ETH account label
         newkv.value.ethereum.accounts[0].label = ACCT_NAME

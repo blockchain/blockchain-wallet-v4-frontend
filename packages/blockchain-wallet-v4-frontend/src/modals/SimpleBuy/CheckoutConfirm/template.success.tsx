@@ -179,7 +179,6 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
 
   const isCardPayment = requiresTerms && cardDetails
 
-  const fee = props.order.fee ? props.order.fee : props.quote.fee
   const totalAmount = fiatToString({
     unit: counterCurrency as FiatType,
     value: counterAmount

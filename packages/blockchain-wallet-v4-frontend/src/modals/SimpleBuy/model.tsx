@@ -107,7 +107,7 @@ export const getPaymentMethodDetails = (
 ) => {
   switch (order.paymentType) {
     case SBPaymentTypes.PAYMENT_CARD:
-      return `${cardDetails?.card?.type} ${cardDetails?.card?.number}`
+      return `${cardDetails?.card?.type || ''} ${cardDetails?.card?.number || ''}`
     case SBPaymentTypes.BANK_TRANSFER:
       const defaultBankInfo = {
         accountNumber: '',

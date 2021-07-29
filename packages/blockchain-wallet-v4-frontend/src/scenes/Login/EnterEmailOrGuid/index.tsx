@@ -82,7 +82,6 @@ const EnterEmailOrGuid = (props: Props) => {
             <Link
               size='12px'
               weight={500}
-              // TODO: get actual support article
               href='https://support.blockchain.com/hc/en-us/articles/4402375989140'
             >
               <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />

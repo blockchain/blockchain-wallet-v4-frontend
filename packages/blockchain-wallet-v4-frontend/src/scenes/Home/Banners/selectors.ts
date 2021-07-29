@@ -15,6 +15,7 @@ export type BannerType =
   | 'buyCrypto'
   | 'continueToGold'
   | 'recurringBuys'
+  | 'usddIsPaxNow'
   | null
 
 export const getData = (state: RootState): { bannerToShow: BannerType } => {
@@ -76,6 +77,8 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     bannerToShow = 'continueToGold'
   } else if (isRecuringBuy) {
     bannerToShow = 'recurringBuys'
+  } else {
+    bannerToShow = 'usddIsPaxNow'
   }
 
   return {
