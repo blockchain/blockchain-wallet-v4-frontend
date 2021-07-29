@@ -6,7 +6,6 @@ import { Icon, Text } from 'blockchain-info-components'
 import { StickyHeaderFlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption } from 'components/Form'
 import { selectors } from 'data'
-import { SUPPORTED_COINS } from 'data/coins/model/swap'
 import {
   InitSwapFormValuesType,
   SwapBaseCounterTypes,
