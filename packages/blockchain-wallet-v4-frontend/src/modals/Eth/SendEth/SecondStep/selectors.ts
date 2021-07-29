@@ -60,7 +60,8 @@ export const getData = (state, coin) => {
     const fee = Exchange.convertCoinToFiat({
       coin,
       currency,
-      rates: isErc20 && payment.from.type === 'CUSTODIAL' ? erc20Rates : ethRates
+      rates: isErc20 && payment.from.type === 'CUSTODIAL' ? erc20Rates : ethRates,
+      value: payment.fee
     })
     const totalFiat = fiatToString({
       unit: currency,
