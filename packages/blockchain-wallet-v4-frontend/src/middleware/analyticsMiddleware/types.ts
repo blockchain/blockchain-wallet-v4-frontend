@@ -125,7 +125,7 @@ enum WithdrawalMethod {
 }
 
 type BasePayload = {
-  id: string
+  guid: string
   originalTimestamp: string
 }
 

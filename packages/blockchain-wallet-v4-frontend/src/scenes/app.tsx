@@ -2,10 +2,12 @@ import React, { Suspense, useEffect } from 'react'
 import { connect, ConnectedProps, Provider } from 'react-redux'
 import { Redirect, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
+import { ANALYTICS_ID, UTM } from 'middleware/analyticsMiddleware/constants'
 import { utmParser } from 'middleware/analyticsMiddleware/utils'
 import { map, values } from 'ramda'
 import { Store } from 'redux'
 import { PersistGate } from 'redux-persist/integration/react'
+import uuid from 'uuid'
 
 import SiftScience from 'components/SiftScience'
 import { selectors } from 'data'
@@ -61,8 +63,10 @@ const App = ({
 
   useEffect(() => {
     const utm = utmParser(window.location.hash)
+    const id = uuid.v4()
 
-    sessionStorage.setItem('utm', JSON.stringify(utm))
+    sessionStorage.setItem(UTM, JSON.stringify(utm))
+    localStorage.setItem(ANALYTICS_ID, id)
   }, [])
 
   return (
