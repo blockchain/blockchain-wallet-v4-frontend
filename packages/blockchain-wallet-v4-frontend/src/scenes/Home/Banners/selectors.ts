@@ -42,6 +42,7 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const userData = userDataR.getOrElse({
     tiers: { current: 0 }
   } as UserDataType)
+
   const { KYC_STATES } = model.profile
   const isKycStatePending =
     userData.kycState === KYC_STATES.PENDING || userData.kycState === KYC_STATES.UNDER_REVIEW
