@@ -1,6 +1,5 @@
 import * as algoTransactions from './algoTransactions/actionTypes'
 import * as bchTransactions from './bchTransactions/actionTypes'
-import { actions as brokerage } from './brokerage/slice'
 import * as btcTransactions from './btcTransactions/actionTypes'
 import * as cloutTransactions from './cloutTransactions/actionTypes'
 import * as dogeTransactions from './dogeTransactions/actionTypes'
@@ -18,7 +17,6 @@ import * as onboarding from './onboarding/actionTypes'
 import * as priceChart from './priceChart/actionTypes'
 import * as priceTicker from './priceTicker/actionTypes'
 import * as recoveryPhrase from './recoveryPhrase/actionTypes'
-import { actions as recurringBuy } from './recurringBuy/slice'
 import * as refresh from './refresh/actionTypes'
 import * as request from './request/actionTypes'
 import * as resetWallet2fa from './resetWallet2fa/actionTypes'
@@ -40,7 +38,6 @@ import * as xlmTransactions from './xlmTransactions/actionTypes'
 export {
   algoTransactions,
   bchTransactions,
-  brokerage,
   btcTransactions,
   cloutTransactions,
   dogeTransactions,
@@ -58,7 +55,6 @@ export {
   priceChart,
   priceTicker,
   recoveryPhrase,
-  recurringBuy,
   refresh,
   request,
   resetWallet2fa,

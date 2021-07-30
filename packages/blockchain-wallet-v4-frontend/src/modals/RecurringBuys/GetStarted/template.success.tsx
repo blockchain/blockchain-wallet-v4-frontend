@@ -44,11 +44,6 @@ const Description = styled(Text)`
   color: ${(props) => props.theme.grey900};
 `
 
-const IconsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-`
 const FooterWrapper = styled(FlyoutWrapper)`
   padding-top: 0px;
 `

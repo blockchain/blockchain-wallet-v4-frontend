@@ -7,8 +7,6 @@ import { Button, FlyoutFooter, FlyoutHeader, Icon, Text } from 'blockchain-info-
 import AnimatedCarousel from './AnimatedCarousel'
 import AnimatedGraph from './AnimatedGraph'
 
-const foo = [5, 4, 3, 2, 1, 1, 2]
-
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -46,12 +44,6 @@ const SyncIconWrapper = styled.div`
   border-radius: 20px;
   margin-right: 20px;
   background-color: ${(props) => props.theme.blue100};
-`
-
-const IconsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
 `
 
 const TitleText = styled(Text)`

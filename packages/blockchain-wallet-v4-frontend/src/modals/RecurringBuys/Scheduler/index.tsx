@@ -9,13 +9,11 @@ import Success from './template.success'
 
 const SchedulerContainer = (props: Props) => {
   const dispatch = useDispatch()
-  // const { methods } = props.formValues
   const { method } = props
-  // const showScheduler = methods.some((m) => method && method.type === m)
 
   useEffect(() => {
     dispatch(actions.components.recurringBuy.fetchMethods())
-  }, [method])
+  }, [dispatch, method])
 
   return (
     <>
@@ -24,11 +22,7 @@ const SchedulerContainer = (props: Props) => {
   )
 }
 
-const mapStateToProps = (state: RootState) => ({
-  // formValues: (selectors.form.getFormValues('recurringBuyScheduler')(state) as {
-  //   methods: SBPaymentTypes[]
-  // }) || { methods: [] }
-})
+const mapStateToProps = () => ({})
 
 const connector = connect(mapStateToProps)
 
