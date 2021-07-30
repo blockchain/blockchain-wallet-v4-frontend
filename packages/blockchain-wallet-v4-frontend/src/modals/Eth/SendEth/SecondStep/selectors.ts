@@ -24,7 +24,7 @@ const ethFromLabel = curry((payment, state) => {
   }
 })
 
-const erc20FromLabel = curry((coin, payment, state) => {
+const erc20FromLabel = curry((coin, payment) => {
   const { from } = payment
   switch (from.type) {
     case ADDRESS_TYPES.ACCOUNT:
@@ -68,7 +68,7 @@ export const getData = (state, coin) => {
       unit: currency,
       value: Number(amount) + Number(fee)
     })
-    const fromLabel = isErc20 ? erc20FromLabel(coin, payment, state) : ethFromLabel(payment, state)
+    const fromLabel = isErc20 ? erc20FromLabel(coin, payment) : ethFromLabel(payment, state)
 
     return {
       amount: payment.amount,
