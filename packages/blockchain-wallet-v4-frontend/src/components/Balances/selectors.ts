@@ -128,15 +128,18 @@ export const getErc20Balance = (coin: string) =>
     }
   )
 
-export const getDotBalance = createDeepEqualSelector(
-  [selectors.components.simpleBuy.getSBBalances],
-  (sbBalancesR: RemoteDataType<string, SBBalancesType>) => {
-    const sbDotBalance = sbBalancesR.getOrElse({ DOT: DEFAULT_SB_BALANCE }).DOT
-    const sbBalance = sbDotBalance ? sbDotBalance.available : '0'
+export const getCoinBalance = (coin: string) =>
+  createDeepEqualSelector(
+    [selectors.components.simpleBuy.getSBBalances],
+    (sbBalancesR: RemoteDataType<string, SBBalancesType>) => {
+      const sbCoinBalance = sbBalancesR.getOrElse({
+        [coin]: DEFAULT_SB_BALANCE
+      })[coin]
+      const sbBalance = sbCoinBalance ? sbCoinBalance.available : '0'
 
-    return Remote.of(new BigNumber(sbBalance))
-  }
-)
+      return Remote.of(new BigNumber(sbBalance))
+    }
+  )
 
 export const getXlmBalance = createDeepEqualSelector(
   [
@@ -161,36 +164,6 @@ export const getXlmBalance = createDeepEqualSelector(
         .plus(new BigNumber(sbBalance))
         .plus(new BigNumber(interestBalance))
     )
-  }
-)
-
-export const getAlgoBalance = createDeepEqualSelector(
-  [selectors.components.simpleBuy.getSBBalances],
-  (sbBalancesR: RemoteDataType<string, SBBalancesType>) => {
-    const sbAlgoBalance = sbBalancesR.getOrElse({ ALGO: DEFAULT_SB_BALANCE }).ALGO
-    const sbBalance = sbAlgoBalance ? sbAlgoBalance.available : '0'
-
-    return Remote.of(new BigNumber(sbBalance))
-  }
-)
-
-export const getCloutBalance = createDeepEqualSelector(
-  [selectors.components.simpleBuy.getSBBalances],
-  (sbBalancesR: RemoteDataType<string, SBBalancesType>) => {
-    const sbCloutBalance = sbBalancesR.getOrElse({ CLOUT: DEFAULT_SB_BALANCE }).CLOUT
-    const sbBalance = sbCloutBalance ? sbCloutBalance.available : '0'
-
-    return Remote.of(new BigNumber(sbBalance))
-  }
-)
-
-export const getDogeBalance = createDeepEqualSelector(
-  [selectors.components.simpleBuy.getSBBalances],
-  (sbBalancesR: RemoteDataType<string, SBBalancesType>) => {
-    const sbDogeBalance = sbBalancesR.getOrElse({ DOGE: DEFAULT_SB_BALANCE }).DOGE
-    const sbBalance = sbDogeBalance ? sbDogeBalance.available : '0'
-
-    return Remote.of(new BigNumber(sbBalance))
   }
 )
 
@@ -251,50 +224,12 @@ export const getEthBalanceInfo = createDeepEqualSelector(
   }
 )
 
-export const getDotBalanceInfo = createDeepEqualSelector(
-  [getDotBalance, selectors.core.data.dot.getRates, selectors.core.settings.getCurrency],
-  (dotBalanceR, dotRatesR, currencyR) => {
-    const transform = (value, rates, toCurrency) => {
-      return Exchange.convertCoinToFiat({ coin: 'DOT', currency: toCurrency, rates, value })
-    }
-
-    return lift(transform)(dotBalanceR, dotRatesR, currencyR)
-  }
-)
-
 export const getXlmBalanceInfo = createDeepEqualSelector(
   [getXlmBalance, selectors.core.data.xlm.getRates, selectors.core.settings.getCurrency],
   (xlmBalanceR, xlmRatesR, currencyR) => {
     const transform = (value, rates, toCurrency) =>
       Exchange.convertCoinToFiat({ coin: 'XLM', currency: toCurrency, rates, value })
     return lift(transform)(xlmBalanceR, xlmRatesR, currencyR)
-  }
-)
-
-export const getAlgoBalanceInfo = createDeepEqualSelector(
-  [getAlgoBalance, selectors.core.data.algo.getRates, selectors.core.settings.getCurrency],
-  (algoBalanceR, algoRatesR, currencyR) => {
-    const transform = (value, rates, toCurrency) =>
-      Exchange.convertCoinToFiat({ coin: 'ALGO', currency: toCurrency, rates, value })
-    return lift(transform)(algoBalanceR, algoRatesR, currencyR)
-  }
-)
-
-export const getCloutBalanceInfo = createDeepEqualSelector(
-  [getCloutBalance, selectors.core.data.clout.getRates, selectors.core.settings.getCurrency],
-  (cloutBalanceR, cloutRatesR, currencyR) => {
-    const transform = (value, rates, toCurrency) =>
-      Exchange.convertCoinToFiat({ coin: 'CLOUT', currency: toCurrency, rates, value })
-    return lift(transform)(cloutBalanceR, cloutRatesR, currencyR)
-  }
-)
-
-export const getDogeBalanceInfo = createDeepEqualSelector(
-  [getDogeBalance, selectors.core.data.doge.getRates, selectors.core.settings.getCurrency],
-  (dogeBalanceR, dogeRatesR, currencyR) => {
-    const transform = (value, rates, toCurrency) =>
-      Exchange.convertCoinToFiat({ coin: 'DOGE', currency: toCurrency, rates, value })
-    return lift(transform)(dogeBalanceR, dogeRatesR, currencyR)
   }
 )
 
@@ -337,18 +272,10 @@ export const getFiatBalanceInfo = createDeepEqualSelector(
 
 export const getBalanceSelector = (coin: string) => {
   switch (coin) {
-    case 'ALGO':
-      return getAlgoBalance
     case 'BCH':
       return getBchBalance
     case 'BTC':
       return getBtcBalance
-    case 'CLOUT':
-      return getCloutBalance
-    case 'DOGE':
-      return getDogeBalance
-    case 'DOT':
-      return getDotBalance
     case 'ETH':
       return getEthBalance
     case 'XLM':
@@ -357,9 +284,13 @@ export const getBalanceSelector = (coin: string) => {
     case 'GBP':
     case 'USD':
       return getFiatBalance(coin)
-    // TODO: FIX erc20 is default
     default:
-      return getErc20Balance(coin)
+      switch (true) {
+        case selectors.core.data.coins.getCoins().includes(coin):
+          return getCoinBalance(coin)
+        default:
+          return getErc20Balance(coin)
+      }
   }
 }
 
@@ -372,15 +303,17 @@ export const getAllCoinsBalancesSelector = (state) => {
           [curr]: getErc20Balance(curr)(state).getOrElse(new BigNumber(0)).valueOf()
         }
       }
+      if (selectors.core.data.coins.getCoins().includes(curr)) {
+        return {
+          ...acc,
+          [curr]: getCoinBalance(curr)(state).getOrElse(new BigNumber(0)).valueOf()
+        }
+      }
       return { ...acc }
     },
     {
-      ALGO: getAlgoBalance(state).getOrElse(new BigNumber(0)).valueOf(),
       BCH: new BigNumber(getBchBalance(state).getOrElse(0)).valueOf(),
       BTC: new BigNumber(getBtcBalance(state).getOrElse(0)).valueOf(),
-      CLOUT: getCloutBalance(state).getOrElse(new BigNumber(0)).valueOf(),
-      DOGE: getDogeBalance(state).getOrElse(new BigNumber(0)).valueOf(),
-      DOT: getDotBalance(state).getOrElse(new BigNumber(0)).valueOf(),
       ETH: getEthBalance(state).getOrElse(new BigNumber(0)).valueOf(),
       XLM: getXlmBalance(state).getOrElse(new BigNumber(0)).valueOf()
     }
@@ -409,5 +342,24 @@ export const getErc20BalancesInfoV2 = createDeepEqualSelector(
     }
 
     return lift(transform)(erc20CoinsR, currencyR)
+  }
+)
+
+export const getCoinsBalanceInfo = createDeepEqualSelector(
+  [selectors.core.data.coins.getCoins, selectors.core.settings.getCurrency, (state) => state],
+  (coins, currencyR, state) => {
+    const transform = (currency) => {
+      return coins.map((coin) => {
+        const transform2 = (rates, balance) => {
+          return Exchange.convertCoinToFiat({ coin, currency, rates, value: balance })
+        }
+
+        const balanceR = getCoinBalance(coin)(state)
+        const ratesR = selectors.core.data.coins.getRates(coin, state)
+        return ratesR ? lift(transform2)(ratesR, balanceR) : Remote.of('0')
+      })
+    }
+
+    return lift(transform)(currencyR)
   }
 )

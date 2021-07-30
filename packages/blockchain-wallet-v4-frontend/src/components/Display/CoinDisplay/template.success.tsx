@@ -29,7 +29,7 @@ const CoinDisplay = (props) => {
         weight={weight}
         italic={italic}
         color={color}
-        cursor={cursor}
+        cursor={cursor || undefined}
         data-e2e={`${coin}Amt`}
         {...rest}
       >

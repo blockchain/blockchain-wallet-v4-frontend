@@ -6,7 +6,7 @@ import sagas from './sagas'
 export default () => {
   const dataStxSagas = sagas()
 
-  return function * coreDataXlmSaga() {
+  return function* coreDataXlmSaga() {
     yield takeLatest(AT.GENERATE_ADDRESS, dataStxSagas.generateAddress)
   }
 }

@@ -35,7 +35,6 @@ export const getData = (state) => {
       walletCurrency: FiatType
     ) => ({
       accounts,
-
       eligibility,
 
       emailVerified,

@@ -28,7 +28,7 @@ const FiatDisplay = (props) => {
         size={size}
         weight={weight}
         color={color}
-        cursor={cursor}
+        cursor={cursor || undefined}
         data-e2e={`${coin}FiatAmt`}
         {...rest}
       >

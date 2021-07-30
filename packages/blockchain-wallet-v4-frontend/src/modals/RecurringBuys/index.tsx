@@ -5,7 +5,7 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { ModalNamesEnum, RecurringBuysStepType } from 'data/types'
+import { ModalName, RecurringBuysStepType } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
@@ -54,7 +54,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 const enhance = compose(
-  ModalEnhancer(ModalNamesEnum.RECURRING_BUYS_MODAL, { transition: duration }),
+  ModalEnhancer(ModalName.RECURRING_BUYS_MODAL, { transition: duration }),
   connector
 )
 

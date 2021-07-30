@@ -1,18 +1,19 @@
 import { lift, toLower } from 'ramda'
 
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { Exchange } from 'blockchain-wallet-v4/src'
 
 import * as selectors from '../../selectors'
 
 const selectRates = (coin, state) => {
   const { coinfig } = window.coins[coin]
-  try {
-    return coinfig.type.erc20Address
-      ? selectors.core.data.eth.getErc20Rates(state, coin)
-      : selectors.core.data[toLower(coin)].getRates(state)
-  } catch (e) {
-    return Remote.Failure('Unsupported Coin Code: Rates selector missing')
+
+  if (coinfig.type.erc20Address) {
+    return selectors.core.data.eth.getErc20Rates(state, coin)
   }
+  if (selectors.core.data.coins.getCoins().includes(coin)) {
+    return selectors.core.data.coins.getRates(coin, state)
+  }
+  return selectors.core.data[toLower(coin)].getRates(state)
 }
 
 export const getData = (coin, state) => {

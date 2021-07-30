@@ -42,102 +42,89 @@ class LockboxSetupContainer extends React.PureComponent {
   render() {
     const { currentStep, position, total } = this.props
     const steps = {
-      'device-select': {
-        title: () => (
-          <FormattedMessage
-            id='modals.lockbox.setup.deviceselect.title'
-            defaultMessage='Select Your Device'
-          />
-        ),
-        template: () => (
-          <DeviceSelectStep restoreDeviceLink={RESTORE_DEVICE_LINK} />
-        )
-      },
-      'setup-type': {
-        title: () => (
-          <FormattedMessage
-            id='modals.lockbox.setup.setuptype.title'
-            defaultMessage="Let's Get Started"
-          />
-        ),
-        template: () => <SetupTypeStep />
-      },
-      'software-download': {
-        title: () => (
-          <FormattedMessage
-            id='modals.lockbox.setup.softwaredownload.title'
-            defaultMessage='Software Download'
-          />
-        ),
-        template: () => <SoftwareDownloadStep />
-      },
-      'connect-device': {
-        title: () => (
-          <FormattedMessage
-            id='modals.lockbox.setup.connect.title'
-            defaultMessage='Connect Your Device'
-          />
-        ),
-        template: () => <ConnectDeviceStep supportLink={SUPPORT_LINK} />
-      },
-      'customize-device': {
-        title: () => (
-          <FormattedMessage
-            id='modals.lockbox.setup.customize.title'
-            defaultMessage='Customize Your Device'
-          />
-        ),
-        template: () => <CustomizeStep />
-      },
       'app-manager-step': {
+        template: () => <AppManagerStep />,
         title: () => (
           <FormattedMessage
             id='modals.lockbox.setup.appmanager.title'
             defaultMessage='App Manager'
           />
-        ),
-        template: () => <AppManagerStep />
+        )
       },
-      'pair-device': {
+      'connect-device': {
+        template: () => <ConnectDeviceStep supportLink={SUPPORT_LINK} />,
         title: () => (
           <FormattedMessage
-            id='modals.lockbox.setup.connectdevice.title'
-            defaultMessage='Pair Device'
+            id='modals.lockbox.setup.connect.title'
+            defaultMessage='Connect Your Device'
           />
-        ),
-        template: () => <PairDeviceStep supportLink={SUPPORT_LINK} />
+        )
+      },
+      'customize-device': {
+        template: () => <CustomizeStep />,
+        title: () => (
+          <FormattedMessage
+            id='modals.lockbox.setup.customize.title'
+            defaultMessage='Customize Your Device'
+          />
+        )
+      },
+      'device-select': {
+        template: () => <DeviceSelectStep restoreDeviceLink={RESTORE_DEVICE_LINK} />,
+        title: () => (
+          <FormattedMessage
+            id='modals.lockbox.setup.deviceselect.title'
+            defaultMessage='Select Your Device'
+          />
+        )
+      },
+      'error-step': {
+        template: () => <ErrorStep onClose={this.onClose} />,
+        title: () => (
+          <FormattedMessage id='modals.lockbox.setup.error.title' defaultMessage='Error' />
+        )
       },
       'finish-step': {
+        template: () => <FinishSetupStep onClose={this.props.closeAll} />,
         title: () => (
           <FormattedMessage
             id='modals.lockbox.setup.finish.title'
             defaultMessage='Setup Complete'
           />
-        ),
-        template: () => <FinishSetupStep onClose={this.props.closeAll} />
+        )
       },
-      'error-step': {
+      'pair-device': {
+        template: () => <PairDeviceStep supportLink={SUPPORT_LINK} />,
         title: () => (
           <FormattedMessage
-            id='modals.lockbox.setup.error.title'
-            defaultMessage='Error'
+            id='modals.lockbox.setup.connectdevice.title'
+            defaultMessage='Pair Device'
           />
-        ),
-        template: () => <ErrorStep onClose={this.onClose} />
+        )
+      },
+      'setup-type': {
+        template: () => <SetupTypeStep />,
+        title: () => (
+          <FormattedMessage
+            id='modals.lockbox.setup.setuptype.title'
+            defaultMessage="Let's Get Started"
+          />
+        )
+      },
+      'software-download': {
+        template: () => <SoftwareDownloadStep />,
+        title: () => (
+          <FormattedMessage
+            id='modals.lockbox.setup.softwaredownload.title'
+            defaultMessage='Software Download'
+          />
+        )
       }
     }
-    const step =
-      currentStep && currentStep.step
-        ? steps[currentStep.step]
-        : steps['device-select']
+    const step = currentStep && currentStep.step ? steps[currentStep.step] : steps['device-select']
 
     return (
-      <LockboxSetup
-        total={total}
-        position={position}
-        onClose={this.onClose}
-        title={step.title}
-      >
+      <LockboxSetup total={total} position={position} onClose={this.onClose} title={step.title}>
         {step.template()}
       </LockboxSetup>
     )
@@ -145,22 +132,22 @@ class LockboxSetupContainer extends React.PureComponent {
 }
 
 LockboxSetupContainer.propTypes = {
+  closeAll: PropTypes.func.isRequired,
   position: PropTypes.number.isRequired,
-  total: PropTypes.number.isRequired,
-  closeAll: PropTypes.func.isRequired
+  total: PropTypes.number.isRequired
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentStep: selectors.components.lockbox.getNewDeviceSetupStep(state),
   setupType: selectors.components.lockbox.getNewDeviceSetupType(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
 const enhance = compose(
-  modalEnhancer('LockboxSetup'),
+  modalEnhancer('LOCKBOX_SETUP_MODAL'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

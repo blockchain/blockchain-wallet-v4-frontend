@@ -159,7 +159,7 @@ const settingsTabClickedDestinationDictionary = (
     case 'Preferences':
       return 'PREFERENCES'
     case 'TradingLimits':
-      return 'TRADING_LIMITS'
+      return 'TRADING_LIMITS_MODAL'
     case 'WalletAndAddresses':
       return 'WALLETS&ADDRESSES'
     default: {
@@ -215,6 +215,24 @@ const upgradeVerificationClickedOriginDictionary = (
   }
 }
 
+const utmParser = (query: string): { [key: string]: string } => {
+  const regexp = /(?!&)utm_[^=]*=[^&]*/g
+
+  const matches = query.match(regexp)
+
+  if (!matches) return {}
+
+  const values = matches.reduce((obj, param) => {
+    const keyValue = param.split('=')
+
+    const value = { ...obj, [keyValue[0].slice(keyValue[0].indexOf('_') + 1)]: keyValue[1] }
+
+    return value
+  }, {})
+
+  return values
+}
+
 export {
   buyPaymentMethodSelectedPaymentTypeDictionary,
   buySellClickedOriginDictionary,
@@ -227,5 +245,6 @@ export {
   settingsHyperlinkClickedDestinationDictionary,
   settingsTabClickedDestinationDictionary,
   swapClickedOriginDictionary,
-  upgradeVerificationClickedOriginDictionary
+  upgradeVerificationClickedOriginDictionary,
+  utmParser
 }

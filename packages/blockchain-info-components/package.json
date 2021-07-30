@@ -54,7 +54,8 @@
     "transform": {
       "^.+\\.jsx?$": "babel-jest",
       "^.+\\.tsx?$": "ts-jest"
-    }
+    },
+    "testEnvironment": "jsdom"
   },
   "dependencies": {
     "@babel/polyfill": "7.12.1",

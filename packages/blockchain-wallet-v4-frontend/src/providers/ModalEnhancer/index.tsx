@@ -5,7 +5,7 @@ import { equals } from 'ramda'
 import { compose } from 'redux'
 
 import { actions, selectors } from 'data'
-import { ModalNamesType, ModalType } from 'data/types'
+import { ModalNameType, ModalType } from 'data/types'
 
 const mapDispatchToProps = (dispatch): LinkDispatchPropsType => ({
   close: compose(dispatch, actions.modals.closeModal),
@@ -38,7 +38,7 @@ type OptionsType = {
 
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
-export default (type: ModalNamesType, options: OptionsType = {}) => Component =>
+export default (type: ModalNameType, options: OptionsType = {}) => (Component) =>
   enhance(
     class Modal extends PureComponent<Props> {
       state = {}
@@ -55,7 +55,7 @@ export default (type: ModalNamesType, options: OptionsType = {}) => Component =>
         }
       }
 
-      handleClick = e => {
+      handleClick = (e) => {
         // @ts-ignore
         const modalContainer = ReactDOM.findDOMNode(this.node)
         if (
@@ -68,7 +68,7 @@ export default (type: ModalNamesType, options: OptionsType = {}) => Component =>
         }
       }
 
-      onKeyPressed = evt => {
+      onKeyPressed = (evt) => {
         const event = evt || window.event
         if (event.keyCode === 27 && !options.preventEscapeClose) {
           this.handleClose()
@@ -77,8 +77,8 @@ export default (type: ModalNamesType, options: OptionsType = {}) => Component =>
 
       render() {
         const { modals, ...rest } = this.props
-        const filtered = modals.filter(m => m.type === type)
-        const setRef = node => {
+        const filtered = modals.filter((m) => m.type === type)
+        const setRef = (node) => {
           if (node) {
             // @ts-ignore
             this.node = node

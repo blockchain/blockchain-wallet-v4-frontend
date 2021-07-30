@@ -8,7 +8,7 @@ import ShowXpubs from './template'
 
 class ShowXPubsContainer extends React.PureComponent {
   onShowXPubs = () => {
-    this.props.modalActions.showModal('LockboxShowXPubs', {
+    this.props.modalActions.showModal('LOCKBOX_SHOW_XPUBS', {
       deviceIndex: this.props.deviceIndex
     })
   }
@@ -18,7 +18,7 @@ class ShowXPubsContainer extends React.PureComponent {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

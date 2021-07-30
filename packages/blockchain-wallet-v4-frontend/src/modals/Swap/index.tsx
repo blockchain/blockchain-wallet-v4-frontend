@@ -6,6 +6,7 @@ import { ExtractSuccess, SwapOrderType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
@@ -151,7 +152,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-const enhance = compose(ModalEnhancer('SWAP_MODAL', { transition: duration }), connector)
+const enhance = compose(ModalEnhancer(ModalName.SWAP_MODAL, { transition: duration }), connector)
 
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 export type Props = ModalPropsType & ConnectedProps<typeof connector>

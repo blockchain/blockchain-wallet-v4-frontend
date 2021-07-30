@@ -6,7 +6,7 @@ import { CoinType, FiatType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { InterestStep, InterestStepMetadata } from 'data/types'
+import { InterestStep, InterestStepMetadata, ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
@@ -120,6 +120,9 @@ type LinkStatePropsType = {
 type State = { show: boolean; showSupplyInformation: boolean }
 type Props = OwnProps & ConnectedProps<typeof connector>
 
-const enhance = compose(modalEnhancer('INTEREST_MODAL', { transition: duration }), connector)
+const enhance = compose(
+  modalEnhancer(ModalName.INTEREST_MODAL, { transition: duration }),
+  connector
+)
 
 export default enhance(Interest)

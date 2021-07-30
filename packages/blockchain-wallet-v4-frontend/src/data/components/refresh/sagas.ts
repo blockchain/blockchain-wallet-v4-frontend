@@ -14,10 +14,6 @@ export default () => {
     yield put(actions.core.data.btc.fetchTransactions(onlyShow, true))
   }
 
-  const refreshDotTransactions = function* () {
-    yield put(actions.core.data.dot.fetchTransactions(null, true))
-  }
-
   const refreshEthTransactions = function* () {
     yield put(actions.core.data.eth.fetchTransactions(null, true))
   }
@@ -26,12 +22,12 @@ export default () => {
     yield put(actions.core.data.eth.fetchErc20Transactions(coin, true))
   }
 
-  const refreshXlmTransactions = function* () {
-    yield put(actions.core.data.xlm.fetchTransactions(null, true))
+  const refreshCoinTransactions = function* (coin) {
+    yield put(actions.core.data.coins.fetchTransactions(coin, true))
   }
 
-  const refreshAlgoTransactions = function* () {
-    yield put(actions.core.data.algo.fetchTransactions(null, true))
+  const refreshXlmTransactions = function* () {
+    yield put(actions.core.data.xlm.fetchTransactions(null, true))
   }
 
   const refreshRates = function* () {
@@ -40,11 +36,8 @@ export default () => {
     yield put(actions.core.data.btc.fetchRates())
     yield put(actions.core.data.eth.fetchRates())
     yield put(actions.core.data.xlm.fetchRates())
-    yield put(actions.core.data.algo.fetchRates())
-    yield put(actions.core.data.dot.fetchRates())
-    yield put(actions.core.data.clout.fetchRates())
-    yield put(actions.core.data.doge.fetchRates())
     yield put(actions.core.data.eth.fetchErc20Rates())
+    yield put(actions.core.data.coins.fetchCoinsRates())
   }
 
   const refreshClicked = function* () {
@@ -80,17 +73,14 @@ export default () => {
         case contains('/eth/transactions', pathname):
           yield call(refreshEthTransactions)
           break
-        case contains('/dot/transactions', pathname):
-          yield call(refreshDotTransactions)
-          break
         case contains('/xlm/transactions', pathname):
           yield call(refreshXlmTransactions)
           break
-        case contains('/algo/transactions', pathname):
-          yield call(refreshAlgoTransactions)
-          break
         case !!window.coins[maybeCoin]?.coinfig?.type?.erc20Address:
           yield call(refreshErc20Transactions, pathname.split('/')[1])
+          break
+        case selectors.core.data.coins.getCoins().includes(maybeCoin):
+          yield call(refreshCoinTransactions, maybeCoin)
           break
         case contains('/eur/transactions', pathname):
           yield put(actions.core.data.fiat.fetchTransactions('EUR', true))

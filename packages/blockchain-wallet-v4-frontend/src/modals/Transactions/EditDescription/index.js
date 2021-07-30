@@ -27,17 +27,14 @@ class EditTxDescriptionContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  description: formValueSelector('editTransactionDescription')(
-    state,
-    'description'
-  )
+const mapStateToProps = (state) => ({
+  description: formValueSelector('editTransactionDescription')(state, 'description')
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(actions.modules.settings, dispatch),
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch),
-  actions: bindActionCreators(actions.modules.settings, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const enhance = compose(

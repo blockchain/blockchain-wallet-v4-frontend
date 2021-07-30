@@ -9,38 +9,18 @@ import DeleteAddressLabel from './template'
 
 class DeleteAddressLabelContainer extends React.PureComponent {
   onDeleteConfirm = () => {
-    const {
-      accountIdx,
-      addressIdx,
-      close,
-      componentActions,
-      derivation,
-      walletIdx
-    } = this.props
-    componentActions.deleteAddressLabel(
-      accountIdx,
-      walletIdx,
-      addressIdx,
-      derivation
-    )
+    const { accountIdx, addressIdx, close, componentActions, derivation, walletIdx } = this.props
+    componentActions.deleteAddressLabel(accountIdx, walletIdx, addressIdx, derivation)
     close()
   }
 
   render() {
-    return (
-      <DeleteAddressLabel
-        {...this.props}
-        onDeleteConfirm={this.onDeleteConfirm}
-      />
-    )
+    return <DeleteAddressLabel {...this.props} onDeleteConfirm={this.onDeleteConfirm} />
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  componentActions: bindActionCreators(
-    actions.components.manageAddresses,
-    dispatch
-  )
+const mapDispatchToProps = (dispatch) => ({
+  componentActions: bindActionCreators(actions.components.manageAddresses, dispatch)
 })
 
 const enhance = compose(

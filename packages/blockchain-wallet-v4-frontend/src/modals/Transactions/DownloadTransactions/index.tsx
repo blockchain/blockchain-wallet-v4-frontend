@@ -8,6 +8,7 @@ import { compose, Dispatch } from 'redux'
 import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { getData } from './selectors'
@@ -123,7 +124,7 @@ const mapDispatchToProps = (dispatch: Dispatch, { coin }: OwnProps) => {
 }
 
 const enhance = compose<any>(
-  modalEnhancer('TRANSACTION_REPORT_MODAL'),
+  modalEnhancer(ModalName.TRANSACTION_REPORT_MODAL),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

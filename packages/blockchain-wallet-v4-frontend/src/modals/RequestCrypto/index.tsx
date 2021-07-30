@@ -15,6 +15,7 @@ import { REQUEST_FORM } from './model'
 import { getData } from './selectors'
 import RequestShowAddress from './ShowAddress'
 import { RequestFormType, RequestSteps } from './types'
+import { ModalName } from 'data/types'
 
 class RequestCrypto extends PureComponent<Props, State> {
   state: State = {
@@ -126,7 +127,7 @@ export type Props = OwnProps &
 
 // 👋 Order of composition is important, do not change!
 const enhance = compose<any>(
-  modalEnhancer('REQUEST_CRYPTO_MODAL', { transition: duration }),
+  modalEnhancer(ModalName.REQUEST_CRYPTO_MODAL, { transition: duration }),
   connector,
   reduxForm({
     enableReinitialize: true,

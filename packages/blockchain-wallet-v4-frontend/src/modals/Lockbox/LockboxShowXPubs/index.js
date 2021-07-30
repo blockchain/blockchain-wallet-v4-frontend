@@ -32,7 +32,7 @@ const WarningBanner = styled(Banner)`
   margin-bottom: 20px;
 `
 const XPubText = styled(Text)`
-  background-color: ${props => props.theme.grey000};
+  background-color: ${(props) => props.theme.grey000};
   padding: 25px;
   margin-bottom: 20px;
   word-break: break-all;
@@ -40,7 +40,7 @@ const XPubText = styled(Text)`
 `
 const Tabs = styled.div`
   display: flex;
-  border-bottom: 2px solid ${props => props.theme.grey000};
+  border-bottom: 2px solid ${(props) => props.theme.grey000};
   margin-bottom: 35px;
 `
 const Tab = styled.div`
@@ -63,7 +63,7 @@ const Tab = styled.div`
     position: absolute;
     transform: scaleX(0);
     transition: transform 0.3s;
-    border-bottom: solid 2px ${props => props.theme['grey800']};
+    border-bottom: solid 2px ${(props) => props.theme.grey800};
   }
   > * {
     transition: color 0.3s;
@@ -84,7 +84,7 @@ const TabHeader = styled(Text)`
 const TabIcon = styled(Icon)`
   margin-right: 10px;
   ${media.atLeastTablet`
-    font-size: ${props => props.size || '20px'};
+    font-size: ${(props) => props.size || '20px'};
   `}
 `
 
@@ -93,7 +93,7 @@ export class LockboxShowXPubs extends React.PureComponent {
     activeTab: 'btc'
   }
 
-  setActive = tab => {
+  setActive = (tab) => {
     this.setState({ activeTab: tab })
   }
 
@@ -102,7 +102,10 @@ export class LockboxShowXPubs extends React.PureComponent {
     const { activeTab } = this.state
 
     return this.props.data.cata({
-      Success: coins => (
+      Failure: () => <div />,
+      Loading: () => <div />,
+      NotAsked: () => <div />,
+      Success: (coins) => (
         <Modal size='large' position={position} total={total}>
           <ModalHeader icon='lock' onClose={closeAll}>
             <FormattedMessage
@@ -120,7 +123,7 @@ export class LockboxShowXPubs extends React.PureComponent {
               </Text>
             </WarningBanner>
             <Tabs>
-              {keys(coins).map(coin => {
+              {keys(coins).map((coin) => {
                 return (
                   <Tab
                     key={coin}
@@ -166,10 +169,7 @@ export class LockboxShowXPubs extends React.PureComponent {
             </Button>
           </ModalFooter>
         </Modal>
-      ),
-      Failure: () => <div />,
-      Loading: () => <div />,
-      NotAsked: () => <div />
+      )
     })
   }
 }
@@ -178,12 +178,12 @@ const mapStateToProps = (state, ownProps) => ({
   data: getData(state, ownProps.deviceIndex)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const enhance = compose(
-  modalEnhancer('LockboxShowXPubs'),
+  modalEnhancer('LOCKBOX_SHOW_XPUBS'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

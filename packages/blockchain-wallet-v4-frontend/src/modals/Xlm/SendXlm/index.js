@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { bindActionCreators, compose } from 'redux'
 
-import { actions, model, selectors } from 'data'
+import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import FirstStep from './FirstStep'
@@ -32,23 +32,23 @@ class SendXlmContainer extends React.PureComponent {
 }
 
 SendXlmContainer.propTypes = {
-  step: PropTypes.number.isRequired,
+  closeAll: PropTypes.func.isRequired,
   position: PropTypes.number.isRequired,
-  total: PropTypes.number.isRequired,
-  closeAll: PropTypes.func.isRequired
+  step: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   step: selectors.components.sendXlm.getStep(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.sendXlm, dispatch),
   fetchData: bindActionCreators(actions.core.data.xlm.fetchData, dispatch)
 })
 
 const enhance = compose(
-  modalEnhancer(model.components.sendXlm.MODAL),
+  modalEnhancer('SEND_XLM_MODAL'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

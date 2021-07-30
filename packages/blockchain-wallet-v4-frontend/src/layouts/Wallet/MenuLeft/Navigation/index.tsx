@@ -35,5 +35,4 @@ const enhance = compose(connector)
 
 export type Props = OwnProps & ConnectedProps<typeof connector> & { lockboxDevices?: Array<any> }
 
-// @ts-ignore
 export default enhance(NavigationContainer)

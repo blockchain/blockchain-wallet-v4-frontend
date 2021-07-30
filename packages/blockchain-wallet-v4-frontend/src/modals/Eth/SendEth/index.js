@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { propOr } from 'ramda'
 import { bindActionCreators, compose } from 'redux'
 
-import { actions, model, selectors } from 'data'
+import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import FirstStep from './FirstStep'
@@ -61,7 +61,7 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const enhance = compose(
-  modalEnhancer(model.components.sendEth.MODAL),
+  modalEnhancer('SEND_ETH_MODAL'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

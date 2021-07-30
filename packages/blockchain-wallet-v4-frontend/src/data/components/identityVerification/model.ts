@@ -3,8 +3,6 @@ import { WalletFormType } from 'redux-form'
 
 import { TIERS } from '../../modules/profile/model'
 
-export const KYC_MODAL = 'KYC_MODAL'
-
 // order is important do not change it
 export const STEPS = {
   infoAndResidential: 'infoAndResidential',
