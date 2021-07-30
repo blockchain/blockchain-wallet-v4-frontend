@@ -330,7 +330,7 @@ export const getErc20BalancesInfoV2 = createDeepEqualSelector(
   (erc20CoinsR, ratesF, currencyR, state) => {
     const transform = (erc20Coins, currency) => {
       return erc20Coins.map((erc20) => {
-        const coin = erc20.symbol
+        const coin = erc20.tokenSymbol
         const transform2 = (balance, rates) => {
           return Exchange.convertCoinToFiat({ coin, currency, rates, value: balance })
         }
