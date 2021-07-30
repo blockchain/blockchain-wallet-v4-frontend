@@ -4,14 +4,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import styled from 'styled-components'
 
-import {
-  Icon,
-  Link,
-  Modal,
-  ModalBody,
-  ModalHeader,
-  Text
-} from 'blockchain-info-components'
+import { Icon, Link, Modal, ModalBody, ModalHeader, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 
@@ -84,10 +77,7 @@ function BitPayInformational({ close }) {
             />
             <b>
               {' '}
-              <FormattedMessage
-                id='modals.bitpay.info.how.answer2'
-                defaultMessage='To'
-              />{' '}
+              <FormattedMessage id='modals.bitpay.info.how.answer2' defaultMessage='To' />{' '}
             </b>
             <FormattedMessage
               id='modals.bitpay.info.how.answer3'
@@ -131,10 +121,7 @@ function BitPayInformational({ close }) {
               target='_blank'
               rel='noopener noreferrer'
             >
-              <FormattedMessage
-                id='modals.bitpay.info.where.answer2'
-                defaultMessage='here.'
-              />
+              <FormattedMessage id='modals.bitpay.info.where.answer2' defaultMessage='here.' />
             </Link>
           </GroupContent>
         </Group>
@@ -143,12 +130,12 @@ function BitPayInformational({ close }) {
   )
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const enhance = compose(
-  modalEnhancer('BitPayInformational'),
+  modalEnhancer('BITPAY_INFORMATIONAL_MODAL'),
   connect(undefined, mapDispatchToProps)
 )
 

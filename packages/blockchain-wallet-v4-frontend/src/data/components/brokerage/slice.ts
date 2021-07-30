@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
 import { WalletFiatType } from 'core/types'
-import { ModalNamesType } from 'data/modals/types'
+import { ModalNameType } from 'data/modals/types'
 import { BankTransferAccountType } from 'data/types'
 
 import {
@@ -22,13 +22,15 @@ import {
 const INITIAL_STATE: BrokerageState = {
   account: undefined,
   addBankStep: AddBankStepType.ADD_BANK,
-  addNew: false, // TODO: Put this stuff in redux-form
+  addNew: false,
+  // TODO: Put this stuff in redux-form
   bankCredentials: Remote.NotAsked,
   bankStatus: Remote.NotAsked,
   bankTransferAccounts: Remote.NotAsked,
   dwStep: BankDWStepType.DEPOSIT_METHODS,
   fastLink: Remote.NotAsked,
   fiatCurrency: undefined,
+  isFlow: false,
   redirectBackToStep: false
 }
 
@@ -89,8 +91,14 @@ const brokerageSlice = createSlice({
     },
     showModal: (
       state,
-      action: PayloadAction<{ modalType: ModalNamesType; origin: BrokerageModalOriginType }>
-    ) => {}
+      action: PayloadAction<{
+        isFlow?: boolean
+        modalType: ModalNameType
+        origin: BrokerageModalOriginType
+      }>
+    ) => {
+      state.isFlow = action.payload.isFlow || false
+    }
   }
 })
 

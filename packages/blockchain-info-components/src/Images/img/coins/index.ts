@@ -1,9 +1,6 @@
-import algo from './algo.png'
 import bch from './bch.png'
 import bsv from './bsv.png'
 import btc from './btc.png'
-import doge from './doge.png'
-import dot from './dot.png'
 import enj from './enj.png'
 import eos from './eos.png'
 import eth from './eth.png'
@@ -20,12 +17,9 @@ import xlm from './xlm.png'
 import zrx from './zrx.png'
 
 export default {
-  algo,
   bch,
   bsv,
   btc,
-  doge,
-  dot,
   enj,
   eos,
   eth,

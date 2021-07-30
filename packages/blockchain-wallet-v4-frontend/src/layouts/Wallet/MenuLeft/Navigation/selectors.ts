@@ -87,6 +87,7 @@ export const getData = createDeepEqualSelector(
       ]
       const coinsWithoutBalanceToTrack = coinsInRecentSwaps
         .filter((coin) => !coinsWithBalance.find((coinfig) => coinfig?.symbol === coin))
+        .filter((coin) => window.coins[coin])
         .map((coin) => window.coins[coin].coinfig)
 
       // list of coins with balance and then coins w/ no balance but swaps

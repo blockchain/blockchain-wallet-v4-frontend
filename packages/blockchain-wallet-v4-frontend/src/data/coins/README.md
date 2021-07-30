@@ -20,8 +20,6 @@ Focused only on frontend package for now and ignoring core package
 // BALANCES
 - home balance data selectors - packages/blockchain-wallet-v4-frontend/src/scenes/Transactions/WalletBalanceDropdown/selectors.ts
 - coin balance dropdown selectors - packages/blockchain-wallet-v4-frontend/src/components/Form/CoinBalanceDropdown/selectors.ts
-- wallet balance selectors - packages/blockchain-wallet-v4-frontend/src/components/Balances/wallet/selectors.ts
-- total balance selectors - packages/blockchain-wallet-v4-frontend/src/components/Balances/total/selectors.ts
 - NC balance selectors - packages/blockchain-wallet-v4-frontend/src/components/Balances/nonCustodial/selectors.ts
 - Login balances fetch - packages/blockchain-wallet-v4-frontend/src/data/auth/sagas.js (90)
 - Refresh saga - packages/blockchain-wallet-v4-frontend/src/data/components/refresh/sagas.ts

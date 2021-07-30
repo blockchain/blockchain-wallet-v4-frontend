@@ -14,11 +14,11 @@ class SendBchContainer extends React.PureComponent {
   componentDidMount() {
     const { actions, amount, description, from, payPro, to } = this.props
     actions.initialized({
-      from,
-      to,
-      description,
       amount,
-      payPro
+      description,
+      from,
+      payPro,
+      to
     })
   }
 
@@ -57,22 +57,22 @@ class SendBchContainer extends React.PureComponent {
 }
 
 SendBchContainer.propTypes = {
-  step: PropTypes.number.isRequired,
+  closeAll: PropTypes.func.isRequired,
   position: PropTypes.number.isRequired,
-  total: PropTypes.number.isRequired,
-  closeAll: PropTypes.func.isRequired
+  step: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   step: selectors.components.sendBch.getStep(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.sendBch, dispatch)
 })
 
 const enhance = compose(
-  modalEnhancer(model.components.sendBch.MODAL),
+  modalEnhancer('SEND_BCH_MODAL'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

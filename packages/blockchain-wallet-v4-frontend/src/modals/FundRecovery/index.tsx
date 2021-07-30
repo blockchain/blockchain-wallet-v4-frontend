@@ -7,7 +7,6 @@ import styled from 'styled-components'
 import {
   BlockchainLoader,
   Button,
-  Icon,
   Image,
   Modal,
   ModalHeader,
@@ -15,9 +14,10 @@ import {
 } from 'blockchain-info-components'
 import { Remote } from 'blockchain-wallet-v4/src'
 import { displayCoinToCoin } from 'blockchain-wallet-v4/src/exchange'
-import { ExtractSuccess, WalletCurrencyType } from 'blockchain-wallet-v4/src/types'
+import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
+import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
@@ -141,6 +141,6 @@ export type Props = OwnProps & ConnectedProps<typeof connector>
 
 // eslint-disable-next-line
 export default compose<any, any, any>(
-  modalEnhancer('FUND_RECOVERY_MODAL'),
+  modalEnhancer(ModalName.FUND_RECOVERY_MODAL),
   connector
 )(FundRecoveryModal)

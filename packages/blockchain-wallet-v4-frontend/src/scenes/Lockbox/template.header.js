@@ -3,12 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Icon } from 'blockchain-info-components'
-import {
-  IconBackground,
-  SceneHeader,
-  SceneHeaderText,
-  SceneSubHeaderText
-} from 'components/Layout'
+import { IconBackground, SceneHeader, SceneHeaderText, SceneSubHeaderText } from 'components/Layout'
 
 const HeaderWrapper = styled.div`
   width: 100%;
@@ -22,10 +17,7 @@ const LockboxHeader = () => {
           <Icon name='hardware' color='blue600' size='21px' />
         </IconBackground>
         <SceneHeaderText>
-          <FormattedMessage
-            id='scenes.hardware.title'
-            defaultMessage='Hardware'
-          />
+          <FormattedMessage id='scenes.hardware.title' defaultMessage='Hardware' />
         </SceneHeaderText>
       </SceneHeader>
       <SceneSubHeaderText>

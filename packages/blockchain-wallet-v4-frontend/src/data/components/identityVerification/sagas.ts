@@ -4,6 +4,7 @@ import { call, delay, put, select, take } from 'redux-saga/effects'
 import { Types } from 'blockchain-wallet-v4/src'
 import { RemoteDataType, SDDVerifiedType } from 'blockchain-wallet-v4/src/types'
 import { actions, actionTypes, model, selectors } from 'data'
+import { ModalName } from 'data/modals/types'
 import { KycStateType } from 'data/modules/types'
 import * as C from 'services/alerts'
 
@@ -16,7 +17,6 @@ import {
   FLOW_TYPES,
   ID_VERIFICATION_SUBMITTED_FORM,
   INFO_AND_RESIDENTIAL_FORM,
-  KYC_MODAL,
   PERSONAL_FORM,
   PHONE_EXISTS_ERROR,
   SMS_NUMBER_FORM,
@@ -51,7 +51,7 @@ export default ({ api, coreSagas, networks }) => {
   })
 
   const verifyIdentity = function* ({ payload }) {
-    yield put(actions.modals.showModal(KYC_MODAL, payload))
+    yield put(actions.modals.showModal(ModalName.KYC_MODAL, payload))
   }
 
   const registerUserCampaign = function* (payload) {
@@ -192,7 +192,7 @@ export default ({ api, coreSagas, networks }) => {
 
     if (step) return yield put(A.setVerificationStep(step))
 
-    yield put(actions.modals.closeModal(KYC_MODAL))
+    yield put(actions.modals.closeModal(ModalName.KYC_MODAL))
   }
 
   const goToNextStep = function* () {
@@ -204,7 +204,7 @@ export default ({ api, coreSagas, networks }) => {
     if (step) return yield put(A.setVerificationStep(step))
 
     yield put(actions.modules.profile.fetchUser())
-    yield put(actions.modals.closeModal(KYC_MODAL))
+    yield put(actions.modals.closeModal(ModalName.KYC_MODAL))
   }
 
   const updateSmsStep = ({ smsNumber, smsVerified }) => {
@@ -439,7 +439,7 @@ export default ({ api, coreSagas, networks }) => {
             actionTypes.components.simpleBuy.FETCH_SB_ORDERS_FAILURE
           ])
           // close KYC modal
-          yield put(actions.modals.closeModal(KYC_MODAL))
+          yield put(actions.modals.closeModal(ModalName.KYC_MODAL))
         } else {
           // SDD denied, continue to veriff
           yield call(goToNextStep)
@@ -479,16 +479,16 @@ export default ({ api, coreSagas, networks }) => {
     goToPrevStep,
     initializeStep,
     initializeVerification,
-    registerUserCampaign,
     resendSmsCode,
+    registerUserCampaign,
     saveInfoAndResidentialData,
     selectTier,
     sendDeeplink,
     sendEmailVerification,
-    updateEmail,
-    updateSmsNumber,
     updateSmsStep,
+    updateSmsNumber,
     verifyIdentity,
-    verifySmsNumber
+    verifySmsNumber,
+    updateEmail
   }
 }

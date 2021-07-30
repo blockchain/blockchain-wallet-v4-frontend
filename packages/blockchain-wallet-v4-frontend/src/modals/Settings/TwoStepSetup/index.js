@@ -66,6 +66,9 @@ const mapDispatchToProps = (dispatch) => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
-const enhance = compose(modalEnhancer('TwoStepSetup'), connect(mapStateToProps, mapDispatchToProps))
+const enhance = compose(
+  modalEnhancer('TWO_STEP_SETUP_MODAL'),
+  connect(mapStateToProps, mapDispatchToProps)
+)
 
 export default enhance(TwoStepSetupContainer)

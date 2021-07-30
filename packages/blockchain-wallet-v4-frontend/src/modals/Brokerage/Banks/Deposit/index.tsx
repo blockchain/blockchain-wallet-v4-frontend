@@ -7,14 +7,10 @@ import DataError from 'components/DataError'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { BankDWStepType } from 'data/types'
+import { BankDWStepType, ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
-import {
-  BROKERAGE_INELIGIBLE,
-  Loading,
-  LoadingTextEnum
-} from '../../../components'
+import { BROKERAGE_INELIGIBLE, Loading, LoadingTextEnum } from '../../../components'
 import { ModalPropsType } from '../../../types'
 import Authorize from './Authorize'
 import BankList from './BankList'
@@ -24,8 +20,12 @@ import DepositStatus from './DepositStatus'
 import EnterAmount from './EnterAmount'
 import OpenBankingConnect from './OpenBankingConnect'
 import WireInstructions from './WireInstructions'
-class Deposit extends PureComponent<Props> {
-  state: State = { show: false }
+
+class Deposit extends PureComponent<Props, State> {
+  constructor(props: Props) {
+    super(props)
+    this.state = { show: false }
+  }
 
   componentDidMount() {
     /* eslint-disable */
@@ -118,10 +118,7 @@ class Deposit extends PureComponent<Props> {
         )}
         {this.props.step === BankDWStepType.DEPOSIT_CONNECT && (
           <FlyoutChild>
-            <OpenBankingConnect
-              {...this.props}
-              handleClose={this.handleClose}
-            />
+            <OpenBankingConnect {...this.props} handleClose={this.handleClose} />
           </FlyoutChild>
         )}
         {this.props.step === BankDWStepType.INELIGIBLE && (
@@ -135,8 +132,8 @@ class Deposit extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  step: selectors.components.brokerage.getDWStep(state),
-  fiatCurrency: selectors.components.brokerage.getFiatCurrency(state)
+  fiatCurrency: selectors.components.brokerage.getFiatCurrency(state),
+  step: selectors.components.brokerage.getDWStep(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -146,7 +143,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 const enhance = compose(
-  ModalEnhancer('BANK_DEPOSIT_MODAL', { transition: duration }),
+  ModalEnhancer(ModalName.BANK_DEPOSIT_MODAL, { transition: duration }),
   connector
 )
 
@@ -158,9 +155,7 @@ export type FailurePropsType = {
   handleClose: () => void
 }
 
-export type Props = OwnProps &
-  LinkStatePropsType &
-  ConnectedProps<typeof connector>
+export type Props = OwnProps & LinkStatePropsType & ConnectedProps<typeof connector>
 
 type State = { show: boolean }
 

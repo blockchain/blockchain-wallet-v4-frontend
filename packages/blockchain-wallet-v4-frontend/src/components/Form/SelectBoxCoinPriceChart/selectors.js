@@ -4,3 +4,5 @@ export const getCoins = () => [
   { text: 'Bitcoin Cash', value: 'BCH' },
   { text: 'Stellar', value: 'XLM' }
 ]
+
+export default getCoins

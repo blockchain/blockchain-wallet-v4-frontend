@@ -7,7 +7,8 @@ export const getInterestAccountBalance = (state: RootState) =>
 
 export const getCoinType = (state: RootState) => state.components.interest.coin
 
-export const getCoinDisplay = (state: RootState) => state.components.interest.isCoinDisplayed
+export const getIsAmountDisplayedInCrypto = (state: RootState) =>
+  state.components.interest.isAmountDisplayedInCrypto
 
 export const getInterestEligible = (state: RootState) => state.components.interest.interestEligible
 
@@ -51,8 +52,6 @@ export const getWithdrawalMinimums = (state: RootState) =>
   state.components.interest.withdrawalMinimums
 
 export const getAfterTransaction = (state: RootState) => state.components.interest.afterTransaction
-
-export const getIsFromBuySell = (state: RootState) => state.components.interest.isFromBuySell
 
 export const getInterestEDDStatus = (state: RootState) =>
   state.components.interest.interestEDDStatus

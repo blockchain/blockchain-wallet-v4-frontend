@@ -8,14 +8,22 @@ const getData = createDeepEqualSelector(
   [
     selectors.modules.profile.getUserData,
     selectors.core.settings.getCurrency,
-    selectors.components.swap.getFix
+    selectors.components.swap.getFix,
+    selectors.components.swap.getCustodialEligibility
   ],
-  (userDataR, walletCurrencyR, fix) => {
-    return lift((userData: ExtractSuccess<typeof userDataR>, walletCurrency: FiatType) => ({
-      fix,
-      userData,
-      walletCurrency
-    }))(userDataR, walletCurrencyR)
+  (userDataR, walletCurrencyR, fix, custodialEligibilityR) => {
+    return lift(
+      (
+        userData: ExtractSuccess<typeof userDataR>,
+        walletCurrency: FiatType,
+        custodialEligibility: ExtractSuccess<typeof custodialEligibilityR>
+      ) => ({
+        custodialEligibility,
+        fix,
+        userData,
+        walletCurrency
+      })
+    )(userDataR, walletCurrencyR, custodialEligibilityR)
   }
 )
 

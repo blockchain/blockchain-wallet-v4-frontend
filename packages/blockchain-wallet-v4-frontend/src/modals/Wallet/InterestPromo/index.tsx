@@ -5,6 +5,7 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
+import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import getData from './selectors'
@@ -53,6 +54,6 @@ export type LinkStatePropsType = {
 
 export type Props = OwnPropsType & ConnectedProps<typeof connector>
 
-const enhance = compose(modalEnhancer('INTEREST_PROMO_MODAL'), connector)
+const enhance = compose(modalEnhancer(ModalName.INTEREST_PROMO_MODAL), connector)
 
 export default enhance(InterestPromo)

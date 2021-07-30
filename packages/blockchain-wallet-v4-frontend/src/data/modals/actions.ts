@@ -1,8 +1,8 @@
 import * as AT from './actionTypes'
-import { ModalActionTypes, ModalNamesType, ModalParamPropsType } from './types'
+import { ModalActionTypes, ModalNameType, ModalParamPropsType } from './types'
 
 // Remove the last modal added in the stack
-export const closeModal = (modalName?: ModalNamesType): ModalActionTypes => ({
+export const closeModal = (modalName?: ModalNameType): ModalActionTypes => ({
   payload: {
     modalName
   },
@@ -14,7 +14,7 @@ export const closeAllModals = (): ModalActionTypes => ({
 })
 // Add a modal in the stack
 export const showModal = (
-  type: ModalNamesType,
+  type: ModalNameType,
   props: ModalParamPropsType,
   options = {}
 ): ModalActionTypes => ({
