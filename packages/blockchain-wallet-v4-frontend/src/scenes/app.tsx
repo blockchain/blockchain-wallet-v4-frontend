@@ -7,7 +7,7 @@ import { utmParser } from 'middleware/analyticsMiddleware/utils'
 import { map, values } from 'ramda'
 import { Store } from 'redux'
 import { PersistGate } from 'redux-persist/integration/react'
-import uuid from 'uuid'
+import { v4 as uuidv4 } from 'uuid'
 
 import SiftScience from 'components/SiftScience'
 import { selectors } from 'data'
@@ -63,7 +63,7 @@ const App = ({
 
   useEffect(() => {
     const utm = utmParser(window.location.hash)
-    const id = uuid.v4()
+    const id = uuidv4()
 
     sessionStorage.setItem(UTM, JSON.stringify(utm))
     localStorage.setItem(ANALYTICS_ID, id)
