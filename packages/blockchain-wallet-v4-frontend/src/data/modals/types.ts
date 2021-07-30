@@ -111,6 +111,7 @@ export type ModalOriginType =
   | 'SettingsProfile'
   | 'SideNav'
   | 'SimpleBuyLink'
+  | 'SimpleBuyStatus'
   | 'Swap'
   | 'SwapPrompt'
   | 'SwapLimitPrompt'

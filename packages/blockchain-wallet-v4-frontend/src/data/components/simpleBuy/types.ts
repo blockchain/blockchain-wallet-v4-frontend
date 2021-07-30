@@ -22,7 +22,7 @@ import {
   SwapQuoteType,
   SwapUserLimitsType
 } from 'blockchain-wallet-v4/src/types'
-import { ADDRESS_TYPES } from 'core/redux/payment/btc/utils'
+import { RecurringBuyPeriods } from 'data/types'
 
 import { CountryType } from '../identityVerification/types'
 import { SwapAccountType, SwapBaseCounterTypes } from '../swap/types'
@@ -59,6 +59,7 @@ export type SBCheckoutFormValuesType =
       cryptoAmount: string
       fix: SBFixType
       orderType: SBOrderActionType
+      period: RecurringBuyPeriods
     }
 export type SBCurrencySelectFormType = {
   search: string

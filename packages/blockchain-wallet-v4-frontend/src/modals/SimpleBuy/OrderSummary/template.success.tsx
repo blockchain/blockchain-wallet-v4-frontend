@@ -8,7 +8,7 @@ import { SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { getBaseAmount, getBaseCurrency, getOrderType } from 'data/components/simpleBuy/model'
 
-import { Props as OwnProps, SuccessStateType } from '.'
+import { Props as _P, SuccessStateType } from '.'
 import InterestBanner from './InterestBanner'
 import { CloseContainer } from './styles'
 
@@ -103,7 +103,9 @@ const Success: React.FC<Props> = (props) => {
             size='20px'
             color='grey600'
             role='button'
-            onClick={props.handleClose}
+            onClick={() => {
+              props.handleClose()
+            }}
           />
         </CloseContainer>
       </FlyoutWrapper>
@@ -230,22 +232,20 @@ const Success: React.FC<Props> = (props) => {
             </Bottom>
           )}
 
-          {orderType === 'BUY' &&
-            props.order.paymentType === SBPaymentTypes.BANK_TRANSFER &&
-            props.order.state !== 'FAILED' && (
-              <Bottom>
-                <Button
-                  data-e2e='sbDone'
-                  size='16px'
-                  height='48px'
-                  nature='primary'
-                  onClick={props.handleClose}
-                  style={{ marginBottom: '16px' }}
-                >
-                  <FormattedMessage id='buttons.ok' defaultMessage='OK' />
-                </Button>
-              </Bottom>
-            )}
+          {orderType === 'BUY' && props.order.state !== 'FAILED' && (
+            <Bottom>
+              <Button
+                data-e2e='sbDone'
+                size='16px'
+                height='48px'
+                nature='primary'
+                onClick={props.okButtonHandler}
+                style={{ marginBottom: '16px' }}
+              >
+                <FormattedMessage id='buttons.ok' defaultMessage='OK' />
+              </Button>
+            </Bottom>
+          )}
 
           {orderType === 'BUY' &&
             (props.order.paymentType === SBPaymentTypes.PAYMENT_CARD ||
@@ -315,6 +315,7 @@ const Success: React.FC<Props> = (props) => {
   )
 }
 
-type Props = OwnProps & SuccessStateType
+type OwnProps = { okButtonHandler: () => void }
+type Props = OwnProps & _P & SuccessStateType
 
 export default Success

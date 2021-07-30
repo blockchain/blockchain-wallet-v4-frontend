@@ -14,6 +14,8 @@ import {
 
 import { convertBaseToStandard } from '../exchange/services'
 import { SBAddCardFormValuesType } from './types'
+import { BankTransferAccountType } from '../brokerage/types'
+import { defaultTo, filter } from 'ramda'
 
 export const DEFAULT_SB_BALANCE = {
   available: '0',
@@ -58,6 +60,13 @@ export const getOrderType = (order: SBOrderType): SBOrderActionType => {
 
 export const getPaymentMethodId = (order: SBOrderType): string | undefined => {
   return order.paymentMethodId
+}
+
+export const getBankAccount = (order: SBOrderType, accounts: BankTransferAccountType[]): BankTransferAccountType => {
+  return filter(
+    (b: BankTransferAccountType) => b.state === 'ACTIVE' && b.id === order.paymentMethodId,
+    defaultTo([])(accounts)
+  )[0]
 }
 
 export const getCoinFromPair = (pair: SBPairsType): CoinType => {

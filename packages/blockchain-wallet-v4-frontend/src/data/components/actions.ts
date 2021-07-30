@@ -15,7 +15,7 @@ import * as onboarding from './onboarding/actions'
 import * as priceChart from './priceChart/actions'
 import * as priceTicker from './priceTicker/actions'
 import * as recoveryPhrase from './recoveryPhrase/actions'
-import * as recurringBuys from './recurringBuys/actions'
+import { actions as recurringBuy } from './recurringBuy/slice'
 import * as refresh from './refresh/actions'
 import * as request from './request/actions'
 import * as resetWallet2fa from './resetWallet2fa/actions'
@@ -51,7 +51,7 @@ export {
   priceChart,
   priceTicker,
   recoveryPhrase,
-  recurringBuys,
+  recurringBuy,
   refresh,
   request,
   resetWallet2fa,

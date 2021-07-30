@@ -1,6 +1,6 @@
 import { CardNameType } from 'components/Form/CreditCardBox/model'
 import { BeneficiaryType, CoinType, FiatType, WalletCurrencyType } from 'core/types'
-import { BankDetails } from 'data/types'
+import { BankDetails, RecurringBuyPeriods } from 'data/types'
 
 export type Everypay3DSResponseType = {
   payment_state: null | 'waiting_for_3DS_response'
@@ -185,6 +185,7 @@ export type ISBBuyOrderType = {
   outputQuantity: string
   paymentMethodId?: string
   paymentType?: SBPaymentMethodType['type']
+  period?: RecurringBuyPeriods
   price?: string
   side: SBOrderActionType
   state: SBOrderStateType
