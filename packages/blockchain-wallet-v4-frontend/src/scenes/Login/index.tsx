@@ -154,7 +154,14 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
                     />
                   )
                 case LoginSteps.ENTER_PASSWORD:
-                  return <EnterPassword {...this.props} {...loginProps} setStep={this.setStep} />
+                  return (
+                    <EnterPassword
+                      {...this.props}
+                      {...loginProps}
+                      setStep={this.setStep}
+                      initCaptcha={this.initCaptcha}
+                    />
+                  )
 
                 case LoginSteps.CHECK_EMAIL:
                   return (
