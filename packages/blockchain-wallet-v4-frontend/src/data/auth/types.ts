@@ -62,6 +62,16 @@ export type WalletDataFromMagicLink = {
   }
 }
 
+// TODO: this is here to handle old version of magic link
+// Can be removed when it's completely deprecated
+export type WalletDataFromMagicLinkLegacy = {
+  email: string
+  email_code?: string
+  guid: string
+  is_mobile_setup: string | boolean
+  mobile_device_type: number | null
+}
+
 // actions
 
 interface LoginFailureActionType {
