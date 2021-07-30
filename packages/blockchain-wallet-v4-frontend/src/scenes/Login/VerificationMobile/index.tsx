@@ -12,7 +12,7 @@ import { actions, selectors } from 'data'
 import { LoginSteps } from 'data/types'
 
 import { Props as OwnProps } from '..'
-import { BackArrowFormHeader, LOGIN_FORM_NAME, NeedHelpLink, Row } from '../model'
+import { BackArrowFormHeader, LOGIN_FORM_NAME, NeedHelpLink } from '../model'
 
 const Body = styled.div`
   display: flex;
