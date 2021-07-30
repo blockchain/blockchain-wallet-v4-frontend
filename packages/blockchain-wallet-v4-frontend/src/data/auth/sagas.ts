@@ -714,11 +714,21 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const getUserGeoLocation = function* () {
+    try {
+      const userLocationData = yield call(api.getLocation)
+      yield put(A.setUserGeoLocation(userLocationData))
+    } catch (e) {
+      // todo
+    }
+  }
+
   return {
     authNabu,
     checkAndHandleVulnerableAddress,
     checkDataErrors,
     deauthorizeBrowser,
+    getUserGeoLocation,
     initializeLogin,
     login,
     loginRoutineSaga,

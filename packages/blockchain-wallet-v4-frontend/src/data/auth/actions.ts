@@ -168,3 +168,10 @@ export const setKycResetStatus = (kycResetStatus) => ({
   payload: { kycResetStatus },
   type: AT.SET_KYC_RESET
 })
+export const getUserGeoLocation = () => ({
+  type: AT.GET_USER_GEO_LOCATION
+})
+export const setUserGeoLocation = (userGeoData) => ({
+  payload: { userGeoData },
+  type: AT.SET_USER_GEO_LOCATION
+})

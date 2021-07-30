@@ -16,7 +16,8 @@ const INITIAL_STATE = {
   registerEmail: undefined,
   registering: Remote.NotAsked,
   restoring: Remote.NotAsked,
-  secureChannelLogin: Remote.NotAsked
+  secureChannelLogin: Remote.NotAsked,
+  userGeoData: Remote.NotAsked
 }
 
 const auth = (state = INITIAL_STATE, action) => {
@@ -102,6 +103,10 @@ const auth = (state = INITIAL_STATE, action) => {
     }
     case AT.RESTORE_FROM_METADATA_FAILURE: {
       return assoc('metadataRestore', Remote.Failure(payload), state)
+    }
+    case AT.SET_USER_GEO_LOCATION: {
+      const { userGeoData } = payload
+      return assoc('userGeoData', userGeoData, state)
     }
     default:
       return state

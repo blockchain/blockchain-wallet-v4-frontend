@@ -48,19 +48,10 @@ export default ({ api }: { api: APIType }) => {
   const fetchRates = function* () {
     try {
       yield put(A.fetchRatesLoading())
-      const currencyR = selectors.settings.getCurrency(yield select())
-      const currency = currencyR.getOrElse('USD')
-      const data = yield call(api.getCoinTicker, 'BCH', currency)
+      const data = yield call(api.getBchTicker)
       yield put(A.fetchRatesSuccess(data))
     } catch (e) {
       yield put(A.fetchRatesFailure(e.message))
-    }
-  }
-
-  const watchTransactions = function* () {
-    while (true) {
-      const action = yield take(AT.FETCH_BCH_TRANSACTIONS)
-      yield call(fetchTransactions, action)
     }
   }
 
@@ -89,6 +80,7 @@ export default ({ api }: { api: APIType }) => {
       const filteredTxs = data.txs.filter((tx) => tx.time > BCH_FORK_TIME)
       const atBounds = length(filteredTxs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
+      // eslint-disable-next-line
       const txPage: Array<BchTxType> = yield call(__processTxs, filteredTxs)
       const nextSBTransactionsURL = selectors.data.custodial.getNextSBTransactionsURL(
         yield select(),
@@ -108,6 +100,13 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
+    }
+  }
+
+  const watchTransactions = function* () {
+    while (true) {
+      const action = yield take(AT.FETCH_BCH_TRANSACTIONS)
+      yield call(fetchTransactions, action)
     }
   }
 

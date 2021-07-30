@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { curry, equals, lift, prop, toLower } from 'ramda'
+import { curry, equals, lift, prop } from 'ramda'
 
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
@@ -63,6 +63,7 @@ export const getData = (state, coin) => {
       rates: isErc20 && payment.from.type === 'CUSTODIAL' ? erc20Rates : ethRates,
       value: payment.fee
     })
+
     const totalFiat = fiatToString({
       unit: currency,
       value: Number(amount) + Number(fee)

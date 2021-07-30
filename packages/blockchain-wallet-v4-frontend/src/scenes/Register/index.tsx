@@ -8,7 +8,7 @@ import { actions, selectors } from 'data'
 import { GoalsType } from 'data/goals/types'
 import { RootState } from 'data/rootReducer'
 
-import { REGISTER_FORM } from './model'
+import { GeoLocation, REGISTER_FORM, SignupInitValues } from './model'
 import Register from './template'
 
 class RegisterContainer extends React.PureComponent<PropsType, StateType> {
@@ -18,6 +18,10 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
       showForm: false,
       showState: false
     }
+  }
+
+  componentDidMount() {
+    this.props.authActions.getUserGeoLocation()
   }
 
   onSubmit = () => {
@@ -40,7 +44,7 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
   }
 
   render() {
-    const { data, goals, password, search } = this.props
+    const { data, goals, password, search, userGeoData } = this.props
     const busy = data.cata({
       Failure: () => false,
       Loading: () => true,
@@ -55,11 +59,14 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
     const dataGoal = find(propEq('name', 'simpleBuy'), goals)
     const goalData = propOr({}, 'data', dataGoal)
     const email = propOr('', 'email', goalData)
-    const signupInitialValues = email ? { email } : {}
+    const signupInitialValues = email ? ({ email } as SignupInitValues) : ({} as SignupInitValues)
+    if (userGeoData && userGeoData.countryCode) {
+      signupInitialValues.country = userGeoData.countryCode
+    }
 
     return (
       <Register
-        busy={busy}
+        busy={busy || !userGeoData}
         isLinkAccountGoal={isLinkAccountGoal}
         isSimpleBuyGoal={isSimpleBuyGoal}
         initialValues={signupInitialValues}
@@ -85,7 +92,8 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   language: selectors.preferences.getLanguage(state),
   password: formValueSelector(REGISTER_FORM)(state, 'password') || '',
   search: selectors.router.getSearch(state) as string,
-  state: formValueSelector(REGISTER_FORM)(state, 'state')
+  state: formValueSelector(REGISTER_FORM)(state, 'state'),
+  userGeoData: selectors.auth.getUserGeoData(state) as GeoLocation
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -107,6 +115,7 @@ type LinkStatePropsType = {
   password: string
   search: string
   state: string
+  userGeoData: GeoLocation
 }
 
 type StateType = {
