@@ -27,6 +27,7 @@ const SendBch = React.lazy(() => import('./Bch/SendBch'))
 // ETH
 const SendEth = React.lazy(() => import('./Eth/SendEth'))
 const TransferEth = React.lazy(() => import('./Eth/TransferEth'))
+const WalletConnect = React.lazy(() => import('./Eth/WalletConnect'))
 
 // XLM
 const SendXlm = React.lazy(() => import('./Xlm/SendXlm'))
@@ -273,6 +274,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.VERIFY_MESSAGE_MODAL) ? (
           <VerifyMessage />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.WALLET_CONNECT_MODAL) ? (
+          <WalletConnect />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.WELCOME_MODAL) ? <Welcome /> : null}
         {props.modals.find((modal) => modal.type === ModalName.CUSTODY_WITHDRAW_MODAL) ? (

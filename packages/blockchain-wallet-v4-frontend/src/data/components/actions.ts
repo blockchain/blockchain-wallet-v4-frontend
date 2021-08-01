@@ -30,6 +30,7 @@ import * as simpleBuy from './simpleBuy/actions'
 import * as swap from './swap/actions'
 import * as uploadDocuments from './uploadDocuments/actions'
 import * as veriff from './veriff/actions'
+import { actions as walletConnect } from './walletConnect/slice'
 import * as withdraw from './withdraw/actions'
 import * as xlmTransactions from './xlmTransactions/actions'
 
@@ -66,6 +67,7 @@ export {
   swap,
   uploadDocuments,
   veriff,
+  walletConnect,
   withdraw,
   xlmTransactions
 }

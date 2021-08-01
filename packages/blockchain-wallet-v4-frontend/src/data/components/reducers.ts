@@ -23,6 +23,7 @@ import { simpleBuyReducer } from './simpleBuy/reducers'
 import swapReducer from './swap/reducers'
 import uploadDocuments from './uploadDocuments/reducers'
 import veriff from './veriff/reducers'
+import { walletConnectReducer as walletConnect } from './walletConnect/slice'
 import { withdrawReducer } from './withdraw/reducers'
 
 const componentReducer = combineReducers({
@@ -49,6 +50,7 @@ const componentReducer = combineReducers({
   swap: swapReducer,
   uploadDocuments,
   veriff,
+  walletConnect,
   withdraw: withdrawReducer
 })
 

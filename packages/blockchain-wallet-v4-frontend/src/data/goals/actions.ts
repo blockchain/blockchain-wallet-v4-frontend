@@ -6,20 +6,20 @@ import { GoalsType } from './types'
 const generateId = () => Math.random().toString(36).substr(2, 10)
 
 export const saveGoal = (name: GoalsType, data) => ({
-  type: AT.SAVE_GOAL,
-  payload: { id: generateId(), name, data }
+  payload: { data, id: generateId(), name },
+  type: AT.SAVE_GOAL
 })
 export const deleteGoal = (id: string) => ({
-  type: AT.DELETE_GOAL,
-  payload: { id }
+  payload: { id },
+  type: AT.DELETE_GOAL
 })
 export const addInitialModal = (key: string, name: ModalNameType, data: ModalParamPropsType) => ({
-  type: AT.ADD_INITIAL_MODAL,
-  payload: { key, name, data }
+  payload: { data, key, name },
+  type: AT.ADD_INITIAL_MODAL
 })
 export const addInitialRedirect = (path: string) => ({
-  type: AT.ADD_INITIAL_REDIRECT,
-  payload: { path }
+  payload: { path },
+  type: AT.ADD_INITIAL_REDIRECT
 })
 export const initialModalDisplayed = {
   type: AT.INITIAL_MODAL_DISPLAYED
