@@ -184,10 +184,7 @@ const mapStateToProps = (state: RootState) => ({
   cards: selectors.components.simpleBuy.getSBCards(state).getOrElse([]),
   order: selectors.components.simpleBuy.getSBOrder(state) as SBOrderType,
   period: selectors.components.recurringBuy.getPeriod(state) as RecurringBuyPeriods,
-  quote: selectors.components.simpleBuy.getSBQuote(state).getOrFail('Could not get exchange rate'),
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrFail('Failed to load coin models')
+  quote: selectors.components.simpleBuy.getSBQuote(state).getOrFail('Could not get exchange rate')
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
