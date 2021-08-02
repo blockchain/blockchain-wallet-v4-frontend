@@ -73,7 +73,7 @@ export const getErc20Transactions = (state, token) => {
   return path([dataPath, 'eth', 'transactions', token])(state) || Remote.NotAsked
 }
 export const getErc20TransactionsAtBound = (state, token) => {
-  return path([dataPath, 'eth', 'transactions_at_bound', token])(state) || Remote.NotAsked
+  return path([dataPath, 'eth', 'transactions_at_bound', token])(state) || false
 }
 export const getErc20TransactionHistory = (state, token) => {
   return path([dataPath, 'eth', 'transaction_history', token])(state) || Remote.NotAsked
