@@ -32,6 +32,9 @@ class WalletConnectContainer extends PureComponent<Props, State> {
 
   handleClose = () => {
     this.setState({ show: false })
+    setTimeout(() => {
+      this.props.close()
+    }, duration)
   }
 
   render() {
