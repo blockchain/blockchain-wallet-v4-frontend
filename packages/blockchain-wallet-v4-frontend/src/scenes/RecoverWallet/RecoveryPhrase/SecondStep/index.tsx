@@ -2,11 +2,12 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
+import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, selectors } from 'data'
 
 import { Props as OwnProps } from '../..'
 import { SpinningLoaderCentered } from '../../model'
-import Error from './error.template'
+import Error from './failure.template'
 import Recover from './template'
 
 class RecoverContainer extends React.PureComponent<Props> {
@@ -16,13 +17,8 @@ class RecoverContainer extends React.PureComponent<Props> {
   }
 
   render() {
-    const { kycReset, metadataRestore, previousStep, recoverPassword, restoring } = this.props
-    const isRestoring = restoring.cata({
-      Failure: () => false,
-      Loading: () => true,
-      NotAsked: () => false,
-      Success: () => false
-    })
+    const { kycReset, metadataRestore, previousStep, recoverPassword, restoringR } = this.props
+    const isRestoring = Remote.Loading.is(restoringR)
 
     return metadataRestore.cata({
       Failure: () =>
@@ -41,9 +37,8 @@ class RecoverContainer extends React.PureComponent<Props> {
 }
 
 const mapStateToProps = (state) => ({
-  // TODO: find out what kind of object this is
   metadataRestore: selectors.auth.getMetadataRestore(state) as any,
-  restoring: selectors.auth.getRestoring(state) as any
+  restoringR: selectors.auth.getRestoring(state) as any
 })
 
 const mapDispatchToProps = (dispatch) => ({

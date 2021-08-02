@@ -6,7 +6,6 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Badge, Button, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
-import { crypto as wCrypto } from 'blockchain-wallet-v4/src'
 import { SuccessCartridge } from 'components/Cartridge'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import { RemoteDataType } from 'core/types'
@@ -159,15 +158,7 @@ const CloudRecovery = (props: Props) => {
 
 const mapStateToProps = (state) => ({
   phonePubKey: selectors.cache.getPhonePubkey(state),
-  qrData: selectors.cache.getChannelPrivKey(state)
-    ? JSON.stringify({
-        channelId: selectors.cache.getChannelChannelId(state),
-        pubkey: wCrypto
-          .derivePubFromPriv(Buffer.from(selectors.cache.getChannelPrivKey(state), 'hex'))
-          .toString('hex'),
-        type: 'login_wallet'
-      })
-    : '',
+  qrData: selectors.cache.getChannelPrivKey(state),
   secureChannelLoginState: selectors.auth.getSecureChannelLogin(state) as RemoteDataType<any, any>
 })
 

@@ -489,14 +489,10 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.auth.setRegisterEmail(action.payload.email))
       yield call(coreSagas.wallet.createWalletSaga, action.payload)
       yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
-      try {
-        yield call(loginRoutineSaga, {
-          email: action.payload.email,
-          firstLogin: true
-        })
-      } catch (e) {
-        yield put(actions.auth.registerFailure())
-      }
+      yield call(loginRoutineSaga, {
+        email: action.payload.email,
+        firstLogin: true
+      })
       yield put(actions.auth.registerSuccess())
     } catch (e) {
       yield put(actions.auth.registerFailure())
@@ -608,7 +604,7 @@ export default ({ api, coreSagas, networks }) => {
       yield logoutClearReduxStore()
     }
   }
-
+  // TODO: remove once old magic link endpoint is deprecated
   const parseMagicLinkLegacy = function* (params) {
     try {
       const loginData = JSON.parse(atob(params[2])) as WalletDataFromMagicLinkLegacy
@@ -638,27 +634,33 @@ export default ({ api, coreSagas, networks }) => {
   const parseMagicLink = function* (params) {
     try {
       const loginData = JSON.parse(atob(params[2])) as WalletDataFromMagicLink
-      const walletData = loginData.wallet
-      // grab all the data from the JSON
-      // wallet data
-      // store data in the cache and update form values
-      // to be used to submit login
-      yield put(actions.cache.emailStored(walletData.email))
-      yield put(actions.cache.guidStored(walletData.guid))
-      yield put(actions.cache.mobileConnectedStored(walletData.isMobileSetup))
-      yield put(actions.form.change('login', 'emailToken', walletData.emailCode))
-      yield put(actions.form.change('login', 'guid', walletData.guid))
-      yield put(actions.form.change('login', 'email', walletData.email))
-      yield put(A.setMagicLinkInfo(loginData))
-      // check if mobile detected
-      if (walletData.isMobileSetup) {
-        yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
+      // TODO: remove this check once old magic link is deprecated
+      if (loginData.wallet) {
+        const walletData = loginData.wallet
+        // grab all the data from the JSON
+        // wallet data
+        // store data in the cache and update form values
+        // to be used to submit login
+        yield put(actions.cache.emailStored(walletData.email))
+        yield put(actions.cache.guidStored(walletData.guid))
+        yield put(actions.cache.mobileConnectedStored(walletData.isMobileSetup))
+        yield put(actions.form.change('login', 'emailToken', walletData.emailCode))
+        yield put(actions.form.change('login', 'guid', walletData.guid))
+        yield put(actions.form.change('login', 'email', walletData.email))
+        yield put(A.setMagicLinkInfo(loginData))
+        // check if mobile detected
+        if (walletData.isMobileSetup) {
+          yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
+        } else {
+          yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
+        }
       } else {
-        yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
+        yield call(parseMagicLinkLegacy, params)
       }
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'parseLink', e))
       yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
+      const parseFailAlert = yield put(actions.alerts.displayError(C.MAGIC_LINK_PARSE_ERROR))
     }
   }
 
@@ -703,10 +705,7 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
         // if path has base64 encrypted JSON
       } else {
-        // TODO: remove once new magic link api is ready
-        // and uses non-legacy parsing
-        yield call(parseMagicLinkLegacy, params)
-        // yield call(parseMagicLink, params)
+        yield call(parseMagicLink, params)
       }
       yield put(A.initializeLoginSuccess())
     } catch (e) {
@@ -726,9 +725,6 @@ export default ({ api, coreSagas, networks }) => {
       const { captchaToken, email } = action.payload
       yield put(actions.session.saveSession(assoc(email, sessionToken, {})))
       yield call(api.triggerWalletMagicLink, email, captchaToken, sessionToken)
-      // TODO: remove
-      // below is link to trigger mock response
-      yield call(api.getMagicLinkMock, 'E')
       if (step === LoginSteps.CHECK_EMAIL) {
         yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
       } else {
@@ -751,8 +747,9 @@ export default ({ api, coreSagas, networks }) => {
 
     const { email, language, password } = action.payload
     // We get recovery token and nabu ID
-    const recoveryToken = yield select(S.getRecoveryToken)
-    const userId = yield select(S.getNabuId)
+    const magicLinkData = yield select(S.getMagicLinkData)
+    const recoveryToken = magicLinkData.wallet?.nabu?.recoveryToken
+    const userId = magicLinkData.wallet?.nabu?.userId
     // create a new wallet
     yield call(register, actions.auth.register(email, password, language))
     const guid = yield select(selectors.core.wallet.getGuid)

@@ -63,7 +63,7 @@ const mapStateToProps = (state) => ({
   lastGuid: selectors.cache.getLastGuid(state),
   loginFormValues: selectors.form.getFormValues('login')(state),
   mnemonic: formValueSelector('recover')(state, 'mnemonic'),
-  nabuId: selectors.auth.getNabuId(state),
+  nabuId: selectors.auth.getMagicLinkData(state)?.wallet?.nabu?.userId,
   recoverPassword: formValueSelector('recover')(state, 'recoverPassword') || '',
   registering: selectors.auth.getRegistering(state) as RemoteDataType<string, any>,
   resetPassword: formValueSelector('recover')(state, 'resetAccountPassword') || ''

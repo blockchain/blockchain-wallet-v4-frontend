@@ -18,6 +18,3 @@ export const getKycResetStatus = path(['auth', 'kycReset'])
 
 export const getMagicLinkData = (state: RootState): WalletDataFromMagicLink | null =>
   state.auth.magicLinkData
-export const getWalletData = (state) => getMagicLinkData(state)?.wallet
-export const getNabuId = (state) => getWalletData(state)?.nabu?.userId
-export const getRecoveryToken = (state) => getWalletData(state)?.nabu?.recoveryToken

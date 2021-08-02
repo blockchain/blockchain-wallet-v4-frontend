@@ -21,6 +21,14 @@ export type RecoverFormType = {
   step: RecoverSteps
 }
 
+export type LoginPayloadType = {
+  code: string
+  guid: string
+  mobileLogin: boolean
+  password: string
+  sharedKey: string
+}
+
 export type LoginFormType = {
   email: string
   emailToken?: string

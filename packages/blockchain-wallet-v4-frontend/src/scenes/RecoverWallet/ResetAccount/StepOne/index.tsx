@@ -17,23 +17,23 @@ class StepOne extends React.PureComponent<Props, State> {
   constructor(props) {
     super(props)
     this.state = {
-      firstModal: true
+      firstResetAcccountPrompt: true
     }
   }
 
   handleResetAccountClick = () => {
-    if (this.state.firstModal === true) {
-      this.setState({ firstModal: false })
+    if (this.state.firstResetAcccountPrompt === true) {
+      this.setState({ firstResetAcccountPrompt: false })
     } else {
       this.props.setFormStep()
     }
   }
 
   handleGoBackClick = () => {
-    if (this.state.firstModal === true) {
+    if (this.state.firstResetAcccountPrompt === true) {
       this.props.setStep(RecoverSteps.RECOVERY_OPTIONS)
     } else {
-      this.setState({ firstModal: true })
+      this.setState({ firstResetAcccountPrompt: true })
     }
   }
 
@@ -47,7 +47,7 @@ class StepOne extends React.PureComponent<Props, State> {
           guid={cachedGuid || lastGuid}
           step={RecoverSteps.RESET_ACCOUNT}
         />
-        {this.state.firstModal ? (
+        {this.state.firstResetAcccountPrompt && (
           <FormBody>
             <CircleBackground color='blue600' size='40px'>
               <Icon name='sync-regular' color='white' size='20px' />
@@ -74,7 +74,8 @@ class StepOne extends React.PureComponent<Props, State> {
               />
             </Text>
           </FormBody>
-        ) : (
+        )}
+        {!this.state.firstResetAcccountPrompt && (
           <FormBody>
             <CircleBackground color='orange600' size='40px'>
               <Icon name='alert-filled' color='white' size='20px' style={{ marginBottom: '2px' }} />
@@ -131,7 +132,7 @@ class StepOne extends React.PureComponent<Props, State> {
   }
 }
 
-type State = { firstModal: boolean }
+type State = { firstResetAcccountPrompt: boolean }
 
 type Props = {
   setFormStep: () => void

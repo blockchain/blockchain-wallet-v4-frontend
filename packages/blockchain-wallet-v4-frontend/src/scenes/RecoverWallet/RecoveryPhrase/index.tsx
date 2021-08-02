@@ -33,7 +33,6 @@ class RecoveryPhraseContainer extends React.PureComponent<
     if (this.state.step === 1) {
       this.setState({ step: 2 })
     } else {
-      // TODO: last argument is network, do we even need this?
       authActions.restore(mnemonic, email, recoverPassword, language, undefined)
     }
   }
@@ -45,8 +44,8 @@ class RecoveryPhraseContainer extends React.PureComponent<
   render() {
     return (
       <Form onSubmit={this.handleSubmit}>
-        {this.state.step === 2 && <SecondStep previousStep={this.previousStep} {...this.props} />}
         {this.state.step === 1 && <FirstStep {...this.props} />}
+        {this.state.step === 2 && <SecondStep previousStep={this.previousStep} {...this.props} />}
       </Form>
     )
   }

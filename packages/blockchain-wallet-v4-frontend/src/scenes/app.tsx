@@ -54,7 +54,7 @@ const App = ({
   coinsWithMethodAndOrder,
   history,
   isAuthenticated,
-  legacyWalletRecovery,
+  legacyWalletRecoveryEnabled,
   persistor,
   store,
   userData
@@ -83,7 +83,7 @@ const App = ({
                     <PublicLayout path='/mobile-login' component={MobileLogin} />
                     <PublicLayout
                       path='/recover'
-                      component={legacyWalletRecovery ? RecoverWalletLegacy : RecoverWallet}
+                      component={legacyWalletRecoveryEnabled ? RecoverWalletLegacy : RecoverWallet}
                     />
                     <PublicLayout path='/reset-2fa' component={ResetWallet2fa} />
                     <PublicLayout path='/reset-two-factor' component={ResetWallet2faToken} />
@@ -141,12 +141,9 @@ const mapStateToProps = (state) => ({
     .getCoinsWithMethodAndOrder(state)
     .getOrElse([]),
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
-  legacyWalletRecovery: selectors.core.walletOptions
+  legacyWalletRecoveryEnabled: selectors.core.walletOptions
     .getFeatureLegacyWalletRecovery(state)
     .getOrElse(false) as boolean,
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrFail('No supported coins.'),
   userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType)
 })
 

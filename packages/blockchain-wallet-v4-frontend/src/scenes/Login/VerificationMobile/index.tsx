@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { crypto as wCrypto } from 'blockchain-wallet-v4/src'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import { RemoteDataType } from 'core/types'
 import { actions, selectors } from 'data'
@@ -34,7 +33,7 @@ const LinkRow = styled.div`
 `
 
 const VerificationMobile = (props: Props) => {
-  const { cacheActions, middlewareActions, qrData, setStep } = props
+  const { qrData, setStep } = props
 
   const handleBackArrowClick = () => {
     props.cacheActions.removedStoredLogin()
@@ -143,15 +142,7 @@ const VerificationMobile = (props: Props) => {
 
 const mapStateToProps = (state) => ({
   phonePubKey: selectors.cache.getPhonePubkey(state),
-  qrData: selectors.cache.getChannelPrivKey(state)
-    ? JSON.stringify({
-        channelId: selectors.cache.getChannelChannelId(state),
-        pubkey: wCrypto
-          .derivePubFromPriv(Buffer.from(selectors.cache.getChannelPrivKey(state), 'hex'))
-          .toString('hex'),
-        type: 'login_wallet'
-      })
-    : '',
+  qrData: selectors.cache.getChannelPrivKey(state),
   secureChannelLoginState: selectors.auth.getSecureChannelLogin(state) as RemoteDataType<any, any>
 })
 

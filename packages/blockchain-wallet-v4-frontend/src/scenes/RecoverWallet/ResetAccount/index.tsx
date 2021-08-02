@@ -1,10 +1,10 @@
 import React from 'react'
-import { connect, ConnectedProps } from 'react-redux'
+import { connect } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 import { InjectedFormProps } from 'redux-form'
 
+import { Remote } from 'blockchain-wallet-v4/src'
 import { Form } from 'components/Form'
-import { RemoteType } from 'core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { RecoverSteps } from 'data/types'
@@ -32,12 +32,7 @@ class ResetAccount extends React.PureComponent<InjectedFormProps<{}, Props> & Pr
   }
 
   render() {
-    const isRegistering = this.props.registering.cata({
-      Failure: () => false,
-      Loading: () => true,
-      NotAsked: () => false,
-      Success: () => false
-    })
+    const isRegistering = Remote.Loading.is(this.props.registering)
     return (
       <Form onSubmit={this.handleSubmit}>
         {this.state.step === 1 && <StepOne {...this.props} setFormStep={this.setFormStep} />}
@@ -48,9 +43,7 @@ class ResetAccount extends React.PureComponent<InjectedFormProps<{}, Props> & Pr
 }
 
 const mapStateToProps = (state: RootState) => ({
-  // email from state where we stored it from magic link
   language: selectors.preferences.getLanguage(state)
-  // password from reset form
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

@@ -163,6 +163,7 @@ type MessagesType = {
   'components.alerts.loweth.body2': 'Sending Erc20s requires ETH. Your balance is low, Swap to get more ETH.'
   'components.alerts.loweth.header': 'Running Low!'
   'components.alerts.loweth.learnmore': 'Learn More.'
+  'components.alerts.message_parse_failed': 'Verification failed. Please use your Wallet ID to sign in.'
   'components.alerts.message_sign_error': 'Failed to sign message.'
   'components.alerts.mnemonic_verify_success_new': 'Your Secret Private Key Recovery Phrase has been verified!'
   'components.alerts.mobile_code_sent_error': 'Mobile verification code sent'
