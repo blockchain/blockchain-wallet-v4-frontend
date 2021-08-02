@@ -6,6 +6,7 @@ import { InjectedFormProps, reduxForm } from 'redux-form'
 import { CoinType, FiatType, WalletCurrencyType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
+import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
@@ -15,7 +16,6 @@ import { REQUEST_FORM } from './model'
 import { getData } from './selectors'
 import RequestShowAddress from './ShowAddress'
 import { RequestFormType, RequestSteps } from './types'
-import { ModalName } from 'data/types'
 
 class RequestCrypto extends PureComponent<Props, State> {
   state: State = {
@@ -96,7 +96,7 @@ const mapStateToProps = (state): LinkStatePropsType => ({
     selectedCoin: selectors.router.getCoinFromPageUrl(state) || 'ALL',
     step: RequestSteps.COIN_SELECT
   },
-  requestableCoins: getData(state),
+  requestableCoins: getData(),
   walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
