@@ -158,7 +158,7 @@ const CloudRecovery = (props: Props) => {
 
 const mapStateToProps = (state) => ({
   phonePubKey: selectors.cache.getPhonePubkey(state),
-  qrData: selectors.cache.getChannelPrivKey(state),
+  qrData: selectors.cache.getChannelPrivKeyForQrData(state),
   secureChannelLoginState: selectors.auth.getSecureChannelLogin(state) as RemoteDataType<any, any>
 })
 

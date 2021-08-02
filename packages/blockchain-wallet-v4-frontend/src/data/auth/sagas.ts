@@ -744,7 +744,6 @@ export default ({ api, coreSagas, networks }) => {
     // If user is resetting their custodial account
     // Creating a new wallet and assigning an existing custodial account
     // to that wallet
-
     const { email, language, password } = action.payload
     // We get recovery token and nabu ID
     const magicLinkData = yield select(S.getMagicLinkData)
