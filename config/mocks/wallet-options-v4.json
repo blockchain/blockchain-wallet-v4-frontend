@@ -230,8 +230,8 @@
       },
       "featureFlags": {
         "legacyMobilePairing": false,
-        "recurringBuys": true,
-        "legacyWalletRecovery": false
+        "legacyWalletRecovery": false,
+        "recurringBuys": true
       }
     }
   },

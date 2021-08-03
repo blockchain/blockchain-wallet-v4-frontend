@@ -211,12 +211,6 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const setLogoutEventListener = function () {
-    return new Promise((resolve) => {
-      window.addEventListener('wallet.core.logout', resolve)
-    })
-  }
-
   const logoutClearReduxStore = function* () {
     // router will fallback to /login route
     yield window.history.pushState('', '', '#')
@@ -244,10 +238,6 @@ export default ({ api, coreSagas, networks }) => {
         : yield call(logoutClearReduxStore)
       yield put(actions.analytics.stopSession())
     }
-  }
-
-  const logoutRoutine = function* () {
-    yield call(logout)
   }
 
   const loginRoutineSaga = function* ({ email = undefined, firstLogin = false }) {
@@ -334,10 +324,6 @@ export default ({ api, coreSagas, networks }) => {
       yield fork(checkXpubCacheLegitimacy)
       yield fork(checkExchangeUsage)
       yield fork(checkDataErrors)
-      // @ts-ignore
-      // TODO: figure out how to set this listener
-      // and still complete saga
-      // yield fork(logoutRoutine, yield call(setLogoutEventListener))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'loginRoutineSaga', e))
       // Redirect to error page instead of notification
@@ -660,7 +646,7 @@ export default ({ api, coreSagas, networks }) => {
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'parseLink', e))
       yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
-      const parseFailAlert = yield put(actions.alerts.displayError(C.MAGIC_LINK_PARSE_ERROR))
+      yield put(actions.alerts.displayError(C.MAGIC_LINK_PARSE_ERROR))
     }
   }
 
@@ -778,7 +764,6 @@ export default ({ api, coreSagas, networks }) => {
     loginRoutineSaga,
     logout,
     logoutClearReduxStore,
-    logoutRoutine,
     mobileLogin,
     pollingSession,
     register,
@@ -787,7 +772,6 @@ export default ({ api, coreSagas, networks }) => {
     restore,
     restoreFromMetadata,
     saveGoals,
-    setLogoutEventListener,
     startSockets,
     triggerWalletMagicLink,
     upgradeAddressLabelsSaga,
