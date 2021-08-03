@@ -23,7 +23,7 @@ export type BtcAccountFromType = IBtcFromType & {
   coin: 'BTC'
   index: number
   label: string
-  type: 'ACCOUNT' | 'LOCKBOX'
+  type: 'ACCOUNT'
   xpub: string
 }
 
@@ -33,7 +33,4 @@ export type BtcLegacyFromType = IBtcFromType & {
   type: 'LEGACY'
 }
 
-export type BtcFromType =
-  | BtcAccountFromType
-  | BtcLegacyFromType
-  | CustodialFromType
+export type BtcFromType = BtcAccountFromType | BtcLegacyFromType | CustodialFromType

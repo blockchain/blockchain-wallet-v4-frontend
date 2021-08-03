@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { any, curry, equals, filter, head, includes, lift, map, path, prop, toLower } from 'ramda'
+import { curry, equals, includes, lift, map, toLower } from 'ramda'
 
 import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
 import { EthRawTxType } from 'core/network/api/eth/types'
@@ -7,11 +7,9 @@ import { EthRawTxType } from 'core/network/api/eth/types'
 import {
   getDefaultAddress,
   getDefaultLabel,
-  getErc20Accounts,
   getErc20TxNote,
   getEthTxNote
 } from '../redux/kvStore/eth/selectors'
-import { getLockboxEthAccounts } from '../redux/kvStore/lockbox/selectors'
 import Remote from '../remote'
 
 //
@@ -46,28 +44,15 @@ const getType = (tx, addresses) => {
 export const getLabel = (address, state) => {
   const defaultLabelR = getDefaultLabel(state)
   const defaultAddressR = getDefaultAddress(state)
-  const lockboxEthAccountsR = getLockboxEthAccounts(state)
-  const transform = (defaultLabel, defaultAddress, lockboxEthAccounts) => {
+  const transform = (defaultLabel, defaultAddress) => {
     switch (true) {
       case equals(toLower(defaultAddress), toLower(address)):
         return defaultLabel
-      case any(
-        // @ts-ignore
-        (x) => equals(toLower(x.addr), toLower(address)),
-        lockboxEthAccounts
-      ):
-        const ethAccounts = filter(
-          // @ts-ignore
-          (x) => equals(toLower(x.addr), toLower(address)),
-          lockboxEthAccounts
-        )
-        // @ts-ignore
-        return prop('label', head(ethAccounts))
       default:
         return address
     }
   }
-  const labelR = lift(transform)(defaultLabelR, defaultAddressR, lockboxEthAccountsR)
+  const labelR = lift(transform)(defaultLabelR, defaultAddressR)
   return labelR.getOrElse(address)
 }
 

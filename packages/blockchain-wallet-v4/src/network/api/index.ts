@@ -10,7 +10,6 @@ import httpService from './http'
 import interest from './interest'
 import kvStore from './kvStore'
 import kyc from './kyc'
-import lockbox from './lockbox'
 import misc from './misc'
 import profile from './profile'
 import rates from './rates'
@@ -28,7 +27,6 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
   const bitpayUrl = options.domains.bitpay
   const everypayUrl = options.domains.everypay
   const horizonUrl = options.domains.horizon
-  const ledgerUrl = options.domains.ledger
   const nabuUrl = `${apiUrl}/nabu-gateway`
   const rootUrl = options.domains.root
 
@@ -58,7 +56,6 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
       authorizedPut: authorizedHttp.put,
       nabuUrl
     }),
-    ...lockbox({ ledgerUrl, ...http }),
     ...misc({ apiUrl, ...http }),
     ...profile({
       authorizedGet: authorizedHttp.get,

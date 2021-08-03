@@ -1,6 +1,6 @@
 import { Remote } from 'blockchain-wallet-v4/src'
 
-import { LOCKBOX, XLM } from '../../kvStore/config'
+import { XLM } from '../../kvStore/config'
 import { dataPath, kvStorePath } from '../../paths'
 import { getBalance, getContext, getTotalBalance } from './selectors'
 
@@ -48,14 +48,6 @@ const state = {
       value: {
         accounts: [{ publicKey: id1 }, { publicKey: id2 }]
       }
-    }),
-    [LOCKBOX]: Remote.of({
-      value: {
-        devices: [
-          { xlm: { accounts: [{ publicKey: id1 }, { publicKey: id2 }] } },
-          { xlm: { accounts: [{ publicKey: id1 }, { publicKey: id2 }] } }
-        ]
-      }
     })
   }
 }
@@ -77,7 +69,7 @@ describe('getTotalBalance', () => {
 })
 
 describe('getContext', () => {
-  it('should get all unique wallet and lockbox accounts', () => {
-    expect(getContext(state)).toEqual([id1, id2])
+  it('should get all unique wallets', () => {
+    expect(getContext(state)).toEqual([id1])
   })
 })

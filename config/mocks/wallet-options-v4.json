@@ -5,7 +5,6 @@
         "analyticsSiteId": 2,
         "environment": "dev",
         "announcements": {
-          "lockbox": {},
           "public": {},
           "swap": {},
           "wallet": {}
@@ -95,7 +94,6 @@
           "config": {
             "network": "bitcoin"
           },
-          "hasLockboxSupport": true,
           "learnMoreLink": "https://www.blockchain.com/learning-portal/bitcoin-faq",
           "minConfirmations": 3,
           "txExplorerBaseUrl": "https://blockchain.com/btc/tx"
@@ -120,7 +118,6 @@
           "config": {
             "network": 1
           },
-          "hasLockboxSupport": true,
           "learnMoreLink": "https://support.blockchain.com/hc/en-us/sections/360000003163-Ethereum-FAQ",
           "lastTxFuse": 600,
           "minConfirmations": 12,
@@ -144,7 +141,6 @@
           },
           "displayName": "Bitcoin Cash",
           "config": {},
-          "hasLockboxSupport": true,
           "learnMoreLink": "https://support.blockchain.com/hc/en-us/sections/115001633403-Bitcoin-Cash-FAQ",
           "minConfirmations": 3,
           "txExplorerBaseUrl": "https://blockchain.com/bch/tx"
@@ -213,7 +209,6 @@
             "GDQP2KPQGKIHYJGXNUIYOMHARUARCA7DJT5FO2FFOOKY3B2WSQHG4W37",
             "GBQ6RTEHEHXFPKSWCIM4KSVQXBANLFMVV6FJIZDLTF3ZOGFHTBDZUYDD"
           ],
-          "hasLockboxSupport": true,
           "isMemoBased": true,
           "learnMoreLink": "https://support.blockchain.com/hc/en-us/articles/360019105171-What-is-Stellar-",
           "minConfirmations": 1,
@@ -243,8 +238,6 @@
     "everypay": "https://igw-demo.every-pay.com",
     "exchange": "https://exchange.blockchain.com",
     "horizon": "https://horizon.stellar.org",
-    "ledger": "https://manager.api.live.ledger.com",
-    "ledgerSocket": "wss://api.ledgerwallet.com",
     "root": "https://blockchain.info",
     "veriff": "https://magic.veriff.me",
     "walletHelper": "https://wallet-helper.blockchain.com",

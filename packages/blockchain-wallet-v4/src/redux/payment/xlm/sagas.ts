@@ -3,13 +3,8 @@ import { call, select } from 'redux-saga/effects'
 import * as StellarSdk from 'stellar-sdk'
 
 import { convertCoinToCoin } from '../../../exchange'
-import settingsSagaFactory from '../../../redux/settings/sagas'
 import { xlm as xlmSigner } from '../../../signer'
-import {
-  isPositiveInteger,
-  isPositiveNumber,
-  isString
-} from '../../../utils/checks'
+import { isPositiveInteger, isPositiveNumber, isString } from '../../../utils/checks'
 import {
   calculateEffectiveBalance,
   calculateFee as utilsCalculateFee,
@@ -19,11 +14,11 @@ import {
   overflowsFullBalance
 } from '../../../utils/xlm'
 import * as S from '../../selectors'
+import settingsSagaFactory from '../../settings/sagas'
 import { ADDRESS_TYPES } from '../btc/utils'
 import { AddressTypesType } from '../types'
 
-const taskToPromise = t =>
-  new Promise((resolve, reject) => t.fork(reject, resolve))
+const taskToPromise = (t) => new Promise((resolve, reject) => t.fork(reject, resolve))
 
 /**
   Usage:
@@ -57,7 +52,7 @@ export const WRONG_MEMO_FORMAT = 'Bad memo'
 export default ({ api }) => {
   const settingsSagas = settingsSagaFactory({ api })
   // ///////////////////////////////////////////////////////////////////////////
-  const calculateTo = destination => {
+  const calculateTo = (destination) => {
     if (!destination.type) {
       return { address: destination, type: ADDRESS_TYPES.ADDRESS }
     }
@@ -65,30 +60,17 @@ export default ({ api }) => {
     return destination
   }
 
-  const calculateSignature = function * (
-    password,
-    transaction,
-    transport,
-    scrambleKey,
-    fromType
-  ) {
+  const calculateSignature = function* (password, transaction, transport, scrambleKey, fromType) {
     switch (fromType) {
       case ADDRESS_TYPES.ACCOUNT:
         if (!transaction) throw new Error(NO_TX_ERROR)
         const mnemonicT = yield select(S.wallet.getMnemonic, password)
         const mnemonic = yield call(() => taskToPromise(mnemonicT))
         return yield call(xlmSigner.sign, { transaction }, mnemonic)
-      case ADDRESS_TYPES.LOCKBOX:
-        return yield call(
-          xlmSigner.signWithLockbox,
-          transport,
-          transaction,
-          scrambleKey
-        )
     }
   }
 
-  const calculateFee = function * (fee, fees) {
+  const calculateFee = function* (fee, fees) {
     if (isPositiveNumber(fee)) {
       return yield call(utilsCalculateFee, fee, NUMBER_OF_OPERATIONS)
     }
@@ -102,14 +84,14 @@ export default ({ api }) => {
 
   const createOperation = (to, value, destinationAccountExists) => {
     const amount = convertCoinToCoin({
-      value,
-      coin: 'XLM'
+      coin: 'XLM',
+      value
     })
     if (destinationAccountExists)
       return StellarSdk.Operation.payment({
-        destination: to,
+        amount,
         asset: StellarSdk.Asset.native(),
-        amount
+        destination: to
       })
 
     return StellarSdk.Operation.createAccount({
@@ -118,17 +100,17 @@ export default ({ api }) => {
     })
   }
 
-  const getReserve = function * (accountId) {
+  const getReserve = function* (accountId) {
     const baseReserve = (yield select(S.data.xlm.getBaseReserve)).getOrFail(
       new Error(NO_LEDGER_ERROR)
     )
-    const entriesNumber = (yield select(
-      S.data.xlm.getNumberOfEntries(accountId)
-    )).getOrFail(new Error(NO_ACCOUNT_ERROR))
+    const entriesNumber = (yield select(S.data.xlm.getNumberOfEntries(accountId))).getOrFail(
+      new Error(NO_ACCOUNT_ERROR)
+    )
     return yield call(calculateReserve, baseReserve, entriesNumber)
   }
 
-  const getEffectiveBalance = function * (accountId, fee, reserve) {
+  const getEffectiveBalance = function* (accountId, fee, reserve) {
     const balance = (yield select(S.data.xlm.getBalance))(accountId).getOrFail(
       new Error(NO_ACCOUNT_ERROR)
     )
@@ -137,7 +119,7 @@ export default ({ api }) => {
   }
 
   // Required when *build is called more than once on a payment
-  const getAccountAndSequenceNumber = function * (account) {
+  const getAccountAndSequenceNumber = function* (account) {
     try {
       const { id } = account
       const data = yield call(api.getXlmAccount, id)
@@ -151,97 +133,17 @@ export default ({ api }) => {
   // ///////////////////////////////////////////////////////////////////////////
 
   function create({ payment } = { payment: {} }) {
-    const makePayment = p => ({
-      coin: 'XLM',
-
-      value() {
-        return p
-      },
-
-      * init() {
-        const fees = yield call(api.getXlmFees)
-        const baseFee = prop('regular', fees)
-        const fee = yield call(calculateFee, baseFee, fees)
-        return makePayment(merge(p, { fee, fees, coin: 'XLM' }))
-      },
-
-      * from(origin, type: AddressTypesType, effectiveBalance?: string) {
-        let from
-
-        if (type === 'CUSTODIAL') {
-          from = {
-            type,
-            address: origin
-          }
-
-          return makePayment(merge(p, { from, effectiveBalance }))
-        }
-        const accountId =
-          origin ||
-          (yield select(S.kvStore.xlm.getDefaultAccountId)).getOrFail(
-            new Error(NO_DEFAULT_ACCOUNT_ERROR)
-          )
-        const account = (yield select(
-          S.data.xlm.getAccount(accountId)
-        )).getOrFail(new Error(NO_ACCOUNT_ERROR))
-        const fromType = type || ADDRESS_TYPES.ACCOUNT
-
-        if (!contains(fromType, values(ADDRESS_TYPES)))
-          throw new Error(INVALID_ADDRESS_TYPE_ERROR)
-
-        from = {
-          type: fromType,
-          address: accountId,
-          account
-        }
-        const reserve = yield call(getReserve, accountId)
-        effectiveBalance = yield call(
-          getEffectiveBalance,
-          accountId,
-          p.fee,
-          reserve
-        )
-
-        return makePayment(merge(p, { from, effectiveBalance, reserve }))
-      },
-
-      to(destination) {
-        if (!destination) throw new Error(NO_DESTINATION_ERROR)
-
-        const to = calculateTo(destination)
-
-        if (!contains(to.type, values(ADDRESS_TYPES)))
-          throw new Error(INVALID_ADDRESS_TYPE_ERROR)
-        if (!isValidAddress(to.address)) throw new Error(INVALID_ADDRESS_ERROR)
-
-        return makePayment(merge(p, { to }))
-      },
-
+    const makePayment = (p) => ({
       amount(amount) {
-        if (!isPositiveInteger(Number(amount)))
-          throw new Error(INVALID_AMOUNT_ERROR)
+        if (!isPositiveInteger(Number(amount))) throw new Error(INVALID_AMOUNT_ERROR)
         if (overflowsFullBalance(amount, p.effectiveBalance, p.reserve))
           throw new Error(INSUFFICIENT_FUNDS_ERROR)
-        if (overflowsEffectiveBalance(amount, p.effectiveBalance))
-          throw new Error(RESERVE_ERROR)
+        if (overflowsEffectiveBalance(amount, p.effectiveBalance)) throw new Error(RESERVE_ERROR)
 
         return makePayment(merge(p, { amount }))
       },
 
-      * fee(value) {
-        if (p.from && p.from.type === 'CUSTODIAL') {
-          return makePayment(
-            merge(p, {
-              fee: value
-            })
-          )
-        }
-
-        const fee = yield call(calculateFee, value, prop('fees', p))
-        return makePayment(merge(p, { fee }))
-      },
-
-      * build() {
+      *build() {
         const fromData = prop('from', p)
         const to = path(['to', 'address'], p)
         const amount = prop('amount', p)
@@ -255,21 +157,14 @@ export default ({ api }) => {
         if (!to) throw new Error(NO_DESTINATION_ERROR)
         if (!amount) throw new Error(NO_AMOUNT_ERROR)
         account = yield call(getAccountAndSequenceNumber, account)
-        const timeout = (yield select(
-          S.walletOptions.getXlmSendTimeOutSeconds
-        )).getOrElse(300)
+        const timeout = (yield select(S.walletOptions.getXlmSendTimeOutSeconds)).getOrElse(300)
         const timebounds = yield call(api.getTimebounds, timeout)
         const txBuilder = new StellarSdk.TransactionBuilder(account, {
           fee,
           networkPassphrase: StellarSdk.Networks.PUBLIC, // TODO: pass in app config to detect env and thus add testnet support
           timebounds
         })
-        const operation = yield call(
-          createOperation,
-          to,
-          amount,
-          destinationAccountExists
-        )
+        const operation = yield call(createOperation, to, amount, destinationAccountExists)
         txBuilder.addOperation(operation)
         if (memo && memoType) {
           txBuilder.addMemo(StellarSdk.Memo[memoType](memo))
@@ -278,7 +173,126 @@ export default ({ api }) => {
         return makePayment(merge(p, { transaction }))
       },
 
-      * sign(password, transport, scrambleKey) {
+      coin: 'XLM',
+
+      description(message) {
+        return isString(message) ? makePayment(merge(p, { description: message })) : makePayment(p)
+      },
+
+      *fee(value) {
+        if (p.from && p.from.type === 'CUSTODIAL') {
+          return makePayment(
+            merge(p, {
+              fee: value
+            })
+          )
+        }
+
+        const fee = yield call(calculateFee, value, prop('fees', p))
+        return makePayment(merge(p, { fee }))
+      },
+
+      *from(origin, type: AddressTypesType, effectiveBalance?: string) {
+        let from
+
+        if (type === 'CUSTODIAL') {
+          from = {
+            address: origin,
+            type
+          }
+
+          return makePayment(merge(p, { effectiveBalance, from }))
+        }
+        const accountId =
+          origin ||
+          (yield select(S.kvStore.xlm.getDefaultAccountId)).getOrFail(
+            new Error(NO_DEFAULT_ACCOUNT_ERROR)
+          )
+        const account = (yield select(S.data.xlm.getAccount(accountId))).getOrFail(
+          new Error(NO_ACCOUNT_ERROR)
+        )
+        const fromType = type || ADDRESS_TYPES.ACCOUNT
+
+        if (!contains(fromType, values(ADDRESS_TYPES))) throw new Error(INVALID_ADDRESS_TYPE_ERROR)
+
+        from = {
+          account,
+          address: accountId,
+          type: fromType
+        }
+        const reserve = yield call(getReserve, accountId)
+        effectiveBalance = yield call(getEffectiveBalance, accountId, p.fee, reserve)
+
+        return makePayment(merge(p, { effectiveBalance, from, reserve }))
+      },
+
+      chain() {
+        const chain = (gen, f) =>
+          makeChain(function* () {
+            return yield f(yield gen())
+          })
+
+        const makeChain = (gen) => ({
+          amount: amount => chain(gen, payment => payment.amount(amount)),
+          init: () => chain(gen, (payment) => payment.init()),
+          fee: value => chain(gen, payment => payment.fee(value)),
+          to: address => chain(gen, payment => payment.to(address)),
+          build: () => chain(gen, (payment) => payment.build()),
+          from: (origin, type) =>
+            chain(gen, payment => payment.from(origin, type)),
+          publish: () => chain(gen, (payment) => payment.publish()),
+          description: (message) => chain(gen, (payment) => payment.description(message)),
+          sign: password => chain(gen, payment => payment.sign(password)),
+          memo: (memo) => chain(gen, (payment) => payment.memo(memo)),
+          * done() {
+            return yield gen()
+          },
+          memoType: (memoType) => chain(gen, (payment) => payment.memoType(memoType)),
+          setDestinationAccountExists: (value) =>
+            chain(gen, (payment) => payment.setDestinationAccountExists(value))
+        })
+
+        return makeChain(function* () {
+          return yield call(makePayment, p)
+        })
+      },
+
+      *init() {
+        const fees = yield call(api.getXlmFees)
+        const baseFee = prop('regular', fees)
+        const fee = yield call(calculateFee, baseFee, fees)
+        return makePayment(merge(p, { coin: 'XLM', fee, fees }))
+      },
+
+      memo(memo) {
+        if (!isString(memo)) throw new Error(WRONG_MEMO_FORMAT)
+
+        return makePayment(merge(p, { memo }))
+      },
+
+      memoType(memoType) {
+        if (!contains(memoType, MEMO_TYPES)) throw new Error(WRONG_MEMO_FORMAT)
+
+        return makePayment(merge(p, { memoType }))
+      },
+
+      *publish() {
+        const signed = prop('signed', p)
+        if (!signed) throw new Error(NO_SIGNED_ERROR)
+        const tx = yield call(api.pushXlmTx, signed)
+        yield call(settingsSagas.setLastTxTime)
+        return makePayment(merge(p, { txId: tx.hash }))
+      },
+
+      value() {
+        return p
+      },
+
+      setDestinationAccountExists(destinationAccountExists) {
+        return makePayment(merge(p, { destinationAccountExists }))
+      },
+
+      *sign(password, transport, scrambleKey) {
         try {
           const transaction = prop('transaction', p)
           const signed = yield call(
@@ -295,67 +309,16 @@ export default ({ api }) => {
         }
       },
 
-      * publish() {
-        const signed = prop('signed', p)
-        if (!signed) throw new Error(NO_SIGNED_ERROR)
-        const tx = yield call(api.pushXlmTx, signed)
-        yield call(settingsSagas.setLastTxTime)
-        return makePayment(merge(p, { txId: tx.hash }))
-      },
+      to(destination) {
+        if (!destination) throw new Error(NO_DESTINATION_ERROR)
 
-      description(message) {
-        return isString(message)
-          ? makePayment(merge(p, { description: message }))
-          : makePayment(p)
-      },
+        const to = calculateTo(destination)
 
-      memo(memo) {
-        if (!isString(memo)) throw new Error(WRONG_MEMO_FORMAT)
+        if (!contains(to.type, values(ADDRESS_TYPES)))
+          throw new Error(INVALID_ADDRESS_TYPE_ERROR)
+        if (!isValidAddress(to.address)) throw new Error(INVALID_ADDRESS_ERROR)
 
-        return makePayment(merge(p, { memo }))
-      },
-
-      memoType(memoType) {
-        if (!contains(memoType, MEMO_TYPES)) throw new Error(WRONG_MEMO_FORMAT)
-
-        return makePayment(merge(p, { memoType }))
-      },
-
-      setDestinationAccountExists(destinationAccountExists) {
-        return makePayment(merge(p, { destinationAccountExists }))
-      },
-
-      chain() {
-        const chain = (gen, f) =>
-          makeChain(function * () {
-            return yield f(yield gen())
-          })
-
-        const makeChain = gen => ({
-          init: () => chain(gen, payment => payment.init()),
-          to: address => chain(gen, payment => payment.to(address)),
-          amount: amount => chain(gen, payment => payment.amount(amount)),
-          from: (origin, type) =>
-            chain(gen, payment => payment.from(origin, type)),
-          fee: value => chain(gen, payment => payment.fee(value)),
-          build: () => chain(gen, payment => payment.build()),
-          sign: password => chain(gen, payment => payment.sign(password)),
-          publish: () => chain(gen, payment => payment.publish()),
-          description: message =>
-            chain(gen, payment => payment.description(message)),
-          memo: memo => chain(gen, payment => payment.memo(memo)),
-          memoType: memoType =>
-            chain(gen, payment => payment.memoType(memoType)),
-          setDestinationAccountExists: value =>
-            chain(gen, payment => payment.setDestinationAccountExists(value)),
-          * done() {
-            return yield gen()
-          }
-        })
-
-        return makeChain(function * () {
-          return yield call(makePayment, p)
-        })
+        return makePayment(merge(p, { to }))
       }
     })
 
@@ -363,6 +326,6 @@ export default ({ api }) => {
   }
 
   return {
-    create: create
+    create
   }
 }

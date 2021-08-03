@@ -2,7 +2,6 @@ import BigNumber from 'bignumber.js'
 import moment from 'moment'
 import {
   addIndex,
-  concat,
   dissoc,
   equals,
   filter,
@@ -36,7 +35,6 @@ import { Erc20CoinType, FetchCustodialOrdersAndTransactionsReturnType } from 'co
 import * as Exchange from '../../../exchange'
 import * as transactions from '../../../transactions'
 import * as kvStoreSelectors from '../../kvStore/eth/selectors'
-import { getLockboxEthContext } from '../../kvStore/lockbox/selectors'
 import * as selectors from '../../selectors'
 import custodialSagas from '../custodial/sagas'
 import * as A from './actions'
@@ -405,21 +403,15 @@ export default ({ api }: { api: APIType }) => {
   const __processTxs = function* (txs) {
     const accountsR = yield select(kvStoreSelectors.getAccounts)
     const erc20ContractsR = yield select(kvStoreSelectors.getErc20ContractAddrs)
-    const addresses = accountsR.getOrElse([]).map(prop('addr'))
+    const ethAddresses = accountsR.getOrElse([]).map(prop('addr'))
     const erc20Contracts = erc20ContractsR.getOrElse([])
-    const lockboxContextR = yield select(getLockboxEthContext)
-    const lockboxContext = lockboxContextR.getOrElse([])
     const state = yield select()
-    const ethAddresses = concat(addresses, lockboxContext)
     return map(transformTx(ethAddresses, erc20Contracts, state), txs)
   }
   const __processErc20Txs = function* (txs, token) {
     const accountsR = yield select(kvStoreSelectors.getAccounts)
-    const addresses = accountsR.getOrElse([]).map(prop('addr'))
-    const lockboxContextR = yield select(getLockboxEthContext)
-    const lockboxContext = lockboxContextR.getOrElse([])
+    const ethAddresses = accountsR.getOrElse([]).map(prop('addr'))
     const state = yield select()
-    const ethAddresses = concat(addresses, lockboxContext)
     return map(transformErc20Tx(ethAddresses, state, token), txs)
   }
   const __buildTransactionReportModel = function (
