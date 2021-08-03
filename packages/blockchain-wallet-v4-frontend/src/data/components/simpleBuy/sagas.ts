@@ -30,8 +30,7 @@ import {
   AddBankStepType,
   BankPartners,
   BankTransferAccountType,
-  BrokerageModalOriginType,
-  RecurringBuyPeriods 
+  BrokerageModalOriginType
 } from 'data/types'
 
 import profileSagas from '../../modules/profile/sagas'
@@ -267,6 +266,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       selectors.form.getFormValues('simpleBuyCheckout')
     )
     try {
+      yield put(actions.components.recurringBuy.fetchRegisteredList())
+
       const pair = S.getSBPair(yield select())
       if (!values) throw new Error(NO_CHECKOUT_VALS)
       if (!pair) throw new Error(NO_PAIR_SELECTED)
@@ -1048,7 +1049,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     amount,
     cryptoAmount,
     fix,
-    orderType
+    orderType,
+    period
   }: ReturnType<typeof A.initializeCheckout>) {
     try {
       yield call(waitForUserData)
@@ -1093,8 +1095,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           amount,
           cryptoAmount,
           fix,
-          period: RecurringBuyPeriods.ONE_TIME,
-          orderType
+          orderType,
+          period
         } as T.SBCheckoutFormValuesType)
       )
     } catch (e) {

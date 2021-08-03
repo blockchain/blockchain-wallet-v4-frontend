@@ -9,7 +9,9 @@ export { default as AmountSubHeader } from './Flyouts/AmountSubHeader'
 export { default as FlyoutContainer } from './Flyouts/Container'
 export { default as FlyoutContent } from './Flyouts/Content'
 export { default as FlyoutFooter } from './Flyouts/Footer'
+export { default as FrequencyScreen } from './Flyouts/FrequencyScreen'
 export { default as FlyoutHeader } from './Flyouts/Header'
+export { getPeriodSubTitleText, getPeriodTitleText } from './Flyouts/model'
 export { FontGlobalStyles, IconGlobalStyles } from './Fonts'
 export {
   AutosizeTextInput,

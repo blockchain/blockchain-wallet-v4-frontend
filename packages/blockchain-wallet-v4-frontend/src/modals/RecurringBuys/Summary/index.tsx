@@ -9,6 +9,7 @@ import {
   FlyoutContainer,
   FlyoutContent,
   FlyoutFooter,
+  getPeriodTitleText,
   Icon,
   Text
 } from 'blockchain-info-components'
@@ -20,7 +21,6 @@ import { RootState } from 'data/rootReducer'
 import { RecurringBuyPeriods } from 'data/types'
 
 import { Props as _P } from '..'
-import { getPeriodTitleText } from '../Frequency/model'
 
 const SuccessInfo = styled.div`
   display: flex;

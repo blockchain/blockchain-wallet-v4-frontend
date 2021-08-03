@@ -11,6 +11,8 @@ import {
   FlyoutContent,
   FlyoutFooter,
   FlyoutHeader,
+  getPeriodSubTitleText,
+  getPeriodTitleText,
   Link,
   Text,
   TextGroup
@@ -31,7 +33,6 @@ import { BankTransferAccountType, RecurringBuyPeriods } from 'data/types'
 
 import { displayFiat, getPaymentMethod, getPaymentMethodDetails } from '../../SimpleBuy/model'
 import { Props as _P } from '..'
-import { getPeriodSubTitleText, getPeriodTitleText } from '../Frequency/model'
 
 const Confirm = ({
   bankAccounts,
@@ -59,7 +60,7 @@ const Confirm = ({
   const cardDetails = cards.filter((card) => card.id === paymentMethodId)[0] || null
   const createRecurringBuy = useCallback(() => {
     recurringBuyActions.createRecurringBuy()
-  }, [])
+  }, [recurringBuyActions])
   return (
     <FlyoutContainer>
       <FlyoutHeader data-e2e='closeRecurringBuyModalCheckoutStep' mode='back' onClick={close}>

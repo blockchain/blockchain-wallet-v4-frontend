@@ -1254,6 +1254,7 @@ type MessagesType = {
   'modals.recurringbuys.get_started.maybe_later': 'Maybe Later'
 
   'modals.recurringbuys.recurring_buy_started': 'Recurring Buy Started!'
+  'modals.recurringbuys.select_a_frequency': 'Select a Frequency'
   'modals.recurringbuys.we_will_buy': 'We will buy {fiatAmount} of {coin} {period} at that moment’s market price. Cancel this recurring buy at anytime.'
   'modals.recurringbuys.for_each_buy': 'For each buy, you will not be able to Send or Withdraw these funds for {days} days.'
   'modals.repayloan.chooseamttorepay': 'Choose how much you want to repay'
