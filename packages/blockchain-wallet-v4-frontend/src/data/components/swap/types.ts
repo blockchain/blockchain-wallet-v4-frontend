@@ -1,6 +1,5 @@
 import {
   CoinType,
-  Erc20CoinType,
   PaymentValue,
   RemoteDataType,
   SwapOrderType,
@@ -12,21 +11,23 @@ import * as AT from './actionTypes'
 
 export type MempoolFeeType = 'regular' | 'priority'
 
+export enum SwapBaseCounterTypes {
+  ACCOUNT = 'ACCOUNT',
+  CUSTODIAL = 'CUSTODIAL'
+}
 export type SwapAccountType = {
   accountIndex?: number
-  address: number | string
-  archived: boolean
+  address?: number | string
+  archived?: boolean
   balance: number | string
-  baseCoin: Exclude<CoinType, Erc20CoinType>
+  baseCoin: string
   coin: CoinType
-  index: number
+  index?: number
   label: string
-  type: 'ACCOUNT' | 'CUSTODIAL'
+  type: SwapBaseCounterTypes
 }
 
-export type SwapAmountFormValues =
-  | { amount?: string; cryptoAmount?: string }
-  | undefined
+export type SwapAmountFormValues = { amount?: string; cryptoAmount?: string } | undefined
 
 export type InitSwapFormValuesType =
   | {
@@ -189,7 +190,7 @@ export type SwapStepPayload =
   // added these optional payloads for data science tracking
   | {
       options?: {
-        account?: 'ACCOUNT' | 'CUSTODIAL'
+        account?: SwapBaseCounterTypes
         coin?: CoinType
         side?: 'BASE' | 'COUNTER'
       }
@@ -197,7 +198,7 @@ export type SwapStepPayload =
     }
   | {
       options?: {
-        account?: 'ACCOUNT' | 'CUSTODIAL'
+        account?: SwapBaseCounterTypes
         coin?: CoinType
         side?: 'BASE' | 'COUNTER'
       }
@@ -205,9 +206,9 @@ export type SwapStepPayload =
     }
   | {
       options?: {
-        baseAccountType?: 'ACCOUNT' | 'CUSTODIAL'
+        baseAccountType?: SwapBaseCounterTypes
         baseCoin?: CoinType
-        counterAccountType?: 'ACCOUNT' | 'CUSTODIAL'
+        counterAccountType?: SwapBaseCounterTypes
         counterCoin?: CoinType
       }
       step: 'PREVIEW_SWAP'

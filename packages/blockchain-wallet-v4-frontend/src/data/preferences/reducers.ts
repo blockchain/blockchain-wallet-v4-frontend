@@ -5,10 +5,9 @@ import * as AT from './actionTypes'
 import { PreferencesActionTypes, PreferencesState } from './types'
 
 const INITIAL_STATE: PreferencesState = {
-  language: 'en',
-  culture: 'en-GB',
-  theme: 'default',
   coinDisplayed: true,
+  culture: 'en-GB',
+  language: 'en',
   priceChart: {
     coin: 'BTC',
     time: TimeRange.MONTH
@@ -21,20 +20,21 @@ const INITIAL_STATE: PreferencesState = {
       fix: 'CRYPTO'
     }
   },
-  showKycCompleted: true,
+  showAirdropClaimModal: true,
   showBackupReminder: true,
   showInterestInfoBox: true,
+  showKycCompleted: true,
   showKycGetStarted: true,
   showLockboxSoftwareDownload: true,
   showSwapBanner: true,
   showSwapUpgradeModal: true,
   showUpgradeForAirdropModal: false,
-  showAirdropClaimModal: true,
   showUpgradeForStxAirdropModal: true,
+  theme: 'default',
   totalBalancesDropdown: {
-    wallet: true,
     lockbox: false,
-    pending: false
+    pending: false,
+    wallet: true
   }
 }
 
@@ -188,6 +188,6 @@ export function preferencesReducer(
       }
     }
     default:
-      return state
+      return { ...state }
   }
 }

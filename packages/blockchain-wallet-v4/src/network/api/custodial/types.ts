@@ -2,6 +2,7 @@ import {
   AgentType,
   CoinType,
   FiatType,
+  SBPaymentTypes,
   SBTransactionStateType,
   WalletCurrencyType,
   WalletFiatType
@@ -141,5 +142,11 @@ export type PaymentMethod = {
   ineligibleReason: IneligibilityReasons
   limits: { max: string; min: string }
   subTypes: string[]
-  type: 'PAYMENT_CARD' | 'BANK_ACCOUNT'
+  type: SBPaymentTypes.PAYMENT_CARD | SBPaymentTypes.BANK_ACCOUNT
+}
+
+export type GetTransactionsHistoryType = {
+  currency: WalletCurrencyType
+  fromValue?: string
+  toValue?: string
 }

@@ -1,19 +1,15 @@
 import React, { PureComponent } from 'react'
 
-import {
-  LinkDispatchPropsType,
-  LinkStatePropsType,
-  OwnPropsType
-} from '../index'
+import { Props } from '../index'
 import WordsList from './template'
-
-type Props = OwnPropsType & LinkDispatchPropsType & LinkStatePropsType
 
 class ShowRecoveryWords extends PureComponent<Props> {
   handleNextButton = () => {
-    this.props.step === 'FIRST_SET_WORDS'
-      ? this.props.recoveryPhraseActions.setStep('SECOND_SET_WORDS')
-      : this.props.recoveryPhraseActions.setStep('CONFIRM_WORDS')
+    if (this.props.step === 'FIRST_SET_WORDS') {
+      this.props.recoveryPhraseActions.setStep('SECOND_SET_WORDS')
+    } else {
+      this.props.recoveryPhraseActions.setStep('CONFIRM_WORDS')
+    }
   }
 
   render() {

@@ -4,14 +4,11 @@ import moment from 'moment'
 import styled from 'styled-components'
 
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
+import { SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
-import {
-  getBaseAmount,
-  getBaseCurrency,
-  getOrderType
-} from 'data/components/simpleBuy/model'
+import { getBaseAmount, getBaseCurrency, getOrderType } from 'data/components/simpleBuy/model'
 
-import { Props as OwnProps, SuccessStateType } from '.'
+import { Props as _P, SuccessStateType } from '.'
 import InterestBanner from './InterestBanner'
 import { CloseContainer } from './styles'
 
@@ -60,7 +57,7 @@ const IconBackground = styled.div<{ color: string }>`
   z-index: 100;
   position: absolute;
   right: -5px;
-  background: ${props => props.theme[props.color]};
+  background: ${(props) => props.theme[props.color]};
 `
 const IconWrapper = styled.div`
   display: flex;
@@ -74,27 +71,25 @@ const TitleWrapper = styled(Text)`
 const BottomInfo = styled(Bottom)`
   text-align: center;
   a {
-    color: ${props => props.theme.blue600};
+    color: ${(props) => props.theme.blue600};
     text-decoration: none;
   }
 `
 
-const Success: React.FC<Props> = props => {
+const Success: React.FC<Props> = (props) => {
   const orderType = getOrderType(props.order)
   const baseAmount = getBaseAmount(props.order)
-  const baseCurrency = getBaseCurrency(props.order, props.supportedCoins)
+  const baseCurrency = getBaseCurrency(props.order)
   const days =
     props.withdrawLockCheck && props.withdrawLockCheck.lockTime
       ? moment.duration(props.withdrawLockCheck.lockTime, 'seconds').days()
       : 3
 
   const isPendingDeposit = props.order.state === 'PENDING_DEPOSIT'
-  const isPendingAch =
-    isPendingDeposit && props.order.paymentType === 'BANK_TRANSFER'
+  const isPendingAch = isPendingDeposit && props.order.paymentType === SBPaymentTypes.BANK_TRANSFER
   const isTransactionPending =
     isPendingDeposit &&
-    props.order.attributes?.everypay?.paymentState ===
-      'WAITING_FOR_3DS_RESPONSE'
+    props.order.attributes?.everypay?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
   const { show } = props.afterTransaction
 
   return (
@@ -108,7 +103,9 @@ const Success: React.FC<Props> = props => {
             size='20px'
             color='grey600'
             role='button'
-            onClick={props.handleClose}
+            onClick={() => {
+              props.handleClose()
+            }}
           />
         </CloseContainer>
       </FlyoutWrapper>
@@ -116,18 +113,14 @@ const Success: React.FC<Props> = props => {
         <Content>
           <IconWrapper>
             <Icon
-              color={props.supportedCoins[props.order.outputCurrency].coinCode}
-              name={props.supportedCoins[props.order.outputCurrency].coinCode}
+              color={props.order.outputCurrency}
+              name={props.order.outputCurrency}
               size='64px'
             />
 
             {props.order.state === 'FINISHED' ? (
               <IconBackground color='white'>
-                <Icon
-                  name='checkmark-circle-filled'
-                  size='24px'
-                  color='green400'
-                />
+                <Icon name='checkmark-circle-filled' size='24px' color='green400' />
               </IconBackground>
             ) : props.order.state === 'FAILED' ? (
               <IconBackground color='white'>
@@ -140,12 +133,7 @@ const Success: React.FC<Props> = props => {
             )}
           </IconWrapper>
           <TitleWrapper>
-            <Text
-              data-e2e='sbSddPurchasing'
-              size='20px'
-              weight={600}
-              color='grey800'
-            >
+            <Text data-e2e='sbSddPurchasing' size='20px' weight={600} color='grey800'>
               {isPendingAch ? (
                 <FormattedMessage
                   id='modals.simplebuy.summary.buy_started'
@@ -177,12 +165,7 @@ const Success: React.FC<Props> = props => {
               )}
             </Text>
 
-            <Text
-              size='14px'
-              weight={500}
-              color='grey600'
-              style={{ marginTop: '8px' }}
-            >
+            <Text size='14px' weight={500} color='grey600' style={{ marginTop: '8px' }}>
               {props.order.state === 'FINISHED' && (
                 <FormattedMessage
                   id='modals.simplebuy.transferdetails.available1'
@@ -209,7 +192,7 @@ const Success: React.FC<Props> = props => {
                       defaultMessage='Contact Support'
                     />
                   </Link>
-                  {'.'}
+                  .
                 </>
               )}
               {props.order.state === 'PENDING_DEPOSIT' ||
@@ -236,8 +219,8 @@ const Success: React.FC<Props> = props => {
                 nature='primary'
                 onClick={() =>
                   props.simpleBuyActions.setStep({
-                    step: '3DS_HANDLER',
-                    order: props.order
+                    order: props.order,
+                    step: '3DS_HANDLER'
                   })
                 }
               >
@@ -249,40 +232,33 @@ const Success: React.FC<Props> = props => {
             </Bottom>
           )}
 
-          {orderType === 'BUY' &&
-            props.order.paymentType === 'BANK_TRANSFER' &&
-            props.order.state !== 'FAILED' && (
-              <Bottom>
-                <Button
-                  data-e2e='sbDone'
-                  size='16px'
-                  height='48px'
-                  nature='primary'
-                  onClick={props.handleClose}
-                  style={{ marginBottom: '16px' }}
-                >
-                  <FormattedMessage id='buttons.ok' defaultMessage='OK' />
-                </Button>
-              </Bottom>
-            )}
+          {orderType === 'BUY' && props.order.state !== 'FAILED' && (
+            <Bottom>
+              <Button
+                data-e2e='sbDone'
+                size='16px'
+                height='48px'
+                nature='primary'
+                onClick={props.okButtonHandler}
+                style={{ marginBottom: '16px' }}
+              >
+                <FormattedMessage id='buttons.ok' defaultMessage='OK' />
+              </Button>
+            </Bottom>
+          )}
 
           {orderType === 'BUY' &&
-            (props.order.paymentType === 'PAYMENT_CARD' ||
-              props.order.paymentType === 'USER_CARD') && (
+            (props.order.paymentType === SBPaymentTypes.PAYMENT_CARD ||
+              props.order.paymentType === SBPaymentTypes.USER_CARD) && (
               <BottomInfo>
                 <Text color='grey600' size='14px' weight={500}>
                   <FormattedMessage
                     id='modals.simplebuy.summary.complete_card_info_main'
                     defaultMessage='For your security, first time card purchases are subject to a {days} day holding period before you can send or withdraw your purchased crypto. We will notify you when the hold is lifted.'
-                    values={{ days: days }}
+                    values={{ days }}
                   />
                 </Text>
-                <Text
-                  color='grey600'
-                  size='14px'
-                  weight={500}
-                  style={{ marginTop: '16px' }}
-                >
+                <Text color='grey600' size='14px' weight={500} style={{ marginTop: '16px' }}>
                   <span>
                     <FormattedMessage
                       id='modals.simplebuy.summary.complete_card_info_additional'
@@ -293,17 +269,14 @@ const Success: React.FC<Props> = props => {
                       rel='noopener noreferrer'
                       target='_blank'
                     >
-                      <FormattedMessage
-                        id='copy.learn_more'
-                        defaultMessage='Learn more'
-                      />
+                      <FormattedMessage id='copy.learn_more' defaultMessage='Learn more' />
                     </a>
                   </span>
                 </Text>
               </BottomInfo>
             )}
           {orderType === 'BUY' &&
-            props.order.paymentType === 'BANK_TRANSFER' &&
+            props.order.paymentType === SBPaymentTypes.BANK_TRANSFER &&
             props.order.state !== 'FAILED' &&
             !isPendingAch && (
               <BottomInfo>
@@ -311,7 +284,7 @@ const Success: React.FC<Props> = props => {
                   <FormattedMessage
                     id='modals.simplebuy.summary.ach_lock'
                     defaultMessage='Note: You will not be able to Send or Withdraw these funds from your Wallet for the next {days} days.'
-                    values={{ days: days }}
+                    values={{ days }}
                   />{' '}
                   <span>
                     <a
@@ -319,10 +292,7 @@ const Success: React.FC<Props> = props => {
                       rel='noopener noreferrer'
                       target='_blank'
                     >
-                      <FormattedMessage
-                        id='copy.learn_more'
-                        defaultMessage='Learn more'
-                      />
+                      <FormattedMessage id='copy.learn_more' defaultMessage='Learn more' />
                     </a>
                   </span>
                 </Text>
@@ -332,10 +302,10 @@ const Success: React.FC<Props> = props => {
       </ContentWrapper>
       {orderType === 'BUY' &&
         props.order.state !== 'FAILED' &&
-        (props.order.paymentType === 'PAYMENT_CARD' ||
-          props.order.paymentType === 'USER_CARD' ||
-          props.order.paymentType === 'BANK_TRANSFER' ||
-          props.order.paymentType === 'FUNDS') &&
+        (props.order.paymentType === SBPaymentTypes.PAYMENT_CARD ||
+          props.order.paymentType === SBPaymentTypes.USER_CARD ||
+          props.order.paymentType === SBPaymentTypes.BANK_TRANSFER ||
+          props.order.paymentType === SBPaymentTypes.FUNDS) &&
         show && (
           <BottomInterest>
             <InterestBanner {...props} />
@@ -345,6 +315,7 @@ const Success: React.FC<Props> = props => {
   )
 }
 
-type Props = OwnProps & SuccessStateType
+type OwnProps = { okButtonHandler: () => void }
+type Props = OwnProps & _P & SuccessStateType
 
 export default Success

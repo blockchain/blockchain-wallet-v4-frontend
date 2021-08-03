@@ -20,7 +20,7 @@ const Title = styled(Text)`
   font-size: 26px;
   b {
     font-weight: 500;
-    color: ${props => props.theme.success};
+    color: ${(props) => props.theme.success};
   }
 `
 const Message = styled(Text)`
@@ -47,10 +47,7 @@ export const Support = ({ position, total }) => (
   <Modal size='small' position={position} total={total}>
     <Body data-e2e='swapGetStarted'>
       <Title size='20px'>
-        <FormattedMessage
-          defaultMessage='Need some help?'
-          id='modals.support.need_some_help'
-        />
+        <FormattedMessage defaultMessage='Need some help?' id='copy.need_some_help' />
       </Title>
       <Message>
         <FormattedMessage
@@ -63,10 +60,7 @@ export const Support = ({ position, total }) => (
         target='_blank'
       >
         <FooterButton nature='primary' size='20px' fullwidth>
-          <FormattedMessage
-            defaultMessage='Contact Support'
-            id='buttons.contact_support'
-          />
+          <FormattedMessage defaultMessage='Contact Support' id='buttons.contact_support' />
         </FooterButton>
       </FooterLink>
       <BottomImage name='identity-verification' />
@@ -74,4 +68,4 @@ export const Support = ({ position, total }) => (
   </Modal>
 )
 
-export default modalEnhancer('Support')(Support)
+export default modalEnhancer('SUPPORT_MODAL')(Support)

@@ -72,8 +72,8 @@ class KycDocResubmit extends React.PureComponent {
         <Body>
           <Text size='14px' weight={400}>
             <FormattedMessage
-              defaultMessage="We had some issues with the documents you've supplied. Please try uploading the documents again to continue with your verification."
-              id='modals.exchange.docresubmit.body1'
+              defaultMessage='Please re-verify your identity to access our full products and services.'
+              id='scenes.home.banners.kycresubmit.copy'
             />
           </Text>
         </Body>
@@ -91,15 +91,14 @@ class KycDocResubmit extends React.PureComponent {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   closeModal: () => dispatch(actions.modals.closeModal()),
   verifyIdentity: () =>
-    dispatch(actions.components.identityVerification.verifyIdentity(2))
+    dispatch(
+      actions.components.identityVerification.verifyIdentity({ origin: 'Resubmission', tier: 2 })
+    )
 })
 
-const enhance = compose(
-  connect(null, mapDispatchToProps),
-  modalEnhancer('KYC_RESUBMIT_MODAL')
-)
+const enhance = compose(connect(null, mapDispatchToProps), modalEnhancer('KYC_RESUBMIT_MODAL'))
 
 export default enhance(KycDocResubmit)

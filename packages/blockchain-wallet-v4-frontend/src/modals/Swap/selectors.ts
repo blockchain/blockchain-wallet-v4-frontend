@@ -4,25 +4,27 @@ import { ExtractSuccess, FiatType } from 'blockchain-wallet-v4/src/types'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { selectors } from 'data'
 
-export const getData = createDeepEqualSelector(
+const getData = createDeepEqualSelector(
   [
     selectors.modules.profile.getUserData,
-    selectors.core.walletOptions.getSupportedCoins,
     selectors.core.settings.getCurrency,
-    selectors.components.swap.getFix
+    selectors.components.swap.getFix,
+    selectors.components.swap.getCustodialEligibility
   ],
-  (userDataR, coinsR, walletCurrencyR, fix) => {
+  (userDataR, walletCurrencyR, fix, custodialEligibilityR) => {
     return lift(
       (
         userData: ExtractSuccess<typeof userDataR>,
-        coins: ExtractSuccess<typeof coinsR>,
-        walletCurrency: FiatType
+        walletCurrency: FiatType,
+        custodialEligibility: ExtractSuccess<typeof custodialEligibilityR>
       ) => ({
+        custodialEligibility,
+        fix,
         userData,
-        coins,
-        walletCurrency,
-        fix
+        walletCurrency
       })
-    )(userDataR, coinsR, walletCurrencyR)
+    )(userDataR, walletCurrencyR, custodialEligibilityR)
   }
 )
+
+export default getData

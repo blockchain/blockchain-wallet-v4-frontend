@@ -7,27 +7,27 @@ import blockChainLogo from 'blockchain-info-components/src/Images/img/qr-logo.sv
 const Wrapper = styled.div`
   canvas {
     padding: 12px;
-    border: 1px solid ${props => props.theme.grey000};
+    border: 1px solid ${(props) => props.theme.grey000};
     border-radius: 6px;
     background-color: white;
   }
 `
 
 const imageSettings = {
-  src: blockChainLogo,
-  x: null,
-  y: null,
+  excavate: false,
   height: 45,
+  src: blockChainLogo,
   width: 45,
-  excavate: false
+  x: null,
+  y: null
 }
 
 const QRCodeWrapper = (props: Props) => {
   const { showImage, size, value } = props
-
   return (
     <Wrapper>
       <QRCodeReact
+        level='M'
         value={value}
         size={size}
         imageSettings={showImage ? imageSettings : null}

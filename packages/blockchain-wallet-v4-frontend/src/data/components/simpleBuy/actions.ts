@@ -13,13 +13,13 @@ import {
   SBPairType,
   SBPaymentMethodsType,
   SBPaymentMethodType,
+  SBPaymentTypes,
   SBProviderDetailsType,
   SBQuoteType,
   SDDEligibleType,
   SDDVerifiedType,
   SwapQuoteType,
-  SwapUserLimitsType,
-  WalletFiatType
+  SwapUserLimitsType
 } from 'blockchain-wallet-v4/src/types'
 import { ModalOriginType } from 'data/modals/types'
 import { BankTransferAccountType } from 'data/types'
@@ -130,7 +130,10 @@ export const cancelSBOrder = (order: SBOrderType) => ({
 })
 
 export const createSBOrder = (
-  paymentType?: Exclude<SBPaymentMethodType['type'], 'USER_CARD' | 'BANK_ACCOUNT'>,
+  paymentType?: Exclude<
+    SBPaymentMethodType['type'],
+    SBPaymentTypes.USER_CARD | SBPaymentTypes.BANK_ACCOUNT
+  >,
   paymentMethodId?: SBCardType['id'] | BankTransferAccountType['id']
 ) => ({
   paymentMethodId,
@@ -162,7 +165,8 @@ export const destroyCheckout = () => ({
   type: AT.DESTROY_CHECKOUT
 })
 
-export const handleSBMethodChange = (method: SBPaymentMethodType) => ({
+export const handleSBMethodChange = (method: SBPaymentMethodType, isFlow?: boolean) => ({
+  isFlow,
   method,
   type: AT.HANDLE_SB_METHOD_CHANGE
 })
@@ -459,7 +463,7 @@ export const fetchSellQuoteSuccess = (
   type: AT.FETCH_SELL_QUOTE_SUCCESS
 })
 
-export const handleSBDepositFiatClick = (coin: WalletFiatType, origin: ModalOriginType) => ({
+export const handleSBDepositFiatClick = (coin: string, origin: ModalOriginType) => ({
   payload: {
     coin,
     origin
@@ -467,20 +471,36 @@ export const handleSBDepositFiatClick = (coin: WalletFiatType, origin: ModalOrig
   type: AT.HANDLE_SB_DEPOSIT_FIAT_CLICK
 })
 
-export const handleSBMaxAmountClick = (amount: string, coin: 'FIAT' | CoinType) => ({
+export const handleSellMaxAmountClick = (amount: string, coin: 'FIAT' | CoinType) => ({
   payload: {
     amount,
     coin
   },
-  type: AT.HANDLE_SB_MAX_AMOUNT_CLICK
+  type: AT.HANDLE_SELL_MAX_AMOUNT_CLICK
 })
 
-export const handleSBMinAmountClick = (amount: string, coin: 'FIAT' | CoinType) => ({
+export const handleSellMinAmountClick = (amount: string, coin: 'FIAT' | CoinType) => ({
   payload: {
     amount,
     coin
   },
-  type: AT.HANDLE_SB_MIN_AMOUNT_CLICK
+  type: AT.HANDLE_SELL_MIN_AMOUNT_CLICK
+})
+
+export const handleBuyMaxAmountClick = (amount: string, coin: 'FIAT' | CoinType) => ({
+  payload: {
+    amount,
+    coin
+  },
+  type: AT.HANDLE_BUY_MAX_AMOUNT_CLICK
+})
+
+export const handleBuyMinAmountClick = (amount: string, coin: 'FIAT' | CoinType) => ({
+  payload: {
+    amount,
+    coin
+  },
+  type: AT.HANDLE_BUY_MIN_AMOUNT_CLICK
 })
 
 export const initializeBillingAddress = () => ({
@@ -619,4 +639,16 @@ export const fetchLimitsSuccess = (limits: SwapUserLimitsType): SimpleBuyActionT
 })
 export const updateSddTransactionFinished = () => ({
   type: AT.UPDATE_SDD_TRANSACTION_FINISHED
+})
+export const setBuyCrypto = (origin: string) => ({
+  payload: {
+    props: { origin }
+  },
+  type: AT.SET_BUY_CRYPTO
+})
+export const setSellCrypto = (origin: string) => ({
+  payload: {
+    props: { origin }
+  },
+  type: AT.SET_SELL_CRYPTO
 })

@@ -4,17 +4,11 @@ import { FormattedMessage } from 'react-intl'
 import { Link } from 'blockchain-info-components'
 
 export const AgeOverEighteenMessage = () => (
-  <FormattedMessage
-    id='formhelper.ageovereighteen'
-    defaultMessage='Must be 18 or older'
-  />
+  <FormattedMessage id='formhelper.ageovereighteen' defaultMessage='Must be 18 or older' />
 )
 export const InvalidBtcAddressMessage = () => (
   <div data-e2e='invalidBtcAddress'>
-    <FormattedMessage
-      id='formhelper.invalidbtcaddress'
-      defaultMessage='Invalid Bitcoin address'
-    />
+    <FormattedMessage id='formhelper.invalidbtcaddress' defaultMessage='Invalid Bitcoin address' />
   </div>
 )
 export const InvalidBchAddressMessage = () => (
@@ -44,16 +38,10 @@ export const SegwitAddressMessage = () => (
   />
 )
 export const InvalidEmailCodeMessage = () => (
-  <FormattedMessage
-    id='formhelper.invalidemailcode'
-    defaultMessage='Invalid Email Code'
-  />
+  <FormattedMessage id='formhelper.invalidemailcode' defaultMessage='Invalid Email Code' />
 )
 export const InvalidEmailMessage = () => (
-  <FormattedMessage
-    id='formhelper.invalidemail'
-    defaultMessage='Invalid email address'
-  />
+  <FormattedMessage id='formhelper.invalidemail' defaultMessage='Invalid email address' />
 )
 export const ValidEmailNotAllowed = () => 'valid_email_not_allowed'
 export const InvalidEthAddressMessage = () => (
@@ -66,35 +54,20 @@ export const InvalidEthAddressMessage = () => (
 )
 export const InvalidXlmAddressMessage = () => (
   <div data-e2e='invalidXlmAddress'>
-    <FormattedMessage
-      id='formhelper.invalidxlmaddress'
-      defaultMessage='Invalid Stellar address'
-    />
+    <FormattedMessage id='formhelper.invalidxlmaddress' defaultMessage='Invalid Stellar address' />
   </div>
 )
 export const InvalidIpListMessage = () => (
-  <FormattedMessage
-    id='formhelper.invalidiplist'
-    defaultMessage='Invalid IP list'
-  />
+  <FormattedMessage id='formhelper.invalidiplist' defaultMessage='Invalid IP list' />
 )
 export const InvalidMobileNumberMessage = () => (
-  <FormattedMessage
-    id='formhelper.invalidmobilenumber'
-    defaultMessage='Invalid mobile number'
-  />
+  <FormattedMessage id='formhelper.invalidmobilenumber' defaultMessage='Invalid mobile number' />
 )
 export const InvalidNumberMessage = () => (
-  <FormattedMessage
-    id='formhelper.invalidnumber'
-    defaultMessage='Invalid number'
-  />
+  <FormattedMessage id='formhelper.invalidnumber' defaultMessage='Invalid number' />
 )
 export const InvalidPassphraseMessage = () => (
-  <FormattedMessage
-    id='formhelper.invalidpassphrase'
-    defaultMessage='Invalid passphrase'
-  />
+  <FormattedMessage id='formhelper.invalidphrase' defaultMessage='Invalid phrase' />
 )
 export const InvalidPasswordStretchingNumberMessage = () => (
   <FormattedMessage
@@ -103,11 +76,16 @@ export const InvalidPasswordStretchingNumberMessage = () => (
   />
 )
 export const InvalidWalletIdMessage = () => (
+  <FormattedMessage id='formhelper.invalidwalletid' defaultMessage='Invalid Wallet ID' />
+)
+
+export const InvalidWalletIdorEmailMessage = () => (
   <FormattedMessage
-    id='formhelper.invalidwalletid'
-    defaultMessage='Invalid Wallet ID'
+    id='formhelper.invalidwalletidemail'
+    defaultMessage='Invalid Wallet ID or Email'
   />
 )
+
 export const PartnerCountryWhitelist = () => (
   <FormattedMessage
     id='formhelper.partnercountrywhitelist'
@@ -127,10 +105,7 @@ export const InvalidStrongPassword = () => (
   />
 )
 export const PasswordsDoNotMatch = () => (
-  <FormattedMessage
-    id='formhelper.passwordsdonotmatch'
-    defaultMessage='Passwords do not match'
-  />
+  <FormattedMessage id='formhelper.passwordsdonotmatch' defaultMessage='Passwords do not match' />
 )
 export const ExchangeRequires2FAMessage = () => (
   <>
@@ -145,18 +120,12 @@ export const ExchangeRequires2FAMessage = () => (
       size='12px'
     >
       {' '}
-      <FormattedMessage
-        id='formhelper.exchange.learnmore'
-        defaultMessage='Learn more.'
-      />
+      <FormattedMessage id='formhelper.exchange.learnmore' defaultMessage='Learn more.' />
     </Link>
   </>
 )
 export const IncorrectPassword = () => (
-  <FormattedMessage
-    id='formhelper.incorrectpassword'
-    defaultMessage='Incorrect password'
-  />
+  <FormattedMessage id='formhelper.incorrectpassword' defaultMessage='Incorrect password' />
 )
 export const SamePasswordAsCurrent = () => (
   <FormattedMessage
@@ -165,10 +134,7 @@ export const SamePasswordAsCurrent = () => (
   />
 )
 export const RequiredDOBMessage = () => (
-  <FormattedMessage
-    id='formhelper.requireddob'
-    defaultMessage='Must be a valid date'
-  />
+  <FormattedMessage id='formhelper.requireddob' defaultMessage='Must be a valid date' />
 )
 export const RequiredMessage = () => (
   <div data-e2e='requiredMessage'>
@@ -176,29 +142,17 @@ export const RequiredMessage = () => (
   </div>
 )
 export const RequiredNumberMessage = () => (
-  <FormattedMessage
-    id='formhelper.requirednumber'
-    defaultMessage='Invalid number'
-  />
+  <FormattedMessage id='formhelper.requirednumber' defaultMessage='Invalid number' />
 )
 export const RequiredSSNMessage = () => (
-  <FormattedMessage
-    id='formhelper.requiredssn'
-    defaultMessage='Must be valid SSN'
-  />
+  <FormattedMessage id='formhelper.requiredssn' defaultMessage='Must be valid SSN' />
 )
 export const RequiredUSZipCodeMessage = () => (
-  <FormattedMessage
-    id='formhelper.requireduszipcode'
-    defaultMessage='Must be a valid US Zipcode'
-  />
+  <FormattedMessage id='formhelper.requireduszipcode' defaultMessage='Must be a valid US Zipcode' />
 )
 
 export const InvalidZipCodeMessage = () => (
-  <FormattedMessage
-    id='formhelper.requiredzipcode'
-    defaultMessage='Invalid zipcode'
-  />
+  <FormattedMessage id='formhelper.requiredzipcode' defaultMessage='Invalid zipcode' />
 )
 
 export const UnacceptedTermsMessage = () => (
@@ -223,10 +177,7 @@ export const UniqueWalletName = () => (
 )
 
 export const ValueOverMaxMessage = () => (
-  <FormattedMessage
-    id='formhelper.valueovermax'
-    defaultMessage='Value is over the max'
-  />
+  <FormattedMessage id='formhelper.valueovermax' defaultMessage='Value is over the max' />
 )
 
 export const ValueIsEqualToMaxMessage = () => (

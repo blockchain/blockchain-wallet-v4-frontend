@@ -1,20 +1,11 @@
 import moment from 'moment'
 import { compose, equals, lift, prop, sortBy, tail } from 'ramda'
-import {
-  call,
-  cancel,
-  delay,
-  fork,
-  put,
-  race,
-  select,
-  spawn,
-  take
-} from 'redux-saga/effects'
+import { call, cancel, delay, fork, put, race, select, spawn, take } from 'redux-saga/effects'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import { actions, actionTypes, selectors } from 'data'
+import * as C from 'services/alerts'
 import { promptForSecondPassword } from 'services/sagas'
 
 import * as A from './actions'
@@ -30,30 +21,44 @@ export const renewUserDelay = 30000
 
 let renewSessionTask = null
 let renewUserTask = null
+let renewSession
+let recoverUser
+
 export default ({ api, coreSagas, networks }) => {
-  const waitForUserId = function * () {
-    const userId = yield select(
-      selectors.core.kvStore.userCredentials.getUserId
-    )
+  const renewApiSockets = function* () {
+    yield put(actions.middleware.webSocket.rates.stopSocket())
+    yield put(actions.middleware.webSocket.rates.startSocket())
+  }
+
+  const waitForUserId = function* () {
+    const userId = yield select(selectors.core.kvStore.userCredentials.getUserId)
     if (Remote.Success.is(userId)) return userId.getOrElse(null)
 
     yield race({
-      success: take(
-        actionTypes.core.kvStore.userCredentials
-          .FETCH_METADATA_USER_CREDENTIALS_SUCCESS
-      ),
       failure: take(
-        actionTypes.core.kvStore.userCredentials
-          .FETCH_METADATA_USER_CREDENTIALS_FAILURE
+        actionTypes.core.kvStore.userCredentials.FETCH_METADATA_USER_CREDENTIALS_FAILURE
+      ),
+      success: take(
+        actionTypes.core.kvStore.userCredentials.FETCH_METADATA_USER_CREDENTIALS_SUCCESS
       )
     })
 
-    return (yield select(
-      selectors.core.kvStore.userCredentials.getUserId
-    )).getOrElse(null)
+    return (yield select(selectors.core.kvStore.userCredentials.getUserId)).getOrElse(null)
   }
 
-  const waitForUserData = function * () {
+  const renewUser = function* (renewIn = 0) {
+    try {
+      yield delay(renewIn)
+      const user = yield call(api.getUser)
+      yield put(A.fetchUserDataSuccess(user))
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'renewUser', e))
+    } finally {
+      yield spawn(renewUser, renewUserDelay)
+    }
+  }
+
+  const waitForUserData = function* () {
     const userId = yield call(waitForUserId)
     const userData = yield select(selectors.modules.profile.getUserData)
     const apiToken = yield select(selectors.modules.profile.getApiToken)
@@ -66,17 +71,17 @@ export default ({ api, coreSagas, networks }) => {
     if (Remote.Failure.is(apiToken)) return
     // Wait for api (nabu sign in) success or failure
     yield race({
-      success: take(actionTypes.modules.profile.SET_API_TOKEN_FAILURE),
-      failure: take(actionTypes.modules.profile.SET_API_TOKEN_SUCCESS)
+      failure: take(actionTypes.modules.profile.SET_API_TOKEN_SUCCESS),
+      success: take(actionTypes.modules.profile.SET_API_TOKEN_FAILURE)
     })
     // Wait for success or failure
     return yield race({
-      success: take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS),
-      failure: take(actionTypes.modules.profile.FETCH_USER_DATA_FAILURE)
+      failure: take(actionTypes.modules.profile.FETCH_USER_DATA_FAILURE),
+      success: take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
     })
   }
 
-  const isTier2 = function * () {
+  const isTier2 = function* () {
     yield call(waitForUserData)
     const userDataR = selectors.modules.profile.getUserData(yield select())
     const userData = userDataR.getOrElse({
@@ -85,11 +90,9 @@ export default ({ api, coreSagas, networks }) => {
     return userData.tiers && userData.tiers.current >= 2
   }
 
-  const getCampaignData = function * (campaign) {
+  const getCampaignData = function* (campaign) {
     if (campaign.name === 'sunriver') {
-      const xlmAccount = (yield select(
-        selectors.core.kvStore.xlm.getDefaultAccountId
-      )).getOrFail()
+      const xlmAccount = (yield select(selectors.core.kvStore.xlm.getDefaultAccountId)).getOrFail()
       return {
         'x-campaign-address': xlmAccount,
         'x-campaign-code': campaign.code,
@@ -97,7 +100,7 @@ export default ({ api, coreSagas, networks }) => {
       }
     }
     if (campaign.name === 'BLOCKSTACK') {
-      let password = yield call(promptForSecondPassword, ['BLOCKSTACK'])
+      const password = yield call(promptForSecondPassword, ['BLOCKSTACK'])
       yield put(actions.core.data.stx.generateAddress(password))
       const { payload } = yield take(actionTypes.core.data.stx.SET_ADDRESS)
       const { address } = payload
@@ -109,261 +112,7 @@ export default ({ api, coreSagas, networks }) => {
     return null
   }
 
-  const signIn = function * () {
-    try {
-      const email = (yield select(selectors.core.settings.getEmail)).getOrFail(
-        'No email'
-      )
-      const guid = yield select(selectors.core.wallet.getGuid)
-
-      yield call(coreSagas.kvStore.userCredentials.fetchMetadataUserCredentials)
-      const userId = (yield select(
-        selectors.core.kvStore.userCredentials.getUserId
-      )).getOrElse(null)
-      const lifetimeToken = (yield select(
-        selectors.core.kvStore.userCredentials.getLifetimeToken
-      )).getOrElse(null)
-      if (!userId || !lifetimeToken) {
-        return yield put(
-          A.fetchUserDataSuccess({
-            state: USER_ACTIVATION_STATES.NONE,
-            kycState: KYC_STATES.NONE
-          })
-        )
-      }
-
-      yield put(A.setApiTokenLoading())
-      renewSessionTask = yield fork(
-        renewSession,
-        userId,
-        lifetimeToken,
-        email,
-        guid,
-        0
-      )
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'signIn', e))
-    }
-  }
-
-  const renewSession = function * (
-    userId,
-    lifetimeToken,
-    email,
-    guid,
-    renewIn = 0
-  ) {
-    try {
-      yield delay(renewIn)
-      yield call(setSession, userId, lifetimeToken, email, guid)
-    } catch (e) {
-      yield put(A.setApiTokenFailure(e))
-      yield spawn(
-        renewSession,
-        userId,
-        lifetimeToken,
-        email,
-        guid,
-        authRetryDelay
-      )
-    }
-  }
-
-  const setSession = function * (userId, lifetimeToken, email, guid) {
-    try {
-      const { expiresAt, token: apiToken } = yield call(
-        api.generateSession,
-        userId,
-        lifetimeToken,
-        email,
-        guid
-      )
-      yield put(A.setApiTokenSuccess(apiToken))
-      yield call(fetchUser)
-      yield call(renewApiSockets)
-      const expiresIn = moment(expiresAt)
-        .subtract(5, 's')
-        .diff(moment())
-      yield spawn(renewSession, userId, lifetimeToken, email, guid, expiresIn)
-    } catch (e) {
-      if (prop('description', e) === userRequiresRestoreError) {
-        return yield call(recoverUser)
-      }
-      throw e
-    }
-  }
-
-  const fetchUser = function * () {
-    try {
-      const user = yield call(api.getUser)
-      yield put(A.fetchUserDataSuccess(user))
-      yield call(fetchTiers)
-      if (!renewUserTask && user.kycState === KYC_STATES.PENDING)
-        renewUserTask = yield spawn(renewUser, renewUserDelay)
-
-      return user
-    } catch (e) {
-      if (prop('description', e) === userRequiresRestoreError) throw e
-      yield put(A.fetchUserDataFailure(e))
-      yield put(actions.logs.logErrorMessage(logLocation, 'fetchUser', e))
-    }
-  }
-
-  const renewUser = function * (renewIn = 0) {
-    try {
-      yield delay(renewIn)
-      const user = yield call(api.getUser)
-      yield put(A.fetchUserDataSuccess(user))
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'renewUser', e))
-    } finally {
-      yield spawn(renewUser, renewUserDelay)
-    }
-  }
-
-  const renewApiSockets = function * () {
-    yield put(actions.middleware.webSocket.rates.stopSocket())
-    yield put(actions.middleware.webSocket.rates.startSocket())
-  }
-
-  const clearSession = function * () {
-    if (renewSessionTask) {
-      // @ts-ignore
-      yield cancel(renewSessionTask)
-      renewSessionTask = null
-    }
-    if (renewUserTask) {
-      // @ts-ignore
-      yield cancel(renewUserTask)
-      renewUserTask = null
-    }
-
-    yield put(A.setApiTokenNotAsked())
-  }
-
-  const generateRetailToken = function * () {
-    const guid = yield select(selectors.core.wallet.getGuid)
-    const sharedKey = yield select(selectors.core.wallet.getSharedKey)
-    const { token } = yield call(api.generateRetailToken, guid, sharedKey)
-    return token
-  }
-
-  const generateAuthCredentials = function * () {
-    const retailToken = yield call(generateRetailToken)
-    const { token: lifetimeToken, userId } = yield call(
-      api.createUser,
-      retailToken
-    )
-    yield put(
-      actions.core.kvStore.userCredentials.setUserCredentials(
-        userId,
-        lifetimeToken
-      )
-    )
-    return { userId, lifetimeToken }
-  }
-
-  const recoverUser = function * () {
-    const retailToken = yield call(generateRetailToken)
-    const userId = (yield select(
-      selectors.core.kvStore.userCredentials.getUserId
-    )).getOrFail()
-    const lifetimeToken = (yield select(
-      selectors.core.kvStore.userCredentials.getLifetimeToken
-    )).getOrFail()
-    yield call(api.recoverUser, userId, lifetimeToken, retailToken)
-    const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
-    const guid = yield select(selectors.core.wallet.getGuid)
-    yield call(setSession, userId, lifetimeToken, email, guid)
-  }
-
-  const createUser = function * () {
-    const token = yield select(S.getApiToken)
-    if (!Remote.NotAsked.is(token)) return
-
-    const userIdR = yield select(
-      selectors.core.kvStore.userCredentials.getUserId
-    )
-    const lifetimeTokenR = yield select(
-      selectors.core.kvStore.userCredentials.getLifetimeToken
-    )
-    const authCredentialsR = lift((userId, lifetimeToken) => ({
-      userId,
-      lifetimeToken
-    }))(userIdR, lifetimeTokenR)
-    const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
-    const guid = yield select(selectors.core.wallet.getGuid)
-
-    const { lifetimeToken, userId } = yield authCredentialsR
-      .map(authCredentials => {
-        const { lifetimeToken, userId } = authCredentials
-        if (!userId || !lifetimeToken) return call(generateAuthCredentials)
-        return authCredentials
-      })
-      .getOrElse({} as ExtractSuccess<typeof authCredentialsR>)
-
-    yield call(setSession, userId, lifetimeToken, email, guid)
-  }
-
-  const updateUser = function * ({ payload }) {
-    const { data } = payload
-    const userR = S.getUserData(yield select())
-    const user = userR.getOrElse({
-      id: '',
-      address: undefined,
-      mobile: '',
-      mobileVerified: false,
-      state: 'NONE',
-      kycState: 'NONE'
-    } as UserDataType)
-    /* eslint-disable */
-    const {
-      id,
-      address,
-      mobile,
-      mobileVerified,
-      state,
-      kycState,
-      ...userData
-    } = user
-    /* eslint-enable */
-    const updatedData = { ...userData, ...data }
-
-    if (equals(updatedData, userData)) return user
-
-    yield call(api.updateUser, updatedData)
-    return yield call(fetchUser)
-  }
-
-  const updateUserAddress = function * ({ payload }) {
-    const { address } = payload
-    const user = (yield select(S.getUserData)).getOrElse({})
-    const { address: prevAddress } = user
-
-    if (equals(address, prevAddress)) return user
-
-    yield call(api.updateUserAddress, address)
-    return yield call(fetchUser)
-  }
-
-  const syncUserWithWallet = function * () {
-    const retailToken = yield call(generateRetailToken)
-    const userData = yield call(api.syncUserWithWallet, retailToken)
-    yield put(A.fetchUserDataSuccess(userData))
-  }
-
-  const fetchUserCampaigns = function * () {
-    try {
-      yield put(A.fetchUserCampaignsLoading())
-      yield call(waitForUserData)
-      const userCampaigns = yield call(api.getUserCampaigns)
-      yield put(A.fetchUserCampaignsSuccess(userCampaigns))
-    } catch (e) {
-      yield put(A.fetchUserCampaignsFailure(e))
-    }
-  }
-
-  const fetchTiers = function * () {
+  const fetchTiers = function* () {
     try {
       yield put(A.fetchTiersLoading())
       const tiersData = yield call(api.fetchTiers)
@@ -381,23 +130,215 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const shareWalletAddressesWithExchange = function * () {
+  const fetchUser = function* () {
+    try {
+      const user = yield call(api.getUser)
+      yield put(A.fetchUserDataSuccess(user))
+      yield call(fetchTiers)
+      if (!renewUserTask && user.kycState === KYC_STATES.PENDING)
+        renewUserTask = yield spawn(renewUser, renewUserDelay)
+
+      return user
+    } catch (e) {
+      if (prop('description', e) === userRequiresRestoreError) throw e
+      yield put(A.fetchUserDataFailure(e))
+      yield put(actions.logs.logErrorMessage(logLocation, 'fetchUser', e))
+    }
+  }
+
+  const generateRetailToken = function* () {
+    const guid = yield select(selectors.core.wallet.getGuid)
+    const sharedKey = yield select(selectors.core.wallet.getSharedKey)
+    const { token } = yield call(api.generateRetailToken, guid, sharedKey)
+    return token
+  }
+
+  const setSession = function* (userId, lifetimeToken, email, guid) {
+    try {
+      const { expiresAt, token: apiToken } = yield call(
+        api.generateSession,
+        userId,
+        lifetimeToken,
+        email,
+        guid
+      )
+      yield put(A.setApiTokenSuccess(apiToken))
+      yield call(fetchUser)
+      yield call(renewApiSockets)
+      const expiresIn = moment(expiresAt).subtract(5, 's').diff(moment())
+      yield spawn(renewSession, userId, lifetimeToken, email, guid, expiresIn)
+    } catch (e) {
+      if (prop('status', e) === 409) {
+        throw new Error(e.description)
+      }
+      throw e
+    }
+  }
+
+  renewSession = function* (userId, lifetimeToken, email, guid, renewIn = 0) {
+    try {
+      yield delay(renewIn)
+      yield call(setSession, userId, lifetimeToken, email, guid)
+    } catch (e) {
+      yield put(A.setApiTokenFailure(e))
+      if (e.message.includes('User linked to another wallet')) {
+        return yield put(
+          actions.modals.showModal(
+            'NABU_USER_CONFLICT_REDIRECT',
+            { origin: 'NabuUserAuth' },
+            { errorMessage: e.message }
+          )
+        )
+      }
+      yield spawn(renewSession, userId, lifetimeToken, email, guid, authRetryDelay)
+    }
+  }
+
+  recoverUser = function* () {
+    const retailToken = yield call(generateRetailToken)
+    const userId = (yield select(selectors.core.kvStore.userCredentials.getUserId)).getOrFail()
+    const lifetimeToken = (yield select(
+      selectors.core.kvStore.userCredentials.getLifetimeToken
+    )).getOrFail()
+    yield call(api.recoverUser, userId, lifetimeToken, retailToken)
+    const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
+    const guid = yield select(selectors.core.wallet.getGuid)
+    yield call(setSession, userId, lifetimeToken, email, guid)
+  }
+
+  const signIn = function* () {
+    try {
+      const email = (yield select(selectors.core.settings.getEmail)).getOrFail('No email')
+      const guid = yield select(selectors.core.wallet.getGuid)
+      yield call(coreSagas.kvStore.userCredentials.fetchMetadataUserCredentials)
+      const userId = (yield select(selectors.core.kvStore.userCredentials.getUserId)).getOrElse(
+        null
+      )
+      const lifetimeToken = (yield select(
+        selectors.core.kvStore.userCredentials.getLifetimeToken
+      )).getOrElse(null)
+      if (!userId || !lifetimeToken) {
+        return yield put(
+          A.fetchUserDataSuccess({
+            kycState: KYC_STATES.NONE,
+            state: USER_ACTIVATION_STATES.NONE
+          })
+        )
+      }
+      yield put(A.setApiTokenLoading())
+
+      renewSessionTask = yield fork(renewSession, userId, lifetimeToken, email, guid, 0)
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'signIn', e))
+    }
+  }
+
+  const fetchUserCampaigns = function* () {
+    try {
+      yield put(A.fetchUserCampaignsLoading())
+      yield call(waitForUserData)
+      const userCampaigns = yield call(api.getUserCampaigns)
+      yield put(A.fetchUserCampaignsSuccess(userCampaigns))
+    } catch (e) {
+      yield put(A.fetchUserCampaignsFailure(e))
+    }
+  }
+
+  const clearSession = function* () {
+    if (renewSessionTask) {
+      // @ts-ignore
+      yield cancel(renewSessionTask)
+      renewSessionTask = null
+    }
+    if (renewUserTask) {
+      // @ts-ignore
+      yield cancel(renewUserTask)
+      renewUserTask = null
+    }
+
+    yield put(A.setApiTokenNotAsked())
+  }
+
+  const generateAuthCredentials = function* () {
+    const retailToken = yield call(generateRetailToken)
+    const { token: lifetimeToken, userId } = yield call(api.createUser, retailToken)
+    yield put(actions.core.kvStore.userCredentials.setUserCredentials(userId, lifetimeToken))
+    return { lifetimeToken, userId }
+  }
+
+  const createUser = function* () {
+    const token = yield select(S.getApiToken)
+    if (!Remote.NotAsked.is(token)) return
+
+    const userIdR = yield select(selectors.core.kvStore.userCredentials.getUserId)
+    const lifetimeTokenR = yield select(selectors.core.kvStore.userCredentials.getLifetimeToken)
+    const authCredentialsR = lift((userId, lifetimeToken) => ({
+      lifetimeToken,
+      userId
+    }))(userIdR, lifetimeTokenR)
+    const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
+    const guid = yield select(selectors.core.wallet.getGuid)
+
+    const { lifetimeToken, userId } = yield authCredentialsR
+      .map((authCredentials) => {
+        const { lifetimeToken, userId } = authCredentials
+        if (!userId || !lifetimeToken) return call(generateAuthCredentials)
+        return authCredentials
+      })
+      .getOrElse({} as ExtractSuccess<typeof authCredentialsR>)
+
+    yield call(setSession, userId, lifetimeToken, email, guid)
+  }
+
+  const updateUser = function* ({ payload }) {
+    const { data } = payload
+    const userR = S.getUserData(yield select())
+    const user = userR.getOrElse({
+      address: undefined,
+      id: '',
+      kycState: 'NONE',
+      mobile: '',
+      mobileVerified: false,
+      state: 'NONE'
+    } as UserDataType)
+    /* eslint-disable */
+    const { id, address, mobile, mobileVerified, state, kycState, ...userData } = user
+    /* eslint-enable */
+    const updatedData = { ...userData, ...data }
+
+    if (equals(updatedData, userData)) return user
+
+    yield call(api.updateUser, updatedData)
+    return yield call(fetchUser)
+  }
+
+  const updateUserAddress = function* ({ payload }) {
+    const { address } = payload
+    const user = (yield select(S.getUserData)).getOrElse({})
+    const { address: prevAddress } = user
+
+    if (equals(address, prevAddress)) return user
+
+    yield call(api.updateUserAddress, address)
+    return yield call(fetchUser)
+  }
+
+  const syncUserWithWallet = function* () {
+    const retailToken = yield call(generateRetailToken)
+    const userData = yield call(api.syncUserWithWallet, retailToken)
+    yield put(A.fetchUserDataSuccess(userData))
+  }
+
+  const shareWalletAddressesWithExchange = function* () {
     try {
       yield put(A.shareWalletAddressesWithExchangeLoading())
       const state = yield select()
       const remainingCoins = S.getRemainingCoins(state)
-      const walletAddresses = (yield select(S.getWalletAddresses)).getOrFail(
-        'no_deposit_addresses'
-      )
+      const walletAddresses = (yield select(S.getWalletAddresses)).getOrFail('no_deposit_addresses')
       // BTC
-      const defaultAccountIndex = yield select(
-        selectors.core.wallet.getDefaultAccountIndex
-      )
+      const defaultAccountIndex = yield select(selectors.core.wallet.getDefaultAccountIndex)
       const defaultDerivation = yield select(
-        selectors.core.common.btc.getAccountDefaultDerivation(
-          defaultAccountIndex,
-          state
-        )
+        selectors.core.common.btc.getAccountDefaultDerivation(defaultAccountIndex, state)
       )
       const BTC = selectors.core.common.btc.getNextAvailableReceiveAddress(
         networks.btc,
@@ -413,31 +354,27 @@ export default ({ api, coreSagas, networks }) => {
       const ETH = selectors.core.kvStore.eth.getContext
       // XLM
       const XLM = selectors.core.kvStore.xlm.getDefaultAccountId
-      const addressSelectors = { BTC, BCH, ETH, XLM, PAX: ETH, USDT: ETH }
+      const addressSelectors = { BCH, BTC, ETH, PAX: ETH, USDT: ETH, XLM }
       const remainingAddresses = remainingCoins.reduce((res, coin) => {
         res[coin] = addressSelectors[coin](state).getOrElse(null)
         return res
       }, walletAddresses)
-      const data = yield call(
-        api.shareWalletDepositAddresses,
-        remainingAddresses
-      )
+      const data = yield call(api.shareWalletDepositAddresses, remainingAddresses)
       yield put(A.shareWalletAddressesWithExchangeSuccess(data))
     } catch (e) {
       yield put(A.shareWalletAddressesWithExchangeFailure(e))
     }
   }
 
-  const linkFromExchangeAccount = function * ({ payload }) {
+  const linkFromExchangeAccount = function* ({ payload }) {
     try {
       const { address, email, linkId } = payload
       yield put(A.linkFromExchangeAccountLoading())
       // ensure email is verified else wait
-      const isEmailVerified = (yield select(
-        selectors.core.settings.getEmailVerified
-      )).getOrElse(true)
-      if (!isEmailVerified)
-        yield take(actionTypes.core.settings.SET_EMAIL_VERIFIED)
+      const isEmailVerified = (yield select(selectors.core.settings.getEmailVerified)).getOrElse(
+        true
+      )
+      if (!isEmailVerified) yield take(actionTypes.core.settings.SET_EMAIL_VERIFIED)
       // get or create user
       const isUserStateNone = (yield select(S.isUserStateNone)).getOrElse(false)
       if (isUserStateNone) yield call(createUser)
@@ -455,31 +392,49 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const linkToExchangeAccount = function * ({ payload }) {
+  const pollForAccountLinkSuccess = function* (attemptCount) {
+    try {
+      // check every 10 seconds
+      yield delay(10000)
+      /* eslint-disable */
+      attemptCount++
+      /* eslint-disable */
+      // if 5 minutes has passed, cancel poll and mark as timeout
+      if (equals(30, attemptCount)) {
+        yield put(A.linkToExchangeAccountFailure('Timeout waiting for account connection status.'))
+        return
+      }
+      yield call(fetchUser)
+      const isExchangeAccountLinked = (yield select(S.isExchangeAccountLinked)).getOrElse(false)
+      if (isExchangeAccountLinked) {
+        yield put(A.linkToExchangeAccountSuccess())
+      } else {
+        yield call(pollForAccountLinkSuccess, attemptCount)
+      }
+    } catch (e) {
+      yield put(A.linkToExchangeAccountFailure('Unable to check current account status.'))
+    }
+  }
+
+  const linkToExchangeAccount = function* ({ payload }) {
     try {
       const { utmCampaign } = payload
       yield put(A.linkToExchangeAccountLoading())
 
       // check if wallet is already linked
-      const isExchangeAccountLinked = (yield select(
-        S.isExchangeAccountLinked
-      )).getOrFail()
+      const isExchangeAccountLinked = (yield select(S.isExchangeAccountLinked)).getOrFail()
       if (isExchangeAccountLinked) {
         throw new Error('Account has already been linked.')
       }
 
       // ensure email address is verified
-      const isEmailVerified = (yield select(
-        selectors.core.settings.getEmailVerified
-      )).getOrFail()
+      const isEmailVerified = (yield select(selectors.core.settings.getEmailVerified)).getOrFail()
       if (!isEmailVerified) {
         throw new Error('Email address is not verified.')
       }
 
       // check if wallet relink should be attempted
-      const isRelinkAttempt = (yield select(
-        S.isExchangeRelinkRequired
-      )).getOrFail()
+      const isRelinkAttempt = (yield select(S.isExchangeRelinkRequired)).getOrFail()
 
       if (isRelinkAttempt) {
         yield put(A.shareWalletAddressesWithExchange())
@@ -489,19 +444,16 @@ export default ({ api, coreSagas, networks }) => {
         const isUserStateNone = (yield select(S.isUserStateNone)).getOrFail()
         if (isUserStateNone) yield call(createUser)
         // get exchange linkId, exchange domain and user email
-        const domains = (yield select(
-          selectors.core.walletOptions.getDomains
-        )).getOrFail()
+        const domains = (yield select(selectors.core.walletOptions.getDomains)).getOrFail()
         const exchangeDomain = prop('exchange', domains)
         const data = yield call(api.createLinkAccountId)
         const exchangeLinkId = prop('linkId', data)
-        const email = (yield select(
-          selectors.core.settings.getEmail
-        )).getOrFail()
+        const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
         const accountDeeplinkUrl = `${exchangeDomain}/trade/link/${exchangeLinkId}?email=${encodeURIComponent(
           email
-        )}&utm_source=web_wallet&utm_medium=referral&utm_campaign=${utmCampaign ||
-          'wallet_exchange_page'}`
+        )}&utm_source=web_wallet&utm_medium=referral&utm_campaign=${
+          utmCampaign || 'wallet_exchange_page'
+        }`
         // share addresses
         yield put(A.shareWalletAddressesWithExchange())
         // simulate wait while allowing user to read modal
@@ -521,38 +473,6 @@ export default ({ api, coreSagas, networks }) => {
       }
     } catch (e) {
       yield put(A.linkToExchangeAccountFailure(e.message))
-    }
-  }
-
-  const pollForAccountLinkSuccess = function * (attemptCount) {
-    try {
-      // check every 10 seconds
-      yield delay(10000)
-      attemptCount++
-      // if 5 minutes has passed, cancel poll and mark as timeout
-      if (equals(30, attemptCount)) {
-        yield put(
-          A.linkToExchangeAccountFailure(
-            'Timeout waiting for account connection status.'
-          )
-        )
-        return
-      }
-      yield call(fetchUser)
-      const isExchangeAccountLinked = (yield select(
-        S.isExchangeAccountLinked
-      )).getOrElse(false)
-      if (isExchangeAccountLinked) {
-        yield put(A.linkToExchangeAccountSuccess())
-      } else {
-        yield call(pollForAccountLinkSuccess, attemptCount)
-      }
-    } catch (e) {
-      yield put(
-        A.linkToExchangeAccountFailure(
-          'Unable to check current account status.'
-        )
-      )
     }
   }
 

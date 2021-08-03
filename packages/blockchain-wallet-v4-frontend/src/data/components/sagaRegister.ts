@@ -1,13 +1,12 @@
 import { fork } from 'redux-saga/effects'
 
-import algoTransactions from './algoTransactions/sagaRegister'
 import bchTransactions from './bchTransactions/sagaRegister'
-import borrow from './borrow/sagaRegister'
 import brokerage from './brokerage/sagaRegister'
 import btcTransactions from './btcTransactions/sagaRegister'
-import dotTransactions from './dotTransactions/sagaRegister'
+import coinTransactions from './coinTransactions/sagaRegister'
 import ethTransactions from './ethTransactions/sagaRegister'
 import fiatTransactions from './fiatTransactions/sagaRegister'
+import fundRecovery from './fundRecovery/sagaRegister'
 import identityVerification from './identityVerification/sagaRegister'
 import importBtcAddress from './importBtcAddress/sagaRegister'
 import interest from './interest/sagaRegister'
@@ -16,8 +15,8 @@ import manageAddresses from './manageAddresses/sagaRegister'
 import onboarding from './onboarding/sagaRegister'
 import priceChart from './priceChart/sagaRegister'
 import priceTicker from './priceTicker/sagaRegister'
+import recurringBuy from './recurringBuy/sagaRegister'
 import refresh from './refresh/sagaRegister'
-import remindWalletGuid from './remindWalletGuid/sagaRegister'
 import request from './request/sagaRegister'
 import resetWallet2fa from './resetWallet2fa/sagaRegister'
 import send from './send/sagaRegister'
@@ -36,15 +35,14 @@ import xlmTransactions from './xlmTransactions/sagaRegister'
 
 export default ({ api, coreSagas, networks }) =>
   function* componentsSaga() {
-    yield fork(algoTransactions())
-    yield fork(borrow({ api, coreSagas, networks }))
     yield fork(brokerage({ api, coreSagas, networks }))
     yield fork(bchTransactions())
     yield fork(btcTransactions())
-    yield fork(dotTransactions())
+    yield fork(coinTransactions())
     yield fork(ethTransactions())
     yield fork(xlmTransactions())
     yield fork(fiatTransactions())
+    yield fork(fundRecovery({ api }))
     yield fork(identityVerification({ api, coreSagas }))
     yield fork(interest({ api, coreSagas, networks }))
     yield fork(lockbox({ api, coreSagas }))
@@ -55,7 +53,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(priceTicker({ coreSagas }))
     yield fork(refresh())
     yield fork(request({ api, coreSagas, networks }))
-    yield fork(remindWalletGuid({ api }))
+    yield fork(recurringBuy({ api }))
     yield fork(resetWallet2fa({ api }))
     yield fork(send({ api, coreSagas, networks }))
     yield fork(sendBch({ api, coreSagas, networks }))

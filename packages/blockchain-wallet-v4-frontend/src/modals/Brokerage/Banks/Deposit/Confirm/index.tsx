@@ -3,7 +3,6 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 import { getFormValues } from 'redux-form'
 
-import { SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -16,9 +15,6 @@ const DepositMethods = (props: Props) => {
 const mapStateToProps = (state: RootState) => ({
   defaultMethod: selectors.components.brokerage.getAccount(state),
   fiatCurrency: selectors.core.settings.getCurrency(state),
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrElse({} as SupportedWalletCurrenciesType),
   formValues: getFormValues('brokerageTx')(state)
 })
 

@@ -1,8 +1,11 @@
 import React, { ComponentType } from 'react'
+import { connect } from 'react-redux'
 import { Route } from 'react-router-dom'
+import { formValueSelector } from 'redux-form'
 import styled, { css } from 'styled-components'
 
 import Alerts from 'components/Alerts'
+import { LoginSteps } from 'data/types'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { media } from 'services/styles'
 
@@ -25,7 +28,7 @@ const FooterContainer = styled.div`
 `
 
 const Wrapper = styled.div`
-  background-color: ${props => props.theme.grey900};
+  background-color: ${(props) => props.theme.grey900};
   height: auto;
   min-height: 100%;
   width: 100%;
@@ -54,25 +57,21 @@ const ContentContainer = styled.div<{ isLogin?: boolean }>`
   box-sizing: border-box;
   margin: 0 16px;
 
-  ${props =>
+  ${(props) =>
     props.isLogin &&
     css`
-      margin-top: 80px;
+      margin-top: 40px;
     `}
 `
 
-const PublicLayoutContainer = ({
-  component: Component,
-  exact = false,
-  path
-}: Props) => {
+const PublicLayoutContainer = ({ component: Component, exact = false, loginStep, path }: Props) => {
   const isLogin = path === '/login'
-
+  const isFirstLoginStep = isLogin && loginStep === LoginSteps.ENTER_EMAIL_GUID
   return (
     <Route
       path={path}
       exact={exact}
-      render={matchProps => (
+      render={(matchProps) => (
         <ErrorBoundary>
           <Wrapper>
             {/* TODO: STILL NEEDS DEV/QA */}
@@ -89,7 +88,7 @@ const PublicLayoutContainer = ({
             </ContentContainer>
 
             <FooterContainer>
-              <Footer isLogin={isLogin} />
+              <Footer isLogin={isFirstLoginStep} />
             </FooterContainer>
           </Wrapper>
         </ErrorBoundary>
@@ -101,7 +100,14 @@ const PublicLayoutContainer = ({
 type Props = {
   component: ComponentType<any>
   exact?: boolean
+  loginStep: LoginSteps
   path: string
 }
 
-export default PublicLayoutContainer
+const mapStateToProps = (state) => ({
+  loginStep: formValueSelector('login')(state, 'step')
+})
+
+const connector = connect(mapStateToProps)
+
+export default connector(PublicLayoutContainer)

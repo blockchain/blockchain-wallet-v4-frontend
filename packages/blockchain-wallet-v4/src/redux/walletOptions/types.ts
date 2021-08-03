@@ -3,6 +3,21 @@ import { CoinType, RemoteDataType, WalletFiatType } from '../../types'
 
 export type WalletOptionsType = typeof WalletOptions
 
+export type CoinfigType = {
+  name: string
+  precision: number
+  products: string[]
+  symbol: string
+  type: {
+    erc20Address?: string
+    isFiat?: boolean
+    logoPngUrl: string
+    name: string
+    parentChain: string
+    websiteUrl: string
+  }
+}
+
 export type SupportedCoinType = {
   availability: {
     exchangeFrom: boolean
@@ -14,6 +29,7 @@ export type SupportedCoinType = {
   }
   coinCode: CoinType
   coinTicker: CoinType
+  coinfig: CoinfigType
   config: {
     network: string
   }
@@ -21,12 +37,12 @@ export type SupportedCoinType = {
   displayName: string
   hasLockboxSupport: boolean
   invited?: boolean
+  isFiat?: boolean
   isMemoBased?: boolean
   learnMoreLink: string
   method?: boolean
   minConfirmations: number
   txExplorerBaseUrl: string
-  txListAppRoute: string
 }
 
 export type SupportedFiatType = {
@@ -38,13 +54,15 @@ export type SupportedFiatType = {
   }
   coinCode: WalletFiatType
   coinTicker: WalletFiatType
-  displayName: 'Euros' | 'Pounds'
+  coinfig: CoinfigType
+  contractAddress?: never
+  displayName: string
   invited?: boolean
+  isFiat?: boolean
   learnMoreLink: ''
   method?: boolean
   minConfirmations: 0
-  txExplorerBaseUrl: ''
-  txListAppRoute: string
+  txExploreBaseUrl: ''
 }
 
 export type SupportedWalletCurrenciesType = {
@@ -52,6 +70,9 @@ export type SupportedWalletCurrenciesType = {
 } &
   {
     [key in WalletFiatType]: SupportedFiatType
+  } &
+  {
+    [key in string]: SupportedCoinType
   }
 
 export type SupportedWalletCurrencyType = SupportedCoinType | SupportedFiatType

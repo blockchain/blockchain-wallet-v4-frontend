@@ -1,20 +1,20 @@
 export default {
+  base: 'CENT',
   code: 'AUD',
   displayName: 'Australian Dollar',
-  base: 'CENT',
   trade: 'AUD',
   units: {
-    CENT: {
-      rate: '1',
-      symbol: '¢AU$',
-      decimal_digits: 0,
-      currency: 'AUD'
-    },
     AUD: {
+      currency: 'AUD',
+      decimal_digits: 2,
       rate: '100',
       symbol: 'AU$',
-      decimal_digits: 2,
-      currency: 'AUD'
-    }
-  }
+    },
+    CENT: {
+      currency: 'AUD',
+      decimal_digits: 0,
+      rate: '1',
+      symbol: '¢AU$',
+    },
+  },
 }

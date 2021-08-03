@@ -54,10 +54,12 @@
     "transform": {
       "^.+\\.jsx?$": "babel-jest",
       "^.+\\.tsx?$": "ts-jest"
-    }
+    },
+    "testEnvironment": "jsdom"
   },
   "dependencies": {
     "@babel/polyfill": "7.12.1",
+    "@storybook/cli": "6.2.9",
     "polished": "4.1.1",
     "prop-types": "15.7.2",
     "ramda": "0.26.1",

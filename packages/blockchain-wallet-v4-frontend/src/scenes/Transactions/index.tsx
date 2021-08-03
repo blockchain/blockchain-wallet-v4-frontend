@@ -9,21 +9,17 @@ import styled from 'styled-components'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import {
   CoinType,
-  CoinTypeEnum,
   FiatType,
-  FiatTypeEnum,
   OrderType,
-  SupportedFiatType,
   SupportedWalletCurrencyType,
   TimeRange,
   WalletCurrencyType,
-  WalletFiatEnum,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
 import EmptyResults from 'components/EmptyResults'
 import { SceneWrapper } from 'components/Layout'
 import LazyLoadContainer from 'components/LazyLoadContainer'
-import { actions, model } from 'data'
+import { actions, model, selectors } from 'data'
 import { getIntroductionText } from 'data/coins/selectors'
 import { media } from 'services/styles'
 
@@ -95,7 +91,7 @@ const ExplainerText = styled(Text)`
   margin-top: 15px;
   font-size: 16px;
   font-weight: 500;
-  color: ${props => props.theme.grey600};
+  color: ${(props) => props.theme.grey600};
 `
 const LearnMoreLink = styled(Link)`
   display: inline-flex;
@@ -105,7 +101,7 @@ const LearnMoreText = styled(Text)`
   margin-left: 3px;
   size: 16px;
   font-weight: 500;
-  color: ${props => props.theme.blue600};
+  color: ${(props) => props.theme.blue600};
 `
 
 class TransactionsContainer extends React.PureComponent<Props> {
@@ -120,10 +116,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
   }
 
   componentDidUpdate(prevProps) {
-    if (
-      path(['location', 'pathname'], prevProps) !==
-      path(['location', 'pathname'], this.props)
-    ) {
+    if (path(['location', 'pathname'], prevProps) !== path(['location', 'pathname'], this.props)) {
       this.props.initTxs()
     }
   }
@@ -133,25 +126,23 @@ class TransactionsContainer extends React.PureComponent<Props> {
     this.props.initTxs()
   }
 
-  handleArchive = address => {
+  handleArchive = (address) => {
     // @ts-ignore
-    this.props.setAddressArchived && this.props.setAddressArchived(address)
+    if (this.props.setAddressArchived) this.props.setAddressArchived(address)
   }
 
   render() {
     const {
       coin,
-      coinModel,
       currency,
       hasTxResults,
-      isCoinErc20,
       isInvited,
       isSearchEntered,
       loadMoreTxs,
       pages,
       sourceType
     } = this.props
-    const { coinCode, coinTicker, displayName } = coinModel
+    const { coinfig } = window.coins[coin]
 
     return (
       <SceneWrapper>
@@ -159,13 +150,17 @@ class TransactionsContainer extends React.PureComponent<Props> {
           <Header>
             <PageTitle>
               <CoinTitle>
-                <Icon size='36px' color={coinCode} name={coinCode} />
+                <Icon
+                  size='36px'
+                  color={coinfig.symbol as CoinType}
+                  name={coinfig.symbol as CoinType}
+                />
                 <Text color='grey800' size='32px' weight={600}>
-                  {displayName}
+                  {coinfig.name}
                 </Text>
               </CoinTitle>
               <TitleActionContainer>
-                {coin in CoinTypeEnum && (
+                {!coinfig.type.isFiat && (
                   <>
                     <Button
                       nature='primary'
@@ -180,10 +175,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                         )
                       }}
                     >
-                      <FormattedMessage
-                        id='buttons.sell'
-                        defaultMessage='Sell'
-                      />
+                      <FormattedMessage id='buttons.sell' defaultMessage='Sell' />
                     </Button>
                     <Button
                       nature='primary'
@@ -201,9 +193,9 @@ class TransactionsContainer extends React.PureComponent<Props> {
                     </Button>
                   </>
                 )}
-                {coin in WalletFiatEnum && (
+                {coinfig.type.isFiat && (
                   <>
-                    {(coinModel as SupportedFiatType).availability.deposit && (
+                    {window.coins[coin].coinfig.type.isFiat && (
                       <Button
                         nature='primary'
                         data-e2e='depositFiat'
@@ -223,29 +215,20 @@ class TransactionsContainer extends React.PureComponent<Props> {
                           }
                         }}
                       >
-                        <FormattedMessage
-                          id='buttons.deposit'
-                          defaultMessage='Deposit'
-                        />
+                        <FormattedMessage id='buttons.deposit' defaultMessage='Deposit' />
                       </Button>
                     )}
-                    {(coinModel as SupportedFiatType).availability
-                      .withdrawal && (
+                    {window.coins[coin].coinfig.type.isFiat && (
                       <Button
                         nature='primary'
                         data-e2e='withdrawFiat'
-                        style={{ minWidth: 'auto', marginLeft: '8px' }}
+                        style={{ marginLeft: '8px', minWidth: 'auto' }}
                         onClick={() => {
-                          if (!this.props.withdrawActions) return
-                          this.props.withdrawActions.showModal(
-                            coin as WalletFiatType
-                          )
+                          if (!this.props.brokerageActions) return
+                          this.props.brokerageActions.handleWithdrawClick(coin as WalletFiatType)
                         }}
                       >
-                        <FormattedMessage
-                          id='buttons.withdraw'
-                          defaultMessage='Withdraw'
-                        />
+                        <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />
                       </Button>
                     )}
                   </>
@@ -253,32 +236,14 @@ class TransactionsContainer extends React.PureComponent<Props> {
               </TitleActionContainer>
             </PageTitle>
             <ExplainerWrapper>
-              <ExplainerText>
-                {getIntroductionText(coin)}
-                {!(coin in FiatTypeEnum) && (
-                  <LearnMoreLink href={coinModel.learnMoreLink} target='_blank'>
-                    <LearnMoreText size='16px'>
-                      <FormattedMessage
-                        id='buttons.learn_more'
-                        defaultMessage='Learn More'
-                      />
-                    </LearnMoreText>
-                  </LearnMoreLink>
-                )}
-              </ExplainerText>
+              <ExplainerText>{getIntroductionText(coin)}</ExplainerText>
             </ExplainerWrapper>
             <StatsContainer>
-              <WalletBalanceDropdown
-                coin={coin}
-                coinModel={coinModel}
-                isCoinErc20={isCoinErc20}
-              />
-              {coin in CoinTypeEnum && (
-                <CoinPerformance coin={coin} coinModel={coinModel} />
-              )}
+              <WalletBalanceDropdown coin={coin} />
+              {!coinfig.type.isFiat && <CoinPerformance coin={coin} />}
             </StatsContainer>
           </Header>
-          {(hasTxResults || isSearchEntered) && coin in CoinTypeEnum && (
+          {(hasTxResults || isSearchEntered) && !coinfig.type.isFiat && (
             <TransactionFilters coin={coin as CoinType} />
           )}
           {!hasTxResults && isSearchEntered && (
@@ -291,18 +256,16 @@ class TransactionsContainer extends React.PureComponent<Props> {
               <CoinIntroduction coin={coin as CoinType} />
             </SceneWrapper>
           )}
-          {hasTxResults && sourceType && sourceType === 'INTEREST' && (
-            <InterestTransactions />
-          )}
+          {hasTxResults && sourceType && sourceType === 'INTEREST' && <InterestTransactions />}
           {hasTxResults &&
             (!sourceType || sourceType !== 'INTEREST') &&
-            pages.map((value, index) => (
+            pages.map((value) => (
               <TransactionList
                 coin={coin}
-                coinTicker={coinTicker}
+                coinTicker={coinfig.symbol}
                 currency={currency}
                 data={value}
-                key={index}
+                key={coinfig.symbol}
                 onArchive={this.handleArchive}
                 onLoadMore={loadMoreTxs}
                 onRefresh={this.handleRefresh}
@@ -315,55 +278,50 @@ class TransactionsContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state, ownProps): LinkStatePropsType =>
-  // @ts-ignore
-  getData(state, ownProps.coin, ownProps.isCoinErc20, ownProps.isFiat)
+const mapStateToProps = (state, ownProps: OwnProps): LinkStatePropsType =>
+  getData(state, ownProps.coin, ownProps.coinfig)
 
-const mapDispatchToProps = (dispatch: Dispatch, ownProps) => {
-  const { coin, isCoinErc20 } = ownProps
+const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
+  const { coin, coinfig } = ownProps
   const baseActions = {
-    brokerageActions: bindActionCreators(
-      actions.components.brokerage,
-      dispatch
-    ),
+    brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
     miscActions: bindActionCreators(actions.core.data.misc, dispatch),
-    simpleBuyActions: bindActionCreators(
-      actions.components.simpleBuy,
-      dispatch
-    ),
+    simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
     withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
   }
-  if (isCoinErc20) {
+  if (coinfig.type.erc20Address) {
     return {
       ...baseActions,
       fetchData: () => dispatch(actions.core.data.eth.fetchErc20Data(coin)),
-      initTxs: () =>
-        dispatch(actions.components.ethTransactions.initializedErc20(coin)),
-      loadMoreTxs: () =>
-        dispatch(actions.components.ethTransactions.loadMoreErc20(coin))
+      initTxs: () => dispatch(actions.components.ethTransactions.initializedErc20(coin)),
+      loadMoreTxs: () => dispatch(actions.components.ethTransactions.loadMoreErc20(coin))
     }
   }
-  if (coin in WalletFiatEnum) {
+  if (selectors.core.data.coins.getCoins().includes(coin)) {
     return {
       ...baseActions,
       fetchData: () => {},
-      loadMoreTxs: () =>
-        dispatch(actions.components.fiatTransactions.loadMore(coin)),
+      initTxs: () => dispatch(actions.components.coinTransactions.initialized(coin)),
+      loadMoreTxs: () => dispatch(actions.components.coinTransactions.loadMore(coin))
+    }
+  }
+  if (coinfig.type.isFiat) {
+    return {
+      ...baseActions,
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      fetchData: () => {},
       initTxs: () =>
-        dispatch(actions.components.fiatTransactions.initialized(coin))
+        dispatch(actions.components.fiatTransactions.initialized(coin as WalletFiatType)),
+      loadMoreTxs: () =>
+        dispatch(actions.components.fiatTransactions.loadMore(coin as WalletFiatType))
     }
   }
   return {
     ...baseActions,
     fetchData: () => dispatch(actions.core.data[toLower(coin)].fetchData()),
-    initTxs: () =>
-      dispatch(
-        actions.components[`${toLower(coin)}Transactions`].initialized()
-      ),
-    loadMoreTxs: () =>
-      dispatch(actions.components[`${toLower(coin)}Transactions`].loadMore()),
-    setAddressArchived: address =>
-      dispatch(actions.core.wallet.setAddressArchived(address, true))
+    initTxs: () => dispatch(actions.components[`${toLower(coin)}Transactions`].initialized()),
+    loadMoreTxs: () => dispatch(actions.components[`${toLower(coin)}Transactions`].loadMore()),
+    setAddressArchived: (address) => dispatch(actions.core.wallet.setAddressArchived(address, true))
   }
 }
 
@@ -371,12 +329,10 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   coin: WalletCurrencyType
-  isCoinErc20: boolean
-  isFiat: boolean
+  coinfig: SupportedWalletCurrencyType['coinfig']
 }
 
 export type SuccessStateType = {
-  coinModel: SupportedWalletCurrencyType
   currency: FiatType
   hasTxResults: boolean
   isInvited: boolean

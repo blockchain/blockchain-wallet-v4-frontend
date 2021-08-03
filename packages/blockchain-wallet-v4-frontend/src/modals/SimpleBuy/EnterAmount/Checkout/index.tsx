@@ -4,7 +4,7 @@ import { find, isEmpty, pathOr, propEq, propOr } from 'ramda'
 import { bindActionCreators } from 'redux'
 
 import { Remote } from 'blockchain-wallet-v4/src'
-import { OrderType } from 'blockchain-wallet-v4/src/types'
+import { OrderType, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { getValidPaymentMethod } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
@@ -84,12 +84,17 @@ class Checkout extends PureComponent<Props> {
       const currentTier = userData?.tiers?.current
       if (currentTier === 2 || currentTier === 1) {
         // user in SDD but already completed eligibility check, continue to payment
-        this.props.simpleBuyActions.createSBOrder('PAYMENT_CARD')
+        this.props.simpleBuyActions.createSBOrder(SBPaymentTypes.PAYMENT_CARD)
       } else {
         // user in SDD but needs to confirm KYC and SDD eligibility
-        this.props.identityVerificationActions.verifyIdentity(2, false, true, () =>
-          this.props.simpleBuyActions.createSBOrder('PAYMENT_CARD')
-        )
+        this.props.identityVerificationActions.verifyIdentity({
+          checkSddEligibility: true,
+          needMoreInfo: false,
+          onCompletionCallback: () =>
+            this.props.simpleBuyActions.createSBOrder(SBPaymentTypes.PAYMENT_CARD),
+          origin: 'SimpleBuy',
+          tier: 2
+        })
       }
     } else if (!method) {
       const { fiatCurrency } = this.props
@@ -105,21 +110,21 @@ class Checkout extends PureComponent<Props> {
       this.props.simpleBuyActions.createSBOrder(getValidPaymentMethod(method.type))
     } else if (formValues && method) {
       switch (method.type) {
-        case 'PAYMENT_CARD':
+        case SBPaymentTypes.PAYMENT_CARD:
           this.props.simpleBuyActions.setStep({
             step: 'ADD_CARD'
           })
           break
-        case 'USER_CARD':
-          this.props.simpleBuyActions.createSBOrder('PAYMENT_CARD', method.id)
+        case SBPaymentTypes.USER_CARD:
+          this.props.simpleBuyActions.createSBOrder(SBPaymentTypes.PAYMENT_CARD, method.id)
           break
-        case 'FUNDS':
-          this.props.simpleBuyActions.createSBOrder('FUNDS')
+        case SBPaymentTypes.FUNDS:
+          this.props.simpleBuyActions.createSBOrder(SBPaymentTypes.FUNDS)
           break
-        case 'BANK_TRANSFER':
-          this.props.simpleBuyActions.createSBOrder('BANK_TRANSFER', method.id)
+        case SBPaymentTypes.BANK_TRANSFER:
+          this.props.simpleBuyActions.createSBOrder(SBPaymentTypes.BANK_TRANSFER, method.id)
           break
-        case 'BANK_ACCOUNT':
+        case SBPaymentTypes.BANK_ACCOUNT:
           break
         default:
           break

@@ -21,16 +21,16 @@ class TwoStepSetupContainer extends React.PureComponent {
   }
 
   handleYubico() {
-    this.props.modalActions.showModal('TwoStepYubico')
+    this.props.modalActions.showModal('TWO_STEP_YUBICO_MODAL')
   }
 
   handleMobile() {
     const { smsNumber, smsVerified } = this.props
 
     if (!smsNumber) {
-      this.props.modalActions.showModal('MobileNumberChange')
+      this.props.modalActions.showModal('MOBILE_NUMBER_ADD_MODAL')
     } else if (!smsVerified) {
-      this.props.modalActions.showModal('MobileNumberVerify', {
+      this.props.modalActions.showModal('MOBILE_NUMBER_VERIFY_MODAL', {
         mobileNumber: smsNumber
       })
     } else {
@@ -55,19 +55,19 @@ class TwoStepSetupContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   authType: selectors.core.settings.getAuthType(state),
   smsNumber: selectors.core.settings.getSmsNumber(state),
   smsVerified: selectors.core.settings.getSmsVerified(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
 const enhance = compose(
-  modalEnhancer('TwoStepSetup'),
+  modalEnhancer('TWO_STEP_SETUP_MODAL'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

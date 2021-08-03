@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 
 import { UnitType } from 'blockchain-wallet-v4/src/exchange'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-import { coinToString, fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { coinToString, fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import {
   OrderType,
   PaymentValue,
@@ -10,8 +10,8 @@ import {
   SBOrderActionType,
   SBPairType,
   SBPaymentMethodType,
+  SBPaymentTypes,
   SBQuoteType,
-  SupportedWalletCurrenciesType,
   SwapQuoteType,
   SwapUserLimitsType
 } from 'blockchain-wallet-v4/src/types'
@@ -32,7 +32,7 @@ export const getQuote = (
 ): string => {
   if (fix === 'FIAT') {
     const coin = getCoinFromPair(pair)
-    const decimals = Currencies[coin].units[coin as UnitType].decimal_digits
+    const decimals = window.coins[coin].coinfig.precision
     const standardRate = convertBaseToStandard('FIAT', rate)
     return new BigNumber(baseAmount || '0').dividedBy(standardRate).toFixed(decimals)
   }
@@ -42,15 +42,10 @@ export const getQuote = (
   return new BigNumber(baseAmount || '0').times(standardRate).toFixed(decimals)
 }
 
-export const formatQuote = (
-  amt: string,
-  pair: string,
-  fix: SBFixType,
-  supportedCoins: SupportedWalletCurrenciesType
-): string => {
+export const formatQuote = (amt: string, pair: string, fix: SBFixType): string => {
   if (fix === 'FIAT') {
     return coinToString({
-      unit: { symbol: supportedCoins[getCoinFromPair(pair)].coinTicker },
+      unit: { symbol: getCoinFromPair(pair) },
       value: amt
     })
   }
@@ -86,7 +81,7 @@ export const getMaxMinSell = (
 
           const maxSell = new BigNumber(pair.sellMax)
             .dividedBy(rate)
-            .toFixed(Currencies[coin].units[coin].decimal_digits)
+            .toFixed(window.coins[coin] ? window.coins[coin].coinfig.precision : 2)
 
           const userMax = Number(payment ? payment.effectiveBalance : maxAvailable)
           const maxCrypto = Math.min(
@@ -98,7 +93,7 @@ export const getMaxMinSell = (
         case 'min':
           const minCrypto = new BigNumber(pair.sellMin)
             .dividedBy(rate)
-            .toFixed(Currencies[coin].units[coin].decimal_digits)
+            .toFixed(window.coins[coin] ? window.coins[coin].coinfig.precision : 2)
           const minFiat = convertBaseToStandard('FIAT', pair.sellMin)
 
           return { CRYPTO: minCrypto, FIAT: minFiat }
@@ -178,8 +173,8 @@ export const getMaxMin = (
           ).toString()
 
           let fundsChangedMax = false
-          if (method.type === 'FUNDS' && sbBalances && limits?.maxPossibleOrder) {
-            const { available } = sbBalances[method.currency]
+          if (method.type === SBPaymentTypes.FUNDS && sbBalances && limits?.maxPossibleOrder) {
+            const available = sbBalances[method.currency]?.available || '0'
             // available is always in minor string
             const availableStandard = available
               ? convertBaseToStandard('FIAT', available)
@@ -247,7 +242,7 @@ export const getMaxMin = (
             isSddFlow ? method.limits.min : limitMinAmount
           ).toString()
 
-          const minFiat = !limitMinChanged ? convertBaseToStandard('FIAT', min) : min
+          const minFiat = convertBaseToStandard('FIAT', min)
           const minCrypto = getQuote(quote.pair, quote.rate, 'FIAT', minFiat)
 
           return { CRYPTO: minCrypto, FIAT: minFiat }

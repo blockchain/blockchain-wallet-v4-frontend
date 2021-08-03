@@ -43,10 +43,9 @@ const AccountSummary: React.FC<Props> = (props) => {
     interestLimits,
     interestRate,
     showSupply,
-    stepMetadata,
-    supportedCoins
+    stepMetadata
   } = props
-  const { coinCode, coinTicker, displayName } = supportedCoins[coin]
+  const { coinfig } = window.coins[coin]
   const account = accountBalances && accountBalances[coin]
 
   const lockupPeriod = pathOr(1, [coin, 'lockUpDuration'], interestLimits) / 86400
@@ -65,11 +64,11 @@ const AccountSummary: React.FC<Props> = (props) => {
       <Top>
         <TopText color='grey800' size='20px' weight={600}>
           <Row>
-            <Icon name={coinCode} color={coinCode} size='24px' style={{ marginRight: '16px' }} />
+            <Icon name={coin} color={coin} size='24px' style={{ marginRight: '16px' }} />
             <FormattedMessage
               id='modals.interest.detailstitle'
               defaultMessage='{displayName} Interest Account'
-              values={{ displayName }}
+              values={{ displayName: coinfig.name }}
             />
           </Row>
           <Icon
@@ -89,13 +88,13 @@ const AccountSummary: React.FC<Props> = (props) => {
                   <FormattedMessage
                     id='modals.interest.balance'
                     defaultMessage='Your {coin} Balance'
-                    values={{ coin: displayName }}
+                    values={{ coin: coinfig.name }}
                   />
                 </Text>
                 {account ? (
                   <>
                     <Text color='grey800' size='18px' weight={600}>
-                      {accountBalanceStandard} {coinTicker}
+                      {accountBalanceStandard} {coin}
                     </Text>
                     <FiatDisplay
                       color='grey600'
@@ -109,7 +108,7 @@ const AccountSummary: React.FC<Props> = (props) => {
                   </>
                 ) : (
                   <Text color='grey800' size='18px' weight={600}>
-                    0 {coinTicker}
+                    0 {coin}
                   </Text>
                 )}
               </Container>
@@ -123,7 +122,7 @@ const AccountSummary: React.FC<Props> = (props) => {
                 {account ? (
                   <>
                     <Text color='grey800' size='18px' weight={600}>
-                      {interestBalanceStandard} {coinTicker}
+                      {interestBalanceStandard} {coin}
                     </Text>
                     <FiatDisplay
                       color='grey600'
@@ -137,7 +136,7 @@ const AccountSummary: React.FC<Props> = (props) => {
                   </>
                 ) : (
                   <Text color='grey800' size='18px' weight={600}>
-                    0 {coinTicker}
+                    0 {coin}
                   </Text>
                 )}
               </Container>
@@ -148,7 +147,7 @@ const AccountSummary: React.FC<Props> = (props) => {
         {stepMetadata && stepMetadata.depositSuccess && (
           <>
             <StatusWrapper>
-              <StatusIconWrapper color={showSupply ? 'orange000' : coinCode}>
+              <StatusIconWrapper color={showSupply ? 'orange000' : coin}>
                 <Icon color={showSupply ? 'orange600' : 'white'} name='timer' size='24px' />
               </StatusIconWrapper>
               <Text data-e2e='waitingConfirmation' color='grey600' size='14px' weight={500}>
@@ -175,7 +174,7 @@ const AccountSummary: React.FC<Props> = (props) => {
         )}
         {stepMetadata && stepMetadata.withdrawSuccess && (
           <StatusWrapper>
-            <StatusIconWrapper color={showSupply ? 'orange000' : coinCode}>
+            <StatusIconWrapper color={showSupply ? 'orange000' : coin}>
               <Icon color={showSupply ? 'orange600' : 'white'} name='timer' size='24px' />
             </StatusIconWrapper>
             <Text color='grey600' size='14px' weight={500}>
@@ -232,9 +231,12 @@ const AccountSummary: React.FC<Props> = (props) => {
                     data-e2e='earnInterestSupplyMoreInformation'
                     fullwidth
                     nature='primary'
-                    onClick={() =>
+                    onClick={() => {
                       analyticsActions.logEvent(INTEREST_EVENTS.WITHDRAWAL.SUPPLY_INFORMATION)
-                    }
+                      interestActions.handleWithdrawalSupplyInformation({
+                        origin: 'SavingsConfirmation'
+                      })
+                    }}
                   >
                     <FormattedMessage
                       id='scenes.interest.submit_information'
@@ -298,7 +300,7 @@ const AccountSummary: React.FC<Props> = (props) => {
                 <FormattedMessage
                   id='buttons.buy_coin'
                   defaultMessage='Buy {displayName}'
-                  values={{ displayName }}
+                  values={{ displayName: coinfig.name }}
                 />
               </Text>
             </Button>
@@ -360,7 +362,7 @@ const AccountSummary: React.FC<Props> = (props) => {
             </Text>
             {account ? (
               <Text color='grey600' size='14px' weight={500}>
-                {pendingInterestStandard} {coinTicker}
+                {pendingInterestStandard} {coin}
               </Text>
             ) : (
               <Text color='grey600' size='14px' weight={500}>
@@ -409,22 +411,24 @@ const AccountSummary: React.FC<Props> = (props) => {
           </DetailsItemContainer>
         </DetailsWrapper>
       </Top>
-      <Bottom>
-        <ButtonContainer>
-          <Button
-            disabled={!account || !availToWithdraw}
-            data-e2e='interestWithdraw'
-            fullwidth
-            height='48px'
-            nature='grey800'
-            onClick={() => interestActions.showInterestModal('WITHDRAWAL', coin)}
-          >
-            <Text color='white' size='16px' weight={600}>
-              <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />
-            </Text>
-          </Button>
-        </ButtonContainer>
-      </Bottom>
+      {!showSupply && (
+        <Bottom>
+          <ButtonContainer>
+            <Button
+              disabled={!account || !availToWithdraw}
+              data-e2e='interestWithdraw'
+              fullwidth
+              height='48px'
+              nature='grey800'
+              onClick={() => interestActions.showInterestModal('WITHDRAWAL', coin)}
+            >
+              <Text color='white' size='16px' weight={600}>
+                <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />
+              </Text>
+            </Button>
+          </ButtonContainer>
+        </Bottom>
+      )}
     </Wrapper>
   )
 }

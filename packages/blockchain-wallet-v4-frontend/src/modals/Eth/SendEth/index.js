@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { propOr } from 'ramda'
 import { bindActionCreators, compose } from 'redux'
 
-import { actions, model, selectors } from 'data'
+import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import FirstStep from './FirstStep'
@@ -27,46 +27,41 @@ class SendEthContainer extends React.PureComponent {
   }
 
   render() {
-    const { closeAll, position, step, supportedCoins, total } = this.props
-    const coin = supportedCoins[propOr('ETH', 'coin', this.props)]
+    const { closeAll, coin, position, step, total } = this.props
+    const { coinfig } = window.coins[coin]
     return (
       <SendEth
         position={position}
         total={total}
         closeAll={closeAll}
-        coinDisplayName={coin.displayName}
-        coin={coin.coinCode}
+        coinDisplayName={coinfig.name}
+        coin={coin}
       >
-        {step === 1 && <FirstStep coin={coin.coinCode} />}
-        {step === 2 && (
-          <SecondStep coin={coin.coinCode} coinDisplayName={coin.displayName} />
-        )}
+        {step === 1 && <FirstStep coin={coin} />}
+        {step === 2 && <SecondStep coin={coin} coinDisplayName={coinfig.name} />}
       </SendEth>
     )
   }
 }
 
 SendEthContainer.propTypes = {
+  closeAll: PropTypes.func.isRequired,
   coin: PropTypes.string,
-  step: PropTypes.number.isRequired,
   position: PropTypes.number.isRequired,
-  total: PropTypes.number.isRequired,
-  closeAll: PropTypes.func.isRequired
+  step: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired
 }
 
-const mapStateToProps = state => ({
-  step: selectors.components.sendEth.getStep(state),
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrFail()
+const mapStateToProps = (state) => ({
+  step: selectors.components.sendEth.getStep(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.sendEth, dispatch)
 })
 
 const enhance = compose(
-  modalEnhancer(model.components.sendEth.MODAL),
+  modalEnhancer('SEND_ETH_MODAL'),
   connect(mapStateToProps, mapDispatchToProps)
 )
 

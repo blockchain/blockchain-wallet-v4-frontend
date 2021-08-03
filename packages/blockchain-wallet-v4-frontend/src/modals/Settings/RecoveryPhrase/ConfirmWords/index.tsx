@@ -4,22 +4,19 @@ import { forEach, keysIn, map, prop, range, sortBy, split, take } from 'ramda'
 import { compose } from 'redux'
 import { SubmissionError } from 'redux-form'
 
-import {
-  LinkDispatchPropsType,
-  LinkStatePropsType,
-  OwnPropsType
-} from '../index'
+import { Props } from '../index'
 import ConfirmWordsForm from './template'
 
-export type Props = OwnPropsType & LinkDispatchPropsType & LinkStatePropsType
-
-class ConfirmWords extends PureComponent<Props> {
-  state = { indexes: [] }
+class ConfirmWords extends PureComponent<Props, StateType> {
+  constructor(props) {
+    super(props)
+    this.state = { indexes: [] }
+  }
 
   componentDidMount() {
     // @ts-ignore
     const randomize = sortBy(prop(0))
-    const pair = map(x => [Math.random(), x])
+    const pair = map((x) => [Math.random(), x])
     const indexes = compose(
       take(5),
       // @ts-ignore
@@ -32,10 +29,10 @@ class ConfirmWords extends PureComponent<Props> {
     /* eslint-enable */
   }
 
-  handleSubmit = values => {
+  handleSubmit = (values) => {
     const errors = {}
     compose(
-      forEach(word => {
+      forEach((word) => {
         // @ts-ignore
         if (values[word] !== this.props.recoveryPhrase[split('w', word)[1]]) {
           // @ts-ignore
@@ -54,20 +51,19 @@ class ConfirmWords extends PureComponent<Props> {
       throw new SubmissionError(errors)
     } else {
       this.props.walletActions.verifyMnemonic()
+      this.props.walletActions.updateMnemonicBackup()
       this.props.recoveryPhraseActions.setStep('CONFIRM_WORDS_SUCCESS')
     }
   }
 
   render() {
     const { ...rest } = this.props
-    return (
-      <ConfirmWordsForm
-        {...rest}
-        indexes={this.state.indexes}
-        onSubmit={this.handleSubmit}
-      />
-    )
+    return <ConfirmWordsForm {...rest} indexes={this.state.indexes} onSubmit={this.handleSubmit} />
   }
+}
+
+type StateType = {
+  indexes: Array<any>
 }
 
 export default ConfirmWords

@@ -6,8 +6,7 @@ import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
 import { getCoinAccounts } from 'data/coins/selectors'
 import { SBCheckoutFormValuesType } from 'data/types'
 
-export const getData = state => {
-  const coinsR = selectors.core.walletOptions.getSupportedCoins(state)
+export const getData = (state) => {
   const eligibilityR = selectors.components.simpleBuy.getSBFiatEligible(state)
   const formValues = selectors.form.getFormValues('simpleBuyCheckout')(
     state
@@ -22,11 +21,11 @@ export const getData = state => {
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
 
   // for sell, get 'swap' accounts
-  const accounts = getCoinAccounts(state, SWAP_ACCOUNTS_SELECTOR)
+  const coins = selectors.components.swap.getCoins()
+  const accounts = getCoinAccounts(state, { coins, ...SWAP_ACCOUNTS_SELECTOR })
 
   return lift(
     (
-      coins: ExtractSuccess<typeof coinsR>,
       eligibility: ExtractSuccess<typeof eligibilityR>,
       emailVerified: ExtractSuccess<typeof emailVerifiedR>,
       pairs: ExtractSuccess<typeof pairsR>,
@@ -35,27 +34,20 @@ export const getData = state => {
       sddEligible: ExtractSuccess<typeof sddEligibleR>,
       walletCurrency: FiatType
     ) => ({
+      accounts,
+      eligibility,
+
+      emailVerified,
       // Doing this to check if state has been updated for orderType to be 'SELL'
       // If user clicks on sell button on activity feed header
       orderType: formValues ? formValues.orderType : stateOrderType || 'BUY',
-      accounts,
-      coins,
-      eligibility,
-      emailVerified,
       pairs,
-      userData,
       sbOrders,
       sddEligible,
+      userData,
       walletCurrency
     })
-  )(
-    coinsR,
-    eligibilityR,
-    emailVerifiedR,
-    pairsR,
-    userDataR,
-    sbOrdersR,
-    sddEligibleR,
-    walletCurrencyR
-  )
+  )(eligibilityR, emailVerifiedR, pairsR, userDataR, sbOrdersR, sddEligibleR, walletCurrencyR)
 }
+
+export default getData

@@ -3,16 +3,8 @@ import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
 
-import {
-  NavbarNavItem,
-  NavbarNavItemButton,
-  NavbarNavItemIcon
-} from 'components/Navbar'
-import {
-  DropdownMenu,
-  DropdownMenuArrow,
-  DropdownMenuItem
-} from 'components/Navbar/NavbarDropdown'
+import { NavbarNavItem, NavbarNavItemButton, NavbarNavItemIcon } from 'components/Navbar'
+import { DropdownMenu, DropdownMenuArrow, DropdownMenuItem } from 'components/Navbar/NavbarDropdown'
 import { Destination } from 'layouts/Wallet/components'
 import { useOnClickOutside } from 'services/misc'
 
@@ -23,7 +15,7 @@ const DropdownSeparator = styled.div`
   width: 24px;
   margin-left: 16px;
   margin-bottom: 8px;
-  background: ${props => props.theme.grey000};
+  background: ${(props) => props.theme.grey000};
 `
 
 const Settings = (props: Props) => {
@@ -31,33 +23,39 @@ const Settings = (props: Props) => {
   const [isMenuOpen, toggleIsMenuOpen] = useState(false)
   useOnClickOutside(ref, () => toggleIsMenuOpen(false))
 
+  const handleMenuToggle = () => {
+    toggleIsMenuOpen((isMenuOpen) => !isMenuOpen)
+  }
+
   return (
     <NavbarNavItem>
-      <NavbarNavItemButton
-        data-e2e='settingsLink'
-        onClick={() => toggleIsMenuOpen(!isMenuOpen)}
-      >
+      <NavbarNavItemButton data-e2e='settingsLink' onClick={handleMenuToggle}>
         <NavbarNavItemIcon persist name='cog-filled' size='18px' />
         {isMenuOpen && (
           <DropdownMenu ref={ref}>
             <DropdownMenuArrow />
-            <LinkContainer to='/settings/general' activeClassName='active'>
+            <LinkContainer
+              onClick={() => {
+                props.settingsActions.generalSettingsInternalRedirect('General')
+              }}
+              to='/settings/general'
+              activeClassName='active'
+            >
               <DropdownMenuItem data-e2e='settings_generalLink'>
                 <Destination>
-                  <FormattedMessage
-                    id='layouts.wallet.header.general'
-                    defaultMessage='General'
-                  />
+                  <FormattedMessage id='layouts.wallet.header.general' defaultMessage='General' />
                 </Destination>
               </DropdownMenuItem>
             </LinkContainer>
             <DropdownMenuItem
               data-e2e='settings_profileLink'
-              onClick={() =>
-                props.modalActions.showModal('TRADING_LIMITS', {
+              onClick={() => {
+                props.modalActions.showModal('TRADING_LIMITS_MODAL', {
                   origin: 'TradingLimits'
                 })
-              }
+
+                props.settingsActions.generalSettingsInternalRedirect('TradingLimits')
+              }}
             >
               <Destination>
                 <FormattedMessage
@@ -66,7 +64,13 @@ const Settings = (props: Props) => {
                 />
               </Destination>
             </DropdownMenuItem>
-            <LinkContainer to='/settings/preferences' activeClassName='active'>
+            <LinkContainer
+              onClick={() => {
+                props.settingsActions.generalSettingsInternalRedirect('Preferences')
+              }}
+              to='/settings/preferences'
+              activeClassName='active'
+            >
               <DropdownMenuItem data-e2e='settings_preferencesLink'>
                 <Destination>
                   <FormattedMessage
@@ -76,7 +80,13 @@ const Settings = (props: Props) => {
                 </Destination>
               </DropdownMenuItem>
             </LinkContainer>
-            <LinkContainer to='/settings/addresses' activeClassName='active'>
+            <LinkContainer
+              onClick={() => {
+                props.settingsActions.generalSettingsInternalRedirect('WalletAndAddresses')
+              }}
+              to='/settings/addresses'
+              activeClassName='active'
+            >
               <DropdownMenuItem data-e2e='settings_walletsLink'>
                 <Destination>
                   <FormattedMessage
@@ -88,14 +98,13 @@ const Settings = (props: Props) => {
             </LinkContainer>
             <DropdownSeparator />
             <DropdownMenuItem
-              onClick={props.authActions.logout}
+              onClick={() => {
+                props.authActions.logout()
+              }}
               data-e2e='logoutLink'
             >
               <Destination>
-                <FormattedMessage
-                  id='layouts.wallet.header.Sign Out'
-                  defaultMessage='Sign Out'
-                />
+                <FormattedMessage id='layouts.wallet.header.Sign Out' defaultMessage='Sign Out' />
               </Destination>
             </DropdownMenuItem>
           </DropdownMenu>

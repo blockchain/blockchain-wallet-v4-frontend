@@ -1,7 +1,5 @@
 import { FiatType, RemoteDataType, WalletFiatType } from 'core/types'
 
-import * as AT from './actionTypes'
-
 export enum BankPartners {
   YAPILY = 'YAPILY',
   YODLEE = 'YODLEE'
@@ -161,7 +159,10 @@ export enum AddBankStepType {
 }
 
 export enum BrokerageModalOriginType {
-  ADD_BANK = 'AddBankModal',
+  ADD_BANK_BUY = 'AddBankModalBuy',
+  ADD_BANK_DEPOSIT = 'AddBankModalDeposit',
+  ADD_BANK_SETTINGS = 'AddBankModalSettings',
+  ADD_BANK_WITHDRAW = 'AddBankModalWithdraw',
   BANK = 'BankDetailsModal',
   DEPOSIT_BUTTON = 'BankDeposit',
   DW = 'DepositWithdrawalModal',
@@ -186,83 +187,6 @@ export type BrokerageState = {
   dwStep: BankDWStepType
   fastLink: RemoteDataType<string, FastLinkType>
   fiatCurrency: WalletFiatType | undefined
+  isFlow: boolean
   redirectBackToStep: boolean
 }
-
-interface FetchBankLinkCredentialsType {
-  payload: { fiatCurrency: WalletFiatType }
-  type: typeof AT.FETCH_BANK_LINK_CREDENTIALS
-}
-
-interface FetchBankTransferAccountsFailure {
-  payload: {
-    error: string
-  }
-  type: typeof AT.FETCH_BANK_TRANSFER_ACCOUNTS_ERROR
-}
-interface FetchBankTransferAccountsLoading {
-  type: typeof AT.FETCH_BANK_TRANSFER_ACCOUNTS_LOADING
-}
-
-interface FetchBankTransferAccountsSuccess {
-  payload: {
-    accounts: BankTransferAccountType[]
-  }
-  type: typeof AT.FETCH_BANK_TRANSFER_ACCOUNTS_SUCCESS
-}
-
-interface FetchBTUpdateLoading {
-  type: typeof AT.FETCH_BANK_TRANSFER_UPDATE_LOADING
-}
-
-interface SetFastLinkAction {
-  payload: { fastLink: FastLinkType }
-  type: typeof AT.SET_FAST_LINK
-}
-
-interface SetAddBankStepAction {
-  payload: BrokerageAddBankStepPayload
-  type: typeof AT.SET_ADD_BANK_STEP
-}
-
-interface SetDWStepAction {
-  payload: BrokerageDWStepPayload
-  type: typeof AT.SET_D_W_STEP
-}
-interface SetBankAccountAction {
-  payload: BankDetailsPayload
-  type: typeof AT.SET_BANK_DETAILS
-}
-interface HandeDepositFiatClickAction {
-  payload: { fiatCurrency: WalletFiatType }
-  type: typeof AT.HANDLE_DEPOSIT_FIAT_CLICK
-}
-
-interface FetchBankCredentialsSuccessAction {
-  payload: { credentials: OBType }
-  type: typeof AT.FETCH_BANK_CREDENTIALS_SUCCESS
-}
-
-interface FetchBankCredentialsLoadingAction {
-  type: typeof AT.FETCH_BANK_CREDENTIALS_LOADING
-}
-
-interface FetchBankCredentialsErrorAction {
-  payload: { error: string }
-  type: typeof AT.FETCH_BANK_CREDENTIALS_ERROR
-}
-
-export type BrokerageActionTypes =
-  | FetchBankCredentialsErrorAction
-  | FetchBankCredentialsLoadingAction
-  | FetchBankCredentialsSuccessAction
-  | FetchBankTransferAccountsFailure
-  | FetchBankTransferAccountsLoading
-  | FetchBankTransferAccountsSuccess
-  | FetchBTUpdateLoading
-  | FetchBankLinkCredentialsType
-  | SetFastLinkAction
-  | SetAddBankStepAction
-  | SetBankAccountAction
-  | SetDWStepAction
-  | HandeDepositFiatClickAction

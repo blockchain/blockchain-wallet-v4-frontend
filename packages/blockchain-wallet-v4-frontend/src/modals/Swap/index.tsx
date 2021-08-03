@@ -6,6 +6,7 @@ import { ExtractSuccess, SwapOrderType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
@@ -15,17 +16,22 @@ import InitSwapForm from './InitSwapForm'
 import NoHoldings from './NoHoldings'
 import OrderDetails from './OrderDetails'
 import PreviewSwap from './PreviewSwap'
-import { getData } from './selectors'
+import getData from './selectors'
 import SuccessfulSwap from './SuccessfulSwap'
+import Unsuported from './template.unsupported'
 import UpgradePrompt from './UpgradePrompt'
 
 class Swap extends PureComponent<Props, State> {
-  state: State = { show: false }
+  constructor(props: Props) {
+    super(props)
+    this.state = { show: false }
+  }
 
   componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
+    this.props.swapActions.fetchCustodialEligibility()
   }
 
   componentWillUnmount() {
@@ -41,89 +47,62 @@ class Swap extends PureComponent<Props, State> {
 
   render() {
     return this.props.data.cata({
-      Success: val => (
+      Failure: () => (
         <Flyout
           {...this.props}
-          isOpen={this.state.show}
           onClose={this.handleClose}
+          isOpen={this.state.show}
+          data-e2e='swapModal'
         >
+          <Unsuported handleClose={this.handleClose} />
+        </Flyout>
+      ),
+      Loading: () => null,
+      NotAsked: () => null,
+      Success: (val) => (
+        <Flyout {...this.props} isOpen={this.state.show} onClose={this.handleClose}>
           {this.props.step === 'INIT_SWAP' && (
             <FlyoutChild>
-              <InitSwapForm
-                {...this.props}
-                handleClose={this.handleClose}
-                {...val}
-              />
+              <InitSwapForm {...this.props} handleClose={this.handleClose} {...val} />
             </FlyoutChild>
           )}
           {this.props.step === 'COIN_SELECTION' && (
             <FlyoutChild>
-              <CoinSelection
-                {...this.props}
-                handleClose={this.handleClose}
-                {...val}
-              />
+              <CoinSelection {...this.props} handleClose={this.handleClose} {...val} />
             </FlyoutChild>
           )}
           {this.props.step === 'NO_HOLDINGS' && (
             <FlyoutChild>
-              <NoHoldings
-                {...this.props}
-                handleClose={this.handleClose}
-                {...val}
-              />
+              <NoHoldings {...this.props} handleClose={this.handleClose} {...val} />
             </FlyoutChild>
           )}
           {this.props.step === 'ENTER_AMOUNT' && (
             <FlyoutChild>
-              <EnterAmount
-                {...this.props}
-                handleClose={this.handleClose}
-                {...val}
-              />
+              <EnterAmount {...this.props} handleClose={this.handleClose} {...val} />
             </FlyoutChild>
           )}
           {this.props.step === 'UPGRADE_PROMPT' && (
             <FlyoutChild>
-              <UpgradePrompt
-                {...this.props}
-                handleClose={this.handleClose}
-                {...val}
-              />
+              <UpgradePrompt {...this.props} handleClose={this.handleClose} {...val} />
             </FlyoutChild>
           )}
           {this.props.step === 'PREVIEW_SWAP' && (
             <FlyoutChild>
-              <PreviewSwap
-                {...this.props}
-                handleClose={this.handleClose}
-                {...val}
-              />
+              <PreviewSwap {...this.props} handleClose={this.handleClose} {...val} />
             </FlyoutChild>
           )}
           {this.props.step === 'ORDER_DETAILS' && (
             <FlyoutChild>
-              <OrderDetails
-                {...this.props}
-                handleClose={this.handleClose}
-                {...val}
-              />
+              <OrderDetails {...this.props} handleClose={this.handleClose} {...val} />
             </FlyoutChild>
           )}
           {this.props.step === 'SUCCESSFUL_SWAP' && (
             <FlyoutChild>
-              <SuccessfulSwap
-                {...this.props}
-                handleClose={this.handleClose}
-                {...val}
-              />
+              <SuccessfulSwap {...this.props} handleClose={this.handleClose} {...val} />
             </FlyoutChild>
           )}
         </Flyout>
-      ),
-      Failure: () => null,
-      Loading: () => null,
-      NotAsked: () => null
+      )
     })
   }
 }
@@ -159,27 +138,21 @@ const mapStateToProps = (
       step: 'NO_HOLDINGS'
     }
 ) => ({
+  data: getData(state),
   order: selectors.components.swap.getOrder(state),
-  step: selectors.components.swap.getStep(state),
   side: selectors.components.swap.getSide(state),
-  data: getData(state)
+  step: selectors.components.swap.getStep(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  idvActions: bindActionCreators(
-    actions.components.identityVerification,
-    dispatch
-  ),
+  idvActions: bindActionCreators(actions.components.identityVerification, dispatch),
   swapActions: bindActionCreators(actions.components.swap, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-const enhance = compose(
-  ModalEnhancer('SWAP_MODAL', { transition: duration }),
-  connector
-)
+const enhance = compose(ModalEnhancer(ModalName.SWAP_MODAL, { transition: duration }), connector)
 
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 export type Props = ModalPropsType & ConnectedProps<typeof connector>

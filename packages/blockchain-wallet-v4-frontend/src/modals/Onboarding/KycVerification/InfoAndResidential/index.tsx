@@ -34,11 +34,7 @@ class InfoAndResidential extends PureComponent<Props> {
   }
 
   handleSubmit = () => {
-    const {
-      checkSddEligibility,
-      identityVerificationActions,
-      onCompletionCallback
-    } = this.props
+    const { checkSddEligibility, identityVerificationActions, onCompletionCallback } = this.props
     identityVerificationActions.saveInfoAndResidentialData(
       checkSddEligibility,
       onCompletionCallback
@@ -58,17 +54,15 @@ class InfoAndResidential extends PureComponent<Props> {
 
   setDefaultCountry = (country: CountryType) => {
     this.props.formActions.change(INFO_AND_RESIDENTIAL_FORM, 'country', country)
-    this.props.formActions.clearFields(
-      INFO_AND_RESIDENTIAL_FORM,
-      false,
-      false,
-      'state'
-    )
+    this.props.formActions.clearFields(INFO_AND_RESIDENTIAL_FORM, false, false, 'state')
   }
 
   render() {
     return this.props.data.cata({
-      Success: val => (
+      Failure: () => <DataError onClick={this.fetchData} />,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />,
+      Success: (val) => (
         <Success
           {...this.props}
           {...val}
@@ -79,29 +73,23 @@ class InfoAndResidential extends PureComponent<Props> {
             ...val.userData
           }}
         />
-      ),
-      Failure: () => <DataError onClick={this.fetchData} />,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      )
     })
   }
 }
 
 const mapStateToProps = (state: RootState) => ({
+  countryCode: selectors.core.settings.getCountryCode(state).getOrElse(null),
   data: getData(state),
   formValues: selectors.form.getFormValues(INFO_AND_RESIDENTIAL_FORM)(state) as
     | InfoAndResidentialFormValuesType
-    | undefined,
-  countryCode: selectors.core.settings.getCountryCode(state).getOrElse(null)
+    | undefined
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  identityVerificationActions: bindActionCreators(
-    actions.components.identityVerification,
-    dispatch
-  ),
-  formActions: bindActionCreators(actions.form, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch),
+  identityVerificationActions: bindActionCreators(actions.components.identityVerification, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

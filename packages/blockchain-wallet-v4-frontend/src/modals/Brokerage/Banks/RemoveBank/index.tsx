@@ -5,7 +5,7 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { BankTransferAccountType } from 'data/types'
+import { BankTransferAccountType, ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../../types'
@@ -58,11 +58,7 @@ class CancelOrder extends PureComponent<Props, {}> {
         data-e2e='bankRemoveModal'
       >
         <FlyoutChild>
-          <Template
-            {...this.props}
-            onSubmit={this.handleSubmit}
-            handleClose={this.handleClose}
-          />
+          <Template {...this.props} onSubmit={this.handleSubmit} handleClose={this.handleClose} />
         </FlyoutChild>
       </Flyout>
     )
@@ -71,9 +67,7 @@ class CancelOrder extends PureComponent<Props, {}> {
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   account: selectors.components.brokerage.getAccount(state),
-  redirectBackToStep: selectors.components.brokerage.getRedirectBackToStep(
-    state
-  )
+  redirectBackToStep: selectors.components.brokerage.getRedirectBackToStep(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
@@ -83,13 +77,11 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 const enhance = compose(
-  ModalEnhancer('REMOVE_BANK_MODAL', { transition: duration }),
+  ModalEnhancer(ModalName.REMOVE_BANK_MODAL, { transition: duration }),
   connector
 )
 
-export type Props = OwnProps &
-  LinkStatePropsType &
-  ConnectedProps<typeof connector>
+export type Props = OwnProps & LinkStatePropsType & ConnectedProps<typeof connector>
 
 type State = { show: boolean }
 

@@ -1,37 +1,55 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-		<meta name="description" content="Discover the world's most popular bitcoin wallet. Visit today to create your free simple, secure and safe Blockchain Wallet.">
-		<meta name="keywords" content="bitcoin wallet, blockchain wallet, online bitcoin wallet, bitcoin wallet online">
-		<title>Blockchain.com Wallet - Exchange Cryptocurrency</title>
-		<link rel="manifest" href="./manifest.webmanifest" />
-		<script nonce="**CSP_NONCE**">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <meta
+      name="description"
+      content="Discover the world's most popular bitcoin wallet. Visit today to create your free simple, secure and safe Blockchain Wallet."
+    />
+    <meta
+      name="keywords"
+      content="bitcoin wallet, blockchain wallet, online bitcoin wallet, bitcoin wallet online"
+    />
+    <title>Blockchain.com Wallet - Exchange Cryptocurrency</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <script nonce="**CSP_NONCE**">
+      window.APP_VERSION = '**APP_VERSION**'
+      window.CAPTCHA_KEY = '**RECAPTCHA_KEY**'
       window.NONCE = '**CSP_NONCE**'
-		</script>
-		<script
-			nonce="**CSP_NONCE**"
-			src="https://www.google.com/recaptcha/enterprise.js?render=**RECAPTCHA_KEY**"
-		></script>
-		<style nonce="**CSP_NONCE**">
-			html, body, #app, #app > div {padding: 0; margin: 0; height: 100%;}
-			html, body {overflow: hidden;}
-			/* hide scrollbars */
-			::-webkit-scrollbar {
-				display: none;
-			}
-			* {
-				scrollbar-width: none;
-				-ms-overflow-style: none;
-				-webkit-font-smoothing: antialiased;
-			}
-			.grecaptcha-badge {
-				visibility: hidden;
-			}
-		</style>
-	</head>
-	<body>
-		<div id="app"></div>
-	</body>
+    </script>
+    <script
+      nonce="**CSP_NONCE**"
+      src="https://www.google.com/recaptcha/enterprise.js?render=**RECAPTCHA_KEY**"
+    ></script>
+    <style nonce="**CSP_NONCE**">
+      html,
+      body,
+      #app,
+      #app > div {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+      }
+      html,
+      body {
+        overflow: hidden;
+      }
+      /* hide scrollbars */
+      ::-webkit-scrollbar {
+        display: none;
+      }
+      * {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        -webkit-font-smoothing: antialiased;
+      }
+      .grecaptcha-badge {
+        visibility: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
 </html>

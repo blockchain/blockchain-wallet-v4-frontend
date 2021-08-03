@@ -9,18 +9,11 @@ import { OwnProps } from '.'
 export const getData = createDeepEqualSelector(
   [
     (state, ownProps: OwnProps) =>
-      selectors.core.data.misc.getPriceChange(
-        ownProps.coinModel.coinCode,
-        TimeRange.WEEK,
-        state
-      ),
+      selectors.core.data.misc.getPriceChange(ownProps.coin, TimeRange.WEEK, state),
     selectors.core.settings.getCurrency
   ],
   (priceChangeR, currencyR) => {
-    const transform = (
-      priceChange: ExtractSuccess<typeof priceChangeR>,
-      currency
-    ) => {
+    const transform = (priceChange: ExtractSuccess<typeof priceChangeR>, currency) => {
       return {
         currency,
         priceChange
@@ -30,3 +23,5 @@ export const getData = createDeepEqualSelector(
     return lift(transform)(priceChangeR, currencyR)
   }
 )
+
+export default getData

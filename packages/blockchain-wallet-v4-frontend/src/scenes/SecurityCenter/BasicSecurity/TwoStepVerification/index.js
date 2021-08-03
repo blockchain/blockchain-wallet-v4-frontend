@@ -65,7 +65,7 @@ class TwoStepVerificationContainer extends React.PureComponent {
   handleDisableClick() {
     const next = this.props.data.getOrElse({})
     if (next.authType > 0) {
-      this.props.modalActions.showModal('ConfirmDisable2FA', {
+      this.props.modalActions.showModal('CONFIRM_DISABLE_2FA', {
         authName: this.state.authName
       })
     } else {
@@ -91,7 +91,7 @@ class TwoStepVerificationContainer extends React.PureComponent {
   }
 
   handleTwoFactorChange() {
-    this.props.modalActions.showModal('ConfirmDisable2FA', {
+    this.props.modalActions.showModal('CONFIRM_DISABLE_2FA', {
       authName: this.state.authName
     })
     this.setState({
@@ -121,7 +121,7 @@ class TwoStepVerificationContainer extends React.PureComponent {
     const { data, ...rest } = this.props
 
     return data.cata({
-      Success: value => (
+      Success: (value) => (
         <Success
           {...rest}
           uiState={this.state}
@@ -142,29 +142,23 @@ class TwoStepVerificationContainer extends React.PureComponent {
           }}
         />
       ),
-      Failure: message => <Error {...rest} message={message} />,
+      Failure: (message) => <Error {...rest} message={message} />,
       Loading: () => <Loading {...rest} />,
       NotAsked: () => <Loading {...rest} />
     })
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state),
   mobileNumber: formValueSelector('twoStepVerification')(state, 'mobileNumber')
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch),
-  securityCenterActions: bindActionCreators(
-    actions.modules.securityCenter,
-    dispatch
-  ),
+  securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TwoStepVerificationContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(TwoStepVerificationContainer)

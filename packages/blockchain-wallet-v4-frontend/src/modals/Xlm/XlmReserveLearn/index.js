@@ -5,14 +5,7 @@ import PropTypes from 'prop-types'
 import { bindActionCreators, compose } from 'redux'
 import styled from 'styled-components'
 
-import {
-  Icon,
-  Link,
-  Modal,
-  ModalBody,
-  ModalHeader,
-  Text
-} from 'blockchain-info-components'
+import { Icon, Link, Modal, ModalBody, ModalHeader, Text } from 'blockchain-info-components'
 import { actions, model } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 
@@ -85,11 +78,7 @@ class XlmReserveLearn extends React.PureComponent {
       >
         <ModalHeader onClose={this.onClose}>
           <Header onClick={this.onClose}>
-            <BackIcon
-              name='arrow-left'
-              data-e2e='xlmMinimumModalBack'
-              size='20px'
-            />
+            <BackIcon name='arrow-left' data-e2e='xlmMinimumModalBack' size='20px' />
             <FormattedMessage id='buttons.back' defaultMessage='Back' />
           </Header>
         </ModalHeader>
@@ -133,14 +122,9 @@ class XlmReserveLearn extends React.PureComponent {
           <br />
           <Row>
             <Paragraph>
-              <FormattedMessage
-                id='modal.reservelearn.totalfunds'
-                defaultMessage='Total funds'
-              />
+              <FormattedMessage id='modal.reservelearn.totalfunds' defaultMessage='Total funds' />
             </Paragraph>
-            <Paragraph>
-              {`${totalAmountXlm} XLM (${currencySymbol}${totalAmountFiat})`}
-            </Paragraph>
+            <Paragraph>{`${totalAmountXlm} XLM (${currencySymbol}${totalAmountFiat})`}</Paragraph>
           </Row>
           <br />
           <Row>
@@ -150,21 +134,14 @@ class XlmReserveLearn extends React.PureComponent {
                 defaultMessage='Minimum Balance Requirement'
               />
             </Paragraph>
-            <Paragraph>
-              {`${reserveXlm} XLM (${currencySymbol}${reserveFiat})`}
-            </Paragraph>
+            <Paragraph>{`${reserveXlm} XLM (${currencySymbol}${reserveFiat})`}</Paragraph>
           </Row>
           <br />
           <Row>
             <Paragraph>
-              <FormattedMessage
-                id='modal.reservelearn.fee'
-                defaultMessage='Transaction fee'
-              />
+              <FormattedMessage id='modal.reservelearn.fee' defaultMessage='Transaction fee' />
             </Paragraph>
-            <Paragraph>
-              {`${feeXlm} XLM (${currencySymbol}${feeFiat})`}
-            </Paragraph>
+            <Paragraph>{`${feeXlm} XLM (${currencySymbol}${feeFiat})`}</Paragraph>
           </Row>
           <br />
           <Row>
@@ -196,12 +173,12 @@ XlmReserveLearn.propTypes = {
   rates: PropTypes.object.isRequired
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const enhance = compose(
-  modalEnhancer(model.components.sendXlm.RESERVE_LEARN_MODAL),
+  modalEnhancer('SEND_XLM_RESERVE_LEARN_MODAL'),
   connect(getData, mapDispatchToProps)
 )
 

@@ -7,7 +7,7 @@ import { InjectedFormProps, reduxForm } from 'redux-form'
 import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { convertCoinToFiat } from 'blockchain-wallet-v4/src/exchange'
-import { fiatToString, formatFiat } from 'blockchain-wallet-v4/src/exchange/currency'
+import { fiatToString, formatFiat } from 'blockchain-wallet-v4/src/exchange/utils'
 import { FiatType } from 'blockchain-wallet-v4/src/types'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { CoinBalanceDropdown, NumberBox } from 'components/Form'
@@ -61,13 +61,14 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     invalid,
     rates,
     submitting,
-    supportedCoins,
     values,
     walletCurrency
   } = props
 
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
-  const { coinTicker, displayName } = supportedCoins[coin]
+  const { coinfig } = window.coins[coin]
+  const coinTicker = coin
+  const displayName = coinfig.name
   const account = accountBalances[coin]
   const accountBalanceBase = account && account.balance
   const interestBalanceBase = account && account.totalInterest
@@ -75,7 +76,13 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
   const interestBalanceStandard = convertBaseToStandard(coin, interestBalanceBase)
   const availToWithdrawCrypto = convertBaseToStandard(coin, availToWithdraw)
   const withdrawalAmount = (values && values.withdrawalAmount) || 0
-  const availToWithdrawFiat = convertCoinToFiat(availToWithdrawCrypto, coin, walletCurrency, rates)
+  const availToWithdrawFiat = convertCoinToFiat({
+    coin,
+    currency: walletCurrency,
+    isStandard: true,
+    rates,
+    value: availToWithdrawCrypto
+  })
   const withdrawalAmountFiat = amountToFiat(
     displayCoin,
     withdrawalAmount,

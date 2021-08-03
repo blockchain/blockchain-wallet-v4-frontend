@@ -5,10 +5,11 @@ import { add, lift, prop, propEq } from 'ramda'
 import { coreSelectors } from 'blockchain-wallet-v4/src'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/remote/types'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
-import { CoinType } from 'core/types'
 import { CoinAccountSelectorType } from 'data/coins/types'
 import { generateInterestAccount, generateTradingAccount } from 'data/coins/utils'
+import { SwapAccountType } from 'data/components/types'
 
 import { getInterestBalance, getTradingBalance } from '..'
 
@@ -39,7 +40,7 @@ export const getAccounts = createDeepEqualSelector(
       interestBalance: ExtractSuccess<typeof interestBalanceR>
     ) => {
       const { coin } = ownProps
-      let accounts = []
+      let accounts: SwapAccountType[] = []
       // add non-custodial accounts if requested
       if (ownProps?.nonCustodialAccounts) {
         // each account has a derivations object with legacy xpub and segwit xpub
@@ -68,7 +69,7 @@ export const getAccounts = createDeepEqualSelector(
         accounts = accounts.concat(
           importedAddresses.map((importedAcc) => ({
             address: importedAcc.addr,
-            balance: importedAcc.final_balance,
+            balance: importedAcc.info.final_balance,
             baseCoin: coin,
             coin,
             label: importedAcc.label || importedAcc.addr,
@@ -79,18 +80,12 @@ export const getAccounts = createDeepEqualSelector(
 
       // add trading accounts if requested
       if (ownProps?.tradingAccounts) {
-        accounts = accounts.concat(
-          // @ts-ignore
-          generateTradingAccount(coin, sbBalance)
-        )
+        accounts = accounts.concat(generateTradingAccount(coin, sbBalance))
       }
 
       // add interest accounts if requested
       if (ownProps?.interestAccounts) {
-        accounts = accounts.concat(
-          // @ts-ignore
-          generateInterestAccount(coin, interestBalance)
-        )
+        accounts = accounts.concat(generateInterestAccount(coin, interestBalance))
       }
       return accounts
     }

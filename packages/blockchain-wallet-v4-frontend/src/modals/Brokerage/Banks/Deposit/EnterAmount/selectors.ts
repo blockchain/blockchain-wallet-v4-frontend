@@ -1,43 +1,34 @@
 import { lift } from 'ramda'
 
-import {
-  ExtractSuccess,
-  SupportedWalletCurrenciesType
-} from 'blockchain-wallet-v4/src/types'
+import { ExtractSuccess, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
+import { BankTransferAccountType } from 'data/types'
 
-export const getData = state => {
-  const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(
-    state
-  )
+const getData = (state) => {
+  const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(state)
+  const bankTransferAccounts = bankTransferAccountsR.getOrElse([] as BankTransferAccountType[])
   const defaultMethodR = selectors.components.brokerage.getAccount(state)
   const eligibilityR = selectors.components.simpleBuy.getSBFiatEligible(state)
-  const paymentMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(
-    state
-  )
+  const paymentMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(state)
   const depositLimitsR = selectors.components.simpleBuy.getUserLimit(
     state,
-    'BANK_TRANSFER'
+    SBPaymentTypes.BANK_TRANSFER
   )
   const formErrors = selectors.form.getFormSyncErrors('brokerageTx')(state)
-  const supportedCoinsR = selectors.core.walletOptions.getSupportedCoins(state)
-  const supportedCoins = supportedCoinsR.getOrElse(
-    {} as SupportedWalletCurrenciesType
-  )
   return lift(
     (
-      bankTransferAccounts: ExtractSuccess<typeof bankTransferAccountsR>,
       depositLimits: ExtractSuccess<typeof depositLimitsR>,
       eligibility: ExtractSuccess<typeof eligibilityR>,
       paymentMethods: ExtractSuccess<typeof paymentMethodsR>
     ) => ({
       bankTransferAccounts,
-      depositLimits,
       defaultMethod: defaultMethodR,
+      depositLimits,
       eligibility,
-      paymentMethods,
-      supportedCoins,
-      formErrors
+      formErrors,
+      paymentMethods
     })
-  )(bankTransferAccountsR, depositLimitsR, eligibilityR, paymentMethodsR)
+  )(depositLimitsR, eligibilityR, paymentMethodsR)
 }
+
+export default getData

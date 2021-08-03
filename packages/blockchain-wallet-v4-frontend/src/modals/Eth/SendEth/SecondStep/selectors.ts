@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import { curry, equals, lift, prop, toLower } from 'ramda'
 
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { FiatType } from 'blockchain-wallet-v4/src/types'
 import { model, selectors } from 'data'
@@ -10,12 +10,10 @@ import { model, selectors } from 'data'
 const isSubmitting = selectors.form.isSubmitting(model.components.sendEth.FORM)
 
 const ethFromLabel = curry((payment, state) => {
-  const from = payment.from
+  const { from } = payment
   switch (from.type) {
     case ADDRESS_TYPES.ACCOUNT:
-      return selectors.core.kvStore.eth
-        .getAccountLabel(state, from.address)
-        .getOrElse(from.address)
+      return selectors.core.kvStore.eth.getAccountLabel(state, from.address).getOrElse(from.address)
     case ADDRESS_TYPES.LOCKBOX:
       return selectors.core.kvStore.lockbox
         .getLockboxEthAccount(state, from.address)
@@ -26,13 +24,11 @@ const ethFromLabel = curry((payment, state) => {
   }
 })
 
-const erc20FromLabel = curry((coin, payment, state) => {
-  const from = payment.from
+const erc20FromLabel = curry((coin, payment) => {
+  const { from } = payment
   switch (from.type) {
     case ADDRESS_TYPES.ACCOUNT:
-      return selectors.core.kvStore.eth
-        .getErc20AccountLabel(state, toLower(coin))
-        .getOrElse(from.address)
+      return `${coin} Private Key Wallet`
     default:
       return from.address
   }
@@ -43,53 +39,45 @@ export const getData = (state, coin) => {
   const paymentR = selectors.components.sendEth.getPayment(state)
   const ethRatesR = selectors.core.data.eth.getRates(state)
   const currencyR = selectors.core.settings.getCurrency(state)
-  const erc20Rates = selectors.core.data.eth
-    .getErc20Rates(state, toLower(coin))
-    .getOrElse({})
+  const erc20Rates = selectors.core.data.eth.getErc20Rates(state, coin).getOrElse({})
 
   const transform = (payment, ethRates, currency: FiatType) => {
     const rates = isErc20 ? erc20Rates : ethRates
     // Convert WEI to base for amount
-    const { value: amountStandard } = Exchange.convertCoinToCoin({
-      value: payment.amount,
-      coin: coin,
-      baseToStandard: true
+    const amountStandard = Exchange.convertCoinToCoin({
+      baseToStandard: true,
+      coin,
+      value: payment.amount
     })
-    // Convert WEI to base for fee (ETH)
-    const { value: feeStandard } = Exchange.convertCoinToCoin({
-      value: payment.fee,
-      coin: 'ETH',
-      baseToStandard: true
-    })
-    // Convert ETH or ERC20 amount to Fiat
-    const amount = Exchange.convertCoinToFiat(
-      amountStandard,
+    const amount = Exchange.convertCoinToFiat({
       coin,
       currency,
-      rates
-    )
-    // Fee for ETH or ERC20 txs should always be in ETH
-    const fee = Exchange.convertCoinToFiat(
-      feeStandard,
-      'ETH',
-      currency,
-      ethRates
-    )
-    const totalFiat = fiatToString({
-      value: Number(amount) + Number(fee),
-      unit: currency
+      isStandard: true,
+      rates,
+      value: amountStandard
     })
-    const fromLabel = isErc20
-      ? erc20FromLabel(coin, payment, state)
-      : ethFromLabel(payment, state)
+    // Fee for ETH or ERC20 txs should always be in ETH
+    const useErc20 = isErc20 && payment.from.type === 'CUSTODIAL'
+    const fee = Exchange.convertCoinToFiat({
+      coin: useErc20 ? coin : 'ETH',
+      currency,
+      rates: useErc20 ? erc20Rates : ethRates,
+      value: payment.fee
+    })
+    const totalFiat = fiatToString({
+      unit: currency,
+      value: Number(amount) + Number(fee)
+    })
+    const fromLabel = isErc20 ? erc20FromLabel(coin, payment) : ethFromLabel(payment, state)
 
     return {
-      submitting: isSubmitting(state),
-      description: payment.description,
-      fromAddress: fromLabel,
-      toAddress: payment.to.label || payment.to.address,
       amount: payment.amount,
+      description: payment.description,
       fee: payment.fee,
+      fromAddress: fromLabel,
+      fromType: payment.from.type,
+      submitting: isSubmitting(state),
+      toAddress: payment.to.label || payment.to.address,
       // @ts-ignore
       totalCrypto: new BigNumber.sum(payment.amount, payment.fee).toString(),
       totalFiat
@@ -98,3 +86,5 @@ export const getData = (state, coin) => {
 
   return lift(transform)(paymentR, ethRatesR, currencyR)
 }
+
+export default getData

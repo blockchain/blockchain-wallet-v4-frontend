@@ -1,8 +1,6 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 
-import { Erc20CoinsEnum } from 'blockchain-wallet-v4/src/types'
-
 import { getErc20Data, getEthData } from './selectors'
 import SelectBoxEth from './template'
 
@@ -10,12 +8,10 @@ class SelectBoxEthAddresses extends React.PureComponent<Props> {
   render() {
     const { data, ...rest } = this.props
     return data.cata({
-      Success: value => (
-        <SelectBoxEth options={value.data} elements={value.data} {...rest} />
-      ),
-      Failure: message => <div>{message}</div>,
+      Failure: (message) => <div>{message}</div>,
       Loading: () => <div />,
-      NotAsked: () => <div />
+      NotAsked: () => <div />,
+      Success: (value) => <SelectBoxEth options={value.data} elements={value.data} {...rest} />
     })
   }
 }
@@ -26,9 +22,9 @@ SelectBoxEthAddresses.defaultProps = {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return ownProps.coin in Erc20CoinsEnum
-    ? { data: getErc20Data(state, ownProps) }
-    : { data: getEthData(state, ownProps) }
+  return ownProps.coin === 'ETH'
+    ? { data: getEthData(state, ownProps) }
+    : { data: getErc20Data(state, ownProps) }
 }
 
 const connector = connect(mapStateToProps)

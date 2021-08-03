@@ -13,20 +13,14 @@ const InterestBanner: React.FC<Props> = ({
   afterTransaction,
   analyticsActions,
   interestActions,
-  interestRate,
-  supportedCoins
+  interestRate
 }) => {
   const { amount, currency } = afterTransaction
-  const { displayName } = supportedCoins[currency]
+  const displayName = window.coins[currency].coinfig.name
   return (
     <CustomBoxRightOriented>
       <div>
-        <Text
-          size='16px'
-          color='grey900'
-          weight={600}
-          style={{ marginTop: '16px' }}
-        >
+        <Text size='16px' color='grey900' weight={600} style={{ marginTop: '16px' }}>
           <FormattedMessage
             id='modals.simplebuy.interest_banner.title'
             defaultMessage='Earn {interestRate}% on this {displayName} Purchase'
@@ -40,7 +34,7 @@ const InterestBanner: React.FC<Props> = ({
           size='14px'
           color='grey600'
           weight={500}
-          style={{ marginTop: '4px', lineHeight: 1.5, maxWidth: '286px' }}
+          style={{ lineHeight: 1.5, marginTop: '4px', maxWidth: '286px' }}
         >
           <FormattedMessage
             id='modals.simplebuy.interest_banner.description'
@@ -58,7 +52,7 @@ const InterestBanner: React.FC<Props> = ({
         nature='light'
         data-e2e='earnInterestNow'
         onClick={() => {
-          interestActions.showInterestModal('DEPOSIT', currency, true)
+          interestActions.showInterestModal('DEPOSIT', currency)
           analyticsActions.logEvent(model.analytics.ONE_CLICK_INTEREST.CLICK)
         }}
       >

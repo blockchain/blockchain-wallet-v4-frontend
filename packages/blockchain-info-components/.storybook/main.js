@@ -1,7 +1,20 @@
 module.exports = {
+  stories: ['../stories/**/*.stories.@(js|tsx)'],
   addons: [
-    '@storybook/preset-typescript',
-    '@storybook/addon-actions/register',
-    '@storybook/addon-links/register'
-  ]
+    '@storybook/addon-essentials',
+    '@storybook/addon-actions',
+    '@storybook/addon-links',
+    'themeprovider-storybook/register',
+    '@react-theming/storybook-addon',
+    'storybook-dark-mode'
+  ],
+  typescript: {
+    reactDocgen: 'react-docgen-typescript',
+    reactDocgenTypescriptOptions: {
+      compilerOptions: {
+        allowSyntheticDefaultImports: false,
+        esModuleInterop: false,
+      },
+    }
+  }
 }

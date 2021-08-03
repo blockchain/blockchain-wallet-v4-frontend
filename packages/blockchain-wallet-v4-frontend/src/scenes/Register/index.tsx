@@ -4,7 +4,6 @@ import { find, propEq, propOr } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 import { formValueSelector } from 'redux-form'
 
-import { SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { GoalsType } from 'data/goals/types'
 import { RootState } from 'data/rootReducer'
@@ -12,8 +11,11 @@ import { RootState } from 'data/rootReducer'
 import Register from './template'
 
 class RegisterContainer extends React.PureComponent<PropsType, StateType> {
-  state = {
-    showForm: false
+  constructor(props) {
+    super(props)
+    this.state = {
+      showForm: false
+    }
   }
 
   onSubmit = () => {
@@ -27,11 +29,11 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
 
   render() {
     const { data, goals, password, search } = this.props
-    let busy = data.cata({
-      Success: () => false,
+    const busy = data.cata({
       Failure: () => false,
       Loading: () => true,
-      NotAsked: () => false
+      NotAsked: () => false,
+      Success: () => false
     })
 
     const passwordLength = (password && password.length) || 0
@@ -67,15 +69,12 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   goals: selectors.goals.getGoals(state),
   language: selectors.preferences.getLanguage(state),
   password: formValueSelector('register')(state, 'password') || '',
-  search: selectors.router.getSearch(state) as string,
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrElse({} as SupportedWalletCurrenciesType)
+  search: selectors.router.getSearch(state) as string
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   alertActions: bindActionCreators(actions.alerts, dispatch),
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   authActions: bindActionCreators(actions.auth, dispatch)
 })
 
@@ -89,13 +88,12 @@ type LinkStatePropsType = {
   language: string
   password: string
   search: string
-  supportedCoins: SupportedWalletCurrenciesType
 }
 
 type StateType = {
   showForm: boolean
 }
 
-export type PropsType = ConnectedProps<typeof connector>
+export type PropsType = ConnectedProps<typeof connector> & LinkStatePropsType
 
 export default connector(RegisterContainer)

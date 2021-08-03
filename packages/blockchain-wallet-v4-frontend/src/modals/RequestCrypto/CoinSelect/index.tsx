@@ -9,7 +9,7 @@ import { Icon, Text } from 'blockchain-info-components'
 import { StickyHeaderFlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption, SelectBoxCoin } from 'components/Form'
 import { actions } from 'data'
-import { SwapAccountType } from 'data/components/swap/types'
+import { SwapAccountType, SwapBaseCounterTypes } from 'data/components/swap/types'
 
 import { Props as OwnProps } from '..'
 import { REQUEST_FORM, StepHeader } from '../model'
@@ -28,22 +28,14 @@ const SelectCoinWrapper = styled.div`
   width: 40%;
 `
 const NoAccountsText = styled.div`
-  border-top: ${props => `1px solid ${props.theme.grey000}`};
+  border-top: ${(props) => `1px solid ${props.theme.grey000}`};
   padding: 40px 40px 0;
   text-align: center;
 `
 
 class RequestCoinSelect extends React.PureComponent<Props> {
   render() {
-    const {
-      data,
-      formActions,
-      handleClose,
-      requestableCoins,
-      setStep,
-      supportedCoins,
-      walletCurrency
-    } = this.props
+    const { data, formActions, handleClose, requestableCoins, setStep, walletCurrency } = this.props
     return (
       <Wrapper>
         <StickyHeaderFlyoutWrapper>
@@ -66,12 +58,7 @@ class RequestCoinSelect extends React.PureComponent<Props> {
                 defaultMessage='Receive Crypto'
               />
             </Text>
-            <Text
-              size='16px'
-              color='grey600'
-              weight={500}
-              style={{ marginTop: '10px' }}
-            >
+            <Text size='16px' color='grey600' weight={500} style={{ marginTop: '10px' }}>
               <FormattedMessage
                 id='modals.requestcrypto.coinselect.subtitle'
                 defaultMessage='Select and share your address or QR code to receive crypto from anyone around the world.'
@@ -84,7 +71,7 @@ class RequestCoinSelect extends React.PureComponent<Props> {
                 name='selectedCoin'
                 props={{
                   additionalOptions: [{ text: 'All Wallets', value: 'ALL' }],
-                  limitTo: requestableCoins.map(coin => ({
+                  limitTo: requestableCoins.map((coin) => ({
                     text: coin,
                     value: coin
                   }))
@@ -94,20 +81,17 @@ class RequestCoinSelect extends React.PureComponent<Props> {
             </SelectCoinWrapper>
           </div>
         </StickyHeaderFlyoutWrapper>
-        {data.accounts.map(account => (
+        {data.accounts.map((account) => (
           <CoinAccountListOption
+            key={account.coin + account.address}
             account={account}
-            coinModel={supportedCoins[account.coin]}
+            coin={account.coin}
             onClick={() => {
-              if (account.type === 'CUSTODIAL' && !data.isAtLeastTier1) {
+              if (account.type === SwapBaseCounterTypes.CUSTODIAL && !data.isAtLeastTier1) {
                 setStep(RequestSteps.IDV_INTRO)
               } else {
                 formActions.change(REQUEST_FORM, 'selectedAccount', account)
-                formActions.change(
-                  REQUEST_FORM,
-                  'step',
-                  RequestSteps.SHOW_ADDRESS
-                )
+                formActions.change(REQUEST_FORM, 'step', RequestSteps.SHOW_ADDRESS)
               }
             }}
             walletCurrency={walletCurrency}
@@ -115,12 +99,7 @@ class RequestCoinSelect extends React.PureComponent<Props> {
         ))}
         {data.accounts.length === 0 && (
           <NoAccountsText>
-            <Text
-              size='16px'
-              color='grey900'
-              weight={500}
-              style={{ marginTop: '10px' }}
-            >
+            <Text size='16px' color='grey900' weight={500} style={{ marginTop: '10px' }}>
               <FormattedMessage
                 id='modals.requestcrypto.coinselect.noaccounts'
                 defaultMessage='Currently there are no receivable accounts for the selected crypto.'
@@ -137,7 +116,7 @@ const mapStateToProps = (state, ownProps) => ({
   data: getData(state, ownProps)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

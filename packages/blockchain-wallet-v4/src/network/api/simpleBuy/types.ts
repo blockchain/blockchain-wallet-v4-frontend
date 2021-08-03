@@ -1,11 +1,6 @@
 import { CardNameType } from 'components/Form/CreditCardBox/model'
-import {
-  BeneficiaryType,
-  CoinType,
-  FiatType,
-  WalletCurrencyType
-} from 'core/types'
-import { BankDetails } from 'data/types'
+import { BeneficiaryType, CoinType, FiatType, WalletCurrencyType } from 'core/types'
+import { BankDetails, RecurringBuyPeriods } from 'data/types'
 
 export type Everypay3DSResponseType = {
   payment_state: null | 'waiting_for_3DS_response'
@@ -55,7 +50,7 @@ export type SBBalanceType = {
 }
 
 export type SBBalancesType = {
-  [key in WalletCurrencyType]?: SBBalanceType
+  [key in string]?: SBBalanceType
 }
 
 export type CustodialFromType = SBBalanceType & {
@@ -103,12 +98,7 @@ export type SBCardType = {
 
 export type SBCardPartnerType = 'EVERYPAY'
 
-export type SBCardStateType =
-  | 'PENDING'
-  | 'CREATED'
-  | 'ACTIVE'
-  | 'BLOCKED'
-  | 'FRAUD_REVIEW'
+export type SBCardStateType = 'PENDING' | 'CREATED' | 'ACTIVE' | 'BLOCKED' | 'FRAUD_REVIEW'
 
 export type SBPairsType = string
 
@@ -120,13 +110,14 @@ export type SBPairType = {
   sellMin: string
 }
 
-export type SBPaymentTypes =
-  | 'PAYMENT_CARD'
-  | 'BANK_ACCOUNT' // Wire Transfers
-  | 'FUNDS'
-  | 'USER_CARD'
-  | 'BANK_TRANSFER' // ACH
-  | 'LINK_BANK' // Also ACH
+export enum SBPaymentTypes {
+  BANK_ACCOUNT = 'BANK_ACCOUNT',
+  BANK_TRANSFER = 'BANK_TRANSFER',
+  FUNDS = 'FUNDS',
+  LINK_BANK = 'LINK_BANK',
+  PAYMENT_CARD = 'PAYMENT_CARD',
+  USER_CARD = 'USER_CARD'
+}
 
 export type SBPaymentMethodType = {
   addedAt?: string
@@ -194,6 +185,7 @@ export type ISBBuyOrderType = {
   outputQuantity: string
   paymentMethodId?: string
   paymentType?: SBPaymentMethodType['type']
+  period?: RecurringBuyPeriods
   price?: string
   side: SBOrderActionType
   state: SBOrderStateType
@@ -216,6 +208,7 @@ export type SBSellOrderType = ISBBuyOrderType & {
 }
 export type SBOrderType = SBBuyOrderType | SBSellOrderType
 
+// TODO: refactor this into an enum
 export type SBOrderStateType =
   | 'PENDING_CONFIRMATION'
   | 'PENDING_DEPOSIT'

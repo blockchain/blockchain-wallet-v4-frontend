@@ -33,15 +33,12 @@ const ItemAddress = ({ address, network, onChange }) => (
   <Item>
     <FormLabel>
       <LabelMessage>
-        <FormattedMessage
-          id='modals.verifyMessage.address'
-          defaultMessage='Bitcoin Address:'
-        />
+        <FormattedMessage id='modals.verifyMessage.address' defaultMessage='Bitcoin Address:' />
       </LabelMessage>
       <TextBox
         input={{
-          onChange,
-          name: 'address'
+          name: 'address',
+          onChange
         }}
         meta={{
           error: validBtcAddress(address, null, { network }),
@@ -57,10 +54,7 @@ const ItemMessage = ({ onChange }) => (
   <Item>
     <FormLabel>
       <LabelMessage>
-        <FormattedMessage
-          id='modals.verifyMessage.message'
-          defaultMessage='Message:'
-        />
+        <FormattedMessage id='modals.verifyMessage.message' defaultMessage='Message:' />
       </LabelMessage>
       <TextArea
         input={{
@@ -78,10 +72,7 @@ const ItemSignature = ({ onChange }) => (
   <Item>
     <FormLabel>
       <LabelMessage>
-        <FormattedMessage
-          id='modals.verifyMessage.signature'
-          defaultMessage='Signature:'
-        />
+        <FormattedMessage id='modals.verifyMessage.signature' defaultMessage='Signature:' />
       </LabelMessage>
       <TextArea
         input={{
@@ -114,20 +105,13 @@ class VerifyMessage extends React.PureComponent {
     return (
       <Modal>
         <ModalHeader onClose={closeAll}>
-          <FormattedMessage
-            id='modals.verifyMessage.title'
-            defaultMessage='Verify Message'
-          />
+          <FormattedMessage id='modals.verifyMessage.title' defaultMessage='Verify Message' />
           <TooltipHost id='verifyMessage'>
             <TooltipIcon name='info' />
           </TooltipHost>
         </ModalHeader>
         <ModalBody>
-          <ItemAddress
-            address={this.state.address}
-            network={network}
-            onChange={this.onChange}
-          />
+          <ItemAddress address={this.state.address} network={network} onChange={this.onChange} />
           <ItemMessage onChange={this.onChange} />
           <ItemSignature onChange={this.onChange} />
           <Result visible={services.showResult(this.state)}>
@@ -149,11 +133,7 @@ class VerifyMessage extends React.PureComponent {
           </Result>
         </ModalBody>
         <ModalFooter align='right'>
-          <Button
-            onClick={close}
-            nature='primary'
-            data-e2e='closeVerifyMessageButton'
-          >
+          <Button onClick={close} nature='primary' data-e2e='closeVerifyMessageButton'>
             <FormattedMessage id='buttons.close' defaultMessage='Close' />
           </Button>
         </ModalFooter>
@@ -162,4 +142,4 @@ class VerifyMessage extends React.PureComponent {
   }
 }
 
-export default modalEnhancer('VERIFY_MESSAGE_AIRDROP')(VerifyMessage)
+export default modalEnhancer('VERIFY_MESSAGE_MODAL')(VerifyMessage)

@@ -5,12 +5,9 @@ import {
   PaymentValue,
   RateType,
   SwapQuoteType,
-  SwapUserLimitsType
+  SwapUserLimitsType,
 } from 'blockchain-wallet-v4/src/types'
-import {
-  convertBaseToStandard,
-  convertStandardToBase
-} from 'data/components/exchange/services'
+import { convertBaseToStandard, convertStandardToBase } from 'data/components/exchange/services'
 import { SwapAccountType, SwapAmountFormValues } from 'data/types'
 import { CRYPTO_DECIMALS } from 'services/forms'
 
@@ -27,17 +24,12 @@ export const getMaxMin = (
 ) => {
   switch (minOrMax) {
     case 'max':
-      const fiatMax = new BigNumber(
-        convertBaseToStandard('FIAT', limits.maxPossibleOrder)
-      )
+      const fiatMax = new BigNumber(convertBaseToStandard('FIAT', limits.maxPossibleOrder))
       const cryptoMax = new BigNumber(
         convertStandardToBase(BASE.coin, fiatMax.dividedBy(baseRate.last))
       )
       const userMax = Number(payment ? payment.effectiveBalance : BASE.balance)
-      return convertBaseToStandard(
-        BASE.coin,
-        Math.min(userMax, cryptoMax.toNumber())
-      )
+      return convertBaseToStandard(BASE.coin, Math.min(userMax, cryptoMax.toNumber()))
     case 'min':
       // AOTW = As Of This Writing
       // ℹ️
@@ -63,10 +55,7 @@ export const getMaxMin = (
       // 1 BTC = 39.12444194 ETH
       const exRate = new BigNumber(1).dividedBy(quote.rate)
       // BTC fee is 0.0004517 BTC a.k.a 4517 satoshi
-      const standardCounterFee = convertBaseToStandard(
-        COUNTER.coin,
-        quote.quote.networkFee
-      )
+      const standardCounterFee = convertBaseToStandard(COUNTER.coin, quote.quote.networkFee)
       // 4517 satoshi is 0.017672510 ETH is 7 USD (AOTW)
       const counterFeeInBase = exRate.times(standardCounterFee).toNumber()
 
@@ -75,11 +64,7 @@ export const getMaxMin = (
   }
 }
 
-export const maximumAmount = (
-  value: string,
-  allValues: SwapAmountFormValues,
-  restProps: Props
-) => {
+export const maximumAmount = (value: string, allValues: SwapAmountFormValues, restProps: Props) => {
   if (!value) return true
   if (!allValues) return
 
@@ -97,22 +82,17 @@ export const maximumAmount = (
       restProps.COUNTER
     )
   )
-  const fiatMax = Exchange.convertCoinToFiat(
-    cryptoMax,
-    restProps.BASE.coin,
-    walletCurrency,
-    baseRates
-  )
-  return Number(value) > (fix === 'CRYPTO' ? cryptoMax : fiatMax)
-    ? 'ABOVE_MAX'
-    : false
+  const fiatMax = Exchange.convertCoinToFiat({
+    coin: restProps.BASE.coin,
+    currency: walletCurrency,
+    isStandard: true,
+    rates: baseRates,
+    value: cryptoMax,
+  })
+  return Number(value) > (fix === 'CRYPTO' ? cryptoMax : fiatMax) ? 'ABOVE_MAX' : false
 }
 
-export const minimumAmount = (
-  value: string,
-  allValues: SwapAmountFormValues,
-  restProps: Props
-) => {
+export const minimumAmount = (value: string, allValues: SwapAmountFormValues, restProps: Props) => {
   if (!value) return true
   if (!allValues) return
 
@@ -130,22 +110,18 @@ export const minimumAmount = (
       restProps.COUNTER
     )
   )
-  const fiatMin = Exchange.convertCoinToFiat(
-    cryptoMin,
-    restProps.BASE.coin,
-    walletCurrency,
-    baseRates
-  )
+  const fiatMin = Exchange.convertCoinToFiat({
+    coin: restProps.BASE.coin,
+    currency: walletCurrency,
+    isStandard: true,
+    rates: baseRates,
+    value: cryptoMin,
+  })
 
-  return Number(value) < (fix === 'CRYPTO' ? cryptoMin : fiatMin)
-    ? 'BELOW_MIN'
-    : false
+  return Number(value) < (fix === 'CRYPTO' ? cryptoMin : fiatMin) ? 'BELOW_MIN' : false
 }
 
-export const maximumAmountSilver = (
-  restProps: Props,
-  amtError: string | boolean
-) => {
+export const maximumAmountSilver = (restProps: Props, amtError: string | boolean) => {
   // @ts-ignore
   const { limits, userData } = restProps
   if (userData.tiers.current === 2) return

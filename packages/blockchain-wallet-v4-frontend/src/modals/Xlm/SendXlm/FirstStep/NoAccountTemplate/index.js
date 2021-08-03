@@ -28,12 +28,9 @@ export const NoAccountTemplate = ({ swapActions }) => (
         nature='primary'
         uppercase
         fullwidth
-        onClick={() => swapActions.showModal()}
+        onClick={() => swapActions.showModal('Send')}
       >
-        <FormattedMessage
-          id='modals.sendxlm.firststep.swap'
-          defaultMessage='Swap for XLM'
-        />
+        <FormattedMessage id='modals.sendxlm.firststep.swap' defaultMessage='Swap for XLM' />
       </Button>
     </FormGroup>
   </React.Fragment>

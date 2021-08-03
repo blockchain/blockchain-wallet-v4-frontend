@@ -5,15 +5,8 @@ import PropTypes from 'prop-types'
 import { Button, Text } from 'blockchain-info-components'
 import { SettingWrapper } from 'components/Setting'
 
-const Setting = props => {
-  const {
-    handleClick,
-    modalActions,
-    resetWarning,
-    showWarning,
-    smsNumber,
-    smsVerified
-  } = props
+const Setting = (props) => {
+  const { handleClick, modalActions, resetWarning, showWarning, smsNumber, smsVerified } = props
 
   return (
     <SettingWrapper>
@@ -30,7 +23,7 @@ const Setting = props => {
             nature='primary'
             onClick={() => {
               resetWarning()
-              modalActions.showModal('ConfirmDisable2FA', {
+              modalActions.showModal('CONFIRM_DISABLE_2FA', {
                 authName: '2FA using SMS',
                 extraCopy: (
                   <FormattedMessage
@@ -55,33 +48,21 @@ const Setting = props => {
             </Text>
           )}
           {smsVerified === 1 ? (
-            <Button
-              data-e2e='prefsMobileNumberChange'
-              nature='primary'
-              onClick={handleClick}
-            >
+            <Button nature='primary' onClick={handleClick} data-e2e='prefsMobileNumberChange'>
               <FormattedMessage
                 id='scenes.settings.preferences.mobilenumber.settings.change'
                 defaultMessage='Change'
               />
             </Button>
           ) : smsNumber ? (
-            <Button
-              nature='primary'
-              onClick={handleClick}
-              data-e2e='prefsMobileNumberVerify'
-            >
+            <Button nature='primary' onClick={handleClick} data-e2e='prefsMobileNumberVerify'>
               <FormattedMessage
                 id='scenes.settings.preferences.mobilenumber.settings.verify'
                 defaultMessage='Verify'
               />
             </Button>
           ) : (
-            <Button
-              nature='primary'
-              onClick={handleClick}
-              data-e2e='prefsMobileNumberAdd'
-            >
+            <Button nature='primary' onClick={handleClick} data-e2e='prefsMobileNumberAdd'>
               <FormattedMessage
                 id='scenes.settings.preferences.mobilenumber.settings.addmobile'
                 defaultMessage='Add Mobile Number'
@@ -95,9 +76,9 @@ const Setting = props => {
 }
 
 Setting.propTypes = {
+  handleClick: PropTypes.func.isRequired,
   smsNumber: PropTypes.string,
-  smsVerified: PropTypes.number.isRequired,
-  handleClick: PropTypes.func.isRequired
+  smsVerified: PropTypes.number.isRequired
 }
 
 export default Setting

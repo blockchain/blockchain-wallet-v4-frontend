@@ -1,7 +1,6 @@
 import { CoinType, FiatType } from 'core/types'
 
 import {
-  SwapEligibilityResponseType,
   SwapOrderDirectionType,
   SwapOrderStateType,
   SwapOrderType,
@@ -12,19 +11,13 @@ import {
 export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
   const cancelSwapOrder = (id: string): SwapOrderType =>
     authorizedPost({
-      url: nabuUrl,
-      endPoint: `/custodial/trades/${id}`,
-      removeDefaultPostData: true,
       contentType: 'application/json',
       data: {
         action: 'CANCEL'
-      }
-    })
-
-  const checkCustodialSwapEligibility = (): SwapEligibilityResponseType =>
-    authorizedGet({
-      url: nabuUrl,
-      endPoint: '/eligible/product/swap'
+      },
+      endPoint: `/custodial/trades/${id}`,
+      removeDefaultPostData: true,
+      url: nabuUrl
     })
 
   const createSwapOrder = (
@@ -36,34 +29,34 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
     refundAddress?: string
   ): SwapOrderType =>
     authorizedPost({
-      url: nabuUrl,
-      endPoint: '/custodial/trades',
       contentType: 'application/json',
-      removeDefaultPostData: true,
       data: {
         ccy,
+        destinationAddress,
         direction,
         quoteId,
-        volume,
-        destinationAddress,
-        refundAddress
-      }
+        refundAddress,
+        volume
+      },
+      endPoint: '/custodial/trades',
+      removeDefaultPostData: true,
+      url: nabuUrl
     })
 
   const getSwapLimits = (currency: FiatType): SwapUserLimitsType =>
     authorizedGet({
-      url: nabuUrl,
-      endPoint: `/trades/limits?currency=${currency}&minor=true`,
       contentType: 'application/json',
-      ignoreQueryParams: true
+      endPoint: `/trades/limits?currency=${currency}&minor=true`,
+      ignoreQueryParams: true,
+      url: nabuUrl
     })
 
   const getSwapPairs = (): Array<string> =>
     authorizedGet({
-      url: nabuUrl,
-      endPoint: `/custodial/trades/pairs`,
       contentType: 'application/json',
-      ignoreQueryParams: true
+      endPoint: `/custodial/trades/pairs`,
+      ignoreQueryParams: true,
+      url: nabuUrl
     })
 
   const getSwapQuote = (
@@ -72,14 +65,14 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
     product = 'BROKERAGE'
   ): SwapQuoteType =>
     authorizedPost({
-      url: nabuUrl,
-      endPoint: `/custodial/quote`,
       contentType: 'application/json',
       data: {
         direction,
         pair,
         product
-      }
+      },
+      endPoint: `/custodial/quote`,
+      url: nabuUrl
     })
 
   const getSwapTrades = (
@@ -90,53 +83,49 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
     states?: string // comma-separated list of SwapOrderStateType
   ) =>
     authorizedGet({
-      url: nabuUrl,
-      endPoint: `/custodial/trades`,
-      ignoreQueryParams: true,
       data: {
+        after,
+        before,
         limit,
         offset,
-        before,
-        after,
         states
-      }
+      },
+      endPoint: `/custodial/trades`,
+      ignoreQueryParams: true,
+      url: nabuUrl
     })
 
   const getUnifiedSwapTrades = (
-    currency: CoinType,
+    currency?: CoinType,
     limit?: number,
     before?: string,
     after?: string,
     v2states?: SwapOrderStateType
   ): Array<SwapOrderType> =>
     authorizedGet({
-      url: nabuUrl,
-      endPoint: `/trades/unified`,
       data: {
+        after,
+        before,
         currency,
         limit,
-        before,
-        after,
         states: v2states
-      }
+      },
+      endPoint: `/trades/unified`,
+      url: nabuUrl
     })
 
-  const updateSwapOrder = (
-    id: string,
-    action: 'DEPOSIT_SENT' | 'CANCEL'
-  ): SwapQuoteType =>
+  const updateSwapOrder = (id: string, action: 'DEPOSIT_SENT' | 'CANCEL'): SwapQuoteType =>
     authorizedPost({
-      url: nabuUrl,
-      endPoint: `/custodial/trades/${id}`,
       contentType: 'application/json',
       data: {
         action
-      }
+      },
+      endPoint: `/custodial/trades/${id}`,
+      url: nabuUrl
     })
 
   return {
     cancelSwapOrder,
-    checkCustodialSwapEligibility,
     createSwapOrder,
     getSwapLimits,
     getSwapPairs,

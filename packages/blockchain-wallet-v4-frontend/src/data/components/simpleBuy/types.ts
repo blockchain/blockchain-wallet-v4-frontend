@@ -22,9 +22,10 @@ import {
   SwapQuoteType,
   SwapUserLimitsType
 } from 'blockchain-wallet-v4/src/types'
+import { RecurringBuyPeriods } from 'data/types'
 
 import { CountryType } from '../identityVerification/types'
-import { SwapAccountType } from '../swap/types'
+import { SwapAccountType, SwapBaseCounterTypes } from '../swap/types'
 import * as AT from './actionTypes'
 
 // Types
@@ -58,6 +59,7 @@ export type SBCheckoutFormValuesType =
       cryptoAmount: string
       fix: SBFixType
       orderType: SBOrderActionType
+      period: RecurringBuyPeriods
     }
 export type SBCurrencySelectFormType = {
   search: string
@@ -98,6 +100,8 @@ export type SBShowModalOriginType =
   | 'WelcomeModal'
   | 'WithdrawModal'
   | 'SwapNoHoldings'
+  | 'CurrencyList'
+  | 'Goals'
 
 export enum SBCardStateEnum {
   PENDING,
@@ -423,7 +427,7 @@ export type StepActionsPayload =
     }
   | { order?: SBOrderType; step: '3DS_HANDLER' }
   | {
-      sellOrderType?: 'ACCOUNT' | 'CUSTODIAL'
+      sellOrderType?: SwapBaseCounterTypes
       step: 'PREVIEW_SELL'
     }
   | {

@@ -1,58 +1,72 @@
-import type { AnalyticsPayload } from 'middleware/analyticsMiddleware/types'
+import { queuevent } from '@blockchain-com/constellation'
+import type { AnalyticsValue, RawEvent } from 'middleware/analyticsMiddleware/types'
 import { AnalyticsKey } from 'middleware/analyticsMiddleware/types'
-import { generateUniqueUserId } from 'middleware/analyticsMiddleware/utils'
-import { v4 } from 'uuid'
+import { generateUniqueId } from 'middleware/analyticsMiddleware/utils'
 
-import queuevent from 'utils/queuevent'
+import { ANALYTICS_ID, QUEUE_NAME, UTM } from './constants'
 
-const analytics = queuevent<AnalyticsKey, AnalyticsPayload>({
-  queueCallback: async (rawEvents) => {
-    const res = await fetch('/wallet-options-v4.json')
-    const options = await res.json()
+const queueCallback = async (rawEvents: RawEvent[]) => {
+  const res = await fetch('/wallet-options-v4.json')
+  const options = await res.json()
 
-    const analyticsURL = `${options.domains.api}/events/publish`
+  const analyticsURL = `${options.domains.api}/events/publish`
 
-    const id = rawEvents.find((event) => event.payload.id)?.payload.id
+  const guid = rawEvents.find((event) => event.payload.properties.guid)?.payload.properties.guid
+  const id = localStorage.getItem(ANALYTICS_ID)
 
-    const randomId = v4()
+  const nabuId =
+    rawEvents.find((event) => event.payload.traits.nabuId)?.payload.traits.nabuId ?? null
+  const email = rawEvents.find((event) => event.payload.traits.email)?.payload.traits.email ?? null
+  const tier = rawEvents.find((event) => event.payload.traits.tier)?.payload.traits.tier ?? null
+  const parsedTier = tier ? String(tier) : null
 
-    const nabuId = rawEvents.find((event) => event.payload.nabuId)?.payload.nabuId || null
+  const rawCampaign = sessionStorage.getItem(UTM)
+  const campaign = rawCampaign ? JSON.parse(rawCampaign) : {}
 
-    const context = {
-      traits: {
-        nabu_id: nabuId
-      }
-    } as const
+  const traits = {
+    email,
+    nabu_id: nabuId,
+    tier: parsedTier
+  }
 
-    const events = rawEvents.map((event) => {
-      const name = event.key
+  const context = {
+    campaign,
+    traits
+  } as const
 
-      const { id, nabuId, originalTimestamp, type, ...properties } = event.payload
+  const events = rawEvents.map((event) => {
+    const name = event.key
 
-      return {
-        id: generateUniqueUserId(id || randomId),
-        nabuId,
-        name,
-        originalTimestamp,
-        properties,
-        type
-      }
-    })
+    const { guid, originalTimestamp, ...properties } = event.payload.properties
 
-    await fetch(analyticsURL, {
-      body: JSON.stringify({
-        context,
-        events,
-        id: generateUniqueUserId(id || randomId)
-      }),
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      method: 'POST'
-    })
-  },
-  queueName: 'analytics'
+    return {
+      id: guid ? generateUniqueId(guid) : id,
+      nabuId,
+      name,
+      originalTimestamp,
+      properties
+    }
+  })
+
+  await fetch(analyticsURL, {
+    body: JSON.stringify({
+      context,
+      device: 'WEB',
+      events,
+      id: guid ? generateUniqueId(guid) : id,
+      platform: 'WALLET'
+    }),
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    method: 'POST'
+  })
+}
+
+const analytics = queuevent<AnalyticsKey, AnalyticsValue>({
+  queueCallback,
+  queueName: QUEUE_NAME
 })
 
 export default analytics

@@ -3,11 +3,12 @@ import { FormattedMessage } from 'react-intl'
 import styled, { css } from 'styled-components'
 
 import { Icon, Image, Text } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import {
   FiatType,
   SBBalancesType,
   SBPaymentMethodType,
+  SBPaymentTypes,
   WalletCurrencyType
 } from 'blockchain-wallet-v4/src/types'
 import { Title, Value } from 'components/Flyout'
@@ -27,26 +28,6 @@ const DisablableIcon = styled(Icon)<{
   ${(props) =>
     props.disabled &&
     css`
-      cursor: not-allowed;
-    `}
-`
-
-export const PaymentContainer = styled.div<PaymentContainerProps>`
-  border: 1px solid ${(props) => props.theme.grey100};
-  box-sizing: border-box;
-  height: 80px;
-  border-radius: 8px;
-  margin-bottom: 24px;
-  display: flex;
-  flex-direction: row;
-  cursor: pointer;
-  padding: ${(props) => (props.isMethod ? `12px 28px` : `23px 28px`)};
-  justify-content: space-between;
-  ${(props) => !props.isMethod && `line-height: 32px;`}
-  ${(props) =>
-    props.disabled &&
-    css`
-      background-color: ${(props) => props.theme.grey000};
       cursor: not-allowed;
     `}
 `
@@ -179,7 +160,7 @@ export const getIcon = (
   }
 
   switch (method.type) {
-    case 'USER_CARD':
+    case SBPaymentTypes.USER_CARD:
       const cardType = CARD_TYPES.find(
         (card) => card.type === (method.card ? method.card.type : '')
       )
@@ -191,9 +172,9 @@ export const getIcon = (
           alt=''
         />
       )
-    case 'FUNDS':
+    case SBPaymentTypes.FUNDS:
       return <Icon size='32px' color='USD' name={method.currency as WalletCurrencyType} />
-    case 'BANK_TRANSFER':
+    case SBPaymentTypes.BANK_TRANSFER:
       return <Image name={getBankLogoImageName(method.details?.bankName)} height='48px' />
     default:
       return <></>
@@ -207,24 +188,28 @@ export const getText = (
 ): ReactElement => {
   if (isSddFlow && !method) {
     return (
-      <FormattedMessage
-        id='modals.simplebuy.confirm.credit_or_debit'
-        defaultMessage='Credit or Debit Card'
-      />
+      <Text weight={600} color='grey900' style={{ paddingBottom: '3px', paddingTop: '4px' }}>
+        <FormattedMessage
+          id='modals.simplebuy.confirm.credit_or_debit'
+          defaultMessage='Credit or Debit Card'
+        />
+      </Text>
     )
   }
   if (!method) {
     return (
-      <FormattedMessage
-        id='modals.simplebuy.confirm.jump_to_payment'
-        defaultMessage='Add Payment Method'
-      />
+      <Text weight={600} color='grey900' style={{ paddingBottom: '3px', paddingTop: '4px' }}>
+        <FormattedMessage
+          id='modals.simplebuy.confirm.jump_to_payment'
+          defaultMessage='Add Payment Method'
+        />
+      </Text>
     )
   }
 
-  return method.type === 'USER_CARD'
+  return method.type === SBPaymentTypes.USER_CARD
     ? renderCard(method)
-    : method.type === 'BANK_TRANSFER'
+    : method.type === SBPaymentTypes.BANK_TRANSFER
     ? renderBank(method)
     : renderFund(method, sbBalances)
 }

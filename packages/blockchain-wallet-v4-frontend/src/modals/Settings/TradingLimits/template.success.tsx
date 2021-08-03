@@ -4,13 +4,13 @@ import { path } from 'ramda'
 import styled from 'styled-components'
 
 import { Button, Icon, Image, Link, Text, TextGroup } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import { WalletFiatType } from 'blockchain-wallet-v4/src/types'
 import {
   BlueCartridge,
   ErrorCartridge,
   OrangeCartridge,
-  SuccessCartridge,
+  SuccessCartridge
 } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
 import { model } from 'data'
@@ -192,7 +192,8 @@ const Template: React.FC<Props> = (props) => {
   const silverTier = userTiers.find((userTier) => userTier.index === TIER_TYPES.SILVER)
   const goldTier = userTiers.find((userTier) => userTier.index === TIER_TYPES.GOLD)
 
-  const userCurrentTier = path(['tiers', 'current'], userData) as number
+  const userCurrentTier = (path(['tiers', 'current'], userData) as number) ?? 0
+
   const sddCheckTier =
     sddEligible && sddEligible.tier === TIER_TYPES.SILVER_PLUS
       ? TIER_TYPES.SILVER_PLUS
@@ -247,7 +248,11 @@ const Template: React.FC<Props> = (props) => {
           onClick={() =>
             isUserVerifiedSilver
               ? null
-              : props.identityVerificationActions.verifyIdentity(TIER_TYPES.SILVER, false)
+              : props.identityVerificationActions.verifyIdentity({
+                  needMoreInfo: false,
+                  origin: 'Settings',
+                  tier: TIER_TYPES.SILVER
+                })
           }
           isClickable={!isUserVerifiedSilver}
           data-e2e={`continueKycTier${TIER_TYPES.SILVER}Btn`}
@@ -270,8 +275,8 @@ const Template: React.FC<Props> = (props) => {
                   amount: fiatToString({
                     digits: 0,
                     unit: (silverTier.limits.currency || 'USD') as WalletFiatType,
-                    value: silverTier.limits.annual,
-                  }),
+                    value: silverTier.limits.annual
+                  })
                 }}
               />
             </ItemSubtitle>
@@ -315,8 +320,8 @@ const Template: React.FC<Props> = (props) => {
                   amount: fiatToString({
                     digits: 0,
                     unit: (goldTier.limits.currency || 'USD') as WalletFiatType,
-                    value: goldTier.limits.daily,
-                  }),
+                    value: goldTier.limits.daily
+                  })
                 }}
               />
             </ItemSubtitle>
@@ -325,8 +330,8 @@ const Template: React.FC<Props> = (props) => {
               <TextGroup inline>
                 <Text color='grey600' size='12px' weight={500}>
                   <FormattedMessage
-                    id='modals.tradinglimits.gold_desc_edd'
-                    defaultMessage='We need more information before we can approve your Gold Level application.'
+                    id='modals.tradinglimits.gold_desc_high_edd'
+                    defaultMessage='Due to the high balance in your account, we need further information for legal reasons.'
                   />
                 </Text>
                 <Link
@@ -376,9 +381,12 @@ const Template: React.FC<Props> = (props) => {
                 data-e2e='earnInterestSupplyInformation'
                 fullwidth
                 nature='primary'
-                onClick={() =>
+                onClick={() => {
                   analyticsActions.logEvent(INTEREST_EVENTS.SETTINGS.SUPPLY_INFORMATION)
-                }
+                  /* interestActions.handleWithdrawalSupplyInformation({
+                    origin: 'Settings'
+                  }) */
+                }}
               >
                 <FormattedMessage
                   id='scenes.interest.submit_information'

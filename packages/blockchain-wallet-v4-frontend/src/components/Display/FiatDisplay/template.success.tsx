@@ -12,24 +12,14 @@ const Wrapper = styled.div`
   align-items: center;
 `
 const FiatText = styled(Text)<{ mobileSize: string }>`
-  font-size: ${props => props.mobileSize};
+  font-size: ${(props) => props.mobileSize};
   ${media.atLeastMobile`
-    font-size: ${props => props.size};
+    font-size: ${(props) => props.size};
   `}
 `
 
-const FiatDisplay = props => {
-  const {
-    children,
-    className,
-    coin,
-    color,
-    cursor,
-    mobileSize,
-    size,
-    weight,
-    ...rest
-  } = props
+const FiatDisplay = (props) => {
+  const { children, className, coin, color, cursor, mobileSize, size, weight, ...rest } = props
 
   return (
     <Wrapper className={className}>
@@ -38,8 +28,8 @@ const FiatDisplay = props => {
         size={size}
         weight={weight}
         color={color}
-        cursor={cursor}
-        data-e2e={coin + 'FiatAmt'}
+        cursor={cursor || undefined}
+        data-e2e={`${coin}FiatAmt`}
         {...rest}
       >
         {children}
@@ -49,20 +39,20 @@ const FiatDisplay = props => {
 }
 
 FiatDisplay.propTypes = {
-  coin: PropTypes.string.isRequired,
   children: PropTypes.string.isRequired,
-  size: PropTypes.string,
-  weight: PropTypes.number,
+  coin: PropTypes.string.isRequired,
   color: PropTypes.string,
   cursor: PropTypes.string,
-  mobileSize: PropTypes.string
+  mobileSize: PropTypes.string,
+  size: PropTypes.string,
+  weight: PropTypes.number
 }
 
 FiatDisplay.defaultProps = {
-  size: '16px',
-  weight: 300,
   color: 'grey700',
-  cursor: 'auto'
+  cursor: 'auto',
+  size: '16px',
+  weight: 300
 }
 
 export default FiatDisplay

@@ -2,12 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import {
-  Icon,
-  PasswordGauge,
-  PasswordInput,
-  Text
-} from 'blockchain-info-components'
+import { Icon, PasswordGauge, PasswordInput, Text } from 'blockchain-info-components'
 
 const Container = styled.div`
   position: relative;
@@ -42,8 +37,9 @@ const getErrorState = ({ invalid, touched }) => {
   return touched && invalid ? 'invalid' : 'initial'
 }
 
-const PasswordBox = field => {
+const PasswordBox = (field) => {
   const {
+    autoFocus,
     borderColor,
     disabled,
     input,
@@ -61,6 +57,7 @@ const PasswordBox = field => {
       <PasswordContainer>
         <PasswordInput
           {...input}
+          autoFocus={autoFocus}
           disabled={disabled}
           active={active}
           controlledBorderColor={borderColor}
@@ -72,17 +69,10 @@ const PasswordBox = field => {
       </PasswordContainer>
       {touched && error && (
         <>
-          <Error
-            size='12px'
-            weight={500}
-            color='error'
-            data-e2e='passwordsNotMatchError'
-          >
+          <Error size='12px' weight={500} color='error' data-e2e='passwordsNotMatchError'>
             {error}
           </Error>
-          {noLastPass && (
-            <WarningIcon name='alert-filled' color='red600' size='20px' />
-          )}
+          {noLastPass && <WarningIcon name='alert-filled' color='red600' size='20px' />}
         </>
       )}
     </Container>

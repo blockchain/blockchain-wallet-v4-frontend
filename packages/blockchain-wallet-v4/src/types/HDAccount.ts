@@ -1,18 +1,8 @@
+import * as Bitcoin from 'bitcoinjs-lib'
 import Task from 'data.task'
 /* eslint-disable */
 import { fromJS as iFromJS } from 'immutable-ext' // if we delete this import, wallet tests will fail -  ¯\_(ツ)_/¯
-import {
-  assoc,
-  compose,
-  contains,
-  curry,
-  dissoc,
-  is,
-  isNil,
-  not,
-  pipe,
-  split
-} from 'ramda'
+import { assoc, compose, contains, curry, dissoc, is, isNil, not, pipe, split } from 'ramda'
 /* eslint-disable */
 import { over, traversed, traverseOf, view } from 'ramda-lens'
 
@@ -52,11 +42,7 @@ export const derivations = HDAccount.define('derivations')
 export const defaultDerivation = HDAccount.define('default_derivation')
 
 // Lens used to traverse all secrets for double encryption
-export const secretsLens = compose(
-  derivations,
-  traversed,
-  Derivation.secretsLens
-)
+export const secretsLens = compose(derivations, traversed, Derivation.secretsLens)
 
 export const selectLabel = view(label)
 export const selectArchived = view(archived)
@@ -68,13 +54,11 @@ export const isArchived = compose(Boolean, view(archived))
 
 export const isActive = compose(not, isArchived)
 
-export const isWatchOnly = account =>
+export const isWatchOnly = (account) =>
   // @ts-ignore
   compose(isNil, selectXpriv('bech32'))(account)
 
-export const isXpub = curry((myxpub, account) =>
-  compose(contains(myxpub), selectAllXpubs)(account)
-)
+export const isXpub = curry((myxpub, account) => compose(contains(myxpub), selectAllXpubs)(account))
 
 export const selectAllXpubsGrouped = account => {
   const derivations = selectDerivations(account)
@@ -89,30 +73,21 @@ export const selectAllXpubs = account => {
 export const selectXpub = (account, type?) => {
   const derivationType = type || selectDefaultDerivation(account)
   const derivations = selectDerivations(account)
-  const derivation = DerivationList.getDerivationFromType(
-    derivations,
-    derivationType
-  )
+  const derivation = DerivationList.getDerivationFromType(derivations, derivationType)
   return Derivation.selectXpub(derivation)
 }
 
 export const selectXpriv = curry((type, account) => {
   const derivationType = type || selectDefaultDerivation(account)
   const derivations = selectDerivations(account)
-  const derivation = DerivationList.getDerivationFromType(
-    derivations,
-    derivationType
-  )
+  const derivation = DerivationList.getDerivationFromType(derivations, derivationType)
   return Derivation.selectXpriv(derivation)
 })
 
 export const selectAddressLabels = (account, type) => {
   const derivationType = type || selectDefaultDerivation(account)
   const derivations = selectDerivations(account)
-  const derivation = DerivationList.getDerivationFromType(
-    derivations,
-    derivationType
-  )
+  const derivation = DerivationList.getDerivationFromType(derivations, derivationType)
   return Derivation.selectAddressLabels(derivation)
 }
 
@@ -122,28 +97,33 @@ export const getAddress = (account, path, network, type?) => {
   const c = parseInt(chain)
   const derivationType = type || selectDefaultDerivation(account)
   const derivations = selectDerivations(account)
-  const cache = DerivationList.getCacheFromType(derivations, derivationType)
-  return Cache.getAddress(cache, c, i, network, derivationType)
+  const derivation = DerivationList.getDerivationFromType(derivations, derivationType)
+  const { publicKey } = Bitcoin.bip32.fromBase58(derivation.xpub).derivePath(`${c}/${i}`)
+
+  switch (derivationType) {
+    case 'bech32':
+      return Bitcoin.payments.p2wpkh({ pubkey: publicKey }).address
+    case 'legacy':
+      return Bitcoin.payments.p2pkh({ pubkey: publicKey }).address
+    default:
+      throw new Error(`Unrecogonized derivation type ${derivationType}`)
+  }
 }
 
 export const getReceiveAddress = (account, receiveIndex, network, type?) => {
   HDAccount.guard(account)
   const derivationType = type || selectDefaultDerivation(account)
-  const derivations = selectDerivations(account)
-  const cache = DerivationList.getCacheFromType(derivations, derivationType)
-  return Cache.getAddress(cache, 0, receiveIndex, network, derivationType)
+  return getAddress(account, `M/0/${receiveIndex}`, network, derivationType)
 }
 
 export const getChangeAddress = (account, changeIndex, network, type?) => {
   HDAccount.guard(account)
   const derivationType = type || selectDefaultDerivation(account)
-  const derivations = selectDerivations(account)
-  const cache = DerivationList.getCacheFromType(derivations, derivationType)
-  return Cache.getAddress(cache, 1, changeIndex, network, derivationType)
+  return getAddress(account, `M/1/${changeIndex}`, network, derivationType)
 }
 
 // migrateFromV3 :: Object -> Object
-const migrateFromV3 = account => {
+const migrateFromV3 = (account) => {
   if (account.derivations != null) {
     return account
   }
@@ -178,7 +158,7 @@ export const fromJS = (account, index) => {
   const accountCons = compose(
     over(derivations, DerivationList.fromJS),
     // @ts-ignore
-    a => new HDAccount(a),
+    (a) => new HDAccount(a),
     assoc('index', index),
     migrateFromV3
   )
@@ -194,7 +174,7 @@ export const toJSwithIndex = pipe(HDAccount.guard, acc => {
 
 export const toJS = compose(dissoc('index'), toJSwithIndex)
 
-export const reviver = jsObject => {
+export const reviver = (jsObject) => {
   // @ts-ignore
   return new HDAccount(jsObject)
 }

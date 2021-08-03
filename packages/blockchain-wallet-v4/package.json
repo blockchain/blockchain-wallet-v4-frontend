@@ -48,7 +48,8 @@
     "transform": {
       "^.+\\.jsx?$": "babel-jest",
       "^.+\\.tsx?$": "ts-jest"
-    }
+    },
+    "testEnvironment": "jsdom"
   },
   "dependencies": {
     "axios": "0.21.1",
@@ -95,6 +96,7 @@
     "scrypt-js": "3.0.1",
     "seedrandom": "2.4.3",
     "stellar-sdk": "6.0.0",
-    "unorm": "1.6.0"
+    "unorm": "1.6.0",
+    "uuid": "8.3.2"
   }
 }

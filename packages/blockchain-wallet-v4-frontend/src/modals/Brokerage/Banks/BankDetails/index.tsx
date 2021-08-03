@@ -6,7 +6,7 @@ import { WalletCurrencyType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { BankTransferAccountType, BrokerageModalOriginType } from 'data/types'
+import { BankTransferAccountType, BrokerageModalOriginType, ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../../types'
@@ -43,10 +43,10 @@ class BankDetails extends PureComponent<Props, {}> {
 
   handleSubmit = () => {
     if (this.props.account) {
-      this.props.brokerageActions.showModal(
-        BrokerageModalOriginType.BANK,
-        'REMOVE_BANK_MODAL'
-      )
+      this.props.brokerageActions.showModal({
+        modalType: 'REMOVE_BANK_MODAL',
+        origin: BrokerageModalOriginType.BANK
+      })
       this.props.brokerageActions.setBankDetails({
         account: this.props.account,
         redirectBackToStep: true
@@ -66,11 +66,7 @@ class BankDetails extends PureComponent<Props, {}> {
         data-e2e='bankDetailsModal'
       >
         <FlyoutChild>
-          <Template
-            {...this.props}
-            onSubmit={this.handleSubmit}
-            handleClose={this.handleClose}
-          />
+          <Template {...this.props} onSubmit={this.handleSubmit} handleClose={this.handleClose} />
         </FlyoutChild>
       </Flyout>
     )
@@ -89,13 +85,11 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 const enhance = compose(
-  ModalEnhancer('BANK_DETAILS_MODAL', { transition: duration }),
+  ModalEnhancer(ModalName.BANK_DETAILS_MODAL, { transition: duration }),
   connector
 )
 
-export type Props = OwnProps &
-  LinkStatePropsType &
-  ConnectedProps<typeof connector>
+export type Props = OwnProps & LinkStatePropsType & ConnectedProps<typeof connector>
 
 type State = { show: boolean }
 

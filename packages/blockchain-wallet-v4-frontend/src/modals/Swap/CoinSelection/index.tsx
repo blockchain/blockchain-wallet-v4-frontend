@@ -6,8 +6,11 @@ import { Icon, Text } from 'blockchain-info-components'
 import { StickyHeaderFlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption } from 'components/Form'
 import { selectors } from 'data'
-import { SUPPORTED_COINS } from 'data/coins/model/swap'
-import { InitSwapFormValuesType, SwapSideType } from 'data/components/swap/types'
+import {
+  InitSwapFormValuesType,
+  SwapBaseCounterTypes,
+  SwapSideType
+} from 'data/components/swap/types'
 import { RootState } from 'data/rootReducer'
 import { SwapAccountType } from 'data/types'
 
@@ -18,7 +21,6 @@ import { getData } from './selectors'
 class CoinSelection extends PureComponent<Props> {
   componentDidMount() {
     this.props.swapActions.fetchPairs()
-    this.props.swapActions.fetchCustodialEligibility()
   }
 
   checkAccountSelected = (
@@ -41,8 +43,12 @@ class CoinSelection extends PureComponent<Props> {
     account: SwapAccountType
   ) => {
     if (
-      (side === 'COUNTER' && values?.BASE?.type === 'CUSTODIAL' && account.type === 'ACCOUNT') ||
-      (side === 'BASE' && values?.COUNTER?.type === 'ACCOUNT' && account.type === 'CUSTODIAL')
+      (side === 'COUNTER' &&
+        values?.BASE?.type === SwapBaseCounterTypes.CUSTODIAL &&
+        account.type === SwapBaseCounterTypes.ACCOUNT) ||
+      (side === 'BASE' &&
+        values?.COUNTER?.type === SwapBaseCounterTypes.ACCOUNT &&
+        account.type === SwapBaseCounterTypes.CUSTODIAL)
     ) {
       return true
     }
@@ -71,7 +77,7 @@ class CoinSelection extends PureComponent<Props> {
   }
 
   checkCustodialEligibility = (custodialEligibility: boolean, account: SwapAccountType) => {
-    return !(account.type === 'CUSTODIAL' && !custodialEligibility)
+    return !(account.type === SwapBaseCounterTypes.CUSTODIAL && !custodialEligibility)
   }
 
   render() {
@@ -116,7 +122,7 @@ class CoinSelection extends PureComponent<Props> {
             )}
           </Text>
         </StickyHeaderFlyoutWrapper>
-        {SUPPORTED_COINS.map((coin) => {
+        {coins?.map((coin) => {
           const accounts = (this.props.accounts[coin] as Array<SwapAccountType>) || []
           return accounts.map((account) => {
             const isAccountSelected = this.checkAccountSelected(this.props.side, values, account)
@@ -136,7 +142,7 @@ class CoinSelection extends PureComponent<Props> {
               isCustodialEligible && (
                 <CoinAccountListOption
                   account={account}
-                  coinModel={coins[account.coin]}
+                  coin={account.coin}
                   onClick={() => {
                     if (this.props.side === 'BASE') {
                       this.props.swapActions.changeBase(account)
@@ -162,6 +168,7 @@ class CoinSelection extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
+  coins: selectors.components.swap.getCoins(),
   custodialEligibility: selectors.components.swap.getCustodialEligibility(state).getOrElse(false),
   values: selectors.form.getFormValues('initSwap')(state) as InitSwapFormValuesType,
   ...getData(state, ownProps)

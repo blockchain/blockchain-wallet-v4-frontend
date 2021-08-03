@@ -107,6 +107,15 @@ class UnusedAddressesContainer extends React.PureComponent<Props> {
     modalsActions.showModal('SHOW_XPUB_MODAL', { origin: 'SettingsPage', xpub })
   }
 
+  onShowFundRecovery = (accountIndex) => {
+    const { modalsActions } = this.props
+    modalsActions.showModal('FUND_RECOVERY_MODAL', {
+      accountIndex,
+      coin: 'BTC',
+      origin: 'SettingsPage'
+    })
+  }
+
   onMakeDefault = () => {
     const { accountIndex, coreActions } = this.props
     coreActions.setDefaultAccountIdx(accountIndex)
@@ -176,8 +185,15 @@ class UnusedAddressesContainer extends React.PureComponent<Props> {
               }
               components={[
                 <ClickableText
+                  key='editName'
                   size='small'
-                  onClick={this.onEditBtcAccountLabel}
+                  onClick={() => {
+                    this.onEditBtcAccountLabel()
+                    this.props.walletActions.setManageWallet({
+                      currency: 'BTC',
+                      selection: 'EditWalletName'
+                    })
+                  }}
                   data-e2e='btcEditWalletNameLink'
                 >
                   <FormattedMessage
@@ -210,13 +226,37 @@ class UnusedAddressesContainer extends React.PureComponent<Props> {
                   </>
                 ),
                 <ClickableText
+                  key='showXpub'
                   size='small'
-                  onClick={this.onShowXPub}
+                  onClick={() => {
+                    this.onShowXPub()
+                    this.props.walletActions.setManageWallet({
+                      currency: 'BTC',
+                      selection: 'ShowXPub'
+                    })
+                  }}
                   data-e2e='btcShowWalletXpubLink'
                 >
                   <FormattedMessage
                     id='scenes.settings.manage_addresses.show_xpub'
                     defaultMessage='Show xPub'
+                  />
+                </ClickableText>,
+                <ClickableText
+                  key='recoverFunds'
+                  size='small'
+                  onClick={() => {
+                    this.onShowFundRecovery(walletIndex)
+                    this.props.walletActions.setManageWallet({
+                      currency: 'BTC',
+                      selection: 'RecoverFunds'
+                    })
+                  }}
+                  data-e2e='btcShowWalletXpubLink'
+                >
+                  <FormattedMessage
+                    id='scenes.settings.addresses.show_fund_recovery'
+                    defaultMessage='Recover Funds'
                   />
                 </ClickableText>
               ].filter((x) => x)}
@@ -279,7 +319,7 @@ const mapStateToProps = (state, ownProps) => {
   const { derivation, walletIndex } = ownProps
   const account = Types.Wallet.selectHDAccounts(state.walletPath.wallet).get(walletIndex)
   const isDefault =
-    parseInt(walletIndex) ===
+    parseInt(walletIndex, 10) ===
     Types.HDWallet.selectDefaultAccountIdx(
       Types.Wallet.selectHdWallets(state.walletPath.wallet).get(0)
     )

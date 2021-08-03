@@ -27,10 +27,10 @@ const BlockchainLogoImage = styled(Image)`
   margin-left: 0;
 `
 const NavbarStyled = styled(Navbar)`
-  background-color: ${props => props.theme.grey900};
+  background-color: ${(props) => props.theme.grey900};
 `
 
-const Large: React.FC<Props> = props => {
+const Large: React.FC<Props> = (props) => {
   return (
     <NavbarStyled height='60px'>
       <NavbarHeader>

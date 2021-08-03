@@ -1,4 +1,8 @@
 import React, { Suspense } from 'react'
+import { connect, ConnectedProps } from 'react-redux'
+
+import { selectors } from 'data'
+import { ModalName } from 'data/types'
 
 // ADDRESSES
 const DeleteAddressLabel = React.lazy(() => import('./Addresses/DeleteAddressLabel'))
@@ -45,7 +49,7 @@ const LinkToExchangeAccount = React.lazy(() => import('./Onboarding/LinkToExchan
 const IdentityVerification = React.lazy(() => import('./Onboarding/KycVerification'))
 const KycDocResubmit = React.lazy(() => import('./Onboarding/KycDocResubmit'))
 const KycTierUpgrade = React.lazy(() => import('./Onboarding/KycTierUpgrade'))
-const SwapGetStarted = React.lazy(() => import('./Onboarding/SwapGetStarted'))
+const NabuUserConflictRedirect = React.lazy(() => import('./Onboarding/NabuUserConflictRedirect'))
 const UpgradeForAirdrop = React.lazy(() => import('./Onboarding/UpgradeForAirdrop'))
 const Welcome = React.lazy(() => import('./Onboarding/Welcome'))
 
@@ -58,6 +62,7 @@ const LockboxShowXPubs = React.lazy(() => import('./Lockbox/LockboxShowXPubs'))
 
 // MOBILE
 const MobileNumberChange = React.lazy(() => import('./Mobile/MobileNumberChange'))
+const MobileNumberAdd = React.lazy(() => import('./Mobile/MobileNumberAdd'))
 const MobileNumberVerify = React.lazy(() => import('./Mobile/MobileNumberVerify'))
 
 // SETTINGS
@@ -80,12 +85,13 @@ const ShowXPub = React.lazy(() => import('./Wallet/ShowXPub'))
 const InterestPromo = React.lazy(() => import('./Wallet/InterestPromo'))
 
 // SOLO
-const Borrow = React.lazy(() => import('./Borrow'))
+const FundRecovery = React.lazy(() => import('./FundRecovery'))
 const Interest = React.lazy(() => import('./Interest'))
 const QRCode = React.lazy(() => import('./QRCode'))
 const SignMessage = React.lazy(() => import('./SignMessage'))
 const SimpleBuy = React.lazy(() => import('./SimpleBuy'))
 const Swap = React.lazy(() => import('./Swap'))
+const RecurringBuys = React.lazy(() => import('./RecurringBuys'))
 
 // BROKERAGE
 const BankDetails = React.lazy(() => import('./Brokerage/Banks/BankDetails'))
@@ -95,73 +101,202 @@ const AddBankYodlee = React.lazy(() => import('./Brokerage/Banks/AddBankYodlee')
 const Deposit = React.lazy(() => import('./Brokerage/Banks/Deposit'))
 const Withdraw = React.lazy(() => import('./Brokerage/Banks/Withdraw'))
 
-const Modals = () => (
-  <Suspense fallback={null}>
-    <div>
-      <AddBankYapily />
-      <AddBankYodlee />
-      <AddBtcWallet />
-      <AirdropClaim />
-      <AirdropSuccess />
-      <AutoDisconnection />
-      <BitpayInformational />
-      <BitpayInvoiceExpired />
-      <Borrow />
-      <BankDetails />
-      <Confirm />
-      <ConfirmDisable2FA />
-      <DeleteAddressLabel />
-      <Deposit />
-      <DownloadTransactions />
-      <EditTxDescription />
-      <IdentityVerification />
-      <ImportBtcAddress />
-      <Interest />
-      <KycDocResubmit />
-      <KycTierUpgrade />
-      <LinkFromExchangeAccount disableOutsideClose />
-      <LinkToExchangeAccount disableOutsideClose />
-      <LockboxAppManager disableOutsideClose />
-      <LockboxConnectionPrompt disableOutsideClose />
-      <LockboxFirmware disableOutsideClose />
-      <LockboxSetup disableOutsideClose />
-      <LockboxShowXPubs />
-      <MobileNumberChange />
-      <MobileNumberVerify />
-      <PairingCode />
-      <PromptInput />
-      <QRCode />
-      <RecoveryPhrase />
-      <RemoveBank />
-      <RequestCrypto />
-      <SecondPassword />
-      <SendBch />
-      <SendBtc />
-      <SendEth />
-      <SendXlm />
-      <ShowBtcPrivateKey />
-      <ShowUsedAddresses />
-      <ShowXPub />
-      <SignMessage />
-      <SimpleBuy />
-      <Support />
-      <Swap />
-      <SwapGetStarted />
-      <TransferEth />
-      <TradingLimits />
-      <TwoStepGoogleAuthenticator />
-      <TwoStepSetup />
-      <TwoStepYubico />
-      <UpgradeAddressLabels />
-      <UpgradeForAirdrop />
-      <InterestPromo />
-      <VerifyMessage />
-      <Welcome />
-      <Withdraw />
-      <XlmCreateAccountLearn />
-      <XlmReserveLearn />
-    </div>
-  </Suspense>
-)
+const Modals = (props: Props) => {
+  return (
+    <Suspense fallback={null}>
+      <>
+        {props.modals.find((modal) => modal.type === ModalName.ADD_BANK_YAPILY_MODAL) ? (
+          <AddBankYapily />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.ADD_BANK_YODLEE_MODAL) ? (
+          <AddBankYodlee />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.ADD_BTC_WALLET_MODAL) ? (
+          <AddBtcWallet />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.AIRDROP_CLAIM_MODAL) ? (
+          <AirdropClaim />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.AIRDROP_SUCCESS_MODAL) ? (
+          <AirdropSuccess />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.AUTO_DISCONNECTION_MODAL) ? (
+          <AutoDisconnection />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.BANK_DETAILS_MODAL) ? (
+          <BankDetails />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.BITPAY_INFORMATIONAL_MODAL) ? (
+          <BitpayInformational />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.BITPAY_INVOICE_EXPIRED_MODAL) ? (
+          <BitpayInvoiceExpired />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.CONFIRMATION_MODAL) ? (
+          <Confirm />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.CONFIRM_DISABLE_2FA) ? (
+          <ConfirmDisable2FA />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.DELETE_ADDRESS_LABEL_MODAL) ? (
+          <DeleteAddressLabel />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.BANK_DEPOSIT_MODAL) ? (
+          <Deposit />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.BANK_DEPOSIT_MODAL) ? (
+          <Deposit />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.TRANSACTION_REPORT_MODAL) ? (
+          <DownloadTransactions />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.EDIT_TX_DESCRIPTION_MODAL) ? (
+          <EditTxDescription />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.FUND_RECOVERY_MODAL) ? (
+          <FundRecovery />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.KYC_MODAL) ? (
+          <IdentityVerification />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.IMPORT_BTC_ADDRESS_MODAL) ? (
+          <ImportBtcAddress />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.INTEREST_MODAL) ? (
+          <Interest />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.KYC_RESUBMIT_MODAL) ? (
+          <KycDocResubmit />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.KYC_TIER_UPGRADE_MODAL) ? (
+          <KycTierUpgrade />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.LINK_FROM_EXCHANGE_ACCOUNT_MODAL) ? (
+          <LinkFromExchangeAccount disableOutsideClose />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.LINK_TO_EXCHANGE_ACCOUNT_MODAL) ? (
+          <LinkToExchangeAccount disableOutsideClose />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.LOCKBOX_APP_MANAGER_MODAL) ? (
+          <LockboxAppManager disableOutsideClose />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.LOCKBOX_CONNECTION_PROMPT_MODAL) ? (
+          <LockboxConnectionPrompt disableOutsideClose />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.LOCKBOX_FIRMWARE_MODAL) ? (
+          <LockboxFirmware disableOutsideClose />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.LOCKBOX_SETUP_MODAL) ? (
+          <LockboxSetup disableOutsideClose />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.LOCKBOX_SHOW_XPUBS) ? (
+          <LockboxShowXPubs />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.MOBILE_NUMBER_CHANGE_MODAL) ? (
+          <MobileNumberChange />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.MOBILE_NUMBER_ADD_MODAL) ? (
+          <MobileNumberAdd />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.MOBILE_NUMBER_VERIFY_MODAL) ? (
+          <MobileNumberVerify />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.NABU_USER_CONFLICT_REDIRECT) ? (
+          <NabuUserConflictRedirect />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.PAIRING_CODE_MODAL) ? (
+          <PairingCode />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.PROMPT_INPUT_MODAL) ? (
+          <PromptInput />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.QR_CODE_MODAL) ? <QRCode /> : null}
+        {props.modals.find((modal) => modal.type === ModalName.RECOVERY_PHRASE_MODAL) ? (
+          <RecoveryPhrase />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.REMOVE_BANK_MODAL) ? (
+          <RemoveBank />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.RECURRING_BUYS_MODAL) ? (
+          <RecurringBuys />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.REQUEST_CRYPTO_MODAL) ? (
+          <RequestCrypto />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.SECOND_PASSWORD_MODAL) ? (
+          <SecondPassword />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.SEND_BCH_MODAL) ? <SendBch /> : null}
+        {props.modals.find((modal) => modal.type === ModalName.SEND_BTC_MODAL) ? <SendBtc /> : null}
+        {props.modals.find((modal) => modal.type === ModalName.SEND_ETH_MODAL) ? <SendEth /> : null}
+        {props.modals.find((modal) => modal.type === ModalName.SEND_XLM_MODAL) ? <SendXlm /> : null}
+        {props.modals.find((modal) => modal.type === ModalName.SHOW_BTC_PRIVATE_KEY_MODAL) ? (
+          <ShowBtcPrivateKey />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.SHOW_USED_ADDRESS_MODAL) ? (
+          <ShowUsedAddresses />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.SHOW_XPUB_MODAL) ? (
+          <ShowXPub />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.SIGN_MESSAGE_MODAL) ? (
+          <SignMessage />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.SIMPLE_BUY_MODAL) ? (
+          <SimpleBuy />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.SUPPORT_MODAL) ? <Support /> : null}
+        {props.modals.find((modal) => modal.type === ModalName.SWAP_MODAL) ? <Swap /> : null}
+        {props.modals.find((modal) => modal.type === ModalName.TRANSFER_ETH_MODAL) ? (
+          <TransferEth />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.TRADING_LIMITS_MODAL) ? (
+          <TradingLimits />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.TWO_STEP_GOOGLE_AUTH_MODAL) ? (
+          <TwoStepGoogleAuthenticator />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.TWO_STEP_SETUP_MODAL) ? (
+          <TwoStepSetup />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.TWO_STEP_YUBICO_MODAL) ? (
+          <TwoStepYubico />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.UPGRADE_ADDRESS_LABELS_MODAL) ? (
+          <UpgradeAddressLabels />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.UPGRADE_FOR_AIRDROP_MODAL) ? (
+          <UpgradeForAirdrop />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.INTEREST_PROMO_MODAL) ? (
+          <InterestPromo />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.VERIFY_MESSAGE_MODAL) ? (
+          <VerifyMessage />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.WELCOME_MODAL) ? <Welcome /> : null}
+        {props.modals.find((modal) => modal.type === ModalName.CUSTODY_WITHDRAW_MODAL) ? (
+          <Withdraw />
+        ) : null}
+        {props.modals.find(
+          (modal) => modal.type === ModalName.SEND_XLM_CREATE_ACCOUNT_LEARN_MODAL
+        ) ? (
+          <XlmCreateAccountLearn />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.SEND_XLM_RESERVE_LEARN_MODAL) ? (
+          <XlmReserveLearn />
+        ) : null}
+      </>
+    </Suspense>
+  )
+}
 
-export default Modals
+const mapStateToProps = (state) => ({
+  modals: selectors.modals.getModals(state)
+})
+
+const connector = connect(mapStateToProps)
+
+type Props = ConnectedProps<typeof connector>
+
+export default connector(Modals)

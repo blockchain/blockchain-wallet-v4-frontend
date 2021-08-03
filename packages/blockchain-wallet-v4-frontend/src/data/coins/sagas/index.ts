@@ -1,17 +1,7 @@
-import {
-  CoinType,
-  CurrenciesType,
-  Erc20CoinsEnum,
-  PaymentType,
-  PaymentValue,
-  RatesType,
-  RemoteDataType
-} from 'blockchain-wallet-v4/src/types'
+import { CoinType, PaymentType, PaymentValue, RemoteDataType } from 'blockchain-wallet-v4/src/types'
 
-// import * as ALGO from './coins/algo'
 import * as BCH from './coins/bch'
 import * as BTC from './coins/btc'
-// import * as DOT from './coins/dot'
 import * as ERC20 from './coins/erc20'
 import * as ETH from './coins/eth'
 // import * as EUR from './coins/eur'
@@ -21,7 +11,6 @@ import * as XLM from './coins/xlm'
 
 // create a function map of all coins
 const coinSagas = {
-  // ALGO,
   BCH,
   BTC,
   ERC20,
@@ -39,11 +28,10 @@ const coinSagas = {
 
 export default ({ coreSagas, networks }) => {
   // gets the default account/address for requested coin
-  const getDefaultAccountForCoin = function * (
-    coin: CoinType
-  ): Generator<string> {
+  const getDefaultAccountForCoin = function* (coin: CoinType): Generator<string> {
+    const { coinfig } = window.coins[coin]
     const defaultAccountR = yield coinSagas[
-      coin in Erc20CoinsEnum ? 'ERC20' : coin
+      coinfig.type.erc20Address ? 'ERC20' : coin
     ]?.getDefaultAccount(coin)
     // @ts-ignore
     return defaultAccountR.getOrFail('Failed to find default account')
@@ -51,45 +39,32 @@ export default ({ coreSagas, networks }) => {
 
   // gets the next receive address for requested coin
   // account based currencies will just return the account address
-  const getNextReceiveAddressForCoin = function * (
+  const getNextReceiveAddressForCoin = function* (
     coin: CoinType,
     index?: number
   ): Generator<string> {
-    return yield coinSagas[
-      coin in Erc20CoinsEnum ? 'ERC20' : coin
-    ]?.getNextReceiveAddress(coin, networks, index)
+    const { coinfig } = window.coins[coin]
+    return yield coinSagas[coinfig.type.erc20Address ? 'ERC20' : coin]?.getNextReceiveAddress(
+      coin,
+      networks,
+      index
+    )
   }
 
   // gets or updates a provisional payment for a coin
   // provisional payments are mutable payment objects used to build a transaction
   // over an extended period of time (e.g. as user goes through interest/swap/sell flows)
-  const getOrUpdateProvisionalPaymentForCoin = function * (
+  const getOrUpdateProvisionalPaymentForCoin = function* (
     coin: CoinType,
     paymentR: RemoteDataType<string | Error, PaymentValue | undefined>
   ): Generator<PaymentType> {
+    const { coinfig } = window.coins[coin]
     return yield coinSagas[
-      coin in Erc20CoinsEnum ? 'ERC20' : coin
-    ]?.getOrUpdateProvisionalPayment(
-      coreSagas,
-      networks,
-      paymentR
-    ) as PaymentType
-  }
-
-  // convert from a coins base unit into fiat
-  const convertCoinFromBaseUnitToFiat = (
-    coin: CoinType,
-    baseUnitValue: number | string,
-    userCurrency: keyof CurrenciesType,
-    rates: RatesType
-  ): number => {
-    return coinSagas[
-      coin in Erc20CoinsEnum ? 'ERC20' : coin
-    ]?.convertFromBaseUnitToFiat(coin, baseUnitValue, userCurrency, rates)
+      coinfig.type.erc20Address ? 'ERC20' : coin
+    ]?.getOrUpdateProvisionalPayment(coreSagas, networks, paymentR) as PaymentType
   }
 
   return {
-    convertCoinFromBaseUnitToFiat,
     getDefaultAccountForCoin,
     getNextReceiveAddressForCoin,
     getOrUpdateProvisionalPaymentForCoin

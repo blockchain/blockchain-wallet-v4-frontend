@@ -11,7 +11,7 @@ import DataError from 'components/DataError'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { WithdrawStepEnum } from 'data/types'
+import { ModalName, WithdrawStepEnum } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { BROKERAGE_INELIGIBLE } from '../../../components'
@@ -23,8 +23,11 @@ import EnterAmount from './EnterAmount'
 import WithdrawalDetails from './WithdrawalDetails'
 import WithdrawalMethods from './WithdrawalMethods'
 
-class Withdraw extends PureComponent<Props> {
-  state: State = { show: false }
+class Withdraw extends PureComponent<Props, State> {
+  constructor(props) {
+    super(props)
+    this.state = { show: false }
+  }
 
   componentDidMount() {
     /* eslint-disable */
@@ -98,7 +101,7 @@ const mapStateToProps = (state: RootState) => ({
 const connector = connect(mapStateToProps)
 
 const enhance = compose(
-  ModalEnhancer('CUSTODY_WITHDRAW_MODAL', { transition: duration }),
+  ModalEnhancer(ModalName.CUSTODY_WITHDRAW_MODAL, { transition: duration }),
   connector
 )
 
@@ -131,9 +134,7 @@ type LinkStatePropsType =
       step: WithdrawStepEnum.WITHDRAWAL_METHODS
     }
 // export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
-export type Props = OwnProps &
-  LinkStatePropsType &
-  ConnectedProps<typeof connector>
+export type Props = OwnProps & LinkStatePropsType & ConnectedProps<typeof connector>
 type State = { show: boolean }
 
 export default enhance(Withdraw)

@@ -14,7 +14,7 @@ import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 import Loading from '../template.loading'
-import { getData } from './selectors'
+import getData from './selectors'
 import Failure from './template.failure'
 import Success from './template.success'
 
@@ -30,10 +30,10 @@ class PaymentMethods extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Success: val => <Success {...val} {...this.props} />,
       Failure: () => <Failure {...this.props} />,
       Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      NotAsked: () => <Loading />,
+      Success: (val) => <Success {...val} {...this.props} />
     })
   }
 }

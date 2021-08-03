@@ -12,25 +12,15 @@ const Wrapper = styled.div`
 `
 const CoinText = styled(Text)<{ mobileSize: string }>`
   white-space: nowrap;
-  font-size: ${props => props.mobileSize};
-  text-transform: ${props => (props.italic ? 'italic' : 'none')};
+  font-size: ${(props) => props.mobileSize};
+  text-transform: ${(props) => (props.italic ? 'italic' : 'none')};
   ${media.atLeastMobile`
-    font-size: ${props => props.size};
+    font-size: ${(props) => props.size};
   `}
 `
 
-const CoinDisplay = props => {
-  const {
-    children,
-    coin,
-    color,
-    cursor,
-    italic,
-    mobileSize,
-    size,
-    weight,
-    ...rest
-  } = props
+const CoinDisplay = (props) => {
+  const { children, coin, color, cursor, italic, mobileSize, size, weight, ...rest } = props
   return (
     <Wrapper {...rest}>
       <CoinText
@@ -39,7 +29,7 @@ const CoinDisplay = props => {
         weight={weight}
         italic={italic}
         color={color}
-        cursor={cursor}
+        cursor={cursor || undefined}
         data-e2e={`${coin}Amt`}
         {...rest}
       >
@@ -50,11 +40,11 @@ const CoinDisplay = props => {
 }
 
 CoinDisplay.defaultProps = {
-  size: '16px',
-  weight: 300,
   color: 'grey700',
   cursor: 'auto',
-  mobileSize: ''
+  mobileSize: '',
+  size: '16px',
+  weight: 300
 }
 
 export default CoinDisplay

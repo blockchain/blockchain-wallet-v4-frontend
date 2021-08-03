@@ -1,9 +1,11 @@
+/* eslint-disable */
 import BitcoinCash from 'bitcoinforksjs-lib'
 import * as Bitcoin from 'bitcoinjs-lib'
 import { connectRouter, routerMiddleware } from 'connected-react-router'
 import { createHashHistory } from 'history'
-import { applyMiddleware, compose, createStore } from 'redux'
 import { persistCombineReducers, persistStore } from 'redux-persist'
+import { configureStore } from '@reduxjs/toolkit'
+import { compose } from 'redux'
 import getStoredStateMigrateV4 from 'redux-persist/lib/integration/getStoredStateMigrateV4'
 import storage from 'redux-persist/lib/storage'
 import createSagaMiddleware from 'redux-saga'
@@ -13,7 +15,7 @@ import {
   ApiSocket,
   createWalletApi,
   HorizonStreamingService,
-  Socket,
+  Socket
 } from 'blockchain-wallet-v4/src/network/index.ts'
 import { serializer } from 'blockchain-wallet-v4/src/types'
 import { actions, rootReducer, rootSaga, selectors } from 'data'
@@ -24,7 +26,7 @@ import {
   matomoMiddleware,
   streamingXlm,
   webSocketCoins,
-  webSocketRates,
+  webSocketRates
 } from '../middleware'
 
 const devToolsConfig = {
@@ -40,38 +42,69 @@ const devToolsConfig = {
     // '@@redux-form/RESET'
     '@CORE.COINS_WEBSOCKET_MESSAGE',
     '@CORE.FETCH_ETH_LATEST_BLOCK_SUCCESS',
-    '@EVENT.RATES_SOCKET.WEBSOCKET_MESSAGE',
+    '@EVENT.RATES_SOCKET.WEBSOCKET_MESSAGE'
   ],
   maxAge: 1000,
-  serialize: serializer,
+  serialize: serializer
 }
 
-const configureStore = async function () {
+const configuredStore = async function () {
   const history = createHashHistory()
   const sagaMiddleware = createSagaMiddleware()
-  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(devToolsConfig)
-    : compose
   const walletPath = 'wallet.payload'
   const kvStorePath = 'wallet.kvstore'
   const { isAuthenticated } = selectors.auth
 
   const res = await fetch('/wallet-options-v4.json')
   const options = await res.json()
+  const assetsRes = await fetch(`${options.domains.api}/assets/currencies/custodial`)
+  const assets = await assetsRes.json()
+  const erc20s = assets.currencies.filter(({ type }) => type.name === 'ERC20')
+  // TODO: erc20 phase 2, remove this whitelist
+  const coins = options.platforms.web.erc20s
+  const erc20sSupportedBeforeDynamicChange = erc20s.filter((erc20) => coins.includes(erc20.symbol))
+  const custodials = assets.currencies.filter(
+    ({ products, type }) =>
+      products.includes('CustodialWalletBalance') &&
+      !products.includes('PrivateKey') &&
+      type.name !== 'FIAT'
+  )
+
+  // hmmmm....
+  window.coins = {
+    ...options.platforms.web.coins,
+    ...custodials.reduce(
+      (acc, curr) => ({
+        ...acc,
+        [curr.symbol]: { coinfig: curr }
+      }),
+      {}
+    ),
+    // TODO: erc20 phase 2, replace w/ all erc20 currencies
+    // ...erc20s.currencies.reduce(
+    ...erc20sSupportedBeforeDynamicChange.reduce(
+      (acc, curr) => ({
+        ...acc,
+        [curr.symbol]: { coinfig: curr }
+      }),
+      {}
+    )
+  }
+
   const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
   const socketUrl = options.domains.webSocket
   const horizonUrl = options.domains.horizon
   const coinsSocket = new Socket({
     options,
-    url: `${socketUrl}/coins`,
+    url: `${socketUrl}/coins`
   })
   const ratesSocket = new ApiSocket({
     maxReconnects: 3,
     options,
-    url: `${socketUrl}/nabu-gateway/markets/quotes`,
+    url: `${socketUrl}/nabu-gateway/markets/quotes`
   })
   const xlmStreamingService = new HorizonStreamingService({
-    url: horizonUrl,
+    url: horizonUrl
   })
   const getAuthCredentials = () => selectors.modules.profile.getAuthCredentials(store.getState())
   const reauthenticate = () => store.dispatch(actions.modules.profile.signIn())
@@ -79,50 +112,48 @@ const configureStore = async function () {
     bch: BitcoinCash.networks[options.platforms.web.coins.BTC.config.network],
     btc: Bitcoin.networks[options.platforms.web.coins.BTC.config.network],
     eth: options.platforms.web.coins.ETH.config.network,
-    xlm: options.platforms.web.coins.XLM.config.network,
+    xlm: options.platforms.web.coins.XLM.config.network
   }
   const api = createWalletApi({
     apiKey,
     getAuthCredentials,
     networks,
     options,
-    reauthenticate,
+    reauthenticate
   })
   const persistWhitelist = ['session', 'preferences', 'cache']
-
-  // TODO: remove getStoredStateMigrateV4 someday (at least a year from now)
-  const store = createStore(
-    connectRouter(history)(
+  const store = configureStore({
+    devTools: devToolsConfig,
+    middleware: compose([
+      sagaMiddleware,
+      routerMiddleware(history),
+      coreMiddleware.kvStore({ api, isAuthenticated, kvStorePath }),
+      streamingXlm(xlmStreamingService, api),
+      webSocketRates(ratesSocket),
+      webSocketCoins(coinsSocket),
+      coreMiddleware.walletSync({ api, isAuthenticated, walletPath }),
+      matomoMiddleware(),
+      analyticsMiddleware(),
+      autoDisconnection()
+    ]),
+    reducer: connectRouter(history)(
       persistCombineReducers(
         {
           getStoredState: getStoredStateMigrateV4({
-            whitelist: persistWhitelist,
+            whitelist: persistWhitelist
           }),
           key: 'root',
           storage,
-          whitelist: persistWhitelist,
+          whitelist: persistWhitelist
         },
         {
           router: connectRouter(history),
-          ...rootReducer,
+          ...rootReducer
         }
       )
-    ),
-    composeEnhancers(
-      applyMiddleware(
-        sagaMiddleware,
-        routerMiddleware(history),
-        coreMiddleware.kvStore({ api, isAuthenticated, kvStorePath }),
-        streamingXlm(xlmStreamingService, api),
-        webSocketRates(ratesSocket),
-        webSocketCoins(coinsSocket),
-        coreMiddleware.walletSync({ api, isAuthenticated, walletPath }),
-        matomoMiddleware(),
-        analyticsMiddleware(),
-        autoDisconnection()
-      )
     )
-  )
+  })
+
   const persistor = persistStore(store, null)
 
   sagaMiddleware.run(rootSaga, {
@@ -130,7 +161,7 @@ const configureStore = async function () {
     coinsSocket,
     networks,
     options,
-    ratesSocket,
+    ratesSocket
   })
 
   // expose globals here
@@ -143,8 +174,8 @@ const configureStore = async function () {
   return {
     history,
     persistor,
-    store,
+    store
   }
 }
 
-export default configureStore
+export default configuredStore

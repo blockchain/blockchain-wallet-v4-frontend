@@ -35,7 +35,8 @@ export default ({ api }: { api: APIType }) => {
       if (base in FiatTypeEnum) return
       yield put(A.fetchPriceChangeLoading(base, range))
 
-      const time = range === TimeRange.ALL ? moment.unix(start[base]) : moment().subtract(1, range)
+      const time =
+        range === TimeRange.ALL ? moment.unix(start[base] || 0) : moment().subtract(1, range)
 
       const previous: ReturnType<typeof api.getPriceIndex> = yield call(
         api.getPriceIndex,

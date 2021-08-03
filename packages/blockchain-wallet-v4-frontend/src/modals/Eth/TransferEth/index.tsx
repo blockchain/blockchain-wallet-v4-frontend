@@ -4,15 +4,16 @@ import { bindActionCreators, compose } from 'redux'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
+import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { getData } from './selectors'
 import TransferEth from './template'
 
 const DEFAULTS = {
-  txFee: '0',
+  ethAddr: '',
   ethBalance: '0',
-  ethAddr: ''
+  txFee: '0'
 }
 
 class TransferEthContainer extends React.PureComponent<Props> {
@@ -35,15 +36,18 @@ class TransferEthContainer extends React.PureComponent<Props> {
   handleSubmit = () => {
     const { ethAddr, ethBalance } = this.props.data.getOrElse(DEFAULTS)
     this.props.transferEthActions.confirmTransferEth({
-      to: ethAddr,
-      effectiveBalance: ethBalance
+      effectiveBalance: ethBalance,
+      to: ethAddr
     })
   }
 
   render() {
     const { data, legacyEthAddr } = this.props
     return data.cata({
-      Success: val => (
+      Failure: () => null,
+      Loading: () => null,
+      NotAsked: () => null,
+      Success: (val) => (
         <TransferEth
           ethAddr={val.ethAddr}
           ethBalance={val.ethBalance}
@@ -52,26 +56,23 @@ class TransferEthContainer extends React.PureComponent<Props> {
           txFee={val.txFee}
           {...this.props}
         />
-      ),
-      Loading: () => null,
-      NotAsked: () => null,
-      Failure: () => null
+      )
     })
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   transferEthActions: bindActionCreators(actions.modules.transferEth, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-const enhance = compose(modalEnhancer('TRANSFER_ETH_MODAL'), connector)
+const enhance = compose(modalEnhancer(ModalName.TRANSFER_ETH_MODAL), connector)
 
 type OwnProps = {
   legacyEthAddr: string

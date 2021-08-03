@@ -1,57 +1,224 @@
 import analytics from 'middleware/analyticsMiddleware/analytics'
-import type { PageNamesType } from 'middleware/analyticsMiddleware/types'
-import { AnalyticsKey, AnalyticsType } from 'middleware/analyticsMiddleware/types'
 import {
+  AccountType,
+  AnalyticsKey,
+  Coin,
+  DepositMethod,
+  FeeRate,
+  Order,
+  PageName,
+  SendReceive,
+  WithdrawalMethod
+} from 'middleware/analyticsMiddleware/types'
+import {
+  buyPaymentMethodSelectedPaymentTypeDictionary,
+  buySellClickedOriginDictionary,
   getNetworkFee,
   getOriginalTimestamp,
-  simpleBuyOriginDictionary,
-  simpleBuyPaymentTypeDictionary
+  interestDepositClickedOriginDictionary,
+  linkBankClickedOriginDictionary,
+  manageTabSelectionClickedSelectionDictionary,
+  settingsHyperlinkClickedDestinationDictionary,
+  settingsTabClickedDestinationDictionary,
+  swapClickedOriginDictionary,
+  upgradeVerificationClickedOriginDictionary
 } from 'middleware/analyticsMiddleware/utils'
 
-import { actionTypes as AT } from 'data'
+import { actions, actionTypes as AT } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { ModalNamesType } from 'data/types'
+import { BankDWStepType, InterestStep, ModalName, SwapBaseCounterTypes } from 'data/types'
 
 const analyticsMiddleware = () => (store) => (next) => (action) => {
-  const state = store.getState()
-  const nabuId = state.profile.userData.getOrElse({})?.id
-  const id = state.walletPath.wallet.guid
-
   try {
     switch (action.type) {
       case '@@INIT': {
         analytics.clear()
         break
       }
-      case AT.analytics.LOG_PAGE_VIEW: {
-        const pageName: PageNamesType = action.payload.route
+      case AT.router.LOCATION_CHANGE: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const pageName: PageName = action.payload.location.pathname
+
+        // We should find a way to add origins to page changes
 
         switch (pageName) {
           case '/home': {
             const { href, pathname, search } = window.location
             const { referrer, title } = document
+            const origin = 'SIGN_IN'
 
             analytics.push(AnalyticsKey.DASHBOARD_CLICKED, {
-              id,
-              nabuId,
-              origin: 'SIGN_IN',
-              originalTimestamp: getOriginalTimestamp(),
-              type: AnalyticsType.EVENT
+              properties: {
+                guid,
+                origin,
+                originalTimestamp: getOriginalTimestamp()
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
             })
 
             analytics.push(AnalyticsKey.DASHBOARD_VIEWED, {
-              id,
-              nabuId,
-              originalTimestamp: getOriginalTimestamp(),
-              path: pathname,
-              referrer,
-              search,
-              title,
-              type: AnalyticsType.EVENT,
-              url: href
+              properties: {
+                guid,
+                originalTimestamp: getOriginalTimestamp(),
+                path: pathname,
+                referrer,
+                search,
+                title,
+                url: href
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
             })
 
-            analytics.clear()
+            break
+          }
+          case '/interest': {
+            const { href, pathname, search } = window.location
+            const { referrer, title } = document
+            const origin = 'NAVIGATION'
+
+            analytics.push(AnalyticsKey.INTEREST_CLICKED, {
+              properties: {
+                guid,
+                origin,
+                originalTimestamp: getOriginalTimestamp()
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            analytics.push(AnalyticsKey.INTEREST_VIEWED, {
+              properties: {
+                guid,
+                originalTimestamp: getOriginalTimestamp(),
+                path: pathname,
+                referrer,
+                search,
+                title,
+                url: href
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            break
+          }
+          case '/settings/addresses/btc': {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+            const email = state.profile.userData.getOrElse({})?.emailVerified
+              ? state.profile.userData.getOrElse({})?.email
+              : null
+            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+            const guid = state.walletPath.wallet.guid ?? null
+            const currency = 'BTC'
+
+            analytics.push(AnalyticsKey.SETTINGS_CURRENCY_CLICKED, {
+              properties: {
+                currency,
+                guid,
+                originalTimestamp: getOriginalTimestamp()
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            break
+          }
+          case '/settings/addresses/bch': {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+            const email = state.profile.userData.getOrElse({})?.emailVerified
+              ? state.profile.userData.getOrElse({})?.email
+              : null
+            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+            const guid = state.walletPath.wallet.guid ?? null
+            const currency = 'BCH'
+
+            analytics.push(AnalyticsKey.SETTINGS_CURRENCY_CLICKED, {
+              properties: {
+                currency,
+                guid,
+                originalTimestamp: getOriginalTimestamp()
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            break
+          }
+          case '/settings/addresses/eth': {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+            const email = state.profile.userData.getOrElse({})?.emailVerified
+              ? state.profile.userData.getOrElse({})?.email
+              : null
+            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+            const guid = state.walletPath.wallet.guid ?? null
+            const currency = 'ETH'
+
+            analytics.push(AnalyticsKey.SETTINGS_CURRENCY_CLICKED, {
+              properties: {
+                currency,
+                guid,
+                originalTimestamp: getOriginalTimestamp()
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            break
+          }
+          case '/settings/addresses/xlm': {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+            const email = state.profile.userData.getOrElse({})?.emailVerified
+              ? state.profile.userData.getOrElse({})?.email
+              : null
+            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+            const guid = state.walletPath.wallet.guid ?? null
+            const currency = 'XLM'
+
+            analytics.push(AnalyticsKey.SETTINGS_CURRENCY_CLICKED, {
+              properties: {
+                currency,
+                guid,
+                originalTimestamp: getOriginalTimestamp()
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
 
             break
           }
@@ -63,61 +230,365 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
       case AT.modals.SHOW_MODAL: {
-        const modalName: ModalNamesType = action.payload.type
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email ?? null
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const modalName: ModalName = action.payload.type
 
         switch (modalName) {
-          case 'SIMPLE_BUY_MODAL': {
+          case ModalName.SIMPLE_BUY_MODAL: {
             const rawOrigin = action.payload.props.origin
             const { href, pathname, search } = window.location
             const { referrer, title } = document
-
-            const origin = simpleBuyOriginDictionary(rawOrigin)
+            const origin = buySellClickedOriginDictionary(rawOrigin)
 
             analytics.push(AnalyticsKey.BUY_SELL_CLICKED, {
-              id,
-              nabuId,
-              origin,
-              originalTimestamp: getOriginalTimestamp(),
-              type: AnalyticsType.EVENT
+              properties: {
+                guid,
+                origin,
+                originalTimestamp: getOriginalTimestamp(),
+                type: Order.BUY
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
             })
 
             analytics.push(AnalyticsKey.BUY_SELL_VIEWED, {
-              id,
-              nabuId,
-              originalTimestamp: getOriginalTimestamp(),
-              path: pathname,
-              referrer,
-              search,
-              title,
-              type: AnalyticsType.EVENT,
-              url: href
+              properties: {
+                guid,
+                originalTimestamp: getOriginalTimestamp(),
+                path: pathname,
+                referrer,
+                search,
+                title,
+                type: Order.BUY,
+                url: href
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
             })
 
             break
           }
-          case 'SWAP_MODAL': {
-            const { origin } = action.payload.props
+          case ModalName.SWAP_MODAL: {
             const { href, pathname, search } = window.location
             const { referrer, title } = document
+            const origin = swapClickedOriginDictionary(action.payload.props.origin)
 
             analytics.push(AnalyticsKey.SWAP_CLICKED, {
-              id,
-              nabuId,
-              origin,
-              originalTimestamp: getOriginalTimestamp(),
-              type: AnalyticsType.EVENT
+              properties: {
+                guid,
+                origin,
+                originalTimestamp: getOriginalTimestamp()
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
             })
 
             analytics.push(AnalyticsKey.SWAP_VIEWED, {
-              id,
-              nabuId,
-              originalTimestamp: getOriginalTimestamp(),
-              path: pathname,
-              referrer,
-              search,
-              title,
-              type: AnalyticsType.EVENT,
-              url: href
+              properties: {
+                guid,
+                originalTimestamp: getOriginalTimestamp(),
+                path: pathname,
+                referrer,
+                search,
+                title,
+                url: href
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            break
+          }
+          case ModalName.REQUEST_CRYPTO_MODAL: {
+            const origin = 'NAVIGATION'
+
+            analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
+              properties: {
+                guid,
+                origin,
+                originalTimestamp: getOriginalTimestamp(),
+                type: SendReceive.RECEIVE
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            analytics.push(AnalyticsKey.SEND_RECEIVE_VIEWED, {
+              properties: {
+                guid,
+                originalTimestamp: getOriginalTimestamp(),
+                type: SendReceive.RECEIVE
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            break
+          }
+          case ModalName.BANK_DEPOSIT_MODAL: {
+            const { href, pathname, search } = window.location
+            const { referrer, title } = document
+            const origin = 'CURRENCY_PAGE'
+
+            analytics.push(AnalyticsKey.DEPOSIT_CLICKED, {
+              properties: {
+                guid,
+                origin,
+                originalTimestamp: getOriginalTimestamp()
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            analytics.push(AnalyticsKey.DEPOSIT_VIEWED, {
+              properties: {
+                guid,
+                originalTimestamp: getOriginalTimestamp(),
+                path: pathname,
+                referrer,
+                search,
+                title,
+                url: href
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            break
+          }
+          case ModalName.CUSTODY_WITHDRAW_MODAL: {
+            const { href, pathname, search } = window.location
+            const { referrer, title } = document
+            const origin = 'CURRENCY_PAGE'
+
+            analytics.push(AnalyticsKey.WITHDRAWAL_CLICKED, {
+              properties: {
+                guid,
+                origin,
+                originalTimestamp: getOriginalTimestamp()
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            analytics.push(AnalyticsKey.WITHDRAWAL_VIEWED, {
+              properties: {
+                guid,
+                originalTimestamp: getOriginalTimestamp(),
+                path: pathname,
+                referrer,
+                search,
+                title,
+                url: href
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            break
+          }
+          case ModalName.ADD_BANK_YAPILY_MODAL: {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+            const email = state.profile.userData.getOrElse({})?.emailVerified
+              ? state.profile.userData.getOrElse({})?.email
+              : null
+            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+            const guid = state.walletPath.wallet.guid ?? null
+            const origin = linkBankClickedOriginDictionary(action.payload.origin)
+
+            analytics.push(AnalyticsKey.LINK_BANK_CLICKED, {
+              properties: {
+                guid,
+                origin,
+                originalTimestamp: getOriginalTimestamp()
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            break
+          }
+          case ModalName.ADD_BANK_YODLEE_MODAL: {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+            const email = state.profile.userData.getOrElse({})?.emailVerified
+              ? state.profile.userData.getOrElse({})?.email
+              : null
+            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+            const guid = state.walletPath.wallet.guid ?? null
+            const origin = linkBankClickedOriginDictionary(action.payload.origin)
+
+            analytics.push(AnalyticsKey.LINK_BANK_CLICKED, {
+              properties: {
+                guid,
+                origin,
+                originalTimestamp: getOriginalTimestamp()
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            break
+          }
+          case ModalName.KYC_MODAL: {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+            const email = state.profile.userData.getOrElse({})?.emailVerified
+              ? state.profile.userData.getOrElse({})?.email
+              : null
+            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+            const guid = state.walletPath.wallet.guid ?? null
+            const upgradeTier = action.payload.props.tier
+
+            const origin = upgradeVerificationClickedOriginDictionary(action.payload.props.origin)
+
+            analytics.push(AnalyticsKey.UPGRADE_VERIFICATION_CLICKED, {
+              properties: {
+                guid,
+                origin,
+                originalTimestamp: getOriginalTimestamp(),
+                tier: upgradeTier
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            break
+          }
+          case ModalName.VERIFY_MESSAGE_MODAL: {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+            const email = state.profile.userData.getOrElse({})?.emailVerified
+              ? state.profile.userData.getOrElse({})?.email
+              : null
+            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+            const guid = state.walletPath.wallet.guid ?? null
+
+            analytics.push(AnalyticsKey.ADDRESS_VERIFY_MESSAGE_CLICKED, {
+              properties: {
+                guid,
+                originalTimestamp: getOriginalTimestamp()
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            break
+          }
+          case ModalName.MOBILE_NUMBER_CHANGE_MODAL: {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+            const email = state.profile.userData.getOrElse({})?.emailVerified
+              ? state.profile.userData.getOrElse({})?.email
+              : null
+            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+            const guid = state.walletPath.wallet.guid ?? null
+
+            analytics.push(AnalyticsKey.CHANGE_MOBILE_NUMBER_CLICKED, {
+              properties: {
+                guid,
+                originalTimestamp: getOriginalTimestamp()
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            break
+          }
+          case ModalName.MOBILE_NUMBER_ADD_MODAL: {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+            const email = state.profile.userData.getOrElse({})?.emailVerified
+              ? state.profile.userData.getOrElse({})?.email
+              : null
+            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+            const guid = state.walletPath.wallet.guid ?? null
+
+            analytics.push(AnalyticsKey.ADD_MOBILE_NUMBER_CLICKED, {
+              properties: {
+                guid,
+                originalTimestamp: getOriginalTimestamp()
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            break
+          }
+          case ModalName.IMPORT_BTC_ADDRESS_MODAL: {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+            const email = state.profile.userData.getOrElse({})?.emailVerified
+              ? state.profile.userData.getOrElse({})?.email
+              : null
+            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+            const guid = state.walletPath.wallet.guid ?? null
+
+            analytics.push(AnalyticsKey.IMPORT_ADDRESS_CLICKED, {
+              properties: {
+                guid,
+                originalTimestamp: getOriginalTimestamp()
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
             })
 
             break
@@ -129,49 +600,159 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
+      case AT.modules.securityCenter.VERIFY_EMAIL: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const origin = 'SIGN_UP'
 
+        analytics.push(AnalyticsKey.EMAIL_VERIFICATION_REQUESTED, {
+          properties: {
+            guid,
+            origin,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.modules.securityCenter.RESEND_VERIFY_EMAIL: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const origin = 'VERIFICATION'
+
+        analytics.push(AnalyticsKey.EMAIL_VERIFICATION_REQUESTED, {
+          properties: {
+            guid,
+            origin,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.modules.securityCenter.SKIP_VERIFY_EMAIL: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const origin = 'SIGN_UP'
+
+        analytics.push(AnalyticsKey.EMAIL_VERIFICATION_SKIPPED, {
+          properties: {
+            guid,
+            origin,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
       case AT.components.interest.SET_COIN_DISPLAY: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
         const { isCoinDisplayed } = action.payload
-
-        const fix = isCoinDisplayed ? 'CRYPTO' : 'FIAT'
+        const fix = isCoinDisplayed ? Coin.CRYPTO : Coin.FIAT
+        const product = 'SAVINGS'
 
         analytics.push(AnalyticsKey.AMOUNT_SWITCHED, {
-          id,
-          nabuId,
-          originalTimestamp: getOriginalTimestamp(),
-          product: 'SAVINGS',
-          switch_to: fix,
-          type: AnalyticsType.EVENT
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            product,
+            switch_to: fix
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
         })
 
         break
       }
 
       case AT.components.swap.SWITCH_FIX: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
         const { fix } = action.payload
 
         analytics.push(AnalyticsKey.AMOUNT_SWITCHED, {
-          id,
-          nabuId,
-          originalTimestamp: getOriginalTimestamp(),
-          product: 'SWAP',
-          switch_to: fix,
-          type: AnalyticsType.EVENT
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            product: 'SWAP',
+            switch_to: fix
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
         })
 
         break
       }
 
       case AT.components.simpleBuy.SWITCH_FIX: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
         const { fix } = action.payload
 
         analytics.push(AnalyticsKey.AMOUNT_SWITCHED, {
-          id,
-          nabuId,
-          originalTimestamp: getOriginalTimestamp(),
-          product: 'SIMPLEBUY',
-          switch_to: fix,
-          type: AnalyticsType.EVENT
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            product: 'SIMPLEBUY',
+            switch_to: fix
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
         })
 
         break
@@ -179,149 +760,273 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
       case AT.components.simpleBuy.CREATE_ORDER: {
         const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
         const inputCurrency = state.components.simpleBuy.fiatCurrency
         const inputAmount = Number(state.form.simpleBuyCheckout.values.amount)
         const inputAMountMax = Number(state.components.simpleBuy.pair.buyMax) / 100
         const outputCurrency = state.components.simpleBuy.cryptoCurrency
 
         analytics.push(AnalyticsKey.BUY_AMOUNT_ENTERED, {
-          id,
-          input_amount: inputAmount,
-          input_currency: inputCurrency,
-          max_card_limit: inputAMountMax,
-          nabuId,
-          originalTimestamp: getOriginalTimestamp(),
-          output_currency: outputCurrency,
-          platform: 'WALLET',
-          type: AnalyticsType.EVENT
+          properties: {
+            guid,
+            input_amount: inputAmount,
+            input_currency: inputCurrency,
+            max_card_limit: inputAMountMax,
+            originalTimestamp: getOriginalTimestamp(),
+            output_currency: outputCurrency
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
         })
         break
       }
-      case AT.components.simpleBuy.HANDLE_SB_MAX_AMOUNT_CLICK: {
+      case AT.components.simpleBuy.HANDLE_BUY_MAX_AMOUNT_CLICK: {
         const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
         const maxCardLimit = Number(action.payload.amount) / 100
         const inputCurrency = state.components.simpleBuy.fiatCurrency
         const outputCurrency = state.components.simpleBuy.cryptoCurrency
 
         analytics.push(AnalyticsKey.BUY_AMOUNT_MAX_CLICKED, {
-          id,
-          input_currency: inputCurrency,
-          max_card_limit: maxCardLimit,
-          nabuId,
-          originalTimestamp: getOriginalTimestamp(),
-          output_currency: outputCurrency,
-          platform: 'WALLET',
-          type: AnalyticsType.EVENT
+          properties: {
+            guid,
+            input_currency: inputCurrency,
+            max_card_limit: maxCardLimit,
+            originalTimestamp: getOriginalTimestamp(),
+            output_currency: outputCurrency
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
         })
         break
       }
-      case AT.components.simpleBuy.HANDLE_SB_MIN_AMOUNT_CLICK: {
+      case AT.components.simpleBuy.HANDLE_BUY_MIN_AMOUNT_CLICK: {
         const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
         const inputCurrency = state.components.simpleBuy.fiatCurrency
         const outputCurrency = state.components.simpleBuy.cryptoCurrency
 
         analytics.push(AnalyticsKey.BUY_AMOUNT_MIN_CLICKED, {
-          id,
-          input_currency: inputCurrency,
-          nabuId,
-          originalTimestamp: getOriginalTimestamp(),
-          output_currency: outputCurrency,
-          platform: 'WALLET',
-          type: AnalyticsType.EVENT
+          properties: {
+            guid,
+            input_currency: inputCurrency,
+            originalTimestamp: getOriginalTimestamp(),
+            output_currency: outputCurrency
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
         })
         break
       }
       case AT.components.simpleBuy.HANDLE_SB_METHOD_CHANGE: {
-        const paymentType = action.method.type
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const paymentType = buyPaymentMethodSelectedPaymentTypeDictionary(action.method.type)
 
         analytics.push(AnalyticsKey.BUY_PAYMENT_METHOD_SELECTED, {
-          id,
-          nabuId,
-          originalTimestamp: getOriginalTimestamp(),
-          payment_type: simpleBuyPaymentTypeDictionary(paymentType),
-          platform: 'WALLET',
-          type: AnalyticsType.EVENT
-        })
-        break
-      }
-      case AT.auth.VERIFY_EMAIL_TOKEN_SUCCESS: {
-        analytics.push(AnalyticsKey.EMAIL_VERIFICATION_REQUESTED, {
-          id,
-          nabuId,
-          originalTimestamp: getOriginalTimestamp(),
-          type: AnalyticsType.EVENT
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            payment_type: paymentType
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
         })
         break
       }
       case AT.auth.LOGIN_SUCCESS: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+
         analytics.push(AnalyticsKey.SIGNED_IN, {
-          id,
-          nabuId,
-          originalTimestamp: getOriginalTimestamp(),
-          platform: 'WALLET',
-          type: AnalyticsType.EVENT
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
         })
+
         break
       }
       case AT.auth.LOGOUT: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+
         analytics.push(AnalyticsKey.SIGNED_OUT, {
-          id,
-          nabuId,
-          originalTimestamp: getOriginalTimestamp(),
-          platform: 'WALLET',
-          type: AnalyticsType.EVENT
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.auth.WRONG_CHANGE_CACHE: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+
+        analytics.push(AnalyticsKey.WRONG_CHANGE_CACHE, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.auth.WRONG_RECEIVE_CACHE: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+
+        analytics.push(AnalyticsKey.WRONG_RECEIVE_CACHE, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
         })
         break
       }
       case AT.components.swap.SET_STEP: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
         const stepName = action.payload.step
 
         switch (stepName) {
           case 'ENTER_AMOUNT': {
-            const state = store.getState()
             const inputCurrency = state.form.initSwap.values.BASE.coin
             const inputType =
-              state.form.initSwap.values.BASE.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+              state.form.initSwap.values.BASE.type === SwapBaseCounterTypes.CUSTODIAL
+                ? AccountType.TRADING
+                : AccountType.USERKEY
             const outputCurrency = state.form.initSwap.values.COUNTER.coin
             const outputType =
-              state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+              state.form.initSwap.values.COUNTER.type === SwapBaseCounterTypes.CUSTODIAL
+                ? AccountType.TRADING
+                : AccountType.USERKEY
 
             analytics.push(AnalyticsKey.SWAP_ACCOUNTS_SELECTED, {
-              id,
-              input_currency: inputCurrency,
-              input_type: inputType,
-              nabuId,
-              originalTimestamp: getOriginalTimestamp(),
-              output_currency: outputCurrency,
-              output_type: outputType,
-              type: AnalyticsType.EVENT
+              properties: {
+                guid,
+                input_currency: inputCurrency,
+                input_type: inputType,
+                originalTimestamp: getOriginalTimestamp(),
+                output_currency: outputCurrency,
+                output_type: outputType
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
             })
 
             break
           }
           case 'PREVIEW_SWAP': {
-            const state = store.getState()
             const exchangeRate = state.components.swap.quote.getOrElse({})?.rate || 1
             const inputAmount = Number(state.form.swapAmount.values.cryptoAmount)
             const inputCurrency = state.form.initSwap.values.BASE.coin
             const inputType =
-              state.form.initSwap.values.BASE.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+              state.form.initSwap.values.BASE.type === SwapBaseCounterTypes.CUSTODIAL
+                ? AccountType.TRADING
+                : AccountType.USERKEY
             const outputAmount = inputAmount * exchangeRate
             const outputCurrency = state.form.initSwap.values.COUNTER.coin
             const outputType =
-              state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+              state.form.initSwap.values.COUNTER.type === SwapBaseCounterTypes.CUSTODIAL
+                ? AccountType.TRADING
+                : AccountType.USERKEY
 
             analytics.push(AnalyticsKey.SWAP_AMOUNT_ENTERED, {
-              id,
-              input_amount: inputAmount,
-              input_currency: inputCurrency,
-              input_type: inputType,
-              nabuId,
-              originalTimestamp: getOriginalTimestamp(),
-              output_amount: outputAmount,
-              output_currency: outputCurrency,
-              output_type: outputType,
-              type: AnalyticsType.EVENT
+              properties: {
+                guid,
+                input_amount: inputAmount,
+                input_currency: inputCurrency,
+                input_type: inputType,
+                originalTimestamp: getOriginalTimestamp(),
+                output_amount: outputAmount,
+                output_currency: outputCurrency,
+                output_type: outputType
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
             })
 
             break
@@ -334,121 +1039,1653 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
       }
       case AT.components.swap.HANDLE_SWAP_MAX_AMOUNT_CLICK: {
         const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
         const inputCurrency = state.form.initSwap.values.BASE.coin
         const inputType =
-          state.form.initSwap.values.BASE.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+          state.form.initSwap.values.BASE.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
         const outputCurrency = state.form.initSwap.values.COUNTER.coin
         const outputType =
-          state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+          state.form.initSwap.values.COUNTER.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
 
         analytics.push(AnalyticsKey.SWAP_AMOUNT_MAX_CLICKED, {
-          id,
-          input_currency: inputCurrency,
-          input_type: inputType,
-          nabuId,
-          originalTimestamp: getOriginalTimestamp(),
-          output_currency: outputCurrency,
-          output_type: outputType,
-          type: AnalyticsType.EVENT
+          properties: {
+            guid,
+            input_currency: inputCurrency,
+            input_type: inputType,
+            originalTimestamp: getOriginalTimestamp(),
+            output_currency: outputCurrency,
+            output_type: outputType
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
         })
 
         break
       }
       case AT.components.swap.HANDLE_SWAP_MIN_AMOUNT_CLICK: {
         const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
         const inputCurrency = state.form.initSwap.values.BASE.coin
         const inputType =
-          state.form.initSwap.values.BASE.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+          state.form.initSwap.values.BASE.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
         const outputCurrency = state.form.initSwap.values.COUNTER.coin
         const outputType =
-          state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+          state.form.initSwap.values.COUNTER.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
 
         analytics.push(AnalyticsKey.SWAP_AMOUNT_MIN_CLICKED, {
-          id,
-          input_currency: inputCurrency,
-          input_type: inputType,
-          nabuId,
-          originalTimestamp: getOriginalTimestamp(),
-          output_currency: outputCurrency,
-          output_type: outputType,
-          type: AnalyticsType.EVENT
+          properties: {
+            guid,
+            input_currency: inputCurrency,
+            input_type: inputType,
+            originalTimestamp: getOriginalTimestamp(),
+            output_currency: outputCurrency,
+            output_type: outputType
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
         })
         break
       }
       case AT.components.swap.CHANGE_BASE: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
         const inputCurrency = action.payload.account.coin
-        const inputType = action.payload.account.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+        const inputType =
+          action.payload.account.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
 
         analytics.push(AnalyticsKey.SWAP_FROM_SELECTED, {
-          id,
-          input_currency: inputCurrency,
-          input_type: inputType,
-          nabuId,
-          originalTimestamp: getOriginalTimestamp(),
-          type: AnalyticsType.EVENT
+          properties: {
+            guid,
+            input_currency: inputCurrency,
+            input_type: inputType,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
         })
         break
       }
       case AT.components.swap.CHANGE_COUNTER: {
-        const inputCurrency = action.payload.account.coin
-        const inputType = action.payload.account.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const outputCurrency = action.payload.account.coin
+        const outputType =
+          action.payload.account.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
 
         analytics.push(AnalyticsKey.SWAP_RECEIVE_SELECTED, {
-          id,
-          input_currency: inputCurrency,
-          input_type: inputType,
-          nabuId,
-          originalTimestamp: getOriginalTimestamp(),
-          type: AnalyticsType.EVENT
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            output_currency: outputCurrency,
+            output_type: outputType
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
         })
         break
       }
       case AT.components.swap.CREATE_ORDER: {
         const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
         const exchangeRate = state.components.swap.quote.getOrElse({})?.rate || 1
         const inputAmount = Number(state.form.swapAmount.values.cryptoAmount)
         const inputCurrency = state.form.initSwap.values.BASE.coin
         const inputType =
-          state.form.initSwap.values.BASE.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+          state.form.initSwap.values.BASE.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
         const outputAmount = inputAmount * exchangeRate
         const outputCurrency = state.form.initSwap.values.COUNTER.coin
         const outputType =
-          state.form.initSwap.values.COUNTER.type === 'CUSTODIAL' ? 'TRADING' : 'USERKEY'
+          state.form.initSwap.values.COUNTER.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
         const networkFeeInputAmount =
-          state.form.initSwap.values.BASE.type === 'CUSTODIAL'
+          state.form.initSwap.values.BASE.type === SwapBaseCounterTypes.CUSTODIAL
             ? 0
             : Number(
                 convertBaseToStandard(
                   state.form.initSwap.values.BASE.coin,
-                  getNetworkFee(state.components.swap.payment.getOrElse(undefined))
+                  getNetworkFee(state.components.swap.payment.getOrElse(null))
                 )
               )
         const networkFeeOutputAmount =
-          state.form.initSwap.values.COUNTER.type === 'CUSTODIAL'
+          state.form.initSwap.values.COUNTER.type === SwapBaseCounterTypes.CUSTODIAL
             ? 0
             : state.components.swap.quote.getOrElse({})?.quote.networkFee || 0
 
         analytics.push(AnalyticsKey.SWAP_REQUESTED, {
-          exchange_rate: exchangeRate,
-          id,
-          input_amount: inputAmount,
-          input_currency: inputCurrency,
-          input_type: inputType,
-          nabuId,
-          network_fee_input_amount: networkFeeInputAmount,
-          network_fee_input_currency: inputCurrency,
-          network_fee_output_amount: networkFeeOutputAmount,
-          network_fee_output_currency: outputCurrency,
-          originalTimestamp: getOriginalTimestamp(),
-          output_amount: outputAmount,
-          output_currency: outputCurrency,
-          output_type: outputType,
-          type: AnalyticsType.EVENT
+          properties: {
+            exchange_rate: exchangeRate,
+            guid,
+            input_amount: inputAmount,
+            input_currency: inputCurrency,
+            input_type: inputType,
+            network_fee_input_amount: networkFeeInputAmount,
+            network_fee_input_currency: inputCurrency,
+            network_fee_output_amount: networkFeeOutputAmount,
+            network_fee_output_currency: outputCurrency,
+            originalTimestamp: getOriginalTimestamp(),
+            output_amount: outputAmount,
+            output_currency: outputCurrency,
+            output_type: outputType
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
         })
 
         break
       }
 
+      case AT.components.request.GET_NEXT_ADDRESS: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const accountType =
+          state.form.requestCrypto.values.selectedAccount.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
+        const currency = state.form.requestCrypto.values.selectedAccount.coin
+
+        analytics.push(AnalyticsKey.RECEIVE_CURRENCY_SELECTED, {
+          properties: {
+            account_type: accountType,
+
+            currency,
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.components.request.SET_ADDRESS_COPIED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const accountType =
+          state.form.requestCrypto.values.selectedAccount.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
+        const currency = state.form.requestCrypto.values.selectedAccount.coin
+
+        analytics.push(AnalyticsKey.RECEIVE_DETAILS_COPIED, {
+          properties: {
+            account_type: accountType,
+
+            currency,
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.components.simpleBuy.SET_BUY_CRYPTO: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const rawOrigin = action.payload.props.origin
+        const { href, pathname, search } = window.location
+        const { referrer, title } = document
+        const origin = buySellClickedOriginDictionary(rawOrigin)
+
+        analytics.push(AnalyticsKey.BUY_SELL_CLICKED, {
+          properties: {
+            guid,
+            origin,
+            originalTimestamp: getOriginalTimestamp(),
+            type: Order.BUY
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        analytics.push(AnalyticsKey.BUY_SELL_VIEWED, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            path: pathname,
+            referrer,
+            search,
+            title,
+            type: Order.BUY,
+            url: href
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.components.simpleBuy.SET_SELL_CRYPTO: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const rawOrigin = action.payload.props.origin
+        const { href, pathname, search } = window.location
+        const { referrer, title } = document
+        const origin = buySellClickedOriginDictionary(rawOrigin)
+
+        analytics.push(AnalyticsKey.BUY_SELL_CLICKED, {
+          properties: {
+            guid,
+            origin,
+            originalTimestamp: getOriginalTimestamp(),
+            type: Order.SELL
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        analytics.push(AnalyticsKey.BUY_SELL_VIEWED, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            path: pathname,
+            referrer,
+            search,
+            title,
+            type: Order.SELL,
+            url: href
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+
+      case AT.components.simpleBuy.SET_STEP: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const stepName = action.payload.step
+
+        switch (stepName) {
+          case 'ENTER_AMOUNT': {
+            if (action.payload.orderType === Order.BUY) {
+              break
+            }
+
+            const accountType =
+              action.payload.swapAccount.type === SwapBaseCounterTypes.CUSTODIAL
+                ? AccountType.TRADING
+                : AccountType.USERKEY
+            const inputCurrency = state.components.simpleBuy.fiatCurrency
+
+            analytics.push(AnalyticsKey.SELL_FROM_SELECTED, {
+              properties: {
+                from_account_type: accountType,
+                guid,
+                input_currency: inputCurrency,
+                originalTimestamp: getOriginalTimestamp()
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            break
+          }
+
+          case 'PREVIEW_SELL': {
+            const accountType =
+              state.components.simpleBuy.swapAccount.type === SwapBaseCounterTypes.CUSTODIAL
+                ? AccountType.TRADING
+                : AccountType.USERKEY
+            const inputCurrency = state.components.simpleBuy.fiatCurrency
+            const inputAmount = Number(state.form.simpleBuyCheckout.values.amount)
+            const outputCurrency = state.components.simpleBuy.cryptoCurrency
+
+            analytics.push(AnalyticsKey.SELL_AMOUNT_ENTERED, {
+              properties: {
+                from_account_type: accountType,
+                guid,
+                input_amount: inputAmount,
+                input_currency: inputCurrency,
+                originalTimestamp: getOriginalTimestamp(),
+                output_currency: outputCurrency
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+            break
+          }
+          default: {
+            break
+          }
+        }
+        break
+      }
+      case AT.components.simpleBuy.HANDLE_SELL_MAX_AMOUNT_CLICK: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const accountType =
+          state.components.simpleBuy.swapAccount.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
+        const inputCurrency = state.components.simpleBuy.fiatCurrency
+        const outputCurrency = state.components.simpleBuy.cryptoCurrency
+
+        analytics.push(AnalyticsKey.SELL_AMOUNT_MAX_CLICKED, {
+          properties: {
+            from_account_type: accountType,
+            guid,
+            input_currency: inputCurrency,
+            originalTimestamp: getOriginalTimestamp(),
+            output_currency: outputCurrency
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.components.simpleBuy.HANDLE_SELL_MIN_AMOUNT_CLICK: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const accountType =
+          state.components.simpleBuy.swapAccount.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
+        const inputCurrency = state.components.simpleBuy.fiatCurrency
+        const outputCurrency = state.components.simpleBuy.cryptoCurrency
+
+        analytics.push(AnalyticsKey.SELL_AMOUNT_MIN_CLICKED, {
+          properties: {
+            from_account_type: accountType,
+            guid,
+            input_currency: inputCurrency,
+            originalTimestamp: getOriginalTimestamp(),
+            output_currency: outputCurrency
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case actions.components.brokerage.setDWStep.type: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const stepName = action.payload.dwStep as BankDWStepType
+
+        switch (stepName) {
+          case BankDWStepType.CONFIRM: {
+            const depositMethod = state.components.brokerage.account
+              ? DepositMethod.BANK_ACCOUNT
+              : DepositMethod.BANK_TRANSFER
+            const { amount, currency } = state.form.brokerageTx.values
+
+            analytics.push(AnalyticsKey.DEPOSIT_AMOUNT_ENTERED, {
+              properties: {
+                amount,
+
+                currency,
+                deposit_method: depositMethod,
+                guid,
+                originalTimestamp: getOriginalTimestamp()
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            break
+          }
+
+          default: {
+            break
+          }
+        }
+
+        break
+      }
+      case actions.components.brokerage.setBankDetails.type: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+
+        const originModal = state.modals.find((modal) => modal.type).type
+
+        switch (originModal) {
+          case 'BANK_DEPOSIT_MODAL': {
+            const depositMethod = state.components.brokerage.account
+              ? DepositMethod.BANK_ACCOUNT
+              : DepositMethod.BANK_TRANSFER
+            const { currency } = state.components.brokerage.fiatCurrency
+
+            analytics.push(AnalyticsKey.DEPOSIT_METHOD_SELECTED, {
+              properties: {
+                currency,
+                deposit_method: depositMethod,
+                guid,
+                originalTimestamp: getOriginalTimestamp()
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            break
+          }
+
+          case 'CUSTODY_WITHDRAW_MODAL': {
+            const currency = state.components.withdraw.fiatCurrency
+            const withdrawalMethod = state.components.brokerage.account
+              ? WithdrawalMethod.BANK_ACCOUNT
+              : WithdrawalMethod.BANK_TRANSFER
+
+            analytics.push(AnalyticsKey.WITHDRAWAL_METHOD_SELECTED, {
+              properties: {
+                currency,
+                guid,
+                originalTimestamp: getOriginalTimestamp(),
+                withdrawal_method: withdrawalMethod
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            break
+          }
+
+          default: {
+            break
+          }
+        }
+
+        break
+      }
+      case AT.components.withdraw.SET_STEP: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const stepName = action.payload.step
+
+        switch (stepName) {
+          case 'CONFIRM_WITHDRAW': {
+            const currency = state.components.withdraw.fiatCurrency
+            const inputAmount = Number(state.form.custodyWithdrawForm.values.amount)
+            const fee = state.components.withdraw.feesAndMinAmount
+              .getOrElse({})
+              ?.fees.find((fee) => fee.symbol === currency)?.value
+            const outputAmount = inputAmount + fee
+            const withdrawMethod = state.components.brokerage.account
+              ? WithdrawalMethod.BANK_ACCOUNT
+              : WithdrawalMethod.BANK_TRANSFER
+
+            analytics.push(AnalyticsKey.WITHDRAWAL_AMOUNT_ENTERED, {
+              properties: {
+                currency,
+                guid,
+                input_amount: inputAmount,
+                originalTimestamp: getOriginalTimestamp(),
+                output_amount: outputAmount,
+                withdrawal_method: withdrawMethod
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            break
+          }
+          default: {
+            break
+          }
+        }
+
+        break
+      }
+      case AT.components.withdraw.HANDLE_WITHDRAWAL_MAX_AMOUNT_CLICK: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const currency = state.components.withdraw.fiatCurrency
+        const withdrawalMethod = state.components.brokerage.account
+          ? WithdrawalMethod.BANK_ACCOUNT
+          : WithdrawalMethod.BANK_TRANSFER
+
+        analytics.push(AnalyticsKey.WITHDRAWAL_AMOUNT_MAX_CLICKED, {
+          properties: {
+            currency,
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            withdrawal_method: withdrawalMethod
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.components.withdraw.HANDLE_WITHDRAWAL_MIN_AMOUNT_CLICK: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const currency = state.components.withdraw.fiatCurrency
+        const withdrawalMethod = state.components.brokerage.account
+          ? WithdrawalMethod.BANK_ACCOUNT
+          : WithdrawalMethod.BANK_TRANSFER
+
+        analytics.push(AnalyticsKey.WITHDRAWAL_AMOUNT_MIN_CLICKED, {
+          properties: {
+            currency,
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            withdrawal_method: withdrawalMethod
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.components.interest.SHOW_INTEREST_MODAL: {
+        const stepName: InterestStep = action.payload.step
+
+        switch (stepName) {
+          case 'DEPOSIT': {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+            const email = state.profile.userData.getOrElse({})?.emailVerified
+              ? state.profile.userData.getOrElse({})?.email
+              : null
+            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+            const guid = state.walletPath.wallet.guid ?? null
+            const { href, pathname, search } = window.location
+            const { referrer, title } = document
+            const currency = action.payload.coin
+
+            const origin = interestDepositClickedOriginDictionary(action.payload.props.origin)
+
+            analytics.push(AnalyticsKey.INTEREST_DEPOSIT_CLICKED, {
+              properties: {
+                currency,
+                guid,
+                origin,
+                originalTimestamp: getOriginalTimestamp()
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            analytics.push(AnalyticsKey.INTEREST_DEPOSIT_VIEWED, {
+              properties: {
+                guid,
+                originalTimestamp: getOriginalTimestamp(),
+                path: pathname,
+                referrer,
+                search,
+                title,
+                url: href
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            break
+          }
+          case 'WITHDRAWAL': {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+            const email = state.profile.userData.getOrElse({})?.emailVerified
+              ? state.profile.userData.getOrElse({})?.email
+              : null
+            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+            const guid = state.walletPath.wallet.guid ?? null
+            const { href, pathname, search } = window.location
+            const { referrer, title } = document
+
+            const origin = 'CURRENCY_PAGE'
+
+            analytics.push(AnalyticsKey.INTEREST_WITHDRAWAL_CLICKED, {
+              properties: {
+                guid,
+                origin,
+                originalTimestamp: getOriginalTimestamp()
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            analytics.push(AnalyticsKey.INTEREST_WITHDRAWAL_VIEWED, {
+              properties: {
+                guid,
+                originalTimestamp: getOriginalTimestamp(),
+                path: pathname,
+                referrer,
+                search,
+                title,
+                url: href
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+
+            break
+          }
+          default: {
+            break
+          }
+        }
+
+        break
+      }
+      case AT.components.interest.HANDLE_TRANSFER_MAX_AMOUNT_CLICK: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const amountCurrency = state.components.interest.isCoinDisplayed
+          ? action.payload.coin
+          : state.settingsPath.getOrElse({})?.currency
+        const currency = state.components.interest.coin
+        const fromAccountType =
+          state.components.interest.account.getOrElse({})?.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
+
+        analytics.push(AnalyticsKey.INTEREST_DEPOSIT_MAX_AMOUNT_CLICKED, {
+          properties: {
+            amount_currency: amountCurrency,
+
+            currency,
+            from_account_type: fromAccountType,
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.components.interest.HANDLE_TRANSFER_MIN_AMOUNT_CLICK: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const amountCurrency = state.components.interest.isCoinDisplayed
+          ? action.payload.coin
+          : state.settingsPath.getOrElse({})?.currency
+        const currency = state.components.interest.coin
+        const fromAccountType =
+          state.components.interest.account.getOrElse({})?.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
+
+        analytics.push(AnalyticsKey.INTEREST_DEPOSIT_MIN_AMOUNT_CLICKED, {
+          properties: {
+            amount_currency: amountCurrency,
+
+            currency,
+            from_account_type: fromAccountType,
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.components.interest.SUBMIT_DEPOSIT_FORM: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const currency = state.components.interest.coin
+        const inputAmount = Number(state.form.interestDepositForm.values.depositAmount)
+        const interestRate = state.components.interest.interestRate.getOrElse({})?.[currency]
+        const fromAccountType =
+          state.components.interest.account.getOrElse({})?.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
+
+        analytics.push(AnalyticsKey.INTEREST_DEPOSIT_AMOUNT_ENTERED, {
+          properties: {
+            currency,
+            from_account_type: fromAccountType,
+            guid,
+            input_amount: inputAmount,
+            interest_rate: interestRate,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.components.interest.HANDLE_WITHDRAWAL_SUPPLY_INFORMATION: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const { origin } = action.payload
+
+        analytics.push(AnalyticsKey.INTEREST_SUBMIT_INFORMATION_CLICKED, {
+          properties: {
+            guid,
+            origin,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.preferences.SET_LINK_HANDLING: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+
+        analytics.push(AnalyticsKey.CRYPTO_LINK_HANDLING_CLICKED, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.wallet.MANAGE_WALLET_SELECTION: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const { currency } = action.payload
+        const selection = manageTabSelectionClickedSelectionDictionary(action.payload.selection)
+
+        analytics.push(AnalyticsKey.MANAGE_TAB_SELECTION_CLICKED, {
+          properties: {
+            currency,
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            selection
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.core.settings.SET_NOTIFICATIONS_TYPE: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const isEmailEnabled = action.payload.types.includes(32)
+        const isSMSEnabled = action.payload.types.includes(32)
+
+        analytics.push(AnalyticsKey.NOTIFICATION_PREFERENCES_UPDATED, {
+          properties: {
+            email_enabled: isEmailEnabled,
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            sms_enabled: isSMSEnabled
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.modules.settings.SHOW_BTC_PRIV_KEY: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const currency = 'BTC'
+
+        analytics.push(AnalyticsKey.PRIVATE_KEYS_SHOWN, {
+          properties: {
+            currency,
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.modules.settings.SHOW_ETH_PRIV_KEY: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const currency = 'ETH'
+
+        analytics.push(AnalyticsKey.PRIVATE_KEYS_SHOWN, {
+          properties: {
+            currency,
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.modules.settings.SHOW_XLM_PRIV_KEY: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const currency = 'XLM'
+
+        analytics.push(AnalyticsKey.PRIVATE_KEYS_SHOWN, {
+          properties: {
+            currency,
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.modules.settings.GENERAL_SETTINGS_EXTERNAL_REDIRECT: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const destination = settingsHyperlinkClickedDestinationDictionary(
+          action.payload.destination
+        )
+
+        analytics.push(AnalyticsKey.SETTINGS_HYPERLINK_CLICKED, {
+          properties: {
+            destination,
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.modules.settings.GENERAL_SETTINGS_INTERNAL_REDIRECT: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const destination = settingsTabClickedDestinationDictionary(action.payload.destination)
+
+        analytics.push(AnalyticsKey.SETTINGS_TAB_CLICKED, {
+          properties: {
+            destination,
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.components.sendBtc.SEND_BTC_INITIALIZED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const { href, pathname, search } = window.location
+        const { referrer, title } = document
+        const currency = 'BTC'
+
+        analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
+          properties: {
+            currency,
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        analytics.push(AnalyticsKey.SEND_RECEIVE_VIEWED, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            path: pathname,
+            referrer,
+            search,
+            title,
+            url: href
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.components.sendBch.SEND_BCH_INITIALIZED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const { href, pathname, search } = window.location
+        const { referrer, title } = document
+        const currency = 'BCH'
+
+        analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
+          properties: {
+            currency,
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        analytics.push(AnalyticsKey.SEND_RECEIVE_VIEWED, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            path: pathname,
+            referrer,
+            search,
+            title,
+            url: href
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.components.sendXlm.SEND_XLM_INITIALIZED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const { href, pathname, search } = window.location
+        const { referrer, title } = document
+        const currency = 'XLM'
+
+        analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
+          properties: {
+            currency,
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        analytics.push(AnalyticsKey.SEND_RECEIVE_VIEWED, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            path: pathname,
+            referrer,
+            search,
+            title,
+            url: href
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.components.sendEth.SEND_ETH_INITIALIZED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const { href, pathname, search } = window.location
+        const { referrer, title } = document
+        const currency = action.payload
+
+        analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
+          properties: {
+            currency,
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        analytics.push(AnalyticsKey.SEND_RECEIVE_VIEWED, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            path: pathname,
+            referrer,
+            search,
+            title,
+            url: href
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.components.sendBtc.SEND_BTC_FIRST_STEP_SUBMIT_CLICKED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const feePriority = state.components.sendBtc.payment.getOrElse({})?.fees.priority
+        const currency = state.form['@SEND'].BTC.FORM.values.coin
+        const feeRate =
+          state.form['@SEND'].BTC.FORM.values.from.type === SwapBaseCounterTypes.CUSTODIAL
+            ? FeeRate.BACKEND
+            : state.form['@SEND'].BTC.FORM.values.feePerByte === feePriority
+            ? FeeRate.PRIORITY
+            : FeeRate.NORMAL
+        const fromAccountType =
+          state.form['@SEND'].BTC.FORM.values.from.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
+        const toAccountType =
+          state.form['@SEND'].BTC.FORM.values.to.value.value.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
+
+        analytics.push(AnalyticsKey.SEND_AMOUNT_ENTERED, {
+          properties: {
+            currency,
+            fee_rate: feeRate,
+            from_account_type: fromAccountType,
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            to_account_type: toAccountType
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.components.sendBch.SEND_BCH_FIRST_STEP_SUBMIT_CLICKED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const feePriority = state.components.sendBch.payment.getOrElse({})?.fees.priority
+        const currency = state.form['@SEND'].BCH.FORM.values.coin
+        const feeRate =
+          state.form['@SEND'].BCH.FORM.values.from.type === SwapBaseCounterTypes.CUSTODIAL
+            ? FeeRate.BACKEND
+            : state.form['@SEND'].BCH.FORM.values.feePerByte === feePriority
+            ? FeeRate.PRIORITY
+            : FeeRate.NORMAL
+        const fromAccountType =
+          state.form['@SEND'].BCH.FORM.values.from.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
+        const toAccountType =
+          state.form['@SEND'].BCH.FORM.values.to.value.value.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
+
+        analytics.push(AnalyticsKey.SEND_AMOUNT_ENTERED, {
+          properties: {
+            currency,
+            fee_rate: feeRate,
+            from_account_type: fromAccountType,
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            to_account_type: toAccountType
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.components.sendXlm.SEND_XLM_FIRST_STEP_SUBMIT_CLICKED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const feePriority = state.components.sendXlm.payment.getOrElse({})?.fees.priority
+        const currency = state.form['@SEND'].XLM.FORM.values.coin
+        const feeRate =
+          state.form['@SEND'].XLM.FORM.values.from.type === SwapBaseCounterTypes.CUSTODIAL
+            ? FeeRate.BACKEND
+            : state.form['@SEND'].XLM.FORM.values.feePerByte === feePriority
+            ? FeeRate.PRIORITY
+            : FeeRate.NORMAL
+        const fromAccountType =
+          state.form['@SEND'].XLM.FORM.values.from.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
+        const toAccountType =
+          state.form['@SEND'].XLM.FORM.values.to.value.value.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
+
+        analytics.push(AnalyticsKey.SEND_AMOUNT_ENTERED, {
+          properties: {
+            currency,
+            fee_rate: feeRate,
+            from_account_type: fromAccountType,
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            to_account_type: toAccountType
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.components.sendEth.SEND_ETH_FIRST_STEP_SUBMIT_CLICKED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const feePriority = state.components.sendEth.payment.getOrElse({})?.fees.priority
+        const currency = state.form['@SEND'].ETH.FORM.values.coin
+        const feeRate =
+          state.form['@SEND'].ETH.FORM.values.from.type === SwapBaseCounterTypes.CUSTODIAL
+            ? FeeRate.BACKEND
+            : state.form['@SEND'].ETH.FORM.values.feePerByte === feePriority
+            ? FeeRate.PRIORITY
+            : FeeRate.NORMAL
+        const fromAccountType =
+          state.form['@SEND'].ETH.FORM.values.from.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
+        const toAccountType =
+          state.form['@SEND'].ETH.FORM.values.to.value.value.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
+
+        analytics.push(AnalyticsKey.SEND_AMOUNT_ENTERED, {
+          properties: {
+            currency,
+            fee_rate: feeRate,
+            from_account_type: fromAccountType,
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            to_account_type: toAccountType
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.components.sendBtc.SEND_BTC_SECOND_STEP_SUBMIT_CLICKED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const feePriority = state.components.sendBtc.payment.getOrElse({})?.fees.priority
+        const currency = state.form['@SEND'].BTC.FORM.values.coin
+        const feeRate =
+          state.form['@SEND'].BTC.FORM.values.from.type === SwapBaseCounterTypes.CUSTODIAL
+            ? FeeRate.BACKEND
+            : state.form['@SEND'].BTC.FORM.values.feePerByte === feePriority
+            ? FeeRate.PRIORITY
+            : FeeRate.NORMAL
+        const fromAccountType =
+          state.form['@SEND'].BTC.FORM.values.from.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
+        const toAccountType =
+          state.form['@SEND'].BTC.FORM.values.to.value.value.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
+
+        analytics.push(AnalyticsKey.SEND_SUBMITTED, {
+          properties: {
+            currency,
+            fee_rate: feeRate,
+            from_account_type: fromAccountType,
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            to_account_type: toAccountType
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.components.sendBch.SEND_BCH_SECOND_STEP_SUBMIT_CLICKED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const feePriority = state.components.sendBch.payment.getOrElse({})?.fees.priority
+        const currency = state.form['@SEND'].BCH.FORM.values.coin
+        const feeRate =
+          state.form['@SEND'].BCH.FORM.values.from.type === SwapBaseCounterTypes.CUSTODIAL
+            ? FeeRate.BACKEND
+            : state.form['@SEND'].BCH.FORM.values.feePerByte === feePriority
+            ? FeeRate.PRIORITY
+            : FeeRate.NORMAL
+        const fromAccountType =
+          state.form['@SEND'].BCH.FORM.values.from.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
+        const toAccountType =
+          state.form['@SEND'].BCH.FORM.values.to.value.value.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
+
+        analytics.push(AnalyticsKey.SEND_SUBMITTED, {
+          properties: {
+            currency,
+            fee_rate: feeRate,
+            from_account_type: fromAccountType,
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            to_account_type: toAccountType
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.components.sendXlm.SEND_XLM_SECOND_STEP_SUBMIT_CLICKED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const feePriority = state.components.sendXlm.payment.getOrElse({})?.fees.priority
+        const currency = state.form['@SEND'].XLM.FORM.values.coin
+        const feeRate =
+          state.form['@SEND'].XLM.FORM.values.from.type === SwapBaseCounterTypes.CUSTODIAL
+            ? FeeRate.BACKEND
+            : state.form['@SEND'].XLM.FORM.values.feePerByte === feePriority
+            ? FeeRate.PRIORITY
+            : FeeRate.NORMAL
+        const fromAccountType =
+          state.form['@SEND'].XLM.FORM.values.from.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
+        const toAccountType =
+          state.form['@SEND'].XLM.FORM.values.to.value.value.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
+
+        analytics.push(AnalyticsKey.SEND_SUBMITTED, {
+          properties: {
+            currency,
+            fee_rate: feeRate,
+            from_account_type: fromAccountType,
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            to_account_type: toAccountType
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
+      case AT.components.sendEth.SEND_ETH_SECOND_STEP_SUBMIT_CLICKED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const feePriority = state.components.sendEth.payment.getOrElse({})?.fees.priority
+        const currency = state.form['@SEND'].ETH.FORM.values.coin
+        const feeRate =
+          state.form['@SEND'].ETH.FORM.values.from.type === SwapBaseCounterTypes.CUSTODIAL
+            ? FeeRate.BACKEND
+            : state.form['@SEND'].ETH.FORM.values.feePerByte === feePriority
+            ? FeeRate.PRIORITY
+            : FeeRate.NORMAL
+        const fromAccountType =
+          state.form['@SEND'].ETH.FORM.values.from.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
+        const toAccountType =
+          state.form['@SEND'].ETH.FORM.values.to.value.value.type === SwapBaseCounterTypes.CUSTODIAL
+            ? AccountType.TRADING
+            : AccountType.USERKEY
+
+        analytics.push(AnalyticsKey.SEND_SUBMITTED, {
+          properties: {
+            currency,
+            fee_rate: feeRate,
+            from_account_type: fromAccountType,
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            to_account_type: toAccountType
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
       default: {
         break
       }

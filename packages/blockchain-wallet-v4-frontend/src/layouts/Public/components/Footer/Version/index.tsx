@@ -10,9 +10,6 @@ const VersionWrapper = styled.span`
   margin-right: 16px;
 `
 
-// @ts-ignore
-const V = APP_VERSION
-
 const Version = () => (
   <>
     <VersionWrapper>
@@ -27,7 +24,7 @@ const Version = () => (
           id='scenes.login.version'
           defaultMessage='Version {version}'
           values={{
-            version: V
+            version: window.APP_VERSION
           }}
         />
       </Link>

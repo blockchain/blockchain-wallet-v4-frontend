@@ -19,21 +19,13 @@ const ErrorWrapper = styled.div`
   box-sizing: border-box;
 `
 
-const CoinPerformanceContainer = ({
-  coin,
-  currency,
-  data,
-  priceChartActions
-}: Props) => {
+const CoinPerformanceContainer = ({ coin, currency, data, priceChartActions }: Props) => {
   useEffect(() => {
     priceChartActions.initialized(coin, TimeRange.WEEK)
-  }, [coin])
+  }, [coin, priceChartActions])
 
   return data.cata({
-    Success: value => (
-      <Chart currency={currency} coin={value.coin} data={value.data} />
-    ),
-    Failure: error => (
+    Failure: (error) => (
       <ErrorWrapper>
         <Text size='12px' weight={400} color='red600'>
           {error}
@@ -41,13 +33,14 @@ const CoinPerformanceContainer = ({
       </ErrorWrapper>
     ),
     Loading: () => <></>,
-    NotAsked: () => <></>
+    NotAsked: () => <></>,
+    Success: (value) => <Chart currency={currency} coin={value.coin} data={value.data} />
   })
 }
 
 const mapStateToProps = (state, ownProps) => getData(state, ownProps)
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   priceChartActions: bindActionCreators(actions.components.priceChart, dispatch)
 })
 

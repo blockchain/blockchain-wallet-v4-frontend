@@ -13,7 +13,7 @@ import Success from './template.success'
 class GoogleAuthContainer extends React.PureComponent {
   constructor(props) {
     super(props)
-    this.state = { updateToggled: false, successToggled: false }
+    this.state = { successToggled: false, updateToggled: false }
 
     this.handleClick = this.handleClick.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
@@ -35,46 +35,41 @@ class GoogleAuthContainer extends React.PureComponent {
   }
 
   handleClick() {
-    this.props.modalActions.showModal('TwoStepSetup')
+    this.props.modalActions.showModal('TWO_STEP_SETUP_MODAL')
   }
 
   onSubmit() {
-    this.props.securityCenterActions.verifyGoogleAuthenticator(
-      this.props.authCode
-    )
+    this.props.securityCenterActions.verifyGoogleAuthenticator(this.props.authCode)
   }
 
   render() {
     const { data, ...rest } = this.props
 
     return data.cata({
-      Success: value => (
+      Failure: (message) => <Error {...rest} message={message} />,
+      Loading: () => <Loading {...rest} />,
+      NotAsked: () => <Loading {...rest} />,
+      Success: (value) => (
         <Success
           data={value}
           handleClick={this.handleClick}
           onSubmit={this.onSubmit}
           uiState={this.state}
         />
-      ),
-      Failure: message => <Error {...rest} message={message} />,
-      Loading: () => <Loading {...rest} />,
-      NotAsked: () => <Loading {...rest} />
+      )
     })
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   authCode: formValueSelector('securityGoogleAuthenticator')(state, 'authCode'),
   data: getData(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
-  settingsActions: bindActionCreators(actions.core.settings, dispatch),
-  securityCenterActions: bindActionCreators(
-    actions.modules.securityCenter,
-    dispatch
-  )
+  securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch),
+  settingsActions: bindActionCreators(actions.core.settings, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(GoogleAuthContainer)

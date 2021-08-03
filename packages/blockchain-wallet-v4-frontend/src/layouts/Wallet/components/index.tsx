@@ -8,8 +8,8 @@ export const Wrapper = styled.div`
   align-items: flex-start;
   flex-direction: column;
   justify-content: space-around;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 500;
 `
 export const MenuItem = styled.button<{ colorCode?: keyof DefaultTheme }>`
@@ -28,7 +28,7 @@ export const MenuItem = styled.button<{ colorCode?: keyof DefaultTheme }>`
   font-weight: 600;
   width: 100%;
   transition: background 0.3s;
-  background: ${props => props.theme.white};
+  background: ${(props) => props.theme.white};
   -webkit-appearance: none;
   -moz-appearance: none;
   outline: 0;
@@ -39,47 +39,47 @@ export const MenuItem = styled.button<{ colorCode?: keyof DefaultTheme }>`
   .icon {
     width: 26px;
     margin-right: 10px;
-    color: ${props => props.theme['grey400']};
+    color: ${(props) => props.theme.grey400};
   }
   .destination {
     white-space: nowrap;
-    color: ${props => props.theme.grey600};
+    color: ${(props) => props.theme.grey600};
   }
   &:hover {
-    background: ${props => props.theme.blue000};
+    background: ${(props) => props.theme.blue000};
   }
   &.active {
-    background: ${props => props.theme.blue100};
+    background: ${(props) => props.theme.blue100};
   }
   &:active {
-    background: ${props => props.theme.blue200};
+    background: ${(props) => props.theme.blue200};
   }
   &:hover,
   &.active {
     .icon {
-      color: ${props => props.theme.blue600};
+      color: ${(props) => props.theme.blue600};
     }
     .destination {
-      color: ${props => props.theme.blue900};
+      color: ${(props) => props.theme.blue900};
     }
   }
   &.airdrop {
     &:hover {
-      background: ${props => props.theme.green000};
+      background: ${(props) => props.theme.green000};
     }
     &.active {
-      background: ${props => props.theme.green100};
+      background: ${(props) => props.theme.green100};
     }
     &:active {
-      background: ${props => props.theme.green200};
+      background: ${(props) => props.theme.green200};
     }
     &:hover,
     &.active {
       .icon {
-        color: ${props => props.theme.green600};
+        color: ${(props) => props.theme.green600};
       }
       .destination {
-        color: ${props => props.theme['green800']};
+        color: ${(props) => props.theme.green800};
       }
     }
   }
@@ -89,18 +89,18 @@ export const MenuItem = styled.button<{ colorCode?: keyof DefaultTheme }>`
       margin-right: 10px;
     }
     &:hover {
-      background: ${props =>
-        props.colorCode && transparentize(0.85, props.theme[props.colorCode])};
+      background: ${(props) =>
+        props.colorCode && transparentize(0.85, props.theme[props.colorCode] || '#000')};
       .destination {
-        color: ${props => props.theme.grey600};
+        color: ${(props) => props.theme.grey600};
       }
     }
     &.active,
     &:active {
-      background: ${props =>
-        props.colorCode && transparentize(0.75, props.theme[props.colorCode])};
+      background: ${(props) =>
+        props.colorCode && transparentize(0.75, props.theme[props.colorCode] || '#000')};
       .destination {
-        color: ${props => props.theme.grey800};
+        color: ${(props) => props.theme.grey800};
       }
     }
   }
@@ -132,18 +132,18 @@ export const SubMenuItem = styled.li`
   &.active {
     & > * {
       font-weight: 500;
-      color: ${props => props.theme.blue600};
+      color: ${(props) => props.theme.blue600};
     }
   }
 
   &:hover {
     & > * {
-      color: ${props => props.theme.blue600};
+      color: ${(props) => props.theme.blue600};
     }
   }
 `
 export const Separator = styled.div`
   width: 100%;
   height: 1px;
-  background-color: ${props => props.theme.grey000};
+  background-color: ${(props) => props.theme.grey000};
 `

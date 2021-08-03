@@ -9,56 +9,74 @@ import { DefaultTheme } from 'styled-components'
 import { IcoMoonType } from './src/Icons/Icomoon'
 import { ImageType } from './src/Images/Images'
 import { CoinType, WalletCurrencyType } from 'core/types'
+import { SwapBaseCounterTypes } from 'data/types'
+import { Props as FlyoutContainerPropsType } from './src/Flyouts/Container'
+import { Props as FlyoutContentPropsType } from './src/Flyouts/Content'
+import { Props as FlyoutHeaderPropsType } from './src/Flyouts/Header'
+import { Props as AmountSubHeaderPropsType } from './src/Flyouts/AmountSubHeader'
+import { Props as FlyoutFooterPropsType } from './src/Flyouts/'
+import { Props as CheckoutRowPropsType } from './src/Rows/CheckoutRow'
+import { Props as OptionRightActionRowType } from './src/Rows/OptionRightAction'
 
-type AllCoinsType = WalletCurrencyType | 'BSV' | 'STX'
+type AllCoinsType = WalletCurrencyType | 'STX'
 
 export const Badge: FunctionComponent<any>
 export const Banner: FunctionComponent<any>
+export const Box: FunctionComponent<any>
+export const FlyoutContainer: FunctionComponent<FlyoutContainerPropsType>
+export const FlyoutContent: FunctionComponent<FlyoutContentPropsType>
+export const FlyoutHeader: FunctionComponent<FlyoutHeaderPropsType>
+export const AmountSubHeader: FunctionComponent<AmountSubHeaderPropsType>
+export const FlyoutFooter: FunctionComponent<FlyoutFooterPropsType>
+export const CheckoutRow: FunctionComponent<CheckoutRowPropsType>
+export const OptionRightActionRow: FunctionComponent<OptionRightActionRowType>
 export const BlockchainLoader: FunctionComponent<{
   width?: string
   height?: string
 }>
-export const Button: FunctionComponent<{
-  'data-e2e': string
-  nature?:
-    | 'copy'
-    | 'dark'
-    | 'dark-grey'
-    | 'empty-secondary'
-    | 'empty'
-    | 'empty-blue'
-    | 'grey400'
-    | 'green'
-    | 'grey800'
-    | 'light'
-    | 'light-red'
-    | 'primary'
-    | 'purple'
-    | 'received'
-    | 'secondary'
-    | 'sent'
-    | 'success'
-    | 'transferred'
-    | 'warning'
-    | 'white-blue'
-    | 'white-transparent'
-  bold?: boolean
-  capitalize?: boolean
-  className?: string
-  disabled?: boolean
-  fullwidth?: boolean
-  height?: string
-  jumbo?: boolean
-  margin?: string
-  onClick?: () => void
-  padding?: string
-  rounded?: boolean
-  size?: string
-  small?: boolean
-  style?: CSSProperties
-  uppercase?: boolean
-  width?: string
-} & ButtonHTMLAttributes<{}>>
+export const Button: FunctionComponent<
+  {
+    'data-e2e': string
+    nature?:
+      | 'copy'
+      | 'dark'
+      | 'dark-grey'
+      | 'empty-secondary'
+      | 'empty'
+      | 'empty-blue'
+      | 'grey400'
+      | 'green'
+      | 'grey800'
+      | 'light'
+      | 'light-red'
+      | 'primary'
+      | 'purple'
+      | 'received'
+      | 'secondary'
+      | 'sent'
+      | 'success'
+      | 'transferred'
+      | 'warning'
+      | 'white-blue'
+      | 'white-transparent'
+    bold?: boolean
+    capitalize?: boolean
+    className?: string
+    disabled?: boolean
+    fullwidth?: boolean
+    height?: string
+    jumbo?: boolean
+    margin?: string
+    onClick?: () => void
+    padding?: string
+    rounded?: boolean
+    size?: string
+    small?: boolean
+    style?: CSSProperties
+    uppercase?: boolean
+    width?: string
+  } & ButtonHTMLAttributes<{}>
+>
 export const Carousel: FunctionComponent<{
   height: number
   arrows: boolean
@@ -80,9 +98,7 @@ export const ComponentDropdown: ComponentClass<{
   width?: string
 }>
 
-export function Color(
-  color: keyof DefaultTheme
-): DefaultTheme[keyof DefaultTheme]
+export function Color(color: keyof DefaultTheme): DefaultTheme[keyof DefaultTheme]
 
 export const FontGlobalStyles: FunctionComponent<{}>
 export const FlatLoader: FunctionComponent<{
@@ -101,54 +117,56 @@ export const Icon: FunctionComponent<{
   weight?: number
   size?: string
   cursor?: boolean
-  color?: keyof DefaultTheme
+  color?: keyof DefaultTheme | string
   style?: CSSProperties
   onClick?: () => void
   role?: 'button'
 }>
 export const CoinAccountIcon: FunctionComponent<{
-  accountType: 'ACCOUNT' | 'CUSTODIAL' | 'EXCHANGE' | 'INTEREST'
+  accountType: SwapBaseCounterTypes | 'EXCHANGE' | 'INTEREST'
   coin: AllCoinsType
   style?: CSSProperties
 }>
-export const IconButton: FunctionComponent<{
-  'data-e2e': string
-  nature?:
-    | 'copy'
-    | 'dark'
-    | 'dark-grey'
-    | 'empty-secondary'
-    | 'empty'
-    | 'grey400'
-    | 'green'
-    | 'light'
-    | 'primary'
-    | 'purple'
-    | 'received'
-    | 'secondary'
-    | 'sent'
-    | 'success'
-    | 'transferred'
-    | 'warning'
-    | 'white-blue'
-    | 'white-transparent'
-  bold?: boolean
-  capitalize?: boolean
-  className?: string
-  disabled?: boolean
-  fullwidth?: boolean
-  height?: string
-  jumbo?: boolean
-  margin?: string
-  name: keyof IcoMoonType | AllCoinsType
-  onClick?: () => void
-  padding?: string
-  rounded?: boolean
-  small?: boolean
-  style?: CSSProperties
-  uppercase?: boolean
-  width?: string
-} & ButtonHTMLAttributes<{}>>
+export const IconButton: FunctionComponent<
+  {
+    'data-e2e': string
+    nature?:
+      | 'copy'
+      | 'dark'
+      | 'dark-grey'
+      | 'empty-secondary'
+      | 'empty'
+      | 'grey400'
+      | 'green'
+      | 'light'
+      | 'primary'
+      | 'purple'
+      | 'received'
+      | 'secondary'
+      | 'sent'
+      | 'success'
+      | 'transferred'
+      | 'warning'
+      | 'white-blue'
+      | 'white-transparent'
+    bold?: boolean
+    capitalize?: boolean
+    className?: string
+    disabled?: boolean
+    fullwidth?: boolean
+    height?: string
+    jumbo?: boolean
+    margin?: string
+    name: keyof IcoMoonType | AllCoinsType
+    onClick?: () => void
+    padding?: string
+    rounded?: boolean
+    small?: boolean
+    style?: CSSProperties
+    uppercase?: boolean
+    width?: string
+  } & ButtonHTMLAttributes<{}>
+>
 export const IconGlobalStyles: FunctionComponent<{}>
 export const Image: FunctionComponent<{
   name: keyof ImageType
@@ -235,7 +253,7 @@ export const TableCell: FunctionComponent<{
 export const TableHeader: FunctionComponent<{}>
 export const TableRow: FunctionComponent<{}>
 export const Text: FunctionComponent<{
-  color?: keyof DefaultTheme
+  color?: keyof DefaultTheme | string
   size?: string
   weight?: number
   style?: CSSProperties

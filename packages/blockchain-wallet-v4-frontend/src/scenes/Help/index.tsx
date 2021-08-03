@@ -54,37 +54,11 @@ const Help = () => {
       <Header>
         <Text size='20px' color='blue900' weight={600} capitalize>
           <FormattedMessage
-            id='scenes.help.needsomehelp'
+            id='copy.need_some_help'
             defaultMessage='Need some help?'
           />
         </Text>
       </Header>
-      <Row>
-        <Left>
-          <Text size='14px' color='grey800' weight={600}>
-            <FormattedMessage
-              id='scenes.help.lostguid'
-              defaultMessage="Don't know your Wallet ID?"
-            />
-          </Text>
-          <Text size='12px' color='grey800' weight={400}>
-            <FormattedMessage
-              id='scenes.help.lostguidrecover'
-              defaultMessage='We can send you a reminder email right now.'
-            />
-          </Text>
-        </Left>
-        <Right>
-          <LinkContainer to='/reminder'>
-            <Button data-e2e='linkToReminder' nature='light'>
-              <FormattedMessage
-                id='scenes.help.remind'
-                defaultMessage='Remind Me'
-              />
-            </Button>
-          </LinkContainer>
-        </Right>
-      </Row>
       <Row>
         <Left>
           <Text size='14px' color='grey800' weight={600}>

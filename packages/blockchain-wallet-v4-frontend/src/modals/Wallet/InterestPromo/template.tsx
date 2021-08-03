@@ -4,7 +4,7 @@ import { calcBasicInterest } from 'blockchain-wallet-v4-frontend/src/modals/Inte
 import styled from 'styled-components'
 
 import { Button, Link, Modal, ModalBody, ModalHeader, Text } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/currency'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import { BlueCartridge } from 'components/Cartridge'
 import { WalletFiatType } from 'core/types'
 import { model } from 'data'
@@ -112,7 +112,7 @@ const Success: React.FC<Props> = ({
           data-e2e='startEarningInterestNow'
           fullwidth
           onClick={() => {
-            interestActions.showInterestModal('DEPOSIT', currency, true)
+            interestActions.showInterestModal('DEPOSIT', currency)
             analyticsActions.logEvent(INTEREST_EVENTS.MODAL.START_EARNING)
           }}
         >

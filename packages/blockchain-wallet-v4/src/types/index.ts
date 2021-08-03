@@ -1,7 +1,4 @@
-import {
-  Erc20CurrenciesType,
-  FiatCurrenciesType
-} from 'core/exchange/currencies'
+import { FiatCurrenciesType } from 'blockchain-wallet-v4/src/exchange/currencies'
 
 import * as Address from './Address'
 import * as AddressBook from './AddressBook'
@@ -47,19 +44,6 @@ export {
   Wrapper
 }
 
-export enum CoinTypeEnum {
-  AAVE,
-  ALGO,
-  BCH,
-  BTC,
-  DOT,
-  ETH,
-  PAX,
-  USDT,
-  WDGLD,
-  XLM,
-  YFI
-}
 export enum FiatTypeEnum {
   EUR,
   USD,
@@ -84,19 +68,16 @@ export enum FiatTypeEnum {
   THB,
   TWD
 }
+
 export enum WalletFiatEnum {
   EUR,
   GBP,
   USD
 }
 
-export const WalletCurrencyEnum = {
-  ...CoinTypeEnum,
-  ...WalletFiatEnum
-}
-export type CoinType = keyof typeof CoinTypeEnum
+export type CoinType = string
 
-export type Erc20CoinType = keyof Erc20CurrenciesType
+export type Erc20CoinType = string
 
 // All Fiats
 export type FiatType = keyof FiatCurrenciesType
@@ -122,8 +103,8 @@ export type HDDerivationType = 'bech32' | 'legacy'
 
 export type AccountTypes = BtcAccountType
 
+export * from '../coinSelection/types'
 export * from '../exchange/currencies'
-export * from '../network/api/borrow/types'
 export * from '../network/api/custodial/types'
 export * from '../network/api/eth/types'
 export * from '../network/api/interest/types'
@@ -135,9 +116,9 @@ export * from '../network/types'
 export * from '../redux/data/custodial/types'
 export * from '../redux/data/misc/types'
 export * from '../redux/payment/types'
-export * from '../redux/settings/'
+export * from '../redux/settings/types'
 export * from '../redux/walletOptions/types'
 export * from '../remote/types'
 export * from '../transactions/types'
-export * from '../types/index'
+export * from './index'
 export * from './WalletPayload'

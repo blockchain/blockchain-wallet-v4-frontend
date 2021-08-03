@@ -5,12 +5,12 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Button, Icon, SkeletonRectangle, Text } from 'blockchain-info-components'
-import { SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/redux/walletOptions/types'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 import { FlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption } from 'components/Form'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 import { actions, selectors } from 'data'
+import { SwapBaseCounterTypes } from 'data/types'
 
 import { Props as OwnProps } from '../index'
 import { ClipboardWrapper, StepHeader } from '../model'
@@ -81,9 +81,9 @@ class RequestShowAddress extends React.PureComponent<Props> {
   }
 
   render() {
-    const { formValues, handleClose, setStep, supportedCoins, walletCurrency } = this.props
+    const { formValues, handleClose, setStep, walletCurrency } = this.props
     const { selectedAccount } = formValues
-    const coinModel = supportedCoins[selectedAccount.coin]
+    const { coinfig } = window.coins[selectedAccount.coin]
 
     return (
       <Wrapper>
@@ -107,7 +107,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
         </FlyoutWrapper>
         <CoinAccountListOption
           account={selectedAccount}
-          coinModel={coinModel}
+          coin={selectedAccount.coin}
           displayOnly
           hideActionIcon
           walletCurrency={walletCurrency}
@@ -127,7 +127,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
                 ),
                 Loading: () => <SkeletonRectangle width='280px' height='24px' />,
                 NotAsked: () => <SkeletonRectangle width='280px' height='24px' />,
-                Success: (val) => val.address,
+                Success: (val) => val.address
               })}
             </Text>
           </AddressDisplay>
@@ -137,8 +137,13 @@ class RequestShowAddress extends React.PureComponent<Props> {
               Loading: () => <></>,
               NotAsked: () => <></>,
               Success: (val) => (
-                <CopyClipboardButton textToCopy={val.address} color='blue600' size='24px' />
-              ),
+                <CopyClipboardButton
+                  onClick={() => this.props.requestActions.setAddressCopied()}
+                  textToCopy={val.address}
+                  color='blue600'
+                  size='24px'
+                />
+              )
             })}
           </ClipboardWrapper>
         </AddressWrapper>
@@ -149,7 +154,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
           Success: (val) =>
             val.extras
               ? Object.keys(val.extras).map((extra) => (
-                  <AddressWrapper>
+                  <AddressWrapper key={extra}>
                     <AddressDisplay>
                       <Text color='grey600' size='14px' lineHeight='21px' weight={500}>
                         {extra}
@@ -160,6 +165,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
                     </AddressDisplay>
                     <ClipboardWrapper>
                       <CopyClipboardButton
+                        onClick={() => this.props.requestActions.setAddressCopied()}
                         textToCopy={val.extras[extra as string]}
                         color='blue600'
                         size='24px'
@@ -167,15 +173,15 @@ class RequestShowAddress extends React.PureComponent<Props> {
                     </ClipboardWrapper>
                   </AddressWrapper>
                 ))
-              : null,
+              : null
         })}
-        {coinModel.isMemoBased && selectedAccount.type === 'CUSTODIAL' && (
+        {coinfig.type.isMemoBased && selectedAccount.type === SwapBaseCounterTypes.CUSTODIAL && (
           <InfoContainer>
             <Text color='grey600' size='12px' weight={500}>
               <FormattedMessage
                 id='modals.requestcrypto.showaddress.memo_required'
                 defaultMessage='If you send funds without the {coin} Memo Text, your funds will be lost and not credited to your account. Please send only {coin} to this address.'
-                values={{ coin: coinModel.coinCode }}
+                values={{ coin: selectedAccount.coin }}
               />
             </Text>
           </InfoContainer>
@@ -196,7 +202,7 @@ class RequestShowAddress extends React.PureComponent<Props> {
             NotAsked: () => <SkeletonRectangle width='306px' height='306px' />,
             Success: (val) => (
               <QRCodeWrapper data-e2e='requestAddressQrCode' size={280} value={val.address} />
-            ),
+            )
           })}
         </QRCodeContainer>
         <ButtonsWrapper>
@@ -218,14 +224,11 @@ class RequestShowAddress extends React.PureComponent<Props> {
 }
 
 const mapStateToProps = (state, ownProps: OwnProps) => ({
-  addressR: selectors.components.request.getNextAddress(state, ownProps.formValues.selectedAccount),
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrElse({} as SupportedWalletCurrenciesType),
+  addressR: selectors.components.request.getNextAddress(state, ownProps.formValues.selectedAccount)
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  requestActions: bindActionCreators(actions.components.request, dispatch),
+  requestActions: bindActionCreators(actions.components.request, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

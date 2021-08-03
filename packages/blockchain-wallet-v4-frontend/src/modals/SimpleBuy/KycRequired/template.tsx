@@ -31,13 +31,13 @@ const ShortTitleContainer = styled.div`
   margin-top: 20px;
 `
 const ContentContainer = styled(FlyoutWrapper)`
-  border-top: 1px solid ${props => props.theme.grey000};
+  border-top: 1px solid ${(props) => props.theme.grey000};
 `
 const DisplayTitle = styled(Text)`
   font-weight: 600;
   font-size: 15px;
   display: flex;
-  color: ${props => props.theme.textBlack};
+  color: ${(props) => props.theme.textBlack};
   width: 100%;
 `
 const IconsContainer = styled.div`
@@ -47,7 +47,7 @@ const IconsContainer = styled.div`
   width: 100%;
 `
 
-const Template: React.FC<Props> = props => {
+const Template: React.FC<Props> = (props) => {
   return (
     <Wrapper>
       <FlyoutWrapper>
@@ -65,10 +65,7 @@ const Template: React.FC<Props> = props => {
         </IconsContainer>
         <Title color='grey800' size='24px' weight={600}>
           <ShortTitleContainer>
-            <FormattedMessage
-              id='modals.simplebuy.kycrequired.title'
-              defaultMessage='Buy Crypto'
-            />
+            <FormattedMessage id='modals.simplebuy.kycrequired.title' defaultMessage='Buy Crypto' />
           </ShortTitleContainer>
         </Title>
         <Text color='grey600' weight={500}>
@@ -106,10 +103,7 @@ const Template: React.FC<Props> = props => {
             </NumberWrapper>
             <NumberDescription>
               <DisplayTitle>
-                <FormattedMessage
-                  id='buttons.buy_crypto'
-                  defaultMessage='Buy Crypto'
-                />
+                <FormattedMessage id='buttons.buy_crypto' defaultMessage='Buy Crypto' />
               </DisplayTitle>
               <SubTitle>
                 <FormattedMessage
@@ -147,11 +141,15 @@ const Template: React.FC<Props> = props => {
           nature='primary'
           data-e2e='handleVerified'
           onClick={() => {
-            props.identityVerificationActions.verifyIdentity(2, false)
+            props.identityVerificationActions.verifyIdentity({
+              needMoreInfo: false,
+              origin: 'SimpleBuy',
+              tier: 2
+            })
             if (props.order) {
               props.simpleBuyActions.setStep({
-                step: 'CHECKOUT_CONFIRM',
-                order: props.order
+                order: props.order,
+                step: 'CHECKOUT_CONFIRM'
               })
             }
           }}

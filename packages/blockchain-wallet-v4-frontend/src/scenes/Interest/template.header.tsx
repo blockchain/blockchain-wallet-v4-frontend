@@ -3,12 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Icon, Link, Text, TooltipHost } from 'blockchain-info-components'
-import {
-  IconBackground,
-  SceneHeader,
-  SceneHeaderText,
-  SceneSubHeaderText
-} from 'components/Layout'
+import { IconBackground, SceneHeader, SceneHeaderText, SceneSubHeaderText } from 'components/Layout'
 
 const LearnMoreLink = styled(Link)`
   display: inline-flex;
@@ -17,7 +12,7 @@ const LearnMoreText = styled(Text)`
   margin-left: 3px;
   font-size: 15px;
   font-weight: 500;
-  color: ${props => props.theme.blue600};
+  color: ${(props) => props.theme.blue600};
 `
 const DisclaimerText = styled(Text)`
   display: flex;
@@ -27,6 +22,9 @@ const DisclaimerText = styled(Text)`
 const SubheaderSeparator = styled.div`
   display: flex;
   flex-grow: 2;
+`
+const SceneSubHeaderTextCustom = styled(SceneSubHeaderText)`
+  display: contents;
 `
 const InterestHeader = () => {
   return (
@@ -42,7 +40,7 @@ const InterestHeader = () => {
           />
         </SceneHeaderText>
       </SceneHeader>
-      <SceneSubHeaderText>
+      <SceneSubHeaderTextCustom>
         <FormattedMessage
           id='scenes.interest.subheader'
           defaultMessage='Deposit crypto and watch it grow. Interest is paid by the end of the day on the 1st of each month.'
@@ -52,22 +50,14 @@ const InterestHeader = () => {
           target='_blank'
         >
           <LearnMoreText size='16px'>
-            <FormattedMessage
-              id='buttons.learn_more'
-              defaultMessage='Learn More'
-            />
+            <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
           </LearnMoreText>
         </LearnMoreLink>
         <SubheaderSeparator />
         <DisclaimerText>
           <TooltipHost id='scenes.interest.legaldisclaimer'>
             <Icon name='info' size='12px' color='blue600' />
-            <Text
-              size='12px'
-              color='blue600'
-              weight={500}
-              style={{ margin: '-2px 0 0 5px' }}
-            >
+            <Text size='12px' color='blue600' weight={500} style={{ margin: '-2px 0 0 5px' }}>
               <FormattedMessage
                 id='scenes.interest.legaldiscalimer'
                 defaultMessage='Legal disclaimer'
@@ -75,7 +65,7 @@ const InterestHeader = () => {
             </Text>
           </TooltipHost>
         </DisclaimerText>
-      </SceneSubHeaderText>
+      </SceneSubHeaderTextCustom>
     </>
   )
 }

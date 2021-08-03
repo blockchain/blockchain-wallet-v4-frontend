@@ -80,3 +80,13 @@ export const verifyMnemonic = () => ({ type: T.VERIFY_MNEMONIC })
 export const checkAndUpdateAccountLabels = () => ({
   type: T.CHECK_UPDATE_ACCT_LABELS
 })
+
+// mnemonic verified timestamp
+export const updateMnemonicBackup = () => ({
+  type: T.UPDATE_MNEMONIC_BACKUP
+})
+
+// trigger alert that mnemonic was viewed
+export const triggerMnemonicViewedAlert = () => ({
+  type: T.MNEMONIC_VIEWED_ALERT
+})

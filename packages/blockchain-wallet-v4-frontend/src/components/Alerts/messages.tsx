@@ -27,7 +27,12 @@ const IconColumn = styled.div`
 `
 
 const buildMessageTemplate = (messageText) => (
-  <Text size='14px' weight={600} style={{ marginLeft: '10px' }} data-e2e='toastMessage'>
+  <Text
+    size='14px'
+    weight={600}
+    style={{ marginLeft: '10px', wordBreak: 'break-all' }}
+    data-e2e='toastMessage'
+  >
     {messageText}
   </Text>
 )
@@ -50,8 +55,8 @@ const getAlertContent = (message, data = undefined) => {
             <TextGroup inline>
               <Text size='12px' weight={500}>
                 <FormattedMessage
-                  id='components.alerts.loweth.body1'
-                  defaultMessage='Sending USD Digital requires ETH. Your balance is low, Swap to get more ETH.'
+                  id='components.alerts.loweth.body2'
+                  defaultMessage='Sending Erc20s requires ETH. Your balance is low, Swap to get more ETH.'
                 />
               </Text>
               <Text>
@@ -289,33 +294,6 @@ const getAlertContent = (message, data = undefined) => {
           defaultMessage='Failed to retrieve used addresses.'
         />
       )
-    case C.FIRST_PAX_TRADE_INFO:
-      return buildMessageTemplate(
-        <>
-          <Text>
-            <FormattedMessage
-              id='components.alerts.first_pax_trade_info_dyk'
-              defaultMessage='Did you know?'
-            />
-          </Text>
-          <TextGroup inline>
-            <Text size='12px' weight={400}>
-              <FormattedMessage
-                id='components.alerts.first_usdd_trade_info'
-                defaultMessage='Now that you own USD Digital, you need to own ETH to Send or Swap.'
-              />
-            </Text>
-            <Link
-              href='https://support.blockchain.com/hc/en-us/articles/360027492092-Why-do-I-need-ETH-to-send-my-PAX-'
-              target='_blank'
-              weight={500}
-              size='12px'
-            >
-              <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
-            </Link>
-          </TextGroup>
-        </>
-      )
     case C.FETCH_UNUSED_ADDRESSES_ERROR:
       return buildMessageTemplate(
         <FormattedMessage
@@ -385,10 +363,7 @@ const getAlertContent = (message, data = undefined) => {
             <Text>
               <LinkContainer to='/help'>
                 <Link size='12px' weight={500}>
-                  <FormattedMessage
-                    id='components.alerts.iprestriction_login_error-link'
-                    defaultMessage='Need some help?'
-                  />
+                  <FormattedMessage id='copy.need_some_help' defaultMessage='Need some help?' />
                 </Link>
               </LinkContainer>
             </Text>
@@ -470,6 +445,13 @@ const getAlertContent = (message, data = undefined) => {
         <FormattedMessage id='components.alerts.login_failed' defaultMessage='Login failed' />
       )
 
+    case C.MAGIC_LINK_PARSE_ERROR:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.message_parse_failed'
+          defaultMessage='Verification failed. Please use your Wallet ID to sign in.'
+        />
+      )
     case C.MESSAGE_SIGN_ERROR:
       return buildMessageTemplate(
         <FormattedMessage
@@ -1107,6 +1089,13 @@ const getAlertContent = (message, data = undefined) => {
             values={data}
           />
         )
+      )
+    case C.KYC_RESET_ERROR:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.kyc_reset_error'
+          defaultMessage='Restoring account failed. Please try again.'
+        />
       )
     default:
       return buildMessageTemplate(

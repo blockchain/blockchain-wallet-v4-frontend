@@ -35,7 +35,23 @@ export default ({ apiUrl, get, post }) => {
       url: apiUrl
     })
 
+  // TODO delete this for release
+
+  const getMagicLinkMock = (scenario) =>
+    post({
+      contentType: 'application/json',
+      data: {
+        captcha: 'dummy',
+        email: 'pavel@blockchain.com',
+        product: 'WALLET',
+        scenario
+      },
+      endPoint: '/auth/mock/email-reminder',
+      url: apiUrl
+    })
+
   return {
+    getMagicLinkMock,
     getPriceIndex,
     getPriceIndexSeries,
     getPriceTimestampSeries,

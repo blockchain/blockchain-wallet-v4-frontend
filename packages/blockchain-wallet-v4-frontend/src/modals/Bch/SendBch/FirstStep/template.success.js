@@ -5,14 +5,7 @@ import PropTypes from 'prop-types'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import {
-  Banner,
-  Button,
-  Image,
-  Text,
-  TooltipHost,
-  TooltipIcon
-} from 'blockchain-info-components'
+import { Banner, Button, Image, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import {
   CountdownTimer,
@@ -33,12 +26,7 @@ import UnstoppableDomains from 'components/UnstoppableDomains'
 import { model } from 'data'
 import { required, validBchAddress } from 'services/forms'
 
-import {
-  insufficientFunds,
-  invalidAmount,
-  maximumAmount,
-  shouldError
-} from './validation'
+import { insufficientFunds, invalidAmount, maximumAmount, shouldError } from './validation'
 
 const WarningBanners = styled(Banner)`
   margin: -6px 0 12px;
@@ -63,7 +51,7 @@ const ImageInInputContainer = styled.div`
   right: 10px;
 `
 
-const FirstStep = props => {
+const FirstStep = (props) => {
   const {
     amount,
     excludeHDWallets,
@@ -82,30 +70,20 @@ const FirstStep = props => {
   const isFromLockbox = from && from.type === 'LOCKBOX'
   const isFromCustody = from && from.type === 'CUSTODIAL'
   const browser = Bowser.getParser(window.navigator.userAgent)
-  const isBrowserSupported = browser.satisfies(
-    model.components.lockbox.supportedBrowsers
-  )
+  const isBrowserSupported = browser.satisfies(model.components.lockbox.supportedBrowsers)
   const disableLockboxSend = isFromLockbox && !isBrowserSupported
   const disableCustodySend = isFromCustody && !isMnemonicVerified
 
   return (
     <Form onSubmit={handleSubmit}>
-      <FormGroup inline margin={'15px'} style={{ zIndex: 3 }}>
-        <FormItem width={'40%'}>
+      <FormGroup inline margin='15px' style={{ zIndex: 3 }}>
+        <FormItem width='40%'>
           <FormLabel htmlFor='coin'>
-            <FormattedMessage
-              id='modals.sendBch.firststep.currency'
-              defaultMessage='Currency'
-            />
+            <FormattedMessage id='modals.sendBch.firststep.currency' defaultMessage='Currency' />
           </FormLabel>
-          <Field
-            name='coin'
-            component={SelectBoxCoin}
-            type='send'
-            validate={[required]}
-          />
+          <Field name='coin' component={SelectBoxCoin} type='send' validate={[required]} />
         </FormItem>
-        <FormItem width={'60%'}>
+        <FormItem width='60%'>
           <FormLabel htmlFor='from'>
             <FormattedMessage id='copy.from' defaultMessage='From' />
           </FormLabel>
@@ -141,13 +119,10 @@ const FirstStep = props => {
           </Text>
         </WarningBanners>
       )}
-      <FormGroup margin={'15px'}>
+      <FormGroup margin='15px'>
         <FormItem>
           <FormLabel htmlFor='to'>
-            <FormattedMessage
-              id='modals.sendBch.firststep.towallet'
-              defaultMessage='To'
-            />
+            <FormattedMessage id='modals.sendBch.firststep.towallet' defaultMessage='To' />
             {isPayPro && (
               <TimerContainer>
                 <CountdownTimer
@@ -176,21 +151,16 @@ const FirstStep = props => {
                   noOptionsMessage={() => null}
                   openMenuOnClick={!!isFromCustody}
                   placeholder='Paste, scan, or select destination'
-                  validate={
-                    isFromCustody ? [required] : [required, validBchAddress]
-                  }
+                  validate={isFromCustody ? [required] : [required, validBchAddress]}
                 />
-                <QRCodeCapture
-                  scanType='bchAddress'
-                  border={['top', 'bottom', 'right', 'left']}
-                />
+                <QRCodeCapture scanType='bchAddress' border={['top', 'bottom', 'right', 'left']} />
               </>
             ) : (
               <Field
                 name='to'
                 component={TextBox}
                 input={{ value: `web+bitcoincash:?r=${payPro.paymentUrl}` }}
-                disabled={true}
+                disabled
               />
             )}
           </Row>
@@ -200,7 +170,7 @@ const FirstStep = props => {
       <FormGroup>
         <CustodyToAccountMessage coin='BCH' account={from} amount={amount} />
       </FormGroup>
-      <FormGroup margin={'15px'}>
+      <FormGroup margin='15px'>
         <FormItem>
           <FormLabel htmlFor='amount'>
             <FormattedMessage id='copy.amount' defaultMessage='Amount' />
@@ -208,12 +178,7 @@ const FirstStep = props => {
           <Field
             name='amount'
             component={FiatConverter}
-            validate={[
-              required,
-              invalidAmount,
-              insufficientFunds,
-              maximumAmount
-            ]}
+            validate={[required, invalidAmount, insufficientFunds, maximumAmount]}
             coin='BCH'
             marginTop='8px'
             data-e2e='sendBch'
@@ -221,13 +186,10 @@ const FirstStep = props => {
           />
         </FormItem>
       </FormGroup>
-      <FormGroup margin={'15px'}>
+      <FormGroup margin='15px'>
         <FormItem>
           <FormLabel>
-            <FormattedMessage
-              id='modals.sendBch.firststep.desc'
-              defaultMessage='Description'
-            />
+            <FormattedMessage id='modals.sendBch.firststep.desc' defaultMessage='Description' />
             <TooltipHost id='sendBch.firststep.share_tooltip'>
               <TooltipIcon name='info' size='12px' />
             </TooltipHost>
@@ -274,21 +236,14 @@ const FirstStep = props => {
         </FormItem>
       </FormGroup>
       {isPayPro && invalid && (
-        <Text
-          size='13px'
-          color='error'
-          weight={500}
-          style={{ textAlign: 'center' }}
-        >
+        <Text size='13px' color='error' weight={500} style={{ textAlign: 'center' }}>
           <FormattedMessage
             id='modals.sendBch.firststep.bitpay.insufficientfunds'
             defaultMessage='Insufficient funds to complete BitPay transaction'
           />
         </Text>
       )}
-      {isFromCustody && !isMnemonicVerified ? (
-        <MnemonicRequiredForCustodySend />
-      ) : null}
+      {isFromCustody && !isMnemonicVerified ? <MnemonicRequiredForCustodySend /> : null}
       <SubmitFormGroup>
         <Button
           type='submit'
@@ -312,14 +267,14 @@ const FirstStep = props => {
 }
 
 FirstStep.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
   invalid: PropTypes.bool.isRequired,
   submitting: PropTypes.bool.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
   totalFee: PropTypes.string.isRequired
 }
 
 export default reduxForm({
-  form: model.components.sendBch.FORM,
   destroyOnUnmount: false,
+  form: model.components.sendBch.FORM,
   shouldError
 })(FirstStep)

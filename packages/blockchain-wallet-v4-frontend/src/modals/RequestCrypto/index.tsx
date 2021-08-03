@@ -3,14 +3,10 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 
-import {
-  CoinType,
-  FiatType,
-  SupportedWalletCurrenciesType,
-  WalletCurrencyType
-} from 'blockchain-wallet-v4/src/types'
+import { CoinType, FiatType, WalletCurrencyType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
+import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
@@ -94,24 +90,17 @@ class RequestCrypto extends PureComponent<Props, State> {
 }
 
 const mapStateToProps = (state): LinkStatePropsType => ({
-  formValues: selectors.form.getFormValues(REQUEST_FORM)(
-    state
-  ) as RequestFormType,
+  formValues: selectors.form.getFormValues(REQUEST_FORM)(state) as RequestFormType,
   initialValues: {
-    currencyDisplay: selectors.core.settings
-      .getCurrency(state)
-      .getOrElse('USD'),
+    currencyDisplay: selectors.core.settings.getCurrency(state).getOrElse('USD'),
     selectedCoin: selectors.router.getCoinFromPageUrl(state) || 'ALL',
     step: RequestSteps.COIN_SELECT
   },
-  requestableCoins: getData(state),
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrElse({} as SupportedWalletCurrenciesType),
+  requestableCoins: getData(),
   walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
@@ -128,8 +117,7 @@ type LinkStatePropsType = {
     selectedCoin: CoinType | string | undefined
     step: RequestSteps
   }
-  requestableCoins: Array<WalletCurrencyType>
-  supportedCoins: SupportedWalletCurrenciesType
+  requestableCoins: Array<string>
   walletCurrency: FiatType
 }
 export type Props = OwnProps &
@@ -139,11 +127,11 @@ export type Props = OwnProps &
 
 // 👋 Order of composition is important, do not change!
 const enhance = compose<any>(
-  modalEnhancer('REQUEST_CRYPTO_MODAL', { transition: duration }),
+  modalEnhancer(ModalName.REQUEST_CRYPTO_MODAL, { transition: duration }),
   connector,
   reduxForm({
-    form: REQUEST_FORM,
-    enableReinitialize: true
+    enableReinitialize: true,
+    form: REQUEST_FORM
   })
 )
 
