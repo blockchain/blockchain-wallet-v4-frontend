@@ -538,8 +538,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.auth.setRegisterEmail(action.payload.email))
       yield put(actions.alerts.displayInfo(C.RESTORE_WALLET_INFO))
       const kvCredentials = (yield select(selectors.auth.getMetadataRestore)).getOrElse({})
-      // TODO: SEGWIT remove w/ DEPRECATED_V3
-      yield call(coreSagas.wallet.restoreWalletSaga_DEPRECATED_V3, {
+      yield call(coreSagas.wallet.restoreWalletSaga, {
         ...action.payload,
         kvCredentials
       })

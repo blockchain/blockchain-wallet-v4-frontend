@@ -139,35 +139,6 @@ export default ({ api, networks }) => {
     }
   }
 
-  const findUsedAccounts_DEPRECATED_V3 = function* ({ batch, node, usedAccounts }) {
-    if (endsWith(repeat(false, 5), usedAccounts)) {
-      const n = length(dropLastWhile(not, usedAccounts))
-      return n < 1 ? 1 : n
-    }
-    const l = length(usedAccounts)
-    const getxpub = (i) => node.deriveHardened(i).neutered().toBase58()
-    // @ts-ignore
-    const isUsed = (a) => propSatisfies((n) => n > 0, 'n_tx', a)
-    const xpubs = map(getxpub, range(l, l + batch))
-    const result = yield call(
-      api.fetchBlockchainData,
-      { legacy: xpubs },
-      {
-        n: 1,
-        offset: 0,
-        onlyShow: ''
-      }
-    )
-    const search = (xpub) => find(propEq('address', xpub))
-    const accounts = map((xpub) => search(xpub)(prop('addresses', result)), xpubs)
-    const flags = map(isUsed, accounts)
-    return yield call(findUsedAccounts_DEPRECATED_V3, {
-      batch,
-      node,
-      usedAccounts: concat(usedAccounts, flags)
-    })
-  }
-
   const findUsedAccounts = function* ({ batch, nodes }) {
     const getxpub = curry((nodes, i) =>
       nodes.map((node) => node.deriveHardened(i).neutered().toBase58())
@@ -240,57 +211,6 @@ export default ({ api, networks }) => {
       console.error('Unable to restore wallet from metadata', e)
       return false
     }
-  }
-
-  // TODO: SEGWIT remove w/ DEPRECATED_V3
-  const restoreWalletSaga_DEPRECATED_V3 = function* ({
-    email,
-    kvCredentials,
-    language,
-    mnemonic,
-    password
-  }) {
-    let recoveredFromMetadata
-
-    // if we have retrieved credentials from metadata, use them to restore wallet
-    if (kvCredentials) {
-      recoveredFromMetadata = yield call(restoreWalletFromMetadata, kvCredentials, password)
-    }
-
-    const seed = BIP39.mnemonicToSeed(mnemonic)
-    const masterNode = Bitcoin.bip32.fromSeed(seed, networks.btc)
-    const node = masterNode.deriveHardened(44).deriveHardened(0)
-    const nAccounts = yield call(findUsedAccounts_DEPRECATED_V3, {
-      batch: 10,
-      node,
-      usedAccounts: []
-    })
-
-    // generate new guid
-    let [guid, sharedKey] = yield call(api.generateUUIDs, 2)
-
-    // use previously recovered guid and sharedKey from metadata for new wrapper if available
-    if (recoveredFromMetadata) {
-      guid = kvCredentials.guid
-      sharedKey = kvCredentials.sharedKey
-    }
-
-    // create new wallet wrapper
-    const wrapper = Wrapper.createNew(
-      guid,
-      password,
-      sharedKey,
-      mnemonic,
-      language,
-      undefined,
-      nAccounts
-    )
-
-    // create new wallet if it wasn't recovered from metadata
-    if (!recoveredFromMetadata) {
-      yield call(api.createWallet, email, wrapper)
-    }
-    yield put(A.wallet.refreshWrapper(wrapper))
   }
 
   const restoreWalletSaga = function* ({ email, kvCredentials, language, mnemonic, password }) {
@@ -420,7 +340,6 @@ export default ({ api, networks }) => {
     resendSmsLoginCode,
     restoreWalletCredentialsFromMetadata,
     restoreWalletSaga,
-    restoreWalletSaga_DEPRECATED_V3,
     setHDAddressLabel,
     toggleSecondPassword,
     triggerMnemonicViewedAlert,
