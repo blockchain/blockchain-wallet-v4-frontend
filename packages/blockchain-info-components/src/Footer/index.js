@@ -273,11 +273,6 @@ class Footer extends PureComponent {
                     </Link>
                   </li>
                   <li>
-                    <Link locale={this.lang} href={'/lockbox'}>
-                      Lockbox
-                    </Link>
-                  </li>
-                  <li>
                     <Link locale={this.lang} href={'/api'}>
                       Developers
                     </Link>

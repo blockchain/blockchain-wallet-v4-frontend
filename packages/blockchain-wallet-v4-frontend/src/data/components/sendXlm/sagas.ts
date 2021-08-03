@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { equals, head, includes, last, path, pathOr, prop, propOr } from 'ramda'
 import { change, destroy, initialize, startSubmit, stopSubmit, touch } from 'redux-form'
-import { call, delay, put, select } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
@@ -11,7 +11,6 @@ import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { actions, model, selectors } from 'data'
 import { ModalNameType } from 'data/modals/types'
 import * as C from 'services/alerts'
-import * as Lockbox from 'services/lockbox'
 import { promptForSecondPassword } from 'services/sagas'
 
 import sendSagas from '../send/sagas'
@@ -115,15 +114,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           }
           break
         case 'to':
-          // payload may be either an account type (wallet/lockbox) or an address
+          // payload may be either an account type (wallet) or an address
           const value = pathOr(payload, ['value', 'value'], payload)
           // @ts-ignore
           const splitValue = propOr(value, 'address', value).split(':')
           const address = head(splitValue)
-          if (includes('.', (address as unknown) as string)) {
+          if (includes('.', address as unknown as string)) {
             yield put(
               actions.components.send.fetchUnstoppableDomainResults(
-                (value as unknown) as string,
+                value as unknown as string,
                 'XLM'
               )
             )
@@ -234,26 +233,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     let payment = (yield select(S.getPayment)).getOrElse({})
     payment = yield call(coreSagas.payment.xlm.create, { payment })
     const fromType = path(['from', 'type'], payment.value())
-    const toAddress = path(['to', 'address'], payment.value())
-    const fromAddress = path(['from', 'address'], payment.value())
     try {
       // Sign payment
-      if (fromType !== ADDRESS_TYPES.LOCKBOX) {
-        const password = yield call(promptForSecondPassword)
-        if (fromType !== ADDRESS_TYPES.CUSTODIAL) {
-          payment = yield call(payment.sign, password)
-        }
-      } else {
-        const device = (yield select(
-          selectors.core.kvStore.lockbox.getDeviceFromXlmAddr,
-          fromAddress
-        )).getOrFail('missing_device')
-        const deviceType = prop('device_type', device)
-        yield call(Lockbox.promptForLockbox, 'XLM', deviceType, [toAddress])
-        const connection = yield select(selectors.components.lockbox.getCurrentConnection)
-        const transport = prop('transport', connection)
-        const scrambleKey = Lockbox.utils.getScrambleKey('XLM', deviceType)
-        payment = yield call(payment.sign, null, transport, scrambleKey)
+      const password = yield call(promptForSecondPassword)
+      if (fromType !== ADDRESS_TYPES.CUSTODIAL) {
+        payment = yield call(payment.sign, password)
       }
       const value: ReturnType<XlmPaymentType['value']> = payment.value()
       // Publish payment
@@ -269,24 +253,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.paymentUpdatedSuccess(value))
       const { description } = value
       if (description) yield put(actions.core.kvStore.xlm.setTxNotesXlm(value.txId, description))
-      // Display success
-      if (fromType === ADDRESS_TYPES.LOCKBOX) {
-        yield put(actions.components.lockbox.setConnectionSuccess())
-        yield delay(4000)
-        const device = (yield select(
-          selectors.core.kvStore.lockbox.getDeviceFromXlmAddr,
-          fromAddress
-        )).getOrFail('missing_device')
-        const deviceIndex = prop('device_index', device)
-        yield put(actions.router.push(`/lockbox/dashboard/${deviceIndex}`))
-      } else {
-        yield put(actions.router.push('/xlm/transactions'))
-        yield put(
-          actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
-            coinName: 'Stellar'
-          })
-        )
-      }
+
+      // display success
+      yield put(actions.router.push('/xlm/transactions'))
+      yield put(
+        actions.alerts.displaySuccess(C.SEND_COIN_SUCCESS, {
+          coinName: 'Stellar'
+        })
+      )
       yield put(destroy(FORM))
       yield put(
         actions.analytics.logEvent([
@@ -303,24 +277,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(stopSubmit(FORM))
       // Set errors
       const error = errorHandler(e)
-      if (fromType === ADDRESS_TYPES.LOCKBOX) {
-        yield put(actions.components.lockbox.setConnectionError(e))
-      } else {
-        yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
-        yield put(actions.analytics.logEvent([...TRANSACTION_EVENTS.SEND_FAILURE, 'XLM', e]))
-        if (fromType === ADDRESS_TYPES.CUSTODIAL && error) {
-          if (error === 'Pending withdrawal locks') {
-            yield call(showWithdrawalLockAlert)
-          } else {
-            yield put(actions.alerts.displayError(error))
-          }
+      yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
+      yield put(actions.analytics.logEvent([...TRANSACTION_EVENTS.SEND_FAILURE, 'XLM', e]))
+      if (fromType === ADDRESS_TYPES.CUSTODIAL && error) {
+        if (error === 'Pending withdrawal locks') {
+          yield call(showWithdrawalLockAlert)
         } else {
-          yield put(
-            actions.alerts.displayError(C.SEND_COIN_ERROR, {
-              coinName: 'Stellar'
-            })
-          )
+          yield put(actions.alerts.displayError(error))
         }
+      } else {
+        yield put(
+          actions.alerts.displayError(C.SEND_COIN_ERROR, {
+            coinName: 'Stellar'
+          })
+        )
       }
     }
   }

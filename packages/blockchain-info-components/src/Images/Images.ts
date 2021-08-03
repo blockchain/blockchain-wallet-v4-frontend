@@ -82,33 +82,6 @@ import introSend from './img/intro-send.png'
 import introSwapGif from './img/intro-swap.gif'
 import introSwap from './img/intro-swap.png'
 import linkedinWhite from './img/linkedin-white.svg'
-import deviceLockbox from './img/lockbox/device-lockbox.png'
-import deviceNanoS from './img/lockbox/device-nano.png'
-import lockboxFailed from './img/lockbox/firmware-bad.png'
-import lockboxFailed2 from './img/lockbox/firmware-bad@2x.png'
-import lockboxFailed3 from './img/lockbox/firmware-bad@3x.png'
-import firmwareConnect from './img/lockbox/firmware-connect.png'
-import firmwareConnect2 from './img/lockbox/firmware-connect@2x.png'
-import firmwareConnect3 from './img/lockbox/firmware-connect@3x.png'
-import ledgerLogo from './img/lockbox/ledger.png'
-import ledgerLogo2 from './img/lockbox/ledger@2x.png'
-import ledgerLogo3 from './img/lockbox/ledger@3x.png'
-import ledgerLockbox from './img/lockbox/lockbox.png'
-import ledgerLockbox2 from './img/lockbox/lockbox@2x.png'
-import ledgerLockbox3 from './img/lockbox/lockbox@3x.png'
-import onboardComplete from './img/lockbox/onboarding_complete.gif'
-import onboardConnect from './img/lockbox/onboarding_connect.gif'
-import onboardCustomize from './img/lockbox/onboarding_customize.gif'
-import onboardPairDevice from './img/lockbox/onboarding_pairdevice.gif'
-import lockboxSuccess from './img/lockbox/send-confirmed.png'
-import lockboxSuccess2 from './img/lockbox/send-confirmed@2x.png'
-import lockboxSuccess3 from './img/lockbox/send-confirmed@3x.png'
-import sendConnect from './img/lockbox/send-connect.png'
-import sendConnect2 from './img/lockbox/send-connect@2x.png'
-import sendConnect3 from './img/lockbox/send-connect@3x.png'
-import sendReview from './img/lockbox/send-review.png'
-import sendReview2 from './img/lockbox/send-review@2x.png'
-import sendReview3 from './img/lockbox/send-review@3x.png'
 import logo96 from './img/logo-96.png'
 import logo144 from './img/logo-144.png'
 import logo192 from './img/logo-192.png'
@@ -220,9 +193,6 @@ const Images = {
   'failed-kyc2': failedKyc2,
   'failed-kyc3': failedKyc3,
   fintecture,
-  'firmware-connect': firmwareConnect,
-  'firmware-connect2': firmwareConnect2,
-  'firmware-connect3': firmwareConnect3,
   'gold-approved': goldApproved,
   'gold-notice': goldNotice,
   'gold-verified': goldVerified,
@@ -239,31 +209,7 @@ const Images = {
   'intro-send-gif': introSendGif,
   'intro-swap': introSwap,
   'intro-swap-gif': introSwapGif,
-  'ledger-lockbox': ledgerLockbox,
-  'ledger-lockbox2': ledgerLockbox2,
-  'ledger-lockbox3': ledgerLockbox3,
-  'ledger-logo': ledgerLogo,
-  'ledger-logo2': ledgerLogo2,
-  'ledger-logo3': ledgerLogo3,
-  'ledger-nano-s': deviceNanoS,
   'linkedin-white': linkedinWhite,
-  'lockbox-device': deviceLockbox,
-  'lockbox-failed': lockboxFailed,
-  'lockbox-failed2': lockboxFailed2,
-  'lockbox-failed3': lockboxFailed3,
-  'lockbox-onboard-complete': onboardComplete,
-  'lockbox-onboard-connect': onboardConnect,
-  'lockbox-onboard-customize': onboardCustomize,
-  'lockbox-onboard-pairdevice': onboardPairDevice,
-  'lockbox-send-connect': sendConnect,
-  'lockbox-send-connect2': sendConnect2,
-  'lockbox-send-connect3': sendConnect3,
-  'lockbox-send-review': sendReview,
-  'lockbox-send-review2': sendReview2,
-  'lockbox-send-review3': sendReview3,
-  'lockbox-success': lockboxSuccess,
-  'lockbox-success2': lockboxSuccess2,
-  'lockbox-success3': lockboxSuccess3,
   'logo-144': logo144,
   'logo-192': logo192,
   'logo-512': logo512,

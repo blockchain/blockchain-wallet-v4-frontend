@@ -5,7 +5,6 @@ import * as fundRecovery from './fundRecovery/selectors'
 import * as identityVerification from './identityVerification/selectors'
 import * as interest from './interest/selectors'
 import * as layoutWallet from './layoutWallet/selectors'
-import * as lockbox from './lockbox/selectors'
 import * as manageAddresses from './manageAddresses/selectors'
 import * as priceChart from './priceChart/selectors'
 import * as priceTicker from './priceTicker/selectors'
@@ -35,7 +34,6 @@ export {
   identityVerification,
   interest,
   layoutWallet,
-  lockbox,
   manageAddresses,
   priceChart,
   priceTicker,

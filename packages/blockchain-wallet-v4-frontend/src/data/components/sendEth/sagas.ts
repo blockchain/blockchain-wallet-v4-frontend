@@ -1,9 +1,9 @@
 import BigNumber from 'bignumber.js'
 import EthereumAbi from 'ethereumjs-abi'
 import EthUtil from 'ethereumjs-util'
-import { equals, head, identity, includes, path, pathOr, prop, propOr, toLower } from 'ramda'
+import { equals, head, identity, includes, path, pathOr, prop, propOr } from 'ramda'
 import { change, destroy, initialize, startSubmit, stopSubmit } from 'redux-form'
-import { call, delay, put, select, take } from 'redux-saga/effects'
+import { call, put, select, take } from 'redux-saga/effects'
 
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
@@ -15,7 +15,6 @@ import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
 import { actions, actionTypes, model, selectors } from 'data'
 import { ModalNameType } from 'data/modals/types'
 import * as C from 'services/alerts'
-import * as Lockbox from 'services/lockbox'
 import { promptForSecondPassword } from 'services/sagas'
 
 import sendSagas from '../send/sagas'
@@ -128,7 +127,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           const fromPayload = payload as SendEthFormFromActionType['payload']
           let source
           switch (fromPayload.type) {
-            case 'LOCKBOX':
             case 'ACCOUNT':
               source = fromPayload.address
               payment = yield payment.from(source, fromPayload.type)
@@ -156,10 +154,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         case 'to':
           const toPayload = payload as SendEthFormToActionType['payload']
           const value = pathOr(toPayload, ['value', 'value'], toPayload)
-          if (includes('.', (value as unknown) as string)) {
+          if (includes('.', value as unknown as string)) {
             yield put(
               actions.components.send.fetchUnstoppableDomainResults(
-                (value as unknown) as string,
+                value as unknown as string,
                 coin
               )
             )
@@ -251,31 +249,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       payment: p.getOrElse({})
     })
     const fromType = payment.value().from.type
-    const toAddress = path(['to', 'address'], payment.value())
-    const fromAddress = path(['from', 'address'], payment.value())
     const { isRetryAttempt } = payment.value()
 
     try {
       // Sign payment
-      if (fromType !== 'LOCKBOX') {
-        const password = yield call(promptForSecondPassword)
-        if (fromType !== 'CUSTODIAL') {
-          // @ts-ignore
-          payment = yield payment.sign(password, null, null)
-        }
-      } else if (fromType === 'LOCKBOX') {
-        const device = (yield select(
-          selectors.core.kvStore.lockbox.getDeviceFromEthAddr,
-          fromAddress
-        )).getOrFail('missing_device')
-        const deviceType = prop('device_type', device)
-        yield call(Lockbox.promptForLockbox, 'ETH', deviceType, [toAddress])
-        const connection = yield select(selectors.components.lockbox.getCurrentConnection)
-        const transport = prop('transport', connection)
-        const scrambleKey = Lockbox.utils.getScrambleKey('ETH', deviceType)
+      const password = yield call(promptForSecondPassword)
+      if (fromType !== 'CUSTODIAL') {
         // @ts-ignore
-        payment = yield payment.sign(null, transport, scrambleKey)
+        payment = yield payment.sign(password, null, null)
       }
+
       // Publish payment
       if (fromType === 'CUSTODIAL') {
         const value = payment.value()
@@ -287,29 +270,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       }
       yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
       // Update metadata
-      if (fromType === ADDRESS_TYPES.LOCKBOX) {
-        const device = (yield select(
-          selectors.core.kvStore.lockbox.getDeviceFromEthAddr,
-          fromAddress
-        )).getOrFail('missing_device')
-        const deviceIndex = prop('device_index', device)
-        yield put(
-          actions.core.kvStore.lockbox.setLatestTxTimestampEthLockbox(deviceIndex, Date.now())
-        )
-        yield take(actionTypes.core.kvStore.lockbox.FETCH_METADATA_LOCKBOX_SUCCESS)
-        yield put(
-          actions.core.kvStore.lockbox.setLatestTxEthLockbox(deviceIndex, payment.value().txId)
-        )
-      } else {
-        yield put(actions.core.kvStore.eth.setLatestTxTimestampEth(Date.now()))
-        yield take(actionTypes.core.kvStore.eth.FETCH_METADATA_ETH_SUCCESS)
-        yield put(actions.core.kvStore.eth.setLatestTxEth(payment.value().txId))
-      }
+      yield put(actions.core.kvStore.eth.setLatestTxTimestampEth(Date.now()))
+      yield take(actionTypes.core.kvStore.eth.FETCH_METADATA_ETH_SUCCESS)
+      yield put(actions.core.kvStore.eth.setLatestTxEth(payment.value().txId))
+
       // Notes
       if (path(['description', 'length'], payment.value())) {
-        if (fromType !== ADDRESS_TYPES.LOCKBOX) {
-          yield take(actionTypes.core.kvStore.eth.FETCH_METADATA_ETH_SUCCESS)
-        }
+        yield take(actionTypes.core.kvStore.eth.FETCH_METADATA_ETH_SUCCESS)
         if (coinfig.type.erc20Address) {
           yield put(
             actions.core.kvStore.eth.setTxNotesErc20(
@@ -324,31 +291,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         )
       }
       // Display success
-      if (fromType === ADDRESS_TYPES.LOCKBOX) {
-        yield put(actions.components.lockbox.setConnectionSuccess())
-        yield delay(4000)
-        const device = (yield select(
-          selectors.core.kvStore.lockbox.getDeviceFromEthAddr,
-          fromAddress
-        )).getOrFail('missing_device')
-        const deviceIndex = prop('device_index', device)
-        yield put(actions.router.push(`/lockbox/dashboard/${deviceIndex}`))
+      yield put(actions.router.push(`/${coin}/transactions`))
+      if (coin === 'ETH') {
+        yield put(actions.core.data.eth.fetchTransactions(null, true))
       } else {
-        yield put(actions.router.push(`/${coin}/transactions`))
-        if (coin === 'ETH') {
-          yield put(actions.core.data.eth.fetchTransactions(null, true))
-        } else {
-          yield put(actions.core.data.eth.fetchErc20Transactions(coin, true))
-        }
-        yield put(
-          actions.alerts.displaySuccess(
-            isRetryAttempt ? C.RESEND_COIN_SUCCESS : C.SEND_COIN_SUCCESS,
-            {
-              coinName: coinfig.name
-            }
-          )
-        )
+        yield put(actions.core.data.eth.fetchErc20Transactions(coin, true))
       }
+      yield put(
+        actions.alerts.displaySuccess(
+          isRetryAttempt ? C.RESEND_COIN_SUCCESS : C.SEND_COIN_SUCCESS,
+          {
+            coinName: coinfig.name
+          }
+        )
+      )
+
       yield put(
         actions.analytics.logEvent([
           ...TRANSACTION_EVENTS.SEND,
@@ -365,31 +322,27 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       yield put(stopSubmit(FORM))
       // Set errors
       const error = errorHandler(e)
-      if (fromType === ADDRESS_TYPES.LOCKBOX) {
-        yield put(actions.components.lockbox.setConnectionError(e))
-      } else {
-        yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
-        const lowEthBalance = yield select(selectors.core.data.eth.getLowEthBalanceWarning())
-        yield put(
-          actions.analytics.logEvent([
-            ...TRANSACTION_EVENTS.SEND_FAILURE,
-            coin,
-            coinfig.type.erc20Address && lowEthBalance ? 'Potentially insufficient ETH for TX' : e
-          ])
-        )
-        if (fromType === ADDRESS_TYPES.CUSTODIAL && error) {
-          if (error === 'Pending withdrawal locks') {
-            yield call(showWithdrawalLockAlert)
-          } else {
-            yield put(actions.alerts.displayError(error))
-          }
+      yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
+      const lowEthBalance = yield select(selectors.core.data.eth.getLowEthBalanceWarning())
+      yield put(
+        actions.analytics.logEvent([
+          ...TRANSACTION_EVENTS.SEND_FAILURE,
+          coin,
+          coinfig.type.erc20Address && lowEthBalance ? 'Potentially insufficient ETH for TX' : e
+        ])
+      )
+      if (fromType === ADDRESS_TYPES.CUSTODIAL && error) {
+        if (error === 'Pending withdrawal locks') {
+          yield call(showWithdrawalLockAlert)
         } else {
-          yield put(
-            actions.alerts.displayError(C.SEND_COIN_ERROR, {
-              coinName: coinfig.name
-            })
-          )
+          yield put(actions.alerts.displayError(error))
         }
+      } else {
+        yield put(
+          actions.alerts.displayError(C.SEND_COIN_ERROR, {
+            coinName: coinfig.name
+          })
+        )
       }
     }
   }

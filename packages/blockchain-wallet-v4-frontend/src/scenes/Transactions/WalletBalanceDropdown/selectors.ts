@@ -1,11 +1,7 @@
 import { lift } from 'ramda'
 
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import {
-  // CoinType,
-  ExtractSuccess,
-  FiatType
-} from 'blockchain-wallet-v4/src/types'
+import { ExtractSuccess, FiatType } from 'blockchain-wallet-v4/src/types'
 import * as balanceSelectors from 'components/Balances/selectors'
 import { getData as getBchAddressData } from 'components/Form/SelectBoxBchAddresses/selectors'
 import { getData as getBtcAddressData } from 'components/Form/SelectBoxBtcAddresses/selectors'
@@ -17,9 +13,6 @@ import {
 import { getData as getXlmAddressData } from 'components/Form/SelectBoxXlmAddresses/selectors'
 import { selectors } from 'data'
 
-// import { ALL_ACCOUNTS_SELECTOR } from 'data/coins/model/all'
-// import { getCoinAccounts } from 'data/coins/selectors/index'
-// import { CoinAccountSelectorType } from 'data/coins/types'
 import { OwnProps } from '.'
 
 export const getData = (state, ownProps: OwnProps) => {
@@ -27,15 +20,9 @@ export const getData = (state, ownProps: OwnProps) => {
   let addressDataR
   let balanceDataR
 
-  // const accounts = getCoinAccounts(state, {
-  //   coins: [coin],
-  //   ...ALL_ACCOUNTS_SELECTOR
-  // } as CoinAccountSelectorType)[coin as CoinType]
-
   switch (coin) {
     case 'BTC':
       addressDataR = getBtcAddressData(state, {
-        excludeLockbox: true,
         includeAll: false,
         includeCustodial: true,
         includeInterest: true
@@ -45,7 +32,6 @@ export const getData = (state, ownProps: OwnProps) => {
     case 'BCH':
       addressDataR = getBchAddressData(state, {
         coin: 'BCH',
-        excludeLockbox: true,
         includeCustodial: true,
         includeInterest: true
       })
@@ -53,7 +39,6 @@ export const getData = (state, ownProps: OwnProps) => {
       break
     case 'ETH':
       addressDataR = getEthAddressData(state, {
-        excludeLockbox: true,
         includeCustodial: true,
         includeInterest: true
       })
@@ -61,7 +46,6 @@ export const getData = (state, ownProps: OwnProps) => {
       break
     case 'XLM':
       addressDataR = getXlmAddressData(state, {
-        excludeLockbox: true,
         includeCustodial: true,
         includeInterest: true
       })

@@ -1,2 +1,0 @@
-export const FAIL_STATUS_TIMEOUT = 10000
-export const SUCCESS_STATUS_TIMEOUT = 5000

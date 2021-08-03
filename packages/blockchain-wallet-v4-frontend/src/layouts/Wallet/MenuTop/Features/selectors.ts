@@ -15,8 +15,6 @@ export const getData = createSelector(
     return {
       coin,
       invitations: invitationsR.getOrElse(DEFAULT_INVITATIONS),
-      lockboxDeviceId: params[3],
-      lockboxPath: pathname.includes('lockbox'),
       pathname,
       requestAvailable: true,
       sendAvailable: true

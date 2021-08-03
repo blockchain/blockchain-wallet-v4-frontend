@@ -4,7 +4,6 @@ import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
   balancesTable: 'total',
-  lockboxOpened: false,
   menuOpened: true,
   settingsOpened: false
 }
@@ -19,9 +18,7 @@ export default (state = INITIAL_STATE, action) => {
     case '@@router/LOCATION_CHANGE': {
       const pathname = path(['location', 'pathname'], payload)
       const settingsOpened = pathname && pathname.split('/')[1] === 'settings'
-      const lockboxOpened = pathname && pathname.split('/')[1] === 'lockbox'
       return merge(state, {
-        lockboxOpened,
         menuOpened: false,
         settingsOpened,
         trayContent: '',

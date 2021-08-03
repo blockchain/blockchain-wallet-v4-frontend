@@ -1,6 +1,5 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Bowser from 'bowser'
 import PropTypes from 'prop-types'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -28,10 +27,6 @@ import { required, validBchAddress } from 'services/forms'
 
 import { insufficientFunds, invalidAmount, maximumAmount, shouldError } from './validation'
 
-const WarningBanners = styled(Banner)`
-  margin: -6px 0 12px;
-  padding: 8px;
-`
 const SubmitFormGroup = styled(FormGroup)`
   margin-top: 16px;
 `
@@ -55,7 +50,6 @@ const FirstStep = (props) => {
   const {
     amount,
     excludeHDWallets,
-    excludeLockbox,
     from,
     handleBitPayInvoiceExpiration,
     handleSubmit,
@@ -67,11 +61,7 @@ const FirstStep = (props) => {
     totalFee
   } = props
   const isPayPro = !!payPro
-  const isFromLockbox = from && from.type === 'LOCKBOX'
   const isFromCustody = from && from.type === 'CUSTODIAL'
-  const browser = Bowser.getParser(window.navigator.userAgent)
-  const isBrowserSupported = browser.satisfies(model.components.lockbox.supportedBrowsers)
-  const disableLockboxSend = isFromLockbox && !isBrowserSupported
   const disableCustodySend = isFromCustody && !isMnemonicVerified
 
   return (
@@ -94,31 +84,10 @@ const FirstStep = (props) => {
             validate={[required]}
             component={SelectBoxBchAddresses}
             excludeHDWallets={excludeHDWallets}
-            excludeLockbox={excludeLockbox}
             includeCustodial
           />
         </FormItem>
       </FormGroup>
-      {isFromLockbox && !disableLockboxSend && (
-        <WarningBanners type='info'>
-          <Text color='warning' size='13px'>
-            <FormattedMessage
-              id='modals.sendbch.firststep.lockboxwarn'
-              defaultMessage='You will need to connect your Lockbox to complete this transaction.'
-            />
-          </Text>
-        </WarningBanners>
-      )}
-      {disableLockboxSend && (
-        <WarningBanners type='warning'>
-          <Text color='warning' size='12px'>
-            <FormattedMessage
-              id='modals.sendbch.firststep.blockbrowser'
-              defaultMessage='Sending Bitcoin Cash from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.'
-            />
-          </Text>
-        </WarningBanners>
-      )}
       <FormGroup margin='15px'>
         <FormItem>
           <FormLabel htmlFor='to'>
@@ -250,13 +219,7 @@ const FirstStep = (props) => {
           nature='primary'
           height='56px'
           size='18px'
-          disabled={
-            submitting ||
-            invalid ||
-            disableLockboxSend ||
-            disableCustodySend ||
-            (!isPayPro && pristine)
-          }
+          disabled={submitting || invalid || disableCustodySend || (!isPayPro && pristine)}
           data-e2e='bchSendContinue'
         >
           <FormattedMessage id='buttons.continue' defaultMessage='Continue' />

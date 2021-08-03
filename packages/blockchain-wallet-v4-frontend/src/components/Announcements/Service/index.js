@@ -49,7 +49,6 @@ const mapDispatchToProps = dispatch => ({
 
 ServiceAnnouncement.propTypes = {
   alertArea: PropTypes.oneOf([
-    'lockbox',
     'public',
     'request',
     'send',

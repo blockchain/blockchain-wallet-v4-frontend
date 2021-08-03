@@ -27,4 +27,3 @@ export const Header = styled.div`
 `
 
 export * from './Home'
-export * from './Lockbox'

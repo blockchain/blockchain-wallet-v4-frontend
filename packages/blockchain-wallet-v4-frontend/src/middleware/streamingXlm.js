@@ -1,4 +1,4 @@
-import { compose, head, indexBy, isNil, map, pathOr, prop, reject, unnest } from 'ramda'
+import { compose, head, indexBy, isNil, map, pathOr, prop, reject } from 'ramda'
 
 import { actions, actionTypes } from 'data'
 
@@ -9,16 +9,16 @@ const streamingMiddleware = (streamingService, api) => {
     return api
       .getXlmTransactions({
         limit: 1,
-        publicKey,
+        publicKey
       })
       .then(head)
       .then(prop('paging_token'))
       .then((txCursor) => ({
         id: publicKey,
-        txCursor,
+        txCursor
       }))
       .catch(() => ({
-        id: publicKey,
+        id: publicKey
       }))
   }
 
@@ -40,15 +40,6 @@ const streamingMiddleware = (streamingService, api) => {
     }
     if (type === actionTypes.core.kvStore.xlm.FETCH_METADATA_XLM_SUCCESS) {
       const accountIds = compose(map(prop('publicKey')), pathOr([], ['value', 'accounts']))(payload)
-      addStreams(reject(isNil, accountIds))
-    }
-    if (type === actionTypes.core.kvStore.lockbox.FETCH_METADATA_LOCKBOX_SUCCESS) {
-      const accountIds = compose(
-        map(prop('publicKey')),
-        unnest,
-        map(pathOr([], ['xlm', 'accounts'])),
-        pathOr([], ['value', 'devices'])
-      )(payload)
       addStreams(reject(isNil, accountIds))
     }
     if (type === actionTypes.middleware.webSocket.xlm.STOP_STREAMS) {

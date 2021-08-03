@@ -28,25 +28,11 @@ export const selectTitle = title => {
           defaultMessage='Trade In Progress'
         />
       )
-    case C.CONFIRM_DELETE_LOCKBOX_TITLE:
-      return (
-        <FormattedMessage
-          id='modals.confirm.title.lockbox'
-          defaultMessage='Unpair Device'
-        />
-      )
     case C.ARCHIVE_VULNERABLE_ADDRESS_TITLE:
       return (
         <FormattedMessage
           id='modals.confirm.title.archive_address'
           defaultMessage='Archive Vulnerable Address'
-        />
-      )
-    case C.LOCKBOX_SOFTWARE_DOWNLOAD_TITLE:
-      return (
-        <FormattedMessage
-          id='modals.confirm.title.lockbox_software_download'
-          defaultMessage='Lockbox Software Download'
         />
       )
     default:
@@ -97,13 +83,6 @@ export const selectMessage = (message, values) => {
           </Text>
         </Fragment>
       )
-    case C.CONFIRM_DELETE_LOCKBOX_MESSAGE:
-      return (
-        <FormattedMessage
-          id='modals.confirm.message.lockbox'
-          defaultMessage='Are you sure you want to unpair your device? You will lose all balance, transaction, and account data.'
-        />
-      )
     case C.ARCHIVE_VULNERABLE_ADDRESS_MSG:
       return (
         <FormattedMessage
@@ -122,13 +101,6 @@ export const selectMessage = (message, values) => {
               </Link>
             )
           }}
-        />
-      )
-    case C.LOCKBOX_SOFTWARE_DOWNLOAD_MSG:
-      return (
-        <FormattedMessage
-          id='modals.confirm.message.lockbox_software_download'
-          defaultMessage='The Lockbox software is now downloading. Once the download has finished, install and open the software, plug in your device and follow the in app instructions.'
         />
       )
     default:

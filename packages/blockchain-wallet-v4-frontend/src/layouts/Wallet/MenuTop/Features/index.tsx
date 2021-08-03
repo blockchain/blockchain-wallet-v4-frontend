@@ -10,7 +10,7 @@ import Features from './template'
 
 class FeaturesContainer extends React.PureComponent<Props> {
   showModal = (type) => {
-    const { coin, lockboxDeviceId, lockboxPath, modalActions } = this.props
+    const { coin, modalActions } = this.props
 
     if (!window.coins[coin]) {
       if (type === 'REQUEST') {
@@ -20,7 +20,6 @@ class FeaturesContainer extends React.PureComponent<Props> {
       }
 
       return this.props.modalActions.showModal(`SEND_BTC_MODAL` as ModalNameType, {
-        lockboxIndex: lockboxPath ? lockboxDeviceId : null,
         origin: 'FeaturesTopNav'
       })
     }
@@ -44,12 +43,10 @@ class FeaturesContainer extends React.PureComponent<Props> {
     if (window.coins[coin]) {
       return this.props.modalActions.showModal(`SEND_${coin}_MODAL` as ModalNameType, {
         coin,
-        lockboxIndex: lockboxPath ? lockboxDeviceId : null,
         origin: 'FeaturesTopNav'
       })
     }
     return this.props.modalActions.showModal(`SEND_BTC_MODAL` as ModalNameType, {
-      lockboxIndex: lockboxPath ? lockboxDeviceId : null,
       origin: 'FeaturesTopNav'
     })
   }

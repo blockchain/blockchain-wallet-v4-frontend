@@ -5,7 +5,6 @@ import { fundRecoveryReducer } from './fundRecovery/reducers'
 import identityVerificationReducer from './identityVerification/reducers'
 import interestReducer from './interest/reducers'
 import layoutWallet from './layoutWallet/reducers'
-import lockbox from './lockbox/reducers'
 import manageAddresses from './manageAddresses/reducers'
 import { priceChartReducer } from './priceChart/reducers'
 import { recoveryPhraseReducer } from './recoveryPhrase/reducers'
@@ -31,7 +30,6 @@ const componentReducer = combineReducers({
   identityVerification: identityVerificationReducer,
   interest: interestReducer,
   layoutWallet,
-  lockbox,
   manageAddresses,
   priceChart: priceChartReducer,
   recoveryPhrase: recoveryPhraseReducer,

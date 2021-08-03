@@ -8,9 +8,7 @@ export const getCulture = (state: RootState) => state.preferences.culture
 export const getLanguage = (state: RootState) => state.preferences.language
 export const getPriceChart = (state: RootState) => {
   // 🆕 Migrate old time ranges
-  // 1day, 1week, 1month, 1year
-  // to
-  // day, week, month, year
+  // 1day, 1week, 1month, 1year => day, week, month, year
   if (
     state.preferences.priceChart &&
     state.preferences.priceChart.time &&
@@ -29,8 +27,6 @@ export const getShowAirdropClaimModal = (state: RootState) =>
 export const getShowInterestInfoBox = (state: RootState) => state.preferences.showInterestInfoBox
 export const getShowKycCompleted = (state: RootState) => state.preferences.showKycCompleted
 export const getShowKycGetStarted = (state: RootState) => state.preferences.showKycGetStarted
-export const getShowLockboxSoftwareDownload = (state: RootState) =>
-  state.preferences.showLockboxSoftwareDownload
 export const getShowSwapBanner = (state: RootState) => state.preferences.showSwapBanner
 export const getShowSwapUpgrade = (state: RootState) => state.preferences.showSwapUpgradeModal
 export const getShowUpgradeForAirdropModal = (state: RootState) =>

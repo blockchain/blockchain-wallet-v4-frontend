@@ -22,7 +22,6 @@ const getData = (state, ownProps: OwnProps) => {
     case 'BCH':
       addressDataR = getBchAddressData(state, {
         excludeImported: true,
-        excludeLockbox: true,
         includeAll: false,
         includeCustodial,
         includeInterest: false
@@ -31,7 +30,6 @@ const getData = (state, ownProps: OwnProps) => {
     case 'BTC':
       addressDataR = getBtcAddressData(state, {
         excludeImported: true,
-        excludeLockbox: true,
         includeAll: false,
         includeCustodial,
         includeInterest: false
@@ -39,14 +37,12 @@ const getData = (state, ownProps: OwnProps) => {
       break
     case 'ETH':
       addressDataR = getEthAddressData(state, {
-        excludeLockbox: true,
         includeCustodial,
         includeInterest: false
       })
       break
     case 'XLM':
       addressDataR = getXlmAddressData(state, {
-        excludeLockbox: true,
         includeCustodial,
         includeInterest: false
       })

@@ -10,7 +10,6 @@ export const getEthData = (
   state,
   ownProps: {
     exclude?: Array<string>
-    excludeLockbox?: boolean
     forceCustodialFirst?: boolean
     includeCustodial?: boolean
     includeExchangeAddress?: boolean
@@ -19,7 +18,6 @@ export const getEthData = (
 ) => {
   const {
     exclude = [],
-    excludeLockbox,
     includeExchangeAddress,
     includeCustodial,
     includeInterest,
@@ -123,14 +121,7 @@ export const getEthData = (
             .map((x) => x.ETH)
             .map(toInterestDropdown)
             .map(toGroup('Interest Account'))
-        : Remote.of([]),
-      excludeLockbox
-        ? Remote.of([])
-        : selectors.core.common.eth
-            .getLockboxEthBalances(state)
-            .map(excluded)
-            .map(toDropdown)
-            .map(toGroup('Lockbox'))
+        : Remote.of([])
     ]).map(([b1, b2, b3, b4, b5]) => {
       const orderArray = forceCustodialFirst ? [b3, b1, b2, b4, b5] : [b1, b2, b3, b4, b5]
       // @ts-ignore

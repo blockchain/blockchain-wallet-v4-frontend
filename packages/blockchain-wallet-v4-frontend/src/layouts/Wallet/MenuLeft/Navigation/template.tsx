@@ -130,11 +130,6 @@ const Navigation = (props: OwnProps & Props) => {
                 defaultMessage='Hardware'
               />
             </Destination>
-            <HelperTipContainer>
-              <HelperTip id='lockboxRequired'>
-                <TooltipIcon color='blue600' name='info' />
-              </HelperTip>
-            </HelperTipContainer>
           </MenuItem>
         </LinkContainer>
       ) : null}

@@ -1,8 +1,4 @@
-import {
-  CoinType,
-  SBOrderActionType,
-  TimeRange
-} from 'blockchain-wallet-v4/src/types'
+import { CoinType, SBOrderActionType, TimeRange } from 'blockchain-wallet-v4/src/types'
 import { SBFixType } from 'data/components/types'
 
 import * as AT from './actionTypes'
@@ -28,14 +24,12 @@ export type PreferencesState = {
   showInterestInfoBox: boolean
   showKycCompleted: boolean
   showKycGetStarted: boolean
-  showLockboxSoftwareDownload: boolean
   showSwapBanner: boolean
   showSwapUpgradeModal: boolean
   showUpgradeForAirdropModal: boolean
   showUpgradeForStxAirdropModal: boolean
   theme: string
   totalBalancesDropdown: {
-    lockbox: boolean
     pending: boolean
     wallet: boolean
   }

@@ -8,7 +8,6 @@ import * as identityVerification from './identityVerification/actionTypes'
 import * as importBtcAddress from './importBtcAddress/actionTypes'
 import * as interest from './interest/actionTypes'
 import * as layoutWallet from './layoutWallet/actionTypes'
-import * as lockbox from './lockbox/actionTypes'
 import * as manageAddresses from './manageAddresses/actionTypes'
 import * as onboarding from './onboarding/actionTypes'
 import * as priceChart from './priceChart/actionTypes'
@@ -42,7 +41,6 @@ export {
   importBtcAddress,
   interest,
   layoutWallet,
-  lockbox,
   manageAddresses,
   onboarding,
   priceChart,

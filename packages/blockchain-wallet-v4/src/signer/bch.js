@@ -1,4 +1,3 @@
-import Btc from '@ledgerhq/hw-app-btc'
 import BitcoinCash from 'bitcoinforksjs-lib'
 import { addIndex, compose, curry, forEach, lensProp, over } from 'ramda'
 import { mapped } from 'ramda-lens'

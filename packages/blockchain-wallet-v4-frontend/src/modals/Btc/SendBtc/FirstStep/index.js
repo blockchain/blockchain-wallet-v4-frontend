@@ -11,12 +11,11 @@ import Success from './template.success'
 
 class FirstStep extends React.Component {
   handleRefresh = () => {
-    const { amount, description, from, lockboxIndex, payPro, to } = this.props
+    const { amount, description, from, payPro, to } = this.props
     this.props.actions.initialized({
       amount,
       description,
       from,
-      lockboxIndex,
       payPro,
       to
     })

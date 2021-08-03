@@ -1,6 +1,5 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Bowser from 'bowser'
 import PropTypes from 'prop-types'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -72,7 +71,6 @@ const FirstStep = (props) => {
     amount,
     balanceStatus,
     error,
-    excludeLockbox,
     fee,
     from,
     handleSubmit,
@@ -87,11 +85,7 @@ const FirstStep = (props) => {
     swapActions
   } = props
   const amountActive = activeField === 'amount'
-  const isFromLockbox = from && from.type === 'LOCKBOX'
   const isFromCustody = from && from.type === 'CUSTODIAL'
-  const browser = Bowser.getParser(window.navigator.userAgent)
-  const isBrowserSupported = browser.satisfies(model.components.lockbox.supportedBrowsers)
-  const disableLockboxSend = isFromLockbox && !isBrowserSupported
   const disableCustodySend = isFromCustody && !isMnemonicVerified
 
   return (
@@ -112,7 +106,6 @@ const FirstStep = (props) => {
             component={SelectBoxXlmAddresses}
             includeAll={false}
             validate={[required]}
-            excludeLockbox={excludeLockbox}
             includeCustodial
           />
         </FormItem>
@@ -120,26 +113,6 @@ const FirstStep = (props) => {
       {noAccount && <NoAccountTemplate swapActions={swapActions} />}
       {!noAccount && (
         <>
-          {isFromLockbox && !disableLockboxSend && (
-            <WarningBanners type='info'>
-              <Text color='warning' size='13px'>
-                <FormattedMessage
-                  id='modals.sendxlm.firststep.lockboxwarn'
-                  defaultMessage='You will need to connect your Lockbox to complete this transaction.'
-                />
-              </Text>
-            </WarningBanners>
-          )}
-          {disableLockboxSend && (
-            <WarningBanners type='warning'>
-              <Text color='warning' size='12px'>
-                <FormattedMessage
-                  id='modals.sendxlm.firststep.blockbrowser'
-                  defaultMessage='Sending Stellar from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.'
-                />
-              </Text>
-            </WarningBanners>
-          )}
           <FormGroup margin={isFromCustody ? '15px' : '8px'}>
             <FormItem>
               <FormLabel htmlFor='to'>
@@ -295,7 +268,6 @@ const FirstStep = (props) => {
                 pristine ||
                 submitting ||
                 invalid ||
-                disableLockboxSend ||
                 disableCustodySend ||
                 !isDestinationChecked ||
                 Remote.Loading.is(balanceStatus)

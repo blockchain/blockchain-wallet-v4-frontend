@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import * as Bitcoin from 'bitcoinjs-lib'
-import { isEmpty, length, path, pathOr, prop } from 'ramda'
+import { length, path, pathOr, prop } from 'ramda'
 
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { model, selectors } from 'data'
@@ -12,25 +12,14 @@ export const getData = createDeepEqualSelector(
     selectors.components.sendBtc.getPayment,
     selectors.core.common.btc.getActiveHDAccounts,
     selectors.core.common.btc.getActiveAddresses,
-    selectors.core.kvStore.lockbox.getDevices,
     selectors.core.wallet.isMnemonicVerified,
     selectors.form.getFormValues(model.components.sendBtc.FORM)
   ],
-  (
-    feePerByteToggled,
-    paymentR,
-    btcAccountsR,
-    btcAddressesR,
-    lockboxDevicesR,
-    isMnemonicVerified,
-    formValues
-  ) => {
+  (feePerByteToggled, paymentR, btcAccountsR, btcAddressesR, isMnemonicVerified, formValues) => {
     const btcAccountsLength = length(btcAccountsR.getOrElse([]))
     const btcAddressesLength = length(btcAddressesR.getOrElse([]))
     const networkType = 'bitcoin'
-    const excludeLockbox = false
-    const enableToggle =
-      btcAccountsLength + btcAddressesLength > 1 || !isEmpty(lockboxDevicesR.getOrElse([]))
+    const enableToggle = btcAccountsLength + btcAddressesLength > 1
     const amount = prop('amount', formValues)
     const feePerByte = prop('feePerByte', formValues)
     const destination = prop('to', formValues)
@@ -75,7 +64,6 @@ export const getData = createDeepEqualSelector(
         destination,
         effectiveBalance,
         enableToggle,
-        excludeLockbox,
         feePerByte,
         feePerByteElements,
         feePerByteToggled,

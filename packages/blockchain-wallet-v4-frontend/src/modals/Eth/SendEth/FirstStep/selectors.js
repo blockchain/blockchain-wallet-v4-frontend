@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { gt, head, isEmpty, path, prop, propOr } from 'ramda'
+import { gt, head, path, prop, propOr } from 'ramda'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
@@ -19,20 +19,9 @@ const getData = createDeepEqualSelector(
         : selectors.core.data.eth.getCurrentBalance(state)
     },
     (state) => selectors.core.common.eth.getErc20AccountBalances(state, 'PAX').map(head),
-    selectors.core.kvStore.lockbox.getDevices,
     selectors.form.getFormValues(model.components.sendEth.FORM)
   ],
-  (
-    isMnemonicVerified,
-    paymentR,
-    isContractR,
-    feeToggled,
-    balanceR,
-    paxBalanceR,
-    lockboxDevicesR,
-    formValues
-  ) => {
-    const enableToggle = !isEmpty(lockboxDevicesR.getOrElse([]))
+  (isMnemonicVerified, paymentR, isContractR, feeToggled, balanceR, paxBalanceR, formValues) => {
     // TODO: include any/all ERC20 balances in future
     const hasErc20Balance = gt(prop('balance', paxBalanceR.getOrElse(0)), 0)
 
@@ -80,8 +69,6 @@ const getData = createDeepEqualSelector(
         amount,
         balanceStatus: balanceR,
         effectiveBalance,
-        enableToggle,
-        excludeLockbox: true,
         fee,
         feeElements,
         feeToggled,

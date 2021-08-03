@@ -53,13 +53,6 @@ const NabuUserConflictRedirect = React.lazy(() => import('./Onboarding/NabuUserC
 const UpgradeForAirdrop = React.lazy(() => import('./Onboarding/UpgradeForAirdrop'))
 const Welcome = React.lazy(() => import('./Onboarding/Welcome'))
 
-// LOCKBOX
-const LockboxAppManager = React.lazy(() => import('./Lockbox/LockboxAppManager'))
-const LockboxConnectionPrompt = React.lazy(() => import('./Lockbox/LockboxConnectionPrompt'))
-const LockboxFirmware = React.lazy(() => import('./Lockbox/LockboxFirmware'))
-const LockboxSetup = React.lazy(() => import('./Lockbox/LockboxSetup'))
-const LockboxShowXPubs = React.lazy(() => import('./Lockbox/LockboxShowXPubs'))
-
 // MOBILE
 const MobileNumberChange = React.lazy(() => import('./Mobile/MobileNumberChange'))
 const MobileNumberAdd = React.lazy(() => import('./Mobile/MobileNumberAdd'))
@@ -176,21 +169,6 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.LINK_TO_EXCHANGE_ACCOUNT_MODAL) ? (
           <LinkToExchangeAccount disableOutsideClose />
-        ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.LOCKBOX_APP_MANAGER_MODAL) ? (
-          <LockboxAppManager disableOutsideClose />
-        ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.LOCKBOX_CONNECTION_PROMPT_MODAL) ? (
-          <LockboxConnectionPrompt disableOutsideClose />
-        ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.LOCKBOX_FIRMWARE_MODAL) ? (
-          <LockboxFirmware disableOutsideClose />
-        ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.LOCKBOX_SETUP_MODAL) ? (
-          <LockboxSetup disableOutsideClose />
-        ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.LOCKBOX_SHOW_XPUBS) ? (
-          <LockboxShowXPubs />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.MOBILE_NUMBER_CHANGE_MODAL) ? (
           <MobileNumberChange />

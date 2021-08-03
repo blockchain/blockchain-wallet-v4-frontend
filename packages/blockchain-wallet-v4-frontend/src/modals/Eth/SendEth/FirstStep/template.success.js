@@ -1,7 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
-import Bowser from 'bowser'
 import PropTypes from 'prop-types'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -54,10 +53,6 @@ import {
   shouldWarn
 } from './validation'
 
-const WarningBanners = styled(Banner)`
-  margin: -6px 0 12px;
-  padding: 8px;
-`
 const SubmitFormGroup = styled(FormGroup)`
   margin-top: 16px;
 `
@@ -72,7 +67,6 @@ const FirstStep = (props) => {
     amount,
     balanceStatus,
     coin,
-    excludeLockbox,
     fee,
     feeElements,
     feeToggled,
@@ -92,11 +86,7 @@ const FirstStep = (props) => {
     submitting,
     unconfirmedTx
   } = props
-  const isFromLockbox = from && from.type === 'LOCKBOX'
   const isFromCustody = from && from.type === 'CUSTODIAL'
-  const browser = Bowser.getParser(window.navigator.userAgent)
-  const isBrowserSupported = browser.satisfies(model.components.lockbox.supportedBrowsers)
-  const disableLockboxSend = isFromLockbox && !isBrowserSupported
   const disableDueToLowEth = coin !== 'ETH' && !isSufficientEthForErc20 && !isFromCustody
   const disableRetryAttempt =
     isRetryAttempt && new BigNumber(fee).isLessThanOrEqualTo(minFeeRequiredForRetry)
@@ -121,32 +111,11 @@ const FirstStep = (props) => {
             disabled={isRetryAttempt}
             includeAll={false}
             validate={[required]}
-            excludeLockbox={excludeLockbox}
             includeCustodial
             coin={coin}
           />
         </FormItem>
       </FormGroup>
-      {isFromLockbox && !disableLockboxSend && (
-        <WarningBanners type='info'>
-          <Text color='warning' size='13px'>
-            <FormattedMessage
-              id='modals.sendeth.firststep.lockboxwarn'
-              defaultMessage='You will need to connect your Lockbox to complete this transaction.'
-            />
-          </Text>
-        </WarningBanners>
-      )}
-      {disableLockboxSend && (
-        <WarningBanners type='warning'>
-          <Text color='warning' size='12px'>
-            <FormattedMessage
-              id='modals.sendeth.firststep.browserwarn'
-              defaultMessage='Sending Ether from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.'
-            />
-          </Text>
-        </WarningBanners>
-      )}
       <FormGroup margin='8px'>
         <FormItem>
           <FormLabel HtmlFor='to'>

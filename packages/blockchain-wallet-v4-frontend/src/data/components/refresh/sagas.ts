@@ -91,9 +91,6 @@ export default () => {
         case contains('/usd/transactions', pathname):
           yield put(actions.core.data.fiat.fetchTransactions('USD', true))
           break
-        case contains('/lockbox/', pathname):
-          yield put(actions.components.lockbox.initializeDashboard(pathname.split('/')[3]))
-          break
         case contains('profile', pathname):
         case contains('/airdrops', pathname):
           yield put(actions.modules.profile.fetchUserDataLoading())
