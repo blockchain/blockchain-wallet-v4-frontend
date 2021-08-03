@@ -57,7 +57,66 @@ describe('App Store Config', () => {
       }
     }
   }
-  const fakeCurrencies = {
+  const fakeCustodials = {
+    currencies: [
+      {
+        name: 'Algorand',
+        precision: 6,
+        products: ['MercuryDeposits', 'MercuryWithdrawals', 'CustodialWalletBalance'],
+        symbol: 'ALGO',
+        type: {
+          logoPngUrl:
+            'https://raw.githubusercontent.com/blockchain/coin-definitions/master/extensions/blockchains/algorand/info/logo.png',
+          minimumOnChainConfirmations: 1,
+          name: 'COIN'
+        }
+      },
+      {
+        name: 'Cosmos',
+        precision: 6,
+        products: [],
+        symbol: 'ATOM',
+        type: {
+          logoPngUrl:
+            'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/cosmos/info/logo.png',
+          minimumOnChainConfirmations: 0,
+          name: 'COIN'
+        }
+      },
+      {
+        name: 'Balancer',
+        precision: 18,
+        products: ['PrivateKey'],
+        symbol: 'BAL',
+        type: {
+          erc20Address: '0xba100000625a3754423978a60c9317c58a424e3D',
+          logoPngUrl:
+            'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xba100000625a3754423978a60c9317c58a424e3D/logo.png',
+          name: 'ERC20',
+          parentChain: 'ETH',
+          websiteUrl: 'https://balancer.finance'
+        }
+      },
+      {
+        name: 'Dogecoin',
+        precision: 8,
+        products: [
+          'MercuryDeposits',
+          'MercuryWithdrawals',
+          'InterestBalance',
+          'CustodialWalletBalance'
+        ],
+        symbol: 'DOGE',
+        type: {
+          logoPngUrl:
+            'https://raw.githubusercontent.com/blockchain/coin-definitions/master/extensions/blockchains/doge/info/logo.png',
+          minimumOnChainConfirmations: 40,
+          name: 'COIN'
+        }
+      }
+    ]
+  }
+  const fakeErc20s = {
     currencies: [
       {
         name: 'Aave',
@@ -131,12 +190,7 @@ describe('App Store Config', () => {
     // setup fetch mock
     fetch.resetMocks()
     fetch.mockResponseOnce(JSON.stringify(fakeWalletOptions))
-    fetch.mockImplementation((url) => {
-      if (url === `${fakeWalletOptions.domains.api}/assets/currencies/erc20`) {
-        return Promise.resolve({ json: () => fakeCurrencies })
-      }
-      return Promise.resolve(new Response(JSON.stringify({})))
-    })
+    fetch.mockResponseOnce(JSON.stringify(fakeErc20s))
 
     // setup spies
     composeSpy = jest.spyOn(Redux, 'compose').mockImplementation(jest.fn())
@@ -156,9 +210,9 @@ describe('App Store Config', () => {
     // wallet options
     expect(fetch.mock.calls).toHaveLength(2)
     expect(fetch.mock.calls[0][0]).toEqual('/wallet-options-v4.json')
-    // erc coins
+    // custodial and erc20 coins
     expect(fetch.mock.calls[1][0]).toEqual(
-      `${fakeWalletOptions.domains.api}/assets/currencies/erc20`
+      `${fakeWalletOptions.domains.api}/assets/currencies/custodial`
     )
     // socket registration
     expect(Socket.mock.calls).toHaveLength(1)

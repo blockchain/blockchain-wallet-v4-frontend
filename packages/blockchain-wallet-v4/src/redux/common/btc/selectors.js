@@ -36,21 +36,9 @@ const _getAccounts = (selector) => (state) => {
     )
     return set(lensProp('derivations'), derivationsInfo, account)
   }
-
-  // TODO: SEGWIT remove w/ DEPRECATED_V3
-  if (selector(state) && selector(state)[0] && !selector(state)[0].derivations) {
-    return _getAccounts_DEPRECATED_V3(selector)(state)
-  }
   return Remote.of(map(addInfo, selector(state)))
 }
 
-const _getAccounts_DEPRECATED_V3 = (selector) => (state) => {
-  const balancesR = getAddresses(state)
-  const addInfo = (account) =>
-    balancesR.map(prop(prop('xpub', account))).map((x) => assoc('info', x, account))
-  const accountsR = map(addInfo, selector(state))
-  return sequence(Remote.of, accountsR)
-}
 // default derivation type ('legacy' or 'bech32')
 export const getAccountDefaultDerivation = curry((accountIndex, state) => {
   const account = compose(
@@ -98,11 +86,6 @@ export const getArchivedAddresses = (state) => {
 }
 
 const flattenAccount = (acc) => {
-  // TODO: SEGWIT remove w/ DEPRECATED_V3
-  if (!acc.derivations) {
-    return flattenAccount_DEPRECATED_V3(acc)
-  }
-
   return {
     balance: pipe(
       prop('derivations'),
@@ -123,16 +106,6 @@ const flattenAccount = (acc) => {
     )
   }
 }
-
-const flattenAccount_DEPRECATED_V3 = (acc) => ({
-  balance: path(['info', 'final_balance'], acc),
-  coin: 'BTC',
-  index: prop('index', acc),
-  label: prop('label', acc) ? prop('label', acc) : prop('xpub', acc),
-  network: prop('network', acc),
-  type: ADDRESS_TYPES.ACCOUNT,
-  xpub: prop('xpub', acc)
-})
 
 // getAccountsBalances :: state => Remote([])
 export const getAccountsBalances = (state) => map(map(flattenAccount), getHDAccounts(state))

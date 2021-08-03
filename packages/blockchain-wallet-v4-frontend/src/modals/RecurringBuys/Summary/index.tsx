@@ -122,9 +122,6 @@ const mapStateToProps = (state: RootState) => ({
   order: selectors.components.simpleBuy.getSBOrder(state) as SBOrderType,
   period: selectors.components.recurringBuy.getPeriod(state) as RecurringBuyPeriods,
   quote: selectors.components.simpleBuy.getSBQuote(state).getOrFail('Could not get exchange rate'),
-  supportedCoins: selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrFail('Failed to load coin models'),
   withdrawLockCheck: selectors.components.send
     .getWithdrawLockCheckRule(state)
     .getOrElse({ lockTime: 259200 } as WithdrawalLockCheckRule) as WithdrawalLockCheckRule

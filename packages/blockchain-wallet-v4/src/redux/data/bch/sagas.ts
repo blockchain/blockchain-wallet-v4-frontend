@@ -2,9 +2,12 @@ import moment from 'moment'
 import { flatten, indexBy, length, map, path, prop } from 'ramda'
 import { call, put, select, take } from 'redux-saga/effects'
 
+import {
+  FetchCustodialOrdersAndTransactionsReturnType,
+  HDAccountList
+} from 'blockchain-wallet-v4/src/types'
 import { APIType } from 'core/network/api'
 import { BchTxType } from 'core/transactions/types'
-import { FetchCustodialOrdersAndTransactionsReturnType } from 'core/types'
 
 import Remote from '../../../remote'
 import * as transactions from '../../../transactions'
@@ -116,7 +119,10 @@ export default ({ api }: { api: APIType }) => {
     // transformTx :: wallet -> Tx
     // ProcessPage :: wallet -> [Tx] -> [Tx]
     const ProcessTxs = (wallet, txList, txNotes) =>
-      map(transformTx.bind(undefined, wallet.getOrFail(MISSING_WALLET), txNotes), txList)
+      map(
+        transformTx.bind(undefined, wallet.getOrFail(MISSING_WALLET), txNotes),
+        txList
+      )
     // ProcessRemotePage :: Page -> Page
     const processedTxs = ProcessTxs(walletR, txs, txNotes)
     return addFromToAccountNames(wallet, accountList, processedTxs)
@@ -130,16 +136,11 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchTransactionHistoryLoading())
       const currency = yield select(selectors.settings.getCurrency)
       if (address) {
-        // TODO: SEGWIT remove w/ DEPRECATED_V3
-        // remove address.length check, all
-        // wallets will have a derivations array
         const bchLegacyAddress = prop(
           'address',
-          address.length === 2 && address.find((add) => add.type === 'legacy')
+          address.find((add) => add.type === 'legacy')
         )
-        // TODO: SEGWIT remove w/ DEPRECATED_V3
-        // Just pass bchLegacy to function
-        const convertedAddress = convertFromCashAddrIfCashAddr(bchLegacyAddress || address)
+        const convertedAddress = convertFromCashAddrIfCashAddr(bchLegacyAddress)
         const data = yield call(
           api.getBchTransactionHistory,
           convertedAddress,

@@ -27,7 +27,7 @@ import {
   TopText,
   TrendingIconRow
 } from '../components'
-import getData from './selectors'
+import { getData } from './selectors'
 
 const SuggestedTextCustomBorder = styled.span`
   width: 100%;
@@ -332,8 +332,8 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                       <Icon color='PAX' name='PAX' size='32px' />
                     </TrendingIconRow>
                     <div>
-                      <OptionTitle>Swap BTC</OptionTitle>
-                      <OptionValue>Receive USD Digital</OptionValue>
+                      <OptionTitle>Swap Bitcoin</OptionTitle>
+                      <OptionValue>Receive Paxos Standard</OptionValue>
                     </div>
                   </FlexStartRow>
                   <Icon name='chevron-right' size='20px' color='grey400' />

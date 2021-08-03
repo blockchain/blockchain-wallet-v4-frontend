@@ -64,49 +64,35 @@ export const fromExternal = (addrComp, addrUncomp, wifComp, wifUncomp) => ({
 export const fromAccount = (network, state, index) => {
   const wallet = S.wallet.getWallet(state)
   const account = Wallet.getAccount(index, wallet).get()
-  if (account.derivations) {
-    const defaultDerivationXpub = HDAccount.selectXpub(account)
-    const allXpubsGrouped = HDAccount.selectAllXpubsGrouped(account).toJS()
-    const legacy = prop('xpub', allXpubsGrouped.find(propEq('type', 'legacy')))
-    const bech32 = prop('xpub', allXpubsGrouped.find(propEq('type', 'bech32')))
+  const defaultDerivationXpub = HDAccount.selectXpub(account)
+  const allXpubsGrouped = HDAccount.selectAllXpubsGrouped(account).toJS()
+  const legacy = prop('xpub', allXpubsGrouped.find(propEq('type', 'legacy')))
+  const bech32 = prop('xpub', allXpubsGrouped.find(propEq('type', 'bech32')))
 
-    const receiveIndex = S.data.btc.getReceiveIndex(defaultDerivationXpub, state)
-    const changeIndex = S.data.btc.getChangeIndex(defaultDerivationXpub, state)
-    let changeAddress = changeIndex
-      .map((index) => HDAccount.getChangeAddress(account, index, network))
-      .getOrFail('missing_change_address')
-    // When moving from one chain to another i.e legacy to segwit
-    // we must send to the receive chain so that backend services
-    // will search for funds on the change chain. Without funds
-    // received to a receive chain, the backend will not lookup change.
-    const shouldTransferToReceive = receiveIndex.getOrElse(0) === 0
-    const receiveAddress = shouldTransferToReceive
-      ? HDAccount.getReceiveAddress(account, 0, network)
-      : ''
-
-    if (shouldTransferToReceive && receiveAddress) {
-      changeAddress = receiveAddress
-    }
-
-    return {
-      change: changeAddress,
-      extras: {
-        bech32
-      },
-      from: [legacy],
-      fromAccountIdx: index,
-      fromType: ADDRESS_TYPES.ACCOUNT
-    }
-    // TODO: SEGWIT remove w/ DEPRECATED_V3
-  }
-  const changeIndex = S.data.btc.getChangeIndex(account.xpub, state)
-  const changeAddress = changeIndex
+  const receiveIndex = S.data.btc.getReceiveIndex(defaultDerivationXpub, state)
+  const changeIndex = S.data.btc.getChangeIndex(defaultDerivationXpub, state)
+  let changeAddress = changeIndex
     .map((index) => HDAccount.getChangeAddress(account, index, network))
     .getOrFail('missing_change_address')
+  // When moving from one chain to another i.e legacy to segwit
+  // we must send to the receive chain so that backend services
+  // will search for funds on the change chain. Without funds
+  // received to a receive chain, the backend will not lookup change.
+  const shouldTransferToReceive = receiveIndex.getOrElse(0) === 0
+  const receiveAddress = shouldTransferToReceive
+    ? HDAccount.getReceiveAddress(account, 0, network)
+    : ''
+
+  if (shouldTransferToReceive && receiveAddress) {
+    changeAddress = receiveAddress
+  }
 
   return {
     change: changeAddress,
-    from: [account.xpub],
+    extras: {
+      bech32
+    },
+    from: [legacy],
     fromAccountIdx: index,
     fromType: ADDRESS_TYPES.ACCOUNT
   }
@@ -163,6 +149,27 @@ export const toOutputAccount = (coin, network, state, accountIndex) => {
     address,
     addressIndex: receiveIndex,
     type: ADDRESS_TYPES.ACCOUNT
+  }
+}
+
+// toLockBoxAccount :: Coin -> String -> ReduxState -> String -> Object
+export const toLockboxAccount = (coin, network, state, xpub) => {
+  const receiveIndexR =
+    coin === 'BTC'
+      ? S.data.btc.getReceiveIndex(xpub, state)
+      : S.data.bch.getReceiveIndex(xpub, state)
+
+  const receiveIndex = receiveIndexR.getOrFail(new Error('missing_receive_address'))
+
+  const address =
+    coin === 'BTC'
+      ? S.common.btc.getAddressLockbox(network, xpub, receiveIndex, state)
+      : S.common.bch.getAddressLockbox(network, xpub, receiveIndex, state)
+  return {
+    address,
+    addressIndex: receiveIndex,
+    type: ADDRESS_TYPES.LOCKBOX,
+    xpub
   }
 }
 

@@ -26,16 +26,8 @@ export const setAddressArchived = (address, archived) => ({
   payload: { address, archived },
   type: T.SET_ADDRESS_ARCHIVED
 })
-export const setHdAddressLabel = (
-  accountIdx,
-  addressIdx,
-  derivationType,
-  label,
-  // TODO: SEGWIT remove w/ DEPRECATED_V3
-  payloadV
-) => ({
-  // TODO: SEGWIT remove w/ DEPRECATED_V3, payloadV
-  payload: { accountIdx, addressIdx, derivationType, label, payloadV },
+export const setHdAddressLabel = (accountIdx, addressIdx, derivationType, label) => ({
+  payload: { accountIdx, addressIdx, derivationType, label },
 
   type: T.SET_HD_ADDRESS_LABEL
 })
@@ -70,8 +62,8 @@ export const deleteLegacyAddress = (address) => ({
   payload: address,
   type: T.DELETE_LEGACY_ADDRESS
 })
-export const deleteHdAddressLabel = (accountIdx, addressIdx, derivationType, payloadV) => ({
-  payload: { accountIdx, addressIdx, derivationType, payloadV },
+export const deleteHdAddressLabel = (accountIdx, addressIdx, derivationType) => ({
+  payload: { accountIdx, addressIdx, derivationType },
   type: T.DELETE_HD_ADDRESS_LABEL
 })
 

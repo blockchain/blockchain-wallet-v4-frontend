@@ -23,8 +23,7 @@ export const getAnalyticsSiteId = (state) =>
 export const getAnnouncements = (state) =>
   getWebOptions(state).map(path(['application', 'announcements']))
 
-// coins
-export const getSupportedCoins = createDeepEqualSelector(
+export const DEPRECATED_getSupportedCoins = createDeepEqualSelector(
   [getWebOptions, getErc20AccountTokenBalances],
   (webOptionsR /* , erc20CoinsR */) => {
     const newSupportedCoinAccount = (symbol: string) => {
@@ -69,11 +68,11 @@ export const getSupportedCoins = createDeepEqualSelector(
   }
 ) as (state: RootState) => RemoteDataType<string, SupportedWalletCurrenciesType>
 
-export const getSyncToExchangeList = (state) => getSupportedCoins(state).map(keys)
+export const getSyncToExchangeList = (state) => DEPRECATED_getSupportedCoins(state).map(keys)
 export const getXlmSendTimeOutSeconds = (state) =>
-  getSupportedCoins(state).map(path(['XLM', 'config', 'sendTimeOutSeconds']))
+  DEPRECATED_getSupportedCoins(state).map(path(['XLM', 'config', 'sendTimeOutSeconds']))
 export const getXlmExchangeAddresses = (state) =>
-  getSupportedCoins(state).map(path(['XLM', 'exchangeAddresses']))
+  DEPRECATED_getSupportedCoins(state).map(path(['XLM', 'exchangeAddresses']))
 
 // domains
 export const getVeriffDomain = (state) => getDomains(state).map(prop('veriff'))

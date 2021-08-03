@@ -30,8 +30,7 @@ export const getActiveHDAccounts = (state) => {
         prop(
           prop(
             'xpub',
-            // TODO: SEGWIT remove w/ DEPRECATED_V3
-            account.derivations ? account.derivations.find((d) => d.type === 'legacy') : account
+            account.derivations.find((d) => d.type === 'legacy')
           )
         )
       )
@@ -81,8 +80,7 @@ const digestAddress = (acc) => ({
 const digestAccount = (acc) => {
   const xpub = prop(
     'xpub',
-    // TODO: SEGWIT remove w/ DEPRECATED_V3
-    acc.derivations ? acc.derivations.find((d) => d.type === 'legacy') : acc
+    acc.derivations.find((d) => d.type === 'legacy')
   )
 
   return {
@@ -167,4 +165,9 @@ export const getNextAvailableReceiveAddress = curry((network, accountIndex, stat
 
 export const getNextAvailableReceiveAddressFormatted = curry((network, accountIndex, state) => {
   return getNextAvailableReceiveAddress(network, accountIndex, state).map((x) => toCashAddr(x))
+})
+
+export const getNextAvailableReceiveAddressLockbox = curry((network, xpub, state) => {
+  const index = getReceiveIndex(xpub)(state)
+  return index.map((x) => getAddressLockbox(network, xpub, x, state))
 })
