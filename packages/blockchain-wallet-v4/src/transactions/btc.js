@@ -49,16 +49,15 @@ const receiveIndex = (coin) => {
 }
 const isCoinBase = (inputs) => inputs.length === 1 && inputs[0].prev_out == null
 
-const tagCoin = curry((wallet, accountList, coin) => {
+const tagCoin = curry((wallet, coin) => {
   switch (true) {
     case isAccount(coin):
-      const account =
-        compose(
-          HDAccountList.selectByXpub(coin.xpub.m),
-          HDWallet.selectAccounts,
-          HDWalletList.selectHDWallet,
-          Wallet.selectHdWallets
-        )(wallet) || compose(HDAccountList.selectByXpub(coin.xpub.m))(accountList)
+      const account = compose(
+        HDAccountList.selectByXpub(coin.xpub.m),
+        HDWallet.selectAccounts,
+        HDWalletList.selectHDWallet,
+        Wallet.selectHdWallets
+      )(wallet)
       const index = HDAccount.selectIndex(account)
       return {
         accountIndex: index,
@@ -209,11 +208,10 @@ export const getTime = (tx) => {
     : date.format('MMMM D YYYY @ h:mm A')
 }
 
-// TODO @phil lockbox
-export const _transformTx = (wallet, accountList, txNotes, addressLabels, tx) => {
+export const _transformTx = (wallet, txNotes, addressLabels, tx) => {
   const type = txtype(tx.result, tx.fee)
-  const inputTagger = compose(tagCoin(wallet, accountList), unpackInput)
-  const outputTagger = tagCoin(wallet, accountList)
+  const inputTagger = compose(tagCoin(wallet), unpackInput)
+  const outputTagger = tagCoin(wallet)
   const [oData, outs] = mapAccum(appender(outputTagger), init, prop('out', tx))
   const [inputData, inputs] = ifElse(
     compose(isCoinBase, prop('inputs')),

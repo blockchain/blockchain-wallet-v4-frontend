@@ -143,34 +143,23 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  // TODO @phil lockbox
   const __processTxs = function* (txs) {
     // Page == Remote ([Tx])
     // Remote(wallet)
     const wallet = yield select(walletSelectors.getWallet)
     const walletR = Remote.of(wallet)
-    // Remote(lockboxXpubs)
-    const accountListR = (yield select(getLockboxBtcAccounts))
-      .map(HDAccountList.fromJS)
-      .getOrElse([])
     const addressLabels = (yield select(getAddressLabels)).getOrElse({})
     const txNotes = Wallet.selectTxNotes(wallet)
 
     // transformTx :: wallet -> Tx
     // ProcessPage :: wallet -> [Tx] -> [Tx]
-    const ProcessTxs = (wallet, accountList, txList, txNotes, addressLabels) =>
+    const ProcessTxs = (wallet, txList, txNotes, addressLabels) =>
       map(
-        transformTx.bind(
-          undefined,
-          wallet.getOrFail(MISSING_WALLET),
-          accountList,
-          txNotes,
-          addressLabels
-        ),
+        transformTx.bind(undefined, wallet.getOrFail(MISSING_WALLET), txNotes, addressLabels),
         txList
       )
     // ProcessRemotePage :: Page -> Page
-    return ProcessTxs(walletR, accountListR, txs, txNotes, addressLabels)
+    return ProcessTxs(walletR, txs, txNotes, addressLabels)
   }
 
   const fetchFiatAtTime = function* (action) {
