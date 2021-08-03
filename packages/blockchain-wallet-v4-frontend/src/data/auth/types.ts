@@ -8,6 +8,27 @@ export enum LoginSteps {
   VERIFICATION_MOBILE = 'VERIFICATION_MOBILE'
 }
 
+export enum RecoverSteps {
+  CLOUD_RECOVERY = 'CLOUD_RECOVERY',
+  RECOVERY_OPTIONS = 'RECOVERY_OPTIONS',
+  RECOVERY_PHRASE = 'RECOVERY_PHRASE',
+  RESET_ACCOUNT = 'RESET_ACCOUNT',
+  RESET_PASSWORD = 'RESET_PASSWORD'
+}
+
+export type RecoverFormType = {
+  password: string
+  step: RecoverSteps
+}
+
+export type LoginPayloadType = {
+  code: string
+  guid: string
+  mobileLogin: boolean
+  password: string
+  sharedKey: string
+}
+
 export type LoginFormType = {
   email: string
   emailToken?: string
@@ -19,6 +40,39 @@ export type LoginFormType = {
 }
 
 export type WalletDataFromMagicLink = {
+  exchange?: {
+    email?: string
+    twoFaMode?: boolean
+    userId?: string
+  }
+  mergeable: boolean | null
+  upgradeable: boolean | null
+  wallet: {
+    authType?: number
+    email: string
+    emailCode?: string
+    exchange?: {
+      email?: string
+      twoFaMode?: boolean
+      userId?: string
+    }
+    guid: string
+    hasCloudBackup: boolean
+    isMobileSetup?: string | boolean
+    lastMnemonicBackup: number | null
+
+    mobileDeviceType: number | null
+    nabu?: {
+      recoveryEligible?: boolean
+      recoveryToken?: string
+      userId?: string
+    }
+  }
+}
+
+// TODO: this is here to handle old version of magic link
+// Can be removed when it's completely deprecated
+export type WalletDataFromMagicLinkLegacy = {
   email: string
   email_code?: string
   guid: string
@@ -67,6 +121,13 @@ interface TriggerWalletMagicLinkFailureActionType {
   type: typeof AT.TRIGGER_WALLET_MAGIC_LINK_FAILURE
 }
 
+interface SetMagicLinkInfoActionType {
+  payload: {
+    magicLinkInfo: WalletDataFromMagicLink
+  }
+  type: typeof AT.SET_MAGIC_LINK_INFO
+}
+
 interface UpgradeWalletActionType {
   payload: {
     version: number
@@ -80,6 +141,7 @@ export type AuthActionTypes =
   | InitializeLoginFailureActionType
   | InitializeLoginLoadingActionType
   | InitializeLoginSuccessActionType
+  | SetMagicLinkInfoActionType
   | TriggerWalletMagicLinkFailureActionType
   | TriggerWalletMagicLinkLoadingActionType
   | TriggerWalletMagicLinkSuccessActionType

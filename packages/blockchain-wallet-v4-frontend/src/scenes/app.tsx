@@ -29,6 +29,7 @@ const Login = React.lazy(() => import('./Login'))
 const Logout = React.lazy(() => import('./Logout'))
 const MobileLogin = React.lazy(() => import('./MobileLogin'))
 const RecoverWallet = React.lazy(() => import('./RecoverWallet'))
+const RecoverWalletLegacy = React.lazy(() => import('./RecoverWalletLegacy'))
 const Register = React.lazy(() => import('./Register'))
 const ResetWallet2fa = React.lazy(() => import('./ResetWallet2fa'))
 const ResetWallet2faToken = React.lazy(() => import('./ResetWallet2faToken'))
@@ -55,6 +56,7 @@ const App = ({
   coinsWithMethodAndOrder,
   history,
   isAuthenticated,
+  legacyWalletRecoveryEnabled,
   persistor,
   store,
   userData
@@ -83,7 +85,10 @@ const App = ({
                     <PublicLayout path='/login' component={Login} />
                     <PublicLayout path='/logout' component={Logout} />
                     <PublicLayout path='/mobile-login' component={MobileLogin} />
-                    <PublicLayout path='/recover' component={RecoverWallet} />
+                    <PublicLayout
+                      path='/recover'
+                      component={legacyWalletRecoveryEnabled ? RecoverWalletLegacy : RecoverWallet}
+                    />
                     <PublicLayout path='/reset-2fa' component={ResetWallet2fa} />
                     <PublicLayout path='/reset-two-factor' component={ResetWallet2faToken} />
                     <PublicLayout path='/signup' component={Register} />
@@ -140,6 +145,9 @@ const mapStateToProps = (state) => ({
     .getCoinsWithMethodAndOrder(state)
     .getOrElse([]),
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
+  legacyWalletRecoveryEnabled: selectors.core.walletOptions
+    .getFeatureLegacyWalletRecovery(state)
+    .getOrElse(false) as boolean,
   userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType)
 })
 

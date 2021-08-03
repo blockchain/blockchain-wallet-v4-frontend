@@ -11,14 +11,17 @@ import { isGuid } from 'services/forms'
 import { checkForVulnerableAddressError } from 'services/misc'
 import { askSecondPasswordEnhancer, confirm, promptForSecondPassword } from 'services/sagas'
 
+import profileSagas from '../modules/profile/sagas'
 import * as A from './actions'
 import { guessCurrencyBasedOnCountry } from './helpers'
-import { LoginSteps, WalletDataFromMagicLink } from './types'
+import * as S from './selectors'
+import { LoginSteps, WalletDataFromMagicLink, WalletDataFromMagicLinkLegacy } from './types'
 
 const { MOBILE_LOGIN } = model.analytics
 
-export default ({ api, coreSagas }) => {
+export default ({ api, coreSagas, networks }) => {
   const logLocation = 'auth/sagas'
+  const { generateRetailToken, setSession } = profileSagas({ api, coreSagas, networks })
 
   const forceSyncWallet = function* () {
     yield put(actions.core.walletSync.forceSync())
@@ -332,7 +335,9 @@ export default ({ api, coreSagas }) => {
       yield fork(checkExchangeUsage)
       yield fork(checkDataErrors)
       // @ts-ignore
-      yield fork(logoutRoutine, yield call(setLogoutEventListener))
+      // TODO: figure out how to set this listener
+      // and still complete saga
+      // yield fork(logoutRoutine, yield call(setLogoutEventListener))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'loginRoutineSaga', e))
       // Redirect to error page instead of notification
@@ -599,6 +604,65 @@ export default ({ api, coreSagas }) => {
       yield logoutClearReduxStore()
     }
   }
+  // TODO: remove once old magic link endpoint is deprecated
+  const parseMagicLinkLegacy = function* (params) {
+    try {
+      const loginData = JSON.parse(atob(params[2])) as WalletDataFromMagicLinkLegacy
+      // this flag is stored as a string in JSON object
+      // this converts it to a variable
+      const mobileSetup = loginData.is_mobile_setup === 'true'
+      // store data in the cache and update form values
+      // to be used to submit login
+      yield put(actions.cache.emailStored(loginData.email))
+      yield put(actions.cache.guidStored(loginData.guid))
+      yield put(actions.cache.mobileConnectedStored(mobileSetup))
+      yield put(actions.form.change('login', 'emailToken', loginData.email_code))
+      yield put(actions.form.change('login', 'guid', loginData.guid))
+      yield put(actions.form.change('login', 'email', loginData.email))
+      // check if mobile detected
+      if (mobileSetup) {
+        yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
+      } else {
+        yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
+      }
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'parseLink', e))
+      yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
+    }
+  }
+
+  const parseMagicLink = function* (params) {
+    try {
+      const loginData = JSON.parse(atob(params[2])) as WalletDataFromMagicLink
+      // TODO: remove this check once old magic link is deprecated
+      if (loginData.wallet) {
+        const walletData = loginData.wallet
+        // grab all the data from the JSON
+        // wallet data
+        // store data in the cache and update form values
+        // to be used to submit login
+        yield put(actions.cache.emailStored(walletData.email))
+        yield put(actions.cache.guidStored(walletData.guid))
+        yield put(actions.cache.mobileConnectedStored(walletData.isMobileSetup))
+        yield put(actions.form.change('login', 'emailToken', walletData.emailCode))
+        yield put(actions.form.change('login', 'guid', walletData.guid))
+        yield put(actions.form.change('login', 'email', walletData.email))
+        yield put(A.setMagicLinkInfo(loginData))
+        // check if mobile detected
+        if (walletData.isMobileSetup) {
+          yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
+        } else {
+          yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
+        }
+      } else {
+        yield call(parseMagicLinkLegacy, params)
+      }
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'parseLink', e))
+      yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
+      const parseFailAlert = yield put(actions.alerts.displayError(C.MAGIC_LINK_PARSE_ERROR))
+    }
+  }
 
   const initializeLogin = function* () {
     try {
@@ -641,24 +705,7 @@ export default ({ api, coreSagas }) => {
         yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
         // if path has base64 encrypted JSON
       } else {
-        const loginData = JSON.parse(atob(loginLinkParameter)) as WalletDataFromMagicLink
-        // this flag is stored as a string in JSON object
-        // this converts it to a variable
-        const mobileSetup = loginData.is_mobile_setup === 'true'
-        // store data in the cache and update form values
-        // to be used to submit login
-        yield put(actions.cache.emailStored(loginData.email))
-        yield put(actions.cache.guidStored(loginData.guid))
-        yield put(actions.cache.mobileConnectedStored(mobileSetup))
-        yield put(actions.form.change('login', 'emailToken', loginData.email_code))
-        yield put(actions.form.change('login', 'guid', loginData.guid))
-        yield put(actions.form.change('login', 'email', loginData.email))
-        // check if mobile detected
-        if (mobileSetup) {
-          yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
-        } else {
-          yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
-        }
+        yield call(parseMagicLink, params)
       }
       yield put(A.initializeLoginSuccess())
     } catch (e) {
@@ -693,6 +740,34 @@ export default ({ api, coreSagas }) => {
     }
   }
 
+  const resetAccount = function* (action) {
+    // If user is resetting their custodial account
+    // Creating a new wallet and assigning an existing custodial account
+    // to that wallet
+    const { email, language, password } = action.payload
+    // We get recovery token and nabu ID
+    const magicLinkData = yield select(S.getMagicLinkData)
+    const recoveryToken = magicLinkData.wallet?.nabu?.recoveryToken
+    const userId = magicLinkData.wallet?.nabu?.userId
+    // create a new wallet
+    yield call(register, actions.auth.register(email, password, language))
+    const guid = yield select(selectors.core.wallet.getGuid)
+    // generate a retail token for new wallet
+    const retailToken = yield call(generateRetailToken)
+    // call the reset nabu user endpoint, receive new lifetime
+    // token for nabu user
+    const { token: lifetimeToken } = yield call(
+      api.resetUserAccount,
+      userId,
+      recoveryToken,
+      retailToken
+    )
+    // set new lifetime token for user in metadata
+    yield put(actions.core.kvStore.userCredentials.setUserCredentials(userId, lifetimeToken))
+    // fetch user in new wallet
+    yield call(setSession, userId, lifetimeToken, email, guid)
+    // TODOs - how do we handle failure?
+  }
   return {
     authNabu,
     checkAndHandleVulnerableAddress,
@@ -708,6 +783,7 @@ export default ({ api, coreSagas }) => {
     pollingSession,
     register,
     resendSmsLoginCode,
+    resetAccount,
     restore,
     restoreFromMetadata,
     saveGoals,
