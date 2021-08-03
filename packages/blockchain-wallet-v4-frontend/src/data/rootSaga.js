@@ -31,10 +31,7 @@ const welcomeSaga = function* () {
     console.log('%c STOP!!', style1)
     console.log('%c This browser feature is intended for developers.', style2)
     console.log('%c If someone told you to copy-paste something here,', style2)
-    console.log(
-      '%c it is a scam and will give them access to your money!',
-      style2
-    )
+    console.log('%c it is a scam and will give them access to your money!', style2)
     /* eslint-enable */
   } catch (e) {
     yield put(actions.logs.logErrorMessage(logLocation, 'welcomeSaga', e))
@@ -62,7 +59,7 @@ export default function* rootSaga({ api, coinsSocket, networks, options, ratesSo
     call(welcomeSaga),
     fork(alerts),
     fork(analytics()),
-    fork(auth({ api, coreSagas })),
+    fork(auth({ api, coreSagas, networks })),
     fork(components({ api, coreSagas, networks, options })),
     fork(custodial({ api, coreSagas, networks })),
     fork(modules({ api, coreSagas, networks })),

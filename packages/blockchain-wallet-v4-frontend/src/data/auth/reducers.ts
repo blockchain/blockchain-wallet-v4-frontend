@@ -11,6 +11,7 @@ const INITIAL_STATE = {
   isLoggingIn: false,
   kycReset: undefined,
   login: Remote.NotAsked,
+  magicLinkData: null,
   metadataRestore: Remote.NotAsked,
   mobileLoginStarted: false,
   registerEmail: undefined,
@@ -86,6 +87,12 @@ const auth = (state = INITIAL_STATE, action) => {
     case AT.SET_AUTH_TYPE: {
       const { authType } = payload
       return assoc('auth_type', authType, state)
+    }
+    case AT.SET_MAGIC_LINK_INFO: {
+      return {
+        ...state,
+        magicLinkData: action.payload.magicLinkInfo
+      }
     }
     case AT.SET_REGISTER_EMAIL: {
       const { email } = payload
