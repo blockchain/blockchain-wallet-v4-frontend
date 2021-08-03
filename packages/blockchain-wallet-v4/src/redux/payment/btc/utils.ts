@@ -152,27 +152,6 @@ export const toOutputAccount = (coin, network, state, accountIndex) => {
   }
 }
 
-// toLockBoxAccount :: Coin -> String -> ReduxState -> String -> Object
-export const toLockboxAccount = (coin, network, state, xpub) => {
-  const receiveIndexR =
-    coin === 'BTC'
-      ? S.data.btc.getReceiveIndex(xpub, state)
-      : S.data.bch.getReceiveIndex(xpub, state)
-
-  const receiveIndex = receiveIndexR.getOrFail(new Error('missing_receive_address'))
-
-  const address =
-    coin === 'BTC'
-      ? S.common.btc.getAddressLockbox(network, xpub, receiveIndex, state)
-      : S.common.bch.getAddressLockbox(network, xpub, receiveIndex, state)
-  return {
-    address,
-    addressIndex: receiveIndex,
-    type: ADDRESS_TYPES.LOCKBOX,
-    xpub
-  }
-}
-
 // toOutputScript :: String -> Object
 export const toOutputScript = (script) => ({
   script,
