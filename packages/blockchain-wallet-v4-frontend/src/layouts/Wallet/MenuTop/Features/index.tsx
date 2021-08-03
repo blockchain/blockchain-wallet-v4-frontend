@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { actions } from 'data'
-import { ModalNameType } from 'data/types'
+import { ModalName, ModalNameType } from 'data/types'
 
 import { getData } from './selectors'
 import Features from './template'
@@ -19,7 +19,7 @@ class FeaturesContainer extends React.PureComponent<Props> {
         })
       }
 
-      return this.props.modalActions.showModal(`SEND_BTC_MODAL` as ModalNameType, {
+      return this.props.modalActions.showModal(ModalName.SEND_CRYPTO_MODAL as ModalNameType, {
         lockboxIndex: lockboxPath ? lockboxDeviceId : null,
         origin: 'FeaturesTopNav'
       })
@@ -48,7 +48,7 @@ class FeaturesContainer extends React.PureComponent<Props> {
         origin: 'FeaturesTopNav'
       })
     }
-    return this.props.modalActions.showModal(`SEND_BTC_MODAL` as ModalNameType, {
+    return this.props.modalActions.showModal(ModalName.SEND_CRYPTO_MODAL, {
       lockboxIndex: lockboxPath ? lockboxDeviceId : null,
       origin: 'FeaturesTopNav'
     })

@@ -35,6 +35,7 @@ const XlmReserveLearn = React.lazy(() => import('./Xlm/XlmReserveLearn'))
 
 // CRYPTO
 const RequestCrypto = React.lazy(() => import('./RequestCrypto'))
+const SendCrypto = React.lazy(() => import('./SendCrypto'))
 
 // GENERIC
 const Confirm = React.lazy(() => import('./Generic/Confirm'))
@@ -222,6 +223,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.REQUEST_CRYPTO_MODAL) ? (
           <RequestCrypto />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.SEND_CRYPTO_MODAL) ? (
+          <SendCrypto />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.SECOND_PASSWORD_MODAL) ? (
           <SecondPassword />
