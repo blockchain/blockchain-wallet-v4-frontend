@@ -82,7 +82,7 @@ export const getSiftKey = (state) => getWebOptions(state).map(path(['sift', 'api
 export const getSiftPaymentKey = (state: RootState) => {
   return getWebOptions(state).map((options) => options.sift.paymentKey)
 }
-// pairing code feature falag
+// show pairing code flag on staging
 export const getPairingCodeFlag = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'legacyMobilePairing']))
 
@@ -97,3 +97,7 @@ export const getBrokerageDepositsWithdrawals = (state) =>
 // recurring buys flag
 export const getFeatureFlagRecurringBuys = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'recurringBuys']))
+
+// legacy recovery flag
+export const getFeatureLegacyWalletRecovery = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'legacyWalletRecovery']))

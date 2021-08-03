@@ -12,9 +12,9 @@ import { actions, selectors } from 'data'
 import { LoginFormType, LoginSteps } from 'data/types'
 import { isGuid } from 'services/forms'
 
+// step templates
 import Loading from '../loading.public'
 import CheckEmail from './CheckEmail'
-// step templates
 import EnterEmailOrGuid from './EnterEmailOrGuid'
 import EnterPassword from './EnterPassword'
 import { LOGIN_FORM_NAME, PhishingWarning } from './model'
@@ -125,7 +125,6 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
             <FormattedMessage id='scenes.login.welcome' defaultMessage='Welcome back!' />
           )}
         </Text>
-
         {step === LoginSteps.VERIFICATION_MOBILE && (
           <Text color='grey400' weight={500} style={{ marginBottom: '32px' }}>
             <FormattedMessage id='scenes.login.approve' defaultMessage='Approve your login' />
@@ -155,7 +154,14 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
                     />
                   )
                 case LoginSteps.ENTER_PASSWORD:
-                  return <EnterPassword {...this.props} {...loginProps} setStep={this.setStep} />
+                  return (
+                    <EnterPassword
+                      {...this.props}
+                      {...loginProps}
+                      setStep={this.setStep}
+                      initCaptcha={this.initCaptcha}
+                    />
+                  )
 
                 case LoginSteps.CHECK_EMAIL:
                   return (
@@ -240,6 +246,7 @@ type FormProps = {
   initCaptcha: () => void
   invalid: boolean
   loginError?: string
+  pristine: boolean
   setStep: (step: LoginSteps) => void
   submitting: boolean
 }

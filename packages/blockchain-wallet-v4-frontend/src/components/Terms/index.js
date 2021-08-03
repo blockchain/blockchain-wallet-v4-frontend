@@ -52,7 +52,7 @@ const Terms = (props) => {
       )
     default:
       return (
-        <TermsContainer style={{ paddingLeft: '4px' }}>
+        <TermsContainer style={{ paddingLeft: recovery ? 0 : '4px' }}>
           {recovery ? (
             <Text color='grey800' size='12px' weight={500} style={{ margin: '4px 0' }}>
               <FormattedMessage

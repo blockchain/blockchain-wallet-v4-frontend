@@ -107,6 +107,14 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
       url: nabuUrl
     })
 
+  const resetUserAccount = (userId, recoveryToken, retailToken) =>
+    post({
+      contentType: 'application/json',
+      data: { jwt: retailToken, recoveryToken },
+      endPoint: `/users/recovery/${userId}`,
+      url: nabuUrl
+    })
+
   const resetUserKyc = (userId, lifetimeToken, retailToken) =>
     post({
       contentType: 'application/json',
@@ -175,6 +183,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     linkAccount,
     recoverUser,
     registerUserCampaign,
+    resetUserAccount,
     resetUserKyc,
     shareWalletDepositAddresses,
     syncUserWithWallet,
