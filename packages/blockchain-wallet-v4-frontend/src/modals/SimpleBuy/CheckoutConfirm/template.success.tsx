@@ -405,7 +405,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
               >
                 <FormattedMessage
                   id='modals.simplebuy.confirm.activity_accept_terms'
-                  defaultMessage='I agree to Blockchain’s <a>Terms of Service</a> and its return, refund and cancellation policy.'
+                  defaultMessage='I agree to Blockchain’s <a>Terms of Service</a> and its return, refund and cancellation policy.'
                   values={{
                     a: (msg) => (
                       <a

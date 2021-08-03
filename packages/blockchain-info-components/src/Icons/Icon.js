@@ -27,7 +27,7 @@ const Icon = (props) => {
   const code = Icomoon[name]
 
   // if coin has logo from coinfig
-  if (window.coins[name]) {
+  if (window.coins && window.coins[name]) {
     if (window.coins[name].coinfig.type.logoPngUrl) {
       return (
         <BaseIcon {...props}>

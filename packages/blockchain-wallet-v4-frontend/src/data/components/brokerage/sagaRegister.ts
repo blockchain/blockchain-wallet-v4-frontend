@@ -24,7 +24,6 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(createFiatDeposit.type, brokerageSagas.createFiatDeposit)
     yield takeLatest(deleteSavedBank.type, brokerageSagas.deleteSavedBank)
     yield takeLatest(fetchBankLinkCredentials.type, brokerageSagas.fetchBankLinkCredentials)
-    yield takeLatest(fetchRBMethods.type, brokerageSagas.fetchRBMethods)
     yield takeLatest(showModal.type, brokerageSagas.showModal)
   }
 }

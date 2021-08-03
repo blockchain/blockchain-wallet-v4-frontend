@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { add, curry, flatten, lift, pathOr, reduce } from 'ramda'
+import { add, curry, flatten, lift, pathOr, reduce, toUpper } from 'ramda'
 
 import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import {
@@ -117,14 +117,30 @@ export const getEthBalance = createDeepEqualSelector(
 
 export const getErc20Balance = (coin: string) =>
   createDeepEqualSelector(
-    [getErc20NonCustodialBalance(coin), selectors.components.simpleBuy.getSBBalances],
-    (balanceR, sbBalancesR: RemoteDataType<string, SBBalancesType>) => {
+    [
+      getErc20NonCustodialBalance(coin),
+      selectors.components.interest.getInterestAccountBalance,
+      selectors.components.simpleBuy.getSBBalances
+    ],
+    (
+      balanceR,
+      interestAccountBalanceR: RemoteDataType<string, InterestAccountBalanceType>,
+      sbBalancesR: RemoteDataType<string, SBBalancesType>
+    ) => {
       const sbCoinBalance = sbBalancesR.getOrElse({
         [coin]: DEFAULT_SB_BALANCE
       })[coin]
+      const interestCoinBalance = interestAccountBalanceR.getOrElse({
+        [coin]: { balance: '0' } as InterestAccountBalanceType[typeof coin]
+      })[coin]
       const sbBalance = sbCoinBalance ? sbCoinBalance.available : '0'
+      const interestBalance = interestCoinBalance ? interestCoinBalance.balance : '0'
 
-      return Remote.of(new BigNumber(balanceR.getOrElse(0)).plus(new BigNumber(sbBalance)))
+      return Remote.of(
+        new BigNumber(balanceR.getOrElse(0))
+          .plus(new BigNumber(sbBalance))
+          .plus(new BigNumber(interestBalance))
+      )
     }
   )
 
@@ -330,7 +346,8 @@ export const getErc20BalancesInfoV2 = createDeepEqualSelector(
   (erc20CoinsR, ratesF, currencyR, state) => {
     const transform = (erc20Coins, currency) => {
       return erc20Coins.map((erc20) => {
-        const coin = erc20.symbol
+        // TODO: erc20 phase 2, key off hash not symbol
+        const coin = toUpper(erc20.tokenSymbol)
         const transform2 = (balance, rates) => {
           return Exchange.convertCoinToFiat({ coin, currency, rates, value: balance })
         }

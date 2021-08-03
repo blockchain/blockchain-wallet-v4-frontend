@@ -76,8 +76,8 @@ const buyPaymentMethodSelectedPaymentTypeDictionary = (
 
 const getOriginalTimestamp = () => new Date().toISOString()
 
-const generateUniqueUserId = (guid: string) => {
-  return crypto.createHash('sha256').update(guid).digest().toString('base64')
+const generateUniqueId = (id: string) => {
+  return crypto.createHash('sha256').update(id).digest().toString('base64')
 }
 
 const getNetworkFee = (paymentValue: PaymentValue | null) => {
@@ -236,7 +236,7 @@ const utmParser = (query: string): { [key: string]: string } => {
 export {
   buyPaymentMethodSelectedPaymentTypeDictionary,
   buySellClickedOriginDictionary,
-  generateUniqueUserId,
+  generateUniqueId,
   getNetworkFee,
   getOriginalTimestamp,
   interestDepositClickedOriginDictionary,

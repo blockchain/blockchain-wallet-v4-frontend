@@ -7,7 +7,7 @@ import { actions, selectors } from 'data'
 import FirstStep from './FirstStep'
 import SecondStep from './SecondStep'
 
-class RecoverWalletContainer extends React.PureComponent {
+class RecoverWalletLegacyContainer extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -37,4 +37,4 @@ const mapDispatchToProps = (dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export default connector(RecoverWalletContainer)
+export default connector(RecoverWalletLegacyContainer)

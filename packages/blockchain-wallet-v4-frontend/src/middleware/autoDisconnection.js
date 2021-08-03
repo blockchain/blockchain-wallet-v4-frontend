@@ -1,10 +1,12 @@
-import { contains } from 'ramda'
+import { includes } from 'ramda'
 
 import { actions, actionTypes, selectors } from 'data'
 
-let timer, counter, interval
-// Actions that won't refresh the autodisconnection timer
-let blackListedActivityTypes = [
+let timer
+let counter
+let interval
+// actions that won't reset the disconnection timer
+const blackListedActivityTypes = [
   // ETH
   actionTypes.core.data.eth.FETCH_ETH_LATEST_BLOCK_SUCCESS,
   actionTypes.core.data.eth.FETCH_ETH_LATEST_BLOCK_LOADING,
@@ -64,23 +66,24 @@ let blackListedActivityTypes = [
   '@@redux-form/START_ASYNC_VALIDATION'
 ]
 
-const AutoDisconnectionMiddleware = () => (store) => (next) => (action) => {
-  // We start the timer
-  if (action.type === actionTypes.auth.START_LOGOUT_TIMER) {
-    startTimer(store)
+const refreshTimer = (store) => {
+  if (counter === 0) {
+    if (interval) {
+      clearInterval(interval)
+    }
+    store.dispatch(actions.modals.showModal('AUTO_DISCONNECTION_MODAL', { duration: timer / 60 }))
   }
-  // We reset the timer if the action is not in the blacklist
-  if (!contains(action.type, blackListedActivityTypes)) {
-    // 👋 Uncomment the next line to debug autoDisconnection!!
-    // console.log(action.type)
-    resetTimer()
-  }
-
-  return next(action)
+  // eslint-disable-next-line no-plusplus
+  counter--
 }
 
 const startTimer = (store) => {
-  counter = timer = parseInt(selectors.core.wallet.getLogoutTime(store.getState()) / 1000) || 600 // (Default: 10min )
+  // defaults to 10 min
+  const autoDisconnectTime =
+    parseInt(selectors.core.wallet.getLogoutTime(store.getState()) / 1000) || 600
+  counter = autoDisconnectTime
+  timer = autoDisconnectTime
+
   if (interval) {
     clearInterval(interval)
   }
@@ -91,14 +94,19 @@ const resetTimer = () => {
   counter = timer
 }
 
-const refreshTimer = (store) => {
-  if (counter === 0) {
-    if (interval) {
-      clearInterval(interval)
-    }
-    store.dispatch(actions.modals.showModal('AUTO_DISCONNECTION_MODAL', { duration: timer / 60 }))
+const AutoDisconnectionMiddleware = () => (store) => (next) => (action) => {
+  // start the timer
+  if (action.type === actionTypes.auth.START_LOGOUT_TIMER) {
+    startTimer(store)
   }
-  counter--
+  // reset the timer if the action is not in the blacklist
+  if (!includes(action.type, blackListedActivityTypes)) {
+    // 👋 Uncomment the next line to debug autoDisconnection!!
+    // console.log(action.type)
+    resetTimer()
+  }
+
+  return next(action)
 }
 
 export default AutoDisconnectionMiddleware
