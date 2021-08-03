@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { compose } from 'redux'
 import styled from 'styled-components'
 
-import { Icon, Modal, Text } from 'blockchain-info-components'
+import { Button, Icon, Link, Modal, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 
@@ -34,6 +34,8 @@ const Body = styled.div`
 `
 
 const RectangleBackground = styled.div`
+  display: flex;
+  align-items: center;
   height: 64px;
   width: 100%;
   background-color: ${(props) => props.theme.grey000};
@@ -60,7 +62,7 @@ class ResetAccountFailed extends React.PureComponent<Props> {
           </Text>
         </Header>
         <Body>
-          <Text size='16px' weight={500} color='grey900'>
+          <Text size='14px' weight={500} color='grey900'>
             <FormattedMessage
               defaultMessage='Don’t worry, your account is safe.  Please contact support to finish the Account Recovery process. Your account will not show balances or transaction history until you complete the recovery process.'
               id='modals.resetaccountfailure.body'
@@ -86,7 +88,11 @@ class ResetAccountFailed extends React.PureComponent<Props> {
               />
             </Text>
           </RectangleBackground>
-          {/* Add contact support button */}
+          <Link target='_blank' href='https://support.blockchain.com/'>
+            <Button nature='primary' width='440px' data-e2e='contactSupportResetFailure'>
+              <FormattedMessage id='buttons.contact_support' defaultMessage='Contact Support' />
+            </Button>
+          </Link>
         </Body>
       </Modal>
     )
