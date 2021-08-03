@@ -9,11 +9,11 @@ import { Icon, Text } from 'blockchain-info-components'
 import { StickyHeaderFlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption, SelectBoxCoin } from 'components/Form'
 import { actions } from 'data'
-import { SwapAccountType, SwapBaseCounterTypes } from 'data/components/swap/types'
+import { SendCryptoStepType } from 'data/components/sendCrypto/types'
+import { SwapAccountType } from 'data/components/swap/types'
 
+import { StepHeader } from '../../RequestCrypto/model'
 import { Props as OwnProps } from '..'
-import { REQUEST_FORM, StepHeader } from '../model'
-import { RequestSteps } from '../types'
 import { getData } from './selectors'
 
 const Wrapper = styled.div`
@@ -35,7 +35,7 @@ const NoAccountsText = styled.div`
 
 class SendCoinSelect extends React.PureComponent<Props> {
   render() {
-    const { data, formActions, handleClose, requestableCoins, setStep, walletCurrency } = this.props
+    const { close, data, sendCryptoActions, sendableCoins, walletCurrency } = this.props
     return (
       <Wrapper>
         <StickyHeaderFlyoutWrapper>
@@ -48,7 +48,7 @@ class SendCoinSelect extends React.PureComponent<Props> {
               data-e2e='close'
               size='24px'
               cursor
-              onClick={handleClose}
+              onClick={close}
             />
           </Header>
           <div>
@@ -71,7 +71,7 @@ class SendCoinSelect extends React.PureComponent<Props> {
                 name='selectedCoin'
                 props={{
                   additionalOptions: [{ text: 'All Wallets', value: 'ALL' }],
-                  limitTo: requestableCoins.map((coin) => ({
+                  limitTo: sendableCoins.map((coin) => ({
                     text: coin,
                     value: coin
                   }))
@@ -87,12 +87,7 @@ class SendCoinSelect extends React.PureComponent<Props> {
             account={account}
             coin={account.coin}
             onClick={() => {
-              if (account.type === SwapBaseCounterTypes.CUSTODIAL && !data.isAtLeastTier1) {
-                setStep(RequestSteps.IDV_INTRO)
-              } else {
-                formActions.change(REQUEST_FORM, 'selectedAccount', account)
-                formActions.change(REQUEST_FORM, 'step', RequestSteps.SHOW_ADDRESS)
-              }
+              sendCryptoActions.setStep({ step: SendCryptoStepType.ENTER_AMOUNT })
             }}
             walletCurrency={walletCurrency}
           />
@@ -101,8 +96,8 @@ class SendCoinSelect extends React.PureComponent<Props> {
           <NoAccountsText>
             <Text size='16px' color='grey900' weight={500} style={{ marginTop: '10px' }}>
               <FormattedMessage
-                id='modals.requestcrypto.coinselect.noaccounts'
-                defaultMessage='Currently there are no receivable accounts for the selected crypto.'
+                id='modals.sendcrypto.coinselect.noaccounts'
+                defaultMessage='Currently there are no accounts for the selected crypto.'
               />
             </Text>
           </NoAccountsText>
@@ -121,11 +116,6 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
-type Props = ConnectedProps<typeof connector> &
-  OwnProps & {
-    handleAccountChange: (account: SwapAccountType) => void
-    handleClose: () => void
-    setStep: (step: RequestSteps) => void
-  }
+type Props = ConnectedProps<typeof connector> & OwnProps
 
 export default connector(SendCoinSelect)

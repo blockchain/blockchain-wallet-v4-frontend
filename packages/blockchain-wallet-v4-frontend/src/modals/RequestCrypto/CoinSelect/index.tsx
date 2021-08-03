@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
@@ -121,6 +121,8 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
+const enhance = compose(connector)
+
 type Props = ConnectedProps<typeof connector> &
   OwnProps & {
     handleAccountChange: (account: SwapAccountType) => void
@@ -128,4 +130,4 @@ type Props = ConnectedProps<typeof connector> &
     setStep: (step: RequestSteps) => void
   }
 
-export default connector(RequestCoinSelect)
+export default enhance(RequestCoinSelect)

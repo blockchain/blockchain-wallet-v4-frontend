@@ -22,6 +22,7 @@ import * as resetWallet2fa from './resetWallet2fa/actions'
 import * as send from './send/actions'
 import * as sendBch from './sendBch/actions'
 import * as sendBtc from './sendBtc/actions'
+import { actions as sendCrypto } from './sendCrypto/slice'
 import * as sendEth from './sendEth/actions'
 import * as sendXlm from './sendXlm/actions'
 import * as settings from './settings/actions'
@@ -58,6 +59,7 @@ export {
   send,
   sendBch,
   sendBtc,
+  sendCrypto,
   sendEth,
   sendXlm,
   settings,

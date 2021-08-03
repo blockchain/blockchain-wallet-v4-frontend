@@ -10,9 +10,8 @@ export const StepHeader = styled(Text)<{
 }>`
   display: flex;
   align-items: center;
-  justify-content: ${props =>
-    props.spaceBetween ? 'space-between' : 'initial'};
-  margin-bottom: ${props => (props.marginBottom ? '24px' : '0px')};
+  justify-content: ${(props) => (props.spaceBetween ? 'space-between' : 'initial')};
+  margin-bottom: ${(props) => (props.marginBottom ? '24px' : '0px')};
 `
 
 export const ClipboardWrapper = styled.div`

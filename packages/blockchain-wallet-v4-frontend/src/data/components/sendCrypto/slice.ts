@@ -16,8 +16,8 @@ const sendCryptoSlice = createSlice({
   reducers: {
     setStep: (state, action: PayloadAction<SendCryptoStepPayload>) => {
       state.step = action.payload.step
-    },
-    showModal: (state, action: PayloadAction<{ origin: ModalOriginType }>) => {}
+    }
+    // showModal: (state, action: PayloadAction<{ origin: ModalOriginType }>) => {}
   }
 })
 

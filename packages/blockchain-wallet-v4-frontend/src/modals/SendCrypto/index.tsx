@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
+import { reduxForm } from 'redux-form'
 
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
@@ -9,8 +10,10 @@ import { RootState } from 'data/rootReducer'
 import { ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
-import CoinSelect from '../RequestCrypto/CoinSelect'
 import { ModalPropsType } from '../types'
+import CoinSelect from './CoinSelect'
+import { SEND_FORM } from './model'
+import { getData } from './selectors'
 
 class SendCrypto extends PureComponent<Props, State> {
   constructor(props: Props) {
@@ -36,7 +39,7 @@ class SendCrypto extends PureComponent<Props, State> {
       <Flyout {...this.props} isOpen={this.state.show} onClose={this.handleClose}>
         {this.props.step === SendCryptoStepType.COIN_SELECTION && (
           <FlyoutChild>
-            <CoinSelect />
+            <CoinSelect {...this.props} />
           </FlyoutChild>
         )}
       </Flyout>
@@ -45,18 +48,24 @@ class SendCrypto extends PureComponent<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  step: selectors.components.sendCrypto.getStep(state)
+  sendableCoins: getData(),
+  step: selectors.components.sendCrypto.getStep(state),
+  walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  //   recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch)
+  sendCryptoActions: bindActionCreators(actions.components.sendCrypto, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-const enhance = compose(
+const enhance = compose<any>(
   ModalEnhancer(ModalName.SEND_CRYPTO_MODAL, { transition: duration }),
-  connector
+  connector,
+  reduxForm({
+    enableReinitialize: true,
+    form: SEND_FORM
+  })
 )
 
 export type Props = ModalPropsType & ConnectedProps<typeof connector>
