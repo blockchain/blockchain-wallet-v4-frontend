@@ -36,7 +36,7 @@ export const wrongFlowTypeError = 'Wrong flow type'
 export const noCampaignDataError = 'User did not come from campaign'
 
 export default ({ api, coreSagas, networks }) => {
-  const { TIERS } = model.profile
+  const { KYC_STATES, TIERS } = model.profile
   const {
     createUser,
     fetchUser,
@@ -146,7 +146,7 @@ export default ({ api, coreSagas, networks }) => {
     )).getOrElse({})
     const tiersState = (yield select(selectors.modules.profile.getTiers)).getOrElse({})
     if (kycDocResubmissionStatus === 1) {
-      if (tiers.current === 0) {
+      if (tiers.current === 0 || kycState === KYC_STATES.NONE) {
         // case where user already went through first step
         // of verfication but was rejected, want to set
         // next to 2
@@ -479,16 +479,16 @@ export default ({ api, coreSagas, networks }) => {
     goToPrevStep,
     initializeStep,
     initializeVerification,
-    resendSmsCode,
     registerUserCampaign,
+    resendSmsCode,
     saveInfoAndResidentialData,
     selectTier,
     sendDeeplink,
     sendEmailVerification,
-    updateSmsStep,
+    updateEmail,
     updateSmsNumber,
+    updateSmsStep,
     verifyIdentity,
-    verifySmsNumber,
-    updateEmail
+    verifySmsNumber
   }
 }
