@@ -14,7 +14,7 @@ export const debounce = (func, wait) => {
 
 export const checkHasWebcam = () => {
   const media = navigator.mediaDevices
-  if (!prop('enumerateDevices', media)) return false
+  if (!prop('enumerateDevices', media)) return Promise.resolve(false)
 
   return media
     .enumerateDevices()
