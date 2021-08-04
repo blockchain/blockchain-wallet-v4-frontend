@@ -41,7 +41,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const pageName: PageName = action.payload.location.pathname
 
@@ -128,7 +128,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const email = state.profile.userData.getOrElse({})?.emailVerified
               ? state.profile.userData.getOrElse({})?.email
               : null
-            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+            const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
             const guid = state.walletPath.wallet.guid ?? null
             const currency = 'BTC'
 
@@ -153,7 +153,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const email = state.profile.userData.getOrElse({})?.emailVerified
               ? state.profile.userData.getOrElse({})?.email
               : null
-            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+            const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
             const guid = state.walletPath.wallet.guid ?? null
             const currency = 'BCH'
 
@@ -178,7 +178,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const email = state.profile.userData.getOrElse({})?.emailVerified
               ? state.profile.userData.getOrElse({})?.email
               : null
-            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+            const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
             const guid = state.walletPath.wallet.guid ?? null
             const currency = 'ETH'
 
@@ -203,7 +203,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const email = state.profile.userData.getOrElse({})?.emailVerified
               ? state.profile.userData.getOrElse({})?.email
               : null
-            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+            const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
             const guid = state.walletPath.wallet.guid ?? null
             const currency = 'XLM'
 
@@ -235,7 +235,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email ?? null
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const modalName: ModalName = action.payload.type
 
@@ -429,7 +429,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const email = state.profile.userData.getOrElse({})?.emailVerified
               ? state.profile.userData.getOrElse({})?.email
               : null
-            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+            const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
             const guid = state.walletPath.wallet.guid ?? null
             const origin = linkBankClickedOriginDictionary(action.payload.origin)
 
@@ -454,7 +454,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const email = state.profile.userData.getOrElse({})?.emailVerified
               ? state.profile.userData.getOrElse({})?.email
               : null
-            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+            const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
             const guid = state.walletPath.wallet.guid ?? null
             const origin = linkBankClickedOriginDictionary(action.payload.origin)
 
@@ -479,7 +479,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const email = state.profile.userData.getOrElse({})?.emailVerified
               ? state.profile.userData.getOrElse({})?.email
               : null
-            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+            const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
             const guid = state.walletPath.wallet.guid ?? null
             const upgradeTier = action.payload.props.tier
 
@@ -507,7 +507,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const email = state.profile.userData.getOrElse({})?.emailVerified
               ? state.profile.userData.getOrElse({})?.email
               : null
-            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+            const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
             const guid = state.walletPath.wallet.guid ?? null
 
             analytics.push(AnalyticsKey.ADDRESS_VERIFY_MESSAGE_CLICKED, {
@@ -530,7 +530,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const email = state.profile.userData.getOrElse({})?.emailVerified
               ? state.profile.userData.getOrElse({})?.email
               : null
-            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+            const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
             const guid = state.walletPath.wallet.guid ?? null
 
             analytics.push(AnalyticsKey.CHANGE_MOBILE_NUMBER_CLICKED, {
@@ -553,7 +553,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const email = state.profile.userData.getOrElse({})?.emailVerified
               ? state.profile.userData.getOrElse({})?.email
               : null
-            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+            const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
             const guid = state.walletPath.wallet.guid ?? null
 
             analytics.push(AnalyticsKey.ADD_MOBILE_NUMBER_CLICKED, {
@@ -576,7 +576,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const email = state.profile.userData.getOrElse({})?.emailVerified
               ? state.profile.userData.getOrElse({})?.email
               : null
-            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+            const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
             const guid = state.walletPath.wallet.guid ?? null
 
             analytics.push(AnalyticsKey.IMPORT_ADDRESS_CLICKED, {
@@ -606,7 +606,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const origin = 'SIGN_UP'
 
@@ -631,7 +631,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const origin = 'VERIFICATION'
 
@@ -656,7 +656,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const origin = 'SIGN_UP'
 
@@ -681,7 +681,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const { isCoinDisplayed } = action.payload
         const fix = isCoinDisplayed ? Coin.CRYPTO : Coin.FIAT
@@ -710,7 +710,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const { fix } = action.payload
 
@@ -737,7 +737,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const { fix } = action.payload
 
@@ -764,7 +764,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const inputCurrency = state.components.simpleBuy.fiatCurrency
         const inputAmount = Number(state.form.simpleBuyCheckout.values.amount)
@@ -794,7 +794,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const maxCardLimit = Number(action.payload.amount) / 100
         const inputCurrency = state.components.simpleBuy.fiatCurrency
@@ -822,7 +822,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const inputCurrency = state.components.simpleBuy.fiatCurrency
         const outputCurrency = state.components.simpleBuy.cryptoCurrency
@@ -848,7 +848,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const paymentType = buyPaymentMethodSelectedPaymentTypeDictionary(action.method.type)
 
@@ -872,7 +872,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
 
         analytics.push(AnalyticsKey.SIGNED_IN, {
@@ -895,7 +895,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
 
         analytics.push(AnalyticsKey.SIGNED_OUT, {
@@ -917,7 +917,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
 
         analytics.push(AnalyticsKey.WRONG_CHANGE_CACHE, {
@@ -939,7 +939,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
 
         analytics.push(AnalyticsKey.WRONG_RECEIVE_CACHE, {
@@ -961,7 +961,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const stepName = action.payload.step
 
@@ -1043,7 +1043,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const inputCurrency = state.form.initSwap.values.BASE.coin
         const inputType =
@@ -1080,7 +1080,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const inputCurrency = state.form.initSwap.values.BASE.coin
         const inputType =
@@ -1116,7 +1116,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const inputCurrency = action.payload.account.coin
         const inputType =
@@ -1145,7 +1145,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const outputCurrency = action.payload.account.coin
         const outputType =
@@ -1174,7 +1174,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const exchangeRate = state.components.swap.quote.getOrElse({})?.rate || 1
         const inputAmount = Number(state.form.swapAmount.values.cryptoAmount)
@@ -1235,7 +1235,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const accountType =
           state.form.requestCrypto.values.selectedAccount.type === SwapBaseCounterTypes.CUSTODIAL
@@ -1266,7 +1266,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const accountType =
           state.form.requestCrypto.values.selectedAccount.type === SwapBaseCounterTypes.CUSTODIAL
@@ -1297,7 +1297,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const rawOrigin = action.payload.props.origin
         const { href, pathname, search } = window.location
@@ -1343,7 +1343,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const rawOrigin = action.payload.props.origin
         const { href, pathname, search } = window.location
@@ -1391,7 +1391,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const stepName = action.payload.step
 
@@ -1462,7 +1462,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const accountType =
           state.components.simpleBuy.swapAccount.type === SwapBaseCounterTypes.CUSTODIAL
@@ -1493,7 +1493,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const accountType =
           state.components.simpleBuy.swapAccount.type === SwapBaseCounterTypes.CUSTODIAL
@@ -1524,7 +1524,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const stepName = action.payload.dwStep as BankDWStepType
 
@@ -1567,7 +1567,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
 
         const originModal = state.modals.find((modal) => modal.type).type
@@ -1632,7 +1632,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const stepName = action.payload.step
 
@@ -1679,7 +1679,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const currency = state.components.withdraw.fiatCurrency
         const withdrawalMethod = state.components.brokerage.account
@@ -1708,7 +1708,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const currency = state.components.withdraw.fiatCurrency
         const withdrawalMethod = state.components.brokerage.account
@@ -1740,7 +1740,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const email = state.profile.userData.getOrElse({})?.emailVerified
               ? state.profile.userData.getOrElse({})?.email
               : null
-            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+            const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
             const guid = state.walletPath.wallet.guid ?? null
             const { href, pathname, search } = window.location
             const { referrer, title } = document
@@ -1787,7 +1787,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const email = state.profile.userData.getOrElse({})?.emailVerified
               ? state.profile.userData.getOrElse({})?.email
               : null
-            const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+            const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
             const guid = state.walletPath.wallet.guid ?? null
             const { href, pathname, search } = window.location
             const { referrer, title } = document
@@ -1839,7 +1839,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const amountCurrency = state.components.interest.isCoinDisplayed
           ? action.payload.coin
@@ -1874,7 +1874,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const amountCurrency = state.components.interest.isCoinDisplayed
           ? action.payload.coin
@@ -1909,7 +1909,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const currency = state.components.interest.coin
         const inputAmount = Number(state.form.interestDepositForm.values.depositAmount)
@@ -1943,7 +1943,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const { origin } = action.payload
 
@@ -1968,7 +1968,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
 
         analytics.push(AnalyticsKey.CRYPTO_LINK_HANDLING_CLICKED, {
@@ -1991,7 +1991,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const { currency } = action.payload
         const selection = manageTabSelectionClickedSelectionDictionary(action.payload.selection)
@@ -2018,7 +2018,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const isEmailEnabled = action.payload.types.includes(32)
         const isSMSEnabled = action.payload.types.includes(32)
@@ -2045,7 +2045,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const currency = 'BTC'
 
@@ -2070,7 +2070,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const currency = 'ETH'
 
@@ -2095,7 +2095,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const currency = 'XLM'
 
@@ -2120,7 +2120,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const destination = settingsHyperlinkClickedDestinationDictionary(
           action.payload.destination
@@ -2147,7 +2147,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const destination = settingsTabClickedDestinationDictionary(action.payload.destination)
 
@@ -2172,7 +2172,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const { href, pathname, search } = window.location
         const { referrer, title } = document
@@ -2216,7 +2216,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const { href, pathname, search } = window.location
         const { referrer, title } = document
@@ -2260,7 +2260,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const { href, pathname, search } = window.location
         const { referrer, title } = document
@@ -2304,7 +2304,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const { href, pathname, search } = window.location
         const { referrer, title } = document
@@ -2348,7 +2348,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const feePriority = state.components.sendBtc.payment.getOrElse({})?.fees.priority
         const currency = state.form['@SEND'].BTC.FORM.values.coin
@@ -2391,7 +2391,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const feePriority = state.components.sendBch.payment.getOrElse({})?.fees.priority
         const currency = state.form['@SEND'].BCH.FORM.values.coin
@@ -2434,7 +2434,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const feePriority = state.components.sendXlm.payment.getOrElse({})?.fees.priority
         const currency = state.form['@SEND'].XLM.FORM.values.coin
@@ -2477,7 +2477,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const feePriority = state.components.sendEth.payment.getOrElse({})?.fees.priority
         const currency = state.form['@SEND'].ETH.FORM.values.coin
@@ -2520,7 +2520,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const feePriority = state.components.sendBtc.payment.getOrElse({})?.fees.priority
         const currency = state.form['@SEND'].BTC.FORM.values.coin
@@ -2563,7 +2563,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const feePriority = state.components.sendBch.payment.getOrElse({})?.fees.priority
         const currency = state.form['@SEND'].BCH.FORM.values.coin
@@ -2606,7 +2606,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const feePriority = state.components.sendXlm.payment.getOrElse({})?.fees.priority
         const currency = state.form['@SEND'].XLM.FORM.values.coin
@@ -2649,7 +2649,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
-        const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const feePriority = state.components.sendEth.payment.getOrElse({})?.fees.priority
         const currency = state.form['@SEND'].ETH.FORM.values.coin
