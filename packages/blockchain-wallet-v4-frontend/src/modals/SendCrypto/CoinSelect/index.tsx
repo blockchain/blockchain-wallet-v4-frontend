@@ -54,14 +54,14 @@ class SendCoinSelect extends React.PureComponent<Props> {
           <div>
             <Text size='24px' color='grey900' weight={600}>
               <FormattedMessage
-                id='modals.requestcrypto.coinselect.title'
-                defaultMessage='Receive Crypto'
+                id='modals.sendcrypto.coinselect.title'
+                defaultMessage='Send Crypto'
               />
             </Text>
             <Text size='16px' color='grey600' weight={500} style={{ marginTop: '10px' }}>
               <FormattedMessage
-                id='modals.requestcrypto.coinselect.subtitle'
-                defaultMessage='Select and share your address or QR code to receive crypto from anyone around the world.'
+                id='modals.sendcrypto.coinselect.subtitle'
+                defaultMessage='Select the wallet you want to send from.'
               />
             </Text>
             <SelectCoinWrapper>
@@ -76,7 +76,7 @@ class SendCoinSelect extends React.PureComponent<Props> {
                     value: coin
                   }))
                 }}
-                type='request'
+                type='send'
               />
             </SelectCoinWrapper>
           </div>
