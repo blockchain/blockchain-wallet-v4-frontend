@@ -718,13 +718,20 @@ export default ({ api, coreSagas, networks }) => {
   const triggerWalletMagicLink = function* (action) {
     const formValues = yield select(selectors.form.getFormValues('login'))
     const { step } = formValues
+    const legacyMagicEmailLink = (yield select(
+      selectors.core.walletOptions.getFeatureLegacyMagicEmailLink
+    )).getOrElse(false)
     yield put(startSubmit('login'))
     try {
       yield put(A.triggerWalletMagicLinkLoading())
       const sessionToken = yield call(api.obtainSessionToken)
       const { captchaToken, email } = action.payload
       yield put(actions.session.saveSession(assoc(email, sessionToken, {})))
-      yield call(api.triggerWalletMagicLink, email, captchaToken, sessionToken)
+      if (legacyMagicEmailLink) {
+        yield call(api.triggerWalletMagicLinkLegacy, email, captchaToken, sessionToken)
+      } else {
+        yield call(api.triggerWalletMagicLink, email, captchaToken, sessionToken)
+      }
       if (step === LoginSteps.CHECK_EMAIL) {
         yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
       } else {
@@ -767,8 +774,8 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.core.kvStore.userCredentials.setUserCredentials(userId, lifetimeToken))
       // fetch user in new wallet
       yield call(setSession, userId, lifetimeToken, email, guid)
-      // TODOs - how do we handle failure?
     } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'resetAccount', e))
       yield put(actions.modals.showModal('RESET_ACCOUNT_FAILED', { origin: 'ResetAccount' }))
     }
   }
