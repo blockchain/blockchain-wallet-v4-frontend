@@ -42,7 +42,7 @@ const convertCoinToCoin = ({
     ? new BigNumber(value).dividedBy(Math.pow(10, coinfig.precision))
     : new BigNumber(value).times(Math.pow(10, coinfig.precision))
 
-  return number.toString()
+  return baseToStandard ? number.toFixed() : number.toFixed(0)
 }
 
 const convertCoinToFiat = ({
