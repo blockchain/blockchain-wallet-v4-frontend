@@ -76,7 +76,7 @@ class SendEnterTo extends React.PureComponent<InjectedFormProps<{}, Props> & Pro
           <Button
             nature='primary'
             type='submit'
-            data-e2e='enterAmountBtn'
+            data-e2e='enterToBtn'
             fullwidth
             jumbo
             disabled={!to}
