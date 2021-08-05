@@ -386,7 +386,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               validate={[maximumAmount, minimumAmount]}
               normalize={normalizeAmount}
               // eslint-disable-next-line
-            onUpdate={resizeSymbol.bind(null, fix === 'FIAT')}
+              onUpdate={resizeSymbol.bind(null, fix === 'FIAT')}
               maxFontSize='56px'
               placeholder='0'
               // leave fiatActive always to avoid 50% width in HOC?

@@ -73,7 +73,14 @@ class SendEnterTo extends React.PureComponent<InjectedFormProps<{}, Props> & Pro
           </ToWrapper>
         </div>
         <FlyoutWrapper>
-          <Button nature='primary' data-e2e='enterAmountBtn' fullwidth jumbo disabled={!to}>
+          <Button
+            nature='primary'
+            type='submit'
+            data-e2e='enterAmountBtn'
+            fullwidth
+            jumbo
+            disabled={!to}
+          >
             <FormattedMessage id='buttons.next' defaultMessage='Next' />
           </Button>
         </FlyoutWrapper>
