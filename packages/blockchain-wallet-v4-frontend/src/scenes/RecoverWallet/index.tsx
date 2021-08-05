@@ -30,24 +30,22 @@ class RecoverWalletContainer extends React.PureComponent<InjectedFormProps<{}, P
   render() {
     const { step } = this.props.formValues || RecoverSteps.RECOVERY_OPTIONS
     return (
-      <Wrapper>
-        <Form>
-          {(() => {
-            switch (step) {
-              case RecoverSteps.RECOVERY_OPTIONS:
-                return <RecoveryOptions {...this.props} setStep={this.setStep} />
-              case RecoverSteps.CLOUD_RECOVERY:
-                return <CloudRecovery {...this.props} setStep={this.setStep} />
-              case RecoverSteps.RECOVERY_PHRASE:
-                return <RecoveryPhrase {...this.props} setStep={this.setStep} />
-              case RecoverSteps.RESET_ACCOUNT:
-                return <ResetAccount {...this.props} setStep={this.setStep} />
-              default:
-                return <RecoveryOptions {...this.props} setStep={this.setStep} />
-            }
-          })()}
-        </Form>
-      </Wrapper>
+      <Form>
+        {(() => {
+          switch (step) {
+            case RecoverSteps.RECOVERY_OPTIONS:
+              return <RecoveryOptions {...this.props} setStep={this.setStep} />
+            case RecoverSteps.CLOUD_RECOVERY:
+              return <CloudRecovery {...this.props} setStep={this.setStep} />
+            case RecoverSteps.RECOVERY_PHRASE:
+              return <RecoveryPhrase {...this.props} setStep={this.setStep} />
+            case RecoverSteps.RESET_ACCOUNT:
+              return <ResetAccount {...this.props} setStep={this.setStep} />
+            default:
+              return <RecoveryOptions {...this.props} setStep={this.setStep} />
+          }
+        })()}
+      </Form>
     )
   }
 }

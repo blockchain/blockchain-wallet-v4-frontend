@@ -704,13 +704,20 @@ export default ({ api, coreSagas, networks }) => {
   const triggerWalletMagicLink = function* (action) {
     const formValues = yield select(selectors.form.getFormValues('login'))
     const { step } = formValues
+    const legacyMagicEmailLink = (yield select(
+      selectors.core.walletOptions.getFeatureLegacyMagicEmailLink
+    )).getOrElse(true)
     yield put(startSubmit('login'))
     try {
       yield put(A.triggerWalletMagicLinkLoading())
       const sessionToken = yield call(api.obtainSessionToken)
       const { captchaToken, email } = action.payload
       yield put(actions.session.saveSession(assoc(email, sessionToken, {})))
-      yield call(api.triggerWalletMagicLink, email, captchaToken, sessionToken)
+      if (legacyMagicEmailLink) {
+        yield call(api.triggerWalletMagicLinkLegacy, email, captchaToken, sessionToken)
+      } else {
+        yield call(api.triggerWalletMagicLink, email, captchaToken, sessionToken)
+      }
       if (step === LoginSteps.CHECK_EMAIL) {
         yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
       } else {
@@ -730,29 +737,33 @@ export default ({ api, coreSagas, networks }) => {
     // If user is resetting their custodial account
     // Creating a new wallet and assigning an existing custodial account
     // to that wallet
-    const { email, language, password } = action.payload
-    // We get recovery token and nabu ID
-    const magicLinkData = yield select(S.getMagicLinkData)
-    const recoveryToken = magicLinkData.wallet?.nabu?.recoveryToken
-    const userId = magicLinkData.wallet?.nabu?.userId
-    // create a new wallet
-    yield call(register, actions.auth.register(email, password, language))
-    const guid = yield select(selectors.core.wallet.getGuid)
-    // generate a retail token for new wallet
-    const retailToken = yield call(generateRetailToken)
-    // call the reset nabu user endpoint, receive new lifetime
-    // token for nabu user
-    const { token: lifetimeToken } = yield call(
-      api.resetUserAccount,
-      userId,
-      recoveryToken,
-      retailToken
-    )
-    // set new lifetime token for user in metadata
-    yield put(actions.core.kvStore.userCredentials.setUserCredentials(userId, lifetimeToken))
-    // fetch user in new wallet
-    yield call(setSession, userId, lifetimeToken, email, guid)
-    // TODOs - how do we handle failure?
+    try {
+      const { email, language, password } = action.payload
+      // We get recovery token and nabu ID
+      const magicLinkData = yield select(S.getMagicLinkData)
+      const recoveryToken = magicLinkData.wallet?.nabu?.recoveryToken
+      const userId = magicLinkData.wallet?.nabu?.userId
+      // create a new wallet
+      yield call(register, actions.auth.register(email, password, language))
+      const guid = yield select(selectors.core.wallet.getGuid)
+      // generate a retail token for new wallet
+      const retailToken = yield call(generateRetailToken)
+      // call the reset nabu user endpoint, receive new lifetime
+      // token for nabu user
+      const { token: lifetimeToken } = yield call(
+        api.resetUserAccount,
+        userId,
+        recoveryToken,
+        retailToken
+      )
+      // set new lifetime token for user in metadata
+      yield put(actions.core.kvStore.userCredentials.setUserCredentials(userId, lifetimeToken))
+      // fetch user in new wallet
+      yield call(setSession, userId, lifetimeToken, email, guid)
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'resetAccount', e))
+      yield put(actions.modals.showModal('RESET_ACCOUNT_FAILED', { origin: 'ResetAccount' }))
+    }
   }
   return {
     authNabu,

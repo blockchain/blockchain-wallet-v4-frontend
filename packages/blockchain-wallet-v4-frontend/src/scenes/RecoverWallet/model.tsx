@@ -74,18 +74,19 @@ export const ReverifyIdentityInfoBox = () => {
   )
 }
 
-export const GoBackArrow = (props: { handleBackArrowClick: () => void; minWidth: string }) => {
+export const GoBackArrow = (props: { handleBackArrowClick: () => void }) => {
   return (
-    <Row style={{ minWidth: props.minWidth }} onClick={() => props.handleBackArrowClick()}>
+    <Row style={{ marginBottom: '16px' }} onClick={() => props.handleBackArrowClick()}>
       <Icon
         cursor
         data-e2e='recoverBack'
         name='arrow-left'
         size='24px'
-        color='grey400'
+        color='grey600'
         role='button'
+        style={{ marginRight: '8px' }}
       />
-      <Text size='13px' weight={600} color='grey600' cursor='pointer'>
+      <Text size='14px' weight={600} color='grey600' cursor='pointer'>
         <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
       </Text>
     </Row>
