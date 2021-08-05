@@ -12,6 +12,7 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
 import CoinSelect from './CoinSelect'
+import EnterTo from './EnterTo'
 import { SEND_FORM } from './model'
 import { getData } from './selectors'
 import { SendFormType } from './types'
@@ -26,6 +27,10 @@ class SendCrypto extends PureComponent<Props, State> {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
+  }
+
+  componentWillUnmount() {
+    this.props.sendCryptoActions.setStep({ step: SendCryptoStepType.COIN_SELECTION })
   }
 
   handleClose = () => {
@@ -43,6 +48,11 @@ class SendCrypto extends PureComponent<Props, State> {
             <CoinSelect {...this.props} />
           </FlyoutChild>
         )}
+        {this.props.step === SendCryptoStepType.ENTER_TO && (
+          <FlyoutChild>
+            <EnterTo {...this.props} />
+          </FlyoutChild>
+        )}
       </Flyout>
     )
   }
@@ -56,6 +66,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  formActions: bindActionCreators(actions.form, dispatch),
   sendCryptoActions: bindActionCreators(actions.components.sendCrypto, dispatch)
 })
 
@@ -65,7 +76,7 @@ const enhance = compose<any>(
   ModalEnhancer(ModalName.SEND_CRYPTO_MODAL, { transition: duration }),
   connector,
   reduxForm({
-    enableReinitialize: true,
+    destroyOnUnmount: false,
     form: SEND_FORM
   })
 )

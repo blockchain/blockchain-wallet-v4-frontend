@@ -1,8 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 import { Field } from 'redux-form'
+import reduxForm, { InjectedFormProps } from 'redux-form/lib/reduxForm'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
@@ -10,10 +11,10 @@ import { StickyHeaderFlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption, SelectBoxCoin } from 'components/Form'
 import { actions } from 'data'
 import { SendCryptoStepType } from 'data/components/sendCrypto/types'
-import { SwapAccountType } from 'data/components/swap/types'
 
 import { StepHeader } from '../../RequestCrypto/model'
 import { Props as OwnProps } from '..'
+import { SEND_FORM } from '../model'
 import { getData } from './selectors'
 
 const Wrapper = styled.div`
@@ -33,9 +34,10 @@ const NoAccountsText = styled.div`
   text-align: center;
 `
 
-class SendCoinSelect extends React.PureComponent<Props> {
+class SendCoinSelect extends React.PureComponent<InjectedFormProps<{}, Props> & Props> {
   render() {
-    const { close, data, sendCryptoActions, sendableCoins, walletCurrency } = this.props
+    const { close, data, formActions, sendCryptoActions, sendableCoins, walletCurrency } =
+      this.props
 
     return (
       <Wrapper>
@@ -87,7 +89,8 @@ class SendCoinSelect extends React.PureComponent<Props> {
             account={account}
             coin={account.coin}
             onClick={() => {
-              sendCryptoActions.setStep({ step: SendCryptoStepType.ENTER_AMOUNT })
+              formActions.change(SEND_FORM, 'selectedAccount', account)
+              sendCryptoActions.setStep({ step: SendCryptoStepType.ENTER_TO })
             }}
             walletCurrency={walletCurrency}
           />
@@ -116,6 +119,14 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
+const enhance = compose(
+  reduxForm<{}, Props>({
+    destroyOnUnmount: false,
+    form: SEND_FORM
+  }),
+  connector
+)
+
 type Props = ConnectedProps<typeof connector> & OwnProps
 
-export default connector(SendCoinSelect)
+export default enhance(SendCoinSelect) as React.ComponentType<OwnProps>
