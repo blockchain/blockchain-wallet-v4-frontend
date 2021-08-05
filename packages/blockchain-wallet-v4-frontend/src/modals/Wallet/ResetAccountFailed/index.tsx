@@ -87,7 +87,10 @@ class ResetAccountFailed extends React.PureComponent<Props> {
               />
             </Text>
           </RectangleBackground>
-          <Link target='_blank' href='https://support.blockchain.com/'>
+          <Link
+            target='_blank'
+            href='https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360003112491'
+          >
             <Button nature='primary' width='440px' data-e2e='contactSupportResetFailure'>
               <FormattedMessage id='buttons.contact_support' defaultMessage='Contact Support' />
             </Button>
