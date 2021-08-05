@@ -1,3 +1,4 @@
+import { RecurringBuyPeriods } from 'blockchain-info-components'
 import {
   CoinType,
   Everypay3DSResponseType,
@@ -22,7 +23,6 @@ import {
   SwapQuoteType,
   SwapUserLimitsType
 } from 'blockchain-wallet-v4/src/types'
-import { RecurringBuyPeriods } from 'data/types'
 
 import { CountryType } from '../identityVerification/types'
 import { SwapAccountType, SwapBaseCounterTypes } from '../swap/types'
@@ -59,7 +59,7 @@ export type SBCheckoutFormValuesType =
       cryptoAmount: string
       fix: SBFixType
       orderType: SBOrderActionType
-      period: RecurringBuyPeriods
+      period?: RecurringBuyPeriods
     }
 export type SBCurrencySelectFormType = {
   search: string

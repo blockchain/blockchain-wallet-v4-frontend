@@ -266,8 +266,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       selectors.form.getFormValues('simpleBuyCheckout')
     )
     try {
-      yield put(actions.components.recurringBuy.fetchRegisteredList())
-
       const pair = S.getSBPair(yield select())
       if (!values) throw new Error(NO_CHECKOUT_VALS)
       if (!pair) throw new Error(NO_PAIR_SELECTED)
@@ -475,8 +473,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         paymentMethodId
       )
 
-      const { RETRY_AMOUNT, SECONDS } = POLLING
       if (account?.partner === BankPartners.YAPILY) {
+        const { RETRY_AMOUNT, SECONDS } = POLLING
         // for OB the authorisationUrl isn't in the initial response to confirm
         // order. We need to poll the order for it.
         yield put(A.setStep({ step: 'LOADING' }))
@@ -488,6 +486,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         // Now we need to poll for the order success
         return yield call(confirmOrderPoll, A.confirmOrderPoll(confirmedOrder))
       }
+
+      // Refresh recurring buy list to check for new pending RBs for next step
+      yield put(actions.components.recurringBuy.fetchRegisteredList())
+
       yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
 
       if (order.paymentType === SBPaymentTypes.BANK_TRANSFER) {
@@ -1090,14 +1092,18 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         }
       }
 
+      const isRecurringBuy = selectors.core.walletOptions
+        .getFeatureFlagRecurringBuys(yield select())
+        .getOrElse(false) as boolean
+
       yield put(
         actions.form.initialize('simpleBuyCheckout', {
           amount,
           cryptoAmount,
           fix,
           orderType,
-          period
-        } as T.SBCheckoutFormValuesType)
+          period: isRecurringBuy ? period : undefined
+        })
       )
     } catch (e) {
       const error = errorHandler(e)

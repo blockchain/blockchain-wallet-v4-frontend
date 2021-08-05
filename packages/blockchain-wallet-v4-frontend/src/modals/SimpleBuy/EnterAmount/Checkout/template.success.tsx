@@ -448,7 +448,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           </QuoteActionContainer>
         </LiftedActions>
         <AnchoredActions>
-          {props.isRecurringBuy && (
+          {props.isRecurringBuy && props.formValues.period && (
             <Scheduler onClick={setOrderFrequncy} method={method}>
               {getPeriodTitleText(props.formValues.period)}
             </Scheduler>

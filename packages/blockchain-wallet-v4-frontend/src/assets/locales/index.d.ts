@@ -1551,6 +1551,7 @@ type MessagesType = {
   'modals.simplebuy.localcurrency': 'Select the local currency for your wallet.'
   'modals.simplebuy.name_on_card': 'Name on Card'
   'modals.simplebuy.order_summary': 'Order Summary'
+  'modals.simplebuy.recurringbuy.success': 'We will buy {amount} of Bitcoin {frequency} at that moment’s market price. Cancel this recurring buy at anytime.'
   'modals.simplebuy.refresh': 'Refresh'
   'modals.simplebuy.rejected.bank_failed': 'Please try making your purchase again. If this keeps happening, please'
   'modals.simplebuy.rejected.blocked_by_laws': 'Blocked by Local Laws'

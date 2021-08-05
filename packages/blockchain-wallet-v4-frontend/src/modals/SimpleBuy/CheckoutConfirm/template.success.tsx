@@ -8,6 +8,8 @@ import styled from 'styled-components'
 import {
   Button,
   CheckBoxInput,
+  getPeriodSubTitleText,
+  getPeriodTitleText,
   HeartbeatLoader,
   Icon,
   Link,
@@ -27,7 +29,7 @@ import {
   getOrderType,
   getPaymentMethodId
 } from 'data/components/simpleBuy/model'
-import { BankPartners, BankTransferAccountType } from 'data/types'
+import { BankPartners, BankTransferAccountType, RecurringBuyPeriods } from 'data/types'
 
 import { displayFiat, getPaymentMethod, getPaymentMethodDetails } from '../model'
 import { Props as OwnProps, SuccessStateType } from '.'
@@ -284,6 +286,22 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
           )}
         </RowItemContainer>
       </RowItem>
+
+      {props.formValues?.period && (
+        <RowItem>
+          <RowText>
+            <FormattedMessage id='copy.frequency' defaultMessage='Frequency' />
+          </RowText>
+          <RowText>
+            <RowTextWrapper>
+              {getPeriodTitleText(props.formValues?.period || RecurringBuyPeriods.ONE_TIME)}
+              <AdditionalText>
+                {getPeriodSubTitleText(props.formValues?.period || RecurringBuyPeriods.ONE_TIME)}
+              </AdditionalText>
+            </RowTextWrapper>
+          </RowText>
+        </RowItem>
+      )}
 
       <RowItem>
         <RowText>
