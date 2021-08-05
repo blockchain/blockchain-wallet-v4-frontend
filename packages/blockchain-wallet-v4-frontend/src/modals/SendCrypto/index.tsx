@@ -14,6 +14,7 @@ import { ModalPropsType } from '../types'
 import CoinSelect from './CoinSelect'
 import { SEND_FORM } from './model'
 import { getData } from './selectors'
+import { SendFormType } from './types'
 
 class SendCrypto extends PureComponent<Props, State> {
   constructor(props: Props) {
@@ -48,6 +49,7 @@ class SendCrypto extends PureComponent<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => ({
+  formValues: selectors.form.getFormValues(SEND_FORM)(state) as SendFormType,
   sendableCoins: getData(),
   step: selectors.components.sendCrypto.getStep(state),
   walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')

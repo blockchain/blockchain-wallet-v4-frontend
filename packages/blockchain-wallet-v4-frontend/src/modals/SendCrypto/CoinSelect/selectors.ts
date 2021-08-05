@@ -1,7 +1,7 @@
 import { map } from 'ramda'
 
 import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
-import { REQUEST_ACCOUNTS_SELECTOR } from 'data/coins/model/request'
+import { SEND_ACCOUNTS_SELECTOR } from 'data/coins/model/send'
 import { getCoinAccounts } from 'data/coins/selectors'
 import { CoinAccountSelectorType } from 'data/coins/types'
 import { SwapAccountType } from 'data/components/swap/types'
@@ -13,7 +13,7 @@ export const getData = createDeepEqualSelector(
     (state, ownProps: OwnProps) =>
       getCoinAccounts(state, {
         coins: ownProps.sendableCoins,
-        ...REQUEST_ACCOUNTS_SELECTOR
+        ...SEND_ACCOUNTS_SELECTOR
       } as CoinAccountSelectorType),
     (state, ownProps) => ({ ownProps, state })
   ],
@@ -25,7 +25,7 @@ export const getData = createDeepEqualSelector(
     map(
       (coin) =>
         map((acct: any) => {
-          if (selectedCoin === 'ALL' ? true : acct.coin === selectedCoin) {
+          if (acct.coin === selectedCoin) {
             prunedAccounts.push(acct)
           }
         }, coin),

@@ -36,11 +36,12 @@ const NoAccountsText = styled.div`
 class SendCoinSelect extends React.PureComponent<Props> {
   render() {
     const { close, data, sendCryptoActions, sendableCoins, walletCurrency } = this.props
+
     return (
       <Wrapper>
         <StickyHeaderFlyoutWrapper>
           <Header spaceBetween>
-            <Icon name='arrow-bottom-right' color='blue600' size='24px' />
+            <Icon name='arrow-top-right' color='blue600' size='48px' />
             <Icon
               name='close'
               color='grey600'
@@ -70,7 +71,6 @@ class SendCoinSelect extends React.PureComponent<Props> {
                 height='32px'
                 name='selectedCoin'
                 props={{
-                  additionalOptions: [{ text: 'All Wallets', value: 'ALL' }],
                   limitTo: sendableCoins.map((coin) => ({
                     text: coin,
                     value: coin
