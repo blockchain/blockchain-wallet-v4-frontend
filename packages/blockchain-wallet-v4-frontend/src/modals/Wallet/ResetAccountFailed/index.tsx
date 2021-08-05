@@ -76,8 +76,7 @@ class ResetAccountFailed extends React.PureComponent<Props> {
                 values={{
                   a: (msg) => (
                     <a
-                      // TODO get correct support article
-                      href='https://support.blockchain.com/hc/en-us/'
+                      href='https://www.figma.com/exit?url=https%3A%2F%2Fsupport.blockchain.com%2Fhc%2Fen-us%2Farticles%2F4404679303700'
                       rel='noopener noreferrer'
                       target='_blank'
                     >
