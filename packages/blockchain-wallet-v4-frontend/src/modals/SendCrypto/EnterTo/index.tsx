@@ -6,7 +6,7 @@ import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import { CoinAccountListOption } from 'components/Form'
+import { CoinAccountListOption, Form } from 'components/Form'
 import TextWithQRScanner from 'components/Form/TextWithQRScanner'
 import { SendCryptoStepType } from 'data/components/sendCrypto/types'
 
@@ -14,7 +14,7 @@ import { StepHeader } from '../../RequestCrypto/model'
 import { Props as OwnProps } from '..'
 import { FormLabelWithBorder, SEND_FORM } from '../model'
 
-const Wrapper = styled.div`
+const Wrapper = styled(Form)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -33,7 +33,9 @@ class SendEnterTo extends React.PureComponent<InjectedFormProps<{}, Props> & Pro
     const { coinfig } = window.coins[selectedAccount.coin]
 
     return (
-      <Wrapper>
+      <Wrapper
+        onSubmit={() => sendCryptoActions.setStep({ step: SendCryptoStepType.ENTER_AMOUNT })}
+      >
         <div>
           <FlyoutWrapper>
             <StepHeader>

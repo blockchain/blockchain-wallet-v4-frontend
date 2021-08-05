@@ -12,6 +12,7 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
 import CoinSelect from './CoinSelect'
+import EnterAmount from './EnterAmount'
 import EnterTo from './EnterTo'
 import { SEND_FORM } from './model'
 import { getData } from './selectors'
@@ -51,6 +52,11 @@ class SendCrypto extends PureComponent<Props, State> {
         {this.props.step === SendCryptoStepType.ENTER_TO && (
           <FlyoutChild>
             <EnterTo {...this.props} />
+          </FlyoutChild>
+        )}
+        {this.props.step === SendCryptoStepType.ENTER_AMOUNT && (
+          <FlyoutChild>
+            <EnterAmount {...this.props} />
           </FlyoutChild>
         )}
       </Flyout>
