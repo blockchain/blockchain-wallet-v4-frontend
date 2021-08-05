@@ -720,7 +720,7 @@ export default ({ api, coreSagas, networks }) => {
     const { step } = formValues
     const legacyMagicEmailLink = (yield select(
       selectors.core.walletOptions.getFeatureLegacyMagicEmailLink
-    )).getOrElse(false)
+    )).getOrElse(true)
     yield put(startSubmit('login'))
     try {
       yield put(A.triggerWalletMagicLinkLoading())
