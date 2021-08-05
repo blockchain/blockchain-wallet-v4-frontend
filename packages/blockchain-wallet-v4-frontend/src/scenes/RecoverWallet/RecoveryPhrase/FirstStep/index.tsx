@@ -10,32 +10,17 @@ import { RecoverSteps } from 'data/types'
 import { required, validMnemonic } from 'services/forms'
 
 import { Props } from '../..'
-import { BackArrowFormHeader, GoBackArrow, placeholder } from '../../model'
+import { BackArrowFormHeader } from '../../model'
 
 const FormBody = styled.div`
   display: flex;
   flex-direction: column;
 `
-const WordContainer = styled.div`
+const BottomRow = styled.div`
   display: flex;
-  justify-content: space-between;
-  max-width: 412px;
-  margin: 16px 0;
-  align-items: space-between;
-`
-const BottomRow = styled.div<{ cachedEmail: boolean }>`
-  display: flex;
-  justify-content: ${(props) => (props.cachedEmail ? 'center' : 'flex-start')};
+  justify-content: center;
   align-items: center;
   margin-top: 24px;
-`
-const WordColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-  max-width: 200px;
-  > div {
-    margin-bottom: 8px;
-  }
 `
 
 const FirstStep = (props: Props) => {
@@ -43,7 +28,6 @@ const FirstStep = (props: Props) => {
     cachedEmail,
     cachedGuid,
     formActions,
-    formValues,
     invalid,
     lastGuid,
     nabuId,
@@ -125,13 +109,19 @@ const FirstStep = (props: Props) => {
           </Text>
         )}
       </Button>
-      <BottomRow cachedEmail={cachedEmail}>
-        {!cachedEmail && (
-          <GoBackArrow
-            handleBackArrowClick={() => props.setStep(RecoverSteps.RECOVERY_OPTIONS)}
-            minWidth='120px'
-          />
-        )}
+      {!cachedEmail && (
+        <Text
+          size='13px'
+          color='blue600'
+          weight={600}
+          onClick={() => setStep(RecoverSteps.RECOVERY_OPTIONS)}
+          style={{ textAlign: 'center' }}
+          cursor='pointer'
+        >
+          <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
+        </Text>
+      )}
+      <BottomRow>
         <Text size='13px' weight={600} color='grey600'>
           <FormattedMessage
             id='scenes.login.trouble_logging_in'

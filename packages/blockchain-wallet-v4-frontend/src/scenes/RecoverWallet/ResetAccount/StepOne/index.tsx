@@ -38,11 +38,11 @@ class StepOne extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { cachedEmail, cachedGuid, lastGuid, setStep } = this.props
+    const { cachedEmail, cachedGuid, lastGuid } = this.props
     return (
       <>
         <BackArrowFormHeader
-          handleBackArrowClick={() => setStep(RecoverSteps.RECOVERY_OPTIONS)}
+          handleBackArrowClick={() => this.handleGoBackClick}
           email={cachedEmail}
           guid={cachedGuid || lastGuid}
           step={RecoverSteps.RESET_ACCOUNT}
@@ -106,7 +106,6 @@ class StepOne extends React.PureComponent<Props, State> {
             </Text>
           </FormBody>
         )}
-
         <ActionButton
           nature='primary'
           fullwidth
@@ -116,16 +115,6 @@ class StepOne extends React.PureComponent<Props, State> {
           onClick={this.handleResetAccountClick}
         >
           <FormattedMessage id='buttons.reset_account' defaultMessage='Reset Account' />
-        </ActionButton>
-        <ActionButton
-          nature='empty-secondary'
-          fullwidth
-          height='48px'
-          data-e2e='goBack'
-          style={{ marginBottom: '16px' }}
-          onClick={this.handleGoBackClick}
-        >
-          <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
         </ActionButton>
       </>
     )

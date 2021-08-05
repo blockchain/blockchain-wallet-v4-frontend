@@ -48,6 +48,9 @@ const CloudRecovery = (props: Props) => {
           guid={cachedGuid || lastGuid}
         />
       )}
+      {!cachedEmail && (
+        <GoBackArrow handleBackArrowClick={() => props.setStep(RecoverSteps.RECOVERY_OPTIONS)} />
+      )}
       <Body>
         {!props.phonePubKey && (
           <TextColumn>
@@ -140,12 +143,6 @@ const CloudRecovery = (props: Props) => {
         <Badge size='40px' type='googleplay' />
       </BadgeRow>
       <CenteredRow>
-        {!cachedEmail && (
-          <GoBackArrow
-            handleBackArrowClick={() => props.setStep(RecoverSteps.RECOVERY_OPTIONS)}
-            minWidth='120px'
-          />
-        )}
         <LinkContainer to='/help'>
           <Link size='13px' weight={600} data-e2e='loginGetHelp'>
             <FormattedMessage id='copy.need_some_help' defaultMessage='Need some help?' />

@@ -38,7 +38,7 @@ const Column = styled.div<{ hiddenOnMobile?: boolean }>`
   }
 `
 const Title = styled(Text)`
-  color: ${(props) => props.theme['marketing-primary']};
+  color: ${(props) => props.theme.grey900};
   margin-bottom: 4px;
 `
 
@@ -53,13 +53,13 @@ const ResubmitBtn = styled(Button).attrs({
 const KycResubmit = ({ verifyIdentity }) => (
   <Wrapper>
     <Column>
-      <Title size='20px' weight={600} color='grey900'>
+      <Title size='20px' weight={600}>
         <FormattedMessage
           id='scenes.home.banners.kycresubmit.title'
           defaultMessage='Documents Needed'
         />
       </Title>
-      <Text size='14px' weight={500}>
+      <Text size='14px' weight={500} color='grey900'>
         <FormattedMessage
           id='scenes.home.banners.kycresubmit.copy'
           defaultMessage='Please re-verify your identity to access our full products and services.'

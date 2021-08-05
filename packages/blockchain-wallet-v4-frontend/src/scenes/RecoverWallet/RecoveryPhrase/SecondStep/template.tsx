@@ -4,7 +4,7 @@ import { has, props } from 'ramda'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
 import { Form, FormGroup, FormLabel, PasswordBox, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import Terms from 'components/Terms'
