@@ -2664,7 +2664,7 @@ type MessagesType = {
   'scenes.uploaddoc.uploadnow': 'Upload Now'
   'scenes.uploaddoc.verify': 'We need to verify your identity in order to allow buys,\n          sells or exchanges.'
   'scenes.verifyemail.title': 'Verify Your Email'
-  'scenes.verifyemail.description': 'We sent a verification email to: <b>{email}</b>. Please click the link in the email to continue.'
+  'scenes.verifyemail.description': 'We sent a verification email to <b>{email}</b>. Please click the link in the email to continue.'
   'scenes.verifyemail.button': 'Email didn’t arrive?'
   'scenes.verifyemail.do_it_later': 'I’ll Do This Later.'
   'scenes.verifyemailtoken.error': 'Something went wrong.'

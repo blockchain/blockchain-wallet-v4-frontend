@@ -29,7 +29,13 @@ const VerifyEmail = ({ email, resendEmail, skipVerification }: Props) => {
           <IconWrapper>
             <Icon color='white' name='email' size='24px' />
           </IconWrapper>
-          <Text size='20px' weight={600} color='black' style={{ marginTop: '8px' }}>
+          <Text
+            size='20px'
+            weight={600}
+            color='black'
+            style={{ marginTop: '8px' }}
+            lineHeight='1.5'
+          >
             <FormattedMessage id='scenes.verifyemail.title' defaultMessage='Verify Your Email' />
           </Text>
           <Text
@@ -41,7 +47,7 @@ const VerifyEmail = ({ email, resendEmail, skipVerification }: Props) => {
           >
             <FormattedMessage
               id='scenes.verifyemail.description'
-              defaultMessage='We sent a verification email to: <b>{email}</b>. Please click the link in the email to continue.'
+              defaultMessage='We sent a verification email to <b>{email}</b>. Please click the link in the email to continue.'
               values={{
                 email
               }}
@@ -66,8 +72,8 @@ const VerifyEmail = ({ email, resendEmail, skipVerification }: Props) => {
           <Link
             onClick={skipVerification}
             size='14px'
-            style={{ marginTop: '8px' }}
-            weight={500}
+            style={{ marginTop: '16px' }}
+            weight={600}
             data-e2e='verifyEmailLater'
             color='blue600'
           >
