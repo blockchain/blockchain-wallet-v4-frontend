@@ -3,9 +3,8 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
-import { RecoverSteps } from 'data/types'
 
-import { ActionButton, BackArrowFormHeader, CircleBackground } from '../../model'
+import { ActionButton, CircleBackground } from '../../model'
 import { Props as OwnProps } from '.'
 
 const FormBody = styled.div`

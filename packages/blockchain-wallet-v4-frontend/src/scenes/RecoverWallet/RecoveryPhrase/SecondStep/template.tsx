@@ -16,25 +16,13 @@ import {
   validStrongPassword
 } from 'services/forms'
 
-import { ReverifyIdentityInfoBox } from '../../model'
+import { Column, ReverifyIdentityInfoBox } from '../../model'
 import { Props as OwnProps } from '.'
 import ImportWallet from './import.template'
 
-const Header = styled.div`
-  display: flex;
-  justify-content: space-between;
+const PageHeader = styled(Column)`
   align-items: center;
-  margin-bottom: 12px;
-`
-const Footer = styled(FormGroup)`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  margin-top: 24px;
-`
-const GoBackLink = styled(Link)`
-  margin-right: 15px;
+  margin-bottom: 32px;
 `
 
 const validatePasswordConfirmation = validPasswordConfirmation('recoverPassword')
@@ -56,105 +44,127 @@ class SecondStep extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const {
-      invalid,
-      isRestoring,
-      isRestoringFromMetadata,
-      previousStep,
-      recoverPassword
-    } = this.props
+    const { invalid, isRestoring, isRestoringFromMetadata, recoverPassword } = this.props
     return (
       <>
-        {!isRestoringFromMetadata && this.state.importWalletPrompt ? (
-          <ImportWallet
-            handleGoBackClick={this.handleGoBackClick}
-            handleImportNowClick={this.handleImportNowClick}
-            {...this.props}
-          />
-        ) : (
-          <>
-            <Header>
-              <Text size='20px' color='blue900' weight={600} capitalize>
-                <FormattedMessage
-                  id='scenes.recover.secondstep.funds'
-                  defaultMessage='Recover Funds'
-                />
-              </Text>
-            </Header>
-            <Form>
-              {!isRestoringFromMetadata && (
+        {!isRestoringFromMetadata && !this.state.importWalletPrompt && (
+          <PageHeader>
+            <Text size='24px' color='white' weight={600} lineHeight='2'>
+              <FormattedMessage
+                id='scenes.recover.import.header'
+                defaultMessage='Create Your Blockchain.com Account'
+              />
+            </Text>
+            <Text size='16px' color='grey600' weight={500} lineHeight='1.5'>
+              <FormattedMessage
+                id='scenes.recover.import.subheader'
+                defaultMessage='Create your account to access your imported wallet'
+              />
+            </Text>
+          </PageHeader>
+        )}
+        {isRestoringFromMetadata && (
+          <PageHeader>
+            <Text size='24px' color='white' weight={600} lineHeight='2'>
+              <FormattedMessage
+                id='scenes.recover.reset_password'
+                defaultMessage='Reset Password'
+              />
+            </Text>
+          </PageHeader>
+        )}
+        <Wrapper>
+          {!isRestoringFromMetadata && this.state.importWalletPrompt ? (
+            <ImportWallet
+              handleGoBackClick={this.handleGoBackClick}
+              handleImportNowClick={this.handleImportNowClick}
+              {...this.props}
+            />
+          ) : (
+            <>
+              <Form>
+                {!isRestoringFromMetadata && (
+                  <FormGroup>
+                    <FormLabel htmlFor='email'>
+                      <FormattedMessage
+                        id='scenes.recover.secondstep.email'
+                        defaultMessage='New Email'
+                      />
+                    </FormLabel>
+                    <Field
+                      bgColor='grey000'
+                      name='email'
+                      validate={[required, validEmail]}
+                      component={TextBox}
+                    />
+                  </FormGroup>
+                )}
                 <FormGroup>
-                  <FormLabel htmlFor='email'>
+                  <FormLabel htmlFor='password'>
+                    {isRestoringFromMetadata && (
+                      <FormattedMessage
+                        id='scenes.recover.secondstep.password'
+                        defaultMessage='Password'
+                      />
+                    )}
+                    {!isRestoringFromMetadata && (
+                      <FormattedMessage
+                        id='scenes.securitysettings.advanced.walletpassword.settings.new'
+                        defaultMessage='New Password'
+                      />
+                    )}
+                  </FormLabel>
+                  <Field
+                    bgColor='grey000'
+                    name='recoverPassword'
+                    validate={[required, validStrongPassword]}
+                    component={PasswordBox}
+                    showPasswordScore
+                    passwordScore={has('zxcvbn', window) ? window.zxcvbn(recoverPassword).score : 0}
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <FormLabel htmlFor='confirmationPassword'>
                     <FormattedMessage
-                      id='scenes.recover.secondstep.email'
-                      defaultMessage='New Email'
+                      id='scenes.recover.secondstep.confirmapassword'
+                      defaultMessage='Confirm Password'
                     />
                   </FormLabel>
                   <Field
                     bgColor='grey000'
-                    name='email'
-                    validate={[required, validEmail]}
-                    component={TextBox}
+                    name='confirmationPassword'
+                    validate={[required, validatePasswordConfirmation]}
+                    component={PasswordBox}
                   />
                 </FormGroup>
-              )}
-              <FormGroup>
-                <FormLabel htmlFor='password'>
-                  <FormattedMessage
-                    id='scenes.recover.secondstep.password'
-                    defaultMessage='Password'
-                  />
-                </FormLabel>
-                <Field
-                  bgColor='grey000'
-                  name='recoverPassword'
-                  validate={[required, validStrongPassword]}
-                  component={PasswordBox}
-                  showPasswordScore
-                  passwordScore={has('zxcvbn', window) ? window.zxcvbn(recoverPassword).score : 0}
-                />
-              </FormGroup>
-              <FormGroup>
-                <FormLabel htmlFor='confirmationPassword'>
-                  <FormattedMessage
-                    id='scenes.recover.secondstep.confirmapassword'
-                    defaultMessage='Confirm Password'
-                  />
-                </FormLabel>
-                <Field
-                  bgColor='grey000'
-                  name='confirmationPassword'
-                  validate={[required, validatePasswordConfirmation]}
-                  component={PasswordBox}
-                />
-              </FormGroup>
-              <FormGroup>
-                <Terms recovery />
-              </FormGroup>
-              {isRestoringFromMetadata && <ReverifyIdentityInfoBox />}
-              <Footer>
-                <GoBackLink onClick={previousStep} size='13px' weight={400}>
-                  <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
-                </GoBackLink>
+                <FormGroup>
+                  <Terms recovery />
+                </FormGroup>
+                {isRestoringFromMetadata && <ReverifyIdentityInfoBox />}
+
                 <Button
                   data-e2e='recoverSubmit'
                   disabled={isRestoring || invalid}
                   nature='primary'
                   type='submit'
+                  fullwidth
+                  style={{ marginTop: '24px' }}
                 >
                   {isRestoring ? (
                     <HeartbeatLoader height='20px' width='20px' color='white' />
-                  ) : (
+                  ) : isRestoringFromMetadata ? (
                     <FormattedMessage
-                      id='scenes.recover.secondstep.recover'
-                      defaultMessage='Recover Funds'
+                      id='scenes.recover.reset_password'
+                      defaultMessage='Reset Password'
                     />
+                  ) : (
+                    <FormattedMessage id='button.continue' defaultMessage='Continue' />
                   )}
                 </Button>
-              </Footer>
-            </Form>
-          </>
-        )}
+              </Form>
+            </>
+          )}
+        </Wrapper>
       </>
     )
   }

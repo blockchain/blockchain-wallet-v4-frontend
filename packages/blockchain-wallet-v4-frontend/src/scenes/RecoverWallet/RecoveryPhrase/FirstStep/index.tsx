@@ -5,6 +5,7 @@ import styled from 'styled-components'
 
 import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import { TextArea } from 'components/Form'
+import { Wrapper } from 'components/Public'
 import { RecoverSteps } from 'data/types'
 import { required, validMnemonic } from 'services/forms'
 
@@ -50,7 +51,7 @@ const FirstStep = (props: Props) => {
     submitting
   } = props
   return (
-    <>
+    <Wrapper>
       {cachedEmail && (
         <BackArrowFormHeader
           handleBackArrowClick={() => setStep(RecoverSteps.RECOVERY_OPTIONS)}
@@ -164,7 +165,7 @@ const FirstStep = (props: Props) => {
           </Link>
         )}
       </BottomRow>
-    </>
+    </Wrapper>
   )
 }
 

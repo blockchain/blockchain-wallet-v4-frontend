@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Icon, Link, Text } from 'blockchain-info-components'
+import { Wrapper } from 'components/Public'
 import { RecoverSteps } from 'data/types'
 
 import { Props } from '..'
@@ -31,7 +32,7 @@ const TextStack = styled.div`
 const RecoveryOptions = (props: Props) => {
   const { cachedEmail, cachedGuid, formActions, lastGuid, nabuId, routerActions } = props
   return (
-    <>
+    <Wrapper>
       {cachedEmail && (
         <BackArrowFormHeader
           handleBackArrowClick={() => routerActions.push('/login')}
@@ -128,7 +129,7 @@ const RecoveryOptions = (props: Props) => {
           </Link>
         )}
       </Row>
-    </>
+    </Wrapper>
   )
 }
 
