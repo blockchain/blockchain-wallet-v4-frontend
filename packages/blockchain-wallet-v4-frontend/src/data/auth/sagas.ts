@@ -737,12 +737,14 @@ export default ({ api, coreSagas, networks }) => {
     // If user is resetting their custodial account
     // Creating a new wallet and assigning an existing custodial account
     // to that wallet
+    yield put(A.resetAccountLoading())
     try {
       const { email, language, password } = action.payload
       // We get recovery token and nabu ID
       const magicLinkData = yield select(S.getMagicLinkData)
       const recoveryToken = magicLinkData.wallet?.nabu?.recoveryToken
       const userId = magicLinkData.wallet?.nabu?.userId
+      yield put(A.setResetAccount(true))
       // create a new wallet
       yield call(register, actions.auth.register(email, password, language))
       const guid = yield select(selectors.core.wallet.getGuid)
@@ -760,7 +762,13 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.core.kvStore.userCredentials.setUserCredentials(userId, lifetimeToken))
       // fetch user in new wallet
       yield call(setSession, userId, lifetimeToken, email, guid)
+      // open identity verification modal
+      yield put(
+        actions.components.identityVerification.verifyIdentity({ origin: 'AccountReset', tier: 2 })
+      )
+      yield put(A.resetAccountSuccess())
     } catch (e) {
+      yield put(A.resetAccountFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'resetAccount', e))
       yield put(actions.modals.showModal('RESET_ACCOUNT_FAILED', { origin: 'ResetAccount' }))
     }

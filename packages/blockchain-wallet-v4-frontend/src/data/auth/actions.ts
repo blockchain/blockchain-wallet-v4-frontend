@@ -62,7 +62,10 @@ export const resetAccount = (email, password, language) => ({
 export const resetAccountLoading = () => ({ type: AT.RESET_ACCOUNT_LOADING })
 export const resetAccountSuccess = () => ({ type: AT.RESET_ACCOUNT_SUCCESS })
 export const resetAccountFailure = () => ({ type: AT.RESET_ACCOUNT_FAILURE })
-
+export const setResetAccount = (resetAccount) => ({
+  payload: { resetAccount },
+  type: AT.SET_RESET_ACCOUNT
+})
 // 2FA
 export const resendSmsCode = (guid) => ({
   payload: { guid },
