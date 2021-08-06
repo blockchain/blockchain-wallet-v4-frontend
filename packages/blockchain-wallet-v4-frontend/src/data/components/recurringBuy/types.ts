@@ -1,5 +1,12 @@
-import { RecurringBuyPeriods } from 'blockchain-info-components/src/Flyouts/types'
 import { FiatType, RemoteDataType, SBPaymentTypes, WalletCurrencyType } from 'core/types'
+
+export enum ActionEnum {
+  BUY = 'BUY',
+  DEPOSIT = 'DEPOSIT',
+  SELL = 'SELL',
+  SWAP = 'SWAP',
+  WITHDRAWAL = 'WITHDRAWAL'
+}
 
 // state
 export type RecurringBuyState = {
@@ -43,4 +50,10 @@ export type RecurringBuyRegisteredList = {
   userId: string
 }
 
-export { RecurringBuyPeriods }
+export enum RecurringBuyPeriods {
+  BI_WEEKLY = 'BI_WEEKLY',
+  DAILY = 'DAILY',
+  MONTHLY = 'MONTHLY',
+  ONE_TIME = 'ONE_TIME',
+  WEEKLY = 'WEEKLY'
+}

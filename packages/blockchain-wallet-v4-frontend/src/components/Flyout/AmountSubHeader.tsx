@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import styled from 'styled-components'
 
-import { Text } from '../Text'
+import { Text } from 'blockchain-info-components'
 
 const Amount = styled.div`
   display: flex;

@@ -2,8 +2,8 @@ import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Button, FlyoutFooter, FlyoutHeader, Image, Link, Text } from 'blockchain-info-components'
-import { FlyoutWrapper } from 'components/Flyout'
+import { Button, Image, Link, Text } from 'blockchain-info-components'
+import { FlyoutFooter, FlyoutHeader, FlyoutWrapper } from 'components/Flyout'
 import { getBaseAmount } from 'data/components/simpleBuy/model'
 
 import { Props as _P } from '.'

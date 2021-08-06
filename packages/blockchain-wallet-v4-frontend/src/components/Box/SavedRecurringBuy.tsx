@@ -3,12 +3,10 @@ import { FormattedMessage } from 'react-intl'
 import { lighten } from 'polished'
 import styled from 'styled-components'
 
-import { Button } from '../Buttons'
-import { getActionText, getPeriodText } from '../Flyouts/model'
-import { RecurringBuyPeriods } from '../Flyouts/types'
-import { Icon } from '../Icons'
-import { Text, TextGroup } from '../Text'
-import Box from '.'
+import { Box, Button, Icon, Text, TextGroup } from 'blockchain-info-components'
+
+import { ActionEnum, RecurringBuyPeriods } from '../../data/types'
+import { getActionText, getPeriodText } from '../Flyout/model'
 
 const StyledBox = styled(Box)`
   cursor: unset;
@@ -73,20 +71,16 @@ const SavedRecurringBuy = ({ action, amount, coin, nextPayment, onClick, period 
         </TextGroup>
       </MetaContainer>
       <ActionsContainer>
-        <Button nature='empty-blue' onClick={onClick}>
+        <Button
+          data-e2e={`${coin}savedRecurringBuyViewDetails`}
+          nature='empty-blue'
+          onClick={onClick}
+        >
           <FormattedMessage id='copy.view_details' defaultMessage='View Details' />
         </Button>
       </ActionsContainer>
     </StyledBox>
   )
-}
-
-export enum ActionEnum {
-  BUY = 'BUY',
-  DEPOSIT = 'DEPOSIT',
-  SELL = 'SELL',
-  SWAP = 'SWAP',
-  WITHDRAWAL = 'WITHDRAWAL'
 }
 
 export type Props = {

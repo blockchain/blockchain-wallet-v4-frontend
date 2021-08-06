@@ -3,7 +3,6 @@ import { connect, ConnectedProps } from 'react-redux'
 import { find, isEmpty, propEq, propOr } from 'ramda'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
-import { FrequencyScreen } from 'blockchain-info-components'
 import {
   CoinType,
   FiatType,
@@ -14,7 +13,7 @@ import {
   SBPaymentTypes,
   SwapOrderType
 } from 'blockchain-wallet-v4/src/types'
-import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import Flyout, { duration, FlyoutChild, FrequencyScreen } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/simpleBuy/model'
 import { GoalsType } from 'data/goals/types'

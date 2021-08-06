@@ -3,21 +3,18 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
+import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import {
   AmountSubHeader,
-  Button,
-  CheckoutRow,
   FlyoutContainer,
   FlyoutContent,
   FlyoutFooter,
   FlyoutHeader,
   getPeriodSubTitleText,
-  getPeriodTitleText,
-  Link,
-  Text,
-  TextGroup
-} from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
+  getPeriodTitleText
+} from 'components/Flyout'
+import { CheckoutRow } from 'components/Rows'
 import { FiatType, SBOrderType } from 'core/types'
 import { actions, selectors } from 'data'
 import {

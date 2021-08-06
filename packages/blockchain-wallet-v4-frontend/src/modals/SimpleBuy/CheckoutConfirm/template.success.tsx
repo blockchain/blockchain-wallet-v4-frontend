@@ -8,8 +8,6 @@ import styled from 'styled-components'
 import {
   Button,
   CheckBoxInput,
-  getPeriodSubTitleText,
-  getPeriodTitleText,
   HeartbeatLoader,
   Icon,
   Link,
@@ -19,7 +17,7 @@ import {
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import { FiatType, OrderType, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
 import { ErrorCartridge } from 'components/Cartridge'
-import { FlyoutWrapper, Row } from 'components/Flyout'
+import { FlyoutWrapper, getPeriodSubTitleText, getPeriodTitleText, Row } from 'components/Flyout'
 import { Form } from 'components/Form'
 import {
   getBaseAmount,

@@ -10,11 +10,7 @@ const Container = styled.div`
 `
 
 const FlyoutContainer = (props: Props) => {
-  return (
-    <Container>
-      {props.children}
-    </Container>    
-  )
+  return <Container>{props.children}</Container>
 }
 
 export type Props = {

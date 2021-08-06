@@ -1,8 +1,7 @@
 import React, { memo } from 'react'
 import styled from 'styled-components'
 
-import { Icon } from '../Icons'
-import { Text } from '../Text'
+import { Icon, Text } from 'blockchain-info-components'
 
 const Header = styled.div`
   width: 100%;
@@ -14,7 +13,6 @@ const Header = styled.div`
     padding: 20px;
   }
 `
-
 const TopText = styled(Text)`
   display: flex;
   align-items: center;

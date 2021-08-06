@@ -6,6 +6,24 @@ import styled from 'styled-components'
 import { Modal, Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
+import AmountSubHeader from './AmountSubHeader'
+import FlyoutContainer from './Container'
+import FlyoutContent from './Content'
+import FlyoutFooter from './Footer'
+import FrequencyScreen from './FrequencyScreen'
+// These are the newest versions of flyout layouts and should eventually replace/integrate FlyoutWrapper etc.
+import FlyoutHeader from './Header'
+
+export * from './model'
+export {
+  AmountSubHeader,
+  FlyoutContainer,
+  FlyoutContent,
+  FlyoutFooter,
+  FlyoutHeader,
+  FrequencyScreen
+}
+
 export const duration = 500
 export const slide = 500
 export const width = 480

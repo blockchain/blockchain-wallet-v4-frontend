@@ -6,7 +6,7 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { ActionEnum, Button, Icon, Link, SavedRecurringBuy, Text } from 'blockchain-info-components'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import {
   CoinType,
@@ -17,13 +17,14 @@ import {
   WalletCurrencyType,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
+import { SavedRecurringBuy } from 'components/Box'
 import EmptyResults from 'components/EmptyResults'
 import { SceneWrapper } from 'components/Layout'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { actions, model, selectors } from 'data'
 import { getIntroductionText } from 'data/coins/selectors'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { RecurringBuyPeriods, RecurringBuyRegisteredList } from 'data/types'
+import { ActionEnum, RecurringBuyPeriods, RecurringBuyRegisteredList } from 'data/types'
 import { media } from 'services/styles'
 
 import CoinIntroduction from './CoinIntroduction'

@@ -2,7 +2,8 @@ import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Button, FlyoutFooter, FlyoutHeader, Icon, Text } from 'blockchain-info-components'
+import { Button, Icon, Text } from 'blockchain-info-components'
+import { FlyoutFooter, FlyoutHeader } from 'components/Flyout'
 
 import AnimatedCarousel from './AnimatedCarousel'
 import AnimatedGraph from './AnimatedGraph'

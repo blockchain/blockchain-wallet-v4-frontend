@@ -1,8 +1,7 @@
 import React, { memo, useState } from 'react'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
-import { Icon } from '../Icons'
-import { Text } from '../Text'
+import { Icon, Text } from 'blockchain-info-components'
 
 const Row = styled.div`
   padding: 0 40px;
@@ -98,24 +97,18 @@ const CheckoutRow = (props: Props) => {
         </FlatRow>
         <RowValue>
           <RowText>{props.text}</RowText>
-          {props.additionalText && (
-            <AdditionalText>{props.additionalText}</AdditionalText>
-          )}
+          {props.additionalText && <AdditionalText>{props.additionalText}</AdditionalText>}
         </RowValue>
       </RowVisible>
-      {props.toolTip && isActiveTooltip && (
-        <ToolTipContainer>
-          {props.toolTip}
-        </ToolTipContainer>
-      )}
+      {props.toolTip && isActiveTooltip && <ToolTipContainer>{props.toolTip}</ToolTipContainer>}
     </Row>
   )
 }
 
 export type Props = {
-  title: string | React.ReactNode
-  text: string | React.ReactNode
   additionalText?: string | React.ReactNode
+  text: string | React.ReactNode
+  title: string | React.ReactNode
   toolTip?: string | React.ReactNode
 }
 

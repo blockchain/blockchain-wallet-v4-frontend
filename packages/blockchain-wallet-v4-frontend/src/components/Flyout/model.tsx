@@ -2,8 +2,8 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 
-import { ActionEnum } from '../Box/SavedRecurringBuy'
-import { RecurringBuyPeriods } from './types'
+import { RecurringBuyPeriods } from '../../data/components/recurringBuy/types'
+import { ActionEnum } from '../../data/types'
 
 const getPeriodTitleText = (period: RecurringBuyPeriods): React.ReactNode => {
   let text
