@@ -107,9 +107,11 @@ export const getData = (state, coin, coinfig: SupportedWalletCurrencyType['coinf
       () => selectors.core.settings.getInvitations(state),
       selectors.form.getFormValues(WALLET_TX_SEARCH),
       coinSelectorMap(state, coin, coinfig),
-      selectors.core.settings.getCurrency
+      selectors.core.settings.getCurrency,
+      selectors.components.recurringBuy.getRegisteredListByCoin(coin),
+      selectors.core.walletOptions.getFeatureFlagRecurringBuys
     ],
-    (invitationsR, userSearch, pagesR, currencyR) => {
+    (invitationsR, userSearch, pagesR, currencyR, recurringBuys, isRecurringBuyR) => {
       const empty = (page) => isEmpty(page.data)
       const search = propOr('', 'search', userSearch)
       const status: TransferType = propOr('', 'status', userSearch)
@@ -127,9 +129,11 @@ export const getData = (state, coin, coinfig: SupportedWalletCurrencyType['coinf
         isInvited: invitationsR
           .map(propOr(false, 'openBanking'))
           .getOrElse({ openBanking: false }) as boolean,
+        isRecurringBuy: isRecurringBuyR.getOrElse(false) as boolean,
         // @ts-ignore
         isSearchEntered: search.length > 0 || status !== '',
         pages: filteredPages,
+        recurringBuys,
         sourceType
       }
     }
