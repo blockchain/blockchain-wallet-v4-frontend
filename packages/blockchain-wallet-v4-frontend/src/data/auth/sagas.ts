@@ -762,10 +762,6 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.core.kvStore.userCredentials.setUserCredentials(userId, lifetimeToken))
       // fetch user in new wallet
       yield call(setSession, userId, lifetimeToken, email, guid)
-      // open identity verification modal
-      yield put(
-        actions.components.identityVerification.verifyIdentity({ origin: 'AccountReset', tier: 2 })
-      )
       yield put(A.resetAccountSuccess())
     } catch (e) {
       yield put(A.resetAccountFailure())
