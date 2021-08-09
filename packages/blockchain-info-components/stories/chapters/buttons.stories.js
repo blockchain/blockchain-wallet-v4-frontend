@@ -1,12 +1,8 @@
-import { withInfo } from '@storybook/addon-info'
-import { addDecorator } from '@storybook/react'
 import React from 'react'
 import styled from 'styled-components'
 
 import { Button, ButtonGroup, IconButton } from '../../src'
 import Layout from '../components/layout'
-
-addDecorator(withInfo)
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -86,8 +82,7 @@ export default {
   title: 'Buttons',
   parameters: {
     info: { text: 'Documentation', inline: true }
-  },
-  decorators: [(story) => <Layout>{story()}</Layout>]
+  }
 }
 
 export const AllButtons = () => (

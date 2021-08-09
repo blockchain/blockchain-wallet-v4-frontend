@@ -105,6 +105,7 @@ export default (type: ModalNameType, options: OptionsType = {}) => (Component) =
                   {...modal.options}
                   {...modal.props}
                   {...rest}
+                  close={this.handleClose}
                 />
               </div>
             ))}

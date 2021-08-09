@@ -445,6 +445,13 @@ const getAlertContent = (message, data = undefined) => {
         <FormattedMessage id='components.alerts.login_failed' defaultMessage='Login failed' />
       )
 
+    case C.MAGIC_LINK_PARSE_ERROR:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.message_parse_failed'
+          defaultMessage='Verification failed. Please use your Wallet ID to sign in.'
+        />
+      )
     case C.MESSAGE_SIGN_ERROR:
       return buildMessageTemplate(
         <FormattedMessage

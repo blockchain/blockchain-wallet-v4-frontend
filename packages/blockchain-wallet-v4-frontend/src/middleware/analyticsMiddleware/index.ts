@@ -42,7 +42,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const pageName: PageName = action.payload.location.pathname
 
         // We should find a way to add origins to page changes
@@ -55,7 +55,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.DASHBOARD_CLICKED, {
               properties: {
-                id,
+                guid,
                 origin,
                 originalTimestamp: getOriginalTimestamp()
               },
@@ -68,7 +68,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.DASHBOARD_VIEWED, {
               properties: {
-                id,
+                guid,
                 originalTimestamp: getOriginalTimestamp(),
                 path: pathname,
                 referrer,
@@ -92,7 +92,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.INTEREST_CLICKED, {
               properties: {
-                id,
+                guid,
                 origin,
                 originalTimestamp: getOriginalTimestamp()
               },
@@ -105,7 +105,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.INTEREST_VIEWED, {
               properties: {
-                id,
+                guid,
                 originalTimestamp: getOriginalTimestamp(),
                 path: pathname,
                 referrer,
@@ -129,13 +129,13 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               ? state.profile.userData.getOrElse({})?.email
               : null
             const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-            const id = state.walletPath.wallet.guid
+            const guid = state.walletPath.wallet.guid ?? null
             const currency = 'BTC'
 
             analytics.push(AnalyticsKey.SETTINGS_CURRENCY_CLICKED, {
               properties: {
                 currency,
-                id,
+                guid,
                 originalTimestamp: getOriginalTimestamp()
               },
               traits: {
@@ -154,13 +154,13 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               ? state.profile.userData.getOrElse({})?.email
               : null
             const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-            const id = state.walletPath.wallet.guid
+            const guid = state.walletPath.wallet.guid ?? null
             const currency = 'BCH'
 
             analytics.push(AnalyticsKey.SETTINGS_CURRENCY_CLICKED, {
               properties: {
                 currency,
-                id,
+                guid,
                 originalTimestamp: getOriginalTimestamp()
               },
               traits: {
@@ -179,13 +179,13 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               ? state.profile.userData.getOrElse({})?.email
               : null
             const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-            const id = state.walletPath.wallet.guid
+            const guid = state.walletPath.wallet.guid ?? null
             const currency = 'ETH'
 
             analytics.push(AnalyticsKey.SETTINGS_CURRENCY_CLICKED, {
               properties: {
                 currency,
-                id,
+                guid,
                 originalTimestamp: getOriginalTimestamp()
               },
               traits: {
@@ -204,13 +204,13 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               ? state.profile.userData.getOrElse({})?.email
               : null
             const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-            const id = state.walletPath.wallet.guid
+            const guid = state.walletPath.wallet.guid ?? null
             const currency = 'XLM'
 
             analytics.push(AnalyticsKey.SETTINGS_CURRENCY_CLICKED, {
               properties: {
                 currency,
-                id,
+                guid,
                 originalTimestamp: getOriginalTimestamp()
               },
               traits: {
@@ -233,10 +233,10 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
+          ? state.profile.userData.getOrElse({})?.email ?? null
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const modalName: ModalName = action.payload.type
 
         switch (modalName) {
@@ -248,7 +248,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.BUY_SELL_CLICKED, {
               properties: {
-                id,
+                guid,
                 origin,
                 originalTimestamp: getOriginalTimestamp(),
                 type: Order.BUY
@@ -262,7 +262,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.BUY_SELL_VIEWED, {
               properties: {
-                id,
+                guid,
                 originalTimestamp: getOriginalTimestamp(),
                 path: pathname,
                 referrer,
@@ -287,7 +287,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.SWAP_CLICKED, {
               properties: {
-                id,
+                guid,
                 origin,
                 originalTimestamp: getOriginalTimestamp()
               },
@@ -300,7 +300,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.SWAP_VIEWED, {
               properties: {
-                id,
+                guid,
                 originalTimestamp: getOriginalTimestamp(),
                 path: pathname,
                 referrer,
@@ -322,7 +322,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
               properties: {
-                id,
+                guid,
                 origin,
                 originalTimestamp: getOriginalTimestamp(),
                 type: SendReceive.RECEIVE
@@ -336,7 +336,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.SEND_RECEIVE_VIEWED, {
               properties: {
-                id,
+                guid,
                 originalTimestamp: getOriginalTimestamp(),
                 type: SendReceive.RECEIVE
               },
@@ -356,7 +356,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.DEPOSIT_CLICKED, {
               properties: {
-                id,
+                guid,
                 origin,
                 originalTimestamp: getOriginalTimestamp()
               },
@@ -369,7 +369,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.DEPOSIT_VIEWED, {
               properties: {
-                id,
+                guid,
                 originalTimestamp: getOriginalTimestamp(),
                 path: pathname,
                 referrer,
@@ -393,7 +393,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.WITHDRAWAL_CLICKED, {
               properties: {
-                id,
+                guid,
                 origin,
                 originalTimestamp: getOriginalTimestamp()
               },
@@ -406,7 +406,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.WITHDRAWAL_VIEWED, {
               properties: {
-                id,
+                guid,
                 originalTimestamp: getOriginalTimestamp(),
                 path: pathname,
                 referrer,
@@ -430,12 +430,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               ? state.profile.userData.getOrElse({})?.email
               : null
             const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-            const id = state.walletPath.wallet.guid
+            const guid = state.walletPath.wallet.guid ?? null
             const origin = linkBankClickedOriginDictionary(action.payload.origin)
 
             analytics.push(AnalyticsKey.LINK_BANK_CLICKED, {
               properties: {
-                id,
+                guid,
                 origin,
                 originalTimestamp: getOriginalTimestamp()
               },
@@ -455,12 +455,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               ? state.profile.userData.getOrElse({})?.email
               : null
             const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-            const id = state.walletPath.wallet.guid
+            const guid = state.walletPath.wallet.guid ?? null
             const origin = linkBankClickedOriginDictionary(action.payload.origin)
 
             analytics.push(AnalyticsKey.LINK_BANK_CLICKED, {
               properties: {
-                id,
+                guid,
                 origin,
                 originalTimestamp: getOriginalTimestamp()
               },
@@ -480,14 +480,14 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               ? state.profile.userData.getOrElse({})?.email
               : null
             const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-            const id = state.walletPath.wallet.guid
+            const guid = state.walletPath.wallet.guid ?? null
             const upgradeTier = action.payload.props.tier
 
             const origin = upgradeVerificationClickedOriginDictionary(action.payload.props.origin)
 
             analytics.push(AnalyticsKey.UPGRADE_VERIFICATION_CLICKED, {
               properties: {
-                id,
+                guid,
                 origin,
                 originalTimestamp: getOriginalTimestamp(),
                 tier: upgradeTier
@@ -508,11 +508,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               ? state.profile.userData.getOrElse({})?.email
               : null
             const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-            const id = state.walletPath.wallet.guid
+            const guid = state.walletPath.wallet.guid ?? null
 
             analytics.push(AnalyticsKey.ADDRESS_VERIFY_MESSAGE_CLICKED, {
               properties: {
-                id,
+                guid,
                 originalTimestamp: getOriginalTimestamp()
               },
               traits: {
@@ -531,11 +531,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               ? state.profile.userData.getOrElse({})?.email
               : null
             const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-            const id = state.walletPath.wallet.guid
+            const guid = state.walletPath.wallet.guid ?? null
 
             analytics.push(AnalyticsKey.CHANGE_MOBILE_NUMBER_CLICKED, {
               properties: {
-                id,
+                guid,
                 originalTimestamp: getOriginalTimestamp()
               },
               traits: {
@@ -554,11 +554,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               ? state.profile.userData.getOrElse({})?.email
               : null
             const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-            const id = state.walletPath.wallet.guid
+            const guid = state.walletPath.wallet.guid ?? null
 
             analytics.push(AnalyticsKey.ADD_MOBILE_NUMBER_CLICKED, {
               properties: {
-                id,
+                guid,
                 originalTimestamp: getOriginalTimestamp()
               },
               traits: {
@@ -577,11 +577,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               ? state.profile.userData.getOrElse({})?.email
               : null
             const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-            const id = state.walletPath.wallet.guid
+            const guid = state.walletPath.wallet.guid ?? null
 
             analytics.push(AnalyticsKey.IMPORT_ADDRESS_CLICKED, {
               properties: {
-                id,
+                guid,
                 originalTimestamp: getOriginalTimestamp()
               },
               traits: {
@@ -607,12 +607,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const origin = 'SIGN_UP'
 
         analytics.push(AnalyticsKey.EMAIL_VERIFICATION_REQUESTED, {
           properties: {
-            id,
+            guid,
             origin,
             originalTimestamp: getOriginalTimestamp()
           },
@@ -632,12 +632,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const origin = 'VERIFICATION'
 
         analytics.push(AnalyticsKey.EMAIL_VERIFICATION_REQUESTED, {
           properties: {
-            id,
+            guid,
             origin,
             originalTimestamp: getOriginalTimestamp()
           },
@@ -657,12 +657,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const origin = 'SIGN_UP'
 
         analytics.push(AnalyticsKey.EMAIL_VERIFICATION_SKIPPED, {
           properties: {
-            id,
+            guid,
             origin,
             originalTimestamp: getOriginalTimestamp()
           },
@@ -682,14 +682,14 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const { isCoinDisplayed } = action.payload
         const fix = isCoinDisplayed ? Coin.CRYPTO : Coin.FIAT
         const product = 'SAVINGS'
 
         analytics.push(AnalyticsKey.AMOUNT_SWITCHED, {
           properties: {
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp(),
             product,
             switch_to: fix
@@ -711,12 +711,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const { fix } = action.payload
 
         analytics.push(AnalyticsKey.AMOUNT_SWITCHED, {
           properties: {
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp(),
             product: 'SWAP',
             switch_to: fix
@@ -738,12 +738,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const { fix } = action.payload
 
         analytics.push(AnalyticsKey.AMOUNT_SWITCHED, {
           properties: {
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp(),
             product: 'SIMPLEBUY',
             switch_to: fix
@@ -765,7 +765,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const inputCurrency = state.components.simpleBuy.fiatCurrency
         const inputAmount = Number(state.form.simpleBuyCheckout.values.amount)
         const inputAMountMax = Number(state.components.simpleBuy.pair.buyMax) / 100
@@ -773,7 +773,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         analytics.push(AnalyticsKey.BUY_AMOUNT_ENTERED, {
           properties: {
-            id,
+            guid,
             input_amount: inputAmount,
             input_currency: inputCurrency,
             max_card_limit: inputAMountMax,
@@ -795,14 +795,14 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const maxCardLimit = Number(action.payload.amount) / 100
         const inputCurrency = state.components.simpleBuy.fiatCurrency
         const outputCurrency = state.components.simpleBuy.cryptoCurrency
 
         analytics.push(AnalyticsKey.BUY_AMOUNT_MAX_CLICKED, {
           properties: {
-            id,
+            guid,
             input_currency: inputCurrency,
             max_card_limit: maxCardLimit,
             originalTimestamp: getOriginalTimestamp(),
@@ -823,13 +823,13 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const inputCurrency = state.components.simpleBuy.fiatCurrency
         const outputCurrency = state.components.simpleBuy.cryptoCurrency
 
         analytics.push(AnalyticsKey.BUY_AMOUNT_MIN_CLICKED, {
           properties: {
-            id,
+            guid,
             input_currency: inputCurrency,
             originalTimestamp: getOriginalTimestamp(),
             output_currency: outputCurrency
@@ -849,12 +849,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const paymentType = buyPaymentMethodSelectedPaymentTypeDictionary(action.method.type)
 
         analytics.push(AnalyticsKey.BUY_PAYMENT_METHOD_SELECTED, {
           properties: {
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp(),
             payment_type: paymentType
           },
@@ -873,11 +873,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
 
         analytics.push(AnalyticsKey.SIGNED_IN, {
           properties: {
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp()
           },
           traits: {
@@ -896,11 +896,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
 
         analytics.push(AnalyticsKey.SIGNED_OUT, {
           properties: {
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp()
           },
           traits: {
@@ -918,11 +918,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
 
         analytics.push(AnalyticsKey.WRONG_CHANGE_CACHE, {
           properties: {
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp()
           },
           traits: {
@@ -940,11 +940,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
 
         analytics.push(AnalyticsKey.WRONG_RECEIVE_CACHE, {
           properties: {
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp()
           },
           traits: {
@@ -962,7 +962,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const stepName = action.payload.step
 
         switch (stepName) {
@@ -980,7 +980,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.SWAP_ACCOUNTS_SELECTED, {
               properties: {
-                id,
+                guid,
                 input_currency: inputCurrency,
                 input_type: inputType,
                 originalTimestamp: getOriginalTimestamp(),
@@ -1013,7 +1013,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.SWAP_AMOUNT_ENTERED, {
               properties: {
-                id,
+                guid,
                 input_amount: inputAmount,
                 input_currency: inputCurrency,
                 input_type: inputType,
@@ -1044,7 +1044,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const inputCurrency = state.form.initSwap.values.BASE.coin
         const inputType =
           state.form.initSwap.values.BASE.type === SwapBaseCounterTypes.CUSTODIAL
@@ -1058,7 +1058,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         analytics.push(AnalyticsKey.SWAP_AMOUNT_MAX_CLICKED, {
           properties: {
-            id,
+            guid,
             input_currency: inputCurrency,
             input_type: inputType,
             originalTimestamp: getOriginalTimestamp(),
@@ -1081,7 +1081,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const inputCurrency = state.form.initSwap.values.BASE.coin
         const inputType =
           state.form.initSwap.values.BASE.type === SwapBaseCounterTypes.CUSTODIAL
@@ -1095,7 +1095,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         analytics.push(AnalyticsKey.SWAP_AMOUNT_MIN_CLICKED, {
           properties: {
-            id,
+            guid,
             input_currency: inputCurrency,
             input_type: inputType,
             originalTimestamp: getOriginalTimestamp(),
@@ -1117,7 +1117,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const inputCurrency = action.payload.account.coin
         const inputType =
           action.payload.account.type === SwapBaseCounterTypes.CUSTODIAL
@@ -1126,7 +1126,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         analytics.push(AnalyticsKey.SWAP_FROM_SELECTED, {
           properties: {
-            id,
+            guid,
             input_currency: inputCurrency,
             input_type: inputType,
             originalTimestamp: getOriginalTimestamp()
@@ -1146,7 +1146,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const outputCurrency = action.payload.account.coin
         const outputType =
           action.payload.account.type === SwapBaseCounterTypes.CUSTODIAL
@@ -1155,7 +1155,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         analytics.push(AnalyticsKey.SWAP_RECEIVE_SELECTED, {
           properties: {
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp(),
             output_currency: outputCurrency,
             output_type: outputType
@@ -1175,7 +1175,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const exchangeRate = state.components.swap.quote.getOrElse({})?.rate || 1
         const inputAmount = Number(state.form.swapAmount.values.cryptoAmount)
         const inputCurrency = state.form.initSwap.values.BASE.coin
@@ -1206,7 +1206,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         analytics.push(AnalyticsKey.SWAP_REQUESTED, {
           properties: {
             exchange_rate: exchangeRate,
-            id,
+            guid,
             input_amount: inputAmount,
             input_currency: inputCurrency,
             input_type: inputType,
@@ -1236,7 +1236,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const accountType =
           state.form.requestCrypto.values.selectedAccount.type === SwapBaseCounterTypes.CUSTODIAL
             ? AccountType.TRADING
@@ -1248,7 +1248,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             account_type: accountType,
 
             currency,
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp()
           },
           traits: {
@@ -1267,7 +1267,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const accountType =
           state.form.requestCrypto.values.selectedAccount.type === SwapBaseCounterTypes.CUSTODIAL
             ? AccountType.TRADING
@@ -1279,7 +1279,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             account_type: accountType,
 
             currency,
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp()
           },
           traits: {
@@ -1298,7 +1298,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const rawOrigin = action.payload.props.origin
         const { href, pathname, search } = window.location
         const { referrer, title } = document
@@ -1306,7 +1306,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         analytics.push(AnalyticsKey.BUY_SELL_CLICKED, {
           properties: {
-            id,
+            guid,
             origin,
             originalTimestamp: getOriginalTimestamp(),
             type: Order.BUY
@@ -1320,7 +1320,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         analytics.push(AnalyticsKey.BUY_SELL_VIEWED, {
           properties: {
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp(),
             path: pathname,
             referrer,
@@ -1344,7 +1344,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const rawOrigin = action.payload.props.origin
         const { href, pathname, search } = window.location
         const { referrer, title } = document
@@ -1352,7 +1352,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         analytics.push(AnalyticsKey.BUY_SELL_CLICKED, {
           properties: {
-            id,
+            guid,
             origin,
             originalTimestamp: getOriginalTimestamp(),
             type: Order.SELL
@@ -1366,7 +1366,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         analytics.push(AnalyticsKey.BUY_SELL_VIEWED, {
           properties: {
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp(),
             path: pathname,
             referrer,
@@ -1392,7 +1392,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const stepName = action.payload.step
 
         switch (stepName) {
@@ -1410,7 +1410,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             analytics.push(AnalyticsKey.SELL_FROM_SELECTED, {
               properties: {
                 from_account_type: accountType,
-                id,
+                guid,
                 input_currency: inputCurrency,
                 originalTimestamp: getOriginalTimestamp()
               },
@@ -1436,7 +1436,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             analytics.push(AnalyticsKey.SELL_AMOUNT_ENTERED, {
               properties: {
                 from_account_type: accountType,
-                id,
+                guid,
                 input_amount: inputAmount,
                 input_currency: inputCurrency,
                 originalTimestamp: getOriginalTimestamp(),
@@ -1463,7 +1463,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const accountType =
           state.components.simpleBuy.swapAccount.type === SwapBaseCounterTypes.CUSTODIAL
             ? AccountType.TRADING
@@ -1474,7 +1474,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         analytics.push(AnalyticsKey.SELL_AMOUNT_MAX_CLICKED, {
           properties: {
             from_account_type: accountType,
-            id,
+            guid,
             input_currency: inputCurrency,
             originalTimestamp: getOriginalTimestamp(),
             output_currency: outputCurrency
@@ -1494,7 +1494,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const accountType =
           state.components.simpleBuy.swapAccount.type === SwapBaseCounterTypes.CUSTODIAL
             ? AccountType.TRADING
@@ -1505,7 +1505,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         analytics.push(AnalyticsKey.SELL_AMOUNT_MIN_CLICKED, {
           properties: {
             from_account_type: accountType,
-            id,
+            guid,
             input_currency: inputCurrency,
             originalTimestamp: getOriginalTimestamp(),
             output_currency: outputCurrency
@@ -1525,7 +1525,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const stepName = action.payload.dwStep as BankDWStepType
 
         switch (stepName) {
@@ -1541,7 +1541,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
                 currency,
                 deposit_method: depositMethod,
-                id,
+                guid,
                 originalTimestamp: getOriginalTimestamp()
               },
               traits: {
@@ -1568,7 +1568,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
 
         const originModal = state.modals.find((modal) => modal.type).type
 
@@ -1583,7 +1583,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               properties: {
                 currency,
                 deposit_method: depositMethod,
-                id,
+                guid,
                 originalTimestamp: getOriginalTimestamp()
               },
               traits: {
@@ -1605,7 +1605,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             analytics.push(AnalyticsKey.WITHDRAWAL_METHOD_SELECTED, {
               properties: {
                 currency,
-                id,
+                guid,
                 originalTimestamp: getOriginalTimestamp(),
                 withdrawal_method: withdrawalMethod
               },
@@ -1633,7 +1633,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const stepName = action.payload.step
 
         switch (stepName) {
@@ -1651,7 +1651,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             analytics.push(AnalyticsKey.WITHDRAWAL_AMOUNT_ENTERED, {
               properties: {
                 currency,
-                id,
+                guid,
                 input_amount: inputAmount,
                 originalTimestamp: getOriginalTimestamp(),
                 output_amount: outputAmount,
@@ -1680,7 +1680,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const currency = state.components.withdraw.fiatCurrency
         const withdrawalMethod = state.components.brokerage.account
           ? WithdrawalMethod.BANK_ACCOUNT
@@ -1689,7 +1689,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         analytics.push(AnalyticsKey.WITHDRAWAL_AMOUNT_MAX_CLICKED, {
           properties: {
             currency,
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp(),
             withdrawal_method: withdrawalMethod
           },
@@ -1709,7 +1709,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const currency = state.components.withdraw.fiatCurrency
         const withdrawalMethod = state.components.brokerage.account
           ? WithdrawalMethod.BANK_ACCOUNT
@@ -1718,7 +1718,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         analytics.push(AnalyticsKey.WITHDRAWAL_AMOUNT_MIN_CLICKED, {
           properties: {
             currency,
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp(),
             withdrawal_method: withdrawalMethod
           },
@@ -1741,7 +1741,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               ? state.profile.userData.getOrElse({})?.email
               : null
             const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-            const id = state.walletPath.wallet.guid
+            const guid = state.walletPath.wallet.guid ?? null
             const { href, pathname, search } = window.location
             const { referrer, title } = document
             const currency = action.payload.coin
@@ -1751,7 +1751,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             analytics.push(AnalyticsKey.INTEREST_DEPOSIT_CLICKED, {
               properties: {
                 currency,
-                id,
+                guid,
                 origin,
                 originalTimestamp: getOriginalTimestamp()
               },
@@ -1764,7 +1764,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.INTEREST_DEPOSIT_VIEWED, {
               properties: {
-                id,
+                guid,
                 originalTimestamp: getOriginalTimestamp(),
                 path: pathname,
                 referrer,
@@ -1788,7 +1788,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               ? state.profile.userData.getOrElse({})?.email
               : null
             const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-            const id = state.walletPath.wallet.guid
+            const guid = state.walletPath.wallet.guid ?? null
             const { href, pathname, search } = window.location
             const { referrer, title } = document
 
@@ -1796,7 +1796,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.INTEREST_WITHDRAWAL_CLICKED, {
               properties: {
-                id,
+                guid,
                 origin,
                 originalTimestamp: getOriginalTimestamp()
               },
@@ -1809,7 +1809,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             analytics.push(AnalyticsKey.INTEREST_WITHDRAWAL_VIEWED, {
               properties: {
-                id,
+                guid,
                 originalTimestamp: getOriginalTimestamp(),
                 path: pathname,
                 referrer,
@@ -1840,7 +1840,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const amountCurrency = state.components.interest.isCoinDisplayed
           ? action.payload.coin
           : state.settingsPath.getOrElse({})?.currency
@@ -1856,7 +1856,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             currency,
             from_account_type: fromAccountType,
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp()
           },
           traits: {
@@ -1875,7 +1875,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const amountCurrency = state.components.interest.isCoinDisplayed
           ? action.payload.coin
           : state.settingsPath.getOrElse({})?.currency
@@ -1891,7 +1891,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             currency,
             from_account_type: fromAccountType,
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp()
           },
           traits: {
@@ -1910,7 +1910,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const currency = state.components.interest.coin
         const inputAmount = Number(state.form.interestDepositForm.values.depositAmount)
         const interestRate = state.components.interest.interestRate.getOrElse({})?.[currency]
@@ -1923,7 +1923,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           properties: {
             currency,
             from_account_type: fromAccountType,
-            id,
+            guid,
             input_amount: inputAmount,
             interest_rate: interestRate,
             originalTimestamp: getOriginalTimestamp()
@@ -1944,12 +1944,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const { origin } = action.payload
 
         analytics.push(AnalyticsKey.INTEREST_SUBMIT_INFORMATION_CLICKED, {
           properties: {
-            id,
+            guid,
             origin,
             originalTimestamp: getOriginalTimestamp()
           },
@@ -1969,11 +1969,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
 
         analytics.push(AnalyticsKey.CRYPTO_LINK_HANDLING_CLICKED, {
           properties: {
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp()
           },
           traits: {
@@ -1992,14 +1992,14 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const { currency } = action.payload
         const selection = manageTabSelectionClickedSelectionDictionary(action.payload.selection)
 
         analytics.push(AnalyticsKey.MANAGE_TAB_SELECTION_CLICKED, {
           properties: {
             currency,
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp(),
             selection
           },
@@ -2019,14 +2019,14 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const isEmailEnabled = action.payload.types.includes(32)
         const isSMSEnabled = action.payload.types.includes(32)
 
         analytics.push(AnalyticsKey.NOTIFICATION_PREFERENCES_UPDATED, {
           properties: {
             email_enabled: isEmailEnabled,
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp(),
             sms_enabled: isSMSEnabled
           },
@@ -2046,13 +2046,13 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const currency = 'BTC'
 
         analytics.push(AnalyticsKey.PRIVATE_KEYS_SHOWN, {
           properties: {
             currency,
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp()
           },
           traits: {
@@ -2071,13 +2071,13 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const currency = 'ETH'
 
         analytics.push(AnalyticsKey.PRIVATE_KEYS_SHOWN, {
           properties: {
             currency,
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp()
           },
           traits: {
@@ -2096,13 +2096,13 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const currency = 'XLM'
 
         analytics.push(AnalyticsKey.PRIVATE_KEYS_SHOWN, {
           properties: {
             currency,
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp()
           },
           traits: {
@@ -2121,7 +2121,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const destination = settingsHyperlinkClickedDestinationDictionary(
           action.payload.destination
         )
@@ -2129,7 +2129,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         analytics.push(AnalyticsKey.SETTINGS_HYPERLINK_CLICKED, {
           properties: {
             destination,
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp()
           },
           traits: {
@@ -2148,13 +2148,13 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const destination = settingsTabClickedDestinationDictionary(action.payload.destination)
 
         analytics.push(AnalyticsKey.SETTINGS_TAB_CLICKED, {
           properties: {
             destination,
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp()
           },
           traits: {
@@ -2173,7 +2173,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const { href, pathname, search } = window.location
         const { referrer, title } = document
         const currency = 'BTC'
@@ -2181,7 +2181,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
           properties: {
             currency,
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp()
           },
           traits: {
@@ -2193,7 +2193,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         analytics.push(AnalyticsKey.SEND_RECEIVE_VIEWED, {
           properties: {
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp(),
             path: pathname,
             referrer,
@@ -2217,7 +2217,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const { href, pathname, search } = window.location
         const { referrer, title } = document
         const currency = 'BCH'
@@ -2225,7 +2225,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
           properties: {
             currency,
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp()
           },
           traits: {
@@ -2237,7 +2237,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         analytics.push(AnalyticsKey.SEND_RECEIVE_VIEWED, {
           properties: {
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp(),
             path: pathname,
             referrer,
@@ -2261,7 +2261,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const { href, pathname, search } = window.location
         const { referrer, title } = document
         const currency = 'XLM'
@@ -2269,7 +2269,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
           properties: {
             currency,
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp()
           },
           traits: {
@@ -2281,7 +2281,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         analytics.push(AnalyticsKey.SEND_RECEIVE_VIEWED, {
           properties: {
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp(),
             path: pathname,
             referrer,
@@ -2305,7 +2305,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const { href, pathname, search } = window.location
         const { referrer, title } = document
         const currency = action.payload
@@ -2313,7 +2313,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
           properties: {
             currency,
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp()
           },
           traits: {
@@ -2325,7 +2325,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         analytics.push(AnalyticsKey.SEND_RECEIVE_VIEWED, {
           properties: {
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp(),
             path: pathname,
             referrer,
@@ -2349,7 +2349,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const feePriority = state.components.sendBtc.payment.getOrElse({})?.fees.priority
         const currency = state.form['@SEND'].BTC.FORM.values.coin
         const feeRate =
@@ -2372,7 +2372,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             currency,
             fee_rate: feeRate,
             from_account_type: fromAccountType,
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp(),
             to_account_type: toAccountType
           },
@@ -2392,7 +2392,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const feePriority = state.components.sendBch.payment.getOrElse({})?.fees.priority
         const currency = state.form['@SEND'].BCH.FORM.values.coin
         const feeRate =
@@ -2415,7 +2415,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             currency,
             fee_rate: feeRate,
             from_account_type: fromAccountType,
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp(),
             to_account_type: toAccountType
           },
@@ -2435,7 +2435,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const feePriority = state.components.sendXlm.payment.getOrElse({})?.fees.priority
         const currency = state.form['@SEND'].XLM.FORM.values.coin
         const feeRate =
@@ -2458,7 +2458,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             currency,
             fee_rate: feeRate,
             from_account_type: fromAccountType,
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp(),
             to_account_type: toAccountType
           },
@@ -2478,7 +2478,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const feePriority = state.components.sendEth.payment.getOrElse({})?.fees.priority
         const currency = state.form['@SEND'].ETH.FORM.values.coin
         const feeRate =
@@ -2501,7 +2501,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             currency,
             fee_rate: feeRate,
             from_account_type: fromAccountType,
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp(),
             to_account_type: toAccountType
           },
@@ -2521,7 +2521,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const feePriority = state.components.sendBtc.payment.getOrElse({})?.fees.priority
         const currency = state.form['@SEND'].BTC.FORM.values.coin
         const feeRate =
@@ -2544,7 +2544,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             currency,
             fee_rate: feeRate,
             from_account_type: fromAccountType,
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp(),
             to_account_type: toAccountType
           },
@@ -2564,7 +2564,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const feePriority = state.components.sendBch.payment.getOrElse({})?.fees.priority
         const currency = state.form['@SEND'].BCH.FORM.values.coin
         const feeRate =
@@ -2587,7 +2587,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             currency,
             fee_rate: feeRate,
             from_account_type: fromAccountType,
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp(),
             to_account_type: toAccountType
           },
@@ -2607,7 +2607,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const feePriority = state.components.sendXlm.payment.getOrElse({})?.fees.priority
         const currency = state.form['@SEND'].XLM.FORM.values.coin
         const feeRate =
@@ -2630,7 +2630,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             currency,
             fee_rate: feeRate,
             from_account_type: fromAccountType,
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp(),
             to_account_type: toAccountType
           },
@@ -2650,7 +2650,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers.current ?? null
-        const id = state.walletPath.wallet.guid
+        const guid = state.walletPath.wallet.guid ?? null
         const feePriority = state.components.sendEth.payment.getOrElse({})?.fees.priority
         const currency = state.form['@SEND'].ETH.FORM.values.coin
         const feeRate =
@@ -2673,7 +2673,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             currency,
             fee_rate: feeRate,
             from_account_type: fromAccountType,
-            id,
+            guid,
             originalTimestamp: getOriginalTimestamp(),
             to_account_type: toAccountType
           },

@@ -153,11 +153,8 @@ const SchedulerContainer = (props) => {
   )
 }
 
-const Scheduler = (props: InjectedFormProps & { disabled: boolean }) => {
-  return <Field {...props} component={SchedulerContainer} name='frequency' />
+const Scheduler = ({ disabled: boolean }) => {
+  return <Field component={SchedulerContainer} name='period' />
 }
 
-export default reduxForm<{}, { disabled: boolean }>({
-  destroyOnUnmount: false,
-  form: 'recurringBuyScheduler'
-})(Scheduler)
+export default Scheduler

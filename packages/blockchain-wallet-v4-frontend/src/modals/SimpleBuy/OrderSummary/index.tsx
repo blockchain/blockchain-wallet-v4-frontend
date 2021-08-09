@@ -4,10 +4,16 @@ import { equals } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from 'blockchain-wallet-v4/src'
-import { ExtractSuccess, RemoteDataType, SBOrderType } from 'blockchain-wallet-v4/src/types'
+import {
+  ExtractSuccess,
+  RemoteDataType,
+  SBOrderType,
+  SupportedWalletCurrenciesType
+} from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { RecurringBuyPeriods, RecurringBuyStepType } from 'data/types'
 
 import Loading from '../template.loading'
 import { getData } from './selectors'
@@ -38,6 +44,21 @@ class OrderSummary extends PureComponent<Props> {
     this.props.simpleBuyActions.fetchSBCards()
   }
 
+  okButtonHandler = () => {
+    // first time buyers have 1 tx at this point so and RB is set to one time buy so send them to RB walkthrough flow
+    // FIXME: The logic on the line below is hacked to be wrong so I can test.
+    if (
+      this.props.isRecurringBuy &&
+      this.props.orders.length > 1 &&
+      this.props.order.period !== RecurringBuyPeriods.ONE_TIME
+    ) {
+      this.props.recurringBuyActions.showModal({ origin: 'SimpleBuyStatus' })
+      this.props.recurringBuyActions.setStep({ step: RecurringBuyStepType.GET_STARTED })
+    } else {
+      this.props.handleClose()
+    }
+  }
+
   render() {
     const { state } = this.props.order
     return this.props.data.cata({
@@ -50,7 +71,7 @@ class OrderSummary extends PureComponent<Props> {
         ) : val.userData?.tiers?.current !== 2 ? (
           <SuccessSdd {...val} {...this.props} />
         ) : (
-          <Success {...val} {...this.props} />
+          <Success okButtonHandler={this.okButtonHandler} {...val} {...this.props} />
         )
       }
     })
@@ -59,11 +80,16 @@ class OrderSummary extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state),
-  isGoldVerified: equals(selectors.modules.profile.getCurrentTier(state), 2)
+  isGoldVerified: equals(selectors.modules.profile.getCurrentTier(state), 2),
+  isRecurringBuy: selectors.core.walletOptions
+    .getFeatureFlagRecurringBuys(state)
+    .getOrElse(false) as boolean,
+  orders: selectors.components.simpleBuy.getSBOrders(state).getOrElse([])
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   interestActions: bindActionCreators(actions.components.interest, dispatch),
+  recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),
   sendActions: bindActionCreators(actions.components.send, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
@@ -79,6 +105,8 @@ export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
   isGoldVerified: boolean
+  isRecurringBuy: boolean
+  orders: SBOrderType[]
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>
 

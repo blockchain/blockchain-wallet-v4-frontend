@@ -57,6 +57,7 @@ enum AnalyticsKey {
   SWAP_RECEIVE_SELECTED = 'Swap Receive Selected',
   SWAP_REQUESTED = 'Swap Requested',
   SWAP_VIEWED = 'Swap Viewed',
+  TRANSFER_IMPORTED_ADDRESS_CLICKED = 'Transfer Imported Addresses Clicked', // TODO
   UPGRADE_VERIFICATION_CLICKED = 'Upgrade Verification Clicked',
   WITHDRAWAL_AMOUNT_ENTERED = 'Withdrawal Amount Entered',
   WITHDRAWAL_AMOUNT_MAX_CLICKED = 'Withdrawal Amount Max Clicked',
@@ -125,7 +126,7 @@ enum WithdrawalMethod {
 }
 
 type BasePayload = {
-  id: string
+  guid: string
   originalTimestamp: string
 }
 
