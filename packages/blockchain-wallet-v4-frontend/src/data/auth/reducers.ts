@@ -16,6 +16,7 @@ const INITIAL_STATE = {
   mobileLoginStarted: false,
   registerEmail: undefined,
   registering: Remote.NotAsked,
+  resetAccount: false,
   restoring: Remote.NotAsked,
   secureChannelLogin: Remote.NotAsked
 }
@@ -83,6 +84,9 @@ const auth = (state = INITIAL_STATE, action) => {
     }
     case AT.SET_FIRST_LOGIN: {
       return assoc('firstLogin', payload.firstLogin, state)
+    }
+    case AT.SET_RESET_ACCOUNT: {
+      return assoc('resetAccount', payload.resetAccount, state)
     }
     case AT.SET_AUTH_TYPE: {
       const { authType } = payload
