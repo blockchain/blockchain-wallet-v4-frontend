@@ -9,6 +9,7 @@ export type VerifyIdentityOriginType =
   | 'Unknown'
   | 'Swap'
   | 'Goals'
+  | 'AccountReset'
   | 'Resubmission'
   | 'Onboarding'
   | 'Settings'
