@@ -147,7 +147,7 @@ export default ({ api, networks }) => {
     const result = yield call(
       api.fetchBlockchainData,
       {
-        activeBech32: xpubs.map(last),
+        bech32: xpubs.map(last),
         legacy: xpubs.map(head)
       },
       {
