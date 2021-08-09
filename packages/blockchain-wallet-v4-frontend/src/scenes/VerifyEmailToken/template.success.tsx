@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Button, Icon, Link, Text } from 'blockchain-info-components'
+import { Icon, Text } from 'blockchain-info-components'
 import { isMobile } from 'services/styles'
 
 const Wrapper = styled.div`
@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   flex-direction: column;
 `
 
-const Success = ({ mobileLinkOut }: Props) => {
+const Success = () => {
   return (
     <Wrapper>
       <Icon color='success' name='checkmark-circle-filled' size='40px' />
@@ -24,20 +24,12 @@ const Success = ({ mobileLinkOut }: Props) => {
         />
       </Text>
       {isMobile() ? (
-        <Link href={mobileLinkOut}>
-          <Button
-            nature='primary'
-            fullwidth
-            style={{ marginTop: '16px' }}
-            height='50px'
-            data-e2e=''
-          >
-            <FormattedMessage
-              id='scenes.verifyemailtoken.mobile.openwallet'
-              defaultMessage='Open My Wallet'
-            />
-          </Button>
-        </Link>
+        <Text color='grey900' style={{ marginTop: '8px' }} size='16px' weight={500}>
+          <FormattedMessage
+            id='scenes.verifyemailtoken.return_mobile'
+            defaultMessage='Return to the app to access your Blockchain Wallet.'
+          />
+        </Text>
       ) : (
         <Text color='grey900' style={{ marginTop: '8px' }} size='16px' weight={500}>
           <FormattedMessage
@@ -48,10 +40,6 @@ const Success = ({ mobileLinkOut }: Props) => {
       )}
     </Wrapper>
   )
-}
-
-type Props = {
-  mobileLinkOut: string
 }
 
 export default Success
