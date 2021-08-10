@@ -38,28 +38,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (coin === 'XLM') {
         // separate out addresses and memo
         const depositAddressMemo = destination.split(':')
-        // eslint-disable-next-line no-param-reassign
         payment = yield payment.to(depositAddressMemo[0], 'CUSTODIAL')
         // @ts-ignore
-        // eslint-disable-next-line no-param-reassign
         payment = yield payment.memo(depositAddressMemo[1])
         // @ts-ignore
-        // eslint-disable-next-line no-param-reassign
         payment = yield payment.memoType('text')
         // @ts-ignore
-        // eslint-disable-next-line no-param-reassign
         payment = yield payment.setDestinationAccountExists(true)
       } else {
-        // eslint-disable-next-line no-param-reassign
         payment = yield payment.to(destination, 'CUSTODIAL')
       }
-      // eslint-disable-next-line no-param-reassign
       payment = yield payment.build()
       // ask for second password
       const password = yield call(promptForSecondPassword)
-      // eslint-disable-next-line no-param-reassign
       payment = yield payment.sign(password)
-      // eslint-disable-next-line no-param-reassign
       payment = yield payment.publish()
     } catch (e) {
       throw e
