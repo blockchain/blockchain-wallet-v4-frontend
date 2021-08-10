@@ -1854,12 +1854,10 @@
     react-popper "1.3.2"
     react-transition-group "2.5.3"
 
-"@blockchain-com/constellation@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@blockchain-com/constellation/-/constellation-0.0.2.tgz#fbdf8dc738ea3cf451726c7a8a9fa30f2d2220a3"
-  integrity sha512-NCIux0qgALtmzKkhJONiomwHRPKMX4W0cuzwaUkyXMC5Hq7toYlZAbUwdYtq3dWGR72+eKh/56PH92UpL2oOFw==
-  dependencies:
-    typescript "^4.2.4"
+"@blockchain-com/constellation@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@blockchain-com/constellation/-/constellation-0.0.6.tgz#514a49f09d838f926e4ad7ff2eb0f7e8a7a9f9b8"
+  integrity sha512-sqqEDrgmr6XRCkt0B8AV+dYZs1TdiBDCVCZ9kwrHpzLERRBXx7HvKkiZ3lya8T9Rm+cnhNUxBPR5QVV9tiBILQ==
 
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"
@@ -9619,10 +9617,10 @@ eslint-config-airbnb@18.2.1:
     object.assign "^4.1.2"
     object.entries "^1.1.2"
 
-eslint-config-constellation@0.0.24:
-  version "0.0.24"
-  resolved "https://registry.yarnpkg.com/eslint-config-constellation/-/eslint-config-constellation-0.0.24.tgz#1c9b7120ecde5ab0da9f3c87bb0a221fa4b6b2ea"
-  integrity sha512-afDsh4FA+LlzDfgGe3jykPiMOmJbBr+AvCD4JhykDB7JzG0G4iSwQ0/kJN+WPqcAwIXnLZrlAw7JzJTdlk/AHw==
+eslint-config-constellation@0.0.26:
+  version "0.0.26"
+  resolved "https://registry.yarnpkg.com/eslint-config-constellation/-/eslint-config-constellation-0.0.26.tgz#422dc669335e1a2a6f751c7483f128dca5a2f33d"
+  integrity sha512-6WgTj8DKzLdl9F81PLcguTMSnFCNtS7PBL/zz8JJgymZJvuHre4eBYWnP/oA4+rXhVs+Jw8olAPi9wBm318OdA==
 
 eslint-config-prettier@8.3.0:
   version "8.3.0"
@@ -20392,11 +20390,6 @@ typescript@^4.0:
   version "4.3.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.3.2.tgz#399ab18aac45802d6f2498de5054fcbbe716a805"
   integrity sha512-zZ4hShnmnoVnAHpVHWpTcxdv7dWP60S2FsydQLV8V5PbS3FifjWFFRiHSWpDJahly88PRyV5teTSLoq4eG7mKw==
-
-typescript@^4.2.4:
-  version "4.3.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.3.3.tgz#5401db69bd3203daf1851a1a74d199cb3112c11a"
-  integrity sha512-rUvLW0WtF7PF2b9yenwWUi9Da9euvDRhmH7BLyBG4DCFfOJ850LGNknmRpp8Z8kXNUPObdZQEfKOiHtXuQHHKA==
 
 u2f-api@0.2.7:
   version "0.2.7"
