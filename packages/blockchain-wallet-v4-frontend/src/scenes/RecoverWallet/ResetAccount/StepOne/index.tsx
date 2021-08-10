@@ -38,18 +38,18 @@ class StepOne extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { cachedEmail, cachedGuid, lastGuid, setStep } = this.props
+    const { cachedEmail, cachedGuid, lastGuid } = this.props
     return (
       <>
         <BackArrowFormHeader
-          handleBackArrowClick={() => setStep(RecoverSteps.RECOVERY_OPTIONS)}
+          handleBackArrowClick={() => this.handleGoBackClick}
           email={cachedEmail}
           guid={cachedGuid || lastGuid}
           step={RecoverSteps.RESET_ACCOUNT}
         />
         {this.state.firstResetAcccountPrompt && (
           <FormBody>
-            <CircleBackground color='blue600' size='40px'>
+            <CircleBackground color='blue600' size='40px' style={{ marginTop: '16px' }}>
               <Icon name='sync-regular' color='white' size='20px' />
             </CircleBackground>
             <Text
@@ -57,7 +57,7 @@ class StepOne extends React.PureComponent<Props, State> {
               size='20px'
               weight={600}
               lineHeight='1.5'
-              style={{ marginBottom: '8px' }}
+              style={{ margin: '8px 0' }}
             >
               <FormattedMessage id='scenes.recovery.reset' defaultMessage='Reset Your Account?' />
             </Text>
@@ -77,7 +77,7 @@ class StepOne extends React.PureComponent<Props, State> {
         )}
         {!this.state.firstResetAcccountPrompt && (
           <FormBody>
-            <CircleBackground color='orange600' size='40px'>
+            <CircleBackground color='orange600' size='40px' style={{ marginTop: '16px' }}>
               <Icon name='alert-filled' color='white' size='20px' style={{ marginBottom: '2px' }} />
             </CircleBackground>
             <Text
@@ -85,7 +85,7 @@ class StepOne extends React.PureComponent<Props, State> {
               size='20px'
               weight={600}
               lineHeight='1.5'
-              style={{ marginBottom: '8px', textAlign: 'center' }}
+              style={{ margin: '8px 0', textAlign: 'center' }}
             >
               <FormattedMessage
                 id='sscenes.recovery.reset_warning_title'
@@ -106,26 +106,15 @@ class StepOne extends React.PureComponent<Props, State> {
             </Text>
           </FormBody>
         )}
-
         <ActionButton
           nature='primary'
           fullwidth
           height='48px'
           data-e2e='resetAccountButton'
-          style={{ marginBottom: '16px' }}
+          style={{ margin: '24px 0 16px 0' }}
           onClick={this.handleResetAccountClick}
         >
           <FormattedMessage id='buttons.reset_account' defaultMessage='Reset Account' />
-        </ActionButton>
-        <ActionButton
-          nature='empty-secondary'
-          fullwidth
-          height='48px'
-          data-e2e='goBack'
-          style={{ marginBottom: '16px' }}
-          onClick={this.handleGoBackClick}
-        >
-          <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
         </ActionButton>
       </>
     )
