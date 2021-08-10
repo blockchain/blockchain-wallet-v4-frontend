@@ -6,10 +6,7 @@ import sagas from './sagas'
 export default ({ api, networks }) => {
   const kvStoreLockboxSagas = sagas({ api, networks })
 
-  return function * coreKvStoreLockboxSaga() {
-    yield takeLatest(
-      AT.FETCH_METADATA_LOCKBOX,
-      kvStoreLockboxSagas.fetchMetadataLockbox
-    )
+  return function* coreKvStoreLockboxSaga() {
+    yield takeLatest(AT.FETCH_METADATA_LOCKBOX, kvStoreLockboxSagas.fetchMetadataLockbox)
   }
 }

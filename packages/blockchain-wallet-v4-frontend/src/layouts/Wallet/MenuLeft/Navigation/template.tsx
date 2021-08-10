@@ -67,7 +67,7 @@ const ExchangeNavItem = (props) => (
 )
 
 const Navigation = (props: OwnProps & Props) => {
-  const { coinList, lockboxDevices, ...rest } = props
+  const { coinList, hasDeprecatedLockbox, ...rest } = props
 
   return (
     <Wrapper {...rest}>
@@ -120,7 +120,7 @@ const Navigation = (props: OwnProps & Props) => {
           <ExchangeNavItem {...props} />
         </MenuItem>
       </LinkContainer>
-      {lockboxDevices?.length > 0 ? (
+      {hasDeprecatedLockbox ? (
         <LinkContainer to='/lockbox' activeClassName='active'>
           <MenuItem data-e2e='lockboxLink'>
             <MenuIcon className='icon' name='hardware' style={{ paddingLeft: '2px' }} size='24px' />
