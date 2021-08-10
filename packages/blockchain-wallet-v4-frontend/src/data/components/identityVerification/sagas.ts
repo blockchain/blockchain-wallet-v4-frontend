@@ -458,7 +458,11 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.form.stopSubmit(INFO_AND_RESIDENTIAL_FORM))
       yield put(actions.modules.profile.fetchUser())
     } catch (e) {
-      yield put(actions.form.stopSubmit(INFO_AND_RESIDENTIAL_FORM, { _error: e }))
+      yield put(
+        actions.form.stopSubmit(INFO_AND_RESIDENTIAL_FORM, {
+          _error: typeof e === 'string' ? e : e.description
+        })
+      )
       yield put(
         actions.logs.logErrorMessage(
           logLocation,
