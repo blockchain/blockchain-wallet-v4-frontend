@@ -2303,6 +2303,7 @@ type MessagesType = {
   'scenes.recover.restore_fails': 'Restoring Account Failed'
   'scenes.register.browserwarning': 'Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, IE 11, or Opera '
   'scenes.register.confirmpassword': 'Confirm Password'
+  'scenes.register.countryofresidence': 'Country of Residence'
   'scenes.register.exchange.subcard': 'You will be taken to our trading experience to continue sign up.'
   'scenes.register.exchangecard.infotitle': 'The world’s most trusted crypto exchange.'
   'scenes.register.exchangecard.item.1.bold': 'Lightning-fast trades'

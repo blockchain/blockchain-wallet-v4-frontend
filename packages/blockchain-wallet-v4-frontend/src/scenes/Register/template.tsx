@@ -20,6 +20,7 @@ import { media } from 'services/styles'
 import { PropsType as OwnProps } from '.'
 import Header from './Header'
 import LinkExchangeAccount from './LinkExchangeAccount'
+import { REGISTER_FORM } from './model'
 import SignupForm from './SignupForm'
 import SimpleBuyInfo from './SimpleBuyInfo'
 
@@ -191,9 +192,11 @@ const SignupCard = ({
   invalid,
   isLinkAccountGoal,
   isSimpleBuyGoal,
+  onCountrySelect,
   password,
   passwordLength,
   showForm,
+  showState,
   toggleForm
 }: InjectedFormProps<{}, Props> & Props) => {
   const buttonSubmit = showForm ? handleSubmit : toggleForm
@@ -290,6 +293,8 @@ const SignupCard = ({
             invalid={invalid}
             password={password}
             passwordLength={passwordLength}
+            onCountrySelect={onCountrySelect}
+            showState={showState}
           />
         ) : (
           <Button
@@ -350,7 +355,7 @@ const SignupCard = ({
 }
 
 const Register = (props: InjectedFormProps<{}, Props> & Props) => {
-  const { goals, isLinkAccountGoal, isSimpleBuyGoal } = props
+  const { goals, isLinkAccountGoal, isSimpleBuyGoal, onCountrySelect, showState } = props
   const dataGoal = find(propEq('name', 'simpleBuy'), goals)
   const goalData: SimpleBuyWidgetGoalDataType = propOr({}, 'data', dataGoal)
 
@@ -402,6 +407,8 @@ const Register = (props: InjectedFormProps<{}, Props> & Props) => {
               invalid={props.invalid}
               password={props.password}
               passwordLength={props.passwordLength}
+              onCountrySelect={onCountrySelect}
+              showState={showState}
             />
           </SimpleBuyCard>
         </CardsWrapper>
@@ -538,10 +545,12 @@ type Props = {
   busy: boolean
   isLinkAccountGoal: boolean
   isSimpleBuyGoal: boolean
+  onCountrySelect: (e: React.SyntheticEvent, value: string) => void
   password: string
   passwordLength: number
   showForm: boolean
+  showState: boolean
   toggleForm: any
 } & OwnProps
 
-export default reduxForm<{}, Props>({ form: 'register' })(Register)
+export default reduxForm<{}, Props>({ form: REGISTER_FORM })(Register)
