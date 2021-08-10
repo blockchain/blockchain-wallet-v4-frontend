@@ -17,28 +17,28 @@ const state = {
     xlm: {
       data: {
         [id1]: Remote.of({
-          id: id1,
           account_id: id1,
           balances: [
             {
+              asset_type: 'native',
               balance: balance1,
               buying_liabilities: '0.0000000',
-              selling_liabilities: '0.0000000',
-              asset_type: 'native'
+              selling_liabilities: '0.0000000'
             }
-          ]
+          ],
+          id: id1
         }),
         [id2]: Remote.of({
-          id: id2,
           account_id: id2,
           balances: [
             {
+              asset_type: 'native',
               balance: balance2,
               buying_liabilities: '0.0000000',
-              selling_liabilities: '0.0000000',
-              asset_type: 'native'
+              selling_liabilities: '0.0000000'
             }
-          ]
+          ],
+          id: id2
         })
       }
     }
@@ -70,6 +70,6 @@ describe('getTotalBalance', () => {
 
 describe('getContext', () => {
   it('should get all unique wallets', () => {
-    expect(getContext(state)).toEqual([id1])
+    expect(getContext(state)).toEqual([id1, id2])
   })
 })
