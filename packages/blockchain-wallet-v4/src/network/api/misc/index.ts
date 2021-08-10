@@ -35,26 +35,25 @@ export default ({ apiUrl, get, post }) => {
       url: apiUrl
     })
 
-  // TODO delete this for release
-
-  const getMagicLinkMock = (scenario) =>
+  const triggerWalletMagicLink = (email, captchaToken, sessionToken) => {
     post({
       contentType: 'application/json',
       data: {
-        captcha: 'dummy',
-        email: 'pavel@blockchain.com',
-        product: 'WALLET',
-        scenario
+        captcha: captchaToken,
+        email,
+        product: 'wallet',
+        siteKey: window.CAPTCHA_KEY
       },
-      endPoint: '/auth/mock/email-reminder',
+      endPoint: '/auth/email-reminder',
+      sessionToken,
       url: apiUrl
     })
-
+  }
   return {
-    getMagicLinkMock,
     getPriceIndex,
     getPriceIndexSeries,
     getPriceTimestampSeries,
-    getRandomBytes
+    getRandomBytes,
+    triggerWalletMagicLink
   }
 }

@@ -15,7 +15,6 @@ export type BannerType =
   | 'buyCrypto'
   | 'continueToGold'
   | 'recurringBuys'
-  | 'usddIsPaxNow'
   | null
 
 export const getData = (state: RootState): { bannerToShow: BannerType } => {
@@ -44,8 +43,10 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   } as UserDataType)
 
   const { KYC_STATES } = model.profile
-  const isKycStatePending =
-    userData.kycState === KYC_STATES.PENDING || userData.kycState === KYC_STATES.UNDER_REVIEW
+  const isKycPendingOrVerified =
+    userData.kycState === KYC_STATES.PENDING ||
+    userData.kycState === KYC_STATES.UNDER_REVIEW ||
+    userData.kycState === KYC_STATES.VERIFIED
   const sddEligibleTier = selectors.components.simpleBuy.getUserSddEligibleTier(state).getOrElse(1)
 
   const limits = selectors.components.simpleBuy.getLimits(state).getOrElse({
@@ -61,7 +62,7 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const isTier3SDD = sddEligibleTier === 3
 
   let bannerToShow: BannerType = null
-  if (showDocResubmitBanner && !isKycStatePending) {
+  if (showDocResubmitBanner && !isKycPendingOrVerified) {
     bannerToShow = 'resubmit'
   } else if (isSimpleBuyOrderPending && !isTier3SDD) {
     bannerToShow = 'sbOrder'
@@ -79,7 +80,7 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   } else if (isRecurringBuy) {
     bannerToShow = 'recurringBuys'
   } else {
-    bannerToShow = 'usddIsPaxNow'
+    bannerToShow = null
   }
 
   return {
