@@ -183,20 +183,6 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const checkExchangeUsage = function* () {
-    try {
-      const accountsR = yield select(selectors.core.common.btc.getActiveHDAccounts)
-      const accounts = accountsR.getOrElse([])
-      const defaultIndex = yield select(selectors.core.wallet.getDefaultAccountIndex)
-      const defaultAccount = accounts.find((account) => account.index === defaultIndex)
-      if (!defaultAccount) return
-      yield call(api.checkExchangeUsage, defaultAccount.xpub)
-    } catch (e) {
-      // eslint-disable-next-line
-      // console.log(e)
-    }
-  }
-
   const updateMnemonicBackup = function* () {
     try {
       const lastMnemonicBackup = selectors.core.settings
@@ -322,7 +308,6 @@ export default ({ api, coreSagas, networks }) => {
       yield fork(updateMnemonicBackup)
       // ensure xpub cache is correct
       yield fork(checkXpubCacheLegitimacy)
-      yield fork(checkExchangeUsage)
       yield fork(checkDataErrors)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'loginRoutineSaga', e))
