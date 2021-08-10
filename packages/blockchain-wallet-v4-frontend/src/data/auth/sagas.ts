@@ -359,6 +359,9 @@ export default ({ api, coreSagas, networks }) => {
       }
       yield put(actions.session.saveSession(assoc(guid, session, {})))
       yield put(actions.auth.loginLoading())
+      if (emailToken) {
+        yield put(actions.core.data.misc.authorizeLogin(emailToken, true))
+      }
       yield call(coreSagas.wallet.fetchWalletSaga, {
         code,
         guid,
@@ -374,14 +377,14 @@ export default ({ api, coreSagas, networks }) => {
       if (authRequired) {
         // If user has already received authorization token
         // from wallet guid reminder email
-        let authRequiredAlert
-        if (emailToken) {
-          yield put(actions.core.data.misc.authorizeLogin(emailToken, true))
-        } else {
-          authRequiredAlert = yield put(
-            actions.alerts.displayInfo(C.AUTHORIZATION_REQUIRED_INFO, undefined, true)
-          )
-        }
+        // let authRequiredAlert
+        // if (emailToken) {
+        //   yield put(actions.core.data.misc.authorizeLogin(emailToken, true))
+        // } else {
+        const authRequiredAlert = yield put(
+          actions.alerts.displayInfo(C.AUTHORIZATION_REQUIRED_INFO, undefined, true)
+        )
+        // }
         // auth errors (polling)
         const authorized = yield call(pollingSession, session)
         if (authRequiredAlert) {
