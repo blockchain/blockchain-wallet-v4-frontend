@@ -1,12 +1,5 @@
 import * as AT from './actionTypes'
 
-// CREATE
-export const createMetadataLockbox = (data) => ({
-  payload: data,
-  type: AT.CREATE_METADATA_LOCKBOX
-})
-
-// FETCH
 export const fetchMetadataLockbox = () => ({
   type: AT.FETCH_METADATA_LOCKBOX
 })
