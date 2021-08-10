@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { keys, map, mergeAll } from 'ramda'
 
@@ -23,13 +22,10 @@ const initialState: PricesStateType = {
   previousDay: Remote.NotAsked
 }
 
-// This combines the action with the reducer in one slice
 const pricesSlice = createSlice({
   initialState,
   name: 'prices',
   reducers: {
-    // This optionally loads a action payload because you cant make your own action creators
-    // This was done because the request payload was optional in the original prices/actions.ts
     fetchCoinPrices: {
       prepare: (request?: CoinPricesRequestType) => ({ payload: request || {} }),
       reducer: (state, action: PayloadAction<CoinPricesRequestType>) => {}
@@ -51,12 +47,10 @@ const pricesSlice = createSlice({
       state.previousDay = Remote.Loading
     },
     fetchCoinPricesPreviousDaySuccess: (state, action: PayloadAction<CoinPricesRequestType>) => {
-      const pricesPairing = createPricesKvPairs(action.payload)
-      state.previousDay = Remote.Success(pricesPairing)
+      state.previousDay = Remote.Success(createPricesKvPairs(action.payload))
     },
     fetchCoinPricesSuccess: (state, action: PayloadAction<CoinPricesRequestType>) => {
-      const pricesPairing = createPricesKvPairs(action.payload)
-      state.current = Remote.Success(pricesPairing)
+      state.current = Remote.Success(createPricesKvPairs(action.payload))
     }
   }
 })
