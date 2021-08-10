@@ -6,7 +6,7 @@ import { Field } from 'redux-form'
 import reduxForm, { InjectedFormProps } from 'redux-form/lib/reduxForm'
 import styled from 'styled-components'
 
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { Button, Icon, SkeletonRectangle, Text } from 'blockchain-info-components'
 import {
   convertCoinToCoin,
   convertCoinToFiat,
@@ -14,10 +14,12 @@ import {
 } from 'blockchain-wallet-v4/src/exchange'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import { getRatesSelector } from 'blockchain-wallet-v4/src/redux/data/misc/selectors'
+import { BlueCartridge } from 'components/Cartridge'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
 import { DisplayContainer } from 'components/SimpleBuy'
 import { RatesType } from 'core/types'
+import { selectors } from 'data'
 import { SendCryptoStepType } from 'data/components/sendCrypto/types'
 import { formatTextAmount } from 'services/forms'
 import { media } from 'services/styles'
@@ -27,7 +29,11 @@ import { StepHeader } from '../../RequestCrypto/model'
 import { Row } from '../../Swap/EnterAmount/Checkout'
 import { Props as OwnProps } from '..'
 import { SEND_FORM } from '../model'
+import { validate } from './validation'
 
+const CustomBlueCartridge = styled(BlueCartridge)`
+  cursor: pointer;
+`
 const Amounts = styled.div`
   margin-top: 64px;
   display: flex;
@@ -103,10 +109,23 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
     currencyNode.style.fontSize = `${fontSizeNumber * (fontRatio - 0.3)}px`
   }
 
-  const { formActions, formValues, rates, sendCryptoActions, walletCurrency } = props
-  const { amount, fix = 'CRYPTO', selectedAccount, to } = formValues
+  const { formActions, formErrors, formValues, rates, sendCryptoActions, walletCurrency } = props
+  const amtError = typeof formErrors.amount === 'string' && formErrors.amount
+  const { amount, fix, selectedAccount, to } = formValues
   const { coin } = selectedAccount
-  const max = convertCoinToCoin({ coin, value: selectedAccount.balance })
+
+  const max = Number(convertCoinToCoin({ coin, value: selectedAccount.balance }))
+  const maxMinusFee = Number(
+    convertCoinToCoin({
+      coin,
+      value:
+        Number(selectedAccount.balance) -
+        Number(
+          convertCoinToCoin({ baseToStandard: false, coin, value: props.feesR.getOrElse(0) || 0 })
+        )
+    })
+  )
+
   const cryptoAmt =
     fix === 'FIAT'
       ? convertFiatToCoin({
@@ -150,7 +169,8 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
       <CheckoutDisplayContainer>
         <div>
           <Text size='14px' color='grey600' weight={600}>
-            <FormattedMessage defaultMessage='From:' id='copy.from:' /> {selectedAccount.label}
+            <FormattedMessage defaultMessage='From:' id='copy.from:' /> {selectedAccount.label} (
+            {max} {coin})
           </Text>
           <Text size='16px' color='grey900' weight={600}>
             <FormattedMessage defaultMessage='To:' id='copy.to:' /> {to}
@@ -227,6 +247,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
               data-e2e='sbSwitchIcon'
             />
           </QuoteRow>
+          {amtError}
         </QuoteActionContainer>
         <Amounts>
           <Text
@@ -235,7 +256,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
             role='button'
             onClick={() => {
               formActions.change(SEND_FORM, 'fix', 'CRYPTO')
-              formActions.change(SEND_FORM, 'amount', max)
+              formActions.change(SEND_FORM, 'amount', maxMinusFee)
             }}
           >
             <Text color='blue600' weight={600} size='12px'>
@@ -247,15 +268,31 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
               size='14px'
               style={{ marginTop: '4px', textAlign: 'right' }}
             >
-              {max} {coin}
+              {maxMinusFee} {coin}
             </Text>
           </Text>
           <div>
             <Text color='blue600' weight={600} size='12px'>
               <FormattedMessage id='copy.network_fee' defaultMessage='Network Fee' />
             </Text>
+            {/* TODO: make field */}
             <Text color='black' weight={600} size='14px' style={{ marginTop: '4px' }}>
-              TODO
+              {props.feesR.cata({
+                Failure: (e) => (
+                  <CustomBlueCartridge
+                    pointer
+                    data-e2e='retryFetchFees'
+                    onClick={() => props.sendCryptoActions.fetchWithdrawalFees()}
+                  >
+                    <Text size='10px' color='blue600' weight={600}>
+                      <FormattedMessage id='copy.retry' defaultMessage='Retry' />
+                    </Text>
+                  </CustomBlueCartridge>
+                ),
+                Loading: () => <SkeletonRectangle height='24px' width='52px' />,
+                NotAsked: () => <SkeletonRectangle height='24px' width='52px' />,
+                Success: (val) => `${val} ${coin}`
+              })}
             </Text>
           </div>
         </Amounts>
@@ -277,8 +314,12 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
 }
 
 const mapStateToProps = (state, ownProps: OwnProps) => {
-  const ratesSelector = getRatesSelector(ownProps.formValues.selectedAccount.coin, state)
+  const { coin } = ownProps.formValues.selectedAccount
+
+  const ratesSelector = getRatesSelector(coin, state)
   return {
+    feesR: selectors.components.sendCrypto.getWithdrawalFees(state, coin),
+    minR: selectors.components.sendCrypto.getWithdrawalMin(state, coin),
     rates: ratesSelector.getOrElse({} as RatesType)
   }
 }
@@ -288,10 +329,16 @@ const enhance = compose(
   connector,
   reduxForm<{}, Props>({
     destroyOnUnmount: false,
-    form: SEND_FORM
+    form: SEND_FORM,
+    validate
   })
 )
 
-type Props = ConnectedProps<typeof connector> & OwnProps
+export type Props = ConnectedProps<typeof connector> &
+  OwnProps & {
+    formErrors: {
+      amount?: 'ABOVE_MAX' | 'BELOW_MIN' | 'NEGATIVE_INCOMING_AMT' | boolean
+    }
+  }
 
 export default enhance(SendEnterAmount) as React.ComponentType<OwnProps>

@@ -28,6 +28,7 @@ class SendCrypto extends PureComponent<Props, State> {
     /* eslint-disable */
     this.setState({ show: true })
     /* eslint-enable */
+    this.props.sendCryptoActions.fetchWithdrawalFees()
   }
 
   componentWillUnmount() {
@@ -65,6 +66,7 @@ class SendCrypto extends PureComponent<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => ({
+  formErrors: selectors.form.getFormSyncErrors(SEND_FORM)(state),
   formValues: selectors.form.getFormValues(SEND_FORM)(state) as SendFormType,
   sendableCoins: getData(),
   step: selectors.components.sendCrypto.getStep(state),
@@ -83,7 +85,10 @@ const enhance = compose<any>(
   connector,
   reduxForm({
     destroyOnUnmount: false,
-    form: SEND_FORM
+    form: SEND_FORM,
+    initialValues: {
+      fix: 'CRYPTO'
+    }
   })
 )
 
