@@ -28,9 +28,11 @@ const pricesSlice = createSlice({
   initialState,
   name: 'prices',
   reducers: {
+    // This optionally loads a action payload because you cant make your own action creators
+    // This was done because the request payload was optional in the original prices/actions.ts
     fetchCoinPrices: {
-      reducer: (state, action: PayloadAction<CoinPricesRequestType>) => {},
-      prepare: (request?: CoinPricesRequestType) => ({ payload: request || {} })
+      prepare: (request?: CoinPricesRequestType) => ({ payload: request || {} }),
+      reducer: (state, action: PayloadAction<CoinPricesRequestType>) => {}
     },
     fetchCoinPricesFailure: (state, action: PayloadAction<string>) => {
       state.current = Remote.Failure(action.payload)
@@ -38,13 +40,9 @@ const pricesSlice = createSlice({
     fetchCoinPricesLoading: (state) => {
       state.current = Remote.Loading
     },
-    fetchCoinPricesSuccess: (state, action: PayloadAction<CoinPricesRequestType>) => {
-      const pricesPairing = createPricesKvPairs(action.payload)
-      state.current = Remote.Success(pricesPairing)
-    },
     fetchCoinPricesPreviousDay: {
-      reducer: (state, action: PayloadAction<CoinPricesRequestType>) => {},
-      prepare: (request?: CoinPricesRequestType) => ({ payload: request || {} })
+      prepare: (request?: CoinPricesRequestType) => ({ payload: request || {} }),
+      reducer: (state, action: PayloadAction<CoinPricesRequestType>) => {}
     },
     fetchCoinPricesPreviousDayFailure: (state, action: PayloadAction<string>) => {
       state.previousDay = Remote.Failure(action.payload)
@@ -55,6 +53,10 @@ const pricesSlice = createSlice({
     fetchCoinPricesPreviousDaySuccess: (state, action: PayloadAction<CoinPricesRequestType>) => {
       const pricesPairing = createPricesKvPairs(action.payload)
       state.previousDay = Remote.Success(pricesPairing)
+    },
+    fetchCoinPricesSuccess: (state, action: PayloadAction<CoinPricesRequestType>) => {
+      const pricesPairing = createPricesKvPairs(action.payload)
+      state.current = Remote.Success(pricesPairing)
     }
   }
 })
