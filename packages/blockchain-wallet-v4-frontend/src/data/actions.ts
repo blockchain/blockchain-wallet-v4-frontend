@@ -16,7 +16,7 @@ import * as ws from './middleware/webSocket/coins/actions'
 import * as modals from './modals/actions'
 import * as modules from './modules/actions'
 import * as preferences from './preferences/actions'
-import * as prices from './prices/actions'
+import { actions as prices } from './prices/slice'
 import * as session from './session/actions'
 import * as wallet from './wallet/actions'
 
