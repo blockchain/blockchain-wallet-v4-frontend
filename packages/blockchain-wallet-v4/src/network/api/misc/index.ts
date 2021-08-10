@@ -35,10 +35,25 @@ export default ({ apiUrl, get, post }) => {
       url: apiUrl
     })
 
+  const triggerWalletMagicLink = (email, captchaToken, sessionToken) => {
+    post({
+      contentType: 'application/json',
+      data: {
+        captcha: captchaToken,
+        email,
+        product: 'wallet',
+        siteKey: window.CAPTCHA_KEY
+      },
+      endPoint: '/auth/email-reminder',
+      sessionToken,
+      url: apiUrl
+    })
+  }
   return {
     getPriceIndex,
     getPriceIndexSeries,
     getPriceTimestampSeries,
-    getRandomBytes
+    getRandomBytes,
+    triggerWalletMagicLink
   }
 }

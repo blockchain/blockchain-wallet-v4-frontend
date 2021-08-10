@@ -30,7 +30,8 @@ import {
   AddBankStepType,
   BankPartners,
   BankTransferAccountType,
-  BrokerageModalOriginType
+  BrokerageModalOriginType,
+  RecurringBuyPeriods 
 } from 'data/types'
 
 import profileSagas from '../../modules/profile/sagas'
@@ -269,7 +270,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const pair = S.getSBPair(yield select())
       if (!values) throw new Error(NO_CHECKOUT_VALS)
       if (!pair) throw new Error(NO_PAIR_SELECTED)
-      const { fix, orderType } = values
+      const { fix, orderType, period } = values
 
       // since two screens use this order creation saga and they have different
       // forms, detect the order type and set correct form to submitting
@@ -361,6 +362,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         input,
         output,
         paymentType,
+        period,
         paymentMethodId
       )
 
@@ -1091,6 +1093,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           amount,
           cryptoAmount,
           fix,
+          period: RecurringBuyPeriods.ONE_TIME,
           orderType
         } as T.SBCheckoutFormValuesType)
       )

@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
@@ -19,7 +18,7 @@ import {
   YodleeAccountType
 } from './types'
 
-const INITIAL_STATE: BrokerageState = {
+const initialState: BrokerageState = {
   account: undefined,
   addBankStep: AddBankStepType.ADD_BANK,
   addNew: false,
@@ -35,7 +34,7 @@ const INITIAL_STATE: BrokerageState = {
 }
 
 const brokerageSlice = createSlice({
-  initialState: INITIAL_STATE,
+  initialState,
   name: 'brokerage',
   reducers: {
     createFiatDeposit: () => {},

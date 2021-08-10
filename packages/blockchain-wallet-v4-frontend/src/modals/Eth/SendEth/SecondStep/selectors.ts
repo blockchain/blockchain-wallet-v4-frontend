@@ -24,11 +24,11 @@ const ethFromLabel = curry((payment, state) => {
   }
 })
 
-const erc20FromLabel = curry((coin, payment, state) => {
+const erc20FromLabel = curry((coin, payment) => {
   const { from } = payment
   switch (from.type) {
     case ADDRESS_TYPES.ACCOUNT:
-      return selectors.core.kvStore.eth.getErc20AccountLabel(state, coin).getOrElse(from.address)
+      return `${coin} Private Key Wallet`
     default:
       return from.address
   }
@@ -57,10 +57,11 @@ export const getData = (state, coin) => {
       value: amountStandard
     })
     // Fee for ETH or ERC20 txs should always be in ETH
+    const useErc20 = isErc20 && payment.from.type === 'CUSTODIAL'
     const fee = Exchange.convertCoinToFiat({
-      coin,
+      coin: useErc20 ? coin : 'ETH',
       currency,
-      rates: isErc20 && payment.from.type === 'CUSTODIAL' ? erc20Rates : ethRates,
+      rates: useErc20 ? erc20Rates : ethRates,
       value: payment.fee
     })
 
@@ -68,7 +69,7 @@ export const getData = (state, coin) => {
       unit: currency,
       value: Number(amount) + Number(fee)
     })
-    const fromLabel = isErc20 ? erc20FromLabel(coin, payment, state) : ethFromLabel(payment, state)
+    const fromLabel = isErc20 ? erc20FromLabel(coin, payment) : ethFromLabel(payment, state)
 
     return {
       amount: payment.amount,

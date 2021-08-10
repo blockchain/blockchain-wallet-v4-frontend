@@ -13,7 +13,7 @@ const ContentWrapper = styled.div`
 `
 const IconWrapper = styled.div`
   display: flex;
-  background: ${props => props.theme['blue600']};
+  background: ${(props) => props.theme.blue600};
   height: 40px;
   width: 40px;
   justify-content: center;
@@ -34,21 +34,20 @@ const VerifyEmail = ({ email, resendEmail, skipVerification }: Props) => {
             weight={600}
             color='black'
             style={{ marginTop: '8px' }}
+            lineHeight='1.5'
           >
-            <FormattedMessage
-              id='scenes.verifyemail.title'
-              defaultMessage='Verify Your Email'
-            />
+            <FormattedMessage id='scenes.verifyemail.title' defaultMessage='Verify Your Email' />
           </Text>
           <Text
             color='grey900'
             style={{ marginTop: '8px' }}
             size='16px'
             weight={500}
+            lineHeight='1.5'
           >
             <FormattedMessage
               id='scenes.verifyemail.description'
-              defaultMessage='We sent a verification email to: <b>{email}</b>. Please click the link in the email to continue.'
+              defaultMessage='We sent a verification email to <b>{email}</b>. Please click the link in the email to continue.'
               values={{
                 email
               }}
@@ -61,7 +60,7 @@ const VerifyEmail = ({ email, resendEmail, skipVerification }: Props) => {
             height='48px'
             nature='light'
             onClick={resendEmail}
-            style={{ marginTop: '32px', marginBottom: '5px' }}
+            style={{ marginBottom: '5px', marginTop: '32px' }}
           >
             <Text color='blue600' size='16px' weight={600}>
               <FormattedMessage
@@ -70,22 +69,21 @@ const VerifyEmail = ({ email, resendEmail, skipVerification }: Props) => {
               />
             </Text>
           </Button>
+          <Link
+            onClick={skipVerification}
+            size='14px'
+            style={{ marginTop: '16px' }}
+            weight={600}
+            data-e2e='verifyEmailLater'
+            color='blue600'
+          >
+            <FormattedMessage
+              id='scenes.verifyemail.do_it_later'
+              defaultMessage='I’ll Do This Later.'
+            />
+          </Link>
         </ContentWrapper>
       </Wrapper>
-
-      <Link
-        onClick={skipVerification}
-        size='16px'
-        style={{ marginTop: '40px' }}
-        weight={500}
-        data-e2e='verifyEmailLater'
-        color='white'
-      >
-        <FormattedMessage
-          id='scenes.verifyemail.do_it_later'
-          defaultMessage='I’ll Do This Later.'
-        />
-      </Link>
     </>
   )
 }

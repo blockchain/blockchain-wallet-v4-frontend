@@ -19,7 +19,7 @@ export const getData = (state: RootState) => {
       cards: ExtractSuccess<typeof cardsR>,
       userData: ExtractSuccess<typeof userDataR>,
       withdrawLockCheck: ExtractSuccess<typeof withdrawLockCheckR>,
-      afterTransaction: ExtractSuccess<typeof afterTransactionR>
+      afterTransaction: ExtractSuccess<typeof afterTransactionR>,
     ) => {
       return {
         cards,

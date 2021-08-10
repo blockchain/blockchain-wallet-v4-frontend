@@ -55,6 +55,13 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const watchTransactions = function* () {
+    while (true) {
+      const action = yield take(AT.FETCH_BCH_TRANSACTIONS)
+      yield call(fetchTransactions, action)
+    }
+  }
+
   const fetchTransactions = function* (action) {
     try {
       const { payload } = action
@@ -80,7 +87,6 @@ export default ({ api }: { api: APIType }) => {
       const filteredTxs = data.txs.filter((tx) => tx.time > BCH_FORK_TIME)
       const atBounds = length(filteredTxs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
-      // eslint-disable-next-line
       const txPage: Array<BchTxType> = yield call(__processTxs, filteredTxs)
       const nextSBTransactionsURL = selectors.data.custodial.getNextSBTransactionsURL(
         yield select(),
@@ -100,13 +106,6 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {
       yield put(A.fetchTransactionsFailure(e.message))
-    }
-  }
-
-  const watchTransactions = function* () {
-    while (true) {
-      const action = yield take(AT.FETCH_BCH_TRANSACTIONS)
-      yield call(fetchTransactions, action)
     }
   }
 
@@ -141,16 +140,11 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchTransactionHistoryLoading())
       const currency = yield select(selectors.settings.getCurrency)
       if (address) {
-        // TODO: SEGWIT remove w/ DEPRECATED_V3
-        // remove address.length check, all
-        // wallets will have a derivations array
         const bchLegacyAddress = prop(
           'address',
-          address.length === 2 && address.find((add) => add.type === 'legacy')
+          address.find((add) => add.type === 'legacy')
         )
-        // TODO: SEGWIT remove w/ DEPRECATED_V3
-        // Just pass bchLegacy to function
-        const convertedAddress = convertFromCashAddrIfCashAddr(bchLegacyAddress || address)
+        const convertedAddress = convertFromCashAddrIfCashAddr(bchLegacyAddress)
         const data = yield call(
           api.getBchTransactionHistory,
           convertedAddress,

@@ -381,9 +381,10 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             <GreyBlueCartridge
               role='button'
               data-e2e='swapMax'
-              onClick={() =>
-                props.swapActions.handleSwapMinAmountClick(fix === 'FIAT' ? fiatMax : max)
-              }
+              onClick={() => {
+                props.swapActions.switchFix(quoteAmount, 'CRYPTO')
+                props.swapActions.handleSwapMinAmountClick(max)
+              }}
             >
               <FormattedMessage id='buttons.swap_max' defaultMessage='Swap Max' />
             </GreyBlueCartridge>

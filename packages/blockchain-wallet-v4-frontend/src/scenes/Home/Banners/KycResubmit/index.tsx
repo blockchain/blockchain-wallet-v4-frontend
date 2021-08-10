@@ -38,14 +38,14 @@ const Column = styled.div<{ hiddenOnMobile?: boolean }>`
   }
 `
 const Title = styled(Text)`
-  color: ${(props) => props.theme['marketing-primary']};
+  color: ${(props) => props.theme.grey900};
   margin-bottom: 4px;
 `
 
 const ResubmitBtn = styled(Button).attrs({
+  height: '40px',
   nature: 'primary',
-  width: '150px',
-  height: '40px'
+  width: '150px'
 })`
   font-weight: 500;
 `
@@ -53,16 +53,16 @@ const ResubmitBtn = styled(Button).attrs({
 const KycResubmit = ({ verifyIdentity }) => (
   <Wrapper>
     <Column>
-      <Title size='16px' weight={500}>
+      <Title size='20px' weight={600}>
         <FormattedMessage
           id='scenes.home.banners.kycresubmit.title'
           defaultMessage='Documents Needed'
         />
       </Title>
-      <Text size='13px' weight={400}>
+      <Text size='14px' weight={500} color='grey900'>
         <FormattedMessage
-          id='scenes.home.banners.kycresubmit.subtitle'
-          defaultMessage="We had some issues with the documents you've supplied.  Please try uploading the documents again to continue with your verification."
+          id='scenes.home.banners.kycresubmit.copy'
+          defaultMessage='Please re-verify your identity to access our full products and services.'
         />
       </Text>
     </Column>

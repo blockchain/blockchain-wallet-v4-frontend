@@ -11,10 +11,12 @@ const INITIAL_STATE = {
   isLoggingIn: false,
   kycReset: undefined,
   login: Remote.NotAsked,
+  magicLinkData: null,
   metadataRestore: Remote.NotAsked,
   mobileLoginStarted: false,
   registerEmail: undefined,
   registering: Remote.NotAsked,
+  resetAccount: false,
   restoring: Remote.NotAsked,
   secureChannelLogin: Remote.NotAsked,
   userGeoData: Remote.NotAsked
@@ -84,9 +86,18 @@ const auth = (state = INITIAL_STATE, action) => {
     case AT.SET_FIRST_LOGIN: {
       return assoc('firstLogin', payload.firstLogin, state)
     }
+    case AT.SET_RESET_ACCOUNT: {
+      return assoc('resetAccount', payload.resetAccount, state)
+    }
     case AT.SET_AUTH_TYPE: {
       const { authType } = payload
       return assoc('auth_type', authType, state)
+    }
+    case AT.SET_MAGIC_LINK_INFO: {
+      return {
+        ...state,
+        magicLinkData: action.payload.magicLinkInfo
+      }
     }
     case AT.SET_REGISTER_EMAIL: {
       const { email } = payload

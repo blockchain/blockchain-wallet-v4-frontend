@@ -9,7 +9,7 @@ import lockbox from './lockbox/reducers'
 import manageAddresses from './manageAddresses/reducers'
 import { priceChartReducer } from './priceChart/reducers'
 import { recoveryPhraseReducer } from './recoveryPhrase/reducers'
-import recurringBuysReducer from './recurringBuys/reducers'
+import { reducer as recurringBuy } from './recurringBuy/slice'
 import { requestReducer } from './request/reducers'
 import resetWallet2fa from './resetWallet2fa/reducers'
 import { sendReducer } from './send/reducers'
@@ -35,7 +35,7 @@ const componentReducer = combineReducers({
   manageAddresses,
   priceChart: priceChartReducer,
   recoveryPhrase: recoveryPhraseReducer,
-  recurringBuys: recurringBuysReducer,
+  recurringBuy,
   request: requestReducer,
   resetWallet2fa,
   send: sendReducer,

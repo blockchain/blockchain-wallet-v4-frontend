@@ -36,7 +36,7 @@ export const wrongFlowTypeError = 'Wrong flow type'
 export const noCampaignDataError = 'User did not come from campaign'
 
 export default ({ api, coreSagas, networks }) => {
-  const { TIERS } = model.profile
+  const { KYC_STATES, TIERS } = model.profile
   const {
     createUser,
     fetchUser,
@@ -136,6 +136,7 @@ export default ({ api, coreSagas, networks }) => {
       string,
       KycStateType
     >).getOrElse('NONE')
+
     // Case where user recovers their wallet with mnemonic
     // and we reset their KYC. We have to force next and
     // selected into certain states to reliably send user
@@ -144,6 +145,9 @@ export default ({ api, coreSagas, networks }) => {
       selectors.modules.profile.getKycDocResubmissionStatus
     )).getOrElse({})
     const tiersState = (yield select(selectors.modules.profile.getTiers)).getOrElse({})
+    // Edge case where a user profile is set to tier two
+    // but kycState is none after nabu reset
+    const tierTwoKycNone = kycState === KYC_STATES.NONE && tiers.current === 2
     if (kycDocResubmissionStatus === 1) {
       if (tiers.current === 0) {
         // case where user already went through first step
@@ -154,7 +158,7 @@ export default ({ api, coreSagas, networks }) => {
         } else {
           tiers = { current: 0, next: 1, selected: 2 }
         }
-      } else if (tiers.current === 1 || tiers.current === 3) {
+      } else if (tierTwoKycNone || tiers.current === 1 || tiers.current === 3) {
         tiers = { current: 1, next: 2, selected: 2 }
       } else {
         return
@@ -478,16 +482,16 @@ export default ({ api, coreSagas, networks }) => {
     goToPrevStep,
     initializeStep,
     initializeVerification,
-    resendSmsCode,
     registerUserCampaign,
+    resendSmsCode,
     saveInfoAndResidentialData,
     selectTier,
     sendDeeplink,
     sendEmailVerification,
-    updateSmsStep,
+    updateEmail,
     updateSmsNumber,
+    updateSmsStep,
     verifyIdentity,
-    verifySmsNumber,
-    updateEmail
+    verifySmsNumber
   }
 }

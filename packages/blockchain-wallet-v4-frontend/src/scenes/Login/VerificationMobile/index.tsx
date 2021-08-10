@@ -1,20 +1,17 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { LinkContainer } from 'react-router-bootstrap'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { Button, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
-import { crypto as wCrypto } from 'blockchain-wallet-v4/src'
-import { SuccessCartridge } from 'components/Cartridge'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import { RemoteDataType } from 'core/types'
 import { actions, selectors } from 'data'
 import { LoginSteps } from 'data/types'
 
 import { Props as OwnProps } from '..'
-import { BackArrowFormHeader, CartridgeSentContainer, LOGIN_FORM_NAME } from '../model'
+import { BackArrowFormHeader, LOGIN_FORM_NAME, NeedHelpLink } from '../model'
 
 const Body = styled.div`
   display: flex;
@@ -23,7 +20,7 @@ const Body = styled.div`
 const TextColumn = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 55%;
+  max-width: 60%;
   margin-right: 24px;
   > div {
     margin-bottom: 16px;
@@ -35,13 +32,8 @@ const LinkRow = styled.div`
   align-items: center;
 `
 
-const MessageSentColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-
 const VerificationMobile = (props: Props) => {
-  const { cacheActions, middlewareActions, qrData, setStep } = props
+  const { qrData, setStep } = props
 
   const handleBackArrowClick = () => {
     props.cacheActions.removedStoredLogin()
@@ -53,17 +45,29 @@ const VerificationMobile = (props: Props) => {
   return (
     <>
       <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} />
-      <Icon name='padlock' color='green600' size='20px' style={{ padding: '0 0 16px 4px' }} />
       <Body>
         {!props.phonePubKey && (
           <TextColumn>
-            <Text color='grey900' size='16px' weight={600} lineHeight='1.5'>
+            <Icon name='padlock' color='blue600' size='20px' style={{ padding: '0 0 16px 4px' }} />
+            <Text
+              color='grey900'
+              size='16px'
+              weight={600}
+              lineHeight='1.5'
+              style={{ marginBottom: '16px' }}
+            >
               <FormattedMessage
                 id='scenes.login.wallet.mobile_login.title'
                 defaultMessage='Log in with mobile app'
               />
             </Text>
-            <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
+            <Text
+              color='grey900'
+              size='12px'
+              weight={500}
+              lineHeight='1.5'
+              style={{ marginBottom: '16px' }}
+            >
               <FormattedMessage
                 id='scenes.login.wallet.mobile_login.description_one'
                 defaultMessage='Scan this QR code with the Blockchain.com mobile app.'
@@ -130,11 +134,7 @@ const VerificationMobile = (props: Props) => {
         >
           <FormattedMessage id='buttons.login_with_password' defaultMessage='Login with Password' />
         </Button>
-        <LinkContainer to='/help'>
-          <Link size='13px' weight={600} data-e2e='loginGetHelp'>
-            <FormattedMessage id='scenes.login.needhelp' defaultMessage='Need some help?' />
-          </Link>
-        </LinkContainer>
+        <NeedHelpLink />
       </LinkRow>
     </>
   )
@@ -142,15 +142,7 @@ const VerificationMobile = (props: Props) => {
 
 const mapStateToProps = (state) => ({
   phonePubKey: selectors.cache.getPhonePubkey(state),
-  qrData: selectors.cache.getChannelPrivKey(state)
-    ? JSON.stringify({
-        channelId: selectors.cache.getChannelChannelId(state),
-        pubkey: wCrypto
-          .derivePubFromPriv(Buffer.from(selectors.cache.getChannelPrivKey(state), 'hex'))
-          .toString('hex'),
-        type: 'login_wallet'
-      })
-    : '',
+  qrData: selectors.cache.getChannelPrivKeyForQrData(state),
   secureChannelLoginState: selectors.auth.getSecureChannelLogin(state) as RemoteDataType<any, any>
 })
 

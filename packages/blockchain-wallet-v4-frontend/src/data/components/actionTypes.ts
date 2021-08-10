@@ -1,5 +1,4 @@
 import * as bchTransactions from './bchTransactions/actionTypes'
-import { actions as brokerage } from './brokerage/slice'
 import * as btcTransactions from './btcTransactions/actionTypes'
 import * as coinTransactions from './coinTransactions/actionTypes'
 import * as ethTransactions from './ethTransactions/actionTypes'
@@ -15,7 +14,6 @@ import * as onboarding from './onboarding/actionTypes'
 import * as priceChart from './priceChart/actionTypes'
 import * as priceTicker from './priceTicker/actionTypes'
 import * as recoveryPhrase from './recoveryPhrase/actionTypes'
-import * as recurringBuys from './recurringBuys/actionTypes'
 import * as refresh from './refresh/actionTypes'
 import * as request from './request/actionTypes'
 import * as resetWallet2fa from './resetWallet2fa/actionTypes'
@@ -35,7 +33,6 @@ import * as xlmTransactions from './xlmTransactions/actionTypes'
 
 export {
   bchTransactions,
-  brokerage,
   btcTransactions,
   coinTransactions,
   ethTransactions,
@@ -51,7 +48,6 @@ export {
   priceChart,
   priceTicker,
   recoveryPhrase,
-  recurringBuys,
   refresh,
   request,
   resetWallet2fa,

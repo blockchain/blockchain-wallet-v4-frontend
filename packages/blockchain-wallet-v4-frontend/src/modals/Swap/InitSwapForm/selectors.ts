@@ -8,5 +8,3 @@ export const getData = (state: RootState) => {
   const accounts = getCoinAccounts(state, { coins, ...SWAP_ACCOUNTS_SELECTOR })
   return { accounts }
 }
-
-export default getData

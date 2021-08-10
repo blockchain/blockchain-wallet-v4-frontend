@@ -55,6 +55,13 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const watchTransactions = function* () {
+    while (true) {
+      const action = yield take(AT.FETCH_BTC_TRANSACTIONS)
+      yield call(fetchTransactions, action)
+    }
+  }
+
   const fetchTransactions = function* (action) {
     try {
       const { payload } = action
@@ -72,15 +79,12 @@ export default ({ api }: { api: APIType }) => {
         {
           n: TX_PER_PAGE,
           offset,
-          onlyShow:
-            // TODO: SEGWIT remove w/ DEPRECATED_V3
-            address || concat(walletContext.legacy, walletContext.bech32 || [])
+          onlyShow: address || concat(walletContext.legacy, walletContext.bech32 || [])
         },
         filter
       )
       const atBounds = length(data.txs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
-      // eslint-disable-next-line
       const txPage: Array<ProcessedTxType> = yield call(__processTxs, data.txs)
       const nextSBTransactionsURL = selectors.data.custodial.getNextSBTransactionsURL(
         yield select(),
@@ -103,21 +107,10 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const watchTransactions = function* () {
-    while (true) {
-      const action = yield take(AT.FETCH_BTC_TRANSACTIONS)
-      yield call(fetchTransactions, action)
-    }
-  }
-
   const fetchTransactionHistory = function* ({ payload }) {
     const { address, end, start } = payload
-    // TODO: SEGWIT remove w/ DEPRECATED_V3
-    // Remove address.length check
-    const bech32Address =
-      address.length === 2 && address.find((add) => prop('type', add) === 'bech32')
-    const legacyAddress =
-      address.length === 2 && address.find((add) => prop('type', add) === 'legacy')
+    const bech32Address = address.find((add) => prop('type', add) === 'bech32')
+    const legacyAddress = address.find((add) => prop('type', add) === 'legacy')
     const startDate = moment(start).format('DD/MM/YYYY')
     const endDate = moment(end).format('DD/MM/YYYY')
     try {
@@ -126,10 +119,8 @@ export default ({ api }: { api: APIType }) => {
       if (address) {
         const data = yield call(
           api.getBtcTransactionHistory,
-          // TODO: SEGWIT remove w/ DEPRECATED_V3
-          // remove || fallback
-          prop('address', legacyAddress) || address,
-          prop('address', bech32Address) || undefined,
+          prop('address', legacyAddress),
+          prop('address', bech32Address),
           currency.getOrElse('USD'),
           startDate,
           endDate
