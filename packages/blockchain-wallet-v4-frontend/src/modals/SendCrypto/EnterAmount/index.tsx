@@ -14,7 +14,7 @@ import {
 } from 'blockchain-wallet-v4/src/exchange'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import { getRatesSelector } from 'blockchain-wallet-v4/src/redux/data/misc/selectors'
-import { BlueCartridge } from 'components/Cartridge'
+import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
 import { DisplayContainer } from 'components/SimpleBuy'
@@ -22,7 +22,7 @@ import { RatesType } from 'core/types'
 import { selectors } from 'data'
 import { SendCryptoStepType } from 'data/components/sendCrypto/types'
 import { formatTextAmount } from 'services/forms'
-import { media } from 'services/styles'
+import { flex, media } from 'services/styles'
 import { hexToRgb } from 'utils/helpers'
 
 import { StepHeader } from '../../RequestCrypto/model'
@@ -32,6 +32,9 @@ import { SEND_FORM } from '../model'
 import { validate } from './validation'
 
 const CustomBlueCartridge = styled(BlueCartridge)`
+  cursor: pointer;
+`
+const CustomErrorCartridge = styled(ErrorCartridge)`
   cursor: pointer;
 `
 const Amounts = styled.div`
@@ -109,12 +112,14 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
     currencyNode.style.fontSize = `${fontSizeNumber * (fontRatio - 0.3)}px`
   }
 
-  const { formActions, formErrors, formValues, rates, sendCryptoActions, walletCurrency } = props
+  const { formActions, formErrors, formValues, minR, rates, sendCryptoActions, walletCurrency } =
+    props
   const amtError = typeof formErrors.amount === 'string' && formErrors.amount
   const { amount, fix, selectedAccount, to } = formValues
   const { coin } = selectedAccount
 
   const max = Number(convertCoinToCoin({ coin, value: selectedAccount.balance }))
+  const min = minR.getOrElse(0)
   const maxMinusFee = Number(
     convertCoinToCoin({
       coin,
@@ -247,7 +252,33 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
               data-e2e='sbSwitchIcon'
             />
           </QuoteRow>
-          {amtError}
+          {amtError ? (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                marginTop: '12px',
+                width: '100%'
+              }}
+            >
+              <CustomErrorCartridge
+                onClick={() => {
+                  formActions.change(SEND_FORM, 'fix', 'CRYPTO')
+                  formActions.change(
+                    SEND_FORM,
+                    'amount',
+                    amtError === 'ABOVE_MAX' ? maxMinusFee : min
+                  )
+                }}
+              >
+                {amtError === 'ABOVE_MAX' ? (
+                  <FormattedMessage id='copy.above_max' defaultMessage='Amount is above Max' />
+                ) : (
+                  <FormattedMessage id='copy.below_min' defaultMessage='Amount is below Min' />
+                )}
+              </CustomErrorCartridge>
+            </div>
+          ) : null}
         </QuoteActionContainer>
         <Amounts>
           <Text
@@ -297,7 +328,11 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
           </div>
         </Amounts>
       </FlyoutWrapper>
-      <FlyoutWrapper>
+      <FlyoutWrapper
+        style={{
+          paddingTop: '0px'
+        }}
+      >
         <Button
           nature='primary'
           type='submit'
