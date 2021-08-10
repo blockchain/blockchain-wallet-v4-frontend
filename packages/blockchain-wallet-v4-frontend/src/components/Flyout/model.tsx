@@ -2,6 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 
+import { SBPaymentTypes } from '../../../../blockchain-wallet-v4/src/network/api/simpleBuy/types'
 import { RecurringBuyPeriods } from '../../data/components/recurringBuy/types'
 import { ActionEnum } from '../../data/types'
 
@@ -189,8 +190,32 @@ const getActionText = (action: ActionEnum, date: string | number) => {
   }
   return text
 }
+
+const getPaymentMethodText = (paymentMethod: SBPaymentTypes) => {
+  let text
+  switch (paymentMethod) {
+    case SBPaymentTypes.BANK_TRANSFER:
+    case SBPaymentTypes.LINK_BANK:
+    case SBPaymentTypes.BANK_ACCOUNT:
+      text = <FormattedMessage id='copy.bank_account' defaultMessage='Bank Account' />
+      break
+    case SBPaymentTypes.FUNDS:
+      text = <FormattedMessage id='copy.wallet_funds' defaultMessage='Wallet Funds' />
+      break
+    case SBPaymentTypes.PAYMENT_CARD:
+    case SBPaymentTypes.USER_CARD:
+      text = <FormattedMessage id='simplebuy.confirm.payment_card' defaultMessage='Credit Card' />
+      break
+    default:
+      text = <>{paymentMethod}</>
+      break
+  }
+  return text
+}
+
 export {
   getActionText,
+  getPaymentMethodText,
   getPeriodForSuccess,
   getPeriodSubTitleText,
   getPeriodText,

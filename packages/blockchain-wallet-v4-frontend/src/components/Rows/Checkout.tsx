@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
 
+// Main row container
 const Row = styled.div`
   padding: 0 40px;
   box-sizing: border-box;
@@ -12,24 +13,26 @@ const Row = styled.div`
     border-bottom: 1px solid ${(props) => props.theme.grey000};
   }
 `
-
+// This contains all info in the row minus the optional tooltip text
 const RowVisible = styled.div`
   display: flex;
   flex: 1;
   flex-direction: row;
   justify-content: space-between;
-  height: 60px;
+  min-height: 60px;
   align-items: center;
 `
 
-const FlatRow = styled.div`
+const RowDescription = styled.div`
   display: flex;
+  flex-direction: column;
+  margin: 20px 0;
 `
 
-const RowTitle = styled(Text)`
-  font-size: 14px;
+const TitleStyles = styled(Text)<{ hasSubTitle?: boolean }>`
+  font-size: ${(props) => (props.hasSubTitle ? '14px' : '16px')};
   font-weight: 500;
-  color: ${(props) => props.theme.grey900};
+  color: ${(props) => (props.hasSubTitle ? props.theme.grey600 : props.theme.grey900)};
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -39,7 +42,7 @@ const RowValue = styled.div`
   text-align: right;
 `
 
-const RowText = styled(RowTitle)`
+const RowText = styled(TitleStyles)`
   font-weight: 600;
 `
 
@@ -82,19 +85,24 @@ const CheckoutRow = (props: Props) => {
   return (
     <Row>
       <RowVisible>
-        <FlatRow>
-          <RowTitle>{props.title}</RowTitle>
-          {props.toolTip && (
-            <IconWrapper>
-              <Icon
-                name='question-in-circle-filled'
-                size='16px'
-                color={isActiveTooltip ? 'blue600' : 'grey300'}
-                onClick={() => setToolTip(!isActiveTooltip)}
-              />
-            </IconWrapper>
-          )}
-        </FlatRow>
+        <RowDescription>
+          <div style={{ display: 'flex' }}>
+            <TitleStyles hasSubTitle={Object.prototype.hasOwnProperty.call(props, 'subTitle')}>
+              {props.title}
+            </TitleStyles>
+            {props.toolTip && (
+              <IconWrapper>
+                <Icon
+                  name='question-in-circle-filled'
+                  size='16px'
+                  color={isActiveTooltip ? 'blue600' : 'grey300'}
+                  onClick={() => setToolTip(!isActiveTooltip)}
+                />
+              </IconWrapper>
+            )}
+          </div>
+          {props.subTitle && <TitleStyles>{props.subTitle}</TitleStyles>}
+        </RowDescription>
         <RowValue>
           <RowText>{props.text}</RowText>
           {props.additionalText && <AdditionalText>{props.additionalText}</AdditionalText>}
@@ -107,7 +115,8 @@ const CheckoutRow = (props: Props) => {
 
 export type Props = {
   additionalText?: string | React.ReactNode
-  text: string | React.ReactNode
+  subTitle?: string | React.ReactNode
+  text?: string | React.ReactNode
   title: string | React.ReactNode
   toolTip?: string | React.ReactNode
 }

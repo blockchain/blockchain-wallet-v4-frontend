@@ -23,7 +23,9 @@ export enum RecurringBuyStepType {
   'FREQUENCY',
   'CHECKOUT_CONFIRM',
   'SUMMARY',
-  'FAILURE'
+  'FAILURE',
+  'DETAILS',
+  'REMOVE_CONFIRM'
 }
 
 export type RecurringBuyStepPayload = {

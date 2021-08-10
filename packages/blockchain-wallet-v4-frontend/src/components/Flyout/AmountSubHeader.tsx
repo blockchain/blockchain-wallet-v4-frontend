@@ -32,8 +32,8 @@ const AmountSubHeader = (props: Props) => {
 
 export type Props = {
   'data-e2e': string
-  subTitle: string
-  title: string
+  subTitle: string | React.ReactNode
+  title: string | React.ReactNode
 }
 
 export default memo(

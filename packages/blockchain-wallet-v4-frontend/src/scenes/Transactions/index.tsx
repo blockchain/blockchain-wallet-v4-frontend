@@ -24,7 +24,12 @@ import LazyLoadContainer from 'components/LazyLoadContainer'
 import { actions, model, selectors } from 'data'
 import { getIntroductionText } from 'data/coins/selectors'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { ActionEnum, RecurringBuyPeriods, RecurringBuyRegisteredList } from 'data/types'
+import {
+  ActionEnum,
+  RecurringBuyPeriods,
+  RecurringBuyRegisteredList,
+  RecurringBuyStepType
+} from 'data/types'
 import { media } from 'services/styles'
 
 import CoinIntroduction from './CoinIntroduction'
@@ -252,7 +257,13 @@ class TransactionsContainer extends React.PureComponent<Props> {
                   )}`}
                   coin={recurringBuy.destinationCurrency}
                   nextPayment={recurringBuy.nextPayment}
-                  onClick={() => {}}
+                  onClick={() => {
+                    this.props.recurringBuyActions.setActive(recurringBuy)
+                    this.props.recurringBuyActions.showModal({
+                      origin: 'RecurringBuys'
+                    })
+                    this.props.recurringBuyActions.setStep({ step: RecurringBuyStepType.DETAILS })
+                  }}
                   period={recurringBuy.period as RecurringBuyPeriods}
                 />
               ))}

@@ -13,6 +13,8 @@ import FlyoutFooter from './Footer'
 import FrequencyScreen from './FrequencyScreen'
 // These are the newest versions of flyout layouts and should eventually replace/integrate FlyoutWrapper etc.
 import FlyoutHeader from './Header'
+import RecurringBuyDetails from './RecurringBuyDetails'
+import RecurringBuyRemoveConfirm from './RecurringBuyRemoveConfirm'
 
 export * from './model'
 export {
@@ -21,7 +23,9 @@ export {
   FlyoutContent,
   FlyoutFooter,
   FlyoutHeader,
-  FrequencyScreen
+  FrequencyScreen,
+  RecurringBuyDetails,
+  RecurringBuyRemoveConfirm
 }
 
 export const duration = 500
