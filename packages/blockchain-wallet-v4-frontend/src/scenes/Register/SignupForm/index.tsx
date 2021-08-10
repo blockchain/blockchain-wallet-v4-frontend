@@ -4,14 +4,7 @@ import Bowser from 'bowser'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import {
-  Banner,
-  Button,
-  HeartbeatLoader,
-  Link,
-  Text,
-  TextGroup
-} from 'blockchain-info-components'
+import { Banner, Button, HeartbeatLoader, Link, Text, TextGroup } from 'blockchain-info-components'
 import {
   CheckBox,
   Form,
@@ -19,6 +12,8 @@ import {
   FormItem,
   FormLabel,
   PasswordBox,
+  SelectBoxCountry,
+  SelectBoxUSState,
   TextBox
 } from 'components/Form'
 import Terms from 'components/Terms'
@@ -45,7 +40,6 @@ const RegisterForm = styled(Form)`
 
   > div * {
     max-height: 26rem;
-    z-index: 1;
     transition: all 0.5s ease;
   }
 `
@@ -60,10 +54,20 @@ const FieldWrapper = styled.div`
   margin-top: 0.25rem;
   margin-right: 0 !important;
 `
+const FieldWithoutBottomRadius = styled(FormItem)<{ setBorder: boolean }>`
+  .bc__control {
+    border-radius: ${(props) => (props.setBorder ? '8px 8px 0 0 ' : '8px')};
+  }
+`
+const FieldWithoutTopRadius = styled(FormItem)<{ setBorder: boolean }>`
+  .bc__control {
+    border-radius: ${(props) => (props.setBorder ? '0 0 8px 8px' : '8px')};
+  }
+`
 
 const validatePasswordConfirmation = validPasswordConfirmation('password')
 
-const scrollToId = id => {
+const scrollToId = (id) => {
   const element = document.getElementById(id)
   if (element) {
     element.scrollIntoView({ behavior: 'smooth' })
@@ -78,10 +82,12 @@ const SignupForm = ({
   busy,
   handleSubmit,
   invalid,
+  onCountrySelect,
   password,
-  passwordLength
+  passwordLength,
+  showState
 }) => {
-  let passwordScore = window.zxcvbn ? window.zxcvbn(password).score : 0
+  const passwordScore = window.zxcvbn ? window.zxcvbn(password).score : 0
   return (
     <RegisterForm override onSubmit={handleSubmit}>
       {!isSupportedBrowser && (
@@ -97,10 +103,7 @@ const SignupForm = ({
       <FormGroup>
         <FormItem>
           <FormLabel htmlFor='email'>
-            <FormattedMessage
-              id='scenes.register.youremail'
-              defaultMessage='Your Email'
-            />
+            <FormattedMessage id='scenes.register.youremail' defaultMessage='Your Email' />
           </FormLabel>
           <Field
             autoFocus
@@ -116,10 +119,7 @@ const SignupForm = ({
       <FormGroup>
         <FormItem>
           <FormLabel htmlFor='password' id='password'>
-            <FormattedMessage
-              defaultMessage='Password'
-              id='scenes.register.password'
-            />
+            <FormattedMessage defaultMessage='Password' id='scenes.register.password' />
           </FormLabel>
           <Field
             bgColor='grey000'
@@ -177,14 +177,51 @@ const SignupForm = ({
           />
         </FormItem>
       </FormGroup>
+      <FormGroup>
+        <FieldWithoutBottomRadius setBorder={showState}>
+          <FormLabel htmlFor='country' id='country'>
+            <FormattedMessage
+              defaultMessage='Country of Residence'
+              id='scenes.register.countryofresidence'
+            />
+          </FormLabel>
+          <Field
+            data-e2e='selectCountryDropdown'
+            name='country'
+            validate={required}
+            component={SelectBoxCountry}
+            menuPlacement='auto'
+            onChange={onCountrySelect}
+            label={
+              <FormattedMessage
+                id='components.selectboxcountry.label'
+                defaultMessage='Select country'
+              />
+            }
+          />
+        </FieldWithoutBottomRadius>
+        {showState ? (
+          <FieldWithoutTopRadius setBorder={showState}>
+            <Field
+              name='state'
+              component={SelectBoxUSState}
+              errorBottom
+              validate={[required]}
+              normalize={(val) => val && val.code}
+              label={
+                <FormattedMessage
+                  id='components.selectboxstate.label'
+                  defaultMessage='Select state'
+                />
+              }
+            />
+          </FieldWithoutTopRadius>
+        ) : null}
+      </FormGroup>
+
       <FormGroup inline>
         <FieldWrapper>
-          <Field
-            name='secretPhase'
-            validate={[required]}
-            component={CheckBox}
-            hideErrors
-          />
+          <Field name='secretPhase' validate={[required]} component={CheckBox} hideErrors />
         </FieldWrapper>
         <FormLabel>
           <TextGroup inline>

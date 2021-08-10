@@ -4,7 +4,6 @@ import { Exchange } from 'blockchain-wallet-v4/src'
 import {
   CoinfigType,
   ExtractSuccess,
-  RatesType,
   SwapOrderType,
   WalletFiatEnum
 } from 'blockchain-wallet-v4/src/types'
@@ -33,14 +32,14 @@ export const getData = createDeepEqualSelector(
         // doesnt really matter
         const currency = 'USD'
 
-        const defaultRate = { [currency]: { last: 1 } }
+        const defaultRate = 1
 
         const ratesA = selectors.core.data.misc
           .getRatesSelector(coinA, state)
-          .getOrElse(defaultRate as RatesType)
+          .getOrElse(defaultRate)
         const ratesB = selectors.core.data.misc
           .getRatesSelector(coinB, state)
-          .getOrElse(defaultRate as RatesType)
+          .getOrElse(defaultRate)
 
         const coinAFiat = Exchange.convertCoinToFiat({
           coin: coinA,

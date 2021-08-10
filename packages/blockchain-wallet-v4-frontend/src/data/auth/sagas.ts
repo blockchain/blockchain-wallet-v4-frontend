@@ -6,6 +6,7 @@ import { call, delay, fork, put, race, select, take } from 'redux-saga/effects'
 import { Remote, Types } from 'blockchain-wallet-v4/src'
 import { DEFAULT_INVITATIONS } from 'blockchain-wallet-v4/src/model'
 import { actions, actionTypes, model, selectors } from 'data'
+import profileSagas from 'data/modules/profile/sagas'
 import * as C from 'services/alerts'
 import { isGuid } from 'services/forms'
 import { checkForVulnerableAddressError } from 'services/misc'
@@ -21,7 +22,11 @@ const { MOBILE_LOGIN } = model.analytics
 
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'auth/sagas'
-  const { generateRetailToken, setSession } = profileSagas({ api, coreSagas, networks })
+  const { createUser, generateRetailToken, setSession } = profileSagas({
+    api,
+    coreSagas,
+    networks
+  })
 
   const forceSyncWallet = function* () {
     yield put(actions.core.walletSync.forceSync())
@@ -226,7 +231,12 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const loginRoutineSaga = function* ({ email = undefined, firstLogin = false }) {
+  const loginRoutineSaga = function* ({
+    email = undefined,
+    firstLogin = false,
+    country = undefined,
+    state = undefined
+  }) {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
       const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
@@ -261,7 +271,7 @@ export default ({ api, coreSagas, networks }) => {
       yield call(authNabu)
 
       if (firstLogin) {
-        const countryCode = navigator.language.slice(-2) || 'US'
+        const countryCode = country || 'US'
         const currency = guessCurrencyBasedOnCountry(countryCode)
 
         yield put(actions.core.settings.setCurrency(currency))
@@ -302,6 +312,14 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.components.swap.fetchTrades())
       // check/update btc account names
       yield call(coreSagas.wallet.checkAndUpdateWalletNames)
+      if (firstLogin) {
+        // create nabu user
+        yield call(createUser)
+        // store initial address in case of US state we add prefix
+        const userState = country === 'US' ? `US-${state}` : state
+        yield call(api.setUserInitialAddress, country, userState)
+      }
+
       // We are checking wallet metadata to see if mnemonic is verified
       // and then syncing that information with new Wallet Account model
       // being used for SSO
@@ -461,8 +479,10 @@ export default ({ api, coreSagas, networks }) => {
       yield call(coreSagas.wallet.createWalletSaga, action.payload)
       yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
       yield call(loginRoutineSaga, {
+        country: action.payload.country,
         email: action.payload.email,
-        firstLogin: true
+        firstLogin: true,
+        state: action.payload.state
       })
       yield put(actions.auth.registerSuccess())
     } catch (e) {
@@ -717,6 +737,15 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const getUserGeoLocation = function* () {
+    try {
+      const userLocationData = yield call(api.getLocation)
+      yield put(A.setUserGeoLocation(userLocationData))
+    } catch (e) {
+      // todo
+    }
+  }
+
   const resetAccount = function* (action) {
     // If user is resetting their custodial account
     // Creating a new wallet and assigning an existing custodial account
@@ -758,6 +787,7 @@ export default ({ api, coreSagas, networks }) => {
     checkAndHandleVulnerableAddress,
     checkDataErrors,
     deauthorizeBrowser,
+    getUserGeoLocation,
     initializeLogin,
     login,
     loginRoutineSaga,
