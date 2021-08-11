@@ -119,7 +119,7 @@ const getPeriodText = (period: RecurringBuyPeriods): React.ReactNode => {
       text = <FormattedMessage id='copy.once_a_week' defaultMessage='Once a Week' />
       break
     case RecurringBuyPeriods.BI_WEEKLY:
-      text = <FormattedMessage id='copy.twice_a_week' defaultMessage='Twice a Week' />
+      text = <FormattedMessage id='copy.twice_a_month' defaultMessage='Twice a Month' />
       break
     case RecurringBuyPeriods.MONTHLY:
       text = <FormattedMessage id='copy.once_a_month' defaultMessage='Once a Month' />
