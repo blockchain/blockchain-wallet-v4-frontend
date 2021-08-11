@@ -50,9 +50,10 @@ class OrderSummary extends PureComponent<Props> {
     if (
       this.props.isRecurringBuy &&
       this.props.orders.length > 1 &&
-      this.props.order.period !== RecurringBuyPeriods.ONE_TIME
+      this.props.order.period !== RecurringBuyPeriods.ONE_TIME &&
+      this.props.hasQuote
     ) {
-      this.props.recurringBuyActions.showModal({ origin: 'SimpleBuyStatus' })
+      this.props.recurringBuyActions.showModal({ origin: 'SimpleBuyOrderSummary' })
       this.props.recurringBuyActions.setStep({ step: RecurringBuyStepType.GET_STARTED })
     } else {
       this.props.handleClose()
@@ -80,6 +81,7 @@ class OrderSummary extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state),
+  hasQuote: selectors.components.simpleBuy.hasQuote(state),
   isGoldVerified: equals(selectors.modules.profile.getCurrentTier(state), 2),
   isRecurringBuy: selectors.core.walletOptions
     .getFeatureFlagRecurringBuys(state)
@@ -104,6 +106,7 @@ export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
+  hasQuote: boolean
   isGoldVerified: boolean
   isRecurringBuy: boolean
   orders: SBOrderType[]

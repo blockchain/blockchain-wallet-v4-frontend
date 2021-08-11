@@ -31,7 +31,7 @@ const FrequencyScreen = ({ children, headerAction, headerMode, setPeriod }: Prop
         onClick={headerAction}
       >
         {children ? (
-          { children }
+          <>{children}</>
         ) : (
           <FormattedMessage
             id='modals.recurringbuys.select_a_frequency'
