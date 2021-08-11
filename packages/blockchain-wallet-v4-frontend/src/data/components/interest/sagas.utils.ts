@@ -1,7 +1,8 @@
-import { head, isNil } from 'ramda'
+import { head, isNil, nth } from 'ramda'
 import { call, CallEffect, put, select, take } from 'redux-saga/effects'
 
 import { Exchange } from 'blockchain-wallet-v4/src'
+import { NO_DEFAULT_ACCOUNT } from 'blockchain-wallet-v4/src/model'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import {
   AccountTypes,
@@ -9,6 +10,7 @@ import {
   FiatType,
   PaymentType,
   PaymentValue,
+  RatesType,
   SBBalancesType
 } from 'blockchain-wallet-v4/src/types'
 import { actions, actionTypes, selectors } from 'data'
@@ -69,7 +71,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
       const limitsR = S.getInterestLimits(yield select())
       const limits = limitsR.getOrFail('NO_LIMITS_AVAILABLE')
       const ratesR = S.getRates(yield select())
-      const rates = ratesR.getOrElse(0)
+      const rates = ratesR.getOrElse({} as RatesType)
       const userCurrency = (yield select(selectors.core.settings.getCurrency)).getOrFail(
         'Failed to get user currency'
       )

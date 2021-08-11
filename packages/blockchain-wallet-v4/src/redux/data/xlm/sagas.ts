@@ -22,9 +22,9 @@ import {
 } from 'ramda'
 import { all, call, put, select } from 'redux-saga/effects'
 
+import { FetchCustodialOrdersAndTransactionsReturnType } from 'blockchain-wallet-v4/src/types'
 import { APIType } from 'core/network/api'
 import { XlmTxType } from 'core/transactions/types'
-import { FetchCustodialOrdersAndTransactionsReturnType } from 'core/types'
 
 import * as Exchange from '../../../exchange'
 import Remote from '../../../remote'
