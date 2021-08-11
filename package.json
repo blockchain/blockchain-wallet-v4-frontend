@@ -79,7 +79,7 @@
     "storybook:build-base": "yarn workspace blockchain-info-components storybook:build",
     "storybook:serve-wallet": "start-storybook -p 6006",
     "storybook:serve-base": "yarn workspace blockchain-info-components storybook:serve",
-    "storybook:deploy-wallet": "yarn deploy-storybook --existing-output-dir=./storybook-static",
+    "storybook:deploy-wallet": "yarn storybook:build-wallet && yarn deploy-storybook --existing-output-dir=./storybook-static",
     "storybook:deploy-base": "yarn workspace blockchain-info-components storybook:build && yarn workspace blockchain-info-components storybook:deploy",
     "test": "cross-env yarn wsrun --serial test:build && yarn wsrun --serial test",
     "test:components": "yarn workspace blockchain-info-components test",

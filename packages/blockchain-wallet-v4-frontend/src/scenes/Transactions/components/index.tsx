@@ -93,9 +93,11 @@ export const IconWrapper = styled.div<{ color: keyof DefaultTheme }>`
 
 export const IconTx = ({
   coin,
+  subType,
   type
 }: {
   coin?: CoinType | 'FIAT'
+  subType?: string
   type:
     | 'BUY'
     | 'SELL'
@@ -114,10 +116,17 @@ export const IconTx = ({
       case 'PENDING':
         return <Icon size='20px' weight={600} name='timer' color='grey700' />
       case 'BUY':
-      case 'SELL':
+        const isRecurringBuy = subType === 'recurringBuy'
         return (
-          <Icon size='24px' weight={600} name={type === 'BUY' ? 'plus' : 'minus'} color={color} />
+          <Icon
+            size='24px'
+            weight={600}
+            name={isRecurringBuy ? 'plus' : 'sync-regular'}
+            color={color}
+          />
         )
+      case 'SELL':
+        return <Icon size='24px' weight={600} name='minus' color={color} />
       case 'DEPOSIT':
       case 'WITHDRAWAL':
         return (

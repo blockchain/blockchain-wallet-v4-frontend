@@ -92,6 +92,7 @@ export type SBShowModalOriginType =
   | 'PendingOrder'
   | 'PriceChart'
   | 'InterestPage'
+  | 'RecurringBuyPromo'
   | 'SellEmpty'
   | 'SettingsGeneral'
   | 'SettingsProfile'

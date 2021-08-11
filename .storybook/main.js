@@ -15,6 +15,10 @@ module.exports = {
     }
   },
   refs: {
+    'new-core': {
+      title: 'New Core Components',
+      url: 'https://blockchain.github.io/constellation/'
+    },
     'design-system': {
       title: 'Core Components',
       url: 'http://localhost:6007'

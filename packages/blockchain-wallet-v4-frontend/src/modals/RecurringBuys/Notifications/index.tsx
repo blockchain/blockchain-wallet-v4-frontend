@@ -1,9 +1,12 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { FlyoutFooter, FlyoutHeader } from 'components/Flyout'
+import { actions } from 'data'
 
 import AnimatedCarousel from './AnimatedCarousel'
 import AnimatedGraph from './AnimatedGraph'
@@ -187,7 +190,8 @@ class Notifications extends PureComponent<Props, State> {
             color='red400'
             style={{ marginTop: '16px' }}
             onClick={() => {
-              // alert
+              this.props.simpleBuyActions.showModal('RecurringBuyPromo')
+              this.props.modalActions.closeModal('RECURRING_BUYS_MODAL')
             }}
           >
             <FormattedMessage
@@ -201,7 +205,7 @@ class Notifications extends PureComponent<Props, State> {
   }
 }
 
-type Props = {
+type OwnProps = {
   handleClose: () => void
 }
 
@@ -209,4 +213,13 @@ type State = {
   stepIndex: number
 }
 
-export default Notifications
+const mapDispatchToProps = (dispatch) => ({
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+})
+
+const connector = connect(null, mapDispatchToProps)
+
+export type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(Notifications)
