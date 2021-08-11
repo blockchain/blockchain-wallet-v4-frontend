@@ -56,7 +56,7 @@ export type MiscStateType = {
 
 interface AuthorizeLoginFailureActionType {
   payload: {
-    error: string
+    error: string | number
   }
   type: typeof AT.AUTHORIZE_LOGIN_FAILURE
 }

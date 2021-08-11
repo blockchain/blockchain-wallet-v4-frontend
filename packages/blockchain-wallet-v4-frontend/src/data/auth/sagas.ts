@@ -360,7 +360,15 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.session.saveSession(assoc(guid, session, {})))
       yield put(actions.auth.loginLoading())
       if (emailToken) {
-        yield put(actions.core.data.misc.authorizeLogin(emailToken, true))
+        yield call(
+          coreSagas.data.misc.authorizeLogin,
+          actions.core.data.misc.authorizeLogin(emailToken, true, session)
+        )
+        if ((yield select(selectors.core.data.misc.authorizeLogin)).error.includes('mismatch')) {
+          yield put(actions.alerts.displayError('UPDATE ERROR COPY'))
+          yield put(stopSubmit('login'))
+          return
+        }
       }
       yield call(coreSagas.wallet.fetchWalletSaga, {
         code,
