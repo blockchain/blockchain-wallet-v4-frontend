@@ -2,7 +2,12 @@ import axios from 'axios'
 import { Moment } from 'moment'
 import { v4 as uuidv4 } from 'uuid'
 
-import { BankTransferAccountType, RecurringBuyPeriods, RecurringBuyRegisteredList, UserDataType } from 'data/types'
+import {
+  BankTransferAccountType,
+  RecurringBuyPeriods,
+  RecurringBuyRegisteredList,
+  UserDataType
+} from 'data/types'
 
 import { CoinType, FiatCurrenciesType, FiatType, WalletCurrencyType } from '../../../types'
 import { NabuCustodialProductType, ProductTypes } from '../custodial/types'
@@ -277,7 +282,7 @@ export default ({
       url: nabuUrl
     })
 
-  const getRBRegisteredList = ():RecurringBuyRegisteredList[] =>
+  const getRBRegisteredList = (): RecurringBuyRegisteredList[] =>
     authorizedGet({
       contentType: 'application/json',
       endPoint: '/recurring-buy/list',
@@ -291,11 +296,11 @@ export default ({
       url: nabuUrl
     })
 
-  const createRecurringBuy = (data):RecurringBuyRegisteredList => 
+  const createRecurringBuy = (data): RecurringBuyRegisteredList =>
     authorizedPost({
       contentType: 'application/json',
-      endPoint: '/recurring-buy/create',
       data,
+      endPoint: '/recurring-buy/create',
       url: nabuUrl
     })
 

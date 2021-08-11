@@ -17,12 +17,13 @@ import { getRatesSelector } from 'blockchain-wallet-v4/src/redux/data/misc/selec
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
+import { Form } from 'components/Form'
 import { DisplayContainer } from 'components/SimpleBuy'
 import { RatesType } from 'core/types'
 import { selectors } from 'data'
 import { SendCryptoStepType } from 'data/components/sendCrypto/types'
 import { formatTextAmount } from 'services/forms'
-import { flex, media } from 'services/styles'
+import { media } from 'services/styles'
 import { hexToRgb } from 'utils/helpers'
 
 import { StepHeader } from '../../RequestCrypto/model'
@@ -30,6 +31,8 @@ import { Row } from '../../Swap/EnterAmount/Checkout'
 import { Props as OwnProps } from '..'
 import { SEND_FORM } from '../model'
 import { validate } from './validation'
+
+const Wrapper = styled(Form)``
 
 const CustomBlueCartridge = styled(BlueCartridge)`
   cursor: pointer;
@@ -155,13 +158,14 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
   const quote = fix === 'CRYPTO' ? fiatAmt : cryptoAmt
 
   return (
-    <>
+    <Wrapper onSubmit={() => sendCryptoActions.setStep({ step: SendCryptoStepType.CONFIRM })}>
       <FlyoutWrapper>
         <StepHeader>
           <Icon
             cursor
             onClick={() => sendCryptoActions.setStep({ step: SendCryptoStepType.ENTER_TO })}
             name='arrow-back'
+            role='button'
             color='grey600'
             size='24px'
             style={{ marginRight: '20px' }}
@@ -211,8 +215,9 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
             </Text>
           )}
           <Field
-            data-e2e='sbAmountInput'
+            data-e2e='sendAmountInput'
             name='amount'
+            // @ts-ignore
             component={AmountTextBox}
             // validate={[maximumAmount, minimumAmount]}
             normalize={normalizeAmount}
@@ -236,7 +241,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
         <QuoteActionContainer>
           <QuoteRow>
             <div />
-            <Text color='grey600' size='14px' weight={500} data-e2e='sbQuoteAmount'>
+            <Text color='grey600' size='14px' weight={500} data-e2e='sendQuoteAmount'>
               {quote}
             </Text>
             <Icon
@@ -249,7 +254,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
               }}
               role='button'
               size='24px'
-              data-e2e='sbSwitchIcon'
+              data-e2e='sendSwitchIcon'
             />
           </QuoteRow>
           {amtError ? (
@@ -339,12 +344,12 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
           data-e2e='enterAmountBtn'
           fullwidth
           jumbo
-          disabled={!amount}
+          disabled={!amount || !!formErrors.amount}
         >
           <FormattedMessage id='buttons.next' defaultMessage='Next' />
         </Button>
       </FlyoutWrapper>
-    </>
+    </Wrapper>
   )
 }
 

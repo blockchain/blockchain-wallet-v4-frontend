@@ -1,8 +1,13 @@
-import { call, put } from 'redux-saga/effects'
+import { SEND_FORM } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/model'
+import { SendFormType } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/types'
+import { call, put, select } from 'redux-saga/effects'
 
+import { convertCoinToCoin } from 'blockchain-wallet-v4/src/exchange'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { selectors } from 'data'
 
+import * as S from './selectors'
 import { actions as A } from './slice'
 
 export default ({ api }: { api: APIType }) => {
@@ -21,7 +26,36 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const fetchLocks = function* () {
+    yield put(A.fetchWithdrawalLocksLoading())
+    try {
+      const withdrawalFees: ReturnType<typeof api.getWithdrawalLocks> = yield call(
+        api.getWithdrawalLocks
+      )
+
+      yield put(A.fetchWithdrawalLocksSuccess(withdrawalFees))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchWithdrawalLocksFailure(error))
+    }
+  }
+
+  const submit = function* () {
+    const formValues = selectors.form.getFormValues(SEND_FORM)(yield select()) as SendFormType
+    const { amount, selectedAccount, to } = formValues
+    const { coin } = selectedAccount
+    const feesR = S.getWithdrawalFees(yield select(), selectedAccount.coin)
+    const fee = feesR.getOrElse(undefined)
+
+    const finalAmt = convertCoinToCoin({ baseToStandard: false, coin, value: amount })
+    const finalFee = convertCoinToCoin({ baseToStandard: false, coin, value: fee || 0 })
+
+    const response = api.withdrawSBFunds(to, coin, finalAmt, Number(finalFee))
+  }
+
   return {
-    fetchFees
+    fetchFees,
+    fetchLocks,
+    submit
   }
 }

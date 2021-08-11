@@ -1,8 +1,13 @@
-import { RemoteDataType, WithdrawalMinsAndFeesResponse } from 'core/types'
+import {
+  RemoteDataType,
+  WithdrawalLockResponseType,
+  WithdrawalMinsAndFeesResponse
+} from 'core/types'
 
 // state
 export type SendCryptoState = {
   step: SendCryptoStepType
+  withdrawLocks: RemoteDataType<string, WithdrawalLockResponseType>
   withdrawalFeesAndMins: RemoteDataType<string, WithdrawalMinsAndFeesResponse>
 }
 

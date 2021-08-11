@@ -44,6 +44,7 @@ class SendEnterTo extends React.PureComponent<InjectedFormProps<{}, Props> & Pro
                 onClick={() =>
                   sendCryptoActions.setStep({ step: SendCryptoStepType.COIN_SELECTION })
                 }
+                role='button'
                 name='arrow-back'
                 color='grey600'
                 size='24px'

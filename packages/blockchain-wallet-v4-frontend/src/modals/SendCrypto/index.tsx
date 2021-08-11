@@ -12,6 +12,7 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
 import CoinSelect from './CoinSelect'
+import Confirm from './Confirm'
 import EnterAmount from './EnterAmount'
 import EnterTo from './EnterTo'
 import { SEND_FORM } from './model'
@@ -29,6 +30,7 @@ class SendCrypto extends PureComponent<Props, State> {
     this.setState({ show: true })
     /* eslint-enable */
     this.props.sendCryptoActions.fetchWithdrawalFees()
+    this.props.sendCryptoActions.fetchWithdrawalLocks()
   }
 
   componentWillUnmount() {
@@ -58,6 +60,11 @@ class SendCrypto extends PureComponent<Props, State> {
         {this.props.step === SendCryptoStepType.ENTER_AMOUNT && (
           <FlyoutChild>
             <EnterAmount {...this.props} />
+          </FlyoutChild>
+        )}
+        {this.props.step === SendCryptoStepType.CONFIRM && (
+          <FlyoutChild>
+            <Confirm {...this.props} />
           </FlyoutChild>
         )}
       </Flyout>
