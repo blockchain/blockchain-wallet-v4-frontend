@@ -16,8 +16,10 @@ const INITIAL_STATE = {
   mobileLoginStarted: false,
   registerEmail: undefined,
   registering: Remote.NotAsked,
+  resetAccount: false,
   restoring: Remote.NotAsked,
-  secureChannelLogin: Remote.NotAsked
+  secureChannelLogin: Remote.NotAsked,
+  userGeoData: Remote.NotAsked
 }
 
 const auth = (state = INITIAL_STATE, action) => {
@@ -84,6 +86,9 @@ const auth = (state = INITIAL_STATE, action) => {
     case AT.SET_FIRST_LOGIN: {
       return assoc('firstLogin', payload.firstLogin, state)
     }
+    case AT.SET_RESET_ACCOUNT: {
+      return assoc('resetAccount', payload.resetAccount, state)
+    }
     case AT.SET_AUTH_TYPE: {
       const { authType } = payload
       return assoc('auth_type', authType, state)
@@ -109,6 +114,10 @@ const auth = (state = INITIAL_STATE, action) => {
     }
     case AT.RESTORE_FROM_METADATA_FAILURE: {
       return assoc('metadataRestore', Remote.Failure(payload), state)
+    }
+    case AT.SET_USER_GEO_LOCATION: {
+      const { userGeoData } = payload
+      return assoc('userGeoData', userGeoData, state)
     }
     default:
       return state

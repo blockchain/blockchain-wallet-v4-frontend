@@ -5,15 +5,15 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { Badge, Button, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
-import { SuccessCartridge } from 'components/Cartridge'
+import { Badge, Icon, Link, Text } from 'blockchain-info-components'
+import { Wrapper } from 'components/Public'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import { RemoteDataType } from 'core/types'
 import { actions, selectors } from 'data'
 import { RecoverSteps } from 'data/types'
 
 import { Props as OwnProps } from '..'
-import { BackArrowFormHeader, CartridgeSentContainer, Column, GoBackArrow, Row } from '../model'
+import { BackArrowFormHeader, Column, GoBackArrow, Row } from '../model'
 
 const Body = styled.div`
   display: flex;
@@ -40,13 +40,16 @@ const CloudRecovery = (props: Props) => {
   const { cachedEmail, cachedGuid, lastGuid, qrData } = props
 
   return (
-    <>
+    <Wrapper>
       {cachedEmail && (
         <BackArrowFormHeader
           handleBackArrowClick={() => props.setStep(RecoverSteps.RECOVERY_OPTIONS)}
           email={cachedEmail}
           guid={cachedGuid || lastGuid}
         />
+      )}
+      {!cachedEmail && (
+        <GoBackArrow handleBackArrowClick={() => props.setStep(RecoverSteps.RECOVERY_OPTIONS)} />
       )}
       <Body>
         {!props.phonePubKey && (
@@ -140,19 +143,13 @@ const CloudRecovery = (props: Props) => {
         <Badge size='40px' type='googleplay' />
       </BadgeRow>
       <CenteredRow>
-        {!cachedEmail && (
-          <GoBackArrow
-            handleBackArrowClick={() => props.setStep(RecoverSteps.RECOVERY_OPTIONS)}
-            minWidth='120px'
-          />
-        )}
         <LinkContainer to='/help'>
           <Link size='13px' weight={600} data-e2e='loginGetHelp'>
             <FormattedMessage id='copy.need_some_help' defaultMessage='Need some help?' />
           </Link>
         </LinkContainer>
       </CenteredRow>
-    </>
+    </Wrapper>
   )
 }
 

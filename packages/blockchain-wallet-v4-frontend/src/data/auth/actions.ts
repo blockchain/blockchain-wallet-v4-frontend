@@ -46,8 +46,14 @@ export const mobileLoginStarted = () => ({ type: AT.MOBILE_LOGIN_START })
 export const mobileLoginFinish = () => ({ type: AT.MOBILE_LOGIN_FINISH })
 
 // REGISTER
-export const register = (email, password, language) => ({
-  payload: { email, language, password },
+export const register = (
+  email: string,
+  password: string,
+  language: string,
+  country?: string,
+  state?: string
+) => ({
+  payload: { country, email, language, password, state },
   type: AT.REGISTER
 })
 export const registerLoading = () => ({ type: AT.REGISTER_LOADING })
@@ -62,7 +68,10 @@ export const resetAccount = (email, password, language) => ({
 export const resetAccountLoading = () => ({ type: AT.RESET_ACCOUNT_LOADING })
 export const resetAccountSuccess = () => ({ type: AT.RESET_ACCOUNT_SUCCESS })
 export const resetAccountFailure = () => ({ type: AT.RESET_ACCOUNT_FAILURE })
-
+export const setResetAccount = (resetAccount) => ({
+  payload: { resetAccount },
+  type: AT.SET_RESET_ACCOUNT
+})
 // 2FA
 export const resendSmsCode = (guid) => ({
   payload: { guid },
@@ -181,4 +190,11 @@ export const logWrongReceiveCache = () => ({
 export const setKycResetStatus = (kycResetStatus) => ({
   payload: { kycResetStatus },
   type: AT.SET_KYC_RESET
+})
+export const getUserGeoLocation = () => ({
+  type: AT.GET_USER_GEO_LOCATION
+})
+export const setUserGeoLocation = (userGeoData) => ({
+  payload: { userGeoData },
+  type: AT.SET_USER_GEO_LOCATION
 })

@@ -17,7 +17,8 @@ import {
   isSupportedBrowser,
   LOGIN_FORM_NAME,
   NeedHelpLink,
-  removeWhitespace
+  removeWhitespace,
+  Row
 } from '../model'
 
 const EnterPassword = (props: Props) => {
@@ -128,6 +129,19 @@ const EnterPassword = (props: Props) => {
               <FormError position='absolute'>{loginError?.split('.')[0]}.</FormError>
             )}
           </FormItem>
+          <Row style={{ marginTop: '16px' }}>
+            <Text size='14px' weight={600} color='grey600' style={{ marginRight: '4px' }}>
+              <FormattedMessage
+                id='scenes.logins.twofa.lost'
+                defaultMessage='Lost access to your 2FA device?'
+              />
+            </Text>
+            <LinkContainer to='/reset-2fa'>
+              <Link size='14px' weight={600} data-e2e='reset2fa'>
+                <FormattedMessage id='copy.reset_now' defaultMessage='Reset Now' />
+              </Link>
+            </LinkContainer>
+          </Row>
         </FormGroup>
       )}
       <CenteredColumn>

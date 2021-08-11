@@ -153,7 +153,7 @@ export default ({ get, post, rootUrl }) => {
     })
   }
 
-  const triggerWalletMagicLink = (email, captchaToken, sessionToken) => {
+  const triggerWalletMagicLinkLegacy = (email, captchaToken, sessionToken) => {
     post({
       data: {
         captcha: captchaToken,
@@ -276,7 +276,7 @@ export default ({ get, post, rootUrl }) => {
     savePayload,
     sendSecureChannel,
     triggerMnemonicViewedAlert,
-    triggerWalletMagicLink,
+    triggerWalletMagicLinkLegacy,
     updateMnemonicBackup,
     verifyEmailToken
   }

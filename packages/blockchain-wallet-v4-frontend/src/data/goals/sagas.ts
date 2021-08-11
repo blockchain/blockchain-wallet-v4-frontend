@@ -490,8 +490,10 @@ export default ({ api, coreSagas, networks }) => {
     const { data, id } = goal
     const { firstLogin } = data
     yield put(actions.goals.deleteGoal(id))
-
-    if (firstLogin) {
+    // Check if new wallet is from regular new registration
+    // or nabu account reset
+    const isAccountReset: boolean = yield select(selectors.auth.getAccountReset)
+    if (firstLogin && !isAccountReset) {
       yield put(
         actions.goals.addInitialModal('welcomeModal', ModalName.WELCOME_MODAL, {
           origin
