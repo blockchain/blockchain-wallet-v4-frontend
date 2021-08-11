@@ -1,9 +1,9 @@
-import React, { ReactChild, useState } from 'react'
+import React, { ReactChild, useCallback, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Banner, Icon, Text } from 'blockchain-info-components'
+import { Banner, getPeriodTitleText, Icon, Text } from 'blockchain-info-components'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import { coinToString, fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import {
@@ -47,7 +47,11 @@ const LiftedActions = styled.div`
   justify-content: center;
   flex: 1;
 `
-const AnchoredActions = styled.div``
+const AnchoredActions = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+`
 const CustomForm = styled(Form)`
   height: 100%;
   display: flex;
@@ -64,7 +68,7 @@ const LeftTopCol = styled.div`
   align-items: center;
 `
 const Amounts = styled.div`
-  margin: 56px 0 24px 0;
+  margin: 0 0 24px 0;
   display: flex;
   justify-content: center;
 `
@@ -159,7 +163,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     orderType
   } = props
   const [fontRatio, setRatio] = useState(1)
-
+  const setOrderFrequncy = useCallback(() => {
+    props.simpleBuyActions.setStep({ step: 'FREQUENCY' })
+  }, [props.simpleBuyActions])
   const isSddBuy = props.isSddFlow && props.orderType === 'BUY'
 
   let method = selectedMethod || defaultMethod
@@ -442,6 +448,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           </QuoteActionContainer>
         </LiftedActions>
         <AnchoredActions>
+          {props.isRecurringBuy && props.formValues.period && (
+            <Scheduler onClick={setOrderFrequncy} method={method}>
+              {getPeriodTitleText(props.formValues.period)}
+            </Scheduler>
+          )}
+
           {(!props.isSddFlow || props.orderType === OrderType.SELL) &&
             props.pair &&
             Number(min) <= Number(max) && (
@@ -514,8 +526,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               </ActionsItem>
             </ActionsRow>
           )}
-
-          {props.isRecurringBuy && <Scheduler method={method} />}
 
           <Payment
             {...props}

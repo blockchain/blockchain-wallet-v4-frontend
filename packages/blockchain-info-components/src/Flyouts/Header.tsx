@@ -68,4 +68,4 @@ export type Props = {
   onClick: () => void
 }
 
-export default memo(FlyoutHeader, () => true)
+export default memo(FlyoutHeader, (prevProps, nextProps) => prevProps.mode === nextProps.mode)

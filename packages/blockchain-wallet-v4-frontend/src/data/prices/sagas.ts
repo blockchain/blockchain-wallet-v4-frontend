@@ -4,7 +4,7 @@ import { call, put, select } from 'redux-saga/effects'
 import { APIType } from 'core/network/api'
 import { selectors } from 'data'
 
-import * as A from './actions'
+import { actions as A } from './slice'
 import { CoinPricesRequestType } from './types'
 
 export default ({ api }: { api: APIType }) => {

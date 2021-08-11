@@ -147,9 +147,9 @@ export default ({ api, coreSagas, networks }) => {
     const tiersState = (yield select(selectors.modules.profile.getTiers)).getOrElse({})
     // Edge case where a user profile is set to tier two
     // but kycState is none after nabu reset
-    const tierTwoKycNone = kycState === KYC_STATES.NONE && tiers.current > 1
+    const tierTwoKycNone = kycState === KYC_STATES.NONE && tiers.current === 2
     if (kycDocResubmissionStatus === 1) {
-      if (tiers.current === 0 || kycState === KYC_STATES.NONE) {
+      if (tiers.current === 0) {
         // case where user already went through first step
         // of verfication but was rejected, want to set
         // next to 2
@@ -458,7 +458,11 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.form.stopSubmit(INFO_AND_RESIDENTIAL_FORM))
       yield put(actions.modules.profile.fetchUser())
     } catch (e) {
-      yield put(actions.form.stopSubmit(INFO_AND_RESIDENTIAL_FORM, { _error: e }))
+      yield put(
+        actions.form.stopSubmit(INFO_AND_RESIDENTIAL_FORM, {
+          _error: typeof e === 'string' ? e : e.description
+        })
+      )
       yield put(
         actions.logs.logErrorMessage(
           logLocation,

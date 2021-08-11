@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import axios from 'axios'
 import { Moment } from 'moment'
 import { v4 as uuidv4 } from 'uuid'
@@ -103,7 +104,7 @@ export default ({
     input: SBMoneyType,
     output: SBMoneyType,
     paymentType: SBPaymentMethodType['type'],
-    period: RecurringBuyPeriods,
+    period?: RecurringBuyPeriods,
     paymentMethodId?: SBCardType['id']
   ): SBOrderType =>
     authorizedPost({

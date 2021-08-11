@@ -84,6 +84,7 @@ const EditTxDescription = React.lazy(() => import('./Transactions/EditDescriptio
 const PairingCode = React.lazy(() => import('./Wallet/PairingCode'))
 const ShowXPub = React.lazy(() => import('./Wallet/ShowXPub'))
 const InterestPromo = React.lazy(() => import('./Wallet/InterestPromo'))
+const ResetAccountFailed = React.lazy(() => import('./Wallet/ResetAccountFailed'))
 
 // SOLO
 const FundRecovery = React.lazy(() => import('./FundRecovery'))
@@ -226,6 +227,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.SEND_CRYPTO_MODAL) ? (
           <SendCrypto />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.RESET_ACCOUNT_FAILED) ? (
+          <ResetAccountFailed />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.SECOND_PASSWORD_MODAL) ? (
           <SecondPassword />

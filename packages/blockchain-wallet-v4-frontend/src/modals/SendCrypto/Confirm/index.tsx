@@ -9,6 +9,7 @@ import styled from 'styled-components'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { convertCoinToCoin, convertFiatToCoin } from 'blockchain-wallet-v4/src/exchange'
 import { getRatesSelector } from 'blockchain-wallet-v4/src/redux/data/misc/selectors'
+import CollapseText from 'components/CollapseText'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { FlyoutWrapper, Row } from 'components/Flyout'
@@ -110,7 +111,7 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           </div>
           <div>
             <Text size='16px' weight={500} color='black'>
-              {to}
+              <CollapseText text={to} size='16px' color='black' weight={500} place='left' />
             </Text>
           </div>
         </CustomRow>

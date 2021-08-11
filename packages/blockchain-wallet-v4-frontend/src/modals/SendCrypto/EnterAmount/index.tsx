@@ -15,6 +15,7 @@ import {
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import { getRatesSelector } from 'blockchain-wallet-v4/src/redux/data/misc/selectors'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
+import CollapseText from 'components/CollapseText'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
@@ -181,8 +182,9 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
             <FormattedMessage defaultMessage='From:' id='copy.from:' /> {selectedAccount.label} (
             {max} {coin})
           </Text>
-          <Text size='16px' color='grey900' weight={600}>
-            <FormattedMessage defaultMessage='To:' id='copy.to:' /> {to}
+          <Text size='16px' color='grey900' weight={600} style={{ marginTop: '6px' }}>
+            <FormattedMessage defaultMessage='To:' id='copy.to:' />{' '}
+            <CollapseText text={to} size='16px' color='grey900' weight={600} place='right' />
           </Text>
         </div>
         <IconContainer>

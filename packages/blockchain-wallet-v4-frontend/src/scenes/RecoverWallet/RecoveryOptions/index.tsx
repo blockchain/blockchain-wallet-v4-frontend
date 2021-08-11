@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Icon, Link, Text } from 'blockchain-info-components'
+import { Wrapper } from 'components/Public'
 import { RecoverSteps } from 'data/types'
 
 import { Props } from '..'
@@ -12,9 +13,9 @@ const FormBody = styled.div`
   display: flex;
   flex-direction: column;
 `
-const Row = styled.div<{ cachedEmail: boolean }>`
+const Row = styled.div`
   display: flex;
-  justify-content: ${(props) => (props.cachedEmail === undefined ? 'flex-start' : 'center')};
+  justify-content: center;
   align-items: center;
   margin-top: 24px;
 `
@@ -31,7 +32,7 @@ const TextStack = styled.div`
 const RecoveryOptions = (props: Props) => {
   const { cachedEmail, cachedGuid, formActions, lastGuid, nabuId, routerActions } = props
   return (
-    <>
+    <Wrapper>
       {cachedEmail && (
         <BackArrowFormHeader
           handleBackArrowClick={() => routerActions.push('/login')}
@@ -39,6 +40,7 @@ const RecoveryOptions = (props: Props) => {
           guid={cachedGuid || lastGuid}
         />
       )}
+      {!cachedEmail && <GoBackArrow handleBackArrowClick={() => routerActions.push('/login')} />}
       <FormBody>
         <Text color='grey900' size='20px' weight={600} lineHeight='1.5'>
           <FormattedMessage
@@ -91,10 +93,7 @@ const RecoveryOptions = (props: Props) => {
           <Icon name='chevron-right' size='20px' color='grey400' />
         </IconTextRow>
       </FormBody>
-      <Row cachedEmail={cachedEmail}>
-        {!cachedEmail && (
-          <GoBackArrow handleBackArrowClick={() => routerActions.push('/login')} minWidth='120px' />
-        )}
+      <Row>
         <Text size='13px' weight={600} color='grey600'>
           <FormattedMessage
             id='scenes.login.trouble_logging_in'
@@ -128,7 +127,7 @@ const RecoveryOptions = (props: Props) => {
           </Link>
         )}
       </Row>
-    </>
+    </Wrapper>
   )
 }
 

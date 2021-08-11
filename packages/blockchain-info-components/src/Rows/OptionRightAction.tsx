@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 import { Icon } from '../Icons'
@@ -13,7 +13,6 @@ const Row = styled.div`
 `
 const FlexWrapper = styled(Row)`
   display: flex;
-  flex: 1;
   justify-content: space-between;
   align-items: center;
   padding-top: 0;
