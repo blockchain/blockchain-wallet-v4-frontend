@@ -13,7 +13,6 @@ import * as middleware from './middleware/actionTypes'
 import * as modals from './modals/actionTypes'
 import * as modules from './modules/actionTypes'
 import * as preferences from './preferences/actionTypes'
-import { actions as prices } from './prices/slice'
 import * as router from './router/actionTypes'
 import * as session from './session/actionTypes'
 import * as wallet from './wallet/actionTypes'
@@ -33,7 +32,6 @@ export {
   modals,
   modules,
   preferences,
-  prices,
   router,
   session,
   wallet
