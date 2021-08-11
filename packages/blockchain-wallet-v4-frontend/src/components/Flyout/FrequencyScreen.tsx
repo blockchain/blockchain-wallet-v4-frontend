@@ -1,10 +1,14 @@
 import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { FlyoutContainer, FlyoutContent, FlyoutHeader, OptionRightActionRow, Text } from '..'
-import { Props as HeaderProps } from './Header'
+import { Text } from 'blockchain-info-components'
+
+import { RecurringBuyPeriods } from '../../data/components/recurringBuy/types'
+import { OptionRightActionRow } from '../Rows'
+import Container from './Container'
+import Content from './Content'
+import Header, { Props as HeaderProps } from './Header'
 import { getPeriodSubTitleText, getPeriodTitleText } from './model'
-import { RecurringBuyPeriods } from './types'
 
 const FrequencyScreen = ({ children, headerAction, headerMode, setPeriod }: Props) => {
   // ONE_TIME is not a recurring buy option so take it out before displaying
@@ -20,8 +24,8 @@ const FrequencyScreen = ({ children, headerAction, headerMode, setPeriod }: Prop
     [setPeriod]
   )
   return (
-    <FlyoutContainer>
-      <FlyoutHeader
+    <Container>
+      <Header
         data-e2e='closeRecurringBuyModalFrequencyStep'
         mode={headerMode}
         onClick={headerAction}
@@ -34,8 +38,8 @@ const FrequencyScreen = ({ children, headerAction, headerMode, setPeriod }: Prop
             defaultMessage='Select a Frequency'
           />
         )}
-      </FlyoutHeader>
-      <FlyoutContent mode='top'>
+      </Header>
+      <Content mode='top'>
         {periods.map((period) => (
           <OptionRightActionRow key={period} onClick={setPeriodCallback(period)}>
             <>
@@ -48,8 +52,8 @@ const FrequencyScreen = ({ children, headerAction, headerMode, setPeriod }: Prop
             </>
           </OptionRightActionRow>
         ))}
-      </FlyoutContent>
-    </FlyoutContainer>
+      </Content>
+    </Container>
   )
 }
 

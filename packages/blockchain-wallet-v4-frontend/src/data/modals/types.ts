@@ -98,6 +98,7 @@ export type ModalOriginType =
   | 'ResetAccount'
   | 'RetrySendEth'
   | 'RecurringBuys'
+  | 'RecurringBuyPromo'
   | 'RunKycGoal'
   | 'SBEnterAmountCheckout'
   | 'SBPaymentMethodSelection'

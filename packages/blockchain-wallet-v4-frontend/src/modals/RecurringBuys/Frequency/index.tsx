@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { FrequencyScreen } from 'blockchain-info-components'
+import { FrequencyScreen } from 'components/Flyout'
 import { SBOrderType } from 'core/types'
 import { actions, selectors } from 'data'
 import { getBaseAmount } from 'data/components/simpleBuy/model'

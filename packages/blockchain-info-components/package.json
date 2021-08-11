@@ -16,7 +16,7 @@
     "deploy-storybook": "storybook-to-ghpages",
     "publish": "rm -rf lib && npx babel --out-dir lib --ignore spec.js --copy-files src",
     "storybook:build": "build-storybook",
-    "storybook:serve": "start-storybook -p 6006",
+    "storybook:serve": "start-storybook -p 6007",
     "storybook:deploy": "yarn deploy-storybook --existing-output-dir=./storybook-static",
     "test": "cross-env ./../../node_modules/.bin/jest --silent",
     "test:build": "cross-env rimraf lib && npx babel --out-dir lib --ignore spec.js --copy-files src",

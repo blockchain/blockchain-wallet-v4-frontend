@@ -6,7 +6,8 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, Icon, Link, Text } from 'blockchain-info-components'
+import { Button, Icon, Text } from 'blockchain-info-components'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import {
   CoinType,
   FiatType,
@@ -16,11 +17,19 @@ import {
   WalletCurrencyType,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
+import { SavedRecurringBuy } from 'components/Box'
 import EmptyResults from 'components/EmptyResults'
 import { SceneWrapper } from 'components/Layout'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { actions, model, selectors } from 'data'
 import { getIntroductionText } from 'data/coins/selectors'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import {
+  ActionEnum,
+  RecurringBuyPeriods,
+  RecurringBuyRegisteredList,
+  RecurringBuyStepType
+} from 'data/types'
 import { media } from 'services/styles'
 
 import CoinIntroduction from './CoinIntroduction'
@@ -93,16 +102,6 @@ const ExplainerText = styled(Text)`
   font-weight: 500;
   color: ${(props) => props.theme.grey600};
 `
-const LearnMoreLink = styled(Link)`
-  display: inline-flex;
-  margin-left: 6px;
-`
-const LearnMoreText = styled(Text)`
-  margin-left: 3px;
-  size: 16px;
-  font-weight: 500;
-  color: ${(props) => props.theme.blue600};
-`
 
 class TransactionsContainer extends React.PureComponent<Props> {
   componentDidMount() {
@@ -113,6 +112,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
       TimeRange.WEEK
     )
     this.props.brokerageActions.fetchBankTransferAccounts()
+    this.props.recurringBuyActions.fetchRegisteredList()
   }
 
   componentDidUpdate(prevProps) {
@@ -137,9 +137,11 @@ class TransactionsContainer extends React.PureComponent<Props> {
       currency,
       hasTxResults,
       isInvited,
+      isRecurringBuy,
       isSearchEntered,
       loadMoreTxs,
       pages,
+      recurringBuys,
       sourceType
     } = this.props
     const { coinfig } = window.coins[coin]
@@ -243,6 +245,29 @@ class TransactionsContainer extends React.PureComponent<Props> {
               {!coinfig.type.isFiat && <CoinPerformance coin={coin} />}
             </StatsContainer>
           </Header>
+          <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
+            {isRecurringBuy &&
+              recurringBuys.map((recurringBuy) => (
+                <SavedRecurringBuy
+                  key={recurringBuy.id}
+                  action={'BUY' as ActionEnum}
+                  amount={`${Exchange.getSymbol(recurringBuy.inputCurrency)}${convertBaseToStandard(
+                    recurringBuy.inputCurrency,
+                    recurringBuy.inputValue
+                  )}`}
+                  coin={recurringBuy.destinationCurrency}
+                  nextPayment={recurringBuy.nextPayment}
+                  onClick={() => {
+                    this.props.recurringBuyActions.setActive(recurringBuy)
+                    this.props.recurringBuyActions.showModal({
+                      origin: 'RecurringBuys'
+                    })
+                    this.props.recurringBuyActions.setStep({ step: RecurringBuyStepType.DETAILS })
+                  }}
+                  period={recurringBuy.period as RecurringBuyPeriods}
+                />
+              ))}
+          </div>
           {(hasTxResults || isSearchEntered) && !coinfig.type.isFiat && (
             <TransactionFilters coin={coin as CoinType} />
           )}
@@ -286,6 +311,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
   const baseActions = {
     brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
     miscActions: bindActionCreators(actions.core.data.misc, dispatch),
+    recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),
     simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
     withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
   }
@@ -336,8 +362,10 @@ export type SuccessStateType = {
   currency: FiatType
   hasTxResults: boolean
   isInvited: boolean
+  isRecurringBuy: boolean
   isSearchEntered: boolean
   pages: Array<any>
+  recurringBuys: RecurringBuyRegisteredList[]
   sourceType: string
 }
 

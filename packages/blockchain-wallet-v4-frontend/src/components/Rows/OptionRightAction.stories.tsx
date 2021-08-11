@@ -1,10 +1,12 @@
 import React from 'react'
 
-import { OptionRightActionRow, Text } from '../../src'
+import { Text } from 'blockchain-info-components'
+
+import OptionRightActionRow from './OptionRightAction'
 
 export default {
-  title: 'Rows/OptionRightActionRow',
   component: OptionRightActionRow,
+  title: 'Rows/OptionRightActionRow'
 }
 
 export const Default = (args) => (
@@ -19,4 +21,3 @@ export const Default = (args) => (
     </>
   </OptionRightActionRow>
 )
-

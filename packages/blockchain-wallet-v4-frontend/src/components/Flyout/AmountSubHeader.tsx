@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import styled from 'styled-components'
 
-import { Text } from '../Text'
+import { Text } from 'blockchain-info-components'
 
 const Amount = styled.div`
   display: flex;
@@ -32,8 +32,8 @@ const AmountSubHeader = (props: Props) => {
 
 export type Props = {
   'data-e2e': string
-  subTitle: string
-  title: string
+  subTitle: string | React.ReactNode
+  title: string | React.ReactNode
 }
 
 export default memo(

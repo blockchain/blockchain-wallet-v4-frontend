@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Banner, getPeriodTitleText, Icon, Text } from 'blockchain-info-components'
+import { Banner, Icon, Text } from 'blockchain-info-components'
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import { coinToString, fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import {
@@ -14,7 +14,7 @@ import {
 } from 'blockchain-wallet-v4/src/types'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import { AmountTextBox } from 'components/Exchange'
-import { FlyoutWrapper } from 'components/Flyout'
+import { FlyoutWrapper, getPeriodTitleText } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { model } from 'data'
 import { convertStandardToBase } from 'data/components/exchange/services'

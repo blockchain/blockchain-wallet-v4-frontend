@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Icon } from '../Icons'
+import { Icon } from 'blockchain-info-components'
 
 const Row = styled.div`
   padding: 16px 40px;
