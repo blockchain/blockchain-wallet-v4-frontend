@@ -3,7 +3,6 @@ import { connect, ConnectedProps, useDispatch } from 'react-redux'
 
 import { SBPaymentMethodType } from 'core/types'
 import { actions } from 'data'
-import { RootState } from 'data/rootReducer'
 
 import Success from './template.success'
 
@@ -15,18 +14,14 @@ const SchedulerContainer = (props: Props) => {
     dispatch(actions.components.recurringBuy.fetchMethods())
   }, [dispatch, method])
 
-  return (
-    <>
-      <Success disabled={false} />
-    </>
-  )
+  return <Success {...props} />
 }
 
 const mapStateToProps = () => ({})
 
 const connector = connect(mapStateToProps)
 
-type OwnProps = { method?: SBPaymentMethodType }
+type OwnProps = { children: React.ReactNode; method?: SBPaymentMethodType; onClick: () => void }
 export type Props = ConnectedProps<typeof connector> & OwnProps
 
 export default connector(SchedulerContainer)

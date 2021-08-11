@@ -24,6 +24,7 @@ import {
 import { ModalOriginType } from 'data/modals/types'
 import { BankTransferAccountType } from 'data/types'
 
+import { RecurringBuyPeriods } from '../recurringBuy/types'
 import { SwapAccountType } from '../swap/types'
 import * as AT from './actionTypes'
 import { SBFixType, SBShowModalOriginType, SimpleBuyActionTypes, StepActionsPayload } from './types'
@@ -511,6 +512,7 @@ export const initializeCheckout = (
   pairs: Array<SBPairType>,
   orderType: SBOrderActionType,
   fix: SBFixType,
+  period: RecurringBuyPeriods,
   pair?: SBPairType,
   amount?: string,
   account?: SwapAccountType,
@@ -523,6 +525,7 @@ export const initializeCheckout = (
   orderType,
   pair,
   pairs,
+  period,
   type: AT.INITIALIZE_CHECKOUT
 })
 
