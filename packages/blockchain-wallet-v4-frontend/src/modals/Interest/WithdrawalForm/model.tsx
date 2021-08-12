@@ -72,7 +72,7 @@ export const CustomFormLabel = styled.div`
 
 export const CustomField = styled(Field)<BaseFieldProps & { coin: CoinType; displayCoin: boolean }>`
   > input {
-    padding-left: ${(props) => `${props.coin.length * 14}px`};
+    padding-left: ${(props) => `${props.coin.length * (props.displayCoin ? 18 : 14)}px`};
   }
 `
 export const AmountFieldContainer = styled.div`
