@@ -61,19 +61,16 @@ const configuredStore = async function () {
   const assets = await assetsRes.json()
   const erc20s = assets.currencies.filter(({ type }) => type.name === 'ERC20')
   // TODO: erc20 phase 2, remove this whitelist
-  const coins = options.platforms.web.erc20s
-  const erc20sSupportedBeforeDynamicChange = erc20s.filter((erc20) => coins.includes(erc20.symbol))
-  const custodials = assets.currencies.filter(
-    ({ products, type }) =>
-      products.includes('CustodialWalletBalance') &&
-      !products.includes('PrivateKey') &&
-      type.name !== 'FIAT'
+  const erc20Whitelist = options.platforms.web.erc20s
+  const supportedErc20s = erc20s.filter((erc20) =>
+    erc20Whitelist.includes(erc20.symbol)
   )
+  const supportedCoins = assets.currencies.filter(({ type }) => type.name !== 'ERC20')
 
   // hmmmm....
   window.coins = {
-    ...options.platforms.web.coins,
-    ...custodials.reduce(
+    // ...options.platforms.web.coins,
+    ...supportedCoins.reduce(
       (acc, curr) => ({
         ...acc,
         [curr.symbol]: { coinfig: curr }
@@ -82,7 +79,7 @@ const configuredStore = async function () {
     ),
     // TODO: erc20 phase 2, replace w/ all erc20 currencies
     // ...erc20s.currencies.reduce(
-    ...erc20sSupportedBeforeDynamicChange.reduce(
+    ...supportedErc20s.reduce(
       (acc, curr) => ({
         ...acc,
         [curr.symbol]: { coinfig: curr }
@@ -90,6 +87,9 @@ const configuredStore = async function () {
       {}
     )
   }
+
+  // TODO: remove this
+  window.coins.XLM.coinfig.type.isMemoBased = true
 
   const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
   const socketUrl = options.domains.webSocket
@@ -109,10 +109,10 @@ const configuredStore = async function () {
   const getAuthCredentials = () => selectors.modules.profile.getAuthCredentials(store.getState())
   const reauthenticate = () => store.dispatch(actions.modules.profile.signIn())
   const networks = {
-    bch: BitcoinCash.networks[options.platforms.web.coins.BTC.config.network],
-    btc: Bitcoin.networks[options.platforms.web.coins.BTC.config.network],
-    eth: options.platforms.web.coins.ETH.config.network,
-    xlm: options.platforms.web.coins.XLM.config.network
+    bch: BitcoinCash.networks.bitcoin,
+    btc: Bitcoin.networks.bitcoin,
+    eth: 1,
+    xlm: 'public'
   }
   const api = createWalletApi({
     apiKey,

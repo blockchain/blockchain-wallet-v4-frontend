@@ -2,7 +2,7 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Redirect, Route } from 'react-router-dom'
 
-import { CoinType, SupportedWalletCurrencyType } from 'blockchain-wallet-v4/src/types'
+import { CoinfigType, CoinType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 
 import WalletLayout from './template'
@@ -34,7 +34,7 @@ const connector = connect(mapStateToProps)
 
 type Props = ConnectedProps<typeof connector> & {
   coin?: CoinType
-  coinfig?: SupportedWalletCurrencyType['coinfig']
+  coinfig?: CoinfigType
   component: React.ComponentType<any>
   computedMatch?: any
   exact?: boolean

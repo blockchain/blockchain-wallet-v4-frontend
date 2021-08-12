@@ -8,9 +8,7 @@ import { actions as A } from './slice'
 import { CoinPricesRequestType } from './types'
 
 export default ({ api }: { api: APIType }) => {
-  const defaultCoins = Object.keys(window.coins).filter(
-    (coin) => !window.coins[coin].coinfig.type.isFiat
-  )
+  const defaultCoins = selectors.components.swap.getCoins()
 
   const fetchCoinPrices = function* (action) {
     const { coins, fiatCurrency, timestamp }: CoinPricesRequestType = action.payload

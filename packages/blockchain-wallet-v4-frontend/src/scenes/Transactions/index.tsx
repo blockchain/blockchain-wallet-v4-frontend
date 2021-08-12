@@ -9,10 +9,10 @@ import styled from 'styled-components'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import {
+  CoinfigType,
   CoinType,
   FiatType,
   OrderType,
-  SupportedWalletCurrencyType,
   TimeRange,
   WalletCurrencyType,
   WalletFiatType
@@ -162,7 +162,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                 </Text>
               </CoinTitle>
               <TitleActionContainer>
-                {!coinfig.type.isFiat && (
+                {coinfig.type.name !== 'FIAT' && (
                   <>
                     <Button
                       nature='primary'
@@ -195,9 +195,9 @@ class TransactionsContainer extends React.PureComponent<Props> {
                     </Button>
                   </>
                 )}
-                {coinfig.type.isFiat && (
+                {coinfig.type.name === 'FIAT' && (
                   <>
-                    {window.coins[coin].coinfig.type.isFiat && (
+                    {window.coins[coin].coinfig.type.name === 'FIAT' && (
                       <Button
                         nature='primary'
                         data-e2e='depositFiat'
@@ -220,7 +220,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                         <FormattedMessage id='buttons.deposit' defaultMessage='Deposit' />
                       </Button>
                     )}
-                    {window.coins[coin].coinfig.type.isFiat && (
+                    {window.coins[coin].coinfig.type.name === 'FIAT' && (
                       <Button
                         nature='primary'
                         data-e2e='withdrawFiat'
@@ -242,7 +242,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
             </ExplainerWrapper>
             <StatsContainer>
               <WalletBalanceDropdown coin={coin} />
-              {!coinfig.type.isFiat && <CoinPerformance coin={coin} />}
+              {coinfig.type.name !== 'FIAT' && <CoinPerformance coin={coin} />}
             </StatsContainer>
           </Header>
           <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
@@ -268,7 +268,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                 />
               ))}
           </div>
-          {(hasTxResults || isSearchEntered) && !coinfig.type.isFiat && (
+          {(hasTxResults || isSearchEntered) && coinfig.type.name !== 'FIAT' && (
             <TransactionFilters coin={coin as CoinType} />
           )}
           {!hasTxResults && isSearchEntered && (
@@ -331,7 +331,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
       loadMoreTxs: () => dispatch(actions.components.coinTransactions.loadMore(coin))
     }
   }
-  if (coinfig.type.isFiat) {
+  if (coinfig.type.name === 'FIAT') {
     return {
       ...baseActions,
       // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -355,7 +355,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   coin: WalletCurrencyType
-  coinfig: SupportedWalletCurrencyType['coinfig']
+  coinfig: CoinfigType
 }
 
 export type SuccessStateType = {
