@@ -689,7 +689,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const filteredPairs = pairs.filter((pair) => {
         return (
           window.coins[getCoinFromPair(pair.pair)] &&
-          !window.coins[getCoinFromPair(pair.pair)].coinfig.type.isFiat
+          window.coins[getCoinFromPair(pair.pair)].coinfig.type.name !== 'FIAT'
         )
       })
       yield put(A.fetchSBPairsSuccess(filteredPairs, coin))

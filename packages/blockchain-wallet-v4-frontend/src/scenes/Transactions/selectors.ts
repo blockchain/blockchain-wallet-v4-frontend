@@ -19,11 +19,11 @@ import { createSelector } from 'reselect'
 
 import {
   AddressTypesType,
+  CoinfigType,
   ProcessedTxType,
   RemoteDataType,
   SBOrderType,
-  SBTransactionType,
-  SupportedWalletCurrencyType
+  SBTransactionType
 } from 'blockchain-wallet-v4/src/types'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -85,7 +85,7 @@ const filterTransactions = curry(
 const coinSelectorMap = (
   state,
   coin,
-  coinfig: SupportedWalletCurrencyType['coinfig']
+  coinfig: CoinfigType
 ): ((state: RootState) => Array<RemoteDataType<any, Array<TxType>>>) => {
   if (coinfig.type.erc20Address) {
     return (state) => selectors.core.common.eth.getErc20WalletTransactions(state, coin)
@@ -101,7 +101,7 @@ const coinSelectorMap = (
   return (state) => selectors.core.data.fiat.getTransactions(coin, state)
 }
 
-export const getData = (state, coin, coinfig: SupportedWalletCurrencyType['coinfig']) =>
+export const getData = (state, coin, coinfig: CoinfigType) =>
   createSelector(
     [
       () => selectors.core.settings.getInvitations(state),
