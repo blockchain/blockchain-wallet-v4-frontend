@@ -17,7 +17,7 @@ import Loading from '../loading.public'
 import CheckEmail from './CheckEmail'
 import EnterEmailOrGuid from './EnterEmailOrGuid'
 import EnterPassword from './EnterPassword'
-import { LOGIN_FORM_NAME, PhishingWarning } from './model'
+import { ExchangeLogin, LOGIN_FORM_NAME, PhishingWarning } from './model'
 import VerificationMobile from './VerificationMobile'
 
 class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StateProps> {
@@ -132,11 +132,19 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
         )}
 
         {step === LoginSteps.ENTER_PASSWORD && (
-          // add check here to see what kind of auth type, what kind of string to show
           <Text color='grey400' weight={500} style={{ marginBottom: '32px' }}>
             <FormattedMessage
               id='scenes.login.enter_password'
               defaultMessage='Enter your password to login'
+            />
+          </Text>
+        )}
+
+        {step === LoginSteps.ENTER_EMAIL_GUID && (
+          <Text color='grey400' weight={500} style={{ marginBottom: '32px' }}>
+            <FormattedMessage
+              id='scenes.login.enter_email_header'
+              defaultMessage='Enter Your Email Address or Wallet ID'
             />
           </Text>
         )}
@@ -200,7 +208,8 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
         )}
         {step === LoginSteps.ENTER_EMAIL_GUID && (
           <>
-            <Text size='14px' color='grey400' weight={500} style={{ margin: '32px 0 16px 0' }}>
+            <ExchangeLogin />
+            <Text size='14px' color='grey400' weight={500} style={{ marginBottom: '16px' }}>
               <FormattedMessage
                 id='scenes.login.phishingwarning'
                 defaultMessage='Please check that you are visiting the correct URL'

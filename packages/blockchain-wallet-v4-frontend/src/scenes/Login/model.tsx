@@ -30,6 +30,10 @@ export const BrowserWarning = styled.div`
   margin-bottom: 10px;
 `
 
+export const Row = styled.div`
+  display: flex;
+`
+
 export const CartridgeSentContainer = styled.div`
   width: auto;
 `
@@ -105,10 +109,6 @@ export const CenteredColumn = styled(Column)`
   align-items: center;
 `
 
-export const Row = styled.div`
-  display: flex;
-`
-
 export const Loader = styled(SpinningLoader)`
   height: 75px;
   width: 75px;
@@ -124,6 +124,9 @@ export const PhishingWarning = styled.div`
   padding: 12px 32px;
 `
 
+export const ExchangeLoginRow = styled(Row)`
+  margin: 8px 0 32px;
+`
 export const BackArrowFormHeader = (props: {
   formValues: LoginFormType
   handleBackArrowClick: () => void
@@ -194,4 +197,21 @@ export const NeedHelpLink = () => (
       <FormattedMessage id='copy.need_some_help' defaultMessage='Need some help?' />
     </Link>
   </LinkContainer>
+)
+
+export const ExchangeLogin = () => (
+  <Link data-e2e='exchangeLinkLogin' href='https://exchange.blockchain.com/trade/login'>
+    <ExchangeLoginRow>
+      <Text size='16px' color='whiteFade600' weight={500} lineHeight='1.5'>
+        <FormattedMessage
+          id='scenes.login.wallet.exchange'
+          defaultMessage='Looking for the Exchange?'
+        />
+      </Text>
+      &nbsp;
+      <Text size='16px' color='whiteFade900' weight={600} lineHeight='1.5'>
+        <FormattedMessage id='scenes.login.wallet.exchange_login' defaultMessage='Log In ->' />
+      </Text>
+    </ExchangeLoginRow>
+  </Link>
 )
