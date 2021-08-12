@@ -222,10 +222,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               payment = yield payment.to(value.xpub, toType)
               break
             // ensure 'r' exists, otherwise its just a BCH address in cash addr format
-            case includes('.', (address as unknown) as string):
+            case includes('.', address as unknown as string):
               yield put(
                 actions.components.send.fetchUnstoppableDomainResults(
-                  (address as unknown) as string,
+                  address as unknown as string,
                   'BCH'
                 )
               )
@@ -234,7 +234,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               yield call(bitPayInvoiceEntered, payProInvoice)
               break
             default:
-              payment = yield payment.to((address as unknown) as string, toType)
+              payment = yield payment.to(address as unknown as string, toType)
           }
           break
         case 'amount':
@@ -253,7 +253,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
       try {
         payment = yield payment.build()
-      } catch (e) {}
+      } catch (e) {
+        yield put(actions.logs.logErrorMessage(logLocation, 'paymentBuild', e))
+      }
       yield put(A.sendBchPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
@@ -366,16 +368,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       const amt = payment.value().amount || [0]
-      yield put(
-        actions.analytics.logEvent([
-          ...TRANSACTION_EVENTS.SEND,
-          'BCH',
-          Exchange.convertCoinToCoin({
-            coin: 'BCH',
-            value: amt.reduce(add, 0)
-          })
-        ])
-      )
+      const coinAmount = Exchange.convertCoinToCoin({
+        coin: 'BCH',
+        value: amt.reduce(add, 0)
+      })
+      yield put(actions.analytics.logEvent([...TRANSACTION_EVENTS.SEND, 'BCH', coinAmount]))
+      // triggers email notification to user that
+      // non-custodial funds were sent from the wallet
+      if (fromType === ADDRESS_TYPES.ACCOUNT) {
+        yield put(actions.core.wallet.triggerNonCustodialSendAlert('BCH', coinAmount))
+      }
       yield put(actions.modals.closeAllModals())
       yield put(destroy(FORM))
     } catch (e) {

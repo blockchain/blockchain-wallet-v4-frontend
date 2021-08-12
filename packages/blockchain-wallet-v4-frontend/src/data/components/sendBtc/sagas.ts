@@ -244,11 +244,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               // @ts-ignore
               payment = yield payment.to(value.xpub, toType)
               break
-            case includes('.', (address as unknown) as string) &&
-              !includes('bitpay', (address as unknown) as string):
+            case includes('.', address as unknown as string) &&
+              !includes('bitpay', address as unknown as string):
               yield put(
                 actions.components.send.fetchUnstoppableDomainResults(
-                  (address as unknown) as string,
+                  address as unknown as string,
                   'BTC'
                 )
               )
@@ -257,7 +257,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               yield call(bitPayInvoiceEntered, payProInvoice)
               break
             default:
-              payment = yield payment.to((address as unknown) as string, toType)
+              payment = yield payment.to(address as unknown as string, toType)
           }
           break
         case 'amount':
@@ -492,25 +492,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       const amt = payment.value().amount || [0]
+      const coinAmount = Exchange.convertCoinToCoin({
+        coin: 'BTC',
+        value: amt.reduce(add, 0)
+      })
 
-      yield put(
-        actions.analytics.logEvent([
-          ...TRANSACTION_EVENTS.SEND,
-          'BTC',
-          Exchange.convertCoinToCoin({
-            coin: 'BTC',
-            value: amt.reduce(add, 0)
-          })
-        ])
-      )
+      yield put(actions.analytics.logEvent([...TRANSACTION_EVENTS.SEND, 'BTC', coinAmount]))
       if (payPro) {
-        const coinAmount = Exchange.convertCoinToCoin({
-          coin: 'BTC',
-          value: amt.reduce(add, 0)
-        })
         yield put(
           actions.analytics.logEvent([...TRANSACTION_EVENTS.BITPAY_SUCCESS, `${coinAmount} BTC`])
         )
+      }
+      // triggers email notification to user that
+      // non-custodial funds were sent from the wallet
+      if (fromType === ADDRESS_TYPES.ACCOUNT) {
+        yield put(actions.core.wallet.triggerNonCustodialSendAlert('BTC', coinAmount))
       }
       yield put(actions.modals.closeAllModals())
       yield put(destroy(FORM))

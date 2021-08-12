@@ -29,6 +29,41 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     networks
   })
 
+  const setFrom = function* (
+    payment: XlmPaymentType,
+    from?: string | CustodialFromType,
+    type?: AddressTypesType,
+    fee?: string
+  ) {
+    let updatedPayment
+    try {
+      switch (type) {
+        case 'CUSTODIAL':
+          const fromCustodialT = from as CustodialFromType
+          yield put(A.showNoAccountForm(false))
+          updatedPayment = yield call(
+            payment.from,
+            fromCustodialT.label,
+            type,
+            new BigNumber(fromCustodialT.withdrawable).minus(fee || '0').toString()
+          )
+          break
+        default:
+          const fromT = from as string
+          updatedPayment = yield call(payment.from, fromT, type)
+          yield put(A.showNoAccountForm(false))
+      }
+      return updatedPayment
+    } catch (e) {
+      const message = prop('message', e)
+      if (message === 'Account does not exist') {
+        yield put(A.showNoAccountForm(true))
+        return payment
+      }
+      throw e
+    }
+  }
+
   const initialized = function* (action) {
     try {
       const from = path<string | undefined>(['payload', 'from'], action)
@@ -120,10 +155,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           // @ts-ignore
           const splitValue = propOr(value, 'address', value).split(':')
           const address = head(splitValue)
-          if (includes('.', (address as unknown) as string)) {
+          if (includes('.', address as unknown as string)) {
             yield put(
               actions.components.send.fetchUnstoppableDomainResults(
-                (value as unknown) as string,
+                value as unknown as string,
                 'XLM'
               )
             )
@@ -159,6 +194,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           break
         case 'memoType':
           payment = yield call(payment.memoType, payload)
+          break
+        default:
           break
       }
 
@@ -204,6 +241,26 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     } catch (e) {
       yield put(A.sendXlmCheckDestinationAccountExistsFailure(e))
     }
+  }
+  const setAmount = function* (amount: string) {
+    const currency = (yield select(selectors.core.settings.getCurrency)).getOrFail(
+      'Can not retrieve currency.'
+    )
+    const xlmRates = (yield select(selectors.core.data.xlm.getRates)).getOrFail(
+      'Can not retrieve stellar rates.'
+    )
+    const coin = Exchange.convertCoinToCoin({
+      baseToStandard: false,
+      coin: 'XLM',
+      value: amount
+    })
+    const fiat = Exchange.convertCoinToFiat({
+      coin: 'XLM',
+      currency,
+      rates: xlmRates,
+      value: amount
+    })
+    yield put(change(FORM, 'amount', { coin, fiat }))
   }
 
   const maximumAmountClicked = function* () {
@@ -288,16 +345,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         )
       }
       yield put(destroy(FORM))
-      yield put(
-        actions.analytics.logEvent([
-          ...TRANSACTION_EVENTS.SEND,
-          'XLM',
-          Exchange.convertCoinToCoin({
-            coin: 'XLM',
-            value: payment.value().amount
-          })
-        ])
-      )
+      const coinAmount = Exchange.convertCoinToCoin({
+        coin: 'XLM',
+        value: payment.value().amount
+      })
+      yield put(actions.analytics.logEvent([...TRANSACTION_EVENTS.SEND, 'XLM', coinAmount]))
+      // triggers email notification to user that
+      // non-custodial funds were sent from the wallet
+      if (fromType === ADDRESS_TYPES.ACCOUNT) {
+        yield put(actions.core.wallet.triggerNonCustodialSendAlert('XLM', coinAmount))
+      }
       yield put(actions.modals.closeAllModals())
     } catch (e) {
       yield put(stopSubmit(FORM))
@@ -322,62 +379,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           )
         }
       }
-    }
-  }
-
-  const setAmount = function* (amount: string) {
-    const currency = (yield select(selectors.core.settings.getCurrency)).getOrFail(
-      'Can not retrieve currency.'
-    )
-    const xlmRates = (yield select(selectors.core.data.xlm.getRates)).getOrFail(
-      'Can not retrieve stellar rates.'
-    )
-    const coin = Exchange.convertCoinToCoin({
-      baseToStandard: false,
-      coin: 'XLM',
-      value: amount
-    })
-    const fiat = Exchange.convertCoinToFiat({
-      coin: 'XLM',
-      currency,
-      rates: xlmRates,
-      value: amount
-    })
-    yield put(change(FORM, 'amount', { coin, fiat }))
-  }
-
-  const setFrom = function* (
-    payment: XlmPaymentType,
-    from?: string | CustodialFromType,
-    type?: AddressTypesType,
-    fee?: string
-  ) {
-    let updatedPayment
-    try {
-      switch (type) {
-        case 'CUSTODIAL':
-          const fromCustodialT = from as CustodialFromType
-          yield put(A.showNoAccountForm(false))
-          updatedPayment = yield call(
-            payment.from,
-            fromCustodialT.label,
-            type,
-            new BigNumber(fromCustodialT.withdrawable).minus(fee || '0').toString()
-          )
-          break
-        default:
-          const fromT = from as string
-          updatedPayment = yield call(payment.from, fromT, type)
-          yield put(A.showNoAccountForm(false))
-      }
-      return updatedPayment
-    } catch (e) {
-      const message = prop('message', e)
-      if (message === 'Account does not exist') {
-        yield put(A.showNoAccountForm(true))
-        return payment
-      }
-      throw e
     }
   }
 

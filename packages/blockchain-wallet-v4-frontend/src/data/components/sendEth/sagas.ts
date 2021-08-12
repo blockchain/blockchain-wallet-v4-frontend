@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import BigNumber from 'bignumber.js'
 import EthereumAbi from 'ethereumjs-abi'
 import EthUtil from 'ethereumjs-util'
@@ -156,10 +157,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         case 'to':
           const toPayload = payload as SendEthFormToActionType['payload']
           const value = pathOr(toPayload, ['value', 'value'], toPayload)
-          if (includes('.', (value as unknown) as string)) {
+          if (includes('.', value as unknown as string)) {
             yield put(
               actions.components.send.fetchUnstoppableDomainResults(
-                (value as unknown) as string,
+                value as unknown as string,
                 coin
               )
             )
@@ -349,16 +350,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           )
         )
       }
-      yield put(
-        actions.analytics.logEvent([
-          ...TRANSACTION_EVENTS.SEND,
-          coin,
-          Exchange.convertCoinToCoin({
-            coin,
-            value: payment.value().amount || 0
-          })
-        ])
-      )
+      const coinAmount = Exchange.convertCoinToCoin({
+        coin,
+        value: payment.value().amount || 0
+      })
+      yield put(actions.analytics.logEvent([...TRANSACTION_EVENTS.SEND, coin, coinAmount]))
+      // triggers email notification to user that
+      // non-custodial funds were sent from the wallet
+      if (fromType === ADDRESS_TYPES.ACCOUNT) {
+        yield put(actions.core.wallet.triggerNonCustodialSendAlert(coin, coinAmount))
+      }
       yield put(destroy(FORM))
       yield put(actions.modals.closeAllModals())
     } catch (e) {
