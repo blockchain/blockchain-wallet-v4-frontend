@@ -14,7 +14,6 @@ import * as modals from './modals/actionTypes'
 import * as modules from './modules/actionTypes'
 import * as preferences from './preferences/actionTypes'
 import * as router from './router/actionTypes'
-import * as session from './session/actionTypes'
 import * as wallet from './wallet/actionTypes'
 
 export {
@@ -33,6 +32,5 @@ export {
   modules,
   preferences,
   router,
-  session,
   wallet
 }
