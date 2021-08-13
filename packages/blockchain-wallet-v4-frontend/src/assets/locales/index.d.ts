@@ -2176,7 +2176,8 @@ type MessagesType = {
   'scenes.login.browserwarning': 'Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, Edge, or Opera.'
   'scenes.login.checkemail': 'If you have an account registered with this email address, you will receive an email with a link to verify your device. <b>Open the link in this browser window.</b>'
   'scenes.login.clickhere': 'click here.'
-  'scenes.login.email_or_guid': 'Your Email or Wallet ID'
+  'scenes.login.email_guid': 'Email or Wallet ID'
+  'scenes.login.enter_email_header': 'Enter Your Email Address or Wallet ID'
   'scenes.login.enter_password': 'Enter your password'
   'scenes.login.enter_password_login': 'Enter your password to login'
   'scenes.login.needhelp': 'Need additional help logging in?'
@@ -2206,7 +2207,8 @@ type MessagesType = {
   'scenes.login.simplebuy.header': 'Buy Crypto With Credit Card'
   'scenes.login.wallet.link': "Don't have a wallet?"
   'scenes.login.wallet.link_signup': "Don't have a Blockchain Wallet?"
-  'scenes.login.wallet.exchange': 'Looking for Exchange?'
+  'scenes.login.wallet.exchange_link': 'Looking for the Exchange?'
+  'scenes.login.wallet.exchange_login': 'Log In ->'
   'scenes.login.wallet.message.sent': 'Message Sent'
   'scenes.login.wallet.connected.title': 'Mobile Device Connected'
   'scenes.login.wallet.connected.description_1': 'We sent your connected mobile device a notification. Open the app to confirm auto-log in on the web.'
