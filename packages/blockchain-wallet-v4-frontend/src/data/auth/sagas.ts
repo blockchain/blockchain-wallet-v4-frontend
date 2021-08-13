@@ -351,13 +351,13 @@ export default ({ api, coreSagas, networks }) => {
     const { code, guid, password, sharedKey } = action.payload
     const formValues = yield select(selectors.form.getFormValues('login'))
     const { email, emailToken } = formValues
-    let session = yield select(selectors.session.getSession, email || guid)
+    let session = yield select(selectors.session.getSession, guid, email)
     yield put(startSubmit('login'))
     try {
       if (!session) {
         session = yield call(api.obtainSessionToken)
+        yield put(actions.session.saveSession(assoc(guid, session, {})))
       }
-      yield put(actions.session.saveSession(assoc(guid, session, {})))
       yield put(actions.auth.loginLoading())
       if (emailToken) {
         yield call(
@@ -562,8 +562,8 @@ export default ({ api, coreSagas, networks }) => {
 
   const resendSmsLoginCode = function* (action) {
     try {
-      const { guid } = action.payload
-      const sessionToken = yield select(selectors.session.getSession, guid)
+      const { email, guid } = action.payload
+      const sessionToken = yield select(selectors.session.getSession, guid, email)
       const response = yield call(coreSagas.wallet.resendSmsLoginCode, {
         guid,
         sessionToken
@@ -582,7 +582,8 @@ export default ({ api, coreSagas, networks }) => {
   const deauthorizeBrowser = function* () {
     try {
       const guid = yield select(selectors.core.wallet.getGuid)
-      const sessionToken = yield select(selectors.session.getSession, guid)
+      const email = (yield select(selectors.core.settings.getEmail)).getOrElse(undefined)
+      const sessionToken = yield select(selectors.session.getSession, guid, email)
       yield call(api.deauthorizeBrowser, sessionToken)
       yield put(actions.alerts.displaySuccess(C.DEAUTHORIZE_BROWSER_SUCCESS))
       yield put(actions.cache.disconnectChannelPhone())
