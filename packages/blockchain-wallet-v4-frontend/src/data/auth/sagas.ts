@@ -364,7 +364,7 @@ export default ({ api, coreSagas, networks }) => {
           coreSagas.data.misc.authorizeLogin,
           actions.core.data.misc.authorizeLogin(emailToken, true, session)
         )
-        if ((yield select(selectors.core.data.misc.authorizeLogin)).error.includes('mismatch')) {
+        if ((yield select(selectors.core.data.misc.authorizeLogin)).error?.includes('mismatch')) {
           yield put(actions.alerts.displayError(C.DEVICE_MISMATCH))
           yield put(stopSubmit('login'))
           return
