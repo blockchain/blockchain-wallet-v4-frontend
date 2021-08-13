@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import moment from 'moment'
+import moment, { Moment } from 'moment'
 
 import { SBPaymentTypes } from '../../../../blockchain-wallet-v4/src/network/api/simpleBuy/types'
 import { RecurringBuyPeriods } from '../../data/components/recurringBuy/types'
@@ -131,12 +131,15 @@ const getPeriodText = (period: RecurringBuyPeriods): React.ReactNode => {
 const getActionText = (action: ActionEnum, nextDate: string | number) => {
   let text
   let isToday = false
-  let date = moment()
+  let date: Moment | string = moment()
 
   if (nextDate) {
     isToday = moment(nextDate).calendar().startsWith('Today')
     date = moment(nextDate)
   }
+
+  date = date.format('ddd, MMMM Do')
+
   switch (action) {
     default:
     case ActionEnum.BUY:
@@ -149,9 +152,7 @@ const getActionText = (action: ActionEnum, nextDate: string | number) => {
         <FormattedMessage
           id='scenes.coin.recurringbuy.next_buy_on_date'
           defaultMessage='Next Buy on {date}'
-          values={{
-            date: date.format('ddd, MMMM Do')
-          }}
+          values={{ date }}
         />
       )
       break
@@ -160,9 +161,7 @@ const getActionText = (action: ActionEnum, nextDate: string | number) => {
         <FormattedMessage
           id='scenes.coin.recurringbuy.next_sell_on_date'
           defaultMessage='Next Sell on {date}'
-          values={{
-            date: date.format('ddd, MMMM Do')
-          }}
+          values={{ date }}
         />
       )
       break
@@ -171,9 +170,7 @@ const getActionText = (action: ActionEnum, nextDate: string | number) => {
         <FormattedMessage
           id='scenes.coin.recurringbuy.next_deposit_on_date'
           defaultMessage='Next Deposit on {date}'
-          values={{
-            date: date.format('ddd, MMMM Do')
-          }}
+          values={{ date }}
         />
       )
       break
@@ -182,9 +179,7 @@ const getActionText = (action: ActionEnum, nextDate: string | number) => {
         <FormattedMessage
           id='scenes.coin.recurringbuy.next_withdrawal_on_date'
           defaultMessage='Next Withdrawal on {date}'
-          values={{
-            date: date.format('ddd, MMMM Do')
-          }}
+          values={{ date }}
         />
       )
       break
@@ -193,9 +188,7 @@ const getActionText = (action: ActionEnum, nextDate: string | number) => {
         <FormattedMessage
           id='scenes.coin.recurringbuy.next_swap_on_date'
           defaultMessage='Next Swap on {date}'
-          values={{
-            date: date.format('ddd, MMMM Do')
-          }}
+          values={{ date }}
         />
       )
       break
