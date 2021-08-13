@@ -35,7 +35,7 @@ const isSupportedBrowser = browser.satisfies({
   vivaldi: '>2'
 })
 
-const RegisterForm = styled(Form)`
+const StyledForm = styled(Form)`
   margin-top: 20px;
 
   > div * {
@@ -78,18 +78,19 @@ const scrollToPassword = () => scrollToId('password')
 
 const scrollToSecondPassword = () => scrollToId('confirmationPassword')
 
-const SignupForm = ({
-  busy,
+const RegisterForm = ({
+  formValues,
   handleSubmit,
   invalid,
+  isFormSubmitting,
   onCountrySelect,
-  password,
-  passwordLength,
   showState
 }) => {
+  const { password = '' } = formValues || {}
   const passwordScore = window.zxcvbn ? window.zxcvbn(password).score : 0
+
   return (
-    <RegisterForm override onSubmit={handleSubmit}>
+    <StyledForm override onSubmit={handleSubmit}>
       {!isSupportedBrowser && (
         <BrowserWarning>
           <Banner type='warning'>
@@ -133,7 +134,7 @@ const SignupForm = ({
             validate={[required, validStrongPassword]}
           />
         </FormItem>
-        {passwordLength > 0 && (
+        {password.length > 0 && (
           <div>
             <PasswordTip size='12px' weight={400}>
               {passwordScore <= 1 && (
@@ -260,7 +261,7 @@ const SignupForm = ({
 
       <Button
         data-e2e='signupButton'
-        disabled={busy || invalid}
+        disabled={isFormSubmitting || invalid}
         fullwidth
         height='48px'
         nature='primary'
@@ -269,7 +270,7 @@ const SignupForm = ({
         }}
         type='submit'
       >
-        {busy ? (
+        {isFormSubmitting ? (
           <HeartbeatLoader height='20px' width='20px' color='white' />
         ) : (
           <Text color='whiteFade900' size='16px' weight={600}>
@@ -280,8 +281,8 @@ const SignupForm = ({
           </Text>
         )}
       </Button>
-    </RegisterForm>
+    </StyledForm>
   )
 }
 
-export default SignupForm
+export default RegisterForm

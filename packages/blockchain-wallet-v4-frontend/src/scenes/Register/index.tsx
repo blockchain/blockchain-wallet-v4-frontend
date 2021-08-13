@@ -2,8 +2,8 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { find, propEq, propOr } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
-import { formValueSelector } from 'redux-form'
 
+import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, selectors } from 'data'
 import { GoalsType } from 'data/goals/types'
 import { RootState } from 'data/rootReducer'
@@ -25,7 +25,8 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
   }
 
   onSubmit = () => {
-    const { authActions, country, email, language, password, state } = this.props
+    const { authActions, formValues, language } = this.props
+    const { country, email, password, state } = formValues
     authActions.register(email, password, language, country, state)
   }
 
@@ -39,20 +40,12 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
   }
 
   setDefaultCountry = (country: string) => {
-    const countryIsUS = country === 'US'
-    this.setState({ showState: countryIsUS })
+    this.setState({ showState: country === 'US' })
   }
 
   render() {
-    const { data, goals, password, search, userGeoData } = this.props
-    const busy = data.cata({
-      Failure: () => false,
-      Loading: () => true,
-      NotAsked: () => false,
-      Success: () => false
-    })
-
-    const passwordLength = (password && password.length) || 0
+    const { data, goals, search, userGeoData } = this.props
+    const isFormSubmitting = Remote.Loading.is(data)
     const showWalletFormQuery = search.includes('showWallet')
     const isLinkAccountGoal = !!find(propEq('name', 'linkAccount'), goals)
     const isSimpleBuyGoal = !!find(propEq('name', 'simpleBuy'), goals)
@@ -66,13 +59,11 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
 
     return (
       <Register
-        busy={busy || !userGeoData}
+        isFormSubmitting={isFormSubmitting || !userGeoData}
         isLinkAccountGoal={isLinkAccountGoal}
         isSimpleBuyGoal={isSimpleBuyGoal}
         initialValues={signupInitialValues}
         onSubmit={this.onSubmit}
-        password={password}
-        passwordLength={passwordLength}
         showForm={this.state.showForm || showWalletFormQuery}
         toggleForm={this.toggleForm}
         onCountrySelect={this.onCountryChange}
@@ -84,15 +75,12 @@ class RegisterContainer extends React.PureComponent<PropsType, StateType> {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  country: formValueSelector(REGISTER_FORM)(state, 'country'),
   data: selectors.auth.getRegistering(state),
   domainsR: selectors.core.walletOptions.getDomains(state),
-  email: formValueSelector(REGISTER_FORM)(state, 'email'),
+  formValues: selectors.form.getFormValues(REGISTER_FORM)(state) as RegisterFormType,
   goals: selectors.goals.getGoals(state),
   language: selectors.preferences.getLanguage(state),
-  password: formValueSelector(REGISTER_FORM)(state, 'password') || '',
   search: selectors.router.getSearch(state) as string,
-  state: formValueSelector(REGISTER_FORM)(state, 'state'),
   userGeoData: selectors.auth.getUserGeoData(state) as GeoLocation
 })
 
@@ -105,16 +93,23 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type LinkStatePropsType = {
+type RegisterFormType = {
   country: string
+  email: string
+  password: string
+  state: string
+}
+type LinkStatePropsType = {
   data: any
   domainsR: any
-  email: string
-  goals: Array<{ data: any; id: string; name: GoalsType }>
+  formValues: RegisterFormType
+  goals: Array<{
+    data: any
+    id: string
+    name: GoalsType
+  }>
   language: string
-  password: string
   search: string
-  state: string
   userGeoData: GeoLocation
 }
 
