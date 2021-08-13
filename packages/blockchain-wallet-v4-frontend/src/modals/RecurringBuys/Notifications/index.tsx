@@ -31,7 +31,7 @@ const Slide = styled.div`
   height: 100%;
 `
 const SlideStart = styled(Slide)`
-  justify-content: flex-start;
+  justify-content: center;
 `
 
 const SlideContent = styled.div`

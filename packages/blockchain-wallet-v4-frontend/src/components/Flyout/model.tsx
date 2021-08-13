@@ -128,17 +128,29 @@ const getPeriodText = (period: RecurringBuyPeriods): React.ReactNode => {
   return text
 }
 
-const getActionText = (action: ActionEnum, date: string | number) => {
+const getActionText = (action: ActionEnum, nextDate: string | number) => {
   let text
+  let isToday = false
+  let date = moment()
+
+  if (nextDate) {
+    isToday = moment(nextDate).calendar().startsWith('Today')
+    date = moment(nextDate)
+  }
   switch (action) {
     default:
     case ActionEnum.BUY:
-      text = (
+      text = isToday ? (
+        <FormattedMessage
+          id='scenes.coin.recurringbuy.next_buy_is_today'
+          defaultMessage='Next Buy is Today'
+        />
+      ) : (
         <FormattedMessage
           id='scenes.coin.recurringbuy.next_buy_on_date'
           defaultMessage='Next Buy on {date}'
           values={{
-            date: moment(date).format('ddd, MMMM Do')
+            date: date.format('ddd, MMMM Do')
           }}
         />
       )
@@ -149,7 +161,7 @@ const getActionText = (action: ActionEnum, date: string | number) => {
           id='scenes.coin.recurringbuy.next_sell_on_date'
           defaultMessage='Next Sell on {date}'
           values={{
-            date: moment(date).format('ddd, MMMM Do')
+            date: date.format('ddd, MMMM Do')
           }}
         />
       )
@@ -160,7 +172,7 @@ const getActionText = (action: ActionEnum, date: string | number) => {
           id='scenes.coin.recurringbuy.next_deposit_on_date'
           defaultMessage='Next Deposit on {date}'
           values={{
-            date: moment(date).format('ddd, MMMM Do')
+            date: date.format('ddd, MMMM Do')
           }}
         />
       )
@@ -171,7 +183,7 @@ const getActionText = (action: ActionEnum, date: string | number) => {
           id='scenes.coin.recurringbuy.next_withdrawal_on_date'
           defaultMessage='Next Withdrawal on {date}'
           values={{
-            date: moment(date).format('ddd, MMMM Do')
+            date: date.format('ddd, MMMM Do')
           }}
         />
       )
@@ -182,7 +194,7 @@ const getActionText = (action: ActionEnum, date: string | number) => {
           id='scenes.coin.recurringbuy.next_swap_on_date'
           defaultMessage='Next Swap on {date}'
           values={{
-            date: moment(date).format('ddd, MMMM Do')
+            date: date.format('ddd, MMMM Do')
           }}
         />
       )

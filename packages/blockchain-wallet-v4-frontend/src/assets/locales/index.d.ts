@@ -1902,6 +1902,7 @@ type MessagesType = {
   'scenes.borrow.warning.safe': 'Your collateralization ratio is <span class="green600">{currentRatio}</span>, no action needed at this time.'
   'scenes.borrow.warning.unsafe': 'Your collateralization ratio is below {unsafeRatio}. Your loan is in danger of being liquidated.'
   'scenes.buysell.exchangecheckout.rate': "The rate offered by your region's exchange partner. May include fees."
+  'scenes.coin.recurringbuy.next_buy_is_today': 'Next Buy is Today'
   'scenes.coin.recurringbuy.next_buy_on_date': 'Next Buy on {date}'
   'scenes.coin.recurringbuy.next_sell_on_date': 'Next Sell on {date}'
   'scenes.coin.recurringbuy.next_swap_on_date': 'Next Swap on {date}'

@@ -37,3 +37,4 @@ export default {
 }
 
 export const Default = (args) => <SavedRecurringBuy {...args} />
+export const Today = (args) => <SavedRecurringBuy {...args} nextPayment={new Date()} />
