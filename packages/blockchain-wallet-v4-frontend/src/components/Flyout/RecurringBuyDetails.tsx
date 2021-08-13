@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
+import styled from 'styled-components'
 
 import { Banner, Button } from 'blockchain-info-components'
 import { FiatType, SBPaymentTypes } from 'core/types'
@@ -14,6 +15,10 @@ import Content from './Content'
 import Footer from './Footer'
 import Header from './Header'
 import { getPaymentMethodText, getPeriodSubTitleText, getPeriodTitleText } from './model'
+
+const StyledBanner = styled(Banner)`
+  border: unset;
+`
 
 const RecurringBuyDetails = ({
   closeClick,
@@ -47,7 +52,7 @@ const RecurringBuyDetails = ({
       <Content mode='top'>
         <AmountSubHeader
           data-e2e='recurringBuyAmount'
-          subTitle={<Banner {...bannerProps} />}
+          subTitle={<StyledBanner {...bannerProps} />}
           title={`${amountString} of ${crypto}`}
         />
         <CheckoutRow

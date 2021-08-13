@@ -119,9 +119,9 @@ export const IconTx = ({
         const isRecurringBuy = subType === 'recurringBuy'
         return (
           <Icon
-            size='24px'
+            size={isRecurringBuy ? '15px' : '24px'}
             weight={600}
-            name={isRecurringBuy ? 'plus' : 'sync-regular'}
+            name={isRecurringBuy ? 'sync-regular' : 'plus'}
             color={color}
           />
         )

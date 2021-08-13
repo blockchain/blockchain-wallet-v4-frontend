@@ -1252,13 +1252,11 @@ type MessagesType = {
   'modals.recurringbuys.time_options.monthly': 'Monthly'
 
   'modals.recurringbuys.get_started.title': 'Set Up a Recurring Buy'
-  'modals.recurringbuys.get_started.description': 'Buy {amount} of {currency} every day, week or month with a Recurring Buy. No need to ever time the market.'
+  'modals.recurringbuys.get_started.description': 'Buy {amount} of {outputCurrency} every day, week or month with a Recurring Buy. No need to ever time the market.'
   'modals.recurringbuys.get_started.buy_amount_of_currency': 'Buy {amount} of {currency}'
   'modals.recurringbuys.get_started.get_started': 'Get Started'
   'modals.recurringbuys.get_started.maybe_later': 'Maybe Later'
 
-  'modals.recurringbuys.get_started.title': 'Set Up a Recurring Buy'
-  'modals.recurringbuys.get_started.description': 'Buy {amount} of {currency} every day, week or month with a Recurring Buy. No need to ever time the market.'
   'modals.recurringbuys.get_started.get_started': 'Get Started'
   'modals.recurringbuys.get_started.maybe_later': 'Maybe Later'
 
@@ -1904,6 +1902,7 @@ type MessagesType = {
   'scenes.borrow.warning.safe': 'Your collateralization ratio is <span class="green600">{currentRatio}</span>, no action needed at this time.'
   'scenes.borrow.warning.unsafe': 'Your collateralization ratio is below {unsafeRatio}. Your loan is in danger of being liquidated.'
   'scenes.buysell.exchangecheckout.rate': "The rate offered by your region's exchange partner. May include fees."
+  'scenes.coin.recurringbuy.next_buy_is_today': 'Next Buy is Today'
   'scenes.coin.recurringbuy.next_buy_on_date': 'Next Buy on {date}'
   'scenes.coin.recurringbuy.next_sell_on_date': 'Next Sell on {date}'
   'scenes.coin.recurringbuy.next_swap_on_date': 'Next Swap on {date}'
