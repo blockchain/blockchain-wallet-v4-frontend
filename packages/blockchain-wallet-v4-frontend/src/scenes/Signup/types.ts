@@ -1,14 +1,17 @@
-export const REGISTER_FORM = 'register'
-
-export type SignupInitValues = {
+export type SignupFormInitValuesType = {
   country?: string
   email?: string
 }
-
-export type GeoLocation = {
+export type GeoLocationType = {
   countryCode: string
   headerBlockchainCFIpCountry: string
   headerBlockchainGoogleIpCountry: string
   headerBlockchainGoogleIpRegion: string
   ip: string
+}
+export type SignupFormType = {
+  country: string
+  email: string
+  password: string
+  state: string
 }

@@ -24,6 +24,7 @@ import {
   validStrongPassword
 } from 'services/forms'
 
+// TODO: add bowser helper to a service
 const browser = Bowser.getParser(window.navigator.userAgent)
 const isSupportedBrowser = browser.satisfies({
   chrome: '>45',
@@ -78,7 +79,7 @@ const scrollToPassword = () => scrollToId('password')
 
 const scrollToSecondPassword = () => scrollToId('confirmationPassword')
 
-const RegisterForm = ({
+const SignupForm = ({
   formValues,
   handleSubmit,
   invalid,
@@ -265,9 +266,6 @@ const RegisterForm = ({
         fullwidth
         height='48px'
         nature='primary'
-        style={{
-          borderRadius: '8px'
-        }}
         type='submit'
       >
         {isFormSubmitting ? (
@@ -285,4 +283,4 @@ const RegisterForm = ({
   )
 }
 
-export default RegisterForm
+export default SignupForm

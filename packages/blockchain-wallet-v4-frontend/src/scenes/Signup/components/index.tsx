@@ -54,6 +54,18 @@ export const IconWrapper = styled.div<{ color: keyof DefaultTheme }>`
     flex-shrink: 0;
   `}
 `
+export const CardsWrapper = styled.div`
+  display: flex;
+
+  ${media.tabletL`
+    flex-direction: column;
+    justify-content: center;
+  `}
+
+  ${media.tablet`
+    width: 100%;
+  `}
+`
 export const CardInfo = styled.div`
   display: flex;
   flex-direction: column;

@@ -15,8 +15,7 @@ import {
 } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
-import { PropsType as OwnProps } from '../..'
-import SignupForm from '../../RegisterForm'
+import { Props as OwnProps } from '../..'
 import {
   Card,
   CardHeader,
@@ -28,6 +27,7 @@ import {
   SignInText,
   SubCard
 } from '..'
+import SignupForm from '../SignupForm'
 
 const Line = styled.div<{ showForm: boolean }>`
   height: 1px;
@@ -66,16 +66,16 @@ const LinkAccountSpacer = styled.div`
 
 const RegisterCard = ({
   formValues,
-  handleSubmit,
   invalid,
   isFormSubmitting,
   isLinkAccountGoal,
   onCountrySelect,
+  onSubmit,
   showForm,
   showState,
   toggleForm
 }: InjectedFormProps<{}, Props> & Props) => {
-  const buttonSubmit = showForm ? handleSubmit : toggleForm
+  const buttonSubmit = showForm ? onSubmit : toggleForm
 
   return (
     <CardWrapper>
@@ -166,7 +166,7 @@ const RegisterCard = ({
         {showForm || isLinkAccountGoal ? (
           <SignupForm
             isFormSubmitting={isFormSubmitting}
-            handleSubmit={handleSubmit}
+            handleSubmit={onSubmit}
             invalid={invalid}
             formValues={formValues}
             onCountrySelect={onCountrySelect}
@@ -234,6 +234,7 @@ type Props = {
   isFormSubmitting: boolean
   isLinkAccountGoal: boolean
   onCountrySelect: (e: React.SyntheticEvent, value: string) => void
+  onSubmit: (e: React.SyntheticEvent, value: string) => void
   showForm: boolean
   showState: boolean
   toggleForm: any
