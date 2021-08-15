@@ -1,6 +1,5 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Bowser from 'bowser'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
@@ -23,18 +22,9 @@ import {
   validPasswordConfirmation,
   validStrongPassword
 } from 'services/forms'
+import { isBrowserSupported } from 'services/browser'
 
-// TODO: add bowser helper to a service
-const browser = Bowser.getParser(window.navigator.userAgent)
-const isSupportedBrowser = browser.satisfies({
-  chrome: '>45',
-  chromium: '>45',
-  edge: '>16',
-  firefox: '>45',
-  opera: '>20',
-  safari: '>8',
-  vivaldi: '>2'
-})
+const isSupportedBrowser = isBrowserSupported()
 
 const StyledForm = styled(Form)`
   margin-top: 20px;
