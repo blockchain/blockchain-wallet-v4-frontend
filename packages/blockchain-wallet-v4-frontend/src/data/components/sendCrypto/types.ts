@@ -1,12 +1,14 @@
 import {
   RemoteDataType,
   WithdrawalLockResponseType,
-  WithdrawalMinsAndFeesResponse
+  WithdrawalMinsAndFeesResponse,
+  WithdrawResponseType
 } from 'core/types'
 
 // state
 export type SendCryptoState = {
   step: SendCryptoStepType
+  transaction: RemoteDataType<string, WithdrawResponseType>
   withdrawLocks: RemoteDataType<string, WithdrawalLockResponseType>
   withdrawalFeesAndMins: RemoteDataType<string, WithdrawalMinsAndFeesResponse>
 }
@@ -20,6 +22,6 @@ export enum SendCryptoStepType {
   'ENTER_TO',
   'ENTER_AMOUNT',
   'CONFIRM',
-  'RESULT',
+  'STATUS',
   'DETAILS'
 }

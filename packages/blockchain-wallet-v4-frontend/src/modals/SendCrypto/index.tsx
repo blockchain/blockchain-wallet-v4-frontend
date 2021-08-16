@@ -17,6 +17,7 @@ import EnterAmount from './EnterAmount'
 import EnterTo from './EnterTo'
 import { SEND_FORM } from './model'
 import { getData } from './selectors'
+import Status from './Status'
 import { SendFormType } from './types'
 
 class SendCrypto extends PureComponent<Props, State> {
@@ -65,6 +66,11 @@ class SendCrypto extends PureComponent<Props, State> {
         {this.props.step === SendCryptoStepType.CONFIRM && (
           <FlyoutChild>
             <Confirm {...this.props} />
+          </FlyoutChild>
+        )}
+        {this.props.step === SendCryptoStepType.STATUS && (
+          <FlyoutChild>
+            <Status {...this.props} />
           </FlyoutChild>
         )}
       </Flyout>

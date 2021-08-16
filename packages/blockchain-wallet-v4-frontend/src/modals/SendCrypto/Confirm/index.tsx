@@ -71,7 +71,7 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     <Wrapper
       onSubmit={(e) => {
         e.preventDefault()
-        sendCryptoActions.submit()
+        sendCryptoActions.submitTransaction()
       }}
     >
       <div>

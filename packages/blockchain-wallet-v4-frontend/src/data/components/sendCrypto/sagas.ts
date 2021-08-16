@@ -9,6 +9,7 @@ import { selectors } from 'data'
 
 import * as S from './selectors'
 import { actions as A } from './slice'
+import { SendCryptoStepType } from './types'
 
 export default ({ api }: { api: APIType }) => {
   const fetchFees = function* () {
@@ -40,22 +41,37 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const submit = function* () {
-    const formValues = selectors.form.getFormValues(SEND_FORM)(yield select()) as SendFormType
-    const { amount, selectedAccount, to } = formValues
-    const { coin } = selectedAccount
-    const feesR = S.getWithdrawalFees(yield select(), selectedAccount.coin)
-    const fee = feesR.getOrElse(undefined)
+  const submitTransaction = function* () {
+    try {
+      yield put(A.setStep({ step: SendCryptoStepType.STATUS }))
+      yield put(A.submitTransactionLoading())
+      const formValues = selectors.form.getFormValues(SEND_FORM)(yield select()) as SendFormType
+      const { amount, selectedAccount, to } = formValues
+      const { coin } = selectedAccount
+      const feesR = S.getWithdrawalFees(yield select(), selectedAccount.coin)
+      const fee = feesR.getOrElse(undefined)
 
-    const finalAmt = convertCoinToCoin({ baseToStandard: false, coin, value: amount })
-    const finalFee = convertCoinToCoin({ baseToStandard: false, coin, value: fee || 0 })
+      const finalAmt = convertCoinToCoin({ baseToStandard: false, coin, value: amount })
+      const finalFee = convertCoinToCoin({ baseToStandard: false, coin, value: fee || 0 })
 
-    const response = api.withdrawSBFunds(to, coin, finalAmt, Number(finalFee))
+      const response: ReturnType<typeof api.withdrawSBFunds> = yield call(
+        api.withdrawSBFunds,
+        to,
+        coin,
+        finalAmt,
+        Number(finalFee)
+      )
+
+      yield put(A.submitTransactionSuccess(response))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.submitTransactionFailure(error))
+    }
   }
 
   return {
     fetchFees,
     fetchLocks,
-    submit
+    submitTransaction
   }
 }

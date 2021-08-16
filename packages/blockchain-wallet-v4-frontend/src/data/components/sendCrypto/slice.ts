@@ -2,12 +2,17 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
-import { WithdrawalLockResponseType, WithdrawalMinsAndFeesResponse } from 'core/types'
+import {
+  WithdrawalLockResponseType,
+  WithdrawalMinsAndFeesResponse,
+  WithdrawResponseType
+} from 'core/types'
 
 import { SendCryptoState, SendCryptoStepPayload, SendCryptoStepType } from './types'
 
 const initialState: SendCryptoState = {
   step: SendCryptoStepType.COIN_SELECTION,
+  transaction: Remote.NotAsked,
   withdrawLocks: Remote.NotAsked,
   withdrawalFeesAndMins: Remote.NotAsked
 }
@@ -39,7 +44,16 @@ const sendCryptoSlice = createSlice({
     setStep: (state, action: PayloadAction<SendCryptoStepPayload>) => {
       state.step = action.payload.step
     },
-    submit: () => {}
+    submitTransaction: () => {},
+    submitTransactionFailure: (state, action: PayloadAction<string>) => {
+      state.transaction = Remote.Failure(action.payload)
+    },
+    submitTransactionLoading: (state) => {
+      state.transaction = Remote.Loading
+    },
+    submitTransactionSuccess: (state, action: PayloadAction<WithdrawResponseType>) => {
+      state.transaction = Remote.Success(action.payload)
+    }
     // showModal: (state, action: PayloadAction<{ origin: ModalOriginType }>) => {}
   }
 })
