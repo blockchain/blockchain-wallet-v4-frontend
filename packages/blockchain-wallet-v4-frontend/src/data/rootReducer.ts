@@ -18,7 +18,7 @@ import securityCenter from './modules/settings/reducers'
 import { transferEthReducer } from './modules/transferEth/reducers'
 import { preferencesReducer } from './preferences/reducers'
 import { pricesReducer as prices } from './prices/slice'
-import session from './session/reducers'
+import { sessionReducer as session } from './session/slice'
 
 const rootReducer = {
   alerts: alertsReducer,

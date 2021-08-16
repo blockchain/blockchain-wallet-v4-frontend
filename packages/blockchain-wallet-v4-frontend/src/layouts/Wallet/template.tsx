@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import Alerts from 'components/Alerts'
 import Announcements from 'components/Announcements'
 import Tooltips from 'components/Tooltips'
-import ZendeskWidget from 'components/ZendeskWidget'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { media } from 'services/styles'
 
@@ -27,7 +26,7 @@ const Container = styled.div`
 `
 const Nav = styled.div`
   flex: 0 0 60px;
-  background-color: ${props => props.theme.blue900};
+  background-color: ${(props) => props.theme.blue900};
 `
 const Content = styled.div`
   box-sizing: border-box;
@@ -38,7 +37,7 @@ const Content = styled.div`
   align-items: flex-start;
   width: calc(100% - 250px);
   max-width: calc(100% - 250px);
-  background-color: ${props => props.theme.white};
+  background-color: ${(props) => props.theme.white};
   padding: 32px 28px 16px 36px;
   ${media.tablet`
     padding: 8px 16px;
@@ -52,7 +51,7 @@ const Content = styled.div`
   `}
 `
 
-const WalletLayout = props => {
+const WalletLayout = (props) => {
   const { children, location } = props
 
   return (
@@ -72,7 +71,6 @@ const WalletLayout = props => {
             <Page>{children}</Page>
           </Content>
         </Container>
-        <ZendeskWidget />
       </ErrorBoundary>
     </Wrapper>
   )

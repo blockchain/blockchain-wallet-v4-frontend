@@ -10,6 +10,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { v4 as uuidv4 } from 'uuid'
 
 import SiftScience from 'components/SiftScience'
+import SupportChat from 'components/SupportChat'
 import { selectors } from 'data'
 import { UserDataType } from 'data/types'
 import PublicLayout from 'layouts/Public'
@@ -130,6 +131,7 @@ const App = ({
                   </Switch>
                 </Suspense>
               </ConnectedRouter>
+              {isAuthenticated && <SupportChat />}
               <SiftScience userId={userData.id} />
               <AnalyticsTracker />
             </MediaContextProvider>
