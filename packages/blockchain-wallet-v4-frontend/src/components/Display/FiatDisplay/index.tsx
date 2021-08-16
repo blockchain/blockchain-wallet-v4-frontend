@@ -17,7 +17,7 @@ class FiatDisplayContainer extends React.PureComponent<Props> {
     if (Remote.NotAsked.is(this.props.data)) {
       const { coin } = this.props
       const { coinfig } = window.coins[coin]
-      if (coinfig.type.isFiat) {
+      if (coinfig.type.name === 'FIAT') {
         return
       }
       if (coinfig.type.erc20Address) {

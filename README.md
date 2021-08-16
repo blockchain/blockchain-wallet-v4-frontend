@@ -19,7 +19,7 @@ This repo contains the three codebases/packages listed below.
 
 
 ## Local Development
-1. Ensure Node version >= 12.18 is installed.
+1. Ensure Node version >= 14.16 is installed. Using [NVM](https://github.com/nvm-sh/nvm) is recommended.
 2. From the project root, run the following command to install dependencies: `./setup.sh`.
 4. Start the application in development mode: `yarn start`
 5. The frontend application will now be accessible via browser at `localhost:8080`
@@ -168,11 +168,14 @@ To visualize and interact with the tree of the production code bundles files:
 Once completed, a browser will automatically open with the results.
 
 ## Storybook
-[Storybook](https://github.com/storybooks/storybook) is used by the [blockchain-info-components](./packages/blockchain-info-components) package to interactively view, develop and test components.
+[Storybook](https://github.com/storybooks/storybook) is used by the [blockchain-info-components](./packages/blockchain-info-components) and [blockchain-wallet-v4-frontend](./packages/blockchain-wallet-v4-frontend) packages to interactively view, develop and test components.
 The following commands are available:
- * `storybook:build`: Builds the static storybook assets
- * `storybook:serve` Builds storybook assets and then serves them locally at `localhost:6006`
- * `storybook:deploy` Builds storybook assets and then serves them to [github pages](https://blockchain.github.io/blockchain-wallet-v4-frontend). **You will probably need to run `cd ./packages/blockchain-info-components && git remote add origin git@github.com:blockchain/blockchain-wallet-v4-frontend.git` first.**
+ * `storybook:build-wallet`: Builds the static storybook assets for wallet specific components (if base components is running locally, storybook will put wallet and base components into the same storybook UI)
+ * `storybook:build-base`: Builds the static storybook assets for base shared components
+ * `storybook:serve-wallet` Builds storybook assets and then serves them locally at `localhost:6006`
+ * `storybook:serve-base` Builds storybook assets and then serves them locally at `localhost:6007`
+ * `storybook:deploy-wallet` Builds storybook assets and then serves them to [github pages](https://blockchain.github.io/blockchain-wallet-v4-frontend). **You will probably need to run `cd ./packages/blockchain-info-components && git remote add origin git@github.com:blockchain/blockchain-wallet-v4-frontend.git` first.**
+ * `storybook:deploy-base` Builds storybook assets and then serves them to [github pages](https://blockchain.github.io/blockchain-wallet-v4-frontend). **You will probably need to run `cd ./packages/blockchain-info-components && git remote add origin git@github.com:blockchain/blockchain-wallet-v4-frontend.git` first.**
 
 If the deploy begins to fail, deleting the static build file before redeploy will likely help.
 

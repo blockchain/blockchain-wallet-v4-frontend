@@ -25,6 +25,7 @@
     "consistent-return": "off",
     "func-names": "off",
     "no-console": ["error", { "allow": ["warn", "error"] }],
+    "no-param-reassign": "off",
     "import/prefer-default-export": "off",
     "radix": "off",
     "simple-import-sort/imports": [

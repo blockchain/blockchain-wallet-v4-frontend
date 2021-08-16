@@ -12,7 +12,7 @@ import { CoinAccountListBalance } from 'components/Form'
 import IdvIntro from 'components/IdentityVerification/IdvIntro'
 import { selectors } from 'data'
 import { InitSwapFormValuesType, SwapAccountType, SwapCoinType } from 'data/components/swap/types'
-import checkAccountZeroBalance from 'services/CheckAccountZeroBalance'
+import { checkAccountZeroBalance } from '../model'
 
 import { Props as BaseProps, SuccessStateType } from '..'
 import {

@@ -1,4 +1,12 @@
-import { RemoteDataType, SBPaymentTypes, WalletCurrencyType } from 'core/types'
+import { FiatType, RemoteDataType, SBPaymentTypes, WalletCurrencyType } from 'core/types'
+
+export enum ActionEnum {
+  BUY = 'BUY',
+  DEPOSIT = 'DEPOSIT',
+  SELL = 'SELL',
+  SWAP = 'SWAP',
+  WITHDRAWAL = 'WITHDRAWAL'
+}
 
 // state
 export type RecurringBuyState = {
@@ -15,15 +23,9 @@ export enum RecurringBuyStepType {
   'FREQUENCY',
   'CHECKOUT_CONFIRM',
   'SUMMARY',
-  'FAILURE'
-}
-
-export enum RecurringBuyPeriods {
-  BI_WEEKLY = 'BI_WEEKLY',
-  DAILY = 'DAILY',
-  MONTHLY = 'MONTHLY',
-  ONE_TIME = 'ONE_TIME',
-  WEEKLY = 'WEEKLY'
+  'FAILURE',
+  'DETAILS',
+  'REMOVE_CONFIRM'
 }
 
 export type RecurringBuyStepPayload = {
@@ -38,6 +40,7 @@ export enum RecurringBuyItemState {
 export type RecurringBuyRegisteredList = {
   destinationCurrency: WalletCurrencyType
   id: string
+  inputCurrency: FiatType
   inputValue: string
   insertedAt: string
   nextPayment: string
@@ -47,4 +50,12 @@ export type RecurringBuyRegisteredList = {
   state: RecurringBuyItemState
   updatedAt: string
   userId: string
+}
+
+export enum RecurringBuyPeriods {
+  BI_WEEKLY = 'BI_WEEKLY',
+  DAILY = 'DAILY',
+  MONTHLY = 'MONTHLY',
+  ONE_TIME = 'ONE_TIME',
+  WEEKLY = 'WEEKLY'
 }

@@ -1,13 +1,15 @@
 import BigNumber from 'bignumber.js'
 import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/EnterAmount/Checkout/validation'
-import { head, isEmpty, lift } from 'ramda'
+import { head, isEmpty, isNil, lift } from 'ramda'
+import { createSelector } from 'reselect'
 
 import {
   ExtractSuccess,
   FiatType,
   FiatTypeEnum,
   SBPaymentMethodType,
-  SBPaymentTypes
+  SBPaymentTypes,
+  SBQuoteType
 } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -160,6 +162,10 @@ export const getSBCardId = (state: RootState) => state.components.simpleBuy.card
 export const getSBFiatEligible = (state: RootState) => state.components.simpleBuy.fiatEligible
 
 export const getSBQuote = (state: RootState) => state.components.simpleBuy.quote
+export const hasQuote = createSelector(getSBQuote, (quoteR) => {
+  const quote = quoteR.getOrElse({} as SBQuoteType)
+  return !isNil(quote.rate)
+})
 
 export const getSBPairs = (state: RootState) => state.components.simpleBuy.pairs
 

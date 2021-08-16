@@ -5,8 +5,8 @@ import Remote from '../../../remote'
 export const getCoins = () => {
   return Object.keys(window.coins).filter(
     (coin) =>
-      !window.coins[coin].coinfig.products.includes('PrivateKey') &&
       window.coins[coin].coinfig.products.includes('CustodialWalletBalance') &&
+      !window.coins[coin].coinfig.products.includes('PrivateKey') &&
       window.coins[coin].coinfig.type.name !== 'FIAT'
   )
 }

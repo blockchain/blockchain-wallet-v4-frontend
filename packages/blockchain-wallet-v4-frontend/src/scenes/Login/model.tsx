@@ -1,27 +1,15 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import Bowser from 'bowser'
 import styled from 'styled-components'
 
 import { Button, Icon, Link, SpinningLoader, Text, TextGroup } from 'blockchain-info-components'
 import { FormLabel } from 'components/Form'
-import { Wrapper } from 'components/Public'
 import { LoginFormType, LoginSteps } from 'data/types'
 
 export const LOGIN_FORM_NAME = 'login'
 
 export const removeWhitespace = (string) => string.replace(/\s/g, ``)
-const browser = Bowser.getParser(window.navigator.userAgent)
-export const isSupportedBrowser = browser.satisfies({
-  chrome: '>45',
-  chromium: '>45',
-  edge: '>16',
-  firefox: '>45',
-  opera: '>20',
-  safari: '>8',
-  vivaldi: '>2'
-})
 
 export const ActionButton = styled(Button)`
   margin-top: 15px;
@@ -29,23 +17,15 @@ export const ActionButton = styled(Button)`
 export const BrowserWarning = styled.div`
   margin-bottom: 10px;
 `
-
+export const Row = styled.div`
+  display: flex;
+`
 export const CartridgeSentContainer = styled.div`
   width: auto;
-`
-
-export const PublicWrapper = styled(Wrapper)`
-  position: relative;
-  overflow: visible;
 `
 export const GuidError = styled(TextGroup)`
   display: inline;
   margin-top: 3px;
-`
-export const LoginTextGroup = styled(TextGroup)`
-  line-height: 1;
-  margin: 12px 0;
-  text-align: center;
 `
 export const LoginFormLabel = styled(FormLabel)`
   margin-bottom: 8px;
@@ -61,18 +41,6 @@ export const CircleBackground = styled.div`
   border-radius: 40px;
   margin-bottom: 8px;
 `
-export const RecoveryCircleBackground = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 48px;
-  height: 48px;
-  min-width: 48px;
-  background-color: ${(props) => props.theme.blue000};
-  border-radius: 48px;
-  margin: 8px 8px 8px 0;
-`
-
 export const RectangleBackground = styled.div`
   height: 48px;
   width: 100%;
@@ -89,14 +57,6 @@ export const HelpRow = styled.div`
   justify-content: space-between;
   padding: 16px;
 `
-export const IconTextRow = styled.div`
-  display: flex;
-  align-items: center;
-  & > :first-child {
-    margin-right: 8px;
-  }
-`
-
 export const Column = styled.div`
   display: flex;
   flex-direction: column;
@@ -104,11 +64,6 @@ export const Column = styled.div`
 export const CenteredColumn = styled(Column)`
   align-items: center;
 `
-
-export const Row = styled.div`
-  display: flex;
-`
-
 export const Loader = styled(SpinningLoader)`
   height: 75px;
   width: 75px;
@@ -123,7 +78,9 @@ export const PhishingWarning = styled.div`
   background-color: ${(props) => props.theme.whiteFade100};
   padding: 12px 32px;
 `
-
+export const ExchangeLoginRow = styled(Row)`
+  margin: 8px 0 32px;
+`
 export const BackArrowFormHeader = (props: {
   formValues: LoginFormType
   handleBackArrowClick: () => void
@@ -194,4 +151,21 @@ export const NeedHelpLink = () => (
       <FormattedMessage id='copy.need_some_help' defaultMessage='Need some help?' />
     </Link>
   </LinkContainer>
+)
+
+export const ExchangeLogin = () => (
+  <Link data-e2e='exchangeLinkLogin' href='https://exchange.blockchain.com/trade/login'>
+    <ExchangeLoginRow>
+      <Text size='16px' color='grey400' weight={500} lineHeight='1.5'>
+        <FormattedMessage
+          id='scenes.login.wallet.exchange'
+          defaultMessage='Looking for the Exchange?'
+        />
+      </Text>
+      &nbsp;
+      <Text size='16px' color='white' weight={600} lineHeight='1.5'>
+        <FormattedMessage id='scenes.login.wallet.exchange_login' defaultMessage='Log In ->' />
+      </Text>
+    </ExchangeLoginRow>
+  </Link>
 )

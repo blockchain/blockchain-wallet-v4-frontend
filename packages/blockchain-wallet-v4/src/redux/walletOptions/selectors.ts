@@ -1,11 +1,9 @@
-import { keys, lift, path, prop } from 'ramda'
+import { path, prop } from 'ramda'
 
-import { /* AccountTokensBalancesResponseType, */ ExtractSuccess, RemoteDataType } from 'core/types'
+import { /* AccountTokensBalancesResponseType, */ RemoteDataType } from 'core/types'
 import { RootState } from 'data/rootReducer'
 
-import { createDeepEqualSelector } from '../../utils'
-import { getErc20AccountTokenBalances } from '../data/eth/selectors.js'
-import { SupportedWalletCurrenciesType, WalletOptionsType } from './types'
+import { WalletOptionsType } from './types'
 
 // general
 export const getOptions = (state: RootState) =>
@@ -23,56 +21,8 @@ export const getAnalyticsSiteId = (state) =>
 export const getAnnouncements = (state) =>
   getWebOptions(state).map(path(['application', 'announcements']))
 
-export const DEPRECATED_getSupportedCoins = createDeepEqualSelector(
-  [getWebOptions, getErc20AccountTokenBalances],
-  (webOptionsR /* , erc20CoinsR */) => {
-    const newSupportedCoinAccount = (symbol: string) => {
-      const { coinfig } = window.coins[symbol]
-
-      return {
-        coinCode: coinfig.symbol,
-        coinTicker: coinfig.symbol,
-        coinfig,
-        displayName: coinfig.name,
-        minConfirmations: 3
-      }
-    }
-
-    const transform = (
-      webOptions: ExtractSuccess<typeof webOptionsR>
-      // TODO: erc20 phase 2, use erc20s from AccountTokenBalances
-      // erc20Coins: AccountTokensBalancesResponseType['tokenAccounts']
-    ) => {
-      return {
-        ...webOptions.coins,
-        // TODO: erc20 phase 2, remove this
-        ...Object.keys(window.coins).reduce((previousValue, currentValue) => {
-          const { coinfig } = window.coins[currentValue]
-          if (!coinfig.type.erc20Address) return previousValue
-          return {
-            ...previousValue,
-            [coinfig.symbol]: newSupportedCoinAccount(coinfig.symbol)
-          }
-        }, {})
-        // TODO: erc20 phase 2, add this
-        // ...erc20Coins.reduce((previousValue, currentValue) => {
-        //   return {
-        //     ...previousValue,
-        //     [currentValue.symbol!]: newSupportedCoinAccount(currentValue.symbol!)
-        //   }
-        // }, {})
-      }
-    }
-    // TODO: erc20 phase 2, add back erc20CoinsR
-    return lift(transform)(webOptionsR /* , erc20CoinsR */)
-  }
-) as (state: RootState) => RemoteDataType<string, SupportedWalletCurrenciesType>
-
-export const getSyncToExchangeList = (state) => DEPRECATED_getSupportedCoins(state).map(keys)
-export const getXlmSendTimeOutSeconds = (state) =>
-  DEPRECATED_getSupportedCoins(state).map(path(['XLM', 'config', 'sendTimeOutSeconds']))
-export const getXlmExchangeAddresses = (state) =>
-  DEPRECATED_getSupportedCoins(state).map(path(['XLM', 'exchangeAddresses']))
+export const getXlmSendTimeOutSeconds = (state) => 600
+export const getXlmExchangeAddresses = (state) => []
 
 // domains
 export const getVeriffDomain = (state) => getDomains(state).map(prop('veriff'))

@@ -1,11 +1,8 @@
 module.exports = {
   stories: ['../stories/**/*.stories.@(js|tsx)'],
   addons: [
-    '@storybook/addon-essentials',
-    '@storybook/addon-actions',
     '@storybook/addon-links',
-    'themeprovider-storybook/register',
-    '@react-theming/storybook-addon',
+    '@storybook/addon-essentials',
     'storybook-dark-mode'
   ],
   typescript: {

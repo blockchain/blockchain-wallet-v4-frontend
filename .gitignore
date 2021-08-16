@@ -27,6 +27,7 @@ CHANGELOG.md
 coverage/
 dist/
 lib/
+storybook-static/
 
 # Package Files
 # Components Package

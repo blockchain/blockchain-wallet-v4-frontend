@@ -357,12 +357,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     payload
   }: ReturnType<typeof A.initializeWithdrawalForm>) {
     const { coin, walletCurrency } = payload
+    const { coinfig } = window.coins[coin]
+    let defaultAccount
     try {
       yield put(A.setWithdrawalMinimumsLoading())
       const response: ReturnType<typeof api.getWithdrawalMinsAndFees> = yield call(
         api.getWithdrawalMinsAndFees
       )
-      const defaultAccount = yield call(getDefaultAccountForCoin, coin)
+      if (coinfig.products.includes('PrivateKey')) {
+        defaultAccount = yield call(getDefaultAccountForCoin, coin)
+      } else {
+        defaultAccount = (yield call(getCustodialAccountForCoin, coin)).getOrFail(
+          'Failed to fetch account'
+        )
+      }
+
       yield put(
         initialize(WITHDRAWAL_FORM, {
           coin,

@@ -11,5 +11,6 @@ export default ({ api }) => {
     yield takeLatest(actions.fetchMethods.type, recurringBuySagas.fetchMethods)
     yield takeLatest(actions.fetchRegisteredList.type, recurringBuySagas.fetchRegisteredList)
     yield takeEvery(actions.createRecurringBuy.type, recurringBuySagas.createRecurringBuy)
+    yield takeEvery(actions.removeRecurringBuy.type, recurringBuySagas.removeRecurringBuy)
   }
 }

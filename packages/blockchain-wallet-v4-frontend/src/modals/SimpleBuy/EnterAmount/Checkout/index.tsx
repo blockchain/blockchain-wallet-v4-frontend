@@ -8,7 +8,7 @@ import { OrderType, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { getValidPaymentMethod } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
-import { SBCheckoutFormValuesType, UserDataType } from 'data/types'
+import { RecurringBuyPeriods, SBCheckoutFormValuesType, UserDataType } from 'data/types'
 
 import Loading from '../../template.loading'
 import {
@@ -25,11 +25,13 @@ class Checkout extends PureComponent<Props> {
     const goalAmount = pathOr('', ['data', 'amount'], dataGoal)
     const amount = goalAmount || this.props.formValues?.amount
     const cryptoAmount = this.props.formValues?.cryptoAmount
+    const period = this.props.formValues?.period || RecurringBuyPeriods.ONE_TIME
 
     this.props.simpleBuyActions.initializeCheckout(
       this.props.pairs,
       this.props.orderType,
       this.props.preferences[this.props.orderType].fix,
+      period,
       this.props.pair,
       amount,
       this.props.swapAccount,
@@ -167,6 +169,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch
   ),
   profileActions: bindActionCreators(actions.modules.profile, dispatch),
+  recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 

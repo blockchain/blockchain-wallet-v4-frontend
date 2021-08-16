@@ -6,13 +6,14 @@ export type WalletOptionsType = typeof WalletOptions
 export type CoinfigType = {
   name: string
   precision: number
-  products: string[]
+  products: ('CustodialWalletBalance' | 'PrivateKey')[]
   symbol: string
   type: {
     erc20Address?: string
-    isFiat?: boolean
+    isMemoBased?: string
     logoPngUrl: string
-    name: string
+    minimumOnChainConfirmations?: number
+    name: 'FIAT' | 'ERC20' | 'COIN'
     parentChain: string
     websiteUrl: string
   }
@@ -64,16 +65,6 @@ export type SupportedFiatType = {
   minConfirmations: 0
   txExploreBaseUrl: ''
 }
-
-export type SupportedWalletCurrenciesType = {
-  [key in CoinType]: SupportedCoinType
-} &
-  {
-    [key in WalletFiatType]: SupportedFiatType
-  } &
-  {
-    [key in string]: SupportedCoinType
-  }
 
 export type SupportedWalletCurrencyType = SupportedCoinType | SupportedFiatType
 

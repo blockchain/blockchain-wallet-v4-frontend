@@ -16,6 +16,6 @@ export const getRegisterEmail = path(['auth', 'registerEmail'])
 export const getMetadataRestore = path(['auth', 'metadataRestore'])
 export const getKycResetStatus = path(['auth', 'kycReset'])
 export const getAccountReset = path(['auth', 'resetAccount'])
-
 export const getMagicLinkData = (state: RootState): WalletDataFromMagicLink | null =>
   state.auth.magicLinkData
+export const getUserGeoData = path(['auth', 'userGeoData'])
