@@ -1,7 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Bowser from 'bowser'
-import { Field } from 'redux-form'
+import { Field, InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
 import { Banner, Button, HeartbeatLoader, Link, Text, TextGroup } from 'blockchain-info-components'
@@ -17,6 +16,7 @@ import {
   TextBox
 } from 'components/Form'
 import Terms from 'components/Terms'
+import { isBrowserSupported } from 'services/browser'
 import {
   required,
   validEmail,
@@ -24,18 +24,11 @@ import {
   validStrongPassword
 } from 'services/forms'
 
-const browser = Bowser.getParser(window.navigator.userAgent)
-const isSupportedBrowser = browser.satisfies({
-  chrome: '>45',
-  chromium: '>45',
-  edge: '>16',
-  firefox: '>45',
-  opera: '>20',
-  safari: '>8',
-  vivaldi: '>2'
-})
+import { SubviewProps } from '../../types'
 
-const RegisterForm = styled(Form)`
+const isSupportedBrowser = isBrowserSupported()
+
+const StyledForm = styled(Form)`
   margin-top: 20px;
 
   > div * {
@@ -49,7 +42,6 @@ const BrowserWarning = styled.div`
 const PasswordTip = styled(Text)`
   margin-top: 4px;
 `
-
 const FieldWrapper = styled.div`
   margin-top: 0.25rem;
   margin-right: 0 !important;
@@ -75,21 +67,16 @@ const scrollToId = (id) => {
 }
 
 const scrollToPassword = () => scrollToId('password')
-
 const scrollToSecondPassword = () => scrollToId('confirmationPassword')
 
-const SignupForm = ({
-  busy,
-  handleSubmit,
-  invalid,
-  onCountrySelect,
-  password,
-  passwordLength,
-  showState
-}) => {
+const SignupForm = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) => {
+  const { formValues, invalid, isFormSubmitting, onCountrySelect, onSignupSubmit, showState } =
+    props
+  const { password = '' } = formValues || {}
   const passwordScore = window.zxcvbn ? window.zxcvbn(password).score : 0
+
   return (
-    <RegisterForm override onSubmit={handleSubmit}>
+    <StyledForm override onSubmit={onSignupSubmit}>
       {!isSupportedBrowser && (
         <BrowserWarning>
           <Banner type='warning'>
@@ -133,7 +120,7 @@ const SignupForm = ({
             validate={[required, validStrongPassword]}
           />
         </FormItem>
-        {passwordLength > 0 && (
+        {password.length > 0 && (
           <div>
             <PasswordTip size='12px' weight={400}>
               {passwordScore <= 1 && (
@@ -191,6 +178,7 @@ const SignupForm = ({
             validate={required}
             component={SelectBoxCountry}
             menuPlacement='auto'
+            // @ts-ignore
             onChange={onCountrySelect}
             label={
               <FormattedMessage
@@ -260,16 +248,13 @@ const SignupForm = ({
 
       <Button
         data-e2e='signupButton'
-        disabled={busy || invalid}
+        disabled={isFormSubmitting || invalid}
         fullwidth
         height='48px'
         nature='primary'
-        style={{
-          borderRadius: '8px'
-        }}
         type='submit'
       >
-        {busy ? (
+        {isFormSubmitting ? (
           <HeartbeatLoader height='20px' width='20px' color='white' />
         ) : (
           <Text color='whiteFade900' size='16px' weight={600}>
@@ -280,7 +265,7 @@ const SignupForm = ({
           </Text>
         )}
       </Button>
-    </RegisterForm>
+    </StyledForm>
   )
 }
 

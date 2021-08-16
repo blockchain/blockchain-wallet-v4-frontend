@@ -6,6 +6,7 @@ import { Field } from 'redux-form'
 import { Banner, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import { FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
 import { LoginSteps } from 'data/types'
+import { isBrowserSupported } from 'services/browser'
 import { required } from 'services/forms'
 
 import { Props } from '..'
@@ -14,15 +15,16 @@ import {
   BackArrowFormHeader,
   BrowserWarning,
   CenteredColumn,
-  isSupportedBrowser,
   LOGIN_FORM_NAME,
   NeedHelpLink,
   removeWhitespace,
   Row
 } from '../model'
 
+const isSupportedBrowser = isBrowserSupported()
+
 const EnterPassword = (props: Props) => {
-  const { authType, busy, formActions, guid, invalid, loginError, password, submitting } = props
+  const { authType, busy, guid, invalid, loginError, password, submitting } = props
   const passwordError = loginError && loginError.toLowerCase().includes('wrong_wallet_password')
   const accountLocked =
     loginError &&

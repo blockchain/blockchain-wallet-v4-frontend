@@ -2,8 +2,9 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 
-import { Banner, HeartbeatLoader, Icon, Link, Text } from 'blockchain-info-components'
+import { Banner, HeartbeatLoader, Text } from 'blockchain-info-components'
 import { FormGroup, FormItem, TextBox } from 'components/Form'
+import { isBrowserSupported } from 'services/browser'
 import { required, validWalletIdOrEmail } from 'services/forms'
 
 import { Props } from '..'
@@ -11,15 +12,13 @@ import {
   ActionButton,
   BrowserWarning,
   GuidError,
-  HelpRow,
-  IconTextRow,
-  isSupportedBrowser,
   LinkRow,
   LoginFormLabel,
   NeedHelpLink,
-  RectangleBackground,
   removeWhitespace
 } from '../model'
+
+const isSupportedBrowser = isBrowserSupported()
 
 const EnterEmailOrGuid = (props: Props) => {
   const { busy, guidOrEmail, invalid, loginError, submitting } = props

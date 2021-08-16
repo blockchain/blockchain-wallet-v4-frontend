@@ -1,8 +1,13 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
 import { Image, Text } from 'blockchain-info-components'
+
+import { CardsWrapper } from '../components'
+import SignupCard from '../components/SignupCard'
+import { SubviewProps } from '../types'
 
 const InfoWrapper = styled.div`
   box-sizing: border-box;
@@ -30,7 +35,7 @@ const ListHeader = styled(Text)`
   line-height: 150%;
 `
 const List = styled.ul`
-  margin-bottom: 0px;
+  margin-bottom: 0;
   margin-top: 8px;
   padding-left: 0;
   list-style: none;
@@ -44,26 +49,20 @@ const ListItem = styled.li`
 
   ::before {
     content: '–';
-    color: ${p => p.theme.whiteFade600};
+    color: ${(p) => p.theme.whiteFade600};
     padding-right: 0.5rem;
   }
 `
 
-const LinkExchangeAccount = () => {
-  return (
+const ExchangeLinkGoal = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) => (
+  <CardsWrapper>
     <InfoWrapper>
       <Image height='2rem' name='refresh' />
       <Title>
-        <FormattedMessage
-          id='scenes.linkaccount.authorize2'
-          defaultMessage='Connect Your Wallet'
-        />
+        <FormattedMessage id='scenes.linkaccount.authorize2' defaultMessage='Connect Your Wallet' />
       </Title>
       <Text weight={500} color='whiteFade600' lineHeight='150%'>
-        <FormattedMessage
-          id='scenes.linkaccount.subtitle'
-          defaultMessage='To The Exchange'
-        />
+        <FormattedMessage id='scenes.linkaccount.subtitle' defaultMessage='To The Exchange' />
       </Text>
 
       <ListHeader color='white'>
@@ -108,10 +107,7 @@ const LinkExchangeAccount = () => {
       <List>
         <ListItem>
           <Text weight={500} color='whiteFade600' lineHeight='150%'>
-            <FormattedMessage
-              id='scenes.linkaccount.trade'
-              defaultMessage='Trade on your behalf'
-            />
+            <FormattedMessage id='scenes.linkaccount.trade' defaultMessage='Trade on your behalf' />
           </Text>
         </ListItem>
         <ListItem>
@@ -124,7 +120,8 @@ const LinkExchangeAccount = () => {
         </ListItem>
       </List>
     </InfoWrapper>
-  )
-}
+    <SignupCard {...props} />
+  </CardsWrapper>
+)
 
-export default LinkExchangeAccount
+export default ExchangeLinkGoal

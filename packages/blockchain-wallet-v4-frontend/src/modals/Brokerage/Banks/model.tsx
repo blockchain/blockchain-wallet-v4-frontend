@@ -2,17 +2,9 @@ import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled, { css } from 'styled-components'
 
-import { Icon } from 'blockchain-info-components'
-import {
-  BeneficiaryType,
-  FiatType,
-  NabuSymbolNumberType
-} from 'blockchain-wallet-v4/src/types'
-import {
-  GreyCartridge,
-  OrangeCartridge,
-  SuccessCartridge
-} from 'components/Cartridge'
+import { Icon, Image } from 'blockchain-info-components'
+import { BeneficiaryType, FiatType, NabuSymbolNumberType } from 'blockchain-wallet-v4/src/types'
+import { GreyCartridge, OrangeCartridge, SuccessCartridge } from 'components/Cartridge'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import { Col, Title, Value } from 'components/Flyout'
 import {
@@ -23,14 +15,36 @@ import {
   MultiRowContainer
 } from 'components/SimpleBuy'
 import { BankDetails } from 'data/types'
-import { ActiveToggle } from 'services/ActiveToggleService'
 import { formatTextAmount } from 'services/forms'
+
+export const ActiveToggle = ({ isActive }: { isActive: boolean }): ReactElement => {
+  return (
+    <>
+      {isActive ? (
+        <Icon
+          name='checkmark-circle-filled'
+          size='24px'
+          color='green600'
+          role='button'
+          style={{ justifyContent: 'flex-start' }}
+        />
+      ) : (
+        <Image
+          name='circle-empty'
+          width='24px'
+          height='24px'
+          style={{ justifyContent: 'flex-start' }}
+        />
+      )}
+    </>
+  )
+}
 
 const RightArrowIcon = styled(Icon)<{
   disabled?: boolean
 }>`
   transform: rotate(180deg);
-  ${props =>
+  ${(props) =>
     props.disabled &&
     css`
       cursor: not-allowed;
@@ -39,13 +53,13 @@ const RightArrowIcon = styled(Icon)<{
 
 const StyledTitle = styled(Title)`
   text-transform: capitalize;
-  color: ${p => p.theme.grey600};
+  color: ${(p) => p.theme.grey600};
   font-weight: 500;
   font-size: 14px;
 `
 
 const StyledValue = styled(Value)`
-  color: ${p => p.theme.grey900};
+  color: ${(p) => p.theme.grey900};
   font-weight: 600;
   font-size: 16px;
 `
@@ -83,8 +97,9 @@ const Bank = ({ bankDetails, icon, isActive, onClick, text }: BankProps) => (
     <MultiRowContainer>
       <StyledValue asTitle>{text}</StyledValue>
       <StyledTitle asValue>
-        {`${bankDetails?.bankAccountType?.toLowerCase() ||
-          ''} account ${bankDetails?.accountNumber || ''}`}
+        {`${bankDetails?.bankAccountType?.toLowerCase() || ''} account ${
+          bankDetails?.accountNumber || ''
+        }`}
       </StyledTitle>
       <CartridgeContainer>
         <SuccessCartridge>
@@ -142,23 +157,14 @@ const BankWire = ({
               </StyledGreyCartridge>
             )}
             <OrangeCartridge>
-              <FormattedMessage
-                id='modals.brokerage.wire_fee'
-                defaultMessage='Wire Fee'
-              />
+              <FormattedMessage id='modals.brokerage.wire_fee' defaultMessage='Wire Fee' />
             </OrangeCartridge>
           </CartridgeContainer>
         )}
       </Content>
     </Col>
     {type === 'DEPOSIT' ? (
-      <RightArrowIcon
-        cursor
-        disabled={false}
-        name='arrow-back'
-        size='20px'
-        color='grey600'
-      />
+      <RightArrowIcon cursor disabled={false} name='arrow-back' size='20px' color='grey600' />
     ) : (
       <ActiveToggle isActive={isActive} />
     )}
@@ -185,6 +191,7 @@ const DepositOrWithdrawal = (props: {
 }
 
 const normalizeAmount = (value, prevValue) => {
+  // eslint-disable-next-line no-restricted-globals
   if (isNaN(Number(value)) && value !== '.' && value !== '') return prevValue
   return formatTextAmount(value, true)
 }
