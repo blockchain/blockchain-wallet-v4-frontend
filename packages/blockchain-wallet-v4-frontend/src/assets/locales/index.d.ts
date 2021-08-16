@@ -2475,7 +2475,7 @@ type MessagesType = {
   'scenes.securitysettings.advanced.walletpassword.settings.change': 'Change'
   'scenes.securitysettings.advanced.walletpassword.settings.confirm': 'Confirm Password:'
   'scenes.securitysettings.advanced.walletpassword.settings.current': 'Current Password:'
-  'scenes.securitysettings.advanced.walletpassword.settings.new': 'New Password:'
+  'scenes.securitysettings.advanced.walletpassword.settings.new': 'New Password'
   'scenes.securitysettings.advanced.walletpassword.settings.save': 'Save'
   'scenes.securitysettings.advanced.walletpassword.title': 'Password'
   'scenes.securitysettings.advanced.walletpassword.weakpassword': 'Your password is too weak'

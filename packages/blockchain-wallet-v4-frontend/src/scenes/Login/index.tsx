@@ -134,7 +134,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
         {step === LoginSteps.ENTER_PASSWORD && (
           <Text color='grey400' weight={500} style={{ marginBottom: '32px' }}>
             <FormattedMessage
-              id='scenes.login.enter_password'
+              id='scenes.login.enter_password_login'
               defaultMessage='Enter your password to login'
             />
           </Text>
