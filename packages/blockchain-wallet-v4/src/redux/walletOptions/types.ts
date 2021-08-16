@@ -14,7 +14,7 @@ export type CoinfigType = {
     logoPngUrl: string
     minimumOnChainConfirmations?: number
     name: 'FIAT' | 'ERC20' | 'COIN'
-    parentChain: string
+    parentChain?: string
     websiteUrl: string
   }
 }
