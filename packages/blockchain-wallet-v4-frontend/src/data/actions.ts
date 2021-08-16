@@ -17,7 +17,7 @@ import * as modals from './modals/actions'
 import * as modules from './modules/actions'
 import * as preferences from './preferences/actions'
 import { actions as prices } from './prices/slice'
-import * as session from './session/actions'
+import { actions as session } from './session/slice'
 import * as wallet from './wallet/actions'
 
 export {

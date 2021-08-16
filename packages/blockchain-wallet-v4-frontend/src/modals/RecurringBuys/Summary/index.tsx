@@ -4,17 +4,10 @@ import { connect, ConnectedProps } from 'react-redux'
 import moment from 'moment'
 import styled from 'styled-components'
 
-import {
-  Button,
-  FlyoutContainer,
-  FlyoutContent,
-  FlyoutFooter,
-  getPeriodTitleText,
-  Icon,
-  Text
-} from 'blockchain-info-components'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import { FiatType, SBOrderType, WithdrawalLockCheckRule } from 'blockchain-wallet-v4/src/types'
+import { FlyoutContainer, FlyoutContent, FlyoutFooter, getPeriodTitleText } from 'components/Flyout'
 import { selectors } from 'data'
 import { getCounterAmount, getCounterCurrency } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'

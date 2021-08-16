@@ -12,7 +12,9 @@ import { Props } from '.'
 export const IconTx = (props: Props) => {
   const orderType = getOrderType(props.order)
   const coin = getCoinFromPair(props.order.pair)
-  return <SharedIconTx type={orderType} coin={coin} />
+  const subType = props.order.recurringBuyId ? 'recurringBuy' : undefined
+  const iconProps = { coin, subType, type: orderType }
+  return <SharedIconTx {...iconProps} />
 }
 
 export const getOrigin = (props: Props, bankAccounts: Array<BankTransferAccountType>) => {

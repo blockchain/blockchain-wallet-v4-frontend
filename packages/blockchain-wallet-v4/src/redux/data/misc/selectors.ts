@@ -26,7 +26,7 @@ export const getRatesSelector = (
   if (coinfig.type.erc20Address) {
     return selectors.data.eth.getErc20Rates(state, coin)
   }
-  if (coinfig.type.isFiat) {
+  if (coinfig.type.name === 'FIAT') {
     return selectors.data.btc.getRates(state)
   }
   if (selectors.data.coins.getCoins().includes(coin)) {

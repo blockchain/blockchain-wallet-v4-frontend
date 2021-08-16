@@ -305,6 +305,13 @@ export default ({
       url: nabuUrl
     })
 
+  const deleteRecurringBuy = (id): RecurringBuyRegisteredList =>
+    authorizedDelete({
+      contentType: 'application/json',
+      endPoint: `/recurring-buy/${id}/cancel`,
+      url: nabuUrl
+    })
+
   const getSBQuote = (
     currencyPair: SBPairsType,
     action: SBOrderActionType,
@@ -462,6 +469,7 @@ export default ({
     createRecurringBuy,
     createSBCard,
     createSBOrder,
+    deleteRecurringBuy,
     deleteSavedAccount,
     getBankTransferAccountDetails,
     getBankTransferAccounts,

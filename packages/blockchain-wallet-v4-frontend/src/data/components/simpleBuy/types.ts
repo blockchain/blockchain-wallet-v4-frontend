@@ -1,4 +1,3 @@
-import { RecurringBuyPeriods } from 'blockchain-info-components'
 import {
   CoinType,
   Everypay3DSResponseType,
@@ -23,6 +22,7 @@ import {
   SwapQuoteType,
   SwapUserLimitsType
 } from 'blockchain-wallet-v4/src/types'
+import { RecurringBuyPeriods } from 'data/types'
 
 import { CountryType } from '../identityVerification/types'
 import { SwapAccountType, SwapBaseCounterTypes } from '../swap/types'
@@ -92,6 +92,7 @@ export type SBShowModalOriginType =
   | 'PendingOrder'
   | 'PriceChart'
   | 'InterestPage'
+  | 'RecurringBuyPromo'
   | 'SellEmpty'
   | 'SettingsGeneral'
   | 'SettingsProfile'

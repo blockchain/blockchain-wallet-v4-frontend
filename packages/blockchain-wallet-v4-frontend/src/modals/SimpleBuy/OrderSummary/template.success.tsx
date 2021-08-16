@@ -3,10 +3,10 @@ import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 import styled from 'styled-components'
 
-import { Button, getPeriodForSuccess, Icon, Link, Text } from 'blockchain-info-components'
+import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
-import { FlyoutWrapper } from 'components/Flyout'
+import { FlyoutWrapper, getPeriodForSuccess } from 'components/Flyout'
 import {
   getBaseAmount,
   getBaseCurrency,

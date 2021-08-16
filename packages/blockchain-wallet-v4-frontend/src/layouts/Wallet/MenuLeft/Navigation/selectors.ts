@@ -25,8 +25,8 @@ export const getData = createDeepEqualSelector(
     const transform = (coins: ExtractSuccess<typeof coinsR>) => {
       const coinSort = (a?: CoinfigType, b?: CoinfigType) => {
         if (!a || !b) return -1
-        if (window.coins[a.symbol].coinfig.type.isFiat) return 1
-        if (window.coins[b.symbol].coinfig.type.isFiat) return 1
+        if (window.coins[a.symbol].coinfig.type.name === 'FIAT') return -1
+        if (window.coins[b.symbol].coinfig.type.name === 'FIAT') return -1
 
         const coinA = a.symbol
         const coinB = b.symbol

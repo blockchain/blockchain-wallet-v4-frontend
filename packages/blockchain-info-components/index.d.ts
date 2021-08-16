@@ -9,33 +9,11 @@ import { DefaultTheme } from 'styled-components'
 import { IcoMoonType } from './src/Icons/Icomoon'
 import { ImageType } from './src/Images/Images'
 import { CoinType, WalletCurrencyType } from 'core/types'
-import { SwapBaseCounterTypes } from 'data/types'
-import { Props as FlyoutContainerPropsType } from './src/Flyouts/Container'
-import { Props as FrequencyScreenPropsType } from './src/Flyouts/FrequencyScreen'
-import { Props as FlyoutContentPropsType } from './src/Flyouts/Content'
-import { Props as FlyoutHeaderPropsType } from './src/Flyouts/Header'
-import { Props as AmountSubHeaderPropsType } from './src/Flyouts/AmountSubHeader'
-import { Props as FlyoutFooterPropsType } from './src/Flyouts/'
-import { Props as CheckoutRowPropsType } from './src/Rows/CheckoutRow'
-import { Props as OptionRightActionRowType } from './src/Rows/OptionRightAction'
-import { RecurringBuyPeriods } from './src/Flyouts/types'
-export type RecurringBuyPeriods = RecurringBuyPeriods
 
 export type AllCoinsType = WalletCurrencyType | 'STX'
 export const Badge: FunctionComponent<any>
 export const Banner: FunctionComponent<any>
 export const Box: FunctionComponent<any>
-export const FlyoutContainer: FunctionComponent<FlyoutContainerPropsType>
-export const FlyoutContent: FunctionComponent<FlyoutContentPropsType>
-export const FlyoutHeader: FunctionComponent<FlyoutHeaderPropsType>
-export const FrequencyScreen: FunctionComponent<FrequencyScreenPropsType>
-export const getPeriodTitleText: FunctionComponent<RecurringBuyPeriods>
-export const getPeriodSubTitleText: FunctionComponent<RecurringBuyPeriods>
-export const getPeriodForSuccess: FunctionComponent<RecurringBuyPeriods>
-export const AmountSubHeader: FunctionComponent<AmountSubHeaderPropsType>
-export const FlyoutFooter: FunctionComponent<FlyoutFooterPropsType>
-export const CheckoutRow: FunctionComponent<CheckoutRowPropsType>
-export const OptionRightActionRow: FunctionComponent<OptionRightActionRowType>
 export const BlockchainLoader: FunctionComponent<{
   width?: string
   height?: string
