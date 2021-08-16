@@ -13,7 +13,7 @@ import CollapseText from 'components/CollapseText'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { FlyoutWrapper, Row } from 'components/Flyout'
-import { CoinAccountListOption, Form } from 'components/Form'
+import { Form } from 'components/Form'
 import { RatesType } from 'core/types'
 import { selectors } from 'data'
 import { SendCryptoStepType } from 'data/components/sendCrypto/types'
@@ -27,6 +27,9 @@ const Wrapper = styled(Form)`
   justify-content: space-between;
   flex-direction: column;
   min-height: 100%;
+`
+const AmountWrapper = styled(FlyoutWrapper)`
+  padding-top: 0px;
 `
 const CustomRow = styled(Row)`
   display: flex;
@@ -88,25 +91,51 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             </Text>
           </StepHeader>
         </FlyoutWrapper>
-        <CoinAccountListOption
+        {/* <CoinAccountListOption
           account={selectedAccount}
           walletCurrency={walletCurrency}
           coin={selectedAccount.coin}
           displayOnly
           hideActionIcon
-        />
-        <FlyoutWrapper>
-          <FiatDisplay coin={coin} size='32px' weight={600} color='grey800'>
-            {total}
-          </FiatDisplay>
-          <CoinDisplay coin={coin} size='24px' weight={600} color='grey600'>
+        /> */}
+        <AmountWrapper>
+          <CoinDisplay coin={coin} size='32px' weight={600} color='black'>
             {total}
           </CoinDisplay>
-        </FlyoutWrapper>
+        </AmountWrapper>
         <CustomRow>
           <div>
             <Text size='16px' weight={500} color='black'>
-              <FormattedMessage id='copy.send_to' defaultMessage='Send To' />
+              <FormattedMessage id='copy.send' defaultMessage='Send' />
+            </Text>
+          </div>
+          <div>
+            <CoinDisplay coin={coin} size='16px' weight={500} color='black'>
+              {/* TODO, pull from payment */}
+              {baseCryptoAmt}
+            </CoinDisplay>
+            <FiatDisplay coin={coin} size='14px' weight={500} color='grey500'>
+              {/* TODO, pull from payment */}
+              {baseCryptoAmt}
+            </FiatDisplay>
+          </div>
+        </CustomRow>
+        <CustomRow>
+          <div>
+            <Text size='16px' weight={500} color='black'>
+              <FormattedMessage id='copy.from' defaultMessage='From' />
+            </Text>
+          </div>
+          <div>
+            <Text size='16px' weight={500} color='black'>
+              {selectedAccount.label}
+            </Text>
+          </div>
+        </CustomRow>
+        <CustomRow>
+          <div>
+            <Text size='16px' weight={500} color='black'>
+              <FormattedMessage id='copy.to' defaultMessage='To' />
             </Text>
           </div>
           <div>
@@ -118,35 +147,18 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
         <CustomRow>
           <div>
             <Text size='16px' weight={500} color='black'>
-              <FormattedMessage id='copy.amount' defaultMessage='Amount' />
-            </Text>
-          </div>
-          <div>
-            <FiatDisplay coin={coin} size='16px' weight={500} color='black'>
-              {/* TODO, pull from payment */}
-              {baseCryptoAmt}
-            </FiatDisplay>
-            <CoinDisplay coin={coin} size='14px' weight={500} color='grey500'>
-              {/* TODO, pull from payment */}
-              {baseCryptoAmt}
-            </CoinDisplay>
-          </div>
-        </CustomRow>
-        <CustomRow>
-          <div>
-            <Text size='16px' weight={500} color='black'>
               <FormattedMessage id='copy.fee' defaultMessage='Fee' />
             </Text>
           </div>
           <div>
-            <FiatDisplay coin={coin} size='16px' weight={500} color='black'>
-              {/* TODO, pull from payment */}
-              {baseCryptoFee}
-            </FiatDisplay>
-            <CoinDisplay coin={coin} size='14px' weight={500} color='grey500'>
+            <CoinDisplay coin={coin} size='16px' weight={500} color='black'>
               {/* TODO, pull from payment */}
               {baseCryptoFee}
             </CoinDisplay>
+            <FiatDisplay coin={coin} size='14px' weight={500} color='grey500'>
+              {/* TODO, pull from payment */}
+              {baseCryptoFee}
+            </FiatDisplay>
           </div>
         </CustomRow>
         <CustomRow>
@@ -156,20 +168,35 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             </Text>
           </div>
           <div>
-            <FiatDisplay coin={coin} size='16px' weight={600} color='black'>
-              {/* TODO, pull from payment */}
-              {total}
-            </FiatDisplay>
-            <CoinDisplay coin={coin} size='14px' weight={600} color='grey500'>
+            <CoinDisplay coin={coin} size='16px' weight={600} color='black'>
               {/* TODO, pull from payment */}
               {total}
             </CoinDisplay>
+            <FiatDisplay coin={coin} size='14px' weight={600} color='grey500'>
+              {/* TODO, pull from payment */}
+              {total}
+            </FiatDisplay>
           </div>
         </CustomRow>
       </div>
       <FlyoutWrapper>
         <Button data-e2e='sendBtn' nature='primary' jumbo fullwidth type='submit'>
-          <FormattedMessage id='buttons.send' defaultMessage='Send' /> {coin}
+          <FormattedMessage id='buttons.send' defaultMessage='Send' />
+          &nbsp;
+          <CoinDisplay coin={coin} size='16px' weight={600} color='white'>
+            {/* TODO, pull from payment */}
+            {total}
+          </CoinDisplay>
+        </Button>
+        <Button
+          style={{ marginTop: '16px' }}
+          data-e2e='cancelBtn'
+          nature='light-red'
+          jumbo
+          fullwidth
+          onClick={props.close}
+        >
+          <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
         </Button>
       </FlyoutWrapper>
     </Wrapper>
