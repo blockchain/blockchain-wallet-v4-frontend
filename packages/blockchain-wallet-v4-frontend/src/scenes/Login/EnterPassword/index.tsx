@@ -24,7 +24,7 @@ import {
 const isSupportedBrowser = isBrowserSupported()
 
 const EnterPassword = (props: Props) => {
-  const { authType, busy, guid, invalid, loginError, password, submitting } = props
+  const { authType, busy, formValues, guid, invalid, loginError, password, submitting } = props
   const passwordError = loginError && loginError.toLowerCase().includes('wrong_wallet_password')
   const accountLocked =
     loginError &&
@@ -33,7 +33,7 @@ const EnterPassword = (props: Props) => {
 
   const twoFactorError = loginError && loginError.toLowerCase().includes('authentication code')
   const handleSmsResend = () => {
-    props.authActions.resendSmsCode(guid)
+    props.authActions.resendSmsCode(guid, formValues?.email)
   }
 
   const handleBackArrowClick = () => {

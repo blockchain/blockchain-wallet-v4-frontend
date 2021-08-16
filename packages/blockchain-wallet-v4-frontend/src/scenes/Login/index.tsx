@@ -75,7 +75,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
   }
 
   handleSmsResend = () => {
-    this.props.authActions.resendSmsCode(this.props.guid)
+    this.props.authActions.resendSmsCode(this.props.guid, this.props.formValues?.email)
   }
 
   continueLoginProcess = () => {
