@@ -1,4 +1,4 @@
-import React, { ReactChild, useState } from 'react'
+import React, { ReactChild, useCallback, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -14,18 +14,17 @@ import {
 } from 'blockchain-wallet-v4/src/types'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import { AmountTextBox } from 'components/Exchange'
-import { FlyoutWrapper } from 'components/Flyout'
+import { FlyoutWrapper, getPeriodTitleText } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { model } from 'data'
 import { convertStandardToBase } from 'data/components/exchange/services'
 import { SBCheckoutFormValuesType, SwapBaseCounterTypes } from 'data/types'
-import ErrorCodeMappings from 'services/ErrorCodeMappings'
 import { CRYPTO_DECIMALS, FIAT_DECIMALS, formatTextAmount } from 'services/forms'
 
 import Scheduler from '../../../RecurringBuys/Scheduler'
 import { Row } from '../../../Swap/EnterAmount/Checkout'
 import CryptoItem from '../../CryptoSelection/CryptoSelector/CryptoItem'
-import { BuyOrSell } from '../../model'
+import { BuyOrSell, ErrorCodeMappings } from '../../model'
 import Failure from '../template.failure'
 import { Props as OwnProps, SuccessStateType } from '.'
 import ActionButton from './ActionButton'
@@ -47,7 +46,11 @@ const LiftedActions = styled.div`
   justify-content: center;
   flex: 1;
 `
-const AnchoredActions = styled.div``
+const AnchoredActions = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+`
 const CustomForm = styled(Form)`
   height: 100%;
   display: flex;
@@ -64,7 +67,7 @@ const LeftTopCol = styled.div`
   align-items: center;
 `
 const Amounts = styled.div`
-  margin: 56px 0 24px 0;
+  margin: 0 0 24px 0;
   display: flex;
   justify-content: center;
 `
@@ -159,7 +162,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     orderType
   } = props
   const [fontRatio, setRatio] = useState(1)
-
+  const setOrderFrequncy = useCallback(() => {
+    props.simpleBuyActions.setStep({ step: 'FREQUENCY' })
+  }, [props.simpleBuyActions])
   const isSddBuy = props.isSddFlow && props.orderType === 'BUY'
 
   let method = selectedMethod || defaultMethod
@@ -442,6 +447,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           </QuoteActionContainer>
         </LiftedActions>
         <AnchoredActions>
+          {props.isRecurringBuy && props.formValues.period && (
+            <Scheduler onClick={setOrderFrequncy} method={method}>
+              {getPeriodTitleText(props.formValues.period)}
+            </Scheduler>
+          )}
+
           {(!props.isSddFlow || props.orderType === OrderType.SELL) &&
             props.pair &&
             Number(min) <= Number(max) && (
@@ -514,8 +525,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               </ActionsItem>
             </ActionsRow>
           )}
-
-          {props.isRecurringBuy && <Scheduler method={method} />}
 
           <Payment
             {...props}

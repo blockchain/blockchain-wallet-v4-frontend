@@ -337,20 +337,14 @@ export const getAllCoinsBalancesSelector = (state) => {
 }
 
 export const getErc20BalancesInfoV2 = createDeepEqualSelector(
-  [
-    selectors.core.data.eth.getErc20AccountTokenBalances,
-    selectors.core.data.eth.getErc20Rates,
-    selectors.core.settings.getCurrency,
-    (state) => state
-  ],
-  (erc20CoinsR, ratesF, currencyR, state) => {
-    const transform = (erc20Coins, currency) => {
-      return erc20Coins.map((erc20) => {
-        // TODO: erc20 phase 2, key off hash not symbol
-        const coin = toUpper(erc20.tokenSymbol)
+  [selectors.core.data.eth.getErc20Rates, selectors.core.settings.getCurrency, (state) => state],
+  (ratesF, currencyR, state) => {
+    const transform = (currency) => {
+      return selectors.core.data.eth.getErc20Coins().map((coin) => {
         const transform2 = (balance, rates) => {
           return Exchange.convertCoinToFiat({ coin, currency, rates, value: balance })
         }
+        // TODO: erc20 phase 2, key off hash not symbol
         const balanceR = getErc20Balance(coin)(state)
         // @ts-ignore
         const ratesR = ratesF(coin)
@@ -358,7 +352,7 @@ export const getErc20BalancesInfoV2 = createDeepEqualSelector(
       })
     }
 
-    return lift(transform)(erc20CoinsR, currencyR)
+    return lift(transform)(currencyR)
   }
 )
 

@@ -85,7 +85,7 @@ export const Status = (props: Props) => {
   switch (props.tx.state) {
     case 'COMPLETE':
     case 'FINISHED':
-      if (!coinfig.type.isFiat && props.tx.extraAttributes?.confirmations) {
+      if (coinfig.type.name !== 'FIAT' && props.tx.extraAttributes?.confirmations) {
         return (
           <Confirmations
             coin={props.tx.amount.symbol}
@@ -145,7 +145,7 @@ export const Timestamp = (props: Props) => {
 
 export const TransactionType = (props: Props) => {
   const { coinfig } = window.coins[props.tx.amount.symbol]
-  if (!coinfig.type.isFiat) {
+  if (coinfig.type.name !== 'FIAT') {
     switch (props.tx.type) {
       case 'DEPOSIT':
         return (
@@ -193,7 +193,7 @@ export const Origin = (props: Props) => {
     case 'CHARGE':
     case 'REFUNDED':
     case 'DEPOSIT':
-      return !window.coins[props.tx.amount.symbol]?.coinfig?.type?.isFiat ? (
+      return window.coins[props.tx.amount.symbol]?.coinfig?.type?.name !== 'FIAT' ? (
         <>{getCoinDisplayName(props)} Account</>
       ) : (
         <>Bank Account</>
@@ -219,7 +219,7 @@ export const Destination = (props: Props) => {
     case 'SELL':
       return <>{getCoinDisplayName(props)} Account</>
     case 'WITHDRAWAL':
-      return !window.coins[props.tx.amount.symbol]?.coinfig?.type?.isFiat ? (
+      return window.coins[props.tx.amount.symbol]?.coinfig?.type?.name !== 'FIAT' ? (
         <>{getSymbolDisplayName(props)} Account</>
       ) : (
         <>Bank Account</>

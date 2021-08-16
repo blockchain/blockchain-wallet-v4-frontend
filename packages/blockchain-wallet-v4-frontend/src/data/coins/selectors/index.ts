@@ -84,10 +84,8 @@ export const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorT
     )
   }
 
-  const accountsR: RemoteDataType<
-    any,
-    { [key in CoinType]: Array<SwapAccountType> }
-  > = getCoinAccountsR(state)
+  const accountsR: RemoteDataType<any, { [key in CoinType]: Array<SwapAccountType> }> =
+    getCoinAccountsR(state)
 
   const accounts = accountsR.getOrElse({})
 

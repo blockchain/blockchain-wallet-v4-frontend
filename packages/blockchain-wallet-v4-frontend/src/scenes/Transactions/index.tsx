@@ -6,21 +6,30 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, Icon, Link, Text } from 'blockchain-info-components'
+import { Button, Icon, Text } from 'blockchain-info-components'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import {
+  CoinfigType,
   CoinType,
   FiatType,
   OrderType,
-  SupportedWalletCurrencyType,
   TimeRange,
   WalletCurrencyType,
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
+import { SavedRecurringBuy } from 'components/Box'
 import EmptyResults from 'components/EmptyResults'
 import { SceneWrapper } from 'components/Layout'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { actions, model, selectors } from 'data'
 import { getIntroductionText } from 'data/coins/selectors'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import {
+  ActionEnum,
+  RecurringBuyPeriods,
+  RecurringBuyRegisteredList,
+  RecurringBuyStepType
+} from 'data/types'
 import { media } from 'services/styles'
 
 import CoinIntroduction from './CoinIntroduction'
@@ -93,16 +102,6 @@ const ExplainerText = styled(Text)`
   font-weight: 500;
   color: ${(props) => props.theme.grey600};
 `
-const LearnMoreLink = styled(Link)`
-  display: inline-flex;
-  margin-left: 6px;
-`
-const LearnMoreText = styled(Text)`
-  margin-left: 3px;
-  size: 16px;
-  font-weight: 500;
-  color: ${(props) => props.theme.blue600};
-`
 
 class TransactionsContainer extends React.PureComponent<Props> {
   componentDidMount() {
@@ -113,6 +112,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
       TimeRange.WEEK
     )
     this.props.brokerageActions.fetchBankTransferAccounts()
+    this.props.recurringBuyActions.fetchRegisteredList()
   }
 
   componentDidUpdate(prevProps) {
@@ -137,9 +137,11 @@ class TransactionsContainer extends React.PureComponent<Props> {
       currency,
       hasTxResults,
       isInvited,
+      isRecurringBuy,
       isSearchEntered,
       loadMoreTxs,
       pages,
+      recurringBuys,
       sourceType
     } = this.props
     const { coinfig } = window.coins[coin]
@@ -160,7 +162,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                 </Text>
               </CoinTitle>
               <TitleActionContainer>
-                {!coinfig.type.isFiat && (
+                {coinfig.type.name !== 'FIAT' && (
                   <>
                     <Button
                       nature='primary'
@@ -193,9 +195,9 @@ class TransactionsContainer extends React.PureComponent<Props> {
                     </Button>
                   </>
                 )}
-                {coinfig.type.isFiat && (
+                {coinfig.type.name === 'FIAT' && (
                   <>
-                    {window.coins[coin].coinfig.type.isFiat && (
+                    {window.coins[coin].coinfig.type.name === 'FIAT' && (
                       <Button
                         nature='primary'
                         data-e2e='depositFiat'
@@ -218,7 +220,7 @@ class TransactionsContainer extends React.PureComponent<Props> {
                         <FormattedMessage id='buttons.deposit' defaultMessage='Deposit' />
                       </Button>
                     )}
-                    {window.coins[coin].coinfig.type.isFiat && (
+                    {window.coins[coin].coinfig.type.name === 'FIAT' && (
                       <Button
                         nature='primary'
                         data-e2e='withdrawFiat'
@@ -240,10 +242,33 @@ class TransactionsContainer extends React.PureComponent<Props> {
             </ExplainerWrapper>
             <StatsContainer>
               <WalletBalanceDropdown coin={coin} />
-              {!coinfig.type.isFiat && <CoinPerformance coin={coin} />}
+              {coinfig.type.name !== 'FIAT' && <CoinPerformance coin={coin} />}
             </StatsContainer>
           </Header>
-          {(hasTxResults || isSearchEntered) && !coinfig.type.isFiat && (
+          <div style={{ display: 'flex', flexFlow: 'row wrap', justifyContent: 'space-between' }}>
+            {isRecurringBuy &&
+              recurringBuys.map((recurringBuy) => (
+                <SavedRecurringBuy
+                  key={recurringBuy.id}
+                  action={'BUY' as ActionEnum}
+                  amount={`${Exchange.getSymbol(recurringBuy.inputCurrency)}${convertBaseToStandard(
+                    recurringBuy.inputCurrency,
+                    recurringBuy.inputValue
+                  )}`}
+                  coin={recurringBuy.destinationCurrency}
+                  nextPayment={recurringBuy.nextPayment}
+                  onClick={() => {
+                    this.props.recurringBuyActions.setActive(recurringBuy)
+                    this.props.recurringBuyActions.showModal({
+                      origin: 'RecurringBuys'
+                    })
+                    this.props.recurringBuyActions.setStep({ step: RecurringBuyStepType.DETAILS })
+                  }}
+                  period={recurringBuy.period as RecurringBuyPeriods}
+                />
+              ))}
+          </div>
+          {(hasTxResults || isSearchEntered) && coinfig.type.name !== 'FIAT' && (
             <TransactionFilters coin={coin as CoinType} />
           )}
           {!hasTxResults && isSearchEntered && (
@@ -286,6 +311,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
   const baseActions = {
     brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
     miscActions: bindActionCreators(actions.core.data.misc, dispatch),
+    recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),
     simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
     withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
   }
@@ -305,7 +331,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
       loadMoreTxs: () => dispatch(actions.components.coinTransactions.loadMore(coin))
     }
   }
-  if (coinfig.type.isFiat) {
+  if (coinfig.type.name === 'FIAT') {
     return {
       ...baseActions,
       // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -329,15 +355,17 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   coin: WalletCurrencyType
-  coinfig: SupportedWalletCurrencyType['coinfig']
+  coinfig: CoinfigType
 }
 
 export type SuccessStateType = {
   currency: FiatType
   hasTxResults: boolean
   isInvited: boolean
+  isRecurringBuy: boolean
   isSearchEntered: boolean
   pages: Array<any>
+  recurringBuys: RecurringBuyRegisteredList[]
   sourceType: string
 }
 

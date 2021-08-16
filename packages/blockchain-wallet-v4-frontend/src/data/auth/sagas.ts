@@ -6,12 +6,12 @@ import { call, delay, fork, put, race, select, take } from 'redux-saga/effects'
 import { Remote, Types } from 'blockchain-wallet-v4/src'
 import { DEFAULT_INVITATIONS } from 'blockchain-wallet-v4/src/model'
 import { actions, actionTypes, model, selectors } from 'data'
+import profileSagas from 'data/modules/profile/sagas'
 import * as C from 'services/alerts'
 import { isGuid } from 'services/forms'
 import { checkForVulnerableAddressError } from 'services/misc'
 import { askSecondPasswordEnhancer, confirm, promptForSecondPassword } from 'services/sagas'
 
-import profileSagas from '../modules/profile/sagas'
 import * as A from './actions'
 import { guessCurrencyBasedOnCountry } from './helpers'
 import * as S from './selectors'
@@ -21,7 +21,11 @@ const { MOBILE_LOGIN } = model.analytics
 
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'auth/sagas'
-  const { generateRetailToken, setSession } = profileSagas({ api, coreSagas, networks })
+  const { createUser, generateRetailToken, setSession } = profileSagas({
+    api,
+    coreSagas,
+    networks
+  })
 
   const forceSyncWallet = function* () {
     yield put(actions.core.walletSync.forceSync())
@@ -183,20 +187,6 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const checkExchangeUsage = function* () {
-    try {
-      const accountsR = yield select(selectors.core.common.btc.getActiveHDAccounts)
-      const accounts = accountsR.getOrElse([])
-      const defaultIndex = yield select(selectors.core.wallet.getDefaultAccountIndex)
-      const defaultAccount = accounts.find((account) => account.index === defaultIndex)
-      if (!defaultAccount) return
-      yield call(api.checkExchangeUsage, defaultAccount.xpub)
-    } catch (e) {
-      // eslint-disable-next-line
-      // console.log(e)
-    }
-  }
-
   const updateMnemonicBackup = function* () {
     try {
       const lastMnemonicBackup = selectors.core.settings
@@ -229,18 +219,23 @@ export default ({ api, coreSagas, networks }) => {
     } finally {
       const isEmailVerified = (yield select(selectors.core.settings.getEmailVerified)).getOrElse(0)
       // only show browser de-auth page to accounts with verified email
-      // delay allows for all actions to run and complete
-      // before clearing redux store
+      // delay allows for all actions to run and complete before clearing redux store
       yield delay(100)
-      // eslint-disable-next-line no-unused-expressions
-      isEmailVerified
-        ? yield put(actions.router.push('/logout'))
-        : yield call(logoutClearReduxStore)
+      if (isEmailVerified) {
+        yield put(actions.router.push('/logout'))
+      } else {
+        yield call(logoutClearReduxStore)
+      }
       yield put(actions.analytics.stopSession())
     }
   }
 
-  const loginRoutineSaga = function* ({ email = undefined, firstLogin = false }) {
+  const loginRoutineSaga = function* ({
+    email = undefined,
+    firstLogin = false,
+    country = undefined,
+    state = undefined
+  }) {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
       const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
@@ -275,7 +270,7 @@ export default ({ api, coreSagas, networks }) => {
       yield call(authNabu)
 
       if (firstLogin) {
-        const countryCode = navigator.language.slice(-2) || 'US'
+        const countryCode = country || 'US'
         const currency = guessCurrencyBasedOnCountry(countryCode)
 
         yield put(actions.core.settings.setCurrency(currency))
@@ -316,13 +311,20 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.components.swap.fetchTrades())
       // check/update btc account names
       yield call(coreSagas.wallet.checkAndUpdateWalletNames)
+      if (firstLogin) {
+        // create nabu user
+        yield call(createUser)
+        // store initial address in case of US state we add prefix
+        const userState = country === 'US' ? `US-${state}` : state
+        yield call(api.setUserInitialAddress, country, userState)
+      }
+
       // We are checking wallet metadata to see if mnemonic is verified
       // and then syncing that information with new Wallet Account model
       // being used for SSO
       yield fork(updateMnemonicBackup)
       // ensure xpub cache is correct
       yield fork(checkXpubCacheLegitimacy)
-      yield fork(checkExchangeUsage)
       yield fork(checkDataErrors)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'loginRoutineSaga', e))
@@ -386,7 +388,6 @@ export default ({ api, coreSagas, networks }) => {
         const authRequiredAlert = yield put(
           actions.alerts.displayInfo(C.AUTHORIZATION_REQUIRED_INFO, undefined, true)
         )
-        // }
         // auth errors (polling)
         const authorized = yield call(pollingSession, session)
         yield put(actions.alerts.dismissAlert(authRequiredAlert.payload.id))
@@ -412,12 +413,11 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.alerts.displayError(C.WALLET_SESSION_ERROR))
         }
       } else if (error && error.auth_type > 0) {
-        // 2fa required
-        // dispatch state change to show form
+        // 2fa required, dispatch state change to show form
         yield put(actions.auth.loginFailure())
         yield put(actions.auth.setAuthType(error.auth_type))
         yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
-        // Wrong password error
+        // wrong password error
       } else if (error && is(String, error) && error.includes('wrong_wallet_password')) {
         // remove 2fa if password is wrong
         // password error can only occur after 2fa validation
@@ -473,14 +473,17 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const register = function* (action) {
+    const { country, email, state } = action.payload
     try {
       yield put(actions.auth.registerLoading())
-      yield put(actions.auth.setRegisterEmail(action.payload.email))
+      yield put(actions.auth.setRegisterEmail(email))
       yield call(coreSagas.wallet.createWalletSaga, action.payload)
       yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
       yield call(loginRoutineSaga, {
-        email: action.payload.email,
-        firstLogin: true
+        country,
+        email,
+        firstLogin: true,
+        state
       })
       yield put(actions.auth.registerSuccess())
     } catch (e) {
@@ -500,8 +503,7 @@ export default ({ api, coreSagas, networks }) => {
         mnemonic
       )
       const { guid, sharedKey } = metadataInfo
-      // during recovery we reset user kyc
-      // we generate a retail token from nabu using guid/shared key
+      // during recovery, we reset user kyc and generate a retail token from nabu using guid/shared key
       const { token } = yield call(api.generateRetailToken, guid, sharedKey)
       // pass that token to /user. if a user already exists, it returns
       // information associated with that user
@@ -541,8 +543,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.auth.setRegisterEmail(action.payload.email))
       yield put(actions.alerts.displayInfo(C.RESTORE_WALLET_INFO))
       const kvCredentials = (yield select(selectors.auth.getMetadataRestore)).getOrElse({})
-      // TODO: SEGWIT remove w/ DEPRECATED_V3
-      yield call(coreSagas.wallet.restoreWalletSaga_DEPRECATED_V3, {
+      yield call(coreSagas.wallet.restoreWalletSaga, {
         ...action.payload,
         kvCredentials
       })
@@ -598,11 +599,9 @@ export default ({ api, coreSagas, networks }) => {
   const parseMagicLinkLegacy = function* (params) {
     try {
       const loginData = JSON.parse(atob(params[2])) as WalletDataFromMagicLinkLegacy
-      // this flag is stored as a string in JSON object
-      // this converts it to a variable
+      // this flag is stored as a string in JSON object this converts it to a variable
       const mobileSetup = loginData.is_mobile_setup === 'true'
-      // store data in the cache and update form values
-      // to be used to submit login
+      // store data in the cache and update form values to be used to submit login
       yield put(actions.cache.emailStored(loginData.email))
       yield put(actions.cache.guidStored(loginData.guid))
       yield put(actions.cache.mobileConnectedStored(mobileSetup))
@@ -627,10 +626,8 @@ export default ({ api, coreSagas, networks }) => {
       // TODO: remove this check once old magic link is deprecated
       if (loginData.wallet) {
         const walletData = loginData.wallet
-        // grab all the data from the JSON
-        // wallet data
-        // store data in the cache and update form values
-        // to be used to submit login
+        // grab all the data from the JSON wallet data
+        // store data in the cache and update form values to be used to submit login
         yield put(actions.cache.emailStored(walletData.email))
         yield put(actions.cache.guidStored(walletData.guid))
         yield put(actions.cache.mobileConnectedStored(walletData.isMobileSetup))
@@ -737,14 +734,22 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const getUserGeoLocation = function* () {
+    try {
+      const userLocationData = yield call(api.getLocation)
+      yield put(A.setUserGeoLocation(userLocationData))
+    } catch (e) {
+      // todo
+    }
+  }
+
   const resetAccount = function* (action) {
-    // If user is resetting their custodial account
-    // Creating a new wallet and assigning an existing custodial account
-    // to that wallet
+    // if user is resetting their custodial account
+    // create a new wallet and assign an existing custodial account to that wallet
     yield put(A.resetAccountLoading())
     try {
       const { email, language, password } = action.payload
-      // We get recovery token and nabu ID
+      // get recovery token and nabu ID
       const magicLinkData = yield select(S.getMagicLinkData)
       const recoveryToken = magicLinkData.wallet?.nabu?.recoveryToken
       const userId = magicLinkData.wallet?.nabu?.userId
@@ -754,8 +759,7 @@ export default ({ api, coreSagas, networks }) => {
       const guid = yield select(selectors.core.wallet.getGuid)
       // generate a retail token for new wallet
       const retailToken = yield call(generateRetailToken)
-      // call the reset nabu user endpoint, receive new lifetime
-      // token for nabu user
+      // call the reset nabu user endpoint, receive new lifetime token for nabu user
       const { token: lifetimeToken } = yield call(
         api.resetUserAccount,
         userId,
@@ -778,6 +782,7 @@ export default ({ api, coreSagas, networks }) => {
     checkAndHandleVulnerableAddress,
     checkDataErrors,
     deauthorizeBrowser,
+    getUserGeoLocation,
     initializeLogin,
     login,
     loginRoutineSaga,

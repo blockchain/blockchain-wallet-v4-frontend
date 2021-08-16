@@ -3,19 +3,18 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
+import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import {
   AmountSubHeader,
-  Button,
-  CheckoutRow,
   FlyoutContainer,
   FlyoutContent,
   FlyoutFooter,
   FlyoutHeader,
-  Link,
-  Text,
-  TextGroup
-} from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
+  getPeriodSubTitleText,
+  getPeriodTitleText
+} from 'components/Flyout'
+import { CheckoutRow } from 'components/Rows'
 import { FiatType, SBOrderType } from 'core/types'
 import { actions, selectors } from 'data'
 import {
@@ -31,7 +30,6 @@ import { BankTransferAccountType, RecurringBuyPeriods } from 'data/types'
 
 import { displayFiat, getPaymentMethod, getPaymentMethodDetails } from '../../SimpleBuy/model'
 import { Props as _P } from '..'
-import { getPeriodSubTitleText, getPeriodTitleText } from '../Frequency/model'
 
 const Confirm = ({
   bankAccounts,
@@ -59,7 +57,7 @@ const Confirm = ({
   const cardDetails = cards.filter((card) => card.id === paymentMethodId)[0] || null
   const createRecurringBuy = useCallback(() => {
     recurringBuyActions.createRecurringBuy()
-  }, [])
+  }, [recurringBuyActions])
   return (
     <FlyoutContainer>
       <FlyoutHeader data-e2e='closeRecurringBuyModalCheckoutStep' mode='back' onClick={close}>

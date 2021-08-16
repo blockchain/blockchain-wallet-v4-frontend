@@ -28,11 +28,7 @@ export type HTTPService = {
 }
 
 export default ({ apiKey }: { apiKey: string }): HTTPService => {
-  const encodeData = (
-    data: any,
-    contentType: string,
-    removeDefaultPostData?: boolean
-  ) => {
+  const encodeData = (data: any, contentType: string, removeDefaultPostData?: boolean) => {
     const defaultData = {
       api_code: apiKey,
       ct: Date.now()
@@ -49,7 +45,7 @@ export default ({ apiKey }: { apiKey: string }): HTTPService => {
     const headers: Header = {
       'Content-Type': contentType
     }
-    if (sessionToken) headers['Authorization'] = `Bearer ${sessionToken}`
+    if (sessionToken) headers.Authorization = `Bearer ${sessionToken}`
 
     return headers
   }
@@ -68,14 +64,14 @@ export default ({ apiKey }: { apiKey: string }): HTTPService => {
   }: RequestConfig): Promise<T> => {
     return axios
       .request<T>({
-        url: `${url}${endPoint}`,
-        method,
+        cancelToken,
         data: encodeData(data, contentType, removeDefaultPostData),
         headers: mergeRight(getHeaders(contentType, sessionToken), headers),
-        cancelToken,
+        method,
+        url: `${url}${endPoint}`,
         ...options
       })
-      .catch(error => {
+      .catch((error) => {
         const errorData = pathOr({}, ['response', 'data'], error)
         const status = path(['response', 'status'], error)
         if (typeof errorData === 'string') throw errorData
@@ -84,33 +80,25 @@ export default ({ apiKey }: { apiKey: string }): HTTPService => {
       .then(prop('data'))
   }
 
-  const get = <T>({
-    data,
-    endPoint,
-    ignoreQueryParams,
-    ...options
-  }: Partial<RequestConfig>) =>
+  const get = <T>({ data, endPoint, ignoreQueryParams, ...options }: Partial<RequestConfig>) =>
     request<T>({
       ...options,
-      method: 'GET',
       endPoint: ignoreQueryParams
         ? endPoint
-        : `${endPoint}?${encodeData(data, 'application/x-www-form-urlencoded')}`
+        : `${endPoint}?${encodeData(data, 'application/x-www-form-urlencoded')}`,
+      method: 'GET'
     })
   const deleteRequest = <T>(options: Partial<RequestConfig>) =>
     request<T>({ method: 'DELETE', ...options })
-  const post = <T>(options: Partial<RequestConfig>) =>
-    request<T>({ method: 'POST', ...options })
-  const put = <T>(options: Partial<RequestConfig>) =>
-    request<T>({ method: 'PUT', ...options })
-  const patch = <T>(options: Partial<RequestConfig>) =>
-    request<T>({ method: 'PATCH', ...options })
+  const post = <T>(options: Partial<RequestConfig>) => request<T>({ method: 'POST', ...options })
+  const put = <T>(options: Partial<RequestConfig>) => request<T>({ method: 'PUT', ...options })
+  const patch = <T>(options: Partial<RequestConfig>) => request<T>({ method: 'PATCH', ...options })
 
   return {
     deleteRequest,
     get,
+    patch,
     post,
-    put,
-    patch
+    put
   }
 }

@@ -6,7 +6,6 @@ import styled from 'styled-components'
 import { Icon, Text } from 'blockchain-info-components'
 import { CoinfigType, CoinType } from 'blockchain-wallet-v4/src/types'
 import { HomeBalanceRow, HomeBalanceTable } from 'components/Balances'
-import coin from 'core/network/api/coin'
 
 import { Props } from '.'
 import CoinBalance from './CoinBalance'
@@ -45,7 +44,7 @@ const Amount = styled.div`
 
 const Success = (props: OwnProps & Props) => {
   const useBackup = props.coins.length === 0
-  const useCombo = props.coins.every((coin) => coin.type.isFiat)
+  const useCombo = props.coins.every((coin) => coin.type.name === 'FIAT')
   const coins = useBackup
     ? props.backupCoins
     : useCombo
