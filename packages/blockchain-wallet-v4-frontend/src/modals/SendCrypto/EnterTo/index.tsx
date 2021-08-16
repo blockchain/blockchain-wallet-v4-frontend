@@ -5,6 +5,7 @@ import reduxForm, { InjectedFormProps } from 'redux-form/lib/reduxForm'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
+import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption, Form } from 'components/Form'
 import TextWithQRScanner from 'components/Form/TextWithQRScanner'
@@ -13,6 +14,7 @@ import { SendCryptoStepType } from 'data/components/sendCrypto/types'
 import { StepHeader } from '../../RequestCrypto/model'
 import { Props as OwnProps } from '..'
 import { FormLabelWithBorder, SEND_FORM } from '../model'
+import { INVALID_ADDR, validate } from './validation'
 
 const Wrapper = styled(Form)`
   display: flex;
@@ -24,13 +26,19 @@ const ToWrapper = styled(FlyoutWrapper)`
   display: flex;
   padding-top: 24px;
 `
+const ErrorWrapper = styled(FlyoutWrapper)`
+  display: flex;
+  padding-top: 0px;
+`
 
 class SendEnterTo extends React.PureComponent<InjectedFormProps<{}, Props> & Props> {
   render() {
-    const { formValues, sendCryptoActions, walletCurrency } = this.props
+    const { formErrors, formValues, sendCryptoActions, walletCurrency } = this.props
     const { selectedAccount, to } = formValues
 
     const { coinfig } = window.coins[selectedAccount.coin]
+
+    const toError = typeof formErrors.to === 'string' && formErrors.to === INVALID_ADDR
 
     return (
       <Wrapper
@@ -72,6 +80,13 @@ class SendEnterTo extends React.PureComponent<InjectedFormProps<{}, Props> & Pro
               placeholder={`${coinfig.name} Address`}
             />
           </ToWrapper>
+          {toError && (
+            <ErrorWrapper>
+              <ErrorCartridge>
+                <FormattedMessage id='copy.invalid_addr' defaultMessage='Invalid Address' />
+              </ErrorCartridge>
+            </ErrorWrapper>
+          )}
         </div>
         <FlyoutWrapper>
           <Button
@@ -80,7 +95,7 @@ class SendEnterTo extends React.PureComponent<InjectedFormProps<{}, Props> & Pro
             data-e2e='enterToBtn'
             fullwidth
             jumbo
-            disabled={!to}
+            disabled={!to || toError}
           >
             <FormattedMessage id='buttons.next' defaultMessage='Next' />
           </Button>
@@ -90,9 +105,14 @@ class SendEnterTo extends React.PureComponent<InjectedFormProps<{}, Props> & Pro
   }
 }
 
-type Props = OwnProps
+type Props = OwnProps & {
+  formErrors: {
+    to?: typeof INVALID_ADDR | boolean
+  }
+}
 
 export default reduxForm<{}, Props>({
   destroyOnUnmount: false,
-  form: SEND_FORM
+  form: SEND_FORM,
+  validate
 })(SendEnterTo)

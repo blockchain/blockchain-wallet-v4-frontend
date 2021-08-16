@@ -1,9 +1,12 @@
 export const getData = () => {
-  return Object.keys(window.coins).filter(
-    (value) =>
-      !window.coins[value].coinfig.products.includes('PrivateKey') &&
-      window.coins[value].coinfig.products.includes('CustodialWalletBalance')
-  )
+  return Object.keys(window.coins).filter((value) => {
+    const { products, type } = window.coins[value].coinfig
+    return (
+      !products.includes('PrivateKey') &&
+      products.includes('CustodialWalletBalance') &&
+      type.name !== 'FIAT'
+    )
+  })
 }
 
 export default getData
