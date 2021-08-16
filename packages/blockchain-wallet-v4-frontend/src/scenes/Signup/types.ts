@@ -1,3 +1,9 @@
+import React from 'react'
+
+import { GoalsType } from 'data/types'
+
+import { Props as OwnProps } from '.'
+
 export type SignupFormInitValuesType = {
   country?: string
   email?: string
@@ -15,3 +21,19 @@ export type SignupFormType = {
   password: string
   state: string
 }
+export type GoalDataType = Array<{
+  data: never
+  id: string
+  name: GoalsType
+}>
+
+// common props used by all subviews
+export type SubviewProps = {
+  isFormSubmitting: boolean
+  isLinkAccountGoal: boolean
+  onCountrySelect: (e: React.SyntheticEvent, value: string) => void
+  onSignupSubmit: (e: React.SyntheticEvent, value: string) => void
+  showForm: boolean
+  showState: boolean
+  toggleSignupFormVisibility: () => void
+} & OwnProps

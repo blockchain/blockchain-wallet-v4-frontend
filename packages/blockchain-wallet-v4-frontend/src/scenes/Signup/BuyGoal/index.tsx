@@ -2,6 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { find, isEmpty, isNil, propEq, propOr } from 'ramda'
+import { InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
 import { Icon, Link, Text } from 'blockchain-info-components'
@@ -10,6 +11,7 @@ import { SimpleBuyWidgetGoalDataType } from 'data/types'
 
 import { Card, CardHeader, CardsWrapper, SignInText, SubCard } from '../components'
 import SignupForm from '../components/SignupForm'
+import { SubviewProps } from '../types'
 
 const BuyCard = styled(Card)`
   max-width: 27rem;
@@ -52,9 +54,8 @@ const Amount = styled(Text)`
   text-overflow: ellipsis;
 `
 
-const BuyGoal = (props) => {
-  const { formValues, goals, handleSubmit, invalid, isFormSubmitting, onCountrySelect, showState } =
-    props
+const BuyGoal = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) => {
+  const { goals } = props
   const dataGoal = find(propEq('name', 'simpleBuy'), goals)
   const goalData: SimpleBuyWidgetGoalDataType = propOr({}, 'data', dataGoal)
   const { amount, crypto, fiatCurrency } = goalData
@@ -107,14 +108,7 @@ const BuyGoal = (props) => {
             </>
           )}
 
-          <SignupForm
-            isFormSubmitting={isFormSubmitting}
-            handleSubmit={handleSubmit}
-            invalid={invalid}
-            formValues={formValues}
-            onCountrySelect={onCountrySelect}
-            showState={showState}
-          />
+          <SignupForm {...props} />
         </BuyCard>
       </CardsWrapper>
       <LinkContainer to='/login'>

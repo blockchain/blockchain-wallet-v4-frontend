@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { find, propEq, propOr } from 'ramda'
+import { find, pathOr, propEq } from 'ramda'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -14,7 +14,7 @@ import { RootState } from 'data/rootReducer'
 import BuyGoal from './BuyGoal'
 import ExchangeLinkGoal from './ExchangeLinkGoal'
 import SignupLanding from './SignupLanding'
-import { GeoLocationType, SignupFormInitValuesType, SignupFormType } from './types'
+import { GeoLocationType, GoalDataType, SignupFormInitValuesType, SignupFormType } from './types'
 
 const SignupWrapper = styled.div`
   display: flex;
@@ -48,7 +48,7 @@ class SignupContainer extends React.PureComponent<
     authActions.register(email, password, language, country, state)
   }
 
-  toggleForm = () => {
+  toggleSignupFormVisibility = () => {
     this.setState({ showForm: true })
   }
 
@@ -65,36 +65,32 @@ class SignupContainer extends React.PureComponent<
     const { goals, isLoadingR, userGeoData } = this.props
     const isFormSubmitting = Remote.Loading.is(isLoadingR)
 
-    // TODO: cleanup these variables
-    const dataGoal = find(propEq('name', 'simpleBuy'), goals)
-    const goalData = propOr({}, 'data', dataGoal)
-    const email = propOr('', 'email', goalData)
-    const signupInitialValues = email
-      ? ({ email } as SignupFormInitValuesType)
-      : ({} as SignupFormInitValuesType)
-    if (userGeoData && userGeoData.countryCode) {
+    // pull email from simple buy goal if it exists
+    const email = pathOr('', ['data', 'email'], find(propEq('name', 'simpleBuy'), goals))
+    const signupInitialValues = (email ? { email } : {}) as SignupFormInitValuesType
+    if (userGeoData?.countryCode) {
       signupInitialValues.country = userGeoData.countryCode
     }
     const isLinkAccountGoal = !!find(propEq('name', 'linkAccount'), goals)
     const isBuyGoal = !!find(propEq('name', 'simpleBuy'), goals)
 
-    const props = {
-      handleSubmit: this.onSubmit,
+    const subviewProps = {
       initialValues: signupInitialValues,
-      isFormSubmitting: isFormSubmitting || !userGeoData, // TODO why is userGeoData here?
+      isFormSubmitting,
       isLinkAccountGoal,
       onCountrySelect: this.onCountryChange,
+      onSignupSubmit: this.onSubmit,
       showForm: this.state.showForm,
       showState: this.state.showState,
-      toggleForm: this.toggleForm,
+      toggleSignupFormVisibility: this.toggleSignupFormVisibility,
       ...this.props
     }
 
     return (
       <SignupWrapper>
-        {isLinkAccountGoal && <ExchangeLinkGoal {...props} />}
-        {isBuyGoal && <BuyGoal {...props} />}
-        {!isLinkAccountGoal && !isBuyGoal && <SignupLanding {...props} />}
+        {isLinkAccountGoal && <ExchangeLinkGoal {...subviewProps} />}
+        {isBuyGoal && <BuyGoal {...subviewProps} />}
+        {!isLinkAccountGoal && !isBuyGoal && <SignupLanding {...subviewProps} />}
       </SignupWrapper>
     )
   }
@@ -102,8 +98,8 @@ class SignupContainer extends React.PureComponent<
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   formValues: selectors.form.getFormValues(SIGNUP_FORM)(state) as SignupFormType,
-  goals: selectors.goals.getGoals(state),
-  isLoadingR: selectors.auth.getRegistering(state) as RemoteDataType<string, any>,
+  goals: selectors.goals.getGoals(state) as GoalDataType,
+  isLoadingR: selectors.auth.getRegistering(state) as RemoteDataType<string, undefined>,
   language: selectors.preferences.getLanguage(state),
   search: selectors.router.getSearch(state) as string,
   userGeoData: selectors.auth.getUserGeoData(state) as GeoLocationType
@@ -120,12 +116,8 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkStatePropsType = {
   formValues: SignupFormType
-  goals: Array<{
-    data: any
-    id: string
-    name: GoalsType
-  }>
-  isLoadingR: RemoteDataType<string, any>
+  goals: GoalDataType
+  isLoadingR: RemoteDataType<string, undefined>
   language: string
   search: string
   userGeoData: GeoLocationType

@@ -1,11 +1,13 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
 import { Image, Text } from 'blockchain-info-components'
 
 import { CardsWrapper } from '../components'
-import SignupCard from '../components/RegisterCard'
+import SignupCard from '../components/SignupCard'
+import { SubviewProps } from '../types'
 
 const InfoWrapper = styled.div`
   box-sizing: border-box;
@@ -52,7 +54,7 @@ const ListItem = styled.li`
   }
 `
 
-const ExchangeLinkGoal = (props) => (
+const ExchangeLinkGoal = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) => (
   <CardsWrapper>
     <InfoWrapper>
       <Image height='2rem' name='refresh' />

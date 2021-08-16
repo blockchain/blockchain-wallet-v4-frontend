@@ -15,7 +15,7 @@ import {
 } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
-import { Props as OwnProps } from '../..'
+import { SubviewProps } from '../../types'
 import {
   Card,
   CardHeader,
@@ -64,18 +64,15 @@ const LinkAccountSpacer = styled.div`
   height: 1rem;
 `
 
-const RegisterCard = ({
-  formValues,
-  invalid,
-  isFormSubmitting,
-  isLinkAccountGoal,
-  onCountrySelect,
-  onSubmit,
-  showForm,
-  showState,
-  toggleForm
-}: InjectedFormProps<{}, Props> & Props) => {
-  const buttonSubmit = showForm ? onSubmit : toggleForm
+const SignupCard = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) => {
+  const {
+    isFormSubmitting,
+    isLinkAccountGoal,
+    onSignupSubmit,
+    showForm,
+    toggleSignupFormVisibility
+  } = props
+  const buttonSubmit = showForm ? onSignupSubmit : toggleSignupFormVisibility
 
   return (
     <CardWrapper>
@@ -164,20 +161,14 @@ const RegisterCard = ({
         )}
 
         {showForm || isLinkAccountGoal ? (
-          <SignupForm
-            isFormSubmitting={isFormSubmitting}
-            handleSubmit={onSubmit}
-            invalid={invalid}
-            formValues={formValues}
-            onCountrySelect={onCountrySelect}
-            showState={showState}
-          />
+          <SignupForm {...props} />
         ) : (
           <Button
             data-e2e='signupButton'
             fullwidth
             height='48px'
             nature='primary'
+            // @ts-ignore
             onClick={buttonSubmit}
             style={{
               borderRadius: '8px'
@@ -230,14 +221,4 @@ const RegisterCard = ({
   )
 }
 
-type Props = {
-  isFormSubmitting: boolean
-  isLinkAccountGoal: boolean
-  onCountrySelect: (e: React.SyntheticEvent, value: string) => void
-  onSubmit: (e: React.SyntheticEvent, value: string) => void
-  showForm: boolean
-  showState: boolean
-  toggleForm: any
-} & OwnProps
-
-export default RegisterCard
+export default SignupCard

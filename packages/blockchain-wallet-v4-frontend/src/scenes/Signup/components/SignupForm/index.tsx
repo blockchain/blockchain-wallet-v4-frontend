@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Field } from 'redux-form'
+import { Field, InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
 import { Banner, Button, HeartbeatLoader, Link, Text, TextGroup } from 'blockchain-info-components'
@@ -16,13 +16,15 @@ import {
   TextBox
 } from 'components/Form'
 import Terms from 'components/Terms'
+import { isBrowserSupported } from 'services/browser'
 import {
   required,
   validEmail,
   validPasswordConfirmation,
   validStrongPassword
 } from 'services/forms'
-import { isBrowserSupported } from 'services/browser'
+
+import { SubviewProps } from '../../types'
 
 const isSupportedBrowser = isBrowserSupported()
 
@@ -40,7 +42,6 @@ const BrowserWarning = styled.div`
 const PasswordTip = styled(Text)`
   margin-top: 4px;
 `
-
 const FieldWrapper = styled.div`
   margin-top: 0.25rem;
   margin-right: 0 !important;
@@ -66,22 +67,16 @@ const scrollToId = (id) => {
 }
 
 const scrollToPassword = () => scrollToId('password')
-
 const scrollToSecondPassword = () => scrollToId('confirmationPassword')
 
-const SignupForm = ({
-  formValues,
-  handleSubmit,
-  invalid,
-  isFormSubmitting,
-  onCountrySelect,
-  showState
-}) => {
+const SignupForm = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) => {
+  const { formValues, invalid, isFormSubmitting, onCountrySelect, onSignupSubmit, showState } =
+    props
   const { password = '' } = formValues || {}
   const passwordScore = window.zxcvbn ? window.zxcvbn(password).score : 0
 
   return (
-    <StyledForm override onSubmit={handleSubmit}>
+    <StyledForm override onSubmit={onSignupSubmit}>
       {!isSupportedBrowser && (
         <BrowserWarning>
           <Banner type='warning'>
@@ -183,6 +178,7 @@ const SignupForm = ({
             validate={required}
             component={SelectBoxCountry}
             menuPlacement='auto'
+            // @ts-ignore
             onChange={onCountrySelect}
             label={
               <FormattedMessage

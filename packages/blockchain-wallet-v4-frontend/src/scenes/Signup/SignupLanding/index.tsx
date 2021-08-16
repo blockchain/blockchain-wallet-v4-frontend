@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Icon, Link, Text, TextGroup } from 'blockchain-info-components'
@@ -16,7 +17,8 @@ import {
   InfoTitle
 } from '../components'
 import Header from '../components/Header'
-import SignupCard from '../components/RegisterCard'
+import SignupCard from '../components/SignupCard'
+import { SubviewProps } from '../types'
 
 const ExchangeButton = styled(Button)`
   color: ${(props) => props.theme.white};
@@ -37,7 +39,7 @@ const TabIcon = styled(Icon)`
   `}
 `
 
-const SignupLanding = (props) => (
+const SignupLanding = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) => (
   <>
     <Header />
     <CardsWrapper>
