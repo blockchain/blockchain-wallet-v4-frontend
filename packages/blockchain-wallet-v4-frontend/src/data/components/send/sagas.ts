@@ -205,7 +205,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     coin: CoinType,
     paymentR: RemoteDataType<string | Error, PaymentValue | undefined>
   ): PaymentType => {
-    const coinLower = window.coins[coin].coinfig.type.parentChain.toLowerCase()
+    const { parentChain = coin } = window.coins[coin].coinfig.type
+    const coinLower = parentChain.toLowerCase()
     const saga = coreSagas.payment[coinLower]
 
     if (saga) {

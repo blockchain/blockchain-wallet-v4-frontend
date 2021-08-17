@@ -90,3 +90,8 @@ export const updateMnemonicBackup = () => ({
 export const triggerMnemonicViewedAlert = () => ({
   type: T.MNEMONIC_VIEWED_ALERT
 })
+
+export const triggerNonCustodialSendAlert = (currency: string, amount: any) => ({
+  payload: { amount, currency },
+  type: T.NON_CUSTODIAL_SEND_ALERT
+})

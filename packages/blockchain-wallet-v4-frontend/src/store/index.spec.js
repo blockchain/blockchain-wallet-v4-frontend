@@ -48,11 +48,6 @@ describe('App Store Config', () => {
     domains: { api: 'MOCK_API', root: 'MOCK_ROOT', webSocket: 'MOCK_SOCKET' },
     platforms: {
       web: {
-        coins: {
-          BTC: { config: { network: 'bitcoin' } },
-          ETH: { config: { network: 1 } },
-          XLM: { config: { network: 'public' } }
-        },
         erc20s: ['AAVE', 'PAX', 'USDC', 'USDT', 'WDGLD', 'YFI']
       }
     }
@@ -113,11 +108,25 @@ describe('App Store Config', () => {
           minimumOnChainConfirmations: 40,
           name: 'COIN'
         }
-      }
-    ]
-  }
-  const fakeErc20s = {
-    currencies: [
+      },
+      {
+        name: 'Stellar Lumen',
+        precision: 7,
+        products: [
+          'MercuryDeposits',
+          'MercuryWithdrawals',
+          'InterestBalance',
+          'CustodialWalletBalance',
+          'PrivateKey'
+        ],
+        symbol: 'XLM',
+        type: {
+          logoPngUrl:
+            'https://raw.githubusercontent.com/blockchain/coin-definitions/master/extensions/blockchains/stellar/info/logo.png',
+          minimumOnChainConfirmations: 1,
+          name: 'COIN'
+        }
+      },
       {
         name: 'Aave',
         precision: 18,
@@ -190,7 +199,7 @@ describe('App Store Config', () => {
     // setup fetch mock
     fetch.resetMocks()
     fetch.mockResponseOnce(JSON.stringify(fakeWalletOptions))
-    fetch.mockResponseOnce(JSON.stringify(fakeErc20s))
+    fetch.mockResponseOnce(JSON.stringify(fakeCustodials))
 
     // setup spies
     composeSpy = jest.spyOn(Redux, 'compose').mockImplementation(jest.fn())

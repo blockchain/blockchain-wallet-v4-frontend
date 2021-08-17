@@ -1648,6 +1648,7 @@ type MessagesType = {
   'modals.simplebuy.transactionfeed.canceled': '{type} Canceled'
   'modals.simplebuy.transactionfeed.complete': '{type} Completed'
   'modals.simplebuy.transactionfeed.failed': '{type} Failed'
+  'modals.simplebuy.transactionfeed.low_balance': 'Low Balance'
   'modals.simplebuy.transactionfeed.pending': 'Pending {type}'
   'modals.simplebuy.transactionfeed.unknown': 'Unknown Status'
   'modals.simplebuy.transactionfeed.waitingondepo': 'Pending Deposit'
