@@ -361,6 +361,17 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.session.saveSession(assoc(guid, session, {})))
       }
       yield put(actions.auth.loginLoading())
+      if (emailToken) {
+        yield call(
+          coreSagas.data.misc.authorizeLogin,
+          actions.core.data.misc.authorizeLogin(emailToken, true, session)
+        )
+        if ((yield select(selectors.core.data.misc.authorizeLogin)).error?.includes('mismatch')) {
+          yield put(actions.alerts.displayError(C.DEVICE_MISMATCH))
+          yield put(stopSubmit('login'))
+          return
+        }
+      }
       yield call(coreSagas.wallet.fetchWalletSaga, {
         code,
         guid,
@@ -374,20 +385,12 @@ export default ({ api, coreSagas, networks }) => {
       const initialError = prop('initial_error', error)
       const authRequired = prop('authorization_required', error)
       if (authRequired) {
-        // if user has already received authorization token from wallet guid reminder email
-        let authRequiredAlert
-        if (emailToken) {
-          yield put(actions.core.data.misc.authorizeLogin(emailToken, true))
-        } else {
-          authRequiredAlert = yield put(
-            actions.alerts.displayInfo(C.AUTHORIZATION_REQUIRED_INFO, undefined, true)
-          )
-        }
+        const authRequiredAlert = yield put(
+          actions.alerts.displayInfo(C.AUTHORIZATION_REQUIRED_INFO, undefined, true)
+        )
         // auth errors (polling)
         const authorized = yield call(pollingSession, session)
-        if (authRequiredAlert) {
-          yield put(actions.alerts.dismissAlert(authRequiredAlert.payload.id))
-        }
+        yield put(actions.alerts.dismissAlert(authRequiredAlert.payload.id))
         if (authorized) {
           try {
             yield call(coreSagas.wallet.fetchWalletSaga, {

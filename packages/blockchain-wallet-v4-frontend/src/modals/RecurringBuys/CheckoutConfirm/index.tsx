@@ -168,7 +168,7 @@ const Confirm = ({
           color='red600'
           height='48px'
           style={{ marginTop: '16px' }}
-          onClick={close}
+          onClick={() => close()}
         >
           <FormattedMessage id='copy.cancel' defaultMessage='Cancel' />
         </Button>

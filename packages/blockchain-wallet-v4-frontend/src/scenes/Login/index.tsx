@@ -17,7 +17,7 @@ import Loading from '../loading.public'
 import CheckEmail from './CheckEmail'
 import EnterEmailOrGuid from './EnterEmailOrGuid'
 import EnterPassword from './EnterPassword'
-import { ExchangeLogin, LOGIN_FORM_NAME, PhishingWarning } from './model'
+import { CreateAccount, LOGIN_FORM_NAME, PhishingWarning } from './model'
 import VerificationMobile from './VerificationMobile'
 
 class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StateProps> {
@@ -208,7 +208,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
         )}
         {step === LoginSteps.ENTER_EMAIL_GUID && (
           <>
-            <ExchangeLogin />
+            <CreateAccount />
             <Text size='14px' color='grey400' weight={500} style={{ marginBottom: '16px' }}>
               <FormattedMessage
                 id='scenes.login.phishingwarning'
