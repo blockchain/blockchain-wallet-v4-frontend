@@ -13,21 +13,13 @@ const Success = ({ activeDetails, close: closeClick, removeClick }: Props) => {
   if (!activeDetails) return null
   const { id, nextPayment, paymentMethod, period } = activeDetails
   const detailProps = {
-    // for future use
     closeClick,
-
     complete: false,
-
     crypto: activeDetails.destinationCurrency,
-
     currency: activeDetails.inputCurrency,
-
     id,
-
     nextPayment,
-
     paymentMethod,
-
     period,
     removeClick,
     standardAmount: convertBaseToStandard(activeDetails.inputCurrency, activeDetails.inputValue)

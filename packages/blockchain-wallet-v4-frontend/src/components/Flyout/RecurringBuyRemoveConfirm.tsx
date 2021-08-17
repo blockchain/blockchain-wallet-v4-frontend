@@ -16,6 +16,9 @@ const RecurringBuyRemoveConfirm = memo(
       setSubmitting(true)
       removeClick(id)
     }, [setSubmitting, removeClick, id])
+    const closeCallback = useCallback(() => {
+      close()
+    }, [close])
 
     return (
       <Container>
@@ -62,7 +65,7 @@ const RecurringBuyRemoveConfirm = memo(
                 data-e2e='removeRecurringBuyKeepButton'
                 nature='light'
                 fullwidth
-                onClick={close}
+                onClick={closeCallback}
                 disabled={submitting}
               >
                 <FormattedMessage id='buttons.keep' defaultMessage='Keep' />
