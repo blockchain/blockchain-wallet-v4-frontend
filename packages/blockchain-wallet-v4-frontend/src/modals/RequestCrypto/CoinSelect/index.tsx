@@ -7,12 +7,13 @@ import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
 import { StickyHeaderFlyoutWrapper } from 'components/Flyout'
+import { StepHeader } from 'components/Flyout/SendRequestCrypto'
 import { CoinAccountListOption, SelectBoxCoin } from 'components/Form'
 import { actions } from 'data'
 import { SwapAccountType, SwapBaseCounterTypes } from 'data/components/swap/types'
 
 import { Props as OwnProps } from '..'
-import { REQUEST_FORM, StepHeader } from '../model'
+import { REQUEST_FORM } from '../model'
 import { RequestSteps } from '../types'
 import { getData } from './selectors'
 

@@ -13,6 +13,7 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 import { ModalPropsType } from '../types'
 import CoinSelect from './CoinSelect'
 import Confirm from './Confirm'
+import Details from './Details'
 import EnterAmount from './EnterAmount'
 import EnterTo from './EnterTo'
 import { SEND_FORM } from './model'
@@ -71,6 +72,11 @@ class SendCrypto extends PureComponent<Props, State> {
         {this.props.step === SendCryptoStepType.STATUS && (
           <FlyoutChild>
             <Status {...this.props} />
+          </FlyoutChild>
+        )}
+        {this.props.step === SendCryptoStepType.DETAILS && (
+          <FlyoutChild>
+            <Details {...this.props} />
           </FlyoutChild>
         )}
       </Flyout>

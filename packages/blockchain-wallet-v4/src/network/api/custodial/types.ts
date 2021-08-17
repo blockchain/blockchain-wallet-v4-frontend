@@ -76,10 +76,36 @@ export type WithdrawalLockResponseType = {
 
 export type WithdrawResponseType = {
   amount: { symbol: WalletFiatType; value: string }
+  amountMinor: string
+  extraAttributes: {
+    beneficiary: {
+      accountRef: string
+      currency: string
+      id: string
+      partner: 'NONE'
+      product: 'NONE'
+      states: string[]
+      type: 'BENEFICIARY'
+      user: string
+    }
+  }
   fee?: { symbol: WalletFiatType; value: string }
+  feeMinor?: string
   id: string
+  insertedAt: string
   product: NabuCustodialProductType
-  state: 'NONE'
+  state:
+    | 'NONE'
+    | 'CREATED'
+    | 'FRAUD_REVIEW'
+    | 'MANUAL_REVIEW'
+    | 'CLEARED'
+    | 'MANUAL_EXECUTION'
+    | 'REJECTED'
+    | 'PENDING'
+    | 'FAILED'
+    | 'COMPLETE'
+    | 'REFUNDED'
   user: string
 }
 

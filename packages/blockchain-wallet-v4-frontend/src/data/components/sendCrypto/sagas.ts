@@ -1,3 +1,4 @@
+import { PayloadAction } from '@reduxjs/toolkit'
 import { SEND_FORM } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/model'
 import { SendFormType } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/types'
 import { call, put, select } from 'redux-saga/effects'
@@ -44,7 +45,7 @@ export default ({ api }: { api: APIType }) => {
   const submitTransaction = function* () {
     try {
       yield put(A.setStep({ step: SendCryptoStepType.STATUS }))
-      yield put(A.submitTransactionLoading())
+      yield put(A.setTransactionLoading())
       const formValues = selectors.form.getFormValues(SEND_FORM)(yield select()) as SendFormType
       const { amount, selectedAccount, to } = formValues
       const { coin } = selectedAccount
@@ -62,10 +63,10 @@ export default ({ api }: { api: APIType }) => {
         Number(finalFee)
       )
 
-      yield put(A.submitTransactionSuccess(response))
+      yield put(A.setTransactionSuccess(response))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.submitTransactionFailure(error))
+      yield put(A.setTransactionFailure(error))
     }
   }
 

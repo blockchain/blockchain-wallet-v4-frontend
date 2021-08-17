@@ -4,15 +4,28 @@ import { connect, ConnectedProps } from 'react-redux'
 import BigNumber from 'bignumber.js'
 import styled from 'styled-components'
 
-import { Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { selectors } from 'data'
+import { SendCryptoStepType } from 'data/components/sendCrypto/types'
 import { RootState } from 'data/rootReducer'
 
 import { Props as OwnProps } from '..'
 
 const CustomFlyout = styled(FlyoutWrapper)`
   min-height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+`
+const CloseWrapper = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 100%;
+`
+const IconWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -40,7 +53,7 @@ const Status: React.FC<Props> = (props) => {
   const msg = props.transaction.cata({
     Failure: (e) => (
       <Text color='red600' weight={600}>
-        Err: {e}
+        Error: {e}
       </Text>
     ),
     Loading: () => <FormattedMessage id='copy.loading' defaultMessage='Loading...' />,
@@ -55,13 +68,48 @@ const Status: React.FC<Props> = (props) => {
 
   return (
     <CustomFlyout>
-      <IconBox>
-        <Icon size='72px' name={props.formValues.selectedAccount.coin} />
-        <StatusIcon>{icon}</StatusIcon>
-      </IconBox>
-      <Text style={{ marginTop: '32px' }} size='20px' weight={600} color='grey800'>
-        {msg}
-      </Text>
+      <CloseWrapper>
+        <Icon onClick={props.close} cursor name='close-circle' size='20px' color='grey400' />
+      </CloseWrapper>
+      <IconWrapper>
+        <IconBox>
+          <Icon size='72px' name={props.formValues.selectedAccount.coin} />
+          <StatusIcon>{icon}</StatusIcon>
+        </IconBox>
+        <Text style={{ marginTop: '32px' }} size='20px' weight={600} color='grey800'>
+          {msg}
+        </Text>
+      </IconWrapper>
+      {props.transaction.cata({
+        Failure: () => (
+          <Button
+            nature='light-red'
+            data-e2e='sendTryAgain'
+            fullwidth
+            jumbo
+            onClick={() => props.sendCryptoActions.setStep({ step: SendCryptoStepType.ENTER_TO })}
+          >
+            <FormattedMessage id='copy.try_again' defaultMessage='Try Again' />
+          </Button>
+        ),
+        Loading: () => <Button hidden fullwidth jumbo data-e2e='' />,
+        NotAsked: () => <Button hidden fullwidth jumbo data-e2e='' />,
+        Success: (val) => (
+          <Button
+            nature='light'
+            data-e2e='viewDetails'
+            fullwidth
+            jumbo
+            onClick={() =>
+              props.sendCryptoActions.setStep({
+                step: SendCryptoStepType.DETAILS
+              })
+            }
+          >
+            <FormattedMessage id='copy.view_details' defaultMessage='View Details' />
+          </Button>
+        )
+      })}
     </CustomFlyout>
   )
 }

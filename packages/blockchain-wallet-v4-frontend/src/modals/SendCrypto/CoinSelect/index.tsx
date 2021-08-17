@@ -8,11 +8,11 @@ import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
 import { StickyHeaderFlyoutWrapper } from 'components/Flyout'
+import { StepHeader } from 'components/Flyout/SendRequestCrypto'
 import { CoinAccountListOption, SelectBoxCoin } from 'components/Form'
 import { actions } from 'data'
 import { SendCryptoStepType } from 'data/components/sendCrypto/types'
 
-import { StepHeader } from '../../RequestCrypto/model'
 import { Props as OwnProps } from '..'
 import { SEND_FORM } from '../model'
 import { getData } from './selectors'

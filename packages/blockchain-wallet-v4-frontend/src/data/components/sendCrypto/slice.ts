@@ -44,16 +44,16 @@ const sendCryptoSlice = createSlice({
     setStep: (state, action: PayloadAction<SendCryptoStepPayload>) => {
       state.step = action.payload.step
     },
-    submitTransaction: () => {},
-    submitTransactionFailure: (state, action: PayloadAction<string>) => {
+    setTransactionFailure: (state, action: PayloadAction<string>) => {
       state.transaction = Remote.Failure(action.payload)
     },
-    submitTransactionLoading: (state) => {
+    setTransactionLoading: (state) => {
       state.transaction = Remote.Loading
     },
-    submitTransactionSuccess: (state, action: PayloadAction<WithdrawResponseType>) => {
+    setTransactionSuccess: (state, action: PayloadAction<WithdrawResponseType>) => {
       state.transaction = Remote.Success(action.payload)
-    }
+    },
+    submitTransaction: () => {}
     // showModal: (state, action: PayloadAction<{ origin: ModalOriginType }>) => {}
   }
 })

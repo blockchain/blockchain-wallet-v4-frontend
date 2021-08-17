@@ -13,12 +13,12 @@ import CollapseText from 'components/CollapseText'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { FlyoutWrapper, Row } from 'components/Flyout'
+import { AmountWrapper, StepHeader } from 'components/Flyout/SendRequestCrypto'
 import { Form } from 'components/Form'
 import { RatesType } from 'core/types'
 import { selectors } from 'data'
 import { SendCryptoStepType } from 'data/components/sendCrypto/types'
 
-import { StepHeader } from '../../RequestCrypto/model'
 import { Props as OwnProps } from '..'
 import { SEND_FORM } from '../model'
 
@@ -27,9 +27,6 @@ const Wrapper = styled(Form)`
   justify-content: space-between;
   flex-direction: column;
   min-height: 100%;
-`
-const AmountWrapper = styled(FlyoutWrapper)`
-  padding-top: 0px;
 `
 const CustomRow = styled(Row)`
   display: flex;
