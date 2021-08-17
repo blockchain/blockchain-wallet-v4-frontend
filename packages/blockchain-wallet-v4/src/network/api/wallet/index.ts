@@ -221,7 +221,7 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl
     })
 
-  const authorizeLogin = (token, confirm) =>
+  const authorizeLogin = (token, confirm, sessionToken) =>
     post({
       data: {
         confirm_approval: confirm,
@@ -229,6 +229,7 @@ export default ({ get, post, rootUrl }) => {
         token
       },
       endPoint: '/wallet',
+      sessionToken,
       url: rootUrl
     })
 
