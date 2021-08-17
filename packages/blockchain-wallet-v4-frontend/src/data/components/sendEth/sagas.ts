@@ -113,17 +113,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
 
       switch (action.meta.field) {
         // @ts-ignore
-        case 'coin':
-          const { coinfig } = window.coins[coin]
-          const modalName = coinfig.type.erc20Address ? 'ETH' : payload
-          yield put(actions.modals.closeAllModals())
-          yield put(
-            actions.modals.showModal(`SEND_${modalName}_MODAL` as ModalNameType, {
-              coin: payload,
-              origin: 'SendEth'
-            })
-          )
-          break
+        // case 'coin':
+        //   const { coinfig } = window.coins[coin]
+        //   const modalName = coinfig.type.erc20Address ? 'ETH' : payload
+        //   yield put(actions.modals.closeAllModals())
+        //   yield put(
+        //     actions.modals.showModal(`SEND_${modalName}_MODAL` as ModalNameType, {
+        //       coin: payload,
+        //       origin: 'SendEth'
+        //     })
+        //   )
+        //   break
         case 'from':
           const fromPayload = payload as SendEthFormFromActionType['payload']
           let source
@@ -156,10 +156,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         case 'to':
           const toPayload = payload as SendEthFormToActionType['payload']
           const value = pathOr(toPayload, ['value', 'value'], toPayload)
-          if (includes('.', (value as unknown) as string)) {
+          if (includes('.', value as unknown as string)) {
             yield put(
               actions.components.send.fetchUnstoppableDomainResults(
-                (value as unknown) as string,
+                value as unknown as string,
                 coin
               )
             )

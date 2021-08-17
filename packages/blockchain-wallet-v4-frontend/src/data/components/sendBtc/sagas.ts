@@ -170,15 +170,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       switch (field) {
         case 'coin':
-          const { coinfig } = window.coins[payload]
-          const modalName = coinfig.type.erc20Address ? 'ETH' : payload
-          yield put(actions.modals.closeAllModals())
-          yield put(
-            actions.modals.showModal(`SEND_${modalName}_MODAL` as ModalNameType, {
-              coin: payload,
-              origin: 'SendBtc'
-            })
-          )
+          // const { coinfig } = window.coins[payload]
+          // const modalName = coinfig.type.erc20Address ? 'ETH' : payload
+          // yield put(actions.modals.closeAllModals())
+          // yield put(
+          //   actions.modals.showModal(`SEND_${modalName}_MODAL` as ModalNameType, {
+          //     coin: payload,
+          //     origin: 'SendBtc'
+          //   })
+          // )
           break
         case 'from':
           const payloadT = payload as BtcFromType
@@ -244,11 +244,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               // @ts-ignore
               payment = yield payment.to(value.xpub, toType)
               break
-            case includes('.', (address as unknown) as string) &&
-              !includes('bitpay', (address as unknown) as string):
+            case includes('.', address as unknown as string) &&
+              !includes('bitpay', address as unknown as string):
               yield put(
                 actions.components.send.fetchUnstoppableDomainResults(
-                  (address as unknown) as string,
+                  address as unknown as string,
                   'BTC'
                 )
               )
@@ -257,7 +257,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               yield call(bitPayInvoiceEntered, payProInvoice)
               break
             default:
-              payment = yield payment.to((address as unknown) as string, toType)
+              payment = yield payment.to(address as unknown as string, toType)
           }
           break
         case 'amount':

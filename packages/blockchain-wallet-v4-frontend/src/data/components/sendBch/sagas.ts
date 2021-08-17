@@ -153,15 +153,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       switch (field) {
         case 'coin':
-          const { coinfig } = window.coins[payload]
-          const modalName = coinfig.type.erc20Address ? 'ETH' : payload
-          yield put(actions.modals.closeAllModals())
-          yield put(
-            actions.modals.showModal(`SEND_${modalName}_MODAL` as ModalNameType, {
-              coin: payload,
-              origin: 'SendBch'
-            })
-          )
+          // const { coinfig } = window.coins[payload]
+          // const modalName = coinfig.type.erc20Address ? 'ETH' : payload
+          // yield put(actions.modals.closeAllModals())
+          // yield put(
+          //   actions.modals.showModal(`SEND_${modalName}_MODAL` as ModalNameType, {
+          //     coin: payload,
+          //     origin: 'SendBch'
+          //   })
+          // )
           break
         case 'from':
           const payloadT = payload as BtcFromType
@@ -222,10 +222,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               payment = yield payment.to(value.xpub, toType)
               break
             // ensure 'r' exists, otherwise its just a BCH address in cash addr format
-            case includes('.', (address as unknown) as string):
+            case includes('.', address as unknown as string):
               yield put(
                 actions.components.send.fetchUnstoppableDomainResults(
-                  (address as unknown) as string,
+                  address as unknown as string,
                   'BCH'
                 )
               )
@@ -234,7 +234,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               yield call(bitPayInvoiceEntered, payProInvoice)
               break
             default:
-              payment = yield payment.to((address as unknown) as string, toType)
+              payment = yield payment.to(address as unknown as string, toType)
           }
           break
         case 'amount':

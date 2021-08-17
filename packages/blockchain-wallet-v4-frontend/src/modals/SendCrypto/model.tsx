@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 
-export const SEND_FORM = 'sendCrypto'
+export const SEND_FORM = '@SEND_CRYPTO'
 
 const StyledLabel = styled.label`
   width: 100%;

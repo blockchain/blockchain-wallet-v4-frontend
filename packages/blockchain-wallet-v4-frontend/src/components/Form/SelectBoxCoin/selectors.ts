@@ -8,7 +8,13 @@ export const getData = (state) => {
 
   const transform = (coins: ExtractSuccess<typeof coinsR>) => {
     return coins
-      .filter((val) => val.coinfig.products.includes('PrivateKey'))
+      .filter(({ coinfig }) => {
+        const { products } = coinfig
+        return (
+          (products.includes('PrivateKey') || products.includes('CustodialWalletBalance')) &&
+          coinfig.type.name !== 'FIAT'
+        )
+      })
       .map(({ coinfig }) => ({ text: coinfig.name, value: coinfig.symbol }))
   }
 

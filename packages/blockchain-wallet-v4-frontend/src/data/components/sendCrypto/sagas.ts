@@ -5,7 +5,8 @@ import { call, put, select } from 'redux-saga/effects'
 import { convertCoinToCoin } from 'blockchain-wallet-v4/src/exchange'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { selectors } from 'data'
+import { actions, selectors } from 'data'
+import { ModalName, ModalNameType } from 'data/modals/types'
 
 import * as S from './selectors'
 import { actions as A } from './slice'
@@ -38,6 +39,30 @@ export default ({ api }: { api: APIType }) => {
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchWithdrawalLocksFailure(error))
+    }
+  }
+
+  // TODO: remove when all tokens moved to sendCrypto
+  const onFormChange = function* (action: {
+    meta: { field: string; form: string }
+    payload: string
+  }) {
+    const { meta, payload } = action
+    const { field, form } = meta
+
+    if (form.includes('SEND') && field === 'coin') {
+      yield put(actions.modals.closeAllModals())
+      if (selectors.core.data.coins.getCoins().includes(payload)) {
+        yield put(actions.modals.showModal(ModalName.SEND_CRYPTO_MODAL, { origin: 'Send' }))
+      } else {
+        const coin = window.coins[payload].coinfig.type.erc20Address ? 'ETH' : payload
+        yield put(
+          actions.modals.showModal(`SEND_${coin}_MODAL` as ModalNameType, {
+            coin: payload,
+            origin: 'Send'
+          })
+        )
+      }
     }
   }
 
@@ -93,6 +118,7 @@ export default ({ api }: { api: APIType }) => {
   return {
     fetchFees,
     fetchLocks,
+    onFormChange,
     // fetchTransactionDetails,
     submitTransaction
   }

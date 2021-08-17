@@ -68,18 +68,7 @@ class SendCoinSelect extends React.PureComponent<InjectedFormProps<{}, Props> & 
               />
             </Text>
             <SelectCoinWrapper>
-              <Field
-                component={SelectBoxCoin}
-                height='32px'
-                name='selectedCoin'
-                props={{
-                  limitTo: sendableCoins.map((coin) => ({
-                    text: coin,
-                    value: coin
-                  }))
-                }}
-                type='send'
-              />
+              <Field component={SelectBoxCoin} height='32px' name='coin' type='send' />
             </SelectCoinWrapper>
           </div>
         </StickyHeaderFlyoutWrapper>

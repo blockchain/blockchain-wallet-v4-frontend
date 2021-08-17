@@ -1,5 +1,7 @@
 import { takeLatest } from 'redux-saga/effects'
 
+import { actionTypes } from 'data/form/actionTypes'
+
 import sagas from './sagas'
 import { actions as A } from './slice'
 
@@ -11,5 +13,8 @@ export default ({ api }) => {
     yield takeLatest(A.fetchWithdrawalLocks.type, sendCryptoSagas.fetchLocks)
     // yield takeLatest(A.fetchTransactionDetails.type, sendCryptoSagas.fetchTransactionDetails)
     yield takeLatest(A.submitTransaction.type, sendCryptoSagas.submitTransaction)
+    // TODO: remove when all tokens moved to sendCrypto
+    // @ts-ignore
+    yield takeLatest(actionTypes.CHANGE, sendCryptoSagas.onFormChange)
   }
 }

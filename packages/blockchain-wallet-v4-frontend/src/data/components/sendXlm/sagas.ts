@@ -85,17 +85,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       payment = yield call(coreSagas.payment.xlm.create, { payment })
 
       switch (field) {
-        case 'coin':
-          const { coinfig } = window.coins[payload]
-          const modalName = coinfig.type.erc20Address ? 'ETH' : payload
-          yield put(actions.modals.closeAllModals())
-          yield put(
-            actions.modals.showModal(`SEND_${modalName}_MODAL` as ModalNameType, {
-              coin: payload,
-              origin: 'SendXlm'
-            })
-          )
-          break
+        // case 'coin':
+        //   const { coinfig } = window.coins[payload]
+        //   const modalName = coinfig.type.erc20Address ? 'ETH' : payload
+        //   yield put(actions.modals.closeAllModals())
+        //   yield put(
+        //     actions.modals.showModal(`SEND_${modalName}_MODAL` as ModalNameType, {
+        //       coin: payload,
+        //       origin: 'SendXlm'
+        //     })
+        //   )
+        //   break
         case 'from':
           const source = prop('address', payload) || payload
           const fromType = prop('type', payload)
@@ -120,10 +120,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           // @ts-ignore
           const splitValue = propOr(value, 'address', value).split(':')
           const address = head(splitValue)
-          if (includes('.', (address as unknown) as string)) {
+          if (includes('.', address as unknown as string)) {
             yield put(
               actions.components.send.fetchUnstoppableDomainResults(
-                (value as unknown) as string,
+                value as unknown as string,
                 'XLM'
               )
             )

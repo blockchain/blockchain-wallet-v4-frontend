@@ -19,7 +19,7 @@ class FeaturesContainer extends React.PureComponent<Props> {
         })
       }
 
-      return this.props.modalActions.showModal(ModalName.SEND_CRYPTO_MODAL as ModalNameType, {
+      return this.props.modalActions.showModal(ModalName.SEND_BTC_MODAL as ModalNameType, {
         lockboxIndex: lockboxPath ? lockboxDeviceId : null,
         origin: 'FeaturesTopNav'
       })
@@ -48,7 +48,7 @@ class FeaturesContainer extends React.PureComponent<Props> {
         origin: 'FeaturesTopNav'
       })
     }
-    return this.props.modalActions.showModal(ModalName.SEND_CRYPTO_MODAL, {
+    return this.props.modalActions.showModal(ModalName.SEND_BTC_MODAL, {
       lockboxIndex: lockboxPath ? lockboxDeviceId : null,
       origin: 'FeaturesTopNav'
     })
