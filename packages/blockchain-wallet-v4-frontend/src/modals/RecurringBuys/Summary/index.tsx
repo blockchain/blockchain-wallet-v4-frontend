@@ -101,7 +101,7 @@ const Success = ({ close, order, period, withdrawLockCheck }: Props) => {
         </SuccessInfo>
       </FlyoutContent>
       <FlyoutFooter>
-        <Button data-e2e='recurringBuySuccessOk' fullwidth nature='primary' onClick={close}>
+        <Button data-e2e='recurringBuySuccessOk' fullwidth nature='primary' onClick={() => close()}>
           <FormattedMessage id='copy.ok' defaultMessage='Ok' />
         </Button>
       </FlyoutFooter>
