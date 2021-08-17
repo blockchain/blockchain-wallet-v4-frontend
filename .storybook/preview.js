@@ -31,3 +31,13 @@ const withIconsAndFonts = () => (story) => {
 }
 addDecorator(withTheme())
 addDecorator(withIconsAndFonts())
+
+export const parameters = {
+  actions: { argTypesRegex: "^on[A-Z].*" },
+  controls: {
+    matchers: {
+      color: /(background|color)$/i,
+      date: /Date$/,
+    },
+  },
+}
