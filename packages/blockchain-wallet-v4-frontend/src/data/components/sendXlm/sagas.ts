@@ -19,9 +19,11 @@ import * as A from './actions'
 import { FORM } from './model'
 import * as S from './selectors'
 
+const coin = 'XLM'
 const { TRANSACTION_EVENTS } = model.analytics
 export const logLocation = 'components/sendXlm/sagas'
 export const INITIAL_MEMO_TYPE = 'text'
+
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
   const { showWithdrawalLockAlert } = sendSagas({
     api,
@@ -71,7 +73,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const to = path(['payload', 'to'], action)
       const memo = path(['payload', 'memo'], action)
       yield put(A.paymentUpdatedLoading())
-      yield put(actions.components.send.fetchPaymentsAccountExchange('XLM'))
+      yield put(actions.components.send.fetchPaymentsAccountExchange(coin))
       let payment = coreSagas.payment.xlm.create()
       payment = yield call(payment.init)
       payment = yield call(payment.memoType, INITIAL_MEMO_TYPE)
@@ -91,7 +93,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         return to ? { value: { label: to, value: to } } : null
       }
       const initialValues = {
-        coin: 'XLM',
+        coin,
         fee: defaultFee,
         from: defaultAccount,
         memo,
@@ -140,7 +142,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               'simplebuy',
               'DEFAULT'
             )
-            const fee = response.fees.find(({ symbol }) => symbol === 'XLM')?.minorValue || '0'
+            const fee = response.fees.find(({ symbol }) => symbol === coin)?.minorValue || '0'
             payment = yield call(setFrom, payment, payload, fromType, fee)
             payment = yield payment.fee(fee)
             yield put(A.paymentUpdatedSuccess(payment.value()))
@@ -159,7 +161,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             yield put(
               actions.components.send.fetchUnstoppableDomainResults(
                 value as unknown as string,
-                'XLM'
+                coin
               )
             )
             return
@@ -181,7 +183,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           const xlmAmount = prop('coin', payload)
           const stroopAmount = Exchange.convertCoinToCoin({
             baseToStandard: false,
-            coin: 'XLM',
+            coin,
             value: xlmAmount
           })
           payment = yield call(payment.amount, stroopAmount)
@@ -249,18 +251,18 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const xlmRates = (yield select(selectors.core.data.xlm.getRates)).getOrFail(
       'Can not retrieve stellar rates.'
     )
-    const coin = Exchange.convertCoinToCoin({
+    const coinAmount = Exchange.convertCoinToCoin({
       baseToStandard: false,
-      coin: 'XLM',
+      coin,
       value: amount
     })
     const fiat = Exchange.convertCoinToFiat({
-      coin: 'XLM',
+      coin,
       currency,
       rates: xlmRates,
       value: amount
     })
-    yield put(change(FORM, 'amount', { coin, fiat }))
+    yield put(change(FORM, 'amount', { coin: coinAmount, fiat }))
   }
 
   const maximumAmountClicked = function* () {
@@ -306,10 +308,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           fromAddress
         )).getOrFail('missing_device')
         const deviceType = prop('device_type', device)
-        yield call(Lockbox.promptForLockbox, 'XLM', deviceType, [toAddress])
+        yield call(Lockbox.promptForLockbox, coin, deviceType, [toAddress])
         const connection = yield select(selectors.components.lockbox.getCurrentConnection)
         const transport = prop('transport', connection)
-        const scrambleKey = Lockbox.utils.getScrambleKey('XLM', deviceType)
+        const scrambleKey = Lockbox.utils.getScrambleKey(coin, deviceType)
         payment = yield call(payment.sign, null, transport, scrambleKey)
       }
       const value: ReturnType<XlmPaymentType['value']> = payment.value()
@@ -318,7 +320,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         if (!value.to) throw new Error('missing_to_from_custodial')
         if (!value.amount) throw new Error('missing_amount_from_custodial')
         const address = value.memo ? `${value.to.address}:${value.memo}` : value.to.address
-        api.withdrawSBFunds(address, 'XLM', value.amount)
+        api.withdrawSBFunds(address, coin, value.amount)
       } else {
         payment = yield call(payment.publish)
       }
@@ -346,14 +348,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
       yield put(destroy(FORM))
       const coinAmount = Exchange.convertCoinToCoin({
-        coin: 'XLM',
+        coin,
         value: payment.value().amount
       })
-      yield put(actions.analytics.logEvent([...TRANSACTION_EVENTS.SEND, 'XLM', coinAmount]))
+      yield put(actions.analytics.logEvent([...TRANSACTION_EVENTS.SEND, coin, coinAmount]))
       // triggers email notification to user that
       // non-custodial funds were sent from the wallet
       if (fromType === ADDRESS_TYPES.ACCOUNT) {
-        yield put(actions.core.wallet.triggerNonCustodialSendAlert('XLM', coinAmount))
+        yield put(actions.core.wallet.triggerNonCustodialSendAlert(coin, coinAmount))
       }
       yield put(actions.modals.closeAllModals())
     } catch (e) {
@@ -364,7 +366,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(actions.components.lockbox.setConnectionError(e))
       } else {
         yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
-        yield put(actions.analytics.logEvent([...TRANSACTION_EVENTS.SEND_FAILURE, 'XLM', e]))
+        yield put(actions.analytics.logEvent([...TRANSACTION_EVENTS.SEND_FAILURE, coin, e]))
         if (fromType === ADDRESS_TYPES.CUSTODIAL && error) {
           if (error === 'Pending withdrawal locks') {
             yield call(showWithdrawalLockAlert)
