@@ -3,6 +3,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
 import {
+  ProductTypes,
+  SBTransactionType,
   WithdrawalLockResponseType,
   WithdrawalMinsAndFeesResponse,
   WithdrawResponseType
@@ -13,6 +15,7 @@ import { SendCryptoState, SendCryptoStepPayload, SendCryptoStepType } from './ty
 const initialState: SendCryptoState = {
   step: SendCryptoStepType.COIN_SELECTION,
   transaction: Remote.NotAsked,
+  transactionDetails: Remote.NotAsked,
   withdrawLocks: Remote.NotAsked,
   withdrawalFeesAndMins: Remote.NotAsked
 }
@@ -21,6 +24,19 @@ const sendCryptoSlice = createSlice({
   initialState,
   name: 'sendCrypto',
   reducers: {
+    // fetchTransactionDetails: (
+    //   state,
+    //   action: PayloadAction<{ id: string; product: keyof typeof ProductTypes }>
+    // ) => {},
+    // fetchTransactionDetailsFailure: (state, action: PayloadAction<string>) => {
+    //   state.transactionDetails = Remote.Failure(action.payload)
+    // },
+    // fetchTransactionDetailsLoading: (state) => {
+    //   state.transactionDetails = Remote.Loading
+    // },
+    // fetchTransactionDetailsSuccess: (state, action: PayloadAction<SBTransactionType>) => {
+    //   state.transactionDetails = Remote.Success(action.payload)
+    // },
     fetchWithdrawalFees: () => {},
     fetchWithdrawalFeesFailure: (state, action: PayloadAction<string>) => {
       state.withdrawalFeesAndMins = Remote.Failure(action.payload)
@@ -44,16 +60,16 @@ const sendCryptoSlice = createSlice({
     setStep: (state, action: PayloadAction<SendCryptoStepPayload>) => {
       state.step = action.payload.step
     },
-    setTransactionFailure: (state, action: PayloadAction<string>) => {
+    submitTransaction: () => {},
+    submitTransactionFailure: (state, action: PayloadAction<string>) => {
       state.transaction = Remote.Failure(action.payload)
     },
-    setTransactionLoading: (state) => {
+    submitTransactionLoading: (state) => {
       state.transaction = Remote.Loading
     },
-    setTransactionSuccess: (state, action: PayloadAction<WithdrawResponseType>) => {
+    submitTransactionSuccess: (state, action: PayloadAction<WithdrawResponseType>) => {
       state.transaction = Remote.Success(action.payload)
-    },
-    submitTransaction: () => {}
+    }
     // showModal: (state, action: PayloadAction<{ origin: ModalOriginType }>) => {}
   }
 })

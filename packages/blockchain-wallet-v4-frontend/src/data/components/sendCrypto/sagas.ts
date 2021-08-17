@@ -1,4 +1,3 @@
-import { PayloadAction } from '@reduxjs/toolkit'
 import { SEND_FORM } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/model'
 import { SendFormType } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/types'
 import { call, put, select } from 'redux-saga/effects'
@@ -42,10 +41,31 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  // const fetchTransactionDetails = function* (action: ReturnType<typeof A.fetchTransactionDetails>) {
+  //   // TODO: handle different transaction types and endpoints
+  //   switch (action.payload.product) {
+  //     case 'SIMPLEBUY':
+  //       try {
+  //         yield put(A.fetchTransactionDetailsLoading())
+  //         const res: ReturnType<typeof api.getPaymentById> = yield call(
+  //           api.getPaymentById,
+  //           action.payload.id
+  //         )
+  //         yield put(A.fetchTransactionDetailsSuccess(res))
+  //       } catch (e) {
+  //         const error = errorHandler(e)
+  //         yield put(A.fetchTransactionDetailsFailure(error))
+  //       }
+  //       break
+  //     default:
+  //       yield put(A.fetchTransactionDetailsFailure('Product not supported'))
+  //   }
+  // }
+
   const submitTransaction = function* () {
     try {
       yield put(A.setStep({ step: SendCryptoStepType.STATUS }))
-      yield put(A.setTransactionLoading())
+      yield put(A.submitTransactionLoading())
       const formValues = selectors.form.getFormValues(SEND_FORM)(yield select()) as SendFormType
       const { amount, selectedAccount, to } = formValues
       const { coin } = selectedAccount
@@ -63,16 +83,17 @@ export default ({ api }: { api: APIType }) => {
         Number(finalFee)
       )
 
-      yield put(A.setTransactionSuccess(response))
+      yield put(A.submitTransactionSuccess(response))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.setTransactionFailure(error))
+      yield put(A.submitTransactionFailure(error))
     }
   }
 
   return {
     fetchFees,
     fetchLocks,
+    // fetchTransactionDetails,
     submitTransaction
   }
 }
