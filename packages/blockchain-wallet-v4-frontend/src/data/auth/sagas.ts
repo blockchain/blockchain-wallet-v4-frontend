@@ -311,7 +311,10 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.components.swap.fetchTrades())
       // check/update btc account names
       yield call(coreSagas.wallet.checkAndUpdateWalletNames)
-      if (firstLogin) {
+      const isSignupCountry = (yield select(
+        selectors.core.walletOptions.getFeatureSignupCountry
+      )).getOrElse(false)
+      if (firstLogin && isSignupCountry) {
         // create nabu user
         yield call(createUser)
         // store initial address in case of US state we add prefix

@@ -1,6 +1,7 @@
 import { path, prop } from 'ramda'
 
 import { /* AccountTokensBalancesResponseType, */ RemoteDataType } from 'core/types'
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { RootState } from 'data/rootReducer'
 
 import { WalletOptionsType } from './types'
@@ -21,7 +22,9 @@ export const getAnalyticsSiteId = (state) =>
 export const getAnnouncements = (state) =>
   getWebOptions(state).map(path(['application', 'announcements']))
 
+// eslint-disable-next-line
 export const getXlmSendTimeOutSeconds = (state) => 600
+// eslint-disable-next-line
 export const getXlmExchangeAddresses = (state) => []
 
 // domains
@@ -55,3 +58,7 @@ export const getFeatureLegacyWalletRecovery = (state: RootState) =>
 // legacy magic email link
 export const getFeatureLegacyMagicEmailLink = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'legacyMagicEmailLink']))
+
+// signup country feature flag
+export const getFeatureSignupCountry = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'signupCountry']))
