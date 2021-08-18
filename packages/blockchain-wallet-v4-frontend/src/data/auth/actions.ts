@@ -67,8 +67,8 @@ export const setResetAccount = (resetAccount) => ({
   type: AT.SET_RESET_ACCOUNT
 })
 // 2FA
-export const resendSmsCode = (guid) => ({
-  payload: { guid },
+export const resendSmsCode = (guid, email) => ({
+  payload: { email, guid },
   type: AT.RESEND_SMS_CODE
 })
 
