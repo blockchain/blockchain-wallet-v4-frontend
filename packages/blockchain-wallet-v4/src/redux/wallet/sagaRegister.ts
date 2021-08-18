@@ -15,5 +15,6 @@ export default ({ api, networks }) => {
     yield takeLatest(AT.CHECK_UPDATE_ACCT_LABELS, walletSagas.checkAndUpdateWalletNames)
     yield takeLatest(AT.UPDATE_MNEMONIC_BACKUP, walletSagas.updateMnemonicBackup)
     yield takeLatest(AT.MNEMONIC_VIEWED_ALERT, walletSagas.triggerMnemonicViewedAlert)
+    yield takeLatest(AT.NON_CUSTODIAL_SEND_ALERT, walletSagas.triggerNonCustodialSendAlert)
   }
 }

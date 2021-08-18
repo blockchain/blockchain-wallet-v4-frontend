@@ -19,11 +19,11 @@ import { createSelector } from 'reselect'
 
 import {
   AddressTypesType,
+  CoinfigType,
   ProcessedTxType,
   RemoteDataType,
   SBOrderType,
-  SBTransactionType,
-  SupportedWalletCurrencyType
+  SBTransactionType
 } from 'blockchain-wallet-v4/src/types'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -85,7 +85,7 @@ const filterTransactions = curry(
 const coinSelectorMap = (
   state,
   coin,
-  coinfig: SupportedWalletCurrencyType['coinfig']
+  coinfig: CoinfigType
 ): ((state: RootState) => Array<RemoteDataType<any, Array<TxType>>>) => {
   if (coinfig.type.erc20Address) {
     return (state) => selectors.core.common.eth.getErc20WalletTransactions(state, coin)
@@ -101,15 +101,17 @@ const coinSelectorMap = (
   return (state) => selectors.core.data.fiat.getTransactions(coin, state)
 }
 
-export const getData = (state, coin, coinfig: SupportedWalletCurrencyType['coinfig']) =>
+export const getData = (state, coin, coinfig: CoinfigType) =>
   createSelector(
     [
       () => selectors.core.settings.getInvitations(state),
       selectors.form.getFormValues(WALLET_TX_SEARCH),
       coinSelectorMap(state, coin, coinfig),
-      selectors.core.settings.getCurrency
+      selectors.core.settings.getCurrency,
+      selectors.components.recurringBuy.getRegisteredListByCoin(coin),
+      selectors.core.walletOptions.getFeatureFlagRecurringBuys
     ],
-    (invitationsR, userSearch, pagesR, currencyR) => {
+    (invitationsR, userSearch, pagesR, currencyR, recurringBuys, isRecurringBuyR) => {
       const empty = (page) => isEmpty(page.data)
       const search = propOr('', 'search', userSearch)
       const status: TransferType = propOr('', 'status', userSearch)
@@ -127,9 +129,11 @@ export const getData = (state, coin, coinfig: SupportedWalletCurrencyType['coinf
         isInvited: invitationsR
           .map(propOr(false, 'openBanking'))
           .getOrElse({ openBanking: false }) as boolean,
+        isRecurringBuy: isRecurringBuyR.getOrElse(false) as boolean,
         // @ts-ignore
         isSearchEntered: search.length > 0 || status !== '',
         pages: filteredPages,
+        recurringBuys,
         sourceType
       }
     }

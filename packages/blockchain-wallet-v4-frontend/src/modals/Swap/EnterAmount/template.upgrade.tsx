@@ -19,7 +19,7 @@ const Upgrade: React.FC<Props> = (props) => {
       <UpgradeRow>
         <div>
           <Text size='14px' weight={500} color='grey600' lineHeight='150%'>
-            <FormattedMessage id='copy.upgrade' defaultMessage='Upgrade To Gold' />
+            <FormattedMessage id='copy.upgrade' defaultMessage='Upgrade to Gold' />
           </Text>
           <Text size='16px' color='grey800' weight={600} lineHeight='150%'>
             <FormattedMessage id='copy.swap_up_to' defaultMessage='Swap Up to $10,000 a Day' />

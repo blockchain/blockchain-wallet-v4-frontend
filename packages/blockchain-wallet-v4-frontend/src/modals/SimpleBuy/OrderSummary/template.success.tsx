@@ -4,9 +4,16 @@ import moment from 'moment'
 import styled from 'styled-components'
 
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
+import { Exchange } from 'blockchain-wallet-v4/src'
 import { SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
-import { FlyoutWrapper } from 'components/Flyout'
-import { getBaseAmount, getBaseCurrency, getOrderType } from 'data/components/simpleBuy/model'
+import { FlyoutWrapper, getPeriodForSuccess } from 'components/Flyout'
+import {
+  getBaseAmount,
+  getBaseCurrency,
+  getCounterAmount,
+  getCounterCurrency,
+  getOrderType
+} from 'data/components/simpleBuy/model'
 
 import { Props as _P, SuccessStateType } from '.'
 import InterestBanner from './InterestBanner'
@@ -79,6 +86,8 @@ const BottomInfo = styled(Bottom)`
 const Success: React.FC<Props> = (props) => {
   const orderType = getOrderType(props.order)
   const baseAmount = getBaseAmount(props.order)
+  const currencySymbol = Exchange.getSymbol(getCounterCurrency(props.order))
+  const counterAmount = `${currencySymbol}${getCounterAmount(props.order)}`
   const baseCurrency = getBaseCurrency(props.order)
   const days =
     props.withdrawLockCheck && props.withdrawLockCheck.lockTime
@@ -91,6 +100,11 @@ const Success: React.FC<Props> = (props) => {
     isPendingDeposit &&
     props.order.attributes?.everypay?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
   const { show } = props.afterTransaction
+  const [recurringBuy] = props.recurringBuyList.filter((rb) => {
+    return rb.id === props.order.recurringBuyId
+  })
+  const frequencyDateText =
+    recurringBuy && getPeriodForSuccess(recurringBuy.period, recurringBuy.nextPayment)
 
   return (
     <Wrapper>
@@ -195,7 +209,7 @@ const Success: React.FC<Props> = (props) => {
                   .
                 </>
               )}
-              {props.order.state === 'PENDING_DEPOSIT' ||
+              {isPendingDeposit ||
                 (props.order.state === 'PENDING_CONFIRMATION' && (
                   <FormattedMessage
                     id='modals.simplebuy.transferdetails.pending1'
@@ -209,6 +223,18 @@ const Success: React.FC<Props> = (props) => {
                 />
               )}
             </Text>
+            {recurringBuy && props.order.state !== 'FAILED' && (
+              <Text size='14px' weight={500} color='grey600' style={{ marginTop: '8px' }}>
+                <FormattedMessage
+                  id='modals.simplebuy.recurringbuy.success'
+                  defaultMessage='We will buy {amount} of Bitcoin {frequency} at that moment’s market price. Cancel this recurring buy at anytime.'
+                  values={{
+                    amount: counterAmount,
+                    frequency: frequencyDateText
+                  }}
+                />
+              </Text>
+            )}
           </TitleWrapper>
           {isTransactionPending && (
             <Bottom>

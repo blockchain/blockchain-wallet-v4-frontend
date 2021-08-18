@@ -62,6 +62,8 @@ export default ({ api }: { api: APIType }) => {
       const page = flatten([txPage, custodialPage.orders]).sort((a, b) => {
         return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
       })
+      const atBounds = page.length < TX_PER_PAGE
+      yield put(A.transactionsAtBound(payload.coin, atBounds))
       yield put(A.fetchTransactionsSuccess(payload.coin, page, reset, true))
     } catch (e) {
       const error = errorHandler(e)

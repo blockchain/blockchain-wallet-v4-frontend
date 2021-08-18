@@ -11,7 +11,7 @@ export const getData = (state, coin, amount, defaultCurrency, defaultRates) => {
   const { coinfig } = window.coins[coin]
 
   let value
-  if (!coinfig.type.isFiat) {
+  if (coinfig.type.name !== 'FIAT') {
     value = Exchange.convertCoinToCoin({
       coin,
       value: amount
@@ -19,7 +19,7 @@ export const getData = (state, coin, amount, defaultCurrency, defaultRates) => {
   }
 
   const convert = (currency, rates) => {
-    if (coinfig.type.isFiat) {
+    if (coinfig.type.name === 'FIAT') {
       if (coin === currency) return fiatToString({ unit: currency, value: amount })
 
       value = Exchange.convertFiatToFiat({

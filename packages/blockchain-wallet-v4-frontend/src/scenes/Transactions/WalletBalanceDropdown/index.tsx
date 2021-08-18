@@ -144,7 +144,7 @@ class WalletBalanceDropdown extends Component<Props> {
   handleRequest = () => {
     const { coinfig } = window.coins[this.props.coin]
     this.props.modalActions.showModal('REQUEST_CRYPTO_MODAL' as ModalNameType, {
-      coin: !coinfig.type.isFiat && this.props.coin,
+      coin: coinfig.type.name !== 'FIAT' && this.props.coin,
       origin: 'WalletBalanceDropdown'
     })
   }
@@ -211,7 +211,7 @@ class WalletBalanceDropdown extends Component<Props> {
       return data.sbBalance?.pending !== undefined && data.sbBalance?.pending !== '0'
     }
 
-    if (!coinfig.type.isFiat) {
+    if (coinfig.type.name !== 'FIAT') {
       switch (true) {
         case isAllOrCustodial() && hasPendingBalance():
           return (

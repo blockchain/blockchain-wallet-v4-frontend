@@ -13,11 +13,12 @@ import {
   SBPaymentTypes,
   SwapOrderType
 } from 'blockchain-wallet-v4/src/types'
-import Flyout, { duration, FlyoutChild } from 'components/Flyout'
+import Flyout, { duration, FlyoutChild, FrequencyScreen } from 'components/Flyout'
 import { actions, selectors } from 'data'
+import { getCoinFromPair, getFiatFromPair } from 'data/components/simpleBuy/model'
 import { GoalsType } from 'data/goals/types'
 import { RootState } from 'data/rootReducer'
-import { BankStatusType, FastLinkType, ModalName } from 'data/types'
+import { BankStatusType, FastLinkType, ModalName, RecurringBuyPeriods } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { Loading as StdLoading, LoadingTextEnum } from '../components'
@@ -50,6 +51,8 @@ class SimpleBuy extends PureComponent<Props, State> {
   constructor(props) {
     super(props)
     this.state = { show: false }
+    this.backToEnterAmount = this.backToEnterAmount.bind(this)
+    this.handleFrequencySelection = this.handleFrequencySelection.bind(this)
   }
 
   componentDidMount() {
@@ -76,6 +79,23 @@ class SimpleBuy extends PureComponent<Props, State> {
     setTimeout(() => {
       this.props.close()
     }, duration)
+  }
+
+  backToEnterAmount = () => {
+    if (this.props.pair) {
+      this.props.simpleBuyActions.setStep({
+        cryptoCurrency: getCoinFromPair(this.props.pair.pair),
+        fiatCurrency: getFiatFromPair(this.props.pair.pair),
+        orderType: this.props.orderType,
+        pair: this.props.pair,
+        step: 'ENTER_AMOUNT'
+      })
+    }
+  }
+
+  handleFrequencySelection = (period?: RecurringBuyPeriods) => {
+    this.props.formActions.change('simpleBuyCheckout', 'period', period)
+    this.backToEnterAmount()
   }
 
   render() {
@@ -227,6 +247,15 @@ class SimpleBuy extends PureComponent<Props, State> {
                 <UpgradeToGold {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
+            {this.props.step === 'FREQUENCY' && (
+              <FlyoutChild>
+                <FrequencyScreen
+                  headerAction={this.backToEnterAmount}
+                  headerMode='back'
+                  setPeriod={this.handleFrequencySelection}
+                />
+              </FlyoutChild>
+            )}
             {this.props.step === 'LOADING' && (
               <FlyoutChild>
                 <StdLoading text={LoadingTextEnum.GETTING_READY} />
@@ -287,6 +316,7 @@ type LinkStatePropsType =
         | 'KYC_REQUIRED'
         | 'UPGRADE_TO_GOLD'
         | 'LOADING'
+        | 'FREQUENCY'
     }
   | {
       orderType: SBOrderActionType
