@@ -153,7 +153,7 @@ export default ({ get, post, rootUrl }) => {
     })
   }
 
-  const triggerWalletMagicLink = (email, captchaToken, sessionToken) => {
+  const triggerWalletMagicLinkLegacy = (email, captchaToken, sessionToken) => {
     post({
       data: {
         captcha: captchaToken,
@@ -178,7 +178,15 @@ export default ({ get, post, rootUrl }) => {
   // endpoint is triggered when mnemonic is viewed
   const triggerMnemonicViewedAlert = (sharedKey, guid) =>
     post({
-      data: { guid, method: 'trigger-alert', sharedKey },
+      data: { format: 'json', guid, method: 'trigger-alert', sharedKey },
+      endPoint: '/wallet',
+      url: rootUrl
+    })
+
+  // Trigger non-custodial sent email
+  const triggerNonCustodialSendAlert = (sharedKey, guid, currency, amount) =>
+    post({
+      data: { amount, currency, guid, method: 'trigger-sent-tx-email', sharedKey },
       endPoint: '/wallet',
       url: rootUrl
     })
@@ -213,7 +221,7 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl
     })
 
-  const authorizeLogin = (token, confirm) =>
+  const authorizeLogin = (token, confirm, sessionToken) =>
     post({
       data: {
         confirm_approval: confirm,
@@ -221,6 +229,7 @@ export default ({ get, post, rootUrl }) => {
         token
       },
       endPoint: '/wallet',
+      sessionToken,
       url: rootUrl
     })
 
@@ -276,7 +285,8 @@ export default ({ get, post, rootUrl }) => {
     savePayload,
     sendSecureChannel,
     triggerMnemonicViewedAlert,
-    triggerWalletMagicLink,
+    triggerNonCustodialSendAlert,
+    triggerWalletMagicLinkLegacy,
     updateMnemonicBackup,
     verifyEmailToken
   }

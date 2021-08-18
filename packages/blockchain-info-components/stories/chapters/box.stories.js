@@ -8,7 +8,7 @@ import { Box } from '../../src'
 addDecorator(withInfo)
 
 export default {
-  title: 'Brokerage/Box',
+  title: 'Box',
   component: Box,
   decorators: [(story) => <Layout>{story()}</Layout>],
   argTypes: {

@@ -25,7 +25,6 @@ import * as TXNames from './TXNames'
 import * as TXNotes from './TXNotes'
 import Type from './Type'
 import { shift, shiftIProp } from './util'
-import * as Wallet_DEPRECATED_V3 from './Wallet_DEPRECATED_V3'
 
 /* Wallet :: {
   guid :: String
@@ -231,6 +230,29 @@ export const importLegacyAddress = curry(
   }
 )
 
+// upgradeToV4 :: String -> String -> Network -> Wallet -> Task Error Wallet
+export const upgradeToV4 = curry((seedHex, password, network, wallet) => {
+  const encryptDerivation = applyCipher(wallet, password, Derivation.encrypt)
+  const upgradeAccount = (account) => {
+    const migratedAccount = HDAccount.fromJS(HDAccount.toJS(account), account.index)
+    const addDerivationToAccount = (derivation) =>
+      over(HDAccount.derivations, (derivations) => derivations.push(derivation), migratedAccount)
+    const derivation = HDWallet.generateDerivation(
+      HDAccount.DEFAULT_DERIVATION_TYPE,
+      HDAccount.DEFAULT_DERIVATION_PURPOSE,
+      migratedAccount.index,
+      network,
+      seedHex
+    )
+
+    return encryptDerivation(derivation).map(addDerivationToAccount)
+  }
+
+  const traverseAllAccounts = compose(hdwallet, HDWallet.accounts, traversed)
+
+  return traverseOf(traverseAllAccounts, Task.of, upgradeAccount, wallet)
+})
+
 // newHDWallet :: String -> String? -> Wallet -> Task Error Wallet
 export const newHDWallet = curry((mnemonic, password, wallet) => {
   const hdWallet = HDWallet.createNew(mnemonic)
@@ -260,29 +282,6 @@ export const upgradeToV3 = curry((mnemonic, firstLabel, password, network, walle
   )
 })
 
-// upgradeToV4 :: String -> String -> Network -> Wallet -> Task Error Wallet
-export const upgradeToV4 = curry((seedHex, password, network, wallet) => {
-  const encryptDerivation = applyCipher(wallet, password, Derivation.encrypt)
-  const upgradeAccount = (account) => {
-    const migratedAccount = HDAccount.fromJS(HDAccount.toJS(account), account.index)
-    const addDerivationToAccount = (derivation) =>
-      over(HDAccount.derivations, (derivations) => derivations.push(derivation), migratedAccount)
-    const derivation = HDWallet.generateDerivation(
-      HDAccount.DEFAULT_DERIVATION_TYPE,
-      HDAccount.DEFAULT_DERIVATION_PURPOSE,
-      migratedAccount.index,
-      network,
-      seedHex
-    )
-
-    return encryptDerivation(derivation).map(addDerivationToAccount)
-  }
-
-  const traverseAllAccounts = compose(hdwallet, HDWallet.accounts, traversed)
-
-  return traverseOf(traverseAllAccounts, Task.of, upgradeAccount, wallet)
-})
-
 // setLegacyAddressLabel :: String -> String -> Wallet -> Wallet
 export const setLegacyAddressLabel = curry((address, label, wallet) => {
   const addressLens = compose(addresses, AddressMap.address(address))
@@ -308,45 +307,34 @@ export const deleteLegacyAddress = curry((address, wallet) => {
 })
 
 // deleteHdAddressLabel :: Number -> Number -> String -> Wallet -> Wallet
-export const deleteHdAddressLabel = curry(
-  (accountIdx, addressIdx, derivationType, payloadV, wallet) => {
-    if (payloadV < 4) {
-      return Wallet_DEPRECATED_V3.deleteHdAddressLabel(accountIdx, addressIdx, wallet)
-    }
-    const lens = compose(
-      hdWallets,
-      HDWalletList.hdwallet,
-      HDWallet.accounts,
-      HDAccountList.account(accountIdx),
-      HDAccount.derivations,
-      DerivationList.derivationOfType(derivationType),
-      Derivation.addressLabels
-    )
-    const eitherW = Either.try(over(lens, AddressLabelMap.deleteLabel(addressIdx)))(wallet)
-    return eitherW.getOrElse(wallet)
-  }
-)
+export const deleteHdAddressLabel = curry((accountIdx, addressIdx, derivationType, wallet) => {
+  const lens = compose(
+    hdWallets,
+    HDWalletList.hdwallet,
+    HDWallet.accounts,
+    HDAccountList.account(accountIdx),
+    HDAccount.derivations,
+    DerivationList.derivationOfType(derivationType),
+    Derivation.addressLabels
+  )
+  const eitherW = Either.try(over(lens, AddressLabelMap.deleteLabel(addressIdx)))(wallet)
+  return eitherW.getOrElse(wallet)
+})
 
 // setHdAddressLabel :: Number -> Number -> String -> Wallet -> Wallet
-export const setHdAddressLabel = curry(
-  // TODO: SEGWIT remove w/ DEPRECATED_V3: payloadV
-  (accountIdx, addressIdx, derivationType, label, payloadV, wallet) => {
-    if (payloadV < 4) {
-      return Wallet_DEPRECATED_V3.setHdAddressLabel(accountIdx, addressIdx, label, wallet)
-    }
-    const lens = compose(
-      hdWallets,
-      HDWalletList.hdwallet,
-      HDWallet.accounts,
-      HDAccountList.account(accountIdx),
-      HDAccount.derivations,
-      DerivationList.derivationOfType(derivationType),
-      Derivation.addressLabels
-    )
-    const eitherW = Either.try(over(lens, AddressLabelMap.setLabel(addressIdx, label)))(wallet)
-    return eitherW.getOrElse(wallet)
-  }
-)
+export const setHdAddressLabel = curry((accountIdx, addressIdx, derivationType, label, wallet) => {
+  const lens = compose(
+    hdWallets,
+    HDWalletList.hdwallet,
+    HDWallet.accounts,
+    HDAccountList.account(accountIdx),
+    HDAccount.derivations,
+    DerivationList.derivationOfType(derivationType),
+    Derivation.addressLabels
+  )
+  const eitherW = Either.try(over(lens, AddressLabelMap.setLabel(addressIdx, label)))(wallet)
+  return eitherW.getOrElse(wallet)
+})
 
 // setAccountLabel :: Number -> String -> Wallet -> Wallet
 export const setAccountLabel = curry((accountIdx, label, wallet) => {

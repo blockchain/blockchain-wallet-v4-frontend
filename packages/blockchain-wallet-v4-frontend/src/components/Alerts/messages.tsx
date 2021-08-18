@@ -203,6 +203,13 @@ const getAlertContent = (message, data = undefined) => {
           defaultMessage='Failed to deauthorize this browser.'
         />
       )
+    case C.DEVICE_MISMATCH:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.device_mismatch'
+          defaultMessage='Device mismatch.'
+        />
+      )
     case C.EMAIL_CODE_SENT_SUCCESS:
       return buildMessageTemplate(
         <FormattedMessage
@@ -445,6 +452,13 @@ const getAlertContent = (message, data = undefined) => {
         <FormattedMessage id='components.alerts.login_failed' defaultMessage='Login failed' />
       )
 
+    case C.MAGIC_LINK_PARSE_ERROR:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.message_parse_failed'
+          defaultMessage='Verification failed. Please use your Wallet ID to sign in.'
+        />
+      )
     case C.MESSAGE_SIGN_ERROR:
       return buildMessageTemplate(
         <FormattedMessage

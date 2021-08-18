@@ -1,16 +1,11 @@
-import { SupportedWalletCurrenciesType } from 'blockchain-wallet-v4/src/types'
-import { selectors } from 'data'
-
-export const getData = (state) => {
-  const coins = selectors.core.walletOptions
-    .getSupportedCoins(state)
-    .getOrElse({} as SupportedWalletCurrenciesType)
-
-  return Object.keys(coins).filter(
-    (value) =>
-      window.coins[value].coinfig.products.includes('PrivateKey') ||
-      window.coins[value].coinfig.products.includes('CustodialWalletBalance')
-  )
+export const getData = () => {
+  return Object.keys(window.coins).filter((value) => {
+    const { products, type } = window.coins[value].coinfig
+    return (
+      (products.includes('PrivateKey') || products.includes('CustodialWalletBalance')) &&
+      type.name !== 'FIAT'
+    )
+  })
 }
 
 export default getData

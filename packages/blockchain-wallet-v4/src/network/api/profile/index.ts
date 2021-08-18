@@ -9,6 +9,14 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
       url: rootUrl
     })
 
+  const getLocation = () =>
+    get({
+      contentType: 'application/json',
+      endPoint: '/geolocation',
+      ignoreQueryParams: true,
+      url: nabuUrl
+    })
+
   const createUser = (retailToken) => {
     return post({
       contentType: 'application/json',
@@ -107,6 +115,14 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
       url: nabuUrl
     })
 
+  const resetUserAccount = (userId, recoveryToken, retailToken) =>
+    post({
+      contentType: 'application/json',
+      data: { jwt: retailToken, recoveryToken },
+      endPoint: `/users/recovery/${userId}`,
+      url: nabuUrl
+    })
+
   const resetUserKyc = (userId, lifetimeToken, retailToken) =>
     post({
       contentType: 'application/json',
@@ -147,6 +163,14 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
       url: nabuUrl
     })
 
+  const setUserInitialAddress = (country: string, state?: string) =>
+    authorizedPut({
+      contentType: 'application/json',
+      data: { country, state },
+      endPoint: '/users/current/address/initial',
+      url: nabuUrl
+    })
+
   const updateUserAddress = (address) =>
     authorizedPut({
       contentType: 'application/json',
@@ -169,13 +193,16 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     finaliseLinking,
     generateRetailToken,
     generateSession,
+    getLocation,
     getPaymentsAccountExchange,
     getUser,
     getUserCampaigns,
     linkAccount,
     recoverUser,
     registerUserCampaign,
+    resetUserAccount,
     resetUserKyc,
+    setUserInitialAddress,
     shareWalletDepositAddresses,
     syncUserWithWallet,
     updateUser,

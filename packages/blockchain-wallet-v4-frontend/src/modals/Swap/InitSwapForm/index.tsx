@@ -12,7 +12,7 @@ import { CoinAccountListBalance } from 'components/Form'
 import IdvIntro from 'components/IdentityVerification/IdvIntro'
 import { selectors } from 'data'
 import { InitSwapFormValuesType, SwapAccountType, SwapCoinType } from 'data/components/swap/types'
-import checkAccountZeroBalance from 'services/CheckAccountZeroBalance'
+import { checkAccountZeroBalance } from '../model'
 
 import { Props as BaseProps, SuccessStateType } from '..'
 import {
@@ -27,7 +27,7 @@ import {
   TopText,
   TrendingIconRow
 } from '../components'
-import getData from './selectors'
+import { getData } from './selectors'
 
 const SuggestedTextCustomBorder = styled.span`
   width: 100%;
@@ -332,8 +332,8 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                       <Icon color='PAX' name='PAX' size='32px' />
                     </TrendingIconRow>
                     <div>
-                      <OptionTitle>Swap BTC</OptionTitle>
-                      <OptionValue>Receive USD Digital</OptionValue>
+                      <OptionTitle>Swap Bitcoin</OptionTitle>
+                      <OptionValue>Receive Paxos Standard</OptionValue>
                     </div>
                   </FlexStartRow>
                   <Icon name='chevron-right' size='20px' color='grey400' />

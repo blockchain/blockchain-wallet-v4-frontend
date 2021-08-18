@@ -1,5 +1,5 @@
 import * as AT from './actionTypes'
-import { AuthActionTypes } from './types'
+import { AuthActionTypes, WalletDataFromMagicLink } from './types'
 
 // LOGIN
 export const login = (guid, password, code, sharedKey, mobileLogin) => ({
@@ -46,17 +46,35 @@ export const mobileLoginStarted = () => ({ type: AT.MOBILE_LOGIN_START })
 export const mobileLoginFinish = () => ({ type: AT.MOBILE_LOGIN_FINISH })
 
 // REGISTER
-export const register = (email, password, language) => ({
-  payload: { email, language, password },
+export const register = (
+  email: string,
+  password: string,
+  language: string,
+  country?: string,
+  state?: string
+) => ({
+  payload: { country, email, language, password, state },
   type: AT.REGISTER
 })
 export const registerLoading = () => ({ type: AT.REGISTER_LOADING })
 export const registerSuccess = () => ({ type: AT.REGISTER_SUCCESS })
 export const registerFailure = () => ({ type: AT.REGISTER_FAILURE })
 
+// RESET ACCOUNT (ASSIGN NABU ACCOUNT TO NEW WALLET)
+export const resetAccount = (email, password, language) => ({
+  payload: { email, language, password },
+  type: AT.RESET_ACCOUNT
+})
+export const resetAccountLoading = () => ({ type: AT.RESET_ACCOUNT_LOADING })
+export const resetAccountSuccess = () => ({ type: AT.RESET_ACCOUNT_SUCCESS })
+export const resetAccountFailure = () => ({ type: AT.RESET_ACCOUNT_FAILURE })
+export const setResetAccount = (resetAccount) => ({
+  payload: { resetAccount },
+  type: AT.SET_RESET_ACCOUNT
+})
 // 2FA
-export const resendSmsCode = (guid) => ({
-  payload: { guid },
+export const resendSmsCode = (guid, email) => ({
+  payload: { email, guid },
   type: AT.RESEND_SMS_CODE
 })
 
@@ -104,6 +122,11 @@ export const secureChannelLoginFailure = (err) => ({
 // LOGIN
 export const clearLoginError = () => ({
   type: AT.CLEAR_LOGIN_ERROR
+})
+
+export const setMagicLinkInfo = (magicLinkInfo: WalletDataFromMagicLink): AuthActionTypes => ({
+  payload: { magicLinkInfo },
+  type: AT.SET_MAGIC_LINK_INFO
 })
 
 // INITIALIZE LOGIN
@@ -167,4 +190,11 @@ export const logWrongReceiveCache = () => ({
 export const setKycResetStatus = (kycResetStatus) => ({
   payload: { kycResetStatus },
   type: AT.SET_KYC_RESET
+})
+export const getUserGeoLocation = () => ({
+  type: AT.GET_USER_GEO_LOCATION
+})
+export const setUserGeoLocation = (userGeoData) => ({
+  payload: { userGeoData },
+  type: AT.SET_USER_GEO_LOCATION
 })

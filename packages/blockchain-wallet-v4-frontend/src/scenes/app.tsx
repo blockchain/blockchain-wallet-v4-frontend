@@ -10,6 +10,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { v4 as uuidv4 } from 'uuid'
 
 import SiftScience from 'components/SiftScience'
+import SupportChat from 'components/SupportChat'
 import { selectors } from 'data'
 import { UserDataType } from 'data/types'
 import PublicLayout from 'layouts/Public'
@@ -29,7 +30,8 @@ const Login = React.lazy(() => import('./Login'))
 const Logout = React.lazy(() => import('./Logout'))
 const MobileLogin = React.lazy(() => import('./MobileLogin'))
 const RecoverWallet = React.lazy(() => import('./RecoverWallet'))
-const Register = React.lazy(() => import('./Register'))
+const RecoverWalletLegacy = React.lazy(() => import('./RecoverWalletLegacy'))
+const Signup = React.lazy(() => import('./Signup'))
 const ResetWallet2fa = React.lazy(() => import('./ResetWallet2fa'))
 const ResetWallet2faToken = React.lazy(() => import('./ResetWallet2faToken'))
 const UploadDocuments = React.lazy(() => import('./UploadDocuments'))
@@ -55,6 +57,7 @@ const App = ({
   coinsWithMethodAndOrder,
   history,
   isAuthenticated,
+  legacyWalletRecoveryEnabled,
   persistor,
   store,
   userData
@@ -83,10 +86,13 @@ const App = ({
                     <PublicLayout path='/login' component={Login} />
                     <PublicLayout path='/logout' component={Logout} />
                     <PublicLayout path='/mobile-login' component={MobileLogin} />
-                    <PublicLayout path='/recover' component={RecoverWallet} />
+                    <PublicLayout
+                      path='/recover'
+                      component={legacyWalletRecoveryEnabled ? RecoverWalletLegacy : RecoverWallet}
+                    />
                     <PublicLayout path='/reset-2fa' component={ResetWallet2fa} />
                     <PublicLayout path='/reset-two-factor' component={ResetWallet2faToken} />
-                    <PublicLayout path='/signup' component={Register} />
+                    <PublicLayout path='/signup' component={Signup} />
                     <PublicLayout path='/verify-email' component={VerifyEmailToken} />
                     <PublicLayout
                       path='/upload-document/success'
@@ -125,6 +131,7 @@ const App = ({
                   </Switch>
                 </Suspense>
               </ConnectedRouter>
+              {isAuthenticated && <SupportChat />}
               <SiftScience userId={userData.id} />
               <AnalyticsTracker />
             </MediaContextProvider>
@@ -140,6 +147,9 @@ const mapStateToProps = (state) => ({
     .getCoinsWithMethodAndOrder(state)
     .getOrElse([]),
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
+  legacyWalletRecoveryEnabled: selectors.core.walletOptions
+    .getFeatureLegacyWalletRecovery(state)
+    .getOrElse(false) as boolean,
   userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType)
 })
 

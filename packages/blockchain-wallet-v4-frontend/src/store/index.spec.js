@@ -48,17 +48,85 @@ describe('App Store Config', () => {
     domains: { api: 'MOCK_API', root: 'MOCK_ROOT', webSocket: 'MOCK_SOCKET' },
     platforms: {
       web: {
-        coins: {
-          BTC: { config: { network: 'bitcoin' } },
-          ETH: { config: { network: 1 } },
-          XLM: { config: { network: 'public' } }
-        },
         erc20s: ['AAVE', 'PAX', 'USDC', 'USDT', 'WDGLD', 'YFI']
       }
     }
   }
-  const fakeCurrencies = {
+  const fakeCustodials = {
     currencies: [
+      {
+        name: 'Algorand',
+        precision: 6,
+        products: ['MercuryDeposits', 'MercuryWithdrawals', 'CustodialWalletBalance'],
+        symbol: 'ALGO',
+        type: {
+          logoPngUrl:
+            'https://raw.githubusercontent.com/blockchain/coin-definitions/master/extensions/blockchains/algorand/info/logo.png',
+          minimumOnChainConfirmations: 1,
+          name: 'COIN'
+        }
+      },
+      {
+        name: 'Cosmos',
+        precision: 6,
+        products: [],
+        symbol: 'ATOM',
+        type: {
+          logoPngUrl:
+            'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/cosmos/info/logo.png',
+          minimumOnChainConfirmations: 0,
+          name: 'COIN'
+        }
+      },
+      {
+        name: 'Balancer',
+        precision: 18,
+        products: ['PrivateKey'],
+        symbol: 'BAL',
+        type: {
+          erc20Address: '0xba100000625a3754423978a60c9317c58a424e3D',
+          logoPngUrl:
+            'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xba100000625a3754423978a60c9317c58a424e3D/logo.png',
+          name: 'ERC20',
+          parentChain: 'ETH',
+          websiteUrl: 'https://balancer.finance'
+        }
+      },
+      {
+        name: 'Dogecoin',
+        precision: 8,
+        products: [
+          'MercuryDeposits',
+          'MercuryWithdrawals',
+          'InterestBalance',
+          'CustodialWalletBalance'
+        ],
+        symbol: 'DOGE',
+        type: {
+          logoPngUrl:
+            'https://raw.githubusercontent.com/blockchain/coin-definitions/master/extensions/blockchains/doge/info/logo.png',
+          minimumOnChainConfirmations: 40,
+          name: 'COIN'
+        }
+      },
+      {
+        name: 'Stellar Lumen',
+        precision: 7,
+        products: [
+          'MercuryDeposits',
+          'MercuryWithdrawals',
+          'InterestBalance',
+          'CustodialWalletBalance',
+          'PrivateKey'
+        ],
+        symbol: 'XLM',
+        type: {
+          logoPngUrl:
+            'https://raw.githubusercontent.com/blockchain/coin-definitions/master/extensions/blockchains/stellar/info/logo.png',
+          minimumOnChainConfirmations: 1,
+          name: 'COIN'
+        }
+      },
       {
         name: 'Aave',
         precision: 18,
@@ -131,12 +199,7 @@ describe('App Store Config', () => {
     // setup fetch mock
     fetch.resetMocks()
     fetch.mockResponseOnce(JSON.stringify(fakeWalletOptions))
-    fetch.mockImplementation((url) => {
-      if (url === `${fakeWalletOptions.domains.api}/assets/currencies/erc20`) {
-        return Promise.resolve({ json: () => fakeCurrencies })
-      }
-      return Promise.resolve(new Response(JSON.stringify({})))
-    })
+    fetch.mockResponseOnce(JSON.stringify(fakeCustodials))
 
     // setup spies
     composeSpy = jest.spyOn(Redux, 'compose').mockImplementation(jest.fn())
@@ -156,9 +219,9 @@ describe('App Store Config', () => {
     // wallet options
     expect(fetch.mock.calls).toHaveLength(2)
     expect(fetch.mock.calls[0][0]).toEqual('/wallet-options-v4.json')
-    // erc coins
+    // custodial and erc20 coins
     expect(fetch.mock.calls[1][0]).toEqual(
-      `${fakeWalletOptions.domains.api}/assets/currencies/erc20`
+      `${fakeWalletOptions.domains.api}/assets/currencies/custodial`
     )
     // socket registration
     expect(Socket.mock.calls).toHaveLength(1)

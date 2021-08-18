@@ -26,7 +26,7 @@ const CheckEmail = (props: Props) => {
     <>
       <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} />
       <FormBody>
-        <CircleBackground>
+        <CircleBackground color='blue600'>
           <Icon name='computer' color='white' size='24px' />
         </CircleBackground>
         <Text color='grey900' size='20px' weight={600} lineHeight='1.5'>
@@ -41,7 +41,7 @@ const CheckEmail = (props: Props) => {
         >
           <FormattedMessage
             id='scenes.login.checkemail'
-            defaultMessage='If you have an account registered with this email address, you will receive an email with a link to verify your device.'
+            defaultMessage='If you have an account registered with this email address, you will receive an email with a link to verify your device. <b>Open the link in this browser window.</b>'
           />
         </Text>
       </FormBody>

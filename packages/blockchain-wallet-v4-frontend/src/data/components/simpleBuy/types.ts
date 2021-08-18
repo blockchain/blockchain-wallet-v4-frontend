@@ -59,7 +59,7 @@ export type SBCheckoutFormValuesType =
       cryptoAmount: string
       fix: SBFixType
       orderType: SBOrderActionType
-      period: RecurringBuyPeriods
+      period?: RecurringBuyPeriods
     }
 export type SBCurrencySelectFormType = {
   search: string
@@ -84,6 +84,7 @@ export enum SimpleBuyStepType {
   'SELL_ORDER_SUMMARY',
   'TRANSFER_DETAILS',
   'UPGRADE_TO_GOLD',
+  'FREQUENCY',
   'VERIFY_EMAIL'
 }
 export type SBShowModalOriginType =
@@ -91,6 +92,7 @@ export type SBShowModalOriginType =
   | 'PendingOrder'
   | 'PriceChart'
   | 'InterestPage'
+  | 'RecurringBuyPromo'
   | 'SellEmpty'
   | 'SettingsGeneral'
   | 'SettingsProfile'
@@ -431,7 +433,13 @@ export type StepActionsPayload =
       step: 'PREVIEW_SELL'
     }
   | {
-      step: 'ADD_CARD' | 'CC_BILLING_ADDRESS' | 'KYC_REQUIRED' | 'UPGRADE_TO_GOLD' | 'LOADING'
+      step:
+        | 'ADD_CARD'
+        | 'CC_BILLING_ADDRESS'
+        | 'KYC_REQUIRED'
+        | 'UPGRADE_TO_GOLD'
+        | 'LOADING'
+        | 'FREQUENCY'
     }
 
 interface SetStepAction {

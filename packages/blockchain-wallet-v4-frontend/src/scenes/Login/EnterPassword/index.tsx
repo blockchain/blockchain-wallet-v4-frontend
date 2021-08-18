@@ -6,6 +6,7 @@ import { Field } from 'redux-form'
 import { Banner, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import { FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
 import { LoginSteps } from 'data/types'
+import { isBrowserSupported } from 'services/browser'
 import { required } from 'services/forms'
 
 import { Props } from '..'
@@ -13,15 +14,17 @@ import {
   ActionButton,
   BackArrowFormHeader,
   BrowserWarning,
-  isSupportedBrowser,
-  LinkRow,
+  CenteredColumn,
   LOGIN_FORM_NAME,
   NeedHelpLink,
-  removeWhitespace
+  removeWhitespace,
+  Row
 } from '../model'
 
+const isSupportedBrowser = isBrowserSupported()
+
 const EnterPassword = (props: Props) => {
-  const { authType, busy, guid, invalid, loginError, password, submitting } = props
+  const { authType, busy, formValues, guid, invalid, loginError, password, submitting } = props
   const passwordError = loginError && loginError.toLowerCase().includes('wrong_wallet_password')
   const accountLocked =
     loginError &&
@@ -30,7 +33,7 @@ const EnterPassword = (props: Props) => {
 
   const twoFactorError = loginError && loginError.toLowerCase().includes('authentication code')
   const handleSmsResend = () => {
-    props.authActions.resendSmsCode(guid)
+    props.authActions.resendSmsCode(guid, formValues?.email)
   }
 
   const handleBackArrowClick = () => {
@@ -128,9 +131,22 @@ const EnterPassword = (props: Props) => {
               <FormError position='absolute'>{loginError?.split('.')[0]}.</FormError>
             )}
           </FormItem>
+          <Row style={{ marginTop: '16px' }}>
+            <Text size='14px' weight={600} color='grey600' style={{ marginRight: '4px' }}>
+              <FormattedMessage
+                id='scenes.logins.twofa.lost'
+                defaultMessage='Lost access to your 2FA device?'
+              />
+            </Text>
+            <LinkContainer to='/reset-2fa'>
+              <Link size='14px' weight={600} data-e2e='reset2fa'>
+                <FormattedMessage id='copy.reset_now' defaultMessage='Reset Now' />
+              </Link>
+            </LinkContainer>
+          </Row>
         </FormGroup>
       )}
-      <LinkRow>
+      <CenteredColumn>
         <ActionButton
           type='submit'
           nature='primary'
@@ -149,7 +165,7 @@ const EnterPassword = (props: Props) => {
           )}
         </ActionButton>
         <NeedHelpLink />
-      </LinkRow>
+      </CenteredColumn>
     </>
   )
 }

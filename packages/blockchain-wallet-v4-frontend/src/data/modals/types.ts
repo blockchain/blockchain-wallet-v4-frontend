@@ -41,6 +41,7 @@ export enum ModalName {
   RECURRING_BUYS_MODAL = 'RECURRING_BUYS_MODAL',
   REMOVE_BANK_MODAL = 'REMOVE_BANK_MODAL',
   REQUEST_CRYPTO_MODAL = 'REQUEST_CRYPTO_MODAL',
+  RESET_ACCOUNT_FAILED = 'RESET_ACCOUNT_FAILED',
   SECOND_PASSWORD_MODAL = 'SECOND_PASSWORD_MODAL',
   SEND_BCH_MODAL = 'SEND_BCH_MODAL',
   SEND_BTC_MODAL = 'SEND_BTC_MODAL',
@@ -94,8 +95,10 @@ export type ModalOriginType =
   | 'PendingOrder'
   | 'PriceChart'
   | 'Request'
+  | 'ResetAccount'
   | 'RetrySendEth'
   | 'RecurringBuys'
+  | 'RecurringBuyPromo'
   | 'RunKycGoal'
   | 'SBEnterAmountCheckout'
   | 'SBPaymentMethodSelection'
@@ -112,6 +115,7 @@ export type ModalOriginType =
   | 'SideNav'
   | 'SimpleBuyLink'
   | 'SimpleBuyStatus'
+  | 'SimpleBuyOrderSummary'
   | 'Swap'
   | 'SwapPrompt'
   | 'SwapLimitPrompt'

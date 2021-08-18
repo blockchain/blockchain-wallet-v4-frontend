@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import { map, toLower } from 'ramda'
-import styled from 'styled-components'
+import styled, { DefaultTheme } from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 import { CoinfigType, CoinType } from 'core/types'
@@ -36,7 +36,11 @@ const Success: React.FC<Props> = ({ coinList }) => {
             activeClassName='active'
             key={coinfig.symbol}
           >
-            <MenuItem data-e2e={`${toLower(coinfig.symbol)}Link`} className='coin'>
+            <MenuItem
+              data-e2e={`${toLower(coinfig.symbol)}Link`}
+              colorCode={coinfig.symbol as keyof DefaultTheme}
+              className='coin'
+            >
               <CoinIcon className='coin-icon' name={coinfig.symbol as CoinType} size='24px' />
               <Destination>{coinfig.name}</Destination>
             </MenuItem>

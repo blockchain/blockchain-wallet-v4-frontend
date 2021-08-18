@@ -1,6 +1,7 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { CardNameType } from 'components/Form/CreditCardBox/model'
 import { BeneficiaryType, CoinType, FiatType, WalletCurrencyType } from 'core/types'
-import { BankDetails, RecurringBuyPeriods } from 'data/types'
+import { BankDetails, RecurringBuyFailureReasons, RecurringBuyPeriods } from 'data/types'
 
 export type Everypay3DSResponseType = {
   payment_state: null | 'waiting_for_3DS_response'
@@ -178,6 +179,7 @@ export type ISBBuyOrderType = {
     qrcodeUrl?: string
   }
   expiresAt: string
+  failureReason?: RecurringBuyFailureReasons
   fee?: string
   id: string
   inputQuantity: string
@@ -187,6 +189,7 @@ export type ISBBuyOrderType = {
   paymentType?: SBPaymentMethodType['type']
   period?: RecurringBuyPeriods
   price?: string
+  recurringBuyId?: string
   side: SBOrderActionType
   state: SBOrderStateType
   updatedAt: string

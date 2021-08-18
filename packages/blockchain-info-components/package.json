@@ -16,7 +16,7 @@
     "deploy-storybook": "storybook-to-ghpages",
     "publish": "rm -rf lib && npx babel --out-dir lib --ignore spec.js --copy-files src",
     "storybook:build": "build-storybook",
-    "storybook:serve": "start-storybook -p 6006",
+    "storybook:serve": "start-storybook -p 6007",
     "storybook:deploy": "yarn deploy-storybook --existing-output-dir=./storybook-static",
     "test": "cross-env ./../../node_modules/.bin/jest --silent",
     "test:build": "cross-env rimraf lib && npx babel --out-dir lib --ignore spec.js --copy-files src",
@@ -60,6 +60,7 @@
   "dependencies": {
     "@babel/polyfill": "7.12.1",
     "@storybook/cli": "6.2.9",
+    "moment": "2.29.1",
     "polished": "4.1.1",
     "prop-types": "15.7.2",
     "ramda": "0.26.1",

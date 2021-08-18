@@ -17,7 +17,7 @@ import {
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import { FiatType, OrderType, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
 import { ErrorCartridge } from 'components/Cartridge'
-import { FlyoutWrapper, Row } from 'components/Flyout'
+import { FlyoutWrapper, getPeriodSubTitleText, getPeriodTitleText, Row } from 'components/Flyout'
 import { Form } from 'components/Form'
 import {
   getBaseAmount,
@@ -27,7 +27,7 @@ import {
   getOrderType,
   getPaymentMethodId
 } from 'data/components/simpleBuy/model'
-import { BankPartners, BankTransferAccountType } from 'data/types'
+import { BankPartners, BankTransferAccountType, RecurringBuyPeriods } from 'data/types'
 
 import { displayFiat, getPaymentMethod, getPaymentMethodDetails } from '../model'
 import { Props as OwnProps, SuccessStateType } from '.'
@@ -284,6 +284,22 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
           )}
         </RowItemContainer>
       </RowItem>
+
+      {props.formValues?.period && (
+        <RowItem>
+          <RowText>
+            <FormattedMessage id='copy.frequency' defaultMessage='Frequency' />
+          </RowText>
+          <RowText>
+            <RowTextWrapper>
+              {getPeriodTitleText(props.formValues?.period || RecurringBuyPeriods.ONE_TIME)}
+              <AdditionalText>
+                {getPeriodSubTitleText(props.formValues?.period || RecurringBuyPeriods.ONE_TIME)}
+              </AdditionalText>
+            </RowTextWrapper>
+          </RowText>
+        </RowItem>
+      )}
 
       <RowItem>
         <RowText>
