@@ -78,9 +78,7 @@ export const PhishingWarning = styled.div`
   background-color: ${(props) => props.theme.whiteFade100};
   padding: 12px 32px;
 `
-export const ExchangeLoginRow = styled(Row)`
-  margin: 8px 0 32px;
-`
+
 export const BackArrowFormHeader = (props: {
   formValues: LoginFormType
   handleBackArrowClick: () => void
@@ -153,19 +151,35 @@ export const NeedHelpLink = () => (
   </LinkContainer>
 )
 
-export const ExchangeLogin = () => (
-  <Link data-e2e='exchangeLinkLogin' href='https://exchange.blockchain.com/trade/login'>
-    <ExchangeLoginRow>
-      <Text size='16px' color='grey400' weight={500} lineHeight='1.5'>
-        <FormattedMessage
-          id='scenes.login.wallet.exchange'
-          defaultMessage='Looking for the Exchange?'
-        />
-      </Text>
-      &nbsp;
-      <Text size='16px' color='white' weight={600} lineHeight='1.5'>
-        <FormattedMessage id='scenes.login.wallet.exchange_login' defaultMessage='Log In ->' />
-      </Text>
-    </ExchangeLoginRow>
-  </Link>
-)
+const SubCard = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 8px 0 32px;
+`
+const SignUpText = styled(Text)`
+  &:hover {
+    color: ${(props) => props.theme.white};
+    font-weight: 600;
+  }
+`
+
+export const CreateAccount = () => {
+  return (
+    <LinkContainer data-e2e='signupLink' to='/signup'>
+      <Link>
+        <SubCard>
+          <Text size='16px' color='grey400' weight={500}>
+            <FormattedMessage
+              id='scenes.login.account_signup'
+              defaultMessage="Don't have a Blockchain Account?"
+            />
+          </Text>
+          &nbsp;
+          <SignUpText size='16px' color='white' weight={600}>
+            <FormattedMessage id='buttons.signup_now' defaultMessage='Sign up Now ->' />
+          </SignUpText>
+        </SubCard>
+      </Link>
+    </LinkContainer>
+  )
+}
