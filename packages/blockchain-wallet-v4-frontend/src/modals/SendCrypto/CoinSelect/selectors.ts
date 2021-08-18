@@ -18,7 +18,7 @@ export const getData = createDeepEqualSelector(
     (state, ownProps) => ({ ownProps, state })
   ],
   (accounts, { ownProps }) => {
-    const { selectedCoin } = ownProps?.formValues || {}
+    const { coin: selectedCoin } = ownProps?.formValues || {}
     const prunedAccounts = [] as Array<SwapAccountType>
 
     // @ts-ignore

@@ -9,6 +9,7 @@ import {
 
 // state
 export type SendCryptoState = {
+  initialCoin?: string
   step: SendCryptoStepType
   transaction: RemoteDataType<string, WithdrawResponseType>
   transactionDetails: RemoteDataType<string, SBTransactionType>

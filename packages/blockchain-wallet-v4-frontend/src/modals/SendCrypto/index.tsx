@@ -88,6 +88,10 @@ class SendCrypto extends PureComponent<Props, State> {
 const mapStateToProps = (state: RootState) => ({
   formErrors: selectors.form.getFormSyncErrors(SEND_FORM)(state),
   formValues: selectors.form.getFormValues(SEND_FORM)(state) as SendFormType,
+  initialValues: {
+    coin: state.components.sendCrypto.initialCoin,
+    fix: 'CRYPTO'
+  },
   sendableCoins: getData(),
   step: selectors.components.sendCrypto.getStep(state),
   walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
@@ -106,10 +110,8 @@ const enhance = compose<any>(
   connector,
   reduxForm({
     destroyOnUnmount: false,
-    form: SEND_FORM,
-    initialValues: {
-      fix: 'CRYPTO'
-    }
+    enableReinitialize: true,
+    form: SEND_FORM
   })
 )
 

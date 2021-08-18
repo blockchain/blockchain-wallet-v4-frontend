@@ -42,7 +42,9 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  // TODO: remove when all tokens moved to sendCrypto
+  // TODO: remove when all tokens are moved to sendCrypto
+  // This switches between the flyout and the old modal
+  // depending on the crypto you're sending.
   const onFormChange = function* (action: {
     meta: { field: string; form: string }
     payload: string
@@ -53,6 +55,9 @@ export default ({ api }: { api: APIType }) => {
     if (form.includes('SEND') && field === 'coin') {
       yield put(actions.modals.closeAllModals())
       if (selectors.core.data.coins.getCoins().includes(payload)) {
+        // must come before show modal
+        yield put(A.setInitialCoin(payload))
+        // must come after setInitialCoin
         yield put(actions.modals.showModal(ModalName.SEND_CRYPTO_MODAL, { origin: 'Send' }))
       } else {
         const coin = window.coins[payload].coinfig.type.erc20Address ? 'ETH' : payload

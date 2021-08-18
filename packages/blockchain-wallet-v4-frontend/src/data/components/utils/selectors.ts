@@ -13,7 +13,7 @@ import { RootState } from 'data/rootReducer'
 import { getOutputFromPair } from '../swap/model'
 
 // eslint-disable-next-line import/prefer-default-export
-export const getCoinsWithMethodAndOrder = (state: RootState) => {
+export const getCoinsWithBalanceOrMethod = (state: RootState) => {
   const sbMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(state)
   // TODO, check all custodial features
   const sbBalancesR = selectors.components.simpleBuy.getSBBalances(state)
@@ -70,4 +70,4 @@ export const getCoinsWithMethodAndOrder = (state: RootState) => {
   return lift(transform)(sbMethodsR, sbBalancesR, erc20sR)
 }
 
-export default getCoinsWithMethodAndOrder
+export default getCoinsWithBalanceOrMethod

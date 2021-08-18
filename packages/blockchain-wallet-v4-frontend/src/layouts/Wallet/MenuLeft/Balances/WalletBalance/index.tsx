@@ -11,6 +11,7 @@ class WalletBalanceContainer extends React.PureComponent<Props> {
   render() {
     const { coins, preferencesActions, totalBalancesDropdown } = this.props
     // @ts-ignore
+    console.log('coins', coins)
     const isActive = prop('wallet', totalBalancesDropdown)
     return (
       <Template
@@ -29,7 +30,7 @@ class WalletBalanceContainer extends React.PureComponent<Props> {
 
 const mapStateToProps = (state) => ({
   coins: selectors.components.utils
-    .getCoinsWithMethodAndOrder(state)
+    .getCoinsWithBalanceOrMethod(state)
     // @ts-ignore
     .getOrElse({}),
   totalBalancesDropdown: selectors.preferences.getTotalBalancesDropdown(state)

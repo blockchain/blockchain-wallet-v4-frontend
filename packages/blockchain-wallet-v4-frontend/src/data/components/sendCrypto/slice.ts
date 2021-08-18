@@ -3,8 +3,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
 import {
-  ProductTypes,
-  SBTransactionType,
+  // ProductTypes,
+  // SBTransactionType,
   WithdrawalLockResponseType,
   WithdrawalMinsAndFeesResponse,
   WithdrawResponseType
@@ -13,6 +13,7 @@ import {
 import { SendCryptoState, SendCryptoStepPayload, SendCryptoStepType } from './types'
 
 const initialState: SendCryptoState = {
+  initialCoin: undefined,
   step: SendCryptoStepType.COIN_SELECTION,
   transaction: Remote.NotAsked,
   transactionDetails: Remote.NotAsked,
@@ -56,6 +57,9 @@ const sendCryptoSlice = createSlice({
     },
     fetchWithdrawalLocksSuccess: (state, action: PayloadAction<WithdrawalLockResponseType>) => {
       state.withdrawLocks = Remote.Success(action.payload)
+    },
+    setInitialCoin: (state, action: PayloadAction<string>) => {
+      state.initialCoin = action.payload
     },
     setStep: (state, action: PayloadAction<SendCryptoStepPayload>) => {
       state.step = action.payload.step
