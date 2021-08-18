@@ -69,9 +69,14 @@ export const getData = createDeepEqualSelector(
         }, coins)
       )
 
+      // balances
+      // eslint-disable-next-line
+      console.log(Object.keys(balances))
       // returns all coins with balances as a list
       const cryptoList = map(
-        (coin) => coins.find((c) => c.coinfig.symbol === coin),
+        (coin) => {
+          return coins.find((c) => c.coinfig?.symbol === coin)
+        },
         reject(
           not,
           map((x) => last(x) !== '0' && head(x), toPairs(balances))
@@ -91,7 +96,9 @@ export const getData = createDeepEqualSelector(
         .map((coin) => window.coins[coin].coinfig)
 
       // list of coins with balance and then coins w/ no balance but swaps
-      return [...coinsWithBalance, ...coinsWithoutBalanceToTrack].sort(coinSort) as CoinfigType[]
+      return [...coinsWithBalance, ...coinsWithoutBalanceToTrack]
+        .sort(coinSort)
+        .filter(Boolean) as CoinfigType[]
     }
 
     return lift(transform)(coinsR)
