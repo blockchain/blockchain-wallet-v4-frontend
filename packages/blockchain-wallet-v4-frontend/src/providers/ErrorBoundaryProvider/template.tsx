@@ -20,9 +20,9 @@ const TitleGroup = styled(TextGroup)`
   justify-content: center;
   align-items: center;
 `
-const ErrorDetails = styled.details`
-  margin-top: 20px;
-  white-space: pre-wrap;
+const ErrorDetails = styled.div`
+  margin-top: 8px;
+  white-space: pre-line;
   max-height: 350px;
   overflow: scroll;
   ::-webkit-scrollbar {
@@ -38,25 +38,15 @@ const ErrorDetails = styled.details`
   }
 `
 
-const ErrorBoundary = props => {
-  const { error, errorInfo, onSubmit, position, total } = props
+const ErrorBoundary = (props: { error: TypeError; onSubmit: any }) => {
+  const { error, onSubmit } = props
 
   return (
-    <Modal
-      size='large'
-      style={{ zIndex: 999 }}
-      position={position}
-      total={total}
-    >
+    <Modal size='large' style={{ zIndex: 999 }}>
       <ModalHeader closeButton={false}>
         <TitleGroup inline>
           <Icon name='alert-filled' size='28px' color='blue900' />
-          <Text
-            weight={400}
-            size={'22px'}
-            color='blue900'
-            style={{ paddingLeft: '8px' }}
-          >
+          <Text weight={400} size='22px' color='blue900' style={{ paddingLeft: '8px' }}>
             <FormattedMessage
               id='modal.errorboundary.title'
               defaultMessage="Oops! Something's not right here"
@@ -66,20 +56,18 @@ const ErrorBoundary = props => {
       </ModalHeader>
       <ModalBody>
         <TextGroup>
-          <Text weight={400} size={'14px'} color='grey700'>
+          <Text weight={400} size='14px' color='grey700'>
             <FormattedMessage
               id='modal.errorboundary.message'
               defaultMessage="We're sorry, but it seems like something is not quite right. Please try again or contact support if the problem persists."
             />
           </Text>
         </TextGroup>
-        <Text weight={400} size={'14px'}>
-          <ErrorDetails>
-            <summary>Error Details</summary>
-            {error && error.toString()}
-            <br />
-            {errorInfo.componentStack}
-          </ErrorDetails>
+        <Text weight={600} size='16px' color='red600'>
+          Error Details:
+        </Text>
+        <Text weight={400} size='14px'>
+          <ErrorDetails>{error && error.stack}</ErrorDetails>
         </Text>
       </ModalBody>
       <ModalFooter align='right'>
