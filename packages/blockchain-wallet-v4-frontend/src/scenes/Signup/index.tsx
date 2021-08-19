@@ -61,13 +61,13 @@ class SignupContainer extends React.PureComponent<
   }
 
   render() {
-    const { goals, isLoadingR, isSignupCountry, userGeoData } = this.props
+    const { goals, isLoadingR, signupCountryEnabled, userGeoData } = this.props
     const isFormSubmitting = Remote.Loading.is(isLoadingR)
 
     // pull email from simple buy goal if it exists
     const email = pathOr('', ['data', 'email'], find(propEq('name', 'simpleBuy'), goals))
     const signupInitialValues = (email ? { email } : {}) as SignupFormInitValuesType
-    if (userGeoData?.countryCode && isSignupCountry) {
+    if (userGeoData?.countryCode && signupCountryEnabled) {
       signupInitialValues.country = userGeoData.countryCode
     }
     const isLinkAccountGoal = !!find(propEq('name', 'linkAccount'), goals)
@@ -77,11 +77,11 @@ class SignupContainer extends React.PureComponent<
       initialValues: signupInitialValues,
       isFormSubmitting,
       isLinkAccountGoal,
-      isSignupCountry,
       onCountrySelect: this.onCountryChange,
       onSignupSubmit: this.onSubmit,
       showForm: this.state.showForm,
       showState: this.state.showState,
+      signupCountryEnabled,
       toggleSignupFormVisibility: this.toggleSignupFormVisibility,
       ...this.props
     }
@@ -100,11 +100,11 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   formValues: selectors.form.getFormValues(SIGNUP_FORM)(state) as SignupFormType,
   goals: selectors.goals.getGoals(state) as GoalDataType,
   isLoadingR: selectors.auth.getRegistering(state) as RemoteDataType<string, undefined>,
-  isSignupCountry: selectors.core.walletOptions
-    .getFeatureSignupCountry(state)
-    .getOrElse(false) as boolean,
   language: selectors.preferences.getLanguage(state),
   search: selectors.router.getSearch(state) as string,
+  signupCountryEnabled: selectors.core.walletOptions
+    .getFeatureSignupCountry(state)
+    .getOrElse(false) as boolean,
   userGeoData: selectors.auth.getUserGeoData(state) as GeoLocationType
 })
 
@@ -121,9 +121,9 @@ type LinkStatePropsType = {
   formValues: SignupFormType
   goals: GoalDataType
   isLoadingR: RemoteDataType<string, undefined>
-  isSignupCountry: boolean
   language: string
   search: string
+  signupCountryEnabled: boolean
   userGeoData: GeoLocationType
 }
 type StateProps = {

@@ -74,10 +74,10 @@ const SignupForm = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) =
     formValues,
     invalid,
     isFormSubmitting,
-    isSignupCountry,
     onCountrySelect,
     onSignupSubmit,
-    showState
+    showState,
+    signupCountryEnabled
   } = props
   const { password = '' } = formValues || {}
   const passwordScore = window.zxcvbn ? window.zxcvbn(password).score : 0
@@ -171,7 +171,7 @@ const SignupForm = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) =
           />
         </FormItem>
       </FormGroup>
-      {isSignupCountry && (
+      {signupCountryEnabled && (
         <FormGroup>
           <FieldWithoutBottomRadius setBorder={showState}>
             <FormLabel htmlFor='country' id='country'>
