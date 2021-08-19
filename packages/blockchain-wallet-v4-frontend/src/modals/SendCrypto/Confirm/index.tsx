@@ -191,7 +191,7 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           nature='light-red'
           jumbo
           fullwidth
-          onClick={props.close}
+          onClick={() => props.close()}
         >
           <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
         </Button>

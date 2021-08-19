@@ -114,6 +114,7 @@ type MessagesType = {
   'components.alerts.currency_update_success': 'Currency has been successfully updated'
   'components.alerts.deauthorize_browser_error': 'Failed to deauthorize this browser.'
   'components.alerts.deauthorize_browser_success': 'Browser was successfully deauthorized.'
+  'components.alerts.device_mismatch': 'Device mismatch.'
   'components.alerts.document_upload_error': 'Failed to upload document.'
   'components.alerts.email_code_sent_success': 'Confirmation code has been sent.'
   'components.alerts.email_update_error': 'Failed to update email address.'
@@ -1232,11 +1233,11 @@ type MessagesType = {
   'modals.recurringbuys.notification.page_2.title': 'The strategy is pretty simple'
   'modals.recurringbuys.notification.page_2.description': 'Invest the same amount every week'
 
-  'modals.recurringbuys.notification.page_3.title': 'When the price goes down,'
-  'modals.recurringbuys.notification.page_3.description': 'You’ll buy more crypto.'
+  'modals.recurringbuys.notification.page_3.title': 'When the price goes down'
+  'modals.recurringbuys.notification.page_3.description': 'You’ll buy more crypto'
 
-  'modals.recurringbuys.notification.page_4.title': 'When the price goes up,'
-  'modals.recurringbuys.notification.page_4.description': 'You’ll buy less.'
+  'modals.recurringbuys.notification.page_4.title': 'When the price goes up'
+  'modals.recurringbuys.notification.page_4.description': 'You’ll buy less'
 
   'modals.recurringbuys.notification.page_5.title': 'But does it work?'
   'modals.recurringbuys.notification.page_5.description': 'Over the past 5 years, buying Bitcoin every week performed better than timing the market'
@@ -1648,6 +1649,7 @@ type MessagesType = {
   'modals.simplebuy.transactionfeed.canceled': '{type} Canceled'
   'modals.simplebuy.transactionfeed.complete': '{type} Completed'
   'modals.simplebuy.transactionfeed.failed': '{type} Failed'
+  'modals.simplebuy.transactionfeed.low_balance': 'Low Balance'
   'modals.simplebuy.transactionfeed.pending': 'Pending {type}'
   'modals.simplebuy.transactionfeed.unknown': 'Unknown Status'
   'modals.simplebuy.transactionfeed.waitingondepo': 'Pending Deposit'

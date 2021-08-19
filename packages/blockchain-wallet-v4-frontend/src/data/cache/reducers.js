@@ -34,6 +34,7 @@ const cache = (state = INITIAL_STATE, action) => {
         ...state,
         guidStored: undefined,
         lastEmail: undefined,
+        lastGuid: undefined,
         mobileConnected: undefined
       }
     }

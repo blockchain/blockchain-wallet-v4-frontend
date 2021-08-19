@@ -23,7 +23,8 @@
         "legacyMagicEmailLink": true,
         "legacyMobilePairing": false,
         "legacyWalletRecovery": false,
-        "recurringBuys": true
+        "recurringBuys": true,
+        "signupCountry": false
       }
     }
   },

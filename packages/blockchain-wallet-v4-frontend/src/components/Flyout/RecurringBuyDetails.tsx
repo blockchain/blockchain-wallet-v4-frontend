@@ -32,6 +32,9 @@ const RecurringBuyDetails = ({
   removeClick,
   standardAmount
 }: Props) => {
+  const closeClickCallback = useCallback(() => {
+    closeClick()
+  }, [closeClick])
   const removeClickCallback = useCallback(() => {
     removeClick(id)
   }, [removeClick, id])
@@ -46,7 +49,7 @@ const RecurringBuyDetails = ({
   const amountString = `${Exchange.getSymbol(currency)}${standardAmount}`
   return (
     <Container>
-      <Header data-e2e='recurringBuyDetailsClose' mode='close' onClick={closeClick}>
+      <Header data-e2e='recurringBuyDetailsClose' mode='close' onClick={closeClickCallback}>
         <FormattedMessage id='copy.recurring_buy' defaultMessage='Recurring Buy' />
       </Header>
       <Content mode='top'>

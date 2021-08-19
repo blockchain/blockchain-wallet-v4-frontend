@@ -40,12 +40,11 @@ class OrderSummary extends PureComponent<Props> {
   }
 
   okButtonHandler = () => {
-    // first time buyers have 1 tx at this point so and RB is set to one time buy so send them to RB walkthrough flow
-    // FIXME: The logic on the line below is hacked to be wrong so I can test.
+    // first time buyers have 1 tx at this point and RB is set to one time buy so send them to RB walkthrough flow
     if (
       this.props.isRecurringBuy &&
-      this.props.orders.length > 1 &&
-      this.props.order.period !== RecurringBuyPeriods.ONE_TIME &&
+      this.props.orders.length <= 1 &&
+      this.props.order.period === RecurringBuyPeriods.ONE_TIME &&
       this.props.hasQuote
     ) {
       this.props.recurringBuyActions.showModal({ origin: 'SimpleBuyOrderSummary' })

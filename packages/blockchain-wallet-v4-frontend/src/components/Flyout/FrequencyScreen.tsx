@@ -12,9 +12,7 @@ import { getPeriodSubTitleText, getPeriodTitleText } from './model'
 
 const FrequencyScreen = ({ children, headerAction, headerMode, setPeriod }: Props) => {
   // ONE_TIME is not a recurring buy option so take it out before displaying
-  const periods = Object.values(RecurringBuyPeriods).filter(
-    (p) => p !== RecurringBuyPeriods.ONE_TIME
-  )
+  const periods = Object.values(RecurringBuyPeriods)
   const setPeriodCallback = useCallback(
     (period: RecurringBuyPeriods) => {
       return () => {

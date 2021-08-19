@@ -111,7 +111,7 @@ const Chart = ({ coin, currency, data }: { coin: CoinType; currency: FiatType; d
 
   return (
     <Wrapper ref={ref}>
-      <svg width={width - margin} height={height}>
+      <svg width={Math.abs(width - margin)} height={height}>
         <LinearGradient id={color} fromOpacity={0.5} toOpacity={0} from={color} to='white' />
 
         <AreaClosed<Data>
@@ -147,7 +147,7 @@ const Chart = ({ coin, currency, data }: { coin: CoinType; currency: FiatType; d
           <g>
             <Line
               from={{ x: tooltipLeft, y: 0 }}
-              to={{ x: tooltipLeft, y: innerHeight }}
+              to={{ x: tooltipLeft, y: window.innerHeight }}
               stroke={color}
               opacity={0.2}
               strokeWidth={strokeWidth}

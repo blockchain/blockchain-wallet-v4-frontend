@@ -20,6 +20,7 @@ import { FORM } from './model'
 import * as S from './selectors'
 
 const { TRANSACTION_EVENTS } = model.analytics
+const coin = 'BCH'
 
 export const logLocation = 'components/sendBch/sagas'
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
@@ -32,7 +33,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     try {
       const { amount, description, from, payPro, to } = action.payload
       yield put(A.sendBchPaymentUpdatedLoading())
-      yield put(actions.components.send.fetchPaymentsAccountExchange('BCH'))
+      yield put(actions.components.send.fetchPaymentsAccountExchange(coin))
       let payment = coreSagas.payment.bch.create({
         network: networks.bch
       })
@@ -55,7 +56,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         if (amount && amount.coin) {
           const satAmount = Exchange.convertCoinToCoin({
             baseToStandard: false,
-            coin: 'BCH',
+            coin,
             value: amount.coin
           })
           payment = yield payment.amount(parseInt(satAmount))
@@ -65,7 +66,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       payment = yield payment.fee('regular')
       const initialValues = {
         amount,
-        coin: 'BCH',
+        coin,
         description,
         from: from || defaultAccountR.getOrElse(),
         payPro,
@@ -106,7 +107,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield put(actions.modals.closeAllModals())
     yield put(
       actions.goals.saveGoal('paymentProtocol', {
-        coin: 'BCH',
+        coin,
         r: pathOr({}, ['options', 'r'], bip21Payload)
       })
     )
@@ -152,17 +153,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       })
 
       switch (field) {
-        case 'coin':
-          // const { coinfig } = window.coins[payload]
-          // const modalName = coinfig.type.erc20Address ? 'ETH' : payload
-          // yield put(actions.modals.closeAllModals())
-          // yield put(
-          //   actions.modals.showModal(`SEND_${modalName}_MODAL` as ModalNameType, {
-          //     coin: payload,
-          //     origin: 'SendBch'
-          //   })
-          // )
-          break
         case 'from':
           const payloadT = payload as BtcFromType
           const fromType = payloadT.type
@@ -183,7 +173,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
                 'simplebuy',
                 'DEFAULT'
               )
-              const fee = response.fees.find(({ symbol }) => symbol === 'BCH')?.minorValue || '0'
+              const fee = response.fees.find(({ symbol }) => symbol === coin)?.minorValue || '0'
               payment = yield payment.from(
                 payloadT.label,
                 fromType,
@@ -226,7 +216,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               yield put(
                 actions.components.send.fetchUnstoppableDomainResults(
                   address as unknown as string,
-                  'BCH'
+                  coin
                 )
               )
               break
@@ -241,7 +231,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           const bchAmount = prop('coin', payload)
           const satAmount = Exchange.convertCoinToCoin({
             baseToStandard: false,
-            coin: 'BCH',
+            coin,
             value: bchAmount
           })
           payment = yield payment.amount(parseInt(satAmount))
@@ -253,7 +243,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
       try {
         payment = yield payment.build()
-      } catch (e) {}
+      } catch (e) {
+        yield put(actions.logs.logErrorMessage(logLocation, 'paymentBuild', e))
+      }
       yield put(A.sendBchPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'formChanged', e))
@@ -272,17 +264,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})
       const effectiveBalance = prop('effectiveBalance', payment)
-      const coin = Exchange.convertCoinToCoin({
-        coin: 'BCH',
+      const coinAmount = Exchange.convertCoinToCoin({
+        coin,
         value: effectiveBalance
       })
       const fiat = Exchange.convertCoinToFiat({
-        coin: 'BCH',
+        coin: coinAmount,
         currency,
         rates: bchRates,
         value: effectiveBalance
       })
-      yield put(change(FORM, 'amount', { coin, fiat }))
+      yield put(change(FORM, 'amount', { coin: coinAmount, fiat }))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'maximumAmountClicked', e))
     }
@@ -312,10 +304,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const deviceType = prop('device_type', device)
         const selection = payment.value().selection || { outputs: [] }
         const outputs = selection.outputs.filter((o) => !o.change).map(prop('address'))
-        yield call(Lockbox.promptForLockbox, 'BCH', deviceType, outputs)
+        yield call(Lockbox.promptForLockbox, coin, deviceType, outputs)
         const connection = yield select(selectors.components.lockbox.getCurrentConnection)
         const transport = prop('transport', connection)
-        const scrambleKey = Lockbox.utils.getScrambleKey('BCH', deviceType)
+        const scrambleKey = Lockbox.utils.getScrambleKey(coin, deviceType)
         // @ts-ignore
         payment = yield payment.sign(null, transport, scrambleKey)
       }
@@ -330,7 +322,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           utils.bch.isCashAddr(value.to[0].address)
             ? value.to[0].address
             : utils.bch.toCashAddr(value.to[0].address),
-          'BCH',
+          coin,
           new BigNumber(value.amount[0]).toString(),
           value.selection.fee
         )
@@ -366,16 +358,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       const amt = payment.value().amount || [0]
-      yield put(
-        actions.analytics.logEvent([
-          ...TRANSACTION_EVENTS.SEND,
-          'BCH',
-          Exchange.convertCoinToCoin({
-            coin: 'BCH',
-            value: amt.reduce(add, 0)
-          })
-        ])
-      )
+      const coinAmount = Exchange.convertCoinToCoin({
+        coin,
+        value: amt.reduce(add, 0)
+      })
+      yield put(actions.analytics.logEvent([...TRANSACTION_EVENTS.SEND, coin, coinAmount]))
+      // triggers email notification to user that
+      // non-custodial funds were sent from the wallet
+      if (fromType === ADDRESS_TYPES.ACCOUNT) {
+        yield put(actions.core.wallet.triggerNonCustodialSendAlert(coin, coinAmount))
+      }
       yield put(actions.modals.closeAllModals())
       yield put(destroy(FORM))
     } catch (e) {
@@ -386,7 +378,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(actions.components.lockbox.setConnectionError(e))
       } else {
         yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
-        yield put(actions.analytics.logEvent([...TRANSACTION_EVENTS.SEND_FAILURE, 'BCH', e]))
+        yield put(actions.analytics.logEvent([...TRANSACTION_EVENTS.SEND_FAILURE, coin, e]))
         if (fromType === ADDRESS_TYPES.CUSTODIAL && error) {
           if (error === 'Pending withdrawal locks') {
             yield call(showWithdrawalLockAlert)

@@ -41,7 +41,10 @@ export const fetchTransactionsSuccess = (
   payload: { coin, isFinalPage, reset, transactions },
   type: AT.FETCH_COINS_TRANSACTIONS_SUCCESS
 })
-export const transactionsAtBound = (payload) => ({
-  payload,
+export const transactionsAtBound = (coin: string, atBounds: boolean): CoinsActionTypes => ({
+  payload: {
+    atBounds,
+    coin
+  },
   type: AT.COINS_TRANSACTIONS_AT_BOUND
 })
