@@ -8,7 +8,6 @@ import * as components from './components/actionTypes'
 import * as custodial from './custodial/actionTypes'
 import { actionTypes as form } from './form/actionTypes'
 import * as goals from './goals/actionTypes'
-import * as logs from './logs/actionTypes'
 import * as middleware from './middleware/actionTypes'
 import * as modals from './modals/actionTypes'
 import * as modules from './modules/actionTypes'
@@ -26,7 +25,6 @@ export {
   custodial,
   form,
   goals,
-  logs,
   middleware,
   modals,
   modules,
