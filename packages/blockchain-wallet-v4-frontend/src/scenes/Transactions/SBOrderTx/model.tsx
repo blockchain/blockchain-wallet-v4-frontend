@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Text } from 'blockchain-info-components'
 import { SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
 import { getCoinFromPair, getOrderType } from 'data/components/simpleBuy/model'
-import { BankTransferAccountType, RecurringBuyFailureReasons } from 'data/types'
+import { BankTransferAccountType } from 'data/types'
 
 import { IconTx as SharedIconTx, Timestamp as SharedTimestamp } from '../components'
 import { Props } from '.'
@@ -12,9 +12,7 @@ import { Props } from '.'
 export const IconTx = (props: Props) => {
   const orderType = getOrderType(props.order)
   const coin = getCoinFromPair(props.order.pair)
-  const subType = props.order.recurringBuyId ? 'recurringBuy' : undefined
-  const iconProps = { coin, subType, type: orderType }
-  return <SharedIconTx {...iconProps} />
+  return <SharedIconTx type={orderType} coin={coin} />
 }
 
 export const getOrigin = (props: Props, bankAccounts: Array<BankTransferAccountType>) => {
@@ -71,23 +69,6 @@ export const Status = ({ order }: Props) => {
         />
       )
     case 'FAILED':
-      switch (order.failureReason) {
-        case RecurringBuyFailureReasons.FAILED_INSUFFICIENT_FUNDS:
-          return (
-            <FormattedMessage
-              id='modals.simplebuy.transactionfeed.low_balance'
-              defaultMessage='Low Balance'
-            />
-          )
-        default:
-          return (
-            <FormattedMessage
-              id='modals.simplebuy.transactionfeed.failed'
-              defaultMessage='{type} Failed'
-              values={{ type: type === 'BUY' ? 'Buy' : 'Sell' }}
-            />
-          )
-      }
     case 'EXPIRED':
       return (
         <FormattedMessage
@@ -112,13 +93,7 @@ export const Timestamp = (props: Props) => {
       case 'FINISHED':
         return <SharedTimestamp time={props.order.insertedAt} />
       default:
-        return (
-          <>
-            <Status {...props} />
-            <br />
-            <SharedTimestamp time={props.order.updatedAt} />
-          </>
-        )
+        return <Status {...props} />
     }
   }
 

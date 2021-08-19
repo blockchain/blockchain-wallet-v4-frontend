@@ -26,8 +26,16 @@ export const setAddressArchived = (address, archived) => ({
   payload: { address, archived },
   type: T.SET_ADDRESS_ARCHIVED
 })
-export const setHdAddressLabel = (accountIdx, addressIdx, derivationType, label) => ({
-  payload: { accountIdx, addressIdx, derivationType, label },
+export const setHdAddressLabel = (
+  accountIdx,
+  addressIdx,
+  derivationType,
+  label,
+  // TODO: SEGWIT remove w/ DEPRECATED_V3
+  payloadV
+) => ({
+  // TODO: SEGWIT remove w/ DEPRECATED_V3, payloadV
+  payload: { accountIdx, addressIdx, derivationType, label, payloadV },
 
   type: T.SET_HD_ADDRESS_LABEL
 })
@@ -62,8 +70,8 @@ export const deleteLegacyAddress = (address) => ({
   payload: address,
   type: T.DELETE_LEGACY_ADDRESS
 })
-export const deleteHdAddressLabel = (accountIdx, addressIdx, derivationType) => ({
-  payload: { accountIdx, addressIdx, derivationType },
+export const deleteHdAddressLabel = (accountIdx, addressIdx, derivationType, payloadV) => ({
+  payload: { accountIdx, addressIdx, derivationType, payloadV },
   type: T.DELETE_HD_ADDRESS_LABEL
 })
 
@@ -89,9 +97,4 @@ export const updateMnemonicBackup = () => ({
 // trigger alert that mnemonic was viewed
 export const triggerMnemonicViewedAlert = () => ({
   type: T.MNEMONIC_VIEWED_ALERT
-})
-
-export const triggerNonCustodialSendAlert = (currency: string, amount: any) => ({
-  payload: { amount, currency },
-  type: T.NON_CUSTODIAL_SEND_ALERT
 })

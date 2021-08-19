@@ -412,7 +412,10 @@ class PreviewSell extends PureComponent<
                     <TopRow>
                       <RowIcon>
                         <RowText>
-                          <FormattedMessage id='copy.network_fee' defaultMessage='Network Fee' />
+                          <FormattedMessage
+                            id='copy.coin_network_fee'
+                            defaultMessage='Network Fee'
+                          />
                         </RowText>
                         <IconWrapper>
                           <Icon
@@ -582,7 +585,7 @@ class PreviewSell extends PureComponent<
                   style={{ marginTop: '16px', textAlign: 'center' }}
                 >
                   <FormattedMessage
-                    id='copy.buy_amount_change_disclaimer'
+                    id='copy.swap_amount_change_disclaimer'
                     defaultMessage='The amounts you send and receive may change slightly due to market activity. Once an order starts, we are unable to stop it.'
                   />
                 </Text>

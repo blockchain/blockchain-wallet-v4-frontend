@@ -12,7 +12,7 @@ import {
   WalletFiatType
 } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import { getFiatFromPair, getOrderType } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
 import {
@@ -20,7 +20,6 @@ import {
   BankPartners,
   BankTransferAccountType,
   BrokerageModalOriginType,
-  SBCheckoutFormValuesType,
   UserDataType
 } from 'data/types'
 
@@ -45,11 +44,17 @@ class CheckoutConfirm extends PureComponent<Props> {
   }
 
   handleSubmit = () => {
-    const { bankAccounts, cards, isSddFlow, isUserSddVerified, sbBalances, userData } =
-      this.props.data.getOrElse({
-        isSddFlow: false,
-        userData: { tiers: { current: 0 } } as UserDataType
-      } as SuccessStateType)
+    const {
+      bankAccounts,
+      cards,
+      isSddFlow,
+      isUserSddVerified,
+      sbBalances,
+      userData
+    } = this.props.data.getOrElse({
+      isSddFlow: false,
+      userData: { tiers: { current: 0 } } as UserDataType
+    } as SuccessStateType)
 
     const userTier = userData?.tiers?.current
     const inputCurrency = this.props.order.inputCurrency as WalletFiatType
@@ -118,8 +123,9 @@ class CheckoutConfirm extends PureComponent<Props> {
           )
         }
         this.props.brokerageActions.showModal({
-          modalType: 'ADD_BANK_YODLEE_MODAL',
-          origin: BrokerageModalOriginType.ADD_BANK_BUY
+          origin: BrokerageModalOriginType.ADD_BANK_BUY,
+          modalType: 'ADD_BANK_YODLEE_MODAL'
+        
         })
         return this.props.brokerageActions.setAddBankStep({
           addBankStep: AddBankStepType.ADD_BANK_HANDLER
@@ -145,8 +151,7 @@ class CheckoutConfirm extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  data: getData(state),
-  formValues: selectors.form.getFormValues('simpleBuyCheckout')(state) as SBCheckoutFormValuesType
+  data: getData(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

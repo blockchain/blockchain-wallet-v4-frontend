@@ -18,11 +18,8 @@ import RequestShowAddress from './ShowAddress'
 import { RequestFormType, RequestSteps } from './types'
 
 class RequestCrypto extends PureComponent<Props, State> {
-  constructor(props) {
-    super(props)
-    this.state = {
-      show: false
-    }
+  state: State = {
+    show: false
   }
 
   componentDidMount() {

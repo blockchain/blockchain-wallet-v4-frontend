@@ -44,7 +44,7 @@ const SecondStep = (props: Props) => {
       <FormGroup>
         <FormLabel htmlFor='password'>
           <FormattedMessage
-            id='copy.new_password'
+            id='scenes.securitysettings.advanced.walletpassword.settings.new'
             defaultMessage='New Password'
           />
         </FormLabel>

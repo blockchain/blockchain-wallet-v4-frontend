@@ -1,28 +1,24 @@
 import React, { useCallback } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 
-import { RecurringBuyGettingStarted } from 'components/Flyout'
 import { SBOrderType } from 'core/types'
 import { selectors } from 'data'
-import { getCounterAmount } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
 import { RecurringBuyStepType } from 'data/types'
 
 import { Props as _P } from '..'
+import Success from './template.success'
 
-const GetStartedContainer = ({ close, order, recurringBuyActions }: Props) => {
+const GetStartedContainer = (props: Props) => {
   const nextStep = useCallback(
     () =>
-      recurringBuyActions.setStep({
+      props.recurringBuyActions.setStep({
         step: RecurringBuyStepType.FREQUENCY
       }),
     [RecurringBuyStepType.FREQUENCY]
   )
-  const { outputCurrency } = order
-  const amount = getCounterAmount(order)
-  const gettingStartedProps = { amount, close, nextStep, outputCurrency }
 
-  return <RecurringBuyGettingStarted {...gettingStartedProps} />
+  return <Success nextStep={nextStep} {...props} />
 }
 
 const mapStateToProps = (state: RootState) => ({

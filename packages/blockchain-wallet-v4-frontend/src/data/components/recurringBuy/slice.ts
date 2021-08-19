@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
@@ -44,7 +45,6 @@ const recurringBuySlice = createSlice({
     registeredListSuccess: (state, action: PayloadAction<RecurringBuyRegisteredList[]>) => {
       state.registeredList = Remote.Success(action.payload)
     },
-    removeRecurringBuy: (state, action: PayloadAction<RecurringBuyRegisteredList['id']>) => {},
     setActive: (state, action: PayloadAction<RecurringBuyRegisteredList>) => {
       state.active = action.payload
     },

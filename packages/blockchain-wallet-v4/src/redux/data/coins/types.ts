@@ -50,13 +50,6 @@ interface FetchTransactionsSuccessActionType {
   }
   type: typeof AT.FETCH_COINS_TRANSACTIONS_SUCCESS
 }
-interface SetTransactionsAtBoundActionType {
-  payload: {
-    atBounds: boolean
-    coin: string
-  }
-  type: typeof AT.COINS_TRANSACTIONS_AT_BOUND
-}
 
 export type CoinsActionTypes =
   | FetchCoinsFailureActionType
@@ -65,4 +58,3 @@ export type CoinsActionTypes =
   | FetchTransactionsFailureActionType
   | FetchTransactionsLoadingActionType
   | FetchTransactionsSuccessActionType
-  | SetTransactionsAtBoundActionType
