@@ -20,7 +20,7 @@ const SchedulerContainer = (props: Props) => {
   return null
 }
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state, ownProps: OwnProps) => ({
   availableMethods: selectors.components.recurringBuy.isAvailableMethod(ownProps.method)(state)
 })
 
