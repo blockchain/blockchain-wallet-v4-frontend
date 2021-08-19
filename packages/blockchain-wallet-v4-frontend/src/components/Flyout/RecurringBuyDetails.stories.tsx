@@ -1,5 +1,6 @@
 import React from 'react'
 import { IntlProvider } from 'react-intl'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 
 import { SBPaymentTypes } from '../../../../blockchain-wallet-v4/src/network/api/simpleBuy/types'
 import { RecurringBuyPeriods } from '../../data/types'
@@ -33,6 +34,10 @@ export default {
     )
   ],
   title: 'Flyouts/RecurringBuyDetails'
-}
+} as ComponentMeta<typeof RecurringBuyDetails>
 
-export const Default = (args) => <RecurringBuyDetails {...args} />
+export const Template: ComponentStory<typeof RecurringBuyDetails> = (args) => (
+  <RecurringBuyDetails {...args} />
+)
+
+export const Default = Template.bind({})

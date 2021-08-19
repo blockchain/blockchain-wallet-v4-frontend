@@ -311,7 +311,10 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.components.swap.fetchTrades())
       // check/update btc account names
       yield call(coreSagas.wallet.checkAndUpdateWalletNames)
-      if (firstLogin) {
+      const signupCountryEnabled = (yield select(
+        selectors.core.walletOptions.getFeatureSignupCountry
+      )).getOrElse(false)
+      if (firstLogin && signupCountryEnabled) {
         // create nabu user
         yield call(createUser)
         // store initial address in case of US state we add prefix
@@ -586,6 +589,7 @@ export default ({ api, coreSagas, networks }) => {
       const email = (yield select(selectors.core.settings.getEmail)).getOrElse(undefined)
       const sessionToken = yield select(selectors.session.getSession, guid, email)
       yield call(api.deauthorizeBrowser, sessionToken)
+      yield put(actions.cache.removedStoredLogin())
       yield put(actions.alerts.displaySuccess(C.DEAUTHORIZE_BROWSER_SUCCESS))
       yield put(actions.cache.disconnectChannelPhone())
     } catch (e) {

@@ -18,7 +18,7 @@ import { actions, selectors } from 'data'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/simpleBuy/model'
 import { GoalsType } from 'data/goals/types'
 import { RootState } from 'data/rootReducer'
-import { BankStatusType, FastLinkType, ModalName } from 'data/types'
+import { BankStatusType, FastLinkType, ModalName, RecurringBuyPeriods } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { Loading as StdLoading, LoadingTextEnum } from '../components'
@@ -51,6 +51,7 @@ class SimpleBuy extends PureComponent<Props, State> {
   constructor(props) {
     super(props)
     this.state = { show: false }
+    this.backToEnterAmount = this.backToEnterAmount.bind(this)
     this.handleFrequencySelection = this.handleFrequencySelection.bind(this)
   }
 
@@ -80,7 +81,7 @@ class SimpleBuy extends PureComponent<Props, State> {
     }, duration)
   }
 
-  handleFrequencySelection = (period) => {
+  backToEnterAmount = () => {
     if (this.props.pair) {
       this.props.simpleBuyActions.setStep({
         cryptoCurrency: getCoinFromPair(this.props.pair.pair),
@@ -89,8 +90,12 @@ class SimpleBuy extends PureComponent<Props, State> {
         pair: this.props.pair,
         step: 'ENTER_AMOUNT'
       })
-      this.props.formActions.change('simpleBuyCheckout', 'period', period)
     }
+  }
+
+  handleFrequencySelection = (period?: RecurringBuyPeriods) => {
+    this.props.formActions.change('simpleBuyCheckout', 'period', period)
+    this.backToEnterAmount()
   }
 
   render() {
@@ -245,7 +250,7 @@ class SimpleBuy extends PureComponent<Props, State> {
             {this.props.step === 'FREQUENCY' && (
               <FlyoutChild>
                 <FrequencyScreen
-                  headerAction={this.handleClose}
+                  headerAction={this.backToEnterAmount}
                   headerMode='back'
                   setPeriod={this.handleFrequencySelection}
                 />
