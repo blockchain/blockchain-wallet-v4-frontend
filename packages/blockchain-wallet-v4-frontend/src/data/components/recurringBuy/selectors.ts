@@ -11,12 +11,10 @@ export const getMethods = (state: RootState) => state.components.recurringBuy.me
 export const getPeriod = (state: RootState) => state.components.recurringBuy.period
 export const getRegisteredList = (state: RootState) => state.components.recurringBuy.registeredList
 
-export const isAvailableMethod = (method?: SBPaymentMethodType) =>
+export const isAvailableMethod = (method) =>
   createSelector(
     getMethods,
-    (methodsR) =>
-      methodsR.getOrElse([]).filter((m) => m === (method?.type as unknown as RecurringBuyPeriods))
-        .length > 0
+    (methodsR) => methodsR.getOrElse([]).filter((m) => m === method.type).length > 0
   )
 
 export const getRegisteredListByCoin = (coin) =>
