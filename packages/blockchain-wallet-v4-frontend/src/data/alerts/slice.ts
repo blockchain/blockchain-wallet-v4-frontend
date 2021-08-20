@@ -12,11 +12,11 @@ const alertsSlice = createSlice({
   initialState,
   name: 'alerts',
   reducers: {
-    clearAlerts: (state) => {
+    clearAlerts: () => {
       return []
     },
     dismissAlert: (state, action) => {
-      return state.filter((alert) => alert.id !== action.payload.id)
+      return state.filter((alert) => alert.id !== action.payload)
     },
     showAlerts: (state, action) => {
       return prepend({ ...action.payload }, state)
