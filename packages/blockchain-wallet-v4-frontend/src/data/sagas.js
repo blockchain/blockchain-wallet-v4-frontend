@@ -1,4 +1,3 @@
-import * as alerts from './alerts/sagas'
 import * as analytics from './analytics/sagas'
 import * as auth from './auth/sagas'
 import * as components from './components/sagas'
@@ -11,7 +10,6 @@ import * as router from './router/sagas'
 import * as wallet from './wallet/sagas'
 
 export {
-  alerts,
   analytics,
   auth,
   components,
