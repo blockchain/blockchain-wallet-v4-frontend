@@ -2,7 +2,7 @@ import { routerActions as router } from 'connected-react-router'
 
 import { coreActions as core } from 'blockchain-wallet-v4/src'
 
-import * as alerts from './alerts/actions'
+import { actions as alerts } from './alerts/slice'
 import * as analytics from './analytics/actions'
 import * as auth from './auth/actions'
 import * as cache from './cache/actions'
