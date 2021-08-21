@@ -2,25 +2,72 @@ import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Text } from 'blockchain-info-components'
+import { SBPaymentTypes } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
 
-import { RecurringBuyPeriods } from '../../data/components/recurringBuy/types'
+import {
+  RecurringBuyNextPayment,
+  RecurringBuyPeriods
+} from '../../data/components/recurringBuy/types'
 import { OptionRightActionRow } from '../Rows'
 import Container from './Container'
 import Content from './Content'
 import Header, { Props as HeaderProps } from './Header'
 import { getPeriodSubTitleText, getPeriodTitleText } from './model'
 
-const FrequencyScreen = ({ children, headerAction, headerMode, setPeriod }: Props) => {
-  // ONE_TIME is not a recurring buy option so take it out before displaying
-  const periods = Object.values(RecurringBuyPeriods)
+const RowDisplay = ({ method, paymentInfo, period, setPeriod }: RowDisplayProps) => {
+  // ONE_TIME is a special case that we need to insert manually
+  const date = new Date()
+  const modifiedPaymentInfo: RecurringBuyNextPayment[] = [
+    {
+      eligibleMethods: Object.values(SBPaymentTypes),
+      nextPayment: date.toString(),
+      period: RecurringBuyPeriods.ONE_TIME
+    },
+    ...paymentInfo
+  ]
+
+  const currentPaymentPeriod: RecurringBuyNextPayment | undefined = modifiedPaymentInfo.filter(
+    (pi) => pi.period === period
+  )[0]
+
+  const eligibleMethod: boolean =
+    (currentPaymentPeriod && currentPaymentPeriod.eligibleMethods.includes(method)) || false
+
   const setPeriodCallback = useCallback(
     (period: RecurringBuyPeriods) => {
       return () => {
-        setPeriod(period)
+        if (eligibleMethod) {
+          setPeriod(period)
+        }
       }
     },
-    [setPeriod]
+    [setPeriod, eligibleMethod]
   )
+
+  return (
+    <OptionRightActionRow disabled={!eligibleMethod} onClick={setPeriodCallback(period)}>
+      <>
+        <Text weight={600} size='16px' color='grey900'>
+          {getPeriodTitleText(period)}
+        </Text>
+        <Text weight={500} size='14px' color='grey600'>
+          {getPeriodSubTitleText(period, currentPaymentPeriod?.nextPayment)}
+        </Text>
+      </>
+    </OptionRightActionRow>
+  )
+}
+
+const FrequencyScreen = ({
+  children,
+  headerAction,
+  headerMode,
+  method,
+  paymentInfo,
+  setPeriod
+}: Props) => {
+  const periods = Object.values(RecurringBuyPeriods)
+
   return (
     <Container>
       <Header
@@ -39,26 +86,25 @@ const FrequencyScreen = ({ children, headerAction, headerMode, setPeriod }: Prop
       </Header>
       <Content mode='top'>
         {periods.map((period) => (
-          <OptionRightActionRow key={period} onClick={setPeriodCallback(period)}>
-            <>
-              <Text weight={600} size='16px' color='grey900'>
-                {getPeriodTitleText(period)}
-              </Text>
-              <Text weight={500} size='14px' color='grey600'>
-                {getPeriodSubTitleText(period)}
-              </Text>
-            </>
-          </OptionRightActionRow>
+          <RowDisplay key={period} {...{ method, paymentInfo, period, setPeriod }} />
         ))}
       </Content>
     </Container>
   )
+}
+type RowDisplayProps = {
+  method: Props['method']
+  paymentInfo: Props['paymentInfo']
+  period: RecurringBuyPeriods
+  setPeriod: Props['setPeriod']
 }
 
 type Props = {
   children?: React.ReactNode
   headerAction: HeaderProps['onClick']
   headerMode: HeaderProps['mode']
+  method: SBPaymentTypes
+  paymentInfo: RecurringBuyNextPayment[]
   setPeriod: (period: RecurringBuyPeriods) => void
 }
 

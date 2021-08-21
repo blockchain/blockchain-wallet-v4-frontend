@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import {
   BankTransferAccountType,
+  RecurringBuyNextPayment,
   RecurringBuyPeriods,
   RecurringBuyRegisteredList,
   UserDataType
@@ -290,10 +291,10 @@ export default ({
       url: nabuUrl
     })
 
-  const getRBPaymentMethods = (): { eligibleMethods: SBPaymentTypes[] } =>
+  const getRBPaymentInfo = (): { nextPayments: RecurringBuyNextPayment[] } =>
     authorizedGet({
       contentType: 'application/json',
-      endPoint: '/recurring-buy/eligible-payment-methods',
+      endPoint: '/recurring-buy/next-payment',
       url: nabuUrl
     })
 
@@ -474,7 +475,7 @@ export default ({
     getBankTransferAccountDetails,
     getBankTransferAccounts,
     getPaymentById,
-    getRBPaymentMethods,
+    getRBPaymentInfo,
     getRBRegisteredList,
     getSBBalances,
     getSBCard,

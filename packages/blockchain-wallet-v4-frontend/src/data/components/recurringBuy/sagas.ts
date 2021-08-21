@@ -6,7 +6,7 @@ import { actions, selectors } from 'data'
 import { actions as A } from './slice'
 import {
   RecurringBuyItemState,
-  RecurringBuyPeriods,
+  RecurringBuyNextPayment,
   RecurringBuyRegisteredList,
   RecurringBuyStepType
 } from './types'
@@ -27,13 +27,15 @@ export default ({ api }: { api: APIType }) => {
     )
   }
 
-  const fetchMethods = function* () {
-    yield put(A.methodsLoading())
+  const fetchPaymentInfo = function* () {
+    yield put(A.paymentInfoLoading())
     try {
-      const data: { eligibleMethods: RecurringBuyPeriods[] } = yield call(api.getRBPaymentMethods)
-      yield put(A.methodsSuccess(data.eligibleMethods))
+      const { nextPayments }: { nextPayments: RecurringBuyNextPayment[] } = yield call(
+        api.getRBPaymentInfo
+      )
+      yield put(A.paymentInfoSuccess(nextPayments))
     } catch (error) {
-      yield put(A.methodsFailure(error))
+      yield put(A.paymentInfoFailure(error))
     }
   }
 
@@ -49,12 +51,18 @@ export default ({ api }: { api: APIType }) => {
 
   const createRecurringBuy = function* () {
     try {
-      const body = {
+      const body: {
+        destinationCurrency: string
+        inputCurrency: string
+        inputValue: string
+        paymentMethod: string
+        paymentMethodId?: string
+        period: string
+      } = {
         destinationCurrency: '',
         inputCurrency: '',
         inputValue: '',
         paymentMethod: '',
-        paymentMethodId: '',
         period: ''
       }
       const order = selectors.components.simpleBuy.getSBOrder(yield select())
@@ -62,14 +70,7 @@ export default ({ api }: { api: APIType }) => {
 
       const { inputCurrency, inputQuantity, outputCurrency, paymentMethodId, paymentType } = order
       const period = selectors.components.recurringBuy.getPeriod(yield select())
-      if (
-        inputQuantity &&
-        inputCurrency &&
-        outputCurrency &&
-        paymentType &&
-        paymentMethodId &&
-        period
-      ) {
+      if (inputQuantity && inputCurrency && outputCurrency && paymentType && period) {
         body.inputValue = inputQuantity
         body.inputCurrency = inputCurrency
         body.destinationCurrency = outputCurrency
@@ -104,7 +105,7 @@ export default ({ api }: { api: APIType }) => {
 
   return {
     createRecurringBuy,
-    fetchMethods,
+    fetchPaymentInfo,
     fetchRegisteredList,
     removeRecurringBuy,
     showModal

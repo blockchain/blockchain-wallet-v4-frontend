@@ -8,7 +8,7 @@ import { ExtractSuccess, RemoteDataType, SBOrderType } from 'blockchain-wallet-v
 import DataError from 'components/DataError'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { RecurringBuyPeriods, RecurringBuyStepType } from 'data/types'
+import { RecurringBuyPeriods, RecurringBuyStepType, SBCheckoutFormValuesType } from 'data/types'
 
 import Loading from '../template.loading'
 import { getData } from './selectors'
@@ -20,6 +20,7 @@ class OrderSummary extends PureComponent<Props> {
     if (!Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSBCards()
       this.props.sendActions.getLockRule()
+      this.props.recurringBuyActions.fetchRegisteredList()
     }
     this.props.simpleBuyActions.fetchSBOrders()
 
@@ -43,8 +44,8 @@ class OrderSummary extends PureComponent<Props> {
     // first time buyers have 1 tx at this point and RB is set to one time buy so send them to RB walkthrough flow
     if (
       this.props.isRecurringBuy &&
-      this.props.orders.length <= 1 &&
-      this.props.order.period === RecurringBuyPeriods.ONE_TIME &&
+      // this.props.orders.length <= 1 &&
+      this.props.formValues?.period === RecurringBuyPeriods.ONE_TIME &&
       this.props.hasQuote
     ) {
       this.props.recurringBuyActions.showModal({ origin: 'SimpleBuyOrderSummary' })
@@ -75,6 +76,7 @@ class OrderSummary extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
   data: getData(state),
+  formValues: selectors.form.getFormValues('simpleBuyCheckout')(state) as SBCheckoutFormValuesType,
   hasQuote: selectors.components.simpleBuy.hasQuote(state),
   isGoldVerified: equals(selectors.modules.profile.getCurrentTier(state), 2),
   isRecurringBuy: selectors.core.walletOptions
@@ -100,6 +102,7 @@ export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
+  formValues: SBCheckoutFormValuesType
   hasQuote: boolean
   isGoldVerified: boolean
   isRecurringBuy: boolean

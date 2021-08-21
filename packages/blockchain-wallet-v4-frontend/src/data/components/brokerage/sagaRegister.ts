@@ -7,7 +7,6 @@ import {
   fetchBankLinkCredentials,
   fetchBankTransferAccounts,
   fetchBankTransferUpdate,
-  fetchRBMethods,
   handleDepositFiatClick,
   handleWithdrawClick,
   showModal

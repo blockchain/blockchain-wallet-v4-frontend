@@ -164,7 +164,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const [fontRatio, setRatio] = useState(1)
   const setOrderFrequncy = useCallback(() => {
     props.simpleBuyActions.setStep({ step: 'FREQUENCY' })
-  }, [props.simpleBuyActions])
+  }, [])
   const isSddBuy = props.isSddFlow && props.orderType === 'BUY'
 
   let method = selectedMethod || defaultMethod
@@ -448,7 +448,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
         </LiftedActions>
         <AnchoredActions>
           {props.isRecurringBuy && props.formValues.period && (
-            <Scheduler onClick={setOrderFrequncy} method={method}>
+            <Scheduler
+              onClick={setOrderFrequncy}
+              period={props.formValues.period}
+              method={method || props.defaultMethod}
+            >
               {getPeriodTitleText(props.formValues.period)}
             </Scheduler>
           )}

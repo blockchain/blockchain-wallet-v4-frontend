@@ -11,7 +11,7 @@ export enum ActionEnum {
 // state
 export type RecurringBuyState = {
   active?: RecurringBuyRegisteredList
-  methods: RemoteDataType<string, RecurringBuyPeriods[]>
+  paymentInfo: RemoteDataType<string, RecurringBuyNextPayment[]>
   period: RecurringBuyPeriods
   registeredList: RemoteDataType<string, RecurringBuyRegisteredList[]>
   step: RecurringBuyStepType
@@ -52,6 +52,11 @@ export type RecurringBuyRegisteredList = {
   userId: string
 }
 
+export type RecurringBuyNextPayment = {
+  eligibleMethods: SBPaymentTypes[]
+  nextPayment: string
+  period: RecurringBuyPeriods
+}
 /* eslint-disable */
 export enum RecurringBuyPeriods {
   ONE_TIME = 'ONE_TIME',
