@@ -41,10 +41,11 @@ class OrderSummary extends PureComponent<Props> {
   }
 
   okButtonHandler = () => {
-    // first time buyers have 1 tx at this point and RB is set to one time buy so send them to RB walkthrough flow
+    // this recurring buy flow is for first time buyers only. They'll have 1 tx at this point in the flow and
+    // they didn't already create a recurring buy buy so we send them to RB walkthrough flow
     if (
       this.props.isRecurringBuy &&
-      // this.props.orders.length <= 1 &&
+      this.props.orders.length <= 1 &&
       this.props.formValues?.period === RecurringBuyPeriods.ONE_TIME &&
       this.props.hasQuote
     ) {

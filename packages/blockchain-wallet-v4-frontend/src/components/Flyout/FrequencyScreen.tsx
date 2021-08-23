@@ -15,7 +15,9 @@ import Header, { Props as HeaderProps } from './Header'
 import { getPeriodSubTitleText, getPeriodTitleText } from './model'
 
 const RowDisplay = ({ method, paymentInfo, period, setPeriod }: RowDisplayProps) => {
-  // ONE_TIME is a special case that we need to insert manually
+  // The ONE_TIME option is not given to us from the API like other period option. It is a special
+  // it's used by the FE only when the user is making a purchase, but not as a recurring buy. It's added
+  // here manually so the FE code can treat it like the other period options.
   const date = new Date()
   const modifiedPaymentInfo: RecurringBuyNextPayment[] = [
     {
