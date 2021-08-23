@@ -5,24 +5,19 @@ import {
   add,
   any,
   compose,
-  concat,
   curry,
-  dropLastWhile,
-  endsWith,
   find,
   findLastIndex,
   head,
   is,
   isEmpty,
   last,
-  length,
   map,
   not,
   prop,
   propEq,
   propSatisfies,
   range,
-  repeat,
   splitAt,
   startsWith
 } from 'ramda'
@@ -335,7 +330,7 @@ export default ({ api, networks }) => {
     const { amount, currency } = action.payload
     const sharedKey = yield select(S.getSharedKey)
     const guid = yield select(S.getGuid)
-    yield call(api.triggerNonCustodialSendAlert(sharedKey, guid, currency, amount))
+    yield call(api.triggerNonCustodialSendAlert, sharedKey, guid, currency, amount)
   }
 
   return {
