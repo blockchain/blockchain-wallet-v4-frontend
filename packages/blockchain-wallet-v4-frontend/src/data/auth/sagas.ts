@@ -634,13 +634,13 @@ export default ({ api, coreSagas, networks }) => {
         // store data in the cache and update form values to be used to submit login
         yield put(actions.cache.emailStored(walletData.email))
         yield put(actions.cache.guidStored(walletData.guid))
-        yield put(actions.cache.mobileConnectedStored(walletData.isMobileSetup))
-        yield put(actions.form.change('login', 'emailToken', walletData.emailCode))
+        yield put(actions.cache.mobileConnectedStored(walletData.is_mobile_setup))
+        yield put(actions.form.change('login', 'emailToken', walletData.email_code))
         yield put(actions.form.change('login', 'guid', walletData.guid))
         yield put(actions.form.change('login', 'email', walletData.email))
         yield put(A.setMagicLinkInfo(loginData))
         // check if mobile detected
-        if (walletData.isMobileSetup) {
+        if (walletData.is_mobile_setup) {
           yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
         } else {
           yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
