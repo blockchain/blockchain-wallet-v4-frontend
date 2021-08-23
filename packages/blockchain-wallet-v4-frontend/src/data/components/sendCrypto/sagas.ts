@@ -71,27 +71,6 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  // const fetchTransactionDetails = function* (action: ReturnType<typeof A.fetchTransactionDetails>) {
-  //   // TODO: handle different transaction types and endpoints
-  //   switch (action.payload.product) {
-  //     case 'SIMPLEBUY':
-  //       try {
-  //         yield put(A.fetchTransactionDetailsLoading())
-  //         const res: ReturnType<typeof api.getPaymentById> = yield call(
-  //           api.getPaymentById,
-  //           action.payload.id
-  //         )
-  //         yield put(A.fetchTransactionDetailsSuccess(res))
-  //       } catch (e) {
-  //         const error = errorHandler(e)
-  //         yield put(A.fetchTransactionDetailsFailure(error))
-  //       }
-  //       break
-  //     default:
-  //       yield put(A.fetchTransactionDetailsFailure('Product not supported'))
-  //   }
-  // }
-
   const submitTransaction = function* () {
     try {
       yield put(A.setStep({ step: SendCryptoStepType.STATUS }))

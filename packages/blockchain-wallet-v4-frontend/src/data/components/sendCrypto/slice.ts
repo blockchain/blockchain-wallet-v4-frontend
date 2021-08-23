@@ -25,19 +25,6 @@ const sendCryptoSlice = createSlice({
   initialState,
   name: 'sendCrypto',
   reducers: {
-    // fetchTransactionDetails: (
-    //   state,
-    //   action: PayloadAction<{ id: string; product: keyof typeof ProductTypes }>
-    // ) => {},
-    // fetchTransactionDetailsFailure: (state, action: PayloadAction<string>) => {
-    //   state.transactionDetails = Remote.Failure(action.payload)
-    // },
-    // fetchTransactionDetailsLoading: (state) => {
-    //   state.transactionDetails = Remote.Loading
-    // },
-    // fetchTransactionDetailsSuccess: (state, action: PayloadAction<SBTransactionType>) => {
-    //   state.transactionDetails = Remote.Success(action.payload)
-    // },
     fetchWithdrawalFees: () => {},
     fetchWithdrawalFeesFailure: (state, action: PayloadAction<string>) => {
       state.withdrawalFeesAndMins = Remote.Failure(action.payload)

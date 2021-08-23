@@ -11,7 +11,6 @@ export default ({ api }) => {
   return function* brokerageSaga() {
     yield takeLatest(A.fetchWithdrawalFees.type, sendCryptoSagas.fetchFees)
     yield takeLatest(A.fetchWithdrawalLocks.type, sendCryptoSagas.fetchLocks)
-    // yield takeLatest(A.fetchTransactionDetails.type, sendCryptoSagas.fetchTransactionDetails)
     yield takeLatest(A.submitTransaction.type, sendCryptoSagas.submitTransaction)
     // TODO: remove when all tokens moved to sendCrypto
     // @ts-ignore

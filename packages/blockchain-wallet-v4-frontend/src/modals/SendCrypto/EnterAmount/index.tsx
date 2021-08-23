@@ -221,7 +221,6 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
             name='amount'
             // @ts-ignore
             component={AmountTextBox}
-            // validate={[maximumAmount, minimumAmount]}
             normalize={normalizeAmount}
             // eslint-disable-next-line
             onUpdate={resizeSymbol.bind(null, fix === 'FIAT')}

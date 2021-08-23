@@ -88,13 +88,6 @@ const Confirm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             </Text>
           </StepHeader>
         </FlyoutWrapper>
-        {/* <CoinAccountListOption
-          account={selectedAccount}
-          walletCurrency={walletCurrency}
-          coin={selectedAccount.coin}
-          displayOnly
-          hideActionIcon
-        /> */}
         <AmountWrapper>
           <CoinDisplay coin={coin} size='32px' weight={600} color='black'>
             {total}

@@ -1,5 +1,4 @@
 import {
-  ProductTypes,
   RemoteDataType,
   SBTransactionType,
   WithdrawalLockResponseType,
@@ -26,6 +25,5 @@ export enum SendCryptoStepType {
   'ENTER_TO',
   'ENTER_AMOUNT',
   'CONFIRM',
-  'STATUS',
-  'DETAILS'
+  'STATUS'
 }
