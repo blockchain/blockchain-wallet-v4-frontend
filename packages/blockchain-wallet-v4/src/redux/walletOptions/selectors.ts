@@ -1,5 +1,6 @@
 import { path, prop } from 'ramda'
 
+import { Remote } from 'blockchain-wallet-v4/src'
 import { /* AccountTokensBalancesResponseType, */ RemoteDataType } from 'core/types'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { RootState } from 'data/rootReducer'
@@ -23,9 +24,9 @@ export const getAnnouncements = (state) =>
   getWebOptions(state).map(path(['application', 'announcements']))
 
 // eslint-disable-next-line
-export const getXlmSendTimeOutSeconds = (state) => 600
+export const getXlmSendTimeOutSeconds = (state) => Remote.of(600)
 // eslint-disable-next-line
-export const getXlmExchangeAddresses = (state) => []
+export const getXlmExchangeAddresses = (state) => Remote.of([])
 
 // domains
 export const getVeriffDomain = (state) => getDomains(state).map(prop('veriff'))
