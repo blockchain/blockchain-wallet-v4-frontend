@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import styled from 'styled-components'
 
 import { Icon } from 'blockchain-info-components'
@@ -11,13 +11,14 @@ const Row = styled.div`
     border-bottom: 1px solid ${(props) => props.theme.grey000};
   }
 `
-const FlexWrapper = styled(Row)`
+const FlexWrapper = styled(Row)<{ disabled?: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-top: 0;
   padding-bottom: 0;
-  cursor: pointer;
+  cursor: ${(p) => (p.disabled ? 'not-allowed' : 'pointer')};
+  opacity: ${(p) => (p.disabled ? '0.5' : '1')};
 
   & > div {
     height: 5rem;
@@ -27,9 +28,15 @@ const FlexWrapper = styled(Row)`
   }
 `
 
-const OptionRightActionRow = ({ children, onClick }: Props) => {
+const OptionRightActionRow = ({ children, disabled, onClick }: Props) => {
+  const onClickCallback = useCallback(() => {
+    if (!disabled) {
+      onClick()
+    }
+  }, [disabled, onClick])
+
   return (
-    <FlexWrapper role='button' onClick={onClick}>
+    <FlexWrapper disabled={disabled} role='button' onClick={onClickCallback}>
       <div>{children}</div>
       <Icon name='chevron-right' size='25px' color='grey400' />
     </FlexWrapper>
@@ -38,6 +45,7 @@ const OptionRightActionRow = ({ children, onClick }: Props) => {
 
 type Props = {
   children: React.ReactChild
+  disabled?: boolean
   onClick: () => void
 }
 

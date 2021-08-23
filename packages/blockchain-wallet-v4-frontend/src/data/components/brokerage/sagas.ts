@@ -370,11 +370,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const fetchRBMethods = function* () {
-    const data: { eligibleMethods: SBPaymentTypes[] } = yield call(api.getRBPaymentMethods)
-    yield put(actions.form.change('recurringBuyScheduler', 'methods', data.eligibleMethods))
-  }
-
   return {
     createFiatDeposit,
     deleteSavedBank,

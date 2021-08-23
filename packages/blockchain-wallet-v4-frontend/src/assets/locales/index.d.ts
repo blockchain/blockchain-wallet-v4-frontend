@@ -1247,6 +1247,8 @@ type MessagesType = {
   'modals.recurringbuys.timeframe.2_weeks': 'Every 2 weeks'
   'modals.recurringbuys.timeframe.every_month': 'Every month'
 
+  'modals.recurringbuys.period_fetch_error': 'There was an error fetching recurring buy frequency options. Please try again.'
+  'modals.recurringbuys.time_options.one_time': 'One Time'
   'modals.recurringbuys.time_options.daily': 'Daily'
   'modals.recurringbuys.time_options.weekly': 'Weekly'
   'modals.recurringbuys.time_options.bi_weekly': 'Twice a Month'
