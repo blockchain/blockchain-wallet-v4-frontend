@@ -77,6 +77,7 @@ class SendEnterTo extends React.PureComponent<InjectedFormProps<{}, Props> & Pro
             <Field
               name='to'
               component={TextWithQRScanner}
+              onScan={(data) => this.props.formActions.change(SEND_FORM, 'to', data)}
               placeholder={`${coinfig.name} Address`}
             />
           </ToWrapper>

@@ -1,3 +1,4 @@
+// this could use a refactor
 import React from 'react'
 import { connect } from 'react-redux'
 import bip21 from 'bip21'
@@ -18,7 +19,7 @@ const { FORM: XLM_FORM } = model.components.sendXlm
 
 class QRCodeCaptureContainer extends React.PureComponent {
   state = {
-    toggled: false,
+    toggled: false
   }
 
   getScanHandlerKey = () => `handleScan${replace(/^./, toUpper, this.props.scanType)}`
@@ -31,8 +32,8 @@ class QRCodeCaptureContainer extends React.PureComponent {
     return {
       value: {
         label: data,
-        value: data,
-      },
+        value: data
+      }
     }
   }
 
@@ -56,7 +57,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
     return {
       address,
       isBitPay,
-      options,
+      options
     }
   }
 
@@ -71,14 +72,14 @@ class QRCodeCaptureContainer extends React.PureComponent {
         currency,
         isStandard: true,
         rates: btcRates,
-        value: amount,
+        value: amount
       })
 
       this.props.formActions.change(BTC_FORM, 'to', this.createNewValue(coinInfo.address))
       this.props.formActions.change(BTC_FORM, 'description', message)
       this.props.formActions.change(BTC_FORM, 'amount', {
         coin: amount,
-        fiat,
+        fiat
       })
     } catch (e) {
       try {
@@ -173,8 +174,12 @@ class QRCodeCaptureContainer extends React.PureComponent {
 
   handleScan = (data) => {
     if (!isNil(data) && !isEmpty(data)) {
-      const handlerName = this.getScanHandlerKey()
-      this[handlerName](data)
+      try {
+        const handlerName = this.getScanHandlerKey()
+        this[handlerName](data)
+      } catch (e) {
+        this.props.onScan(data)
+      }
       this.setState({ toggled: false })
     }
   }
@@ -207,13 +212,13 @@ class QRCodeCaptureContainer extends React.PureComponent {
 
 const mapStateToProps = (state) => ({
   btcRates: selectors.core.data.btc.getRates(state).getOrFail('Could not find btc rates'),
-  currency: selectors.core.settings.getCurrency(state).getOrElse('USD'),
+  currency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
 const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 QRCodeCaptureContainer.defaultProps = {
@@ -223,8 +228,8 @@ QRCodeCaptureContainer.defaultProps = {
     'bchAddress',
     'xlmAddress',
     'btcPriv',
-    'btcPrivOrAddress',
-  ]),
+    'btcPrivOrAddress'
+  ])
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(QRCodeCaptureContainer)

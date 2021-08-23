@@ -2,7 +2,7 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { ModalName, ModalNameType } from 'data/types'
 
 import { getData } from './selectors'
@@ -37,6 +37,12 @@ class FeaturesContainer extends React.PureComponent<Props> {
     // TODO: remove with send refactor 🙏
     if (coinfig.type.erc20Address) {
       return modalActions.showModal(`SEND_ETH_MODAL` as ModalNameType, {
+        coin,
+        origin: 'FeaturesTopNav'
+      })
+    }
+    if (selectors.core.data.coins.getCoins().includes(coin)) {
+      return this.props.modalActions.showModal(ModalName.SEND_CRYPTO_MODAL, {
         coin,
         origin: 'FeaturesTopNav'
       })
