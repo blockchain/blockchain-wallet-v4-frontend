@@ -212,8 +212,12 @@ export const initializeWithdrawalForm = (coin: CoinType, walletCurrency: FiatTyp
   payload: { coin, walletCurrency },
   type: AT.INITIALIZE_WITHDRAWAL_FORM
 })
-export const requestWithdrawal = (coin: CoinType, withdrawalAmount: number) => ({
-  payload: { coin, withdrawalAmount },
+export const requestWithdrawal = (
+  coin: CoinType,
+  withdrawalAmount: number,
+  withdrawalAmountFiat: number
+) => ({
+  payload: { coin, withdrawalAmount, withdrawalAmountFiat },
   type: AT.REQUEST_WITHDRAWAL
 })
 

@@ -488,7 +488,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const requestWithdrawal = function* ({ payload }: ReturnType<typeof A.requestWithdrawal>) {
-    const { coin, withdrawalAmount } = payload
+    const { coin, withdrawalAmount, withdrawalAmountFiat } = payload
     try {
       yield put(actions.form.startSubmit(WITHDRAWAL_FORM))
 
@@ -513,7 +513,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       // notify success
       yield put(actions.form.stopSubmit(WITHDRAWAL_FORM))
-      yield put(A.setInterestStep('ACCOUNT_SUMMARY', { withdrawSuccess: true }))
+      yield put(
+        A.setInterestStep('ACCOUNT_SUMMARY', {
+          withdrawSuccess: true,
+          withdrawalAmount: withdrawalAmountFiat
+        })
+      )
       yield put(actions.analytics.logEvent(INTEREST_EVENTS.WITHDRAWAL.REQUEST_SUCCESS))
       yield delay(3000)
       yield put(A.fetchInterestBalance())

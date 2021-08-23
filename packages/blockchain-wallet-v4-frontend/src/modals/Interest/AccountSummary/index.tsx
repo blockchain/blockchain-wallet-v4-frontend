@@ -5,7 +5,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import { getCurrency } from 'blockchain-wallet-v4/src/redux/settings/selectors'
-import { CoinType, RemoteDataType } from 'blockchain-wallet-v4/src/types'
+import { CoinType, FiatType, RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
 import { InterestStepMetadata } from 'data/types'
@@ -26,9 +26,7 @@ class AccountSummaryContainer extends PureComponent<Props> {
   }
 
   handleFetchInterestLimits = () => {
-    const { coin, currency, interestActions } = this.props
-    const walletCurrency = currency.getOrElse('GBP' as CurrencySuccessStateType)
-
+    const { coin, interestActions, walletCurrency } = this.props
     interestActions.fetchInterestLimits(coin, walletCurrency)
   }
 
@@ -38,8 +36,7 @@ class AccountSummaryContainer extends PureComponent<Props> {
   }
 
   render() {
-    const { currency, data } = this.props
-    const walletCurrency = currency.getOrElse('GBP' as CurrencySuccessStateType)
+    const { data, walletCurrency } = this.props
 
     const unsupportedCurrencies = [Currencies.TWD.code, Currencies.CLP.code]
     return data.cata({
@@ -50,14 +47,18 @@ class AccountSummaryContainer extends PureComponent<Props> {
         includes(walletCurrency, unsupportedCurrencies) ? (
           <Unsupported {...val} {...this.props} walletCurrency={walletCurrency} />
         ) : (
-          <AccountSummary {...val} {...this.props} handleDepositClick={this.handleDepositClick} />
+          <AccountSummary
+            {...val}
+            {...this.props}
+            handleDepositClick={this.handleDepositClick}
+            walletCurrency={walletCurrency}
+          />
         )
     })
   }
 }
 
 const mapStateToProps = (state): LinkStatePropsType => ({
-  currency: getCurrency(state),
   data: getData(state)
 })
 
@@ -75,6 +76,7 @@ export type OwnProps = {
   handleSBClick: (string) => void
   showSupply: boolean
   stepMetadata: InterestStepMetadata
+  walletCurrency: FiatType
 }
 
 export type LinkDispatchPropsType = {
@@ -88,7 +90,6 @@ export type DataSuccessStateType = ReturnType<typeof getData>['data']
 export type CurrencySuccessStateType = ReturnType<typeof getCurrency>['data']
 
 type LinkStatePropsType = {
-  currency: RemoteDataType<string | Error, CurrencySuccessStateType>
   data: RemoteDataType<string | Error, DataSuccessStateType>
 }
 

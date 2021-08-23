@@ -53,6 +53,7 @@ export type InterestStepMetadata = {
   depositSuccess?: boolean
   error?: string
   withdrawSuccess?: boolean
+  withdrawalAmount?: number
 }
 
 export type InterestStep = keyof typeof InterestSteps
