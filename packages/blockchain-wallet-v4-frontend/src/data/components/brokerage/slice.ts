@@ -61,7 +61,6 @@ const brokerageSlice = createSlice({
       state.bankTransferAccounts = Remote.Success(accounts)
     },
     fetchBankTransferUpdate: (state, action: PayloadAction<YodleeAccountType | string>) => {},
-    fetchRBMethods: () => {},
     handleDepositFiatClick: (state, action: PayloadAction<WalletFiatType>) => {
       state.fiatCurrency = action.payload
     },
@@ -113,7 +112,6 @@ export const {
   fetchBankTransferAccountsLoading,
   fetchBankTransferAccountsSuccess,
   fetchBankTransferUpdate,
-  fetchRBMethods,
   handleDepositFiatClick,
   handleWithdrawClick,
   setAddBankStep,

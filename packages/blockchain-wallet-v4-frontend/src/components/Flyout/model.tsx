@@ -6,6 +6,8 @@ import { SBPaymentTypes } from '../../../../blockchain-wallet-v4/src/network/api
 import { RecurringBuyPeriods } from '../../data/components/recurringBuy/types'
 import { ActionEnum } from '../../data/types'
 
+const RECURRING_BUY_PERIOD_FETCH = 'RECURRING_BUY_PERIOD_FETCH'
+
 const getPeriodTitleText = (period: RecurringBuyPeriods): React.ReactNode => {
   let text
   switch (period) {
@@ -224,5 +226,6 @@ export {
   getPeriodForSuccess,
   getPeriodSubTitleText,
   getPeriodText,
-  getPeriodTitleText
+  getPeriodTitleText,
+  RECURRING_BUY_PERIOD_FETCH
 }

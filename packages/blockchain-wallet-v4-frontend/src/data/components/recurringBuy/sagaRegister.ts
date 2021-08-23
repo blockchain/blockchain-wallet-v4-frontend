@@ -8,7 +8,7 @@ export default ({ api }) => {
 
   return function* recurringBuySaga() {
     yield takeLatest(actions.showModal.type, recurringBuySagas.showModal)
-    yield takeLatest(actions.fetchMethods.type, recurringBuySagas.fetchMethods)
+    yield takeLatest(actions.fetchPaymentInfo.type, recurringBuySagas.fetchPaymentInfo)
     yield takeLatest(actions.fetchRegisteredList.type, recurringBuySagas.fetchRegisteredList)
     yield takeEvery(actions.createRecurringBuy.type, recurringBuySagas.createRecurringBuy)
     yield takeEvery(actions.removeRecurringBuy.type, recurringBuySagas.removeRecurringBuy)
