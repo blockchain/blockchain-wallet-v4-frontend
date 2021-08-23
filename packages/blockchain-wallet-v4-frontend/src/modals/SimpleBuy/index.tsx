@@ -13,12 +13,12 @@ import {
   SBPaymentTypes,
   SwapOrderType
 } from 'blockchain-wallet-v4/src/types'
-import Flyout, { duration, FlyoutChild, FrequencyScreen } from 'components/Flyout'
+import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/simpleBuy/model'
 import { GoalsType } from 'data/goals/types'
 import { RootState } from 'data/rootReducer'
-import { BankStatusType, FastLinkType, ModalName, RecurringBuyPeriods } from 'data/types'
+import { BankStatusType, FastLinkType, ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { Loading as StdLoading, LoadingTextEnum } from '../components'
@@ -31,6 +31,7 @@ import BillingAddress from './BillingAddress'
 import CheckoutConfirm from './CheckoutConfirm'
 import CryptoSelection from './CryptoSelection'
 import EnterAmount from './EnterAmount'
+import Frequency from './Frequency'
 import KycRequired from './KycRequired'
 import LinkedPaymentAccounts from './LinkedPaymentAccounts'
 import OpenBankingConnect from './OpenBankingConnect'
@@ -52,7 +53,6 @@ class SimpleBuy extends PureComponent<Props, State> {
     super(props)
     this.state = { show: false }
     this.backToEnterAmount = this.backToEnterAmount.bind(this)
-    this.handleFrequencySelection = this.handleFrequencySelection.bind(this)
   }
 
   componentDidMount() {
@@ -69,6 +69,19 @@ class SimpleBuy extends PureComponent<Props, State> {
     this.props.formActions.destroy('addCCForm')
   }
 
+  backToEnterAmount = () => {
+    if (this.props.pair) {
+      this.props.simpleBuyActions.setStep({
+        cryptoCurrency: getCoinFromPair(this.props.pair.pair),
+        fiatCurrency: getFiatFromPair(this.props.pair.pair),
+        method: this.props.method,
+        orderType: this.props.orderType,
+        pair: this.props.pair,
+        step: 'ENTER_AMOUNT'
+      })
+    }
+  }
+
   handleClose = () => {
     this.setState({ show: false })
     const simpleBuyGoal = find(propEq('name', 'simpleBuy'), this.props.goals)
@@ -79,23 +92,6 @@ class SimpleBuy extends PureComponent<Props, State> {
     setTimeout(() => {
       this.props.close()
     }, duration)
-  }
-
-  backToEnterAmount = () => {
-    if (this.props.pair) {
-      this.props.simpleBuyActions.setStep({
-        cryptoCurrency: getCoinFromPair(this.props.pair.pair),
-        fiatCurrency: getFiatFromPair(this.props.pair.pair),
-        orderType: this.props.orderType,
-        pair: this.props.pair,
-        step: 'ENTER_AMOUNT'
-      })
-    }
-  }
-
-  handleFrequencySelection = (period?: RecurringBuyPeriods) => {
-    this.props.formActions.change('simpleBuyCheckout', 'period', period)
-    this.backToEnterAmount()
   }
 
   render() {
@@ -249,10 +245,10 @@ class SimpleBuy extends PureComponent<Props, State> {
             )}
             {this.props.step === 'FREQUENCY' && (
               <FlyoutChild>
-                <FrequencyScreen
-                  headerAction={this.backToEnterAmount}
-                  headerMode='back'
-                  setPeriod={this.handleFrequencySelection}
+                <Frequency
+                  {...this.props}
+                  backToEnterAmount={this.backToEnterAmount}
+                  handleClose={this.handleClose}
                 />
               </FlyoutChild>
             )}
