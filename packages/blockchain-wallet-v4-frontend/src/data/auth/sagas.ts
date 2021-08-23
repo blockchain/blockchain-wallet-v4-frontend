@@ -754,9 +754,9 @@ export default ({ api, coreSagas, networks }) => {
     try {
       const { email, language, password } = action.payload
       // get recovery token and nabu ID
-      const magicLinkData = yield select(S.getMagicLinkData)
-      const recoveryToken = magicLinkData.wallet?.nabu?.recoveryToken
-      const userId = magicLinkData.wallet?.nabu?.userId
+      const magicLinkData: WalletDataFromMagicLink = yield select(S.getMagicLinkData)
+      const recoveryToken = magicLinkData.wallet?.nabu?.recovery_token
+      const userId = magicLinkData.wallet?.nabu?.user_id
       yield put(A.setResetAccount(true))
       // create a new wallet
       yield call(register, actions.auth.register(email, password, language))
