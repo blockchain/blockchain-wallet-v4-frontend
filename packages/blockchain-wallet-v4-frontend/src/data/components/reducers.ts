@@ -15,6 +15,7 @@ import resetWallet2fa from './resetWallet2fa/reducers'
 import { sendReducer } from './send/reducers'
 import { sendBchReducer } from './sendBch/reducers'
 import { sendBtcReducer } from './sendBtc/reducers'
+import { reducer as sendCrypto } from './sendCrypto/slice'
 import { sendEthReducer } from './sendEth/reducers'
 import { sendXlmReducer } from './sendXlm/reducers'
 import { settingsReducer } from './settings/reducers'
@@ -41,6 +42,7 @@ const componentReducer = combineReducers({
   send: sendReducer,
   sendBch: sendBchReducer,
   sendBtc: sendBtcReducer,
+  sendCrypto,
   sendEth: sendEthReducer,
   sendXlm: sendXlmReducer,
   settings: settingsReducer,

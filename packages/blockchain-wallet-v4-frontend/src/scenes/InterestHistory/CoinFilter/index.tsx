@@ -22,12 +22,9 @@ const SelectCoinWrapper = styled.div`
 `
 
 class CoinFilter extends React.PureComponent<InjectedFormProps & Props> {
-  onChange = coin => {
+  onChange = (coin) => {
     const { interestActions } = this.props
-    interestActions.fetchInterestTransactions(
-      true,
-      coin === 'ALL' ? undefined : coin
-    )
+    interestActions.fetchInterestTransactions(true, coin === 'ALL' ? undefined : coin)
   }
 
   render() {
@@ -35,10 +32,7 @@ class CoinFilter extends React.PureComponent<InjectedFormProps & Props> {
     return txPages ? (
       <SelectCoinWrapper>
         <FilterText>
-          <FormattedMessage
-            id='scenes.interest.history.filter'
-            defaultMessage='Filter by:'
-          />
+          <FormattedMessage id='scenes.interest.history.filter' defaultMessage='Filter by:' />
         </FilterText>
         <Field
           component={SelectBoxCoin}
