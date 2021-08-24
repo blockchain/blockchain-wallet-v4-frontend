@@ -10,8 +10,6 @@ import Template from './template'
 class WalletBalanceContainer extends React.PureComponent<Props> {
   render() {
     const { coins, preferencesActions, totalBalancesDropdown } = this.props
-    // @ts-ignore
-    console.log('coins', coins)
     const isActive = prop('wallet', totalBalancesDropdown)
     return (
       <Template
