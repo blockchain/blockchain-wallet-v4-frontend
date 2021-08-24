@@ -447,6 +447,11 @@ interface SetStepAction {
   type: typeof AT.SET_STEP
 }
 
+interface SetMethodAction {
+  payload: SBPaymentMethodType
+  type: typeof AT.SET_METHOD
+}
+
 interface SetFiatCurrencyAction {
   payload: { fiatCurrency: FiatType }
   type: typeof AT.SET_FIAT_CURRENCY
@@ -553,6 +558,7 @@ export type SimpleBuyActionTypes =
   | InitializeCheckout
   | SetFiatCurrencyAction
   | SetStepAction
+  | SetMethodAction
   | ShowModalAction
   | UpdatePaymentFailureAction
   | UpdatePaymentLoadingAction
