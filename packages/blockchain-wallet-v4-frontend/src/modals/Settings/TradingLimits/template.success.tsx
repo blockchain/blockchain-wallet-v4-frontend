@@ -326,7 +326,7 @@ const Template: React.FC<Props> = (props) => {
               />
             </ItemSubtitle>
 
-            {interestEDDStatus?.eddNeeded ? (
+            {interestEDDStatus?.eddNeeded && !interestEDDStatus?.eddPassed ? (
               <TextGroup inline>
                 <Text color='grey600' size='12px' weight={500}>
                   <FormattedMessage
@@ -366,11 +366,11 @@ const Template: React.FC<Props> = (props) => {
             currentTier === TIER_TYPES.SILVER_PLUS ? TIER_TYPES.SILVER : currentTier,
             TIER_TYPES.GOLD,
             goldTier,
-            interestEDDStatus?.eddNeeded
+            interestEDDStatus?.eddNeeded && !interestEDDStatus?.eddPassed
           )}
         </Item>
 
-        {interestEDDStatus?.eddNeeded && (
+        {interestEDDStatus?.eddNeeded && !interestEDDStatus?.eddPassed && (
           <LinkWrapper>
             <Link
               href='https://share.hsforms.com/1DS4i94fURdutr8OXYOxfrg2qt44'
