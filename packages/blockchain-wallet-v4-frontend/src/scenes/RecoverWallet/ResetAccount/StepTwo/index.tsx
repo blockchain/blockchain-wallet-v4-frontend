@@ -26,6 +26,7 @@ const SecondStep = (props: Props) => {
   const {
     cachedEmail,
     cachedGuid,
+    emailFromMagicLink,
     invalid,
     isRegistering,
     lastGuid,
@@ -37,16 +38,13 @@ const SecondStep = (props: Props) => {
     <>
       <BackArrowFormHeader
         handleBackArrowClick={() => setStep(RecoverSteps.RECOVERY_OPTIONS)}
-        email={cachedEmail}
+        email={emailFromMagicLink}
         guid={cachedGuid || lastGuid}
         step={RecoverSteps.RESET_ACCOUNT}
       />
       <FormGroup>
         <FormLabel htmlFor='password'>
-          <FormattedMessage
-            id='copy.new_password'
-            defaultMessage='New Password'
-          />
+          <FormattedMessage id='copy.new_password' defaultMessage='New Password' />
         </FormLabel>
         <Field
           bgColor='grey000'
