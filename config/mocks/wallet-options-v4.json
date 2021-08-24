@@ -21,7 +21,7 @@
         "enabled": true
       },
       "featureFlags": {
-        "legacyMagicEmailLink": true,
+        "legacyMagicEmailLink": false,
         "legacyMobilePairing": false,
         "legacyWalletRecovery": false,
         "recurringBuys": true,
