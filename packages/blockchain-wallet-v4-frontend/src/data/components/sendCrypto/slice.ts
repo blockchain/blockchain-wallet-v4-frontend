@@ -16,7 +16,6 @@ const initialState: SendCryptoState = {
   initialCoin: undefined,
   step: SendCryptoStepType.COIN_SELECTION,
   transaction: Remote.NotAsked,
-  transactionDetails: Remote.NotAsked,
   withdrawLocks: Remote.NotAsked,
   withdrawalFeesAndMins: Remote.NotAsked
 }

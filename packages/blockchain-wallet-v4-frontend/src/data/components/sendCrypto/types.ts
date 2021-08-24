@@ -1,6 +1,5 @@
 import {
   RemoteDataType,
-  SBTransactionType,
   WithdrawalLockResponseType,
   WithdrawalMinsAndFeesResponse,
   WithdrawResponseType
@@ -11,7 +10,6 @@ export type SendCryptoState = {
   initialCoin?: string
   step: SendCryptoStepType
   transaction: RemoteDataType<string, WithdrawResponseType>
-  transactionDetails: RemoteDataType<string, SBTransactionType>
   withdrawLocks: RemoteDataType<string, WithdrawalLockResponseType>
   withdrawalFeesAndMins: RemoteDataType<string, WithdrawalMinsAndFeesResponse>
 }
