@@ -38,6 +38,12 @@ class Checkout extends PureComponent<Props> {
       cryptoAmount
     )
 
+    // If no method was given but we have a default method, set it in redux
+    // and the rest of the SB flow works much better
+    if (!this.props.method && this.props.defaultMethod) {
+      this.props.simpleBuyActions.setMethod(this.props.defaultMethod)
+    }
+
     if (!Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSDDEligible()
       this.props.simpleBuyActions.fetchSBCards()

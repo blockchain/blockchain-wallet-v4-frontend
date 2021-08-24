@@ -447,15 +447,18 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           </QuoteActionContainer>
         </LiftedActions>
         <AnchoredActions>
-          {props.isRecurringBuy && props.formValues.period && props.orderType === OrderType.BUY && (
-            <Scheduler
-              onClick={setOrderFrequncy}
-              period={props.formValues.period}
-              method={method || props.defaultMethod}
-            >
-              {getPeriodTitleText(props.formValues.period)}
-            </Scheduler>
-          )}
+          {props.isRecurringBuy &&
+            props.formValues.period &&
+            !props.isSddFlow &&
+            props.orderType === OrderType.BUY && (
+              <Scheduler
+                onClick={setOrderFrequncy}
+                period={props.formValues.period}
+                method={method || props.defaultMethod}
+              >
+                {getPeriodTitleText(props.formValues.period)}
+              </Scheduler>
+            )}
 
           {(!props.isSddFlow || props.orderType === OrderType.SELL) &&
             props.pair &&
