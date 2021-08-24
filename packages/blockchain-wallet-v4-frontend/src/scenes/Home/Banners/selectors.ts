@@ -15,6 +15,7 @@ export type BannerType =
   | 'buyCrypto'
   | 'continueToGold'
   | 'recurringBuys'
+  | 'coinListing'
   | null
 
 export const getData = (state: RootState): { bannerToShow: BannerType } => {
@@ -59,6 +60,8 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     .getFeatureFlagRecurringBuys(state)
     .getOrElse(false) as boolean
 
+  const isNewCurrency = selectors.core.walletOptions.getNewCoinListing(state).getOrElse('')
+
   const isTier3SDD = sddEligibleTier === 3
 
   let bannerToShow: BannerType = null
@@ -77,6 +80,8 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     Number(limits?.annual.available) > 0
   ) {
     bannerToShow = 'continueToGold'
+  } else if (isNewCurrency) {
+    bannerToShow = 'newCurrency'
   } else if (isRecurringBuy) {
     bannerToShow = 'recurringBuys'
   } else {
