@@ -11,7 +11,7 @@
           "wallet": {}
         }
       },
-      "coinListing": "LTC",
+      "coinListing": "",
       "erc20s": ["AAVE", "PAX", "USDC", "USDT", "WDGLD", "YFI"],
       "sift": {
         "apiKey": "0ecd212038",

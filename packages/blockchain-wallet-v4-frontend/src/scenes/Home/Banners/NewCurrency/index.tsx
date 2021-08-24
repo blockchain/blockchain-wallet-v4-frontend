@@ -5,48 +5,58 @@ import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { CoinType, WalletCurrencyType } from 'blockchain-wallet-v4/src/types'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
+import { media } from 'services/styles'
 
-import { Wrapper } from '../styles'
+import { getNewCoinAnnouncement } from '../selectors'
 
-const StyledWrapper = styled(Wrapper)`
-  align-items: center !important;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
-    Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-`
-
-const NewAlert = styled.div`
+const Wrapper = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  border-radius: 4px;
-  padding: 4px 8px;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 150%;
-  text-transform: uppercase;
+  box-sizing: border-box;
+  border: 1px solid ${(props) => props.theme.grey000};
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 20px;
+
+  ${media.atLeastLaptop`
+    height: 80px;
+    padding: 0 20px;
+  `}
+`
+const NewCoinWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`
+const VerbText = styled(Text)`
   margin-right: 5px;
-  color: ${(props) => props.theme.green600};
-  background-color: ${(props) => props.theme.green000};
+  font-weight: 600;
+  font-size: 18px;
+  color: ${(props) => props.theme.black};
 `
 
-const VerbText = styled.span`
-  margin-right: 5px;
-  font-weight: 600;
-  font-size: 16px;
-  color: ${(props) => props.theme.grey800};
-`
-
-const Description = styled.span`
-  margin-right: 5px;
+const Description = styled(Text)`
+  margin-top: 2px;
   font-weight: 500;
-  font-size: 14px;
-  color: ${(props) => props.theme.grey600};
+  font-size: 16px;
+  color: ${(props) => props.theme.black};
+  display: none;
+
+  ${media.atLeastMobile`
+    display: block;
+  `}
+`
+
+const CTAWrapper = styled.div`
+  display: flex;
+  align-items: center;
 `
 
 const CTAButton = styled(Button)`
-  margin-right: 5px;
+  margin-right: 12px;
 
   & div {
     color: ${(props) => props.theme.white};
@@ -58,63 +68,57 @@ const CloseLink = styled.div`
   cursor: pointer;
 `
 
-const NewCurrency = ({ announcementState, cacheActions, coinListing, simpleBuyActions }: Props) => {
+const NewCurrency = ({ cacheActions, coinListing, simpleBuyActions }: Props) => {
   if (!coinListing) return null
   if (!window.coins[coinListing]) return null
 
-  const newCoinAnnouncement = `${coinListing}-homepage`
+  const newCoinAnnouncement = getNewCoinAnnouncement(coinListing)
   const { coinfig } = window.coins[coinListing]
   const { name, symbol } = coinfig
-  const isDismissed =
-    (announcementState &&
-      announcementState[newCoinAnnouncement] &&
-      announcementState[newCoinAnnouncement].dismissed) ||
-    false
-
-  if (isDismissed) {
-    return null
-  }
 
   return (
-    <StyledWrapper>
-      <NewAlert>
-        <FormattedMessage id='copy.new' defaultMessage='New' />
-      </NewAlert>
-      <VerbText>
-        {name} {symbol} <FormattedMessage id='copy.now_trading' defaultMessage='is Now Trading' />
-      </VerbText>
-      <Description>
-        <FormattedMessage
-          id='layouts.wallet.header.announcements.newcoin.description_1'
-          defaultMessage='Buy, sell, swap, send, receive and store {coin} in your Blockchain.com Wallet.'
-          values={{ coin: symbol }}
-        />
-      </Description>
+    <Wrapper>
+      <NewCoinWrapper>
+        <Icon name={coinListing} size='36px' style={{ marginRight: '16px' }} />
+        <div>
+          <VerbText>
+            {name} ({symbol}){' '}
+            <FormattedMessage id='copy.now_trading' defaultMessage='is Now Trading' />
+          </VerbText>
+          <Description>
+            <FormattedMessage
+              id='layouts.wallet.header.announcements.newcoin.description_1'
+              defaultMessage='Buy, sell, swap, send, receive and store {coin} in your Blockchain.com Wallet.'
+              values={{ coin: symbol }}
+            />
+          </Description>
+        </div>
+      </NewCoinWrapper>
 
-      <CTAButton
-        data-e2e='newCoinTradeNowButton'
-        nature='primary'
-        onClick={() => simpleBuyActions.showModal('TransactionList', symbol as CoinType)}
-        small
-        style={{ borderRadius: '4px' }}
-      >
-        <Text>
-          <FormattedMessage id='copy.trade' defaultMessage='Trade' /> {symbol}{' '}
-          <FormattedMessage id='copy.now' defaultMessage='Now' />
-        </Text>
-      </CTAButton>
-      <CloseLink
-        data-e2e='newCoinCloseButton'
-        onClick={() => cacheActions.announcementDismissed(newCoinAnnouncement)}
-      >
-        <Icon size='20px' color='grey400' name='close-circle' />
-      </CloseLink>
-    </StyledWrapper>
+      <CTAWrapper>
+        <CTAButton
+          data-e2e='newCoinTradeNowButton'
+          nature='primary'
+          onClick={() => simpleBuyActions.showModal('TransactionList', symbol as CoinType, 'BUY')}
+          small
+          style={{ borderRadius: '4px' }}
+        >
+          <Text>
+            <FormattedMessage id='copy.buy' defaultMessage='Buy' /> {symbol}
+          </Text>
+        </CTAButton>
+        <CloseLink
+          data-e2e='newCoinCloseButton'
+          onClick={() => cacheActions.announcementDismissed(newCoinAnnouncement)}
+        >
+          <Icon size='20px' color='grey400' name='close-circle' />
+        </CloseLink>
+      </CTAWrapper>
+    </Wrapper>
   )
 }
 
 const mapStateToProps = (state) => ({
-  announcementState: selectors.cache.getLastAnnouncementState(state),
   coinListing: selectors.core.walletOptions.getNewCoinListing(state).getOrElse('')
 })
 const mapDispatchToProps = (dispatch: Dispatch) => ({
