@@ -17,7 +17,7 @@ import { RootState } from 'data/rootReducer'
 export const getData = createDeepEqualSelector(
   [
     selectors.custodial.getRecentSwapTxs,
-    selectors.components.utils.getCoinsWithMethodAndOrder,
+    selectors.components.utils.getCoinsWithBalanceOrMethod,
     getAllCoinsBalancesSelector,
     (state: RootState) => state
   ],
