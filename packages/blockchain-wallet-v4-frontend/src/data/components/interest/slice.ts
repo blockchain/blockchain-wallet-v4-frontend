@@ -11,7 +11,7 @@ import {
   InterestLimitsType,
   InterestRateType,
   InterestTransactionType,
-  WithdrawalMinimumType,
+  WithdrawalMinimumTypeResponse,
   WithdrawLimits
 } from 'blockchain-wallet-v4/src/network/api/interest/types'
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
@@ -336,8 +336,13 @@ const interestSlice = createSlice({
     setWithdrawalMinimumsLoading: (state) => {
       state.withdrawalMinimums = Remote.Loading
     },
-    setWithdrawalMinimumsSuccess: (state, action: PayloadAction<WithdrawalMinimumType>) => {
-      state.withdrawalMinimums = Remote.Success(action.payload)
+    setWithdrawalMinimumsSuccess: (
+      state,
+      action: PayloadAction<{ withdrawalMinimumsResponse: WithdrawalMinimumTypeResponse }>
+    ) => {
+      state.withdrawalMinimums = Remote.Success(
+        action.payload.withdrawalMinimumsResponse.minAmounts
+      )
     },
 
     showInterestModal: (state, action: PayloadAction<{ coin: CoinType; step: InterestStep }>) => {

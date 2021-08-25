@@ -13,7 +13,7 @@ import {
   InterestRateType,
   InterestTransactionResponseType,
   InterestWithdrawalResponseType,
-  WithdrawalMinimumType,
+  WithdrawalMinimumTypeResponse,
   WithdrawLimits
 } from './types'
 
@@ -79,7 +79,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const getWithdrawalMinsAndFees = (): WithdrawalMinimumType =>
+  const getWithdrawalMinsAndFees = (): WithdrawalMinimumTypeResponse =>
     authorizedGet({
       endPoint: '/payments/withdrawals/fees?product=SAVINGS',
       ignoreQueryParams: true,

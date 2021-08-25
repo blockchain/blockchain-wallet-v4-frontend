@@ -358,9 +358,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     let defaultAccount
     try {
       yield put(A.setWithdrawalMinimumsLoading())
-      const response: ReturnType<typeof api.getWithdrawalMinsAndFees> = yield call(
-        api.getWithdrawalMinsAndFees
-      )
+      const withdrawalMinimumsResponse: ReturnType<typeof api.getWithdrawalMinsAndFees> =
+        yield call(api.getWithdrawalMinsAndFees)
       if (coinfig.products.includes('PrivateKey')) {
         defaultAccount = yield call(getDefaultAccountForCoin, coin)
       } else {
@@ -376,7 +375,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           interestWithdrawalAccount: defaultAccount
         })
       )
-      yield put(A.setWithdrawalMinimumsSuccess(response))
+      yield put(A.setWithdrawalMinimumsSuccess({ withdrawalMinimumsResponse }))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.setWithdrawalMinimumsFailure({ error }))
