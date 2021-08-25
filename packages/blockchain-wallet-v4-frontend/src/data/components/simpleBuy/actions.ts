@@ -563,6 +563,11 @@ export const setStep = (payload: StepActionsPayload): SimpleBuyActionTypes => ({
   type: AT.SET_STEP
 })
 
+export const setMethod = (payload: SBPaymentMethodType): SimpleBuyActionTypes => ({
+  payload,
+  type: AT.SET_METHOD
+})
+
 export const showModal = (
   origin: SBShowModalOriginType,
   cryptoCurrency?: CoinType,

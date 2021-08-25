@@ -89,6 +89,7 @@ export const POLL_SB_ORDER = '@EVENT.POLL_SB_ORDER'
 
 export const SET_STEP = '@EVENT.SET_SB_STEP'
 export const SET_FIAT_CURRENCY = '@EVENT.SET_FIAT_CURRENCY'
+export const SET_METHOD = '@EVENT.SET_SB_METHOD'
 
 export const SHOW_MODAL = '@EVENT.SHOW_SB_MODAL'
 
