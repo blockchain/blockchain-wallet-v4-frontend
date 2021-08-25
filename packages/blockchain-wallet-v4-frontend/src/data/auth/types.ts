@@ -43,29 +43,28 @@ export type WalletDataFromMagicLink = {
   exchange?: {
     email?: string
     twoFaMode?: boolean
-    userId?: string
+    user_id?: string
   }
-  mergeable: boolean | null
-  upgradeable: boolean | null
+  mergeable?: boolean | null
+  upgradeable?: boolean | null
   wallet: {
-    authType?: number
+    auth_type?: number
     email: string
-    emailCode?: string
+    email_code?: string
     exchange?: {
       email?: string
       twoFaMode?: boolean
-      userId?: string
+      user_id?: string
     }
     guid: string
-    hasCloudBackup: boolean
-    isMobileSetup?: string | boolean
-    lastMnemonicBackup: number | null
-
-    mobileDeviceType: number | null
+    has_cloud_backup?: boolean
+    is_mobile_setup?: string | boolean
+    last_mnemonic_backup?: number | null
+    mobile_device_type?: number | null
     nabu?: {
-      recoveryEligible?: boolean
-      recoveryToken?: string
-      userId?: string
+      recovery_eligible?: boolean
+      recovery_token?: string
+      user_id?: string
     }
   }
 }

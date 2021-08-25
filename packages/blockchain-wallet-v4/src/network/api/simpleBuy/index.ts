@@ -1,8 +1,15 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import axios from 'axios'
 import { Moment } from 'moment'
 import { v4 as uuidv4 } from 'uuid'
 
-import { BankTransferAccountType, RecurringBuyPeriods, RecurringBuyRegisteredList, UserDataType } from 'data/types'
+import {
+  BankTransferAccountType,
+  RecurringBuyNextPayment,
+  RecurringBuyPeriods,
+  RecurringBuyRegisteredList,
+  UserDataType
+} from 'data/types'
 
 import { CoinType, FiatCurrenciesType, FiatType, WalletCurrencyType } from '../../../types'
 import { NabuCustodialProductType, ProductTypes } from '../custodial/types'
@@ -98,7 +105,7 @@ export default ({
     input: SBMoneyType,
     output: SBMoneyType,
     paymentType: SBPaymentMethodType['type'],
-    period: RecurringBuyPeriods,
+    period?: RecurringBuyPeriods,
     paymentMethodId?: SBCardType['id']
   ): SBOrderType =>
     authorizedPost({
@@ -277,25 +284,32 @@ export default ({
       url: nabuUrl
     })
 
-  const getRBRegisteredList = ():RecurringBuyRegisteredList[] =>
+  const getRBRegisteredList = (): RecurringBuyRegisteredList[] =>
     authorizedGet({
       contentType: 'application/json',
       endPoint: '/recurring-buy/list',
       url: nabuUrl
     })
 
-  const getRBPaymentMethods = (): { eligibleMethods: SBPaymentTypes[] } =>
+  const getRBPaymentInfo = (): { nextPayments: RecurringBuyNextPayment[] } =>
     authorizedGet({
       contentType: 'application/json',
-      endPoint: '/recurring-buy/eligible-payment-methods',
+      endPoint: '/recurring-buy/next-payment',
       url: nabuUrl
     })
 
-  const createRecurringBuy = (data):RecurringBuyRegisteredList => 
+  const createRecurringBuy = (data): RecurringBuyRegisteredList =>
     authorizedPost({
       contentType: 'application/json',
-      endPoint: '/recurring-buy/create',
       data,
+      endPoint: '/recurring-buy/create',
+      url: nabuUrl
+    })
+
+  const deleteRecurringBuy = (id): RecurringBuyRegisteredList =>
+    authorizedDelete({
+      contentType: 'application/json',
+      endPoint: `/recurring-buy/${id}/cancel`,
       url: nabuUrl
     })
 
@@ -456,11 +470,12 @@ export default ({
     createRecurringBuy,
     createSBCard,
     createSBOrder,
+    deleteRecurringBuy,
     deleteSavedAccount,
     getBankTransferAccountDetails,
     getBankTransferAccounts,
     getPaymentById,
-    getRBPaymentMethods,
+    getRBPaymentInfo,
     getRBRegisteredList,
     getSBBalances,
     getSBCard,

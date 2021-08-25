@@ -1,9 +1,17 @@
-import { RemoteDataType, SBPaymentTypes, WalletCurrencyType } from 'core/types'
+import { FiatType, RemoteDataType, SBPaymentTypes, WalletCurrencyType } from 'core/types'
+
+export enum ActionEnum {
+  BUY = 'BUY',
+  DEPOSIT = 'DEPOSIT',
+  SELL = 'SELL',
+  SWAP = 'SWAP',
+  WITHDRAWAL = 'WITHDRAWAL'
+}
 
 // state
 export type RecurringBuyState = {
   active?: RecurringBuyRegisteredList
-  methods: RemoteDataType<string, RecurringBuyPeriods[]>
+  paymentInfo: RemoteDataType<string, RecurringBuyNextPayment[]>
   period: RecurringBuyPeriods
   registeredList: RemoteDataType<string, RecurringBuyRegisteredList[]>
   step: RecurringBuyStepType
@@ -15,15 +23,9 @@ export enum RecurringBuyStepType {
   'FREQUENCY',
   'CHECKOUT_CONFIRM',
   'SUMMARY',
-  'FAILURE'
-}
-
-export enum RecurringBuyPeriods {
-  BI_WEEKLY = 'BI_WEEKLY',
-  DAILY = 'DAILY',
-  MONTHLY = 'MONTHLY',
-  ONE_TIME = 'ONE_TIME',
-  WEEKLY = 'WEEKLY'
+  'FAILURE',
+  'DETAILS',
+  'REMOVE_CONFIRM'
 }
 
 export type RecurringBuyStepPayload = {
@@ -38,6 +40,7 @@ export enum RecurringBuyItemState {
 export type RecurringBuyRegisteredList = {
   destinationCurrency: WalletCurrencyType
   id: string
+  inputCurrency: FiatType
   inputValue: string
   insertedAt: string
   nextPayment: string
@@ -47,4 +50,25 @@ export type RecurringBuyRegisteredList = {
   state: RecurringBuyItemState
   updatedAt: string
   userId: string
+}
+
+export type RecurringBuyNextPayment = {
+  eligibleMethods: SBPaymentTypes[]
+  nextPayment: string
+  period: RecurringBuyPeriods
+}
+/* eslint-disable */
+export enum RecurringBuyPeriods {
+  ONE_TIME = 'ONE_TIME',
+  DAILY = 'DAILY',
+  WEEKLY = 'WEEKLY',
+  BI_WEEKLY = 'BI_WEEKLY',
+  MONTHLY = 'MONTHLY'
+}
+/* eslint-enable */
+
+export enum RecurringBuyFailureReasons {
+  FAILED_BAD_FILL = 'FAILED_BAD_FILL',
+  FAILED_BENEFICIARY_BLOCKED = 'FAILED_BENEFICIARY_BLOCKED',
+  FAILED_INSUFFICIENT_FUNDS = 'FAILED_INSUFFICIENT_FUNDS'
 }

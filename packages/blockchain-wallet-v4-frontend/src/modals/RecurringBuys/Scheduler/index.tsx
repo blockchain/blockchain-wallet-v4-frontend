@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import { connect, ConnectedProps, useDispatch } from 'react-redux'
 
 import { SBPaymentMethodType } from 'core/types'
-import { actions } from 'data'
-import { RootState } from 'data/rootReducer'
+import { actions, selectors } from 'data'
+import { RecurringBuyPeriods } from 'data/types'
 
 import Success from './template.success'
 
@@ -12,21 +12,33 @@ const SchedulerContainer = (props: Props) => {
   const { method } = props
 
   useEffect(() => {
-    dispatch(actions.components.recurringBuy.fetchMethods())
-  }, [dispatch, method])
+    if (!props.availableMethod) {
+      dispatch(actions.form.change('simpleBuyCheckout', 'period', RecurringBuyPeriods.ONE_TIME))
+    }
+  }, [method, props.availableMethod])
 
-  return (
-    <>
-      <Success disabled={false} />
-    </>
-  )
+  if (props.availableMethod) {
+    return <Success {...props} />
+  }
+
+  return null
 }
 
-const mapStateToProps = () => ({})
+const mapStateToProps = (state, ownProps: OwnProps) => ({
+  availableMethod: selectors.components.recurringBuy.isAvailableMethod(
+    ownProps.period,
+    ownProps.method
+  )(state)
+})
 
 const connector = connect(mapStateToProps)
 
-type OwnProps = { method?: SBPaymentMethodType }
+type OwnProps = {
+  children: React.ReactNode
+  method?: SBPaymentMethodType
+  onClick: () => void
+  period: RecurringBuyPeriods
+}
 export type Props = ConnectedProps<typeof connector> & OwnProps
 
 export default connector(SchedulerContainer)

@@ -1,17 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import Bowser from 'bowser'
-import { Field } from 'redux-form'
+import { Field, InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
-import {
-  Banner,
-  Button,
-  HeartbeatLoader,
-  Link,
-  Text,
-  TextGroup
-} from 'blockchain-info-components'
+import { Banner, Button, HeartbeatLoader, Link, Text, TextGroup } from 'blockchain-info-components'
 import {
   CheckBox,
   Form,
@@ -19,9 +11,12 @@ import {
   FormItem,
   FormLabel,
   PasswordBox,
+  SelectBoxCountry,
+  SelectBoxUSState,
   TextBox
 } from 'components/Form'
 import Terms from 'components/Terms'
+import { isBrowserSupported } from 'services/browser'
 import {
   required,
   validEmail,
@@ -29,23 +24,15 @@ import {
   validStrongPassword
 } from 'services/forms'
 
-const browser = Bowser.getParser(window.navigator.userAgent)
-const isSupportedBrowser = browser.satisfies({
-  chrome: '>45',
-  chromium: '>45',
-  edge: '>16',
-  firefox: '>45',
-  opera: '>20',
-  safari: '>8',
-  vivaldi: '>2'
-})
+import { SubviewProps } from '../../types'
 
-const RegisterForm = styled(Form)`
+const isSupportedBrowser = isBrowserSupported()
+
+const StyledForm = styled(Form)`
   margin-top: 20px;
 
   > div * {
     max-height: 26rem;
-    z-index: 1;
     transition: all 0.5s ease;
   }
 `
@@ -55,35 +42,38 @@ const BrowserWarning = styled.div`
 const PasswordTip = styled(Text)`
   margin-top: 4px;
 `
-
 const FieldWrapper = styled.div`
   margin-top: 0.25rem;
   margin-right: 0 !important;
 `
+const FieldWithoutBottomRadius = styled(FormItem)<{ setBorder: boolean }>`
+  .bc__control {
+    border-radius: ${(props) => (props.setBorder ? '8px 8px 0 0 ' : '8px')};
+  }
+`
+const FieldWithoutTopRadius = styled(FormItem)<{ setBorder: boolean }>`
+  .bc__control {
+    border-radius: ${(props) => (props.setBorder ? '0 0 8px 8px' : '8px')};
+  }
+`
 
 const validatePasswordConfirmation = validPasswordConfirmation('password')
 
-const scrollToId = id => {
-  const element = document.getElementById(id)
-  if (element) {
-    element.scrollIntoView({ behavior: 'smooth' })
-  }
-}
+const SignupForm = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) => {
+  const {
+    formValues,
+    invalid,
+    isFormSubmitting,
+    onCountrySelect,
+    onSignupSubmit,
+    showState,
+    signupCountryEnabled
+  } = props
+  const { password = '' } = formValues || {}
+  const passwordScore = window.zxcvbn ? window.zxcvbn(password).score : 0
 
-const scrollToPassword = () => scrollToId('password')
-
-const scrollToSecondPassword = () => scrollToId('confirmationPassword')
-
-const SignupForm = ({
-  busy,
-  handleSubmit,
-  invalid,
-  password,
-  passwordLength
-}) => {
-  let passwordScore = window.zxcvbn ? window.zxcvbn(password).score : 0
   return (
-    <RegisterForm override onSubmit={handleSubmit}>
+    <StyledForm override onSubmit={onSignupSubmit}>
       {!isSupportedBrowser && (
         <BrowserWarning>
           <Banner type='warning'>
@@ -97,10 +87,7 @@ const SignupForm = ({
       <FormGroup>
         <FormItem>
           <FormLabel htmlFor='email'>
-            <FormattedMessage
-              id='scenes.register.youremail'
-              defaultMessage='Your Email'
-            />
+            <FormattedMessage id='scenes.register.youremail' defaultMessage='Your Email' />
           </FormLabel>
           <Field
             autoFocus
@@ -116,10 +103,7 @@ const SignupForm = ({
       <FormGroup>
         <FormItem>
           <FormLabel htmlFor='password' id='password'>
-            <FormattedMessage
-              defaultMessage='Password'
-              id='scenes.register.password'
-            />
+            <FormattedMessage defaultMessage='Password' id='scenes.register.password' />
           </FormLabel>
           <Field
             bgColor='grey000'
@@ -127,13 +111,12 @@ const SignupForm = ({
             data-e2e='signupPassword'
             disabled={!isSupportedBrowser}
             name='password'
-            onFocus={scrollToPassword}
             passwordScore={passwordScore}
             showPasswordScore
             validate={[required, validStrongPassword]}
           />
         </FormItem>
-        {passwordLength > 0 && (
+        {password.length > 0 && (
           <div>
             <PasswordTip size='12px' weight={400}>
               {passwordScore <= 1 && (
@@ -172,19 +155,58 @@ const SignupForm = ({
             data-e2e='signupConfirmPassword'
             disabled={!isSupportedBrowser}
             name='confirmationPassword'
-            onFocus={scrollToSecondPassword}
             validate={[required, validatePasswordConfirmation]}
           />
         </FormItem>
       </FormGroup>
+      {signupCountryEnabled && (
+        <FormGroup>
+          <FieldWithoutBottomRadius setBorder={showState}>
+            <FormLabel htmlFor='country' id='country'>
+              <FormattedMessage
+                defaultMessage='Country of Residence'
+                id='scenes.register.countryofresidence'
+              />
+            </FormLabel>
+            <Field
+              data-e2e='selectCountryDropdown'
+              name='country'
+              validate={required}
+              component={SelectBoxCountry}
+              menuPlacement='auto'
+              // @ts-ignore
+              onChange={onCountrySelect}
+              label={
+                <FormattedMessage
+                  id='components.selectboxcountry.label'
+                  defaultMessage='Select country'
+                />
+              }
+            />
+          </FieldWithoutBottomRadius>
+          {showState ? (
+            <FieldWithoutTopRadius setBorder={showState}>
+              <Field
+                name='state'
+                component={SelectBoxUSState}
+                errorBottom
+                validate={[required]}
+                normalize={(val) => val && val.code}
+                label={
+                  <FormattedMessage
+                    id='components.selectboxstate.label'
+                    defaultMessage='Select state'
+                  />
+                }
+              />
+            </FieldWithoutTopRadius>
+          ) : null}
+        </FormGroup>
+      )}
+
       <FormGroup inline>
         <FieldWrapper>
-          <Field
-            name='secretPhase'
-            validate={[required]}
-            component={CheckBox}
-            hideErrors
-          />
+          <Field name='secretPhase' validate={[required]} component={CheckBox} hideErrors />
         </FieldWrapper>
         <FormLabel>
           <TextGroup inline>
@@ -223,16 +245,13 @@ const SignupForm = ({
 
       <Button
         data-e2e='signupButton'
-        disabled={busy || invalid}
+        disabled={isFormSubmitting || invalid}
         fullwidth
         height='48px'
         nature='primary'
-        style={{
-          borderRadius: '8px'
-        }}
         type='submit'
       >
-        {busy ? (
+        {isFormSubmitting ? (
           <HeartbeatLoader height='20px' width='20px' color='white' />
         ) : (
           <Text color='whiteFade900' size='16px' weight={600}>
@@ -243,7 +262,7 @@ const SignupForm = ({
           </Text>
         )}
       </Button>
-    </RegisterForm>
+    </StyledForm>
   )
 }
 

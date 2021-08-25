@@ -200,7 +200,6 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
     ) : (
       `${orderType === OrderType.BUY ? 'Buy' : 'Sell'} ${baseAmount} ${baseCurrency}`
     )
-
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper>
