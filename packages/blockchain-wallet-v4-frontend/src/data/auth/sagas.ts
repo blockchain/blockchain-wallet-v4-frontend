@@ -234,7 +234,8 @@ export default ({ api, coreSagas, networks }) => {
     email = undefined,
     firstLogin = false,
     country = undefined,
-    state = undefined
+    state = undefined,
+    recovery = false
   }) {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
@@ -253,6 +254,7 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.auth.upgradeWallet(4))
         yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
       }
+      const isAccountReset: boolean = yield select(selectors.auth.getAccountReset)
       // Finish upgrades
       yield put(actions.auth.authenticate())
       yield put(actions.auth.setFirstLogin(firstLogin))
@@ -276,7 +278,11 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.core.settings.setCurrency(currency))
         // fetch settings again
         yield call(coreSagas.settings.fetchSettings)
-        yield put(actions.router.push('/verify-email-step'))
+        if (!isAccountReset) {
+          yield put(actions.router.push('/verify-email-step'))
+        } else {
+          yield put(actions.router.push('/home'))
+        }
       } else {
         yield put(actions.router.push('/home'))
       }
@@ -314,7 +320,7 @@ export default ({ api, coreSagas, networks }) => {
       const signupCountryEnabled = (yield select(
         selectors.core.walletOptions.getFeatureSignupCountry
       )).getOrElse(false)
-      if (firstLogin && signupCountryEnabled) {
+      if (firstLogin && signupCountryEnabled && !isAccountReset && !recovery) {
         // create nabu user
         yield call(createUser)
         // store initial address in case of US state we add prefix
@@ -553,7 +559,8 @@ export default ({ api, coreSagas, networks }) => {
 
       yield call(loginRoutineSaga, {
         email: action.payload.email,
-        firstLogin: true
+        firstLogin: true,
+        recovery: true
       })
       yield put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS))
       yield put(actions.auth.restoreSuccess())
