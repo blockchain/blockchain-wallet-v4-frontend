@@ -2,10 +2,6 @@ import styled from 'styled-components'
 
 import { media } from 'services/styles'
 
-import SavedRecurringBuy from './SavedRecurringBuy'
-
-export { SavedRecurringBuy }
-
 export const Container = styled.div`
   display: flex;
   > div {

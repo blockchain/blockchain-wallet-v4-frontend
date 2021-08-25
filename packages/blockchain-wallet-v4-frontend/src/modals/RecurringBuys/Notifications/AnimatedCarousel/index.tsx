@@ -36,7 +36,6 @@ class AnimatedCarousel extends React.PureComponent<Props, State> {
   }
 
   handleClick = (index: number) => {
-    this.props.stepChange(index)
     this.setState({ index })
   }
 

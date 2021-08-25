@@ -30,6 +30,7 @@ export const getCoinsWithMethodAndOrder = (state: RootState) => {
       (coin) => window.coins[coin] && window.coins[coin].coinfig.type.erc20Address
     )
     const coinsInRecentSwaps = recentSwapTxs.map((tx) => getOutputFromPair(tx.pair))
+    // remove coins that may not yet exist in wallet options to avoid app crash
     const coinOrder = [
       ...new Set([
         'USD',
@@ -58,7 +59,7 @@ export const getCoinsWithMethodAndOrder = (state: RootState) => {
         return {
           ...coin,
           method:
-            coin.coinfig.type.name !== 'FIAT' ||
+            !coin.coinfig.type.isFiat ||
             !!paymentMethods.methods.find(
               (method) => method.currency === coin.coinCode && method.type === SBPaymentTypes.FUNDS
             )

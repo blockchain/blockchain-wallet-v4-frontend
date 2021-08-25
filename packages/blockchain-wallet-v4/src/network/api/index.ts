@@ -1,3 +1,4 @@
+import analytics from './analytics'
 import apiAuthorize from './apiAuthorize'
 import bch from './bch'
 import bitpay from './bitpay'
@@ -32,6 +33,7 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
   const rootUrl = options.domains.root
 
   return {
+    ...analytics({ apiUrl, rootUrl, ...http }),
     ...bch({ apiUrl, ...http }),
     ...bitpay({ bitpayUrl }),
     ...btc({ apiUrl, rootUrl, ...http }),
@@ -91,7 +93,8 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
 
 export default api
 
-export type APIType = ReturnType<typeof bch> &
+export type APIType = ReturnType<typeof analytics> &
+  ReturnType<typeof bch> &
   ReturnType<typeof btc> &
   ReturnType<typeof coin> &
   ReturnType<typeof custodial> &

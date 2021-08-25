@@ -1,12 +1,8 @@
 import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { Button, Icon, Text } from 'blockchain-info-components'
-import { FlyoutFooter, FlyoutHeader } from 'components/Flyout'
-import { actions } from 'data'
+import { Button, FlyoutFooter, FlyoutHeader, Icon, Text } from 'blockchain-info-components'
 
 import AnimatedCarousel from './AnimatedCarousel'
 import AnimatedGraph from './AnimatedGraph'
@@ -31,12 +27,11 @@ const Slide = styled.div`
   height: 100%;
 `
 const SlideStart = styled(Slide)`
-  justify-content: center;
+  justify-content: flex-start;
 `
 
 const SlideContent = styled.div`
   padding: 0 40px;
-  text-align: center;
 `
 
 const SyncIconWrapper = styled.div`
@@ -95,13 +90,13 @@ class Notifications extends PureComponent<Props, State> {
           <AnimatedCarousel stepChange={this.stepChange}>
             <Slide>
               <SlideContent>
-                <Text size='24px' weight={600} color='grey900'>
+                <Text size='32px' weight={600} color='grey900' style={{ marginBottom: '40px' }}>
                   <FormattedMessage
                     id='modals.recurringbuys.notification.page_1.title'
                     defaultMessage='Instead of timing the market, many smart investors use'
                   />
                 </Text>
-                <Text size='24px' weight={600} color='blue600' lineHeight='40px'>
+                <Text size='32px' weight={600} color='blue600' lineHeight='40px'>
                   <FormattedMessage
                     id='modals.recurringbuys.notification.page_1.description'
                     defaultMessage='Dollar cost averaging'
@@ -111,13 +106,13 @@ class Notifications extends PureComponent<Props, State> {
             </Slide>
             <SlideStart>
               <SlideContent>
-                <Text size='24px' weight={600} color='grey900'>
+                <Text size='32px' weight={600} color='grey900' style={{ marginBottom: '40px' }}>
                   <FormattedMessage
                     id='modals.recurringbuys.notification.page_2.title'
                     defaultMessage='The strategy is pretty simple'
                   />
                 </Text>
-                <Text size='24px' weight={600} color='blue600' lineHeight='40px'>
+                <Text size='32px' weight={600} color='blue600' lineHeight='40px'>
                   <FormattedMessage
                     id='modals.recurringbuys.notification.page_2.description'
                     defaultMessage='Invest the same amount every week'
@@ -127,51 +122,51 @@ class Notifications extends PureComponent<Props, State> {
             </SlideStart>
             <SlideStart>
               <SlideContent>
-                <Text size='24px' weight={600} color='grey900'>
+                <Text size='32px' weight={600} color='grey900' style={{ marginBottom: '40px' }}>
                   <FormattedMessage
                     id='modals.recurringbuys.notification.page_3.title'
-                    defaultMessage='When the price goes down'
+                    defaultMessage='When the price goes down,'
                   />
                 </Text>
-                <Text size='24px' weight={600} color='blue600' lineHeight='40px'>
+                <Text size='32px' weight={600} color='blue600' lineHeight='40px'>
                   <FormattedMessage
                     id='modals.recurringbuys.notification.page_3.description'
-                    defaultMessage='You’ll buy more crypto'
+                    defaultMessage='You’ll buy more crypto.'
                   />
                 </Text>
               </SlideContent>
             </SlideStart>
             <SlideStart>
               <SlideContent>
-                <Text size='24px' weight={600} color='grey900'>
+                <Text size='32px' weight={600} color='grey900' style={{ marginBottom: '40px' }}>
                   <FormattedMessage
                     id='modals.recurringbuys.notification.page_4.title'
-                    defaultMessage='When the price goes up'
+                    defaultMessage='When the price goes up,'
                   />
                 </Text>
-                <Text size='24px' weight={600} color='blue600' lineHeight='40px'>
+                <Text size='32px' weight={600} color='blue600' lineHeight='40px'>
                   <FormattedMessage
                     id='modals.recurringbuys.notification.page_4.description'
-                    defaultMessage='You’ll buy less'
+                    defaultMessage='You’ll buy less.'
                   />
                 </Text>
               </SlideContent>
             </SlideStart>
             <Slide>
               <SlideContent>
-                <Text size='24px' weight={600} color='grey900' style={{ marginBottom: '40px' }}>
+                <Text size='32px' weight={600} color='grey900' style={{ marginBottom: '40px' }}>
                   <FormattedMessage
                     id='modals.recurringbuys.notification.page_5.title'
                     defaultMessage='But does it work?'
                   />
                 </Text>
-                <Text size='24px' weight={600} color='grey900' lineHeight='40px'>
+                <Text size='32px' weight={600} color='grey900' lineHeight='40px'>
                   <FormattedMessage
                     id='modals.recurringbuys.notification.page_5.description'
                     defaultMessage='Over the past 5 years, buying Bitcoin every week performed better than timing the market'
                   />
                 </Text>
-                <Text size='24px' weight={600} color='blue600' lineHeight='40px'>
+                <Text size='32px' weight={600} color='blue600' lineHeight='40px'>
                   <FormattedMessage
                     id='modals.recurringbuys.notification.page_5.disclaimer'
                     defaultMessage='82% of the time.'
@@ -191,8 +186,7 @@ class Notifications extends PureComponent<Props, State> {
             color='red400'
             style={{ marginTop: '16px' }}
             onClick={() => {
-              this.props.simpleBuyActions.showModal('RecurringBuyPromo')
-              this.props.modalActions.closeModal('RECURRING_BUYS_MODAL')
+              // alert
             }}
           >
             <FormattedMessage
@@ -206,7 +200,7 @@ class Notifications extends PureComponent<Props, State> {
   }
 }
 
-type OwnProps = {
+type Props = {
   handleClose: () => void
 }
 
@@ -214,13 +208,4 @@ type State = {
   stepIndex: number
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
-})
-
-const connector = connect(null, mapDispatchToProps)
-
-export type Props = OwnProps & ConnectedProps<typeof connector>
-
-export default connector(Notifications)
+export default Notifications

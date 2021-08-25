@@ -89,10 +89,4 @@ export const getIncomingAmount = (state: RootState) => {
 }
 
 export const getCoins = () =>
-  Object.keys(window.coins).filter((coin) => {
-    const { products, type } = window.coins[coin].coinfig
-    return (
-      (products.includes('PrivateKey') || products.includes('CustodialWalletBalance')) &&
-      type.name !== 'FIAT'
-    )
-  })
+  Object.keys(window.coins).filter((coin) => !window.coins[coin].coinfig.type.isFiat)

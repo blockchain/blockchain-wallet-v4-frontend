@@ -109,7 +109,7 @@ class SecondStep extends React.PureComponent<Props, State> {
                     )}
                     {!isRestoringFromMetadata && (
                       <FormattedMessage
-                        id='copy.new_password'
+                        id='scenes.securitysettings.advanced.walletpassword.settings.new'
                         defaultMessage='New Password'
                       />
                     )}

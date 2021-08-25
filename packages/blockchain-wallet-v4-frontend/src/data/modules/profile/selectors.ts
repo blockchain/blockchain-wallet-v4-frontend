@@ -128,8 +128,7 @@ export const getShareWalletAddressesStatus = (state: RootState) =>
   state.profile.exchangeOnboarding.shareWalletAddressesWithExchange
 
 export const getRemainingCoins = (state) => {
-  // TODO, fix this
-  const exchangeCoinsList = []
+  const exchangeCoinsList = selectors.core.walletOptions.getSyncToExchangeList(state).getOrElse([])
   const walletAddressesR = getWalletAddresses(state) as RemoteDataType<string, any>
   const walletAddresses = walletAddressesR.getOrElse({})
   const walletAddressesList = keys(walletAddresses)

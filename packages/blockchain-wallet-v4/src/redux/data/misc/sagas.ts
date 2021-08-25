@@ -103,19 +103,16 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const authorizeLogin = function* (action) {
-    const { confirm, session, token } = action.payload
+    const { confirm, token } = action.payload
     try {
       yield put(A.authorizeLoginLoading())
-      const data = yield call(api.authorizeLogin, token, confirm, session)
+      const data = yield call(api.authorizeLogin, token, confirm)
       if (data.success || data.device_change_reason) {
         yield put(A.authorizeLoginSuccess(data))
       } else {
         yield put(A.authorizeLoginFailure(data.error))
       }
     } catch (e) {
-      if (e.status === 409) {
-        yield put(A.authorizeLoginFailure(e.status))
-      }
       yield put(A.authorizeLoginFailure(e.message || e.error))
     }
   }

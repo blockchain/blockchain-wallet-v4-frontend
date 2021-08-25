@@ -3,7 +3,6 @@ import styled from 'styled-components'
 
 import CreateAccount from './CreateAccount'
 import DropdownLanguage from './DropdownLanguage'
-import Exchange from './Exchange'
 import Help from './Help'
 import Version from './Version'
 
@@ -12,12 +11,10 @@ const FooterInner = styled.div`
   padding-bottom: 0;
 `
 
-const Footer = ({ isFirstLoginStep, isSecondLoginStep }: Props) => {
+const Footer = ({ isLogin }: Props) => {
   return (
     <>
-      <FooterInner>
-        {isFirstLoginStep ? <Exchange /> : isSecondLoginStep ? <CreateAccount /> : null}
-      </FooterInner>
+      <FooterInner>{isLogin ? <CreateAccount /> : null}</FooterInner>
       <FooterInner>
         <DropdownLanguage color='grey400' size='16px' />
         <Version />
@@ -28,8 +25,7 @@ const Footer = ({ isFirstLoginStep, isSecondLoginStep }: Props) => {
 }
 
 type Props = {
-  isFirstLoginStep: boolean
-  isSecondLoginStep: boolean
+  isLogin: boolean
 }
 
 export default Footer

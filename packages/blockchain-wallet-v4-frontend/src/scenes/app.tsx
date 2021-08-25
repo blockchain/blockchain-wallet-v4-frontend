@@ -10,7 +10,6 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { v4 as uuidv4 } from 'uuid'
 
 import SiftScience from 'components/SiftScience'
-import SupportChat from 'components/SupportChat'
 import { selectors } from 'data'
 import { UserDataType } from 'data/types'
 import PublicLayout from 'layouts/Public'
@@ -31,7 +30,7 @@ const Logout = React.lazy(() => import('./Logout'))
 const MobileLogin = React.lazy(() => import('./MobileLogin'))
 const RecoverWallet = React.lazy(() => import('./RecoverWallet'))
 const RecoverWalletLegacy = React.lazy(() => import('./RecoverWalletLegacy'))
-const Signup = React.lazy(() => import('./Signup'))
+const Register = React.lazy(() => import('./Register'))
 const ResetWallet2fa = React.lazy(() => import('./ResetWallet2fa'))
 const ResetWallet2faToken = React.lazy(() => import('./ResetWallet2faToken'))
 const UploadDocuments = React.lazy(() => import('./UploadDocuments'))
@@ -92,7 +91,7 @@ const App = ({
                     />
                     <PublicLayout path='/reset-2fa' component={ResetWallet2fa} />
                     <PublicLayout path='/reset-two-factor' component={ResetWallet2faToken} />
-                    <PublicLayout path='/signup' component={Signup} />
+                    <PublicLayout path='/signup' component={Register} />
                     <PublicLayout path='/verify-email' component={VerifyEmailToken} />
                     <PublicLayout
                       path='/upload-document/success'
@@ -131,7 +130,6 @@ const App = ({
                   </Switch>
                 </Suspense>
               </ConnectedRouter>
-              {isAuthenticated && <SupportChat />}
               <SiftScience userId={userData.id} />
               <AnalyticsTracker />
             </MediaContextProvider>

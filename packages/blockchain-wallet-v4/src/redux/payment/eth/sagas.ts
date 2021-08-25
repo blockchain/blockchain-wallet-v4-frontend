@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import BigNumber from 'bignumber.js'
 import EthUtil from 'ethereumjs-util'
 import { identity, indexOf, isNil, mergeRight, path, prop, toLower } from 'ramda'

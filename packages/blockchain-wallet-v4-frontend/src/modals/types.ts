@@ -1,7 +1,5 @@
-import { ModalNameType } from 'data/types'
-
 export type ModalPropsType = {
-  close: (name?: ModalNameType) => void
+  close: () => void
   closeAll?: () => void
   position: number
   total: number

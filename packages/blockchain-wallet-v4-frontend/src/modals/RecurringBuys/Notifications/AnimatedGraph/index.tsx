@@ -5,19 +5,15 @@ import styled from 'styled-components'
 import animationData from '../graph.json'
 
 const GraphAnimation = styled.div`
-  background-color: ${(props) => props.theme.white};
+  background-color: #ffffff;
   width: 100%;
-  height: 14.4rem;
+  height: 100%;
   display: block;
   overflow: hidden;
   transform: translate3d(0, 0, 0);
   text-align: center;
   opacity: 1;
   background-image: none;
-
-  & > svg {
-    height: 10.4rem !important;
-  }
 `
 
 const AnimatedGraph = ({ stepIndex }: { stepIndex: number }) => {

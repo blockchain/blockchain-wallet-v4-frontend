@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
+import Bowser from 'bowser'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
@@ -13,9 +14,11 @@ import {
   SettingSummary
 } from 'components/Setting'
 import { actions, model } from 'data'
-import { isBrowserSafari } from 'services/browser'
 
-const isSafari = isBrowserSafari()
+const browser = Bowser.getParser(window.navigator.userAgent)
+const isSafari = browser.satisfies({
+  safari: '>8'
+})
 
 const TextWrapper = styled(Text)`
   a {

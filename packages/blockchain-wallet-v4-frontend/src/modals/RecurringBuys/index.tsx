@@ -10,11 +10,9 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
 import CheckoutConfirm from './CheckoutConfirm'
-import Details from './Details'
 import Frequency from './Frequency'
 import GetStarted from './GetStarted'
 import Notifications from './Notifications'
-import RemoveConfirm from './RemoveConfirm'
 import Summary from './Summary'
 
 class RecurringBuys extends PureComponent<Props, State> {
@@ -62,16 +60,6 @@ class RecurringBuys extends PureComponent<Props, State> {
         {this.props.step === RecurringBuyStepType.SUMMARY && (
           <FlyoutChild>
             <Summary {...this.props} />
-          </FlyoutChild>
-        )}
-        {this.props.step === RecurringBuyStepType.DETAILS && (
-          <FlyoutChild>
-            <Details {...this.props} />
-          </FlyoutChild>
-        )}
-        {this.props.step === RecurringBuyStepType.REMOVE_CONFIRM && (
-          <FlyoutChild>
-            <RemoveConfirm {...this.props} />
           </FlyoutChild>
         )}
       </Flyout>

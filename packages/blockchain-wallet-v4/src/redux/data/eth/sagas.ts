@@ -80,7 +80,6 @@ export default ({ api }: { api: APIType }) => {
         latest_block: latestBlock
       }
       yield put(A.fetchDataSuccess(ethData))
-      // eslint-disable-next-line
       yield call(checkForLowEthBalance)
     } catch (e) {
       yield put(A.fetchDataFailure(errorHandler(e)))
@@ -107,6 +106,13 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const watchTransactions = function* () {
+    while (true) {
+      const action = yield take(AT.FETCH_ETH_TRANSACTIONS)
+      yield call(fetchTransactions, action)
+    }
+  }
+
   const fetchTransactions = function* ({ payload }) {
     const { address, reset } = payload
     try {
@@ -123,7 +129,6 @@ export default ({ api }: { api: APIType }) => {
       const atBounds = length(txPage) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
 
-      // eslint-disable-next-line
       const processedTxPage: Array<EthProcessedTxType> = yield call(__processTxs, txPage)
       const nextSBTransactionsURL = selectors.data.custodial.getNextSBTransactionsURL(
         yield select(),
@@ -146,69 +151,6 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const watchTransactions = function* () {
-    while (true) {
-      const action = yield take(AT.FETCH_ETH_TRANSACTIONS)
-      yield call(fetchTransactions, action)
-    }
-  }
-
-  const __buildTransactionReportModel = function (
-    prunedTxList,
-    historicalPrices,
-    currentPrices,
-    coin
-  ) {
-    const mapIndexed = addIndex(map)
-    const fiatSymbol = prop('symbol', currentPrices)
-    const currentPrice = new BigNumber(prop('last', currentPrices))
-    return mapIndexed((tx, idx) => {
-      const timeFormatted = join(
-        ' ',
-        takeLast(
-          2,
-          moment
-            // @ts-ignore
-            .unix(tx.time)
-            .toString()
-            .split(' ')
-        )
-      )
-      // @ts-ignore
-      const txType = prop('type', tx) as string
-      const negativeSignOrEmpty = equals('sent', txType) ? '-' : ''
-      const priceAtTime = new BigNumber(
-        // @ts-ignore
-        prop('price', nth(idx, historicalPrices))
-      )
-      // @ts-ignore
-      const value = tx.amount as string
-      const amountBig = new BigNumber(
-        Exchange.convertCoinToCoin({
-          coin,
-          value
-        })
-      )
-      const valueThen = amountBig.multipliedBy(priceAtTime).toFixed(2)
-      const valueNow = amountBig.multipliedBy(currentPrice).toFixed(2)
-      return {
-        amount: `${negativeSignOrEmpty}${amountBig.toString()}`,
-        // @ts-ignore
-        date: moment.unix(prop('time', tx)).format('YYYY-MM-DD'),
-        // @ts-ignore
-        description: prop('description', tx),
-
-        exchange_rate_then: fiatSymbol + priceAtTime.toFixed(2),
-        // @ts-ignore
-        hash: prop('hash', tx),
-        time: timeFormatted,
-        type: txType,
-        value_now: `${fiatSymbol}${negativeSignOrEmpty}${valueNow}`,
-        value_then: `${fiatSymbol}${negativeSignOrEmpty}${valueThen}`
-      }
-    }, prunedTxList)
-  }
-
   const fetchTransactionHistory = function* ({ payload }) {
     const { address, endDate, startDate } = payload
     let currentPage = 0
@@ -227,7 +169,7 @@ export default ({ api }: { api: APIType }) => {
       )
       let fullTxList = prop('accountTransactions', accountSummary)
       const txCount = prop('transactionCount', accountSummary)
-      currentPage += 1
+      currentPage++
 
       // keep fetching pages until we reach last page or last (oldest) tx
       // from previous page is before requested start date
@@ -243,10 +185,9 @@ export default ({ api }: { api: APIType }) => {
           TX_REPORT_PAGE_SIZE
         )
         fullTxList = fullTxList.concat(prop('transactions', txPage))
-        currentPage += 1
+        currentPage++
       }
       // process txs further for report
-      // eslint-disable-next-line
       const processedTxList = yield call(__processReportTxs, fullTxList, startDate, endDate)
       yield put(A.fetchTransactionHistorySuccess(processedTxList))
     } catch (e) {
@@ -337,7 +278,6 @@ export default ({ api }: { api: APIType }) => {
   const watchErc20Transactions = function* () {
     while (true) {
       const action = yield take(AT.FETCH_ERC20_TOKEN_TRANSACTIONS)
-      // eslint-disable-next-line
       yield call(fetchErc20Transactions, action)
     }
   }
@@ -364,7 +304,6 @@ export default ({ api }: { api: APIType }) => {
       if (isNil(txs)) return
       const atBounds = length(txs) < TX_PER_PAGE
       yield put(A.erc20TransactionsAtBound(token, atBounds))
-      // eslint-disable-next-line
       const walletPage: Array<EthProcessedTxType> = yield call(__processErc20Txs, txs, token)
       const coin: Erc20CoinType = token.toUpperCase()
       const nextSBTransactionsURL = selectors.data.custodial.getNextSBTransactionsURL(
@@ -425,7 +364,7 @@ export default ({ api }: { api: APIType }) => {
       )
       let fullTxList = prop('transfers', accountSummary)
       const txCount = prop('transferCount', accountSummary)
-      currentPage += 1
+      currentPage++
 
       // keep fetching pages until we reach last page or last tx free previous page is before requested start date
       while (
@@ -441,12 +380,11 @@ export default ({ api }: { api: APIType }) => {
           TX_REPORT_PAGE_SIZE
         )
         fullTxList = fullTxList.concat(prop('transfers', txPage))
-        currentPage += 1
+        currentPage++
       }
 
       // process txs further for report
       const processedTxList = yield call(
-        // eslint-disable-next-line
         __processErc20ReportTxs,
         fullTxList,
         startDate,
@@ -461,39 +399,86 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const __processReportTxs = function* (rawTxList, startDate, endDate) {
-    // eslint-disable-next-line
-    const fullTxList = yield call(__processTxs, rawTxList)
-    const ethMarketData = (yield select(selectors.data.eth.getRates)).getOrFail()
-
-    // remove txs that dont match coin type and are not within date range
-    const prunedTxList = filter((tx) => {
-      // @ts-ignore
-      return moment.unix(tx.time).isBetween(startDate, endDate)
-    }, fullTxList)
-
-    // return empty list if no tx found in filter set
-    if (!length(prunedTxList)) return []
-    // @ts-ignore
-    const txTimestamps = pluck('time', prunedTxList)
-    const currency = (yield select(selectors.settings.getCurrency)).getOrElse('USD')
-
-    // fetch historical price data
-    const historicalPrices = yield call(api.getPriceTimestampSeries, 'ETH', currency, txTimestamps)
-
-    // build and return report model
-    return yield call(
-      __buildTransactionReportModel,
-      prunedTxList,
-      historicalPrices,
-      prop(currency, ethMarketData),
-      'ETH'
-    )
+  //
+  // PRIVATE UTILS
+  //
+  const __processTxs = function* (txs) {
+    const accountsR = yield select(kvStoreSelectors.getAccounts)
+    const erc20ContractsR = yield select(kvStoreSelectors.getErc20ContractAddrs)
+    const addresses = accountsR.getOrElse([]).map(prop('addr'))
+    const erc20Contracts = erc20ContractsR.getOrElse([])
+    const lockboxContextR = yield select(getLockboxEthContext)
+    const lockboxContext = lockboxContextR.getOrElse([])
+    const state = yield select()
+    const ethAddresses = concat(addresses, lockboxContext)
+    return map(transformTx(ethAddresses, erc20Contracts, state), txs)
   }
+  const __processErc20Txs = function* (txs, token) {
+    const accountsR = yield select(kvStoreSelectors.getAccounts)
+    const addresses = accountsR.getOrElse([]).map(prop('addr'))
+    const lockboxContextR = yield select(getLockboxEthContext)
+    const lockboxContext = lockboxContextR.getOrElse([])
+    const state = yield select()
+    const ethAddresses = concat(addresses, lockboxContext)
+    return map(transformErc20Tx(ethAddresses, state, token), txs)
+  }
+  const __buildTransactionReportModel = function (
+    prunedTxList,
+    historicalPrices,
+    currentPrices,
+    coin
+  ) {
+    const mapIndexed = addIndex(map)
+    const fiatSymbol = prop('symbol', currentPrices)
+    const currentPrice = new BigNumber(prop('last', currentPrices))
+    return mapIndexed((tx, idx) => {
+      const timeFormatted = join(
+        ' ',
+        takeLast(
+          2,
+          moment
+            // @ts-ignore
+            .unix(tx.time)
+            .toString()
+            .split(' ')
+        )
+      )
+      // @ts-ignore
+      const txType = prop('type', tx) as string
+      const negativeSignOrEmpty = equals('sent', txType) ? '-' : ''
+      const priceAtTime = new BigNumber(
+        // @ts-ignore
+        prop('price', nth(idx, historicalPrices))
+      )
+      // @ts-ignore
+      const value = tx.amount as string
+      const amountBig = new BigNumber(
+        Exchange.convertCoinToCoin({
+          coin,
+          value
+        })
+      )
+      const valueThen = amountBig.multipliedBy(priceAtTime).toFixed(2)
+      const valueNow = amountBig.multipliedBy(currentPrice).toFixed(2)
+      return {
+        amount: `${negativeSignOrEmpty}${amountBig.toString()}`,
+        // @ts-ignore
+        date: moment.unix(prop('time', tx)).format('YYYY-MM-DD'),
+        // @ts-ignore
+        description: prop('description', tx),
 
+        exchange_rate_then: fiatSymbol + priceAtTime.toFixed(2),
+        // @ts-ignore
+        hash: prop('hash', tx),
+        time: timeFormatted,
+        type: txType,
+        value_now: `${fiatSymbol}${negativeSignOrEmpty}${valueNow}`,
+        value_then: `${fiatSymbol}${negativeSignOrEmpty}${valueThen}`
+      }
+    }, prunedTxList)
+  }
   const __processErc20ReportTxs = function* (rawTxList, startDate, endDate, token) {
     // @ts-ignore
-    // eslint-disable-next-line
     const fullTxList = yield call(__processErc20Txs, rawTxList)
     const marketData = (yield select(selectors.data.eth.getErc20Rates, token)).getOrFail()
 
@@ -527,29 +512,33 @@ export default ({ api }: { api: APIType }) => {
       toUpper(token)
     )
   }
+  const __processReportTxs = function* (rawTxList, startDate, endDate) {
+    const fullTxList = yield call(__processTxs, rawTxList)
+    const ethMarketData = (yield select(selectors.data.eth.getRates)).getOrFail()
 
-  //
-  // PRIVATE UTILS
-  //
-  const __processTxs = function* (txs) {
-    const accountsR = yield select(kvStoreSelectors.getAccounts)
-    const erc20ContractsR = yield select(kvStoreSelectors.getErc20ContractAddrs)
-    const addresses = accountsR.getOrElse([]).map(prop('addr'))
-    const erc20Contracts = erc20ContractsR.getOrElse([])
-    const lockboxContextR = yield select(getLockboxEthContext)
-    const lockboxContext = lockboxContextR.getOrElse([])
-    const state = yield select()
-    const ethAddresses = concat(addresses, lockboxContext)
-    return map(transformTx(ethAddresses, erc20Contracts, state), txs)
-  }
-  const __processErc20Txs = function* (txs, token) {
-    const accountsR = yield select(kvStoreSelectors.getAccounts)
-    const addresses = accountsR.getOrElse([]).map(prop('addr'))
-    const lockboxContextR = yield select(getLockboxEthContext)
-    const lockboxContext = lockboxContextR.getOrElse([])
-    const state = yield select()
-    const ethAddresses = concat(addresses, lockboxContext)
-    return map(transformErc20Tx(ethAddresses, state, token), txs)
+    // remove txs that dont match coin type and are not within date range
+    const prunedTxList = filter((tx) => {
+      // @ts-ignore
+      return moment.unix(tx.time).isBetween(startDate, endDate)
+    }, fullTxList)
+
+    // return empty list if no tx found in filter set
+    if (!length(prunedTxList)) return []
+    // @ts-ignore
+    const txTimestamps = pluck('time', prunedTxList)
+    const currency = (yield select(selectors.settings.getCurrency)).getOrElse('USD')
+
+    // fetch historical price data
+    const historicalPrices = yield call(api.getPriceTimestampSeries, 'ETH', currency, txTimestamps)
+
+    // build and return report model
+    return yield call(
+      __buildTransactionReportModel,
+      prunedTxList,
+      historicalPrices,
+      prop(currency, ethMarketData),
+      'ETH'
+    )
   }
 
   return {

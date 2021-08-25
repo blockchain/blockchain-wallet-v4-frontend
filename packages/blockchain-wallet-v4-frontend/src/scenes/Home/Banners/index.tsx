@@ -15,6 +15,7 @@ import NewCurrency from './NewCurrency'
 import RecurringBuys from './RecurringBuys'
 import SBOrderBanner from './SBOrderBanner'
 import { getData } from './selectors'
+import USDDIsPaxNow from './USDDIsPaxNow'
 
 const BannerWrapper = styled.div`
   margin-bottom: 25px;
@@ -74,6 +75,12 @@ class Banners extends React.PureComponent<Props> {
         return (
           <BannerWrapper>
             <RecurringBuys />
+          </BannerWrapper>
+        )
+      case 'usddIsPaxNow':
+        return (
+          <BannerWrapper>
+            <USDDIsPaxNow />
           </BannerWrapper>
         )
       default:

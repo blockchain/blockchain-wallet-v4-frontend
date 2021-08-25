@@ -203,13 +203,6 @@ const getAlertContent = (message, data = undefined) => {
           defaultMessage='Failed to deauthorize this browser.'
         />
       )
-    case C.DEVICE_MISMATCH:
-      return buildMessageTemplate(
-        <FormattedMessage
-          id='components.alerts.device_mismatch'
-          defaultMessage='Device mismatch.'
-        />
-      )
     case C.EMAIL_CODE_SENT_SUCCESS:
       return buildMessageTemplate(
         <FormattedMessage

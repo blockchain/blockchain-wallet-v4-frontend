@@ -88,7 +88,7 @@ class CoinIntroductionContainer extends React.PureComponent<Props> {
             data-e2e='buyCoinFromTxList'
             nature='empty-secondary'
             onClick={() => {
-              if (coinfig.type.name === 'FIAT') {
+              if (coinfig.type.isFiat) {
                 // ACH Deposits/Withdrawals is only for USD right now
                 // so keeping the existing functionality for EUR
                 return coin === 'USD'
@@ -98,7 +98,7 @@ class CoinIntroductionContainer extends React.PureComponent<Props> {
               simpleBuyActions.showModal('EmptyFeed')
             }}
           >
-            {coinfig.type.name === 'FIAT' ? (
+            {coinfig.type.isFiat ? (
               <FormattedMessage
                 id='scenes.transaction.content.empty.depositnow'
                 defaultMessage='Deposit {coin} Now'

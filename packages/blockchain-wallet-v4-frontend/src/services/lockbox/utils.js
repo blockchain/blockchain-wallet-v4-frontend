@@ -418,6 +418,7 @@ const formatFirmwareHash = (hash) => {
   if (!hash) {
     return ''
   }
+  // eslint-disable-next-line no-param-reassign
   hash = hash.toUpperCase()
   const { length } = hash
   const half = Math.ceil(length / 2)
