@@ -65,3 +65,7 @@ export const getFeatureLegacyMagicEmailLink = (state: RootState) =>
 // signup country feature flag
 export const getFeatureSignupCountry = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'signupCountry']))
+
+// signup country feature flag
+export const getEDDInterestFileUpload = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'eddInterestFileUpload']))

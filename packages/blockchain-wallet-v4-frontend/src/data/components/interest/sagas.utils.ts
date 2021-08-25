@@ -1,8 +1,7 @@
-import { head, isNil, nth } from 'ramda'
+import { head, isNil } from 'ramda'
 import { call, CallEffect, put, select, take } from 'redux-saga/effects'
 
 import { Exchange } from 'blockchain-wallet-v4/src'
-import { NO_DEFAULT_ACCOUNT } from 'blockchain-wallet-v4/src/model'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import {
   AccountTypes,
@@ -18,8 +17,8 @@ import { promptForSecondPassword } from 'services/sagas'
 
 import exchangeSagaUtils from '../exchange/sagas.utils'
 import { convertBaseToStandard } from '../exchange/services'
-import * as A from './actions'
 import * as S from './selectors'
+import { actions as A } from './slice'
 
 export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
   const { calculateProvisionalPayment } = exchangeSagaUtils({
@@ -103,11 +102,13 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
 
       yield put(
         A.setDepositLimits({
-          // default unit is cents, convert to standard
-          maxCoin: Number(maxCoin),
-          maxFiat: Number(maxFiat),
-          minCoin: Number(minCoin),
-          minFiat: Number(convertBaseToStandard('FIAT', minFiat))
+          limits: {
+            // default unit is cents, convert to standard
+            maxCoin: Number(maxCoin),
+            maxFiat: Number(maxFiat),
+            minCoin: Number(minCoin),
+            minFiat: Number(convertBaseToStandard('FIAT', minFiat))
+          }
         })
       )
     } catch (e) {

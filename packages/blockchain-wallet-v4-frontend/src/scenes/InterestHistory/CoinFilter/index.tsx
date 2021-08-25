@@ -22,9 +22,10 @@ const SelectCoinWrapper = styled.div`
 `
 
 class CoinFilter extends React.PureComponent<InjectedFormProps & Props> {
-  onChange = (coin) => {
+  onChange = (coinVal) => {
     const { interestActions } = this.props
-    interestActions.fetchInterestTransactions(true, coin === 'ALL' ? undefined : coin)
+    const coin = coinVal === 'ALL' ? undefined : coinVal
+    interestActions.fetchInterestTransactions({ coin, reset: true })
   }
 
   render() {

@@ -421,7 +421,7 @@ const AccountSummary: React.FC<Props> = (props) => {
               fullwidth
               height='48px'
               nature='grey800'
-              onClick={() => interestActions.showInterestModal('WITHDRAWAL', coin)}
+              onClick={() => interestActions.showInterestModal({ coin, step: 'WITHDRAWAL' })}
             >
               <Text color='white' size='16px' weight={600}>
                 <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />

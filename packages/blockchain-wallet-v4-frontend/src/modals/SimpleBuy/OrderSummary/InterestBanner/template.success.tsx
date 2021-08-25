@@ -52,7 +52,7 @@ const InterestBanner: React.FC<Props> = ({
         nature='light'
         data-e2e='earnInterestNow'
         onClick={() => {
-          interestActions.showInterestModal('DEPOSIT', currency)
+          interestActions.showInterestModal({ coin: currency, step: 'DEPOSIT' })
           analyticsActions.logEvent(model.analytics.ONE_CLICK_INTEREST.CLICK)
         }}
       >

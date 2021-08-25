@@ -8,7 +8,7 @@ import {
   InterestAfterTransactionType,
   InterestEDDStatus,
   InterestEligibleType,
-  InterestInstrumentsType,
+  InterestInstrumentsResponseType,
   InterestLimitsType,
   InterestRateType,
   InterestTransactionResponseType,
@@ -35,7 +35,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const getInterestInstruments = (): InterestInstrumentsType =>
+  const getInterestInstruments = (): InterestInstrumentsResponseType =>
     authorizedGet({
       endPoint: '/savings/instruments',
       url: nabuUrl

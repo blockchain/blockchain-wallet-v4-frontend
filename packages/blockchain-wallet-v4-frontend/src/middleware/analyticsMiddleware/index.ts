@@ -683,7 +683,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-      case AT.components.interest.SET_COIN_DISPLAY: {
+      case actions.components.interest.setCoinDisplay.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -1770,7 +1770,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case AT.components.interest.SHOW_INTEREST_MODAL: {
+      case actions.components.interest.showInterestModal.type: {
         const stepName: InterestStep = action.payload.step
 
         switch (stepName) {
@@ -1873,7 +1873,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-      case AT.components.interest.HANDLE_TRANSFER_MAX_AMOUNT_CLICK: {
+      case actions.components.interest.handleTransferMaxAmountClick.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -1908,7 +1908,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-      case AT.components.interest.HANDLE_TRANSFER_MIN_AMOUNT_CLICK: {
+      case actions.components.interest.handleTransferMinAmountClick.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -1943,7 +1943,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-      case AT.components.interest.SUBMIT_DEPOSIT_FORM: {
+      case actions.components.interest.submitDepositForm.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -1977,7 +1977,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-      case AT.components.interest.HANDLE_WITHDRAWAL_SUPPLY_INFORMATION: {
+      case actions.components.interest.handleWithdrawalSupplyInformation.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified

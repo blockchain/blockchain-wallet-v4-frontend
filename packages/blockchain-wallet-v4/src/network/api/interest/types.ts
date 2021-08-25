@@ -43,6 +43,7 @@ export type WithdrawLimits = {
   withdrawLimits: LimitDetails
 }
 
+export type InterestInstrumentsResponseType = { instruments: CoinType[] }
 export type InterestInstrumentsType = Array<CoinType>
 
 export type InterestFormErrorsType = {

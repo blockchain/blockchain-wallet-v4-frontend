@@ -44,7 +44,7 @@ class OrderSummary extends PureComponent<Props> {
         step: '3DS_HANDLER'
       })
     }
-    this.props.interestActions.fetchShowInterestCardAfterTransaction()
+    this.props.interestActions.fetchShowInterestCardAfterTransaction({})
   }
 
   handleRefresh = () => {

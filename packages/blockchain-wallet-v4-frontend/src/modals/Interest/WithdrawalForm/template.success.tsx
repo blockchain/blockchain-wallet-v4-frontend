@@ -113,7 +113,11 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
 
   const handleFormSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault()
-    interestActions.requestWithdrawal(coin, withdrawalAmountCrypto, withdrawalAmountFiat)
+    interestActions.requestWithdrawal({
+      coin,
+      withdrawalAmountCrypto,
+      withdrawalAmountFiat
+    })
     props.setShowSupply(showEDDWithdrawLimit)
   }
 
@@ -141,7 +145,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
             color='grey600'
             cursor
             name='arrow-left'
-            onClick={() => interestActions.showInterestModal('ACCOUNT_SUMMARY', coin)}
+            onClick={() => interestActions.showInterestModal({ coin, step: 'ACCOUNT_SUMMARY' })}
             size='20px'
           />
           <Text color='grey800' size='20px' weight={600}>

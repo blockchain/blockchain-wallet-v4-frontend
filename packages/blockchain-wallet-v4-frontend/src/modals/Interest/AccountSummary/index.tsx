@@ -22,17 +22,17 @@ class AccountSummaryContainer extends PureComponent<Props> {
 
   handleDepositClick = () => {
     const { coin, interestActions } = this.props
-    interestActions.showInterestModal('DEPOSIT', coin)
+    interestActions.showInterestModal({ coin, step: 'DEPOSIT' })
   }
 
   handleFetchInterestLimits = () => {
     const { coin, interestActions, walletCurrency } = this.props
-    interestActions.fetchInterestLimits(coin, walletCurrency)
+    interestActions.fetchInterestLimits({ coin, currency: walletCurrency })
   }
 
   handleRefresh = () => {
     const { coin, interestActions } = this.props
-    interestActions.showInterestModal('ACCOUNT_SUMMARY', coin)
+    interestActions.showInterestModal({ coin, step: 'ACCOUNT_SUMMARY' })
   }
 
   render() {
