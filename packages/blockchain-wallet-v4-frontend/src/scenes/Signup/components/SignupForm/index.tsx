@@ -59,16 +59,6 @@ const FieldWithoutTopRadius = styled(FormItem)<{ setBorder: boolean }>`
 
 const validatePasswordConfirmation = validPasswordConfirmation('password')
 
-const scrollToId = (id) => {
-  const element = document.getElementById(id)
-  if (element) {
-    element.scrollIntoView({ behavior: 'smooth' })
-  }
-}
-
-const scrollToPassword = () => scrollToId('password')
-const scrollToSecondPassword = () => scrollToId('confirmationPassword')
-
 const SignupForm = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) => {
   const {
     formValues,
@@ -121,7 +111,6 @@ const SignupForm = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) =
             data-e2e='signupPassword'
             disabled={!isSupportedBrowser}
             name='password'
-            onFocus={scrollToPassword}
             passwordScore={passwordScore}
             showPasswordScore
             validate={[required, validStrongPassword]}
@@ -166,7 +155,6 @@ const SignupForm = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) =
             data-e2e='signupConfirmPassword'
             disabled={!isSupportedBrowser}
             name='confirmationPassword'
-            onFocus={scrollToSecondPassword}
             validate={[required, validatePasswordConfirmation]}
           />
         </FormItem>
