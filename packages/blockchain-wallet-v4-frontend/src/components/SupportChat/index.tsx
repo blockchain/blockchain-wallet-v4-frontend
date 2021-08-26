@@ -48,12 +48,13 @@ class SupportChat extends React.PureComponent<LinkStatePropsType, State> {
     const zendeskIframe = document.getElementById('zendesk-iframe') as HTMLIFrameElement
 
     const waitForFrameLoad = () => {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      const that = this
       const interval = setInterval(() => {
         setTimeout(function () {
           if (!zendeskIframe || !zendeskIframe.contentWindow) return
           zendeskIframe?.contentWindow.postMessage({ messageData: data, method: methodName }, '*')
-          // @ts-ignore
-          this.setState({ chatEnabled: true })
+          that.setState({ chatEnabled: true })
         }, 3000)
         clearInterval(interval)
       }, 3000)
