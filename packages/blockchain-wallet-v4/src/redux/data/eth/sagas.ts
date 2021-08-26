@@ -533,9 +533,9 @@ export default ({ api }: { api: APIType }) => {
   //
   const __processTxs = function* (txs) {
     const accountsR = yield select(kvStoreSelectors.getAccounts)
-    const erc20ContractsR = yield select(kvStoreSelectors.getErc20ContractAddrs)
     const addresses = accountsR.getOrElse([]).map(prop('addr'))
-    const erc20Contracts = erc20ContractsR.getOrElse([])
+    const tokens = selectors.data.eth.getErc20Coins()
+    const erc20Contracts = tokens.map((coin) => window.coins[coin].coinfig.type.erc20Address)
     const lockboxContextR = yield select(getLockboxEthContext)
     const lockboxContext = lockboxContextR.getOrElse([])
     const state = yield select()
