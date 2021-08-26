@@ -1,4 +1,5 @@
-import { actions, addInitialModal, defineGoals, deleteGoal, runGoals, saveGoal } from './slice'
+import * as A from './actions'
+import * as AT from './actionTypes'
 
 describe('goals actions', () => {
   const mathCopy = Object.create(global.Math)
@@ -14,35 +15,35 @@ describe('goals actions', () => {
   })
 
   it('deleteGoal should return proper action', () => {
-    expect(actions.deleteGoal(123)).toEqual({
-      payload: { id: 123 },
-      type: deleteGoal.type
+    expect(A.deleteGoal(123)).toEqual({
+      type: AT.DELETE_GOAL,
+      payload: { id: 123 }
     })
   })
 
   it('addInitialModal should return proper action', () => {
-    expect(actions.addInitialModal('1a', 'initial', {})).toEqual({
+    expect(A.addInitialModal('1a', 'initial', {})).toEqual({
+      type: AT.ADD_INITIAL_MODAL,
       payload: {
-        data: {},
         key: '1a',
-        name: 'initial'
-      },
-      type: addInitialModal.type
+        name: 'initial',
+        data: {}
+      }
     })
   })
 
   it('runGoals should call correct action', () => {
-    expect(actions.runGoals()).toEqual({ type: runGoals.toString() })
+    expect(A.runGoals()).toEqual({ type: AT.RUN_GOALS })
   })
 
   it('defineGoals should call correct action', () => {
-    expect(actions.defineGoals()).toEqual({ type: defineGoals.toString() })
+    expect(A.defineGoals()).toEqual({ type: AT.DEFINE_GOALS })
   })
 
   it('saveGoal should save goal with random id', () => {
-    expect(actions.saveGoal('fakeGoal', {})).toEqual({
-      payload: { data: {}, id: '4h96hsvbcj', name: 'fakeGoal' },
-      type: saveGoal.type
+    expect(A.saveGoal('fakeGoal', {})).toEqual({
+      type: AT.SAVE_GOAL,
+      payload: { id: '4h96hsvbcj', name: 'fakeGoal', data: {} }
     })
   })
 })

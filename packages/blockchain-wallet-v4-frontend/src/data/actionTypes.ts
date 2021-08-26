@@ -6,7 +6,7 @@ import * as cache from './cache/actionTypes'
 import * as components from './components/actionTypes'
 import * as custodial from './custodial/actionTypes'
 import { actionTypes as form } from './form/actionTypes'
-// import { actionTypes as goals }  from './goals/slice'
+import * as goals from './goals/actionTypes'
 import * as middleware from './middleware/actionTypes'
 import * as modals from './modals/actionTypes'
 import * as modules from './modules/actionTypes'
@@ -22,7 +22,7 @@ export {
   core,
   custodial,
   form,
-  // goals,
+  goals,
   middleware,
   modals,
   modules,

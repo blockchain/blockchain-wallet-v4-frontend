@@ -1,7 +1,7 @@
 import base64 from 'base-64'
 import BigNumber from 'bignumber.js'
 import bip21 from 'bip21'
-import { anyPass, equals, includes, map, path, pathOr, prop, startsWith } from 'ramda'
+import { anyPass, equals, includes, map, path, pathOr, prop, startsWith, sum, values } from 'ramda'
 import { all, call, delay, join, put, select, spawn, take } from 'redux-saga/effects'
 
 import { Exchange, utils } from 'blockchain-wallet-v4/src'

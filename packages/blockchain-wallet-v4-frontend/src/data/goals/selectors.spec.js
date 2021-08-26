@@ -13,6 +13,8 @@ describe('goals selectors', () => {
   })
 
   it('getInitialModals should return modal', () => {
-    expect(selectors.getInitialModals(mockState)).toEqual(mockState.goals.initialModals)
+    expect(selectors.getInitialModals(mockState)).toEqual(
+      mockState.goals.initialModals
+    )
   })
 })
