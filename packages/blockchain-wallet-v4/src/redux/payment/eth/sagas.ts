@@ -207,7 +207,7 @@ export default ({ api }) => {
           account = accountR.getOrFail('missing_default_from')
         }
         if (p.isErc20) {
-          contract = window.coins[coin].coinfig.type.erc20Address
+          contract = window.coins[p.coin].coinfig.type.erc20Address
         }
         // value can be in gwei or string ('regular' or 'priority')
         const fees = prop('fees', p)
