@@ -9,6 +9,10 @@ const initialState: AnalyticsStateType = {
 }
 
 const analyticsSlice = createSlice({
+  extraReducers: (builder) => {
+    // Handle other actions relevant to this Slice
+    builder.addDefaultCase((state) => state)
+  },
   initialState,
   name: 'analytics',
   reducers: {
