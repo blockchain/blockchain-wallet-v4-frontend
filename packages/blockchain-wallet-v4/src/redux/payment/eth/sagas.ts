@@ -213,9 +213,7 @@ export default ({ api }: { api: APIType }) => {
           account = accountR.getOrFail('missing_default_from')
         }
         if (p.isErc20) {
-          contract = (yield select(S.kvStore.eth.getErc20ContractAddr, toLower(p.coin))).getOrFail(
-            'missing_contract_addr'
-          )
+          contract = window.coins[p.coin].coinfig.type.erc20Address
         }
         // value can be in gwei or string ('regular' or 'priority')
         const fees = prop('fees', p)
