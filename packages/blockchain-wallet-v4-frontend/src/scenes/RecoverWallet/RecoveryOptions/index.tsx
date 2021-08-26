@@ -30,25 +30,19 @@ const TextStack = styled.div`
   max-width: 312px;
 `
 const RecoveryOptions = (props: Props) => {
-  const {
-    cachedEmail,
-    cachedGuid,
-    emailFromMagicLink,
-    formActions,
-    lastGuid,
-    nabuId,
-    routerActions
-  } = props
+  const { cachedGuid, emailFromMagicLink, formActions, lastGuid, nabuId, routerActions } = props
   return (
     <Wrapper>
-      {cachedEmail && (
+      {emailFromMagicLink && (
         <BackArrowFormHeader
           handleBackArrowClick={() => routerActions.push('/login')}
           email={emailFromMagicLink}
           guid={cachedGuid || lastGuid}
         />
       )}
-      {!cachedEmail && <GoBackArrow handleBackArrowClick={() => routerActions.push('/login')} />}
+      {!emailFromMagicLink && (
+        <GoBackArrow handleBackArrowClick={() => routerActions.push('/login')} />
+      )}
       <FormBody>
         <Text color='grey900' size='20px' weight={600} lineHeight='1.5'>
           <FormattedMessage
