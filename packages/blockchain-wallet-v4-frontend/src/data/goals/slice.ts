@@ -109,4 +109,18 @@ export const actions = { ...goalsSlice.actions, defineGoals, runGoals }
 export const { addInitialModal, addInitialRedirect, deleteGoal, initialModalDisplayed, saveGoal } =
   actions
 
+const addInitialModalType = addInitialModal.type
+const addInitialRedirectType = addInitialRedirect.type
+const deleteGoalType = deleteGoal.type
+const initialModalDisplayedType = initialModalDisplayed.type
+const saveGoalType = saveGoal.type
+
+export const actionTypes = {
+  addInitialModalType,
+  addInitialRedirectType,
+  deleteGoalType,
+  initialModalDisplayedType,
+  saveGoalType
+}
+
 export const goalsReducer = goalsSlice.reducer
