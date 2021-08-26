@@ -6,11 +6,11 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import {
-  AmountSubHeader,
   FlyoutContainer,
   FlyoutContent,
   FlyoutFooter,
   FlyoutHeader,
+  FlyoutSubHeader,
   getPeriodSubTitleText,
   getPeriodTitleText
 } from 'components/Flyout'
@@ -64,7 +64,7 @@ const Confirm = ({
         <FormattedMessage id='simplebuy.checkoutconfirm' defaultMessage='Checkout' />
       </FlyoutHeader>
       <FlyoutContent mode='top'>
-        <AmountSubHeader
+        <FlyoutSubHeader
           data-e2e='recurringBuySubTotalAmount'
           title={`${amount} ${currency}`}
           subTitle={subTotalAmount}

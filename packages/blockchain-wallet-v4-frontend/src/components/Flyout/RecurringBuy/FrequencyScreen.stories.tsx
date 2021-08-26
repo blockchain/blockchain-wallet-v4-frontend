@@ -45,7 +45,7 @@ export default {
       </IntlProvider>
     )
   ],
-  title: 'Flyouts/FrequencySelection'
+  title: 'Flyouts/RecurringBuy/FrequencySelection'
 } as ComponentMeta<typeof FrequencyScreen>
 
 export const Default: ComponentStory<typeof FrequencyScreen> = (args) => (

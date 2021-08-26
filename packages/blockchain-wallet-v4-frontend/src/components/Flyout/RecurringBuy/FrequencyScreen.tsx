@@ -7,12 +7,12 @@ import { SBPaymentTypes } from 'blockchain-wallet-v4/src/network/api/simpleBuy/t
 import {
   RecurringBuyNextPayment,
   RecurringBuyPeriods
-} from '../../data/components/recurringBuy/types'
-import { OptionRightActionRow } from '../Rows'
-import Container from './Container'
-import Content from './Content'
-import Header, { Props as HeaderProps } from './Header'
-import { getPeriodSubTitleText, getPeriodTitleText } from './model'
+} from '../../../data/components/recurringBuy/types'
+import { OptionRightActionRow } from '../../Rows'
+import Container from '../Container'
+import Content from '../Content'
+import Header, { Props as HeaderProps } from '../Header'
+import { getPeriodSubTitleText, getPeriodTitleText } from '../model'
 
 const RowDisplay = ({ method, paymentInfo, period, setPeriod }: RowDisplayProps) => {
   // The ONE_TIME option is not given to us from the API like other period option. It is a special

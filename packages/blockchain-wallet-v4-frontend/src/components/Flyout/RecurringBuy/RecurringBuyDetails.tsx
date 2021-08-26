@@ -7,14 +7,14 @@ import { Banner, Button } from 'blockchain-info-components'
 import { FiatType, SBPaymentTypes } from 'core/types'
 import { RecurringBuyPeriods } from 'data/types'
 
-import { Exchange } from '../../../../blockchain-wallet-v4/src'
-import CheckoutRow from '../Rows/Checkout'
-import AmountSubHeader from './AmountSubHeader'
-import Container from './Container'
-import Content from './Content'
-import Footer from './Footer'
-import Header from './Header'
-import { getPaymentMethodText, getPeriodSubTitleText, getPeriodTitleText } from './model'
+import { Exchange } from '../../../../../blockchain-wallet-v4/src'
+import CheckoutRow from '../../Rows/Checkout'
+import Container from '../Container'
+import Content from '../Content'
+import Footer from '../Footer'
+import Header from '../Header'
+import { getPaymentMethodText, getPeriodSubTitleText, getPeriodTitleText } from '../model'
+import SubHeader from '../SubHeader'
 
 const StyledBanner = styled(Banner)`
   border: unset;
@@ -53,7 +53,7 @@ const RecurringBuyDetails = ({
         <FormattedMessage id='copy.recurring_buy' defaultMessage='Recurring Buy' />
       </Header>
       <Content mode='top'>
-        <AmountSubHeader
+        <SubHeader
           data-e2e='recurringBuyAmount'
           subTitle={<StyledBanner {...bannerProps} />}
           title={`${amountString} of ${crypto}`}
