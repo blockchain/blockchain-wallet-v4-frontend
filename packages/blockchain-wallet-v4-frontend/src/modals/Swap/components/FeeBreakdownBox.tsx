@@ -98,7 +98,7 @@ const FeeBreakdownBox = ({
             <Title>
               <FormattedMessage id='copy.network_fees' defaultMessage='Network Fees' />
             </Title>
-            <Value>
+            <Value data-e2e='swapNetworkFee'>
               <FormattedMessage id='modals.brokerage.free' defaultMessage='Free' />
             </Value>
           </HorizontalRow>
@@ -122,7 +122,7 @@ const FeeBreakdownBox = ({
           <Title>
             <FormattedMessage id='copy.network_fees' defaultMessage='Network Fees' />
           </Title>
-          <Value>
+          <Value data-e2e='swapNetworkFee'>
             <HorizontalRow style={{ border: 'unset', padding: '0px' }}>
               <Text color='grey900'>~</Text>
               <FiatDisplay size='14px' weight={500} color='grey900' coin={walletCurrency}>

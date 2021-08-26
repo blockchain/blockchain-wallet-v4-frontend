@@ -14,9 +14,10 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background-image: url('/img/bg-banner-pattern-big.svg');
+  background-image: url('/img/bg-banner-pattern-lg.svg');
   background-repeat: repeat-y;
   background-position: right;
+  background-size: 35%;
   align-items: center;
   border: 1px solid ${(props) => props.theme.grey000};
   border-radius: 8px;
