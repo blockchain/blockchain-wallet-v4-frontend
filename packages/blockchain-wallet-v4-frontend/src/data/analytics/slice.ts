@@ -10,7 +10,7 @@ const initialState: AnalyticsStateType = {
 
 const analyticsSlice = createSlice({
   extraReducers: (builder) => {
-    // Handle other actions relevant to this Slice
+    // Handle other actions that don't change redux state but relevant to this Slice
     builder.addDefaultCase((state) => state)
   },
   initialState,
