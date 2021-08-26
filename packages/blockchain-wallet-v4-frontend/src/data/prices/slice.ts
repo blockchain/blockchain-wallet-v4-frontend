@@ -28,7 +28,7 @@ const pricesSlice = createSlice({
   reducers: {
     fetchCoinPrices: {
       prepare: (request?: CoinPricesRequestType) => ({ payload: request || {} }),
-      reducer: (state, action: PayloadAction<CoinPricesRequestType>) => {}
+      reducer: () => {}
     },
     fetchCoinPricesFailure: (state, action: PayloadAction<string>) => {
       state.current = Remote.Failure(action.payload)
@@ -38,7 +38,7 @@ const pricesSlice = createSlice({
     },
     fetchCoinPricesPreviousDay: {
       prepare: (request?: CoinPricesRequestType) => ({ payload: request || {} }),
-      reducer: (state, action: PayloadAction<CoinPricesRequestType>) => {}
+      reducer: () => {}
     },
     fetchCoinPricesPreviousDayFailure: (state, action: PayloadAction<string>) => {
       state.previousDay = Remote.Failure(action.payload)
