@@ -1,8 +1,7 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 
-import * as AT from './actionTypes'
 import { AnalyticsStateType, CreateABTestActionType, CreateABTestSuccessActionType } from './types'
 
 const initialState: AnalyticsStateType = {
@@ -33,33 +32,33 @@ const analyticsSlice = createSlice({
   }
 })
 
-const logEvent = (event) => ({
-  payload: { event },
-  type: AT.LOG_EVENT
+export const logEvent = createAction('analytics/logEvent', function prepare(event) {
+  return {
+    payload: { event }
+  }
 })
 
-const logPageView = (route) => ({
-  payload: { route },
-  type: AT.LOG_PAGE_VIEW
+export const logPageView = createAction('analytics/logPageView', function prepare(route) {
+  return {
+    payload: { route }
+  }
 })
 
-const logGoal = (data) => ({
-  payload: { data },
-  type: AT.LOG_GOAL
+export const logGoal = createAction('analytics/logGoal', function prepare(data) {
+  return {
+    payload: { data }
+  }
 })
 
-const initUserSession = () => ({
-  type: AT.INIT_USER_SESSION
+export const initUserSession = createAction('analytics/initUserSession')
+
+export const startSession = createAction('analytics/startSession', function prepare(guid) {
+  return {
+    payload: { guid }
+  }
 })
 
-const startSession = (guid) => ({
-  payload: { guid },
-  type: AT.START_SESSION
-})
-
-const stopSession = () => ({
-  type: AT.STOP_SESSION
-})
+export const stopSession = createAction('analytics/stopSession')
 
 export const actions = {
   ...analyticsSlice.actions,
@@ -72,5 +71,25 @@ export const actions = {
 }
 
 export const { createABTest, createABTestSuccess } = actions
+
+const createABTestType = createABTest.type
+const createABTestSuccessType = createABTestSuccess.type
+const initUserSessionType = initUserSession.type
+const logEventType = logEvent.type
+const logGoalType = logGoal.type
+const logPageViewType = logPageView.type
+const startSessionType = startSession.type
+const stopSessionType = stopSession.type
+
+export const actionTypes = {
+  createABTest: createABTestType,
+  createABTestSuccess: createABTestSuccessType,
+  initUserSession: initUserSessionType,
+  logEvent: logEventType,
+  logGoal: logGoalType,
+  logPageView: logPageViewType,
+  startSession: startSessionType,
+  stopSession: stopSessionType
+}
 
 export const analyticsReducer = analyticsSlice.reducer

@@ -1,19 +1,18 @@
 import { takeLatest } from 'redux-saga/effects'
 
-import * as AT from './actionTypes'
 import sagas from './sagas'
-import { createABTest } from './slice'
+import { actionTypes } from './slice'
 
 export default () => {
   const analyticsSagas = sagas()
 
   return function* analyticsSaga() {
-    yield takeLatest(createABTest.type, analyticsSagas.createABTest)
-    yield takeLatest(AT.LOG_EVENT, analyticsSagas.logEvent)
-    yield takeLatest(AT.LOG_PAGE_VIEW, analyticsSagas.logPageView)
-    yield takeLatest(AT.LOG_GOAL, analyticsSagas.logGoal)
-    yield takeLatest(AT.INIT_USER_SESSION, analyticsSagas.initUserSession)
-    yield takeLatest(AT.START_SESSION, analyticsSagas.startSession)
-    yield takeLatest(AT.STOP_SESSION, analyticsSagas.stopSession)
+    yield takeLatest(actionTypes.createABTest, analyticsSagas.createABTest)
+    yield takeLatest(actionTypes.logEvent, analyticsSagas.logEvent)
+    yield takeLatest(actionTypes.logPageView, analyticsSagas.logPageView)
+    yield takeLatest(actionTypes.logGoal, analyticsSagas.logGoal)
+    yield takeLatest(actionTypes.initUserSession, analyticsSagas.initUserSession)
+    yield takeLatest(actionTypes.startSession, analyticsSagas.startSession)
+    yield takeLatest(actionTypes.stopSession, analyticsSagas.stopSession)
   }
 }
