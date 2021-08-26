@@ -1,4 +1,4 @@
-import { actions, addInitialModal, defineGoals, deleteGoal, runGoals, saveGoal } from './slice'
+import { actions, actionTypes } from './slice'
 
 describe('goals actions', () => {
   const mathCopy = Object.create(global.Math)
@@ -16,7 +16,7 @@ describe('goals actions', () => {
   it('deleteGoal should return proper action', () => {
     expect(actions.deleteGoal(123)).toEqual({
       payload: { id: 123 },
-      type: deleteGoal.type
+      type: actionTypes.deleteGoal
     })
   })
 
@@ -27,22 +27,22 @@ describe('goals actions', () => {
         key: '1a',
         name: 'initial'
       },
-      type: addInitialModal.type
+      type: actionTypes.addInitialModal
     })
   })
 
   it('runGoals should call correct action', () => {
-    expect(actions.runGoals()).toEqual({ type: runGoals.toString() })
+    expect(actions.runGoals()).toEqual({ type: actionTypes.runGoals })
   })
 
   it('defineGoals should call correct action', () => {
-    expect(actions.defineGoals()).toEqual({ type: defineGoals.toString() })
+    expect(actions.defineGoals()).toEqual({ type: actionTypes.defineGoals })
   })
 
   it('saveGoal should save goal with random id', () => {
     expect(actions.saveGoal('fakeGoal', {})).toEqual({
       payload: { data: {}, id: '4h96hsvbcj', name: 'fakeGoal' },
-      type: saveGoal.type
+      type: actionTypes.saveGoal
     })
   })
 })
