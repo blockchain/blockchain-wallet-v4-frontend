@@ -114,13 +114,17 @@ const addInitialRedirectType = addInitialRedirect.type
 const deleteGoalType = deleteGoal.type
 const initialModalDisplayedType = initialModalDisplayed.type
 const saveGoalType = saveGoal.type
+const runGoalsType = runGoals.type
+const defineGoalsType = defineGoals.type
 
 export const actionTypes = {
-  addInitialModalType,
-  addInitialRedirectType,
-  deleteGoalType,
-  initialModalDisplayedType,
-  saveGoalType
+  addInitialModal: addInitialModalType,
+  addInitialRedirect: addInitialRedirectType,
+  defineGoals: defineGoalsType,
+  deleteGoal: deleteGoalType,
+  initialModalDisplayed: initialModalDisplayedType,
+  runGoals: runGoalsType,
+  saveGoal: saveGoalType
 }
 
 export const goalsReducer = goalsSlice.reducer
