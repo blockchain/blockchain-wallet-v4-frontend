@@ -22,6 +22,7 @@ export default ({ api }: { api: APIType }) => {
 
     yield put(
       A.setStep({
+        origin,
         step: RecurringBuyStepType.INIT_PAGE
       })
     )
