@@ -143,8 +143,8 @@ export const LinkRow = styled.div`
   align-items: center;
 `
 
-export const NeedHelpLink = () => (
-  <LinkContainer to='/help'>
+export const NeedHelpLink = (props: { authActions; origin: string }) => (
+  <LinkContainer to='/help' onClick={() => props.authActions.needHelpClicked(props.origin)}>
     <Link size='13px' weight={600} data-e2e='loginGetHelp'>
       <FormattedMessage id='copy.need_some_help' defaultMessage='Need some help?' />
     </Link>

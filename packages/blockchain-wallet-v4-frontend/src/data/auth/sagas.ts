@@ -648,6 +648,7 @@ export default ({ api, coreSagas, networks }) => {
       } else {
         yield call(parseMagicLinkLegacy, params)
       }
+      yield put(A.magicLinkParsed())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'parseLink', e))
       yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))

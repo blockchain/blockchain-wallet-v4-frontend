@@ -134,7 +134,7 @@ const VerificationMobile = (props: Props) => {
         >
           <FormattedMessage id='buttons.login_with_password' defaultMessage='Login with Password' />
         </Button>
-        <NeedHelpLink />
+        <NeedHelpLink authActions={props.authActions} origin='QR_CODE' />
       </LinkRow>
     </>
   )

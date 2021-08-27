@@ -866,6 +866,29 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
+      case AT.auth.REGISTER_SUCCESS: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+
+        analytics.push(AnalyticsKey.SIGNED_UP, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
+        break
+      }
       case AT.auth.LOGIN_SUCCESS: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
@@ -2684,6 +2707,53 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           }
         })
 
+        break
+      }
+      // LOGIN EVENTS
+      case AT.auth.MAGIC_LINK_PARSED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+
+        analytics.push(AnalyticsKey.DEVICE_VERIFIED, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.auth.NEED_HELP_CLICKED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const { origin } = action.payload
+
+        analytics.push(AnalyticsKey.LOGIN_HELPED_CLICKED, {
+          properties: {
+            guid,
+            origin,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
         break
       }
       default: {

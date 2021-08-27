@@ -16,6 +16,7 @@ enum AnalyticsKey {
   DEPOSIT_CLICKED = 'Deposit Clicked',
   DEPOSIT_METHOD_SELECTED = 'Deposit Method Selected',
   DEPOSIT_VIEWED = 'Deposit Viewed',
+  DEVICE_VERIFIED = 'Device Verified',
   EMAIL_VERIFICATION_REQUESTED = 'Email Verification Requested',
   EMAIL_VERIFICATION_SKIPPED = 'Email Verification Skipped',
   IMPORT_ADDRESS_CLICKED = 'Import Address Clicked',
@@ -30,6 +31,7 @@ enum AnalyticsKey {
   INTEREST_WITHDRAWAL_CLICKED = 'Interest Withdrawal Clicked',
   INTEREST_WITHDRAWAL_VIEWED = 'Interest Withdrawal Viewed',
   LINK_BANK_CLICKED = 'Link Bank Clicked',
+  LOGIN_HELPED_CLICKED = 'Login Help Clicked',
   MANAGE_TAB_SELECTION_CLICKED = 'Manage Tab Selection Clicked',
   NOTIFICATION_PREFERENCES_UPDATED = 'Notification Preferences Updated',
   PRIVATE_KEYS_SHOWN = 'Private Keys Shown',
@@ -48,6 +50,7 @@ enum AnalyticsKey {
   SETTINGS_TAB_CLICKED = 'Settings Tab Clicked',
   SIGNED_IN = 'Signed In',
   SIGNED_OUT = 'Signed Out',
+  SIGNED_UP = 'Signed Up',
   SWAP_ACCOUNTS_SELECTED = 'Swap Accounts Selected',
   SWAP_AMOUNT_ENTERED = 'Swap Amount Entered',
   SWAP_AMOUNT_MAX_CLICKED = 'Swap Amount Max Clicked',
@@ -435,6 +438,8 @@ type SettingsTabClickedPayload = BasePayload & {
   destination: SettingsTabClickedDestination
 }
 
+type SignedUpPayload = BasePayload
+
 type SignedInPayload = BasePayload
 
 type SignedOutPayload = BasePayload
@@ -612,6 +617,7 @@ type AnalyticsProperties =
   | SettingsTabClickedPayload
   | SignedInPayload
   | SignedOutPayload
+  | SignedUpPayload
   | SwapClickedPayload
   | SwapViewedPayload
   | SwapAccountsSelectedPayload

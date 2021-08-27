@@ -198,3 +198,13 @@ export const setUserGeoLocation = (userGeoData) => ({
   payload: { userGeoData },
   type: AT.SET_USER_GEO_LOCATION
 })
+
+// ACTIONS SET UP JUST FOR EVENT TRACKING
+export const magicLinkParsed = () => ({
+  type: AT.MAGIC_LINK_PARSED
+})
+
+export const needHelpClicked = (origin) => ({
+  payload: { origin },
+  type: AT.NEED_HELP_CLICKED
+})
