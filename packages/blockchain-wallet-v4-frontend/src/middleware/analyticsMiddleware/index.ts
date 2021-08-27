@@ -130,7 +130,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               : null
             const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
             const guid = state.walletPath.wallet.guid ?? null
-            analytics.push(AnalyticsKey.SETTINGS_CURRENCY_CLICKED, {
+            analytics.push(AnalyticsKey.LOGIN_VIEWED, {
               properties: {
                 guid,
                 originalTimestamp: getOriginalTimestamp()
