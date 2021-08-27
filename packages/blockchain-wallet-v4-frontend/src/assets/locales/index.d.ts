@@ -114,7 +114,7 @@ type MessagesType = {
   'components.alerts.currency_update_success': 'Currency has been successfully updated'
   'components.alerts.deauthorize_browser_error': 'Failed to deauthorize this browser.'
   'components.alerts.deauthorize_browser_success': 'Browser was successfully deauthorized.'
-  'components.alerts.device_mismatch': 'Device mismatch.'
+  'components.alerts.devicemismatch': 'Device mismatch. Link must be opened in original browser..'
   'components.alerts.document_upload_error': 'Failed to upload document.'
   'components.alerts.email_code_sent_success': 'Confirmation code has been sent.'
   'components.alerts.email_update_error': 'Failed to update email address.'
