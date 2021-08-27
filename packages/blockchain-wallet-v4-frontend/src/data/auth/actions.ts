@@ -222,3 +222,10 @@ export const loginMethodSelected = (loginMethod) => ({
 export const loginPasswordDenied = () => ({
   type: AT.LOGIN_PASSWORD_DENIED
 })
+
+export const loginTwoStepVerificationDenied = () => ({
+  type: AT.LOGIN_TWO_STEP_VERIFICATION_DENIED
+})
+export const loginTwoStepVerificationEntered = () => ({
+  type: AT.LOGIN_TWO_STEP_VERIFICATION_ENTERED
+})

@@ -35,6 +35,12 @@ enum AnalyticsKey {
   LOGIN_IDENTIFIER_ENTERED = 'Login Identifier Entered',
   LOGIN_METHOD_SELECTED = 'Login Method Selected',
   LOGIN_PASSWORD_DENIED = 'Login Password Denied',
+  LOGIN_PASSWORD_ENTERED = 'Login Password Entered',
+  LOGIN_REQUEST_APPROVED = 'Login Request Approved',
+  LOGIN_REQUEST_DENIED = 'Login Request Denied',
+  LOGIN_TWO_STEP_VERIFICATION_DENIED = 'Login Two Step Verification Denied',
+  LOGIN_TWO_STEP_VERIFICATION_ENTERED = 'Login Two Step Verification Entered',
+  LOGIN_VIEWED = 'Login Viewed',
   MANAGE_TAB_SELECTION_CLICKED = 'Manage Tab Selection Clicked',
   NOTIFICATION_PREFERENCES_UPDATED = 'Notification Preferences Updated',
   PRIVATE_KEYS_SHOWN = 'Private Keys Shown',
@@ -147,6 +153,7 @@ type PageViewPayload = {
 type PageName =
   | '/home'
   | '/interest'
+  | '/login'
   | '/settings/addresses/btc'
   | '/settings/addresses/bch'
   | '/settings/addresses/eth'
@@ -335,6 +342,10 @@ type ManageTabSelectionClickedSelection =
   | 'RECOVER_FUNDS'
   | 'SHOW_CHANGE_ADDRESSES'
   | 'SHOW_XPUB'
+
+type LoginRequestPayload = BasePayload & {
+  request_platform: 'EXCHANGE' | 'WALLET'
+}
 
 type ManageTabSelectionClickedPayload = BasePayload & {
   currency: string
@@ -608,6 +619,7 @@ type AnalyticsProperties =
   | LinkBankClickedPayload
   | LoginIdentifierEnteredPayload
   | LoginMethodSelectedPayload
+  | LoginRequestPayload
   | ManageTabSelectionClickedPayload
   | NotificationPreferencesUpdatedPayload
   | PrivateKeysShownPayload

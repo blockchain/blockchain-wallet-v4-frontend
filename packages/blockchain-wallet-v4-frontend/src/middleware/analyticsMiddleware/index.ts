@@ -25,7 +25,6 @@ import {
 } from 'middleware/analyticsMiddleware/utils'
 
 import { actions, actionTypes as AT } from 'data'
-import { login } from 'data/auth/actions'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { BankDWStepType, InterestStep, ModalName, SwapBaseCounterTypes } from 'data/types'
 
@@ -121,6 +120,27 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               }
             })
 
+            break
+          }
+          case '/login': {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+            const email = state.profile.userData.getOrElse({})?.emailVerified
+              ? state.profile.userData.getOrElse({})?.email
+              : null
+            const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+            const guid = state.walletPath.wallet.guid ?? null
+            analytics.push(AnalyticsKey.SETTINGS_CURRENCY_CLICKED, {
+              properties: {
+                guid,
+                originalTimestamp: getOriginalTimestamp()
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
             break
           }
           case '/settings/addresses/btc': {
@@ -2813,6 +2833,118 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const guid = state.walletPath.wallet.guid ?? null
 
         analytics.push(AnalyticsKey.LOGIN_PASSWORD_DENIED, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.auth.LOGIN: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+
+        analytics.push(AnalyticsKey.LOGIN_PASSWORD_ENTERED, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.auth.SECURE_CHANNEL_LOGIN_SUCCESS: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+
+        analytics.push(AnalyticsKey.LOGIN_REQUEST_APPROVED, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            request_platform: 'WALLET'
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.auth.SECURE_CHANNEL_LOGIN_FAILURE: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+
+        analytics.push(AnalyticsKey.LOGIN_REQUEST_DENIED, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            request_platform: 'WALLET'
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.auth.LOGIN_TWO_STEP_VERIFICATION_DENIED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+
+        analytics.push(AnalyticsKey.LOGIN_TWO_STEP_VERIFICATION_DENIED, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.auth.LOGIN_TWO_STEP_VERIFICATION_ENTERED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+
+        analytics.push(AnalyticsKey.LOGIN_TWO_STEP_VERIFICATION_ENTERED, {
           properties: {
             guid,
             originalTimestamp: getOriginalTimestamp()

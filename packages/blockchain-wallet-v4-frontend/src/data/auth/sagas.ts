@@ -357,6 +357,9 @@ export default ({ api, coreSagas, networks }) => {
     const formValues = yield select(selectors.form.getFormValues('login'))
     const { email, emailToken } = formValues
     let session = yield select(selectors.session.getSession, guid, email)
+    if (code) {
+      yield put(A.loginTwoStepVerificationEntered())
+    }
     yield put(startSubmit('login'))
     try {
       if (!session) {
@@ -440,11 +443,13 @@ export default ({ api, coreSagas, networks }) => {
         // Wrong 2fa code error
         error &&
         is(String, error) &&
-        error.includes('Authentication code is incorrect')
+        (error.includes('Authentication code is incorrect') ||
+          error.includes('Invalid authentication code'))
       ) {
         yield put(actions.form.clearFields('login', false, true, 'code'))
         yield put(actions.form.focus('login', 'code'))
         yield put(actions.auth.loginFailure(error))
+        yield put(A.loginTwoStepVerificationDenied())
       } else if (error && is(String, error)) {
         yield put(actions.auth.loginFailure(error))
       } else {
