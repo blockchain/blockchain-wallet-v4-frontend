@@ -25,6 +25,7 @@ import {
 } from 'middleware/analyticsMiddleware/utils'
 
 import { actions, actionTypes as AT } from 'data'
+import { login } from 'data/auth/actions'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { BankDWStepType, InterestStep, ModalName, SwapBaseCounterTypes } from 'data/types'
 
@@ -2746,6 +2747,74 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           properties: {
             guid,
             origin,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.auth.LOGIN_ID_ENTERED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const { idType } = action.payload
+        analytics.push(AnalyticsKey.LOGIN_IDENTIFIER_ENTERED, {
+          properties: {
+            guid,
+            identifier_type: idType,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.auth.LOGIN_METHOD_SELECTED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const { loginMethod } = action.payload
+        analytics.push(AnalyticsKey.LOGIN_METHOD_SELECTED, {
+          properties: {
+            guid,
+            login_method: loginMethod,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.auth.LOGIN_PASSWORD_DENIED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+
+        analytics.push(AnalyticsKey.LOGIN_PASSWORD_DENIED, {
+          properties: {
+            guid,
             originalTimestamp: getOriginalTimestamp()
           },
           traits: {

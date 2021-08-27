@@ -409,6 +409,7 @@ export default ({ api, coreSagas, networks }) => {
               yield put(actions.auth.loginFailure())
             } else {
               yield put(actions.auth.loginFailure('wrong_wallet_password'))
+
               yield put(actions.logs.logErrorMessage(logLocation, 'login', error))
             }
           }
@@ -427,6 +428,7 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.auth.setAuthType(0))
         yield put(actions.form.clearFields('login', false, true, 'password', 'code'))
         yield put(actions.form.focus('login', 'password'))
+        yield put(A.loginPasswordDenied())
         yield put(actions.auth.loginFailure(error))
       } else if (initialError && initialError.includes('Unknown Wallet Identifier')) {
         yield put(actions.form.change('login', 'step', 'ENTER_EMAIL_GUID'))

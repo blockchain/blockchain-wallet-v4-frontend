@@ -208,3 +208,17 @@ export const needHelpClicked = (origin) => ({
   payload: { origin },
   type: AT.NEED_HELP_CLICKED
 })
+
+export const loginIdEntered = (idType) => ({
+  payload: { idType },
+  type: AT.LOGIN_ID_ENTERED
+})
+
+export const loginMethodSelected = (loginMethod) => ({
+  payload: { loginMethod },
+  type: AT.LOGIN_METHOD_SELECTED
+})
+
+export const loginPasswordDenied = () => ({
+  type: AT.LOGIN_PASSWORD_DENIED
+})

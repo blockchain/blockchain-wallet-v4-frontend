@@ -32,6 +32,9 @@ enum AnalyticsKey {
   INTEREST_WITHDRAWAL_VIEWED = 'Interest Withdrawal Viewed',
   LINK_BANK_CLICKED = 'Link Bank Clicked',
   LOGIN_HELPED_CLICKED = 'Login Help Clicked',
+  LOGIN_IDENTIFIER_ENTERED = 'Login Identifier Entered',
+  LOGIN_METHOD_SELECTED = 'Login Method Selected',
+  LOGIN_PASSWORD_DENIED = 'Login Password Denied',
   MANAGE_TAB_SELECTION_CLICKED = 'Manage Tab Selection Clicked',
   NOTIFICATION_PREFERENCES_UPDATED = 'Notification Preferences Updated',
   PRIVATE_KEYS_SHOWN = 'Private Keys Shown',
@@ -320,6 +323,13 @@ type LinkBankClickedPayload = BasePayload & {
   origin: LinkBankClickedOrigin
 }
 
+type LoginIdentifierEnteredPayload = BasePayload & {
+  identifier_type: 'EMAIL' | 'WALLET_ID'
+}
+
+type LoginMethodSelectedPayload = BasePayload & {
+  login_method: 'PASSWORD' | 'SECURE_CHANNEL'
+}
 type ManageTabSelectionClickedSelection =
   | 'EDIT_WALLET_NAME'
   | 'RECOVER_FUNDS'
@@ -596,6 +606,8 @@ type AnalyticsProperties =
   | InterestWithdrawalClickedPayload
   | InterestWithdrawalViewedPayload
   | LinkBankClickedPayload
+  | LoginIdentifierEnteredPayload
+  | LoginMethodSelectedPayload
   | ManageTabSelectionClickedPayload
   | NotificationPreferencesUpdatedPayload
   | PrivateKeysShownPayload
