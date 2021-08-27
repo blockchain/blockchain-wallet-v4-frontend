@@ -10,14 +10,14 @@ const Container = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  background-color: ${props => props.theme[props.backgroundColor]};
+  background-color: ${(props) => props.theme[props.backgroundColor]};
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   margin: 0 auto;
   overflow: hidden;
   padding: 12px 25px;
   box-sizing: border-box;
-  height: ${props => (props.collapsed ? '40px' : '')};
+  height: ${(props) => (props.collapsed ? '40px' : '')};
   width: 100%;
 `
 
@@ -70,7 +70,7 @@ const ActionButton = styled(Button)`
   }
 `
 
-const selectStyle = type => {
+const selectStyle = (type) => {
   switch (type) {
     case 'danger':
       return {
@@ -93,7 +93,7 @@ const selectStyle = type => {
   }
 }
 
-const Announcement = props => {
+const Announcement = (props) => {
   const { announcement, collapsed, handleDismiss, lang, toggleCollapse } = props
   const { action, header, hideType, icon, id, sections, type } = announcement
   const { backgroundColor, textColor, uppercase } = selectStyle(type)
@@ -117,12 +117,7 @@ const Announcement = props => {
             {sections &&
               sections.map((section, i) => {
                 return (
-                  <Text
-                    color={textColor}
-                    key={i}
-                    size='13px'
-                    style={{ margin: '8px 0 0' }}
-                  >
+                  <Text color={textColor} key={i} size='13px' style={{ margin: '8px 0 0' }}>
                     {section.body[lang] ? section.body[lang] : section.body.en}
                   </Text>
                 )
@@ -130,7 +125,7 @@ const Announcement = props => {
           </div>
         </Content>
       </Wrapper>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div style={{ alignItems: 'center', display: 'flex' }}>
         {action && action.title && (
           <ActionButton nature='empty-secondary'>
             <Link href={action.link} target='_blank'>
