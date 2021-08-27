@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Interest/DepositForm/model'
 import styled from 'styled-components'
 
-import { BlueCartridge } from 'components/Cartridge'
 import { RecurringBuyPeriods } from 'data/types'
 
 const DisplalyContainer = styled.div`
@@ -60,14 +60,14 @@ type SchedulerProps = {
 const Scheduler = ({ children, onClick }: SchedulerProps) => {
   return (
     <DisplalyContainer>
-      <BlueCartridge
+      <GreyBlueCartridge
         onClick={onClick}
         style={{ cursor: 'pointer' }}
         role='button'
         data-e2e='sbEnterAmountMax'
       >
         {children}
-      </BlueCartridge>
+      </GreyBlueCartridge>
     </DisplalyContainer>
   )
 }
