@@ -24,6 +24,17 @@ export const isAvailableMethod = (period: RecurringBuyPeriods, method?: SBPaymen
     return (paymentInfoPeriod && paymentInfoPeriod.eligibleMethods.includes(method.type)) || false
   })
 
+export const anyAvailablePeriods = (method?: SBPaymentMethodType) =>
+  createSelector(getPaymentInfo, (paymentInfoR) => {
+    if (!method) return false
+
+    const paymentInfo = paymentInfoR.getOrElse([]).filter((pi) => {
+      return pi.eligibleMethods.includes(method.type)
+    })
+
+    return paymentInfo.length > 0
+  })
+
 export const getRegisteredListByCoin = (coin) =>
   createSelector(getRegisteredList, (registeredListR) => {
     return registeredListR.getOrElse([]).filter((l) => l.destinationCurrency === coin)
