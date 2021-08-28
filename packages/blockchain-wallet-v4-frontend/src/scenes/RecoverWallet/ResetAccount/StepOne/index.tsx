@@ -34,8 +34,10 @@ class StepOne extends React.PureComponent<Props, State> {
   handleGoBackClick = () => {
     if (this.state.firstResetAcccountPrompt === true) {
       this.props.setStep(RecoverSteps.RECOVERY_OPTIONS)
+      this.props.authActions.resetAccountCancelled('RESET_CONFIRMATION')
     } else {
       this.setState({ firstResetAcccountPrompt: true })
+      this.props.authActions.resetAccountCancelled('RESET_FINAL_WARNING')
     }
   }
 
@@ -44,7 +46,7 @@ class StepOne extends React.PureComponent<Props, State> {
     return (
       <>
         <BackArrowFormHeader
-          handleBackArrowClick={() => this.handleGoBackClick}
+          handleBackArrowClick={this.handleGoBackClick}
           email={emailFromMagicLink}
           guid={cachedGuid || lastGuid}
           step={RecoverSteps.RESET_ACCOUNT}
