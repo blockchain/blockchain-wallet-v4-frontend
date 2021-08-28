@@ -2978,6 +2978,72 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
+      case AT.auth.SECURE_CHANNEL_LOGIN_LOADING: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        analytics.push(AnalyticsKey.CLOUD_BACKUP_CODE_SCANNED, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.auth.RESET_ACCOUNT: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        analytics.push(AnalyticsKey.NEW_ACCOUNT_PASSWORD_ENTERED, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.auth.RECOVERY_OPTION_SELECTED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const { recoveryType } = action.paylpad
+
+        analytics.push(AnalyticsKey.RECOVERY_OPTION_SELECTED, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            recovery_type: recoveryType
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
       default: {
         break
       }

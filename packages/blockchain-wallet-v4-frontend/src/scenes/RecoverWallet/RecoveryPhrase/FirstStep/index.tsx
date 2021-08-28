@@ -99,7 +99,7 @@ const FirstStep = (props: Props) => {
         fullwidth
         height='48px'
         disabled={submitting || invalid}
-        data-e2e='loginButton'
+        data-e2e='submitRecoveryPhrase'
         style={{ marginBottom: '16px' }}
       >
         {submitting ? (

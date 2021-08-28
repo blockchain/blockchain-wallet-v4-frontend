@@ -31,6 +31,7 @@ const TextStack = styled.div`
 `
 const RecoveryOptions = (props: Props) => {
   const {
+    authActions,
     cachedEmail,
     cachedGuid,
     emailFromMagicLink,
@@ -39,6 +40,14 @@ const RecoveryOptions = (props: Props) => {
     nabuId,
     routerActions
   } = props
+  const cloudRecoveryClicked = () => {
+    formActions.change('recover', 'step', RecoverSteps.CLOUD_RECOVERY)
+    authActions.recoveryOptionSelected('CLOUD_BACKUP')
+  }
+  const recoveryPhraseClicked = () => {
+    formActions.change('recover', 'step', RecoverSteps.RECOVERY_PHRASE)
+    authActions.recoveryOptionSelected('RECOVERY_PHRASE')
+  }
   return (
     <Wrapper>
       {cachedEmail && (
@@ -56,9 +65,7 @@ const RecoveryOptions = (props: Props) => {
             defaultMessage='Recovery Options'
           />
         </Text>
-        <IconTextRow
-          onClick={() => formActions.change('recover', 'step', RecoverSteps.CLOUD_RECOVERY)}
-        >
+        <IconTextRow onClick={cloudRecoveryClicked}>
           <CircleBackground color='blue000'>
             <Icon name='cloud' color='blue600' size='16px' />
           </CircleBackground>
@@ -78,9 +85,7 @@ const RecoveryOptions = (props: Props) => {
           </TextStack>
           <Icon name='chevron-right' size='20px' color='grey400' />
         </IconTextRow>
-        <IconTextRow
-          onClick={() => formActions.change('recover', 'step', RecoverSteps.RECOVERY_PHRASE)}
-        >
+        <IconTextRow onClick={recoveryPhraseClicked}>
           <CircleBackground color='blue000'>
             <Icon name='keyboard' color='blue600' size='22px' />
           </CircleBackground>

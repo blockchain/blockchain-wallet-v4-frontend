@@ -229,3 +229,22 @@ export const loginTwoStepVerificationDenied = () => ({
 export const loginTwoStepVerificationEntered = () => ({
   type: AT.LOGIN_TWO_STEP_VERIFICATION_ENTERED
 })
+
+export const recoveryOptionSelected = (recoveryType) => ({
+  payload: { recoveryType },
+  type: AT.RECOVERY_OPTION_SELECTED
+})
+
+export const recoveryPhraseEntered = () => ({
+  type: AT.RECOVERY_PHRASE_ENTERED
+})
+
+export const resetAccountCancelled = (origin) => ({
+  payload: { origin },
+  type: AT.RESET_ACCOUNT_CANCELLED
+})
+
+export const resetAccountClicked = (origin) => ({
+  payload: { origin },
+  type: AT.RESET_ACCOUNT_CLICKED
+})

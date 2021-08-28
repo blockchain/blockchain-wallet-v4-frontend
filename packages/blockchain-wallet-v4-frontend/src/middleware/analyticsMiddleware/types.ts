@@ -10,6 +10,7 @@ enum AnalyticsKey {
   BUY_SELL_CLICKED = 'Buy Sell Clicked',
   BUY_SELL_VIEWED = 'Buy Sell Viewed',
   CHANGE_MOBILE_NUMBER_CLICKED = 'Change Mobile Number Clicked',
+  CLOUD_BACKUP_CODE_SCANNED = 'Cloud Backup Code Scanned',
   CRYPTO_LINK_HANDLING_CLICKED = 'Crypto Link Handling Clicked',
   DASHBOARD_CLICKED = 'Dashboard Clicked',
   DASHBOARD_VIEWED = 'Dashboard Viewed',
@@ -43,10 +44,15 @@ enum AnalyticsKey {
   LOGIN_TWO_STEP_VERIFICATION_ENTERED = 'Login Two Step Verification Entered',
   LOGIN_VIEWED = 'Login Viewed',
   MANAGE_TAB_SELECTION_CLICKED = 'Manage Tab Selection Clicked',
+  NEW_ACCOUNT_PASSWORD_ENTERED = 'New Account Password Entered',
   NOTIFICATION_PREFERENCES_UPDATED = 'Notification Preferences Updated',
   PRIVATE_KEYS_SHOWN = 'Private Keys Shown',
   RECEIVE_CURRENCY_SELECTED = 'Receive Currency Selected',
   RECEIVE_DETAILS_COPIED = 'Receive Details Copied',
+  RECOVERY_OPTION_SELECTED = 'Recovery Option Selected',
+  RECOVERY_PHRASE_ENTERED = 'Recovery Phrase Entered',
+  RESET_ACCOUNT_CANCELLED = 'Reset Account Cancelled',
+  RESET_ACCOUNT_CLICKED = 'Reset Account Clicked',
   SELL_AMOUNT_ENTERED = 'Sell Amount Entered',
   SELL_AMOUNT_MAX_CLICKED = 'Sell Amount Max Clicked',
   SELL_AMOUNT_MIN_CLICKED = 'Sell Amount Min Clicked',
@@ -372,6 +378,14 @@ type ReceiveDetailsCopiedPayload = BasePayload & {
   currency: string
 }
 
+type RecoveryOptionSelectedPayload = BasePayload & {
+  recovery_type: 'CLOUD_BACKUP' | 'RECOVERY_PHRASE'
+}
+
+type ResetAccountPayload = BasePayload & {
+  origin: 'RESET_CONFIRMATION' | 'RESET_FINAL_WARNING' | 'RECOVERY_PHRASE' | 'RECOVERY_OPTIONS'
+}
+
 type SellAmountEnteredPayload = BasePayload & {
   from_account_type: AccountType
   input_amount: number
@@ -626,6 +640,7 @@ type AnalyticsProperties =
   | PrivateKeysShownPayload
   | ReceiveCurrencySelectedPayload
   | ReceiveDetailsCopiedPayload
+  | RecoveryOptionSelectedPayload
   | SellAmountEnteredPayload
   | SellAmountMaxClickedPayload
   | SellAmountMinClickedPayload
