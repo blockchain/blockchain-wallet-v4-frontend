@@ -24,8 +24,10 @@ class StepOne extends React.PureComponent<Props, State> {
   handleResetAccountClick = () => {
     if (this.state.firstResetAcccountPrompt === true) {
       this.setState({ firstResetAcccountPrompt: false })
+      this.props.authActions.resetAccountClicked('RESET_CONFIRMATION')
     } else {
       this.props.setFormStep()
+      this.props.authActions.resetAccountClicked('RESET_FINAL_WARNING')
     }
   }
 

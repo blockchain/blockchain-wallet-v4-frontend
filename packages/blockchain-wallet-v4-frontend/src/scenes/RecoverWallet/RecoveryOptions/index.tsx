@@ -48,6 +48,11 @@ const RecoveryOptions = (props: Props) => {
     formActions.change('recover', 'step', RecoverSteps.RECOVERY_PHRASE)
     authActions.recoveryOptionSelected('RECOVERY_PHRASE')
   }
+
+  const resetAccountClicked = () => {
+    formActions.change('recover', 'step', RecoverSteps.RESET_ACCOUNT)
+    authActions.resetAccountClicked('RECOVERY_OPTIONS')
+  }
   return (
     <Wrapper>
       {cachedEmail && (
@@ -120,7 +125,7 @@ const RecoveryOptions = (props: Props) => {
             color='blue600'
             data-e2e='troubleLoggingIn'
             cursor='pointer'
-            onClick={() => formActions.change('recover', 'step', RecoverSteps.RESET_ACCOUNT)}
+            onClick={resetAccountClicked}
             style={{ marginLeft: '4px' }}
           >
             <FormattedMessage
