@@ -1787,7 +1787,7 @@
   "scenes.recover.secondstep.password": "Password",
   "scenes.recover.secondstep.recover": "Recover Funds",
   "scenes.recovery.cloud_backup.instructions_one": "Scan this QR code with your Blockchain.com mobile app.",
-  "scenes.recovery.cloud_backup.subtitle": "It seems like your wallet had at one point been backed up to the cloud.",
+  "scenes.recovery.cloud_backup.subtitle": "If your wallet has been backed up to the cloud, scan this QR code with your Blockchain.com mobile app.",
   "scenes.recovery.email": "Recovering {email}",
   "scenes.recovery.import.body": "There’s no account associated with the seed phrase you entered. You can import and manage your wallet instead.",
   "scenes.recovery.import.title": "Import Your Wallet",
