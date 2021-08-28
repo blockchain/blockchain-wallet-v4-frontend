@@ -1,4 +1,5 @@
 enum AnalyticsKey {
+  ACCOUNT_PASSWORD_RESET = 'Account Password Reset',
   ADDRESS_VERIFY_MESSAGE_CLICKED = 'Address Verify Message Clicked',
   ADD_MOBILE_NUMBER_CLICKED = 'Add Mobile Number Clicked',
   AMOUNT_SWITCHED = 'Amount Switched',
