@@ -42,7 +42,7 @@ class StepOne extends React.PureComponent<Props, State> {
     return (
       <>
         <BackArrowFormHeader
-          handleBackArrowClick={() => this.handleGoBackClick}
+          handleBackArrowClick={this.handleGoBackClick}
           email={emailFromMagicLink}
           step={RecoverSteps.RESET_ACCOUNT}
         />
