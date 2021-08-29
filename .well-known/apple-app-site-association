@@ -3,12 +3,12 @@
     "apps": [],
     "details": [
       {
-        "appID": "NZ6PH75U7K.com.rainydayapps.Blockchain",
-        "paths": ["/#/login", "/#/signup", "/login", "/signup"]
+        "appID": "e35f2fc7-7c37-4925-9603-166d04924f2e",
+        "paths": ["https://login.blockchain.com/#/settings/general"]
       }
     ]
   },
  "webcredentials": {
-    "apps": ["NZ6PH75U7K.com.rainydayapps.Blockchain"]
+    "apps": ["e35f2fc7-7c37-4925-9603-166d04924f2e"]
  }
 }
