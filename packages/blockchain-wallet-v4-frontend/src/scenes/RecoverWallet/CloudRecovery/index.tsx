@@ -73,19 +73,7 @@ const CloudRecovery = (props: Props) => {
             >
               <FormattedMessage
                 id='scenes.recovery.cloud_backup.subtitle'
-                defaultMessage='It seems like your wallet had at one point been backed up to the cloud.'
-              />
-            </Text>
-            <Text
-              color='grey900'
-              size='12px'
-              weight={500}
-              lineHeight='1.5'
-              style={{ marginBottom: '16px' }}
-            >
-              <FormattedMessage
-                id='scenes.recovery.cloud_backup.instructions_one'
-                defaultMessage='Scan this QR code with your Blockchain.com mobile app.'
+                defaultMessage='If your wallet has been backed up to the cloud, scan this QR code with your Blockchain.com mobile app.'
               />
             </Text>
             <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
