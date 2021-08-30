@@ -1,5 +1,4 @@
-import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { append, assoc, filter } from 'ramda'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { ModalNameType, ModalParamPropsType } from 'data/modals/types'
 
@@ -18,113 +17,48 @@ type AddInitialModalPayload = {
   name: ModalNameType
 }
 
-type AddInitialRedirectPayload = {
-  path: string
-}
-
 type SaveGoalPayload = {
   data
   name: GoalsType
 }
 
-type DeleteGoalPayload = {
-  id: string
-}
-
 const generateId = () => Math.random().toString(36).substr(2, 10)
 
 const goalsSlice = createSlice({
-  extraReducers: (builder) => {
-    // Handle runGoals and defineGoals actions that does not change redux state
-    builder.addDefaultCase((state) => state)
-  },
   initialState,
   name: 'goals',
   reducers: {
-    addInitialModal: {
-      prepare: (
-        key: AddInitialModalPayload['key'],
-        name: AddInitialModalPayload['name'],
-        data: AddInitialModalPayload['data']
-      ) => {
-        return { payload: { data, key, name } }
-      },
-      reducer: (state, action: PayloadAction<AddInitialModalPayload>) => {
-        return {
-          ...state,
-          initialModals: {
-            ...state.initialModals,
-            [action.payload.key]: action.payload
-          }
-        }
+    addInitialModal: (state, action: PayloadAction<AddInitialModalPayload>) => {
+      state.initialModals = {
+        ...state.initialModals,
+        [action.payload.key]: action.payload
       }
     },
-    addInitialRedirect: {
-      prepare: (path: AddInitialRedirectPayload['path']) => {
-        return { payload: { path } }
-      },
-      reducer: (state, action: PayloadAction<AddInitialRedirectPayload>) => {
-        return {
-          ...state,
-          initialRedirect: action.payload.path
-        }
-      }
+    addInitialRedirect: (state, action: PayloadAction<string>) => {
+      state.initialRedirect = action.payload
     },
-    deleteGoal: {
-      prepare: (id: DeleteGoalPayload['id']) => {
-        return { payload: { id } }
-      },
-      reducer: (state, action: PayloadAction<DeleteGoalPayload>) => {
-        const { id } = action.payload
-        return assoc(
-          'goals',
-          filter((a) => a.id !== id, state.goals),
-          state
-        )
-      }
+    defineGoals: () => {},
+    deleteGoal: (state, action: PayloadAction<string>) => {
+      state.goals = state.goals.filter((goal) => goal.id !== action.payload)
     },
     initialModalDisplayed: (state) => {
-      return {
-        ...state,
-        initialModalDisplayed: true
-      }
+      state.initialModalDisplayed = true
     },
-    saveGoal: {
-      prepare: (name: SaveGoalPayload['name'], data: SaveGoalPayload['data']) => {
-        return { payload: { data, id: generateId(), name } }
-      },
-      reducer: (state, action: PayloadAction<SaveGoalPayload>) => {
-        return assoc('goals', append(action.payload, state.goals), state)
-      }
+    runGoals: () => {},
+    saveGoal: (state, action: PayloadAction<SaveGoalPayload>) => {
+      state.goals.push({ id: generateId(), ...action.payload })
     }
   }
 })
 
-export const runGoals = createAction('goals/runGoals')
+export const { actions, reducer } = goalsSlice
 
-export const defineGoals = createAction('goals/defineGoals')
-
-export const actions = { ...goalsSlice.actions, defineGoals, runGoals }
-
-export const { addInitialModal, addInitialRedirect, deleteGoal, initialModalDisplayed, saveGoal } =
-  actions
-
-const addInitialModalType = addInitialModal.type
-const addInitialRedirectType = addInitialRedirect.type
-const deleteGoalType = deleteGoal.type
-const initialModalDisplayedType = initialModalDisplayed.type
-const saveGoalType = saveGoal.type
-const runGoalsType = runGoals.type
-const defineGoalsType = defineGoals.type
-
-export const actionTypes = {
-  addInitialModal: addInitialModalType,
-  addInitialRedirect: addInitialRedirectType,
-  defineGoals: defineGoalsType,
-  deleteGoal: deleteGoalType,
-  initialModalDisplayed: initialModalDisplayedType,
-  runGoals: runGoalsType,
-  saveGoal: saveGoalType
-}
-
-export const goalsReducer = goalsSlice.reducer
+export const {
+  addInitialModal,
+  addInitialRedirect,
+  defineGoals,
+  deleteGoal,
+  initialModalDisplayed,
+  runGoals,
+  saveGoal
+} = actions
