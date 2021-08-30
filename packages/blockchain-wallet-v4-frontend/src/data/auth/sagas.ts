@@ -360,14 +360,14 @@ export default ({ api, coreSagas, networks }) => {
       if (!currentManifest) {
         yield put(A.setManifestFile(nextManifest))
       }
-
-      yield delay(10_000)
-      yield put(A.pingManifestFile())
     } catch (e) {
       // wallet failed to fetch
       // happens rarely but could happen
       // ignore error
     }
+
+    yield delay(10_000)
+    yield put(A.pingManifestFile())
   }
 
   const pollingSession = function* (session, n = 50) {
