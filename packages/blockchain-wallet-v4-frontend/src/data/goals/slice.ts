@@ -52,13 +52,3 @@ const goalsSlice = createSlice({
 })
 
 export const { actions, reducer } = goalsSlice
-
-export const {
-  addInitialModal,
-  addInitialRedirect,
-  defineGoals,
-  deleteGoal,
-  initialModalDisplayed,
-  runGoals,
-  saveGoal
-} = actions

@@ -1,4 +1,4 @@
-import { actions, addInitialModal, defineGoals, deleteGoal, runGoals, saveGoal } from './slice'
+import { actions } from './slice'
 
 describe('goals actions', () => {
   const mathCopy = Object.create(global.Math)
@@ -16,7 +16,7 @@ describe('goals actions', () => {
   it('deleteGoal should return proper action', () => {
     expect(actions.deleteGoal('123')).toEqual({
       payload: '123',
-      type: deleteGoal.type
+      type: actions.deleteGoal.type
     })
   })
 
@@ -35,22 +35,22 @@ describe('goals actions', () => {
         key: '1a',
         name: 'ADD_BANK_YAPILY_MODAL'
       },
-      type: addInitialModal.type
+      type: actions.addInitialModal.type
     })
   })
 
   it('runGoals should call correct action', () => {
-    expect(actions.runGoals()).toEqual({ type: runGoals.type })
+    expect(actions.runGoals()).toEqual({ type: actions.runGoals.type })
   })
 
   it('defineGoals should call correct action', () => {
-    expect(actions.defineGoals()).toEqual({ type: defineGoals.type })
+    expect(actions.defineGoals()).toEqual({ type: actions.defineGoals.type })
   })
 
   it('saveGoal should save goal with random id', () => {
     expect(actions.saveGoal({ data: {}, name: 'kyc' })).toEqual({
       payload: { data: {}, name: 'kyc' },
-      type: saveGoal.type
+      type: actions.saveGoal.type
     })
   })
 })
