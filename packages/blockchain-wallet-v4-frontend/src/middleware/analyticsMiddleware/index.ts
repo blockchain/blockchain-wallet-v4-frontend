@@ -10,6 +10,8 @@ import {
   RecurringBuyCancelPayload,
   RecurringBuyClickedPayload,
   RecurringBuyDetailsClickedPayload,
+  RecurringBuyInfoViewedPayload,
+  RecurringBuyLearnMoreClickPayload,
   SendReceive,
   WithdrawalMethod
 } from 'middleware/analyticsMiddleware/types'
@@ -1636,6 +1638,25 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
+      case actions.components.recurringBuy.learnMoreLinkClicked.type: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const origin = action.payload
+
+        analytics.push(AnalyticsKey.RECURRING_BUY_LEARN_MORE_CLICKED, {
+          properties: { origin } as RecurringBuyLearnMoreClickPayload,
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
       case actions.components.recurringBuy.setStep.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
@@ -1643,11 +1664,20 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-        const { inputCurrency: currency }: { inputCurrency: string } =
-          state.components.recurringBuy.active
         const stepName: RecurringBuyStepType = action.payload.step
         const origin = RecurringBuyOrigins[action.payload.origin]
         switch (stepName) {
+          case RecurringBuyStepType.INIT_PAGE: {
+            analytics.push(AnalyticsKey.RECURRING_BUY_INFO_VIEWED, {
+              properties: { page: 0 } as RecurringBuyInfoViewedPayload,
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+            break
+          }
           case RecurringBuyStepType.REMOVE_CONFIRM: {
             const {
               destinationCurrency: output_currency,
@@ -1688,6 +1718,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             break
           }
           case RecurringBuyStepType.DETAILS: {
+            const { inputCurrency: currency }: { inputCurrency: string } =
+              state.components.recurringBuy.active
             analytics.push(AnalyticsKey.RECURRING_BUY_DETAILS_CLICKED, {
               properties: {
                 currency,

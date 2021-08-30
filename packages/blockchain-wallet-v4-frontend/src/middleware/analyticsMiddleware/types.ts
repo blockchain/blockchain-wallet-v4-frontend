@@ -359,6 +359,14 @@ type ReceiveDetailsCopiedPayload = BasePayload & {
   currency: string
 }
 
+export type RecurringBuyLearnMoreClickPayload = BasePayload & {
+  origin: RecurringBuyOrigins
+}
+
+export type RecurringBuyInfoViewedPayload = BasePayload & {
+  page: number
+}
+
 export type RecurringBuyCancelPayload = BasePayload & {
   frequency: RecurringBuyPeriods
   input_amount: number
@@ -626,6 +634,8 @@ type AnalyticsProperties =
   | PrivateKeysShownPayload
   | ReceiveCurrencySelectedPayload
   | ReceiveDetailsCopiedPayload
+  | RecurringBuyLearnMoreClickPayload
+  | RecurringBuyInfoViewedPayload
   | RecurringBuyCancelPayload
   | RecurringBuyClickedPayload
   | RecurringBuyDetailsClickedPayload
