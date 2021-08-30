@@ -5,7 +5,7 @@ import IdvIntro from 'components/IdentityVerification/IdvIntro'
 
 import { RequestSteps } from '../types'
 
-const InitTradingAccount: React.FC<Props> = props => {
+const InitTradingAccount: React.FC<Props> = (props) => {
   return (
     <IdvIntro
       {...props}
@@ -36,10 +36,7 @@ const InitTradingAccount: React.FC<Props> = props => {
         />
       }
       resultTitle={
-        <FormattedMessage
-          id='copy.trading_start'
-          defaultMessage='Use the Trading Account'
-        />
+        <FormattedMessage id='copy.trading_start' defaultMessage='Use the Trading Account' />
       }
       resultCopy={
         <FormattedMessage

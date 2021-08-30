@@ -7,7 +7,7 @@ import { RootState } from 'data/rootReducer'
 // Backup coins
 // Used if coins from nav selector is empty
 export const getData = (state: RootState) => {
-  const coinsR = selectors.components.utils.getCoinsWithMethodAndOrder(state)
+  const coinsR = selectors.components.utils.getCoinsWithBalanceOrMethod(state)
 
   return lift((coins: ExtractSuccess<typeof coinsR>) =>
     coins.filter((val) => val.coinfig.type.name !== 'FIAT').map((val) => val.coinfig)

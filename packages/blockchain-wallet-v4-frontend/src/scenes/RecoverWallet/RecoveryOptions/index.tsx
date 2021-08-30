@@ -40,7 +40,7 @@ const RecoveryOptions = (props: Props) => {
           guid={cachedGuid || lastGuid}
         />
       )}
-      {emailFromMagicLink && (
+      {!emailFromMagicLink && (
         <GoBackArrow handleBackArrowClick={() => routerActions.push('/login')} />
       )}
       <FormBody>

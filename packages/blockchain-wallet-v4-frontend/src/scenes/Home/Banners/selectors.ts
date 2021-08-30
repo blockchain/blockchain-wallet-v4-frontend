@@ -15,9 +15,13 @@ export type BannerType =
   | 'buyCrypto'
   | 'continueToGold'
   | 'recurringBuys'
+  | 'coinListing'
   | null
 
+export const getNewCoinAnnouncement = (coin: string) => `${coin}-homepage`
+
 export const getData = (state: RootState): { bannerToShow: BannerType } => {
+  const announcementState = selectors.cache.getLastAnnouncementState(state)
   // @ts-ignore
   const showDocResubmitBanner = selectors.modules.profile
     .getKycDocResubmissionStatus(state)
@@ -49,15 +53,26 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     userData.kycState === KYC_STATES.VERIFIED
   const sddEligibleTier = selectors.components.simpleBuy.getUserSddEligibleTier(state).getOrElse(1)
 
+  // continueToGold
   const limits = selectors.components.simpleBuy.getLimits(state).getOrElse({
     annual: {
       available: '0'
     }
   } as SwapUserLimitsType)
 
+  // recurringBuys
   const isRecurringBuy = selectors.core.walletOptions
     .getFeatureFlagRecurringBuys(state)
     .getOrElse(false) as boolean
+
+  // newCurrency
+  const newCoinListing = selectors.core.walletOptions.getNewCoinListing(state).getOrElse('')
+  const newCoinAnnouncement = getNewCoinAnnouncement(newCoinListing)
+  const isNewCurrency =
+    newCoinListing &&
+    (!announcementState ||
+      !announcementState[newCoinAnnouncement] ||
+      (announcementState[newCoinAnnouncement] && !announcementState[newCoinAnnouncement].dismissed))
 
   const isTier3SDD = sddEligibleTier === 3
 
@@ -77,6 +92,8 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     Number(limits?.annual.available) > 0
   ) {
     bannerToShow = 'continueToGold'
+  } else if (isNewCurrency) {
+    bannerToShow = 'newCurrency'
   } else if (isRecurringBuy) {
     bannerToShow = 'recurringBuys'
   } else {

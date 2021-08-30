@@ -122,17 +122,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       payment = yield call(coreSagas.payment.xlm.create, { payment })
 
       switch (field) {
-        case 'coin':
-          const { coinfig } = window.coins[payload]
-          const modalName = coinfig.type.erc20Address ? 'ETH' : payload
-          yield put(actions.modals.closeAllModals())
-          yield put(
-            actions.modals.showModal(`SEND_${modalName}_MODAL` as ModalNameType, {
-              coin: payload,
-              origin: 'SendXlm'
-            })
-          )
-          break
         case 'from':
           const source = prop('address', payload) || payload
           const fromType = prop('type', payload)

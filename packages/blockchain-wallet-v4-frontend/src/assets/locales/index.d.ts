@@ -114,7 +114,7 @@ type MessagesType = {
   'components.alerts.currency_update_success': 'Currency has been successfully updated'
   'components.alerts.deauthorize_browser_error': 'Failed to deauthorize this browser.'
   'components.alerts.deauthorize_browser_success': 'Browser was successfully deauthorized.'
-  'components.alerts.device_mismatch': 'Device mismatch.'
+  'components.alerts.devicemismatch': 'Link must be opened in original browser..'
   'components.alerts.document_upload_error': 'Failed to upload document.'
   'components.alerts.email_code_sent_success': 'Confirmation code has been sent.'
   'components.alerts.email_update_error': 'Failed to update email address.'
@@ -417,6 +417,7 @@ type MessagesType = {
   'copy.receive_to': 'Receive to'
   'copy.refund_policy': 'Refund Policy'
   'copy.reset': 'Reset'
+  'copy.retry': 'Retry'
   'copy.recurring_buy': 'Recurring Buy'
   'copy.reset_now': 'Reset Now'
   'copy.max': 'Max'
@@ -1718,7 +1719,7 @@ type MessagesType = {
   'modals.swapgetstarted.later': "I'll do this later"
   'modals.swapgetstarted.trading_your_crypto': "Trading your crypto doesn't mean trading away control."
   'modals.swap.unsuported.title': 'SWAP crypto coming soon to your region.'
-  'modals.swap.unsuported.subcontent': "We don’t support swapping crypto yet for your region. We’ll let you know as soon as we do."
+  'modals.swap.unsuported.subcontent': 'We don’t support swapping crypto yet for your region. We’ll let you know as soon as we do.'
   'modals.transactions.report.download': 'Download Report'
   'modals.transactions.report.enddate': 'end date'
   'modals.transactions.report.generate': 'Generate Report'
@@ -2235,7 +2236,7 @@ type MessagesType = {
   'scenes.login.qrcodelogin_success': 'Success! Logging in...'
   'scenes.login.qrcodelogin_success_confirm': 'Please confirm the login on your mobile device.'
   'scenes.login.recovery_options.title': 'Recovery Options'
-  'scenes.login.recovery_options.cloud_backup.title': "Recover Account with Cloud Backup"
+  'scenes.login.recovery_options.cloud_backup.title': 'Recover Account with Cloud Backup'
   'scenes.login.recovery_options.cloud_backup': 'Restore your account using your phone and the cloud.'
   'scenes.login.recovery_options.phrase.title': 'Recover Account with Recovery Phrase'
   'scenes.login.recovery_options.phrase': 'Restore your account with your 12-word Secret Private key Recovery Phrase.'
