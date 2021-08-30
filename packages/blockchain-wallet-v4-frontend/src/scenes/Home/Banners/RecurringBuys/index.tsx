@@ -8,6 +8,7 @@ import { Button, Icon, Text } from 'blockchain-info-components'
 import { SBOrderType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { RecurringBuyOrigins } from 'data/types'
 import { media } from 'services/styles'
 
 const Wrapper = styled.div`
@@ -76,7 +77,7 @@ const BannerButton = styled(Button)`
 
 const RecurringBuys = (props: Props) => {
   const showModal = () => {
-    props.recurringBuyActions.showModal({ origin: 'RecurringBuys' })
+    props.recurringBuyActions.showModal({ origin: RecurringBuyOrigins.RECURRING_BUYS_BANNER })
   }
 
   return (

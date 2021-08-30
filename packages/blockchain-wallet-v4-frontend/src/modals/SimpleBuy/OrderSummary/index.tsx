@@ -13,7 +13,12 @@ import {
 import DataError from 'components/DataError'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { RecurringBuyPeriods, RecurringBuyStepType, SBCheckoutFormValuesType } from 'data/types'
+import {
+  RecurringBuyOrigins,
+  RecurringBuyPeriods,
+  RecurringBuyStepType,
+  SBCheckoutFormValuesType
+} from 'data/types'
 
 import Loading from '../template.loading'
 import { getData } from './selectors'
@@ -56,7 +61,9 @@ class OrderSummary extends PureComponent<Props> {
       this.props.formValues?.period === RecurringBuyPeriods.ONE_TIME &&
       this.props.hasQuote
     ) {
-      this.props.recurringBuyActions.showModal({ origin: 'SimpleBuyOrderSummary' })
+      this.props.recurringBuyActions.showModal({
+        origin: RecurringBuyOrigins.SIMPLE_BUY_ORDER_SUMMARY
+      })
       this.props.recurringBuyActions.setStep({ step: RecurringBuyStepType.GET_STARTED })
     } else {
       this.props.handleClose()
