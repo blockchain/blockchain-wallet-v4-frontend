@@ -7,6 +7,8 @@ import {
   FeeRate,
   Order,
   PageName,
+  RecurringBuyCancelPayload,
+  RecurringBuyClickedPayload,
   RecurringBuyDetailsClickedPayload,
   SendReceive,
   WithdrawalMethod
@@ -1643,9 +1645,48 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const { inputCurrency: currency }: { inputCurrency: string } =
           state.components.recurringBuy.active
-        const stepName = action.payload.step
+        const stepName: RecurringBuyStepType = action.payload.step
         const origin = RecurringBuyOrigins[action.payload.origin]
         switch (stepName) {
+          case RecurringBuyStepType.REMOVE_CONFIRM: {
+            const {
+              destinationCurrency: output_currency,
+              inputCurrency: input_currency,
+              inputValue: input_amount,
+              paymentMethod: payment_method,
+              period: frequency
+            } = state.components.recurringBuy.active
+
+            analytics.push(AnalyticsKey.CANCEL_RECURRING_BUY_CLICKED, {
+              properties: {
+                frequency,
+                input_amount,
+                input_currency,
+                origin,
+                output_currency,
+                payment_method
+              } as RecurringBuyCancelPayload,
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+            break
+          }
+          case RecurringBuyStepType.GET_STARTED: {
+            analytics.push(AnalyticsKey.RECURRING_BUY_CLICKED, {
+              properties: {
+                origin
+              } as RecurringBuyClickedPayload,
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+            break
+          }
           case RecurringBuyStepType.DETAILS: {
             analytics.push(AnalyticsKey.RECURRING_BUY_DETAILS_CLICKED, {
               properties: {
