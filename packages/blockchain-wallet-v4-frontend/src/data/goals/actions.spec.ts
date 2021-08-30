@@ -14,18 +14,26 @@ describe('goals actions', () => {
   })
 
   it('deleteGoal should return proper action', () => {
-    expect(actions.deleteGoal(123)).toEqual({
-      payload: 123,
+    expect(actions.deleteGoal('123')).toEqual({
+      payload: '123',
       type: deleteGoal.type
     })
   })
 
   it('addInitialModal should return proper action', () => {
-    expect(actions.addInitialModal({ data: {}, key: '1a', name: 'initial' })).toEqual({
-      payload: {
-        data: {},
+    expect(
+      actions.addInitialModal({
+        data: { origin: 'AirdropClaimGoal' },
         key: '1a',
-        name: 'initial'
+        name: 'ADD_BANK_YAPILY_MODAL'
+      })
+    ).toEqual({
+      payload: {
+        data: {
+          origin: 'AirdropClaimGoal'
+        },
+        key: '1a',
+        name: 'ADD_BANK_YAPILY_MODAL'
       },
       type: addInitialModal.type
     })
@@ -40,8 +48,8 @@ describe('goals actions', () => {
   })
 
   it('saveGoal should save goal with random id', () => {
-    expect(actions.saveGoal({ data: {}, name: 'fakeGoal' })).toEqual({
-      payload: { data: {}, name: 'fakeGoal' },
+    expect(actions.saveGoal({ data: {}, name: 'kyc' })).toEqual({
+      payload: { data: {}, name: 'kyc' },
       type: saveGoal.type
     })
   })
