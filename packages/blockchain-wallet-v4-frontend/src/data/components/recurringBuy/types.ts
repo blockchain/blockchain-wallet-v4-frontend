@@ -1,4 +1,5 @@
 import { FiatType, RemoteDataType, SBPaymentTypes, WalletCurrencyType } from 'core/types'
+import { ModalOriginType } from 'data/modals/types'
 
 export enum ActionEnum {
   BUY = 'BUY',
@@ -28,7 +29,15 @@ export enum RecurringBuyStepType {
   'REMOVE_CONFIRM'
 }
 
+export enum RecurringBuyOrigins {
+  COIN_PAGE,
+  DETAILS_SCREEN,
+  SIMPLE_BUY_ORDER_SUMMARY,
+  RECURRING_BUYS_BANNER
+}
+
 export type RecurringBuyStepPayload = {
+  origin?: ModalOriginType
   step: RecurringBuyStepType
 }
 

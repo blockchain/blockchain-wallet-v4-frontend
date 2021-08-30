@@ -1,18 +1,19 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
 import { StickyHeaderFlyoutWrapper } from 'components/Flyout'
+import { StepHeader } from 'components/Flyout/SendRequestCrypto'
 import { CoinAccountListOption, SelectBoxCoin } from 'components/Form'
 import { actions } from 'data'
 import { SwapAccountType, SwapBaseCounterTypes } from 'data/components/swap/types'
 
 import { Props as OwnProps } from '..'
-import { REQUEST_FORM, StepHeader } from '../model'
+import { REQUEST_FORM } from '../model'
 import { RequestSteps } from '../types'
 import { getData } from './selectors'
 
@@ -121,6 +122,8 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
+const enhance = compose(connector)
+
 type Props = ConnectedProps<typeof connector> &
   OwnProps & {
     handleAccountChange: (account: SwapAccountType) => void
@@ -128,4 +131,4 @@ type Props = ConnectedProps<typeof connector> &
     setStep: (step: RequestSteps) => void
   }
 
-export default connector(RequestCoinSelect)
+export default enhance(RequestCoinSelect)

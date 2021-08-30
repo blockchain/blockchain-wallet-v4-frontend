@@ -12,7 +12,7 @@ import {
 } from 'data/types'
 
 import { CoinType, FiatCurrenciesType, FiatType, WalletCurrencyType } from '../../../types'
-import { NabuCustodialProductType, ProductTypes } from '../custodial/types'
+import { NabuCustodialProductType, ProductTypes, WithdrawResponseType } from '../custodial/types'
 import { SwapOrderStateType, SwapOrderType, SwapUserLimitsType } from '../swap/types'
 import {
   FiatEligibleType,
@@ -431,7 +431,12 @@ export default ({
       url: `${everypayUrl}/api/v3/mobile_payments/card_details`
     })
 
-  const withdrawSBFunds = (address: string, currency: string, amount: string, fee?: number) =>
+  const withdrawSBFunds = (
+    address: string,
+    currency: string,
+    amount: string,
+    fee?: number
+  ): WithdrawResponseType =>
     authorizedPost({
       contentType: 'application/json',
       data: {

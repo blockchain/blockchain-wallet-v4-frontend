@@ -3,11 +3,11 @@ import React from 'react'
 import { Button } from 'blockchain-info-components'
 
 import CheckoutRow from '../Rows/Checkout'
-import AmountSubHeader from './AmountSubHeader'
 import Container from './Container'
 import Content from './Content'
 import Footer from './Footer'
 import Header from './Header'
+import SubHeader from './SubHeader'
 
 export default {
   args: {
@@ -24,7 +24,7 @@ export const Default = (args) => (
       Buy Bitcoin
     </Header>
     <Content mode='top'>
-      <AmountSubHeader {...args} />
+      <SubHeader {...args} />
       <CheckoutRow
         title='Exchange Rate'
         text='$30,000 / BTC'

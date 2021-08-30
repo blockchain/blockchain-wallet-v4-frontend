@@ -26,6 +26,7 @@ import { getIntroductionText } from 'data/coins/selectors'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import {
   ActionEnum,
+  RecurringBuyOrigins,
   RecurringBuyPeriods,
   RecurringBuyRegisteredList,
   RecurringBuyStepType
@@ -260,9 +261,12 @@ class TransactionsContainer extends React.PureComponent<Props> {
                   onClick={() => {
                     this.props.recurringBuyActions.setActive(recurringBuy)
                     this.props.recurringBuyActions.showModal({
-                      origin: 'RecurringBuys'
+                      origin: RecurringBuyOrigins.COIN_PAGE
                     })
-                    this.props.recurringBuyActions.setStep({ step: RecurringBuyStepType.DETAILS })
+                    this.props.recurringBuyActions.setStep({
+                      origin: RecurringBuyOrigins.COIN_PAGE,
+                      step: RecurringBuyStepType.DETAILS
+                    })
                   }}
                   period={recurringBuy.period as RecurringBuyPeriods}
                 />

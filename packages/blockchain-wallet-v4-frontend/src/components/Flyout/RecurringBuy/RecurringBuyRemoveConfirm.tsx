@@ -3,10 +3,10 @@ import { FormattedMessage } from 'react-intl'
 
 import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 
-import { RecurringBuyRegisteredList } from '../../data/types'
-import Container from './Container'
-import Content from './Content'
-import Header from './Header'
+import { RecurringBuyRegisteredList } from '../../../data/types'
+import Container from '../Container'
+import Content from '../Content'
+import Header from '../Header'
 
 const RecurringBuyRemoveConfirm = memo(
   ({ activeDetails, close, goBack, removeClick }: Props) => {

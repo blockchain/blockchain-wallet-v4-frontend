@@ -22,6 +22,8 @@ export const getAnalyticsSiteId = (state) =>
   getWebOptions(state).map(path(['application', 'analyticsSiteId']))
 export const getAnnouncements = (state) =>
   getWebOptions(state).map(path(['application', 'announcements']))
+export const getNewCoinListing = (state: RootState) =>
+  getOptions(state).map((options) => options.platforms.web.coinListing)
 
 // eslint-disable-next-line
 export const getXlmSendTimeOutSeconds = (state) => Remote.of(600)

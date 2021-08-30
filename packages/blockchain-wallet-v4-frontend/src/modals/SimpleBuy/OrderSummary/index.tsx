@@ -4,11 +4,21 @@ import { equals } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from 'blockchain-wallet-v4/src'
-import { ExtractSuccess, RemoteDataType, SBOrderType } from 'blockchain-wallet-v4/src/types'
+import {
+  ExtractSuccess,
+  RemoteDataType,
+  SBOrderType,
+  SBPaymentMethodType
+} from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { RecurringBuyPeriods, RecurringBuyStepType, SBCheckoutFormValuesType } from 'data/types'
+import {
+  RecurringBuyOrigins,
+  RecurringBuyPeriods,
+  RecurringBuyStepType,
+  SBCheckoutFormValuesType
+} from 'data/types'
 
 import Loading from '../template.loading'
 import { getData } from './selectors'
@@ -21,6 +31,7 @@ class OrderSummary extends PureComponent<Props> {
       this.props.simpleBuyActions.fetchSBCards()
       this.props.sendActions.getLockRule()
       this.props.recurringBuyActions.fetchRegisteredList()
+      this.props.recurringBuyActions.fetchPaymentInfo()
     }
     this.props.simpleBuyActions.fetchSBOrders()
 
@@ -44,12 +55,15 @@ class OrderSummary extends PureComponent<Props> {
     // this recurring buy flow is for first time buyers only. They'll have 1 tx at this point in the flow and
     // they didn't already create a recurring buy buy so we send them to RB walkthrough flow
     if (
+      this.props.hasAvailablePeriods &&
       this.props.isRecurringBuy &&
       this.props.orders.length <= 1 &&
       this.props.formValues?.period === RecurringBuyPeriods.ONE_TIME &&
       this.props.hasQuote
     ) {
-      this.props.recurringBuyActions.showModal({ origin: 'SimpleBuyOrderSummary' })
+      this.props.recurringBuyActions.showModal({
+        origin: RecurringBuyOrigins.SIMPLE_BUY_ORDER_SUMMARY
+      })
       this.props.recurringBuyActions.setStep({ step: RecurringBuyStepType.GET_STARTED })
     } else {
       this.props.handleClose()
@@ -75,9 +89,12 @@ class OrderSummary extends PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+const mapStateToProps = (state: RootState, ownProps: OwnProps): LinkStatePropsType => ({
   data: getData(state),
   formValues: selectors.form.getFormValues('simpleBuyCheckout')(state) as SBCheckoutFormValuesType,
+  hasAvailablePeriods: selectors.components.recurringBuy.hasAvailablePeriods(ownProps.method)(
+    state
+  ),
   hasQuote: selectors.components.simpleBuy.hasQuote(state),
   isGoldVerified: equals(selectors.modules.profile.getCurrentTier(state), 2),
   isRecurringBuy: selectors.core.walletOptions
@@ -96,6 +113,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   handleClose: () => void
+  method?: SBPaymentMethodType
   order: SBOrderType
 }
 
@@ -104,6 +122,7 @@ export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
   formValues: SBCheckoutFormValuesType
+  hasAvailablePeriods: boolean
   hasQuote: boolean
   isGoldVerified: boolean
   isRecurringBuy: boolean

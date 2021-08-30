@@ -17,7 +17,7 @@ import { RootState } from 'data/rootReducer'
 export const getData = createDeepEqualSelector(
   [
     selectors.custodial.getRecentSwapTxs,
-    selectors.components.utils.getCoinsWithMethodAndOrder,
+    selectors.components.utils.getCoinsWithBalanceOrMethod,
     getAllCoinsBalancesSelector,
     (state: RootState) => state
   ],
@@ -69,9 +69,6 @@ export const getData = createDeepEqualSelector(
         }, coins)
       )
 
-      // balances
-      // eslint-disable-next-line
-      console.log(Object.keys(balances))
       // returns all coins with balances as a list
       const cryptoList = map(
         (coin) => {
