@@ -21,7 +21,7 @@ export default {
         period: 'DAILY'
       },
       {
-        eligibleMethods: ['FUNDS', 'BANK_TRANSFER'],
+        eligibleMethods: ['FUNDS'],
         nextPayment: '2021-08-26T22:26:52.494Z',
         period: 'WEEKLY'
       },
@@ -48,12 +48,12 @@ export default {
   title: 'Flyouts/RecurringBuy/FrequencySelection'
 } as ComponentMeta<typeof FrequencyScreen>
 
-export const Default: ComponentStory<typeof FrequencyScreen> = (args) => (
-  <FrequencyScreen
-    {...args}
-    headerAction={action('header action button clicked')}
-    setPeriod={(period) => {
-      return action(`${period} option clicked`)
-    }}
-  />
-)
+const Template: ComponentStory<typeof FrequencyScreen> = (args) => <FrequencyScreen {...args} />
+
+export const Default = Template.bind({})
+Default.args = {
+  headerAction: action('header action button clicked'),
+  setPeriod: (period) => {
+    return action(`${period} option clicked`)
+  }
+}

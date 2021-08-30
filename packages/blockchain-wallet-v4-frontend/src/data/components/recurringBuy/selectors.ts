@@ -1,8 +1,10 @@
 import { createSelector } from '@reduxjs/toolkit'
+import { compose, flatten, uniq } from 'ramda'
 
-import { SBPaymentMethodType } from 'core/types'
+import { SBPaymentMethodType, SBPaymentTypes } from 'core/types'
 import { RootState } from 'data/rootReducer'
 
+import { getPayment } from '../interest/selectors'
 import { RecurringBuyPeriods } from './types'
 
 export const getActive = (state: RootState) => state.components.recurringBuy.active
@@ -24,7 +26,16 @@ export const isAvailableMethod = (period: RecurringBuyPeriods, method?: SBPaymen
     return (paymentInfoPeriod && paymentInfoPeriod.eligibleMethods.includes(method.type)) || false
   })
 
-export const anyAvailablePeriods = (method?: SBPaymentMethodType) =>
+export const availableMethods = createSelector(getPaymentInfo, (paymentInfoR) => {
+  const data = paymentInfoR
+    .map((paymentInfo) => {
+      return paymentInfo.map((info) => info.eligibleMethods)
+    })
+    .getOrElse([])
+  return uniq(flatten(data))
+})
+
+export const hasAvailablePeriods = (method?: SBPaymentMethodType) =>
   createSelector(getPaymentInfo, (paymentInfoR) => {
     if (!method) return false
 

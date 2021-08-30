@@ -1,4 +1,4 @@
 import CheckoutRow from './Checkout'
-import OptionRightActionRow from './OptionRightAction'
+import OptionRightActionRow, { Props as OptionRightActionRowProps } from './OptionRightAction'
 
-export { CheckoutRow, OptionRightActionRow }
+export { CheckoutRow, OptionRightActionRow, OptionRightActionRowProps }

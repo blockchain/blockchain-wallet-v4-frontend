@@ -1255,6 +1255,8 @@ type MessagesType = {
   'modals.recurringbuys.time_options.bi_weekly': 'Twice a Month'
   'modals.recurringbuys.time_options.monthly': 'Monthly'
 
+  'modals.recurringbuys.frequency_disabled': '{period} recurring buys are unavailable for your payment method at this time.'
+
   'modals.recurringbuys.get_started.title': 'Set Up a Recurring Buy'
   'modals.recurringbuys.get_started.description': 'Buy {amount} of {outputCurrency} every day, week or month with a Recurring Buy. No need to ever time the market.'
   'modals.recurringbuys.get_started.buy_amount_of_currency': 'Buy {amount} of {currency}'
@@ -1263,6 +1265,8 @@ type MessagesType = {
 
   'modals.recurringbuys.get_started.get_started': 'Get Started'
   'modals.recurringbuys.get_started.maybe_later': 'Maybe Later'
+
+  'modals.recurringbuys.available_methods_tool_tip': 'Recurring Buys are only available for these methods at this time: {methods}'
 
   'modals.recurringbuys.recurring_buy_started': 'Recurring Buy Started!'
   'modals.recurringbuys.select_a_frequency': 'Select a Frequency'

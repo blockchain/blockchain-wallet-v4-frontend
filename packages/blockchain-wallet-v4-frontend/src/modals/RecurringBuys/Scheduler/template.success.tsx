@@ -1,8 +1,12 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Interest/DepositForm/model'
+import { PaymentType } from 'middleware/analyticsMiddleware/types'
 import styled from 'styled-components'
 
+import { Tooltip, TooltipHost } from 'blockchain-info-components'
+import { GreyCartridge } from 'components/Cartridge'
+import { availableMethodsToolTip } from 'components/Flyout'
 import { RecurringBuyPeriods } from 'data/types'
 
 const DisplalyContainer = styled.div`
@@ -11,6 +15,9 @@ const DisplalyContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-bottom: 8px;
+`
+const CustomGreyCartridge = styled(GreyCartridge)`
+  border: 1px solid ${(p) => p.theme.grey100};
 `
 const getText = (value: RecurringBuyPeriods) => {
   switch (value) {
@@ -54,20 +61,40 @@ const getText = (value: RecurringBuyPeriods) => {
 }
 
 type SchedulerProps = {
+  availableMethods: any
   children: React.ReactNode
+  hasAvailablePeriods: boolean
   onClick: () => void
 }
-const Scheduler = ({ children, onClick }: SchedulerProps) => {
+const Scheduler = ({
+  availableMethods,
+  children,
+  hasAvailablePeriods,
+  onClick
+}: SchedulerProps) => {
   return (
     <DisplalyContainer>
-      <GreyBlueCartridge
-        onClick={onClick}
-        style={{ cursor: 'pointer' }}
-        role='button'
-        data-e2e='sbEnterAmountMax'
-      >
-        {children}
-      </GreyBlueCartridge>
+      {hasAvailablePeriods ? (
+        <GreyBlueCartridge
+          onClick={onClick}
+          style={{ marginLeft: '0' }}
+          role='button'
+          data-e2e='sbRecurringBuyScheduler'
+        >
+          {children}
+        </GreyBlueCartridge>
+      ) : (
+        <TooltipHost id='recurring-buy-disabled'>
+          <CustomGreyCartridge
+            style={{ cursor: 'pointer' }}
+            role='button'
+            data-e2e='sbRecurringBuySchedulerDisabled'
+          >
+            {children}
+          </CustomGreyCartridge>
+          <Tooltip id='recurring-buy-disabled'>{availableMethodsToolTip(availableMethods)}</Tooltip>
+        </TooltipHost>
+      )}
     </DisplalyContainer>
   )
 }
