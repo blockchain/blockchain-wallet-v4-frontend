@@ -1,14 +1,14 @@
-import React, { useCallback } from 'react'
+import React, { Children, useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { Text } from 'blockchain-info-components'
+import { Icon, Text } from 'blockchain-info-components'
 import { SBPaymentTypes } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
 
 import {
   RecurringBuyNextPayment,
   RecurringBuyPeriods
 } from '../../../data/components/recurringBuy/types'
-import { OptionRightActionRow } from '../../Rows'
+import { OptionRightActionRow, OptionRightActionRowProps } from '../../Rows'
 import Container from '../Container'
 import Content from '../Content'
 import Header, { Props as HeaderProps } from '../Header'
@@ -46,8 +46,8 @@ const RowDisplay = ({ method, paymentInfo, period, setPeriod }: RowDisplayProps)
     [setPeriod, eligibleMethod]
   )
 
-  return (
-    <OptionRightActionRow disabled={!eligibleMethod} onClick={setPeriodCallback(period)}>
+  const rowProps: OptionRightActionRowProps = {
+    children: (
       <>
         <Text weight={600} size='16px' color='grey900'>
           {getPeriodTitleText(period)}
@@ -56,8 +56,22 @@ const RowDisplay = ({ method, paymentInfo, period, setPeriod }: RowDisplayProps)
           {getPeriodSubTitleText(period, currentPaymentPeriod?.nextPayment)}
         </Text>
       </>
-    </OptionRightActionRow>
-  )
+    ),
+    disabled: !eligibleMethod,
+    onClick: setPeriodCallback(period)
+  }
+
+  if (!eligibleMethod) {
+    rowProps.toolTip = (
+      <FormattedMessage
+        id='modals.recurringbuys.frequency_disabled'
+        defaultMessage='{period} recurring buys are unavailable for your payment method at this time.'
+        values={{ period: getPeriodTitleText(period) }}
+      />
+    )
+  }
+
+  return <OptionRightActionRow {...rowProps} />
 }
 
 const FrequencyScreen = ({

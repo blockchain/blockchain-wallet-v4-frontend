@@ -100,6 +100,7 @@ const ActionsItem = styled.div`
 const Cartridge = ({ children, error }: { children: ReactChild; error: boolean }) => {
   return (
     <GreyBlueCartridge
+      style={{ marginLeft: 0 }}
       role='button'
       data-e2e={error ? 'sbEnterAmountMaxError' : 'sbEnterAmountMax'}
     >
