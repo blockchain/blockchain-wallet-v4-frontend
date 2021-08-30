@@ -112,7 +112,7 @@ const Success: React.FC<Props> = ({
           data-e2e='startEarningInterestNow'
           fullwidth
           onClick={() => {
-            interestActions.showInterestModal('DEPOSIT', currency)
+            interestActions.showInterestModal({ coin: currency, step: 'DEPOSIT' })
             analyticsActions.logEvent(INTEREST_EVENTS.MODAL.START_EARNING)
           }}
         >

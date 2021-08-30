@@ -6,7 +6,6 @@ import * as fiatTransactions from './fiatTransactions/actionTypes'
 import * as fundRecovery from './fundRecovery/actionTypes'
 import * as identityVerification from './identityVerification/actionTypes'
 import * as importBtcAddress from './importBtcAddress/actionTypes'
-import * as interest from './interest/actionTypes'
 import * as lockbox from './lockbox/actionTypes'
 import * as manageAddresses from './manageAddresses/actionTypes'
 import * as onboarding from './onboarding/actionTypes'
@@ -39,7 +38,6 @@ export {
   fundRecovery,
   identityVerification,
   importBtcAddress,
-  interest,
   lockbox,
   manageAddresses,
   onboarding,

@@ -4,7 +4,9 @@ import moment from 'moment'
 import { pathOr } from 'ramda'
 
 import { Button, Icon, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
-import { CoinType } from 'blockchain-wallet-v4/src/types'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { formatFiat } from 'blockchain-wallet-v4/src/exchange/utils'
+import { CoinType, FiatType } from 'blockchain-wallet-v4/src/types'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { model } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
@@ -43,10 +45,13 @@ const AccountSummary: React.FC<Props> = (props) => {
     interestLimits,
     interestRate,
     showSupply,
-    stepMetadata
+    stepMetadata,
+    walletCurrency
   } = props
+
   const { coinfig } = window.coins[coin]
   const account = accountBalances && accountBalances[coin]
+  const currencySymbol = Exchange.getSymbol(walletCurrency) as string
 
   const lockupPeriod = pathOr(1, [coin, 'lockUpDuration'], interestLimits) / 86400
   const accountBalanceBase = account && account.balance
@@ -174,7 +179,7 @@ const AccountSummary: React.FC<Props> = (props) => {
         )}
         {stepMetadata && stepMetadata.withdrawSuccess && (
           <StatusWrapper>
-            <StatusIconWrapper color={showSupply ? 'orange000' : coin}>
+            <StatusIconWrapper color={showSupply ? 'white' : coin}>
               <Icon color={showSupply ? 'orange600' : 'white'} name='timer' size='24px' />
             </StatusIconWrapper>
             <Text color='grey600' size='14px' weight={500}>
@@ -191,15 +196,18 @@ const AccountSummary: React.FC<Props> = (props) => {
             <StatusSupplyWrapper>
               <Text color='grey900' size='16px' weight={600}>
                 <FormattedMessage
-                  id='modals.kycverification.additionalinfo.title'
-                  defaultMessage='Additional Information Required'
+                  id='modals.interest.withdrawal.supply_information_title'
+                  defaultMessage='More Info Needed'
                 />
               </Text>
               <Text color='grey600' size='12px' weight={500} style={{ marginTop: '16px' }}>
                 {stepMetadata.withdrawSuccess ? (
                   <FormattedMessage
                     id='modals.interest.withdrawal.supply_information_description_1'
-                    defaultMessage="You've requested a withdrawal for an amount that requires further verification for legal and compliance reasons."
+                    defaultMessage='Your recent withdrawal of {amount} requires further verification for legal and compliance reasons.'
+                    values={{
+                      amount: `${currencySymbol}${formatFiat(stepMetadata.withdrawalAmount)}`
+                    }}
                   />
                 ) : (
                   <FormattedMessage
@@ -212,7 +220,7 @@ const AccountSummary: React.FC<Props> = (props) => {
                 {stepMetadata.withdrawSuccess ? (
                   <FormattedMessage
                     id='modals.interest.withdrawal.supply_information_description_2'
-                    defaultMessage="You've requested a withdrawal for an amount that requires further verification for legal and compliance reasons."
+                    defaultMessage='Please submit the additional information so we can start processing your withdrawal.'
                   />
                 ) : (
                   <FormattedMessage
@@ -245,13 +253,6 @@ const AccountSummary: React.FC<Props> = (props) => {
                   </Button>
                 </Link>
               </LinkWrapper>
-
-              <Text color='grey600' size='12px' weight={500}>
-                <FormattedMessage
-                  id='modals.interest.supply_information_disclaimer'
-                  defaultMessage='Our Support team may contact you if further clarification is needed.'
-                />
-              </Text>
             </StatusSupplyWrapper>
           )}
         {stepMetadata && stepMetadata.error && (
@@ -420,7 +421,7 @@ const AccountSummary: React.FC<Props> = (props) => {
               fullwidth
               height='48px'
               nature='grey800'
-              onClick={() => interestActions.showInterestModal('WITHDRAWAL', coin)}
+              onClick={() => interestActions.showInterestModal({ coin, step: 'WITHDRAWAL' })}
             >
               <Text color='white' size='16px' weight={600}>
                 <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />
@@ -438,6 +439,7 @@ type ParentProps = {
   handleDepositClick: () => void
   handleSBClick: (string) => void
   stepMetadata: InterestStepMetadata
+  walletCurrency: FiatType
 }
 
 export type Props = OwnProps & LinkDispatchPropsType & DataSuccessStateType & ParentProps
