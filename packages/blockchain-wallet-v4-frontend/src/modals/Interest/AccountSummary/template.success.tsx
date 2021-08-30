@@ -38,12 +38,14 @@ const AccountSummary: React.FC<Props> = (props) => {
     accountBalances,
     analyticsActions,
     coin,
+    flagEDDInterestFileUpload,
     handleClose,
     handleDepositClick,
     handleSBClick,
     interestActions,
     interestLimits,
     interestRate,
+    interestUploadDocumentActions,
     showSupply,
     stepMetadata,
     walletCurrency
@@ -230,19 +232,14 @@ const AccountSummary: React.FC<Props> = (props) => {
                 )}
               </Text>
               <LinkWrapper>
-                <Link
-                  href='https://share.hsforms.com/1DS4i94fURdutr8OXYOxfrg2qt44'
-                  style={{ width: '100%' }}
-                  target='_blank'
-                >
+                {flagEDDInterestFileUpload ? (
                   <Button
                     data-e2e='earnInterestSupplyMoreInformation'
                     fullwidth
                     nature='primary'
                     onClick={() => {
-                      analyticsActions.logEvent(INTEREST_EVENTS.WITHDRAWAL.SUPPLY_INFORMATION)
-                      interestActions.handleWithdrawalSupplyInformation({
-                        origin: 'SavingsConfirmation'
+                      interestUploadDocumentActions.showModal({
+                        origin: 'InterestUploadDocument'
                       })
                     }}
                   >
@@ -251,7 +248,30 @@ const AccountSummary: React.FC<Props> = (props) => {
                       defaultMessage='Submit Information'
                     />
                   </Button>
-                </Link>
+                ) : (
+                  <Link
+                    href='https://share.hsforms.com/1DS4i94fURdutr8OXYOxfrg2qt44'
+                    style={{ width: '100%' }}
+                    target='_blank'
+                  >
+                    <Button
+                      data-e2e='earnInterestSupplyMoreInformation'
+                      fullwidth
+                      nature='primary'
+                      onClick={() => {
+                        analyticsActions.logEvent(INTEREST_EVENTS.WITHDRAWAL.SUPPLY_INFORMATION)
+                        interestActions.handleWithdrawalSupplyInformation({
+                          origin: 'SavingsConfirmation'
+                        })
+                      }}
+                    >
+                      <FormattedMessage
+                        id='scenes.interest.submit_information'
+                        defaultMessage='Submit Information'
+                      />
+                    </Button>
+                  </Link>
+                )}
               </LinkWrapper>
             </StatusSupplyWrapper>
           )}
