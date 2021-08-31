@@ -359,7 +359,19 @@ type ReceiveDetailsCopiedPayload = BasePayload & {
   currency: string
 }
 
+export type RecurringBuyViewedPayload = BasePayload & {
+  path: string
+  referrer: string
+  search: string
+  title: string
+  url: string
+}
+
 export type RecurringBuyLearnMoreClickPayload = BasePayload & {
+  origin: RecurringBuyOrigins
+}
+
+export type RecurringBuySuggestionSkippedPayload = BasePayload & {
   origin: RecurringBuyOrigins
 }
 
@@ -634,7 +646,9 @@ type AnalyticsProperties =
   | PrivateKeysShownPayload
   | ReceiveCurrencySelectedPayload
   | ReceiveDetailsCopiedPayload
+  | RecurringBuyViewedPayload
   | RecurringBuyLearnMoreClickPayload
+  | RecurringBuySuggestionSkippedPayload
   | RecurringBuyInfoViewedPayload
   | RecurringBuyCancelPayload
   | RecurringBuyClickedPayload

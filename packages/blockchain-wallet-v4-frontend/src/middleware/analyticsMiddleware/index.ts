@@ -12,6 +12,8 @@ import {
   RecurringBuyDetailsClickedPayload,
   RecurringBuyInfoViewedPayload,
   RecurringBuyLearnMoreClickPayload,
+  RecurringBuySuggestionSkippedPayload,
+  RecurringBuyViewedPayload,
   SendReceive,
   WithdrawalMethod
 } from 'middleware/analyticsMiddleware/types'
@@ -1638,6 +1640,35 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
+      case actions.components.recurringBuy.viewed.type: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const path = window.location.pathname
+        const url = window.location.href
+        const { search } = window.location
+        const { title } = window.document
+        const { referrer } = window.document
+
+        analytics.push(AnalyticsKey.RECURRING_BUY_VIEWED, {
+          properties: {
+            path,
+            referrer,
+            search,
+            title,
+            url
+          } as RecurringBuyViewedPayload,
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
       case actions.components.recurringBuy.learnMoreLinkClicked.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
@@ -1657,6 +1688,42 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
+      case actions.components.recurringBuy.suggestionSkipped.type: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const origin = action.payload
+        analytics.push(AnalyticsKey.RECURRING_BUY_SUGGESTION_SKIPPED, {
+          properties: { origin } as RecurringBuySuggestionSkippedPayload,
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case actions.components.recurringBuy.infoViewed.type: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const page = action.payload
+        analytics.push(AnalyticsKey.RECURRING_BUY_INFO_VIEWED, {
+          properties: { page } as RecurringBuyInfoViewedPayload,
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
       case actions.components.recurringBuy.setStep.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
@@ -1667,17 +1734,6 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const stepName: RecurringBuyStepType = action.payload.step
         const origin = RecurringBuyOrigins[action.payload.origin]
         switch (stepName) {
-          case RecurringBuyStepType.INIT_PAGE: {
-            analytics.push(AnalyticsKey.RECURRING_BUY_INFO_VIEWED, {
-              properties: { page: 0 } as RecurringBuyInfoViewedPayload,
-              traits: {
-                email,
-                nabuId,
-                tier
-              }
-            })
-            break
-          }
           case RecurringBuyStepType.REMOVE_CONFIRM: {
             const {
               destinationCurrency: output_currency,
