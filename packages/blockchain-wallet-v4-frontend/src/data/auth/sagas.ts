@@ -6,6 +6,7 @@ import { call, delay, fork, put, race, select, take } from 'redux-saga/effects'
 import { Remote, Types } from 'blockchain-wallet-v4/src'
 import { DEFAULT_INVITATIONS } from 'blockchain-wallet-v4/src/model'
 import { actions, actionTypes, model, selectors } from 'data'
+import { ModalName } from 'data/modals/types'
 import profileSagas from 'data/modules/profile/sagas'
 import * as C from 'services/alerts'
 import { isGuid } from 'services/forms'
@@ -354,7 +355,7 @@ export default ({ api, coreSagas, networks }) => {
       const currentManifest = yield select(S.getManifest)
 
       if (currentManifest && nextManifest !== currentManifest) {
-        window.location.reload()
+        yield put(actions.modals.showModal(ModalName.NEW_VERSION_AVAILABLE, { origin: 'Unknown' }))
       }
 
       if (!currentManifest) {

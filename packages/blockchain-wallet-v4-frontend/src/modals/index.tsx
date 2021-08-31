@@ -69,6 +69,7 @@ const MobileNumberVerify = React.lazy(() => import('./Mobile/MobileNumberVerify'
 // SETTINGS
 const AutoDisconnection = React.lazy(() => import('./Settings/AutoDisconnection'))
 const ConfirmDisable2FA = React.lazy(() => import('./Settings/ConfirmDisable2FA'))
+const NewVersionAvailable = React.lazy(() => import('./Settings/NewVersionAvailable'))
 const RecoveryPhrase = React.lazy(() => import('./Settings/RecoveryPhrase'))
 const SecondPassword = React.lazy(() => import('./Settings/SecondPassword'))
 const TradingLimits = React.lazy(() => import('./Settings/TradingLimits'))
@@ -205,6 +206,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.NABU_USER_CONFLICT_REDIRECT) ? (
           <NabuUserConflictRedirect />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.NEW_VERSION_AVAILABLE) ? (
+          <NewVersionAvailable disableOutsideClose />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.PAIRING_CODE_MODAL) ? (
           <PairingCode />
