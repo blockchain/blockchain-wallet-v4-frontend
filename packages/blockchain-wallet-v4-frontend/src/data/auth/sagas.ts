@@ -559,7 +559,8 @@ export default ({ api, coreSagas, networks }) => {
 
       yield call(loginRoutineSaga, {
         email: action.payload.email,
-        firstLogin: true
+        firstLogin: true,
+        recovery: true
       })
       yield put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS))
       yield put(actions.auth.restoreSuccess())
