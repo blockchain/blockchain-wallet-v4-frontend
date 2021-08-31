@@ -64,7 +64,10 @@ class OrderSummary extends PureComponent<Props> {
       this.props.recurringBuyActions.showModal({
         origin: RecurringBuyOrigins.SIMPLE_BUY_ORDER_SUMMARY
       })
-      this.props.recurringBuyActions.setStep({ step: RecurringBuyStepType.GET_STARTED })
+      this.props.recurringBuyActions.setStep({
+        origin: RecurringBuyOrigins.BUY_CONFIRMATION, // needed for analytics tracking
+        step: RecurringBuyStepType.GET_STARTED
+      })
     } else {
       this.props.handleClose()
     }

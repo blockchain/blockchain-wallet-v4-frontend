@@ -5,6 +5,7 @@ import { ModalOriginType } from 'data/modals/types'
 
 import {
   RecurringBuyNextPayment,
+  RecurringBuyOrigins,
   RecurringBuyPeriods,
   RecurringBuyRegisteredList,
   RecurringBuyState,
@@ -27,6 +28,8 @@ const recurringBuySlice = createSlice({
     createRecurringBuy: () => {},
     fetchPaymentInfo: () => {},
     fetchRegisteredList: () => {},
+    infoViewed: (state, action: PayloadAction<number>) => {},
+    learnMoreLinkClicked: (state, action: PayloadAction<RecurringBuyOrigins>) => {},
     paymentInfoFailure: (state, action: PayloadAction<string>) => {
       state.paymentInfo = Remote.Failure(action.payload)
     },
@@ -55,7 +58,9 @@ const recurringBuySlice = createSlice({
     setStep: (state, action: PayloadAction<RecurringBuyStepPayload>) => {
       state.step = action.payload.step
     },
-    showModal: (state, action: PayloadAction<{ origin: ModalOriginType }>) => {}
+    showModal: (state, action: PayloadAction<{ origin: ModalOriginType }>) => {},
+    suggestionSkipped: (state, action: PayloadAction<RecurringBuyOrigins>) => {},
+    viewed: () => {}
   }
 })
 

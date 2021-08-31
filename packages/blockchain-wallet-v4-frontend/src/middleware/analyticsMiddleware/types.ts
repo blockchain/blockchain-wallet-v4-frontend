@@ -1,4 +1,5 @@
-import { RecurringBuyOrigins } from 'data/types'
+import { SBPaymentMethodType, SBPaymentTypes } from 'core/types'
+import { RecurringBuyOrigins, RecurringBuyPeriods } from 'data/types'
 
 enum AnalyticsKey {
   ADDRESS_VERIFY_MESSAGE_CLICKED = 'Address Verify Message Clicked',
@@ -358,6 +359,39 @@ type ReceiveDetailsCopiedPayload = BasePayload & {
   currency: string
 }
 
+export type RecurringBuyViewedPayload = BasePayload & {
+  path: string
+  referrer: string
+  search: string
+  title: string
+  url: string
+}
+
+export type RecurringBuyLearnMoreClickPayload = BasePayload & {
+  origin: RecurringBuyOrigins
+}
+
+export type RecurringBuySuggestionSkippedPayload = BasePayload & {
+  origin: RecurringBuyOrigins
+}
+
+export type RecurringBuyInfoViewedPayload = BasePayload & {
+  page: number
+}
+
+export type RecurringBuyCancelPayload = BasePayload & {
+  frequency: RecurringBuyPeriods
+  input_amount: number
+  input_currency: string
+  origin: keyof typeof RecurringBuyOrigins
+  output_currency: string
+  payment_method: SBPaymentTypes
+}
+
+export type RecurringBuyClickedPayload = BasePayload & {
+  origin: keyof typeof RecurringBuyOrigins
+}
+
 export type RecurringBuyDetailsClickedPayload = BasePayload & {
   currency: string
   origin: keyof typeof RecurringBuyOrigins
@@ -612,6 +646,12 @@ type AnalyticsProperties =
   | PrivateKeysShownPayload
   | ReceiveCurrencySelectedPayload
   | ReceiveDetailsCopiedPayload
+  | RecurringBuyViewedPayload
+  | RecurringBuyLearnMoreClickPayload
+  | RecurringBuySuggestionSkippedPayload
+  | RecurringBuyInfoViewedPayload
+  | RecurringBuyCancelPayload
+  | RecurringBuyClickedPayload
   | RecurringBuyDetailsClickedPayload
   | SellAmountEnteredPayload
   | SellAmountMaxClickedPayload
