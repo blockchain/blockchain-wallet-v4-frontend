@@ -4,6 +4,9 @@ import { connect, ConnectedProps } from 'react-redux'
 import { selectors } from 'data'
 import { ModalName } from 'data/types'
 
+// Do not lazy load this modal
+import NewVersionAvailable from './Settings/NewVersionAvailable'
+
 // ADDRESSES
 const DeleteAddressLabel = React.lazy(() => import('./Addresses/DeleteAddressLabel'))
 const ShowUsedAddresses = React.lazy(() => import('./Addresses/ShowUsedAddresses'))
@@ -69,7 +72,7 @@ const MobileNumberVerify = React.lazy(() => import('./Mobile/MobileNumberVerify'
 // SETTINGS
 const AutoDisconnection = React.lazy(() => import('./Settings/AutoDisconnection'))
 const ConfirmDisable2FA = React.lazy(() => import('./Settings/ConfirmDisable2FA'))
-const NewVersionAvailable = React.lazy(() => import('./Settings/NewVersionAvailable'))
+
 const RecoveryPhrase = React.lazy(() => import('./Settings/RecoveryPhrase'))
 const SecondPassword = React.lazy(() => import('./Settings/SecondPassword'))
 const TradingLimits = React.lazy(() => import('./Settings/TradingLimits'))
@@ -207,9 +210,6 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.NABU_USER_CONFLICT_REDIRECT) ? (
           <NabuUserConflictRedirect />
         ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.NEW_VERSION_AVAILABLE) ? (
-          <NewVersionAvailable disableOutsideClose />
-        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.PAIRING_CODE_MODAL) ? (
           <PairingCode />
         ) : null}
@@ -298,6 +298,8 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.SEND_XLM_RESERVE_LEARN_MODAL) ? (
           <XlmReserveLearn />
         ) : null}
+        {/* This should always be loaded */}
+        <NewVersionAvailable disableOutsideClose />
       </>
     </Suspense>
   )
