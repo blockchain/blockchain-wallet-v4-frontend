@@ -33,7 +33,7 @@ enum AnalyticsKey {
   INTEREST_WITHDRAWAL_CLICKED = 'Interest Withdrawal Clicked',
   INTEREST_WITHDRAWAL_VIEWED = 'Interest Withdrawal Viewed',
   LINK_BANK_CLICKED = 'Link Bank Clicked',
-  LOGIN_HELPED_CLICKED = 'Login Help Clicked',
+  LOGIN_HELP_CLICKED = 'Login Help Clicked',
   LOGIN_IDENTIFIER_ENTERED = 'Login Identifier Entered',
   LOGIN_METHOD_SELECTED = 'Login Method Selected',
   LOGIN_PASSWORD_DENIED = 'Login Password Denied',
@@ -337,6 +337,11 @@ type LinkBankClickedPayload = BasePayload & {
   origin: LinkBankClickedOrigin
 }
 
+type LoginHelpClickedPayload = BasePayload & {
+  origin: 'PASSWORD' | 'IDENTIFIER' | 'QR_CODE'
+  site_redirect: 'WALLET' | 'EXCHANGE'
+}
+
 type LoginIdentifierEnteredPayload = BasePayload & {
   identifier_type: 'EMAIL' | 'WALLET_ID'
 }
@@ -632,6 +637,7 @@ type AnalyticsProperties =
   | InterestWithdrawalClickedPayload
   | InterestWithdrawalViewedPayload
   | LinkBankClickedPayload
+  | LoginHelpClickedPayload
   | LoginIdentifierEnteredPayload
   | LoginMethodSelectedPayload
   | LoginRequestPayload

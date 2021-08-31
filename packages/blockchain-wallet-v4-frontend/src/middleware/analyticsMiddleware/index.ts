@@ -2763,11 +2763,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const guid = state.walletPath.wallet.guid ?? null
         const { origin } = action.payload
 
-        analytics.push(AnalyticsKey.LOGIN_HELPED_CLICKED, {
+        analytics.push(AnalyticsKey.LOGIN_HELP_CLICKED, {
           properties: {
             guid,
             origin,
-            originalTimestamp: getOriginalTimestamp()
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect: 'WALLET'
           },
           traits: {
             email,
@@ -3028,7 +3029,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
-        const { recoveryType } = action.paylpad
+        const { recoveryType } = action.payload
 
         analytics.push(AnalyticsKey.RECOVERY_OPTION_SELECTED, {
           properties: {
