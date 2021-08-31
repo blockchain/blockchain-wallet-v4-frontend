@@ -2969,7 +2969,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         analytics.push(AnalyticsKey.ACCOUNT_PASSWORD_RESET, {
           properties: {
             guid,
-            originalTimestamp: getOriginalTimestamp()
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect: 'WALLET'
           },
           traits: {
             email,
@@ -2979,6 +2980,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
+      // TODO - every time code is scanned, can we distinguish if for recovery or not?
       case AT.auth.SECURE_CHANNEL_LOGIN_LOADING: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
@@ -2990,7 +2992,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         analytics.push(AnalyticsKey.CLOUD_BACKUP_CODE_SCANNED, {
           properties: {
             guid,
-            originalTimestamp: getOriginalTimestamp()
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect: 'WALLET'
           },
           traits: {
             email,
@@ -3011,7 +3014,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         analytics.push(AnalyticsKey.NEW_ACCOUNT_PASSWORD_ENTERED, {
           properties: {
             guid,
-            originalTimestamp: getOriginalTimestamp()
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect: 'WALLET'
           },
           traits: {
             email,
@@ -3035,7 +3039,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           properties: {
             guid,
             originalTimestamp: getOriginalTimestamp(),
-            recovery_type: recoveryType
+            recovery_type: recoveryType,
+            site_redirect: 'WALLET'
           },
           traits: {
             email,
@@ -3058,7 +3063,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         analytics.push(AnalyticsKey.RECOVERY_PHRASE_ENTERED, {
           properties: {
             guid,
-            originalTimestamp: getOriginalTimestamp()
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect: 'WALLET'
           },
           traits: {
             email,
@@ -3076,13 +3082,14 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
-        const { origin } = action.paylpad
+        const { origin } = action.payload
 
         analytics.push(AnalyticsKey.RESET_ACCOUNT_CANCELLED, {
           properties: {
             guid,
             origin,
-            originalTimestamp: getOriginalTimestamp()
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect: 'WALLET'
           },
           traits: {
             email,
@@ -3100,13 +3107,14 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
-        const { origin } = action.paylpad
+        const { origin } = action.payload
 
         analytics.push(AnalyticsKey.RESET_ACCOUNT_CLICKED, {
           properties: {
             guid,
             origin,
-            originalTimestamp: getOriginalTimestamp()
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect: 'WALLET'
           },
           traits: {
             email,
