@@ -83,7 +83,7 @@ export const getData = (state, ownProps: OwnProps) => {
           })
           balanceDataR = balanceSelectors.getErc20Balance(coin)(state)
           break
-        case selectors.core.data.coins.getCoins().includes(coin):
+        case selectors.core.data.coins.getCustodialCoins().includes(coin):
           addressDataR = getCoinAddressData(state, {
             coin,
             includeCustodial: true

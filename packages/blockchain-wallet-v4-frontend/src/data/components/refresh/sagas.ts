@@ -73,7 +73,7 @@ export default () => {
         case !!window.coins[maybeCoin]?.coinfig?.type?.erc20Address:
           yield call(refreshErc20Transactions, pathname.split('/')[1])
           break
-        case selectors.core.data.coins.getCoins().includes(maybeCoin):
+        case selectors.core.data.coins.getCustodialCoins().includes(maybeCoin):
           yield call(refreshCoinTransactions, maybeCoin)
           break
         case contains('/eur/transactions', pathname):
