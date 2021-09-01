@@ -55,8 +55,6 @@ enum AnalyticsKey {
   RECEIVE_DETAILS_COPIED = 'Receive Details Copied',
   RECOVERY_OPTION_SELECTED = 'Recovery Option Selected',
   RECOVERY_PHRASE_ENTERED = 'Recovery Phrase Entered',
-  RESET_ACCOUNT_CANCELLED = 'Reset Account Cancelled',
-  RESET_ACCOUNT_CLICKED = 'Reset Account Clicked',
   RECURRING_BUY_ACTIVATED = 'Recurring Buy Activated',
   RECURRING_BUY_CANCELLED = 'Recurring Buy Cancelled',
   RECURRING_BUY_CLICKED = 'Recurring Buy Clicked',
@@ -65,6 +63,8 @@ enum AnalyticsKey {
   RECURRING_BUY_LEARN_MORE_CLICKED = 'Recurring Buy Learn More Clicked',
   RECURRING_BUY_SUGGESTION_SKIPPED = 'Recurring Buy Suggestion Skipped',
   RECURRING_BUY_VIEWED = 'Recurring Buy Viewed',
+  RESET_ACCOUNT_CANCELLED = 'Reset Account Cancelled',
+  RESET_ACCOUNT_CLICKED = 'Reset Account Clicked',
   SELL_AMOUNT_ENTERED = 'Sell Amount Entered',
   SELL_AMOUNT_MAX_CLICKED = 'Sell Amount Max Clicked',
   SELL_AMOUNT_MIN_CLICKED = 'Sell Amount Min Clicked',
@@ -408,6 +408,7 @@ type RecoveryOptionSelectedPayload = BasePayload & {
 
 type ResetAccountPayload = BasePayload & {
   origin: 'RESET_CONFIRMATION' | 'RESET_FINAL_WARNING' | 'RECOVERY_PHRASE' | 'RECOVERY_OPTIONS'
+}
 
 export type RecurringBuyViewedPayload = BasePayload & {
   path: string
