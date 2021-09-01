@@ -34,4 +34,5 @@ const analyticsSlice = createSlice({
   }
 })
 
-export const { actions, reducer } = analyticsSlice
+export const { actions } = analyticsSlice
+export const analyticsReducer = analyticsSlice.reducer

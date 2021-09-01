@@ -3,7 +3,7 @@ import { combineReducers } from 'redux'
 import { coreReducers, paths } from 'blockchain-wallet-v4/src'
 
 import { alertsReducer as alerts } from './alerts/slice'
-import { reducer as analytics } from './analytics/slice'
+import { analyticsReducer as analytics } from './analytics/slice'
 import auth from './auth/reducers'
 import cache from './cache/reducers'
 import components from './components/reducers'
