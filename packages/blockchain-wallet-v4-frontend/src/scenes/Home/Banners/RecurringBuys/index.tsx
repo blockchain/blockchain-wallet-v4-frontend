@@ -8,15 +8,17 @@ import { Button, Icon, Text } from 'blockchain-info-components'
 import { SBOrderType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { RecurringBuyOrigins } from 'data/types'
 import { media } from 'services/styles'
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background-image: url('/img/bg-banner-pattern-big.svg');
+  background-image: url('/img/bg-banner-pattern-lg.svg');
   background-repeat: repeat-y;
   background-position: right;
+  background-size: 35%;
   align-items: center;
   border: 1px solid ${(props) => props.theme.grey000};
   border-radius: 8px;
@@ -75,7 +77,8 @@ const BannerButton = styled(Button)`
 
 const RecurringBuys = (props: Props) => {
   const showModal = () => {
-    props.recurringBuyActions.showModal({ origin: 'RecurringBuys' })
+    props.recurringBuyActions.showModal({ origin: RecurringBuyOrigins.RECURRING_BUYS_BANNER })
+    props.recurringBuyActions.learnMoreLinkClicked(RecurringBuyOrigins.DASHBOARD_PROMO)
   }
 
   return (

@@ -21,5 +21,6 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.INITIALIZE_LOGIN, authSagas.initializeLogin)
     yield takeLatest(AT.TRIGGER_WALLET_MAGIC_LINK, authSagas.triggerWalletMagicLink)
     yield takeLatest(AT.GET_USER_GEO_LOCATION, authSagas.getUserGeoLocation)
+    yield takeLatest(AT.PING_MANIFEST_FILE, authSagas.pingManifestFile)
   }
 }

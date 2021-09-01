@@ -36,6 +36,13 @@ export const logoutClearReduxStore = () => ({
   type: AT.LOGOUT_CLEAR_REDUX_STORE
 })
 export const startLogoutTimer = () => ({ type: AT.START_LOGOUT_TIMER })
+export const pingManifestFile = () => ({ type: AT.PING_MANIFEST_FILE })
+export const setManifestFile = (manifestFile: string) => ({
+  payload: {
+    manifestFile
+  },
+  type: AT.SET_MANIFEST_FILE
+})
 
 // MOBILE LOGIN
 export const mobileLogin = (data) => ({

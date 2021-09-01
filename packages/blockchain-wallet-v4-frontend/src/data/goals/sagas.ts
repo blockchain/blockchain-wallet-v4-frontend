@@ -1,13 +1,13 @@
 import base64 from 'base-64'
 import BigNumber from 'bignumber.js'
 import bip21 from 'bip21'
-import { anyPass, equals, includes, map, path, pathOr, prop, startsWith, sum, values } from 'ramda'
+import { anyPass, equals, includes, map, path, pathOr, prop, startsWith } from 'ramda'
 import { all, call, delay, join, put, select, spawn, take } from 'redux-saga/effects'
 
 import { Exchange, utils } from 'blockchain-wallet-v4/src'
 import { InterestAfterTransactionType, WalletFiatType } from 'blockchain-wallet-v4/src/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { actions, actionTypes, model, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import { getBchBalance, getBtcBalance } from 'data/balance/sagas'
 import { parsePaymentRequest } from 'data/bitpay/sagas'
 import { ModalName } from 'data/modals/types'
@@ -548,16 +548,14 @@ export default ({ api, coreSagas, networks }) => {
 
     // we show this only for tier 2 users
     if (current === TIERS[2]) {
-      const currency = (yield select(selectors.core.settings.getCurrency)).getOrElse('USD')
-      yield put(
-        actions.components.interest.fetchShowInterestCardAfterTransaction(
-          currency as WalletFiatType
-        )
-      )
+      const currency = (yield select(selectors.core.settings.getCurrency)).getOrElse(
+        'USD'
+      ) as WalletFiatType
+      yield put(actions.components.interest.fetchShowInterestCardAfterTransaction({ currency }))
       // make sure that fetch is done
       yield take([
-        actionTypes.components.interest.FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION_SUCCESS,
-        actionTypes.components.interest.FETCH_SHOW_INTEREST_CARD_AFTER_TRANSACTION_FAILURE
+        actions.components.interest.fetchShowInterestCardAfterTransactionSuccess.type,
+        actions.components.interest.fetchShowInterestCardAfterTransactionFailure.type
       ])
       const afterTransactionR = yield select(selectors.components.interest.getAfterTransaction)
       const afterTransaction = afterTransactionR.getOrElse({

@@ -6,9 +6,9 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Icon, Link, SkeletonCircle, SkeletonRectangle, Text } from 'blockchain-info-components'
+import { getCoinsSortedByBalance } from 'components/Balances/selectors'
 import { ExtractSuccess } from 'core/remote/types'
 import { actions } from 'data'
-import { getData } from 'layouts/Wallet/MenuLeft/Navigation/selectors'
 import { media } from 'services/styles'
 
 import { getData as getBackupData } from './selectors'
@@ -98,7 +98,7 @@ const HoldingsTableContainer = (props: Props) => (
 
 const mapStateToProps = (state) => ({
   backupCoins: getBackupData(state).getOrElse([]),
-  data: getData(state)
+  data: getCoinsSortedByBalance(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -107,7 +107,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
+export type SuccessStateType = ExtractSuccess<ReturnType<typeof getCoinsSortedByBalance>>
 export type Props = ConnectedProps<typeof connector>
 
 export default connector(HoldingsTableContainer)

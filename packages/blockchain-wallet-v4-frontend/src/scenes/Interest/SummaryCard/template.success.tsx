@@ -160,7 +160,7 @@ function SummaryCard(props: OwnProps & SuccessStateType): ReactElement {
           nature='primary'
           data-e2e='viewInterestDetails'
           fullwidth
-          onClick={() => interestActions.showInterestModal('ACCOUNT_SUMMARY', coin)}
+          onClick={() => interestActions.showInterestModal({ coin, step: 'ACCOUNT_SUMMARY' })}
         >
           <FormattedMessage id='copy.view' defaultMessage='View' />
         </Button>
@@ -171,7 +171,7 @@ function SummaryCard(props: OwnProps & SuccessStateType): ReactElement {
           nature='primary'
           fullwidth
           data-e2e='earnInterest'
-          onClick={() => interestActions.showInterestModal('ACCOUNT_SUMMARY', coin)}
+          onClick={() => interestActions.showInterestModal({ coin, step: 'ACCOUNT_SUMMARY' })}
         >
           <FormattedMessage
             id='scenes.interest.summarycard.earnbutton'

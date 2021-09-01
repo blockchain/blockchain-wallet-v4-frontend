@@ -54,7 +54,7 @@ const TheExchange = React.lazy(() => import('./TheExchange'))
 const Transactions = React.lazy(() => import('./Transactions'))
 
 const App = ({
-  coinsWithMethodAndOrder,
+  coinsWithBalance,
   history,
   isAuthenticated,
   legacyWalletRecoveryEnabled,
@@ -125,7 +125,7 @@ const App = ({
                             key={coinfig.symbol}
                           />
                         )
-                      }, coinsWithMethodAndOrder)
+                      }, coinsWithBalance)
                     )}
                     {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
                   </Switch>
@@ -143,9 +143,7 @@ const App = ({
 }
 
 const mapStateToProps = (state) => ({
-  coinsWithMethodAndOrder: selectors.components.utils
-    .getCoinsWithMethodAndOrder(state)
-    .getOrElse([]),
+  coinsWithBalance: selectors.components.utils.getCoinsWithBalanceOrMethod(state).getOrElse([]),
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
   legacyWalletRecoveryEnabled: selectors.core.walletOptions
     .getFeatureLegacyWalletRecovery(state)

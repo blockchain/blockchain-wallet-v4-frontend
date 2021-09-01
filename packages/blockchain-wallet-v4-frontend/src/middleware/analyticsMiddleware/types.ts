@@ -1,3 +1,6 @@
+import { SBPaymentMethodType, SBPaymentTypes } from 'core/types'
+import { RecurringBuyOrigins, RecurringBuyPeriods } from 'data/types'
+
 enum AnalyticsKey {
   ACCOUNT_PASSWORD_RESET = 'Account Password Reset',
   ADDRESS_VERIFY_MESSAGE_CLICKED = 'Address Verify Message Clicked',
@@ -9,6 +12,7 @@ enum AnalyticsKey {
   BUY_PAYMENT_METHOD_SELECTED = 'Buy Payment Method Selected',
   BUY_SELL_CLICKED = 'Buy Sell Clicked',
   BUY_SELL_VIEWED = 'Buy Sell Viewed',
+  CANCEL_RECURRING_BUY_CLICKED = 'Cancel Recurring Buy Clicked',
   CHANGE_MOBILE_NUMBER_CLICKED = 'Change Mobile Number Clicked',
   CLOUD_BACKUP_CODE_SCANNED = 'Cloud Backup Code Scanned',
   CRYPTO_LINK_HANDLING_CLICKED = 'Crypto Link Handling Clicked',
@@ -53,6 +57,14 @@ enum AnalyticsKey {
   RECOVERY_PHRASE_ENTERED = 'Recovery Phrase Entered',
   RESET_ACCOUNT_CANCELLED = 'Reset Account Cancelled',
   RESET_ACCOUNT_CLICKED = 'Reset Account Clicked',
+  RECURRING_BUY_ACTIVATED = 'Recurring Buy Activated',
+  RECURRING_BUY_CANCELLED = 'Recurring Buy Cancelled',
+  RECURRING_BUY_CLICKED = 'Recurring Buy Clicked',
+  RECURRING_BUY_DETAILS_CLICKED = 'Recurring Buy Details Clicked',
+  RECURRING_BUY_INFO_VIEWED = 'Recurring Buy Info Viewed',
+  RECURRING_BUY_LEARN_MORE_CLICKED = 'Recurring Buy Learn More Clicked',
+  RECURRING_BUY_SUGGESTION_SKIPPED = 'Recurring Buy Suggestion Skipped',
+  RECURRING_BUY_VIEWED = 'Recurring Buy Viewed',
   SELL_AMOUNT_ENTERED = 'Sell Amount Entered',
   SELL_AMOUNT_MAX_CLICKED = 'Sell Amount Max Clicked',
   SELL_AMOUNT_MIN_CLICKED = 'Sell Amount Min Clicked',
@@ -396,6 +408,43 @@ type RecoveryOptionSelectedPayload = BasePayload & {
 
 type ResetAccountPayload = BasePayload & {
   origin: 'RESET_CONFIRMATION' | 'RESET_FINAL_WARNING' | 'RECOVERY_PHRASE' | 'RECOVERY_OPTIONS'
+
+export type RecurringBuyViewedPayload = BasePayload & {
+  path: string
+  referrer: string
+  search: string
+  title: string
+  url: string
+}
+
+export type RecurringBuyLearnMoreClickPayload = BasePayload & {
+  origin: RecurringBuyOrigins
+}
+
+export type RecurringBuySuggestionSkippedPayload = BasePayload & {
+  origin: RecurringBuyOrigins
+}
+
+export type RecurringBuyInfoViewedPayload = BasePayload & {
+  page: number
+}
+
+export type RecurringBuyCancelPayload = BasePayload & {
+  frequency: RecurringBuyPeriods
+  input_amount: number
+  input_currency: string
+  origin: keyof typeof RecurringBuyOrigins
+  output_currency: string
+  payment_method: SBPaymentTypes
+}
+
+export type RecurringBuyClickedPayload = BasePayload & {
+  origin: keyof typeof RecurringBuyOrigins
+}
+
+export type RecurringBuyDetailsClickedPayload = BasePayload & {
+  currency: string
+  origin: keyof typeof RecurringBuyOrigins
 }
 
 type SellAmountEnteredPayload = BasePayload & {
@@ -655,6 +704,13 @@ type AnalyticsProperties =
   | ReceiveDetailsCopiedPayload
   | RecoveryOptionSelectedPayload
   | ResetAccountPayload
+  | RecurringBuyViewedPayload
+  | RecurringBuyLearnMoreClickPayload
+  | RecurringBuySuggestionSkippedPayload
+  | RecurringBuyInfoViewedPayload
+  | RecurringBuyCancelPayload
+  | RecurringBuyClickedPayload
+  | RecurringBuyDetailsClickedPayload
   | SellAmountEnteredPayload
   | SellAmountMaxClickedPayload
   | SellAmountMinClickedPayload

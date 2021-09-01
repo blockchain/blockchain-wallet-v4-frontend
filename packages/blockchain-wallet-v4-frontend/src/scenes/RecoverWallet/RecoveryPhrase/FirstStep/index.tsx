@@ -41,7 +41,7 @@ const FirstStep = (props: Props) => {
   }
   return (
     <Wrapper>
-      {cachedEmail && (
+      {emailFromMagicLink && (
         <BackArrowFormHeader
           handleBackArrowClick={() => setStep(RecoverSteps.RECOVERY_OPTIONS)}
           email={emailFromMagicLink}

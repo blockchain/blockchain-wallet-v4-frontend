@@ -36,6 +36,7 @@ export type WalletFormType =
   | 'register'
   | 'repayLoanForm'
   | 'requestCrypto'
+  | 'sendCrypto'
   | 'sbCheckoutConfirm'
   | 'sbCurrencySelection'
   | 'sbCryptoSelection'

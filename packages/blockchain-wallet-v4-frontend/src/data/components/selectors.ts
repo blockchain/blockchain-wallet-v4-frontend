@@ -16,6 +16,7 @@ import * as resetWallet2fa from './resetWallet2fa/selectors'
 import * as send from './send/selectors'
 import * as sendBch from './sendBch/selectors'
 import * as sendBtc from './sendBtc/selectors'
+import * as sendCrypto from './sendCrypto/selectors'
 import * as sendEth from './sendEth/selectors'
 import * as sendXlm from './sendXlm/selectors'
 import * as settings from './settings/selectors'
@@ -46,6 +47,7 @@ export {
   send,
   sendBch,
   sendBtc,
+  sendCrypto,
   sendEth,
   sendXlm,
   settings,

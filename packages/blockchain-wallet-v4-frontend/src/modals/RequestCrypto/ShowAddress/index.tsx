@@ -7,13 +7,14 @@ import styled from 'styled-components'
 import { Button, Icon, SkeletonRectangle, Text } from 'blockchain-info-components'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 import { FlyoutWrapper } from 'components/Flyout'
+import { StepHeader } from 'components/Flyout/SendRequestCrypto'
 import { CoinAccountListOption } from 'components/Form'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 import { actions, selectors } from 'data'
 import { SwapBaseCounterTypes } from 'data/types'
 
 import { Props as OwnProps } from '../index'
-import { ClipboardWrapper, StepHeader } from '../model'
+import { ClipboardWrapper } from '../model'
 import { RequestSteps } from '../types'
 
 const Wrapper = styled.div`

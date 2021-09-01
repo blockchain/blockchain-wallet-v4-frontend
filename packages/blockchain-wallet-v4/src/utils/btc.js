@@ -142,39 +142,34 @@ const parseMiniKey = function(miniKey) {
   return crypto.sha256(miniKey)
 }
 
-export const privateKeyStringToKey = function(
-  value,
-  format,
-  network = networks.bitcoin,
-  addr
-) {
+export const privateKeyStringToKey = function (value, format, network = networks.bitcoin, addr) {
   if (format === 'sipa' || format === 'compsipa') {
     return ECPair.fromWIF(value, network)
-  } else {
-    let keyBuffer = null
-
-    switch (format) {
-      case 'base58':
-        keyBuffer = Base58.decode(value)
-        break
-      case 'base64':
-        keyBuffer = Buffer.from(value, 'base64')
-        break
-      case 'hex':
-        keyBuffer = Buffer.from(value, 'hex')
-        break
-      case 'mini':
-        keyBuffer = parseMiniKey(value)
-        break
-      default:
-        throw new Error('Unsupported Key Format')
-    }
-    let keyPair = ECPair.fromPrivateKey(keyBuffer)
-    if (addr && keyPairToAddress(keyPair) !== addr) {
-      keyPair.compressed = false
-    }
-    return keyPair
   }
+  let keyBuffer = null
+
+  switch (format) {
+    case 'base58':
+      keyBuffer = Base58.decode(value)
+      break
+    case 'base64':
+      keyBuffer = Buffer.from(value, 'base64')
+      break
+    case 'hex':
+      keyBuffer = Buffer.from(value, 'hex')
+      break
+    case 'mini':
+      keyBuffer = parseMiniKey(value)
+      break
+    default:
+      throw new Error('Unsupported Key Format')
+  }
+  const paddedKeyBuffer = Buffer.alloc(32).fill(keyBuffer)
+  const keyPair = ECPair.fromPrivateKey(paddedKeyBuffer)
+  if (addr && keyPairToAddress(keyPair) !== addr) {
+    keyPair.compressed = false
+  }
+  return keyPair
 }
 
 // formatPrivateKeyString :: String -> String -> String
