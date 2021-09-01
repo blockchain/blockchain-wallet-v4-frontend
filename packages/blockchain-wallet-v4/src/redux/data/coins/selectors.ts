@@ -1,6 +1,7 @@
 import { RootState } from 'data/rootReducer'
 
 import Remote from '../../../remote'
+import * as selectors from '../../selectors'
 
 export const getCustodialCoins = () => {
   return Object.keys(window.coins).filter(
@@ -24,7 +25,11 @@ export const getAllCoins = () => {
 }
 
 export const getRates = (coin: string, state: RootState) => {
-  return state.dataPath.coins.rates.map((rates) => rates[coin] || Remote.NotAsked)
+  const walletCurrency = selectors.settings.getCurrency(state).getOrElse('USD')
+
+  return state.dataPath.coins.rates.map((rates) => {
+    return rates[`${coin}-${walletCurrency}`] || Remote.NotAsked
+  })
 }
 
 export const getTransactions = (coin: string, state: RootState) => {

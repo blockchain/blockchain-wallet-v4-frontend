@@ -19,6 +19,7 @@ export const getData = (state, coin, amount, defaultCurrency, defaultRates) => {
   }
 
   const convert = (currency, rates) => {
+    console.log(rates)
     if (isFiat) {
       if (coin === currency) return fiatToString({ unit: currency, value: amount })
 

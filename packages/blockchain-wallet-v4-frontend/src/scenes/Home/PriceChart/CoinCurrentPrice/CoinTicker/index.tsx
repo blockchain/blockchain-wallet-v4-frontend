@@ -4,13 +4,12 @@ import { connect, ConnectedProps } from 'react-redux'
 import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 
-import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
 const CoinTickerContainer = ({ data }: Props) => {
   return data.cata({
-    Failure: (message) => <Error>{message}</Error>,
+    Failure: () => null,
     Loading: () => <Loading />,
     NotAsked: () => <Loading />,
     Success: (value) => <Success {...value} />
