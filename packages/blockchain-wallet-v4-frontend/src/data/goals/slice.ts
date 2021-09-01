@@ -29,10 +29,7 @@ const goalsSlice = createSlice({
   name: 'goals',
   reducers: {
     addInitialModal: (state, action: PayloadAction<AddInitialModalPayload>) => {
-      state.initialModals = {
-        ...state.initialModals,
-        [action.payload.key]: action.payload
-      }
+      state.initialModals[action.payload.key] = action.payload
     },
     addInitialRedirect: (state, action: PayloadAction<string>) => {
       state.initialRedirect = action.payload
@@ -51,4 +48,5 @@ const goalsSlice = createSlice({
   }
 })
 
-export const { actions, reducer } = goalsSlice
+export const { actions } = goalsSlice
+export const goalsReducer = goalsSlice.reducer
