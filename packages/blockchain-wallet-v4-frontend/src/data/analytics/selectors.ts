@@ -6,9 +6,6 @@ import { RootState } from 'data/rootReducer'
 import { ABTestCmdType, ABTestNameType } from './types'
 
 export const selectAbTest = curry(
-  (
-    test: ABTestNameType,
-    state: RootState
-  ): RemoteDataType<string, ABTestCmdType> | undefined =>
+  (test: ABTestNameType, state: RootState): RemoteDataType<string, ABTestCmdType> | undefined =>
     state.analytics.ab_tests[test]
 )

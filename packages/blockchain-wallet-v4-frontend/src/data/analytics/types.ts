@@ -1,6 +1,5 @@
 import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 
-import * as AT from './actionTypes'
 import { AB_TESTS } from './model'
 
 // types
@@ -22,16 +21,10 @@ export type AnalyticsStateType = {
 }
 
 // actions
-interface CreateABTestSuccessActionType {
+export interface CreateABTestSuccessActionType {
   payload: { result: ABTestCmdType; test: ABTestNameType }
-  type: typeof AT.CREATE_AB_TEST_SUCCESS
 }
 
-interface CreateABTestActionType {
+export interface CreateABTestActionType {
   payload: { test: ABTestNameType }
-  type: typeof AT.CREATE_AB_TEST
 }
-
-export type AnalyticsActionTypes =
-  | CreateABTestActionType
-  | CreateABTestSuccessActionType
