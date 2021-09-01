@@ -100,6 +100,7 @@ type RawEvent = {
 }
 
 enum AccountType {
+  CUSTODIAL = 'CUSTODIAL',
   SAVINGS = 'SAVINGS',
   TRADING = 'TRADING',
   USERKEY = 'USERKEY'

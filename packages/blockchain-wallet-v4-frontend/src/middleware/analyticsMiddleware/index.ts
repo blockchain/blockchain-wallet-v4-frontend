@@ -2968,6 +2968,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const guid = state.walletPath.wallet.guid ?? null
         analytics.push(AnalyticsKey.ACCOUNT_PASSWORD_RESET, {
           properties: {
+            account_type: AccountType.CUSTODIAL,
             guid,
             originalTimestamp: getOriginalTimestamp(),
             site_redirect: 'WALLET'
@@ -2981,28 +2982,29 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
       // TODO - every time code is scanned, can we distinguish if for recovery or not?
-      case AT.auth.SECURE_CHANNEL_LOGIN_LOADING: {
-        const state = store.getState()
-        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        const email = state.profile.userData.getOrElse({})?.emailVerified
-          ? state.profile.userData.getOrElse({})?.email
-          : null
-        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-        const guid = state.walletPath.wallet.guid ?? null
-        analytics.push(AnalyticsKey.CLOUD_BACKUP_CODE_SCANNED, {
-          properties: {
-            guid,
-            originalTimestamp: getOriginalTimestamp(),
-            site_redirect: 'WALLET'
-          },
-          traits: {
-            email,
-            nabuId,
-            tier
-          }
-        })
-        break
-      }
+      // Commenting out until I have a good solution to distinguish from regular login
+      // case AT.auth.SECURE_CHANNEL_LOGIN_LOADING: {
+      //   const state = store.getState()
+      //   const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+      //   const email = state.profile.userData.getOrElse({})?.emailVerified
+      //     ? state.profile.userData.getOrElse({})?.email
+      //     : null
+      //   const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+      //   const guid = state.walletPath.wallet.guid ?? null
+      //   analytics.push(AnalyticsKey.CLOUD_BACKUP_CODE_SCANNED, {
+      //     properties: {
+      //       guid,
+      //       originalTimestamp: getOriginalTimestamp(),
+      //       site_redirect: 'WALLET'
+      //     },
+      //     traits: {
+      //       email,
+      //       nabuId,
+      //       tier
+      //     }
+      //   })
+      //   break
+      // }
       case AT.auth.RESET_ACCOUNT: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
