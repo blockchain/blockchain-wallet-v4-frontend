@@ -84,14 +84,14 @@ export default ({ api, coreSagas, networks }) => {
   const saveGoals = function* (firstLogin) {
     // only for non first login users we save goal here for first login users we do that over verify email page
     if (!firstLogin) {
-      yield put(actions.goals.saveGoal('welcomeModal', {}))
+      yield put(actions.goals.saveGoal({ data: {}, name: 'welcomeModal' }))
     }
-    yield put(actions.goals.saveGoal('swapUpgrade', {}))
-    yield put(actions.goals.saveGoal('swapGetStarted', {}))
-    yield put(actions.goals.saveGoal('kycDocResubmit', {}))
-    yield put(actions.goals.saveGoal('transferEth', {}))
-    yield put(actions.goals.saveGoal('syncPit', {}))
-    yield put(actions.goals.saveGoal('interestPromo', {}))
+    yield put(actions.goals.saveGoal({ data: {}, name: 'swapUpgrade' }))
+    yield put(actions.goals.saveGoal({ data: {}, name: 'swapGetStarted' }))
+    yield put(actions.goals.saveGoal({ data: {}, name: 'kycDocResubmit' }))
+    yield put(actions.goals.saveGoal({ data: {}, name: 'transferEth' }))
+    yield put(actions.goals.saveGoal({ data: {}, name: 'syncPit' }))
+    yield put(actions.goals.saveGoal({ data: {}, name: 'interestPromo' }))
     // when airdrops are running
     // yield put(actions.goals.saveGoal('upgradeForAirdrop'))
     // yield put(actions.goals.saveGoal('airdropClaim'))
