@@ -896,7 +896,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
 
-        analytics.push(AnalyticsKey.SIGNED_UP, {
+        analytics.push(AnalyticsKey.WALLET_SIGNED_UP, {
           properties: {
             guid,
             originalTimestamp: getOriginalTimestamp()
