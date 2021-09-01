@@ -223,6 +223,10 @@ export const loginPasswordDenied = () => ({
   type: AT.LOGIN_PASSWORD_DENIED
 })
 
+export const loginPasswordEntered = () => ({
+  type: AT.LOGIN_PASSWORD_ENTERED
+})
+
 export const loginTwoStepVerificationDenied = () => ({
   type: AT.LOGIN_TWO_STEP_VERIFICATION_DENIED
 })

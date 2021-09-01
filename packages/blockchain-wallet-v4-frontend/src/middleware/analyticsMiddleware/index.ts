@@ -2846,7 +2846,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case AT.auth.LOGIN: {
+      case AT.auth.LOGIN_PASSWORD_ENTERED: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -3050,8 +3050,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      // TODO STILL NEED TO FIGURE OUT SPECIFICS FOR THIS EVENT
-      case AT.auth.RESTORE: {
+      case AT.auth.RESTORE_FROM_METADATA: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified

@@ -357,9 +357,13 @@ export default ({ api, coreSagas, networks }) => {
     const formValues = yield select(selectors.form.getFormValues('login'))
     const { email, emailToken } = formValues
     let session = yield select(selectors.session.getSession, guid, email)
+    // JUST FOR ANALYTICS PURPOSES
     if (code) {
       yield put(A.loginTwoStepVerificationEntered())
+    } else {
+      yield put(A.loginPasswordEntered())
     }
+    // JUST FOR ANALYTICS PURPOSES
     yield put(startSubmit('login'))
     try {
       if (!session) {
