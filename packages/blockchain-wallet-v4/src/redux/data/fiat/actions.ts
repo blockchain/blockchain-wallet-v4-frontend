@@ -4,42 +4,33 @@ import * as AT from './actionTypes'
 import { FiatActionTypes, FiatTransactionPageResponseType } from './types'
 
 // FETCH_FIAT_TRANSACTIONS
-export const fetchTransactions = (
-  currency: WalletFiatType,
-  reset?: boolean
-) => ({
-  type: AT.FETCH_FIAT_TRANSACTIONS,
-  payload: { currency, reset }
+export const fetchTransactions = (currency: WalletFiatType, reset?: boolean) => ({
+  payload: { currency, reset },
+  type: AT.FETCH_FIAT_TRANSACTIONS
 })
-export const fetchTransactionsFailure = (
-  currency: WalletFiatType,
-  error
-): FiatActionTypes => ({
-  type: AT.FETCH_FIAT_TRANSACTIONS_FAILURE,
-  payload: { currency, error }
+export const fetchTransactionsFailure = (currency: WalletFiatType, error): FiatActionTypes => ({
+  payload: { currency, error },
+  type: AT.FETCH_FIAT_TRANSACTIONS_FAILURE
 })
 export const fetchTransactionsLoading = (
   currency: WalletFiatType,
   reset: boolean
 ): FiatActionTypes => ({
-  type: AT.FETCH_FIAT_TRANSACTIONS_LOADING,
-  payload: { currency, reset }
+  payload: { currency, reset },
+  type: AT.FETCH_FIAT_TRANSACTIONS_LOADING
 })
 export const fetchTransactionsSuccess = (
   currency: WalletFiatType,
   response: FiatTransactionPageResponseType,
   reset?: boolean
 ): FiatActionTypes => ({
-  type: AT.FETCH_FIAT_TRANSACTIONS_SUCCESS,
-  payload: { currency, response, reset }
+  payload: { currency, reset, response },
+  type: AT.FETCH_FIAT_TRANSACTIONS_SUCCESS
 })
-export const transactionsAtBound = (
-  currency: WalletFiatType,
-  isAtBound: boolean
-) => ({
-  type: AT.FIAT_TRANSACTIONS_AT_BOUND,
+export const transactionsAtBound = (currency: WalletFiatType, isAtBound: boolean) => ({
   payload: {
     currency,
     isAtBound
-  }
+  },
+  type: AT.FIAT_TRANSACTIONS_AT_BOUND
 })

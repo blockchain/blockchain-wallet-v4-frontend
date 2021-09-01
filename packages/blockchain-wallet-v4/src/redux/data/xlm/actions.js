@@ -10,87 +10,75 @@ export const fetchLedgerDetails = () => ({ type: AT.FETCH_LEDGER_DETAILS })
 export const setLedgerDetailsLoading = () => ({
   type: AT.SET_LEDGER_DETAILS_LOADING
 })
-export const setLedgerDetailsSuccess = ledger => ({
-  type: AT.SET_LEDGER_DETAILS_SUCCESS,
-  payload: { ledger }
+export const setLedgerDetailsSuccess = (ledger) => ({
+  payload: { ledger },
+  type: AT.SET_LEDGER_DETAILS_SUCCESS
 })
-export const setLedgerDetailsFailure = e => ({
-  type: AT.SET_LEDGER_DETAILS_FAILURE,
-  payload: { e }
+export const setLedgerDetailsFailure = (e) => ({
+  payload: { e },
+  type: AT.SET_LEDGER_DETAILS_FAILURE
 })
 
 // ACCOUNT DATA
 export const fetchData = () => ({ type: AT.FETCH_DATA })
 export const fetchAccountSuccess = (id, account) => ({
-  type: AT.FETCH_ACCOUNT_SUCCESS,
-  payload: { id, account }
+  payload: { account, id },
+  type: AT.FETCH_ACCOUNT_SUCCESS
 })
 export const fetchAccountFailure = (id, error) => ({
-  type: AT.FETCH_ACCOUNT_FAILURE,
-  payload: { id, error }
+  payload: { error, id },
+  type: AT.FETCH_ACCOUNT_FAILURE
 })
-export const fetchAccountLoading = id => ({
-  type: AT.FETCH_ACCOUNT_LOADING,
-  payload: { id }
+export const fetchAccountLoading = (id) => ({
+  payload: { id },
+  type: AT.FETCH_ACCOUNT_LOADING
 })
-export const fetchDataSuccess = accounts => ({
-  type: AT.FETCH_DATA_SUCCESS,
-  payload: { accounts }
-})
-
-// RATES
-export const fetchRates = () => ({ type: AT.FETCH_RATES })
-export const setRatesLoading = () => ({ type: AT.SET_RATES_LOADING })
-export const setRatesSuccess = rates => ({
-  type: AT.SET_RATES_SUCCESS,
-  payload: { rates }
-})
-export const setRatesFailure = e => ({
-  type: AT.SET_RATES_FAILURE,
-  payload: { e }
+export const fetchDataSuccess = (accounts) => ({
+  payload: { accounts },
+  type: AT.FETCH_DATA_SUCCESS
 })
 
 // TRANSACTIONS
 export const fetchTransactions = (accountId, reset) => ({
-  type: AT.FETCH_TRANSACTIONS,
-  payload: { accountId, reset }
+  payload: { accountId, reset },
+  type: AT.FETCH_TRANSACTIONS
 })
-export const fetchTransactionsLoading = reset => ({
-  type: AT.FETCH_TRANSACTIONS_LOADING,
-  payload: { reset }
+export const fetchTransactionsLoading = (reset) => ({
+  payload: { reset },
+  type: AT.FETCH_TRANSACTIONS_LOADING
 })
 export const fetchTransactionsSuccess = (txs, reset) => ({
-  type: AT.FETCH_TRANSACTIONS_SUCCESS,
-  payload: { txs, reset }
+  payload: { reset, txs },
+  type: AT.FETCH_TRANSACTIONS_SUCCESS
 })
-export const fetchTransactionsFailure = error => ({
-  type: AT.FETCH_TRANSACTIONS_FAILURE,
-  payload: { error }
+export const fetchTransactionsFailure = (error) => ({
+  payload: { error },
+  type: AT.FETCH_TRANSACTIONS_FAILURE
 })
-export const transactionsAtBound = atBound => ({
-  type: AT.TRANSACTIONS_AT_BOUND,
-  payload: { atBound }
+export const transactionsAtBound = (atBound) => ({
+  payload: { atBound },
+  type: AT.TRANSACTIONS_AT_BOUND
 })
-export const addNewTransactions = txs => ({
-  type: AT.ADD_NEW_TRANSACTIONS,
-  payload: { txs }
+export const addNewTransactions = (txs) => ({
+  payload: { txs },
+  type: AT.ADD_NEW_TRANSACTIONS
 })
 
 // TRANSACTION HISTORY
 export const fetchTransactionHistory = (address, start, end) => ({
-  type: AT.FETCH_TRANSACTION_HISTORY,
-  payload: { address, start, end }
+  payload: { address, end, start },
+  type: AT.FETCH_TRANSACTION_HISTORY
 })
 export const fetchTransactionHistoryLoading = () => ({
   type: AT.FETCH_TRANSACTION_HISTORY_LOADING
 })
-export const fetchTransactionHistorySuccess = data => ({
-  type: AT.FETCH_TRANSACTION_HISTORY_SUCCESS,
-  payload: data
+export const fetchTransactionHistorySuccess = (data) => ({
+  payload: data,
+  type: AT.FETCH_TRANSACTION_HISTORY_SUCCESS
 })
-export const fetchTransactionHistoryFailure = error => ({
-  type: AT.FETCH_TRANSACTION_HISTORY_FAILURE,
-  payload: error
+export const fetchTransactionHistoryFailure = (error) => ({
+  payload: error,
+  type: AT.FETCH_TRANSACTION_HISTORY_FAILURE
 })
 export const clearTransactionHistory = () => ({
   type: AT.CLEAR_TRANSACTION_HISTORY

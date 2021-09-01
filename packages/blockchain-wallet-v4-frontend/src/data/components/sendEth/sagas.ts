@@ -205,14 +205,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const currency = selectors.core.settings
         .getCurrency(appState)
         .getOrFail('Failed to get currency')
-      let rates
-      if (equals(coinCode, ETH)) {
-        rates = selectors.core.data.eth.getRates(appState).getOrFail('Failed to get ETH rates')
-      } else {
-        rates = (yield select(selectors.core.data.eth.getErc20Rates, coinCode)).getOrFail(
-          `Failed to get ${coinCode} rates`
-        )
-      }
+      const rates = selectors.core.data.coins
+        .getRates(coinCode, appState)
+        .getOrFail(`Failed to get ${coinCode} rates`)
       const payment = (yield select(S.getPayment)).getOrElse({})
       const effectiveBalance = prop('effectiveBalance', payment)
       const coin = Exchange.convertCoinToCoin({
@@ -458,14 +453,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     const currency = selectors.core.settings
       .getCurrency(yield select())
       .getOrFail('Failed to get currency')
-    let rates
-    if (equals(coin, ETH)) {
-      rates = selectors.core.data.eth.getRates(yield select()).getOrFail('Failed to get ETH rates')
-    } else {
-      rates = (yield select(selectors.core.data.eth.getErc20Rates, coin)).getOrFail(
-        `Failed to get ${coin} rates`
-      )
-    }
+    const rates = selectors.core.data.coins
+      .getRates(coin, yield select())
+      .getOrFail(`Failed to get ${coin} rates`)
     const cryptoAmt = Exchange.convertCoinToCoin({
       coin,
       value: amountInWei

@@ -13,7 +13,7 @@ export const getTotalBalance = createDeepEqualSelector(
     S.getEthBalanceInfo,
     S.getXlmBalanceInfo,
     S.getFiatBalanceInfo,
-    S.getErc20BalancesInfoV2,
+    S.getErc20BalancesInfo,
     S.getCoinsBalanceInfo,
     selectors.core.settings.getCurrency,
     selectors.router.getPathname
@@ -24,8 +24,8 @@ export const getTotalBalance = createDeepEqualSelector(
     ethBalanceInfoR,
     xlmBalanceInfoR,
     fiatBalanceInfoR,
-    erc20BalancesInfoV2,
-    coinsBalanceInfo,
+    erc20BalancesInfo,
+    custodialCoinsBalanceInfo,
     currency,
     path
   ) => {
@@ -35,13 +35,13 @@ export const getTotalBalance = createDeepEqualSelector(
       ethBalance,
       xlmBalance,
       fiatBalance,
-      erc20BalancesInfoV2,
-      coinsBalanceInfo,
+      erc20BalancesInfo,
+      custodialCoinsBalanceInfo,
       currency
     ) => {
       const balanceReducer = (acc, cur) => acc + Number(cur.getOrElse('0'))
-      const erc20Balance = erc20BalancesInfoV2.reduce(balanceReducer, 0)
-      const coinsBalance = coinsBalanceInfo.reduce(balanceReducer, 0)
+      const erc20Balance = erc20BalancesInfo.reduce(balanceReducer, 0)
+      const coinsBalance = custodialCoinsBalanceInfo.reduce(balanceReducer, 0)
       const total =
         Number(bchBalance) +
         Number(btcBalance) +
@@ -60,8 +60,8 @@ export const getTotalBalance = createDeepEqualSelector(
       ethBalanceInfoR,
       xlmBalanceInfoR,
       fiatBalanceInfoR,
-      erc20BalancesInfoV2,
-      coinsBalanceInfo,
+      erc20BalancesInfo,
+      custodialCoinsBalanceInfo,
       currency
     )
   }

@@ -31,12 +31,6 @@ export default () => {
   }
 
   const refreshRates = function* () {
-    // TODO: remove all of this
-    yield put(actions.core.data.bch.fetchRates())
-    yield put(actions.core.data.btc.fetchRates())
-    yield put(actions.core.data.eth.fetchRates())
-    yield put(actions.core.data.xlm.fetchRates())
-    yield put(actions.core.data.eth.fetchErc20Rates())
     yield put(actions.core.data.coins.fetchCoinsRates())
   }
 

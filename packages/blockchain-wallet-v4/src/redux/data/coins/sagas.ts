@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { flatten, last, length, toUpper } from 'ramda'
+import { flatten, last, length } from 'ramda'
 import { all, call, put, select, take } from 'redux-saga/effects'
 
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
@@ -19,13 +19,20 @@ export default ({ api }: { api: APIType }) => {
   const { fetchCustodialOrdersAndTransactions } = custodialSagas({ api })
 
   const fetchCoinsRates = function* () {
-    const coins = S.getCoins()
+    const coins = S.getAllCoins()
+    const defaultFiat = (yield select(selectors.settings.getCurrency)).getOrElse('USD')
+
+    const request = coins.map((coin) => ({
+      base: coin,
+      quote: defaultFiat
+    }))
+
+    const response: ReturnType<typeof api.getCoinPrices> = yield call(api.getCoinPrices, request)
 
     yield all(
       coins.map(function* (coin) {
         try {
-          yield put(A.fetchCoinsRatesLoading(coin))
-          const data = yield call(api.getCoinTicker, toUpper(coin))
+          const data = response[`${coin}-${defaultFiat}`]
           yield put(A.fetchCoinsRatesSuccess(coin, data))
         } catch (e) {
           const error = errorHandler(e)

@@ -11,6 +11,10 @@ export const getCoins = () => {
   )
 }
 
+export const getAllCoins = () => {
+  return Object.keys(window.coins).filter((coin) => window.coins[coin].coinfig.type.name !== 'FIAT')
+}
+
 export const getRates = (coin: string, state: RootState) => {
   return state.dataPath.coins.rates[coin] || Remote.NotAsked
 }

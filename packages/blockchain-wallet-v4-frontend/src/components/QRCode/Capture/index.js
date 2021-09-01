@@ -211,7 +211,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-  btcRates: selectors.core.data.btc.getRates(state).getOrFail('Could not find btc rates'),
+  btcRates: selectors.core.data.coins.getRates('BTC', state).getOrFail('Could not find btc rates'),
   currency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 

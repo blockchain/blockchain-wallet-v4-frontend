@@ -88,7 +88,7 @@ export const getData = (state, ownProps: OwnProps) => {
             coin,
             includeCustodial: true
           })
-          balanceDataR = balanceSelectors.getCoinBalance(coin)(state)
+          balanceDataR = balanceSelectors.getCoinCustodialBalance(coin)(state)
           break
         default:
       }
