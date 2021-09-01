@@ -24,7 +24,7 @@ export const getAllCoins = () => {
 }
 
 export const getRates = (coin: string, state: RootState) => {
-  return state.dataPath.coins.rates[coin] || Remote.NotAsked
+  return state.dataPath.coins.rates.map((rates) => rates[coin] || Remote.NotAsked)
 }
 
 export const getTransactions = (coin: string, state: RootState) => {

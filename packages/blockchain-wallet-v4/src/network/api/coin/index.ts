@@ -8,7 +8,7 @@ export default ({ apiUrl, post }) => {
     post({
       contentType: 'application/json',
       data: coins,
-      endPoint: timestamp ? `/price/index-multi?time=${timestamp}` : '/price/index-multi',
+      endPoint: timestamp ? `/price/index-multis?time=${timestamp}` : '/price/index-multis',
       removeDefaultPostData: true,
       url: apiUrl
     })

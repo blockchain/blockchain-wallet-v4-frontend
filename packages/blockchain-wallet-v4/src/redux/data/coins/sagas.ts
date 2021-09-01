@@ -27,19 +27,15 @@ export default ({ api }: { api: APIType }) => {
       quote: defaultFiat
     }))
 
-    const response: ReturnType<typeof api.getCoinPrices> = yield call(api.getCoinPrices, request)
-
-    yield all(
-      coins.map(function* (coin) {
-        try {
-          const data = response[`${coin}-${defaultFiat}`]
-          yield put(A.fetchCoinsRatesSuccess(coin, data))
-        } catch (e) {
-          const error = errorHandler(e)
-          yield put(A.fetchCoinsRatesFailure(coin, error))
-        }
-      })
-    )
+    try {
+      yield put(A.fetchCoinsRatesLoading())
+      const response: ReturnType<typeof api.getCoinPrices> = yield call(api.getCoinPrices, request)
+      yield put(A.fetchCoinsRatesSuccess(response))
+    } catch (e) {
+      const error =
+        typeof errorHandler(e) === 'string' ? errorHandler(e) : 'Failed to fetch prices.'
+      yield put(A.fetchCoinsRatesFailure(error))
+    }
   }
 
   const fetchTransactions = function* (action: ReturnType<typeof A.fetchTransactions>) {

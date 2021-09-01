@@ -4,10 +4,10 @@ import { connect } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
 
-import { SkeletonRectangle, Text } from 'blockchain-info-components'
+import { SkeletonRectangle, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import { getTotalBalance } from 'components/Balances/total/selectors'
 
-const ErrorWrapper = styled.div`
+const ErrorWrapper = styled(TooltipHost)`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -35,10 +35,9 @@ class TotalBalance extends React.PureComponent {
   render() {
     return this.props.data.cata({
       Failure: () => (
-        <ErrorWrapper>
-          <Text size='14px' weight={600} color='red600'>
-            Error Fetching Balance
-          </Text>
+        <ErrorWrapper id='tooltip.rates_error'>
+          <SkeletonRectangle width='120px' height='25px' />
+          <TooltipIcon name='question-in-circle-filled' />
         </ErrorWrapper>
       ),
       Loading: () => <SkeletonRectangle width='120px' height='25px' bgColorgrey000 />,
