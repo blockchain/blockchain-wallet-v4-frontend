@@ -207,7 +207,7 @@ const getAlertContent = (message, data = undefined) => {
       return buildMessageTemplate(
         <FormattedMessage
           id='components.alerts.device_mismatch'
-          defaultMessage='Device mismatch. Please refresh this window or open link in original window.'
+          defaultMessage='Device mismatch.'
         />
       )
     case C.EMAIL_CODE_SENT_SUCCESS:

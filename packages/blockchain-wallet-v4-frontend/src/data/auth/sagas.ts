@@ -714,24 +714,21 @@ export default ({ api, coreSagas, networks }) => {
 
   // triggers verification email for login
   const triggerWalletMagicLink = function* (action) {
-    const { captchaToken, email } = action.payload
     const formValues = yield select(selectors.form.getFormValues('login'))
     const { step } = formValues
-    let session = yield select(selectors.session.getSession, null, email)
     const legacyMagicEmailLink = (yield select(
       selectors.core.walletOptions.getFeatureLegacyMagicEmailLink
     )).getOrElse(true)
     yield put(startSubmit('login'))
     try {
       yield put(A.triggerWalletMagicLinkLoading())
-      if (!session) {
-        session = yield call(api.obtainSessionToken)
-        yield put(actions.session.saveSession(assoc(email, session, {})))
-      }
+      const sessionToken = yield call(api.obtainSessionToken)
+      const { captchaToken, email } = action.payload
+      yield put(actions.session.saveSession(assoc(email, sessionToken, {})))
       if (legacyMagicEmailLink) {
-        yield call(api.triggerWalletMagicLinkLegacy, email, captchaToken, session)
+        yield call(api.triggerWalletMagicLinkLegacy, email, captchaToken, sessionToken)
       } else {
-        yield call(api.triggerWalletMagicLink, email, captchaToken, session)
+        yield call(api.triggerWalletMagicLink, email, captchaToken, sessionToken)
       }
       if (step === LoginSteps.CHECK_EMAIL) {
         yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
