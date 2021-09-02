@@ -81,7 +81,11 @@ export default ({ api }: { api: APIType }) => {
       }
       yield put(A.fetchDataSuccess(ethData))
       // eslint-disable-next-line
-      yield call(checkForLowEthBalance)
+      try {
+        yield call(checkForLowEthBalance)
+      } catch (e) {
+        // do nothing
+      }
     } catch (e) {
       yield put(A.fetchDataFailure(errorHandler(e)))
     }

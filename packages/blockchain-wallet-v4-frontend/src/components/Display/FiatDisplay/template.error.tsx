@@ -19,15 +19,18 @@ const ErrorText = styled(Text)<{ mobileSize?: string }>`
   color: ${(props) => props.theme.grey200};
   font-size: ${(props) => props.mobileSize};
   ${media.atLeastMobile`
-  font-size: ${(props) => props.size};
+    font-size: ${(props) => props.size};
   `}
+  span:last-child {
+    margin-right: 0px;
+  }
 `
 
 export default (props: Props) => (
   <Wrapper>
     <ErrorText weight={400} {...props}>
       <TooltipHost id='tooltip.rates_error'>
-        {Currencies[props.userCurrency].units[props.userCurrency].symbol} --
+        {Currencies[props.userCurrency].units[props.userCurrency].symbol}--
         <TooltipIcon name='question-in-circle-filled' />
       </TooltipHost>
     </ErrorText>
