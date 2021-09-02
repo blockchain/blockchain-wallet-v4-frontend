@@ -206,8 +206,8 @@ const getAlertContent = (message, data = undefined) => {
     case C.DEVICE_MISMATCH:
       return buildMessageTemplate(
         <FormattedMessage
-          id='components.alerts.devicemismatch'
-          defaultMessage='Link must be opened in original browser.'
+          id='components.alerts.device_mismatch'
+          defaultMessage='Device verification failed. Please refresh and try again.'
         />
       )
     case C.EMAIL_CODE_SENT_SUCCESS:

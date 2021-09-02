@@ -235,8 +235,7 @@ export default ({ api, coreSagas, networks }) => {
     email = undefined,
     firstLogin = false,
     country = undefined,
-    state = undefined,
-    recovery = false
+    state = undefined
   }) {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
@@ -255,7 +254,6 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.auth.upgradeWallet(4))
         yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
       }
-      const isAccountReset: boolean = yield select(selectors.auth.getAccountReset)
       // Finish upgrades
       yield put(actions.auth.authenticate())
       yield put(actions.auth.setFirstLogin(firstLogin))
@@ -279,11 +277,7 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.core.settings.setCurrency(currency))
         // fetch settings again
         yield call(coreSagas.settings.fetchSettings)
-        if (!isAccountReset) {
-          yield put(actions.router.push('/verify-email-step'))
-        } else {
-          yield put(actions.router.push('/home'))
-        }
+        yield put(actions.router.push('/verify-email-step'))
       } else {
         yield put(actions.router.push('/home'))
       }
@@ -321,7 +315,7 @@ export default ({ api, coreSagas, networks }) => {
       const signupCountryEnabled = (yield select(
         selectors.core.walletOptions.getFeatureSignupCountry
       )).getOrElse(false)
-      if (firstLogin && signupCountryEnabled && !isAccountReset && !recovery) {
+      if (firstLogin && signupCountryEnabled) {
         // create nabu user
         yield call(createUser)
         // store initial address in case of US state we add prefix
