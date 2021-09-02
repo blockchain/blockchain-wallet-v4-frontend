@@ -8,12 +8,12 @@ import {
   InterestAfterTransactionType,
   InterestEDDStatus,
   InterestEligibleType,
-  InterestInstrumentsType,
+  InterestInstrumentsResponseType,
   InterestLimitsType,
   InterestRateType,
   InterestTransactionResponseType,
   InterestWithdrawalResponseType,
-  WithdrawalMinimumType,
+  WithdrawalMinimumTypeResponse,
   WithdrawLimits
 } from './types'
 
@@ -35,7 +35,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const getInterestInstruments = (): InterestInstrumentsType =>
+  const getInterestInstruments = (): InterestInstrumentsResponseType =>
     authorizedGet({
       endPoint: '/savings/instruments',
       url: nabuUrl
@@ -79,7 +79,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const getWithdrawalMinsAndFees = (): WithdrawalMinimumType =>
+  const getWithdrawalMinsAndFees = (): WithdrawalMinimumTypeResponse =>
     authorizedGet({
       endPoint: '/payments/withdrawals/fees?product=SAVINGS',
       ignoreQueryParams: true,

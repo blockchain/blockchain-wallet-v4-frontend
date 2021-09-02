@@ -11,9 +11,8 @@ const getData = (state) => {
   const withdrawalMinimumsR = selectors.components.interest.getWithdrawalMinimums(state)
   const interestLimitsR = selectors.components.interest.getInterestLimits(state)
   const interestEDDStatusR = selectors.components.interest.getInterestEDDStatus(state)
-  const interestEDDWithdrawLimitsR = selectors.components.interest.getInterestEDDWithdrawLimits(
-    state
-  )
+  const interestEDDWithdrawLimitsR =
+    selectors.components.interest.getInterestEDDWithdrawLimits(state)
 
   return lift(
     (

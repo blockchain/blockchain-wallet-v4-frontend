@@ -164,7 +164,7 @@ const EnterPassword = (props: Props) => {
             </Text>
           )}
         </ActionButton>
-        <NeedHelpLink />
+        <NeedHelpLink authActions={props.authActions} origin='PASSWORD' />
       </CenteredColumn>
     </>
   )

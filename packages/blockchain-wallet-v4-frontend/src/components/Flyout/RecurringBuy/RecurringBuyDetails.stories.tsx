@@ -2,8 +2,8 @@ import React from 'react'
 import { IntlProvider } from 'react-intl'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 
-import { SBPaymentTypes } from '../../../../blockchain-wallet-v4/src/network/api/simpleBuy/types'
-import { RecurringBuyPeriods } from '../../data/types'
+import { SBPaymentTypes } from '../../../../../blockchain-wallet-v4/src/network/api/simpleBuy/types'
+import { RecurringBuyPeriods } from '../../../data/types'
 import RecurringBuyDetails from './RecurringBuyDetails'
 
 export default {
@@ -33,7 +33,7 @@ export default {
       </IntlProvider>
     )
   ],
-  title: 'Flyouts/RecurringBuyDetails'
+  title: 'Flyouts/RecurringBuy/RecurringBuyDetails'
 } as ComponentMeta<typeof RecurringBuyDetails>
 
 export const Template: ComponentStory<typeof RecurringBuyDetails> = (args) => (

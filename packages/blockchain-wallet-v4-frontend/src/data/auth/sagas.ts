@@ -6,6 +6,7 @@ import { call, delay, fork, put, race, select, take } from 'redux-saga/effects'
 import { Remote, Types } from 'blockchain-wallet-v4/src'
 import { DEFAULT_INVITATIONS } from 'blockchain-wallet-v4/src/model'
 import { actions, actionTypes, model, selectors } from 'data'
+import { ModalName } from 'data/modals/types'
 import profileSagas from 'data/modules/profile/sagas'
 import * as C from 'services/alerts'
 import { isGuid } from 'services/forms'
@@ -336,6 +337,34 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const pingManifestFile = function* () {
+    try {
+      const domains = (yield select(selectors.core.walletOptions.getDomains)).getOrElse({
+        comWalletApp: 'https://login.blockchain.com'
+      })
+      const response = yield fetch(domains.comWalletApp)
+      const raw = yield response.text()
+      const nextManifest = raw.match(/manifest\.\d*.js/)[0]
+
+      const currentManifest = yield select(S.getManifest)
+
+      if (currentManifest && nextManifest !== currentManifest) {
+        yield put(actions.modals.showModal(ModalName.NEW_VERSION_AVAILABLE, { origin: 'Unknown' }))
+      }
+
+      if (!currentManifest) {
+        yield put(A.setManifestFile(nextManifest))
+      }
+    } catch (e) {
+      // wallet failed to fetch
+      // happens rarely but could happen
+      // ignore error
+    }
+
+    yield delay(10_000)
+    yield put(A.pingManifestFile())
+  }
+
   const pollingSession = function* (session, n = 50) {
     if (n === 0) {
       return false
@@ -357,6 +386,13 @@ export default ({ api, coreSagas, networks }) => {
     const formValues = yield select(selectors.form.getFormValues('login'))
     const { email, emailToken } = formValues
     let session = yield select(selectors.session.getSession, guid, email)
+    // JUST FOR ANALYTICS PURPOSES
+    if (code) {
+      yield put(A.loginTwoStepVerificationEntered())
+    } else {
+      yield put(A.loginPasswordEntered())
+    }
+    // JUST FOR ANALYTICS PURPOSES
     yield put(startSubmit('login'))
     try {
       if (!session) {
@@ -409,6 +445,7 @@ export default ({ api, coreSagas, networks }) => {
               yield put(actions.auth.loginFailure())
             } else {
               yield put(actions.auth.loginFailure('wrong_wallet_password'))
+
               yield put(actions.logs.logErrorMessage(logLocation, 'login', error))
             }
           }
@@ -427,6 +464,7 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.auth.setAuthType(0))
         yield put(actions.form.clearFields('login', false, true, 'password', 'code'))
         yield put(actions.form.focus('login', 'password'))
+        yield put(A.loginPasswordDenied())
         yield put(actions.auth.loginFailure(error))
       } else if (initialError && initialError.includes('Unknown Wallet Identifier')) {
         yield put(actions.form.change('login', 'step', 'ENTER_EMAIL_GUID'))
@@ -438,11 +476,13 @@ export default ({ api, coreSagas, networks }) => {
         // Wrong 2fa code error
         error &&
         is(String, error) &&
-        error.includes('Authentication code is incorrect')
+        (error.includes('Authentication code is incorrect') ||
+          error.includes('Invalid authentication code'))
       ) {
         yield put(actions.form.clearFields('login', false, true, 'code'))
         yield put(actions.form.focus('login', 'code'))
         yield put(actions.auth.loginFailure(error))
+        yield put(A.loginTwoStepVerificationDenied())
       } else if (error && is(String, error)) {
         yield put(actions.auth.loginFailure(error))
       } else {
@@ -553,7 +593,8 @@ export default ({ api, coreSagas, networks }) => {
 
       yield call(loginRoutineSaga, {
         email: action.payload.email,
-        firstLogin: true
+        firstLogin: true,
+        recovery: true
       })
       yield put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS))
       yield put(actions.auth.restoreSuccess())
@@ -648,6 +689,7 @@ export default ({ api, coreSagas, networks }) => {
       } else {
         yield call(parseMagicLinkLegacy, params)
       }
+      yield put(A.magicLinkParsed())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'parseLink', e))
       yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
@@ -699,6 +741,7 @@ export default ({ api, coreSagas, networks }) => {
         yield call(parseMagicLink, params)
       }
       yield put(A.initializeLoginSuccess())
+      yield put(A.pingManifestFile())
     } catch (e) {
       yield put(A.initializeLoginFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'initializeLogin', e))
@@ -793,6 +836,7 @@ export default ({ api, coreSagas, networks }) => {
     logout,
     logoutClearReduxStore,
     mobileLogin,
+    pingManifestFile,
     pollingSession,
     register,
     resendSmsLoginCode,

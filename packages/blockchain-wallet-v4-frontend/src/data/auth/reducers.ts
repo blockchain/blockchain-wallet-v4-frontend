@@ -12,6 +12,7 @@ const INITIAL_STATE = {
   kycReset: undefined,
   login: Remote.NotAsked,
   magicLinkData: null,
+  manifestFile: null,
   metadataRestore: Remote.NotAsked,
   mobileLoginStarted: false,
   registerEmail: undefined,
@@ -97,6 +98,12 @@ const auth = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         magicLinkData: action.payload.magicLinkInfo
+      }
+    }
+    case AT.SET_MANIFEST_FILE: {
+      return {
+        ...state,
+        manifestFile: action.payload.manifestFile
       }
     }
     case AT.SET_REGISTER_EMAIL: {

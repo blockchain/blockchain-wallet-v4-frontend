@@ -5,7 +5,7 @@ import {
   PaymentValue,
   RateType,
   SwapQuoteType,
-  SwapUserLimitsType,
+  SwapUserLimitsType
 } from 'blockchain-wallet-v4/src/types'
 import { convertBaseToStandard, convertStandardToBase } from 'data/components/exchange/services'
 import { SwapAccountType, SwapAmountFormValues } from 'data/types'
@@ -87,7 +87,7 @@ export const maximumAmount = (value: string, allValues: SwapAmountFormValues, re
     currency: walletCurrency,
     isStandard: true,
     rates: baseRates,
-    value: cryptoMax,
+    value: cryptoMax
   })
   return Number(value) > (fix === 'CRYPTO' ? cryptoMax : fiatMax) ? 'ABOVE_MAX' : false
 }
@@ -115,7 +115,7 @@ export const minimumAmount = (value: string, allValues: SwapAmountFormValues, re
     currency: walletCurrency,
     isStandard: true,
     rates: baseRates,
-    value: cryptoMin,
+    value: cryptoMin
   })
 
   return Number(value) < (fix === 'CRYPTO' ? cryptoMin : fiatMin) ? 'BELOW_MIN' : false

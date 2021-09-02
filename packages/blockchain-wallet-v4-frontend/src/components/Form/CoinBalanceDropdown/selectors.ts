@@ -17,7 +17,7 @@ const getData = (state, ownProps: OwnProps) => {
   const { coin, includeCustodial } = ownProps
   let addressDataR
 
-  // TODO: erc20 phase 2, remove hardcoded list
+  // TODO: dynamic coins phase 3, remove hardcoded list
   switch (coin) {
     case 'BCH':
       addressDataR = getBchAddressData(state, {

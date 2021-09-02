@@ -160,7 +160,7 @@ export const FromToLogoLeft = ({
         <div>
           <Value data-e2e={`swap${inOrOut}Wallet`}>{children}</Value>
           <Title>
-            <Text size='14px' weight={500} color='grey600'>
+            <Text data-e2e={`swap${inOrOut}AccountType`} size='14px' weight={500} color='grey600'>
               {label}
             </Text>
           </Title>

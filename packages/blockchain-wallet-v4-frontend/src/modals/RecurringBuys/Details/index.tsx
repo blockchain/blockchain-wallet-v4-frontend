@@ -5,7 +5,7 @@ import { RecurringBuyDetails } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { RootState } from 'data/rootReducer'
-import { RecurringBuyStepType } from 'data/types'
+import { RecurringBuyOrigins, RecurringBuyStepType } from 'data/types'
 
 import { Props as _P } from '..'
 
@@ -33,7 +33,12 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   removeClick: () => {
-    dispatch(actions.components.recurringBuy.setStep({ step: RecurringBuyStepType.REMOVE_CONFIRM }))
+    dispatch(
+      actions.components.recurringBuy.setStep({
+        origin: RecurringBuyOrigins.DETAILS_SCREEN,
+        step: RecurringBuyStepType.REMOVE_CONFIRM
+      })
+    )
   }
 })
 

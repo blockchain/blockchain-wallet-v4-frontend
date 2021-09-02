@@ -62,6 +62,7 @@ class Notifications extends PureComponent<Props, State> {
     super(props)
     this.state = { stepIndex: 0 } as State
     this.stepChange = this.stepChange.bind(this)
+    props.recurringBuyActions.infoViewed(this.state.stepIndex)
   }
 
   handleSubmit = (e) => {
@@ -70,6 +71,7 @@ class Notifications extends PureComponent<Props, State> {
   }
 
   stepChange = (stepIndex) => {
+    this.props.recurringBuyActions.infoViewed(stepIndex)
     this.setState({ stepIndex })
   }
 
@@ -216,6 +218,7 @@ type State = {
 
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
+  recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 

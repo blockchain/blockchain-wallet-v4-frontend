@@ -43,6 +43,7 @@ export type WithdrawLimits = {
   withdrawLimits: LimitDetails
 }
 
+export type InterestInstrumentsResponseType = { instruments: CoinType[] }
 export type InterestInstrumentsType = Array<CoinType>
 
 export type InterestFormErrorsType = {
@@ -109,6 +110,11 @@ export type InterestWithdrawalResponseType = {
 }
 
 export type WithdrawalMinimumType = Array<NabuMoneyFloatType>
+export type WithdrawalMinimumTypeResponse = {
+  feeType: 'NETWORK'
+  fees: Array<NabuMoneyFloatType>
+  minAmounts: Array<NabuMoneyFloatType>
+}
 
 export type CustodialTransferResponseType = {
   amount: string

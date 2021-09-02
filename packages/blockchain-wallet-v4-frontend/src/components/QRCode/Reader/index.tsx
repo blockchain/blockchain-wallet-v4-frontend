@@ -28,7 +28,7 @@ const QRReader = (props: Props) => {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    checkHasWebcam().then(res => {
+    checkHasWebcam().then((res) => {
       setHasWebcam(res)
       setIsLoading(false)
     })
@@ -53,8 +53,8 @@ const QRReader = (props: Props) => {
 }
 
 type Props = {
-  onError: () => void
-  onScan: () => void
+  onError: (s: string) => void
+  onScan: (s: string) => void
 }
 
 export default QRReader

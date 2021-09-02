@@ -4,6 +4,9 @@ import { connect, ConnectedProps } from 'react-redux'
 import { selectors } from 'data'
 import { ModalName } from 'data/types'
 
+// Do not lazy load this modal
+import NewVersionAvailable from './Settings/NewVersionAvailable'
+
 // ADDRESSES
 const DeleteAddressLabel = React.lazy(() => import('./Addresses/DeleteAddressLabel'))
 const ShowUsedAddresses = React.lazy(() => import('./Addresses/ShowUsedAddresses'))
@@ -35,6 +38,7 @@ const XlmReserveLearn = React.lazy(() => import('./Xlm/XlmReserveLearn'))
 
 // CRYPTO
 const RequestCrypto = React.lazy(() => import('./RequestCrypto'))
+const SendCrypto = React.lazy(() => import('./SendCrypto'))
 
 // GENERIC
 const Confirm = React.lazy(() => import('./Generic/Confirm'))
@@ -68,6 +72,7 @@ const MobileNumberVerify = React.lazy(() => import('./Mobile/MobileNumberVerify'
 // SETTINGS
 const AutoDisconnection = React.lazy(() => import('./Settings/AutoDisconnection'))
 const ConfirmDisable2FA = React.lazy(() => import('./Settings/ConfirmDisable2FA'))
+
 const RecoveryPhrase = React.lazy(() => import('./Settings/RecoveryPhrase'))
 const SecondPassword = React.lazy(() => import('./Settings/SecondPassword'))
 const TradingLimits = React.lazy(() => import('./Settings/TradingLimits'))
@@ -224,6 +229,9 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.REQUEST_CRYPTO_MODAL) ? (
           <RequestCrypto />
         ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.SEND_CRYPTO_MODAL) ? (
+          <SendCrypto />
+        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.RESET_ACCOUNT_FAILED) ? (
           <ResetAccountFailed />
         ) : null}
@@ -290,6 +298,8 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.SEND_XLM_RESERVE_LEARN_MODAL) ? (
           <XlmReserveLearn />
         ) : null}
+        {/* This should always be loaded */}
+        <NewVersionAvailable disableOutsideClose />
       </>
     </Suspense>
   )

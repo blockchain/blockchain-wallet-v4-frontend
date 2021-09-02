@@ -19,3 +19,4 @@ export const getAccountReset = path(['auth', 'resetAccount'])
 export const getMagicLinkData = (state: RootState): WalletDataFromMagicLink | null =>
   state.auth.magicLinkData
 export const getUserGeoData = path(['auth', 'userGeoData'])
+export const getManifest = path(['auth', 'manifestFile'])

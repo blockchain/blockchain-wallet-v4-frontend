@@ -36,6 +36,13 @@ export const logoutClearReduxStore = () => ({
   type: AT.LOGOUT_CLEAR_REDUX_STORE
 })
 export const startLogoutTimer = () => ({ type: AT.START_LOGOUT_TIMER })
+export const pingManifestFile = () => ({ type: AT.PING_MANIFEST_FILE })
+export const setManifestFile = (manifestFile: string) => ({
+  payload: {
+    manifestFile
+  },
+  type: AT.SET_MANIFEST_FILE
+})
 
 // MOBILE LOGIN
 export const mobileLogin = (data) => ({
@@ -197,4 +204,58 @@ export const getUserGeoLocation = () => ({
 export const setUserGeoLocation = (userGeoData) => ({
   payload: { userGeoData },
   type: AT.SET_USER_GEO_LOCATION
+})
+
+// ACTIONS SET UP JUST FOR EVENT TRACKING
+export const magicLinkParsed = () => ({
+  type: AT.MAGIC_LINK_PARSED
+})
+
+export const needHelpClicked = (origin) => ({
+  payload: { origin },
+  type: AT.NEED_HELP_CLICKED
+})
+
+export const loginIdEntered = (idType) => ({
+  payload: { idType },
+  type: AT.LOGIN_ID_ENTERED
+})
+
+export const loginMethodSelected = (loginMethod) => ({
+  payload: { loginMethod },
+  type: AT.LOGIN_METHOD_SELECTED
+})
+
+export const loginPasswordDenied = () => ({
+  type: AT.LOGIN_PASSWORD_DENIED
+})
+
+export const loginPasswordEntered = () => ({
+  type: AT.LOGIN_PASSWORD_ENTERED
+})
+
+export const loginTwoStepVerificationDenied = () => ({
+  type: AT.LOGIN_TWO_STEP_VERIFICATION_DENIED
+})
+export const loginTwoStepVerificationEntered = () => ({
+  type: AT.LOGIN_TWO_STEP_VERIFICATION_ENTERED
+})
+
+export const recoveryOptionSelected = (recoveryType) => ({
+  payload: { recoveryType },
+  type: AT.RECOVERY_OPTION_SELECTED
+})
+
+export const recoveryPhraseEntered = () => ({
+  type: AT.RECOVERY_PHRASE_ENTERED
+})
+
+export const resetAccountCancelled = (origin) => ({
+  payload: { origin },
+  type: AT.RESET_ACCOUNT_CANCELLED
+})
+
+export const resetAccountClicked = (origin) => ({
+  payload: { origin },
+  type: AT.RESET_ACCOUNT_CLICKED
 })

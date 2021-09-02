@@ -24,7 +24,6 @@ const validatePasswordConfirmation = validPasswordConfirmation('resetAccountPass
 
 const SecondStep = (props: Props) => {
   const { emailFromMagicLink, invalid, isRegistering, resetPassword, setStep } = props
-
   return (
     <>
       <BackArrowFormHeader

@@ -97,9 +97,16 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
         authActions.triggerWalletMagicLink(guidOrEmail, this.state.captchaToken)
         this.initCaptcha()
       }
+      const idType = isGuid(guidOrEmail) ? 'WALLET_ID' : 'EMAIL'
+      authActions.loginIdEntered(idType)
     } else {
       authActions.login(guid, password, auth, null, null)
     }
+  }
+
+  loginWithMobileClicked = () => {
+    this.props.authActions.loginMethodSelected('SECURE_CHANNEL')
+    this.setStep(LoginSteps.VERIFICATION_MOBILE)
   }
 
   render() {
@@ -198,7 +205,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
             size='16px'
             cursor='pointer'
             style={{ marginTop: '24px' }}
-            onClick={() => this.setStep(LoginSteps.VERIFICATION_MOBILE)}
+            onClick={this.loginWithMobileClicked}
           >
             <FormattedMessage
               id='scenes.login.loginwithmobile'

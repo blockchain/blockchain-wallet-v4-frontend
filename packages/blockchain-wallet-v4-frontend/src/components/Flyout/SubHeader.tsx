@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 
-const Amount = styled.div`
+const SubHeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 40px 24px;
@@ -13,9 +13,9 @@ const Amount = styled.div`
   }
 `
 
-const AmountSubHeader = (props: Props) => {
+const SubHeader = (props: Props) => {
   return (
-    <Amount data-e2e={props['data-e2e']}>
+    <SubHeaderContainer data-e2e={props['data-e2e']}>
       <div>
         <Text size='32px' weight={600} color='grey800'>
           {props.title}
@@ -26,7 +26,7 @@ const AmountSubHeader = (props: Props) => {
           {props.subTitle}
         </Text>
       </div>
-    </Amount>
+    </SubHeaderContainer>
   )
 }
 
@@ -37,7 +37,7 @@ export type Props = {
 }
 
 export default memo(
-  AmountSubHeader,
+  SubHeader,
   (prevProps, nextProps) =>
     prevProps.title === nextProps.title && prevProps.subTitle === nextProps.subTitle
 )
