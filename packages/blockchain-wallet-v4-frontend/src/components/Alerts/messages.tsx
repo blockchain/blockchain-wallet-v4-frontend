@@ -207,7 +207,7 @@ const getAlertContent = (message, data = undefined) => {
       return buildMessageTemplate(
         <FormattedMessage
           id='components.alerts.device_mismatch'
-          defaultMessage='Device mismatch.'
+          defaultMessage='Device verification failed. Please refresh and try again.'
         />
       )
     case C.EMAIL_CODE_SENT_SUCCESS:
