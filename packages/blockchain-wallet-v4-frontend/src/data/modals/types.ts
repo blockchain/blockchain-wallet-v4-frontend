@@ -1,3 +1,5 @@
+import { RecurringBuyOrigins } from 'data/components/types'
+
 import * as AT from './actionTypes'
 
 export enum ModalName {
@@ -34,6 +36,7 @@ export enum ModalName {
   MOBILE_NUMBER_CHANGE_MODAL = 'MOBILE_NUMBER_CHANGE_MODAL',
   MOBILE_NUMBER_VERIFY_MODAL = 'MOBILE_NUMBER_VERIFY_MODAL',
   NABU_USER_CONFLICT_REDIRECT = 'NABU_USER_CONFLICT_REDIRECT',
+  NEW_VERSION_AVAILABLE = 'NEW_VERSION_AVAILABLE',
   PAIRING_CODE_MODAL = 'PAIRING_CODE_MODAL',
   PROMPT_INPUT_MODAL = 'PROMPT_INPUT_MODAL',
   QR_CODE_MODAL = 'QR_CODE_MODAL',
@@ -45,6 +48,7 @@ export enum ModalName {
   SECOND_PASSWORD_MODAL = 'SECOND_PASSWORD_MODAL',
   SEND_BCH_MODAL = 'SEND_BCH_MODAL',
   SEND_BTC_MODAL = 'SEND_BTC_MODAL',
+  SEND_CRYPTO_MODAL = 'SEND_CRYPTO_MODAL',
   SEND_ETH_MODAL = 'SEND_ETH_MODAL',
   SEND_XLM_CREATE_ACCOUNT_LEARN_MODAL = 'SEND_XLM_CREATE_ACCOUNT_LEARN_MODAL',
   SEND_XLM_MODAL = 'SEND_XLM_MODAL',
@@ -128,6 +132,7 @@ export type ModalOriginType =
   | 'WelcomeModal'
   | 'WithdrawModal'
   | 'CurrencyList'
+  | RecurringBuyOrigins
 
 export type ModalParamPropsType = {
   [key: string]: any

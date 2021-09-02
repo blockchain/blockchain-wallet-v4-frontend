@@ -10,10 +10,10 @@ const sessionSlice = createSlice({
   name: 'session',
   reducers: {
     removeSession: (state, action: PayloadAction<string>) => {
-      state = dissoc(action.payload, state.sessions)
+      return dissoc(action.payload, state)
     },
     saveSession: (state, action: PayloadAction<{ [key: string]: string }>) => {
-      state = mergeRight(state, action.payload)
+      return mergeRight(state, action.payload)
     }
   }
 })

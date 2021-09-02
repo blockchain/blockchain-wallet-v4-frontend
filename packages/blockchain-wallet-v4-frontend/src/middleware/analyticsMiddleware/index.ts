@@ -7,6 +7,7 @@ import {
   FeeRate,
   Order,
   PageName,
+  RecurringBuyDetailsClickedPayload,
   SendReceive,
   WithdrawalMethod
 } from 'middleware/analyticsMiddleware/types'
@@ -26,7 +27,14 @@ import {
 
 import { actions, actionTypes as AT } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { BankDWStepType, InterestStep, ModalName, SwapBaseCounterTypes } from 'data/types'
+import {
+  BankDWStepType,
+  InterestStep,
+  ModalName,
+  RecurringBuyOrigins,
+  RecurringBuyStepType,
+  SwapBaseCounterTypes
+} from 'data/types'
 
 const analyticsMiddleware = () => (store) => (next) => (action) => {
   try {
@@ -675,7 +683,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-      case AT.components.interest.SET_COIN_DISPLAY: {
+      case actions.components.interest.setCoinDisplay.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -1626,6 +1634,38 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
+      case actions.components.recurringBuy.setStep.type: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const { inputCurrency: currency }: { inputCurrency: string } =
+          state.components.recurringBuy.active
+        const stepName = action.payload.step
+        const origin = RecurringBuyOrigins[action.payload.origin]
+        switch (stepName) {
+          case RecurringBuyStepType.DETAILS: {
+            analytics.push(AnalyticsKey.RECURRING_BUY_DETAILS_CLICKED, {
+              properties: {
+                currency,
+                origin
+              } as RecurringBuyDetailsClickedPayload,
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+            break
+          }
+          default: {
+            break
+          }
+        }
+        break
+      }
       case AT.components.withdraw.SET_STEP: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
@@ -1730,7 +1770,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case AT.components.interest.SHOW_INTEREST_MODAL: {
+      case actions.components.interest.showInterestModal.type: {
         const stepName: InterestStep = action.payload.step
 
         switch (stepName) {
@@ -1833,7 +1873,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-      case AT.components.interest.HANDLE_TRANSFER_MAX_AMOUNT_CLICK: {
+      case actions.components.interest.handleTransferMaxAmountClick.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -1868,7 +1908,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-      case AT.components.interest.HANDLE_TRANSFER_MIN_AMOUNT_CLICK: {
+      case actions.components.interest.handleTransferMinAmountClick.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -1903,7 +1943,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-      case AT.components.interest.SUBMIT_DEPOSIT_FORM: {
+      case actions.components.interest.submitDepositForm.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -1937,7 +1977,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-      case AT.components.interest.HANDLE_WITHDRAWAL_SUPPLY_INFORMATION: {
+      case actions.components.interest.handleWithdrawalSupplyInformation.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified

@@ -69,7 +69,7 @@ const GettingStarted = ({ amount, close, nextStep, outputCurrency }: Props) => {
                 size='14px'
                 weight={500}
                 target='_blank'
-                href='https://support.blockchain.com/hc/en-us/'
+                href='https://support.blockchain.com/hc/en-us/sections/4405090131860-Recurring-Buys-'
               >
                 <FormattedMessage id='buttons.learn_more_arrow' defaultMessage='Learn more ->' />
               </Link>

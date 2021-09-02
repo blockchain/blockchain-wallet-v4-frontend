@@ -234,7 +234,7 @@ const buildDevServerConfig = (
           api: envConfig.API_DOMAIN,
           bitpay: envConfig.BITPAY_URL,
           comRoot: envConfig.COM_ROOT,
-          comWalletApp: envConfig.COM_WALLET_APP,
+          comWalletApp: localhostUrl,
           everypay: envConfig.EVERYPAY_URL,
           exchange: envConfig.EXCHANGE_URL,
           horizon: envConfig.HORIZON_URL,

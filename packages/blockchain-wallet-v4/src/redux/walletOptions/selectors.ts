@@ -1,6 +1,8 @@
 import { path, prop } from 'ramda'
 
+import { Remote } from 'blockchain-wallet-v4/src'
 import { /* AccountTokensBalancesResponseType, */ RemoteDataType } from 'core/types'
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { RootState } from 'data/rootReducer'
 
 import { WalletOptionsType } from './types'
@@ -20,9 +22,13 @@ export const getAnalyticsSiteId = (state) =>
   getWebOptions(state).map(path(['application', 'analyticsSiteId']))
 export const getAnnouncements = (state) =>
   getWebOptions(state).map(path(['application', 'announcements']))
+export const getNewCoinListing = (state: RootState) =>
+  getOptions(state).map((options) => options.platforms.web.coinListing)
 
-export const getXlmSendTimeOutSeconds = (state) => 600
-export const getXlmExchangeAddresses = (state) => []
+// eslint-disable-next-line
+export const getXlmSendTimeOutSeconds = (state) => Remote.of(600)
+// eslint-disable-next-line
+export const getXlmExchangeAddresses = (state) => Remote.of([])
 
 // domains
 export const getVeriffDomain = (state) => getDomains(state).map(prop('veriff'))
@@ -55,3 +61,11 @@ export const getFeatureLegacyWalletRecovery = (state: RootState) =>
 // legacy magic email link
 export const getFeatureLegacyMagicEmailLink = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'legacyMagicEmailLink']))
+
+// signup country feature flag
+export const getFeatureSignupCountry = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'signupCountry']))
+
+// signup country feature flag
+export const getEDDInterestFileUpload = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'eddInterestFileUpload']))

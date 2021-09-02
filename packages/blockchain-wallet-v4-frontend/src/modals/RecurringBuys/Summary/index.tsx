@@ -2,13 +2,14 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import moment from 'moment'
+import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import { FiatType, SBOrderType, WithdrawalLockCheckRule } from 'blockchain-wallet-v4/src/types'
 import { FlyoutContainer, FlyoutContent, FlyoutFooter, getPeriodTitleText } from 'components/Flyout'
-import { selectors } from 'data'
+import { actions, selectors } from 'data'
 import { getCounterAmount, getCounterCurrency } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
 import { RecurringBuyPeriods } from 'data/types'
@@ -49,7 +50,7 @@ const StyledIcon = styled(Icon)`
   }
 `
 
-const Success = ({ close, order, period, withdrawLockCheck }: Props) => {
+const Success = ({ modalActions, order, period, withdrawLockCheck }: Props) => {
   const fiatAmount = fiatToString({
     unit: getCounterCurrency(order) as FiatType,
     value: getCounterAmount(order)
@@ -101,7 +102,12 @@ const Success = ({ close, order, period, withdrawLockCheck }: Props) => {
         </SuccessInfo>
       </FlyoutContent>
       <FlyoutFooter>
-        <Button data-e2e='recurringBuySuccessOk' fullwidth nature='primary' onClick={() => close()}>
+        <Button
+          data-e2e='recurringBuySuccessOk'
+          fullwidth
+          nature='primary'
+          onClick={modalActions.closeAllModals}
+        >
           <FormattedMessage id='copy.ok' defaultMessage='Ok' />
         </Button>
       </FlyoutFooter>
@@ -120,7 +126,11 @@ const mapStateToProps = (state: RootState) => ({
     .getOrElse({ lockTime: 259200 } as WithdrawalLockCheckRule) as WithdrawalLockCheckRule
 })
 
-const connector = connect(mapStateToProps)
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  modalActions: bindActionCreators(actions.modals, dispatch)
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type Props = _P & ConnectedProps<typeof connector>
 

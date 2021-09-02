@@ -124,9 +124,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     if (canceled) return
     yield put(actions.modals.closeAllModals())
     yield put(
-      actions.goals.saveGoal('paymentProtocol', {
-        coin,
-        r: pathOr({}, ['options', 'r'], bip21Payload)
+      actions.goals.saveGoal({
+        data: {
+          coin,
+          r: pathOr({}, ['options', 'r'], bip21Payload)
+        },
+        name: 'paymentProtocol'
       })
     )
     return yield put(actions.goals.runGoals())
@@ -170,17 +173,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       })
 
       switch (field) {
-        case 'coin':
-          const { coinfig } = window.coins[payload]
-          const modalName = coinfig.type.erc20Address ? 'ETH' : payload
-          yield put(actions.modals.closeAllModals())
-          yield put(
-            actions.modals.showModal(`SEND_${modalName}_MODAL` as ModalNameType, {
-              coin: payload,
-              origin: 'SendBtc'
-            })
-          )
-          break
         case 'from':
           const payloadT = payload as BtcFromType
           const fromType = payloadT.type as AddressTypesType

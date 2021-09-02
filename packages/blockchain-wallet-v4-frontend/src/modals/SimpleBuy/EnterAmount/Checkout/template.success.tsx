@@ -1,5 +1,6 @@
 import React, { ReactChild, useCallback, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Interest/DepositForm/model'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
@@ -95,26 +96,16 @@ const ActionsItem = styled.div`
   display: flex;
   flex-direction: column;
 `
-const CustomBlueCartridge = styled(BlueCartridge)`
-  border: 1px solid ${(props) => props.theme.blue000};
-  cursor: pointer;
-`
-const CustomErrorCartridge = styled(ErrorCartridge)`
-  border: 1px solid ${(props) => props.theme.red000};
-  cursor: pointer;
-`
 
-const BlueRedCartridge = ({ children, error }: { children: ReactChild; error: boolean }) => {
-  if (error)
-    return (
-      <CustomErrorCartridge role='button' data-e2e='sbEnterAmountMaxError'>
-        {children}
-      </CustomErrorCartridge>
-    )
+const Cartridge = ({ children, error }: { children: ReactChild; error: boolean }) => {
   return (
-    <CustomBlueCartridge role='button' data-e2e='sbEnterAmountMax'>
+    <GreyBlueCartridge
+      style={{ marginLeft: 0 }}
+      role='button'
+      data-e2e={error ? 'sbEnterAmountMaxError' : 'sbEnterAmountMax'}
+    >
       {children}
-    </CustomBlueCartridge>
+    </GreyBlueCartridge>
   )
 }
 
@@ -164,7 +155,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const [fontRatio, setRatio] = useState(1)
   const setOrderFrequncy = useCallback(() => {
     props.simpleBuyActions.setStep({ step: 'FREQUENCY' })
-  }, [props.simpleBuyActions])
+  }, [])
   const isSddBuy = props.isSddFlow && props.orderType === 'BUY'
 
   let method = selectedMethod || defaultMethod
@@ -391,7 +382,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               validate={[maximumAmount, minimumAmount]}
               normalize={normalizeAmount}
               // eslint-disable-next-line
-            onUpdate={resizeSymbol.bind(null, fix === 'FIAT')}
+              onUpdate={resizeSymbol.bind(null, fix === 'FIAT')}
               maxFontSize='56px'
               placeholder='0'
               // leave fiatActive always to avoid 50% width in HOC?
@@ -410,7 +401,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           <QuoteActionContainer>
             {props.isSddFlow && props.orderType === 'BUY' && amtError === 'BELOW_MIN' ? (
               <ErrorAmountContainer onClick={handleMinMaxClick}>
-                <CustomErrorCartridge role='button' data-e2e='sbEnterAmountMin'>
+                <GreyBlueCartridge role='button' data-e2e='sbEnterAmountMin'>
                   <FormattedMessage
                     id='modals.simplebuy.checkout.belowmin'
                     defaultMessage='{value} Minimum {orderType}'
@@ -419,7 +410,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                       value: getValue(min)
                     }}
                   />
-                </CustomErrorCartridge>
+                </GreyBlueCartridge>
               </ErrorAmountContainer>
             ) : (
               <QuoteRow>
@@ -447,11 +438,18 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           </QuoteActionContainer>
         </LiftedActions>
         <AnchoredActions>
-          {props.isRecurringBuy && props.formValues.period && (
-            <Scheduler onClick={setOrderFrequncy} method={method}>
-              {getPeriodTitleText(props.formValues.period)}
-            </Scheduler>
-          )}
+          {props.isRecurringBuy &&
+            props.formValues.period &&
+            !props.isSddFlow &&
+            props.orderType === OrderType.BUY && (
+              <Scheduler
+                onClick={setOrderFrequncy}
+                period={props.formValues.period}
+                method={method || props.defaultMethod}
+              >
+                {getPeriodTitleText(props.formValues.period)}
+              </Scheduler>
+            )}
 
           {(!props.isSddFlow || props.orderType === OrderType.SELL) &&
             props.pair &&
@@ -459,7 +457,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               <Amounts onClick={handleMinMaxClick}>
                 <>
                   {amtError === 'BELOW_MIN' ? (
-                    <CustomErrorCartridge role='button' data-e2e='sbEnterAmountMin'>
+                    <GreyBlueCartridge role='button' data-e2e='sbEnterAmountMin'>
                       <FormattedMessage
                         id='modals.simplebuy.checkout.belowmin'
                         defaultMessage='{value} Minimum {orderType}'
@@ -468,9 +466,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                           value: getValue(min)
                         }}
                       />
-                    </CustomErrorCartridge>
+                    </GreyBlueCartridge>
                   ) : (
-                    <BlueRedCartridge error={amtError === 'ABOVE_MAX'}>
+                    <Cartridge error={amtError === 'ABOVE_MAX'}>
                       <FormattedMessage
                         id='modals.simplebuy.checkout.maxbuysell'
                         defaultMessage='{orderType} Max'
@@ -478,7 +476,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                           orderType: orderType === OrderType.BUY ? 'Buy' : 'Sell'
                         }}
                       />
-                    </BlueRedCartridge>
+                    </Cartridge>
                   )}
                 </>
               </Amounts>
@@ -488,12 +486,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             props.pair &&
             Number(min) > Number(max) && (
               <Amounts>
-                <CustomErrorCartridge role='button' data-e2e='sbEnterAmountNotEnoughFundsForSell'>
+                <GreyBlueCartridge role='button' data-e2e='sbEnterAmountNotEnoughFundsForSell'>
                   <FormattedMessage
                     id='modals.simplebuy.checkout.not_enough_funds_for_sell'
                     defaultMessage='Not Enough funds for Sell'
                   />
-                </CustomErrorCartridge>
+                </GreyBlueCartridge>
               </Amounts>
             )}
           {props.isSddFlow && props.orderType === OrderType.BUY && (
@@ -515,12 +513,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               </ActionsItem>
               <ActionsItem>
                 <div onClick={handleMaxClick} onKeyDown={handleMaxClick} role='button' tabIndex={0}>
-                  <BlueRedCartridge error={amtError === 'ABOVE_MAX'}>
+                  <Cartridge error={amtError === 'ABOVE_MAX'}>
                     <FormattedMessage
                       id='modals.simplebuy.checkout.maxbuy'
                       defaultMessage='Max Buy'
                     />
-                  </BlueRedCartridge>
+                  </Cartridge>
                 </div>
               </ActionsItem>
             </ActionsRow>
@@ -573,12 +571,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
           {isDailyLimitExceeded && (
             <Amounts>
-              <CustomErrorCartridge role='button' data-e2e='sbEnterAmountDailyLimitExceeded'>
+              <GreyBlueCartridge role='button' data-e2e='sbEnterAmountDailyLimitExceeded'>
                 <FormattedMessage
                   id='modals.simplebuy.checkout.dailylimitexceeded'
                   defaultMessage="You've reached your daily trading limit"
                 />
-              </CustomErrorCartridge>
+              </GreyBlueCartridge>
             </Amounts>
           )}
         </AnchoredActions>

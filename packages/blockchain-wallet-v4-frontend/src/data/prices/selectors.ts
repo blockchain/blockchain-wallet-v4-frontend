@@ -4,5 +4,4 @@ import { RootState } from 'data/rootReducer'
 export const getAllCoinPrices = (state: RootState) => state.prices.current
 
 // gets all coin prices 24 hours ago
-export const getAllCoinPricesPreviousDay = (state: RootState) =>
-  state.prices.previousDay
+export const getAllCoinPricesPreviousDay = (state: RootState) => state.prices.previousDay

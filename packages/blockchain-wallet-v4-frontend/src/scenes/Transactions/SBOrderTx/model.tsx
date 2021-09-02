@@ -112,7 +112,13 @@ export const Timestamp = (props: Props) => {
       case 'FINISHED':
         return <SharedTimestamp time={props.order.insertedAt} />
       default:
-        return <Status {...props} />
+        return (
+          <>
+            <Status {...props} />
+            <br />
+            <SharedTimestamp time={props.order.updatedAt} />
+          </>
+        )
     }
   }
 

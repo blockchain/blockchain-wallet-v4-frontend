@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react'
 import { connect, ConnectedProps, useDispatch } from 'react-redux'
+import { bindActionCreators, Dispatch } from '@reduxjs/toolkit'
 
 import { SBPaymentMethodType } from 'core/types'
 import { actions, selectors } from 'data'
+import { RecurringBuyPeriods } from 'data/types'
 
 import Success from './template.success'
 
@@ -11,22 +13,38 @@ const SchedulerContainer = (props: Props) => {
   const { method } = props
 
   useEffect(() => {
-    dispatch(actions.components.recurringBuy.fetchMethods())
-  }, [dispatch, method])
+    props.recurringBuyActions.fetchPaymentInfo()
+    if (!props.isAvailableMethod) {
+      dispatch(actions.form.change('simpleBuyCheckout', 'period', RecurringBuyPeriods.ONE_TIME))
+    }
+  }, [method, props.isAvailableMethod])
 
-  if (props.availableMethods) {
-    return <Success {...props} />
-  }
-  return null
+  return <Success {...props} />
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  availableMethods: selectors.components.recurringBuy.isAvailableMethod(ownProps.method)(state)
+const mapStateToProps = (state, ownProps: OwnProps) => ({
+  availableMethods: selectors.components.recurringBuy.availableMethods(state),
+  hasAvailablePeriods: selectors.components.recurringBuy.hasAvailablePeriods(ownProps.method)(
+    state
+  ),
+  isAvailableMethod: selectors.components.recurringBuy.isAvailableMethod(
+    ownProps.period,
+    ownProps.method
+  )(state)
 })
 
-const connector = connect(mapStateToProps)
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch)
+})
 
-type OwnProps = { children: React.ReactNode; method?: SBPaymentMethodType; onClick: () => void }
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type OwnProps = {
+  children: React.ReactNode
+  method?: SBPaymentMethodType
+  onClick: () => void
+  period: RecurringBuyPeriods
+}
 export type Props = ConnectedProps<typeof connector> & OwnProps
 
 export default connector(SchedulerContainer)

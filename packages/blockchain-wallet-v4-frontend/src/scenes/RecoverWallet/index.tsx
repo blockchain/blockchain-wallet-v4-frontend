@@ -4,7 +4,6 @@ import { bindActionCreators, compose } from 'redux'
 import { formValueSelector, getFormMeta, InjectedFormProps, reduxForm } from 'redux-form'
 
 import { Form } from 'components/Form'
-import { Wrapper } from 'components/Public'
 import { RemoteDataType } from 'core/types'
 import { actions, selectors } from 'data'
 import { RecoverFormType, RecoverSteps } from 'data/types'
@@ -54,6 +53,7 @@ const mapStateToProps = (state) => ({
   cachedEmail: selectors.cache.getEmail(state),
   cachedGuid: selectors.cache.getStoredGuid(state),
   email: formValueSelector('recover')(state, 'email'),
+  emailFromMagicLink: selectors.auth.getMagicLinkData(state)?.wallet?.email as string,
   formMeta: getFormMeta('recover')(state),
   formValues: selectors.form.getFormValues('recover')(state) as RecoverFormType,
   kycReset: selectors.auth.getKycResetStatus(state),
@@ -61,7 +61,7 @@ const mapStateToProps = (state) => ({
   lastGuid: selectors.cache.getLastGuid(state),
   loginFormValues: selectors.form.getFormValues('login')(state),
   mnemonic: formValueSelector('recover')(state, 'mnemonic'),
-  nabuId: selectors.auth.getMagicLinkData(state)?.wallet?.nabu?.userId,
+  nabuId: selectors.auth.getMagicLinkData(state)?.wallet?.nabu?.user_id,
   recoverPassword: formValueSelector('recover')(state, 'recoverPassword') || '',
   registering: selectors.auth.getRegistering(state) as RemoteDataType<string, any>,
   resetPassword: formValueSelector('recover')(state, 'resetAccountPassword') || ''

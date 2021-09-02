@@ -2,9 +2,13 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import moment, { Moment } from 'moment'
 
+import { PaymentMethod } from 'core/types'
+
 import { SBPaymentTypes } from '../../../../blockchain-wallet-v4/src/network/api/simpleBuy/types'
 import { RecurringBuyPeriods } from '../../data/components/recurringBuy/types'
 import { ActionEnum } from '../../data/types'
+
+const RECURRING_BUY_PERIOD_FETCH = 'RECURRING_BUY_PERIOD_FETCH'
 
 const getPeriodTitleText = (period: RecurringBuyPeriods): React.ReactNode => {
   let text
@@ -218,11 +222,31 @@ const getPaymentMethodText = (paymentMethod: SBPaymentTypes) => {
   return text
 }
 
+const availableMethodsToolTip = (methods: SBPaymentTypes[]) => {
+  const methodsText = methods.map((method, i, methodArray) => {
+    return (
+      <>
+        {getPaymentMethodText(method)}
+        {i + 1 === methodArray.length ? '' : ', '}
+      </>
+    )
+  })
+  return (
+    <FormattedMessage
+      id='modals.recurringbuys.available_methods_tool_tip'
+      defaultMessage='Recurring Buys are only available for these methods at this time: {methods}'
+      values={{ methods: methodsText }}
+    />
+  )
+}
+
 export {
+  availableMethodsToolTip,
   getActionText,
   getPaymentMethodText,
   getPeriodForSuccess,
   getPeriodSubTitleText,
   getPeriodText,
-  getPeriodTitleText
+  getPeriodTitleText,
+  RECURRING_BUY_PERIOD_FETCH
 }

@@ -19,6 +19,7 @@ import resetWallet2fa from './resetWallet2fa/sagas'
 import send from './send/sagas'
 import sendBch from './sendBch/sagas'
 import sendBtc from './sendBtc/sagas'
+import sendCrypto from './sendCrypto/sagas'
 import sendEth from './sendEth/sagas'
 import sendXlm from './sendXlm/sagas'
 import settings from './settings/sagas'
@@ -53,6 +54,7 @@ export default ({ api, coreSagas, networks }) => ({
   send: send({ api, coreSagas, networks }),
   sendBch: sendBch({ api, coreSagas, networks }),
   sendBtc: sendBtc({ api, coreSagas, networks }),
+  sendCrypto: sendCrypto({ api }),
   sendEth: sendEth({ api, coreSagas, networks }),
   sendXlm: sendXlm({ api, coreSagas, networks }),
   settings: settings({ api, coreSagas }),

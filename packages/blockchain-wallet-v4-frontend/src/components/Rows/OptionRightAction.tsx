@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useCallback } from 'react'
+import { rgba } from 'polished'
 import styled from 'styled-components'
 
-import { Icon } from 'blockchain-info-components'
+import { Icon, Tooltip, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 
 const Row = styled.div`
   padding: 16px 40px;
@@ -11,13 +12,17 @@ const Row = styled.div`
     border-bottom: 1px solid ${(props) => props.theme.grey000};
   }
 `
-const FlexWrapper = styled(Row)`
+const FlexWrapper = styled(Row)<{ disabled?: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-top: 0;
   padding-bottom: 0;
-  cursor: pointer;
+  cursor: ${(p) => (p.disabled ? 'not-allowed' : 'pointer')};
+
+  & > div.disabledText > div {
+    color: ${(props) => rgba(props.theme.grey900, 0.5)};
+  }
 
   & > div {
     height: 5rem;
@@ -27,18 +32,40 @@ const FlexWrapper = styled(Row)`
   }
 `
 
-const OptionRightActionRow = ({ children, onClick }: Props) => {
+const OptionRightActionRow = ({ children, disabled, onClick, toolTip }: Props) => {
+  const onClickCallback = useCallback(() => {
+    if (!disabled) {
+      onClick()
+    }
+  }, [disabled, onClick])
+
+  const date = Date.now() // some randomness in case of multiple disabled rows
+  const disabledId = `disabledRow${date}`
+
   return (
-    <FlexWrapper role='button' onClick={onClick}>
-      <div>{children}</div>
-      <Icon name='chevron-right' size='25px' color='grey400' />
+    <FlexWrapper disabled={disabled} role='button' onClick={onClickCallback}>
+      <div className={disabled ? 'disabledText' : ''}>{children}</div>
+      {disabled ? (
+        <div style={{ height: 'auto' }}>
+          <Tooltip id={disabledId}>
+            <span>{toolTip}</span>
+          </Tooltip>
+          <TooltipHost id={disabledId}>
+            <TooltipIcon name='info' size='15px' />
+          </TooltipHost>
+        </div>
+      ) : (
+        <Icon name='chevron-right' size='25px' color='grey400' />
+      )}
     </FlexWrapper>
   )
 }
 
-type Props = {
-  children: React.ReactChild
+export type Props = {
+  children: React.ReactNode
+  disabled?: boolean
   onClick: () => void
+  toolTip?: React.ReactNode
 }
 
 export default OptionRightActionRow

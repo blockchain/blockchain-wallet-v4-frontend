@@ -114,18 +114,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       })
 
       switch (action.meta.field) {
-        // @ts-ignore
-        case 'coin':
-          const { coinfig } = window.coins[coin]
-          const modalName = coinfig.type.erc20Address ? ETH : payload
-          yield put(actions.modals.closeAllModals())
-          yield put(
-            actions.modals.showModal(`SEND_${modalName}_MODAL` as ModalNameType, {
-              coin: payload,
-              origin: 'SendEth'
-            })
-          )
-          break
         case 'from':
           const fromPayload = payload as SendEthFormFromActionType['payload']
           let source

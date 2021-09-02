@@ -8,8 +8,7 @@ export const calcCompoundInterest = (principal, rate, term) => {
   const principalInt = parseFloat(principal)
   if (!principalInt) return '0.00'
   const totalAmount =
-    principalInt *
-    Math.pow(1 + rate / (COMPOUNDS_PER_YEAR * PERCENTAGE_100), COMPOUNDS_PER_YEAR * term)
+    principalInt * (1 + rate / (COMPOUNDS_PER_YEAR * PERCENTAGE_100) ** (COMPOUNDS_PER_YEAR * term))
   return formatFiat(totalAmount - principalInt)
 }
 
@@ -19,7 +18,7 @@ export const calcBasicInterest = (principal: number, rate: number): number =>
 export const amountConverter = (amount, coin) => {
   return Exchange.convertCoinToCoin({
     coin,
-    value: amount || 0,
+    value: amount || 0
   })
 }
 
@@ -30,7 +29,7 @@ export const amountToFiat = (displayCoin, amount, coin, walletCurrency, rates) =
         currency: walletCurrency,
         isStandard: true,
         rates,
-        value: amount,
+        value: amount
       })
     : amount
 
@@ -42,12 +41,12 @@ export const amountToCrypto = (displayCoin, amount, coin, walletCurrency, rates)
     coin,
     currency: walletCurrency,
     rates,
-    value: amount,
+    value: amount
   })
 }
 
 export const maxFiat = (maxFiat, walletCurrency) =>
   fiatToString({
     unit: walletCurrency,
-    value: maxFiat,
+    value: maxFiat
   })

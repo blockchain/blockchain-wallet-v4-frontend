@@ -7,8 +7,8 @@ import * as fiatTransactions from './fiatTransactions/actions'
 import * as fundRecovery from './fundRecovery/actions'
 import * as identityVerification from './identityVerification/actions'
 import * as importBtcAddress from './importBtcAddress/actions'
-import * as interest from './interest/actions'
-import * as layoutWallet from './layoutWallet/actions'
+import { actions as interest } from './interest/slice'
+import { actions as layoutWallet } from './layoutWallet/slice'
 import * as lockbox from './lockbox/actions'
 import * as manageAddresses from './manageAddresses/actions'
 import * as onboarding from './onboarding/actions'
@@ -22,6 +22,7 @@ import * as resetWallet2fa from './resetWallet2fa/actions'
 import * as send from './send/actions'
 import * as sendBch from './sendBch/actions'
 import * as sendBtc from './sendBtc/actions'
+import { actions as sendCrypto } from './sendCrypto/slice'
 import * as sendEth from './sendEth/actions'
 import * as sendXlm from './sendXlm/actions'
 import * as settings from './settings/actions'
@@ -59,6 +60,7 @@ export {
   send,
   sendBch,
   sendBtc,
+  sendCrypto,
   sendEth,
   sendXlm,
   settings,

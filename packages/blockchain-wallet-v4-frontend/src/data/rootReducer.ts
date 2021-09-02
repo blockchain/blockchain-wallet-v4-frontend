@@ -2,15 +2,15 @@ import { combineReducers } from 'redux'
 
 import { coreReducers, paths } from 'blockchain-wallet-v4/src'
 
-import { alertsReducer } from './alerts/reducers'
-import { analyticsReducer } from './analytics/reducers'
+import { alertsReducer as alerts } from './alerts/slice'
+import { analyticsReducer as analytics } from './analytics/slice'
 import auth from './auth/reducers'
 import cache from './cache/reducers'
 import components from './components/reducers'
 import { custodialReducer as custodial } from './custodial/reducers'
 import form from './form/reducers'
-import goals from './goals/reducers'
-import logs from './logs/reducers'
+import { goalsReducer as goals } from './goals/slice'
+import { logsReducer as logs } from './logs/slice.js'
 import { modalsReducer } from './modals/reducers'
 import profile from './modules/profile/reducers'
 import rates from './modules/rates/reducers'
@@ -21,8 +21,8 @@ import { pricesReducer as prices } from './prices/slice'
 import { sessionReducer as session } from './session/slice'
 
 const rootReducer = {
-  alerts: alertsReducer,
-  analytics: analyticsReducer,
+  alerts,
+  analytics,
   auth,
   cache,
   components,

@@ -95,7 +95,7 @@ export const GoBackArrow = (props: { handleBackArrowClick: () => void }) => {
 
 export const BackArrowFormHeader = (props: {
   email: string
-  guid: string
+  guid?: string
   handleBackArrowClick: () => void
   step?: RecoverSteps
 }) => {

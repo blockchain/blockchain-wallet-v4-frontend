@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
+import { CoinType, OrderType } from 'blockchain-wallet-v4/src/types'
 
 import { CellHeaderText } from '.'
 
@@ -13,35 +14,26 @@ const CellWrapper = styled.div`
   padding-right: 8px;
 `
 
-export const getActionsColumn = modalActions => ({
-  Header: () => (
-    <CellHeaderText>
-      <FormattedMessage id='copy.actions' defaultMessage='Actions' />
-    </CellHeaderText>
-  ),
-  accessor: 'actions',
-  disableGlobalFilter: true,
-  disableSortBy: true,
+export const getActionsColumn = (modalActions, simpleBuyActions) => ({
   Cell: ({ row: { original: values } }) => (
     <CellWrapper>
       <Button
         data-e2e={`${values.coin}BuySellBtn`}
         height='32px'
         nature='primary'
-        onClick={() =>
-          modalActions.showModal('SIMPLE_BUY_MODAL', {
-            origin: 'Prices'
-          })
-        }
+        onClick={() => {
+          const modalProps = ['Prices']
+          if (Number(values.balance) === 0) {
+            modalProps.push(values.coin as CoinType, OrderType.BUY)
+          }
+          simpleBuyActions.showModal(...modalProps)
+        }}
         width='96px'
         style={{ marginRight: '12px' }}
       >
         <Text size='14px' color='white' weight={600}>
           {Number(values.balance) > 0 ? (
-            <FormattedMessage
-              id='buttons.buy_sell'
-              defaultMessage='Buy & Sell'
-            />
+            <FormattedMessage id='buttons.buy_sell' defaultMessage='Buy & Sell' />
           ) : (
             <FormattedMessage id='buttons.buy' defaultMessage='Buy' />
           )}
@@ -63,5 +55,13 @@ export const getActionsColumn = modalActions => ({
         </Text>
       </Button>
     </CellWrapper>
-  )
+  ),
+  Header: () => (
+    <CellHeaderText>
+      <FormattedMessage id='copy.actions' defaultMessage='Actions' />
+    </CellHeaderText>
+  ),
+  accessor: 'actions',
+  disableGlobalFilter: true,
+  disableSortBy: true
 })

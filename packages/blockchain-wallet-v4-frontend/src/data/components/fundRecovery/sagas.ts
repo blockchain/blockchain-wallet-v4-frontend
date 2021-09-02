@@ -12,7 +12,7 @@ import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import { UnspentResponseType } from 'blockchain-wallet-v4/src/network/api/btc/types'
 import { signSelection as bchSign } from 'blockchain-wallet-v4/src/signer/bch'
 import { signSelection as btcSign } from 'blockchain-wallet-v4/src/signer/btc'
-import { HDAccountList, Wallet } from 'blockchain-wallet-v4/src/types'
+import { HDAccountList, HDWallet, HDWalletList, Wallet } from 'blockchain-wallet-v4/src/types'
 import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { toCashAddr } from 'blockchain-wallet-v4/src/utils/bch'
 import { actions, selectors } from 'data'
@@ -101,7 +101,9 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.searchChainLoading(coin))
 
       const wallet = selectors.core.wallet.getWallet(yield select())
-      const accounts = Wallet.selectHDAccounts(wallet)
+      const hdwallets = Wallet.selectHdWallets(wallet)
+      const hdwallet = HDWalletList.selectHDWallet(hdwallets)
+      const accounts = HDWallet.selectAccounts(hdwallet)
       const account = HDAccountList.selectAccount(accountIndex, accounts)
 
       // TODO, maybe add incident?
@@ -133,14 +135,16 @@ export default ({ api }: { api: APIType }) => {
         }
 
         // Lookup unspents on BCH chain using BECH32 xpub
-        const {
-          unspent_outputs: receive_outputs
-        }: UnspentResponseType = yield call(api.getBchUnspents, [badXpub])
+        const { unspent_outputs: receive_outputs }: UnspentResponseType = yield call(
+          api.getBchUnspents,
+          [badXpub]
+        )
 
         // Lookup unspents on BCH chain using badChange
-        const {
-          unspent_outputs: change_outputs
-        }: UnspentResponseType = yield call(api.getBchUnspents, [badChange])
+        const { unspent_outputs: change_outputs }: UnspentResponseType = yield call(
+          api.getBchUnspents,
+          [badChange]
+        )
 
         // if no unspents from receive chain use change_outputs
         // if unspent from receive it will include change outputs

@@ -69,9 +69,7 @@ describe('kvstore eth selectors', () => {
 
   it('getLegacyAccountAddress should return success of legacy account address', () => {
     const expectedResult = Remote.Success('legacy account addr')
-    expect(selectors.getLegacyAccountAddress(successState)).toEqual(
-      expectedResult
-    )
+    expect(selectors.getLegacyAccountAddress(successState)).toEqual(expectedResult)
   })
 
   it('getAccount should return success of account', () => {
@@ -79,43 +77,31 @@ describe('kvstore eth selectors', () => {
       addr: 'second address',
       label: 'second label'
     })
-    expect(selectors.getAccount(successState, 'second address')).toEqual(
-      expectedResult
-    )
+    expect(selectors.getAccount(successState, 'second address')).toEqual(expectedResult)
   })
 
   it('getAccountLabel should return success of account label', () => {
     const expectedResult = Remote.Success('second label')
-    expect(selectors.getAccountLabel(successState, 'second address')).toEqual(
-      expectedResult
-    )
+    expect(selectors.getAccountLabel(successState, 'second address')).toEqual(expectedResult)
   })
 
   it('getAccountIndex should return success of account index', () => {
     const expectedResult = Remote.Success(1)
-    expect(selectors.getAccountIndex(successState, 'second address')).toEqual(
-      expectedResult
-    )
+    expect(selectors.getAccountIndex(successState, 'second address')).toEqual(expectedResult)
   })
 
   it('getEthTxNote should return success of correct eth tx note', () => {
     const expectedResult = Remote.Success('some someTxHash tx note')
-    expect(selectors.getEthTxNote(successState, 'someTxHash')).toEqual(
-      expectedResult
-    )
+    expect(selectors.getEthTxNote(successState, 'someTxHash')).toEqual(expectedResult)
   })
 
   it('getLatestTx should return success of latest tx', () => {
     const expectedResult = Remote.Success('this is the last tx')
-    expect(selectors.getLatestTx(successState, 'address')).toEqual(
-      expectedResult
-    )
+    expect(selectors.getLatestTx(successState, 'address')).toEqual(expectedResult)
   })
 
   it('getLatestTxTimestamp should return success of latest tx timestamp', () => {
     const expectedResult = Remote.Success('this is the last tx timestamp')
-    expect(selectors.getLatestTxTimestamp(successState, 'address')).toEqual(
-      expectedResult
-    )
+    expect(selectors.getLatestTxTimestamp(successState, 'address')).toEqual(expectedResult)
   })
 })

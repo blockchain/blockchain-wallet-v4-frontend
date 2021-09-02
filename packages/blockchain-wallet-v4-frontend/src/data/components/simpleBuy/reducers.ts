@@ -344,6 +344,11 @@ export function simpleBuyReducer(
         ...state,
         fiatCurrency: action.payload.fiatCurrency
       }
+    case AT.SET_METHOD:
+      return {
+        ...state,
+        method: action.payload
+      }
     case AT.SET_STEP:
       switch (action.payload.step) {
         case 'ENTER_AMOUNT':

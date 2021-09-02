@@ -114,7 +114,7 @@ type MessagesType = {
   'components.alerts.currency_update_success': 'Currency has been successfully updated'
   'components.alerts.deauthorize_browser_error': 'Failed to deauthorize this browser.'
   'components.alerts.deauthorize_browser_success': 'Browser was successfully deauthorized.'
-  'components.alerts.device_mismatch': 'Device mismatch.'
+  'components.alerts.devicemismatch': 'Link must be opened in original browser..'
   'components.alerts.document_upload_error': 'Failed to upload document.'
   'components.alerts.email_code_sent_success': 'Confirmation code has been sent.'
   'components.alerts.email_update_error': 'Failed to update email address.'
@@ -417,6 +417,7 @@ type MessagesType = {
   'copy.receive_to': 'Receive to'
   'copy.refund_policy': 'Refund Policy'
   'copy.reset': 'Reset'
+  'copy.retry': 'Retry'
   'copy.recurring_buy': 'Recurring Buy'
   'copy.reset_now': 'Reset Now'
   'copy.max': 'Max'
@@ -990,10 +991,11 @@ type MessagesType = {
   'modals.interest.withdrawal.progress': 'In Progress'
   'modals.interest.withdrawal.progressmsg': 'Requesting a withdrawal from your Interest Account'
   'modals.interest.withdrawal.edd_need': 'This amount requires further information. Confirm the withdrawal and follow the instructions on the next screen.'
+  'modals.interest.withdrawal.edd_need_further_information': 'We will need to further verify your identity to make this withdrawal.'
   'modals.interest.withdrawal.success': 'Waiting on your withdrawal to be confirmed by our team. It may take a few moments to show in your Interest Account History. No action is required at this time.'
-  'modals.interest.withdrawal.supply_information_description_1': "You've requested a withdrawal for an amount that requires further verification for legal and compliance reasons."
-  'modals.interest.withdrawal.supply_information_description_2': 'Your funds are safe with us. Please submit the additional information so we can start processing your withdrawal.'
-  'modals.interest.supply_information_disclaimer': 'Our Support team may contact you if further clarification is needed.'
+  'modals.interest.withdrawal.supply_information_title': 'More Info Needed'
+  'modals.interest.withdrawal.supply_information_description_1': 'Your recent withdrawal of {amount} requires further verification for legal and compliance reasons.'
+  'modals.interest.withdrawal.supply_information_description_2': 'Please submit the additional information so we can start processing your withdrawal.'
   'modals.interest.withdrawal.totalinterest': 'Total Interest Earned'
   'modals.interest.withdrawal.warning': 'In the last month you have earned {pendingInterestCrypto} in interest. Once you withdraw {withdrawalAmount} ({withdrawalAmountCrypto}), you will continue to earn interest on the remaining balance.'
   'modals.interestpromo.button': 'Start Earning Now'
@@ -1232,11 +1234,11 @@ type MessagesType = {
   'modals.recurringbuys.notification.page_2.title': 'The strategy is pretty simple'
   'modals.recurringbuys.notification.page_2.description': 'Invest the same amount every week'
 
-  'modals.recurringbuys.notification.page_3.title': 'When the price goes down,'
-  'modals.recurringbuys.notification.page_3.description': 'You’ll buy more crypto.'
+  'modals.recurringbuys.notification.page_3.title': 'When the price goes down'
+  'modals.recurringbuys.notification.page_3.description': 'You’ll buy more crypto'
 
-  'modals.recurringbuys.notification.page_4.title': 'When the price goes up,'
-  'modals.recurringbuys.notification.page_4.description': 'You’ll buy less.'
+  'modals.recurringbuys.notification.page_4.title': 'When the price goes up'
+  'modals.recurringbuys.notification.page_4.description': 'You’ll buy less'
 
   'modals.recurringbuys.notification.page_5.title': 'But does it work?'
   'modals.recurringbuys.notification.page_5.description': 'Over the past 5 years, buying Bitcoin every week performed better than timing the market'
@@ -1247,10 +1249,14 @@ type MessagesType = {
   'modals.recurringbuys.timeframe.2_weeks': 'Every 2 weeks'
   'modals.recurringbuys.timeframe.every_month': 'Every month'
 
+  'modals.recurringbuys.period_fetch_error': 'There was an error fetching recurring buy frequency options. Please try again.'
+  'modals.recurringbuys.time_options.one_time': 'One Time'
   'modals.recurringbuys.time_options.daily': 'Daily'
   'modals.recurringbuys.time_options.weekly': 'Weekly'
   'modals.recurringbuys.time_options.bi_weekly': 'Twice a Month'
   'modals.recurringbuys.time_options.monthly': 'Monthly'
+
+  'modals.recurringbuys.frequency_disabled': '{period} recurring buys are unavailable for your payment method at this time.'
 
   'modals.recurringbuys.get_started.title': 'Set Up a Recurring Buy'
   'modals.recurringbuys.get_started.description': 'Buy {amount} of {outputCurrency} every day, week or month with a Recurring Buy. No need to ever time the market.'
@@ -1260,6 +1266,8 @@ type MessagesType = {
 
   'modals.recurringbuys.get_started.get_started': 'Get Started'
   'modals.recurringbuys.get_started.maybe_later': 'Maybe Later'
+
+  'modals.recurringbuys.available_methods_tool_tip': 'Recurring Buys are only available for these methods at this time: {methods}'
 
   'modals.recurringbuys.recurring_buy_started': 'Recurring Buy Started!'
   'modals.recurringbuys.select_a_frequency': 'Select a Frequency'
@@ -1716,7 +1724,7 @@ type MessagesType = {
   'modals.swapgetstarted.later': "I'll do this later"
   'modals.swapgetstarted.trading_your_crypto': "Trading your crypto doesn't mean trading away control."
   'modals.swap.unsuported.title': 'SWAP crypto coming soon to your region.'
-  'modals.swap.unsuported.subcontent': "We don’t support swapping crypto yet for your region. We’ll let you know as soon as we do."
+  'modals.swap.unsuported.subcontent': 'We don’t support swapping crypto yet for your region. We’ll let you know as soon as we do.'
   'modals.transactions.report.download': 'Download Report'
   'modals.transactions.report.enddate': 'end date'
   'modals.transactions.report.generate': 'Generate Report'
@@ -2233,7 +2241,7 @@ type MessagesType = {
   'scenes.login.qrcodelogin_success': 'Success! Logging in...'
   'scenes.login.qrcodelogin_success_confirm': 'Please confirm the login on your mobile device.'
   'scenes.login.recovery_options.title': 'Recovery Options'
-  'scenes.login.recovery_options.cloud_backup.title': "Recover Account with Cloud Backup"
+  'scenes.login.recovery_options.cloud_backup.title': 'Recover Account with Cloud Backup'
   'scenes.login.recovery_options.cloud_backup': 'Restore your account using your phone and the cloud.'
   'scenes.login.recovery_options.phrase.title': 'Recover Account with Recovery Phrase'
   'scenes.login.recovery_options.phrase': 'Restore your account with your 12-word Secret Private key Recovery Phrase.'
@@ -2303,7 +2311,7 @@ type MessagesType = {
   'scenes.recover.import.header': 'Create Your Blockchain.com Account'
   'scenes.recover.import.subheader': 'Create your account to access your imported wallet'
   'scenes.recovery.cloud_backup.title': 'Cloud Backup Recovery'
-  'scenes.recovery.cloud_backup.subtitle': 'It seems like your wallet had at one point been backed up to the cloud.'
+  'scenes.recovery.cloud_backup.subtitle': 'If your wallet has been backed up to the cloud, scan this QR code with your Blockchain.com mobile app.'
   'scenes.recovery.cloud_backup.instructions_one': 'Scan this QR code with your Blockchain.com mobile app.' 
   'scenes.recovery.cloud_backup.instructions_two': 'Tap the QR Code Scanner icon'
   'scenes.recovery.cloud_backup.instructions_three': 'in the top right & point here.'

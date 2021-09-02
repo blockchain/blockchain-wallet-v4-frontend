@@ -38,13 +38,12 @@ class StepOne extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { cachedEmail, cachedGuid, lastGuid } = this.props
+    const { emailFromMagicLink } = this.props
     return (
       <>
         <BackArrowFormHeader
-          handleBackArrowClick={() => this.handleGoBackClick}
-          email={cachedEmail}
-          guid={cachedGuid || lastGuid}
+          handleBackArrowClick={this.handleGoBackClick}
+          email={emailFromMagicLink}
           step={RecoverSteps.RESET_ACCOUNT}
         />
         {this.state.firstResetAcccountPrompt && (

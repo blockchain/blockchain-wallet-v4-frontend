@@ -22,6 +22,7 @@ import resetWallet2fa from './resetWallet2fa/sagaRegister'
 import send from './send/sagaRegister'
 import sendBch from './sendBch/sagaRegister'
 import sendBtc from './sendBtc/sagaRegister'
+import sendCrypto from './sendCrypto/sagaRegister'
 import sendEth from './sendEth/sagaRegister'
 import sendXlm from './sendXlm/sagaRegister'
 import settings from './settings/sagaRegister'
@@ -57,6 +58,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(recurringBuy({ api }))
     yield fork(resetWallet2fa({ api }))
     yield fork(send({ api, coreSagas, networks }))
+    yield fork(sendCrypto({ api }))
     yield fork(sendBch({ api, coreSagas, networks }))
     yield fork(sendBtc({ api, coreSagas, networks }))
     yield fork(sendEth({ api, coreSagas, networks }))

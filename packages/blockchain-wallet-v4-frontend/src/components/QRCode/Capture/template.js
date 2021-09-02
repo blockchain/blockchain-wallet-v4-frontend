@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { HeartbeatLoader, Image } from 'blockchain-info-components'
+import { HeartbeatLoader, Icon } from 'blockchain-info-components'
 
 import QRReader from '../Reader'
 
@@ -18,18 +18,13 @@ const Wrapper = styled.div`
   cursor: pointer;
   box-sizing: border-box;
   border-radius: 8px;
-  border-top: ${props =>
-    props.border.indexOf('top') > -1 && `1px solid ${props.theme.grey100}`};
-  border-right: ${props =>
+  border-top: ${(props) => props.border.indexOf('top') > -1 && `1px solid ${props.theme.grey100}`};
+  border-right: ${(props) =>
     props.border.indexOf('right') > -1 && `1px solid ${props.theme.grey100}`};
-  border-bottom: ${props =>
+  border-bottom: ${(props) =>
     props.border.indexOf('bottom') > -1 && `1px solid ${props.theme.grey100}`};
-  border-left: ${props =>
+  border-left: ${(props) =>
     props.border.indexOf('left') > -1 && `1px solid ${props.theme.grey100}`};
-
-  &:hover {
-    background-color: ${props => props.theme.grey000};
-  }
 `
 const TooltipBox = styled.div`
   position: absolute;
@@ -37,8 +32,8 @@ const TooltipBox = styled.div`
   left: -180px;
   width: 230px;
   display: block;
-  background-color: ${props => props.theme.grey000};
-  border: 1px solid ${props => props.theme.grey100};
+  background-color: ${(props) => props.theme.grey000};
+  border: 1px solid ${(props) => props.theme.grey100};
   border-radius: 0px;
   padding: 5px;
   box-sizing: border-box;
@@ -58,7 +53,7 @@ const TooltipBox = styled.div`
     width: 0;
     height: 0;
     border: 10px solid transparent;
-    border-top-color: ${props => props.theme.grey100};
+    border-top-color: ${(props) => props.theme.grey100};
   }
 
   &:after {
@@ -70,23 +65,18 @@ const TooltipBox = styled.div`
     width: 0;
     height: 0;
     border: 9px solid transparent;
-    border-top-color: ${props => props.theme.grey000};
+    border-top-color: ${(props) => props.theme.grey000};
   }
 `
 
-const QRCodeCapture = props => {
+const QRCodeCapture = (props) => {
   const { border, handleError, handleScan, handleToggle, toggled } = props
 
   return (
     <Wrapper border={border} onClick={handleToggle}>
-      {!toggled && <Image name='qr-code' width='20px' height='20px' />}
+      {!toggled && <Icon name='qr-code' color='grey500' width='20px' height='20px' />}
       {toggled && (
-        <HeartbeatLoader
-          width='24px'
-          height='24px'
-          color='success'
-          onClick={handleToggle}
-        />
+        <HeartbeatLoader width='24px' height='24px' color='success' onClick={handleToggle} />
       )}
       {toggled && (
         <TooltipBox>
@@ -98,10 +88,10 @@ const QRCodeCapture = props => {
 }
 
 QRCodeCapture.propTypes = {
-  toggled: PropTypes.bool.isRequired,
-  handleToggle: PropTypes.func.isRequired,
+  handleError: PropTypes.func.isRequired,
   handleScan: PropTypes.func.isRequired,
-  handleError: PropTypes.func.isRequired
+  handleToggle: PropTypes.func.isRequired,
+  toggled: PropTypes.bool.isRequired
 }
 
 export default QRCodeCapture

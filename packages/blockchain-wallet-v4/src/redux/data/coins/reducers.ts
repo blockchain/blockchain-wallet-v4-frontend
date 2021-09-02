@@ -66,6 +66,15 @@ export const coinsReducer = (state = INITIAL_STATE, action: CoinsActionTypes): C
           ]
         }
       }
+    case AT.COINS_TRANSACTIONS_AT_BOUND: {
+      return {
+        ...state,
+        transactions_at_bound: {
+          ...state.transactions_at_bound,
+          [action.payload.coin]: action.payload.atBounds
+        }
+      }
+    }
     default: {
       return state
     }

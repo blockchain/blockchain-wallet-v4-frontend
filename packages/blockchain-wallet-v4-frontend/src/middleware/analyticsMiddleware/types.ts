@@ -1,3 +1,5 @@
+import { RecurringBuyOrigins } from 'data/types'
+
 enum AnalyticsKey {
   ADDRESS_VERIFY_MESSAGE_CLICKED = 'Address Verify Message Clicked',
   ADD_MOBILE_NUMBER_CLICKED = 'Add Mobile Number Clicked',
@@ -8,6 +10,7 @@ enum AnalyticsKey {
   BUY_PAYMENT_METHOD_SELECTED = 'Buy Payment Method Selected',
   BUY_SELL_CLICKED = 'Buy Sell Clicked',
   BUY_SELL_VIEWED = 'Buy Sell Viewed',
+  CANCEL_RECURRING_BUY_CLICKED = 'Cancel Recurring Buy Clicked',
   CHANGE_MOBILE_NUMBER_CLICKED = 'Change Mobile Number Clicked',
   CRYPTO_LINK_HANDLING_CLICKED = 'Crypto Link Handling Clicked',
   DASHBOARD_CLICKED = 'Dashboard Clicked',
@@ -35,6 +38,14 @@ enum AnalyticsKey {
   PRIVATE_KEYS_SHOWN = 'Private Keys Shown',
   RECEIVE_CURRENCY_SELECTED = 'Receive Currency Selected',
   RECEIVE_DETAILS_COPIED = 'Receive Details Copied',
+  RECURRING_BUY_ACTIVATED = 'Recurring Buy Activated',
+  RECURRING_BUY_CANCELLED = 'Recurring Buy Cancelled',
+  RECURRING_BUY_CLICKED = 'Recurring Buy Clicked',
+  RECURRING_BUY_DETAILS_CLICKED = 'Recurring Buy Details Clicked',
+  RECURRING_BUY_INFO_VIEWED = 'Recurring Buy Info Viewed',
+  RECURRING_BUY_LEARN_MORE_CLICKED = 'Recurring Buy Learn More Clicked',
+  RECURRING_BUY_SUGGESTION_SKIPPED = 'Recurring Buy Suggestion Skipped',
+  RECURRING_BUY_VIEWED = 'Recurring Buy Viewed',
   SELL_AMOUNT_ENTERED = 'Sell Amount Entered',
   SELL_AMOUNT_MAX_CLICKED = 'Sell Amount Max Clicked',
   SELL_AMOUNT_MIN_CLICKED = 'Sell Amount Min Clicked',
@@ -347,6 +358,11 @@ type ReceiveDetailsCopiedPayload = BasePayload & {
   currency: string
 }
 
+export type RecurringBuyDetailsClickedPayload = BasePayload & {
+  currency: string
+  origin: keyof typeof RecurringBuyOrigins
+}
+
 type SellAmountEnteredPayload = BasePayload & {
   from_account_type: AccountType
   input_amount: number
@@ -596,6 +612,7 @@ type AnalyticsProperties =
   | PrivateKeysShownPayload
   | ReceiveCurrencySelectedPayload
   | ReceiveDetailsCopiedPayload
+  | RecurringBuyDetailsClickedPayload
   | SellAmountEnteredPayload
   | SellAmountMaxClickedPayload
   | SellAmountMinClickedPayload

@@ -59,19 +59,16 @@ const FieldWithoutTopRadius = styled(FormItem)<{ setBorder: boolean }>`
 
 const validatePasswordConfirmation = validPasswordConfirmation('password')
 
-const scrollToId = (id) => {
-  const element = document.getElementById(id)
-  if (element) {
-    element.scrollIntoView({ behavior: 'smooth' })
-  }
-}
-
-const scrollToPassword = () => scrollToId('password')
-const scrollToSecondPassword = () => scrollToId('confirmationPassword')
-
 const SignupForm = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) => {
-  const { formValues, invalid, isFormSubmitting, onCountrySelect, onSignupSubmit, showState } =
-    props
+  const {
+    formValues,
+    invalid,
+    isFormSubmitting,
+    onCountrySelect,
+    onSignupSubmit,
+    showState,
+    signupCountryEnabled
+  } = props
   const { password = '' } = formValues || {}
   const passwordScore = window.zxcvbn ? window.zxcvbn(password).score : 0
 
@@ -114,7 +111,6 @@ const SignupForm = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) =
             data-e2e='signupPassword'
             disabled={!isSupportedBrowser}
             name='password'
-            onFocus={scrollToPassword}
             passwordScore={passwordScore}
             showPasswordScore
             validate={[required, validStrongPassword]}
@@ -159,53 +155,54 @@ const SignupForm = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) =
             data-e2e='signupConfirmPassword'
             disabled={!isSupportedBrowser}
             name='confirmationPassword'
-            onFocus={scrollToSecondPassword}
             validate={[required, validatePasswordConfirmation]}
           />
         </FormItem>
       </FormGroup>
-      <FormGroup>
-        <FieldWithoutBottomRadius setBorder={showState}>
-          <FormLabel htmlFor='country' id='country'>
-            <FormattedMessage
-              defaultMessage='Country of Residence'
-              id='scenes.register.countryofresidence'
-            />
-          </FormLabel>
-          <Field
-            data-e2e='selectCountryDropdown'
-            name='country'
-            validate={required}
-            component={SelectBoxCountry}
-            menuPlacement='auto'
-            // @ts-ignore
-            onChange={onCountrySelect}
-            label={
+      {signupCountryEnabled && (
+        <FormGroup>
+          <FieldWithoutBottomRadius setBorder={showState}>
+            <FormLabel htmlFor='country' id='country'>
               <FormattedMessage
-                id='components.selectboxcountry.label'
-                defaultMessage='Select country'
+                defaultMessage='Country of Residence'
+                id='scenes.register.countryofresidence'
               />
-            }
-          />
-        </FieldWithoutBottomRadius>
-        {showState ? (
-          <FieldWithoutTopRadius setBorder={showState}>
+            </FormLabel>
             <Field
-              name='state'
-              component={SelectBoxUSState}
-              errorBottom
-              validate={[required]}
-              normalize={(val) => val && val.code}
+              data-e2e='selectCountryDropdown'
+              name='country'
+              validate={required}
+              component={SelectBoxCountry}
+              menuPlacement='auto'
+              // @ts-ignore
+              onChange={onCountrySelect}
               label={
                 <FormattedMessage
-                  id='components.selectboxstate.label'
-                  defaultMessage='Select state'
+                  id='components.selectboxcountry.label'
+                  defaultMessage='Select country'
                 />
               }
             />
-          </FieldWithoutTopRadius>
-        ) : null}
-      </FormGroup>
+          </FieldWithoutBottomRadius>
+          {showState ? (
+            <FieldWithoutTopRadius setBorder={showState}>
+              <Field
+                name='state'
+                component={SelectBoxUSState}
+                errorBottom
+                validate={[required]}
+                normalize={(val) => val && val.code}
+                label={
+                  <FormattedMessage
+                    id='components.selectboxstate.label'
+                    defaultMessage='Select state'
+                  />
+                }
+              />
+            </FieldWithoutTopRadius>
+          ) : null}
+        </FormGroup>
+      )}
 
       <FormGroup inline>
         <FieldWrapper>
