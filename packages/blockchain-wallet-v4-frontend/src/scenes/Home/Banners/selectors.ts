@@ -16,6 +16,7 @@ export type BannerType =
   | 'continueToGold'
   | 'recurringBuys'
   | 'coinListing'
+  | 'servicePriceUnavailable'
   | null
 
 export const getNewCoinAnnouncement = (coin: string) => `${coin}-homepage`
@@ -76,9 +77,14 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
 
   const isTier3SDD = sddEligibleTier === 3
 
+  // servicePriceUnavailable
+  const isServicePriceUnavailable = selectors.core.data.coins.getIsServicePriceDown(state)
+
   let bannerToShow: BannerType = null
   if (showDocResubmitBanner && !isKycPendingOrVerified) {
     bannerToShow = 'resubmit'
+  } else if (isServicePriceUnavailable) {
+    bannerToShow = 'servicePriceUnavailable'
   } else if (isSimpleBuyOrderPending && !isTier3SDD) {
     bannerToShow = 'sbOrder'
   } else if (isKycStateNone && isUserActive && !isFirstLogin && !isTier3SDD) {

@@ -32,6 +32,15 @@ export const getRates = (coin: string, state: RootState) => {
   })
 }
 
+export const getIsServicePriceDown = (state: RootState) => {
+  return state.dataPath.coins.rates.cata({
+    Failure: () => true,
+    Loading: () => false,
+    NotAsked: () => false,
+    Success: () => false
+  })
+}
+
 export const getTransactions = (coin: string, state: RootState) => {
   return state.dataPath.coins.transactions[coin] || []
 }
