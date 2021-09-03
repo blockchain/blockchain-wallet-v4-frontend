@@ -9,6 +9,10 @@ import { InterestUploadDocumentsStepType, ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
+import AdditionalInformation from './AdditionalInformation'
+import GetStarted from './GetStarted'
+import UploadAndVerify from './UploadAndVerify'
+import Uploaded from './Uploaded'
 
 class InterestUploadDocumnets extends PureComponent<Props, State> {
   constructor(props: Props) {
@@ -29,11 +33,32 @@ class InterestUploadDocumnets extends PureComponent<Props, State> {
     }, duration)
   }
 
+  handleSubmit = () => {
+    // console.log('here we gooo')
+  }
+
   render() {
     return (
       <Flyout {...this.props} isOpen={this.state.show} onClose={this.handleClose}>
         {this.props.step === InterestUploadDocumentsStepType.INIT_PAGE && (
-          <FlyoutChild>sample pageeee</FlyoutChild>
+          <FlyoutChild>
+            <AdditionalInformation {...this.props} handleSubmit={this.handleSubmit} />
+          </FlyoutChild>
+        )}
+        {this.props.step === InterestUploadDocumentsStepType.GET_STARTED && (
+          <FlyoutChild>
+            <GetStarted {...this.props} handleSubmit={this.handleSubmit} />
+          </FlyoutChild>
+        )}
+        {this.props.step === InterestUploadDocumentsStepType.UPLOAD_AND_VERIFIED && (
+          <FlyoutChild>
+            <UploadAndVerify {...this.props} handleSubmit={this.handleSubmit} />
+          </FlyoutChild>
+        )}
+        {this.props.step === InterestUploadDocumentsStepType.UPLOADED && (
+          <FlyoutChild>
+            <Uploaded {...this.props} handleSubmit={this.handleSubmit} />
+          </FlyoutChild>
         )}
       </Flyout>
     )
@@ -45,7 +70,10 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch)
+  interestUploadDocumentActions: bindActionCreators(
+    actions.components.interestUploadDocument,
+    dispatch
+  )
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

@@ -51,6 +51,7 @@ import chartPlaceholder from './img/chart-placeholder1.png'
 import checkmarkGreen from './img/checkmark-green.svg'
 import circleEmpty from './img/circle-empty.svg'
 import closeError from './img/close-error.svg'
+import cloudCheck from './img/cloud_check.svg'
 import coinPax from './img/coin-pax.svg'
 // coin logos
 import coins from './img/coins'
@@ -119,6 +120,7 @@ import mastercardLogo from './img/mastercard-logo.svg'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
 import money from './img/money.png'
 import printer from './img/printer.svg'
+import proofOfAddress from './img/proof-of-address.svg'
 import qrCode from './img/qr-code.png'
 import recoverPadlock from './img/recover-padlock.svg'
 import recurringBuyBackground from './img/recurring-buy-background.png'
@@ -129,6 +131,7 @@ import search from './img/search.svg'
 import selectArrow from './img/select-arrow.png'
 import silverApproved from './img/silver-approved.svg'
 import smartphone from './img/smartphone.png'
+import sourceOfWealth from './img/source-of-wealth.svg'
 import starfieldBannerBg from './img/starfield-banner-bg.png'
 import swapCarousel1 from './img/swap-carousel1.png'
 import swapCarousel2 from './img/swap-carousel2.png'
@@ -207,6 +210,7 @@ const Images = {
   'checkmark-green': checkmarkGreen,
   'circle-empty': circleEmpty,
   'close-error': closeError,
+  'cloud-check': cloudCheck,
   'coin-pax': coinPax,
   coins,
   'email-error': emailError,
@@ -275,6 +279,7 @@ const Images = {
   'micro-deposits-whole': microDepositsWhole,
   money,
   printer,
+  'proof-of-address': proofOfAddress,
   'qr-code': qrCode,
   'recover-padlock': recoverPadlock,
   'recurring-buy-get-started': recurringBuyGetStarted,
@@ -284,6 +289,7 @@ const Images = {
   'select-arrow': selectArrow,
   'silver-approved': silverApproved,
   smartphone,
+  'source-of-wealth': sourceOfWealth,
   'starfield-banner-bg': starfieldBannerBg,
   'swap-carousel1': swapCarousel1,
   'swap-carousel2': swapCarousel2,

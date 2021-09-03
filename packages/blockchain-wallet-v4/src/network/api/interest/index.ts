@@ -161,7 +161,32 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
+  const storeEDDDocuments = (currency: FiatType): WithdrawLimits =>
+    authorizedPut({
+      data: {
+        currency
+      },
+      endPoint: '/savings/edd/documents',
+      url: nabuUrl
+    })
+
+  const storeEDDData = (currency: FiatType): WithdrawLimits =>
+    authorizedPut({
+      data: {
+        currency
+      },
+      endPoint: '/savings/edd/data',
+      url: nabuUrl
+    })
+
+  const getEDDDocumentsLimits = (): WithdrawLimits =>
+    authorizedPut({
+      endPoint: '/savings/edd/documents/limits',
+      url: nabuUrl
+    })
+
   return {
+    getEDDDocumentsLimits,
     getInterestAccount,
     getInterestAccountBalance,
     getInterestCtaAfterTransaction,
@@ -176,6 +201,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
     getWithdrawalMinsAndFees,
     initiateInterestWithdrawal,
     stopInterestCtaAfterTransaction,
+    storeEDDDocuments,
     transferFromCustodial
   }
 }

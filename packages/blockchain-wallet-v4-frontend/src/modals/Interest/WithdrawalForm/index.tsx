@@ -1,19 +1,8 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import BigNumber from 'bignumber.js'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import {
-  CoinType,
-  FiatType,
-  InterestAccountBalanceType,
-  InterestEDDStatus,
-  InterestLimitsType,
-  RatesType,
-  RemoteDataType,
-  WithdrawalMinimumType,
-  WithdrawLimits
-} from 'blockchain-wallet-v4/src/types'
+import { CoinType, FiatType, RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
 
@@ -61,22 +50,16 @@ const mapStateToProps = (state): LinkStatePropsType => ({
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  interestActions: bindActionCreators(actions.components.interest, dispatch)
+  interestActions: bindActionCreators(actions.components.interest, dispatch),
+  interestUploadDocumentActions: bindActionCreators(
+    actions.components.interestUploadDocument,
+    dispatch
+  )
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type SuccessStateType = {
-  accountBalances: InterestAccountBalanceType
-  availToWithdraw: BigNumber
-  coin: CoinType
-  displayCoin: boolean
-  interestEDDStatus: InterestEDDStatus
-  interestEDDWithdrawLimits: WithdrawLimits
-  interestLimits: InterestLimitsType
-  rates: RatesType
-  withdrawalMinimums: WithdrawalMinimumType
-}
+export type SuccessStateType = ReturnType<typeof getData>['data']
 
 type LinkStatePropsType = {
   data: RemoteDataType<string | Error, SuccessStateType>
@@ -91,6 +74,7 @@ export type OwnProps = {
 export type LinkDispatchPropsType = {
   formActions: typeof actions.form
   interestActions: typeof actions.components.interest
+  interestUploadDocumentActions: typeof actions.components.interestUploadDocument
 }
 
 type Props = OwnProps & ConnectedProps<typeof connector>

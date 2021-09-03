@@ -4,16 +4,8 @@ import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
 
 import { Icon } from 'blockchain-info-components'
-import {
-  NavbarNavItemButton,
-  NavbarNavItemIcon,
-  NavbarNavItemTextHeader
-} from 'components/Navbar'
-import {
-  DropdownMenu,
-  DropdownMenuArrow,
-  DropdownMenuItem
-} from 'components/Navbar/NavbarDropdown'
+import { NavbarNavItemButton, NavbarNavItemIcon, NavbarNavItemTextHeader } from 'components/Navbar'
+import { DropdownMenu, DropdownMenuArrow, DropdownMenuItem } from 'components/Navbar/NavbarDropdown'
 import { Destination } from 'layouts/Wallet/components'
 import { useOnClickOutside } from 'services/misc'
 
@@ -23,32 +15,18 @@ const TransactIcon = styled(NavbarNavItemIcon)`
   margin-right: 4px;
 `
 
-const FeaturesSmall = (
-  props: Props & { showModal: (modal: 'SEND' | 'REQUEST') => void }
-) => {
+const FeaturesSmall = (props: Props & { showModal: (modal: 'SEND' | 'REQUEST') => void }) => {
   const ref = useRef(null)
   const [isMenuOpen, toggleIsMenuOpen] = useState(false)
   useOnClickOutside(ref, () => toggleIsMenuOpen(false))
 
   return (
-    <NavbarNavItemButton
-      data-e2e='featuresSmall'
-      onClick={() => toggleIsMenuOpen(!isMenuOpen)}
-    >
-      <TransactIcon
-        persist
-        name='plus-in-circle-filled'
-        size='18px'
-        color='alwaysWhite'
-      />
+    <NavbarNavItemButton data-e2e='featuresSmall' onClick={() => toggleIsMenuOpen(!isMenuOpen)}>
+      <TransactIcon persist name='plus-in-circle-filled' size='18px' color='alwaysWhite' />
       <NavbarNavItemTextHeader persist color='alwaysWhite' weight={600}>
         <FormattedMessage id='buttons.transact' defaultMessage='Transact' />
       </NavbarNavItemTextHeader>
-      <Icon
-        name={isMenuOpen ? 'chevron-up' : 'chevron-down'}
-        size='24px'
-        color='alwaysWhite'
-      />
+      <Icon name={isMenuOpen ? 'chevron-up' : 'chevron-down'} size='24px' color='alwaysWhite' />
       {isMenuOpen && (
         <DropdownMenu ref={ref}>
           <DropdownMenuArrow />
@@ -83,10 +61,7 @@ const FeaturesSmall = (
             onClick={() => props.simpleBuyActions.showModal('SideNav')}
           >
             <Destination>
-              <FormattedMessage
-                id='buttons.buy_sell_crypto'
-                defaultMessage='Buy/Sell Crypto'
-              />
+              <FormattedMessage id='buttons.buy_sell_crypto' defaultMessage='Buy/Sell Crypto' />
             </Destination>
           </DropdownMenuItem>
           <LinkContainer to='/interest' activeClassName='active'>

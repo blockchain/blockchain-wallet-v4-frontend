@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 
-import { Button, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { convertCoinToFiat } from 'blockchain-wallet-v4/src/exchange'
 import { fiatToString, formatFiat } from 'blockchain-wallet-v4/src/exchange/utils'
@@ -31,6 +31,7 @@ import {
   CustomField,
   CustomForm,
   CustomFormLabel,
+  CustomOrangeCartridge,
   MaxAmountContainer,
   NetworkFee,
   PrincipalCcyAbsolute,
@@ -53,10 +54,12 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     availToWithdraw,
     coin,
     displayCoin,
+    flagEDDInterestFileUpload,
     formActions,
     handleDisplayToggle,
     interestActions,
     interestEDDWithdrawLimits,
+    interestUploadDocumentActions,
     invalid,
     rates,
     submitting,
@@ -287,7 +290,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
           </PrincipalCcyAbsolute>
         </AmountFieldContainer>
 
-        {showEDDWithdrawLimit && (
+        {showEDDWithdrawLimit && flagEDDInterestFileUpload && (
           <CartrigeText>
             <Text color='orange600' size='14px' weight={500}>
               <FormattedMessage
@@ -297,6 +300,31 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
             </Text>
           </CartrigeText>
         )}
+
+        {showEDDWithdrawLimit && !flagEDDInterestFileUpload && (
+          <CustomOrangeCartridge>
+            <Icon name='info' color='orange600' size='18px' style={{ marginRight: '12px' }} />
+            <CartrigeText>
+              <FormattedMessage
+                id='modals.interest.withdrawal.edd_need'
+                defaultMessage='This amount requires further information. Confirm the withdrawal and follow the instructions on the next screen.'
+              />
+            </CartrigeText>
+          </CustomOrangeCartridge>
+        )}
+
+        <Button
+          data-e2e='earnInterestSupplyMoreInformation'
+          fullwidth
+          nature='primary'
+          onClick={() => {
+            interestUploadDocumentActions.showModal({
+              origin: 'InterestUploadDocument'
+            })
+          }}
+        >
+          TODO REMOVE ME
+        </Button>
       </Top>
       <Bottom>
         <NetworkFee>

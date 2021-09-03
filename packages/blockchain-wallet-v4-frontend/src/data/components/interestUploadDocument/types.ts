@@ -1,5 +1,8 @@
 export enum InterestUploadDocumentsStepType {
-  'INIT_PAGE'
+  'INIT_PAGE',
+  'GET_STARTED',
+  'UPLOAD_AND_VERIFIED',
+  'UPLOADED'
 }
 
 export type InterestUploadDocumentsState = {
@@ -8,4 +11,10 @@ export type InterestUploadDocumentsState = {
 
 export type InterestUploadDocumentsPayload = {
   step: InterestUploadDocumentsStepType
+}
+
+export type InterestUploadDocumentFormValueTypes = {
+  jobTitle: string
+  ssn?: string
+  totalAmount: string
 }
