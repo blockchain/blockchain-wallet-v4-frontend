@@ -4,17 +4,22 @@ import styled from 'styled-components'
 
 import { Link, Text } from 'blockchain-info-components'
 
-const TermsContainer = styled.div`
+const TermsContainer = styled.div<{ isCentered?: boolean }>`
   & > * {
     display: inline-block;
   }
+  ${(props) =>
+    props.isCentered &&
+    `
+    text-align: center;
+  `};
 `
 const Terms = (props) => {
-  const { company, recovery } = props
+  const { company, isCentered = null, recovery } = props
   switch (company) {
     case 'blockchain-kyc':
       return (
-        <TermsContainer>
+        <TermsContainer isCentered={isCentered}>
           <Text size='12px' weight={400}>
             <FormattedMessage
               id='scenes.register.registerform.blockchainkyc.read'
@@ -24,7 +29,6 @@ const Terms = (props) => {
           </Text>
           <Link
             href='https://www.blockchain.com/legal/terms'
-            tabIndex='-1'
             target='_blank'
             size='12px'
             weight={500}
@@ -38,7 +42,6 @@ const Terms = (props) => {
           & &nbsp;
           <Link
             href='https://www.blockchain.com/legal/privacy'
-            tabIndex='-1'
             target='_blank'
             size='12px'
             weight={500}
@@ -52,7 +55,7 @@ const Terms = (props) => {
       )
     default:
       return (
-        <TermsContainer style={{ paddingLeft: recovery ? 0 : '4px' }}>
+        <TermsContainer style={{ paddingLeft: recovery ? 0 : '4px' }} isCentered={isCentered}>
           {recovery ? (
             <Text color='grey800' size='12px' weight={500} style={{ margin: '4px 0' }}>
               <FormattedMessage
