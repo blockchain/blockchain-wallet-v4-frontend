@@ -132,14 +132,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     )
   }
 
-  let countryCode =
+  const countryCode =
     (props.formValues && props.formValues.country && props.formValues.country.code) ||
     props.countryCode
-
-  if (props.userData?.country && props.userData.country !== countryCode) {
-    countryCode = props.userData.country
-  }
-
   const countryIsUS = countryCode === 'US'
   const countryUsesZipOrPostcode =
     countryUsesZipcode(countryCode) || countryUsesPostalCode(countryCode)

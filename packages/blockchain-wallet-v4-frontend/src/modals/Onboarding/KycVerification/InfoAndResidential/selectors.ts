@@ -32,7 +32,7 @@ export const getData = (state: RootState) => {
   const userData = compose(
     lift(formatUserData),
     selectors.modules.profile.getUserData
-  )(state).getOrElse({})
+  )(state)
 
   return lift(
     (supportedCountries: ExtractSuccess<typeof supportedCountriesR>) => ({
