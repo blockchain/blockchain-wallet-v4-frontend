@@ -29,7 +29,7 @@ const cacheSlice = createSlice({
     channelPhoneConnected: (state, action) => {
       state.channelPhonePubkey = action.payload
     },
-    channelPrivateKeyCreated: (state, action) => {
+    channelPrivKeyCreated: (state, action) => {
       state.channelPrivKey = action.payload
     },
     disconnectChannelPhone: (state) => {
@@ -47,7 +47,7 @@ const cacheSlice = createSlice({
     mobileConnectedStored: (state, action) => {
       state.mobileConnected = action.payload
     },
-    removedStoreLogin: (state, action) => {
+    removedStoredLogin: (state) => {
       state.guidStored = undefined
       state.lastEmail = undefined
       state.lastGuid = undefined
