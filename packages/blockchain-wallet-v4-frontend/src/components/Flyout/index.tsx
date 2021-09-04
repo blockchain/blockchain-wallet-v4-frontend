@@ -6,6 +6,8 @@ import styled from 'styled-components'
 import { Modal, Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
+// Brokerage specific flyout screens
+import OrderSummary from './Brokerage/OrderSummary'
 import FlyoutContainer from './Container'
 import FlyoutContent from './Content'
 import FlyoutFooter from './Footer'
@@ -26,6 +28,7 @@ export {
   FlyoutHeader,
   FlyoutSubHeader,
   FrequencyScreen,
+  OrderSummary,
   RecurringBuyDetails,
   RecurringBuyGettingStarted,
   RecurringBuyRemoveConfirm

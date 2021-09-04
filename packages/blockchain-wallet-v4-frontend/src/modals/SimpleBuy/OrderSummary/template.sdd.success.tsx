@@ -76,10 +76,7 @@ const Bottom = styled.div`
 const Success: React.FC<Props> = (props) => {
   const baseAmount = getBaseAmount(props.order)
   const baseCurrency = getBaseCurrency(props.order)
-  const days =
-    props.withdrawLockCheck && props.withdrawLockCheck.lockTime
-      ? moment.duration(props.withdrawLockCheck.lockTime, 'seconds').days()
-      : 3
+  const days = moment.duration(props.lockTime, 'seconds').days()
 
   const isTransactionPending =
     props.order.state === 'PENDING_DEPOSIT' &&
