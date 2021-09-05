@@ -1,3 +1,4 @@
+# THONG NGO 
 [![Build Status](https://travis-ci.org/blockchain/blockchain-wallet-v4-frontend.svg?branch=master)](https://travis-ci.org/blockchain/blockchain-wallet-v4-frontend)
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
 [![Known Vulnerabilities](https://snyk.io/test/github/blockchain/blockchain-wallet-v4-frontend/badge.svg?targetFile=packages%2Fblockchain-wallet-v4-frontend%2Fpackage.json)](https://snyk.io/test/github/blockchain/blockchain-wallet-v4-frontend?targetFile=packages%2Fblockchain-wallet-v4-frontend%2Fpackage.json)
@@ -5,7 +6,7 @@
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Codechecks](https://raw.githubusercontent.com/codechecks/docs/master/images/badges/badge-default.svg?sanitize=true)](https://codechecks.io)
 
-# Blockchain.com Wallet
+# Blockchain.com THONG NGO 
 Be Your Own Bank at [login.blockchain.com](https://login.blockchain.com).
 Please [contact support](https://support.blockchain.com) if you have any issues using the wallet.
 
@@ -184,4 +185,7 @@ Please review to the [Wiki](https://github.com/blockchain/blockchain-wallet-v4-f
 Security issues can be reported to us in the following venues:
 
 * Email: security@blockchain.info
-* Bug Bounty: https://hackerone.com/blockchain
+* Bug Bounty: https://hackerone.com/blockchain 
+
+## Author: THONG NGO
+   E-mail: quangthong1011@gmail.com
