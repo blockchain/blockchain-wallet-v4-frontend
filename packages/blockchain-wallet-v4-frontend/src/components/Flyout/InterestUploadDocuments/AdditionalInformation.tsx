@@ -7,6 +7,7 @@ import { Button, Text } from 'blockchain-info-components'
 import { Form, FormItem, FormLabel, TextBox } from 'components/Form'
 import { model } from 'data'
 import { InterestUploadDocumentFormValueTypes } from 'data/types'
+import { required, requiredSSN } from 'services/forms'
 
 import Container from '../Container'
 import Content from '../Content'
@@ -37,11 +38,8 @@ const AdditionalInformation: React.FC<InjectedFormProps<{}, Props> & Props> = (p
     props.close()
   }, [])
 
-  const disabled =
-    props.invalid ||
-    props.submitting ||
-    !props.formValues ||
-    (props.formValues && (!props?.formValues.jobTitle || !props?.formValues?.totalAmount))
+  const disabled = props.invalid || props.submitting || !props.formValues
+  const isCountryUS = props?.countryCode === 'US'
 
   return (
     <Container>
@@ -71,7 +69,7 @@ const AdditionalInformation: React.FC<InjectedFormProps<{}, Props> & Props> = (p
                   />
                 </Text>
               </FormLabel>
-              <Field name='jobTitle' errorBottom component={TextBox} />
+              <Field name='jobTitle' errorBottom component={TextBox} validate={[required]} />
             </FormItem>
           </ContentWrapper>
           <ContentDivider />
@@ -93,31 +91,35 @@ const AdditionalInformation: React.FC<InjectedFormProps<{}, Props> & Props> = (p
                   />
                 </Text>
               </FormLabel>
-              <Field name='totalAmount' errorBottom component={TextBox} />
+              <Field name='totalAmount' errorBottom component={TextBox} validate={[required]} />
             </FormItem>
           </ContentWrapper>
           <ContentDivider />
-          <TextContentWrapper>
-            <Text size='14px' weight={500} color='grey900' lineHeight='20px'>
-              <FormattedMessage
-                id='modals.interest.withdrawal.upload_documents.additional_info.ssn_title'
-                defaultMessage='What is your Social Security Number?'
-              />
-            </Text>
-          </TextContentWrapper>
-          <ContentWrapper>
-            <FormItem>
-              <FormLabel htmlFor='ssn'>
-                <Text weight={600} size='14px' color='grey900'>
+          {isCountryUS && (
+            <>
+              <TextContentWrapper>
+                <Text size='14px' weight={500} color='grey900' lineHeight='20px'>
                   <FormattedMessage
-                    id='modals.interest.withdrawal.upload_documents.additional_info.ssn'
-                    defaultMessage='SSN (US Only)'
+                    id='modals.interest.withdrawal.upload_documents.additional_info.ssn_title'
+                    defaultMessage='What is your Social Security Number?'
                   />
                 </Text>
-              </FormLabel>
-              <Field name='ssn' errorBottom component={TextBox} />
-            </FormItem>
-          </ContentWrapper>
+              </TextContentWrapper>
+              <ContentWrapper>
+                <FormItem>
+                  <FormLabel htmlFor='ssn'>
+                    <Text weight={600} size='14px' color='grey900'>
+                      <FormattedMessage
+                        id='modals.interest.withdrawal.upload_documents.additional_info.ssn'
+                        defaultMessage='SSN (US Only)'
+                      />
+                    </Text>
+                  </FormLabel>
+                  <Field name='ssn' errorBottom component={TextBox} validate={[requiredSSN]} />
+                </FormItem>
+              </ContentWrapper>
+            </>
+          )}
         </Content>
       </Form>
       <Footer>
@@ -140,6 +142,7 @@ const AdditionalInformation: React.FC<InjectedFormProps<{}, Props> & Props> = (p
 
 export type Props = {
   close: () => void
+  countryCode: string | null
   formValues: InterestUploadDocumentFormValueTypes
   handleSubmit: () => void
   nextStep: () => void

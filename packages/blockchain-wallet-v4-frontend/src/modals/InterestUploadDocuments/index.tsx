@@ -42,7 +42,11 @@ class InterestUploadDocumnets extends PureComponent<Props, State> {
       <Flyout {...this.props} isOpen={this.state.show} onClose={this.handleClose}>
         {this.props.step === InterestUploadDocumentsStepType.INIT_PAGE && (
           <FlyoutChild>
-            <AdditionalInformation {...this.props} handleSubmit={this.handleSubmit} />
+            <AdditionalInformation
+              {...this.props}
+              handleSubmit={this.handleSubmit}
+              countryCode={this.props.countryCode}
+            />
           </FlyoutChild>
         )}
         {this.props.step === InterestUploadDocumentsStepType.GET_STARTED && (
@@ -66,6 +70,7 @@ class InterestUploadDocumnets extends PureComponent<Props, State> {
 }
 
 const mapStateToProps = (state: RootState) => ({
+  countryCode: selectors.core.settings.getCountryCode(state).getOrElse(null),
   step: selectors.components.interestUploadDocument.getStep(state)
 })
 

@@ -12,6 +12,7 @@ const { INTEREST_UPLOAD_DOCUMENT } = model.components.interestUploadDocument
 
 const AdditionalInformationStep = ({
   close,
+  countryCode,
   formValues,
   handleSubmit,
   interestUploadDocumentActions
@@ -23,7 +24,7 @@ const AdditionalInformationStep = ({
       }),
     [InterestUploadDocumentsStepType.GET_STARTED]
   )
-  const additionalInformationProps = { close, formValues, handleSubmit, nextStep }
+  const additionalInformationProps = { close, countryCode, formValues, handleSubmit, nextStep }
 
   return <AdditionalInformation {...additionalInformationProps} />
 }
