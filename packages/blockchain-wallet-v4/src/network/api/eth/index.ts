@@ -1,4 +1,4 @@
-import { AccountTokensBalancesResponseType, EthRawTxType } from './types'
+import { AccountTokensBalancesResponseType, EthAccountSummaryType, EthRawTxType } from './types'
 
 export default ({ apiUrl, get, post }) => {
   //
@@ -65,7 +65,11 @@ export default ({ apiUrl, get, post }) => {
       url: apiUrl
     })
 
-  const getEthAccountSummaryV2 = (account, page, pageSize) =>
+  const getEthAccountSummaryV2 = (
+    account,
+    page?: number,
+    pageSize?: number
+  ): EthAccountSummaryType =>
     get({
       data: { page, size: pageSize },
       endPoint: `/v2/eth/data/account/${account}/wallet`,
@@ -108,22 +112,9 @@ export default ({ apiUrl, get, post }) => {
       url: apiUrl
     })
 
-  const getEthTransactions = (context, page = 0) =>
-    get({
-      data: { page },
-      endPoint: `/eth/account/${Array.isArray(context) ? context.join(',') : context}`,
-      url: apiUrl
-    })
-
   const getEthLatestBlock = () =>
     get({
       endPoint: '/eth/latestblock',
-      url: apiUrl
-    })
-
-  const getEthTransaction = (hash) =>
-    get({
-      endPoint: `/eth/tx/${hash}`,
       url: apiUrl
     })
 
@@ -139,9 +130,7 @@ export default ({ apiUrl, get, post }) => {
     getEthFees,
     getEthLatestBlock,
     getEthTicker,
-    getEthTransaction,
     getEthTransactionV2,
-    getEthTransactions,
     getEthTransactionsV2,
     pushEthTx
   }

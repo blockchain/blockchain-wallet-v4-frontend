@@ -1,3 +1,32 @@
+export type EthAccountSummaryType = {
+  accountTransactions: {
+    blockHash: string
+    blockNumber: string
+    firstSeen: string
+    from: string
+    gasLimit: string
+    gasPrice: string
+    gasUsed: string
+    hash: string
+    nonce: string
+    state: string
+    success: boolean
+    timestamp: string
+    to: string
+    transactionIndex: string
+    type: string
+    value: string
+  }[]
+  balance: string
+  hash: string
+  internalTransactionCount: string
+  nonce: string
+  totalFees: string
+  totalReceived: string
+  totalSent: string
+  transactionCount: string
+}
+
 type EthRawConfirmedTxType = {
   blockHash: string
   blockNumber: string
