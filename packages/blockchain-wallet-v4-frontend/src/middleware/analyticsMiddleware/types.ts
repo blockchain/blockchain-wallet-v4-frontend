@@ -1,4 +1,4 @@
-import { SBPaymentMethodType, SBPaymentTypes } from 'core/types'
+import { SBPaymentTypes } from 'core/types'
 import { RecurringBuyOrigins, RecurringBuyPeriods } from 'data/types'
 
 enum AnalyticsKey {
@@ -78,6 +78,7 @@ enum AnalyticsKey {
   SETTINGS_TAB_CLICKED = 'Settings Tab Clicked',
   SIGNED_IN = 'Signed In',
   SIGNED_OUT = 'Signed Out',
+  SIGNUP_DETAILS_ENTERED = 'Signup Details Entered',
   SWAP_ACCOUNTS_SELECTED = 'Swap Accounts Selected',
   SWAP_AMOUNT_ENTERED = 'Swap Amount Entered',
   SWAP_AMOUNT_MAX_CLICKED = 'Swap Amount Max Clicked',
@@ -359,6 +360,11 @@ type LinkBankClickedPayload = BasePayload & {
 type LoginHelpClickedPayload = BasePayload & {
   origin: LoginHelpClikedOrigin
   site_redirect: 'WALLET' | 'EXCHANGE'
+}
+
+type SignupDetailsEnteredPayload = BasePayload & {
+  country: string
+  country_state?: string
 }
 
 type LoginIdentifierEnteredPayload = BasePayload & {
@@ -729,6 +735,7 @@ type AnalyticsProperties =
   | SignedInPayload
   | SignedOutPayload
   | SignedUpPayload
+  | SignupDetailsEnteredPayload
   | SwapClickedPayload
   | SwapViewedPayload
   | SwapAccountsSelectedPayload

@@ -524,19 +524,20 @@ export default ({ api, coreSagas, networks }) => {
   const register = function* (action) {
     const { country, email, state } = action.payload
     try {
-      yield put(actions.auth.registerLoading())
-      yield put(actions.auth.setRegisterEmail(email))
+      yield put(A.registerLoading())
+      yield put(A.setRegisterEmail(email))
       yield call(coreSagas.wallet.createWalletSaga, action.payload)
       yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
+      yield put(A.signupDetailsEntered({ country, countryState: state }))
       yield call(loginRoutineSaga, {
         country,
         email,
         firstLogin: true,
         state
       })
-      yield put(actions.auth.registerSuccess())
+      yield put(A.registerSuccess())
     } catch (e) {
-      yield put(actions.auth.registerFailure())
+      yield put(A.registerFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'register', e))
       yield put(actions.alerts.displayError(C.REGISTER_ERROR))
     }

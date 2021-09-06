@@ -3294,6 +3294,24 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
+      case AT.auth.SIGNUP_DETAILS_ENTERED: {
+        const state = store.getState()
+        const { country, countryState } = action.payload
+        const guid = state.walletPath.wallet.guid ?? null
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        analytics.push(AnalyticsKey.SIGNUP_DETAILS_ENTERED, {
+          properties: {
+            country,
+            country_state: countryState,
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            nabuId
+          }
+        })
+        break
+      }
       default: {
         break
       }
