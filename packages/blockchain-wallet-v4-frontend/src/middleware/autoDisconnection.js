@@ -97,7 +97,7 @@ const resetTimer = () => {
 
 const AutoDisconnectionMiddleware = () => (store) => (next) => (action) => {
   // start the timer
-  if (action.type === actionTypes.auth.START_LOGOUT_TIMER) {
+  if (action.type === actions.auth.startLogoutTimer) {
     startTimer(store)
   }
   // reset the timer if the action is not in the blacklist

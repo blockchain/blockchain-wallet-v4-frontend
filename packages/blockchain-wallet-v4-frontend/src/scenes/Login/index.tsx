@@ -75,7 +75,10 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
   }
 
   handleSmsResend = () => {
-    this.props.authActions.resendSmsCode(this.props.guid, this.props.formValues?.email)
+    this.props.authActions.resendSmsCode({
+      email: this.props.formValues?.email,
+      guid: this.props.guid
+    })
   }
 
   continueLoginProcess = () => {
@@ -94,11 +97,14 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
         formActions.change(LOGIN_FORM_NAME, 'step', LoginSteps.VERIFICATION_MOBILE)
       } else {
         formActions.change(LOGIN_FORM_NAME, 'email', guidOrEmail)
-        authActions.triggerWalletMagicLink(guidOrEmail, this.state.captchaToken)
+        authActions.triggerWalletMagicLink({
+          captchaToken: this.state.captchaToken,
+          email: guidOrEmail
+        })
         this.initCaptcha()
       }
     } else {
-      authActions.login(guid, password, auth, null, null)
+      authActions.login({ code: auth, guid, mobileLogin: null, password, sharedKey: null })
     }
   }
 

@@ -4,7 +4,7 @@ import { coreReducers, paths } from 'blockchain-wallet-v4/src'
 
 import { alertsReducer as alerts } from './alerts/slice'
 import { analyticsReducer as analytics } from './analytics/slice'
-import auth from './auth/reducers'
+import { authReducer as auth } from './auth/slice'
 import { cacheReducer as cache } from './cache/slice'
 import components from './components/reducers'
 import { custodialReducer as custodial } from './custodial/reducers'
