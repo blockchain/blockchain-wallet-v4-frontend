@@ -259,3 +259,8 @@ export const resetAccountClicked = (origin) => ({
   payload: { origin },
   type: AT.RESET_ACCOUNT_CLICKED
 })
+
+export const signupDetailsEntered = ({ country, countryState }) => ({
+  payload: { country, countryState },
+  type: AT.SIGNUP_DETAILS_ENTERED
+})
