@@ -23,7 +23,7 @@ const APIAccess = () => {
           <FormattedMessage
             id='scenes.securitycenter.advanced.apiaccess.description.part1'
             defaultMessage='Use our API to interact with your wallet programmatically. Follow the steps'
-          />
+          />{' '}
           <Link
             margin-right='0px'
             href='https://blockchain.com/api'

@@ -24,7 +24,7 @@ const INITIAL_STATE = {
   latest_block: Remote.NotAsked,
   legacy_balance: Remote.NotAsked,
   rates: { eth: Remote.NotAsked },
-  transaction_history: {},
+  transaction_history: { eth: Remote.NotAsked },
   transactions: { eth: [] },
   transactions_at_bound: { eth: false },
   warn_low_eth_balance: false
@@ -214,7 +214,7 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_ERC20_TX_FEE_LOADING: {
       const { hash, token } = payload
       const txListLens = lensPath(['transactions', token, 0])
-      const setData = (target) => (tx) => (tx.hash === target ? { ...tx, fee: Remote.Loading } : tx)
+      const setData = (target) => (tx) => tx.hash === target ? { ...tx, fee: Remote.Loading } : tx
 
       // @ts-ignore
       return over(compose(txListLens, mapped, mapped), setData(hash), state)

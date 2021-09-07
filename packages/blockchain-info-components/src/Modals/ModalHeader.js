@@ -8,14 +8,14 @@ import { Text } from '../Text'
 const Wrapper = styled.div`
   position: relative;
   display: flex;
-  justify-content: ${props => (props.center ? 'center' : 'space-between')};
+  justify-content: ${(props) => (props.center ? 'center' : 'space-between')};
   align-items: center;
   width: 100%;
-  padding: ${props => (props.tray ? '60px 10%' : '20px 30px')};
+  padding: ${(props) => (props.tray ? '60px 10%' : '20px 30px')};
   box-sizing: border-box;
-  border-bottom: 1px solid ${props => props.theme.grey000};
-  padding-left: ${props => props.paddingHorizontal} !important;
-  padding-right: ${props => props.paddingHorizontal} !important;
+  border-bottom: 1px solid ${(props) => props.theme.grey000};
+  padding-left: ${(props) => props.paddingHorizontal} !important;
+  padding-right: ${(props) => props.paddingHorizontal} !important;
 
   & > :first-child {
     margin-right: 10px;
@@ -35,19 +35,13 @@ const HeaderIcon = styled(Icon)`
   margin-right: 10px;
 `
 
-const ModalHeader = props => {
+const ModalHeader = (props) => {
   const { children, closeButton, icon, onClose, paddingHorizontal } = props
 
   return (
-    <Wrapper
-      paddingHorizontal={paddingHorizontal}
-      closeButton={closeButton}
-      {...props}
-    >
+    <Wrapper paddingHorizontal={paddingHorizontal} closeButton={closeButton} {...props}>
       <Header>
-        {icon && (
-          <HeaderIcon name={icon} size='28px' weight={400} color='grey700' />
-        )}
+        {icon && <HeaderIcon name={icon} size='28px' weight={400} color='grey700' />}
         <Text
           size='20px'
           weight={400}
@@ -76,8 +70,8 @@ const ModalHeader = props => {
 
 ModalHeader.propTypes = {
   closeButton: PropTypes.bool,
-  onClose: PropTypes.func,
-  icon: PropTypes.string
+  icon: PropTypes.string,
+  onClose: PropTypes.func
 }
 
 ModalHeader.defaultProps = {
