@@ -1,8 +1,8 @@
-import React, { ReactNode, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled, { css } from 'styled-components'
 
-import { Icon, Link, Text } from 'blockchain-info-components'
+import { Icon, Image, Link, Text } from 'blockchain-info-components'
 
 const UploadItemConitainer = styled.div<{ isDragging: boolean }>`
   display: flex;
@@ -31,7 +31,53 @@ const MainSection = styled.div`
   flex-direction: column;
   margin-left: 22px;
   height: 36px;
+  width: 260px;
 `
+const ActionButtons = styled.div`
+  display: flex;
+  flex-direction: row;
+  > div {
+    margin: 0 8px;
+  }
+`
+
+const getProperLabel = (isOptional: boolean, isProofOfAddress: boolean, no: string) => {
+  return isProofOfAddress ? (
+    isOptional ? (
+      <FormattedMessage
+        id='modals.interest.withdrawal.upload_documents.upload_and_verify.proof_of_address_optional'
+        defaultMessage='Proof of Address {no} (Optional)'
+        values={{
+          no
+        }}
+      />
+    ) : (
+      <FormattedMessage
+        id='modals.interest.withdrawal.upload_documents.upload_and_verify.proof_of_address'
+        defaultMessage='Proof of Address {no}'
+        values={{
+          no
+        }}
+      />
+    )
+  ) : isOptional ? (
+    <FormattedMessage
+      id='modals.interest.withdrawal.upload_documents.upload_and_verify.source_of_wealth_optional'
+      defaultMessage='Source of Wealth {no} (Optional)'
+      values={{
+        no
+      }}
+    />
+  ) : (
+    <FormattedMessage
+      id='modals.interest.withdrawal.upload_documents.upload_and_verify.source_of_wealth'
+      defaultMessage='Source of Wealth {no}'
+      values={{
+        no
+      }}
+    />
+  )
+}
 
 const DragAndDrop = (props: Props) => {
   const dropRef = useRef<HTMLInputElement>(null)
@@ -128,41 +174,59 @@ const DragAndDrop = (props: Props) => {
         <MainSection>
           <div>
             <Text size='14px' weight={600} lineHeight='20px'>
-              <FormattedMessage
-                id='modals.interest.withdrawal.upload_documents.upload_and_verify.proof_of_address'
-                defaultMessage='Proof of Address {no}'
-                values={{
-                  no: props.no
-                }}
-              />
+              {getProperLabel(
+                props?.isOptional || false,
+                props.isProofOfAddress || false,
+                props.no
+              )}
             </Text>
           </div>
           <div>
-            <Text size='12px' weight={500} lineHeight='20px'>
-              <FormattedMessage
-                id='modals.interest.withdrawal.upload_documents.upload_and_verify.drag_and_drop'
-                defaultMessage='Drag and Drop or'
-              />{' '}
-              <Link size='14px' weight={500} onClick={openUploader}>
+            {props.fileUploaded ? (
+              <Text size='12px' weight={500} lineHeight='20px'>
+                {props.fileName}
+              </Text>
+            ) : (
+              <Text size='12px' weight={500} lineHeight='20px'>
                 <FormattedMessage
-                  id='modals.interest.withdrawal.upload_documents.upload_and_verify.browse'
-                  defaultMessage='browse ->'
-                />
-              </Link>
-            </Text>
+                  id='modals.interest.withdrawal.upload_documents.upload_and_verify.drag_and_drop'
+                  defaultMessage='Drag and Drop or'
+                />{' '}
+                <Link size='14px' weight={500} onClick={openUploader}>
+                  <FormattedMessage
+                    id='modals.interest.withdrawal.upload_documents.upload_and_verify.browse'
+                    defaultMessage='browse ->'
+                  />
+                </Link>
+              </Text>
+            )}
           </div>
         </MainSection>
-        {props.fileUploaded && <div>butttons</div>}
+        {props.fileUploaded && (
+          <ActionButtons>
+            <Link size='14px' weight={500} onClick={props.onFileDelete}>
+              <Image name='file-delete' />
+            </Link>
+            <Link size='14px' weight={500} onClick={props.onFileDownload}>
+              <Image name='file-download' />
+            </Link>
+          </ActionButtons>
+        )}
       </UploadItemConitainer>
     </div>
   )
 }
 
 type Props = {
-  fileUploaded: boolean
   //   children: ReactNode
+  fileName?: string
+  fileUploaded: boolean
   handleDrop: (arg0: FileList) => void
+  isOptional?: boolean
+  isProofOfAddress?: boolean
   no: string
+  onFileDelete: () => void
+  onFileDownload: () => void
 }
 
 export default DragAndDrop

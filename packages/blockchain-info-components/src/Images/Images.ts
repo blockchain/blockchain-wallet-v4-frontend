@@ -67,6 +67,8 @@ import facebookWhite from './img/facebook-white.svg'
 import failedKyc from './img/failed-kyc.png'
 import failedKyc2 from './img/failed-kyc@2x.png'
 import failedKyc3 from './img/failed-kyc@3x.png'
+import fileDelete from './img/file-delete.svg'
+import fileDownload from './img/file-download.svg'
 import fintecture from './img/fintecture.svg'
 import goldApproved from './img/gold-approved.svg'
 import goldNotice from './img/gold-notice.png'
@@ -225,6 +227,8 @@ const Images = {
   'failed-kyc': failedKyc,
   'failed-kyc2': failedKyc2,
   'failed-kyc3': failedKyc3,
+  'file-delete': fileDelete,
+  'file-download': fileDownload,
   fintecture,
   'firmware-connect': firmwareConnect,
   'firmware-connect2': firmwareConnect2,

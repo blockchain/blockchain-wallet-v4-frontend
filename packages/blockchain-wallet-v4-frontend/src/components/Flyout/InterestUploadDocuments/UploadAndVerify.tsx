@@ -33,23 +33,29 @@ const Subtitle = styled(Text)`
 export const ContentDivider = styled.div`
   height: 20px;
   border-bottom: 1px solid ${(props) => props.theme.grey000};
-  margin-bottom: 40px;
+  margin: 40px 0 0 0;
 `
 
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 40px 40px 0 40px;
-  margin-bottom: 16px;
 `
 
 const DragAndDropContainer = styled.div`
-  margin: 16px 0 40px 0;
+  margin-top: 16px;
+`
+
+const DragAndDropContainerSecond = styled(DragAndDropContainer)`
+  margin-top: 40px;
 `
 
 const UploadAndVerify: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const [proofOfAddress1, setProofOfAddress1] = useState(false)
   const [proofOfAddress2, setProofOfAddress2] = useState(false)
+  const [sourceOfWelth1, setSourceOfWelth1] = useState(false)
+  const [sourceOfWelth2, setSourceOfWelth2] = useState(false)
+
   const handleDrop = (files) => {
     // console.log('files', files)
     // console.log('files length', files.length)
@@ -60,6 +66,25 @@ const UploadAndVerify: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
     }
     setProofOfAddress1(true)
   }
+  const handleDropAlternative = (files) => {
+    // console.log('files', files)
+    // console.log('files length', files.length)
+    for (let i = 0; i < files.length; i += 1) {
+      if (!files[i].name) return
+      // fileList.push(files[i].name)
+      // console.log('files', files)
+    }
+    setProofOfAddress2(true)
+  }
+
+  const fileDownload = () => {
+    // console.log('download')
+  }
+  const fileDelete = () => {
+    // console.log('delete')
+  }
+
+  const disabled = true
   return (
     <Container>
       <Form onSubmit={props.handleSubmit}>
@@ -96,15 +121,66 @@ const UploadAndVerify: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
             </Text>
 
             <DragAndDropContainer>
-              <DragAndDrop handleDrop={handleDrop} no='1' fileUploaded={proofOfAddress1} />
+              <DragAndDrop
+                handleDrop={handleDrop}
+                no='1'
+                fileUploaded={proofOfAddress1}
+                isProofOfAddress
+                onFileDelete={() => fileDelete()}
+                onFileDownload={() => fileDownload()}
+              />
             </DragAndDropContainer>
             {proofOfAddress1 && (
-              <DragAndDropContainer>
-                <DragAndDrop handleDrop={handleDrop} no='2' fileUploaded={proofOfAddress2} />
-              </DragAndDropContainer>
+              <DragAndDropContainerSecond>
+                <DragAndDrop
+                  handleDrop={handleDropAlternative}
+                  no='2'
+                  fileUploaded={proofOfAddress2}
+                  isOptional
+                  isProofOfAddress
+                  onFileDelete={() => fileDelete()}
+                  onFileDownload={() => fileDownload()}
+                />
+              </DragAndDropContainerSecond>
             )}
           </ContentWrapper>
           <ContentDivider />
+          <ContentWrapper>
+            <Title>
+              <FormattedMessage
+                id='modals.interest.withdrawal.upload_documents.get_started.source_of_wealth.source_of_wealth'
+                defaultMessage='Source of Wealth'
+              />
+            </Title>
+            <Subtitle color='grey900' size='14px' weight={500} lineHeight='20px'>
+              <FormattedMessage
+                id='modals.interest.withdrawal.upload_documents.get_started.source_of_wealth.bank_account_stub'
+                defaultMessage='Bank Account Statement or Pay Stub/Slip.'
+              />
+            </Subtitle>
+
+            <DragAndDropContainer>
+              <DragAndDrop
+                handleDrop={handleDrop}
+                no='1'
+                fileUploaded={sourceOfWelth1}
+                onFileDelete={() => fileDelete()}
+                onFileDownload={() => fileDownload()}
+              />
+            </DragAndDropContainer>
+            {sourceOfWelth1 && (
+              <DragAndDropContainerSecond>
+                <DragAndDrop
+                  handleDrop={handleDrop}
+                  no='2'
+                  fileUploaded={sourceOfWelth2}
+                  isOptional
+                  onFileDelete={() => fileDelete()}
+                  onFileDownload={() => fileDownload()}
+                />
+              </DragAndDropContainerSecond>
+            )}
+          </ContentWrapper>
         </Content>
       </Form>
       <Footer>
@@ -116,6 +192,7 @@ const UploadAndVerify: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
           height='48px'
           style={{ marginTop: '16px' }}
           onClick={props.nextStep}
+          disabled={disabled}
         >
           <FormattedMessage id='buttons.submit' defaultMessage='Submit' />
         </Button>
