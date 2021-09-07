@@ -1834,6 +1834,7 @@
   "scenes.register.registerform.blockchain.terms": "Terms of Service",
   "scenes.register.registerform.blockchainkyc.read": "By hitting continue, I agree to Blockchain’s",
   "scenes.register.securelybuy": "Securely Buy, Sell, and Store Crypto.",
+  "scenes.register.select_a_country": "Select a Country",
   "scenes.register.simplebuy.change": "You will be able to change your amount later.",
   "scenes.register.simplebuy.signup": "Sign Up to Continue Your Crypto Purchase.",
   "scenes.register.wallet.link": "Already have a wallet?",
