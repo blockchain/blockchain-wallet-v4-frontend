@@ -37,7 +37,7 @@ const ContentWrapper = styled.div`
   border-radius: 8px;
 `
 const LeftColumn = styled.div`
-  background: ${props =>
+  background: ${(props) =>
     `linear-gradient(312.54deg, ${props.theme.purple} -25.42%, ${props.theme.black} 70.12%)`};
   border-radius: 8px 10px 10px 8px;
   display: flex;
@@ -92,8 +92,8 @@ const Circle = styled.div`
   width: 6px;
   min-width: 6px;
   display: block;
-  background-color: ${props => props.theme['grey800']};
-  border: 1px solid ${props => props.theme['grey800']};
+  background-color: ${(props) => props.theme.grey800};
+  border: 1px solid ${(props) => props.theme.grey800};
   border-radius: 6px;
   margin-top: 5px;
 `
@@ -128,16 +128,12 @@ const LinkToExchangeAccountNotAsked = ({
 }) => {
   return (
     <Modal size='large' data-e2e='infoModalLinkToExchangeAccountNotAsked'>
-      <ModalHeaderStyled onClose={close} />
+      <ModalHeaderStyled onClose={() => close()} />
       <ModalBodyStyled>
         <ContentWrapper>
           <LeftColumn>
             <div>
-              <ExchangeLogo
-                name='blockchain-logo'
-                height='24px'
-                width='240px'
-              />
+              <ExchangeLogo name='blockchain-logo' height='24px' width='240px' />
               <LeftContent color='white' size='18px' weight={400}>
                 <FormattedMessage
                   id='modals.onboarding.linktoexchangeaccount.na.subtitle-1'
@@ -171,12 +167,7 @@ const LinkToExchangeAccountNotAsked = ({
                   size='26px'
                   style={{ marginLeft: '7px' }}
                 />
-                <Text
-                  color='white'
-                  size='15px'
-                  weight={400}
-                  style={{ marginLeft: '3px' }}
-                >
+                <Text color='white' size='15px' weight={400} style={{ marginLeft: '3px' }}>
                   <FormattedMessage
                     id='modals.onboarding.linktoexchangeaccount.na.left.point3-1'
                     defaultMessage='Lightning Fast Trading'
