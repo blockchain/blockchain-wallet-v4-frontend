@@ -1,4 +1,8 @@
+import web3 from 'web3'
+
 import { AccountTokensBalancesResponseType, EthAccountSummaryType, EthRawTxType } from './types'
+
+const Web3 = new web3(web3.givenProvider)
 
 export default ({ apiUrl, get, post }) => {
   //
@@ -96,6 +100,11 @@ export default ({ apiUrl, get, post }) => {
       url: apiUrl
     })
 
+  // V3
+  const getEthAccountBalance = (account: string) => Web3.eth.getBalance(account)
+  const getEthAccountNonce = (account: string) => Web3.eth.getTransactionCount(account)
+  const getEthLatestBlock = () => Web3.eth.getBlockNumber()
+
   //
   // LEGACY ETH ENDPOINTS
   // TODO: update to v2 endpoints, deprecate these
@@ -112,18 +121,14 @@ export default ({ apiUrl, get, post }) => {
       url: apiUrl
     })
 
-  const getEthLatestBlock = () =>
-    get({
-      endPoint: '/eth/latestblock',
-      url: apiUrl
-    })
-
   return {
     checkContract,
     getAccountTokensBalances,
     getErc20AccountSummaryV2,
     getErc20Ticker,
     getErc20TransactionsV2,
+    getEthAccountBalance,
+    getEthAccountNonce,
     getEthAccountSummaryV2,
     getEthBalances,
     getEthData,

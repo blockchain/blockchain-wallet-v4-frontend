@@ -7,7 +7,6 @@ import { EthRawTxType } from 'core/network/api/eth/types'
 import {
   getDefaultAddress,
   getDefaultLabel,
-  getErc20Accounts,
   getErc20TxNote,
   getEthTxNote
 } from '../redux/kvStore/eth/selectors'

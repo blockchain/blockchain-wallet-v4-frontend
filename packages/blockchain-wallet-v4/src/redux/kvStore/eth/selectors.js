@@ -1,6 +1,5 @@
 import { compose, curry, find, findIndex, head, path, prop, propEq } from 'ramda'
 
-import Remote from '../../../remote'
 import { kvStorePath } from '../../paths'
 import { ETH } from '../config'
 

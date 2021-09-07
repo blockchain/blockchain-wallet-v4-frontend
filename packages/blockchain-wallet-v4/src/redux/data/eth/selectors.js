@@ -1,4 +1,4 @@
-import { concat, curry, head, keys, path, prop } from 'ramda'
+import { concat, curry, path, prop } from 'ramda'
 
 import Remote from '../../../remote'
 import { createDeepEqualSelector } from '../../../utils'
@@ -19,15 +19,14 @@ export const getContext = createDeepEqualSelector(
 )
 export const getAddresses = path([dataPath, 'eth', 'addresses'])
 export const getFee = path([dataPath, 'eth', 'fee'])
-export const getInfo = path([dataPath, 'eth', 'info'])
 export const getLatestBlock = path([dataPath, 'eth', 'latest_block'])
 export const getFeeRegular = (state) => getFee(state).map(prop('regular'))
 export const getFeePriority = (state) => getFee(state).map(prop('priority'))
 export const getGasLimit = (state) => getFee(state).map(prop('gasLimit'))
-export const getDefaultAddress = (state) => getAddresses(state).map((addr) => head(keys(addr)))
 export const getAddress = (state, address) => getAddresses(state).map(prop(address))
 export const getDefaultAddressBalance = (state) => {
-  const defaultAddr = getDefaultAddress(state)
+  const defaultAddr = kvStoreSelectors
+    .getDefaultAddress(state)
     .map((x) => x)
     .getOrElse('')
   return getAddress(state, defaultAddr).map(prop('balance'))

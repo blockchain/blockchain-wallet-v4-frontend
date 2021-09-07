@@ -59,7 +59,7 @@ export const getTransactionPageHeaderText = (coin) => {
 // NOT IMPLEMENTED: imported addresses/accounts
 export const getAccounts = createDeepEqualSelector(
   [
-    coreSelectors.data.eth.getDefaultAddress,
+    coreSelectors.kvStore.eth.getDefaultAddress,
     (state, { coin }) => coreSelectors.data.eth.getErc20Balance(state, coin), // non-custodial metadata
     (state, { coin }) => getTradingBalance(coin, state), // custodial accounts
     (state, ownProps) => ownProps // selector config
