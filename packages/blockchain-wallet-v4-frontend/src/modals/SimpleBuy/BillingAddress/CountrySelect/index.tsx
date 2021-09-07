@@ -4,14 +4,14 @@ import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 import { SelectBox } from 'components/Form'
-import { countries } from 'components/Form/SelectBoxCountry'
+import { countries } from 'components/Form/SelectBoxCountry/index'
 
 import { Props } from '../template.success'
 
 const SelectBoxCountry = styled(SelectBox)`
   margin-bottom: 24px;
   .bc__dropdown-indicator {
-    color: ${props => props.theme.grey600};
+    color: ${(props) => props.theme.grey600};
   }
   .bc__single-value {
     position: relative;
@@ -28,7 +28,7 @@ const DisplayContainer = styled.div<{
   align-items: center;
   box-sizing: border-box;
   justify-content: space-between;
-  padding: ${props => (props.isItem ? '0px 6px' : '16px 12px')};
+  padding: ${(props) => (props.isItem ? '0px 6px' : '16px 12px')};
 `
 const Display = styled.div`
   position: relative;
@@ -39,7 +39,7 @@ const Display = styled.div`
   font-size: 16px;
   font-weight: 500;
   margin-left: 12px;
-  color: ${props => props.theme.grey800};
+  color: ${(props) => props.theme.grey800};
   .bc__single-value {
     position: relative;
     top: 0;
@@ -56,7 +56,7 @@ const IconContainer = styled.div`
   font-size: 40px;
   overflow: hidden;
   border-radius: 16px;
-  background-color: ${props => props.theme.blue000};
+  background-color: ${(props) => props.theme.blue000};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -87,7 +87,7 @@ class CountrySelect extends React.PureComponent<Props> {
     return (
       <DisplayContainer isItem={isItem}>
         <IconContainer>
-          {countries.find(country => country.value === props.value).emoji}
+          {countries.find((country) => country.value === props.value)?.emoji || ''}
         </IconContainer>
         <Display>
           {children || props.text}
