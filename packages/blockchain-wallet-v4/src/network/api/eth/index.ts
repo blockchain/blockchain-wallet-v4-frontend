@@ -6,14 +6,24 @@ const Web3 = new web3(web3.givenProvider)
 
 export default ({ apiUrl, get, post }) => {
   //
-  // Misc
+  // Deprecate
   //
+
+  // web3.eth.getBalance
+  const getEthBalances = (context) =>
+    get({
+      endPoint: `/eth/account/${Array.isArray(context) ? context.join(',') : context}/balance`,
+      url: apiUrl
+    })
+
+  // web3.eth.getCode
   const checkContract = (address) =>
     get({
       endPoint: `/eth/account/${address}/isContract`,
       url: apiUrl
     })
 
+  // web3.eth.getGasPrice
   const getEthFees = (contractAddress) => {
     const baseUrl = '/mempool/fees/eth'
     return get({
@@ -23,13 +33,7 @@ export default ({ apiUrl, get, post }) => {
     })
   }
 
-  const getEthTicker = () =>
-    get({
-      data: { base: 'ETH' },
-      endPoint: '/ticker',
-      url: apiUrl
-    })
-
+  // web3.eth.sendTransaction
   const pushEthTx = (rawTx) =>
     post({
       contentType: 'application/json',
@@ -38,6 +42,15 @@ export default ({ apiUrl, get, post }) => {
       url: apiUrl
     })
 
+  // Removed in a future branch not yet merged to dev
+  const getEthTicker = () =>
+    get({
+      data: { base: 'ETH' },
+      endPoint: '/ticker',
+      url: apiUrl
+    })
+
+  // Removed in a future branch not yet merged to dev
   const getErc20Ticker = (token) =>
     get({
       data: { base: token },
@@ -46,7 +59,8 @@ export default ({ apiUrl, get, post }) => {
     })
 
   //
-  // V2
+  // Transactions and Erc20 Balance
+  // TODO: @sean
   //
   const getEthTransactionV2 = (hash): EthRawTxType =>
     get({
@@ -105,16 +119,6 @@ export default ({ apiUrl, get, post }) => {
   const getEthAccountNonce = (account: string) => Web3.eth.getTransactionCount(account)
   const getEthLatestBlock = () => Web3.eth.getBlockNumber()
   const getEthGasPrice = () => Web3.eth.getGasPrice()
-
-  //
-  // LEGACY ETH ENDPOINTS
-  // TODO: update to v2 endpoints, deprecate these
-  //
-  const getEthBalances = (context) =>
-    get({
-      endPoint: `/eth/account/${Array.isArray(context) ? context.join(',') : context}/balance`,
-      url: apiUrl
-    })
 
   return {
     checkContract,
