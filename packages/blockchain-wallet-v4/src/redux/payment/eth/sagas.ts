@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import EthUtil from 'ethereumjs-util'
-import { identity, indexOf, isNil, mergeRight, path, prop, toLower } from 'ramda'
+import { identity, indexOf, isNil, mergeRight, path, prop } from 'ramda'
 import { call, select } from 'redux-saga/effects'
 
 import { Exchange } from 'blockchain-wallet-v4/src/'
@@ -285,6 +285,7 @@ export default ({ api }: { api: APIType }) => {
       *init({ coin, isErc20 }) {
         // eslint-disable-next-line one-var
         let contractAddress, fees
+
         try {
           if (isErc20) {
             contractAddress = window.coins[coin].coinfig.type.erc20Address

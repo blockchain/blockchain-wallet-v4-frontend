@@ -78,10 +78,10 @@ export const convertFeeToWei = (fees) => ({
   gasLimit: prop('gasLimit', fees),
   limits: {
     max: convertGweiToWei(path(['limits', 'max'], fees)),
-    min: convertGweiToWei(path(['limits', 'min'], fees)),
+    min: convertGweiToWei(path(['limits', 'min'], fees))
   },
   priority: convertGweiToWei(prop('priority', fees)),
-  regular: convertGweiToWei(prop('regular', fees)),
+  regular: convertGweiToWei(prop('regular', fees))
 })
 
 export const sanitazeEth = (data: string) => data.replace(/.*:/, '')

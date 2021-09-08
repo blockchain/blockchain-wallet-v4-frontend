@@ -19,7 +19,6 @@ export const getContext = createDeepEqualSelector(
 )
 export const getAddresses = path([dataPath, 'eth', 'addresses'])
 export const getFee = path([dataPath, 'eth', 'fee'])
-export const getLatestBlock = path([dataPath, 'eth', 'latest_block'])
 export const getFeeRegular = (state) => getFee(state).map(prop('regular'))
 export const getFeePriority = (state) => getFee(state).map(prop('priority'))
 export const getGasLimit = (state) => getFee(state).map(prop('gasLimit'))
@@ -33,7 +32,7 @@ export const getDefaultAddressBalance = (state) => {
 }
 export const getLegacyBalance = path([dataPath, 'eth', 'legacy_balance'])
 export const getRates = path([dataPath, 'eth', 'rates', 'eth'])
-export const getHeight = (state) => getLatestBlock(state).map(path(['number']))
+export const getHeight = path([dataPath, 'eth', 'latest_block'])
 export const getNonce = (state, address) => getAddresses(state).map(path([address, 'nonce']))
 
 export const getBalance = (state) => {

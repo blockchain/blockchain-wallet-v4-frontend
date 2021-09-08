@@ -104,6 +104,7 @@ export default ({ apiUrl, get, post }) => {
   const getEthAccountBalance = (account: string) => Web3.eth.getBalance(account)
   const getEthAccountNonce = (account: string) => Web3.eth.getTransactionCount(account)
   const getEthLatestBlock = () => Web3.eth.getBlockNumber()
+  const getEthGasPrice = () => Web3.eth.getGasPrice()
 
   //
   // LEGACY ETH ENDPOINTS
@@ -112,12 +113,6 @@ export default ({ apiUrl, get, post }) => {
   const getEthBalances = (context) =>
     get({
       endPoint: `/eth/account/${Array.isArray(context) ? context.join(',') : context}/balance`,
-      url: apiUrl
-    })
-
-  const getEthData = (context) =>
-    get({
-      endPoint: `/eth/account/${Array.isArray(context) ? context.join(',') : context}`,
       url: apiUrl
     })
 
@@ -131,8 +126,8 @@ export default ({ apiUrl, get, post }) => {
     getEthAccountNonce,
     getEthAccountSummaryV2,
     getEthBalances,
-    getEthData,
     getEthFees,
+    getEthGasPrice,
     getEthLatestBlock,
     getEthTicker,
     getEthTransactionV2,

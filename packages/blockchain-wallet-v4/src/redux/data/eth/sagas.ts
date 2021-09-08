@@ -27,7 +27,7 @@ import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
 import { APIType } from 'core/network/api'
 import { EthRawTxType } from 'core/network/api/eth/types'
 import { EthProcessedTxType } from 'core/transactions/types'
-import { Erc20CoinType, FetchCustodialOrdersAndTransactionsReturnType } from 'core/types'
+import { Await, Erc20CoinType, FetchCustodialOrdersAndTransactionsReturnType } from 'core/types'
 
 import * as Exchange from '../../../exchange'
 import * as transactions from '../../../transactions'
@@ -39,8 +39,6 @@ import * as A from './actions'
 import * as AT from './actionTypes'
 import * as S from './selectors'
 import { constructDefaultErc20Data } from './utils'
-
-type Await<T> = T extends PromiseLike<infer U> ? U : T
 
 const { transformErc20Tx, transformTx } = transactions.eth
 const TX_PER_PAGE = 50
@@ -63,7 +61,9 @@ export default ({ api }: { api: APIType }) => {
         api.getEthAccountNonce,
         context
       )
-      const latestBlock = yield call(api.getEthLatestBlock)
+      const latestBlock: Await<ReturnType<typeof api.getEthLatestBlock>> = yield call(
+        api.getEthLatestBlock
+      )
 
       const ethData = {
         addresses: {
