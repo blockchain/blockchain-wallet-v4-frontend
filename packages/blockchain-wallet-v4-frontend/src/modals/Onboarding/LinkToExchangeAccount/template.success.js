@@ -2,17 +2,10 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import {
-  Button,
-  Icon,
-  Modal,
-  ModalBody,
-  ModalHeader,
-  Text
-} from 'blockchain-info-components'
+import { Button, Icon, Modal, ModalBody, ModalHeader, Text } from 'blockchain-info-components'
 
 const ModalStyled = styled(Modal)`
-  background: ${props =>
+  background: ${(props) =>
     `linear-gradient(321.54deg, ${props.theme.purple} -15.42%, ${props.theme.black} 54.12%)`};
 `
 const ModalHeaderStyled = styled(ModalHeader)`
@@ -46,7 +39,7 @@ const Status = styled.div`
 const LinkToExchangeAccountSuccess = ({ close, onAccountLinkComplete }) => {
   return (
     <ModalStyled size='xsmall' dataE2e='infoModalLinkToExchangeAccountSuccess'>
-      <ModalHeaderStyled onClose={close} />
+      <ModalHeaderStyled onClose={() => close()} />
       <ModalBody>
         <Content>
           <Icon name='checkmark-in-circle-filled' color='success' size='62px' />
@@ -64,12 +57,7 @@ const LinkToExchangeAccountSuccess = ({ close, onAccountLinkComplete }) => {
               />
             </Text>
           </Status>
-          <Button
-            nature='purple'
-            height='56px'
-            fullwidth
-            onClick={onAccountLinkComplete}
-          >
+          <Button nature='purple' height='56px' fullwidth onClick={onAccountLinkComplete}>
             <Text color='white' size='16px' weight={500}>
               <FormattedMessage id='buttons.done' defaultMessage='Done' />
             </Text>

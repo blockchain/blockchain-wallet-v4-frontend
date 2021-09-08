@@ -106,9 +106,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     if (canceled) return
     yield put(actions.modals.closeAllModals())
     yield put(
-      actions.goals.saveGoal('paymentProtocol', {
-        coin,
-        r: pathOr({}, ['options', 'r'], bip21Payload)
+      actions.goals.saveGoal({
+        data: {
+          coin,
+          r: pathOr({}, ['options', 'r'], bip21Payload)
+        },
+        name: 'paymentProtocol'
       })
     )
     return yield put(actions.goals.runGoals())

@@ -48,8 +48,11 @@ export default ({ api, coreSagas, networks }) => {
   const defineLinkAccountGoal = function* (search) {
     const params = new URLSearchParams(search)
     yield put(
-      actions.goals.saveGoal('linkAccount', {
-        linkId: params.get('link_id')
+      actions.goals.saveGoal({
+        data: {
+          linkId: params.get('link_id')
+        },
+        name: 'linkAccount'
       })
     )
     yield delay(3000)
@@ -58,10 +61,13 @@ export default ({ api, coreSagas, networks }) => {
   const defineReferralGoal = function* (search) {
     const params = new URLSearchParams(search)
     yield put(
-      actions.goals.saveGoal('referral', {
-        code: params.get('campaign_code'),
-        email: params.get('campaign_email'),
-        name: params.get('campaign')
+      actions.goals.saveGoal({
+        data: {
+          code: params.get('campaign_code'),
+          email: params.get('campaign_email'),
+          name: params.get('campaign')
+        },
+        name: 'referral'
       })
     )
     const destination = params.get('newUser') ? '/signup' : '/login'
@@ -74,15 +80,15 @@ export default ({ api, coreSagas, networks }) => {
 
     const tier = params.get('tier') || TIERS[2]
 
-    yield put(actions.goals.saveGoal('kyc', { tier }))
+    yield put(actions.goals.saveGoal({ data: { tier }, name: 'kyc' }))
   }
 
   const defineSwapGoal = function* () {
-    yield put(actions.goals.saveGoal('swap', {}))
+    yield put(actions.goals.saveGoal({ data: {}, name: 'swap' }))
   }
 
   const defineInterestGoal = function* () {
-    yield put(actions.goals.saveGoal('interest', {}))
+    yield put(actions.goals.saveGoal({ data: {}, name: 'interest' }))
   }
 
   const defineSimpleBuyGoal = function* (search) {
@@ -94,11 +100,14 @@ export default ({ api, coreSagas, networks }) => {
     const fiatCurrency = params.get('fiatCurrency')
 
     yield put(
-      actions.goals.saveGoal('simpleBuy', {
-        amount,
-        crypto,
-        email,
-        fiatCurrency
+      actions.goals.saveGoal({
+        data: {
+          amount,
+          crypto,
+          email,
+          fiatCurrency
+        },
+        name: 'simpleBuy'
       })
     )
 
@@ -123,7 +132,7 @@ export default ({ api, coreSagas, networks }) => {
         coin: isBchPayPro ? 'BCH' : 'BTC',
         r
       }
-      yield put(actions.goals.saveGoal('paymentProtocol', data))
+      yield put(actions.goals.saveGoal({ data, name: 'paymentProtocol' }))
       yield put(actions.router.push('/wallet'))
       yield put(actions.alerts.displayInfo(C.PLEASE_LOGIN))
     } else {
@@ -131,7 +140,7 @@ export default ({ api, coreSagas, networks }) => {
       const { address } = bip21Payload
       const { amount, message } = bip21Payload.options || {}
       const data = { address, amount, description: message }
-      yield put(actions.goals.saveGoal('payment', data))
+      yield put(actions.goals.saveGoal({ data, name: 'payment' }))
       yield put(actions.router.push('/wallet'))
       yield put(actions.alerts.displayInfo(C.PLEASE_LOGIN))
     }
@@ -151,7 +160,7 @@ export default ({ api, coreSagas, networks }) => {
       const decoded = JSON.parse(base64.decode(pathname + search))
       if (!prop('name', decoded) || !prop('data', decoded)) return
       const { data, name } = decoded
-      yield put(actions.goals.saveGoal(name, data))
+      yield put(actions.goals.saveGoal({ data, name }))
       yield put(actions.router.push('/wallet'))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'decodeGoal', pathname + search))
@@ -224,8 +233,12 @@ export default ({ api, coreSagas, networks }) => {
     )
     if (current === TIERS[2] && !blockstackTag) {
       yield put(
-        actions.goals.addInitialModal('airdropClaim', 'AIRDROP_CLAIM_MODAL', {
-          origin
+        actions.goals.addInitialModal({
+          data: {
+            origin
+          },
+          key: 'airdropClaim',
+          name: 'AIRDROP_CLAIM_MODAL'
         })
       )
     }
@@ -260,11 +273,15 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.goals.deleteGoal(id))
 
     yield put(
-      actions.goals.addInitialModal('simpleBuyModal', 'SIMPLE_BUY_MODAL', {
-        amount,
-        crypto,
-        fiatCurrency,
-        origin
+      actions.goals.addInitialModal({
+        data: {
+          amount,
+          crypto,
+          fiatCurrency,
+          origin
+        },
+        key: 'simpleBuyModal',
+        name: 'SIMPLE_BUY_MODAL'
       })
     )
   }
@@ -273,7 +290,11 @@ export default ({ api, coreSagas, networks }) => {
     const { data, id } = goal
     yield put(actions.goals.deleteGoal(id))
     yield put(
-      actions.goals.addInitialModal('linkAccount', 'LINK_FROM_EXCHANGE_ACCOUNT_MODAL', data)
+      actions.goals.addInitialModal({
+        data,
+        key: 'linkAccount',
+        name: 'LINK_FROM_EXCHANGE_ACCOUNT_MODAL'
+      })
     )
   }
 
@@ -338,28 +359,36 @@ export default ({ api, coreSagas, networks }) => {
 
       if (equals('BTC', coin)) {
         yield put(
-          actions.goals.addInitialModal('payment', model.components.sendBtc.MODAL, {
-            amount: {
-              coin: paymentCryptoAmount,
-              fiat: paymentFiatAmount
+          actions.goals.addInitialModal({
+            data: {
+              amount: {
+                coin: paymentCryptoAmount,
+                fiat: paymentFiatAmount
+              },
+              description: merchant,
+              origin,
+              payPro,
+              to: address
             },
-            description: merchant,
-            origin,
-            payPro,
-            to: address
+            key: 'payment',
+            name: model.components.sendBtc.MODAL
           })
         )
       } else {
         yield put(
-          actions.goals.addInitialModal('payment', model.components.sendBch.MODAL, {
-            amount: {
-              coin: paymentCryptoAmount,
-              fiat: paymentFiatAmount
+          actions.goals.addInitialModal({
+            data: {
+              amount: {
+                coin: paymentCryptoAmount,
+                fiat: paymentFiatAmount
+              },
+              description: merchant,
+              origin,
+              payPro,
+              to: address
             },
-            description: merchant,
-            origin,
-            payPro,
-            to: address
+            key: 'payment',
+            name: model.components.sendBch.MODAL
           })
         )
       }
@@ -390,11 +419,15 @@ export default ({ api, coreSagas, networks }) => {
     })
     // Goal work
     yield put(
-      actions.goals.addInitialModal('payment', model.components.sendBtc.MODAL, {
-        amount: { coin: amount, fiat },
-        description,
-        origin,
-        to: address
+      actions.goals.addInitialModal({
+        data: {
+          amount: { coin: amount, fiat },
+          description,
+          origin,
+          to: address
+        },
+        key: 'payment',
+        name: model.components.sendBtc.MODAL
       })
     )
   }
@@ -412,9 +445,13 @@ export default ({ api, coreSagas, networks }) => {
 
     if (kycNotFinished && !isRegistered) {
       return yield put(
-        actions.goals.addInitialModal('upgradeForAirdrop', 'UPGRADE_FOR_AIRDROP_MODAL', {
-          campaign: 'BLOCKSTACK',
-          origin
+        actions.goals.addInitialModal({
+          data: {
+            campaign: 'BLOCKSTACK',
+            origin
+          },
+          key: 'upgradeForAirdrop',
+          name: 'UPGRADE_FOR_AIRDROP_MODAL'
         })
       )
     }
@@ -424,7 +461,7 @@ export default ({ api, coreSagas, networks }) => {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
 
-    yield put(actions.goals.addInitialModal('swap', 'SWAP_MODAL', { origin }))
+    yield put(actions.goals.addInitialModal({ data: { origin }, key: 'swap', name: 'SWAP_MODAL' }))
   }
 
   const runSwapUpgradeGoal = function* (goal: GoalType) {
@@ -439,10 +476,14 @@ export default ({ api, coreSagas, networks }) => {
     )
     if (closeToTier1Limit)
       return yield put(
-        actions.goals.addInitialModal('swapUpgrade', 'KYC_TIER_UPGRADE_MODAL', {
-          currentTier: TIERS[1],
-          nextTier: TIERS[2],
-          origin
+        actions.goals.addInitialModal({
+          data: {
+            currentTier: TIERS[1],
+            nextTier: TIERS[2],
+            origin
+          },
+          key: 'swapUpgrade',
+          name: 'KYC_TIER_UPGRADE_MODAL'
         })
       )
   }
@@ -463,8 +504,12 @@ export default ({ api, coreSagas, networks }) => {
     const isKycPending = kycState === KYC_STATES.UNDER_REVIEW || kycState === KYC_STATES.PENDING
     if (showKycDocResubmitModal && !isKycPending) {
       yield put(
-        actions.goals.addInitialModal('kycDocResubmit', 'KYC_RESUBMIT_MODAL', {
-          origin
+        actions.goals.addInitialModal({
+          data: {
+            origin
+          },
+          key: 'kycDocResubmit',
+          name: 'KYC_RESUBMIT_MODAL'
         })
       )
     }
@@ -497,8 +542,12 @@ export default ({ api, coreSagas, networks }) => {
     const isAccountReset: boolean = yield select(selectors.auth.getAccountReset)
     if (firstLogin && !isAccountReset) {
       yield put(
-        actions.goals.addInitialModal('welcomeModal', ModalName.WELCOME_MODAL, {
-          origin
+        actions.goals.addInitialModal({
+          data: {
+            origin
+          },
+          key: 'welcomeModal',
+          name: ModalName.WELCOME_MODAL
         })
       )
     }
@@ -522,10 +571,14 @@ export default ({ api, coreSagas, networks }) => {
       const feeAmountBigInt = new BigNumber(feeAmount)
       if (legacyEthBalanceBigInt.isGreaterThan(feeAmountBigInt)) {
         yield put(
-          actions.goals.addInitialModal('transferEth', 'TRANSFER_ETH_MODAL', {
-            legacyEthAddr,
-            legacyEthBalance,
-            origin
+          actions.goals.addInitialModal({
+            data: {
+              legacyEthAddr,
+              legacyEthBalance,
+              origin
+            },
+            key: 'transferEth',
+            name: 'TRANSFER_ETH_MODAL'
           })
         )
       }
@@ -566,7 +619,11 @@ export default ({ api, coreSagas, networks }) => {
       if (afterTransaction?.show) {
         yield put(actions.components.simpleBuy.fetchSBPairs(currency, afterTransaction.currency))
         yield put(
-          actions.goals.addInitialModal('interestPromo', 'INTEREST_PROMO_MODAL', { origin })
+          actions.goals.addInitialModal({
+            data: { origin },
+            key: 'interestPromo',
+            name: 'INTEREST_PROMO_MODAL'
+          })
         )
       }
     }

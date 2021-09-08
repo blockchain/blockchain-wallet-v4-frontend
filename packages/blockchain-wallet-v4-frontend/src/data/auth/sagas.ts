@@ -13,7 +13,6 @@ import { isGuid } from 'services/forms'
 import { checkForVulnerableAddressError } from 'services/misc'
 import { askSecondPasswordEnhancer, confirm, promptForSecondPassword } from 'services/sagas'
 
-import * as A from './actions'
 import { guessCurrencyBasedOnCountry } from './helpers'
 import * as S from './selectors'
 import { LoginSteps, WalletDataFromMagicLink, WalletDataFromMagicLinkLegacy } from './types'
@@ -84,14 +83,14 @@ export default ({ api, coreSagas, networks }) => {
   const saveGoals = function* (firstLogin) {
     // only for non first login users we save goal here for first login users we do that over verify email page
     if (!firstLogin) {
-      yield put(actions.goals.saveGoal('welcomeModal', {}))
+      yield put(actions.goals.saveGoal({ data: {}, name: 'welcomeModal' }))
     }
-    yield put(actions.goals.saveGoal('swapUpgrade', {}))
-    yield put(actions.goals.saveGoal('swapGetStarted', {}))
-    yield put(actions.goals.saveGoal('kycDocResubmit', {}))
-    yield put(actions.goals.saveGoal('transferEth', {}))
-    yield put(actions.goals.saveGoal('syncPit', {}))
-    yield put(actions.goals.saveGoal('interestPromo', {}))
+    yield put(actions.goals.saveGoal({ data: {}, name: 'swapUpgrade' }))
+    yield put(actions.goals.saveGoal({ data: {}, name: 'swapGetStarted' }))
+    yield put(actions.goals.saveGoal({ data: {}, name: 'kycDocResubmit' }))
+    yield put(actions.goals.saveGoal({ data: {}, name: 'transferEth' }))
+    yield put(actions.goals.saveGoal({ data: {}, name: 'syncPit' }))
+    yield put(actions.goals.saveGoal({ data: {}, name: 'interestPromo' }))
     // when airdrops are running
     // yield put(actions.goals.saveGoal('upgradeForAirdrop'))
     // yield put(actions.goals.saveGoal('airdropClaim'))
@@ -291,7 +290,7 @@ export default ({ api, coreSagas, networks }) => {
       yield call(saveGoals, firstLogin)
       yield put(actions.goals.runGoals())
       yield call(upgradeAddressLabelsSaga)
-      yield put(actions.auth.loginSuccess())
+      yield put(actions.auth.loginSuccess({}))
       yield put(actions.auth.startLogoutTimer())
       yield call(startSockets)
       const guid = yield select(selectors.core.wallet.getGuid)
@@ -359,7 +358,7 @@ export default ({ api, coreSagas, networks }) => {
       }
 
       if (!currentManifest) {
-        yield put(A.setManifestFile(nextManifest))
+        yield put(actions.auth.setManifestFile(nextManifest))
       }
     } catch (e) {
       // wallet failed to fetch
@@ -368,7 +367,7 @@ export default ({ api, coreSagas, networks }) => {
     }
 
     yield delay(10_000)
-    yield put(A.pingManifestFile())
+    yield put(actions.auth.pingManifestFile())
   }
 
   const pollingSession = function* (session, n = 50) {
@@ -441,7 +440,7 @@ export default ({ api, coreSagas, networks }) => {
             if (error && error.auth_type > 0) {
               yield put(actions.auth.setAuthType(error.auth_type))
               yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
-              yield put(actions.auth.loginFailure())
+              yield put(actions.auth.loginFailure(undefined))
             } else {
               yield put(actions.auth.loginFailure('wrong_wallet_password'))
               yield put(actions.logs.logErrorMessage(logLocation, 'login', error))
@@ -452,7 +451,7 @@ export default ({ api, coreSagas, networks }) => {
         }
       } else if (error && error.auth_type > 0) {
         // 2fa required, dispatch state change to show form
-        yield put(actions.auth.loginFailure())
+        yield put(actions.auth.loginFailure(undefined))
         yield put(actions.auth.setAuthType(error.auth_type))
         yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
         // wrong password error
@@ -496,7 +495,13 @@ export default ({ api, coreSagas, networks }) => {
         coreSagas.settings.decodePairingCode,
         action.payload
       )
-      const loginAction = actions.auth.login(guid, password, undefined, sharedKey, true)
+      const loginAction = actions.auth.login({
+        code: undefined,
+        guid,
+        mobileLogin: true,
+        password,
+        sharedKey
+      })
       yield call(login, loginAction)
       yield put(actions.auth.mobileLoginFinish())
     } catch (error) {
@@ -523,9 +528,9 @@ export default ({ api, coreSagas, networks }) => {
         firstLogin: true,
         state
       })
-      yield put(actions.auth.registerSuccess())
+      yield put(actions.auth.registerSuccess(undefined))
     } catch (e) {
-      yield put(actions.auth.registerFailure())
+      yield put(actions.auth.registerFailure(undefined))
       yield put(actions.logs.logErrorMessage(logLocation, 'register', e))
       yield put(actions.alerts.displayError(C.REGISTER_ERROR))
     }
@@ -552,18 +557,18 @@ export default ({ api, coreSagas, networks }) => {
         try {
           // call reset kyc
           yield call(api.resetUserKyc, userId, lifetimeToken, token)
-          yield put(A.setKycResetStatus(true))
+          yield put(actions.auth.setKycResetStatus(true))
           yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
         } catch (e) {
           // if it fails with user already being reset, shuold be allowed
           // to continue with flow
           if (e.status === 409) {
             yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
-            yield put(A.setKycResetStatus(true))
+            yield put(actions.auth.setKycResetStatus(true))
           } else {
             yield put(actions.alerts.displayError(C.KYC_RESET_ERROR))
             yield put(actions.auth.restoreFromMetadataFailure({ e }))
-            yield put(A.setKycResetStatus(false))
+            yield put(actions.auth.setKycResetStatus(false))
           }
         }
       } else {
@@ -592,7 +597,7 @@ export default ({ api, coreSagas, networks }) => {
         recovery: true
       })
       yield put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS))
-      yield put(actions.auth.restoreSuccess())
+      yield put(actions.auth.restoreSuccess(undefined))
     } catch (e) {
       yield put(actions.auth.restoreFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'restore', e))
@@ -674,7 +679,7 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.form.change('login', 'emailToken', walletData.email_code))
         yield put(actions.form.change('login', 'guid', walletData.guid))
         yield put(actions.form.change('login', 'email', walletData.email))
-        yield put(A.setMagicLinkInfo(loginData))
+        yield put(actions.auth.setMagicLinkInfo(loginData))
         // check if mobile detected
         if (walletData.is_mobile_setup) {
           yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
@@ -693,7 +698,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const initializeLogin = function* () {
     try {
-      yield put(A.initializeLoginLoading())
+      yield put(actions.auth.initializeLoginLoading())
       // Opens coin socket, needed for coin streams and channel key for mobile login
       yield put(actions.ws.startSocket())
       // Grab pathname to determine next step
@@ -734,10 +739,10 @@ export default ({ api, coreSagas, networks }) => {
       } else {
         yield call(parseMagicLink, params)
       }
-      yield put(A.initializeLoginSuccess())
-      yield put(A.pingManifestFile())
+      yield put(actions.auth.initializeLoginSuccess())
+      yield put(actions.auth.pingManifestFile())
     } catch (e) {
-      yield put(A.initializeLoginFailure())
+      yield put(actions.auth.initializeLoginFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'initializeLogin', e))
     }
   }
@@ -751,7 +756,7 @@ export default ({ api, coreSagas, networks }) => {
     )).getOrElse(true)
     yield put(startSubmit('login'))
     try {
-      yield put(A.triggerWalletMagicLinkLoading())
+      yield put(actions.auth.triggerWalletMagicLinkLoading())
       const sessionToken = yield call(api.obtainSessionToken)
       const { captchaToken, email } = action.payload
       yield put(actions.session.saveSession(assoc(email, sessionToken, {})))
@@ -765,9 +770,9 @@ export default ({ api, coreSagas, networks }) => {
       } else {
         yield put(actions.form.change('login', 'step', LoginSteps.CHECK_EMAIL))
       }
-      yield put(A.triggerWalletMagicLinkSuccess())
+      yield put(actions.auth.triggerWalletMagicLinkSuccess())
     } catch (e) {
-      yield put(A.triggerWalletMagicLinkFailure())
+      yield put(actions.auth.triggerWalletMagicLinkFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'triggerWalletMagicLink', e))
       yield put(actions.alerts.displayError(C.VERIFY_EMAIL_SENT_ERROR))
     } finally {
@@ -778,7 +783,7 @@ export default ({ api, coreSagas, networks }) => {
   const getUserGeoLocation = function* () {
     try {
       const userLocationData = yield call(api.getLocation)
-      yield put(A.setUserGeoLocation(userLocationData))
+      yield put(actions.auth.setUserGeoLocation(userLocationData))
     } catch (e) {
       // todo
     }
@@ -787,16 +792,16 @@ export default ({ api, coreSagas, networks }) => {
   const resetAccount = function* (action) {
     // if user is resetting their custodial account
     // create a new wallet and assign an existing custodial account to that wallet
-    yield put(A.resetAccountLoading())
+    yield put(actions.auth.resetAccountLoading())
     try {
       const { email, language, password } = action.payload
       // get recovery token and nabu ID
       const magicLinkData: WalletDataFromMagicLink = yield select(S.getMagicLinkData)
       const recoveryToken = magicLinkData.wallet?.nabu?.recovery_token
       const userId = magicLinkData.wallet?.nabu?.user_id
-      yield put(A.setResetAccount(true))
+      yield put(actions.auth.setResetAccount(true))
       // create a new wallet
-      yield call(register, actions.auth.register(email, password, language))
+      yield call(register, actions.auth.register({ email, language, password }))
       const guid = yield select(selectors.core.wallet.getGuid)
       // generate a retail token for new wallet
       const retailToken = yield call(generateRetailToken)
@@ -811,9 +816,9 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.core.kvStore.userCredentials.setUserCredentials(userId, lifetimeToken))
       // fetch user in new wallet
       yield call(setSession, userId, lifetimeToken, email, guid)
-      yield put(A.resetAccountSuccess())
+      yield put(actions.auth.resetAccountSuccess())
     } catch (e) {
-      yield put(A.resetAccountFailure())
+      yield put(actions.auth.resetAccountFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'resetAccount', e))
       yield put(actions.modals.showModal('RESET_ACCOUNT_FAILED', { origin: 'ResetAccount' }))
     }
