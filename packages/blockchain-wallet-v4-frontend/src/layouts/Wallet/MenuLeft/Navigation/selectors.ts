@@ -17,11 +17,12 @@ import { RootState } from 'data/rootReducer'
 export const getData = createDeepEqualSelector(
   [
     selectors.custodial.getRecentSwapTxs,
+    selectors.core.settings.getCurrency,
     selectors.components.utils.getCoinsWithBalanceOrMethod,
     getAllCoinsBalancesSelector,
     (state: RootState) => state
   ],
-  (recentSwapTxsR, coinsR, balances, state: RootState) => {
+  (recentSwapTxsR, currencyR, coinsR, balances, state: RootState) => {
     const transform = (coins: ExtractSuccess<typeof coinsR>) => {
       const coinSort = (a?: CoinfigType, b?: CoinfigType) => {
         if (!a || !b) return -1
@@ -31,9 +32,9 @@ export const getData = createDeepEqualSelector(
         const coinA = a.symbol
         const coinB = b.symbol
         // doesnt really matter
-        const currency = 'USD'
+        const currency = currencyR.getOrElse('USD')
 
-        const defaultRate = { [currency]: { last: 1 } }
+        const defaultRate = { price: 1 }
 
         const ratesA = selectors.core.data.misc
           .getRatesSelector(coinA, state)

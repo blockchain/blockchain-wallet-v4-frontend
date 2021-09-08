@@ -1,8 +1,8 @@
-import { head, keys, lift, map, path, prop, toLower, toUpper } from 'ramda'
+import { head, keys, lift, map, path, prop, toUpper } from 'ramda'
 
 import Remote from '../../../remote'
 import { getAddresses, getErc20Balance } from '../../data/eth/selectors'
-import { getAccounts, getErc20Account } from '../../kvStore/eth/selectors'
+import { getAccounts } from '../../kvStore/eth/selectors'
 import { getLockboxEthAccounts } from '../../kvStore/lockbox/selectors'
 import { ADDRESS_TYPES } from '../../payment/btc/utils'
 
@@ -58,19 +58,18 @@ export const getErc20WalletTransactions = (state, token) => {
 
 export const getErc20AccountBalances = (state, token) => {
   const { coinfig } = window.coins[token]
-  const digest = (ethAccount, erc20Balance, erc20Account) => [
-    {
-      address: head(keys(ethAccount)),
-      balance: erc20Balance,
-      // TODO: erc20 phase 2, key off hash not symbol
-      coin: toUpper(token),
-      label: erc20Account ? erc20Account.label : `${coinfig.symbol} Private Key Wallet`,
-      type: ADDRESS_TYPES.ACCOUNT
-    }
-  ]
-  return lift(digest)(
-    getAddresses(state),
-    getErc20Balance(state, token),
-    getErc20Account(state, toLower(token))
-  )
+
+  const digest = (ethAccount, erc20Balance) => {
+    return [
+      {
+        address: head(keys(ethAccount)),
+        balance: erc20Balance,
+        // TODO: erc20 phase 2, key off hash not symbol
+        coin: toUpper(token),
+        label: `${coinfig.symbol} Private Key Wallet`,
+        type: ADDRESS_TYPES.ACCOUNT
+      }
+    ]
+  }
+  return lift(digest)(getAddresses(state), getErc20Balance(state, token))
 }

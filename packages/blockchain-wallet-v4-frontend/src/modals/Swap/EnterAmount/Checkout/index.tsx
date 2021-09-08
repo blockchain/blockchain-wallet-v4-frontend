@@ -123,7 +123,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       : amountRowNode.children[amountRowNode.children.length - 1]
     currencyNode.style.fontSize = `${fontSizeNumber * fontRatio}px`
   }
-  const max = getMaxMin('max', limits, baseRates[walletCurrency], payment, quote, BASE, COUNTER)
+  const max = getMaxMin('max', limits, baseRates, payment, quote, BASE, COUNTER)
 
   const fiatMax = Exchange.convertCoinToFiat({
     coin: BASE.coin,
@@ -132,7 +132,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     rates: baseRates,
     value: max
   })
-  const min = getMaxMin('min', limits, baseRates[walletCurrency], payment, quote, BASE, COUNTER)
+  const min = getMaxMin('min', limits, baseRates, payment, quote, BASE, COUNTER)
 
   const fiatMin = Exchange.convertCoinToFiat({
     coin: BASE.coin,

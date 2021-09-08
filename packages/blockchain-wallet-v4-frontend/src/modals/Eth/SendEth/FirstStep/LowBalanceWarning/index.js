@@ -17,13 +17,13 @@ const LowBalanceWarning = (props) => {
     currency: 'USD',
     isStandard: true,
     rates: ethRates,
-    value: totalBalance,
+    value: totalBalance
   })
   const totalSendValue = Exchange.convertCoinToFiat({
     coin: 'ETH',
     currency: 'USD',
     rates: ethRates,
-    value: propOr(0, 'coin', amount),
+    value: propOr(0, 'coin', amount)
   })
 
   return (
@@ -61,7 +61,7 @@ const LowBalanceWarning = (props) => {
 
 const mapStateToProps = (state) => ({
   amount: formValueSelector(model.components.sendEth.FORM)(state, 'amount'),
-  ethRates: selectors.core.data.eth.getRates(state).getOrFail(),
+  ethRates: selectors.core.data.coins.getRates('ETH', state).getOrFail()
 })
 
 export default connect(mapStateToProps, null)(LowBalanceWarning)

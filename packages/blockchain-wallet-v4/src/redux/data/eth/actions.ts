@@ -80,20 +80,6 @@ export const fetchLegacyBalanceFailure = (error) => ({
   type: AT.FETCH_ETH_LEGACY_BALANCE_FAILURE
 })
 
-// RATES
-export const fetchRates = () => ({ type: AT.FETCH_ETH_RATES })
-export const fetchRatesLoading = () => ({
-  type: AT.FETCH_ETH_RATES_LOADING
-})
-export const fetchRatesSuccess = (data) => ({
-  payload: data,
-  type: AT.FETCH_ETH_RATES_SUCCESS
-})
-export const fetchRatesFailure = (error) => ({
-  payload: error,
-  type: AT.FETCH_ETH_RATES_FAILURE
-})
-
 // TRANSACTIONS
 export const fetchTransactions = (address?: string | null, reset?: boolean) => ({
   payload: { address, reset },
@@ -167,23 +153,6 @@ export const fetchErc20DataSuccess = (token, data) => ({
 export const fetchErc20DataFailure = (token, error) => ({
   payload: { error, token },
   type: AT.FETCH_ERC20_TOKEN_DATA_FAILURE
-})
-
-// RATES
-export const fetchErc20Rates = () => ({
-  type: AT.FETCH_ERC20_RATES
-})
-export const fetchErc20RatesLoading = (token) => ({
-  payload: { token },
-  type: AT.FETCH_ERC20_RATES_LOADING
-})
-export const fetchErc20RatesSuccess = (token, data) => ({
-  payload: { data, token },
-  type: AT.FETCH_ERC20_RATES_SUCCESS
-})
-export const fetchErc20RatesFailure = (token, error) => ({
-  payload: { error, token },
-  type: AT.FETCH_ERC20_RATES_FAILURE
 })
 
 // TX FEES

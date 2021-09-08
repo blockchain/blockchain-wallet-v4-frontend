@@ -19,7 +19,7 @@ export const getCoinsWithBalanceOrMethod = (state: RootState) => {
   const sbBalancesR = selectors.components.simpleBuy.getSBBalances(state)
   const erc20sR = selectors.core.data.eth.getErc20AccountTokenBalances(state)
   const recentSwapTxs = selectors.custodial.getRecentSwapTxs(state).getOrElse([] as SwapOrderType[])
-  const custodials = selectors.core.data.coins.getCoins()
+  const custodials = selectors.core.data.coins.getCustodialCoins()
 
   const transform = (
     paymentMethods: ExtractSuccess<typeof sbMethodsR>,

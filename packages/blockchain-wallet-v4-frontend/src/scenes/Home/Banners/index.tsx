@@ -15,6 +15,7 @@ import NewCurrency from './NewCurrency'
 import RecurringBuys from './RecurringBuys'
 import SBOrderBanner from './SBOrderBanner'
 import { getData } from './selectors'
+import ServicePriceUnavailable from './ServicePriceUnavailable'
 
 const BannerWrapper = styled.div`
   margin-bottom: 25px;
@@ -44,6 +45,12 @@ class Banners extends React.PureComponent<Props> {
         return (
           <BannerWrapper>
             <FinishKyc />
+          </BannerWrapper>
+        )
+      case 'servicePriceUnavailable':
+        return (
+          <BannerWrapper>
+            <ServicePriceUnavailable />
           </BannerWrapper>
         )
       case 'sbOrder':

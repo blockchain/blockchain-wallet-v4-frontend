@@ -54,7 +54,7 @@ export default ({ api }: { api: APIType }) => {
 
     if (form.includes('SEND') && field === 'coin') {
       yield put(actions.modals.closeAllModals())
-      if (selectors.core.data.coins.getCoins().includes(payload)) {
+      if (selectors.core.data.coins.getCustodialCoins().includes(payload)) {
         // must come before show modal
         yield put(A.setInitialCoin(payload))
         // must come after setInitialCoin

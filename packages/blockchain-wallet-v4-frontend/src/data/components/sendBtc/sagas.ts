@@ -287,8 +287,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const currency = selectors.core.settings
         .getCurrency(appState)
         .getOrFail('Can not retrieve currency.')
-      const btcRates = selectors.core.data.btc
-        .getRates(appState)
+      const btcRates = selectors.core.data.coins
+        .getRates('BTC', appState)
         .getOrFail('Can not retrieve bitcoin rates.')
       const fiat = Exchange.convertCoinToFiat({
         coin,
@@ -308,8 +308,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const currency = selectors.core.settings
         .getCurrency(appState)
         .getOrFail('Can not retrieve currency.')
-      const btcRates = selectors.core.data.btc
-        .getRates(appState)
+      const btcRates = selectors.core.data.coins
+        .getRates('BTC', appState)
         .getOrFail('Can not retrieve bitcoin rates.')
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})

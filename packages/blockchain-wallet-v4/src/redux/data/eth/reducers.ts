@@ -23,7 +23,6 @@ const INITIAL_STATE = {
   info: { eth: Remote.NotAsked },
   latest_block: Remote.NotAsked,
   legacy_balance: Remote.NotAsked,
-  rates: { eth: Remote.NotAsked },
   transaction_history: { eth: Remote.NotAsked },
   transactions: { eth: [] },
   transactions_at_bound: { eth: false },
@@ -106,15 +105,6 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_ETH_CURRENT_BALANCE_FAILURE: {
       return assocPath(['current_balance', 'eth'], Remote.Failure(payload), state)
     }
-    case AT.FETCH_ETH_RATES_LOADING: {
-      return assocPath(['rates', 'eth'], Remote.Loading, state)
-    }
-    case AT.FETCH_ETH_RATES_SUCCESS: {
-      return assocPath(['rates', 'eth'], Remote.Success(payload), state)
-    }
-    case AT.FETCH_ETH_RATES_FAILURE: {
-      return assocPath(['rates', 'eth'], Remote.Failure(payload), state)
-    }
     case AT.FETCH_ETH_TRANSACTIONS_LOADING: {
       const { reset } = payload
       return reset
@@ -165,18 +155,6 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_ERC20_TOKEN_DATA_FAILURE: {
       const { error, token } = payload
       return assocPath(['info', token], Remote.Failure(error), state)
-    }
-    case AT.FETCH_ERC20_RATES_LOADING: {
-      const { token } = payload
-      return assocPath(['rates', token], Remote.Loading, state)
-    }
-    case AT.FETCH_ERC20_RATES_SUCCESS: {
-      const { data, token } = payload
-      return assocPath(['rates', token], Remote.Success(data), state)
-    }
-    case AT.FETCH_ERC20_RATES_FAILURE: {
-      const { error, token } = payload
-      return assocPath(['rates', token], Remote.Failure(error), state)
     }
     case AT.FETCH_ERC20_TOKEN_BALANCE_LOADING: {
       const { token } = payload
