@@ -9,7 +9,8 @@ import {
   OrderType,
   RemoteDataType,
   SBOrderType,
-  SBPaymentMethodType
+  SBPaymentMethodType,
+  SBPaymentTypes
 } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
 import { getPeriodForSuccess, OrderSummary as Success } from 'components/Flyout'
@@ -126,8 +127,12 @@ class OrderSummary extends PureComponent<Props> {
             paymentState={order.attributes?.everypay?.paymentState || null}
             paymentType={order.paymentType}
             frequencyText={frequencyText}
-            showInterestBanner={val.afterTransaction.show}
           >
+            {getOrderType(order) === OrderType.BUY &&
+              (order.paymentType === SBPaymentTypes.PAYMENT_CARD ||
+                order.paymentType === SBPaymentTypes.USER_CARD ||
+                order.paymentType === SBPaymentTypes.BANK_TRANSFER ||
+                order.paymentType === SBPaymentTypes.FUNDS)}
             {val.afterTransaction.show && <InterestBanner handleClose={this.props.handleClose} />}
           </Success>
         )

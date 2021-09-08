@@ -36,8 +36,7 @@ Default.args = {
   orderType: OrderType.BUY,
   outputCurrency: 'BTC',
   paymentState: null,
-  paymentType: SBPaymentTypes.PAYMENT_CARD,
-  showInterestBanner: false
+  paymentType: SBPaymentTypes.PAYMENT_CARD
 }
 
 export const FundsSuccess = Template.bind({})
@@ -54,8 +53,7 @@ FundsSuccess.args = {
   orderType: OrderType.BUY,
   outputCurrency: 'BTC',
   paymentState: null,
-  paymentType: SBPaymentTypes.FUNDS,
-  showInterestBanner: false
+  paymentType: SBPaymentTypes.FUNDS
 }
 
 export const BankSuccess = Template.bind({})
@@ -72,8 +70,7 @@ BankSuccess.args = {
   orderType: OrderType.BUY,
   outputCurrency: 'ETH',
   paymentState: null,
-  paymentType: SBPaymentTypes.BANK_TRANSFER,
-  showInterestBanner: false
+  paymentType: SBPaymentTypes.BANK_TRANSFER
 }
 
 export const CardPending = Template.bind({})
@@ -90,6 +87,28 @@ CardPending.args = {
   orderType: OrderType.BUY,
   outputCurrency: 'BTC',
   paymentState: null,
-  paymentType: SBPaymentTypes.PAYMENT_CARD,
-  showInterestBanner: false
+  paymentType: SBPaymentTypes.PAYMENT_CARD
+}
+
+export const WithPromo = Template.bind({})
+WithPromo.args = {
+  baseAmount: '0.001',
+  baseCurrency: 'BTC',
+  children: (
+    <div style={{ border: '1px solid grey', borderRadius: '8px', padding: '24px' }}>
+      This is a promo box that you can fill with whatever you want, but be aware, there&apos;s a
+      180px height limit to this box.
+    </div>
+  ),
+  counterAmount: '100',
+  currencySymbol: '$',
+  handleClose: () => {},
+  handleCompleteButton: () => {},
+  handleOkButton: () => {},
+  lockTime: 604800,
+  orderState: 'PENDING_DEPOSIT',
+  orderType: OrderType.BUY,
+  outputCurrency: 'BTC',
+  paymentState: null,
+  paymentType: SBPaymentTypes.PAYMENT_CARD
 }

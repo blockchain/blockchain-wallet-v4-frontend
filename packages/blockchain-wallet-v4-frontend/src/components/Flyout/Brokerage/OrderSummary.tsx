@@ -43,11 +43,12 @@ const BottomInfo = styled(Bottom)`
     text-decoration: none;
   }
 `
-const BottomInterest = styled.div`
+const BottomPromo = styled.div`
   display: flex;
   justify-content: flex-end;
   flex-direction: column;
   height: 180px;
+  margin-bottom: 15px;
 `
 
 const OrderSummary: React.FC<Props> = ({
@@ -65,8 +66,7 @@ const OrderSummary: React.FC<Props> = ({
   orderType,
   outputCurrency,
   paymentState,
-  paymentType,
-  showInterestBanner
+  paymentType
 }) => {
   const isPendingDeposit = orderState === 'PENDING_DEPOSIT'
   const isPendingAch = isPendingDeposit && paymentType === SBPaymentTypes.BANK_TRANSFER
@@ -77,7 +77,7 @@ const OrderSummary: React.FC<Props> = ({
     <Container>
       <Header data-e2e='sbCloseModalIcon' mode='close' onClick={handleClose} />
       <Content mode='middle'>
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ padding: '0 77px', textAlign: 'center' }}>
           <IconWrapper>
             <Icon color={outputCurrency} name={outputCurrency} size='64px' />
 
@@ -255,13 +255,7 @@ const OrderSummary: React.FC<Props> = ({
         </div>
       </Content>
       <Footer>
-        {orderType === 'BUY' &&
-          orderState !== 'FAILED' &&
-          (paymentType === SBPaymentTypes.PAYMENT_CARD ||
-            paymentType === SBPaymentTypes.USER_CARD ||
-            paymentType === SBPaymentTypes.BANK_TRANSFER ||
-            paymentType === SBPaymentTypes.FUNDS) &&
-          showInterestBanner && <BottomInterest>{children}</BottomInterest>}
+        {children && <BottomPromo>{children}</BottomPromo>}
 
         {orderType === 'BUY' && orderState !== 'FAILED' && (
           <Button
@@ -297,7 +291,6 @@ export type Props = {
   outputCurrency: string
   paymentState: 'WAITING_FOR_3DS_RESPONSE' | null
   paymentType: SBPaymentTypes
-  showInterestBanner: boolean
 }
 
 export default OrderSummary
