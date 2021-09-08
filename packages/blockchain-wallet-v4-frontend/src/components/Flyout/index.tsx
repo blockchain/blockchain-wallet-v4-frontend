@@ -6,24 +6,25 @@ import styled from 'styled-components'
 import { Modal, Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
-import AmountSubHeader from './AmountSubHeader'
 import FlyoutContainer from './Container'
 import FlyoutContent from './Content'
 import FlyoutFooter from './Footer'
-import FrequencyScreen from './FrequencyScreen'
-// These are the newest versions of flyout layouts and should eventually replace/integrate FlyoutWrapper etc.
 import FlyoutHeader from './Header'
+// Recurring Buy specific flyout screens
+import FrequencyScreen from './RecurringBuy/FrequencyScreen'
 import RecurringBuyGettingStarted from './RecurringBuy/GettingStarted'
-import RecurringBuyDetails from './RecurringBuyDetails'
-import RecurringBuyRemoveConfirm from './RecurringBuyRemoveConfirm'
+import RecurringBuyDetails from './RecurringBuy/RecurringBuyDetails'
+import RecurringBuyRemoveConfirm from './RecurringBuy/RecurringBuyRemoveConfirm'
+// These are the newest versions of flyout layouts and should eventually replace/integrate FlyoutWrapper etc.
+import FlyoutSubHeader from './SubHeader'
 
 export * from './model'
 export {
-  AmountSubHeader,
   FlyoutContainer,
   FlyoutContent,
   FlyoutFooter,
   FlyoutHeader,
+  FlyoutSubHeader,
   FrequencyScreen,
   RecurringBuyDetails,
   RecurringBuyGettingStarted,

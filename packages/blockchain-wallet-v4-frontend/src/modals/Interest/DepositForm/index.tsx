@@ -15,7 +15,7 @@ class DepositForm extends PureComponent<Props> {
   componentDidMount() {
     const { walletCurrency } = this.props
     this.handleInitializeDepositForm()
-    this.props.interestActions.fetchEddWithdrawLimits(walletCurrency)
+    this.props.interestActions.fetchEDDWithdrawLimits({ currency: walletCurrency })
   }
 
   handleDisplayToggle = (isCoin: boolean) => {
@@ -28,7 +28,7 @@ class DepositForm extends PureComponent<Props> {
 
     formActions.clearFields('interestDepositForm', false, false, 'depositAmount')
 
-    interestActions.setCoinDisplay(isCoin)
+    interestActions.setCoinDisplay({ isAmountDisplayedInCrypto: isCoin })
   }
 
   handleRefresh = () => {
@@ -39,7 +39,7 @@ class DepositForm extends PureComponent<Props> {
     const { coin, currency, interestActions } = this.props
     const walletCurrency = currency.getOrElse('GBP' as CurrencySuccessStateType)
 
-    interestActions.initializeDepositForm(coin, walletCurrency)
+    interestActions.initializeDepositForm({ coin, currency: walletCurrency })
   }
 
   render() {

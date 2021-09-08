@@ -66,6 +66,7 @@ class Interest extends PureComponent<Props, State> {
               handleSBClick={() => this.handleSBClick(coin)}
               stepMetadata={step.data}
               coin={coin}
+              walletCurrency={walletCurrency}
               showSupply={this.state.showSupplyInformation}
             />
           </FlyoutChild>

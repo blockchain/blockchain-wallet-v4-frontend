@@ -42,6 +42,11 @@ const VerificationMobile = (props: Props) => {
     props.authActions.clearLoginError()
   }
 
+  const loginWithPasswordClicked = () => {
+    props.authActions.loginMethodSelected('PASSWORD')
+    setStep(LoginSteps.ENTER_PASSWORD)
+  }
+
   return (
     <>
       <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} />
@@ -130,11 +135,11 @@ const VerificationMobile = (props: Props) => {
           height='48px'
           data-e2e='loginWithPassword'
           style={{ marginBottom: '24px' }}
-          onClick={() => setStep(LoginSteps.ENTER_PASSWORD)}
+          onClick={loginWithPasswordClicked}
         >
           <FormattedMessage id='buttons.login_with_password' defaultMessage='Login with Password' />
         </Button>
-        <NeedHelpLink />
+        <NeedHelpLink authActions={props.authActions} origin='QR_CODE' />
       </LinkRow>
     </>
   )

@@ -18,14 +18,14 @@ const options = {
 }
 
 const initialState = {
-  sortBy: [{ id: 'price', desc: true }]
+  sortBy: [{ desc: true, id: 'price' }]
 }
 
-const PricesTable = props => {
-  const { data, modalActions, routerActions, walletCurrency } = props
+const PricesTable = (props) => {
+  const { data, modalActions, routerActions, simpleBuyActions, walletCurrency } = props
 
   const columns = React.useMemo(
-    getTableColumns({ modalActions, routerActions, walletCurrency }),
+    getTableColumns({ modalActions, routerActions, simpleBuyActions, walletCurrency }),
     []
   )
 
@@ -56,8 +56,7 @@ const PricesTable = props => {
 
   // limit no match found length to something reasonable
   const filterMatchText =
-    (state.globalFilter?.length > 20 &&
-      state.globalFilter.substring(0, 20) + '…') ||
+    (state.globalFilter?.length > 20 && `${state.globalFilter.substring(0, 20)}…`) ||
     state.globalFilter
 
   return (
@@ -65,7 +64,10 @@ const PricesTable = props => {
       {state.globalFilter?.length && !rows.length ? (
         <NoResultsWrapper>
           <CellText color='grey900' size='18px'>
-            🕵️‍♀️&nbsp;&nbsp;&nbsp;
+            <span role='img' aria-label='detective emoji'>
+              🕵️‍♀️
+            </span>
+            &nbsp;&nbsp;&nbsp;
             <FormattedMessage
               id='scenes.prices.noresults'
               defaultMessage='No assets match {filterValue}'
@@ -76,10 +78,14 @@ const PricesTable = props => {
       ) : (
         <table {...getTableProps()}>
           <thead>
+            {/* eslint-disable */}
             {headerGroups.map(headerGroup => (
-              <tr {...headerGroup.getHeaderGroupProps()}>
+              <tr {...headerGroup.getHeaderGroupProps()}> 
                 {headerGroup.headers.map(column => (
-                  <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                  <th
+                    key={column.key}
+                    {...column.getHeaderProps(column.getSortByToggleProps())}
+                  >
                     <HeaderText>
                       {column.render('Header')}
                       <div>
@@ -98,14 +104,17 @@ const PricesTable = props => {
                 ))}
               </tr>
             ))}
+            {/* eslint-enable */}
           </thead>
           <tbody {...getTableBodyProps()}>
-            {rows.map(row => {
+            {rows.map((row) => {
               prepareRow(row)
               return (
-                <tr {...row.getRowProps()}>
-                  {row.cells.map(cell => (
-                    <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                <tr key={`row-${row.id}`} {...row.getRowProps()}>
+                  {row.cells.map((cell) => (
+                    <td key={`cell-${cell.row.id}`} {...cell.getCellProps()}>
+                      {cell.render('Cell')}
+                    </td>
                   ))}
                 </tr>
               )

@@ -4,6 +4,7 @@ import { identity, indexOf, isNil, mergeRight, path, prop, toLower } from 'ramda
 import { call, select } from 'redux-saga/effects'
 
 import { Exchange } from 'blockchain-wallet-v4/src/'
+import { APIType } from 'core/network/api'
 import { EthRawTxType } from 'core/types'
 
 import { eth } from '../../../signer'
@@ -33,7 +34,7 @@ const taskToPromise = (t) => new Promise((resolve, reject) => t.fork(reject, res
       .chain().amount(myAmount).done()
 */
 
-export default ({ api }) => {
+export default ({ api }: { api: APIType }) => {
   const settingsSagas = settingsSagaFactory({ api })
   const selectIndex = function* (from) {
     const appState = yield select(identity)
@@ -72,6 +73,11 @@ export default ({ api }) => {
         if (p.isErc20) {
           const { coinfig } = window.coins[p.coin]
           const contractAddress = coinfig.type.erc20Address
+          const assets: ReturnType<typeof api.getAssets> = yield call(api.getAssets)
+          const token = assets.currencies.find(({ type }) => type.erc20Address === contractAddress)
+          if (!token || (token && token.symbol !== coinfig.symbol)) {
+            throw new Error('Can not trust token contract')
+          }
           sign = (data) => taskToPromise(eth.signErc20(network, mnemonic, data, contractAddress))
         } else {
           sign = (data) => taskToPromise(eth.sign(network, mnemonic, data))

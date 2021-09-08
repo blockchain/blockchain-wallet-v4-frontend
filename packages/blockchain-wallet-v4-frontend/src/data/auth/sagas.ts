@@ -6,6 +6,7 @@ import { call, delay, fork, put, race, select, take } from 'redux-saga/effects'
 import { Remote, Types } from 'blockchain-wallet-v4/src'
 import { DEFAULT_INVITATIONS } from 'blockchain-wallet-v4/src/model'
 import { actions, actionTypes, model, selectors } from 'data'
+import { ModalName } from 'data/modals/types'
 import profileSagas from 'data/modules/profile/sagas'
 import * as C from 'services/alerts'
 import { isGuid } from 'services/forms'
@@ -234,7 +235,8 @@ export default ({ api, coreSagas, networks }) => {
     email = undefined,
     firstLogin = false,
     country = undefined,
-    state = undefined
+    state = undefined,
+    recovery = false
   }) {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
@@ -253,6 +255,7 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.auth.upgradeWallet(4))
         yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
       }
+      const isAccountReset: boolean = yield select(selectors.auth.getAccountReset)
       // Finish upgrades
       yield put(actions.auth.authenticate())
       yield put(actions.auth.setFirstLogin(firstLogin))
@@ -276,7 +279,11 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.core.settings.setCurrency(currency))
         // fetch settings again
         yield call(coreSagas.settings.fetchSettings)
-        yield put(actions.router.push('/verify-email-step'))
+        if (!isAccountReset) {
+          yield put(actions.router.push('/verify-email-step'))
+        } else {
+          yield put(actions.router.push('/home'))
+        }
       } else {
         yield put(actions.router.push('/home'))
       }
@@ -314,7 +321,7 @@ export default ({ api, coreSagas, networks }) => {
       const signupCountryEnabled = (yield select(
         selectors.core.walletOptions.getFeatureSignupCountry
       )).getOrElse(false)
-      if (firstLogin && signupCountryEnabled) {
+      if (firstLogin && signupCountryEnabled && !isAccountReset && !recovery) {
         // create nabu user
         yield call(createUser)
         // store initial address in case of US state we add prefix
@@ -334,6 +341,34 @@ export default ({ api, coreSagas, networks }) => {
       // Redirect to error page instead of notification
       yield put(actions.alerts.displayError(C.WALLET_LOADING_ERROR))
     }
+  }
+
+  const pingManifestFile = function* () {
+    try {
+      const domains = (yield select(selectors.core.walletOptions.getDomains)).getOrElse({
+        comWalletApp: 'https://login.blockchain.com'
+      })
+      const response = yield fetch(domains.comWalletApp)
+      const raw = yield response.text()
+      const nextManifest = raw.match(/manifest\.\d*.js/)[0]
+
+      const currentManifest = yield select(S.getManifest)
+
+      if (currentManifest && nextManifest !== currentManifest) {
+        yield put(actions.modals.showModal(ModalName.NEW_VERSION_AVAILABLE, { origin: 'Unknown' }))
+      }
+
+      if (!currentManifest) {
+        yield put(A.setManifestFile(nextManifest))
+      }
+    } catch (e) {
+      // wallet failed to fetch
+      // happens rarely but could happen
+      // ignore error
+    }
+
+    yield delay(10_000)
+    yield put(A.pingManifestFile())
   }
 
   const pollingSession = function* (session, n = 50) {
@@ -357,6 +392,13 @@ export default ({ api, coreSagas, networks }) => {
     const formValues = yield select(selectors.form.getFormValues('login'))
     const { email, emailToken } = formValues
     let session = yield select(selectors.session.getSession, guid, email)
+    // JUST FOR ANALYTICS PURPOSES
+    if (code) {
+      yield put(A.loginTwoStepVerificationEntered())
+    } else {
+      yield put(A.loginPasswordEntered())
+    }
+    // JUST FOR ANALYTICS PURPOSES
     yield put(startSubmit('login'))
     try {
       if (!session) {
@@ -409,6 +451,7 @@ export default ({ api, coreSagas, networks }) => {
               yield put(actions.auth.loginFailure())
             } else {
               yield put(actions.auth.loginFailure('wrong_wallet_password'))
+
               yield put(actions.logs.logErrorMessage(logLocation, 'login', error))
             }
           }
@@ -427,6 +470,7 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.auth.setAuthType(0))
         yield put(actions.form.clearFields('login', false, true, 'password', 'code'))
         yield put(actions.form.focus('login', 'password'))
+        yield put(A.loginPasswordDenied())
         yield put(actions.auth.loginFailure(error))
       } else if (initialError && initialError.includes('Unknown Wallet Identifier')) {
         yield put(actions.form.change('login', 'step', 'ENTER_EMAIL_GUID'))
@@ -438,11 +482,13 @@ export default ({ api, coreSagas, networks }) => {
         // Wrong 2fa code error
         error &&
         is(String, error) &&
-        error.includes('Authentication code is incorrect')
+        (error.includes('Authentication code is incorrect') ||
+          error.includes('Invalid authentication code'))
       ) {
         yield put(actions.form.clearFields('login', false, true, 'code'))
         yield put(actions.form.focus('login', 'code'))
         yield put(actions.auth.loginFailure(error))
+        yield put(A.loginTwoStepVerificationDenied())
       } else if (error && is(String, error)) {
         yield put(actions.auth.loginFailure(error))
       } else {
@@ -478,19 +524,20 @@ export default ({ api, coreSagas, networks }) => {
   const register = function* (action) {
     const { country, email, state } = action.payload
     try {
-      yield put(actions.auth.registerLoading())
-      yield put(actions.auth.setRegisterEmail(email))
+      yield put(A.registerLoading())
+      yield put(A.setRegisterEmail(email))
       yield call(coreSagas.wallet.createWalletSaga, action.payload)
       yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
+      yield put(A.signupDetailsEntered({ country, countryState: state }))
       yield call(loginRoutineSaga, {
         country,
         email,
         firstLogin: true,
         state
       })
-      yield put(actions.auth.registerSuccess())
+      yield put(A.registerSuccess())
     } catch (e) {
-      yield put(actions.auth.registerFailure())
+      yield put(A.registerFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'register', e))
       yield put(actions.alerts.displayError(C.REGISTER_ERROR))
     }
@@ -553,7 +600,8 @@ export default ({ api, coreSagas, networks }) => {
 
       yield call(loginRoutineSaga, {
         email: action.payload.email,
-        firstLogin: true
+        firstLogin: true,
+        recovery: true
       })
       yield put(actions.alerts.displaySuccess(C.RESTORE_SUCCESS))
       yield put(actions.auth.restoreSuccess())
@@ -648,6 +696,7 @@ export default ({ api, coreSagas, networks }) => {
       } else {
         yield call(parseMagicLinkLegacy, params)
       }
+      yield put(A.magicLinkParsed())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'parseLink', e))
       yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
@@ -699,6 +748,7 @@ export default ({ api, coreSagas, networks }) => {
         yield call(parseMagicLink, params)
       }
       yield put(A.initializeLoginSuccess())
+      yield put(A.pingManifestFile())
     } catch (e) {
       yield put(A.initializeLoginFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'initializeLogin', e))
@@ -793,6 +843,7 @@ export default ({ api, coreSagas, networks }) => {
     logout,
     logoutClearReduxStore,
     mobileLogin,
+    pingManifestFile,
     pollingSession,
     register,
     resendSmsLoginCode,

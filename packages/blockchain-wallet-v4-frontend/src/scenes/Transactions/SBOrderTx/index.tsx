@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { BuyOrSell, displayFiat } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/model'
-import { path } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 

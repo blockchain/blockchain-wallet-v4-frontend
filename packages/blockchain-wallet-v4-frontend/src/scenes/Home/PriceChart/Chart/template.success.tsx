@@ -66,7 +66,7 @@ const Chart = ({ coin, currency, data }: OwnProps) => {
       fontFamily:
         '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif '
     }),
-    [color]
+    []
   )
 
   const xScale = useMemo(
@@ -110,7 +110,7 @@ const Chart = ({ coin, currency, data }: OwnProps) => {
 
   return (
     <Wrapper ref={ref}>
-      <svg width={width - margin} height={height}>
+      <svg width={Math.abs(width - margin)} height={height}>
         <LinearGradient id={color} fromOpacity={0.5} toOpacity={0} from={color} to='white' />
 
         <AreaClosed<Data>
@@ -146,7 +146,7 @@ const Chart = ({ coin, currency, data }: OwnProps) => {
           <g>
             <Line
               from={{ x: tooltipLeft, y: 0 }}
-              to={{ x: tooltipLeft, y: innerHeight }}
+              to={{ x: tooltipLeft, y: window.innerHeight }}
               stroke={color}
               opacity={0.2}
               strokeWidth={strokeWidth}

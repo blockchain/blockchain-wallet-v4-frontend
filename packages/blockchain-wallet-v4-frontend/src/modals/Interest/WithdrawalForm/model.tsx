@@ -127,8 +127,5 @@ export const CustomOrangeCartridge = styled(OrangeCartridge)`
   margin-top: 24px;
 `
 export const CartrigeText = styled.div`
-  display: inline;
-  font-size: 14px;
-  font-weight: 500;
-  color: ${(props) => props.theme.orange800};
+  margin-top: 16px;
 `

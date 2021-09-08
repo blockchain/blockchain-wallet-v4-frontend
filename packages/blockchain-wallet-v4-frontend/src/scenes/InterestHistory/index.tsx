@@ -33,17 +33,17 @@ const MenuRow = styled.div`
 
 class InterestHistoryContainer extends Component<Props> {
   componentDidMount() {
-    this.props.interestActions.fetchInterestTransactions(true)
+    this.props.interestActions.fetchInterestTransactions({ reset: true })
   }
 
   componentWillUnmount() {
     // clear transactions related data on exit
-    this.props.interestActions.fetchInterestTransactionsSuccess([], true)
-    this.props.interestActions.setTransactionsNextPage(null)
+    this.props.interestActions.fetchInterestTransactionsSuccess({ reset: true, transactions: [] })
+    this.props.interestActions.setTransactionsNextPage({ nextPage: null })
   }
 
   onFetchMoreTransactions = () => {
-    this.props.interestActions.fetchInterestTransactions(false)
+    this.props.interestActions.fetchInterestTransactions({ reset: false })
   }
 
   render() {
@@ -52,7 +52,10 @@ class InterestHistoryContainer extends Component<Props> {
       <SceneWrapper>
         <InterestHeader />
         {data.cata({
-          Success: val => {
+          Failure: () => null,
+          Loading: () => <Loading />,
+          NotAsked: () => <Loading />,
+          Success: (val) => {
             return (
               <>
                 <MenuRow>
@@ -65,17 +68,14 @@ class InterestHistoryContainer extends Component<Props> {
                 </LazyLoadWrapper>
               </>
             )
-          },
-          Failure: () => null,
-          Loading: () => <Loading />,
-          NotAsked: () => <Loading />
+          }
         })}
       </SceneWrapper>
     )
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state)
 })
 

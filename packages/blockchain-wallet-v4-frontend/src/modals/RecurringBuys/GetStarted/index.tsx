@@ -7,21 +7,25 @@ import { SBOrderType } from 'core/types'
 import { selectors } from 'data'
 import { getCounterAmount, getCounterCurrency } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
-import { RecurringBuyStepType } from 'data/types'
+import { RecurringBuyOrigins, RecurringBuyStepType } from 'data/types'
 
 import { Props as _P } from '..'
 
 const GetStartedContainer = ({ close, order, recurringBuyActions }: Props) => {
-  const nextStep = useCallback(
-    () =>
-      recurringBuyActions.setStep({
-        step: RecurringBuyStepType.FREQUENCY
-      }),
-    [RecurringBuyStepType.FREQUENCY]
-  )
+  const nextStep = useCallback(() => {
+    recurringBuyActions.setStep({
+      step: RecurringBuyStepType.FREQUENCY
+    })
+    recurringBuyActions.viewed()
+  }, [RecurringBuyStepType.FREQUENCY])
+  const closeCallback = useCallback(() => {
+    close()
+    recurringBuyActions.suggestionSkipped(RecurringBuyOrigins.BUY_CONFIRMATION)
+  }, [])
+
   const { outputCurrency } = order
   const amount = `${Exchange.getSymbol(getCounterCurrency(order))}${getCounterAmount(order)}`
-  const gettingStartedProps = { amount, close, nextStep, outputCurrency }
+  const gettingStartedProps = { amount, close: closeCallback, nextStep, outputCurrency }
 
   return <RecurringBuyGettingStarted {...gettingStartedProps} />
 }

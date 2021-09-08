@@ -7,6 +7,13 @@ import {
   FeeRate,
   Order,
   PageName,
+  RecurringBuyCancelPayload,
+  RecurringBuyClickedPayload,
+  RecurringBuyDetailsClickedPayload,
+  RecurringBuyInfoViewedPayload,
+  RecurringBuyLearnMoreClickPayload,
+  RecurringBuySuggestionSkippedPayload,
+  RecurringBuyViewedPayload,
   SendReceive,
   WithdrawalMethod
 } from 'middleware/analyticsMiddleware/types'
@@ -26,7 +33,14 @@ import {
 
 import { actions, actionTypes as AT } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { BankDWStepType, InterestStep, ModalName, SwapBaseCounterTypes } from 'data/types'
+import {
+  BankDWStepType,
+  InterestStep,
+  ModalName,
+  RecurringBuyOrigins,
+  RecurringBuyStepType,
+  SwapBaseCounterTypes
+} from 'data/types'
 
 const analyticsMiddleware = () => (store) => (next) => (action) => {
   try {
@@ -120,6 +134,27 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               }
             })
 
+            break
+          }
+          case '/login': {
+            const state = store.getState()
+            const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+            const email = state.profile.userData.getOrElse({})?.emailVerified
+              ? state.profile.userData.getOrElse({})?.email
+              : null
+            const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+            const guid = state.walletPath.wallet.guid ?? null
+            analytics.push(AnalyticsKey.LOGIN_VIEWED, {
+              properties: {
+                guid,
+                originalTimestamp: getOriginalTimestamp()
+              },
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
             break
           }
           case '/settings/addresses/btc': {
@@ -675,7 +710,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-      case AT.components.interest.SET_COIN_DISPLAY: {
+      case actions.components.interest.setCoinDisplay.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -864,6 +899,29 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             tier
           }
         })
+        break
+      }
+      case AT.auth.REGISTER_SUCCESS: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+
+        analytics.push(AnalyticsKey.WALLET_SIGNED_UP, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+
         break
       }
       case AT.auth.LOGIN_SUCCESS: {
@@ -1626,6 +1684,161 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
+      case actions.components.recurringBuy.viewed.type: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const path = window.location.pathname
+        const url = window.location.href
+        const { search } = window.location
+        const { title } = window.document
+        const { referrer } = window.document
+
+        analytics.push(AnalyticsKey.RECURRING_BUY_VIEWED, {
+          properties: {
+            path,
+            referrer,
+            search,
+            title,
+            url
+          } as RecurringBuyViewedPayload,
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case actions.components.recurringBuy.learnMoreLinkClicked.type: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const origin = action.payload
+
+        analytics.push(AnalyticsKey.RECURRING_BUY_LEARN_MORE_CLICKED, {
+          properties: { origin } as RecurringBuyLearnMoreClickPayload,
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case actions.components.recurringBuy.suggestionSkipped.type: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const origin = action.payload
+        analytics.push(AnalyticsKey.RECURRING_BUY_SUGGESTION_SKIPPED, {
+          properties: { origin } as RecurringBuySuggestionSkippedPayload,
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case actions.components.recurringBuy.infoViewed.type: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const page = action.payload
+        analytics.push(AnalyticsKey.RECURRING_BUY_INFO_VIEWED, {
+          properties: { page } as RecurringBuyInfoViewedPayload,
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case actions.components.recurringBuy.setStep.type: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const stepName: RecurringBuyStepType = action.payload.step
+        const origin = RecurringBuyOrigins[action.payload.origin]
+        switch (stepName) {
+          case RecurringBuyStepType.REMOVE_CONFIRM: {
+            const {
+              destinationCurrency: output_currency,
+              inputCurrency: input_currency,
+              inputValue: input_amount,
+              paymentMethod: payment_method,
+              period: frequency
+            } = state.components.recurringBuy.active
+
+            analytics.push(AnalyticsKey.CANCEL_RECURRING_BUY_CLICKED, {
+              properties: {
+                frequency,
+                input_amount,
+                input_currency,
+                origin,
+                output_currency,
+                payment_method
+              } as RecurringBuyCancelPayload,
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+            break
+          }
+          case RecurringBuyStepType.GET_STARTED: {
+            analytics.push(AnalyticsKey.RECURRING_BUY_CLICKED, {
+              properties: {
+                origin
+              } as RecurringBuyClickedPayload,
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+            break
+          }
+          case RecurringBuyStepType.DETAILS: {
+            const { inputCurrency: currency }: { inputCurrency: string } =
+              state.components.recurringBuy.active
+            analytics.push(AnalyticsKey.RECURRING_BUY_DETAILS_CLICKED, {
+              properties: {
+                currency,
+                origin
+              } as RecurringBuyDetailsClickedPayload,
+              traits: {
+                email,
+                nabuId,
+                tier
+              }
+            })
+            break
+          }
+          default: {
+            break
+          }
+        }
+        break
+      }
       case AT.components.withdraw.SET_STEP: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
@@ -1730,7 +1943,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case AT.components.interest.SHOW_INTEREST_MODAL: {
+      case actions.components.interest.showInterestModal.type: {
         const stepName: InterestStep = action.payload.step
 
         switch (stepName) {
@@ -1833,7 +2046,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-      case AT.components.interest.HANDLE_TRANSFER_MAX_AMOUNT_CLICK: {
+      case actions.components.interest.handleTransferMaxAmountClick.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -1868,7 +2081,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-      case AT.components.interest.HANDLE_TRANSFER_MIN_AMOUNT_CLICK: {
+      case actions.components.interest.handleTransferMinAmountClick.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -1903,7 +2116,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-      case AT.components.interest.SUBMIT_DEPOSIT_FORM: {
+      case actions.components.interest.submitDepositForm.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -1937,7 +2150,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-      case AT.components.interest.HANDLE_WITHDRAWAL_SUPPLY_INFORMATION: {
+      case actions.components.interest.handleWithdrawalSupplyInformation.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -2684,6 +2897,419 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           }
         })
 
+        break
+      }
+      // LOGIN EVENTS
+      case AT.auth.MAGIC_LINK_PARSED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+
+        analytics.push(AnalyticsKey.DEVICE_VERIFIED, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.auth.NEED_HELP_CLICKED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const { origin } = action.payload
+
+        analytics.push(AnalyticsKey.LOGIN_HELP_CLICKED, {
+          properties: {
+            guid,
+            origin,
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect: 'WALLET'
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.auth.LOGIN_ID_ENTERED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const { idType } = action.payload
+        analytics.push(AnalyticsKey.LOGIN_IDENTIFIER_ENTERED, {
+          properties: {
+            guid,
+            identifier_type: idType,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.auth.LOGIN_METHOD_SELECTED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const { loginMethod } = action.payload
+        analytics.push(AnalyticsKey.LOGIN_METHOD_SELECTED, {
+          properties: {
+            guid,
+            login_method: loginMethod,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.auth.LOGIN_PASSWORD_DENIED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+
+        analytics.push(AnalyticsKey.LOGIN_PASSWORD_DENIED, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.auth.LOGIN_PASSWORD_ENTERED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+
+        analytics.push(AnalyticsKey.LOGIN_PASSWORD_ENTERED, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.auth.SECURE_CHANNEL_LOGIN_SUCCESS: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+
+        analytics.push(AnalyticsKey.LOGIN_REQUEST_APPROVED, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            request_platform: 'WALLET'
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.auth.SECURE_CHANNEL_LOGIN_FAILURE: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+
+        analytics.push(AnalyticsKey.LOGIN_REQUEST_DENIED, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            request_platform: 'WALLET'
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.auth.LOGIN_TWO_STEP_VERIFICATION_DENIED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+
+        analytics.push(AnalyticsKey.LOGIN_TWO_STEP_VERIFICATION_DENIED, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.auth.LOGIN_TWO_STEP_VERIFICATION_ENTERED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+
+        analytics.push(AnalyticsKey.LOGIN_TWO_STEP_VERIFICATION_ENTERED, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.auth.RESET_ACCOUNT_SUCCESS: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        analytics.push(AnalyticsKey.ACCOUNT_PASSWORD_RESET, {
+          properties: {
+            account_type: AccountType.CUSTODIAL,
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect: 'WALLET'
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      // TODO - every time code is scanned, can we distinguish if for recovery or not?
+      // Commenting out until I have a good solution to distinguish from regular login
+      // case AT.auth.SECURE_CHANNEL_LOGIN_LOADING: {
+      //   const state = store.getState()
+      //   const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+      //   const email = state.profile.userData.getOrElse({})?.emailVerified
+      //     ? state.profile.userData.getOrElse({})?.email
+      //     : null
+      //   const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+      //   const guid = state.walletPath.wallet.guid ?? null
+      //   analytics.push(AnalyticsKey.CLOUD_BACKUP_CODE_SCANNED, {
+      //     properties: {
+      //       guid,
+      //       originalTimestamp: getOriginalTimestamp(),
+      //       site_redirect: 'WALLET'
+      //     },
+      //     traits: {
+      //       email,
+      //       nabuId,
+      //       tier
+      //     }
+      //   })
+      //   break
+      // }
+      case AT.auth.RESET_ACCOUNT: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        analytics.push(AnalyticsKey.NEW_ACCOUNT_PASSWORD_ENTERED, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect: 'WALLET'
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.auth.RECOVERY_OPTION_SELECTED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const { recoveryType } = action.payload
+
+        analytics.push(AnalyticsKey.RECOVERY_OPTION_SELECTED, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            recovery_type: recoveryType,
+            site_redirect: 'WALLET'
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.auth.RESTORE_FROM_METADATA: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+
+        analytics.push(AnalyticsKey.RECOVERY_PHRASE_ENTERED, {
+          properties: {
+            guid,
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect: 'WALLET'
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.auth.RESET_ACCOUNT_CANCELLED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const { origin } = action.payload
+
+        analytics.push(AnalyticsKey.RESET_ACCOUNT_CANCELLED, {
+          properties: {
+            guid,
+            origin,
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect: 'WALLET'
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.auth.RESET_ACCOUNT_CLICKED: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const guid = state.walletPath.wallet.guid ?? null
+        const { origin } = action.payload
+
+        analytics.push(AnalyticsKey.RESET_ACCOUNT_CLICKED, {
+          properties: {
+            guid,
+            origin,
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect: 'WALLET'
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case AT.auth.SIGNUP_DETAILS_ENTERED: {
+        const state = store.getState()
+        const { country, countryState } = action.payload
+        const guid = state.walletPath.wallet.guid ?? null
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        analytics.push(AnalyticsKey.SIGNUP_DETAILS_ENTERED, {
+          properties: {
+            country,
+            country_state: countryState,
+            guid,
+            originalTimestamp: getOriginalTimestamp()
+          },
+          traits: {
+            nabuId
+          }
+        })
         break
       }
       default: {

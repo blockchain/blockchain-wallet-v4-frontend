@@ -38,6 +38,7 @@ import blockchainIcon from './img/bc-icon.svg'
 import blockchainLogo from './img/bc-logo.svg'
 import blockchainLogoCircle from './img/bc-logo-circle.svg'
 import bgBannerPattern from './img/bg-banner-pattern.svg'
+import bgBannerPatternLg from './img/bg-banner-pattern-lg.svg'
 import bgPattern from './img/bg-pattern.svg'
 import bitpayLogo from './img/bitpay-logo.svg'
 import blankCard from './img/blank-card.svg'
@@ -190,6 +191,7 @@ const Images = {
   'bank-rejected': bankRejected,
   'bank-success': bankSuccess,
   'bg-banner-pattern': bgBannerPattern,
+  'bg-banner-pattern-lg': bgBannerPatternLg,
   'bg-pattern': bgPattern,
   'bitpay-logo': bitpayLogo,
   'blank-card': blankCard,

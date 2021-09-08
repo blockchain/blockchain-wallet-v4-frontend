@@ -46,17 +46,8 @@ class SendBtcContainer extends React.PureComponent<Props> {
   }
 
   render() {
-    const {
-      amount,
-      closeAll,
-      description,
-      excludeHDWallets,
-      payPro,
-      position,
-      step,
-      to,
-      total
-    } = this.props
+    const { amount, closeAll, description, excludeHDWallets, payPro, position, step, to, total } =
+      this.props
 
     return (
       <SendBtc position={position} total={total} closeAll={closeAll}>
