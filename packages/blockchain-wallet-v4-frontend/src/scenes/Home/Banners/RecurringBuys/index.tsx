@@ -78,6 +78,7 @@ const BannerButton = styled(Button)`
 const RecurringBuys = (props: Props) => {
   const showModal = () => {
     props.recurringBuyActions.showModal({ origin: RecurringBuyOrigins.RECURRING_BUYS_BANNER })
+    props.recurringBuyActions.learnMoreLinkClicked(RecurringBuyOrigins.DASHBOARD_PROMO)
   }
 
   return (

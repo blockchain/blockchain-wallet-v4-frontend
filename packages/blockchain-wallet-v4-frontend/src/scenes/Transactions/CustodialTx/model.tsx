@@ -90,6 +90,7 @@ export const Status = (props: Props) => {
           <Confirmations
             coin={props.tx.amount.symbol}
             hash={props.tx.extraAttributes.hash}
+            confirmations={props.tx.extraAttributes.confirmations}
             isConfirmed={props.tx.extraAttributes.confirmations >= 1}
             onViewTxDetails={() => undefined}
           />
