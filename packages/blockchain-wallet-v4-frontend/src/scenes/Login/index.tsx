@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector, getFormMeta, InjectedFormProps, reduxForm } from 'redux-form'
 
-import { Icon, Text } from 'blockchain-info-components'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { Form } from 'components/Form'
 import { Wrapper } from 'components/Public'
@@ -109,7 +109,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
   }
 
   render() {
-    const { data, formValues } = this.props
+    const { data, formValues, ssoDummy } = this.props
     const { step } = formValues || LoginSteps.ENTER_EMAIL_GUID
     const { busy, error } = data.cata({
       Failure: (val) => ({ busy: false, error: val.err }),
@@ -124,6 +124,21 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     }
     return (
       <>
+        {ssoDummy && (
+          <Button
+            onClick={() => {
+              window.parent.postMessage(
+                `msg from wallet. Date: ${new Date().getMilliseconds()}`,
+                '*'
+              )
+            }}
+            nature='primary'
+            data-e2e=''
+          >
+            {' '}
+            Send Message to Mobile{' '}
+          </Button>
+        )}
         <Text color='white' size='24px' weight={600} style={{ marginBottom: '24px' }}>
           {step === LoginSteps.ENTER_PASSWORD ? (
             <FormattedMessage id='scenes.login.authorize' defaultMessage='Authorize login' />
@@ -245,7 +260,8 @@ const mapStateToProps = (state) => ({
   initialValues: {
     step: LoginSteps.ENTER_EMAIL_GUID
   },
-  password: formValueSelector(LOGIN_FORM_NAME)(state, 'password')
+  password: formValueSelector(LOGIN_FORM_NAME)(state, 'password'),
+  ssoDummy: selectors.core.walletOptions.getSsoDummy(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
