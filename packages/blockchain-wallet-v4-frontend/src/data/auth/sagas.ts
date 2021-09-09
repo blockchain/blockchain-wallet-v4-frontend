@@ -391,6 +391,13 @@ export default ({ api, coreSagas, networks }) => {
     const formValues = yield select(selectors.form.getFormValues('login'))
     const { email, emailToken } = formValues
     let session = yield select(selectors.session.getSession, guid, email)
+    // JUST FOR ANALYTICS PURPOSES
+    if (code) {
+      yield put(actions.auth.loginTwoStepVerificationEntered())
+    } else {
+      yield put(actions.auth.loginPasswordEntered())
+    }
+    // JUST FOR ANALYTICS PURPOSES
     yield put(startSubmit('login'))
     try {
       if (!session) {
@@ -461,6 +468,7 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.auth.setAuthType(0))
         yield put(actions.form.clearFields('login', false, true, 'password', 'code'))
         yield put(actions.form.focus('login', 'password'))
+        yield put(actions.auth.loginPasswordDenied())
         yield put(actions.auth.loginFailure(error))
       } else if (initialError && initialError.includes('Unknown Wallet Identifier')) {
         yield put(actions.form.change('login', 'step', 'ENTER_EMAIL_GUID'))
@@ -472,11 +480,13 @@ export default ({ api, coreSagas, networks }) => {
         // Wrong 2fa code error
         error &&
         is(String, error) &&
-        error.includes('Authentication code is incorrect')
+        (error.includes('Authentication code is incorrect') ||
+          error.includes('Invalid authentication code'))
       ) {
         yield put(actions.form.clearFields('login', false, true, 'code'))
         yield put(actions.form.focus('login', 'code'))
         yield put(actions.auth.loginFailure(error))
+        yield put(actions.auth.loginTwoStepVerificationDenied())
       } else if (error && is(String, error)) {
         yield put(actions.auth.loginFailure(error))
       } else {
@@ -522,6 +532,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.auth.setRegisterEmail(email))
       yield call(coreSagas.wallet.createWalletSaga, action.payload)
       yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
+      yield put(actions.auth.signupDetailsEntered({ country, countryState: state }))
       yield call(loginRoutineSaga, {
         country,
         email,
@@ -689,6 +700,7 @@ export default ({ api, coreSagas, networks }) => {
       } else {
         yield call(parseMagicLinkLegacy, params)
       }
+      yield put(actions.auth.magicLinkParsed())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'parseLink', e))
       yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))

@@ -23,6 +23,7 @@ const INITIAL_STATE = {
   info: { eth: Remote.NotAsked },
   latest_block: Remote.NotAsked,
   legacy_balance: Remote.NotAsked,
+  rates: { eth: Remote.NotAsked },
   transaction_history: { eth: Remote.NotAsked },
   transactions: { eth: [] },
   transactions_at_bound: { eth: false },

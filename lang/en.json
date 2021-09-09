@@ -1800,6 +1800,7 @@
     "scenes.register.walletcard.item.3.regular": "by holding your private keys.",
     "scenes.register.walletcard.linktitle": "Create a New Wallet",
     "scenes.register.walletcard.title": "Blockchain Wallet",
+    "scenes.register.select_a_country": "Select a Country",
     "scenes.register.youremail": "Your Email",
     "scenes.reset2fa.firststep.explain": "Fill out the form below to regain access to your wallet by resetting your 2FA, restricted IP, and verified email.",
     "scenes.reset2fa.firststep.explain2": "Note: Your IP address and browser information will be recorded upon submission.",

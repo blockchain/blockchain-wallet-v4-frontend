@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Field, InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
@@ -50,10 +50,17 @@ const FieldWithoutBottomRadius = styled(FormItem)<{ setBorder: boolean }>`
   .bc__control {
     border-radius: ${(props) => (props.setBorder ? '8px 8px 0 0 ' : '8px')};
   }
+
+  .bc__menu {
+    overflow: hidden;
+  }
 `
 const FieldWithoutTopRadius = styled(FormItem)<{ setBorder: boolean }>`
   .bc__control {
     border-radius: ${(props) => (props.setBorder ? '0 0 8px 8px' : '8px')};
+  }
+  .bc__menu {
+    overflow: hidden;
   }
 `
 
@@ -67,10 +74,17 @@ const SignupForm = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) =
     onCountrySelect,
     onSignupSubmit,
     showState,
-    signupCountryEnabled
+    signupCountryEnabled,
+    userGeoData
   } = props
   const { password = '' } = formValues || {}
   const passwordScore = window.zxcvbn ? window.zxcvbn(password).score : 0
+
+  useEffect(() => {
+    if (userGeoData?.countryCode && signupCountryEnabled) {
+      props.setDefaultCountry(userGeoData.countryCode)
+    }
+  }, [])
 
   return (
     <StyledForm override onSubmit={onSignupSubmit}>
@@ -174,12 +188,11 @@ const SignupForm = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) =
               validate={required}
               component={SelectBoxCountry}
               menuPlacement='auto'
-              // @ts-ignore
-              onChange={onCountrySelect}
+              onChange={() => onCountrySelect}
               label={
                 <FormattedMessage
-                  id='components.selectboxcountry.label'
-                  defaultMessage='Select country'
+                  id='scenes.register.select_a_country'
+                  defaultMessage='Select a Country'
                 />
               }
             />
@@ -239,7 +252,7 @@ const SignupForm = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) =
       </FormGroup>
       <FormGroup>
         <FormItem>
-          <Terms style={{ width: '397px' }} />
+          <Terms style={{ textAlign: 'center', width: '397px' }} isCentered />
         </FormItem>
       </FormGroup>
 
