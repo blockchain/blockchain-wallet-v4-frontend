@@ -105,19 +105,21 @@ export const BuyOrSell = (props: {
   orderType: SBOrderActionType
 }) => {
   if (props.crypto) {
+    const coin = window.coins[props.crypto]
     return props.orderType === 'BUY' ? (
       <FormattedMessage
         id='buttons.buy_coin'
         defaultMessage='Buy {displayName}'
         values={{
-          displayName: props.crypto === 'Crypto' ? 'Crypto' : props.crypto
+          displayName:
+            props.crypto === 'Crypto' ? 'Crypto' : coin ? coin.coinfig.displaySymbol : props.crypto
         }}
       />
     ) : (
       <FormattedMessage
         id='buttons.sell_coin'
         defaultMessage='Sell {displayName}'
-        values={{ displayName: props.crypto }}
+        values={{ displayName: coin ? coin.coinfig.displaySymbol : props.crypto }}
       />
     )
   }

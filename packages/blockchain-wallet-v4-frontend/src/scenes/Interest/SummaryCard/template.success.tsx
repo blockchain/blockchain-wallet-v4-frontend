@@ -48,7 +48,8 @@ function SummaryCard(props: OwnProps & SuccessStateType): ReactElement {
     isGoldTier,
     walletCurrency
   } = props
-  const displayName = window.coins[coin].coinfig.name
+  const { coinfig } = window.coins[coin]
+  const { displaySymbol, name: displayName } = coinfig
   const account = interestAccountBalance && interestAccountBalance[coin]
   const accountBalanceBase = account ? account.balance : 0
   const interestBalanceBase = account ? account.totalInterest : 0
@@ -79,7 +80,7 @@ function SummaryCard(props: OwnProps & SuccessStateType): ReactElement {
               id='scenes.interest.summarycard.earning'
               defaultMessage='Earning up to {interestRate}% annually on your {coinTicker}.'
               values={{
-                coinTicker: coin,
+                coinTicker: displaySymbol,
                 interestRate: interestRate[coin]
               }}
             />
@@ -88,7 +89,7 @@ function SummaryCard(props: OwnProps & SuccessStateType): ReactElement {
               id='scenes.interest.summarycard.earn'
               defaultMessage='Earn up to {interestRate}% annually on your {coinTicker}.'
               values={{
-                coinTicker: coin,
+                coinTicker: displaySymbol,
                 interestRate: interestRate[coin]
               }}
             />
@@ -111,7 +112,7 @@ function SummaryCard(props: OwnProps & SuccessStateType): ReactElement {
             />
           </Text>
           <Text data-e2e='btcBalance' size='14px' weight={600} style={{ lineHeight: '1.5' }}>
-            {accountBalanceStandard} {coin}
+            {accountBalanceStandard} {displaySymbol}
           </Text>
           <FiatDisplay
             color='grey600'
@@ -138,7 +139,7 @@ function SummaryCard(props: OwnProps & SuccessStateType): ReactElement {
             />
           </Text>
           <Text data-e2e='btcInterest' size='14px' weight={600} style={{ lineHeight: '1.5' }}>
-            {interestBalanceStandard} {coin}
+            {interestBalanceStandard} {displaySymbol}
           </Text>
           <FiatDisplay
             color='grey600'
