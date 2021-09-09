@@ -22,7 +22,8 @@
         "legacyMobilePairing": false,
         "legacyWalletRecovery": false,
         "recurringBuys": true,
-        "signupCountry": true
+        "signupCountry": true,
+        "ssoDummy": false
       }
     }
   },

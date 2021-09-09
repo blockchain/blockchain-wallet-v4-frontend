@@ -59,3 +59,6 @@ export const getFeatureSignupCountry = (state: RootState) =>
 // signup country feature flag
 export const getEDDInterestFileUpload = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'eddInterestFileUpload']))
+
+export const getSsoDummy = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'ssoDummy']))
