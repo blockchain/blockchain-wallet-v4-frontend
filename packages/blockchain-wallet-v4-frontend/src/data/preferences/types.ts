@@ -4,8 +4,8 @@ import { SBFixType } from 'data/components/types'
 import * as AT from './actionTypes'
 
 export type PriceChartPreferenceType = {
-  coin?: CoinType | undefined
-  time?: TimeRange | undefined
+  coin?: CoinType
+  time?: TimeRange
 }
 
 // State
