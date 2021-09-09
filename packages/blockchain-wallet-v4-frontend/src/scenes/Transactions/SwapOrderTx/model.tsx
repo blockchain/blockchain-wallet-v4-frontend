@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Text } from 'blockchain-info-components'
@@ -88,14 +88,14 @@ export const Status = ({ order }: Props) => {
 }
 
 export const Timestamp = (props: Props) => {
-  const getTimeOrStatus = () => {
+  const getTimeOrStatus = useCallback(() => {
     switch (props.order.state) {
       case 'FINISHED':
         return <SharedTimestamp time={props.order.insertedAt} />
       default:
         return <Status {...props} />
     }
-  }
+  }, [props.order.state, props.order.insertedAt])
 
   return (
     <Text

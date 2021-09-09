@@ -199,7 +199,7 @@ export const Timestamp = ({ time }: { time: string | number }) => {
       style={{ marginTop: '4px' }}
       data-e2e='txTimeOrStatus'
     >
-      {moment(time).local().format('MMMM D YYYY @h:mmA')}
+      {moment(time).local().format('h:mm a on D MMM YYYY')}
     </Text>
   )
 }
