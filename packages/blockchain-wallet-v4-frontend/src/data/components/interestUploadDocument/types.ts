@@ -1,3 +1,5 @@
+import { InterestEDDDocumentsResponse, RemoteDataType } from 'blockchain-wallet-v4/src/types'
+
 export enum InterestUploadDocumentsStepType {
   'INIT_PAGE',
   'GET_STARTED',
@@ -6,6 +8,7 @@ export enum InterestUploadDocumentsStepType {
 }
 
 export type InterestUploadDocumentsState = {
+  interestEDDDocumentLimits: RemoteDataType<string, InterestEDDDocumentsResponse>
   step: InterestUploadDocumentsStepType
 }
 
@@ -14,7 +17,7 @@ export type InterestUploadDocumentsPayload = {
 }
 
 export type InterestUploadDocumentFormValueTypes = {
-  jobTitle: string
+  expectedDeposits: string
+  occupation: string
   ssn?: string
-  totalAmount: string
 }

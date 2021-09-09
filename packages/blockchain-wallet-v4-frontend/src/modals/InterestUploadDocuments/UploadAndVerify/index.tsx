@@ -10,11 +10,7 @@ import { Props as _P } from '..'
 
 const { INTEREST_UPLOAD_DOCUMENT } = model.components.interestUploadDocument
 
-const UploadAndVerifyStep = ({
-  formValues,
-  handleSubmit,
-  interestUploadDocumentActions
-}: Props) => {
+const UploadAndVerifyStep = ({ interestUploadDocumentActions, submitData }: Props) => {
   const nextStep = useCallback(
     () =>
       interestUploadDocumentActions.setStep({
@@ -29,7 +25,12 @@ const UploadAndVerifyStep = ({
       }),
     [InterestUploadDocumentsStepType.UPLOAD_AND_VERIFIED]
   )
-  const additionalInformationProps = { formValues, handleSubmit, nextStep, previousStep }
+
+  const additionalInformationProps = {
+    nextStep,
+    previousStep,
+    submitData
+  }
 
   return <UploadAndVerify {...additionalInformationProps} />
 }
@@ -42,6 +43,6 @@ const mapStateToProps = (state: RootState) => ({
 
 const connector = connect(mapStateToProps)
 
-export type Props = _P & ConnectedProps<typeof connector> & { handleSubmit: () => void }
+export type Props = _P & ConnectedProps<typeof connector> & { submitData: (files) => void }
 
 export default connector(UploadAndVerifyStep)

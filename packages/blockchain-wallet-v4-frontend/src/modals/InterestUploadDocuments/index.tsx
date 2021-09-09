@@ -2,8 +2,9 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
+import { FileUploadItem, RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 import { InterestUploadDocumentsStepType, ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
@@ -11,6 +12,8 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 import { ModalPropsType } from '../types'
 import AdditionalInformation from './AdditionalInformation'
 import GetStarted from './GetStarted'
+import { getData } from './selectors'
+import Loading from './template.loading'
 import UploadAndVerify from './UploadAndVerify'
 import Uploaded from './Uploaded'
 
@@ -23,6 +26,7 @@ class InterestUploadDocumnets extends PureComponent<Props, State> {
   componentDidMount() {
     /* eslint-disable */
     this.setState({ show: true })
+    this.props.interestUploadDocumentActions.fetchEDDDocumentsLimits()
     /* eslint-enable */
   }
 
@@ -37,41 +41,74 @@ class InterestUploadDocumnets extends PureComponent<Props, State> {
     // console.log('here we gooo')
   }
 
+  submitData = (files: FileUploadItem[]) => {
+    this.props.interestUploadDocumentActions.saveAdditionalData()
+    this.props.interestUploadDocumentActions.uploadFiles({ files })
+  }
+
   render() {
-    return (
-      <Flyout {...this.props} isOpen={this.state.show} onClose={this.handleClose}>
-        {this.props.step === InterestUploadDocumentsStepType.INIT_PAGE && (
+    const { data } = this.props
+    return data.cata({
+      Failure: () => null,
+      Loading: () => (
+        <Flyout
+          {...this.props}
+          onClose={this.handleClose}
+          isOpen={this.state.show}
+          data-e2e='interestUploadDocumentsModal'
+        >
           <FlyoutChild>
-            <AdditionalInformation
-              {...this.props}
-              handleSubmit={this.handleSubmit}
-              countryCode={this.props.countryCode}
-            />
+            <Loading />
           </FlyoutChild>
-        )}
-        {this.props.step === InterestUploadDocumentsStepType.GET_STARTED && (
+        </Flyout>
+      ),
+      NotAsked: () => (
+        <Flyout
+          {...this.props}
+          onClose={this.handleClose}
+          isOpen={this.state.show}
+          data-e2e='interestUploadDocumentsModal'
+        >
           <FlyoutChild>
-            <GetStarted {...this.props} handleSubmit={this.handleSubmit} />
+            <Loading />
           </FlyoutChild>
-        )}
-        {this.props.step === InterestUploadDocumentsStepType.UPLOAD_AND_VERIFIED && (
-          <FlyoutChild>
-            <UploadAndVerify {...this.props} handleSubmit={this.handleSubmit} />
-          </FlyoutChild>
-        )}
-        {this.props.step === InterestUploadDocumentsStepType.UPLOADED && (
-          <FlyoutChild>
-            <Uploaded {...this.props} handleSubmit={this.handleSubmit} />
-          </FlyoutChild>
-        )}
-      </Flyout>
-    )
+        </Flyout>
+      ),
+      Success: (value) => (
+        <Flyout
+          {...this.props}
+          isOpen={this.state.show}
+          onClose={this.handleClose}
+          data-e2e='interestUploadDocumentsModal'
+        >
+          {value.step === InterestUploadDocumentsStepType.INIT_PAGE && (
+            <FlyoutChild>
+              <AdditionalInformation handleSubmit={this.handleSubmit} {...this.props} {...value} />
+            </FlyoutChild>
+          )}
+          {value.step === InterestUploadDocumentsStepType.GET_STARTED && (
+            <FlyoutChild>
+              <GetStarted {...this.props} {...value} handleSubmit={this.handleSubmit} />
+            </FlyoutChild>
+          )}
+          {value.step === InterestUploadDocumentsStepType.UPLOAD_AND_VERIFIED && (
+            <FlyoutChild>
+              <UploadAndVerify {...this.props} {...value} submitData={this.submitData} />
+            </FlyoutChild>
+          )}
+          {value.step === InterestUploadDocumentsStepType.UPLOADED && (
+            <FlyoutChild>
+              <Uploaded {...this.props} handleSubmit={this.handleSubmit} />
+            </FlyoutChild>
+          )}
+        </Flyout>
+      )
+    })
   }
 }
 
-const mapStateToProps = (state: RootState) => ({
-  countryCode: selectors.core.settings.getCountryCode(state).getOrElse(null),
-  step: selectors.components.interestUploadDocument.getStep(state)
+const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+  data: getData(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -80,6 +117,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     dispatch
   )
 })
+
+export type SuccessStateType = ReturnType<typeof getData>['data']
+
+type LinkStatePropsType = {
+  data: RemoteDataType<string | Error, SuccessStateType>
+}
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 

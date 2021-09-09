@@ -6,7 +6,7 @@ import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { InterestUploadDocumentFormValueTypes, InterestUploadDocumentsStepType } from 'data/types'
 
-import { Props as _P } from '..'
+import { Props as _P, SuccessStateType } from '..'
 
 const { INTEREST_UPLOAD_DOCUMENT } = model.components.interestUploadDocument
 
@@ -37,6 +37,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const connector = connect(mapStateToProps)
 
-export type Props = _P & ConnectedProps<typeof connector> & { handleSubmit: () => void }
+export type Props = _P &
+  ConnectedProps<typeof connector> & { handleSubmit: () => void } & SuccessStateType
 
 export default connector(AdditionalInformationStep)

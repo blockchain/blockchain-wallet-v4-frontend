@@ -59,7 +59,6 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     handleDisplayToggle,
     interestActions,
     interestEDDWithdrawLimits,
-    interestUploadDocumentActions,
     invalid,
     rates,
     submitting,
@@ -312,19 +311,6 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
             </CartrigeText>
           </CustomOrangeCartridge>
         )}
-
-        <Button
-          data-e2e='earnInterestSupplyMoreInformation'
-          fullwidth
-          nature='primary'
-          onClick={() => {
-            interestUploadDocumentActions.showModal({
-              origin: 'InterestUploadDocument'
-            })
-          }}
-        >
-          TODO REMOVE ME
-        </Button>
       </Top>
       <Bottom>
         <NetworkFee>

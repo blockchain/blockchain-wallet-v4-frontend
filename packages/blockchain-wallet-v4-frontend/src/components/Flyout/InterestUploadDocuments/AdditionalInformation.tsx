@@ -61,7 +61,7 @@ const AdditionalInformation: React.FC<InjectedFormProps<{}, Props> & Props> = (p
           </TextContentWrapper>
           <ContentWrapper>
             <FormItem>
-              <FormLabel htmlFor='jobTitle'>
+              <FormLabel htmlFor='occupation'>
                 <Text weight={600} size='14px' color='grey900'>
                   <FormattedMessage
                     id='modals.interest.withdrawal.upload_documents.additional_info.current_job'
@@ -69,7 +69,7 @@ const AdditionalInformation: React.FC<InjectedFormProps<{}, Props> & Props> = (p
                   />
                 </Text>
               </FormLabel>
-              <Field name='jobTitle' errorBottom component={TextBox} validate={[required]} />
+              <Field name='occupation' errorBottom component={TextBox} validate={[required]} />
             </FormItem>
           </ContentWrapper>
           <ContentDivider />
@@ -83,7 +83,7 @@ const AdditionalInformation: React.FC<InjectedFormProps<{}, Props> & Props> = (p
           </TextContentWrapper>
           <ContentWrapper>
             <FormItem>
-              <FormLabel htmlFor='totalAmount'>
+              <FormLabel htmlFor='expectedDeposits'>
                 <Text weight={600} size='14px' color='grey900'>
                   <FormattedMessage
                     id='modals.interest.withdrawal.upload_documents.additional_info.total_amount'
@@ -91,7 +91,12 @@ const AdditionalInformation: React.FC<InjectedFormProps<{}, Props> & Props> = (p
                   />
                 </Text>
               </FormLabel>
-              <Field name='totalAmount' errorBottom component={TextBox} validate={[required]} />
+              <Field
+                name='expectedDeposits'
+                errorBottom
+                component={TextBox}
+                validate={[required]}
+              />
             </FormItem>
           </ContentWrapper>
           <ContentDivider />

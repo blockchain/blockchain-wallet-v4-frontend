@@ -10,12 +10,7 @@ import { Props as _P } from '..'
 
 const { INTEREST_UPLOAD_DOCUMENT } = model.components.interestUploadDocument
 
-const UploadedStep = ({
-  close,
-  formValues,
-  handleSubmit,
-  interestUploadDocumentActions
-}: Props) => {
+const UploadedStep = ({ close, handleSubmit, interestUploadDocumentActions }: Props) => {
   const nextStep = useCallback(
     () =>
       interestUploadDocumentActions.setStep({
@@ -24,7 +19,7 @@ const UploadedStep = ({
     [InterestUploadDocumentsStepType.UPLOADED]
   )
 
-  const additionalInformationProps = { close, formValues, handleSubmit, nextStep }
+  const additionalInformationProps = { close, handleSubmit, nextStep }
 
   return <Uploaded {...additionalInformationProps} />
 }

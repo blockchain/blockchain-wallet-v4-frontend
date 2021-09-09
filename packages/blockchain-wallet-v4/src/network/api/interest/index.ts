@@ -3,9 +3,11 @@ import { CoinType, FiatType, WalletFiatType } from 'core/types'
 import {
   CustodialTransferResponseType,
   DepositLimits,
+  FileUploadItem,
   InterestAccountBalanceType,
   InterestAccountType,
   InterestAfterTransactionType,
+  InterestEDDDocumentsResponse,
   InterestEDDStatus,
   InterestEligibleType,
   InterestInstrumentsResponseType,
@@ -13,6 +15,7 @@ import {
   InterestRateType,
   InterestTransactionResponseType,
   InterestWithdrawalResponseType,
+  UploadDocumentDetails,
   WithdrawalMinimumTypeResponse,
   WithdrawLimits
 } from './types'
@@ -161,26 +164,26 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const storeEDDDocuments = (currency: FiatType): WithdrawLimits =>
+  const storeEDDDocuments = (uploadFiles: FileUploadItem[]) =>
     authorizedPut({
+      contentType: 'application/json',
       data: {
-        currency
+        data: uploadFiles
       },
       endPoint: '/savings/edd/documents',
       url: nabuUrl
     })
 
-  const storeEDDData = (currency: FiatType): WithdrawLimits =>
+  const storeEDDData = (eddData: UploadDocumentDetails) =>
     authorizedPut({
-      data: {
-        currency
-      },
+      contentType: 'application/json',
+      data: eddData,
       endPoint: '/savings/edd/data',
       url: nabuUrl
     })
 
-  const getEDDDocumentsLimits = (): WithdrawLimits =>
-    authorizedPut({
+  const getEDDDocumentsLimits = (): InterestEDDDocumentsResponse =>
+    authorizedGet({
       endPoint: '/savings/edd/documents/limits',
       url: nabuUrl
     })
@@ -201,6 +204,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, nabuUrl }) => {
     getWithdrawalMinsAndFees,
     initiateInterestWithdrawal,
     stopInterestCtaAfterTransaction,
+    storeEDDData,
     storeEDDDocuments,
     transferFromCustodial
   }

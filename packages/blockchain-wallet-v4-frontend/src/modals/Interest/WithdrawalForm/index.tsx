@@ -50,11 +50,7 @@ const mapStateToProps = (state): LinkStatePropsType => ({
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  interestActions: bindActionCreators(actions.components.interest, dispatch),
-  interestUploadDocumentActions: bindActionCreators(
-    actions.components.interestUploadDocument,
-    dispatch
-  )
+  interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -74,7 +70,6 @@ export type OwnProps = {
 export type LinkDispatchPropsType = {
   formActions: typeof actions.form
   interestActions: typeof actions.components.interest
-  interestUploadDocumentActions: typeof actions.components.interestUploadDocument
 }
 
 type Props = OwnProps & ConnectedProps<typeof connector>
