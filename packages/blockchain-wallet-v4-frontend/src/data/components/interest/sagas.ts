@@ -184,7 +184,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.fetchInterestTransactionsLoading({ reset }))
       const response = yield call(api.getInterestTransactions, coin, nextPage)
       yield put(A.fetchInterestTransactionsSuccess({ reset, transactions: response.items }))
-      yield put(A.setTransactionsNextPage(response.next))
+      yield put(A.setTransactionsNextPage({ nextPage: response.next }))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchInterestTransactionsFailure(error))
