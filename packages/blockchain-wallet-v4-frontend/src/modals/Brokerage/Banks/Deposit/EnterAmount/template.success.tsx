@@ -122,7 +122,7 @@ const LimitSection = ({ fiatCurrency, paymentMethods }) => {
     (method) => method.type === SBPaymentTypes.BANK_TRANSFER
   )
 
-  if (bankTransfer?.limits) {
+  if (bankTransfer.limits && bankTransfer.limits?.daily) {
     return (
       <Limits>
         <LimitWrapper>
@@ -197,8 +197,8 @@ const Account = ({
         // else take them to enter amount form with default bank
         if (!bankTransferAccounts.length) {
           brokerageActions.showModal({
-            origin: BrokerageModalOriginType.ADD_BANK_DEPOSIT,
-            modalType: fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL'
+            modalType: fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL',
+            origin: BrokerageModalOriginType.ADD_BANK_DEPOSIT
           })
           brokerageActions.setAddBankStep({
             addBankStep: AddBankStepType.ADD_BANK
