@@ -311,7 +311,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     newPayment = yield newPayment.to(depositAddress, 'ADDRESS')
     newPayment = yield newPayment.value()
     yield call(createLimits, newPayment)
-    yield put(A.setPaymentSuccess(newPayment))
+    yield put(A.setPaymentSuccess({ payment: newPayment }))
 
     return noncustodialAccount
   }
