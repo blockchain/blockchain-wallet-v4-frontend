@@ -71,7 +71,7 @@ const Uploaded = ({ close, nextStep }: Props) => {
           fullwidth
           height='48px'
           style={{ marginTop: '16px' }}
-          onClick={nextStep}
+          onClick={closeModal}
         >
           <FormattedMessage id='button.ok' defaultMessage='OK' />
         </Button>
@@ -82,7 +82,6 @@ const Uploaded = ({ close, nextStep }: Props) => {
 
 export type Props = {
   close: () => void
-  nextStep: () => void
 }
 
 export default Uploaded

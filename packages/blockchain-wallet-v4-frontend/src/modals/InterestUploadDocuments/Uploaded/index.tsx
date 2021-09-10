@@ -1,25 +1,15 @@
-import React, { useCallback } from 'react'
-import { connect, ConnectedProps } from 'react-redux'
+import React from 'react'
+import { connect } from 'react-redux'
 
 import { Uploaded } from 'components/Flyout'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { InterestUploadDocumentFormValueTypes, InterestUploadDocumentsStepType } from 'data/types'
-
-import { Props as _P } from '..'
+import { InterestUploadDocumentFormValueTypes } from 'data/types'
 
 const { INTEREST_UPLOAD_DOCUMENT } = model.components.interestUploadDocument
 
-const UploadedStep = ({ close, handleSubmit, interestUploadDocumentActions }: Props) => {
-  const nextStep = useCallback(
-    () =>
-      interestUploadDocumentActions.setStep({
-        step: InterestUploadDocumentsStepType.UPLOADED
-      }),
-    [InterestUploadDocumentsStepType.UPLOADED]
-  )
-
-  const additionalInformationProps = { close, handleSubmit, nextStep }
+const UploadedStep = ({ close }: Props) => {
+  const additionalInformationProps = { close }
 
   return <Uploaded {...additionalInformationProps} />
 }
@@ -32,6 +22,8 @@ const mapStateToProps = (state: RootState) => ({
 
 const connector = connect(mapStateToProps)
 
-export type Props = _P & ConnectedProps<typeof connector> & { handleSubmit: () => void }
+export type Props = {
+  close: () => void
+}
 
 export default connector(UploadedStep)

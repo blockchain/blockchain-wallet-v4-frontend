@@ -53,6 +53,12 @@ const UploadAndVerify: React.FC<Props> = (props) => {
     sourceOfWelth1: false,
     sourceOfWelth2: false
   })
+  const [uploadAndVerifiedError, setUploadAndVerifiedError] = useState({
+    proofOfAddress1: false,
+    proofOfAddress2: false,
+    sourceOfWelth1: false,
+    sourceOfWelth2: false
+  })
   const [uploadedFiles, setUploadedFiles] = useState({
     proofOfAddress1: null,
     proofOfAddress2: null,
@@ -71,6 +77,9 @@ const UploadAndVerify: React.FC<Props> = (props) => {
     } else {
       uploadedFile = files
     }
+    // verify file size and extension
+    setUploadAndVerifiedError({ ...uploadAndVerifiedError, [name]: false })
+
     setUploadAndVerified({ ...uploadAndVerified, [name]: true })
     uploadedFiles[name] = uploadedFile
     setUploadedFiles(uploadedFiles)
@@ -86,6 +95,7 @@ const UploadAndVerify: React.FC<Props> = (props) => {
 
   const fileDelete = (name: string) => {
     setUploadAndVerified({ ...uploadAndVerified, [name]: false })
+    setUploadAndVerifiedError({ ...uploadAndVerifiedError, [name]: false })
     setUploadedFiles({ ...uploadedFiles, [name]: null })
   }
 
@@ -160,6 +170,7 @@ const UploadAndVerify: React.FC<Props> = (props) => {
               no='1'
               fileUploaded={uploadAndVerified.proofOfAddress1}
               isProofOfAddress
+              error={uploadAndVerifiedError.proofOfAddress1}
               fileName={getFileName('proofOfAddress1')}
               onFileDelete={() => fileDelete('proofOfAddress1')}
               onFileDownload={() => fileDownload('proofOfAddress1')}
@@ -173,6 +184,7 @@ const UploadAndVerify: React.FC<Props> = (props) => {
                 fileUploaded={uploadAndVerified.proofOfAddress2}
                 isOptional
                 isProofOfAddress
+                error={uploadAndVerifiedError.proofOfAddress2}
                 fileName={getFileName('proofOfAddress2')}
                 onFileDelete={() => fileDelete('proofOfAddress2')}
                 onFileDownload={() => fileDownload('proofOfAddress2')}
@@ -200,6 +212,7 @@ const UploadAndVerify: React.FC<Props> = (props) => {
               handleDrop={(files) => handleDrop(files, 'sourceOfWelth1')}
               no='1'
               fileUploaded={uploadAndVerified.sourceOfWelth1}
+              error={uploadAndVerifiedError.sourceOfWelth1}
               fileName={getFileName('sourceOfWelth1')}
               onFileDelete={() => fileDelete('sourceOfWelth1')}
               onFileDownload={() => fileDownload('sourceOfWelth1')}
@@ -212,6 +225,7 @@ const UploadAndVerify: React.FC<Props> = (props) => {
                 no='2'
                 fileUploaded={uploadAndVerified.sourceOfWelth2}
                 isOptional
+                error={uploadAndVerifiedError.sourceOfWelth2}
                 fileName={getFileName('sourceOfWelth2')}
                 onFileDelete={() => fileDelete('sourceOfWelth2')}
                 onFileDownload={() => fileDownload('sourceOfWelth2')}

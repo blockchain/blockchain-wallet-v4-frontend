@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components'
 
 import { Icon, Image, Link, Text } from 'blockchain-info-components'
 
-const UploadItemConitainer = styled.div<{ isDragging: boolean }>`
+const UploadItemConitainer = styled.div<{ error?: boolean; isDragging: boolean }>`
   display: flex;
   flex-direction: row;
   border: 1px solid ${(props) => props.theme.grey100};
@@ -15,6 +15,12 @@ const UploadItemConitainer = styled.div<{ isDragging: boolean }>`
     props.isDragging &&
     css`
       border-color: ${(props) => props.theme.blue600};
+    `}
+  ${(props) =>
+    props.error &&
+    css`
+      border-color: ${(props) => props.theme.red400};
+      background-color: ${(props) => props.theme.red100};
     `}
 `
 const IconWrapper = styled.div`
@@ -135,6 +141,19 @@ const DragAndDrop = (props: Props) => {
     }
   }
 
+  const getIconName = () => {
+    if (props.error) {
+      return 'close-circle'
+    }
+    return props.fileUploaded ? 'checkmark-circle-filled' : 'plus-in-circle-filled'
+  }
+  const getIconColor = () => {
+    if (props.error) {
+      return 'red600'
+    }
+    return props.fileUploaded ? 'green400' : 'blue600'
+  }
+
   useEffect(() => {
     let observerRefValue: HTMLInputElement
     if (dropRef && dropRef.current && dropRef.current !== undefined) {
@@ -163,17 +182,18 @@ const DragAndDrop = (props: Props) => {
         style={{ display: 'none' }}
         ref={inputFile}
       />
-      <UploadItemConitainer isDragging={dragging}>
+      <UploadItemConitainer isDragging={dragging} error>
         <IconWrapper>
-          <Icon
-            name={props.fileUploaded ? 'checkmark-circle-filled' : 'plus-in-circle-filled'}
-            size='22px'
-            color={props.fileUploaded ? 'green400' : 'blue600'}
-          />
+          <Icon name={getIconName()} size='22px' color={getIconColor()} />
         </IconWrapper>
         <MainSection>
           <div>
-            <Text size='14px' weight={600} lineHeight='20px'>
+            <Text
+              size='14px'
+              weight={600}
+              lineHeight='20px'
+              color={props.error ? 'red400' : 'grey900'}
+            >
               {getProperLabel(
                 props?.isOptional || false,
                 props.isProofOfAddress || false,
@@ -218,6 +238,7 @@ const DragAndDrop = (props: Props) => {
 }
 
 type Props = {
+  error?: boolean
   //   children: ReactNode
   fileName?: string
   fileUploaded: boolean

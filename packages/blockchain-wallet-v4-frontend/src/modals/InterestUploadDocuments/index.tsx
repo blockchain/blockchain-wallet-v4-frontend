@@ -88,7 +88,7 @@ class InterestUploadDocumnets extends PureComponent<Props, State> {
           )}
           {value.step === InterestUploadDocumentsStepType.GET_STARTED && (
             <FlyoutChild>
-              <GetStarted {...this.props} {...value} handleSubmit={this.handleSubmit} />
+              <GetStarted {...this.props} {...value} />
             </FlyoutChild>
           )}
           {value.step === InterestUploadDocumentsStepType.UPLOAD_AND_VERIFIED && (
@@ -98,7 +98,7 @@ class InterestUploadDocumnets extends PureComponent<Props, State> {
           )}
           {value.step === InterestUploadDocumentsStepType.UPLOADED && (
             <FlyoutChild>
-              <Uploaded {...this.props} handleSubmit={this.handleSubmit} />
+              <Uploaded close={this.props.close} />
             </FlyoutChild>
           )}
         </Flyout>

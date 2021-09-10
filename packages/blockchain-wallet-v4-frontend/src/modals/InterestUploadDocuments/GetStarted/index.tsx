@@ -38,6 +38,6 @@ const mapStateToProps = (state: RootState) => ({
 
 const connector = connect(mapStateToProps)
 
-export type Props = _P & ConnectedProps<typeof connector> & { handleSubmit: () => void }
+export type Props = _P & ConnectedProps<typeof connector>
 
 export default connector(GetStartedStep)
