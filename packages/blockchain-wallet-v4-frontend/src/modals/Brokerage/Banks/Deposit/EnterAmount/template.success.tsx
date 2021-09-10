@@ -122,7 +122,7 @@ const LimitSection = ({ fiatCurrency, paymentMethods }) => {
     (method) => method.type === SBPaymentTypes.BANK_TRANSFER
   )
 
-  if (bankTransfer.limits && bankTransfer.limits?.daily) {
+  if (bankTransfer?.limits?.daily) {
     return (
       <Limits>
         <LimitWrapper>
