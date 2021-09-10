@@ -1,6 +1,10 @@
 import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 
-import * as AT from './actionTypes'
+import {
+  fetchProductsEligibilityFailure,
+  fetchProductsEligibilityLoading,
+  fetchProductsEligibilitySuccess
+} from './slice'
 
 export type NabuProductType = 'SWAP' | 'SIMPLEBUY' | 'SAVINGS' | 'BROKERAGE'
 export enum NabuProducts {
@@ -28,18 +32,18 @@ interface FetchProductsEligibilityFailure {
   payload: {
     error: string
   }
-  type: typeof AT.FETCH_PRODUCTS_ELIGIBILITY_FAILURE
+  type: typeof fetchProductsEligibilityFailure.type
 }
 
 interface FetchProductsEligibilityLoading {
-  type: typeof AT.FETCH_PRODUCTS_ELIGIBILITY_LOADING
+  type: typeof fetchProductsEligibilityLoading.type
 }
 
 interface FetchProductsEligibilitySuccess {
   payload: {
     productsEligibility: Array<ProductEligibility>
   }
-  type: typeof AT.FETCH_PRODUCTS_ELIGIBILITY_SUCCESS
+  type: typeof fetchProductsEligibilitySuccess.type
 }
 
 export type SettingsActionTypes =

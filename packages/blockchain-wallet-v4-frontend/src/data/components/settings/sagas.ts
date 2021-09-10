@@ -5,7 +5,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
-import * as A from './actions'
+import { actions as A } from './slice'
 
 export const logLocation = 'components/settings/sagas'
 
@@ -59,7 +59,7 @@ export default ({ api, coreSagas }) => {
 
   return {
     fetchProductsEligibility,
-    notificationsInitialized,
-    notificationsFormChanged
+    notificationsFormChanged,
+    notificationsInitialized
   }
 }
