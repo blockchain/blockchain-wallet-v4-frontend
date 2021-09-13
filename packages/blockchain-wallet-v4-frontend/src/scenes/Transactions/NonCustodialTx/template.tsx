@@ -10,6 +10,7 @@ import {
   Addresses,
   DetailsColumn,
   DetailsRow,
+  fromAccountFormatter,
   IconTx,
   Row,
   RowHeader,
@@ -107,7 +108,7 @@ const NonCustodialTx = ({
         )}
       </Row>
       <AddressesColumn data-e2e='transactionAddressesColumn'>
-        <Addresses to={toAccountFormatter(transaction)} from={transaction.from} />
+        <Addresses to={toAccountFormatter(transaction)} from={fromAccountFormatter(transaction)} />
       </AddressesColumn>
       <AmountColumn data-e2e='transactionAmountColumn'>
         <StyledCoinDisplay coin={coin}>{transaction.amount}</StyledCoinDisplay>

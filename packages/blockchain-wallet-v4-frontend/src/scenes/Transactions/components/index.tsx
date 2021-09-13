@@ -4,7 +4,7 @@ import moment from 'moment'
 import styled, { DefaultTheme } from 'styled-components'
 
 import { Icon, Text, TextGroup } from 'blockchain-info-components'
-import { CoinType, ProcessedTxType } from 'blockchain-wallet-v4/src/types'
+import { CoinType, IOType, ProcessedTxType } from 'blockchain-wallet-v4/src/types'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
@@ -38,7 +38,7 @@ export const Addresses = ({ from, to }) => {
   )
 }
 
-const ToAddress = styled.span`
+const FormattedAddress = styled.span`
   font-size: 12px;
   color: ${(p) => p.theme.grey300};
 
@@ -55,7 +55,26 @@ export const toAccountFormatter = (transaction: ProcessedTxType) => {
     <span>
       {to}{' '}
       {type === 'received' && 'toAddress' in transaction ? (
-        <ToAddress>{transaction.toAddress}</ToAddress>
+        <FormattedAddress>{transaction.toAddress}</FormattedAddress>
+      ) : (
+        ''
+      )}
+    </span>
+  )
+}
+
+export const fromAccountFormatter = (transaction: ProcessedTxType) => {
+  const { from, type } = transaction
+  const inputs = ('inputs' in transaction && transaction.inputs) || ([] as IOType[])
+  return (
+    <span>
+      {from}{' '}
+      {type === 'sent' && inputs.length === 1 ? (
+        <FormattedAddress>{inputs[0]?.address}</FormattedAddress>
+      ) : type === 'sent' && inputs.length > 1 ? (
+        <FormattedAddress>
+          {inputs[0]?.address}, +{inputs.length - 1}
+        </FormattedAddress>
       ) : (
         ''
       )}
