@@ -7,6 +7,7 @@ export default ({ api, coreSagas, networks }) => {
   const {
     clearSession,
     createUser,
+    fetchTiers,
     fetchUser,
     fetchUserCampaigns,
     linkFromExchangeAccount,
@@ -24,6 +25,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.CLEAR_SESSION, clearSession)
     yield takeLatest(AT.CREATE_USER, createUser)
     yield takeLatest(AT.FETCH_USER, fetchUser)
+    yield takeLatest(AT.FETCH_TIERS, fetchTiers)
     yield takeLatest(AT.FETCH_USER_CAMPAIGNS, fetchUserCampaigns)
     // @ts-ignore
     yield takeLatest(AT.LINK_FROM_EXCHANGE_ACCOUNT, linkFromExchangeAccount)
