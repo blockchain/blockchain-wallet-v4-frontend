@@ -6,11 +6,15 @@ import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { InterestUploadDocumentFormValueTypes, InterestUploadDocumentsStepType } from 'data/types'
 
-import { Props as _P } from '..'
+import { Props as _P, SuccessStateType } from '..'
 
 const { INTEREST_UPLOAD_DOCUMENT } = model.components.interestUploadDocument
 
-const UploadAndVerifyStep = ({ interestUploadDocumentActions, submitData }: Props) => {
+const UploadAndVerifyStep = ({
+  documentLimits,
+  interestUploadDocumentActions,
+  submitData
+}: Props) => {
   const nextStep = useCallback(
     () =>
       interestUploadDocumentActions.setStep({
@@ -27,6 +31,7 @@ const UploadAndVerifyStep = ({ interestUploadDocumentActions, submitData }: Prop
   )
 
   const additionalInformationProps = {
+    documentLimits,
     nextStep,
     previousStep,
     submitData
@@ -43,6 +48,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const connector = connect(mapStateToProps)
 
-export type Props = _P & ConnectedProps<typeof connector> & { submitData: (files) => void }
+export type Props = _P &
+  ConnectedProps<typeof connector> & { submitData: (files) => void } & SuccessStateType
 
 export default connector(UploadAndVerifyStep)

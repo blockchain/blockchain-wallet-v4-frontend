@@ -7,6 +7,12 @@ import UploadAndVerify from './UploadAndVerify'
 export default {
   argTypes: {},
   args: {
+    documentLimits: {
+      categories: ['PROOF_OF_ADDRESS', 'PROOF_OF_INCOME', 'OTHER'],
+      maxAllowedFileSizeMBs: 5,
+      maxNumAllowedFiles: 8,
+      validTypes: ['jpg', 'png', 'heic']
+    },
     nextStep: () => {},
     previousStep: () => {},
     submitData: (files) => {

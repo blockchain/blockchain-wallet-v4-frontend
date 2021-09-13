@@ -182,7 +182,7 @@ const DragAndDrop = (props: Props) => {
         style={{ display: 'none' }}
         ref={inputFile}
       />
-      <UploadItemConitainer isDragging={dragging} error>
+      <UploadItemConitainer isDragging={dragging} error={props.error}>
         <IconWrapper>
           <Icon name={getIconName()} size='22px' color={getIconColor()} />
         </IconWrapper>

@@ -19,7 +19,7 @@ const InfoContent = styled.div`
   text-align: center;
 `
 
-const Uploaded = ({ close, nextStep }: Props) => {
+const Uploaded = ({ close }: Props) => {
   const closeModal = useCallback(() => {
     close()
   }, [])

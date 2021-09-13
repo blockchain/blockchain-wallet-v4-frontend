@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
-import { FileUploadItem } from 'blockchain-wallet-v4/src/types'
+import { FileUploadItem, InterestEDDDocumentsResponse } from 'blockchain-wallet-v4/src/types'
 
 import { toBase64 } from '../../../utils/helpers'
 import DragAndDrop from '../../DragAndDrop'
@@ -66,11 +66,16 @@ const UploadAndVerify: React.FC<Props> = (props) => {
     sourceOfWelth2: null
   })
 
+  const getSizeInMB = (size: number, includeUnit = true) => {
+    const sizeInMB = size / 1024 / 1024
+    return `${Math.round(sizeInMB * 100) / 100}${includeUnit ? 'MB' : ''}`
+  }
+
   const handleDrop = (files, name: string) => {
     let uploadedFile: File
     if (files.length) {
       if (files && files.length > 1) {
-        // TODO we have to add errors here
+        setUploadAndVerifiedError({ ...uploadAndVerifiedError, [name]: true })
         return
       }
       uploadedFile = files[0] as File
@@ -78,8 +83,20 @@ const UploadAndVerify: React.FC<Props> = (props) => {
       uploadedFile = files
     }
     // verify file size and extension
-    setUploadAndVerifiedError({ ...uploadAndVerifiedError, [name]: false })
+    const fileExtension = uploadedFile.name.split('.').pop() || ''
+    const { maxAllowedFileSizeMBs, validTypes } = props.documentLimits
+    const fileSize = getSizeInMB(Number(uploadedFile.size), false)
 
+    if (!validTypes.includes(fileExtension)) {
+      setUploadAndVerifiedError({ ...uploadAndVerifiedError, [name]: true })
+      return
+    }
+
+    if (Number(fileSize) > maxAllowedFileSizeMBs) {
+      setUploadAndVerifiedError({ ...uploadAndVerifiedError, [name]: true })
+      return
+    }
+    setUploadAndVerifiedError({ ...uploadAndVerifiedError, [name]: false })
     setUploadAndVerified({ ...uploadAndVerified, [name]: true })
     uploadedFiles[name] = uploadedFile
     setUploadedFiles(uploadedFiles)
@@ -99,14 +116,9 @@ const UploadAndVerify: React.FC<Props> = (props) => {
     setUploadedFiles({ ...uploadedFiles, [name]: null })
   }
 
-  const getSizeInMB = (size) => {
-    const sizeInMB = size / 1024 / 1024
-    return `${Math.round(sizeInMB * 100) / 100}MB`
-  }
-
   const getFileName = (name: string) => {
     if (uploadedFiles[name]) {
-      return `${uploadedFiles[name].name}  - ${getSizeInMB(uploadedFiles[name].size)}`
+      return `${uploadedFiles[name].name}  - ${getSizeInMB(Number(uploadedFiles[name].size))}`
     }
     return undefined
   }
@@ -133,7 +145,11 @@ const UploadAndVerify: React.FC<Props> = (props) => {
     })
   }
 
-  const disable = uploadedFiles.proofOfAddress1 === null || uploadedFiles.sourceOfWelth1 === null
+  const disable =
+    uploadedFiles.proofOfAddress1 === null ||
+    uploadedFiles.sourceOfWelth1 === null ||
+    Object.values(uploadAndVerifiedError).some((val) => val)
+
   return (
     <Container>
       <Header data-e2e='InterestUploadAndVerifiedNextStep' mode='back' onClick={props.previousStep}>
@@ -254,6 +270,7 @@ const UploadAndVerify: React.FC<Props> = (props) => {
 }
 
 export type Props = {
+  documentLimits: InterestEDDDocumentsResponse
   nextStep: () => void
   previousStep: () => void
   submitData: (files) => void
