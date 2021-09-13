@@ -18,6 +18,7 @@ import {
   StyledCoinDisplay,
   StyledFiatDisplay,
   Timestamp,
+  toAccountFormatter,
   TxRow,
   TxRowContainer
 } from '../components'
@@ -106,7 +107,7 @@ const NonCustodialTx = ({
         )}
       </Row>
       <AddressesColumn data-e2e='transactionAddressesColumn'>
-        <Addresses to={transaction.to} from={transaction.from} />
+        <Addresses to={toAccountFormatter(transaction)} from={transaction.from} />
       </AddressesColumn>
       <AmountColumn data-e2e='transactionAmountColumn'>
         <StyledCoinDisplay coin={coin}>{transaction.amount}</StyledCoinDisplay>
@@ -165,7 +166,9 @@ const NonCustodialTx = ({
               <FormattedMessage id='components.txlistitem.sentfrom' defaultMessage='Sent From' />
             </RowHeader>
             {prop('inputs', transaction).map((input) => (
-              <RowValue size='13px'>{input.address}</RowValue>
+              <RowValue key={input.address} size='13px'>
+                {input.address}
+              </RowValue>
             ))}
             <RowHeader>
               <FormattedMessage
@@ -174,7 +177,7 @@ const NonCustodialTx = ({
               />
             </RowHeader>
             {prop('outputs', transaction).map((output) => (
-              <IOAddressText size='14px' weight={400}>
+              <IOAddressText key={output.address} size='14px' weight={400}>
                 <RowValue size='13px'>{output.address}</RowValue>
                 {output.change && (
                   <RowValue>
