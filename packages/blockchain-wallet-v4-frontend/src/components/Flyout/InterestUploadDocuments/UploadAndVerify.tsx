@@ -35,7 +35,7 @@ export const ContentDivider = styled.div`
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 40px 40px 0 40px;
+  padding: 0 40px;
 `
 
 const DragAndDropContainer = styled.div`
@@ -66,6 +66,9 @@ const UploadAndVerify: React.FC<Props> = (props) => {
     sourceOfWelth2: null
   })
 
+  const { maxAllowedFileSizeMBs, validTypes } = props.documentLimits
+  const allValidFileTypes = validTypes.join(',')
+
   const getSizeInMB = (size: number, includeUnit = true) => {
     const sizeInMB = size / 1024 / 1024
     return `${Math.round(sizeInMB * 100) / 100}${includeUnit ? 'MB' : ''}`
@@ -84,7 +87,6 @@ const UploadAndVerify: React.FC<Props> = (props) => {
     }
     // verify file size and extension
     const fileExtension = uploadedFile.name.split('.').pop() || ''
-    const { maxAllowedFileSizeMBs, validTypes } = props.documentLimits
     const fileSize = getSizeInMB(Number(uploadedFile.size), false)
 
     if (!validTypes.includes(fileExtension)) {
@@ -160,6 +162,22 @@ const UploadAndVerify: React.FC<Props> = (props) => {
       </Header>
       <Content mode='top'>
         <ContentWrapper>
+          <Text
+            color='grey900'
+            lineHeight='20px'
+            size='14px'
+            weight={500}
+            style={{ marginBottom: '45px' }}
+          >
+            <FormattedMessage
+              id='modals.interest.withdrawal.upload_documents.upload_and_verify.please_upload'
+              defaultMessage='Please upload a high resolution file ({files}) of each item below. Max {maxSize}MB each.'
+              values={{
+                files: allValidFileTypes,
+                maxSize: maxAllowedFileSizeMBs
+              }}
+            />
+          </Text>
           <Title>
             <FormattedMessage
               id='modals.interest.withdrawal.upload_documents.get_started.proof_of_current_address'
