@@ -66,7 +66,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
 
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
   const { coinfig } = window.coins[coin]
-  const coinTicker = coin
+  const coinTicker = coinfig.displaySymbol
   const displayName = coinfig.name
   const account = accountBalances[coin]
   const accountBalanceBase = account && account.balance

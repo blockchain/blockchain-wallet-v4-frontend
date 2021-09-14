@@ -99,7 +99,7 @@ const AccountSummary: React.FC<Props> = (props) => {
                 {account ? (
                   <>
                     <Text color='grey800' size='18px' weight={600}>
-                      {accountBalanceStandard} {coin}
+                      {accountBalanceStandard} {coinfig.displaySymbol}
                     </Text>
                     <FiatDisplay
                       color='grey600'
@@ -113,7 +113,7 @@ const AccountSummary: React.FC<Props> = (props) => {
                   </>
                 ) : (
                   <Text color='grey800' size='18px' weight={600}>
-                    0 {coin}
+                    0 {coinfig.displaySymbol}
                   </Text>
                 )}
               </Container>
@@ -127,7 +127,7 @@ const AccountSummary: React.FC<Props> = (props) => {
                 {account ? (
                   <>
                     <Text color='grey800' size='18px' weight={600}>
-                      {interestBalanceStandard} {coin}
+                      {interestBalanceStandard} {coinfig.displaySymbol}
                     </Text>
                     <FiatDisplay
                       color='grey600'
@@ -141,7 +141,7 @@ const AccountSummary: React.FC<Props> = (props) => {
                   </>
                 ) : (
                   <Text color='grey800' size='18px' weight={600}>
-                    0 {coin}
+                    0 {coinfig.displaySymbol}
                   </Text>
                 )}
               </Container>
@@ -363,7 +363,7 @@ const AccountSummary: React.FC<Props> = (props) => {
             </Text>
             {account ? (
               <Text color='grey600' size='14px' weight={500}>
-                {pendingInterestStandard} {coin}
+                {pendingInterestStandard} {coinfig.displaySymbol}
               </Text>
             ) : (
               <Text color='grey600' size='14px' weight={500}>

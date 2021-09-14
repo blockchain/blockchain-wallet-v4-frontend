@@ -108,7 +108,7 @@ function SummaryCard(props: OwnProps & SuccessStateType): ReactElement {
             <FormattedMessage
               id='modals.interest.detailsbalance'
               defaultMessage='{coin} Balance'
-              values={{ coin }}
+              values={{ coin: displaySymbol }}
             />
           </Text>
           <Text data-e2e='btcBalance' size='14px' weight={600} style={{ lineHeight: '1.5' }}>
