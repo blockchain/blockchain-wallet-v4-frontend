@@ -401,6 +401,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const isAmountDisplayedInCrypto = S.getIsAmountDisplayedInCrypto(yield select())
         const rates = S.getRates(yield select()).getOrElse({} as RatesType)
         const rate = rates.price
+        // for huge amounts we have to prevent converting to expontial to early
+        BigNumber.config({ EXPONENTIAL_AT: [-18, 30] })
         const baseCrypto = Exchange.convertCoinToCoin({
           baseToStandard: false,
           coin,
