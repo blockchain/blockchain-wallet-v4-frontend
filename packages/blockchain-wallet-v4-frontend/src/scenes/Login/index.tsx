@@ -129,6 +129,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       handleSmsResend: this.handleSmsResend,
       loginError: error
     }
+
     return (
       <>
         {ssoDummy && (
@@ -290,7 +291,7 @@ const mapStateToProps = (state) => ({
     step: LoginSteps.ENTER_EMAIL_GUID
   },
   password: formValueSelector(LOGIN_FORM_NAME)(state, 'password'),
-  ssoDummy: selectors.core.walletOptions.getSsoDummy(state)
+  ssoDummy: selectors.core.walletOptions.getSsoDummy(state).getOrElse(false)
 })
 
 const mapDispatchToProps = (dispatch) => ({
