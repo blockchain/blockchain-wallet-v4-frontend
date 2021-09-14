@@ -59,7 +59,8 @@ const blackListedActivityTypes = [
   actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS,
   actionTypes.modules.profile.FETCH_TIERS_SUCCESS,
   // LOGS
-  actionTypes.logs.LOG_ERROR_MSG,
+  actions.logs.logErrorMessage.type,
+
   // FORMS
   '@@redux-form/CLEAR_SUBMIT_ERRORS',
   '@@redux-form/STOP_ASYNC_VALIDATION',
@@ -96,7 +97,7 @@ const resetTimer = () => {
 
 const AutoDisconnectionMiddleware = () => (store) => (next) => (action) => {
   // start the timer
-  if (action.type === actionTypes.auth.START_LOGOUT_TIMER) {
+  if (action.type === actions.auth.startLogoutTimer) {
     startTimer(store)
   }
   // reset the timer if the action is not in the blacklist

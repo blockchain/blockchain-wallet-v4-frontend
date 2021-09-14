@@ -1,3 +1,4 @@
+// this could use a refactor
 import React from 'react'
 import { connect } from 'react-redux'
 import bip21 from 'bip21'
@@ -17,68 +18,37 @@ const { FORM: ETH_FORM } = model.components.sendEth
 const { FORM: XLM_FORM } = model.components.sendXlm
 
 class QRCodeCaptureContainer extends React.PureComponent {
-  state = {
-    toggled: false,
+  constructor(props) {
+    super(props)
+    this.state = {
+      toggled: false
+    }
   }
-
-  getScanHandlerKey = () => `handleScan${replace(/^./, toUpper, this.props.scanType)}`
 
   handleToggle = () => {
-    this.setState({ toggled: !this.state.toggled })
-  }
-
-  createNewValue = (data) => {
-    return {
-      value: {
-        label: data,
-        value: data,
-      },
-    }
-  }
-
-  getAddressOrBitPayInvoice(coin, data) {
-    const isBitPay = includes(`${coin}:?r=https://bitpay.com/`, data)
-    let address
-    let options
-
-    if (isBitPay) {
-      address = data
-    } else {
-      try {
-        const decoded = bip21.decode(data, coin)
-        address = prop('address', decoded)
-        options = prop('options', decoded)
-      } catch (e) {
-        throw Error('invalid_bip21')
-      }
-    }
-
-    return {
-      address,
-      isBitPay,
-      options,
-    }
+    this.setState((state) => ({ toggled: !state.toggled }))
   }
 
   handleScanBtcAddress(data) {
     let coinInfo
     try {
       coinInfo = this.getAddressOrBitPayInvoice('bitcoin', data)
-      const { btcRates, currency } = this.props
+      const { btcRatesR, currency } = this.props
+      const btcRates = btcRatesR.getOrElse({ price: 0 })
       const { amount, message } = coinInfo.options
       const fiat = Exchange.convertCoinToFiat({
         coin: 'BTC',
         currency,
         isStandard: true,
         rates: btcRates,
-        value: amount,
+        value: amount
       })
 
       this.props.formActions.change(BTC_FORM, 'to', this.createNewValue(coinInfo.address))
       this.props.formActions.change(BTC_FORM, 'description', message)
       this.props.formActions.change(BTC_FORM, 'amount', {
         coin: amount,
-        fiat,
+        fiat
       })
     } catch (e) {
       try {
@@ -173,8 +143,12 @@ class QRCodeCaptureContainer extends React.PureComponent {
 
   handleScan = (data) => {
     if (!isNil(data) && !isEmpty(data)) {
-      const handlerName = this.getScanHandlerKey()
-      this[handlerName](data)
+      try {
+        const handlerName = this.getScanHandlerKey()
+        this[handlerName](data)
+      } catch (e) {
+        this.props.onScan(data)
+      }
       this.setState({ toggled: false })
     }
   }
@@ -186,6 +160,41 @@ class QRCodeCaptureContainer extends React.PureComponent {
       } else {
         this.props.alertActions.displayError(error.message)
       }
+    }
+  }
+
+  createNewValue = (data) => {
+    return {
+      value: {
+        label: data,
+        value: data
+      }
+    }
+  }
+
+  getScanHandlerKey = () => `handleScan${replace(/^./, toUpper, this.props.scanType)}`
+
+  getAddressOrBitPayInvoice = (coin, data) => {
+    const isBitPay = includes(`${coin}:?r=https://bitpay.com/`, data)
+    let address
+    let options
+
+    if (isBitPay) {
+      address = data
+    } else {
+      try {
+        const decoded = bip21.decode(data, coin)
+        address = prop('address', decoded)
+        options = prop('options', decoded)
+      } catch (e) {
+        throw Error('invalid_bip21')
+      }
+    }
+
+    return {
+      address,
+      isBitPay,
+      options
     }
   }
 
@@ -206,14 +215,14 @@ class QRCodeCaptureContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-  btcRates: selectors.core.data.btc.getRates(state).getOrFail('Could not find btc rates'),
-  currency: selectors.core.settings.getCurrency(state).getOrElse('USD'),
+  btcRatesR: selectors.core.data.coins.getRates('BTC', state),
+  currency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
 const mapDispatchToProps = (dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 QRCodeCaptureContainer.defaultProps = {
@@ -223,8 +232,8 @@ QRCodeCaptureContainer.defaultProps = {
     'bchAddress',
     'xlmAddress',
     'btcPriv',
-    'btcPrivOrAddress',
-  ]),
+    'btcPrivOrAddress'
+  ])
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(QRCodeCaptureContainer)

@@ -30,14 +30,14 @@ class Interest extends PureComponent<Props, State> {
   handleClose = () => {
     this.setState({ show: false })
     setTimeout(() => {
-      this.props.close()
+      this.props.close(ModalName.INTEREST_MODAL)
     }, duration)
   }
 
   handleSBClick = (coin: CoinType) => {
     this.setState({ show: false })
+    this.props.close(ModalName.INTEREST_MODAL)
     setTimeout(() => {
-      this.props.close()
       this.props.simpleBuyActions.showModal('InterestPage', coin)
     }, duration / 2)
   }
@@ -66,6 +66,7 @@ class Interest extends PureComponent<Props, State> {
               handleSBClick={() => this.handleSBClick(coin)}
               stepMetadata={step.data}
               coin={coin}
+              walletCurrency={walletCurrency}
               showSupply={this.state.showSupplyInformation}
             />
           </FlyoutChild>

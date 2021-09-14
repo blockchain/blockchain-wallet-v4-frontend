@@ -31,12 +31,6 @@ export default () => {
   }
 
   const refreshRates = function* () {
-    // TODO: remove all of this
-    yield put(actions.core.data.bch.fetchRates())
-    yield put(actions.core.data.btc.fetchRates())
-    yield put(actions.core.data.eth.fetchRates())
-    yield put(actions.core.data.xlm.fetchRates())
-    yield put(actions.core.data.eth.fetchErc20Rates())
     yield put(actions.core.data.coins.fetchCoinsRates())
   }
 
@@ -79,7 +73,7 @@ export default () => {
         case !!window.coins[maybeCoin]?.coinfig?.type?.erc20Address:
           yield call(refreshErc20Transactions, pathname.split('/')[1])
           break
-        case selectors.core.data.coins.getCoins().includes(maybeCoin):
+        case selectors.core.data.coins.getCustodialCoins().includes(maybeCoin):
           yield call(refreshCoinTransactions, maybeCoin)
           break
         case contains('/eur/transactions', pathname):

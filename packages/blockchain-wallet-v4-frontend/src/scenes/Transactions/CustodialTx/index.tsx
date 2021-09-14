@@ -55,9 +55,9 @@ const CustodialTxListItem: React.FC<Props> = (props) => {
         </Col>
         <Col width='20%' style={{ textAlign: 'right' }} data-e2e='orderAmountColumn'>
           <StyledCoinDisplay coin={props.coin} data-e2e='orderCoinAmt'>
-            {!coinfig.type.isFiat && tx.type !== 'SELL'
+            {coinfig.type.name !== 'FIAT' && tx.type !== 'SELL'
               ? tx.amountMinor
-              : !coinfig.type.isFiat && tx.type === 'SELL'
+              : coinfig.type.name !== 'FIAT' && tx.type === 'SELL'
               ? convertBaseToStandard('FIAT', tx.amountMinor)
               : tx.amount.value}
           </StyledCoinDisplay>
@@ -69,9 +69,9 @@ const CustodialTxListItem: React.FC<Props> = (props) => {
               color='grey600'
               data-e2e='orderFiatAmt'
             >
-              {!coinfig.type.isFiat && tx.type !== 'SELL'
+              {coinfig.type.name !== 'FIAT' && tx.type !== 'SELL'
                 ? tx.amountMinor
-                : !coinfig.type.isFiat && tx.type === 'SELL'
+                : coinfig.type.name !== 'FIAT' && tx.type === 'SELL'
                 ? convertBaseToStandard('FIAT', tx.amountMinor)
                 : tx.amount.value}
             </StyledFiatDisplay>

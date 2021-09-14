@@ -21,9 +21,9 @@ import {
 } from 'ramda'
 import { all, call, put, select } from 'redux-saga/effects'
 
+import { FetchCustodialOrdersAndTransactionsReturnType } from 'blockchain-wallet-v4/src/types'
 import { APIType } from 'core/network/api'
 import { XlmTxType } from 'core/transactions/types'
-import { FetchCustodialOrdersAndTransactionsReturnType } from 'core/types'
 
 import * as Exchange from '../../../exchange'
 import Remote from '../../../remote'
@@ -67,15 +67,6 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
     }
   }
 
-  const createAccounts = function* () {
-    if (networks.xlm !== 'testnet') return
-    try {
-      const accountIds = yield select(S.getContext)
-      yield all(accountIds.map((id) => call(api.createXlmAccount, id)))
-      yield call(fetchData)
-    } catch (e) {}
-  }
-
   const fetchAccount = function* (id) {
     try {
       yield put(A.fetchAccountLoading(id))
@@ -94,110 +85,38 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
     yield put(A.fetchDataSuccess(data))
   }
 
-  const fetchRates = function* () {
+  const createAccounts = function* () {
+    if (networks.xlm !== 'testnet') return
     try {
-      yield put(A.setRatesLoading())
-      const data = yield call(api.getXlmTicker)
-      yield put(A.setRatesSuccess(data))
+      const accountIds = yield select(S.getContext)
+      yield all(accountIds.map((id) => call(api.createXlmAccount, id)))
+      yield call(fetchData)
     } catch (e) {
-      yield put(A.setRatesFailure(e))
+      // some catch
     }
   }
 
-  const fetchTransactions = function* (action) {
-    try {
-      const { payload } = action
-      const { accountId, reset } = payload
-      const defaultAccountR = yield select(selectors.kvStore.xlm.getDefaultAccountId)
-      const publicKey = accountId || defaultAccountR.getOrFail(ACCOUNT_NOT_FOUND)
-      const pages = yield select(S.getTransactions)
-      const pagingToken = (last(pages) || Remote.NotAsked)
-        .map(last)
-        .map(prop('pagingToken'))
-        .getOrElse(null)
-      const offset = reset ? 0 : length(pages) * TX_PER_PAGE
-      const transactionsAtBound = yield select(S.getTransactionsAtBound)
-      if (Remote.Loading.is(last(pages))) return
-      if (transactionsAtBound && !reset) return
-      yield put(A.fetchTransactionsLoading(reset))
-      let txs: Array<any> = []
-      try {
-        txs = yield call(api.getXlmTransactions, {
-          limit: TX_PER_PAGE,
-          pagingToken,
-          publicKey,
-          reset
-        })
-      } catch (e) {}
-      const atBounds = length(txs) < TX_PER_PAGE
-      yield put(A.transactionsAtBound(atBounds))
-      const nextSBTransactionsURL = selectors.data.custodial.getNextSBTransactionsURL(
-        yield select(),
-        'XLM'
-      )
-      const txPage: Array<XlmTxType> = yield call(__processTxs, txs)
-      const custodialPage: FetchCustodialOrdersAndTransactionsReturnType = yield call(
-        fetchCustodialOrdersAndTransactions,
-        txPage,
-        offset,
-        atBounds,
-        'XLM',
-        reset ? null : nextSBTransactionsURL
-      )
-      const page = flatten([txPage, custodialPage.orders]).sort((a, b) => {
-        return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
-      })
-      yield put(A.fetchTransactionsSuccess(page, reset))
-    } catch (e) {
-      const statusCode = path(['response', 'status'], e)
-      if (statusCode === 404) {
-        yield put(A.fetchTransactionsSuccess([]))
-        yield put(A.transactionsAtBound(true))
-        return
-      }
-      yield put(A.fetchTransactionsFailure(e.message))
-    }
-  }
-
-  const fetchTransactionHistory = function* ({ payload }) {
-    const { address, end, start } = payload
-    let pagingToken
-
-    try {
-      yield put(A.fetchTransactionHistoryLoading())
-      let fullTxList = yield call(api.getXlmTransactions, {
-        limit: TX_REPORT_PAGE_SIZE,
-        publicKey: address
-      })
-      // @ts-ignore
-      pagingToken = prop('paging_token', last(fullTxList))
-
-      // keep fetching pages until last (oldest) tx from previous page
-      // is before requested start date
-      // @ts-ignore
-      while (moment(prop('created_at', last(fullTxList))).isAfter(start)) {
-        const txPage = yield call(api.getXlmTransactions, {
-          limit: TX_REPORT_PAGE_SIZE,
-          pagingToken,
-          publicKey: address
-        })
-        // exit if no results returned
-        if (!length(txPage)) break
-        // @ts-ignore
-        pagingToken = prop('paging_token', last(txPage))
-        fullTxList = fullTxList.concat(txPage)
-      }
-      const processedTxList = yield call(__processReportTxs, fullTxList, start, end)
-      yield put(A.fetchTransactionHistorySuccess(processedTxList))
-    } catch (e) {
-      yield put(A.fetchTransactionHistoryFailure(e.message))
-    }
+  const __processTxs = function* (txList) {
+    const walletAccounts = (yield select(getAccounts)).getOrElse([])
+    const txNotes = (yield select(getXlmTxNotes)).getOrElse({})
+    return unnest(
+      map((tx) => {
+        const operations = decodeOperations(tx)
+        return compose(
+          // @ts-ignore
+          filter(prop('belongsToWallet')),
+          map(transformTx(walletAccounts, txNotes, tx)),
+          // @ts-ignore
+          filter(isLumenOperation)
+        )(operations)
+      }, txList)
+    )
   }
 
   const __processReportTxs = function* (rawTxList, startDate, endDate) {
     const mapIndexed = addIndex(map)
     const fullTxList = yield call(__processTxs, rawTxList)
-    const xlmMarketData = (yield select(selectors.data.xlm.getRates)).getOrFail()
+    const xlmMarketData = selectors.data.coins.getRates('XLM', yield select()).getOrFail('No rates')
 
     // remove txs that dont match coin type and are not within date range
     const prunedTxList = filter(
@@ -265,21 +184,96 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
     }, prunedTxList)
   }
 
-  const __processTxs = function* (txList) {
-    const walletAccounts = (yield select(getAccounts)).getOrElse([])
-    const txNotes = (yield select(getXlmTxNotes)).getOrElse({})
-    return unnest(
-      map((tx) => {
-        const operations = decodeOperations(tx)
-        return compose(
-          // @ts-ignore
-          filter(prop('belongsToWallet')),
-          map(transformTx(walletAccounts, txNotes, tx)),
-          // @ts-ignore
-          filter(isLumenOperation)
-        )(operations)
-      }, txList)
-    )
+  const fetchTransactions = function* (action) {
+    try {
+      const { payload } = action
+      const { accountId, reset } = payload
+      const defaultAccountR = yield select(selectors.kvStore.xlm.getDefaultAccountId)
+      const publicKey = accountId || defaultAccountR.getOrFail(ACCOUNT_NOT_FOUND)
+      const pages = yield select(S.getTransactions)
+      const pagingToken = (last(pages) || Remote.NotAsked)
+        .map(last)
+        .map(prop('pagingToken'))
+        .getOrElse(null)
+      const offset = reset ? 0 : length(pages) * TX_PER_PAGE
+      const transactionsAtBound = yield select(S.getTransactionsAtBound)
+      if (Remote.Loading.is(last(pages))) return
+      if (transactionsAtBound && !reset) return
+      yield put(A.fetchTransactionsLoading(reset))
+      let txs: Array<any> = []
+      try {
+        txs = yield call(api.getXlmTransactions, {
+          limit: TX_PER_PAGE,
+          pagingToken,
+          publicKey,
+          reset
+        })
+      } catch (e) {
+        // some cacth
+      }
+      const atBounds = length(txs) < TX_PER_PAGE
+      yield put(A.transactionsAtBound(atBounds))
+      const nextSBTransactionsURL = selectors.data.custodial.getNextSBTransactionsURL(
+        yield select(),
+        'XLM'
+      )
+      const txPage: Array<XlmTxType> = yield call(__processTxs, txs)
+      const custodialPage: FetchCustodialOrdersAndTransactionsReturnType = yield call(
+        fetchCustodialOrdersAndTransactions,
+        txPage,
+        offset,
+        atBounds,
+        'XLM',
+        reset ? null : nextSBTransactionsURL
+      )
+      const page = flatten([txPage, custodialPage.orders]).sort((a, b) => {
+        return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
+      })
+      yield put(A.fetchTransactionsSuccess(page, reset))
+    } catch (e) {
+      const statusCode = path(['response', 'status'], e)
+      if (statusCode === 404) {
+        yield put(A.fetchTransactionsSuccess([]))
+        yield put(A.transactionsAtBound(true))
+        return
+      }
+      yield put(A.fetchTransactionsFailure(e.message))
+    }
+  }
+
+  const fetchTransactionHistory = function* ({ payload }) {
+    const { address, end, start } = payload
+    let pagingToken
+
+    try {
+      yield put(A.fetchTransactionHistoryLoading())
+      let fullTxList = yield call(api.getXlmTransactions, {
+        limit: TX_REPORT_PAGE_SIZE,
+        publicKey: address
+      })
+      // @ts-ignore
+      pagingToken = prop('paging_token', last(fullTxList))
+
+      // keep fetching pages until last (oldest) tx from previous page
+      // is before requested start date
+      // @ts-ignore
+      while (moment(prop('created_at', last(fullTxList))).isAfter(start)) {
+        const txPage = yield call(api.getXlmTransactions, {
+          limit: TX_REPORT_PAGE_SIZE,
+          pagingToken,
+          publicKey: address
+        })
+        // exit if no results returned
+        if (!length(txPage)) break
+        // @ts-ignore
+        pagingToken = prop('paging_token', last(txPage))
+        fullTxList = fullTxList.concat(txPage)
+      }
+      const processedTxList = yield call(__processReportTxs, fullTxList, start, end)
+      yield put(A.fetchTransactionHistorySuccess(processedTxList))
+    } catch (e) {
+      yield put(A.fetchTransactionHistoryFailure(e.message))
+    }
   }
 
   return {
@@ -287,7 +281,6 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
     createAccounts,
     fetchData,
     fetchLedgerDetails,
-    fetchRates,
     fetchTransactionHistory,
     fetchTransactions
   }

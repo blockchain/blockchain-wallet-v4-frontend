@@ -76,6 +76,7 @@ export type WithdrawalLockResponseType = {
 
 export type WithdrawResponseType = {
   amount: { symbol: WalletFiatType; value: string }
+  fee?: { symbol: WalletFiatType; value: string }
   id: string
   product: NabuCustodialProductType
   state: 'NONE'

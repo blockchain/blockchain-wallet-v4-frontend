@@ -83,7 +83,7 @@ const Success: React.FC<Props> = (props) => {
             <>
               {fiatToString({
                 unit: fiat,
-                value: props.rates[fiat].last
+                value: props.rates.price
               })}
               <PriceMovement {...props} />
             </>

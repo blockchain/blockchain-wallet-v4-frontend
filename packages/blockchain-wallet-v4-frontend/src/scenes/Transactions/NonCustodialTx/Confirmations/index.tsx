@@ -44,9 +44,9 @@ const IconWrapper = styled.div`
 const Confirmations = (props: Props) => {
   const { blockHeight, coin, domains, isConfirmed, onViewTxDetails, txBlockHeight = 0 } = props
   const conf = blockHeight - txBlockHeight + 1
-  const confirmations = conf > 0 && txBlockHeight ? conf : 0
+  const confirmations = props.confirmations || (conf > 0 && txBlockHeight) ? conf : 0
   const { coinfig } = window.coins[coin]
-  const { parentChain } = coinfig.type
+  const { parentChain = coin } = coinfig.type
   const { minimumOnChainConfirmations = 3 } = window.coins[parentChain].coinfig.type
 
   return (
@@ -117,6 +117,7 @@ const connector = connect(mapStateToProps)
 
 type OwnProps = {
   coin: CoinType
+  confirmations?: number
   hash: string
   isConfirmed?: boolean
   onViewTxDetails: (coin: CoinType) => void

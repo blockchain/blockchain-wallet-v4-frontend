@@ -34,7 +34,7 @@ export const getSelector = (coinfig: CoinfigType) => {
   if (coinfig.type.erc20Address) {
     return 'ERC20'
   }
-  if (selectors.core.data.coins.getCoins().includes(coinfig.symbol)) {
+  if (selectors.core.data.coins.getCustodialCoins().includes(coinfig.symbol)) {
     return 'CUSTODIAL'
   }
   return coinfig.symbol
@@ -84,10 +84,8 @@ export const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorT
     )
   }
 
-  const accountsR: RemoteDataType<
-    any,
-    { [key in CoinType]: Array<SwapAccountType> }
-  > = getCoinAccountsR(state)
+  const accountsR: RemoteDataType<any, { [key in CoinType]: Array<SwapAccountType> }> =
+    getCoinAccountsR(state)
 
   const accounts = accountsR.getOrElse({})
 

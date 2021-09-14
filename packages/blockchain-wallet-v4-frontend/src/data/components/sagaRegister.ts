@@ -13,7 +13,6 @@ import interest from './interest/sagaRegister'
 import manageAddresses from './manageAddresses/sagaRegister'
 import onboarding from './onboarding/sagaRegister'
 import priceChart from './priceChart/sagaRegister'
-import priceTicker from './priceTicker/sagaRegister'
 import recurringBuy from './recurringBuy/sagaRegister'
 import refresh from './refresh/sagaRegister'
 import request from './request/sagaRegister'
@@ -21,6 +20,7 @@ import resetWallet2fa from './resetWallet2fa/sagaRegister'
 import send from './send/sagaRegister'
 import sendBch from './sendBch/sagaRegister'
 import sendBtc from './sendBtc/sagaRegister'
+import sendCrypto from './sendCrypto/sagaRegister'
 import sendEth from './sendEth/sagaRegister'
 import sendXlm from './sendXlm/sagaRegister'
 import settings from './settings/sagaRegister'
@@ -48,12 +48,12 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(manageAddresses({ api, networks }))
     yield fork(onboarding())
     yield fork(priceChart())
-    yield fork(priceTicker({ coreSagas }))
     yield fork(refresh())
     yield fork(request({ api, coreSagas, networks }))
     yield fork(recurringBuy({ api }))
     yield fork(resetWallet2fa({ api }))
     yield fork(send({ api, coreSagas, networks }))
+    yield fork(sendCrypto({ api }))
     yield fork(sendBch({ api, coreSagas, networks }))
     yield fork(sendBtc({ api, coreSagas, networks }))
     yield fork(sendEth({ api, coreSagas, networks }))

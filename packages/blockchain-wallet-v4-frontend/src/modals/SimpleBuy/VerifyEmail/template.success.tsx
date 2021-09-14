@@ -172,7 +172,7 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               >
                 <FormattedMessage
                   id='scenes.verifyemail.description'
-                  defaultMessage='We sent a verification email to: <b>{email}</b>. Please click the link in the email to continue.'
+                  defaultMessage='We sent a verification email to <b>{email}</b>. Please click the link in the email to continue.'
                   values={{
                     email: props.email
                   }}

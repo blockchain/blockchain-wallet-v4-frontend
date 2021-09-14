@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector, getFormMeta, InjectedFormProps, reduxForm } from 'redux-form'
 
-import { Icon, Text } from 'blockchain-info-components'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { Form } from 'components/Form'
 import { Wrapper } from 'components/Public'
@@ -17,7 +17,7 @@ import Loading from '../loading.public'
 import CheckEmail from './CheckEmail'
 import EnterEmailOrGuid from './EnterEmailOrGuid'
 import EnterPassword from './EnterPassword'
-import { LOGIN_FORM_NAME, PhishingWarning } from './model'
+import { CreateAccount, LOGIN_FORM_NAME, PhishingWarning } from './model'
 import VerificationMobile from './VerificationMobile'
 
 class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StateProps> {
@@ -75,7 +75,10 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
   }
 
   handleSmsResend = () => {
-    this.props.authActions.resendSmsCode(this.props.guid)
+    this.props.authActions.resendSmsCode({
+      email: this.props.formValues?.email,
+      guid: this.props.guid
+    })
   }
 
   continueLoginProcess = () => {
@@ -94,16 +97,26 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
         formActions.change(LOGIN_FORM_NAME, 'step', LoginSteps.VERIFICATION_MOBILE)
       } else {
         formActions.change(LOGIN_FORM_NAME, 'email', guidOrEmail)
-        authActions.triggerWalletMagicLink(guidOrEmail, this.state.captchaToken)
+        authActions.triggerWalletMagicLink({
+          captchaToken: this.state.captchaToken,
+          email: guidOrEmail
+        })
         this.initCaptcha()
       }
+      const idType = isGuid(guidOrEmail) ? 'WALLET_ID' : 'EMAIL'
+      authActions.loginIdEntered(idType)
     } else {
-      authActions.login(guid, password, auth, null, null)
+      authActions.login({ code: auth, guid, mobileLogin: null, password, sharedKey: null })
     }
   }
 
+  loginWithMobileClicked = () => {
+    this.props.authActions.loginMethodSelected('SECURE_CHANNEL')
+    this.setStep(LoginSteps.VERIFICATION_MOBILE)
+  }
+
   render() {
-    const { data, formValues } = this.props
+    const { data, formValues, ssoDummy } = this.props
     const { step } = formValues || LoginSteps.ENTER_EMAIL_GUID
     const { busy, error } = data.cata({
       Failure: (val) => ({ busy: false, error: val.err }),
@@ -118,6 +131,43 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     }
     return (
       <>
+        {ssoDummy && (
+          <Button
+            onClick={() => {
+              // eslint-disable-next-line no-console
+              console.log('Button click detected! Sending message to mobile...')
+
+              // @ts-ignore
+              if (window.webkit) {
+                // eslint-disable-next-line no-console
+                console.log('iOS detected! found window.webkit')
+                // @ts-ignore
+                window.webkit.messageHandlers.BCiOSSSI.postMessage(
+                  `message to iOS on ${new Date().getMilliseconds()}`
+                )
+                return
+              }
+
+              // @ts-ignores
+              if (window.BCAndroidSSI) {
+                // eslint-disable-next-line no-console
+                console.log('Android detected! found window.BCAndroidSSI')
+
+                // @ts-ignore
+                window.BCAndroidSSI.postMessage(
+                  `message to Android on ${new Date().getMilliseconds()}`
+                )
+                return
+              }
+
+              console.error('Could not find Android (window.BCAndroidSSI) or iOS (window.webkit)')
+            }}
+            nature='primary'
+            data-e2e=''
+          >
+            Send Message to Mobile
+          </Button>
+        )}
         <Text color='white' size='24px' weight={600} style={{ marginBottom: '24px' }}>
           {step === LoginSteps.ENTER_PASSWORD ? (
             <FormattedMessage id='scenes.login.authorize' defaultMessage='Authorize login' />
@@ -132,11 +182,19 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
         )}
 
         {step === LoginSteps.ENTER_PASSWORD && (
-          // add check here to see what kind of auth type, what kind of string to show
           <Text color='grey400' weight={500} style={{ marginBottom: '32px' }}>
             <FormattedMessage
-              id='scenes.login.enter_password'
+              id='scenes.login.enter_password_login'
               defaultMessage='Enter your password to login'
+            />
+          </Text>
+        )}
+
+        {step === LoginSteps.ENTER_EMAIL_GUID && (
+          <Text color='grey400' weight={500} style={{ marginBottom: '32px' }}>
+            <FormattedMessage
+              id='scenes.login.enter_email_header'
+              defaultMessage='Enter Your Email Address or Wallet ID'
             />
           </Text>
         )}
@@ -190,7 +248,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
             size='16px'
             cursor='pointer'
             style={{ marginTop: '24px' }}
-            onClick={() => this.setStep(LoginSteps.VERIFICATION_MOBILE)}
+            onClick={this.loginWithMobileClicked}
           >
             <FormattedMessage
               id='scenes.login.loginwithmobile'
@@ -200,7 +258,8 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
         )}
         {step === LoginSteps.ENTER_EMAIL_GUID && (
           <>
-            <Text size='14px' color='grey400' weight={500} style={{ margin: '32px 0 16px 0' }}>
+            <CreateAccount />
+            <Text size='14px' color='grey400' weight={500} style={{ marginBottom: '16px' }}>
               <FormattedMessage
                 id='scenes.login.phishingwarning'
                 defaultMessage='Please check that you are visiting the correct URL'
@@ -230,7 +289,8 @@ const mapStateToProps = (state) => ({
   initialValues: {
     step: LoginSteps.ENTER_EMAIL_GUID
   },
-  password: formValueSelector(LOGIN_FORM_NAME)(state, 'password')
+  password: formValueSelector(LOGIN_FORM_NAME)(state, 'password'),
+  ssoDummy: selectors.core.walletOptions.getSsoDummy(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

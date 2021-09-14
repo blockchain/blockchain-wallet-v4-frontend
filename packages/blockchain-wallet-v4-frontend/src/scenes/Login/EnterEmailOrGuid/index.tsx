@@ -2,8 +2,9 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 
-import { Banner, HeartbeatLoader, Icon, Link, Text } from 'blockchain-info-components'
+import { Banner, HeartbeatLoader, Text } from 'blockchain-info-components'
 import { FormGroup, FormItem, TextBox } from 'components/Form'
+import { isBrowserSupported } from 'services/browser'
 import { required, validWalletIdOrEmail } from 'services/forms'
 
 import { Props } from '..'
@@ -11,21 +12,18 @@ import {
   ActionButton,
   BrowserWarning,
   GuidError,
-  HelpRow,
-  IconTextRow,
-  isSupportedBrowser,
   LinkRow,
   LoginFormLabel,
   NeedHelpLink,
-  RectangleBackground,
   removeWhitespace
 } from '../model'
 
+const isSupportedBrowser = isBrowserSupported()
+
 const EnterEmailOrGuid = (props: Props) => {
-  const { busy, guidOrEmail, invalid, loginError, submitting } = props
+  const { authActions, busy, guidOrEmail, invalid, loginError, submitting } = props
 
   const guidError = loginError && loginError.toLowerCase().includes('unknown wallet id')
-
   return (
     <>
       <FormGroup>
@@ -41,10 +39,7 @@ const EnterEmailOrGuid = (props: Props) => {
         )}
         <FormItem>
           <LoginFormLabel htmlFor='guid'>
-            <FormattedMessage
-              id='scenes.login.email_or_guid'
-              defaultMessage='Your Email or Wallet ID'
-            />
+            <FormattedMessage id='scenes.login.email_guid' defaultMessage='Email or Wallet ID' />
           </LoginFormLabel>
           <Field
             component={TextBox}
@@ -68,26 +63,6 @@ const EnterEmailOrGuid = (props: Props) => {
             </Text>
           </GuidError>
         )}
-        <RectangleBackground>
-          <HelpRow>
-            <IconTextRow>
-              <Icon name='info' size='14px' color='grey400' />
-              <Text size='12px' weight={500} color='grey600'>
-                <FormattedMessage
-                  id='scenes.login.now_login'
-                  defaultMessage='You can now log in with your email.'
-                />
-              </Text>
-            </IconTextRow>
-            <Link
-              size='12px'
-              weight={500}
-              href='https://support.blockchain.com/hc/en-us/articles/4402375989140'
-            >
-              <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
-            </Link>
-          </HelpRow>
-        </RectangleBackground>
       </FormGroup>
       <LinkRow>
         <ActionButton
@@ -107,7 +82,7 @@ const EnterEmailOrGuid = (props: Props) => {
             </Text>
           )}
         </ActionButton>
-        <NeedHelpLink />
+        <NeedHelpLink authActions={authActions} origin='IDENTIFIER' />
       </LinkRow>
     </>
   )

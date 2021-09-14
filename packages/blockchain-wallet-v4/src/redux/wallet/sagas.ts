@@ -5,24 +5,19 @@ import {
   add,
   any,
   compose,
-  concat,
   curry,
-  dropLastWhile,
-  endsWith,
   find,
   findLastIndex,
   head,
   is,
   isEmpty,
   last,
-  length,
   map,
   not,
   prop,
   propEq,
   propSatisfies,
   range,
-  repeat,
   splitAt,
   startsWith
 } from 'ramda'
@@ -330,6 +325,14 @@ export default ({ api, networks }) => {
     const guid = yield select(S.getGuid)
     yield call(api.triggerMnemonicViewedAlert, sharedKey, guid)
   }
+
+  const triggerNonCustodialSendAlert = function* (action) {
+    const { amount, currency } = action.payload
+    const sharedKey = yield select(S.getSharedKey)
+    const guid = yield select(S.getGuid)
+    yield call(api.triggerNonCustodialSendAlert, sharedKey, guid, currency, amount)
+  }
+
   return {
     checkAndUpdateWalletNames,
     createWalletSaga,
@@ -343,6 +346,7 @@ export default ({ api, networks }) => {
     setHDAddressLabel,
     toggleSecondPassword,
     triggerMnemonicViewedAlert,
+    triggerNonCustodialSendAlert,
     updateMnemonicBackup,
     updatePbkdf2Iterations,
     upgradeToV3,

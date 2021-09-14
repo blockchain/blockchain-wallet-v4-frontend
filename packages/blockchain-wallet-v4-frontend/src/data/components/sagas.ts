@@ -11,7 +11,6 @@ import interest from './interest/sagas'
 import manageAddresses from './manageAddresses/sagas'
 import onboarding from './onboarding/sagas'
 import priceChart from './priceChart/sagas'
-import priceTicker from './priceTicker/sagas'
 import recurringBuy from './recurringBuy/sagas'
 import refresh from './refresh/sagas'
 import request from './request/sagas'
@@ -19,6 +18,7 @@ import resetWallet2fa from './resetWallet2fa/sagas'
 import send from './send/sagas'
 import sendBch from './sendBch/sagas'
 import sendBtc from './sendBtc/sagas'
+import sendCrypto from './sendCrypto/sagas'
 import sendEth from './sendEth/sagas'
 import sendXlm from './sendXlm/sagas'
 import settings from './settings/sagas'
@@ -44,7 +44,6 @@ export default ({ api, coreSagas, networks }) => ({
   manageAddresses: manageAddresses({ api, networks }),
   onboarding: onboarding(),
   priceChart: priceChart(),
-  priceTicker: priceTicker({ coreSagas }),
   recurringBuy: recurringBuy({ api }),
   refresh: refresh(),
   request: request({ api, coreSagas, networks }),
@@ -52,6 +51,7 @@ export default ({ api, coreSagas, networks }) => ({
   send: send({ api, coreSagas, networks }),
   sendBch: sendBch({ api, coreSagas, networks }),
   sendBtc: sendBtc({ api, coreSagas, networks }),
+  sendCrypto: sendCrypto({ api }),
   sendEth: sendEth({ api, coreSagas, networks }),
   sendXlm: sendXlm({ api, coreSagas, networks }),
   settings: settings({ api, coreSagas }),

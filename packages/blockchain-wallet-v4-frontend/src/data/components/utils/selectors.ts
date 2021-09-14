@@ -13,13 +13,13 @@ import { RootState } from 'data/rootReducer'
 import { getOutputFromPair } from '../swap/model'
 
 // eslint-disable-next-line import/prefer-default-export
-export const getCoinsWithMethodAndOrder = (state: RootState) => {
+export const getCoinsWithBalanceOrMethod = (state: RootState) => {
   const sbMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(state)
   // TODO, check all custodial features
   const sbBalancesR = selectors.components.simpleBuy.getSBBalances(state)
   const erc20sR = selectors.core.data.eth.getErc20AccountTokenBalances(state)
   const recentSwapTxs = selectors.custodial.getRecentSwapTxs(state).getOrElse([] as SwapOrderType[])
-  const custodials = selectors.core.data.coins.getCoins()
+  const custodials = selectors.core.data.coins.getCustodialCoins()
 
   const transform = (
     paymentMethods: ExtractSuccess<typeof sbMethodsR>,
@@ -30,7 +30,6 @@ export const getCoinsWithMethodAndOrder = (state: RootState) => {
       (coin) => window.coins[coin] && window.coins[coin].coinfig.type.erc20Address
     )
     const coinsInRecentSwaps = recentSwapTxs.map((tx) => getOutputFromPair(tx.pair))
-    // remove coins that may not yet exist in wallet options to avoid app crash
     const coinOrder = [
       ...new Set([
         'USD',
@@ -59,7 +58,7 @@ export const getCoinsWithMethodAndOrder = (state: RootState) => {
         return {
           ...coin,
           method:
-            !coin.coinfig.type.isFiat ||
+            coin.coinfig.type.name !== 'FIAT' ||
             !!paymentMethods.methods.find(
               (method) => method.currency === coin.coinCode && method.type === SBPaymentTypes.FUNDS
             )
@@ -71,4 +70,4 @@ export const getCoinsWithMethodAndOrder = (state: RootState) => {
   return lift(transform)(sbMethodsR, sbBalancesR, erc20sR)
 }
 
-export default getCoinsWithMethodAndOrder
+export default getCoinsWithBalanceOrMethod

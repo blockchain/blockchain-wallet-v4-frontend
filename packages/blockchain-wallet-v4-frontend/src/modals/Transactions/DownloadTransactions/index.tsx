@@ -103,7 +103,7 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch, { coin }: OwnProps) => {
-  const { erc20Address, parentChain } = window.coins[coin].coinfig.type
+  const { erc20Address, parentChain = coin } = window.coins[coin].coinfig.type
   const coinCode = parentChain.toLowerCase()
   return {
     clearTransactions: () => dispatch(actions.core.data[coinCode].clearTransactionHistory()),

@@ -8,7 +8,7 @@ import { OrderType, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { getValidPaymentMethod } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
-import { SBCheckoutFormValuesType, UserDataType } from 'data/types'
+import { RecurringBuyPeriods, SBCheckoutFormValuesType, UserDataType } from 'data/types'
 
 import Loading from '../../template.loading'
 import {
@@ -25,21 +25,30 @@ class Checkout extends PureComponent<Props> {
     const goalAmount = pathOr('', ['data', 'amount'], dataGoal)
     const amount = goalAmount || this.props.formValues?.amount
     const cryptoAmount = this.props.formValues?.cryptoAmount
+    const period = this.props.formValues?.period || RecurringBuyPeriods.ONE_TIME
 
     this.props.simpleBuyActions.initializeCheckout(
       this.props.pairs,
       this.props.orderType,
       this.props.preferences[this.props.orderType].fix,
+      period,
       this.props.pair,
       amount,
       this.props.swapAccount,
       cryptoAmount
     )
 
+    // If no method was given but we have a default method, set it in redux
+    // and the rest of the SB flow works much better
+    if (!this.props.method && this.props.defaultMethod) {
+      this.props.simpleBuyActions.setMethod(this.props.defaultMethod)
+    }
+
     if (!Remote.Success.is(this.props.data)) {
       this.props.simpleBuyActions.fetchSDDEligible()
       this.props.simpleBuyActions.fetchSBCards()
       this.props.brokerageActions.fetchBankTransferAccounts()
+      this.props.recurringBuyActions.fetchPaymentInfo()
     }
     // we fetch limits as part of home banners logic at that point we had only fiatCurrency
     // here we have to re-fetch for crypto currency and order type
@@ -167,6 +176,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch
   ),
   profileActions: bindActionCreators(actions.modules.profile, dispatch),
+  recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 

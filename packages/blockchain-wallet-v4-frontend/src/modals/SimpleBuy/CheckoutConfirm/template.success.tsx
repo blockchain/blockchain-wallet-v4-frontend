@@ -17,7 +17,7 @@ import {
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import { FiatType, OrderType, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
 import { ErrorCartridge } from 'components/Cartridge'
-import { FlyoutWrapper, Row } from 'components/Flyout'
+import { FlyoutWrapper, getPeriodSubTitleText, getPeriodTitleText, Row } from 'components/Flyout'
 import { Form } from 'components/Form'
 import {
   getBaseAmount,
@@ -27,9 +27,14 @@ import {
   getOrderType,
   getPaymentMethodId
 } from 'data/components/simpleBuy/model'
-import { BankPartners, BankTransferAccountType } from 'data/types'
+import { BankPartners, BankTransferAccountType, RecurringBuyPeriods } from 'data/types'
 
-import { displayFiat, getPaymentMethod, getPaymentMethodDetails } from '../model'
+import {
+  displayFiat,
+  getLockRuleMessaging,
+  getPaymentMethod,
+  getPaymentMethodDetails
+} from '../model'
 import { Props as OwnProps, SuccessStateType } from '.'
 
 const CustomForm = styled(Form)`
@@ -166,13 +171,8 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
   )
   const paymentPartner = prop('partner', bankAccount)
 
-  const showLock = props.withdrawLockCheck && props.withdrawLockCheck.lockTime
-  const isBankLink = props.order.paymentType === SBPaymentTypes.BANK_TRANSFER
-
-  const days =
-    props.withdrawLockCheck && props.withdrawLockCheck.lockTime
-      ? moment.duration(props.withdrawLockCheck.lockTime, 'seconds').days()
-      : 3
+  const showLock = (props.withdrawLockCheck && props.withdrawLockCheck.lockTime > 0) || false
+  const days = showLock ? moment.duration(props.withdrawLockCheck?.lockTime, 'seconds').days() : 0
 
   const cardDetails =
     (requiresTerms && props.cards.filter((card) => card.id === paymentMethodId)[0]) || null
@@ -200,7 +200,6 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
     ) : (
       `${orderType === OrderType.BUY ? 'Buy' : 'Sell'} ${baseAmount} ${baseCurrency}`
     )
-
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper>
@@ -285,6 +284,22 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
         </RowItemContainer>
       </RowItem>
 
+      {props.formValues?.period && (
+        <RowItem>
+          <RowText>
+            <FormattedMessage id='copy.frequency' defaultMessage='Frequency' />
+          </RowText>
+          <RowText>
+            <RowTextWrapper>
+              {getPeriodTitleText(props.formValues?.period || RecurringBuyPeriods.ONE_TIME)}
+              <AdditionalText>
+                {getPeriodSubTitleText(props.formValues?.period || RecurringBuyPeriods.ONE_TIME)}
+              </AdditionalText>
+            </RowTextWrapper>
+          </RowText>
+        </RowItem>
+      )}
+
       <RowItem>
         <RowText>
           <FormattedMessage id='modals.simplebuy.confirm.payment' defaultMessage='Payment Method' />
@@ -362,37 +377,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
       </RowItem>
 
       <Bottom>
-        {!isBankLink && (
-          <Info style={{ marginBottom: '12px' }}>
-            {requiresTerms ? (
-              <Text size='12px' weight={500} color='grey900'>
-                <FormattedMessage
-                  id='modals.simplebuy.confirm.activity_card11'
-                  defaultMessage='Your final amount might change due to market activity. For your security, buy orders with a bank account are subject to up to a 14 day holding period. You can Swap or Sell during this time. We will notify you once the funds are fully available.'
-                />
-              </Text>
-            ) : (
-              <Text size='12px' weight={500} color='grey900'>
-                <FormattedMessage
-                  id='modals.simplebuy.confirm.activity'
-                  defaultMessage='Your final amount may change due to market activity.'
-                />
-              </Text>
-            )}
-          </Info>
-        )}
-
-        {showLock && props.order.paymentType === SBPaymentTypes.USER_CARD && (
-          <Info>
-            <Text size='12px' weight={500} color='grey900'>
-              <FormattedMessage
-                id='modals.simplebuy.confirm.activity_card2'
-                defaultMessage='Your crypto will be available to be withdrawn within <b>{days} days</b>.'
-                values={{ days }}
-              />
-            </Text>
-          </Info>
-        )}
+        {getLockRuleMessaging(showLock, days, props.order.paymentType)}
 
         {requiresTerms && (
           <Info>
@@ -420,17 +405,6 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
                 />
               </CheckBoxInput>
             </InfoTerms>
-          </Info>
-        )}
-        {isBankLink && (
-          <Info>
-            <Text size='12px' weight={500} color='grey900'>
-              <FormattedMessage
-                id='modals.simplebuy.confirm.ach_lock'
-                defaultMessage='For your security, buy orders with a bank account are subject to a holding period of up to {days} days. You can Swap or Sell during this time. We will notify you once the funds are fully available.'
-                values={{ days }}
-              />
-            </Text>
           </Info>
         )}
 

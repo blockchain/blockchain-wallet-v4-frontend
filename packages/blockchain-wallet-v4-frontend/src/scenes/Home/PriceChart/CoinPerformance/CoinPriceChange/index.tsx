@@ -11,6 +11,9 @@ import Success from './template.success'
 
 const CoinPriceChange = ({ currency, data, dispatch, priceChart }: Props) => {
   return data.cata({
+    Failure: () => null,
+    Loading: () => <Loading />,
+    NotAsked: () => <Loading />,
     Success: ({ priceChange }) => (
       <Success
         data={data}
@@ -19,10 +22,7 @@ const CoinPriceChange = ({ currency, data, dispatch, priceChart }: Props) => {
         currency={currency}
         priceChart={priceChart}
       />
-    ),
-    NotAsked: () => <Loading />,
-    Loading: () => <Loading />,
-    Failure: () => null
+    )
   })
 }
 

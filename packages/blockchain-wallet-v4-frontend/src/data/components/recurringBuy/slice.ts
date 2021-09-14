@@ -1,10 +1,12 @@
-/* eslint-disable no-param-reassign */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
 import { ModalOriginType } from 'data/modals/types'
 
 import {
+  RecurringBuyNextPayment,
+  RecurringBuyOrigins,
   RecurringBuyPeriods,
   RecurringBuyRegisteredList,
   RecurringBuyState,
@@ -14,7 +16,7 @@ import {
 
 const initialState: RecurringBuyState = {
   active: undefined,
-  methods: Remote.NotAsked,
+  paymentInfo: Remote.NotAsked,
   period: RecurringBuyPeriods.ONE_TIME,
   registeredList: Remote.NotAsked,
   step: RecurringBuyStepType.INIT_PAGE
@@ -25,16 +27,18 @@ const recurringBuySlice = createSlice({
   name: 'recurringBuy',
   reducers: {
     createRecurringBuy: () => {},
-    fetchMethods: () => {},
+    fetchPaymentInfo: () => {},
     fetchRegisteredList: () => {},
-    methodsFailure: (state, action: PayloadAction<string>) => {
-      state.methods = Remote.Failure(action.payload)
+    infoViewed: (state, action: PayloadAction<number>) => {},
+    learnMoreLinkClicked: (state, action: PayloadAction<RecurringBuyOrigins>) => {},
+    paymentInfoFailure: (state, action: PayloadAction<string>) => {
+      state.paymentInfo = Remote.Failure(action.payload)
     },
-    methodsLoading: (state) => {
-      state.methods = Remote.Loading
+    paymentInfoLoading: (state) => {
+      state.paymentInfo = Remote.Loading
     },
-    methodsSuccess: (state, action: PayloadAction<RecurringBuyPeriods[]>) => {
-      state.methods = Remote.Success(action.payload)
+    paymentInfoSuccess: (state, action: PayloadAction<RecurringBuyNextPayment[]>) => {
+      state.paymentInfo = Remote.Success(action.payload)
     },
     registeredListFailure: (state, action: PayloadAction<string>) => {
       state.registeredList = Remote.Failure(action.payload)
@@ -45,6 +49,7 @@ const recurringBuySlice = createSlice({
     registeredListSuccess: (state, action: PayloadAction<RecurringBuyRegisteredList[]>) => {
       state.registeredList = Remote.Success(action.payload)
     },
+    removeRecurringBuy: (state, action: PayloadAction<RecurringBuyRegisteredList['id']>) => {},
     setActive: (state, action: PayloadAction<RecurringBuyRegisteredList>) => {
       state.active = action.payload
     },
@@ -54,7 +59,9 @@ const recurringBuySlice = createSlice({
     setStep: (state, action: PayloadAction<RecurringBuyStepPayload>) => {
       state.step = action.payload.step
     },
-    showModal: (state, action: PayloadAction<{ origin: ModalOriginType }>) => {}
+    showModal: (state, action: PayloadAction<{ origin: ModalOriginType }>) => {},
+    suggestionSkipped: (state, action: PayloadAction<RecurringBuyOrigins>) => {},
+    viewed: () => {}
   }
 })
 

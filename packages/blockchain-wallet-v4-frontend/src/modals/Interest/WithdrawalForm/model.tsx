@@ -72,7 +72,7 @@ export const CustomFormLabel = styled.div`
 
 export const CustomField = styled(Field)<BaseFieldProps & { coin: CoinType; displayCoin: boolean }>`
   > input {
-    padding-left: ${(props) => `${props.coin.length * 14}px`};
+    padding-left: ${(props) => `${props.coin.length * (props.displayCoin ? 18 : 14)}px`};
   }
 `
 export const AmountFieldContainer = styled.div`
@@ -127,8 +127,5 @@ export const CustomOrangeCartridge = styled(OrangeCartridge)`
   margin-top: 24px;
 `
 export const CartrigeText = styled.div`
-  display: inline;
-  font-size: 14px;
-  font-weight: 500;
-  color: ${(props) => props.theme.orange800};
+  margin-top: 16px;
 `

@@ -1,11 +1,11 @@
-import { keys, lift, path, prop } from 'ramda'
+import { path, prop } from 'ramda'
 
-import { /* AccountTokensBalancesResponseType, */ ExtractSuccess, RemoteDataType } from 'core/types'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { /* AccountTokensBalancesResponseType, */ RemoteDataType } from 'core/types'
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { RootState } from 'data/rootReducer'
 
-import { createDeepEqualSelector } from '../../utils'
-import { getErc20AccountTokenBalances } from '../data/eth/selectors.js'
-import { SupportedWalletCurrenciesType, WalletOptionsType } from './types'
+import { WalletOptionsType } from './types'
 
 // general
 export const getOptions = (state: RootState) =>
@@ -22,77 +22,23 @@ export const getAnalyticsSiteId = (state) =>
   getWebOptions(state).map(path(['application', 'analyticsSiteId']))
 export const getAnnouncements = (state) =>
   getWebOptions(state).map(path(['application', 'announcements']))
+export const getNewCoinListing = (state: RootState) =>
+  getOptions(state).map((options) => options.platforms.web.coinListing)
 
-export const DEPRECATED_getSupportedCoins = createDeepEqualSelector(
-  [getWebOptions, getErc20AccountTokenBalances],
-  (webOptionsR /* , erc20CoinsR */) => {
-    const newSupportedCoinAccount = (symbol: string) => {
-      const { coinfig } = window.coins[symbol]
+export const getXlmSendTimeOutSeconds = () => Remote.of(600)
+export const getXlmExchangeAddresses = () => Remote.of([])
 
-      return {
-        coinCode: coinfig.symbol,
-        coinTicker: coinfig.symbol,
-        coinfig,
-        displayName: coinfig.name,
-        minConfirmations: 3
-      }
-    }
-
-    const transform = (
-      webOptions: ExtractSuccess<typeof webOptionsR>
-      // TODO: erc20 phase 2, use erc20s from AccountTokenBalances
-      // erc20Coins: AccountTokensBalancesResponseType['tokenAccounts']
-    ) => {
-      return {
-        ...webOptions.coins,
-        // TODO: erc20 phase 2, remove this
-        ...Object.keys(window.coins).reduce((previousValue, currentValue) => {
-          const { coinfig } = window.coins[currentValue]
-          if (!coinfig.type.erc20Address) return previousValue
-          return {
-            ...previousValue,
-            [coinfig.symbol]: newSupportedCoinAccount(coinfig.symbol)
-          }
-        }, {})
-        // TODO: erc20 phase 2, add this
-        // ...erc20Coins.reduce((previousValue, currentValue) => {
-        //   return {
-        //     ...previousValue,
-        //     [currentValue.symbol!]: newSupportedCoinAccount(currentValue.symbol!)
-        //   }
-        // }, {})
-      }
-    }
-    // TODO: erc20 phase 2, add back erc20CoinsR
-    return lift(transform)(webOptionsR /* , erc20CoinsR */)
-  }
-) as (state: RootState) => RemoteDataType<string, SupportedWalletCurrenciesType>
-
-export const getSyncToExchangeList = (state) => DEPRECATED_getSupportedCoins(state).map(keys)
-export const getXlmSendTimeOutSeconds = (state) =>
-  DEPRECATED_getSupportedCoins(state).map(path(['XLM', 'config', 'sendTimeOutSeconds']))
-export const getXlmExchangeAddresses = (state) =>
-  DEPRECATED_getSupportedCoins(state).map(path(['XLM', 'exchangeAddresses']))
-
-// domains
+// 3rd Party
 export const getVeriffDomain = (state) => getDomains(state).map(prop('veriff'))
-
-// partners
 export const getSiftKey = (state) => getWebOptions(state).map(path(['sift', 'apiKey']))
-export const getSiftPaymentKey = (state: RootState) => {
-  return getWebOptions(state).map((options) => options.sift.paymentKey)
-}
+
+//
+// FEATURE FLAG SELECTORS
+//
+
 // show pairing code flag on staging
 export const getPairingCodeFlag = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'legacyMobilePairing']))
-
-// mobile auth flag
-export const getMobileAuthFlag = (state) =>
-  getWebOptions(state).map(path(['mobile_auth', 'enabled']))
-
-// brokerage deposits withdrawals flag
-export const getBrokerageDepositsWithdrawals = (state) =>
-  getWebOptions(state).map(path(['brokerage_deposits_withdrawals', 'enabled']))
 
 // recurring buys flag
 export const getFeatureFlagRecurringBuys = (state: RootState) =>
@@ -105,3 +51,14 @@ export const getFeatureLegacyWalletRecovery = (state: RootState) =>
 // legacy magic email link
 export const getFeatureLegacyMagicEmailLink = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'legacyMagicEmailLink']))
+
+// signup country feature flag
+export const getFeatureSignupCountry = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'signupCountry']))
+
+// signup country feature flag
+export const getEDDInterestFileUpload = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'eddInterestFileUpload']))
+
+export const getSsoDummy = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'ssoDummy']))

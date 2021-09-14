@@ -24,27 +24,30 @@ class StepOne extends React.PureComponent<Props, State> {
   handleResetAccountClick = () => {
     if (this.state.firstResetAcccountPrompt === true) {
       this.setState({ firstResetAcccountPrompt: false })
+      this.props.authActions.resetAccountClicked('RESET_CONFIRMATION')
     } else {
       this.props.setFormStep()
+      this.props.authActions.resetAccountClicked('RESET_FINAL_WARNING')
     }
   }
 
   handleGoBackClick = () => {
     if (this.state.firstResetAcccountPrompt === true) {
       this.props.setStep(RecoverSteps.RECOVERY_OPTIONS)
+      this.props.authActions.resetAccountCancelled('RESET_CONFIRMATION')
     } else {
       this.setState({ firstResetAcccountPrompt: true })
+      this.props.authActions.resetAccountCancelled('RESET_FINAL_WARNING')
     }
   }
 
   render() {
-    const { cachedEmail, cachedGuid, lastGuid } = this.props
+    const { emailFromMagicLink } = this.props
     return (
       <>
         <BackArrowFormHeader
-          handleBackArrowClick={() => this.handleGoBackClick}
-          email={cachedEmail}
-          guid={cachedGuid || lastGuid}
+          handleBackArrowClick={this.handleGoBackClick}
+          email={emailFromMagicLink}
           step={RecoverSteps.RESET_ACCOUNT}
         />
         {this.state.firstResetAcccountPrompt && (

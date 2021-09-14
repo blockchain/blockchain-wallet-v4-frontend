@@ -1,4 +1,4 @@
-import * as AT from './actionTypes'
+import { actions } from './slice'
 
 export enum LoginSteps {
   CHECK_EMAIL = 'CHECK_EMAIL',
@@ -43,29 +43,28 @@ export type WalletDataFromMagicLink = {
   exchange?: {
     email?: string
     twoFaMode?: boolean
-    userId?: string
+    user_id?: string
   }
-  mergeable: boolean | null
-  upgradeable: boolean | null
+  mergeable?: boolean | null
+  upgradeable?: boolean | null
   wallet: {
-    authType?: number
+    auth_type?: number
     email: string
-    emailCode?: string
+    email_code?: string
     exchange?: {
       email?: string
       twoFaMode?: boolean
-      userId?: string
+      user_id?: string
     }
     guid: string
-    hasCloudBackup: boolean
-    isMobileSetup?: string | boolean
-    lastMnemonicBackup: number | null
-
-    mobileDeviceType: number | null
+    has_cloud_backup?: boolean
+    is_mobile_setup?: string | boolean
+    last_mnemonic_backup?: number | null
+    mobile_device_type?: number | null
     nabu?: {
-      recoveryEligible?: boolean
-      recoveryToken?: string
-      userId?: string
+      recovery_eligible?: boolean
+      recovery_token?: string
+      user_id?: string
     }
   }
 }
@@ -86,18 +85,18 @@ interface LoginFailureActionType {
   payload: {
     err?: string
   }
-  type: typeof AT.LOGIN_FAILURE
+  type: typeof actions.loginFailure.type
 }
 interface InitializeLoginSuccessActionType {
-  type: typeof AT.INITIALIZE_LOGIN_SUCCESS
+  type: typeof actions.initializeLoginSuccess.type
 }
 
 interface InitializeLoginLoadingActionType {
-  type: typeof AT.INITIALIZE_LOGIN_LOADING
+  type: typeof actions.initializeLoginLoading.type
 }
 
 interface InitializeLoginFailureActionType {
-  type: typeof AT.INITIALIZE_LOGIN_FAILURE
+  type: typeof actions.initializeLoginFailure.type
 }
 
 interface LoginRouteSagaActionType {
@@ -106,33 +105,33 @@ interface LoginRouteSagaActionType {
     firstLogin?: boolean
     mobileLogin?: boolean
   }
-  type: typeof AT.LOGIN_ROUTINE_SAGA
+  type: typeof actions.loginRoutine.type
 }
 
 interface TriggerWalletMagicLinkSuccessActionType {
-  type: typeof AT.TRIGGER_WALLET_MAGIC_LINK_SUCCESS
+  type: typeof actions.triggerWalletMagicLinkSuccess.type
 }
 
 interface TriggerWalletMagicLinkLoadingActionType {
-  type: typeof AT.TRIGGER_WALLET_MAGIC_LINK_LOADING
+  type: typeof actions.triggerWalletMagicLinkLoading.type
 }
 
 interface TriggerWalletMagicLinkFailureActionType {
-  type: typeof AT.TRIGGER_WALLET_MAGIC_LINK_FAILURE
+  type: typeof actions.triggerWalletMagicLinkFailure
 }
 
 interface SetMagicLinkInfoActionType {
   payload: {
     magicLinkInfo: WalletDataFromMagicLink
   }
-  type: typeof AT.SET_MAGIC_LINK_INFO
+  type: typeof actions.setMagicLinkInfo.type
 }
 
 interface UpgradeWalletActionType {
   payload: {
     version: number
   }
-  type: typeof AT.UPGRADE_WALLET
+  type: typeof actions.upgradeWallet.type
 }
 
 export type AuthActionTypes =

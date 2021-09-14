@@ -57,8 +57,6 @@ export const getTotalBalance = (state) =>
     getContext
   )(state)
 
-export const getRates = path([dataPath, 'xlm', 'rates'])
-
 export const getTransactionsAtBound = path([dataPath, 'xlm', 'transactions_at_bound'])
 
 export const getTransactions = path([dataPath, 'xlm', 'transactions'])

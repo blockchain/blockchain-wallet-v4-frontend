@@ -3,10 +3,10 @@ import { combineReducers } from 'redux'
 import { brokerageReducer as brokerage } from './brokerage/slice'
 import { fundRecoveryReducer } from './fundRecovery/reducers'
 import identityVerificationReducer from './identityVerification/reducers'
-import interestReducer from './interest/reducers'
-import layoutWallet from './layoutWallet/reducers'
+import { interestReducer } from './interest/slice'
+import { layoutWalletReducer as layoutWallet } from './layoutWallet/slice'
 import manageAddresses from './manageAddresses/reducers'
-import { priceChartReducer } from './priceChart/reducers'
+import { priceChartReducer } from './priceChart/slice'
 import { recoveryPhraseReducer } from './recoveryPhrase/reducers'
 import { reducer as recurringBuy } from './recurringBuy/slice'
 import { requestReducer } from './request/reducers'
@@ -14,9 +14,10 @@ import resetWallet2fa from './resetWallet2fa/reducers'
 import { sendReducer } from './send/reducers'
 import { sendBchReducer } from './sendBch/reducers'
 import { sendBtcReducer } from './sendBtc/reducers'
+import { reducer as sendCrypto } from './sendCrypto/slice'
 import { sendEthReducer } from './sendEth/reducers'
 import { sendXlmReducer } from './sendXlm/reducers'
-import { settingsReducer } from './settings/reducers'
+import { settingsReducer } from './settings/slice'
 import signMessage from './signMessage/reducers'
 import { simpleBuyReducer } from './simpleBuy/reducers'
 import swapReducer from './swap/reducers'
@@ -39,6 +40,7 @@ const componentReducer = combineReducers({
   send: sendReducer,
   sendBch: sendBchReducer,
   sendBtc: sendBtcReducer,
+  sendCrypto,
   sendEth: sendEthReducer,
   sendXlm: sendXlmReducer,
   settings: settingsReducer,

@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import Alerts from 'components/Alerts'
 import Announcements from 'components/Announcements'
 import Tooltips from 'components/Tooltips'
-import ZendeskWidget from 'components/ZendeskWidget'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { media } from 'services/styles'
 
@@ -72,7 +71,6 @@ const WalletLayout = (props) => {
             <Page>{children}</Page>
           </Content>
         </Container>
-        <ZendeskWidget />
       </ErrorBoundary>
     </Wrapper>
   )

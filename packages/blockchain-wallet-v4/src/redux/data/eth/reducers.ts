@@ -24,7 +24,7 @@ const INITIAL_STATE = {
   latest_block: Remote.NotAsked,
   legacy_balance: Remote.NotAsked,
   rates: { eth: Remote.NotAsked },
-  transaction_history: {},
+  transaction_history: { eth: Remote.NotAsked },
   transactions: { eth: [] },
   transactions_at_bound: { eth: false },
   warn_low_eth_balance: false
@@ -106,15 +106,6 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_ETH_CURRENT_BALANCE_FAILURE: {
       return assocPath(['current_balance', 'eth'], Remote.Failure(payload), state)
     }
-    case AT.FETCH_ETH_RATES_LOADING: {
-      return assocPath(['rates', 'eth'], Remote.Loading, state)
-    }
-    case AT.FETCH_ETH_RATES_SUCCESS: {
-      return assocPath(['rates', 'eth'], Remote.Success(payload), state)
-    }
-    case AT.FETCH_ETH_RATES_FAILURE: {
-      return assocPath(['rates', 'eth'], Remote.Failure(payload), state)
-    }
     case AT.FETCH_ETH_TRANSACTIONS_LOADING: {
       const { reset } = payload
       return reset
@@ -166,18 +157,6 @@ export default (state = INITIAL_STATE, action) => {
       const { error, token } = payload
       return assocPath(['info', token], Remote.Failure(error), state)
     }
-    case AT.FETCH_ERC20_RATES_LOADING: {
-      const { token } = payload
-      return assocPath(['rates', token], Remote.Loading, state)
-    }
-    case AT.FETCH_ERC20_RATES_SUCCESS: {
-      const { data, token } = payload
-      return assocPath(['rates', token], Remote.Success(data), state)
-    }
-    case AT.FETCH_ERC20_RATES_FAILURE: {
-      const { error, token } = payload
-      return assocPath(['rates', token], Remote.Failure(error), state)
-    }
     case AT.FETCH_ERC20_TOKEN_BALANCE_LOADING: {
       const { token } = payload
       return assocPath(['current_balance', token], Remote.Loading, state)
@@ -214,7 +193,7 @@ export default (state = INITIAL_STATE, action) => {
     case AT.FETCH_ERC20_TX_FEE_LOADING: {
       const { hash, token } = payload
       const txListLens = lensPath(['transactions', token, 0])
-      const setData = (target) => (tx) => (tx.hash === target ? { ...tx, fee: Remote.Loading } : tx)
+      const setData = (target) => (tx) => tx.hash === target ? { ...tx, fee: Remote.Loading } : tx
 
       // @ts-ignore
       return over(compose(txListLens, mapped, mapped), setData(hash), state)

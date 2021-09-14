@@ -37,8 +37,6 @@ export const getInfo = path([dataPath, 'bch', 'info'])
 
 export const getLatestBlock = path([dataPath, 'bch', 'latest_block'])
 
-export const getRates = path([dataPath, 'bch', 'rates'])
-
 export const getTransactions = path([dataPath, 'bch', 'transactions'])
 
 export const getTransactionHistory = path([dataPath, 'bch', 'transaction_history'])

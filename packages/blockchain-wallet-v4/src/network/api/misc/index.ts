@@ -1,10 +1,16 @@
 import { Moment } from 'moment'
 
-import { CoinType, FiatType } from 'core/types'
+import { CoinfigType, CoinType, FiatType } from 'core/types'
 
 import { PriceIndexResponseType } from './types'
 
 export default ({ apiUrl, get, post }) => {
+  const getAssets = (): { currencies: CoinfigType[] } =>
+    get({
+      endPoint: '/assets/currencies/custodial',
+      url: apiUrl
+    })
+
   const getPriceIndex = (base: CoinType, quote: FiatType, time: Moment): PriceIndexResponseType =>
     get({
       data: { base, quote, time: time.unix() },
@@ -50,6 +56,7 @@ export default ({ apiUrl, get, post }) => {
     })
   }
   return {
+    getAssets,
     getPriceIndex,
     getPriceIndexSeries,
     getPriceTimestampSeries,

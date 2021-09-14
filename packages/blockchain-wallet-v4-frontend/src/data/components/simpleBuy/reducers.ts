@@ -5,8 +5,8 @@ import { getCoinFromPair, getFiatFromPair } from './model'
 import { SimpleBuyActionTypes, SimpleBuyState } from './types'
 
 const INITIAL_STATE: SimpleBuyState = {
-  addBank: undefined,
   account: Remote.NotAsked,
+  addBank: undefined,
   balances: Remote.NotAsked,
   card: Remote.NotAsked,
   cardId: undefined,
@@ -16,24 +16,24 @@ const INITIAL_STATE: SimpleBuyState = {
   everypay3DS: Remote.NotAsked,
   fiatCurrency: undefined,
   fiatEligible: Remote.NotAsked,
+  limits: Remote.NotAsked,
   method: undefined,
   methods: Remote.NotAsked,
   order: undefined,
-  orders: Remote.NotAsked,
   orderType: undefined,
+  orders: Remote.NotAsked,
   pair: undefined,
   pairs: Remote.NotAsked,
   payment: Remote.NotAsked,
   providerDetails: Remote.NotAsked,
   quote: Remote.NotAsked,
   sddEligible: Remote.NotAsked,
-  sddVerified: Remote.NotAsked,
   sddTransactionFinished: false,
+  sddVerified: Remote.NotAsked,
   sellOrder: undefined,
   sellQuote: Remote.NotAsked,
   step: 'CRYPTO_SELECTION',
-  swapAccount: undefined,
-  limits: Remote.NotAsked
+  swapAccount: undefined
 }
 
 export function simpleBuyReducer(
@@ -178,14 +178,14 @@ export function simpleBuyReducer(
     case AT.FETCH_SB_PAIRS_SUCCESS:
       return {
         ...state,
-        pairs: Remote.Success(action.payload.pairs),
         pair: action.payload.coin
           ? action.payload.pairs.find(
-              pair =>
+              (pair) =>
                 getCoinFromPair(pair.pair) === action.payload.coin &&
                 getFiatFromPair(pair.pair) === state.fiatCurrency
             )
-          : state.pair
+          : state.pair,
+        pairs: Remote.Success(action.payload.pairs)
       }
     case AT.FETCH_SB_PAYMENT_ACCOUNT_FAILURE: {
       return {
@@ -310,7 +310,7 @@ export function simpleBuyReducer(
         pair:
           action.pair ||
           action.pairs.find(
-            pair =>
+            (pair) =>
               getCoinFromPair(pair.pair) === state.cryptoCurrency &&
               getFiatFromPair(pair.pair) === state.fiatCurrency
           )
@@ -344,41 +344,46 @@ export function simpleBuyReducer(
         ...state,
         fiatCurrency: action.payload.fiatCurrency
       }
+    case AT.SET_METHOD:
+      return {
+        ...state,
+        method: action.payload
+      }
     case AT.SET_STEP:
       switch (action.payload.step) {
         case 'ENTER_AMOUNT':
         case 'VERIFY_EMAIL':
           return {
             ...state,
-            orderType: action.payload.orderType,
-            swapAccount: action.payload.swapAccount,
+            addBank: undefined,
             cryptoCurrency: action.payload.cryptoCurrency,
             fiatCurrency: action.payload.fiatCurrency,
-            step: action.payload.step,
-            pair: action.payload.pair,
             method: action.payload.method,
             order: undefined,
-            addBank: undefined
+            orderType: action.payload.orderType,
+            pair: action.payload.pair,
+            step: action.payload.step,
+            swapAccount: action.payload.swapAccount
           }
         case 'CRYPTO_SELECTION':
           return {
             ...state,
+            addBank: undefined,
             cryptoCurrency: action.payload.cryptoCurrency,
             fiatCurrency: action.payload.fiatCurrency,
             orderType: action.payload.orderType,
             step: action.payload.step,
-            swapAccount: undefined,
-            addBank: undefined
+            swapAccount: undefined
           }
         case 'LINKED_PAYMENT_ACCOUNTS':
         case 'PAYMENT_METHODS':
           return {
             ...state,
+            addBank: undefined,
             cryptoCurrency: action.payload.cryptoCurrency,
             fiatCurrency: action.payload.fiatCurrency,
-            step: action.payload.step,
             order: action.payload.order,
-            addBank: undefined
+            step: action.payload.step
           }
         case '3DS_HANDLER':
         case 'CHECKOUT_CONFIRM':
@@ -386,25 +391,26 @@ export function simpleBuyReducer(
         case 'ORDER_SUMMARY':
           return {
             ...state,
+            addBank: undefined,
             order: action.payload.order,
-            step: action.payload.step,
-            addBank: undefined
+            step: action.payload.step
           }
         case 'BANK_WIRE_DETAILS':
           return {
             ...state,
-            step: action.payload.step,
-            fiatCurrency: action.payload.fiatCurrency,
+            addBank: action.payload.addBank,
             displayBack: action.payload.displayBack,
-            addBank: action.payload.addBank
+            fiatCurrency: action.payload.fiatCurrency,
+            step: action.payload.step
           }
         case 'SELL_ORDER_SUMMARY':
           return {
             ...state,
-            step: action.payload.step,
-            sellOrder: action.payload.sellOrder
+            sellOrder: action.payload.sellOrder,
+            step: action.payload.step
           }
         case 'LOADING':
+        case 'FREQUENCY':
         default: {
           return {
             ...state,

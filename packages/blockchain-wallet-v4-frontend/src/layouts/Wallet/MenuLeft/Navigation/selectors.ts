@@ -17,23 +17,24 @@ import { RootState } from 'data/rootReducer'
 export const getData = createDeepEqualSelector(
   [
     selectors.custodial.getRecentSwapTxs,
-    selectors.components.utils.getCoinsWithMethodAndOrder,
+    selectors.core.settings.getCurrency,
+    selectors.components.utils.getCoinsWithBalanceOrMethod,
     getAllCoinsBalancesSelector,
     (state: RootState) => state
   ],
-  (recentSwapTxsR, coinsR, balances, state: RootState) => {
+  (recentSwapTxsR, currencyR, coinsR, balances, state: RootState) => {
     const transform = (coins: ExtractSuccess<typeof coinsR>) => {
       const coinSort = (a?: CoinfigType, b?: CoinfigType) => {
         if (!a || !b) return -1
-        if (window.coins[a.symbol].coinfig.type.isFiat) return 1
-        if (window.coins[b.symbol].coinfig.type.isFiat) return 1
+        if (window.coins[a.symbol].coinfig.type.name === 'FIAT') return -1
+        if (window.coins[b.symbol].coinfig.type.name === 'FIAT') return -1
 
         const coinA = a.symbol
         const coinB = b.symbol
         // doesnt really matter
-        const currency = 'USD'
+        const currency = currencyR.getOrElse('USD')
 
-        const defaultRate = { [currency]: { last: 1 } }
+        const defaultRate = { price: 1 }
 
         const ratesA = selectors.core.data.misc
           .getRatesSelector(coinA, state)
@@ -71,7 +72,9 @@ export const getData = createDeepEqualSelector(
 
       // returns all coins with balances as a list
       const cryptoList = map(
-        (coin) => coins.find((c) => c.coinfig.symbol === coin),
+        (coin) => {
+          return coins.find((c) => c.coinfig?.symbol === coin)
+        },
         reject(
           not,
           map((x) => last(x) !== '0' && head(x), toPairs(balances))
@@ -91,7 +94,9 @@ export const getData = createDeepEqualSelector(
         .map((coin) => window.coins[coin].coinfig)
 
       // list of coins with balance and then coins w/ no balance but swaps
-      return [...coinsWithBalance, ...coinsWithoutBalanceToTrack].sort(coinSort) as CoinfigType[]
+      return [...coinsWithBalance, ...coinsWithoutBalanceToTrack]
+        .sort(coinSort)
+        .filter(Boolean) as CoinfigType[]
     }
 
     return lift(transform)(coinsR)

@@ -1,4 +1,5 @@
-import { RatesType } from '../misc/types'
+import { IndexMultiResponseType } from 'core/network/api/coin/types'
+
 import * as AT from './actionTypes'
 import { CoinsActionTypes } from './types'
 
@@ -6,16 +7,15 @@ import { CoinsActionTypes } from './types'
 export const fetchCoinsRates = () => ({
   type: AT.FETCH_COINS_RATES
 })
-export const fetchCoinsRatesLoading = (coin: string): CoinsActionTypes => ({
-  payload: { coin },
+export const fetchCoinsRatesLoading = (): CoinsActionTypes => ({
   type: AT.FETCH_COINS_RATES_LOADING
 })
-export const fetchCoinsRatesSuccess = (coin: string, rates: RatesType): CoinsActionTypes => ({
-  payload: { coin, rates },
+export const fetchCoinsRatesSuccess = (rates: IndexMultiResponseType): CoinsActionTypes => ({
+  payload: { rates },
   type: AT.FETCH_COINS_RATES_SUCCESS
 })
-export const fetchCoinsRatesFailure = (coin: string, error: string): CoinsActionTypes => ({
-  payload: { coin, error },
+export const fetchCoinsRatesFailure = (error: string): CoinsActionTypes => ({
+  payload: { error },
   type: AT.FETCH_COINS_RATES_FAILURE
 })
 
@@ -41,7 +41,10 @@ export const fetchTransactionsSuccess = (
   payload: { coin, isFinalPage, reset, transactions },
   type: AT.FETCH_COINS_TRANSACTIONS_SUCCESS
 })
-export const transactionsAtBound = (payload) => ({
-  payload,
+export const transactionsAtBound = (coin: string, atBounds: boolean): CoinsActionTypes => ({
+  payload: {
+    atBounds,
+    coin
+  },
   type: AT.COINS_TRANSACTIONS_AT_BOUND
 })

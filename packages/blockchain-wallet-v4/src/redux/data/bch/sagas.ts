@@ -44,16 +44,6 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchRates = function* () {
-    try {
-      yield put(A.fetchRatesLoading())
-      const data = yield call(api.getBchTicker)
-      yield put(A.fetchRatesSuccess(data))
-    } catch (e) {
-      yield put(A.fetchRatesFailure(e.message))
-    }
-  }
-
   const watchTransactions = function* () {
     while (true) {
       const action = yield take(AT.FETCH_BCH_TRANSACTIONS)
@@ -169,7 +159,6 @@ export default ({ api }: { api: APIType }) => {
   return {
     __processTxs,
     fetchData,
-    fetchRates,
     fetchTransactionHistory,
     fetchTransactions,
     watchTransactions
