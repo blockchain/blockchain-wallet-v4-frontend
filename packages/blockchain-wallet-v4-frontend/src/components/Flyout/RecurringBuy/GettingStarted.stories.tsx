@@ -16,9 +16,7 @@ export default {
     (Story) => (
       <IntlProvider locale='en'>
         <div style={{ display: 'flex', height: '100vh' }}>
-          <div style={{ border: '1px solid #ddd', width: '480px' }}>
-            <Story />
-          </div>
+          <div style={{ border: '1px solid #ddd', width: '480px' }}>{Story()}</div>
         </div>
       </IntlProvider>
     )

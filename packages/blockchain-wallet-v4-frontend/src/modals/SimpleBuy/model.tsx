@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { Text } from 'blockchain-info-components'
+import { Link, Text } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import {
   CoinType,
@@ -204,5 +204,60 @@ export const getPaymentMethodDetails = (
       return `${d.bankAccountType?.toLowerCase() || ''} ${d.accountNumber || ''}`
     default:
       return null
+  }
+}
+
+export const getLockRuleMessaging = (
+  showLockRule: boolean,
+  days: number,
+  paymentType?: SBPaymentTypes
+) => {
+  switch (paymentType) {
+    case SBPaymentTypes.BANK_TRANSFER:
+    case SBPaymentTypes.PAYMENT_CARD:
+    case SBPaymentTypes.USER_CARD:
+      if (showLockRule) {
+        return (
+          <>
+            <Text size='12px' weight={500} color='grey900'>
+              <FormattedMessage
+                id='modals.simplebuy.summary.complete_card_info_main'
+                defaultMessage='Your final amount might change due to market activity. For security purposes, a {days} holding period will be applied to your funds. You can Sell or Swap during this time. We will notify you once the funds are available to be withdrawn.'
+                values={{ days }}
+              />
+            </Text>
+            <Link
+              href='https://support.blockchain.com/hc/en-us/articles/360051018131-Trading-Account-Withdrawal-Holds'
+              size='14px'
+              rel='noopener noreferrer'
+              target='_blank'
+            >
+              <FormattedMessage
+                id='modals.simplebuy.summary.learn_more'
+                defaultMessage='Learn more'
+              />
+            </Link>
+          </>
+        )
+      }
+      return (
+        <Text size='12px' weight={500} color='grey900'>
+          <FormattedMessage
+            id='modals.simplebuy.confirm.activity_card11'
+            defaultMessage='Your final amount might change due to market activity. Your funds will be available to Sell, Swap or withdraw instantly.'
+          />
+        </Text>
+      )
+
+    case SBPaymentTypes.FUNDS:
+    default:
+      return (
+        <Text size='12px' weight={500} color='grey900'>
+          <FormattedMessage
+            id='modals.simplebuy.confirm.activity'
+            defaultMessage='Your final amount may change due to market activity.'
+          />
+        </Text>
+      )
   }
 }
