@@ -79,6 +79,12 @@ export type WalletDataFromMagicLinkLegacy = {
   mobile_device_type: number | null
 }
 
+export type LoginErrorType = {
+  auth_type: number
+  authorization_required: boolean
+  initial_error?: string
+}
+
 // actions
 
 interface LoginFailureActionType {
