@@ -1,8 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import Remote from 'blockchain-wallet-v4/src/remote/remote'
 
-import { SettingsState } from './types'
+import { ProductEligibility, SettingsState } from './types'
 
 const initialState: SettingsState = {
   productsEligibility: Remote.NotAsked
@@ -13,13 +13,16 @@ const settingsSlice = createSlice({
   name: 'settings',
   reducers: {
     fetchProductsEligibility: () => {},
-    fetchProductsEligibilityFailure: (state: SettingsState, action) => {
+    fetchProductsEligibilityFailure: (state: SettingsState, action: PayloadAction<string>) => {
       state.productsEligibility = Remote.Failure(action.payload)
     },
     fetchProductsEligibilityLoading: (state: SettingsState) => {
       state.productsEligibility = Remote.Loading
     },
-    fetchProductsEligibilitySuccess: (state: SettingsState, action) => {
+    fetchProductsEligibilitySuccess: (
+      state: SettingsState,
+      action: PayloadAction<ProductEligibility[]>
+    ) => {
       state.productsEligibility = Remote.Success(action.payload)
     },
     notificationsInitialized: () => {}
