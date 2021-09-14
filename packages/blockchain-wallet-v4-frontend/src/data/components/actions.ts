@@ -13,7 +13,6 @@ import * as lockbox from './lockbox/actions'
 import * as manageAddresses from './manageAddresses/actions'
 import * as onboarding from './onboarding/actions'
 import { actions as priceChart } from './priceChart/slice'
-import * as priceTicker from './priceTicker/actions'
 import * as recoveryPhrase from './recoveryPhrase/actions'
 import { actions as recurringBuy } from './recurringBuy/slice'
 import * as refresh from './refresh/actions'
@@ -50,7 +49,6 @@ export {
   manageAddresses,
   onboarding,
   priceChart,
-  priceTicker,
   recoveryPhrase,
   recurringBuy,
   refresh,

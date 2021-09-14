@@ -7,26 +7,39 @@ const initialState = {
   time: TimeRange.ALL
 }
 
+type CoinPayload = {
+  coin: CoinType
+}
+
+type InitializedPayload = {
+  coin: CoinType
+  time: TimeRange
+}
+
+type TimePayload = {
+  time: TimeRange
+}
+
 const priceChartSlice = createSlice({
   initialState,
   name: 'priceChart',
   reducers: {
     coinClicked: {
       prepare: (coin: CoinType) => ({ payload: { coin } }),
-      reducer: (state, action: PayloadAction<any>) => {
+      reducer: (state, action: PayloadAction<CoinPayload>) => {
         state.coin = action.payload.coin
       }
     },
     initialized: {
       prepare: (coin: CoinType, time: TimeRange) => ({ payload: { coin, time } }),
-      reducer: (state, action: PayloadAction<any>) => {
+      reducer: (state, action: PayloadAction<InitializedPayload>) => {
         state.coin = action.payload.coin
         state.time = action.payload.time
       }
     },
     timeClicked: {
       prepare: (time: TimeRange) => ({ payload: { time } }),
-      reducer: (state, action: PayloadAction<any>) => {
+      reducer: (state, action: PayloadAction<TimePayload>) => {
         state.time = action.payload.time
       }
     }

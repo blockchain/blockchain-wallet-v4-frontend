@@ -14,7 +14,6 @@ import lockbox from './lockbox/sagaRegister'
 import manageAddresses from './manageAddresses/sagaRegister'
 import onboarding from './onboarding/sagaRegister'
 import priceChart from './priceChart/sagaRegister'
-import priceTicker from './priceTicker/sagaRegister'
 import recurringBuy from './recurringBuy/sagaRegister'
 import refresh from './refresh/sagaRegister'
 import request from './request/sagaRegister'
@@ -51,7 +50,6 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(manageAddresses({ api, networks }))
     yield fork(onboarding())
     yield fork(priceChart())
-    yield fork(priceTicker({ coreSagas }))
     yield fork(refresh())
     yield fork(request({ api, coreSagas, networks }))
     yield fork(recurringBuy({ api }))
