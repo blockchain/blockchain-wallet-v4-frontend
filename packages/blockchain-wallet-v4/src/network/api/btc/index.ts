@@ -1,13 +1,6 @@
 import { toUpper } from 'ramda'
 
 export default ({ apiUrl, get, post, rootUrl }) => {
-  const getBtcTicker = () =>
-    get({
-      data: { base: 'BTC' },
-      endPoint: '/ticker',
-      url: apiUrl
-    })
-
   const getBtcUnspents = (fromAddresses, confirmations = 0, extras) =>
     post({
       data: {
@@ -85,7 +78,6 @@ export default ({ apiUrl, get, post, rootUrl }) => {
     getBalances,
     getBtcFees,
     getBtcFiatAtTime,
-    getBtcTicker,
     getBtcTransactionHistory,
     getBtcUnspents,
     getLatestBlock,

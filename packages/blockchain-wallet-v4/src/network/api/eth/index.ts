@@ -19,25 +19,11 @@ export default ({ apiUrl, get, post }) => {
     })
   }
 
-  const getEthTicker = () =>
-    get({
-      data: { base: 'ETH' },
-      endPoint: '/ticker',
-      url: apiUrl
-    })
-
   const pushEthTx = (rawTx) =>
     post({
       contentType: 'application/json',
       data: { rawTx },
       endPoint: '/eth/pushtx',
-      url: apiUrl
-    })
-
-  const getErc20Ticker = (token) =>
-    get({
-      data: { base: token },
-      endPoint: '/ticker',
       url: apiUrl
     })
 
@@ -131,14 +117,12 @@ export default ({ apiUrl, get, post }) => {
     checkContract,
     getAccountTokensBalances,
     getErc20AccountSummaryV2,
-    getErc20Ticker,
     getErc20TransactionsV2,
     getEthAccountSummaryV2,
     getEthBalances,
     getEthData,
     getEthFees,
     getEthLatestBlock,
-    getEthTicker,
     getEthTransaction,
     getEthTransactionV2,
     getEthTransactions,

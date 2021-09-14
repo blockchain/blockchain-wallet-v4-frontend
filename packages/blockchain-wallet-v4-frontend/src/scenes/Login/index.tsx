@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector, getFormMeta, InjectedFormProps, reduxForm } from 'redux-form'
 
-import { Icon, Text } from 'blockchain-info-components'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { Form } from 'components/Form'
 import { Wrapper } from 'components/Public'
@@ -103,13 +103,20 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
         })
         this.initCaptcha()
       }
+      const idType = isGuid(guidOrEmail) ? 'WALLET_ID' : 'EMAIL'
+      authActions.loginIdEntered(idType)
     } else {
       authActions.login({ code: auth, guid, mobileLogin: null, password, sharedKey: null })
     }
   }
 
+  loginWithMobileClicked = () => {
+    this.props.authActions.loginMethodSelected('SECURE_CHANNEL')
+    this.setStep(LoginSteps.VERIFICATION_MOBILE)
+  }
+
   render() {
-    const { data, formValues } = this.props
+    const { data, formValues, ssoDummy } = this.props
     const { step } = formValues || LoginSteps.ENTER_EMAIL_GUID
     const { busy, error } = data.cata({
       Failure: (val) => ({ busy: false, error: val.err }),
@@ -124,6 +131,43 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     }
     return (
       <>
+        {ssoDummy && (
+          <Button
+            onClick={() => {
+              // eslint-disable-next-line no-console
+              console.log('Button click detected! Sending message to mobile...')
+
+              // @ts-ignore
+              if (window.webkit) {
+                // eslint-disable-next-line no-console
+                console.log('iOS detected! found window.webkit')
+                // @ts-ignore
+                window.webkit.messageHandlers.BCiOSSSI.postMessage(
+                  `message to iOS on ${new Date().getMilliseconds()}`
+                )
+                return
+              }
+
+              // @ts-ignores
+              if (window.BCAndroidSSI) {
+                // eslint-disable-next-line no-console
+                console.log('Android detected! found window.BCAndroidSSI')
+
+                // @ts-ignore
+                window.BCAndroidSSI.postMessage(
+                  `message to Android on ${new Date().getMilliseconds()}`
+                )
+                return
+              }
+
+              console.error('Could not find Android (window.BCAndroidSSI) or iOS (window.webkit)')
+            }}
+            nature='primary'
+            data-e2e=''
+          >
+            Send Message to Mobile
+          </Button>
+        )}
         <Text color='white' size='24px' weight={600} style={{ marginBottom: '24px' }}>
           {step === LoginSteps.ENTER_PASSWORD ? (
             <FormattedMessage id='scenes.login.authorize' defaultMessage='Authorize login' />
@@ -204,7 +248,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
             size='16px'
             cursor='pointer'
             style={{ marginTop: '24px' }}
-            onClick={() => this.setStep(LoginSteps.VERIFICATION_MOBILE)}
+            onClick={this.loginWithMobileClicked}
           >
             <FormattedMessage
               id='scenes.login.loginwithmobile'
@@ -245,7 +289,8 @@ const mapStateToProps = (state) => ({
   initialValues: {
     step: LoginSteps.ENTER_EMAIL_GUID
   },
-  password: formValueSelector(LOGIN_FORM_NAME)(state, 'password')
+  password: formValueSelector(LOGIN_FORM_NAME)(state, 'password'),
+  ssoDummy: selectors.core.walletOptions.getSsoDummy(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

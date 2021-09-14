@@ -1,18 +1,13 @@
-import { CoinType, FiatType, RemoteDataType, WalletFiatType } from 'core/types'
+import { CoinType, RemoteDataType, WalletFiatType } from 'core/types'
 
 import * as AT from './actionTypes'
 
 // types
-export type RateType = {
-  '15m': number
-  buy: number
-  last: number
-  sell: number
-  symbol: string
-}
 
 export type RatesType = {
-  [key in FiatType]: RateType
+  price: number
+  timestamp: number
+  volume24h: number
 }
 
 export type PriceMovementDirType = 'none' | 'up' | 'down'

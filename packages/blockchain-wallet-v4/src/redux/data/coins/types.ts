@@ -1,10 +1,11 @@
+import { IndexMultiResponseType } from 'core/network/api/coin/types'
 import { RatesType, RemoteDataType } from 'core/types'
 
 import * as AT from './actionTypes'
 
 // state
 export type CoinsState = {
-  rates: { [key in string]: RemoteDataType<string, RatesType> }
+  rates: RemoteDataType<string, RatesType>
   transactions: { [key in string]: Array<any> }
   transactions_at_bound: { [key in string]: boolean }
 }
@@ -12,21 +13,16 @@ export type CoinsState = {
 // actions
 interface FetchCoinsFailureActionType {
   payload: {
-    coin: string
     error: string
   }
   type: typeof AT.FETCH_COINS_RATES_FAILURE
 }
 interface FetchCoinsLoadingActionType {
-  payload: {
-    coin: string
-  }
   type: typeof AT.FETCH_COINS_RATES_LOADING
 }
 interface FetchCoinsSuccessActionType {
   payload: {
-    coin: string
-    rates: RatesType
+    rates: IndexMultiResponseType
   }
   type: typeof AT.FETCH_COINS_RATES_SUCCESS
 }

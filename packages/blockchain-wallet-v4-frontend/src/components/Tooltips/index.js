@@ -140,10 +140,7 @@ class Tooltips extends React.PureComponent {
           />
         </Tooltip>
         <Tooltip id='exchange.changeinput' place='bottom'>
-          <FormattedMessage
-            id='scenes.exchange.changeinput'
-            defaultMessage='Change Input'
-          />
+          <FormattedMessage id='scenes.exchange.changeinput' defaultMessage='Change Input' />
         </Tooltip>
         <Tooltip id='activityFeedWatchOnly'>
           <FormattedMessage
@@ -250,17 +247,9 @@ class Tooltips extends React.PureComponent {
             </Link>
           </TextGroup>
         </Tooltip>
-        <Tooltip
-          id='exchangeSideNavConnected'
-          bgColor='grey800'
-          padding='13px 20px'
-          opacity='1'
-        >
+        <Tooltip id='exchangeSideNavConnected' bgColor='grey800' padding='13px 20px' opacity='1'>
           <Text color='green400' weight={700} uppercase size='12px'>
-            <FormattedMessage
-              id='exchange-side-nav-tooltip-connected'
-              defaultMessage='connected'
-            />
+            <FormattedMessage id='exchange-side-nav-tooltip-connected' defaultMessage='connected' />
           </Text>
         </Tooltip>
         <Tooltip id='transaction.pending.eth'>
@@ -270,10 +259,7 @@ class Tooltips extends React.PureComponent {
           />
         </Tooltip>
         <Tooltip id='coming-soon'>
-          <FormattedMessage
-            id='tooltip.comingsoon'
-            defaultMessage='Coming soon.'
-          />
+          <FormattedMessage id='tooltip.comingsoon' defaultMessage='Coming soon.' />
         </Tooltip>
         <Tooltip id='earninterest.calculation.tooltip'>
           <FormattedMessage
@@ -312,9 +298,12 @@ class Tooltips extends React.PureComponent {
           />
         </Tooltip>
         <Tooltip id='copy.on_chain_txs' maxWidth='250px'>
+          <FormattedMessage id='copy.on_chain_txs' defaultMessage='On-chain transactions only' />
+        </Tooltip>
+        <Tooltip id='tooltip.rates_error' maxWidth='160px'>
           <FormattedMessage
-            id='copy.on_chain_txs'
-            defaultMessage='On-chain transactions only'
+            id='copy.rates_error'
+            defaultMessage='Your crypto is safe, but pricing data is currently unavailable.'
           />
         </Tooltip>
       </TooltipWrapper>

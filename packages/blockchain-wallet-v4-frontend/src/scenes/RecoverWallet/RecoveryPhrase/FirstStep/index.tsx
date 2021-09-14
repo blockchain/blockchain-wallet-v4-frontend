@@ -35,6 +35,10 @@ const FirstStep = (props: Props) => {
     setStep,
     submitting
   } = props
+  const resetAccountClicked = () => {
+    formActions.change('recover', 'step', RecoverSteps.RESET_ACCOUNT)
+    props.authActions.resetAccountClicked('RECOVERY_PHRASE')
+  }
   return (
     <Wrapper>
       {emailFromMagicLink && (
@@ -99,7 +103,7 @@ const FirstStep = (props: Props) => {
         fullwidth
         height='48px'
         disabled={submitting || invalid}
-        data-e2e='loginButton'
+        data-e2e='submitRecoveryPhrase'
         style={{ marginBottom: '16px' }}
       >
         {submitting ? (
@@ -136,7 +140,7 @@ const FirstStep = (props: Props) => {
             color='blue600'
             data-e2e='troubleLoggingIn'
             cursor='pointer'
-            onClick={() => formActions.change('recover', 'step', RecoverSteps.RESET_ACCOUNT)}
+            onClick={resetAccountClicked}
             style={{ marginLeft: '4px' }}
           >
             <FormattedMessage

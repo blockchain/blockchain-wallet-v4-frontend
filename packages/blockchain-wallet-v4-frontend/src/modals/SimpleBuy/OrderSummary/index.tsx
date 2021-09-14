@@ -3,15 +3,25 @@ import { connect, ConnectedProps } from 'react-redux'
 import { equals } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Exchange, Remote } from 'blockchain-wallet-v4/src'
 import {
   ExtractSuccess,
+  OrderType,
   RemoteDataType,
   SBOrderType,
-  SBPaymentMethodType
+  SBPaymentMethodType,
+  SBPaymentTypes
 } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
+import { getPeriodForSuccess, OrderSummary as Success } from 'components/Flyout'
 import { actions, selectors } from 'data'
+import {
+  getBaseAmount,
+  getBaseCurrency,
+  getCounterAmount,
+  getCounterCurrency,
+  getOrderType
+} from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
 import {
   RecurringBuyOrigins,
@@ -21,10 +31,12 @@ import {
 } from 'data/types'
 
 import Loading from '../template.loading'
+// import Success from './template.success'
+import InterestBanner from './InterestBanner'
 import { getData } from './selectors'
 import SuccessSdd from './template.sdd.success'
-import Success from './template.success'
 
+const { getSymbol } = Exchange
 class OrderSummary extends PureComponent<Props> {
   componentDidMount() {
     if (!Remote.Success.is(this.props.data)) {
@@ -51,7 +63,7 @@ class OrderSummary extends PureComponent<Props> {
     this.props.simpleBuyActions.fetchSBCards()
   }
 
-  okButtonHandler = () => {
+  handleOkButton = () => {
     // this recurring buy flow is for first time buyers only. They'll have 1 tx at this point in the flow and
     // they didn't already create a recurring buy buy so we send them to RB walkthrough flow
     if (
@@ -64,25 +76,65 @@ class OrderSummary extends PureComponent<Props> {
       this.props.recurringBuyActions.showModal({
         origin: RecurringBuyOrigins.SIMPLE_BUY_ORDER_SUMMARY
       })
-      this.props.recurringBuyActions.setStep({ step: RecurringBuyStepType.GET_STARTED })
+      this.props.recurringBuyActions.setStep({
+        origin: RecurringBuyOrigins.BUY_CONFIRMATION, // needed for analytics tracking
+        step: RecurringBuyStepType.GET_STARTED
+      })
     } else {
       this.props.handleClose()
     }
   }
 
+  handleCompleteButton = () => {
+    this.props.simpleBuyActions.setStep({
+      order: this.props.order,
+      step: '3DS_HANDLER'
+    })
+  }
+
   render() {
-    const { state } = this.props.order
+    const { order } = this.props
+    const { state } = order
     return this.props.data.cata({
       Failure: () => <DataError onClick={this.handleRefresh} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
       Success: (val) => {
-        return state === 'FAILED' || state === 'CANCELED' ? (
+        const currencySymbol = getSymbol(getCounterCurrency(order))
+        const [recurringBuy] = val.recurringBuyList.filter((rb) => {
+          return rb.id === order.recurringBuyId
+        })
+        const frequencyText =
+          recurringBuy && getPeriodForSuccess(recurringBuy.period, recurringBuy.nextPayment)
+
+        return state === 'FAILED' || state === 'CANCELED' || !order.paymentType ? (
           <DataError onClick={this.handleRefresh} />
         ) : val.userData?.tiers?.current !== 2 ? (
           <SuccessSdd {...val} {...this.props} />
         ) : (
-          <Success okButtonHandler={this.okButtonHandler} {...val} {...this.props} />
+          <Success
+            baseAmount={getBaseAmount(order)}
+            baseCurrency={getBaseCurrency(order)}
+            counterAmount={`${currencySymbol}${getCounterAmount(order)}`}
+            currencySymbol={currencySymbol}
+            handleClose={this.props.handleClose}
+            handleCompleteButton={this.handleCompleteButton}
+            handleOkButton={this.handleOkButton}
+            lockTime={val.lockTime}
+            orderState={state}
+            orderType={getOrderType(order) as OrderType}
+            outputCurrency={order.outputCurrency}
+            paymentState={order.attributes?.everypay?.paymentState || null}
+            paymentType={order.paymentType}
+            frequencyText={frequencyText}
+          >
+            {getOrderType(order) === OrderType.BUY &&
+              (order.paymentType === SBPaymentTypes.PAYMENT_CARD ||
+                order.paymentType === SBPaymentTypes.USER_CARD ||
+                order.paymentType === SBPaymentTypes.BANK_TRANSFER ||
+                order.paymentType === SBPaymentTypes.FUNDS)}
+            {val.afterTransaction.show && <InterestBanner handleClose={this.props.handleClose} />}
+          </Success>
         )
       }
     })

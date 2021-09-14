@@ -261,8 +261,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const currency = selectors.core.settings
         .getCurrency(appState)
         .getOrFail('Can not retrieve currency.')
-      const bchRates = selectors.core.data.bch
-        .getRates(appState)
+      const bchRates = selectors.core.data.coins
+        .getRates('BCH', appState)
         .getOrFail('Can not retrieve bitcoin cash rates.')
       const p = yield select(S.getPayment)
       const payment = p.getOrElse({})

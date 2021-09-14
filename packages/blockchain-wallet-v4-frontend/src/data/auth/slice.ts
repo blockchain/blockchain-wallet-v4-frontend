@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit'
 
 import { Remote } from 'blockchain-wallet-v4/src'
@@ -39,24 +40,28 @@ const authSlice = createSlice({
     initializeLoginSuccess: () => {},
     logWrongChangeCache: () => {},
     logWrongReceiveCache: () => {},
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     login: (state, action) => {
       state.isLoggingIn = true
     },
     loginFailure: (state, action) => {
       state.login = Remote.Failure(action.payload)
     },
+    loginIdEntered: (state, action) => {},
     loginLoading: (state) => {
       state.login = Remote.Loading
     },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    loginMethodSelected: (state, action) => {},
+    loginPasswordDenied: () => {},
+    loginPasswordEntered: () => {},
     loginRoutine: (state, action) => {},
     loginSuccess: (state, action) => {
       state.login = Remote.Success(action.payload)
     },
+    loginTwoStepVerificationDenied: () => {},
+    loginTwoStepVerificationEntered: () => {},
     logout: () => {},
     logoutClearReduxStore: () => {},
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    magicLinkParsed: () => {},
     mobileLogin: (state, action) => {},
     mobileLoginFinish: (state) => {
       state.mobileLoginStarted = false
@@ -64,8 +69,10 @@ const authSlice = createSlice({
     mobileLoginStarted: (state) => {
       state.mobileLoginStarted = true
     },
+    needHelpClicked: (state, action) => {},
     pingManifestFile: () => {},
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    recoveryOptionSelected: (state, action) => {},
+    recoveryPhraseEntered: () => {},
     register: (state, action) => {},
     registerFailure: (state, action) => {
       state.registering = Remote.Failure(action.payload)
@@ -76,17 +83,15 @@ const authSlice = createSlice({
     registerSuccess: (state, action) => {
       state.registering = Remote.Success(action.payload)
     },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     resendSmsCode: (state, action) => {},
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     resetAccount: (state, action) => {},
+    resetAccountCancelled: (state, action) => {},
+    resetAccountClicked: (state, action) => {},
     resetAccountFailure: () => {},
     resetAccountLoading: () => {},
     resetAccountSuccess: () => {},
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     restore: (state, action) => {},
     restoreFailure: () => {},
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     restoreFromMetadata: (state, action) => {},
     restoreFromMetadataFailure: (state, action) => {
       state.metadataRestore = Remote.Failure(action.payload)
@@ -133,7 +138,6 @@ const authSlice = createSlice({
     setRegisterEmail: (state, action) => {
       state.registerEmail = action.payload
     },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     setResetAccount: (state, action) => {},
     setResetLogin: (state, action) => {
       state.resetAccount = action.payload
@@ -141,14 +145,13 @@ const authSlice = createSlice({
     setUserGeoLocation: (state, action) => {
       state.userGeoData = action.payload
     },
+    signupDetailsEntered: (state, action) => {},
     startLogoutTimer: () => {},
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     triggerWalletMagicLink: (state, action) => {},
     triggerWalletMagicLinkFailure: () => {},
     triggerWalletMagicLinkLoading: () => {},
     triggerWalletMagicLinkNotAsked: () => {},
     triggerWalletMagicLinkSuccess: () => {},
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     upgradeWallet: (state, action) => {}
   }
 })

@@ -98,16 +98,6 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
     }
   }
 
-  const fetchRates = function* () {
-    try {
-      yield put(A.setRatesLoading())
-      const data = yield call(api.getXlmTicker)
-      yield put(A.setRatesSuccess(data))
-    } catch (e) {
-      yield put(A.setRatesFailure(e))
-    }
-  }
-
   const __processTxs = function* (txList) {
     const walletAccounts = (yield select(getAccounts)).getOrElse([])
     const lockboxAccounts = (yield select(getLockboxXlmAccounts)).getOrElse([])
@@ -130,7 +120,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
   const __processReportTxs = function* (rawTxList, startDate, endDate) {
     const mapIndexed = addIndex(map)
     const fullTxList = yield call(__processTxs, rawTxList)
-    const xlmMarketData = (yield select(selectors.data.xlm.getRates)).getOrFail()
+    const xlmMarketData = selectors.data.coins.getRates('XLM', yield select()).getOrFail('No rates')
 
     // remove txs that dont match coin type and are not within date range
     const prunedTxList = filter(
@@ -295,7 +285,6 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
     createAccounts,
     fetchData,
     fetchLedgerDetails,
-    fetchRates,
     fetchTransactionHistory,
     fetchTransactions
   }

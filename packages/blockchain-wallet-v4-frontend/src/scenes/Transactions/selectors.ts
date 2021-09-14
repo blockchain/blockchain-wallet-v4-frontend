@@ -90,7 +90,7 @@ const coinSelectorMap = (
   if (coinfig.type.erc20Address) {
     return (state) => selectors.core.common.eth.getErc20WalletTransactions(state, coin)
   }
-  if (selectors.core.data.coins.getCoins().includes(coin)) {
+  if (selectors.core.data.coins.getCustodialCoins().includes(coin)) {
     return (state) => selectors.core.common.coins.getWalletTransactions(state, coin)
   }
   if (selectors.core.common[toLower(coin)]) {

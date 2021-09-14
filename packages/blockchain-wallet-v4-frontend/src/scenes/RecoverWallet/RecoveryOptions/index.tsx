@@ -30,7 +30,28 @@ const TextStack = styled.div`
   max-width: 312px;
 `
 const RecoveryOptions = (props: Props) => {
-  const { cachedGuid, emailFromMagicLink, formActions, lastGuid, nabuId, routerActions } = props
+  const {
+    authActions,
+    cachedGuid,
+    emailFromMagicLink,
+    formActions,
+    lastGuid,
+    nabuId,
+    routerActions
+  } = props
+  const cloudRecoveryClicked = () => {
+    formActions.change('recover', 'step', RecoverSteps.CLOUD_RECOVERY)
+    authActions.recoveryOptionSelected('CLOUD_BACKUP')
+  }
+  const recoveryPhraseClicked = () => {
+    formActions.change('recover', 'step', RecoverSteps.RECOVERY_PHRASE)
+    authActions.recoveryOptionSelected('RECOVERY_PHRASE')
+  }
+
+  const resetAccountClicked = () => {
+    formActions.change('recover', 'step', RecoverSteps.RESET_ACCOUNT)
+    authActions.resetAccountClicked('RECOVERY_OPTIONS')
+  }
   return (
     <Wrapper>
       {emailFromMagicLink && (
@@ -50,9 +71,7 @@ const RecoveryOptions = (props: Props) => {
             defaultMessage='Recovery Options'
           />
         </Text>
-        <IconTextRow
-          onClick={() => formActions.change('recover', 'step', RecoverSteps.CLOUD_RECOVERY)}
-        >
+        <IconTextRow onClick={cloudRecoveryClicked}>
           <CircleBackground color='blue000'>
             <Icon name='cloud' color='blue600' size='16px' />
           </CircleBackground>
@@ -72,9 +91,7 @@ const RecoveryOptions = (props: Props) => {
           </TextStack>
           <Icon name='chevron-right' size='20px' color='grey400' />
         </IconTextRow>
-        <IconTextRow
-          onClick={() => formActions.change('recover', 'step', RecoverSteps.RECOVERY_PHRASE)}
-        >
+        <IconTextRow onClick={recoveryPhraseClicked}>
           <CircleBackground color='blue000'>
             <Icon name='keyboard' color='blue600' size='22px' />
           </CircleBackground>
@@ -109,7 +126,7 @@ const RecoveryOptions = (props: Props) => {
             color='blue600'
             data-e2e='troubleLoggingIn'
             cursor='pointer'
-            onClick={() => formActions.change('recover', 'step', RecoverSteps.RESET_ACCOUNT)}
+            onClick={resetAccountClicked}
             style={{ marginLeft: '4px' }}
           >
             <FormattedMessage

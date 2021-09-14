@@ -18,54 +18,23 @@ const { FORM: ETH_FORM } = model.components.sendEth
 const { FORM: XLM_FORM } = model.components.sendXlm
 
 class QRCodeCaptureContainer extends React.PureComponent {
-  state = {
-    toggled: false
+  constructor(props) {
+    super(props)
+    this.state = {
+      toggled: false
+    }
   }
-
-  getScanHandlerKey = () => `handleScan${replace(/^./, toUpper, this.props.scanType)}`
 
   handleToggle = () => {
-    this.setState({ toggled: !this.state.toggled })
-  }
-
-  createNewValue = (data) => {
-    return {
-      value: {
-        label: data,
-        value: data
-      }
-    }
-  }
-
-  getAddressOrBitPayInvoice(coin, data) {
-    const isBitPay = includes(`${coin}:?r=https://bitpay.com/`, data)
-    let address
-    let options
-
-    if (isBitPay) {
-      address = data
-    } else {
-      try {
-        const decoded = bip21.decode(data, coin)
-        address = prop('address', decoded)
-        options = prop('options', decoded)
-      } catch (e) {
-        throw Error('invalid_bip21')
-      }
-    }
-
-    return {
-      address,
-      isBitPay,
-      options
-    }
+    this.setState((state) => ({ toggled: !state.toggled }))
   }
 
   handleScanBtcAddress(data) {
     let coinInfo
     try {
       coinInfo = this.getAddressOrBitPayInvoice('bitcoin', data)
-      const { btcRates, currency } = this.props
+      const { btcRatesR, currency } = this.props
+      const btcRates = btcRatesR.getOrElse({ price: 0 })
       const { amount, message } = coinInfo.options
       const fiat = Exchange.convertCoinToFiat({
         coin: 'BTC',
@@ -194,6 +163,41 @@ class QRCodeCaptureContainer extends React.PureComponent {
     }
   }
 
+  createNewValue = (data) => {
+    return {
+      value: {
+        label: data,
+        value: data
+      }
+    }
+  }
+
+  getScanHandlerKey = () => `handleScan${replace(/^./, toUpper, this.props.scanType)}`
+
+  getAddressOrBitPayInvoice = (coin, data) => {
+    const isBitPay = includes(`${coin}:?r=https://bitpay.com/`, data)
+    let address
+    let options
+
+    if (isBitPay) {
+      address = data
+    } else {
+      try {
+        const decoded = bip21.decode(data, coin)
+        address = prop('address', decoded)
+        options = prop('options', decoded)
+      } catch (e) {
+        throw Error('invalid_bip21')
+      }
+    }
+
+    return {
+      address,
+      isBitPay,
+      options
+    }
+  }
+
   render() {
     const { border } = this.props
     const { toggled } = this.state
@@ -211,7 +215,7 @@ class QRCodeCaptureContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state) => ({
-  btcRates: selectors.core.data.btc.getRates(state).getOrFail('Could not find btc rates'),
+  btcRatesR: selectors.core.data.coins.getRates('BTC', state),
   currency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 

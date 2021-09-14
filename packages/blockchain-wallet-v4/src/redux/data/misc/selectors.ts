@@ -21,16 +21,5 @@ export const getRatesSelector = (
   coin: WalletCurrencyType,
   state
 ): RemoteDataType<string, RatesType> => {
-  const { coinfig } = window.coins[coin]
-  const coinLower = coin.toLowerCase()
-  if (coinfig.type.erc20Address) {
-    return selectors.data.eth.getErc20Rates(state, coin)
-  }
-  if (coinfig.type.name === 'FIAT') {
-    return selectors.data.btc.getRates(state)
-  }
-  if (selectors.data.coins.getCoins().includes(coin)) {
-    return selectors.data.coins.getRates(coin, state)
-  }
-  return selectors.data[coinLower].getRates(state)
+  return selectors.data.coins.getRates(coin, state)
 }

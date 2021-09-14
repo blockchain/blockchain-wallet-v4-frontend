@@ -237,9 +237,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const currency = (yield select(selectors.core.settings.getCurrency)).getOrFail(
       'Can not retrieve currency.'
     )
-    const xlmRates = (yield select(selectors.core.data.xlm.getRates)).getOrFail(
-      'Can not retrieve stellar rates.'
-    )
+    const xlmRates = selectors.core.data.coins
+      .getRates('XLM', yield select())
+      .getOrFail('Can not retrieve stellar rates.')
     const coinAmount = Exchange.convertCoinToCoin({
       baseToStandard: false,
       coin,
