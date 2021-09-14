@@ -947,7 +947,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-      case actions.auth.logout.type: {
+      case actions.session.logout.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified

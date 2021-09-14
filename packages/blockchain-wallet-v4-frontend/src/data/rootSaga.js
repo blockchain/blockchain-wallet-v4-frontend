@@ -15,6 +15,7 @@ import modules from './modules/sagaRegister'
 import preferences from './preferences/sagaRegister'
 import prices from './prices/sagaRegister'
 import router from './router/sagaRegister'
+import session from './session/sagaRegister'
 import wallet from './wallet/sagaRegister'
 
 const logLocation = 'data/rootSaga'
@@ -70,6 +71,7 @@ export default function* rootSaga({ api, coinsSocket, networks, options, ratesSo
     fork(middleware({ api, coinsSocket, ratesSocket })),
     fork(coreRootSagaFactory({ api, networks, options })),
     fork(router()),
+    fork(session({ api })),
     call(languageInitSaga)
   ])
 }
