@@ -11,6 +11,10 @@ export const createUser = () => ({
   type: AT.CREATE_USER
 })
 
+export const fetchTiers = (): ProfileActionTypes => ({
+  type: AT.FETCH_TIERS
+})
+
 export const fetchTiersFailure = (error): ProfileActionTypes => ({
   payload: { error },
   type: AT.FETCH_TIERS_FAILURE

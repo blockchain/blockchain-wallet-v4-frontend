@@ -17,13 +17,7 @@ export default {
     mode: 'back'
   },
   component: Header,
-  decorators: [
-    (Story) => (
-      <IntlProvider locale='en'>
-        <Story />
-      </IntlProvider>
-    )
-  ],
+  decorators: [(Story) => <IntlProvider locale='en'>{Story()}</IntlProvider>],
   title: 'Flyouts/Header'
 } as Meta
 
