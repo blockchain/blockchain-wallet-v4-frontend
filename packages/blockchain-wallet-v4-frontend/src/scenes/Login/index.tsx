@@ -119,7 +119,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     const { data, formValues, ssoDummy } = this.props
     const { step } = formValues || LoginSteps.ENTER_EMAIL_GUID
     const { busy, error } = data.cata({
-      Failure: (val) => ({ busy: false, error: val?.err }),
+      Failure: (val) => ({ busy: false, error: val }),
       Loading: () => <Loading />,
       NotAsked: () => ({ busy: false, error: null }),
       Success: () => ({ busy: false, error: null })
