@@ -277,8 +277,7 @@ export default ({ api, coreSagas, networks }) => {
 
         yield put(actions.modules.settings.updateCurrency(currency, true))
         yield put(actions.core.settings.setCurrency(currency))
-        // fetch settings again
-        // yield call(coreSagas.settings.fetchSettings)
+
         if (!isAccountReset) {
           yield put(actions.router.push('/verify-email-step'))
         } else {
