@@ -132,7 +132,7 @@ const LimitSection = ({ fiatCurrency, paymentMethods }) => {
           <Text color='grey800' size='14px' lineHeight='25px' weight={600}>
             {fiatToString({
               unit: fiatCurrency as FiatType,
-              value: convertBaseToStandard('FIAT', bankTransfer.limits.daily.available)
+              value: convertBaseToStandard('FIAT', bankTransfer.limits.max)
             })}{' '}
             <FormattedMessage id='copy.available' defaultMessage='Available' />
           </Text>
@@ -197,8 +197,8 @@ const Account = ({
         // else take them to enter amount form with default bank
         if (!bankTransferAccounts.length) {
           brokerageActions.showModal({
-            origin: BrokerageModalOriginType.ADD_BANK_DEPOSIT,
-            modalType: fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL'
+            modalType: fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL',
+            origin: BrokerageModalOriginType.ADD_BANK_DEPOSIT
           })
           brokerageActions.setAddBankStep({
             addBankStep: AddBankStepType.ADD_BANK
