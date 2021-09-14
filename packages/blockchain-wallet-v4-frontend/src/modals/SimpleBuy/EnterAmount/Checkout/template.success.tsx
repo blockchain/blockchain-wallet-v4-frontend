@@ -191,8 +191,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const limits = props.sddLimit || LIMIT
   const sddLimit = { ...limits }
 
-  const isDailyLimitExceeded =
-    props.limits?.daily?.available && Number(props.limits.daily.available) === 0
+  const isDailyLimitExceeded = props.limits?.max && Number(props.limits.max) === 0
 
   const max: string = getMaxMin(
     'max',
