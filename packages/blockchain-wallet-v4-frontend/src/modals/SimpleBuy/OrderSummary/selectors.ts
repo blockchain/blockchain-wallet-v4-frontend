@@ -22,9 +22,9 @@ export const getData = (state: RootState) => {
       return {
         afterTransaction,
         cards,
+        lockTime: withdrawLockCheck?.lockTime || 0,
         recurringBuyList,
-        userData,
-        withdrawLockCheck
+        userData
       }
     }
   )(cardsR, userDataR, withdrawLockCheckR, afterTransactionR, recurringBuyListR)

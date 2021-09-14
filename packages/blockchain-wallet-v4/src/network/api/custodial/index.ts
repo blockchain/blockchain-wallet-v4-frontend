@@ -1,4 +1,5 @@
-import { CoinType, SBPaymentTypes, WalletFiatType } from 'core/types'
+/* eslint-disable import/no-extraneous-dependencies */
+import { CoinType, SBPaymentTypes, WalletFiatType } from 'blockchain-wallet-v4/src/types'
 import {
   BankTransferAccountType,
   NabuProductType,
@@ -94,7 +95,8 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       contentType: 'application/json',
       data: {
         currency,
-        paymentMethod
+        paymentMethod,
+        product: 'SIMPLEBUY'
       },
       endPoint: '/payments/withdrawals/locks/check',
       url: nabuUrl
