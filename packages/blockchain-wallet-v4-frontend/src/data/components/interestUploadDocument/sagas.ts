@@ -4,6 +4,7 @@ import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 import { APIType } from 'core/network/api'
 import { actions, model, selectors } from 'data'
 import { ModalName } from 'data/types'
+import * as C from 'services/alerts'
 
 import { actions as A } from './slice'
 import { InterestUploadDocumentFormValueTypes, InterestUploadDocumentsStepType } from './types'
@@ -56,6 +57,7 @@ export default ({ api }: { api: APIType }) => {
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.logs.logErrorMessage(logLocation, 'save addtional documents', error))
+      yield put(actions.alerts.displayError(C.SAVE_ADDITIONAL_DOCUMENTS_ERROR))
     }
   }
 
@@ -76,6 +78,7 @@ export default ({ api }: { api: APIType }) => {
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.logs.logErrorMessage(logLocation, 'save addtional documents', error))
+      yield put(actions.alerts.displayError(C.UPLOAD_ADDITIONAL_DOCUMNETS_FILES_ERROR))
     }
   }
 

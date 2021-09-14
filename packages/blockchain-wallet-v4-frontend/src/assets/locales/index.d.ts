@@ -242,6 +242,8 @@ type MessagesType = {
   'components.alerts.yubikey_enable_success': '2FA (Yubikey) has been successfully enabled'
   'components.alerts.yubikey_verify_error': 'Failed to verify Yubikey'
   'components.alerts.yubikey_verify_success': 'Yubikey verified'
+  'components.alerts.save_additional_documents_error' : 'Save of additional information failed'
+  'components.alerts.upload_additional_documents_files_error': 'Upload of documents failed'
   'components.balances.browserblock': 'Use the Brave, Chrome, Firefox or Opera browsers to add {coin} to your Lockbox'
   'components.balances.home.total': '{viewType} Balance'
   'components.balances.savecointolockbox': 'Click here to add {coin} to your Lockbox'
