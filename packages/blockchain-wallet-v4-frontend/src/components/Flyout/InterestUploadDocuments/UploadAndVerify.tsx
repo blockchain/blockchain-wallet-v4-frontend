@@ -125,6 +125,9 @@ const UploadAndVerify: React.FC<Props> = (props) => {
     return undefined
   }
 
+  const getCategory = (name: string) =>
+    name.includes('proofOfAddress') ? 'PROOF_OF_ADDRESS' : 'PROOF_OF_INCOME'
+
   const submitUplaodedFiles = () => {
     const files: FileUploadItem[] = []
     // we had to do async converting files into base64
@@ -134,7 +137,7 @@ const UploadAndVerify: React.FC<Props> = (props) => {
           const file = fileItem[1]
           if (file !== null) {
             files.push({
-              category: fileItem[0],
+              category: getCategory(fileItem[0]),
               file: await toBase64(file)
             })
           }

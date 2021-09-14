@@ -850,7 +850,7 @@
   "modals.interest.withdrawal.upload_documents.get_started.source_of_wealth.bank_account": "Bank Account Statement or Pay Stub",
   "modals.interest.withdrawal.upload_documents.get_started.source_of_wealth.bank_account_stub": "Bank Account Statement or Pay Stub/Slip.",
   "modals.interest.withdrawal.upload_documents.get_started.source_of_wealth.information": "Information and/or supporting documentation to establish source of wealth.",
-  "modals.interest.withdrawal.upload_documents.upload_and_verify.please_upload": "Please upload a high resolution file (png, jpg, pdf) of each item below. Max 10MB each.",
+  "modals.interest.withdrawal.upload_documents.upload_and_verify.please_upload": "Please upload a high resolution file ({files}) of each item below. Max {maxSize}MB each.",
   "modals.interest.withdrawal.upload_documents.upload_and_verify.proof_of_address": "Proof of Address {no}",
   "modals.interest.withdrawal.upload_documents.upload_and_verify.proof_of_address_optional": "Proof of Address {no} (Optional)",
   "modals.interest.withdrawal.upload_documents.upload_and_verify.source_of_wealth": "Source of Wealth {no}",

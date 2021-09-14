@@ -8,6 +8,8 @@ import { ModalName } from 'data/types'
 import { actions as A } from './slice'
 import { InterestUploadDocumentFormValueTypes, InterestUploadDocumentsStepType } from './types'
 
+const logLocation = 'components/interestUploadDocument/sagas'
+
 const { INTEREST_UPLOAD_DOCUMENT } = model.components.interestUploadDocument
 
 export default ({ api }: { api: APIType }) => {
@@ -52,8 +54,8 @@ export default ({ api }: { api: APIType }) => {
         actions.form.reset(INTEREST_UPLOAD_DOCUMENT)
       }
     } catch (e) {
-      // TODO proper error handling
-      // const error = errorHandler(e)
+      const error = errorHandler(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'save addtional documents', error))
     }
   }
 
@@ -72,8 +74,8 @@ export default ({ api }: { api: APIType }) => {
         )
       }
     } catch (e) {
-      // TODO proper error handling
-      // const error = errorHandler(e)
+      const error = errorHandler(e)
+      yield put(actions.logs.logErrorMessage(logLocation, 'save addtional documents', error))
     }
   }
 

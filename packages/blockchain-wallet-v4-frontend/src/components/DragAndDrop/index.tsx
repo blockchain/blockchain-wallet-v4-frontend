@@ -37,11 +37,18 @@ const MainSection = styled.div`
   flex-direction: column;
   margin-left: 22px;
   height: 36px;
-  width: 260px;
+  width: 230px;
+`
+const ActionButtonsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 65px;
 `
 const ActionButtons = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   > div {
     margin: 0 8px;
   }
@@ -223,14 +230,16 @@ const DragAndDrop = (props: Props) => {
           </div>
         </MainSection>
         {props.fileUploaded && (
-          <ActionButtons>
-            <Link size='14px' weight={500} onClick={props.onFileDelete}>
-              <Image name='file-delete' />
-            </Link>
-            <Link size='14px' weight={500} onClick={props.onFileDownload}>
-              <Image name='file-download' />
-            </Link>
-          </ActionButtons>
+          <ActionButtonsContainer>
+            <ActionButtons>
+              <Link size='14px' weight={500} onClick={props.onFileDelete}>
+                <Image name='file-delete' />
+              </Link>
+              <Link size='14px' weight={500} onClick={props.onFileDownload}>
+                <Image name='file-download' />
+              </Link>
+            </ActionButtons>
+          </ActionButtonsContainer>
         )}
       </UploadItemConitainer>
     </div>
