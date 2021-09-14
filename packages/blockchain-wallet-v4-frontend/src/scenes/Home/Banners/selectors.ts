@@ -94,8 +94,8 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   } else if (
     (userData?.tiers?.current === TIER_TYPES.SILVER ||
       userData?.tiers?.current === TIER_TYPES.SILVER_PLUS) &&
-    limits?.annual.available &&
-    Number(limits?.annual.available) > 0
+    limits?.max &&
+    Number(limits?.max) > 0
   ) {
     bannerToShow = 'continueToGold'
   } else if (isNewCurrency) {

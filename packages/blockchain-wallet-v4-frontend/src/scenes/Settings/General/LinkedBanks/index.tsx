@@ -32,8 +32,8 @@ class LinkedBanks extends PureComponent<Props> {
       fiatCurrency = this.props.userData?.limits[0]?.currency as WalletFiatType
     }
     this.props.brokerageActions.showModal({
-      origin: BrokerageModalOriginType.ADD_BANK_SETTINGS,
-      modalType: this.props.fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL'
+      modalType: fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL',
+      origin: BrokerageModalOriginType.ADD_BANK_SETTINGS
     })
 
     this.props.brokerageActions.setAddBankStep({
@@ -43,8 +43,8 @@ class LinkedBanks extends PureComponent<Props> {
 
   handleShowBankClick = (account: BankTransferAccountType) => {
     this.props.brokerageActions.showModal({
-      origin: BrokerageModalOriginType.BANK,
-      modalType: 'BANK_DETAILS_MODAL'
+      modalType: 'BANK_DETAILS_MODAL',
+      origin: BrokerageModalOriginType.BANK
     })
     this.props.brokerageActions.setBankDetails({
       account
@@ -53,8 +53,8 @@ class LinkedBanks extends PureComponent<Props> {
 
   handleDeleteBank = (account: BankTransferAccountType) => {
     this.props.brokerageActions.showModal({
-      origin: BrokerageModalOriginType.BANK,
-      modalType: 'REMOVE_BANK_MODAL'
+      modalType: 'REMOVE_BANK_MODAL',
+      origin: BrokerageModalOriginType.BANK
     })
     this.props.brokerageActions.setBankDetails({
       account
