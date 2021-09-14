@@ -415,8 +415,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             : new BigNumber(depositAmount).dividedBy(rate).toNumber()
         })
 
+        const amount = new BigNumber(baseCrypto).integerValue(BigNumber.ROUND_DOWN).toFixed()
+
         yield call(api.initiateCustodialTransfer, {
-          amount: new BigNumber(baseCrypto).integerValue(BigNumber.ROUND_DOWN).toString(),
+          amount,
           currency: coin,
           destination: 'SAVINGS',
           origin: 'SIMPLEBUY'
