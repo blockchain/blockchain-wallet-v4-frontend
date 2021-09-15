@@ -1,81 +1,65 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { getLockRuleMessaging } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/model'
 import moment from 'moment'
 import styled from 'styled-components'
 
-import { Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
-import { FiatType } from 'blockchain-wallet-v4/src/types'
-import { FlyoutWrapper } from 'components/Flyout'
+import { FiatType, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
+import { FlyoutContainer, FlyoutContent, FlyoutFooter, FlyoutHeader } from 'components/Flyout'
 import { model } from 'data'
 import { BankDWStepType, BankPartners } from 'data/types'
 
+import { Props as _P, SuccessStateType as _S } from '.'
 import { FormattedBank, LineItemText } from './model'
 
 const { DEPOSIT_CANCEL, DEPOSIT_CONFIRM } = model.analytics.FIAT_DEPOSIT_EVENTS
-
-const Wrapper = styled.div`
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-`
-
-const FlyoutBody = styled(FlyoutWrapper)`
-  margin: 0;
-  padding: 0;
-`
-
-const TopText = styled(Text)`
-  display: flex;
-  width: 100%;
-  align-items: center;
-`
 
 const BareRow = styled.div`
   padding: 18px 40px;
 `
 
 const Row = styled(BareRow)`
-  border-bottom: 1px solid ${p => p.theme.grey000};
-`
-const ActionsRow = styled(BareRow)`
-  margin-top: 80px;
+  border-bottom: 1px solid ${(p) => p.theme.grey000};
 `
 
-const Success = props => {
+const Success = (props: Props) => {
   const [submitting, setSubmitting] = useState<boolean>(false)
 
   const isOpenBanking = props.defaultMethod?.partner === BankPartners.YAPILY
+  const backButtonClick = useCallback(() => {
+    props.brokerageActions.setDWStep({
+      dwStep: BankDWStepType.ENTER_AMOUNT
+    })
+  }, [])
+
+  const cancelButtonClick = useCallback(() => {
+    props.handleClose()
+    props.analyticsActions.logEvent(DEPOSIT_CANCEL)
+  }, [])
+
+  const submitButtonClick = useCallback(() => {
+    setSubmitting(true)
+    props.brokerageActions.createFiatDeposit()
+    props.analyticsActions.logEvent(DEPOSIT_CONFIRM)
+  }, [])
+
+  const amount = props.formValues?.amount || 0
+  const showLock = (props.withdrawLockCheck && props.withdrawLockCheck.lockTime > 0) || false
+  const days = showLock ? moment.duration(props.withdrawLockCheck?.lockTime, 'seconds').days() : 0
 
   return (
-    <Wrapper>
-      <FlyoutWrapper>
-        <TopText color='grey800' size='20px' weight={600}>
-          <Icon
-            cursor
-            style={{ marginRight: '24px' }}
-            name='arrow-left'
-            size='20px'
-            color='grey600'
-            onClick={() =>
-              props.brokerageActions.setStep({
-                step: BankDWStepType.ENTER_AMOUNT
-              })
-            }
-          />
-          <FormattedMessage
-            id='modals.brokerage.confirm_deposit'
-            defaultMessage='Confirm Deposit'
-          />
-        </TopText>
-      </FlyoutWrapper>
-      <FlyoutBody>
+    <FlyoutContainer>
+      <FlyoutHeader data-e2e='confirmDepositBackButton' mode='back' onClick={backButtonClick}>
+        <FormattedMessage id='modals.brokerage.confirm_deposit' defaultMessage='Confirm Deposit' />
+      </FlyoutHeader>
+      <FlyoutContent mode='top'>
         <Row>
           <Text color='grey800' size='32px' weight={600}>
             {fiatToString({
-              value: props.formValues?.amount,
-              unit: props.defaultMethod?.currency as FiatType
+              unit: props.defaultMethod?.currency as FiatType,
+              value: amount
             })}
           </Text>
         </Row>
@@ -105,11 +89,7 @@ const Success = props => {
                 defaultMessage='Funds Will Arrive'
               />
             </Text>
-            <LineItemText>
-              {moment()
-                .add(3, 'days')
-                .format('dddd, MMM Do, YYYY')}
-            </LineItemText>
+            <LineItemText>{moment().add(3, 'days').format('dddd, MMM Do, YYYY')}</LineItemText>
           </Row>
         )}
         <Row>
@@ -118,25 +98,23 @@ const Success = props => {
           </Text>
           <LineItemText>
             {fiatToString({
-              value: props.formValues?.amount,
+              digits: 0,
               unit: props.defaultMethod?.currency || ('USD' as FiatType),
-              digits: 0
+              value: amount
             })}
           </LineItemText>
         </Row>
-      </FlyoutBody>
-
-      <ActionsRow>
+        <div style={{ padding: '20px 40px 0' }}>
+          {getLockRuleMessaging(showLock, days, SBPaymentTypes.BANK_TRANSFER)}
+        </div>
+      </FlyoutContent>
+      <FlyoutFooter>
         <Button
           data-e2e='submitDepositAmount'
           height='48px'
           size='16px'
           nature='primary'
-          onClick={() => {
-            setSubmitting(true)
-            props.brokerageActions.createFiatDeposit()
-            props.analyticsActions.logEvent(DEPOSIT_CONFIRM)
-          }}
+          onClick={submitButtonClick}
           fullwidth
           disabled={submitting}
         >
@@ -148,9 +126,9 @@ const Success = props => {
               defaultMessage='Deposit {amount}'
               values={{
                 amount: fiatToString({
-                  value: props.formValues?.amount,
+                  digits: 0,
                   unit: props.defaultMethod?.currency || ('USD' as FiatType),
-                  digits: 0
+                  value: amount
                 })
               }}
             />
@@ -158,22 +136,21 @@ const Success = props => {
         </Button>
         <Button
           data-e2e='depositCancel'
-          disabled={props.submitting}
+          disabled={submitting}
           size='16px'
           height='48px'
           nature='light-red'
-          onClick={() => {
-            props.handleClose()
-            props.analyticsActions.logEvent(DEPOSIT_CANCEL)
-          }}
+          onClick={cancelButtonClick}
           fullwidth
           style={{ marginTop: '16px' }}
         >
           <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
         </Button>
-      </ActionsRow>
-    </Wrapper>
+      </FlyoutFooter>
+    </FlyoutContainer>
   )
 }
+
+type Props = _P & _S
 
 export default Success
