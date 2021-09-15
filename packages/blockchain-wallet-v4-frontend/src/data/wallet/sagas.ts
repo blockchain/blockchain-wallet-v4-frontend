@@ -1,12 +1,49 @@
+import { prop } from 'ramda'
 import { call, put, race, select, take } from 'redux-saga/effects'
 
+import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, actionTypes, selectors } from 'data'
 import * as C from 'services/alerts'
 import { requireUniqueWalletName } from 'services/forms'
-import { askSecondPasswordEnhancer, promptForInput, promptForSecondPassword } from 'services/sagas'
+import { checkForVulnerableAddressError } from 'services/misc'
+import {
+  askSecondPasswordEnhancer,
+  confirm,
+  promptForInput,
+  promptForSecondPassword
+} from 'services/sagas'
 
 export default ({ coreSagas }) => {
   const logLocation = 'wallet/sagas'
+
+  const checkAndHandleVulnerableAddress = function* (data) {
+    const err = prop('error', data)
+    const vulnerableAddress = checkForVulnerableAddressError(err)
+    if (vulnerableAddress) {
+      yield put(actions.modals.closeAllModals())
+      const confirmed = yield call(confirm, {
+        cancel: C.ARCHIVE_VULNERABLE_ADDRESS_CANCEL,
+        confirm: C.ARCHIVE_VULNERABLE_ADDRESS_CONFIRM,
+        message: C.ARCHIVE_VULNERABLE_ADDRESS_MSG,
+        messageValues: { vulnerableAddress },
+        title: C.ARCHIVE_VULNERABLE_ADDRESS_TITLE
+      })
+      if (confirmed) yield put(actions.core.wallet.setAddressArchived(vulnerableAddress, true))
+    }
+  }
+
+  const checkDataErrors = function* () {
+    const btcDataR = yield select(selectors.core.data.btc.getInfo)
+
+    if (Remote.Loading.is(btcDataR)) {
+      const btcData = yield take(actionTypes.core.data.btc.FETCH_BTC_DATA_FAILURE)
+      const error = prop('payload', btcData)
+      yield call(checkAndHandleVulnerableAddress, { error })
+    }
+    if (Remote.Failure.is(btcDataR)) {
+      yield call(checkAndHandleVulnerableAddress, btcDataR)
+    }
+  }
 
   const updatePbkdf2Iterations = function* (action) {
     const saga = askSecondPasswordEnhancer(coreSagas.wallet.updatePbkdf2Iterations)
@@ -74,6 +111,20 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const updateMnemonicBackup = function* () {
+    try {
+      const lastMnemonicBackup = selectors.core.settings
+        .getLastMnemonicBackup(yield select())
+        .getOrElse(true)
+      const isMnemonicVerified = yield select(selectors.core.wallet.isMnemonicVerified)
+      if (isMnemonicVerified && !lastMnemonicBackup) {
+        yield put(actions.core.wallet.updateMnemonicBackup())
+      }
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'udpateMnemonicBackup', e))
+    }
+  }
+
   const upgradeAddressLabelsSaga = function* () {
     const addressLabelSize = yield call(coreSagas.kvStore.btc.fetchMetadataBtc)
     if (addressLabelSize > 100) {
@@ -117,9 +168,11 @@ export default ({ coreSagas }) => {
   }
 
   return {
+    checkDataErrors,
     editBtcAccountLabel,
     setMainPassword,
     toggleSecondPassword,
+    updateMnemonicBackup,
     updatePbkdf2Iterations,
     upgradeAddressLabelsSaga,
     upgradeWallet,

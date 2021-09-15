@@ -3,7 +3,7 @@ import { assoc, find, prop, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, delay, fork, put, select, take } from 'redux-saga/effects'
 
-import { Remote, Types } from 'blockchain-wallet-v4/src'
+import { Types } from 'blockchain-wallet-v4/src'
 import { DEFAULT_INVITATIONS } from 'blockchain-wallet-v4/src/model'
 import { actions, actionTypes, model, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
@@ -11,18 +11,12 @@ import profileSagas from 'data/modules/profile/sagas'
 import walletSagas from 'data/wallet/sagas'
 import * as C from 'services/alerts'
 import { isGuid } from 'services/forms'
-import { checkForVulnerableAddressError } from 'services/misc'
 import { askSecondPasswordEnhancer, confirm } from 'services/sagas'
 
 import { guessCurrencyBasedOnCountry } from './helpers'
 import { parseMagicLink } from './sagas.utils'
 import * as S from './selectors'
-import {
-  LoginErrorType,
-  LoginSteps,
-  WalletDataFromMagicLink,
-  WalletDataFromMagicLinkLegacy
-} from './types'
+import { LoginErrorType, LoginSteps, WalletDataFromMagicLink } from './types'
 
 const { MOBILE_LOGIN } = model.analytics
 
@@ -33,7 +27,9 @@ export default ({ api, coreSagas, networks }) => {
     coreSagas,
     networks
   })
-  const { upgradeAddressLabelsSaga } = walletSagas({ coreSagas })
+  const { checkDataErrors, updateMnemonicBackup, upgradeAddressLabelsSaga } = walletSagas({
+    coreSagas
+  })
 
   const saveGoals = function* (firstLogin) {
     // only for non first login users we save goal here for first login users we do that over verify email page
@@ -75,35 +71,6 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.custodial.fetchRecentSwapTxs())
   }
 
-  const checkAndHandleVulnerableAddress = function* (data) {
-    const err = prop('error', data)
-    const vulnerableAddress = checkForVulnerableAddressError(err)
-    if (vulnerableAddress) {
-      yield put(actions.modals.closeAllModals())
-      const confirmed = yield call(confirm, {
-        cancel: C.ARCHIVE_VULNERABLE_ADDRESS_CANCEL,
-        confirm: C.ARCHIVE_VULNERABLE_ADDRESS_CONFIRM,
-        message: C.ARCHIVE_VULNERABLE_ADDRESS_MSG,
-        messageValues: { vulnerableAddress },
-        title: C.ARCHIVE_VULNERABLE_ADDRESS_TITLE
-      })
-      if (confirmed) yield put(actions.core.wallet.setAddressArchived(vulnerableAddress, true))
-    }
-  }
-
-  const checkDataErrors = function* () {
-    const btcDataR = yield select(selectors.core.data.btc.getInfo)
-
-    if (Remote.Loading.is(btcDataR)) {
-      const btcData = yield take(actionTypes.core.data.btc.FETCH_BTC_DATA_FAILURE)
-      const error = prop('payload', btcData)
-      yield call(checkAndHandleVulnerableAddress, { error })
-    }
-    if (Remote.Failure.is(btcDataR)) {
-      yield call(checkAndHandleVulnerableAddress, btcDataR)
-    }
-  }
-
   const checkXpubCacheLegitimacy = function* () {
     const wallet = yield select(selectors.core.wallet.getWallet)
     const accounts = Types.Wallet.selectHDAccounts(wallet)
@@ -139,20 +106,6 @@ export default ({ api, coreSagas, networks }) => {
 
     if (!isValidChange) {
       yield put(actions.auth.logWrongChangeCache())
-    }
-  }
-
-  const updateMnemonicBackup = function* () {
-    try {
-      const lastMnemonicBackup = selectors.core.settings
-        .getLastMnemonicBackup(yield select())
-        .getOrElse(true)
-      const isMnemonicVerified = yield select(selectors.core.wallet.isMnemonicVerified)
-      if (isMnemonicVerified && !lastMnemonicBackup) {
-        yield put(actions.core.wallet.updateMnemonicBackup())
-      }
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'udpateMnemonicBackup', e))
     }
   }
 
@@ -705,8 +658,6 @@ export default ({ api, coreSagas, networks }) => {
   }
   return {
     authNabu,
-    checkAndHandleVulnerableAddress,
-    checkDataErrors,
     getUserGeoLocation,
     initializeLogin,
     login,
