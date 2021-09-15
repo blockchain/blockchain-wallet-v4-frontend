@@ -994,7 +994,7 @@ type MessagesType = {
   'modals.interest.withdrawal.progressmsg': 'Requesting a withdrawal from your Interest Account'
   'modals.interest.withdrawal.edd_need': 'This amount requires further information. Confirm the withdrawal and follow the instructions on the next screen.'
   'modals.interest.withdrawal.edd_need_further_information': 'We will need to further verify your identity to make this withdrawal.'
-  'modals.interest.withdrawal.success': 'Waiting on your withdrawal to be confirmed by our team. It may take a few moments to show in your Interest Account History. No action is required at this time.'
+  'modals.interest.withdrawal.success': 'We are waiting on your withdrawal to be confirmed by the network and our team.'
   'modals.interest.withdrawal.supply_information_title': 'More Info Needed'
   'modals.interest.withdrawal.supply_information_description_1': 'Your recent withdrawal of {amount} requires further verification for legal and compliance reasons.'
   'modals.interest.withdrawal.supply_information_description_2': 'Please submit the additional information so we can start processing your withdrawal.'

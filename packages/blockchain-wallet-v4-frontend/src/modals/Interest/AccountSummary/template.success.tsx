@@ -187,7 +187,7 @@ const AccountSummary: React.FC<Props> = (props) => {
             <Text color='grey600' size='14px' weight={500}>
               <FormattedMessage
                 id='modals.interest.withdrawal.success'
-                defaultMessage='Waiting on your withdrawal to be confirmed by our team. It may take a few moments to show in your Interest Account History. No action is required at this time.'
+                defaultMessage='We are waiting on your withdrawal to be confirmed by the network and our team.'
               />
             </Text>
           </StatusWrapper>
