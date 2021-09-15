@@ -7,14 +7,13 @@ export enum InterestUploadDocumentsStepType {
   'UPLOADED'
 }
 
-export type InterestUploadDocumentsState = {
-  interestEDDDocumentLimits: RemoteDataType<string, InterestEDDDocumentsResponse>
-  step: InterestUploadDocumentsStepType
-}
-
 export type InterestUploadDocumentsPayload = {
   step: InterestUploadDocumentsStepType
 }
+
+export type InterestUploadDocumentsState = {
+  interestEDDDocumentLimits: RemoteDataType<string, InterestEDDDocumentsResponse>
+} & InterestUploadDocumentsPayload
 
 export type InterestUploadDocumentFormValueTypes = {
   expectedDeposits: string
