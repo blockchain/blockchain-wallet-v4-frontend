@@ -1,20 +1,21 @@
 import * as Bitcoin from 'bitcoinjs-lib'
-import { string } from 'prop-types'
-import { assoc, find, is, prop, propEq } from 'ramda'
+import { assoc, find, prop, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
-import { call, delay, fork, put, race, select, take } from 'redux-saga/effects'
+import { call, delay, fork, put, select, take } from 'redux-saga/effects'
 
 import { Remote, Types } from 'blockchain-wallet-v4/src'
 import { DEFAULT_INVITATIONS } from 'blockchain-wallet-v4/src/model'
 import { actions, actionTypes, model, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
 import profileSagas from 'data/modules/profile/sagas'
+import walletSagas from 'data/wallet/sagas'
 import * as C from 'services/alerts'
 import { isGuid } from 'services/forms'
 import { checkForVulnerableAddressError } from 'services/misc'
-import { askSecondPasswordEnhancer, confirm, promptForSecondPassword } from 'services/sagas'
+import { askSecondPasswordEnhancer, confirm } from 'services/sagas'
 
 import { guessCurrencyBasedOnCountry } from './helpers'
+import { parseMagicLink } from './sagas.utils'
 import * as S from './selectors'
 import {
   LoginErrorType,
@@ -32,24 +33,7 @@ export default ({ api, coreSagas, networks }) => {
     coreSagas,
     networks
   })
-
-  const upgradeAddressLabelsSaga = function* () {
-    const addressLabelSize = yield call(coreSagas.kvStore.btc.fetchMetadataBtc)
-    if (addressLabelSize > 100) {
-      yield put(
-        actions.modals.showModal('UPGRADE_ADDRESS_LABELS_MODAL', {
-          duration: addressLabelSize / 20,
-          origin: 'LoginSaga'
-        })
-      )
-    }
-    if (addressLabelSize >= 0) {
-      yield call(coreSagas.kvStore.btc.createMetadataBtc)
-    }
-    if (addressLabelSize > 100) {
-      yield put(actions.modals.closeModal())
-    }
-  }
+  const { upgradeAddressLabelsSaga } = walletSagas({ coreSagas })
 
   const saveGoals = function* (firstLogin) {
     // only for non first login users we save goal here for first login users we do that over verify email page
@@ -592,63 +576,6 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  // TODO: remove once old magic link endpoint is deprecated
-  const parseMagicLinkLegacy = function* (params) {
-    try {
-      const loginData = JSON.parse(atob(params[2])) as WalletDataFromMagicLinkLegacy
-      // this flag is stored as a string in JSON object this converts it to a variable
-      const mobileSetup = loginData.is_mobile_setup === 'true'
-      // store data in the cache and update form values to be used to submit login
-      yield put(actions.cache.emailStored(loginData.email))
-      yield put(actions.cache.guidStored(loginData.guid))
-      yield put(actions.cache.mobileConnectedStored(mobileSetup))
-      yield put(actions.form.change('login', 'emailToken', loginData.email_code))
-      yield put(actions.form.change('login', 'guid', loginData.guid))
-      yield put(actions.form.change('login', 'email', loginData.email))
-      // check if mobile detected
-      if (mobileSetup) {
-        yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
-      } else {
-        yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
-      }
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'parseLink', e))
-      yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
-    }
-  }
-
-  const parseMagicLink = function* (params) {
-    try {
-      const loginData = JSON.parse(atob(params[2])) as WalletDataFromMagicLink
-      // TODO: remove this check once old magic link is deprecated
-      if (loginData.wallet) {
-        const walletData = loginData.wallet
-        // grab all the data from the JSON wallet data
-        // store data in the cache and update form values to be used to submit login
-        yield put(actions.cache.emailStored(walletData.email))
-        yield put(actions.cache.guidStored(walletData.guid))
-        yield put(actions.cache.mobileConnectedStored(walletData.is_mobile_setup))
-        yield put(actions.form.change('login', 'emailToken', walletData.email_code))
-        yield put(actions.form.change('login', 'guid', walletData.guid))
-        yield put(actions.form.change('login', 'email', walletData.email))
-        yield put(actions.auth.setMagicLinkInfo(loginData))
-        // check if mobile detected
-        if (walletData.is_mobile_setup) {
-          yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
-        } else {
-          yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
-        }
-      } else {
-        yield call(parseMagicLinkLegacy, params)
-      }
-      yield put(actions.auth.magicLinkParsed())
-    } catch (e) {
-      yield put(actions.logs.logErrorMessage(logLocation, 'parseLink', e))
-      yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
-      yield put(actions.alerts.displayError(C.MAGIC_LINK_PARSE_ERROR))
-    }
-  }
-
   const initializeLogin = function* () {
     try {
       yield put(actions.auth.initializeLoginLoading())
@@ -794,7 +721,6 @@ export default ({ api, coreSagas, networks }) => {
     restoreFromMetadata,
     saveGoals,
     startSockets,
-    triggerWalletMagicLink,
-    upgradeAddressLabelsSaga
+    triggerWalletMagicLink
   }
 }

@@ -74,6 +74,24 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const upgradeAddressLabelsSaga = function* () {
+    const addressLabelSize = yield call(coreSagas.kvStore.btc.fetchMetadataBtc)
+    if (addressLabelSize > 100) {
+      yield put(
+        actions.modals.showModal('UPGRADE_ADDRESS_LABELS_MODAL', {
+          duration: addressLabelSize / 20,
+          origin: 'LoginSaga'
+        })
+      )
+    }
+    if (addressLabelSize >= 0) {
+      yield call(coreSagas.kvStore.btc.createMetadataBtc)
+    }
+    if (addressLabelSize > 100) {
+      yield put(actions.modals.closeModal())
+    }
+  }
+
   const upgradeWallet = function* (action) {
     try {
       const { version } = action.payload
@@ -103,6 +121,7 @@ export default ({ coreSagas }) => {
     setMainPassword,
     toggleSecondPassword,
     updatePbkdf2Iterations,
+    upgradeAddressLabelsSaga,
     upgradeWallet,
     verifyMnemonic
   }
