@@ -1,4 +1,5 @@
 import * as Bitcoin from 'bitcoinjs-lib'
+import { string } from 'prop-types'
 import { assoc, find, is, prop, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, delay, fork, put, race, select, take } from 'redux-saga/effects'
@@ -15,7 +16,12 @@ import { askSecondPasswordEnhancer, confirm, promptForSecondPassword } from 'ser
 
 import { guessCurrencyBasedOnCountry } from './helpers'
 import * as S from './selectors'
-import { LoginSteps, WalletDataFromMagicLink, WalletDataFromMagicLinkLegacy } from './types'
+import {
+  LoginErrorType,
+  LoginSteps,
+  WalletDataFromMagicLink,
+  WalletDataFromMagicLinkLegacy
+} from './types'
 
 const { MOBILE_LOGIN } = model.analytics
 
@@ -397,73 +403,87 @@ export default ({ api, coreSagas, networks }) => {
       })
       yield call(loginRoutineSaga, {})
       yield put(stopSubmit('login'))
-    } catch (error) {
-      const initialError = prop('initial_error', error)
-      const authRequired = prop('authorization_required', error)
-      if (authRequired) {
-        const authRequiredAlert = yield put(
-          actions.alerts.displayInfo(C.AUTHORIZATION_REQUIRED_INFO, undefined, true)
-        )
-        // auth errors (polling)
-        const authorized = yield call(pollingSession, session)
-        yield put(actions.alerts.dismissAlert(authRequiredAlert.payload.id))
-        if (authorized) {
-          try {
-            yield call(coreSagas.wallet.fetchWalletSaga, {
-              guid,
-              password,
-              session
-            })
-            yield call(loginRoutineSaga, {})
-          } catch (error) {
-            if (error && error.auth_type > 0) {
-              yield put(actions.auth.setAuthType(error.auth_type))
-              yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
-              yield put(actions.auth.loginFailure(undefined))
-            } else {
-              yield put(actions.auth.loginFailure('wrong_wallet_password'))
-              yield put(actions.logs.logErrorMessage(logLocation, 'login', error))
+    } catch (e) {
+      const error = e as LoginErrorType
+      const initialError = typeof error !== 'string' && error.initial_error
+      const errorString = typeof error === 'string' && error
+      switch (true) {
+        // Email authorization is required for login
+        case typeof error !== 'string' && error.authorization_required:
+          const authRequiredAlert = yield put(
+            actions.alerts.displayInfo(C.AUTHORIZATION_REQUIRED_INFO, undefined, true)
+          )
+          // polling for email authorization
+          const authorized = yield call(pollingSession, session)
+          yield put(actions.alerts.dismissAlert(authRequiredAlert.payload.id))
+          if (authorized) {
+            try {
+              yield call(coreSagas.wallet.fetchWalletSaga, {
+                guid,
+                password,
+                session
+              })
+              yield call(loginRoutineSaga, {})
+            } catch (e) {
+              // If error is that 2fa is required
+              const error = e as LoginErrorType
+              if (typeof error !== 'string' && error?.auth_type > 0) {
+                yield put(actions.auth.setAuthType(error.auth_type))
+                yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
+                yield put(actions.auth.loginFailure(undefined))
+                // otherwise only other error could be wrong wallet password
+              } else {
+                yield put(actions.auth.loginFailure('wrong_wallet_password'))
+                yield put(actions.logs.logErrorMessage(logLocation, 'login', error))
+              }
             }
+          } else {
+            yield put(actions.alerts.displayError(C.WALLET_SESSION_ERROR))
           }
-        } else {
-          yield put(actions.alerts.displayError(C.WALLET_SESSION_ERROR))
-        }
-      } else if (error && error.auth_type > 0) {
-        // 2fa required, dispatch state change to show form
-        yield put(actions.auth.loginFailure(undefined))
-        yield put(actions.auth.setAuthType(error.auth_type))
-        yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
-        // wrong password error
-      } else if (error && is(String, error) && error.includes('wrong_wallet_password')) {
-        // remove 2fa if password is wrong
-        // password error can only occur after 2fa validation
-        yield put(actions.auth.setAuthType(0))
-        yield put(actions.form.clearFields('login', false, true, 'password', 'code'))
-        yield put(actions.form.focus('login', 'password'))
-        yield put(actions.auth.loginPasswordDenied())
-        yield put(actions.auth.loginFailure(error))
-      } else if (initialError && initialError.includes('Unknown Wallet Identifier')) {
-        yield put(actions.form.change('login', 'step', 'ENTER_EMAIL_GUID'))
-        yield put(actions.auth.loginFailure(initialError))
-      } else if (error && error.includes('restricted to another IP address.')) {
-        yield put(actions.alerts.displayError(C.IPRESTRICTION_LOGIN_ERROR))
-        yield put(actions.auth.loginFailure('This wallet is restricted to another IP address.'))
-      } else if (
+          break
+        // 2FA is required for sign in
+        case typeof error !== 'string' && error.auth_type > 0:
+          yield put(actions.auth.loginFailure(undefined))
+          yield put(actions.auth.setAuthType(typeof error !== 'string' && error.auth_type))
+          yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
+          break
+        // Wrong wallet password error is just returned as a string
+        case errorString && errorString.includes('wrong_wallet_password'):
+          // remove 2fa if password is wrong by setting auth type to zero
+          // TODO: check on why we do this
+          yield put(actions.auth.setAuthType(0))
+          yield put(actions.form.clearFields('login', false, true, 'password', 'code'))
+          yield put(actions.form.focus('login', 'password'))
+          yield put(actions.auth.loginPasswordDenied())
+          yield put(actions.auth.loginFailure(errorString))
+          break
+        // Valid wallet ID format but it doesn't exist in bc
+        case initialError && initialError.includes('Unknown Wallet Identifier'):
+          yield put(actions.form.change('login', 'step', 'ENTER_EMAIL_GUID'))
+          yield put(actions.auth.loginFailure(initialError))
+          break
+        // Security feature where user can restrict access to whitelisted IPs only
+        case errorString && errorString.includes('restricted to another IP address.'):
+          yield put(actions.alerts.displayError(C.IPRESTRICTION_LOGIN_ERROR))
+          yield put(actions.auth.loginFailure('This wallet is restricted to another IP address.'))
+          break
         // Wrong 2fa code error
-        error &&
-        is(String, error) &&
-        (error.includes('Authentication code is incorrect') ||
-          error.includes('Invalid authentication code'))
-      ) {
-        yield put(actions.form.clearFields('login', false, true, 'code'))
-        yield put(actions.form.focus('login', 'code'))
-        yield put(actions.auth.loginFailure(error))
-        yield put(actions.auth.loginTwoStepVerificationDenied())
-      } else if (error && is(String, error)) {
-        yield put(actions.auth.loginFailure(error))
-      } else {
-        const errorMessage = prop('message', error) || 'Error logging into your wallet'
-        yield put(actions.auth.loginFailure(errorMessage))
+        case errorString &&
+          (errorString.includes('Authentication code is incorrect') ||
+            errorString.includes('Invalid authentication code')):
+          yield put(actions.form.clearFields('login', false, true, 'code'))
+          yield put(actions.form.focus('login', 'code'))
+          yield put(actions.auth.loginFailure(errorString))
+          yield put(actions.auth.loginTwoStepVerificationDenied())
+          break
+        // Catch all to show whatever error string is returned
+        case errorString:
+          yield put(actions.auth.loginFailure(errorString))
+          break
+        default:
+          const errorMessage =
+            (typeof error !== 'string' && error?.message) || 'Error logging into your wallet'
+          yield put(actions.auth.loginFailure(errorMessage))
       }
       yield put(stopSubmit('login'))
     }
