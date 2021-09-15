@@ -51,7 +51,7 @@ class SignupContainer extends React.PureComponent<
     this.setState({ showForm: true })
   }
 
-  onCountryChange = (e: React.SyntheticEvent, value: string) => {
+  onCountryChange = (e: React.ChangeEvent<any> | undefined, value: string) => {
     this.setDefaultCountry(value)
     this.props.formActions.clearFields(SIGNUP_FORM, false, false, 'state')
   }
