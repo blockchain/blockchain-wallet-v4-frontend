@@ -1,9 +1,9 @@
-import { call, put, select } from 'redux-saga/effects'
+import { call, put, race, select, take } from 'redux-saga/effects'
 
-import { actions, selectors } from 'data'
+import { actions, actionTypes, selectors } from 'data'
 import * as C from 'services/alerts'
 import { requireUniqueWalletName } from 'services/forms'
-import { askSecondPasswordEnhancer, promptForInput } from 'services/sagas'
+import { askSecondPasswordEnhancer, promptForInput, promptForSecondPassword } from 'services/sagas'
 
 export default ({ coreSagas }) => {
   const logLocation = 'wallet/sagas'
@@ -63,11 +63,47 @@ export default ({ coreSagas }) => {
     yield call(coreSagas.kvStore.walletCredentials.fetchMetadataWalletCredentials)
   }
 
+  const forceSyncWallet = function* () {
+    yield put(actions.core.walletSync.forceSync())
+    const { error } = yield race({
+      error: take(actionTypes.core.walletSync.SYNC_ERROR),
+      success: take(actionTypes.core.walletSync.SYNC_SUCCESS)
+    })
+    if (error) {
+      throw new Error('Sync failed')
+    }
+  }
+
+  const upgradeWallet = function* (action) {
+    try {
+      const { version } = action.payload
+      const password = yield call(promptForSecondPassword)
+      // eslint-disable-next-line default-case
+      switch (version) {
+        case 3:
+          yield coreSagas.wallet.upgradeToV3({ password })
+          break
+        case 4:
+          yield coreSagas.wallet.upgradeToV4({ password })
+          break
+        default:
+          break
+      }
+      yield call(forceSyncWallet)
+    } catch (e) {
+      if (e.message === 'Already a v4 wallet') return
+      yield put(actions.logs.logErrorMessage(logLocation, 'upgradeWallet', e))
+      yield put(actions.alerts.displayError(C.WALLET_UPGRADE_ERROR))
+      yield put(actions.modals.closeModal())
+    }
+  }
+
   return {
     editBtcAccountLabel,
     setMainPassword,
     toggleSecondPassword,
     updatePbkdf2Iterations,
+    upgradeWallet,
     verifyMnemonic
   }
 }

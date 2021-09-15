@@ -14,7 +14,6 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.restore.type, authSagas.restore)
     yield takeLatest(actions.resendSmsCode.type, authSagas.resendSmsLoginCode)
     yield takeLatest(actions.restoreFromMetadata.type, authSagas.restoreFromMetadata)
-    yield takeLatest(actions.upgradeWallet.type, authSagas.upgradeWallet)
     yield takeLatest(actions.initializeLogin.type, authSagas.initializeLogin)
     yield takeLatest(actions.triggerWalletMagicLink.type, authSagas.triggerWalletMagicLink)
     yield takeLatest(actions.getUserGeoLocation.type, authSagas.getUserGeoLocation)

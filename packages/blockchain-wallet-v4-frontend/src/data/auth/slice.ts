@@ -148,8 +148,7 @@ const authSlice = createSlice({
     triggerWalletMagicLinkFailure: () => {},
     triggerWalletMagicLinkLoading: () => {},
     triggerWalletMagicLinkNotAsked: () => {},
-    triggerWalletMagicLinkSuccess: () => {},
-    upgradeWallet: (state, action) => {}
+    triggerWalletMagicLinkSuccess: () => {}
   }
 })
 

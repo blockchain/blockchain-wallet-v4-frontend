@@ -135,13 +135,6 @@ interface SetMagicLinkInfoActionType {
   type: typeof actions.setMagicLinkInfo.type
 }
 
-interface UpgradeWalletActionType {
-  payload: {
-    version: number
-  }
-  type: typeof actions.upgradeWallet.type
-}
-
 export type AuthActionTypes =
   | LoginFailureActionType
   | LoginRouteSagaActionType
@@ -152,4 +145,3 @@ export type AuthActionTypes =
   | TriggerWalletMagicLinkFailureActionType
   | TriggerWalletMagicLinkLoadingActionType
   | TriggerWalletMagicLinkSuccessActionType
-  | UpgradeWalletActionType
