@@ -65,8 +65,10 @@ export type SwapUserLimitsType = {
     limit: string
     used: string
   }
+  max: string
   maxOrder: string
   maxPossibleOrder: string
+  min: string
   minOrder: string
   weekly: {
     available: string

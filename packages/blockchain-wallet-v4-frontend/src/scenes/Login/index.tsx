@@ -119,7 +119,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     const { data, formValues, ssoDummy } = this.props
     const { step } = formValues || LoginSteps.ENTER_EMAIL_GUID
     const { busy, error } = data.cata({
-      Failure: (val) => ({ busy: false, error: val.err }),
+      Failure: (val) => ({ busy: false, error: val }),
       Loading: () => <Loading />,
       NotAsked: () => ({ busy: false, error: null }),
       Success: () => ({ busy: false, error: null })
@@ -129,6 +129,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       handleSmsResend: this.handleSmsResend,
       loginError: error
     }
+
     return (
       <>
         {ssoDummy && (
@@ -290,7 +291,7 @@ const mapStateToProps = (state) => ({
     step: LoginSteps.ENTER_EMAIL_GUID
   },
   password: formValueSelector(LOGIN_FORM_NAME)(state, 'password'),
-  ssoDummy: selectors.core.walletOptions.getSsoDummy(state)
+  ssoDummy: selectors.core.walletOptions.getSsoDummy(state).getOrElse(false)
 })
 
 const mapDispatchToProps = (dispatch) => ({
