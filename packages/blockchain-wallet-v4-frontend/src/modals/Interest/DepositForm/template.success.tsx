@@ -493,7 +493,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
               />
             </Text>{' '}
             <Link
-              href='https://www.blockchain.com/legal/borrow-terms'
+              href='https://www.blockchain.com/legal/reward-terms'
               target='_blank'
               size='14px'
               weight={500}
