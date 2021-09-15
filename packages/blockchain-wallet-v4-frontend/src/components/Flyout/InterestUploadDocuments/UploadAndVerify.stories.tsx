@@ -15,18 +15,13 @@ export default {
     },
     nextStep: () => {},
     previousStep: () => {},
-    submitData: (files) => {
-      // eslint-disable-next-line
-      console.log(files)
-    }
+    submitData: (files) => {}
   },
   component: UploadAndVerify,
   decorators: [
     (Story) => (
       <IntlProvider locale='en'>
-        <div style={{ display: 'flex', height: '100vh', width: '480px' }}>
-          <Story />
-        </div>
+        <div style={{ display: 'flex', height: '100vh', width: '480px' }}>{Story()}</div>
       </IntlProvider>
     )
   ],

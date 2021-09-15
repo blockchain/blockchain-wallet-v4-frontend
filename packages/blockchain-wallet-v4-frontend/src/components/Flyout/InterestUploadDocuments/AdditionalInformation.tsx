@@ -55,7 +55,7 @@ const AdditionalInformation: React.FC<InjectedFormProps<{}, Props> & Props> = (p
             <Text size='14px' weight={500} color='grey900' lineHeight='20px'>
               <FormattedMessage
                 id='modals.interest.withdrawal.upload_documents.additional_info.description'
-                defaultMessage='Please fill in this form to the best of your knowledge and then proceed to upload documents in the next screen.'
+                defaultMessage='Please fill out this form to the best of your knowledge and then proceed to upload documents on the next screen.'
               />
             </Text>
           </TextContentWrapper>

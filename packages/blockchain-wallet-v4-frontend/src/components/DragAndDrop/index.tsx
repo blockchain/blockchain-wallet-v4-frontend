@@ -204,7 +204,7 @@ const DragAndDrop = (props: Props) => {
               {getProperLabel(
                 props?.isOptional || false,
                 props.isProofOfAddress || false,
-                props.no
+                props.docNumber
               )}
             </Text>
           </div>
@@ -247,14 +247,13 @@ const DragAndDrop = (props: Props) => {
 }
 
 type Props = {
+  docNumber: string
   error?: boolean
-  //   children: ReactNode
   fileName?: string
   fileUploaded: boolean
   handleDrop: (arg0: FileList) => void
   isOptional?: boolean
   isProofOfAddress?: boolean
-  no: string
   onFileDelete: () => void
   onFileDownload: () => void
 }

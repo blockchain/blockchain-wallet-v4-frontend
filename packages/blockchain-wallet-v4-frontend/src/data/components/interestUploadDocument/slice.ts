@@ -46,4 +46,4 @@ const interestUploadDocumentSlice = createSlice({
 
 export const { saveAdditionalData, showModal, uploadFiles } = interestUploadDocumentSlice.actions
 const { actions, reducer } = interestUploadDocumentSlice
-export { actions, reducer }
+export { actions, initialState, reducer }

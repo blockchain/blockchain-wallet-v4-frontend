@@ -13,9 +13,7 @@ export default {
   decorators: [
     (Story) => (
       <IntlProvider locale='en'>
-        <div style={{ display: 'flex', height: '100vh', width: '480px' }}>
-          <Story />
-        </div>
+        <div style={{ display: 'flex', height: '100vh', width: '480px' }}>{Story()}</div>
       </IntlProvider>
     )
   ],

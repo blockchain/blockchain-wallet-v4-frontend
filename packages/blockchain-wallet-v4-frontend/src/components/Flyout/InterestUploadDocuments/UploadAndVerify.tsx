@@ -50,20 +50,20 @@ const UploadAndVerify: React.FC<Props> = (props) => {
   const [uploadAndVerified, setUploadAndVerified] = useState({
     proofOfAddress1: false,
     proofOfAddress2: false,
-    sourceOfWelth1: false,
-    sourceOfWelth2: false
+    sourceOfWealth1: false,
+    sourceOfWealth2: false
   })
   const [uploadAndVerifiedError, setUploadAndVerifiedError] = useState({
     proofOfAddress1: false,
     proofOfAddress2: false,
-    sourceOfWelth1: false,
-    sourceOfWelth2: false
+    sourceOfWealth1: false,
+    sourceOfWealth2: false
   })
   const [uploadedFiles, setUploadedFiles] = useState({
     proofOfAddress1: null,
     proofOfAddress2: null,
-    sourceOfWelth1: null,
-    sourceOfWelth2: null
+    sourceOfWealth1: null,
+    sourceOfWealth2: null
   })
 
   const { maxAllowedFileSizeMBs, validTypes } = props.documentLimits
@@ -152,7 +152,7 @@ const UploadAndVerify: React.FC<Props> = (props) => {
 
   const disable =
     uploadedFiles.proofOfAddress1 === null ||
-    uploadedFiles.sourceOfWelth1 === null ||
+    uploadedFiles.sourceOfWealth1 === null ||
     Object.values(uploadAndVerifiedError).some((val) => val)
 
   return (
@@ -174,7 +174,7 @@ const UploadAndVerify: React.FC<Props> = (props) => {
           >
             <FormattedMessage
               id='modals.interest.withdrawal.upload_documents.upload_and_verify.please_upload'
-              defaultMessage='Please upload a high resolution file ({files}) of each item below. Max {maxSize}MB each.'
+              defaultMessage='Please upload a high resolution file ({files}) of each item below. Max file size is {maxSize}MB each.'
               values={{
                 files: allValidFileTypes,
                 maxSize: maxAllowedFileSizeMBs
@@ -204,7 +204,7 @@ const UploadAndVerify: React.FC<Props> = (props) => {
           <DragAndDropContainer>
             <DragAndDrop
               handleDrop={(files) => handleDrop(files, 'proofOfAddress1')}
-              no='1'
+              docNumber='1'
               fileUploaded={uploadAndVerified.proofOfAddress1}
               isProofOfAddress
               error={uploadAndVerifiedError.proofOfAddress1}
@@ -217,7 +217,7 @@ const UploadAndVerify: React.FC<Props> = (props) => {
             <DragAndDropContainerSecond>
               <DragAndDrop
                 handleDrop={(files) => handleDrop(files, 'proofOfAddress2')}
-                no='2'
+                docNumber='2'
                 fileUploaded={uploadAndVerified.proofOfAddress2}
                 isOptional
                 isProofOfAddress
@@ -246,26 +246,26 @@ const UploadAndVerify: React.FC<Props> = (props) => {
 
           <DragAndDropContainer>
             <DragAndDrop
-              handleDrop={(files) => handleDrop(files, 'sourceOfWelth1')}
-              no='1'
-              fileUploaded={uploadAndVerified.sourceOfWelth1}
-              error={uploadAndVerifiedError.sourceOfWelth1}
-              fileName={getFileName('sourceOfWelth1')}
-              onFileDelete={() => fileDelete('sourceOfWelth1')}
-              onFileDownload={() => fileDownload('sourceOfWelth1')}
+              handleDrop={(files) => handleDrop(files, 'sourceOfWealth1')}
+              docNumber='1'
+              fileUploaded={uploadAndVerified.sourceOfWealth1}
+              error={uploadAndVerifiedError.sourceOfWealth1}
+              fileName={getFileName('sourceOfWealth1')}
+              onFileDelete={() => fileDelete('sourceOfWealth1')}
+              onFileDownload={() => fileDownload('sourceOfWealth1')}
             />
           </DragAndDropContainer>
-          {uploadAndVerified.sourceOfWelth1 && (
+          {uploadAndVerified.sourceOfWealth1 && (
             <DragAndDropContainerSecond>
               <DragAndDrop
-                handleDrop={(files) => handleDrop(files, 'sourceOfWelth2')}
-                no='2'
-                fileUploaded={uploadAndVerified.sourceOfWelth2}
+                handleDrop={(files) => handleDrop(files, 'sourceOfWealth2')}
+                docNumber='2'
+                fileUploaded={uploadAndVerified.sourceOfWealth2}
                 isOptional
-                error={uploadAndVerifiedError.sourceOfWelth2}
-                fileName={getFileName('sourceOfWelth2')}
-                onFileDelete={() => fileDelete('sourceOfWelth2')}
-                onFileDownload={() => fileDownload('sourceOfWelth2')}
+                error={uploadAndVerifiedError.sourceOfWealth2}
+                fileName={getFileName('sourceOfWealth2')}
+                onFileDelete={() => fileDelete('sourceOfWealth2')}
+                onFileDownload={() => fileDownload('sourceOfWealth2')}
               />
             </DragAndDropContainerSecond>
           )}
