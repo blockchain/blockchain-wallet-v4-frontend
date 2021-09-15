@@ -31,7 +31,7 @@ export type GoalDataType = Array<{
 export type SubviewProps = {
   isFormSubmitting: boolean
   isLinkAccountGoal: boolean
-  onCountrySelect: (e: React.SyntheticEvent, value: string) => void
+  onCountrySelect: (e: React.ChangeEvent<any> | undefined, value: string) => void
   onSignupSubmit: (e: React.SyntheticEvent, value: string) => void
   showForm: boolean
   showState: boolean
