@@ -58,28 +58,20 @@ const configuredStore = async function () {
   const res = await fetch('/wallet-options-v4.json')
   const options = await res.json()
   const assetsRes = await fetch(`${options.domains.api}/assets/currencies/custodial`)
+  const erc20Res = await fetch(`${options.domains.api}/assets/currencies/erc20`)
   const assets = await assetsRes.json()
-  const erc20s = assets.currencies.filter(({ type }) => type.name === 'ERC20')
-  // TODO: erc20 phase 2, remove this whitelist
-  const erc20Whitelist = options.platforms.web.erc20s
-  const supportedErc20s = erc20s.filter((erc20) =>
-    erc20Whitelist.includes(erc20.symbol)
-  )
-  const supportedCoins = assets.currencies.filter(({ type }) => type.name !== 'ERC20')
+  const erc20s = await erc20Res.json()
 
   // hmmmm....
   window.coins = {
-    // ...options.platforms.web.coins,
-    ...supportedCoins.reduce(
+    ...assets.currencies.reduce(
       (acc, curr) => ({
         ...acc,
         [curr.symbol]: { coinfig: curr }
       }),
       {}
     ),
-    // TODO: erc20 phase 2, replace w/ all erc20 currencies
-    // ...erc20s.currencies.reduce(
-    ...supportedErc20s.reduce(
+    ...erc20s.currencies.reduce(
       (acc, curr) => ({
         ...acc,
         [curr.symbol]: { coinfig: curr }
