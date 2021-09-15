@@ -3299,10 +3299,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const { country, countryState } = action.payload
         const guid = state.walletPath.wallet.guid ?? null
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        analytics.push(AnalyticsKey.SIGNUP_DETAILS_ENTERED, {
+        analytics.push(AnalyticsKey.SIGN_UP_COUNTRY_SELECTED, {
           properties: {
             country,
-            country_state: countryState,
             guid,
             originalTimestamp: getOriginalTimestamp()
           },
@@ -3310,6 +3309,18 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             nabuId
           }
         })
+        if (countryState) {
+          analytics.push(AnalyticsKey.SIGN_UP_COUNTRY_STATE_SELECTED, {
+            properties: {
+              country_state: countryState,
+              guid,
+              originalTimestamp: getOriginalTimestamp()
+            },
+            traits: {
+              nabuId
+            }
+          })
+        }
         break
       }
       default: {
