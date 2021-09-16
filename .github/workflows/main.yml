@@ -37,4 +37,4 @@ jobs:
         run: manage:translations
 
       - name: Storybook
-        run: yarn deploy-storybook
+        run: yarn storybook:deploy-wallet
