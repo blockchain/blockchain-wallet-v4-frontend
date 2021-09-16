@@ -186,6 +186,7 @@ const SignupForm = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) =
               data-e2e='selectCountryDropdown'
               name='country'
               validate={required}
+              // @ts-ignore
               component={SelectBoxCountry}
               menuPlacement='auto'
               onChange={onCountrySelect}
