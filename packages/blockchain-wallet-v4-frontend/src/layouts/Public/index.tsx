@@ -5,6 +5,7 @@ import { formValueSelector } from 'redux-form'
 import styled, { css } from 'styled-components'
 
 import Alerts from 'components/Alerts'
+import { selectors } from 'data'
 import { LoginSteps } from 'data/types'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { media } from 'services/styles'
@@ -64,7 +65,13 @@ const ContentContainer = styled.div<{ isLogin?: boolean }>`
     `}
 `
 
-const PublicLayoutContainer = ({ component: Component, exact = false, loginStep, path }: Props) => {
+const PublicLayoutContainer = ({
+  component: Component,
+  exact = false,
+  loginParam,
+  loginStep,
+  path
+}: Props) => {
   const isLogin = path === '/login'
   const isFirstLoginStep = isLogin && loginStep === LoginSteps.ENTER_EMAIL_GUID
   const isSecondLoginStep =
@@ -82,7 +89,7 @@ const PublicLayoutContainer = ({ component: Component, exact = false, loginStep,
             <Alerts />
 
             <HeaderContainer>
-              <Header />
+              <Header loginParam={loginParam} />
             </HeaderContainer>
 
             <Modals />
@@ -103,11 +110,13 @@ const PublicLayoutContainer = ({ component: Component, exact = false, loginStep,
 type Props = {
   component: ComponentType<any>
   exact?: boolean
+  loginParam?: string
   loginStep: LoginSteps
   path: string
 }
 
 const mapStateToProps = (state) => ({
+  loginParam: selectors.auth.getLoginParam(state) as string,
   loginStep: formValueSelector('login')(state, 'step')
 })
 

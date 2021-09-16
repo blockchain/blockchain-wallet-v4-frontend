@@ -39,6 +39,14 @@ export type LoginFormType = {
   twoFA?: number | string
 }
 
+export enum UserType {
+  EXCHANGE = 'EXCHANGE',
+  WALLET = 'WALLET',
+  WALLET_EXCHANGE_BOTH = 'WALLET_EXCHANGE_BOTH',
+  WALLET_EXCHANGE_LINKED = 'WALLET_EXCHANGE_LINKED',
+  WALLET_EXCHANGE_NOT_LINKED = 'WALLET_EXCHANGE_NOT_LINKED'
+}
+
 export type WalletDataFromMagicLink = {
   exchange?: {
     email?: string
@@ -46,14 +54,16 @@ export type WalletDataFromMagicLink = {
     user_id?: string
   }
   mergeable?: boolean | null
+  unified?: boolean
   upgradeable?: boolean | null
+  user_type?: UserType
   wallet: {
     auth_type?: number
     email: string
     email_code?: string
     exchange?: {
       email?: string
-      twoFaMode?: boolean
+      two_fa_mode?: boolean
       user_id?: string
     }
     guid: string

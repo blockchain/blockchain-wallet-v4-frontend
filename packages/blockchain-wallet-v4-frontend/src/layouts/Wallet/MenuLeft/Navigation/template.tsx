@@ -51,10 +51,7 @@ const ExchangeNavItem = (props) => (
   <>
     <MenuIcon className='icon' name='blockchain-logo' style={{ marginLeft: '-2px' }} size='21px' />
     <Destination style={{ marginLeft: '2px' }}>
-      <FormattedMessage
-        id='layouts.wallet.menuleft.navigation.blockchain-exchange-1'
-        defaultMessage='Exchange'
-      />
+      <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
     </Destination>
     {props.isExchangeAccountLinked && (
       <HelperTipContainer>

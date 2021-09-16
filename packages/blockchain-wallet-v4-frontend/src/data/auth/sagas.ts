@@ -568,7 +568,15 @@ export default ({ api, coreSagas, networks }) => {
         const guidFromRoute = loginLinkParameter
         yield put(actions.form.change('login', 'guid', guidFromRoute))
         yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
+        // TODO make sure this is how it's actually going to go
+        // pathname has exchange in url
+      } else if (loginLinkParameter === 'site=exchange') {
+        yield put(actions.auth.setLoginParam('exchange'))
+        yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
         // if path has base64 encrypted JSON
+      } else if (loginLinkParameter === 'site=wallet') {
+        yield put(actions.auth.setLoginParam('wallet'))
+        yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
       } else {
         yield call(parseMagicLink, params)
       }
