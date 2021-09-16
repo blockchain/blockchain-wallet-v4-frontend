@@ -127,6 +127,7 @@
     "react-csv": "2.0.3",
     "react-dom": "16.14.0",
     "react-dropzone": "7.0.1",
+    "react-infinite-scroll-component": "6.1.0",
     "react-intl": "5.17.7",
     "react-intl-tel-input": "5.0.7",
     "react-joyride": "2.3.0",

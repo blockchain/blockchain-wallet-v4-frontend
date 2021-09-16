@@ -6,7 +6,6 @@ import Remote from '../../../remote'
 import * as selectors from '../../selectors'
 
 const _getCustodialCoins = () => {
-  console.log('_getCustodialCoins')
   return Object.keys(window.coins).filter(
     (coin) =>
       window.coins[coin].coinfig.products.includes('CustodialWalletBalance') &&
