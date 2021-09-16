@@ -20,6 +20,6 @@ export default {
   title: 'Flyouts/InterestUploadDocuments/Uploaded'
 } as ComponentMeta<typeof Uploaded>
 
-export const Template: ComponentStory<typeof Uploaded> = (args) => <Uploaded {...args} />
+const Template: ComponentStory<typeof Uploaded> = (args) => <Uploaded {...args} />
 
 export const Default = Template.bind({})

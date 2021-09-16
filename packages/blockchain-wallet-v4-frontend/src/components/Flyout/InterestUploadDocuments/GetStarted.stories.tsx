@@ -21,6 +21,6 @@ export default {
   title: 'Flyouts/InterestUploadDocuments/GetStarted'
 } as ComponentMeta<typeof GetStarted>
 
-export const Template: ComponentStory<typeof GetStarted> = (args) => <GetStarted {...args} />
+const Template: ComponentStory<typeof GetStarted> = (args) => <GetStarted {...args} />
 
 export const Default = Template.bind({})

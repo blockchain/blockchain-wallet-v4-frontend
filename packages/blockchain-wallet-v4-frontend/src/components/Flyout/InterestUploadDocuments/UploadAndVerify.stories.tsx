@@ -28,8 +28,6 @@ export default {
   title: 'Flyouts/InterestUploadDocuments/UploadAndVerify'
 } as ComponentMeta<typeof UploadAndVerify>
 
-export const Template: ComponentStory<typeof UploadAndVerify> = (args) => (
-  <UploadAndVerify {...args} />
-)
+const Template: ComponentStory<typeof UploadAndVerify> = (args) => <UploadAndVerify {...args} />
 
 export const Default = Template.bind({})
