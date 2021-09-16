@@ -100,9 +100,9 @@ const convertFiatToFiat = ({
   toCurrency,
   value = '0'
 }: {
-  fromCurrency: WalletFiatType
+  fromCurrency: keyof FiatCurrenciesType
   rates: TickerResponseType
-  toCurrency: WalletFiatType
+  toCurrency: keyof FiatCurrenciesType
   value: number | string
 }) => {
   const btcAmt = convertFiatToCoin({
