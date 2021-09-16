@@ -8,7 +8,9 @@ export const getData = (state, coin, amount, defaultCurrency, defaultRates) => {
   const { coinfig } = window.coins[coin]
   const currencyR = selectors.core.settings.getSettings(state).map(prop('currency'))
   const isFiat = coinfig.type.name === 'FIAT'
-  const ratesR = selectors.core.data.misc.getRatesSelector(isFiat ? 'BTC' : coin, state)
+  const ratesR = isFiat
+    ? selectors.core.data.coins.getBtcTicker(state)
+    : selectors.core.data.misc.getRatesSelector(coin, state)
 
   let value
   if (!isFiat) {
