@@ -60,7 +60,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       default:
         throw new Error('retry active account check')
     }
-    throw new Error('retry active account check')
   }
 
   const conditionalRetry = function* (id: string) {
@@ -148,10 +147,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             )[0]
             yield put(
               actions.components.simpleBuy.handleSBMethodChange({
-                ...bankData,
                 isFlow: false,
-                limits: bankTransferMethod.limits,
-                type: SBPaymentTypes.BANK_TRANSFER
+                method: {
+                  ...bankData,
+                  limits: bankTransferMethod.limits,
+                  type: SBPaymentTypes.BANK_TRANSFER
+                }
               })
             )
           }
