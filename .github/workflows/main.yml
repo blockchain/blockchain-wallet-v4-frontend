@@ -21,8 +21,8 @@ jobs:
       - name: Install
         run: yarn
 
-      - name: Lint
-        run: yarn ci:lint
+      # - name: Lint
+      #   run: yarn ci:lint
 
       - name: Test Build
         run: yarn ci:test:build
@@ -34,7 +34,7 @@ jobs:
         run: yarn ci:test:frontend
 
       - name: Translations
-        run: manage:translations
+        run: yarn manage:translations
 
       - name: Storybook
         run: yarn storybook:deploy-wallet
