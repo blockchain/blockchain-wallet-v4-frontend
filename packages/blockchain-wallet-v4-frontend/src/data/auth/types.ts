@@ -1,5 +1,10 @@
 import { actions } from './slice'
 
+export enum LoginParam {
+  EXCHANGE = 'EXCHANGE',
+  WALLET = 'WALLET'
+}
+
 export enum LoginSteps {
   CHECK_EMAIL = 'CHECK_EMAIL',
   ENTER_EMAIL_GUID = 'ENTER_EMAIL_GUID',

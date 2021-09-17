@@ -9,7 +9,7 @@ import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { Form } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
-import { LoginFormType, LoginSteps } from 'data/types'
+import { LoginFormType, LoginParam, LoginSteps } from 'data/types'
 import { isGuid } from 'services/forms'
 
 // step templates
@@ -189,15 +189,6 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
             />
           </Text>
         )}
-
-        {step === LoginSteps.ENTER_EMAIL_GUID && (
-          <Text color='grey400' weight={500} style={{ marginBottom: '32px' }}>
-            <FormattedMessage
-              id='scenes.login.enter_email_header'
-              defaultMessage='Enter Your Email Address or Wallet ID'
-            />
-          </Text>
-        )}
         <Wrapper>
           <Form onSubmit={this.handleSubmit}>
             {(() => {
@@ -289,6 +280,7 @@ const mapStateToProps = (state) => ({
   initialValues: {
     step: LoginSteps.ENTER_EMAIL_GUID
   },
+  loginParam: selectors.auth.getLoginParam(state) as LoginParam,
   password: formValueSelector(LOGIN_FORM_NAME)(state, 'password'),
   ssoDummy: selectors.core.walletOptions.getSsoDummy(state)
 })

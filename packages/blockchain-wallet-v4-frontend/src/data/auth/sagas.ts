@@ -11,12 +11,12 @@ import profileSagas from 'data/modules/profile/sagas'
 import walletSagas from 'data/wallet/sagas'
 import * as C from 'services/alerts'
 import { isGuid } from 'services/forms'
-import { askSecondPasswordEnhancer, confirm } from 'services/sagas'
+import { askSecondPasswordEnhancer } from 'services/sagas'
 
 import { guessCurrencyBasedOnCountry } from './helpers'
 import { parseMagicLink } from './sagas.utils'
 import * as S from './selectors'
-import { LoginErrorType, LoginSteps, WalletDataFromMagicLink } from './types'
+import { LoginErrorType, LoginParam, LoginSteps, WalletDataFromMagicLink } from './types'
 
 const { MOBILE_LOGIN } = model.analytics
 
@@ -571,11 +571,11 @@ export default ({ api, coreSagas, networks }) => {
         // TODO make sure this is how it's actually going to go
         // pathname has exchange in url
       } else if (loginLinkParameter === 'site=exchange') {
-        yield put(actions.auth.setLoginParam('exchange'))
+        yield put(actions.auth.setLoginParam(LoginParam.EXCHANGE))
         yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
         // if path has base64 encrypted JSON
       } else if (loginLinkParameter === 'site=wallet') {
-        yield put(actions.auth.setLoginParam('wallet'))
+        yield put(actions.auth.setLoginParam(LoginParam.WALLET))
         yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
       } else {
         yield call(parseMagicLink, params)
