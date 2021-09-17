@@ -1,10 +1,6 @@
 name: CI/CD
 
-on:
-  push:
-    branches: [$default-branch]
-  pull_request:
-    branches: [$default-branch]
+on: pull_request
 
 jobs:
   build:
@@ -28,9 +24,13 @@ jobs:
       - name: Lint
         run: yarn ci:lint
 
-      - name: Test
+      - name: Test Build
         run: yarn ci:test:build
+
+      - name: Test Components
         run: yarn ci:test:core:components
+
+      - name: Test Frontend
         run: yarn ci:test:frontend
 
       - name: Translations
