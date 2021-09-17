@@ -877,6 +877,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
+      case AT.components.simpleBuy.DEFAULT_METHOD_EVENT:
       case AT.components.simpleBuy.HANDLE_SB_METHOD_CHANGE: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null

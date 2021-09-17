@@ -568,6 +568,11 @@ export const setMethod = (payload: SBPaymentMethodType): SimpleBuyActionTypes =>
   type: AT.SET_METHOD
 })
 
+export const defaultMethodEvent = (payload: SBPaymentMethodType): SimpleBuyActionTypes => ({
+  payload,
+  type: AT.DEFAULT_METHOD_EVENT
+})
+
 export const showModal = (
   origin: SBShowModalOriginType,
   cryptoCurrency?: CoinType,
