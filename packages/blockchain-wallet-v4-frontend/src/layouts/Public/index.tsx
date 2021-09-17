@@ -6,7 +6,8 @@ import styled, { css } from 'styled-components'
 
 import Alerts from 'components/Alerts'
 import { selectors } from 'data'
-import { LoginSteps } from 'data/types'
+import { getLoginParamHeader } from 'data/auth/selectors'
+import { LoginParam, LoginSteps } from 'data/types'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { media } from 'services/styles'
 
@@ -69,14 +70,10 @@ const PublicLayoutContainer = ({
   component: Component,
   exact = false,
   loginParam,
-  loginStep,
+  loginParamHeader,
   path
 }: Props) => {
   const isLogin = path === '/login'
-  const isFirstLoginStep = isLogin && loginStep === LoginSteps.ENTER_EMAIL_GUID
-  const isSecondLoginStep =
-    isLogin &&
-    (loginStep === LoginSteps.VERIFICATION_MOBILE || loginStep === LoginSteps.ENTER_PASSWORD)
   return (
     <Route
       path={path}
@@ -89,7 +86,7 @@ const PublicLayoutContainer = ({
             <Alerts />
 
             <HeaderContainer>
-              <Header loginParam={loginParam} />
+              <Header loginParamHeader={loginParamHeader} />
             </HeaderContainer>
 
             <Modals />
@@ -98,7 +95,7 @@ const PublicLayoutContainer = ({
             </ContentContainer>
 
             <FooterContainer>
-              <Footer isFirstLoginStep={isFirstLoginStep} isSecondLoginStep={isSecondLoginStep} />
+              <Footer isLogin={isLogin} loginParam={loginParam} />
             </FooterContainer>
           </Wrapper>
         </ErrorBoundary>
@@ -110,13 +107,15 @@ const PublicLayoutContainer = ({
 type Props = {
   component: ComponentType<any>
   exact?: boolean
-  loginParam?: string
+  loginParam: LoginParam
+  loginParamHeader: LoginParam
   loginStep: LoginSteps
   path: string
 }
 
 const mapStateToProps = (state) => ({
-  loginParam: selectors.auth.getLoginParam(state) as string,
+  loginParam: selectors.auth.getLoginParam(state) as LoginParam,
+  loginParamHeader: selectors.auth.getLoginParamHeader(state) as LoginParam,
   loginStep: formValueSelector('login')(state, 'step')
 })
 

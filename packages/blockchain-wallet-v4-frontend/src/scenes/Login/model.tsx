@@ -162,24 +162,3 @@ const SignUpText = styled(Text)`
     font-weight: 600;
   }
 `
-
-export const CreateAccount = () => {
-  return (
-    <LinkContainer data-e2e='signupLink' to='/signup'>
-      <Link>
-        <SubCard>
-          <Text size='16px' color='grey400' weight={500}>
-            <FormattedMessage
-              id='scenes.login.account_signup'
-              defaultMessage="Don't have a Blockchain Account?"
-            />
-          </Text>
-          &nbsp;
-          <SignUpText size='16px' color='white' weight={600}>
-            <FormattedMessage id='buttons.signup_now' defaultMessage='Sign up Now ->' />
-          </SignUpText>
-        </SubCard>
-      </Link>
-    </LinkContainer>
-  )
-}

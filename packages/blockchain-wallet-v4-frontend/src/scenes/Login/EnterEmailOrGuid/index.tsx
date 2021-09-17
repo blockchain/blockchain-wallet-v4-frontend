@@ -39,13 +39,12 @@ const EnterEmailOrGuid = (props: Props) => {
         )}
         <FormItem>
           <LoginFormLabel htmlFor='guid'>
-            {loginParam === LoginParam.WALLET ||
-              (!loginParam && (
-                <FormattedMessage
-                  id='scenes.login.email_guid'
-                  defaultMessage='Your Email or Wallet ID'
-                />
-              ))}
+            {loginParam === LoginParam.WALLET && (
+              <FormattedMessage
+                id='scenes.login.email_guid'
+                defaultMessage='Your Email or Wallet ID'
+              />
+            )}
             {loginParam === LoginParam.EXCHANGE && (
               <FormattedMessage id='scenes.register.youremail' defaultMessage='Your Email' />
             )}
@@ -63,20 +62,19 @@ const EnterEmailOrGuid = (props: Props) => {
               autoFocus
             />
           )}
-          {loginParam === LoginParam.WALLET ||
-            (!loginParam && (
-              <Field
-                component={TextBox}
-                data-e2e='loginGuidOrEmail'
-                disabled={!isSupportedBrowser}
-                disableSpellcheck
-                name='guidOrEmail'
-                normalize={removeWhitespace}
-                validate={[required, validWalletIdOrEmail]}
-                placeholder='Enter your email or wallet ID'
-                autoFocus
-              />
-            ))}
+          {loginParam === LoginParam.WALLET && (
+            <Field
+              component={TextBox}
+              data-e2e='loginGuidOrEmail'
+              disabled={!isSupportedBrowser}
+              disableSpellcheck
+              name='guidOrEmail'
+              normalize={removeWhitespace}
+              validate={[required, validWalletIdOrEmail]}
+              placeholder='Enter your email or wallet ID'
+              autoFocus
+            />
+          )}
         </FormItem>
         {guidError && (
           <GuidError inline>

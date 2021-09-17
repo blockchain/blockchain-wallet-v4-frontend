@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { Image, Link, Text } from 'blockchain-info-components'
 import Announcements from 'components/Announcements'
 import { Navbar, NavbarBrand } from 'components/Navbar'
+import { LoginParam } from 'data/types'
 import { media } from 'services/styles'
 
 const NavbarStyled = styled(Navbar)`
@@ -35,9 +36,9 @@ const PublicBrand = styled.div`
   align-items: center;
 `
 
-const ProductHeader = styled(Text)<{ loginParam: string }>`
+const ProductHeader = styled(Text)<{ loginParamHeader: string }>`
   color: ${(props) =>
-    props.loginParam === 'wallet' ? props.theme.purple400 : props.theme.blue400};
+    props.loginParamHeader === LoginParam.WALLET ? props.theme.purple400 : props.theme.blue400};
   font-size: 24px;
   font-weight: 600;
 `
@@ -49,9 +50,7 @@ const HeaderLink = styled(Link)`
   align-items: center;
 `
 
-const Header = ({ loginParam }) => {
-  const showExchange = loginParam === 'exchange'
-  const showWallet = loginParam === 'wallet'
+const Header = ({ loginParamHeader }) => {
   return (
     <>
       <NavbarStyled height='112px'>
@@ -59,14 +58,14 @@ const Header = ({ loginParam }) => {
           <PublicBrand>
             <HeaderLink href='https://www.blockchain.com'>
               <BlockchainLogoImage name='blockchain-logo' height='24px' />
-              {loginParam && (
-                <ProductHeader loginParam={loginParam}>
-                  {showExchange && (
-                    <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
-                  )}
-                  {showWallet && <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />}
-                </ProductHeader>
-              )}
+              <ProductHeader loginParamHeader={loginParamHeader}>
+                {loginParamHeader === LoginParam.EXCHANGE && (
+                  <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
+                )}
+                {loginParamHeader === LoginParam.WALLET && (
+                  <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
+                )}
+              </ProductHeader>
             </HeaderLink>
           </PublicBrand>
         </NavbarBrandStyled>

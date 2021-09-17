@@ -11,6 +11,7 @@ const initialState = {
   kycReset: undefined,
   login: Remote.NotAsked,
   loginParam: undefined,
+  loginParamHeader: undefined,
   magicLinkData: null,
   manifestFile: null,
   metadataRestore: Remote.NotAsked,
@@ -129,6 +130,9 @@ const authSlice = createSlice({
     },
     setLoginParam: (state, action) => {
       state.loginParam = action.payload
+    },
+    setLoginParamHeader: (state, action) => {
+      state.loginParamHeader = action.payload
     },
     setMagicLinkInfo: (state, action) => {
       state.magicLinkData = action.payload
