@@ -12,6 +12,7 @@ import {
   RecurringBuyDetailsClickedPayload,
   RecurringBuyInfoViewedPayload,
   RecurringBuyLearnMoreClickPayload,
+  RecurringBuyPeriodSelectionPayload,
   RecurringBuySuggestionSkippedPayload,
   RecurringBuyViewedPayload,
   SendReceive,
@@ -886,7 +887,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
-        const paymentType = buyPaymentMethodSelectedPaymentTypeDictionary(action.method.type)
+        const { method } = action.payload
+        const paymentType = buyPaymentMethodSelectedPaymentTypeDictionary(method.type)
 
         analytics.push(AnalyticsKey.BUY_PAYMENT_METHOD_SELECTED, {
           properties: {
@@ -1683,6 +1685,26 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           }
         }
 
+        break
+      }
+      case actions.components.recurringBuy.setPeriod.type: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+
+        analytics.push(AnalyticsKey.RECURRING_BUY_PERIOD_SELECTED, {
+          properties: {
+            ...action.payload
+          } as RecurringBuyPeriodSelectionPayload,
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
         break
       }
       case actions.components.recurringBuy.viewed.type: {

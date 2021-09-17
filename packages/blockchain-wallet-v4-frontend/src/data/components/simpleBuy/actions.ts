@@ -166,9 +166,11 @@ export const destroyCheckout = () => ({
   type: AT.DESTROY_CHECKOUT
 })
 
-export const handleSBMethodChange = (method: SBPaymentMethodType, isFlow?: boolean) => ({
-  isFlow,
-  method,
+export const handleSBMethodChange = (payload: {
+  isFlow?: boolean
+  method: SBPaymentMethodType
+}) => ({
+  payload,
   type: AT.HANDLE_SB_METHOD_CHANGE
 })
 
@@ -568,7 +570,9 @@ export const setMethod = (payload: SBPaymentMethodType): SimpleBuyActionTypes =>
   type: AT.SET_METHOD
 })
 
-export const defaultMethodEvent = (payload: SBPaymentMethodType): SimpleBuyActionTypes => ({
+export const defaultMethodEvent = (payload: {
+  method: SBPaymentMethodType
+}): SimpleBuyActionTypes => ({
   payload,
   type: AT.DEFAULT_METHOD_EVENT
 })

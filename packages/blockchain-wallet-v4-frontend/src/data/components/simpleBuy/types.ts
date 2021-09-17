@@ -453,7 +453,7 @@ interface SetMethodAction {
 }
 
 interface DefaultMethodEvent {
-  payload: SBPaymentMethodType
+  payload: { method: SBPaymentMethodType }
   type: typeof AT.DEFAULT_METHOD_EVENT
 }
 

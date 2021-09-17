@@ -67,7 +67,7 @@ class Checkout extends PureComponent<Props> {
     // we only really want this analytics event to trigger when the user opens the buy modal and
     // a default payment method is automatically used
     if (this.props.defaultMethod && currId && prevId !== currId) {
-      this.props.simpleBuyActions.defaultMethodEvent(this.props.defaultMethod)
+      this.props.simpleBuyActions.defaultMethodEvent({ method: this.props.defaultMethod })
     }
   }
 
