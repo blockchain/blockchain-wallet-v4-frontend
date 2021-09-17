@@ -112,10 +112,18 @@ const UploadAndVerify: React.FC<Props> = (props) => {
     link.click()
   }
 
-  const fileDelete = (name: string) => {
-    setUploadAndVerified({ ...uploadAndVerified, [name]: false })
-    setUploadAndVerifiedError({ ...uploadAndVerifiedError, [name]: false })
-    setUploadedFiles({ ...uploadedFiles, [name]: null })
+  const fileDelete = (name: string, keepSecond?: boolean, secondName?: string) => {
+    if (keepSecond && secondName && uploadedFiles[secondName]) {
+      const secondFile = uploadedFiles[secondName]
+      const secondError = uploadAndVerifiedError[secondName]
+      setUploadedFiles({ ...uploadedFiles, [name]: secondFile, [secondName]: null })
+      setUploadAndVerified({ ...uploadAndVerified, [name]: true, [secondName]: false })
+      setUploadAndVerifiedError({ ...uploadAndVerifiedError, [secondName]: secondError })
+    } else {
+      setUploadedFiles({ ...uploadedFiles, [name]: null })
+      setUploadAndVerified({ ...uploadAndVerified, [name]: false })
+      setUploadAndVerifiedError({ ...uploadAndVerifiedError, [name]: false })
+    }
   }
 
   const getFileName = (name: string) => {
@@ -209,7 +217,7 @@ const UploadAndVerify: React.FC<Props> = (props) => {
               isProofOfAddress
               error={uploadAndVerifiedError.proofOfAddress1}
               fileName={getFileName('proofOfAddress1')}
-              onFileDelete={() => fileDelete('proofOfAddress1')}
+              onFileDelete={() => fileDelete('proofOfAddress1', true, 'proofOfAddress2')}
               onFileDownload={() => fileDownload('proofOfAddress1')}
             />
           </DragAndDropContainer>
@@ -251,7 +259,7 @@ const UploadAndVerify: React.FC<Props> = (props) => {
               fileUploaded={uploadAndVerified.sourceOfWealth1}
               error={uploadAndVerifiedError.sourceOfWealth1}
               fileName={getFileName('sourceOfWealth1')}
-              onFileDelete={() => fileDelete('sourceOfWealth1')}
+              onFileDelete={() => fileDelete('sourceOfWealth1', true, 'sourceOfWealth2')}
               onFileDownload={() => fileDownload('sourceOfWealth1')}
             />
           </DragAndDropContainer>
