@@ -1,12 +1,49 @@
-import { call, put, select } from 'redux-saga/effects'
+import { prop } from 'ramda'
+import { call, put, race, select, take } from 'redux-saga/effects'
 
-import { actions, selectors } from 'data'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { actions, actionTypes, selectors } from 'data'
 import * as C from 'services/alerts'
 import { requireUniqueWalletName } from 'services/forms'
-import { askSecondPasswordEnhancer, promptForInput } from 'services/sagas'
+import { checkForVulnerableAddressError } from 'services/misc'
+import {
+  askSecondPasswordEnhancer,
+  confirm,
+  promptForInput,
+  promptForSecondPassword
+} from 'services/sagas'
 
 export default ({ coreSagas }) => {
   const logLocation = 'wallet/sagas'
+
+  const checkAndHandleVulnerableAddress = function* (data) {
+    const err = prop('error', data)
+    const vulnerableAddress = checkForVulnerableAddressError(err)
+    if (vulnerableAddress) {
+      yield put(actions.modals.closeAllModals())
+      const confirmed = yield call(confirm, {
+        cancel: C.ARCHIVE_VULNERABLE_ADDRESS_CANCEL,
+        confirm: C.ARCHIVE_VULNERABLE_ADDRESS_CONFIRM,
+        message: C.ARCHIVE_VULNERABLE_ADDRESS_MSG,
+        messageValues: { vulnerableAddress },
+        title: C.ARCHIVE_VULNERABLE_ADDRESS_TITLE
+      })
+      if (confirmed) yield put(actions.core.wallet.setAddressArchived(vulnerableAddress, true))
+    }
+  }
+
+  const checkDataErrors = function* () {
+    const btcDataR = yield select(selectors.core.data.btc.getInfo)
+
+    if (Remote.Loading.is(btcDataR)) {
+      const btcData = yield take(actionTypes.core.data.btc.FETCH_BTC_DATA_FAILURE)
+      const error = prop('payload', btcData)
+      yield call(checkAndHandleVulnerableAddress, { error })
+    }
+    if (Remote.Failure.is(btcDataR)) {
+      yield call(checkAndHandleVulnerableAddress, btcDataR)
+    }
+  }
 
   const updatePbkdf2Iterations = function* (action) {
     const saga = askSecondPasswordEnhancer(coreSagas.wallet.updatePbkdf2Iterations)
@@ -63,11 +100,82 @@ export default ({ coreSagas }) => {
     yield call(coreSagas.kvStore.walletCredentials.fetchMetadataWalletCredentials)
   }
 
+  const forceSyncWallet = function* () {
+    yield put(actions.core.walletSync.forceSync())
+    const { error } = yield race({
+      error: take(actionTypes.core.walletSync.SYNC_ERROR),
+      success: take(actionTypes.core.walletSync.SYNC_SUCCESS)
+    })
+    if (error) {
+      throw new Error('Sync failed')
+    }
+  }
+
+  const updateMnemonicBackup = function* () {
+    try {
+      const lastMnemonicBackup = selectors.core.settings
+        .getLastMnemonicBackup(yield select())
+        .getOrElse(true)
+      const isMnemonicVerified = yield select(selectors.core.wallet.isMnemonicVerified)
+      if (isMnemonicVerified && !lastMnemonicBackup) {
+        yield put(actions.core.wallet.updateMnemonicBackup())
+      }
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'udpateMnemonicBackup', e))
+    }
+  }
+
+  const upgradeAddressLabelsSaga = function* () {
+    const addressLabelSize = yield call(coreSagas.kvStore.btc.fetchMetadataBtc)
+    if (addressLabelSize > 100) {
+      yield put(
+        actions.modals.showModal('UPGRADE_ADDRESS_LABELS_MODAL', {
+          duration: addressLabelSize / 20,
+          origin: 'LoginSaga'
+        })
+      )
+    }
+    if (addressLabelSize >= 0) {
+      yield call(coreSagas.kvStore.btc.createMetadataBtc)
+    }
+    if (addressLabelSize > 100) {
+      yield put(actions.modals.closeModal())
+    }
+  }
+
+  const upgradeWallet = function* (action) {
+    try {
+      const { version } = action.payload
+      const password = yield call(promptForSecondPassword)
+      // eslint-disable-next-line default-case
+      switch (version) {
+        case 3:
+          yield coreSagas.wallet.upgradeToV3({ password })
+          break
+        case 4:
+          yield coreSagas.wallet.upgradeToV4({ password })
+          break
+        default:
+          break
+      }
+      yield call(forceSyncWallet)
+    } catch (e) {
+      if (e.message === 'Already a v4 wallet') return
+      yield put(actions.logs.logErrorMessage(logLocation, 'upgradeWallet', e))
+      yield put(actions.alerts.displayError(C.WALLET_UPGRADE_ERROR))
+      yield put(actions.modals.closeModal())
+    }
+  }
+
   return {
+    checkDataErrors,
     editBtcAccountLabel,
     setMainPassword,
     toggleSecondPassword,
+    updateMnemonicBackup,
     updatePbkdf2Iterations,
+    upgradeAddressLabelsSaga,
+    upgradeWallet,
     verifyMnemonic
   }
 }

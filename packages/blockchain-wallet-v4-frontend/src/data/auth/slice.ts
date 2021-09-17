@@ -32,7 +32,6 @@ const authSlice = createSlice({
     clearLoginError: (state) => {
       state.login = Remote.NotAsked
     },
-    deauthorizeBrowser: () => {},
     getUserGeoLocation: () => {},
     initializeLogin: () => {},
     initializeLoginFailure: () => {},
@@ -59,8 +58,6 @@ const authSlice = createSlice({
     },
     loginTwoStepVerificationDenied: () => {},
     loginTwoStepVerificationEntered: () => {},
-    logout: () => {},
-    logoutClearReduxStore: () => {},
     magicLinkParsed: () => {},
     mobileLogin: (state, action) => {},
     mobileLoginFinish: (state) => {
@@ -151,8 +148,7 @@ const authSlice = createSlice({
     triggerWalletMagicLinkFailure: () => {},
     triggerWalletMagicLinkLoading: () => {},
     triggerWalletMagicLinkNotAsked: () => {},
-    triggerWalletMagicLinkSuccess: () => {},
-    upgradeWallet: (state, action) => {}
+    triggerWalletMagicLinkSuccess: () => {}
   }
 })
 
