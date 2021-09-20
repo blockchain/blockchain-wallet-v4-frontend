@@ -275,9 +275,8 @@ export default ({ api, coreSagas, networks }) => {
         const countryCode = country || 'US'
         const currency = guessCurrencyBasedOnCountry(countryCode)
 
-        yield put(actions.core.settings.setCurrency(currency))
-        // fetch settings again
-        yield call(coreSagas.settings.fetchSettings)
+        yield put(actions.modules.settings.updateCurrency(currency, true))
+
         if (!isAccountReset) {
           yield put(actions.router.push('/verify-email-step'))
         } else {
@@ -326,6 +325,7 @@ export default ({ api, coreSagas, networks }) => {
         // store initial address in case of US state we add prefix
         const userState = country === 'US' ? `US-${state}` : state
         yield call(api.setUserInitialAddress, country, userState)
+        yield call(coreSagas.settings.fetchSettings)
       }
 
       // We are checking wallet metadata to see if mnemonic is verified
