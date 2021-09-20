@@ -28,10 +28,10 @@ class PaymentMethods extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Success: val => <Success {...val} {...this.props} />,
       Failure: () => <Failure {...this.props} />,
       Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      NotAsked: () => <Loading />,
+      Success: (val) => <Success {...val} {...this.props} />
     })
   }
 }
@@ -42,10 +42,9 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
-  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

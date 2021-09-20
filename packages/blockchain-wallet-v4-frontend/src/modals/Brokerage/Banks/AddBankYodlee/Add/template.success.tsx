@@ -6,13 +6,10 @@ import styled from 'styled-components'
 import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormGroup } from 'components/Form'
-import { model } from 'data'
 import { SBAddCardErrorType } from 'data/types'
 
 import { NavText } from '../../../../components'
 import { Props as _P, SuccessStateType } from '.'
-
-const { YODLEE_ADD_BANK_CONT } = model.analytics.FIAT_DEPOSIT_EVENTS
 
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`
   height: 100%;
@@ -54,7 +51,6 @@ const TermsText = styled(Text)`
 `
 
 const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = ({
-  analyticsActions,
   handleBack,
   handleSubmit,
   submitting
@@ -71,10 +67,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = ({
           style={{ marginRight: '24px' }}
           onClick={handleBack}
         />
-        <FormattedMessage
-          id='buttons.link_bank'
-          defaultMessage='Link a Bank Account'
-        />
+        <FormattedMessage id='buttons.link_bank' defaultMessage='Link a Bank Account' />
       </NavText>
       <Form onSubmit={handleSubmit}>
         <FormGroup margin='24px'>
@@ -84,11 +77,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = ({
               defaultMessage='Blockchain.com uses Yodlee to verify your bank credentials & securely link your accounts.'
             />
           </HeaderText>
-          <Image
-            width='297px'
-            style={{ margin: '90px auto 50px' }}
-            name='yodlee-connect'
-          />
+          <Image width='297px' style={{ margin: '90px auto 50px' }} name='yodlee-connect' />
           <BodyText color='grey600'>
             <StyledHeading color='grey900'>
               <FormattedMessage
@@ -105,10 +94,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = ({
               rel='noopener noreferrer'
               target='_blank'
             >
-              <FormattedMessage
-                defaultMessage='Learn more'
-                id='copy.learn_more'
-              />
+              <FormattedMessage defaultMessage='Learn more' id='copy.learn_more' />
             </Link>
           </BodyText>
         </FormGroup>
@@ -116,7 +102,6 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = ({
           <Button
             nature='primary'
             data-e2e='linkBankContinue'
-            onClick={() => analyticsActions.logEvent(YODLEE_ADD_BANK_CONT)}
             height='48px'
             size='16px'
             type='submit'
@@ -140,19 +125,13 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = ({
               defaultMessage='Terms and Conditions'
             />
           </Link>{' '}
-          <FormattedMessage
-            id='scenes.securitycenter.2fa.tip.two'
-            defaultMessage='and'
-          />{' '}
+          <FormattedMessage id='scenes.securitycenter.2fa.tip.two' defaultMessage='and' />{' '}
           <Link
             href='https://www.yodlee.com/legal/privacy-notice'
             rel='noopener noreferrer'
             target='_blank'
           >
-            <FormattedMessage
-              id='copy.privacy_policy'
-              defaultMessage='Privacy Policy'
-            />
+            <FormattedMessage id='copy.privacy_policy' defaultMessage='Privacy Policy' />
           </Link>
         </TermsText>
       </Form>
@@ -165,6 +144,6 @@ export type Props = _P & SuccessStateType & OwnProps
 export type ErrorType = SBAddCardErrorType
 
 export default reduxForm<{}, Props, ErrorType>({
-  form: 'linkBankForm',
-  destroyOnUnmount: false
+  destroyOnUnmount: false,
+  form: 'linkBankForm'
 })(Success)

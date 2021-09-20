@@ -2,11 +2,7 @@ import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import {
-  FiatType,
-  RemoteDataType,
-  SBAccountType
-} from 'blockchain-wallet-v4/src/types'
+import { FiatType, RemoteDataType, SBAccountType } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -16,7 +12,7 @@ import Loading from '../template.loading'
 import { getData } from './selectors'
 import Success from './template.success'
 
-const WireInstructions = props => {
+const WireInstructions = (props) => {
   useEffect(() => {
     if (props.fiatCurrency) {
       props.simpleBuyActions.setFiatCurrency(props.fiatCurrency)
@@ -25,10 +21,10 @@ const WireInstructions = props => {
   }, [])
 
   return props.data.cata({
-    Success: val => <Success {...val} {...props} />,
-    Failure: e => <DataError message={{ message: e }} />,
+    Failure: (e) => <DataError message={{ message: e }} />,
     Loading: () => <Loading />,
-    NotAsked: () => <Loading />
+    NotAsked: () => <Loading />,
+    Success: (val) => <Success {...val} {...props} />
   })
 }
 
@@ -37,9 +33,8 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
-  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

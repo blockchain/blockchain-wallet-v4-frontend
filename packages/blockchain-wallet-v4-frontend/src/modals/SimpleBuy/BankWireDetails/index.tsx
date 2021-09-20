@@ -28,10 +28,10 @@ class BankWireDetails extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Success: val => <Success {...val} {...this.props} />,
-      Failure: e => <DataError message={{ message: e }} />,
+      Failure: (e) => <DataError message={{ message: e }} />,
       Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      NotAsked: () => <Loading />,
+      Success: (val) => <Success {...val} {...this.props} />
     })
   }
 }
@@ -41,7 +41,6 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 

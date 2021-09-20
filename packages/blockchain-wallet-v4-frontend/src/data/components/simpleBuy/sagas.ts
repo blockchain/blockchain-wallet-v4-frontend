@@ -81,11 +81,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     coreSagas,
     networks
   })
-  const { fetchBankTransferAccounts } = brokerageSagas({
-    api,
-    coreSagas,
-    networks
-  })
+  const { fetchBankTransferAccounts } = brokerageSagas({ api })
 
   const activateSBCard = function* ({ card }: ReturnType<typeof A.activateSBCard>) {
     let providerDetails: SBProviderDetailsType
@@ -368,10 +364,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(actions.form.stopSubmit('simpleBuyCheckout'))
       yield put(A.fetchSBOrders())
       yield put(A.setStep({ order: buyOrder, step: 'CHECKOUT_CONFIRM' }))
-
-      // log user tier
-      const currentTier = selectors.modules.profile.getCurrentTier(yield select())
-      yield put(actions.analytics.logEvent(['SB_CREATE_ORDER_USER_TIER', 'TIER', currentTier]))
     } catch (e) {
       // After CC has been activated we try to create an order
       // If order creation fails go back to ENTER_AMOUNT step

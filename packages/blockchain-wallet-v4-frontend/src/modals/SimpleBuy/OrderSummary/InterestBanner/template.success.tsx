@@ -3,18 +3,12 @@ import { FormattedMessage } from 'react-intl'
 
 import { Button, Text } from 'blockchain-info-components'
 import { CustomBoxRightOriented } from 'components/Layout'
-import { model } from 'data'
 
 import { Props as OwnProps, SuccessStateType } from './index'
 
 type Props = OwnProps & SuccessStateType
 
-const InterestBanner: React.FC<Props> = ({
-  afterTransaction,
-  analyticsActions,
-  interestActions,
-  interestRate
-}) => {
+const InterestBanner: React.FC<Props> = ({ afterTransaction, interestActions, interestRate }) => {
   const { amount, currency } = afterTransaction
   const displayName = window.coins[currency].coinfig.name
   return (
@@ -53,7 +47,6 @@ const InterestBanner: React.FC<Props> = ({
         data-e2e='earnInterestNow'
         onClick={() => {
           interestActions.showInterestModal({ coin: currency, step: 'DEPOSIT' })
-          analyticsActions.logEvent(model.analytics.ONE_CLICK_INTEREST.CLICK)
         }}
       >
         <FormattedMessage

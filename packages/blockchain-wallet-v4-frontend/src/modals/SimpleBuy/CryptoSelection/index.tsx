@@ -23,9 +23,7 @@ class CryptoSelection extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Failure: (e) => {
-        return <Failure {...this.props} />
-      },
+      Failure: () => <Failure {...this.props} />,
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
       Success: (val) => <Success {...this.props} {...val} />
@@ -41,7 +39,6 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })

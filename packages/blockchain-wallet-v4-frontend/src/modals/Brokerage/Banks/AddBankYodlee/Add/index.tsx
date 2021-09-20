@@ -31,22 +31,22 @@ class Add extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Success: val => (
-        <Success
-          {...this.props}
-          {...val}
-          onSubmit={this.handleSubmit}
-          handleBack={this.props.handleClose}
-        />
-      ),
-      Failure: e => (
+      Failure: (e) => (
         <DataError
           message={{ message: e }}
           onClick={this.props.simpleBuyActions.fetchSBPaymentMethods}
         />
       ),
       Loading: () => <Loading text={LoadingTextEnum.GETTING_READY} />,
-      NotAsked: () => <Loading text={LoadingTextEnum.GETTING_READY} />
+      NotAsked: () => <Loading text={LoadingTextEnum.GETTING_READY} />,
+      Success: (val) => (
+        <Success
+          {...this.props}
+          {...val}
+          onSubmit={this.handleSubmit}
+          handleBack={this.props.handleClose}
+        />
+      )
     })
   }
 }
@@ -57,9 +57,8 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
-  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -68,7 +67,6 @@ type OwnProps = {
   handleClose: () => void
 }
 type LinkDispatchPropsType = {
-  analyticsActions: typeof actions.analytics
   brokerageActions: typeof actions.components.brokerage
   simpleBuyActions: typeof actions.components.simpleBuy
 }

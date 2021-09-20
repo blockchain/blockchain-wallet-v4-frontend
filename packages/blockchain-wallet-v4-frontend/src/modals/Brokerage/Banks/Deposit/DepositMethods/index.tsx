@@ -24,21 +24,20 @@ const DepositMethods = (props) => {
     Failure: () => <Failure {...props} />,
     Loading: () => <Loading text={LoadingTextEnum.LOADING} />,
     NotAsked: () => <Loading text={LoadingTextEnum.LOADING} />,
-    Success: (val) => <Success {...val} {...props} />,
+    Success: (val) => <Success {...val} {...props} />
   })
 }
 
 const mapStateToProps = (state: RootState) => ({
   addNew: state.components.brokerage.addNew,
   data: getData(state),
-  fiatCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD'),
+  fiatCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

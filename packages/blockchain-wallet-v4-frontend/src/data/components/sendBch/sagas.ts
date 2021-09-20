@@ -8,8 +8,7 @@ import { Exchange, utils } from 'blockchain-wallet-v4/src'
 import { APIType } from 'blockchain-wallet-v4/src/network/api'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
 import { BtcAccountFromType, BtcFromType, BtcPaymentType } from 'blockchain-wallet-v4/src/types'
-import { actions, actionTypes, model, selectors } from 'data'
-import { ModalNameType } from 'data/modals/types'
+import { actions, actionTypes, selectors } from 'data'
 import * as C from 'services/alerts'
 import * as Lockbox from 'services/lockbox'
 import { promptForSecondPassword } from 'services/sagas'
@@ -19,7 +18,6 @@ import * as A from './actions'
 import { FORM } from './model'
 import * as S from './selectors'
 
-const { TRANSACTION_EVENTS } = model.analytics
 const coin = 'BCH'
 
 export const logLocation = 'components/sendBch/sagas'
@@ -124,7 +122,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         origin: 'SendBch'
       })
     )
-    yield put(actions.analytics.logEvent([...TRANSACTION_EVENTS.BITPAY_FAILURE, 'invoice expired']))
   }
 
   const firstStepSubmitClicked = function* () {
@@ -365,7 +362,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         coin,
         value: amt.reduce(add, 0)
       })
-      yield put(actions.analytics.logEvent([...TRANSACTION_EVENTS.SEND, coin, coinAmount]))
       // triggers email notification to user that
       // non-custodial funds were sent from the wallet
       if (fromType === ADDRESS_TYPES.ACCOUNT) {
@@ -381,7 +377,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(actions.components.lockbox.setConnectionError(e))
       } else {
         yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
-        yield put(actions.analytics.logEvent([...TRANSACTION_EVENTS.SEND_FAILURE, coin, e]))
         if (fromType === ADDRESS_TYPES.CUSTODIAL && error) {
           if (error === 'Pending withdrawal locks') {
             yield call(showWithdrawalLockAlert)

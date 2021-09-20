@@ -11,12 +11,12 @@ import { getData } from './selectors'
 import Failure from './template.error'
 import Success from './template.success'
 
-const Authorize = props => {
+const Authorize = (props) => {
   return props.data.cata({
-    Success: val => <Success {...props} {...val} />,
     Failure: () => <Failure {...props} />,
     Loading: () => <Loading />,
-    NotAsked: () => <Loading />
+    NotAsked: () => <Loading />,
+    Success: (val) => <Success {...props} {...val} />
   })
 }
 
@@ -24,7 +24,6 @@ const mapStateToProps = (state: RootState) => ({
   data: getData(state)
 })
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
@@ -32,7 +31,6 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkDispatchPropsType = {
-  analyticsActions: typeof actions.analytics
   brokerageActions: typeof actions.components.brokerage
   simpleBuyActions: typeof actions.components.simpleBuy
 }

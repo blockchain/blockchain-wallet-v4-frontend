@@ -20,20 +20,13 @@ import {
   SBCheckoutFormValuesType
 } from 'data/types'
 
-import profileSagas from '../../modules/profile/sagas'
 import { DEFAULT_METHODS, POLLING } from './model'
 import * as S from './selectors'
 import { actions as A } from './slice'
 import { OBType } from './types'
 
-export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
-  const { isTier2 } = profileSagas({
-    api,
-    coreSagas,
-    networks
-  })
-  const deleteSavedBank = function* ({ payload }: ReturnType<typeof A.deleteSavedBank>) {
-    const bankId = payload
+export default ({ api }: { api: APIType }) => {
+  const deleteSavedBank = function* ({ payload: bankId }: ReturnType<typeof A.deleteSavedBank>) {
     try {
       yield put(actions.form.startSubmit('linkedBanks'))
       yield call(api.deleteSavedAccount, bankId, 'banktransfer')
@@ -156,8 +149,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             )
           }
         }
-      } else {
-        actions.analytics.logEvent(['BANK_LINK_FAILED', bankData.state, ...attributes])
       }
     } catch (e) {
       yield put(

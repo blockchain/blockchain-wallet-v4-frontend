@@ -18,14 +18,6 @@ const { INFO_AND_RESIDENTIAL_FORM } = model.components.identityVerification
 class InfoAndResidential extends PureComponent<Props> {
   componentDidMount() {
     this.fetchData()
-
-    this.props.analyticsActions.logEvent([
-      'INFO_AND_RESIDENTIAL',
-      JSON.stringify({
-        countryCode: this.props.countryCode,
-        infoAndResidential: 'page init'
-      })
-    ])
   }
 
   fetchData = () => {
@@ -39,13 +31,6 @@ class InfoAndResidential extends PureComponent<Props> {
       checkSddEligibility,
       onCompletionCallback
     )
-    this.props.analyticsActions.logEvent([
-      'INFO_AND_RESIDENTIAL',
-      JSON.stringify({
-        countryCode: this.props.countryCode,
-        infoAndResidential: 'page submit'
-      })
-    ])
   }
 
   onCountryChange = (e, value) => {
@@ -87,7 +72,6 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
   identityVerificationActions: bindActionCreators(actions.components.identityVerification, dispatch)
 })
