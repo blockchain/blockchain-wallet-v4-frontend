@@ -4,7 +4,7 @@ import { Field } from 'redux-form'
 
 import { Banner, HeartbeatLoader, Text } from 'blockchain-info-components'
 import { FormGroup, FormItem, TextBox } from 'components/Form'
-import { LoginParam } from 'data/types'
+import { ProductAuthOptions } from 'data/types'
 import { isBrowserSupported } from 'services/browser'
 import { required, validEmail, validWalletIdOrEmail } from 'services/forms'
 
@@ -22,7 +22,8 @@ import {
 const isSupportedBrowser = isBrowserSupported()
 
 const EnterEmailOrGuid = (props: Props) => {
-  const { authActions, busy, guidOrEmail, invalid, loginError, loginParam, submitting } = props
+  const { authActions, busy, designatedProduct, guidOrEmail, invalid, loginError, submitting } =
+    props
   const guidError = loginError && loginError.toLowerCase().includes('unknown wallet id')
   return (
     <>
@@ -39,17 +40,17 @@ const EnterEmailOrGuid = (props: Props) => {
         )}
         <FormItem>
           <LoginFormLabel htmlFor='guid'>
-            {loginParam === LoginParam.WALLET && (
+            {designatedProduct === ProductAuthOptions.WALLET && (
               <FormattedMessage
                 id='scenes.login.email_guid'
                 defaultMessage='Your Email or Wallet ID'
               />
             )}
-            {loginParam === LoginParam.EXCHANGE && (
+            {designatedProduct === ProductAuthOptions.EXCHANGE && (
               <FormattedMessage id='scenes.register.youremail' defaultMessage='Your Email' />
             )}
           </LoginFormLabel>
-          {loginParam === LoginParam.EXCHANGE && (
+          {designatedProduct === ProductAuthOptions.EXCHANGE && (
             <Field
               component={TextBox}
               data-e2e='loginGuidOrEmail'
@@ -62,7 +63,7 @@ const EnterEmailOrGuid = (props: Props) => {
               autoFocus
             />
           )}
-          {loginParam === LoginParam.WALLET && (
+          {designatedProduct === ProductAuthOptions.WALLET && (
             <Field
               component={TextBox}
               data-e2e='loginGuidOrEmail'

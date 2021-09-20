@@ -16,7 +16,7 @@ import { askSecondPasswordEnhancer } from 'services/sagas'
 import { guessCurrencyBasedOnCountry } from './helpers'
 import { parseMagicLink } from './sagas.utils'
 import * as S from './selectors'
-import { LoginErrorType, LoginParam, LoginSteps, WalletDataFromMagicLink } from './types'
+import { LoginErrorType, LoginSteps, ProductAuthOptions, WalletDataFromMagicLink } from './types'
 
 const { MOBILE_LOGIN } = model.analytics
 
@@ -561,27 +561,24 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
         }
         // if url is just /login, take them to enter guid or email
-        yield put(actions.auth.setLoginParam(LoginParam.WALLET))
+        yield put(actions.auth.setDesignatedProduct(ProductAuthOptions.WALLET))
       } else if (!loginLinkParameter) {
         yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
-        yield put(actions.auth.setLoginParam(LoginParam.WALLET))
+        yield put(actions.auth.setDesignatedProduct(ProductAuthOptions.WALLET))
         // we detect a guid in the pathname
       } else if (isGuid(loginLinkParameter)) {
         const guidFromRoute = loginLinkParameter
         yield put(actions.form.change('login', 'guid', guidFromRoute))
         yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
-        yield put(actions.auth.setLoginParam(LoginParam.WALLET))
-        yield put(actions.auth.setLoginParamHeader(LoginParam.WALLET))
+        yield put(actions.auth.setDesignatedProduct(ProductAuthOptions.WALLET))
         // TODO make sure this is how it's actually going to go
         // pathname has exchange in url
       } else if (loginLinkParameter === 'site=exchange') {
-        yield put(actions.auth.setLoginParam(LoginParam.EXCHANGE))
-        yield put(actions.auth.setLoginParamHeader(LoginParam.EXCHANGE))
+        yield put(actions.auth.setDesignatedProduct(ProductAuthOptions.EXCHANGE))
         yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
         // if path has base64 encrypted JSON
       } else if (loginLinkParameter === 'site=wallet') {
-        yield put(actions.auth.setLoginParam(LoginParam.WALLET))
-        yield put(actions.auth.setLoginParamHeader(LoginParam.WALLET))
+        yield put(actions.auth.setDesignatedProduct(ProductAuthOptions.WALLET))
         yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
       } else {
         yield call(parseMagicLink, params)

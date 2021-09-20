@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { LoginParam } from 'data/types'
+import { ProductAuthOptions } from 'data/types'
 
 import CreateAccount from './CreateAccount'
 import DropdownLanguage from './DropdownLanguage'
@@ -13,10 +13,12 @@ const FooterInner = styled.div`
   padding-bottom: 0;
 `
 
-const Footer = ({ isLogin, loginParam }: Props) => {
+const Footer = ({ designatedProduct, isLogin }: Props) => {
   return (
     <>
-      <FooterInner>{isLogin ? <CreateAccount loginParam={loginParam} /> : null}</FooterInner>
+      <FooterInner>
+        {isLogin ? <CreateAccount designatedProduct={designatedProduct} /> : null}
+      </FooterInner>
       <FooterInner>
         <DropdownLanguage color='grey400' size='16px' />
         <Version />
@@ -27,8 +29,8 @@ const Footer = ({ isLogin, loginParam }: Props) => {
 }
 
 type Props = {
+  designatedProduct: ProductAuthOptions
   isLogin: boolean
-  loginParam: LoginParam
 }
 
 export default Footer

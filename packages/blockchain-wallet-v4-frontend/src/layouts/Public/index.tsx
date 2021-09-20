@@ -6,8 +6,7 @@ import styled, { css } from 'styled-components'
 
 import Alerts from 'components/Alerts'
 import { selectors } from 'data'
-import { getLoginParamHeader } from 'data/auth/selectors'
-import { LoginParam, LoginSteps } from 'data/types'
+import { LoginSteps, ProductAuthOptions } from 'data/types'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { media } from 'services/styles'
 
@@ -68,9 +67,8 @@ const ContentContainer = styled.div<{ isLogin?: boolean }>`
 
 const PublicLayoutContainer = ({
   component: Component,
+  designatedProduct,
   exact = false,
-  loginParam,
-  loginParamHeader,
   path
 }: Props) => {
   const isLogin = path === '/login'
@@ -86,7 +84,7 @@ const PublicLayoutContainer = ({
             <Alerts />
 
             <HeaderContainer>
-              <Header loginParamHeader={loginParamHeader} />
+              <Header designatedProduct={designatedProduct} />
             </HeaderContainer>
 
             <Modals />
@@ -95,7 +93,7 @@ const PublicLayoutContainer = ({
             </ContentContainer>
 
             <FooterContainer>
-              <Footer isLogin={isLogin} loginParam={loginParam} />
+              <Footer isLogin={isLogin} designatedProduct={designatedProduct} />
             </FooterContainer>
           </Wrapper>
         </ErrorBoundary>
@@ -106,16 +104,14 @@ const PublicLayoutContainer = ({
 
 type Props = {
   component: ComponentType<any>
+  designatedProduct: ProductAuthOptions
   exact?: boolean
-  loginParam: LoginParam
-  loginParamHeader: LoginParam
   loginStep: LoginSteps
   path: string
 }
 
 const mapStateToProps = (state) => ({
-  loginParam: selectors.auth.getLoginParam(state) as LoginParam,
-  loginParamHeader: selectors.auth.getLoginParamHeader(state) as LoginParam,
+  designatedProduct: selectors.auth.getDesignatedProduct(state) as ProductAuthOptions,
   loginStep: formValueSelector('login')(state, 'step')
 })
 

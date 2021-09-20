@@ -5,13 +5,13 @@ import { Remote } from 'blockchain-wallet-v4/src'
 
 const initialState = {
   auth_type: 0,
+  designatedProduct: undefined,
   firstLogin: false,
   isAuthenticated: false,
   isLoggingIn: false,
   kycReset: undefined,
   login: Remote.NotAsked,
-  loginParam: undefined,
-  loginParamHeader: undefined,
+  // loginParamHeader: undefined,
   magicLinkData: null,
   manifestFile: null,
   metadataRestore: Remote.NotAsked,
@@ -122,18 +122,18 @@ const authSlice = createSlice({
     setAuthType: (state, action) => {
       state.auth_type = action.payload
     },
+    setDesignatedProduct: (state, action) => {
+      state.designatedProduct = action.payload
+    },
     setFirstLogin: (state, action) => {
       state.firstLogin = action.payload
     },
     setKycResetStatus: (state, action) => {
       state.kycReset = action.payload
     },
-    setLoginParam: (state, action) => {
-      state.loginParam = action.payload
-    },
-    setLoginParamHeader: (state, action) => {
-      state.loginParamHeader = action.payload
-    },
+    // setLoginParamHeader: (state, action) => {
+    //   state.loginParamHeader = action.payload
+    // },
     setMagicLinkInfo: (state, action) => {
       state.magicLinkData = action.payload
     },
@@ -143,7 +143,9 @@ const authSlice = createSlice({
     setRegisterEmail: (state, action) => {
       state.registerEmail = action.payload
     },
-    setResetAccount: (state, action) => {},
+    setResetAccount: (state, action) => {
+      state.resetAccount = action.payload
+    },
     setResetLogin: (state, action) => {
       state.resetAccount = action.payload
     },

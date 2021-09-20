@@ -4,7 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
 
 import { Link, Text } from 'blockchain-info-components'
-import { LoginParam } from 'data/types'
+import { ProductAuthOptions } from 'data/types'
 
 const SubCard = styled.div`
   display: flex;
@@ -17,10 +17,10 @@ const SignUpText = styled(Text)`
   }
 `
 
-const CreateAccount = ({ loginParam }: Props) => {
+const CreateAccount = ({ designatedProduct }: Props) => {
   return (
     <>
-      {loginParam === LoginParam.EXCHANGE && (
+      {designatedProduct === ProductAuthOptions.EXCHANGE && (
         <Link
           data-e2e='exchangeSignupLink'
           target='_blank'
@@ -41,7 +41,7 @@ const CreateAccount = ({ loginParam }: Props) => {
           </SubCard>
         </Link>
       )}
-      {loginParam === LoginParam.WALLET && (
+      {designatedProduct === ProductAuthOptions.WALLET && (
         <LinkContainer data-e2e='signupLink' to='/signup'>
           <Link>
             <SubCard>
@@ -64,7 +64,7 @@ const CreateAccount = ({ loginParam }: Props) => {
 }
 
 type Props = {
-  loginParam: LoginParam
+  designatedProduct: ProductAuthOptions
 }
 
 export default CreateAccount

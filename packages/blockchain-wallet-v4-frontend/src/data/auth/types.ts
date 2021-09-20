@@ -1,7 +1,8 @@
 import { actions } from './slice'
 
-export enum LoginParam {
+export enum ProductAuthOptions {
   EXCHANGE = 'EXCHANGE',
+  EXPLORER = 'EXPLORER',
   WALLET = 'WALLET'
 }
 

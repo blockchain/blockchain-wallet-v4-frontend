@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { Image, Link, Text } from 'blockchain-info-components'
 import Announcements from 'components/Announcements'
 import { Navbar, NavbarBrand } from 'components/Navbar'
-import { LoginParam } from 'data/types'
+import { ProductAuthOptions } from 'data/types'
 import { media } from 'services/styles'
 
 const NavbarStyled = styled(Navbar)`
@@ -36,9 +36,8 @@ const PublicBrand = styled.div`
   align-items: center;
 `
 
-const ProductHeader = styled(Text)<{ loginParamHeader: string }>`
-  color: ${(props) =>
-    props.loginParamHeader === LoginParam.WALLET ? props.theme.purple400 : props.theme.blue400};
+const ProductHeader = styled(Text)`
+  color: ${(props) => props.theme.blue400};
   font-size: 24px;
   font-weight: 600;
 `
@@ -50,7 +49,7 @@ const HeaderLink = styled(Link)`
   align-items: center;
 `
 
-const Header = ({ loginParamHeader }) => {
+const Header = ({ designatedProduct }) => {
   return (
     <>
       <NavbarStyled height='112px'>
@@ -58,14 +57,11 @@ const Header = ({ loginParamHeader }) => {
           <PublicBrand>
             <HeaderLink href='https://www.blockchain.com'>
               <BlockchainLogoImage name='blockchain-logo' height='24px' />
-              <ProductHeader loginParamHeader={loginParamHeader}>
-                {loginParamHeader === LoginParam.EXCHANGE && (
+              {designatedProduct === ProductAuthOptions.EXCHANGE && (
+                <ProductHeader>
                   <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
-                )}
-                {loginParamHeader === LoginParam.WALLET && (
-                  <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
-                )}
-              </ProductHeader>
+                </ProductHeader>
+              )}
             </HeaderLink>
           </PublicBrand>
         </NavbarBrandStyled>
