@@ -214,6 +214,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           const value = isAmountDisplayedInCrypto
             ? new BigNumber(action.payload).toNumber()
             : new BigNumber(action.payload).dividedBy(rate).toNumber()
+
           const paymentR = S.getPayment(yield select())
           if (paymentR) {
             let payment = yield getOrUpdateProvisionalPaymentForCoin(coin, paymentR)

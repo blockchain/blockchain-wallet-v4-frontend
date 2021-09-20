@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Field, InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
@@ -11,6 +11,7 @@ import {
   FormItem,
   FormLabel,
   PasswordBox,
+  SelectBox,
   SelectBoxCountry,
   SelectBoxUSState,
   TextBox
@@ -186,9 +187,9 @@ const SignupForm = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) =
               data-e2e='selectCountryDropdown'
               name='country'
               validate={required}
-              component={SelectBoxCountry}
+              component={SelectBoxCountry as ReturnType<typeof SelectBox>}
               menuPlacement='auto'
-              onChange={() => onCountrySelect}
+              onChange={onCountrySelect}
               label={
                 <FormattedMessage
                   id='scenes.register.select_a_country'

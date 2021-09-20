@@ -124,6 +124,7 @@ export default ({ api, coreSagas }) => {
       // update prices based on new currency
       yield put(actions.prices.fetchCoinPrices())
       yield put(actions.prices.fetchCoinPricesPreviousDay())
+      yield put(actions.core.data.coins.fetchCoinsRates())
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'updateCurrency', e))
       yield put(actions.alerts.displayError(C.CURRENCY_UPDATE_ERROR))

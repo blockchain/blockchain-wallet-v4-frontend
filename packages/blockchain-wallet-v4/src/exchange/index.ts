@@ -66,7 +66,7 @@ const convertCoinToFiat = ({
     ? new BigNumber(value)
     : new BigNumber(value).dividedBy(Math.pow(10, coinfig.precision))
 
-  return amt.times(price).toFixed(2)
+  return amt.times(price).toFixed(2, 1)
 }
 
 const convertFiatToCoin = ({
