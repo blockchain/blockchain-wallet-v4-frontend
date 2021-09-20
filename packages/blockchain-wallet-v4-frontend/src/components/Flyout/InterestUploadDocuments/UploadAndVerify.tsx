@@ -112,7 +112,8 @@ const UploadAndVerify: React.FC<Props> = (props) => {
     link.click()
   }
 
-  const fileDelete = (name: string, keepSecond?: boolean, secondName?: string) => {
+  const fileDelete = (deleteObj: FileDeleteObj) => {
+    const { keepSecond, name, secondName } = deleteObj
     if (keepSecond && secondName && uploadedFiles[secondName]) {
       const secondFile = uploadedFiles[secondName]
       const secondError = uploadAndVerifiedError[secondName]
@@ -217,7 +218,13 @@ const UploadAndVerify: React.FC<Props> = (props) => {
               isProofOfAddress
               error={uploadAndVerifiedError.proofOfAddress1}
               fileName={getFileName('proofOfAddress1')}
-              onFileDelete={() => fileDelete('proofOfAddress1', true, 'proofOfAddress2')}
+              onFileDelete={() =>
+                fileDelete({
+                  keepSecond: true,
+                  name: 'proofOfAddress1',
+                  secondName: 'proofOfAddress2'
+                })
+              }
               onFileDownload={() => fileDownload('proofOfAddress1')}
             />
           </DragAndDropContainer>
@@ -231,7 +238,11 @@ const UploadAndVerify: React.FC<Props> = (props) => {
                 isProofOfAddress
                 error={uploadAndVerifiedError.proofOfAddress2}
                 fileName={getFileName('proofOfAddress2')}
-                onFileDelete={() => fileDelete('proofOfAddress2')}
+                onFileDelete={() =>
+                  fileDelete({
+                    name: 'proofOfAddress2'
+                  })
+                }
                 onFileDownload={() => fileDownload('proofOfAddress2')}
               />
             </DragAndDropContainerSecond>
@@ -259,7 +270,13 @@ const UploadAndVerify: React.FC<Props> = (props) => {
               fileUploaded={uploadAndVerified.sourceOfWealth1}
               error={uploadAndVerifiedError.sourceOfWealth1}
               fileName={getFileName('sourceOfWealth1')}
-              onFileDelete={() => fileDelete('sourceOfWealth1', true, 'sourceOfWealth2')}
+              onFileDelete={() =>
+                fileDelete({
+                  keepSecond: true,
+                  name: 'sourceOfWealth1',
+                  secondName: 'sourceOfWealth2'
+                })
+              }
               onFileDownload={() => fileDownload('sourceOfWealth1')}
             />
           </DragAndDropContainer>
@@ -272,7 +289,11 @@ const UploadAndVerify: React.FC<Props> = (props) => {
                 isOptional
                 error={uploadAndVerifiedError.sourceOfWealth2}
                 fileName={getFileName('sourceOfWealth2')}
-                onFileDelete={() => fileDelete('sourceOfWealth2')}
+                onFileDelete={() =>
+                  fileDelete({
+                    name: 'sourceOfWealth2'
+                  })
+                }
                 onFileDownload={() => fileDownload('sourceOfWealth2')}
               />
             </DragAndDropContainerSecond>
@@ -303,6 +324,12 @@ export type Props = {
   nextStep: () => void
   previousStep: () => void
   submitData: (files) => void
+}
+
+type FileDeleteObj = {
+  keepSecond?: boolean
+  name: string
+  secondName?: string
 }
 
 export default UploadAndVerify
