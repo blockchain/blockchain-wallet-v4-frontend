@@ -276,7 +276,6 @@ export default ({ api, coreSagas, networks }) => {
         const currency = guessCurrencyBasedOnCountry(countryCode)
 
         yield put(actions.modules.settings.updateCurrency(currency, true))
-        yield put(actions.core.settings.setCurrency(currency))
 
         if (!isAccountReset) {
           yield put(actions.router.push('/verify-email-step'))
