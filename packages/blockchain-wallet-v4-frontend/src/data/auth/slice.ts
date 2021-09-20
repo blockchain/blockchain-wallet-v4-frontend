@@ -3,7 +3,9 @@ import { createSlice } from '@reduxjs/toolkit'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 
-const initialState = {
+import { AuthStateType } from './types'
+
+const initialState: AuthStateType = {
   auth_type: 0,
   firstLogin: false,
   isAuthenticated: false,

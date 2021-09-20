@@ -194,7 +194,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
       const { accountId, reset } = payload
       const defaultAccountR = yield select(selectors.kvStore.xlm.getDefaultAccountId)
       const publicKey = accountId || defaultAccountR.getOrFail(ACCOUNT_NOT_FOUND)
-      const pages = yield select(S.getTransactions)
+      const pages: any[] = yield select(S.getTransactions)
       const pagingToken = (last(pages) || Remote.NotAsked)
         .map(last)
         .map(prop('pagingToken'))

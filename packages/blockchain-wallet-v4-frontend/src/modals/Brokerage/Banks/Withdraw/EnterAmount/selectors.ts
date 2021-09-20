@@ -1,6 +1,6 @@
 import { lift } from 'ramda'
 
-import Remote from 'blockchain-wallet-v4/src/remote/remote'
+import Remote from 'blockchain-wallet-v4/src/remote'
 import { ExtractSuccess, InvitationsType } from 'blockchain-wallet-v4/src/types'
 import { getFiatBalance, getWithdrawableFiatBalance } from 'components/Balances/selectors'
 import { selectors } from 'data'

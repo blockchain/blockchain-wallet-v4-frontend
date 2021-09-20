@@ -6,7 +6,6 @@ import { bindActionCreators } from 'redux'
 import { SkeletonRectangle } from 'blockchain-info-components'
 import { actions } from 'data'
 
-import { Props as TableProps } from '..'
 import { getData } from './selectors'
 import Error from './template.error'
 import Success from './template.success'
@@ -52,7 +51,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type OwnProps = TableProps & { coin: string }
+export type OwnProps = { coin: string }
 type Props = OwnProps & ConnectedProps<typeof connector>
 
 export default connector(CoinBalance)

@@ -80,7 +80,11 @@ export const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorT
 
     // @ts-ignore
     return Remote.of(
-      map((coinAccounts) => (isEmpty(coinAccounts) && []) || coinAccounts.getOrElse([]), accounts)
+      map(
+        (coinAccounts: RemoteDataType<any, typeof accounts>) =>
+          (isEmpty(coinAccounts) && []) || coinAccounts.getOrElse([]),
+        accounts
+      ) as any
     )
   }
 

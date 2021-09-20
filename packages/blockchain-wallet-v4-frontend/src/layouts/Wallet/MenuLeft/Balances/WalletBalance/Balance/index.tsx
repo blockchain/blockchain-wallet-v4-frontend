@@ -31,6 +31,7 @@ class Balance extends React.PureComponent<Props> {
       Loading: () => <LoadingBalance large={large} coinTicker={coinTicker} />,
       NotAsked: () => <LoadingBalance large={large} coinTicker={coinTicker} />,
       Success: (value) => (
+        // @ts-ignore
         <Success
           {...this.props}
           balance={value}

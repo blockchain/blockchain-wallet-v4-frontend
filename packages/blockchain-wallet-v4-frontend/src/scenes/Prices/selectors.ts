@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import { lift, map } from 'ramda'
 
 import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'

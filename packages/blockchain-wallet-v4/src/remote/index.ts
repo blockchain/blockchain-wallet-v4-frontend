@@ -1,70 +1,71 @@
 import { taggedSum } from 'daggy'
 
 const Remote = taggedSum('Remote', {
-  NotAsked: [],
-  Loading: [],
   Failure: ['error'],
+  Loading: [],
+  NotAsked: [],
   Success: ['data']
 })
 
-Remote.prototype.map = function(f) {
+Remote.prototype.map = function (f) {
   return this.cata({
-    Success: x => Remote.Success(f(x)),
     Failure: () => this,
     Loading: () => this,
-    NotAsked: () => this
+    NotAsked: () => this,
+    Success: (x) => Remote.Success(f(x))
   })
 }
 
-Remote.prototype.ap = function(that) {
+Remote.of = Remote.Success
+
+Remote.prototype.ap = function (that) {
   return this.cata({
-    Success: f => that.map(f),
     Failure: () =>
       that.cata({
-        Success: () => this,
         Failure: () => this,
         Loading: () => this,
-        NotAsked: () => that
+        NotAsked: () => that,
+        Success: () => this
       }),
     Loading: () =>
       that.cata({
-        Success: () => this,
         Failure: () => that,
         Loading: () => that,
-        NotAsked: () => that
+        NotAsked: () => that,
+        Success: () => this
       }),
-    NotAsked: () => this
+    NotAsked: () => this,
+    Success: (f) => that.map(f)
   })
 }
 
-Remote.prototype.toJSON = function() {
+Remote.prototype.toJSON = function () {
   return {
-    data: { __remote: this['@@values'][0] || [] },
-    __serializedType__: this['@@tag']
+    __serializedType__: this['@@tag'],
+    data: { __remote: this['@@values'][0] || [] }
   }
 }
 
-Remote.prototype.chain = function(f) {
+Remote.prototype.chain = function (f) {
   return this.cata({
-    Success: x => f(x),
     Failure: () => this,
     Loading: () => this,
-    NotAsked: () => this
+    NotAsked: () => this,
+    Success: (x) => f(x)
   })
 }
 
-Remote.prototype.getOrElse = function(defaultValue) {
+Remote.prototype.getOrElse = function (defaultValue) {
   return this.cata({
-    Success: value => value,
     Failure: () => defaultValue,
     Loading: () => defaultValue,
-    NotAsked: () => defaultValue
+    NotAsked: () => defaultValue,
+    Success: (value) => value
   })
 }
 
-Remote.prototype.getOrFail = function(errorValue) {
+Remote.prototype.getOrFail = function (errorValue) {
   return this.cata({
-    Success: value => value,
     Failure: () => {
       throw errorValue
     },
@@ -73,7 +74,8 @@ Remote.prototype.getOrFail = function(errorValue) {
     },
     NotAsked: () => {
       throw errorValue
-    }
+    },
+    Success: (value) => value
   })
 }
 

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import Remote from 'blockchain-wallet-v4/src/remote/remote'
+import Remote from 'blockchain-wallet-v4/src/remote'
 import { ModalOriginType } from 'data/modals/types'
 
 import {

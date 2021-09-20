@@ -24,7 +24,7 @@ class Veriff extends React.PureComponent<Props> {
     this.setState({ loading: false })
   }
 
-  handleVeriffMessage = event => {
+  handleVeriffMessage = (event) => {
     if (event === 'FINISHED') {
       this.setState({ loading: true })
       this.props.actions.syncVeriff()
@@ -41,28 +41,22 @@ class Veriff extends React.PureComponent<Props> {
     if (this.state.loading) return <Loading />
 
     return this.props.data.cata({
-      Success: val => (
-        <Success
-          url={val.veriffUrl}
-          handleVeriffMessage={this.handleVeriffMessage}
-        />
-      ),
+      Failure: (message) => <Failure message={message} onClose={onClose} />,
       Loading: () => <Loading />,
-      Failure: message => <Failure message={message} onClose={onClose} />,
-      NotAsked: () => <Loading />
+      NotAsked: () => <Loading />,
+      Success: (val) => (
+        <Success url={val.veriffUrl} handleVeriffMessage={this.handleVeriffMessage} />
+      )
     })
   }
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.veriff, dispatch),
-  kycActions: bindActionCreators(
-    actions.components.identityVerification,
-    dispatch
-  )
+  kycActions: bindActionCreators(actions.components.identityVerification, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
