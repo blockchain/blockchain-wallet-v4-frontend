@@ -86,7 +86,7 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   }
 
   handleSubmit = (method: SBPaymentMethodType) => {
-    this.props.simpleBuyActions.handleSBMethodChange(method, false)
+    this.props.simpleBuyActions.handleSBMethodChange({ isFlow: false, method })
   }
 
   addNewPaymentMethod = () => {

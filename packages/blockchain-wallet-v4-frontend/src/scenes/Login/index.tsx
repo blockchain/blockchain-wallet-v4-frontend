@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector, getFormMeta, InjectedFormProps, reduxForm } from 'redux-form'
 
-import { Icon, Text } from 'blockchain-info-components'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { Form } from 'components/Form'
 import { Wrapper } from 'components/Public'
@@ -75,7 +75,10 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
   }
 
   handleSmsResend = () => {
-    this.props.authActions.resendSmsCode(this.props.guid, this.props.formValues?.email)
+    this.props.authActions.resendSmsCode({
+      email: this.props.formValues?.email,
+      guid: this.props.guid
+    })
   }
 
   continueLoginProcess = () => {
@@ -94,13 +97,16 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
         formActions.change(LOGIN_FORM_NAME, 'step', LoginSteps.VERIFICATION_MOBILE)
       } else {
         formActions.change(LOGIN_FORM_NAME, 'email', guidOrEmail)
-        authActions.triggerWalletMagicLink(guidOrEmail, this.state.captchaToken)
+        authActions.triggerWalletMagicLink({
+          captchaToken: this.state.captchaToken,
+          email: guidOrEmail
+        })
         this.initCaptcha()
       }
       const idType = isGuid(guidOrEmail) ? 'WALLET_ID' : 'EMAIL'
       authActions.loginIdEntered(idType)
     } else {
-      authActions.login(guid, password, auth, null, null)
+      authActions.login({ code: auth, guid, mobileLogin: null, password, sharedKey: null })
     }
   }
 
@@ -110,10 +116,10 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
   }
 
   render() {
-    const { data, formValues } = this.props
+    const { data, formValues, ssoDummy } = this.props
     const { step } = formValues || LoginSteps.ENTER_EMAIL_GUID
     const { busy, error } = data.cata({
-      Failure: (val) => ({ busy: false, error: val.err }),
+      Failure: (val) => ({ busy: false, error: val }),
       Loading: () => <Loading />,
       NotAsked: () => ({ busy: false, error: null }),
       Success: () => ({ busy: false, error: null })
@@ -123,8 +129,24 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       handleSmsResend: this.handleSmsResend,
       loginError: error
     }
+
     return (
       <>
+        {ssoDummy && (
+          <Button
+            onClick={() => {
+              window.parent.postMessage(
+                `msg from wallet. Date: ${new Date().getMilliseconds()}`,
+                '*'
+              )
+            }}
+            nature='primary'
+            data-e2e=''
+          >
+            {' '}
+            Send Message to Mobile{' '}
+          </Button>
+        )}
         <Text color='white' size='24px' weight={600} style={{ marginBottom: '24px' }}>
           {step === LoginSteps.ENTER_PASSWORD ? (
             <FormattedMessage id='scenes.login.authorize' defaultMessage='Authorize login' />
@@ -246,7 +268,8 @@ const mapStateToProps = (state) => ({
   initialValues: {
     step: LoginSteps.ENTER_EMAIL_GUID
   },
-  password: formValueSelector(LOGIN_FORM_NAME)(state, 'password')
+  password: formValueSelector(LOGIN_FORM_NAME)(state, 'password'),
+  ssoDummy: selectors.core.walletOptions.getSsoDummy(state).getOrElse(false)
 })
 
 const mapDispatchToProps = (dispatch) => ({

@@ -8,7 +8,7 @@ class SelectBoxEthAddresses extends React.PureComponent<Props> {
   render() {
     const { data, ...rest } = this.props
     return data.cata({
-      Failure: (message) => <div>{message}</div>,
+      Failure: (message) => 'here',
       Loading: () => <div />,
       NotAsked: () => <div />,
       Success: (value) => <SelectBoxEth options={value.data} elements={value.data} {...rest} />

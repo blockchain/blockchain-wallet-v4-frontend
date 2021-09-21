@@ -4,7 +4,7 @@ import { curry, equals, lift, prop } from 'ramda'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { FiatType } from 'blockchain-wallet-v4/src/types'
+import { FiatType, RatesType } from 'blockchain-wallet-v4/src/types'
 import { model, selectors } from 'data'
 
 const isSubmitting = selectors.form.isSubmitting(model.components.sendEth.FORM)
@@ -37,9 +37,9 @@ const erc20FromLabel = curry((coin, payment) => {
 export const getData = (state, coin) => {
   const isErc20 = !equals(coin, 'ETH')
   const paymentR = selectors.components.sendEth.getPayment(state)
-  const ethRatesR = selectors.core.data.eth.getRates(state)
+  const ethRatesR = selectors.core.data.coins.getRates('ETH', state)
   const currencyR = selectors.core.settings.getCurrency(state)
-  const erc20Rates = selectors.core.data.eth.getErc20Rates(state, coin).getOrElse({})
+  const erc20Rates = selectors.core.data.coins.getRates(coin, state).getOrElse({} as RatesType)
 
   const transform = (payment, ethRates, currency: FiatType) => {
     const rates = isErc20 ? erc20Rates : ethRates

@@ -59,7 +59,7 @@ export default ({ api, coreSagas }) => {
 
   return {
     fetchProductsEligibility,
-    notificationsInitialized,
-    notificationsFormChanged
+    notificationsFormChanged,
+    notificationsInitialized
   }
 }

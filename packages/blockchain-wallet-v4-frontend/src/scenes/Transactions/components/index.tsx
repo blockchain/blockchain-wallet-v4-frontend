@@ -1,11 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
-import { transparentize } from 'polished'
 import styled, { DefaultTheme } from 'styled-components'
 
 import { Icon, Text, TextGroup } from 'blockchain-info-components'
-import { CoinType } from 'blockchain-wallet-v4/src/types'
+import { CoinType, IOType, ProcessedTxType } from 'blockchain-wallet-v4/src/types'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
@@ -38,6 +37,51 @@ export const Addresses = ({ from, to }) => {
     </AddressesWrapper>
   )
 }
+
+const FormattedAddress = styled.span`
+  font-size: 12px;
+  color: ${(p) => p.theme.grey300};
+
+  &::before {
+    content: '(';
+  }
+  &::after {
+    content: ')';
+  }
+`
+export const toAccountFormatter = (transaction: ProcessedTxType) => {
+  const { to, type } = transaction
+  return (
+    <span>
+      {to}{' '}
+      {type === 'received' && 'toAddress' in transaction ? (
+        <FormattedAddress>{transaction.toAddress}</FormattedAddress>
+      ) : (
+        ''
+      )}
+    </span>
+  )
+}
+
+export const fromAccountFormatter = (transaction: ProcessedTxType) => {
+  const { from, type } = transaction
+  const inputs = ('inputs' in transaction && transaction.inputs) || ([] as IOType[])
+  return (
+    <span>
+      {from}{' '}
+      {type === 'sent' && inputs.length === 1 ? (
+        <FormattedAddress>{inputs[0]?.address}</FormattedAddress>
+      ) : type === 'sent' && inputs.length > 1 ? (
+        <FormattedAddress>
+          {inputs[0]?.address}, +{inputs.length - 1}
+        </FormattedAddress>
+      ) : (
+        ''
+      )}
+    </span>
+  )
+}
+
 export const TxRowContainer = styled.div`
   position: relative;
   display: flex;
@@ -199,7 +243,7 @@ export const Timestamp = ({ time }: { time: string | number }) => {
       style={{ marginTop: '4px' }}
       data-e2e='txTimeOrStatus'
     >
-      {moment(time).local().format('MMMM D YYYY @h:mmA')}
+      {moment(time).local().format('h:mm a on D MMM YYYY')}
     </Text>
   )
 }

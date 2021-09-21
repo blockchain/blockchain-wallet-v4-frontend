@@ -33,7 +33,13 @@ class RecoveryPhraseContainer extends React.PureComponent<
     if (this.state.step === 1) {
       this.setState({ step: 2 })
     } else {
-      authActions.restore(mnemonic, email, recoverPassword, language, undefined)
+      authActions.restore({
+        email,
+        language,
+        mnemonic,
+        network: undefined,
+        password: recoverPassword
+      })
     }
   }
 

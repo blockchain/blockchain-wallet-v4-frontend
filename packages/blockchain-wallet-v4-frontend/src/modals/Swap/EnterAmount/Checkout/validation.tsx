@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import { Exchange } from 'blockchain-wallet-v4/src'
 import {
   PaymentValue,
-  RateType,
+  RatesType,
   SwapQuoteType,
   SwapUserLimitsType
 } from 'blockchain-wallet-v4/src/types'
@@ -16,7 +16,7 @@ import { Props } from '.'
 export const getMaxMin = (
   minOrMax: 'min' | 'max',
   limits: SwapUserLimitsType,
-  baseRate: RateType,
+  baseRate: RatesType,
   payment: undefined | PaymentValue,
   quote: { quote: SwapQuoteType; rate: number },
   BASE: SwapAccountType,
@@ -26,7 +26,7 @@ export const getMaxMin = (
     case 'max':
       const fiatMax = new BigNumber(convertBaseToStandard('FIAT', limits.maxPossibleOrder))
       const cryptoMax = new BigNumber(
-        convertStandardToBase(BASE.coin, fiatMax.dividedBy(baseRate.last))
+        convertStandardToBase(BASE.coin, fiatMax.dividedBy(baseRate.price))
       )
       const userMax = Number(payment ? payment.effectiveBalance : BASE.balance)
       return convertBaseToStandard(BASE.coin, Math.min(userMax, cryptoMax.toNumber()))
@@ -49,7 +49,7 @@ export const getMaxMin = (
       // /trades/limits is returned in FIAT (3.5 USD)
       const fiatMin = convertBaseToStandard('FIAT', limits.minOrder)
       // convert 3.5 USD to BASE coin (0.01123091 ETH)
-      const baseMin = new BigNumber(fiatMin).dividedBy(baseRate.last).toNumber()
+      const baseMin = new BigNumber(fiatMin).dividedBy(baseRate.price).toNumber()
 
       // calculate the BTC -> ETH rate
       // 1 BTC = 39.12444194 ETH
@@ -72,15 +72,7 @@ export const maximumAmount = (value: string, allValues: SwapAmountFormValues, re
   const { baseRates, fix, limits, payment, quote, walletCurrency } = restProps
 
   const cryptoMax = Number(
-    getMaxMin(
-      'max',
-      limits,
-      baseRates[walletCurrency],
-      payment,
-      quote,
-      restProps.BASE,
-      restProps.COUNTER
-    )
+    getMaxMin('max', limits, baseRates, payment, quote, restProps.BASE, restProps.COUNTER)
   )
   const fiatMax = Exchange.convertCoinToFiat({
     coin: restProps.BASE.coin,
@@ -100,15 +92,7 @@ export const minimumAmount = (value: string, allValues: SwapAmountFormValues, re
   const { baseRates, fix, limits, payment, quote, walletCurrency } = restProps
 
   const cryptoMin = Number(
-    getMaxMin(
-      'min',
-      limits,
-      baseRates[walletCurrency],
-      payment,
-      quote,
-      restProps.BASE,
-      restProps.COUNTER
-    )
+    getMaxMin('min', limits, baseRates, payment, quote, restProps.BASE, restProps.COUNTER)
   )
   const fiatMin = Exchange.convertCoinToFiat({
     coin: restProps.BASE.coin,

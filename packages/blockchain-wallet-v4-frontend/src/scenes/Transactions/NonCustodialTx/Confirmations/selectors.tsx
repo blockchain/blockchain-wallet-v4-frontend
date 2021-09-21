@@ -4,7 +4,7 @@ import { selectors } from 'data'
 
 export const getBlockHeight = (state, coin) => {
   const { coinfig } = window.coins[coin]
-  if (selectors.core.data.coins.getCoins().includes(coin)) {
+  if (selectors.core.data.coins.getCustodialCoins().includes(coin)) {
     return null
   }
   if (coinfig.type.erc20Address) {

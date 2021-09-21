@@ -32,7 +32,6 @@ const TextStack = styled.div`
 const RecoveryOptions = (props: Props) => {
   const {
     authActions,
-    cachedEmail,
     cachedGuid,
     emailFromMagicLink,
     formActions,

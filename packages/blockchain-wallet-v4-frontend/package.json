@@ -88,7 +88,7 @@
     "@visx/scale": "1.7.0",
     "@visx/shape": "1.8.0",
     "@visx/tooltip": "1.7.2",
-    "axios": "0.21.1",
+    "axios": "0.21.4",
     "base-64": "0.1.0",
     "bignumber.js": "8.0.2",
     "bip21": "2.0.3",

@@ -26,13 +26,7 @@ export default {
     period: 'DAILY'
   },
   component: SavedRecurringBuy,
-  decorators: [
-    (Story) => (
-      <IntlProvider locale='en'>
-        <Story />
-      </IntlProvider>
-    )
-  ],
+  decorators: [(Story) => <IntlProvider locale='en'>{Story()}</IntlProvider>],
   title: 'RecurringBuy/Registered'
 }
 

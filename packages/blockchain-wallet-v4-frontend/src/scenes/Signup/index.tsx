@@ -44,14 +44,14 @@ class SignupContainer extends React.PureComponent<
     e.preventDefault()
     const { authActions, formValues, language } = this.props
     const { country, email, password, state } = formValues
-    authActions.register(email, password, language, country, state)
+    authActions.register({ country, email, language, password, state })
   }
 
   toggleSignupFormVisibility = () => {
     this.setState({ showForm: true })
   }
 
-  onCountryChange = (e: React.SyntheticEvent, value: string) => {
+  onCountryChange = (e: React.ChangeEvent<any> | undefined, value: string) => {
     this.setDefaultCountry(value)
     this.props.formActions.clearFields(SIGNUP_FORM, false, false, 'state')
   }

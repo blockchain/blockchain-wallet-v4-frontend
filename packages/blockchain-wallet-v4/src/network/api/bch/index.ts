@@ -28,13 +28,6 @@ export default ({ apiUrl, get, post }) => {
     })
   }
 
-  const getBchTicker = () =>
-    get({
-      data: { base: 'BCH' },
-      endPoint: '/ticker',
-      url: apiUrl
-    })
-
   const getBchTransactionHistory = (active, currency, start, end) => {
     return post({
       data: { active, currency: toUpper(currency), end, start },
@@ -87,7 +80,6 @@ export default ({ apiUrl, get, post }) => {
     getBchDust,
     getBchFees,
     getBchRawTx,
-    getBchTicker,
     getBchTransactionHistory,
     getBchUnspents,
     pushBchTx
