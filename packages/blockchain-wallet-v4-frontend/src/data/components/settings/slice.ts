@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import Remote from 'core/remote'
+import Remote from '@core/remote'
 
 import { ProductEligibility, SettingsState } from './types'
 

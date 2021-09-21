@@ -1,6 +1,6 @@
 import { assoc, assocPath, dissocPath, lensProp, prop, propOr, set } from 'ramda'
 
-import { Remote } from 'core'
+import { Remote } from '@core'
 import * as socketActionTypes from 'data/middleware/webSocket/rates/actionTypes'
 
 import * as AT from './actionTypes'

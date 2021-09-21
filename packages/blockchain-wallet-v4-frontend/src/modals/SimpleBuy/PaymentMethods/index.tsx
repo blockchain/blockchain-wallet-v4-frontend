@@ -2,14 +2,8 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { Remote } from 'core'
-import {
-  FiatType,
-  RemoteDataType,
-  SBOrderActionType,
-  SBOrderType,
-  SBPairType
-} from 'core/types'
+import { Remote } from '@core'
+import { FiatType, RemoteDataType, SBOrderActionType, SBOrderType, SBPairType } from '@core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 

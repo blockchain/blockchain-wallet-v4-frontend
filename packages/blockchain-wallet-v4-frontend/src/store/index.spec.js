@@ -1,8 +1,8 @@
 import * as Redux from 'redux'
 import { persistStore } from 'redux-persist'
 
-import { ApiSocket, createWalletApi, Socket } from 'core/network'
-import * as coreMiddleware from 'core/redux/middleware'
+import { ApiSocket, createWalletApi, Socket } from '@core/network'
+import * as coreMiddleware from '@core/redux/middleware'
 
 import * as Middleware from '../middleware'
 import configuredStore from './index'

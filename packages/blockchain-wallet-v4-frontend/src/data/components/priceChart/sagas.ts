@@ -1,7 +1,7 @@
 import { put, select, take } from 'redux-saga/effects'
 
-import { calculateStart } from 'core/redux/data/misc/model'
-import { Remote } from 'core'
+import { Remote } from '@core'
+import { calculateStart } from '@core/redux/data/misc/model'
 import { calculateScale } from 'services/charts'
 
 import * as actions from '../../actions'

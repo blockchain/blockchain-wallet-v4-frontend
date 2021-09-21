@@ -1,10 +1,10 @@
-import { UnstoppableDomainResultsType } from 'core/network/api/send/types'
+import { UnstoppableDomainResultsType } from '@core/network/api/send/types'
 import {
   BeneficiaryType,
   CoinType,
   RemoteDataType,
   WithdrawalLockCheckResponseType
-} from 'core/types'
+} from '@core/types'
 
 import * as AT from './actionTypes'
 

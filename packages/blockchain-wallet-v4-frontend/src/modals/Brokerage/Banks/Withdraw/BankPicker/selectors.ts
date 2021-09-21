@@ -1,7 +1,7 @@
 import { lift } from 'ramda'
 
-import Remote from 'core/remote'
-import { ExtractSuccess, InvitationsType } from 'core/types'
+import Remote from '@core/remote'
+import { ExtractSuccess, InvitationsType } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 

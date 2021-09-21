@@ -5,8 +5,8 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Remote } from 'core'
-import { RemoteDataType } from 'core/types'
+import { Remote } from '@core'
+import { RemoteDataType } from '@core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 

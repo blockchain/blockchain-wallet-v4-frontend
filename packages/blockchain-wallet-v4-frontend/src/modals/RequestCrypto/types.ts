@@ -1,4 +1,4 @@
-import { CoinType, WalletCurrencyType } from 'core/types'
+import { CoinType, WalletCurrencyType } from '@core/types'
 import { SwapAccountType } from 'data/components/swap/types'
 
 export enum RequestSteps {

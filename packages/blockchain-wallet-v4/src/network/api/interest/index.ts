@@ -1,4 +1,4 @@
-import { CoinType, FiatType, WalletFiatType } from 'core/types'
+import { CoinType, FiatType, WalletFiatType } from '@core/types'
 
 import {
   CustodialTransferResponseType,

@@ -1,7 +1,7 @@
 import { add, equals, map, not, propOr, reduce } from 'ramda'
 import { call, delay, put, select } from 'redux-saga/effects'
 
-import * as crypto from 'core/walletCrypto'
+import * as crypto from '@core/walletCrypto'
 import { actions, selectors } from 'data'
 
 import { CUSTOM_VARIABLES } from './model'

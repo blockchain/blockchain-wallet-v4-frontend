@@ -1,6 +1,6 @@
 import { lift } from 'ramda'
 
-import { ExtractSuccess, InvitationsType, SBPaymentTypes } from 'core/types'
+import { ExtractSuccess, InvitationsType, SBPaymentTypes } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 

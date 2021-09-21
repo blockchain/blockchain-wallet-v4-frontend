@@ -10,7 +10,7 @@ import {
   SBOrderType,
   SBTransactionType,
   WalletCurrencyType
-} from 'core/types'
+} from '@core/types'
 import DataError from 'components/DataError'
 
 import CustodialTxListItem from '../CustodialTx'

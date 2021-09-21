@@ -6,7 +6,7 @@ import {
   FiatType,
   RemoteDataType,
   SBAccountType
-} from 'core/types'
+} from '@core/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'

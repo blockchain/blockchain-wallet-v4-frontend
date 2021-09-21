@@ -5,7 +5,7 @@ import {
   FiatType,
   InvitationsType,
   SBPaymentTypes
-} from 'core/types'
+} from '@core/types'
 import { selectors } from 'data'
 
 const getData = (state) => {

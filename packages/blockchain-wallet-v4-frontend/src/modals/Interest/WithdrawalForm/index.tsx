@@ -13,7 +13,7 @@ import {
   RemoteDataType,
   WithdrawalMinimumType,
   WithdrawLimits
-} from 'core/types'
+} from '@core/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
 

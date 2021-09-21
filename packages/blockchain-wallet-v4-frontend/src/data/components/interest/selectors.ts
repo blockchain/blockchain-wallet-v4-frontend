@@ -1,4 +1,4 @@
-import { FiatType, RatesType, RemoteDataType } from 'core/types'
+import { FiatType, RatesType, RemoteDataType } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 

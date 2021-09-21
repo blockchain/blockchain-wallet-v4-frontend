@@ -1,4 +1,4 @@
-import { CoinType } from 'core/types'
+import { CoinType } from '@core/types'
 
 // types
 export type AlertNatureType = 'info' | 'warn' | 'success' | 'error'

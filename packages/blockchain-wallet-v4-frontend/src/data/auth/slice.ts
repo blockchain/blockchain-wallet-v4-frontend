@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit'
 
-import { Remote } from 'core'
+import { Remote } from '@core'
 
 import { AuthStateType } from './types'
 

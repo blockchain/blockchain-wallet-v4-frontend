@@ -1,6 +1,6 @@
 import { call, put, select } from 'redux-saga/effects'
 
-import { utils } from 'core'
+import { utils } from '@core'
 import { actions, selectors } from 'data'
 import * as C from 'services/alerts'
 import { requireUniqueWalletName } from 'services/forms'

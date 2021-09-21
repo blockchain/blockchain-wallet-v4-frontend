@@ -1,4 +1,4 @@
-import { convertCoinToCoin, convertFiatToCoin } from 'core/exchange'
+import { convertCoinToCoin, convertFiatToCoin } from '@core/exchange'
 
 import { SendFormType } from '../types'
 import { Props } from '.'

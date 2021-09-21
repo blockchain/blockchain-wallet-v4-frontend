@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 
-import { Remote } from 'core'
+import { Remote } from '@core'
 import { actions } from 'data'
 
 import { getData } from './selectors'

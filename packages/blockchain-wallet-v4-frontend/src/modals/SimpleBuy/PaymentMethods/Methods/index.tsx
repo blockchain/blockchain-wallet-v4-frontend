@@ -3,14 +3,14 @@ import { FormattedMessage } from 'react-intl'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Icon, Image, Text } from 'blockchain-info-components'
 import {
   OrderType,
   SBPaymentMethodType,
   SBPaymentTypes,
   WalletCurrencyType,
   WalletFiatEnum
-} from 'core/types'
+} from '@core/types'
+import { Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { CARD_TYPES, DEFAULT_CARD_SVG_LOGO } from 'components/Form/CreditCardBox/model'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/simpleBuy/model'

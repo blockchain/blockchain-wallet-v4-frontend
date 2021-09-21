@@ -4,13 +4,9 @@ import bip21 from 'bip21'
 import { anyPass, equals, includes, map, path, pathOr, prop, startsWith } from 'ramda'
 import { all, call, delay, join, put, select, spawn, take } from 'redux-saga/effects'
 
-import {
-  InterestAfterTransactionType,
-  RatesType,
-  WalletFiatType
-} from 'core/types'
-import { errorHandler } from 'core/utils'
-import { Exchange, utils } from 'core'
+import { Exchange, utils } from '@core'
+import { InterestAfterTransactionType, RatesType, WalletFiatType } from '@core/types'
+import { errorHandler } from '@core/utils'
 import { actions, model, selectors } from 'data'
 import { getBchBalance, getBtcBalance } from 'data/balance/sagas'
 import { parsePaymentRequest } from 'data/bitpay/sagas'

@@ -1,6 +1,6 @@
 import { assoc, assocPath } from 'ramda'
 
-import { Remote } from 'core'
+import { Remote } from '@core'
 
 import * as AT from './actionTypes'
 

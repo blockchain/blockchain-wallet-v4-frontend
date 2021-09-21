@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { equals } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { Exchange, Remote } from 'core'
+import { Exchange, Remote } from '@core'
 import {
   ExtractSuccess,
   OrderType,
@@ -11,7 +11,7 @@ import {
   SBOrderType,
   SBPaymentMethodType,
   SBPaymentTypes
-} from 'core/types'
+} from '@core/types'
 import DataError from 'components/DataError'
 import { getPeriodForSuccess, OrderSummary as Success } from 'components/Flyout'
 import { actions, selectors } from 'data'

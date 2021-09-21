@@ -1,4 +1,4 @@
-import { CoinType, SBOrderActionType, TimeRange } from 'core/types'
+import { CoinType, SBOrderActionType, TimeRange } from '@core/types'
 import { SBFixType } from 'data/components/types'
 
 import * as AT from './actionTypes'

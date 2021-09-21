@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 
-import { coreReducers, paths } from 'core'
+import { coreReducers, paths } from '@core'
 
 import { alertsReducer as alerts } from './alerts/slice'
 import { analyticsReducer as analytics } from './analytics/slice'

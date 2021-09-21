@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 
-import { CoinType, SwapOrderDirectionType, SwapQuoteType } from 'core/types'
-import { errorHandler } from 'core/utils'
+import { CoinType, SwapOrderDirectionType, SwapQuoteType } from '@core/types'
+import { errorHandler } from '@core/utils'
 
 import { convertBaseToStandard } from '../exchange/services'
 import { SwapAccountType, SwapBaseCounterTypes } from './types'

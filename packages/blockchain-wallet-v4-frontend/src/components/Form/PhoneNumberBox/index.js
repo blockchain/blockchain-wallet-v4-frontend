@@ -4,7 +4,7 @@ import { prop, toLower } from 'ramda'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
-import { Remote } from 'core'
+import { Remote } from '@core'
 
 import 'react-intl-tel-input/dist/libphonenumber.js'
 import 'react-intl-tel-input/dist/main.css'

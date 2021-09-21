@@ -1,4 +1,4 @@
-import { RemoteDataType } from 'core/types'
+import { RemoteDataType } from '@core/types'
 
 import { AB_TESTS } from './model'
 

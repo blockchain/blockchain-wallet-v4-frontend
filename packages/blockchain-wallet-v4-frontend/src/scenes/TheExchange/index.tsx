@@ -2,7 +2,7 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { WalletOptionsType } from 'core/types'
+import { WalletOptionsType } from '@core/types'
 import { actions, model, selectors } from 'data'
 
 import Exchange from './template'

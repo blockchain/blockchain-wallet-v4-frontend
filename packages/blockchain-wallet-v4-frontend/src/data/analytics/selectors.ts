@@ -1,6 +1,6 @@
 import { curry } from 'ramda'
 
-import { RemoteDataType } from 'core/types'
+import { RemoteDataType } from '@core/types'
 import { RootState } from 'data/rootReducer'
 
 import { ABTestCmdType, ABTestNameType } from './types'

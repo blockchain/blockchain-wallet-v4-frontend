@@ -1,7 +1,7 @@
 import { pathOr } from 'ramda'
 import { fork, join, put, select, take } from 'redux-saga/effects'
 
-import { Remote } from 'core'
+import { Remote } from '@core'
 import { actions, actionTypes, selectors } from 'data'
 
 export const logLocation = 'balances'

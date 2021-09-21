@@ -1,9 +1,9 @@
 // @ts-ignore
 import { concat, curry, filter, has, map, reduce, sequence } from 'ramda'
 
-import { ADDRESS_TYPES } from 'core/redux/payment/btc/utils'
-import { InterestAccountBalanceType } from 'core/types'
-import { Exchange, Remote } from 'core'
+import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
+import { InterestAccountBalanceType } from '@core/types'
+import { Exchange, Remote } from '@core'
 import { selectors } from 'data'
 
 export const getEthData = (

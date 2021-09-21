@@ -1,4 +1,4 @@
-import { CoinType, RemoteDataType, WalletFiatType } from 'core/types'
+import { CoinType, RemoteDataType, WalletFiatType } from '@core/types'
 
 // TODO: type this!
 export type PricesStateType = {

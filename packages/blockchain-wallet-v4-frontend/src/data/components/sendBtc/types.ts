@@ -1,4 +1,4 @@
-import { PaymentValue, RemoteDataType } from 'core/types'
+import { PaymentValue, RemoteDataType } from '@core/types'
 
 // State
 export type SendBtcState = {

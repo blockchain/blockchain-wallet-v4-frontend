@@ -2,9 +2,9 @@ import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { Remote } from 'core'
-import { SBPaymentTypes } from 'core/network/api/simpleBuy/types'
-import { BeneficiaryType, ExtractSuccess, WalletFiatType } from 'core/types'
+import { Remote } from '@core'
+import { SBPaymentTypes } from '@core/network/api/simpleBuy/types'
+import { BeneficiaryType, ExtractSuccess, WalletFiatType } from '@core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import {

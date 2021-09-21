@@ -1,6 +1,6 @@
 import { lift } from 'ramda'
 
-import { Exchange } from 'core'
+import { Exchange } from '@core'
 
 import * as selectors from '../../selectors'
 

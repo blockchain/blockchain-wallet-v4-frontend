@@ -1,6 +1,6 @@
 import { lift } from 'ramda'
 
-import { ExtractSuccess } from 'core/types'
+import { ExtractSuccess } from '@core/types'
 import { RootState } from 'data/rootReducer'
 
 // TODO - MOVE TO BE 1000 before release

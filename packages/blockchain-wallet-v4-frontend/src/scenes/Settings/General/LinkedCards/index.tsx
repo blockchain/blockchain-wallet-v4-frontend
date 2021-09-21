@@ -7,7 +7,7 @@ import {
   RemoteDataType,
   SBCardType,
   SBPaymentMethodsType
-} from 'core/types'
+} from '@core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 

@@ -1,4 +1,4 @@
-import { Erc20CoinType, RemoteDataType } from 'core/types'
+import { Erc20CoinType, RemoteDataType } from '@core/types'
 
 export type IOType = {
   accountIndex: number

@@ -2,7 +2,7 @@ import React from 'react'
 import BigNumber from 'bignumber.js'
 import { prop } from 'ramda'
 
-import { Exchange } from 'core'
+import { Exchange } from '@core'
 
 import {
   InsufficientFundsMessage,

@@ -1,4 +1,4 @@
-import Remote from 'core/remote'
+import Remote from '@core/remote'
 import { RootState } from 'data/rootReducer'
 
 import { SwapAccountType } from '../swap/types'

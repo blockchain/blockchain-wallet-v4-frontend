@@ -4,8 +4,8 @@ import { map } from 'ramda'
 import { Field, Form, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { SBBuyOrderType, SBSellOrderType } from '@core/types'
 import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
-import { SBBuyOrderType, SBSellOrderType } from 'core/types'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
 import {

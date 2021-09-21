@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { equals } from 'ramda'
 
-import { Exchange } from 'core'
+import { Exchange } from '@core'
 
 import Converter from './template'
 

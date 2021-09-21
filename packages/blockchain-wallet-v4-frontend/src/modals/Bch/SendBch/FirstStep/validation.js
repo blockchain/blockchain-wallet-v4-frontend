@@ -1,7 +1,7 @@
 import React from 'react'
 import { prop } from 'ramda'
 
-import { Exchange } from 'core'
+import { Exchange } from '@core'
 
 import {
   InsufficientFundsMessage,

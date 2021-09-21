@@ -1,5 +1,5 @@
-import { RemoteDataType } from 'core/types'
-import { Remote } from 'core'
+import { Remote } from '@core'
+import { RemoteDataType } from '@core/types'
 import { RootState } from 'data/rootReducer'
 
 import * as A from './actions'

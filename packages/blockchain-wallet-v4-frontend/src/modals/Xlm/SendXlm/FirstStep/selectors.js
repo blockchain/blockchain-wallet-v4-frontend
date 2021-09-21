@@ -1,7 +1,7 @@
 import { lift, prop, propOr } from 'ramda'
 
-import { Remote } from 'core'
-import { createDeepEqualSelector } from 'core/utils'
+import { Remote } from '@core'
+import { createDeepEqualSelector } from '@core/utils'
 import { model, selectors } from 'data'
 
 const getData = createDeepEqualSelector(

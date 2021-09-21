@@ -1,4 +1,4 @@
-import { RemoteDataType } from 'core/types'
+import { RemoteDataType } from '@core/types'
 
 import { actions } from './slice'
 

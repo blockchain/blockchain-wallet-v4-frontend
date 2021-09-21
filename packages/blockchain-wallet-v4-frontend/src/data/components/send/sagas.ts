@@ -2,7 +2,7 @@ import moment from 'moment'
 import { FormAction } from 'redux-form'
 import { call, CallEffect, delay, put, select } from 'redux-saga/effects'
 
-import { APIType } from 'core/network/api'
+import { APIType } from '@core/network/api'
 import {
   BeneficiaryType,
   CoinType,
@@ -12,8 +12,8 @@ import {
   SBOrderType,
   SBPaymentTypes,
   WalletFiatType
-} from 'core/types'
-import { errorHandler } from 'core/utils'
+} from '@core/types'
+import { errorHandler } from '@core/utils'
 import { actions, model, selectors } from 'data'
 import * as C from 'services/alerts'
 import { promptForSecondPassword } from 'services/sagas'

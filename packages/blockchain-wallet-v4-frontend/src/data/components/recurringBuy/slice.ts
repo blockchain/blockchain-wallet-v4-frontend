@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import Remote from 'core/remote'
+import Remote from '@core/remote'
 import { ModalOriginType } from 'data/modals/types'
 
 import {

@@ -5,7 +5,7 @@ import {
   SwapOrderType,
   SwapQuoteType,
   SwapUserLimitsType
-} from 'core/types'
+} from '@core/types'
 
 import * as AT from './actionTypes'
 

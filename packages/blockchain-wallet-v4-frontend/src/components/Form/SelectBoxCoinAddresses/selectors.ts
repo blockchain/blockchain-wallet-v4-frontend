@@ -1,8 +1,8 @@
 // @ts-ignore
 import { concat, curry, reduce, sequence } from 'ramda'
 
-import { ADDRESS_TYPES } from 'core/redux/payment/btc/utils'
-import { Exchange, Remote } from 'core'
+import { Exchange, Remote } from '@core'
+import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
 import { selectors } from 'data'
 
 export const getData = (

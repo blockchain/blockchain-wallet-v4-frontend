@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { prop } from 'ramda'
 
-import { Exchange } from 'core'
+import { Exchange } from '@core'
 
 export const getData = (state, props) => {
   const fee = prop('fee', props)

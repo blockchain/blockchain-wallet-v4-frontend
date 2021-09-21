@@ -1,7 +1,7 @@
 import { curry, prop } from 'ramda'
 
-import { utils } from 'core'
-import { ADDRESS_TYPES } from 'core/redux/payment/btc/utils'
+import { utils } from '@core'
+import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
 import { model, selectors } from 'data'
 
 const isSubmitting = selectors.form.isSubmitting(model.components.sendXlm.FORM)

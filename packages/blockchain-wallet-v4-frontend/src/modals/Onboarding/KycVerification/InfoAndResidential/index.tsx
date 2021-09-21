@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { ExtractSuccess } from 'core/types'
+import { ExtractSuccess } from '@core/types'
 import DataError from 'components/DataError'
 import { actions, model, selectors } from 'data'
 import { CountryType } from 'data/components/identityVerification/types'

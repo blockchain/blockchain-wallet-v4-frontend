@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
-import { Remote } from 'core'
-import { fromCashAddr } from 'core/utils/bch'
+import { Remote } from '@core'
+import { fromCashAddr } from '@core/utils/bch'
 import { actions, model } from 'data'
 
 import { getData } from './selectors'

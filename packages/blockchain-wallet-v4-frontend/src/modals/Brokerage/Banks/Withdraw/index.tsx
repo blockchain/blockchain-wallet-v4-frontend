@@ -6,7 +6,7 @@ import {
   BeneficiaryType,
   WalletFiatType,
   WithdrawResponseType
-} from 'core/types'
+} from '@core/types'
 import DataError from 'components/DataError'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { selectors } from 'data'

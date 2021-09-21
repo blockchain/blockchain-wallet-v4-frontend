@@ -24,7 +24,7 @@ import {
   RemoteDataType,
   SBOrderType,
   SBTransactionType
-} from 'core/types'
+} from '@core/types'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 

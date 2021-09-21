@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { lift } from 'ramda'
 
-import { ExtractSuccess } from 'core/types'
+import { ExtractSuccess } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 

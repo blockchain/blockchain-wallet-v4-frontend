@@ -14,7 +14,7 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import { formatCoin } from 'core/exchange/utils'
+import { formatCoin } from '@core/exchange/utils'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { actions, selectors } from 'data'

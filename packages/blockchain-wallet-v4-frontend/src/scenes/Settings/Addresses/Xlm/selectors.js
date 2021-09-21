@@ -1,4 +1,4 @@
-import { Exchange } from 'core'
+import { Exchange } from '@core'
 import { selectors } from 'data'
 
 export const getData = (state, props) => {

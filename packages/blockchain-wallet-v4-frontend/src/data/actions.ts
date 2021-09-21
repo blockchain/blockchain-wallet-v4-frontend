@@ -1,6 +1,6 @@
 import { routerActions as router } from 'connected-react-router'
 
-import { coreActions as core } from 'core'
+import { coreActions as core } from '@core'
 
 import { actions as alerts } from './alerts/slice'
 import { actions as analytics } from './analytics/slice'

@@ -1,6 +1,6 @@
 import { includes, keys, prop } from 'ramda'
 
-import { createDeepEqualSelector } from 'core/utils'
+import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
 
 export const getData = createDeepEqualSelector(

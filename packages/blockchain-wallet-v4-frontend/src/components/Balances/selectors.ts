@@ -14,7 +14,7 @@ import {
   toPairs
 } from 'ramda'
 
-import { Exchange, Remote } from 'core'
+import { Exchange, Remote } from '@core'
 import {
   CoinfigType,
   ExtractSuccess,
@@ -26,8 +26,8 @@ import {
   SwapOrderType,
   WalletFiatEnum,
   WalletFiatType
-} from 'core/types'
-import { createDeepEqualSelector } from 'core/utils'
+} from '@core/types'
+import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { DEFAULT_SB_BALANCE } from 'data/components/simpleBuy/model'

@@ -5,8 +5,8 @@ import { mapObjIndexed, prop } from 'ramda'
 import styled from 'styled-components'
 
 import { Banner } from 'blockchain-info-components'
-import { Exchange } from 'core'
-import Currencies from 'core/exchange/currencies'
+import { Exchange } from '@core'
+import Currencies from '@core/exchange/currencies'
 import { model } from 'data'
 
 import ModalIcon from '../ModalIcon'

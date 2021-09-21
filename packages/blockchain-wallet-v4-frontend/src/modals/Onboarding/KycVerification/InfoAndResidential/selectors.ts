@@ -1,6 +1,6 @@
 import { compose, lift } from 'ramda'
 
-import { ExtractSuccess } from 'core/types'
+import { ExtractSuccess } from '@core/types'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 

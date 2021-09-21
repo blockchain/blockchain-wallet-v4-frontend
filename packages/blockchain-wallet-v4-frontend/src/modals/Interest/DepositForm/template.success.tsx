@@ -13,8 +13,8 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import { Exchange } from 'core'
-import { fiatToString, formatFiat } from 'core/exchange/utils'
+import { Exchange } from '@core'
+import { fiatToString, formatFiat } from '@core/exchange/utils'
 import { CheckBox, CoinBalanceDropdown, NumberBox } from 'components/Form'
 import { actions, selectors } from 'data'
 import { InterestDepositFormType } from 'data/components/interest/types'

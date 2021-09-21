@@ -4,7 +4,7 @@ import {
   SwapOrderType,
   SwapQuoteType,
   SwapUserLimitsType
-} from 'core/types'
+} from '@core/types'
 import { ModalOriginType } from 'data/modals/types'
 
 import * as AT from './actionTypes'

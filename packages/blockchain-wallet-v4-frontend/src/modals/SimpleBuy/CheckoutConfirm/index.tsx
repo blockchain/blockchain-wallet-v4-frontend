@@ -4,13 +4,13 @@ import BigNumber from 'bignumber.js'
 import { defaultTo, filter, prop } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { Remote } from 'core'
+import { Remote } from '@core'
 import {
   ExtractSuccess,
   SBOrderType,
   SBPaymentTypes,
   WalletFiatType
-} from 'core/types'
+} from '@core/types'
 import DataError from 'components/DataError'
 import { actions, selectors } from 'data'
 import { getFiatFromPair, getOrderType } from 'data/components/simpleBuy/model'

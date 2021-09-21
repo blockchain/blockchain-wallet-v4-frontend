@@ -1,7 +1,7 @@
 import { lift } from 'ramda'
 
-import { fiatToString } from 'core/exchange/utils'
-import { createDeepEqualSelector } from 'core/utils'
+import { fiatToString } from '@core/exchange/utils'
+import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
 
 import * as S from '../selectors'

@@ -2,9 +2,9 @@ import { SEND_FORM } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/m
 import { SendFormType } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/types'
 import { call, put, select } from 'redux-saga/effects'
 
-import { convertCoinToCoin } from 'core/exchange'
-import { APIType } from 'core/network/api'
-import { errorHandler } from 'core/utils'
+import { convertCoinToCoin } from '@core/exchange'
+import { APIType } from '@core/network/api'
+import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
 import { ModalName, ModalNameType } from 'data/modals/types'
 

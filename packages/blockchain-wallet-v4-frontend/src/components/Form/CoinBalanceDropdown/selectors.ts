@@ -8,7 +8,7 @@ import {
   getEthData as getEthAddressData
 } from 'components/Form/SelectBoxEthAddresses/selectors'
 import { getData as getXlmAddressData } from 'components/Form/SelectBoxXlmAddresses/selectors'
-import { Remote } from 'core'
+import { Remote } from '@core'
 import { selectors } from 'data'
 
 import { OwnProps } from '.'

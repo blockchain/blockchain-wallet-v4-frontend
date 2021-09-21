@@ -1,5 +1,5 @@
-import { Remote } from 'core'
-import { createDeepEqualSelector } from 'core/utils'
+import { Remote } from '@core'
+import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
 
 export const getData = createDeepEqualSelector(

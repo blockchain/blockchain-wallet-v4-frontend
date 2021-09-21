@@ -1,7 +1,7 @@
 import { createAction, createSlice } from '@reduxjs/toolkit'
 import { prepend } from 'ramda'
 
-import { CoinType } from 'core/types'
+import { CoinType } from '@core/types'
 
 import { AlertNatureType, AlertsState } from './types'
 

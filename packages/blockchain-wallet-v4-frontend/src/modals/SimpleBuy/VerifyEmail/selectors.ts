@@ -1,4 +1,4 @@
-import { Remote } from 'core'
+import { Remote } from '@core'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 

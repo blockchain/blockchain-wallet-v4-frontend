@@ -7,8 +7,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { CoinAccountIcon, Text } from 'blockchain-info-components'
-import { coinToString, fiatToString } from 'core/exchange/utils'
+import { coinToString, fiatToString } from '@core/exchange/utils'
 import {
   AddressTypesType,
   CoinType,
@@ -16,7 +15,8 @@ import {
   FiatType,
   FiatTypeEnum,
   WalletFiatType
-} from 'core/types'
+} from '@core/types'
+import { CoinAccountIcon, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import SelectBox from 'components/Form/SelectBox'

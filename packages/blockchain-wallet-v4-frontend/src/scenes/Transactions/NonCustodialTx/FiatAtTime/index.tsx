@@ -2,7 +2,7 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { FiatType } from 'core/types'
+import { FiatType } from '@core/types'
 import { actions } from 'data'
 
 import { getData } from './selectors'

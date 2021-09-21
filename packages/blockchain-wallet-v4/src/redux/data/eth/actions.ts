@@ -1,4 +1,4 @@
-import { AccountTokensBalancesResponseType } from 'core/types'
+import { AccountTokensBalancesResponseType } from '@core/types'
 
 import * as AT from './actionTypes'
 

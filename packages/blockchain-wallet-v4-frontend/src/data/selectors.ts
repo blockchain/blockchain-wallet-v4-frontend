@@ -1,4 +1,4 @@
-import { coreSelectors as core } from 'core'
+import { coreSelectors as core } from '@core'
 
 import * as alerts from './alerts/selectors'
 import * as analytics from './analytics/selectors'

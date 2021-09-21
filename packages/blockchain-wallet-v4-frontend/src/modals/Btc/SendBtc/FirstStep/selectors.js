@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import * as Bitcoin from 'bitcoinjs-lib'
 import { isEmpty, length, path, pathOr, prop } from 'ramda'
 
-import { createDeepEqualSelector } from 'core/utils'
+import { createDeepEqualSelector } from '@core/utils'
 import { model, selectors } from 'data'
 
 export const getData = createDeepEqualSelector(

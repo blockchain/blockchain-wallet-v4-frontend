@@ -10,14 +10,14 @@ import getStoredStateMigrateV4 from 'redux-persist/lib/integration/getStoredStat
 import storage from 'redux-persist/lib/storage'
 import createSagaMiddleware from 'redux-saga'
 
-import { coreMiddleware } from 'core'
+import { coreMiddleware } from '@core'
 import {
   ApiSocket,
   createWalletApi,
   HorizonStreamingService,
   Socket
-} from 'core/network/index.ts'
-import { serializer } from 'core/types'
+} from '@core/network/index.ts'
+import { serializer } from '@core/types'
 import { actions, rootReducer, rootSaga, selectors } from 'data'
 
 import {

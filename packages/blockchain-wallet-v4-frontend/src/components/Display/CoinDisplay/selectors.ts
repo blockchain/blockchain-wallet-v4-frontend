@@ -1,4 +1,4 @@
-import { Exchange } from 'core'
+import { Exchange } from '@core'
 
 export const getData = (coin, amount, hideCoinTicker) => {
   const { coinfig } = window.coins[coin]

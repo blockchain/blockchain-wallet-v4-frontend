@@ -13,9 +13,9 @@ import {
   InterestTransactionType,
   WithdrawalMinimumTypeResponse,
   WithdrawLimits
-} from 'core/network/api/interest/types'
-import Remote from 'core/remote'
-import { CoinType, FiatType, PaymentValue, WalletFiatType } from 'core/types'
+} from '@core/network/api/interest/types'
+import Remote from '@core/remote'
+import { CoinType, FiatType, PaymentValue, WalletFiatType } from '@core/types'
 
 import {
   ErrorStringType,

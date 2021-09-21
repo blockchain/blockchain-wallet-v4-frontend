@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { connect, ConnectedProps, useDispatch } from 'react-redux'
 import { bindActionCreators, Dispatch } from '@reduxjs/toolkit'
 
-import { SBPaymentMethodType } from 'core/types'
+import { SBPaymentMethodType } from '@core/types'
 import { actions, selectors } from 'data'
 import { RecurringBuyPeriods } from 'data/types'
 

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { CoinType, TimeRange } from 'core/types'
+import { CoinType, TimeRange } from '@core/types'
 
 const initialState = {
   coin: 'BTC',

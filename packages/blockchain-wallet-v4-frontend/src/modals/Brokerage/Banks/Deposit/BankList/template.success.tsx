@@ -6,7 +6,7 @@ import { Icon, Image, Text } from 'blockchain-info-components'
 import {
   BeneficiaryType,
   NabuSymbolNumberType
-} from 'core/types'
+} from '@core/types'
 import { AddNewButton } from 'components/Brokerage'
 import { FlyoutWrapper } from 'components/Flyout'
 import { model } from 'data'

@@ -1,7 +1,7 @@
 import { lift, map } from 'ramda'
 
-import { TimeRange } from 'core/types'
-import { createDeepEqualSelector } from 'core/utils'
+import { TimeRange } from '@core/types'
+import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
 
 import { OwnProps } from '.'

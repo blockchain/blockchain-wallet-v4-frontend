@@ -11,7 +11,7 @@ import {
   SBPaymentTypes,
   SwapOrderType,
   WalletFiatType
-} from 'core/types'
+} from '@core/types'
 
 import { BankTransferAccountType } from '../brokerage/types'
 import { convertBaseToStandard } from '../exchange/services'

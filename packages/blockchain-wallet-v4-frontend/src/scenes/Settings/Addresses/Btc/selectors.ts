@@ -1,4 +1,4 @@
-import { Remote } from 'core'
+import { Remote } from '@core'
 import { selectors } from 'data'
 
 export const getData = (state) => {

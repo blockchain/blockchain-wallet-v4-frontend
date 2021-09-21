@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { toLower } from 'ramda'
 import { bindActionCreators } from 'redux'
 
-import { CoinType, ExtractSuccess } from 'core/types'
+import { CoinType, ExtractSuccess } from '@core/types'
 import { actions } from 'data'
 
 import { LoadingBalance } from '../../model'

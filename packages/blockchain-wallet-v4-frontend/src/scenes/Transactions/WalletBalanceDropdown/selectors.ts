@@ -1,11 +1,11 @@
 import { lift } from 'ramda'
 
-import { Exchange, Remote } from 'core'
+import { Exchange, Remote } from '@core'
 import {
   // CoinType,
   ExtractSuccess,
   FiatType
-} from 'core/types'
+} from '@core/types'
 import * as balanceSelectors from 'components/Balances/selectors'
 import { getData as getBchAddressData } from 'components/Form/SelectBoxBchAddresses/selectors'
 import { getData as getBtcAddressData } from 'components/Form/SelectBoxBtcAddresses/selectors'

@@ -1,11 +1,11 @@
 import qs from 'qs'
 import { lift } from 'ramda'
 
-import { Remote } from 'core'
+import { Remote } from '@core'
 import {
   ExtractSuccess,
   WalletOptionsType
-} from 'core/types'
+} from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 

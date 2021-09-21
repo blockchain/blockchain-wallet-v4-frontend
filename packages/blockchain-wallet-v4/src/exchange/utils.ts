@@ -1,6 +1,6 @@
 import { BigNumber } from 'bignumber.js'
 
-import { FiatType } from 'core/types'
+import { FiatType } from '@core/types'
 
 export const getLang = (): string => {
   if (navigator.languages !== undefined) return navigator.languages[0]

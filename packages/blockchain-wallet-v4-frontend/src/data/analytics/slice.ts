@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { Remote } from 'core'
+import { Remote } from '@core'
 
 import { AnalyticsStateType, CreateABTestActionType, CreateABTestSuccessActionType } from './types'
 

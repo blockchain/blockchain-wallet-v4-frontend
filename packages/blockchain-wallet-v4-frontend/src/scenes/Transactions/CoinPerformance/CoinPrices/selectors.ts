@@ -1,7 +1,7 @@
 import { lift } from 'ramda'
 
-import { ExtractSuccess, TimeRange } from 'core/types'
-import { createDeepEqualSelector } from 'core/utils'
+import { ExtractSuccess, TimeRange } from '@core/types'
+import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
 
 import { OwnProps } from '.'

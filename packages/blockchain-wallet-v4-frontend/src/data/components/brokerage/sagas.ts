@@ -1,14 +1,10 @@
 import { getFormValues } from 'redux-form'
 import { call, delay, put, retry, select, take } from 'redux-saga/effects'
 
-import { APIType } from 'core/network/api'
-import {
-  SBPaymentMethodType,
-  SBPaymentTypes,
-  SBTransactionType
-} from 'core/types'
-import { errorHandler } from 'core/utils'
-import { Remote } from 'core'
+import { Remote } from '@core'
+import { APIType } from '@core/network/api'
+import { SBPaymentMethodType, SBPaymentTypes, SBTransactionType } from '@core/types'
+import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
 import {
   AddBankStepType,

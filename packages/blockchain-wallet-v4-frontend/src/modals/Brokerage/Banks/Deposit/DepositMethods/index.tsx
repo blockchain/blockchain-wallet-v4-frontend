@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { Remote } from 'core'
+import { Remote } from '@core'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 

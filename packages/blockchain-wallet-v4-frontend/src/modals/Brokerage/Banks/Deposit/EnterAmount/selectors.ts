@@ -1,6 +1,6 @@
 import { lift } from 'ramda'
 
-import { ExtractSuccess, SBPaymentTypes } from 'core/types'
+import { ExtractSuccess, SBPaymentTypes } from '@core/types'
 import { selectors } from 'data'
 import { BankTransferAccountType } from 'data/types'
 

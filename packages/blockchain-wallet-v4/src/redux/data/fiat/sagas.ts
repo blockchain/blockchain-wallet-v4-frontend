@@ -2,9 +2,9 @@ import moment from 'moment'
 import { filter, last, take as takeR } from 'ramda'
 import { call, put, select, take } from 'redux-saga/effects'
 
-import { APIType } from 'core/network/api'
-import { CoinType, FiatType } from 'core/types'
-import { errorHandler } from 'core/utils'
+import { APIType } from '@core/network/api'
+import { CoinType, FiatType } from '@core/types'
+import { errorHandler } from '@core/utils'
 
 import Remote from '../../../remote'
 import { FiatSBAndSwapTransactionType } from '../custodial/types'

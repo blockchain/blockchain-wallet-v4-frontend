@@ -15,7 +15,7 @@ import {
   RemoteDataType,
   WithdrawalMinimumType,
   WithdrawLimits
-} from 'core/types'
+} from '@core/types'
 
 //
 // Types

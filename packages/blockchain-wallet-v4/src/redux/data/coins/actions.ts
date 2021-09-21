@@ -1,4 +1,4 @@
-import { IndexMultiResponseType } from 'core/network/api/coin/types'
+import { IndexMultiResponseType } from '@core/network/api/coin/types'
 
 import * as AT from './actionTypes'
 import { CoinsActionTypes } from './types'

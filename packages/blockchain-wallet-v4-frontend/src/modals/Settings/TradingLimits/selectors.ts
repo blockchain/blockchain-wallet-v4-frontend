@@ -1,5 +1,5 @@
-import { Remote } from 'core'
-import { InterestEDDStatus, SDDEligibleType } from 'core/types'
+import { Remote } from '@core'
+import { InterestEDDStatus, SDDEligibleType } from '@core/types'
 import { selectors } from 'data'
 import { UserDataType } from 'data/modules/types'
 import { RootState } from 'data/rootReducer'

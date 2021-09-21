@@ -1,8 +1,8 @@
 import { prop } from 'ramda'
 import { call, put, select } from 'redux-saga/effects'
 
-import { ADDRESS_TYPES } from 'core/redux/payment/btc/utils'
-import { utils } from 'core'
+import { utils } from '@core'
+import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
 import { actions, selectors } from 'data'
 import * as C from 'services/alerts'
 import { promptForInput, promptForSecondPassword } from 'services/sagas'

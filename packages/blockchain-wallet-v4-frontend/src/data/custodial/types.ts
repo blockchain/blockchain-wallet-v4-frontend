@@ -1,4 +1,4 @@
-import { BeneficiariesType, RemoteDataType, SwapOrderType } from 'core/types'
+import { BeneficiariesType, RemoteDataType, SwapOrderType } from '@core/types'
 
 import * as AT from './actionTypes'
 

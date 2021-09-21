@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 
-import { OrderType, SBPaymentTypes } from 'core/types'
+import { OrderType, SBPaymentTypes } from '@core/types'
 
 import { LinkStatePropsType, Props as OwnProps, SuccessStateType } from '.'
 import Checkout from './Checkout'

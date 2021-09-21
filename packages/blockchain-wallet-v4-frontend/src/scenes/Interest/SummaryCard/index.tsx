@@ -8,7 +8,7 @@ import {
   CoinType,
   InterestRateType,
   RemoteDataType
-} from 'core/types'
+} from '@core/types'
 import { actions } from 'data'
 
 import {

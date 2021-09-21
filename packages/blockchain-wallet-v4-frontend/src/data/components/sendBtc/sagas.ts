@@ -4,16 +4,11 @@ import { add, equals, identity, includes, isNil, nth, path, pathOr, prop } from 
 import { change, destroy, initialize, startSubmit, stopSubmit } from 'redux-form'
 import { call, delay, put, race, select, take } from 'redux-saga/effects'
 
-import { APIType } from 'core/network/api'
-import { ADDRESS_TYPES } from 'core/redux/payment/btc/utils'
-import {
-  AddressTypesType,
-  BtcAccountFromType,
-  BtcFromType,
-  BtcPaymentType
-} from 'core/types'
-import { errorHandler } from 'core/utils'
-import { Exchange } from 'core'
+import { Exchange } from '@core'
+import { APIType } from '@core/network/api'
+import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
+import { AddressTypesType, BtcAccountFromType, BtcFromType, BtcPaymentType } from '@core/types'
+import { errorHandler } from '@core/utils'
 import { actions, actionTypes, model, selectors } from 'data'
 import { ModalNameType } from 'data/modals/types'
 import * as C from 'services/alerts'

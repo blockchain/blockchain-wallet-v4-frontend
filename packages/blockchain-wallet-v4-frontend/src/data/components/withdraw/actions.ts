@@ -4,7 +4,7 @@ import {
   WalletFiatType,
   WithdrawalLockResponseType,
   WithdrawalMinsAndFeesResponse
-} from 'core/types'
+} from '@core/types'
 import { BankTransferAccountType } from 'data/types'
 
 import * as AT from './actionTypes'

@@ -1,9 +1,9 @@
 import { call, put } from 'redux-saga/effects'
 
-import { displayFiatToFiat } from 'core/exchange'
-import { APIType } from 'core/network/api'
-import { SBPaymentMethodType, SBPaymentTypes } from 'core/types'
-import { errorHandler } from 'core/utils'
+import { displayFiatToFiat } from '@core/exchange'
+import { APIType } from '@core/network/api'
+import { SBPaymentMethodType, SBPaymentTypes } from '@core/types'
+import { errorHandler } from '@core/utils'
 import { actions } from 'data'
 import { WithdrawStepEnum } from 'data/types'
 

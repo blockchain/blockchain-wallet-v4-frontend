@@ -7,7 +7,7 @@ import {
   SBPaymentMethodsType,
   SBPaymentMethodType,
   SBPaymentTypes
-} from 'core/types'
+} from '@core/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { model } from 'data'
 import { AddBankStepType, BankDWStepType, BrokerageModalOriginType } from 'data/types'

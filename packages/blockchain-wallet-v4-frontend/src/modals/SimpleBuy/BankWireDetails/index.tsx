@@ -9,7 +9,7 @@ import {
   SBAccountType,
   SBOrderType,
   SBPairType
-} from 'core/types'
+} from '@core/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'

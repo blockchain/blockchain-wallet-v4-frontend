@@ -2,8 +2,8 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { gt, head, isEmpty, path, prop, propOr } from 'ramda'
 
-import { Remote } from 'core'
-import { createDeepEqualSelector } from 'core/utils'
+import { Remote } from '@core'
+import { createDeepEqualSelector } from '@core/utils'
 import { model, selectors } from 'data'
 
 const getData = createDeepEqualSelector(

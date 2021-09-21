@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
-import { CoinType, OrderType } from 'core/types'
+import { CoinType, OrderType } from '@core/types'
 
 import { CellHeaderText } from '.'
 

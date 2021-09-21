@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { keys, map, mergeAll } from 'ramda'
 
-import Remote from 'core/remote'
+import Remote from '@core/remote'
 
 import { CoinPricesRequestType, PricesStateType } from './types'
 

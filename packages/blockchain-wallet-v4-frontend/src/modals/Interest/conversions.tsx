@@ -1,5 +1,5 @@
-import { Exchange } from 'core'
-import { fiatToString, formatFiat } from 'core/exchange/utils'
+import { Exchange } from '@core'
+import { fiatToString, formatFiat } from '@core/exchange/utils'
 
 const PERCENTAGE_100 = 100
 

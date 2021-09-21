@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { head, is, isEmpty, match } from 'ramda'
 
-import { utils } from 'core'
+import { utils } from '@core'
 
 const checkForVulnerableAddressError = (message) => {
   if (!message || !is(String, message)) return

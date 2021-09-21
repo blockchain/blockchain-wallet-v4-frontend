@@ -8,7 +8,7 @@ import {
   SBPaymentMethodType,
   SBPaymentTypes,
   WalletFiatType
-} from 'core/types'
+} from '@core/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import {
   AddBankStepType,

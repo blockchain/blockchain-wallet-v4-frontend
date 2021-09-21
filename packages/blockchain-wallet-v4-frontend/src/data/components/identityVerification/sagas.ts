@@ -1,8 +1,8 @@
 import { isEmpty, prop, toUpper } from 'ramda'
 import { call, delay, put, select, take } from 'redux-saga/effects'
 
-import { RemoteDataType, SDDVerifiedType } from 'core/types'
-import { Types } from 'core'
+import { Types } from '@core'
+import { RemoteDataType, SDDVerifiedType } from '@core/types'
 import { actions, actionTypes, model, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
 import { KycStateType } from 'data/modules/types'

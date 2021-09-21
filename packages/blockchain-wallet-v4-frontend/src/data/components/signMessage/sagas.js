@@ -1,7 +1,7 @@
 import { call, put, select } from 'redux-saga/effects'
 
-import * as signer from 'core/signer'
-import { Types } from 'core'
+import { Types } from '@core'
+import * as signer from '@core/signer'
 import { actions, selectors } from 'data'
 import * as C from 'services/alerts'
 import { promptForSecondPassword } from 'services/sagas'

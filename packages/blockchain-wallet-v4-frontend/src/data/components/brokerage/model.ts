@@ -1,4 +1,4 @@
-import { WalletFiatType } from 'core/types'
+import { WalletFiatType } from '@core/types'
 
 export const DEFAULT_METHODS = {
   currency: 'EUR' as WalletFiatType,

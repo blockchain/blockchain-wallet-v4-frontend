@@ -1,4 +1,4 @@
-import { SwapOrderDirectionType } from 'core/types'
+import { SwapOrderDirectionType } from '@core/types'
 
 import { SwapAccountType, SwapBaseCounterTypes } from '../swap/types'
 

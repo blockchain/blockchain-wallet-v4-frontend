@@ -10,7 +10,7 @@ import {
   SBPaymentMethodType,
   SBPaymentTypes,
   SBQuoteType
-} from 'core/types'
+} from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 

@@ -1,6 +1,6 @@
 import { all, call, delay, fork, put } from 'redux-saga/effects'
 
-import { coreRootSagaFactory, coreSagasFactory } from 'core'
+import { coreRootSagaFactory, coreSagasFactory } from '@core'
 import { tryParseLanguageFromUrl } from 'services/locales'
 
 import * as actions from './actions'

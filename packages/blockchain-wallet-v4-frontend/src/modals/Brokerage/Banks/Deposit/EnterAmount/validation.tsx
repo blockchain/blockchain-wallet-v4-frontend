@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { fiatToString } from 'core/exchange/utils'
-import { FiatType } from 'core/types'
+import { fiatToString } from '@core/exchange/utils'
+import { FiatType } from '@core/types'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 
 import { ValidateProps as Props } from '.'

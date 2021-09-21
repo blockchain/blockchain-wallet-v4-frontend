@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
-import { Remote } from 'core'
+import { Remote } from '@core'
 import { actions, model } from 'data'
 import { requireUniqueWalletName } from 'services/forms'
 

@@ -3,7 +3,8 @@ import { concat, isEmpty, isNil, last, prop } from 'ramda'
 import { FormAction, initialize } from 'redux-form'
 import { call, delay, put, select, take } from 'redux-saga/effects'
 
-import { APIType } from 'core/network/api'
+import { Exchange, Remote } from '@core'
+import { APIType } from '@core/network/api'
 import {
   AccountTypes,
   CoinType,
@@ -12,9 +13,8 @@ import {
   RatesType,
   RemoteDataType,
   SBBalancesType
-} from 'core/types'
-import { errorHandler } from 'core/utils'
-import { Exchange, Remote } from 'core'
+} from '@core/types'
+import { errorHandler } from '@core/utils'
 import { actions, actionTypes, model, selectors } from 'data'
 import coinSagas from 'data/coins/sagas'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'

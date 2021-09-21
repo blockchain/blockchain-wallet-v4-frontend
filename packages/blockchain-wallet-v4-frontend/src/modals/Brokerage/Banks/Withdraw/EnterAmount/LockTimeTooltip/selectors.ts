@@ -1,6 +1,6 @@
 import { lift } from 'ramda'
 
-import { ExtractSuccess } from 'core/types'
+import { ExtractSuccess } from '@core/types'
 import { selectors } from 'data'
 
 export const getData = (state) => {

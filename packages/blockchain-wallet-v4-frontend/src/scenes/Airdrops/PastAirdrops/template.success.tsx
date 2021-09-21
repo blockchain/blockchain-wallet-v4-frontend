@@ -8,7 +8,7 @@ import {
   TableRow,
   Text
 } from 'blockchain-info-components'
-import { Exchange } from 'core'
+import { Exchange } from '@core'
 
 import { Props } from '../template.success'
 import { Status, To, Type } from './model'

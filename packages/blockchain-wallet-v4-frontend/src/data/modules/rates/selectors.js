@@ -1,6 +1,6 @@
 import { compose, curry, lift, mapObjIndexed, path, prop, propOr, values } from 'ramda'
 
-import { Remote } from 'core'
+import { Remote } from '@core'
 
 export const getActivePairs = compose(
   values,

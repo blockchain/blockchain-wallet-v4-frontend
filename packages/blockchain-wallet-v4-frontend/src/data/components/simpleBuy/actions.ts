@@ -20,7 +20,7 @@ import {
   SDDVerifiedType,
   SwapQuoteType,
   SwapUserLimitsType
-} from 'core/types'
+} from '@core/types'
 import { ModalOriginType } from 'data/modals/types'
 import { BankTransferAccountType } from 'data/types'
 

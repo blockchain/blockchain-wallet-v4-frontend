@@ -1,4 +1,4 @@
-import Remote from 'core/remote'
+import Remote from '@core/remote'
 
 import * as AT from './actionTypes'
 import { RequestActionTypes, RequestState } from './types'

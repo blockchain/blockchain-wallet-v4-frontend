@@ -1,7 +1,7 @@
 import { any, isEmpty, isNil, map, values } from 'ramda'
 
-import { Remote } from 'core'
-import { CoinfigType, CoinType, RemoteDataType } from 'core/types'
+import { Remote } from '@core'
+import { CoinfigType, CoinType, RemoteDataType } from '@core/types'
 import { selectors } from 'data'
 import { CoinAccountSelectorType } from 'data/coins/types'
 import { SwapAccountType } from 'data/components/swap/types'

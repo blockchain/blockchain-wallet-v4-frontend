@@ -1,7 +1,7 @@
 import webSocketRates, { fallbackInterval } from 'middleware/webSocketRates'
 import { compose, groupBy, head, map, path, prop } from 'ramda'
 
-import { Remote } from 'core'
+import { Remote } from '@core'
 import { actions, model, selectors } from 'data'
 import ratesSocketSagas from 'data/middleware/webSocket/rates/sagaRegister'
 import { socketAuthRetryDelay } from 'data/middleware/webSocket/rates/sagas'

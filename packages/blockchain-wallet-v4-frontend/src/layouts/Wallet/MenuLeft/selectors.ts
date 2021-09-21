@@ -1,7 +1,7 @@
 import { lift } from 'ramda'
 
-import { ExtractSuccess } from 'core/types'
-import { createDeepEqualSelector } from 'core/utils'
+import { ExtractSuccess } from '@core/types'
+import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
 
 export const getData = createDeepEqualSelector(

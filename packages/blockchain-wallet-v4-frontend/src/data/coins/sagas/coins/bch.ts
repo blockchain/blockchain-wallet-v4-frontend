@@ -1,8 +1,8 @@
 import { nth } from 'ramda'
 import { select } from 'redux-saga/effects'
 
-import { PaymentValue } from 'core/redux/payment/types'
-import { utils } from 'core'
+import { utils } from '@core'
+import { PaymentValue } from '@core/redux/payment/types'
 import { selectors } from 'data'
 
 const { isCashAddr, toCashAddr } = utils.bch

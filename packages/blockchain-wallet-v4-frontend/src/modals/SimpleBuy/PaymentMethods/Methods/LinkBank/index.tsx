@@ -2,8 +2,8 @@ import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
+import { SBPaymentMethodType } from '@core/types'
 import { Icon } from 'blockchain-info-components'
-import { SBPaymentMethodType } from 'core/types'
 import {
   Content,
   Description,

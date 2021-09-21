@@ -4,7 +4,7 @@ declare module 'daggy' {
     RemoteLoading,
     RemoteNotAsked,
     RemoteSuccess
-  } from 'core/remote/types'
+  } from '@core/remote/types'
 
   interface IConstructor {
     Failure: ['error']
