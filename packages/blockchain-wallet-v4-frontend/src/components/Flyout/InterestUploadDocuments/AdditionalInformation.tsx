@@ -77,7 +77,7 @@ const AdditionalInformation: React.FC<InjectedFormProps<{}, Props> & Props> = (p
             <Text size='14px' weight={500} color='grey900' lineHeight='20px'>
               <FormattedMessage
                 id='modals.interest.withdrawal.upload_documents.additional_info.intend_title'
-                defaultMessage='What’s the intended use of account?'
+                defaultMessage='What’s the intended use of the account?'
               />
             </Text>
           </TextContentWrapper>
