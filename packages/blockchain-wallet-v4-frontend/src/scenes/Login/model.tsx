@@ -28,6 +28,10 @@ const BrowserWarning = styled.div`
 export const Row = styled.div`
   display: flex;
 `
+export const CenterRow = styled.div`
+  display: flex;
+  justify-content: center;
+`
 export const CartridgeSentContainer = styled.div`
   width: auto;
 `
@@ -38,15 +42,15 @@ export const GuidError = styled(TextGroup)`
 export const LoginFormLabel = styled(FormLabel)`
   margin-bottom: 8px;
 `
-export const CircleBackground = styled.div`
+export const CircleBackground = styled.div<{ color?: string; size?: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 40px;
-  height: 40px;
-  min-width: 40px;
-  background-color: ${(props) => props.theme.blue600};
-  border-radius: 40px;
+  width: ${(props) => (props.size ? props.size : '40px')};
+  height: ${(props) => (props.size ? props.size : '40px')};
+  min-width: ${(props) => (props.size ? props.size : '40px')};
+  background-color: ${(props) => (props.color ? props.theme[props.color] : props.theme.blue600)};
+  border-radius: ${(props) => (props.size ? props.size : '40px')};
   margin-bottom: 8px;
 `
 export const RectangleBackground = styled.div`
@@ -90,6 +94,7 @@ export const PhishingWarning = styled.div`
 export const BackArrowFormHeader = (props: {
   formValues: LoginFormType
   handleBackArrowClick: () => void
+  hideGuid?: boolean
 }) => {
   return (
     <>
@@ -105,19 +110,11 @@ export const BackArrowFormHeader = (props: {
           onClick={() => props.handleBackArrowClick()}
         />
         <Column>
-          {props.formValues.email ? (
+          {props.hideGuid || props.formValues.email ? (
             <Text color='grey400' size='14px' weight={600} lineHeight='1.5'>
               <FormattedMessage
                 id='scenes.login.signingin_email'
                 defaultMessage='Signing in with {email}'
-                values={{ email: props.formValues.email }}
-              />
-            </Text>
-          ) : props.formValues.email ? (
-            <Text color='grey400' size='14px' weight={600} lineHeight='1.5'>
-              <FormattedMessage
-                id='scenes.recovery.email'
-                defaultMessage='Recovering {email}'
                 values={{ email: props.formValues.email }}
               />
             </Text>
@@ -130,15 +127,17 @@ export const BackArrowFormHeader = (props: {
               />
             </Text>
           )}
-          {props.formValues.step !== LoginSteps.CHECK_EMAIL && props.formValues.email && (
-            <Text size='12px' weight={500} color='grey400'>
-              <FormattedMessage
-                id='scences.login.wallet_guid'
-                defaultMessage='Wallet: {guid}'
-                values={{ guid: props.formValues.guid }}
-              />
-            </Text>
-          )}
+          {props.formValues.step !== LoginSteps.CHECK_EMAIL &&
+            props.formValues.email &&
+            !props.hideGuid && (
+              <Text size='12px' weight={500} color='grey400'>
+                <FormattedMessage
+                  id='scences.login.wallet_guid'
+                  defaultMessage='Wallet: {guid}'
+                  values={{ guid: props.formValues.guid }}
+                />
+              </Text>
+            )}
         </Column>
       </TopRow>
     </>

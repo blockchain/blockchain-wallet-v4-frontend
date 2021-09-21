@@ -72,6 +72,7 @@ type MessagesType = {
   'buttons.withdrew': 'Withdrew'
   'buttons.withdraw_value': 'Withdraw {value}'
   'buttons.unlock_all': 'Unlock All  ->'
+  'buttons.upgrade_account': 'Upgrade Account'
   'coins.aave.intro': 'Aave is a decentralized finance protocol that allows people to lend and borrow crypto.'
   'coins.algo.intro': 'Algorand (ALGO) is a public blockchain based on a pure proof-of-stake consensus protocol.'
   'coins.bch.intro': 'Bitcoin Cash (BCH) is a fork of Bitcoin built for everyday transactions.'
@@ -409,6 +410,7 @@ type MessagesType = {
   'copy.instantly_fund': 'Send, Receive and instantly fund your trades using the Trading Account.'
   'copy.interest_transactions_report': 'Interest Transactions Report'
   'copy.oops': 'Oops. Something went wrong.'
+  'copy.later:': "I'll Do This Later"
   'copy.loading': 'Loading...'
   'copy.learn_more': 'Learn more'
   'copy.pending': 'Pending'
@@ -840,7 +842,6 @@ type MessagesType = {
   'modals.borrow.youaresafe': 'Your loan position is safe and you are not at risk of being liquidated, but you can still Add Collateral.'
   'modals.confirm.button': 'OK'
   'modals.confirm.cancel.phone_call': 'No, Thanks'
-  'modals.confirm.cancel.verify_identity': "I'll Do This Later"
   'modals.confirm.confirm.phone_call': 'Give Me A Call'
   'modals.confirm.confirm.verify_identity': 'Verify My Identity'
   'modals.confirm.message': 'Please confirm.'
@@ -2206,6 +2207,12 @@ type MessagesType = {
   'scenes.login.sendguid': 'Request Wallet ID'
   'scenes.login.signingin_email': 'Signing in with {email}'
   'scenes.login.trouble_logging_in': 'Trouble Logging In?'
+  'scenes.login.upgrade.header': 'Upgrade to a Unified Account'
+  'scenes.login.upgrade.subheader': 'Would you like to upgrade to a single login for all you Blockchain.com accounts?'
+  'scenes.login.upgrade.greatersecurity': 'Secure your investments across all Blockchain.com products.'
+  'scenes.login.upgrade.greatersecurity.header': 'Greater Security Across Accounts'
+  'scenes.login.upgrade.onelogin': 'Easily access your Blockchain.com Wallet and the Exchange with a single login.'
+  'scenes.login.upgrade.onelogin.header': 'One Login for All Accounts'
   'scences.login.wallet_guid': 'Wallet: {guid}'
   'scenes.login.simplebuy.header': 'Buy Crypto With Credit Card'
   'scenes.login.wallet.link': "Don't have a wallet?"

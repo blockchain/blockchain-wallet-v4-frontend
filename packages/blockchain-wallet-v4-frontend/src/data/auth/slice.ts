@@ -5,7 +5,7 @@ import { Remote } from 'blockchain-wallet-v4/src'
 
 const initialState = {
   auth_type: 0,
-  designatedProduct: undefined,
+  designatedProduct: 'WALLET',
   firstLogin: false,
   isAuthenticated: false,
   isLoggingIn: false,

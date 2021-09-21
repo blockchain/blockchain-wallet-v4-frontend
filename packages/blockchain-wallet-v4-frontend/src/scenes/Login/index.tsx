@@ -131,7 +131,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     }
     return (
       <>
-        {ssoDummy && (
+        {/* {ssoDummy && (
           <Button
             onClick={() => {
               // eslint-disable-next-line no-console
@@ -167,8 +167,8 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
           >
             Send Message to Mobile
           </Button>
-        )}
-        <Text color='white' size='24px' weight={600} style={{ marginBottom: '24px' }}>
+        )} */}
+        {/* <Text color='white' size='24px' weight={600} style={{ marginBottom: '24px' }}>
           {step === LoginSteps.ENTER_PASSWORD ? (
             <FormattedMessage id='scenes.login.authorize' defaultMessage='Authorize login' />
           ) : (
@@ -188,7 +188,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
               defaultMessage='Enter your password to login'
             />
           </Text>
-        )}
+        )} */}
         <Wrapper>
           <Form onSubmit={this.handleSubmit}>
             {(() => {
@@ -247,7 +247,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
             />
           </Text>
         )}
-        {step === LoginSteps.ENTER_EMAIL_GUID && (
+        {/* {step === LoginSteps.ENTER_EMAIL_GUID && (
           <>
             <Text size='14px' color='grey400' weight={500} style={{ margin: '24px 0 16px' }}>
               <FormattedMessage
@@ -262,7 +262,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
               </Text>
             </PhishingWarning>
           </>
-        )}
+        )} */}
       </>
     )
   }

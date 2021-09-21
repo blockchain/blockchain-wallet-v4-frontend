@@ -1,3 +1,4 @@
+import accountIcons from './img/account-icons.svg'
 import adBitcoinGames from './img/ad-bitcoin-games.png'
 import adBitcoinGames2 from './img/ad-bitcoin-games@2x.png'
 import airdropEnrolled from './img/airdrop-enrolled.png'
@@ -145,6 +146,7 @@ import visaLogo from './img/visa-logo.svg'
 import visaNewLogo from './img/visa-new-logo.svg'
 import wallet from './img/wallet.svg'
 import walletBlue from './img/wallet-blue.svg'
+import walletLogo from './img/wallet-logo.svg'
 import warningCircleFilled from './img/warning-circle-filled.png'
 import worldAlert from './img/world-alert.jpg'
 import worldAlert2 from './img/world-alert@2x.jpg'
@@ -154,6 +156,7 @@ import yubikey from './img/yubikey.svg'
 
 const Images = {
   ...coins,
+  'account-icons': accountIcons,
   'ad-bitcoin-games': adBitcoinGames,
   'ad-bitcoin-games2': adBitcoinGames2,
   'airdrop-enrolled': airdropEnrolled,
@@ -300,6 +303,7 @@ const Images = {
   'visa-new-logo': visaNewLogo,
   wallet,
   'wallet-blue': walletBlue,
+  'wallet-logo': walletLogo,
   'warning-circle-filled': warningCircleFilled,
   'world-alert': worldAlert,
   'world-alert2': worldAlert2,
