@@ -11,8 +11,7 @@ const { devServerConfig, webpackConfig } = webpackBuilder({
   allowUnsafeScripts: true,
   allowUnsafeStyles: true,
   extraPluginsList: [
-    new CaseSensitivePathsPlugin(),
-    new Webpack.HotModuleReplacementPlugin()
+    new CaseSensitivePathsPlugin()
   ],
   useDevServer: true,
   useHMR: true
@@ -26,6 +25,7 @@ const { devServerConfig, webpackConfig } = webpackBuilder({
 const devWebpackConfig = evolve(
   {
     devtool: () => 'inline-source-map',
+    hot: true,
     mode: () => 'development',
     module: {
       rules: update(0, {

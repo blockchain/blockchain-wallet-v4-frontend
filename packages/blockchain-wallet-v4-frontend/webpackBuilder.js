@@ -3,6 +3,7 @@ const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const { concat, prepend } = require('ramda')
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 let mockWalletOptions = require('./../../config/mocks/wallet-options-v4')
 const TerserPlugin = require('terser-webpack-plugin')
@@ -40,7 +41,6 @@ const getAndLogEnvConfig = () => {
       chalk.cyan('Wallet Helper Domain') + ': ' + chalk.blue(envConfig.WALLET_HELPER_DOMAIN)
     )
     console.log(chalk.cyan('Web Socket URL') + ': ' + chalk.blue(envConfig.WEB_SOCKET_URL))
-    console.log(chalk.cyan('SSL Enabled: ') + chalk.blue(isSslEnabled))
   }
 
   return { envConfig, isSslEnabled }
@@ -55,12 +55,12 @@ const getAndLogEnvConfig = () => {
 // the new property in the webpack.config.dev.js file.
 const buildWebpackConfig = (envConfig, extraPluginsList) => ({
   mode: 'production',
-  node: { fs: 'empty' },
   devtool: false,
   entry: {
     app: ['@babel/polyfill', CONFIG_PATH.src + '/index.js']
   },
   output: {
+    assetModuleFilename: 'resources/[name][ext]', // default asset path that is usually overwritten in specific modules.rules
     path: CONFIG_PATH.ciBuild,
     pathinfo: false,
     chunkFilename: '[name].[chunkhash:10].js',
@@ -68,7 +68,6 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
     crossOriginLoading: 'anonymous'
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.json'],
     alias: {
       components: path.resolve(__dirname, 'src/components/'),
       middleware: path.resolve(__dirname, 'src/middleware/'),
@@ -77,7 +76,8 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
       providers: path.resolve(__dirname, 'src/providers/'),
       services: path.resolve(__dirname, 'src/services/'),
       utils: path.resolve(__dirname, 'src/utils/')
-    }
+    },
+    extensions: ['.ts', '.tsx', '.js', '.json']
   },
   module: {
     rules: [
@@ -88,31 +88,25 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
       { test: /\.tsx?$/, loader: 'ts-loader' },
       {
         test: /\.(eot|ttf|otf|woff|woff2)$/,
-        use: {
-          loader: 'file-loader',
-          options: { name: 'fonts/[name]-[hash].[ext]' }
+        type: 'asset/resource',
+        generator: {
+          filename: 'fonts/[name][ext]'
         }
       },
       {
         test: /\.(png|jpg|gif|svg|ico|webmanifest|xml)$/,
-        use: {
-          loader: 'file-loader',
-          options: { name: 'img/[name].[ext]?[hash]' }
+        type: 'asset/resource',
+        generator: {
+          filename: 'img/[name][ext]?[contenthash]'
         }
       },
       {
         test: /\.(pdf)$/,
-        use: {
-          loader: 'file-loader',
-          options: { name: 'resources/[name].[ext]?[hash]' }
-        }
+        type: 'asset/resource'
       },
       {
         test: /\.(AppImage|dmg|exe)$/,
-        use: {
-          loader: 'file-loader',
-          options: { name: 'resources/[name].[ext]' }
-        }
+        type: 'asset/resource'
       },
       {
         test: /\.css$/,
@@ -138,6 +132,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
           replacement: process.env.CAPTCHA_KEY ? process.env.CAPTCHA_KEY : envConfig.RECAPTCHA_KEY
         }
       ]),
+      new NodePolyfillPlugin(),
       new Webpack.IgnorePlugin({
         resourceRegExp: /^\.\/locale$/,
         contextRegExp: /moment$/
@@ -146,7 +141,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
         devMode: 'light',
         logo: CONFIG_PATH.src + '/assets/favicon.png',
         mode: 'webapp',
-        prefix: 'img/favicons-[hash]/',
+        prefix: 'img/favicons-[contenthash]/',
         icons: {
           android: true,
           appleIcon: true,
@@ -163,7 +158,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
   ),
   optimization: {
     concatenateModules: true,
-    namedModules: true,
+    moduleIds: 'named',
     minimizer: [
       new TerserPlugin({
         terserOptions: {
@@ -215,57 +210,35 @@ const buildDevServerConfig = (
   isSslEnabled,
   useHMR
 ) => {
+  // determine config based on whether SSL is configured locally and enabled
   const localhostUrl = isSslEnabled ? 'https://localhost:8080' : 'http://localhost:8080'
+  let httpsConfig = false
+  if (isSslEnabled) {
+    try {
+      httpsConfig = {
+        cert: fs.readFileSync(CONFIG_PATH.sslConfig + '/cert.pem', 'utf8'),
+        key: fs.readFileSync(CONFIG_PATH.sslConfig + '/key.pem', 'utf8')
+      }
+      console.log(chalk.cyan('SSL: ') + chalk.blue(`enabled at ${localhostUrl}`))
+    } catch (e) {
+      console.log(chalk.red('SSL: ') + chalk.red('SSL was desired but certificates missing'))
+    }
+  } else {
+    console.log(chalk.cyan('SSL: ') + chalk.blue('disabled'))
+  }
+
 
   return {
-    cert: isSslEnabled ? fs.readFileSync(CONFIG_PATH.sslConfig + '/cert.pem', 'utf8') : '',
-    contentBase: CONFIG_PATH.src,
-    disableHostCheck: true,
+    allowedHosts: 'all',
+    client: {
+      logging: 'info',
+      overlay: {
+        errors: true,
+        warnings: true,
+      },
+      progress: true
+    },
     historyApiFallback: true,
-    host: 'localhost',
-    hot: useHMR,
-    https: isSslEnabled,
-    key: isSslEnabled ? fs.readFileSync(CONFIG_PATH.sslConfig + '/key.pem', 'utf8') : '',
-    port: 8080,
-    before(app) {
-      app.get('/wallet-options-v4.json', function (req, res) {
-        // combine wallet options base with custom environment config
-        mockWalletOptions.domains = {
-          api: envConfig.API_DOMAIN,
-          bitpay: envConfig.BITPAY_URL,
-          comRoot: envConfig.COM_ROOT,
-          comWalletApp: localhostUrl,
-          everypay: envConfig.EVERYPAY_URL,
-          exchange: envConfig.EXCHANGE_URL,
-          horizon: envConfig.HORIZON_URL,
-          ledger: localhostUrl + '/ledger', // will trigger reverse proxy
-          ledgerSocket: envConfig.LEDGER_SOCKET_URL,
-          root: envConfig.ROOT_URL,
-          veriff: envConfig.VERIFF_URL,
-          walletHelper: envConfig.WALLET_HELPER_DOMAIN,
-          webSocket: envConfig.WEB_SOCKET_URL,
-          yapilyCallbackUrl: envConfig.YAPILY_CALLBACK_URL
-        }
-
-        res.json(mockWalletOptions)
-      })
-
-      app.get('/wallet-options.json', function (req, res) {
-        mockWalletOptions.domains = {
-          comWalletApp: localhostUrl
-        }
-        res.json(mockWalletOptions)
-      })
-    },
-    proxy: {
-      '/ledger': {
-        target: envConfig.LEDGER_URL,
-        secure: false,
-        changeOrigin: true,
-        pathRewrite: { '^/ledger': '' }
-      }
-    },
-    overlay: { warnings: true, errors: true },
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Content-Security-Policy': [
@@ -303,6 +276,51 @@ const buildDevServerConfig = (
         "media-src 'self' https://storage.googleapis.com/bc_public_assets/ data: mediastream: blob:",
         "font-src 'self'"
       ].join('; ')
+    },
+    host: 'localhost',
+    hot: useHMR,
+    https: httpsConfig,
+    onBeforeSetupMiddleware(devServer) {
+      devServer.app.get('/wallet-options-v4.json', function (req, res) {
+        // combine wallet options base with custom environment config
+        mockWalletOptions.domains = {
+          api: envConfig.API_DOMAIN,
+          bitpay: envConfig.BITPAY_URL,
+          comRoot: envConfig.COM_ROOT,
+          comWalletApp: localhostUrl,
+          everypay: envConfig.EVERYPAY_URL,
+          exchange: envConfig.EXCHANGE_URL,
+          horizon: envConfig.HORIZON_URL,
+          ledger: localhostUrl + '/ledger', // will trigger reverse proxy
+          ledgerSocket: envConfig.LEDGER_SOCKET_URL,
+          root: envConfig.ROOT_URL,
+          veriff: envConfig.VERIFF_URL,
+          walletHelper: envConfig.WALLET_HELPER_DOMAIN,
+          webSocket: envConfig.WEB_SOCKET_URL,
+          yapilyCallbackUrl: envConfig.YAPILY_CALLBACK_URL
+        }
+
+        res.json(mockWalletOptions)
+      })
+
+      devServer.app.get('/wallet-options.json', function (req, res) {
+        mockWalletOptions.domains = {
+          comWalletApp: localhostUrl
+        }
+        res.json(mockWalletOptions)
+      })
+    },
+    port: 8080,
+    proxy: {
+      '/ledger': {
+        target: envConfig.LEDGER_URL,
+        secure: false,
+        changeOrigin: true,
+        pathRewrite: { '^/ledger': '' }
+      }
+    },
+    static: {
+      directory: CONFIG_PATH.src
     }
   }
 }
