@@ -215,12 +215,16 @@ export const getCoinsBalanceInfo = createDeepEqualSelector(
 
 export const getFiatBalanceInfo = createDeepEqualSelector(
   [
-    (state) => selectors.core.data.coins.getRates('BTC', state),
+    selectors.core.data.coins.getBtcTicker,
     selectors.core.settings.getCurrency,
     selectors.components.simpleBuy.getSBBalances
   ],
   (btcRatesR, currencyR, sbBalancesR) => {
-    const transform = (rates, currency, sbBalances: ExtractSuccess<typeof sbBalancesR>) => {
+    const transform = (
+      rates: ExtractSuccess<typeof btcRatesR>,
+      currency,
+      sbBalances: ExtractSuccess<typeof sbBalancesR>
+    ) => {
       const keys = Object.keys(WalletFiatEnum).filter(
         (value) => typeof WalletFiatEnum[value] === 'number'
       )

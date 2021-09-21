@@ -8,6 +8,7 @@ import * as fundRecovery from './fundRecovery/actions'
 import * as identityVerification from './identityVerification/actions'
 import * as importBtcAddress from './importBtcAddress/actions'
 import { actions as interest } from './interest/slice'
+import { actions as interestUploadDocument } from './interestUploadDocument/slice'
 import { actions as layoutWallet } from './layoutWallet/slice'
 import * as lockbox from './lockbox/actions'
 import * as manageAddresses from './manageAddresses/actions'
@@ -44,6 +45,7 @@ export {
   identityVerification,
   importBtcAddress,
   interest,
+  interestUploadDocument,
   layoutWallet,
   lockbox,
   manageAddresses,

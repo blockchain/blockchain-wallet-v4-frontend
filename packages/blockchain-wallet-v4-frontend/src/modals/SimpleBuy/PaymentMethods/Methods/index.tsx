@@ -84,7 +84,7 @@ class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   }
 
   handleSubmit = (method: SBPaymentMethodType) => {
-    this.props.simpleBuyActions.handleSBMethodChange(method, true)
+    this.props.simpleBuyActions.handleSBMethodChange({ isFlow: true, method })
   }
 
   getIcon = (value: SBPaymentMethodType): ReactElement => {

@@ -27,6 +27,7 @@ export default ({ api, coreSagas, networks }) => {
     coreSagas,
     networks
   })
+
   const { checkDataErrors, updateMnemonicBackup, upgradeAddressLabelsSaga } = walletSagas({
     coreSagas
   })
@@ -442,7 +443,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const restoreFromMetadata = function* (action) {
-    const { mnemonic } = action.payload
+    const mnemonic = action.payload
     try {
       yield put(actions.auth.restoreFromMetadataLoading())
       // try and pull recovery credentials from metadata

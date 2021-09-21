@@ -137,7 +137,9 @@ const authSlice = createSlice({
     setRegisterEmail: (state, action) => {
       state.registerEmail = action.payload
     },
-    setResetAccount: (state, action) => {},
+    setResetAccount: (state, action) => {
+      state.resetAccount = action.payload
+    },
     setResetLogin: (state, action) => {
       state.resetAccount = action.payload
     },

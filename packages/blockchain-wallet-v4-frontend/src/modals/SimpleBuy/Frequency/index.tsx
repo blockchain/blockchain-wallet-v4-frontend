@@ -7,7 +7,7 @@ import DataError from 'components/DataError'
 import { FrequencyScreen } from 'components/Flyout'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
-import { RecurringBuyPeriods } from 'data/types'
+import { RecurringBuyOrigins, RecurringBuyPeriods } from 'data/types'
 
 import { Loading, LoadingTextEnum } from '../../components'
 import getData from './selectors'
@@ -17,9 +17,13 @@ class Frequency extends PureComponent<Props> {
     this.props.recurringBuyActions.fetchPaymentInfo()
   }
 
-  handleFrequencySelection = (period?: RecurringBuyPeriods) => {
+  handleFrequencySelection = (period: RecurringBuyPeriods) => {
     this.props.formActions.change('simpleBuyCheckout', 'period', period)
     this.props.backToEnterAmount()
+    this.props.recurringBuyActions.setPeriod({
+      origin: RecurringBuyOrigins.SIMPLE_BUY_FREQUENCY_SCREEN,
+      period
+    })
   }
 
   render() {
