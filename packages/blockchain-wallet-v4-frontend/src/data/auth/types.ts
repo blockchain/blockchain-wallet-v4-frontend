@@ -79,6 +79,14 @@ export type WalletDataFromMagicLinkLegacy = {
   mobile_device_type: number | null
 }
 
+export type LoginErrorType =
+  | {
+      auth_type: number
+      authorization_required: boolean
+      initial_error?: string
+      message?: string
+    }
+  | string
 // actions
 
 interface LoginFailureActionType {
@@ -127,13 +135,6 @@ interface SetMagicLinkInfoActionType {
   type: typeof actions.setMagicLinkInfo.type
 }
 
-interface UpgradeWalletActionType {
-  payload: {
-    version: number
-  }
-  type: typeof actions.upgradeWallet.type
-}
-
 export type AuthActionTypes =
   | LoginFailureActionType
   | LoginRouteSagaActionType
@@ -144,4 +145,3 @@ export type AuthActionTypes =
   | TriggerWalletMagicLinkFailureActionType
   | TriggerWalletMagicLinkLoadingActionType
   | TriggerWalletMagicLinkSuccessActionType
-  | UpgradeWalletActionType

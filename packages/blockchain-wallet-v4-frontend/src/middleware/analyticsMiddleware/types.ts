@@ -79,7 +79,8 @@ enum AnalyticsKey {
   SETTINGS_TAB_CLICKED = 'Settings Tab Clicked',
   SIGNED_IN = 'Signed In',
   SIGNED_OUT = 'Signed Out',
-  SIGNUP_DETAILS_ENTERED = 'Signup Details Entered',
+  SIGN_UP_COUNTRY_SELECTED = 'Sign Up Country Selected',
+  SIGN_UP_COUNTRY_STATE_SELECTED = 'Sign Up Country State Selected',
   SWAP_ACCOUNTS_SELECTED = 'Swap Accounts Selected',
   SWAP_AMOUNT_ENTERED = 'Swap Amount Entered',
   SWAP_AMOUNT_MAX_CLICKED = 'Swap Amount Max Clicked',
@@ -363,9 +364,11 @@ type LoginHelpClickedPayload = BasePayload & {
   site_redirect: 'WALLET' | 'EXCHANGE'
 }
 
-type SignupDetailsEnteredPayload = BasePayload & {
+type SignUpCountrySelectPayload = BasePayload & {
   country: string
-  country_state?: string
+}
+type SignUpCountryStateSelectPayload = BasePayload & {
+  country_state: string
 }
 
 type LoginIdentifierEnteredPayload = BasePayload & {
@@ -739,7 +742,8 @@ type AnalyticsProperties =
   | SignedInPayload
   | SignedOutPayload
   | SignedUpPayload
-  | SignupDetailsEnteredPayload
+  | SignUpCountrySelectPayload
+  | SignUpCountryStateSelectPayload
   | SwapClickedPayload
   | SwapViewedPayload
   | SwapAccountsSelectedPayload

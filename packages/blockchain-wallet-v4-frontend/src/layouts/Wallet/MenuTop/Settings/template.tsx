@@ -99,7 +99,7 @@ const Settings = (props: Props) => {
             <DropdownSeparator />
             <DropdownMenuItem
               onClick={() => {
-                props.authActions.logout()
+                props.sessionActions.logout()
               }}
               data-e2e='logoutLink'
             >

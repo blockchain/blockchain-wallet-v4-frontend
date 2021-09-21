@@ -10,7 +10,7 @@ import NewVersionAvailable from './template'
 
 class NewVersionAvailableContainer extends React.PureComponent<Props> {
   onSubmit = () => {
-    this.props.authActions.logout()
+    this.props.sessionActions.logout()
     this.props.modalActions.closeModal()
   }
 
@@ -20,8 +20,8 @@ class NewVersionAvailableContainer extends React.PureComponent<Props> {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  authActions: bindActionCreators(actions.auth, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  sessionActions: bindActionCreators(actions.session, dispatch)
 })
 
 const connector = connect(undefined, mapDispatchToProps)

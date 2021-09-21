@@ -46,3 +46,8 @@ export const setManageWallet = ({ currency, selection }) => ({
   payload: { currency, selection },
   type: AT.MANAGE_WALLET_SELECTION
 })
+
+export const upgradeWallet = (version) => ({
+  payload: { version },
+  type: AT.UPGRADE_WALLET
+})

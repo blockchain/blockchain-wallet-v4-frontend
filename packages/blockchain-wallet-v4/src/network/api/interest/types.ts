@@ -125,3 +125,21 @@ export type InterestEDDStatus = {
   eddNeeded: boolean
   eddPassed: boolean
 }
+
+export type InterestEDDDocumentsResponse = {
+  categories: Array<string>
+  maxAllowedFileSizeMBs: number
+  maxNumAllowedFiles: number
+  validTypes: Array<string>
+}
+
+export type FileUploadItem = {
+  category: string
+  file: string
+}
+
+export type UploadDocumentDetails = {
+  expectedDeposits: string
+  occupation: string
+  ssn?: string
+}

@@ -65,6 +65,10 @@ const mapStateToProps = (state): LinkStatePropsType => ({
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   interestActions: bindActionCreators(actions.components.interest, dispatch),
+  interestUploadDocumentActions: bindActionCreators(
+    actions.components.interestUploadDocument,
+    dispatch
+  ),
   simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
@@ -82,6 +86,7 @@ export type OwnProps = {
 export type LinkDispatchPropsType = {
   analyticsActions: typeof actions.analytics
   interestActions: typeof actions.components.interest
+  interestUploadDocumentActions: typeof actions.components.interestUploadDocument
   simpleBuyActions: typeof actions.components.simpleBuy
 }
 

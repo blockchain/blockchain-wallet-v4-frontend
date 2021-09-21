@@ -1,0 +1,40 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [$default-branch]
+  pull_request:
+    branches: [$default-branch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.16]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+
+      - name: Install
+        run: yarn
+
+      - name: Lint
+        run: yarn ci:lint
+
+      - name: Test
+        run: yarn ci:test:build
+        run: yarn ci:test:core:components
+        run: yarn ci:test:frontend
+
+      - name: Translations
+        run: manage:translations
+
+      - name: Storybook
+        run: yarn storybook:deploy-wallet
