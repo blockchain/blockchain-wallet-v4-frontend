@@ -837,7 +837,7 @@
   "modals.interest.withdrawal.upload_documents.additional_info.description": "Please fill out this form to the best of your knowledge and then proceed to upload documents on the next screen.",
   "modals.interest.withdrawal.upload_documents.additional_info.current_job": "Current Job Title or Occupation",
   "modals.interest.withdrawal.upload_documents.additional_info.intend_title": "What’s the intended use of account?",
-  "modals.interest.withdrawal.upload_documents.additional_info.total_amount": "Total Amount of funds to be Deposited & Currencies",
+  "modals.interest.withdrawal.upload_documents.additional_info.total_amount": "Expected amounts, currencies and period",
   "modals.interest.withdrawal.upload_documents.additional_info.ssn_title": "What is your Social Security Number?",
   "modals.interest.withdrawal.upload_documents.additional_info.ssn": "SSN (US Only)",
   "modals.interest.withdrawal.upload_documents.get_started.button": "Get Started",
