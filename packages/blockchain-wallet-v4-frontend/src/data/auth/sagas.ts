@@ -20,7 +20,7 @@ import { LoginErrorType, LoginSteps, WalletDataFromMagicLink } from './types'
 
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'auth/sagas'
-  const { createUser, generateRetailToken, setSession } = profileSagas({
+  const { createUser, generateRetailToken, setSession, waitForUserData } = profileSagas({
     api,
     coreSagas,
     networks
@@ -200,6 +200,32 @@ export default ({ api, coreSagas, networks }) => {
       if (firstLogin && signupCountryEnabled && !isAccountReset && !recovery) {
         // create nabu user
         yield call(createUser)
+        // store initial address in case of US state we add prefix
+        const userState = country === 'US' ? `US-${state}` : state
+        yield call(api.setUserInitialAddress, country, userState)
+        yield call(coreSagas.settings.fetchSettings)
+      }
+
+      if (firstLogin && signupCountryEnabled && !isAccountReset && !recovery) {
+        // create nabu user
+        yield call(createUser)
+        yield call(waitForUserData)
+
+        yield put(actions.modules.profile.fetchUser())
+        yield take(actionTypes.modules.profile.FETCH_USER_DATA_SUCCESS)
+        const currencieData = (yield select(selectors.modules.profile.getUserCurrencies)).getOrElse(
+          {
+            currencies: {}
+          }
+        )
+        const countryCode = country || 'US'
+        let currency = guessCurrencyBasedOnCountry(countryCode)
+        if (currencieData && currencieData.defaultWalletCurrency) {
+          currency = currencieData.defaultWalletCurrency
+        }
+
+        yield put(actions.modules.settings.updateCurrency(currency, true))
+
         // store initial address in case of US state we add prefix
         const userState = country === 'US' ? `US-${state}` : state
         yield call(api.setUserInitialAddress, country, userState)
