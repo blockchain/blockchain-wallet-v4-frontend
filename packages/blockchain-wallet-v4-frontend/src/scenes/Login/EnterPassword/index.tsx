@@ -13,12 +13,12 @@ import { Props } from '..'
 import {
   ActionButton,
   BackArrowFormHeader,
-  BrowserWarning,
   CenteredColumn,
   LOGIN_FORM_NAME,
   NeedHelpLink,
   removeWhitespace,
-  Row
+  Row,
+  UnsupportedBrowserWarning
 } from '../model'
 
 const isSupportedBrowser = isBrowserSupported()
@@ -48,16 +48,7 @@ const EnterPassword = (props: Props) => {
     <>
       <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} />
       <FormGroup>
-        {!isSupportedBrowser && (
-          <BrowserWarning>
-            <Banner type='warning'>
-              <FormattedMessage
-                id='scenes.login.browserwarning'
-                defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, Edge, or Opera.'
-              />
-            </Banner>
-          </BrowserWarning>
-        )}
+        {!isSupportedBrowser && <UnsupportedBrowserWarning />}
         <FormItem>
           <FormLabel htmlFor='password'>
             <FormattedMessage

@@ -3,7 +3,15 @@ import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
 
-import { Button, Icon, Link, SpinningLoader, Text, TextGroup } from 'blockchain-info-components'
+import {
+  Banner,
+  Button,
+  Icon,
+  Link,
+  SpinningLoader,
+  Text,
+  TextGroup
+} from 'blockchain-info-components'
 import { FormLabel } from 'components/Form'
 import { LoginFormType, LoginSteps } from 'data/types'
 
@@ -14,7 +22,7 @@ export const removeWhitespace = (string) => string.replace(/\s/g, ``)
 export const ActionButton = styled(Button)`
   margin-top: 15px;
 `
-export const BrowserWarning = styled.div`
+const BrowserWarning = styled.div`
   margin-bottom: 10px;
 `
 export const Row = styled.div`
@@ -151,14 +159,13 @@ export const NeedHelpLink = (props: { authActions; origin: string }) => (
   </LinkContainer>
 )
 
-const SubCard = styled.div`
-  display: flex;
-  justify-content: center;
-  margin: 8px 0 32px;
-`
-const SignUpText = styled(Text)`
-  &:hover {
-    color: ${(props) => props.theme.white};
-    font-weight: 600;
-  }
-`
+export const UnsupportedBrowserWarning = () => (
+  <BrowserWarning>
+    <Banner type='warning'>
+      <FormattedMessage
+        id='scenes.login.browserwarning'
+        defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, Edge, or Opera.'
+      />
+    </Banner>
+  </BrowserWarning>
+)
