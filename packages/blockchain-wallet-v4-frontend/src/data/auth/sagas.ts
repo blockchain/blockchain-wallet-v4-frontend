@@ -27,63 +27,10 @@ export default ({ api, coreSagas, networks }) => {
     coreSagas,
     networks
   })
-  
+
   const { checkDataErrors, updateMnemonicBackup, upgradeAddressLabelsSaga } = walletSagas({
     coreSagas
   })
-
-  const forceSyncWallet = function* () {
-    yield put(actions.core.walletSync.forceSync())
-    const { error } = yield race({
-      error: take(actionTypes.core.walletSync.SYNC_ERROR),
-      success: take(actionTypes.core.walletSync.SYNC_SUCCESS)
-    })
-    if (error) {
-      throw new Error('Sync failed')
-    }
-  }
-
-  const upgradeWallet = function* (action) {
-    try {
-      const version = action.payload
-      const password = yield call(promptForSecondPassword)
-      // eslint-disable-next-line default-case
-      switch (version) {
-        case 3:
-          yield coreSagas.wallet.upgradeToV3({ password })
-          break
-        case 4:
-          yield coreSagas.wallet.upgradeToV4({ password })
-          break
-        default:
-          break
-      }
-      yield call(forceSyncWallet)
-    } catch (e) {
-      if (e.message === 'Already a v4 wallet') return
-      yield put(actions.logs.logErrorMessage(logLocation, 'upgradeWallet', e))
-      yield put(actions.alerts.displayError(C.WALLET_UPGRADE_ERROR))
-      yield put(actions.modals.closeModal())
-    }
-  }
-
-  const upgradeAddressLabelsSaga = function* () {
-    const addressLabelSize = yield call(coreSagas.kvStore.btc.fetchMetadataBtc)
-    if (addressLabelSize > 100) {
-      yield put(
-        actions.modals.showModal('UPGRADE_ADDRESS_LABELS_MODAL', {
-          duration: addressLabelSize / 20,
-          origin: 'LoginSaga'
-        })
-      )
-    }
-    if (addressLabelSize >= 0) {
-      yield call(coreSagas.kvStore.btc.createMetadataBtc)
-    }
-    if (addressLabelSize > 100) {
-      yield put(actions.modals.closeModal())
-    }
-  }
 
   const saveGoals = function* (firstLogin) {
     // only for non first login users we save goal here for first login users we do that over verify email page
