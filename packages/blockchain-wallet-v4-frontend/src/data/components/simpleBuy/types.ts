@@ -452,6 +452,11 @@ interface SetMethodAction {
   type: typeof AT.SET_METHOD
 }
 
+interface DefaultMethodEvent {
+  payload: { method: SBPaymentMethodType }
+  type: typeof AT.DEFAULT_METHOD_EVENT
+}
+
 interface SetFiatCurrencyAction {
   payload: { fiatCurrency: FiatType }
   type: typeof AT.SET_FIAT_CURRENCY
@@ -515,6 +520,7 @@ export type SimpleBuyActionTypes =
   | AddCardDetailsLoading
   | AddCardDetailsSuccess
   | AddCardFinishedAction
+  | DefaultMethodEvent
   | DestroyCheckout
   | FetchSBBalancesFailure
   | FetchSBBalancesLoading

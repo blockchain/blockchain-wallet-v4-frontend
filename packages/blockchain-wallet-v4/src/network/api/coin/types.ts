@@ -5,3 +5,13 @@ export type IndexMultiResponseType = {
     volume24h: number
   }
 }
+
+export type TickerResponseType = {
+  [key in string]: {
+    '15m': number
+    buy: number
+    last: number
+    sell: number
+    symbol: string
+  }
+}

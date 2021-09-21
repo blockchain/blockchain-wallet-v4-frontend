@@ -18,6 +18,7 @@ class VerifyEmail extends PureComponent<Props> {
     if (!isEmailVerified) {
       settingsActions.fetchSettings()
     }
+    this.props.simpleBuyActions.fetchSDDEligible()
   }
 
   handleSubmit = () => {
@@ -68,7 +69,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   ),
   profileActions: bindActionCreators(actions.modules.profile, dispatch),
   securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch),
-  settingsActions: bindActionCreators(actions.core.settings, dispatch)
+  settingsActions: bindActionCreators(actions.core.settings, dispatch),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
