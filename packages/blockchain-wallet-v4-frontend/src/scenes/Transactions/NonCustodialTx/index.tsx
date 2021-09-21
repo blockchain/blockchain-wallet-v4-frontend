@@ -2,7 +2,7 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { CoinType, FiatType, ProcessedTxType } from 'blockchain-wallet-v4/src/types'
+import { CoinType, FiatType, ProcessedTxType } from 'core/types'
 import { actions, model } from 'data'
 
 import NonCustodialTx from './template'

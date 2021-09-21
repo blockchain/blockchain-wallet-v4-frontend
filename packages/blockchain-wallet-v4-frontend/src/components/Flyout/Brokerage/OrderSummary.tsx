@@ -4,7 +4,7 @@ import moment from 'moment'
 import styled from 'styled-components'
 
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
-import { OrderType, SBOrderStateType, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
+import { OrderType, SBOrderStateType, SBPaymentTypes } from 'core/types'
 
 import Container from '../Container'
 import Content from '../Content'

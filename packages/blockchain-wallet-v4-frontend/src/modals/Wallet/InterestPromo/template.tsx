@@ -4,7 +4,7 @@ import { calcBasicInterest } from 'blockchain-wallet-v4-frontend/src/modals/Inte
 import styled from 'styled-components'
 
 import { Button, Link, Modal, ModalBody, ModalHeader, Text } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
+import { fiatToString } from 'core/exchange/utils'
 import { BlueCartridge } from 'components/Cartridge'
 import { WalletFiatType } from 'core/types'
 import { model } from 'data'

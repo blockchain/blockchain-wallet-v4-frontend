@@ -21,7 +21,7 @@ import {
   SwapOrderType,
   SwapQuoteType,
   SwapUserLimitsType
-} from 'blockchain-wallet-v4/src/types'
+} from 'core/types'
 import { RecurringBuyPeriods } from 'data/types'
 
 import { CountryType } from '../identityVerification/types'

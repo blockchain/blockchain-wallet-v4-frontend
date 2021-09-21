@@ -4,13 +4,13 @@ import { bindActionCreators, Dispatch } from 'redux'
 import styled, { DefaultTheme } from 'styled-components'
 
 import { SkeletonRectangle } from 'blockchain-info-components'
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from 'core'
 import {
   CoinType,
   FiatType,
   PriceMovementDirType,
   TimeRange
-} from 'blockchain-wallet-v4/src/types'
+} from 'core/types'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 

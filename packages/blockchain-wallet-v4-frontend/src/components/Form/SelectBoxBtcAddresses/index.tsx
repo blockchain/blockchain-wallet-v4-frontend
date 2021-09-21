@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { SkeletonRectangle } from 'blockchain-info-components'
-import { AccountTypes, RemoteDataType } from 'blockchain-wallet-v4/src/types'
+import { AccountTypes, RemoteDataType } from 'core/types'
 
 import { getData } from './selectors'
 import SelectBoxBtc from './template'

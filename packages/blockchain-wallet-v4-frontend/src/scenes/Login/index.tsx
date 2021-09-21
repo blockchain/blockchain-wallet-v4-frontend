@@ -5,7 +5,7 @@ import { bindActionCreators, compose } from 'redux'
 import { formValueSelector, getFormMeta, InjectedFormProps, reduxForm } from 'redux-form'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
+import { RemoteDataType } from 'core/types'
 import { Form } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'

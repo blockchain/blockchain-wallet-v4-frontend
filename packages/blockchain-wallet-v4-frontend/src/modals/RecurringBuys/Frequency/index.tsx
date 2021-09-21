@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from 'core'
 import DataError from 'components/DataError'
 import { FrequencyScreen } from 'components/Flyout'
 import { SBOrderType } from 'core/types'

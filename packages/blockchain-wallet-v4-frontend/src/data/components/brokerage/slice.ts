@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import Remote from 'blockchain-wallet-v4/src/remote'
+import { Remote } from 'core'
 import { WalletFiatType } from 'core/types'
 import { ModalNameType } from 'data/modals/types'
 import { BankTransferAccountType } from 'data/types'

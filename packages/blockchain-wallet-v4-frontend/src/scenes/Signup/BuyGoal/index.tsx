@@ -6,7 +6,7 @@ import { InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
 import { Icon, Link, Text } from 'blockchain-info-components'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+import Currencies from 'core/exchange/currencies'
 import { SimpleBuyWidgetGoalDataType } from 'data/types'
 
 import { Card, CardHeader, CardsWrapper, SignInText, SubCard } from '../components'

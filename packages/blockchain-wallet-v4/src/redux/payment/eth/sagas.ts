@@ -3,7 +3,7 @@ import EthUtil from 'ethereumjs-util'
 import { identity, indexOf, isNil, mergeRight, path, prop, toLower } from 'ramda'
 import { call, select } from 'redux-saga/effects'
 
-import { Exchange } from 'blockchain-wallet-v4/src/'
+import { Exchange } from 'core/'
 import { APIType } from 'core/network/api'
 import { EthRawTxType } from 'core/types'
 

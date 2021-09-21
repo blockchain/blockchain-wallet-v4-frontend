@@ -3,8 +3,7 @@ import { concat, isEmpty, isNil, last, prop } from 'ramda'
 import { FormAction, initialize } from 'redux-form'
 import { call, delay, put, select, take } from 'redux-saga/effects'
 
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import { APIType } from 'blockchain-wallet-v4/src/network/api'
+import { APIType } from 'core/network/api'
 import {
   AccountTypes,
   CoinType,
@@ -13,8 +12,9 @@ import {
   RatesType,
   RemoteDataType,
   SBBalancesType
-} from 'blockchain-wallet-v4/src/types'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+} from 'core/types'
+import { errorHandler } from 'core/utils'
+import { Exchange, Remote } from 'core'
 import { actions, actionTypes, model, selectors } from 'data'
 import coinSagas from 'data/coins/sagas'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'

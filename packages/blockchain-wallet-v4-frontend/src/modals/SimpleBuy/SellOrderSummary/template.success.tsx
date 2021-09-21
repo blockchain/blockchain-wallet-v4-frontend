@@ -4,8 +4,8 @@ import moment from 'moment'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
-import { OrderType } from 'blockchain-wallet-v4/src/types'
+import { fiatToString } from 'core/exchange/utils'
+import { OrderType } from 'core/types'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import {
   getCoinFromPair,

@@ -1,4 +1,4 @@
-import { PaymentValue } from 'blockchain-wallet-v4/src/types'
+import { PaymentValue } from 'core/types'
 
 import * as AT from './actionTypes'
 

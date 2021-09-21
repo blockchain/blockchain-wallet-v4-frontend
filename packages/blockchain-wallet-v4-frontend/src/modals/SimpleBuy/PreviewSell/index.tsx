@@ -14,15 +14,15 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { coinToString, formatFiat } from 'blockchain-wallet-v4/src/exchange/utils'
+import { Exchange } from 'core'
+import { coinToString, formatFiat } from 'core/exchange/utils'
 import {
   CoinType,
   PaymentValue,
   RatesType,
   SBOrderActionType,
   SBPairType
-} from 'blockchain-wallet-v4/src/types'
+} from 'core/types'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Value } from 'components/Flyout'
 import { actions, selectors } from 'data'

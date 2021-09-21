@@ -2,8 +2,8 @@ import BigNumber from 'bignumber.js'
 import moment from 'moment'
 import { call, put, select } from 'redux-saga/effects'
 
-import { FiatTypeEnum, PriceDiffType, TimeRange } from 'blockchain-wallet-v4/src/types'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { FiatTypeEnum, PriceDiffType, TimeRange } from 'core/types'
+import { errorHandler } from 'core/utils'
 import { APIType } from 'core/network/api'
 
 import * as pairing from '../../../pairing'

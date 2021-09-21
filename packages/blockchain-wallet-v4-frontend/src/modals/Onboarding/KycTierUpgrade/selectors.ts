@@ -1,6 +1,6 @@
 import { path, propOr } from 'ramda'
 
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
+import { fiatToString } from 'core/exchange/utils'
 import { selectors } from 'data'
 
 export const getData = (state, { currentTier, nextTier }) => {

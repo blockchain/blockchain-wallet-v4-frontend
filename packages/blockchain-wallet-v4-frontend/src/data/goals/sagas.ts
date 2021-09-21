@@ -4,13 +4,13 @@ import bip21 from 'bip21'
 import { anyPass, equals, includes, map, path, pathOr, prop, startsWith } from 'ramda'
 import { all, call, delay, join, put, select, spawn, take } from 'redux-saga/effects'
 
-import { Exchange, utils } from 'blockchain-wallet-v4/src'
 import {
   InterestAfterTransactionType,
   RatesType,
   WalletFiatType
-} from 'blockchain-wallet-v4/src/types'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+} from 'core/types'
+import { errorHandler } from 'core/utils'
+import { Exchange, utils } from 'core'
 import { actions, model, selectors } from 'data'
 import { getBchBalance, getBtcBalance } from 'data/balance/sagas'
 import { parsePaymentRequest } from 'data/bitpay/sagas'

@@ -1,5 +1,5 @@
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { fiatToString, formatFiat } from 'blockchain-wallet-v4/src/exchange/utils'
+import { Exchange } from 'core'
+import { fiatToString, formatFiat } from 'core/exchange/utils'
 
 const PERCENTAGE_100 = 100
 

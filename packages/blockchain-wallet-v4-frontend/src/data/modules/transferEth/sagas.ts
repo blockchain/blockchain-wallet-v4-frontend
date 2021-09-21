@@ -1,6 +1,6 @@
 import { call, put, select } from 'redux-saga/effects'
 
-import { EthPaymentType } from 'blockchain-wallet-v4/src/types'
+import { EthPaymentType } from 'core/types'
 import { actions } from 'data'
 import * as C from 'services/alerts'
 import { promptForSecondPassword } from 'services/sagas'

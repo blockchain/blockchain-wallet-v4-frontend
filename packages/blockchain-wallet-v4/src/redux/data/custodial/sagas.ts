@@ -5,7 +5,7 @@ import {
   CoinType,
   ProcessedSwapOrderType,
   SBPendingTransactionStateEnum
-} from 'blockchain-wallet-v4/src/types'
+} from 'core/types'
 import { APIType } from 'core/network/api'
 import { ProcessedTxType } from 'core/transactions/types'
 

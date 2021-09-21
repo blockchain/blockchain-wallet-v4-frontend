@@ -1,14 +1,14 @@
 import { getFormValues } from 'redux-form'
 import { call, delay, put, retry, select, take } from 'redux-saga/effects'
 
-import { Remote } from 'blockchain-wallet-v4/src'
-import { APIType } from 'blockchain-wallet-v4/src/network/api'
+import { APIType } from 'core/network/api'
 import {
   SBPaymentMethodType,
   SBPaymentTypes,
   SBTransactionType
-} from 'blockchain-wallet-v4/src/types'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+} from 'core/types'
+import { errorHandler } from 'core/utils'
+import { Remote } from 'core'
 import { actions, selectors } from 'data'
 import {
   AddBankStepType,

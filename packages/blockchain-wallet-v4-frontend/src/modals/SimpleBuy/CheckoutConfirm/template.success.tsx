@@ -14,8 +14,8 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
-import { FiatType, OrderType, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
+import { fiatToString } from 'core/exchange/utils'
+import { FiatType, OrderType, SBPaymentTypes } from 'core/types'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, getPeriodSubTitleText, getPeriodTitleText, Row } from 'components/Flyout'
 import { Form } from 'components/Form'

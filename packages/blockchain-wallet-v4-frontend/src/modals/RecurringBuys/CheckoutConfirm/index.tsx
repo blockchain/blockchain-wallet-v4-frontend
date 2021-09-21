@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
+import { fiatToString } from 'core/exchange/utils'
 import {
   FlyoutContainer,
   FlyoutContent,

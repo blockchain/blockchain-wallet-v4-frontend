@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 
-import { Exchange } from 'blockchain-wallet-v4/src'
+import { Exchange } from 'core'
 import { RecurringBuyGettingStarted } from 'components/Flyout'
 import { SBOrderType } from 'core/types'
 import { selectors } from 'data'

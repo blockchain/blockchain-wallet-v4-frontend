@@ -6,13 +6,13 @@ import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { SkeletonRectangle, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from 'core'
 import {
   CoinType,
   InterestEDDStatus,
   InterestRateType,
   RemoteDataType
-} from 'blockchain-wallet-v4/src/types'
+} from 'core/types'
 import { Container } from 'components/Box'
 import { SceneWrapper } from 'components/Layout'
 import { actions } from 'data'

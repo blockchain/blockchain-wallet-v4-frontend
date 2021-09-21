@@ -14,7 +14,7 @@ import {
   toPairs
 } from 'ramda'
 
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { Exchange, Remote } from 'core'
 import {
   CoinfigType,
   ExtractSuccess,
@@ -26,8 +26,8 @@ import {
   SwapOrderType,
   WalletFiatEnum,
   WalletFiatType
-} from 'blockchain-wallet-v4/src/types'
-import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
+} from 'core/types'
+import { createDeepEqualSelector } from 'core/utils'
 import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { DEFAULT_SB_BALANCE } from 'data/components/simpleBuy/model'
@@ -319,7 +319,7 @@ export const getCoinsSortedByBalance = createDeepEqualSelector(
         (coin) => coins.find((c) => c.coinfig.symbol === coin),
         reject(
           not,
-          map((x) => last(x) !== '0' && head(x), toPairs(balances))
+          map((x) => last(x) !== 0 && head(x), toPairs(balances))
         )
       ).map((coin) => coin?.coinfig)
 

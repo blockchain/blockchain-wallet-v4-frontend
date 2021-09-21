@@ -1,4 +1,4 @@
-import Remote from 'blockchain-wallet-v4/src/remote'
+import Remote from 'core/remote'
 
 import * as AT from './actionTypes'
 import { EMAIL_STEPS } from './model'

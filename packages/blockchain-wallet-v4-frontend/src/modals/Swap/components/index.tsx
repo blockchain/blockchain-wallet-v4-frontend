@@ -4,7 +4,7 @@ import { Form } from 'redux-form'
 import styled, { DefaultTheme } from 'styled-components'
 
 import { AllCoinsType, CoinAccountIcon, Text } from 'blockchain-info-components'
-import { coinToString } from 'blockchain-wallet-v4/src/exchange/utils'
+import { coinToString } from 'core/exchange/utils'
 import { SuccessCartridge } from 'components/Cartridge'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Row, Title, Value } from 'components/Flyout'

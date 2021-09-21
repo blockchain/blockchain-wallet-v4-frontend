@@ -4,13 +4,13 @@ import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Box, Image, Text } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
+import { fiatToString } from 'core/exchange/utils'
 import {
   SBPaymentMethodType,
   SBPaymentTypes,
   WalletFiatEnum,
   WalletFiatType
-} from 'blockchain-wallet-v4/src/types'
+} from 'core/types'
 import { SettingContainer, SettingSummary } from 'components/Setting'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { getBankLogoImageName } from 'services/images'

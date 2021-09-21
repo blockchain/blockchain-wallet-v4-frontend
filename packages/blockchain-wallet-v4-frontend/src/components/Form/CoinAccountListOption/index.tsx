@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled, { css, DefaultTheme } from 'styled-components'
 
 import { CoinAccountIcon, Icon, Text } from 'blockchain-info-components'
-import { FiatType } from 'blockchain-wallet-v4/src/types'
+import { FiatType } from 'core/types'
 import { SuccessCartridge } from 'components/Cartridge'
 import { SwapAccountType, SwapBaseCounterTypes } from 'data/types'
 

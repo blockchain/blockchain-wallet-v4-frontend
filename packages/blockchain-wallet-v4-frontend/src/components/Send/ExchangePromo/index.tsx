@@ -6,7 +6,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import styled, { css } from 'styled-components'
 
 import { Icon, Link, Text } from 'blockchain-info-components'
-import { WalletOptionsType } from 'blockchain-wallet-v4/src/types'
+import { WalletOptionsType } from 'core/types'
 import { actions, model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 

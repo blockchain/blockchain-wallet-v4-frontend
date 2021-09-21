@@ -17,6 +17,7 @@
     "strictNullChecks": true,
     "target": "es6",
     "paths": {
+      "core": ["blockchain-wallet-v4/src"],
       "core/*": ["blockchain-wallet-v4/src/*"],
       "components/*": ["blockchain-wallet-v4-frontend/src/components/*"],
       "middleware/*": ["blockchain-wallet-v4-frontend/src/middleware/*"],

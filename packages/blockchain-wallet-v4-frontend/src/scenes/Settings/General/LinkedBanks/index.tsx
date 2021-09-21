@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { path } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { ExtractSuccess, RemoteDataType, WalletFiatType } from 'blockchain-wallet-v4/src/types'
+import { ExtractSuccess, RemoteDataType, WalletFiatType } from 'core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import {

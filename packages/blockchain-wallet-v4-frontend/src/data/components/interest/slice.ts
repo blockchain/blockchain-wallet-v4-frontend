@@ -13,9 +13,9 @@ import {
   InterestTransactionType,
   WithdrawalMinimumTypeResponse,
   WithdrawLimits
-} from 'blockchain-wallet-v4/src/network/api/interest/types'
-import Remote from 'blockchain-wallet-v4/src/remote'
-import { CoinType, FiatType, PaymentValue, WalletFiatType } from 'blockchain-wallet-v4/src/types'
+} from 'core/network/api/interest/types'
+import Remote from 'core/remote'
+import { CoinType, FiatType, PaymentValue, WalletFiatType } from 'core/types'
 
 import {
   ErrorStringType,

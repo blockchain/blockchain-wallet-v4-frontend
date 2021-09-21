@@ -16,7 +16,7 @@ import {
   Link,
   Text
 } from 'blockchain-info-components'
-import { Types } from 'blockchain-wallet-v4/src'
+import { Types } from 'core'
 import { SettingDescription, SettingHeader } from 'components/Setting'
 import { HDDerivationType } from 'core/types'
 import { actions, selectors } from 'data'

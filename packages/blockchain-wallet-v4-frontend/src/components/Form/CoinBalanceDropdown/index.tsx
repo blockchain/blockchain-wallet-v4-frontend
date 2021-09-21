@@ -4,7 +4,7 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { CoinAccountIcon, Text } from 'blockchain-info-components'
-import { RatesType } from 'blockchain-wallet-v4/src/types'
+import { RatesType } from 'core/types'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import SelectBox from 'components/Form/SelectBox'

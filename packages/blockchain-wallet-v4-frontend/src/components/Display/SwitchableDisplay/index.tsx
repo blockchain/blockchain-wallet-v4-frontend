@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import {
   FiatTypeEnum,
   WalletCurrencyType
-} from 'blockchain-wallet-v4/src/types'
+} from 'core/types'
 import { selectors } from 'data'
 
 import CoinDisplay from '../CoinDisplay'

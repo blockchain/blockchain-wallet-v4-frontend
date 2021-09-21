@@ -1,7 +1,5 @@
 import moment from 'moment'
-import { prop } from 'ramda'
 
-import Remote from 'blockchain-wallet-v4/src/remote'
 import { CoinType } from 'core/types'
 
 import { PriceChangeType, TimeRange } from './types'

@@ -1,6 +1,6 @@
 import { lift } from 'ramda'
 
-import { CoinType } from 'blockchain-wallet-v4/src/types'
+import { CoinType } from 'core/types'
 import { selectors } from 'data'
 
 export const getData = (state, ownProps) => {

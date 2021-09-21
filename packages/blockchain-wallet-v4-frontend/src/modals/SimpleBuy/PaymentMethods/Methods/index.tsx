@@ -10,7 +10,7 @@ import {
   SBPaymentTypes,
   WalletCurrencyType,
   WalletFiatEnum
-} from 'blockchain-wallet-v4/src/types'
+} from 'core/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { CARD_TYPES, DEFAULT_CARD_SVG_LOGO } from 'components/Form/CreditCardBox/model'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/simpleBuy/model'

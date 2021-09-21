@@ -6,7 +6,7 @@ import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, CoinAccountIcon, Icon, Text } from 'blockchain-info-components'
-import { CoinType } from 'blockchain-wallet-v4/src/types'
+import { CoinType } from 'core/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListBalance } from 'components/Form'
 import IdvIntro from 'components/IdentityVerification/IdvIntro'

@@ -3,8 +3,8 @@ import { BigNumber } from 'bignumber.js'
 import { mapObjIndexed, path, prop } from 'ramda'
 import * as StellarSdk from 'stellar-sdk'
 
-import { Exchange, utils } from 'blockchain-wallet-v4/src'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+import { Exchange, utils } from 'core'
+import Currencies from 'core/exchange/currencies'
 
 import {
   InsufficientFundsMessage,

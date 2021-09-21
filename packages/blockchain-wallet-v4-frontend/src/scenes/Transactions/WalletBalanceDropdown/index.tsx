@@ -8,7 +8,7 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { CoinAccountIcon, Text } from 'blockchain-info-components'
-import { coinToString, fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
+import { coinToString, fiatToString } from 'core/exchange/utils'
 import {
   AddressTypesType,
   CoinType,
@@ -16,7 +16,7 @@ import {
   FiatType,
   FiatTypeEnum,
   WalletFiatType
-} from 'blockchain-wallet-v4/src/types'
+} from 'core/types'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import SelectBox from 'components/Form/SelectBox'

@@ -1,7 +1,7 @@
 import moment from 'moment'
 import { any, curry, equals, filter, head, includes, lift, map, path, prop, toLower } from 'ramda'
 
-import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
+import { calculateFee } from 'core/utils/eth'
 import { EthRawTxType } from 'core/network/api/eth/types'
 
 import {

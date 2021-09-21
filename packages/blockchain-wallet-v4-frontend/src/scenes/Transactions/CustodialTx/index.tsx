@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Text } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
-import { FiatSBAndSwapTransactionType } from 'blockchain-wallet-v4/src/types'
+import { fiatToString } from 'core/exchange/utils'
+import { FiatSBAndSwapTransactionType } from 'core/types'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 
 import {

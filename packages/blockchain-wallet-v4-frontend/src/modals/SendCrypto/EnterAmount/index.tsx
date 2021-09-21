@@ -11,9 +11,9 @@ import {
   convertCoinToCoin,
   convertCoinToFiat,
   convertFiatToCoin
-} from 'blockchain-wallet-v4/src/exchange'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-import { getRatesSelector } from 'blockchain-wallet-v4/src/redux/data/misc/selectors'
+} from 'core/exchange'
+import Currencies from 'core/exchange/currencies'
+import { getRatesSelector } from 'core/redux/data/misc/selectors'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import CollapseText from 'components/CollapseText'
 import { AmountTextBox } from 'components/Exchange'

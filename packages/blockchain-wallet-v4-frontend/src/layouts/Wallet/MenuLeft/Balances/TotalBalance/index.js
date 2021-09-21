@@ -5,7 +5,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
 
 import { SkeletonRectangle, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+import Currencies from 'core/exchange/currencies'
 import { getTotalBalance } from 'components/Balances/total/selectors'
 import { selectors } from 'data'
 

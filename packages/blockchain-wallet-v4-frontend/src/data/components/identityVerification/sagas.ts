@@ -1,8 +1,8 @@
 import { isEmpty, prop, toUpper } from 'ramda'
 import { call, delay, put, select, take } from 'redux-saga/effects'
 
-import { Types } from 'blockchain-wallet-v4/src'
-import { RemoteDataType, SDDVerifiedType } from 'blockchain-wallet-v4/src/types'
+import { RemoteDataType, SDDVerifiedType } from 'core/types'
+import { Types } from 'core'
 import { actions, actionTypes, model, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
 import { KycStateType } from 'data/modules/types'
@@ -132,10 +132,12 @@ export default ({ api, coreSagas, networks }) => {
       next: 0,
       selected: 2
     })
-    const kycState = (selectors.modules.profile.getUserKYCState(yield select()) as RemoteDataType<
-      string,
-      KycStateType
-    >).getOrElse('NONE')
+    const kycState = (
+      selectors.modules.profile.getUserKYCState(yield select()) as RemoteDataType<
+        string,
+        KycStateType
+      >
+    ).getOrElse('NONE')
 
     // Case where user recovers their wallet with mnemonic
     // and we reset their KYC. We have to force next and
@@ -379,17 +381,8 @@ export default ({ api, coreSagas, networks }) => {
     try {
       yield put(actions.form.startSubmit(INFO_AND_RESIDENTIAL_FORM))
       yield call(syncUserWithWallet)
-      const {
-        city,
-        country,
-        dob,
-        firstName,
-        lastName,
-        line1,
-        line2,
-        postCode,
-        state
-      } = yield select(selectors.form.getFormValues(INFO_AND_RESIDENTIAL_FORM))
+      const { city, country, dob, firstName, lastName, line1, line2, postCode, state } =
+        yield select(selectors.form.getFormValues(INFO_AND_RESIDENTIAL_FORM))
       const personalData = { dob, firstName, lastName }
 
       // in case of US we have to append state with prefix

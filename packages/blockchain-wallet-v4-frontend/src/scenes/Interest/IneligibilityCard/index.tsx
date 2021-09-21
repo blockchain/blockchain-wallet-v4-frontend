@@ -8,7 +8,7 @@ import { Icon, Link, Text } from 'blockchain-info-components'
 import {
   InterestEligibleType,
   RemoteDataType
-} from 'blockchain-wallet-v4/src/types'
+} from 'core/types'
 import { actions, selectors } from 'data'
 
 import { SuccessStateType } from '..'

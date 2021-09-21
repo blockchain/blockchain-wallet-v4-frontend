@@ -1,4 +1,4 @@
-import Remote from 'blockchain-wallet-v4/src/remote'
+import Remote from 'core/remote'
 import { RootState } from 'data/rootReducer'
 
 import { SwapAccountType } from '../swap/types'

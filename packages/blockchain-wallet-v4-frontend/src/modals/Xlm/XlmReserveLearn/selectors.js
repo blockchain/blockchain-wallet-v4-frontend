@@ -1,8 +1,8 @@
 import { BigNumber } from 'bignumber.js'
 import { mapObjIndexed } from 'ramda'
 
-import { Exchange } from 'blockchain-wallet-v4/src'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+import { Exchange } from 'core'
+import Currencies from 'core/exchange/currencies'
 
 const currencySymbolMap = mapObjIndexed((value, code) => value.units[code].symbol, Currencies)
 

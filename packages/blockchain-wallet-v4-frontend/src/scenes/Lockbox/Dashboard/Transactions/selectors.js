@@ -20,8 +20,8 @@ import {
   unapply
 } from 'ramda'
 
-import { Remote } from 'blockchain-wallet-v4/src'
-import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
+import { Remote } from 'core'
+import { createDeepEqualSelector } from 'core/utils'
 import { selectors } from 'data'
 export const concatAll = unapply(reduce(concat, []))
 

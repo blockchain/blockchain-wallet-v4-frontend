@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Icon as BCIcon, Text } from 'blockchain-info-components'
-import { CoinType, WalletFiatEnum } from 'blockchain-wallet-v4/src/types'
+import { CoinType, WalletFiatEnum } from 'core/types'
 
 import { IconTx as SharedIconTx, IconWrapper, Timestamp as SharedTimestamp } from '../components'
 import Confirmations from '../NonCustodialTx/Confirmations'

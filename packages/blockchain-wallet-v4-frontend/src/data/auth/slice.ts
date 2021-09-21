@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit'
 
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from 'core'
 
 import { AuthStateType } from './types'
 

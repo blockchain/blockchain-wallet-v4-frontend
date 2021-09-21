@@ -1,6 +1,6 @@
 import { length, lift } from 'ramda'
 
-import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
+import { createDeepEqualSelector } from 'core/utils'
 import {
   getLockboxBchBalance,
   getLockboxBtcBalance,

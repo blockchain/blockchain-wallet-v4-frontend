@@ -26,8 +26,8 @@ import {
 } from 'ramda'
 import { all, call, put, select, take } from 'redux-saga/effects'
 
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
+import { errorHandler } from 'core/utils'
+import { calculateFee } from 'core/utils/eth'
 import { APIType } from 'core/network/api'
 import { EthRawTxType } from 'core/network/api/eth/types'
 import { EthProcessedTxType } from 'core/transactions/types'

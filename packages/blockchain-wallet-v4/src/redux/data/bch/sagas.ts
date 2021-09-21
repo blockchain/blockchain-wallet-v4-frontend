@@ -5,7 +5,7 @@ import { call, put, select, take } from 'redux-saga/effects'
 import {
   FetchCustodialOrdersAndTransactionsReturnType,
   HDAccountList
-} from 'blockchain-wallet-v4/src/types'
+} from 'core/types'
 import { APIType } from 'core/network/api'
 import { BchTxType } from 'core/transactions/types'
 

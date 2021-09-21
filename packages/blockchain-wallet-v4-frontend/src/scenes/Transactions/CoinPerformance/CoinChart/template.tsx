@@ -12,7 +12,7 @@ import ResizeObserver from 'resize-observer-polyfill'
 import styled, { DefaultTheme } from 'styled-components'
 
 import { Color } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
+import { fiatToString } from 'core/exchange/utils'
 import { CoinType, FiatType } from 'core/types'
 
 type Data = [number, number]

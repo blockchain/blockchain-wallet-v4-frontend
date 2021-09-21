@@ -1,4 +1,4 @@
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from 'core'
 
 import { LOCKBOX, XLM } from '../../kvStore/config'
 import { dataPath, kvStorePath } from '../../paths'
