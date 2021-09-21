@@ -87,7 +87,7 @@ const AdditionalInformation: React.FC<InjectedFormProps<{}, Props> & Props> = (p
                 <Text weight={600} size='14px' color='grey900'>
                   <FormattedMessage
                     id='modals.interest.withdrawal.upload_documents.additional_info.total_amount'
-                    defaultMessage='Total Amount of funds to be Deposited & Currencies'
+                    defaultMessage='Expected amounts, currencies and period'
                   />
                 </Text>
               </FormLabel>
@@ -96,6 +96,7 @@ const AdditionalInformation: React.FC<InjectedFormProps<{}, Props> & Props> = (p
                 errorBottom
                 component={TextBox}
                 validate={[required]}
+                placeholder='over 100k, BTC, in a 2 years period'
               />
             </FormItem>
           </ContentWrapper>
