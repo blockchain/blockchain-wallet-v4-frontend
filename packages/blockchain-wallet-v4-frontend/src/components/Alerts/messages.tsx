@@ -1104,6 +1104,20 @@ const getAlertContent = (message, data = undefined) => {
           defaultMessage='Restoring account failed. Please try again.'
         />
       )
+    case C.SAVE_ADDITIONAL_DOCUMENTS_ERROR:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.save_additional_documents_error'
+          defaultMessage='Save of additional information failed'
+        />
+      )
+    case C.UPLOAD_ADDITIONAL_DOCUMNETS_FILES_ERROR:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.upload_additional_documents_files_error'
+          defaultMessage='Upload of documents failed'
+        />
+      )
     default:
       return buildMessageTemplate(
         message || (

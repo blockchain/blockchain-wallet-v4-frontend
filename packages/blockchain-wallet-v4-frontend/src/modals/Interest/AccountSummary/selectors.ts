@@ -11,6 +11,9 @@ export const getData = (state) => {
   const accountBalancesR = selectors.components.interest.getInterestAccountBalance(state)
   const interestLimitsR = selectors.components.interest.getInterestLimits(state)
   const interestRateR = selectors.components.interest.getInterestRate(state)
+  const flagEDDInterestFileUpload = selectors.core.walletOptions
+    .getEDDInterestFileUpload(state)
+    .getOrElse(false)
 
   return lift(
     (
@@ -19,6 +22,7 @@ export const getData = (state) => {
       interestRate: ExtractSuccess<typeof interestRateR>
     ) => ({
       accountBalances,
+      flagEDDInterestFileUpload,
       interestLimits,
       interestRate
     })
