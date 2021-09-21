@@ -147,7 +147,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
       <Top>
         <TopText color='grey800' size='20px' weight={600}>
           <ArrowIcon
-            onClick={() => interestActions.setInterestStep('ACCOUNT_SUMMARY')}
+            onClick={() => interestActions.setInterestStep({ name: 'ACCOUNT_SUMMARY' })}
             cursor
             role='button'
             name='arrow-left'
@@ -493,7 +493,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
               />
             </Text>{' '}
             <Link
-              href='https://www.blockchain.com/legal/borrow-terms'
+              href='https://www.blockchain.com/legal/reward-terms'
               target='_blank'
               size='14px'
               weight={500}

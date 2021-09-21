@@ -38,13 +38,7 @@ export default {
     ]
   },
   component: FrequencyScreen,
-  decorators: [
-    (Story) => (
-      <IntlProvider locale='en'>
-        <Story />
-      </IntlProvider>
-    )
-  ],
+  decorators: [(Story) => <IntlProvider locale='en'>{Story()}</IntlProvider>],
   title: 'Flyouts/RecurringBuy/FrequencySelection'
 } as ComponentMeta<typeof FrequencyScreen>
 

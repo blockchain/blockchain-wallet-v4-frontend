@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Field, InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
@@ -11,6 +11,7 @@ import {
   FormItem,
   FormLabel,
   PasswordBox,
+  SelectBox,
   SelectBoxCountry,
   SelectBoxUSState,
   TextBox
@@ -50,10 +51,17 @@ const FieldWithoutBottomRadius = styled(FormItem)<{ setBorder: boolean }>`
   .bc__control {
     border-radius: ${(props) => (props.setBorder ? '8px 8px 0 0 ' : '8px')};
   }
+
+  .bc__menu {
+    overflow: hidden;
+  }
 `
 const FieldWithoutTopRadius = styled(FormItem)<{ setBorder: boolean }>`
   .bc__control {
     border-radius: ${(props) => (props.setBorder ? '0 0 8px 8px' : '8px')};
+  }
+  .bc__menu {
+    overflow: hidden;
   }
 `
 
@@ -67,10 +75,17 @@ const SignupForm = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) =
     onCountrySelect,
     onSignupSubmit,
     showState,
-    signupCountryEnabled
+    signupCountryEnabled,
+    userGeoData
   } = props
   const { password = '' } = formValues || {}
   const passwordScore = window.zxcvbn ? window.zxcvbn(password).score : 0
+
+  useEffect(() => {
+    if (userGeoData?.countryCode && signupCountryEnabled) {
+      props.setDefaultCountry(userGeoData.countryCode)
+    }
+  }, [])
 
   return (
     <StyledForm override onSubmit={onSignupSubmit}>
@@ -172,14 +187,13 @@ const SignupForm = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) =
               data-e2e='selectCountryDropdown'
               name='country'
               validate={required}
-              component={SelectBoxCountry}
+              component={SelectBoxCountry as ReturnType<typeof SelectBox>}
               menuPlacement='auto'
-              // @ts-ignore
               onChange={onCountrySelect}
               label={
                 <FormattedMessage
-                  id='components.selectboxcountry.label'
-                  defaultMessage='Select country'
+                  id='scenes.register.select_a_country'
+                  defaultMessage='Select a Country'
                 />
               }
             />
@@ -239,7 +253,7 @@ const SignupForm = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) =
       </FormGroup>
       <FormGroup>
         <FormItem>
-          <Terms style={{ width: '397px' }} />
+          <Terms style={{ textAlign: 'center', width: '397px' }} isCentered />
         </FormItem>
       </FormGroup>
 

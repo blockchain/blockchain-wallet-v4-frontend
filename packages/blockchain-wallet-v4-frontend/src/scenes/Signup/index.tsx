@@ -44,14 +44,14 @@ class SignupContainer extends React.PureComponent<
     e.preventDefault()
     const { authActions, formValues, language } = this.props
     const { country, email, password, state } = formValues
-    authActions.register(email, password, language, country, state)
+    authActions.register({ country, email, language, password, state })
   }
 
   toggleSignupFormVisibility = () => {
     this.setState({ showForm: true })
   }
 
-  onCountryChange = (e: React.SyntheticEvent, value: string) => {
+  onCountryChange = (e: React.ChangeEvent<any> | undefined, value: string) => {
     this.setDefaultCountry(value)
     this.props.formActions.clearFields(SIGNUP_FORM, false, false, 'state')
   }
@@ -60,16 +60,18 @@ class SignupContainer extends React.PureComponent<
     this.setState({ showState: country === 'US' })
   }
 
+  setCountryOnLoad = (country: string) => {
+    this.setDefaultCountry(country)
+    this.props.formActions.change(SIGNUP_FORM, 'country', country)
+  }
+
   render() {
-    const { goals, isLoadingR, signupCountryEnabled, userGeoData } = this.props
+    const { goals, isLoadingR, signupCountryEnabled } = this.props
     const isFormSubmitting = Remote.Loading.is(isLoadingR)
 
     // pull email from simple buy goal if it exists
     const email = pathOr('', ['data', 'email'], find(propEq('name', 'simpleBuy'), goals))
     const signupInitialValues = (email ? { email } : {}) as SignupFormInitValuesType
-    if (userGeoData?.countryCode && signupCountryEnabled) {
-      signupInitialValues.country = userGeoData.countryCode
-    }
     const isLinkAccountGoal = !!find(propEq('name', 'linkAccount'), goals)
     const isBuyGoal = !!find(propEq('name', 'simpleBuy'), goals)
 
@@ -79,6 +81,7 @@ class SignupContainer extends React.PureComponent<
       isLinkAccountGoal,
       onCountrySelect: this.onCountryChange,
       onSignupSubmit: this.onSubmit,
+      setDefaultCountry: this.setCountryOnLoad,
       showForm: this.state.showForm,
       showState: this.state.showState,
       signupCountryEnabled,
@@ -130,7 +133,10 @@ type StateProps = {
   showForm: boolean
   showState: boolean
 }
-export type Props = ConnectedProps<typeof connector> & LinkStatePropsType
+type ownProps = {
+  setDefaultCountry: (country: string) => void
+}
+export type Props = ConnectedProps<typeof connector> & LinkStatePropsType & ownProps
 
 const enhance = compose(reduxForm<{}, Props>({ form: SIGNUP_FORM }), connector)
 

@@ -25,30 +25,20 @@ export const getAnnouncements = (state) =>
 export const getNewCoinListing = (state: RootState) =>
   getOptions(state).map((options) => options.platforms.web.coinListing)
 
-// eslint-disable-next-line
-export const getXlmSendTimeOutSeconds = (state) => Remote.of(600)
-// eslint-disable-next-line
-export const getXlmExchangeAddresses = (state) => Remote.of([])
+export const getXlmSendTimeOutSeconds = () => Remote.of(600)
+export const getXlmExchangeAddresses = () => Remote.of([])
 
-// domains
+// 3rd Party
 export const getVeriffDomain = (state) => getDomains(state).map(prop('veriff'))
-
-// partners
 export const getSiftKey = (state) => getWebOptions(state).map(path(['sift', 'apiKey']))
-export const getSiftPaymentKey = (state: RootState) => {
-  return getWebOptions(state).map((options) => options.sift.paymentKey)
-}
+
+//
+// FEATURE FLAG SELECTORS
+//
+
 // show pairing code flag on staging
 export const getPairingCodeFlag = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'legacyMobilePairing']))
-
-// mobile auth flag
-export const getMobileAuthFlag = (state) =>
-  getWebOptions(state).map(path(['mobile_auth', 'enabled']))
-
-// brokerage deposits withdrawals flag
-export const getBrokerageDepositsWithdrawals = (state) =>
-  getWebOptions(state).map(path(['brokerage_deposits_withdrawals', 'enabled']))
 
 // recurring buys flag
 export const getFeatureFlagRecurringBuys = (state: RootState) =>
@@ -69,3 +59,6 @@ export const getFeatureSignupCountry = (state: RootState) =>
 // signup country feature flag
 export const getEDDInterestFileUpload = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'eddInterestFileUpload']))
+
+export const getSsoDummy = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'ssoDummy']))

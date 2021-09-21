@@ -1,6 +1,8 @@
-import { RecurringBuyOrigins } from 'data/types'
+import { SBPaymentTypes } from 'core/types'
+import { RecurringBuyOrigins, RecurringBuyPeriods } from 'data/types'
 
 enum AnalyticsKey {
+  ACCOUNT_PASSWORD_RESET = 'Account Password Reset',
   ADDRESS_VERIFY_MESSAGE_CLICKED = 'Address Verify Message Clicked',
   ADD_MOBILE_NUMBER_CLICKED = 'Add Mobile Number Clicked',
   AMOUNT_SWITCHED = 'Amount Switched',
@@ -12,6 +14,7 @@ enum AnalyticsKey {
   BUY_SELL_VIEWED = 'Buy Sell Viewed',
   CANCEL_RECURRING_BUY_CLICKED = 'Cancel Recurring Buy Clicked',
   CHANGE_MOBILE_NUMBER_CLICKED = 'Change Mobile Number Clicked',
+  CLOUD_BACKUP_CODE_SCANNED = 'Cloud Backup Code Scanned',
   CRYPTO_LINK_HANDLING_CLICKED = 'Crypto Link Handling Clicked',
   DASHBOARD_CLICKED = 'Dashboard Clicked',
   DASHBOARD_VIEWED = 'Dashboard Viewed',
@@ -19,6 +22,7 @@ enum AnalyticsKey {
   DEPOSIT_CLICKED = 'Deposit Clicked',
   DEPOSIT_METHOD_SELECTED = 'Deposit Method Selected',
   DEPOSIT_VIEWED = 'Deposit Viewed',
+  DEVICE_VERIFIED = 'Device Verified',
   EMAIL_VERIFICATION_REQUESTED = 'Email Verification Requested',
   EMAIL_VERIFICATION_SKIPPED = 'Email Verification Skipped',
   IMPORT_ADDRESS_CLICKED = 'Import Address Clicked',
@@ -33,11 +37,24 @@ enum AnalyticsKey {
   INTEREST_WITHDRAWAL_CLICKED = 'Interest Withdrawal Clicked',
   INTEREST_WITHDRAWAL_VIEWED = 'Interest Withdrawal Viewed',
   LINK_BANK_CLICKED = 'Link Bank Clicked',
+  LOGIN_HELP_CLICKED = 'Login Help Clicked',
+  LOGIN_IDENTIFIER_ENTERED = 'Login Identifier Entered',
+  LOGIN_METHOD_SELECTED = 'Login Method Selected',
+  LOGIN_PASSWORD_DENIED = 'Login Password Denied',
+  LOGIN_PASSWORD_ENTERED = 'Login Password Entered',
+  LOGIN_REQUEST_APPROVED = 'Login Request Approved',
+  LOGIN_REQUEST_DENIED = 'Login Request Denied',
+  LOGIN_TWO_STEP_VERIFICATION_DENIED = 'Login Two Step Verification Denied',
+  LOGIN_TWO_STEP_VERIFICATION_ENTERED = 'Login Two Step Verification Entered',
+  LOGIN_VIEWED = 'Login Viewed',
   MANAGE_TAB_SELECTION_CLICKED = 'Manage Tab Selection Clicked',
+  NEW_ACCOUNT_PASSWORD_ENTERED = 'New Account Password Entered',
   NOTIFICATION_PREFERENCES_UPDATED = 'Notification Preferences Updated',
   PRIVATE_KEYS_SHOWN = 'Private Keys Shown',
   RECEIVE_CURRENCY_SELECTED = 'Receive Currency Selected',
   RECEIVE_DETAILS_COPIED = 'Receive Details Copied',
+  RECOVERY_OPTION_SELECTED = 'Recovery Option Selected',
+  RECOVERY_PHRASE_ENTERED = 'Recovery Phrase Entered',
   RECURRING_BUY_ACTIVATED = 'Recurring Buy Activated',
   RECURRING_BUY_CANCELLED = 'Recurring Buy Cancelled',
   RECURRING_BUY_CLICKED = 'Recurring Buy Clicked',
@@ -46,6 +63,8 @@ enum AnalyticsKey {
   RECURRING_BUY_LEARN_MORE_CLICKED = 'Recurring Buy Learn More Clicked',
   RECURRING_BUY_SUGGESTION_SKIPPED = 'Recurring Buy Suggestion Skipped',
   RECURRING_BUY_VIEWED = 'Recurring Buy Viewed',
+  RESET_ACCOUNT_CANCELLED = 'Reset Account Cancelled',
+  RESET_ACCOUNT_CLICKED = 'Reset Account Clicked',
   SELL_AMOUNT_ENTERED = 'Sell Amount Entered',
   SELL_AMOUNT_MAX_CLICKED = 'Sell Amount Max Clicked',
   SELL_AMOUNT_MIN_CLICKED = 'Sell Amount Min Clicked',
@@ -59,6 +78,8 @@ enum AnalyticsKey {
   SETTINGS_TAB_CLICKED = 'Settings Tab Clicked',
   SIGNED_IN = 'Signed In',
   SIGNED_OUT = 'Signed Out',
+  SIGN_UP_COUNTRY_SELECTED = 'Sign Up Country Selected',
+  SIGN_UP_COUNTRY_STATE_SELECTED = 'Sign Up Country State Selected',
   SWAP_ACCOUNTS_SELECTED = 'Swap Accounts Selected',
   SWAP_AMOUNT_ENTERED = 'Swap Amount Entered',
   SWAP_AMOUNT_MAX_CLICKED = 'Swap Amount Max Clicked',
@@ -70,6 +91,7 @@ enum AnalyticsKey {
   SWAP_VIEWED = 'Swap Viewed',
   TRANSFER_IMPORTED_ADDRESS_CLICKED = 'Transfer Imported Addresses Clicked', // TODO
   UPGRADE_VERIFICATION_CLICKED = 'Upgrade Verification Clicked',
+  WALLET_SIGNED_UP = 'Wallet Signed Up',
   WITHDRAWAL_AMOUNT_ENTERED = 'Withdrawal Amount Entered',
   WITHDRAWAL_AMOUNT_MAX_CLICKED = 'Withdrawal Amount Max Clicked',
   WITHDRAWAL_AMOUNT_MIN_CLICKED = 'Withdrawal Amount Min Clicked',
@@ -92,6 +114,7 @@ type RawEvent = {
 }
 
 enum AccountType {
+  CUSTODIAL = 'CUSTODIAL',
   SAVINGS = 'SAVINGS',
   TRADING = 'TRADING',
   USERKEY = 'USERKEY'
@@ -126,6 +149,12 @@ enum DepositMethod {
   BANK_TRANSFER = 'BANK_TRANSFER'
 }
 
+enum LoginHelpClikedOrigin {
+  IDENTIFIER = 'IDENTIFIER',
+  PASSWORD = 'PASSWORD',
+  QR_CODe = 'QR_CODE'
+}
+
 enum SendReceive {
   RECEIVE = 'RECEIVE',
   SEND = 'SEND'
@@ -152,6 +181,7 @@ type PageViewPayload = {
 type PageName =
   | '/home'
   | '/interest'
+  | '/login'
   | '/settings/addresses/btc'
   | '/settings/addresses/bch'
   | '/settings/addresses/eth'
@@ -328,11 +358,34 @@ type LinkBankClickedPayload = BasePayload & {
   origin: LinkBankClickedOrigin
 }
 
+type LoginHelpClickedPayload = BasePayload & {
+  origin: LoginHelpClikedOrigin
+  site_redirect: 'WALLET' | 'EXCHANGE'
+}
+
+type SignUpCountrySelectPayload = BasePayload & {
+  country: string
+}
+type SignUpCountryStateSelectPayload = BasePayload & {
+  country_state: string
+}
+
+type LoginIdentifierEnteredPayload = BasePayload & {
+  identifier_type: 'EMAIL' | 'WALLET_ID'
+}
+
+type LoginMethodSelectedPayload = BasePayload & {
+  login_method: 'PASSWORD' | 'SECURE_CHANNEL'
+}
 type ManageTabSelectionClickedSelection =
   | 'EDIT_WALLET_NAME'
   | 'RECOVER_FUNDS'
   | 'SHOW_CHANGE_ADDRESSES'
   | 'SHOW_XPUB'
+
+type LoginRequestPayload = BasePayload & {
+  request_platform: 'EXCHANGE' | 'WALLET'
+}
 
 type ManageTabSelectionClickedPayload = BasePayload & {
   currency: string
@@ -356,6 +409,47 @@ type ReceiveCurrencySelectedPayload = BasePayload & {
 type ReceiveDetailsCopiedPayload = BasePayload & {
   account_type: AccountType
   currency: string
+}
+
+type RecoveryOptionSelectedPayload = BasePayload & {
+  recovery_type: 'CLOUD_BACKUP' | 'RECOVERY_PHRASE'
+}
+
+type ResetAccountPayload = BasePayload & {
+  origin: 'RESET_CONFIRMATION' | 'RESET_FINAL_WARNING' | 'RECOVERY_PHRASE' | 'RECOVERY_OPTIONS'
+}
+
+export type RecurringBuyViewedPayload = BasePayload & {
+  path: string
+  referrer: string
+  search: string
+  title: string
+  url: string
+}
+
+export type RecurringBuyLearnMoreClickPayload = BasePayload & {
+  origin: RecurringBuyOrigins
+}
+
+export type RecurringBuySuggestionSkippedPayload = BasePayload & {
+  origin: RecurringBuyOrigins
+}
+
+export type RecurringBuyInfoViewedPayload = BasePayload & {
+  page: number
+}
+
+export type RecurringBuyCancelPayload = BasePayload & {
+  frequency: RecurringBuyPeriods
+  input_amount: number
+  input_currency: string
+  origin: keyof typeof RecurringBuyOrigins
+  output_currency: string
+  payment_method: SBPaymentTypes
+}
+
+export type RecurringBuyClickedPayload = BasePayload & {
+  origin: keyof typeof RecurringBuyOrigins
 }
 
 export type RecurringBuyDetailsClickedPayload = BasePayload & {
@@ -450,6 +544,8 @@ type SettingsTabClickedDestination =
 type SettingsTabClickedPayload = BasePayload & {
   destination: SettingsTabClickedDestination
 }
+
+type SignedUpPayload = BasePayload
 
 type SignedInPayload = BasePayload
 
@@ -607,11 +703,23 @@ type AnalyticsProperties =
   | InterestWithdrawalClickedPayload
   | InterestWithdrawalViewedPayload
   | LinkBankClickedPayload
+  | LoginHelpClickedPayload
+  | LoginIdentifierEnteredPayload
+  | LoginMethodSelectedPayload
+  | LoginRequestPayload
   | ManageTabSelectionClickedPayload
   | NotificationPreferencesUpdatedPayload
   | PrivateKeysShownPayload
   | ReceiveCurrencySelectedPayload
   | ReceiveDetailsCopiedPayload
+  | RecoveryOptionSelectedPayload
+  | ResetAccountPayload
+  | RecurringBuyViewedPayload
+  | RecurringBuyLearnMoreClickPayload
+  | RecurringBuySuggestionSkippedPayload
+  | RecurringBuyInfoViewedPayload
+  | RecurringBuyCancelPayload
+  | RecurringBuyClickedPayload
   | RecurringBuyDetailsClickedPayload
   | SellAmountEnteredPayload
   | SellAmountMaxClickedPayload
@@ -629,6 +737,9 @@ type AnalyticsProperties =
   | SettingsTabClickedPayload
   | SignedInPayload
   | SignedOutPayload
+  | SignedUpPayload
+  | SignUpCountrySelectPayload
+  | SignUpCountryStateSelectPayload
   | SwapClickedPayload
   | SwapViewedPayload
   | SwapAccountsSelectedPayload

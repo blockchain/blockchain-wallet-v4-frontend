@@ -16,7 +16,7 @@ export const getData = createDeepEqualSelector(
         state
       )
   ],
-  priceChangeR => {
+  (priceChangeR) => {
     const transform = (priceChange: ExtractSuccess<typeof priceChangeR>) => {
       return {
         priceChange

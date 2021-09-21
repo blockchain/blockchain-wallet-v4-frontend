@@ -1,26 +1,22 @@
 import { takeLatest } from 'redux-saga/effects'
 
-import * as AT from './actionTypes'
 import sagas from './sagas'
+import { actions } from './slice'
 
 export default ({ api, coreSagas, networks }) => {
   const authSagas = sagas({ api, coreSagas, networks })
 
   return function* authSaga() {
-    yield takeLatest(AT.DEAUTHORIZE_BROWSER, authSagas.deauthorizeBrowser)
-    yield takeLatest(AT.LOGIN, authSagas.login)
-    yield takeLatest(AT.LOGOUT, authSagas.logout)
-    yield takeLatest(AT.LOGOUT_CLEAR_REDUX_STORE, authSagas.logoutClearReduxStore)
-    yield takeLatest(AT.MOBILE_LOGIN, authSagas.mobileLogin)
-    yield takeLatest(AT.REGISTER, authSagas.register)
-    yield takeLatest(AT.RESET_ACCOUNT, authSagas.resetAccount)
-    yield takeLatest(AT.RESTORE, authSagas.restore)
-    yield takeLatest(AT.RESEND_SMS_CODE, authSagas.resendSmsLoginCode)
-    yield takeLatest(AT.RESTORE_FROM_METADATA, authSagas.restoreFromMetadata)
-    yield takeLatest(AT.UPGRADE_WALLET, authSagas.upgradeWallet)
-    yield takeLatest(AT.INITIALIZE_LOGIN, authSagas.initializeLogin)
-    yield takeLatest(AT.TRIGGER_WALLET_MAGIC_LINK, authSagas.triggerWalletMagicLink)
-    yield takeLatest(AT.GET_USER_GEO_LOCATION, authSagas.getUserGeoLocation)
-    yield takeLatest(AT.PING_MANIFEST_FILE, authSagas.pingManifestFile)
+    yield takeLatest(actions.login.type, authSagas.login)
+    yield takeLatest(actions.mobileLogin.type, authSagas.mobileLogin)
+    yield takeLatest(actions.register.type, authSagas.register)
+    yield takeLatest(actions.resetAccount.type, authSagas.resetAccount)
+    yield takeLatest(actions.restore.type, authSagas.restore)
+    yield takeLatest(actions.resendSmsCode.type, authSagas.resendSmsLoginCode)
+    yield takeLatest(actions.restoreFromMetadata.type, authSagas.restoreFromMetadata)
+    yield takeLatest(actions.initializeLogin.type, authSagas.initializeLogin)
+    yield takeLatest(actions.triggerWalletMagicLink.type, authSagas.triggerWalletMagicLink)
+    yield takeLatest(actions.getUserGeoLocation.type, authSagas.getUserGeoLocation)
+    yield takeLatest(actions.pingManifestFile.type, authSagas.pingManifestFile)
   }
 }

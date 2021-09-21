@@ -191,7 +191,7 @@ class SwapOrderTx extends PureComponent<Props, State> {
                 <Status {...this.props} />
               </RowValue>
               <RowHeader>
-                <FormattedMessage id='copy.amount_sent' defaultMessage='Amount Sent' />
+                <FormattedMessage id='copy.total' defaultMessage='Total' />
               </RowHeader>
               <RowValue data-e2e='swapPurchasing'>
                 {fiatToString({

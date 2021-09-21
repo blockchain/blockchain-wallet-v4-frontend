@@ -1,15 +1,4 @@
-import {
-  concat,
-  curry,
-  filter,
-  flatten,
-  keysIn,
-  map,
-  not,
-  path,
-  pathOr,
-  prop
-} from 'ramda'
+import { concat, curry, filter, flatten, keysIn, map, not, path, pathOr, prop } from 'ramda'
 
 import * as Types from '../../../types'
 import { createDeepEqualSelector } from '../../../utils'
@@ -19,23 +8,16 @@ import { dataPath } from '../../paths'
 import * as walletSelectors from '../../wallet/selectors'
 
 export const getWalletContext = createDeepEqualSelector(
-  [
-    walletSelectors.getHDAccounts,
-    walletSelectors.getActiveAddresses,
-    getAccounts
-  ],
+  [walletSelectors.getHDAccounts, walletSelectors.getActiveAddresses, getAccounts],
   (btcHDAccounts, activeAddresses, metadataAccountsR) => {
-    const transform = metadataAccounts => {
-      const activeAccounts = filter(account => {
+    const transform = (metadataAccounts) => {
+      const activeAccounts = filter((account) => {
         const index = prop('index', account)
         const metadataAccount = metadataAccounts[index]
         return not(prop('archived', metadataAccount))
       }, btcHDAccounts)
       return flatten(
-        map(
-          a => Types.HDAccount.selectXpub(Types.HDAccount.fromJS(a), 'legacy'),
-          activeAccounts
-        )
+        map((a) => Types.HDAccount.selectXpub(Types.HDAccount.fromJS(a), 'legacy'), activeAccounts)
       )
     }
     const activeAccounts = metadataAccountsR.map(transform).getOrElse([])
@@ -47,7 +29,7 @@ export const getWalletContext = createDeepEqualSelector(
 export const getContext = createDeepEqualSelector(
   [getWalletContext, getLockboxBchContext],
   (walletContext, lockboxContextR) => {
-    const lockboxContext = lockboxContextR.map(x => x).getOrElse([])
+    const lockboxContext = lockboxContextR.map((x) => x).getOrElse([])
     return concat(walletContext, lockboxContext)
   }
 )
@@ -60,15 +42,9 @@ export const getInfo = path([dataPath, 'bch', 'info'])
 
 export const getLatestBlock = path([dataPath, 'bch', 'latest_block'])
 
-export const getRates = path([dataPath, 'bch', 'rates'])
-
 export const getTransactions = path([dataPath, 'bch', 'transactions'])
 
-export const getTransactionHistory = path([
-  dataPath,
-  'bch',
-  'transaction_history'
-])
+export const getTransactionHistory = path([dataPath, 'bch', 'transaction_history'])
 
 export const getCoins = path([dataPath, 'bch', 'payment', 'coins'])
 
@@ -88,33 +64,23 @@ export const getTotalTxPerAccount = curry((xpubOrAddress, state) =>
 export const getFinalBalance = curry((state, address) =>
   getAddresses(state)
     .map(path([address, 'final_balance']))
-    .map(x => x || 0)
+    .map((x) => x || 0)
 )
 
-export const getBalance = state => getInfo(state).map(path(['final_balance']))
+export const getBalance = (state) => getInfo(state).map(path(['final_balance']))
 
-export const getNumberTransactions = state => getInfo(state).map(path(['n_tx']))
+export const getNumberTransactions = (state) => getInfo(state).map(path(['n_tx']))
 
-export const getHeight = state => getLatestBlock(state).map(path(['height']))
+export const getHeight = (state) => getLatestBlock(state).map(path(['height']))
 
-export const getTime = state => getLatestBlock(state).map(path(['time']))
+export const getTime = (state) => getLatestBlock(state).map(path(['time']))
 
-export const getHash = state => getLatestBlock(state).map(path(['hash']))
+export const getHash = (state) => getLatestBlock(state).map(path(['hash']))
 
-export const getIndex = state =>
-  getLatestBlock(state).map(path(['block_index']))
+export const getIndex = (state) => getLatestBlock(state).map(path(['block_index']))
 
 export const getSelection = path([dataPath, 'bch', 'payment', 'selection'])
 
-export const getEffectiveBalance = path([
-  dataPath,
-  'bch',
-  'payment',
-  'effectiveBalance'
-])
+export const getEffectiveBalance = path([dataPath, 'bch', 'payment', 'effectiveBalance'])
 
-export const getTransactionsAtBound = path([
-  dataPath,
-  'bch',
-  'transactions_at_bound'
-])
+export const getTransactionsAtBound = path([dataPath, 'bch', 'transactions_at_bound'])

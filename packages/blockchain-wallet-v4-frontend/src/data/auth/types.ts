@@ -1,4 +1,4 @@
-import * as AT from './actionTypes'
+import { actions } from './slice'
 
 export enum LoginSteps {
   CHECK_EMAIL = 'CHECK_EMAIL',
@@ -79,24 +79,32 @@ export type WalletDataFromMagicLinkLegacy = {
   mobile_device_type: number | null
 }
 
+export type LoginErrorType =
+  | {
+      auth_type: number
+      authorization_required: boolean
+      initial_error?: string
+      message?: string
+    }
+  | string
 // actions
 
 interface LoginFailureActionType {
   payload: {
     err?: string
   }
-  type: typeof AT.LOGIN_FAILURE
+  type: typeof actions.loginFailure.type
 }
 interface InitializeLoginSuccessActionType {
-  type: typeof AT.INITIALIZE_LOGIN_SUCCESS
+  type: typeof actions.initializeLoginSuccess.type
 }
 
 interface InitializeLoginLoadingActionType {
-  type: typeof AT.INITIALIZE_LOGIN_LOADING
+  type: typeof actions.initializeLoginLoading.type
 }
 
 interface InitializeLoginFailureActionType {
-  type: typeof AT.INITIALIZE_LOGIN_FAILURE
+  type: typeof actions.initializeLoginFailure.type
 }
 
 interface LoginRouteSagaActionType {
@@ -105,33 +113,26 @@ interface LoginRouteSagaActionType {
     firstLogin?: boolean
     mobileLogin?: boolean
   }
-  type: typeof AT.LOGIN_ROUTINE_SAGA
+  type: typeof actions.loginRoutine.type
 }
 
 interface TriggerWalletMagicLinkSuccessActionType {
-  type: typeof AT.TRIGGER_WALLET_MAGIC_LINK_SUCCESS
+  type: typeof actions.triggerWalletMagicLinkSuccess.type
 }
 
 interface TriggerWalletMagicLinkLoadingActionType {
-  type: typeof AT.TRIGGER_WALLET_MAGIC_LINK_LOADING
+  type: typeof actions.triggerWalletMagicLinkLoading.type
 }
 
 interface TriggerWalletMagicLinkFailureActionType {
-  type: typeof AT.TRIGGER_WALLET_MAGIC_LINK_FAILURE
+  type: typeof actions.triggerWalletMagicLinkFailure
 }
 
 interface SetMagicLinkInfoActionType {
   payload: {
     magicLinkInfo: WalletDataFromMagicLink
   }
-  type: typeof AT.SET_MAGIC_LINK_INFO
-}
-
-interface UpgradeWalletActionType {
-  payload: {
-    version: number
-  }
-  type: typeof AT.UPGRADE_WALLET
+  type: typeof actions.setMagicLinkInfo.type
 }
 
 export type AuthActionTypes =
@@ -144,4 +145,3 @@ export type AuthActionTypes =
   | TriggerWalletMagicLinkFailureActionType
   | TriggerWalletMagicLinkLoadingActionType
   | TriggerWalletMagicLinkSuccessActionType
-  | UpgradeWalletActionType

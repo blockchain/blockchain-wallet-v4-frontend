@@ -60,7 +60,7 @@ const getData = (state, ownProps: OwnProps) => {
             includeInterest: false
           })
           break
-        case selectors.core.data.coins.getCoins().includes(coin):
+        case selectors.core.data.coins.getCustodialCoins().includes(coin):
           addressDataR = getCoinAddressData(state, {
             coin,
             includeCustodial

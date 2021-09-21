@@ -61,12 +61,12 @@ const convertCoinToFiat = ({
   if (!value) return new BigNumber(0).toFixed(2)
 
   const { coinfig } = window.coins[coin]
-  const { last } = rates[currency]
+  const { price } = rates
   const amt = isStandard
     ? new BigNumber(value)
     : new BigNumber(value).dividedBy(Math.pow(10, coinfig.precision))
 
-  return amt.times(last).toFixed(2)
+  return amt.times(price).toFixed(2, 1)
 }
 
 const convertFiatToCoin = ({
@@ -85,10 +85,10 @@ const convertFiatToCoin = ({
   if (!value) return '0'
 
   const { coinfig } = window.coins[coin]
-  const { last } = rates[currency]
+  const { price } = rates
 
   return new BigNumber(value)
-    .dividedBy(last)
+    .dividedBy(price)
     .toFixed(maxPrecision ? Math.min(maxPrecision, coinfig.precision) : coinfig.precision)
 }
 
@@ -110,8 +110,8 @@ const convertFiatToFiat = ({
     currency: fromCurrency,
     rates
   })
-  const { last } = rates[toCurrency as FiatType]
-  return new BigNumber(btcAmt).times(last).toFixed(2)
+  const { price } = rates
+  return new BigNumber(btcAmt).times(price).toFixed(2)
 }
 
 // =====================================================================
@@ -145,8 +145,8 @@ const displayCoinToFiat = ({
 }): string => {
   const options = { style: 'currency', currency: toCurrency }
 
-  const { last } = rates[toCurrency as FiatType]
-  const number = new BigNumber(value).times(last).toNumber()
+  const { price } = rates
+  const number = new BigNumber(value).times(price).toNumber()
   return new Intl.NumberFormat(getLang(), options).format(number)
 }
 

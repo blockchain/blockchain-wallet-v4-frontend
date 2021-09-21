@@ -14,19 +14,16 @@
       "coinListing": "",
       "erc20s": ["AAVE", "PAX", "USDC", "USDT", "WDGLD", "YFI"],
       "sift": {
-        "apiKey": "0ecd212038",
-        "paymentKey": "4a0510ff14"
-      },
-      "mobile_auth": {
-        "enabled": true
+        "apiKey": "0ecd212038"
       },
       "featureFlags": {
+        "eddInterestFileUpload": true,
         "legacyMagicEmailLink": true,
         "legacyMobilePairing": false,
         "legacyWalletRecovery": false,
         "recurringBuys": true,
-        "signupCountry": false,
-        "eddInterestFileUpload": false
+        "signupCountry": true,
+        "ssoDummy": false
       }
     }
   },

@@ -6,45 +6,35 @@ import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
 import SiftScience from 'components/SiftScience'
 import { actions } from 'data'
-import { checkHasWebcam } from 'utils/helpers'
 
 import Veriff from '../Veriff'
 import { getData, getPreIdvData } from './selectors'
 import Loading from './template.loading'
 
 class VerifyContainer extends React.PureComponent<Props> {
-  state = {
-    hasWebcam: false
-  }
-
   componentDidMount() {
     const { actions } = this.props
     actions.fetchSupportedDocuments()
     actions.checkKycFlow()
-    checkHasWebcam().then(res => {
-      this.setState({ hasWebcam: res })
-    })
   }
 
   render() {
     const { actions, data, onClose, preIdvData } = this.props
 
     const VerificationFlow = data.cata({
-      Success: () => {
-        return <Veriff onClose={onClose} />
-      },
+      Failure: (message) => <DataError message={message} />,
       Loading: () => <Loading />,
       NotAsked: () => null,
-      Failure: message => <DataError message={message} />
+      Success: () => {
+        return <Veriff onClose={onClose} />
+      }
     })
 
     const PreIdvCheck = preIdvData.cata({
-      Success: val => (
-        <SiftScience {...val} onDone={actions.preIdvCheckFinished} />
-      ),
+      Failure: () => null,
       Loading: () => null,
       NotAsked: () => null,
-      Failure: () => null
+      Success: (val) => <SiftScience {...val} onDone={actions.preIdvCheckFinished} />
     })
 
     return (
@@ -56,16 +46,13 @@ class VerifyContainer extends React.PureComponent<Props> {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state),
   preIdvData: getPreIdvData(state)
 })
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(
-    actions.components.identityVerification,
-    dispatch
-  ),
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(actions.components.identityVerification, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
