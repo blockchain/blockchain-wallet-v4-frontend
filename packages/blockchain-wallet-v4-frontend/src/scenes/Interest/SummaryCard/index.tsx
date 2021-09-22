@@ -8,7 +8,7 @@ import {
   CoinType,
   InterestRateType,
   RemoteDataType
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 import { actions } from 'data'
 
 import {

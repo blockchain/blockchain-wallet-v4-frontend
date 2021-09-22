@@ -1,5 +1,5 @@
-import { Remote } from 'blockchain-wallet-v4/src'
-import { CoinType, RatesType, RemoteDataType, TimeRange, WalletCurrencyType } from 'core/types'
+import { Remote } from '@core'
+import { CoinType, RatesType, RemoteDataType, TimeRange, WalletCurrencyType } from '@core/types'
 import { RootState } from 'data/rootReducer'
 
 import * as selectors from '../../selectors'

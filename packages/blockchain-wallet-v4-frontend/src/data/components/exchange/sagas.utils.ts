@@ -1,8 +1,8 @@
 import { equals, includes, prop, toLower } from 'ramda'
 import { cancel, fork, join } from 'redux-saga/effects'
 
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { AccountTypes } from 'blockchain-wallet-v4/src/types'
+import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
+import { AccountTypes } from '@core/types'
 
 import { MempoolFeeType } from '../swap/types'
 import { convertStandardToBase } from './services'

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import { includes, isEmpty, isNil, prop, replace, toUpper } from 'ramda'
 import { bindActionCreators } from 'redux'
 
-import { Exchange, utils } from 'blockchain-wallet-v4/src'
+import { Exchange, utils } from '@core'
 import { actions, model, selectors } from 'data'
 import * as C from 'services/alerts'
 

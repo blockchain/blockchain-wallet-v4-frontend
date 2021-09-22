@@ -1,7 +1,7 @@
 import { TIER_TYPES } from 'blockchain-wallet-v4-frontend/src/modals/Settings/TradingLimits/model'
 import { anyPass, equals } from 'ramda'
 
-import { SBOrderType, SwapUserLimitsType } from 'blockchain-wallet-v4/src/types'
+import { SBOrderType, SwapUserLimitsType } from '@core/types'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'

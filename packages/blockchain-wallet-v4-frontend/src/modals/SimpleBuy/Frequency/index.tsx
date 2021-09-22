@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { RemoteDataType, SBPaymentMethodType } from 'blockchain-wallet-v4/src/types'
+import { RemoteDataType, SBPaymentMethodType } from '@core/types'
 import DataError from 'components/DataError'
 import { FrequencyScreen } from 'components/Flyout'
 import { actions } from 'data'

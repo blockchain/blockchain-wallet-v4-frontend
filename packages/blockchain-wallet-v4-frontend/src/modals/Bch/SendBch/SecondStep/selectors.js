@@ -1,7 +1,7 @@
 import { curry, prop } from 'ramda'
 
-import { utils } from 'blockchain-wallet-v4/src'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { utils } from '@core'
+import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
 import { model, selectors } from 'data'
 
 const isSubmitting = selectors.form.isSubmitting(model.components.sendBch.FORM)

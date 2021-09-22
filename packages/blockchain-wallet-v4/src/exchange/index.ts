@@ -2,11 +2,11 @@
 import { BigNumber } from 'bignumber.js'
 import { path, prop } from 'ramda'
 
-import { CoinType, FiatType, RatesType, WalletFiatType } from 'core/types'
+import { CoinType, FiatType, RatesType, WalletFiatType } from '@core/types'
 
 import Currencies, { FiatCurrenciesType } from './currencies'
 import { formatCoin, getLang } from './utils'
-import { TickerResponseType } from 'core/network/api/coin/types'
+import { TickerResponseType } from '@core/network/api/coin/types'
 
 type KeysOfUnion<T> = T extends any ? keyof T : never
 export type UnitType = KeysOfUnion<FiatCurrenciesType[keyof FiatCurrenciesType]['units']>

@@ -1,6 +1,6 @@
 import { Moment } from 'moment'
 
-import { CoinfigType, CoinType, FiatType } from 'core/types'
+import { CoinfigType, CoinType, FiatType } from '@core/types'
 
 import { PriceIndexResponseType } from './types'
 

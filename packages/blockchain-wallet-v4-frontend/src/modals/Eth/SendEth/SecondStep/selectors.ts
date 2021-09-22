@@ -1,10 +1,10 @@
 import BigNumber from 'bignumber.js'
 import { curry, equals, lift, prop } from 'ramda'
 
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { FiatType, RatesType } from 'blockchain-wallet-v4/src/types'
+import { Exchange } from '@core'
+import { fiatToString } from '@core/exchange/utils'
+import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
+import { FiatType, RatesType } from '@core/types'
 import { model, selectors } from 'data'
 
 const isSubmitting = selectors.form.isSubmitting(model.components.sendEth.FORM)

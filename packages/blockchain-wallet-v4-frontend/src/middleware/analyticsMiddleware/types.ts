@@ -1,4 +1,4 @@
-import { SBPaymentTypes } from 'core/types'
+import { SBPaymentTypes } from '@core/types'
 import { RecurringBuyOrigins, RecurringBuyPeriods, SetPeriodPayload } from 'data/types'
 
 enum AnalyticsKey {

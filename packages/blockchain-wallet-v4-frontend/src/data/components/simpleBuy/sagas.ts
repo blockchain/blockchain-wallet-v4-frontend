@@ -4,8 +4,8 @@ import moment from 'moment'
 import { defaultTo, filter, prop } from 'ramda'
 import { call, cancel, delay, fork, put, race, retry, select, take } from 'redux-saga/effects'
 
-import { Remote } from 'blockchain-wallet-v4/src'
-import { APIType } from 'blockchain-wallet-v4/src/network/api'
+import { Remote } from '@core'
+import { APIType } from '@core/network/api'
 import {
   Everypay3DSResponseType,
   FiatEligibleType,
@@ -21,8 +21,8 @@ import {
   SBQuoteType,
   SwapOrderType,
   WalletOptionsType
-} from 'blockchain-wallet-v4/src/types'
-import { errorHandler, errorHandlerCode } from 'blockchain-wallet-v4/src/utils'
+} from '@core/types'
+import { errorHandler, errorHandlerCode } from '@core/utils'
 import { actions, selectors } from 'data'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import { UserDataType } from 'data/modules/types'

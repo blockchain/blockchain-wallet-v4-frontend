@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 
-import { utils } from 'blockchain-wallet-v4/src'
+import { utils } from '@core'
 import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 

@@ -1,4 +1,4 @@
-import { CustodialFromType } from 'core/types'
+import { CustodialFromType } from '@core/types'
 
 export type EthAccountFromType = {
   address: string

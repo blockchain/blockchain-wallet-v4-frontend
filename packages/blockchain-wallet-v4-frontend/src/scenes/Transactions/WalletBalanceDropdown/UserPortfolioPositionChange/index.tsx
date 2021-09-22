@@ -10,7 +10,7 @@ import {
   ExtractSuccess,
   FiatType,
   TimeRange
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 import { actions } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { RootState } from 'data/rootReducer'

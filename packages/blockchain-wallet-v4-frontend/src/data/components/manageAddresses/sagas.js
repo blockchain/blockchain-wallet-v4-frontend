@@ -1,7 +1,7 @@
 import { filter, findIndex, forEach, pluck, propEq, sort } from 'ramda'
 import { call, put, select } from 'redux-saga/effects'
 
-import { Types } from 'blockchain-wallet-v4/src'
+import { Types } from '@core'
 import * as C from 'services/alerts'
 import { promptForInput } from 'services/sagas'
 

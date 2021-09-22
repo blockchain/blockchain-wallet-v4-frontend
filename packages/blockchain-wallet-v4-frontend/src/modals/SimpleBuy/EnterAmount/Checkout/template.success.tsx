@@ -4,15 +4,10 @@ import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Inte
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import Currencies from '@core/exchange/currencies'
+import { coinToString, fiatToString } from '@core/exchange/utils'
+import { CoinType, OrderType, SBPaymentMethodType, SBPaymentTypes } from '@core/types'
 import { Banner, Icon, Text } from 'blockchain-info-components'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-import { coinToString, fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
-import {
-  CoinType,
-  OrderType,
-  SBPaymentMethodType,
-  SBPaymentTypes
-} from 'blockchain-wallet-v4/src/types'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper, getPeriodTitleText } from 'components/Flyout'

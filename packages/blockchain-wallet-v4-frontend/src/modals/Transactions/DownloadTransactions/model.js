@@ -1,4 +1,4 @@
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
+import { fiatToString } from '@core/exchange/utils'
 
 const reportHeaders = [
   'date',

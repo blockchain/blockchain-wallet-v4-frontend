@@ -1,4 +1,4 @@
-import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
+import { RemoteDataType } from '@core/types'
 
 export type NabuProductType = 'SWAP' | 'SIMPLEBUY' | 'SAVINGS' | 'BROKERAGE'
 export enum NabuProducts {

@@ -1,4 +1,4 @@
-import { FiatType, RemoteDataType, WalletFiatType } from 'core/types'
+import { FiatType, RemoteDataType, WalletFiatType } from '@core/types'
 
 export enum BankPartners {
   YAPILY = 'YAPILY',

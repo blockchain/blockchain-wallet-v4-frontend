@@ -3,8 +3,8 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import styled from 'styled-components'
 
+import { fiatToString } from '@core/exchange/utils'
 import { Text } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 
 import { PriceChange } from '../../model'
 import { Skeletons } from '../../WalletBalanceDropdown/template.loading'

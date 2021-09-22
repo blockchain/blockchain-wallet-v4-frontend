@@ -7,7 +7,7 @@ import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { Exchange } from 'blockchain-wallet-v4/src'
+import { Exchange } from '@core'
 import {
   CoinfigType,
   CoinType,
@@ -16,7 +16,7 @@ import {
   TimeRange,
   WalletCurrencyType,
   WalletFiatType
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 import { SavedRecurringBuy } from 'components/Box'
 import EmptyResults from 'components/EmptyResults'
 import { SceneWrapper } from 'components/Layout'

@@ -1,6 +1,6 @@
 import { path } from 'ramda'
 
-import { TimeRange } from 'blockchain-wallet-v4/src/types'
+import { TimeRange } from '@core/types'
 import { RootState } from 'data/rootReducer'
 
 export const getCoinDisplayed = (state: RootState) => state.preferences.coinDisplayed

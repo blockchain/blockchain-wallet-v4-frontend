@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
 import { FlatLoader } from 'blockchain-info-components'
-import { HDDerivationType } from 'core/types'
+import { HDDerivationType } from '@core/types'
 import { actions, selectors } from 'data'
 
 import UsedAddressesTable from './template'

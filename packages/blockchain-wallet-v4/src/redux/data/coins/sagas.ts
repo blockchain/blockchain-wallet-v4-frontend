@@ -2,9 +2,9 @@ import moment from 'moment'
 import { flatten, last, length } from 'ramda'
 import { all, call, put, select, take } from 'redux-saga/effects'
 
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { APIType } from 'core/network/api'
-import { FetchCustodialOrdersAndTransactionsReturnType } from 'core/types'
+import { APIType } from '@core/network/api'
+import { FetchCustodialOrdersAndTransactionsReturnType } from '@core/types'
+import { errorHandler } from '@core/utils'
 
 import Remote from '../../../remote'
 import * as selectors from '../../selectors'

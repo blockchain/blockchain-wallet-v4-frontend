@@ -1,4 +1,4 @@
-import { RemoteDataType } from 'core/types'
+import { RemoteDataType } from '@core/types'
 
 import * as AT from './actionTypes'
 
@@ -9,10 +9,7 @@ export type RequestState = {
         'BTC Private Key Wallet': Remote.Success<"18sikQNP236uPKRtUMrUF8H2vwv9CKbKfP">
     }
   */
-  [key in string]: RemoteDataType<
-    string,
-    { address: string; extras: RequestExtrasType }
-  >
+  [key in string]: RemoteDataType<string, { address: string; extras: RequestExtrasType }>
 }
 
 export type RequestExtrasType = { [key in string]: string }

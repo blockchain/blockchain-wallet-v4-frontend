@@ -1,7 +1,7 @@
 import { prop } from 'ramda'
 import { call, put, race, select, take } from 'redux-saga/effects'
 
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from '@core'
 import { actions, actionTypes, selectors } from 'data'
 import * as C from 'services/alerts'
 import { requireUniqueWalletName } from 'services/forms'

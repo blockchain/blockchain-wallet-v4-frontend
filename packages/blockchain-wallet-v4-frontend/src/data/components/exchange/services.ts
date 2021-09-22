@@ -1,4 +1,4 @@
-import { Exchange } from 'blockchain-wallet-v4/src'
+import { Exchange } from '@core'
 /**
  * If coin='FIAT' this turns minor units like "25 000" cents to a
  * standard unit like "250" dollars. If coin='BTC' or

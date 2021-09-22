@@ -2,7 +2,7 @@ import React from 'react'
 import { PriceChange } from 'blockchain-wallet-v4-frontend/src/scenes/Transactions/model'
 import styled from 'styled-components'
 
-import { PriceChangeType } from 'blockchain-wallet-v4/src/redux/data/misc/types'
+import { PriceChangeType } from '@core/redux/data/misc/types'
 import { media } from 'services/styles'
 
 import { Props as OwnProps, SuccessStateType } from '.'
