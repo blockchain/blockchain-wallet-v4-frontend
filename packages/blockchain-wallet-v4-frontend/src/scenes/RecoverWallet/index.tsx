@@ -4,7 +4,7 @@ import { bindActionCreators, compose } from 'redux'
 import { formValueSelector, getFormMeta, InjectedFormProps, reduxForm } from 'redux-form'
 
 import { Form } from 'components/Form'
-import { RemoteDataType } from 'core/types'
+import { RemoteDataType } from '@core/types'
 import { actions, selectors } from 'data'
 import { RecoverFormType, RecoverSteps } from 'data/types'
 

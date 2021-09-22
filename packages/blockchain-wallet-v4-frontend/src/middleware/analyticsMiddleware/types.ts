@@ -1,5 +1,5 @@
-import { SBPaymentTypes } from 'core/types'
-import { RecurringBuyOrigins, RecurringBuyPeriods } from 'data/types'
+import { SBPaymentTypes } from '@core/types'
+import { RecurringBuyOrigins, RecurringBuyPeriods, SetPeriodPayload } from 'data/types'
 
 enum AnalyticsKey {
   ACCOUNT_PASSWORD_RESET = 'Account Password Reset',
@@ -61,6 +61,7 @@ enum AnalyticsKey {
   RECURRING_BUY_DETAILS_CLICKED = 'Recurring Buy Details Clicked',
   RECURRING_BUY_INFO_VIEWED = 'Recurring Buy Info Viewed',
   RECURRING_BUY_LEARN_MORE_CLICKED = 'Recurring Buy Learn More Clicked',
+  RECURRING_BUY_PERIOD_SELECTED = 'Recurring Buy Period Selected',
   RECURRING_BUY_SUGGESTION_SKIPPED = 'Recurring Buy Suggestion Skipped',
   RECURRING_BUY_VIEWED = 'Recurring Buy Viewed',
   RESET_ACCOUNT_CANCELLED = 'Reset Account Cancelled',
@@ -419,6 +420,8 @@ type ResetAccountPayload = BasePayload & {
   origin: 'RESET_CONFIRMATION' | 'RESET_FINAL_WARNING' | 'RECOVERY_PHRASE' | 'RECOVERY_OPTIONS'
 }
 
+export type RecurringBuyPeriodSelectionPayload = BasePayload & SetPeriodPayload
+
 export type RecurringBuyViewedPayload = BasePayload & {
   path: string
   referrer: string
@@ -721,6 +724,7 @@ type AnalyticsProperties =
   | RecurringBuyCancelPayload
   | RecurringBuyClickedPayload
   | RecurringBuyDetailsClickedPayload
+  | RecurringBuyPeriodSelectionPayload
   | SellAmountEnteredPayload
   | SellAmountMaxClickedPayload
   | SellAmountMinClickedPayload

@@ -5,9 +5,9 @@ import { all, path, propEq } from 'ramda'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
+import { Exchange } from '@core'
+import { formatFiat } from '@core/exchange/utils'
 import { Button, Icon, Text, TextGroup } from 'blockchain-info-components'
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { formatFiat } from 'blockchain-wallet-v4/src/exchange/utils'
 import { actions, model } from 'data'
 import { media } from 'services/styles'
 

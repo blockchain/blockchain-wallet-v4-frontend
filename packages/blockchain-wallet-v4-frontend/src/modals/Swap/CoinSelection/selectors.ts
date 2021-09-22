@@ -1,6 +1,6 @@
 import { uniq } from 'ramda'
 
-import { CoinType } from 'blockchain-wallet-v4/src/types'
+import { CoinType } from '@core/types'
 import { selectors } from 'data'
 import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
 import { getCoinAccounts } from 'data/coins/selectors'

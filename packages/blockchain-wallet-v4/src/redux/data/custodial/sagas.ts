@@ -1,13 +1,9 @@
 import moment from 'moment'
 import { call, put, select } from 'redux-saga/effects'
 
-import {
-  CoinType,
-  ProcessedSwapOrderType,
-  SBPendingTransactionStateEnum
-} from 'blockchain-wallet-v4/src/types'
-import { APIType } from 'core/network/api'
-import { ProcessedTxType } from 'core/transactions/types'
+import { APIType } from '@core/network/api'
+import { ProcessedTxType } from '@core/transactions/types'
+import { CoinType, ProcessedSwapOrderType, SBPendingTransactionStateEnum } from '@core/types'
 
 import * as A from './actions'
 import * as S from './selectors'

@@ -13,8 +13,8 @@ import {
   TableRow,
   Text
 } from 'blockchain-info-components'
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import { InterestTransactionType } from 'blockchain-wallet-v4/src/types'
+import { Exchange, Remote } from '@core'
+import { InterestTransactionType } from '@core/types'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import Empty from './Empty'

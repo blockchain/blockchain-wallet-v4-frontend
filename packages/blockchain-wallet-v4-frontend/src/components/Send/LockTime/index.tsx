@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import moment from 'moment'
 import { bindActionCreators } from 'redux'
 
-import { CoinType } from 'blockchain-wallet-v4/src/types'
+import { CoinType } from '@core/types'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 

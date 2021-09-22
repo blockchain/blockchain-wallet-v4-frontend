@@ -12,7 +12,7 @@ import {
   SBPaymentMethodType,
   SBPaymentTypes,
   SwapOrderType
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/simpleBuy/model'

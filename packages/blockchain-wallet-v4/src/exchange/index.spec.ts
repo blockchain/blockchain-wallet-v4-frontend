@@ -1,4 +1,4 @@
-import { btcRates } from './conversion.textures'
+import { btcRates, btcTicker } from './conversion.textures'
 import * as Conversion from './index'
 
 describe('convertCoinToCoin', () => {
@@ -45,6 +45,19 @@ describe('convertFiatToCoin', () => {
       rates: btcRates,
       // @ts-ignore
       value: undefined
+    })
+    expect(result).toEqual(expectedOutput)
+  })
+})
+
+describe('convertFiatToFiat', () => {
+  it('should return correct value', () => {
+    const expectedOutput = '727.71'
+    const result = Conversion.convertFiatToFiat({
+      fromCurrency: 'AUD',
+      rates: btcTicker,
+      toCurrency: 'USD',
+      value: 1000
     })
     expect(result).toEqual(expectedOutput)
   })

@@ -14,6 +14,10 @@ const getData = (state) => {
   const interestEDDWithdrawLimitsR =
     selectors.components.interest.getInterestEDDWithdrawLimits(state)
 
+  const flagEDDInterestFileUpload = selectors.core.walletOptions
+    .getEDDInterestFileUpload(state)
+    .getOrElse(false)
+
   return lift(
     (
       accountBalances,
@@ -29,6 +33,7 @@ const getData = (state) => {
       ),
       coin,
       displayCoin,
+      flagEDDInterestFileUpload,
       interestEDDStatus,
       interestEDDWithdrawLimits,
       interestLimits,

@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Exchange } from 'blockchain-wallet-v4/src'
+import { Exchange } from '@core'
 import CoinDisplay from 'components/Display/CoinDisplay'
 
 import { CellHeaderText } from '.'

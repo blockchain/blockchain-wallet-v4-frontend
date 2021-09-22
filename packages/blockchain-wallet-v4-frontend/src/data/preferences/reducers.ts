@@ -1,4 +1,4 @@
-import { TimeRange } from 'blockchain-wallet-v4/src/types'
+import { TimeRange } from '@core/types'
 
 import { coinClicked, timeClicked } from '../components/priceChart/slice'
 import * as AT from './actionTypes'

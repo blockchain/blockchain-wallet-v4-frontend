@@ -21,7 +21,7 @@ import {
   SwapOrderType,
   SwapQuoteType,
   SwapUserLimitsType
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 import { RecurringBuyPeriods } from 'data/types'
 
 import { CountryType } from '../identityVerification/types'
@@ -452,6 +452,11 @@ interface SetMethodAction {
   type: typeof AT.SET_METHOD
 }
 
+interface DefaultMethodEvent {
+  payload: { method: SBPaymentMethodType }
+  type: typeof AT.DEFAULT_METHOD_EVENT
+}
+
 interface SetFiatCurrencyAction {
   payload: { fiatCurrency: FiatType }
   type: typeof AT.SET_FIAT_CURRENCY
@@ -515,6 +520,7 @@ export type SimpleBuyActionTypes =
   | AddCardDetailsLoading
   | AddCardDetailsSuccess
   | AddCardFinishedAction
+  | DefaultMethodEvent
   | DestroyCheckout
   | FetchSBBalancesFailure
   | FetchSBBalancesLoading

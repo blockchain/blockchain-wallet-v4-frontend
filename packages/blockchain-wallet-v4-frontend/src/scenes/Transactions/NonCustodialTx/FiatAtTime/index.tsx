@@ -2,7 +2,7 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { FiatType } from 'blockchain-wallet-v4/src/types'
+import { FiatType } from '@core/types'
 import { actions } from 'data'
 
 import { getData } from './selectors'

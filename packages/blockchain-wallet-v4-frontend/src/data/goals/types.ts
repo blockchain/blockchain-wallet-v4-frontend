@@ -1,4 +1,4 @@
-import { CoinType, WalletFiatType } from 'blockchain-wallet-v4/src/types'
+import { CoinType, WalletFiatType } from '@core/types'
 import { ModalNameType } from 'data/modals/types'
 
 // State

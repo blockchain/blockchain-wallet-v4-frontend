@@ -3,8 +3,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import { find, isEmpty, pathOr, propEq, propOr } from 'ramda'
 import { bindActionCreators } from 'redux'
 
-import { Remote } from 'blockchain-wallet-v4/src'
-import { OrderType, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
+import { Remote } from '@core'
+import { OrderType, SBPaymentTypes } from '@core/types'
 import { actions, selectors } from 'data'
 import { getValidPaymentMethod } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
@@ -57,6 +57,18 @@ class Checkout extends PureComponent<Props> {
       this.props.cryptoCurrency,
       this.props.orderType || OrderType.BUY
     )
+  }
+
+  componentDidUpdate(prevProps) {
+    const prevId = prevProps.defaultMethod?.id
+    const currId = this.props.defaultMethod?.id
+
+    // check to see if there was no default method and now there is, then fire analytics event
+    // we only really want this analytics event to trigger when the user opens the buy modal and
+    // a default payment method is automatically used
+    if (this.props.defaultMethod && currId && prevId !== currId) {
+      this.props.simpleBuyActions.defaultMethodEvent({ method: this.props.defaultMethod })
+    }
   }
 
   handleSubmit = () => {

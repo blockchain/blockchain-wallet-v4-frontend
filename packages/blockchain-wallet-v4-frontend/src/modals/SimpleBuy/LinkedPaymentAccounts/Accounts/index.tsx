@@ -10,7 +10,7 @@ import {
   SBPaymentTypes,
   WalletCurrencyType,
   WalletFiatEnum
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 import { AddNewButton } from 'components/Brokerage'
 import { FlyoutWrapper } from 'components/Flyout'
 import { CARD_TYPES, DEFAULT_CARD_SVG_LOGO } from 'components/Form/CreditCardBox/model'
@@ -86,7 +86,7 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   }
 
   handleSubmit = (method: SBPaymentMethodType) => {
-    this.props.simpleBuyActions.handleSBMethodChange(method, false)
+    this.props.simpleBuyActions.handleSBMethodChange({ isFlow: false, method })
   }
 
   addNewPaymentMethod = () => {

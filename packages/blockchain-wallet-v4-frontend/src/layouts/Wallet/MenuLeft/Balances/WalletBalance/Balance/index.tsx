@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { toLower } from 'ramda'
 import { bindActionCreators } from 'redux'
 
-import { CoinType, ExtractSuccess } from 'blockchain-wallet-v4/src/types'
+import { CoinType, ExtractSuccess } from '@core/types'
 import { actions } from 'data'
 
 import { LoadingBalance } from '../../model'
@@ -31,6 +31,7 @@ class Balance extends React.PureComponent<Props> {
       Loading: () => <LoadingBalance large={large} coinTicker={coinTicker} />,
       NotAsked: () => <LoadingBalance large={large} coinTicker={coinTicker} />,
       Success: (value) => (
+        // @ts-ignore
         <Success
           {...this.props}
           balance={value}

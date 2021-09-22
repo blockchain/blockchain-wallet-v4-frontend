@@ -3,7 +3,7 @@ import {
   WithdrawalLockResponseType,
   WithdrawalMinsAndFeesResponse,
   WithdrawResponseType
-} from 'core/types'
+} from '@core/types'
 
 // state
 export type SendCryptoState = {

@@ -5,14 +5,9 @@ import { BuyOrSell, displayFiat } from 'blockchain-wallet-v4-frontend/src/modals
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
+import { fiatToString } from '@core/exchange/utils'
+import { ExtractSuccess, FiatType, RemoteDataType, SBOrderType } from '@core/types'
 import { Button, Text } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
-import {
-  ExtractSuccess,
-  FiatType,
-  RemoteDataType,
-  SBOrderType
-} from 'blockchain-wallet-v4/src/types'
 import { actions } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import {

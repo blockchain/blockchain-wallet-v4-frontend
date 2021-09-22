@@ -1,33 +1,33 @@
 import * as AT from './actionTypes'
 
-export const fetchData = token => ({
-  type: AT.FETCH_DATA,
-  payload: { token }
+export const fetchData = (token) => ({
+  payload: { token },
+  type: AT.FETCH_DATA
 })
 
 export const upload = (token, files, redirectUrl) => ({
-  type: AT.UPLOAD,
-  payload: { files, token, redirectUrl }
+  payload: { files, redirectUrl, token },
+  type: AT.UPLOAD
 })
 
-export const setReference = reference => ({
-  type: AT.SET_REFERENCE,
-  payload: { reference }
+export const setReference = (reference) => ({
+  payload: { reference },
+  type: AT.SET_REFERENCE
 })
 
-export const setData = data => ({
-  type: AT.SET_DATA,
-  payload: { data }
+export const setData = (data) => ({
+  payload: { data },
+  type: AT.SET_DATA
 })
 
 export const setUploadedLoading = () => {
   return { type: AT.SET_UPLOADED_LOADING }
 }
 
-export const setUploadedSuccess = payload => {
-  return { type: AT.SET_UPLOADED_SUCCESS, payload }
+export const setUploadedSuccess = (payload) => {
+  return { payload, type: AT.SET_UPLOADED_SUCCESS }
 }
 
-export const setUploadedFailure = payload => {
-  return { type: AT.SET_UPLOADED_FAILURE, payload }
+export const setUploadedFailure = (payload) => {
+  return { payload, type: AT.SET_UPLOADED_FAILURE }
 }

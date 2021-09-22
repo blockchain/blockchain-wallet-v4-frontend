@@ -1,4 +1,4 @@
-import { FiatType, RemoteDataType, SBPaymentTypes, WalletCurrencyType } from 'core/types'
+import { FiatType, RemoteDataType, SBPaymentTypes, WalletCurrencyType } from '@core/types'
 import { ModalOriginType } from 'data/modals/types'
 
 export enum ActionEnum {
@@ -37,6 +37,8 @@ export enum RecurringBuyOrigins {
   DCA_DETAILS_LINK = 'DCA_DETAILS_LINK',
   DETAILS_SCREEN = 'DETAILS_SCREEN',
   RECURRING_BUYS_BANNER = 'RECURRING_BUYS_BANNER',
+  RECURRING_BUYS_FREQUENCY_SCREEN = 'RECURRING_BUYS_FREQUENCY_SCREEN',
+  SIMPLE_BUY_FREQUENCY_SCREEN = 'SIMPLE_BUY_FREQUENCY_SCREEN',
   SIMPLE_BUY_ORDER_SUMMARY = 'SIMPLE_BUY_ORDER_SUMMARY'
 }
 
@@ -84,4 +86,9 @@ export enum RecurringBuyFailureReasons {
   FAILED_BAD_FILL = 'FAILED_BAD_FILL',
   FAILED_BENEFICIARY_BLOCKED = 'FAILED_BENEFICIARY_BLOCKED',
   FAILED_INSUFFICIENT_FUNDS = 'FAILED_INSUFFICIENT_FUNDS'
+}
+
+export type SetPeriodPayload = {
+  origin: RecurringBuyOrigins
+  period: RecurringBuyPeriods
 }

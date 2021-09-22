@@ -5,6 +5,9 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { Exchange } from '@core'
+import { coinToString, formatFiat } from '@core/exchange/utils'
+import { CoinType, PaymentValue, RatesType, SBOrderActionType, SBPairType } from '@core/types'
 import {
   Button,
   HeartbeatLoader,
@@ -14,15 +17,6 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { coinToString, formatFiat } from 'blockchain-wallet-v4/src/exchange/utils'
-import {
-  CoinType,
-  PaymentValue,
-  RatesType,
-  SBOrderActionType,
-  SBPairType
-} from 'blockchain-wallet-v4/src/types'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Value } from 'components/Flyout'
 import { actions, selectors } from 'data'

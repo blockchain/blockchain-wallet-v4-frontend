@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { equals } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from '@core'
 import {
   CoinType,
   ExtractSuccess,
@@ -13,7 +13,7 @@ import {
   SBOrderType,
   SBPairType,
   SBPaymentMethodType
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 import { actions, selectors } from 'data'
 import { DEFAULT_SB_METHODS } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'

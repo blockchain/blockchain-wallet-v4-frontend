@@ -1,4 +1,4 @@
-import { WalletFiatType } from 'blockchain-wallet-v4/src/types'
+import { WalletFiatType } from '@core/types'
 
 import * as AT from './actionTypes'
 

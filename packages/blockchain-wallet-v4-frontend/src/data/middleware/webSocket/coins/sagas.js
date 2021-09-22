@@ -2,7 +2,7 @@ import crypto from 'crypto'
 import { concat, equals, prop } from 'ramda'
 import { call, put, select } from 'redux-saga/effects'
 
-import { crypto as wCrypto } from 'blockchain-wallet-v4/src'
+import { crypto as wCrypto } from '@core'
 import { actions, model, selectors } from 'data'
 import * as T from 'services/alerts'
 

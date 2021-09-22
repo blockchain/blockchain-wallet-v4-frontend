@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit'
 
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from '@core'
 
-const initialState = {
+import { AuthStateType } from './types'
+
+const initialState: AuthStateType = {
   auth_type: 0,
   firstLogin: false,
   isAuthenticated: false,
@@ -135,7 +137,9 @@ const authSlice = createSlice({
     setRegisterEmail: (state, action) => {
       state.registerEmail = action.payload
     },
-    setResetAccount: (state, action) => {},
+    setResetAccount: (state, action) => {
+      state.resetAccount = action.payload
+    },
     setResetLogin: (state, action) => {
       state.resetAccount = action.payload
     },

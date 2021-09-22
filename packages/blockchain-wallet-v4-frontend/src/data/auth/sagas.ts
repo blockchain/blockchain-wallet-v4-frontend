@@ -3,8 +3,8 @@ import { assoc, find, prop, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, delay, fork, put, select, take } from 'redux-saga/effects'
 
-import { Types } from 'blockchain-wallet-v4/src'
-import { DEFAULT_INVITATIONS } from 'blockchain-wallet-v4/src/model'
+import { Types } from '@core'
+import { DEFAULT_INVITATIONS } from '@core/model'
 import { actions, actionTypes, model, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
 import profileSagas from 'data/modules/profile/sagas'
@@ -27,6 +27,7 @@ export default ({ api, coreSagas, networks }) => {
     coreSagas,
     networks
   })
+
   const { checkDataErrors, updateMnemonicBackup, upgradeAddressLabelsSaga } = walletSagas({
     coreSagas
   })
@@ -442,7 +443,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const restoreFromMetadata = function* (action) {
-    const { mnemonic } = action.payload
+    const mnemonic = action.payload
     try {
       yield put(actions.auth.restoreFromMetadataLoading())
       // try and pull recovery credentials from metadata

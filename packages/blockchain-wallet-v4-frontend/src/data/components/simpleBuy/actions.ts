@@ -20,7 +20,7 @@ import {
   SDDVerifiedType,
   SwapQuoteType,
   SwapUserLimitsType
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 import { ModalOriginType } from 'data/modals/types'
 import { BankTransferAccountType } from 'data/types'
 
@@ -166,9 +166,11 @@ export const destroyCheckout = () => ({
   type: AT.DESTROY_CHECKOUT
 })
 
-export const handleSBMethodChange = (method: SBPaymentMethodType, isFlow?: boolean) => ({
-  isFlow,
-  method,
+export const handleSBMethodChange = (payload: {
+  isFlow?: boolean
+  method: SBPaymentMethodType
+}) => ({
+  payload,
   type: AT.HANDLE_SB_METHOD_CHANGE
 })
 
@@ -566,6 +568,13 @@ export const setStep = (payload: StepActionsPayload): SimpleBuyActionTypes => ({
 export const setMethod = (payload: SBPaymentMethodType): SimpleBuyActionTypes => ({
   payload,
   type: AT.SET_METHOD
+})
+
+export const defaultMethodEvent = (payload: {
+  method: SBPaymentMethodType
+}): SimpleBuyActionTypes => ({
+  payload,
+  type: AT.DEFAULT_METHOD_EVENT
 })
 
 export const showModal = (

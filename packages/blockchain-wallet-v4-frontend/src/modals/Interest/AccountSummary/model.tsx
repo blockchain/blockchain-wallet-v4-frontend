@@ -85,7 +85,12 @@ export const StatusSupplyWrapper = styled.div`
   padding: 24px;
   margin-top: 32px;
   border-radius: 8px;
-  border: 1px solid ${({ theme }) => theme.grey100};
+  &.new {
+    border: 1px solid ${({ theme }) => theme.grey100};
+  }
+  &.old {
+    background-color: ${({ theme }) => theme.grey000};
+  }
 `
 export const StatusIconWrapper = styled.div<{ color: string }>`
   display: flex;

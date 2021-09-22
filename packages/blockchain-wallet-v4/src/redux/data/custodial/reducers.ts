@@ -1,5 +1,3 @@
-import Remote from 'blockchain-wallet-v4/src/remote/remote'
-
 import * as AT from './actionTypes'
 import { SBCoreActionTypes, SBCoreStateType } from './types'
 

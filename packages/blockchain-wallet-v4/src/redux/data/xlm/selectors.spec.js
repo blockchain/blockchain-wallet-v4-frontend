@@ -1,4 +1,4 @@
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from '@core'
 
 import { LOCKBOX, XLM } from '../../kvStore/config'
 import { dataPath, kvStorePath } from '../../paths'
@@ -17,44 +17,44 @@ const state = {
     xlm: {
       data: {
         [id1]: Remote.of({
-          id: id1,
           account_id: id1,
           balances: [
             {
+              asset_type: 'native',
               balance: balance1,
               buying_liabilities: '0.0000000',
-              selling_liabilities: '0.0000000',
-              asset_type: 'native'
+              selling_liabilities: '0.0000000'
             }
-          ]
+          ],
+          id: id1
         }),
         [id2]: Remote.of({
-          id: id2,
           account_id: id2,
           balances: [
             {
+              asset_type: 'native',
               balance: balance2,
               buying_liabilities: '0.0000000',
-              selling_liabilities: '0.0000000',
-              asset_type: 'native'
+              selling_liabilities: '0.0000000'
             }
-          ]
+          ],
+          id: id2
         })
       }
     }
   },
   [kvStorePath]: {
-    [XLM]: Remote.of({
-      value: {
-        accounts: [{ publicKey: id1 }, { publicKey: id2 }]
-      }
-    }),
     [LOCKBOX]: Remote.of({
       value: {
         devices: [
           { xlm: { accounts: [{ publicKey: id1 }, { publicKey: id2 }] } },
           { xlm: { accounts: [{ publicKey: id1 }, { publicKey: id2 }] } }
         ]
+      }
+    }),
+    [XLM]: Remote.of({
+      value: {
+        accounts: [{ publicKey: id1 }, { publicKey: id2 }]
       }
     })
   }

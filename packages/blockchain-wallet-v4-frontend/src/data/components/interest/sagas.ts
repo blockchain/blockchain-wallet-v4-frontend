@@ -3,8 +3,8 @@ import { concat, isEmpty, isNil, last, prop } from 'ramda'
 import { FormAction, initialize } from 'redux-form'
 import { call, delay, put, select, take } from 'redux-saga/effects'
 
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import { APIType } from 'blockchain-wallet-v4/src/network/api'
+import { Exchange, Remote } from '@core'
+import { APIType } from '@core/network/api'
 import {
   AccountTypes,
   CoinType,
@@ -13,8 +13,8 @@ import {
   RatesType,
   RemoteDataType,
   SBBalancesType
-} from 'blockchain-wallet-v4/src/types'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+} from '@core/types'
+import { errorHandler } from '@core/utils'
 import { actions, actionTypes, model, selectors } from 'data'
 import coinSagas from 'data/coins/sagas'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
@@ -122,7 +122,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         api.getInterestAccount,
         coin as CoinType
       )
-      yield put(A.fetchInterestAccountSuccess(paymentAccount))
+      yield put(A.fetchInterestAccountSuccess({ ...paymentAccount }))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchInterestAccountFailure(error))
@@ -162,7 +162,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
       // TODO figure out any replacement type
       const report = concat(reportHeaders, txList) as any
-      yield put(A.fetchInterestTransactionsReportSuccess(report))
+      yield put(A.fetchInterestTransactionsReportSuccess({ ...report }))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchInterestTransactionsReportFailure(error))

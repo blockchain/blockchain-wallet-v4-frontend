@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
-import { CoinType, TimeRange } from 'blockchain-wallet-v4/src/types'
+import { CoinType, TimeRange } from '@core/types'
 import { actions } from 'data'
 
 import { getData } from './selectors'

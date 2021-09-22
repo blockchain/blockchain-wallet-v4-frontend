@@ -2,9 +2,9 @@ import moment from 'moment'
 import { filter, last, take as takeR } from 'ramda'
 import { call, put, select, take } from 'redux-saga/effects'
 
-import { CoinType, FiatType } from 'blockchain-wallet-v4/src/types'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { APIType } from 'core/network/api'
+import { APIType } from '@core/network/api'
+import { CoinType, FiatType } from '@core/types'
+import { errorHandler } from '@core/utils'
 
 import Remote from '../../../remote'
 import { FiatSBAndSwapTransactionType } from '../custodial/types'
@@ -15,16 +15,14 @@ import * as S from './selectors'
 const PAGE_SIZE = 20
 
 export default ({ api }: { api: APIType }) => {
-  const watchTransactions = function * () {
+  const watchTransactions = function* () {
     while (true) {
       const action = yield take(AT.FETCH_FIAT_TRANSACTIONS)
       yield call(fetchTransactions, action)
     }
   }
 
-  const fetchTransactions = function * (
-    action: ReturnType<typeof A.fetchTransactions>
-  ) {
+  const fetchTransactions = function* (action: ReturnType<typeof A.fetchTransactions>) {
     try {
       const { payload } = action
       const { currency, reset } = payload
@@ -34,29 +32,21 @@ export default ({ api }: { api: APIType }) => {
       if (data && Remote.Loading.is(last(data.page))) return
 
       // get next page start time and last sb tx id for next potential requests
-      const nextSwapPageTimestamp = data?.nextSwapPageTimestamp.getOrElse(
-        undefined
-      )
+      const nextSwapPageTimestamp = data?.nextSwapPageTimestamp.getOrElse(undefined)
       const nextSbTxId = data?.nextSbTxId.getOrElse(undefined)
       const nextSbTxTimestamp = data?.nextSbTxTimestamp.getOrElse(undefined)
 
       // if we have no next page timestamp, no next sb transaction id and there are
       // existing transactions indicates that there are no more transactions to fetch, return
-      if (
-        !nextSwapPageTimestamp?.length &&
-        !nextSbTxId &&
-        !reset &&
-        data?.page.length
-      )
-        return
+      if (!nextSwapPageTimestamp?.length && !nextSbTxId && !reset && data?.page.length) return
 
       // set next page as loading
       yield put(A.fetchTransactionsLoading(action.payload.currency, !!reset))
 
       let sbTransactions: ReturnType<typeof api.getSBTransactions> = {
         items: [],
-        prev: null,
-        next: null
+        next: null,
+        prev: null
       }
       let swapTransactions: Array<FiatSBAndSwapTransactionType> = []
 
@@ -88,12 +78,12 @@ export default ({ api }: { api: APIType }) => {
 
         // create a view model that looks like a SB transaction for easier component rendering
         swapTransactions = rawSwapTransactions.map(
-          swap =>
+          (swap) =>
             ({
               amount: {
-                symbol: swap.pair.split('-')[0] as CoinType,
+                fiatSymbol: swap.pair.split('-')[1] as FiatType,
                 inputMoney: swap.priceFunnel.inputMoney,
-                fiatSymbol: swap.pair.split('-')[1] as FiatType
+                symbol: swap.pair.split('-')[0] as CoinType
               },
               amountMinor: swap.priceFunnel.outputMoney,
               extraAttributes: {
@@ -123,14 +113,14 @@ export default ({ api }: { api: APIType }) => {
 
       // if the now pruned transaction list are less than PAGE_SIZE, no more
       // transactions remain, else grab data needed from next page requests
-      let lastSbTxId, lastSbTxTimestamp, nextSwapTimestamp
+      let lastSbTxId
+      let lastSbTxTimestamp
+      let nextSwapTimestamp
       if (nextTransactionPage.length === PAGE_SIZE) {
         nextSwapTimestamp = last(nextTransactionPage)?.insertedAt as string
-        lastSbTxId = last(filter(tx => tx.type !== 'SELL', nextTransactionPage))
-          ?.id as string
-        lastSbTxTimestamp = last(
-          filter(tx => tx.type !== 'SELL', nextTransactionPage)
-        )?.insertedAt as string
+        lastSbTxId = last(filter((tx) => tx.type !== 'SELL', nextTransactionPage))?.id as string
+        lastSbTxTimestamp = last(filter((tx) => tx.type !== 'SELL', nextTransactionPage))
+          ?.insertedAt as string
       }
 
       // set new page transactions and metadata for future requests on state
@@ -138,10 +128,10 @@ export default ({ api }: { api: APIType }) => {
         A.fetchTransactionsSuccess(
           action.payload.currency,
           {
-            page: nextTransactionPage,
             nextSbTxId: lastSbTxId,
             nextSbTxTimestamp: lastSbTxTimestamp,
-            nextSwapPageTimestamp: nextSwapTimestamp
+            nextSwapPageTimestamp: nextSwapTimestamp,
+            page: nextTransactionPage
           },
           reset
         )

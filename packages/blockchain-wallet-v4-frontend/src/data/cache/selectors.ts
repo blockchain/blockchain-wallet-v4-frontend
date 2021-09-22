@@ -1,6 +1,6 @@
 import { path } from 'ramda'
 
-import { crypto as wCrypto } from 'blockchain-wallet-v4/src'
+import { crypto as wCrypto } from '@core'
 
 export const getLastAnnouncementState = (state): string | undefined =>
   path(['cache', 'announcements'], state)

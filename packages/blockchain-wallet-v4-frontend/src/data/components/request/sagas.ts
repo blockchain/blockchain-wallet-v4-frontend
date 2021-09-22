@@ -1,7 +1,7 @@
 import { call, CallEffect, put, PutEffect, SelectEffect } from 'redux-saga/effects'
 
-import { APIType } from 'blockchain-wallet-v4/src/network/api'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { APIType } from '@core/network/api'
+import { errorHandler } from '@core/utils'
 
 import coinSagas from '../../coins/sagas'
 import profileSagas from '../../modules/profile/sagas'

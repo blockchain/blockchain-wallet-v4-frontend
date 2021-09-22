@@ -1,9 +1,9 @@
 import { lift } from 'ramda'
 
-import { SBBalanceType } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
-import { ExtractSuccess } from 'blockchain-wallet-v4/src/remote/types'
-import { CoinType } from 'blockchain-wallet-v4/src/types'
-import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
+import { SBBalanceType } from '@core/network/api/simpleBuy/types'
+import { ExtractSuccess } from '@core/remote/types'
+import { CoinType } from '@core/types'
+import { createDeepEqualSelector } from '@core/utils'
 import { generateTradingAccount } from 'data/coins/utils'
 import { SwapAccountType } from 'data/components/types'
 

@@ -1,9 +1,9 @@
 import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
-import { FiatType, SBBalanceType, SBPaymentMethodType } from 'blockchain-wallet-v4/src/types'
+import Currencies from '@core/exchange/currencies'
+import { fiatToString } from '@core/exchange/utils'
+import { FiatType, SBBalanceType, SBPaymentMethodType } from '@core/types'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Title, Value } from 'components/Flyout'
 import { DisplayContainer, DisplayIcon, MultiRowContainer } from 'components/SimpleBuy'
@@ -27,7 +27,7 @@ const Fund: React.FC<Props> = ({ balances, icon, onClick, value, walletCurrency 
       <Value asTitle>
         {fiatToString({
           unit: value.currency as FiatType,
-          value: convertBaseToStandard('FIAT', balances.available),
+          value: convertBaseToStandard('FIAT', balances.available)
         })}
       </Value>
       {value.currency !== walletCurrency && (

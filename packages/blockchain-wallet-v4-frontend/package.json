@@ -66,7 +66,8 @@
     ],
     "moduleNameMapper": {
       "\\.(pdf|jpg|jpeg|png|gif|eot|otf|svg|ttf|woff|woff2)$": "<rootDir>/src/__mocks__/fileMock.js",
-      "\\.(css|scss)$": "<rootDir>/../../node_modules/identity-obj-proxy"
+      "\\.(css|scss)$": "<rootDir>/../../node_modules/identity-obj-proxy",
+      "@core(.*)": "<rootDir>/../blockchain-wallet-v4/src/$1"
     },
     "testEnvironment": "jsdom"
   },

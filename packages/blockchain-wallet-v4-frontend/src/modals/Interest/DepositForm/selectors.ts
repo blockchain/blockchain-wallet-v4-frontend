@@ -1,13 +1,13 @@
 import { lift, pathOr, propOr } from 'ramda'
 
-import { Exchange } from 'blockchain-wallet-v4/src'
+import { Exchange } from '@core'
 import {
   ExtractSuccess,
   FiatType,
   InterestAfterTransactionType,
   InterestFormErrorsType,
   RemoteDataType
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { RootState } from 'data/rootReducer'

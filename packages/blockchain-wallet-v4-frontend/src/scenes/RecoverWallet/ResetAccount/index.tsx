@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { InjectedFormProps } from 'redux-form'
 
 import { Text } from 'blockchain-info-components'
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from '@core'
 import { Form } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'

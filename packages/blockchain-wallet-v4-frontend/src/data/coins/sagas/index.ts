@@ -1,4 +1,4 @@
-import { CoinType, PaymentType, PaymentValue, RemoteDataType } from 'blockchain-wallet-v4/src/types'
+import { CoinType, PaymentType, PaymentValue, RemoteDataType } from '@core/types'
 
 import * as BCH from './coins/bch'
 import * as BTC from './coins/btc'
