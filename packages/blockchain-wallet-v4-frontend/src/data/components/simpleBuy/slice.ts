@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import Remote from 'blockchain-wallet-v4/src/remote/remote'
+import { Remote } from '@core'
 import {
   CoinType,
   Everypay3DSResponseType,
@@ -24,7 +24,7 @@ import {
   SDDVerifiedType,
   SwapQuoteType,
   SwapUserLimitsType
-} from 'core/types'
+} from '@core/types'
 import {
   BankTransferAccountType,
   InitializeCheckout,
