@@ -152,7 +152,7 @@ class PreviewSell extends PureComponent<
 
   handleSubmit = (e) => {
     e.preventDefault()
-    this.props.simpleBuyActions.createSBOrder()
+    this.props.buySellActions.createOrder({})
   }
 
   networkFee = (value: PaymentValue | undefined) => (value ? getNetworkValue(value) : 0)
@@ -226,7 +226,7 @@ class PreviewSell extends PureComponent<
                   size='24px'
                   color='grey600'
                   onClick={() => {
-                    this.props.simpleBuyActions.setStep({
+                    this.props.buySellActions.setStep({
                       cryptoCurrency: BASE,
                       fiatCurrency: getFiatFromPair(this.props.pair.pair),
                       orderType: this.props.orderType,
@@ -557,7 +557,7 @@ class PreviewSell extends PureComponent<
                   color='red400'
                   style={{ marginTop: '16px' }}
                   onClick={() => {
-                    this.props.simpleBuyActions.setStep({
+                    this.props.buySellActions.setStep({
                       cryptoCurrency: BASE,
                       fiatCurrency,
                       orderType: this.props.orderType,
@@ -615,7 +615,7 @@ const mapStateToProps = (state: RootState) => {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

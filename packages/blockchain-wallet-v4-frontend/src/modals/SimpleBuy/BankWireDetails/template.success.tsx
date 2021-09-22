@@ -104,7 +104,7 @@ const Success: React.FC<Props> = (props) => {
                 style={{ marginRight: '28px' }}
                 role='button'
                 onClick={() =>
-                  props.simpleBuyActions.setStep({
+                  props.buySellActions.setStep({
                     cryptoCurrency: props.cryptoCurrency || 'BTC',
                     fiatCurrency: props.account.currency || 'USD',
                     order: props.order,

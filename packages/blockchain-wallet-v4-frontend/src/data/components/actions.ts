@@ -27,7 +27,7 @@ import * as sendEth from './sendEth/actions'
 import * as sendXlm from './sendXlm/actions'
 import { actions as settings } from './settings/slice'
 import * as signMessage from './signMessage/actions'
-import * as simpleBuy from './simpleBuy/actions'
+import { actions as buySell } from './simpleBuy/slice'
 import * as swap from './swap/actions'
 import * as uploadDocuments from './uploadDocuments/actions'
 import * as veriff from './veriff/actions'
@@ -38,6 +38,7 @@ export {
   bchTransactions,
   brokerage,
   btcTransactions,
+  buySell,
   coinTransactions,
   ethTransactions,
   fiatTransactions,
@@ -64,7 +65,6 @@ export {
   sendXlm,
   settings,
   signMessage,
-  simpleBuy,
   swap,
   uploadDocuments,
   veriff,

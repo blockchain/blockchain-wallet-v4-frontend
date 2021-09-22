@@ -15,7 +15,7 @@ import Success from './template.success'
 
 class AddCard extends PureComponent<Props> {
   componentDidMount() {
-    this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
+    this.props.buySellActions.fetchPaymentMethods(this.props.fiatCurrency)
 
     if (!Remote.Success.is(this.props.data)) {
       this.props.identityVerificationActions.fetchSupportedCountries()
@@ -23,7 +23,7 @@ class AddCard extends PureComponent<Props> {
   }
 
   handleSubmit = () => {
-    this.props.simpleBuyActions.addCardDetails()
+    this.props.buySellActions.addCard()
   }
 
   setDefaultCountry = (country: CountryType) => {
@@ -40,7 +40,7 @@ class AddCard extends PureComponent<Props> {
       Failure: (e) => (
         <DataError
           message={{ message: e }}
-          onClick={this.props.simpleBuyActions.fetchSBPaymentMethods}
+          onClick={this.props.buySellActions.fetchPaymentMethods}
         />
       ),
       Loading: () => <Loading />,
@@ -66,12 +66,9 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  identityVerificationActions: bindActionCreators(
-    actions.components.identityVerification,
-    dispatch
-  ),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  identityVerificationActions: bindActionCreators(actions.components.identityVerification, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

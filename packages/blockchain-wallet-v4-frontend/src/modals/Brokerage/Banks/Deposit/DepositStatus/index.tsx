@@ -15,18 +15,21 @@ import { getData } from './selectors'
 import Success from './template.success'
 import TimedOut from './template.timedOut'
 
-const DepositStatus = props => {
+const DepositStatus = (props) => {
   useEffect(() => {
     if (props.fiatCurrency && !Remote.Success.is(props.data)) {
-      props.simpleBuyActions.fetchSBPaymentMethods(props.fiatCurrency)
-      props.simpleBuyActions.fetchSBFiatEligible(props.fiatCurrency)
+      props.buySellActions.fetchSBPaymentMethods(props.fiatCurrency)
+      props.buySellActions.fetchSBFiatEligible(props.fiatCurrency)
       props.brokerageActions.fetchBankTransferAccounts()
-      props.simpleBuyActions.fetchSDDEligible()
+      props.buySellActions.fetchSDDEligibility()
     }
   }, [])
 
   return props.data.cata({
-    Success: val =>
+    Failure: () => <Failure {...props} />,
+    Loading: () => <Loading text={LoadingTextEnum.LOADING} />,
+    NotAsked: () => <Loading text={LoadingTextEnum.LOADING} />,
+    Success: (val) =>
       props.formValues?.order?.state === 'CLEARED' ||
       props.formValues?.order?.state === 'COMPLETED' ? (
         <Success {...val} {...props} />
@@ -34,10 +37,7 @@ const DepositStatus = props => {
         <TimedOut {...props} />
       ) : (
         <Failure {...props} />
-      ),
-    Failure: () => <Failure {...props} />,
-    Loading: () => <Loading text={LoadingTextEnum.LOADING} />,
-    NotAsked: () => <Loading text={LoadingTextEnum.LOADING} />
+      )
   })
 }
 

@@ -98,11 +98,11 @@ export const ActionButton = styled(Button)`
 const { TIERS_STATES } = model.profile
 
 export const TierCard = ({
+  buySellActions,
   column,
   emailVerified,
   identityVerificationActions,
   mobileVerified,
-  simpleBuyActions,
   swapActions,
   tier,
   userData,
@@ -144,8 +144,8 @@ export const TierCard = ({
               </Text>
             </Column>
             <Column>
-              {TIERS[tier].requirements.map((requirement, i) => (
-                <TextGroup inline key={i} style={{ marginBottom: '8px' }}>
+              {TIERS[tier].requirements.map((requirement) => (
+                <TextGroup inline key={requirement.name} style={{ marginBottom: '8px' }}>
                   {messages[requirement.name]}
                   {requirement.complete({
                     emailVerified,
@@ -203,7 +203,7 @@ export const TierCard = ({
               jumbo
               fullwidth
               nature='primary'
-              onClick={() => simpleBuyActions.showModal('SettingsProfile')}
+              onClick={() => buySellActions.showModal({ origin: 'SettingsProfile' })}
               data-e2e='buyNowBtn'
             >
               <FormattedMessage
@@ -218,11 +218,11 @@ export const TierCard = ({
 }
 
 const mapDispatchToProps = (dispatch) => ({
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
   ),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
   swapActions: bindActionCreators(actions.components.swap, dispatch)
 })
 

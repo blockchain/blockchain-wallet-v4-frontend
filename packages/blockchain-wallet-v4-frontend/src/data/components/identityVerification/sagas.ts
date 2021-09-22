@@ -415,7 +415,7 @@ export default ({ api, coreSagas, networks }) => {
           }
           sddVerified = yield call(api.fetchSDDVerified)
           if (sddVerified?.taskComplete) {
-            yield put(actions.components.simpleBuy.fetchSDDVerifiedSuccess(sddVerified))
+            yield put(actions.components.buySell.fetchSDDVerifiedSuccess(sddVerified))
             break
           }
           yield delay(POLL_SDD_DELAY)
@@ -431,8 +431,8 @@ export default ({ api, coreSagas, networks }) => {
 
           // wait for SB create to finish
           yield take([
-            actionTypes.components.simpleBuy.FETCH_SB_ORDERS_SUCCESS,
-            actionTypes.components.simpleBuy.FETCH_SB_ORDERS_FAILURE
+            actions.components.buySell.fetchOrdersSuccess.type,
+            actions.components.buySell.fetchOrdersFailure.type
           ])
           // close KYC modal
           yield put(actions.modals.closeModal(ModalName.KYC_MODAL))

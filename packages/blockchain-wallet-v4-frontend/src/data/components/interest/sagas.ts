@@ -15,7 +15,7 @@ import {
   SBBalancesType
 } from '@core/types'
 import { errorHandler } from '@core/utils'
-import { actions, actionTypes, model, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import coinSagas from 'data/coins/sagas'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 
@@ -272,11 +272,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const initializeCustodialAccountForm = function* (coin) {
     // re-fetch the custodial balances to ensure we have the latest for proper form initialization
-    yield put(actions.components.simpleBuy.fetchSBBalances(undefined, true))
+    yield put(actions.components.buySell.fetchBalance({ skipLoading: true }))
     // wait until balances are loaded we must have deep equal objects to initialize form correctly
     yield take([
-      actionTypes.components.simpleBuy.FETCH_SB_BALANCES_SUCCESS,
-      actionTypes.components.simpleBuy.FETCH_SB_BALANCES_FAILURE
+      actions.components.buySell.fetchBalanceSuccess.type,
+      actions.components.buySell.fetchBalanceFailure.type
     ])
     const custodialBalances = (yield select(
       selectors.components.simpleBuy.getSBBalances

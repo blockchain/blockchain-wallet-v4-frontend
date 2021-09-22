@@ -20,7 +20,7 @@ const Title = styled(Text)`
   margin: 40px 0px 24px 0px;
 `
 
-const Failure: React.FC<LinkDispatchPropsType & Props> = props => {
+const Failure: React.FC<LinkDispatchPropsType & Props> = (props) => {
   return (
     <Wrapper>
       <div>
@@ -43,9 +43,9 @@ const Failure: React.FC<LinkDispatchPropsType & Props> = props => {
           nature='primary'
           size='16px'
           onClick={() =>
-            props.simpleBuyActions.setStep({
-              step: 'CRYPTO_SELECTION',
-              fiatCurrency: props.fiatCurrency
+            props.buySellActions.setStep({
+              fiatCurrency: props.fiatCurrency,
+              step: 'CRYPTO_SELECTION'
             })
           }
         >

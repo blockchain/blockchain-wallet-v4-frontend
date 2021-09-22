@@ -14,7 +14,7 @@ const ActionsContainer = (props: Props) => {
 const mapStateToProps = (state) => getData(state)
 
 const mapDispatchToProps = (dispatch) => ({
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   swapActions: bindActionCreators(actions.components.swap, dispatch)
 })
 

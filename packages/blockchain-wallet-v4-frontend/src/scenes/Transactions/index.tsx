@@ -171,11 +171,11 @@ class TransactionsContainer extends React.PureComponent<Props> {
                       width='100px'
                       style={{ marginRight: '8px' }}
                       onClick={() => {
-                        this.props.simpleBuyActions.showModal(
-                          'TransactionList',
-                          coin as CoinType,
-                          OrderType.SELL
-                        )
+                        this.props.buySellActions.showModal({
+                          cryptoCurrency: coin as CoinType,
+                          orderType: OrderType.SELL,
+                          origin: 'TransactionList'
+                        })
                       }}
                     >
                       <FormattedMessage id='buttons.sell' defaultMessage='Sell' />
@@ -185,11 +185,11 @@ class TransactionsContainer extends React.PureComponent<Props> {
                       data-e2e='buyCrypto'
                       width='100px'
                       onClick={() => {
-                        this.props.simpleBuyActions.showModal(
-                          'TransactionList',
-                          coin as CoinType,
-                          OrderType.BUY
-                        )
+                        this.props.buySellActions.showModal({
+                          cryptoCurrency: coin as CoinType,
+                          orderType: OrderType.BUY,
+                          origin: 'TransactionList'
+                        })
                       }}
                     >
                       <FormattedMessage id='buttons.buy' defaultMessage='Buy' />
@@ -205,16 +205,16 @@ class TransactionsContainer extends React.PureComponent<Props> {
                         style={{ minWidth: 'auto' }}
                         onClick={() => {
                           if (!this.props.brokerageActions) return
-                          if (!this.props.simpleBuyActions) return
+                          if (!this.props.buySellActions) return
                           if (isInvited || coin === 'USD') {
                             this.props.brokerageActions.handleDepositFiatClick(
                               coin as WalletFiatType
                             )
                           } else {
-                            this.props.simpleBuyActions.handleSBDepositFiatClick(
-                              coin as WalletFiatType,
-                              'TransactionList'
-                            )
+                            this.props.buySellActions.handleDepositFiatClick({
+                              coin: coin as WalletFiatType,
+                              origin: 'TransactionList'
+                            })
                           }
                         }}
                       >
@@ -314,9 +314,9 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
   const { coin, coinfig } = ownProps
   const baseActions = {
     brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
+    buySellActions: bindActionCreators(actions.components.buySell, dispatch),
     miscActions: bindActionCreators(actions.core.data.misc, dispatch),
     recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),
-    simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
     withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
   }
   if (coinfig.type.erc20Address) {

@@ -62,7 +62,7 @@ const FeaturesSmall = (props: Props & { showModal: (modal: 'SEND' | 'REQUEST') =
           </DropdownMenuItem>
           <DropdownMenuItem
             data-e2e='buyAndSellLink'
-            onClick={() => props.simpleBuyActions.showModal('SideNav')}
+            onClick={() => props.buySellActions.showModal({ origin: 'SideNav' })}
           >
             <Destination>
               <FormattedMessage id='buttons.buy_sell_crypto' defaultMessage='Buy/Sell Crypto' />
