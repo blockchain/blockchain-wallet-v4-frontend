@@ -5,6 +5,7 @@ import {
   InterestAccountBalanceType,
   InterestAccountType,
   InterestAfterTransactionType,
+  InterestEDDDocumentsResponse,
   InterestEDDStatus,
   InterestEligibleType,
   InterestInstrumentsType,

@@ -34,12 +34,14 @@ const AccountSummary: React.FC<Props> = (props) => {
   const {
     accountBalances,
     coin,
+    flagEDDInterestFileUpload,
     handleClose,
     handleDepositClick,
     handleSBClick,
     interestActions,
     interestLimits,
     interestRate,
+    interestUploadDocumentActions,
     showSupply,
     stepMetadata,
     walletCurrency
@@ -181,7 +183,7 @@ const AccountSummary: React.FC<Props> = (props) => {
             <Text color='grey600' size='14px' weight={500}>
               <FormattedMessage
                 id='modals.interest.withdrawal.success'
-                defaultMessage='Waiting on your withdrawal to be confirmed by our team. It may take a few moments to show in your Interest Account History. No action is required at this time.'
+                defaultMessage='We are waiting on your withdrawal to be confirmed by the network and our team.'
               />
             </Text>
           </StatusWrapper>
@@ -189,7 +191,7 @@ const AccountSummary: React.FC<Props> = (props) => {
         {showSupply &&
           stepMetadata &&
           (stepMetadata.withdrawSuccess || stepMetadata.depositSuccess) && (
-            <StatusSupplyWrapper>
+            <StatusSupplyWrapper className={flagEDDInterestFileUpload ? 'new' : 'old'}>
               <Text color='grey900' size='16px' weight={600}>
                 <FormattedMessage
                   id='modals.interest.withdrawal.supply_information_title'
@@ -198,13 +200,20 @@ const AccountSummary: React.FC<Props> = (props) => {
               </Text>
               <Text color='grey600' size='12px' weight={500} style={{ marginTop: '16px' }}>
                 {stepMetadata.withdrawSuccess ? (
-                  <FormattedMessage
-                    id='modals.interest.withdrawal.supply_information_description_1'
-                    defaultMessage='Your recent withdrawal of {amount} requires further verification for legal and compliance reasons.'
-                    values={{
-                      amount: `${currencySymbol}${formatFiat(stepMetadata.withdrawalAmount)}`
-                    }}
-                  />
+                  flagEDDInterestFileUpload ? (
+                    <FormattedMessage
+                      id='modals.interest.withdrawal.supply_information_description_1_new'
+                      defaultMessage='Your recent withdrawal of {amount} requires further verification for legal and compliance reasons.'
+                      values={{
+                        amount: `${currencySymbol}${formatFiat(stepMetadata.withdrawalAmount)}`
+                      }}
+                    />
+                  ) : (
+                    <FormattedMessage
+                      id='modals.interest.withdrawal.supply_information_description_1'
+                      defaultMessage="You've requested a withdrawal for an amount that requires further verification for legal and compliance reasons."
+                    />
+                  )
                 ) : (
                   <FormattedMessage
                     id='modals.interest.deposit.supply_information_description_1'
@@ -214,10 +223,17 @@ const AccountSummary: React.FC<Props> = (props) => {
               </Text>
               <Text color='grey600' size='12px' weight={500} style={{ marginTop: '16px' }}>
                 {stepMetadata.withdrawSuccess ? (
-                  <FormattedMessage
-                    id='modals.interest.withdrawal.supply_information_description_2'
-                    defaultMessage='Please submit the additional information so we can start processing your withdrawal.'
-                  />
+                  flagEDDInterestFileUpload ? (
+                    <FormattedMessage
+                      id='modals.interest.withdrawal.supply_information_description_2_new'
+                      defaultMessage='Please submit the additional information so we can start processing your withdrawal.'
+                    />
+                  ) : (
+                    <FormattedMessage
+                      id='modals.interest.withdrawal.supply_information_description_2'
+                      defaultMessage="You've requested a withdrawal for an amount that requires further verification for legal and compliance reasons."
+                    />
+                  )
                 ) : (
                   <FormattedMessage
                     id='modals.interest.deposit.supply_information_description_2'
@@ -225,19 +241,16 @@ const AccountSummary: React.FC<Props> = (props) => {
                   />
                 )}
               </Text>
+
               <LinkWrapper>
-                <Link
-                  href='https://share.hsforms.com/1DS4i94fURdutr8OXYOxfrg2qt44'
-                  style={{ width: '100%' }}
-                  target='_blank'
-                >
+                {flagEDDInterestFileUpload ? (
                   <Button
                     data-e2e='earnInterestSupplyMoreInformation'
                     fullwidth
                     nature='primary'
                     onClick={() => {
-                      interestActions.handleWithdrawalSupplyInformation({
-                        origin: 'SavingsConfirmation'
+                      interestUploadDocumentActions.showModal({
+                        origin: 'InterestUploadDocument'
                       })
                     }}
                   >
@@ -246,7 +259,29 @@ const AccountSummary: React.FC<Props> = (props) => {
                       defaultMessage='Submit Information'
                     />
                   </Button>
-                </Link>
+                ) : (
+                  <Link
+                    href='https://share.hsforms.com/1DS4i94fURdutr8OXYOxfrg2qt44'
+                    style={{ width: '100%' }}
+                    target='_blank'
+                  >
+                    <Button
+                      data-e2e='earnInterestSupplyMoreInformation'
+                      fullwidth
+                      nature='primary'
+                      onClick={() => {
+                        interestActions.handleWithdrawalSupplyInformation({
+                          origin: 'SavingsConfirmation'
+                        })
+                      }}
+                    >
+                      <FormattedMessage
+                        id='scenes.interest.submit_information'
+                        defaultMessage='Submit Information'
+                      />
+                    </Button>
+                  </Link>
+                )}
               </LinkWrapper>
             </StatusSupplyWrapper>
           )}

@@ -4,6 +4,7 @@ import { brokerageReducer as brokerage } from './brokerage/slice'
 import { fundRecoveryReducer } from './fundRecovery/reducers'
 import identityVerificationReducer from './identityVerification/reducers'
 import { interestReducer } from './interest/slice'
+import { reducer as interestUploadDocumentReducer } from './interestUploadDocument/slice'
 import { layoutWalletReducer as layoutWallet } from './layoutWallet/slice'
 import lockbox from './lockbox/reducers'
 import manageAddresses from './manageAddresses/reducers'
@@ -31,6 +32,7 @@ const componentReducer = combineReducers({
   fundRecovery: fundRecoveryReducer,
   identityVerification: identityVerificationReducer,
   interest: interestReducer,
+  interestUploadDocument: interestUploadDocumentReducer,
   layoutWallet,
   lockbox,
   manageAddresses,

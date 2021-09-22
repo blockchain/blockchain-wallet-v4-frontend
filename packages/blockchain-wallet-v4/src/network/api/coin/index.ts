@@ -1,6 +1,6 @@
-import { IndexMultiResponseType } from './types'
+import { IndexMultiResponseType, TickerResponseType } from './types'
 
-export default ({ apiUrl, post }) => {
+export default ({ apiUrl, get, post }) => {
   const getCoinPrices = (
     coins: { base: string; quote: string }[],
     timestamp?: number
@@ -13,7 +13,17 @@ export default ({ apiUrl, post }) => {
       url: apiUrl
     })
 
+  // 🔥
+  // BTC price ticker is used to triangulate FIAT prices
+  const getBtcTicker = (): TickerResponseType =>
+    get({
+      data: { base: 'BTC' },
+      endPoint: '/ticker',
+      url: apiUrl
+    })
+
   return {
+    getBtcTicker,
     getCoinPrices
   }
 }

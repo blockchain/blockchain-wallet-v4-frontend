@@ -98,6 +98,7 @@ const SignMessage = React.lazy(() => import('./SignMessage'))
 const SimpleBuy = React.lazy(() => import('./SimpleBuy'))
 const Swap = React.lazy(() => import('./Swap'))
 const RecurringBuys = React.lazy(() => import('./RecurringBuys'))
+const InterestUploadDocuments = React.lazy(() => import('./InterestUploadDocuments'))
 
 // BROKERAGE
 const BankDetails = React.lazy(() => import('./Brokerage/Banks/BankDetails'))
@@ -225,6 +226,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.RECURRING_BUYS_MODAL) ? (
           <RecurringBuys />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.INTEREST_UPLOAD_DOCUMENT_MODAL) ? (
+          <InterestUploadDocuments />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.REQUEST_CRYPTO_MODAL) ? (
           <RequestCrypto />

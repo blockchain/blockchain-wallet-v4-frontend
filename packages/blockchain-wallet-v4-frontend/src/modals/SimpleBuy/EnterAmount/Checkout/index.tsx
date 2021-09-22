@@ -59,6 +59,18 @@ class Checkout extends PureComponent<Props> {
     )
   }
 
+  componentDidUpdate(prevProps) {
+    const prevId = prevProps.defaultMethod?.id
+    const currId = this.props.defaultMethod?.id
+
+    // check to see if there was no default method and now there is, then fire analytics event
+    // we only really want this analytics event to trigger when the user opens the buy modal and
+    // a default payment method is automatically used
+    if (this.props.defaultMethod && currId && prevId !== currId) {
+      this.props.simpleBuyActions.defaultMethodEvent({ method: this.props.defaultMethod })
+    }
+  }
+
   handleSubmit = () => {
     // if the user is < tier 2 go to kyc but save order info
     // if the user is tier 2 try to submit order, let BE fail

@@ -60,25 +60,32 @@ const interestSlice = createSlice({
   name: 'brokerage',
   reducers: {
     clearInterestTransactionsReport: () => {},
+
     fetchEDDStatus: () => {},
 
     fetchEDDStatusFailure: (state, action: PayloadAction<ErrorStringType>) => {
       state.interestEDDStatus = Remote.Failure(action.payload.error)
     },
+
     fetchEDDStatusLoading: (state) => {
       state.interestEDDStatus = Remote.Loading
     },
+
     fetchEDDStatusSuccess: (state, action: PayloadAction<{ eddStatus: InterestEDDStatus }>) => {
       state.interestEDDStatus = Remote.Success(action.payload.eddStatus)
     },
+
     // eslint-disable-next-line
     fetchEDDWithdrawLimits: (state, action: PayloadAction<{ currency: FiatType }>) => {},
+
     fetchEDDWithdrawLimitsFailure: (state, action: PayloadAction<ErrorStringType>) => {
       state.interestEDDWithdrawLimits = Remote.Failure(action.payload.error)
     },
+
     fetchEDDWithdrawLimitsLoading: (state) => {
       state.interestEDDWithdrawLimits = Remote.Loading
     },
+
     fetchEDDWithdrawLimitsSuccess: (
       state,
       action: PayloadAction<{ interestEDDWithdrawLimits: WithdrawLimits }>
@@ -89,48 +96,60 @@ const interestSlice = createSlice({
     // ACCOUNT
     // eslint-disable-next-line
     fetchInterestAccount: (state, action: PayloadAction<{coin?: CoinType}>) => {},
+
     fetchInterestAccountFailure: (state, action: PayloadAction<string>) => {
       state.account = Remote.Failure(action.payload)
     },
+
     fetchInterestAccountLoading: (state) => {
       state.account = Remote.Loading
     },
+
     fetchInterestAccountSuccess: (state, action: PayloadAction<InterestAccountType>) => {
       state.account = Remote.Success(action.payload)
     },
 
     // BALANCES
     fetchInterestBalance: () => {},
+
     fetchInterestBalanceFailure: (state, action: PayloadAction<string>) => {
       state.accountBalance = Remote.Failure(action.payload)
     },
+
     fetchInterestBalanceLoading: (state) => {
       state.accountBalance = Remote.Loading
     },
+
     fetchInterestBalanceSuccess: (state, action: PayloadAction<InterestAccountBalanceType>) => {
       state.accountBalance = Remote.Success(action.payload)
     },
 
     // ELIGIBLE
     fetchInterestEligible: () => {},
+
     fetchInterestEligibleFailure: (state, action: PayloadAction<string>) => {
       state.interestEligible = Remote.Failure(action.payload)
     },
+
     fetchInterestEligibleLoading: (state) => {
       state.interestEligible = Remote.Loading
     },
+
     fetchInterestEligibleSuccess: (state, action: PayloadAction<InterestEligibleType>) => {
       state.interestEligible = Remote.Success(action.payload)
     },
 
     // INSTRUMENTS
     fetchInterestInstruments: () => {},
+
     fetchInterestInstrumentsFailure: (state, action: PayloadAction<string>) => {
       state.instruments = Remote.Failure(action.payload)
     },
+
     fetchInterestInstrumentsLoading: (state) => {
       state.instruments = Remote.Loading
     },
+
     fetchInterestInstrumentsSuccess: (
       state,
       action: PayloadAction<{ interestInstruments: InterestInstrumentsResponseType }>
@@ -145,12 +164,15 @@ const interestSlice = createSlice({
       // eslint-disable-next-line
       action: PayloadAction<InterestLimits>
     ) => {},
+
     fetchInterestLimitsFailure: (state, action: PayloadAction<string>) => {
       state.interestLimits = Remote.Failure(action.payload)
     },
+
     fetchInterestLimitsLoading: (state) => {
       state.interestLimits = Remote.Loading
     },
+
     fetchInterestLimitsSuccess: (state, action: PayloadAction<InterestLimitsType>) => {
       state.interestLimits = Remote.Success(action.payload)
     },

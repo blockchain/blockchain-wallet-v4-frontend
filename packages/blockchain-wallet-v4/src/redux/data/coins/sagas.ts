@@ -28,6 +28,15 @@ export default ({ api }: { api: APIType }) => {
     }))
 
     try {
+      yield put(A.fetchBtcTickerLoading())
+      const response: ReturnType<typeof api.getBtcTicker> = yield call(api.getBtcTicker)
+      yield put(A.fetchBtcTickerSuccess(response))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchBtcTickerFailure(error))
+    }
+
+    try {
       yield put(A.fetchCoinsRatesLoading())
       const response: ReturnType<typeof api.getCoinPrices> = yield call(api.getCoinPrices, request)
       yield put(A.fetchCoinsRatesSuccess(response))
