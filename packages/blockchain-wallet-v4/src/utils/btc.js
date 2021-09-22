@@ -147,7 +147,6 @@ export const privateKeyStringToKey = function (value, format, network = networks
     default:
       throw new Error('Unsupported Key Format')
   }
-  console.log(format)
   const bufferLength = 32
   const paddedKeyBuffer = Buffer.alloc(bufferLength).fill(
     keyBuffer,
