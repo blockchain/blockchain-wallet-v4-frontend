@@ -1,16 +1,33 @@
-const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const { concat, prepend } = require('ramda')
-const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-let mockWalletOptions = require('./../../config/mocks/wallet-options-v4')
-const CONFIG_PATH = require('./../../config/paths')
 const Webpack = require('webpack')
+// node
 const chalk = require('chalk')
 const path = require('path')
 const fs = require('fs')
+// webpack plugins
+const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
+const threadLoader = require('thread-loader')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
+// configs
+let mockWalletOptions = require('./../../config/mocks/wallet-options-v4')
+const CONFIG_PATH = require('./../../config/paths')
+
+// thread loader plugin settings
+const threadLoaderSettings = {
+  poolParallelJobs: 250,
+  poolRespawn: true,
+  poolTimeout: Infinity,
+  name: 'thread-loader-pool',
+  workers: 4,
+  workerParallelJobs: 25,
+}
+threadLoader.warmup(threadLoaderSettings, ['babel-loader', 'ts-loader'])
+
+// csp nonce for local development
 const CSP_NONCE = '2726c7f26c'
 
 // gets and logs build config
@@ -86,7 +103,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
         use: [
           {
             loader: 'thread-loader',
-            options: { workerParallelJobs: 50 }
+            options: threadLoaderSettings
           },
           'babel-loader'
         ]
