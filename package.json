@@ -168,6 +168,7 @@
     "eslint-plugin-sort-keys-fix": "1.1.1",
     "eslint-plugin-typescript-sort-keys": "1.7.0",
     "express": "4.17.1",
+    "favicons": "6.2.2",
     "favicons-webpack-plugin": "5.0.2",
     "fork-ts-checker-webpack-plugin": "6.3.3",
     "futoin-hkdf": "1.4.2",

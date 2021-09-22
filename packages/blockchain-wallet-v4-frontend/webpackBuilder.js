@@ -1,4 +1,3 @@
-/* eslint-disable */
 const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
@@ -6,7 +5,6 @@ const { concat, prepend } = require('ramda')
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 let mockWalletOptions = require('./../../config/mocks/wallet-options-v4')
-const TerserPlugin = require('terser-webpack-plugin')
 const CONFIG_PATH = require('./../../config/paths')
 const Webpack = require('webpack')
 const chalk = require('chalk')
@@ -54,17 +52,17 @@ const getAndLogEnvConfig = () => {
 // CI config that differs from local dev, edit the property below and then override
 // the new property in the webpack.config.dev.js file.
 const buildWebpackConfig = (envConfig, extraPluginsList) => ({
-  devtool: false,
+  devtool: false, // default is false but needs to be set so dev config can override
   entry: {
     app: ['@babel/polyfill', CONFIG_PATH.src + '/index.js']
   },
   output: {
     assetModuleFilename: 'resources/[name][ext]', // default asset path that is usually overwritten in specific modules.rules
+    chunkFilename: '[name].[chunkhash:10].js',
+    crossOriginLoading: 'anonymous',
     path: CONFIG_PATH.ciBuild,
     pathinfo: false,
-    chunkFilename: '[name].[chunkhash:10].js',
-    publicPath: '/',
-    crossOriginLoading: 'anonymous'
+    publicPath: '/'
   },
   resolve: {
     alias: {
@@ -169,48 +167,27 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
     extraPluginsList
   ),
   optimization: {
-    concatenateModules: true,
-    moduleIds: 'named',
-    minimizer: [
-      new TerserPlugin({
-        terserOptions: {
-          warnings: false,
-          compress: { keep_fnames: true },
-          mangle: { keep_fnames: true }
-        },
-        parallel: true
-      })
-    ],
-    runtimeChunk: {
-      name: `manifest.${new Date().getTime()}`
-    },
     splitChunks: {
+      chunks: 'async',
+      minSize: 20000,
+      minRemainingSize: 0,
+      minChunks: 1,
+      maxAsyncRequests: 30,
+      maxInitialRequests: 30,
+      enforceSizeThreshold: 50000,
       cacheGroups: {
-        default: {
-          chunks: 'initial',
-          name: 'app',
-          priority: -20,
-          reuseExistingChunk: true
-        },
-        vendor: {
-          chunks: 'initial',
-          name: 'vendor',
+        defaultVendors: {
+          test: /[\\/]node_modules[\\/]/,
           priority: -10,
-          test: /[\\/]node_modules[\\/]/
-        },
-        frontend: {
-          chunks: 'initial',
-          name: 'frontend',
-          priority: -11,
           reuseExistingChunk: true,
-          test: function (module) {
-            return (
-              module.resource && module.resource.indexOf('blockchain-wallet-v4-frontend/src') !== -1
-            )
-          }
-        }
-      }
-    }
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        },
+      },
+    },
   }
 })
 

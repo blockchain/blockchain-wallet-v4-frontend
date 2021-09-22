@@ -1,4 +1,3 @@
-/* eslint-disable */
 const { compose, evolve, adjust, set, lensProp } = require('ramda')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
@@ -35,29 +34,11 @@ const devWebpackConfig = evolve(
       rules: compose(
         adjust(0, rule => set(lensProp('use'), ['cache-loader', 'babel-loader'], rule)
         ),
-        adjust(0, rule => set(lensProp('include'), /src|blockchain-info-components.src|blockchain-wallet-v4.src/, rule)),
+        // adjust(0, rule => set(lensProp('include'), /src|blockchain-info-components.src|blockchain-wallet-v4.src/, rule)),
         adjust(1, rule => set(lensProp('options'), { transpileOnly: true }, rule))
       )
     },
-    output: { path: () => CONFIG_PATH.appBuild },
-    optimization: {
-      concatenateModules: () => false,
-      splitChunks: {
-        cacheGroups: {
-          frontend: {
-            test: () =>
-              function(module) {
-                return (
-                  module.resource &&
-                  module.resource.indexOf(
-                    'blockchain-wallet-v4-frontend/src'
-                  ) === -1
-                )
-              }
-          }
-        }
-      }
-    }
+    output: { path: () => CONFIG_PATH.appBuild }
   },
   webpackConfig
 )
