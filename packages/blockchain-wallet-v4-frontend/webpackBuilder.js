@@ -244,10 +244,7 @@ const buildDevServerConfig = (
     allowedHosts: 'all',
     client: {
       logging: 'info',
-      overlay: {
-        errors: true,
-        warnings: true,
-      },
+      overlay: true,
       progress: true
     },
     historyApiFallback: true,
@@ -289,9 +286,9 @@ const buildDevServerConfig = (
         "font-src 'self'"
       ].join('; ')
     },
-    host: 'localhost',
     hot: useHMR,
     https: httpsConfig,
+    liveReload: !useHMR,
     onBeforeSetupMiddleware(devServer) {
       devServer.app.get('/wallet-options-v4.json', function (req, res) {
         // combine wallet options base with custom environment config
@@ -330,9 +327,6 @@ const buildDevServerConfig = (
         changeOrigin: true,
         pathRewrite: { '^/ledger': '' }
       }
-    },
-    static: {
-      directory: CONFIG_PATH.src
     }
   }
 }
