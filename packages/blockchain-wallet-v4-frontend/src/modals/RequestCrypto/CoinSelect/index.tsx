@@ -6,11 +6,11 @@ import { bindActionCreators, compose } from 'redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
+import { data } from '@core/redux/selectors'
 import { Icon, Text } from 'blockchain-info-components'
 import { StickyHeaderFlyoutWrapper } from 'components/Flyout'
 import { StepHeader } from 'components/Flyout/SendRequestCrypto'
 import { CoinAccountListOption, SelectBoxCoin } from 'components/Form'
-import { data } from 'core/redux/selectors'
 import { actions } from 'data'
 import { SwapAccountType, SwapBaseCounterTypes } from 'data/components/swap/types'
 
