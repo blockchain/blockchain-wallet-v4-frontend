@@ -54,7 +54,6 @@ const getAndLogEnvConfig = () => {
 // CI config that differs from local dev, edit the property below and then override
 // the new property in the webpack.config.dev.js file.
 const buildWebpackConfig = (envConfig, extraPluginsList) => ({
-  mode: 'production',
   devtool: false,
   entry: {
     app: ['@babel/polyfill', CONFIG_PATH.src + '/index.js']
@@ -79,13 +78,26 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
     },
     extensions: ['.ts', '.tsx', '.js', '.json']
   },
+  mode: 'production',
   module: {
+    // 👋 rule order matters as other ci/dev configs will override rules in specific list locations!
     rules: [
       {
         test: /\.js$/,
-        use: [{ loader: 'thread-loader', options: { workerParallelJobs: 50 } }, 'babel-loader']
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'thread-loader',
+            options: { workerParallelJobs: 50 }
+          },
+          'babel-loader'
+        ]
       },
-      { test: /\.tsx?$/, loader: 'ts-loader' },
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        loader: 'ts-loader'
+      },
       {
         test: /\.(eot|ttf|otf|woff|woff2)$/,
         type: 'asset/resource',
@@ -114,7 +126,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
       }
     ]
   },
-  performance: { hints: false },
+  performance: { hints: false }, // TODO: enable bundle size warnings in future
   plugins: concat(
     [
       new CleanWebpackPlugin(),
