@@ -14,7 +14,7 @@
     "build:staging": "cross-env-shell NODE_ENV=staging webpack-cli --config webpack.config.dev.js --progress --color",
     "build:prod": "cross-env-shell NODE_ENV=production webpack-cli --config webpack.config.dev.js --progress --color",
     "ci:test:frontend": "yarn test --runInBand",
-    "ci:compile": "cross-env-shell NODE_ENV=production webpack-cli --config webpack.config.ci.js --display-error-details",
+    "ci:compile": "cross-env-shell NODE_ENV=production webpack-cli --config webpack.config.ci.js",
     "clean": "cross-env rimraf node_modules && rimraf build",
     "coverage": "cross-env npx jest --coverage --silent",
     "debug:prod": "cross-env-shell NODE_ENV=production webpack-dev-server --config webpack.debug.js --progress --color",
