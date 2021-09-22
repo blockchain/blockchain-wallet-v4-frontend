@@ -18,12 +18,12 @@ const CONFIG_PATH = require('./../../config/paths')
 
 // thread loader plugin settings
 const threadLoaderSettings = {
-  poolParallelJobs: 250,
+  poolParallelJobs: 100,
   poolRespawn: true,
-  poolTimeout: Infinity,
+  poolTimeout: 500,
   name: 'thread-loader-pool',
   workers: 4,
-  workerParallelJobs: 25,
+  workerParallelJobs: 100,
 }
 threadLoader.warmup(threadLoaderSettings, ['babel-loader', 'ts-loader'])
 
