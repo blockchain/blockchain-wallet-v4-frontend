@@ -6,7 +6,6 @@ import { bindActionCreators, compose } from 'redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { data } from '@core/redux/selectors'
 import { Icon, Text } from 'blockchain-info-components'
 import { StickyHeaderFlyoutWrapper } from 'components/Flyout'
 import { StepHeader } from 'components/Flyout/SendRequestCrypto'
@@ -36,18 +35,28 @@ const NoAccountsText = styled.div`
   text-align: center;
 `
 
-class RequestCoinSelect extends React.PureComponent<Props, { items: Props['data']['accounts'] }> {
+class RequestCoinSelect extends React.PureComponent<
+  Props,
+  { items: Props['data']['accounts']; scrollHeight: string }
+> {
+  scrollRef: React.RefObject<HTMLDivElement>
+
   constructor(props) {
     super(props)
     this.state = {
-      items: props.data.accounts.slice(0, 20)
+      items: props.data.accounts.slice(0, 20),
+      scrollHeight: '400px'
     }
+    this.scrollRef = React.createRef()
+  }
+
+  componentDidMount() {
+    this.setState({ scrollHeight: `${this.scrollRef.current?.offsetHeight}px` })
   }
 
   fetchDataMock = () => {
-    console.log('here')
     this.setState((state) => ({
-      items: this.props.data.accounts.slice(state.items.length, 20)
+      items: this.props.data.accounts.slice(0, state.items.length + 20)
     }))
   }
 
@@ -99,16 +108,19 @@ class RequestCoinSelect extends React.PureComponent<Props, { items: Props['data'
           </div>
         </StickyHeaderFlyoutWrapper>
         <div
+          ref={this.scrollRef}
           id='scrollableDiv'
           style={{
-            height: '400px',
+            flex: 1,
+            height: '100%',
             overflow: 'auto'
           }}
         >
           <InfiniteScroll
             next={this.fetchDataMock}
             loader={<div>loading</div>}
-            dataLength={data.accounts.length}
+            dataLength={this.state.items.length}
+            height={this.state.scrollHeight}
             hasMore
           >
             {this.state.items.map((account) => (
