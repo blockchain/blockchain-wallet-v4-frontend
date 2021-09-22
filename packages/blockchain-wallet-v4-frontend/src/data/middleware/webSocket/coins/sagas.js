@@ -1,4 +1,3 @@
-/* eslint-disable */
 import crypto from 'crypto'
 import { concat, equals, prop } from 'ramda'
 import { call, put, select } from 'redux-saga/effects'
