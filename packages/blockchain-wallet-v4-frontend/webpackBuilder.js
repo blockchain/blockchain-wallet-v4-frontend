@@ -18,12 +18,12 @@ const CONFIG_PATH = require('./../../config/paths')
 
 // thread loader plugin settings
 const threadLoaderSettings = {
-  poolParallelJobs: 100,
-  poolRespawn: true,
-  poolTimeout: 500,
+  // poolParallelJobs: 250,
+  // poolRespawn: true,
+  // poolTimeout: 500,
   name: 'thread-loader-pool',
-  workers: 4,
-  workerParallelJobs: 100,
+  workers: 2,
+  workerParallelJobs: 50,
 }
 threadLoader.warmup(threadLoaderSettings, ['babel-loader', 'ts-loader'])
 
@@ -100,6 +100,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
       {
         test: /\.js$/,
         exclude: /node_modules/,
+        //loader: 'babel-loader'
         use: [
           {
             loader: 'thread-loader',
