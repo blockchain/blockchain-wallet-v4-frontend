@@ -90,7 +90,8 @@ export const isHdWallet = compose(
   Wallet.selectHdWallets,
   getWallet
 )
-export const getSpendableActiveAddresses = compose(Wallet.getSpendableActiveAddresses, getWallet)
+// TODO: fix me! commenting out just for testing
+export const getSpendableActiveAddresses = () => {}  //compose(Wallet.getSpendableActiveAddresses, getWallet)
 export const getAddress = curry((address, state) =>
   compose(Wallet.getAddress(address), getWallet)(state)
 )
