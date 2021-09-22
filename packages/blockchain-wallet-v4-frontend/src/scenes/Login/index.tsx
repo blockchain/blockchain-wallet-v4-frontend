@@ -131,7 +131,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     }
     return (
       <>
-        <Text color='white' size='24px' weight={600} style={{ marginBottom: '24px' }}>
+        {/* <Text color='white' size='24px' weight={600} style={{ marginBottom: '24px' }}>
           {step === LoginSteps.ENTER_PASSWORD && (
             <FormattedMessage id='scenes.login.authorize' defaultMessage='Authorize login' />
           )}
@@ -175,7 +175,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
               defaultMessage='Create a new password for all your Blockchain.com accounts.'
             />
           </Text>
-        )}
+        )} */}
         <Wrapper>
           <Form onSubmit={this.handleSubmit}>
             {(() => {

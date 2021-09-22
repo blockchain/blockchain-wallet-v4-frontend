@@ -26,7 +26,8 @@ const TextStack = styled.div`
   margin-left: 16px;
 `
 const validatePasswordConfirmation = validPasswordConfirmation('upgradeAccountPassword')
-const Test = (props: Props) => {
+
+const UpgradePassword = (props: Props) => {
   const handleBackArrowClick = () => {
     props.setStep(LoginSteps.UPGRADE_CONFIRM)
   }
@@ -80,4 +81,4 @@ const Test = (props: Props) => {
   )
 }
 
-export default Test
+export default UpgradePassword

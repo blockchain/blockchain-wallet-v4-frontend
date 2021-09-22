@@ -2218,6 +2218,10 @@ type MessagesType = {
   'scenes.login.upgrade.password.subheaderheader': 'Create a new password for all your Blockchain.com accounts.'
   'scenes.login.upgrade.subheader': 'Would you like to upgrade to a single login for all you Blockchain.com accounts?'
   'scences.login.wallet_guid': 'Wallet: {guid}'
+  'scenes.login.upgrade_loading.upgrading.body': 'You can now use your email and new password to log in to your Blockchain.com Wallet and the Exchange.'
+  'scenes.login.upgrade_loading.upgrading.header': 'Upgrading Your Account' 
+  'scenes.login.upgrade_success.wallet': 'Upgrade successful, taking you to Blockchain.com Wallet...'
+  'scenes.login.upgrade_success.exchange': 'Upgrade successful, taking you to the Blockchain.com Exchange...'
   'scenes.login.simplebuy.header': 'Buy Crypto With Credit Card'
   'scenes.login.wallet.link': "Don't have a wallet?"
   'scenes.login.wallet.link_signup': "Don't have a Blockchain Wallet?"
