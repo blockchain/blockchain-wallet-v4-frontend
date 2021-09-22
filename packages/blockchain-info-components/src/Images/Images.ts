@@ -63,6 +63,7 @@ import ethAirdrop from './img/eth-airdrop.png'
 import ethAirdrop2 from './img/eth-airdrop@2x.png'
 import exchange from './img/exchange.svg'
 import exchangeLogo from './img/exchange-logo.svg'
+import explorerLogo from './img/explorer-logo.svg'
 import facebookWhite from './img/facebook-white.svg'
 import failedKyc from './img/failed-kyc.png'
 import failedKyc2 from './img/failed-kyc@2x.png'
@@ -220,6 +221,7 @@ const Images = {
   'eth-airdrop2': ethAirdrop2,
   exchange,
   'exchange-logo': exchangeLogo,
+  'explorer-logo': explorerLogo,
   'facebook-white': facebookWhite,
   'failed-kyc': failedKyc,
   'failed-kyc2': failedKyc2,
