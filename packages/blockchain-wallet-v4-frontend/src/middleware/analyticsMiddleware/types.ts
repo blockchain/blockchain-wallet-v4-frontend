@@ -1,5 +1,5 @@
 import { SBPaymentTypes } from '@core/types'
-import { RecurringBuyOrigins, RecurringBuyPeriods } from 'data/types'
+import { RecurringBuyOrigins, RecurringBuyPeriods, SetPeriodPayload } from 'data/types'
 
 enum AnalyticsKey {
   ACCOUNT_PASSWORD_RESET = 'Account Password Reset',
