@@ -151,7 +151,8 @@ enum DepositMethod {
 enum LoginHelpClikedOrigin {
   IDENTIFIER = 'IDENTIFIER',
   PASSWORD = 'PASSWORD',
-  QR_CODe = 'QR_CODE'
+  QR_CODE = 'QR_CODE',
+  UPGRADE_ACCOUNT_NEW_PASSWORD = 'UPGRADE_ACCOUNT_NEW_PASSWORD'
 }
 
 enum SendReceive {
