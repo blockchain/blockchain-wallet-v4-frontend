@@ -1,4 +1,5 @@
 // eslint-disable-next-line simple-import-sort/imports
+import './create-nonce' // 👋 create-nonce needs to be imported first or it breaks styled-components
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
@@ -8,9 +9,9 @@ import { FontGlobalStyles, IconGlobalStyles, Text, TextGroup } from 'blockchain-
 
 import App from './scenes/app.tsx'
 import configureStore from './store'
-import './create-nonce'
 
 // load zxcvbn dependency async and set on window
+// eslint-disable-next-line no-return-assign
 require.ensure(['zxcvbn'], (require) => (window.zxcvbn = require('zxcvbn')), 'zxcvbn')
 
 const ErrorWrapper = styled.div`

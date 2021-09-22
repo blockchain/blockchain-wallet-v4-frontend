@@ -4,7 +4,8 @@ const webpackBuilder = require('./webpackBuilder')
 const { devServerConfig, webpackConfig } = webpackBuilder({
   allowUnsafeScripts: false,
   allowUnsafeStyles: false,
-  useDevServer: true
+  useDevServer: true,
+  useHMR: false
 })
 
 // merge configurations into one export for webpack

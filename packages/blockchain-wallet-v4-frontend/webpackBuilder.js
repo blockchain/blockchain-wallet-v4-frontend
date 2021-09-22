@@ -167,6 +167,9 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
     extraPluginsList
   ),
   optimization: {
+    runtimeChunk: {
+      name: `manifest.${new Date().getTime()}`
+    },
     splitChunks: {
       chunks: 'async',
       minSize: 20000,
@@ -179,15 +182,15 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
         defaultVendors: {
           test: /[\\/]node_modules[\\/]/,
           priority: -10,
-          reuseExistingChunk: true,
+          reuseExistingChunk: true
         },
         default: {
           minChunks: 2,
           priority: -20,
-          reuseExistingChunk: true,
-        },
-      },
-    },
+          reuseExistingChunk: true
+        }
+      }
+    }
   }
 })
 
