@@ -86,7 +86,6 @@ ConverterContainer.propTypes = {
   onBlur: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onFocus: PropTypes.func.isRequired,
-  rates: PropTypes.object.isRequired,
   unit: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired
 }

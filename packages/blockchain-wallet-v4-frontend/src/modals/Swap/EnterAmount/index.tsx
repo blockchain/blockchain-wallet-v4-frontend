@@ -80,6 +80,9 @@ class EnterAmount extends PureComponent<Props> {
     const { BASE, COUNTER } = this.props.initSwapFormValues
     const { userData } = this.props
 
+    const { coinfig: baseCoinfig } = window.coins[BASE.coin]
+    const { coinfig: counterCoinfig } = window.coins[COUNTER.coin]
+
     return (
       <>
         <FlyoutWrapper>
@@ -107,7 +110,8 @@ class EnterAmount extends PureComponent<Props> {
               NotAsked: () => <SpinningLoader borderWidth='4px' height='14px' width='14px' />,
               Success: (val) => (
                 <Text size='14px' color='grey900' weight={500}>
-                  1 {BASE.coin} = {formatCoin(val.rate)} {COUNTER.coin}
+                  1 {baseCoinfig.displaySymbol} = {formatCoin(val.rate)}{' '}
+                  {counterCoinfig.displaySymbol}
                 </Text>
               )
             })}
@@ -134,8 +138,10 @@ class EnterAmount extends PureComponent<Props> {
                       <OptionValue>
                         <BalanceRow>
                           {val.formValues?.amount
-                            ? `${formatCoin(val.formValues.cryptoAmount)} ${BASE.coin}`
-                            : `0 ${BASE.coin}`}
+                            ? `${formatCoin(val.formValues.cryptoAmount)} ${
+                                baseCoinfig.displaySymbol
+                              }`
+                            : `0 ${baseCoinfig.displaySymbol}`}
                         </BalanceRow>
                       </OptionValue>
                     </div>
@@ -171,8 +177,10 @@ class EnterAmount extends PureComponent<Props> {
                       <OptionValue>
                         <BalanceRow>
                           {val.formValues?.amount
-                            ? `${formatCoin(val.incomingAmount.amt)} ${COUNTER.coin}`
-                            : `0 ${COUNTER.coin}`}
+                            ? `${formatCoin(val.incomingAmount.amt)} ${
+                                counterCoinfig.displaySymbol
+                              }`
+                            : `0 ${counterCoinfig.displaySymbol}`}
                         </BalanceRow>
                       </OptionValue>
                     </div>
