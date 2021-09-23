@@ -202,8 +202,8 @@ export default ({ api, coreSagas, networks }) => {
       return yield call(defineSwapGoal)
     }
 
-    // /#/open/interest
-    if (startsWith(DeepLinkGoal.INTEREST, pathname)) {
+    // /#/open/rewards
+    if (startsWith(DeepLinkGoal.REWARDS, pathname)) {
       return yield call(defineInterestGoal)
     }
 

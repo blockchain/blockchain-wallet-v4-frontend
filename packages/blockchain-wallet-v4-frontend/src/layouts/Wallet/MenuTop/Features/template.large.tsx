@@ -65,14 +65,14 @@ const FeaturesLarge = (props: Props & { showModal: (modal: 'SEND' | 'REQUEST') =
         </NavbarNavItemButton>
       </NavbarNavItem>
       <NavbarDivider />
-      <LinkContainer to='/interest' activeClassName='active'>
+      <LinkContainer to='/rewards' activeClassName='active'>
         <NavbarNavItem>
           <NavbarNavItemButton data-e2e='interestLink'>
             <NavbarNavItemIcon size='18px' name='percentage' />
             <NavbarNavItemTextHeader size='14px' weight={600}>
               <FormattedMessage
                 id='layouts.wallet.menuleft.navigation.earninterest'
-                defaultMessage='Earn Interest'
+                defaultMessage='Earn Rewards'
               />
             </NavbarNavItemTextHeader>
           </NavbarNavItemButton>

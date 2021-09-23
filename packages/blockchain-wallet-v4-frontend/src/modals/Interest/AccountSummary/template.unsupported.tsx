@@ -68,7 +68,7 @@ const Unsupported: React.FC<Props> = (props) => {
         <Subcontent color='grey600' weight={500}>
           <FormattedMessage
             id='modals.interest.unsupported-subcontent-1'
-            defaultMessage="Interest rates are currently unavailable for {walletCurrency}. Please change your wallet's local currency in Preferences."
+            defaultMessage="Rewards rates are currently unavailable for {walletCurrency}. Please change your wallet's local currency in Preferences."
             values={{ walletCurrency }}
           />
         </Subcontent>
