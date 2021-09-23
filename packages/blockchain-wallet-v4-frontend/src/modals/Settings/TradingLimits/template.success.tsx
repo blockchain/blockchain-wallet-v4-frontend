@@ -315,7 +315,7 @@ const Template: React.FC<Props> = (props) => {
             <ItemSubtitle color='grey900' size='14px' weight={500}>
               <FormattedMessage
                 id='modals.tradinglimits.gold_subheader'
-                defaultMessage='Earn Interest & trade up to {amount}/day.'
+                defaultMessage='Earn Rewards & trade up to {amount}/day.'
                 values={{
                   amount: fiatToString({
                     digits: 0,
@@ -467,7 +467,7 @@ const Template: React.FC<Props> = (props) => {
           <ItemTitle>
             <FormattedMessage
               id='modals.tradinglimits.earn_interest'
-              defaultMessage='Earn Interest'
+              defaultMessage='Earn Rewards'
             />
           </ItemTitle>
           {getItemBadgeStatus(currentTier, ITEMS.EARN_INTEREST, savingsProduct?.eligible)}
