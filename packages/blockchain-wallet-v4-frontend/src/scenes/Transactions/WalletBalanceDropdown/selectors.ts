@@ -1,7 +1,7 @@
 import { lift } from 'ramda'
 
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import { ExtractSuccess, FiatType } from 'blockchain-wallet-v4/src/types'
+import { Exchange, Remote } from '@core'
+import { ExtractSuccess, FiatType } from '@core/types'
 import * as balanceSelectors from 'components/Balances/selectors'
 import { getData as getBchAddressData } from 'components/Form/SelectBoxBchAddresses/selectors'
 import { getData as getBtcAddressData } from 'components/Form/SelectBoxBtcAddresses/selectors'

@@ -1,13 +1,13 @@
 import { assoc } from 'ramda'
 
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from '@core'
 
 import * as AT from './actionTypes'
 
 export const INITIAL_STATE = {
-  veriffUrl: Remote.NotAsked,
+  applicantId: '',
   veriffSyncStatus: Remote.NotAsked,
-  applicantId: ''
+  veriffUrl: Remote.NotAsked
 }
 
 export default (state = INITIAL_STATE, action) => {

@@ -3,7 +3,7 @@ import { IntlProvider } from 'react-intl'
 import { action } from '@storybook/addon-actions'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 
-import { SBPaymentTypes } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
+import { SBPaymentTypes } from '@core/network/api/simpleBuy/types'
 
 import FrequencyScreen from './FrequencyScreen'
 

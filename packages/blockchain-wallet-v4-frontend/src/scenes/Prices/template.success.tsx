@@ -22,12 +22,11 @@ const initialState = {
 }
 
 const PricesTable = (props) => {
-  const { data, modalActions, routerActions, simpleBuyActions, walletCurrency } = props
+  const { buySellActions, data, modalActions, routerActions, walletCurrency } = props
 
-  const columns = React.useMemo(
-    getTableColumns({ modalActions, routerActions, simpleBuyActions, walletCurrency }),
-    []
-  )
+  const columns = React.useMemo(() => {
+    getTableColumns({ buySellActions, modalActions, routerActions, walletCurrency })
+  }, [])
 
   const {
     getTableBodyProps,

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import styled from 'styled-components'
 
-import { WalletOptionsType } from 'blockchain-wallet-v4/src/types'
+import { WalletOptionsType } from '@core/types'
 import { RootState } from 'data/rootReducer'
 
 const SiftScienceIframe = styled.iframe`

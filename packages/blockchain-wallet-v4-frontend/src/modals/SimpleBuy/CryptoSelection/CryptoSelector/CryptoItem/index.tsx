@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { CoinType, FiatType, SBOrderActionType } from 'blockchain-wallet-v4/src/types'
+import { CoinType, FiatType, SBOrderActionType } from '@core/types'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 import { SwapAccountType } from 'data/types'

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
-import { CoinType, FiatType } from 'blockchain-wallet-v4/src/types'
+import { CoinType, FiatType } from '@core/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -38,7 +38,7 @@ class Interest extends PureComponent<Props, State> {
     this.setState({ show: false })
     this.props.close(ModalName.INTEREST_MODAL)
     setTimeout(() => {
-      this.props.simpleBuyActions.showModal('InterestPage', coin)
+      this.props.buySellActions.showModal({ cryptoCurrency: coin, origin: 'InterestPage' })
     }, duration / 2)
   }
 
@@ -101,9 +101,9 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   fetchInterestEDDStatus: () => dispatch(actions.components.interest.fetchEDDStatus()),
-  interestActions: bindActionCreators(actions.components.interest, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

@@ -1,4 +1,4 @@
-import { CoinType, FiatType, MiscActionTypes, PriceMovementDirType, TimeRange } from 'core/types'
+import { CoinType, FiatType, MiscActionTypes, PriceMovementDirType, TimeRange } from '@core/types'
 
 import * as AT from './actionTypes'
 

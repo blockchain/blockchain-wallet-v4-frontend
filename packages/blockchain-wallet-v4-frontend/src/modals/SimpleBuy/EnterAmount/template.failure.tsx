@@ -43,7 +43,7 @@ const Failure: React.FC<FailurePropsType> = (props: FailurePropsType) => {
           nature='primary'
           size='16px'
           onClick={() =>
-            props.simpleBuyActions.setStep({
+            props.buySellActions.setStep({
               fiatCurrency: props.fiatCurrency || 'USD',
               step: 'CRYPTO_SELECTION'
             })

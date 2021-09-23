@@ -1,6 +1,6 @@
 /* eslint-disable */
 import * as ramda from 'ramda'
-import { RemoteDataType } from 'core/types'
+import { RemoteDataType } from '@core/types'
 
 declare module 'ramda' {
   export function lift<T>(

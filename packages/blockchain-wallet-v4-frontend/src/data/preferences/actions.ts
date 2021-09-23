@@ -1,4 +1,4 @@
-import { SBOrderActionType } from 'blockchain-wallet-v4/src/types'
+import { SBOrderActionType } from '@core/types'
 import { SBFixType } from 'data/components/types'
 
 import * as AT from './actionTypes'

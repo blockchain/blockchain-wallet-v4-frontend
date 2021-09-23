@@ -1,7 +1,7 @@
 import { lift } from 'ramda'
 
+import { ExtractSuccess } from '@core/types'
 import { getCoinsSortedByBalance } from 'components/Balances/selectors'
-import { ExtractSuccess } from 'core/types'
 
 export const getData = (state) => {
   const coinsR = getCoinsSortedByBalance(state)

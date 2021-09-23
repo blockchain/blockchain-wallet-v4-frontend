@@ -1,8 +1,8 @@
 import BigNumber from 'bignumber.js'
 
-import { UnitType } from 'blockchain-wallet-v4/src/exchange'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-import { coinToString, fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
+import { UnitType } from '@core/exchange'
+import Currencies from '@core/exchange/currencies'
+import { coinToString, fiatToString } from '@core/exchange/utils'
 import {
   OrderType,
   PaymentValue,
@@ -14,7 +14,7 @@ import {
   SBQuoteType,
   SwapQuoteType,
   SwapUserLimitsType
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 import { model } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/simpleBuy/model'

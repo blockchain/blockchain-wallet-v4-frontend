@@ -2,7 +2,7 @@ import React from 'react'
 import { IntlProvider } from 'react-intl'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 
-import { OrderType, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
+import { OrderType, SBPaymentTypes } from '@core/types'
 
 import OrderSummary from './OrderSummary'
 

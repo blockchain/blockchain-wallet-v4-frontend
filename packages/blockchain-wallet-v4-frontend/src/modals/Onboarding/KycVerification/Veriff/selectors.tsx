@@ -1,6 +1,6 @@
 import { lift } from 'ramda'
 
-import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
+import { ExtractSuccess } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -13,8 +13,8 @@ export const getData = (state: RootState) => {
       veriffUrl: ExtractSuccess<typeof veriffUrlR>,
       veriffDomain: ExtractSuccess<typeof veriffDomainR>
     ) => ({
-      veriffUrl,
-      veriffDomain
+      veriffDomain,
+      veriffUrl
     })
   )(veriffUrlR, veriffDomainR)
 }

@@ -1,6 +1,6 @@
 import { map } from 'ramda'
 
-import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
+import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
 import { REQUEST_ACCOUNTS_SELECTOR } from 'data/coins/model/request'
 import { getCoinAccounts } from 'data/coins/selectors'

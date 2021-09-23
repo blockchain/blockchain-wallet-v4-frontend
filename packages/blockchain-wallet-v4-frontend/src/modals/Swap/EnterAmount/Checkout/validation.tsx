@@ -1,12 +1,7 @@
 import BigNumber from 'bignumber.js'
 
-import { Exchange } from 'blockchain-wallet-v4/src'
-import {
-  PaymentValue,
-  RatesType,
-  SwapQuoteType,
-  SwapUserLimitsType
-} from 'blockchain-wallet-v4/src/types'
+import { Exchange } from '@core'
+import { PaymentValue, RatesType, SwapQuoteType, SwapUserLimitsType } from '@core/types'
 import { convertBaseToStandard, convertStandardToBase } from 'data/components/exchange/services'
 import { SwapAccountType, SwapAmountFormValues } from 'data/types'
 import { CRYPTO_DECIMALS } from 'services/forms'

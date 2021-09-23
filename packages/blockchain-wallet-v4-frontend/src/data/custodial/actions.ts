@@ -1,4 +1,4 @@
-import { BeneficiariesType, SwapOrderType, WalletFiatType } from 'blockchain-wallet-v4/src/types'
+import { BeneficiariesType, SwapOrderType, WalletFiatType } from '@core/types'
 
 import * as AT from './actionTypes'
 import { CustodialActionTypes } from './types'

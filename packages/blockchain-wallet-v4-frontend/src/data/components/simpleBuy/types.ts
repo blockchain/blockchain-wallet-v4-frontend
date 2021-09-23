@@ -5,6 +5,7 @@ import {
   FiatType,
   NabuAddressType,
   PaymentValue,
+  ProviderDetailsType,
   RemoteDataType,
   SBAccountType,
   SBBalancesType,
@@ -14,19 +15,17 @@ import {
   SBPairType,
   SBPaymentMethodsType,
   SBPaymentMethodType,
-  SBProviderDetailsType,
   SBQuoteType,
   SDDEligibleType,
   SDDVerifiedType,
   SwapOrderType,
   SwapQuoteType,
   SwapUserLimitsType
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 import { RecurringBuyPeriods } from 'data/types'
 
 import { CountryType } from '../identityVerification/types'
 import { SwapAccountType, SwapBaseCounterTypes } from '../swap/types'
-import * as AT from './actionTypes'
 
 // Types
 export type SBAddCardFormValuesType = {
@@ -135,7 +134,7 @@ export type SimpleBuyState = {
   pair: undefined | SBPairType
   pairs: RemoteDataType<string, Array<SBPairType>>
   payment: RemoteDataType<string, undefined | PaymentValue>
-  providerDetails: RemoteDataType<string, SBProviderDetailsType>
+  providerDetails: RemoteDataType<string, ProviderDetailsType>
   quote: RemoteDataType<string, SBQuoteType>
   sddEligible: RemoteDataType<string, SDDEligibleType>
   sddTransactionFinished: boolean
@@ -146,240 +145,15 @@ export type SimpleBuyState = {
   swapAccount: undefined | SwapAccountType
 }
 
-// Actions
-interface AddCardDetailsFailure {
-  payload: {
-    error: string
-  }
-  type: typeof AT.ADD_CARD_DETAILS_FAILURE
-}
-interface AddCardDetailsLoading {
-  type: typeof AT.ADD_CARD_DETAILS_LOADING
-}
-interface AddCardDetailsSuccess {
-  payload: {
-    everypay3DS: Everypay3DSResponseType
-  }
-  type: typeof AT.ADD_CARD_DETAILS_SUCCESS
-}
-
-interface ActivateSBCardFailure {
-  payload: {
-    error: string
-  }
-  type: typeof AT.ACTIVATE_SB_CARD_FAILURE
-}
-interface ActivateSBCardLoading {
-  type: typeof AT.ACTIVATE_SB_CARD_LOADING
-}
-
-interface ActivateSBCardSuccess {
-  payload: {
-    providerDetails: SBProviderDetailsType
-  }
-  type: typeof AT.ACTIVATE_SB_CARD_SUCCESS
-}
-
-interface DestroyCheckout {
-  type: typeof AT.DESTROY_CHECKOUT
-}
-interface FetchSBBalancesFailure {
-  payload: {
-    error: string
-  }
-  type: typeof AT.FETCH_SB_BALANCES_FAILURE
-}
-
-interface FetchSBBalancesLoading {
-  type: typeof AT.FETCH_SB_BALANCES_LOADING
-}
-
-interface FetchSBBalancesSuccess {
-  payload: {
-    balances: SBBalancesType
-  }
-  type: typeof AT.FETCH_SB_BALANCES_SUCCESS
-}
-interface FetchSBCardFailure {
-  payload: {
-    error: string
-  }
-  type: typeof AT.FETCH_SB_CARD_FAILURE
-}
-interface FetchSBCardLoading {
-  type: typeof AT.FETCH_SB_CARD_LOADING
-}
-
-interface FetchSBCardSuccess {
-  payload: {
-    card: SBCardType
-  }
-  type: typeof AT.FETCH_SB_CARD_SUCCESS
-}
-interface FetchSBCardsFailure {
-  payload: {
-    error: string
-  }
-  type: typeof AT.FETCH_SB_CARDS_FAILURE
-}
-
-interface FetchSBCardsLoading {
-  type: typeof AT.FETCH_SB_CARDS_LOADING
-}
-interface FetchSBCardsSuccess {
-  payload: {
-    cards: Array<SBCardType>
-  }
-  type: typeof AT.FETCH_SB_CARDS_SUCCESS
-}
-interface FetchSBFiatEligibleFailure {
-  payload: {
-    error: string
-  }
-  type: typeof AT.FETCH_SB_FIAT_ELIGIBLE_FAILURE
-}
-interface FetchSBFiatEligibleLoading {
-  type: typeof AT.FETCH_SB_FIAT_ELIGIBLE_LOADING
-}
-interface FetchSBFiatEligibleSuccess {
-  payload: {
-    fiatEligible: FiatEligibleType
-  }
-  type: typeof AT.FETCH_SB_FIAT_ELIGIBLE_SUCCESS
-}
-interface FetchSDDEligibleFailure {
-  payload: {
-    error: string
-  }
-  type: typeof AT.FETCH_SDD_ELIGIBILITY_FAILURE
-}
-interface FetchSDDEligibleLoading {
-  type: typeof AT.FETCH_SDD_ELIGIBILITY_LOADING
-}
-interface FetchSDDEligibleSuccess {
-  payload: {
-    sddEligible: SDDEligibleType
-  }
-  type: typeof AT.FETCH_SDD_ELIGIBILITY_SUCCESS
-}
-interface FetchSDDVerifiedFailure {
-  payload: {
-    error: string
-  }
-  type: typeof AT.FETCH_SDD_VERIFIED_FAILURE
-}
-interface FetchSDDVerifiedLoading {
-  type: typeof AT.FETCH_SDD_VERIFIED_LOADING
-}
-interface FetchSDDVerifiedSuccess {
-  payload: {
-    sddVerified: SDDVerifiedType
-  }
-  type: typeof AT.FETCH_SDD_VERIFIED_SUCCESS
-}
-interface FetchSBOrdersFailure {
-  payload: {
-    error: string
-  }
-  type: typeof AT.FETCH_SB_ORDERS_FAILURE
-}
-interface FetchSBOrdersLoading {
-  type: typeof AT.FETCH_SB_ORDERS_LOADING
-}
-interface FetchSBOrdersSuccess {
-  payload: {
-    orders: Array<SBOrderType>
-  }
-  type: typeof AT.FETCH_SB_ORDERS_SUCCESS
-}
-
-interface FetchSBPairsFailure {
-  payload: {
-    error: string
-  }
-  type: typeof AT.FETCH_SB_PAIRS_FAILURE
-}
-interface FetchSBPairsLoading {
-  type: typeof AT.FETCH_SB_PAIRS_LOADING
-}
-interface FetchSBPairsSuccess {
-  payload: {
-    coin?: CoinType
-    pairs: Array<SBPairType>
-  }
-  type: typeof AT.FETCH_SB_PAIRS_SUCCESS
-}
-
-interface FetchSBPaymentAccountFailure {
-  payload: {
-    error: string
-  }
-  type: typeof AT.FETCH_SB_PAYMENT_ACCOUNT_FAILURE
-}
-interface FetchSBPaymentAccountLoading {
-  type: typeof AT.FETCH_SB_PAYMENT_ACCOUNT_LOADING
-}
-interface FetchSBPaymentAccountSuccess {
-  payload: {
-    account: SBAccountType
-  }
-  type: typeof AT.FETCH_SB_PAYMENT_ACCOUNT_SUCCESS
-}
-
-interface FetchSBPaymentMethodsFailure {
-  payload: {
-    error: string
-  }
-  type: typeof AT.FETCH_SB_PAYMENT_METHODS_FAILURE
-}
-interface FetchSBPaymentMethodsLoading {
-  type: typeof AT.FETCH_SB_PAYMENT_METHODS_LOADING
-}
-interface FetchSBPaymentMethodsSuccess {
-  payload: {
-    methods: SBPaymentMethodsType
-  }
-  type: typeof AT.FETCH_SB_PAYMENT_METHODS_SUCCESS
-}
-interface FetchSBQuoteFailure {
-  payload: {
-    error: string
-  }
-  type: typeof AT.FETCH_SB_QUOTE_FAILURE
-}
-interface FetchSBQuoteLoading {
-  type: typeof AT.FETCH_SB_QUOTE_LOADING
-}
-interface FetchSBQuoteSuccess {
-  payload: {
-    quote: SBQuoteType
-  }
-  type: typeof AT.FETCH_SB_QUOTE_SUCCESS
-}
-interface FetchSellQuoteFailure {
-  payload: {
-    error: string
-  }
-  type: typeof AT.FETCH_SELL_QUOTE_FAILURE
-}
-interface FetchSellQuoteLoading {
-  type: typeof AT.FETCH_SELL_QUOTE_LOADING
-}
-interface FetchSellQuoteSuccess {
-  payload: {
-    quote: SwapQuoteType
-    rate: number
-  }
-  type: typeof AT.FETCH_SELL_QUOTE_SUCCESS
-}
-interface InitializeCheckout {
+export type InitializeCheckout = {
   account?: SwapAccountType
   amount: string
   cryptoAmount?: string
+  fix: SBFixType
   orderType: SBOrderActionType
   pair?: SBPairType
   pairs: Array<SBPairType>
-  type: typeof AT.INITIALIZE_CHECKOUT
+  period: RecurringBuyPeriods
 }
 
 export type StepActionsPayload =
@@ -441,126 +215,3 @@ export type StepActionsPayload =
         | 'LOADING'
         | 'FREQUENCY'
     }
-
-interface SetStepAction {
-  payload: StepActionsPayload
-  type: typeof AT.SET_STEP
-}
-
-interface SetMethodAction {
-  payload: SBPaymentMethodType
-  type: typeof AT.SET_METHOD
-}
-
-interface SetFiatCurrencyAction {
-  payload: { fiatCurrency: FiatType }
-  type: typeof AT.SET_FIAT_CURRENCY
-}
-
-interface AddCardFinishedAction {
-  type: typeof AT.ADD_CARD_FINISHED
-}
-
-interface ShowModalAction {
-  payload: {
-    cryptoCurrency?: CoinType
-    orderType?: SBOrderActionType
-    origin: SBShowModalOriginType
-  }
-  type: typeof AT.SHOW_MODAL
-}
-interface UpdatePaymentFailureAction {
-  payload: {
-    error: string
-  }
-  type: typeof AT.UPDATE_PAYMENT_FAILURE
-}
-interface UpdatePaymentLoadingAction {
-  type: typeof AT.UPDATE_PAYMENT_LOADING
-}
-interface UpdatePaymentSuccessAction {
-  payload: {
-    payment: undefined | PaymentValue
-  }
-  type: typeof AT.UPDATE_PAYMENT_SUCCESS
-}
-
-interface FetchLimitsFailure {
-  payload: {
-    error: string
-  }
-  type: typeof AT.FETCH_LIMITS_FAILURE
-}
-
-interface FetchLimitsLoading {
-  type: typeof AT.FETCH_LIMITS_LOADING
-}
-
-interface FetchLimitsSuccess {
-  payload: {
-    limits: SwapUserLimitsType
-  }
-  type: typeof AT.FETCH_LIMITS_SUCCESS
-}
-
-interface UpdateSddTransactionFinished {
-  type: typeof AT.UPDATE_SDD_TRANSACTION_FINISHED
-}
-
-export type SimpleBuyActionTypes =
-  | ActivateSBCardFailure
-  | ActivateSBCardLoading
-  | ActivateSBCardSuccess
-  | AddCardDetailsFailure
-  | AddCardDetailsLoading
-  | AddCardDetailsSuccess
-  | AddCardFinishedAction
-  | DestroyCheckout
-  | FetchSBBalancesFailure
-  | FetchSBBalancesLoading
-  | FetchSBBalancesSuccess
-  | FetchSBCardFailure
-  | FetchSBCardLoading
-  | FetchSBCardSuccess
-  | FetchSBCardsFailure
-  | FetchSBCardsLoading
-  | FetchSBCardsSuccess
-  | FetchSBFiatEligibleFailure
-  | FetchSBFiatEligibleLoading
-  | FetchSBFiatEligibleSuccess
-  | FetchSBOrdersFailure
-  | FetchSBOrdersLoading
-  | FetchSBOrdersSuccess
-  | FetchSBPairsFailure
-  | FetchSBPairsLoading
-  | FetchSBPairsSuccess
-  | FetchSBPaymentAccountFailure
-  | FetchSBPaymentAccountLoading
-  | FetchSBPaymentAccountSuccess
-  | FetchSBPaymentMethodsFailure
-  | FetchSBPaymentMethodsLoading
-  | FetchSBPaymentMethodsSuccess
-  | FetchSBQuoteFailure
-  | FetchSBQuoteLoading
-  | FetchSBQuoteSuccess
-  | FetchSDDEligibleLoading
-  | FetchSDDEligibleFailure
-  | FetchSDDEligibleSuccess
-  | FetchSDDVerifiedFailure
-  | FetchSDDVerifiedLoading
-  | FetchSDDVerifiedSuccess
-  | FetchSellQuoteFailure
-  | FetchSellQuoteLoading
-  | FetchSellQuoteSuccess
-  | FetchLimitsLoading
-  | FetchLimitsFailure
-  | FetchLimitsSuccess
-  | InitializeCheckout
-  | SetFiatCurrencyAction
-  | SetStepAction
-  | SetMethodAction
-  | ShowModalAction
-  | UpdatePaymentFailureAction
-  | UpdatePaymentLoadingAction
-  | UpdatePaymentSuccessAction
-  | UpdateSddTransactionFinished

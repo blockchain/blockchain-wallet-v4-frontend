@@ -1,5 +1,5 @@
-import { Remote } from 'blockchain-wallet-v4/src'
-import { InterestEDDStatus, SDDEligibleType } from 'blockchain-wallet-v4/src/types'
+import { Remote } from '@core'
+import { InterestEDDStatus, SDDEligibleType } from '@core/types'
 import { selectors } from 'data'
 import { UserDataType } from 'data/modules/types'
 import { RootState } from 'data/rootReducer'

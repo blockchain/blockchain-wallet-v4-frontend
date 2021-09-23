@@ -1,4 +1,4 @@
-import { Exchange } from 'blockchain-wallet-v4/src'
+import { Exchange } from '@core'
 
 export const getData = (coin, amount, hideCoinTicker) => {
   const { coinfig } = window.coins[coin]

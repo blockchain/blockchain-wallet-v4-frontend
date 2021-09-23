@@ -2,8 +2,8 @@ import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
+import { SBPaymentMethodType } from '@core/types'
 import { Icon, Image } from 'blockchain-info-components'
-import { SBPaymentMethodType } from 'blockchain-wallet-v4/src/types'
 import { SuccessCartridge } from 'components/Cartridge'
 import {
   Content,
@@ -55,10 +55,7 @@ const PaymentCard: React.FC<Props> = ({ icon, onClick, text, value }) => (
     <Content>
       <DisplayTitle>{text}</DisplayTitle>
       <DisplaySubTitle>
-        <FormattedMessage
-          id='copy.instantly_available'
-          defaultMessage='Instantly Available'
-        />
+        <FormattedMessage id='copy.instantly_available' defaultMessage='Instantly Available' />
       </DisplaySubTitle>
       <Description>
         <FormattedMessage
@@ -68,10 +65,7 @@ const PaymentCard: React.FC<Props> = ({ icon, onClick, text, value }) => (
       </Description>
       <CartridgeContainer>
         <SuccessCartridge>
-          <FormattedMessage
-            id='copy.most_popular'
-            defaultMessage='Most Popular'
-          />
+          <FormattedMessage id='copy.most_popular' defaultMessage='Most Popular' />
         </SuccessCartridge>
         <CardContainer>
           <Image name='visa-logo' />

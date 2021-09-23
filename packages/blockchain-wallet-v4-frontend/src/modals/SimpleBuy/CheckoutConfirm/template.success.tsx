@@ -5,6 +5,8 @@ import { defaultTo, filter, path, prop } from 'ramda'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { fiatToString } from '@core/exchange/utils'
+import { FiatType, OrderType, SBPaymentTypes } from '@core/types'
 import {
   Button,
   CheckBoxInput,
@@ -14,8 +16,6 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
-import { FiatType, OrderType, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, getPeriodSubTitleText, getPeriodTitleText, Row } from 'components/Flyout'
 import { Form } from 'components/Form'
@@ -191,7 +191,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
   }, [requiresTerms])
 
   const handleCancel = () => {
-    props.simpleBuyActions.cancelSBOrder(props.order)
+    props.buySellActions.cancelOrder(props.order)
   }
 
   const paymentPartnerButton =

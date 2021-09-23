@@ -2,12 +2,9 @@ import moment from 'moment'
 import { flatten, indexBy, length, map, path, prop } from 'ramda'
 import { call, put, select, take } from 'redux-saga/effects'
 
-import {
-  FetchCustodialOrdersAndTransactionsReturnType,
-  HDAccountList
-} from 'blockchain-wallet-v4/src/types'
-import { APIType } from 'core/network/api'
-import { BchTxType } from 'core/transactions/types'
+import { APIType } from '@core/network/api'
+import { BchTxType } from '@core/transactions/types'
+import { FetchCustodialOrdersAndTransactionsReturnType, HDAccountList } from '@core/types'
 
 import Remote from '../../../remote'
 import * as transactions from '../../../transactions'

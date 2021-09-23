@@ -8,6 +8,7 @@ import * as fundRecovery from './fundRecovery/actions'
 import * as identityVerification from './identityVerification/actions'
 import * as importBtcAddress from './importBtcAddress/actions'
 import { actions as interest } from './interest/slice'
+import { actions as interestUploadDocument } from './interestUploadDocument/slice'
 import { actions as layoutWallet } from './layoutWallet/slice'
 import * as manageAddresses from './manageAddresses/actions'
 import * as onboarding from './onboarding/actions'
@@ -25,7 +26,7 @@ import * as sendEth from './sendEth/actions'
 import * as sendXlm from './sendXlm/actions'
 import { actions as settings } from './settings/slice'
 import * as signMessage from './signMessage/actions'
-import * as simpleBuy from './simpleBuy/actions'
+import { actions as buySell } from './simpleBuy/slice'
 import * as swap from './swap/actions'
 import * as uploadDocuments from './uploadDocuments/actions'
 import * as veriff from './veriff/actions'
@@ -36,6 +37,7 @@ export {
   bchTransactions,
   brokerage,
   btcTransactions,
+  buySell,
   coinTransactions,
   ethTransactions,
   fiatTransactions,
@@ -43,6 +45,7 @@ export {
   identityVerification,
   importBtcAddress,
   interest,
+  interestUploadDocument,
   layoutWallet,
   manageAddresses,
   onboarding,
@@ -60,7 +63,6 @@ export {
   sendXlm,
   settings,
   signMessage,
-  simpleBuy,
   swap,
   uploadDocuments,
   veriff,

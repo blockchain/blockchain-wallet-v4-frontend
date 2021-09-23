@@ -4,9 +4,9 @@ import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Box, Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
-import { FiatType, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
+import Currencies from '@core/exchange/currencies'
+import { fiatToString } from '@core/exchange/utils'
+import { FiatType, SBPaymentTypes } from '@core/types'
 import { ErrorCartridge } from 'components/Cartridge'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
@@ -132,7 +132,7 @@ const LimitSection = ({ fiatCurrency, paymentMethods }) => {
           <Text color='grey800' size='14px' lineHeight='25px' weight={600}>
             {fiatToString({
               unit: fiatCurrency as FiatType,
-              value: convertBaseToStandard('FIAT', bankTransfer.limits.daily.available)
+              value: convertBaseToStandard('FIAT', bankTransfer.limits.max)
             })}{' '}
             <FormattedMessage id='copy.available' defaultMessage='Available' />
           </Text>
@@ -197,8 +197,8 @@ const Account = ({
         // else take them to enter amount form with default bank
         if (!bankTransferAccounts.length) {
           brokerageActions.showModal({
-            origin: BrokerageModalOriginType.ADD_BANK_DEPOSIT,
-            modalType: fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL'
+            modalType: fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL',
+            origin: BrokerageModalOriginType.ADD_BANK_DEPOSIT
           })
           brokerageActions.setAddBankStep({
             addBankStep: AddBankStepType.ADD_BANK

@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
-import { CoinType } from 'blockchain-wallet-v4/src/types'
+import { CoinType } from '@core/types'
 import { actions } from 'data'
 import { media } from 'services/styles'
 
@@ -57,7 +57,7 @@ class CoinIntroductionContainer extends React.PureComponent<Props> {
     })
 
   render() {
-    const { brokerageActions, coin, simpleBuyActions } = this.props
+    const { brokerageActions, buySellActions, coin } = this.props
     const { coinfig } = window.coins[coin]
 
     return (
@@ -93,9 +93,9 @@ class CoinIntroductionContainer extends React.PureComponent<Props> {
                 // so keeping the existing functionality for EUR
                 return coin === 'USD'
                   ? brokerageActions.handleDepositFiatClick(coin)
-                  : simpleBuyActions.handleSBDepositFiatClick(coin, 'TransactionList')
+                  : buySellActions.handleDepositFiatClick({ coin, origin: 'TransactionList' })
               }
-              simpleBuyActions.showModal('EmptyFeed')
+              buySellActions.showModal({ origin: 'EmptyFeed' })
             }}
           >
             {coinfig.type.name === 'FIAT' ? (
@@ -120,8 +120,8 @@ class CoinIntroductionContainer extends React.PureComponent<Props> {
 
 const mapDispatchToProps = (dispatch) => ({
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const connector = connect(undefined, mapDispatchToProps)

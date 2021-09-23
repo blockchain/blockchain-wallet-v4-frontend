@@ -1,4 +1,4 @@
-import { CustodialFromType } from 'core/types'
+import { CustodialFromType } from '@core/types'
 
 export type UTXOType = {
   address: string

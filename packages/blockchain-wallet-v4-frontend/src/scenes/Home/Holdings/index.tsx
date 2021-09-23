@@ -5,9 +5,9 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
+import { ExtractSuccess } from '@core/remote/types'
 import { Icon, Link, SkeletonCircle, SkeletonRectangle, Text } from 'blockchain-info-components'
 import { getCoinsSortedByBalance } from 'components/Balances/selectors'
-import { ExtractSuccess } from 'core/remote/types'
 import { actions } from 'data'
 import { media } from 'services/styles'
 

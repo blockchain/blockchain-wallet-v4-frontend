@@ -18,15 +18,12 @@ class VerifyEmail extends PureComponent<Props> {
     if (!isEmailVerified) {
       settingsActions.fetchSettings()
     }
+    this.props.buySellActions.fetchSDDEligibility()
   }
 
   handleSubmit = () => {
-    const {
-      formValues,
-      identityVerificationActions,
-      securityCenterActions,
-      settingsActions
-    } = this.props
+    const { formValues, identityVerificationActions, securityCenterActions, settingsActions } =
+      this.props
     if (formValues) {
       identityVerificationActions.updateEmail(formValues.email)
       securityCenterActions.resendVerifyEmail(formValues.email)
@@ -41,43 +38,39 @@ class VerifyEmail extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Success: val => (
+      Failure: () => null,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />,
+      Success: (val) => (
         <Success
           {...this.props}
           {...val}
           resendEmail={this.onResendEmail}
           onSubmit={this.handleSubmit}
         />
-      ),
-      Failure: () => null,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      )
     })
   }
 }
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
-  isEmailVerified: selectors.core.settings
-    .getEmailVerified(state)
-    .getOrElse(false),
   formValues: selectors.form.getFormValues(VERIFY_EMAIL_FORM)(state) as
     | VerifyEmailFormValuesType
-    | undefined
+    | undefined,
+  isEmailVerified: selectors.core.settings.getEmailVerified(state).getOrElse(false)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
   ),
-  securityCenterActions: bindActionCreators(
-    actions.modules.securityCenter,
-    dispatch
-  ),
-  settingsActions: bindActionCreators(actions.core.settings, dispatch),
   profileActions: bindActionCreators(actions.modules.profile, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch)
+  securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch),
+  settingsActions: bindActionCreators(actions.core.settings, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
