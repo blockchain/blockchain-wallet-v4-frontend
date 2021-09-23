@@ -983,7 +983,7 @@
   "modals.onboarding.linkfromexchange.send_email": "Resend Email",
   "modals.onboarding.linkfromexchange.success_disclaimer": "Having different Exchange and Wallet passwords helps to keep your accounts safe! <a>Learn more</a> about the Wallet.",
   "modals.onboarding.linkfromexchange.success_info1": "Your Blockchain.com Wallet and Exchange are now connected. Seamlessly send funds between platforms to your heart's content.",
-  "modals.onboarding.linkfromexchange.success_info2": "You are now {status} with Blockchain.com, allowing you to swap, buy & sell, earn rewards and borrow BTC.",
+  "modals.onboarding.linkfromexchange.success_info2": "You are now {status} with Blockchain.com, allowing you to swap, buy & sell, and earn rewards.",
   "modals.onboarding.linkfromexchange.success_remember_password_info": "You'll still have a separate password for each product.",
   "modals.onboarding.linkfromexchange.success_remember_title": "Remember!",
   "modals.onboarding.linkfromexchange.success_subinfo1_description1": "- Use Wallet ID {walletId}",
