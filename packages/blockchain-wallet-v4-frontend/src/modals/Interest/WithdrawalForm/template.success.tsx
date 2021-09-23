@@ -4,11 +4,11 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 
-import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { Exchange } from '@core'
 import { convertCoinToFiat } from '@core/exchange'
 import { fiatToString, formatFiat } from '@core/exchange/utils'
 import { FiatType } from '@core/types'
+import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { CoinBalanceDropdown, NumberBox } from 'components/Form'
 import { selectors } from 'data'
@@ -58,6 +58,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     formActions,
     handleDisplayToggle,
     interestActions,
+    interestEDDStatus,
     interestEDDWithdrawLimits,
     invalid,
     rates,
@@ -68,7 +69,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
 
   const currencySymbol = Exchange.getSymbol(walletCurrency) as string
   const { coinfig } = window.coins[coin]
-  const coinTicker = coin
+  const coinTicker = coinfig.displaySymbol
   const displayName = coinfig.name
   const account = accountBalances[coin]
   const accountBalanceBase = account && account.balance
@@ -109,10 +110,12 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
 
   if (!account) return null
 
-  const showEDDWithdrawLimit = interestEDDWithdrawLimits?.withdrawLimits
-    ? Number(withdrawalAmountFiat) > Number(interestEDDWithdrawLimits?.withdrawLimits.amount)
-    : false
-
+  const showEDDWithdrawLimit =
+    (interestEDDWithdrawLimits?.withdrawLimits
+      ? Number(withdrawalAmountFiat) > Number(interestEDDWithdrawLimits?.withdrawLimits.amount)
+      : false) &&
+    !interestEDDStatus?.eddSubmitted &&
+    !interestEDDStatus?.eddPassed
   const handleFormSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault()
     interestActions.requestWithdrawal({

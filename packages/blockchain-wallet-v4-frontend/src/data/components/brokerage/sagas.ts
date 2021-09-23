@@ -16,18 +16,12 @@ import {
   SBCheckoutFormValuesType
 } from 'data/types'
 
-import profileSagas from '../../modules/profile/sagas'
 import { DEFAULT_METHODS, POLLING } from './model'
 import * as S from './selectors'
 import { actions as A } from './slice'
 import { OBType } from './types'
 
-export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
-  const { isTier2 } = profileSagas({
-    api,
-    coreSagas,
-    networks
-  })
+export default ({ api }: { api: APIType; coreSagas: any; networks: any }) => {
   const deleteSavedBank = function* ({ payload }: ReturnType<typeof A.deleteSavedBank>) {
     const bankId = payload
     try {
@@ -132,7 +126,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         )
         if (values?.amount) {
           yield put(
-            actions.components.simpleBuy.createSBOrder(SBPaymentTypes.BANK_TRANSFER, status.id)
+            actions.components.buySell.createOrder({
+              paymentMethodId: status.id,
+              paymentType: SBPaymentTypes.BANK_TRANSFER
+            })
           )
         } else {
           const sbMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(yield select())
@@ -142,7 +139,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               (method) => method.type === SBPaymentTypes.BANK_TRANSFER
             )[0]
             yield put(
-              actions.components.simpleBuy.handleSBMethodChange({
+              actions.components.buySell.handleMethodChange({
                 isFlow: false,
                 method: {
                   ...bankData,

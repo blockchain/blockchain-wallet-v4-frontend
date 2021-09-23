@@ -127,12 +127,15 @@ const displayCoinToCoin = ({
   isFiat?: boolean
   value: number | string
 }): string => {
+  const { coinfig } = window.coins[coin]
+  const { displaySymbol } = coinfig
+  
   if (isFiat) {
     const options = { style: 'currency', currency: coin }
     return new Intl.NumberFormat(getLang(), options).format(Number(value))
   }
 
-  return `${formatCoin(convertCoinToCoin({ baseToStandard: true, value, coin }))} ${coin}`
+  return `${formatCoin(convertCoinToCoin({ baseToStandard: true, value, coin }))} ${displaySymbol}`
 }
 
 const displayCoinToFiat = ({

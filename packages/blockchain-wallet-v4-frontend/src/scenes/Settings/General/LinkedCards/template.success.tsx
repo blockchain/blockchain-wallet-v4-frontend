@@ -99,7 +99,7 @@ const Success: React.FC<
                   // @ts-ignore
                   onClick={(e: SyntheticEvent) => {
                     e.stopPropagation()
-                    props.simpleBuyActions.deleteSBCard(card.id)
+                    props.buySellActions.deleteCard(card.id)
                   }}
                 >
                   <FormattedMessage id='buttons.remove' defaultMessage='Remove' />

@@ -11,7 +11,7 @@ import profileSagas from 'data/modules/profile/sagas'
 import walletSagas from 'data/wallet/sagas'
 import * as C from 'services/alerts'
 import { isGuid } from 'services/forms'
-import { askSecondPasswordEnhancer, confirm } from 'services/sagas'
+import { askSecondPasswordEnhancer } from 'services/sagas'
 
 import { guessCurrencyBasedOnCountry } from './helpers'
 import { parseMagicLink } from './sagas.utils'
@@ -191,7 +191,7 @@ export default ({ api, coreSagas, networks }) => {
       const goals = selectors.goals.getGoals(yield select())
       const simpleBuyGoal = find(propEq('name', 'simpleBuy'), goals)
       if (!simpleBuyGoal) {
-        yield put(actions.components.simpleBuy.fetchSBPaymentMethods())
+        yield put(actions.components.buySell.fetchPaymentMethods())
       }
       // swap tasks
       yield put(actions.components.swap.fetchTrades())

@@ -31,7 +31,7 @@ export const getData = createDeepEqualSelector(
               coinBalances[coinfig.symbol] || getErc20Balance(coinfig.symbol)(state).getOrElse(0),
             coin: coinfig.symbol,
             coinModel: coin,
-            name: `${coinfig.name} (${coinfig.symbol})`,
+            name: `${coinfig.name} (${coinfig.displaySymbol})`,
             price: currentPrice,
             priceChange: Number(
               ((currentPrice - yesterdayPrice) / yesterdayPrice) * 100

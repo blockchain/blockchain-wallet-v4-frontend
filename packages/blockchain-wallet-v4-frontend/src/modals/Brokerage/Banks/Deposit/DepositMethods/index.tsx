@@ -14,8 +14,8 @@ import Success from './template.success'
 const DepositMethods = (props) => {
   useEffect(() => {
     if (props.fiatCurrency && !Remote.Success.is(props.data)) {
-      props.simpleBuyActions.fetchSBFiatEligible(props.fiatCurrency)
-      props.simpleBuyActions.fetchSBPaymentMethods(props.fiatCurrency)
+      props.buySellActions.fetchSBFiatEligible(props.fiatCurrency)
+      props.buySellActions.fetchSBPaymentMethods(props.fiatCurrency)
       props.brokerageActions.fetchBankTransferAccounts()
     }
   }, [])
@@ -24,21 +24,21 @@ const DepositMethods = (props) => {
     Failure: () => <Failure {...props} />,
     Loading: () => <Loading text={LoadingTextEnum.LOADING} />,
     NotAsked: () => <Loading text={LoadingTextEnum.LOADING} />,
-    Success: (val) => <Success {...val} {...props} />,
+    Success: (val) => <Success {...val} {...props} />
   })
 }
 
 const mapStateToProps = (state: RootState) => ({
   addNew: state.components.brokerage.addNew,
   data: getData(state),
-  fiatCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD'),
+  fiatCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

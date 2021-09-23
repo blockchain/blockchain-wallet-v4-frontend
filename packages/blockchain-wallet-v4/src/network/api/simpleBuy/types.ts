@@ -150,7 +150,7 @@ export type SBProviderAttributesType = {
   }
 }
 
-export type SBProviderDetailsType = {
+export type ProviderDetailsType = {
   everypay: {
     apiUsername: string
     mobileToken: string

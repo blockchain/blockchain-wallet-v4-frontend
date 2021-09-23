@@ -613,7 +613,9 @@ export default ({ api, coreSagas, networks }) => {
         show: false
       } as InterestAfterTransactionType)
       if (afterTransaction?.show) {
-        yield put(actions.components.simpleBuy.fetchSBPairs(currency, afterTransaction.currency))
+        yield put(
+          actions.components.buySell.fetchPairs({ coin: afterTransaction.currency, currency })
+        )
         yield put(
           actions.goals.addInitialModal({
             data: { origin },
@@ -688,7 +690,10 @@ export default ({ api, coreSagas, networks }) => {
     }
     if (simpleBuyModal) {
       return yield put(
-        actions.components.simpleBuy.showModal('SimpleBuyLink', simpleBuyModal.data.crypto)
+        actions.components.buySell.showModal({
+          cryptoCurrency: simpleBuyModal.data.crypto,
+          origin: 'SimpleBuyLink'
+        })
       )
     }
     if (interestPromo) {
@@ -698,7 +703,7 @@ export default ({ api, coreSagas, networks }) => {
       const sddEligible = yield call(api.fetchSDDEligible)
       // show SDD flow for eligible country
       if (sddEligible.eligible) {
-        return yield put(actions.components.simpleBuy.showModal('WelcomeModal'))
+        return yield put(actions.components.buySell.showModal({ origin: 'WelcomeModal' }))
       }
       return yield put(actions.modals.showModal(welcomeModal.name, welcomeModal.data))
     }

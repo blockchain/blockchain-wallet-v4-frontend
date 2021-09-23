@@ -17,10 +17,10 @@ import Success from './template.success'
 const EnterAmount = (props) => {
   useEffect(() => {
     if (props.fiatCurrency && !Remote.Success.is(props.data)) {
-      props.simpleBuyActions.fetchSBPaymentMethods(props.fiatCurrency)
-      props.simpleBuyActions.fetchSBFiatEligible(props.fiatCurrency)
+      props.buySellActions.fetchSBPaymentMethods(props.fiatCurrency)
+      props.buySellActions.fetchSBFiatEligible(props.fiatCurrency)
       props.brokerageActions.fetchBankTransferAccounts()
-      props.simpleBuyActions.fetchSDDEligible()
+      props.buySellActions.fetchSDDEligibility()
     }
   }, [props.fiatCurrency])
 
@@ -64,8 +64,8 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

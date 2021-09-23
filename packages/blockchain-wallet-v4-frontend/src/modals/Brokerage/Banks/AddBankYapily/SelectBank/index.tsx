@@ -13,9 +13,7 @@ import Success from './template.success'
 
 const SelectBank = (props: Props) => {
   const fetchBank = () => {
-    props.brokerageActions.fetchBankLinkCredentials(
-      props.walletCurrency as WalletFiatType
-    )
+    props.brokerageActions.fetchBankLinkCredentials(props.walletCurrency as WalletFiatType)
   }
   useEffect(() => {
     fetchBank()
@@ -24,10 +22,10 @@ const SelectBank = (props: Props) => {
   const { data } = props
 
   return data.cata({
-    Success: val => <Success {...val} {...props} />,
     Failure: () => <DataError onClick={fetchBank} />,
     Loading: () => <Loading text={LoadingTextEnum.GETTING_READY} />,
-    NotAsked: () => <Loading text={LoadingTextEnum.GETTING_READY} />
+    NotAsked: () => <Loading text={LoadingTextEnum.GETTING_READY} />,
+    Success: (val) => <Success {...val} {...props} />
   })
 }
 
@@ -38,8 +36,8 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
-  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -51,7 +49,7 @@ export type OwnProps = {
 export type LinkDispatchPropsType = {
   analyticsActions: typeof actions.analytics
   brokerageActions: typeof actions.components.brokerage
-  simpleBuyActions: typeof actions.components.simpleBuy
+  buySellActions: typeof actions.components.buySell
 }
 export type SuccessStateType = ReturnType<typeof getData>['data']
 export type Props = OwnProps & ConnectedProps<typeof connector>

@@ -17,7 +17,7 @@ const Iframe = styled.iframe`
   margin-top: 16px;
 `
 
-const Success: React.FC<Props> = props => {
+const Success: React.FC<Props> = (props) => {
   return props.threeDSCallbackReceived ? (
     <Loading polling order={props.type === 'ORDER'} />
   ) : (
@@ -30,28 +30,28 @@ const Success: React.FC<Props> = props => {
           color='grey600'
           role='button'
           onClick={() => {
-            props.type === 'ORDER'
-              ? props.simpleBuyActions.setStep({
-                  step: 'ORDER_SUMMARY',
-                  order: props.order
-                })
-              : props.simpleBuyActions.setStep({
-                  step: 'ADD_CARD'
-                })
+            if (props.type === 'ORDER') {
+              props.buySellActions.setStep({
+                order: props.order,
+                step: 'ORDER_SUMMARY'
+              })
+            } else {
+              props.buySellActions.setStep({
+                step: 'ADD_CARD'
+              })
+            }
           }}
         />
         <Iframe
-          src={
-            props.domains.walletHelper +
-            '/wallet-helper/everypay/#/paymentLink/' +
-            encodeURIComponent(
-              props.type === 'CARD'
-                ? props.providerDetails.everypay.paymentLink
-                : props.order && props.order.attributes
-                ? props.order.attributes.everypay.paymentLink
-                : ''
-            )
-          }
+          src={`${
+            props.domains.walletHelper
+          }/wallet-helper/everypay/#/paymentLink/${encodeURIComponent(
+            props.type === 'CARD'
+              ? props.providerDetails.everypay.paymentLink
+              : props.order && props.order.attributes
+              ? props.order.attributes.everypay.paymentLink
+              : ''
+          )}`}
         />
       </>
     </CustomFlyoutWrapper>

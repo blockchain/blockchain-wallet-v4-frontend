@@ -24,14 +24,20 @@ const BuyTradeButton = styled(Button)`
   }
 `
 
-const Actions = ({ coinName, cryptoCurrency, simpleBuyActions, swapActions }: Props) => {
+const Actions = ({ buySellActions, coinName, cryptoCurrency, swapActions }: Props) => {
   return (
     <Wrapper>
       <BuyTradeButton
         data-e2e='buyButton'
         height='42px'
         nature='primary'
-        onClick={() => simpleBuyActions.showModal('PriceChart', cryptoCurrency as CoinType, 'BUY')}
+        onClick={() =>
+          buySellActions.showModal({
+            cryptoCurrency: cryptoCurrency as CoinType,
+            orderType: 'BUY',
+            origin: 'PriceChart'
+          })
+        }
       >
         <Text color='white' size='16px' lineHeight='24px' weight={600}>
           <FormattedMessage

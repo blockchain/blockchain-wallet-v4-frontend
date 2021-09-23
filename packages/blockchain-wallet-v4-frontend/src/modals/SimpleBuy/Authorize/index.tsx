@@ -93,7 +93,7 @@ const DropdownItem = ({ bodyText, isPaymentInformation, titleText }) => {
 }
 
 const Authorize = (props: Props) => {
-  const { bankAccounts, order, simpleBuyActions } = props
+  const { bankAccounts, buySellActions, order } = props
   const counterAmount = getCounterAmount(props.order)
   const counterCurrency = getCounterCurrency(props.order)
   const [bankAccount] = filter(
@@ -307,7 +307,7 @@ const Authorize = (props: Props) => {
           fullwidth
           height='48px'
           onClick={() => {
-            simpleBuyActions.confirmSBOrder(order.paymentMethodId as string, order)
+            buySellActions.confirmOrder({ order, paymentMethodId: order.paymentMethodId as string })
           }}
         >
           <FormattedMessage id='copy.approve' defaultMessage='Approve' />
@@ -336,7 +336,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

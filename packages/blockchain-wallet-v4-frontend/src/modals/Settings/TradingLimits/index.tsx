@@ -33,7 +33,7 @@ class TradingLimits extends PureComponent<Props, State> {
     this.props.profileActions.fetchUser()
     this.props.fetchProductsEligibility()
     this.props.fetchInterestEDDStatus()
-    this.props.simpleBuyActions.fetchSDDEligible()
+    this.props.buySellActions.fetchSDDEligibility()
   }
 
   handleClose = () => {
@@ -70,14 +70,14 @@ class TradingLimits extends PureComponent<Props, State> {
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   fetchInterestEDDStatus: () => dispatch(actions.components.interest.fetchEDDStatus()),
   fetchProductsEligibility: () => dispatch(actions.components.settings.fetchProductsEligibility()),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
   ),
-  profileActions: bindActionCreators(actions.modules.profile, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  profileActions: bindActionCreators(actions.modules.profile, dispatch)
 })
 
 const mapStateToProps = (state: RootState) => ({

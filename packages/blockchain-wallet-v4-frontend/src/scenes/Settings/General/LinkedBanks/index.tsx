@@ -20,7 +20,7 @@ import Success from './template.success'
 class LinkedBanks extends PureComponent<Props> {
   componentDidMount() {
     this.props.brokerageActions.fetchBankTransferAccounts()
-    this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.walletCurrency)
+    this.props.buySellActions.fetchPaymentMethods(this.props.walletCurrency)
   }
 
   handleBankClick = () => {
@@ -88,8 +88,8 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   custodialActions: bindActionCreators(actions.custodial, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
   withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
 })
 

@@ -70,16 +70,16 @@ const EnterAmount = (props: Props) => {
     beneficiary?: BeneficiaryType | BankTransferAccountType
   ) => {
     if (!beneficiary) {
-      props.simpleBuyActions.showModal('WithdrawModal')
+      props.buySellActions.showModal({ origin: 'WithdrawModal' })
       if (userData.tiers.current === 2) {
-        return props.simpleBuyActions.setStep({
+        return props.buySellActions.setStep({
           addBank: true,
           displayBack: false,
           fiatCurrency: props.fiatCurrency,
           step: 'BANK_WIRE_DETAILS'
         })
       }
-      return props.simpleBuyActions.setStep({
+      return props.buySellActions.setStep({
         step: 'KYC_REQUIRED'
       })
     }
@@ -115,9 +115,9 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   custodialActions: bindActionCreators(actions.custodial, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
   withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
 })
 
