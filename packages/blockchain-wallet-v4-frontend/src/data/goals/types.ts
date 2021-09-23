@@ -42,6 +42,7 @@ export type GoalsState = {
 
 export enum DeepLinkGoal {
   BITCOIN = 'bitcoin',
+  INTEREST = 'interest',
   KYC = 'kyc',
   LINK_ACCOUNT = 'link-account',
   LOG_LEVEL = 'log-level',

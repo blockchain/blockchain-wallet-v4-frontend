@@ -1162,7 +1162,7 @@ type MessagesType = {
   'modals.onboarding.linkfromexchange.email_disclaimer2': 'If you have 2FA enabled for your Wallet, nothing changes. You will still use <span className="grey900">{walletEmail}</span> to securely log in.'
   'modals.onboarding.linkfromexchange.success': 'You have connected your Blockchain Wallet to Exchange. Go back and finish signing up!'
   'modals.onboarding.linkfromexchange.success_info1': "Your Blockchain.com Wallet and Exchange are now connected. Seamlessly send funds between platforms to your heart's content."
-  'modals.onboarding.linkfromexchange.success_info2': 'You are now {status} with Blockchain.com, allowing you to swap, buy & sell, earn rewards and borrow BTC.'
+  'modals.onboarding.linkfromexchange.success_info2': 'You are now {status} with Blockchain.com, allowing you to swap, buy & sell, and earn rewards.'
   'modals.onboarding.linkfromexchange.success_remember_title': 'Remember!'
   'modals.onboarding.linkfromexchange.success_remember_password_info': "You'll still have a separate password for each product."
   'modals.onboarding.linkfromexchange.success_subinfo1_title': 'To Log In to Your Wallet'
