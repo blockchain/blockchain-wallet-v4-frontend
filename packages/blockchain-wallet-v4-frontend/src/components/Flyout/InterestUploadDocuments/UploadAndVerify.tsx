@@ -47,6 +47,7 @@ const DragAndDropContainerSecond = styled(DragAndDropContainer)`
 `
 
 const UploadAndVerify: React.FC<Props> = (props) => {
+  const [isUploading, setIsUploading] = useState(false)
   const [uploadAndVerified, setUploadAndVerified] = useState({
     proofOfAddress1: false,
     proofOfAddress2: false,
@@ -138,6 +139,7 @@ const UploadAndVerify: React.FC<Props> = (props) => {
     name.includes('proofOfAddress') ? 'PROOF_OF_ADDRESS' : 'PROOF_OF_INCOME'
 
   const submitUplaodedFiles = () => {
+    setIsUploading(true)
     const files: FileUploadItem[] = []
     // we had to do async converting files into base64
     const filesUpdate = async () => {
@@ -145,9 +147,11 @@ const UploadAndVerify: React.FC<Props> = (props) => {
         Object.entries(uploadedFiles).map(async (fileItem) => {
           const file = fileItem[1]
           if (file !== null) {
+            const convertedFile = await toBase64(file)
+            const fileForUpload = convertedFile.split('base64,')[1]
             files.push({
               category: getCategory(fileItem[0]),
-              file: await toBase64(file)
+              file: fileForUpload
             })
           }
         })
@@ -156,13 +160,15 @@ const UploadAndVerify: React.FC<Props> = (props) => {
 
     filesUpdate().then(() => {
       props.submitData(files)
+      setIsUploading(false)
     })
   }
 
   const disable =
     uploadedFiles.proofOfAddress1 === null ||
     uploadedFiles.sourceOfWealth1 === null ||
-    Object.values(uploadAndVerifiedError).some((val) => val)
+    Object.values(uploadAndVerifiedError).some((val) => val) ||
+    isUploading
 
   return (
     <Container>

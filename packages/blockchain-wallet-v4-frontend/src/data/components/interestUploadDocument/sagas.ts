@@ -64,17 +64,12 @@ export default ({ api }: { api: APIType }) => {
   const uploadFiles = function* ({ payload }: ReturnType<typeof A.uploadFiles>) {
     const { files } = payload
     try {
-      const fileUploadResponse: ReturnType<typeof api.storeEDDDocuments> = yield call(
-        api.storeEDDDocuments,
-        files
+      yield call(api.storeEDDDocuments, files)
+      yield put(
+        A.setStep({
+          step: InterestUploadDocumentsStepType.UPLOADED
+        })
       )
-      if (fileUploadResponse) {
-        yield put(
-          A.setStep({
-            step: InterestUploadDocumentsStepType.UPLOADED
-          })
-        )
-      }
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.logs.logErrorMessage(logLocation, 'save addtional documents', error))
