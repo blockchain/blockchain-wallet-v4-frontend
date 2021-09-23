@@ -100,7 +100,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             break
           }
-          case '/interest': {
+          case '/rewards': {
             const { href, pathname, search } = window.location
             const { referrer, title } = document
             const origin = 'NAVIGATION'

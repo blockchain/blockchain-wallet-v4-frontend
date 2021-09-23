@@ -180,7 +180,7 @@ type PageViewPayload = {
 
 type PageName =
   | '/home'
-  | '/interest'
+  | '/rewards'
   | '/login'
   | '/settings/addresses/btc'
   | '/settings/addresses/bch'

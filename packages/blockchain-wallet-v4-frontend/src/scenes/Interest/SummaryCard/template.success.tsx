@@ -134,7 +134,7 @@ function SummaryCard(props: OwnProps & SuccessStateType): ReactElement {
           >
             <FormattedMessage
               id='scenes.interest.summarycard.totalinterest'
-              defaultMessage='Total Interest Earned'
+              defaultMessage='Total Rewards Earned'
             />
           </Text>
           <Text data-e2e='btcInterest' size='14px' weight={600} style={{ lineHeight: '1.5' }}>
@@ -175,7 +175,7 @@ function SummaryCard(props: OwnProps & SuccessStateType): ReactElement {
         >
           <FormattedMessage
             id='scenes.interest.summarycard.earnbutton'
-            defaultMessage='Earn Interest'
+            defaultMessage='Earn Rewards'
           />
         </Button>
       )}
