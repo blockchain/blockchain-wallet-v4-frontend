@@ -74,7 +74,7 @@ const BannerButton = styled(Button)`
 
 class SBOrderBanner extends PureComponent<Props> {
   showModal = () => {
-    this.props.simpleBuyActions.showModal('PendingOrder')
+    this.props.buySellActions.showModal({ origin: 'PendingOrder' })
   }
 
   render() {
@@ -133,8 +133,8 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

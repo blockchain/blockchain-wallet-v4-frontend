@@ -40,18 +40,18 @@ const { getSymbol } = Exchange
 class OrderSummary extends PureComponent<Props> {
   componentDidMount() {
     if (!Remote.Success.is(this.props.data)) {
-      this.props.simpleBuyActions.fetchSBCards()
+      this.props.buySellActions.fetchCards(false)
       this.props.sendActions.getLockRule()
       this.props.recurringBuyActions.fetchRegisteredList()
       this.props.recurringBuyActions.fetchPaymentInfo()
     }
-    this.props.simpleBuyActions.fetchSBOrders()
+    this.props.buySellActions.fetchOrders()
 
     if (
       this.props.order.state === 'PENDING_DEPOSIT' &&
       this.props.order.attributes?.everypay?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
     ) {
-      this.props.simpleBuyActions.setStep({
+      this.props.buySellActions.setStep({
         order: this.props.order,
         step: '3DS_HANDLER'
       })
@@ -60,7 +60,7 @@ class OrderSummary extends PureComponent<Props> {
   }
 
   handleRefresh = () => {
-    this.props.simpleBuyActions.fetchSBCards()
+    this.props.buySellActions.fetchCards(false)
   }
 
   handleOkButton = () => {
@@ -86,7 +86,7 @@ class OrderSummary extends PureComponent<Props> {
   }
 
   handleCompleteButton = () => {
-    this.props.simpleBuyActions.setStep({
+    this.props.buySellActions.setStep({
       order: this.props.order,
       step: '3DS_HANDLER'
     })
@@ -156,10 +156,10 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps): LinkStatePropsTy
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   interestActions: bindActionCreators(actions.components.interest, dispatch),
   recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),
-  sendActions: bindActionCreators(actions.components.send, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  sendActions: bindActionCreators(actions.components.send, dispatch)
 })
 const connector = connect(mapStateToProps, mapDispatchToProps)
 

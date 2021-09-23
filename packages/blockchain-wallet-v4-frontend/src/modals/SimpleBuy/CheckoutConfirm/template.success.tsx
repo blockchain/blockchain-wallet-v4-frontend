@@ -191,7 +191,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
   }, [requiresTerms])
 
   const handleCancel = () => {
-    props.simpleBuyActions.cancelSBOrder(props.order)
+    props.buySellActions.cancelOrder(props.order)
   }
 
   const paymentPartnerButton =

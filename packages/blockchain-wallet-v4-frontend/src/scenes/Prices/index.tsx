@@ -133,10 +133,10 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   priceActions: bindActionCreators(actions.prices, dispatch),
-  routerActions: bindActionCreators(actions.router, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  routerActions: bindActionCreators(actions.router, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

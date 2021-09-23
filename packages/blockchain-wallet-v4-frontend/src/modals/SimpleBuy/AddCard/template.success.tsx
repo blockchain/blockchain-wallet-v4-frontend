@@ -138,11 +138,11 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = (prop
           style={{ marginRight: '24px' }}
           onClick={() =>
             props.order
-              ? props.simpleBuyActions.setStep({
+              ? props.buySellActions.setStep({
                   order: props.order as SBSellOrderType | SBBuyOrderType,
                   step: 'CHECKOUT_CONFIRM'
                 })
-              : props.simpleBuyActions.setStep({
+              : props.buySellActions.setStep({
                   cryptoCurrency: props.cryptoCurrency || 'BTC',
                   fiatCurrency: props.fiatCurrency,
                   order: props.order,
@@ -231,7 +231,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = (prop
                 textAlign: 'center',
                 width: '100%'
               }}
-              onClick={() => props.simpleBuyActions.setStep({ step: 'CC_BILLING_ADDRESS' })}
+              onClick={() => props.buySellActions.setStep({ step: 'CC_BILLING_ADDRESS' })}
             >
               <FormattedMessage
                 id='modals.simplebuy.change_billing_address'

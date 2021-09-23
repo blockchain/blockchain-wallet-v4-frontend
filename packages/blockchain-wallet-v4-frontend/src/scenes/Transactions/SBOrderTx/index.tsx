@@ -57,7 +57,7 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
     this.props.modalActions.showModal('SIMPLE_BUY_MODAL', {
       origin: 'TransactionList'
     })
-    this.props.simpleBuyActions.setStep({
+    this.props.buySellActions.setStep({
       order,
       step:
         order.state === 'PENDING_CONFIRMATION'
@@ -67,7 +67,7 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
           : 'ORDER_SUMMARY'
     })
     if (order.attributes?.authorisationUrl) {
-      this.props.simpleBuyActions.confirmOrderPoll(order)
+      this.props.buySellActions.confirmOrderPoll(order)
     }
   }
 
@@ -212,8 +212,8 @@ class SimpleBuyListItem extends PureComponent<Props, State> {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({

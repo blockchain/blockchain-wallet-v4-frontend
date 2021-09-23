@@ -86,12 +86,12 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   }
 
   handleSubmit = (method: SBPaymentMethodType) => {
-    this.props.simpleBuyActions.handleSBMethodChange({ isFlow: false, method })
+    this.props.buySellActions.handleMethodChange({ isFlow: false, method })
   }
 
   addNewPaymentMethod = () => {
     if (this.props.fiatCurrency) {
-      this.props.simpleBuyActions.setStep({
+      this.props.buySellActions.setStep({
         cryptoCurrency: getCoinFromPair(this.props.pair.pair),
         fiatCurrency: this.props.fiatCurrency,
         order: this.props.order,
@@ -247,7 +247,7 @@ class Accounts extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 style={{ marginRight: '28px' }}
                 role='button'
                 onClick={() =>
-                  this.props.simpleBuyActions.setStep({
+                  this.props.buySellActions.setStep({
                     cryptoCurrency: getCoinFromPair(this.props.pair.pair),
                     fiatCurrency: getFiatFromPair(this.props.pair.pair),
                     orderType: this.props.orderType,

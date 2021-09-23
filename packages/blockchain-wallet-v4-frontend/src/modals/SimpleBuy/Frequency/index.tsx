@@ -55,9 +55,9 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

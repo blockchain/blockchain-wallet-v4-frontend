@@ -1,12 +1,11 @@
 import { Task } from 'redux-saga'
 import { call, cancel, fork, put, take, takeEvery, takeLatest } from 'redux-saga/effects'
 
-import { actions, actionTypes } from 'data'
+import { actions as coreActions, actionTypes } from 'data'
 
 import profileSagas from '../../modules/profile/sagas'
-import * as A from './actions'
-import * as AT from './actionTypes'
 import sagas from './sagas'
+import { actions } from './slice'
 
 let pollTask: Task
 
@@ -16,40 +15,41 @@ export default ({ api, coreSagas, networks }) => {
 
   return function* simpleBuySaga() {
     yield takeEvery(actionTypes.form.CHANGE, simpleBuySagas.formChanged)
-    yield takeLatest(AT.ACTIVATE_SB_CARD, simpleBuySagas.activateSBCard)
-    yield takeLatest(AT.ADD_CARD_DETAILS, simpleBuySagas.addCardDetails)
-    yield takeLatest(AT.ADD_CARD_FINISHED, simpleBuySagas.addCardFinished)
-    yield takeLatest(AT.CANCEL_ORDER, simpleBuySagas.cancelSBOrder)
-    yield takeLatest(AT.CREATE_ORDER, simpleBuySagas.createSBOrder)
-    yield takeLatest(AT.CONFIRM_FUNDS_ORDER, simpleBuySagas.confirmSBFundsOrder)
-    yield takeLatest(AT.CONFIRM_ORDER_POLL, simpleBuySagas.confirmOrderPoll)
-    yield takeLatest(AT.CONFIRM_CREDIT_CARD_ORDER, simpleBuySagas.confirmSBOrder)
-    yield takeLatest(AT.FETCH_SB_BALANCES, simpleBuySagas.fetchSBBalances)
-    yield takeLatest(AT.DELETE_SB_CARD, simpleBuySagas.deleteSBCard)
-    yield takeLatest(AT.FETCH_SB_CARD, simpleBuySagas.fetchSBCard)
-    yield takeLatest(AT.FETCH_SB_CARDS, simpleBuySagas.fetchSBCards)
-    yield takeLatest(AT.FETCH_SB_FIAT_ELIGIBLE, simpleBuySagas.fetchSBFiatEligible)
-    yield takeLatest(AT.FETCH_SDD_ELIGIBILITY, simpleBuySagas.fetchSDDEligible)
-    yield takeLatest(AT.FETCH_SDD_VERIFIED, simpleBuySagas.fetchSDDVerified)
-    yield takeLatest(AT.FETCH_LIMITS, simpleBuySagas.fetchLimits)
-    yield takeLatest(AT.FETCH_SB_ORDERS, simpleBuySagas.fetchSBOrders)
-    yield takeLatest(AT.FETCH_SB_PAIRS, simpleBuySagas.fetchSBPairs)
-    yield takeLatest(AT.FETCH_SB_PAYMENT_ACCOUNT, simpleBuySagas.fetchSBPaymentAccount)
-    yield takeLatest(AT.FETCH_SB_PAYMENT_METHODS, simpleBuySagas.fetchSBPaymentMethods)
-    yield takeLatest(AT.FETCH_SB_QUOTE, simpleBuySagas.fetchSBQuote)
-    yield takeLatest(AT.HANDLE_SB_DEPOSIT_FIAT_CLICK, simpleBuySagas.handleSBDepositFiatClick)
-    yield takeLatest(AT.HANDLE_SB_METHOD_CHANGE, simpleBuySagas.handleSBMethodChange)
-    yield takeLatest(AT.HANDLE_BUY_MAX_AMOUNT_CLICK, simpleBuySagas.handleBuyMaxAmountClick)
-    yield takeLatest(AT.HANDLE_BUY_MIN_AMOUNT_CLICK, simpleBuySagas.handleBuyMinAmountClick)
-    yield takeLatest(AT.HANDLE_SELL_MAX_AMOUNT_CLICK, simpleBuySagas.handleSellMaxAmountClick)
-    yield takeLatest(AT.HANDLE_SELL_MIN_AMOUNT_CLICK, simpleBuySagas.handleSellMinAmountClick)
-    yield takeLatest(AT.INITIALIZE_BILLING_ADDRESS, simpleBuySagas.initializeBillingAddress)
-    yield takeLatest(AT.INITIALIZE_CHECKOUT, simpleBuySagas.initializeCheckout)
-    yield takeLatest(AT.POLL_SB_BALANCES, simpleBuySagas.pollSBBalances)
-    yield takeLatest(AT.POLL_SB_CARD, simpleBuySagas.pollSBCard)
-    yield takeLatest(AT.POLL_SB_ORDER, simpleBuySagas.pollSBOrder)
-    yield takeLatest(AT.SHOW_MODAL, simpleBuySagas.showModal)
-    yield takeLatest(AT.SWITCH_FIX, simpleBuySagas.switchFix)
+    yield takeLatest(actions.activateCard.type, simpleBuySagas.activateSBCard)
+    yield takeLatest(actions.addCard.type, simpleBuySagas.addCardDetails)
+    yield takeLatest(actions.addCardFinished, simpleBuySagas.addCardFinished)
+    yield takeLatest(actions.cancelOrder.type, simpleBuySagas.cancelSBOrder)
+    yield takeLatest(actions.createOrder.type, simpleBuySagas.createSBOrder)
+    yield takeLatest(actions.confirmFundsOrder, simpleBuySagas.confirmSBFundsOrder)
+    yield takeLatest(actions.confirmOrderPoll.type, simpleBuySagas.confirmOrderPoll)
+    yield takeLatest(actions.confirmOrder.type, simpleBuySagas.confirmOrder)
+    yield takeLatest(actions.fetchBalance.type, simpleBuySagas.fetchSBBalances)
+    yield takeLatest(actions.deleteCard.type, simpleBuySagas.deleteSBCard)
+    yield takeLatest(actions.fetchCard.type, simpleBuySagas.fetchSBCard)
+    yield takeLatest(actions.fetchCards.type, simpleBuySagas.fetchSBCards)
+    yield takeLatest(actions.fetchFiatEligible.type, simpleBuySagas.fetchSBFiatEligible)
+    yield takeLatest(actions.fetchSDDEligibility.type, simpleBuySagas.fetchSDDEligible)
+    yield takeLatest(actions.fetchSDDVerified.type, simpleBuySagas.fetchSDDVerified)
+    yield takeLatest(actions.fetchLimits.type, simpleBuySagas.fetchLimits)
+    yield takeLatest(actions.fetchOrders.type, simpleBuySagas.fetchSBOrders)
+    yield takeLatest(actions.fetchPairs.type, simpleBuySagas.fetchSBPairs)
+    yield takeLatest(actions.fetchPaymentAccount.type, simpleBuySagas.fetchSBPaymentAccount)
+    yield takeLatest(actions.fetchPaymentMethods.type, simpleBuySagas.fetchSBPaymentMethods)
+    yield takeLatest(actions.fetchQuote.type, simpleBuySagas.fetchSBQuote)
+    yield takeLatest(actions.handleDepositFiatClick.type, simpleBuySagas.handleSBDepositFiatClick)
+    yield takeLatest(actions.handleMethodChange.type, simpleBuySagas.handleSBMethodChange)
+    yield takeLatest(actions.handleBuyMaxAmountClick.type, simpleBuySagas.handleBuyMaxAmountClick)
+    yield takeLatest(actions.handleBuyMinAmountClick.type, simpleBuySagas.handleBuyMinAmountClick)
+    yield takeLatest(actions.handleSellMaxAmountClick.type, simpleBuySagas.handleSellMaxAmountClick)
+    yield takeLatest(actions.handleSellMinAmountClick.type, simpleBuySagas.handleSellMinAmountClick)
+    yield takeLatest(actions.initializeBillingAddress.type, simpleBuySagas.initializeBillingAddress)
+    yield takeLatest(actions.initializeCheckout.type, simpleBuySagas.initializeCheckout)
+    yield takeLatest(actions.pollBalances.type, simpleBuySagas.pollSBBalances)
+    yield takeLatest(actions.pollCard.type, simpleBuySagas.pollSBCard)
+    yield takeLatest(actions.pollOrder.type, simpleBuySagas.pollSBOrder)
+    yield takeLatest(actions.showModal.type, simpleBuySagas.showModal)
+    yield takeLatest(actions.switchFix.type, simpleBuySagas.switchFix)
+
     // Fetch balances when profile/user is fetched
     yield takeLatest(
       [
@@ -60,27 +60,27 @@ export default ({ api, coreSagas, networks }) => {
       simpleBuySagas.fetchSBBalances
     )
     // Fetch balances and orders when step changes to order summary
-    yield takeLatest(AT.SET_STEP, simpleBuySagas.setStepChange)
+    yield takeLatest(actions.setStep.type, simpleBuySagas.setStepChange)
     // Refresh coin tx lists
-    yield takeLatest(AT.FETCH_SB_ORDERS, function* () {
+    yield takeLatest(actions.fetchOrders.type, function* () {
       yield call(waitForUserData)
-      yield put(actions.core.data.bch.fetchTransactions('', true))
-      yield put(actions.core.data.btc.fetchTransactions('', true))
-      yield put(actions.core.data.eth.fetchTransactions('', true))
-      yield put(actions.core.data.eth.fetchErc20Transactions('pax', true))
-      yield put(actions.core.data.eth.fetchErc20Transactions('usdt', true))
-      yield put(actions.core.data.eth.fetchErc20Transactions('wdgld', true))
-      yield put(actions.core.data.xlm.fetchTransactions('', true))
+      yield put(coreActions.core.data.bch.fetchTransactions('', true))
+      yield put(coreActions.core.data.btc.fetchTransactions('', true))
+      yield put(coreActions.core.data.eth.fetchTransactions('', true))
+      yield put(coreActions.core.data.eth.fetchErc20Transactions('pax', true))
+      yield put(coreActions.core.data.eth.fetchErc20Transactions('usdt', true))
+      yield put(coreActions.core.data.eth.fetchErc20Transactions('wdgld', true))
+      yield put(coreActions.core.data.xlm.fetchTransactions('', true))
     })
 
     // used for sell only now, eventually buy as well
     // TODO: use swap2 quote for buy AND sell
     yield takeLatest(
-      AT.START_POLL_SELL_QUOTE,
-      function* (payload: ReturnType<typeof A.startPollSellQuote>) {
+      actions.startPollSellQuote.type,
+      function* (payload: ReturnType<typeof actions.startPollSellQuote>) {
         if (pollTask && pollTask.isRunning()) yield cancel(pollTask)
         pollTask = yield fork(simpleBuySagas.fetchSellQuote, payload)
-        yield take(AT.STOP_POLL_SELL_QUOTE)
+        yield take(actions.stopPollSellQuote.type)
         yield cancel(pollTask)
       }
     )
