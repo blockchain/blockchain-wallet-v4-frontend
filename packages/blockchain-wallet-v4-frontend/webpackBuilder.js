@@ -18,9 +18,6 @@ const CONFIG_PATH = require('./../../config/paths')
 
 // thread loader plugin settings
 const threadLoaderSettings = {
-  // poolParallelJobs: 250,
-  // poolRespawn: true,
-  // poolTimeout: 500,
   name: 'thread-loader-pool',
   workers: 2,
   workerParallelJobs: 50,
@@ -71,14 +68,21 @@ const getAndLogEnvConfig = () => {
 const buildWebpackConfig = (envConfig, extraPluginsList) => ({
   devtool: false, // default is false but needs to be set so dev config can override
   entry: {
-    app: ['@babel/polyfill', CONFIG_PATH.src + '/index.js']
+    main: {
+      dependOn: 'vendor',
+      filename: 'main-[contenthash:6].js',
+      import: CONFIG_PATH.src + '/index.js'
+    },
+    vendor: {
+      filename: 'vendor-[contenthash:6].js',
+      import: ['@babel/polyfill', 'react', 'react-dom', 'redux', 'react-redux']
+    },
   },
   output: {
     assetModuleFilename: 'resources/[name][ext]', // default asset path that is usually overwritten in specific modules.rules
-    chunkFilename: '[name].[chunkhash:10].js',
+    chunkFilename: (pathData) => pathData.chunk.name ? '[name]-[chunkhash:6].js' : 'chunk-[chunkhash:6].js',
     crossOriginLoading: 'anonymous',
     path: CONFIG_PATH.ciBuild,
-    pathinfo: false,
     publicPath: '/'
   },
   resolve: {
@@ -101,14 +105,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        //loader: 'babel-loader'
-        use: [
-          {
-            loader: 'thread-loader',
-            options: threadLoaderSettings
-          },
-          'babel-loader'
-        ]
+        use: [{ loader: 'thread-loader', options: threadLoaderSettings }, 'babel-loader']
       },
       {
         test: /\.tsx?$/,
@@ -118,97 +115,61 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
       {
         test: /\.(eot|ttf|otf|woff|woff2)$/,
         type: 'asset/resource',
-        generator: {
-          filename: 'fonts/[name][ext]'
-        }
+        generator: { filename: 'fonts/[name][ext]' }
       },
       {
         test: /\.(png|jpg|gif|svg|ico|webmanifest|xml)$/,
         type: 'asset/resource',
-        generator: {
-          filename: 'img/[name][ext]?[contenthash]'
-        }
+        generator: { filename: 'img/[name][ext]?[contenthash]' }
       },
-      {
-        test: /\.(pdf)$/,
-        type: 'asset/resource'
-      },
-      {
-        test: /\.(AppImage|dmg|exe)$/,
-        type: 'asset/resource'
-      },
-      {
-        test: /\.css$/,
-        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }]
-      }
+      { test: /\.(pdf)$/, type: 'asset/resource' },
+      { test: /\.(AppImage|dmg|exe)$/, type: 'asset/resource' },
+      { test: /\.css$/, use: [{ loader: 'style-loader' }, { loader: 'css-loader' }] }
     ]
   },
   performance: { hints: false }, // TODO: enable bundle size warnings in future
-  plugins: concat(
-    [
-      new CleanWebpackPlugin(),
-      new HtmlWebpackPlugin({
-        template: CONFIG_PATH.src + '/index.html',
-        filename: 'index.html'
-      }),
-      new HtmlReplaceWebpackPlugin([
-        {
-          pattern: '**APP_VERSION**',
-          replacement: require(CONFIG_PATH.pkgJson).version
-        },
-        {
-          pattern: '**RECAPTCHA_KEY**',
-          replacement: process.env.CAPTCHA_KEY ? process.env.CAPTCHA_KEY : envConfig.RECAPTCHA_KEY
-        }
-      ]),
-      new NodePolyfillPlugin(),
-      new Webpack.IgnorePlugin({
-        resourceRegExp: /^\.\/locale$/,
-        contextRegExp: /moment$/
-      }),
-      new FaviconsWebpackPlugin({
-        devMode: 'light',
-        logo: CONFIG_PATH.src + '/assets/favicon.png',
-        mode: 'webapp',
-        prefix: 'img/favicons-[contenthash]/',
-        icons: {
-          android: true,
-          appleIcon: true,
-          appleStartup: true,
-          coast: true,
-          favicons: true,
-          firefox: true,
-          windows: true,
-          yandex: true
-        }
-      })
-    ],
+  plugins: concat([
+    new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      template: CONFIG_PATH.src + '/index.html',
+      filename: 'index.html'
+    }),
+    new HtmlReplaceWebpackPlugin([
+      {
+        pattern: '**APP_VERSION**',
+        replacement: require(CONFIG_PATH.pkgJson).version
+      },
+      {
+        pattern: '**RECAPTCHA_KEY**',
+        replacement: process.env.CAPTCHA_KEY ? process.env.CAPTCHA_KEY : envConfig.RECAPTCHA_KEY
+      }
+    ]),
+    new NodePolyfillPlugin(),
+    new Webpack.IgnorePlugin({
+      resourceRegExp: /^\.\/locale$/,
+      contextRegExp: /moment$/
+    }),
+    new FaviconsWebpackPlugin({
+      devMode: 'light',
+      logo: CONFIG_PATH.src + '/assets/favicon.png',
+      mode: 'webapp',
+      prefix: 'img/favicons-[contenthash]/',
+      icons: {
+        android: true,
+        appleIcon: true,
+        appleStartup: true,
+        coast: true,
+        favicons: true,
+        firefox: true,
+        windows: true,
+        yandex: true
+      }
+    })],
     extraPluginsList
   ),
   optimization: {
     runtimeChunk: {
-      name: `manifest.${new Date().getTime()}`
-    },
-    splitChunks: {
-      chunks: 'async',
-      minSize: 20000,
-      minRemainingSize: 0,
-      minChunks: 1,
-      maxAsyncRequests: 30,
-      maxInitialRequests: 30,
-      enforceSizeThreshold: 50000,
-      cacheGroups: {
-        defaultVendors: {
-          test: /[\\/]node_modules[\\/]/,
-          priority: -10,
-          reuseExistingChunk: true
-        },
-        default: {
-          minChunks: 2,
-          priority: -20,
-          reuseExistingChunk: true
-        }
-      }
+      name: `manifest-${new Date().getTime()}`
     }
   }
 })
