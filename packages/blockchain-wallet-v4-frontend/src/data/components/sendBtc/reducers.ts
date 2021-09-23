@@ -1,14 +1,14 @@
 import { assoc } from 'ramda'
 
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from '@core'
 
 import * as AT from './actionTypes'
 import { SendBtcState } from './types'
 
 const INITIAL_STATE: SendBtcState = {
-  step: 1,
   feePerByteToggled: false,
-  payment: Remote.NotAsked
+  payment: Remote.NotAsked,
+  step: 1
 }
 
 export function sendBtcReducer(state = INITIAL_STATE, action) {

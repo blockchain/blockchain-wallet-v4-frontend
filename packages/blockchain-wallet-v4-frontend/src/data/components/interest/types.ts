@@ -16,7 +16,7 @@ import {
   RemoteDataType,
   WithdrawalMinimumType,
   WithdrawLimits
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 
 //
 // Types

@@ -1,7 +1,7 @@
 import React from 'react'
 import { mapObjIndexed, values } from 'ramda'
 
-import { SupportedWalletCurrencyType } from 'blockchain-wallet-v4/src/types'
+import { SupportedWalletCurrencyType } from '@core/types'
 import { Wrapper } from 'components/Balances'
 
 import { BalancesWrapper } from '../model'

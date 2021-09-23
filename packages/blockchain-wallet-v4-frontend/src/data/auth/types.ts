@@ -1,4 +1,25 @@
+import { RemoteDataType } from '@core/types'
+
 import { actions } from './slice'
+
+export type AuthStateType = {
+  auth_type: number
+  firstLogin: boolean
+  isAuthenticated: boolean
+  isLoggingIn: boolean
+  kycReset: undefined
+  login: RemoteDataType<any, any>
+  magicLinkData: null
+  manifestFile: null
+  metadataRestore: RemoteDataType<any, any>
+  mobileLoginStarted: boolean
+  registerEmail: undefined
+  registering: RemoteDataType<any, any>
+  resetAccount: boolean
+  restoring: RemoteDataType<any, any>
+  secureChannelLogin: RemoteDataType<any, any>
+  userGeoData: RemoteDataType<any, any>
+}
 
 export enum LoginSteps {
   CHECK_EMAIL = 'CHECK_EMAIL',

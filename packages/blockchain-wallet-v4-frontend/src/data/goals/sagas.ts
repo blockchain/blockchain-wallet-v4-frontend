@@ -4,13 +4,9 @@ import bip21 from 'bip21'
 import { anyPass, equals, includes, map, path, pathOr, prop, startsWith } from 'ramda'
 import { all, call, delay, join, put, select, spawn, take } from 'redux-saga/effects'
 
-import { Exchange, utils } from 'blockchain-wallet-v4/src'
-import {
-  InterestAfterTransactionType,
-  RatesType,
-  WalletFiatType
-} from 'blockchain-wallet-v4/src/types'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { Exchange, utils } from '@core'
+import { InterestAfterTransactionType, RatesType, WalletFiatType } from '@core/types'
+import { errorHandler } from '@core/utils'
 import { actions, model, selectors } from 'data'
 import { getBchBalance, getBtcBalance } from 'data/balance/sagas'
 import { parsePaymentRequest } from 'data/bitpay/sagas'
@@ -611,7 +607,9 @@ export default ({ api, coreSagas, networks }) => {
         show: false
       } as InterestAfterTransactionType)
       if (afterTransaction?.show) {
-        yield put(actions.components.simpleBuy.fetchSBPairs(currency, afterTransaction.currency))
+        yield put(
+          actions.components.buySell.fetchPairs({ coin: afterTransaction.currency, currency })
+        )
         yield put(
           actions.goals.addInitialModal({
             data: { origin },
@@ -686,7 +684,10 @@ export default ({ api, coreSagas, networks }) => {
     }
     if (simpleBuyModal) {
       return yield put(
-        actions.components.simpleBuy.showModal('SimpleBuyLink', simpleBuyModal.data.crypto)
+        actions.components.buySell.showModal({
+          cryptoCurrency: simpleBuyModal.data.crypto,
+          origin: 'SimpleBuyLink'
+        })
       )
     }
     if (interestPromo) {
@@ -696,7 +697,7 @@ export default ({ api, coreSagas, networks }) => {
       const sddEligible = yield call(api.fetchSDDEligible)
       // show SDD flow for eligible country
       if (sddEligible.eligible) {
-        return yield put(actions.components.simpleBuy.showModal('WelcomeModal'))
+        return yield put(actions.components.buySell.showModal({ origin: 'WelcomeModal' }))
       }
       return yield put(actions.modals.showModal(welcomeModal.name, welcomeModal.data))
     }

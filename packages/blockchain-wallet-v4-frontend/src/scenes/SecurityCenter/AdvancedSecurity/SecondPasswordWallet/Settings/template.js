@@ -10,7 +10,7 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import { Types } from 'blockchain-wallet-v4/src'
+import { Types } from '@core'
 import { FormGroup, FormItem, FormLabel, PasswordBox } from 'components/Form'
 import { SettingForm, SettingWrapper } from 'components/Setting'
 import { required, validPasswordConfirmation } from 'services/forms'

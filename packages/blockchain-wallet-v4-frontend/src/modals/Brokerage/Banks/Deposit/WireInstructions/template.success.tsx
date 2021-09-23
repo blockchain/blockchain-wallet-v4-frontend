@@ -10,8 +10,8 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-import { AgentType } from 'blockchain-wallet-v4/src/types'
+import Currencies from '@core/exchange/currencies'
+import { AgentType } from '@core/types'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import {

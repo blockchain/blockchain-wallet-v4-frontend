@@ -3,7 +3,10 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Icon, Image, Text } from 'blockchain-info-components'
-import { BeneficiaryType, NabuSymbolNumberType } from 'blockchain-wallet-v4/src/types'
+import {
+  BeneficiaryType,
+  NabuSymbolNumberType
+} from '@core/types'
 import { AddNewButton } from 'components/Brokerage'
 import { FlyoutWrapper } from 'components/Flyout'
 import { BankDWStepType, BankTransferAccountType } from 'data/types'

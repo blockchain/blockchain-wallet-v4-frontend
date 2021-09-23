@@ -3,7 +3,7 @@ import {
   ProcessedTxType,
   SBOrderType,
   SBTransactionType
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 
 export type TransferType = 'sent' | 'received' | 'transferred' | ''
 export type TxType =

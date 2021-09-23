@@ -4,7 +4,8 @@ declare module 'daggy' {
     RemoteLoading,
     RemoteNotAsked,
     RemoteSuccess
-  } from 'blockchain-wallet-v4/src/remote/types'
+  } from '@core/remote/types'
+
   interface IConstructor {
     Failure: ['error']
     Loading: []
@@ -12,16 +13,37 @@ declare module 'daggy' {
     Success: ['data']
   }
 
-  class Remote {
+  interface RemoteSuccess {
+    is: (data: any) => boolean
+    <A>(data: A): RemoteSuccess<A>
+  }
+
+  interface RemoteFailure {
+    is: (data: any) => boolean
+    <E>(error: E): RemoteFailure<E>
+  }
+
+  interface DaggyRemoteI {
+    is: (data: any) => boolean
+  }
+
+  class _Remote {
     '@@type': 'Remote'
-    Failure: <E>(error: E) => RemoteFailure<E>
-    Loading: RemoteLoading
-    NotAsked: RemoteNotAsked
-    Success: <A>(data: A) => RemoteSuccess<A>
-    is: () => boolean
+
+    Failure: RemoteFailure
+
+    Loading: DaggyRemoteI & RemoteLoading
+
+    NotAsked: DaggyRemoteI & RemoteNotAsked
+
+    Success: RemoteSuccess
+
+    of: <A>(data: A) => RemoteSuccess<A>
+
     prototype: any
+
     toString: () => void
   }
 
-  export function taggedSum(typename: string, constructor: IConstructor): Remote
+  export function taggedSum(typename: string, constructor: IConstructor): _Remote
 }

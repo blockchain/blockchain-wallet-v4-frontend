@@ -1,4 +1,4 @@
-import { CustodialFromType } from 'core/types'
+import { CustodialFromType } from '@core/types'
 
 export type XlmAccountFromType = {
   address: string
@@ -13,7 +13,4 @@ export type XlmAddressFromType = {
   type: 'ADDRESS'
 }
 
-export type XlmFromType =
-  | XlmAccountFromType
-  | XlmAddressFromType
-  | CustodialFromType
+export type XlmFromType = XlmAccountFromType | XlmAddressFromType | CustodialFromType

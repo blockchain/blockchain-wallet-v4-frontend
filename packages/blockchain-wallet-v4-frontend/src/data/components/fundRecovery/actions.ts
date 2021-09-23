@@ -1,4 +1,4 @@
-import { ISelection } from 'core/types'
+import { ISelection } from '@core/types'
 
 import * as AT from './actionTypes'
 import { FundRecoveryActionType } from './types'

@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { CardNameType } from 'components/Form/CreditCardBox/model'
-import { BeneficiaryType, CoinType, FiatType, WalletCurrencyType } from 'core/types'
+import { BeneficiaryType, CoinType, FiatType, WalletCurrencyType } from '@core/types'
 import { BankDetails, RecurringBuyFailureReasons, RecurringBuyPeriods } from 'data/types'
 
 export type Everypay3DSResponseType = {
@@ -150,7 +150,7 @@ export type SBProviderAttributesType = {
   }
 }
 
-export type SBProviderDetailsType = {
+export type ProviderDetailsType = {
   everypay: {
     apiUsername: string
     mobileToken: string

@@ -1,9 +1,9 @@
 import BigNumber from 'bignumber.js'
 import { add, lift, pathOr, reduce } from 'ramda'
 
-import { Remote } from 'blockchain-wallet-v4/src'
-import { CoinType, RemoteDataType } from 'blockchain-wallet-v4/src/types'
-import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
+import { Remote } from '@core'
+import { CoinType, RemoteDataType } from '@core/types'
+import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
 
 // only hd accounts, no imported addresses

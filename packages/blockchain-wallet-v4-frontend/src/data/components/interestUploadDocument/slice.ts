@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import Remote from 'blockchain-wallet-v4/src/remote/remote'
+import { Remote } from '@core'
 import { FileUploadItem, InterestEDDDocumentsResponse } from 'blockchain-wallet-v4/src/types'
 import { ModalOriginType } from 'data/modals/types'
 

@@ -25,7 +25,7 @@ const Payment: React.FC<Props> = (props: Props) => {
   // ensure only non SDD flow and non empty amount field open the payment selection screen
   const onPaymentMethodClick = () => {
     return !props.isSddFlow
-      ? props.simpleBuyActions.setStep({
+      ? props.buySellActions.setStep({
           cryptoCurrency: props.cryptoCurrency,
           fiatCurrency: props.fiatCurrency || 'USD',
           pair: props.pair,

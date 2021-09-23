@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { OrderType, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
+import { OrderType, SBPaymentTypes } from '@core/types'
 
 import { LinkStatePropsType, Props as OwnProps, SuccessStateType } from '.'
 import Checkout from './Checkout'

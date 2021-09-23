@@ -1,6 +1,6 @@
 import { call, put } from 'redux-saga/effects'
 
-import { APIType } from 'blockchain-wallet-v4/src/network/api'
+import { APIType } from '@core/network/api'
 import { actions } from 'data'
 
 export default ({ api }: { api: APIType }) => {

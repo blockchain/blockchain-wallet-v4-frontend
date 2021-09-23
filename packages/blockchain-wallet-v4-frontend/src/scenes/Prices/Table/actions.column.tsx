@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
-import { CoinType, OrderType } from 'blockchain-wallet-v4/src/types'
+import { CoinType, OrderType } from '@core/types'
 
 import { CellHeaderText } from '.'
 
@@ -14,7 +14,7 @@ const CellWrapper = styled.div`
   padding-right: 8px;
 `
 
-export const getActionsColumn = (modalActions, simpleBuyActions) => ({
+export const getActionsColumn = (modalActions, buySellActions) => ({
   Cell: ({ row: { original: values } }) => (
     <CellWrapper>
       <Button
@@ -26,7 +26,7 @@ export const getActionsColumn = (modalActions, simpleBuyActions) => ({
           if (Number(values.balance) === 0) {
             modalProps.push(values.coin as CoinType, OrderType.BUY)
           }
-          simpleBuyActions.showModal(...modalProps)
+          buySellActions.showModal(...modalProps)
         }}
         width='96px'
         style={{ marginRight: '12px' }}

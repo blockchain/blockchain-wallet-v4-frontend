@@ -7,7 +7,7 @@ import { actions } from 'data'
 import Template from './template'
 
 export type LinkDispatchPropsType = {
-  simpleBuyActions: typeof actions.components.simpleBuy
+  buySellActions: typeof actions.components.buySell
   verifyIdentity: () => void
 }
 
@@ -18,7 +18,7 @@ class UpgradeToGold extends PureComponent<Props> {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   verifyIdentity: () => {
     dispatch(actions.components.identityVerification.resetVerificationStep())
     dispatch(

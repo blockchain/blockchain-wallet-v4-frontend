@@ -7,7 +7,7 @@ import {
   SBPaymentMethodsType,
   SBPaymentMethodType,
   SBPaymentTypes
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { AddBankStepType, BankDWStepType, BrokerageModalOriginType } from 'data/types'
 

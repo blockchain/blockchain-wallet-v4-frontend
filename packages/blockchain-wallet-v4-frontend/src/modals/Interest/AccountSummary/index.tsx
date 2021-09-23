@@ -3,9 +3,9 @@ import { connect, ConnectedProps } from 'react-redux'
 import { includes } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-import { getCurrency } from 'blockchain-wallet-v4/src/redux/settings/selectors'
-import { CoinType, FiatType, RemoteDataType } from 'blockchain-wallet-v4/src/types'
+import Currencies from '@core/exchange/currencies'
+import { getCurrency } from '@core/redux/settings/selectors'
+import { CoinType, FiatType, RemoteDataType } from '@core/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
 import { InterestStepMetadata } from 'data/types'
@@ -63,12 +63,12 @@ const mapStateToProps = (state): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   interestActions: bindActionCreators(actions.components.interest, dispatch),
   interestUploadDocumentActions: bindActionCreators(
     actions.components.interestUploadDocument,
     dispatch
-  ),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  )
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -83,9 +83,9 @@ export type OwnProps = {
 }
 
 export type LinkDispatchPropsType = {
+  buySellActions: typeof actions.components.buySell
   interestActions: typeof actions.components.interest
   interestUploadDocumentActions: typeof actions.components.interestUploadDocument
-  simpleBuyActions: typeof actions.components.simpleBuy
 }
 
 export type DataSuccessStateType = ReturnType<typeof getData>['data']

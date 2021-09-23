@@ -4,7 +4,7 @@ import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Box, Button, Text } from 'blockchain-info-components'
-import { FiatType, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
+import { FiatType, SBPaymentTypes } from '@core/types'
 import { CARD_TYPES, DEFAULT_CARD_SVG_LOGO } from 'components/Form/CreditCardBox/model'
 import { SettingComponent, SettingContainer, SettingSummary } from 'components/Setting'
 import { media } from 'services/styles'
@@ -99,7 +99,7 @@ const Success: React.FC<
                   // @ts-ignore
                   onClick={(e: SyntheticEvent) => {
                     e.stopPropagation()
-                    props.simpleBuyActions.deleteSBCard(card.id)
+                    props.buySellActions.deleteCard(card.id)
                   }}
                 >
                   <FormattedMessage id='buttons.remove' defaultMessage='Remove' />

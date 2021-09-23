@@ -6,7 +6,7 @@ import { validate } from 'postal-codes-js'
 import postalCodes from 'postal-codes-js/generated/postal-codes-alpha2'
 import { all, any, equals, gt, path, prop, propOr } from 'ramda'
 
-import { utils } from 'blockchain-wallet-v4/src'
+import { utils } from '@core'
 import { model } from 'data'
 
 import {

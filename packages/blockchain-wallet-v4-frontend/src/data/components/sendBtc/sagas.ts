@@ -4,17 +4,13 @@ import { add, equals, identity, includes, isNil, nth, path, pathOr, prop } from 
 import { change, destroy, initialize, startSubmit, stopSubmit } from 'redux-form'
 import { call, delay, put, race, select, take } from 'redux-saga/effects'
 
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { APIType } from 'blockchain-wallet-v4/src/network/api'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import {
-  AddressTypesType,
-  BtcAccountFromType,
-  BtcFromType,
-  BtcPaymentType
-} from 'blockchain-wallet-v4/src/types'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { Exchange } from '@core'
+import { APIType } from '@core/network/api'
+import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
+import { AddressTypesType, BtcAccountFromType, BtcFromType, BtcPaymentType } from '@core/types'
+import { errorHandler } from '@core/utils'
 import { actions, actionTypes, selectors } from 'data'
+import { ModalNameType } from 'data/modals/types'
 import * as C from 'services/alerts'
 import * as Lockbox from 'services/lockbox'
 import { promptForSecondPassword } from 'services/sagas'

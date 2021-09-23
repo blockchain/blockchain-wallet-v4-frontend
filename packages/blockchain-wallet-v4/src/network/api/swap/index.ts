@@ -1,4 +1,4 @@
-import { CoinType, FiatType } from 'core/types'
+import { CoinType, FiatType } from '@core/types'
 
 import {
   SwapOrderDirectionType,

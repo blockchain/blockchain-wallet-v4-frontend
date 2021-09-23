@@ -1,8 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { Link, Text } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
+import { fiatToString } from '@core/exchange/utils'
 import {
   CoinType,
   FiatType,
@@ -10,7 +9,8 @@ import {
   SBOrderActionType,
   SBOrderType,
   SBPaymentTypes
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
+import { Link, Text } from 'blockchain-info-components'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { getBaseCurrency, getCounterCurrency, getOrderType } from 'data/components/simpleBuy/model'
 import { BankTransferAccountType } from 'data/types'

@@ -1,6 +1,6 @@
 import { path, propOr } from 'ramda'
 
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
+import { fiatToString } from '@core/exchange/utils'
 import { selectors } from 'data'
 
 export const getData = (state, { currentTier, nextTier }) => {
@@ -16,6 +16,6 @@ export const getData = (state, { currentTier, nextTier }) => {
   const nextTierAmount = nextTierLimits.map(propOr(0, 'daily')).getOrElse(0)
   return {
     amountLeft: fiatToString({ unit: currency, value: amountLeft }),
-    nextTierAmount: fiatToString({ unit: currency, value: nextTierAmount }),
+    nextTierAmount: fiatToString({ unit: currency, value: nextTierAmount })
   }
 }

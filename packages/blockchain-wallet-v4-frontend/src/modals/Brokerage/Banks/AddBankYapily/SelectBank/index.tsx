@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import DataError from 'components/DataError'
-import { WalletFiatType } from 'core/types'
+import { WalletFiatType } from '@core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -36,7 +36,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -47,7 +47,7 @@ export type OwnProps = {
 }
 export type LinkDispatchPropsType = {
   brokerageActions: typeof actions.components.brokerage
-  simpleBuyActions: typeof actions.components.simpleBuy
+  buySellActions: typeof actions.components.buySell
 }
 export type SuccessStateType = ReturnType<typeof getData>['data']
 export type Props = OwnProps & ConnectedProps<typeof connector>

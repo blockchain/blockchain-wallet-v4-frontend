@@ -2,6 +2,7 @@ import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
+import { FiatType } from '@core/types'
 import { Button, Image, Link, Text } from 'blockchain-info-components'
 
 import Container from '../Container'

@@ -3,14 +3,14 @@ import { BigNumber } from 'bignumber.js'
 import { mapObjIndexed, path, prop } from 'ramda'
 import * as StellarSdk from 'stellar-sdk'
 
-import { Exchange, utils } from 'blockchain-wallet-v4/src'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+import { Exchange, utils } from '@core'
+import Currencies from '@core/exchange/currencies'
 
 import {
   InsufficientFundsMessage,
   InvalidAmountMessage,
   WrongIdMemoFormat,
-  WrongTextMemoFormat,
+  WrongTextMemoFormat
 } from './validationMessages'
 
 const currencySymbolMap = mapObjIndexed((value, code) => value.units[code].symbol, Currencies)
@@ -28,7 +28,7 @@ export const invalidAmount = (value, allValues, props) => {
   const valueStroop = Exchange.convertCoinToCoin({
     baseToStandard: false,
     coin: 'XLM',
-    value: valueXlm,
+    value: valueXlm
   })
   return valueStroop > 0 ? undefined : <InvalidAmountMessage />
 }
@@ -39,7 +39,7 @@ export const accountCreationAmount = (errors, allValues, props) => {
   if (!valueXlm || !reserveStroop) return errors
   const reserveXlm = Exchange.convertCoinToCoin({
     coin: 'XLM',
-    value: reserveStroop,
+    value: reserveStroop
   })
   const destinationAccountExists = prop('destinationAccountExists', props)
 
@@ -54,18 +54,18 @@ export const balanceReserveAmount = (errors, allValues, props) => {
   const valueStroop = Exchange.convertCoinToCoin({
     baseToStandard: false,
     coin: 'XLM',
-    value: valueXlm,
+    value: valueXlm
   })
   const effectiveBalance = prop('effectiveBalance', props)
   const reserve = prop('reserve', props)
   const fee = prop('fee', props)
   const reserveXlm = Exchange.convertCoinToCoin({
     coin: 'XLM',
-    value: reserve,
+    value: reserve
   })
   const effectiveBalanceXlm = Exchange.convertCoinToCoin({
     coin: 'XLM',
-    value: new BigNumber.sum(effectiveBalance, fee),
+    value: new BigNumber.sum(effectiveBalance, fee)
   })
   const currency = prop('currency', props)
   const rates = prop('rates', props)
@@ -74,7 +74,7 @@ export const balanceReserveAmount = (errors, allValues, props) => {
     currency,
     effectiveBalanceXlm,
     isStandard: true,
-    rates,
+    rates
   })
   if (effectiveBalance < 0)
     errors._error = {
@@ -85,7 +85,7 @@ export const balanceReserveAmount = (errors, allValues, props) => {
       fee,
       message: NO_FUNDS_ERROR,
       rates,
-      reserveXlm,
+      reserveXlm
     }
   else if (utils.xlm.overflowsEffectiveBalance(valueStroop, effectiveBalance))
     errors._error = {
@@ -96,7 +96,7 @@ export const balanceReserveAmount = (errors, allValues, props) => {
       fee,
       message: RESERVE_ERROR,
       rates,
-      reserveXlm,
+      reserveXlm
     }
   return errors
 }

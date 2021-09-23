@@ -4,11 +4,11 @@ import { Form } from 'redux-form'
 import styled, { DefaultTheme } from 'styled-components'
 
 import { AllCoinsType, CoinAccountIcon, Text } from 'blockchain-info-components'
-import { coinToString } from 'blockchain-wallet-v4/src/exchange/utils'
+import { coinToString } from '@core/exchange/utils'
 import { SuccessCartridge } from 'components/Cartridge'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Row, Title, Value } from 'components/Flyout'
-import { CoinType } from 'core/types'
+import { CoinType } from '@core/types'
 import { convertStandardToBase } from 'data/components/exchange/services'
 import { SwapAccountType, SwapBaseCounterTypes } from 'data/types'
 

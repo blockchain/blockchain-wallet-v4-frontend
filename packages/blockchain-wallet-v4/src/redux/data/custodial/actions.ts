@@ -1,4 +1,4 @@
-import { CoinType, SBCoreActionTypes } from 'core/types'
+import { CoinType, SBCoreActionTypes } from '@core/types'
 
 import * as AT from './actionTypes'
 

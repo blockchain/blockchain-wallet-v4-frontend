@@ -1,7 +1,7 @@
 import { call, put, select } from 'redux-saga/effects'
 
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { APIType } from 'core/network/api'
+import { APIType } from '@core/network/api'
+import { errorHandler } from '@core/utils'
 import { actions, model, selectors } from 'data'
 import { ModalName } from 'data/types'
 import * as C from 'services/alerts'

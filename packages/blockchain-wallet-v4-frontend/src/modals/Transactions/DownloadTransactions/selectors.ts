@@ -1,7 +1,7 @@
 import { assoc, curry, map, prop } from 'ramda'
 import { createSelector } from 'reselect'
 
-import { TXNotes, Wallet } from 'blockchain-wallet-v4/src/types'
+import { TXNotes, Wallet } from '@core/types'
 import { selectors } from 'data'
 
 import { formatHaskoinData, formatTxData, reportHeaders } from './model'

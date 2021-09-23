@@ -3,8 +3,8 @@ import { assoc, find, prop, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, delay, fork, put, select, take } from 'redux-saga/effects'
 
-import { Types } from 'blockchain-wallet-v4/src'
-import { DEFAULT_INVITATIONS } from 'blockchain-wallet-v4/src/model'
+import { Types } from '@core'
+import { DEFAULT_INVITATIONS } from '@core/model'
 import { actions, actionTypes, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
 import profileSagas from 'data/modules/profile/sagas'
@@ -188,7 +188,7 @@ export default ({ api, coreSagas, networks }) => {
       const goals = selectors.goals.getGoals(yield select())
       const simpleBuyGoal = find(propEq('name', 'simpleBuy'), goals)
       if (!simpleBuyGoal) {
-        yield put(actions.components.simpleBuy.fetchSBPaymentMethods())
+        yield put(actions.components.buySell.fetchPaymentMethods())
       }
       // swap tasks
       yield put(actions.components.swap.fetchTrades())

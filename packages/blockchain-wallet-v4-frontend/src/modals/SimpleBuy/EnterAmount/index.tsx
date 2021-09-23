@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { equals } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from '@core'
 import {
   CoinType,
   ExtractSuccess,
@@ -13,7 +13,7 @@ import {
   SBOrderType,
   SBPairType,
   SBPaymentMethodType
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 import { actions, selectors } from 'data'
 import { DEFAULT_SB_METHODS } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
@@ -26,18 +26,21 @@ import Success from './template.success'
 class EnterAmount extends PureComponent<Props> {
   componentDidMount() {
     if (this.props.fiatCurrency && !Remote.Success.is(this.props.data)) {
-      this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
-      this.props.simpleBuyActions.fetchSBFiatEligible(this.props.fiatCurrency)
-      this.props.simpleBuyActions.fetchSBPairs(this.props.fiatCurrency, this.props.cryptoCurrency)
+      this.props.buySellActions.fetchPaymentMethods(this.props.fiatCurrency)
+      this.props.buySellActions.fetchFiatEligible(this.props.fiatCurrency)
+      this.props.buySellActions.fetchPairs({
+        coin: this.props.cryptoCurrency,
+        currency: this.props.fiatCurrency
+      })
       this.props.brokerageActions.fetchBankTransferAccounts()
-      this.props.simpleBuyActions.fetchSBCards()
-      this.props.simpleBuyActions.fetchSDDEligible()
+      this.props.buySellActions.fetchCards(false)
+      this.props.buySellActions.fetchSDDEligibility()
     }
 
     // data was successful but paymentMethods was DEFAULT_SB_METHODS
     if (this.props.fiatCurrency && Remote.Success.is(this.props.data)) {
       if (equals(this.props.data.data.paymentMethods, DEFAULT_SB_METHODS)) {
-        this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
+        this.props.buySellActions.fetchPaymentMethods(this.props.fiatCurrency)
       }
     }
   }
@@ -60,8 +63,8 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -80,8 +83,8 @@ export type LinkStatePropsType = {
   fiatCurrency: undefined | FiatType
 }
 export type FailurePropsType = {
+  buySellActions: typeof actions.components.buySell
   fiatCurrency: undefined | FiatType
-  simpleBuyActions: typeof actions.components.simpleBuy
 }
 
 export type LinkDispatchPropsType = ReturnType<typeof mapDispatchToProps>

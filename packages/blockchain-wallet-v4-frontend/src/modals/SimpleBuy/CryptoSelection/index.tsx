@@ -2,8 +2,8 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { Remote } from 'blockchain-wallet-v4/src'
-import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
+import { Remote } from '@core'
+import { ExtractSuccess } from '@core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -15,9 +15,9 @@ import Success from './template.success'
 class CryptoSelection extends PureComponent<Props> {
   componentDidMount() {
     if (this.props.fiatCurrency && !Remote.Success.is(this.props.data)) {
-      this.props.simpleBuyActions.fetchSBPairs(this.props.fiatCurrency)
-      this.props.simpleBuyActions.fetchSBFiatEligible(this.props.fiatCurrency)
-      this.props.simpleBuyActions.fetchSDDEligible()
+      this.props.buySellActions.fetchPairs({ currency: this.props.fiatCurrency })
+      this.props.buySellActions.fetchFiatEligible(this.props.fiatCurrency)
+      this.props.buySellActions.fetchSDDEligibility()
     }
   }
 
@@ -39,8 +39,8 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
-  formActions: bindActionCreators(actions.form, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

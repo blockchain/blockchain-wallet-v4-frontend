@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import { Text, TextInput } from 'blockchain-info-components'
-import { Exchange } from 'blockchain-wallet-v4/src'
+import { Exchange } from '@core'
 
 const Wrapper = styled.div`
   width: 100%;

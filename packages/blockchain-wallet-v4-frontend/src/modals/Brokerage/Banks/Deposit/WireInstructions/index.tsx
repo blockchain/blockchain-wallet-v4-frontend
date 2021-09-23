@@ -2,7 +2,11 @@ import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { FiatType, RemoteDataType, SBAccountType } from 'blockchain-wallet-v4/src/types'
+import {
+  FiatType,
+  RemoteDataType,
+  SBAccountType
+} from '@core/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -15,8 +19,8 @@ import Success from './template.success'
 const WireInstructions = (props) => {
   useEffect(() => {
     if (props.fiatCurrency) {
-      props.simpleBuyActions.setFiatCurrency(props.fiatCurrency)
-      props.simpleBuyActions.fetchSBPaymentAccount()
+      props.buySellActions.setFiatCurrency(props.fiatCurrency)
+      props.buySellActions.fetchSBPaymentAccount()
     }
   }, [])
 
@@ -34,7 +38,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
