@@ -138,7 +138,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
       <Text weight={600} color='grey600' size='16px' style={{ marginTop: '24px' }}>
         <FormattedMessage
           id='modals.interest.withdrawal.progressmsg'
-          defaultMessage='Requesting a withdrawal from your Interest Account'
+          defaultMessage='Requesting a withdrawal from your Rewards Account'
         />
       </Text>
     </SendingWrapper>
@@ -190,7 +190,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
             <Text color='grey600' weight={500} size='14px'>
               <FormattedMessage
                 id='modals.interest.withdrawal.totalinterest'
-                defaultMessage='Total Interest Earned'
+                defaultMessage='Total Rewards Earned'
               />
             </Text>
 
@@ -213,7 +213,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
               id='modals.interest.withdrawal.accountAmount'
-              defaultMessage='Select the account you would like to withdraw your Interest Account funds to. You can withdraw up to'
+              defaultMessage='Select the account you would like to withdraw your Rewards Account funds to. You can withdraw up to'
             />{' '}
             {displayCoin ? (
               <AmountAvailContainer onClick={handleOnClickCryptoAmount}>
@@ -320,7 +320,7 @@ const WithdrawalForm: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
           <Text color='grey600' weight={500} size='14px'>
             <FormattedMessage
               id='modals.interest.withdrawal.recap'
-              defaultMessage='You are requesting to withdraw <b>{withdrawalAmountFiat}</b> ({withdrawalAmountCrypto}) from your Interest Account. After confirming this withdrawal, you will not continue to earn interest on the amount withdrawn.'
+              defaultMessage='You are requesting to withdraw <b>{withdrawalAmountFiat}</b> ({withdrawalAmountCrypto}) from your Rewards Account. After confirming this withdrawal, you will not continue to earn rewards on the amount withdrawn.'
               values={{
                 withdrawalAmountCrypto: `${withdrawalAmountCrypto} ${coinTicker}`,
                 withdrawalAmountFiat: `${currencySymbol}${formatFiat(withdrawalAmountFiat)}`

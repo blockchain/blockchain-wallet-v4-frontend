@@ -38,7 +38,7 @@ const InterestBanner: React.FC<Props> = ({
         >
           <FormattedMessage
             id='modals.simplebuy.interest_banner.description'
-            defaultMessage='Send your {amount}{currency} to your {displayName} Interest Account.'
+            defaultMessage='Send your {amount}{currency} to your {displayName} Rewards Account.'
             values={{
               amount,
               currency,
