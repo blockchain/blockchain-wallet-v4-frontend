@@ -4,8 +4,6 @@ import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
 
-import { FailurePropsType } from '.'
-
 const Wrapper = styled.div`
   height: 100%;
   width: 100%;
@@ -17,10 +15,17 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `
 const Title = styled(Text)`
-  margin: 40px 0px 24px 0px;
+  margin: 40px 0 24px;
 `
 
-const Failure: React.FC<FailurePropsType> = (props: FailurePropsType) => {
+const Failure = (props: FailurePropsType) => {
+  let text = <FormattedMessage id='buttons.close' defaultMessage='Close' />
+  switch (props.action) {
+    case 'retry':
+    default:
+      text = <FormattedMessage id='buttons.tryagain' defaultMessage='Try Again' />
+      break
+  }
   return (
     <Wrapper>
       <div>
@@ -39,21 +44,22 @@ const Failure: React.FC<FailurePropsType> = (props: FailurePropsType) => {
         <Button
           fullwidth
           height='48px'
-          data-e2e='sbTryCurrencySelectionAgain'
+          data-e2e={props['data-e2e']}
           nature='primary'
           size='16px'
-          onClick={() =>
-            props.buySellActions.setStep({
-              fiatCurrency: props.fiatCurrency || 'USD',
-              step: 'CRYPTO_SELECTION'
-            })
-          }
+          onClick={props.handler}
         >
-          <FormattedMessage id='buttons.tryagain' defaultMessage='Try Again' />
+          {text}
         </Button>
       </div>
     </Wrapper>
   )
+}
+
+type FailurePropsType = {
+  action: 'retry' | 'close'
+  'data-e2e': string
+  handler: () => void
 }
 
 export default Failure
