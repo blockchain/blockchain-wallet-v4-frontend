@@ -68,12 +68,12 @@ const FeaturesSmall = (props: Props & { showModal: (modal: 'SEND' | 'REQUEST') =
               <FormattedMessage id='buttons.buy_sell_crypto' defaultMessage='Buy/Sell Crypto' />
             </Destination>
           </DropdownMenuItem>
-          <LinkContainer to='/interest' activeClassName='active'>
+          <LinkContainer to='/rewards' activeClassName='active'>
             <DropdownMenuItem data-e2e='interestLink'>
               <Destination>
                 <FormattedMessage
                   id='layouts.wallet.menuleft.navigation.earninterest'
-                  defaultMessage='Earn Interest'
+                  defaultMessage='Earn Rewards'
                 />
               </Destination>
             </DropdownMenuItem>

@@ -141,7 +141,7 @@ class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType
                 <Text size='20px' color='grey800' weight={600} style={{ marginTop: '16px' }}>
                   <FormattedMessage
                     id='scenes.interest.earnheaderverified'
-                    defaultMessage='Earn interest on your crypto today.'
+                    defaultMessage='Earn rewards on your crypto today.'
                   />
                 </Text>
                 <Text
@@ -152,7 +152,7 @@ class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType
                 >
                   <FormattedMessage
                     id='scenes.interest.earninfo.verified.copy'
-                    defaultMessage='Earn up to {highestRate}% annually when you transfer crypto to your Interest Account.'
+                    defaultMessage='Earn up to {highestRate}% annually when you transfer crypto to your Rewards Account.'
                     values={{ highestRate }}
                   />
                 </Text>
@@ -177,7 +177,7 @@ class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType
                 <Text size='20px' color='grey800' weight={600} style={{ marginTop: '16px' }}>
                   <FormattedMessage
                     id='scenes.interest.earnupgrade.header'
-                    defaultMessage='Upgrade to Gold Level so you can earn interest on your crypto.'
+                    defaultMessage='Upgrade to Gold Level so you can earn rewards on your crypto.'
                   />
                 </Text>
                 <Text

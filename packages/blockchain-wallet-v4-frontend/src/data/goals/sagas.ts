@@ -196,8 +196,8 @@ export default ({ api, coreSagas, networks }) => {
       return yield call(defineSwapGoal)
     }
 
-    // /#/open/interest
-    if (startsWith(DeepLinkGoal.INTEREST, pathname)) {
+    // /#/open/rewards /#/open/interest
+    if (startsWith(DeepLinkGoal.REWARDS, pathname) || startsWith(DeepLinkGoal.INTEREST, pathname)) {
       return yield call(defineInterestGoal)
     }
 
@@ -625,7 +625,7 @@ export default ({ api, coreSagas, networks }) => {
     const initialRedirect = yield select(selectors.goals.getInitialRedirect)
 
     if (initialRedirect === 'interest') {
-      return yield put(actions.router.push(`/${initialRedirect}`))
+      return yield put(actions.router.push(`/rewards`))
     }
   }
 

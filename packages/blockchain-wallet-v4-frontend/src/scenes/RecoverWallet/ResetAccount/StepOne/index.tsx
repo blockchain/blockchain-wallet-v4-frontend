@@ -73,7 +73,7 @@ class StepOne extends React.PureComponent<Props, State> {
             >
               <FormattedMessage
                 id='scenes.recovery.resetting'
-                defaultMessage='Resetting will restore your Trading, Interest, and Exchange accounts.'
+                defaultMessage='Resetting will restore your Trading, Rewards, and Exchange accounts.'
               />
             </Text>
           </FormBody>

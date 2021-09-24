@@ -38,13 +38,13 @@ const InterestTransactions: React.FC<Props> = () => {
           <Text size='20px' weight={600} color='grey800'>
             <FormattedMessage
               id='scenes.interest.interestaccount'
-              defaultMessage='Interest Account'
+              defaultMessage='Rewards Account'
             />
           </Text>
           <Content weight={400}>
             <FormattedMessage
               id='scenes.transaction.interest.view_txs'
-              defaultMessage='Visit the Earn Interest page to view your transaction history.'
+              defaultMessage='Visit the Earn Rewards page to view your transaction history.'
             />
           </Content>
         </div>
@@ -52,7 +52,7 @@ const InterestTransactions: React.FC<Props> = () => {
       <Column>
         <NavLink
           style={{ textDecoration: 'none' }}
-          to='/interest/history'
+          to='/rewards/history'
           data-e2e='visitEarnInterestPage'
         >
           <Button data-e2e='viewInterestTransaction' nature='primary' height='48px' size='16px'>

@@ -33,7 +33,12 @@ export const coinToString = ({
   minDigits?: number
   unit: { symbol: string }
   value
-}): string => `${formatCoin(value, minDigits, maxDigits)} ${unit.symbol}`
+}): string => {
+  const coinfig = window.coins[unit.symbol]?.coinfig
+  return `${formatCoin(value, minDigits, maxDigits)} ${
+    coinfig ? coinfig.displaySymbol : unit.symbol
+  }`
+}
 
 export const fiatToString = ({
   digits = 2,

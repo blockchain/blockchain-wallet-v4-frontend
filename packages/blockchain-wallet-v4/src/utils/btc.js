@@ -156,9 +156,6 @@ export const privateKeyStringToKey = function (value, format, network = networks
   if (addr && keyPairToAddress(keyPair) !== addr) {
     keyPair.compressed = false
   }
-  if (keyBuffer.length < bufferLength) {
-    keyPair.compressed = false
-  }
   return keyPair
 }
 

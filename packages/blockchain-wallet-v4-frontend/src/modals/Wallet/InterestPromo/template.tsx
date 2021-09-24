@@ -60,7 +60,7 @@ const Success: React.FC<Props> = ({
         <Text size='24px' color='grey900' weight={600} style={{ marginTop: '16px' }}>
           <FormattedMessage
             id='modals.interestpromo.title'
-            defaultMessage='Earn {interestRate}% Interest on your {coin}'
+            defaultMessage='Earn {interestRate}% Rewards on your {coin}'
             values={{
               coin: 'BTC',
               interestRate: interestRate[currency]
