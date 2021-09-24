@@ -1,9 +1,9 @@
 import { call, put } from 'redux-saga/effects'
 
-import { displayFiatToFiat } from 'blockchain-wallet-v4/src/exchange'
-import { APIType } from 'blockchain-wallet-v4/src/network/api'
-import { SBPaymentMethodType, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { displayFiatToFiat } from '@core/exchange'
+import { APIType } from '@core/network/api'
+import { SBPaymentMethodType, SBPaymentTypes } from '@core/types'
+import { errorHandler } from '@core/utils'
 import { actions } from 'data'
 import { WithdrawStepEnum } from 'data/types'
 

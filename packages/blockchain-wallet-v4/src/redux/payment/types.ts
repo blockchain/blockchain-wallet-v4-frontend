@@ -1,4 +1,4 @@
-import { CoinType } from 'core/types'
+import { CoinType } from '@core/types'
 
 import { UTXOType } from './btc/types'
 import { ADDRESS_TYPES } from './btc/utils'

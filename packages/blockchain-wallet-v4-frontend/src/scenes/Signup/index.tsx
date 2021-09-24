@@ -5,8 +5,8 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Remote } from 'blockchain-wallet-v4/src'
-import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
+import { Remote } from '@core'
+import { RemoteDataType } from '@core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -51,7 +51,7 @@ class SignupContainer extends React.PureComponent<
     this.setState({ showForm: true })
   }
 
-  onCountryChange = (e: React.SyntheticEvent, value: string) => {
+  onCountryChange = (e: React.ChangeEvent<any> | undefined, value: string) => {
     this.setDefaultCountry(value)
     this.props.formActions.clearFields(SIGNUP_FORM, false, false, 'state')
   }

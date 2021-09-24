@@ -1,8 +1,8 @@
 import { lift } from 'ramda'
 
-import Remote from 'blockchain-wallet-v4/src/remote/remote'
-import { ExtractSuccess, InvitationsType } from 'blockchain-wallet-v4/src/types'
 import { getFiatBalance, getWithdrawableFiatBalance } from 'components/Balances/selectors'
+import { Remote } from '@core'
+import { ExtractSuccess, InvitationsType } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { BankTransferAccountType } from 'data/types'

@@ -1,4 +1,4 @@
-import { WalletFiatType } from 'blockchain-wallet-v4/src/types'
+import { WalletFiatType } from '@core/types'
 
 export const DEFAULT_METHODS = {
   currency: 'EUR' as WalletFiatType,

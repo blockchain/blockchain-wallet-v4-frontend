@@ -1,4 +1,4 @@
-import { NabuApiErrorType } from 'blockchain-wallet-v4/src/types'
+import { NabuApiErrorType } from '@core/types'
 
 import * as AT from './actionTypes'
 import { ProfileActionTypes } from './types'

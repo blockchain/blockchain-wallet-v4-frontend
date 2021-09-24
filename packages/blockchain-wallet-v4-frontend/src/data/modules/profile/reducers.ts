@@ -1,6 +1,6 @@
 import { merge } from 'ramda'
 
-import Remote from 'blockchain-wallet-v4/src/remote/remote'
+import Remote from '@core/remote'
 
 import * as AT from './actionTypes'
 import { INITIAL_TIERS } from './model'

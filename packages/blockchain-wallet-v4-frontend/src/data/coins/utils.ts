@@ -1,4 +1,4 @@
-import { CoinType, InterestBalanceType, SBBalanceType } from 'blockchain-wallet-v4/src/types'
+import { CoinType, InterestBalanceType, SBBalanceType } from '@core/types'
 import { convertStandardToBase } from 'data/components/exchange/services'
 import { SwapAccountType, SwapBaseCounterTypes } from 'data/components/types'
 

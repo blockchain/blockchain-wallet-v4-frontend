@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { CoinType, SBPaymentTypes, WalletFiatType } from 'blockchain-wallet-v4/src/types'
+import { CoinType, SBPaymentTypes, WalletFiatType } from '@core/types'
 import {
   BankTransferAccountType,
   NabuProductType,

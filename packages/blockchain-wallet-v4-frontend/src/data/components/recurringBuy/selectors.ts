@@ -1,7 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit'
 import { compose, flatten, uniq } from 'ramda'
 
-import { SBPaymentMethodType, SBPaymentTypes } from 'core/types'
+import { SBPaymentMethodType, SBPaymentTypes } from '@core/types'
 import { RootState } from 'data/rootReducer'
 
 import { getPayment } from '../interest/selectors'

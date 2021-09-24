@@ -161,3 +161,5 @@ export const ARCHIVE_VULNERABLE_ADDRESS_TITLE = 'archive_vulnerable_address_titl
 export const ARCHIVE_VULNERABLE_ADDRESS_MSG = 'archive_vulnerable_address_msg'
 export const ARCHIVE_VULNERABLE_ADDRESS_CONFIRM = 'archive_vulnerable_address_confirm'
 export const ARCHIVE_VULNERABLE_ADDRESS_CANCEL = 'archive_vulnerable_address_cancel'
+export const SAVE_ADDITIONAL_DOCUMENTS_ERROR = 'save_additional_documents_error'
+export const UPLOAD_ADDITIONAL_DOCUMNETS_FILES_ERROR = 'upload_additional_documents_files_error'

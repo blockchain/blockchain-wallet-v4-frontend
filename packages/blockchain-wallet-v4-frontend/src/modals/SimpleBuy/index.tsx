@@ -12,7 +12,7 @@ import {
   SBPaymentMethodType,
   SBPaymentTypes,
   SwapOrderType
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/simpleBuy/model'
@@ -62,8 +62,8 @@ class SimpleBuy extends PureComponent<Props, State> {
   }
 
   componentWillUnmount() {
-    this.props.simpleBuyActions.pollSBBalances()
-    this.props.simpleBuyActions.destroyCheckout()
+    this.props.buySellActions.pollBalances()
+    this.props.buySellActions.destroyCheckout()
     this.props.formActions.destroy('simpleBuyCheckout')
     this.props.formActions.destroy('ccBillingAddress')
     this.props.formActions.destroy('addCCForm')
@@ -71,7 +71,7 @@ class SimpleBuy extends PureComponent<Props, State> {
 
   backToEnterAmount = () => {
     if (this.props.pair) {
-      this.props.simpleBuyActions.setStep({
+      this.props.buySellActions.setStep({
         cryptoCurrency: getCoinFromPair(this.props.pair.pair),
         fiatCurrency: getFiatFromPair(this.props.pair.pair),
         method: this.props.method,
@@ -281,12 +281,12 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   deleteGoal: (id: string) => dispatch(actions.goals.deleteGoal(id)),
   formActions: bindActionCreators(actions.form, dispatch),
   preferenceActions: bindActionCreators(actions.preferences, dispatch),
   profileActions: bindActionCreators(actions.modules.profile, dispatch),
-  settingsActions: bindActionCreators(actions.modules.settings, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -298,10 +298,10 @@ const enhance = compose(
 
 type OwnProps = ModalPropsType
 export type LinkDispatchPropsType = {
+  buySellActions: typeof actions.components.buySell
   formActions: typeof actions.form
   profileActions: typeof actions.modules.profile
   settingsActions: typeof actions.modules.settings
-  simpleBuyActions: typeof actions.components.simpleBuy
 }
 type LinkStatePropsType =
   | {
@@ -321,7 +321,7 @@ type LinkStatePropsType =
     }
   | {
       addBank?: boolean
-      displayBack?: boolean
+      displayBack: boolean
       fiatCurrency: FiatType
       pair: SBPairType
       step: 'BANK_WIRE_DETAILS'

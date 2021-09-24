@@ -5,14 +5,9 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
+import { Remote } from '@core'
+import { CoinType, InterestEDDStatus, InterestRateType, RemoteDataType } from '@core/types'
 import { SkeletonRectangle, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
-import { Remote } from 'blockchain-wallet-v4/src'
-import {
-  CoinType,
-  InterestEDDStatus,
-  InterestRateType,
-  RemoteDataType
-} from 'blockchain-wallet-v4/src/types'
 import { Container } from 'components/Box'
 import { SceneWrapper } from 'components/Layout'
 import { actions } from 'data'
@@ -73,12 +68,12 @@ class Interest extends React.PureComponent<Props, StateType> {
         {isGoldTier && (
           <TabRow>
             <TabMenu>
-              <LinkContainer to='/interest' exact>
+              <LinkContainer to='/rewards' exact>
                 <TabMenuItem data-e2e='interestTabMenuAccounts'>
                   <FormattedMessage id='scenes.interest.tab.accounts' defaultMessage='Accounts' />
                 </TabMenuItem>
               </LinkContainer>
-              <LinkContainer to='/interest/history'>
+              <LinkContainer to='/rewards/history'>
                 <TabMenuItem data-e2e='interestTabMenuHistory'>
                   <FormattedMessage
                     id='scenes.interest.tab.history'

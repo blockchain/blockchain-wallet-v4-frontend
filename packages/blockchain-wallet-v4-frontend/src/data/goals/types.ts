@@ -1,4 +1,4 @@
-import { CoinType, WalletFiatType } from 'blockchain-wallet-v4/src/types'
+import { CoinType, WalletFiatType } from '@core/types'
 import { ModalNameType } from 'data/modals/types'
 
 // State
@@ -47,6 +47,7 @@ export enum DeepLinkGoal {
   LINK_ACCOUNT = 'link-account',
   LOG_LEVEL = 'log-level',
   REFERRAL = 'referral',
+  REWARDS = 'rewards',
   SIMPLE_BUY = 'simple-buy',
   SWAP = 'swap'
 }

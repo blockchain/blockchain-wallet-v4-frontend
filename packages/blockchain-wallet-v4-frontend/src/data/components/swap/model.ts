@@ -1,4 +1,4 @@
-import { CoinType, SwapOrderType } from 'blockchain-wallet-v4/src/types'
+import { CoinType, SwapOrderType } from '@core/types'
 
 export const FALLBACK_DELAY = 10_000 * 2
 

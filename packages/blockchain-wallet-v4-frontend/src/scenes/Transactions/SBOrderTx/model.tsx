@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Text } from 'blockchain-info-components'
-import { SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
+import { SBPaymentTypes } from '@core/types'
 import { getCoinFromPair, getOrderType } from 'data/components/simpleBuy/model'
 import { BankTransferAccountType, RecurringBuyFailureReasons } from 'data/types'
 

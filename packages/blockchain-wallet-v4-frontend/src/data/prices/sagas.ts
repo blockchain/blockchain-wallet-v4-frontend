@@ -1,7 +1,7 @@
 import moment from 'moment'
 import { call, put, select } from 'redux-saga/effects'
 
-import { APIType } from 'core/network/api'
+import { APIType } from '@core/network/api'
 import { selectors } from 'data'
 
 import { actions as A } from './slice'

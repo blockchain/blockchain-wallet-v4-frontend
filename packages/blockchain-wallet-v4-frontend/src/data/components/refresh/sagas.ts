@@ -45,8 +45,8 @@ export default () => {
       yield put(actions.core.data.xlm.fetchData())
       yield put(actions.core.data.eth.fetchErc20Data())
       yield put(actions.components.interest.fetchInterestBalance())
-      yield put(actions.components.simpleBuy.fetchSBBalances())
-      yield put(actions.components.simpleBuy.fetchSBOrders())
+      yield put(actions.components.buySell.fetchBalance({}))
+      yield put(actions.components.buySell.fetchOrders())
       // Prices (new approach)
       yield put(actions.prices.fetchCoinPrices())
       // Rates
@@ -95,7 +95,7 @@ export default () => {
           yield put(actions.modules.profile.fetchUserCampaigns())
           break
         case contains('/settings/general', pathname):
-          yield put(actions.components.simpleBuy.fetchSBCards(true))
+          yield put(actions.components.buySell.fetchCards(true))
           break
         default:
           yield put(actions.core.data.bch.fetchTransactions('', true))

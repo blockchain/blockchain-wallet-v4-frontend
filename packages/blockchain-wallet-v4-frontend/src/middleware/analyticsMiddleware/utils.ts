@@ -11,7 +11,7 @@ import type {
 } from 'middleware/analyticsMiddleware/types'
 import { PaymentType } from 'middleware/analyticsMiddleware/types'
 
-import { PaymentValue, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
+import { PaymentValue, SBPaymentTypes } from '@core/types'
 import {
   BrokerageModalOriginType,
   SBShowModalOriginType,

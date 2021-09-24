@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 
-import { ExtractSuccess, FiatType } from 'blockchain-wallet-v4/src/types'
+import { ExtractSuccess, FiatType } from '@core/types'
 import { PriceChartPreferenceType } from 'data/preferences/types'
 import { RootState } from 'data/rootReducer'
 

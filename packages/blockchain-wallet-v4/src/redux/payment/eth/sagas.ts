@@ -1,11 +1,11 @@
 import BigNumber from 'bignumber.js'
 import EthUtil from 'ethereumjs-util'
-import { identity, indexOf, isNil, mergeRight, path, prop, toLower } from 'ramda'
+import { identity, indexOf, isNil, mergeRight, path, prop } from 'ramda'
 import { call, select } from 'redux-saga/effects'
 
-import { Exchange } from 'blockchain-wallet-v4/src/'
-import { APIType } from 'core/network/api'
-import { EthRawTxType } from 'core/types'
+import { Exchange } from '@core'
+import { APIType } from '@core/network/api'
+import { EthRawTxType } from '@core/types'
 
 import { eth } from '../../../signer'
 import { isPositiveInteger, isString } from '../../../utils/checks'

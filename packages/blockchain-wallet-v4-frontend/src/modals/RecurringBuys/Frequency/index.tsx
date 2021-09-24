@@ -3,14 +3,14 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from '@core'
 import DataError from 'components/DataError'
 import { FrequencyScreen } from 'components/Flyout'
-import { SBOrderType } from 'core/types'
+import { SBOrderType } from '@core/types'
 import { actions, selectors } from 'data'
 import { getBaseAmount } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
-import { RecurringBuyPeriods, RecurringBuyStepType } from 'data/types'
+import { RecurringBuyOrigins, RecurringBuyPeriods, RecurringBuyStepType } from 'data/types'
 
 import { Loading, LoadingTextEnum } from '../../components'
 import { Props as _P } from '..'
@@ -25,7 +25,10 @@ const Frequency = ({ data, order, recurringBuyActions }: Props) => {
   const amount = getBaseAmount(order)
   const currency = order.outputCurrency
   const setPeriod = (period: RecurringBuyPeriods) => {
-    recurringBuyActions.setPeriod(period)
+    recurringBuyActions.setPeriod({
+      origin: RecurringBuyOrigins.RECURRING_BUYS_FREQUENCY_SCREEN,
+      period
+    })
     recurringBuyActions.setStep({ step: RecurringBuyStepType.CHECKOUT_CONFIRM })
   }
   const backToGetStarted = () => {

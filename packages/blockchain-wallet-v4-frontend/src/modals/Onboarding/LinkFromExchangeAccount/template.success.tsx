@@ -127,7 +127,7 @@ const Success: React.FC<Props & { close: () => void; data: any }> = (props) => {
           >
             <FormattedMessage
               id='modals.onboarding.linkfromexchange.success_info2'
-              defaultMessage='You are now {status} with Blockchain.com, allowing you to swap, buy & sell, earn interest and borrow BTC.'
+              defaultMessage='You are now {status} with Blockchain.com, allowing you to swap, buy & sell, and earn rewards.'
               values={{
                 status: getStatus(current)
               }}

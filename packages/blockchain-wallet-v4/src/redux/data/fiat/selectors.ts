@@ -1,4 +1,4 @@
-import { WalletFiatType } from 'core/types'
+import { WalletFiatType } from '@core/types'
 import { RootState } from 'data/rootReducer'
 
 export const getFiatData = (currency: WalletFiatType, state: RootState) => {

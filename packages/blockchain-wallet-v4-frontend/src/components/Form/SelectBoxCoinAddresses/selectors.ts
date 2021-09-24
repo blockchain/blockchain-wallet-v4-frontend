@@ -1,8 +1,8 @@
 // @ts-ignore
 import { concat, curry, reduce, sequence } from 'ramda'
 
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { Exchange, Remote } from '@core'
+import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
 import { selectors } from 'data'
 
 export const getData = (

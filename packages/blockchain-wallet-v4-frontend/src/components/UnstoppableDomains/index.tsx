@@ -4,8 +4,8 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { WalletFormType } from 'redux-form'
 import styled from 'styled-components'
 
+import { ExtractSuccess } from '@core/types'
 import { BlockchainLoader, Text } from 'blockchain-info-components'
-import { ExtractSuccess } from 'core/types'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 

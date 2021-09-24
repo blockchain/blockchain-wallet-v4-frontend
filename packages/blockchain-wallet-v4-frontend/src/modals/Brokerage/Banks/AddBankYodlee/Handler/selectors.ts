@@ -1,11 +1,11 @@
 import qs from 'qs'
 import { lift } from 'ramda'
 
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from '@core'
 import {
   ExtractSuccess,
   WalletOptionsType
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 

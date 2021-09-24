@@ -1,4 +1,4 @@
-import Remote from 'blockchain-wallet-v4/src/remote/remote'
+import Remote from '@core/remote'
 
 import * as AT from './actionTypes'
 import { WithdrawActionTypes, WithdrawState, WithdrawStepEnum } from './types'
@@ -6,17 +6,14 @@ import { WithdrawActionTypes, WithdrawState, WithdrawStepEnum } from './types'
 const INITIAL_STATE: WithdrawState = {
   amount: undefined,
   beneficiary: undefined,
+  feesAndMinAmount: Remote.NotAsked,
   fiatCurrency: 'EUR',
   step: WithdrawStepEnum.ENTER_AMOUNT,
-  withdrawal: undefined,
-  feesAndMinAmount: Remote.NotAsked,
-  withdrawLocks: Remote.NotAsked
+  withdrawLocks: Remote.NotAsked,
+  withdrawal: undefined
 }
 
-export function withdrawReducer(
-  state = INITIAL_STATE,
-  action: WithdrawActionTypes
-): WithdrawState {
+export function withdrawReducer(state = INITIAL_STATE, action: WithdrawActionTypes): WithdrawState {
   switch (action.type) {
     case AT.SET_STEP:
       switch (action.payload.step) {

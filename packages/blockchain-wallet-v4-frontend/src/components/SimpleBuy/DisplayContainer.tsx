@@ -7,9 +7,9 @@ const DisplayContainer = styled.div`
   box-sizing: border-box;
   padding: 16px 40px;
   flex-direction: row;
-  border-bottom: 1px solid ${props => props.theme.grey000};
+  border-bottom: 1px solid ${(props) => props.theme.grey000};
   transition: background-color 0.3s;
-  ${props =>
+  ${(props) =>
     props.onClick &&
     css`
       cursor: pointer;
@@ -17,7 +17,7 @@ const DisplayContainer = styled.div`
         cursor: pointer;
       }
       &:hover {
-        background-color: ${props => props.theme.blue000};
+        background-color: ${(props) => props.theme.blue000};
       }
     `}
 `

@@ -8,7 +8,7 @@ import {
   SBPaymentMethodType,
   SBPaymentTypes,
   WalletFiatType
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import {
   AddBankStepType,
@@ -81,10 +81,10 @@ const getType = (value: SBPaymentMethodType) => {
 
 const Success = ({
   brokerageActions,
+  buySellActions,
   close,
   fiatCurrency,
   paymentMethods,
-  simpleBuyActions,
   userData,
   withdrawActions
 }: Props) => {
@@ -124,8 +124,8 @@ const Success = ({
             icon={getIcon(bankTransfer)}
             onClick={() => {
               brokerageActions.showModal({
-                origin: BrokerageModalOriginType.ADD_BANK_WITHDRAW,
-                modalType: 'ADD_BANK_YODLEE_MODAL'
+                modalType: 'ADD_BANK_YODLEE_MODAL',
+                origin: BrokerageModalOriginType.ADD_BANK_WITHDRAW
               })
               brokerageActions.setAddBankStep({
                 addBankStep: AddBankStepType.ADD_BANK
@@ -144,16 +144,16 @@ const Success = ({
           <BankWire
             icon={getIcon(bankWire)}
             onClick={() => {
-              simpleBuyActions.showModal('WithdrawModal')
+              buySellActions.showModal({ origin: 'WithdrawModal' })
               if (userData.tiers.current === 2) {
-                simpleBuyActions.setStep({
+                buySellActions.setStep({
                   addBank: true,
                   displayBack: false,
                   fiatCurrency,
                   step: 'BANK_WIRE_DETAILS'
                 })
               } else {
-                simpleBuyActions.setStep({
+                buySellActions.setStep({
                   step: 'KYC_REQUIRED'
                 })
               }

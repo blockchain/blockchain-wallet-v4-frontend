@@ -2,9 +2,9 @@ import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { Remote } from 'blockchain-wallet-v4/src'
-import { SBPaymentMethodType } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
-import { ExtractSuccess, RemoteDataType, WalletFiatType } from 'blockchain-wallet-v4/src/types'
+import { Remote } from '@core'
+import { SBPaymentMethodType } from '@core/network/api/simpleBuy/types'
+import { ExtractSuccess, RemoteDataType, WalletFiatType } from '@core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { BankDWStepType, BankPartners, BankTransferAccountType } from 'data/types'
@@ -17,10 +17,10 @@ import Success from './template.success'
 const EnterAmount = (props) => {
   useEffect(() => {
     if (props.fiatCurrency && !Remote.Success.is(props.data)) {
-      props.simpleBuyActions.fetchSBPaymentMethods(props.fiatCurrency)
-      props.simpleBuyActions.fetchSBFiatEligible(props.fiatCurrency)
+      props.buySellActions.fetchSBPaymentMethods(props.fiatCurrency)
+      props.buySellActions.fetchSBFiatEligible(props.fiatCurrency)
       props.brokerageActions.fetchBankTransferAccounts()
-      props.simpleBuyActions.fetchSDDEligible()
+      props.buySellActions.fetchSDDEligibility()
     }
   }, [props.fiatCurrency])
 
@@ -64,8 +64,8 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

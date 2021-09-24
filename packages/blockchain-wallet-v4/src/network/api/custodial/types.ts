@@ -6,7 +6,7 @@ import {
   SBTransactionStateType,
   WalletCurrencyType,
   WalletFiatType
-} from 'core/types'
+} from '@core/types'
 
 export type BeneficiaryType = {
   address: string

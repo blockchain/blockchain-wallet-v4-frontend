@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Icon } from 'blockchain-info-components'
-import { SBPaymentMethodType } from 'blockchain-wallet-v4/src/types'
+import { SBPaymentMethodType } from '@core/types'
 import { SuccessCartridge } from 'components/Cartridge'
 import {
   Content,

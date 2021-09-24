@@ -1,4 +1,5 @@
 import moment from 'moment'
+import { defaultTo, filter } from 'ramda'
 
 import {
   CoinType,
@@ -10,12 +11,11 @@ import {
   SBPaymentTypes,
   SwapOrderType,
   WalletFiatType
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 
+import { BankTransferAccountType } from '../brokerage/types'
 import { convertBaseToStandard } from '../exchange/services'
 import { SBAddCardFormValuesType } from './types'
-import { BankTransferAccountType } from '../brokerage/types'
-import { defaultTo, filter } from 'ramda'
 
 export const DEFAULT_SB_BALANCE = {
   available: '0',
@@ -62,7 +62,10 @@ export const getPaymentMethodId = (order: SBOrderType): string | undefined => {
   return order.paymentMethodId
 }
 
-export const getBankAccount = (order: SBOrderType, accounts: BankTransferAccountType[]): BankTransferAccountType => {
+export const getBankAccount = (
+  order: SBOrderType,
+  accounts: BankTransferAccountType[]
+): BankTransferAccountType => {
   return filter(
     (b: BankTransferAccountType) => b.state === 'ACTIVE' && b.id === order.paymentMethodId,
     defaultTo([])(accounts)

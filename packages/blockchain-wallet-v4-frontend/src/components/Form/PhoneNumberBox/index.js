@@ -4,7 +4,7 @@ import { prop, toLower } from 'ramda'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from '@core'
 
 import 'react-intl-tel-input/dist/libphonenumber.js'
 import 'react-intl-tel-input/dist/main.css'
@@ -24,8 +24,8 @@ const Container = styled.div`
     height: 48px;
     font-size: 16px;
     border-radius: 4px;
-    border: 1px solid ${props => props.theme.grey100};
-    color: ${props => props.theme['grey800']};
+    border: 1px solid ${(props) => props.theme.grey100};
+    color: ${(props) => props.theme.grey800};
     ::-webkit-input-placeholder {
       opacity: 0.35;
     }
@@ -35,8 +35,8 @@ const Container = styled.div`
   }
   * {
     outline: none;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-      Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+      Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-weight: 400;
     font-size: 14px;
   }
@@ -45,7 +45,7 @@ const Error = styled(Text)`
   position: absolute;
   display: block;
   height: 15px;
-  top: ${props => (props.errorBottom ? '48px' : '-20px')};
+  top: ${(props) => (props.errorBottom ? '48px' : '-20px')};
   right: 0;
 `
 
@@ -64,7 +64,7 @@ class PhoneNumberBox extends React.Component {
     this.props.input.onBlur(number)
   }
 
-  bindTel = ref => {
+  bindTel = (ref) => {
     const tel = prop('tel', ref)
     if (tel) this.tel = tel
   }
@@ -91,26 +91,16 @@ class PhoneNumberBox extends React.Component {
           defaultCountry={countryCode}
           preferredCountries={['us', 'gb']}
           css={['intl-tel-input', 'form-control']}
-          utilsScript={'libphonenumber.js'}
+          utilsScript='libphonenumber.js'
           placeholder='555-555-5555'
         />
         {touched && error && (
-          <Error
-            size='12px'
-            weight={500}
-            color='error'
-            errorBottom={errorBottom}
-          >
+          <Error size='12px' weight={500} color='error' errorBottom={errorBottom}>
             {error}
           </Error>
         )}
         {touched && !error && warning && (
-          <Error
-            size='12px'
-            weight={500}
-            color='error'
-            errorBottom={errorBottom}
-          >
+          <Error size='12px' weight={500} color='error' errorBottom={errorBottom}>
             {warning}
           </Error>
         )}

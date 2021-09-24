@@ -1,8 +1,8 @@
 import { head, isNil } from 'ramda'
 import { call, CallEffect, put, select, take } from 'redux-saga/effects'
 
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { Exchange } from '@core'
+import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
 import {
   AccountTypes,
   CoinType,
@@ -11,7 +11,7 @@ import {
   PaymentValue,
   RatesType,
   SBBalancesType
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
 import { promptForSecondPassword } from 'services/sagas'
 

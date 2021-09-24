@@ -1,5 +1,5 @@
-import { SBPaymentTypes } from 'core/types'
-import { RecurringBuyOrigins, RecurringBuyPeriods } from 'data/types'
+import { SBPaymentTypes } from '@core/types'
+import { RecurringBuyOrigins, RecurringBuyPeriods, SetPeriodPayload } from 'data/types'
 
 enum AnalyticsKey {
   ACCOUNT_PASSWORD_RESET = 'Account Password Reset',
@@ -61,6 +61,7 @@ enum AnalyticsKey {
   RECURRING_BUY_DETAILS_CLICKED = 'Recurring Buy Details Clicked',
   RECURRING_BUY_INFO_VIEWED = 'Recurring Buy Info Viewed',
   RECURRING_BUY_LEARN_MORE_CLICKED = 'Recurring Buy Learn More Clicked',
+  RECURRING_BUY_PERIOD_SELECTED = 'Recurring Buy Period Selected',
   RECURRING_BUY_SUGGESTION_SKIPPED = 'Recurring Buy Suggestion Skipped',
   RECURRING_BUY_VIEWED = 'Recurring Buy Viewed',
   RESET_ACCOUNT_CANCELLED = 'Reset Account Cancelled',
@@ -78,7 +79,8 @@ enum AnalyticsKey {
   SETTINGS_TAB_CLICKED = 'Settings Tab Clicked',
   SIGNED_IN = 'Signed In',
   SIGNED_OUT = 'Signed Out',
-  SIGNUP_DETAILS_ENTERED = 'Signup Details Entered',
+  SIGN_UP_COUNTRY_SELECTED = 'Sign Up Country Selected',
+  SIGN_UP_COUNTRY_STATE_SELECTED = 'Sign Up Country State Selected',
   SWAP_ACCOUNTS_SELECTED = 'Swap Accounts Selected',
   SWAP_AMOUNT_ENTERED = 'Swap Amount Entered',
   SWAP_AMOUNT_MAX_CLICKED = 'Swap Amount Max Clicked',
@@ -180,7 +182,7 @@ type PageViewPayload = {
 
 type PageName =
   | '/home'
-  | '/interest'
+  | '/rewards'
   | '/login'
   | '/settings/addresses/btc'
   | '/settings/addresses/bch'
@@ -363,9 +365,11 @@ type LoginHelpClickedPayload = BasePayload & {
   site_redirect: 'WALLET' | 'EXCHANGE'
 }
 
-type SignupDetailsEnteredPayload = BasePayload & {
+type SignUpCountrySelectPayload = BasePayload & {
   country: string
-  country_state?: string
+}
+type SignUpCountryStateSelectPayload = BasePayload & {
+  country_state: string
 }
 
 type LoginIdentifierEnteredPayload = BasePayload & {
@@ -416,6 +420,8 @@ type RecoveryOptionSelectedPayload = BasePayload & {
 type ResetAccountPayload = BasePayload & {
   origin: 'RESET_CONFIRMATION' | 'RESET_FINAL_WARNING' | 'RECOVERY_PHRASE' | 'RECOVERY_OPTIONS'
 }
+
+export type RecurringBuyPeriodSelectionPayload = BasePayload & SetPeriodPayload
 
 export type RecurringBuyViewedPayload = BasePayload & {
   path: string
@@ -719,6 +725,7 @@ type AnalyticsProperties =
   | RecurringBuyCancelPayload
   | RecurringBuyClickedPayload
   | RecurringBuyDetailsClickedPayload
+  | RecurringBuyPeriodSelectionPayload
   | SellAmountEnteredPayload
   | SellAmountMaxClickedPayload
   | SellAmountMinClickedPayload
@@ -736,7 +743,8 @@ type AnalyticsProperties =
   | SignedInPayload
   | SignedOutPayload
   | SignedUpPayload
-  | SignupDetailsEnteredPayload
+  | SignUpCountrySelectPayload
+  | SignUpCountryStateSelectPayload
   | SwapClickedPayload
   | SwapViewedPayload
   | SwapAccountsSelectedPayload

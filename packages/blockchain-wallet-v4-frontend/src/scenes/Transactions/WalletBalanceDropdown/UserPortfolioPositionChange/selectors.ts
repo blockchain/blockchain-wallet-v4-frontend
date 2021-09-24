@@ -1,6 +1,6 @@
 import { lift } from 'ramda'
 
-import { ExtractSuccess, TimeRange } from 'blockchain-wallet-v4/src/types'
+import { ExtractSuccess, TimeRange } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 

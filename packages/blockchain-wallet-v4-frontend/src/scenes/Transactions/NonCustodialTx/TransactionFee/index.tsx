@@ -4,8 +4,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { FlatLoader, Text } from 'blockchain-info-components'
-import { Remote } from 'blockchain-wallet-v4/src'
-import { CoinType, RemoteDataType } from 'blockchain-wallet-v4/src/types'
+import { Remote } from '@core'
+import { CoinType, RemoteDataType } from '@core/types'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import { actions } from 'data'
 

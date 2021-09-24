@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { path } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { ExtractSuccess, RemoteDataType, WalletFiatType } from 'blockchain-wallet-v4/src/types'
+import { ExtractSuccess, RemoteDataType, WalletFiatType } from '@core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import {
@@ -20,7 +20,7 @@ import Success from './template.success'
 class LinkedBanks extends PureComponent<Props> {
   componentDidMount() {
     this.props.brokerageActions.fetchBankTransferAccounts()
-    this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.walletCurrency)
+    this.props.buySellActions.fetchPaymentMethods(this.props.walletCurrency)
   }
 
   handleBankClick = () => {
@@ -32,8 +32,8 @@ class LinkedBanks extends PureComponent<Props> {
       fiatCurrency = this.props.userData?.limits[0]?.currency as WalletFiatType
     }
     this.props.brokerageActions.showModal({
-      origin: BrokerageModalOriginType.ADD_BANK_SETTINGS,
-      modalType: this.props.fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL'
+      modalType: fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL',
+      origin: BrokerageModalOriginType.ADD_BANK_SETTINGS
     })
 
     this.props.brokerageActions.setAddBankStep({
@@ -43,8 +43,8 @@ class LinkedBanks extends PureComponent<Props> {
 
   handleShowBankClick = (account: BankTransferAccountType) => {
     this.props.brokerageActions.showModal({
-      origin: BrokerageModalOriginType.BANK,
-      modalType: 'BANK_DETAILS_MODAL'
+      modalType: 'BANK_DETAILS_MODAL',
+      origin: BrokerageModalOriginType.BANK
     })
     this.props.brokerageActions.setBankDetails({
       account
@@ -53,8 +53,8 @@ class LinkedBanks extends PureComponent<Props> {
 
   handleDeleteBank = (account: BankTransferAccountType) => {
     this.props.brokerageActions.showModal({
-      origin: BrokerageModalOriginType.BANK,
-      modalType: 'REMOVE_BANK_MODAL'
+      modalType: 'REMOVE_BANK_MODAL',
+      origin: BrokerageModalOriginType.BANK
     })
     this.props.brokerageActions.setBankDetails({
       account
@@ -88,8 +88,8 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   custodialActions: bindActionCreators(actions.custodial, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
   withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
 })
 

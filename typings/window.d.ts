@@ -1,4 +1,4 @@
-import { CoinfigType } from 'core/types'
+import { CoinfigType } from '@core/types'
 
 declare global {
   interface Window {

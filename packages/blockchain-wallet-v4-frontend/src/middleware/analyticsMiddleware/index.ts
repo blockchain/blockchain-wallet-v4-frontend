@@ -12,6 +12,7 @@ import {
   RecurringBuyDetailsClickedPayload,
   RecurringBuyInfoViewedPayload,
   RecurringBuyLearnMoreClickPayload,
+  RecurringBuyPeriodSelectionPayload,
   RecurringBuySuggestionSkippedPayload,
   RecurringBuyViewedPayload,
   SendReceive,
@@ -99,7 +100,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
             break
           }
-          case '/interest': {
+          case '/rewards': {
             const { href, pathname, search } = window.location
             const { referrer, title } = document
             const origin = 'NAVIGATION'
@@ -766,7 +767,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
 
-      case AT.components.simpleBuy.SWITCH_FIX: {
+      case actions.components.buySell.switchFix.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -793,7 +794,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
 
-      case AT.components.simpleBuy.CREATE_ORDER: {
+      case actions.components.buySell.createOrder.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -801,10 +802,10 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
-        const inputCurrency = state.components.simpleBuy.fiatCurrency
+        const inputCurrency = state.components.buySell.fiatCurrency
         const inputAmount = Number(state.form.simpleBuyCheckout.values.amount)
-        const inputAMountMax = Number(state.components.simpleBuy.pair.buyMax) / 100
-        const outputCurrency = state.components.simpleBuy.cryptoCurrency
+        const inputAMountMax = Number(state.components.buySell.pair.buyMax) / 100
+        const outputCurrency = state.components.buySell.cryptoCurrency
 
         analytics.push(AnalyticsKey.BUY_AMOUNT_ENTERED, {
           properties: {
@@ -823,7 +824,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case AT.components.simpleBuy.HANDLE_BUY_MAX_AMOUNT_CLICK: {
+      case actions.components.buySell.handleBuyMaxAmountClick.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -832,8 +833,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const maxCardLimit = Number(action.payload.amount) / 100
-        const inputCurrency = state.components.simpleBuy.fiatCurrency
-        const outputCurrency = state.components.simpleBuy.cryptoCurrency
+        const inputCurrency = state.components.buySell.fiatCurrency
+        const outputCurrency = state.components.buySell.cryptoCurrency
 
         analytics.push(AnalyticsKey.BUY_AMOUNT_MAX_CLICKED, {
           properties: {
@@ -851,7 +852,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case AT.components.simpleBuy.HANDLE_BUY_MIN_AMOUNT_CLICK: {
+      case actions.components.buySell.handleBuyMinAmountClick.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -859,8 +860,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
-        const inputCurrency = state.components.simpleBuy.fiatCurrency
-        const outputCurrency = state.components.simpleBuy.cryptoCurrency
+        const inputCurrency = state.components.buySell.fiatCurrency
+        const outputCurrency = state.components.buySell.cryptoCurrency
 
         analytics.push(AnalyticsKey.BUY_AMOUNT_MIN_CLICKED, {
           properties: {
@@ -877,7 +878,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case AT.components.simpleBuy.HANDLE_SB_METHOD_CHANGE: {
+      case actions.components.buySell.defaultMethodEvent.type:
+      case actions.components.buySell.handleMethodChange.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -885,7 +887,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
-        const paymentType = buyPaymentMethodSelectedPaymentTypeDictionary(action.method.type)
+        const { method } = action.payload
+        const paymentType = buyPaymentMethodSelectedPaymentTypeDictionary(method.type)
 
         analytics.push(AnalyticsKey.BUY_PAYMENT_METHOD_SELECTED, {
           properties: {
@@ -1349,7 +1352,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-      case AT.components.simpleBuy.SET_BUY_CRYPTO: {
+      case actions.components.buySell.setBuyCrypto.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -1395,7 +1398,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case AT.components.simpleBuy.SET_SELL_CRYPTO: {
+      case actions.components.buySell.setSellCrypto.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -1443,7 +1446,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
 
-      case AT.components.simpleBuy.SET_STEP: {
+      case actions.components.buySell.setStep.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -1463,7 +1466,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
               action.payload.swapAccount.type === SwapBaseCounterTypes.CUSTODIAL
                 ? AccountType.TRADING
                 : AccountType.USERKEY
-            const inputCurrency = state.components.simpleBuy.fiatCurrency
+            const inputCurrency = state.components.buySell.fiatCurrency
 
             analytics.push(AnalyticsKey.SELL_FROM_SELECTED, {
               properties: {
@@ -1484,12 +1487,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
           case 'PREVIEW_SELL': {
             const accountType =
-              state.components.simpleBuy.swapAccount.type === SwapBaseCounterTypes.CUSTODIAL
+              state.components.buySell.swapAccount.type === SwapBaseCounterTypes.CUSTODIAL
                 ? AccountType.TRADING
                 : AccountType.USERKEY
-            const inputCurrency = state.components.simpleBuy.fiatCurrency
+            const inputCurrency = state.components.buySell.fiatCurrency
             const inputAmount = Number(state.form.simpleBuyCheckout.values.amount)
-            const outputCurrency = state.components.simpleBuy.cryptoCurrency
+            const outputCurrency = state.components.buySell.cryptoCurrency
 
             analytics.push(AnalyticsKey.SELL_AMOUNT_ENTERED, {
               properties: {
@@ -1514,7 +1517,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         }
         break
       }
-      case AT.components.simpleBuy.HANDLE_SELL_MAX_AMOUNT_CLICK: {
+      case actions.components.buySell.handleSellMaxAmountClick.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -1523,11 +1526,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const accountType =
-          state.components.simpleBuy.swapAccount.type === SwapBaseCounterTypes.CUSTODIAL
+          state.components.buySell.swapAccount.type === SwapBaseCounterTypes.CUSTODIAL
             ? AccountType.TRADING
             : AccountType.USERKEY
-        const inputCurrency = state.components.simpleBuy.fiatCurrency
-        const outputCurrency = state.components.simpleBuy.cryptoCurrency
+        const inputCurrency = state.components.buySell.fiatCurrency
+        const outputCurrency = state.components.buySell.cryptoCurrency
 
         analytics.push(AnalyticsKey.SELL_AMOUNT_MAX_CLICKED, {
           properties: {
@@ -1545,7 +1548,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case AT.components.simpleBuy.HANDLE_SELL_MIN_AMOUNT_CLICK: {
+      case actions.components.buySell.handleSellMinAmountClick.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -1554,11 +1557,11 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const guid = state.walletPath.wallet.guid ?? null
         const accountType =
-          state.components.simpleBuy.swapAccount.type === SwapBaseCounterTypes.CUSTODIAL
+          state.components.buySell.swapAccount.type === SwapBaseCounterTypes.CUSTODIAL
             ? AccountType.TRADING
             : AccountType.USERKEY
-        const inputCurrency = state.components.simpleBuy.fiatCurrency
-        const outputCurrency = state.components.simpleBuy.cryptoCurrency
+        const inputCurrency = state.components.buySell.fiatCurrency
+        const outputCurrency = state.components.buySell.cryptoCurrency
 
         analytics.push(AnalyticsKey.SELL_AMOUNT_MIN_CLICKED, {
           properties: {
@@ -1682,6 +1685,26 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           }
         }
 
+        break
+      }
+      case actions.components.recurringBuy.setPeriod.type: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+
+        analytics.push(AnalyticsKey.RECURRING_BUY_PERIOD_SELECTED, {
+          properties: {
+            ...action.payload
+          } as RecurringBuyPeriodSelectionPayload,
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
         break
       }
       case actions.components.recurringBuy.viewed.type: {
@@ -3299,10 +3322,9 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const { country, countryState } = action.payload
         const guid = state.walletPath.wallet.guid ?? null
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
-        analytics.push(AnalyticsKey.SIGNUP_DETAILS_ENTERED, {
+        analytics.push(AnalyticsKey.SIGN_UP_COUNTRY_SELECTED, {
           properties: {
             country,
-            country_state: countryState,
             guid,
             originalTimestamp: getOriginalTimestamp()
           },
@@ -3310,6 +3332,18 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             nabuId
           }
         })
+        if (countryState) {
+          analytics.push(AnalyticsKey.SIGN_UP_COUNTRY_STATE_SELECTED, {
+            properties: {
+              country_state: countryState,
+              guid,
+              originalTimestamp: getOriginalTimestamp()
+            },
+            traits: {
+              nabuId
+            }
+          })
+        }
         break
       }
       default: {

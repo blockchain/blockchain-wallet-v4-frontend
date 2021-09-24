@@ -5,7 +5,7 @@ import { lt, propOr } from 'ramda'
 import { formValueSelector } from 'redux-form'
 
 import { Link, Text } from 'blockchain-info-components'
-import { Exchange } from 'blockchain-wallet-v4/src'
+import { Exchange } from '@core'
 import { model, selectors } from 'data'
 
 import { WarningLeftColumn, WarningRightColumn, WarningWrapper } from '../Components'

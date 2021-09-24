@@ -3,10 +3,10 @@ import { FormattedMessage } from 'react-intl'
 import { calcBasicInterest } from 'blockchain-wallet-v4-frontend/src/modals/Interest/conversions'
 import styled from 'styled-components'
 
+import { fiatToString } from '@core/exchange/utils'
+import { WalletFiatType } from '@core/types'
 import { Button, Link, Modal, ModalBody, ModalHeader, Text } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import { BlueCartridge } from 'components/Cartridge'
-import { WalletFiatType } from 'core/types'
 import { model } from 'data'
 
 import { Props as OwnProps, SuccessStateType } from './index'
@@ -64,7 +64,7 @@ const Success: React.FC<Props> = ({
         <Text size='24px' color='grey900' weight={600} style={{ marginTop: '16px' }}>
           <FormattedMessage
             id='modals.interestpromo.title'
-            defaultMessage='Earn {interestRate}% Interest on your {coin}'
+            defaultMessage='Earn {interestRate}% Rewards on your {coin}'
             values={{
               coin: 'BTC',
               interestRate: interestRate[currency]
