@@ -69,9 +69,20 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
   devtool: false, // default is false but needs to be set so dev config can override
   entry: {
     app: {
+      dependOn: 'polyfills',
       filename: 'app-[contenthash:6].js',
       import: CONFIG_PATH.src + '/index.js'
     },
+    polyfills: {
+      filename: 'polyfills-[contenthash:6].js',
+      import: [
+        '@babel/polyfill',
+        'bignumber.js',
+        'browserify-rsa',
+        'browserify-sign',
+        'stream-browserify'
+      ]
+    }
   },
   output: {
     assetModuleFilename: 'resources/[name][ext]', // default asset path that is usually overwritten in specific modules.rules
