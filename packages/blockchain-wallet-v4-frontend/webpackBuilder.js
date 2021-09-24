@@ -33,16 +33,16 @@ const getAndLogEnvConfig = () => {
   const isSslEnabled = process.env.DISABLE_SSL
     ? false
     : fs.existsSync(CONFIG_PATH.sslConfig + '/key.pem') &&
-      fs.existsSync(CONFIG_PATH.sslConfig + '/cert.pem')
+    fs.existsSync(CONFIG_PATH.sslConfig + '/cert.pem')
 
   try {
     envConfig = require(CONFIG_PATH.envConfig + `/${process.env.NODE_ENV}` + '.js')
   } catch (e) {
     console.log(
       chalk.red('\u{1F6A8} WARNING \u{1F6A8} ') +
-        chalk.yellow(
-          `Failed to load ${process.env.NODE_ENV}.js config file! Using the production config instead.\n`
-        )
+      chalk.yellow(
+        `Failed to load ${process.env.NODE_ENV}.js config file! Using the production config instead.\n`
+      )
     )
     envConfig = require(CONFIG_PATH.envConfig + '/production.js')
   } finally {
@@ -68,14 +68,9 @@ const getAndLogEnvConfig = () => {
 const buildWebpackConfig = (envConfig, extraPluginsList) => ({
   devtool: false, // default is false but needs to be set so dev config can override
   entry: {
-    main: {
-      dependOn: 'vendor',
-      filename: 'main-[contenthash:6].js',
+    app: {
+      filename: 'app-[contenthash:6].js',
       import: CONFIG_PATH.src + '/index.js'
-    },
-    vendor: {
-      filename: 'vendor-[contenthash:6].js',
-      import: ['@babel/polyfill', 'react', 'react-dom', 'redux', 'react-redux']
     },
   },
   output: {
@@ -123,53 +118,55 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
         generator: { filename: 'img/[name][ext]?[contenthash]' }
       },
       { test: /\.(pdf)$/, type: 'asset/resource' },
-      { test: /\.(AppImage|dmg|exe)$/, type: 'asset/resource' },
       { test: /\.css$/, use: [{ loader: 'style-loader' }, { loader: 'css-loader' }] }
     ]
   },
   performance: { hints: false }, // TODO: enable bundle size warnings in future
   plugins: concat([
-    new CleanWebpackPlugin(),
-    new HtmlWebpackPlugin({
-      template: CONFIG_PATH.src + '/index.html',
-      filename: 'index.html'
-    }),
-    new HtmlReplaceWebpackPlugin([
-      {
-        pattern: '**APP_VERSION**',
-        replacement: require(CONFIG_PATH.pkgJson).version
-      },
-      {
-        pattern: '**RECAPTCHA_KEY**',
-        replacement: process.env.CAPTCHA_KEY ? process.env.CAPTCHA_KEY : envConfig.RECAPTCHA_KEY
-      }
-    ]),
-    new NodePolyfillPlugin(),
-    new Webpack.IgnorePlugin({
-      resourceRegExp: /^\.\/locale$/,
-      contextRegExp: /moment$/
-    }),
-    new FaviconsWebpackPlugin({
-      devMode: 'light',
-      logo: CONFIG_PATH.src + '/assets/favicon.png',
-      mode: 'webapp',
-      prefix: 'img/favicons-[contenthash]/',
-      icons: {
-        android: true,
-        appleIcon: true,
-        appleStartup: true,
-        coast: true,
-        favicons: true,
-        firefox: true,
-        windows: true,
-        yandex: true
-      }
-    })],
+      new CleanWebpackPlugin(),
+      new HtmlWebpackPlugin({
+        template: CONFIG_PATH.src + '/index.html',
+        filename: 'index.html'
+      }),
+      new HtmlReplaceWebpackPlugin([
+        {
+          pattern: '**APP_VERSION**',
+          replacement: require(CONFIG_PATH.pkgJson).version
+        },
+        {
+          pattern: '**RECAPTCHA_KEY**',
+          replacement: process.env.CAPTCHA_KEY ? process.env.CAPTCHA_KEY : envConfig.RECAPTCHA_KEY
+        }
+      ]),
+      new NodePolyfillPlugin(),
+      new Webpack.IgnorePlugin({
+        resourceRegExp: /^\.\/locale$/,
+        contextRegExp: /moment$/
+      }),
+      new FaviconsWebpackPlugin({
+        devMode: 'light',
+        logo: CONFIG_PATH.src + '/assets/favicon.png',
+        mode: 'webapp',
+        prefix: 'img/favicons-[contenthash]/',
+        icons: {
+          android: true,
+          appleIcon: true,
+          appleStartup: true,
+          coast: true,
+          favicons: true,
+          firefox: true,
+          windows: true,
+          yandex: true
+        }
+      })],
     extraPluginsList
   ),
   optimization: {
     runtimeChunk: {
       name: `manifest-${new Date().getTime()}`
+    },
+    splitChunks: {
+      maxSize: 750000, // 0.75 MB max chunk size
     }
   }
 })
