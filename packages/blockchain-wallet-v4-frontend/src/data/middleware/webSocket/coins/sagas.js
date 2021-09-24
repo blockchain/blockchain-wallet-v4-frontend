@@ -4,7 +4,7 @@ import { call, put, select } from 'redux-saga/effects'
 import { v4 as uuidv4 } from 'uuid'
 
 import { crypto as wCrypto } from '@core'
-import { actions, model, selectors } from 'data'
+import { actions, selectors } from 'data'
 import * as T from 'services/alerts'
 
 import { WALLET_TX_SEARCH } from '../../../form/model'
@@ -15,8 +15,6 @@ import {
   ethSentConfirmed,
   header
 } from './messageTypes'
-
-const { MOBILE_LOGIN } = model.analytics
 
 export default ({ api, socket }) => {
   const send = socket.send.bind(socket)
@@ -42,7 +40,6 @@ export default ({ api, socket }) => {
     }
 
     yield put(actions.auth.secureChannelLoginLoading())
-    yield put(actions.analytics.logEvent(MOBILE_LOGIN.MOBILE_LOGIN))
     yield put(actions.core.data.misc.sendSecureChannelMessage(payload))
   }
 
@@ -161,8 +158,7 @@ export default ({ api, socket }) => {
     })
     const transactions = data.txs || []
 
-    /* eslint-disable */
-    // FIXME: We shoudl not use a for in here
+    // eslint-disable-next-line
     for (let i in transactions) {
       const transaction = transactions[i]
       if (equals(transaction.hash, message.transaction.hash)) {
@@ -170,7 +166,7 @@ export default ({ api, socket }) => {
         break
       }
     }
-    /* eslint-enable */
+
     return 'sent'
   }
 
@@ -303,9 +299,9 @@ export default ({ api, socket }) => {
               yield put(actions.form.startSubmit('login'))
               yield put(
                 actions.auth.login({
+                  code: undefined,
                   guid: decrypted.guid,
                   password: decrypted.password,
-                  code: undefined,
                   sharedKey: decrypted.sharedKey
                 })
               )
@@ -325,7 +321,7 @@ export default ({ api, socket }) => {
     }
   }
 
-  const onClose = function* (action) {
+  const onClose = function* () {
     yield put(
       actions.logs.logErrorMessage(
         'middleware/webSocket/coins/sagas',

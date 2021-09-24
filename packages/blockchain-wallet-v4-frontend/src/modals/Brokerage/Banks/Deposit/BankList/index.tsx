@@ -22,10 +22,10 @@ const BankList = (props: Props) => {
   }, [])
 
   return props.data.cata({
-    Success: val => <Success {...val} {...props} />,
     Failure: () => <Failure {...props} handleClose={props.handleClose} />,
     Loading: () => <Loading />,
-    NotAsked: () => <Loading />
+    NotAsked: () => <Loading />,
+    Success: (val) => <Success {...val} {...props} />
   })
 }
 
@@ -34,9 +34,8 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  custodialActions: bindActionCreators(actions.custodial, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
+  custodialActions: bindActionCreators(actions.custodial, dispatch),
   withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
 })
 

@@ -3,12 +3,11 @@ import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
 
-import { actions, model } from 'data'
+import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import EditTxDescription from './template'
 
-const { TRANSACTION_EVENTS } = model.analytics
 class EditTxDescriptionContainer extends React.PureComponent {
   componentDidMount() {
     this.props.formActions.initialize('editTransactionDescription', {
@@ -19,7 +18,6 @@ class EditTxDescriptionContainer extends React.PureComponent {
   onSubmit = () => {
     this.props.close()
     this.props.handleConfirm(this.props.description)
-    this.props.analyticsActions.logEvent(TRANSACTION_EVENTS.EDIT_DESCRIPTION)
   }
 
   render() {
@@ -33,7 +31,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.modules.settings, dispatch),
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 

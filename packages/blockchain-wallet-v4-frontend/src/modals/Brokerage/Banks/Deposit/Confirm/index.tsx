@@ -33,7 +33,6 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   sendActions: bindActionCreators(actions.components.send, dispatch)
 })

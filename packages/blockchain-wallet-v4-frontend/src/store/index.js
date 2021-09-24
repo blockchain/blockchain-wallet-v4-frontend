@@ -23,7 +23,6 @@ import { actions, rootReducer, rootSaga, selectors } from 'data'
 import {
   analyticsMiddleware,
   autoDisconnection,
-  matomoMiddleware,
   streamingXlm,
   webSocketCoins,
   webSocketRates
@@ -132,7 +131,6 @@ const configuredStore = async function () {
       webSocketRates(ratesSocket),
       webSocketCoins(coinsSocket),
       coreMiddleware.walletSync({ api, isAuthenticated, walletPath }),
-      matomoMiddleware(),
       analyticsMiddleware(),
       autoDisconnection()
     ]),

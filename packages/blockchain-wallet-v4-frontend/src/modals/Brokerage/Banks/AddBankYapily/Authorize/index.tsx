@@ -24,7 +24,6 @@ const mapStateToProps = (state: RootState) => ({
   data: getData(state)
 })
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch)
 })
@@ -32,7 +31,6 @@ const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkDispatchPropsType = {
-  analyticsActions: typeof actions.analytics
   brokerageActions: typeof actions.components.brokerage
   buySellActions: typeof actions.components.buySell
 }

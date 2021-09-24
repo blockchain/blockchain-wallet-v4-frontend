@@ -31,7 +31,6 @@ export default ({ api }) => {
       } else {
         yield call(logoutClearReduxStore)
       }
-      yield put(actions.analytics.stopSession())
     }
   }
 

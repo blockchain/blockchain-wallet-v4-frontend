@@ -15,7 +15,6 @@ import { selectors } from 'data'
 import { UserDataType } from 'data/types'
 import PublicLayout from 'layouts/Public'
 import WalletLayout from 'layouts/Wallet'
-import AnalyticsTracker from 'providers/AnalyticsTracker'
 import { MediaContextProvider } from 'providers/MatchMediaProvider'
 import ThemeProvider from 'providers/ThemeProvider'
 import TranslationsProvider from 'providers/TranslationsProvider'
@@ -133,7 +132,6 @@ const App = ({
               </ConnectedRouter>
               {isAuthenticated && <SupportChat />}
               <SiftScience userId={userData.id} />
-              <AnalyticsTracker />
             </MediaContextProvider>
           </PersistGate>
         </TranslationsProvider>

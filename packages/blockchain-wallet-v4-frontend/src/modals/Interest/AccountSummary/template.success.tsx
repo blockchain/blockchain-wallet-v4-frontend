@@ -8,7 +8,6 @@ import { formatFiat } from '@core/exchange/utils'
 import { CoinType, FiatType } from '@core/types'
 import { Button, Icon, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { model } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { InterestStepMetadata } from 'data/types'
 
@@ -31,12 +30,9 @@ import {
   Wrapper
 } from './model'
 
-const { INTEREST_EVENTS } = model.analytics
-
 const AccountSummary: React.FC<Props> = (props) => {
   const {
     accountBalances,
-    analyticsActions,
     coin,
     flagEDDInterestFileUpload,
     handleClose,
@@ -274,7 +270,6 @@ const AccountSummary: React.FC<Props> = (props) => {
                       fullwidth
                       nature='primary'
                       onClick={() => {
-                        analyticsActions.logEvent(INTEREST_EVENTS.WITHDRAWAL.SUPPLY_INFORMATION)
                         interestActions.handleWithdrawalSupplyInformation({
                           origin: 'SavingsConfirmation'
                         })
