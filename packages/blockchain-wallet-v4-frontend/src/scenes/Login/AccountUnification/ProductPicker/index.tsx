@@ -4,20 +4,17 @@ import styled from 'styled-components'
 
 import { Icon, Image, Text } from 'blockchain-info-components'
 
-import { Props } from '..'
+import { Props } from '../../index'
 
 const IconTextRow = styled.div`
   display: flex;
   align-items: center;
   position: relative;
   cursor: pointer;
-  &:after {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 1px;
-    background: ${(props) => props.theme.grey100};
-    content: '';
+  border-top: ${(props) => `1px solid ${props.theme.grey100}`};
+  &:first-child {
+    border-top: 0;
+  }
 `
 
 // TODO add media tag for
@@ -25,20 +22,19 @@ const IconTextRow = styled.div`
 const TextStack = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 24px;
+  margin: 24px 0 24px 24px;
   min-width: 312px;
 `
 
-const Test = (props: Props) => {
+const ProductPicker = (props: Props) => {
   return (
     <>
       <IconTextRow>
         <Image name='wallet-logo' height='48px' width='48px' />
-        <TextStack>
+        <TextStack style={{ marginTop: 0 }}>
           <Text color='grey900' size='24px' weight={600} lineHeight='1.5'>
             <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
           </Text>
-
           <Text color='grey600' size='16px' weight={500} lineHeight='1.5'>
             <FormattedMessage
               id='scenes.login.productpicker.wallet'
@@ -54,7 +50,6 @@ const Test = (props: Props) => {
           <Text color='grey900' size='24px' weight={600} lineHeight='1.5'>
             <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
           </Text>
-
           <Text color='grey600' size='16px' weight={500} lineHeight='1.5'>
             <FormattedMessage
               id='scenes.login.productpicker.exchange'
@@ -66,11 +61,10 @@ const Test = (props: Props) => {
       </IconTextRow>
       <IconTextRow>
         <Image name='explorer-logo' height='48px' width='48px' />
-        <TextStack>
+        <TextStack style={{ marginBottom: 0 }}>
           <Text color='grey900' size='24px' weight={600} lineHeight='1.5'>
             <FormattedMessage id='copy.explorer' defaultMessage='Explorer' />
           </Text>
-
           <Text color='grey600' size='16px' weight={500} lineHeight='1.5'>
             <FormattedMessage
               id='scenes.login.productpicker.explorer'
@@ -84,4 +78,4 @@ const Test = (props: Props) => {
   )
 }
 
-export default Test
+export default ProductPicker
