@@ -532,6 +532,15 @@ export default ({ api, coreSagas, networks }) => {
   const initializeLogin = function* () {
     try {
       yield put(actions.auth.initializeLoginLoading())
+      // determining product designation from URL
+      const searchString = yield select(selectors.router.getSearch)
+      const queryParams = new URLSearchParams(searchString)
+      yield put(
+        actions.auth.setDesignatedProductMetadata({
+          designatedProduct: queryParams.get('app'),
+          designatedProductRedirect: queryParams.get('redirect')
+        })
+      )
       // Opens coin socket, needed for coin streams and channel key for mobile login
       yield put(actions.ws.startSocket())
       // Grab pathname to determine next step
@@ -561,25 +570,13 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
         }
         // if url is just /login, take them to enter guid or email
-        yield put(actions.auth.setDesignatedProduct(ProductAuthOptions.WALLET))
       } else if (!loginLinkParameter) {
         yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
-        yield put(actions.auth.setDesignatedProduct(ProductAuthOptions.WALLET))
         // we detect a guid in the pathname
       } else if (isGuid(loginLinkParameter)) {
         const guidFromRoute = loginLinkParameter
         yield put(actions.form.change('login', 'guid', guidFromRoute))
         yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
-        yield put(actions.auth.setDesignatedProduct(ProductAuthOptions.WALLET))
-        // TODO make sure this is how it's actually going to go
-        // pathname has exchange in url
-      } else if (loginLinkParameter === 'site=exchange') {
-        yield put(actions.auth.setDesignatedProduct(ProductAuthOptions.EXCHANGE))
-        yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
-        // if path has base64 encrypted JSON
-      } else if (loginLinkParameter === 'site=wallet') {
-        yield put(actions.auth.setDesignatedProduct(ProductAuthOptions.WALLET))
-        yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
       } else {
         yield call(parseMagicLink, params)
       }

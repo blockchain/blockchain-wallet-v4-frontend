@@ -24,17 +24,7 @@ import {
 const isSupportedBrowser = isBrowserSupported()
 
 const Exchange = (props: Props) => {
-  const { authType, busy, formValues, guid, invalid, loginError, password, submitting } = props
-  //   const passwordError = loginError && loginError.toLowerCase().includes('wrong_wallet_password')
-  //   const accountLocked =
-  //     loginError &&
-  //     (loginError.toLowerCase().includes('this account has been locked') ||
-  //       loginError.toLowerCase().includes('account is locked'))
-
-  //   const twoFactorError = loginError && loginError.toLowerCase().includes('authentication code')
-  //   const handleSmsResend = () => {
-  //     props.authActions.resendSmsCode({ email: formValues?.email, guid })
-  //   }
+  const { authType, busy, invalid, password, submitting } = props
 
   const handleBackArrowClick = () => {
     props.cacheActions.removedStoredLogin()

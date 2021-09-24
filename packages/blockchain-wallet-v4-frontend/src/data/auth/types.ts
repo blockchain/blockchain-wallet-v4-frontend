@@ -6,6 +6,12 @@ export enum ProductAuthOptions {
   WALLET = 'WALLET'
 }
 
+export enum AccountUnificationFlows {
+  EXCHANGE_MERGE = 'EXCHANGE_MERGE',
+  EXCHANGE_UPGRADE = 'EXCHANGE_UPGRADE',
+  WALLET_MERGE = 'WALLET_MERGE'
+}
+
 export enum LoginSteps {
   CHECK_EMAIL = 'CHECK_EMAIL',
   ENTER_EMAIL_GUID = 'ENTER_EMAIL_GUID',
@@ -62,6 +68,7 @@ export type WalletDataFromMagicLink = {
     user_id?: string
   }
   mergeable?: boolean | null
+  product?: ProductAuthOptions
   unified?: boolean
   upgradeable?: boolean | null
   user_type?: UserType
@@ -105,6 +112,29 @@ export type LoginErrorType =
       message?: string
     }
   | string
+
+export type AuthStateType = {
+  accountUnificationFlow?: AccountUnificationFlows
+  auth_type: number
+  designatedProduct: ProductAuthOptions
+  designatedProductRedirect?: string
+  firstLogin: boolean
+  isAuthenticated: boolean
+  isLoggingIn: boolean
+  kycReset?: boolean
+  // TODO: make this type more specific
+  login: any
+  magicLinkData?: WalletDataFromMagicLink
+  manifestFile: any
+  metadataRestore: any
+  mobileLoginStarted: boolean
+  registerEmail?: string
+  registering: any
+  resetAccount: boolean
+  restoring: any
+  secureChannelLogin: any
+  userGeoData: any
+}
 // actions
 
 interface LoginFailureActionType {

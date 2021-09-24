@@ -1,18 +1,21 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from 'blockchain-wallet-v4/src'
 
-const initialState = {
+import { AccountUnificationFlows, AuthStateType, ProductAuthOptions } from './types'
+
+const initialState: AuthStateType = {
+  accountUnificationFlow: undefined,
   auth_type: 0,
-  designatedProduct: 'WALLET',
+  designatedProduct: ProductAuthOptions.WALLET,
+  designatedProductRedirect: undefined,
   firstLogin: false,
   isAuthenticated: false,
   isLoggingIn: false,
   kycReset: undefined,
   login: Remote.NotAsked,
-  // loginParamHeader: undefined,
-  magicLinkData: null,
+  magicLinkData: undefined,
   manifestFile: null,
   metadataRestore: Remote.NotAsked,
   mobileLoginStarted: false,
@@ -119,11 +122,26 @@ const authSlice = createSlice({
     secureChannelLoginSuccess: (state, action) => {
       state.secureChannelLogin = Remote.Success(action.payload)
     },
+    setAccountUnificationFlowType: (state, action: PayloadAction<AccountUnificationFlows>) => {
+      state.accountUnificationFlow = action.payload
+    },
     setAuthType: (state, action) => {
       state.auth_type = action.payload
     },
-    setDesignatedProduct: (state, action) => {
-      state.designatedProduct = action.payload
+    setDesignatedProductMetadata: (state, action) => {
+      const { designatedProduct, designatedProductRedirect } = action.payload
+      // TODO: update to check for explorer when applicable
+      if (designatedProduct && designatedProduct.toUpperCase() === ProductAuthOptions.WALLET) {
+        state.designatedProduct = ProductAuthOptions.WALLET
+      } else if (
+        designatedProduct &&
+        designatedProduct.toUpperCase() === ProductAuthOptions.EXCHANGE
+      ) {
+        state.designatedProduct = ProductAuthOptions.EXCHANGE
+      }
+      if (typeof designatedProductRedirect === 'string') {
+        state.designatedProductRedirect = designatedProductRedirect
+      }
     },
     setFirstLogin: (state, action) => {
       state.firstLogin = action.payload
@@ -131,9 +149,6 @@ const authSlice = createSlice({
     setKycResetStatus: (state, action) => {
       state.kycReset = action.payload
     },
-    // setLoginParamHeader: (state, action) => {
-    //   state.loginParamHeader = action.payload
-    // },
     setMagicLinkInfo: (state, action) => {
       state.magicLinkData = action.payload
     },

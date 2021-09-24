@@ -12,13 +12,11 @@ export const getAuthType = path(['auth', 'auth_type'])
 export const getDesignatedProduct = path(['auth', 'designatedProduct'])
 export const getSecureChannelLogin = path(['auth', 'secureChannelLogin'])
 export const getLogin = path(['auth', 'login'])
-// export const getLoginParamHeader = path(['auth', 'loginParamHeader'])
 export const getMobileLoginStarted = path(['auth', 'mobileLoginStarted'])
 export const getRegisterEmail = path(['auth', 'registerEmail'])
 export const getMetadataRestore = path(['auth', 'metadataRestore'])
 export const getKycResetStatus = path(['auth', 'kycReset'])
 export const getAccountReset = path(['auth', 'resetAccount'])
-export const getMagicLinkData = (state: RootState): WalletDataFromMagicLink | null =>
-  state.auth.magicLinkData
+export const getMagicLinkData = (state: RootState) => state.auth.magicLinkData
 export const getUserGeoData = path(['auth', 'userGeoData'])
 export const getManifest = path(['auth', 'manifestFile'])
