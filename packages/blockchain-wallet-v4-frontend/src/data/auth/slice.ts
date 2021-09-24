@@ -1,18 +1,20 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
 
-import { AuthStateType } from './types'
+import { AccountUnificationFlows, AuthStateType, ProductAuthOptions } from './types'
 
 const initialState: AuthStateType = {
+  accountUnificationFlow: undefined,
   auth_type: 0,
+  designatedProduct: ProductAuthOptions.WALLET,
+  designatedProductRedirect: undefined,
   firstLogin: false,
   isAuthenticated: false,
   isLoggingIn: false,
   kycReset: undefined,
   login: Remote.NotAsked,
-  magicLinkData: null,
+  magicLinkData: undefined,
   manifestFile: null,
   metadataRestore: Remote.NotAsked,
   mobileLoginStarted: false,
@@ -119,8 +121,26 @@ const authSlice = createSlice({
     secureChannelLoginSuccess: (state, action) => {
       state.secureChannelLogin = Remote.Success(action.payload)
     },
+    setAccountUnificationFlowType: (state, action: PayloadAction<AccountUnificationFlows>) => {
+      state.accountUnificationFlow = action.payload
+    },
     setAuthType: (state, action) => {
       state.auth_type = action.payload
+    },
+    setDesignatedProductMetadata: (state, action) => {
+      const { designatedProduct, designatedProductRedirect } = action.payload
+      // TODO: update to check for explorer when applicable
+      if (designatedProduct && designatedProduct.toUpperCase() === ProductAuthOptions.WALLET) {
+        state.designatedProduct = ProductAuthOptions.WALLET
+      } else if (
+        designatedProduct &&
+        designatedProduct.toUpperCase() === ProductAuthOptions.EXCHANGE
+      ) {
+        state.designatedProduct = ProductAuthOptions.EXCHANGE
+      }
+      if (typeof designatedProductRedirect === 'string') {
+        state.designatedProductRedirect = designatedProductRedirect
+      }
     },
     setFirstLogin: (state, action) => {
       state.firstLogin = action.payload

@@ -4,8 +4,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector, getFormMeta, InjectedFormProps, reduxForm } from 'redux-form'
 
-import { Button, Icon, Text } from 'blockchain-info-components'
 import { RemoteDataType } from '@core/types'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
@@ -291,7 +291,8 @@ const mapStateToProps = (state) => ({
     step: LoginSteps.ENTER_EMAIL_GUID
   },
   password: formValueSelector(LOGIN_FORM_NAME)(state, 'password'),
-  ssoDummy: selectors.core.walletOptions.getSsoDummy(state).getOrElse(false)
+  ssoDummy: selectors.core.walletOptions.getSsoDummy(state),
+  upgradePassword: formValueSelector('login')(state, 'upgradeAccountPassword') || ('' as string)
 })
 
 const mapDispatchToProps = (dispatch) => ({

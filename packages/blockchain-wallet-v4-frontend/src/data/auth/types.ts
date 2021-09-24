@@ -1,24 +1,15 @@
-import { RemoteDataType } from '@core/types'
-
 import { actions } from './slice'
 
-export type AuthStateType = {
-  auth_type: number
-  firstLogin: boolean
-  isAuthenticated: boolean
-  isLoggingIn: boolean
-  kycReset: undefined
-  login: RemoteDataType<any, any>
-  magicLinkData: null
-  manifestFile: null
-  metadataRestore: RemoteDataType<any, any>
-  mobileLoginStarted: boolean
-  registerEmail: undefined
-  registering: RemoteDataType<any, any>
-  resetAccount: boolean
-  restoring: RemoteDataType<any, any>
-  secureChannelLogin: RemoteDataType<any, any>
-  userGeoData: RemoteDataType<any, any>
+export enum ProductAuthOptions {
+  EXCHANGE = 'EXCHANGE',
+  EXPLORER = 'EXPLORER',
+  WALLET = 'WALLET'
+}
+
+export enum AccountUnificationFlows {
+  EXCHANGE_MERGE = 'EXCHANGE_MERGE',
+  EXCHANGE_UPGRADE = 'EXCHANGE_UPGRADE',
+  WALLET_MERGE = 'WALLET_MERGE'
 }
 
 export enum LoginSteps {
@@ -26,6 +17,8 @@ export enum LoginSteps {
   ENTER_EMAIL_GUID = 'ENTER_EMAIL_GUID',
   ENTER_PASSWORD = 'ENTER_PASSWORD',
   LOADING = 'LOADING',
+  UPGRADE_CHANGE_PASSWORD = 'UPGRADE_CHANGE_PASSWORD',
+  UPGRADE_CONFIRM = 'UPGRADE_CONFIRM',
   VERIFICATION_MOBILE = 'VERIFICATION_MOBILE'
 }
 
@@ -60,6 +53,14 @@ export type LoginFormType = {
   twoFA?: number | string
 }
 
+export enum UserType {
+  EXCHANGE = 'EXCHANGE',
+  WALLET = 'WALLET',
+  WALLET_EXCHANGE_BOTH = 'WALLET_EXCHANGE_BOTH',
+  WALLET_EXCHANGE_LINKED = 'WALLET_EXCHANGE_LINKED',
+  WALLET_EXCHANGE_NOT_LINKED = 'WALLET_EXCHANGE_NOT_LINKED'
+}
+
 export type WalletDataFromMagicLink = {
   exchange?: {
     email?: string
@@ -67,14 +68,17 @@ export type WalletDataFromMagicLink = {
     user_id?: string
   }
   mergeable?: boolean | null
+  product?: ProductAuthOptions
+  unified?: boolean
   upgradeable?: boolean | null
+  user_type?: UserType
   wallet: {
     auth_type?: number
     email: string
     email_code?: string
     exchange?: {
       email?: string
-      twoFaMode?: boolean
+      two_fa_mode?: boolean
       user_id?: string
     }
     guid: string
@@ -108,6 +112,29 @@ export type LoginErrorType =
       message?: string
     }
   | string
+
+export type AuthStateType = {
+  accountUnificationFlow?: AccountUnificationFlows
+  auth_type: number
+  designatedProduct: ProductAuthOptions
+  designatedProductRedirect?: string
+  firstLogin: boolean
+  isAuthenticated: boolean
+  isLoggingIn: boolean
+  kycReset?: boolean
+  // TODO: make this type more specific
+  login: any
+  magicLinkData?: WalletDataFromMagicLink
+  manifestFile: any
+  metadataRestore: any
+  mobileLoginStarted: boolean
+  registerEmail?: string
+  registering: any
+  resetAccount: boolean
+  restoring: any
+  secureChannelLogin: any
+  userGeoData: any
+}
 // actions
 
 interface LoginFailureActionType {
