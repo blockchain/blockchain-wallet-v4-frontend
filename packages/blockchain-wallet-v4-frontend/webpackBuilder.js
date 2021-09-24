@@ -117,6 +117,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
         type: 'asset/resource',
         generator: { filename: 'img/[name][ext]?[contenthash]' }
       },
+      { test: /\.(AppImage|dmg|exe)$/, type: 'asset/resource' },
       { test: /\.(pdf)$/, type: 'asset/resource' },
       { test: /\.css$/, use: [{ loader: 'style-loader' }, { loader: 'css-loader' }] }
     ]
