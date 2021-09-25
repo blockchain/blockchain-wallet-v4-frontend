@@ -30,6 +30,18 @@ const authSlice = createSlice({
   initialState,
   name: 'auth',
   reducers: {
+    analyticsLoginIdEntered: (state, action) => {},
+    analyticsLoginMethodSelected: (state, action) => {},
+    analyticsLoginPasswordDenied: () => {},
+    analyticsLoginPasswordEntered: () => {},
+    analyticsLoginTwoStepVerificationDenied: () => {},
+    analyticsLoginTwoStepVerificationEntered: () => {},
+    analyticsMagicLinkParsed: () => {},
+    analyticsNeedHelpClicked: (state, action) => {},
+    analyticsRecoveryOptionSelected: (state, action) => {},
+    analyticsRecoveryPhraseEntered: () => {},
+    analyticsResetAccountCancelled: (state, action) => {},
+    analyticsResetAccountClicked: (state, action) => {},
     authenticate: (state) => {
       state.isAuthenticated = true
     },
@@ -49,20 +61,13 @@ const authSlice = createSlice({
     loginFailure: (state, action) => {
       state.login = Remote.Failure(action.payload)
     },
-    loginIdEntered: (state, action) => {},
     loginLoading: (state) => {
       state.login = Remote.Loading
     },
-    loginMethodSelected: (state, action) => {},
-    loginPasswordDenied: () => {},
-    loginPasswordEntered: () => {},
     loginRoutine: (state, action) => {},
     loginSuccess: (state, action) => {
       state.login = Remote.Success(action.payload)
     },
-    loginTwoStepVerificationDenied: () => {},
-    loginTwoStepVerificationEntered: () => {},
-    magicLinkParsed: () => {},
     mobileLogin: (state, action) => {},
     mobileLoginFinish: (state) => {
       state.mobileLoginStarted = false
@@ -70,10 +75,7 @@ const authSlice = createSlice({
     mobileLoginStarted: (state) => {
       state.mobileLoginStarted = true
     },
-    needHelpClicked: (state, action) => {},
     pingManifestFile: () => {},
-    recoveryOptionSelected: (state, action) => {},
-    recoveryPhraseEntered: () => {},
     register: (state, action) => {},
     registerFailure: (state, action) => {
       state.registering = Remote.Failure(action.payload)
@@ -86,8 +88,6 @@ const authSlice = createSlice({
     },
     resendSmsCode: (state, action) => {},
     resetAccount: (state, action) => {},
-    resetAccountCancelled: (state, action) => {},
-    resetAccountClicked: (state, action) => {},
     resetAccountFailure: () => {},
     resetAccountLoading: () => {},
     resetAccountSuccess: () => {},

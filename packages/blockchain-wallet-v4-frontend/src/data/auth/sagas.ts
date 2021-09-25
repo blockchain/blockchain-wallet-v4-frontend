@@ -274,9 +274,9 @@ export default ({ api, coreSagas, networks }) => {
     let session = yield select(selectors.session.getSession, guid, email)
     // JUST FOR ANALYTICS PURPOSES
     if (code) {
-      yield put(actions.auth.loginTwoStepVerificationEntered())
+      yield put(actions.auth.analyticsLoginTwoStepVerificationEntered())
     } else {
-      yield put(actions.auth.loginPasswordEntered())
+      yield put(actions.auth.analyticsLoginPasswordEntered())
     }
     // JUST FOR ANALYTICS PURPOSES
     yield put(startSubmit('login'))
@@ -357,7 +357,7 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.auth.setAuthType(0))
           yield put(actions.form.clearFields('login', false, true, 'password', 'code'))
           yield put(actions.form.focus('login', 'password'))
-          yield put(actions.auth.loginPasswordDenied())
+          yield put(actions.auth.analyticsLoginPasswordDenied())
           yield put(actions.auth.loginFailure(errorString))
           break
         // Valid wallet ID format but it doesn't exist in bc
@@ -377,7 +377,7 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.form.clearFields('login', false, true, 'code'))
           yield put(actions.form.focus('login', 'code'))
           yield put(actions.auth.loginFailure(errorString))
-          yield put(actions.auth.loginTwoStepVerificationDenied())
+          yield put(actions.auth.analyticsLoginTwoStepVerificationDenied())
           break
         // Catch all to show whatever error string is returned
         case errorString:
@@ -596,16 +596,17 @@ export default ({ api, coreSagas, networks }) => {
     const legacyMagicEmailLink = (yield select(
       selectors.core.walletOptions.getFeatureLegacyMagicEmailLink
     )).getOrElse(true)
+
     yield put(startSubmit('login'))
     try {
       yield put(actions.auth.triggerWalletMagicLinkLoading())
       const sessionToken = yield call(api.obtainSessionToken)
-      const { captchaToken, email } = action.payload
+      const { captchaToken, email, product } = action.payload
       yield put(actions.session.saveSession(assoc(email, sessionToken, {})))
       if (legacyMagicEmailLink) {
         yield call(api.triggerWalletMagicLinkLegacy, email, captchaToken, sessionToken)
       } else {
-        yield call(api.triggerWalletMagicLink, email, captchaToken, sessionToken)
+        yield call(api.triggerWalletMagicLink, email, captchaToken, sessionToken, product)
       }
       if (step === LoginSteps.CHECK_EMAIL) {
         yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))

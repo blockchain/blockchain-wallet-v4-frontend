@@ -2923,7 +2923,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
       // LOGIN EVENTS
-      case actions.auth.magicLinkParsed.type: {
+      case actions.auth.analyticsMagicLinkParsed.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -2945,7 +2945,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.needHelpClicked.type: {
+      case actions.auth.analyticsNeedHelpClicked.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -2970,7 +2970,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.loginIdEntered.type: {
+      case actions.auth.analyticsLoginIdEntered.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -2993,7 +2993,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.loginMethodSelected.type: {
+      case actions.auth.analyticsLoginMethodSelected.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -3016,7 +3016,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.loginPasswordDenied.type: {
+      case actions.auth.analyticsLoginPasswordDenied.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -3038,7 +3038,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.loginPasswordEntered.type: {
+      case actions.auth.analyticsLoginPasswordEntered.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -3106,7 +3106,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.loginTwoStepVerificationDenied.type: {
+      case actions.auth.analyticsLoginTwoStepVerificationDenied.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -3128,7 +3128,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.loginTwoStepVerificationEntered.type: {
+      case actions.auth.analyticsLoginTwoStepVerificationEntered.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -3219,7 +3219,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.recoveryOptionSelected.type: {
+      case actions.auth.analyticsRecoveryOptionSelected.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -3267,7 +3267,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.resetAccountCancelled.type: {
+      case actions.auth.analyticsResetAccountCancelled.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -3292,7 +3292,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.resetAccountClicked.type: {
+      case actions.auth.analyticsResetAccountClicked.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified

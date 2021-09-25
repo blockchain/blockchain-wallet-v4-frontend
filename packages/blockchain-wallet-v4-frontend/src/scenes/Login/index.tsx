@@ -92,7 +92,16 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
   }
 
   continueLoginProcess = () => {
-    const { authActions, code, formActions, formValues, guid, guidOrEmail, password } = this.props
+    const {
+      authActions,
+      code,
+      designatedProduct,
+      formActions,
+      formValues,
+      guid,
+      guidOrEmail,
+      password
+    } = this.props
     let auth = code
     // only uppercase if authType is not Yubikey
     if (auth && this.props.authType !== 1) {
@@ -109,19 +118,20 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
         formActions.change(LOGIN_FORM_NAME, 'email', guidOrEmail)
         authActions.triggerWalletMagicLink({
           captchaToken: this.state.captchaToken,
-          email: guidOrEmail
+          email: guidOrEmail,
+          product: designatedProduct
         })
         this.initCaptcha()
       }
       const idType = isGuid(guidOrEmail) ? 'WALLET_ID' : 'EMAIL'
-      authActions.loginIdEntered(idType)
+      authActions.analyticsLoginIdEntered(idType)
     } else {
       authActions.login({ code: auth, guid, mobileLogin: null, password, sharedKey: null })
     }
   }
 
   loginWithMobileClicked = () => {
-    this.props.authActions.loginMethodSelected('SECURE_CHANNEL')
+    this.props.authActions.analyticsLoginMethodSelected('SECURE_CHANNEL')
     this.setStep(LoginSteps.VERIFICATION_MOBILE)
   }
 
@@ -230,7 +240,8 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
                   )
                 case LoginSteps.UPGRADE_CHANGE_PASSWORD:
                   return <UpgradePassword {...this.props} {...loginProps} setStep={this.setStep} />
-                case LoginSteps.PRODUCT_PICKER:
+                case LoginSteps.PRODUCT_PICKER_AFTER_AUTHENTICATION ||
+                  LoginSteps.PRODUCT_PICKER_BEFORE_AUTHENTICATION:
                   return <ProductPicker {...this.props} {...loginProps} setStep={this.setStep} />
                 default:
                   return null
@@ -280,7 +291,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
           <Button
             data-e2e=''
             nature='empty-blue'
-            onClick={() => this.setStep(LoginSteps.PRODUCT_PICKER)}
+            onClick={() => this.setStep(LoginSteps.PRODUCT_PICKER_BEFORE_AUTHENTICATION)}
           >
             Product Picker
           </Button>

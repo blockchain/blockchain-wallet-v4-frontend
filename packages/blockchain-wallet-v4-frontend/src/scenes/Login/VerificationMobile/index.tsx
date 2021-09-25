@@ -4,9 +4,9 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
+import { RemoteDataType } from '@core/types'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import QRCodeWrapper from 'components/QRCodeWrapper'
-import { RemoteDataType } from '@core/types'
 import { actions, selectors } from 'data'
 import { LoginSteps } from 'data/types'
 
@@ -43,7 +43,7 @@ const VerificationMobile = (props: Props) => {
   }
 
   const loginWithPasswordClicked = () => {
-    props.authActions.loginMethodSelected('PASSWORD')
+    props.authActions.analyticsLoginMethodSelected('PASSWORD')
     setStep(LoginSteps.ENTER_PASSWORD)
   }
 

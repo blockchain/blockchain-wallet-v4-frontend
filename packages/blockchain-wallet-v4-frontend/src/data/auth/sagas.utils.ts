@@ -53,7 +53,7 @@ export const parseMagicLink = function* (params) {
     if (product === ProductAuthOptions.EXCHANGE) {
       // set state with all exchange login information
     }
-    yield put(actions.auth.magicLinkParsed())
+    yield put(actions.auth.analyticsMagicLinkParsed())
   } catch (e) {
     yield put(actions.logs.logErrorMessage(logLocation, 'parseLink', e))
     yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
