@@ -139,34 +139,6 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl
     })
 
-  const remindGuid = (email, captchaToken, sessionToken) => {
-    post({
-      data: {
-        captcha: captchaToken,
-        email,
-        method: 'send-guid-reminder',
-        siteKey: window.CAPTCHA_KEY
-      },
-      endPoint: '/wallet',
-      sessionToken,
-      url: rootUrl
-    })
-  }
-
-  const triggerWalletMagicLinkLegacy = (email, captchaToken, sessionToken) => {
-    post({
-      data: {
-        captcha: captchaToken,
-        email,
-        method: 'send-guid-reminder',
-        siteKey: window.CAPTCHA_KEY
-      },
-      endPoint: '/wallet',
-      sessionToken,
-      url: rootUrl
-    })
-  }
-
   // marks timestamp when user last backed up phrase
   const updateMnemonicBackup = (sharedKey, guid) =>
     post({
@@ -279,14 +251,12 @@ export default ({ get, post, rootUrl }) => {
     handle2faReset,
     obtainSessionToken,
     pollForSessionGUID,
-    remindGuid,
     resendSmsLoginCode,
     reset2fa,
     savePayload,
     sendSecureChannel,
     triggerMnemonicViewedAlert,
     triggerNonCustodialSendAlert,
-    triggerWalletMagicLinkLegacy,
     updateMnemonicBackup,
     verifyEmailToken
   }

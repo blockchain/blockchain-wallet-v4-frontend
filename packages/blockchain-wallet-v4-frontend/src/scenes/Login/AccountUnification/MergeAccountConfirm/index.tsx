@@ -22,7 +22,7 @@ const TextStack = styled.div`
   margin-left: 16px;
 `
 
-const ExistingAccountsMerge = (props: Props) => {
+const MergeAccountConfirm = (props: Props) => {
   const handleBackArrowClick = () => {
     props.cacheActions.removedStoredLogin()
     props.formActions.destroy(LOGIN_FORM_NAME)
@@ -30,6 +30,7 @@ const ExistingAccountsMerge = (props: Props) => {
     props.authActions.clearLoginError()
     props.initCaptcha()
   }
+
   return (
     <>
       <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} hideGuid />
@@ -97,20 +98,19 @@ const ExistingAccountsMerge = (props: Props) => {
         // disabled={submitting || busy}
         data-e2e='upgradeButton'
         style={{ margin: '32px 0 24px' }}
+        onClick={() => props.setStep(LoginSteps.UPGRADE_CHANGE_PASSWORD)}
       >
-        {/* {submitting ? (
-          <HeartbeatLoader height='20px' width='20px' color='white' />
-        ) : ( */}
         <Text color='whiteFade900' size='16px' weight={600}>
           <FormattedMessage id='buttons.upgrade_account' defaultMessage='Upgrade Account' />
         </Text>
-        {/* )} */}
       </ActionButton>
       <Button nature='empty-blue' fullwidth height='48px' data-e2e='upgradeLater'>
+        {/* might need to do some loading state here while user is being logged into
+        whatever product they want to  be logged into */}
         <FormattedMessage id='copy.later' defaultMessage="I'll Do This Later" />
       </Button>
     </>
   )
 }
 
-export default ExistingAccountsMerge
+export default MergeAccountConfirm

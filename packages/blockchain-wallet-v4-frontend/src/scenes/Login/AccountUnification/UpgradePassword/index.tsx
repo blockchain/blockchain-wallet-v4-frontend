@@ -10,21 +10,8 @@ import { LoginSteps } from 'data/types'
 import { required, validPasswordConfirmation, validStrongPassword } from 'services/forms'
 
 import { Props } from '../../index'
-import {
-  ActionButton,
-  BackArrowFormHeader,
-  LinkRow,
-  LOGIN_FORM_NAME,
-  NeedHelpLink
-} from '../../model'
+import { ActionButton, BackArrowFormHeader, LinkRow, NeedHelpLink } from '../../model'
 
-const IconTextRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-`
-const TextStack = styled.div`
-  margin-left: 16px;
-`
 const validatePasswordConfirmation = validPasswordConfirmation('upgradeAccountPassword')
 
 const UpgradePassword = (props: Props) => {

@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector, getFormMeta, InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
 
 import { RemoteDataType } from '@core/types'
 import { Button, Icon, Text } from 'blockchain-info-components'
@@ -14,12 +15,21 @@ import { isGuid } from 'services/forms'
 
 // step templates
 import Loading from '../loading.public'
+import MergeAccountConfirm from './AccountUnification/MergeAccountConfirm'
+import ProductPicker from './AccountUnification/ProductPicker'
+import UpgradePassword from './AccountUnification/UpgradePassword'
 import CheckEmail from './CheckEmail'
 import EnterEmailOrGuid from './EnterEmailOrGuid'
 import EnterPassword from './EnterPassword'
 import { LOGIN_FORM_NAME, PhishingWarning } from './model'
 import VerificationMobile from './VerificationMobile'
 
+// TODO: remove temp
+const ButtonRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 8px;
+`
 class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StateProps> {
   constructor(props) {
     super(props)
@@ -132,7 +142,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
 
     return (
       <>
-        {/* <Text color='white' size='24px' weight={600} style={{ marginBottom: '24px' }}>
+        <Text color='white' size='24px' weight={600} style={{ marginBottom: '24px' }}>
           {step === LoginSteps.ENTER_PASSWORD && (
             <FormattedMessage id='scenes.login.authorize' defaultMessage='Authorize login' />
           )}
@@ -176,7 +186,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
               defaultMessage='Create a new password for all your Blockchain.com accounts.'
             />
           </Text>
-        )} */}
+        )}
         <Wrapper>
           <Form onSubmit={this.handleSubmit}>
             {(() => {
@@ -214,6 +224,14 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
                   return (
                     <VerificationMobile {...this.props} {...loginProps} setStep={this.setStep} />
                   )
+                case LoginSteps.UPGRADE_CONFIRM:
+                  return (
+                    <MergeAccountConfirm {...this.props} {...loginProps} setStep={this.setStep} />
+                  )
+                case LoginSteps.UPGRADE_CHANGE_PASSWORD:
+                  return <UpgradePassword {...this.props} {...loginProps} setStep={this.setStep} />
+                case LoginSteps.PRODUCT_PICKER:
+                  return <ProductPicker {...this.props} {...loginProps} setStep={this.setStep} />
                 default:
                   return null
               }
@@ -235,7 +253,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
             />
           </Text>
         )}
-        {/* {step === LoginSteps.ENTER_EMAIL_GUID && (
+        {step === LoginSteps.ENTER_EMAIL_GUID && (
           <>
             <Text size='14px' color='grey400' weight={500} style={{ margin: '24px 0 16px' }}>
               <FormattedMessage
@@ -250,7 +268,30 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
               </Text>
             </PhishingWarning>
           </>
-        )} */}
+        )}
+        <ButtonRow>
+          <Button
+            data-e2e=''
+            nature='empty-blue'
+            onClick={() => this.setStep(LoginSteps.UPGRADE_CONFIRM)}
+          >
+            Upgrade Prompt
+          </Button>
+          <Button
+            data-e2e=''
+            nature='empty-blue'
+            onClick={() => this.setStep(LoginSteps.PRODUCT_PICKER)}
+          >
+            Product Picker
+          </Button>
+          <Button
+            data-e2e=''
+            nature='empty-blue'
+            onClick={() => this.setStep(LoginSteps.UPGRADE_CHANGE_PASSWORD)}
+          >
+            Upgrade Change Password
+          </Button>
+        </ButtonRow>
       </>
     )
   }
