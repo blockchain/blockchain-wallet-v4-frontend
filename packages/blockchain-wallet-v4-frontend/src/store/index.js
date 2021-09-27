@@ -71,7 +71,7 @@ const configuredStore = async function () {
       }),
       {}
     ),
-    ...erc20s.currencies.slice(0, 100).reduce(
+    ...erc20s.currencies.reduce(
       (acc, curr) => ({
         ...acc,
         [curr.symbol]: { coinfig: curr }

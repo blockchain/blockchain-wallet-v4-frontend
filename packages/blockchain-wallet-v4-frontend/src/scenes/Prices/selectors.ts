@@ -1,19 +1,17 @@
-import BigNumber from 'bignumber.js'
 import { lift, map } from 'ramda'
 
-import { getAllCoinsBalancesSelector, getErc20Balance } from 'components/Balances/selectors'
 import { ExtractSuccess } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
+import { getBalanceSelector, getErc20Balance } from 'components/Balances/selectors'
 import { selectors } from 'data'
 
 export const getData = createDeepEqualSelector(
   [
     selectors.prices.getAllCoinPrices,
     selectors.prices.getAllCoinPricesPreviousDay,
-    getAllCoinsBalancesSelector,
     (state) => state
   ],
-  (coinPricesR, coinPricesPreviousR, coinBalances, state) => {
+  (coinPricesR, coinPricesPreviousR, state) => {
     const transform = (
       coinPrices: ExtractSuccess<typeof coinPricesR>,
       coinPricesPrevious: ExtractSuccess<typeof coinPricesPreviousR>
@@ -25,10 +23,13 @@ export const getData = createDeepEqualSelector(
 
         const currentPrice = coinPrices[coinfig.symbol]
         const yesterdayPrice = coinPricesPrevious[coinfig.symbol]
+        const coinBalance = getBalanceSelector(coinfig.symbol)(state).getOrElse(0).valueOf()
         return (
           coinfig.type.name !== 'FIAT' && {
             balance:
-              coinBalances[coinfig.symbol] || getErc20Balance(coinfig.symbol)(state).getOrElse(0),
+              coinfig.type.name === 'ERC20'
+                ? getErc20Balance(coinfig.symbol)(state).getOrElse(0)
+                : coinBalance,
             coin: coinfig.symbol,
             coinModel: coin,
             name: `${coinfig.name} (${coinfig.displaySymbol})`,

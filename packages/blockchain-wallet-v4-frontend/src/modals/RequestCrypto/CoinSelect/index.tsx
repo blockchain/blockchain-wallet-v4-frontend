@@ -1,7 +1,8 @@
 import React from 'react'
-import InfiniteScroll from 'react-infinite-scroll-component'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import AutoSizer from 'react-virtualized-auto-sizer'
+import { FixedSizeList as List } from 'react-window'
 import { bindActionCreators, compose } from 'redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
@@ -21,6 +22,7 @@ import { getData } from './selectors'
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  height: 100%;
 `
 const Header = styled(StepHeader)`
   margin-bottom: 40px;
@@ -34,34 +36,33 @@ const NoAccountsText = styled.div`
   padding: 40px 40px 0;
   text-align: center;
 `
-
-class RequestCoinSelect extends React.PureComponent<
-  Props,
-  { items: Props['data']['accounts']; scrollHeight: string }
-> {
-  scrollRef: React.RefObject<HTMLDivElement>
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      items: props.data.accounts.slice(0, 20),
-      scrollHeight: '400px'
-    }
-    this.scrollRef = React.createRef()
-  }
-
-  componentDidMount() {
-    this.setState({ scrollHeight: `${this.scrollRef.current?.offsetHeight}px` })
-  }
-
-  fetchDataMock = () => {
-    this.setState((state) => ({
-      items: this.props.data.accounts.slice(0, state.items.length + 20)
-    }))
-  }
-
+class RequestCoinSelect extends React.PureComponent<Props> {
   render() {
     const { data, formActions, handleClose, requestableCoins, setStep, walletCurrency } = this.props
+
+    const Row = ({ data: rowData, index, key, style }) => {
+      const account = rowData[index]
+
+      return (
+        <div style={style}>
+          <CoinAccountListOption
+            key={key}
+            account={account}
+            coin={account.coin}
+            onClick={() => {
+              if (account.type === SwapBaseCounterTypes.CUSTODIAL && !data.isAtLeastTier1) {
+                setStep(RequestSteps.IDV_INTRO)
+              } else {
+                formActions.change(REQUEST_FORM, 'selectedAccount', account)
+                formActions.change(REQUEST_FORM, 'step', RequestSteps.SHOW_ADDRESS)
+              }
+            }}
+            walletCurrency={walletCurrency}
+          />
+        </div>
+      )
+    }
+
     return (
       <Wrapper>
         <StickyHeaderFlyoutWrapper>
@@ -107,40 +108,20 @@ class RequestCoinSelect extends React.PureComponent<
             </SelectCoinWrapper>
           </div>
         </StickyHeaderFlyoutWrapper>
-        <div
-          ref={this.scrollRef}
-          id='scrollableDiv'
-          style={{
-            flex: 1,
-            height: '100%',
-            overflow: 'auto'
-          }}
-        >
-          <InfiniteScroll
-            next={this.fetchDataMock}
-            loader={<div>loading</div>}
-            dataLength={this.state.items.length}
-            height={this.state.scrollHeight}
-            hasMore
-          >
-            {this.state.items.map((account) => (
-              <CoinAccountListOption
-                key={account.coin + account.address}
-                account={account}
-                coin={account.coin}
-                onClick={() => {
-                  if (account.type === SwapBaseCounterTypes.CUSTODIAL && !data.isAtLeastTier1) {
-                    setStep(RequestSteps.IDV_INTRO)
-                  } else {
-                    formActions.change(REQUEST_FORM, 'selectedAccount', account)
-                    formActions.change(REQUEST_FORM, 'step', RequestSteps.SHOW_ADDRESS)
-                  }
-                }}
-                walletCurrency={walletCurrency}
-              />
-            ))}
-          </InfiniteScroll>
-        </div>
+        <AutoSizer>
+          {({ height, width }) => (
+            <List
+              className='List'
+              height={height}
+              itemData={data.accounts}
+              itemCount={data.accounts.length}
+              itemSize={74}
+              width={width}
+            >
+              {Row}
+            </List>
+          )}
+        </AutoSizer>
         {data.accounts.length === 0 && (
           <NoAccountsText>
             <Text size='16px' color='grey900' weight={500} style={{ marginTop: '10px' }}>
