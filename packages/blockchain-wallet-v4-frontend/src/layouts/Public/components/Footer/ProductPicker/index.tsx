@@ -22,27 +22,25 @@ const SignUpText = styled(Text)`
 
 const ProductPicker = (props) => {
   return (
-    <>
-      <SubCard
-        onClick={() =>
-          props.formActions.change('login', 'step', LoginSteps.PRODUCT_PICKER_BEFORE_AUTHENTICATION)
-        }
-      >
-        <Text size='16px' color='grey400' weight={500}>
-          <FormattedMessage
-            id='layouts.wallet.footer.looking_product'
-            defaultMessage='Looking for another product?'
-          />
-        </Text>
-        &nbsp;
-        <SignUpText size='16px' color='white' weight={600}>
-          <FormattedMessage
-            id='layouts.wallet.footer.select_product'
-            defaultMessage='Select a Product ->'
-          />
-        </SignUpText>
-      </SubCard>
-    </>
+    <SubCard
+      onClick={() =>
+        props.formActions.change('login', 'step', LoginSteps.PRODUCT_PICKER_BEFORE_AUTHENTICATION)
+      }
+    >
+      <Text size='16px' color='grey400' weight={500}>
+        <FormattedMessage
+          id='layouts.wallet.footer.looking_product'
+          defaultMessage='Looking for another product?'
+        />
+      </Text>
+      &nbsp;
+      <SignUpText size='16px' color='white' weight={600}>
+        <FormattedMessage
+          id='layouts.wallet.footer.select_product'
+          defaultMessage='Select a Product ->'
+        />
+      </SignUpText>
+    </SubCard>
   )
 }
 
