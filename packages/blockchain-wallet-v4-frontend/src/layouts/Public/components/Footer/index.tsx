@@ -6,6 +6,7 @@ import { ProductAuthOptions } from 'data/types'
 import CreateAccount from './CreateAccount'
 import DropdownLanguage from './DropdownLanguage'
 import Help from './Help'
+import ProductPicker from './ProductPicker'
 import Version from './Version'
 
 const FooterInner = styled.div`
@@ -18,6 +19,8 @@ const Footer = ({ designatedProduct, isLogin }: Props) => {
     <>
       <FooterInner>
         {isLogin ? <CreateAccount designatedProduct={designatedProduct} /> : null}
+        {/* TODO: figure out when to show this */}
+        {/* <ProductPicker /> */}
       </FooterInner>
       <FooterInner>
         <DropdownLanguage color='grey400' size='16px' />

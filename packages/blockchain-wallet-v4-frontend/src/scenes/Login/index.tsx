@@ -240,8 +240,8 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
                   )
                 case LoginSteps.UPGRADE_CHANGE_PASSWORD:
                   return <UpgradePassword {...this.props} {...loginProps} setStep={this.setStep} />
-                case LoginSteps.PRODUCT_PICKER_AFTER_AUTHENTICATION ||
-                  LoginSteps.PRODUCT_PICKER_BEFORE_AUTHENTICATION:
+                case LoginSteps.PRODUCT_PICKER_AFTER_AUTHENTICATION:
+                case LoginSteps.PRODUCT_PICKER_BEFORE_AUTHENTICATION:
                   return <ProductPicker {...this.props} {...loginProps} setStep={this.setStep} />
                 default:
                   return null
