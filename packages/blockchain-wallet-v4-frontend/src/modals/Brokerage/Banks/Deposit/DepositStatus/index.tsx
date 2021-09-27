@@ -18,8 +18,8 @@ import TimedOut from './template.timedOut'
 const DepositStatus = (props) => {
   useEffect(() => {
     if (props.fiatCurrency && !Remote.Success.is(props.data)) {
-      props.buySellActions.fetchSBPaymentMethods(props.fiatCurrency)
-      props.buySellActions.fetchSBFiatEligible(props.fiatCurrency)
+      props.buySellActions.fetchPaymentMethods(props.fiatCurrency)
+      props.buySellActions.fetchFiatEligible(props.fiatCurrency)
       props.brokerageActions.fetchBankTransferAccounts()
       props.buySellActions.fetchSDDEligibility()
     }
@@ -31,6 +31,7 @@ const DepositStatus = (props) => {
     NotAsked: () => <Loading text={LoadingTextEnum.LOADING} />,
     Success: (val) =>
       props.formValues?.order?.state === 'CLEARED' ||
+      props.formValues?.order?.state === 'COMPLETE' ||
       props.formValues?.order?.state === 'COMPLETED' ? (
         <Success {...val} {...props} />
       ) : props.formValues?.retryTimeout ? (
