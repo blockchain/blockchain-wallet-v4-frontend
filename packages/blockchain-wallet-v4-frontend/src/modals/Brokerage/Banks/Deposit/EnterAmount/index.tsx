@@ -17,8 +17,8 @@ import Success from './template.success'
 const EnterAmount = (props) => {
   useEffect(() => {
     if (props.fiatCurrency && !Remote.Success.is(props.data)) {
-      props.buySellActions.fetchSBPaymentMethods(props.fiatCurrency)
-      props.buySellActions.fetchSBFiatEligible(props.fiatCurrency)
+      props.buySellActions.fetchPaymentMethods(props.fiatCurrency)
+      props.buySellActions.fetchFiatEligible(props.fiatCurrency)
       props.brokerageActions.fetchBankTransferAccounts()
       props.buySellActions.fetchSDDEligibility()
     }

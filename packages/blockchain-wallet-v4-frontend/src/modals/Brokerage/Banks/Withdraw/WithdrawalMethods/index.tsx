@@ -14,8 +14,8 @@ import Success from './template.success'
 const WithdrawalMethods = (props) => {
   useEffect(() => {
     if (props.fiatCurrency && !Remote.Success.is(props.data)) {
-      props.buySellActions.fetchSBFiatEligible(props.fiatCurrency)
-      props.buySellActions.fetchSBPaymentMethods(props.fiatCurrency)
+      props.buySellActions.fetchFiatEligible(props.fiatCurrency)
+      props.buySellActions.fetchPaymentMethods(props.fiatCurrency)
       props.brokerageActions.fetchBankTransferAccounts()
     }
   }, [])
