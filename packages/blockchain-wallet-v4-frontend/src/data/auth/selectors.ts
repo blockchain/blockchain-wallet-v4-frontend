@@ -1,5 +1,3 @@
-import { path } from 'ramda'
-
 import { RootState } from 'data/rootReducer'
 
 import { AuthStateType } from './types'
