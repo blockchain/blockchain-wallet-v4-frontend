@@ -606,7 +606,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const fetchSBFiatEligible = function* ({ payload }: ReturnType<typeof A.fetchFiatEligible>) {
+  const fetchFiatEligible = function* ({ payload }: ReturnType<typeof A.fetchFiatEligible>) {
     try {
       let fiatEligible: FiatEligibleType
       yield put(A.fetchFiatEligibleLoading())
@@ -697,7 +697,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const fetchSBPaymentMethods = function* ({ payload }: ReturnType<typeof A.fetchPaymentMethods>) {
+  const fetchPaymentMethods = function* ({ payload }: ReturnType<typeof A.fetchPaymentMethods>) {
     try {
       yield call(waitForUserData)
       const userData = selectors.modules.profile.getUserData(yield select()).getOrElse({
@@ -1302,16 +1302,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     confirmSBFundsOrder,
     createSBOrder,
     deleteSBCard,
+    fetchFiatEligible,
     fetchLimits,
+    fetchPaymentMethods,
     fetchSBBalances,
     fetchSBCard,
     fetchSBCardSDD,
     fetchSBCards,
-    fetchSBFiatEligible,
     fetchSBOrders,
     fetchSBPairs,
     fetchSBPaymentAccount,
-    fetchSBPaymentMethods,
     fetchSBQuote,
     fetchSDDEligible,
     fetchSDDVerified,

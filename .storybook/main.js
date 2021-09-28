@@ -24,6 +24,7 @@ module.exports = {
 
     // Make whatever fine-grained changes you need
     config.resolve.alias = {
+      '@core': path.resolve(__dirname, '..', 'packages/blockchain-wallet-v4/src/'),
       components: path.resolve(__dirname, '..', 'packages/blockchain-wallet-v4-frontend/src/components/'),
       middleware: path.resolve(__dirname, '..', 'packages/blockchain-wallet-v4-frontend/src/middleware/'),
       data: path.resolve(__dirname, '..', 'packages/blockchain-wallet-v4-frontend/src/data/'),

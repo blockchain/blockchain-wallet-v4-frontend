@@ -4,12 +4,12 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
 import { ExtractSuccess } from '@core/types'
+import { FlyoutOopsError } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 import Loading from '../template.loading'
 import { getData } from './selectors'
-import Failure from './template.failure'
 import Success from './template.success'
 
 class CryptoSelection extends PureComponent<Props> {
@@ -21,9 +21,22 @@ class CryptoSelection extends PureComponent<Props> {
     }
   }
 
+  errorCallback() {
+    this.props.buySellActions.setStep({
+      fiatCurrency: this.props.fiatCurrency,
+      step: 'CRYPTO_SELECTION'
+    })
+  }
+
   render() {
     return this.props.data.cata({
-      Failure: () => <Failure {...this.props} />,
+      Failure: () => (
+        <FlyoutOopsError
+          action='retry'
+          data-e2e='sbTryCurrencySelectionAgain'
+          handler={this.errorCallback}
+        />
+      ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
       Success: (val) => <Success {...this.props} {...val} />

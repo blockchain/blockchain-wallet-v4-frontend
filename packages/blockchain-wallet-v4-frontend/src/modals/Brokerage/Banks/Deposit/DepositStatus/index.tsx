@@ -5,12 +5,12 @@ import { getFormValues } from 'redux-form'
 
 import { Remote } from '@core'
 import { FiatType } from '@core/types'
+import { FlyoutOopsError } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { BrokerageTxFormValuesType } from 'data/types'
 
 import { Loading, LoadingTextEnum } from '../../../../components'
-import Failure from '../template.failure'
 import { getData } from './selectors'
 import Success from './template.success'
 import TimedOut from './template.timedOut'
@@ -18,25 +18,28 @@ import TimedOut from './template.timedOut'
 const DepositStatus = (props) => {
   useEffect(() => {
     if (props.fiatCurrency && !Remote.Success.is(props.data)) {
-      props.buySellActions.fetchSBPaymentMethods(props.fiatCurrency)
-      props.buySellActions.fetchSBFiatEligible(props.fiatCurrency)
+      props.buySellActions.fetchPaymentMethods(props.fiatCurrency)
+      props.buySellActions.fetchFiatEligible(props.fiatCurrency)
       props.brokerageActions.fetchBankTransferAccounts()
       props.buySellActions.fetchSDDEligibility()
     }
   }, [])
 
   return props.data.cata({
-    Failure: () => <Failure {...props} />,
+    Failure: () => (
+      <FlyoutOopsError action='close' data-e2e='depositTryAgain' handler={props.handleClose} />
+    ),
     Loading: () => <Loading text={LoadingTextEnum.LOADING} />,
     NotAsked: () => <Loading text={LoadingTextEnum.LOADING} />,
     Success: (val) =>
       props.formValues?.order?.state === 'CLEARED' ||
+      props.formValues?.order?.state === 'COMPLETE' ||
       props.formValues?.order?.state === 'COMPLETED' ? (
         <Success {...val} {...props} />
       ) : props.formValues?.retryTimeout ? (
         <TimedOut {...props} />
       ) : (
-        <Failure {...props} />
+        <FlyoutOopsError action='close' data-e2e='depositTryAgain' handler={props.handleClose} />
       )
   })
 }

@@ -1,27 +1,33 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
+import { FlyoutOopsError } from 'components/Flyout'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 
 import getData from './selectors'
-import Failure from './template.failure'
 import Loading from './template.loading'
 import Success from './template.success'
 
 const WithdrawalMethods = (props) => {
   useEffect(() => {
     if (props.fiatCurrency && !Remote.Success.is(props.data)) {
-      props.buySellActions.fetchSBFiatEligible(props.fiatCurrency)
-      props.buySellActions.fetchSBPaymentMethods(props.fiatCurrency)
+      props.buySellActions.fetchFiatEligible(props.fiatCurrency)
+      props.buySellActions.fetchPaymentMethods(props.fiatCurrency)
       props.brokerageActions.fetchBankTransferAccounts()
     }
   }, [])
 
+  const errorCallback = useCallback(() => {
+    props.brokerageActions.fetchBankTransferAccounts()
+  }, [])
+
   return props.data.cata({
-    Failure: () => <Failure {...props} />,
+    Failure: () => (
+      <FlyoutOopsError action='retry' data-e2e='withdrawReload' handler={errorCallback} />
+    ),
     Loading: () => <Loading />,
     NotAsked: () => <Loading />,
     Success: (val) => <Success {...val} {...props} />
