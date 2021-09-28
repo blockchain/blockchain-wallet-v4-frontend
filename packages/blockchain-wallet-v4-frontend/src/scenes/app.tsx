@@ -68,7 +68,9 @@ const App = ({
     const id = uuidv4()
 
     sessionStorage.setItem(UTM, JSON.stringify(utm))
-    localStorage.setItem(ANALYTICS_ID, id)
+    if (localStorage.getItem(ANALYTICS_ID) === null) {
+      localStorage.setItem(ANALYTICS_ID, id)
+    }
   }, [])
 
   return (
