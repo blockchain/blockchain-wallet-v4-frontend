@@ -35,6 +35,3 @@ jobs:
 
       - name: Translations
         run: yarn manage:translations
-
-      - name: Storybook
-        run: yarn storybook:deploy-wallet
