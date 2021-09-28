@@ -1,5 +1,6 @@
 import {
   BeneficiaryType,
+  FiatType,
   RemoteDataType,
   WalletFiatType,
   WithdrawalLockResponseType,
@@ -109,3 +110,34 @@ export type WithdrawActionTypes =
   | FetchWithdrawalLockFailure
   | FetchWithdrawalLockLoading
   | FetchWithdrawalLockSuccess
+
+type LimitItem = {
+  available: string
+  limit: string
+  used: string
+}
+
+export type WithdrawLimitsResponse = {
+  cryptoLimit: {
+    available: string
+    daily: LimitItem
+    monthly: LimitItem
+    suggestedUpgrade: {
+      daily: LimitItem
+      monthly: LimitItem
+      requiredTier: number
+      requirements: string[]
+    }
+  }
+  currency: FiatType
+  fiatLimit: {
+    available: string
+    suggestedUpgrade: {
+      daily: LimitItem
+      monthly: LimitItem
+      requiredTier: number
+      requirements: string[]
+    }
+  }
+  userId: string
+}

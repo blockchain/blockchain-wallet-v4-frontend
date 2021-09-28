@@ -99,6 +99,13 @@ export type BtcAccountType = {
   xpub: string
 }
 
+export enum WalletAcountEnum {
+  CUSTODIAL = 'CUSTODIAL',
+  NON_CUSTODIAL = 'NON_CUSTODIAL'
+}
+
+export type WalletAcountType = keyof typeof WalletAcountEnum
+
 export type HDDerivationType = 'bech32' | 'legacy'
 
 export type AccountTypes = BtcAccountType
@@ -120,5 +127,4 @@ export * from '../redux/settings/types'
 export * from '../redux/walletOptions/types'
 export * from '../remote/types'
 export * from '../transactions/types'
-export * from './index'
 export * from './WalletPayload'
