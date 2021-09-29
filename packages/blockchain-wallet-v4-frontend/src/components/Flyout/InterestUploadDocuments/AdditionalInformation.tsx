@@ -16,6 +16,8 @@ import Header from '../Header'
 
 const { INTEREST_UPLOAD_DOCUMENT } = model.components.interestUploadDocument
 
+const MIN_LENGTH = 4
+
 const ContentWrapper = styled.div`
   display: flex;
   padding: 40px 40px 0 40px;
@@ -32,6 +34,17 @@ export const ContentDivider = styled.div`
   border-bottom: 1px solid ${(props) => props.theme.grey000};
   margin-bottom: 40px;
 `
+
+const minValue = (value: string) =>
+  value && value.length < MIN_LENGTH ? (
+    <FormattedMessage
+      id='modals.interest.withdrawal.upload_documents.additional_info.error'
+      defaultMessage='Must be at least {minChars} characters length'
+      values={{
+        minChars: MIN_LENGTH
+      }}
+    />
+  ) : undefined
 
 const AdditionalInformation: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const closeModal = useCallback(() => {
@@ -69,7 +82,12 @@ const AdditionalInformation: React.FC<InjectedFormProps<{}, Props> & Props> = (p
                   />
                 </Text>
               </FormLabel>
-              <Field name='occupation' errorBottom component={TextBox} validate={[required]} />
+              <Field
+                name='occupation'
+                errorBottom
+                component={TextBox}
+                validate={[required, minValue]}
+              />
             </FormItem>
           </ContentWrapper>
           <ContentDivider />
@@ -95,7 +113,7 @@ const AdditionalInformation: React.FC<InjectedFormProps<{}, Props> & Props> = (p
                 name='expectedDeposits'
                 errorBottom
                 component={TextBox}
-                validate={[required]}
+                validate={[required, minValue]}
                 placeholder='over 100k, BTC, in a 2 years period'
               />
             </FormItem>
