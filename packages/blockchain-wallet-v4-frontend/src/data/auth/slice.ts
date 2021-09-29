@@ -105,7 +105,7 @@ const authSlice = createSlice({
     restore: (state, action) => {},
     restoreFailure: () => {},
     restoreFromMetadata: (state, action) => {},
-    restoreFromMetadataFailure: (state, action: PayloadAction<{ e: unknown }>) => {
+    restoreFromMetadataFailure: (state, action: PayloadAction<string>) => {
       state.metadataRestore = Remote.Failure(action.payload)
     },
     restoreFromMetadataLoading: (state) => {

@@ -5,6 +5,7 @@ import { call, delay, fork, put, select, take } from 'redux-saga/effects'
 
 import { Types } from '@core'
 import { DEFAULT_INVITATIONS } from '@core/model'
+import { errorHandler } from '@core/utils'
 import { actions, actionTypes, model, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
 import profileSagas from 'data/modules/profile/sagas'
@@ -473,7 +474,7 @@ export default ({ api, coreSagas, networks }) => {
             yield put(actions.auth.setKycResetStatus(true))
           } else {
             yield put(actions.alerts.displayError(C.KYC_RESET_ERROR))
-            yield put(actions.auth.restoreFromMetadataFailure({ e }))
+            yield put(actions.auth.restoreFromMetadataFailure(errorHandler(e)))
             yield put(actions.auth.setKycResetStatus(false))
           }
         }
@@ -481,7 +482,7 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
       }
     } catch (e) {
-      yield put(actions.auth.restoreFromMetadataFailure({ e }))
+      yield put(actions.auth.restoreFromMetadataFailure(errorHandler(e)))
       yield put(actions.logs.logErrorMessage(logLocation, 'restoreFromMetadata', e))
     }
   }
