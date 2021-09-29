@@ -1,3 +1,4 @@
+import { ANALYTICS_ID, UTM } from 'middleware/analyticsMiddleware/constants'
 import { call, delay, put, select } from 'redux-saga/effects'
 
 import { actions, selectors } from 'data'
@@ -9,7 +10,7 @@ export default ({ api }) => {
   const logoutClearReduxStore = function* () {
     // router will fallback to /login route
     yield window.history.pushState('', '', '#')
-    yield window.location.reload(true)
+    yield window.location.reload()
   }
 
   const logout = function* () {
@@ -35,6 +36,9 @@ export default ({ api }) => {
   }
 
   const deauthorizeBrowser = function* () {
+    localStorage.removeItem(ANALYTICS_ID)
+    sessionStorage.removeItem(UTM)
+
     try {
       const guid = yield select(selectors.core.wallet.getGuid)
       const email = (yield select(selectors.core.settings.getEmail)).getOrElse(undefined)
