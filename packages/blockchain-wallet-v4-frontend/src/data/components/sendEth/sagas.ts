@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import BigNumber from 'bignumber.js'
 import EthereumAbi from 'ethereumjs-abi'
 import EthUtil from 'ethereumjs-util'

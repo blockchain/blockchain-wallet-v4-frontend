@@ -2,7 +2,6 @@ import { path, prop } from 'ramda'
 
 import { Remote } from '@core'
 import { /* AccountTokensBalancesResponseType, */ RemoteDataType } from '@core/types'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { RootState } from 'data/rootReducer'
 
 import { WalletOptionsType } from './types'
