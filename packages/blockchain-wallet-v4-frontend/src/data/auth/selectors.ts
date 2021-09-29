@@ -7,7 +7,7 @@ export function isAuthenticated(state: RootState): AuthStateType['isAuthenticate
 }
 
 export function getRegistering(state: RootState): AuthStateType['registering'] {
-  return state.auth.isAuthenticated
+  return state.auth.registering
 }
 
 export function getFirstLogin(state: RootState): AuthStateType['firstLogin'] {
@@ -22,11 +22,11 @@ export function getAuthType(state: RootState): AuthStateType['auth_type'] {
   return state.auth.auth_type
 }
 
-export function getDesignedProduct(state: RootState): AuthStateType['designatedProduct'] {
-  return state.auth.designedProduct
+export function getDesignatedProduct(state: RootState): AuthStateType['designatedProduct'] {
+  return state.auth.designatedProduct
 }
 
-export function getSecuredChannelLogin(state: RootState): AuthStateType['secureChannelLogin'] {
+export function getSecureChannelLogin(state: RootState): AuthStateType['secureChannelLogin'] {
   return state.auth.secureChannelLogin
 }
 
