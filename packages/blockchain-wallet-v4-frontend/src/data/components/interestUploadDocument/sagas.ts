@@ -70,6 +70,8 @@ export default ({ api }: { api: APIType }) => {
           step: InterestUploadDocumentsStepType.UPLOADED
         })
       )
+      // close also interest modal
+      yield put(actions.modals.closeModal(ModalName.INTEREST_MODAL))
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.logs.logErrorMessage(logLocation, 'save addtional documents', error))
