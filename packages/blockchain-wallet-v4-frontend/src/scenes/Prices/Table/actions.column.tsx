@@ -29,7 +29,7 @@ export const getActionsColumn = (
           buySellActions.showModal({
             cryptoCurrency: values.coin,
             orderType: OrderType.BUY,
-            origin: 'PricesPage'
+            origin: 'Prices'
           })
         }}
         width='96px'
@@ -49,7 +49,7 @@ export const getActionsColumn = (
         nature='empty-blue'
         onClick={() =>
           modalActions.showModal('SWAP_MODAL', {
-            origin: 'PricesPage'
+            origin: 'Prices'
           })
         }
         width='68px'
