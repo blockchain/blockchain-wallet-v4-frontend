@@ -1,6 +1,5 @@
 import { call, put } from 'redux-saga/effects'
 
-import wallet from '@core/network/api/wallet'
 import { actions } from 'data'
 import * as C from 'services/alerts'
 
