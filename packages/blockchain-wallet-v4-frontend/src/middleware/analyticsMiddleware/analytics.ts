@@ -1,18 +1,14 @@
 import { queuevent } from '@blockchain-com/constellation'
 import type { AnalyticsValue, RawEvent } from 'middleware/analyticsMiddleware/types'
 import { AnalyticsKey } from 'middleware/analyticsMiddleware/types'
-import { generateUniqueId } from 'middleware/analyticsMiddleware/utils'
 
-import { ANALYTICS_ID, QUEUE_NAME, UTM } from './constants'
+import { QUEUE_NAME, UTM } from './constants'
 
 const queueCallback = async (rawEvents: RawEvent[]) => {
   const res = await fetch('/wallet-options-v4.json')
   const options = await res.json()
 
   const analyticsURL = `${options.domains.api}/events/publish`
-
-  const guid = rawEvents.find((event) => event.payload.properties.guid)?.payload.properties.guid
-  const id = localStorage.getItem(ANALYTICS_ID)
 
   const nabuId =
     rawEvents.find((event) => event.payload.traits.nabuId)?.payload.traits.nabuId ?? null
@@ -37,10 +33,9 @@ const queueCallback = async (rawEvents: RawEvent[]) => {
   const events = rawEvents.map((event) => {
     const name = event.key
 
-    const { guid, originalTimestamp, ...properties } = event.payload.properties
+    const { originalTimestamp, ...properties } = event.payload.properties
 
     return {
-      id: guid ? generateUniqueId(guid) : id,
       nabuId,
       name,
       originalTimestamp,
@@ -53,7 +48,6 @@ const queueCallback = async (rawEvents: RawEvent[]) => {
       context,
       device: 'WEB',
       events,
-      id: guid ? generateUniqueId(guid) : id,
       platform: 'WALLET'
     }),
     credentials: 'include',
