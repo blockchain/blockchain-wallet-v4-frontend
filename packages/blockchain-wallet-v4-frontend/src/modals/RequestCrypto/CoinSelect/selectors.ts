@@ -1,6 +1,8 @@
 import { map } from 'ramda'
 
+import { CoinfigType } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
+import { getCoinsSortedByBalance } from 'components/Balances/selectors'
 import { selectors } from 'data'
 import { REQUEST_ACCOUNTS_SELECTOR } from 'data/coins/model/request'
 import { getCoinAccounts } from 'data/coins/selectors'
@@ -16,13 +18,18 @@ export const getData = createDeepEqualSelector(
         coins: ownProps.requestableCoins,
         ...REQUEST_ACCOUNTS_SELECTOR
       } as CoinAccountSelectorType),
+    getCoinsSortedByBalance,
     selectors.modules.profile.isSilverOrAbove,
     selectors.form.getFormValues(REQUEST_FORM)
   ],
-  (accounts, isSilverOrAbove, formValues: { coinSearch?: string }) => {
+  (accounts, sortedCoinsR, isSilverOrAbove, formValues: { coinSearch?: string }) => {
     const search = formValues?.coinSearch || 'ALL'
     const prunedAccounts = [] as Array<SwapAccountType>
     const isAtLeastTier1 = isSilverOrAbove
+    const sortedCoins = sortedCoinsR
+      .getOrElse([] as CoinfigType[])
+      .map((coinfig) => coinfig.symbol)
+      .reverse()
 
     // @ts-ignore
     map(
@@ -42,7 +49,11 @@ export const getData = createDeepEqualSelector(
       accounts
     )
 
-    return { accounts: prunedAccounts, isAtLeastTier1 }
+    const sortedAccounts = prunedAccounts.sort((acc1, acc2) => {
+      return sortedCoins.indexOf(acc2.coin) > sortedCoins.indexOf(acc1.coin) ? 1 : -1
+    })
+
+    return { accounts: sortedAccounts, isAtLeastTier1 }
   }
 )
 export default getData

@@ -1,18 +1,5 @@
 import BigNumber from 'bignumber.js'
-import {
-  add,
-  curry,
-  flatten,
-  head,
-  last,
-  lift,
-  map,
-  not,
-  pathOr,
-  reduce,
-  reject,
-  toPairs
-} from 'ramda'
+import { add, curry, flatten, lift, map, not, pathOr, reduce, reject } from 'ramda'
 
 import { Exchange, Remote } from '@core'
 import {
