@@ -7,7 +7,7 @@ import Icomoon from './Icomoon'
 
 const BaseIcon = styled.span.attrs((props) => ({
   style: {
-    color: props.theme[props.color] || props.color,
+    color: props.theme[props.color] || '',
     fontSize: props.size,
     fontWeight: props.weight
   }
@@ -65,7 +65,6 @@ Icon.propTypes = {
 }
 
 Icon.defaultProps = {
-  color: 'grey700',
   cursor: false,
   size: '16px',
   weight: 400

@@ -7,6 +7,8 @@ import { getCoinAccounts } from 'data/coins/selectors'
 import { CoinAccountSelectorType } from 'data/coins/types'
 import { SwapAccountType } from 'data/components/swap/types'
 
+import { REQUEST_FORM } from '../model'
+
 export const getData = createDeepEqualSelector(
   [
     (state, ownProps) =>
@@ -15,21 +17,28 @@ export const getData = createDeepEqualSelector(
         ...REQUEST_ACCOUNTS_SELECTOR
       } as CoinAccountSelectorType),
     selectors.modules.profile.isSilverOrAbove,
-    (state, ownProps) => ({ ownProps, state })
+    selectors.form.getFormValues(REQUEST_FORM)
   ],
-  (accounts, isSilverOrAbove, { ownProps }) => {
-    const { selectedCoin } = ownProps?.formValues || {}
+  (accounts, isSilverOrAbove, formValues: { coinSearch?: string }) => {
+    const search = formValues?.coinSearch || 'ALL'
     const prunedAccounts = [] as Array<SwapAccountType>
     const isAtLeastTier1 = isSilverOrAbove
 
     // @ts-ignore
     map(
-      (coin) =>
-        map((acct: any) => {
-          if (selectedCoin === 'ALL' ? true : acct.coin === selectedCoin) {
-            prunedAccounts.push(acct)
-          }
-        }, coin),
+      (coinAccounts) =>
+        map((coinAccount: SwapAccountType) => {
+          const { coinfig } = window.coins[coinAccount.coin]
+          const lowerSearch = search.toLowerCase()
+          let include = false
+
+          if (search === 'ALL') include = true
+          if (coinAccount.coin.toLowerCase().includes(lowerSearch)) include = true
+          if (coinfig.name.toLowerCase().includes(lowerSearch)) include = true
+          if (coinfig.displaySymbol.toLowerCase().includes(lowerSearch)) include = true
+
+          if (include) prunedAccounts.push(coinAccount)
+        }, coinAccounts),
       accounts
     )
 

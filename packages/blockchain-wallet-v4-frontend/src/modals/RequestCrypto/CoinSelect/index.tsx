@@ -10,7 +10,7 @@ import styled from 'styled-components'
 import { Icon, Text } from 'blockchain-info-components'
 import { StickyHeaderFlyoutWrapper } from 'components/Flyout'
 import { StepHeader } from 'components/Flyout/SendRequestCrypto'
-import { CoinAccountListOption, SelectBoxCoin } from 'components/Form'
+import { CoinAccountListOption, TextBox } from 'components/Form'
 import { actions } from 'data'
 import { SwapAccountType, SwapBaseCounterTypes } from 'data/components/swap/types'
 
@@ -27,9 +27,15 @@ const Wrapper = styled.div`
 const Header = styled(StepHeader)`
   margin-bottom: 40px;
 `
-const SelectCoinWrapper = styled.div`
+const InputContainer = styled.div`
   margin-top: 24px;
-  width: 40%;
+  position: relative;
+`
+const StyledIcon = styled(Icon)`
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
 `
 const NoAccountsText = styled.div`
   border-top: ${(props) => `1px solid ${props.theme.grey000}`};
@@ -38,7 +44,7 @@ const NoAccountsText = styled.div`
 `
 class RequestCoinSelect extends React.PureComponent<Props> {
   render() {
-    const { data, formActions, handleClose, requestableCoins, setStep, walletCurrency } = this.props
+    const { data, formActions, handleClose, setStep, walletCurrency } = this.props
 
     const Row = ({ data: rowData, index, key, style }) => {
       const account = rowData[index]
@@ -91,21 +97,10 @@ class RequestCoinSelect extends React.PureComponent<Props> {
                 defaultMessage='Select and share your address or QR code to receive crypto from anyone around the world.'
               />
             </Text>
-            <SelectCoinWrapper>
-              <Field
-                component={SelectBoxCoin}
-                height='32px'
-                name='selectedCoin'
-                props={{
-                  additionalOptions: [{ text: 'All Wallets', value: 'ALL' }],
-                  limitTo: requestableCoins.map((coin) => ({
-                    text: coin,
-                    value: coin
-                  }))
-                }}
-                type='request'
-              />
-            </SelectCoinWrapper>
+            <InputContainer>
+              <Field name='coinSearch' type='text' placeholder='Search' component={TextBox} />
+              <StyledIcon color='grey200' name='magnifier' />
+            </InputContainer>
           </div>
         </StickyHeaderFlyoutWrapper>
         <AutoSizer>

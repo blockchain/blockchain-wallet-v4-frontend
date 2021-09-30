@@ -1,7 +1,8 @@
-import { any, isEmpty, isNil, map, values } from 'ramda'
+import { any, isEmpty, isNil, lift, map, values } from 'ramda'
 
 import { Remote } from '@core'
-import { CoinfigType, CoinType, RemoteDataType } from '@core/types'
+import { CoinfigType, CoinType, ExtractSuccess, RemoteDataType } from '@core/types'
+import { getCoinsSortedByBalance } from 'components/Balances/selectors'
 import { selectors } from 'data'
 import { CoinAccountSelectorType } from 'data/coins/types'
 import { SwapAccountType } from 'data/components/swap/types'
@@ -88,8 +89,19 @@ export const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorT
     )
   }
 
-  const accountsR: RemoteDataType<any, { [key in CoinType]: Array<SwapAccountType> }> =
+  const coinAccountsR: RemoteDataType<any, { [key in CoinType]: Array<SwapAccountType> }> =
     getCoinAccountsR(state)
+  const coinsSortedByBalanceR = getCoinsSortedByBalance(state)
+
+  const transform = (
+    coinsSortedByBalance: ExtractSuccess<typeof coinsSortedByBalanceR>,
+    coinAccounts: ExtractSuccess<typeof coinAccountsR>
+  ) => {
+    console.log(coinsSortedByBalance)
+    return coinAccounts
+  }
+
+  const accountsR = lift(transform)(coinsSortedByBalanceR, coinAccountsR)
 
   const accounts = accountsR.getOrElse({})
 
