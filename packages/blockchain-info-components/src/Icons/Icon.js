@@ -5,10 +5,13 @@ import styled from 'styled-components'
 import Image, { BaseImage } from '../Images/Image'
 import Icomoon from './Icomoon'
 
-const BaseIcon = styled.span`
-  font-weight: ${(props) => props.weight};
-  font-size: ${(props) => props.size};
-  color: ${(props) => props.theme[props.color] || props.color};
+const BaseIcon = styled.span.attrs((props) => ({
+  style: {
+    color: props.theme[props.color] || '',
+    fontSize: props.size,
+    fontWeight: props.weight
+  }
+}))`
   -webkit-font-smoothing: antialiased;
   cursor: ${(props) => (props.cursorEnabled ? 'pointer' : 'inherit')};
   display: flex;
@@ -62,7 +65,6 @@ Icon.propTypes = {
 }
 
 Icon.defaultProps = {
-  color: 'grey700',
   cursor: false,
   size: '16px',
   weight: 400

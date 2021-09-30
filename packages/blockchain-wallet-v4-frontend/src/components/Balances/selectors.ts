@@ -1,18 +1,5 @@
 import BigNumber from 'bignumber.js'
-import {
-  add,
-  curry,
-  flatten,
-  head,
-  last,
-  lift,
-  map,
-  not,
-  pathOr,
-  reduce,
-  reject,
-  toPairs
-} from 'ramda'
+import { add, curry, flatten, lift, map, not, pathOr, reduce, reject } from 'ramda'
 
 import { Exchange, Remote } from '@core'
 import {
@@ -254,23 +241,13 @@ export const getFiatBalanceInfo = createDeepEqualSelector(
   }
 )
 
-export const getAllCoinsBalancesSelector = (state) => {
-  return selectors.core.data.coins.getAllCoins().reduce((acc, curr) => {
-    return {
-      ...acc,
-      [curr]: getBalanceSelector(curr)(state).getOrElse(0).valueOf()
-    }
-  }, {})
-}
-
 export const getCoinsSortedByBalance = createDeepEqualSelector(
   [
     selectors.custodial.getRecentSwapTxs,
     selectors.components.utils.getCoinsWithBalanceOrMethod,
-    getAllCoinsBalancesSelector,
     (state: RootState) => state
   ],
-  (recentSwapTxsR, coinsR, balances, state: RootState) => {
+  (recentSwapTxsR, coinsR, state: RootState) => {
     const transform = (coins: ExtractSuccess<typeof coinsR>) => {
       const coinSort = (a?: CoinfigType, b?: CoinfigType) => {
         if (!a || !b) return -1
@@ -295,13 +272,13 @@ export const getCoinsSortedByBalance = createDeepEqualSelector(
           coin: coinA,
           currency,
           rates: ratesA,
-          value: balances[coinA]
+          value: getBalanceSelector(coinA)(state).getOrElse(0).valueOf()
         })
         const coinBFiat = Exchange.convertCoinToFiat({
           coin: coinB,
           currency,
           rates: ratesB,
-          value: balances[coinB]
+          value: getBalanceSelector(coinB)(state).getOrElse(0).valueOf()
         })
 
         return Number(coinAFiat) > Number(coinBFiat) ? -1 : 1
@@ -322,8 +299,8 @@ export const getCoinsSortedByBalance = createDeepEqualSelector(
       const cryptoList = map(
         (coin) => coins.find((c) => c.coinfig.symbol === coin),
         reject(
-          not,
-          map((x) => last(x) !== 0 && head(x), toPairs(balances))
+          (coin) => getBalanceSelector(coin)(state).getOrElse(0) <= 0,
+          Object.keys(window.coins)
         )
       ).map((coin) => coin?.coinfig)
 

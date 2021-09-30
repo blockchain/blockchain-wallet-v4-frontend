@@ -62,6 +62,7 @@ export const getErc20CurrentBalance = (state, token) => {
   return path([dataPath, 'eth', 'current_balance', token])(state) || Remote.NotAsked
 }
 export const getErc20Coins = () => {
+  console.log('getErc20Coins')
   return Object.keys(window.coins).filter((coin) => window.coins[coin].coinfig.type.erc20Address)
 }
 export const getErc20Transactions = (state, token) => {
