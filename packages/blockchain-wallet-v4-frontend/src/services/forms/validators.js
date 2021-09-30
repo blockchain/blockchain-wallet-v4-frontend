@@ -18,7 +18,8 @@ import {
   isNumeric,
   isOverEighteen,
   isSSN,
-  isUsZipcode
+  isUsZipcode,
+  isValidSSN
 } from './utils'
 import * as M from './validationMessages'
 
@@ -173,6 +174,9 @@ export const ageOverEighteen = (value) =>
   isOverEighteen(value) ? undefined : <M.AgeOverEighteenMessage />
 
 export const requiredSSN = (value) => (isSSN(value) ? undefined : <M.RequiredSSNMessage />)
+
+export const requiredValidSSN = (value) =>
+  isValidSSN(value) ? undefined : <M.RequiredSSNMessage />
 
 export const requiredDOB = (value) => (isDOB(value) ? undefined : <M.RequiredDOBMessage />)
 
