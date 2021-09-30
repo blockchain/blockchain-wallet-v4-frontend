@@ -158,7 +158,7 @@ class SecondStep extends React.PureComponent<Props, State> {
                       defaultMessage='Reset Password'
                     />
                   ) : (
-                    <FormattedMessage id='button.continue' defaultMessage='Continue' />
+                    <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
                   )}
                 </Button>
               </Form>

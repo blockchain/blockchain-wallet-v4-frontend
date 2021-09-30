@@ -28,7 +28,7 @@ export const Addresses = ({ from, to }) => {
       </TextGroup>
       <TextGroup inline>
         <Text size='14px' color='grey600' weight={500}>
-          <FormattedMessage id='copy.from:' defaultMessage='From' />:
+          <FormattedMessage id='copy.from' defaultMessage='From' />:
         </Text>
         <Text size='14px' color='grey600' weight={500} data-e2e='transactionListItemFrom'>
           {from}

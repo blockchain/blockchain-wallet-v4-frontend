@@ -73,7 +73,7 @@ const Uploaded = ({ close }: Props) => {
           style={{ marginTop: '16px' }}
           onClick={closeModal}
         >
-          <FormattedMessage id='button.ok' defaultMessage='OK' />
+          <FormattedMessage id='buttons.ok' defaultMessage='OK' />
         </Button>
       </Footer>
     </Container>
