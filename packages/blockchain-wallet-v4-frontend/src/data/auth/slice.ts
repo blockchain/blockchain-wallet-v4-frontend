@@ -2,7 +2,18 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
 
-import { AccountUnificationFlows, AuthStateType, ProductAuthOptions } from './types'
+import {
+  AccountUnificationFlows,
+  AuthStateType,
+  LoginFailureType,
+  LoginSuccessType,
+  MetadataRestoreType,
+  ProductAuthOptions,
+  RegisteringFailureType,
+  RegisteringSuccessType,
+  RestoringType,
+  SecureChannelLoginType
+} from './types'
 
 const initialState: AuthStateType = {
   accountUnificationFlow: undefined,
@@ -58,14 +69,14 @@ const authSlice = createSlice({
     login: (state, action) => {
       state.isLoggingIn = true
     },
-    loginFailure: (state, action) => {
+    loginFailure: (state, action: PayloadAction<LoginFailureType>) => {
       state.login = Remote.Failure(action.payload)
     },
     loginLoading: (state) => {
       state.login = Remote.Loading
     },
     loginRoutine: (state, action) => {},
-    loginSuccess: (state, action) => {
+    loginSuccess: (state, action: PayloadAction<LoginSuccessType>) => {
       state.login = Remote.Success(action.payload)
     },
     mobileLogin: (state, action) => {},
@@ -77,13 +88,13 @@ const authSlice = createSlice({
     },
     pingManifestFile: () => {},
     register: (state, action) => {},
-    registerFailure: (state, action) => {
+    registerFailure: (state, action: PayloadAction<RegisteringFailureType>) => {
       state.registering = Remote.Failure(action.payload)
     },
     registerLoading: (state) => {
       state.registering = Remote.Loading
     },
-    registerSuccess: (state, action) => {
+    registerSuccess: (state, action: PayloadAction<RegisteringSuccessType>) => {
       state.registering = Remote.Success(action.payload)
     },
     resendSmsCode: (state, action) => {},
@@ -94,22 +105,22 @@ const authSlice = createSlice({
     restore: (state, action) => {},
     restoreFailure: () => {},
     restoreFromMetadata: (state, action) => {},
-    restoreFromMetadataFailure: (state, action) => {
+    restoreFromMetadataFailure: (state, action: PayloadAction<string>) => {
       state.metadataRestore = Remote.Failure(action.payload)
     },
     restoreFromMetadataLoading: (state) => {
       state.metadataRestore = Remote.Loading
     },
-    restoreFromMetadataSuccess: (state, action) => {
+    restoreFromMetadataSuccess: (state, action: PayloadAction<MetadataRestoreType>) => {
       state.metadataRestore = Remote.Success(action.payload)
     },
     restoreLoading: (state) => {
       state.restoring = Remote.Loading
     },
-    restoreSuccess: (state, action) => {
+    restoreSuccess: (state, action: PayloadAction<RestoringType>) => {
       state.restoring = Remote.Success(action.payload)
     },
-    secureChannelLoginFailure: (state, action) => {
+    secureChannelLoginFailure: (state, action: PayloadAction<string>) => {
       state.secureChannelLogin = Remote.Failure(action.payload)
     },
     secureChannelLoginLoading: (state) => {
@@ -118,7 +129,7 @@ const authSlice = createSlice({
     secureChannelLoginNotAsked: (state) => {
       state.secureChannelLogin = Remote.NotAsked
     },
-    secureChannelLoginSuccess: (state, action) => {
+    secureChannelLoginSuccess: (state, action: PayloadAction<SecureChannelLoginType>) => {
       state.secureChannelLogin = Remote.Success(action.payload)
     },
     setAccountUnificationFlowType: (state, action: PayloadAction<AccountUnificationFlows>) => {
@@ -127,7 +138,13 @@ const authSlice = createSlice({
     setAuthType: (state, action) => {
       state.auth_type = action.payload
     },
-    setDesignatedProductMetadata: (state, action) => {
+    setDesignatedProductMetadata: (
+      state,
+      action: PayloadAction<{
+        designatedProduct: string | null
+        designatedProductRedirect: AuthStateType['designatedProductRedirect'] | null
+      }>
+    ) => {
       const { designatedProduct, designatedProductRedirect } = action.payload
       // TODO: update to check for explorer when applicable
       if (designatedProduct && designatedProduct.toUpperCase() === ProductAuthOptions.WALLET) {
@@ -142,28 +159,28 @@ const authSlice = createSlice({
         state.designatedProductRedirect = designatedProductRedirect
       }
     },
-    setFirstLogin: (state, action) => {
+    setFirstLogin: (state, action: PayloadAction<AuthStateType['firstLogin']>) => {
       state.firstLogin = action.payload
     },
-    setKycResetStatus: (state, action) => {
+    setKycResetStatus: (state, action: PayloadAction<AuthStateType['kycReset']>) => {
       state.kycReset = action.payload
     },
-    setMagicLinkInfo: (state, action) => {
+    setMagicLinkInfo: (state, action: PayloadAction<AuthStateType['magicLinkData']>) => {
       state.magicLinkData = action.payload
     },
-    setManifestFile: (state, action) => {
+    setManifestFile: (state, action: PayloadAction<AuthStateType['manifestFile']>) => {
       state.manifestFile = action.payload
     },
-    setRegisterEmail: (state, action) => {
+    setRegisterEmail: (state, action: PayloadAction<AuthStateType['registerEmail']>) => {
       state.registerEmail = action.payload
     },
-    setResetAccount: (state, action) => {
+    setResetAccount: (state, action: PayloadAction<AuthStateType['resetAccount']>) => {
       state.resetAccount = action.payload
     },
-    setResetLogin: (state, action) => {
+    setResetLogin: (state, action: PayloadAction<AuthStateType['resetAccount']>) => {
       state.resetAccount = action.payload
     },
-    setUserGeoLocation: (state, action) => {
+    setUserGeoLocation: (state, action: PayloadAction<AuthStateType['userGeoData']>) => {
       state.userGeoData = action.payload
     },
     signupDetailsEntered: (state, action) => {},
