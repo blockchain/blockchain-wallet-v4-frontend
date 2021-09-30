@@ -56,6 +56,7 @@ const cacheSlice = createSlice({
       state.lastEmail = undefined
       state.lastGuid = undefined
       state.mobileConnected = undefined
+      state.hasCloudBackup = undefined
     }
   }
 })
