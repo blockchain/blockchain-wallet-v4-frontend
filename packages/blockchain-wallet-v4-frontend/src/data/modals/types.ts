@@ -100,6 +100,7 @@ export type ModalOriginType =
   | 'PaymentProtocolGoal'
   | 'PendingOrder'
   | 'PriceChart'
+  | 'PricesPage'
   | 'Request'
   | 'ResetAccount'
   | 'RetrySendEth'
