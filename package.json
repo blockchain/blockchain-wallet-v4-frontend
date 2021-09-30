@@ -30,7 +30,8 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "lint-staged && node ./scripts/commitHook.js"
+      "pre-commit": "lint-staged && node ./scripts/commitHook.js",
+      "pre-push": "node ./scripts/checkForCircularDeps.js"
     }
   },
   "lint-staged": {
@@ -184,6 +185,7 @@
     "jest-css-modules": "2.1.0",
     "jest-fetch-mock": "3.0.3",
     "lint-staged": "10.5.4",
+    "madge": "5.0.1",
     "mock-socket": "9.0.3",
     "node-polyfill-webpack-plugin": "1.1.4",
     "prettier": "2.3.2",
