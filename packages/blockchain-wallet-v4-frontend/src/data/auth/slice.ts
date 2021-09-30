@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
 
-import { AuthStateType } from './types'
+import { AuthStateType } from 'data/types'
 
 const initialState: AuthStateType = {
   auth_type: 0,
