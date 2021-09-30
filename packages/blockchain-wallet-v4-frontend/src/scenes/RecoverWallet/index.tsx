@@ -56,7 +56,7 @@ const mapStateToProps = (state) => ({
   emailFromMagicLink: selectors.auth.getMagicLinkData(state)?.wallet?.email as string,
   formMeta: getFormMeta('recover')(state),
   formValues: selectors.form.getFormValues('recover')(state) as RecoverFormType,
-  hasCloudBackup: selectors.auth.getMagicLinkData(state)?.wallet?.has_cloud_backup as boolean,
+  hasCloudBackup: selectors.cache.getHasCloudBackup(state) as boolean,
   kycReset: selectors.auth.getKycResetStatus(state),
   language: selectors.preferences.getLanguage(state),
   lastGuid: selectors.cache.getLastGuid(state),

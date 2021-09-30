@@ -15,6 +15,8 @@ export const getChannelPrivKey = (state): string | undefined =>
   path(['cache', 'channelPrivKey'], state)
 export const getPhonePubkey = (state): string | undefined =>
   path(['cache', 'channelPhonePubkey'], state)
+export const getHasCloudBackup = (state): boolean | undefined =>
+  path(['cache', 'hasCloudBackup'], state)
 
 export const getChannelPrivKeyForQrData = (state) => {
   const channelPrivKey = getChannelPrivKey(state)
