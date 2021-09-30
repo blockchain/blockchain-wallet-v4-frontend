@@ -308,6 +308,7 @@ export default ({ api }: { api: APIType }) => {
         })
       )
     } catch (e) {
+      console.log(e)
       yield put(A.fetchErc20DataFailure(coin, prop('message', e)))
     }
   }

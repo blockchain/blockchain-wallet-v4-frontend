@@ -11,12 +11,7 @@ import storage from 'redux-persist/lib/storage'
 import createSagaMiddleware from 'redux-saga'
 
 import { coreMiddleware } from '@core'
-import {
-  ApiSocket,
-  createWalletApi,
-  HorizonStreamingService,
-  Socket
-} from '@core/network/index.ts'
+import { ApiSocket, createWalletApi, HorizonStreamingService, Socket } from '@core/network/index.ts'
 import { serializer } from '@core/types'
 import { actions, rootReducer, rootSaga, selectors } from 'data'
 
@@ -62,16 +57,27 @@ const configuredStore = async function () {
   const assets = await assetsRes.json()
   const erc20s = await erc20Res.json()
 
+  const erc20Whitelist = options.platforms.web.erc20s
+
+  let supportedCoins = assets.currencies
+  let supportedErc20s = erc20s.currencies
+  if (erc20Whitelist) {
+    supportedCoins = supportedCoins.filter(({ type, symbol }) =>
+      type.name !== 'ERC20' ? true : erc20Whitelist.indexOf(symbol) >= 0
+    )
+    supportedErc20s = []
+  }
+
   // hmmmm....
   window.coins = {
-    ...assets.currencies.reduce(
+    ...supportedCoins.reduce(
       (acc, curr) => ({
         ...acc,
         [curr.symbol]: { coinfig: curr }
       }),
       {}
     ),
-    ...erc20s.currencies.reduce(
+    ...supportedErc20s.reduce(
       (acc, curr) => ({
         ...acc,
         [curr.symbol]: { coinfig: curr }
