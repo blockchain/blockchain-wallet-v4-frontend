@@ -1,7 +1,6 @@
-/* eslint-disable */
-const Webpack = require('webpack')
-const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
-const { evolve, update } = require('ramda')
+const { compose, evolve, adjust, set, lensProp } = require('ramda')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 
 const webpackBuilder = require('./webpackBuilder')
 const CONFIG_PATH = require('../../config/paths')
@@ -11,8 +10,12 @@ const { devServerConfig, webpackConfig } = webpackBuilder({
   allowUnsafeScripts: true,
   allowUnsafeStyles: true,
   extraPluginsList: [
-    new CaseSensitivePathsPlugin(),
-    new Webpack.HotModuleReplacementPlugin()
+    new ReactRefreshWebpackPlugin(),
+    new ForkTsCheckerWebpackPlugin({
+      typescript: {
+        configFile: CONFIG_PATH.tsConfig
+      }
+    }),
   ],
   useDevServer: true,
   useHMR: true
@@ -28,48 +31,18 @@ const devWebpackConfig = evolve(
     devtool: () => 'inline-source-map',
     mode: () => 'development',
     module: {
-      rules: update(0, {
-        test: /\.js$/,
-        include: /src|blockchain-info-components.src|blockchain-wallet-v4.src/,
-        use: [
-          {
-            loader: 'thread-loader',
-            options: {
-              workers: 8, // number of cores on intel i5
-              workerParallelJobs: 32,
-              workerNodeArgs: ['--max-old-space-size=2048'],
-              poolRespawn: false,
-              poolParallelJobs: 32
-            }
-          },
-          'babel-loader'
-        ]
-      })
+      rules: compose(
+        adjust(0, rule => set(lensProp('use'), ['cache-loader', 'babel-loader'], rule)
+        ),
+        // adjust(0, rule => set(lensProp('include'), /src|blockchain-info-components.src|blockchain-wallet-v4.src/, rule)),
+        adjust(1, rule => set(lensProp('options'), { transpileOnly: true }, rule))
+      )
     },
-    output: { path: () => CONFIG_PATH.appBuild },
-    optimization: {
-      concatenateModules: () => false,
-      splitChunks: {
-        cacheGroups: {
-          frontend: {
-            test: () =>
-              function(module) {
-                return (
-                  module.resource &&
-                  module.resource.indexOf(
-                    'blockchain-wallet-v4-frontend/src'
-                  ) === -1
-                )
-              }
-          }
-        }
-      }
-    }
+    output: { path: () => CONFIG_PATH.appBuild }
   },
   webpackConfig
 )
 
-// merge configurations into one export for webpack
 module.exports = {
   ...devWebpackConfig,
   devServer: devServerConfig

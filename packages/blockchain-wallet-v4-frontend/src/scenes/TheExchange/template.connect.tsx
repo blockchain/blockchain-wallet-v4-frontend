@@ -35,75 +35,68 @@ const CustomSuccessCartridge = styled(SuccessCartridge)`
   ${cartridge}
 `
 
-const ExchangeConnect = (props: Props) => {
-  const { onSignup } = props
-  return (
-    <Box>
-      <Content>
-        <Text size='20px' weight={600} color='grey800'>
-          <FormattedMessage
-            id='scenes.exchange.empty.walletconnect.header'
-            defaultMessage='Wallet Connect'
-          />
-        </Text>
-        <Text size='14px' weight={500} color='grey600' lineHeight='20px'>
-          <FormattedMessage
-            id='scenes.exchange.empty.walletconnect.body'
-            defaultMessage='Easily connect your Wallet to the Exchange and send crypto back and forth. No need to copy past wallet addresses all while keeping control of your private keys.'
-          />
-        </Text>
-      </Content>
-      <FootWrapper>
-        {props.isExchangeAccountLinked ? (
-          <>
-            <CustomSuccessCartridge>
-              <FormattedMessage
-                id='scenes.exchange.empty.connected.cartridge'
-                defaultMessage='Connected'
-              />
-            </CustomSuccessCartridge>
-            {props.isExchangeRelinkRequired ? (
-              <Button
-                data-e2e='linkAgain'
-                nature='primary'
-                height='48px'
-                fullwidth
-                onClick={props.profileActions.shareWalletAddressesWithExchange}
-              >
-                <FormattedMessage
-                  id='scenes.exchange.reconnectnow'
-                  defaultMessage='Reconnect Now'
-                />
-              </Button>
-            ) : (
-              <LinkToExchange {...props} />
-            )}
-          </>
-        ) : (
-          <>
-            <CustomOrangeCartridge>
-              <FormattedMessage
-                id='scenes.exchange.empty.notconnected.cartridge'
-                defaultMessage='Not Connected'
-              />
-            </CustomOrangeCartridge>
+const ExchangeConnect = (props: Props) => (
+  <Box>
+    <Content>
+      <Text size='20px' weight={600} color='grey800'>
+        <FormattedMessage
+          id='scenes.exchange.empty.walletconnect.header'
+          defaultMessage='Wallet Connect'
+        />
+      </Text>
+      <Text size='14px' weight={500} color='grey600' lineHeight='20px'>
+        <FormattedMessage
+          id='scenes.exchange.empty.walletconnect.body'
+          defaultMessage='Easily connect your Wallet to the Exchange and send crypto back and forth. No need to copy past wallet addresses all while keeping control of your private keys.'
+        />
+      </Text>
+    </Content>
+    <FootWrapper>
+      {props.isExchangeAccountLinked ? (
+        <>
+          <CustomSuccessCartridge>
+            <FormattedMessage
+              id='scenes.exchange.empty.connected.cartridge'
+              defaultMessage='Connected'
+            />
+          </CustomSuccessCartridge>
+          {props.isExchangeRelinkRequired ? (
             <Button
-              data-e2e='connectToExchange'
+              data-e2e='linkAgain'
               nature='primary'
               height='48px'
               fullwidth
-              onClick={onSignup}
+              onClick={props.profileActions.shareWalletAddressesWithExchange}
             >
               <FormattedMessage
-                id='scenes.exchange.connectnow'
-                defaultMessage='Connect Now'
+                id='scenes.exchange.reconnectnow'
+                defaultMessage='Reconnect Now'
               />
             </Button>
-          </>
-        )}
-      </FootWrapper>
-    </Box>
-  )
-}
+          ) : (
+            <LinkToExchange {...props} />
+          )}
+        </>
+      ) : (
+        <>
+          <CustomOrangeCartridge>
+            <FormattedMessage
+              id='scenes.exchange.empty.notconnected.cartridge'
+              defaultMessage='Not Connected'
+            />
+          </CustomOrangeCartridge>
+          <Button
+            data-e2e='connectToExchange'
+            nature='primary'
+            height='48px'
+            fullwidth
+          >
+            <FormattedMessage id='scenes.exchange.connectnow' defaultMessage='Connect Now' />
+          </Button>
+        </>
+      )}
+    </FootWrapper>
+  </Box>
+)
 
 export default ExchangeConnect

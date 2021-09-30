@@ -3,12 +3,11 @@ import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 import { pathOr } from 'ramda'
 
-import { Button, Icon, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import { Exchange } from '@core'
 import { formatFiat } from '@core/exchange/utils'
 import { CoinType, FiatType } from '@core/types'
+import { Button, Icon, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
-import { model } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { InterestStepMetadata } from 'data/types'
 
@@ -31,12 +30,9 @@ import {
   Wrapper
 } from './model'
 
-const { INTEREST_EVENTS } = model.analytics
-
 const AccountSummary: React.FC<Props> = (props) => {
   const {
     accountBalances,
-    analyticsActions,
     coin,
     flagEDDInterestFileUpload,
     handleClose,
@@ -74,7 +70,7 @@ const AccountSummary: React.FC<Props> = (props) => {
             <Icon name={coin} color={coin} size='24px' style={{ marginRight: '16px' }} />
             <FormattedMessage
               id='modals.interest.detailstitle'
-              defaultMessage='{displayName} Interest Account'
+              defaultMessage='{displayName} Rewards Account'
               values={{ displayName: coinfig.name }}
             />
           </Row>
@@ -123,7 +119,7 @@ const AccountSummary: React.FC<Props> = (props) => {
                 <Text color='grey600' size='14px' weight={500} style={{ marginBottom: '5px' }}>
                   <FormattedMessage
                     id='modals.interest.totalearned'
-                    defaultMessage='Total Interest Earned'
+                    defaultMessage='Total Rewards Earned'
                   />
                 </Text>
                 {account ? (
@@ -160,7 +156,7 @@ const AccountSummary: React.FC<Props> = (props) => {
               <Text data-e2e='waitingConfirmation' color='grey600' size='14px' weight={500}>
                 <FormattedMessage
                   id='modals.interest.deposit.success.confirmtransfer'
-                  defaultMessage='Waiting on your transfer to be confirmed by the network. Once it has a confirmation and our team has reviewed it, it will be displayed in Interest Account History. No action is required at this time.'
+                  defaultMessage='Waiting on your transfer to be confirmed by the network. Once it has a confirmation and our team has reviewed it, it will be displayed in Rewards Account history. No action is required at this time.'
                 />
               </Text>
             </StatusWrapper>
@@ -172,7 +168,7 @@ const AccountSummary: React.FC<Props> = (props) => {
                 <Text color='grey600' size='14px' weight={500}>
                   <FormattedMessage
                     id='modals.interest.deposit.transferclears'
-                    defaultMessage='Once the transfer clears, your balance will update and you’ll start earning interest.'
+                    defaultMessage='Once the transfer clears, your balance will update and you’ll start earning rewards.'
                   />
                 </Text>
               </StatusWrapper>
@@ -241,7 +237,7 @@ const AccountSummary: React.FC<Props> = (props) => {
                 ) : (
                   <FormattedMessage
                     id='modals.interest.deposit.supply_information_description_2'
-                    defaultMessage='Your funds are safe with us and have started accruing interest already. To avoid delays when you decide to withdraw your funds, submit your information now.'
+                    defaultMessage='Your funds are safe with us and have started accruing rewards already. To avoid delays when you decide to withdraw your funds, submit your information now.'
                   />
                 )}
               </Text>
@@ -274,7 +270,6 @@ const AccountSummary: React.FC<Props> = (props) => {
                       fullwidth
                       nature='primary'
                       onClick={() => {
-                        analyticsActions.logEvent(INTEREST_EVENTS.WITHDRAWAL.SUPPLY_INFORMATION)
                         interestActions.handleWithdrawalSupplyInformation({
                           origin: 'SavingsConfirmation'
                         })
@@ -370,7 +365,7 @@ const AccountSummary: React.FC<Props> = (props) => {
             <Text data-e2e='nextPayment' color='grey600' size='14px' weight={500}>
               <FormattedMessage
                 id='modals.interest.summary.next'
-                defaultMessage='Next interest payment'
+                defaultMessage='Next rewards payment'
               />
             </Text>
             {account ? (
@@ -390,7 +385,7 @@ const AccountSummary: React.FC<Props> = (props) => {
             <Text color='grey600' size='14px' weight={500}>
               <FormattedMessage
                 id='modals.interest.summary.accrued'
-                defaultMessage='Accrued interest this month'
+                defaultMessage='Accrued rewards this month'
               />
               <TooltipHost id='modals.interest.summary.accrued.tooltip'>
                 <TooltipIcon name='info' size='12px' />
@@ -436,7 +431,7 @@ const AccountSummary: React.FC<Props> = (props) => {
           <LineVectorDetails />
           <DetailsItemContainer>
             <Text color='grey600' size='14px' weight={500}>
-              <FormattedMessage id='modals.interest.summary.rate' defaultMessage='Interest rate' />
+              <FormattedMessage id='modals.interest.summary.rate' defaultMessage='Rewards rate' />
               <TooltipHost id='modals.interest.summary.moreinterestdetails.tooltip'>
                 <TooltipIcon name='info' size='12px' />
               </TooltipHost>

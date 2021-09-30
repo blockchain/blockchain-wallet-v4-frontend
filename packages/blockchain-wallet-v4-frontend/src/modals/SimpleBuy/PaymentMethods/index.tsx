@@ -4,12 +4,12 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
 import { FiatType, RemoteDataType, SBOrderActionType, SBOrderType, SBPairType } from '@core/types'
+import { FlyoutOopsError } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 import Loading from '../template.loading'
 import getData from './selectors'
-import Failure from './template.failure'
 import Success from './template.success'
 
 class PaymentMethods extends PureComponent<Props> {
@@ -22,9 +22,24 @@ class PaymentMethods extends PureComponent<Props> {
     }
   }
 
+  errorCallback() {
+    this.props.buySellActions.setStep({
+      cryptoCurrency: 'BTC',
+      fiatCurrency: this.props.fiatCurrency || 'USD',
+      pair: this.props.pair,
+      step: 'ENTER_AMOUNT'
+    })
+  }
+
   render() {
     return this.props.data.cata({
-      Failure: () => <Failure {...this.props} />,
+      Failure: () => (
+        <FlyoutOopsError
+          action='retry'
+          handler={this.errorCallback}
+          data-e2e='sbTryCurrencySelectionAgain'
+        />
+      ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
       Success: (val) => <Success {...val} {...this.props} />
@@ -38,7 +53,6 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)

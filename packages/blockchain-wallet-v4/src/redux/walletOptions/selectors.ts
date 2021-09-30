@@ -16,10 +16,7 @@ export const getWebOptions = (state) =>
     string,
     WalletOptionsType['platforms']['web']
   >
-export const getWalletHelperUrl = (state) => getDomains(state).map(prop('walletHelper'))
 export const getAppEnv = (state) => getWebOptions(state).map(path(['application', 'environment']))
-export const getAnalyticsSiteId = (state) =>
-  getWebOptions(state).map(path(['application', 'analyticsSiteId']))
 export const getAnnouncements = (state) =>
   getWebOptions(state).map(path(['application', 'announcements']))
 export const getNewCoinListing = (state: RootState) =>
@@ -59,6 +56,3 @@ export const getFeatureSignupCountry = (state: RootState) =>
 // signup country feature flag
 export const getEDDInterestFileUpload = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'eddInterestFileUpload']))
-
-export const getSsoDummy = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'ssoDummy']))

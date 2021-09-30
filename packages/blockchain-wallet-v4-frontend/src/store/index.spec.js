@@ -195,7 +195,6 @@ describe('App Store Config', () => {
   let kvStoreSpy
   let walletSyncSpy
   let autoDisconnectSpy
-  let matomoMiddlewareSpy
   let analyticsMiddlewareSpy
   let coinsSocketSpy
 
@@ -211,7 +210,6 @@ describe('App Store Config', () => {
     kvStoreSpy = jest.spyOn(coreMiddleware, 'kvStore')
     walletSyncSpy = jest.spyOn(coreMiddleware, 'walletSync')
     coinsSocketSpy = jest.spyOn(Middleware, 'webSocketCoins')
-    matomoMiddlewareSpy = jest.spyOn(Middleware, 'matomoMiddleware')
     analyticsMiddlewareSpy = jest.spyOn(Middleware, 'analyticsMiddleware')
     autoDisconnectSpy = jest.spyOn(Middleware, 'autoDisconnection')
   })
@@ -268,7 +266,6 @@ describe('App Store Config', () => {
       isAuthenticated: expect.any(Function),
       walletPath: 'wallet.payload'
     })
-    expect(matomoMiddlewareSpy).toHaveBeenCalledTimes(1)
     expect(analyticsMiddlewareSpy).toHaveBeenCalledTimes(1)
     expect(autoDisconnectSpy).toHaveBeenCalledTimes(1)
     // middleware compose

@@ -14,13 +14,13 @@ import {
   SBPairType,
   SBPaymentMethodType
 } from '@core/types'
+import { FlyoutOopsError } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { DEFAULT_SB_METHODS } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
 
 import Loading from '../template.loading'
 import getData from './selectors'
-import Failure from './template.failure'
 import Success from './template.success'
 
 class EnterAmount extends PureComponent<Props> {
@@ -45,9 +45,22 @@ class EnterAmount extends PureComponent<Props> {
     }
   }
 
+  errorCallback() {
+    this.props.buySellActions.setStep({
+      fiatCurrency: this.props.fiatCurrency || 'USD',
+      step: 'CRYPTO_SELECTION'
+    })
+  }
+
   render() {
     return this.props.data.cata({
-      Failure: () => <Failure {...this.props} />,
+      Failure: () => (
+        <FlyoutOopsError
+          action='retry'
+          data-e2e='sbTryCurrencySelectionAgain'
+          handler={this.errorCallback}
+        />
+      ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
       Success: (val) => <Success {...val} {...this.props} />
@@ -62,7 +75,6 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)

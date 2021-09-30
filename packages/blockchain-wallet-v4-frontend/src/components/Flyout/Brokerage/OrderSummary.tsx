@@ -208,7 +208,7 @@ const OrderSummary: React.FC<Props> = ({
                 <Text color='grey600' size='14px' weight={500}>
                   <FormattedMessage
                     id='modals.simplebuy.summary.complete_card_info_main'
-                    defaultMessage='Your final amount might change due to market activity. For security purposes, a {days} holding period will be applied to your funds. You can Sell or Swap during this time. We will notify you once the funds are available to be withdrawn.'
+                    defaultMessage='Your final amount might change due to market activity. For security purposes, a {days} day holding period will be applied to your funds. You can Sell or Swap during this time. We will notify you once the funds are available to be withdrawn.'
                     values={{ days }}
                   />
                 </Text>

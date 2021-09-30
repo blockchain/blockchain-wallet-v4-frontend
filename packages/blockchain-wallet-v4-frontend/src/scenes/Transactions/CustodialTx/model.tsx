@@ -92,7 +92,6 @@ export const Status = (props: Props) => {
             hash={props.tx.extraAttributes.hash}
             confirmations={props.tx.extraAttributes.confirmations}
             isConfirmed={props.tx.extraAttributes.confirmations >= 1}
-            onViewTxDetails={() => undefined}
           />
         )
       }

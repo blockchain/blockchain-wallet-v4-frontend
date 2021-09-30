@@ -6,11 +6,9 @@ import styled from 'styled-components'
 
 import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
 import { Box } from 'components/Box'
-import { actions, model, selectors } from 'data'
+import { actions, selectors } from 'data'
 
 import { Props as OwnProps, StateType as ParentStateType, SuccessStateType } from '..'
-
-const { INTEREST_EVENTS } = model.analytics
 
 const BoxStyled = styled(Box)`
   width: 275px;
@@ -41,7 +39,7 @@ const IneligibleBanner = styled.div`
 
 class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType> {
   renderAdditionalInfo = () => {
-    const { analyticsActions, interestActions } = this.props
+    const { interestActions } = this.props
     return (
       <BoxStyledAdditional>
         <ContentWrapper>
@@ -75,7 +73,6 @@ class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType
               fullwidth
               nature='dark-grey'
               onClick={() => {
-                analyticsActions.logEvent(INTEREST_EVENTS.HOME.SUPPLY_INFORMATION)
                 interestActions.handleWithdrawalSupplyInformation({
                   origin: 'SavingsPage'
                 })
@@ -95,7 +92,6 @@ class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType
 
   render() {
     const {
-      analyticsActions,
       idvActions,
       interestEDDStatus,
       interestRateArray,
@@ -145,7 +141,7 @@ class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType
                 <Text size='20px' color='grey800' weight={600} style={{ marginTop: '16px' }}>
                   <FormattedMessage
                     id='scenes.interest.earnheaderverified'
-                    defaultMessage='Earn interest on your crypto today.'
+                    defaultMessage='Earn rewards on your crypto today.'
                   />
                 </Text>
                 <Text
@@ -156,7 +152,7 @@ class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType
                 >
                   <FormattedMessage
                     id='scenes.interest.earninfo.verified.copy'
-                    defaultMessage='Earn up to {highestRate}% annually when you transfer crypto to your Interest Account.'
+                    defaultMessage='Earn up to {highestRate}% annually when you transfer crypto to your Rewards Account.'
                     values={{ highestRate }}
                   />
                 </Text>
@@ -169,9 +165,6 @@ class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType
                     data-e2e='earnInterestLearnMore'
                     fullwidth
                     nature='light'
-                    onClick={() =>
-                      analyticsActions.logEvent(INTEREST_EVENTS.HOME.CLICK_SUPPORT_ARTICLE)
-                    }
                     style={{ marginTop: '45px' }}
                   >
                     <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
@@ -184,7 +177,7 @@ class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType
                 <Text size='20px' color='grey800' weight={600} style={{ marginTop: '16px' }}>
                   <FormattedMessage
                     id='scenes.interest.earnupgrade.header'
-                    defaultMessage='Upgrade to Gold Level so you can earn interest on your crypto.'
+                    defaultMessage='Upgrade to Gold Level so you can earn rewards on your crypto.'
                   />
                 </Text>
                 <Text
@@ -235,7 +228,6 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   interestActions: bindActionCreators(actions.components.interest, dispatch),
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
