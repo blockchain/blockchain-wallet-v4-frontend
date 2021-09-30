@@ -11,12 +11,14 @@ const guidRegex = new RegExp(
 const IpRegex = new RegExp(
   /^((?:(?:(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|%)\.){3}(?:(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|%))$/
 )
+const SSNRegex = new RegExp(/^(?!000|666)[0-8][0-9]{2}-(?!00)[0-9]{2}-(?!0000)[0-9]{4}$/)
 const emailCodeRegex = new RegExp(/^[a-z0-9]{5}$/i)
 const isNumeric = (value) => value - 0 === value && `${value}`.trim().length > 0
 const isEmail = (value) => emailRegex.test(value)
 const isGuid = (value) => guidRegex.test(value)
 const isIpValid = (value) => IpRegex.test(value.trim())
 const isAlphaNumeric = (value) => emailCodeRegex.test(value)
+
 const formatSSN = (val, prevVal) => {
   const nums = val.replace(/[^\d]/g, '')
   if (!prevVal || val.length > prevVal.length) {
@@ -71,6 +73,13 @@ const isSSN = (val) => {
   }
   return val
 }
+
+const isValidSSN = (val) => {
+  if (val && val.length) {
+    return SSNRegex.test(val.trim())
+  }
+  return val
+}
 const isDOB = (val) => {
   if (val && val.length) {
     const cleaned = val.replace(/[^\d]/g, '')
@@ -112,5 +121,6 @@ export {
   isNumeric,
   isOverEighteen,
   isSSN,
-  isUsZipcode
+  isUsZipcode,
+  isValidSSN
 }

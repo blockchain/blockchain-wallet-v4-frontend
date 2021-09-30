@@ -44,20 +44,23 @@ export default ({ api }: { api: APIType }) => {
 
   const saveAdditionalData = function* () {
     try {
+      yield put(actions.form.startSubmit(INTEREST_UPLOAD_DOCUMENT))
       const formValues: InterestUploadDocumentFormValueTypes = yield select(
         selectors.form.getFormValues(INTEREST_UPLOAD_DOCUMENT)
       )
-      const saveDocumentsResponse: ReturnType<typeof api.storeEDDDocuments> = yield call(
-        api.storeEDDData,
-        formValues
+      yield call(api.storeEDDData, formValues)
+      yield put(actions.form.reset(INTEREST_UPLOAD_DOCUMENT))
+      yield put(actions.form.stopSubmit(INTEREST_UPLOAD_DOCUMENT))
+      yield put(
+        A.setStep({
+          step: InterestUploadDocumentsStepType.UPLOAD_AND_VERIFIED
+        })
       )
-      if (saveDocumentsResponse) {
-        actions.form.reset(INTEREST_UPLOAD_DOCUMENT)
-      }
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.logs.logErrorMessage(logLocation, 'save addtional documents', error))
       yield put(actions.alerts.displayError(C.SAVE_ADDITIONAL_DOCUMENTS_ERROR))
+      yield put(actions.form.stopSubmit(INTEREST_UPLOAD_DOCUMENT, { _error: error }))
     }
   }
 
