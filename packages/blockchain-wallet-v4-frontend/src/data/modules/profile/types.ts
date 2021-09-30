@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios'
 
-import { NabuAddressType, NabuApiErrorType, RemoteDataType } from '@core/types'
-import { CampaignsType } from 'data/types'
+import type { NabuAddressType, NabuApiErrorType, RemoteDataType } from '@core/types'
+import type { CampaignsType } from 'data/components/identityVerification/types'
 
 import * as AT from './actionTypes'
 

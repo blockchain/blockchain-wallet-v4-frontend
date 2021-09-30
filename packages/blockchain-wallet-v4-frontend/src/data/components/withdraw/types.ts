@@ -6,7 +6,7 @@ import {
   WithdrawalMinsAndFeesResponse,
   WithdrawResponseType
 } from '@core/types'
-import { BankTransferAccountType } from 'data/types'
+import { BankTransferAccountType } from '../types'
 
 import * as AT from './actionTypes'
 
