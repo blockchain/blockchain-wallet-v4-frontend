@@ -37,7 +37,10 @@ class SignupContainer extends React.PureComponent<
   }
 
   componentDidMount() {
-    this.props.authActions.getUserGeoLocation()
+    const { authActions, websocketActions } = this.props
+    // start sockets to ensure email verify flow is detected
+    websocketActions.startSocket()
+    authActions.getUserGeoLocation()
   }
 
   onSubmit = (e) => {
@@ -114,7 +117,8 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
   authActions: bindActionCreators(actions.auth, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch),
+  websocketActions: bindActionCreators(actions.ws, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

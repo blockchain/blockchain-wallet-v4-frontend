@@ -261,15 +261,19 @@ export default ({ api, socket }) => {
           // check if message is an email verification update
 
           let payload = {}
+          // secure channel/mobile app login data is recevied as a JSON
+          // this is why we're parsing message.msg first and assigining it
+          // to payload
           try {
-            payload = JSON.parse(message.msg)
+            if (message.msg) {
+              payload = JSON.parse(message.msg)
+            }
           } catch (e) {
             console.error(e)
           }
 
           if (payload.channelId) {
             if (!payload.success) {
-              // TODO should this be a new action to delete, or is this fine?
               yield put(actions.cache.channelPhoneConnected(undefined))
               yield put(actions.auth.secureChannelLoginFailure('Phone declined'))
               return
