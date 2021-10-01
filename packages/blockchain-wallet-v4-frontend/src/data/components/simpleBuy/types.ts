@@ -90,6 +90,7 @@ export type SBShowModalOriginType =
   | 'EmptyFeed'
   | 'PendingOrder'
   | 'PriceChart'
+  | 'Prices'
   | 'InterestPage'
   | 'RecurringBuyPromo'
   | 'SellEmpty'

@@ -2,9 +2,10 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
+import { OrderType } from '@core/types'
 import { Button, Text } from 'blockchain-info-components'
-import { CoinType, OrderType } from '@core/types'
 
+import { TableColumnsType } from '..'
 import { CellHeaderText } from '.'
 
 const CellWrapper = styled.div`
@@ -14,7 +15,10 @@ const CellWrapper = styled.div`
   padding-right: 8px;
 `
 
-export const getActionsColumn = (modalActions, buySellActions) => ({
+export const getActionsColumn = (
+  modalActions: TableColumnsType['modalActions'],
+  buySellActions: TableColumnsType['buySellActions']
+) => ({
   Cell: ({ row: { original: values } }) => (
     <CellWrapper>
       <Button
@@ -22,11 +26,11 @@ export const getActionsColumn = (modalActions, buySellActions) => ({
         height='32px'
         nature='primary'
         onClick={() => {
-          const modalProps = ['Prices']
-          if (Number(values.balance) === 0) {
-            modalProps.push(values.coin as CoinType, OrderType.BUY)
-          }
-          buySellActions.showModal(...modalProps)
+          buySellActions.showModal({
+            cryptoCurrency: values.coin,
+            orderType: OrderType.BUY,
+            origin: 'Prices'
+          })
         }}
         width='96px'
         style={{ marginRight: '12px' }}
