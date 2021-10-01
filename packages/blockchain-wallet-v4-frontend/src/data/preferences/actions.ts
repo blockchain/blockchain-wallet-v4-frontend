@@ -1,5 +1,5 @@
 import { SBOrderActionType } from '@core/types'
-import { SBFixType } from 'data/components/types'
+import { SBFixType } from 'data/types'
 
 import * as AT from './actionTypes'
 

@@ -25,12 +25,12 @@ import {
 import { errorHandler, errorHandlerCode } from '@core/utils'
 import { actions, selectors } from 'data'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
-import { UserDataType } from 'data/modules/types'
 import {
   AddBankStepType,
   BankPartners,
   BankTransferAccountType,
-  BrokerageModalOriginType
+  BrokerageModalOriginType,
+  UserDataType
 } from 'data/types'
 
 import profileSagas from '../../modules/profile/sagas'

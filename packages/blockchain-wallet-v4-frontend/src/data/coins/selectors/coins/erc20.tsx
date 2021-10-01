@@ -7,7 +7,7 @@ import { SBBalanceType } from '@core/network/api/simpleBuy/types'
 import { ExtractSuccess } from '@core/remote/types'
 import { createDeepEqualSelector } from '@core/utils'
 import { generateTradingAccount } from 'data/coins/utils'
-import { SwapAccountType, SwapBaseCounterTypes } from 'data/components/types'
+import { SwapAccountType, SwapBaseCounterTypes } from 'data/types'
 
 import { getTradingBalance } from '..'
 
