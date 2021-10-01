@@ -11,11 +11,11 @@ const queueCallback = async (rawEvents: RawEvent[]) => {
 
   const analyticsURL = `${options.domains.api}/events/publish`
 
-  const guid = rawEvents.find((event) => event.payload.properties.guid)?.payload.properties.guid
+  const guid = rawEvents.find((event) => event.payload.properties?.guid)?.payload.properties.guid
   const id = localStorage.getItem(ANALYTICS_ID)
 
   const nabuId =
-    rawEvents.find((event) => event.payload.traits.nabuId)?.payload.traits.nabuId ?? null
+    rawEvents.find((event) => event.payload.traits?.nabuId)?.payload.traits.nabuId ?? null
   const email = rawEvents.find((event) => event.payload.traits.email)?.payload.traits.email ?? null
   const tier = rawEvents.find((event) => event.payload.traits.tier)?.payload.traits.tier ?? null
   const parsedTier = tier ? String(tier) : null
