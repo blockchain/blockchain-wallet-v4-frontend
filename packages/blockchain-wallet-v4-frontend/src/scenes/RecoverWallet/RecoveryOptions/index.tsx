@@ -47,8 +47,10 @@ const RecoveryOptions = (props: Props) => {
   const optionDisabledColor = hasCloudBackup ? 'grey900' : 'grey100'
 
   const cloudRecoveryClicked = () => {
-    formActions.change('recover', 'step', RecoverSteps.CLOUD_RECOVERY)
-    authActions.recoveryOptionSelected('CLOUD_BACKUP')
+    if (hasCloudBackup) {
+      formActions.change('recover', 'step', RecoverSteps.CLOUD_RECOVERY)
+      authActions.recoveryOptionSelected('CLOUD_BACKUP')
+    }
   }
   const recoveryPhraseClicked = () => {
     formActions.change('recover', 'step', RecoverSteps.RECOVERY_PHRASE)

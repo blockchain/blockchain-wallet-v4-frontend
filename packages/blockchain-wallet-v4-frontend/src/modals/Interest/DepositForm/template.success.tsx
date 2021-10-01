@@ -68,6 +68,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     formErrors,
     handleDisplayToggle,
     interestActions,
+    interestEDDStatus,
     interestEDDWithdrawLimits,
     interestLimits,
     interestRate,
@@ -133,9 +134,12 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     // @ts-ignore
     !payment.isSufficientEthForErc20
 
-  const showEDDWithdrawLimit = interestEDDWithdrawLimits?.withdrawLimits
-    ? Number(depositAmountFiat) > Number(interestEDDWithdrawLimits?.withdrawLimits.amount)
-    : false
+  const showEDDWithdrawLimit =
+    (interestEDDWithdrawLimits?.withdrawLimits
+      ? Number(depositAmountFiat) > Number(interestEDDWithdrawLimits?.withdrawLimits.amount)
+      : false) &&
+    !interestEDDStatus?.eddSubmitted &&
+    !interestEDDStatus?.eddPassed
 
   const handleFormSubmit = () => {
     interestActions.submitDepositForm(coin)

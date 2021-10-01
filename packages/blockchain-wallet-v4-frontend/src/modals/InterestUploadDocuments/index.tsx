@@ -37,10 +37,12 @@ class InterestUploadDocumnets extends PureComponent<Props, State> {
     }, duration)
   }
 
-  handleSubmit = () => {}
+  handleSubmit = (e) => {
+    e.preventDefault()
+    this.props.interestUploadDocumentActions.saveAdditionalData()
+  }
 
   submitData = (files: FileUploadItem[]) => {
-    this.props.interestUploadDocumentActions.saveAdditionalData()
     this.props.interestUploadDocumentActions.uploadFiles({ files })
   }
 

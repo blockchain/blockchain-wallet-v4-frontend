@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 
+import { TableColumnsType } from '..'
 import { getActionsColumn } from './actions.column'
 import { getBalanceColumn } from './balance.column'
 import { getNameColumn } from './name.column'
@@ -69,7 +70,7 @@ export const HeaderText = styled.div`
 `
 
 export const getTableColumns =
-  ({ buySellActions, modalActions, routerActions, walletCurrency }) =>
+  ({ buySellActions, modalActions, routerActions, walletCurrency }: TableColumnsType) =>
   () =>
     [
       getNameColumn(routerActions),

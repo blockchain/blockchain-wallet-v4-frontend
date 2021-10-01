@@ -15,7 +15,8 @@ const AdditionalInformationStep = ({
   countryCode,
   formValues,
   handleSubmit,
-  interestUploadDocumentActions
+  interestUploadDocumentActions,
+  userData
 }: Props) => {
   const nextStep = useCallback(
     () =>
@@ -24,7 +25,15 @@ const AdditionalInformationStep = ({
       }),
     [InterestUploadDocumentsStepType.GET_STARTED]
   )
-  const additionalInformationProps = { close, countryCode, formValues, handleSubmit, nextStep }
+  const userCountry = userData?.address?.country || countryCode
+
+  const additionalInformationProps = {
+    close,
+    countryCode: userCountry,
+    formValues,
+    handleSubmit,
+    nextStep
+  }
 
   return <AdditionalInformation {...additionalInformationProps} />
 }
@@ -38,6 +47,6 @@ const mapStateToProps = (state: RootState) => ({
 const connector = connect(mapStateToProps)
 
 export type Props = _P &
-  ConnectedProps<typeof connector> & { handleSubmit: () => void } & SuccessStateType
+  ConnectedProps<typeof connector> & { handleSubmit: (e) => void } & SuccessStateType
 
 export default connector(AdditionalInformationStep)

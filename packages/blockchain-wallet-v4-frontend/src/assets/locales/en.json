@@ -827,6 +827,7 @@
   "modals.interest.withdrawal.totalinterest": "Total Rewards Earned",
   "modals.interest.withdrawal.upload_documents.additional_info.current_job": "Current Job Title or Occupation",
   "modals.interest.withdrawal.upload_documents.additional_info.description": "Please fill out this form to the best of your knowledge and then proceed to upload documents on the next screen.",
+  "modals.interest.withdrawal.upload_documents.additional_info.error": "Must be at least {minChars} characters length",
   "modals.interest.withdrawal.upload_documents.additional_info.headline": "Additional Information",
   "modals.interest.withdrawal.upload_documents.additional_info.intend_title": "What’s the intended use of the account?",
   "modals.interest.withdrawal.upload_documents.additional_info.ssn": "SSN (US Only)",
