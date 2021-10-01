@@ -31,6 +31,8 @@ const StyledInput = styled.input`
 const TextWithQRScanner: React.FC<Props> = (props) => {
   return (
     <Wrapper>
+      {/* 
+      // @ts-ignore */}
       <StyledInput {...props} {...props.input}>
         {props.children}
       </StyledInput>
