@@ -161,8 +161,7 @@ export default ({ api, socket }) => {
     })
     const transactions = data.txs || []
 
-    /* eslint-disable */
-    // FIXME: We shoudl not use a for in here
+    // eslint-disable-next-line
     for (let i in transactions) {
       const transaction = transactions[i]
       if (equals(transaction.hash, message.transaction.hash)) {
@@ -170,7 +169,6 @@ export default ({ api, socket }) => {
         break
       }
     }
-    /* eslint-enable */
     return 'sent'
   }
 
@@ -278,7 +276,6 @@ export default ({ api, socket }) => {
 
           if (payload.channelId) {
             if (!payload.success) {
-              // TODO should this be a new action to delete, or is this fine?
               yield put(actions.cache.channelPhoneConnected(undefined))
               yield put(actions.auth.secureChannelLoginFailure('Phone declined'))
               return
@@ -330,7 +327,7 @@ export default ({ api, socket }) => {
     }
   }
 
-  const onClose = function* (action) {
+  const onClose = function* () {
     yield put(
       actions.logs.logErrorMessage(
         'middleware/webSocket/coins/sagas',
