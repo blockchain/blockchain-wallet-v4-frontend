@@ -80,7 +80,7 @@ const Success = props => {
       <ConfirmWrapper>
         <LargeTableRow>
           <Text size='16px' weight={500}>
-            <FormattedMessage id='copy.from:' defaultMessage='From' />:
+            <FormattedMessage id='copy.from' defaultMessage='From' />:
           </Text>
           <Text size='16px' weight={400} data-e2e='bchFromWallet'>
             {fromAddress}

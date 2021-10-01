@@ -4,18 +4,26 @@ import { Provider } from 'react-redux'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { combineReducers, createStore } from 'redux'
 
-import { InterestUploadDocumentFormValueTypes } from '../../../data/types'
+import { InterestUploadDocumentFormValueTypes } from 'data/types'
+
 import AdditionalInformation from './AdditionalInformation'
 
 const store = createStore(combineReducers({}))
 
 export default {
-  argTypes: {},
+  argTypes: {
+    countryCode: {
+      options: ['US', 'UK', 'CA'],
+      type: 'select'
+    }
+  },
   args: {
     close: () => {},
-    countryCode: 'UK',
+    countryCode: 'US',
     formValues: {} as InterestUploadDocumentFormValueTypes,
-    handleSubmit: () => {},
+    handleSubmit: (e) => {
+      e.preventDefault()
+    },
     nextStep: () => {},
     previousStep: () => {}
   },

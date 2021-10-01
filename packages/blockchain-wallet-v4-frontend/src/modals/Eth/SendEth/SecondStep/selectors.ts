@@ -21,9 +21,10 @@ const ethFromLabel = curry((payment, state) => {
 
 const erc20FromLabel = curry((coin, payment) => {
   const { from } = payment
+  const { coinfig } = window.coins[coin]
   switch (from.type) {
     case ADDRESS_TYPES.ACCOUNT:
-      return `${coin} Private Key Wallet`
+      return `${coinfig.displaySymbol} Private Key Wallet`
     default:
       return from.address
   }

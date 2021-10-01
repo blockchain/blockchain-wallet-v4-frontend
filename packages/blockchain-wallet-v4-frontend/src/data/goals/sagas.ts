@@ -17,8 +17,6 @@ import * as C from 'services/alerts'
 import { WAIT_FOR_INTEREST_PROMO_MODAL } from './model'
 import { DeepLinkGoal, GoalType } from './types'
 
-const { TRANSACTION_EVENTS } = model.analytics
-
 const origin = 'Goals'
 
 export default ({ api, coreSagas, networks }) => {
@@ -198,8 +196,8 @@ export default ({ api, coreSagas, networks }) => {
       return yield call(defineSwapGoal)
     }
 
-    // /#/open/interest
-    if (startsWith(DeepLinkGoal.INTEREST, pathname)) {
+    // /#/open/rewards /#/open/interest
+    if (startsWith(DeepLinkGoal.REWARDS, pathname) || startsWith(DeepLinkGoal.INTEREST, pathname)) {
       return yield call(defineInterestGoal)
     }
 
@@ -306,7 +304,6 @@ export default ({ api, coreSagas, networks }) => {
     const coinRate = selectors.core.data.coins.getRates(coin, yield select())
 
     yield put(actions.goals.deleteGoal(id))
-    yield put(actions.analytics.logEvent([...TRANSACTION_EVENTS.BITPAY_URL_DEEPLINK, coin]))
 
     if (equals('BTC', coin)) {
       yield call(getBtcBalance)
@@ -390,9 +387,6 @@ export default ({ api, coreSagas, networks }) => {
       }
     } catch (e) {
       yield put(actions.alerts.displayInfo(C.BITPAY_INVOICE_NOT_FOUND_ERROR))
-      yield put(
-        actions.analytics.logEvent([...TRANSACTION_EVENTS.BITPAY_FAILURE, 'invoice not found'])
-      )
       yield put(actions.logs.logErrorMessage(logLocation, 'runPaymentProtocolGoal', e))
     }
   }
@@ -631,7 +625,7 @@ export default ({ api, coreSagas, networks }) => {
     const initialRedirect = yield select(selectors.goals.getInitialRedirect)
 
     if (initialRedirect === 'interest') {
-      return yield put(actions.router.push(`/${initialRedirect}`))
+      return yield put(actions.router.push(`/rewards`))
     }
   }
 

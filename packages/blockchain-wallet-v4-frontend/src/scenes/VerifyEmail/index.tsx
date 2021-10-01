@@ -2,11 +2,9 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { actions, model, selectors } from 'data'
+import { actions, selectors } from 'data'
 
 import VerifyEmail from './template'
-
-const { DISMISS_VERIFICATION, EMAIL_VERIFIED } = model.analytics.AB_TEST_EVENTS
 
 class VerifyEmailContainer extends React.PureComponent<Props> {
   // to avoid react dev errors, set an initial state since we are using
@@ -20,7 +18,6 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
     if (nextProps.isEmailVerified) {
       nextProps.authActions.setRegisterEmail(undefined)
       nextProps.routerActions.push('/home')
-      nextProps.analyticsActions.logEvent(EMAIL_VERIFIED)
       // for first time login users we need to run goal since this is a first page we show them
       nextProps.saveGoal('welcomeModal', { firstLogin: true })
       nextProps.runGoals()
@@ -36,7 +33,6 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
   skipVerification = () => {
     const { email } = this.props
     this.props.authActions.setRegisterEmail(undefined)
-    this.props.analyticsActions.logEvent(DISMISS_VERIFICATION)
     this.props.securityCenterActions.skipVerifyEmail(email)
     this.props.routerActions.push('/home')
     // for first time login users we need to run goal since this is a first page we show them
@@ -62,7 +58,6 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   authActions: bindActionCreators(actions.auth, dispatch),
   miscActions: bindActionCreators(actions.core.data.misc, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch),

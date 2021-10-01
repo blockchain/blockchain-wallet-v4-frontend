@@ -69,7 +69,7 @@ const FirstStep = (props) => {
             <Text size='12px' weight={400} style={{ marginBottom: '16px' }}>
               <FormattedMessage
                 id='scenes.recover.firststep.mnemonic_explain_verification'
-                defaultMessage='For your security, you may have to re-verify your identity before accessing your Trading or Interest accounts.'
+                defaultMessage='For your security, you may have to re-verify your identity before accessing your Trading or Rewards accounts.'
               />
             </Text>
             <Field

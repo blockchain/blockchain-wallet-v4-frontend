@@ -3,17 +3,13 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
-import {
-  BeneficiaryType,
-  ExtractSuccess,
-  WalletFiatType
-} from '@core/types'
+import { BeneficiaryType, ExtractSuccess, WalletFiatType } from '@core/types'
+import { FlyoutOopsError } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { WithdrawCheckoutFormValuesType } from 'data/types'
+import { WithdrawCheckoutFormValuesType, WithdrawStepEnum } from 'data/types'
 
 import { getData } from './selectors'
-import Failure from './template.failure'
 import Loading from './template.loading'
 import Success from './template.success'
 
@@ -24,21 +20,31 @@ class ConfirmWithdraw extends PureComponent<Props> {
     }
   }
 
+  errorCallback() {
+    this.props.withdrawActions.setStep({
+      beneficiary: this.props.beneficiary,
+      fiatCurrency: this.props.fiatCurrency,
+      step: WithdrawStepEnum.ENTER_AMOUNT
+    })
+  }
+
   render() {
     return this.props.data.cata({
-      Success: val => <Success {...val} {...this.props} />,
-      Failure: () => <Failure {...this.props} />,
+      Failure: () => (
+        <FlyoutOopsError action='retry' data-e2e='withdrawReload' handler={this.errorCallback} />
+      ),
       Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      NotAsked: () => <Loading />,
+      Success: (val) => <Success {...val} {...this.props} />
     })
   }
 }
 
 const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
+  data: getData(state, ownProps),
   formValues: selectors.form.getFormValues('custodyWithdrawForm')(
     state
-  ) as WithdrawCheckoutFormValuesType,
-  data: getData(state, ownProps)
+  ) as WithdrawCheckoutFormValuesType
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

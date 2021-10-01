@@ -8,8 +8,7 @@ import { APIType } from '@core/network/api'
 import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
 import { AddressTypesType, CustodialFromType, XlmPaymentType } from '@core/types'
 import { errorHandler } from '@core/utils'
-import { actions, model, selectors } from 'data'
-import { ModalNameType } from 'data/modals/types'
+import { actions, selectors } from 'data'
 import * as C from 'services/alerts'
 import { promptForSecondPassword } from 'services/sagas'
 
@@ -19,7 +18,6 @@ import { FORM } from './model'
 import * as S from './selectors'
 
 const coin = 'XLM'
-const { TRANSACTION_EVENTS } = model.analytics
 export const logLocation = 'components/sendXlm/sagas'
 export const INITIAL_MEMO_TYPE = 'text'
 
@@ -314,7 +312,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         coin,
         value: payment.value().amount
       })
-      yield put(actions.analytics.logEvent([...TRANSACTION_EVENTS.SEND, coin, coinAmount]))
       // triggers email notification to user that
       // non-custodial funds were sent from the wallet
       if (fromType === ADDRESS_TYPES.ACCOUNT) {
@@ -326,7 +323,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // Set errors
       const error = errorHandler(e)
       yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
-      yield put(actions.analytics.logEvent([...TRANSACTION_EVENTS.SEND_FAILURE, coin, e]))
       if (fromType === ADDRESS_TYPES.CUSTODIAL && error) {
         if (error === 'Pending withdrawal locks') {
           yield call(showWithdrawalLockAlert)

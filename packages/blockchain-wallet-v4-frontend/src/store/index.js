@@ -11,19 +11,13 @@ import storage from 'redux-persist/lib/storage'
 import createSagaMiddleware from 'redux-saga'
 
 import { coreMiddleware } from '@core'
-import {
-  ApiSocket,
-  createWalletApi,
-  HorizonStreamingService,
-  Socket
-} from '@core/network/index.ts'
+import { ApiSocket, createWalletApi, HorizonStreamingService, Socket } from '@core/network/index.ts'
 import { serializer } from '@core/types'
 import { actions, rootReducer, rootSaga, selectors } from 'data'
 
 import {
   analyticsMiddleware,
   autoDisconnection,
-  matomoMiddleware,
   streamingXlm,
   webSocketCoins,
   webSocketRates
@@ -58,18 +52,23 @@ const configuredStore = async function () {
   const res = await fetch('/wallet-options-v4.json')
   const options = await res.json()
   const assetsRes = await fetch(`${options.domains.api}/assets/currencies/custodial`)
+  const erc20Res = await fetch(`${options.domains.api}/assets/currencies/erc20`)
   const assets = await assetsRes.json()
-  const erc20s = assets.currencies.filter(({ type }) => type.name === 'ERC20')
-  // TODO: erc20 phase 2, remove this whitelist
+  const erc20s = await erc20Res.json()
+
   const erc20Whitelist = options.platforms.web.erc20s
-  const supportedErc20s = erc20s.filter((erc20) =>
-    erc20Whitelist.includes(erc20.symbol)
-  )
-  const supportedCoins = assets.currencies.filter(({ type }) => type.name !== 'ERC20')
+
+  let supportedCoins = assets.currencies
+  let supportedErc20s = erc20s.currencies
+  if (erc20Whitelist) {
+    supportedCoins = supportedCoins.filter(({ type, symbol }) =>
+      type.name !== 'ERC20' ? true : erc20Whitelist.indexOf(symbol) >= 0
+    )
+    supportedErc20s = []
+  }
 
   // hmmmm....
   window.coins = {
-    // ...options.platforms.web.coins,
     ...supportedCoins.reduce(
       (acc, curr) => ({
         ...acc,
@@ -77,8 +76,6 @@ const configuredStore = async function () {
       }),
       {}
     ),
-    // TODO: erc20 phase 2, replace w/ all erc20 currencies
-    // ...erc20s.currencies.reduce(
     ...supportedErc20s.reduce(
       (acc, curr) => ({
         ...acc,
@@ -132,7 +129,6 @@ const configuredStore = async function () {
       webSocketRates(ratesSocket),
       webSocketCoins(coinsSocket),
       coreMiddleware.walletSync({ api, isAuthenticated, walletPath }),
-      matomoMiddleware(),
       analyticsMiddleware(),
       autoDisconnection()
     ]),

@@ -7,7 +7,7 @@ import { Button, Text } from 'blockchain-info-components'
 
 import { model } from '../../../data'
 import { InterestUploadDocumentFormValueTypes } from '../../../data/types'
-import { required, requiredSSN } from '../../../services/forms'
+import { required, requiredValidSSN } from '../../../services/forms'
 import { Form, FormItem, FormLabel, TextBox } from '../../Form'
 import Container from '../Container'
 import Content from '../Content'
@@ -15,6 +15,8 @@ import Footer from '../Footer'
 import Header from '../Header'
 
 const { INTEREST_UPLOAD_DOCUMENT } = model.components.interestUploadDocument
+
+const MIN_LENGTH = 4
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -33,6 +35,23 @@ export const ContentDivider = styled.div`
   margin-bottom: 40px;
 `
 
+const CustomForm = styled(Form)`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+`
+
+const minValue = (value: string) =>
+  value && value.length < MIN_LENGTH ? (
+    <FormattedMessage
+      id='modals.interest.withdrawal.upload_documents.additional_info.error'
+      defaultMessage='Must be at least {minChars} characters length'
+      values={{
+        minChars: MIN_LENGTH
+      }}
+    />
+  ) : undefined
+
 const AdditionalInformation: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const closeModal = useCallback(() => {
     props.close()
@@ -43,7 +62,7 @@ const AdditionalInformation: React.FC<InjectedFormProps<{}, Props> & Props> = (p
 
   return (
     <Container>
-      <Form onSubmit={props.handleSubmit}>
+      <CustomForm onSubmit={props.handleSubmit}>
         <Header data-e2e='InterestUploadDocumentsCloseButton' mode='back' onClick={closeModal}>
           <FormattedMessage
             id='modals.interest.withdrawal.upload_documents.additional_info.headline'
@@ -69,7 +88,12 @@ const AdditionalInformation: React.FC<InjectedFormProps<{}, Props> & Props> = (p
                   />
                 </Text>
               </FormLabel>
-              <Field name='occupation' errorBottom component={TextBox} validate={[required]} />
+              <Field
+                name='occupation'
+                errorBottom
+                component={TextBox}
+                validate={[required, minValue]}
+              />
             </FormItem>
           </ContentWrapper>
           <ContentDivider />
@@ -95,7 +119,7 @@ const AdditionalInformation: React.FC<InjectedFormProps<{}, Props> & Props> = (p
                 name='expectedDeposits'
                 errorBottom
                 component={TextBox}
-                validate={[required]}
+                validate={[required, minValue]}
                 placeholder='over 100k, BTC, in a 2 years period'
               />
             </FormItem>
@@ -121,27 +145,32 @@ const AdditionalInformation: React.FC<InjectedFormProps<{}, Props> & Props> = (p
                       />
                     </Text>
                   </FormLabel>
-                  <Field name='ssn' errorBottom component={TextBox} validate={[requiredSSN]} />
+                  <Field
+                    name='ssn'
+                    errorBottom
+                    component={TextBox}
+                    validate={[requiredValidSSN]}
+                    placeholder='123-1243-12412'
+                  />
                 </FormItem>
               </ContentWrapper>
             </>
           )}
         </Content>
-      </Form>
-      <Footer>
-        <Button
-          nature='primary'
-          data-e2e='additionalInfoUploadDocument'
-          type='button'
-          fullwidth
-          height='48px'
-          style={{ marginTop: '16px' }}
-          onClick={props.nextStep}
-          disabled={disabled}
-        >
-          <FormattedMessage id='buttons.next' defaultMessage='Next' />
-        </Button>
-      </Footer>
+        <Footer>
+          <Button
+            nature='primary'
+            data-e2e='additionalInfoUploadDocument'
+            type='submit'
+            fullwidth
+            height='48px'
+            style={{ marginTop: '16px' }}
+            disabled={disabled}
+          >
+            <FormattedMessage id='buttons.next' defaultMessage='Next' />
+          </Button>
+        </Footer>
+      </CustomForm>
     </Container>
   )
 }
@@ -150,7 +179,7 @@ export type Props = {
   close: () => void
   countryCode: string | null
   formValues: InterestUploadDocumentFormValueTypes
-  handleSubmit: () => void
+  handleSubmit: (e) => void
   nextStep: () => void
 }
 

@@ -8,13 +8,10 @@ import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
 import { fiatToString } from '@core/exchange/utils'
 import { FiatType, SBPaymentTypes } from '@core/types'
 import { FlyoutContainer, FlyoutContent, FlyoutFooter, FlyoutHeader } from 'components/Flyout'
-import { model } from 'data'
 import { BankDWStepType, BankPartners } from 'data/types'
 
 import { Props as _P, SuccessStateType as _S } from '.'
 import { FormattedBank, LineItemText } from './model'
-
-const { DEPOSIT_CANCEL, DEPOSIT_CONFIRM } = model.analytics.FIAT_DEPOSIT_EVENTS
 
 const BareRow = styled.div`
   padding: 18px 40px;
@@ -36,13 +33,11 @@ const Success = (props: Props) => {
 
   const cancelButtonClick = useCallback(() => {
     props.handleClose()
-    props.analyticsActions.logEvent(DEPOSIT_CANCEL)
   }, [])
 
   const submitButtonClick = useCallback(() => {
     setSubmitting(true)
     props.brokerageActions.createFiatDeposit()
-    props.analyticsActions.logEvent(DEPOSIT_CONFIRM)
   }, [])
 
   const amount = props.formValues?.amount || 0

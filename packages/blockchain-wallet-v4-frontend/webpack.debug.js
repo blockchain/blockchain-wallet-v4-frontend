@@ -1,11 +1,11 @@
-/* eslint-disable */
 const webpackBuilder = require('./webpackBuilder')
 
 // get dev server config, envConfig, SSL flag and base webpack config from builder
 const { devServerConfig, webpackConfig } = webpackBuilder({
   allowUnsafeScripts: false,
   allowUnsafeStyles: false,
-  useDevServer: true
+  useDevServer: true,
+  useHMR: false
 })
 
 // merge configurations into one export for webpack

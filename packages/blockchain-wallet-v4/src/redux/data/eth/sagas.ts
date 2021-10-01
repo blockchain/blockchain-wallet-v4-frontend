@@ -306,6 +306,7 @@ export default ({ api }: { api: APIType }) => {
         })
       )
     } catch (e) {
+      console.log(e)
       yield put(A.fetchErc20DataFailure(coin, prop('message', e)))
     }
   }
@@ -471,7 +472,7 @@ export default ({ api }: { api: APIType }) => {
     // @ts-ignore
     // eslint-disable-next-line
     const fullTxList = yield call(__processErc20Txs, rawTxList)
-    const marketData = (selectors.data.coins.getRates, token, yield select()).getOrFail()
+    const marketData = selectors.data.coins.getRates(token, yield select()).getOrFail('No rates')
 
     // remove txs that dont match coin type and are not within date range
     const prunedTxList = filter(
