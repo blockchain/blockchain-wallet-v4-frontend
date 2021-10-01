@@ -144,7 +144,7 @@ const App = ({
 
 const mapStateToProps = (state) => ({
   apiUrl: selectors.core.walletOptions.getDomains(state).getOrElse({
-    api: 'https://api.dev.blockchain.info'
+    api: 'https://api.blockchain.info'
   } as WalletOptionsType['domains']).api,
   coinsWithBalance: selectors.components.utils.getCoinsWithBalanceOrMethod(state).getOrElse([]),
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
