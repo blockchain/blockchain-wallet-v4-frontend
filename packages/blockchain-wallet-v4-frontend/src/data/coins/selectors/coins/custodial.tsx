@@ -23,10 +23,11 @@ export const getAccounts = createDeepEqualSelector(
   (sbBalanceR, ownProps) => {
     const transform = (sbBalance: ExtractSuccess<typeof sbBalanceR>) => {
       const { coin } = ownProps
+      const { coinfig } = window.coins[coin]
       let accounts: SwapAccountType[] = []
 
       // add trading accounts if requested
-      if (ownProps?.tradingAccounts) {
+      if (ownProps?.tradingAccounts && coinfig.products.includes('CustodialWalletBalance')) {
         accounts = accounts.concat(
           generateTradingAccount(coin as CoinType, sbBalance as SBBalanceType)
         )

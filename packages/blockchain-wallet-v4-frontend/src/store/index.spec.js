@@ -126,7 +126,11 @@ describe('App Store Config', () => {
           minimumOnChainConfirmations: 1,
           name: 'COIN'
         }
-      },
+      }
+    ]
+  }
+  const fakeErc20s = {
+    currencies: [
       {
         name: 'Aave',
         precision: 18,
@@ -199,6 +203,7 @@ describe('App Store Config', () => {
     fetch.resetMocks()
     fetch.mockResponseOnce(JSON.stringify(fakeWalletOptions))
     fetch.mockResponseOnce(JSON.stringify(fakeCustodials))
+    fetch.mockResponseOnce(JSON.stringify(fakeErc20s))
 
     // setup spies
     composeSpy = jest.spyOn(Redux, 'compose').mockImplementation(jest.fn())
@@ -215,11 +220,15 @@ describe('App Store Config', () => {
 
     // assertions
     // wallet options
-    expect(fetch.mock.calls).toHaveLength(2)
+    expect(fetch.mock.calls).toHaveLength(3)
     expect(fetch.mock.calls[0][0]).toEqual('/wallet-options-v4.json')
-    // custodial and erc20 coins
+    // custodial coins
     expect(fetch.mock.calls[1][0]).toEqual(
       `${fakeWalletOptions.domains.api}/assets/currencies/custodial`
+    )
+    // erc20 coins
+    expect(fetch.mock.calls[2][0]).toEqual(
+      `${fakeWalletOptions.domains.api}/assets/currencies/erc20`
     )
     // socket registration
     expect(Socket.mock.calls).toHaveLength(1)

@@ -12,7 +12,7 @@ export type AuthStateType = {
   manifestFile: null
   metadataRestore: RemoteDataType<any, any>
   mobileLoginStarted: boolean
-  registerEmail: undefined
+  registerEmail?: string
   registering: RemoteDataType<any, any>
   resetAccount: boolean
   restoring: RemoteDataType<any, any>

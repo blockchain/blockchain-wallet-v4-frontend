@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
 
@@ -107,7 +107,7 @@ const authSlice = createSlice({
     restoreSuccess: (state, action) => {
       state.restoring = Remote.Success(action.payload)
     },
-    secureChannelLoginFailure: (state, action) => {
+    secureChannelLoginFailure: (state, action: PayloadAction<string>) => {
       state.secureChannelLogin = Remote.Failure(action.payload)
     },
     secureChannelLoginLoading: (state) => {
