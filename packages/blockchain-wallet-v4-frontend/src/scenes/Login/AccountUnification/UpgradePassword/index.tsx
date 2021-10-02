@@ -6,7 +6,7 @@ import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 import { FormGroup, FormLabel, PasswordBox } from 'components/Form'
-import { LoginSteps } from 'data/types'
+import { AccountUnificationFlows, LoginSteps } from 'data/types'
 import { required, validPasswordConfirmation, validStrongPassword } from 'services/forms'
 
 import { Props } from '../../index'
@@ -17,6 +17,13 @@ const validatePasswordConfirmation = validPasswordConfirmation('upgradeAccountPa
 const UpgradePassword = (props: Props) => {
   const handleBackArrowClick = () => {
     props.setStep(LoginSteps.UPGRADE_CONFIRM)
+  }
+
+  const handleUpgradeAccountClick = () => {
+    if (props.accountUnificationFlow === AccountUnificationFlows.EXCHANGE_UPGRADE) {
+      // create new wallet with password
+      // then merge accounts?
+    }
   }
   return (
     <>

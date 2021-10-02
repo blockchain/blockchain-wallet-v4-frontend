@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
-import { LoginSteps } from 'data/types'
+import { AccountUnificationFlows, LoginSteps } from 'data/types'
 
 import { Props } from '../../index'
 import {
@@ -29,6 +29,19 @@ const MergeAccountConfirm = (props: Props) => {
     props.setStep(LoginSteps.ENTER_EMAIL_GUID)
     props.authActions.clearLoginError()
     props.initCaptcha()
+  }
+
+  const handleUpgradeAccountClick = () => {
+    const { accountUnificationFlow } = props
+    if (accountUnificationFlow === AccountUnificationFlows.EXCHANGE_UPGRADE) {
+      props.setStep(LoginSteps.UPGRADE_PASSWORD)
+    }
+    if (accountUnificationFlow === AccountUnificationFlows.EXCHANGE_MERGE) {
+      // take them to wallet authentication password screen
+    }
+    if (accountUnificationFlow === AccountUnificationFlows.WALLET_MERGE) {
+      // take them to exchange password screens
+    }
   }
 
   return (
@@ -98,14 +111,9 @@ const MergeAccountConfirm = (props: Props) => {
         // disabled={submitting || busy}
         data-e2e='upgradeButton'
         style={{ margin: '32px 0 24px' }}
-        onClick={() => props.setStep(LoginSteps.UPGRADE_CHANGE_PASSWORD)}
+        onClick={handleUpgradeAccountClick}
       >
-        <Text
-          color='whiteFade900'
-          size='16px'
-          weight={600}
-          onClick={() => props.authActions.loginRoutineTest()}
-        >
+        <Text color='whiteFade900' size='16px' weight={600}>
           <FormattedMessage id='buttons.upgrade_account' defaultMessage='Upgrade Account' />
         </Text>
       </ActionButton>

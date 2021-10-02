@@ -131,6 +131,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       authActions.login({ code: auth, guid, mobileLogin: null, password, sharedKey: null })
     } else {
       // Authenticate to Exchange
+      authActions.exchangeLogin({ code, password, username: formValues.email })
     }
   }
 
@@ -163,7 +164,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
           {step === LoginSteps.ENTER_EMAIL_GUID && (
             <FormattedMessage id='scenes.login.welcome' defaultMessage='Welcome back!' />
           )}
-          {step === LoginSteps.UPGRADE_CHANGE_PASSWORD && (
+          {step === LoginSteps.UPGRADE_PASSWORD && (
             <FormattedMessage
               id='scenes.login.upgrade.password.header'
               defaultMessage='Upgrade Your Password'
@@ -184,7 +185,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
             />
           </Text>
         )}
-        {step === LoginSteps.UPGRADE_CHANGE_PASSWORD && (
+        {step === LoginSteps.UPGRADE_PASSWORD && (
           <Text
             color='grey400'
             weight={500}
@@ -242,7 +243,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
                   return (
                     <MergeAccountConfirm {...this.props} {...loginProps} setStep={this.setStep} />
                   )
-                case LoginSteps.UPGRADE_CHANGE_PASSWORD:
+                case LoginSteps.UPGRADE_PASSWORD:
                   return <UpgradePassword {...this.props} {...loginProps} setStep={this.setStep} />
                 case LoginSteps.PRODUCT_PICKER_AFTER_AUTHENTICATION:
                 case LoginSteps.PRODUCT_PICKER_BEFORE_AUTHENTICATION:
@@ -303,7 +304,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
           <Button
             data-e2e=''
             nature='empty-blue'
-            onClick={() => this.setStep(LoginSteps.UPGRADE_CHANGE_PASSWORD)}
+            onClick={() => this.setStep(LoginSteps.UPGRADE_PASSWORD)}
           >
             Upgrade Change Password
           </Button>
@@ -314,6 +315,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
 }
 
 const mapStateToProps = (state) => ({
+  accountUnificationFlow: selectors.auth.getAccountUnificationFlowType(state),
   authType: selectors.auth.getAuthType(state) as Number,
   code: formValueSelector(LOGIN_FORM_NAME)(state, 'code'),
   data: selectors.auth.getLogin(state) as RemoteDataType<any, any>,

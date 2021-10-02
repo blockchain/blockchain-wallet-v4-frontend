@@ -2,8 +2,17 @@ import { RootState } from 'data/rootReducer'
 
 import { AuthStateType } from './types'
 
-export function isAuthenticated(state: RootState): AuthStateType['isAuthenticated'] {
-  return state.auth.isAuthenticated
+export function getAccountReset(state: RootState): AuthStateType['resetAccount'] {
+  return state.auth.resetAccount
+}
+
+export function getAccountUnificationFlowType(
+  state: RootState
+): AuthStateType['accountUnificationFlow'] {
+  return state.auth.accountUnificationFlow
+}
+export function getAuthType(state: RootState): AuthStateType['auth_type'] {
+  return state.auth.auth_type
 }
 
 export function getRegistering(state: RootState): AuthStateType['registering'] {
@@ -16,10 +25,6 @@ export function getFirstLogin(state: RootState): AuthStateType['firstLogin'] {
 
 export function getRestoring(state: RootState): AuthStateType['restoring'] {
   return state.auth.restoring
-}
-
-export function getAuthType(state: RootState): AuthStateType['auth_type'] {
-  return state.auth.auth_type
 }
 
 export function getDesignatedProduct(state: RootState): AuthStateType['designatedProduct'] {
@@ -54,10 +59,6 @@ export function getKycResetStatus(state: RootState): AuthStateType['kycReset'] {
   return state.auth.kycReset
 }
 
-export function getAccountReset(state: RootState): AuthStateType['resetAccount'] {
-  return state.auth.resetAccount
-}
-
 export function getMagicLinkData(state: RootState): AuthStateType['magicLinkData'] {
   return state.auth.magicLinkData
 }
@@ -68,4 +69,8 @@ export function getUserGeoData(state: RootState): AuthStateType['userGeoData'] {
 
 export function getManifest(state: RootState): AuthStateType['manifestFile'] {
   return state.auth.manifestFile
+}
+
+export function isAuthenticated(state: RootState): AuthStateType['isAuthenticated'] {
+  return state.auth.isAuthenticated
 }

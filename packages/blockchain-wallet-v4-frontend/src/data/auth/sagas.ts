@@ -111,6 +111,11 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const exchangeLogin = function* (action) {
+    // exchange authentication stuff
+    yield put(actions.form.change('login', 'step', LoginSteps.UPGRADE_CONFIRM))
+  }
+
   const loginRoutineSagaTest = function* ({
     email = undefined,
     firstLogin = false,
@@ -765,6 +770,7 @@ export default ({ api, coreSagas, networks }) => {
   }
   return {
     authNabu,
+    exchangeLogin,
     getUserGeoLocation,
     initializeLogin,
     login,

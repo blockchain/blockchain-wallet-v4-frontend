@@ -20,5 +20,6 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.pingManifestFile.type, authSagas.pingManifestFile)
     // @ts-ignore
     yield takeLatest(actions.loginRoutineTest.type, authSagas.loginRoutineSagaTest)
+    yield takeLatest(actions.exchangeLogin.type, authSagas.exchangeLogin)
   }
 }
