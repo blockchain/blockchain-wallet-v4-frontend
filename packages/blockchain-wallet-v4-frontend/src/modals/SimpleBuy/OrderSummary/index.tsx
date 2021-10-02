@@ -13,7 +13,8 @@ import {
   SBPaymentTypes
 } from '@core/types'
 import DataError from 'components/DataError'
-import { getPeriodForSuccess, OrderSummary as Success } from 'components/Flyout'
+import { OrderSummary as Success } from 'components/Flyout'
+import { getPeriodForSuccess } from 'components/Flyout/model'
 import { actions, selectors } from 'data'
 import {
   getBaseAmount,

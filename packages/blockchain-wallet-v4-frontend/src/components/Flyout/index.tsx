@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { Modal, Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
+import EnterAmount from './Brokerage/EnterAmount'
 // Brokerage specific flyout screens
 import OrderSummary from './Brokerage/OrderSummary'
 import FlyoutContainer from './Container'
@@ -26,9 +27,9 @@ import RecurringBuyRemoveConfirm from './RecurringBuy/RecurringBuyRemoveConfirm'
 // These are the newest versions of flyout layouts and should eventually replace/integrate FlyoutWrapper etc.
 import FlyoutSubHeader from './SubHeader'
 
-export * from './model'
 export {
   AdditionalInformation,
+  EnterAmount,
   FlyoutContainer,
   FlyoutContent,
   FlyoutFooter,
