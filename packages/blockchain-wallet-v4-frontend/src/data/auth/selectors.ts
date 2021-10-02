@@ -30,6 +30,10 @@ export function getSecureChannelLogin(state: RootState): AuthStateType['secureCh
   return state.auth.secureChannelLogin
 }
 
+export function getExchangeLogin(state: RootState): AuthStateType['exchangeLogin'] {
+  return state.auth.exchangeLogin
+}
+
 export function getLogin(state: RootState): AuthStateType['login'] {
   return state.auth.login
 }

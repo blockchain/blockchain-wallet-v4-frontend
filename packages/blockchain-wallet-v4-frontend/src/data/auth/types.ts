@@ -45,6 +45,12 @@ export type LoginPayloadType = {
   sharedKey: string
 }
 
+export type ExchangeLoginType = {
+  code: string
+  password: string
+  username: string
+}
+
 export type LoginFormType = {
   email: string
   emailToken?: string
@@ -74,7 +80,7 @@ export type WalletDataFromMagicLink = {
   unified?: boolean
   upgradeable?: boolean | null
   user_type?: UserType
-  wallet: {
+  wallet?: {
     auth_type?: number
     email: string
     email_code?: string
@@ -115,6 +121,10 @@ export type LoginErrorType =
     }
   | string
 
+export type ExchangeLoginSuccessType = {}
+
+export type ExchangeLoginFailtureType = string | boolean | undefined
+
 export type LoginSuccessType = {}
 
 export type LoginFailureType = string | boolean | undefined
@@ -134,6 +144,7 @@ export type AuthStateType = {
   auth_type: number
   designatedProduct: ProductAuthOptions
   designatedProductRedirect?: string
+  exchangeLogin: RemoteDataType<ExchangeLoginFailtureType, ExchangeLoginSuccessType>
   firstLogin: boolean
   isAuthenticated: boolean
   isLoggingIn: boolean

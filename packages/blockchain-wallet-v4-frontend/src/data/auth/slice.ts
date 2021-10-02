@@ -1,10 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
+import {} from 'data/types'
 
 import {
   AccountUnificationFlows,
   AuthStateType,
+  ExchangeLoginFailtureType,
+  ExchangeLoginSuccessType,
+  ExchangeLoginType,
   LoginFailureType,
   LoginSuccessType,
   MetadataRestoreType,
@@ -20,6 +24,7 @@ const initialState: AuthStateType = {
   auth_type: 0,
   designatedProduct: ProductAuthOptions.WALLET,
   designatedProductRedirect: undefined,
+  exchangeLogin: Remote.NotAsked,
   firstLogin: false,
   isAuthenticated: false,
   isLoggingIn: false,
@@ -59,6 +64,16 @@ const authSlice = createSlice({
     clearLoginError: (state) => {
       state.login = Remote.NotAsked
     },
+    exchangeLogin: (state, action: PayloadAction<ExchangeLoginType>) => {},
+    exchangeLoginFailure: (state, action: PayloadAction<ExchangeLoginFailtureType>) => {
+      state.exchangeLogin = Remote.Failure(action.payload)
+    },
+    exchangeLoginLoading: (state) => {
+      state.exchangeLogin = Remote.Loading
+    },
+    exchangeLoginSuccess: (state, action: PayloadAction<ExchangeLoginSuccessType>) => {
+      state.exchangeLogin = Remote.Success(action.payload)
+    },
     getUserGeoLocation: () => {},
     initializeLogin: () => {},
     initializeLoginFailure: () => {},
@@ -76,6 +91,7 @@ const authSlice = createSlice({
       state.login = Remote.Loading
     },
     loginRoutine: (state, action) => {},
+    loginRoutineTest: () => {},
     loginSuccess: (state, action: PayloadAction<LoginSuccessType>) => {
       state.login = Remote.Success(action.payload)
     },
@@ -141,8 +157,8 @@ const authSlice = createSlice({
     setDesignatedProductMetadata: (
       state,
       action: PayloadAction<{
-        designatedProduct: string | null
-        designatedProductRedirect: AuthStateType['designatedProductRedirect'] | null
+        designatedProduct?: string | null
+        designatedProductRedirect?: AuthStateType['designatedProductRedirect'] | null
       }>
     ) => {
       const { designatedProduct, designatedProductRedirect } = action.payload

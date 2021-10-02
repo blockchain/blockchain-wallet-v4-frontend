@@ -36,7 +36,7 @@ const Exchange = (props: Props) => {
 
   return (
     <>
-      <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} />
+      <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} hideGuid />
       <FormGroup>
         {!isSupportedBrowser && <UnsupportedBrowserWarning />}
         <FormItem>

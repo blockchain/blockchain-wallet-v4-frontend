@@ -100,7 +100,12 @@ const MergeAccountConfirm = (props: Props) => {
         style={{ margin: '32px 0 24px' }}
         onClick={() => props.setStep(LoginSteps.UPGRADE_CHANGE_PASSWORD)}
       >
-        <Text color='whiteFade900' size='16px' weight={600}>
+        <Text
+          color='whiteFade900'
+          size='16px'
+          weight={600}
+          onClick={() => props.authActions.loginRoutineTest()}
+        >
           <FormattedMessage id='buttons.upgrade_account' defaultMessage='Upgrade Account' />
         </Text>
       </ActionButton>

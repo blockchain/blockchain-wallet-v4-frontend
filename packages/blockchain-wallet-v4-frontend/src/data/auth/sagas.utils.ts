@@ -15,7 +15,14 @@ const logLocation = 'auth/sagas'
 export const parseMagicLink = function* (params) {
   try {
     const loginData = JSON.parse(atob(params[2])) as WalletDataFromMagicLink
-    const { mergeable, product, unified, upgradeable, wallet: walletData } = loginData
+    const {
+      exchange: exchangeData,
+      mergeable,
+      product,
+      unified,
+      upgradeable,
+      wallet: walletData
+    } = loginData
     if (!unified && (mergeable || upgradeable)) {
       if (product === ProductAuthOptions.WALLET && mergeable) {
         // send them to wallet password screen
@@ -36,15 +43,20 @@ export const parseMagicLink = function* (params) {
     }
     // store data in the cache and update form values to be used to submit login
     if (product === ProductAuthOptions.WALLET) {
-      yield put(actions.cache.emailStored(walletData.email))
-      yield put(actions.cache.guidStored(walletData.guid))
-      yield put(actions.cache.mobileConnectedStored(walletData.is_mobile_setup))
-      yield put(actions.form.change('login', 'emailToken', walletData.email_code))
-      yield put(actions.form.change('login', 'guid', walletData.guid))
-      yield put(actions.form.change('login', 'email', walletData.email))
+      yield put(actions.cache.emailStored(walletData?.email))
+      yield put(actions.cache.guidStored(walletData?.guid))
+      yield put(actions.cache.mobileConnectedStored(walletData?.is_mobile_setup))
+      yield put(actions.form.change('login', 'emailToken', walletData?.email_code))
+      yield put(actions.form.change('login', 'guid', walletData?.guid))
+      yield put(actions.form.change('login', 'email', walletData?.email))
       yield put(actions.auth.setMagicLinkInfo(loginData))
+      yield put(
+        actions.auth.setDesignatedProductMetadata({
+          designatedProduct: ProductAuthOptions.WALLET
+        })
+      )
       // check if mobile detected
-      if (walletData.is_mobile_setup) {
+      if (walletData?.is_mobile_setup) {
         yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
       } else {
         yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
@@ -52,6 +64,14 @@ export const parseMagicLink = function* (params) {
     }
     if (product === ProductAuthOptions.EXCHANGE) {
       // set state with all exchange login information
+      yield put(actions.cache.emailStored(exchangeData?.email))
+      yield put(actions.form.change('login', 'email', exchangeData?.email))
+      yield put(
+        actions.auth.setDesignatedProductMetadata({
+          designatedProduct: ProductAuthOptions.EXCHANGE
+        })
+      )
+      yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
     }
     yield put(actions.auth.analyticsMagicLinkParsed())
   } catch (e) {

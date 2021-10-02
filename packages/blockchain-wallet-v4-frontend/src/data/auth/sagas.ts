@@ -111,7 +111,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const loginRoutineSaga = function* ({
+  const loginRoutineSagaTest = function* ({
     email = undefined,
     firstLogin = false,
     country = undefined,
@@ -119,25 +119,7 @@ export default ({ api, coreSagas, networks }) => {
     recovery = false
   }) {
     try {
-      // If needed, the user should upgrade its wallet before being able to open the wallet
-      const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
-      if (!isHdWallet) {
-        yield put(actions.wallet.upgradeWallet(3))
-        yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
-      }
-      const isLatestVersion = yield select(selectors.core.wallet.isWrapperLatestVersion)
-      yield call(coreSagas.settings.fetchSettings)
-      const invitations = selectors.core.settings
-        .getInvitations(yield select())
-        .getOrElse(DEFAULT_INVITATIONS)
-      const isSegwitEnabled = invitations.segwit
-      if (!isLatestVersion && isSegwitEnabled) {
-        yield put(actions.wallet.upgradeWallet(4))
-        yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
-      }
       const isAccountReset: boolean = yield select(selectors.auth.getAccountReset)
-      // Finish upgrades
-      yield put(actions.auth.authenticate())
       yield put(actions.auth.setFirstLogin(firstLogin))
       yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
       // If there was no eth metadata kv store entry, we need to create one and that requires the second password.
@@ -217,6 +199,120 @@ export default ({ api, coreSagas, networks }) => {
       // ensure xpub cache is correct
       yield fork(checkXpubCacheLegitimacy)
       yield fork(checkDataErrors)
+    } catch (e) {
+      yield put(actions.logs.logErrorMessage(logLocation, 'loginRoutineSaga', e))
+      // Redirect to error page instead of notification
+      yield put(actions.alerts.displayError(C.WALLET_LOADING_ERROR))
+    }
+  }
+
+  const loginRoutineSaga = function* ({
+    email = undefined,
+    firstLogin = false,
+    country = undefined,
+    state = undefined,
+    recovery = false
+  }) {
+    try {
+      // If needed, the user should upgrade its wallet before being able to open the wallet
+      const isHdWallet = yield select(selectors.core.wallet.isHdWallet)
+      if (!isHdWallet) {
+        yield put(actions.wallet.upgradeWallet(3))
+        yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
+      }
+      const isLatestVersion = yield select(selectors.core.wallet.isWrapperLatestVersion)
+      yield call(coreSagas.settings.fetchSettings)
+      const invitations = selectors.core.settings
+        .getInvitations(yield select())
+        .getOrElse(DEFAULT_INVITATIONS)
+      const isSegwitEnabled = invitations.segwit
+      if (!isLatestVersion && isSegwitEnabled) {
+        yield put(actions.wallet.upgradeWallet(4))
+        yield take(actionTypes.core.walletSync.SYNC_SUCCESS)
+      }
+      const isAccountReset: boolean = yield select(selectors.auth.getAccountReset)
+      // Finish upgrades
+      yield put(actions.auth.authenticate())
+      yield put(actions.form.change('login', 'step', LoginSteps.UPGRADE_CONFIRM))
+      //   yield put(actions.auth.setFirstLogin(firstLogin))
+      //   yield call(coreSagas.kvStore.root.fetchRoot, askSecondPasswordEnhancer)
+      //   // If there was no eth metadata kv store entry, we need to create one and that requires the second password.
+      //   yield call(coreSagas.kvStore.eth.fetchMetadataEth, askSecondPasswordEnhancer)
+      //   yield put(actions.middleware.webSocket.xlm.startStreams())
+      //   yield call(coreSagas.kvStore.xlm.fetchMetadataXlm, askSecondPasswordEnhancer)
+      //   yield call(coreSagas.kvStore.bch.fetchMetadataBch)
+      //   yield call(coreSagas.kvStore.lockbox.fetchMetadataLockbox)
+      //   yield call(coreSagas.kvStore.walletCredentials.fetchMetadataWalletCredentials)
+      //   yield call(coreSagas.data.xlm.fetchLedgerDetails)
+      //   yield call(coreSagas.data.xlm.fetchData)
+
+      //   yield call(authNabu)
+
+      //   if (firstLogin) {
+      //     const countryCode = country || 'US'
+      //     const currency = guessCurrencyBasedOnCountry(countryCode)
+
+      //     yield put(actions.modules.settings.updateCurrency(currency, true))
+      //     yield put(actions.core.settings.setCurrency(currency))
+
+      //     if (!isAccountReset) {
+      //       yield put(actions.router.push('/verify-email-step'))
+      //     } else {
+      //       yield put(actions.router.push('/home'))
+      //     }
+      //   } else {
+      //     yield put(actions.router.push('/home'))
+      //   }
+      //   yield call(fetchBalances)
+      //   yield call(saveGoals, firstLogin)
+      //   yield put(actions.goals.runGoals())
+      //   yield call(upgradeAddressLabelsSaga)
+      //   yield put(actions.auth.loginSuccess({}))
+      //   yield put(actions.auth.startLogoutTimer())
+      //   yield call(startSockets)
+      //   const guid = yield select(selectors.core.wallet.getGuid)
+      //   // store guid and email in cache for future login
+      //   yield put(actions.cache.guidEntered(guid))
+      //   if (email) {
+      //     yield put(actions.cache.emailStored(email))
+      //   }
+      //   // reset auth type and clear previous login form state
+      //   yield put(actions.auth.setAuthType(0))
+      //   yield put(actions.form.destroy('login'))
+      //   // set payload language to settings language
+      //   const language = yield select(selectors.preferences.getLanguage)
+      //   yield put(actions.modules.settings.updateLanguage(language))
+      //   yield put(actions.analytics.initUserSession())
+      //   // simple buy tasks
+      //   // only run the fetch simplebuy if there's no simplebuygoal
+      //   const goals = selectors.goals.getGoals(yield select())
+      //   const simpleBuyGoal = find(propEq('name', 'simpleBuy'), goals)
+      //   if (!simpleBuyGoal) {
+      //     yield put(actions.components.buySell.fetchPaymentMethods())
+      //   }
+      //   // swap tasks
+      //   yield put(actions.components.swap.fetchTrades())
+      //   // check/update btc account names
+      //   yield call(coreSagas.wallet.checkAndUpdateWalletNames)
+      //   const signupCountryEnabled = (yield select(
+      //     selectors.core.walletOptions.getFeatureSignupCountry
+      //   )).getOrElse(false)
+      //   if (firstLogin && signupCountryEnabled && !isAccountReset && !recovery) {
+      //     // create nabu user
+      //     yield call(createUser)
+      //     // store initial address in case of US state we add prefix
+      //     const userState = country === 'US' ? `US-${state}` : state
+      //     yield call(api.setUserInitialAddress, country, userState)
+      //     yield call(coreSagas.settings.fetchSettings)
+      //   }
+
+      //   // We are checking wallet metadata to see if mnemonic is verified
+      //   // and then syncing that information with new Wallet Account model
+      //   // being used for SSO
+      //   yield fork(updateMnemonicBackup)
+      //   // ensure xpub cache is correct
+      //   yield fork(checkXpubCacheLegitimacy)
+      //   yield fork(checkDataErrors)
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'loginRoutineSaga', e))
       // Redirect to error page instead of notification
@@ -673,6 +769,7 @@ export default ({ api, coreSagas, networks }) => {
     initializeLogin,
     login,
     loginRoutineSaga,
+    loginRoutineSagaTest,
     mobileLogin,
     pingManifestFile,
     pollingSession,

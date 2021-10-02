@@ -107,6 +107,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     if (auth && this.props.authType !== 1) {
       auth = auth.toUpperCase()
     }
+    // if we're trying to trigger the verification link
     if (
       formValues.step === LoginSteps.ENTER_EMAIL_GUID ||
       formValues.step === LoginSteps.CHECK_EMAIL
@@ -125,8 +126,11 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       }
       const idType = isGuid(guidOrEmail) ? 'WALLET_ID' : 'EMAIL'
       authActions.analyticsLoginIdEntered(idType)
-    } else {
+    } else if (designatedProduct === ProductAuthOptions.WALLET) {
+      // if we're trying to submit password to authenticate
       authActions.login({ code: auth, guid, mobileLogin: null, password, sharedKey: null })
+    } else {
+      // Authenticate to Exchange
     }
   }
 
@@ -249,21 +253,22 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
             })()}
           </Form>
         </Wrapper>
-        {step === LoginSteps.ENTER_PASSWORD && (
-          <Text
-            color='white'
-            weight={600}
-            size='16px'
-            cursor='pointer'
-            style={{ marginTop: '24px' }}
-            onClick={this.loginWithMobileClicked}
-          >
-            <FormattedMessage
-              id='scenes.login.loginwithmobile'
-              defaultMessage='Log In with Mobile App ->'
-            />
-          </Text>
-        )}
+        {step === LoginSteps.ENTER_PASSWORD &&
+          this.props.designatedProduct !== ProductAuthOptions.EXCHANGE && (
+            <Text
+              color='white'
+              weight={600}
+              size='16px'
+              cursor='pointer'
+              style={{ marginTop: '24px' }}
+              onClick={this.loginWithMobileClicked}
+            >
+              <FormattedMessage
+                id='scenes.login.loginwithmobile'
+                defaultMessage='Log In with Mobile App ->'
+              />
+            </Text>
+          )}
         {step === LoginSteps.ENTER_EMAIL_GUID && (
           <>
             <Text size='14px' color='grey400' weight={500} style={{ margin: '24px 0 16px' }}>
