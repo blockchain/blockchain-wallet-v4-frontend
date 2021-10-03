@@ -87,9 +87,9 @@ class WelcomeContainer extends React.PureComponent<Props> {
     setTimeout(() => {
       this.props.close()
       if (cryptoCurrency) {
-        this.props.buySellActions.showModal({ cryptoCurrency, origin: 'WelcomeModal' })
+        this.props.simpleBuyActions.showModal('WelcomeModal', cryptoCurrency)
       } else {
-        this.props.buySellActions.showModal({ origin: 'WelcomeModal' })
+        this.props.simpleBuyActions.showModal('WelcomeModal')
       }
     }, duration / 2)
   }
@@ -165,8 +165,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch): LinkDispatchPropsType => ({
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  onboardingActions: bindActionCreators(actions.components.onboarding, dispatch)
+  onboardingActions: bindActionCreators(actions.components.onboarding, dispatch),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -179,8 +179,8 @@ type OwnPropsType = {
 }
 
 type LinkDispatchPropsType = {
-  buySellActions: typeof actions.components.buySell
   onboardingActions: typeof actions.components.onboarding
+  simpleBuyActions: typeof actions.components.simpleBuy
 }
 
 type Props = OwnPropsType & LinkDispatchPropsType & ConnectedProps<typeof connector>

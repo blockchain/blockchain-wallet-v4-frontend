@@ -1,6 +1,6 @@
 import { lift } from 'ramda'
 
-import { createDeepEqualSelector } from '@core/utils'
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { selectors } from 'data'
 
 export const getData = createDeepEqualSelector(
@@ -13,8 +13,8 @@ export const getData = createDeepEqualSelector(
     const transform = (authType, smsNumber, smsVerified) => {
       return {
         authType: parseInt(authType),
-        smsNumber,
-        smsVerified
+        smsVerified,
+        smsNumber
       }
     }
     return lift(transform)(authTypeR, smsNumberR, smsVerifiedR)

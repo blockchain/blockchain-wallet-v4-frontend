@@ -5,7 +5,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { CoinType } from '@core/types'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { media } from 'services/styles'
 
@@ -68,7 +68,7 @@ const CloseLink = styled.div`
   cursor: pointer;
 `
 
-const NewCurrency = ({ buySellActions, cacheActions, coinListing }: Props) => {
+const NewCurrency = ({ cacheActions, coinListing, simpleBuyActions }: Props) => {
   if (!coinListing) return null
   if (!window.coins[coinListing]) return null
 
@@ -99,13 +99,7 @@ const NewCurrency = ({ buySellActions, cacheActions, coinListing }: Props) => {
         <CTAButton
           data-e2e='newCoinTradeNowButton'
           nature='primary'
-          onClick={() =>
-            buySellActions.showModal({
-              cryptoCurrency: symbol as CoinType,
-              orderType: 'BUY',
-              origin: 'TransactionList'
-            })
-          }
+          onClick={() => simpleBuyActions.showModal('TransactionList', symbol as CoinType, 'BUY')}
           small
           style={{ borderRadius: '4px' }}
         >
@@ -128,8 +122,8 @@ const mapStateToProps = (state) => ({
   coinListing: selectors.core.walletOptions.getNewCoinListing(state).getOrElse('')
 })
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  cacheActions: bindActionCreators(actions.cache, dispatch)
+  cacheActions: bindActionCreators(actions.cache, dispatch),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

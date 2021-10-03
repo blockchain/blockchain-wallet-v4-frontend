@@ -1,7 +1,7 @@
 import webSocketRates, { fallbackInterval } from 'middleware/webSocketRates'
 import { compose, groupBy, head, map, path, prop } from 'ramda'
 
-import { Remote } from '@core'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, model, selectors } from 'data'
 import ratesSocketSagas from 'data/middleware/webSocket/rates/sagaRegister'
 import { socketAuthRetryDelay } from 'data/middleware/webSocket/rates/sagas'
@@ -16,9 +16,9 @@ jest.useFakeTimers()
 const { dispatchSpy, spyReducer } = getDispatchSpyReducer()
 
 const reducers = {
-  profile: profileReducer,
+  spy: spyReducer,
   rates: ratesReducer,
-  spy: spyReducer
+  profile: profileReducer
 }
 
 const pair = 'BTC-ETH'
@@ -27,35 +27,34 @@ const volume = 100
 const fix = 'counterInFiat'
 const fiatCurrency = 'USD'
 const stubAdvice = {
+  pair,
+  fiatCurrency,
+  fix,
+  volume,
   currencyRatio: {
     base: {
-      crypto: {
-        symbol: 'BTC',
-        value: 0.15
-      },
       fiat: {
         symbol: 'USD',
         value: 96.77
+      },
+      crypto: {
+        symbol: 'BTC',
+        value: 0.15
       }
     },
     counter: {
-      crypto: {
-        symbol: 'ETH',
-        value: 0.27
-      },
       fiat: {
         symbol: 'USD',
         value: 100.0
+      },
+      crypto: {
+        symbol: 'ETH',
+        value: 0.27
       }
     }
-  },
-  fiatCurrency,
-  fix,
-  pair,
-  volume
+  }
 }
 const ratesSocket = {
-  close: jest.fn(),
   connect(onOpen, onMessage, onClose, onError, fallback) {
     this.triggerOpen = onOpen
     this.triggerMessage = onMessage
@@ -63,8 +62,9 @@ const ratesSocket = {
     this.triggerError = onError
     this.triggerFallback = fallback
   },
-  isReady: jest.fn().mockReturnValue(true),
-  send: jest.fn()
+  close: jest.fn(),
+  send: jest.fn(),
+  isReady: jest.fn().mockReturnValue(true)
 }
 
 jest.spyOn(ratesSocket, 'connect')
@@ -110,26 +110,30 @@ describe('rates service', () => {
 
     it('should send authentication message to ratesSocket', () => {
       expect(ratesSocket.send).toHaveBeenCalledTimes(1)
-      expect(ratesSocket.send).toHaveBeenCalledWith(model.rates.getAuthMessage(stubToken))
+      expect(ratesSocket.send).toHaveBeenCalledWith(
+        model.rates.getAuthMessage(stubToken)
+      )
     })
   })
 
   describe('new advice subscriptions', () => {
     beforeEach(() => {
       ratesSocket.send.mockClear()
-      store.dispatch(actions.modules.rates.subscribeToAdvice(pair, volume, fix, fiatCurrency))
+      store.dispatch(
+        actions.modules.rates.subscribeToAdvice(pair, volume, fix, fiatCurrency)
+      )
     })
 
     it('should set initial advice for pair upon new subscription', () => {
-      expect(selectors.modules.rates.getPairAdvice(pair, store.getState())).toEqual(Remote.Loading)
+      expect(
+        selectors.modules.rates.getPairAdvice(pair, store.getState())
+      ).toEqual(Remote.Loading)
     })
 
     it('should set initial config for pair upon new subscription', () => {
-      expect(path(['rates', 'pairs', pair, 'config'], store.getState())).toEqual({
-        fiatCurrency,
-        fix,
-        volume
-      })
+      expect(
+        path(['rates', 'pairs', pair, 'config'], store.getState())
+      ).toEqual({ volume, fix, fiatCurrency })
     })
 
     it('should set send subscription socket message upon new subscription', () => {
@@ -142,10 +146,17 @@ describe('rates service', () => {
     it('should trigger advice fetch if socket is not ready', () => {
       ratesSocket.send.mockClear()
       ratesSocket.isReady.mockReturnValueOnce(false)
-      store.dispatch(actions.modules.rates.subscribeToAdvice(pair, volume, fix, fiatCurrency))
+      store.dispatch(
+        actions.modules.rates.subscribeToAdvice(pair, volume, fix, fiatCurrency)
+      )
       expect(ratesSocket.send).toHaveBeenCalledTimes(0)
       expect(api.fetchAdvice).toHaveBeenCalledTimes(1)
-      expect(api.fetchAdvice).toHaveBeenCalledWith(pair, volume, fix, fiatCurrency)
+      expect(api.fetchAdvice).toHaveBeenCalledWith(
+        pair,
+        volume,
+        fix,
+        fiatCurrency
+      )
     })
   })
 
@@ -158,11 +169,15 @@ describe('rates service', () => {
 
     it('should send unsubscription socket message', () => {
       expect(ratesSocket.send).toHaveBeenCalledTimes(1)
-      expect(ratesSocket.send).toHaveBeenCalledWith(model.rates.getAdviceUnsubscribeMessage(pair))
+      expect(ratesSocket.send).toHaveBeenCalledWith(
+        model.rates.getAdviceUnsubscribeMessage(pair)
+      )
     })
 
     it('should set pair to loading upon unsubscription', () => {
-      expect(selectors.modules.rates.getPairAdvice(pair, store.getState())).toEqual(Remote.Loading)
+      expect(
+        selectors.modules.rates.getPairAdvice(pair, store.getState())
+      ).toEqual(Remote.Loading)
     })
   })
 
@@ -190,7 +205,9 @@ describe('rates service', () => {
 
     it('should send unsubscription socket message', () => {
       expect(ratesSocket.send).toHaveBeenCalledTimes(1)
-      expect(ratesSocket.send).toHaveBeenCalledWith(model.rates.getRatesUnsubscribeMessage())
+      expect(ratesSocket.send).toHaveBeenCalledWith(
+        model.rates.getRatesUnsubscribeMessage()
+      )
     })
 
     it('should reset bestRates', () => {
@@ -202,7 +219,9 @@ describe('rates service', () => {
     beforeEach(() => {
       ratesSocket.send.mockClear()
       store.dispatch(actions.modules.rates.subscribeToAdvice(pair))
-      store.dispatch(actions.modules.rates.updatePairConfig(pair, volume, fix, fiatCurrency))
+      store.dispatch(
+        actions.modules.rates.updatePairConfig(pair, volume, fix, fiatCurrency)
+      )
     })
 
     it('should set pair rate to loading upon subscription success message', () => {
@@ -210,7 +229,9 @@ describe('rates service', () => {
         ...model.rates.ADVICE_SUBSCRIBE_SUCCESS_MESSAGE,
         pair
       })
-      expect(selectors.modules.rates.getPairAdvice(pair, store.getState())).toEqual(Remote.Loading)
+      expect(
+        selectors.modules.rates.getPairAdvice(pair, store.getState())
+      ).toEqual(Remote.Loading)
     })
 
     it('should set pair rate to success upon advice message if fix and volume match', () => {
@@ -218,13 +239,13 @@ describe('rates service', () => {
         ...model.rates.ADVICE_UPDATED_MESSAGE,
         quote: { ...stubAdvice }
       })
-      expect(selectors.modules.rates.getPairAdvice(pair, store.getState())).toEqual(
-        Remote.of(stubAdvice.currencyRatio)
-      )
+      expect(
+        selectors.modules.rates.getPairAdvice(pair, store.getState())
+      ).toEqual(Remote.of(stubAdvice.currencyRatio))
     })
 
     it('should update bestRates upon rates message', () => {
-      const rates = pairs.map((pair) => ({ pair, rate: Math.random() }))
+      const rates = pairs.map(pair => ({ pair, rate: Math.random() }))
       const resultRates = compose(map(head), groupBy(prop('pair')))(rates)
       ratesSocket.triggerMessage({
         ...model.rates.RATES_UPDATED_MESSAGE,
@@ -260,9 +281,9 @@ describe('rates service', () => {
 
     it('should set rates when received response', () => {
       jest.advanceTimersByTime(fallbackInterval)
-      expect(selectors.modules.rates.getPairAdvice(pair, store.getState())).toEqual(
-        Remote.of(stubAdvice.currencyRatio)
-      )
+      expect(
+        selectors.modules.rates.getPairAdvice(pair, store.getState())
+      ).toEqual(Remote.of(stubAdvice.currencyRatio))
     })
 
     it('should set rates error when request fails', () => {
@@ -271,9 +292,9 @@ describe('rates service', () => {
         throw stubError
       })
       jest.advanceTimersByTime(fallbackInterval)
-      expect(selectors.modules.rates.getPairAdvice(pair, store.getState())).toEqual(
-        Remote.Failure(stubError)
-      )
+      expect(
+        selectors.modules.rates.getPairAdvice(pair, store.getState())
+      ).toEqual(Remote.Failure(stubError))
       api.fetchAdvice.mockReturnValue(stubAdvice.currencyRatio)
     })
   })

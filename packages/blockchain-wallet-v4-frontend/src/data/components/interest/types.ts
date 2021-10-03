@@ -5,7 +5,6 @@ import {
   InterestAccountBalanceType,
   InterestAccountType,
   InterestAfterTransactionType,
-  InterestEDDDocumentsResponse,
   InterestEDDStatus,
   InterestEligibleType,
   InterestInstrumentsType,
@@ -16,7 +15,7 @@ import {
   RemoteDataType,
   WithdrawalMinimumType,
   WithdrawLimits
-} from '@core/types'
+} from 'blockchain-wallet-v4/src/types'
 
 //
 // Types

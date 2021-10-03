@@ -1,5 +1,5 @@
-import { Remote } from '@core'
-import { RemoteDataType } from '@core/types'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { RootState } from 'data/rootReducer'
 
 import * as A from './actions'

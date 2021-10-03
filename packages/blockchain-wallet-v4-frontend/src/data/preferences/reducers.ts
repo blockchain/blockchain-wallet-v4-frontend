@@ -1,6 +1,6 @@
-import { TimeRange } from '@core/types'
+import { TimeRange } from 'blockchain-wallet-v4/src/types'
 
-import { coinClicked, timeClicked } from '../components/priceChart/slice'
+import * as priceChartActionTypes from '../components/priceChart/actionTypes'
 import * as AT from './actionTypes'
 import { PreferencesActionTypes, PreferencesState } from './types'
 
@@ -116,9 +116,8 @@ export function preferencesReducer(
       }
     }
     // @ts-ignore
-    case coinClicked.type: {
+    case priceChartActionTypes.PRICE_CHART_COIN_CLICKED: {
       // @ts-ignore
-
       const { coin } = action.payload
       return {
         ...state,
@@ -129,7 +128,7 @@ export function preferencesReducer(
       }
     }
     // @ts-ignore
-    case timeClicked.type: {
+    case priceChartActionTypes.PRICE_CHART_TIME_CLICKED: {
       // @ts-ignore
       const { time } = action.payload
       return {

@@ -9,7 +9,7 @@ import { Icon, Text } from 'blockchain-info-components'
 import {
   NabuApiErrorType,
   RemoteDataType
-} from '@core/types'
+} from 'blockchain-wallet-v4/src/types'
 import {
   IconBackground,
   SceneHeader,

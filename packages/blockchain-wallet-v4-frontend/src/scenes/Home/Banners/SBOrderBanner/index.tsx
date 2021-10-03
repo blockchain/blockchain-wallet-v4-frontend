@@ -6,7 +6,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { SBOrderType, SBPaymentTypes } from '@core/types'
+import { SBOrderType, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { getOrderType } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
@@ -74,7 +74,7 @@ const BannerButton = styled(Button)`
 
 class SBOrderBanner extends PureComponent<Props> {
   showModal = () => {
-    this.props.buySellActions.showModal({ origin: 'PendingOrder' })
+    this.props.simpleBuyActions.showModal('PendingOrder')
   }
 
   render() {
@@ -133,8 +133,8 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

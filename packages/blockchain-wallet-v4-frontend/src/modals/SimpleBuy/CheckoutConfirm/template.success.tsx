@@ -5,8 +5,6 @@ import { defaultTo, filter, path, prop } from 'ramda'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { fiatToString } from '@core/exchange/utils'
-import { FiatType, OrderType, SBPaymentTypes } from '@core/types'
 import {
   Button,
   CheckBoxInput,
@@ -16,6 +14,8 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
+import { FiatType, OrderType, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, getPeriodSubTitleText, getPeriodTitleText, Row } from 'components/Flyout'
 import { Form } from 'components/Form'
@@ -159,8 +159,6 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
   const orderType = getOrderType(props.order)
   const baseAmount = getBaseAmount(props.order)
   const baseCurrency = getBaseCurrency(props.order)
-  const baseCurrencyCoinfig = window.coins[baseCurrency]?.coinfig
-  const baseCurrencyDisplay = baseCurrencyCoinfig?.displaySymbol || baseCurrency
   const counterAmount = getCounterAmount(props.order)
   const counterCurrency = getCounterCurrency(props.order)
   const paymentMethodId = getPaymentMethodId(props.order)
@@ -193,14 +191,14 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
   }, [requiresTerms])
 
   const handleCancel = () => {
-    props.buySellActions.cancelOrder(props.order)
+    props.simpleBuyActions.cancelSBOrder(props.order)
   }
 
   const paymentPartnerButton =
     paymentPartner === BankPartners.YAPILY ? (
       <FormattedMessage id='copy.next' defaultMessage='Next' />
     ) : (
-      `${orderType === OrderType.BUY ? 'Buy' : 'Sell'} ${baseAmount} ${baseCurrencyDisplay}`
+      `${orderType === OrderType.BUY ? 'Buy' : 'Sell'} ${baseAmount} ${baseCurrency}`
     )
   return (
     <CustomForm onSubmit={props.handleSubmit}>
@@ -221,7 +219,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
         <Amount data-e2e='sbTotalAmount'>
           <div>
             <Text size='32px' weight={600} color='grey800'>
-              {`${baseAmount} ${baseCurrencyDisplay}`}
+              {`${baseAmount} ${baseCurrency}`}
             </Text>
           </div>
           <div>
@@ -241,7 +239,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
                   id='modals.simplebuy.confirm.coin_price'
                   defaultMessage='{coin} Price'
                   values={{
-                    coin: baseCurrencyDisplay
+                    coin: baseCurrency
                   }}
                 />
               </RowText>
@@ -373,7 +371,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
         <RowText>
           <RowTextWrapper>
             <div data-e2e='sbFiatBuyAmount'>{totalAmount}</div>
-            <AdditionalText>{`${baseAmount} ${baseCurrencyDisplay}`}</AdditionalText>
+            <AdditionalText>{`${baseAmount} ${baseCurrency}`}</AdditionalText>
           </RowTextWrapper>
         </RowText>
       </RowItem>

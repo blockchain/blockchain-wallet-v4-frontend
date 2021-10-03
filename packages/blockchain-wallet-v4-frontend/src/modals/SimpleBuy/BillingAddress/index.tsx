@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { RemoteDataType } from '@core/types'
+import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -13,21 +13,27 @@ import Success from './template.success'
 
 class BillingAddress extends PureComponent<Props> {
   componentDidMount() {
-    this.props.buySellActions.initializeBillingAddress()
+    this.props.simpleBuyActions.initializeBillingAddress()
   }
 
   handleSubmit = () => {
-    this.props.buySellActions.setStep({ step: 'ADD_CARD' })
+    this.props.simpleBuyActions.setStep({ step: 'ADD_CARD' })
   }
 
   render() {
     return this.props.data.cata({
-      Failure: () => (
-        <DataError onClick={() => this.props.buySellActions.setStep({ step: 'ADD_CARD' })} />
+      Success: val => (
+        <Success {...val} {...this.props} onSubmit={this.handleSubmit} />
       ),
       Loading: () => <Loading />,
-      NotAsked: () => <Loading />,
-      Success: (val) => <Success {...val} {...this.props} onSubmit={this.handleSubmit} />
+      Failure: () => (
+        <DataError
+          onClick={() =>
+            this.props.simpleBuyActions.setStep({ step: 'ADD_CARD' })
+          }
+        />
+      ),
+      NotAsked: () => <Loading />
     })
   }
 }
@@ -37,7 +43,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

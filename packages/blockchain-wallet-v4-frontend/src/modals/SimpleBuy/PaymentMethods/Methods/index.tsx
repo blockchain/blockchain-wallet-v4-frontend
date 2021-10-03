@@ -3,14 +3,14 @@ import { FormattedMessage } from 'react-intl'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { Icon, Image, Text } from 'blockchain-info-components'
 import {
   OrderType,
   SBPaymentMethodType,
   SBPaymentTypes,
   WalletCurrencyType,
   WalletFiatEnum
-} from '@core/types'
-import { Icon, Image, Text } from 'blockchain-info-components'
+} from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { CARD_TYPES, DEFAULT_CARD_SVG_LOGO } from 'components/Form/CreditCardBox/model'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/simpleBuy/model'
@@ -84,7 +84,7 @@ class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
   }
 
   handleSubmit = (method: SBPaymentMethodType) => {
-    this.props.buySellActions.handleMethodChange({ isFlow: true, method })
+    this.props.simpleBuyActions.handleSBMethodChange({ isFlow: true, method })
   }
 
   getIcon = (value: SBPaymentMethodType): ReactElement => {
@@ -192,7 +192,7 @@ class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                 style={{ marginRight: '28px' }}
                 role='button'
                 onClick={() =>
-                  this.props.buySellActions.setStep({
+                  this.props.simpleBuyActions.setStep({
                     cryptoCurrency: getCoinFromPair(this.props.pair.pair),
                     fiatCurrency: getFiatFromPair(this.props.pair.pair),
                     orderType: this.props.orderType,

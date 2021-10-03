@@ -1,7 +1,10 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 
-import { FiatTypeEnum, WalletCurrencyType } from '@core/types'
+import {
+  FiatTypeEnum,
+  WalletCurrencyType
+} from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 
 import CoinDisplay from '../CoinDisplay'
@@ -25,7 +28,7 @@ type OwnProps = {
   weight?: number
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   coinDisplayed: selectors.preferences.getCoinDisplayed(state)
 })
 

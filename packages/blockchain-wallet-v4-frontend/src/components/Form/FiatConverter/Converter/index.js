@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { equals } from 'ramda'
 
-import { Exchange } from '@core'
+import { Exchange } from 'blockchain-wallet-v4/src'
 
 import Converter from './template'
 
@@ -57,8 +57,16 @@ class ConverterContainer extends React.PureComponent {
 
   render() {
     const { coin, fiat } = this.state
-    const { className, coinTicker, currency, disabled, errorBottom, marginTop, meta, unit } =
-      this.props
+    const {
+      className,
+      coinTicker,
+      currency,
+      disabled,
+      errorBottom,
+      marginTop,
+      meta,
+      unit
+    } = this.props
     return (
       <Converter
         coin={coin}
@@ -86,6 +94,7 @@ ConverterContainer.propTypes = {
   onBlur: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onFocus: PropTypes.func.isRequired,
+  rates: PropTypes.object.isRequired,
   unit: PropTypes.string.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired
 }

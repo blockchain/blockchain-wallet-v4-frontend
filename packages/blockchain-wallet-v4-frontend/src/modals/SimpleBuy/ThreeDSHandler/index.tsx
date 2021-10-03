@@ -4,11 +4,11 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import {
   Everypay3DSResponseType,
-  ProviderDetailsType,
   RemoteDataType,
   SBCardType,
   SBOrderType,
-} from '@core/types'
+  SBProviderDetailsType
+} from 'blockchain-wallet-v4/src/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -48,17 +48,17 @@ class ThreeDSHandler extends PureComponent<Props, State> {
     this.setState({ threeDSCallbackReceived: true })
     // @ts-ignore
     const { card, order, type } = this.props.data.getOrElse({
+      type: null,
       card: { id: '' },
-      order: { id: '' },
-      type: null
+      order: { id: '' }
     } as SuccessStateType)
 
     switch (type) {
       case 'ORDER':
-        this.props.buySellActions.pollOrder(order.id)
+        this.props.simpleBuyActions.pollSBOrder(order.id)
         break
       case 'CARD':
-        this.props.buySellActions.pollCard(card.id)
+        this.props.simpleBuyActions.pollSBCard(card.id)
         break
       default:
     }
@@ -66,10 +66,10 @@ class ThreeDSHandler extends PureComponent<Props, State> {
 
   render() {
     return this.props.data.cata({
-      Failure: (e) => <DataError message={{ message: e }} />,
+      Success: val => <Success {...val} {...this.props} {...this.state} />,
+      Failure: e => <DataError message={{ message: e }} />,
       Loading: () => <Loading />,
-      NotAsked: () => <Loading />,
-      Success: (val) => <Success {...val} {...this.props} {...this.state} />
+      NotAsked: () => <Loading />
     })
   }
 }
@@ -79,7 +79,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -93,7 +93,7 @@ export type SuccessStateType =
       card: SBCardType
       domains: { walletHelper: string }
       order: SBOrderType
-      providerDetails: ProviderDetailsType
+      providerDetails: SBProviderDetailsType
       threeDSDetails: Everypay3DSResponseType
       type: 'CARD'
     }

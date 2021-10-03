@@ -5,9 +5,9 @@ import { defaultTo, filter, path, prop } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
-import { fiatToString } from '@core/exchange/utils'
-import { FiatType, SBOrderType } from '@core/types'
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
+import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
+import { FiatType, SBOrderType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { getCounterAmount, getCounterCurrency } from 'data/components/simpleBuy/model'
@@ -93,7 +93,7 @@ const DropdownItem = ({ bodyText, isPaymentInformation, titleText }) => {
 }
 
 const Authorize = (props: Props) => {
-  const { bankAccounts, buySellActions, order } = props
+  const { bankAccounts, order, simpleBuyActions } = props
   const counterAmount = getCounterAmount(props.order)
   const counterCurrency = getCounterCurrency(props.order)
   const [bankAccount] = filter(
@@ -307,7 +307,7 @@ const Authorize = (props: Props) => {
           fullwidth
           height='48px'
           onClick={() => {
-            buySellActions.confirmOrder({ order, paymentMethodId: order.paymentMethodId as string })
+            simpleBuyActions.confirmSBOrder(order.paymentMethodId as string, order)
           }}
         >
           <FormattedMessage id='copy.approve' defaultMessage='Approve' />
@@ -336,7 +336,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

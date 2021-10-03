@@ -1,11 +1,11 @@
 import { equals, includes, path, prop } from 'ramda'
 import { call, put, select } from 'redux-saga/effects'
 
-import { Remote } from '@core'
+import { Remote } from 'blockchain-wallet-v4/src'
 
 import * as actions from '../../actions'
 import * as selectors from '../../selectors'
-import { actions as A } from './slice'
+import * as A from './actions'
 
 export const logLocation = 'components/settings/sagas'
 

@@ -5,7 +5,7 @@ import {
   FiatType,
   InvitationsType,
   SBPaymentTypes
-} from '@core/types'
+} from 'blockchain-wallet-v4/src/types'
 import { selectors } from 'data'
 
 const getData = (state) => {

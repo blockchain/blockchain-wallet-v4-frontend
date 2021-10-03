@@ -6,7 +6,6 @@ const initialState = {
   channelPhonePubkey: undefined,
   channelPrivKey: undefined,
   guidStored: undefined,
-  hasCloudBackup: undefined,
   lastEmail: undefined,
   lastGuid: undefined,
   mobileConnected: undefined
@@ -45,9 +44,6 @@ const cacheSlice = createSlice({
     guidStored: (state, action) => {
       state.guidStored = action.payload
     },
-    hasCloudBackup: (state, action) => {
-      state.hasCloudBackup = action.payload
-    },
     mobileConnectedStored: (state, action) => {
       state.mobileConnected = action.payload
     },
@@ -56,7 +52,6 @@ const cacheSlice = createSlice({
       state.lastEmail = undefined
       state.lastGuid = undefined
       state.mobileConnected = undefined
-      state.hasCloudBackup = undefined
     }
   }
 })

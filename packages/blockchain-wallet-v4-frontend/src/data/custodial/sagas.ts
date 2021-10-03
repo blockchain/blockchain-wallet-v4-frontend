@@ -1,7 +1,7 @@
 import { call, put } from 'redux-saga/effects'
 
-import { APIType } from '@core/network/api'
-import { errorHandler } from '@core/utils'
+import { APIType } from 'blockchain-wallet-v4/src/network/api'
+import { errorHandler } from 'blockchain-wallet-v4/src/utils'
 
 import profileSagas from '../modules/profile/sagas'
 import * as A from './actions'

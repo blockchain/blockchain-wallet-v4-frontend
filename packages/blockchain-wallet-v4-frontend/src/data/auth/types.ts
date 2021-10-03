@@ -1,25 +1,4 @@
-import { RemoteDataType } from '@core/types'
-
 import { actions } from './slice'
-
-export type AuthStateType = {
-  auth_type: number
-  firstLogin: boolean
-  isAuthenticated: boolean
-  isLoggingIn: boolean
-  kycReset: undefined
-  login: RemoteDataType<any, any>
-  magicLinkData: null
-  manifestFile: null
-  metadataRestore: RemoteDataType<any, any>
-  mobileLoginStarted: boolean
-  registerEmail: undefined
-  registering: RemoteDataType<any, any>
-  resetAccount: boolean
-  restoring: RemoteDataType<any, any>
-  secureChannelLogin: RemoteDataType<any, any>
-  userGeoData: RemoteDataType<any, any>
-}
 
 export enum LoginSteps {
   CHECK_EMAIL = 'CHECK_EMAIL',
@@ -100,14 +79,6 @@ export type WalletDataFromMagicLinkLegacy = {
   mobile_device_type: number | null
 }
 
-export type LoginErrorType =
-  | {
-      auth_type: number
-      authorization_required: boolean
-      initial_error?: string
-      message?: string
-    }
-  | string
 // actions
 
 interface LoginFailureActionType {
@@ -156,6 +127,13 @@ interface SetMagicLinkInfoActionType {
   type: typeof actions.setMagicLinkInfo.type
 }
 
+interface UpgradeWalletActionType {
+  payload: {
+    version: number
+  }
+  type: typeof actions.upgradeWallet.type
+}
+
 export type AuthActionTypes =
   | LoginFailureActionType
   | LoginRouteSagaActionType
@@ -166,3 +144,4 @@ export type AuthActionTypes =
   | TriggerWalletMagicLinkFailureActionType
   | TriggerWalletMagicLinkLoadingActionType
   | TriggerWalletMagicLinkSuccessActionType
+  | UpgradeWalletActionType

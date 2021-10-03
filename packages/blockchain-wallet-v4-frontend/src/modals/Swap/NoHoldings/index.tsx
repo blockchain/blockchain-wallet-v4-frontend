@@ -45,7 +45,7 @@ const DisplayContainer = styled(FlyoutWrapper)`
     `}
 `
 
-const NoHoldings: React.FC<Props> = ({ buySellActions, handleClose, modalActions }) => {
+const NoHoldings: React.FC<Props> = ({ handleClose, modalActions, simpleBuyActions }) => {
   return (
     <>
       <FlyoutWrapper>
@@ -81,7 +81,7 @@ const NoHoldings: React.FC<Props> = ({ buySellActions, handleClose, modalActions
 
       <DisplayContainer
         onClick={() => {
-          buySellActions.showModal({ origin: 'SwapNoHoldings' })
+          simpleBuyActions.showModal('SwapNoHoldings')
         }}
       >
         <FlexTopRow>
@@ -114,7 +114,7 @@ const NoHoldings: React.FC<Props> = ({ buySellActions, handleClose, modalActions
 
       <DisplayContainer
         onClick={() => {
-          buySellActions.showModal({ origin: 'SwapNoHoldings' })
+          simpleBuyActions.showModal('SwapNoHoldings')
         }}
       >
         <FlexTopRow>
@@ -176,8 +176,8 @@ const NoHoldings: React.FC<Props> = ({ buySellActions, handleClose, modalActions
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(undefined, mapDispatchToProps)

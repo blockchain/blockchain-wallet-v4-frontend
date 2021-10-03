@@ -3,14 +3,14 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 
-import { Remote } from '@core'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { actions } from 'data'
 
 import { getData } from './selectors'
 import Announcement from './template.js'
 
 class ServiceAnnouncement extends React.PureComponent {
-  handleDismiss = (id) => {
+  handleDismiss = id => {
     this.props.cacheActions.announcementDismissed(id)
   }
 
@@ -21,10 +21,7 @@ class ServiceAnnouncement extends React.PureComponent {
   render() {
     const { alertArea, data } = this.props
     return data.cata({
-      Failure: () => <div />,
-      Loading: () => <div />,
-      NotAsked: () => <div />,
-      Success: (val) => {
+      Success: val => {
         return val.showAnnouncement ? (
           <Announcement
             announcement={val.announcements[alertArea]}
@@ -34,7 +31,10 @@ class ServiceAnnouncement extends React.PureComponent {
             toggleCollapse={this.toggleCollapse}
           />
         ) : null
-      }
+      },
+      Loading: () => <div />,
+      Failure: () => <div />,
+      NotAsked: () => <div />
     })
   }
 }
@@ -43,12 +43,19 @@ const mapStateToProps = (state, ownProps) => ({
   data: Remote.of(getData(state, ownProps))
 })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   cacheActions: bindActionCreators(actions.cache, dispatch)
 })
 
 ServiceAnnouncement.propTypes = {
-  alertArea: PropTypes.oneOf(['lockbox', 'public', 'request', 'send', 'swap', 'wallet']).isRequired
+  alertArea: PropTypes.oneOf([
+    'lockbox',
+    'public',
+    'request',
+    'send',
+    'swap',
+    'wallet'
+  ]).isRequired
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ServiceAnnouncement)

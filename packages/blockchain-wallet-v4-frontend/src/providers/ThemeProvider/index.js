@@ -5,7 +5,7 @@ import { merge } from 'ramda'
 import { ThemeProvider } from 'styled-components'
 
 import { Palette } from 'blockchain-info-components'
-import { createDeepEqualSelector } from '@core/utils'
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { selectors } from 'data'
 
 const mapStateToProps = createDeepEqualSelector(

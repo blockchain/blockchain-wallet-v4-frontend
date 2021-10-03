@@ -4,7 +4,6 @@ import { CoinType, RemoteDataType, WalletFiatType } from '../../types'
 export type WalletOptionsType = typeof WalletOptions
 
 export type CoinfigType = {
-  displaySymbol: string
   name: string
   precision: number
   products: ('CustodialWalletBalance' | 'PrivateKey')[]

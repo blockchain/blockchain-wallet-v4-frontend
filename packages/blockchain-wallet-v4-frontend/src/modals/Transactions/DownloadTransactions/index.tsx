@@ -5,7 +5,7 @@ import * as moment from 'moment'
 import { prop } from 'ramda'
 import { compose, Dispatch } from 'redux'
 
-import { CoinType } from '@core/types'
+import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { ModalName } from 'data/types'

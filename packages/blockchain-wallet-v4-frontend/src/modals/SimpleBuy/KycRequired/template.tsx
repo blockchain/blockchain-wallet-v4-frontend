@@ -147,7 +147,7 @@ const Template: React.FC<Props> = (props) => {
               tier: 2
             })
             if (props.order) {
-              props.buySellActions.setStep({
+              props.simpleBuyActions.setStep({
                 order: props.order,
                 step: 'CHECKOUT_CONFIRM'
               })

@@ -2,9 +2,9 @@ import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { Remote } from '@core'
-import { SBOrderType, WalletFiatType } from '@core/types'
+import { Remote } from 'blockchain-wallet-v4/src'
 import DataError from 'components/DataError'
+import { SBOrderType, WalletFiatType } from 'core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -21,9 +21,9 @@ const Connect = (props: Props) => {
   useEffect(() => {
     const { id } = props.order
     if (id) {
-      props.buySellActions.pollOrder(id)
+      props.simpleBuyActions.pollSBOrder(id)
     }
-  }, [props.order])
+  }, [])
 
   useEffect(fetchBank, [props.walletCurrency])
 
@@ -42,7 +42,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

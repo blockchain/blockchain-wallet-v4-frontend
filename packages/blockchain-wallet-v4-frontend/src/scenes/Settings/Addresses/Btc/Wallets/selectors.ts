@@ -1,6 +1,6 @@
 import { isNil, map, pathOr, pipe, pluck, prop, reject, sum } from 'ramda'
 
-import { Types } from '@core'
+import { Types } from 'blockchain-wallet-v4/src'
 import { selectors } from 'data'
 
 const getDefaultIdx = (state) =>

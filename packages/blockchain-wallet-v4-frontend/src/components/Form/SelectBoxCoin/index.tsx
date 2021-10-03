@@ -24,13 +24,11 @@ const HeaderWrapper = styled.div`
 class SelectBoxCoin extends React.PureComponent<Props> {
   renderItem = (props) => {
     const { text, value, ...rest } = props
-    const isCoin = window.coins[value]
-    const coinfig = isCoin ? window.coins[value].coinfig : null
     return (
       <HeaderWrapper {...rest}>
         <Icon name={value} size='20px' />
         <Text size='14px' cursor='pointer' data-e2e=''>
-          {coinfig ? coinfig.displaySymbol : text}
+          {text}
         </Text>
       </HeaderWrapper>
     )
@@ -39,14 +37,11 @@ class SelectBoxCoin extends React.PureComponent<Props> {
   renderDisplay = (props, children) => {
     const { value, ...rest } = props
     const e2eTag = value ? `${value.toLowerCase()}CurrencyOption` : 'currencyOption'
-    const isCoin = window.coins[value]
-    const coinfig = isCoin ? window.coins[value].coinfig : null
-
     return (
       <HeaderWrapper {...rest}>
         <Icon name={value} size='20px' />
         <Text size='16px' cursor='pointer' data-e2e={e2eTag} weight={500}>
-          {coinfig ? coinfig.displaySymbol : children}
+          {children}
         </Text>
       </HeaderWrapper>
     )

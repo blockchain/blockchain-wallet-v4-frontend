@@ -1,5 +1,10 @@
-import { EthAccountFromType } from '@core/redux/payment/eth/types'
-import { CustodialFromType, Erc20CoinType, EthPaymentType, RemoteDataType } from '@core/types'
+import { EthAccountFromType } from 'blockchain-wallet-v4/src/redux/payment/eth/types'
+import {
+  CustodialFromType,
+  Erc20CoinType,
+  EthPaymentType,
+  RemoteDataType
+} from 'blockchain-wallet-v4/src/types'
 
 export type SendEthState = {
   feeToggled: boolean

@@ -5,9 +5,6 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Exchange } from '@core'
-import { coinToString, formatFiat } from '@core/exchange/utils'
-import { CoinType, PaymentValue, RatesType, SBOrderActionType, SBPairType } from '@core/types'
 import {
   Button,
   HeartbeatLoader,
@@ -17,6 +14,15 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
+import { Exchange } from 'blockchain-wallet-v4/src'
+import { coinToString, formatFiat } from 'blockchain-wallet-v4/src/exchange/utils'
+import {
+  CoinType,
+  PaymentValue,
+  RatesType,
+  SBOrderActionType,
+  SBPairType
+} from 'blockchain-wallet-v4/src/types'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Value } from 'components/Flyout'
 import { actions, selectors } from 'data'
@@ -152,7 +158,7 @@ class PreviewSell extends PureComponent<
 
   handleSubmit = (e) => {
     e.preventDefault()
-    this.props.buySellActions.createOrder({})
+    this.props.simpleBuyActions.createSBOrder()
   }
 
   networkFee = (value: PaymentValue | undefined) => (value ? getNetworkValue(value) : 0)
@@ -226,7 +232,7 @@ class PreviewSell extends PureComponent<
                   size='24px'
                   color='grey600'
                   onClick={() => {
-                    this.props.buySellActions.setStep({
+                    this.props.simpleBuyActions.setStep({
                       cryptoCurrency: BASE,
                       fiatCurrency: getFiatFromPair(this.props.pair.pair),
                       orderType: this.props.orderType,
@@ -557,7 +563,7 @@ class PreviewSell extends PureComponent<
                   color='red400'
                   style={{ marginTop: '16px' }}
                   onClick={() => {
-                    this.props.buySellActions.setStep({
+                    this.props.simpleBuyActions.setStep({
                       cryptoCurrency: BASE,
                       fiatCurrency,
                       orderType: this.props.orderType,
@@ -615,7 +621,7 @@ const mapStateToProps = (state: RootState) => {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

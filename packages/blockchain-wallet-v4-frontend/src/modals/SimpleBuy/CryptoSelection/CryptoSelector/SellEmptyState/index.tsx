@@ -103,13 +103,7 @@ const SellEmptyState: React.FC<Props> = (props) => {
           nature='primary'
           data-e2e='sellEmptyBuyCta'
           height='48px'
-          onClick={() =>
-            props.buySellActions.showModal({
-              cryptoCurrency: 'BTC',
-              orderType: 'BUY',
-              origin: 'SellEmpty'
-            })
-          }
+          onClick={() => props.simpleBuyActions.showModal('SellEmpty', 'BTC', 'BUY')}
           fullwidth
         >
           <FormattedMessage id='modals.wallet.welcome.sb.button' defaultMessage='Buy Crypto Now' />
@@ -120,7 +114,7 @@ const SellEmptyState: React.FC<Props> = (props) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(null, mapDispatchToProps)

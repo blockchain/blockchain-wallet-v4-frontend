@@ -4,7 +4,7 @@ import { values } from 'ramda'
 import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 
-import { Remote } from '@core'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { actions, model, selectors } from 'data'
 
 import ImportedAddresses from './template'

@@ -56,7 +56,7 @@ const FeaturesLarge = (props: Props & { showModal: (modal: 'SEND' | 'REQUEST') =
       <NavbarNavItem>
         <NavbarNavItemButton
           data-e2e='buyAndSellLink'
-          onClick={() => props.buySellActions.showModal({ origin: 'SideNav' })}
+          onClick={() => props.simpleBuyActions.showModal('SideNav')}
         >
           <NavbarNavItemIcon size='18px' name='cart-filled' />
           <NavbarNavItemTextHeader size='14px' weight={600}>

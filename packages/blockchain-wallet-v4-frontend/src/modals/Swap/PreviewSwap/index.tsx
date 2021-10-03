@@ -14,7 +14,7 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import { formatCoin } from '@core/exchange/utils'
+import { formatCoin } from 'blockchain-wallet-v4/src/exchange/utils'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { actions, selectors } from 'data'
@@ -90,8 +90,8 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
     const { BASE, COUNTER } = this.props.initSwapFormValues
 
     const { swapActions } = this.props
-    const baseCoinDisplaySymbol = window.coins[BASE.coin].coinfig.displaySymbol
-    const counterCoinDisplaySymbol = window.coins[COUNTER.coin].coinfig.displaySymbol
+    const baseCoinTicker = BASE.coin
+    const counterCoinTicker = COUNTER.coin
     return (
       <>
         <FlyoutWrapper>
@@ -186,7 +186,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
                 NotAsked: () => <SkeletonRectangle height='18px' width='70px' />,
                 Success: (val) => (
                   <Text weight={400} color='grey900'>
-                    1 {baseCoinDisplaySymbol} = {formatCoin(val.rate)} {counterCoinDisplaySymbol}
+                    1 {baseCoinTicker} = {formatCoin(val.rate)} {counterCoinTicker}
                   </Text>
                 )
               })}
@@ -200,12 +200,12 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
                     id='copy.swap_exchange_rate_tt_1'
                     defaultMessage='The exchange rate is the best price available for'
                   />{' '}
-                  {counterCoinDisplaySymbol}{' '}
+                  {COUNTER.coin}{' '}
                   <FormattedMessage
                     id='copy.swap_exchange_rate_tt_2'
                     defaultMessage='in terms of 1'
                   />{' '}
-                  {baseCoinDisplaySymbol}{' '}
+                  {BASE.coin}{' '}
                   <Link
                     href='https://support.blockchain.com/hc/en-us/articles/360061672651'
                     size='12px'
@@ -264,7 +264,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
                 <FormattedMessage
                   id='buttons.swap_x_for_y'
                   defaultMessage='Swap {base} for {counter}'
-                  values={{ base: baseCoinDisplaySymbol, counter: counterCoinDisplaySymbol }}
+                  values={{ base: baseCoinTicker, counter: counterCoinTicker }}
                 />
               )}
             </Button>

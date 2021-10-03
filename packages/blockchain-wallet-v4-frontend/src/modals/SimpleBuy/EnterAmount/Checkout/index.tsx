@@ -3,8 +3,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import { find, isEmpty, pathOr, propEq, propOr } from 'ramda'
 import { bindActionCreators } from 'redux'
 
-import { Remote } from '@core'
-import { OrderType, SBPaymentTypes } from '@core/types'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { OrderType, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { getValidPaymentMethod } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
@@ -23,40 +23,40 @@ class Checkout extends PureComponent<Props> {
   componentDidMount() {
     const dataGoal = find(propEq('name', 'simpleBuy'), this.props.goals)
     const goalAmount = pathOr('', ['data', 'amount'], dataGoal)
-    const amount = goalAmount || this.props.formValues?.amount || '0'
+    const amount = goalAmount || this.props.formValues?.amount
     const cryptoAmount = this.props.formValues?.cryptoAmount
     const period = this.props.formValues?.period || RecurringBuyPeriods.ONE_TIME
 
-    this.props.buySellActions.initializeCheckout({
-      account: this.props.swapAccount,
+    this.props.simpleBuyActions.initializeCheckout(
+      this.props.pairs,
+      this.props.orderType,
+      this.props.preferences[this.props.orderType].fix,
+      period,
+      this.props.pair,
       amount,
-      cryptoAmount,
-      fix: this.props.preferences[this.props.orderType].fix,
-      orderType: this.props.orderType,
-      pair: this.props.pair,
-      pairs: this.props.pairs,
-      period
-    })
+      this.props.swapAccount,
+      cryptoAmount
+    )
 
     // If no method was given but we have a default method, set it in redux
     // and the rest of the SB flow works much better
     if (!this.props.method && this.props.defaultMethod) {
-      this.props.buySellActions.setMethod(this.props.defaultMethod)
+      this.props.simpleBuyActions.setMethod(this.props.defaultMethod)
     }
 
     if (!Remote.Success.is(this.props.data)) {
-      this.props.buySellActions.fetchSDDEligibility()
-      this.props.buySellActions.fetchCards(false)
+      this.props.simpleBuyActions.fetchSDDEligible()
+      this.props.simpleBuyActions.fetchSBCards()
       this.props.brokerageActions.fetchBankTransferAccounts()
       this.props.recurringBuyActions.fetchPaymentInfo()
     }
     // we fetch limits as part of home banners logic at that point we had only fiatCurrency
     // here we have to re-fetch for crypto currency and order type
-    this.props.buySellActions.fetchLimits({
-      cryptoCurrency: this.props.cryptoCurrency,
-      currency: this.props.fiatCurrency,
-      side: this.props.orderType || OrderType.BUY
-    })
+    this.props.simpleBuyActions.fetchLimits(
+      this.props.fiatCurrency,
+      this.props.cryptoCurrency,
+      this.props.orderType || OrderType.BUY
+    )
   }
 
   componentDidUpdate(prevProps) {
@@ -67,7 +67,7 @@ class Checkout extends PureComponent<Props> {
     // we only really want this analytics event to trigger when the user opens the buy modal and
     // a default payment method is automatically used
     if (this.props.defaultMethod && currId && prevId !== currId) {
-      this.props.buySellActions.defaultMethodEvent(this.props.defaultMethod)
+      this.props.simpleBuyActions.defaultMethodEvent({ method: this.props.defaultMethod })
     }
   }
 
@@ -94,7 +94,7 @@ class Checkout extends PureComponent<Props> {
     // need to do kyc check
     // SELL
     if (formValues?.orderType === OrderType.SELL) {
-      return this.props.buySellActions.setStep({
+      return this.props.simpleBuyActions.setStep({
         sellOrderType: this.props.swapAccount?.type,
         step: 'PREVIEW_SELL'
       })
@@ -105,14 +105,14 @@ class Checkout extends PureComponent<Props> {
       const currentTier = userData?.tiers?.current
       if (currentTier === 2 || currentTier === 1) {
         // user in SDD but already completed eligibility check, continue to payment
-        this.props.buySellActions.createOrder({ paymentType: SBPaymentTypes.PAYMENT_CARD })
+        this.props.simpleBuyActions.createSBOrder(SBPaymentTypes.PAYMENT_CARD)
       } else {
         // user in SDD but needs to confirm KYC and SDD eligibility
         this.props.identityVerificationActions.verifyIdentity({
           checkSddEligibility: true,
           needMoreInfo: false,
           onCompletionCallback: () =>
-            this.props.buySellActions.createOrder({ paymentType: SBPaymentTypes.PAYMENT_CARD }),
+            this.props.simpleBuyActions.createSBOrder(SBPaymentTypes.PAYMENT_CARD),
           origin: 'SimpleBuy',
           tier: 2
         })
@@ -120,7 +120,7 @@ class Checkout extends PureComponent<Props> {
     } else if (!method) {
       const { fiatCurrency } = this.props
       const nextStep = hasPaymentAccount ? 'LINKED_PAYMENT_ACCOUNTS' : 'PAYMENT_METHODS'
-      this.props.buySellActions.setStep({
+      this.props.simpleBuyActions.setStep({
         cryptoCurrency: this.props.cryptoCurrency,
         fiatCurrency,
         order: this.props.order,
@@ -128,28 +128,22 @@ class Checkout extends PureComponent<Props> {
         step: nextStep
       })
     } else if (userData.tiers.current < 2) {
-      this.props.buySellActions.createOrder({ paymentMethodId: getValidPaymentMethod(method.type) })
+      this.props.simpleBuyActions.createSBOrder(getValidPaymentMethod(method.type))
     } else if (formValues && method) {
       switch (method.type) {
         case SBPaymentTypes.PAYMENT_CARD:
-          this.props.buySellActions.setStep({
+          this.props.simpleBuyActions.setStep({
             step: 'ADD_CARD'
           })
           break
         case SBPaymentTypes.USER_CARD:
-          this.props.buySellActions.createOrder({
-            paymentMethodId: method.id,
-            paymentType: SBPaymentTypes.PAYMENT_CARD
-          })
+          this.props.simpleBuyActions.createSBOrder(SBPaymentTypes.PAYMENT_CARD, method.id)
           break
         case SBPaymentTypes.FUNDS:
-          this.props.buySellActions.createOrder({ paymentType: SBPaymentTypes.FUNDS })
+          this.props.simpleBuyActions.createSBOrder(SBPaymentTypes.FUNDS)
           break
         case SBPaymentTypes.BANK_TRANSFER:
-          this.props.buySellActions.createOrder({
-            paymentMethodId: method.id,
-            paymentType: SBPaymentTypes.BANK_TRANSFER
-          })
+          this.props.simpleBuyActions.createSBOrder(SBPaymentTypes.BANK_TRANSFER, method.id)
           break
         case SBPaymentTypes.BANK_ACCOUNT:
           break
@@ -164,7 +158,7 @@ class Checkout extends PureComponent<Props> {
       Failure: () => (
         <Failure
           fiatCurrency={this.props.fiatCurrency}
-          buySellActions={this.props.buySellActions}
+          simpleBuyActions={this.props.simpleBuyActions}
         />
       ),
       Loading: () => <Loading />,
@@ -188,14 +182,14 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   deleteGoal: (id: string) => dispatch(actions.goals.deleteGoal(id)),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
   ),
   profileActions: bindActionCreators(actions.modules.profile, dispatch),
-  recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch)
+  recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

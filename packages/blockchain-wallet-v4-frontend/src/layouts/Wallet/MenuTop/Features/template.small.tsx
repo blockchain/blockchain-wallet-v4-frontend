@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
@@ -20,12 +20,8 @@ const FeaturesSmall = (props: Props & { showModal: (modal: 'SEND' | 'REQUEST') =
   const [isMenuOpen, toggleIsMenuOpen] = useState(false)
   useOnClickOutside(ref, () => toggleIsMenuOpen(false))
 
-  const closeMenu = useCallback(() => {
-    toggleIsMenuOpen(!isMenuOpen)
-  }, [])
-
   return (
-    <NavbarNavItemButton data-e2e='featuresSmall' onClick={closeMenu}>
+    <NavbarNavItemButton data-e2e='featuresSmall' onClick={() => toggleIsMenuOpen(!isMenuOpen)}>
       <TransactIcon persist name='plus-in-circle-filled' size='18px' color='alwaysWhite' />
       <NavbarNavItemTextHeader persist color='alwaysWhite' weight={600}>
         <FormattedMessage id='buttons.transact' defaultMessage='Transact' />
@@ -62,7 +58,7 @@ const FeaturesSmall = (props: Props & { showModal: (modal: 'SEND' | 'REQUEST') =
           </DropdownMenuItem>
           <DropdownMenuItem
             data-e2e='buyAndSellLink'
-            onClick={() => props.buySellActions.showModal({ origin: 'SideNav' })}
+            onClick={() => props.simpleBuyActions.showModal('SideNav')}
           >
             <Destination>
               <FormattedMessage id='buttons.buy_sell_crypto' defaultMessage='Buy/Sell Crypto' />

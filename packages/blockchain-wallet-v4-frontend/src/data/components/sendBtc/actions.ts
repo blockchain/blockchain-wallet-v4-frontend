@@ -1,24 +1,24 @@
-import { PaymentValue } from '@core/types'
+import { PaymentValue } from 'blockchain-wallet-v4/src/types'
 
 import * as AT from './actionTypes'
 
-export const initialized = (payload) => ({
-  payload,
-  type: AT.SEND_BTC_INITIALIZED
+export const initialized = payload => ({
+  type: AT.SEND_BTC_INITIALIZED,
+  payload
 })
 
 export const destroyed = () => ({ type: AT.SEND_BTC_DESTROYED })
 
 export const sendBtcPaymentUpdatedSuccess = (payment: PaymentValue) => ({
-  payload: payment,
-  type: AT.SEND_BTC_PAYMENT_UPDATED_SUCCESS
+  type: AT.SEND_BTC_PAYMENT_UPDATED_SUCCESS,
+  payload: payment
 })
 export const sendBtcPaymentUpdatedLoading = () => ({
   type: AT.SEND_BTC_PAYMENT_UPDATED_LOADING
 })
-export const sendBtcPaymentUpdatedFailure = (err) => ({
-  payload: err,
-  type: AT.SEND_BTC_PAYMENT_UPDATED_FAILURE
+export const sendBtcPaymentUpdatedFailure = err => ({
+  type: AT.SEND_BTC_PAYMENT_UPDATED_FAILURE,
+  payload: err
 })
 
 export const sendBtcFirstStepFeePerByteToggled = () => ({

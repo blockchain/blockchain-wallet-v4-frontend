@@ -1,4 +1,4 @@
-import { Remote } from '@core'
+import { Remote } from 'blockchain-wallet-v4/src'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 

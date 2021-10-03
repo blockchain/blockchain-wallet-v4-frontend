@@ -22,7 +22,6 @@ export enum ModalName {
   IMPORT_BTC_ADDRESS_MODAL = 'IMPORT_BTC_ADDRESS_MODAL',
   INTEREST_MODAL = 'INTEREST_MODAL',
   INTEREST_PROMO_MODAL = 'INTEREST_PROMO_MODAL',
-  INTEREST_UPLOAD_DOCUMENT_MODAL = 'INTEREST_UPLOAD_DOCUMENT_MODAL',
   KYC_MODAL = 'KYC_MODAL',
   KYC_RESUBMIT_MODAL = 'KYC_RESUBMIT_MODAL',
   KYC_TIER_UPGRADE_MODAL = 'KYC_TIER_UPGRADE_MODAL',
@@ -92,7 +91,6 @@ export type ModalOriginType =
   | 'Goals'
   | 'Header'
   | 'InterestPage'
-  | 'InterestUploadDocument'
   | 'KycDocResubmitGoal'
   | 'KycRequiredStep'
   | 'LoginSaga'
@@ -100,7 +98,6 @@ export type ModalOriginType =
   | 'PaymentProtocolGoal'
   | 'PendingOrder'
   | 'PriceChart'
-  | 'Prices'
   | 'Request'
   | 'ResetAccount'
   | 'RetrySendEth'

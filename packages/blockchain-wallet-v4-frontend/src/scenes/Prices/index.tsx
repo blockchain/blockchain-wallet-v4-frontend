@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
+import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { BaseFieldProps, Field, formValueSelector, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { ExtractSuccess } from '@core/types'
 import { Icon, Text } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
 import { SceneWrapper } from 'components/Layout'
@@ -95,7 +94,7 @@ const Scene = ({ children }) => (
   </SceneWrapper>
 )
 
-const PricesContainer = (props: Props) => {
+const PricesContainer = (props) => {
   const { priceActions, rowDataR } = props
 
   useEffect(() => {
@@ -134,21 +133,14 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   priceActions: bindActionCreators(actions.prices, dispatch),
-  routerActions: bindActionCreators(actions.router, dispatch)
+  routerActions: bindActionCreators(actions.router, dispatch),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
-const enhance = compose(reduxForm({ form: 'prices' }), connector)
 
-export type TableColumnsType = {
-  buySellActions: ReturnType<typeof mapDispatchToProps>['buySellActions']
-  modalActions: ReturnType<typeof mapDispatchToProps>['modalActions']
-  routerActions: ReturnType<typeof mapDispatchToProps>['routerActions']
-  walletCurrency: ReturnType<typeof selectors.core.settings.getCurrency>
-}
-export type Props = ConnectedProps<typeof connector>
-export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>>
-export default enhance(PricesContainer) as React.ComponentClass
+const enhance = compose<any>(reduxForm({ form: 'prices' }), connector)
+
+export default enhance(PricesContainer)

@@ -193,7 +193,7 @@ class Notifications extends PureComponent<Props, State> {
             color='red400'
             style={{ marginTop: '16px' }}
             onClick={() => {
-              this.props.buySellActions.showModal({ origin: 'RecurringBuyPromo' })
+              this.props.simpleBuyActions.showModal('RecurringBuyPromo')
               this.props.modalActions.closeModal('RECURRING_BUYS_MODAL')
             }}
           >
@@ -217,9 +217,9 @@ type State = {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
-  recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch)
+  recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(null, mapDispatchToProps)

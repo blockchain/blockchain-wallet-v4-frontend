@@ -23,11 +23,11 @@ const BannerWrapper = styled.div`
 
 class Banners extends React.PureComponent<Props> {
   componentDidMount() {
-    this.props.buySellActions.fetchOrders()
-    this.props.buySellActions.fetchSDDEligibility()
+    this.props.simpleBuyActions.fetchSBOrders()
+    this.props.simpleBuyActions.fetchSDDEligible()
     if (this.props.userData.tiers?.current > 0) {
       // TODO move this away from SB
-      this.props.buySellActions.fetchLimits(this.props.fiatCurrency)
+      this.props.simpleBuyActions.fetchLimits(this.props.fiatCurrency)
     }
   }
 
@@ -98,7 +98,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

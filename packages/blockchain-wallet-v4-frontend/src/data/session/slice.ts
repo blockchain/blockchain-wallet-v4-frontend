@@ -9,9 +9,6 @@ const sessionSlice = createSlice({
   initialState,
   name: 'session',
   reducers: {
-    deauthorizeBrowser: () => {},
-    logout: () => {},
-    logoutClearReduxStore: () => {},
     removeSession: (state, action: PayloadAction<string>) => {
       return dissoc(action.payload, state)
     },
@@ -21,8 +18,7 @@ const sessionSlice = createSlice({
   }
 })
 
-export const { deauthorizeBrowser, logout, logoutClearReduxStore, removeSession, saveSession } =
-  sessionSlice.actions
+export const { removeSession, saveSession } = sessionSlice.actions
 
 const { actions } = sessionSlice
 const sessionReducer = sessionSlice.reducer

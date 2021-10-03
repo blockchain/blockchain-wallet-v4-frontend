@@ -25,21 +25,21 @@ class LogoutContainer extends React.PureComponent<Props, State> {
     clearInterval(this.interval)
   }
 
+  tick() {
+    this.setState({
+      secondsRemaining: this.state.secondsRemaining - 1
+    })
+    if (this.state.secondsRemaining <= 0) {
+      this.props.authActions.logoutClearReduxStore()
+    }
+  }
+
   onGoToLogin() {
-    this.props.sessionActions.logoutClearReduxStore()
+    this.props.authActions.logoutClearReduxStore()
   }
 
   onDeauthorizeBrowser() {
-    this.props.sessionActions.deauthorizeBrowser()
-  }
-
-  tick() {
-    this.setState((prevState) => ({
-      secondsRemaining: prevState.secondsRemaining - 1
-    }))
-    if (this.state.secondsRemaining <= 0) {
-      this.props.sessionActions.logoutClearReduxStore()
-    }
+    this.props.authActions.deauthorizeBrowser()
   }
 
   render() {
@@ -53,10 +53,9 @@ class LogoutContainer extends React.PureComponent<Props, State> {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  // authActions: bindActionCreators(actions.auth, dispatch),
-  routerActions: bindActionCreators(actions.router, dispatch),
-  sessionActions: bindActionCreators(actions.session, dispatch)
+const mapDispatchToProps = dispatch => ({
+  authActions: bindActionCreators(actions.auth, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch)
 })
 
 const connector = connect(null, mapDispatchToProps)

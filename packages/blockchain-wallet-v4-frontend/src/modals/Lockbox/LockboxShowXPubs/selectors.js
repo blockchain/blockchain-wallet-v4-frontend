@@ -1,5 +1,5 @@
-import { Remote } from '@core'
-import { createDeepEqualSelector } from '@core/utils'
+import { Remote } from 'blockchain-wallet-v4/src'
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { selectors } from 'data'
 
 export const getData = createDeepEqualSelector(

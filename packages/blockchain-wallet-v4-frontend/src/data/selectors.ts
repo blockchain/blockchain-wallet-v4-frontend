@@ -1,4 +1,4 @@
-import { coreSelectors as core } from '@core'
+import { coreSelectors as core } from 'blockchain-wallet-v4/src'
 
 import * as alerts from './alerts/selectors'
 import * as analytics from './analytics/selectors'

@@ -14,7 +14,7 @@ const { SB_CHANGE_EMAIL_FORM } = model.components.simpleBuy
 
 class VerifyEmail extends PureComponent<Props> {
   componentDidMount() {
-    this.props.buySellActions.fetchSDDEligibility()
+    this.props.simpleBuyActions.fetchSDDEligible()
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -25,19 +25,23 @@ class VerifyEmail extends PureComponent<Props> {
       this.props.fiatCurrency &&
       this.props.pair
     ) {
-      this.props.buySellActions.setStep({
+      this.props.simpleBuyActions.setStep({
+        step: 'ENTER_AMOUNT',
+        orderType: this.props.orderType,
         cryptoCurrency: this.props.cryptoCurrency,
         fiatCurrency: this.props.fiatCurrency,
-        orderType: this.props.orderType,
-        pair: this.props.pair,
-        step: 'ENTER_AMOUNT'
+        pair: this.props.pair
       })
     }
   }
 
   handleSubmit = () => {
-    const { formValues, identityVerificationActions, securityCenterActions, settingsActions } =
-      this.props
+    const {
+      formValues,
+      identityVerificationActions,
+      securityCenterActions,
+      settingsActions
+    } = this.props
     if (formValues) {
       identityVerificationActions.updateEmail(formValues.email)
       securityCenterActions.resendVerifyEmail(formValues.email)
@@ -52,10 +56,7 @@ class VerifyEmail extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Failure: () => null,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />,
-      Success: (val) => (
+      Success: val => (
         <Success
           {...this.props}
           {...val}
@@ -65,33 +66,41 @@ class VerifyEmail extends PureComponent<Props> {
             email: val.email
           }}
         />
-      )
+      ),
+      Failure: () => null,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />
     })
   }
 }
 
 const mapStateToProps = (state: RootState) => ({
-  cryptoCurrency: selectors.components.simpleBuy.getCryptoCurrency(state),
   data: getData(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state),
+  isEmailVerified: selectors.core.settings
+    .getEmailVerified(state)
+    .getOrElse(false),
   formValues: selectors.form.getFormValues(SB_CHANGE_EMAIL_FORM)(state) as
     | SBVerifyEmailFormValuesType
     | undefined,
-  isEmailVerified: selectors.core.settings.getEmailVerified(state).getOrElse(false),
+  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state),
+  cryptoCurrency: selectors.components.simpleBuy.getCryptoCurrency(state),
   orderType: selectors.components.simpleBuy.getOrderType(state),
   pair: selectors.components.simpleBuy.getSBPair(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch),
+  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
   ),
+  securityCenterActions: bindActionCreators(
+    actions.modules.securityCenter,
+    dispatch
+  ),
+  settingsActions: bindActionCreators(actions.core.settings, dispatch),
   profileActions: bindActionCreators(actions.modules.profile, dispatch),
-  securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch),
-  settingsActions: bindActionCreators(actions.core.settings, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

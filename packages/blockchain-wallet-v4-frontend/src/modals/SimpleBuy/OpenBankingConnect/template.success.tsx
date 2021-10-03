@@ -27,7 +27,7 @@ const Success = (props: Props) => {
   const logo = (media && media.length && media[0].source) || ''
 
   const handleCancel = () => {
-    props.buySellActions.cancelOrder(props.order)
+    props.simpleBuyActions.cancelSBOrder(props.order)
   }
 
   return (

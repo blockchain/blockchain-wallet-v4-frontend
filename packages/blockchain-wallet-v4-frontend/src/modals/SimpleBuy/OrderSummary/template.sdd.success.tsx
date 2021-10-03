@@ -83,7 +83,7 @@ const Success: React.FC<Props> = (props) => {
     props.order.attributes?.everypay?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
 
   const handleCancel = () => {
-    props.buySellActions.cancelOrder(props.order)
+    props.simpleBuyActions.cancelSBOrder(props.order)
   }
 
   return (
@@ -185,7 +185,7 @@ const Success: React.FC<Props> = (props) => {
                 height='48px'
                 nature='primary'
                 onClick={() =>
-                  props.buySellActions.setStep({
+                  props.simpleBuyActions.setStep({
                     order: props.order,
                     step: '3DS_HANDLER'
                   })
@@ -206,10 +206,10 @@ const Success: React.FC<Props> = (props) => {
                 height='48px'
                 nature='primary'
                 onClick={() => {
-                  props.buySellActions.setStep({
+                  props.simpleBuyActions.setStep({
                     step: 'UPGRADE_TO_GOLD'
                   })
-                  props.buySellActions.updateSddTransactionFinished()
+                  props.simpleBuyActions.updateSddTransactionFinished()
                 }}
                 style={{ marginBottom: '32px' }}
               >
