@@ -4,6 +4,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 
+import { Exchange } from '@core'
+import { fiatToString, formatFiat } from '@core/exchange/utils'
 import {
   Button,
   Icon,
@@ -13,8 +15,6 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { fiatToString, formatFiat } from 'blockchain-wallet-v4/src/exchange/utils'
 import { CheckBox, CoinBalanceDropdown, NumberBox } from 'components/Form'
 import { actions, selectors } from 'data'
 import { InterestDepositFormType } from 'data/components/interest/types'
@@ -68,6 +68,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     formErrors,
     handleDisplayToggle,
     interestActions,
+    interestEDDStatus,
     interestEDDWithdrawLimits,
     interestLimits,
     interestRate,
@@ -133,9 +134,12 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     // @ts-ignore
     !payment.isSufficientEthForErc20
 
-  const showEDDWithdrawLimit = interestEDDWithdrawLimits?.withdrawLimits
-    ? Number(depositAmountFiat) > Number(interestEDDWithdrawLimits?.withdrawLimits.amount)
-    : false
+  const showEDDWithdrawLimit =
+    (interestEDDWithdrawLimits?.withdrawLimits
+      ? Number(depositAmountFiat) > Number(interestEDDWithdrawLimits?.withdrawLimits.amount)
+      : false) &&
+    !interestEDDStatus?.eddSubmitted &&
+    !interestEDDStatus?.eddPassed
 
   const handleFormSubmit = () => {
     interestActions.submitDepositForm(coin)

@@ -4,16 +4,10 @@ import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Inte
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import Currencies from '@core/exchange/currencies'
+import { coinToString, fiatToString } from '@core/exchange/utils'
+import { CoinType, OrderType, SBPaymentMethodType, SBPaymentTypes } from '@core/types'
 import { Banner, Icon, Text } from 'blockchain-info-components'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-import { coinToString, fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
-import {
-  CoinType,
-  OrderType,
-  SBPaymentMethodType,
-  SBPaymentTypes
-} from 'blockchain-wallet-v4/src/types'
-import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper, getPeriodTitleText } from 'components/Flyout'
 import { Form } from 'components/Form'
@@ -154,7 +148,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   } = props
   const [fontRatio, setRatio] = useState(1)
   const setOrderFrequncy = useCallback(() => {
-    props.simpleBuyActions.setStep({ step: 'FREQUENCY' })
+    props.buySellActions.setStep({ step: 'FREQUENCY' })
   }, [])
   const isSddBuy = props.isSddFlow && props.orderType === 'BUY'
 
@@ -186,7 +180,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
   if (!props.formValues) return null
   if (!fiatCurrency || !baseCurrency)
-    return <Failure fiatCurrency={props.fiatCurrency} simpleBuyActions={props.simpleBuyActions} />
+    return <Failure fiatCurrency={props.fiatCurrency} buySellActions={props.buySellActions} />
 
   const limits = props.sddLimit || LIMIT
   const sddLimit = { ...limits }
@@ -254,17 +248,17 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     const value = convertStandardToBase(conversionCoinType, maxMin)
     if (prop === 'min') {
       if (props.orderType === OrderType.SELL) {
-        props.simpleBuyActions.handleSellMinAmountClick(value, conversionCoinType)
+        props.buySellActions.handleSellMinAmountClick({ amount: value, coin: conversionCoinType })
       } else if (props.orderType === OrderType.BUY) {
-        props.simpleBuyActions.handleBuyMinAmountClick(value, conversionCoinType)
+        props.buySellActions.handleBuyMinAmountClick({ amount: value, coin: conversionCoinType })
       }
     }
 
     if (prop === 'max') {
       if (props.orderType === OrderType.SELL) {
-        props.simpleBuyActions.handleSellMaxAmountClick(value, conversionCoinType)
+        props.buySellActions.handleSellMaxAmountClick({ amount: value, coin: conversionCoinType })
       } else if (props.orderType === OrderType.BUY) {
-        props.simpleBuyActions.handleBuyMaxAmountClick(value, conversionCoinType)
+        props.buySellActions.handleBuyMaxAmountClick({ amount: value, coin: conversionCoinType })
       }
     }
   }
@@ -285,9 +279,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     )[fix]
     const value = convertStandardToBase(conversionCoinType, maxMin)
     if (props.orderType === OrderType.SELL) {
-      props.simpleBuyActions.handleSellMaxAmountClick(value, conversionCoinType)
+      props.buySellActions.handleSellMaxAmountClick({ amount: value, coin: conversionCoinType })
     } else if (props.orderType === OrderType.BUY) {
-      props.simpleBuyActions.handleBuyMaxAmountClick(value, conversionCoinType)
+      props.buySellActions.handleBuyMaxAmountClick({ amount: value, coin: conversionCoinType })
     }
   }
 
@@ -339,7 +333,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               role='button'
               style={{ marginRight: '8px' }}
               onClick={() =>
-                props.simpleBuyActions.setStep({
+                props.buySellActions.setStep({
                   // Always reset back to walletCurrency
                   // Otherwise FUNDS currency and Pairs currency can mismatch
                   fiatCurrency: props.walletCurrency || 'USD',
@@ -422,11 +416,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   cursor
                   name='up-down-chevron'
                   onClick={() =>
-                    props.simpleBuyActions.switchFix(
-                      quoteAmt,
-                      props.orderType,
-                      props.preferences[props.orderType].fix === 'CRYPTO' ? 'FIAT' : 'CRYPTO'
-                    )
+                    props.buySellActions.switchFix({
+                      amount: quoteAmt,
+                      fix: props.preferences[props.orderType].fix === 'CRYPTO' ? 'FIAT' : 'CRYPTO',
+                      orderType: props.orderType
+                    })
                   }
                   role='button'
                   size='24px'

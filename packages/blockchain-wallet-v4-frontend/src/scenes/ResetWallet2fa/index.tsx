@@ -6,10 +6,10 @@ import { bindActionCreators, compose } from 'redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { RemoteDataType } from '@core/remote/types'
 import { Button, Link, SpinningLoader, Text, TextGroup } from 'blockchain-info-components'
 import { Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
-import { RemoteDataType } from 'core/remote/types'
 import { actions, selectors } from 'data'
 import { required, validEmail, validWalletId } from 'services/forms'
 

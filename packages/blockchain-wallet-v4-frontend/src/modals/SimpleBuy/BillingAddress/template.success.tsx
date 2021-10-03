@@ -5,13 +5,7 @@ import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import {
-  FormGroup,
-  FormItem,
-  FormLabel,
-  SelectBoxUSState,
-  TextBox
-} from 'components/Form'
+import { FormGroup, FormItem, FormLabel, SelectBoxUSState, TextBox } from 'components/Form'
 import {
   countryUsesPostalCode,
   countryUsesZipcode,
@@ -23,7 +17,7 @@ import { Props as OwnProps, SuccessStateType } from '.'
 import CountrySelect from './CountrySelect'
 
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`
-  border-bottom: 1px solid ${props => props.theme.grey000};
+  border-bottom: 1px solid ${(props) => props.theme.grey000};
   padding-bottom: 0px;
 `
 const Top = styled(Text)`
@@ -34,7 +28,7 @@ const Top = styled(Text)`
 
 export type Props = OwnProps & SuccessStateType
 
-const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   if (!props.formValues) return null
 
   const countryCode = props.formValues.country
@@ -55,7 +49,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
               style={{ marginRight: '24px' }}
               role='button'
               onClick={() =>
-                props.simpleBuyActions.setStep({
+                props.buySellActions.setStep({
                   step: 'ADD_CARD'
                 })
               }
@@ -129,7 +123,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                   name='state'
                   component={SelectBoxUSState}
                   validate={[required]}
-                  normalize={val => val.name}
+                  normalize={(val) => val.name}
                 />
               ) : (
                 <Field name='state' component={TextBox} />
@@ -150,11 +144,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
                     />
                   )}
                 </FormLabel>
-                <Field
-                  name='postCode'
-                  validate={requiredZipCode}
-                  component={TextBox}
-                />
+                <Field name='postCode' validate={requiredZipCode} component={TextBox} />
               </FormItem>
             )}
           </FormGroup>
@@ -166,10 +156,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             height='48px'
             size='16px'
           >
-            <FormattedMessage
-              id='modals.simplebuy.save_my_card'
-              defaultMessage='Save My Card'
-            />
+            <FormattedMessage id='modals.simplebuy.save_my_card' defaultMessage='Save My Card' />
           </Button>
         </FlyoutWrapper>
       </Form>
@@ -178,6 +165,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
 }
 
 export default reduxForm<{}, Props>({
-  form: 'ccBillingAddress',
-  destroyOnUnmount: false
+  destroyOnUnmount: false,
+  form: 'ccBillingAddress'
 })(Success)

@@ -66,8 +66,8 @@ class FeaturesContainer extends React.PureComponent<Props> {
 }
 
 const mapDispatchToProps = (dispatch) => ({
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
   swapActions: bindActionCreators(actions.components.swap, dispatch)
 })
 

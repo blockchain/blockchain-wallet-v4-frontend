@@ -2,14 +2,8 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { Remote } from 'blockchain-wallet-v4/src'
-import {
-  FiatType,
-  RemoteDataType,
-  SBOrderActionType,
-  SBOrderType,
-  SBPairType
-} from 'blockchain-wallet-v4/src/types'
+import { Remote } from '@core'
+import { FiatType, RemoteDataType, SBOrderActionType, SBOrderType, SBPairType } from '@core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -21,9 +15,9 @@ import Success from './template.success'
 class PaymentMethods extends PureComponent<Props> {
   componentDidMount() {
     if (this.props.fiatCurrency && !Remote.Success.is(this.props.data)) {
-      this.props.simpleBuyActions.fetchSBFiatEligible(this.props.fiatCurrency)
-      this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
-      this.props.simpleBuyActions.fetchSBCards()
+      this.props.buySellActions.fetchFiatEligible(this.props.fiatCurrency)
+      this.props.buySellActions.fetchPaymentMethods(this.props.fiatCurrency)
+      this.props.buySellActions.fetchCards(false)
       this.props.brokerageActions.fetchBankTransferAccounts()
     }
   }
@@ -46,8 +40,8 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

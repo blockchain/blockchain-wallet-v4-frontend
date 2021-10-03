@@ -1,8 +1,8 @@
 import { isEmpty, prop, toUpper } from 'ramda'
 import { call, delay, put, select, take } from 'redux-saga/effects'
 
-import { Types } from 'blockchain-wallet-v4/src'
-import { RemoteDataType, SDDVerifiedType } from 'blockchain-wallet-v4/src/types'
+import { Types } from '@core'
+import { RemoteDataType, SDDVerifiedType } from '@core/types'
 import { actions, actionTypes, model, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
 import { KycStateType } from 'data/modules/types'
@@ -132,10 +132,12 @@ export default ({ api, coreSagas, networks }) => {
       next: 0,
       selected: 2
     })
-    const kycState = (selectors.modules.profile.getUserKYCState(yield select()) as RemoteDataType<
-      string,
-      KycStateType
-    >).getOrElse('NONE')
+    const kycState = (
+      selectors.modules.profile.getUserKYCState(yield select()) as RemoteDataType<
+        string,
+        KycStateType
+      >
+    ).getOrElse('NONE')
 
     // Case where user recovers their wallet with mnemonic
     // and we reset their KYC. We have to force next and
@@ -379,17 +381,8 @@ export default ({ api, coreSagas, networks }) => {
     try {
       yield put(actions.form.startSubmit(INFO_AND_RESIDENTIAL_FORM))
       yield call(syncUserWithWallet)
-      const {
-        city,
-        country,
-        dob,
-        firstName,
-        lastName,
-        line1,
-        line2,
-        postCode,
-        state
-      } = yield select(selectors.form.getFormValues(INFO_AND_RESIDENTIAL_FORM))
+      const { city, country, dob, firstName, lastName, line1, line2, postCode, state } =
+        yield select(selectors.form.getFormValues(INFO_AND_RESIDENTIAL_FORM))
       const personalData = { dob, firstName, lastName }
 
       // in case of US we have to append state with prefix
@@ -422,7 +415,7 @@ export default ({ api, coreSagas, networks }) => {
           }
           sddVerified = yield call(api.fetchSDDVerified)
           if (sddVerified?.taskComplete) {
-            yield put(actions.components.simpleBuy.fetchSDDVerifiedSuccess(sddVerified))
+            yield put(actions.components.buySell.fetchSDDVerifiedSuccess(sddVerified))
             break
           }
           yield delay(POLL_SDD_DELAY)
@@ -438,8 +431,8 @@ export default ({ api, coreSagas, networks }) => {
 
           // wait for SB create to finish
           yield take([
-            actionTypes.components.simpleBuy.FETCH_SB_ORDERS_SUCCESS,
-            actionTypes.components.simpleBuy.FETCH_SB_ORDERS_FAILURE
+            actions.components.buySell.fetchOrdersSuccess.type,
+            actions.components.buySell.fetchOrdersFailure.type
           ])
           // close KYC modal
           yield put(actions.modals.closeModal(ModalName.KYC_MODAL))

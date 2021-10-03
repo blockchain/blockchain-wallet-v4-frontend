@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 
-import { CoinType } from 'blockchain-wallet-v4/src/types'
+import { CoinType } from '@core/types'
 import { selectors } from 'data'
 
 import Loading from './template.loading'

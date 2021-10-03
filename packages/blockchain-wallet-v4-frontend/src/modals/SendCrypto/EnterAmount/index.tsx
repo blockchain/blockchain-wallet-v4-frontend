@@ -11,9 +11,9 @@ import {
   convertCoinToCoin,
   convertCoinToFiat,
   convertFiatToCoin
-} from 'blockchain-wallet-v4/src/exchange'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-import { getRatesSelector } from 'blockchain-wallet-v4/src/redux/data/misc/selectors'
+} from '@core/exchange'
+import Currencies from '@core/exchange/currencies'
+import { getRatesSelector } from '@core/redux/data/misc/selectors'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import CollapseText from 'components/CollapseText'
 import { AmountTextBox } from 'components/Exchange'
@@ -21,7 +21,7 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { StepHeader } from 'components/Flyout/SendRequestCrypto'
 import { Form } from 'components/Form'
 import { DisplayContainer } from 'components/SimpleBuy'
-import { RatesType } from 'core/types'
+import { RatesType } from '@core/types'
 import { selectors } from 'data'
 import { SendCryptoStepType } from 'data/components/sendCrypto/types'
 import { formatTextAmount } from 'services/forms'

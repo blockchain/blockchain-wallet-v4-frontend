@@ -2,8 +2,8 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
+import { SwapOrderType } from '@core/types'
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { SwapOrderType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { getOutput } from 'data/components/swap/model'
 

@@ -2,12 +2,12 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from '@core'
 import {
   BeneficiaryType,
   ExtractSuccess,
   WalletFiatType
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { WithdrawCheckoutFormValuesType } from 'data/types'

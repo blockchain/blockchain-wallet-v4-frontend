@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import moment, { Moment } from 'moment'
 
-import { PaymentMethod } from 'core/types'
+import { PaymentMethod } from '@core/types'
 
 import { SBPaymentTypes } from '../../../../blockchain-wallet-v4/src/network/api/simpleBuy/types'
 import { RecurringBuyPeriods } from '../../data/components/recurringBuy/types'

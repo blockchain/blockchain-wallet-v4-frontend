@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import Currencies from '@core/exchange/currencies'
 import { Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
 import { media } from 'services/styles'
 
 const Wrapper = styled.div`

@@ -1,6 +1,6 @@
 import { call, put, select } from 'redux-saga/effects'
 
-import { EthPaymentType } from 'blockchain-wallet-v4/src/types'
+import { EthPaymentType } from '@core/types'
 import { actions } from 'data'
 import * as C from 'services/alerts'
 import { promptForSecondPassword } from 'services/sagas'
@@ -11,7 +11,7 @@ import * as S from './selectors'
 export const logLocation = 'modules/transferEth/sagas'
 
 export default ({ coreSagas, networks }) => {
-  const initialized = function * ({ payload }: ReturnType<typeof A.initialized>) {
+  const initialized = function* ({ payload }: ReturnType<typeof A.initialized>) {
     try {
       yield put(A.transferEthPaymentUpdatedLoading())
       let payment: EthPaymentType = coreSagas.payment.eth.create({
@@ -21,20 +21,18 @@ export default ({ coreSagas, networks }) => {
       payment = yield payment.from(payload.from, payload.type)
       yield put(A.transferEthPaymentUpdatedSuccess(payment.value()))
     } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'transferEthInitialized', e)
-      )
+      yield put(actions.logs.logErrorMessage(logLocation, 'transferEthInitialized', e))
     }
   }
 
-  const confirmTransferEth = function * (action) {
+  const confirmTransferEth = function* (action) {
     try {
       yield put(actions.form.startSubmit('transferEth'))
       const { effectiveBalance, to } = action.payload
-      let p = S.getPayment(yield select())
+      const p = S.getPayment(yield select())
       let payment: EthPaymentType = coreSagas.payment.eth.create({
-        payment: p.getOrElse({}),
-        network: networks.eth
+        network: networks.eth,
+        payment: p.getOrElse({})
       })
       payment = yield payment.to(to)
       const password = yield call(promptForSecondPassword)
@@ -51,9 +49,7 @@ export default ({ coreSagas, networks }) => {
       )
       yield put(actions.form.stopSubmit('transferEth'))
     } catch (e) {
-      yield put(
-        actions.logs.logErrorMessage(logLocation, 'confirmTransferEth', e)
-      )
+      yield put(actions.logs.logErrorMessage(logLocation, 'confirmTransferEth', e))
       yield put(
         actions.alerts.displayError(C.SEND_COIN_ERROR, {
           coinName: 'Ethereum'

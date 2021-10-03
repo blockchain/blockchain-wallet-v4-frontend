@@ -5,7 +5,7 @@ import {
   SwapOrderType,
   SwapQuoteType,
   SwapUserLimitsType
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 
 import * as AT from './actionTypes'
 

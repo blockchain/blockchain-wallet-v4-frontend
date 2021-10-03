@@ -1,6 +1,6 @@
 import { lift, values } from 'ramda'
 
-import { InterestEDDStatus, RemoteDataType } from 'blockchain-wallet-v4/src/types'
+import { InterestEDDStatus, RemoteDataType } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 

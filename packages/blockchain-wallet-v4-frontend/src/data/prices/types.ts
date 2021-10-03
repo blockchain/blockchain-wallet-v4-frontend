@@ -1,4 +1,4 @@
-import { CoinType, RemoteDataType, WalletFiatType } from 'blockchain-wallet-v4/src/types'
+import { CoinType, RemoteDataType, WalletFiatType } from '@core/types'
 
 // TODO: type this!
 export type PricesStateType = {

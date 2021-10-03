@@ -34,7 +34,7 @@
         "groups": [
           ["^react", "^@?\\w"],
           [
-            "^(blockchain-wallet-v4|blockchain-info-components|components|coins|core|data|layouts|providers|services|utils)(/.*|$)"
+            "^(blockchain-wallet-v4|blockchain-info-components|components|coins|@core|data|layouts|providers|services|utils)(/.*|$)"
           ],
           ["^\\.", "^[^.]"]
         ]

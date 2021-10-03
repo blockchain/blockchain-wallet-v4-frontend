@@ -5,9 +5,9 @@ import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-import { coinToString, fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
+import { Exchange, Remote } from '@core'
+import Currencies from '@core/exchange/currencies'
+import { coinToString, fiatToString } from '@core/exchange/utils'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -198,9 +198,10 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
   const balanceBelowMinimum = Number(max) < Number(min)
   const isQuoteFailed = Remote.Failure.is(props.quoteR)
+  const { coinfig: baseCoinfig } = window.coins[BASE.coin]
   // if user is attempting to send NC ERC20, ensure they have sufficient
   // ETH balance else warn user and disable trade
-  const isErc20 = window.coins[BASE.coin].coinfig.type.erc20Address
+  const isErc20 = baseCoinfig.type.erc20Address
   const disableInsufficientEth =
     props.payment &&
     BASE.type === SwapBaseCounterTypes.ACCOUNT &&
@@ -236,7 +237,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           />
           {fix === 'CRYPTO' && (
             <Text size='56px' color='textBlack' weight={500}>
-              {BASE.coin}
+              {baseCoinfig.displaySymbol}
             </Text>
           )}
         </AmountRow>
@@ -273,7 +274,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     value:
                       fix === 'FIAT'
                         ? fiatToString({ unit: walletCurrency, value: fiatMin })
-                        : `${min} ${BASE.coin}`
+                        : `${min} ${baseCoinfig.displaySymbol}`
                   }}
                 />
               </CustomErrorCartridge>
@@ -331,7 +332,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     value:
                       fix === 'FIAT'
                         ? fiatToString({ unit: walletCurrency, value: fiatMax })
-                        : `${max} ${BASE.coin}`
+                        : `${max} ${baseCoinfig.displaySymbol}`
                   }}
                 />
               </CustomErrorCartridge>
@@ -351,7 +352,8 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
         <Amounts>
           <div>
             <Text size='14px' weight={500} color='grey600'>
-              {BASE.coin} <FormattedMessage id='copy.available' defaultMessage='Available' />
+              {baseCoinfig.displaySymbol}{' '}
+              <FormattedMessage id='copy.available' defaultMessage='Available' />
             </Text>
             <CoinBalance>
               <CoinDisplay size='14px' weight={500} color='grey900' coin={BASE.coin}>
@@ -418,7 +420,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               id='copy.not_enough_eth1'
               defaultMessage='ETH is required to send {coin}. You do not have enough ETH in your Ether Wallet to perform a transaction. Note, ETH must be held in your Ether Wallet for this transaction, not Ether Trading Account.'
               values={{
-                coin: BASE.coin
+                coin: baseCoinfig.displaySymbol
               }}
             />
           </ErrorCartridge>

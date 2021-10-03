@@ -3,11 +3,11 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
+import { fiatToString } from '@core/exchange/utils'
 import {
   WalletFiatType,
   WithdrawResponseType
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 
 const Wrapper = styled.div`
   height: 100%;

@@ -5,7 +5,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { SBOrderType } from 'blockchain-wallet-v4/src/types'
+import { SBOrderType } from '@core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { RecurringBuyOrigins } from 'data/types'

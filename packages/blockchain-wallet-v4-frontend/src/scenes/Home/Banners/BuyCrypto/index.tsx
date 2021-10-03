@@ -5,7 +5,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { WalletFiatType } from 'blockchain-wallet-v4/src/types'
+import { WalletFiatType } from '@core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { media } from 'services/styles'
@@ -15,7 +15,7 @@ const Wrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid ${props => props.theme.grey000};
+  border: 1px solid ${(props) => props.theme.grey000};
   border-radius: 8px;
   padding: 20px;
 
@@ -49,7 +49,7 @@ const PendingIconWrapper = styled.div`
   min-width: 40px;
   border-radius: 20px;
   margin-right: 20px;
-  background-color: ${props => props.theme.blue100};
+  background-color: ${(props) => props.theme.blue100};
 `
 const Copy = styled(Text)`
   display: flex;
@@ -72,11 +72,11 @@ const BannerButton = styled(Button)`
 
 class BuyCrypto extends PureComponent<Props> {
   showModal = () => {
-    this.props.simpleBuyActions.showModal('WelcomeModal')
+    this.props.buySellActions.showModal({ origin: 'WelcomeModal' })
 
-    this.props.simpleBuyActions.setStep({
-      step: 'CRYPTO_SELECTION',
-      fiatCurrency: this.props.fiatCurrency
+    this.props.buySellActions.setStep({
+      fiatCurrency: this.props.fiatCurrency,
+      step: 'CRYPTO_SELECTION'
     })
   }
 
@@ -108,10 +108,7 @@ class BuyCrypto extends PureComponent<Props> {
           data-e2e='openSDDFlow'
           nature='primary'
         >
-          <FormattedMessage
-            id='modals.simplebuy.confirm.buynow'
-            defaultMessage='Buy Now'
-          />
+          <FormattedMessage id='modals.simplebuy.confirm.buynow' defaultMessage='Buy Now' />
         </BannerButton>
       </Wrapper>
     )
@@ -119,14 +116,12 @@ class BuyCrypto extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(
-    state
-  ) as WalletFiatType
+  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) as WalletFiatType
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  modalActions: bindActionCreators(actions.modals, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

@@ -1,4 +1,4 @@
-import Remote from './remote'
+import Remote from './index'
 
 const cata = function <E, A>(
   this: RemoteDataType<E, A>,
@@ -49,7 +49,7 @@ const map = function <E, A, T>(
   return Remote.Success(f(this.data))
 }
 
-export type RemoteType = {
+export interface RemoteType {
   cata: typeof cata
   getOrElse: typeof getOrElse
   getOrFail: typeof getOrFail

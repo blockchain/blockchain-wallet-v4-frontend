@@ -8,7 +8,7 @@ import styled from 'styled-components'
 import { Badge, Icon, Link, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 import QRCodeWrapper from 'components/QRCodeWrapper'
-import { RemoteDataType } from 'core/types'
+import { RemoteDataType } from '@core/types'
 import { actions, selectors } from 'data'
 import { RecoverSteps } from 'data/types'
 
