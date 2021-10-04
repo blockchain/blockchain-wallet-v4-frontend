@@ -12,6 +12,7 @@
         }
       },
       "coinListing": "",
+      "coinRename": "CLOUT",
       "erc20s": ["AAVE", "PAX", "USDC", "USDT", "WDGLD", "YFI"],
       "sift": {
         "apiKey": "0ecd212038"

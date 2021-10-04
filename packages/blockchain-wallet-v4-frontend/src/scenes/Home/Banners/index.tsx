@@ -8,6 +8,7 @@ import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
 
 import BuyCrypto from './BuyCrypto'
+import CoinRename from './CoinRename'
 import ContinueToGold from './ContinueToGold'
 import FinishKyc from './FinishKyc'
 import KycResubmit from './KycResubmit'
@@ -57,6 +58,12 @@ class Banners extends React.PureComponent<Props> {
         return (
           <BannerWrapper>
             <SBOrderBanner />
+          </BannerWrapper>
+        )
+      case 'coinRename':
+        return (
+          <BannerWrapper>
+            <CoinRename />
           </BannerWrapper>
         )
       case 'newCurrency':

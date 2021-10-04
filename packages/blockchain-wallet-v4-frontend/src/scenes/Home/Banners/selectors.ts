@@ -16,10 +16,12 @@ export type BannerType =
   | 'continueToGold'
   | 'recurringBuys'
   | 'coinListing'
+  | 'coinRename'
   | 'servicePriceUnavailable'
   | null
 
 export const getNewCoinAnnouncement = (coin: string) => `${coin}-homepage`
+export const getCoinRenameAnnouncement = (coin: string) => `${coin}-rename`
 
 export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const announcementState = selectors.cache.getLastAnnouncementState(state)
@@ -75,6 +77,16 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
       !announcementState[newCoinAnnouncement] ||
       (announcementState[newCoinAnnouncement] && !announcementState[newCoinAnnouncement].dismissed))
 
+  // coinRename
+  const coinRename = selectors.core.walletOptions.getCoinRename(state).getOrElse('')
+  const coinRenameAnnouncement = getCoinRenameAnnouncement(coinRename)
+  const showRenameBanner =
+    coinRename &&
+    (!announcementState ||
+      !announcementState[coinRenameAnnouncement] ||
+      (announcementState[coinRenameAnnouncement] &&
+        !announcementState[coinRenameAnnouncement].dismissed))
+
   const isTier3SDD = sddEligibleTier === 3
 
   // servicePriceUnavailable
@@ -100,6 +112,8 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     bannerToShow = 'continueToGold'
   } else if (isNewCurrency) {
     bannerToShow = 'newCurrency'
+  } else if (showRenameBanner) {
+    bannerToShow = 'coinRename'
   } else if (isRecurringBuy) {
     bannerToShow = 'recurringBuys'
   } else {
