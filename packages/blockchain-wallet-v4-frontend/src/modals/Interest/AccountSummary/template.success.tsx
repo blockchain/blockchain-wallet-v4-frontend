@@ -331,7 +331,7 @@ const AccountSummary: React.FC<Props> = (props) => {
                 <FormattedMessage
                   id='buttons.buy_coin'
                   defaultMessage='Buy {displayName}'
-                  values={{ displayName: coinfig.name }}
+                  values={{ displayName: coinfig.displaySymbol }}
                 />
               </Text>
             </Button>
