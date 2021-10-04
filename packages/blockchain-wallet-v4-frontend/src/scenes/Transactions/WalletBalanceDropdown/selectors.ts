@@ -86,7 +86,8 @@ export const getData = (state, ownProps: OwnProps) => {
         case selectors.core.data.coins.getCustodialCoins().includes(coin):
           addressDataR = getCoinAddressData(state, {
             coin,
-            includeCustodial: true
+            includeCustodial: true,
+            includeInterest: true
           })
           balanceDataR = balanceSelectors.getCoinCustodialBalance(coin)(state)
           break

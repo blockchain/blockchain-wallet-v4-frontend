@@ -17,12 +17,12 @@ const cacheSlice = createSlice({
   name: 'cache',
   reducers: {
     announcementDismissed: (state, action) => {
-      state.announcements[action.payload].dismissed = true
+      state.announcements[action.payload] = { dismissed: true }
     },
     announcementToggled: (state, action) => {
       const { collapsed, id } = action.payload
 
-      state.announcements[id].collapsed = collapsed
+      state.announcements[id] = { ...state.announcements[id], collapsed }
     },
     channelChannelIdCreated: (state, action) => {
       state.channelChannelId = action.payload
