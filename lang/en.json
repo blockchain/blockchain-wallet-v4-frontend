@@ -1535,7 +1535,7 @@
     "scenes.exchange.empty.connected.cartridge": "Connected",
     "scenes.exchange.empty.notconnected.cartridge": "Not Connected",
     "scenes.exchange.empty.walletconnect.body": "Easily connect your Wallet to the Exchange and send crypto back and forth. No need to copy past wallet addresses all while keeping control of your private keys.",
-    "scenes.exchange.empty.walletconnect.header": "Wallet Connect",
+    "scenes.exchange.empty.walletconnect.header": "Exchange Link",
     "scenes.exchange.exchangeform.limit_info.upgrade": "Upgrade",
     "scenes.exchange.exchangeform.refreshlatest": "Refresh status.",
     "scenes.exchange.exchangeform.to": "Receive",
