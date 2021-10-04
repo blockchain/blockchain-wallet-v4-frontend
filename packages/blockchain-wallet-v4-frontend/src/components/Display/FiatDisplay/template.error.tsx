@@ -31,7 +31,7 @@ export default (props: Props) => (
     <ErrorText weight={400} {...props}>
       <TooltipHost id='tooltip.rates_error'>
         {Currencies[props.userCurrency].units[props.userCurrency].symbol}--
-        {/* <TooltipIcon name='question-in-circle-filled' /> */}
+        <TooltipIcon name='question-in-circle-filled' />
       </TooltipHost>
     </ErrorText>
   </Wrapper>
