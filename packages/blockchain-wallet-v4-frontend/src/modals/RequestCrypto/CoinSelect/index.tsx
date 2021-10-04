@@ -48,14 +48,32 @@ const StyledIcon = styled(Icon)`
   top: 50%;
   transform: translateY(-50%);
 `
-const NoAccountsText = styled.div`
+const NoAccounts = styled.div`
   border-top: ${(props) => `1px solid ${props.theme.grey000}`};
-  padding: 40px 40px 0;
-  text-align: center;
+  padding: 16px 40px 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  > div {
+    display: flex;
+    align-items: center;
+  }
+`
+const PlusIconContainer = styled.div`
+  background-color: ${(props) => props.theme.green100};
+  padding: 2px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
 `
 class RequestCoinSelect extends React.PureComponent<Props> {
   render() {
     const { data, formActions, formValues, handleClose, setStep, walletCurrency } = this.props
+
+    const { coinfig: ethCoinfig } = window.coins.ETH
 
     const Row = ({ data: rowData, index, key, style }) => {
       const account = rowData[index]
@@ -102,7 +120,7 @@ class RequestCoinSelect extends React.PureComponent<Props> {
                 defaultMessage='Receive Crypto'
               />
             </Text>
-            <Text size='16px' color='grey600' weight={500} style={{ marginTop: '10px' }}>
+            <Text size='16px' color='grey600' weight={500}>
               <FormattedMessage
                 id='modals.requestcrypto.coinselect.subtitle'
                 defaultMessage='Select and share your address or QR code to receive crypto from anyone around the world.'
@@ -126,29 +144,53 @@ class RequestCoinSelect extends React.PureComponent<Props> {
             )}
           </HeaderContent>
         </StickyHeaderFlyoutWrapper>
-        <AutoSizer>
-          {({ height, width }) => (
-            <List
-              className='List'
-              height={height}
-              itemData={data.accounts}
-              itemCount={data.accounts.length}
-              itemSize={74}
-              width={width}
-            >
-              {Row}
-            </List>
-          )}
-        </AutoSizer>
-        {data.accounts.length === 0 && (
-          <NoAccountsText>
-            <Text size='16px' color='grey900' weight={500} style={{ marginTop: '10px' }}>
-              <FormattedMessage
-                id='modals.requestcrypto.coinselect.noaccounts'
-                defaultMessage='Currently there are no receivable accounts for the selected crypto.'
-              />
-            </Text>
-          </NoAccountsText>
+        {data.accounts.length ? (
+          <AutoSizer>
+            {({ height, width }) => (
+              <List
+                className='List'
+                height={height}
+                itemData={data.accounts}
+                itemCount={data.accounts.length}
+                itemSize={74}
+                width={width}
+              >
+                {Row}
+              </List>
+            )}
+          </AutoSizer>
+        ) : (
+          <NoAccounts
+            role='button'
+            onClick={() => {
+              formActions.change(REQUEST_FORM, 'selectedAccount', data.ethAccount)
+              formActions.change(REQUEST_FORM, 'step', RequestSteps.SHOW_ADDRESS)
+            }}
+          >
+            <div>
+              <PlusIconContainer>
+                <Icon name='plus-in-circle-filled' color='green600' size='24px' />
+              </PlusIconContainer>
+              <div>
+                <Text size='16px' color='grey900' weight={600}>
+                  <FormattedMessage
+                    id='copy.receive_any_erc20'
+                    defaultMessage='Receive Any Erc20 Token'
+                  />
+                </Text>
+                <Text size='14px' color='grey800' weight={500} style={{ marginTop: '2px' }}>
+                  <FormattedMessage
+                    id='copy.view_eth_addr'
+                    defaultMessage='View Your {eth} Address'
+                    values={{
+                      eth: ethCoinfig.name
+                    }}
+                  />
+                </Text>
+              </div>
+            </div>
+            <Icon name='chevron-right' size='32px' color='grey400' />
+          </NoAccounts>
         )}
       </Wrapper>
     )
