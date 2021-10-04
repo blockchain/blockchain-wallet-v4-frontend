@@ -3,8 +3,8 @@ import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 import styled, { DefaultTheme } from 'styled-components'
 
-import { Icon, Text, TextGroup } from 'blockchain-info-components'
 import { CoinType, IOType, ProcessedTxType } from '@core/types'
+import { Icon, Text, TextGroup } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 

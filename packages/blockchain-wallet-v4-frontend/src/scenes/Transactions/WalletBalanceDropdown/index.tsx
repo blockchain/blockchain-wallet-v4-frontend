@@ -181,7 +181,8 @@ class WalletBalanceDropdown extends Component<Props> {
   accountLabel = (selectProps) => {
     if (this.isTotalBalanceType(selectProps)) {
       // All label
-      return this.props.coin
+      const { coinfig } = window.coins[this.props.coin]
+      return coinfig.displaySymbol
     }
     if (selectProps.value) {
       // Account/Custodial label
