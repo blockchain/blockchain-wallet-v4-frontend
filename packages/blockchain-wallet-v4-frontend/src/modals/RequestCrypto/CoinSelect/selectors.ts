@@ -53,7 +53,7 @@ export const getData = createDeepEqualSelector(
       return sortedCoins.indexOf(acc2.coin) > sortedCoins.indexOf(acc1.coin) ? 1 : -1
     })
 
-    return { accounts: sortedAccounts, isAtLeastTier1 }
+    return { accounts: sortedAccounts, formValues, isAtLeastTier1 }
   }
 )
 export default getData

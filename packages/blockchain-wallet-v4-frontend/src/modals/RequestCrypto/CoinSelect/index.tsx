@@ -23,9 +23,20 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  .coin-account-option {
+    border-top: ${(props) => `1px solid ${props.theme.grey000}`};
+  }
 `
 const Header = styled(StepHeader)`
   margin-bottom: 40px;
+`
+const HeaderContent = styled.div`
+  position: relative;
+`
+const ResultsText = styled(Text)`
+  position: absolute;
+  bottom: -24px;
+  left: 0;
 `
 const InputContainer = styled.div`
   margin-top: 24px;
@@ -44,7 +55,7 @@ const NoAccountsText = styled.div`
 `
 class RequestCoinSelect extends React.PureComponent<Props> {
   render() {
-    const { data, formActions, handleClose, setStep, walletCurrency } = this.props
+    const { data, formActions, formValues, handleClose, setStep, walletCurrency } = this.props
 
     const Row = ({ data: rowData, index, key, style }) => {
       const account = rowData[index]
@@ -84,7 +95,7 @@ class RequestCoinSelect extends React.PureComponent<Props> {
               onClick={handleClose}
             />
           </Header>
-          <div>
+          <HeaderContent>
             <Text size='24px' color='grey900' weight={600}>
               <FormattedMessage
                 id='modals.requestcrypto.coinselect.title'
@@ -101,7 +112,19 @@ class RequestCoinSelect extends React.PureComponent<Props> {
               <Field name='coinSearch' type='text' placeholder='Search' component={TextBox} />
               <StyledIcon color='grey200' name='magnifier' />
             </InputContainer>
-          </div>
+            {formValues.coinSearch && (
+              <ResultsText size='12px' color='grey600' weight={600}>
+                {data.accounts.length ? (
+                  <>
+                    {data.accounts.length}{' '}
+                    <FormattedMessage id='copy.results' defaultMessage='Results' />
+                  </>
+                ) : (
+                  <FormattedMessage id='copy.no_results' defaultMessage='No Results' />
+                )}
+              </ResultsText>
+            )}
+          </HeaderContent>
         </StickyHeaderFlyoutWrapper>
         <AutoSizer>
           {({ height, width }) => (
