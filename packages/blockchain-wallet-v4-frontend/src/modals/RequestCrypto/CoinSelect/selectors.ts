@@ -7,7 +7,7 @@ import { selectors } from 'data'
 import { REQUEST_ACCOUNTS_SELECTOR } from 'data/coins/model/request'
 import { getCoinAccounts } from 'data/coins/selectors'
 import { CoinAccountSelectorType } from 'data/coins/types'
-import { SwapAccountType } from 'data/components/swap/types'
+import { SwapAccountType, SwapBaseCounterTypes } from 'data/components/swap/types'
 
 import { REQUEST_FORM } from '../model'
 
@@ -30,6 +30,8 @@ export const getData = createDeepEqualSelector(
       .getOrElse([] as CoinfigType[])
       .map((coinfig) => coinfig.symbol)
       .reverse()
+    // @ts-ignore
+    const ethAccount = accounts.ETH.find(({ type }) => type === SwapBaseCounterTypes.ACCOUNT)
 
     // @ts-ignore
     map(
@@ -53,7 +55,7 @@ export const getData = createDeepEqualSelector(
       return sortedCoins.indexOf(acc2.coin) > sortedCoins.indexOf(acc1.coin) ? 1 : -1
     })
 
-    return { accounts: sortedAccounts, isAtLeastTier1 }
+    return { accounts: sortedAccounts, ethAccount, formValues, isAtLeastTier1 }
   }
 )
 export default getData
