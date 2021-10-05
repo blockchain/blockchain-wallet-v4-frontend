@@ -17,11 +17,21 @@ export type BannerType =
   | 'recurringBuys'
   | 'coinListing'
   | 'coinRename'
+  | 'celoEURSweepstake'
   | 'servicePriceUnavailable'
   | null
 
 export const getNewCoinAnnouncement = (coin: string) => `${coin}-homepage`
 export const getCoinRenameAnnouncement = (coin: string) => `${coin}-rename`
+
+const showBanner = (flag: boolean, banner: string, announcementState) => {
+  return (
+    flag &&
+    (!announcementState ||
+      !announcementState[banner] ||
+      (announcementState[banner] && !announcementState[banner].dismissed))
+  )
+}
 
 export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const announcementState = selectors.cache.getLastAnnouncementState(state)
@@ -71,21 +81,24 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   // newCurrency
   const newCoinListing = selectors.core.walletOptions.getNewCoinListing(state).getOrElse('')
   const newCoinAnnouncement = getNewCoinAnnouncement(newCoinListing)
-  const isNewCurrency =
-    newCoinListing &&
-    (!announcementState ||
-      !announcementState[newCoinAnnouncement] ||
-      (announcementState[newCoinAnnouncement] && !announcementState[newCoinAnnouncement].dismissed))
+  const isNewCurrency = showBanner(!!newCoinListing, newCoinAnnouncement, announcementState)
 
   // coinRename
   const coinRename = selectors.core.walletOptions.getCoinRename(state).getOrElse('')
   const coinRenameAnnouncement = getCoinRenameAnnouncement(coinRename)
-  const showRenameBanner =
-    coinRename &&
-    (!announcementState ||
-      !announcementState[coinRenameAnnouncement] ||
-      (announcementState[coinRenameAnnouncement] &&
-        !announcementState[coinRenameAnnouncement].dismissed))
+  const showRenameBanner = showBanner(!!coinRename, coinRenameAnnouncement, announcementState)
+
+  // cEUR Sweepstake
+  const cEURAnnouncement = selectors.core.walletOptions
+    .getCeloEurSweepstake(state)
+    .getOrElse(false) as boolean
+  const cEURAnnouncementAnnouncement = 'ceur-sweepstake'
+  const showCEURBanner =
+    showBanner(cEURAnnouncement, cEURAnnouncementAnnouncement, announcementState) &&
+    userData &&
+    userData.address &&
+    userData.address.country &&
+    ['GB', 'DE', 'FR', 'NL'].indexOf(userData.address.country) === -1
 
   const isTier3SDD = sddEligibleTier === 3
 
@@ -110,6 +123,8 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     Number(limits?.max) > 0
   ) {
     bannerToShow = 'continueToGold'
+  } else if (showCEURBanner) {
+    bannerToShow = 'celoEURSweepstake'
   } else if (isNewCurrency) {
     bannerToShow = 'newCurrency'
   } else if (showRenameBanner) {

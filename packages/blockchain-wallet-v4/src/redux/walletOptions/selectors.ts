@@ -57,3 +57,7 @@ export const getFeatureSignupCountry = (state: RootState) =>
 // signup country feature flag
 export const getEDDInterestFileUpload = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'eddInterestFileUpload']))
+
+// celoEUR sweepstake feature flag
+export const getCeloEurSweepstake = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'cEURSweepstake']))

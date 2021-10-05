@@ -8,6 +8,7 @@ import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
 
 import BuyCrypto from './BuyCrypto'
+import CeloEURSweepstake from './CeloEURSweepstake'
 import CoinRename from './CoinRename'
 import ContinueToGold from './ContinueToGold'
 import FinishKyc from './FinishKyc'
@@ -82,6 +83,12 @@ class Banners extends React.PureComponent<Props> {
         return (
           <BannerWrapper>
             <ContinueToGold />
+          </BannerWrapper>
+        )
+      case 'celoEURSweepstake':
+        return (
+          <BannerWrapper>
+            <CeloEURSweepstake />
           </BannerWrapper>
         )
       case 'recurringBuys':
