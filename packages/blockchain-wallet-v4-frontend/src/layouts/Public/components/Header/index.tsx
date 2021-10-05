@@ -6,6 +6,7 @@ import { Image, Link, Text } from 'blockchain-info-components'
 import Announcements from 'components/Announcements'
 import { Navbar, NavbarBrand } from 'components/Navbar'
 import { ProductAuthOptions } from 'data/types'
+import Wallet from 'layouts/Wallet'
 import { media } from 'services/styles'
 
 const NavbarStyled = styled(Navbar)`
@@ -36,8 +37,14 @@ const PublicBrand = styled.div`
   align-items: center;
 `
 
-const ProductHeader = styled(Text)`
+const ExhangeHeader = styled(Text)`
   color: ${(props) => props.theme.blue400};
+  font-size: 24px;
+  font-weight: 600;
+`
+
+const WalletHeader = styled(Text)`
+  color: ${(props) => props.theme.purple400};
   font-size: 24px;
   font-weight: 600;
 `
@@ -58,9 +65,14 @@ const Header = ({ designatedProduct }) => {
             <HeaderLink href='https://www.blockchain.com'>
               <BlockchainLogoImage name='blockchain-logo' height='24px' />
               {designatedProduct === ProductAuthOptions.EXCHANGE && (
-                <ProductHeader>
+                <ExhangeHeader>
                   <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
-                </ProductHeader>
+                </ExhangeHeader>
+              )}
+              {designatedProduct === ProductAuthOptions.WALLET && (
+                <WalletHeader>
+                  <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
+                </WalletHeader>
               )}
             </HeaderLink>
           </PublicBrand>

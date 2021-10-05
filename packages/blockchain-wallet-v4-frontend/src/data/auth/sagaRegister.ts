@@ -19,7 +19,9 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.getUserGeoLocation.type, authSagas.getUserGeoLocation)
     yield takeLatest(actions.pingManifestFile.type, authSagas.pingManifestFile)
     // @ts-ignore
-    yield takeLatest(actions.loginRoutineTest.type, authSagas.loginRoutineSagaTest)
+    yield takeLatest(actions.loginRoutineTestPartOne.type, authSagas.loginRoutineSagaTestPartOne)
+    // @ts-ignore
+    yield takeLatest(actions.loginRoutineTestPartTwo.type, authSagas.loginRoutineSagaTestPartTwo)
     yield takeLatest(actions.exchangeLogin.type, authSagas.exchangeLogin)
   }
 }

@@ -10,7 +10,7 @@ import { Button, Icon, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
-import { LoginFormType, LoginSteps, ProductAuthOptions } from 'data/types'
+import { AccountUnificationFlows, LoginFormType, LoginSteps, ProductAuthOptions } from 'data/types'
 import { isGuid } from 'services/forms'
 
 // step templates
@@ -18,6 +18,7 @@ import Loading from '../loading.public'
 import MergeAccountConfirm from './AccountUnification/MergeAccountConfirm'
 import ProductPicker from './AccountUnification/ProductPicker'
 import UpgradePassword from './AccountUnification/UpgradePassword'
+import UpgradeSuccess from './AccountUnification/UpgradeSuccess'
 import CheckEmail from './CheckEmail'
 import EnterEmailOrGuid from './EnterEmailOrGuid'
 import EnterPassword from './EnterPassword'
@@ -93,6 +94,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
 
   continueLoginProcess = () => {
     const {
+      accountUnificationFlow,
       authActions,
       code,
       designatedProduct,
@@ -245,6 +247,8 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
                   )
                 case LoginSteps.UPGRADE_PASSWORD:
                   return <UpgradePassword {...this.props} {...loginProps} setStep={this.setStep} />
+                case LoginSteps.UPGRADE_SUCCESS:
+                  return <UpgradeSuccess {...this.props} setStep={this.setStep} />
                 case LoginSteps.PRODUCT_PICKER_AFTER_AUTHENTICATION:
                 case LoginSteps.PRODUCT_PICKER_BEFORE_AUTHENTICATION:
                   return <ProductPicker {...this.props} {...loginProps} setStep={this.setStep} />
