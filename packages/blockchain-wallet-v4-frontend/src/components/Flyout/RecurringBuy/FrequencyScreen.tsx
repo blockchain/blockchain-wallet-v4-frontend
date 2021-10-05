@@ -1,8 +1,8 @@
-import React, { Children, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { Icon, Text } from 'blockchain-info-components'
-import { SBPaymentTypes } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
+import { SBPaymentTypes } from '@core/network/api/simpleBuy/types'
+import { Text } from 'blockchain-info-components'
 
 import {
   RecurringBuyNextPayment,

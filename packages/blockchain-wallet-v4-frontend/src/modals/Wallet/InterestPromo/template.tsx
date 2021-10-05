@@ -3,10 +3,10 @@ import { FormattedMessage } from 'react-intl'
 import { calcBasicInterest } from 'blockchain-wallet-v4-frontend/src/modals/Interest/conversions'
 import styled from 'styled-components'
 
+import { fiatToString } from '@core/exchange/utils'
+import { WalletFiatType } from '@core/types'
 import { Button, Link, Modal, ModalBody, ModalHeader, Text } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import { BlueCartridge } from 'components/Cartridge'
-import { WalletFiatType } from 'core/types'
 import { model } from 'data'
 
 import { Props as OwnProps, SuccessStateType } from './index'

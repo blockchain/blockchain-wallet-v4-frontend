@@ -83,17 +83,8 @@ type Props = OwnProps & StateProps
 const DownloadTransactions: React.FunctionComponent<InjectedFormProps<{}, Props> & Props> = (
   props
 ) => {
-  const {
-    closeAll,
-    coin,
-    csvData,
-    filename,
-    generating,
-    handleSubmit,
-    invalid,
-    position,
-    total
-  } = props
+  const { closeAll, coin, csvData, filename, generating, handleSubmit, invalid, position, total } =
+    props
 
   return (
     <Modal size='medium' position={position} total={total}>

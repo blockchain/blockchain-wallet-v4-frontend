@@ -1,4 +1,4 @@
-import { SwapOrderDirectionType } from 'blockchain-wallet-v4/src/types'
+import { SwapOrderDirectionType } from '@core/types'
 
 import { SwapAccountType, SwapBaseCounterTypes } from '../swap/types'
 

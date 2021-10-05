@@ -1,4 +1,4 @@
-import { coreActionsTypes as core } from 'blockchain-wallet-v4/src'
+import { coreActionsTypes as core } from '@core'
 
 import * as components from './components/actionTypes'
 import * as custodial from './custodial/actionTypes'

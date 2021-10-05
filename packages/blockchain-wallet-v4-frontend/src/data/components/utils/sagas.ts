@@ -2,8 +2,8 @@ import EthUtil from 'ethereumjs-util'
 import { equals, identity, is, isEmpty, prop } from 'ramda'
 import { select } from 'redux-saga/effects'
 
-import { utils } from 'blockchain-wallet-v4/src'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { utils } from '@core'
+import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
 import { selectors } from 'data'
 
 export const selectReceiveAddress = function* (source, networks) {

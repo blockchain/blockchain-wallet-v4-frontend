@@ -1,6 +1,6 @@
 import { lift } from 'ramda'
 
-import { FiatType } from 'blockchain-wallet-v4/src/types'
+import { FiatType } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 

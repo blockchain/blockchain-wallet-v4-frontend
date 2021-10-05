@@ -1,6 +1,6 @@
 import { anyPass, equals, lift } from 'ramda'
 
-import { ExtractSuccess, RemoteDataType } from 'blockchain-wallet-v4/src/types'
+import { ExtractSuccess, RemoteDataType } from '@core/types'
 import { model, selectors } from 'data'
 
 const { EXPIRED, GENERAL } = model.profile.DOC_RESUBMISSION_REASONS

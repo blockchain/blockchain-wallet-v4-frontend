@@ -4,8 +4,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
+import { InterestEligibleType, RemoteDataType } from '@core/types'
 import { Icon, Link, Text } from 'blockchain-info-components'
-import { InterestEligibleType, RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 
 import { SuccessStateType } from '..'

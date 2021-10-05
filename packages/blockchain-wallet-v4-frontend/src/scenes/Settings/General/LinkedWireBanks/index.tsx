@@ -6,7 +6,7 @@ import {
   ExtractSuccess,
   RemoteDataType,
   WalletFiatType
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -18,15 +18,15 @@ class LinkedBanks extends PureComponent<Props> {
   componentDidMount() {
     this.props.custodialActions.fetchCustodialBeneficiaries()
     this.props.brokerageActions.fetchBankTransferAccounts()
-    this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
+    this.props.buySellActions.fetchPaymentMethods(this.props.fiatCurrency)
   }
 
   render() {
     return this.props.data.cata({
-      Success: val => <Success {...this.props} {...val} />,
-      Loading: () => <Loading />,
       Failure: () => null,
-      NotAsked: () => null
+      Loading: () => <Loading />,
+      NotAsked: () => null,
+      Success: (val) => <Success {...this.props} {...val} />
     })
   }
 }
@@ -38,8 +38,8 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   custodialActions: bindActionCreators(actions.custodial, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
   withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
 })
 

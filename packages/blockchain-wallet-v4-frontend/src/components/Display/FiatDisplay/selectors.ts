@@ -1,7 +1,7 @@
 import { lift, prop } from 'ramda'
 
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
+import { Exchange } from '@core'
+import { fiatToString } from '@core/exchange/utils'
 import { selectors } from 'data'
 
 export const getData = (state, coin, amount, defaultCurrency, defaultRates) => {

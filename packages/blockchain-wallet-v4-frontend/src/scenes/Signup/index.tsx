@@ -5,8 +5,8 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Remote } from 'blockchain-wallet-v4/src'
-import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
+import { Remote } from '@core'
+import { RemoteDataType } from '@core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -37,7 +37,10 @@ class SignupContainer extends React.PureComponent<
   }
 
   componentDidMount() {
-    this.props.authActions.getUserGeoLocation()
+    const { authActions, websocketActions } = this.props
+    // start sockets to ensure email verify flow is detected
+    websocketActions.startSocket()
+    authActions.getUserGeoLocation()
   }
 
   onSubmit = (e) => {
@@ -115,7 +118,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
   analyticsActions: bindActionCreators(actions.analytics, dispatch),
   authActions: bindActionCreators(actions.auth, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch),
+  websocketActions: bindActionCreators(actions.ws, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

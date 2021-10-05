@@ -2,7 +2,7 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { HDDerivationType } from 'core/types'
+import { HDDerivationType } from '@core/types'
 import { actions, selectors } from 'data'
 
 import UsedAddressesShowTemplate from './template'

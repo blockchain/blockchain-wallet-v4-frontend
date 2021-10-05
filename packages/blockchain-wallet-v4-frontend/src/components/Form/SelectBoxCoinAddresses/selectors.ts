@@ -1,8 +1,9 @@
 // @ts-ignore
 import { concat, curry, reduce, sequence } from 'ramda'
 
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
+import { Exchange, Remote } from '@core'
+import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
+import { InterestAccountBalanceType } from '@core/types'
 import { selectors } from 'data'
 
 export const getData = (
@@ -12,9 +13,11 @@ export const getData = (
     exclude?: Array<string>
     includeCustodial?: boolean
     includeExchangeAddress?: boolean
+    includeInterest?: boolean
   }
 ) => {
-  const { /* exclude = [], */ coin, includeCustodial, includeExchangeAddress } = ownProps
+  const { /* exclude = [], */ coin, includeCustodial, includeExchangeAddress, includeInterest } =
+    ownProps
 
   const buildCustodialDisplay = (x) => {
     return (
@@ -22,6 +25,16 @@ export const getData = (
       ` (${Exchange.displayCoinToCoin({
         coin,
         value: x ? x.available : 0
+      })})`
+    )
+  }
+
+  const buildInterestDisplay = (account: InterestAccountBalanceType[string]) => {
+    return (
+      `Rewards Account` +
+      ` (${Exchange.displayCoinToCoin({
+        coin,
+        value: account ? account.balance : 0
       })})`
     )
   }
@@ -39,6 +52,19 @@ export const getData = (
       }
     }
   ]
+  const toInterestDropdown = (account) =>
+    account
+      ? [
+          {
+            label: buildInterestDisplay(account),
+            value: {
+              ...account,
+              label: 'Rewards Account',
+              type: ADDRESS_TYPES.INTEREST
+            }
+          }
+        ]
+      : []
 
   const exchangeAddress = selectors.components.send.getPaymentsAccountExchange(coin, state)
   const hasExchangeAddress = Remote.Success.is(exchangeAddress)
@@ -53,9 +79,16 @@ export const getData = (
           .map((x) => x[coin])
           .map(toCustodialDropdown)
           .map(toGroup('Custodial Wallet'))
+      : Remote.of([]),
+    includeInterest
+      ? selectors.components.interest
+          .getInterestAccountBalance(state)
+          .map((x) => x.DOGE)
+          .map(toInterestDropdown)
+          .map(toGroup('Rewards Account'))
       : Remote.of([])
-  ]).map(([b1, b2]) => ({
+  ]).map(([b1, b2, b3]) => ({
     // @ts-ignore
-    data: reduce(concat, [], [b1, b2])
+    data: reduce(concat, [], [b1, b2, b3])
   }))
 }

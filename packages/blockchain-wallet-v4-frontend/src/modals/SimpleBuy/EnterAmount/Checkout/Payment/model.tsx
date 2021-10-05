@@ -2,15 +2,15 @@ import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled, { css } from 'styled-components'
 
-import { Icon, Image, Text } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
+import { fiatToString } from '@core/exchange/utils'
 import {
   FiatType,
   SBBalancesType,
   SBPaymentMethodType,
   SBPaymentTypes,
   WalletCurrencyType
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
+import { Icon, Image, Text } from 'blockchain-info-components'
 import { Title, Value } from 'components/Flyout'
 import { CARD_TYPES, DEFAULT_CARD_SVG_LOGO } from 'components/Form/CreditCardBox/model'
 import { convertBaseToStandard } from 'data/components/exchange/services'

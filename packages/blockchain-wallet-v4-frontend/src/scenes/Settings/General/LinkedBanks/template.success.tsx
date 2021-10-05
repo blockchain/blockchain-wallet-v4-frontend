@@ -5,7 +5,7 @@ import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Box, Button, Image, Text } from 'blockchain-info-components'
-import { SBPaymentMethodType, SBPaymentTypes, WalletFiatEnum } from 'blockchain-wallet-v4/src/types'
+import { SBPaymentMethodType, SBPaymentTypes, WalletFiatEnum } from '@core/types'
 import { SettingComponent, SettingContainer, SettingSummary } from 'components/Setting'
 import { BankTransferAccountType } from 'data/types'
 import { getBankLogoImageName } from 'services/images'

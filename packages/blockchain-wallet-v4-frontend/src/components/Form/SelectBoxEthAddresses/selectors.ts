@@ -1,9 +1,9 @@
 // @ts-ignore
 import { concat, curry, filter, has, map, reduce, sequence } from 'ramda'
 
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { InterestAccountBalanceType } from 'blockchain-wallet-v4/src/types'
+import { Exchange, Remote } from '@core'
+import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
+import { InterestAccountBalanceType } from '@core/types'
 import { selectors } from 'data'
 
 export const getEthData = (
@@ -51,7 +51,7 @@ export const getEthData = (
   }
   const buildInterestDisplay = (account: InterestAccountBalanceType['ETH']) => {
     return (
-      `Interest Account` +
+      `Rewards Account` +
       ` (${Exchange.displayCoinToCoin({
         coin: 'ETH',
         value: account ? account.balance : 0
@@ -81,7 +81,7 @@ export const getEthData = (
             label: buildInterestDisplay(account),
             value: {
               ...account,
-              label: 'Interest Account',
+              label: 'Rewards Account',
               type: ADDRESS_TYPES.INTEREST
             }
           }
@@ -122,7 +122,7 @@ export const getEthData = (
             .getInterestAccountBalance(state)
             .map((x) => x.ETH)
             .map(toInterestDropdown)
-            .map(toGroup('Interest Account'))
+            .map(toGroup('Rewards Account'))
         : Remote.of([]),
       excludeLockbox
         ? Remote.of([])
@@ -178,7 +178,7 @@ export const getErc20Data = (
 
   const buildInterestDisplay = (coin: string, account) => {
     return (
-      `Interest Account` +
+      `Rewards Account` +
       ` (${Exchange.displayCoinToCoin({
         coin,
         value: account ? account.balance : 0
@@ -223,7 +223,7 @@ export const getErc20Data = (
             label: buildInterestDisplay(coin, account),
             value: {
               ...account,
-              label: `Interest Account`,
+              label: `Rewards Account`,
               type: ADDRESS_TYPES.INTEREST
             }
           }
@@ -264,7 +264,7 @@ export const getErc20Data = (
             .getInterestAccountBalance(state)
             .map((x) => x[coin])
             .map(toInterestDropdown)
-            .map(toGroup('Interest Account'))
+            .map(toGroup('Rewards Account'))
         : Remote.of([])
     ]).map(([b1, b2, b3, b4, b5]) => {
       const orderArray = forceCustodialFirst ? [b2, b1, b3, b4, b5] : [b1, b2, b3, b4, b5]

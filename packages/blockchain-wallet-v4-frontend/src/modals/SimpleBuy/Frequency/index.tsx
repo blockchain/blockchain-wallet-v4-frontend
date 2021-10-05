@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { RemoteDataType, SBPaymentMethodType } from 'blockchain-wallet-v4/src/types'
+import { RemoteDataType, SBPaymentMethodType } from '@core/types'
 import DataError from 'components/DataError'
 import { FrequencyScreen } from 'components/Flyout'
 import { actions } from 'data'
@@ -55,9 +55,9 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

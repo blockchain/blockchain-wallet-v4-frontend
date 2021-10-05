@@ -3,9 +3,9 @@ import { FormattedMessage } from 'react-intl'
 import { path } from 'ramda'
 import styled from 'styled-components'
 
+import { fiatToString } from '@core/exchange/utils'
+import { WalletFiatType } from '@core/types'
 import { Button, Icon, Image, Link, Text, TextGroup } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
-import { WalletFiatType } from 'blockchain-wallet-v4/src/types'
 import {
   BlueCartridge,
   ErrorCartridge,

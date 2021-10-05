@@ -1,4 +1,4 @@
-import { FiatType, RemoteDataType, SBPaymentTypes, WalletCurrencyType } from 'core/types'
+import { FiatType, RemoteDataType, SBPaymentTypes, WalletCurrencyType } from '@core/types'
 import { ModalOriginType } from 'data/modals/types'
 
 export enum ActionEnum {

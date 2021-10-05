@@ -2,7 +2,7 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from '@core'
 import { actions, selectors } from 'data'
 
 import { Props as OwnProps } from '../..'

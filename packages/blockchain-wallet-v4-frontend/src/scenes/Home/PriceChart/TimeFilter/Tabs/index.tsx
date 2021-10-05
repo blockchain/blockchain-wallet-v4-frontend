@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { TabMenu, TabMenuItem } from 'blockchain-info-components'
-import { TimeRange } from 'blockchain-wallet-v4/src/types'
+import { TimeRange } from '@core/types'
 import { actions } from 'data'
 import { media } from 'services/styles'
 

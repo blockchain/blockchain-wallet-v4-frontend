@@ -1,6 +1,6 @@
 import { lift } from 'ramda'
 
-import { Exchange } from 'blockchain-wallet-v4/src'
+import { Exchange } from '@core'
 
 import * as selectors from '../../selectors'
 

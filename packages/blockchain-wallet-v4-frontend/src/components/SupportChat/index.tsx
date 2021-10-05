@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
-import { WalletOptionsType } from 'blockchain-wallet-v4/src/types'
+import { WalletOptionsType } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'

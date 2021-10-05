@@ -3,8 +3,8 @@ import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 import { propEq } from 'ramda'
 
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { convertCoinToFiat } from 'blockchain-wallet-v4/src/exchange'
+import { Exchange } from '@core'
+import { convertCoinToFiat } from '@core/exchange'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { InterestWithdrawalFormType } from 'data/types'
 

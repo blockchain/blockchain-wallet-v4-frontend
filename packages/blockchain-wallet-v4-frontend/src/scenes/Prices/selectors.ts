@@ -1,8 +1,9 @@
+import BigNumber from 'bignumber.js'
 import { lift, map } from 'ramda'
 
-import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
-import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { getAllCoinsBalancesSelector, getErc20Balance } from 'components/Balances/selectors'
+import { ExtractSuccess } from '@core/types'
+import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
 
 export const getData = createDeepEqualSelector(
@@ -30,7 +31,7 @@ export const getData = createDeepEqualSelector(
               coinBalances[coinfig.symbol] || getErc20Balance(coinfig.symbol)(state).getOrElse(0),
             coin: coinfig.symbol,
             coinModel: coin,
-            name: `${coinfig.name} (${coinfig.symbol})`,
+            name: `${coinfig.name} (${coinfig.displaySymbol})`,
             price: currentPrice,
             priceChange: Number(
               ((currentPrice - yesterdayPrice) / yesterdayPrice) * 100

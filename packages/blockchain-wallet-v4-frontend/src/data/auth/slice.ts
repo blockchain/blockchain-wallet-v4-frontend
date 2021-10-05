@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice } from '@reduxjs/toolkit'
 
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from '@core'
 
-const initialState = {
+import { AuthStateType } from './types'
+
+const initialState: AuthStateType = {
   auth_type: 0,
   firstLogin: false,
   isAuthenticated: false,
@@ -32,7 +34,6 @@ const authSlice = createSlice({
     clearLoginError: (state) => {
       state.login = Remote.NotAsked
     },
-    deauthorizeBrowser: () => {},
     getUserGeoLocation: () => {},
     initializeLogin: () => {},
     initializeLoginFailure: () => {},
@@ -59,8 +60,6 @@ const authSlice = createSlice({
     },
     loginTwoStepVerificationDenied: () => {},
     loginTwoStepVerificationEntered: () => {},
-    logout: () => {},
-    logoutClearReduxStore: () => {},
     magicLinkParsed: () => {},
     mobileLogin: (state, action) => {},
     mobileLoginFinish: (state) => {
@@ -153,8 +152,7 @@ const authSlice = createSlice({
     triggerWalletMagicLinkFailure: () => {},
     triggerWalletMagicLinkLoading: () => {},
     triggerWalletMagicLinkNotAsked: () => {},
-    triggerWalletMagicLinkSuccess: () => {},
-    upgradeWallet: (state, action) => {}
+    triggerWalletMagicLinkSuccess: () => {}
   }
 })
 

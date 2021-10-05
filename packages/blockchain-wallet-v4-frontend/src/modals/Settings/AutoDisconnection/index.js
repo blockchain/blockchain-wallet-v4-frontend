@@ -31,7 +31,7 @@ class AutoDisconnectionContainer extends React.PureComponent {
   }
 
   onSubmit() {
-    this.props.authActions.logout()
+    this.props.sessionActions.logout()
     this.props.modalActions.closeModal()
   }
 
@@ -56,7 +56,8 @@ AutoDisconnectionContainer.propTypes = {
 
 const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  sessionActions: bindActionCreators(actions.session, dispatch)
 })
 
 const enhance = compose(

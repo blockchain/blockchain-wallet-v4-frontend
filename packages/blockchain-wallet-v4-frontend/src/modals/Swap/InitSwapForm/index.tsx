@@ -5,14 +5,13 @@ import { compose } from 'redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { CoinType } from '@core/types'
 import { Button, CoinAccountIcon, Icon, Text } from 'blockchain-info-components'
-import { CoinType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListBalance } from 'components/Form'
 import IdvIntro from 'components/IdentityVerification/IdvIntro'
 import { selectors } from 'data'
 import { InitSwapFormValuesType, SwapAccountType, SwapCoinType } from 'data/components/swap/types'
-import { checkAccountZeroBalance } from '../model'
 
 import { Props as BaseProps, SuccessStateType } from '..'
 import {
@@ -27,6 +26,7 @@ import {
   TopText,
   TrendingIconRow
 } from '../components'
+import { checkAccountZeroBalance } from '../model'
 import { getData } from './selectors'
 
 const SuggestedTextCustomBorder = styled.span`

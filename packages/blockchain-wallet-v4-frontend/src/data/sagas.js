@@ -7,6 +7,7 @@ import * as modules from './modules/sagas'
 import * as preferences from './preferences/sagas'
 import * as prices from './prices/sagas'
 import * as router from './router/sagas'
+import * as session from './session/sagas'
 import * as wallet from './wallet/sagas'
 
 export {
@@ -19,5 +20,6 @@ export {
   preferences,
   prices,
   router,
+  session,
   wallet
 }

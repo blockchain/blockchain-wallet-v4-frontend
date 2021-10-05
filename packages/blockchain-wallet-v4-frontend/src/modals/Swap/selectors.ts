@@ -1,7 +1,7 @@
 import { lift } from 'ramda'
 
-import { ExtractSuccess, FiatType } from 'blockchain-wallet-v4/src/types'
-import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
+import { ExtractSuccess, FiatType } from '@core/types'
+import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
 
 const getData = createDeepEqualSelector(
