@@ -96,6 +96,7 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const showCEURBanner =
     showBanner(cEURAnnouncement, cEURAnnouncementAnnouncement, announcementState) &&
     userData &&
+    userData.tiers.current >= 1 &&
     userData.address &&
     userData.address.country &&
     ['GB', 'DE', 'FR', 'NL'].indexOf(userData.address.country) === -1
@@ -112,6 +113,8 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     bannerToShow = 'servicePriceUnavailable'
   } else if (isSimpleBuyOrderPending && !isTier3SDD) {
     bannerToShow = 'sbOrder'
+  } else if (showCEURBanner) {
+    bannerToShow = 'celoEURSweepstake'
   } else if (isKycStateNone && isUserActive && !isFirstLogin && !isTier3SDD) {
     bannerToShow = 'finishKyc'
   } else if (userData?.tiers?.current < 2 || isKycStateNone) {
@@ -123,8 +126,6 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     Number(limits?.max) > 0
   ) {
     bannerToShow = 'continueToGold'
-  } else if (showCEURBanner) {
-    bannerToShow = 'celoEURSweepstake'
   } else if (isNewCurrency) {
     bannerToShow = 'newCurrency'
   } else if (showRenameBanner) {
