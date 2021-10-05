@@ -2,7 +2,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
-
 import { AuthStateType } from 'data/types'
 
 const initialState: AuthStateType = {
