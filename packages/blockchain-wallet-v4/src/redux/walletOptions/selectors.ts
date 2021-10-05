@@ -20,6 +20,8 @@ export const getAnnouncements = (state) =>
   getWebOptions(state).map(path(['application', 'announcements']))
 export const getNewCoinListing = (state: RootState) =>
   getOptions(state).map((options) => options.platforms.web.coinListing)
+export const getCoinRename = (state: RootState) =>
+  getOptions(state).map((options) => options.platforms.web.coinRename)
 
 export const getXlmSendTimeOutSeconds = () => Remote.of(600)
 export const getXlmExchangeAddresses = () => Remote.of([])
@@ -55,3 +57,7 @@ export const getFeatureSignupCountry = (state: RootState) =>
 // signup country feature flag
 export const getEDDInterestFileUpload = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'eddInterestFileUpload']))
+
+// celoEUR sweepstake feature flag
+export const getCeloEurSweepstake = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'cEURSweepstake']))
