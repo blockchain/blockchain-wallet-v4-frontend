@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { buyPaymentMethodSelectedPaymentTypeDictionary } from 'middleware/analyticsMiddleware/utils'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
+import { SBOrderType, SBPaymentTypes } from '@core/types'
 import DataError from 'components/DataError'
 import { FrequencyScreen } from 'components/Flyout'
-import { SBOrderType } from '@core/types'
 import { actions, selectors } from 'data'
 import { getBaseAmount } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
@@ -43,7 +44,11 @@ const Frequency = ({ data, order, recurringBuyActions }: Props) => {
       <>
         {order.paymentType ? (
           <FrequencyScreen
-            method={order.paymentType}
+            method={
+              buyPaymentMethodSelectedPaymentTypeDictionary(
+                order.paymentType
+              ) as unknown as SBPaymentTypes
+            }
             headerAction={backToGetStarted}
             headerMode='back'
             paymentInfo={val.paymentInfo}
