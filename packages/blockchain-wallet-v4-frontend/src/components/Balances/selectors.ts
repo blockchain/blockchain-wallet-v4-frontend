@@ -274,8 +274,8 @@ export const getCoinsSortedByBalance = createDeepEqualSelector(
     const transform = (coins: ExtractSuccess<typeof coinsR>) => {
       const coinSort = (a?: CoinfigType, b?: CoinfigType) => {
         if (!a || !b) return -1
-        if (window.coins[a.symbol].coinfig.type.name === 'FIAT') return -1
-        if (window.coins[b.symbol].coinfig.type.name === 'FIAT') return -1
+        if (window.coins[a.symbol].coinfig.type.name === 'FIAT') return 1
+        if (window.coins[b.symbol].coinfig.type.name === 'FIAT') return 1
 
         const coinA = a.symbol
         const coinB = b.symbol
@@ -312,7 +312,7 @@ export const getCoinsSortedByBalance = createDeepEqualSelector(
       const fiatList = reject(
         not,
         map((coin) => {
-          if (coin.coinCode in WalletFiatEnum && coin.method === true) {
+          if (coin.coinfig.type.name === 'FIAT' && coin.method === true) {
             return coin.coinfig
           }
         }, coins)

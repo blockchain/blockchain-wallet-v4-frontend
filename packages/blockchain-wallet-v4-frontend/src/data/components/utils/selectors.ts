@@ -2,9 +2,9 @@ import { lift, mapObjIndexed, toUpper, values } from 'ramda'
 
 import {
   AccountTokensBalancesResponseType,
+  CoinfigType,
   ExtractSuccess,
   SBPaymentTypes,
-  SupportedWalletCurrencyType,
   SwapOrderType
 } from '@core/types'
 import { selectors } from 'data'
@@ -54,13 +54,14 @@ export const getCoinsWithBalanceOrMethod = (state: RootState) => {
       .filter(Boolean)
 
     return values(
-      mapObjIndexed((coin: SupportedWalletCurrencyType) => {
+      mapObjIndexed((coin: { coinfig: CoinfigType }) => {
         return {
           ...coin,
           method:
             coin.coinfig.type.name !== 'FIAT' ||
             !!paymentMethods.methods.find(
-              (method) => method.currency === coin.coinCode && method.type === SBPaymentTypes.FUNDS
+              (method) =>
+                method.currency === coin.coinfig.symbol && method.type === SBPaymentTypes.FUNDS
             )
         }
       }, coinOrder)
