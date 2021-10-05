@@ -251,8 +251,8 @@ export const getCoinsSortedByBalance = createDeepEqualSelector(
     const transform = (coins: ExtractSuccess<typeof coinsR>) => {
       const coinSort = (a?: CoinfigType, b?: CoinfigType) => {
         if (!a || !b) return -1
-        if (window.coins[a.symbol].coinfig.type.name === 'FIAT') return 1
-        if (window.coins[b.symbol].coinfig.type.name === 'FIAT') return 1
+        if (window.coins[a.symbol].coinfig.type.name === 'FIAT') return -1
+        if (window.coins[b.symbol].coinfig.type.name === 'FIAT') return -1
 
         const coinA = a.symbol
         const coinB = b.symbol
@@ -284,19 +284,8 @@ export const getCoinsSortedByBalance = createDeepEqualSelector(
         return Number(coinAFiat) > Number(coinBFiat) ? -1 : 1
       }
 
-      // returns all fiats that user is currently eligible for
-      // @ts-ignore
-      const fiatList = reject(
-        not,
-        map((coin) => {
-          if (coin.coinfig.type.name === 'FIAT' && coin.method === true) {
-            return coin.coinfig
-          }
-        }, coins)
-      )
-
       // returns all coins with balances as a list
-      const cryptoList = map(
+      const coinsWithBalance = map(
         (coin) => coins.find((c) => c.coinfig.symbol === coin),
         reject(
           (coin) => getBalanceSelector(coin)(state).getOrElse(0) <= 0,
@@ -304,8 +293,6 @@ export const getCoinsSortedByBalance = createDeepEqualSelector(
         )
       ).map((coin) => coin?.coinfig)
 
-      // list of fiats eligible and then coins with balances as single list
-      const coinsWithBalance = [...fiatList, ...cryptoList]
       const coinsInRecentSwaps = [
         ...new Set(
           recentSwapTxsR.getOrElse([] as SwapOrderType[]).map((tx) => getOutputFromPair(tx.pair))
