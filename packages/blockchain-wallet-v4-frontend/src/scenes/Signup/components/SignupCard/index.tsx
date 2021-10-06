@@ -74,8 +74,10 @@ const SignupCard = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) =
   } = props
   const buttonSubmit = showForm ? onSignupSubmit : toggleSignupFormVisibility
 
+  const showOnlySignup = showForm || isLinkAccountGoal
+
   return (
-    <CardWrapper>
+    <CardWrapper hideMargin={showOnlySignup}>
       <Card>
         <CardHeader>
           <IconWrapper color='blue600'>
@@ -99,68 +101,70 @@ const SignupCard = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) =
         {isLinkAccountGoal ? (
           <LinkAccountSpacer />
         ) : (
-          <CardInfo>
-            <InfoTitle color='grey800' size='18px' weight={600}>
-              <FormattedMessage
-                id='scenes.register.walletcard.infotitleuppercase'
-                defaultMessage='Be Your Own Bank'
-              />
-            </InfoTitle>
+          !showOnlySignup && (
+            <CardInfo>
+              <InfoTitle color='grey800' size='18px' weight={600}>
+                <FormattedMessage
+                  id='scenes.register.walletcard.infotitleuppercase'
+                  defaultMessage='Be Your Own Bank'
+                />
+              </InfoTitle>
 
-            <InfoItem>
-              <TextGroup inline>
-                <Text color='grey800' size='16px' weight={600}>
-                  <FormattedMessage
-                    id='scenes.register.walletcard.item.1.bold'
-                    defaultMessage='Easily buy and sell'
-                  />
-                </Text>
-                <Text color='grey600' size='16px' weight={500}>
-                  <FormattedMessage
-                    id='scenes.register.walletcard.item.1.regular1'
-                    defaultMessage='Bitcoin, Ether and more.'
-                  />
-                </Text>
-              </TextGroup>
-            </InfoItem>
+              <InfoItem>
+                <TextGroup inline>
+                  <Text color='grey800' size='16px' weight={600}>
+                    <FormattedMessage
+                      id='scenes.register.walletcard.item.1.bold'
+                      defaultMessage='Easily buy and sell'
+                    />
+                  </Text>
+                  <Text color='grey600' size='16px' weight={500}>
+                    <FormattedMessage
+                      id='scenes.register.walletcard.item.1.regular1'
+                      defaultMessage='Bitcoin, Ether and more.'
+                    />
+                  </Text>
+                </TextGroup>
+              </InfoItem>
 
-            <InfoItem>
-              <TextGroup inline>
-                <Text color='grey800' size='16px' weight={600}>
-                  <FormattedMessage
-                    id='scenes.register.walletcard.item.2.bold'
-                    defaultMessage='Securely store your'
-                  />
-                </Text>
-                <Text color='grey600' size='16px' weight={500}>
-                  <FormattedMessage
-                    id='scenes.register.walletcard.item.2.regular'
-                    defaultMessage='crypto on mobile and desktop.'
-                  />
-                </Text>
-              </TextGroup>
-            </InfoItem>
+              <InfoItem>
+                <TextGroup inline>
+                  <Text color='grey800' size='16px' weight={600}>
+                    <FormattedMessage
+                      id='scenes.register.walletcard.item.2.bold'
+                      defaultMessage='Securely store your'
+                    />
+                  </Text>
+                  <Text color='grey600' size='16px' weight={500}>
+                    <FormattedMessage
+                      id='scenes.register.walletcard.item.2.regular'
+                      defaultMessage='crypto on mobile and desktop.'
+                    />
+                  </Text>
+                </TextGroup>
+              </InfoItem>
 
-            <InfoItem>
-              <TextGroup inline>
-                <Text color='grey800' size='16px' weight={600}>
-                  <FormattedMessage
-                    id='scenes.register.walletcard.item.3.bold'
-                    defaultMessage='Control your money'
-                  />
-                </Text>
-                <Text color='grey600' size='16px' weight={500}>
-                  <FormattedMessage
-                    id='scenes.register.walletcard.item.3.regular'
-                    defaultMessage='by holding your private keys.'
-                  />
-                </Text>
-              </TextGroup>
-            </InfoItem>
-          </CardInfo>
+              <InfoItem>
+                <TextGroup inline>
+                  <Text color='grey800' size='16px' weight={600}>
+                    <FormattedMessage
+                      id='scenes.register.walletcard.item.3.bold'
+                      defaultMessage='Control your money'
+                    />
+                  </Text>
+                  <Text color='grey600' size='16px' weight={500}>
+                    <FormattedMessage
+                      id='scenes.register.walletcard.item.3.regular'
+                      defaultMessage='by holding your private keys.'
+                    />
+                  </Text>
+                </TextGroup>
+              </InfoItem>
+            </CardInfo>
+          )
         )}
 
-        {showForm || isLinkAccountGoal ? (
+        {showOnlySignup ? (
           <SignupForm {...props} />
         ) : (
           <Button
