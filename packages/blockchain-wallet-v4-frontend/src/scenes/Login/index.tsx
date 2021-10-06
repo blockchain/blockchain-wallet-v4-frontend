@@ -10,7 +10,7 @@ import { Button, Icon, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
-import { AccountUnificationFlows, LoginFormType, LoginSteps, ProductAuthOptions } from 'data/types'
+import { LoginFormType, LoginSteps, ProductAuthOptions } from 'data/types'
 import { isGuid } from 'services/forms'
 
 // step templates

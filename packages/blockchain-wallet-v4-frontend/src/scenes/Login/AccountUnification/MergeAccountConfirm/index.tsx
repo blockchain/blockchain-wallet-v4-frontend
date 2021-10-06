@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
+import { auth } from 'data/actions'
 import { AccountUnificationFlows, LoginSteps } from 'data/types'
 
 import { Props } from '../../index'
@@ -23,28 +24,42 @@ const TextStack = styled.div`
 `
 
 const MergeAccountConfirm = (props: Props) => {
+  const { accountUnificationFlow, authActions, cacheActions, formActions, initCaptcha, setStep } =
+    props
   const handleBackArrowClick = () => {
-    props.cacheActions.removedStoredLogin()
-    props.formActions.destroy(LOGIN_FORM_NAME)
-    props.setStep(LoginSteps.ENTER_EMAIL_GUID)
-    props.authActions.clearLoginError()
-    props.initCaptcha()
+    cacheActions.removedStoredLogin()
+    formActions.destroy(LOGIN_FORM_NAME)
+    setStep(LoginSteps.ENTER_EMAIL_GUID)
+    authActions.clearLoginError()
+    initCaptcha()
   }
 
   const handleUpgradeAccountClick = () => {
-    const { accountUnificationFlow } = props
     if (accountUnificationFlow === AccountUnificationFlows.EXCHANGE_UPGRADE) {
-      props.setStep(LoginSteps.UPGRADE_PASSWORD)
+      setStep(LoginSteps.UPGRADE_PASSWORD)
     }
     if (accountUnificationFlow === AccountUnificationFlows.EXCHANGE_MERGE) {
       // call action that merges accounts
       // Temp step to set step to sucess without it actually happening
-      props.setStep(LoginSteps.UPGRADE_SUCCESS)
+      setStep(LoginSteps.UPGRADE_SUCCESS)
     }
     if (accountUnificationFlow === AccountUnificationFlows.WALLET_MERGE) {
       // call action that merges accounts
       // Temp step to set step to sucess without it actually happening
-      props.setStep(LoginSteps.UPGRADE_SUCCESS)
+      setStep(LoginSteps.UPGRADE_SUCCESS)
+    }
+  }
+
+  const handleDoThisLaterClick = () => {
+    if (
+      accountUnificationFlow === AccountUnificationFlows.EXCHANGE_UPGRADE ||
+      accountUnificationFlow === AccountUnificationFlows.EXCHANGE_MERGE
+    ) {
+      // call saga function that directs them to exchange
+    }
+    if (accountUnificationFlow === AccountUnificationFlows.WALLET_MERGE) {
+      // continue with second part of wallet authentication
+      authActions.loginRoutineTestPartTwo()
     }
   }
 
@@ -121,7 +136,13 @@ const MergeAccountConfirm = (props: Props) => {
           <FormattedMessage id='buttons.upgrade_account' defaultMessage='Upgrade Account' />
         </Text>
       </ActionButton>
-      <Button nature='empty-blue' fullwidth height='48px' data-e2e='upgradeLater'>
+      <Button
+        nature='empty-blue'
+        fullwidth
+        height='48px'
+        data-e2e='upgradeLater'
+        onClick={handleDoThisLaterClick}
+      >
         {/* might need to do some loading state here while user is being logged into
         whatever product they want to  be logged into */}
         <FormattedMessage id='copy.later' defaultMessage="I'll Do This Later" />
