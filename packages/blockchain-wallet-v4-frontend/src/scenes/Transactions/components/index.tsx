@@ -3,8 +3,8 @@ import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 import styled, { DefaultTheme } from 'styled-components'
 
-import { Icon, Text, TextGroup } from 'blockchain-info-components'
 import { CoinType, IOType, ProcessedTxType } from '@core/types'
+import { Icon, Text, TextGroup } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
@@ -28,7 +28,7 @@ export const Addresses = ({ from, to }) => {
       </TextGroup>
       <TextGroup inline>
         <Text size='14px' color='grey600' weight={500}>
-          <FormattedMessage id='copy.from:' defaultMessage='From' />:
+          <FormattedMessage id='copy.from' defaultMessage='From' />:
         </Text>
         <Text size='14px' color='grey600' weight={500} data-e2e='transactionListItemFrom'>
           {from}

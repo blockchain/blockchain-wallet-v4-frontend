@@ -1,4 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit'
+import { buyPaymentMethodSelectedPaymentTypeDictionary } from 'middleware/analyticsMiddleware/utils'
 import { compose, flatten, uniq } from 'ramda'
 
 import { SBPaymentMethodType, SBPaymentTypes } from '@core/types'
@@ -23,7 +24,13 @@ export const isAvailableMethod = (period: RecurringBuyPeriods, method?: SBPaymen
     if (!method) return false
     // All periods support ONE_TIME buys
     if (period === RecurringBuyPeriods.ONE_TIME) return true
-    return (paymentInfoPeriod && paymentInfoPeriod.eligibleMethods.includes(method.type)) || false
+    // Card type can be PAYMENT_CARD or USER_CARD, but backend doesn't support USER_CARD
+    // for recurring buy eligible payment methods. We may want to refactor cards code to
+    // remove the need for USER_CARD
+    const methodType = buyPaymentMethodSelectedPaymentTypeDictionary(
+      method.type
+    ) as unknown as SBPaymentTypes
+    return (paymentInfoPeriod && paymentInfoPeriod.eligibleMethods.includes(methodType)) || false
   })
 
 export const availableMethods = createSelector(getPaymentInfo, (paymentInfoR) => {
@@ -40,7 +47,10 @@ export const hasAvailablePeriods = (method?: SBPaymentMethodType) =>
     if (!method) return false
 
     const paymentInfo = paymentInfoR.getOrElse([]).filter((pi) => {
-      return pi.eligibleMethods.includes(method.type)
+      const methodType = buyPaymentMethodSelectedPaymentTypeDictionary(
+        method.type
+      ) as unknown as SBPaymentTypes
+      return pi.eligibleMethods.includes(methodType)
     })
 
     return paymentInfo.length > 0

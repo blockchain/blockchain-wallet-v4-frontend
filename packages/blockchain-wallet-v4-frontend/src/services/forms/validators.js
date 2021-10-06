@@ -18,7 +18,8 @@ import {
   isNumeric,
   isOverEighteen,
   isSSN,
-  isUsZipcode
+  isUsZipcode,
+  isValidSSN
 } from './utils'
 import * as M from './validationMessages'
 
@@ -32,12 +33,14 @@ export const required = (value) => (value ? undefined : <M.RequiredMessage />)
 
 export const requiredNoErrorText = (value) => (value ? undefined : true)
 
-export const maxValue = (max, canEqual = false) => (value) =>
-  value && gt(value, max) ? (
-    <M.ValueOverMaxMessage />
-  ) : !canEqual && value && +value === max ? (
-    <M.ValueIsEqualToMaxMessage />
-  ) : undefined
+export const maxValue =
+  (max, canEqual = false) =>
+  (value) =>
+    value && gt(value, max) ? (
+      <M.ValueOverMaxMessage />
+    ) : !canEqual && value && +value === max ? (
+      <M.ValueIsEqualToMaxMessage />
+    ) : undefined
 
 export const optional = (validator) => (value) =>
   value === undefined || value === '' ? undefined : validator(value)
@@ -171,6 +174,9 @@ export const ageOverEighteen = (value) =>
   isOverEighteen(value) ? undefined : <M.AgeOverEighteenMessage />
 
 export const requiredSSN = (value) => (isSSN(value) ? undefined : <M.RequiredSSNMessage />)
+
+export const requiredValidSSN = (value) =>
+  isValidSSN(value) ? undefined : <M.RequiredSSNMessage />
 
 export const requiredDOB = (value) => (isDOB(value) ? undefined : <M.RequiredDOBMessage />)
 

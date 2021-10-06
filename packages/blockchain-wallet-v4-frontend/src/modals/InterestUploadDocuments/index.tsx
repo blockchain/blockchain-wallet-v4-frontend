@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
-import { FileUploadItem, RemoteDataType } from 'blockchain-wallet-v4/src/types'
+import { FileUploadItem, RemoteDataType } from '@core/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -37,10 +37,12 @@ class InterestUploadDocumnets extends PureComponent<Props, State> {
     }, duration)
   }
 
-  handleSubmit = () => {}
+  handleSubmit = (e) => {
+    e.preventDefault()
+    this.props.interestUploadDocumentActions.saveAdditionalData()
+  }
 
   submitData = (files: FileUploadItem[]) => {
-    this.props.interestUploadDocumentActions.saveAdditionalData()
     this.props.interestUploadDocumentActions.uploadFiles({ files })
   }
 

@@ -10,8 +10,7 @@ import NewVersionAvailable from './template'
 
 class NewVersionAvailableContainer extends React.PureComponent<Props> {
   onSubmit = () => {
-    this.props.sessionActions.logout()
-    this.props.modalActions.closeModal()
+    window.location.reload(true)
   }
 
   render() {

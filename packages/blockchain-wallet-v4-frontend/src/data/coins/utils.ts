@@ -1,6 +1,6 @@
 import { CoinType, InterestBalanceType, SBBalanceType } from '@core/types'
 import { convertStandardToBase } from 'data/components/exchange/services'
-import { SwapAccountType, SwapBaseCounterTypes } from 'data/components/types'
+import { SwapAccountType, SwapBaseCounterTypes } from 'data/types'
 
 export const generateTradingAccount = (
   coin: CoinType,
@@ -28,7 +28,7 @@ export const generateInterestAccount = (
       balance: interestBalance?.balance || '0',
       baseCoin: coinfig.type.erc20Address ? 'ETH' : (coin as SwapAccountType['baseCoin']),
       coin,
-      label: `${coin} Interest Account`,
+      label: `${coin} Rewards Account`,
       // @ts-ignore
       type: 'INTEREST'
     }

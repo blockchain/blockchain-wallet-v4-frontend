@@ -3,7 +3,6 @@ import { combineReducers } from 'redux'
 import { coreReducers, paths } from '@core'
 
 import { alertsReducer as alerts } from './alerts/slice'
-import { analyticsReducer as analytics } from './analytics/slice'
 import { authReducer as auth } from './auth/slice'
 import { cacheReducer as cache } from './cache/slice'
 import components from './components/reducers'
@@ -22,7 +21,6 @@ import { sessionReducer as session } from './session/slice'
 
 const rootReducer = {
   alerts,
-  analytics,
   auth,
   cache,
   components,

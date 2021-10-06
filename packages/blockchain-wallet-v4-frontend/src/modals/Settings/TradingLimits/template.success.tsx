@@ -13,13 +13,10 @@ import {
   SuccessCartridge
 } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
-import { model } from 'data'
 import { UserTierType } from 'data/types'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import { ITEMS, TIER_TYPES, TIERS } from './model'
-
-const { INTEREST_EVENTS } = model.analytics
 
 const Wrapper = styled.div`
   width: 100%;
@@ -184,7 +181,7 @@ const getTierStatus = (
 }
 
 const Template: React.FC<Props> = (props) => {
-  const { analyticsActions, interestEDDStatus, sddEligible, userData, userTiers } = props
+  const { interestEDDStatus, sddEligible, userData, userTiers } = props
 
   if (!Array.isArray(userTiers)) {
     return null
@@ -377,17 +374,7 @@ const Template: React.FC<Props> = (props) => {
               style={{ width: '100%' }}
               target='_blank'
             >
-              <Button
-                data-e2e='earnInterestSupplyInformation'
-                fullwidth
-                nature='primary'
-                onClick={() => {
-                  analyticsActions.logEvent(INTEREST_EVENTS.SETTINGS.SUPPLY_INFORMATION)
-                  /* interestActions.handleWithdrawalSupplyInformation({
-                    origin: 'Settings'
-                  }) */
-                }}
-              >
+              <Button data-e2e='earnInterestSupplyInformation' fullwidth nature='primary'>
                 <FormattedMessage
                   id='scenes.interest.submit_information'
                   defaultMessage='Submit Information'

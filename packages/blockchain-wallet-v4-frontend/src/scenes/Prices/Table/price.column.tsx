@@ -3,9 +3,10 @@ import { FormattedMessage } from 'react-intl'
 
 import { fiatToString } from '@core/exchange/utils'
 
+import { TableColumnsType } from '..'
 import { CellHeaderText, CellText } from '.'
 
-export const getPriceColumn = (walletCurrency) => ({
+export const getPriceColumn = (walletCurrency: TableColumnsType['walletCurrency']) => ({
   Cell: ({ row: { original: values } }) => {
     return <CellText>{fiatToString({ unit: walletCurrency, value: values.price })}</CellText>
   },

@@ -143,7 +143,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
   }
 
   render() {
-    const { data, formValues, ssoDummy } = this.props
+    const { data, formValues } = this.props
     const { step } = formValues || LoginSteps.ENTER_EMAIL_GUID
     const { busy, error } = data.cata({
       Failure: (val) => ({ busy: false, error: val }),
@@ -332,7 +332,6 @@ const mapStateToProps = (state) => ({
     step: LoginSteps.ENTER_EMAIL_GUID
   },
   password: formValueSelector(LOGIN_FORM_NAME)(state, 'password'),
-  ssoDummy: selectors.core.walletOptions.getSsoDummy(state),
   upgradePassword: formValueSelector('login')(state, 'upgradeAccountPassword') || ('' as string)
 })
 

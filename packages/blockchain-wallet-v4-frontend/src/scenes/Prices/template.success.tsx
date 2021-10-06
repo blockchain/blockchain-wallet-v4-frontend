@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { useGlobalFilter, useSortBy, useTable } from 'react-table'
 import styled from 'styled-components'
 
+import { Props as _P, SuccessStateType as _S } from '.'
 import { CellText, getTableColumns, HeaderText, TableWrapper } from './Table'
 
 const NoResultsWrapper = styled.div`
@@ -21,12 +22,13 @@ const initialState = {
   sortBy: [{ desc: true, id: 'price' }]
 }
 
-const PricesTable = (props) => {
+const PricesTable = (props: Props) => {
   const { buySellActions, data, modalActions, routerActions, walletCurrency } = props
 
-  const columns = React.useMemo(() => {
-    getTableColumns({ buySellActions, modalActions, routerActions, walletCurrency })
-  }, [])
+  const columns = React.useMemo(
+    getTableColumns({ buySellActions, modalActions, routerActions, walletCurrency }),
+    []
+  )
 
   const {
     getTableBodyProps,
@@ -46,7 +48,6 @@ const PricesTable = (props) => {
     useGlobalFilter,
     useSortBy
   )
-
   // if the table's filter state and redux form textFilter input dont match
   // update so they do, allowing text filtering to work
   if (state.globalFilter !== props.textFilter) {
@@ -79,7 +80,7 @@ const PricesTable = (props) => {
           <thead>
             {/* eslint-disable */}
             {headerGroups.map(headerGroup => (
-              <tr {...headerGroup.getHeaderGroupProps()}> 
+              <tr {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map(column => (
                   <th
                     key={column.key}
@@ -125,4 +126,5 @@ const PricesTable = (props) => {
   )
 }
 
+type Props = _P & { data: _S }
 export default PricesTable

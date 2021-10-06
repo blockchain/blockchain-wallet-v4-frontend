@@ -6,14 +6,11 @@ import { Field } from 'redux-form'
 import reduxForm, { InjectedFormProps } from 'redux-form/lib/reduxForm'
 import styled from 'styled-components'
 
-import { Button, Icon, SkeletonRectangle, Text } from 'blockchain-info-components'
-import {
-  convertCoinToCoin,
-  convertCoinToFiat,
-  convertFiatToCoin
-} from '@core/exchange'
+import { convertCoinToCoin, convertCoinToFiat, convertFiatToCoin } from '@core/exchange'
 import Currencies from '@core/exchange/currencies'
 import { getRatesSelector } from '@core/redux/data/misc/selectors'
+import { RatesType } from '@core/types'
+import { Button, Icon, SkeletonRectangle, Text } from 'blockchain-info-components'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import CollapseText from 'components/CollapseText'
 import { AmountTextBox } from 'components/Exchange'
@@ -21,7 +18,6 @@ import { FlyoutWrapper } from 'components/Flyout'
 import { StepHeader } from 'components/Flyout/SendRequestCrypto'
 import { Form } from 'components/Form'
 import { DisplayContainer } from 'components/SimpleBuy'
-import { RatesType } from '@core/types'
 import { selectors } from 'data'
 import { SendCryptoStepType } from 'data/components/sendCrypto/types'
 import { formatTextAmount } from 'services/forms'
@@ -179,8 +175,9 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
       <CheckoutDisplayContainer>
         <div>
           <Text size='14px' color='grey600' weight={600}>
-            <FormattedMessage defaultMessage='From:' id='copy.from:' /> {selectedAccount.label} (
-            {max} {coin})
+            <FormattedMessage defaultMessage='From' id='copy.from' />
+            {': '}
+            {selectedAccount.label} ({max} {coin})
           </Text>
           <Text size='16px' color='grey900' weight={600} style={{ marginTop: '6px' }}>
             <FormattedMessage defaultMessage='To:' id='copy.to:' />{' '}

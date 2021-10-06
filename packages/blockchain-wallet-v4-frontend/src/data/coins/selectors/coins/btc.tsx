@@ -9,7 +9,7 @@ import { CoinType } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
 import { CoinAccountSelectorType } from 'data/coins/types'
 import { generateInterestAccount, generateTradingAccount } from 'data/coins/utils'
-import { SwapAccountType } from 'data/components/types'
+import { SwapAccountType } from 'data/types'
 
 import { getInterestBalance, getTradingBalance } from '..'
 

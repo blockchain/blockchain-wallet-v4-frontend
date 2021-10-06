@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 import { Icon } from 'blockchain-info-components'
 
+import { TableColumnsType } from '..'
 import { CellHeaderText, CellText } from '.'
 
 const HeaderWrapper = styled.div`
@@ -23,7 +24,7 @@ const CoinIcon = styled(Icon)`
   margin-right: 16px;
 `
 
-export const getNameColumn = (routerActions) => ({
+export const getNameColumn = (routerActions: TableColumnsType['routerActions']) => ({
   Cell: ({ row: { original: values } }) => {
     return (
       <CellWrapper onClick={() => routerActions.push(`${values.coin}/transactions`)}>

@@ -9,7 +9,7 @@ export default ({ api }) => {
   const logoutClearReduxStore = function* () {
     // router will fallback to /login route
     yield window.history.pushState('', '', '#')
-    yield window.location.reload(true)
+    yield window.location.reload()
   }
 
   const logout = function* () {
@@ -31,7 +31,6 @@ export default ({ api }) => {
       } else {
         yield call(logoutClearReduxStore)
       }
-      yield put(actions.analytics.stopSession())
     }
   }
 

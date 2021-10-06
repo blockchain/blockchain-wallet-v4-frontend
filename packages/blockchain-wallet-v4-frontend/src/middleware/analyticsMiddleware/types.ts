@@ -168,7 +168,6 @@ enum WithdrawalMethod {
 }
 
 type BasePayload = {
-  guid: string
   originalTimestamp: string
 }
 
