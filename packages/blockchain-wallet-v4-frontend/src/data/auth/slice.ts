@@ -90,9 +90,7 @@ const authSlice = createSlice({
     loginLoading: (state) => {
       state.login = Remote.Loading
     },
-    loginRoutine: (state, action) => {},
-    loginRoutineTestPartOne: () => {},
-    loginRoutineTestPartTwo: () => {},
+    loginRoutine: () => {},
     loginSuccess: (state, action: PayloadAction<LoginSuccessType>) => {
       state.login = Remote.Success(action.payload)
     },

@@ -17,11 +17,7 @@ const WalletSuccess = (props: Props) => {
             defaultMessage='Upgrade successful, taking you to Blockchain.com Wallet...'
           />
         </Text>
-        <Button
-          onClick={() => props.authActions.loginRoutineTestPartTwo()}
-          nature='green'
-          data-e2e='test'
-        >
+        <Button onClick={() => props.authActions.loginRoutine()} nature='green' data-e2e='test'>
           Finish Login
         </Button>
       </CenteredColumn>

@@ -46,7 +46,7 @@ const MergeAccountConfirm = (props: Props) => {
     if (accountUnificationFlow === AccountUnificationFlows.WALLET_MERGE) {
       // call action that merges accounts
       // Temp step to set step to sucess without it actually happening
-      setStep(LoginSteps.UPGRADE_SUCCESS)
+      setStep(LoginSteps.UPGRADE_PASSWORD)
     }
   }
 
@@ -59,7 +59,7 @@ const MergeAccountConfirm = (props: Props) => {
     }
     if (accountUnificationFlow === AccountUnificationFlows.WALLET_MERGE) {
       // continue with second part of wallet authentication
-      authActions.loginRoutineTestPartTwo()
+      authActions.loginRoutine()
     }
   }
 

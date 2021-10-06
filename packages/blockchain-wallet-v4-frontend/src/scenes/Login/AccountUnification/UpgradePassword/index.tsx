@@ -2,9 +2,8 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { has } from 'ramda'
 import { Field } from 'redux-form'
-import styled from 'styled-components'
 
-import { Text } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 import { FormGroup, FormLabel, PasswordBox } from 'components/Form'
 import { AccountUnificationFlows, LoginSteps } from 'data/types'
 import { required, validPasswordConfirmation, validStrongPassword } from 'services/forms'
@@ -71,6 +70,9 @@ const UpgradePassword = (props: Props) => {
         </ActionButton>
         <NeedHelpLink authActions={props.authActions} origin='UPGRADE_ACCOUNT_NEW_PASSWORD' />
       </LinkRow>
+      <Button onClick={() => props.authActions.loginRoutine()} nature='green' data-e2e='test'>
+        Finish Login
+      </Button>
     </>
   )
 }
