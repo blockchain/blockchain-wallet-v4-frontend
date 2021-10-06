@@ -294,6 +294,8 @@ export default ({ api }: { api: APIType }) => {
         data.tokenAccounts.map(function* (val) {
           // TODO: erc20 phase 2, key off hash not symbol
           const symbol = toUpper(val.tokenSymbol)
+          if (!window.coins[symbol]) return
+          if (window.coins[symbol].coinfig.type.name !== 'ERC20') return
           yield put(A.fetchErc20DataLoading(symbol))
           const contract = val.tokenHash
           const tokenData = data.tokenAccounts.find(
@@ -308,7 +310,6 @@ export default ({ api }: { api: APIType }) => {
         })
       )
     } catch (e) {
-      console.log(e)
       yield put(A.fetchErc20DataFailure(coin, prop('message', e)))
     }
   }
