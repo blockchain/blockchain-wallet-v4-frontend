@@ -2,11 +2,7 @@ import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import {
-  FiatType,
-  RemoteDataType,
-  SBAccountType
-} from '@core/types'
+import { FiatType, RemoteDataType, SBAccountType } from '@core/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -20,7 +16,7 @@ const WireInstructions = (props) => {
   useEffect(() => {
     if (props.fiatCurrency) {
       props.buySellActions.setFiatCurrency(props.fiatCurrency)
-      props.buySellActions.fetchSBPaymentAccount()
+      props.buySellActions.fetchPaymentAccount()
     }
   }, [])
 
