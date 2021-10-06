@@ -4,6 +4,7 @@ import { RootState } from 'data/rootReducer'
 
 import Remote from '../../../remote'
 import * as selectors from '../../selectors'
+import { RatesType } from '../misc/types'
 
 const _getCustodialCoins = () => {
   return Object.keys(window.coins).filter(
