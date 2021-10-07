@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
-import {} from 'data/types'
+import { ExchangeErrorCodes } from 'data/types'
 
 import {
   AccountUnificationFlows,
@@ -24,7 +24,10 @@ const initialState: AuthStateType = {
   auth_type: 0,
   designatedProduct: ProductAuthOptions.WALLET,
   designatedProductRedirect: undefined,
-  exchangeLogin: Remote.NotAsked,
+  exchangeAuth: {
+    exchangeLogin: Remote.NotAsked,
+    exchangeLoginError: undefined
+  },
   firstLogin: false,
   isAuthenticated: false,
   isLoggingIn: false,
@@ -66,13 +69,13 @@ const authSlice = createSlice({
     },
     exchangeLogin: (state, action: PayloadAction<ExchangeLoginType>) => {},
     exchangeLoginFailure: (state, action: PayloadAction<ExchangeLoginFailtureType>) => {
-      state.exchangeLogin = Remote.Failure(action.payload)
+      state.exchangeAuth.exchangeLogin = Remote.Failure(action.payload)
     },
     exchangeLoginLoading: (state) => {
-      state.exchangeLogin = Remote.Loading
+      state.exchangeAuth.exchangeLogin = Remote.Loading
     },
     exchangeLoginSuccess: (state, action: PayloadAction<ExchangeLoginSuccessType>) => {
-      state.exchangeLogin = Remote.Success(action.payload)
+      state.exchangeAuth.exchangeLogin = Remote.Success(action.payload)
     },
     getUserGeoLocation: () => {},
     initializeLogin: () => {},

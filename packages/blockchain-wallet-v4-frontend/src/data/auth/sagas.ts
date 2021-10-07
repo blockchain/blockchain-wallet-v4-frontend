@@ -19,6 +19,7 @@ import { parseMagicLink } from './sagas.utils'
 import * as S from './selectors'
 import {
   AccountUnificationFlows,
+  ExchangeErrorCodes,
   LoginErrorType,
   LoginSteps,
   ProductAuthOptions,
@@ -117,7 +118,21 @@ export default ({ api, coreSagas, networks }) => {
 
   const exchangeLogin = function* (action) {
     // exchange authentication stuff
-    yield put(actions.form.change('login', 'step', LoginSteps.UPGRADE_CONFIRM))
+    try {
+      const username = 'leora+235+1002@blockchain.com'
+      const password = 'blockchain'
+      yield call(api.exchangeSignIn, username, password)
+      yield put(actions.form.change('login', 'step', LoginSteps.UPGRADE_CONFIRM))
+    } catch (e) {
+      if (e.code === ExchangeErrorCodes.EXPECT_2FA) {
+        // set an exchange error expecting 2FA
+        // show 2fa option
+      }
+      if (e.code === ExchangeErrorCodes.WRONG_PASSWORD) {
+        // set exchange error to wrong password
+        // show error for wrong password
+      }
+    }
   }
 
   const loginRoutineSaga = function* ({

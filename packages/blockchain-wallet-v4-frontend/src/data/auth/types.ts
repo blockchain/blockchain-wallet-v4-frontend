@@ -1,5 +1,12 @@
 import { RemoteDataType } from '@core/types'
 
+export enum ExchangeErrorCodes {
+  EMAIL_NOT_VERIFIED = 65,
+  EXPECT_2FA = 11,
+  NOT_LINKED = 12,
+  UNRECOGNIZED_DEVICE = 99,
+  WRONG_PASSWORD = 9
+}
 export enum ProductAuthOptions {
   EXCHANGE = 'EXCHANGE',
   EXPLORER = 'EXPLORER',
@@ -145,7 +152,10 @@ export type AuthStateType = {
   auth_type: number
   designatedProduct: ProductAuthOptions
   designatedProductRedirect?: string
-  exchangeLogin: RemoteDataType<ExchangeLoginFailtureType, ExchangeLoginSuccessType>
+  exchangeAuth: {
+    exchangeLogin: RemoteDataType<ExchangeLoginFailtureType, ExchangeLoginSuccessType>
+    exchangeLoginError?: ExchangeErrorCodes
+  }
   firstLogin: boolean
   isAuthenticated: boolean
   isLoggingIn: boolean

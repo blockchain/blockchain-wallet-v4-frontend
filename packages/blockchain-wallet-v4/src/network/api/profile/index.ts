@@ -1,4 +1,16 @@
 export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, post, rootUrl }) => {
+  const exchangeSignIn = (username, password, code) => {
+    return authorizedPost({
+      contentType: 'application/json',
+      data: {
+        code,
+        password,
+        username
+      },
+      endPoint: '/signin',
+      url: nabuUrl
+    })
+  }
   const generateRetailToken = (guid, sharedKey) =>
     get({
       data: {
@@ -190,6 +202,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
   return {
     createLinkAccountId,
     createUser,
+    exchangeSignIn,
     finaliseLinking,
     generateRetailToken,
     generateSession,
