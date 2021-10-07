@@ -6,8 +6,8 @@ import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { combineReducers } from 'redux'
 
 import { SBPaymentTypes } from '@core/types'
-import { maximumAmount } from 'components/Flyout/validation'
 import form from 'data/form/reducers'
+import { BrokerageOrderType } from 'data/types'
 
 import EnterAmount from './EnterAmount'
 
@@ -17,6 +17,10 @@ export default {
   argTypes: {
     fiatCurrency: {
       options: ['USD', 'UK'],
+      type: 'select'
+    },
+    orderType: {
+      options: [...Object.values(BrokerageOrderType)],
       type: 'select'
     }
   },
@@ -39,12 +43,12 @@ export default {
 
 const Template: ComponentStory<typeof EnterAmount> = (args) => <EnterAmount {...args} />
 
-export const Default = Template.bind({})
-Default.args = {
-  asyncValidate: maximumAmount('3000000'),
+export const DefaultDeposit = Template.bind({})
+DefaultDeposit.args = {
   fiatCurrency: 'USD',
   handleBack: () => {},
   handleMethodClick: () => {},
+  orderType: BrokerageOrderType.DEPOSIT,
   paymentAccount: {
     addedAt: '2021-09-27T18:16:23.647Z',
     // @ts-ignore
@@ -65,7 +69,7 @@ Default.args = {
     currency: 'USD',
     eligible: true,
     limits: {
-      max: '3000000',
+      max: '3100000',
       min: '100'
     },
     subTypes: [],
@@ -73,19 +77,38 @@ Default.args = {
   }
 }
 
-export const NoPaymentAccount = Template.bind({})
-NoPaymentAccount.args = {
-  fiatCurrency: 'USD',
-  handleBack: () => {},
-  handleMethodClick: () => {},
-  paymentMethod: {
-    currency: 'USD',
-    eligible: true,
-    limits: {
-      max: '3000000',
-      min: '100'
-    },
-    subTypes: [],
-    type: SBPaymentTypes.BANK_TRANSFER
-  }
-}
+// export const NoPaymentAccount = Template.bind({})
+// NoPaymentAccount.args = {
+//   fiatCurrency: 'USD',
+//   handleBack: () => {},
+//   handleMethodClick: () => {},
+//   orderType: BrokerageOrderType.DEPOSIT,
+//   paymentMethod: {
+//     currency: 'USD',
+//     eligible: true,
+//     limits: {
+//       max: '3000000',
+//       min: '100'
+//     },
+//     subTypes: [],
+//     type: SBPaymentTypes.BANK_TRANSFER
+//   }
+// }
+
+// export const DefaultWithdrawal = Template.bind({})
+// DefaultWithdrawal.args = {
+//   fiatCurrency: 'USD',
+//   handleBack: () => {},
+//   handleMethodClick: () => {},
+//   orderType: BrokerageOrderType.WITHDRAW,
+//   paymentMethod: {
+//     currency: 'USD',
+//     eligible: true,
+//     limits: {
+//       max: '3000000',
+//       min: '100'
+//     },
+//     subTypes: [],
+//     type: SBPaymentTypes.BANK_TRANSFER
+//   }
+// }

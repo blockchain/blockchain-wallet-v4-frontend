@@ -7,7 +7,6 @@ import { SBPaymentMethodType } from '@core/network/api/simpleBuy/types'
 import { ExtractSuccess, RemoteDataType, SBPaymentTypes, WalletFiatType } from '@core/types'
 import { EnterAmount, FlyoutOopsError } from 'components/Flyout'
 import { getDefaultMethod } from 'components/Flyout/model'
-import { maximumAmount } from 'components/Flyout/validation'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import {
@@ -15,7 +14,8 @@ import {
   BankDWStepType,
   BankPartners,
   BankTransferAccountType,
-  BrokerageModalOriginType
+  BrokerageModalOriginType,
+  BrokerageOrderType
 } from 'data/types'
 
 import { Loading, LoadingTextEnum } from '../../../../components'
@@ -105,12 +105,12 @@ const EnterAmountContainer = (props) => {
 
       return isUserEligible ? (
         <EnterAmount
-          asyncValidate={maximumAmount(paymentMethod.limits.max)}
           onSubmit={onSubmit}
           initialValues={{ currency: props.fiatCurrency }}
           fiatCurrency={props.fiatCurrency}
           handleBack={handleBack}
           handleMethodClick={handleMethodClick}
+          orderType={BrokerageOrderType.DEPOSIT}
           paymentAccount={paymentAccount}
           paymentMethod={paymentMethod}
         />

@@ -5,10 +5,9 @@ import { fiatToString } from '@core/exchange/utils'
 import { FiatType } from '@core/types'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
-export const maximumAmount = (maxAmount) => (values: { amount: string }) => {
-  const max = convertBaseToStandard('FIAT', maxAmount)
-  const min = convertBaseToStandard('FIAT', '1000')
+export const minMaxAmount = (limits: { max: string; min: string }, amount: string) => {
+  const max = convertBaseToStandard('FIAT', limits.max)
+  const min = convertBaseToStandard('FIAT', limits.min)
   const formattedMax = fiatToString({
     unit: 'USD' as FiatType,
     value: max
@@ -17,52 +16,34 @@ export const maximumAmount = (maxAmount) => (values: { amount: string }) => {
     unit: 'USD' as FiatType,
     value: min
   })
-  return sleep(0).then(() => {
-    /* eslint-disable no-throw-literal */
-    if (Number(values.amount) > Number(max)) {
-      throw {
-        amount: (
-          <FormattedMessage
-            id='copy.forms.amount_max'
-            defaultMessage='The maximum amount is {amount}'
-            values={{
-              amount: formattedMax
-            }}
-          />
-        )
-      }
-    } else if (Number(values.amount) === 0) {
-      return undefined
-    } else if (Number(values.amount) < Number(min)) {
-      throw {
-        amount: (
-          <FormattedMessage
-            id='copy.forms.amount_min'
-            defaultMessage='The minimum amount is {amount}'
-            values={{
-              amount: formattedMin
-            }}
-          />
-        )
-      }
+  // This handles the default case where we show "0" in the input field but
+  // it's just a placeholder and amount actuall equals '' in redux
+  if (amount === '') return undefined
+  // The min max logic
+  if (Number(amount) > Number(max)) {
+    return {
+      amount: (
+        <FormattedMessage
+          id='copy.forms.amount_max'
+          defaultMessage='The maximum amount is {amount}'
+          values={{
+            amount: formattedMax
+          }}
+        />
+      )
     }
-    /* eslint-enable no-throw-literal */
-  })
-}
-
-export const minimumAmount = (minAmount) => (value: string, allValues) => {
-  const min = convertBaseToStandard('FIAT', minAmount)
-  const formattedMin = fiatToString({
-    unit: allValues.currency || ('USD' as FiatType),
-    value: min
-  })
-  return Number(value) < Number(min) ? (
-    <FormattedMessage
-      id='copy.forms.amount_min'
-      defaultMessage='The minimum amount is {amount}'
-      values={{
-        amount: formattedMin
-      }}
-    />
-  ) : undefined
+  }
+  if (Number(amount) < Number(min)) {
+    return {
+      amount: (
+        <FormattedMessage
+          id='copy.forms.amount_min'
+          defaultMessage='The minimum amount is {amount}'
+          values={{
+            amount: formattedMin
+          }}
+        />
+      )
+    }
+  }
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Field, InjectedFormProps, reduxForm } from 'redux-form'
+import { useDispatch } from 'react-redux'
+import { Field, InjectedFormProps, reduxForm, stopAsyncValidation } from 'redux-form'
 import styled from 'styled-components'
 
 import Currencies from '@core/exchange/currencies'
@@ -15,7 +16,6 @@ import {
   FlyoutHeader,
   FlyoutWrapper
 } from 'components/Flyout'
-// TODO: move this to somewhere more generic
 import {
   DepositOrWithdrawal,
   getBankText,
@@ -25,10 +25,13 @@ import {
   PaymentText,
   RightArrowIcon
 } from 'components/Flyout/model'
+import { minMaxAmount } from 'components/Flyout/validation'
 import { Form } from 'components/Form'
+import { CheckoutRow } from 'components/Rows'
 import { DisplayPaymentIcon } from 'components/SimpleBuy'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { BankTransferAccountType } from 'data/types'
+import { BankTransferAccountType, BrokerageOrderType } from 'data/types'
+import { debounce } from 'utils/helpers'
 
 const CustomForm = styled(Form)`
   width: 100%;
@@ -110,36 +113,100 @@ const AmountTextBoxShaker = styled(AmountTextBox)<{ meta: { error: string } }>`
   }
 `
 
-const LimitSection = ({ fiatCurrency, paymentMethod }) => {
+type LimitSectionProps = {
+  fiatCurrency: Props['fiatCurrency']
+  orderType: Props['orderType']
+  paymentMethod: Props['paymentMethod']
+}
+const LimitSection = ({ fiatCurrency, orderType, paymentMethod }: LimitSectionProps) => {
   if (paymentMethod.limits) {
-    return (
-      <Limits>
-        <LimitWrapper>
-          <Text color='grey600' size='14px' lineHeight='25px' weight={500}>
-            <FormattedMessage id='modals.brokerage.daily_limit' defaultMessage='Daily Limit' />
-          </Text>
-          <Text color='grey800' size='14px' lineHeight='25px' weight={600}>
+    switch (orderType) {
+      case BrokerageOrderType.WITHDRAW:
+        const withdrawSubTitle = (
+          <>
+            {fiatToString({
+              unit: fiatCurrency as FiatType,
+              value: '50'
+            })}
+          </>
+        )
+        return (
+          <CheckoutRow
+            toolTip={
+              <FormattedMessage
+                id='modals.brokerage.withdraw_holding_period'
+                defaultMessage='Newly added funds are subject to a holding period. You can transfer funds between your Trading, Rewards, and Exchange accounts now and withdraw them once the hold ends.'
+              />
+            }
+            subTitle={withdrawSubTitle}
+            title={
+              <FormattedMessage
+                id='modals.withdraw.available_for_withdrawal'
+                defaultMessage='Available for Withdrawal'
+              />
+            }
+            additionalText={
+              <FiatIconWrapper>
+                <Icon color={fiatCurrency} name={fiatCurrency} size='32px' />
+                <SubIconWrapper>
+                  <Icon size='24px' color='USD' name='arrow-up' />
+                </SubIconWrapper>
+              </FiatIconWrapper>
+            }
+          />
+        )
+      case BrokerageOrderType.DEPOSIT:
+        const depositSubTitle = (
+          <>
             {fiatToString({
               unit: fiatCurrency as FiatType,
               value: convertBaseToStandard('FIAT', paymentMethod.limits.max)
             })}{' '}
             <FormattedMessage id='copy.available' defaultMessage='Available' />
-          </Text>
-        </LimitWrapper>
-        <FiatIconWrapper>
-          <Icon color={fiatCurrency} name={fiatCurrency} size='32px' />
-          <SubIconWrapper>
-            <Icon size='24px' color='USD' name='arrow-down' />
-          </SubIconWrapper>
-        </FiatIconWrapper>
-      </Limits>
-    )
+          </>
+        )
+        return (
+          <CheckoutRow
+            subTitle={depositSubTitle}
+            title={
+              <FormattedMessage id='modals.brokerage.daily_limit' defaultMessage='Daily Limit' />
+            }
+            additionalText={
+              <FiatIconWrapper>
+                <Icon color={fiatCurrency} name={fiatCurrency} size='32px' />
+                <SubIconWrapper>
+                  <Icon size='24px' color='USD' name='arrow-down' />
+                </SubIconWrapper>
+              </FiatIconWrapper>
+            }
+          />
+        )
+      default:
+        break
+    }
   }
   // TODO: return something if no limits are available
   return <></>
 }
 
-const Amount = ({ fiatCurrency }) => {
+// This debounces the amount input onChange callback in order to allow the user
+// to type without running validation on every keystroke. It waits 750 ms after
+// the user has stopped typing to run validation and manually dispatches the error
+// if needed. This makes for a nice error UX when typing
+const debounceValidate = (limits, dispatch) =>
+  debounce((event, newValue) => {
+    const error = minMaxAmount(limits, newValue)
+    if (error) {
+      dispatch(stopAsyncValidation('brokerageTx', error))
+    }
+  }, 750)
+
+type AmountProps = {
+  fiatCurrency: Props['fiatCurrency']
+  limits: Props['paymentMethod']['limits']
+}
+const Amount = React.memo(({ fiatCurrency, limits }: AmountProps) => {
+  const dispatch = useDispatch()
   return (
     <FlyoutWrapper>
       <AmountRow id='amount-row'>
@@ -150,6 +217,7 @@ const Amount = ({ fiatCurrency }) => {
           data-e2e='depositAmountInput'
           name='amount'
           component={AmountTextBoxShaker}
+          onChange={debounceValidate(limits, dispatch)}
           normalize={normalizeAmount}
           maxFontSize='56px'
           placeholder='0'
@@ -163,7 +231,7 @@ const Amount = ({ fiatCurrency }) => {
       </AmountRow>
     </FlyoutWrapper>
   )
-}
+})
 
 const Account = ({ handleMethodClick, invalid, paymentAccount }) => {
   return (
@@ -208,10 +276,12 @@ const NextButton = ({ invalid, paymentAccount, pristine, submitting }) => {
 
 const EnterAmount = ({
   fiatCurrency,
+  form,
   handleBack,
   handleMethodClick,
   handleSubmit,
   invalid,
+  orderType,
   paymentAccount,
   paymentMethod,
   pristine,
@@ -221,14 +291,21 @@ const EnterAmount = ({
     <CustomForm onSubmit={handleSubmit}>
       <FlyoutContainer>
         <FlyoutHeader data-e2e='depositBackToDepositMethods' mode='back' onClick={handleBack}>
-          <DepositOrWithdrawal fiatCurrency={fiatCurrency} orderType='DEPOSIT' />
+          <DepositOrWithdrawal fiatCurrency={fiatCurrency} orderType={orderType} />
         </FlyoutHeader>
         <FlyoutContent mode='top'>
-          <LimitSection fiatCurrency={fiatCurrency} paymentMethod={paymentMethod} />
+          {(orderType === BrokerageOrderType.DEPOSIT ||
+            orderType === BrokerageOrderType.WITHDRAW) && (
+            <LimitSection
+              fiatCurrency={fiatCurrency}
+              orderType={orderType}
+              paymentMethod={paymentMethod}
+            />
+          )}
           <div
             style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center' }}
           >
-            <Amount fiatCurrency={fiatCurrency} />
+            <Amount fiatCurrency={fiatCurrency} limits={paymentMethod.limits} />
           </div>
         </FlyoutContent>
         <FlyoutFooter>
@@ -253,6 +330,7 @@ type OwnProps = {
   fiatCurrency: FiatType
   handleBack: () => void
   handleMethodClick: () => void
+  orderType: BrokerageOrderType
   paymentAccount?: BankTransferAccountType
   paymentMethod: SBPaymentMethodType
 }
@@ -260,7 +338,6 @@ type OwnProps = {
 type Props = OwnProps & InjectedFormProps<{}, OwnProps>
 
 export default reduxForm<{}, OwnProps>({
-  asyncChangeFields: ['amount'],
   destroyOnUnmount: false,
   form: 'brokerageTx'
 })(EnterAmount)

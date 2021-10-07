@@ -25,7 +25,13 @@ import {
   MultiRowContainer
 } from 'components/SimpleBuy'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { ActionEnum, BankDetails, BankTransferAccountType, RecurringBuyPeriods } from 'data/types'
+import {
+  ActionEnum,
+  BankDetails,
+  BankTransferAccountType,
+  BrokerageOrderType,
+  RecurringBuyPeriods
+} from 'data/types'
 import { formatTextAmount } from 'services/forms'
 import { getBankLogoImageName } from 'services/images'
 
@@ -659,11 +665,8 @@ const BankWire = ({
   </DisplayContainer>
 )
 
-const DepositOrWithdrawal = (props: {
-  fiatCurrency: FiatType
-  orderType: 'DEPOSIT' | 'WITHDRAWAL'
-}) => {
-  return props.orderType === 'DEPOSIT' ? (
+const DepositOrWithdrawal = (props: { fiatCurrency: FiatType; orderType: BrokerageOrderType }) => {
+  return props.orderType === BrokerageOrderType.DEPOSIT ? (
     <FormattedMessage
       id='modals.brokerage.deposit_fiat'
       defaultMessage='Deposit {fiat}'

@@ -744,6 +744,7 @@ type MessagesType = {
   'modals.brokerage.ineligible_error': 'You are not eligible to make deposits and withdrawals with this currency.'
   'modals.brokerage.wire_fee': 'Wire Fee'
   'modals.brokerage.withdraw_fiat': 'Withdraw {fiat}'
+  'modals.brokerage.withdraw_holding_period': 'Newly added funds are subject to a holding period. You can transfer funds between your Trading, Rewards, and Exchange accounts now and withdraw them once the hold ends.'
   'modals.brokerage.confirm_deposit': 'Confirm Deposit'
   'modals.brokerage.confirm_via_mobile': 'Confirm via mobile'
   'modals.brokerage.confirm_via_desktop': 'Confirm via desktop'

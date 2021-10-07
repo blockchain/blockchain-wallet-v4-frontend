@@ -13,7 +13,12 @@ import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
 import { DepositOrWithdrawal, normalizeAmount } from 'components/Flyout/model'
 import { Form } from 'components/Form'
-import { BankTransferAccountType, UserDataType, WithdrawCheckoutFormValuesType } from 'data/types'
+import {
+  BankTransferAccountType,
+  BrokerageOrderType,
+  UserDataType,
+  WithdrawCheckoutFormValuesType
+} from 'data/types'
 
 import { Row } from '../../components'
 import { Props as OwnProps, SuccessStateType } from '.'
@@ -128,7 +133,10 @@ const Success: React.FC<InjectedFormProps<WithdrawCheckoutFormValuesType, Props>
       <FlyoutWrapper>
         <Top>
           <Text color='grey800' size='20px' weight={600}>
-            <DepositOrWithdrawal fiatCurrency={props.fiatCurrency} orderType='WITHDRAWAL' />
+            <DepositOrWithdrawal
+              fiatCurrency={props.fiatCurrency}
+              orderType={BrokerageOrderType.WITHDRAW}
+            />
           </Text>
           <Icon
             cursor
