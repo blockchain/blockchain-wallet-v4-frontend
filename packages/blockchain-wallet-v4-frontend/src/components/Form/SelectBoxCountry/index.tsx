@@ -129,6 +129,11 @@ export const countries: Country[] = [
     value: 'BL'
   },
   {
+    emoji: '🇧🇾',
+    text: 'Belarus',
+    value: 'BY'
+  },
+  {
     emoji: '🇧�',
     text: 'Bermuda',
     value: 'BM'
