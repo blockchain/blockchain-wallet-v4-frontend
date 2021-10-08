@@ -1,5 +1,5 @@
 export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, post, rootUrl }) => {
-  const exchangeSignIn = (username, password, code) => {
+  const exchangeSignIn = (code, password, username) => {
     return authorizedPost({
       contentType: 'application/json',
       data: {

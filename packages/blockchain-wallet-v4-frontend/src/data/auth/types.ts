@@ -131,7 +131,7 @@ export type LoginErrorType =
 
 export type ExchangeLoginSuccessType = {}
 
-export type ExchangeLoginFailtureType = string | boolean | undefined
+export type ExchangeLoginFailureType = any
 
 export type LoginSuccessType = {}
 
@@ -153,7 +153,7 @@ export type AuthStateType = {
   designatedProduct: ProductAuthOptions
   designatedProductRedirect?: string
   exchangeAuth: {
-    exchangeLogin: RemoteDataType<ExchangeLoginFailtureType, ExchangeLoginSuccessType>
+    exchangeLogin: RemoteDataType<ExchangeLoginFailureType, ExchangeLoginSuccessType>
     exchangeLoginError?: ExchangeErrorCodes
   }
   firstLogin: boolean

@@ -24,8 +24,7 @@ import {
 const isSupportedBrowser = isBrowserSupported()
 
 const Exchange = (props: Props) => {
-  const { authType, busy, invalid, password, submitting } = props
-
+  const { authType, busy, exchangePassword, invalid, submitting } = props
   const handleBackArrowClick = () => {
     props.cacheActions.removedStoredLogin()
     props.formActions.destroy(LOGIN_FORM_NAME)
@@ -47,11 +46,11 @@ const Exchange = (props: Props) => {
             />
           </FormLabel>
           <Field
-            name='password'
+            name='exchangePassword'
             disabled={!isSupportedBrowser}
             validate={[required]}
             component={PasswordBox}
-            data-e2e='loginPassword'
+            data-e2e='exchangePassword'
             autoFocus
             placeholder='Enter your password'
           />
@@ -133,7 +132,7 @@ const Exchange = (props: Props) => {
           nature='primary'
           fullwidth
           height='48px'
-          disabled={submitting || invalid || busy || !password}
+          disabled={submitting || invalid || busy || !exchangePassword}
           data-e2e='passwordButton'
           style={{ marginBottom: '16px' }}
         >

@@ -6,7 +6,7 @@ import { ExchangeErrorCodes } from 'data/types'
 import {
   AccountUnificationFlows,
   AuthStateType,
-  ExchangeLoginFailtureType,
+  ExchangeLoginFailureType,
   ExchangeLoginSuccessType,
   ExchangeLoginType,
   LoginFailureType,
@@ -68,7 +68,7 @@ const authSlice = createSlice({
       state.login = Remote.NotAsked
     },
     exchangeLogin: (state, action: PayloadAction<ExchangeLoginType>) => {},
-    exchangeLoginFailure: (state, action: PayloadAction<ExchangeLoginFailtureType>) => {
+    exchangeLoginFailure: (state, action: PayloadAction<ExchangeLoginFailureType>) => {
       state.exchangeAuth.exchangeLogin = Remote.Failure(action.payload)
     },
     exchangeLoginLoading: (state) => {

@@ -3,7 +3,7 @@ import { assoc, find, prop, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, delay, fork, put, select, take } from 'redux-saga/effects'
 
-import { Types } from '@core'
+import { Exchange, Types } from '@core'
 import { DEFAULT_INVITATIONS } from '@core/model'
 import { errorHandler } from '@core/utils'
 import { actions, actionTypes, selectors } from 'data'
@@ -118,20 +118,20 @@ export default ({ api, coreSagas, networks }) => {
 
   const exchangeLogin = function* (action) {
     // exchange authentication stuff
+    const { code, password, username } = action.payload
+    yield put(startSubmit('login'))
     try {
-      const username = 'leora+235+1002@blockchain.com'
-      const password = 'blockchain'
-      yield call(api.exchangeSignIn, username, password)
+      // const username = 'leora+235+1002@blockchain.com'
+      // const password = 'blockchain'
+      yield call(api.exchangeSignIn, code, password, username)
+      yield put(stopSubmit('login'))
+      // TODO  only do this if user is first authenticating with exchange
+      // if they are first authenticating with wallet, we then call the
+      // merge endpoint
       yield put(actions.form.change('login', 'step', LoginSteps.UPGRADE_CONFIRM))
     } catch (e) {
-      if (e.code === ExchangeErrorCodes.EXPECT_2FA) {
-        // set an exchange error expecting 2FA
-        // show 2fa option
-      }
-      if (e.code === ExchangeErrorCodes.WRONG_PASSWORD) {
-        // set exchange error to wrong password
-        // show error for wrong password
-      }
+      yield put(actions.auth.exchangeLoginFailure(e.code))
+      yield put(stopSubmit('login'))
     }
   }
 

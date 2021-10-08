@@ -23,6 +23,7 @@ import CheckEmail from './CheckEmail'
 import EnterEmailOrGuid from './EnterEmailOrGuid'
 import EnterPassword from './EnterPassword'
 import { LOGIN_FORM_NAME, PhishingWarning } from './model'
+import { getData } from './selectors'
 import VerificationMobile from './VerificationMobile'
 
 // TODO: remove temp
@@ -98,6 +99,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       authActions,
       code,
       designatedProduct,
+      exchangePassword,
       formActions,
       formValues,
       guid,
@@ -133,7 +135,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       authActions.login({ code: auth, guid, mobileLogin: null, password, sharedKey: null })
     } else {
       // Authenticate to Exchange
-      authActions.exchangeLogin({ code, password, username: formValues.email })
+      authActions.exchangeLogin({ code, password: exchangePassword, username: formValues.email })
     }
   }
 
@@ -143,9 +145,11 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
   }
 
   render() {
-    const { data, formValues } = this.props
+    const { exchangeLoginData, formValues, walletLoginData } = this.props
     const { step } = formValues || LoginSteps.ENTER_EMAIL_GUID
-    const { busy, error } = data.cata({
+    // TODO: fix this to handle both wallet and exchange login
+    // in a data.cata
+    const { busy, error } = exchangeLoginData.cata({
       Failure: (val) => ({ busy: false, error: val }),
       Loading: () => <Loading />,
       NotAsked: () => ({ busy: false, error: null }),
@@ -153,10 +157,10 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     })
     const loginProps = {
       busy,
+      exchangeError: error,
       handleSmsResend: this.handleSmsResend,
       loginError: error
     }
-
     return (
       <>
         <Text color='white' size='24px' weight={600} style={{ marginBottom: '24px' }}>
@@ -322,8 +326,10 @@ const mapStateToProps = (state) => ({
   accountUnificationFlow: selectors.auth.getAccountUnificationFlowType(state),
   authType: selectors.auth.getAuthType(state) as Number,
   code: formValueSelector(LOGIN_FORM_NAME)(state, 'code'),
-  data: selectors.auth.getLogin(state) as RemoteDataType<any, any>,
+  data: getData(state),
   designatedProduct: selectors.auth.getDesignatedProduct(state) as ProductAuthOptions,
+  exchangeLoginData: selectors.auth.getExchangeLogin(state) as RemoteDataType<any, any>,
+  exchangePassword: formValueSelector(LOGIN_FORM_NAME)(state, 'exchangePassword'),
   formMeta: getFormMeta(LOGIN_FORM_NAME)(state),
   formValues: selectors.form.getFormValues(LOGIN_FORM_NAME)(state) as LoginFormType,
   guid: formValueSelector(LOGIN_FORM_NAME)(state, 'guid'),
@@ -332,7 +338,8 @@ const mapStateToProps = (state) => ({
     step: LoginSteps.ENTER_EMAIL_GUID
   },
   password: formValueSelector(LOGIN_FORM_NAME)(state, 'password'),
-  upgradePassword: formValueSelector('login')(state, 'upgradeAccountPassword') || ('' as string)
+  upgradePassword: formValueSelector('login')(state, 'upgradeAccountPassword') || ('' as string),
+  walletLoginData: selectors.auth.getLogin(state) as RemoteDataType<any, any>
 })
 
 const mapDispatchToProps = (dispatch) => ({
