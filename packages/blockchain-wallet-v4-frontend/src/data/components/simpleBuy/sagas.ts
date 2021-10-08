@@ -692,7 +692,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const fetchSBPaymentAccount = function* () {
+  const fetchPaymentAccount = function* () {
     try {
       yield put(A.fetchPaymentAccountLoading())
       const fiatCurrency = S.getFiatCurrency(yield select())
@@ -1312,6 +1312,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     deleteSBCard,
     fetchFiatEligible,
     fetchLimits,
+    fetchPaymentAccount,
     fetchPaymentMethods,
     fetchSBBalances,
     fetchSBCard,
@@ -1319,7 +1320,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchSBCards,
     fetchSBOrders,
     fetchSBPairs,
-    fetchSBPaymentAccount,
     fetchSBQuote,
     fetchSDDEligible,
     fetchSDDVerified,
