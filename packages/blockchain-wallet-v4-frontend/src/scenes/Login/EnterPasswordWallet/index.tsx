@@ -23,7 +23,7 @@ import {
 
 const isSupportedBrowser = isBrowserSupported()
 
-const Wallet = (props: Props) => {
+const EnterPasswordWallet = (props: Props) => {
   const { authType, busy, formValues, guid, invalid, loginError, password, submitting } = props
   const passwordError = loginError && loginError.toLowerCase().includes('wrong_wallet_password')
   const accountLocked =
@@ -161,4 +161,4 @@ const Wallet = (props: Props) => {
   )
 }
 
-export default Wallet
+export default EnterPasswordWallet

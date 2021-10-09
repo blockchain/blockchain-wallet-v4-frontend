@@ -39,14 +39,10 @@ const MergeAccountConfirm = (props: Props) => {
       setStep(LoginSteps.UPGRADE_PASSWORD)
     }
     if (accountUnificationFlow === AccountUnificationFlows.EXCHANGE_MERGE) {
-      // call action that merges accounts
-      // Temp step to set step to sucess without it actually happening
-      setStep(LoginSteps.UPGRADE_SUCCESS)
+      setStep(LoginSteps.ENTER_PASSWORD_WALLET)
     }
     if (accountUnificationFlow === AccountUnificationFlows.WALLET_MERGE) {
-      // call action that merges accounts
-      // Temp step to set step to sucess without it actually happening
-      setStep(LoginSteps.UPGRADE_PASSWORD)
+      setStep(LoginSteps.ENTER_PASSWORD_EXCHANGE)
     }
   }
 

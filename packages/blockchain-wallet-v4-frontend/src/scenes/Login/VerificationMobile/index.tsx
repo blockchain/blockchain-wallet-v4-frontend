@@ -44,7 +44,7 @@ const VerificationMobile = (props: Props) => {
 
   const loginWithPasswordClicked = () => {
     props.authActions.analyticsLoginMethodSelected('PASSWORD')
-    setStep(LoginSteps.ENTER_PASSWORD)
+    setStep(LoginSteps.ENTER_PASSWORD_WALLET)
   }
 
   return (

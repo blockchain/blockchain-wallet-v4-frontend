@@ -26,7 +26,8 @@ const initialState: AuthStateType = {
   designatedProductRedirect: undefined,
   exchangeAuth: {
     exchangeLogin: Remote.NotAsked,
-    exchangeLoginError: undefined
+    exchangeLoginError: undefined,
+    jwtToken: undefined
   },
   firstLogin: false,
   isAuthenticated: false,
@@ -66,6 +67,7 @@ const authSlice = createSlice({
     },
     clearLoginError: (state) => {
       state.login = Remote.NotAsked
+      state.exchangeAuth.exchangeLogin = Remote.NotAsked
     },
     exchangeLogin: (state, action: PayloadAction<ExchangeLoginType>) => {},
     exchangeLoginFailure: (state, action: PayloadAction<ExchangeLoginFailureType>) => {
@@ -179,6 +181,9 @@ const authSlice = createSlice({
     },
     setFirstLogin: (state, action: PayloadAction<AuthStateType['firstLogin']>) => {
       state.firstLogin = action.payload
+    },
+    setJwtToken: (state, action: PayloadAction<AuthStateType['exchangeAuth']['jwtToken']>) => {
+      state.exchangeAuth.jwtToken = action.payload
     },
     setKycResetStatus: (state, action: PayloadAction<AuthStateType['kycReset']>) => {
       state.kycReset = action.payload

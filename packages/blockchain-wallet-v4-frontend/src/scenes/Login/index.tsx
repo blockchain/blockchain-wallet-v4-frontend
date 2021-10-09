@@ -10,7 +10,7 @@ import { Button, Icon, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
-import { LoginFormType, LoginSteps, ProductAuthOptions } from 'data/types'
+import { ExchangeErrorCodes, LoginFormType, LoginSteps, ProductAuthOptions } from 'data/types'
 import { isGuid } from 'services/forms'
 
 // step templates
@@ -21,7 +21,8 @@ import UpgradePassword from './AccountUnification/UpgradePassword'
 import UpgradeSuccess from './AccountUnification/UpgradeSuccess'
 import CheckEmail from './CheckEmail'
 import EnterEmailOrGuid from './EnterEmailOrGuid'
-import EnterPassword from './EnterPassword'
+import EnterPasswordExchange from './EnterPasswordExchange'
+import EnterPasswordWallet from './EnterPasswordWallet'
 import { LOGIN_FORM_NAME, PhishingWarning } from './model'
 import { getData } from './selectors'
 import VerificationMobile from './VerificationMobile'
@@ -164,9 +165,10 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     return (
       <>
         <Text color='white' size='24px' weight={600} style={{ marginBottom: '24px' }}>
-          {step === LoginSteps.ENTER_PASSWORD && (
-            <FormattedMessage id='scenes.login.authorize' defaultMessage='Authorize login' />
-          )}
+          {step === LoginSteps.ENTER_PASSWORD_EXCHANGE ||
+            (step === LoginSteps.ENTER_PASSWORD_WALLET && (
+              <FormattedMessage id='scenes.login.authorize' defaultMessage='Authorize login' />
+            ))}
           {step === LoginSteps.ENTER_EMAIL_GUID && (
             <FormattedMessage id='scenes.login.welcome' defaultMessage='Welcome back!' />
           )}
@@ -183,14 +185,15 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
           </Text>
         )}
 
-        {step === LoginSteps.ENTER_PASSWORD && (
-          <Text color='grey400' weight={500} style={{ marginBottom: '32px' }}>
-            <FormattedMessage
-              id='scenes.login.enter_password_login'
-              defaultMessage='Enter your password to login'
-            />
-          </Text>
-        )}
+        {step === LoginSteps.ENTER_PASSWORD_EXCHANGE ||
+          (step === LoginSteps.ENTER_PASSWORD_WALLET && (
+            <Text color='grey400' weight={500} style={{ marginBottom: '32px' }}>
+              <FormattedMessage
+                id='scenes.login.enter_password_login'
+                defaultMessage='Enter your password to login'
+              />
+            </Text>
+          ))}
         {step === LoginSteps.UPGRADE_PASSWORD && (
           <Text
             color='grey400'
@@ -221,16 +224,24 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
                       initCaptcha={this.initCaptcha}
                     />
                   )
-                case LoginSteps.ENTER_PASSWORD:
+                case LoginSteps.ENTER_PASSWORD_EXCHANGE:
                   return (
-                    <EnterPassword
+                    <EnterPasswordExchange
                       {...this.props}
                       {...loginProps}
                       setStep={this.setStep}
                       initCaptcha={this.initCaptcha}
                     />
                   )
-
+                case LoginSteps.ENTER_PASSWORD_WALLET:
+                  return (
+                    <EnterPasswordWallet
+                      {...this.props}
+                      {...loginProps}
+                      setStep={this.setStep}
+                      initCaptcha={this.initCaptcha}
+                    />
+                  )
                 case LoginSteps.CHECK_EMAIL:
                   return (
                     <CheckEmail
@@ -247,7 +258,12 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
                   )
                 case LoginSteps.UPGRADE_CONFIRM:
                   return (
-                    <MergeAccountConfirm {...this.props} {...loginProps} setStep={this.setStep} />
+                    <MergeAccountConfirm
+                      {...this.props}
+                      {...loginProps}
+                      setStep={this.setStep}
+                      initCaptcha={this.initCaptcha}
+                    />
                   )
                 case LoginSteps.UPGRADE_PASSWORD:
                   return <UpgradePassword {...this.props} {...loginProps} setStep={this.setStep} />
@@ -262,22 +278,21 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
             })()}
           </Form>
         </Wrapper>
-        {step === LoginSteps.ENTER_PASSWORD &&
-          this.props.designatedProduct !== ProductAuthOptions.EXCHANGE && (
-            <Text
-              color='white'
-              weight={600}
-              size='16px'
-              cursor='pointer'
-              style={{ marginTop: '24px' }}
-              onClick={this.loginWithMobileClicked}
-            >
-              <FormattedMessage
-                id='scenes.login.loginwithmobile'
-                defaultMessage='Log In with Mobile App ->'
-              />
-            </Text>
-          )}
+        {step === LoginSteps.ENTER_PASSWORD_WALLET && (
+          <Text
+            color='white'
+            weight={600}
+            size='16px'
+            cursor='pointer'
+            style={{ marginTop: '24px' }}
+            onClick={this.loginWithMobileClicked}
+          >
+            <FormattedMessage
+              id='scenes.login.loginwithmobile'
+              defaultMessage='Log In with Mobile App ->'
+            />
+          </Text>
+        )}
         {step === LoginSteps.ENTER_EMAIL_GUID && (
           <>
             <Text size='14px' color='grey400' weight={500} style={{ margin: '24px 0 16px' }}>
@@ -352,6 +367,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type FormProps = {
   busy: boolean
+  exchangeError?: ExchangeErrorCodes
   initCaptcha: () => void
   invalid: boolean
   loginError?: string

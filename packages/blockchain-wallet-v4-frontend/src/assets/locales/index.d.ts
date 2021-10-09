@@ -2193,6 +2193,8 @@ type MessagesType = {
   'scenes.login.email_guid': 'Your Email or Wallet ID'
   'scenes.login.enter_password': 'Enter your password'
   'scenes.login.enter_password_login': 'Enter your password to login'
+  'scenes.login.exchange.incorrect_code': 'Incorrect code'
+  'scenes.login.exchange.wrong_password': 'Login failed - invalid credentials.'
   'scenes.login.needhelp': 'Need additional help logging in?'
   'scenes.login.now_login': 'You can now log in with your email.'
   'scenes.login.google': 'Authenticator App Code'

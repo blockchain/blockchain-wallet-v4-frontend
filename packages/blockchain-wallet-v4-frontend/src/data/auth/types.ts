@@ -2,10 +2,11 @@ import { RemoteDataType } from '@core/types'
 
 export enum ExchangeErrorCodes {
   EMAIL_NOT_VERIFIED = 65,
+  WRONG_2FA = 10,
   EXPECT_2FA = 11,
   NOT_LINKED = 12,
   UNRECOGNIZED_DEVICE = 99,
-  WRONG_PASSWORD = 9
+  INVALID_CREDENTIALS = 8
 }
 export enum ProductAuthOptions {
   EXCHANGE = 'EXCHANGE',
@@ -22,7 +23,8 @@ export enum AccountUnificationFlows {
 export enum LoginSteps {
   CHECK_EMAIL = 'CHECK_EMAIL',
   ENTER_EMAIL_GUID = 'ENTER_EMAIL_GUID',
-  ENTER_PASSWORD = 'ENTER_PASSWORD',
+  ENTER_PASSWORD_EXCHANGE = 'ENTER_PASSWORD_EXCHANGE',
+  ENTER_PASSWORD_WALLET = 'ENTER_PASSWORD_WALLET',
   LOADING = 'LOADING',
   PRODUCT_PICKER_AFTER_AUTHENTICATION = 'PRODUCT_PICKER_AFTER_AUTHENTICATION',
   PRODUCT_PICKER_BEFORE_AUTHENTICATION = 'PRODUCT_PICKER_BEFORE_AUTHENTICATION',
@@ -155,6 +157,7 @@ export type AuthStateType = {
   exchangeAuth: {
     exchangeLogin: RemoteDataType<ExchangeLoginFailureType, ExchangeLoginSuccessType>
     exchangeLoginError?: ExchangeErrorCodes
+    jwtToken?: string
   }
   firstLogin: boolean
   isAuthenticated: boolean

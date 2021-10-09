@@ -59,7 +59,7 @@ export const parseMagicLink = function* (params) {
       if (walletData?.is_mobile_setup) {
         yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
       } else {
-        yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
+        yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD_WALLET))
       }
     }
     if (product === ProductAuthOptions.EXCHANGE) {
@@ -71,7 +71,7 @@ export const parseMagicLink = function* (params) {
           designatedProduct: ProductAuthOptions.EXCHANGE
         })
       )
-      yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
+      yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
     }
     yield put(actions.auth.analyticsMagicLinkParsed())
   } catch (e) {

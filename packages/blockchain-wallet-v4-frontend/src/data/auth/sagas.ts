@@ -1,4 +1,5 @@
 import * as Bitcoin from 'bitcoinjs-lib'
+import Login from 'blockchain-wallet-v4-frontend/src/scenes/Login'
 import { assoc, find, prop, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, delay, fork, put, select, take } from 'redux-saga/effects'
@@ -117,18 +118,23 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const exchangeLogin = function* (action) {
-    // exchange authentication stuff
     const { code, password, username } = action.payload
+    const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
     yield put(startSubmit('login'))
     try {
       // const username = 'leora+235+1002@blockchain.com'
       // const password = 'blockchain'
-      yield call(api.exchangeSignIn, code, password, username)
+      const { token: jwtToken } = yield call(api.exchangeSignIn, code, password, username)
+      yield put(actions.auth.setJwtToken(jwtToken))
+      if (
+        unificationFlowType === AccountUnificationFlows.EXCHANGE_MERGE ||
+        unificationFlowType === AccountUnificationFlows.EXCHANGE_UPGRADE
+      ) {
+        yield put(actions.form.change('login', 'step', LoginSteps.UPGRADE_CONFIRM))
+      } else {
+        // here we call the merge endpoint and then direct them to exchange
+      }
       yield put(stopSubmit('login'))
-      // TODO  only do this if user is first authenticating with exchange
-      // if they are first authenticating with wallet, we then call the
-      // merge endpoint
-      yield put(actions.form.change('login', 'step', LoginSteps.UPGRADE_CONFIRM))
     } catch (e) {
       yield put(actions.auth.exchangeLoginFailure(e.code))
       yield put(stopSubmit('login'))
@@ -600,7 +606,7 @@ export default ({ api, coreSagas, networks }) => {
         if (isMobileConnected) {
           yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
         } else {
-          yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
+          yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD_WALLET))
         }
         // if url is just /login, take them to enter guid or email
       } else if (!loginLinkParameter) {

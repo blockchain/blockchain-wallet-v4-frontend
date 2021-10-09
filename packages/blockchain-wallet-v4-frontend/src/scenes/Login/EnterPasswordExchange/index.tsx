@@ -5,7 +5,7 @@ import { Field } from 'redux-form'
 
 import { Banner, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import { FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
-import { LoginSteps } from 'data/types'
+import { ExchangeErrorCodes, LoginSteps } from 'data/types'
 import { isBrowserSupported } from 'services/browser'
 import { required } from 'services/forms'
 
@@ -23,8 +23,12 @@ import {
 
 const isSupportedBrowser = isBrowserSupported()
 
-const Exchange = (props: Props) => {
-  const { authType, busy, exchangePassword, invalid, submitting } = props
+const EnterPasswordExchange = (props: Props) => {
+  const { authType, busy, exchangeError, exchangePassword, invalid, submitting } = props
+  const passwordError = exchangeError && exchangeError === ExchangeErrorCodes.INVALID_CREDENTIALS
+  const twoFactorRequired = exchangeError && exchangeError === ExchangeErrorCodes.EXPECT_2FA
+  const twoFactorError = exchangeError && exchangeError === ExchangeErrorCodes.WRONG_2FA
+
   const handleBackArrowClick = () => {
     props.cacheActions.removedStoredLogin()
     props.formActions.destroy(LOGIN_FORM_NAME)
@@ -32,7 +36,6 @@ const Exchange = (props: Props) => {
     props.authActions.clearLoginError()
     props.initCaptcha()
   }
-
   return (
     <>
       <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} hideGuid />
@@ -54,13 +57,14 @@ const Exchange = (props: Props) => {
             autoFocus
             placeholder='Enter your password'
           />
-          {/* {passwordError && (
+          {passwordError && (
             <FormError data-e2e='passwordError' style={{ paddingTop: '5px' }}>
               <FormattedMessage
-                id='scenes.login.wrong_password_recover'
-                defaultMessage='Wrong password. Do you want to recover your wallet using Secret Private Key Recovery Phrase?'
+                id='scenes.login.exchange.wrong_password'
+                defaultMessage='Login failed - invalid credentials.'
               />
-              {'  '}
+              {/* some sort of prompts to reset password?
+               {'  '}
               <LinkContainer to='/recover'>
                 <Link size='12px' data-e2e='loginRecover'>
                   <FormattedMessage
@@ -69,63 +73,40 @@ const Exchange = (props: Props) => {
                   />
                   .
                 </Link>
-              </LinkContainer>
+              </LinkContainer>  */}
             </FormError>
           )}
-          {accountLocked && <FormError position='relative'>{loginError?.split('.')[0]}.</FormError>} */}
         </FormItem>
       </FormGroup>
-      {/* {authType > 0 && (
+      {twoFactorRequired && (
         <FormGroup>
           <FormItem>
             <FormLabel htmlFor='code'>
-              {authType === 1 && (
-                <FormattedMessage
-                  id='scenes.login.yubikey_verify'
-                  defaultMessage='Verify with your Yubikey'
-                />
-              )}
-              {(authType === 4 || authType === 5) && (
-                <FormattedMessage
-                  id='scenes.logins.twofa.enter_code'
-                  defaultMessage='Enter your Two Factor Authentication Code'
-                />
-              )}
+              <FormattedMessage
+                id='scenes.logins.twofa.enter_code'
+                defaultMessage='Enter your Two Factor Authentication Code'
+              />
             </FormLabel>
             <Field
               name='code'
               normalize={removeWhitespace}
               validate={[required]}
-              component={authType === 1 ? PasswordBox : TextBox}
+              component={TextBox}
               noLastPass
               autoFocus
               data-e2e='loginTwoFactorCode'
             />
-            {authType === 5 && (
-              <Link size='12px' weight={400} onClick={handleSmsResend}>
-                <FormattedMessage id='scenes.login.resendsms' defaultMessage='Resend SMS' />
-              </Link>
-            )}
-            {twoFactorError && <FormError position='absolute'>{loginError}</FormError>}
-            {accountLocked && (
-              <FormError position='absolute'>{loginError?.split('.')[0]}.</FormError>
+            {twoFactorError && (
+              <FormError position='absolute'>
+                <FormattedMessage
+                  id='scenes.login.exchange.incorrect_code'
+                  defaultMessage='Incorrect code'
+                />
+              </FormError>
             )}
           </FormItem>
-          <Row style={{ marginTop: '16px' }}>
-            <Text size='14px' weight={600} color='grey600' style={{ marginRight: '4px' }}>
-              <FormattedMessage
-                id='scenes.logins.twofa.lost'
-                defaultMessage='Lost access to your 2FA device?'
-              />
-            </Text>
-            <LinkContainer to='/reset-2fa'>
-              <Link size='14px' weight={600} data-e2e='reset2fa'>
-                <FormattedMessage id='copy.reset_now' defaultMessage='Reset Now' />
-              </Link>
-            </LinkContainer>
-          </Row>
         </FormGroup>
-      )} */}
+      )}
       <CenteredColumn>
         <ActionButton
           type='submit'
@@ -150,4 +131,4 @@ const Exchange = (props: Props) => {
   )
 }
 
-export default Exchange
+export default EnterPasswordExchange
