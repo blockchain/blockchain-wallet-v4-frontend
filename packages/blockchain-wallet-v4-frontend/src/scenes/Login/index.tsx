@@ -101,6 +101,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       code,
       designatedProduct,
       exchangePassword,
+      exchangeTwoFA,
       formActions,
       formValues,
       guid,
@@ -131,12 +132,16 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       }
       const idType = isGuid(guidOrEmail) ? 'WALLET_ID' : 'EMAIL'
       authActions.analyticsLoginIdEntered(idType)
-    } else if (designatedProduct === ProductAuthOptions.WALLET) {
+    } else if (formValues.step === LoginSteps.ENTER_PASSWORD_WALLET) {
       // if we're trying to submit password to authenticate
       authActions.login({ code: auth, guid, mobileLogin: null, password, sharedKey: null })
     } else {
       // Authenticate to Exchange
-      authActions.exchangeLogin({ code, password: exchangePassword, username: formValues.email })
+      authActions.exchangeLogin({
+        code: exchangeTwoFA,
+        password: exchangePassword,
+        username: formValues.email
+      })
     }
   }
 
@@ -160,7 +165,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       busy,
       exchangeError: error,
       handleSmsResend: this.handleSmsResend,
-      loginError: error
+      loginError: undefined
     }
     return (
       <>
@@ -345,6 +350,7 @@ const mapStateToProps = (state) => ({
   designatedProduct: selectors.auth.getDesignatedProduct(state) as ProductAuthOptions,
   exchangeLoginData: selectors.auth.getExchangeLogin(state) as RemoteDataType<any, any>,
   exchangePassword: formValueSelector(LOGIN_FORM_NAME)(state, 'exchangePassword'),
+  exchangeTwoFA: formValueSelector(LOGIN_FORM_NAME)(state, 'exchangeTwoFA'),
   formMeta: getFormMeta(LOGIN_FORM_NAME)(state),
   formValues: selectors.form.getFormValues(LOGIN_FORM_NAME)(state) as LoginFormType,
   guid: formValueSelector(LOGIN_FORM_NAME)(state, 'guid'),
@@ -352,6 +358,7 @@ const mapStateToProps = (state) => ({
   initialValues: {
     step: LoginSteps.ENTER_EMAIL_GUID
   },
+  jwtToken: selectors.auth.getJwtToken(state),
   password: formValueSelector(LOGIN_FORM_NAME)(state, 'password'),
   upgradePassword: formValueSelector('login')(state, 'upgradeAccountPassword') || ('' as string),
   walletLoginData: selectors.auth.getLogin(state) as RemoteDataType<any, any>

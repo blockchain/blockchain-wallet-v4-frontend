@@ -337,6 +337,9 @@ export default ({ api, coreSagas, networks }) => {
       })
       if (accountUpgradeFlow === AccountUnificationFlows.WALLET_MERGE) {
         yield put(actions.form.change('login', 'step', LoginSteps.UPGRADE_CONFIRM))
+      } else if (accountUpgradeFlow === AccountUnificationFlows.EXCHANGE_MERGE) {
+        // call action to merge account
+        yield put(actions.form.change('login', 'step', LoginSteps.UPGRADE_SUCCESS))
       } else {
         yield call(loginRoutineSaga, {})
       }

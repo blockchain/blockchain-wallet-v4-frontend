@@ -24,7 +24,7 @@ import {
 const isSupportedBrowser = isBrowserSupported()
 
 const EnterPasswordExchange = (props: Props) => {
-  const { authType, busy, exchangeError, exchangePassword, invalid, submitting } = props
+  const { busy, exchangeError, exchangePassword, invalid, submitting } = props
   const passwordError = exchangeError && exchangeError === ExchangeErrorCodes.INVALID_CREDENTIALS
   const twoFactorRequired = exchangeError && exchangeError === ExchangeErrorCodes.EXPECT_2FA
   const twoFactorError = exchangeError && exchangeError === ExchangeErrorCodes.WRONG_2FA
@@ -88,7 +88,7 @@ const EnterPasswordExchange = (props: Props) => {
               />
             </FormLabel>
             <Field
-              name='code'
+              name='exchangeTwoFA'
               normalize={removeWhitespace}
               validate={[required]}
               component={TextBox}

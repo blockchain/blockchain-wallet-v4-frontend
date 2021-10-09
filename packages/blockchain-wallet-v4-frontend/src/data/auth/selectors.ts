@@ -74,3 +74,7 @@ export function getManifest(state: RootState): AuthStateType['manifestFile'] {
 export function isAuthenticated(state: RootState): AuthStateType['isAuthenticated'] {
   return state.auth.isAuthenticated
 }
+
+export function getJwtToken(state: RootState): AuthStateType['exchangeAuth']['jwtToken'] {
+  return state.auth.exchangeAuth.jwtToken
+}

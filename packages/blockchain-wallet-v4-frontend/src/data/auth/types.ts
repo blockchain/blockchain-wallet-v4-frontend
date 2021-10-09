@@ -64,10 +64,12 @@ export type ExchangeLoginType = {
 export type LoginFormType = {
   email: string
   emailToken?: string
-  guid: string
-  guidOrEmail: string
-  password: string
-  step: LoginSteps
+  exchangePassword?: string
+  exchangeTwoFA?: string
+  guid?: string
+  guidOrEmail?: string
+  password?: string
+  step?: LoginSteps
   twoFA?: number | string
 }
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { Image, Text } from 'blockchain-info-components'
+import { Button, Image, Link, Text } from 'blockchain-info-components'
 
 import { Props } from '../../index'
 import { CenteredColumn } from '../../model'
@@ -17,6 +17,16 @@ const ExchangeSuccess = (props: Props) => {
             defaultMessage='Upgrade successful, taking you to the Blockchain.com Exchange...'
           />
         </Text>
+        <Button nature='green' data-e2e='test'>
+          <Link
+            href={`https://exchange.staging.blockchain.info/auth?jwt=${props.jwtToken}`}
+            rel='noopener noreferrer'
+            target='_blank'
+            color='white'
+          >
+            Continue To Exchange
+          </Link>
+        </Button>
       </CenteredColumn>
     </>
   )
