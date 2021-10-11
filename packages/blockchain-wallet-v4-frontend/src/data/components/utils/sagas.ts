@@ -1,10 +1,12 @@
-import EthUtil from 'ethereumjs-util'
 import { equals, identity, is, isEmpty, prop } from 'ramda'
 import { select } from 'redux-saga/effects'
+import web3 from 'web3'
 
 import { utils } from '@core'
 import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
 import { selectors } from 'data'
+
+const Web3 = new web3(web3.givenProvider)
 
 export const selectReceiveAddress = function* (source, networks) {
   const appState = yield select(identity)
@@ -14,7 +16,7 @@ export const selectReceiveAddress = function* (source, networks) {
   const { coinfig } = window.coins[coin]
   if (equals('XLM', coin) && is(String, address)) return address
   if ((coinfig.type.erc20Address || equals('ETH', coin)) && is(String, address)) {
-    return EthUtil.toChecksumAddress(address)
+    return Web3.utils.toChecksumAddress(address)
   }
   if (equals('BCH', coin)) {
     const selector =

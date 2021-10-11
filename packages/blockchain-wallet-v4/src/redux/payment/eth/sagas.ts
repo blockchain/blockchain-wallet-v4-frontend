@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
-import EthUtil from 'ethereumjs-util'
 import { identity, indexOf, isNil, mergeRight, path, prop } from 'ramda'
 import { call, select } from 'redux-saga/effects'
+import web3 from 'web3'
 
 import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
@@ -21,6 +21,8 @@ import { ADDRESS_TYPES } from '../btc/utils'
 import { FETCH_FEES_FAILURE } from '../model'
 import { AddressTypesType } from '../types'
 import { isValidIndex } from './utils'
+
+const Web3 = new web3(web3.givenProvider)
 
 const taskToPromise = (t) => new Promise((resolve, reject) => t.fork(reject, resolve))
 
@@ -377,7 +379,7 @@ export default ({ api }: { api: APIType }) => {
 
       to(destination) {
         const to = calculateTo(destination)
-        if (!EthUtil.isValidAddress(to.address)) {
+        if (!Web3.utils.isAddress(to.address)) {
           throw new Error('Invalid address')
         }
         return makePayment(mergeRight(p, { to }))

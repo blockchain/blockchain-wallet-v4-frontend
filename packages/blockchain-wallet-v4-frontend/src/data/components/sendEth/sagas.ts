@@ -1,9 +1,8 @@
 import BigNumber from 'bignumber.js'
-import EthereumAbi from 'ethereumjs-abi'
-import EthUtil from 'ethereumjs-util'
 import { equals, head, identity, includes, path, pathOr, prop, propOr } from 'ramda'
 import { change, destroy, initialize, startSubmit, stopSubmit } from 'redux-form'
 import { call, delay, put, select, take } from 'redux-saga/effects'
+import web3 from 'web3'
 
 import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
@@ -13,7 +12,6 @@ import { Erc20CoinType, EthPaymentType } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { calculateFee } from '@core/utils/eth'
 import { actions, actionTypes, selectors } from 'data'
-import { ModalNameType } from 'data/modals/types'
 import * as C from 'services/alerts'
 import * as Lockbox from 'services/lockbox'
 import { promptForSecondPassword } from 'services/sagas'
@@ -32,6 +30,7 @@ import {
   SendEthFormToActionType
 } from './types'
 
+const Web3 = new web3(web3.givenProvider)
 const ETH = 'ETH'
 export const logLocation = 'components/sendEth/sagas'
 
@@ -486,7 +485,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       if (isErc20) {
         coin =
           Object.keys(window.coins).find(
-            (c: string) => tx.to === window.coins[c].coinfig.type.erc20Address
+            (c: string) =>
+              tx.to.toLowerCase() === window.coins[c].coinfig.type.erc20Address?.toLowerCase()
           ) || ETH
       }
 
@@ -508,12 +508,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         payment = yield call(setTo, tx.to, payment)
       } else {
         if (!tx.data) throw new Error('NO_ERC20_DATA')
-        const value = EthereumAbi.rawDecode(
-          ['uint256'],
-          Buffer.from(tx.data.slice(120, 138), 'hex')
+        const value = Web3.eth.abi.decodeParameter(
+          'uint256',
+          `0x${'0'.repeat(64 - tx.data?.slice(120, 138).length)}${tx.data.slice(120, 138)}`
         )
-        const to = EthUtil.toChecksumAddress(`0x${tx.data?.slice(32, 72)}`)
+        const to = Web3.utils.toChecksumAddress(`0x${tx.data?.slice(32, 72)}`)
 
+        // @ts-ignore
         payment = yield call(setAmount, value, coin as Erc20CoinType, payment)
         payment = yield call(setTo, to, payment)
       }

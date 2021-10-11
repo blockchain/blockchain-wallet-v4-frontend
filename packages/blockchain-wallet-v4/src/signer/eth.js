@@ -1,11 +1,13 @@
 import Eth from '@ledgerhq/hw-app-eth'
 import BigNumber from 'bignumber.js'
 import Task from 'data.task'
-import EthereumAbi from 'ethereumjs-abi'
 import EthereumTx from 'ethereumjs-tx'
 import { curry } from 'ramda'
+import web3 from 'web3'
 
 import * as eth from '../utils/eth'
+
+const Web3 = new web3(web3.givenProvider)
 
 const isOdd = (str) => str.length % 2 !== 0
 const toHex = (value) => {
@@ -27,8 +29,9 @@ export const signErc20 = curry((network = 1, mnemonic, data, contractAddress) =>
     chainId: network,
     data:
       transferMethodHex +
-      EthereumAbi.rawEncode(['address'], [to]).toString('hex') +
-      EthereumAbi.rawEncode(['uint256'], [amount.toString()]).toString('hex'),
+      Web3.eth.abi
+        .encodeParameters(['address', 'uint256'], [to, amount.toString()])
+        .replace('0x', ''),
     gasLimit: toHex(gasLimit),
     gasPrice: toHex(gasPrice),
     nonce: toHex(nonce),
