@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { BaseImage } from '../Images/Image'
+import Image, { BaseImage } from '../Images/Image'
 import Icomoon from './Icomoon'
 
 const BaseIcon = styled.span.attrs((props) => ({
@@ -51,6 +51,17 @@ const Icon = (props) => {
           <BaseImage
             height={props.height || props.size || '32px'}
             src={window.coins[name].coinfig.type.logoPngUrl}
+            width={props.width || props.size || '32px'}
+          />
+        </BaseIcon>
+      )
+    }
+    if (window.coins[name].coinfig.type.name === 'FIAT') {
+      return (
+        <BaseIcon {...props}>
+          <Image
+            height={props.height || props.size || '32px'}
+            name={name.toLowerCase()}
             width={props.width || props.size || '32px'}
           />
         </BaseIcon>
