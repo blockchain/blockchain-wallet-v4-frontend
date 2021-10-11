@@ -1,7 +1,7 @@
 import { lift, prop, propOr } from 'ramda'
 
-import { Remote } from 'blockchain-wallet-v4/src'
-import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
+import { Remote } from '@core'
+import { createDeepEqualSelector } from '@core/utils'
 import { model, selectors } from 'data'
 
 const getData = createDeepEqualSelector(
@@ -12,11 +12,11 @@ const getData = createDeepEqualSelector(
     selectors.core.data.xlm.getTotalBalance,
     selectors.core.kvStore.lockbox.getLockboxXlmAccounts,
     selectors.core.settings.getCurrency,
-    selectors.core.data.xlm.getRates,
     selectors.core.wallet.isMnemonicVerified,
     selectors.form.getFormValues(model.components.sendXlm.FORM),
     selectors.form.getActiveField(model.components.sendXlm.FORM),
-    selectors.components.sendXlm.showNoAccountForm
+    selectors.components.sendXlm.showNoAccountForm,
+    (state) => selectors.core.data.coins.getRates('XLM', state)
   ],
   (
     paymentR,
@@ -25,11 +25,11 @@ const getData = createDeepEqualSelector(
     balanceR,
     lockboxXlmAccountsR,
     currencyR,
-    ratesR,
     isMnemonicVerified,
     formValues,
     activeField,
-    noAccount
+    noAccount,
+    ratesR
   ) => {
     const amount = prop('amount', formValues)
     const destination = prop('to', formValues)

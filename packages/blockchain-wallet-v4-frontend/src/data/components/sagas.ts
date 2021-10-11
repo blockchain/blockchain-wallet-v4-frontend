@@ -8,10 +8,10 @@ import fundRecovery from './fundRecovery/sagas'
 import identityVerification from './identityVerification/sagas'
 import importBtcAddress from './importBtcAddress/sagas'
 import interest from './interest/sagas'
+import interestUploadDocument from './interestUploadDocument/sagas'
 import manageAddresses from './manageAddresses/sagas'
 import onboarding from './onboarding/sagas'
 import priceChart from './priceChart/sagas'
-import priceTicker from './priceTicker/sagas'
 import recurringBuy from './recurringBuy/sagas'
 import refresh from './refresh/sagas'
 import request from './request/sagas'
@@ -33,7 +33,7 @@ import xlmTransactions from './xlmTransactions/sagas'
 
 export default ({ api, coreSagas, networks }) => ({
   bchTransactions: bchTransactions(),
-  brokerage: brokerage({ api, coreSagas, networks }),
+  brokerage: brokerage({ api }),
   btcTransactions: btcTransactions(),
   coinTransactions: coinTransactions(),
   ethTransactions: ethTransactions(),
@@ -42,10 +42,10 @@ export default ({ api, coreSagas, networks }) => ({
   identityVerification: identityVerification({ api, coreSagas, networks }),
   importBtcAddress: importBtcAddress({ api, coreSagas, networks }),
   interest: interest({ api, coreSagas, networks }),
+  interestUploadDocument: interestUploadDocument({ api }),
   manageAddresses: manageAddresses({ api, networks }),
   onboarding: onboarding(),
   priceChart: priceChart(),
-  priceTicker: priceTicker({ coreSagas }),
   recurringBuy: recurringBuy({ api }),
   refresh: refresh(),
   request: request({ api, coreSagas, networks }),

@@ -1,6 +1,6 @@
 import { lift } from 'ramda'
 
-import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
+import { ExtractSuccess } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -22,9 +22,9 @@ export const getData = (state: RootState) => {
       return {
         afterTransaction,
         cards,
+        lockTime: withdrawLockCheck?.lockTime || 0,
         recurringBuyList,
-        userData,
-        withdrawLockCheck
+        userData
       }
     }
   )(cardsR, userDataR, withdrawLockCheckR, afterTransactionR, recurringBuyListR)

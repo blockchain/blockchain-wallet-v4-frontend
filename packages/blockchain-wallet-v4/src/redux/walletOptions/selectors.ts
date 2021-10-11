@@ -1,8 +1,7 @@
 import { path, prop } from 'ramda'
 
-import { Remote } from 'blockchain-wallet-v4/src'
-import { /* AccountTokensBalancesResponseType, */ RemoteDataType } from 'core/types'
-// eslint-disable-next-line import/no-extraneous-dependencies
+import { Remote } from '@core'
+import { /* AccountTokensBalancesResponseType, */ RemoteDataType } from '@core/types'
 import { RootState } from 'data/rootReducer'
 
 import { WalletOptionsType } from './types'
@@ -16,39 +15,28 @@ export const getWebOptions = (state) =>
     string,
     WalletOptionsType['platforms']['web']
   >
-export const getWalletHelperUrl = (state) => getDomains(state).map(prop('walletHelper'))
 export const getAppEnv = (state) => getWebOptions(state).map(path(['application', 'environment']))
-export const getAnalyticsSiteId = (state) =>
-  getWebOptions(state).map(path(['application', 'analyticsSiteId']))
 export const getAnnouncements = (state) =>
   getWebOptions(state).map(path(['application', 'announcements']))
 export const getNewCoinListing = (state: RootState) =>
   getOptions(state).map((options) => options.platforms.web.coinListing)
+export const getCoinRename = (state: RootState) =>
+  getOptions(state).map((options) => options.platforms.web.coinRename)
 
-// eslint-disable-next-line
-export const getXlmSendTimeOutSeconds = (state) => Remote.of(600)
-// eslint-disable-next-line
-export const getXlmExchangeAddresses = (state) => Remote.of([])
+export const getXlmSendTimeOutSeconds = () => Remote.of(600)
+export const getXlmExchangeAddresses = () => Remote.of([])
 
-// domains
+// 3rd Party
 export const getVeriffDomain = (state) => getDomains(state).map(prop('veriff'))
-
-// partners
 export const getSiftKey = (state) => getWebOptions(state).map(path(['sift', 'apiKey']))
-export const getSiftPaymentKey = (state: RootState) => {
-  return getWebOptions(state).map((options) => options.sift.paymentKey)
-}
+
+//
+// FEATURE FLAG SELECTORS
+//
+
 // show pairing code flag on staging
 export const getPairingCodeFlag = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'legacyMobilePairing']))
-
-// mobile auth flag
-export const getMobileAuthFlag = (state) =>
-  getWebOptions(state).map(path(['mobile_auth', 'enabled']))
-
-// brokerage deposits withdrawals flag
-export const getBrokerageDepositsWithdrawals = (state) =>
-  getWebOptions(state).map(path(['brokerage_deposits_withdrawals', 'enabled']))
 
 // recurring buys flag
 export const getFeatureFlagRecurringBuys = (state: RootState) =>
@@ -69,3 +57,7 @@ export const getFeatureSignupCountry = (state: RootState) =>
 // signup country feature flag
 export const getEDDInterestFileUpload = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'eddInterestFileUpload']))
+
+// celoEUR sweepstake feature flag
+export const getCeloEurSweepstake = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'cEURSweepstake']))

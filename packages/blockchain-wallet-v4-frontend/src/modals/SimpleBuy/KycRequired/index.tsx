@@ -8,8 +8,8 @@ import { RootState } from 'data/rootReducer'
 import Template from './template'
 
 export type LinkDispatchPropsType = {
+  buySellActions: typeof actions.components.buySell
   identityVerificationActions: typeof actions.components.identityVerification
-  simpleBuyActions: typeof actions.components.simpleBuy
 }
 
 class KycRequired extends PureComponent<Props> {
@@ -23,11 +23,8 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
-  identityVerificationActions: bindActionCreators(
-    actions.components.identityVerification,
-    dispatch
-  )
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  identityVerificationActions: bindActionCreators(actions.components.identityVerification, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

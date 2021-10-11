@@ -7,9 +7,8 @@ import {
   SBPaymentMethodsType,
   SBPaymentMethodType,
   SBPaymentTypes
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 import { FlyoutWrapper } from 'components/Flyout'
-import { model } from 'data'
 import { AddBankStepType, BankDWStepType, BrokerageModalOriginType } from 'data/types'
 
 // TODO: move to somewhere more generic
@@ -17,29 +16,23 @@ import BankWire from '../../../../SimpleBuy/PaymentMethods/Methods/BankWire'
 import { mapDispatchToProps, Props as _P } from '.'
 import BankDeposit from './BankDeposit'
 
-const { LINK_BANK_TRANSFER, LINK_WIRE_TRANSFER } = model.analytics.FIAT_DEPOSIT_EVENTS
-
 const Wrapper = styled.section`
   display: flex;
   justify-content: space-between;
   flex-direction: column;
 `
-
 const WrapperHeader = styled(FlyoutWrapper)`
   height: unset;
 `
-
 const TopText = styled(Text)`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 7px;
 `
-
 const MethodList = styled.section`
   border-top: 1px solid ${(props) => props.theme.grey000};
 `
-
 const IconContainer = styled.div`
   width: 32px;
   height: 32px;
@@ -84,7 +77,6 @@ const getType = (value: SBPaymentMethodType) => {
 
 const Success = ({
   addNew,
-  analyticsActions,
   brokerageActions,
   close,
   fiatCurrency,
@@ -131,8 +123,9 @@ const Success = ({
               */
               if (addNew) {
                 brokerageActions.showModal({
-                  origin: BrokerageModalOriginType.ADD_BANK_DEPOSIT,
-                  modalType: fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL'
+                  modalType:
+                    fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL',
+                  origin: BrokerageModalOriginType.ADD_BANK_DEPOSIT
                 })
                 brokerageActions.setAddBankStep({
                   addBankStep: AddBankStepType.ADD_BANK
@@ -145,7 +138,6 @@ const Success = ({
                   dwStep: BankDWStepType.ENTER_AMOUNT
                 })
               }
-              analyticsActions.logEvent(LINK_BANK_TRANSFER)
             }}
             text={getType(bankTransfer)}
             value={bankTransfer}
@@ -158,7 +150,6 @@ const Success = ({
               brokerageActions.setDWStep({
                 dwStep: BankDWStepType.WIRE_INSTRUCTIONS
               })
-              analyticsActions.logEvent(LINK_WIRE_TRANSFER)
             }}
             text={getType(bankWire)}
             value={bankWire}

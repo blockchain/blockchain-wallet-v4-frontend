@@ -1,5 +1,5 @@
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { fiatToString, formatFiat } from 'blockchain-wallet-v4/src/exchange/utils'
+import { Exchange } from '@core'
+import { fiatToString, formatFiat } from '@core/exchange/utils'
 
 const PERCENTAGE_100 = 100
 
@@ -8,7 +8,7 @@ export const calcCompoundInterest = (principal, rate, term) => {
   const principalInt = parseFloat(principal)
   if (!principalInt) return '0.00'
   const totalAmount =
-    principalInt * (1 + rate / (COMPOUNDS_PER_YEAR * PERCENTAGE_100) ** (COMPOUNDS_PER_YEAR * term))
+    principalInt * (1 + rate / (COMPOUNDS_PER_YEAR * PERCENTAGE_100)) ** (COMPOUNDS_PER_YEAR * term)
   return formatFiat(totalAmount - principalInt)
 }
 

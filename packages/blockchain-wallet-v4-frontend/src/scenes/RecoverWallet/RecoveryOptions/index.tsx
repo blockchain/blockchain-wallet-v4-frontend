@@ -25,12 +25,42 @@ const IconTextRow = styled.div`
   justify-content: space-between;
   cursor: pointer;
 `
+const RecoveryOptionRow = styled(IconTextRow)<{ hasCloudBackup?: boolean }>`
+  cursor: ${(props) => (props.hasCloudBackup ? 'pointer' : 'not-allowed')};
+`
 
 const TextStack = styled.div`
   max-width: 312px;
 `
 const RecoveryOptions = (props: Props) => {
-  const { cachedGuid, emailFromMagicLink, formActions, lastGuid, nabuId, routerActions } = props
+  const {
+    authActions,
+    cachedGuid,
+    emailFromMagicLink,
+    formActions,
+    hasCloudBackup,
+    lastGuid,
+    nabuId,
+    routerActions
+  } = props
+
+  const optionDisabledColor = hasCloudBackup ? 'grey900' : 'grey100'
+
+  const cloudRecoveryClicked = () => {
+    if (hasCloudBackup) {
+      formActions.change('recover', 'step', RecoverSteps.CLOUD_RECOVERY)
+      authActions.recoveryOptionSelected('CLOUD_BACKUP')
+    }
+  }
+  const recoveryPhraseClicked = () => {
+    formActions.change('recover', 'step', RecoverSteps.RECOVERY_PHRASE)
+    authActions.recoveryOptionSelected('RECOVERY_PHRASE')
+  }
+
+  const resetAccountClicked = () => {
+    formActions.change('recover', 'step', RecoverSteps.RESET_ACCOUNT)
+    authActions.resetAccountClicked('RECOVERY_OPTIONS')
+  }
   return (
     <Wrapper>
       {emailFromMagicLink && (
@@ -50,20 +80,18 @@ const RecoveryOptions = (props: Props) => {
             defaultMessage='Recovery Options'
           />
         </Text>
-        <IconTextRow
-          onClick={() => formActions.change('recover', 'step', RecoverSteps.CLOUD_RECOVERY)}
-        >
-          <CircleBackground color='blue000'>
-            <Icon name='cloud' color='blue600' size='16px' />
+        <RecoveryOptionRow hasCloudBackup={hasCloudBackup} onClick={cloudRecoveryClicked}>
+          <CircleBackground color={hasCloudBackup ? 'blue000' : 'grey000'}>
+            <Icon name='cloud' color={hasCloudBackup ? 'blue600' : 'grey200'} size='16px' />
           </CircleBackground>
           <TextStack>
-            <Text color='grey900' size='14px' weight={600} lineHeight='1.5'>
+            <Text color={optionDisabledColor} size='14px' weight={600} lineHeight='1.5'>
               <FormattedMessage
                 id='scenes.login.recovery_options.cloud_backup.title'
                 defaultMessage='Recover Account with Cloud Backup'
               />
             </Text>
-            <Text color='grey600' size='12px' weight={500} lineHeight='1.5'>
+            <Text color={optionDisabledColor} size='12px' weight={500} lineHeight='1.5'>
               <FormattedMessage
                 id='scenes.login.recovery_options.cloud_backup'
                 defaultMessage='Restore your account using your phone and the cloud.'
@@ -71,10 +99,8 @@ const RecoveryOptions = (props: Props) => {
             </Text>
           </TextStack>
           <Icon name='chevron-right' size='20px' color='grey400' />
-        </IconTextRow>
-        <IconTextRow
-          onClick={() => formActions.change('recover', 'step', RecoverSteps.RECOVERY_PHRASE)}
-        >
+        </RecoveryOptionRow>
+        <IconTextRow onClick={recoveryPhraseClicked}>
           <CircleBackground color='blue000'>
             <Icon name='keyboard' color='blue600' size='22px' />
           </CircleBackground>
@@ -109,7 +135,7 @@ const RecoveryOptions = (props: Props) => {
             color='blue600'
             data-e2e='troubleLoggingIn'
             cursor='pointer'
-            onClick={() => formActions.change('recover', 'step', RecoverSteps.RESET_ACCOUNT)}
+            onClick={resetAccountClicked}
             style={{ marginLeft: '4px' }}
           >
             <FormattedMessage

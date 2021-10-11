@@ -31,7 +31,6 @@ export const getDefaultAddressBalance = (state) => {
   return getAddress(state, defaultAddr).map(prop('balance'))
 }
 export const getLegacyBalance = path([dataPath, 'eth', 'legacy_balance'])
-export const getRates = path([dataPath, 'eth', 'rates', 'eth'])
 export const getHeight = path([dataPath, 'eth', 'latest_block'])
 export const getNonce = (state, address) => getAddresses(state).map(path([address, 'nonce']))
 
@@ -49,10 +48,6 @@ export const getTransactionHistory = path([dataPath, 'eth', 'transaction_history
 //
 // ERC20
 //
-export const getErc20Rates = curry((state, token) => {
-  const tokenRates = path([dataPath, 'eth', 'rates', token])(state)
-  return tokenRates || Remote.NotAsked
-})
 export const getErc20Balance = (state, token) => {
   const tokenData = path([dataPath, 'eth', 'info', token])(state)
   return tokenData

@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
+import { SBPaymentTypes } from '@core/types'
 import { BankTransferAccountType } from 'data/types'
 
 // TODO: move this somewhere more generic

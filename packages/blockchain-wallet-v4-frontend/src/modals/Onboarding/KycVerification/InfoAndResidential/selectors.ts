@@ -1,6 +1,6 @@
 import { compose, lift } from 'ramda'
 
-import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
+import { ExtractSuccess } from '@core/types'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -32,7 +32,7 @@ export const getData = (state: RootState) => {
   const userData = compose(
     lift(formatUserData),
     selectors.modules.profile.getUserData
-  )(state)
+  )(state).getOrElse({})
 
   return lift(
     (supportedCountries: ExtractSuccess<typeof supportedCountriesR>) => ({

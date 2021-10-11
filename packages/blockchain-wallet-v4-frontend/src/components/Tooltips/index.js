@@ -140,10 +140,7 @@ class Tooltips extends React.PureComponent {
           />
         </Tooltip>
         <Tooltip id='exchange.changeinput' place='bottom'>
-          <FormattedMessage
-            id='scenes.exchange.changeinput'
-            defaultMessage='Change Input'
-          />
+          <FormattedMessage id='scenes.exchange.changeinput' defaultMessage='Change Input' />
         </Tooltip>
         <Tooltip id='activityFeedWatchOnly'>
           <FormattedMessage
@@ -250,17 +247,9 @@ class Tooltips extends React.PureComponent {
             </Link>
           </TextGroup>
         </Tooltip>
-        <Tooltip
-          id='exchangeSideNavConnected'
-          bgColor='grey800'
-          padding='13px 20px'
-          opacity='1'
-        >
+        <Tooltip id='exchangeSideNavConnected' bgColor='grey800' padding='13px 20px' opacity='1'>
           <Text color='green400' weight={700} uppercase size='12px'>
-            <FormattedMessage
-              id='exchange-side-nav-tooltip-connected'
-              defaultMessage='connected'
-            />
+            <FormattedMessage id='exchange-side-nav-tooltip-connected' defaultMessage='connected' />
           </Text>
         </Tooltip>
         <Tooltip id='transaction.pending.eth'>
@@ -270,15 +259,12 @@ class Tooltips extends React.PureComponent {
           />
         </Tooltip>
         <Tooltip id='coming-soon'>
-          <FormattedMessage
-            id='tooltip.comingsoon'
-            defaultMessage='Coming soon.'
-          />
+          <FormattedMessage id='tooltip.comingsoon' defaultMessage='Coming soon.' />
         </Tooltip>
         <Tooltip id='earninterest.calculation.tooltip'>
           <FormattedMessage
             id='scenes.interest.summarycard.tooltip'
-            defaultMessage='The rate is subject to change. Interest will be paid in crypto.'
+            defaultMessage='The rate is subject to change. Rewards will be paid in crypto.'
           />
         </Tooltip>
         <Tooltip id='modals.interest.depositmax.tooltip'>
@@ -290,13 +276,13 @@ class Tooltips extends React.PureComponent {
         <Tooltip id='modals.interest.calculator.tooltip'>
           <FormattedMessage
             id='modals.interest.deposit.calculator.tooltip'
-            defaultMessage='This is an estimate calculated using the current interest rate for the entire horizon. The actual interest rate is subject to change.'
+            defaultMessage='This is an estimate calculated using the current rewards rate for the entire horizon. The actual rewards rate is subject to change.'
           />
         </Tooltip>
         <Tooltip id='modals.interest.summary.accrued.tooltip'>
           <FormattedMessage
             id='modals.interest.summary.accrued.description.tooltip'
-            defaultMessage='Interest earned month to date. Total interest earned during any month will be transferred on the 1st of the following month.'
+            defaultMessage='Rewards earned month to date. Total rewards earned during any month will be transferred on the 1st of the following month.'
           />
         </Tooltip>
         <Tooltip id='modals.interest.summary.lock.tooltip'>
@@ -308,13 +294,16 @@ class Tooltips extends React.PureComponent {
         <Tooltip id='modals.interest.summary.moreinterestdetails.tooltip'>
           <FormattedMessage
             id='modals.interest.moredetails.tooltip.description'
-            defaultMessage='Interest accrues daily and is paid monthly. The interest rate may be periodically adjusted.'
+            defaultMessage='Rewards accrues daily and is paid monthly. The rewards rate may be periodically adjusted.'
           />
         </Tooltip>
         <Tooltip id='copy.on_chain_txs' maxWidth='250px'>
+          <FormattedMessage id='copy.on_chain_txs' defaultMessage='On-chain transactions only' />
+        </Tooltip>
+        <Tooltip id='tooltip.rates_error' maxWidth='160px'>
           <FormattedMessage
-            id='copy.on_chain_txs'
-            defaultMessage='On-chain transactions only'
+            id='copy.rates_error'
+            defaultMessage='Your crypto is safe, but pricing data is currently unavailable.'
           />
         </Tooltip>
       </TooltipWrapper>

@@ -10,11 +10,11 @@ import fundRecovery from './fundRecovery/sagaRegister'
 import identityVerification from './identityVerification/sagaRegister'
 import importBtcAddress from './importBtcAddress/sagaRegister'
 import interest from './interest/sagaRegister'
+import interestUploadDocument from './interestUploadDocument/sagaRegister'
 import lockbox from './lockbox/sagaRegister'
 import manageAddresses from './manageAddresses/sagaRegister'
 import onboarding from './onboarding/sagaRegister'
 import priceChart from './priceChart/sagaRegister'
-import priceTicker from './priceTicker/sagaRegister'
 import recurringBuy from './recurringBuy/sagaRegister'
 import refresh from './refresh/sagaRegister'
 import request from './request/sagaRegister'
@@ -36,7 +36,7 @@ import xlmTransactions from './xlmTransactions/sagaRegister'
 
 export default ({ api, coreSagas, networks }) =>
   function* componentsSaga() {
-    yield fork(brokerage({ api, coreSagas, networks }))
+    yield fork(brokerage({ api }))
     yield fork(bchTransactions())
     yield fork(btcTransactions())
     yield fork(coinTransactions())
@@ -46,12 +46,12 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(fundRecovery({ api }))
     yield fork(identityVerification({ api, coreSagas }))
     yield fork(interest({ api, coreSagas, networks }))
+    yield fork(interestUploadDocument({ api }))
     yield fork(lockbox({ api, coreSagas }))
     yield fork(importBtcAddress({ api, coreSagas, networks }))
     yield fork(manageAddresses({ api, networks }))
     yield fork(onboarding())
     yield fork(priceChart())
-    yield fork(priceTicker({ coreSagas }))
     yield fork(refresh())
     yield fork(request({ api, coreSagas, networks }))
     yield fork(recurringBuy({ api }))

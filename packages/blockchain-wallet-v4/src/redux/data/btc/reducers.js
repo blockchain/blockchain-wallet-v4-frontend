@@ -8,7 +8,6 @@ const INITIAL_STATE = {
   fee: Remote.NotAsked,
   info: Remote.NotAsked,
   latest_block: Remote.NotAsked,
-  rates: Remote.NotAsked,
   transaction_history: Remote.NotAsked,
   transactions: [],
   transactions_at_bound: false,
@@ -58,15 +57,6 @@ const btcReducer = (state = INITIAL_STATE, action) => {
     }
     case AT.FETCH_BTC_FEE_FAILURE: {
       return assoc('fee', Remote.Failure(payload), state)
-    }
-    case AT.FETCH_BTC_RATES_LOADING: {
-      return assoc('rates', Remote.Loading, state)
-    }
-    case AT.FETCH_BTC_RATES_SUCCESS: {
-      return assoc('rates', Remote.Success(payload), state)
-    }
-    case AT.FETCH_BTC_RATES_FAILURE: {
-      return assoc('rates', Remote.Failure(payload), state)
     }
     case AT.FETCH_BTC_TRANSACTIONS_LOADING: {
       const { reset } = payload

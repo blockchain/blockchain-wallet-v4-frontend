@@ -5,7 +5,7 @@ import { toString } from 'ramda'
 import styled from 'styled-components'
 
 import { Icon, Link, Tooltip, TooltipHost } from 'blockchain-info-components'
-import { CoinType, WalletOptionsType } from 'blockchain-wallet-v4/src/types'
+import { CoinType, WalletOptionsType } from '@core/types'
 import { selectors } from 'data'
 import { media } from 'services/styles'
 
@@ -42,9 +42,9 @@ const IconWrapper = styled.div`
 `
 
 const Confirmations = (props: Props) => {
-  const { blockHeight, coin, domains, isConfirmed, onViewTxDetails, txBlockHeight = 0 } = props
+  const { blockHeight, coin, domains, isConfirmed, txBlockHeight = 0 } = props
   const conf = blockHeight - txBlockHeight + 1
-  const confirmations = conf > 0 && txBlockHeight ? conf : 0
+  const confirmations = props.confirmations || (conf > 0 && txBlockHeight) ? conf : 0
   const { coinfig } = window.coins[coin]
   const { parentChain = coin } = coinfig.type
   const { minimumOnChainConfirmations = 3 } = window.coins[parentChain].coinfig.type
@@ -80,7 +80,6 @@ const Confirmations = (props: Props) => {
           href={`${domains.comRoot}/search/?search=${props.hash}`}
           target='_blank'
           data-e2e='transactionListItemExplorerLink'
-          onClick={() => onViewTxDetails(coin)}
         >
           <Icon name='open-in-new-tab' color='marketing-primary' cursor size='17px' />
         </Link>
@@ -117,9 +116,9 @@ const connector = connect(mapStateToProps)
 
 type OwnProps = {
   coin: CoinType
+  confirmations?: number
   hash: string
   isConfirmed?: boolean
-  onViewTxDetails: (coin: CoinType) => void
   txBlockHeight?: number
 }
 

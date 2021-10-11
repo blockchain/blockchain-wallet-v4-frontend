@@ -1,8 +1,8 @@
 import { BigNumber } from 'bignumber.js'
 import { mapObjIndexed } from 'ramda'
 
-import { Exchange } from 'blockchain-wallet-v4/src'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
+import { Exchange } from '@core'
+import Currencies from '@core/exchange/currencies'
 
 const currencySymbolMap = mapObjIndexed((value, code) => value.units[code].symbol, Currencies)
 
@@ -17,7 +17,7 @@ export const getData = (state, props) => {
   const reserveFiat = convertToFiat(reserveXlm)
   const feeXlm = Exchange.convertCoinToCoin({
     coin: 'XLM',
-    value: fee,
+    value: fee
   })
   const feeFiat = convertToFiat(feeXlm)
   const effectiveBalanceMinusFeeBig = new BigNumber(effectiveBalanceXlm).minus(feeXlm)
@@ -36,7 +36,7 @@ export const getData = (state, props) => {
     reserveFiat,
     reserveXlm,
     totalAmountFiat,
-    totalAmountXlm,
+    totalAmountXlm
   }
 }
 

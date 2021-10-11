@@ -2,14 +2,14 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { Remote } from 'blockchain-wallet-v4/src'
-import { BeneficiaryType, ExtractSuccess, WalletFiatType } from 'blockchain-wallet-v4/src/types'
+import { Remote } from '@core'
+import { BeneficiaryType, ExtractSuccess, WalletFiatType } from '@core/types'
+import { FlyoutOopsError } from 'components/Flyout'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 
 import Loading from '../EnterAmount/template.loading'
 import getData from './selectors'
-import Failure from './template.failure'
 import Success from './template.success'
 
 class BankPicker extends PureComponent<Props> {
@@ -22,7 +22,13 @@ class BankPicker extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Failure: () => <Failure {...this.props} handleClose={this.props.handleClose} />,
+      Failure: () => (
+        <FlyoutOopsError
+          action='close'
+          data-e2e='withdrawReload'
+          handler={this.props.handleClose}
+        />
+      ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
       Success: (val) => <Success {...this.props} {...val} />
@@ -36,8 +42,8 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   custodialActions: bindActionCreators(actions.custodial, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
   withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
 })
 

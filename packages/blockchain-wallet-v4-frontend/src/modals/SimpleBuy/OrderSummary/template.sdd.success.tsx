@@ -76,17 +76,14 @@ const Bottom = styled.div`
 const Success: React.FC<Props> = (props) => {
   const baseAmount = getBaseAmount(props.order)
   const baseCurrency = getBaseCurrency(props.order)
-  const days =
-    props.withdrawLockCheck && props.withdrawLockCheck.lockTime
-      ? moment.duration(props.withdrawLockCheck.lockTime, 'seconds').days()
-      : 3
+  const days = moment.duration(props.lockTime, 'seconds').days()
 
   const isTransactionPending =
     props.order.state === 'PENDING_DEPOSIT' &&
     props.order.attributes?.everypay?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
 
   const handleCancel = () => {
-    props.simpleBuyActions.cancelSBOrder(props.order)
+    props.buySellActions.cancelOrder(props.order)
   }
 
   return (
@@ -188,7 +185,7 @@ const Success: React.FC<Props> = (props) => {
                 height='48px'
                 nature='primary'
                 onClick={() =>
-                  props.simpleBuyActions.setStep({
+                  props.buySellActions.setStep({
                     order: props.order,
                     step: '3DS_HANDLER'
                   })
@@ -209,10 +206,10 @@ const Success: React.FC<Props> = (props) => {
                 height='48px'
                 nature='primary'
                 onClick={() => {
-                  props.simpleBuyActions.setStep({
+                  props.buySellActions.setStep({
                     step: 'UPGRADE_TO_GOLD'
                   })
-                  props.simpleBuyActions.updateSddTransactionFinished()
+                  props.buySellActions.updateSddTransactionFinished()
                 }}
                 style={{ marginBottom: '32px' }}
               >

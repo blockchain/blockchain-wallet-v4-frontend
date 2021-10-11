@@ -2,12 +2,10 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { CoinType, FiatType, ProcessedTxType } from 'blockchain-wallet-v4/src/types'
-import { actions, model } from 'data'
+import { CoinType, FiatType, ProcessedTxType } from '@core/types'
+import { actions } from 'data'
 
 import NonCustodialTx from './template'
-
-const { TRANSACTION_EVENTS } = model.analytics
 
 class NonCustodialTxListItem extends React.PureComponent<Props, { isToggled: boolean }> {
   constructor(props) {
@@ -59,10 +57,6 @@ class NonCustodialTxListItem extends React.PureComponent<Props, { isToggled: boo
     this.props.sendEthActions.retrySendEth(txHash, isErc20)
   }
 
-  onViewTxDetails = (coin) => {
-    this.props.analyticsActions.logEvent([...TRANSACTION_EVENTS.VIEW_TX_ON_EXPLORER, coin])
-  }
-
   render() {
     return (
       <NonCustodialTx
@@ -70,7 +64,6 @@ class NonCustodialTxListItem extends React.PureComponent<Props, { isToggled: boo
         handleEditDescription={this.handleEditDescription}
         handleRetrySendEth={this.handleRetrySendEth}
         handleToggle={this.handleToggle}
-        onViewTxDetails={this.onViewTxDetails}
         isToggled={this.state.isToggled}
       />
     )
@@ -78,7 +71,6 @@ class NonCustodialTxListItem extends React.PureComponent<Props, { isToggled: boo
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   bchActions: bindActionCreators(actions.core.kvStore.bch, dispatch),
   ethActions: bindActionCreators(actions.core.kvStore.eth, dispatch),
   ethTxActions: bindActionCreators(actions.core.data.eth, dispatch),

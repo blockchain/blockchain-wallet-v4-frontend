@@ -1,30 +1,23 @@
-import { lift, toLower } from 'ramda'
+import { lift } from 'ramda'
 
-import { CoinType } from 'blockchain-wallet-v4/src/types'
+import { CoinType } from '@core/types'
 import { selectors } from 'data'
 
 export const getData = (state, ownProps) => {
   const { coin }: { coin: CoinType } = ownProps
-  const currencyR = selectors.core.settings.getCurrency(state)
   const { coinfig } = window.coins[coin]
-  let ratesR
+  const currencyR = selectors.core.settings.getCurrency(state)
+  const ratesR = selectors.core.data.coins.getRates(coin, state)
+  const rates = ratesR.getOrElse({ price: 1 })
 
-  if (coinfig.type.erc20Address) {
-    ratesR = selectors.core.data.eth.getErc20Rates(state, coin)
-  } else if (selectors.core.data.coins.getCoins().includes(coin)) {
-    ratesR = selectors.core.data.coins.getRates(coin, state)
-  } else {
-    ratesR = selectors.core.data[toLower(coin)].getRates(state)
-  }
-
-  const transform = (currency, rates) => ({
-    coinTicker: coin,
+  const transform = (currency) => ({
+    coinTicker: coinfig.displaySymbol,
     currency,
     rates,
     unit: coin
   })
   // @ts-ignore
-  return lift(transform)(currencyR, ratesR)
+  return lift(transform)(currencyR)
 }
 
 export default getData

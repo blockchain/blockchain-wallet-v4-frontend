@@ -2,10 +2,11 @@
 import { BigNumber } from 'bignumber.js'
 import { path, prop } from 'ramda'
 
-import { CoinType, FiatType, RatesType, WalletFiatType } from 'core/types'
+import { CoinType, FiatType, RatesType, WalletFiatType } from '@core/types'
 
 import Currencies, { FiatCurrenciesType } from './currencies'
 import { formatCoin, getLang } from './utils'
+import { TickerResponseType } from '@core/network/api/coin/types'
 
 type KeysOfUnion<T> = T extends any ? keyof T : never
 export type UnitType = KeysOfUnion<FiatCurrenciesType[keyof FiatCurrenciesType]['units']>
@@ -61,12 +62,12 @@ const convertCoinToFiat = ({
   if (!value) return new BigNumber(0).toFixed(2)
 
   const { coinfig } = window.coins[coin]
-  const { last } = rates[currency]
+  const { price } = rates
   const amt = isStandard
     ? new BigNumber(value)
     : new BigNumber(value).dividedBy(Math.pow(10, coinfig.precision))
 
-  return amt.times(last).toFixed(2)
+  return amt.times(price).toFixed(2, 1)
 }
 
 const convertFiatToCoin = ({
@@ -85,10 +86,10 @@ const convertFiatToCoin = ({
   if (!value) return '0'
 
   const { coinfig } = window.coins[coin]
-  const { last } = rates[currency]
+  const { price } = rates
 
   return new BigNumber(value)
-    .dividedBy(last)
+    .dividedBy(price)
     .toFixed(maxPrecision ? Math.min(maxPrecision, coinfig.precision) : coinfig.precision)
 }
 
@@ -99,18 +100,18 @@ const convertFiatToFiat = ({
   toCurrency,
   value = '0'
 }: {
-  fromCurrency: WalletFiatType
-  rates: RatesType
-  toCurrency: WalletFiatType
+  fromCurrency: keyof FiatCurrenciesType
+  rates: TickerResponseType
+  toCurrency: keyof FiatCurrenciesType
   value: number | string
 }) => {
   const btcAmt = convertFiatToCoin({
     coin: 'BTC',
     value,
     currency: fromCurrency,
-    rates
+    rates: { price: rates[fromCurrency].buy } as RatesType
   })
-  const { last } = rates[toCurrency as FiatType]
+  const { last } = rates[toCurrency]
   return new BigNumber(btcAmt).times(last).toFixed(2)
 }
 
@@ -126,12 +127,15 @@ const displayCoinToCoin = ({
   isFiat?: boolean
   value: number | string
 }): string => {
+  const { coinfig } = window.coins[coin]
+  const { displaySymbol } = coinfig
+  
   if (isFiat) {
     const options = { style: 'currency', currency: coin }
     return new Intl.NumberFormat(getLang(), options).format(Number(value))
   }
 
-  return `${formatCoin(convertCoinToCoin({ baseToStandard: true, value, coin }))} ${coin}`
+  return `${formatCoin(convertCoinToCoin({ baseToStandard: true, value, coin }))} ${displaySymbol}`
 }
 
 const displayCoinToFiat = ({
@@ -145,8 +149,8 @@ const displayCoinToFiat = ({
 }): string => {
   const options = { style: 'currency', currency: toCurrency }
 
-  const { last } = rates[toCurrency as FiatType]
-  const number = new BigNumber(value).times(last).toNumber()
+  const { price } = rates
+  const number = new BigNumber(value).times(price).toNumber()
   return new Intl.NumberFormat(getLang(), options).format(number)
 }
 

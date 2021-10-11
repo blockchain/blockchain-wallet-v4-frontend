@@ -1,7 +1,7 @@
 import { TIER_TYPES } from 'blockchain-wallet-v4-frontend/src/modals/Settings/TradingLimits/model'
 import { anyPass, equals } from 'ramda'
 
-import { SBOrderType, SwapUserLimitsType } from 'blockchain-wallet-v4/src/types'
+import { SBOrderType, SwapUserLimitsType } from '@core/types'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
@@ -16,9 +16,22 @@ export type BannerType =
   | 'continueToGold'
   | 'recurringBuys'
   | 'coinListing'
+  | 'coinRename'
+  | 'celoEURSweepstake'
+  | 'servicePriceUnavailable'
   | null
 
 export const getNewCoinAnnouncement = (coin: string) => `${coin}-homepage`
+export const getCoinRenameAnnouncement = (coin: string) => `${coin}-rename`
+
+const showBanner = (flag: boolean, banner: string, announcementState) => {
+  return (
+    flag &&
+    (!announcementState ||
+      !announcementState[banner] ||
+      (announcementState[banner] && !announcementState[banner].dismissed))
+  )
+}
 
 export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const announcementState = selectors.cache.getLastAnnouncementState(state)
@@ -68,19 +81,40 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   // newCurrency
   const newCoinListing = selectors.core.walletOptions.getNewCoinListing(state).getOrElse('')
   const newCoinAnnouncement = getNewCoinAnnouncement(newCoinListing)
-  const isNewCurrency =
-    newCoinListing &&
-    (!announcementState ||
-      !announcementState[newCoinAnnouncement] ||
-      (announcementState[newCoinAnnouncement] && !announcementState[newCoinAnnouncement].dismissed))
+  const isNewCurrency = showBanner(!!newCoinListing, newCoinAnnouncement, announcementState)
+
+  // coinRename
+  const coinRename = selectors.core.walletOptions.getCoinRename(state).getOrElse('')
+  const coinRenameAnnouncement = getCoinRenameAnnouncement(coinRename)
+  const showRenameBanner = showBanner(!!coinRename, coinRenameAnnouncement, announcementState)
+
+  // cEUR Sweepstake
+  const cEURAnnouncement = selectors.core.walletOptions
+    .getCeloEurSweepstake(state)
+    .getOrElse(false) as boolean
+  const cEURAnnouncementAnnouncement = 'ceur-sweepstake'
+  const showCEURBanner =
+    showBanner(cEURAnnouncement, cEURAnnouncementAnnouncement, announcementState) &&
+    userData &&
+    userData.tiers.current >= 1 &&
+    userData.address &&
+    userData.address.country &&
+    ['GB', 'DE', 'FR', 'NL'].indexOf(userData.address.country) === -1
 
   const isTier3SDD = sddEligibleTier === 3
+
+  // servicePriceUnavailable
+  const isServicePriceUnavailable = selectors.core.data.coins.getIsServicePriceDown(state)
 
   let bannerToShow: BannerType = null
   if (showDocResubmitBanner && !isKycPendingOrVerified) {
     bannerToShow = 'resubmit'
+  } else if (isServicePriceUnavailable) {
+    bannerToShow = 'servicePriceUnavailable'
   } else if (isSimpleBuyOrderPending && !isTier3SDD) {
     bannerToShow = 'sbOrder'
+  } else if (showCEURBanner) {
+    bannerToShow = 'celoEURSweepstake'
   } else if (isKycStateNone && isUserActive && !isFirstLogin && !isTier3SDD) {
     bannerToShow = 'finishKyc'
   } else if (userData?.tiers?.current < 2 || isKycStateNone) {
@@ -88,12 +122,14 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   } else if (
     (userData?.tiers?.current === TIER_TYPES.SILVER ||
       userData?.tiers?.current === TIER_TYPES.SILVER_PLUS) &&
-    limits?.annual.available &&
-    Number(limits?.annual.available) > 0
+    limits?.max &&
+    Number(limits?.max) > 0
   ) {
     bannerToShow = 'continueToGold'
   } else if (isNewCurrency) {
     bannerToShow = 'newCurrency'
+  } else if (showRenameBanner) {
+    bannerToShow = 'coinRename'
   } else if (isRecurringBuy) {
     bannerToShow = 'recurringBuys'
   } else {

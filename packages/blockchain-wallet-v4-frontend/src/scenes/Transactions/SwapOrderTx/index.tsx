@@ -4,9 +4,9 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
+import { coinToString, fiatToString } from '@core/exchange/utils'
+import { CoinType, ProcessedSwapOrderType, WalletOptionsType } from '@core/types'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
-import { coinToString, fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
-import { CoinType, ProcessedSwapOrderType, WalletOptionsType } from 'blockchain-wallet-v4/src/types'
 import { actions, selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { getInput, getOutput } from 'data/components/swap/model'
@@ -191,7 +191,7 @@ class SwapOrderTx extends PureComponent<Props, State> {
                 <Status {...this.props} />
               </RowValue>
               <RowHeader>
-                <FormattedMessage id='copy.amount_sent' defaultMessage='Amount Sent' />
+                <FormattedMessage id='copy.total' defaultMessage='Total' />
               </RowHeader>
               <RowValue data-e2e='swapPurchasing'>
                 {fiatToString({

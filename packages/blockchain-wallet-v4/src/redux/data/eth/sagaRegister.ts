@@ -10,9 +10,7 @@ export default ({ api }) => {
     yield fork(dataEthSagas.watchTransactions)
     yield fork(dataEthSagas.watchErc20Transactions)
     yield takeLatest(AT.FETCH_ETH_DATA, dataEthSagas.fetchData)
-    yield takeLatest(AT.FETCH_ETH_RATES, dataEthSagas.fetchRates)
     yield takeEvery(AT.FETCH_ERC20_TOKEN_DATA, dataEthSagas.fetchErc20Data)
-    yield takeEvery(AT.FETCH_ERC20_RATES, dataEthSagas.fetchErc20Rates)
     yield takeLatest(
       // @ts-ignore
       AT.FETCH_ETH_TRANSACTION_HISTORY,

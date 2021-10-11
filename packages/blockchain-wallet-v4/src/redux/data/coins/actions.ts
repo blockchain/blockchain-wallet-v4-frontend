@@ -1,4 +1,5 @@
-import { RatesType } from '../misc/types'
+import { IndexMultiResponseType, TickerResponseType } from '@core/network/api/coin/types'
+
 import * as AT from './actionTypes'
 import { CoinsActionTypes } from './types'
 
@@ -6,17 +7,33 @@ import { CoinsActionTypes } from './types'
 export const fetchCoinsRates = () => ({
   type: AT.FETCH_COINS_RATES
 })
-export const fetchCoinsRatesLoading = (coin: string): CoinsActionTypes => ({
-  payload: { coin },
+export const fetchCoinsRatesLoading = (): CoinsActionTypes => ({
   type: AT.FETCH_COINS_RATES_LOADING
 })
-export const fetchCoinsRatesSuccess = (coin: string, rates: RatesType): CoinsActionTypes => ({
-  payload: { coin, rates },
+export const fetchCoinsRatesSuccess = (rates: IndexMultiResponseType): CoinsActionTypes => ({
+  payload: { rates },
   type: AT.FETCH_COINS_RATES_SUCCESS
 })
-export const fetchCoinsRatesFailure = (coin: string, error: string): CoinsActionTypes => ({
-  payload: { coin, error },
+export const fetchCoinsRatesFailure = (error: string): CoinsActionTypes => ({
+  payload: { error },
   type: AT.FETCH_COINS_RATES_FAILURE
+})
+
+// 🔥
+// BTC price ticker is used to triangulate FIAT prices
+export const fetchBtcTicker = () => ({
+  type: AT.FETCH_BTC_TICKER
+})
+export const fetchBtcTickerLoading = (): CoinsActionTypes => ({
+  type: AT.FETCH_BTC_TICKER_LOADING
+})
+export const fetchBtcTickerSuccess = (rates: TickerResponseType): CoinsActionTypes => ({
+  payload: { rates },
+  type: AT.FETCH_BTC_TICKER_SUCCESS
+})
+export const fetchBtcTickerFailure = (error: string): CoinsActionTypes => ({
+  payload: { error },
+  type: AT.FETCH_BTC_TICKER_FAILURE
 })
 
 // FETCH_COINS_TRANSACTIONS

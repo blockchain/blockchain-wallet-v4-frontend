@@ -12,7 +12,7 @@ const ErrorLink = styled(Link)`
   text-decoration: underline;
 `
 
-export default props => (
+export default (props) => (
   <Wrapper>
     <ErrorLink size='12px' weight={400} onClick={() => props.onRefresh()}>
       <FormattedMessage

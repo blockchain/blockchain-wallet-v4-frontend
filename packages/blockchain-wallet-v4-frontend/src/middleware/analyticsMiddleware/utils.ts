@@ -1,4 +1,3 @@
-import crypto from 'crypto'
 import type {
   BuySellClickedOrigin,
   InterestDepositClickedOrigin,
@@ -11,7 +10,7 @@ import type {
 } from 'middleware/analyticsMiddleware/types'
 import { PaymentType } from 'middleware/analyticsMiddleware/types'
 
-import { PaymentValue, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
+import { PaymentValue, SBPaymentTypes } from '@core/types'
 import {
   BrokerageModalOriginType,
   SBShowModalOriginType,
@@ -75,10 +74,6 @@ const buyPaymentMethodSelectedPaymentTypeDictionary = (
 }
 
 const getOriginalTimestamp = () => new Date().toISOString()
-
-const generateUniqueId = (id: string) => {
-  return crypto.createHash('sha256').update(id).digest().toString('base64')
-}
 
 const getNetworkFee = (paymentValue: PaymentValue | null) => {
   return paymentValue
@@ -242,7 +237,6 @@ const utmParser = (query: string): { [key: string]: string } => {
 export {
   buyPaymentMethodSelectedPaymentTypeDictionary,
   buySellClickedOriginDictionary,
-  generateUniqueId,
   getNetworkFee,
   getOriginalTimestamp,
   interestDepositClickedOriginDictionary,

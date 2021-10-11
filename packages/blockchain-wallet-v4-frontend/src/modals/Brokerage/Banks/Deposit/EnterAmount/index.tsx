@@ -1,26 +1,26 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { Remote } from 'blockchain-wallet-v4/src'
-import { SBPaymentMethodType } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
-import { ExtractSuccess, RemoteDataType, WalletFiatType } from 'blockchain-wallet-v4/src/types'
+import { Remote } from '@core'
+import { SBPaymentMethodType } from '@core/network/api/simpleBuy/types'
+import { ExtractSuccess, RemoteDataType, WalletFiatType } from '@core/types'
+import { FlyoutOopsError } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { BankDWStepType, BankPartners, BankTransferAccountType } from 'data/types'
 
 import { Loading, LoadingTextEnum } from '../../../../components'
 import getData from './selectors'
-import Failure from './template.failure'
 import Success from './template.success'
 
 const EnterAmount = (props) => {
   useEffect(() => {
     if (props.fiatCurrency && !Remote.Success.is(props.data)) {
-      props.simpleBuyActions.fetchSBPaymentMethods(props.fiatCurrency)
-      props.simpleBuyActions.fetchSBFiatEligible(props.fiatCurrency)
+      props.buySellActions.fetchPaymentMethods(props.fiatCurrency)
+      props.buySellActions.fetchFiatEligible(props.fiatCurrency)
       props.brokerageActions.fetchBankTransferAccounts()
-      props.simpleBuyActions.fetchSDDEligible()
+      props.buySellActions.fetchSDDEligibility()
     }
   }, [props.fiatCurrency])
 
@@ -40,8 +40,20 @@ const EnterAmount = (props) => {
     }
   }
 
+  const errorCallback = useCallback(() => {
+    props.brokerageActions.setDWStep({
+      dwStep: BankDWStepType.DEPOSIT_METHODS
+    })
+  }, [])
+
   return props.data.cata({
-    Failure: () => <Failure {...props} />,
+    Failure: () => (
+      <FlyoutOopsError
+        action='retry'
+        data-e2e='sbTryCurrencySelectionAgain'
+        handler={errorCallback}
+      />
+    ),
     Loading: () => <Loading text={LoadingTextEnum.LOADING} />,
     NotAsked: () => <Loading text={LoadingTextEnum.LOADING} />,
     Success: (val) => (
@@ -62,10 +74,9 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

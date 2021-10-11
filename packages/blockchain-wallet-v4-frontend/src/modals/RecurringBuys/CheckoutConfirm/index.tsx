@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
+import { fiatToString } from '@core/exchange/utils'
 import {
   FlyoutContainer,
   FlyoutContent,
@@ -15,7 +15,7 @@ import {
   getPeriodTitleText
 } from 'components/Flyout'
 import { CheckoutRow } from 'components/Rows'
-import { FiatType, SBOrderType } from 'core/types'
+import { FiatType, SBOrderType } from '@core/types'
 import { actions, selectors } from 'data'
 import {
   getBankAccount,
@@ -139,8 +139,8 @@ const Confirm = ({
           style={{ padding: '40px', textAlign: 'center' }}
         >
           <FormattedMessage
-            id='modals.simplebuy.confirm.activity_card11'
-            defaultMessage='Your final amount might change due to market activity. For your security, buy orders with a bank account are subject to up to a 14 day holding period. You can Swap or Sell during this time. We will notify you once the funds are fully available.'
+            id='modals.simplebuy.confirm.activity'
+            defaultMessage='Your final amount may change due to market activity.'
           />
         </Text>
       </FlyoutContent>

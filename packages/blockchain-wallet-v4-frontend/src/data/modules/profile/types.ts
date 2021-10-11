@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios'
 
-import { NabuAddressType, NabuApiErrorType, RemoteDataType } from 'blockchain-wallet-v4/src/types'
-import { CampaignsType } from 'data/types'
+import type { NabuAddressType, NabuApiErrorType, RemoteDataType } from '@core/types'
+import type { CampaignsType } from 'data/components/identityVerification/types'
 
 import * as AT from './actionTypes'
 
@@ -144,6 +144,9 @@ interface FetchTiersFailureAction {
     error: string
   }
   type: typeof AT.FETCH_TIERS_FAILURE
+}
+interface FetchTiersAction {
+  type: typeof AT.FETCH_TIERS
 }
 interface FetchTiersLoadingAction {
   type: typeof AT.FETCH_TIERS_LOADING
@@ -290,6 +293,7 @@ export type ProfileActionTypes =
   | FetchTiersFailureAction
   | FetchTiersLoadingAction
   | FetchTiersSuccessAction
+  | FetchTiersAction
   | FetchUser
   | FetchUserCampaignsFailureAction
   | FetchUserCampaignsLoadingAction

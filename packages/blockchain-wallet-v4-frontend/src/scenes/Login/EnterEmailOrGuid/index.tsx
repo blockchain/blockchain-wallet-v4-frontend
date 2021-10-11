@@ -21,10 +21,9 @@ import {
 const isSupportedBrowser = isBrowserSupported()
 
 const EnterEmailOrGuid = (props: Props) => {
-  const { busy, guidOrEmail, invalid, loginError, submitting } = props
+  const { authActions, busy, guidOrEmail, invalid, loginError, submitting } = props
 
   const guidError = loginError && loginError.toLowerCase().includes('unknown wallet id')
-
   return (
     <>
       <FormGroup>
@@ -83,7 +82,7 @@ const EnterEmailOrGuid = (props: Props) => {
             </Text>
           )}
         </ActionButton>
-        <NeedHelpLink />
+        <NeedHelpLink authActions={authActions} origin='IDENTIFIER' />
       </LinkRow>
     </>
   )

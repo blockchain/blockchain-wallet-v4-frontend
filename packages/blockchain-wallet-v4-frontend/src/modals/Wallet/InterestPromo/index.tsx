@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
-import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
+import { RemoteDataType } from '@core/types'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 import { ModalName } from 'data/types'
@@ -33,7 +33,6 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
 

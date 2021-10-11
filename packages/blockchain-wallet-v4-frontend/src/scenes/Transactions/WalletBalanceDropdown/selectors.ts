@@ -1,11 +1,11 @@
 import { lift } from 'ramda'
 
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
+import { Exchange, Remote } from '@core'
 import {
   // CoinType,
   ExtractSuccess,
   FiatType
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 import * as balanceSelectors from 'components/Balances/selectors'
 import { getData as getBchAddressData } from 'components/Form/SelectBoxBchAddresses/selectors'
 import { getData as getBtcAddressData } from 'components/Form/SelectBoxBtcAddresses/selectors'
@@ -83,12 +83,13 @@ export const getData = (state, ownProps: OwnProps) => {
           })
           balanceDataR = balanceSelectors.getErc20Balance(coin)(state)
           break
-        case selectors.core.data.coins.getCoins().includes(coin):
+        case selectors.core.data.coins.getCustodialCoins().includes(coin):
           addressDataR = getCoinAddressData(state, {
             coin,
-            includeCustodial: true
+            includeCustodial: true,
+            includeInterest: true
           })
-          balanceDataR = balanceSelectors.getCoinBalance(coin)(state)
+          balanceDataR = balanceSelectors.getCoinCustodialBalance(coin)(state)
           break
         default:
       }

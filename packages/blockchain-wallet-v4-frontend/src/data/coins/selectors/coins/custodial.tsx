@@ -1,11 +1,11 @@
 import { lift } from 'ramda'
 
-import { SBBalanceType } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
-import { ExtractSuccess } from 'blockchain-wallet-v4/src/remote/types'
-import { CoinType } from 'blockchain-wallet-v4/src/types'
-import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
+import { SBBalanceType } from '@core/network/api/simpleBuy/types'
+import { ExtractSuccess } from '@core/remote/types'
+import { CoinType } from '@core/types'
+import { createDeepEqualSelector } from '@core/utils'
 import { generateTradingAccount } from 'data/coins/utils'
-import { SwapAccountType } from 'data/components/types'
+import { SwapAccountType } from 'data/types'
 
 import { getTradingBalance } from '..'
 
@@ -23,10 +23,11 @@ export const getAccounts = createDeepEqualSelector(
   (sbBalanceR, ownProps) => {
     const transform = (sbBalance: ExtractSuccess<typeof sbBalanceR>) => {
       const { coin } = ownProps
+      const { coinfig } = window.coins[coin]
       let accounts: SwapAccountType[] = []
 
       // add trading accounts if requested
-      if (ownProps?.tradingAccounts) {
+      if (ownProps?.tradingAccounts && coinfig.products.includes('CustodialWalletBalance')) {
         accounts = accounts.concat(
           generateTradingAccount(coin as CoinType, sbBalance as SBBalanceType)
         )

@@ -8,7 +8,7 @@ const DisplayTitle = styled(Title)`
   font-size: 16px;
   display: flex;
   flex-direction: column;
-  color: ${props => props.theme.textBlack};
+  color: ${(props) => props.theme.textBlack};
   width: 100%;
 `
 

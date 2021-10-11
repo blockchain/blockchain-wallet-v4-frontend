@@ -33,7 +33,7 @@ const EnterPassword = (props: Props) => {
 
   const twoFactorError = loginError && loginError.toLowerCase().includes('authentication code')
   const handleSmsResend = () => {
-    props.authActions.resendSmsCode(guid, formValues?.email)
+    props.authActions.resendSmsCode({ email: formValues?.email, guid })
   }
 
   const handleBackArrowClick = () => {
@@ -164,7 +164,7 @@ const EnterPassword = (props: Props) => {
             </Text>
           )}
         </ActionButton>
-        <NeedHelpLink />
+        <NeedHelpLink authActions={props.authActions} origin='PASSWORD' />
       </CenteredColumn>
     </>
   )

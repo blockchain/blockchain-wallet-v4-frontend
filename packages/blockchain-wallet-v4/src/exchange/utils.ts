@@ -1,6 +1,6 @@
 import { BigNumber } from 'bignumber.js'
 
-import { FiatType } from 'blockchain-wallet-v4/src/types'
+import { FiatType } from '@core/types'
 
 export const getLang = (): string => {
   if (navigator.languages !== undefined) return navigator.languages[0]
@@ -33,7 +33,12 @@ export const coinToString = ({
   minDigits?: number
   unit: { symbol: string }
   value
-}): string => `${formatCoin(value, minDigits, maxDigits)} ${unit.symbol}`
+}): string => {
+  const coinfig = window.coins[unit.symbol]?.coinfig
+  return `${formatCoin(value, minDigits, maxDigits)} ${
+    coinfig ? coinfig.displaySymbol : unit.symbol
+  }`
+}
 
 export const fiatToString = ({
   digits = 2,

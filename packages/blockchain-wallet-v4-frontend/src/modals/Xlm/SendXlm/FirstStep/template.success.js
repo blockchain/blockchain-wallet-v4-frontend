@@ -5,8 +5,8 @@ import PropTypes from 'prop-types'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { Remote } from '@core'
 import { Banner, Button, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
-import { Remote } from 'blockchain-wallet-v4/src'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import {
   Form,
@@ -195,56 +195,54 @@ const FirstStep = (props) => {
           </FormGroup>
           {amountActive && !error && !isFromCustody && <InfoBanner {...props} />}
           {error && !isFromCustody && <ErrorBanner error={error} />}
-          {!isFromCustody && (
-            <FormGroup margin='15px'>
-              <FormItem>
-                <FormLabel htmlFor='memo'>
-                  <FormattedMessage id='modals.sendxlm.firststep.txmemo' defaultMessage='Memo' />
-                  <TooltipHost id='sendxlm.firststep.memotooltip'>
-                    <TooltipIcon name='info' size='12px' />
-                  </TooltipHost>
-                </FormLabel>
-                <MemoField>
-                  <Field
-                    name='memo'
-                    errorBottom
-                    validate={validateMemo}
-                    component={TextBox}
-                    placeholder='Enter text or ID for recipient (optional)'
-                    data-e2e='sendXlmMemoText'
-                    noLastPass
+          <FormGroup margin='15px'>
+            <FormItem>
+              <FormLabel htmlFor='memo'>
+                <FormattedMessage id='modals.sendxlm.firststep.txmemo' defaultMessage='Memo' />
+                <TooltipHost id='sendxlm.firststep.memotooltip'>
+                  <TooltipIcon name='info' size='12px' />
+                </TooltipHost>
+              </FormLabel>
+              <MemoField>
+                <Field
+                  name='memo'
+                  errorBottom
+                  validate={validateMemo}
+                  component={TextBox}
+                  placeholder='Enter text or ID for recipient (optional)'
+                  data-e2e='sendXlmMemoText'
+                  noLastPass
+                />
+                <Field
+                  name='memoType'
+                  errorBottom
+                  validate={validateMemoType}
+                  component={SelectBoxMemo}
+                  data-e2e='sendXlmMemoType'
+                />
+              </MemoField>
+            </FormItem>
+            {isDestinationExchange && (
+              <WarningBanners type='warning' data-e2e='sendXlmToExchangeAddress'>
+                <Text color='warning' size='12px'>
+                  <FormattedMessage
+                    id='modals.sendxlm.firststep.sendtoexchange2'
+                    defaultMessage='Sending XLM to an exchange often requires adding a memo. Failing to include a required memo may result in a loss of funds!'
                   />
-                  <Field
-                    name='memoType'
-                    errorBottom
-                    validate={validateMemoType}
-                    component={SelectBoxMemo}
-                    data-e2e='sendXlmMemoType'
-                  />
-                </MemoField>
-              </FormItem>
-              {isDestinationExchange && (
-                <WarningBanners type='warning' data-e2e='sendXlmToExchangeAddress'>
-                  <Text color='warning' size='12px'>
-                    <FormattedMessage
-                      id='modals.sendxlm.firststep.sendtoexchange2'
-                      defaultMessage='Sending XLM to an exchange often requires adding a memo. Failing to include a required memo may result in a loss of funds!'
-                    />
-                    <Link
-                      href='https://support.blockchain.com/hc/en-us/articles/360018797312-Stellar-memos'
-                      target='_blank'
-                      size='11px'
-                      weight={700}
-                      altFont
-                      color='red600'
-                    >
-                      <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
-                    </Link>
-                  </Text>
-                </WarningBanners>
-              )}
-            </FormGroup>
-          )}
+                  <Link
+                    href='https://support.blockchain.com/hc/en-us/articles/360018797312-Stellar-memos'
+                    target='_blank'
+                    size='11px'
+                    weight={700}
+                    altFont
+                    color='red600'
+                  >
+                    <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
+                  </Link>
+                </Text>
+              </WarningBanners>
+            )}
+          </FormGroup>
 
           <FormGroup margin='15px'>
             <FormItem>

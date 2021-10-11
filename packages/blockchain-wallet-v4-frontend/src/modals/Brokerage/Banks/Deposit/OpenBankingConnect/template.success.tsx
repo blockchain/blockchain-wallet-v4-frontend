@@ -1,8 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { model } from 'data'
-
 import {
   BankWaitIndicator,
   BankWrapper,
@@ -14,8 +12,6 @@ import {
   Section
 } from '../../../../components'
 import { Props as _P } from '.'
-
-const { YAPILY_CONT_IN_BROWSER_PIS } = model.analytics.FIAT_DEPOSIT_EVENTS
 
 type Props = _P
 
@@ -46,12 +42,7 @@ const Success = (props: Props) => {
         </ScanWithPhone>
         <Hr />
         <Section>
-          <LinkViaDesktop
-            authUrl={authUrl}
-            onClick={() => {
-              props.analyticsActions.logEvent(YAPILY_CONT_IN_BROWSER_PIS)
-            }}
-          >
+          <LinkViaDesktop authUrl={authUrl}>
             <FormattedMessage
               id='modals.brokerage.link_via_desktop'
               defaultMessage='Link via desktop'

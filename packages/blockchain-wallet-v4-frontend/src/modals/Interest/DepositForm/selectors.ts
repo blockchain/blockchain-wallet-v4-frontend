@@ -1,13 +1,13 @@
 import { lift, pathOr, propOr } from 'ramda'
 
-import { Exchange } from 'blockchain-wallet-v4/src'
+import { Exchange } from '@core'
 import {
   ExtractSuccess,
   FiatType,
   InterestAfterTransactionType,
   InterestFormErrorsType,
   RemoteDataType
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 import { selectors } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { RootState } from 'data/rootReducer'
@@ -23,6 +23,7 @@ export const getData = (state: RootState) => {
     state
   ) as InterestFormErrorsType
   const interestLimitsR = selectors.components.interest.getInterestLimits(state)
+  const interestEDDStatusR = selectors.components.interest.getInterestEDDStatus(state)
   const interestRateR = selectors.components.interest.getInterestRate(state)
   const depositLimits = selectors.components.interest.getDepositLimits(state)
   const displayCoin = selectors.components.interest.getIsAmountDisplayedInCrypto(state)
@@ -32,9 +33,8 @@ export const getData = (state: RootState) => {
     string,
     FiatType
   >
-  const interestEDDWithdrawLimitsR = selectors.components.interest.getInterestEDDWithdrawLimits(
-    state
-  )
+  const interestEDDWithdrawLimitsR =
+    selectors.components.interest.getInterestEDDWithdrawLimits(state)
 
   const afterTransaction = selectors.components.interest
     .getAfterTransaction(state)
@@ -50,7 +50,8 @@ export const getData = (state: RootState) => {
       ethRates: ExtractSuccess<typeof ethRatesR>,
       payment: ExtractSuccess<typeof paymentR>,
       walletCurrency: ExtractSuccess<typeof walletCurrencyR>,
-      interestEDDWithdrawLimits
+      interestEDDWithdrawLimits,
+      interestEDDStatus
     ) => {
       const { coinfig } = window.coins[coin]
       const depositFee =
@@ -78,6 +79,7 @@ export const getData = (state: RootState) => {
         feeCrypto,
         feeFiat,
         formErrors,
+        interestEDDStatus,
         interestEDDWithdrawLimits,
         interestLimits,
         interestRate,
@@ -93,6 +95,7 @@ export const getData = (state: RootState) => {
     ethRatesR,
     paymentR,
     walletCurrencyR,
-    interestEDDWithdrawLimitsR
+    interestEDDWithdrawLimitsR,
+    interestEDDStatusR
   )
 }

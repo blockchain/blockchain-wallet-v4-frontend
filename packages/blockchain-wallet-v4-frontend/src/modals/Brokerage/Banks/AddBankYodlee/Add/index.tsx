@@ -2,9 +2,9 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from '@core'
 import DataError from 'components/DataError'
-import { WalletFiatType } from 'core/types'
+import { WalletFiatType } from '@core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { AddBankStepType } from 'data/types'
@@ -16,7 +16,7 @@ import Success from './template.success'
 class Add extends PureComponent<Props> {
   componentDidMount() {
     if (!Remote.Success.is(this.props.data)) {
-      this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
+      this.props.buySellActions.fetchPaymentMethods(this.props.fiatCurrency)
       this.props.brokerageActions.fetchBankLinkCredentials(
         this.props.fiatCurrency as WalletFiatType
       )
@@ -31,22 +31,22 @@ class Add extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Success: val => (
+      Failure: (e) => (
+        <DataError
+          message={{ message: e }}
+          onClick={this.props.buySellActions.fetchPaymentMethods}
+        />
+      ),
+      Loading: () => <Loading text={LoadingTextEnum.GETTING_READY} />,
+      NotAsked: () => <Loading text={LoadingTextEnum.GETTING_READY} />,
+      Success: (val) => (
         <Success
           {...this.props}
           {...val}
           onSubmit={this.handleSubmit}
           handleBack={this.props.handleClose}
         />
-      ),
-      Failure: e => (
-        <DataError
-          message={{ message: e }}
-          onClick={this.props.simpleBuyActions.fetchSBPaymentMethods}
-        />
-      ),
-      Loading: () => <Loading text={LoadingTextEnum.GETTING_READY} />,
-      NotAsked: () => <Loading text={LoadingTextEnum.GETTING_READY} />
+      )
     })
   }
 }
@@ -57,9 +57,8 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
-  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
+  brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -68,9 +67,8 @@ type OwnProps = {
   handleClose: () => void
 }
 type LinkDispatchPropsType = {
-  analyticsActions: typeof actions.analytics
   brokerageActions: typeof actions.components.brokerage
-  simpleBuyActions: typeof actions.components.simpleBuy
+  buySellActions: typeof actions.components.buySell
 }
 export type SuccessStateType = ReturnType<typeof getData>['data']
 export type Props = OwnProps & ConnectedProps<typeof connector>

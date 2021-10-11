@@ -6,9 +6,9 @@ import TransportU2F from '@ledgerhq/hw-transport-u2f'
 import { prop } from 'ramda'
 import { Observable } from 'rxjs'
 
-import { Types } from 'blockchain-wallet-v4/src'
-import { createXpubFromChildAndParent, getParentPath } from 'blockchain-wallet-v4/src/utils/btc'
-import { deriveAddressFromXpub } from 'blockchain-wallet-v4/src/utils/eth'
+import { Types } from '@core'
+import { createXpubFromChildAndParent, getParentPath } from '@core/utils/btc'
+import { deriveAddressFromXpub } from '@core/utils/eth'
 
 import LOG_LEVELS from '../../data/logs/model'
 import constants from './constants'

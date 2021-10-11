@@ -9,7 +9,7 @@ import {
   SBAccountType,
   SBOrderType,
   SBPairType
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -22,16 +22,16 @@ import Success from './template.success'
 class BankWireDetails extends PureComponent<Props> {
   componentDidMount() {
     if (this.props.fiatCurrency) {
-      this.props.simpleBuyActions.fetchSBPaymentAccount()
+      this.props.buySellActions.fetchPaymentAccount()
     }
   }
 
   render() {
     return this.props.data.cata({
-      Success: val => <Success {...val} {...this.props} />,
-      Failure: e => <DataError message={{ message: e }} />,
+      Failure: (e) => <DataError message={{ message: e }} />,
       Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      NotAsked: () => <Loading />,
+      Success: (val) => <Success {...val} {...this.props} />
     })
   }
 }
@@ -41,8 +41,7 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -50,7 +49,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 export type OwnProps = {
   addBank?: boolean
   cryptoCurrency?: CoinType
-  displayBack?: boolean
+  displayBack: boolean
   fiatCurrency: FiatType
   handleClose: () => void
   order?: SBOrderType

@@ -6,17 +6,14 @@ import { Icon, Image, Text } from 'blockchain-info-components'
 import {
   BeneficiaryType,
   NabuSymbolNumberType
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 import { AddNewButton } from 'components/Brokerage'
 import { FlyoutWrapper } from 'components/Flyout'
-import { model } from 'data'
 import { BankDWStepType, BankTransferAccountType } from 'data/types'
 import { getBankLogoImageName } from 'services/images'
 
 import { Bank, BankWire } from '../../model'
 import { Props as _P } from '.'
-
-const { SELECT_BANK_OPTION } = model.analytics.FIAT_DEPOSIT_EVENTS
 
 type OwnProps = {
   account: BankTransferAccountType | undefined
@@ -41,7 +38,7 @@ const TopText = styled(Text)`
 `
 
 const AccountsListWrapper = styled.div`
-  border-top: 1px solid ${props => props.theme.grey000};
+  border-top: 1px solid ${(props) => props.theme.grey000};
 `
 
 const getLinkedBankIcon = (bankName: string): ReactElement => (
@@ -67,16 +64,13 @@ const BankList = (props: Props) => {
             }
           />
           <div>
-            <FormattedMessage
-              id='scenes.settings.linked_banks'
-              defaultMessage='Linked Banks'
-            />
+            <FormattedMessage id='scenes.settings.linked_banks' defaultMessage='Linked Banks' />
           </div>
         </TopText>
       </Header>
 
       <AccountsListWrapper>
-        {props.bankTransferAccounts.map(account => (
+        {props.bankTransferAccounts.map((account) => (
           <Bank
             key={account.id}
             bankDetails={account.details}
@@ -88,11 +82,10 @@ const BankList = (props: Props) => {
               props.brokerageActions.setDWStep({
                 dwStep: BankDWStepType.ENTER_AMOUNT
               })
-              props.analyticsActions.logEvent(SELECT_BANK_OPTION)
             }}
           />
         ))}
-        {props.beneficiaries.map(beneficiary => (
+        {props.beneficiaries.map((beneficiary) => (
           <BankWire
             beneficiary={beneficiary}
             minAmount={props.minAmount}
@@ -100,9 +93,8 @@ const BankList = (props: Props) => {
               props.brokerageActions.setDWStep({
                 dwStep: BankDWStepType.WIRE_INSTRUCTIONS
               })
-              props.analyticsActions.logEvent(SELECT_BANK_OPTION)
             }}
-            type={'DEPOSIT'}
+            type='DEPOSIT'
           />
         ))}
         <AddNewButton
@@ -110,8 +102,8 @@ const BankList = (props: Props) => {
           onClick={() => {
             // Setting addNew determines where the ach deposit method will link to
             props.brokerageActions.setDWStep({
-              dwStep: BankDWStepType.DEPOSIT_METHODS,
-              addNew: true
+              addNew: true,
+              dwStep: BankDWStepType.DEPOSIT_METHODS
             })
           }}
         >

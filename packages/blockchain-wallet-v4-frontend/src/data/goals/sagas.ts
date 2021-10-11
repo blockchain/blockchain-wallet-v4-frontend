@@ -4,9 +4,9 @@ import bip21 from 'bip21'
 import { anyPass, equals, includes, map, path, pathOr, prop, startsWith } from 'ramda'
 import { all, call, delay, join, put, select, spawn, take } from 'redux-saga/effects'
 
-import { Exchange, utils } from 'blockchain-wallet-v4/src'
-import { InterestAfterTransactionType, WalletFiatType } from 'blockchain-wallet-v4/src/types'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { Exchange, utils } from '@core'
+import { InterestAfterTransactionType, RatesType, WalletFiatType } from '@core/types'
+import { errorHandler } from '@core/utils'
 import { actions, model, selectors } from 'data'
 import { getBchBalance, getBtcBalance } from 'data/balance/sagas'
 import { parsePaymentRequest } from 'data/bitpay/sagas'
@@ -16,8 +16,6 @@ import * as C from 'services/alerts'
 
 import { WAIT_FOR_INTEREST_PROMO_MODAL } from './model'
 import { DeepLinkGoal, GoalType } from './types'
-
-const { TRANSACTION_EVENTS } = model.analytics
 
 const origin = 'Goals'
 
@@ -198,8 +196,8 @@ export default ({ api, coreSagas, networks }) => {
       return yield call(defineSwapGoal)
     }
 
-    // /#/open/interest
-    if (startsWith(DeepLinkGoal.INTEREST, pathname)) {
+    // /#/open/rewards /#/open/interest
+    if (startsWith(DeepLinkGoal.REWARDS, pathname) || startsWith(DeepLinkGoal.INTEREST, pathname)) {
       return yield call(defineInterestGoal)
     }
 
@@ -303,17 +301,14 @@ export default ({ api, coreSagas, networks }) => {
   const runPaymentProtocolGoal = function* (goal) {
     const { data, id } = goal
     const { coin, r } = data
-    let coinRate
+    const coinRate = selectors.core.data.coins.getRates(coin, yield select())
 
     yield put(actions.goals.deleteGoal(id))
-    yield put(actions.analytics.logEvent([...TRANSACTION_EVENTS.BITPAY_URL_DEEPLINK, coin]))
 
     if (equals('BTC', coin)) {
       yield call(getBtcBalance)
-      coinRate = yield select(selectors.core.data.btc.getRates)
     } else {
       yield call(getBchBalance)
-      coinRate = yield select(selectors.core.data.bch.getRates)
     }
 
     const invoiceId = r.split('/i/')[1]
@@ -351,7 +346,7 @@ export default ({ api, coreSagas, networks }) => {
         coin,
         currency: currency.getOrElse(null),
         isStandard: true,
-        rates: coinRate.getOrElse(null),
+        rates: coinRate.getOrElse({} as RatesType),
         value: paymentCryptoAmount
       })
 
@@ -392,9 +387,6 @@ export default ({ api, coreSagas, networks }) => {
       }
     } catch (e) {
       yield put(actions.alerts.displayInfo(C.BITPAY_INVOICE_NOT_FOUND_ERROR))
-      yield put(
-        actions.analytics.logEvent([...TRANSACTION_EVENTS.BITPAY_FAILURE, 'invoice not found'])
-      )
       yield put(actions.logs.logErrorMessage(logLocation, 'runPaymentProtocolGoal', e))
     }
   }
@@ -407,12 +399,12 @@ export default ({ api, coreSagas, networks }) => {
 
     const { address, amount, description } = data
     const currency = yield select(selectors.core.settings.getCurrency)
-    const btcRates = yield select(selectors.core.data.btc.getRates)
+    const btcRates = selectors.core.data.coins.getRates('BTC', yield select())
     const fiat = Exchange.convertCoinToFiat({
       coin: 'BTC',
       currency: currency.getOrElse('USD'),
       isStandard: true,
-      rates: btcRates.getOrElse(null),
+      rates: btcRates.getOrElse({} as RatesType),
       value: amount
     })
     // Goal work
@@ -615,7 +607,9 @@ export default ({ api, coreSagas, networks }) => {
         show: false
       } as InterestAfterTransactionType)
       if (afterTransaction?.show) {
-        yield put(actions.components.simpleBuy.fetchSBPairs(currency, afterTransaction.currency))
+        yield put(
+          actions.components.buySell.fetchPairs({ coin: afterTransaction.currency, currency })
+        )
         yield put(
           actions.goals.addInitialModal({
             data: { origin },
@@ -631,7 +625,7 @@ export default ({ api, coreSagas, networks }) => {
     const initialRedirect = yield select(selectors.goals.getInitialRedirect)
 
     if (initialRedirect === 'interest') {
-      return yield put(actions.router.push(`/${initialRedirect}`))
+      return yield put(actions.router.push(`/rewards`))
     }
   }
 
@@ -690,7 +684,10 @@ export default ({ api, coreSagas, networks }) => {
     }
     if (simpleBuyModal) {
       return yield put(
-        actions.components.simpleBuy.showModal('SimpleBuyLink', simpleBuyModal.data.crypto)
+        actions.components.buySell.showModal({
+          cryptoCurrency: simpleBuyModal.data.crypto,
+          origin: 'SimpleBuyLink'
+        })
       )
     }
     if (interestPromo) {
@@ -700,7 +697,7 @@ export default ({ api, coreSagas, networks }) => {
       const sddEligible = yield call(api.fetchSDDEligible)
       // show SDD flow for eligible country
       if (sddEligible.eligible) {
-        return yield put(actions.components.simpleBuy.showModal('WelcomeModal'))
+        return yield put(actions.components.buySell.showModal({ origin: 'WelcomeModal' }))
       }
       return yield put(actions.modals.showModal(welcomeModal.name, welcomeModal.data))
     }

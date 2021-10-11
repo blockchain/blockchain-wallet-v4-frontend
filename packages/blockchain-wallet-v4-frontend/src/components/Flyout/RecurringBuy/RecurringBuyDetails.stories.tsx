@@ -2,8 +2,9 @@ import React from 'react'
 import { IntlProvider } from 'react-intl'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 
-import { SBPaymentTypes } from '../../../../../blockchain-wallet-v4/src/network/api/simpleBuy/types'
-import { RecurringBuyPeriods } from '../../../data/types'
+import { SBPaymentTypes } from '@core/types'
+import { RecurringBuyPeriods } from 'data/types'
+
 import RecurringBuyDetails from './RecurringBuyDetails'
 
 export default {
@@ -27,9 +28,7 @@ export default {
   decorators: [
     (Story) => (
       <IntlProvider locale='en'>
-        <div style={{ display: 'flex', height: '100vh' }}>
-          <Story />
-        </div>
+        <div style={{ display: 'flex', height: '100vh' }}>{Story()}</div>
       </IntlProvider>
     )
   ],

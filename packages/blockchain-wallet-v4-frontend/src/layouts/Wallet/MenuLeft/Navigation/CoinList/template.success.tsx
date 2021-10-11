@@ -4,8 +4,8 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { map, toLower } from 'ramda'
 import styled, { DefaultTheme } from 'styled-components'
 
+import { CoinfigType, CoinType } from '@core/types'
 import { Text } from 'blockchain-info-components'
-import { CoinfigType, CoinType } from 'core/types'
 import { CoinIcon, Destination, MenuItem } from 'layouts/Wallet/components'
 
 import { Divider } from '../template'

@@ -11,7 +11,7 @@ import {
   SelectInput,
   Text
 } from 'blockchain-info-components'
-import { utils } from 'blockchain-wallet-v4/src'
+import { utils } from '@core'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 import { flex, spacing } from 'services/styles'

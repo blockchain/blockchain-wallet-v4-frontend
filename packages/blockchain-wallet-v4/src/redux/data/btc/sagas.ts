@@ -2,13 +2,9 @@ import moment from 'moment'
 import { concat, flatten, indexBy, length, map, path, prop, replace } from 'ramda'
 import { call, put, select, take } from 'redux-saga/effects'
 
-import {
-  FetchCustodialOrdersAndTransactionsReturnType,
-  HDAccountList,
-  Wallet
-} from 'blockchain-wallet-v4/src/types'
-import { APIType } from 'core/network/api'
-import { ProcessedTxType } from 'core/transactions/types'
+import { APIType } from '@core/network/api'
+import { ProcessedTxType } from '@core/transactions/types'
+import { FetchCustodialOrdersAndTransactionsReturnType, HDAccountList, Wallet } from '@core/types'
 
 import Remote from '../../../remote'
 import * as transactions from '../../../transactions'
@@ -42,16 +38,6 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchDataSuccess(btcData))
     } catch (e) {
       yield put(A.fetchDataFailure(errorHandler(e)))
-    }
-  }
-
-  const fetchRates = function* () {
-    try {
-      yield put(A.fetchRatesLoading())
-      const data = yield call(api.getBtcTicker)
-      yield put(A.fetchRatesSuccess(data))
-    } catch (e) {
-      yield put(A.fetchRatesFailure(e.message))
     }
   }
 
@@ -194,7 +180,6 @@ export default ({ api }: { api: APIType }) => {
     __processTxs,
     fetchData,
     fetchFiatAtTime,
-    fetchRates,
     fetchTransactionHistory,
     fetchTransactions,
     watchTransactions

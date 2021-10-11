@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled, { css } from 'styled-components'
 
 import { Icon, Image } from 'blockchain-info-components'
-import { BeneficiaryType, FiatType, NabuSymbolNumberType } from 'blockchain-wallet-v4/src/types'
+import { BeneficiaryType, FiatType, NabuSymbolNumberType } from '@core/types'
 import { GreyCartridge, OrangeCartridge, SuccessCartridge } from 'components/Cartridge'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import { Col, Title, Value } from 'components/Flyout'

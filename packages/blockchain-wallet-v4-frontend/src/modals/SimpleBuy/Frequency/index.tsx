@@ -1,13 +1,14 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { buyPaymentMethodSelectedPaymentTypeDictionary } from 'middleware/analyticsMiddleware/utils'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { RemoteDataType, SBPaymentMethodType } from 'blockchain-wallet-v4/src/types'
+import { RemoteDataType, SBPaymentMethodType, SBPaymentTypes } from '@core/types'
 import DataError from 'components/DataError'
 import { FrequencyScreen } from 'components/Flyout'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
-import { RecurringBuyPeriods } from 'data/types'
+import { RecurringBuyOrigins, RecurringBuyPeriods } from 'data/types'
 
 import { Loading, LoadingTextEnum } from '../../components'
 import getData from './selectors'
@@ -17,9 +18,13 @@ class Frequency extends PureComponent<Props> {
     this.props.recurringBuyActions.fetchPaymentInfo()
   }
 
-  handleFrequencySelection = (period?: RecurringBuyPeriods) => {
+  handleFrequencySelection = (period: RecurringBuyPeriods) => {
     this.props.formActions.change('simpleBuyCheckout', 'period', period)
     this.props.backToEnterAmount()
+    this.props.recurringBuyActions.setPeriod({
+      origin: RecurringBuyOrigins.SIMPLE_BUY_FREQUENCY_SCREEN,
+      period
+    })
   }
 
   render() {
@@ -34,7 +39,9 @@ class Frequency extends PureComponent<Props> {
             <FrequencyScreen
               headerAction={this.props.backToEnterAmount}
               headerMode='back'
-              method={method}
+              method={
+                buyPaymentMethodSelectedPaymentTypeDictionary(method) as unknown as SBPaymentTypes
+              }
               paymentInfo={val.paymentInfo}
               setPeriod={this.handleFrequencySelection}
             />
@@ -51,9 +58,9 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

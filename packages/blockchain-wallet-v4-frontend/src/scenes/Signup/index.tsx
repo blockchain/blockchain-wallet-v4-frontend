@@ -5,8 +5,8 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Remote } from 'blockchain-wallet-v4/src'
-import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
+import { Remote } from '@core'
+import { RemoteDataType } from '@core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -37,21 +37,24 @@ class SignupContainer extends React.PureComponent<
   }
 
   componentDidMount() {
-    this.props.authActions.getUserGeoLocation()
+    const { authActions, websocketActions } = this.props
+    // start sockets to ensure email verify flow is detected
+    websocketActions.startSocket()
+    authActions.getUserGeoLocation()
   }
 
   onSubmit = (e) => {
     e.preventDefault()
     const { authActions, formValues, language } = this.props
     const { country, email, password, state } = formValues
-    authActions.register(email, password, language, country, state)
+    authActions.register({ country, email, language, password, state })
   }
 
   toggleSignupFormVisibility = () => {
     this.setState({ showForm: true })
   }
 
-  onCountryChange = (e: React.SyntheticEvent, value: string) => {
+  onCountryChange = (e: React.ChangeEvent<any> | undefined, value: string) => {
     this.setDefaultCountry(value)
     this.props.formActions.clearFields(SIGNUP_FORM, false, false, 'state')
   }
@@ -60,16 +63,18 @@ class SignupContainer extends React.PureComponent<
     this.setState({ showState: country === 'US' })
   }
 
+  setCountryOnLoad = (country: string) => {
+    this.setDefaultCountry(country)
+    this.props.formActions.change(SIGNUP_FORM, 'country', country)
+  }
+
   render() {
-    const { goals, isLoadingR, signupCountryEnabled, userGeoData } = this.props
+    const { goals, isLoadingR, signupCountryEnabled } = this.props
     const isFormSubmitting = Remote.Loading.is(isLoadingR)
 
     // pull email from simple buy goal if it exists
     const email = pathOr('', ['data', 'email'], find(propEq('name', 'simpleBuy'), goals))
     const signupInitialValues = (email ? { email } : {}) as SignupFormInitValuesType
-    if (userGeoData?.countryCode && signupCountryEnabled) {
-      signupInitialValues.country = userGeoData.countryCode
-    }
     const isLinkAccountGoal = !!find(propEq('name', 'linkAccount'), goals)
     const isBuyGoal = !!find(propEq('name', 'simpleBuy'), goals)
 
@@ -79,6 +84,7 @@ class SignupContainer extends React.PureComponent<
       isLinkAccountGoal,
       onCountrySelect: this.onCountryChange,
       onSignupSubmit: this.onSubmit,
+      setDefaultCountry: this.setCountryOnLoad,
       showForm: this.state.showForm,
       showState: this.state.showState,
       signupCountryEnabled,
@@ -110,9 +116,9 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   alertActions: bindActionCreators(actions.alerts, dispatch),
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   authActions: bindActionCreators(actions.auth, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch),
+  websocketActions: bindActionCreators(actions.ws, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -130,7 +136,10 @@ type StateProps = {
   showForm: boolean
   showState: boolean
 }
-export type Props = ConnectedProps<typeof connector> & LinkStatePropsType
+type ownProps = {
+  setDefaultCountry: (country: string) => void
+}
+export type Props = ConnectedProps<typeof connector> & LinkStatePropsType & ownProps
 
 const enhance = compose(reduxForm<{}, Props>({ form: SIGNUP_FORM }), connector)
 

@@ -2,12 +2,12 @@ import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { Remote } from 'blockchain-wallet-v4/src'
-import { WalletFiatType } from 'blockchain-wallet-v4/src/types'
+import { Remote } from '@core'
+import { WalletFiatType } from '@core/types'
+import { FlyoutOopsError } from 'components/Flyout'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 
-import Failure from '../template.failure'
 import Loading from '../template.loading'
 import { getData } from './selectors'
 import Success from './template.success'
@@ -22,10 +22,12 @@ const BankList = (props: Props) => {
   }, [])
 
   return props.data.cata({
-    Success: val => <Success {...val} {...props} />,
-    Failure: () => <Failure {...props} handleClose={props.handleClose} />,
+    Failure: () => (
+      <FlyoutOopsError action='close' data-e2e='depositTryAgain' handler={props.handleClose} />
+    ),
     Loading: () => <Loading />,
-    NotAsked: () => <Loading />
+    NotAsked: () => <Loading />,
+    Success: (val) => <Success {...val} {...props} />
   })
 }
 
@@ -34,9 +36,8 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  custodialActions: bindActionCreators(actions.custodial, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
+  custodialActions: bindActionCreators(actions.custodial, dispatch),
   withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
 })
 

@@ -1,4 +1,4 @@
-import { CoinType, SBPaymentTypes, WalletFiatType } from 'core/types'
+import { CoinType, SBPaymentTypes, WalletFiatType } from '@core/types'
 import {
   BankTransferAccountType,
   NabuProductType,
@@ -94,7 +94,8 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       contentType: 'application/json',
       data: {
         currency,
-        paymentMethod
+        paymentMethod,
+        product: 'SIMPLEBUY'
       },
       endPoint: '/payments/withdrawals/locks/check',
       url: nabuUrl

@@ -5,9 +5,9 @@ import { concat, equals, prop } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled, { css } from 'styled-components'
 
+import { WalletOptionsType } from '@core/types'
 import { Icon, Link, Text } from 'blockchain-info-components'
-import { WalletOptionsType } from 'blockchain-wallet-v4/src/types'
-import { actions, model, selectors } from 'data'
+import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 const Wrapper = styled.div`
@@ -19,12 +19,10 @@ const Wrapper = styled.div`
   padding: 6px 12px;
   background-color: ${({ theme }) => theme.blue000};
 `
-
 const ContainerCss = css`
   display: flex;
   align-items: center;
 `
-
 const ConnectContainer = styled.div`
   ${ContainerCss}
 
@@ -32,13 +30,9 @@ const ConnectContainer = styled.div`
     cursor: pointer;
   }
 `
-
 const GetStartedContainer = styled.div`
   ${ContainerCss}
 `
-
-const { EXCHANGE_EVENTS } = model.analytics
-
 const LinkCustom = styled(Link)`
   ${ContainerCss}
 `
@@ -50,7 +44,6 @@ type LinkStatePropsType = {
 }
 
 type LinkDispatchPropsType = {
-  analyticsActions: typeof actions.analytics
   modalActions: typeof actions.modals
   profileActions: typeof actions.modules.profile
 }
@@ -63,7 +56,6 @@ class ExchangePromo extends PureComponent<Props> {
     this.props.modalActions.showModal('LINK_TO_EXCHANGE_ACCOUNT_MODAL', {
       origin: 'SendExchangePromo'
     })
-    this.props.analyticsActions.logEvent([...EXCHANGE_EVENTS.PROMO, 'connect_modal_promo_clicked'])
   }
 
   render() {
@@ -94,12 +86,6 @@ class ExchangePromo extends PureComponent<Props> {
               rel='noopener noreferrer'
               data-e2e='openExchange'
               target='_blank'
-              onClick={() =>
-                this.props.analyticsActions.logEvent([
-                  ...EXCHANGE_EVENTS.PROMO,
-                  'go_to_exchange_promo_clicked'
-                ])
-              }
             >
               <Text color='blue600' size='14px' weight={600}>
                 <FormattedMessage id='exchangepromo.trade' defaultMessage='Trade' />
@@ -121,10 +107,6 @@ class ExchangePromo extends PureComponent<Props> {
           <ConnectContainer
             data-e2e='goSettingsProfile'
             onClick={() => {
-              this.props.analyticsActions.logEvent([
-                ...EXCHANGE_EVENTS.PROMO,
-                'verify_account_promo_clicked'
-              ])
               this.props.modalActions.showModal('TRADING_LIMITS_MODAL', {
                 origin: 'TradingLimits'
               })
@@ -155,7 +137,6 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   profileActions: bindActionCreators(actions.modules.profile, dispatch)
 })

@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { prop } from 'ramda'
 import { bindActionCreators } from 'redux'
 
+import { getCoinsSortedByBalance } from 'components/Balances/selectors'
 import { actions, selectors } from 'data'
 
 import Template from './template'
@@ -27,10 +28,7 @@ class WalletBalanceContainer extends React.PureComponent<Props> {
 }
 
 const mapStateToProps = (state) => ({
-  coins: selectors.components.utils
-    .getCoinsWithBalanceOrMethod(state)
-    // @ts-ignore
-    .getOrElse({}),
+  coins: getCoinsSortedByBalance(state).getOrElse([]),
   totalBalancesDropdown: selectors.preferences.getTotalBalancesDropdown(state)
 })
 

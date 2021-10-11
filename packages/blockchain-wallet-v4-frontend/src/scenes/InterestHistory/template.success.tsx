@@ -4,6 +4,8 @@ import moment from 'moment'
 import { flatten, head, last, map } from 'ramda'
 import styled from 'styled-components'
 
+import { Exchange, Remote } from '@core'
+import { InterestTransactionType } from '@core/types'
 import {
   HeartbeatLoader,
   Icon,
@@ -13,8 +15,6 @@ import {
   TableRow,
   Text
 } from 'blockchain-info-components'
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import { InterestTransactionType } from 'blockchain-wallet-v4/src/types'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import Empty from './Empty'
@@ -142,7 +142,13 @@ function TransactionList(props: Props): ReactElement | null {
                 ) : (
                   <>
                     <Icon name='percentage' color={amount.symbol} size='32px' />
-                    <Value data-e2e='interestEarnedTx'>{amount.symbol} Interest Earned</Value>
+                    <Value data-e2e='interestEarnedTx'>
+                      <FormattedMessage
+                        id='modals.interest.symbolearned'
+                        defaultMessage='{symbol} Rewards Earned'
+                        values={{ symbol: amount.symbol }}
+                      />
+                    </Value>
                   </>
                 )}
               </InterestTableCell>
@@ -163,13 +169,25 @@ function TransactionList(props: Props): ReactElement | null {
                     </Value>
                   </TableCell>
                   <TableCell width='20%'>
-                    <Value data-e2e='interestTransactionTo'>{displayName} Interest Account</Value>
+                    <Value data-e2e='interestTransactionTo'>
+                      <FormattedMessage
+                        id='modals.interest.detailstitle'
+                        defaultMessage='{displayName} Rewards Account'
+                        values={{ displayName }}
+                      />
+                    </Value>
                   </TableCell>
                 </>
               ) : type === 'WITHDRAWAL' ? (
                 <>
                   <TableCell width='20%'>
-                    <Value data-e2e='interestTransactionFrom'>{displayName} Interest Account</Value>
+                    <Value data-e2e='interestTransactionFrom'>
+                      <FormattedMessage
+                        id='modals.interest.detailstitle'
+                        defaultMessage='{displayName} Rewards Account'
+                        values={{ displayName }}
+                      />
+                    </Value>
                   </TableCell>
                   <TableCell width='20%'>
                     <Value data-e2e='interestTransactionTo'>
@@ -187,7 +205,13 @@ function TransactionList(props: Props): ReactElement | null {
                     <Value data-e2e='interestTransactionFrom'>Blockchain.com</Value>
                   </TableCell>
                   <TableCell width='20%'>
-                    <Value data-e2e='interestTransactionTo'>{displayName} Interest Account</Value>
+                    <Value data-e2e='interestTransactionTo'>
+                      <FormattedMessage
+                        id='modals.interest.detailstitle'
+                        defaultMessage='{displayName} Rewards Account'
+                        values={{ displayName }}
+                      />
+                    </Value>
                   </TableCell>
                 </>
               )}

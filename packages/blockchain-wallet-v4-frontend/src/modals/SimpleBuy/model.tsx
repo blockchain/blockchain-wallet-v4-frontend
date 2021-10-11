@@ -1,8 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { Text } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
+import { fiatToString } from '@core/exchange/utils'
 import {
   CoinType,
   FiatType,
@@ -10,7 +9,8 @@ import {
   SBOrderActionType,
   SBOrderType,
   SBPaymentTypes
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
+import { Link, Text, TextGroup } from 'blockchain-info-components'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { getBaseCurrency, getCounterCurrency, getOrderType } from 'data/components/simpleBuy/model'
 import { BankTransferAccountType } from 'data/types'
@@ -105,19 +105,21 @@ export const BuyOrSell = (props: {
   orderType: SBOrderActionType
 }) => {
   if (props.crypto) {
+    const coin = window.coins[props.crypto]
     return props.orderType === 'BUY' ? (
       <FormattedMessage
         id='buttons.buy_coin'
         defaultMessage='Buy {displayName}'
         values={{
-          displayName: props.crypto === 'Crypto' ? 'Crypto' : props.crypto
+          displayName:
+            props.crypto === 'Crypto' ? 'Crypto' : coin ? coin.coinfig.displaySymbol : props.crypto
         }}
       />
     ) : (
       <FormattedMessage
         id='buttons.sell_coin'
         defaultMessage='Sell {displayName}'
-        values={{ displayName: props.crypto }}
+        values={{ displayName: coin ? coin.coinfig.displaySymbol : props.crypto }}
       />
     )
   }
@@ -204,5 +206,61 @@ export const getPaymentMethodDetails = (
       return `${d.bankAccountType?.toLowerCase() || ''} ${d.accountNumber || ''}`
     default:
       return null
+  }
+}
+
+export const getLockRuleMessaging = (
+  showLockRule: boolean,
+  days: number,
+  paymentType?: SBPaymentTypes
+) => {
+  switch (paymentType) {
+    case SBPaymentTypes.BANK_TRANSFER:
+    case SBPaymentTypes.PAYMENT_CARD:
+    case SBPaymentTypes.USER_CARD:
+      if (showLockRule) {
+        return (
+          <TextGroup inline>
+            <Text size='12px' weight={500} color='grey900'>
+              <FormattedMessage
+                id='modals.simplebuy.summary.complete_card_info_main'
+                defaultMessage='Your final amount might change due to market activity. For security purposes, a {days} day holding period will be applied to your funds. You can Sell or Swap during this time. We will notify you once the funds are available to be withdrawn.'
+                values={{ days }}
+              />
+            </Text>
+            <Link
+              href='https://support.blockchain.com/hc/en-us/articles/360051018131-Trading-Account-Withdrawal-Holds'
+              size='12px'
+              rel='noopener noreferrer'
+              target='_blank'
+            >
+              <FormattedMessage
+                id='modals.simplebuy.summary.learn_more'
+                defaultMessage='Learn more'
+              />
+            </Link>
+          </TextGroup>
+        )
+      }
+      return (
+        <Text size='12px' weight={500} color='grey900'>
+          <FormattedMessage
+            id='modals.simplebuy.confirm.activity_card11'
+            defaultMessage='Your final amount might change due to market activity. Your funds will be available to Sell, Swap or withdraw instantly.'
+          />
+        </Text>
+      )
+    case SBPaymentTypes.BANK_ACCOUNT:
+      return <></>
+    case SBPaymentTypes.FUNDS:
+    default:
+      return (
+        <Text size='12px' weight={500} color='grey900'>
+          <FormattedMessage
+            id='modals.simplebuy.confirm.activity'
+            defaultMessage='Your final amount may change due to market activity.'
+          />
+        </Text>
+      )
   }
 }

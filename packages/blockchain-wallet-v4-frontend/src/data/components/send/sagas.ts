@@ -2,7 +2,7 @@ import moment from 'moment'
 import { FormAction } from 'redux-form'
 import { call, CallEffect, delay, put, select } from 'redux-saga/effects'
 
-import { APIType } from 'blockchain-wallet-v4/src/network/api'
+import { APIType } from '@core/network/api'
 import {
   BeneficiaryType,
   CoinType,
@@ -12,8 +12,8 @@ import {
   SBOrderType,
   SBPaymentTypes,
   WalletFiatType
-} from 'blockchain-wallet-v4/src/types'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+} from '@core/types'
+import { errorHandler } from '@core/utils'
 import { actions, model, selectors } from 'data'
 import * as C from 'services/alerts'
 import { promptForSecondPassword } from 'services/sagas'

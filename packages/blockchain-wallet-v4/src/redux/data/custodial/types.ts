@@ -6,7 +6,7 @@ import {
   SBTransactionStateType,
   SBTransactionType,
   WalletCurrencyType
-} from 'core/types'
+} from '@core/types'
 
 import * as AT from './actionTypes'
 

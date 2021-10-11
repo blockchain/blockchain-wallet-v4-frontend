@@ -2,8 +2,8 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled, { css, DefaultTheme } from 'styled-components'
 
+import { FiatType } from '@core/types'
 import { CoinAccountIcon, Icon, Text } from 'blockchain-info-components'
-import { FiatType } from 'blockchain-wallet-v4/src/types'
 import { SuccessCartridge } from 'components/Cartridge'
 import { SwapAccountType, SwapBaseCounterTypes } from 'data/types'
 
@@ -88,7 +88,13 @@ const CoinAccountListOption: React.FC<Props> = (props) => {
   } = props
 
   return (
-    <Option data-e2e='changeAcct' displayOnly={displayOnly} onClick={props.onClick} role='button'>
+    <Option
+      className='coin-account-option'
+      data-e2e='changeAcct'
+      displayOnly={displayOnly}
+      onClick={props.onClick}
+      role='button'
+    >
       <FlexStartRow>
         <CoinAccountIcon accountType={account.type} coin={coin} style={{ marginRight: '12px' }} />
         <div>

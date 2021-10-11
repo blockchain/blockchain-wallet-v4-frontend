@@ -41,7 +41,7 @@ class FeaturesContainer extends React.PureComponent<Props> {
         origin: 'FeaturesTopNav'
       })
     }
-    if (selectors.core.data.coins.getCoins().includes(coin)) {
+    if (selectors.core.data.coins.getCustodialCoins().includes(coin)) {
       return this.props.modalActions.showModal(ModalName.SEND_CRYPTO_MODAL, {
         coin,
         origin: 'FeaturesTopNav'
@@ -66,8 +66,8 @@ class FeaturesContainer extends React.PureComponent<Props> {
 }
 
 const mapDispatchToProps = (dispatch) => ({
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
   swapActions: bindActionCreators(actions.components.swap, dispatch)
 })
 

@@ -6,7 +6,7 @@ import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
 import QRCodeWrapper from 'components/QRCodeWrapper'
-import { RemoteDataType } from 'core/types'
+import { RemoteDataType } from '@core/types'
 import { actions, selectors } from 'data'
 import { LoginSteps } from 'data/types'
 
@@ -40,6 +40,11 @@ const VerificationMobile = (props: Props) => {
     props.formActions.destroy(LOGIN_FORM_NAME)
     props.setStep(LoginSteps.ENTER_EMAIL_GUID)
     props.authActions.clearLoginError()
+  }
+
+  const loginWithPasswordClicked = () => {
+    props.authActions.loginMethodSelected('PASSWORD')
+    setStep(LoginSteps.ENTER_PASSWORD)
   }
 
   return (
@@ -130,11 +135,11 @@ const VerificationMobile = (props: Props) => {
           height='48px'
           data-e2e='loginWithPassword'
           style={{ marginBottom: '24px' }}
-          onClick={() => setStep(LoginSteps.ENTER_PASSWORD)}
+          onClick={loginWithPasswordClicked}
         >
           <FormattedMessage id='buttons.login_with_password' defaultMessage='Login with Password' />
         </Button>
-        <NeedHelpLink />
+        <NeedHelpLink authActions={props.authActions} origin='QR_CODE' />
       </LinkRow>
     </>
   )

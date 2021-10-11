@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { Remote } from 'blockchain-wallet-v4/src'
-import { SBPaymentTypes } from 'blockchain-wallet-v4/src/network/api/simpleBuy/types'
-import { BeneficiaryType, ExtractSuccess, WalletFiatType } from 'blockchain-wallet-v4/src/types'
+import { Remote } from '@core'
+import { SBPaymentTypes } from '@core/network/api/simpleBuy/types'
+import { BeneficiaryType, ExtractSuccess, WalletFiatType } from '@core/types'
+import { FlyoutOopsError } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import {
@@ -16,7 +17,6 @@ import {
 } from 'data/types'
 
 import getData from './selectors'
-import Failure from './template.failure'
 import Loading from './template.loading'
 import Success from './template.success'
 
@@ -41,6 +41,10 @@ const EnterAmount = (props: Props) => {
       props.custodialActions.fetchCustodialBeneficiaries(props.fiatCurrency)
       props.withdrawActions.fetchWithdrawalLock()
     }
+  }, [props.fiatCurrency])
+
+  const errorCallback = useCallback(() => {
+    props.custodialActions.fetchCustodialBeneficiaries(props.fiatCurrency)
   }, [props.fiatCurrency])
 
   const handleSubmit = () => {
@@ -70,16 +74,16 @@ const EnterAmount = (props: Props) => {
     beneficiary?: BeneficiaryType | BankTransferAccountType
   ) => {
     if (!beneficiary) {
-      props.simpleBuyActions.showModal('WithdrawModal')
+      props.buySellActions.showModal({ origin: 'WithdrawModal' })
       if (userData.tiers.current === 2) {
-        return props.simpleBuyActions.setStep({
+        return props.buySellActions.setStep({
           addBank: true,
           displayBack: false,
           fiatCurrency: props.fiatCurrency,
           step: 'BANK_WIRE_DETAILS'
         })
       }
-      return props.simpleBuyActions.setStep({
+      return props.buySellActions.setStep({
         step: 'KYC_REQUIRED'
       })
     }
@@ -91,7 +95,9 @@ const EnterAmount = (props: Props) => {
   }
 
   return props.data.cata({
-    Failure: () => <Failure {...props} />,
+    Failure: () => (
+      <FlyoutOopsError action='retry' data-e2e='withdrawReload' handler={errorCallback} />
+    ),
     Loading: () => <Loading />,
     NotAsked: () => <Loading />,
     Success: (val) => (
@@ -115,9 +121,9 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   custodialActions: bindActionCreators(actions.custodial, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
   withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
 })
 

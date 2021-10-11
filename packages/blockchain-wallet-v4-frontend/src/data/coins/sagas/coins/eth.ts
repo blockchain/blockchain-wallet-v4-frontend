@@ -1,7 +1,7 @@
 import { head } from 'ramda'
 import { select } from 'redux-saga/effects'
 
-import { PaymentValue } from 'blockchain-wallet-v4/src/redux/payment/types'
+import { PaymentValue } from '@core/redux/payment/types'
 import { selectors } from 'data'
 
 // retrieves default account/address

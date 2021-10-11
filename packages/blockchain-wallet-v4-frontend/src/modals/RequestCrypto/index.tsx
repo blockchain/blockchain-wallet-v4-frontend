@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 
-import { CoinType, FiatType, WalletCurrencyType } from 'blockchain-wallet-v4/src/types'
+import { CoinType, FiatType, WalletCurrencyType } from '@core/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { ModalName } from 'data/types'

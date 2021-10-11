@@ -42,22 +42,6 @@ export default ({ apiUrl, get, post }) => {
       url: apiUrl
     })
 
-  // Removed in a future branch not yet merged to dev
-  const getEthTicker = () =>
-    get({
-      data: { base: 'ETH' },
-      endPoint: '/ticker',
-      url: apiUrl
-    })
-
-  // Removed in a future branch not yet merged to dev
-  const getErc20Ticker = (token) =>
-    get({
-      data: { base: token },
-      endPoint: '/ticker',
-      url: apiUrl
-    })
-
   //
   // Transactions and Erc20 Balance
   // TODO: @sean
@@ -124,7 +108,6 @@ export default ({ apiUrl, get, post }) => {
     checkContract,
     getAccountTokensBalances,
     getErc20AccountSummaryV2,
-    getErc20Ticker,
     getErc20TransactionsV2,
     getEthAccountBalance,
     getEthAccountNonce,
@@ -133,7 +116,6 @@ export default ({ apiUrl, get, post }) => {
     getEthFees,
     getEthGasPrice,
     getEthLatestBlock,
-    getEthTicker,
     getEthTransactionV2,
     getEthTransactionsV2,
     pushEthTx

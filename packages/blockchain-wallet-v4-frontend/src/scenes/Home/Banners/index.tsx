@@ -8,6 +8,8 @@ import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
 
 import BuyCrypto from './BuyCrypto'
+import CeloEURSweepstake from './CeloEURSweepstake'
+import CoinRename from './CoinRename'
 import ContinueToGold from './ContinueToGold'
 import FinishKyc from './FinishKyc'
 import KycResubmit from './KycResubmit'
@@ -15,6 +17,7 @@ import NewCurrency from './NewCurrency'
 import RecurringBuys from './RecurringBuys'
 import SBOrderBanner from './SBOrderBanner'
 import { getData } from './selectors'
+import ServicePriceUnavailable from './ServicePriceUnavailable'
 
 const BannerWrapper = styled.div`
   margin-bottom: 25px;
@@ -22,11 +25,11 @@ const BannerWrapper = styled.div`
 
 class Banners extends React.PureComponent<Props> {
   componentDidMount() {
-    this.props.simpleBuyActions.fetchSBOrders()
-    this.props.simpleBuyActions.fetchSDDEligible()
+    this.props.buySellActions.fetchOrders()
+    this.props.buySellActions.fetchSDDEligibility()
     if (this.props.userData.tiers?.current > 0) {
       // TODO move this away from SB
-      this.props.simpleBuyActions.fetchLimits(this.props.fiatCurrency)
+      this.props.buySellActions.fetchLimits(this.props.fiatCurrency)
     }
   }
 
@@ -46,10 +49,22 @@ class Banners extends React.PureComponent<Props> {
             <FinishKyc />
           </BannerWrapper>
         )
+      case 'servicePriceUnavailable':
+        return (
+          <BannerWrapper>
+            <ServicePriceUnavailable />
+          </BannerWrapper>
+        )
       case 'sbOrder':
         return (
           <BannerWrapper>
             <SBOrderBanner />
+          </BannerWrapper>
+        )
+      case 'coinRename':
+        return (
+          <BannerWrapper>
+            <CoinRename />
           </BannerWrapper>
         )
       case 'newCurrency':
@@ -68,6 +83,12 @@ class Banners extends React.PureComponent<Props> {
         return (
           <BannerWrapper>
             <ContinueToGold />
+          </BannerWrapper>
+        )
+      case 'celoEURSweepstake':
+        return (
+          <BannerWrapper>
+            <CeloEURSweepstake />
           </BannerWrapper>
         )
       case 'recurringBuys':
@@ -91,7 +112,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

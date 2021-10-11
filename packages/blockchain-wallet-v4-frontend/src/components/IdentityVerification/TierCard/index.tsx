@@ -5,9 +5,9 @@ import { all, path, propEq } from 'ramda'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
+import { Exchange } from '@core'
+import { formatFiat } from '@core/exchange/utils'
 import { Button, Icon, Text, TextGroup } from 'blockchain-info-components'
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { formatFiat } from 'blockchain-wallet-v4/src/exchange/utils'
 import { actions, model } from 'data'
 import { media } from 'services/styles'
 
@@ -98,11 +98,11 @@ export const ActionButton = styled(Button)`
 const { TIERS_STATES } = model.profile
 
 export const TierCard = ({
+  buySellActions,
   column,
   emailVerified,
   identityVerificationActions,
   mobileVerified,
-  simpleBuyActions,
   swapActions,
   tier,
   userData,
@@ -144,8 +144,8 @@ export const TierCard = ({
               </Text>
             </Column>
             <Column>
-              {TIERS[tier].requirements.map((requirement, i) => (
-                <TextGroup inline key={i} style={{ marginBottom: '8px' }}>
+              {TIERS[tier].requirements.map((requirement) => (
+                <TextGroup inline key={requirement.name} style={{ marginBottom: '8px' }}>
                   {messages[requirement.name]}
                   {requirement.complete({
                     emailVerified,
@@ -203,7 +203,7 @@ export const TierCard = ({
               jumbo
               fullwidth
               nature='primary'
-              onClick={() => simpleBuyActions.showModal('SettingsProfile')}
+              onClick={() => buySellActions.showModal({ origin: 'SettingsProfile' })}
               data-e2e='buyNowBtn'
             >
               <FormattedMessage
@@ -218,11 +218,11 @@ export const TierCard = ({
 }
 
 const mapDispatchToProps = (dispatch) => ({
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch
   ),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch),
   swapActions: bindActionCreators(actions.components.swap, dispatch)
 })
 

@@ -3,14 +3,9 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled, { DefaultTheme } from 'styled-components'
 
+import { Remote } from '@core'
+import { CoinType, FiatType, PriceMovementDirType, TimeRange } from '@core/types'
 import { SkeletonRectangle } from 'blockchain-info-components'
-import { Remote } from 'blockchain-wallet-v4/src'
-import {
-  CoinType,
-  FiatType,
-  PriceMovementDirType,
-  TimeRange
-} from 'blockchain-wallet-v4/src/types'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -21,7 +16,7 @@ const Container = styled.span`
 `
 const Change = styled.span<{ color: keyof DefaultTheme }>`
   font-weight: 600;
-  color: ${props => props.theme[props.color]};
+  color: ${(props) => props.theme[props.color]};
 `
 
 const getSignFromMovement = (movement: PriceMovementDirType) => {
@@ -49,12 +44,8 @@ const getColorFromMovement = (movement: PriceMovementDirType) => {
 class PriceMovement extends PureComponent<Props, State> {
   componentDidMount() {
     if (!Remote.Success.is(this.props.data)) {
-      const coin = this.props.coin
-      this.props.miscActions.fetchPriceChange(
-        coin,
-        this.props.fiat || 'EUR',
-        TimeRange.DAY
-      )
+      const { coin } = this.props
+      this.props.miscActions.fetchPriceChange(coin, this.props.fiat || 'EUR', TimeRange.DAY)
     }
   }
 
@@ -62,17 +53,15 @@ class PriceMovement extends PureComponent<Props, State> {
     return (
       <Container>
         {this.props.data.cata({
-          Success: val => (
-            <Change
-              color={getColorFromMovement(val.price24Hr.overallChange.movement)}
-            >
+          Failure: () => null,
+          Loading: () => <SkeletonRectangle height='12px' width='40px' />,
+          NotAsked: () => null,
+          Success: (val) => (
+            <Change color={getColorFromMovement(val.price24Hr.overallChange.movement)}>
               {getSignFromMovement(val.price24Hr.overallChange.movement)}
               {val.price24Hr.overallChange.percentChange}%
             </Change>
-          ),
-          Loading: () => <SkeletonRectangle height={'12px'} width={'40px'} />,
-          Failure: () => null,
-          NotAsked: () => null
+          )
         })}
       </Container>
     )

@@ -4,15 +4,14 @@ import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Box, Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
-import Currencies from 'blockchain-wallet-v4/src/exchange/currencies'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
-import { FiatType, SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
+import Currencies from '@core/exchange/currencies'
+import { fiatToString } from '@core/exchange/utils'
+import { FiatType, SBPaymentTypes } from '@core/types'
 import { ErrorCartridge } from 'components/Cartridge'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { DisplayPaymentIcon } from 'components/SimpleBuy'
-import { model } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { AddBankStepType, BankDWStepType, BrokerageModalOriginType } from 'data/types'
 
@@ -27,8 +26,6 @@ import { DepositOrWithdrawal, normalizeAmount, RightArrowIcon } from '../../mode
 import { LinkStatePropsType, Props as _P, SuccessStateType } from '.'
 import { getDefaultMethod, getText } from './model'
 import { maximumAmount, minimumAmount } from './validation'
-
-const { DEPOSIT_CONTINUE, SELECT_DEPOSIT_METHOD } = model.analytics.FIAT_DEPOSIT_EVENTS
 
 const CustomForm = styled(Form)`
   height: 100%;
@@ -132,7 +129,7 @@ const LimitSection = ({ fiatCurrency, paymentMethods }) => {
           <Text color='grey800' size='14px' lineHeight='25px' weight={600}>
             {fiatToString({
               unit: fiatCurrency as FiatType,
-              value: convertBaseToStandard('FIAT', bankTransfer.limits.daily.available)
+              value: convertBaseToStandard('FIAT', bankTransfer.limits.max)
             })}{' '}
             <FormattedMessage id='copy.available' defaultMessage='Available' />
           </Text>
@@ -178,7 +175,6 @@ const Amount = ({ fiatCurrency }) => {
 }
 
 const Account = ({
-  analyticsActions,
   bankTransferAccounts,
   brokerageActions,
   defaultMethod,
@@ -197,8 +193,8 @@ const Account = ({
         // else take them to enter amount form with default bank
         if (!bankTransferAccounts.length) {
           brokerageActions.showModal({
-            origin: BrokerageModalOriginType.ADD_BANK_DEPOSIT,
-            modalType: fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL'
+            modalType: fiatCurrency === 'USD' ? 'ADD_BANK_YODLEE_MODAL' : 'ADD_BANK_YAPILY_MODAL',
+            origin: BrokerageModalOriginType.ADD_BANK_DEPOSIT
           })
           brokerageActions.setAddBankStep({
             addBankStep: AddBankStepType.ADD_BANK
@@ -208,7 +204,6 @@ const Account = ({
             dwStep: BankDWStepType.BANK_LIST
           })
         }
-        analyticsActions.logEvent(SELECT_DEPOSIT_METHOD)
       }}
       isMethod={!!dMethod}
     >
@@ -223,7 +218,7 @@ const Account = ({
   )
 }
 
-const NextButton = ({ analyticsActions, defaultMethod, invalid, pristine, submitting }) => {
+const NextButton = ({ defaultMethod, invalid, pristine, submitting }) => {
   return (
     <Button
       data-e2e='submitDepositAmount'
@@ -233,7 +228,6 @@ const NextButton = ({ analyticsActions, defaultMethod, invalid, pristine, submit
       type='submit'
       fullwidth
       disabled={invalid || pristine || submitting || !defaultMethod}
-      onClick={() => analyticsActions.logEvent(DEPOSIT_CONTINUE)}
     >
       {submitting ? (
         <HeartbeatLoader height='16px' width='16px' color='white' />

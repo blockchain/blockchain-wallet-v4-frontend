@@ -206,8 +206,8 @@ const getAlertContent = (message, data = undefined) => {
     case C.DEVICE_MISMATCH:
       return buildMessageTemplate(
         <FormattedMessage
-          id='components.alerts.devicemismatch'
-          defaultMessage='Link must be opened in original browser.'
+          id='components.alerts.device_mismatch'
+          defaultMessage='Device verification failed. Please refresh and try again.'
         />
       )
     case C.EMAIL_CODE_SENT_SUCCESS:
@@ -1102,6 +1102,20 @@ const getAlertContent = (message, data = undefined) => {
         <FormattedMessage
           id='components.alerts.kyc_reset_error'
           defaultMessage='Restoring account failed. Please try again.'
+        />
+      )
+    case C.SAVE_ADDITIONAL_DOCUMENTS_ERROR:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.save_additional_documents_error'
+          defaultMessage='Save of additional information failed'
+        />
+      )
+    case C.UPLOAD_ADDITIONAL_DOCUMNETS_FILES_ERROR:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.upload_additional_documents_files_error'
+          defaultMessage='Upload of documents failed'
         />
       )
     default:

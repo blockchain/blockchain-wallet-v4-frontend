@@ -5,7 +5,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
-import { SBOrderType } from 'blockchain-wallet-v4/src/types'
+import { SBOrderType } from '@core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { RecurringBuyOrigins } from 'data/types'
@@ -78,6 +78,7 @@ const BannerButton = styled(Button)`
 const RecurringBuys = (props: Props) => {
   const showModal = () => {
     props.recurringBuyActions.showModal({ origin: RecurringBuyOrigins.RECURRING_BUYS_BANNER })
+    props.recurringBuyActions.learnMoreLinkClicked(RecurringBuyOrigins.DASHBOARD_PROMO)
   }
 
   return (

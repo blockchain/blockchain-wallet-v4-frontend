@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { connect, ConnectedProps, useDispatch } from 'react-redux'
 import { bindActionCreators, Dispatch } from '@reduxjs/toolkit'
 
-import { SBPaymentMethodType } from 'core/types'
+import { SBPaymentMethodType } from '@core/types'
 import { actions, selectors } from 'data'
 import { RecurringBuyPeriods } from 'data/types'
 
@@ -10,14 +10,12 @@ import Success from './template.success'
 
 const SchedulerContainer = (props: Props) => {
   const dispatch = useDispatch()
-  const { method } = props
-
+  const { isAvailableMethod } = props
   useEffect(() => {
-    props.recurringBuyActions.fetchPaymentInfo()
     if (!props.isAvailableMethod) {
       dispatch(actions.form.change('simpleBuyCheckout', 'period', RecurringBuyPeriods.ONE_TIME))
     }
-  }, [method, props.isAvailableMethod])
+  }, [isAvailableMethod])
 
   return <Success {...props} />
 }

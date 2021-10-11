@@ -14,11 +14,11 @@ import Success from './template.success'
 
 class SellOrderSummary extends PureComponent<Props> {
   componentDidMount() {
-    this.props.simpleBuyActions.fetchSBOrders()
+    this.props.buySellActions.fetchOrders()
   }
 
   handleRefresh = () => {
-    this.props.simpleBuyActions.fetchSBCards()
+    this.props.buySellActions.fetchCards(false)
   }
 
   render() {
@@ -31,8 +31,8 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  sendActions: bindActionCreators(actions.components.send, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  sendActions: bindActionCreators(actions.components.send, dispatch)
 })
 const connector = connect(mapStateToProps, mapDispatchToProps)
 

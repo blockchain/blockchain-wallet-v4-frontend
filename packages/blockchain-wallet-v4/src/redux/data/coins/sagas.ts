@@ -1,10 +1,10 @@
 import moment from 'moment'
-import { flatten, last, length, toUpper } from 'ramda'
-import { all, call, put, select, take } from 'redux-saga/effects'
+import { flatten, last, length } from 'ramda'
+import { call, put, select, take } from 'redux-saga/effects'
 
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { APIType } from 'core/network/api'
-import { FetchCustodialOrdersAndTransactionsReturnType } from 'core/types'
+import { APIType } from '@core/network/api'
+import { FetchCustodialOrdersAndTransactionsReturnType } from '@core/types'
+import { errorHandler } from '@core/utils'
 
 import Remote from '../../../remote'
 import * as selectors from '../../selectors'
@@ -19,20 +19,32 @@ export default ({ api }: { api: APIType }) => {
   const { fetchCustodialOrdersAndTransactions } = custodialSagas({ api })
 
   const fetchCoinsRates = function* () {
-    const coins = S.getCoins()
+    const coins = S.getAllCoins()
+    const defaultFiat = (yield select(selectors.settings.getCurrency)).getOrElse('USD')
 
-    yield all(
-      coins.map(function* (coin) {
-        try {
-          yield put(A.fetchCoinsRatesLoading(coin))
-          const data = yield call(api.getCoinTicker, toUpper(coin))
-          yield put(A.fetchCoinsRatesSuccess(coin, data))
-        } catch (e) {
-          const error = errorHandler(e)
-          yield put(A.fetchCoinsRatesFailure(coin, error))
-        }
-      })
-    )
+    const request = coins.map((coin) => ({
+      base: coin,
+      quote: defaultFiat
+    }))
+
+    try {
+      yield put(A.fetchBtcTickerLoading())
+      const response: ReturnType<typeof api.getBtcTicker> = yield call(api.getBtcTicker)
+      yield put(A.fetchBtcTickerSuccess(response))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchBtcTickerFailure(error))
+    }
+
+    try {
+      yield put(A.fetchCoinsRatesLoading())
+      const response: ReturnType<typeof api.getCoinPrices> = yield call(api.getCoinPrices, request)
+      yield put(A.fetchCoinsRatesSuccess(response))
+    } catch (e) {
+      const error =
+        typeof errorHandler(e) === 'string' ? errorHandler(e) : 'Failed to fetch prices.'
+      yield put(A.fetchCoinsRatesFailure(error))
+    }
   }
 
   const fetchTransactions = function* (action: ReturnType<typeof A.fetchTransactions>) {

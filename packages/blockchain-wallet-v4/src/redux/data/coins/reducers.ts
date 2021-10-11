@@ -3,7 +3,8 @@ import * as AT from './actionTypes'
 import { CoinsActionTypes, CoinsState } from './types'
 
 const INITIAL_STATE: CoinsState = {
-  rates: {} as CoinsState['rates'],
+  btcTicker: Remote.NotAsked,
+  rates: Remote.NotAsked,
   transactions: {},
   transactions_at_bound: {}
 }
@@ -13,26 +14,17 @@ export const coinsReducer = (state = INITIAL_STATE, action: CoinsActionTypes): C
     case AT.FETCH_COINS_RATES_FAILURE:
       return {
         ...state,
-        rates: {
-          ...state.rates,
-          [action.payload.coin]: Remote.Failure(action.payload)
-        }
+        rates: Remote.Failure(action.payload.error)
       }
     case AT.FETCH_COINS_RATES_LOADING:
       return {
         ...state,
-        rates: {
-          ...state.rates,
-          [action.payload.coin]: Remote.Loading
-        }
+        rates: Remote.Loading
       }
     case AT.FETCH_COINS_RATES_SUCCESS:
       return {
         ...state,
-        rates: {
-          ...state.rates,
-          [action.payload.coin]: Remote.Success(action.payload.rates)
-        }
+        rates: Remote.Success(action.payload.rates)
       }
     case AT.FETCH_COINS_TRANSACTIONS_FAILURE:
       return {
@@ -41,6 +33,21 @@ export const coinsReducer = (state = INITIAL_STATE, action: CoinsActionTypes): C
           ...state.transactions,
           [action.payload.coin]: [Remote.Failure(action.payload)]
         }
+      }
+    case AT.FETCH_BTC_TICKER_FAILURE:
+      return {
+        ...state,
+        btcTicker: Remote.Failure(action.payload.error)
+      }
+    case AT.FETCH_BTC_TICKER_LOADING:
+      return {
+        ...state,
+        btcTicker: Remote.Loading
+      }
+    case AT.FETCH_BTC_TICKER_SUCCESS:
+      return {
+        ...state,
+        btcTicker: Remote.Success(action.payload.rates)
       }
     case AT.FETCH_COINS_TRANSACTIONS_LOADING:
       const { reset } = action.payload

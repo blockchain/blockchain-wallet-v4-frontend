@@ -22,12 +22,17 @@ import {
 } from 'ramda'
 import { all, call, put, select, take } from 'redux-saga/effects'
 
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
-import { APIType } from 'core/network/api'
-import { EthRawTxType } from 'core/network/api/eth/types'
-import { EthProcessedTxType } from 'core/transactions/types'
-import { Await, Erc20CoinType, FetchCustodialOrdersAndTransactionsReturnType } from 'core/types'
+import { APIType } from '@core/network/api'
+import { EthRawTxType } from '@core/network/api/eth/types'
+import { EthProcessedTxType } from '@core/transactions/types'
+import {
+  Await,
+  CoinfigType,
+  Erc20CoinType,
+  FetchCustodialOrdersAndTransactionsReturnType
+} from '@core/types'
+import { errorHandler } from '@core/utils'
+import { calculateFee } from '@core/utils/eth'
 
 import * as Exchange from '../../../exchange'
 import * as transactions from '../../../transactions'
@@ -77,7 +82,11 @@ export default ({ api }: { api: APIType }) => {
 
       yield put(A.fetchDataSuccess(ethData))
       // eslint-disable-next-line
-      yield call(checkForLowEthBalance)
+      try {
+        yield call(checkForLowEthBalance)
+      } catch (e) {
+        // do nothing
+      }
     } catch (e) {
       yield put(A.fetchDataFailure(errorHandler(e)))
     }
@@ -90,16 +99,6 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchLatestBlockSuccess(data))
     } catch (e) {
       yield put(A.fetchLatestBlockFailure(e.message))
-    }
-  }
-
-  const fetchRates = function* () {
-    try {
-      yield put(A.fetchRatesLoading())
-      const data = yield call(api.getEthTicker)
-      yield put(A.fetchRatesSuccess(data))
-    } catch (e) {
-      yield put(A.fetchRatesFailure(e.message))
     }
   }
 
@@ -267,7 +266,7 @@ export default ({ api }: { api: APIType }) => {
     // TODO: ERC20 check for any erc20 balance in future
     const erc20Balance = (yield select(S.getErc20Balance, 'PAX')).getOrElse(0)
     const weiBalance = (yield select(S.getBalance)).getOrFail()
-    const ethRates = (yield select(S.getRates)).getOrFail()
+    const ethRates = selectors.data.coins.getRates('ETH', yield select()).getOrFail('No rates')
     const ethBalance = Exchange.convertCoinToFiat({
       coin: 'ETH',
       currency: 'USD',
@@ -296,6 +295,24 @@ export default ({ api }: { api: APIType }) => {
         data.tokenAccounts.map(function* (val) {
           // TODO: erc20 phase 2, key off hash not symbol
           const symbol = toUpper(val.tokenSymbol)
+          if (!window.coins[symbol]) {
+            window.coins[symbol] = {
+              coinfig: {
+                displaySymbol: symbol,
+                name: symbol,
+                precision: val.decimals,
+                products: ['PrivateKey'],
+                symbol,
+                type: {
+                  erc20Address: val.tokenHash,
+                  name: 'ERC20',
+                  parentChain: 'ETH',
+                  websiteUrl: ''
+                }
+              } as CoinfigType
+            }
+          }
+          if (window.coins[symbol].coinfig.type.name !== 'ERC20') return
           yield put(A.fetchErc20DataLoading(symbol))
           const contract = val.tokenHash
           const tokenData = data.tokenAccounts.find(
@@ -312,22 +329,6 @@ export default ({ api }: { api: APIType }) => {
     } catch (e) {
       yield put(A.fetchErc20DataFailure(coin, prop('message', e)))
     }
-  }
-
-  const fetchErc20Rates = function* () {
-    const tokens = S.getErc20Coins()
-
-    yield all(
-      tokens.map(function* (token) {
-        try {
-          yield put(A.fetchErc20RatesLoading(token))
-          const data = yield call(api.getErc20Ticker, toUpper(token))
-          yield put(A.fetchErc20RatesSuccess(token, data))
-        } catch (e) {
-          yield put(A.fetchErc20RatesFailure(token, e.message))
-        }
-      })
-    )
   }
 
   const watchErc20Transactions = function* () {
@@ -460,7 +461,7 @@ export default ({ api }: { api: APIType }) => {
   const __processReportTxs = function* (rawTxList, startDate, endDate) {
     // eslint-disable-next-line
     const fullTxList = yield call(__processTxs, rawTxList)
-    const ethMarketData = (yield select(selectors.data.eth.getRates)).getOrFail()
+    const ethMarketData = selectors.data.coins.getRates('ETH', yield select()).getOrFail('No rates')
 
     // remove txs that dont match coin type and are not within date range
     const prunedTxList = filter((tx) => {
@@ -491,7 +492,7 @@ export default ({ api }: { api: APIType }) => {
     // @ts-ignore
     // eslint-disable-next-line
     const fullTxList = yield call(__processErc20Txs, rawTxList)
-    const marketData = (yield select(selectors.data.eth.getErc20Rates, token)).getOrFail()
+    const marketData = selectors.data.coins.getRates(token, yield select()).getOrFail('No rates')
 
     // remove txs that dont match coin type and are not within date range
     const prunedTxList = filter(
@@ -554,13 +555,11 @@ export default ({ api }: { api: APIType }) => {
     checkForLowEthBalance,
     fetchData,
     fetchErc20Data,
-    fetchErc20Rates,
     fetchErc20TransactionFee,
     fetchErc20TransactionHistory,
     fetchErc20Transactions,
     fetchLatestBlock,
     fetchLegacyBalance,
-    fetchRates,
     fetchTransactionHistory,
     fetchTransactions,
     watchErc20Transactions,

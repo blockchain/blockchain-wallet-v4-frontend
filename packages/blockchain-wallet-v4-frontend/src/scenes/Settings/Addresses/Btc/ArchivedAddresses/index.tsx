@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector } from 'redux-form'
 
-import { Types } from 'blockchain-wallet-v4/src'
+import { Types } from '@core'
 import { actions, model, selectors } from 'data'
 
 import ArchivedAddresses from './template'

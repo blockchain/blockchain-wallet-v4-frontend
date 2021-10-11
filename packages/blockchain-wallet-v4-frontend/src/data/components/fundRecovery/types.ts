@@ -1,4 +1,4 @@
-import { ISelection, RemoteDataType } from 'core/types'
+import { ISelection, RemoteDataType } from '@core/types'
 
 import * as AT from './actionTypes'
 

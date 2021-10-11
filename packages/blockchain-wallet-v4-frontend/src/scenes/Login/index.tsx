@@ -4,8 +4,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector, getFormMeta, InjectedFormProps, reduxForm } from 'redux-form'
 
+import { RemoteDataType } from '@core/types'
 import { Icon, Text } from 'blockchain-info-components'
-import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
 import { Form } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
@@ -75,7 +75,10 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
   }
 
   handleSmsResend = () => {
-    this.props.authActions.resendSmsCode(this.props.guid, this.props.formValues?.email)
+    this.props.authActions.resendSmsCode({
+      email: this.props.formValues?.email,
+      guid: this.props.guid
+    })
   }
 
   continueLoginProcess = () => {
@@ -94,19 +97,29 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
         formActions.change(LOGIN_FORM_NAME, 'step', LoginSteps.VERIFICATION_MOBILE)
       } else {
         formActions.change(LOGIN_FORM_NAME, 'email', guidOrEmail)
-        authActions.triggerWalletMagicLink(guidOrEmail, this.state.captchaToken)
+        authActions.triggerWalletMagicLink({
+          captchaToken: this.state.captchaToken,
+          email: guidOrEmail
+        })
         this.initCaptcha()
       }
+      const idType = isGuid(guidOrEmail) ? 'WALLET_ID' : 'EMAIL'
+      authActions.loginIdEntered(idType)
     } else {
-      authActions.login(guid, password, auth, null, null)
+      authActions.login({ code: auth, guid, mobileLogin: null, password, sharedKey: null })
     }
+  }
+
+  loginWithMobileClicked = () => {
+    this.props.authActions.loginMethodSelected('SECURE_CHANNEL')
+    this.setStep(LoginSteps.VERIFICATION_MOBILE)
   }
 
   render() {
     const { data, formValues } = this.props
     const { step } = formValues || LoginSteps.ENTER_EMAIL_GUID
     const { busy, error } = data.cata({
-      Failure: (val) => ({ busy: false, error: val.err }),
+      Failure: (val) => ({ busy: false, error: val }),
       Loading: () => <Loading />,
       NotAsked: () => ({ busy: false, error: null }),
       Success: () => ({ busy: false, error: null })
@@ -116,6 +129,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       handleSmsResend: this.handleSmsResend,
       loginError: error
     }
+
     return (
       <>
         <Text color='white' size='24px' weight={600} style={{ marginBottom: '24px' }}>
@@ -198,7 +212,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
             size='16px'
             cursor='pointer'
             style={{ marginTop: '24px' }}
-            onClick={() => this.setStep(LoginSteps.VERIFICATION_MOBILE)}
+            onClick={this.loginWithMobileClicked}
           >
             <FormattedMessage
               id='scenes.login.loginwithmobile'

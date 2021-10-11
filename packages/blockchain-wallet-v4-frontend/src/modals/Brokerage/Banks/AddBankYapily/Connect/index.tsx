@@ -2,9 +2,9 @@ import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { Remote } from 'blockchain-wallet-v4/src'
 import DataError from 'components/DataError'
-import { WalletFiatType } from 'core/types'
+import { Remote } from '@core'
+import { WalletFiatType } from '@core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -40,7 +40,6 @@ const mapStateToProps = (state: RootState) => ({
   walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
 })
 

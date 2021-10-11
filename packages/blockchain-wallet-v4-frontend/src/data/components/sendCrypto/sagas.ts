@@ -2,9 +2,9 @@ import { SEND_FORM } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/m
 import { SendFormType } from 'blockchain-wallet-v4-frontend/src/modals/SendCrypto/types'
 import { call, put, select } from 'redux-saga/effects'
 
-import { convertCoinToCoin } from 'blockchain-wallet-v4/src/exchange'
-import { APIType } from 'blockchain-wallet-v4/src/network/api'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
+import { convertCoinToCoin } from '@core/exchange'
+import { APIType } from '@core/network/api'
+import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
 import { ModalName, ModalNameType } from 'data/modals/types'
 
@@ -54,7 +54,7 @@ export default ({ api }: { api: APIType }) => {
 
     if (form.includes('SEND') && field === 'coin') {
       yield put(actions.modals.closeAllModals())
-      if (selectors.core.data.coins.getCoins().includes(payload)) {
+      if (selectors.core.data.coins.getCustodialCoins().includes(payload)) {
         // must come before show modal
         yield put(A.setInitialCoin(payload))
         // must come after setInitialCoin

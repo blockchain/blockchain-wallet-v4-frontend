@@ -1,4 +1,4 @@
-import { FiatCurrenciesType } from 'blockchain-wallet-v4/src/exchange/currencies'
+import { FiatCurrenciesType } from '@core/exchange/currencies'
 
 import * as Address from './Address'
 import * as AddressBook from './AddressBook'

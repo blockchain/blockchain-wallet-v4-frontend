@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 
-import { Types } from 'blockchain-wallet-v4/src'
+import { Types } from '@core'
 import { actions, selectors } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 import * as C from 'services/alerts'

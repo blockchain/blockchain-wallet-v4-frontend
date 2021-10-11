@@ -1,11 +1,10 @@
 import { combineReducers } from 'redux'
 
-import { coreReducers, paths } from 'blockchain-wallet-v4/src'
+import { coreReducers, paths } from '@core'
 
 import { alertsReducer as alerts } from './alerts/slice'
-import { analyticsReducer as analytics } from './analytics/slice'
-import auth from './auth/reducers'
-import cache from './cache/reducers'
+import { authReducer as auth } from './auth/slice'
+import { cacheReducer as cache } from './cache/slice'
 import components from './components/reducers'
 import { custodialReducer as custodial } from './custodial/reducers'
 import form from './form/reducers'
@@ -22,7 +21,6 @@ import { sessionReducer as session } from './session/slice'
 
 const rootReducer = {
   alerts,
-  analytics,
   auth,
   cache,
   components,
