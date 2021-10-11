@@ -464,18 +464,24 @@ export default ({ api, coreSagas, networks }) => {
 
   const register = function* (action) {
     const { country, email, state } = action.payload
+    const formValues = yield select(selectors.form.getFormValues('login'))
     try {
       yield put(actions.auth.registerLoading())
       yield put(actions.auth.setRegisterEmail(email))
       yield call(coreSagas.wallet.createWalletSaga, action.payload)
       yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
-      yield put(actions.auth.signupDetailsEntered({ country, countryState: state }))
-      yield call(loginRoutineSaga, {
-        country,
-        email,
-        firstLogin: true,
-        state
-      })
+      if (formValues?.step === LoginSteps.UPGRADE_PASSWORD) {
+        yield put(actions.form.change('login', 'step', LoginSteps.UPGRADE_SUCCESS))
+      } else {
+        // TODO: want to pull user country off of exchange profile
+        yield put(actions.auth.signupDetailsEntered({ country, countryState: state }))
+        yield call(loginRoutineSaga, {
+          country,
+          email,
+          firstLogin: true,
+          state
+        })
+      }
       yield put(actions.auth.registerSuccess(undefined))
     } catch (e) {
       yield put(actions.auth.registerFailure(undefined))

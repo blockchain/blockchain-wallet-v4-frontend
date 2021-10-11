@@ -106,7 +106,9 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       formValues,
       guid,
       guidOrEmail,
-      password
+      language,
+      password,
+      upgradePassword
     } = this.props
     let auth = code
     // only uppercase if authType is not Yubikey
@@ -135,6 +137,15 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     } else if (formValues.step === LoginSteps.ENTER_PASSWORD_WALLET) {
       // if we're trying to submit password to authenticate
       authActions.login({ code: auth, guid, mobileLogin: null, password, sharedKey: null })
+    } else if (formValues.step === LoginSteps.UPGRADE_PASSWORD) {
+      authActions.register({
+        country: undefined,
+        email: formValues.email,
+        language,
+        password: upgradePassword,
+        state: undefined
+      })
+      // TODO: add action here that merges the account or sets step to merge
     } else {
       // Authenticate to Exchange
       authActions.exchangeLogin({
@@ -359,6 +370,7 @@ const mapStateToProps = (state) => ({
     step: LoginSteps.ENTER_EMAIL_GUID
   },
   jwtToken: selectors.auth.getJwtToken(state),
+  language: selectors.preferences.getLanguage(state),
   password: formValueSelector(LOGIN_FORM_NAME)(state, 'password'),
   upgradePassword: formValueSelector('login')(state, 'upgradeAccountPassword') || ('' as string),
   walletLoginData: selectors.auth.getLogin(state) as RemoteDataType<any, any>

@@ -18,12 +18,6 @@ const UpgradePassword = (props: Props) => {
     props.setStep(LoginSteps.UPGRADE_CONFIRM)
   }
 
-  const handleUpgradeAccountClick = () => {
-    if (props.accountUnificationFlow === AccountUnificationFlows.EXCHANGE_UPGRADE) {
-      // create new wallet with password
-      // then merge accounts?
-    }
-  }
   return (
     <>
       <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} hideGuid />
@@ -56,7 +50,8 @@ const UpgradePassword = (props: Props) => {
           nature='primary'
           fullwidth
           height='48px'
-          // disabled={submitting || busy}
+          type='submit'
+          disabled={props.submitting || props.busy}
           data-e2e='upgradeButton'
           style={{ margin: '16px 0 24px' }}
         >
@@ -70,9 +65,6 @@ const UpgradePassword = (props: Props) => {
         </ActionButton>
         <NeedHelpLink authActions={props.authActions} origin='UPGRADE_ACCOUNT_NEW_PASSWORD' />
       </LinkRow>
-      <Button onClick={() => props.authActions.loginRoutine()} nature='green' data-e2e='test'>
-        Finish Login
-      </Button>
     </>
   )
 }
