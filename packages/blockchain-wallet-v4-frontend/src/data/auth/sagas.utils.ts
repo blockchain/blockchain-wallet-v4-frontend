@@ -27,22 +27,26 @@ export const parseMagicLink = function* (params) {
       if (product === ProductAuthOptions.WALLET && mergeable) {
         // send them to wallet password screen
         yield put(actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.WALLET_MERGE))
+        yield put(actions.auth.setProductHeader(ProductAuthOptions.WALLET))
       }
       if (product === ProductAuthOptions.EXCHANGE && mergeable) {
         // send them to exchange password screen
         yield put(
           actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.EXCHANGE_MERGE)
         )
+        yield put(actions.auth.setProductHeader(ProductAuthOptions.EXCHANGE))
       }
       if (product === ProductAuthOptions.EXCHANGE && upgradeable) {
         // send them to exchange password screen
         yield put(
           actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.EXCHANGE_UPGRADE)
         )
+        yield put(actions.auth.setProductHeader(ProductAuthOptions.EXCHANGE))
       }
     }
     // store data in the cache and update form values to be used to submit login
     if (product === ProductAuthOptions.WALLET) {
+      yield put(actions.auth.setProductHeader(ProductAuthOptions.WALLET))
       yield put(actions.cache.emailStored(walletData?.email))
       yield put(actions.cache.guidStored(walletData?.guid))
       yield put(actions.cache.mobileConnectedStored(walletData?.is_mobile_setup))
@@ -63,6 +67,7 @@ export const parseMagicLink = function* (params) {
       }
     }
     if (product === ProductAuthOptions.EXCHANGE) {
+      yield put(actions.auth.setProductHeader(ProductAuthOptions.EXCHANGE))
       // set state with all exchange login information
       yield put(actions.cache.emailStored(exchangeData?.email))
       yield put(actions.form.change('login', 'email', exchangeData?.email))
@@ -78,6 +83,7 @@ export const parseMagicLink = function* (params) {
       )
       yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
     }
+
     yield put(actions.auth.analyticsMagicLinkParsed())
   } catch (e) {
     yield put(actions.logs.logErrorMessage(logLocation, 'parseLink', e))

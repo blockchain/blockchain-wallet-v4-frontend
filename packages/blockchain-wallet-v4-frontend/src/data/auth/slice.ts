@@ -38,6 +38,7 @@ const initialState: AuthStateType = {
   manifestFile: null,
   metadataRestore: Remote.NotAsked,
   mobileLoginStarted: false,
+  productHeader: ProductAuthOptions.WALLET,
   registerEmail: undefined,
   registering: Remote.NotAsked,
   resetAccount: false,
@@ -193,6 +194,9 @@ const authSlice = createSlice({
     },
     setManifestFile: (state, action: PayloadAction<AuthStateType['manifestFile']>) => {
       state.manifestFile = action.payload
+    },
+    setProductHeader: (state, action: PayloadAction<AuthStateType['productHeader']>) => {
+      state.productHeader = action.payload
     },
     setRegisterEmail: (state, action: PayloadAction<AuthStateType['registerEmail']>) => {
       state.registerEmail = action.payload

@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { Image, Link, Text } from 'blockchain-info-components'
 import Announcements from 'components/Announcements'
 import { Navbar, NavbarBrand } from 'components/Navbar'
-import { ProductAuthOptions } from 'data/types'
+import { LoginSteps, ProductAuthOptions } from 'data/types'
 import Wallet from 'layouts/Wallet'
 import { media } from 'services/styles'
 
@@ -56,7 +56,15 @@ const HeaderLink = styled(Link)`
   align-items: center;
 `
 
-const Header = ({ designatedProduct }) => {
+const Header = ({ designatedProduct, loginStep }) => {
+  const showExchangeHeader =
+    (loginStep === LoginSteps.ENTER_PASSWORD_EXCHANGE ||
+      designatedProduct === ProductAuthOptions.EXCHANGE) &&
+    loginStep !== LoginSteps.ENTER_PASSWORD_WALLET
+  const showWalletHeader =
+    (loginStep === LoginSteps.ENTER_PASSWORD_WALLET ||
+      designatedProduct === ProductAuthOptions.WALLET) &&
+    loginStep !== LoginSteps.ENTER_PASSWORD_EXCHANGE
   return (
     <>
       <NavbarStyled height='112px'>
@@ -64,12 +72,12 @@ const Header = ({ designatedProduct }) => {
           <PublicBrand>
             <HeaderLink href='https://www.blockchain.com'>
               <BlockchainLogoImage name='blockchain-logo' height='24px' />
-              {designatedProduct === ProductAuthOptions.EXCHANGE && (
+              {showExchangeHeader && (
                 <ExhangeHeader>
                   <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
                 </ExhangeHeader>
               )}
-              {designatedProduct === ProductAuthOptions.WALLET && (
+              {showWalletHeader && (
                 <WalletHeader>
                   <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
                 </WalletHeader>

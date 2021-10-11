@@ -19,7 +19,7 @@ const ExchangeSuccess = (props: Props) => {
         </Text>
         <Button nature='green' data-e2e='test'>
           <Link
-            href={`https://exchange.staging.blockchain.info/auth?jwt=${props.jwtToken}`}
+            href={`https://local.staging.blockchain.info:8888/auth?jwt=${props.jwtToken}`}
             rel='noopener noreferrer'
             target='_blank'
             color='white'

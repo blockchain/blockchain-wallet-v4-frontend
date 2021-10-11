@@ -133,6 +133,7 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.form.change('login', 'step', LoginSteps.UPGRADE_CONFIRM))
       } else {
         // here we call the merge endpoint and then direct them to exchange
+        yield put(actions.form.change('login', 'step', LoginSteps.UPGRADE_SUCCESS))
       }
       yield put(stopSubmit('login'))
     } catch (e) {

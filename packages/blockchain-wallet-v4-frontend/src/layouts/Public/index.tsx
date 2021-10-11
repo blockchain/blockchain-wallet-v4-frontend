@@ -69,6 +69,7 @@ const PublicLayoutContainer = ({
   component: Component,
   designatedProduct,
   exact = false,
+  loginStep,
   path
 }: Props) => {
   const isLogin = path === '/login'
@@ -84,7 +85,7 @@ const PublicLayoutContainer = ({
             <Alerts />
 
             <HeaderContainer>
-              <Header designatedProduct={designatedProduct} />
+              <Header designatedProduct={designatedProduct} loginStep={loginStep} />
             </HeaderContainer>
 
             <Modals />
