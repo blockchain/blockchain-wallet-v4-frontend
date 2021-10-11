@@ -4,6 +4,9 @@ import * as Bitcoin from 'bitcoinjs-lib'
 import EthUtil from 'ethereumjs-util'
 import { hdkey as EthHd } from 'ethereumjs-wallet'
 import { path, prop } from 'ramda'
+import web3 from 'web3'
+
+const Web3 = new web3(web3.givenProvider)
 
 export const convertGweiToWei = (amount) => {
   return new BigNumber(amount).multipliedBy('1000000000').toString()
@@ -31,25 +34,27 @@ export const getPrivateKey = (mnemonic, index) => {
   return EthHd.fromExtendedKey(account).getWallet().getPrivateKey()
 }
 
-// Derivation error using seedHex directly instead of seed derived from mnemonic derived from seedHex
-export const getLegacyPrivateKey = (seedHex) => {
-  return deriveChildLegacy(0, seedHex).getWallet().getPrivateKey()
-}
-
 const deriveChildLegacy = (index, seed) => {
   const derivationPath = "m/44'/60'/0'/0"
   return EthHd.fromMasterSeed(seed).derivePath(derivationPath).deriveChild(index)
 }
 
+// Derivation error using seedHex directly instead of seed derived from mnemonic derived from seedHex
+export const getLegacyPrivateKey = (seedHex) => {
+  return deriveChildLegacy(0, seedHex).getWallet().getPrivateKey()
+}
+
 export const privateKeyToAddress = (pk) =>
-  EthUtil.toChecksumAddress(EthUtil.privateToAddress(pk).toString('hex'))
+  Web3.utils.toChecksumAddress(Web3.eth.accounts.privateKeyToAccount(pk).address)
 
 export const deriveAddress = (mnemonic, index) =>
   privateKeyToAddress(getPrivateKey(mnemonic, index))
 
 export const deriveAddressFromXpub = (xpub) => {
   const ethPublic = EthHd.fromExtendedKey(xpub).getWallet().getPublicKey()
-  return EthUtil.toChecksumAddress(EthUtil.publicToAddress(ethPublic).toString('hex'))
+  // can remove when lockbox is removed
+  // then can remove ethereumjs-util dep
+  return Web3.utils.toChecksumAddress(EthUtil.publicToAddress(ethPublic).toString('hex'))
 }
 
 export const calculateFee = (gasPrice: string, gasLimit: string, toWei: boolean): string => {
