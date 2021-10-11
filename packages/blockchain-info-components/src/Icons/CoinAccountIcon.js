@@ -17,17 +17,6 @@ const SubIconWrapper = styled.div`
   background: ${(props) => props.theme.white};
   border-radius: 14px;
 `
-const SubIcon = styled.span`
-  display: flex;
-  font-size: 12px;
-  margin: 1px;
-  cursor: ${(props) => (props.cursorEnabled ? 'pointer' : 'inherit')};
-  -webkit-font-smoothing: antialiased;
-
-  * {
-    color: red !important;
-  }
-`
 
 const CoinAccountIcon = (props) => {
   const { accountType, coin } = props
