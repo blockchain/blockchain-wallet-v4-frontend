@@ -69,7 +69,7 @@ const CEURRewards = ({ cacheActions, showBanner }: Props) => {
   if (!showBanner) return null
 
   const newCoinAnnouncement = 'ceur-rewards'
-  const coin = 'USD'
+  const coin = 'CEUR'
   if (!window.coins[coin]) return null
   const { coinfig } = window.coins[coin]
   const { displaySymbol } = coinfig
