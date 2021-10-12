@@ -292,13 +292,16 @@ export const getCoinsSortedByBalance = createDeepEqualSelector(
           (coin) => getBalanceSelector(coin)(state).getOrElse(0) <= 0,
           Object.keys(window.coins)
         )
-      ).map((coin) => coin?.coinfig)
+      )
+        .map((coin) => coin?.coinfig)
+        .filter(Boolean)
 
       const coinsInRecentSwaps = [
         ...new Set(
           recentSwapTxsR.getOrElse([] as SwapOrderType[]).map((tx) => getOutputFromPair(tx.pair))
         )
       ]
+
       const coinsWithoutBalanceToTrack = coinsInRecentSwaps
         .filter((coin) => !coinsWithBalance.find((coinfig) => coinfig?.symbol === coin))
         .filter((coin) => window.coins[coin])
