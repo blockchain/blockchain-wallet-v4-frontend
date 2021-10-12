@@ -24,7 +24,8 @@ const injectAuthCredentials = curry((getAuthCredentials, reauthenticate, request
       error.type === 'UNKNOWN_USER' ||
       error.type === 'NO_TRADE_PERMISSION' ||
       error.type === 'INVALID_CREDENTIALS' ||
-      error.type === 'BAD_2FA'
+      error.type === 'BAD_2FA' ||
+      error.type === 'WRONG_2FA'
     )
       throw error
 

@@ -122,10 +122,10 @@ export default ({ api, coreSagas, networks }) => {
     const { code, password, username } = action.payload
     const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
     yield put(startSubmit('login'))
+
     try {
-      // const username = 'leora+235+1002@blockchain.com'
-      // const password = 'blockchain'
-      const { token: jwtToken } = yield call(api.exchangeSignIn, code, password, username)
+      const response = yield call(api.exchangeSignIn, code, password, username)
+      const { token: jwtToken } = response
       yield put(actions.auth.setJwtToken(jwtToken))
       if (
         unificationFlowType === AccountUnificationFlows.EXCHANGE_MERGE ||

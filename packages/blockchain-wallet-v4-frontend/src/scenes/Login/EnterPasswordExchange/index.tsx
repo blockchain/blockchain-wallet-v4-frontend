@@ -26,7 +26,7 @@ const isSupportedBrowser = isBrowserSupported()
 const EnterPasswordExchange = (props: Props) => {
   const { busy, exchangeError, exchangePassword, invalid, submitting } = props
   const passwordError = exchangeError && exchangeError === ExchangeErrorCodes.INVALID_CREDENTIALS
-  const twoFactorRequired = exchangeError && exchangeError === ExchangeErrorCodes.EXPECT_2FA
+  const twoFactorRequired = exchangeError && exchangeError === ExchangeErrorCodes.BAD_2FA
   const twoFactorError = exchangeError && exchangeError === ExchangeErrorCodes.WRONG_2FA
 
   const handleBackArrowClick = () => {
@@ -78,7 +78,7 @@ const EnterPasswordExchange = (props: Props) => {
           )}
         </FormItem>
       </FormGroup>
-      {twoFactorRequired && (
+      {(twoFactorRequired || twoFactorError) && (
         <FormGroup>
           <FormItem>
             <FormLabel htmlFor='code'>
