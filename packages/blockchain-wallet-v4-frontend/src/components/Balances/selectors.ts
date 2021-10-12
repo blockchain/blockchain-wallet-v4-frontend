@@ -187,12 +187,13 @@ export const getCoinsBalanceInfo = createDeepEqualSelector(
     const transform = (currency) => {
       return coins.map((coin) => {
         const transform2 = (rates, balance) => {
+          if (!rates.price) return 0
           return Exchange.convertCoinToFiat({ coin, currency, rates, value: balance })
         }
 
         const balanceR = getBalanceSelector(coin)(state)
         const ratesR = selectors.core.data.coins.getRates(coin, state)
-        return ratesR ? lift(transform2)(ratesR, balanceR) : Remote.of('0')
+        return lift(transform2)(ratesR, balanceR)
       })
     }
 
@@ -291,13 +292,16 @@ export const getCoinsSortedByBalance = createDeepEqualSelector(
           (coin) => getBalanceSelector(coin)(state).getOrElse(0) <= 0,
           Object.keys(window.coins)
         )
-      ).map((coin) => coin?.coinfig)
+      )
+        .map((coin) => coin?.coinfig)
+        .filter(Boolean)
 
       const coinsInRecentSwaps = [
         ...new Set(
           recentSwapTxsR.getOrElse([] as SwapOrderType[]).map((tx) => getOutputFromPair(tx.pair))
         )
       ]
+
       const coinsWithoutBalanceToTrack = coinsInRecentSwaps
         .filter((coin) => !coinsWithBalance.find((coinfig) => coinfig?.symbol === coin))
         .filter((coin) => window.coins[coin])

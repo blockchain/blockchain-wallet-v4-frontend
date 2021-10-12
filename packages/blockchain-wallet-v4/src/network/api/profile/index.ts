@@ -12,12 +12,13 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     })
   }
   const generateRetailToken = (guid, sharedKey) =>
-    get({
+    post({
       data: {
         guid,
+        method: 'signed-retail-token',
         sharedKey
       },
-      endPoint: '/wallet/signed-retail-token',
+      endPoint: '/wallet',
       url: rootUrl
     })
 
