@@ -1,6 +1,6 @@
-import { call, put } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import * as C from 'services/alerts'
 
 import {
@@ -92,4 +92,15 @@ export const parseMagicLink = function* (params) {
   }
 }
 
-export const determineAuthFlow = function* () {}
+export const loadMobileAuthWebView = function* () {
+  const designatedProduct = yield select(selectors.auth.getDesignatedProduct)
+  const platform = yield select(selectors.auth.getAuthPlatform)
+  // TODO: set auth flow type to mobile version of whatever
+  // The below are just placeholders
+  if (designatedProduct === ProductAuthOptions.EXCHANGE) {
+    yield put(actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.EXCHANGE_MERGE))
+    yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
+  } else {
+    yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD_WALLET))
+  }
+}

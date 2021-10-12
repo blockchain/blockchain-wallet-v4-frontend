@@ -16,13 +16,14 @@ import { isGuid } from 'services/forms'
 import { askSecondPasswordEnhancer } from 'services/sagas'
 
 import { guessCurrencyBasedOnCountry } from './helpers'
-import { parseMagicLink } from './sagas.utils'
+import { loadMobileAuthWebView, parseMagicLink } from './sagas.utils'
 import * as S from './selectors'
 import {
   AccountUnificationFlows,
   ExchangeErrorCodes,
   LoginErrorType,
   LoginSteps,
+  PlatformTypes,
   ProductAuthOptions,
   WalletDataFromMagicLink
 } from './types'
@@ -590,6 +591,9 @@ export default ({ api, coreSagas, networks }) => {
           designatedProductRedirect: queryParams.get('redirect')
         })
       )
+      // Checks if platform is specified in URL. Usually to check
+      // If this is being opened in mobile app webview
+      yield put(actions.auth.setAuthPlatform(queryParams.get('platform')))
       // Opens coin socket, needed for coin streams and channel key for mobile login
       yield put(actions.ws.startSocket())
       // Grab pathname to determine next step
@@ -603,7 +607,11 @@ export default ({ api, coreSagas, networks }) => {
       const storedGuid = yield select(selectors.cache.getStoredGuid)
       const lastGuid = yield select(selectors.cache.getLastGuid)
       const loginLinkParameter = params[2]
-      if ((storedGuid || lastGuid) && !loginLinkParameter) {
+      const designatedProduct = yield select(S.getDesignatedProduct)
+      const platform = yield select(selectors.auth.getAuthPlatform)
+      if (platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS) {
+        yield call(loadMobileAuthWebView)
+      } else if ((storedGuid || lastGuid) && !loginLinkParameter) {
         // logic to be compatible with lastGuid in cache make sure that email matches
         // guid being used for login eventually can deprecate after some time
         if (lastGuid) {
@@ -615,6 +623,8 @@ export default ({ api, coreSagas, networks }) => {
         }
         if (isMobileConnected) {
           yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
+        } else if (designatedProduct === ProductAuthOptions.EXCHANGE) {
+          yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
         } else {
           yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD_WALLET))
         }

@@ -12,6 +12,7 @@ import {
   LoginFailureType,
   LoginSuccessType,
   MetadataRestoreType,
+  PlatformTypes,
   ProductAuthOptions,
   RegisteringFailureType,
   RegisteringSuccessType,
@@ -21,6 +22,7 @@ import {
 
 const initialState: AuthStateType = {
   accountUnificationFlow: undefined,
+  authPlatform: undefined,
   auth_type: 0,
   designatedProduct: ProductAuthOptions.WALLET,
   designatedProductRedirect: undefined,
@@ -155,6 +157,14 @@ const authSlice = createSlice({
     },
     setAccountUnificationFlowType: (state, action: PayloadAction<AccountUnificationFlows>) => {
       state.accountUnificationFlow = action.payload
+    },
+    setAuthPlatform: (state, action: PayloadAction<string | null>) => {
+      const platform = action.payload
+      if (platform && platform.toUpperCase() === PlatformTypes.ANDROID) {
+        state.authPlatform = PlatformTypes.ANDROID
+      } else if (platform && platform.toUpperCase() === PlatformTypes.IOS) {
+        state.authPlatform = PlatformTypes.IOS
+      } else state.authPlatform = PlatformTypes.WEB
     },
     setAuthType: (state, action) => {
       state.auth_type = action.payload

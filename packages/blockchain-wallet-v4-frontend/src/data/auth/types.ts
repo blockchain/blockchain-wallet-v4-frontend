@@ -17,6 +17,9 @@ export enum ProductAuthOptions {
 export enum AccountUnificationFlows {
   EXCHANGE_MERGE = 'EXCHANGE_MERGE',
   EXCHANGE_UPGRADE = 'EXCHANGE_UPGRADE',
+  MOBILE_EXCHANGE_MERGE = 'MOBILE_EXCHANGE_MERGE',
+  MOBILE_EXCHANGE_UPGRADE = 'MOBILE_EXCHANGE_UPGRADE',
+  MOBILE_WALLET_MERGE = 'MOBILE_WALLET_MERGE',
   WALLET_MERGE = 'WALLET_MERGE'
 }
 
@@ -32,6 +35,12 @@ export enum LoginSteps {
   UPGRADE_PASSWORD = 'UPGRADE_PASSWORD',
   UPGRADE_SUCCESS = 'UPGRADE_SUCCESS',
   VERIFICATION_MOBILE = 'VERIFICATION_MOBILE'
+}
+
+export enum PlatformTypes {
+  ANDROID = 'ANDROID',
+  IOS = 'IOS',
+  WEB = 'WEB'
 }
 
 export enum RecoverSteps {
@@ -153,6 +162,7 @@ export type SecureChannelLoginType = undefined
 
 export type AuthStateType = {
   accountUnificationFlow?: AccountUnificationFlows
+  authPlatform?: PlatformTypes
   auth_type: number
   designatedProduct: ProductAuthOptions
   designatedProductRedirect?: string

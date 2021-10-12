@@ -11,6 +11,11 @@ export function getAccountUnificationFlowType(
 ): AuthStateType['accountUnificationFlow'] {
   return state.auth.accountUnificationFlow
 }
+
+export function getAuthPlatform(state: RootState): AuthStateType['authPlatform'] {
+  return state.auth.authPlatform
+}
+
 export function getAuthType(state: RootState): AuthStateType['auth_type'] {
   return state.auth.auth_type
 }
