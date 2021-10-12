@@ -3,9 +3,9 @@ import { FormattedMessage } from 'react-intl'
 import { path } from 'ramda'
 import styled from 'styled-components'
 
+import { fiatToString } from '@core/exchange/utils'
+import { WalletFiatType } from '@core/types'
 import { Button, Icon, Image, Link, Text, TextGroup } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
-import { WalletFiatType } from 'blockchain-wallet-v4/src/types'
 import {
   BlueCartridge,
   ErrorCartridge,
@@ -13,13 +13,10 @@ import {
   SuccessCartridge
 } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
-import { model } from 'data'
 import { UserTierType } from 'data/types'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import { ITEMS, TIER_TYPES, TIERS } from './model'
-
-const { INTEREST_EVENTS } = model.analytics
 
 const Wrapper = styled.div`
   width: 100%;
@@ -184,7 +181,7 @@ const getTierStatus = (
 }
 
 const Template: React.FC<Props> = (props) => {
-  const { analyticsActions, interestEDDStatus, sddEligible, userData, userTiers } = props
+  const { interestEDDStatus, sddEligible, userData, userTiers } = props
 
   if (!Array.isArray(userTiers)) {
     return null
@@ -315,7 +312,7 @@ const Template: React.FC<Props> = (props) => {
             <ItemSubtitle color='grey900' size='14px' weight={500}>
               <FormattedMessage
                 id='modals.tradinglimits.gold_subheader'
-                defaultMessage='Earn Interest & trade up to {amount}/day.'
+                defaultMessage='Earn Rewards & trade up to {amount}/day.'
                 values={{
                   amount: fiatToString({
                     digits: 0,
@@ -377,17 +374,7 @@ const Template: React.FC<Props> = (props) => {
               style={{ width: '100%' }}
               target='_blank'
             >
-              <Button
-                data-e2e='earnInterestSupplyInformation'
-                fullwidth
-                nature='primary'
-                onClick={() => {
-                  analyticsActions.logEvent(INTEREST_EVENTS.SETTINGS.SUPPLY_INFORMATION)
-                  /* interestActions.handleWithdrawalSupplyInformation({
-                    origin: 'Settings'
-                  }) */
-                }}
-              >
+              <Button data-e2e='earnInterestSupplyInformation' fullwidth nature='primary'>
                 <FormattedMessage
                   id='scenes.interest.submit_information'
                   defaultMessage='Submit Information'
@@ -467,7 +454,7 @@ const Template: React.FC<Props> = (props) => {
           <ItemTitle>
             <FormattedMessage
               id='modals.tradinglimits.earn_interest'
-              defaultMessage='Earn Interest'
+              defaultMessage='Earn Rewards'
             />
           </ItemTitle>
           {getItemBadgeStatus(currentTier, ITEMS.EARN_INTEREST, savingsProduct?.eligible)}

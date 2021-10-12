@@ -7,17 +7,12 @@ import { getFormValues } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
-import { FiatType } from 'blockchain-wallet-v4/src/types'
+import { fiatToString } from '@core/exchange/utils'
+import { FiatType } from '@core/types'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
-import { actions, model, selectors } from 'data'
+import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { BankDWStepType } from 'data/types'
-
-const {
-  ACCEPT_YAPILY_PIS_AGREEMENT,
-  DECLINE_YAPILY_PIS_AGREEMENT
-} = model.analytics.FIAT_DEPOSIT_EVENTS
 
 const Wrapper = styled.div`
   display: flex;
@@ -37,7 +32,7 @@ const DropdownTitleRow = styled.div<{ isPaymentInformation?: boolean }>`
   align-items: center;
   cursor: pointer;
   padding: ${(props) => (props.isPaymentInformation ? '0 40px' : 'auto')};
-  /* chevorn icon rotation */
+
   > span:last-child {
     size: 10px;
     transition: transform 0.2s;
@@ -52,7 +47,6 @@ const InfoTitle = styled(Title)`
   line-height: 1.5;
   color: ${(props) => props.theme.grey900};
 `
-
 const InfoDropdown = styled.div`
   max-height: 0;
   margin-top: 0;
@@ -310,7 +304,6 @@ const Authorize = (props: Props) => {
             props.brokerageActions.setDWStep({
               dwStep: BankDWStepType.CONFIRM
             })
-            props.analyticsActions.logEvent(ACCEPT_YAPILY_PIS_AGREEMENT)
           }}
         >
           <FormattedMessage id='copy.approve' defaultMessage='Approve' />
@@ -325,7 +318,6 @@ const Authorize = (props: Props) => {
           style={{ marginTop: '16px' }}
           onClick={() => {
             props.handleClose()
-            props.analyticsActions.logEvent(DECLINE_YAPILY_PIS_AGREEMENT)
           }}
         >
           <FormattedMessage id='copy.deny' defaultMessage='Deny' />
@@ -342,7 +334,6 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
 })
 

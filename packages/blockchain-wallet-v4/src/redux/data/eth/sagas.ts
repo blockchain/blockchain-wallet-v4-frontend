@@ -26,12 +26,16 @@ import {
 } from 'ramda'
 import { all, call, put, select, take } from 'redux-saga/effects'
 
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
-import { APIType } from 'core/network/api'
-import { EthRawTxType } from 'core/network/api/eth/types'
-import { EthProcessedTxType } from 'core/transactions/types'
-import { Erc20CoinType, FetchCustodialOrdersAndTransactionsReturnType } from 'core/types'
+import { APIType } from '@core/network/api'
+import { EthRawTxType } from '@core/network/api/eth/types'
+import { EthProcessedTxType } from '@core/transactions/types'
+import {
+  CoinfigType,
+  Erc20CoinType,
+  FetchCustodialOrdersAndTransactionsReturnType
+} from '@core/types'
+import { errorHandler } from '@core/utils'
+import { calculateFee } from '@core/utils/eth'
 
 import * as Exchange from '../../../exchange'
 import * as transactions from '../../../transactions'
@@ -294,6 +298,24 @@ export default ({ api }: { api: APIType }) => {
         data.tokenAccounts.map(function* (val) {
           // TODO: erc20 phase 2, key off hash not symbol
           const symbol = toUpper(val.tokenSymbol)
+          if (!window.coins[symbol]) {
+            window.coins[symbol] = {
+              coinfig: {
+                displaySymbol: symbol,
+                name: symbol,
+                precision: val.decimals,
+                products: ['PrivateKey'],
+                symbol,
+                type: {
+                  erc20Address: val.tokenHash,
+                  name: 'ERC20',
+                  parentChain: 'ETH',
+                  websiteUrl: ''
+                }
+              } as CoinfigType
+            }
+          }
+          if (window.coins[symbol].coinfig.type.name !== 'ERC20') return
           yield put(A.fetchErc20DataLoading(symbol))
           const contract = val.tokenHash
           const tokenData = data.tokenAccounts.find(
@@ -473,7 +495,7 @@ export default ({ api }: { api: APIType }) => {
     // @ts-ignore
     // eslint-disable-next-line
     const fullTxList = yield call(__processErc20Txs, rawTxList)
-    const marketData = (selectors.data.coins.getRates, token, yield select()).getOrFail()
+    const marketData = selectors.data.coins.getRates(token, yield select()).getOrFail('No rates')
 
     // remove txs that dont match coin type and are not within date range
     const prunedTxList = filter(

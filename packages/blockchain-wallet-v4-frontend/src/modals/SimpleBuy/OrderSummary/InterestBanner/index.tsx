@@ -2,25 +2,24 @@ import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
-import { actions, model } from 'data'
+import { RemoteDataType } from '@core/types'
+import { actions } from 'data'
 
 import { getData } from './selectors'
 import Template from './template.success'
 
-const InterestBanner: React.FC<Props> = props => {
+const InterestBanner: React.FC<Props> = (props) => {
   useEffect(() => {
     props.interestActions.fetchInterestRate()
-    props.analyticsActions.logEvent(model.analytics.ONE_CLICK_INTEREST.SEEN)
   }, [])
 
   return (
     <>
       {props.data.cata({
-        Success: val => <Template {...props} {...val} />,
         Failure: () => null,
         Loading: () => null,
-        NotAsked: () => null
+        NotAsked: () => null,
+        Success: (val) => <Template {...props} {...val} />
       })}
     </>
   )
@@ -31,8 +30,7 @@ const mapStateToProps = (state): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  interestActions: bindActionCreators(actions.components.interest, dispatch),
-  analyticsActions: bindActionCreators(actions.analytics, dispatch)
+  interestActions: bindActionCreators(actions.components.interest, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

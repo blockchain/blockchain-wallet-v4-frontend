@@ -1,16 +1,16 @@
 import { assoc } from 'ramda'
 
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from '@core'
 
 import * as AT from './actionTypes'
 
 const INITIAL_STATE = {
-  step: 1,
   checkDestination: Remote.NotAsked,
+  feeToggled: false,
   isDestinationExchange: Remote.NotAsked,
   payment: Remote.NotAsked,
-  feeToggled: false,
-  showNoAccountForm: false
+  showNoAccountForm: false,
+  step: 1
 }
 
 export function sendXlmReducer(state = INITIAL_STATE, action) {

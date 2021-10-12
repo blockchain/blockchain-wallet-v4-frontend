@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from '@core'
+import { AuthStateType } from 'data/types'
 
-const initialState = {
+const initialState: AuthStateType = {
   auth_type: 0,
   firstLogin: false,
   isAuthenticated: false,
@@ -105,7 +106,7 @@ const authSlice = createSlice({
     restoreSuccess: (state, action) => {
       state.restoring = Remote.Success(action.payload)
     },
-    secureChannelLoginFailure: (state, action) => {
+    secureChannelLoginFailure: (state, action: PayloadAction<string>) => {
       state.secureChannelLogin = Remote.Failure(action.payload)
     },
     secureChannelLoginLoading: (state) => {
@@ -135,7 +136,9 @@ const authSlice = createSlice({
     setRegisterEmail: (state, action) => {
       state.registerEmail = action.payload
     },
-    setResetAccount: (state, action) => {},
+    setResetAccount: (state, action) => {
+      state.resetAccount = action.payload
+    },
     setResetLogin: (state, action) => {
       state.resetAccount = action.payload
     },

@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
-import { RemoteDataType } from 'blockchain-wallet-v4/src/types'
+import { RemoteDataType } from '@core/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { ModalName, UserTiersType } from 'data/types'

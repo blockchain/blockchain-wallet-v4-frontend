@@ -38,6 +38,9 @@
     "modulePathIgnorePatterns": [
       "<rootDir>/lib"
     ],
+    "moduleNameMapper": {
+      "@core(.*)$": "<rootDir>/src/$1"
+    },
     "setupFiles": [
       "<rootDir>/../../config/jest/jest.shim.js",
       "<rootDir>/../../config/jest/jest.config.js"

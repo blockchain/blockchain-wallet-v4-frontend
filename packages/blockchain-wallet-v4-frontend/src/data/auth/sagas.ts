@@ -3,22 +3,20 @@ import { assoc, find, prop, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, delay, fork, put, select, take } from 'redux-saga/effects'
 
-import { Types } from 'blockchain-wallet-v4/src'
-import { DEFAULT_INVITATIONS } from 'blockchain-wallet-v4/src/model'
-import { actions, actionTypes, model, selectors } from 'data'
+import { Types } from '@core'
+import { DEFAULT_INVITATIONS } from '@core/model'
+import { actions, actionTypes, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
 import profileSagas from 'data/modules/profile/sagas'
 import walletSagas from 'data/wallet/sagas'
 import * as C from 'services/alerts'
 import { isGuid } from 'services/forms'
-import { askSecondPasswordEnhancer, confirm } from 'services/sagas'
+import { askSecondPasswordEnhancer } from 'services/sagas'
 
 import { guessCurrencyBasedOnCountry } from './helpers'
 import { parseMagicLink } from './sagas.utils'
 import * as S from './selectors'
 import { LoginErrorType, LoginSteps, WalletDataFromMagicLink } from './types'
-
-const { MOBILE_LOGIN } = model.analytics
 
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'auth/sagas'
@@ -27,6 +25,7 @@ export default ({ api, coreSagas, networks }) => {
     coreSagas,
     networks
   })
+
   const { checkDataErrors, updateMnemonicBackup, upgradeAddressLabelsSaga } = walletSagas({
     coreSagas
   })
@@ -184,13 +183,12 @@ export default ({ api, coreSagas, networks }) => {
       // set payload language to settings language
       const language = yield select(selectors.preferences.getLanguage)
       yield put(actions.modules.settings.updateLanguage(language))
-      yield put(actions.analytics.initUserSession())
       // simple buy tasks
       // only run the fetch simplebuy if there's no simplebuygoal
       const goals = selectors.goals.getGoals(yield select())
       const simpleBuyGoal = find(propEq('name', 'simpleBuy'), goals)
       if (!simpleBuyGoal) {
-        yield put(actions.components.simpleBuy.fetchSBPaymentMethods())
+        yield put(actions.components.buySell.fetchPaymentMethods())
       }
       // swap tasks
       yield put(actions.components.swap.fetchTrades())
@@ -394,7 +392,6 @@ export default ({ api, coreSagas, networks }) => {
   const mobileLogin = function* (action) {
     try {
       yield put(actions.auth.mobileLoginStarted())
-      yield put(actions.analytics.logEvent(MOBILE_LOGIN.LEGACY))
       const { guid, password, sharedKey } = yield call(
         coreSagas.settings.decodePairingCode,
         action.payload
@@ -442,7 +439,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const restoreFromMetadata = function* (action) {
-    const { mnemonic } = action.payload
+    const mnemonic = action.payload
     try {
       yield put(actions.auth.restoreFromMetadataLoading())
       // try and pull recovery credentials from metadata

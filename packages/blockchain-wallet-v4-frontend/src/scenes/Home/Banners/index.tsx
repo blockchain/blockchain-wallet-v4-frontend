@@ -8,6 +8,8 @@ import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
 
 import BuyCrypto from './BuyCrypto'
+import CeloEURSweepstake from './CeloEURSweepstake'
+import CoinRename from './CoinRename'
 import ContinueToGold from './ContinueToGold'
 import FinishKyc from './FinishKyc'
 import KycResubmit from './KycResubmit'
@@ -23,11 +25,11 @@ const BannerWrapper = styled.div`
 
 class Banners extends React.PureComponent<Props> {
   componentDidMount() {
-    this.props.simpleBuyActions.fetchSBOrders()
-    this.props.simpleBuyActions.fetchSDDEligible()
+    this.props.buySellActions.fetchOrders()
+    this.props.buySellActions.fetchSDDEligibility()
     if (this.props.userData.tiers?.current > 0) {
       // TODO move this away from SB
-      this.props.simpleBuyActions.fetchLimits(this.props.fiatCurrency)
+      this.props.buySellActions.fetchLimits(this.props.fiatCurrency)
     }
   }
 
@@ -59,6 +61,12 @@ class Banners extends React.PureComponent<Props> {
             <SBOrderBanner />
           </BannerWrapper>
         )
+      case 'coinRename':
+        return (
+          <BannerWrapper>
+            <CoinRename />
+          </BannerWrapper>
+        )
       case 'newCurrency':
         return (
           <BannerWrapper>
@@ -75,6 +83,12 @@ class Banners extends React.PureComponent<Props> {
         return (
           <BannerWrapper>
             <ContinueToGold />
+          </BannerWrapper>
+        )
+      case 'celoEURSweepstake':
+        return (
+          <BannerWrapper>
+            <CeloEURSweepstake />
           </BannerWrapper>
         )
       case 'recurringBuys':
@@ -98,7 +112,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

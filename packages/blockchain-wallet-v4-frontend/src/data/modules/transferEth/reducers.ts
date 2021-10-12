@@ -1,4 +1,4 @@
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from '@core'
 
 import * as AT from './actionTypes'
 import { TransferEthState } from './types'

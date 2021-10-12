@@ -1,7 +1,7 @@
 import { propEq } from 'ramda'
 import { call, put, select } from 'redux-saga/effects'
 
-import { Types, utils } from 'blockchain-wallet-v4/src'
+import { Types, utils } from '@core'
 import profileSagas from 'data/modules/profile/sagas.ts'
 import * as C from 'services/alerts'
 import { addLanguageToUrl } from 'services/locales'

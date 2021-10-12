@@ -4,6 +4,9 @@ import { add, compose } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
+import { Remote } from '@core'
+import { displayCoinToCoin } from '@core/exchange'
+import { ExtractSuccess } from '@core/types'
 import {
   BlockchainLoader,
   Button,
@@ -12,9 +15,6 @@ import {
   ModalHeader,
   Text
 } from 'blockchain-info-components'
-import { Remote } from 'blockchain-wallet-v4/src'
-import { displayCoinToCoin } from 'blockchain-wallet-v4/src/exchange'
-import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 import { ModalName } from 'data/types'

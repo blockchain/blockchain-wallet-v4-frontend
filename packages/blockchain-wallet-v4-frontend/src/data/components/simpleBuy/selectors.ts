@@ -10,7 +10,7 @@ import {
   SBPaymentMethodType,
   SBPaymentTypes,
   SBQuoteType
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -23,27 +23,27 @@ import { SBCardStateEnum, SBCheckoutFormValuesType } from './types'
 const hasEligibleFiatCurrency = (currency) =>
   currency === FiatTypeEnum.USD || currency === FiatTypeEnum.GBP || currency === FiatTypeEnum.EUR
 
-export const getAddBank = (state: RootState) => state.components.simpleBuy.addBank
+export const getAddBank = (state: RootState) => state.components.buySell.addBank
 
-export const getOrderType = (state: RootState) => state.components.simpleBuy.orderType
+export const getOrderType = (state: RootState) => state.components.buySell.orderType
 
-export const getEverypay3DSDetails = (state: RootState) => state.components.simpleBuy.everypay3DS
+export const getEverypay3DSDetails = (state: RootState) => state.components.buySell.everypay3DS
 
-export const getSBAccount = (state: RootState) => state.components.simpleBuy.account
+export const getSBAccount = (state: RootState) => state.components.buySell.account
 
-export const getCryptoCurrency = (state: RootState) => state.components.simpleBuy.cryptoCurrency
+export const getCryptoCurrency = (state: RootState) => state.components.buySell.cryptoCurrency
 
-export const getDisplayBack = (state: RootState) => state.components.simpleBuy.displayBack
+export const getDisplayBack = (state: RootState) => state.components.buySell.displayBack
 
-export const getFiatCurrency = (state: RootState) => state.components.simpleBuy.fiatCurrency
+export const getFiatCurrency = (state: RootState) => state.components.buySell.fiatCurrency
 
-export const getSBOrders = (state: RootState) => state.components.simpleBuy.orders
+export const getSBOrders = (state: RootState) => state.components.buySell.orders
 
-export const getSBPaymentMethods = (state: RootState) => state.components.simpleBuy.methods
+export const getSBPaymentMethods = (state: RootState) => state.components.buySell.methods
 
-export const getSBBalances = (state: RootState) => state.components.simpleBuy.balances
+export const getSBBalances = (state: RootState) => state.components.buySell.balances
 
-export const getSBCards = (state: RootState) => state.components.simpleBuy.cards
+export const getSBCards = (state: RootState) => state.components.buySell.cards
 
 export const getDefaultPaymentMethod = (state: RootState) => {
   const fiatCurrency = getFiatCurrency(state)
@@ -147,53 +147,53 @@ export const getDefaultPaymentMethod = (state: RootState) => {
 }
 
 export const hasFiatBalances = (state: RootState) => {
-  const fiatBalances = Object.keys(state.components.simpleBuy.balances.data).filter(
+  const fiatBalances = Object.keys(state.components.buySell.balances.data).filter(
     (currency) =>
       currency in FiatTypeEnum &&
-      (state.components.simpleBuy.balances.data[currency]?.available || 0) > 0
+      (state.components.buySell.balances.data[currency]?.available || 0) > 0
   )
   return fiatBalances.length > 0
 }
 
-export const getSBCard = (state: RootState) => state.components.simpleBuy.card
+export const getSBCard = (state: RootState) => state.components.buySell.card
 
-export const getSBCardId = (state: RootState) => state.components.simpleBuy.cardId
+export const getSBCardId = (state: RootState) => state.components.buySell.cardId
 
-export const getSBFiatEligible = (state: RootState) => state.components.simpleBuy.fiatEligible
+export const getSBFiatEligible = (state: RootState) => state.components.buySell.fiatEligible
 
-export const getSBQuote = (state: RootState) => state.components.simpleBuy.quote
+export const getSBQuote = (state: RootState) => state.components.buySell.quote
 export const hasQuote = createSelector(getSBQuote, (quoteR) => {
   const quote = quoteR.getOrElse({} as SBQuoteType)
   return !isNil(quote.rate)
 })
 
-export const getSBPairs = (state: RootState) => state.components.simpleBuy.pairs
+export const getSBPairs = (state: RootState) => state.components.buySell.pairs
 
-export const getSBPair = (state: RootState) => state.components.simpleBuy.pair
+export const getSBPair = (state: RootState) => state.components.buySell.pair
 
-export const getSBPaymentMethod = (state: RootState) => state.components.simpleBuy.method
+export const getSBPaymentMethod = (state: RootState) => state.components.buySell.method
 
-export const getSBProviderDetails = (state: RootState) => state.components.simpleBuy.providerDetails
+export const getSBProviderDetails = (state: RootState) => state.components.buySell.providerDetails
 
-export const getSBOrder = (state: RootState) => state.components.simpleBuy.order
+export const getSBOrder = (state: RootState) => state.components.buySell.order
 
 export const getSBLatestPendingOrder = (state: RootState) =>
-  state.components.simpleBuy.orders.getOrElse([]).find((order) => {
+  state.components.buySell.orders.getOrElse([]).find((order) => {
     return order.state === 'PENDING_CONFIRMATION' || order.state === 'PENDING_DEPOSIT'
   })
 
-export const getSellQuote = (state: RootState) => state.components.simpleBuy.sellQuote
+export const getSellQuote = (state: RootState) => state.components.buySell.sellQuote
 
-export const getSellOrder = (state: RootState) => state.components.simpleBuy.sellOrder
+export const getSellOrder = (state: RootState) => state.components.buySell.sellOrder
 
-export const getStep = (state: RootState) => state.components.simpleBuy.step
+export const getStep = (state: RootState) => state.components.buySell.step
 
-export const getSwapAccount = (state: RootState) => state.components.simpleBuy.swapAccount
+export const getSwapAccount = (state: RootState) => state.components.buySell.swapAccount
 
 // Sell specific (for now!)
 // used for sell only now, eventually buy as well
 // TODO: use swap2 quote for buy AND sell
-export const getPayment = (state: RootState) => state.components.simpleBuy.payment
+export const getPayment = (state: RootState) => state.components.buySell.payment
 
 export const getIncomingAmount = (state: RootState) => {
   const quoteR = getSellQuote(state)
@@ -222,7 +222,7 @@ export const getIncomingAmount = (state: RootState) => {
   })(quoteR)
 }
 
-export const getSddEligible = (state: RootState) => state.components.simpleBuy.sddEligible
+export const getSddEligible = (state: RootState) => state.components.buySell.sddEligible
 
 export const isUserSddEligible = (state: RootState) => {
   const sddEligibleR = getSddEligible(state)
@@ -243,7 +243,7 @@ export const getUserLimit = (state: RootState, type: SBPaymentTypes) => {
   })(sbMethodsR)
 }
 
-export const getSddVerified = (state: RootState) => state.components.simpleBuy.sddVerified
+export const getSddVerified = (state: RootState) => state.components.buySell.sddVerified
 
 export const isUserSddVerified = (state: RootState) => {
   const sddVerifiedR = getSddVerified(state)
@@ -252,7 +252,7 @@ export const isUserSddVerified = (state: RootState) => {
       sddVerified.taskComplete && sddVerified.verified
   )(sddVerifiedR)
 }
-export const getLimits = (state: RootState) => state.components.simpleBuy.limits
+export const getLimits = (state: RootState) => state.components.buySell.limits
 
 export const getSddTransactionFinished = (state: RootState) =>
-  state.components.simpleBuy.sddTransactionFinished
+  state.components.buySell.sddTransactionFinished

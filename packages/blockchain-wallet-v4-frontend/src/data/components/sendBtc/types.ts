@@ -1,4 +1,4 @@
-import { PaymentValue, RemoteDataType } from 'blockchain-wallet-v4/src/types'
+import { PaymentValue, RemoteDataType } from '@core/types'
 
 // State
 export type SendBtcState = {

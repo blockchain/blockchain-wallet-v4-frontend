@@ -2,10 +2,11 @@
 import { BigNumber } from 'bignumber.js'
 import { path, prop } from 'ramda'
 
-import { CoinType, FiatType, RatesType, WalletFiatType } from 'core/types'
+import { CoinType, FiatType, RatesType, WalletFiatType } from '@core/types'
 
 import Currencies, { FiatCurrenciesType } from './currencies'
 import { formatCoin, getLang } from './utils'
+import { TickerResponseType } from '@core/network/api/coin/types'
 
 type KeysOfUnion<T> = T extends any ? keyof T : never
 export type UnitType = KeysOfUnion<FiatCurrenciesType[keyof FiatCurrenciesType]['units']>
@@ -99,19 +100,19 @@ const convertFiatToFiat = ({
   toCurrency,
   value = '0'
 }: {
-  fromCurrency: WalletFiatType
-  rates: RatesType
-  toCurrency: WalletFiatType
+  fromCurrency: keyof FiatCurrenciesType
+  rates: TickerResponseType
+  toCurrency: keyof FiatCurrenciesType
   value: number | string
 }) => {
   const btcAmt = convertFiatToCoin({
     coin: 'BTC',
     value,
     currency: fromCurrency,
-    rates
+    rates: { price: rates[fromCurrency].buy } as RatesType
   })
-  const { price } = rates
-  return new BigNumber(btcAmt).times(price).toFixed(2)
+  const { last } = rates[toCurrency]
+  return new BigNumber(btcAmt).times(last).toFixed(2)
 }
 
 // =====================================================================
@@ -126,12 +127,15 @@ const displayCoinToCoin = ({
   isFiat?: boolean
   value: number | string
 }): string => {
+  const { coinfig } = window.coins[coin]
+  const { displaySymbol } = coinfig
+  
   if (isFiat) {
     const options = { style: 'currency', currency: coin }
     return new Intl.NumberFormat(getLang(), options).format(Number(value))
   }
 
-  return `${formatCoin(convertCoinToCoin({ baseToStandard: true, value, coin }))} ${coin}`
+  return `${formatCoin(convertCoinToCoin({ baseToStandard: true, value, coin }))} ${displaySymbol}`
 }
 
 const displayCoinToFiat = ({

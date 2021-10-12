@@ -42,6 +42,7 @@ export const parseMagicLink = function* (params) {
       yield put(actions.cache.emailStored(walletData.email))
       yield put(actions.cache.guidStored(walletData.guid))
       yield put(actions.cache.mobileConnectedStored(walletData.is_mobile_setup))
+      yield put(actions.cache.hasCloudBackup(walletData.has_cloud_backup))
       yield put(actions.form.change('login', 'emailToken', walletData.email_code))
       yield put(actions.form.change('login', 'guid', walletData.guid))
       yield put(actions.form.change('login', 'email', walletData.email))

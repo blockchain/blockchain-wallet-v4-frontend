@@ -10,8 +10,14 @@ import { media } from 'services/styles'
 import OrderSummary from './Brokerage/OrderSummary'
 import FlyoutContainer from './Container'
 import FlyoutContent from './Content'
+import FlyoutOopsError from './Errors/Oops'
 import FlyoutFooter from './Footer'
 import FlyoutHeader from './Header'
+// Interest Upload Documents specific layout screens
+import AdditionalInformation from './InterestUploadDocuments/AdditionalInformation'
+import GetStarted from './InterestUploadDocuments/GetStarted'
+import UploadAndVerify from './InterestUploadDocuments/UploadAndVerify'
+import Uploaded from './InterestUploadDocuments/Uploaded'
 // Recurring Buy specific flyout screens
 import FrequencyScreen from './RecurringBuy/FrequencyScreen'
 import RecurringBuyGettingStarted from './RecurringBuy/GettingStarted'
@@ -22,16 +28,21 @@ import FlyoutSubHeader from './SubHeader'
 
 export * from './model'
 export {
+  AdditionalInformation,
   FlyoutContainer,
   FlyoutContent,
   FlyoutFooter,
   FlyoutHeader,
+  FlyoutOopsError,
   FlyoutSubHeader,
   FrequencyScreen,
+  GetStarted,
   OrderSummary,
   RecurringBuyDetails,
   RecurringBuyGettingStarted,
-  RecurringBuyRemoveConfirm
+  RecurringBuyRemoveConfirm,
+  UploadAndVerify,
+  Uploaded
 }
 
 export const duration = 500

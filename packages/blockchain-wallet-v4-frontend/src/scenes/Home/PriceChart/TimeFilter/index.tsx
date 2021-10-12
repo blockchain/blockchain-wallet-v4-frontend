@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { TimeRange } from 'blockchain-wallet-v4/src/types'
+import { TimeRange } from '@core/types'
 import { actions } from 'data'
 
 import { getData } from './selectors'

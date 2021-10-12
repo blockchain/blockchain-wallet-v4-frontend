@@ -19,9 +19,9 @@ import {
   sort
 } from 'ramda'
 
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { InterestAccountBalanceType } from 'blockchain-wallet-v4/src/types'
+import { Exchange, Remote } from '@core'
+import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
+import { InterestAccountBalanceType } from '@core/types'
 import { selectors } from 'data'
 import { collapse } from 'utils/helpers'
 
@@ -93,7 +93,7 @@ export const getData = (
   }
   const buildInterestDisplay = (x: InterestAccountBalanceType['BTC']) => {
     return (
-      `Interest Account` +
+      `Rewards Account` +
       ` (${Exchange.displayCoinToCoin({
         coin: 'BTC',
         value: x ? x.balance : 0
@@ -122,7 +122,7 @@ export const getData = (
             label: buildInterestDisplay(x),
             value: {
               ...x,
-              label: 'Interest Account',
+              label: 'Rewards Account',
               type: ADDRESS_TYPES.INTEREST
             }
           }
@@ -163,7 +163,7 @@ export const getData = (
             .getInterestAccountBalance(state)
             .map((x) => x.BTC)
             .map(toInterestDropdown)
-            .map(toGroup('Interest Account'))
+            .map(toGroup('Rewards Account'))
         : Remote.of([]),
       excludeImported
         ? Remote.of([])

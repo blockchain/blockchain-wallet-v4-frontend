@@ -1,4 +1,4 @@
-import { CoinType, WalletCurrencyType } from 'blockchain-wallet-v4/src/types'
+import { CoinType, WalletCurrencyType } from '@core/types'
 import { SwapAccountType } from 'data/components/swap/types'
 
 export enum RequestSteps {
@@ -8,6 +8,7 @@ export enum RequestSteps {
 }
 
 export type RequestFormType = {
+  coinSearch: string
   currencyDisplay: WalletCurrencyType
   selectedAccount: SwapAccountType
   selectedCoin: CoinType | string

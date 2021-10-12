@@ -7,7 +7,7 @@ import {
   RemoteDataType,
   SBCardType,
   SBPaymentMethodsType
-} from 'blockchain-wallet-v4/src/types'
+} from '@core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -17,44 +17,38 @@ import Success from './template.success'
 
 class LinkedCards extends PureComponent<Props> {
   componentDidMount() {
-    this.props.simpleBuyActions.fetchSBCards()
-    this.props.simpleBuyActions.fetchSBPaymentMethods(this.props.fiatCurrency)
+    this.props.buySellActions.fetchCards(false)
+    this.props.buySellActions.fetchPaymentMethods(this.props.fiatCurrency)
   }
 
   handleCreditCardClick = () => {
-    this.props.simpleBuyActions.showModal('SettingsGeneral')
-    this.props.simpleBuyActions.setFiatCurrency(
-      this.props.fiatCurrency || 'USD'
-    )
-    this.props.simpleBuyActions.setStep({
+    this.props.buySellActions.showModal({ origin: 'SettingsGeneral' })
+    this.props.buySellActions.setFiatCurrency(this.props.fiatCurrency || 'USD')
+    this.props.buySellActions.setStep({
       step: 'ADD_CARD'
     })
-    this.props.simpleBuyActions.addCardFinished()
+    this.props.buySellActions.addCardFinished()
   }
 
   render() {
     return this.props.data.cata({
-      Success: val => (
-        <Success
-          {...val}
-          {...this.props}
-          handleCreditCardClick={this.handleCreditCardClick}
-        />
-      ),
-      Loading: () => <Loading />,
       Failure: () => null,
-      NotAsked: () => null
+      Loading: () => <Loading />,
+      NotAsked: () => null,
+      Success: (val) => (
+        <Success {...val} {...this.props} handleCreditCardClick={this.handleCreditCardClick} />
+      )
     })
   }
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state),
-  data: getData(state)
+  data: getData(state),
+  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

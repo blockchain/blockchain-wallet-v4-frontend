@@ -1,7 +1,7 @@
 import { lift, prop, propOr } from 'ramda'
 
-import { Remote } from 'blockchain-wallet-v4/src'
-import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
+import { Remote } from '@core'
+import { createDeepEqualSelector } from '@core/utils'
 import { model, selectors } from 'data'
 
 const getData = createDeepEqualSelector(

@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { fiatToString } from '@core/exchange/utils'
 import { Icon } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 import { Title, Value } from 'components/Flyout'
 import { DisplayContainer } from 'components/SimpleBuy'
 import { media } from 'services/styles'

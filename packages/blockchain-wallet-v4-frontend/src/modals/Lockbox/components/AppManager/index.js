@@ -11,7 +11,7 @@ import {
   Image,
   Text
 } from 'blockchain-info-components'
-import { Remote } from 'blockchain-wallet-v4/src'
+import { Remote } from '@core'
 import { actions, selectors } from 'data'
 import * as Lockbox from 'services/lockbox'
 

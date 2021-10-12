@@ -4,8 +4,8 @@ import { any, map, values } from 'ramda'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { OrderType, SBPairType } from '@core/types'
 import { Icon, Image, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
-import { OrderType, SBPairType } from 'blockchain-wallet-v4/src/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption } from 'components/Form'
 import { model } from 'data'
@@ -72,7 +72,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
 
     // if first time user, send to verify email step which is required future SDD check
     if (!props.emailVerified && currentTier !== 2 && currentTier !== 1) {
-      return props.simpleBuyActions.setStep({
+      return props.buySellActions.setStep({
         cryptoCurrency: getCoinFromPair(pair.pair),
         fiatCurrency: getFiatFromPair(pair.pair),
         orderType,
@@ -83,13 +83,13 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
 
     // if SDD user has already placed on order, force them to Gold upgrade
     if (currentTier === 3 && props.sbOrders?.length > 0) {
-      return props.simpleBuyActions.setStep({
+      return props.buySellActions.setStep({
         step: 'UPGRADE_TO_GOLD'
       })
     }
 
     // default continue to enter amount step
-    return props.simpleBuyActions.setStep({
+    return props.buySellActions.setStep({
       cryptoCurrency: getCoinFromPair(pair.pair),
       fiatCurrency: getFiatFromPair(pair.pair),
       orderType,
@@ -103,7 +103,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
 
     if (!pair) return
 
-    props.simpleBuyActions.setStep({
+    props.buySellActions.setStep({
       cryptoCurrency: getCoinFromPair(pair.pair),
       fiatCurrency: getFiatFromPair(pair.pair),
       orderType,
@@ -206,7 +206,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
                   selected={orderType === 'BUY'}
                   onClick={() => {
                     setOrderType('BUY')
-                    props.simpleBuyActions.setBuyCrypto('CurrencyList')
+                    props.buySellActions.setBuyCrypto('CurrencyList')
                   }}
                   data-e2e='sbBuyButton'
                 >
@@ -217,7 +217,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
                   selected={orderType === OrderType.SELL}
                   onClick={() => {
                     setOrderType(OrderType.SELL)
-                    props.simpleBuyActions.setSellCrypto('CurrencyList')
+                    props.buySellActions.setSellCrypto('CurrencyList')
                   }}
                   data-e2e='sbSellButton'
                 >

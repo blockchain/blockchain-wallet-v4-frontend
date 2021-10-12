@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { CommonFieldProps, WrappedFieldMetaProps } from 'redux-form'
 import styled from 'styled-components'
 
-import { SBPaymentTypes } from 'blockchain-wallet-v4/src/types'
+import { SBPaymentTypes } from '@core/types'
 import { TextBox } from 'components/Form'
 
 import { Props as AddCardProps } from '../../../modals/SimpleBuy/AddCard/template.success'

@@ -1,30 +1,46 @@
-import { IndexMultiResponseType } from 'core/network/api/coin/types'
-import { RatesType, RemoteDataType } from 'core/types'
+import { IndexMultiResponseType, TickerResponseType } from '@core/network/api/coin/types'
+import { RatesType, RemoteDataType } from '@core/types'
 
 import * as AT from './actionTypes'
 
 // state
 export type CoinsState = {
+  btcTicker: RemoteDataType<string, TickerResponseType>
   rates: RemoteDataType<string, RatesType>
   transactions: { [key in string]: Array<any> }
   transactions_at_bound: { [key in string]: boolean }
 }
 
 // actions
-interface FetchCoinsFailureActionType {
+interface FetchCoinsRatesFailureActionType {
   payload: {
     error: string
   }
   type: typeof AT.FETCH_COINS_RATES_FAILURE
 }
-interface FetchCoinsLoadingActionType {
+interface FetchCoinsRatesLoadingActionType {
   type: typeof AT.FETCH_COINS_RATES_LOADING
 }
-interface FetchCoinsSuccessActionType {
+interface FetchCoinsRatesSuccessActionType {
   payload: {
     rates: IndexMultiResponseType
   }
   type: typeof AT.FETCH_COINS_RATES_SUCCESS
+}
+interface FetchBtcTickerFailureActionType {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_BTC_TICKER_FAILURE
+}
+interface FetchBtcTickerLoadingActionType {
+  type: typeof AT.FETCH_BTC_TICKER_LOADING
+}
+interface FetchBtcTickerSuccessActionType {
+  payload: {
+    rates: TickerResponseType
+  }
+  type: typeof AT.FETCH_BTC_TICKER_SUCCESS
 }
 interface FetchTransactionsFailureActionType {
   payload: {
@@ -55,9 +71,12 @@ interface SetTransactionsAtBoundActionType {
 }
 
 export type CoinsActionTypes =
-  | FetchCoinsFailureActionType
-  | FetchCoinsLoadingActionType
-  | FetchCoinsSuccessActionType
+  | FetchCoinsRatesFailureActionType
+  | FetchCoinsRatesLoadingActionType
+  | FetchCoinsRatesSuccessActionType
+  | FetchBtcTickerFailureActionType
+  | FetchBtcTickerLoadingActionType
+  | FetchBtcTickerSuccessActionType
   | FetchTransactionsFailureActionType
   | FetchTransactionsLoadingActionType
   | FetchTransactionsSuccessActionType

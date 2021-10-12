@@ -10,7 +10,7 @@ import {
   TableRow,
   Text
 } from 'blockchain-info-components'
-import { CoinType, ImportedAddrType } from 'blockchain-wallet-v4/src/types'
+import { CoinType, ImportedAddrType } from '@core/types'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { media } from 'services/styles'
 

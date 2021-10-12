@@ -3,8 +3,8 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import styled from 'styled-components'
 
+import { fiatToString } from '@core/exchange/utils'
 import { Text } from 'blockchain-info-components'
-import { fiatToString } from 'blockchain-wallet-v4/src/exchange/utils'
 
 import { PriceChange } from '../../model'
 import { Skeletons } from '../../WalletBalanceDropdown/template.loading'
@@ -32,6 +32,7 @@ const PriceText = styled(Text)`
 class CoinPricesContainer extends React.PureComponent<Props> {
   render() {
     const { data } = this.props
+    const { coinfig } = window.coins[this.props.coin]
 
     return data.cata({
       Failure: (e) => <Text>{typeof e === 'string' ? e : 'Unknown Error'}</Text>,
@@ -46,7 +47,7 @@ class CoinPricesContainer extends React.PureComponent<Props> {
               <FormattedMessage
                 id='scenes.transactions.performance.account.price'
                 defaultMessage='{account} Price'
-                values={{ account: this.props.coin }}
+                values={{ account: coinfig.displaySymbol }}
               />
             </TitleText>
             <PriceText>

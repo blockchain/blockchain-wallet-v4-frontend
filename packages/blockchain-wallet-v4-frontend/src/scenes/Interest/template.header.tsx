@@ -34,16 +34,13 @@ const InterestHeader = () => {
           <Icon color='blue600' name='percentage' size='24px' />
         </IconBackground>
         <SceneHeaderText>
-          <FormattedMessage
-            id='scenes.interest.interestaccount'
-            defaultMessage='Interest Account'
-          />
+          <FormattedMessage id='scenes.interest.interestaccount' defaultMessage='Rewards Account' />
         </SceneHeaderText>
       </SceneHeader>
       <SceneSubHeaderTextCustom>
         <FormattedMessage
           id='scenes.interest.subheader'
-          defaultMessage='Deposit crypto and watch it grow. Interest is paid by the end of the day on the 1st of each month.'
+          defaultMessage='Deposit crypto and watch it grow. Rewards are paid by the end of the day on the 1st of each month.'
         />
         <LearnMoreLink
           href='https://support.blockchain.com/hc/en-us/articles/360043658491-How-the-Interest-Account-works'

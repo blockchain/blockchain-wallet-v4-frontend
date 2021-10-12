@@ -2,30 +2,41 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { Remote } from 'blockchain-wallet-v4/src'
-import { ExtractSuccess } from 'blockchain-wallet-v4/src/types'
+import { Remote } from '@core'
+import { ExtractSuccess } from '@core/types'
+import { FlyoutOopsError } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 import Loading from '../template.loading'
 import { getData } from './selectors'
-import Failure from './template.failure'
 import Success from './template.success'
 
 class CryptoSelection extends PureComponent<Props> {
   componentDidMount() {
     if (this.props.fiatCurrency && !Remote.Success.is(this.props.data)) {
-      this.props.simpleBuyActions.fetchSBPairs(this.props.fiatCurrency)
-      this.props.simpleBuyActions.fetchSBFiatEligible(this.props.fiatCurrency)
-      this.props.simpleBuyActions.fetchSDDEligible()
+      this.props.buySellActions.fetchPairs({ currency: this.props.fiatCurrency })
+      this.props.buySellActions.fetchFiatEligible(this.props.fiatCurrency)
+      this.props.buySellActions.fetchSDDEligibility()
     }
+  }
+
+  errorCallback() {
+    this.props.buySellActions.setStep({
+      fiatCurrency: this.props.fiatCurrency,
+      step: 'CRYPTO_SELECTION'
+    })
   }
 
   render() {
     return this.props.data.cata({
-      Failure: (e) => {
-        return <Failure {...this.props} />
-      },
+      Failure: () => (
+        <FlyoutOopsError
+          action='retry'
+          data-e2e='sbTryCurrencySelectionAgain'
+          handler={this.errorCallback}
+        />
+      ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
       Success: (val) => <Success {...this.props} {...val} />
@@ -41,9 +52,8 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

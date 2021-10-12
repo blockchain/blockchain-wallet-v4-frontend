@@ -67,7 +67,7 @@ export const ReverifyIdentityInfoBox = () => {
       <Text size='12px' weight={500} lineHeight='1.5' color='grey900'>
         <FormattedMessage
           id='scenes.recovery.reverify'
-          defaultMessage='For your security, you may have to re-verify your identity before accessing your trading or interest account.'
+          defaultMessage='For your security, you may have to re-verify your identity before accessing your trading or rewards account.'
         />
       </Text>
     </RectangleBackground>

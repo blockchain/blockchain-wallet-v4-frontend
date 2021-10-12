@@ -1,9 +1,12 @@
+import memoize from 'fast-memoize'
+
 import { RootState } from 'data/rootReducer'
 
 import Remote from '../../../remote'
 import * as selectors from '../../selectors'
+import { RatesType } from '../misc/types'
 
-export const getCustodialCoins = () => {
+const _getCustodialCoins = () => {
   return Object.keys(window.coins).filter(
     (coin) =>
       window.coins[coin].coinfig.products.includes('CustodialWalletBalance') &&
@@ -12,7 +15,7 @@ export const getCustodialCoins = () => {
   )
 }
 
-export const getNonCustodialCoins = () => {
+const _getNonCustodialCoins = () => {
   return Object.keys(window.coins).filter(
     (coin) =>
       window.coins[coin].coinfig.products.includes('PrivateKey') &&
@@ -20,9 +23,13 @@ export const getNonCustodialCoins = () => {
   )
 }
 
-export const getAllCoins = () => {
+const _getAllCoins = () => {
   return Object.keys(window.coins).filter((coin) => window.coins[coin].coinfig.type.name !== 'FIAT')
 }
+
+export const getCustodialCoins = memoize(_getCustodialCoins)
+export const getNonCustodialCoins = memoize(_getNonCustodialCoins)
+export const getAllCoins = memoize(_getAllCoins)
 
 export const getRates = (coin: string, state: RootState) => {
   const walletCurrency = selectors.settings.getCurrency(state).getOrElse('USD')
@@ -30,6 +37,10 @@ export const getRates = (coin: string, state: RootState) => {
   return state.dataPath.coins.rates.map((rates) => {
     return rates[`${coin}-${walletCurrency}`] || Remote.NotAsked
   })
+}
+
+export const getBtcTicker = (state: RootState) => {
+  return state.dataPath.coins.btcTicker
 }
 
 export const getIsServicePriceDown = (state: RootState) => {

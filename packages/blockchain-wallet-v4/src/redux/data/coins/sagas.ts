@@ -1,10 +1,10 @@
 import moment from 'moment'
 import { flatten, last, length } from 'ramda'
-import { all, call, put, select, take } from 'redux-saga/effects'
+import { call, put, select, take } from 'redux-saga/effects'
 
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { APIType } from 'core/network/api'
-import { FetchCustodialOrdersAndTransactionsReturnType } from 'core/types'
+import { APIType } from '@core/network/api'
+import { FetchCustodialOrdersAndTransactionsReturnType } from '@core/types'
+import { errorHandler } from '@core/utils'
 
 import Remote from '../../../remote'
 import * as selectors from '../../selectors'
@@ -26,6 +26,15 @@ export default ({ api }: { api: APIType }) => {
       base: coin,
       quote: defaultFiat
     }))
+
+    try {
+      yield put(A.fetchBtcTickerLoading())
+      const response: ReturnType<typeof api.getBtcTicker> = yield call(api.getBtcTicker)
+      yield put(A.fetchBtcTickerSuccess(response))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchBtcTickerFailure(error))
+    }
 
     try {
       yield put(A.fetchCoinsRatesLoading())

@@ -3,14 +3,14 @@ import styled, { DefaultTheme } from 'styled-components'
 import { Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
-export const CardWrapper = styled.div`
+export const CardWrapper = styled.div<{ hideMargin?: boolean }>`
   display: flex;
   align-items: center;
   flex-direction: column;
   width: 29rem;
 
   &:first-child {
-    margin-right: 2.5rem;
+    margin-right: ${(props) => (props.hideMargin ? '0' : '2.5rem')};
   }
 
   ${media.tabletL`

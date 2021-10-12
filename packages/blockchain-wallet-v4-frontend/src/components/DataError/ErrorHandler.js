@@ -3,8 +3,8 @@ import { FormattedMessage } from 'react-intl'
 import { prop } from 'ramda'
 import styled from 'styled-components'
 
+import { FETCH_FEES_FAILURE } from '@core/redux/payment/model'
 import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
-import { FETCH_FEES_FAILURE } from 'blockchain-wallet-v4/src/redux/payment/model'
 import { checkForVulnerableAddressError } from 'services/misc'
 
 import { BROKERAGE_INELIGIBLE, IneligibleErrorMessage } from '../../modals/components'

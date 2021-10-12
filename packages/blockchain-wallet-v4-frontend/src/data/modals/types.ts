@@ -1,6 +1,16 @@
-import { RecurringBuyOrigins } from 'data/components/types'
-
 import * as AT from './actionTypes'
+
+export enum RecurringBuyOrigins {
+  BUY_CONFIRMATION = 'BUY_CONFIRMATION',
+  COIN_PAGE = 'COIN_PAGE',
+  CURRENCY_PAGE = 'CURRENCY_PAGE',
+  DASHBOARD_PROMO = 'DASHBOARD_PROMO',
+  DETAILS_SCREEN = 'DETAILS_SCREEN',
+  RECURRING_BUYS_BANNER = 'RECURRING_BUYS_BANNER',
+  RECURRING_BUYS_FREQUENCY_SCREEN = 'RECURRING_BUYS_FREQUENCY_SCREEN',
+  SIMPLE_BUY_FREQUENCY_SCREEN = 'SIMPLE_BUY_FREQUENCY_SCREEN',
+  SIMPLE_BUY_ORDER_SUMMARY = 'SIMPLE_BUY_ORDER_SUMMARY'
+}
 
 export enum ModalName {
   ADD_BANK_YAPILY_MODAL = 'ADD_BANK_YAPILY_MODAL',
@@ -22,6 +32,7 @@ export enum ModalName {
   IMPORT_BTC_ADDRESS_MODAL = 'IMPORT_BTC_ADDRESS_MODAL',
   INTEREST_MODAL = 'INTEREST_MODAL',
   INTEREST_PROMO_MODAL = 'INTEREST_PROMO_MODAL',
+  INTEREST_UPLOAD_DOCUMENT_MODAL = 'INTEREST_UPLOAD_DOCUMENT_MODAL',
   KYC_MODAL = 'KYC_MODAL',
   KYC_RESUBMIT_MODAL = 'KYC_RESUBMIT_MODAL',
   KYC_TIER_UPGRADE_MODAL = 'KYC_TIER_UPGRADE_MODAL',
@@ -91,6 +102,7 @@ export type ModalOriginType =
   | 'Goals'
   | 'Header'
   | 'InterestPage'
+  | 'InterestUploadDocument'
   | 'KycDocResubmitGoal'
   | 'KycRequiredStep'
   | 'LoginSaga'
@@ -98,6 +110,7 @@ export type ModalOriginType =
   | 'PaymentProtocolGoal'
   | 'PendingOrder'
   | 'PriceChart'
+  | 'Prices'
   | 'Request'
   | 'ResetAccount'
   | 'RetrySendEth'

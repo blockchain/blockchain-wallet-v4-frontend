@@ -1,10 +1,10 @@
+import { UnstoppableDomainResultsType } from '@core/network/api/send/types'
 import {
   BeneficiaryType,
   CoinType,
   PaymentValue,
   WithdrawalLockCheckResponseType
-} from 'blockchain-wallet-v4/src/types'
-import { UnstoppableDomainResultsType } from 'core/network/api/send/types'
+} from '@core/types'
 
 import * as AT from './actionTypes'
 

@@ -2,6 +2,8 @@ import Enzyme from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
 import '@babel/polyfill'
+const { pathsToModuleNameMapper } = require('ts-jest/utils')
+const { compilerOptions } = require('../../tsconfig')
 
 Enzyme.configure({ adapter: new Adapter() })
 
@@ -66,4 +68,9 @@ window.coins = {
       }
     }
   }
+}
+
+module.exports = {
+  modulePaths: ['<rootDir>'],
+  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/src/' })
 }

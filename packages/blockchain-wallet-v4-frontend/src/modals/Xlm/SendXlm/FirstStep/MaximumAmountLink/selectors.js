@@ -1,18 +1,16 @@
 import BigNumber from 'bignumber.js'
 import { prop } from 'ramda'
 
-import { Exchange } from 'blockchain-wallet-v4/src'
+import { Exchange } from '@core'
 
 export const getData = (state, props) => {
   const fee = prop('fee', props)
   const feeXlm = Exchange.convertCoinToCoin({
-    value: fee,
-    coin: 'XLM'
+    coin: 'XLM',
+    value: fee
   })
   const effectiveBalanceXlm = prop('effectiveBalanceXlm', props)
   return {
-    effectiveBalance: new BigNumber(effectiveBalanceXlm)
-      .minus(feeXlm)
-      .toString()
+    effectiveBalance: new BigNumber(effectiveBalanceXlm).minus(feeXlm).toString()
   }
 }

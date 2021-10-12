@@ -1,19 +1,18 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import BigNumber from 'bignumber.js'
 import EthereumAbi from 'ethereumjs-abi'
 import EthUtil from 'ethereumjs-util'
-import { equals, head, identity, includes, path, pathOr, prop, propOr, toLower } from 'ramda'
+import { equals, head, identity, includes, path, pathOr, prop, propOr } from 'ramda'
 import { change, destroy, initialize, startSubmit, stopSubmit } from 'redux-form'
 import { call, delay, put, select, take } from 'redux-saga/effects'
 
-import { Exchange } from 'blockchain-wallet-v4/src'
-import { APIType } from 'blockchain-wallet-v4/src/network/api'
-import { ADDRESS_TYPES } from 'blockchain-wallet-v4/src/redux/payment/btc/utils'
-import { EthAccountFromType } from 'blockchain-wallet-v4/src/redux/payment/eth/types'
-import { Erc20CoinType, EthPaymentType } from 'blockchain-wallet-v4/src/types'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { calculateFee } from 'blockchain-wallet-v4/src/utils/eth'
-import { actions, actionTypes, model, selectors } from 'data'
+import { Exchange } from '@core'
+import { APIType } from '@core/network/api'
+import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
+import { EthAccountFromType } from '@core/redux/payment/eth/types'
+import { Erc20CoinType, EthPaymentType } from '@core/types'
+import { errorHandler } from '@core/utils'
+import { calculateFee } from '@core/utils/eth'
+import { actions, actionTypes, selectors } from 'data'
 import { ModalNameType } from 'data/modals/types'
 import * as C from 'services/alerts'
 import * as Lockbox from 'services/lockbox'
@@ -34,7 +33,6 @@ import {
 } from './types'
 
 const ETH = 'ETH'
-const { TRANSACTION_EVENTS } = model.analytics
 export const logLocation = 'components/sendEth/sagas'
 
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; networks }) => {
@@ -338,7 +336,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         coin,
         value: payment.value().amount || 0
       })
-      yield put(actions.analytics.logEvent([...TRANSACTION_EVENTS.SEND, coin, coinAmount]))
       // triggers email notification to user that
       // non-custodial funds were sent from the wallet
       if (fromType === ADDRESS_TYPES.ACCOUNT) {
@@ -354,14 +351,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         yield put(actions.components.lockbox.setConnectionError(e))
       } else {
         yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
-        const lowEthBalance = yield select(selectors.core.data.eth.getLowEthBalanceWarning())
-        yield put(
-          actions.analytics.logEvent([
-            ...TRANSACTION_EVENTS.SEND_FAILURE,
-            coin,
-            coinfig.type.erc20Address && lowEthBalance ? 'Potentially insufficient ETH for TX' : e
-          ])
-        )
         if (fromType === ADDRESS_TYPES.CUSTODIAL && error) {
           if (error === 'Pending withdrawal locks') {
             yield call(showWithdrawalLockAlert)

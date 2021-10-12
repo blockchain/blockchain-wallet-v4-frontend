@@ -3,8 +3,8 @@ import { concat, isEmpty, isNil, last, prop } from 'ramda'
 import { FormAction, initialize } from 'redux-form'
 import { call, delay, put, select, take } from 'redux-saga/effects'
 
-import { Exchange, Remote } from 'blockchain-wallet-v4/src'
-import { APIType } from 'blockchain-wallet-v4/src/network/api'
+import { Exchange, Remote } from '@core'
+import { APIType } from '@core/network/api'
 import {
   AccountTypes,
   CoinType,
@@ -13,9 +13,9 @@ import {
   RatesType,
   RemoteDataType,
   SBBalancesType
-} from 'blockchain-wallet-v4/src/types'
-import { errorHandler } from 'blockchain-wallet-v4/src/utils'
-import { actions, actionTypes, model, selectors } from 'data'
+} from '@core/types'
+import { errorHandler } from '@core/utils'
+import { actions, selectors } from 'data'
 import coinSagas from 'data/coins/sagas'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 
@@ -26,10 +26,8 @@ import * as S from './selectors'
 import { actions as A } from './slice'
 import { InterestDepositFormType, InterestWithdrawalFormType } from './types'
 
-const { INTEREST_EVENTS } = model.analytics
 const DEPOSIT_FORM = 'interestDepositForm'
 const WITHDRAWAL_FORM = 'interestWithdrawalForm'
-
 export const logLocation = 'components/interest/sagas'
 
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
@@ -122,7 +120,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         api.getInterestAccount,
         coin as CoinType
       )
-      yield put(A.fetchInterestAccountSuccess(paymentAccount))
+      yield put(A.fetchInterestAccountSuccess({ ...paymentAccount }))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchInterestAccountFailure(error))
@@ -162,7 +160,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
       // TODO figure out any replacement type
       const report = concat(reportHeaders, txList) as any
-      yield put(A.fetchInterestTransactionsReportSuccess(report))
+      yield put(A.fetchInterestTransactionsReportSuccess({ ...report }))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchInterestTransactionsReportFailure(error))
@@ -272,11 +270,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const initializeCustodialAccountForm = function* (coin) {
     // re-fetch the custodial balances to ensure we have the latest for proper form initialization
-    yield put(actions.components.simpleBuy.fetchSBBalances(undefined, true))
+    yield put(actions.components.buySell.fetchBalance({ skipLoading: true }))
     // wait until balances are loaded we must have deep equal objects to initialize form correctly
     yield take([
-      actionTypes.components.simpleBuy.FETCH_SB_BALANCES_SUCCESS,
-      actionTypes.components.simpleBuy.FETCH_SB_BALANCES_FAILURE
+      actions.components.buySell.fetchBalanceSuccess.type,
+      actions.components.buySell.fetchBalanceFailure.type
     ])
     const custodialBalances = (yield select(
       selectors.components.simpleBuy.getSBBalances
@@ -450,14 +448,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // notify UI of success
       yield put(actions.form.stopSubmit(DEPOSIT_FORM))
       yield put(A.setInterestStep({ data: { depositSuccess: true }, name: 'ACCOUNT_SUMMARY' }))
-      yield put(actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_SUCCESS))
 
       const afterTransactionR = yield select(selectors.components.interest.getAfterTransaction)
       const afterTransaction = afterTransactionR.getOrElse({
         show: false
       } as InterestAfterTransactionType)
       if (afterTransaction?.show) {
-        yield put(actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_ONE_CLICK))
         yield put(actions.components.interest.resetShowInterestCardAfterTransaction())
       }
 
@@ -476,7 +472,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           name: 'ACCOUNT_SUMMARY'
         })
       )
-      yield put(actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_FAILURE))
     }
   }
 
@@ -515,7 +510,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           name: 'ACCOUNT_SUMMARY'
         })
       )
-      yield put(actions.analytics.logEvent(INTEREST_EVENTS.WITHDRAWAL.REQUEST_SUCCESS))
       yield delay(3000)
       yield put(A.fetchInterestBalance())
       yield put(A.fetchEDDStatus())
@@ -525,7 +519,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(
         A.setInterestStep({ data: { error, withdrawSuccess: false }, name: 'ACCOUNT_SUMMARY' })
       )
-      yield put(actions.analytics.logEvent(INTEREST_EVENTS.WITHDRAWAL.REQUEST_FAILURE))
     }
   }
 

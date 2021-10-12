@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import Remote from 'blockchain-wallet-v4/src/remote/remote'
-import { ModalOriginType } from 'data/modals/types'
+import Remote from '@core/remote'
+import { ModalOriginType, RecurringBuyOrigins, SetPeriodPayload } from 'data/types'
 
 import {
   RecurringBuyNextPayment,
-  RecurringBuyOrigins,
   RecurringBuyPeriods,
   RecurringBuyRegisteredList,
   RecurringBuyState,
@@ -53,8 +52,8 @@ const recurringBuySlice = createSlice({
     setActive: (state, action: PayloadAction<RecurringBuyRegisteredList>) => {
       state.active = action.payload
     },
-    setPeriod: (state, action: PayloadAction<RecurringBuyPeriods>) => {
-      state.period = action.payload
+    setPeriod: (state, action: PayloadAction<SetPeriodPayload>) => {
+      state.period = action.payload.period
     },
     setStep: (state, action: PayloadAction<RecurringBuyStepPayload>) => {
       state.step = action.payload.step

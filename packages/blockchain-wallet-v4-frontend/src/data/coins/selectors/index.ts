@@ -1,7 +1,7 @@
 import { any, isEmpty, isNil, map, values } from 'ramda'
 
-import { Remote } from 'blockchain-wallet-v4/src'
-import { CoinfigType, CoinType, RemoteDataType } from 'blockchain-wallet-v4/src/types'
+import { Remote } from '@core'
+import { CoinfigType, CoinType, RemoteDataType } from '@core/types'
 import { selectors } from 'data'
 import { CoinAccountSelectorType } from 'data/coins/types'
 import { SwapAccountType } from 'data/components/swap/types'
@@ -80,7 +80,11 @@ export const getCoinAccounts = (state: RootState, ownProps: CoinAccountSelectorT
 
     // @ts-ignore
     return Remote.of(
-      map((coinAccounts) => (isEmpty(coinAccounts) && []) || coinAccounts.getOrElse([]), accounts)
+      map(
+        (coinAccounts: RemoteDataType<any, typeof accounts>) =>
+          (isEmpty(coinAccounts) && []) || coinAccounts.getOrElse([]),
+        accounts
+      ) as any
     )
   }
 

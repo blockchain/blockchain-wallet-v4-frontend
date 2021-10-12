@@ -3,8 +3,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector, getFormMeta, InjectedFormProps, reduxForm } from 'redux-form'
 
+import { RemoteDataType } from '@core/types'
 import { Form } from 'components/Form'
-import { RemoteDataType } from 'core/types'
 import { actions, selectors } from 'data'
 import { RecoverFormType, RecoverSteps } from 'data/types'
 
@@ -56,6 +56,7 @@ const mapStateToProps = (state) => ({
   emailFromMagicLink: selectors.auth.getMagicLinkData(state)?.wallet?.email as string,
   formMeta: getFormMeta('recover')(state),
   formValues: selectors.form.getFormValues('recover')(state) as RecoverFormType,
+  hasCloudBackup: selectors.cache.getHasCloudBackup(state) as boolean,
   kycReset: selectors.auth.getKycResetStatus(state),
   language: selectors.preferences.getLanguage(state),
   lastGuid: selectors.cache.getLastGuid(state),

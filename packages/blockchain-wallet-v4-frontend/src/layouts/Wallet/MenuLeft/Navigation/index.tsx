@@ -19,10 +19,9 @@ class NavigationContainer extends React.PureComponent<Props> {
 
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.layoutWallet, dispatch),
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
-  preferencesActions: bindActionCreators(actions.preferences, dispatch),
-  simpleBuyActions: bindActionCreators(actions.components.simpleBuy, dispatch)
+  preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
 const mapStateToProps = (state) => ({

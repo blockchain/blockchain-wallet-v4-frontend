@@ -5,9 +5,9 @@ import {
   WithdrawalLockResponseType,
   WithdrawalMinsAndFeesResponse,
   WithdrawResponseType
-} from 'blockchain-wallet-v4/src/types'
-import { BankTransferAccountType } from 'data/types'
+} from '@core/types'
 
+import { BankTransferAccountType } from '../brokerage/types'
 import * as AT from './actionTypes'
 
 // types

@@ -264,7 +264,7 @@ class Tooltips extends React.PureComponent {
         <Tooltip id='earninterest.calculation.tooltip'>
           <FormattedMessage
             id='scenes.interest.summarycard.tooltip'
-            defaultMessage='The rate is subject to change. Interest will be paid in crypto.'
+            defaultMessage='The rate is subject to change. Rewards will be paid in crypto.'
           />
         </Tooltip>
         <Tooltip id='modals.interest.depositmax.tooltip'>
@@ -276,13 +276,13 @@ class Tooltips extends React.PureComponent {
         <Tooltip id='modals.interest.calculator.tooltip'>
           <FormattedMessage
             id='modals.interest.deposit.calculator.tooltip'
-            defaultMessage='This is an estimate calculated using the current interest rate for the entire horizon. The actual interest rate is subject to change.'
+            defaultMessage='This is an estimate calculated using the current rewards rate for the entire horizon. The actual rewards rate is subject to change.'
           />
         </Tooltip>
         <Tooltip id='modals.interest.summary.accrued.tooltip'>
           <FormattedMessage
             id='modals.interest.summary.accrued.description.tooltip'
-            defaultMessage='Interest earned month to date. Total interest earned during any month will be transferred on the 1st of the following month.'
+            defaultMessage='Rewards earned month to date. Total rewards earned during any month will be transferred on the 1st of the following month.'
           />
         </Tooltip>
         <Tooltip id='modals.interest.summary.lock.tooltip'>
@@ -294,7 +294,7 @@ class Tooltips extends React.PureComponent {
         <Tooltip id='modals.interest.summary.moreinterestdetails.tooltip'>
           <FormattedMessage
             id='modals.interest.moredetails.tooltip.description'
-            defaultMessage='Interest accrues daily and is paid monthly. The interest rate may be periodically adjusted.'
+            defaultMessage='Rewards accrues daily and is paid monthly. The rewards rate may be periodically adjusted.'
           />
         </Tooltip>
         <Tooltip id='copy.on_chain_txs' maxWidth='250px'>

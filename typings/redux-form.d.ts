@@ -4,7 +4,6 @@ import {
   FormDecorator,
   GetFormState,
   InitializeOptions
-  // eslint-disable-next-line import/no-extraneous-dependencies
 } from 'redux-form'
 
 export type WalletFormType =

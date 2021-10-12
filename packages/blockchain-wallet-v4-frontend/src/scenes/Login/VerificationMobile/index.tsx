@@ -6,7 +6,7 @@ import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
 import QRCodeWrapper from 'components/QRCodeWrapper'
-import { RemoteDataType } from 'core/types'
+import { RemoteDataType } from '@core/types'
 import { actions, selectors } from 'data'
 import { LoginSteps } from 'data/types'
 

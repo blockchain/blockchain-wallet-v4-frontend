@@ -2,23 +2,16 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { WalletOptionsType } from 'blockchain-wallet-v4/src/types'
-import { actions, model, selectors } from 'data'
+import { WalletOptionsType } from '@core/types'
+import { actions, selectors } from 'data'
 
 import Exchange from './template'
-
-const { EXCHANGE_EVENTS } = model.analytics
 
 class ExchangeContainer extends React.PureComponent<Props> {
   onSignup = () => {
     this.props.modalActions.showModal('LINK_TO_EXCHANGE_ACCOUNT_MODAL', {
       origin: 'TheExchangePage'
     })
-    this.props.analyticsActions.logEvent(EXCHANGE_EVENTS.CONNECT_NOW)
-  }
-
-  onLearnMore = () => {
-    this.props.analyticsActions.logEvent(EXCHANGE_EVENTS.LEARN_MORE)
   }
 
   render() {
@@ -39,7 +32,6 @@ const mapStateToProps = (state): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   preferencesActions: bindActionCreators(actions.preferences, dispatch),
   profileActions: bindActionCreators(actions.modules.profile, dispatch)
