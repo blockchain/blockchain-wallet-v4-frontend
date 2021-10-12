@@ -4,7 +4,6 @@ import { RootState } from 'data/rootReducer'
 
 import Remote from '../../../remote'
 import * as selectors from '../../selectors'
-import { RatesType } from '../misc/types'
 
 const _getCustodialCoins = () => {
   return Object.keys(window.coins).filter(
@@ -27,8 +26,13 @@ const _getAllCoins = () => {
   return Object.keys(window.coins).filter((coin) => window.coins[coin].coinfig.type.name !== 'FIAT')
 }
 
+const _getFiatCoins = () => {
+  return Object.keys(window.coins).filter((coin) => window.coins[coin].coinfig.type.name === 'FIAT')
+}
+
 export const getCustodialCoins = memoize(_getCustodialCoins)
 export const getNonCustodialCoins = memoize(_getNonCustodialCoins)
+export const getFiatCoins = memoize(_getFiatCoins)
 export const getAllCoins = memoize(_getAllCoins)
 
 export const getRates = (coin: string, state: RootState) => {

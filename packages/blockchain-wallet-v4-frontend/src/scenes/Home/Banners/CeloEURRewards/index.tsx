@@ -4,12 +4,9 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
-import { CoinType } from '@core/types'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { media } from 'services/styles'
-
-import { getCoinRenameAnnouncement, getNewCoinAnnouncement } from '../selectors'
 
 const Wrapper = styled.div`
   display: flex;
@@ -68,10 +65,10 @@ const CloseLink = styled.div`
   cursor: pointer;
 `
 
-const CoinRename = ({ cacheActions, showBanner }: Props) => {
+const CEURRewards = ({ cacheActions, showBanner }: Props) => {
   if (!showBanner) return null
 
-  const newCoinAnnouncement = 'ceur-sweepstake'
+  const newCoinAnnouncement = 'ceur-rewards'
   const coin = 'CEUR'
   if (!window.coins[coin]) return null
   const { coinfig } = window.coins[coin]
@@ -84,15 +81,15 @@ const CoinRename = ({ cacheActions, showBanner }: Props) => {
         <div>
           <VerbText>
             <FormattedMessage
-              id='copy.when_up_to_500k'
-              defaultMessage='Win up to €500K in {displaySymbol}'
+              id='copy.earn_up_to_ceur'
+              defaultMessage='Earn up to 4% in {displaySymbol} Rewards'
               values={{ displaySymbol }}
             />
           </VerbText>
           <Description>
             <FormattedMessage
-              id='layouts.wallet.header.announcements.ceur.description'
-              defaultMessage='Buy €100 or more in {displaySymbol} for your chance to win up to €500K in {displaySymbol}.'
+              id='layouts.wallet.header.announcements.ceur.description1'
+              defaultMessage='Buy {displaySymbol} with no fees and earn up to 4% in annual rewards, paid monthly.'
               values={{ displaySymbol }}
             />
           </Description>
@@ -101,7 +98,7 @@ const CoinRename = ({ cacheActions, showBanner }: Props) => {
 
       <CTAWrapper>
         <CTAButton data-e2e='ceurLearnMore' nature='primary' small style={{ borderRadius: '4px' }}>
-          <Link href='https://www.blockchain.com/celo' target='_blank' rel='noopener noreferrer'>
+          <Link href='https://why.blockchain.com/celo' target='_blank' rel='noopener noreferrer'>
             <Text>
               <FormattedMessage id='copy.learn_more' defaultMessage='Learn More' />
             </Text>
@@ -119,7 +116,7 @@ const CoinRename = ({ cacheActions, showBanner }: Props) => {
 }
 
 const mapStateToProps = (state) => ({
-  showBanner: selectors.core.walletOptions.getCeloEurSweepstake(state).getOrElse(false)
+  showBanner: selectors.core.walletOptions.getCeloEurRewards(state).getOrElse(false)
 })
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   cacheActions: bindActionCreators(actions.cache, dispatch)
@@ -129,4 +126,4 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector>
 
-export default connector(CoinRename)
+export default connector(CEURRewards)
