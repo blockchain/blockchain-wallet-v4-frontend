@@ -24,6 +24,20 @@ const BaseIcon = styled.span.attrs((props) => ({
     content: '${(props) => props.code}';
   }
 `
+const FallbackCoinIcon = styled.div`
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background: ${(props) => props.theme.blue600};
+  height: ${(props) => props.height};
+  width: ${(props) => props.width};
+  color: ${(props) => props.theme.white};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: ${(props) => Math.ceil(Number.parseInt(props.height) / props.divisor)}px !important;
+  border-radius: 50%;
+`
 
 const Icon = (props) => {
   const { cursor, name, ...rest } = props
@@ -42,14 +56,26 @@ const Icon = (props) => {
         </BaseIcon>
       )
     }
+    if (window.coins[name].coinfig.type.name === 'FIAT') {
+      return (
+        <BaseIcon {...props}>
+          <Image
+            height={props.height || props.size || '32px'}
+            name={name.toLowerCase()}
+            width={props.width || props.size || '32px'}
+          />
+        </BaseIcon>
+      )
+    }
     return (
-      <BaseIcon {...props}>
-        <Image
-          height={props.height || props.size || '32px'}
-          name={name.toLowerCase()}
-          width={props.width || props.size || '32px'}
-        />
-      </BaseIcon>
+      <FallbackCoinIcon
+        {...props}
+        divisor={name.length <= 4 ? 3 : 4}
+        height={props.height || props.size || '32px'}
+        width={props.width || props.size || '32px'}
+      >
+        {name.length <= 4 ? name : `${name.slice(0, 2)}..${name.slice(-2)}`}
+      </FallbackCoinIcon>
     )
   }
 

@@ -91,7 +91,7 @@ export const getData = (
   }
   const buildInterestDisplay = (x: InterestAccountBalanceType['BTC']) => {
     return (
-      `Interest Account` +
+      `Rewards Account` +
       ` (${Exchange.displayCoinToCoin({
         coin: 'BTC',
         value: x ? x.balance : 0
@@ -120,7 +120,7 @@ export const getData = (
             label: buildInterestDisplay(x),
             value: {
               ...x,
-              label: 'Interest Account',
+              label: 'Rewards Account',
               type: ADDRESS_TYPES.INTEREST
             }
           }
@@ -161,7 +161,7 @@ export const getData = (
             .getInterestAccountBalance(state)
             .map((x) => x.BTC)
             .map(toInterestDropdown)
-            .map(toGroup('Interest Account'))
+            .map(toGroup('Rewards Account'))
         : Remote.of([]),
       excludeImported
         ? Remote.of([])

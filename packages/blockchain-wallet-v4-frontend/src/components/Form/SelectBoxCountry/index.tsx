@@ -129,6 +129,11 @@ export const countries: Country[] = [
     value: 'BL'
   },
   {
+    emoji: '🇧🇾',
+    text: 'Belarus',
+    value: 'BY'
+  },
+  {
     emoji: '🇧�',
     text: 'Bermuda',
     value: 'BM'
@@ -844,6 +849,11 @@ export const countries: Country[] = [
     value: 'PY'
   },
   {
+    emoji: '🇷🇺',
+    text: 'Russia',
+    value: 'RU'
+  },
+  {
     emoji: '��',
     text: 'Qatar',
     value: 'QA'
@@ -862,6 +872,11 @@ export const countries: Country[] = [
     emoji: '🇷�',
     text: 'Serbia',
     value: 'RS'
+  },
+  {
+    emoji: '🇷🇺',
+    text: 'Russia',
+    value: 'RU'
   },
   {
     emoji: '🇷�',

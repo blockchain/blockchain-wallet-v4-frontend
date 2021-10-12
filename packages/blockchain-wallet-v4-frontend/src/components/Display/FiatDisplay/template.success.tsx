@@ -21,6 +21,10 @@ const FiatText = styled(Text)<{ mobileSize: string }>`
 const FiatDisplay = (props) => {
   const { children, className, coin, color, cursor, mobileSize, size, weight, ...rest } = props
 
+  if (children.includes('NaN')) {
+    return null
+  }
+
   return (
     <Wrapper className={className}>
       <FiatText

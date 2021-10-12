@@ -8,6 +8,7 @@ export enum RequestSteps {
 }
 
 export type RequestFormType = {
+  coinSearch: string
   currencyDisplay: WalletCurrencyType
   selectedAccount: SwapAccountType
   selectedCoin: CoinType | string

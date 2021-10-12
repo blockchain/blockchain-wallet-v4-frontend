@@ -187,12 +187,13 @@ export const getCoinsBalanceInfo = createDeepEqualSelector(
     const transform = (currency) => {
       return coins.map((coin) => {
         const transform2 = (rates, balance) => {
+          if (!rates.price) return 0
           return Exchange.convertCoinToFiat({ coin, currency, rates, value: balance })
         }
 
         const balanceR = getBalanceSelector(coin)(state)
         const ratesR = selectors.core.data.coins.getRates(coin, state)
-        return ratesR ? lift(transform2)(ratesR, balanceR) : Remote.of('0')
+        return lift(transform2)(ratesR, balanceR)
       })
     }
 
@@ -284,19 +285,8 @@ export const getCoinsSortedByBalance = createDeepEqualSelector(
         return Number(coinAFiat) > Number(coinBFiat) ? -1 : 1
       }
 
-      // returns all fiats that user is currently eligible for
-      // @ts-ignore
-      const fiatList = reject(
-        not,
-        map((coin) => {
-          if (coin.coinCode in WalletFiatEnum && coin.method === true) {
-            return coin.coinfig
-          }
-        }, coins)
-      )
-
       // returns all coins with balances as a list
-      const cryptoList = map(
+      const coinsWithBalance = map(
         (coin) => coins.find((c) => c.coinfig.symbol === coin),
         reject(
           (coin) => getBalanceSelector(coin)(state).getOrElse(0) <= 0,
@@ -304,8 +294,6 @@ export const getCoinsSortedByBalance = createDeepEqualSelector(
         )
       ).map((coin) => coin?.coinfig)
 
-      // list of fiats eligible and then coins with balances as single list
-      const coinsWithBalance = [...fiatList, ...cryptoList]
       const coinsInRecentSwaps = [
         ...new Set(
           recentSwapTxsR.getOrElse([] as SwapOrderType[]).map((tx) => getOutputFromPair(tx.pair))
