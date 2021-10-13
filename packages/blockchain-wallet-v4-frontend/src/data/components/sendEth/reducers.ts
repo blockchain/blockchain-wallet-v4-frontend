@@ -9,6 +9,7 @@ const INITIAL_STATE: SendEthState = {
   feeToggled: false,
   isContract: Remote.NotAsked,
   payment: Remote.NotAsked,
+  sendLimits: Remote.NotAsked,
   step: 1
 }
 

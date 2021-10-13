@@ -1,10 +1,10 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { CoinType, FiatType, SBPaymentTypes, WalletAcountType, WalletFiatType } from '@core/types'
 import {
   BankTransferAccountType,
   NabuProductType,
   ProductEligibility,
   ProductEligibilityResponse,
+  SeamlessLimits,
   WithdrawLimitsResponse
 } from 'data/types'
 
@@ -152,17 +152,19 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
     })
 
   const getCrossBorderTransactions = (
-    fromCcy: CoinType,
-    from: WalletAcountType,
-    toCcy: CoinType,
-    to: WalletAcountType
-  ): WithdrawLimitsResponse =>
+    inputCurrency: CoinType,
+    fromAccount: WalletAcountType,
+    outputCurrency: CoinType,
+    toAccount: WalletAcountType,
+    currency?: WalletFiatType
+  ): SeamlessLimits =>
     authorizedGet({
       data: {
-        from,
-        fromCcy,
-        to,
-        toCcy
+        currency,
+        fromAccount,
+        inputCurrency,
+        outputCurrency,
+        toAccount
       },
       endPoint: `/v2/limits/crossborder/transaction`,
       url: nabuUrl

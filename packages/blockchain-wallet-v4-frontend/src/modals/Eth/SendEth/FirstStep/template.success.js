@@ -9,6 +9,7 @@ import styled from 'styled-components'
 import { Remote } from '@core'
 import { Banner, Button, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import UpgradeToGoldBanner from 'components/Flyout/Banners/UpgradeToGold'
 import {
   FiatConverter,
   Form,
@@ -313,6 +314,7 @@ const FirstStep = (props) => {
       {disableRetryAttempt && <MinFeeForRetryInvalid />}
       {disableDueToLowEth && <LowEthWarningForErc20 coin={coin} />}
       {isFromCustody && !isMnemonicVerified ? <MnemonicRequiredForCustodySend /> : null}
+      {isFromCustody ? <UpgradeToGoldBanner /> : null}
       <SubmitFormGroup>
         <Button
           type='submit'

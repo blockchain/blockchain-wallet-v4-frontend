@@ -141,3 +141,30 @@ export type WithdrawLimitsResponse = {
   }
   userId: string
 }
+
+type SeamlessLimitItem = {
+  currency: FiatType
+  value: string
+}
+
+export type SeamlessLimits = {
+  globalLimit: {
+    available: SeamlessLimitItem
+    currency: FiatType
+    suggestedUpgrade: {
+      available: SeamlessLimitItem
+      daily: {
+        available: SeamlessLimitItem
+        limit: SeamlessLimitItem
+        used: SeamlessLimitItem
+      }
+      monthly: {
+        available: SeamlessLimitItem
+        limit: SeamlessLimitItem
+        used: SeamlessLimitItem
+      }
+      requiredTier: number
+      requirements: string[]
+    }
+  }
+}
