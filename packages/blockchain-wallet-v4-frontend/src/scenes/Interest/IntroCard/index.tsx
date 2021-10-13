@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
+import { Button, Icon, Image, Link, SpinningLoader, Text } from 'blockchain-info-components'
 import { Box } from 'components/Box'
 import { actions, selectors } from 'data'
 
@@ -36,20 +36,44 @@ const IneligibleBanner = styled.div`
   align-content: center;
   justify-content: center;
 `
+const CloseLink = styled.div`
+  cursor: pointer;
+`
 
-class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType> {
+class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType, StateType> {
+  constructor(props) {
+    super(props)
+    this.state = {
+      showIntoModal: true,
+      showSubmittedModal: true
+    }
+  }
+
   renderAdditionalInfo = () => {
-    const { interestActions } = this.props
+    const { interestActions, interestUploadDocumentActions } = this.props
+    const { showIntoModal } = this.state
+
+    if (!showIntoModal) return null
+
     return (
       <BoxStyledAdditional>
         <ContentWrapper>
           <IconWrapper>
-            <Image name='alert' width='32px' />
+            <Image name='warning-circle-filled' width='32px' />
+
+            <CloseLink
+              data-e2e='upgradeToGoldCloseButton'
+              onClick={() => {
+                this.setState({ showIntoModal: false })
+              }}
+            >
+              <Icon size='20px' color='grey400' name='close-circle' />
+            </CloseLink>
           </IconWrapper>
           <Text size='20px' color='grey800' weight={600} style={{ marginTop: '16px' }}>
             <FormattedMessage
               id='modals.kycverification.additionalinfo.title'
-              defaultMessage='Additional Information Required'
+              defaultMessage='More Information Needed'
             />
           </Text>
           <Text
@@ -60,29 +84,94 @@ class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType
           >
             <FormattedMessage
               id='scenes.interest.additional_information_required_description'
-              defaultMessage='Supply additional information here to avoid delays on withdrawal.'
+              defaultMessage='Blockchain.com needs more information to verify your identity. This will speed up your future Deposits & Withrdawals as well as protect your account.'
             />
           </Text>
           <Link
-            href='https://share.hsforms.com/1DS4i94fURdutr8OXYOxfrg2qt44'
+            onClick={() => {
+              interestUploadDocumentActions.showModal({
+                origin: 'InterestUploadDocument'
+              })
+            }}
             style={{ width: '100%' }}
-            target='_blank'
           >
             <Button
-              data-e2e='earnInterestSupplyInformation'
+              data-e2e='earnInterestSupplyInformationGetStarted'
               fullwidth
-              nature='dark-grey'
+              nature='primary'
               onClick={() => {
                 interestActions.handleWithdrawalSupplyInformation({
-                  origin: 'SavingsPage'
+                  origin: 'RewardsPage'
                 })
               }}
               style={{ marginTop: '45px' }}
             >
               <FormattedMessage
-                id='scenes.interest.submit_information'
-                defaultMessage='Submit Information'
+                id='scenes.exchange.getstarted.status.getstarted.button'
+                defaultMessage='Get Started'
               />
+            </Button>
+          </Link>
+        </ContentWrapper>
+      </BoxStyledAdditional>
+    )
+  }
+
+  renderSubmittedInfo = () => {
+    const { interestActions } = this.props
+    const { showSubmittedModal } = this.state
+
+    if (!showSubmittedModal) return null
+
+    return (
+      <BoxStyledAdditional>
+        <ContentWrapper>
+          <IconWrapper>
+            <SpinningLoader height='26px' width='26px' borderWidth='4px' />
+
+            <CloseLink
+              data-e2e='upgradeToGoldCloseButton'
+              onClick={() => {
+                this.setState({ showSubmittedModal: false })
+              }}
+            >
+              <Icon size='20px' color='grey400' name='close-circle' />
+            </CloseLink>
+          </IconWrapper>
+          <Text size='20px' color='grey800' weight={600} style={{ marginTop: '16px' }}>
+            <FormattedMessage
+              id='scenes.interest.additional_information_submitted_title'
+              defaultMessage='Documents Under Review'
+            />
+          </Text>
+          <Text
+            size='14px'
+            color='grey600'
+            weight={500}
+            style={{ lineHeight: 1.5, marginTop: '4px' }}
+          >
+            <FormattedMessage
+              id='scenes.interest.additional_information_submitted_description'
+              defaultMessage='We’ve successfully received your documents! A Blockchain.com team member is reviewing now and will get back to you.'
+            />
+          </Text>
+          <Link
+            href='https://support.blockchain.com/hc/en-us/requests/new?ticket_form_id=360001711712'
+            style={{ width: '100%' }}
+            target='_blank'
+          >
+            <Button
+              data-e2e='earnInterestSupplyInformationContactSupport'
+              fullwidth
+              nature='empty-blue'
+              onClick={() => {
+                interestActions.handleWithdrawalSupplyInformation({
+                  origin: 'RewardsPage'
+                })
+              }}
+              style={{ marginTop: '45px' }}
+            >
+              <FormattedMessage id='buttons.contact_support' defaultMessage='Contact Support' />
             </Button>
           </Link>
         </ContentWrapper>
@@ -121,8 +210,13 @@ class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType
     return (
       <>
         {interestEDDStatus?.eddNeeded &&
+          !interestEDDStatus?.eddSubmitted &&
           !interestEDDStatus?.eddPassed &&
           this.renderAdditionalInfo()}
+        {interestEDDStatus?.eddSubmitted &&
+          interestEDDStatus?.eddSubmitted &&
+          !interestEDDStatus?.eddPassed &&
+          this.renderSubmittedInfo()}
         {showInterestInfoBox && !interestEDDStatus?.eddNeeded && (
           <BoxStyled>
             {isGoldTier ? (
@@ -229,11 +323,20 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   interestActions: bindActionCreators(actions.components.interest, dispatch),
+  interestUploadDocumentActions: bindActionCreators(
+    actions.components.interestUploadDocument,
+    dispatch
+  ),
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = OwnProps & ConnectedProps<typeof connector>
+
+export type StateType = {
+  showIntoModal: boolean
+  showSubmittedModal: boolean
+}
 
 export default connector(IntroCard)
