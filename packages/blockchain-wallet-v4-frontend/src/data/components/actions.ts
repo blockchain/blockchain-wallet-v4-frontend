@@ -12,6 +12,7 @@ import { actions as interestUploadDocument } from './interestUploadDocument/slic
 import { actions as layoutWallet } from './layoutWallet/slice'
 import * as lockbox from './lockbox/actions'
 import * as manageAddresses from './manageAddresses/actions'
+import { actions as nfts } from './nfts/slice'
 import * as onboarding from './onboarding/actions'
 import { actions as priceChart } from './priceChart/slice'
 import * as recoveryPhrase from './recoveryPhrase/actions'
@@ -50,6 +51,7 @@ export {
   layoutWallet,
   lockbox,
   manageAddresses,
+  nfts,
   onboarding,
   priceChart,
   recoveryPhrase,

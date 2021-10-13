@@ -10,6 +10,7 @@ import importBtcAddress from './importBtcAddress/sagas'
 import interest from './interest/sagas'
 import interestUploadDocument from './interestUploadDocument/sagas'
 import manageAddresses from './manageAddresses/sagas'
+import nfts from './nfts/sagas'
 import onboarding from './onboarding/sagas'
 import priceChart from './priceChart/sagas'
 import recurringBuy from './recurringBuy/sagas'
@@ -44,6 +45,7 @@ export default ({ api, coreSagas, networks }) => ({
   interest: interest({ api, coreSagas, networks }),
   interestUploadDocument: interestUploadDocument({ api }),
   manageAddresses: manageAddresses({ api, networks }),
+  nfts: nfts({ api }),
   onboarding: onboarding(),
   priceChart: priceChart(),
   recurringBuy: recurringBuy({ api }),
