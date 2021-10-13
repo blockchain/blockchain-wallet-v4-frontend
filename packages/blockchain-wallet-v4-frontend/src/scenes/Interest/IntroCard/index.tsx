@@ -104,7 +104,7 @@ class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType
                   origin: 'RewardsPage'
                 })
               }}
-              style={{ marginTop: '45px' }}
+              style={{ marginTop: '29px' }}
             >
               <FormattedMessage
                 id='scenes.exchange.getstarted.status.getstarted.button'
@@ -127,7 +127,7 @@ class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType
       <BoxStyledAdditional>
         <ContentWrapper>
           <IconWrapper>
-            <SpinningLoader height='26px' width='26px' borderWidth='4px' />
+            <SpinningLoader height='14px' width='14px' borderWidth='4px' />
 
             <CloseLink
               data-e2e='upgradeToGoldCloseButton'
@@ -169,7 +169,7 @@ class IntroCard extends PureComponent<ParentStateType & Props & SuccessStateType
                   origin: 'RewardsPage'
                 })
               }}
-              style={{ marginTop: '45px' }}
+              style={{ marginTop: '29px' }}
             >
               <FormattedMessage id='buttons.contact_support' defaultMessage='Contact Support' />
             </Button>
