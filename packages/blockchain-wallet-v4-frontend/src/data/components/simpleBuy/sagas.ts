@@ -1205,8 +1205,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const latestPendingOrder = S.getSBLatestPendingOrder(yield select())
 
     yield put(actions.modals.showModal('SIMPLE_BUY_MODAL', { cryptoCurrency, origin }))
-    const fiatCurrencyR = selectors.core.settings.getCurrency(yield select())
-    const fiatCurrency = fiatCurrencyR.getOrElse('USD')
+    const currencies = selectors.modules.profile.getUserCurrencies(yield select())
+    const fiatCurrency = currencies?.preferredFiatTradingCurrency || 'USD'
     if (latestPendingOrder) {
       const bankAccount = yield call(getBankInformation, latestPendingOrder as SBOrderType)
       let step: T.StepActionsPayload['step'] =
