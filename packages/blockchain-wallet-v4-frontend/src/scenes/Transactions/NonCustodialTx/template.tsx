@@ -32,7 +32,7 @@ import TransactionFee from './TransactionFee'
 
 const BannerWrapper = styled.div`
   margin: 0 6px;
-  &:not(first-child) {
+  &:not(:first-child) {
     margin-top: 4px;
   }
 `

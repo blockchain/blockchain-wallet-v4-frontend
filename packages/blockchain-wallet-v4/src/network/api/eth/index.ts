@@ -1,8 +1,8 @@
-import web3 from 'web3'
+import * as ethers from 'ethers'
 
 import { AccountTokensBalancesResponseType, EthAccountSummaryType, EthRawTxType } from './types'
 
-const Web3 = new web3(web3.givenProvider)
+const provider = ethers.getDefaultProvider()
 
 export default ({ apiUrl, get, post }) => {
   //
@@ -16,14 +16,14 @@ export default ({ apiUrl, get, post }) => {
       url: apiUrl
     })
 
-  // web3.eth.getCode
+  // https://docs.ethers.io/v5/api/providers/provider/#Provider-getCode
   const checkContract = (address) =>
     get({
       endPoint: `/eth/account/${address}/isContract`,
       url: apiUrl
     })
 
-  // web3.eth.getGasPrice
+  // https://docs.ethers.io/v5/api/providers/provider/#Provider-getGasPrice
   const getEthFees = (contractAddress) => {
     const baseUrl = '/mempool/fees/eth'
     return get({
@@ -33,7 +33,7 @@ export default ({ apiUrl, get, post }) => {
     })
   }
 
-  // web3.eth.sendTransaction
+  // https://docs.ethers.io/v5/api/providers/provider/#Provider-sendTransaction
   const pushEthTx = (rawTx) =>
     post({
       contentType: 'application/json',
@@ -99,10 +99,10 @@ export default ({ apiUrl, get, post }) => {
     })
 
   // V3
-  const getEthAccountBalance = (account: string) => Web3.eth.getBalance(account)
-  const getEthAccountNonce = (account: string) => Web3.eth.getTransactionCount(account)
-  const getEthLatestBlock = () => Web3.eth.getBlockNumber()
-  const getEthGasPrice = () => Web3.eth.getGasPrice()
+  const getEthAccountBalance = (account: string) => provider.getBalance(account)
+  const getEthAccountNonce = (account: string) => provider.getTransactionCount(account)
+  const getEthLatestBlock = () => provider.getBlockNumber()
+  const getEthGasPrice = () => provider.getGasPrice()
 
   return {
     checkContract,
