@@ -3,7 +3,6 @@ import * as ethers from 'ethers'
 import { equals, head, identity, includes, path, pathOr, prop, propOr } from 'ramda'
 import { change, destroy, initialize, startSubmit, stopSubmit } from 'redux-form'
 import { call, delay, put, select, take } from 'redux-saga/effects'
-import web3 from 'web3'
 
 import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
@@ -31,7 +30,6 @@ import {
   SendEthFormToActionType
 } from './types'
 
-const Web3 = new web3(web3.givenProvider)
 const ETH = 'ETH'
 export const logLocation = 'components/sendEth/sagas'
 
@@ -509,8 +507,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         payment = yield call(setTo, tx.to, payment)
       } else {
         if (!tx.data) throw new Error('NO_ERC20_DATA')
-        const value = Web3.eth.abi.decodeParameter(
-          'uint256',
+        const value = ethers.utils.defaultAbiCoder.decode(
+          ['uint256'],
           `0x${'0'.repeat(64 - tx.data?.slice(120, 138).length)}${tx.data.slice(120, 138)}`
         )
         const to = ethers.utils.getAddress(`0x${tx.data?.slice(32, 72)}`)

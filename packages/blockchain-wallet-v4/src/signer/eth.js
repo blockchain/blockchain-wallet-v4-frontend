@@ -15,7 +15,7 @@ const toHex = (value) => {
 
 export const signErc20 = curry((network = 1, mnemonic, data, contractAddress) => {
   const { amount, gasLimit, gasPrice, index, nonce, to } = data
-  const privateKey = eth.getPrivateKey(mnemonic, index)
+  const wallet = ethers.Wallet.fromMnemonic(mnemonic, `m/44'/60'/0'/0/${index}`)
   const transferMethodHex = '0xa9059cbb'
 
   // block ERC20 transfers/sends that are being created with 0 amount
@@ -36,27 +36,21 @@ export const signErc20 = curry((network = 1, mnemonic, data, contractAddress) =>
     to: contractAddress,
     value: toHex(0)
   }
-  const tx = new EthereumTx(txParams)
-  tx.sign(privateKey)
-  const rawTx = `0x${tx.serialize().toString('hex')}`
-  return Task.of(rawTx)
+  return Task.of(wallet.signTransaction(txParams))
 })
 
 export const sign = curry((network = 1, mnemonic, data) => {
   const { amount, gasLimit, gasPrice, index, nonce, to } = data
-  const privateKey = eth.getPrivateKey(mnemonic, index)
+  const wallet = ethers.Wallet.fromMnemonic(mnemonic, `m/44'/60'/0'/0/${index}`)
   const txParams = {
     chainId: network,
     gasLimit: toHex(gasLimit),
     gasPrice: toHex(gasPrice),
-    nonce: toHex(nonce),
+    nonce,
     to,
     value: toHex(amount)
   }
-  const tx = new EthereumTx(txParams)
-  tx.sign(privateKey)
-  const rawTx = `0x${tx.serialize().toString('hex')}`
-  return Task.of(rawTx)
+  return Task.of(wallet.signTransaction(txParams))
 })
 
 export const serialize = (network, raw, signature) => {

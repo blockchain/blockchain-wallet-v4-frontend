@@ -282,7 +282,7 @@ export default ({ api, coreSagas }) => {
       const getMnemonic = (state) => selectors.core.wallet.getMnemonic(state, password)
       const mnemonicT = yield select(getMnemonic)
       const mnemonic = yield call(() => taskToPromise(mnemonicT))
-      const priv = utils.eth.getPrivateKeyV2(mnemonic, 0)
+      const priv = utils.eth.getPrivateKey(mnemonic, 0)
       yield put(actions.modules.settings.addShownEthPrivateKey(priv))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'showEthPrivateKey', e))

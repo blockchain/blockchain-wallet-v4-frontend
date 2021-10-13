@@ -1,7 +1,5 @@
+import { HDNode } from '@ethersproject/hdnode'
 import BigNumber from 'bignumber.js'
-import BIP39 from 'bip39'
-import * as Bitcoin from 'bitcoinjs-lib'
-import { hdkey as EthHd } from 'ethereumjs-wallet'
 import * as ethers from 'ethers'
 import { path, prop } from 'ramda'
 
@@ -14,44 +12,31 @@ export const convertGweiToWei = (amount) => {
  */
 export const isValidAddress = (address) => /^0x[a-fA-F0-9]{40}$/.test(address)
 
-/**
- * @param {string} mnemonic
- * @param {integer} index
- */
-export const getPrivateKey = (mnemonic, index) => {
-  const seed = BIP39.mnemonicToSeed(mnemonic)
-  const account = Bitcoin.bip32
-    .fromSeed(seed)
-    .deriveHardened(44)
-    .deriveHardened(60)
-    .deriveHardened(0)
-    .derive(0)
-    .derive(index)
-    .toBase58()
-  return EthHd.fromExtendedKey(account).getWallet().getPrivateKey()
+export const getWallet = (mnemonic, index = 0) => {
+  return ethers.Wallet.fromMnemonic(mnemonic, `m/44'/60'/0'/0/${index}`)
 }
 
-export const getPrivateKeyV2 = (mnemonic, index = 0) => {
-  return ethers.Wallet.fromMnemonic(mnemonic, `m/44'/60'/0'/0/${index}`).privateKey
+export const getPrivateKey = (mnemonic, index = 0) => {
+  return getWallet(mnemonic, index).privateKey
 }
 
 const deriveChildLegacy = (index, seed) => {
-  const derivationPath = "m/44'/60'/0'/0"
-  return EthHd.fromMasterSeed(seed).derivePath(derivationPath).deriveChild(index)
+  const derivationPath = `m/44'/60'/0'/0/${index}`
+  return HDNode.fromSeed(Buffer.from(seed)).derivePath(derivationPath)
 }
 
 // Derivation error using seedHex directly instead of seed derived from mnemonic derived from seedHex
 export const getLegacyPrivateKey = (seedHex) => {
-  return deriveChildLegacy(0, seedHex).getWallet().getPrivateKey()
+  return deriveChildLegacy(0, seedHex).privateKey
 }
 
 export const deriveAddress = (mnemonic: string): string => {
   return ethers.Wallet.fromMnemonic(mnemonic).address
 }
 
-// check this works
+// check this works (lockbox)
 export const deriveAddressFromXpub = (xpub) => {
-  const ethPublic = EthHd.fromExtendedKey(xpub).getWallet().getPublicKey()
+  const ethPublic = HDNode.fromExtendedKey(xpub).publicKey
   return ethers.utils.computeAddress(ethPublic)
 }
 

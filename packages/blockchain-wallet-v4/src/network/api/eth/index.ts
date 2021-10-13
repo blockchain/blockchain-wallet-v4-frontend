@@ -2,7 +2,7 @@ import * as ethers from 'ethers'
 
 import { AccountTokensBalancesResponseType, EthAccountSummaryType, EthRawTxType } from './types'
 
-const provider = ethers.getDefaultProvider()
+const provider = ethers.providers.getDefaultProvider()
 
 export default ({ apiUrl, get, post }) => {
   //
