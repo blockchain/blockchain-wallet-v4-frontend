@@ -6,7 +6,6 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import { reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, Icon, Text } from 'blockchain-info-components'
 import { Exchange } from '@core'
 import {
   CoinfigType,
@@ -17,6 +16,7 @@ import {
   WalletCurrencyType,
   WalletFiatType
 } from '@core/types'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { SavedRecurringBuy } from 'components/Box'
 import EmptyResults from 'components/EmptyResults'
 import { SceneWrapper } from 'components/Layout'
@@ -319,7 +319,7 @@ const mapDispatchToProps = (dispatch: Dispatch, ownProps: OwnProps) => {
     recurringBuyActions: bindActionCreators(actions.components.recurringBuy, dispatch),
     withdrawActions: bindActionCreators(actions.components.withdraw, dispatch)
   }
-  if (coinfig.type.erc20Address) {
+  if (selectors.core.data.coins.getErc20Coins().includes(coin)) {
     return {
       ...baseActions,
       fetchData: () => dispatch(actions.core.data.eth.fetchErc20Data(coin)),

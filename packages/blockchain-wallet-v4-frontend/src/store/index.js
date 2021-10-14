@@ -87,6 +87,7 @@ const configuredStore = async function () {
 
   // TODO: remove this
   window.coins.XLM.coinfig.type.isMemoBased = true
+  window.coins.CEUR.coinfig.products = ['CustodialWalletBalance']
 
   const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
   const socketUrl = options.domains.webSocket
