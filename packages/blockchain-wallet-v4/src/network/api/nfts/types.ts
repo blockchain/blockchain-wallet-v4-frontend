@@ -26,7 +26,7 @@ export type NftAssetsType = {
       symbol: string
       total_supply: null
     }
-    background_color: null
+    background_color: null | string
     collection: {
       banner_image_url: string
       chat_url: null
