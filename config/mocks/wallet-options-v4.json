@@ -16,7 +16,7 @@
         "apiKey": "0ecd212038"
       },
       "featureFlags": {
-        "cEURSweepstake": true,
+        "cEURRewards": true,
         "eddInterestFileUpload": true,
         "legacyMagicEmailLink": false,
         "legacyMobilePairing": false,
