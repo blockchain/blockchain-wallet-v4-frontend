@@ -2,7 +2,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
-import { NftAssetsType } from '@core/network/api/nfts/types'
+import { NftAssetsType, NftOrdersType } from '@core/network/api/nfts/types'
 import {
   CoinType,
   Everypay3DSResponseType,
@@ -39,7 +39,8 @@ import {
 import { NftsStateType } from './types'
 
 const initialState: NftsStateType = {
-  assets: Remote.NotAsked
+  assets: Remote.NotAsked,
+  orders: Remote.NotAsked
 }
 
 const nftsSlice = createSlice({
@@ -55,6 +56,16 @@ const nftsSlice = createSlice({
     },
     fetchNftAssetsSuccess: (state, action: PayloadAction<NftAssetsType['assets']>) => {
       state.assets = Remote.Success(action.payload)
+    },
+    fetchNftOrders: () => {},
+    fetchNftOrdersFailure: (state, action: PayloadAction<string>) => {
+      state.orders = Remote.Failure(action.payload)
+    },
+    fetchNftOrdersLoading: (state) => {
+      state.orders = Remote.Loading
+    },
+    fetchNftOrdersSuccess: (state, action: PayloadAction<NftOrdersType['orders']>) => {
+      state.orders = Remote.Success(action.payload)
     }
   }
 })

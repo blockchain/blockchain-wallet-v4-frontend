@@ -23,7 +23,20 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const fetchNftOrders = function* () {
+    try {
+      yield put(A.fetchNftOrdersLoading())
+      const nfts: ReturnType<typeof api.getNftOrders> = yield call(api.getNftOrders)
+
+      yield put(A.fetchNftOrdersSuccess(nfts.orders))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchNftOrdersFailure(error))
+    }
+  }
+
   return {
-    fetchNftAssets
+    fetchNftAssets,
+    fetchNftOrders
   }
 }

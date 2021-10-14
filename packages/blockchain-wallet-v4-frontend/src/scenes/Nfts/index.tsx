@@ -5,28 +5,26 @@ import { bindActionCreators } from '@reduxjs/toolkit'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
-const Nfts: React.FC<Props> = ({ assetsR, nftsActions }) => {
+import Marketplace from './Marketplace'
+import YourCollection from './YourCollection'
+
+const Nfts: React.FC<Props> = ({ assetsR, nftsActions, ordersR }) => {
   useEffect(() => {
     nftsActions.fetchNftAssets()
+    nftsActions.fetchNftOrders()
   }, [])
 
   return (
     <div>
-      {assetsR.cata({
-        Failure: (e) => e,
-        Loading: () => 'Loading...',
-        NotAsked: () => 'Loading...',
-        Success: (assets) =>
-          assets.map((asset) => {
-            return <div key={asset.token_id}>{asset.name}</div>
-          })
-      })}
+      <Marketplace ordersR={ordersR} />
+      <YourCollection assetsR={assetsR} />
     </div>
   )
 }
 
 const mapStateToProps = (state: RootState) => ({
-  assetsR: selectors.components.nfts.getNftAssets(state)
+  assetsR: selectors.components.nfts.getNftAssets(state),
+  ordersR: selectors.components.nfts.getNftOrders(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

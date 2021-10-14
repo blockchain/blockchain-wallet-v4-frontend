@@ -29,6 +29,32 @@ export const SceneWrapper = styled.div<{ centerContent?: boolean }>`
   `}
 `
 
+export const Header = styled.div`
+  width: 100%;
+  margin-bottom: 32px;
+`
+export const PageTitle = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+`
+export const Title = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  & > :first-child {
+    margin-right: 16px;
+  }
+`
+export const SubTitle = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  margin: 16px 8px 0 0;
+`
+
 // Header, Icon, Subheaders for all empty states
 
 export const IconBackground = styled.div`

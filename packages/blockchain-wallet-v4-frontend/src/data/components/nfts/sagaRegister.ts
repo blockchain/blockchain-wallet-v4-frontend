@@ -8,5 +8,6 @@ export default ({ api }) => {
 
   return function* nftSaga() {
     yield takeLatest(actions.fetchNftAssets, nftsSagas.fetchNftAssets)
+    yield takeLatest(actions.fetchNftOrders, nftsSagas.fetchNftOrders)
   }
 }
