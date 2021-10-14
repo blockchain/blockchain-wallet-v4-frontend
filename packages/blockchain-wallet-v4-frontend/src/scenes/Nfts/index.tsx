@@ -16,8 +16,8 @@ const Nfts: React.FC<Props> = ({ assetsR, nftsActions, ordersR }) => {
 
   return (
     <div>
-      <Marketplace ordersR={ordersR} />
       <YourCollection assetsR={assetsR} />
+      <Marketplace ordersR={ordersR} />
     </div>
   )
 }
