@@ -17,7 +17,7 @@ export type BannerType =
   | 'recurringBuys'
   | 'coinListing'
   | 'coinRename'
-  | 'celoEURSweepstake'
+  | 'celoEURRewards'
   | 'servicePriceUnavailable'
   | null
 
@@ -88,18 +88,18 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const coinRenameAnnouncement = getCoinRenameAnnouncement(coinRename)
   const showRenameBanner = showBanner(!!coinRename, coinRenameAnnouncement, announcementState)
 
-  // cEUR Sweepstake
+  // cEUR Rewards
   const cEURAnnouncement = selectors.core.walletOptions
-    .getCeloEurSweepstake(state)
+    .getCeloEurRewards(state)
     .getOrElse(false) as boolean
-  const cEURAnnouncementAnnouncement = 'ceur-sweepstake'
+  const cEURAnnouncementAnnouncement = 'ceur-rewards'
   const showCEURBanner =
     showBanner(cEURAnnouncement, cEURAnnouncementAnnouncement, announcementState) &&
     userData &&
     userData.tiers.current >= 1 &&
     userData.address &&
     userData.address.country &&
-    ['GB', 'DE', 'FR', 'NL'].indexOf(userData.address.country) === -1
+    ['GB', 'US', 'IT'].indexOf(userData.address.country) === -1
 
   const isTier3SDD = sddEligibleTier === 3
 
@@ -114,7 +114,7 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   } else if (isSimpleBuyOrderPending && !isTier3SDD) {
     bannerToShow = 'sbOrder'
   } else if (showCEURBanner) {
-    bannerToShow = 'celoEURSweepstake'
+    bannerToShow = 'celoEURRewards'
   } else if (isKycStateNone && isUserActive && !isFirstLogin && !isTier3SDD) {
     bannerToShow = 'finishKyc'
   } else if (userData?.tiers?.current < 2 || isKycStateNone) {

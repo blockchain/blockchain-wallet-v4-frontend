@@ -59,5 +59,5 @@ export const getEDDInterestFileUpload = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'eddInterestFileUpload']))
 
 // celoEUR sweepstake feature flag
-export const getCeloEurSweepstake = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'cEURSweepstake']))
+export const getCeloEurRewards = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'cEURRewards']))
