@@ -370,9 +370,12 @@ const Template: React.FC<Props> = (props) => {
         {interestEDDStatus?.eddNeeded && !interestEDDStatus?.eddPassed && (
           <LinkWrapper>
             <Link
-              href='https://share.hsforms.com/1DS4i94fURdutr8OXYOxfrg2qt44'
+              onClick={() => {
+                props.interestUploadDocumentActions.showModal({
+                  origin: 'InterestUploadDocument'
+                })
+              }}
               style={{ width: '100%' }}
-              target='_blank'
             >
               <Button data-e2e='earnInterestSupplyInformation' fullwidth nature='primary'>
                 <FormattedMessage

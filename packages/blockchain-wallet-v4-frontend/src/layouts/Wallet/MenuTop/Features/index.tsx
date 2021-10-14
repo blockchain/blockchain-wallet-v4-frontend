@@ -35,7 +35,7 @@ class FeaturesContainer extends React.PureComponent<Props> {
     }
 
     // TODO: remove with send refactor 🙏
-    if (coinfig.type.erc20Address) {
+    if (selectors.core.data.coins.getErc20Coins().includes(coin)) {
       return modalActions.showModal(`SEND_ETH_MODAL` as ModalNameType, {
         coin,
         origin: 'FeaturesTopNav'

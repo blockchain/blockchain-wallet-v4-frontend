@@ -96,7 +96,7 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const showCEURBanner =
     showBanner(cEURAnnouncement, cEURAnnouncementAnnouncement, announcementState) &&
     userData &&
-    userData.tiers.current >= 1 &&
+    userData.tiers?.current >= 1 &&
     userData.address &&
     userData.address.country &&
     ['GB', 'US', 'IT'].indexOf(userData.address.country) === -1

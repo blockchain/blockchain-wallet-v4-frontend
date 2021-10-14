@@ -87,7 +87,7 @@ const coinSelectorMap = (
   coin,
   coinfig: CoinfigType
 ): ((state: RootState) => Array<RemoteDataType<any, Array<TxType>>>) => {
-  if (coinfig.type.erc20Address) {
+  if (selectors.core.data.coins.getErc20Coins().includes(coin)) {
     return (state) => selectors.core.common.eth.getErc20WalletTransactions(state, coin)
   }
   if (selectors.core.data.coins.getCustodialCoins().includes(coin)) {

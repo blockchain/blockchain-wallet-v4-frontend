@@ -31,7 +31,7 @@ const coinSelectors = {
 }
 
 export const getSelector = (coinfig: CoinfigType) => {
-  if (coinfig.type.erc20Address) {
+  if (selectors.core.data.coins.getErc20Coins().includes(coinfig.symbol)) {
     return 'ERC20'
   }
   if (selectors.core.data.coins.getCustodialCoins().includes(coinfig.symbol)) {

@@ -75,6 +75,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     actions.components.identityVerification,
     dispatch
   ),
+  interestUploadDocumentActions: bindActionCreators(
+    actions.components.interestUploadDocument,
+    dispatch
+  ),
   profileActions: bindActionCreators(actions.modules.profile, dispatch)
 })
 
