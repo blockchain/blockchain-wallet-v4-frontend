@@ -33,6 +33,3 @@ jobs:
 
       - name: Test package - frontend
         run: yarn ci:test:frontend
-
-      - name: Deploy storybook
-        run: yarn storybook:deploy-wallet
