@@ -29,7 +29,7 @@ const Subtitle = styled(Text)`
 export const ContentDivider = styled.div`
   height: 20px;
   border-bottom: 1px solid ${(props) => props.theme.grey000};
-  margin: 40px 0 0 0;
+  margin: 40px 0;
 `
 
 const ContentWrapper = styled.div`
