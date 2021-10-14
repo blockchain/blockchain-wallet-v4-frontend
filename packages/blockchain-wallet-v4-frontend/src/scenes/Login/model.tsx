@@ -95,20 +95,23 @@ export const BackArrowFormHeader = (props: {
   formValues: LoginFormType
   handleBackArrowClick: () => void
   hideGuid?: boolean
+  showBackArrow?: boolean
 }) => {
   return (
     <>
       <TopRow>
-        <Icon
-          cursor
-          data-e2e='signupBack'
-          name='arrow-left'
-          size='24px'
-          color='grey400'
-          style={{ marginRight: '8px' }}
-          role='button'
-          onClick={() => props.handleBackArrowClick()}
-        />
+        {!props.showBackArrow && (
+          <Icon
+            cursor
+            data-e2e='signupBack'
+            name='arrow-left'
+            size='24px'
+            color='grey400'
+            style={{ marginRight: '8px' }}
+            role='button'
+            onClick={() => props.handleBackArrowClick()}
+          />
+        )}
         <Column>
           {props.hideGuid || props.formValues.email ? (
             <Text color='grey400' size='14px' weight={600} lineHeight='1.5'>

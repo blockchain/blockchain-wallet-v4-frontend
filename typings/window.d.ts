@@ -2,6 +2,7 @@ import { CoinfigType } from '@core/types'
 
 declare global {
   interface Window {
+    Android: any
     APP_VERSION: string
     CAPTCHA_KEY: string
     NONCE: string
@@ -10,6 +11,8 @@ declare global {
         coinfig: CoinfigType
       }
     }
+    receiveMessageFromMobile: (any) => void
+    webkit: any
     zxcvbn?: any
   }
 }

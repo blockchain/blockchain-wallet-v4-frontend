@@ -180,7 +180,6 @@ export type AuthStateType = {
   manifestFile: any
   metadataRestore: RemoteDataType<string, MetadataRestoreType>
   mobileLoginStarted: boolean
-  productHeader: ProductAuthOptions
   registerEmail?: string
   registering: RemoteDataType<RegisteringFailureType, RegisteringSuccessType>
   resetAccount: boolean

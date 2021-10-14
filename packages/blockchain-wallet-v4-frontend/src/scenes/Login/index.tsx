@@ -325,7 +325,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
             </PhishingWarning>
           </>
         )}
-        <ButtonRow>
+        {/* <ButtonRow>
           <Button
             data-e2e=''
             nature='empty-blue'
@@ -347,7 +347,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
           >
             Upgrade Change Password
           </Button>
-        </ButtonRow>
+        </ButtonRow> */}
       </>
     )
   }
