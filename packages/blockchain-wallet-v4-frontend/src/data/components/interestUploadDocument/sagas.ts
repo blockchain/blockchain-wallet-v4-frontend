@@ -1,4 +1,4 @@
-import { call, put, select } from 'redux-saga/effects'
+import { call, delay, put, select } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
 import { errorHandler } from '@core/utils'
@@ -73,6 +73,8 @@ export default ({ api }: { api: APIType }) => {
           step: InterestUploadDocumentsStepType.UPLOADED
         })
       )
+      // edd status should be changed at this point we have to fetch new one
+      yield put(actions.components.interest.fetchEDDStatus())
       // close also interest modal
       yield put(actions.modals.closeModal(ModalName.INTEREST_MODAL))
     } catch (e) {
