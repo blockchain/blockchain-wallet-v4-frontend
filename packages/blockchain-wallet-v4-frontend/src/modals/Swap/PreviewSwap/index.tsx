@@ -5,6 +5,7 @@ import { bindActionCreators, compose, Dispatch } from 'redux'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
+import { formatCoin } from '@core/exchange/utils'
 import {
   Button,
   HeartbeatLoader,
@@ -14,7 +15,6 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
-import { formatCoin } from '@core/exchange/utils'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { actions, selectors } from 'data'
@@ -308,10 +308,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-const enhance = compose(
-  reduxForm<{}, Props>({ destroyOnUnmount: false, form: 'previewSwap' }),
-  connector
-)
+const enhance = compose(reduxForm<{}, Props>({ form: 'previewSwap' }), connector)
 
 type State = { isActiveExchangeToolTip: boolean }
 type OwnProps = BaseProps & SuccessStateType & { handleClose: () => void }
