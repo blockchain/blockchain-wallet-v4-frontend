@@ -9,30 +9,30 @@ jobs:
       matrix:
         node-version: [14.16]
     steps:
-      - name: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup Node.js - ${{ matrix.node-version }}
+      - name: Install node.js v${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'yarn'
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: yarn
 
       # TODO: enable once all lint issues are fixed
-      #- name: Lint Code
+      #- name: Lint code
       #  run: yarn ci:lint
 
-      - name: Build Code
+      - name: Build code
         run: yarn ci:test:build
 
-      - name: Test Package - Components/Core
+      - name: Test package - components/core
         run: yarn ci:test:core:components
 
-      - name: Test Package - Frontend
+      - name: Test package - frontend
         run: yarn ci:test:frontend
 
-      - name: Deploy Storybook
+      - name: Deploy storybook
         run: yarn storybook:deploy-wallet
