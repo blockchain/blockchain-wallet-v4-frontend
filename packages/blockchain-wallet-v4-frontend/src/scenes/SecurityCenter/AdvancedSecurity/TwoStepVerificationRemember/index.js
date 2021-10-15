@@ -11,10 +11,8 @@ class TwoStepVerificationRememberContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  authTypeNeverSave: selectors.core.settings
-    .getAuthTypeNeverSave(state)
-    .getOrElse(0)
+const mapStateToProps = (state) => ({
+  authTypeNeverSave: selectors.core.settings.getAuthTypeNeverSave(state).getOrElse(0)
 })
 
 export default connect(mapStateToProps)(TwoStepVerificationRememberContainer)

@@ -2,9 +2,9 @@ import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import DataError from 'components/DataError'
 import { Remote } from '@core'
 import { WalletFiatType } from '@core/types'
+import DataError from 'components/DataError'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 

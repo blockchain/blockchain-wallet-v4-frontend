@@ -27,17 +27,8 @@ class SendBchContainer extends React.PureComponent {
   }
 
   render() {
-    const {
-      amount,
-      closeAll,
-      description,
-      excludeHDWallets,
-      payPro,
-      position,
-      step,
-      to,
-      total
-    } = this.props
+    const { amount, closeAll, description, excludeHDWallets, payPro, position, step, to, total } =
+      this.props
 
     return (
       <SendBch position={position} total={total} closeAll={closeAll}>

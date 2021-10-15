@@ -15,11 +15,7 @@ describe('kvStore root reducers', () => {
     metadata: 'my xpriv'
   }
 
-  const rootMetadata = set(
-    KVStoreEntry.value,
-    rootObject,
-    KVStoreEntry.createEmpty(typeId)
-  )
+  const rootMetadata = set(KVStoreEntry.value, rootObject, KVStoreEntry.createEmpty(typeId))
 
   const rootMetadataSuccess = Remote.Success(rootMetadata)
 

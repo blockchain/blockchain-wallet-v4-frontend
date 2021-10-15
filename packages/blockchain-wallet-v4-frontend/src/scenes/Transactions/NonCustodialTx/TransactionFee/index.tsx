@@ -3,9 +3,9 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { FlatLoader, Text } from 'blockchain-info-components'
 import { Remote } from '@core'
 import { CoinType, RemoteDataType } from '@core/types'
+import { FlatLoader, Text } from 'blockchain-info-components'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import { actions } from 'data'
 

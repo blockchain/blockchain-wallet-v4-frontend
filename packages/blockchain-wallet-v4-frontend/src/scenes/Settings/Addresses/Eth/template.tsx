@@ -5,12 +5,11 @@ import { media } from 'services/styles'
 
 import QrCodeAddressInfo from '../QrCodeAddressInfo'
 import ViewKeys from '../ViewKeys'
-import { AddressType } from './.'
+import { AddressType } from '.'
 
 const Wrapper = styled.div<{ showQrCode?: boolean }>`
-  display: ${props => (props.showQrCode ? 'flex' : 'inline-block')};
-  border: ${props =>
-    props.color ? `solid 1px ${props.theme[props.color]}` : 'none'};
+  display: ${(props) => (props.showQrCode ? 'flex' : 'inline-block')};
+  border: ${(props) => (props.color ? `solid 1px ${props.theme[props.color]}` : 'none')};
   border-radius: 1rem;
 
   ${media.laptop`
@@ -53,12 +52,7 @@ const EthXlmAddresses = ({
             showLegacyTitle={isEth}
           />
         )}
-        <QrCodeAddressInfo
-          {...addressInfo}
-          coin={coin}
-          isEth={isEth}
-          isLegacy={isLegacy}
-        />
+        <QrCodeAddressInfo {...addressInfo} coin={coin} isEth={isEth} isLegacy={isLegacy} />
       </DualWrapper>
     )}
   </Wrapper>

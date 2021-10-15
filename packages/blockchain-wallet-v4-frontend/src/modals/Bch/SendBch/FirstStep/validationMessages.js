@@ -16,10 +16,7 @@ const Wrapper = styled.div`
 `
 
 export const InvalidAmountMessage = () => (
-  <FormattedMessage
-    id='modals.sendbch.amountnotzeromessage'
-    defaultMessage='Invalid amount'
-  />
+  <FormattedMessage id='modals.sendbch.amountnotzeromessage' defaultMessage='Invalid amount' />
 )
 
 export const MaximumAmountMessage = () => (

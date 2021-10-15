@@ -1,18 +1,14 @@
 import { assocPath, merge } from 'ramda'
 
-import {
-  createMockWalletState,
-  walletV4,
-  walletV4WithLegacy
-} from '../../../../data'
+import { createMockWalletState, walletV4, walletV4WithLegacy } from '../../../../data'
 import Remote from '../../../remote'
 import * as selectors from './selectors'
 
 describe('kvstore bch selectors', () => {
   const accounts = [
-    { label: 'a', archived: false },
-    { label: 'b', archived: false },
-    { label: 'c', archived: true }
+    { archived: false, label: 'a' },
+    { archived: false, label: 'b' },
+    { archived: true, label: 'c' }
   ]
 
   const bchMetadata = {
@@ -32,14 +28,11 @@ describe('kvstore bch selectors', () => {
   }
 
   const mockState = merge(createMockWalletState(walletV4), successState)
-  const mockStateLegacy = merge(
-    createMockWalletState(walletV4WithLegacy),
-    successState
-  )
+  const mockStateLegacy = merge(createMockWalletState(walletV4WithLegacy), successState)
 
   describe('getSpendableContext', () => {
     it('should return the context', () => {
-      let context = selectors.getSpendableContext(mockState)
+      const context = selectors.getSpendableContext(mockState)
       expect(context).toEqual([
         'xpub6Cm98DdxftzzTxpUhj4CsiGRpFgLuxV33FsmjCreD9MtKY5NHeTyvhMw82aANb5GWaBGvGcey7skgcY9ZHk42KhyBXr23yYP5QYcAJzVz7D',
         'xpub6Cm98DdxftzzVidwASrWNe2Hg7WNXZ8nUvjZx6QveVH4d8Gaqx31NozqrupnCxGPqzVcatEJ8aDKfNfUuHxmfKD8dRDZ6NSFtXiWiwtW2Xh'
@@ -47,7 +40,7 @@ describe('kvstore bch selectors', () => {
     })
 
     it('should return context with legacy addresses', () => {
-      let context = selectors.getSpendableContext(mockStateLegacy)
+      const context = selectors.getSpendableContext(mockStateLegacy)
       expect(context).toEqual([
         'xpub6CaQke7DZA2WPRTKy954mx52b1duxkXoPbeB1teNEMzR7oLsg2XoCnUwMbK8WDvKJYfuvWxfeH2f7HdoyGDEZs7Kj11AuQiKeJhLBd2GciM',
         '1EGW5YZs4EXExhLiCVvRXTRVmfLjs69bZc'
@@ -67,9 +60,7 @@ describe('kvstore bch selectors', () => {
 
   it('getDefaultAccountIndex should return success of default account index', () => {
     const expectedResult = Remote.Success(2)
-    expect(selectors.getDefaultAccountIndex(successState)).toEqual(
-      expectedResult
-    )
+    expect(selectors.getDefaultAccountIndex(successState)).toEqual(expectedResult)
   })
 
   it('getAccountLabel should return success of account label', () => {
@@ -87,11 +78,7 @@ describe('kvstore bch selectors', () => {
     ).toEqual(expectedResult)
   })
 
-  const loadingState = assocPath(
-    ['kvStorePath', 'bch'],
-    Remote.Loading,
-    successState
-  )
+  const loadingState = assocPath(['kvStorePath', 'bch'], Remote.Loading, successState)
 
   it('getMetadata should return metadata', () => {
     const expectedResult = Remote.Loading
@@ -105,9 +92,7 @@ describe('kvstore bch selectors', () => {
 
   it('getDefaultAccountIndex should return loading', () => {
     const expectedResult = Remote.Loading
-    expect(selectors.getDefaultAccountIndex(loadingState)).toEqual(
-      expectedResult
-    )
+    expect(selectors.getDefaultAccountIndex(loadingState)).toEqual(expectedResult)
   })
 
   it('getAccountLabel should return loading', () => {

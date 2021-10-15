@@ -19,13 +19,7 @@ const FontFace = (name, eot, svg, ttf, weight) => {
   `
 }
 
-const Icomoon = FontFace(
-  'icomoon',
-  IcomoonEot,
-  IcomoonSvg,
-  IcomoonTtf,
-  'normal'
-)
+const Icomoon = FontFace('icomoon', IcomoonEot, IcomoonSvg, IcomoonTtf, 'normal')
 
 export const IconGlobalStyles = createGlobalStyle`
   ${Icomoon}

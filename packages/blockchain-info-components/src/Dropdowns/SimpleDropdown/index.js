@@ -9,10 +9,9 @@ class SimpleDropdown extends React.PureComponent {
     super(props)
 
     this.state = {
-      toggled: props.opened,
       selectedItem:
-        props.items.filter(item => item.value === props.selectedValue)[0] ||
-        props.items[0]
+        props.items.filter((item) => item.value === props.selectedValue)[0] || props.items[0],
+      toggled: props.opened
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleCallback = this.handleCallback.bind(this)
@@ -27,7 +26,7 @@ class SimpleDropdown extends React.PureComponent {
   }
 
   handleCallback(item) {
-    this.setState({ toggled: false, selectedItem: item })
+    this.setState({ selectedItem: item, toggled: false })
     if (this.props.callback) {
       this.props.callback(item)
     }
@@ -50,26 +49,26 @@ class SimpleDropdown extends React.PureComponent {
 
 SimpleDropdown.defaultProps = {
   color: 'blue600',
+  down: false,
   opened: false,
   selectedValue: 0,
-  uppercase: true,
-  down: false,
-  size: '14px'
+  size: '14px',
+  uppercase: true
 }
 
 SimpleDropdown.propTypes = {
-  selectedValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  callback: PropTypes.func.isRequired,
+  down: PropTypes.bool,
   items: PropTypes.arrayOf(
     PropTypes.shape({
       text: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired
     })
   ),
-  callback: PropTypes.func.isRequired,
   opened: PropTypes.bool,
-  uppercase: PropTypes.bool,
-  down: PropTypes.bool,
-  size: PropTypes.string
+  selectedValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  size: PropTypes.string,
+  uppercase: PropTypes.bool
 }
 
 export default onClickOutside(SimpleDropdown)

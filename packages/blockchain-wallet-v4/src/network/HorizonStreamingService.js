@@ -24,7 +24,7 @@ export default class HorizonStreamingService {
         return this.onError.bind(null, accountId)
       },
       onmessage: () => this.onMessage.bind(null, accountId),
-      reconnectTimeout: RECONNECT_TIMEOUT,
+      reconnectTimeout: RECONNECT_TIMEOUT
     })
     this.streams = assoc(accountId, closeStream, this.streams)
   }

@@ -20,11 +20,11 @@ const Error = styled(Text)`
   right: 0;
   height: 15px;
 `
-const getErrorState = meta => {
+const getErrorState = (meta) => {
   return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
-const TextArea = field => {
+const TextArea = (field) => {
   const errorState = getErrorState(field.meta)
 
   return (

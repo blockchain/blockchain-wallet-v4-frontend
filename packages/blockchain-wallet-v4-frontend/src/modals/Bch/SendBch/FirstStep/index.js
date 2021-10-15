@@ -14,7 +14,10 @@ class FirstStep extends React.Component {
     const { actions, data, excludeHDWallets, payPro } = this.props
 
     return data.cata({
-      Success: value => (
+      Failure: (message) => <Error>{message}</Error>,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />,
+      Success: (value) => (
         <Success
           {...value}
           excludeHDWallets={excludeHDWallets}
@@ -22,19 +25,16 @@ class FirstStep extends React.Component {
           onSubmit={actions.sendBchFirstStepSubmitClicked}
           payPro={payPro}
         />
-      ),
-      Failure: message => <Error>{message}</Error>,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      )
     })
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.sendBch, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })

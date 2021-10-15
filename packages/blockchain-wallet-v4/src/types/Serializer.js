@@ -20,7 +20,7 @@ import * as Wallet from './Wallet'
 import * as Wrapper from './Wrapper'
 
 const serializer = {
-  replacer: function(key, value) {
+  replacer(key, value) {
     // Remove all functions from the state
     if (value && typeof value === 'function') {
       return ''
@@ -35,13 +35,9 @@ const serializer = {
     }
     return value
   },
-  reviver: function(key, value) {
-    if (
-      typeof value === 'object' &&
-      value !== null &&
-      '__serializedType__' in value
-    ) {
-      var data = value.data
+  reviver(key, value) {
+    if (typeof value === 'object' && value !== null && '__serializedType__' in value) {
+      const { data } = value
       switch (value.__serializedType__) {
         case 'Wrapper':
           return Wrapper.reviver(data)

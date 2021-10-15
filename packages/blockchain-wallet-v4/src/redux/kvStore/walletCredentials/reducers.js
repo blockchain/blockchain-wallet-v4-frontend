@@ -25,7 +25,7 @@ export default (state = INITIAL_STATE, action) => {
       const { guid, password, sharedKey } = payload
       return over(
         compose(mapped, KVStoreEntry.value),
-        mergeRight(__, { guid, sharedKey, password }),
+        mergeRight(__, { guid, password, sharedKey }),
         state
       )
     }

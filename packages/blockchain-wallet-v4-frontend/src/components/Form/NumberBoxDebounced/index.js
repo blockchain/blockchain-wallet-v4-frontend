@@ -11,27 +11,27 @@ const Container = styled.div`
   justify-content: flex-end;
   align-items: flex-start;
   width: 100%;
-  height: ${props => props.height || '40px'};
+  height: ${(props) => props.height || '40px'};
 `
 const Error = styled(Text)`
   white-space: nowrap;
   position: absolute;
   display: block;
   height: 15px;
-  right: ${props => (props.errorLeft ? 'auto' : 0)};
-  left: ${props => (props.errorLeft ? '-2px' : 'auto')};
-  top: ${props => (props.errorBottom ? '40px' : '-20px')};
+  right: ${(props) => (props.errorLeft ? 'auto' : 0)};
+  left: ${(props) => (props.errorLeft ? '-2px' : 'auto')};
+  top: ${(props) => (props.errorBottom ? '40px' : '-20px')};
 `
 const Unit = styled(Text)`
   padding: 0 15px;
   font-size: 12px;
   font-weight: 400;
   position: absolute;
-  color: ${props => props.theme['grey500']};
+  color: ${(props) => props.theme.grey500};
   right: 0px;
   bottom: 30%;
 `
-const getErrorState = meta => {
+const getErrorState = (meta) => {
   return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
@@ -73,7 +73,7 @@ class NumberBoxDebounced extends React.Component {
 
   handleChange(e) {
     e.preventDefault()
-    const value = e.target.value
+    const { value } = e.target
     this.setState({ updatedValue: value })
 
     clearTimeout(this.timeout)

@@ -12,7 +12,7 @@ const BaseSlider = styled.input.attrs({ type: 'range' })`
     height: 18px;
     width: 18px;
     border-radius: 9px;
-    background: ${props => props.theme.blue600};
+    background: ${(props) => props.theme.blue600};
     cursor: pointer;
     margin-top: -8px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
   }
@@ -21,7 +21,7 @@ const BaseSlider = styled.input.attrs({ type: 'range' })`
     height: 18px;
     width: 18px;
     border-radius: 9px;
-    background: ${props => props.theme.blue600};
+    background: ${(props) => props.theme.blue600};
     cursor: pointer;
   }
 
@@ -29,7 +29,7 @@ const BaseSlider = styled.input.attrs({ type: 'range' })`
     height: 18px;
     width: 18px;
     border-radius: 9px;
-    background: ${props => props.theme.blue600};
+    background: ${(props) => props.theme.blue600};
     cursor: pointer;
   }
 
@@ -43,7 +43,7 @@ const BaseSlider = styled.input.attrs({ type: 'range' })`
     cursor: pointer;
     background: #ffffff;
     border-radius: 1.3px;
-    border: 0.1px solid ${props => props.theme.grey200};
+    border: 0.1px solid ${(props) => props.theme.grey200};
   }
 
   &::-ms-track {
@@ -55,16 +55,16 @@ const BaseSlider = styled.input.attrs({ type: 'range' })`
   }
 `
 
-const SimpleSlider = props => {
+const SimpleSlider = (props) => {
   return <BaseSlider {...props} />
 }
 
 SimpleSlider.propTypes = {
-  value: PropTypes.number.isRequired,
-  min: PropTypes.number.isRequired,
   max: PropTypes.number.isRequired,
+  min: PropTypes.number.isRequired,
   onInput: PropTypes.func.isRequired,
-  step: PropTypes.number.isRequired
+  step: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired
 }
 
 export default SimpleSlider

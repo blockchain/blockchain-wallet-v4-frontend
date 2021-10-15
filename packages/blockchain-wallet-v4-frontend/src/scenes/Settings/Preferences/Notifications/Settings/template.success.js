@@ -22,36 +22,18 @@ const Wrapper = styled.div`
   }
 `
 
-const Setting = props => (
+const Setting = (props) => (
   <Wrapper>
-    <Field
-      name='emailEnabled'
-      component={CheckBox}
-      disabled={props.emailDisabled}
-    >
-      <Text
-        color='grey800'
-        size='14px'
-        weight={600}
-        style={{ marginLeft: '4px' }}
-      >
+    <Field name='emailEnabled' component={CheckBox} disabled={props.emailDisabled}>
+      <Text color='grey800' size='14px' weight={600} style={{ marginLeft: '4px' }}>
         <FormattedMessage
           id='scenes.settings.preferences.notifications.settings.email'
           defaultMessage='Email'
         />
       </Text>
     </Field>
-    <Field
-      name='mobileEnabled'
-      component={CheckBox}
-      disabled={props.mobileDisabled}
-    >
-      <Text
-        color='grey800'
-        size='14px'
-        weight={600}
-        style={{ marginLeft: '10px' }}
-      >
+    <Field name='mobileEnabled' component={CheckBox} disabled={props.mobileDisabled}>
+      <Text color='grey800' size='14px' weight={600} style={{ marginLeft: '10px' }}>
         <FormattedMessage
           id='scenes.settings.preferences.notifications.settings.sms'
           defaultMessage='SMS'

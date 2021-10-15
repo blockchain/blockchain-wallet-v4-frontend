@@ -30,16 +30,8 @@ const Code = styled.div`
   }
 `
 
-const TwoStepYubico = props => {
-  const {
-    close,
-    closeAll,
-    handleSubmit,
-    invalid,
-    position,
-    submitting,
-    total
-  } = props
+const TwoStepYubico = (props) => {
+  const { close, closeAll, handleSubmit, invalid, position, submitting, total } = props
 
   return (
     <Modal size='large' position={position} total={total}>
@@ -65,15 +57,8 @@ const TwoStepYubico = props => {
           <Link size='13px' weight={400} onClick={close} capitalize>
             <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
           </Link>
-          <Button
-            type='submit'
-            nature='primary'
-            disabled={submitting || invalid}
-          >
-            <FormattedMessage
-              id='modals.twostepyubico.enable'
-              defaultMessage='Enable 2FA'
-            />
+          <Button type='submit' nature='primary' disabled={submitting || invalid}>
+            <FormattedMessage id='modals.twostepyubico.enable' defaultMessage='Enable 2FA' />
           </Button>
         </ModalFooter>
       </Form>

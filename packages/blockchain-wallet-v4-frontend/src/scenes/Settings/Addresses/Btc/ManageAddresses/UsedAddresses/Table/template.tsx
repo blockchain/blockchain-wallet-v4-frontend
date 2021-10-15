@@ -36,16 +36,8 @@ const UsedTable = ({ children }) => (
           />
         </Text>
       </TableCell>
-      <TableCell
-        width='20%'
-        style={{ display: 'flex', justifyContent: 'flex-end' }}
-      >
-        <Text
-          color='grey900'
-          size='14px'
-          weight={500}
-          style={{ marginRight: '8px' }}
-        >
+      <TableCell width='20%' style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Text color='grey900' size='14px' weight={500} style={{ marginRight: '8px' }}>
           <FormattedMessage id='copy.balance' defaultMessage='Balance' />
         </Text>
         <TooltipHost id='settingsBtcUsedBalace'>
@@ -62,8 +54,7 @@ const UsedTableEntry = ({ address, search }) => {
     return (
       !search ||
       address.address.toLowerCase().indexOf(search.toLowerCase()) > -1 ||
-      (address.label &&
-        address.label.toLowerCase().indexOf(search.toLowerCase()) > -1)
+      (address.label && address.label.toLowerCase().indexOf(search.toLowerCase()) > -1)
     )
   }
 
@@ -85,12 +76,9 @@ const UsedTableEntry = ({ address, search }) => {
           {address.label}
         </Text>
       </TableCell>
-      <TableCell
-        width='20%'
-        style={{ display: 'flex', justifyContent: 'flex-end' }}
-      >
+      <TableCell width='20%' style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <Text size='13px' weight={500}>
-          <CoinDisplay coin={'BTC'} size='13px' weight={400}>
+          <CoinDisplay coin='BTC' size='13px' weight={400}>
             {address.final_balance}
           </CoinDisplay>
         </Text>

@@ -71,9 +71,8 @@ const settingsReducer = (state = INITIAL_STATE, action) => {
             assoc('ip_lock_on', 0)
           )
         )
-      } else {
-        return state.map(assoc('ip_lock', ipLock))
       }
+      return state.map(assoc('ip_lock', ipLock))
     }
     case AT.SET_IP_LOCK_ON: {
       const { ipLockOn } = payload

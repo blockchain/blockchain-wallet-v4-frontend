@@ -5,8 +5,8 @@ import { Button, Link } from 'blockchain-info-components'
 
 import { Props } from './template'
 
-const LinkToExchange: React.FC<Props> = props => {
-  const exchangeUrl = props.domains.exchange + '/trade'
+const LinkToExchange: React.FC<Props> = (props) => {
+  const exchangeUrl = `${props.domains.exchange}/trade`
 
   return (
     <Link
@@ -14,16 +14,8 @@ const LinkToExchange: React.FC<Props> = props => {
       rel='noopener noreferrer'
       target='_blank'
     >
-      <Button
-        data-e2e='launchExchange'
-        nature='primary'
-        height='48px'
-        fullwidth
-      >
-        <FormattedMessage
-          id='scenes.exchange.launchexchange'
-          defaultMessage='Launch Exchange'
-        />
+      <Button data-e2e='launchExchange' nature='primary' height='48px' fullwidth>
+        <FormattedMessage id='scenes.exchange.launchexchange' defaultMessage='Launch Exchange' />
       </Button>
     </Link>
   )

@@ -3,12 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { filter } from 'ramda'
 import styled from 'styled-components'
 
-import {
-  Button,
-  TableCell,
-  TableHeader,
-  Text
-} from 'blockchain-info-components'
+import { Button, TableCell, TableHeader, Text } from 'blockchain-info-components'
 import { SettingDescription, SettingHeader } from 'components/Setting'
 
 import { Table } from '../../components'
@@ -63,70 +58,61 @@ const Success = ({
   onTransferAll: any
   search: any
 }) => {
-  const isMatch = address =>
-    !search || address.addr.toLowerCase().indexOf(search) > -1
-  const importedAddressesTableRows = filter(isMatch, importedAddresses).map(
-    address => (
-      <AddressRow
-        coin='BTC'
-        key={address.addr}
-        address={address}
-        dataE2e='btcImportedAddressRow'
-        renderOptions={() =>
-          [
-            <ClickableText
-              size='small'
-              onClick={() => onToggleArchived(address)}
-              data-e2e='btcArchiveImportedAddressLink'
-            >
-              <FormattedMessage
-                id='scenes.settings.addresses.archive'
-                defaultMessage='Archive'
-              />
-            </ClickableText>
-          ].concat(
-            // @ts-ignore
-            !address.priv
-              ? []
-              : [
-                  !failure && (
-                    <ClickableText
-                      size='small'
-                      onClick={() => onShowPriv(address)}
-                      data-e2e='btcShowPrivKeyImportedAddressLink'
-                    >
-                      <FormattedMessage
-                        id='copy.private_key'
-                        defaultMessage='Private Key'
-                      />
-                    </ClickableText>
-                  ),
+  const isMatch = (address) => !search || address.addr.toLowerCase().indexOf(search) > -1
+  const importedAddressesTableRows = filter(isMatch, importedAddresses).map((address) => (
+    <AddressRow
+      coin='BTC'
+      key={address.addr}
+      address={address}
+      dataE2e='btcImportedAddressRow'
+      renderOptions={() =>
+        [
+          <ClickableText
+            size='small'
+            onClick={() => onToggleArchived(address)}
+            data-e2e='btcArchiveImportedAddressLink'
+          >
+            <FormattedMessage id='scenes.settings.addresses.archive' defaultMessage='Archive' />
+          </ClickableText>
+        ].concat(
+          // @ts-ignore
+          !address.priv
+            ? []
+            : [
+                !failure && (
                   <ClickableText
                     size='small'
-                    onClick={() => onShowSignMessage(address)}
-                    data-e2e='btcSignMessageImportedAddressLink'
+                    onClick={() => onShowPriv(address)}
+                    data-e2e='btcShowPrivKeyImportedAddressLink'
                   >
-                    <FormattedMessage
-                      id='scenes.settings.addresses.sign_message'
-                      defaultMessage='Sign Message'
-                    />
-                  </ClickableText>,
-                  <ClickableText
-                    size='small'
-                    onClick={() => onEditLabel(address)}
-                    data-e2e='btcSignMessageImportedAddressLink'
-                  >
-                    <FormattedMessage
-                      id='scenes.settings.addresses.edit_name'
-                      defaultMessage='Edit Label'
-                    />
+                    <FormattedMessage id='copy.private_key' defaultMessage='Private Key' />
                   </ClickableText>
-                ]
-          )
-        }
-      />
-    )
-  )
+                ),
+                <ClickableText
+                  size='small'
+                  onClick={() => onShowSignMessage(address)}
+                  data-e2e='btcSignMessageImportedAddressLink'
+                >
+                  <FormattedMessage
+                    id='scenes.settings.addresses.sign_message'
+                    defaultMessage='Sign Message'
+                  />
+                </ClickableText>,
+                <ClickableText
+                  size='small'
+                  onClick={() => onEditLabel(address)}
+                  data-e2e='btcSignMessageImportedAddressLink'
+                >
+                  <FormattedMessage
+                    id='scenes.settings.addresses.edit_name'
+                    defaultMessage='Edit Label'
+                  />
+                </ClickableText>
+              ]
+        )
+      }
+    />
+  ))
 
   return (
     <Wrapper>
@@ -195,10 +181,7 @@ const Success = ({
                 />
               </Text>
             </TableCell>
-            <TableCell
-              width='10%'
-              style={{ display: 'flex', justifyContent: 'flex-end' }}
-            >
+            <TableCell width='10%' style={{ display: 'flex', justifyContent: 'flex-end' }}>
               <Text color='grey900' size='14px' weight={500}>
                 <FormattedMessage
                   id='scenes.settings.addresses.btc.importedaddresses.success.actions'

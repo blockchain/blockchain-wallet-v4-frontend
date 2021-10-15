@@ -17,10 +17,7 @@ class MenuContainer extends React.PureComponent {
             data-e2e='securityCenterBasicLink'
           >
             <TabMenuItem>
-              <FormattedMessage
-                id='scenes.securitycenter.menu.basic'
-                defaultMessage='Basic'
-              />
+              <FormattedMessage id='scenes.securitycenter.menu.basic' defaultMessage='Basic' />
             </TabMenuItem>
           </LinkContainer>
           <LinkContainer

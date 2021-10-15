@@ -2,11 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled, { css, keyframes } from 'styled-components'
 
-import {
-  NavbarNavItem,
-  NavbarNavItemButton,
-  NavbarNavItemIcon
-} from 'components/Navbar'
+import { NavbarNavItem, NavbarNavItemButton, NavbarNavItemIcon } from 'components/Navbar'
 
 const rotation = keyframes`
   from { transform: rotate(0deg); }
@@ -26,12 +22,7 @@ export const SpinningIcon = styled(NavbarNavItemIcon)<{ rotating: boolean }>`
 
 const Refresh = ({ handleRefresh, rotating }) => (
   <NavbarNavItem>
-    <NavbarNavItemButton
-      size='14px'
-      uppercase
-      onClick={handleRefresh}
-      data-e2e='refreshLink'
-    >
+    <NavbarNavItemButton size='14px' uppercase onClick={handleRefresh} data-e2e='refreshLink'>
       <SpinningIcon name='refresh' size='24px' rotating={rotating} />
     </NavbarNavItemButton>
   </NavbarNavItem>

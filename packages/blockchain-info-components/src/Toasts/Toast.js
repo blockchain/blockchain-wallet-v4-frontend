@@ -26,8 +26,8 @@ const Container = styled.div`
   min-height: 65px;
   padding: 15px 10px;
   box-sizing: border-box;
-  background: ${props => props.theme.white};
-  border-left: 6px solid ${props => props.theme[props.color]};
+  background: ${(props) => props.theme.white};
+  border-left: 6px solid ${(props) => props.theme[props.color]};
   border-radius: 8px;
   box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.2);
 `
@@ -61,7 +61,7 @@ const selectColor = (type, coin) => {
   }
 }
 
-const Toast = props => {
+const Toast = (props) => {
   const { children, coin, nature, onClose, persist, timeout } = props
   const color = selectColor(nature, coin)
 
@@ -96,9 +96,9 @@ const Toast = props => {
 }
 
 Toast.propTypes = {
+  children: PropTypes.node.isRequired,
   nature: PropTypes.oneOf(['success', 'error', 'info']),
-  onClose: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired
+  onClose: PropTypes.func.isRequired
 }
 
 Toast.defaultProps = {

@@ -1,12 +1,9 @@
-export const constructDefaultErc20Data = (
-  accountHash: string,
-  tokenHash: string
-) => ({
+export const constructDefaultErc20Data = (accountHash: string, tokenHash: string) => ({
   accountHash,
-  tokenHash,
   balance: '0',
-  totalSent: '0',
-  totalReceived: '0',
   decimals: 8,
+  tokenHash,
+  totalReceived: '0',
+  totalSent: '0',
   transferCount: '0'
 })

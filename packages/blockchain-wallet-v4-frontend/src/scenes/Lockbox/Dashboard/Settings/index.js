@@ -21,9 +21,7 @@ const BrowserWarning = styled(Banner)`
   margin-top: 18px;
 `
 const browser = Bowser.getParser(window.navigator.userAgent)
-const isBrowserSupported = browser.satisfies(
-  model.components.lockbox.supportedBrowsers
-)
+const isBrowserSupported = browser.satisfies(model.components.lockbox.supportedBrowsers)
 
 export default class LockboxSettings extends React.PureComponent {
   render() {

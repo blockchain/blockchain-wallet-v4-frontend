@@ -30,7 +30,7 @@ const ExportKeysText = styled(Text)`
 `
 
 const ClickableText = styled(Text)`
-  color: ${props => props.theme.blue600};
+  color: ${(props) => props.theme.blue600};
   cursor: pointer;
 `
 const AppManagerLink = styled(ClickableText)`
@@ -63,7 +63,7 @@ const Tooltip = styled(TooltipHost)`
     font-size: 12px;
   }
 `
-const PairDeviceStep = props => {
+const PairDeviceStep = (props) => {
   const {
     btcOpenTimeout,
     deviceType,
@@ -93,12 +93,7 @@ const PairDeviceStep = props => {
       <Form>
         <FormGroup>
           <SupportListItem>
-            <Field
-              name='connected'
-              validate={[required]}
-              component={CheckBox}
-              hideErrors
-            />
+            <Field name='connected' validate={[required]} component={CheckBox} hideErrors />
             <CheckboxLabel>
               <Text size='12px' weight={400}>
                 <FormattedMessage
@@ -109,12 +104,7 @@ const PairDeviceStep = props => {
             </CheckboxLabel>
           </SupportListItem>
           <SupportListItem>
-            <Field
-              name='installed'
-              validate={[required]}
-              component={CheckBox}
-              hideErrors
-            />
+            <Field name='installed' validate={[required]} component={CheckBox} hideErrors />
             <CheckboxLabel>
               <TextGroup inline>
                 <Text size='12px' weight={400}>
@@ -123,11 +113,7 @@ const PairDeviceStep = props => {
                     defaultMessage='I have installed the Bitcoin app. If you do not have the app installed, click'
                   />
                 </Text>
-                <AppManagerLink
-                  size='12px'
-                  weight={400}
-                  onClick={onGoToAppManager}
-                >
+                <AppManagerLink size='12px' weight={400} onClick={onGoToAppManager}>
                   <FormattedMessage id='copy.here' defaultMessage='here' />
                 </AppManagerLink>
                 <Text size='12px' weight={400}>
@@ -140,12 +126,7 @@ const PairDeviceStep = props => {
             </CheckboxLabel>
           </SupportListItem>
           <SupportListItem>
-            <Field
-              name='opened'
-              validate={[required]}
-              component={CheckBox}
-              hideErrors
-            />
+            <Field name='opened' validate={[required]} component={CheckBox} hideErrors />
             <CheckboxLabel>
               <Text size='12px' weight={400}>
                 <FormattedMessage
@@ -164,25 +145,11 @@ const PairDeviceStep = props => {
             defaultMessage='Completed the above and still having issues?'
           />
         </Text>
-        <SupportText
-          href={supportLink}
-          target='_blank'
-          size='11px'
-          weight={500}
-        >
-          <FormattedMessage
-            id='buttons.contact_support'
-            defaultMessage='Contact Support'
-          />
+        <SupportText href={supportLink} target='_blank' size='11px' weight={500}>
+          <FormattedMessage id='buttons.contact_support' defaultMessage='Contact Support' />
         </SupportText>
       </ContactSupportText>
-      <Button
-        fullwidth
-        type='submit'
-        disabled={invalid}
-        onClick={onTimeoutAccept}
-        nature='primary'
-      >
+      <Button fullwidth type='submit' disabled={invalid} onClick={onTimeoutAccept} nature='primary'>
         <FormattedMessage
           id='modals.lockboxsetup.pairdevice.timeout.retry'
           defaultMessage='Retry Pairing'
@@ -191,11 +158,7 @@ const PairDeviceStep = props => {
     </Wrapper>
   ) : (
     <Wrapper>
-      <Image
-        style={{ marginBottom: '18px' }}
-        name='lockbox-onboard-pairdevice'
-        width='95%'
-      />
+      <Image style={{ marginBottom: '18px' }} name='lockbox-onboard-pairdevice' width='95%' />
       <IntroWrapper>
         <Text size='12px' weight={400}>
           <FormattedMessage
@@ -210,11 +173,7 @@ const PairDeviceStep = props => {
               id='modals.lockboxsetup.pairdevice.exportkeyswarning'
               defaultMessage='Your version of the BTC app requires that you allow the export of your public keys on the device. You must allow the export of 6 keys.'
             />
-            <Tooltip
-              id='lockbox.exportkeyswarning'
-              data-place='right'
-              style={{ marginTop: '3px' }}
-            >
+            <Tooltip id='lockbox.exportkeyswarning' data-place='right' style={{ marginTop: '3px' }}>
               <TooltipIcon name='info' />
             </Tooltip>
           </ExportKeysText>
@@ -228,15 +187,8 @@ const PairDeviceStep = props => {
             values={{ deviceType }}
           />
         </Text>
-        <ClickableText
-          style={{ marginLeft: '-2px' }}
-          size='10px'
-          onClick={onGoToAppManager}
-        >
-          <FormattedMessage
-            id='modals.lockboxsetup.pairdevice.here'
-            defaultMessage='here.'
-          />
+        <ClickableText style={{ marginLeft: '-2px' }} size='10px' onClick={onGoToAppManager}>
+          <FormattedMessage id='modals.lockboxsetup.pairdevice.here' defaultMessage='here.' />
         </ClickableText>
       </TextGroup>
       <Button fullwidth disabled nature='dark'>
