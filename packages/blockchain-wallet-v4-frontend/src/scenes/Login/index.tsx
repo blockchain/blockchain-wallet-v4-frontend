@@ -10,7 +10,13 @@ import { Button, Icon, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
-import { ExchangeErrorCodes, LoginFormType, LoginSteps, ProductAuthOptions } from 'data/types'
+import {
+  ExchangeErrorCodes,
+  LoginFormType,
+  LoginSteps,
+  PlatformTypes,
+  ProductAuthOptions
+} from 'data/types'
 import { isGuid } from 'services/forms'
 
 // step templates
@@ -162,7 +168,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
   }
 
   render() {
-    const { exchangeLoginData, formValues, walletLoginData } = this.props
+    const { authPlatform, exchangeLoginData, formValues, walletLoginData } = this.props
     const { step } = formValues || LoginSteps.ENTER_EMAIL_GUID
     // TODO: fix this to handle both wallet and exchange login
     // in a data.cata
@@ -178,6 +184,10 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       handleSmsResend: this.handleSmsResend,
       loginError: undefined
     }
+
+    const isMobileViewLogin =
+      authPlatform === PlatformTypes.ANDROID || authPlatform === PlatformTypes.IOS
+
     return (
       <>
         <Text color='white' size='24px' weight={600} style={{ marginBottom: '24px' }}>
@@ -256,6 +266,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
                       {...loginProps}
                       setStep={this.setStep}
                       initCaptcha={this.initCaptcha}
+                      isMobileViewLogin={isMobileViewLogin}
                     />
                   )
                 case LoginSteps.CHECK_EMAIL:
@@ -294,7 +305,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
             })()}
           </Form>
         </Wrapper>
-        {step === LoginSteps.ENTER_PASSWORD_WALLET && (
+        {step === LoginSteps.ENTER_PASSWORD_WALLET && !isMobileViewLogin && (
           <Text
             color='white'
             weight={600}
@@ -309,7 +320,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
             />
           </Text>
         )}
-        {step === LoginSteps.ENTER_EMAIL_GUID && (
+        {step === LoginSteps.ENTER_EMAIL_GUID && !isMobileViewLogin && (
           <>
             <Text size='14px' color='grey400' weight={500} style={{ margin: '24px 0 16px' }}>
               <FormattedMessage
@@ -355,6 +366,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
 
 const mapStateToProps = (state) => ({
   accountUnificationFlow: selectors.auth.getAccountUnificationFlowType(state),
+  authPlatform: selectors.auth.getAuthPlatform(state),
   authType: selectors.auth.getAuthType(state) as Number,
   code: formValueSelector(LOGIN_FORM_NAME)(state, 'code'),
   data: getData(state),
@@ -389,6 +401,7 @@ type FormProps = {
   exchangeError?: ExchangeErrorCodes
   initCaptcha: () => void
   invalid: boolean
+  isMobileViewLogin?: boolean
   loginError?: string
   pristine: boolean
   setStep: (step: LoginSteps) => void

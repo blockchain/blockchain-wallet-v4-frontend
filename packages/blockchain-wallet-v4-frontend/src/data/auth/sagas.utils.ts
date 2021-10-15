@@ -115,7 +115,7 @@ export const parseMagicLink = function* (params) {
 }
 
 // const sendMessageToMobile = (message) => {
-//   console.log('sendMessage function executed')
+//   console.log('message:', message)
 //   if (window.webkit) {
 //     window.webkit.messageHandlers.sessionHandler.postMessage(message)
 //     return
@@ -132,7 +132,6 @@ export const parseMagicLink = function* (params) {
 
 // window.receiveMessageFromMobile = (message) => {
 //   sendMessageToMobile(message)
-
 // }
 
 export const loadMobileAuthWebView = function* () {
@@ -145,21 +144,35 @@ export const loadMobileAuthWebView = function* () {
     exchange: exchangeData,
     mergeable,
     product,
-    unified,
     upgradeable,
     wallet: walletData
   } = testMagicLinkData
   // TODO: set auth flow type to mobile version of whatever
   // The below are just placeholders
   if (designatedProduct === ProductAuthOptions.WALLET && mergeable) {
-    yield put(actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.WALLET_MERGE))
+    yield put(actions.form.change('login', 'emailToken', walletData?.email_code))
+    yield put(actions.form.change('login', 'guid', walletData?.guid))
+    yield put(actions.form.change('login', 'email', walletData?.email))
+    yield put(
+      actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.MOBILE_WALLET_MERGE)
+    )
     yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD_WALLET))
   }
   if (designatedProduct === ProductAuthOptions.EXCHANGE && mergeable) {
-    yield put(actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.EXCHANGE_MERGE))
+    yield put(actions.form.change('login', 'email', exchangeData?.email))
+    yield put(actions.form.change('login', 'emailToken', walletData?.email_code))
+    yield put(actions.form.change('login', 'guid', walletData?.guid))
+    yield put(actions.form.change('login', 'email', walletData?.email))
+    yield put(
+      actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.MOBILE_EXCHANGE_MERGE)
+    )
     yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
   }
   if (product === ProductAuthOptions.EXCHANGE && upgradeable) {
-    yield put(actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.EXCHANGE_UPGRADE))
+    yield put(actions.form.change('login', 'email', exchangeData?.email))
+    yield put(
+      actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.MOBILE_EXCHANGE_UPGRADE)
+    )
+    yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
   }
 }

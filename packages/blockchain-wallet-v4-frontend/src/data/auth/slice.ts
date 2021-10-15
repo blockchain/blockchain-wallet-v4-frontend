@@ -71,6 +71,7 @@ const authSlice = createSlice({
       state.login = Remote.NotAsked
       state.exchangeAuth.exchangeLogin = Remote.NotAsked
     },
+    continueLoginProcess: () => {},
     exchangeLogin: (state, action: PayloadAction<ExchangeLoginType>) => {},
     exchangeLoginFailure: (state, action: PayloadAction<ExchangeLoginFailureType>) => {
       state.exchangeAuth.exchangeLogin = Remote.Failure(action.payload)

@@ -132,6 +132,10 @@ export default ({ api, coreSagas, networks }) => {
         unificationFlowType === AccountUnificationFlows.EXCHANGE_UPGRADE
       ) {
         yield put(actions.form.change('login', 'step', LoginSteps.UPGRADE_CONFIRM))
+      } else if (unificationFlowType === AccountUnificationFlows.MOBILE_EXCHANGE_MERGE) {
+        yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD_WALLET))
+      } else if (unificationFlowType === AccountUnificationFlows.MOBILE_EXCHANGE_UPGRADE) {
+        yield put(actions.form.change('login', 'step', LoginSteps.UPGRADE_PASSWORD))
       } else {
         // here we call the merge endpoint and then direct them to exchange
         yield put(actions.form.change('login', 'step', LoginSteps.UPGRADE_SUCCESS))
@@ -337,9 +341,16 @@ export default ({ api, coreSagas, networks }) => {
         session,
         sharedKey
       })
+      // Check which unification flow we're running
+      // to determine what we want to do after authing user
       if (accountUpgradeFlow === AccountUnificationFlows.WALLET_MERGE) {
         yield put(actions.form.change('login', 'step', LoginSteps.UPGRADE_CONFIRM))
-      } else if (accountUpgradeFlow === AccountUnificationFlows.EXCHANGE_MERGE) {
+      } else if (accountUpgradeFlow === AccountUnificationFlows.MOBILE_WALLET_MERGE) {
+        yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
+      } else if (
+        accountUpgradeFlow === AccountUnificationFlows.EXCHANGE_MERGE ||
+        accountUpgradeFlow === AccountUnificationFlows.MOBILE_WALLET_MERGE
+      ) {
         // call action to merge account
         yield put(actions.form.change('login', 'step', LoginSteps.UPGRADE_SUCCESS))
       } else {
@@ -647,6 +658,9 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  // this is the function we run when submitting the login form
+  const continueLoginProcess = function* (action) {}
+
   // triggers verification email for login
   const triggerWalletMagicLink = function* (action) {
     const formValues = yield select(selectors.form.getFormValues('login'))
@@ -726,6 +740,7 @@ export default ({ api, coreSagas, networks }) => {
   }
   return {
     authNabu,
+    continueLoginProcess,
     exchangeLogin,
     getUserGeoLocation,
     initializeLogin,

@@ -94,13 +94,13 @@ export const PhishingWarning = styled.div`
 export const BackArrowFormHeader = (props: {
   formValues: LoginFormType
   handleBackArrowClick: () => void
+  hideBackArrow?: boolean
   hideGuid?: boolean
-  showBackArrow?: boolean
 }) => {
   return (
     <>
       <TopRow>
-        {!props.showBackArrow && (
+        {!props.hideBackArrow && (
           <Icon
             cursor
             data-e2e='signupBack'

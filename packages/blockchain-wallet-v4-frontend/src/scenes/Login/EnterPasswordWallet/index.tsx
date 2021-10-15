@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
+import { is } from 'ramda'
 import { Field } from 'redux-form'
 
 import { Banner, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
@@ -24,7 +25,17 @@ import {
 const isSupportedBrowser = isBrowserSupported()
 
 const EnterPasswordWallet = (props: Props) => {
-  const { authType, busy, formValues, guid, invalid, loginError, password, submitting } = props
+  const {
+    authType,
+    busy,
+    formValues,
+    guid,
+    invalid,
+    isMobileViewLogin,
+    loginError,
+    password,
+    submitting
+  } = props
   const passwordError = loginError && loginError.toLowerCase().includes('wrong_wallet_password')
   const accountLocked =
     loginError &&
@@ -46,7 +57,12 @@ const EnterPasswordWallet = (props: Props) => {
 
   return (
     <>
-      <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} />
+      <BackArrowFormHeader
+        {...props}
+        handleBackArrowClick={handleBackArrowClick}
+        hideGuid={isMobileViewLogin}
+        hideBackArrow={isMobileViewLogin}
+      />
       <FormGroup>
         {!isSupportedBrowser && <UnsupportedBrowserWarning />}
         <FormItem>

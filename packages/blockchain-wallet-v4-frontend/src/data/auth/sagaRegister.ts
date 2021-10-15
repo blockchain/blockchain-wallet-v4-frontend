@@ -21,5 +21,6 @@ export default ({ api, coreSagas, networks }) => {
     // @ts-ignore
     yield takeLatest(actions.loginRoutine.type, authSagas.loginRoutineSaga)
     yield takeLatest(actions.exchangeLogin.type, authSagas.exchangeLogin)
+    yield takeLatest(actions.continueLoginProcess, authSagas.continueLoginProcess)
   }
 }
