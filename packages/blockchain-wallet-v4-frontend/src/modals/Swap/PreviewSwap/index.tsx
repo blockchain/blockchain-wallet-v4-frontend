@@ -76,6 +76,10 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
     }
   }
 
+  componentWillUnmount() {
+    this.props.formActions.clearSubmitErrors('previewSwap')
+  }
+
   handleSubmit = (e) => {
     e.preventDefault()
     this.props.swapActions.createOrder()
@@ -303,12 +307,16 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  formActions: bindActionCreators(actions.form, dispatch),
   swapActions: bindActionCreators(actions.components.swap, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-const enhance = compose(reduxForm<{}, Props>({ form: 'previewSwap' }), connector)
+const enhance = compose(
+  reduxForm<{}, Props>({ destroyOnUnmount: false, form: 'previewSwap' }),
+  connector
+)
 
 type State = { isActiveExchangeToolTip: boolean }
 type OwnProps = BaseProps & SuccessStateType & { handleClose: () => void }
