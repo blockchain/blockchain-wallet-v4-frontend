@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 import Bowser from 'bowser'
 import PropTypes from 'prop-types'
+import { isEmpty } from 'ramda'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
@@ -90,6 +91,7 @@ const FirstStep = (props) => {
     priorityFee,
     pristine,
     regularFee,
+    sendLimits,
     submitting,
     unconfirmedTx
   } = props
@@ -314,7 +316,9 @@ const FirstStep = (props) => {
       {disableRetryAttempt && <MinFeeForRetryInvalid />}
       {disableDueToLowEth && <LowEthWarningForErc20 coin={coin} />}
       {isFromCustody && !isMnemonicVerified ? <MnemonicRequiredForCustodySend /> : null}
-      {isFromCustody ? <UpgradeToGoldBanner /> : null}
+      {isFromCustody && !isEmpty(sendLimits) ? (
+        <UpgradeToGoldBanner limits={sendLimits} style={{ marginTop: '10px' }} />
+      ) : null}
       <SubmitFormGroup>
         <Button
           type='submit'

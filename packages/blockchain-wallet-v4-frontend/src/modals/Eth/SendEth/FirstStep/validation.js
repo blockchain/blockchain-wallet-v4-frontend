@@ -12,10 +12,12 @@ import {
   MinimumFeeMessage
 } from './validationMessages'
 
+// eslint-disable-next-line
 export const insufficientFunds = (value, allValues, props) => {
   return props.effectiveBalance > 0 ? undefined : <InsufficientFundsMessage />
 }
 
+// eslint-disable-next-line
 export const invalidAmount = (value, allValues, props) => {
   const valueEth = prop('coin', value)
   const valueWei = Exchange.convertCoinToCoin({
@@ -40,7 +42,9 @@ export const maximumAmount = (value, allValues, props) => {
     ) ? undefined : (
       <MaximumAmountMessage coin={props.coin} />
     )
-  } catch (e) {}
+  } catch (e) {
+    // do nothing
+  }
 }
 
 export const minimumFee = (value, allValues, props) =>

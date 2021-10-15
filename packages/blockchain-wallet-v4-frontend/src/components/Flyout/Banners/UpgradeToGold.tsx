@@ -4,8 +4,11 @@ import { connect, ConnectedProps } from 'react-redux'
 import { Dispatch } from 'redux'
 import styled from 'styled-components'
 
+import Currencies from '@core/exchange/currencies'
+import { formatFiat } from '@core/exchange/utils'
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { actions } from 'data'
+import { SeamlessLimits } from 'data/types'
 import { media } from 'services/styles'
 
 const Wrapper = styled.div`
@@ -75,49 +78,60 @@ const CloseLink = styled.div`
   cursor: pointer;
 `
 
-const UpgradeToGoldBanner = ({ onClose, verifyIdentity }: Props) => (
-  <Wrapper>
-    <Column>
-      <SpacedRow>
-        <PendingIconWrapper>
-          <Image name='tier-gold' size='32px' />
-        </PendingIconWrapper>
-        <Text size='16px' weight={600} color='grey900' style={{ flex: 1 }}>
-          <FormattedMessage
-            id='modals.send.banner.title'
-            defaultMessage='Uprade to Gold. Send More Crypto.'
-          />
-        </Text>
-        <CloseLink data-e2e='upgradeToGoldCloseButton' onClick={onClose}>
-          <Icon size='20px' color='grey400' name='close-circle' />
-        </CloseLink>
-      </SpacedRow>
+const UpgradeToGoldBanner = ({ limits, onClose, verifyIdentity }: Props) => {
+  const { available, suggestedUpgrade } = limits.globalLimit
+  return (
+    <Wrapper>
+      <Column>
+        <SpacedRow>
+          <PendingIconWrapper>
+            <Image name='tier-gold' size='32px' />
+          </PendingIconWrapper>
+          <Text size='16px' weight={600} color='grey900' style={{ flex: 1 }}>
+            <FormattedMessage
+              id='modals.send.banner.title'
+              defaultMessage='Uprade to Gold. Send More Crypto.'
+            />
+          </Text>
+          <CloseLink data-e2e='upgradeToGoldCloseButton' onClick={onClose}>
+            <Icon size='20px' color='grey400' name='close-circle' />
+          </CloseLink>
+        </SpacedRow>
 
-      <Row style={{ marginBottom: '8px' }}>
-        <Copy size='14px' color='grey900' weight={500}>
-          <FormattedMessage
-            id='modals.send.banner.description'
-            defaultMessage='Verify your ID now and unlock Gold level trading. Send up to {dayAmount} a day. Now, your limit is {yearAmount} annually.'
-            values={{ dayAmount: '$100K', yearAmount: '$2k' }}
-          />
-        </Copy>
-      </Row>
-      <Row>
-        <BannerButton
-          onClick={onClose}
-          data-e2e='notNow'
-          nature='empty-blue'
-          style={{ marginRight: '8px' }}
-        >
-          <FormattedMessage id='copy.not_now' defaultMessage='Not Now' />
-        </BannerButton>
-        <BannerButton onClick={verifyIdentity} data-e2e='continueToGold' nature='primary'>
-          <FormattedMessage id='modals.send.banner.get_started' defaultMessage='Get Stared' />
-        </BannerButton>
-      </Row>
-    </Column>
-  </Wrapper>
-)
+        <Row style={{ marginBottom: '8px' }}>
+          <Copy size='14px' color='grey900' weight={500}>
+            <FormattedMessage
+              id='modals.send.banner.description'
+              defaultMessage='Verify your ID now and unlock Gold level trading. Send up to {dayCurrencySymbol}{dayAmount} a day. Now, your limit is {yearCurrencySymbol}{yearAmount} annually.'
+              values={{
+                dayAmount: formatFiat(available.value),
+                dayCurrencySymbol: Currencies[available.currency].units[available.currency].symbol,
+                yearAmount: formatFiat(suggestedUpgrade.daily.available.value),
+                yearCurrencySymbol:
+                  Currencies[suggestedUpgrade.daily.available.currency].units[
+                    suggestedUpgrade.daily.available.currency
+                  ].symbol
+              }}
+            />
+          </Copy>
+        </Row>
+        <Row>
+          <BannerButton
+            onClick={onClose}
+            data-e2e='notNow'
+            nature='empty-blue'
+            style={{ marginRight: '8px' }}
+          >
+            <FormattedMessage id='copy.not_now' defaultMessage='Not Now' />
+          </BannerButton>
+          <BannerButton onClick={verifyIdentity} data-e2e='continueToGold' nature='primary'>
+            <FormattedMessage id='modals.send.banner.get_started' defaultMessage='Get Stared' />
+          </BannerButton>
+        </Row>
+      </Column>
+    </Wrapper>
+  )
+}
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   verifyIdentity: () =>
@@ -131,6 +145,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 })
 
 const connector = connect(undefined, mapDispatchToProps)
-type Props = ConnectedProps<typeof connector> & { onClose: () => void }
+type Props = ConnectedProps<typeof connector> & { limits: SeamlessLimits; onClose: () => void }
 
 export default connector(UpgradeToGoldBanner)
