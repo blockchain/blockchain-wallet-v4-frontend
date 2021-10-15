@@ -22,7 +22,7 @@ import { RootState } from 'data/rootReducer'
 import { required } from 'services/forms'
 
 import { amountToCrypto, amountToFiat, calcCompoundInterest, maxFiat } from '../conversions'
-import { CartrigeText, CustomOrangeCartridge } from '../WithdrawalForm/model'
+import { CustomOrangeCartridge } from '../WithdrawalForm/model'
 import { CurrencySuccessStateType, DataSuccessStateType, OwnProps as ParentOwnProps } from '.'
 import {
   AgreementContainer,
@@ -361,12 +361,10 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
         {showEDDWithdrawLimit && (
           <CustomOrangeCartridge>
             <Icon name='info' color='orange600' size='18px' style={{ marginRight: '12px' }} />
-            <CartrigeText>
-              <FormattedMessage
-                id='modals.interest.deposit.edd_need'
-                defaultMessage="Transferring this amount requires further verification. We'll ask you for those details in the next step."
-              />
-            </CartrigeText>
+            <FormattedMessage
+              id='modals.interest.deposit.edd_need'
+              defaultMessage="Transferring this amount requires further verification. We'll ask you for those details in the next step."
+            />
           </CustomOrangeCartridge>
         )}
         <CalculatorWrapper>
