@@ -26,6 +26,9 @@ const _getAllCoins = () => {
   return Object.keys(window.coins).filter((coin) => window.coins[coin].coinfig.type.name !== 'FIAT')
 }
 
+const _getErc20Coins = () =>
+  Object.keys(window.coins).filter((coin) => window.coins[coin].coinfig.type.name === 'ERC20')
+
 const _getFiatCoins = () => {
   return Object.keys(window.coins).filter((coin) => window.coins[coin].coinfig.type.name === 'FIAT')
 }
@@ -34,6 +37,7 @@ export const getCustodialCoins = memoize(_getCustodialCoins)
 export const getNonCustodialCoins = memoize(_getNonCustodialCoins)
 export const getFiatCoins = memoize(_getFiatCoins)
 export const getAllCoins = memoize(_getAllCoins)
+export const getErc20Coins = memoize(_getErc20Coins)
 
 export const getRates = (coin: string, state: RootState) => {
   const walletCurrency = selectors.settings.getCurrency(state).getOrElse('USD')
