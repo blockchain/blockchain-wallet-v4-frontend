@@ -272,12 +272,13 @@ export default ({ api, coreSagas, networks }) => {
       yield delay(2000)
       const response = yield call(api.pollForMagicLinkData, session)
       if (prop('wallet', response)) {
+        yield put(actions.auth.setMagicLinkInfo(response))
         return true
       }
     } catch (error) {
       return false
     }
-    return yield call(pollingSession, session, n - 1)
+    return yield call(pollingForMagicLinkDataSession, session, n - 1)
   }
 
   const login = function* (action) {
@@ -597,24 +598,18 @@ export default ({ api, coreSagas, networks }) => {
   const triggerWalletMagicLink = function* (action) {
     const formValues = yield select(selectors.form.getFormValues('login'))
     const { step } = formValues
-    const legacyMagicEmailLink = (yield select(
-      selectors.core.walletOptions.getFeatureLegacyMagicEmailLink
-    )).getOrElse(true)
     yield put(startSubmit('login'))
     try {
       yield put(actions.auth.triggerWalletMagicLinkLoading())
       const sessionToken = yield call(api.obtainSessionToken)
       const { captchaToken, email } = action.payload
       yield put(actions.session.saveSession(assoc(email, sessionToken, {})))
-      if (legacyMagicEmailLink) {
-        yield call(api.triggerWalletMagicLinkLegacy, email, captchaToken, sessionToken)
-      } else {
-        yield call(api.triggerWalletMagicLink, email, captchaToken, sessionToken)
-      }
+      yield call(api.triggerWalletMagicLink, email, captchaToken, sessionToken)
       if (step === LoginSteps.CHECK_EMAIL) {
         yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
       } else {
         yield put(actions.form.change('login', 'step', LoginSteps.CHECK_EMAIL))
+        yield call(pollingForMagicLinkDataSession, sessionToken)
       }
       yield put(actions.auth.triggerWalletMagicLinkSuccess())
     } catch (e) {
@@ -624,6 +619,12 @@ export default ({ api, coreSagas, networks }) => {
     } finally {
       yield put(stopSubmit('login'))
     }
+  }
+
+  const authorizeVerifyDevice = function* () {
+    // get guid, sessionId, and payload
+    // pass to api call to verify login
+    // if it fails,
   }
 
   const getUserGeoLocation = function* () {
@@ -677,6 +678,7 @@ export default ({ api, coreSagas, networks }) => {
     loginRoutineSaga,
     mobileLogin,
     pingManifestFile,
+    pollingForMagicLinkDataSession,
     pollingSession,
     register,
     resendSmsLoginCode,

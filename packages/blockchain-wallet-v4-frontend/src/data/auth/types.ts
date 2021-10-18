@@ -25,7 +25,8 @@ export enum LoginSteps {
   ENTER_EMAIL_GUID = 'ENTER_EMAIL_GUID',
   ENTER_PASSWORD = 'ENTER_PASSWORD',
   LOADING = 'LOADING',
-  VERIFICATION_MOBILE = 'VERIFICATION_MOBILE'
+  VERIFICATION_MOBILE = 'VERIFICATION_MOBILE',
+  VERIFY_MAGIC_LINK = 'VERIFY_MAGIC_LINK'
 }
 
 export enum RecoverSteps {
@@ -88,16 +89,6 @@ export type WalletDataFromMagicLink = {
     }
     session_id?: string
   }
-}
-
-// TODO: this is here to handle old version of magic link
-// Can be removed when it's completely deprecated
-export type WalletDataFromMagicLinkLegacy = {
-  email: string
-  email_code?: string
-  guid: string
-  is_mobile_setup: string | boolean
-  mobile_device_type: number | null
 }
 
 export type LoginErrorType =

@@ -112,6 +112,18 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl
     })
 
+  const authorizeVerifyDevice = (guid, fromSessionId, payload) =>
+    post({
+      data: {
+        fromSessionId,
+        guid,
+        method: 'authorize-verify-device',
+        payload
+      },
+      endPoint: '/wallet',
+      url: rootUrl
+    })
+
   const generateUUIDs = (count) =>
     get({
       data: { format: 'json', n: count },
@@ -148,20 +160,6 @@ export default ({ get, post, rootUrl }) => {
     })
 
   const remindGuid = (email, captchaToken, sessionToken) => {
-    post({
-      data: {
-        captcha: captchaToken,
-        email,
-        method: 'send-guid-reminder',
-        siteKey: window.CAPTCHA_KEY
-      },
-      endPoint: '/wallet',
-      sessionToken,
-      url: rootUrl
-    })
-  }
-
-  const triggerWalletMagicLinkLegacy = (email, captchaToken, sessionToken) => {
     post({
       data: {
         captcha: captchaToken,
@@ -274,6 +272,7 @@ export default ({ get, post, rootUrl }) => {
 
   return {
     authorizeLogin,
+    authorizeVerifyDevice,
     createPayload,
     createPinEntry,
     deauthorizeBrowser,
@@ -295,7 +294,6 @@ export default ({ get, post, rootUrl }) => {
     sendSecureChannel,
     triggerMnemonicViewedAlert,
     triggerNonCustodialSendAlert,
-    triggerWalletMagicLinkLegacy,
     updateMnemonicBackup,
     verifyEmailToken
   }

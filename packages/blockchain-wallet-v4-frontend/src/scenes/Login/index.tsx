@@ -3,9 +3,10 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector, getFormMeta, InjectedFormProps, reduxForm } from 'redux-form'
+import styled from 'styled-components'
 
 import { RemoteDataType } from '@core/types'
-import { Icon, Text } from 'blockchain-info-components'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
@@ -19,7 +20,14 @@ import EnterEmailOrGuid from './EnterEmailOrGuid'
 import EnterPassword from './EnterPassword'
 import { CreateAccount, LOGIN_FORM_NAME, PhishingWarning } from './model'
 import VerificationMobile from './VerificationMobile'
+import VerifyMagicLink from './VerifyMagicLink'
 
+// TODO: remove temp
+const ButtonRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 8px;
+`
 class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StateProps> {
   constructor(props) {
     super(props)
@@ -133,9 +141,10 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     return (
       <>
         <Text color='white' size='24px' weight={600} style={{ marginBottom: '24px' }}>
-          {step === LoginSteps.ENTER_PASSWORD ? (
+          {step === LoginSteps.ENTER_PASSWORD && (
             <FormattedMessage id='scenes.login.authorize' defaultMessage='Authorize login' />
-          ) : (
+          )}
+          {step === LoginSteps.ENTER_EMAIL_GUID && (
             <FormattedMessage id='scenes.login.welcome' defaultMessage='Welcome back!' />
           )}
         </Text>
@@ -195,6 +204,9 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
                     />
                   )
 
+                case LoginSteps.VERIFY_MAGIC_LINK:
+                  return <VerifyMagicLink {...this.props} {...loginProps} setStep={this.setStep} />
+
                 case LoginSteps.VERIFICATION_MOBILE:
                   return (
                     <VerificationMobile {...this.props} {...loginProps} setStep={this.setStep} />
@@ -235,6 +247,15 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
                 https://login.blockchain.com
               </Text>
             </PhishingWarning>
+            <ButtonRow>
+              <Button
+                data-e2e=''
+                nature='empty-blue'
+                onClick={() => this.setStep(LoginSteps.VERIFY_MAGIC_LINK)}
+              >
+                Auth Magic Link
+              </Button>
+            </ButtonRow>
           </>
         )}
       </>
