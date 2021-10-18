@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { Dispatch } from 'redux'
@@ -78,8 +78,18 @@ const CloseLink = styled.div`
   cursor: pointer;
 `
 
-const UpgradeToGoldBanner = ({ limits, onClose, verifyIdentity }: Props) => {
+const UpgradeToGoldBanner = ({ limits, verifyIdentity }: Props) => {
+  const [isBannerHidden, hideBanner] = useState(false)
   const { available, suggestedUpgrade } = limits.globalLimit
+
+  if (isBannerHidden) {
+    return null
+  }
+
+  const closeBanner = () => {
+    hideBanner(!isBannerHidden)
+  }
+
   return (
     <Wrapper>
       <Column>
@@ -93,7 +103,7 @@ const UpgradeToGoldBanner = ({ limits, onClose, verifyIdentity }: Props) => {
               defaultMessage='Uprade to Gold. Send More Crypto.'
             />
           </Text>
-          <CloseLink data-e2e='upgradeToGoldCloseButton' onClick={onClose}>
+          <CloseLink data-e2e='upgradeToGoldCloseButton' onClick={closeBanner}>
             <Icon size='20px' color='grey400' name='close-circle' />
           </CloseLink>
         </SpacedRow>
@@ -117,7 +127,7 @@ const UpgradeToGoldBanner = ({ limits, onClose, verifyIdentity }: Props) => {
         </Row>
         <Row>
           <BannerButton
-            onClick={onClose}
+            onClick={closeBanner}
             data-e2e='notNow'
             nature='empty-blue'
             style={{ marginRight: '8px' }}
@@ -145,6 +155,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 })
 
 const connector = connect(undefined, mapDispatchToProps)
-type Props = ConnectedProps<typeof connector> & { limits: SeamlessLimits; onClose: () => void }
+type Props = ConnectedProps<typeof connector> & { limits: SeamlessLimits }
 
 export default connector(UpgradeToGoldBanner)
