@@ -104,6 +104,14 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl
     })
 
+  const pollForMagicLinkData = (sessionToken) =>
+    get({
+      data: { format: 'json' },
+      endPoint: '/wallet/poll-for-wallet-info',
+      sessionToken,
+      url: rootUrl
+    })
+
   const generateUUIDs = (count) =>
     get({
       data: { format: 'json', n: count },
@@ -278,6 +286,7 @@ export default ({ get, post, rootUrl }) => {
     getPinValue,
     handle2faReset,
     obtainSessionToken,
+    pollForMagicLinkData,
     pollForSessionGUID,
     remindGuid,
     resendSmsLoginCode,

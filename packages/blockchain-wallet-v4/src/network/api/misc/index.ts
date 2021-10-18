@@ -47,6 +47,7 @@ export default ({ apiUrl, get, post }) => {
       data: {
         captcha: captchaToken,
         email,
+        fromSessionId: sessionToken,
         product: 'wallet',
         siteKey: window.CAPTCHA_KEY
       },

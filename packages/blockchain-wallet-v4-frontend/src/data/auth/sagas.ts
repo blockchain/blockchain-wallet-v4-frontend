@@ -264,6 +264,22 @@ export default ({ api, coreSagas, networks }) => {
     return yield call(pollingSession, session, n - 1)
   }
 
+  const pollingForMagicLinkDataSession = function* (session, n = 50) {
+    if (n === 0) {
+      return false
+    }
+    try {
+      yield delay(2000)
+      const response = yield call(api.pollForMagicLinkData, session)
+      if (prop('wallet', response)) {
+        return true
+      }
+    } catch (error) {
+      return false
+    }
+    return yield call(pollingSession, session, n - 1)
+  }
+
   const login = function* (action) {
     const { code, guid, password, sharedKey } = action.payload
     const formValues = yield select(selectors.form.getFormValues('login'))

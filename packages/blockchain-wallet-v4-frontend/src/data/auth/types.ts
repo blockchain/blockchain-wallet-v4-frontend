@@ -86,6 +86,7 @@ export type WalletDataFromMagicLink = {
       recovery_token?: string
       user_id?: string
     }
+    session_id?: string
   }
 }
 
