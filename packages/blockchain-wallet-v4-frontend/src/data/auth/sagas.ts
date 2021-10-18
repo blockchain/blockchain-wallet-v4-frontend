@@ -622,8 +622,25 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const authorizeVerifyDevice = function* () {
-    // get guid, sessionId, and payload
-    // pass to api call to verify login
+    const { wallet } = yield select(selectors.auth.getMagicLinkData)
+    const magicLinkDataEncoded = yield select(selectors.auth.getMagicLinkDataEncoded)
+    const session = yield select(selectors.session.getSession, wallet.guid, wallet.email)
+    try {
+      yield put(actions.auth.authorizeVerifyDeviceLoading())
+      const { error, success } = yield call(
+        api.authorizeVerifyDevice,
+        wallet.guid,
+        session,
+        magicLinkDataEncoded
+      )
+      if (success) {
+        yield put(actions.auth.authorizeVerifyDeviceSuccess(true))
+      } else {
+        yield put(actions.auth.authorizeVerifyDeviceFailure(error))
+      }
+    } catch (e) {
+      yield put(actions.auth.authorizeVerifyDeviceFailure(e))
+    }
     // if it fails,
   }
 
@@ -672,6 +689,7 @@ export default ({ api, coreSagas, networks }) => {
   }
   return {
     authNabu,
+    authorizeVerifyDevice,
     getUserGeoLocation,
     initializeLogin,
     login,

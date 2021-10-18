@@ -3,12 +3,14 @@ import { actions } from 'data'
 
 export type AuthStateType = {
   auth_type: number
+  authorizeVerifyDevice: RemoteDataType<any, any>
   firstLogin: boolean
   isAuthenticated: boolean
   isLoggingIn: boolean
   kycReset: undefined
   login: RemoteDataType<any, any>
   magicLinkData: null
+  magicLinkDataEncoded?: string
   manifestFile: null
   metadataRestore: RemoteDataType<any, any>
   mobileLoginStarted: boolean

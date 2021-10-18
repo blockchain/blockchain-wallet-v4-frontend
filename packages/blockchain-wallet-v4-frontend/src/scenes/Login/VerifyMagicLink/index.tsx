@@ -56,7 +56,7 @@ const VerifyMagicLink = (props: Props) => {
         <ApproveRejectButtons
           data-e2e='approveLogin'
           nature='warning'
-          // onClick={props.onAccept}
+          onClick={() => props.authActions.authorizeVerifyDevice()}
         >
           <FormattedMessage id='scenes.authorizelogin.accept' defaultMessage='Accept' />
         </ApproveRejectButtons>

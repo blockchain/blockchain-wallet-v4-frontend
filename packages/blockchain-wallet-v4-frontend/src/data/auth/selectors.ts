@@ -18,5 +18,6 @@ export const getKycResetStatus = path(['auth', 'kycReset'])
 export const getAccountReset = path(['auth', 'resetAccount'])
 export const getMagicLinkData = (state: RootState): WalletDataFromMagicLink | null =>
   state.auth.magicLinkData
+export const getMagicLinkDataEncoded = (state: RootState) => state.auth.magicLinkDataEncoded
 export const getUserGeoData = path(['auth', 'userGeoData'])
 export const getManifest = path(['auth', 'manifestFile'])
