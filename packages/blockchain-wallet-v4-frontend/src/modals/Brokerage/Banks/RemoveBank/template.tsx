@@ -40,11 +40,10 @@ const LeftTopCol = styled.div`
 
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
-const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+const Template: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const bankAccountName =
     props.account && 'details' in props.account
-      ? `${props.account.details?.bankName} ${props.account.details
-          ?.accountNumber || ''}`
+      ? `${props.account.details?.bankName} ${props.account.details?.accountNumber || ''}`
       : `bank account`
 
   return (
@@ -82,18 +81,8 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           </CloseContainer>
         )}
         <CustomForm onSubmit={props.handleSubmit}>
-          <Icon
-            name='alert-filled'
-            color='orange400'
-            size='52px'
-            style={{ display: 'block' }}
-          />
-          <Text
-            color='grey800'
-            size='24px'
-            weight={600}
-            style={{ marginTop: '32px' }}
-          >
+          <Icon name='alert-filled' color='orange400' size='52px' style={{ display: 'block' }} />
+          <Text color='grey800' size='24px' weight={600} style={{ marginTop: '32px' }}>
             <FormattedMessage
               id='modals.simplebuy.cancelorder.areyousure'
               defaultMessage='Are you sure?'
@@ -103,7 +92,7 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             color='grey600'
             size='14px'
             weight={500}
-            style={{ marginTop: '12px', marginBottom: '24px' }}
+            style={{ marginBottom: '24px', marginTop: '12px' }}
           >
             <FormattedMessage
               id='modals.brokerage.remove_bank.description'

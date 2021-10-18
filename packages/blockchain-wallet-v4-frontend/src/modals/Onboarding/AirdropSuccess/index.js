@@ -22,7 +22,7 @@ const AirdropSuccessModalHeader = styled(ModalHeader)`
   position: absolute;
   border: 0;
   > span {
-    color: ${props => props.theme.grey000};
+    color: ${(props) => props.theme.grey000};
   }
 `
 const Body = styled.div`
@@ -83,12 +83,7 @@ class AirdropSuccess extends React.PureComponent {
       `I just enrolled in @blockchain's Airdrop Program so that I'm ready for their next %23crypto airdrop. Click below to learn more 👇 ${link}`
     const facebookLink = `https://www.facebook.com/sharer/sharer.php?u=${link}`
     return (
-      <Modal
-        size='small'
-        position={position}
-        total={total}
-        dataE2e='infoModalAirdropSuccess'
-      >
+      <Modal size='small' position={position} total={total} dataE2e='infoModalAirdropSuccess'>
         <AirdropSuccessModalHeader onClose={close} />
         <AirdropImage width='100%' name='airdrop-enrolled' />
         <Body>
@@ -109,43 +104,27 @@ class AirdropSuccess extends React.PureComponent {
           <Link href={tweetLink} rel='noopener noreferrer' target='_blank'>
             <FooterButton nature='primary' size='16px'>
               <FooterIcon name='twitter' size='18px' />
-              <FormattedMessage
-                defaultMessage='Tweet'
-                id='modals.airdropsuccess.tweet'
-              />
+              <FormattedMessage defaultMessage='Tweet' id='modals.airdropsuccess.tweet' />
             </FooterButton>
           </Link>
           <Link href={facebookLink} rel='noopener noreferrer' target='_blank'>
             <FooterButton nature='secondary' size='16px'>
               <FooterIcon name='facebook' size='18px' />
-              <FormattedMessage
-                defaultMessage='Share'
-                id='modals.airdropsuccess.share'
-              />
+              <FormattedMessage defaultMessage='Share' id='modals.airdropsuccess.share' />
             </FooterButton>
           </Link>
           <CopyToClipBoard text={link} onCopy={this.handleCopy}>
             {isLinkCopied ? (
               <TooltipHost id='copied'>
-                <FooterButton
-                  nature='purple'
-                  size='16px'
-                  onMouseLeave={this.hideCopied}
-                >
+                <FooterButton nature='purple' size='16px' onMouseLeave={this.hideCopied}>
                   <FooterIcon name='copy' size='12px' />
-                  <FormattedMessage
-                    defaultMessage='Copy'
-                    id='modals.airdropsuccess.copy'
-                  />
+                  <FormattedMessage defaultMessage='Copy' id='modals.airdropsuccess.copy' />
                 </FooterButton>
               </TooltipHost>
             ) : (
               <FooterButton nature='purple' size='16px'>
                 <FooterIcon name='copy' size='12px' />
-                <FormattedMessage
-                  defaultMessage='Copy'
-                  id='modals.airdropsuccess.copy'
-                />
+                <FormattedMessage defaultMessage='Copy' id='modals.airdropsuccess.copy' />
               </FooterButton>
             )}
           </CopyToClipBoard>
@@ -155,13 +134,10 @@ class AirdropSuccess extends React.PureComponent {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.onboarding, dispatch)
 })
 
-const enhance = compose(
-  modalEnhancer('AIRDROP_SUCCESS_MODAL'),
-  connect(null, mapDispatchToProps)
-)
+const enhance = compose(modalEnhancer('AIRDROP_SUCCESS_MODAL'), connect(null, mapDispatchToProps))
 
 export default enhance(AirdropSuccess)

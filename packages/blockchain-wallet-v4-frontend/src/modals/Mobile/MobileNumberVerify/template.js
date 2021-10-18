@@ -33,16 +33,8 @@ const OptionsText = styled(Text)`
     margin-right: 4px;
   }
 `
-const MobileNumberVerify = props => {
-  const {
-    close,
-    closeAll,
-    invalid,
-    position,
-    submitting,
-    total,
-    ...rest
-  } = props
+const MobileNumberVerify = (props) => {
+  const { close, closeAll, invalid, position, submitting, total, ...rest } = props
   const { handleChange, handleResend, handleSubmit } = rest
 
   return (
@@ -77,15 +69,9 @@ const MobileNumberVerify = props => {
               defaultMessage="Didn't get the code?"
             />
             <Link size='14px' weight={500} onClick={handleResend}>
-              <FormattedMessage
-                id='modals.mobilenumberverify.resend'
-                defaultMessage='Resend'
-              />
+              <FormattedMessage id='modals.mobilenumberverify.resend' defaultMessage='Resend' />
             </Link>
-            <FormattedMessage
-              id='modals.mobilenumberverify.getcode2'
-              defaultMessage='or'
-            />
+            <FormattedMessage id='modals.mobilenumberverify.getcode2' defaultMessage='or' />
             <Link size='14px' weight={500} capitalize onClick={handleChange}>
               <FormattedMessage
                 id='modals.mobilenumberverify.change'
@@ -98,16 +84,8 @@ const MobileNumberVerify = props => {
           <Link size='13px' weight={500} onClick={close}>
             <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
           </Link>
-          <Button
-            type='submit'
-            nature='primary'
-            capitalize
-            disabled={submitting || invalid}
-          >
-            <FormattedMessage
-              id='modals.mobilenumberverify.verify'
-              defaultMessage='Verify'
-            />
+          <Button type='submit' nature='primary' capitalize disabled={submitting || invalid}>
+            <FormattedMessage id='modals.mobilenumberverify.verify' defaultMessage='Verify' />
           </Button>
         </ModalFooter>
       </Form>
@@ -116,10 +94,10 @@ const MobileNumberVerify = props => {
 }
 
 MobileNumberVerify.propTypes = {
-  mobileNumber: PropTypes.string.isRequired,
-  onSubmit: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired,
-  handleResend: PropTypes.func.isRequired
+  handleResend: PropTypes.func.isRequired,
+  mobileNumber: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func.isRequired
 }
 
 export default reduxForm({ form: 'mobileNumberVerify' })(MobileNumberVerify)

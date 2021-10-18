@@ -7,15 +7,9 @@ import sagas from './sagas'
 export default () => {
   const bchTransactionsSagas = sagas()
 
-  return function * btcTransactionsSaga() {
-    yield takeEvery(
-      AT.BCH_TRANSACTIONS_INITIALIZED,
-      bchTransactionsSagas.initialized
-    )
-    yield takeLatest(
-      AT.BCH_TRANSACTIONS_LOAD_MORE,
-      bchTransactionsSagas.loadMore
-    )
+  return function* btcTransactionsSaga() {
+    yield takeEvery(AT.BCH_TRANSACTIONS_INITIALIZED, bchTransactionsSagas.initialized)
+    yield takeLatest(AT.BCH_TRANSACTIONS_LOAD_MORE, bchTransactionsSagas.loadMore)
     yield takeEvery(actionTypes.form.CHANGE, bchTransactionsSagas.formChanged)
   }
 }

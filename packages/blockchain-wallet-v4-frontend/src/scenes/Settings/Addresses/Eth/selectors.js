@@ -3,9 +3,7 @@ import { selectors } from 'data'
 
 export const getData = (state, props) => {
   const ethKvStoreSelectors = selectors.core.kvStore.eth
-  const legacyEthAddr = ethKvStoreSelectors
-    .getLegacyAccountAddress(state)
-    .getOrElse('')
+  const legacyEthAddr = ethKvStoreSelectors.getLegacyAccountAddress(state).getOrElse('')
 
   const legacyAddressInfo = {
     addr: legacyEthAddr,

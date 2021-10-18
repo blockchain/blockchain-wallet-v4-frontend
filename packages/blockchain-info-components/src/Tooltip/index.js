@@ -1,6 +1,7 @@
 import React from 'react'
 
 import Tooltip from './template'
+
 export { default as TooltipHost } from './TooltipHost'
 export { default as TooltipIcon } from './TooltipIcon'
 

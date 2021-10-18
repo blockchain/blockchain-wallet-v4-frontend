@@ -9,13 +9,7 @@ import SecondStep from './template'
 
 class SecondStepContainer extends React.PureComponent {
   render() {
-    const {
-      address,
-      closeAll,
-      message,
-      signMessageActions,
-      signedMessage
-    } = this.props
+    const { address, closeAll, message, signMessageActions, signedMessage } = this.props
 
     return (
       <SecondStep
@@ -29,16 +23,13 @@ class SecondStepContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   message: formValueSelector('signMessage')(state, 'message'),
   signedMessage: selectors.components.signMessage.getSignedMessage(state)
 })
 
-const mapDispatchToProps = dispatch => ({
-  signMessageActions: bindActionCreators(
-    actions.components.signMessage,
-    dispatch
-  )
+const mapDispatchToProps = (dispatch) => ({
+  signMessageActions: bindActionCreators(actions.components.signMessage, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SecondStepContainer)

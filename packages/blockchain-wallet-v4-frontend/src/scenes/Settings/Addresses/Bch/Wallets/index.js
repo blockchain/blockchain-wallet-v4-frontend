@@ -17,14 +17,8 @@ class BchWalletsContainer extends React.Component {
   }
 
   render() {
-    const {
-      addressesBchActions,
-      data,
-      kvStoreBchActions,
-      modalsActions,
-      search,
-      ...rest
-    } = this.props
+    const { addressesBchActions, data, kvStoreBchActions, modalsActions, search, ...rest } =
+      this.props
 
     const onEditBchAccountLabel = (account) => {
       addressesBchActions.editBchAccountLabel(account.index, account.label)

@@ -15,7 +15,7 @@ const Error = styled(Text)`
   position: absolute;
   display: block;
   height: 15px;
-  top: ${props => (props.errorBottom ? '40px' : '-20px')};
+  top: ${(props) => (props.errorBottom ? '40px' : '-20px')};
   right: 0;
 `
 const getErrorState = ({ invalid, touched }) => {
@@ -60,22 +60,12 @@ class AutosizeTextBox extends React.Component {
           data-e2e={this.props['data-e2e']}
         />
         {touched && error && !hideError && (
-          <Error
-            size='12px'
-            weight={500}
-            color='error'
-            errorBottom={errorBottom}
-          >
+          <Error size='12px' weight={500} color='error' errorBottom={errorBottom}>
             {error}
           </Error>
         )}
         {touched && !error && warning && (
-          <Error
-            size='12px'
-            weight={500}
-            color='error'
-            errorBottom={errorBottom}
-          >
+          <Error size='12px' weight={500} color='error' errorBottom={errorBottom}>
             {warning}
           </Error>
         )}

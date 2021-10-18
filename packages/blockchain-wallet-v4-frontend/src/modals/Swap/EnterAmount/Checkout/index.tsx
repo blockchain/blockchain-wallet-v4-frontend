@@ -4,10 +4,10 @@ import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Inte
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, Icon, Text } from 'blockchain-info-components'
 import { Exchange, Remote } from '@core'
 import Currencies from '@core/exchange/currencies'
 import { coinToString, fiatToString } from '@core/exchange/utils'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'

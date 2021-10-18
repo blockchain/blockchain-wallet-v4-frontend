@@ -2,13 +2,13 @@ import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Icon, Image, Text } from 'blockchain-info-components'
 import {
   SBPaymentMethodsType,
   SBPaymentMethodType,
   SBPaymentTypes,
   WalletFiatType
 } from '@core/types'
+import { Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import {
   AddBankStepType,

@@ -14,7 +14,7 @@ const Header = styled(ModalHeader)`
   }
 `
 
-const LockboxSetup = props => {
+const LockboxSetup = (props) => {
   const { children, onClose, position, title, total } = props
 
   return (
@@ -26,9 +26,9 @@ const LockboxSetup = props => {
 }
 
 LockboxSetup.propTypes = {
+  onClose: PropTypes.func.isRequired,
   position: PropTypes.number.isRequired,
-  total: PropTypes.number.isRequired,
-  onClose: PropTypes.func.isRequired
+  total: PropTypes.number.isRequired
 }
 
 export default LockboxSetup

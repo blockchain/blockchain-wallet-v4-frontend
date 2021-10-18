@@ -3,13 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import {
-  Button,
-  HeartbeatLoader,
-  Icon,
-  Image,
-  Text
-} from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { getBankLogoImageName } from 'services/images'
@@ -42,8 +36,8 @@ const CurrencyContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 16px 0 16px 40px;
-  border-top: 1px solid ${props => props.theme.grey000};
-  border-bottom: 1px solid ${props => props.theme.grey000};
+  border-top: 1px solid ${(props) => props.theme.grey000};
+  border-bottom: 1px solid ${(props) => props.theme.grey000};
 `
 const BankIconWrapper = styled.div`
   justify-content: left;
@@ -57,13 +51,12 @@ export const BankDetails = styled.div`
 
 type Props = OwnProps & LinkDispatchPropsType & LinkStatePropsType
 
-const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+const Template: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const { account, walletCurrency } = props
 
   const bankAccountName =
     account && 'details' in account ? (
-      `${account.details?.bankName || ''} ${account.details?.accountNumber ||
-        ''}`
+      `${account.details?.bankName || ''} ${account.details?.accountNumber || ''}`
     ) : (
       <FormattedMessage id='copy.bank_account' defaultMessage='Bank Account' />
     )
@@ -85,26 +78,16 @@ const Template: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         </CloseContainer>
 
         <BankIconWrapper>
-          {accountDetails && (
-            <Image name={getBankLogoImageName(accountDetails.bankName)} />
-          )}
+          {accountDetails && <Image name={getBankLogoImageName(accountDetails.bankName)} />}
         </BankIconWrapper>
         <BankDetails>
           <Text size='24px' color='grey900' weight={600}>
             {bankAccountName}
           </Text>
           <Text size='24px' color='grey600' weight={500}>
-            {(accountDetails &&
-              accountDetails.bankAccountType?.toLowerCase()) ||
-              ''}{' '}
-            <FormattedMessage
-              id='scenes.settings.general.account'
-              defaultMessage='account'
-            />{' '}
-            {(account &&
-              'details' in account &&
-              account.details.accountNumber) ||
-              ''}
+            {(accountDetails && accountDetails.bankAccountType?.toLowerCase()) || ''}{' '}
+            <FormattedMessage id='scenes.settings.general.account' defaultMessage='account' />{' '}
+            {(account && 'details' in account && account.details.accountNumber) || ''}
           </Text>
         </BankDetails>
       </FlyoutWrapper>

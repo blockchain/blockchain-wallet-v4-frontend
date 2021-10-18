@@ -29,11 +29,7 @@ class CustomizeStepContainer extends React.PureComponent {
   render() {
     return (
       <Wrapper>
-        <Image
-          style={{ marginBottom: '18px' }}
-          name='lockbox-onboard-customize'
-          width='100%'
-        />
+        <Image style={{ marginBottom: '18px' }} name='lockbox-onboard-customize' width='100%' />
         <IntroText size='13px' weight={400}>
           <FormattedMessage
             id='modals.lockboxsetup.customizestep.title'
@@ -46,7 +42,7 @@ class CustomizeStepContainer extends React.PureComponent {
             defaultMessage="Don't worry you can always change them later."
           />
         </ReminderText>
-        <Button fullwidth onClick={this.onNextStep} nature={'primary'}>
+        <Button fullwidth onClick={this.onNextStep} nature='primary'>
           <FormattedMessage
             id='modals.lockboxsetup.customizestep.addapps'
             defaultMessage='Add Apps'
@@ -57,7 +53,7 @@ class CustomizeStepContainer extends React.PureComponent {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 

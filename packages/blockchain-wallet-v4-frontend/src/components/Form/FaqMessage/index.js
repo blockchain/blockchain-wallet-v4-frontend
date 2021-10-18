@@ -5,7 +5,7 @@ import { Icon, Text } from 'blockchain-info-components'
 
 const Container = styled.div`
   box-sizing: border-box;
-  border: 1px solid ${props => props.theme.grey200};
+  border: 1px solid ${(props) => props.theme.grey200};
   padding: 20px;
   max-width: 300px;
 `
@@ -21,7 +21,7 @@ const Message = styled(Text)`
   font-weight: 400;
 `
 const FaqIcon = styled(Icon)`
-  color: ${props => props.theme.blue900};
+  color: ${(props) => props.theme.blue900};
   font-size: 24px;
   display: flex;
   width: 24px;

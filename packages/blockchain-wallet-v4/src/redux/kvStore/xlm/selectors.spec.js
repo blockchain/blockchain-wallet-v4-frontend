@@ -6,14 +6,14 @@ import * as selectors from './selectors'
 describe('kvstore stellar selectors', () => {
   const accounts = [
     {
+      label: 'first account',
       publicKey: 'GDRXE2BQUC3AZNPVFSCEZ76NJ3WWL25FYFK6RGZGIEKWE4SOOHSUJUJ6',
-      secret: 'SBGWSG6BTNCKCOB3DIFBGCVMUPQFYPA2G4O34RMTB343OYPXU5DJDVMN',
-      label: 'first account'
+      secret: 'SBGWSG6BTNCKCOB3DIFBGCVMUPQFYPA2G4O34RMTB343OYPXU5DJDVMN'
     },
     {
+      label: 'second account',
       publicKey: 'GAVXVW5MCK7Q66RIBWZZKZEDQTRXWCZUP4DIIFXCCENGW2P6W4OA34RH',
-      secret: 'SAKS7I2PNDBE5SJSUSU2XLJ7K5XJ3V3K4UDFAHMSBQYPOKE247VHAGDB',
-      label: 'second account'
+      secret: 'SAKS7I2PNDBE5SJSUSU2XLJ7K5XJ3V3K4UDFAHMSBQYPOKE247VHAGDB'
     }
   ]
 
@@ -24,8 +24,8 @@ describe('kvstore stellar selectors', () => {
 
   const ethMetadata = {
     value: {
-      default_account_idx: defaultIdx,
       accounts,
+      default_account_idx: defaultIdx,
       tx_notes: {
         [txNoteHash]: txNote
       }
@@ -50,9 +50,7 @@ describe('kvstore stellar selectors', () => {
 
   it('getDefaultAccountIndex should return success of default account index', () => {
     const expectedResult = Remote.Success(defaultIdx)
-    expect(selectors.getDefaultAccountIndex(successState)).toEqual(
-      expectedResult
-    )
+    expect(selectors.getDefaultAccountIndex(successState)).toEqual(expectedResult)
   })
 
   it('getDefaultAccount should return success of default account', () => {
@@ -73,24 +71,18 @@ describe('kvstore stellar selectors', () => {
   it('getAccount should return success of account', () => {
     const account = accounts[0]
     const expectedResult = Remote.Success(account)
-    expect(selectors.getAccount(successState, account.publicKey)).toEqual(
-      expectedResult
-    )
+    expect(selectors.getAccount(successState, account.publicKey)).toEqual(expectedResult)
   })
 
   it('getAccountLabel should return success of account label', () => {
     const account = accounts[0]
     const expectedResult = Remote.Success(account.label)
-    expect(selectors.getAccountLabel(successState, account.publicKey)).toEqual(
-      expectedResult
-    )
+    expect(selectors.getAccountLabel(successState, account.publicKey)).toEqual(expectedResult)
   })
 
   it('getXlmTxNote should return success of correct xlm tx note', () => {
     const expectedResult = Remote.Success(txNote)
-    expect(selectors.getXlmTxNote(successState, txNoteHash)).toEqual(
-      expectedResult
-    )
+    expect(selectors.getXlmTxNote(successState, txNoteHash)).toEqual(expectedResult)
   })
 
   it('getContext should return success of all xlm addresses', () => {

@@ -29,38 +29,30 @@ class SecurityCenterContainer extends React.PureComponent {
       <Wrapper>
         <Menu location={this.props.location} />
         {this.props.data.cata({
-          Success: progress => (
+          Failure: () => <div />,
+          Loading: () => <div />,
+          NotAsked: () => <div />,
+          Success: (progress) => (
             <SecurityCenter progress={progress} {...this.props}>
               <Switch>
-                <Route
-                  path='/security-center/basic'
-                  component={BasicSecurity}
-                />
-                <Route
-                  path='/security-center/advanced'
-                  component={AdvancedSecurity}
-                />
+                <Route path='/security-center/basic' component={BasicSecurity} />
+                <Route path='/security-center/advanced' component={AdvancedSecurity} />
                 <Redirect from='/security-center' to='/security-center/basic' />
               </Switch>
             </SecurityCenter>
-          ),
-          Failure: () => <div />,
-          Loading: () => <div />,
-          NotAsked: () => <div />
+          )
         })}
       </Wrapper>
     )
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(SecurityCenterContainer)
-)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SecurityCenterContainer))

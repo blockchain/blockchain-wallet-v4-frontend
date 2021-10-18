@@ -21,41 +21,32 @@ const ClickableText = styled(Text)`
 `
 
 const Success = ({ archivedAddresses, onDelete, onToggleArchived, search }) => {
-  const isMatch = address =>
-    !search || address.addr.toLowerCase().indexOf(search) > -1
-  const archivedAddressesTableRows = filter(isMatch, archivedAddresses).map(
-    address => (
-      <AddressRow
-        key={address.addr}
-        archived
-        address={address}
-        dataE2e='btcArchivedAddressRow'
-        coin='BTC'
-        renderOptions={() => [
-          <ClickableText
-            size='small'
-            onClick={() => onToggleArchived(address)}
-            data-e2e='btcUnarchivedAddressLink'
-          >
-            <FormattedMessage
-              id='scenes.settings.addresses.unarchive'
-              defaultMessage='Unarchive'
-            />
-          </ClickableText>,
-          <ClickableText
-            size='small'
-            onClick={() => onDelete(address)}
-            data-e2e='btcDeleteArchivedAddressLink'
-          >
-            <FormattedMessage
-              id='scenes.settings.addresses.delete_address'
-              defaultMessage='Delete'
-            />
-          </ClickableText>
-        ]}
-      />
-    )
-  )
+  const isMatch = (address) => !search || address.addr.toLowerCase().indexOf(search) > -1
+  const archivedAddressesTableRows = filter(isMatch, archivedAddresses).map((address) => (
+    <AddressRow
+      key={address.addr}
+      archived
+      address={address}
+      dataE2e='btcArchivedAddressRow'
+      coin='BTC'
+      renderOptions={() => [
+        <ClickableText
+          size='small'
+          onClick={() => onToggleArchived(address)}
+          data-e2e='btcUnarchivedAddressLink'
+        >
+          <FormattedMessage id='scenes.settings.addresses.unarchive' defaultMessage='Unarchive' />
+        </ClickableText>,
+        <ClickableText
+          size='small'
+          onClick={() => onDelete(address)}
+          data-e2e='btcDeleteArchivedAddressLink'
+        >
+          <FormattedMessage id='scenes.settings.addresses.delete_address' defaultMessage='Delete' />
+        </ClickableText>
+      ]}
+    />
+  ))
 
   return archivedAddressesTableRows.length > 0 ? (
     <Wrapper>
@@ -83,10 +74,7 @@ const Success = ({ archivedAddresses, onDelete, onToggleArchived, search }) => {
               <FormattedMessage id='copy.balance' defaultMessage='Balance' />
             </Text>
           </TableCell>
-          <TableCell
-            width='20%'
-            style={{ display: 'flex', justifyContent: 'flex-end' }}
-          >
+          <TableCell width='20%' style={{ display: 'flex', justifyContent: 'flex-end' }}>
             <Text size='13px' weight={500}>
               <FormattedMessage
                 id='scenes.settings.addresses.btc.archivedaddresses.actions'

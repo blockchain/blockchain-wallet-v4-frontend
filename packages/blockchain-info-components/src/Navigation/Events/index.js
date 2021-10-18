@@ -1,10 +1,7 @@
 import React from 'react'
 
 function _trackEvent(eventName, isButton, props) {
-  let properties = Object.assign({}, props || {}, {
-    category: isButton ? 'button' : 'link',
-    label: eventName
-  })
+  const properties = { ...(props || {}), category: isButton ? 'button' : 'link', label: eventName }
 
   if (typeof window !== 'undefined' && window.analytics) {
     try {
@@ -21,17 +18,8 @@ export function trackButtonEvent(eventName, props) {
   return _trackEvent(eventName, true, props)
 }
 
-export const LinkEvent = props => {
-  const {
-    children,
-    download,
-    event,
-    eventProps,
-    href,
-    rel,
-    target,
-    ...rest
-  } = props
+export const LinkEvent = (props) => {
+  const { children, download, event, eventProps, href, rel, target, ...rest } = props
   return (
     <a
       href={href}

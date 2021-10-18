@@ -14,12 +14,12 @@ class TwoStepVerificationContainer extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      authName: '',
-      pulse: false,
-      verifyToggled: false,
-      editing: false,
       authMethod: '',
-      success: false
+      authName: '',
+      editing: false,
+      pulse: false,
+      success: false,
+      verifyToggled: false
     }
 
     this.handleClick = this.handleClick.bind(this)
@@ -70,8 +70,8 @@ class TwoStepVerificationContainer extends React.PureComponent {
       })
     } else {
       this.setState({
-        verifyToggled: !this.state.verifyToggled,
-        editing: true
+        editing: true,
+        verifyToggled: !this.state.verifyToggled
       })
     }
   }
@@ -121,6 +121,9 @@ class TwoStepVerificationContainer extends React.PureComponent {
     const { data, ...rest } = this.props
 
     return data.cata({
+      Failure: (message) => <Error {...rest} message={message} />,
+      Loading: () => <Loading {...rest} />,
+      NotAsked: () => <Loading {...rest} />,
       Success: (value) => (
         <Success
           {...rest}
@@ -141,10 +144,7 @@ class TwoStepVerificationContainer extends React.PureComponent {
             this.handleGoBack()
           }}
         />
-      ),
-      Failure: (message) => <Error {...rest} message={message} />,
-      Loading: () => <Loading {...rest} />,
-      NotAsked: () => <Loading {...rest} />
+      )
     })
   }
 }
@@ -155,10 +155,10 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  settingsActions: bindActionCreators(actions.modules.settings, dispatch),
-  securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  modalActions: bindActionCreators(actions.modals, dispatch)
+  modalActions: bindActionCreators(actions.modals, dispatch),
+  securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch),
+  settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(TwoStepVerificationContainer)

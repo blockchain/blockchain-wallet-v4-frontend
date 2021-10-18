@@ -1,5 +1,6 @@
 import { lift } from 'ramda'
 
+import { Remote } from '@core'
 import { getData as getBchAddressData } from 'components/Form/SelectBoxBchAddresses/selectors'
 import { getData as getBtcAddressData } from 'components/Form/SelectBoxBtcAddresses/selectors'
 import { getData as getCoinAddressData } from 'components/Form/SelectBoxCoinAddresses/selectors'
@@ -8,7 +9,6 @@ import {
   getEthData as getEthAddressData
 } from 'components/Form/SelectBoxEthAddresses/selectors'
 import { getData as getXlmAddressData } from 'components/Form/SelectBoxXlmAddresses/selectors'
-import { Remote } from '@core'
 import { selectors } from 'data'
 
 import { OwnProps } from '.'

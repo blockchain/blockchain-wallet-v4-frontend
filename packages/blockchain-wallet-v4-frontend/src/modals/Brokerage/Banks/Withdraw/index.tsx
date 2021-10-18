@@ -2,11 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { compose } from 'redux'
 
-import {
-  BeneficiaryType,
-  WalletFiatType,
-  WithdrawResponseType
-} from '@core/types'
+import { BeneficiaryType, WalletFiatType, WithdrawResponseType } from '@core/types'
 import DataError from 'components/DataError'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { selectors } from 'data'

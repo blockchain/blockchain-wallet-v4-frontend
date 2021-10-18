@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
 
-import { OPEN_BTC_TIMEOUT } from './../model'
+import { OPEN_BTC_TIMEOUT } from '../model'
 import PairDeviceStep from './template'
 
 class PairDeviceStepContainer extends React.PureComponent {
@@ -61,21 +61,16 @@ PairDeviceStepContainer.propTypes = {
   supportLink: PropTypes.string.isRequired
 }
 
-const mapStateToProps = state => ({
-  showBtcWarning: selectors.components.lockbox.getNewDeviceShowBtcWarning(
-    state
-  ),
+const mapStateToProps = (state) => ({
   deviceType: selectors.components.lockbox.getNewDeviceType(state),
-  setupType: selectors.components.lockbox.getNewDeviceSetupType(state)
+  setupType: selectors.components.lockbox.getNewDeviceSetupType(state),
+  showBtcWarning: selectors.components.lockbox.getNewDeviceShowBtcWarning(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PairDeviceStepContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(PairDeviceStepContainer)

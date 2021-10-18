@@ -4,18 +4,15 @@ import * as StellarSdk from 'stellar-sdk'
 
 import { getKeyPair } from '../utils/xlm'
 
-export const sign = function * ({ transaction }, mnemonic) {
+export const sign = function* ({ transaction }, mnemonic) {
   const keyPair = yield call(getKeyPair, mnemonic)
   transaction.sign(keyPair)
   return transaction
 }
 
-export const signWithLockbox = function * (transport, transaction, scrambleKey) {
+export const signWithLockbox = function* (transport, transaction, scrambleKey) {
   const str = new Str(transport, scrambleKey)
-  const { signature } = yield str.signTransaction(
-    "44'/148'/0'",
-    transaction.signatureBase()
-  )
+  const { signature } = yield str.signTransaction("44'/148'/0'", transaction.signatureBase())
   const keyPair = StellarSdk.Keypair.fromPublicKey(transaction.source)
   const hint = keyPair.signatureHint()
   const decorated = new StellarSdk.xdr.DecoratedSignature({ hint, signature })

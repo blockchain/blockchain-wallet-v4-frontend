@@ -8,13 +8,13 @@ export default {
       currency: 'SEK',
       decimal_digits: 0,
       rate: '1',
-      symbol: '¢kr',
+      symbol: '¢kr'
     },
     SEK: {
       currency: 'SEK',
       decimal_digits: 2,
       rate: '100',
-      symbol: 'kr',
-    },
-  },
+      symbol: 'kr'
+    }
+  }
 }

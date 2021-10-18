@@ -7,7 +7,7 @@ const Wrapper = styled.div`
   display: flex;
   width: 100%;
   padding: 10px 40px;
-  border-bottom: 1px solid ${props => props.theme.grey000};
+  border-bottom: 1px solid ${(props) => props.theme.grey000};
   > div {
     margin-right: 15px;
   }
