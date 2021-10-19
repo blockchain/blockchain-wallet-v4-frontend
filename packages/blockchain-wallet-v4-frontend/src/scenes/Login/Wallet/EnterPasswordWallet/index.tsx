@@ -1,16 +1,15 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
-import { is } from 'ramda'
 import { Field } from 'redux-form'
 
-import { Banner, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
+import { HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import { FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
 import { LoginSteps } from 'data/types'
 import { isBrowserSupported } from 'services/browser'
 import { required } from 'services/forms'
 
-import { Props } from '..'
+import { Props } from '../..'
 import {
   ActionButton,
   BackArrowFormHeader,
@@ -20,20 +19,25 @@ import {
   removeWhitespace,
   Row,
   UnsupportedBrowserWarning
-} from '../model'
+} from '../../model'
 
 const isSupportedBrowser = isBrowserSupported()
 
 const EnterPasswordWallet = (props: Props) => {
   const {
+    authActions,
     authType,
     busy,
+    cacheActions,
+    formActions,
     formValues,
     guid,
+    initCaptcha,
     invalid,
     isMobileViewLogin,
     loginError,
     password,
+    setStep,
     submitting
   } = props
   const passwordError = loginError && loginError.toLowerCase().includes('wrong_wallet_password')
@@ -44,15 +48,15 @@ const EnterPasswordWallet = (props: Props) => {
 
   const twoFactorError = loginError && loginError.toLowerCase().includes('authentication code')
   const handleSmsResend = () => {
-    props.authActions.resendSmsCode({ email: formValues?.email, guid })
+    authActions.resendSmsCode({ email: formValues?.email, guid })
   }
 
   const handleBackArrowClick = () => {
-    props.cacheActions.removedStoredLogin()
-    props.formActions.destroy(LOGIN_FORM_NAME)
-    props.setStep(LoginSteps.ENTER_EMAIL_GUID)
-    props.authActions.clearLoginError()
-    props.initCaptcha()
+    cacheActions.removedStoredLogin()
+    formActions.destroy(LOGIN_FORM_NAME)
+    setStep(LoginSteps.ENTER_EMAIL_GUID)
+    authActions.clearLoginError()
+    initCaptcha()
   }
 
   return (
@@ -171,7 +175,7 @@ const EnterPasswordWallet = (props: Props) => {
             </Text>
           )}
         </ActionButton>
-        <NeedHelpLink authActions={props.authActions} origin='PASSWORD' />
+        <NeedHelpLink authActions={authActions} origin='PASSWORD' />
       </CenteredColumn>
     </>
   )

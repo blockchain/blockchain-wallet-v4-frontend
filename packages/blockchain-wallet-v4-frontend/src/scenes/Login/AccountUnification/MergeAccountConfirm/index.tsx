@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
-import { auth } from 'data/actions'
 import { AccountUnificationFlows, LoginSteps } from 'data/types'
 
 import { Props } from '../../index'

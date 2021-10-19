@@ -171,3 +171,83 @@ export const UnsupportedBrowserWarning = () => (
     </Banner>
   </BrowserWarning>
 )
+
+export const getLoginPageTitle = (step) => {
+  switch (step) {
+    case LoginSteps.ENTER_PASSWORD_EXCHANGE:
+    case LoginSteps.ENTER_PASSWORD_WALLET:
+      return <FormattedMessage id='scenes.login.authorize' defaultMessage='Authorize login' />
+    case LoginSteps.UPGRADE_PASSWORD:
+      return (
+        <FormattedMessage
+          id='scenes.login.upgrade.password.header'
+          defaultMessage='Upgrade Your Password'
+        />
+      )
+    case LoginSteps.ENTER_EMAIL_GUID:
+    default:
+      return <FormattedMessage id='scenes.login.welcome' defaultMessage='Welcome back!' />
+  }
+}
+
+export const getLoginPageSubTitle = (step) => {
+  switch (step) {
+    case LoginSteps.VERIFICATION_MOBILE:
+      return <FormattedMessage id='scenes.login.approve' defaultMessage='Approve your login' />
+    case LoginSteps.UPGRADE_PASSWORD:
+      return (
+        <FormattedMessage
+          id='scenes.login.upgrade.password.subheaderheader'
+          defaultMessage='Create a new password for all your Blockchain.com accounts.'
+        />
+      )
+    case LoginSteps.ENTER_PASSWORD_EXCHANGE:
+    case LoginSteps.ENTER_PASSWORD_WALLET:
+    default:
+      return (
+        <FormattedMessage
+          id='scenes.login.enter_password_login'
+          defaultMessage='Enter your password to login'
+        />
+      )
+  }
+}
+
+export const getLoginPageFooter = (step, loginWithMobileClicked) => {
+  switch (step) {
+    case LoginSteps.ENTER_PASSWORD_WALLET:
+      return (
+        <Text
+          color='white'
+          weight={600}
+          size='16px'
+          cursor='pointer'
+          style={{ marginTop: '24px' }}
+          onClick={loginWithMobileClicked}
+        >
+          <FormattedMessage
+            id='scenes.login.loginwithmobile'
+            defaultMessage='Log In with Mobile App ->'
+          />
+        </Text>
+      )
+    case LoginSteps.ENTER_EMAIL_GUID:
+    default:
+      return (
+        <>
+          <Text size='14px' color='grey400' weight={500} style={{ margin: '24px 0 16px' }}>
+            <FormattedMessage
+              id='scenes.login.phishingwarning'
+              defaultMessage='Please check that you are visiting the correct URL'
+            />
+          </Text>
+          <PhishingWarning>
+            <Icon name='padlock' color='grey400' size='14px' />
+            <Text color='grey400' weight={500} style={{ paddingLeft: '8px' }}>
+              https://login.blockchain.com
+            </Text>
+          </PhishingWarning>
+        </>
+      )
+  }
+}

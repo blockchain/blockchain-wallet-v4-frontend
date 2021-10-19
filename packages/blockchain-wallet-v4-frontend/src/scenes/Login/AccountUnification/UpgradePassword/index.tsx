@@ -3,9 +3,9 @@ import { FormattedMessage } from 'react-intl'
 import { has } from 'ramda'
 import { Field } from 'redux-form'
 
-import { Button, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 import { FormGroup, FormLabel, PasswordBox } from 'components/Form'
-import { AccountUnificationFlows, LoginSteps } from 'data/types'
+import { LoginSteps } from 'data/types'
 import { required, validPasswordConfirmation, validStrongPassword } from 'services/forms'
 
 import { Props } from '../../index'
