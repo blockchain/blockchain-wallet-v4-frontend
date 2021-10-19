@@ -12,6 +12,7 @@ export const parseMagicLink = function* (params) {
   try {
     const loginData = JSON.parse(atob(params[2])) as WalletDataFromMagicLink
     yield put(actions.auth.setMagicLinkInfo(loginData))
+    yield put(actions.auth.setMagicLinkInfoEncoded(params[2]))
     const walletData = loginData.wallet
     const session = yield select(selectors.session.getSession, walletData.guid, walletData.email)
     const sessionIdFromLink = walletData.session_id
