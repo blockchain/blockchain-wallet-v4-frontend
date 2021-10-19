@@ -74,13 +74,19 @@ export const fulfillNftOrder = async (order: NftOrdersType['orders'][0], signer:
   ]
 
   const contract = new ethers.Contract(
-    ethers.utils.getAddress('0x7be8076f4ea4a4ad08075c2508e481d6c946d12b'),
+    '0x7be8076f4ea4a4ad08075c2508e481d6c946d12b',
     wyvernABI,
     signer
   )
 
+  debugger
+
   try {
-    const match = await contract.atomicMatch_(...args)
+    const match = await contract.atomicMatch_(...args, {
+      gasLimit: 250000,
+      gasPrice: 90000000000,
+      value: buy.basePrice.toString()
+    })
     debugger
   } catch (e) {
     console.log(e)
