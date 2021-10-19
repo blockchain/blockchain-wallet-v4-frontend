@@ -9,6 +9,7 @@ import { selectors } from 'data'
 import { promptForSecondPassword } from 'services/sagas'
 
 import { actions as A } from './slice'
+import { orderFromJSON } from './utils'
 
 const provider = ethers.providers.getDefaultProvider()
 export const logLocation = 'components/nfts/sagas'
@@ -34,7 +35,7 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchNftOrdersLoading())
       const nfts: ReturnType<typeof api.getNftOrders> = yield call(api.getNftOrders)
 
-      yield put(A.fetchNftOrdersSuccess(nfts.orders))
+      yield put(A.fetchNftOrdersSuccess(nfts.orders.map(orderFromJSON)))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchNftOrdersFailure(error))
@@ -42,13 +43,17 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const createBuyOrder = function* (action: ReturnType<typeof A.createBuyOrder>) {
-    const password = yield call(promptForSecondPassword)
-    const getMnemonic = (state) => selectors.core.wallet.getMnemonic(state, password)
-    const mnemonicT = yield select(getMnemonic)
-    const mnemonic = yield call(() => taskToPromise(mnemonicT))
-    const privateKey = getPrivateKey(mnemonic)
-    const wallet = new ethers.Wallet(privateKey, provider)
-    yield call(fulfillNftOrder, action.payload.order, wallet)
+    try {
+      const password = yield call(promptForSecondPassword)
+      const getMnemonic = (state) => selectors.core.wallet.getMnemonic(state, password)
+      const mnemonicT = yield select(getMnemonic)
+      const mnemonic = yield call(() => taskToPromise(mnemonicT))
+      const privateKey = getPrivateKey(mnemonic)
+      const wallet = new ethers.Wallet(privateKey, provider)
+      yield call(fulfillNftOrder, action.payload.order, wallet)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   return {

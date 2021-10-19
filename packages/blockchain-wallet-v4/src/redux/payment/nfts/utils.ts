@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
 import BN from 'bn.js'
+import * as ethABI from 'ethereumjs-abi'
 import { ethers } from 'ethers'
 
 import {
@@ -11,23 +12,24 @@ import {
   UnsignedOrder
 } from '@core/network/api/nfts/types'
 
-import { ERC721Schema } from './schemas'
+import { schemaMap } from './schemas'
 import { FunctionInputKind } from './types'
 
 type Order = NftOrdersType['orders'][0]
 
+export const INVERSE_BASIS_POINT = 10000
 export const NULL_BLOCK_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000'
+export const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 const MIN_EXPIRATION_SECONDS = 10
 const ORDER_MATCHING_LATENCY_SECONDS = 60 * 60 * 24 * 7
 const OPENSEA_FEE_RECIPIENT = '0x5b3256965e7c3cf26e11fcaf296dfc8807c01073'
-const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 const MAX_DIGITS_IN_UNSIGNED_256_INT = 78
 
 const bigNumberToBN = (value: BigNumber) => {
   return new BN(value.toString(), 10)
 }
 
-const ethABI = {
+const ethABI_local = {
   elementaryName(name) {
     if (name.startsWith('int[')) {
       return `int256${name.slice(3)}`
@@ -106,7 +108,7 @@ const generateDefaultValue = (type: string): any => {
 }
 
 const getOrderHashHex = (order: UnhashedOrder): string => {
-  const orderPartsA = [
+  const orderParts = [
     { type: SolidityTypes.Address, value: order.exchange },
     { type: SolidityTypes.Address, value: order.maker },
     { type: SolidityTypes.Address, value: order.taker },
@@ -119,13 +121,11 @@ const getOrderHashHex = (order: UnhashedOrder): string => {
     { type: SolidityTypes.Uint8, value: order.side },
     { type: SolidityTypes.Uint8, value: order.saleKind },
     { type: SolidityTypes.Address, value: order.target },
-    { type: SolidityTypes.Uint8, value: order.howToCall }
-  ]
-  const orderPartsB = [
-    { type: SolidityTypes.Bytes, value: Buffer.from(order.calldata.slice(2), 'hex') },
-    { type: SolidityTypes.Bytes, value: Buffer.from(order.replacementPattern.slice(2), 'hex') },
+    { type: SolidityTypes.Uint8, value: order.howToCall },
+    { type: SolidityTypes.Bytes, value: new Buffer(order.calldata.slice(2), 'hex') },
+    { type: SolidityTypes.Bytes, value: new Buffer(order.replacementPattern.slice(2), 'hex') },
     { type: SolidityTypes.Address, value: order.staticTarget },
-    { type: SolidityTypes.Bytes, value: Buffer.from(order.staticExtradata.slice(2), 'hex') },
+    { type: SolidityTypes.Bytes, value: new Buffer(order.staticExtradata.slice(2), 'hex') },
     { type: SolidityTypes.Address, value: order.paymentToken },
     { type: SolidityTypes.Uint256, value: bigNumberToBN(order.basePrice) },
     { type: SolidityTypes.Uint256, value: bigNumberToBN(order.extra) },
@@ -133,23 +133,10 @@ const getOrderHashHex = (order: UnhashedOrder): string => {
     { type: SolidityTypes.Uint256, value: bigNumberToBN(order.expirationTime) },
     { type: SolidityTypes.Uint256, value: bigNumberToBN(order.salt) }
   ]
-  const typesA = orderPartsA.map((o) => o.type)
-  const valuesA = orderPartsA.map((o) => o.value)
-  debugger
-  const hashBufA = ethers.utils.solidityKeccak256(typesA, valuesA)
-  const typesB = orderPartsB.map((o) => o.type)
-  const valuesB = orderPartsB.map((o) => o.value)
-  const hashBufB = ethers.utils.solidityKeccak256(typesB, valuesB)
-  const orderPartsC = [
-    { type: SolidityTypes.String, value: '\x19Ethereum Signed Message:\n32' },
-    { type: SolidityTypes.Bytes, value: hashBufA },
-    { type: SolidityTypes.Bytes, value: hashBufB }
-  ]
-  const typesC = orderPartsC.map((o) => o.type)
-  const valuesC = orderPartsC.map((o) => o.value)
-  const hashBufC = ethers.utils.solidityKeccak256(typesC, valuesC)
-  const hashHexC = hashBufC
-  return hashHexC
+  const types = orderParts.map((o) => o.type)
+  const values = orderParts.map((o) => o.value)
+  const hash = ethABI.soliditySHA3(types, values)
+  return hash.toString('hex')
 }
 
 /**
@@ -180,8 +167,8 @@ export function getOrderHash(order: UnhashedOrder) {
 const generatePseudoRandomSalt = (): BigNumber => {
   // BigNumber.random returns a pseudo-random number between 0 & 1 with a passed in number of decimal places.
   // Source: https://mikemcl.github.io/bignumber.js/#random
-  const randomNumber = BigNumber.random(MAX_DIGITS_IN_UNSIGNED_256_INT)
-  const factor = new BigNumber(10).pow(MAX_DIGITS_IN_UNSIGNED_256_INT - 1)
+  const randomNumber = BigNumber.random(5)
+  const factor = new BigNumber(10).pow(5 - 1)
   const salt = randomNumber.times(factor).integerValue()
   return salt
 }
@@ -190,7 +177,7 @@ export const encodeCall = (abi, parameters: any[]): string => {
   const inputTypes = abi.inputs.map((i) => i.type)
   return `0x${Buffer.concat([
     Buffer.from(ethABI.methodID(abi.name, inputTypes)),
-    Buffer.from(ethers.utils.defaultAbiCoder.encode(inputTypes, parameters))
+    Buffer.from(ethABI.rawEncode(inputTypes, parameters))
   ]).toString('hex')}`
 }
 
@@ -214,21 +201,17 @@ const encodeReplacementPattern = (
   abi.inputs
     .map(({ kind, type, value }) => ({
       bitmask: kind === replaceKind ? 255 : 0,
-      type: ethABI.elementaryName(type),
+      type: ethABI_local.elementaryName(type),
       value: value !== undefined ? value : generateDefaultValue(type)
     }))
     .reduce((offset, { bitmask, type, value }) => {
       // The 0xff bytes in the mask select the replacement bytes. All other bytes are 0x00.
-      const cur = new Buffer(ethers.utils.defaultAbiCoder.encode([type], [value]).length).fill(
-        bitmask
-      )
-      if (ethABI.isDynamic(type)) {
+      const cur = new Buffer(ethABI.rawEncode([type], [value]).length).fill(bitmask)
+      if (ethABI_local.isDynamic(type)) {
         if (bitmask) {
           throw new Error('Replacement is not supported for dynamic parameters.')
         }
-        output.push(
-          new Buffer(ethers.utils.defaultAbiCoder.encode(['uint256'], [dynamicOffset]).length)
-        )
+        output.push(new Buffer(ethABI.rawEncode(['uint256'], [dynamicOffset]).length))
         data.push(cur)
         return offset + cur.length
       }
@@ -257,10 +240,54 @@ export const encodeDefaultCall = (abi, address) => {
 }
 
 export const encodeSell = (schema, asset, address) => {
-  const transfer = ERC721Schema.functions.transfer(asset)
+  const transfer = schema.functions.transfer(asset)
   return {
     calldata: encodeDefaultCall(transfer, address),
     replacementPattern: encodeReplacementPattern(transfer),
+    target: transfer.target
+  }
+}
+
+export const encodeBuy = (schema, asset, address) => {
+  const transfer = schema.functions.transfer(asset)
+  const replaceables = transfer.inputs.filter((i: any) => i.kind === FunctionInputKind.Replaceable)
+  const ownerInputs = transfer.inputs.filter((i: any) => i.kind === FunctionInputKind.Owner)
+
+  // Validate
+  if (replaceables.length !== 1) {
+    throw new Error(
+      `Only 1 input can match transfer destination, but instead ${replaceables.length} did`
+    )
+  }
+
+  // Compute calldata
+  const parameters = transfer.inputs.map((input: any) => {
+    switch (input.kind) {
+      case FunctionInputKind.Replaceable:
+        return address
+      case FunctionInputKind.Owner:
+        return generateDefaultValue(input.type)
+      default:
+        try {
+          return input.value.toString()
+        } catch (e) {
+          console.error(schema)
+          console.error(asset)
+          throw e
+        }
+    }
+  })
+  const calldata = encodeCall(transfer, parameters)
+
+  // Compute replacement pattern
+  let replacementPattern = '0x'
+  if (ownerInputs.length > 0) {
+    replacementPattern = encodeReplacementPattern(transfer, FunctionInputKind.Owner)
+  }
+
+  return {
+    calldata,
+    replacementPattern,
     target: transfer.target
   }
 }
@@ -312,9 +339,9 @@ function _getTimeParameters(
 
 export function assignOrdersToSides(
   order: Order,
-  matchingOrder: Order
+  matchingOrder: UnsignedOrder
 ): { buy: Order; sell: Order } {
-  const isSellOrder = order.side === 0
+  const isSellOrder = order.side === NftOrderSide.Sell
 
   let buy: Order
   let sell: Order
@@ -365,12 +392,10 @@ export function _makeMatchingOrder({
   const computeOrderParams = () => {
     if ('asset' in order.metadata) {
       // const schema = this._getSchema(order.metadata.schema)
-      const { schema } = order.metadata
+      const schema = schemaMap[order.metadata.schema]
       return order.side === NftOrderSide.Buy
         ? encodeSell(schema, order.metadata.asset, recipientAddress)
-        : new Error(
-            'Sell not supported'
-          ) /* encodeBuy(schema, order.metadata.asset, recipientAddress)  */
+        : encodeBuy(schema, order.metadata.asset, recipientAddress)
     }
     // BUNDLE NOT SUPPORTED
     // if ('bundle' in order.metadata) {
@@ -410,27 +435,28 @@ export function _makeMatchingOrder({
     ReturnType<typeof computeOrderParams>,
     Error
   >
+
   const times = _getTimeParameters(0)
   // Compat for matching buy orders that have fee recipient still on them
   // const feeRecipient = order.fee_recipient === NULL_ADDRESS ? OPENSEA_FEE_RECIPIENT : NULL_ADDRESS
   const feeRecipient = OPENSEA_FEE_RECIPIENT
 
   const matchingOrder: UnhashedOrder = {
-    basePrice: new BigNumber(order.base_price),
+    basePrice: new BigNumber(order.basePrice),
     calldata,
     exchange: order.exchange,
     expirationTime: times.expirationTime,
     extra: new BigNumber(0),
-    feeMethod: order.fee_method,
+    feeMethod: order.feeMethod,
     feeRecipient,
-    howToCall: order.how_to_call,
+    howToCall: order.howToCall,
     listingTime: times.listingTime,
     maker: accountAddress,
-    makerProtocolFee: new BigNumber(order.maker_protocol_fee),
-    makerReferrerFee: new BigNumber(order.maker_referrer_fee),
-    makerRelayerFee: new BigNumber(order.maker_relayer_fee),
+    makerProtocolFee: new BigNumber(order.makerProtocolFee),
+    makerReferrerFee: new BigNumber(order.makerReferrerFee),
+    makerRelayerFee: new BigNumber(order.makerRelayerFee),
     metadata: order.metadata,
-    paymentToken: order.payment_token,
+    paymentToken: order.paymentToken,
     quantity: order.quantity,
     replacementPattern,
     saleKind: NftSaleKind.FixedPrice,
@@ -438,9 +464,9 @@ export function _makeMatchingOrder({
     side: (order.side + 1) % 2,
     staticExtradata: '0x',
     staticTarget: NULL_ADDRESS,
-    taker: order.maker.address,
-    takerProtocolFee: new BigNumber(order.taker_protocol_fee),
-    takerRelayerFee: new BigNumber(order.taker_relayer_fee),
+    taker: order.maker,
+    takerProtocolFee: new BigNumber(order.takerProtocolFee),
+    takerRelayerFee: new BigNumber(order.takerRelayerFee),
     target,
     waitingForBestCounterOrder: false
   }

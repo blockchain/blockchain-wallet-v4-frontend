@@ -50,19 +50,21 @@ const Marketplace: React.FC<Props> = (props: Props) => {
           Success: (orders) => (
             <CollectionWrapper>
               {orders.map((order) => {
-                if (!window.coins[order.payment_token_contract.symbol]) return null
+                if (!order.paymentTokenContract) return null
+                if (!window.coins[order.paymentTokenContract.symbol]) return null
+                if (!order.asset) return null
 
                 return (
-                  <Asset key={order.id}>
+                  <Asset key={order.calldata}>
                     <ImageContainer
                       style={{
-                        backgroundColor: `#${order.asset.background_color}` || '#fff'
+                        backgroundColor: `#${order.asset?.backgroundColor}` || '#fff'
                       }}
                     >
                       <AssetImage
-                        alt={order.asset.image_url}
+                        alt={order.asset.imageUrl}
                         style={{ width: '100%' }}
-                        src={order.asset.image_url}
+                        src={order.asset.imageUrl}
                       />
                     </ImageContainer>
                     <AssetDetails>
@@ -90,13 +92,13 @@ const Marketplace: React.FC<Props> = (props: Props) => {
                             size='12px'
                             color='grey800'
                             weight={600}
-                            coin={order.payment_token_contract.symbol}
+                            coin={order.paymentTokenContract.symbol}
                           >
-                            {order.base_price}
+                            {order.basePrice}
                           </StyledCoinDisplay>
                         </Text>
-                        <FiatDisplay coin={order.payment_token_contract.symbol}>
-                          {order.base_price}
+                        <FiatDisplay coin={order.paymentTokenContract.symbol}>
+                          {order.basePrice}
                         </FiatDisplay>
                       </PriceInfo>
                     </AssetDetails>

@@ -28,7 +28,7 @@ export default ({ get }) => {
     include_bundled = false
   ): NftOrdersType =>
     get({
-      endPoint: `?limit=20&offset=0&side=1`,
+      endPoint: `?limit=20&offset=0&side=1&include_bundled=false`,
       ignoreQueryParams: true,
       url: 'https://api.opensea.io/wyvern/v1/orders'
     })

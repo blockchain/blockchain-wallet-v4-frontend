@@ -44,6 +44,7 @@ const YourCollection: React.FC<Props> = ({ assetsR }) => {
         Success: (assets) => (
           <CollectionWrapper>
             {assets.map((asset) => {
+              if (!asset) return null
               return (
                 <Asset key={asset.token_id}>
                   <ImageContainer

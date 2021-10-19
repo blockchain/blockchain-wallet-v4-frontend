@@ -123,6 +123,254 @@ export interface UnsignedOrder extends UnhashedOrder {
   hash: string
 }
 
+export declare enum TokenStandardVersion {
+  ERC721v1 = '1.0',
+  ERC721v2 = '2.0',
+  ERC721v3 = '3.0',
+  Enjin = '1155-1.0',
+  Locked = 'locked',
+  Unsupported = 'unsupported'
+}
+
+/**
+ * Simple, unannotated asset spec
+ */
+export interface Asset {
+  decimals?: number
+  name?: string
+  schemaName?: WyvernSchemaName
+  tokenAddress: string
+  tokenId: string | null
+  version?: TokenStandardVersion
+}
+/**
+ * Types of asset contracts
+ * Given by the asset_contract_type in the OpenSea API
+ */
+export declare enum AssetContractType {
+  Fungible = 'fungible',
+  NonFungible = 'non-fungible',
+  SemiFungible = 'semi-fungible',
+  Unknown = 'unknown'
+}
+/**
+ * Annotated asset contract with OpenSea metadata
+ */
+
+/**
+ * Annotated asset contract with OpenSea metadata
+ */
+export interface OpenSeaAssetContract extends OpenSeaFees {
+  address: string
+  buyerFeeBasisPoints: number
+  description: string
+  externalLink?: string
+  imageUrl: string
+  name: string
+  schemaName: WyvernSchemaName
+  sellerFeeBasisPoints: number
+  stats?: object
+  tokenSymbol: string
+  traits?: object[]
+  type: AssetContractType
+  wikiLink?: string
+}
+export interface Token {
+  address: string
+  decimals: number
+  name: string
+  symbol: string
+}
+/**
+ * Full annotated Fungible Token spec with OpenSea metadata
+ */
+export interface OpenSeaFungibleToken extends Token {
+  ethPrice?: string
+  imageUrl?: string
+  usdPrice?: string
+}
+
+/**
+ * Query interface for Fungible Assets
+ */
+export interface OpenSeaFungibleTokenQuery extends Partial<OpenSeaFungibleToken> {
+  limit?: number
+  offset?: number
+  symbol?: string
+}
+/**
+ * The basis point values of each type of fee
+ */
+export interface OpenSeaFees {
+  devBuyerFeeBasisPoints: number
+  devSellerFeeBasisPoints: number
+  openseaBuyerFeeBasisPoints: number
+  openseaSellerFeeBasisPoints: number
+}
+
+interface NumericalTraitStats {
+  max: number
+  min: number
+}
+interface StringTraitStats {
+  [key: string]: number
+}
+
+export interface OpenSeaTraitStats {
+  [traitName: string]: NumericalTraitStats | StringTraitStats
+}
+/**
+ * Annotated collection with OpenSea metadata
+ */
+export interface OpenSeaCollection extends OpenSeaFees {
+  createdDate: Date
+  description: string
+  displayData: object
+  editors: string[]
+  externalLink?: string
+  featured: boolean
+  featuredImageUrl: string
+  hidden: boolean
+  imageUrl: string
+  largeImageUrl: string
+  name: string
+  paymentTokens: OpenSeaFungibleToken[]
+  payoutAddress?: string
+  slug: string
+  stats: object
+  traitStats: OpenSeaTraitStats
+  wikiLink?: string
+}
+
+/**
+ * Defines set of possible auctions types
+ */
+export declare enum AuctionType {
+  Dutch = 'dutch',
+  English = 'english',
+  MinPrice = 'min_price'
+}
+
+/**
+ * Defines the possible types of asset events that can take place
+ */
+export declare enum AssetEventType {
+  AssetApprove = 'approve',
+  AssetTransfer = 'transfer',
+  AuctionCancelled = 'cancelled',
+  AuctionCreated = 'created',
+  AuctionSuccessful = 'successful',
+  BidEntered = 'bid_entered',
+  BidWithdraw = 'bid_withdraw',
+  CompositionCreated = 'composition_created',
+  Custom = 'custom',
+  OfferEntered = 'offer_entered',
+  Payout = 'payout'
+}
+
+export interface OpenSeaUser {
+  username: string
+}
+
+/**
+ * The OpenSea account object appended to orders, providing extra metadata, profile images and usernames
+ */
+export interface OpenSeaAccount {
+  address: string
+  config: string
+  profileImgUrl: string
+  user: OpenSeaUser | null
+}
+
+/**
+ * Defines a Transaction type.
+ */
+export interface Transaction {
+  blockHash: string
+  blockNumber: string
+  createdDate: Date
+  fromAccount: OpenSeaAccount
+  modifiedDate: Date
+  timestamp: Date
+  toAccount: OpenSeaAccount
+  transactionHash: string
+  transactionIndex: string
+}
+
+/**
+ * Defines a AssetEvent type which contains details about an event that occurred
+ */
+export interface AssetEvent {
+  auctionType: AuctionType
+  eventTimestamp: Date
+  eventType: AssetEventType
+  paymentToken: OpenSeaFungibleToken | null
+  totalPrice: string
+  transaction: Transaction | null
+}
+
+export interface OpenSeaAsset extends Asset {
+  assetContract: OpenSeaAssetContract
+  backgroundColor: string | null
+  buyOrders: Order[] | null
+  collection: OpenSeaCollection
+  description: string
+  externalLink: string
+  imagePreviewUrl: string
+  imageUrl: string
+  imageUrlOriginal: string
+  imageUrlThumbnail: string
+  isPresale: boolean
+  lastSale: AssetEvent | null
+  name: string
+  numSales: number
+  openseaLink: string
+  orders: Order[] | null
+  owner: OpenSeaAccount
+  sellOrders: Order[] | null
+  traits: object[]
+  transferFee: BigNumber | string | null
+  transferFeePaymentToken: OpenSeaFungibleToken | null
+}
+
+/**
+ * Bundles of assets, grouped together into one OpenSea order
+ * URLs for bundles are auto-generated from the name
+ */
+export interface OpenSeaAssetBundle {
+  assetContract?: OpenSeaAssetContract
+  assets: OpenSeaAsset[]
+  description?: string
+  externalLink?: string
+  maker: OpenSeaAccount
+  name: string
+  permalink: string
+  sellOrders: Order[] | null
+  slug: string
+}
+export interface ECSignature {
+  r: string
+  s: string
+  v: number
+}
+/**
+ * Orders don't need to be signed if they're pre-approved
+ * with a transaction on the contract to approveOrder_
+ */
+export interface Order extends UnsignedOrder, Partial<ECSignature> {
+  asset?: OpenSeaAsset
+  assetBundle?: OpenSeaAssetBundle
+  cancelledOrFinalized?: boolean
+  createdTime?: BigNumber
+  currentBounty?: BigNumber
+  currentPrice?: BigNumber
+  feeRecipientAccount?: OpenSeaAccount
+  makerAccount?: OpenSeaAccount
+  markedInvalid?: boolean
+  paymentTokenContract?: OpenSeaFungibleToken
+  takerAccount?: OpenSeaAccount
+}
+
 export type NftAssetsType = {
   assets: {
     animation_original_url: null
@@ -347,172 +595,7 @@ export type NftAssetsType = {
 
 export type NftOrdersType = {
   count: number
-  orders: {
-    approved_on_chain: boolean
-    asset: {
-      animation_original_url: null
-      animation_url: null
-      asset_contract: {
-        address: string
-        asset_contract_type: string
-        buyer_fee_basis_points: number
-        created_date: string
-        default_to_fiat: boolean
-        description: string
-        dev_buyer_fee_basis_points: number
-        dev_seller_fee_basis_points: number
-        external_link: string
-        image_url: string
-        name: string
-        nft_version: string
-        only_proxied_transfers: boolean
-        opensea_buyer_fee_basis_points: number
-        opensea_seller_fee_basis_points: number
-        opensea_version: null
-        owner: number
-        payout_address: string
-        schema_name: string
-        seller_fee_basis_points: number
-        symbol: string
-        total_supply: string
-      }
-      background_color: null
-      collection: {
-        banner_image_url: string
-        chat_url: null
-        created_date: string
-        default_to_fiat: boolean
-        description: string
-        dev_buyer_fee_basis_points: string
-        dev_seller_fee_basis_points: string
-        discord_url: string
-        display_data: {
-          card_display_style: string
-        }
-        external_url: string
-        featured: boolean
-        featured_image_url: string
-        hidden: boolean
-        image_url: string
-        instagram_username: string
-        is_subject_to_whitelist: boolean
-        large_image_url: string
-        medium_username: string
-        name: string
-        only_proxied_transfers: boolean
-        opensea_buyer_fee_basis_points: string
-        opensea_seller_fee_basis_points: string
-        payout_address: string
-        require_email: boolean
-        safelist_request_status: string
-        short_description: null
-        slug: string
-        telegram_url: null
-        twitter_username: string
-        wiki_url: null
-      }
-      decimals: number
-      description: string
-      external_link: string
-      id: number
-      image_original_url: string
-      image_preview_url: string
-      image_thumbnail_url: string
-      image_url: string
-      name: string
-      num_sales: number
-      owner: {
-        address: string
-        config: string
-        profile_img_url: string
-        user: {
-          username: string
-        }
-      }
-      permalink: string
-      token_id: string
-      token_metadata: string
-    }
-    asset_bundle: null
-    base_price: string
-    bounty_multiple: string
-    calldata: string
-    cancelled: boolean
-    closing_date: string
-    closing_extendable: boolean
-    created_date: string
-    current_bounty: string
-    current_price: string
-    exchange: string
-    expiration_time: number
-    extra: string
-    fee_method: number
-    fee_recipient: {
-      address: string
-      config: string
-      profile_img_url: string
-      user: {
-        username: string
-      }
-    }
-    finalized: boolean
-    how_to_call: number
-    id: number
-    listing_time: number
-    maker: {
-      address: string
-      config: string
-      profile_img_url: string
-      user: null
-    }
-    maker_protocol_fee: string
-    maker_referrer_fee: string
-    maker_relayer_fee: string
-    marked_invalid: boolean
-    metadata: {
-      asset: {
-        address: string
-        id?: string
-        quantity: string
-      }
-      referrerAddress?: string
-      schema: WyvernSchemaName
-    }
-    order_hash: string
-    payment_token: string
-    payment_token_contract: {
-      address: string
-      decimals: number
-      eth_price: string
-      id: number
-      image_url: string
-      name: string
-      symbol: string
-      usd_price: string
-    }
-    prefixed_hash: string
-    quantity: BigNumber
-    r: string
-    replacement_pattern: string
-    s: string
-    sale_kind: number
-    salt: string
-    side: number
-    static_extradata: string
-    static_target: string
-    taker: {
-      address: string
-      config: string
-      profile_img_url: string
-      user: {
-        username: string
-      }
-    }
-    taker_protocol_fee: string
-    taker_relayer_fee: string
-    target: string
-    v: number
-  }[]
+  orders: Order[]
 }
 
 export enum SolidityTypes {
