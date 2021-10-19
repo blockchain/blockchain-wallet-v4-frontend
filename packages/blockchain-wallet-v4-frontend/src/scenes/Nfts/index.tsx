@@ -8,7 +8,9 @@ import { RootState } from 'data/rootReducer'
 import Marketplace from './Marketplace'
 import YourCollection from './YourCollection'
 
-const Nfts: React.FC<Props> = ({ assetsR, nftsActions, ordersR }) => {
+const Nfts: React.FC<Props> = (props) => {
+  const { assetsR, nftsActions } = props
+
   useEffect(() => {
     nftsActions.fetchNftAssets()
     nftsActions.fetchNftOrders()
@@ -17,7 +19,7 @@ const Nfts: React.FC<Props> = ({ assetsR, nftsActions, ordersR }) => {
   return (
     <div>
       <YourCollection assetsR={assetsR} />
-      <Marketplace ordersR={ordersR} />
+      <Marketplace {...props} />
     </div>
   )
 }
@@ -33,6 +35,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type Props = ConnectedProps<typeof connector>
+export type Props = ConnectedProps<typeof connector>
 
 export default connector(Nfts)

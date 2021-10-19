@@ -47,6 +47,7 @@ const nftsSlice = createSlice({
   initialState,
   name: 'nfts',
   reducers: {
+    createBuyOrder: (state, action: PayloadAction<{ order: NftOrdersType['orders'][0] }>) => {},
     fetchNftAssets: () => {},
     fetchNftAssetsFailure: (state, action: PayloadAction<string>) => {
       state.assets = Remote.Failure(action.payload)

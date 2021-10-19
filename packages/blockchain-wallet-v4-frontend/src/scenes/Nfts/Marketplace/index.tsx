@@ -4,9 +4,11 @@ import { FormattedMessage } from 'react-intl'
 import { convertCoinToCoin } from '@core/exchange'
 import { NftOrdersType } from '@core/network/api/nfts/types'
 import { RemoteDataType } from '@core/types'
-import { Text } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
+import FiatDisplay from 'components/Display/FiatDisplay'
 import { PageTitle, SubTitle, Title } from 'components/Layout'
 
+import { Props as OwnProps } from '..'
 import {
   Asset,
   AssetCollection,
@@ -18,7 +20,9 @@ import {
   StyledCoinDisplay
 } from '../components'
 
-const Marketplace: React.FC<Props> = ({ ordersR }) => {
+const Marketplace: React.FC<Props> = (props: Props) => {
+  const { nftsActions, ordersR } = props
+
   return (
     <div>
       <PageTitle>
@@ -88,15 +92,21 @@ const Marketplace: React.FC<Props> = ({ ordersR }) => {
                             weight={600}
                             coin={order.payment_token_contract.symbol}
                           >
-                            {convertCoinToCoin({
-                              baseToStandard: false,
-                              coin: 'ETH',
-                              value: order.payment_token_contract.eth_price
-                            })}
+                            {order.base_price}
                           </StyledCoinDisplay>
                         </Text>
+                        <FiatDisplay coin={order.payment_token_contract.symbol}>
+                          {order.base_price}
+                        </FiatDisplay>
                       </PriceInfo>
                     </AssetDetails>
+                    <Button
+                      data-e2e='buyNft'
+                      nature='primary'
+                      onClick={() => nftsActions.createBuyOrder({ order })}
+                    >
+                      <FormattedMessage id='copy.buy' defaultMessage='Buy' />
+                    </Button>
                   </Asset>
                 )
               })}
@@ -108,7 +118,7 @@ const Marketplace: React.FC<Props> = ({ ordersR }) => {
   )
 }
 
-type Props = {
+type Props = OwnProps & {
   ordersR: RemoteDataType<string, NftOrdersType['orders']>
 }
 

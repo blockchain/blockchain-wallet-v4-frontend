@@ -1,3 +1,128 @@
+import BigNumber from 'bignumber.js'
+
+/**
+ * Wyvern order side: buy or sell.
+ */
+export enum NftOrderSide {
+  Buy = 0,
+  Sell = 1
+}
+
+/**
+ * Wyvern: type of sale. Fixed or Dutch auction
+ * Note: not imported from wyvern.js because it uses
+ * EnglishAuction as 1 and DutchAuction as 2
+ */
+export enum NftSaleKind {
+  FixedPrice = 0,
+  DutchAuction = 1
+}
+
+/**
+ * Wyvern fee method
+ * ProtocolFee: Charge maker fee to seller and charge taker fee to buyer.
+ * SplitFee: Maker fees are deducted from the token amount that the maker receives. Taker fees are extra tokens that must be paid by the taker.
+ */
+export enum FeeMethod {
+  ProtocolFee = 0,
+  SplitFee = 1
+}
+
+export enum HowToCall {
+  Call = 0,
+  DelegateCall = 1,
+  StaticCall = 2,
+  Create = 3
+}
+
+export interface WyvernNFTAsset {
+  address: string
+  id: string
+}
+export interface WyvernFTAsset {
+  address: string
+  id?: string
+  quantity: string
+}
+export type WyvernAsset = WyvernNFTAsset | WyvernFTAsset
+
+// Wyvern Schemas (see https://github.com/ProjectOpenSea/wyvern-schemas)
+export enum WyvernSchemaName {
+  ENSShortNameAuction = 'ENSShortNameAuction',
+  ERC1155 = 'ERC1155',
+  ERC20 = 'ERC20',
+  ERC721 = 'ERC721',
+  LegacyEnjin = 'Enjin'
+  // CryptoPunks = 'CryptoPunks'
+}
+
+export interface ExchangeMetadataForAsset {
+  asset: WyvernAsset
+  referrerAddress?: string
+  schema: WyvernSchemaName
+}
+
+// Abstractions over Wyvern assets for bundles
+export interface WyvernBundle {
+  assets: WyvernAsset[]
+  description?: string
+  external_link?: string
+  name?: string
+  schemas: WyvernSchemaName[]
+}
+
+export interface ExchangeMetadataForBundle {
+  bundle: WyvernBundle
+  referrerAddress?: string
+}
+
+export type ExchangeMetadata = ExchangeMetadataForAsset | ExchangeMetadataForBundle
+
+export interface WyvernOrder {
+  basePrice: BigNumber
+  calldata: string
+  exchange: string
+  expirationTime: BigNumber
+  extra: BigNumber
+  feeMethod: number
+  feeRecipient: string
+  howToCall: number
+  listingTime: BigNumber
+  maker: string
+  makerProtocolFee: BigNumber
+  makerRelayerFee: BigNumber
+  paymentToken: string
+  replacementPattern: string
+  saleKind: number
+  salt: BigNumber
+  side: number
+  staticExtradata: string
+  staticTarget: string
+  taker: string
+  takerProtocolFee: BigNumber
+  takerRelayerFee: BigNumber
+  target: string
+}
+
+export interface UnhashedOrder extends WyvernOrder {
+  englishAuctionReservePrice?: BigNumber
+  feeMethod: FeeMethod
+  howToCall: HowToCall
+  // OpenSea-specific
+  makerReferrerFee: BigNumber
+  metadata: ExchangeMetadata
+
+  quantity: BigNumber
+  saleKind: NftSaleKind
+  side: NftOrderSide
+
+  waitingForBestCounterOrder: boolean
+}
+
+export interface UnsignedOrder extends UnhashedOrder {
+  hash: string
+}
+
 export type NftAssetsType = {
   assets: {
     animation_original_url: null
@@ -347,10 +472,11 @@ export type NftOrdersType = {
     metadata: {
       asset: {
         address: string
-        id: string
+        id?: string
+        quantity: string
       }
-      referrerAddress: string
-      schema: string
+      referrerAddress?: string
+      schema: WyvernSchemaName
     }
     order_hash: string
     payment_token: string
@@ -365,7 +491,7 @@ export type NftOrdersType = {
       usd_price: string
     }
     prefixed_hash: string
-    quantity: string
+    quantity: BigNumber
     r: string
     replacement_pattern: string
     s: string
@@ -387,4 +513,13 @@ export type NftOrdersType = {
     target: string
     v: number
   }[]
+}
+
+export enum SolidityTypes {
+  Address = 'address',
+  Bytes = 'bytes',
+  String = 'string',
+  Uint = 'uint',
+  Uint256 = 'uint256',
+  Uint8 = 'uint8'
 }

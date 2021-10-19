@@ -1,12 +1,18 @@
+import { ethers } from 'ethers'
 import { call, put, select } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
+import { fulfillNftOrder } from '@core/redux/payment/nfts'
 import { errorHandler } from '@core/utils'
+import { getPrivateKey } from '@core/utils/eth'
 import { selectors } from 'data'
+import { promptForSecondPassword } from 'services/sagas'
 
 import { actions as A } from './slice'
 
-export const logLocation = 'components/simpleBuy/sagas'
+const provider = ethers.providers.getDefaultProvider()
+export const logLocation = 'components/nfts/sagas'
+const taskToPromise = (t) => new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export default ({ api }: { api: APIType }) => {
   const fetchNftAssets = function* () {
@@ -35,7 +41,18 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const createBuyOrder = function* (action: ReturnType<typeof A.createBuyOrder>) {
+    const password = yield call(promptForSecondPassword)
+    const getMnemonic = (state) => selectors.core.wallet.getMnemonic(state, password)
+    const mnemonicT = yield select(getMnemonic)
+    const mnemonic = yield call(() => taskToPromise(mnemonicT))
+    const privateKey = getPrivateKey(mnemonic)
+    const wallet = new ethers.Wallet(privateKey, provider)
+    yield call(fulfillNftOrder, action.payload.order, wallet)
+  }
+
   return {
+    createBuyOrder,
     fetchNftAssets,
     fetchNftOrders
   }
