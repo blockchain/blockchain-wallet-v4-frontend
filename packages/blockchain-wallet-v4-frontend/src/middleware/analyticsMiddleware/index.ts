@@ -2885,7 +2885,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
 
-        const { loginMethod } = action.payload
+        const loginMethod = action.payload
         analytics.push(AnalyticsKey.LOGIN_METHOD_SELECTED, {
           properties: {
             login_method: loginMethod,
