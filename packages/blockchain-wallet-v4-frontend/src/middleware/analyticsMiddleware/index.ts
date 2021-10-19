@@ -1566,7 +1566,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const depositMethod = state.components.brokerage.account
               ? DepositMethod.BANK_ACCOUNT
               : DepositMethod.BANK_TRANSFER
-            const { currency } = state.components.brokerage.fiatCurrency
+            const currency = state.components.brokerage.fiatCurrency
 
             analytics.push(AnalyticsKey.DEPOSIT_METHOD_SELECTED, {
               properties: {
