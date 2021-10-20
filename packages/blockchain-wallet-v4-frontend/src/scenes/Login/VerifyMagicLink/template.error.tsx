@@ -19,14 +19,13 @@ const Error = (props) => {
         <FormattedMessage
           id='scenes.login.device_verification_failed'
           defaultMessage='Device verification failed.'
-          values={{ error: props.error }}
         />
       </Text>
       <Text style={{ margin: '8px 0 12px 0' }} size='16px' color='red600' weight={500}>
         <FormattedMessage
           id='scenes.authorizelogin.error.msg'
           defaultMessage='Error: {error}'
-          values={{ error: props.value }}
+          values={{ error: props.error }}
         />
       </Text>
     </Wrapper>

@@ -614,10 +614,10 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
       } else {
         yield put(actions.form.change('login', 'step', LoginSteps.CHECK_EMAIL))
-        // polling feature flag
-        if (pollForMagicLinkData) {
-          yield call(pollingForMagicLinkDataSession, sessionToken)
-        }
+      }
+      // polling feature flag
+      if (pollForMagicLinkData) {
+        yield call(pollingForMagicLinkDataSession, sessionToken)
       }
       yield put(actions.auth.triggerWalletMagicLinkSuccess())
     } catch (e) {
@@ -645,7 +645,7 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.auth.authorizeVerifyDeviceFailure(error))
       }
     } catch (e) {
-      yield put(actions.auth.authorizeVerifyDeviceFailure(e))
+      yield put(actions.auth.authorizeVerifyDeviceFailure(e.error))
     }
     // if it fails,
   }
