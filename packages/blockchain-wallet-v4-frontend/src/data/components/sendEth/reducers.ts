@@ -39,6 +39,15 @@ export function sendEthReducer(state = INITIAL_STATE, action) {
     case AT.SEND_ETH_CHECK_IS_CONTRACT_FAILURE: {
       return assoc('isContract', Remote.Failure(payload), state)
     }
+    case AT.SEND_ETH_FETCH_LIMITS_LOADING: {
+      return assoc('sendLimits', Remote.Loading, state)
+    }
+    case AT.SEND_ETH_FETCH_LIMITS_SUCCESS: {
+      return assoc('sendLimits', Remote.Success(payload), state)
+    }
+    case AT.SEND_ETH_FETCH_LIMITS_FAILURE: {
+      return assoc('sendLimits', Remote.Failure(payload), state)
+    }
     case AT.SEND_ETH_FIRST_STEP_SUBMIT_CLICKED: {
       return assoc('step', 2, state)
     }

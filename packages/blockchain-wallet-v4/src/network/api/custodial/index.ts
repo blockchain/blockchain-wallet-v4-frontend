@@ -166,7 +166,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
         outputCurrency,
         toAccount
       },
-      endPoint: `/v2/limits/crossborder/transaction`,
+      endPoint: `/limits/crossborder/transaction`,
       url: nabuUrl
     })
 

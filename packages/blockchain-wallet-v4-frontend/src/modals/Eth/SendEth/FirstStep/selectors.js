@@ -38,51 +38,7 @@ const getData = createDeepEqualSelector(
     // TODO: include any/all ERC20 balances in future
     const hasErc20Balance = gt(prop('balance', paxBalanceR.getOrElse(0)), 0)
 
-    const sendLimits = sendLimitsR.getOrElse({
-      globalLimit: {
-        available: {
-          currency: 'USD',
-          value: '12345.1234567'
-        },
-        currency: 'USD',
-        suggestedUpgrade: {
-          available: {
-            currency: 'USD',
-            value: '12345.1234567'
-          },
-          daily: {
-            available: {
-              currency: 'USD',
-              value: '12345.1234567'
-            },
-            limit: {
-              currency: 'USD',
-              value: '12345.1234567'
-            },
-            used: {
-              currency: 'USD',
-              value: '12345.1234567'
-            }
-          },
-          monthly: {
-            available: {
-              currency: 'USD',
-              value: '12345.1234567'
-            },
-            limit: {
-              currency: 'USD',
-              value: '12345.1234567'
-            },
-            used: {
-              currency: 'USD',
-              value: '12345.1234567'
-            }
-          },
-          requiredTier: 2,
-          requirements: ['KYC, SETUP_ADDRESS']
-        }
-      }
-    })
+    const sendLimits = sendLimitsR.getOrElse({})
 
     const transform = (payment) => {
       const amount = prop('amount', payment)

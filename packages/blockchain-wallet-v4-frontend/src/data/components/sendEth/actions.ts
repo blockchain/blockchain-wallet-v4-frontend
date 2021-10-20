@@ -93,8 +93,6 @@ export const sendEthFetchLimitsLoading = () => ({
   type: AT.SEND_ETH_FETCH_LIMITS_LOADING
 })
 export const sendEthFetchLimitsSuccess = (limitsResponse: SeamlessLimits) => ({
-  payload: {
-    limitsResponse
-  },
+  payload: limitsResponse,
   type: AT.SEND_ETH_FETCH_LIMITS_SUCCESS
 })
