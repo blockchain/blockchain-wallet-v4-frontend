@@ -6,12 +6,9 @@ import { model, selectors } from 'data'
 
 const isSubmitting = selectors.form.isSubmitting(model.components.sendBch.FORM)
 
-const isBchLegacyAddress = curry(payment => {
+const isBchLegacyAddress = curry((payment) => {
   const target = payment.to[0]
-  return (
-    target.type === ADDRESS_TYPES.ADDRESS &&
-    !utils.bch.isCashAddr(target.address)
-  )
+  return target.type === ADDRESS_TYPES.ADDRESS && !utils.bch.isCashAddr(target.address)
 })
 
 const bchToLabel = curry((payment, state) => {
@@ -40,15 +37,13 @@ const bchFromLabel = curry((payment, state) => {
     case ADDRESS_TYPES.CUSTODIAL:
       return payment.from
     case ADDRESS_TYPES.LEGACY:
-      const formValues = selectors.form.getFormValues(
-        model.components.sendBch.FORM
-      )(state)
+      const formValues = selectors.form.getFormValues(model.components.sendBch.FORM)(state)
       const { from } = formValues
       if (from === 'allImportedAddresses') {
         return 'All Imported Bitcoin Cash Addresses'
-      } else {
-        return utils.bch.toCashAddr(payment.from[0], true)
       }
+      return utils.bch.toCashAddr(payment.from[0], true)
+
     case ADDRESS_TYPES.WATCH_ONLY:
       return utils.bch.toCashAddr(payment.from[0], true)
     case ADDRESS_TYPES.EXTERNAL:
@@ -63,25 +58,23 @@ const bchFromLabel = curry((payment, state) => {
   }
 })
 
-export const getData = state => {
+export const getData = (state) => {
   const paymentR = selectors.components.sendBch.getPayment(state)
 
-  const transform = payment => {
+  const transform = (payment) => {
     const fromLabel = bchFromLabel(payment, state)
     const toLabel = bchToLabel(payment, state)
     const isLegacy = isBchLegacyAddress(payment, state)
 
     return {
-      submitting: isSubmitting(state),
-      description: payment.description,
-      fromAddress: fromLabel,
-      toAddress: toLabel,
       amount: payment.amount[0],
+      description: payment.description,
       fee: payment.selection ? payment.selection.fee : 0,
-      total: payment.selection
-        ? payment.selection.fee + payment.amount[0]
-        : payment.amount[0],
-      isLegacy: isLegacy
+      fromAddress: fromLabel,
+      isLegacy,
+      submitting: isSubmitting(state),
+      toAddress: toLabel,
+      total: payment.selection ? payment.selection.fee + payment.amount[0] : payment.amount[0]
     }
   }
 

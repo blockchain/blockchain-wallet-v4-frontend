@@ -34,14 +34,8 @@ const GoBackLink = styled(Link)`
 const validatePasswordConfirmation = validPasswordConfirmation('password')
 
 const SecondStep = (props) => {
-  const {
-    handleSubmit,
-    invalid,
-    isRegistering,
-    isRestoringFromMetadata,
-    password,
-    previousStep
-  } = props
+  const { handleSubmit, invalid, isRegistering, isRestoringFromMetadata, password, previousStep } =
+    props
 
   return (
     <Wrapper>

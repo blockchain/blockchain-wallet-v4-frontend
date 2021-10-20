@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { Banner, Button, Icon, Image, Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
-const Fragment = React.Fragment
+const { Fragment } = React
 
 const Wrapper = styled.div`
   display: flex;
@@ -79,7 +79,7 @@ const ApproveRejectButtons = styled(Button)`
 `}
 `
 
-const Success = props => {
+const Success = (props) => {
   /* eslint-disable */
   const {
     approver_device_description,
@@ -97,26 +97,16 @@ const Success = props => {
   return (
     <Wrapper>
       {device_change_reason ? (
-        <Fragment>
+        <>
           <Image name='blockchain-icon' width='40px' height='40px' />
           <InfoWrapper>
-            <Text
-              size='20px'
-              weight={600}
-              color='black'
-              style={{ marginTop: '24px' }}
-            >
+            <Text size='20px' weight={600} color='black' style={{ marginTop: '24px' }}>
               <FormattedMessage
                 id='scenes.authorizelogin.attemptfrombrowser'
                 defaultMessage='Login attempt from another browser'
               />
             </Text>
-            <Text
-              color='grey700'
-              style={{ marginTop: '8px' }}
-              size='14px'
-              weight={500}
-            >
+            <Text color='grey700' style={{ marginTop: '8px' }} size='14px' weight={500}>
               <FormattedMessage
                 id='scenes.authorizelogin.attemptfrombrowsermsg'
                 defaultMessage='Someone, hopefully you, is attempting to login to your wallet from a different browser.'
@@ -132,10 +122,7 @@ const Success = props => {
                 </Text>
                 &nbsp;
                 <Text size='16px' weight={500} color='grey700'>
-                  <FormattedMessage
-                    id='scenes.authorizelogin.vs'
-                    defaultMessage='vs.'
-                  />
+                  <FormattedMessage id='scenes.authorizelogin.vs' defaultMessage='vs.' />
                 </Text>
                 &nbsp;
                 <Text size='16px' weight={500} color='error'>
@@ -261,10 +248,7 @@ const Success = props => {
                 nature='warning'
                 onClick={props.onAccept}
               >
-                <FormattedMessage
-                  id='scenes.authorizelogin.accept'
-                  defaultMessage='Accept'
-                />
+                <FormattedMessage id='scenes.authorizelogin.accept' defaultMessage='Accept' />
               </ApproveRejectButtons>
               <OrText size='12px' weight={400}>
                 <FormattedMessage id='copy.or' defaultMessage='or' />
@@ -274,27 +258,19 @@ const Success = props => {
                 nature='primary'
                 onClick={props.onReject}
               >
-                <FormattedMessage
-                  id='scenes.authorizelogin.reject'
-                  defaultMessage='Reject'
-                />
+                <FormattedMessage id='scenes.authorizelogin.reject' defaultMessage='Reject' />
               </ApproveRejectButtons>
             </ApproveWrapper>
           </InfoWrapper>
-        </Fragment>
+        </>
       ) : (
-        <Fragment>
+        <>
           {requestDenied ? (
             <Icon color='error' name='close-circle' size='40px' />
           ) : (
             <Icon color='success' name='checkmark-circle-filled' size='40px' />
           )}
-          <Text
-            size='20px'
-            weight={600}
-            color='black'
-            style={{ marginTop: '8px' }}
-          >
+          <Text size='20px' weight={600} color='black' style={{ marginTop: '8px' }}>
             {requestDenied ? (
               <FormattedMessage
                 id='scenes.authorizelogin.loading.rejected.title'
@@ -307,12 +283,7 @@ const Success = props => {
               />
             )}
           </Text>
-          <Text
-            color='grey900'
-            style={{ marginTop: '8px' }}
-            size='16px'
-            weight={500}
-          >
+          <Text color='grey900' style={{ marginTop: '8px' }} size='16px' weight={500}>
             {requestDenied ? (
               <FormattedMessage
                 id='scenes.authorizelogin.loading.rejected.content'
@@ -325,7 +296,7 @@ const Success = props => {
               />
             )}
           </Text>
-        </Fragment>
+        </>
       )}
     </Wrapper>
   )

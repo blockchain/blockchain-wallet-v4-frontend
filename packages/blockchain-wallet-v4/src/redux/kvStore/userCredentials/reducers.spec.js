@@ -13,7 +13,7 @@ describe('kvStore userCredentials reducers', () => {
   const user_id = '3d448ad7-0e2c-4b65-91b0-c149892e243c'
   const lifetime_token = 'd753109e-23jd-42bd-82f1-cc904702asdfkjf'
 
-  const userCredentialsObject = { user_id, lifetime_token }
+  const userCredentialsObject = { lifetime_token, user_id }
 
   const userCredentialsMetadata = set(
     KVStoreEntry.value,
@@ -41,17 +41,13 @@ describe('kvStore userCredentials reducers', () => {
   })
 
   it('should handle FETCH_METADATA_USER_CREDENTIALS_SUCCESS', () => {
-    const action = actions.fetchMetadataUserCredentialsSuccess(
-      userCredentialsMetadata
-    )
+    const action = actions.fetchMetadataUserCredentialsSuccess(userCredentialsMetadata)
     const expectedState = userCredentialsMetadataSuccess
     expect(reducer(undefined, action)).toEqual(expectedState)
   })
 
   it('should handle CREATE_METADATA_USER_CREDENTIALS', () => {
-    const action = actions.createMetadataUserCredentials(
-      userCredentialsMetadata
-    )
+    const action = actions.createMetadataUserCredentials(userCredentialsMetadata)
     const expectedState = userCredentialsMetadataSuccess
     expect(reducer(undefined, action)).toEqual(expectedState)
   })
@@ -67,8 +63,6 @@ describe('kvStore userCredentials reducers', () => {
         KVStoreEntry.createEmpty(typeId)
       )
     )
-    expect(reducer(userCredentialsMetadataSuccess, action)).toEqual(
-      expectedState
-    )
+    expect(reducer(userCredentialsMetadataSuccess, action)).toEqual(expectedState)
   })
 })

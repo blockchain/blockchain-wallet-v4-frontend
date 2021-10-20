@@ -12,8 +12,8 @@ class UploadDocumentsContainer extends Component {
   static propTypes = {
     data: PropTypes.object,
     displayError: PropTypes.func.isRequired,
-    uploaded: PropTypes.object,
-    uploadDocuments: PropTypes.func.isRequired
+    uploadDocuments: PropTypes.func.isRequired,
+    uploaded: PropTypes.object
   }
 
   constructor(props) {
@@ -23,8 +23,8 @@ class UploadDocumentsContainer extends Component {
 
     this.state = {
       files: [],
-      token: props.match.params.token,
-      redirectUrl: search.get('redirect_url')
+      redirectUrl: search.get('redirect_url'),
+      token: props.match.params.token
     }
   }
 
@@ -33,12 +33,12 @@ class UploadDocumentsContainer extends Component {
   }
 
   onSubmit = () => {
-    let filesLoaded = []
+    const filesLoaded = []
     const { redirectUrl, token } = this.state
-    this.state.files.forEach(file => {
+    this.state.files.forEach((file) => {
       const fileReader = new FileReader()
       // One single upload for the array of all byte arrays
-      fileReader.onload = event => {
+      fileReader.onload = (event) => {
         const fileArray = new Uint8Array(event.target.result).reduce(
           (data, byte) => data + String.fromCharCode(byte),
           ''
@@ -52,8 +52,8 @@ class UploadDocumentsContainer extends Component {
     })
   }
 
-  deleteFileAt = index => {
-    this.setState(previousState => {
+  deleteFileAt = (index) => {
+    this.setState((previousState) => {
       previousState.files.splice(index, 1)
       return {
         files: previousState.files
@@ -61,15 +61,15 @@ class UploadDocumentsContainer extends Component {
     })
   }
 
-  onDropAccepted = files => {
+  onDropAccepted = (files) => {
     const fileSizeLimit = 3 * 1024 * 1024
-    files.forEach(file => {
+    files.forEach((file) => {
       if (file.size >= fileSizeLimit) {
         this.props.displayError('File over size limit')
       } else if (this.state.files.length >= 3) {
         this.props.displayError('Maximum number of files reached')
       } else {
-        this.setState(previousState => ({
+        this.setState((previousState) => ({
           files: [...previousState.files, file]
         }))
       }
@@ -80,16 +80,16 @@ class UploadDocumentsContainer extends Component {
     if (this.dropzone) this.dropzone.open()
   }
 
-  setDropzoneRef = element => {
+  setDropzoneRef = (element) => {
     this.dropzone = element
   }
 
   render() {
     const { loading } = this.props.uploaded.cata({
-      Success: val => ({ loading: false }),
-      Failure: val => ({ loading: false }),
-      NotAsked: val => ({ loading: false }),
-      Loading: () => ({ loading: true })
+      Failure: (val) => ({ loading: false }),
+      Loading: () => ({ loading: true }),
+      NotAsked: (val) => ({ loading: false }),
+      Success: (val) => ({ loading: false })
     })
 
     return (
@@ -108,24 +108,15 @@ class UploadDocumentsContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: selectors.components.uploadDocuments.getData(state),
   uploaded: selectors.components.uploadDocuments.getUploaded(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   displayError: bindActionCreators(actions.alerts.displayError, dispatch),
-  fetchUploadData: bindActionCreators(
-    actions.components.uploadDocuments.fetchData,
-    dispatch
-  ),
-  uploadDocuments: bindActionCreators(
-    actions.components.uploadDocuments.upload,
-    dispatch
-  )
+  fetchUploadData: bindActionCreators(actions.components.uploadDocuments.fetchData, dispatch),
+  uploadDocuments: bindActionCreators(actions.components.uploadDocuments.upload, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UploadDocumentsContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(UploadDocumentsContainer)

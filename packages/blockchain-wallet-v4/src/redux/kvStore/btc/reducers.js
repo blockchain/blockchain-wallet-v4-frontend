@@ -26,7 +26,7 @@ export default (state = INITIAL_STATE, action) => {
     case AT.ADD_ADDRESS_LABEL: {
       const { address, label } = payload
       const valueLens = compose(mapped, KVStoreEntry.value)
-      let setLabel = assocPath(['address_labels', address], label)
+      const setLabel = assocPath(['address_labels', address], label)
       return over(valueLens, setLabel, state)
     }
 

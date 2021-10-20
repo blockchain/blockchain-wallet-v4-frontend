@@ -6,12 +6,9 @@ import sagas from './sagas'
 export default ({ api, coreSagas }) => {
   const settingsSagas = sagas({ api, coreSagas })
 
-  return function * settingsModuleSaga() {
+  return function* settingsModuleSaga() {
     yield takeLatest(AT.INIT_SETTINGS_INFO, settingsSagas.initSettingsInfo)
-    yield takeLatest(
-      AT.INIT_SETTINGS_PREFERENCES,
-      settingsSagas.initSettingsPreferences
-    )
+    yield takeLatest(AT.INIT_SETTINGS_PREFERENCES, settingsSagas.initSettingsPreferences)
     yield takeLatest(AT.SHOW_BACKUP_RECOVERY, settingsSagas.showBackupRecovery)
     yield takeLatest(
       AT.SHOW_GOOGLE_AUTHENTICATOR_SECRET_URL,
@@ -28,22 +25,13 @@ export default ({ api, coreSagas }) => {
     yield takeLatest(AT.UPDATE_IP_LOCK_ON, settingsSagas.updateIpLockOn)
     yield takeLatest(AT.UPDATE_BLOCK_TOR_IPS, settingsSagas.updateBlockTorIps)
     yield takeLatest(AT.UPDATE_HINT, settingsSagas.updateHint)
-    yield takeLatest(
-      AT.UPDATE_TWO_STEP_REMEMBER,
-      settingsSagas.updateTwoStepRemember
-    )
-    yield takeLatest(
-      AT.ENABLE_TWO_STEP_MOBILE,
-      settingsSagas.enableTwoStepMobile
-    )
+    yield takeLatest(AT.UPDATE_TWO_STEP_REMEMBER, settingsSagas.updateTwoStepRemember)
+    yield takeLatest(AT.ENABLE_TWO_STEP_MOBILE, settingsSagas.enableTwoStepMobile)
     yield takeLatest(
       AT.ENABLE_TWO_STEP_GOOGLE_AUTHENTICATOR,
       settingsSagas.enableTwoStepGoogleAuthenticator
     )
-    yield takeLatest(
-      AT.ENABLE_TWO_STEP_YUBIKEY,
-      settingsSagas.enableTwoStepYubikey
-    )
+    yield takeLatest(AT.ENABLE_TWO_STEP_YUBIKEY, settingsSagas.enableTwoStepYubikey)
     yield takeLatest(AT.NEW_HD_ACCOUNT, settingsSagas.newHDAccount)
     yield takeLatest(AT.SHOW_BTC_PRIV_KEY, settingsSagas.showBtcPrivateKey)
     yield takeLatest(AT.SHOW_ETH_PRIV_KEY, settingsSagas.showEthPrivateKey)

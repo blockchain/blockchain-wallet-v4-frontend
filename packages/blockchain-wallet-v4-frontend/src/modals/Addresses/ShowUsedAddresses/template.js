@@ -27,7 +27,7 @@ const CancelBtn = styled(Text)`
   }
 `
 
-const ShowUsedAddresses = props => {
+const ShowUsedAddresses = (props) => {
   const { busy, closeAll, position, total, ...rest } = props
   const { handleContinue } = rest
 
@@ -35,16 +35,8 @@ const ShowUsedAddresses = props => {
     <Modal size='large' position={position} total={total}>
       <ModalHeader onClose={closeAll}>
         <HeaderWrapper>
-          <Icon
-            name='alert-filled'
-            size='26px'
-            className={'warning-icon'}
-            color='brand-yellow'
-          />
-          <FormattedMessage
-            id='modals.showusedaddresses.title'
-            defaultMessage='Are you sure?'
-          />
+          <Icon name='alert-filled' size='26px' className='warning-icon' color='brand-yellow' />
+          <FormattedMessage id='modals.showusedaddresses.title' defaultMessage='Are you sure?' />
         </HeaderWrapper>
       </ModalHeader>
       <ModalBody>
@@ -73,10 +65,7 @@ const ShowUsedAddresses = props => {
           data-e2e='showUsedAddressesConfirmButton'
         >
           {!busy ? (
-            <FormattedMessage
-              id='modals.showusedaddresses.ok'
-              defaultMessage='Ok'
-            />
+            <FormattedMessage id='modals.showusedaddresses.ok' defaultMessage='Ok' />
           ) : (
             <HeartbeatLoader height='20px' width='20px' color='white' />
           )}

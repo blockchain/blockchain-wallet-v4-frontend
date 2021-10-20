@@ -7,7 +7,7 @@ import { actions } from 'data'
 import { getData } from './selectors'
 import XlmAddresses from './template'
 
-const isValid = item => !isNil(item) && !isEmpty(item)
+const isValid = (item) => !isNil(item) && !isEmpty(item)
 
 type StateType = {
   hasCheckedSecondPassword: boolean
@@ -50,12 +50,12 @@ class XlmContainer extends Component<PropsType, StateType> {
 
   toggleQrCode = () => {
     if (this.state.hasCheckedSecondPassword) {
-      this.setState(prevState => ({
+      this.setState((prevState) => ({
         showQrCode: !prevState.showQrCode
       }))
     } else {
       this.props.showXlmPrivateKey()
-      this.setState(prevState => ({
+      this.setState((prevState) => ({
         hasCheckedSecondPassword: true,
         showQrCode: !prevState.showQrCode
       }))
@@ -79,13 +79,10 @@ class XlmContainer extends Component<PropsType, StateType> {
 
 const mapStateToProps = (state, ownProps) => getData(state, ownProps)
 
-const mapDispatchToProps = dispatch => ({
-  clearShownXlmPrivateKey: () =>
-    dispatch(actions.modules.settings.clearShownXlmPrivateKey()),
-  fetchLegacyBalance: () =>
-    dispatch(actions.core.data.eth.fetchLegacyBalance()),
-  showXlmPrivateKey: () =>
-    dispatch(actions.modules.settings.showXlmPrivateKey())
+const mapDispatchToProps = (dispatch) => ({
+  clearShownXlmPrivateKey: () => dispatch(actions.modules.settings.clearShownXlmPrivateKey()),
+  fetchLegacyBalance: () => dispatch(actions.core.data.eth.fetchLegacyBalance()),
+  showXlmPrivateKey: () => dispatch(actions.modules.settings.showXlmPrivateKey())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(XlmContainer)

@@ -2,21 +2,12 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import PropTypes from 'prop-types'
 
-import {
-  Modal,
-  ModalBody,
-  ModalHeader,
-  TooltipHost,
-  TooltipIcon
-} from 'blockchain-info-components'
+import { Modal, ModalBody, ModalHeader, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 
-const SignMessage = props => (
+const SignMessage = (props) => (
   <Modal size='medium' position={props.position} total={props.total}>
     <ModalHeader onClose={props.closeAll}>
-      <FormattedMessage
-        id='modals.signmessage.title'
-        defaultMessage='Sign Message'
-      />
+      <FormattedMessage id='modals.signmessage.title' defaultMessage='Sign Message' />
       <TooltipHost id='signmessage.label.tooltip'>
         <TooltipIcon name='info' />
       </TooltipHost>
@@ -26,9 +17,9 @@ const SignMessage = props => (
 )
 
 SignMessage.propTypes = {
+  closeAll: PropTypes.func.isRequired,
   position: PropTypes.number.isRequired,
-  total: PropTypes.number.isRequired,
-  closeAll: PropTypes.func.isRequired
+  total: PropTypes.number.isRequired
 }
 
 export default SignMessage

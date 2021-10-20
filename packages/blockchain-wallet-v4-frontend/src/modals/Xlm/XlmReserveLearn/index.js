@@ -168,9 +168,9 @@ class XlmReserveLearn extends React.PureComponent {
 XlmReserveLearn.propTypes = {
   currency: PropTypes.string.isRequired,
   effectiveBalanceXlm: PropTypes.string.isRequired,
-  reserveXlm: PropTypes.string.isRequired,
   fee: PropTypes.string.isRequired,
-  rates: PropTypes.object.isRequired
+  rates: PropTypes.object.isRequired,
+  reserveXlm: PropTypes.string.isRequired
 }
 
 const mapDispatchToProps = (dispatch) => ({

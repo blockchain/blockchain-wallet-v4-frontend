@@ -37,18 +37,18 @@ const InstructionsContainer = styled.div`
   margin: 24px 0;
 `
 const Instruction = styled(Text)`
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 14px;
   font-weight: 500;
   margin-top: 12px;
   &:first-child {
     margin-top: 0px;
   }
-  color: ${props => props.theme['grey800']};
+  color: ${(props) => props.theme.grey800};
 `
 
-const MobileLogin = props => {
+const MobileLogin = (props) => {
   const { close, ...rest } = props
   const { handleError, handleScan, isScanning } = rest
 
@@ -100,13 +100,7 @@ const MobileLogin = props => {
         </InstructionsContainer>
       </Container>
       <LinkContainer to='/login'>
-        <Button
-          data-e2e='backToLogin'
-          type='submit'
-          nature='primary'
-          fullwidth
-          height='56px'
-        >
+        <Button data-e2e='backToLogin' type='submit' nature='primary' fullwidth height='56px'>
           <Text color='white' size='16px' weight={600} onClick={close}>
             <FormattedMessage id='buttons.back' defaultMessage='Back' />
           </Text>

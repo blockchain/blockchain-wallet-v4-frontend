@@ -2,12 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import {
-  BlockchainLoader,
-  Button,
-  Icon,
-  Text
-} from 'blockchain-info-components'
+import { BlockchainLoader, Button, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 
 const Top = styled(FlyoutWrapper)`
@@ -37,17 +32,11 @@ const Title = styled(Text)`
 const Pending: React.FC<{
   handleClose: () => void
   handleRefresh: () => void
-}> = props => {
+}> = (props) => {
   return (
     <Top>
       <MainText color='grey800' size='20px' weight={600}>
-        <Icon
-          cursor
-          data-e2e='sbCloseModalIcon'
-          name='user'
-          size='22px'
-          color='blue600'
-        />
+        <Icon cursor data-e2e='sbCloseModalIcon' name='user' size='22px' color='blue600' />
         <Icon
           cursor
           data-e2e='sbCloseModalIcon'

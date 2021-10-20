@@ -15,19 +15,17 @@ const Content = styled.div`
   justify-content: flex-start;
   align-items: center;
   white-space: nowrap;
-  padding-left: ${props =>
-    props.align === 'left' || props.align === 'center' ? '10px' : '0'};
-  padding-right: ${props =>
-    props.align === 'right' || props.align === 'center' ? '10px' : '0'};
+  padding-left: ${(props) => (props.align === 'left' || props.align === 'center' ? '10px' : '0')};
+  padding-right: ${(props) => (props.align === 'right' || props.align === 'center' ? '10px' : '0')};
 `
 const BaseSeparator = styled.div`
   width: 100%;
   height: 1px;
-  background-color: ${props => props.theme.grey200};
-  margin: ${props => (props.margin ? props.margin : '10px 0')};
+  background-color: ${(props) => props.theme.grey200};
+  margin: ${(props) => (props.margin ? props.margin : '10px 0')};
 `
 
-const Separator = props => {
+const Separator = (props) => {
   const { align, children, className, margin } = props
 
   return children ? (

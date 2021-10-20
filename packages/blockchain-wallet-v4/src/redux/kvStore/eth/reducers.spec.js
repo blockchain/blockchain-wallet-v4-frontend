@@ -28,11 +28,7 @@ describe('kvStore ethereum reducers', () => {
     }
   }
 
-  const ethMetadata = set(
-    KVStoreEntry.value,
-    ethObject,
-    KVStoreEntry.createEmpty(typeId)
-  )
+  const ethMetadata = set(KVStoreEntry.value, ethObject, KVStoreEntry.createEmpty(typeId))
 
   const ethMetadataSuccess = Remote.Success(ethMetadata)
   const valueLens = compose(mapped, KVStoreEntry.value)
@@ -86,15 +82,8 @@ describe('kvStore ethereum reducers', () => {
   it('should handle SET_LATEST_TX_TIMESTAMP_ETH', () => {
     const latestTimestamp = 42
     const action = actions.setLatestTxTimestampEth(latestTimestamp)
-    const setLatestTimestamp = assocPath(
-      ['ethereum', 'last_tx_timestamp'],
-      latestTimestamp
-    )
-    const expectedState = over(
-      valueLens,
-      setLatestTimestamp,
-      ethMetadataSuccess
-    )
+    const setLatestTimestamp = assocPath(['ethereum', 'last_tx_timestamp'], latestTimestamp)
+    const expectedState = over(valueLens, setLatestTimestamp, ethMetadataSuccess)
     expect(reducer(ethMetadataSuccess, action)).toEqual(expectedState)
   })
 })

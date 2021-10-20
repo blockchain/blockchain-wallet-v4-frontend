@@ -22,8 +22,8 @@ const Container = styled.div`
   align-items: flex-start;
   width: 100%;
   margin: 20px 0 10px;
-  background-color: ${props => props.theme.grey000};
-  border: 1px solid ${props => props.theme.grey200};
+  background-color: ${(props) => props.theme.grey000};
+  border: 1px solid ${(props) => props.theme.grey200};
 `
 const Row = styled.div`
   display: flex;
@@ -71,8 +71,7 @@ const TransferEth = (props: InjectedFormProps<{}, Props> & Props) => {
           <Container>
             <Row>
               <Text size='14px' weight={600}>
-                <FormattedMessage id='copy.from' defaultMessage='From' />
-                :
+                <FormattedMessage id='copy.from' defaultMessage='From' />:
               </Text>
               <Text size='14px' weight={400}>
                 {legacyEthAddr}
@@ -80,10 +79,7 @@ const TransferEth = (props: InjectedFormProps<{}, Props> & Props) => {
             </Row>
             <Row>
               <Text size='14px' weight={600}>
-                <FormattedMessage
-                  id='modals.transfereth.to'
-                  defaultMessage='To:'
-                />
+                <FormattedMessage id='modals.transfereth.to' defaultMessage='To:' />
               </Text>
               <Text size='14px' weight={400}>
                 {ethAddr}
@@ -91,10 +87,7 @@ const TransferEth = (props: InjectedFormProps<{}, Props> & Props) => {
             </Row>
             <Row>
               <Text size='14px' weight={600}>
-                <FormattedMessage
-                  id='modals.transfereth.amount'
-                  defaultMessage='Amount:'
-                />
+                <FormattedMessage id='modals.transfereth.amount' defaultMessage='Amount:' />
               </Text>
               <CoinDisplay size='14px' coin='ETH' weight={400}>
                 {ethBalance}
@@ -102,10 +95,7 @@ const TransferEth = (props: InjectedFormProps<{}, Props> & Props) => {
             </Row>
             <Row>
               <Text size='14px' weight={600}>
-                <FormattedMessage
-                  id='modals.transfereth.txfee'
-                  defaultMessage='Transaction Fee:'
-                />
+                <FormattedMessage id='modals.transfereth.txfee' defaultMessage='Transaction Fee:' />
               </Text>
               <CoinDisplay size='14px' coin='ETH' weight={400}>
                 {txFee}
@@ -122,10 +112,7 @@ const TransferEth = (props: InjectedFormProps<{}, Props> & Props) => {
             {props.submitting ? (
               <HeartbeatLoader height='20px' width='20px' color='white' />
             ) : (
-              <FormattedMessage
-                id='modals.transfereth.confirm1'
-                defaultMessage='Transfer Funds'
-              />
+              <FormattedMessage id='modals.transfereth.confirm1' defaultMessage='Transfer Funds' />
             )}
           </Button>
         </Form>

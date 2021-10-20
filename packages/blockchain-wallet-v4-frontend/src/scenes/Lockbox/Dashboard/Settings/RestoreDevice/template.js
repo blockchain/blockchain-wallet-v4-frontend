@@ -28,10 +28,7 @@ const RestoreLockboxDevice = () => {
         </SettingDescription>
       </SettingSummary>
       <SettingComponent>
-        <Link
-          href='https://support.blockchain.com/hc/en-us/articles/360018285872'
-          target='_blank'
-        >
+        <Link href='https://support.blockchain.com/hc/en-us/articles/360018285872' target='_blank'>
           <Button nature='empty'>
             <Icon name='open-in-new-tab' size='20px' />
           </Button>

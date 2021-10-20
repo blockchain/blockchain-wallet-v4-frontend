@@ -6,7 +6,7 @@ const BaseForm = styled(ReduxForm)`
   width: 100%;
 `
 
-const Form = props => {
+const Form = (props) => {
   const { children, className, onSubmit } = props
 
   return (

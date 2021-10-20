@@ -20,13 +20,8 @@ const TableStyled = styled(Table)`
   }
 `
 
-const UnusedAddressesTemplate = ({
-  onDeleteLabel,
-  onEditLabel,
-  search,
-  unusedAddresses
-}) => {
-  const isMatch = addr =>
+const UnusedAddressesTemplate = ({ onDeleteLabel, onEditLabel, search, unusedAddresses }) => {
+  const isMatch = (addr) =>
     !search ||
     addr.label.toLowerCase().indexOf(search.toLowerCase()) > -1 ||
     addr.address.toLowerCase().indexOf(search.toLowerCase()) > -1
@@ -49,10 +44,7 @@ const UnusedAddressesTemplate = ({
             {entry.label}
           </Text>
         </TableCell>
-        <TableCell
-          width='20%'
-          style={{ display: 'flex', justifyContent: 'flex-end' }}
-        >
+        <TableCell width='20%' style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Icon
             cursor
             data-e2e='btcEditAddressLabelLink'
@@ -100,10 +92,7 @@ const UnusedAddressesTemplate = ({
             />
           </Text>
         </TableCell>
-        <TableCell
-          width='20%'
-          style={{ display: 'flex', justifyContent: 'flex-end' }}
-        >
+        <TableCell width='20%' style={{ display: 'flex', justifyContent: 'flex-end' }}>
           <Text color='grey900' size='14px' weight={500}>
             <FormattedMessage
               id='scenes.settings.addresses.btc.manageaddresses.unusedaddresses.actions'

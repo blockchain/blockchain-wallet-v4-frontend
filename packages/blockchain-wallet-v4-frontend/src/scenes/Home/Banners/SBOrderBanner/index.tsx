@@ -5,8 +5,8 @@ import { BuyOrSell } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/mo
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
-import { Button, Icon, Text } from 'blockchain-info-components'
 import { SBOrderType, SBPaymentTypes } from '@core/types'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { getOrderType } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'

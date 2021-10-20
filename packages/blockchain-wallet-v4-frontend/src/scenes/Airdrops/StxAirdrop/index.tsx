@@ -6,13 +6,7 @@ import { Box } from 'components/Box'
 import { CampaignInfoType } from 'data/types'
 
 import { Props } from '../template.success'
-import {
-  StxDateOrAmount,
-  StxFooterCta,
-  StxHeader,
-  StxInfo,
-  StxStatus
-} from './model'
+import { StxDateOrAmount, StxFooterCta, StxHeader, StxInfo, StxStatus } from './model'
 
 const Header = styled.div`
   display: flex;
@@ -36,11 +30,7 @@ const StxAirdrop = (props: Props) => {
   )
 
   // do not show card if user did not sign up for airdrop
-  if (
-    !stxCampaign ||
-    !stxCampaign.userCampaignState ||
-    stxCampaign.userCampaignState === 'NONE'
-  )
+  if (!stxCampaign || !stxCampaign.userCampaignState || stxCampaign.userCampaignState === 'NONE')
     return null
 
   return (
@@ -48,12 +38,7 @@ const StxAirdrop = (props: Props) => {
       <div>
         <Header>
           <Icon name='STX' color='STX' size='32px' />
-          <Text
-            size='20px'
-            color='grey800'
-            weight={600}
-            style={{ marginLeft: '16px' }}
-          >
+          <Text size='20px' color='grey800' weight={600} style={{ marginLeft: '16px' }}>
             <StxHeader stxCampaign={stxCampaign} />
           </Text>
         </Header>

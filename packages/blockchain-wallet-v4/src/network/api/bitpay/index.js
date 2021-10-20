@@ -7,30 +7,30 @@ export default ({ bitpayUrl }) => {
    */
   const getRawPaymentRequest = (invoiceId, chain) =>
     axios({
-      strictSSL: true,
-      method: 'post',
-      url: bitpayUrl + `/i/${invoiceId}`,
-      headers: {
-        Accept: 'application/payment-options',
-        'Content-Type': 'application/payment-request',
-        BP_PARTNER: 'Blockchain',
-        BP_PARTNER_VERSION: 'V6.28.0',
-        'x-paypro-version': 2
-      },
       data: {
         chain
-      }
+      },
+      headers: {
+        Accept: 'application/payment-options',
+        BP_PARTNER: 'Blockchain',
+        BP_PARTNER_VERSION: 'V6.28.0',
+        'Content-Type': 'application/payment-request',
+        'x-paypro-version': 2
+      },
+      method: 'post',
+      strictSSL: true,
+      url: `${bitpayUrl}/i/${invoiceId}`
     })
-      .then(response => {
+      .then((response) => {
         if (response.status !== 200) {
           throw new Error(response.data.toString())
         }
         return {
-          rawBody: JSON.stringify(response.data),
-          headers: response.headers
+          headers: response.headers,
+          rawBody: JSON.stringify(response.data)
         }
       })
-      .catch(error => {
+      .catch((error) => {
         if (error) {
           throw new Error(error)
         }
@@ -38,39 +38,39 @@ export default ({ bitpayUrl }) => {
 
   const verifyPaymentRequest = (invoiceId, tx, weightedSize, chain) =>
     axios({
-      url: bitpayUrl + `/i/${invoiceId}`,
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/payment-verification',
-        BP_PARTNER: 'Blockchain',
-        BP_PARTNER_VERSION: 'V6.28.0',
-        'x-paypro-version': 2
-      },
       data: {
         chain,
         transactions: [{ tx, weightedSize }]
-      }
+      },
+      headers: {
+        BP_PARTNER: 'Blockchain',
+        BP_PARTNER_VERSION: 'V6.28.0',
+        'Content-Type': 'application/payment-verification',
+        'x-paypro-version': 2
+      },
+      method: 'post',
+      url: `${bitpayUrl}/i/${invoiceId}`
     })
 
   const submitPaymentRequest = (invoiceId, tx, weightedSize, chain) =>
     axios({
-      url: bitpayUrl + `/i/${invoiceId}`,
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/payment',
-        BP_PARTNER: 'Blockchain',
-        BP_PARTNER_VERSION: 'V6.28.0',
-        'x-paypro-version': 2
-      },
       data: {
         chain,
         transactions: [{ tx, weightedSize }]
-      }
+      },
+      headers: {
+        BP_PARTNER: 'Blockchain',
+        BP_PARTNER_VERSION: 'V6.28.0',
+        'Content-Type': 'application/payment',
+        'x-paypro-version': 2
+      },
+      method: 'post',
+      url: `${bitpayUrl}/i/${invoiceId}`
     })
 
   return {
     getRawPaymentRequest,
-    verifyPaymentRequest,
-    submitPaymentRequest
+    submitPaymentRequest,
+    verifyPaymentRequest
   }
 }

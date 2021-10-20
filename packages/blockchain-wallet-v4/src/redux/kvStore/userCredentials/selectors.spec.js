@@ -6,7 +6,7 @@ describe('kvstore userCredentials selectors', () => {
   const lifetime_token = 'd753109e-23jd-42bd-82f1-cc904702asdfkjf'
 
   const userCredentialsMetadata = {
-    value: { user_id, lifetime_token }
+    value: { lifetime_token, user_id }
   }
 
   const successState = {

@@ -13,7 +13,7 @@ export const DropdownMenu = styled.div`
   z-index: 4;
   padding: 8px;
   border-radius: 4px;
-  background: ${props => props.theme.white};
+  background: ${(props) => props.theme.white};
   box-shadow: 0px 0px 16px rgba(18, 29, 51, 0.25);
   ${media.laptopM`
     right: -8px;
@@ -28,12 +28,12 @@ export const DropdownMenuArrow = styled.div`
   position: absolute;
   top: -8px;
   right: 8px;
-  ${props => {
+  ${(props) => {
     return triangle({
-      pointingDirection: 'top',
-      width: '16px',
+      foregroundColor: props.theme.white,
       height: '8px',
-      foregroundColor: props.theme.white
+      pointingDirection: 'top',
+      width: '16px'
     })
   }}
 `

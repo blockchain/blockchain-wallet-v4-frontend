@@ -2,49 +2,48 @@ import { path, prop } from 'ramda'
 
 export const TIERS = {
   1: {
-    time: '3',
     level: 'SILVER',
     limit: 'ANNUAL',
     requirements: [
       {
-        name: 'EMAIL',
-        complete: ({ emailVerified }) => emailVerified === 1
+        complete: ({ emailVerified }) => emailVerified === 1,
+        name: 'EMAIL'
       },
       {
-        name: 'NAME',
-        complete: ({ userData }) =>
-          prop('firstName', userData) && prop('lastName', userData)
+        complete: ({ userData }) => prop('firstName', userData) && prop('lastName', userData),
+        name: 'NAME'
       },
       {
-        name: 'DOB',
-        complete: ({ userData }) => prop('dob', userData)
+        complete: ({ userData }) => prop('dob', userData),
+        name: 'DOB'
       },
       {
-        name: 'ADDRESS',
         complete: ({ userData }) =>
           path(['address', 'city'], userData) &&
           path(['address', 'country'], userData) &&
-          path(['address', 'line1'], userData)
+          path(['address', 'line1'], userData),
+        name: 'ADDRESS'
       }
-    ]
+    ],
+    time: '3'
   },
   2: {
-    time: '10',
     level: 'GOLD',
     limit: 'DAILY',
     requirements: [
       {
-        name: 'TIER1',
-        complete: ({ userTiers }) => userTiers[1].state === 'verified'
+        complete: ({ userTiers }) => userTiers[1].state === 'verified',
+        name: 'TIER1'
       },
       {
-        name: 'GOVID',
-        complete: ({ userData }) => prop('kycState', userData) !== 'NONE'
+        complete: ({ userData }) => prop('kycState', userData) !== 'NONE',
+        name: 'GOVID'
       },
       {
-        name: 'SELFIE',
-        complete: ({ userData }) => prop('kycState', userData) !== 'NONE'
+        complete: ({ userData }) => prop('kycState', userData) !== 'NONE',
+        name: 'SELFIE'
       }
-    ]
+    ],
+    time: '10'
   }
 }

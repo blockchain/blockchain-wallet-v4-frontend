@@ -17,10 +17,10 @@ const Error = styled(Text)`
   position: absolute;
   display: block;
   height: 15px;
-  top: ${props => (props.errorBottom ? '48px' : '-20px')};
+  top: ${(props) => (props.errorBottom ? '48px' : '-20px')};
   right: 0;
 `
-const getErrorState = meta => {
+const getErrorState = (meta) => {
   return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 
@@ -56,7 +56,7 @@ class TextBoxDebounced extends React.Component {
 
   handleChange(e) {
     e.preventDefault()
-    const value = e.target.value
+    const { value } = e.target
     this.setState({ updatedValue: value })
 
     if (this.timeout) clearTimeout(this.timeout)

@@ -12,15 +12,12 @@ class InstallFirmwareContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   step: selectors.components.lockbox.getFirmwareUpdateStep(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(InstallFirmwareContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(InstallFirmwareContainer)

@@ -16,10 +16,7 @@ const Themes = () => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage
-            id='scenes.settings.preferences.themes.title'
-            defaultMessage='Themes'
-          />
+          <FormattedMessage id='scenes.settings.preferences.themes.title' defaultMessage='Themes' />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage

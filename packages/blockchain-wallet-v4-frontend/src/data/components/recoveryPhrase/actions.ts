@@ -9,8 +9,8 @@ export const setStep = (
     | 'CONFIRM_WORDS'
     | 'CONFIRM_WORDS_SUCCESS'
 ): RecoveryPhraseActionTypes => ({
-  type: AT.SET_STEP,
   payload: {
     step
-  }
+  },
+  type: AT.SET_STEP
 })
