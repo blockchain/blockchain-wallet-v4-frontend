@@ -1,9 +1,8 @@
 import React from 'react'
-import { connect, ConnectedProps } from 'react-redux'
-import Failure from 'blockchain-wallet-v4-frontend/src/modals/RecurringBuys/Failure'
+import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { Wrapper } from 'components/Public'
+import { Text } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 
 import { Props } from '..'
@@ -14,10 +13,10 @@ import Success from './template.success'
 class VerifyMagicLink extends React.PureComponent<Props> {
   render() {
     return this.props.data.cata({
-      Failure: () => <Error />,
+      Failure: (val) => <Error error={val} />,
       Loading: () => <Loading />,
-      NotAsked: () => <Success {...this.props} />,
-      Success: () => <Success {...this.props} />
+      NotAsked: () => <Success {...this.props} success={false} />,
+      Success: () => <Success {...this.props} success />
     })
   }
 }

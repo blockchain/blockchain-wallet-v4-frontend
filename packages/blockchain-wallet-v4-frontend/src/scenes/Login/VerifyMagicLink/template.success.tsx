@@ -2,10 +2,10 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Button, Image, Text } from 'blockchain-info-components'
+import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
-import { Props } from '..'
+import { Props as OwnProps } from '..'
 
 const FormBody = styled.div`
   display: flex;
@@ -40,15 +40,43 @@ const OrText = styled(Text)`
 `}
 `
 
+const SuccessWrapper = styled.div`
+  display: flex;
+  text-align: center;
+  align-items: center;
+  flex-direction: column;
+`
+
 const Success = (props: Props) => {
-  return (
+  return props.success ? (
+    <SuccessWrapper>
+      <Icon color='success' name='checkmark-circle-filled' size='40px' />
+
+      <Text size='20px' weight={600} color='black' style={{ marginTop: '8px' }}>
+        <FormattedMessage
+          id='scenes.login.device_verified'
+          defaultMessage='Your device is verified!'
+        />
+      </Text>
+
+      <Text color='grey900' style={{ marginTop: '8px' }} size='16px' weight={500}>
+        <FormattedMessage
+          id='scenes.login.device_verified.copy'
+          defaultMessage='Return to previous browser to continue logging in.'
+        />
+      </Text>
+    </SuccessWrapper>
+  ) : (
     <>
       <FormBody>
         <Image name='blockchain-icon' width='40px' height='40px' />
-        <Text size='20px' weight={600} color='black' style={{ marginTop: '24px' }}>
+        <Text size='20px' weight={600} color='grey900' style={{ marginTop: '24px' }}>
+          <FormattedMessage id='copy.verifyyourdevice' defaultMessage='Verify Your Device' />
+        </Text>
+        <Text color='grey700' style={{ marginTop: '8px' }} size='16px' weight={500}>
           <FormattedMessage
-            id='scenes.authorizelogin.attemptfrombrowser'
-            defaultMessage='Login attempt from another browser'
+            id='scenes.login.verify_device.header'
+            defaultMessage='We noticed a login attempt recently from a different browser or device. If this was you, verify the login device.'
           />
         </Text>
       </FormBody>
@@ -58,7 +86,7 @@ const Success = (props: Props) => {
           nature='warning'
           onClick={() => props.authActions.authorizeVerifyDevice()}
         >
-          <FormattedMessage id='scenes.authorizelogin.accept' defaultMessage='Accept' />
+          <FormattedMessage id='modals.mobilenumberverify.verify' defaultMessage='Verify' />
         </ApproveRejectButtons>
         <OrText size='12px' weight={400}>
           <FormattedMessage id='copy.or' defaultMessage='or' />
@@ -73,6 +101,10 @@ const Success = (props: Props) => {
       </ApproveWrapper>
     </>
   )
+}
+
+type Props = OwnProps & {
+  success: boolean
 }
 
 export default Success

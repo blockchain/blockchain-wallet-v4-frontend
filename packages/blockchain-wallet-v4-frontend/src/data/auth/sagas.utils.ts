@@ -3,16 +3,14 @@ import { call, put, select } from 'redux-saga/effects'
 import { actions, selectors } from 'data'
 import * as C from 'services/alerts'
 
-import { LoginSteps, WalletDataFromMagicLink } from './types'
+import { LoginSteps } from './types'
 
 const logLocation = 'auth/sagas'
 // TODO: remove once old magic link endpoint is deprecated
 
-export const parseMagicLink = function* (params) {
+export const parseMagicLink = function* () {
   try {
-    const loginData = JSON.parse(atob(params[2])) as WalletDataFromMagicLink
-    yield put(actions.auth.setMagicLinkInfo(loginData))
-    yield put(actions.auth.setMagicLinkInfoEncoded(params[2]))
+    const loginData = yield select(selectors.auth.getMagicLinkData)
     const walletData = loginData.wallet
     const session = yield select(selectors.session.getSession, walletData.guid, walletData.email)
     const sessionIdFromLink = walletData.session_id

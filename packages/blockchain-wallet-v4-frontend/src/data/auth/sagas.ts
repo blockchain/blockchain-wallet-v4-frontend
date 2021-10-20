@@ -273,6 +273,7 @@ export default ({ api, coreSagas, networks }) => {
       const response = yield call(api.pollForMagicLinkData, session)
       if (prop('wallet', response)) {
         yield put(actions.auth.setMagicLinkInfo(response))
+        yield call(parseMagicLink)
         return true
       }
     } catch (error) {
@@ -584,7 +585,10 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
         // if path has base64 encrypted JSON
       } else {
-        yield call(parseMagicLink, params)
+        const loginData = JSON.parse(atob(params[2])) as WalletDataFromMagicLink
+        yield put(actions.auth.setMagicLinkInfo(loginData))
+        yield put(actions.auth.setMagicLinkInfoEncoded(params[2]))
+        yield call(parseMagicLink)
       }
       yield put(actions.auth.initializeLoginSuccess())
       yield put(actions.auth.pingManifestFile())
