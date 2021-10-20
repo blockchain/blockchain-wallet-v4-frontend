@@ -241,7 +241,7 @@ const buildDevServerConfig = (
           'https://api.etherscan.io',
           'https://cloudflare-eth.com',
           'https://eth-mainnet.gateway.pokt.network',
-          'https://mainnet.infura.io/v3',
+          'https://mainnet.infura.io',
           envConfig.API_DOMAIN,
           envConfig.EVERYPAY_URL,
           envConfig.HORIZON_URL,

@@ -12,14 +12,14 @@ export default ({ get }) => {
     order_direction: 'asc' | 'desc' = 'asc'
   ): NftAssetsType => {
     return get({
-      endPoint: `?owner=${JAYZ_ADDRESS}&order_direction=${order_direction}&offset=${offset}&limit=${limit}`,
+      endPoint: `?owner=${owner}&order_direction=${order_direction}&offset=${offset}&limit=${limit}`,
       ignoreQueryParams: true,
       url: 'https://api.opensea.io/api/v1/assets'
     })
   }
 
   const getNftOrders = (
-    limit = 10,
+    limit = 50,
     offset = 0,
     order_by = 'created_date',
     order_direction: 'asc' | 'desc' = 'desc',
@@ -28,7 +28,7 @@ export default ({ get }) => {
     include_bundled = false
   ): NftOrdersType =>
     get({
-      endPoint: `?limit=20&offset=0&side=1&include_bundled=false`,
+      endPoint: `?limit=50&offset=0&side=1&include_bundled=false`,
       ignoreQueryParams: true,
       url: 'https://api.opensea.io/wyvern/v1/orders'
     })

@@ -23,9 +23,9 @@ export const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 const MIN_EXPIRATION_SECONDS = 10
 const ORDER_MATCHING_LATENCY_SECONDS = 60 * 60 * 24 * 7
 const OPENSEA_FEE_RECIPIENT = '0x5b3256965e7c3cf26e11fcaf296dfc8807c01073'
-const MAX_DIGITS_IN_UNSIGNED_256_INT = 78
+const MAX_DIGITS_IN_UNSIGNED_256_INT = 72
 
-const bigNumberToBN = (value: BigNumber) => {
+export const bigNumberToBN = (value: BigNumber) => {
   return new BN(value.toString(), 10)
 }
 
@@ -164,13 +164,13 @@ export function getOrderHash(order: UnhashedOrder) {
  * and will not collide with other outstanding orders that are identical in all other parameters.
  * @return  A pseudo-random 256-bit number that can be used as a salt.
  */
-const generatePseudoRandomSalt = (): BigNumber => {
+const generatePseudoRandomSalt = (): string => {
   // BigNumber.random returns a pseudo-random number between 0 & 1 with a passed in number of decimal places.
   // Source: https://mikemcl.github.io/bignumber.js/#random
-  const randomNumber = BigNumber.random(5)
-  const factor = new BigNumber(10).pow(5 - 1)
+  const randomNumber = BigNumber.random(MAX_DIGITS_IN_UNSIGNED_256_INT)
+  const factor = new BigNumber(10).pow(MAX_DIGITS_IN_UNSIGNED_256_INT - 1)
   const salt = randomNumber.times(factor).integerValue()
-  return salt
+  return bigNumberToBN(salt).toString()
 }
 
 export const encodeCall = (abi, parameters: any[]): string => {
@@ -205,6 +205,7 @@ const encodeReplacementPattern = (
       value: value !== undefined ? value : generateDefaultValue(type)
     }))
     .reduce((offset, { bitmask, type, value }) => {
+      if (!value) return offset
       // The 0xff bytes in the mask select the replacement bytes. All other bytes are 0x00.
       const cur = new Buffer(ethABI.rawEncode([type], [value]).length).fill(bitmask)
       if (ethABI_local.isDynamic(type)) {
@@ -347,7 +348,6 @@ export function assignOrdersToSides(
   let sell: Order
   if (!isSellOrder) {
     buy = order
-    // @ts-ignore
     sell = {
       ...matchingOrder,
       r: buy.r,
@@ -356,7 +356,6 @@ export function assignOrdersToSides(
     }
   } else {
     sell = order
-    // @ts-ignore
     buy = {
       ...matchingOrder,
       r: sell.r,
@@ -460,6 +459,7 @@ export function _makeMatchingOrder({
     quantity: order.quantity,
     replacementPattern,
     saleKind: NftSaleKind.FixedPrice,
+    // @ts-ignore
     salt: generatePseudoRandomSalt(),
     side: (order.side + 1) % 2,
     staticExtradata: '0x',
