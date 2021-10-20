@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import { lt, propOr } from 'ramda'
 import { formValueSelector } from 'redux-form'
 
-import { Link, Text } from 'blockchain-info-components'
 import { Exchange } from '@core'
+import { Link, Text } from 'blockchain-info-components'
 import { model, selectors } from 'data'
 
 import { WarningLeftColumn, WarningRightColumn, WarningWrapper } from '../Components'

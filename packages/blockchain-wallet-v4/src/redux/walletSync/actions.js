@@ -2,12 +2,12 @@ import * as T from './actionTypes'
 
 export const sync = () => ({ type: T.SYNC })
 export const forceSync = () => ({ type: T.FORCE_SYNC })
-export const syncSuccess = checksum => ({
-  type: T.SYNC_SUCCESS,
-  payload: checksum
+export const syncSuccess = (checksum) => ({
+  payload: checksum,
+  type: T.SYNC_SUCCESS
 })
-export const syncError = error => ({
-  type: T.SYNC_ERROR,
+export const syncError = (error) => ({
+  error: true,
   payload: error,
-  error: true
+  type: T.SYNC_ERROR
 })

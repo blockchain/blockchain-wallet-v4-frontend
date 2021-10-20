@@ -8,13 +8,13 @@ export default {
       currency: 'CHF',
       decimal_digits: 0,
       rate: '1',
-      symbol: '¢ CHF',
+      symbol: '¢ CHF'
     },
     CHF: {
       currency: 'CHF',
       decimal_digits: 2,
       rate: '100',
-      symbol: 'CHF',
-    },
-  },
+      symbol: 'CHF'
+    }
+  }
 }

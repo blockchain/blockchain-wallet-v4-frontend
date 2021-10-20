@@ -10,14 +10,12 @@ class SelectBoxBchAddresses extends React.PureComponent {
     const { data, ...rest } = this.props
 
     return data.cata({
-      Success: value => {
-        return (
-          <SelectBoxBCH options={value.data} elements={value.data} {...rest} />
-        )
-      },
-      Failure: message => <div>{message}</div>,
+      Failure: (message) => <div>{message}</div>,
       Loading: () => <div />,
-      NotAsked: () => <div />
+      NotAsked: () => <div />,
+      Success: (value) => {
+        return <SelectBoxBCH options={value.data} elements={value.data} {...rest} />
+      }
     })
   }
 }

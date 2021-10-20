@@ -10,7 +10,7 @@ import {
   SettingSummary
 } from 'components/Setting'
 
-const LocalCurrency = props => {
+const LocalCurrency = (props) => {
   const { message } = props
 
   return (

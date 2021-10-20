@@ -5,18 +5,18 @@ export default {
     no_op: [0x00, 0x00, 0x00, 0x00]
   },
   appIds: {
-    BTC: 1,
     BCH: 2,
+    BTC: 1,
     ETH: 18,
     XLM: 27
   },
   providers: {
     '': 1,
-    das: 2,
+    bc: 6,
     club: 3,
-    shitcoins: 4,
+    das: 2,
     ee: 5,
-    bc: 6
+    shitcoins: 4
   },
   scrambleKeys: {
     blockchain: {
@@ -40,8 +40,8 @@ export default {
     mcu: '/update/mcu'
   },
   supportedApps: {
-    BTC: 'Bitcoin',
     BCH: 'Bitcoin Cash',
+    BTC: 'Bitcoin',
     ETH: 'Ethereum',
     XLM: 'Stellar'
   }

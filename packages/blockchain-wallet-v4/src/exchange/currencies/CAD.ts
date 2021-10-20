@@ -8,13 +8,13 @@ export default {
       currency: 'CAD',
       decimal_digits: 2,
       rate: '100',
-      symbol: 'C$',
+      symbol: 'C$'
     },
     CENT: {
       currency: 'CAD',
       decimal_digits: 0,
       rate: '1',
-      symbol: '¢C$',
-    },
-  },
+      symbol: '¢C$'
+    }
+  }
 }

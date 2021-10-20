@@ -26,19 +26,18 @@ export const selectAddressLabels = view(addressLabels)
 export const selectType = view(type)
 export const selectPurpose = view(purpose)
 
-export const fromJS = derivation => {
+export const fromJS = (derivation) => {
   if (is(Derivation, derivation)) {
     return derivation
-  } else {
-    const derivationCons = compose(
-      over(addressLabels, AddressLabelMap.fromJS),
-      over(cache, Cache.fromJS)
-    )
-    return derivationCons(new Derivation(derivation))
   }
+  const derivationCons = compose(
+    over(addressLabels, AddressLabelMap.fromJS),
+    over(cache, Cache.fromJS)
+  )
+  return derivationCons(new Derivation(derivation))
 }
 
-export const toJS = pipe(Derivation.guard, derivation => {
+export const toJS = pipe(Derivation.guard, (derivation) => {
   const derivationDecons = compose(
     over(addressLabels, AddressLabelMap.toJS),
     over(cache, Cache.toJS)
@@ -47,15 +46,15 @@ export const toJS = pipe(Derivation.guard, derivation => {
 })
 
 export const js = (type, purpose, node, xpub) => ({
-  type,
-  purpose,
-  xpriv: node ? node.toBase58() : '',
-  xpub: node ? node.neutered().toBase58() : xpub,
   address_labels: [],
-  cache: node ? Cache.js(node, null) : Cache.js(null, xpub)
+  cache: node ? Cache.js(node, null) : Cache.js(null, xpub),
+  purpose,
+  type,
+  xpriv: node ? node.toBase58() : '',
+  xpub: node ? node.neutered().toBase58() : xpub
 })
 
-export const reviver = jsObject => {
+export const reviver = (jsObject) => {
   return new Derivation(jsObject)
 }
 

@@ -5,10 +5,10 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
+import { RemoteDataType } from '@core/types'
 import { Badge, Icon, Link, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 import QRCodeWrapper from 'components/QRCodeWrapper'
-import { RemoteDataType } from '@core/types'
 import { actions, selectors } from 'data'
 import { RecoverSteps } from 'data/types'
 

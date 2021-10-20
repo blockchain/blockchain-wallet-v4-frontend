@@ -21,9 +21,9 @@ const RotateSyncContainer = styled(RotateSync)`
   margin-left: 15px;
 `
 
-const CheckForUpdatesStep = props => {
+const CheckForUpdatesStep = (props) => {
   return (
-    <React.Fragment>
+    <>
       <Title>
         <Text>
           <FormattedMessage
@@ -57,7 +57,7 @@ const CheckForUpdatesStep = props => {
           <RotateSyncContainer size='16px' color='white' />
         </Button>
       </ButtonContainer>
-    </React.Fragment>
+    </>
   )
 }
 

@@ -44,8 +44,8 @@ class DownloadUpdaterContainer extends React.PureComponent {
   onSoftwareDownload = () => {
     this.props.modalActions.showModal('CONFIRMATION_MODAL', {
       hideCancel: true,
-      title: C.LOCKBOX_SOFTWARE_DOWNLOAD_TITLE,
-      message: C.LOCKBOX_SOFTWARE_DOWNLOAD_MSG
+      message: C.LOCKBOX_SOFTWARE_DOWNLOAD_MSG,
+      title: C.LOCKBOX_SOFTWARE_DOWNLOAD_TITLE
     })
     this.props.preferencesActions.hideLockboxSoftwareDownload()
   }
@@ -70,10 +70,7 @@ class DownloadUpdaterContainer extends React.PureComponent {
         <SettingComponent>
           <Link
             href={prop('updater', this.getOsSpecificUpdater())}
-            download={`lockbox-updater-1.0.0.${prop(
-              'extension',
-              this.getOsSpecificUpdater()
-            )}`}
+            download={`lockbox-updater-1.0.0.${prop('extension', this.getOsSpecificUpdater())}`}
           >
             <Button nature='empty' onClick={this.onSoftwareDownload}>
               <FormattedMessage id='copy.download' defaultMessage='Download' />
@@ -85,7 +82,7 @@ class DownloadUpdaterContainer extends React.PureComponent {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

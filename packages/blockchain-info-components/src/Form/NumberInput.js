@@ -9,36 +9,34 @@ const BaseNumberInput = styled.input.attrs({
 })`
   display: block;
   width: 100%;
-  height: ${props => props.height};
-  min-height: ${props => (props.minHeight ? props.minHeight : '40px')};
+  height: ${(props) => props.height};
+  min-height: ${(props) => (props.minHeight ? props.minHeight : '40px')};
   padding: 6px 12px;
   box-sizing: border-box;
-  font-size: ${props => props.size || '14px'};
+  font-size: ${(props) => props.size || '14px'};
   font-weight: 500;
-  color: ${props =>
-    props.color ? props.theme[props.color] : props.theme['grey800']};
+  color: ${(props) => (props.color ? props.theme[props.color] : props.theme.grey800)};
   background-color: ${({ theme }) => theme.white};
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background-image: none;
   outline-width: 0;
   user-select: text;
   border-radius: 8px;
   border: ${({ borderColor, theme }) => `1px solid ${theme[borderColor]}`};
-  border-right: ${props => (props.borderRightNone ? 'none' : '')};
-  border-top: ${props => (props.borderTopNone ? 'none' : '')};
-  cursor: ${props => props.disabled && 'not-allowed'};
+  border-right: ${(props) => (props.borderRightNone ? 'none' : '')};
+  border-top: ${(props) => (props.borderTopNone ? 'none' : '')};
+  cursor: ${(props) => props.disabled && 'not-allowed'};
 
   &:focus {
     background-color: ${({ theme }) => theme.white};
-    border: 1px solid
-      ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
+    border: 1px solid ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
   }
   &:focus::placeholder {
     opacity: 0.25;
   }
   &::placeholder {
-    color: ${props => props.theme.grey400};
+    color: ${(props) => props.theme.grey400};
     font-size: 14px;
     font-weight: 500;
   }

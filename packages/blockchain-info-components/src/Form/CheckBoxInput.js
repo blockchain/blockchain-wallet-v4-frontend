@@ -21,7 +21,7 @@ const BaseCheckBoxInput = styled.input.attrs({
   &:checked {
     & + label {
       &:before {
-        background: ${props => props.theme.blue600};
+        background: ${(props) => props.theme.blue600};
       }
     }
   }
@@ -29,7 +29,7 @@ const BaseCheckBoxInput = styled.input.attrs({
     & + label {
       &:before {
         cursor: not-allowed;
-        border: 1px solid ${props => props.theme.grey200};
+        border: 1px solid ${(props) => props.theme.grey200};
       }
     }
   }
@@ -49,13 +49,13 @@ const Label = styled.label`
     background: white;
     border-radius: 2px;
     transition: background 0.2s;
-    border: 1px solid ${props => props.theme.blue600};
+    border: 1px solid ${(props) => props.theme.blue600};
   }
   &:after {
     content: '\\e910';
     font-family: 'icomoon', sans-serif;
     position: absolute;
-    color: ${props => props.theme.white};
+    color: ${(props) => props.theme.white};
     font-weight: 600;
     font-size: 8px;
     left: 2px;
@@ -64,7 +64,7 @@ const Label = styled.label`
   }
 `
 
-const CheckBoxInput = props => {
+const CheckBoxInput = (props) => {
   const { checked, children, disabled, name, ...rest } = props
 
   return (
@@ -84,10 +84,10 @@ const CheckBoxInput = props => {
 }
 
 CheckBoxInput.propTypes = {
-  name: PropTypes.string.isRequired,
-  children: PropTypes.node,
   checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
+  children: PropTypes.node,
+  disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  name: PropTypes.string.isRequired
 }
 
 export default CheckBoxInput

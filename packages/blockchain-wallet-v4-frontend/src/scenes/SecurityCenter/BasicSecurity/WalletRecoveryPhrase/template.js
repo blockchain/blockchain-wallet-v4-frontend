@@ -51,20 +51,14 @@ const WarningText = styled.div`
   align-items: flex-start;
 `
 
-const WalletRecoveryPhrase = props => {
+const WalletRecoveryPhrase = (props) => {
   const { handleBackupNow, isMnemonicVerified } = props
 
   const buttonHelper = () => {
-    const securityComponent = components => (
-      <SecurityComponent>{components}</SecurityComponent>
-    )
+    const securityComponent = (components) => <SecurityComponent>{components}</SecurityComponent>
     if (isMnemonicVerified) {
       const againBtn = (
-        <BackupButton
-          nature='primary'
-          onClick={handleBackupNow}
-          data-e2e='backupFundsButton'
-        >
+        <BackupButton nature='primary' onClick={handleBackupNow} data-e2e='backupFundsButton'>
           <FormattedMessage
             id='scenes.securitysettings.basicsecurity.walletrecovery.settings.backupagain'
             defaultMessage='Backup Again'
@@ -72,25 +66,20 @@ const WalletRecoveryPhrase = props => {
         </BackupButton>
       )
       return securityComponent(againBtn)
-    } else {
-      const backupBtn = (
-        <BackupButton
-          nature='primary'
-          onClick={handleBackupNow}
-          data-e2e='backupFundsButton'
-        >
-          <FormattedMessage
-            id='scenes.securitysettings.basicsecurity.walletrecovery.settings.backupfunds'
-            defaultMessage='Backup Funds'
-          />
-        </BackupButton>
-      )
-      return securityComponent(backupBtn)
     }
+    const backupBtn = (
+      <BackupButton nature='primary' onClick={handleBackupNow} data-e2e='backupFundsButton'>
+        <FormattedMessage
+          id='scenes.securitysettings.basicsecurity.walletrecovery.settings.backupfunds'
+          defaultMessage='Backup Funds'
+        />
+      </BackupButton>
+    )
+    return securityComponent(backupBtn)
   }
 
   return (
-    <React.Fragment>
+    <>
       <SecurityGridContainer>
         <IconAndHeaderContainer>
           <IconContainer>
@@ -123,7 +112,7 @@ const WalletRecoveryPhrase = props => {
         </IconAndHeaderContainer>
         {buttonHelper()}
       </SecurityGridContainer>
-    </React.Fragment>
+    </>
   )
 }
 

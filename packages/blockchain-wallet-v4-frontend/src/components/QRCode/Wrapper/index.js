@@ -6,13 +6,13 @@ import styled from 'styled-components'
 const Wrapper = styled.div`
   canvas {
     padding: 12px;
-    border: 1px solid ${props => props.theme.grey000};
+    border: 1px solid ${(props) => props.theme.grey000};
     border-radius: 6px;
     background-color: white;
   }
 `
 
-const QRCodeWrapper = props => {
+const QRCodeWrapper = (props) => {
   const { size, value } = props
 
   return (
@@ -23,8 +23,8 @@ const QRCodeWrapper = props => {
 }
 
 QRCodeWrapper.propTypes = {
-  value: PropTypes.string.isRequired,
-  size: PropTypes.number.isRequired
+  size: PropTypes.number.isRequired,
+  value: PropTypes.string.isRequired
 }
 
 export default QRCodeWrapper

@@ -26,7 +26,7 @@ export default (state = INITIAL_STATE, action) => {
       const { lifetime_token, user_id } = payload
       return over(
         compose(mapped, KVStoreEntry.value),
-        merge(__, { user_id, lifetime_token }),
+        merge(__, { lifetime_token, user_id }),
         state
       )
     }

@@ -10,8 +10,8 @@ import { ValidateProps as Props } from '.'
 export const maximumAmount = (value: string, allValues, restProps: Props) => {
   const max = convertBaseToStandard('FIAT', restProps.depositLimits.max)
   const formattedMax = fiatToString({
-    value: max,
-    unit: allValues.currency || ('USD' as FiatType)
+    unit: allValues.currency || ('USD' as FiatType),
+    value: max
   })
   return Number(value) > Number(max) ? (
     <FormattedMessage
@@ -21,16 +21,14 @@ export const maximumAmount = (value: string, allValues, restProps: Props) => {
         amount: formattedMax
       }}
     />
-  ) : (
-    undefined
-  )
+  ) : undefined
 }
 
 export const minimumAmount = (value: string, allValues, restProps: Props) => {
   const min = convertBaseToStandard('FIAT', restProps.depositLimits.min)
   const formattedMin = fiatToString({
-    value: min,
-    unit: allValues.currency || ('USD' as FiatType)
+    unit: allValues.currency || ('USD' as FiatType),
+    value: min
   })
   return Number(value) < Number(min) ? (
     <FormattedMessage
@@ -40,7 +38,5 @@ export const minimumAmount = (value: string, allValues, restProps: Props) => {
         amount: formattedMin
       }}
     />
-  ) : (
-    undefined
-  )
+  ) : undefined
 }

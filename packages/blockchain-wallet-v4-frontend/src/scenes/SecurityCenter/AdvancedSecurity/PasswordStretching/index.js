@@ -13,9 +13,7 @@ class PasswordStretchingContainer extends React.PureComponent {
 
   onSubmit = () => {
     const { passwordStretchingValue } = this.props
-    this.props.walletActions.updatePbkdf2Iterations(
-      Number(passwordStretchingValue)
-    )
+    this.props.walletActions.updatePbkdf2Iterations(Number(passwordStretchingValue))
     this.handleToggle()
   }
 
@@ -38,15 +36,15 @@ class PasswordStretchingContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
+  currentStretch: selectors.core.wallet.getPbkdf2Iterations(state),
   passwordStretchingValue: formValueSelector('settingPasswordStretching')(
     state,
     'passwordStretching'
-  ),
-  currentStretch: selectors.core.wallet.getPbkdf2Iterations(state)
+  )
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
   walletActions: bindActionCreators(actions.wallet, dispatch)
 })
@@ -55,7 +53,4 @@ PasswordStretchingContainer.propTypes = {
   passwordStretching: PropTypes.number
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(PasswordStretchingContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(PasswordStretchingContainer)

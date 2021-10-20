@@ -1,6 +1,7 @@
 import { equals, prop } from 'ramda'
 
 import { model, selectors } from 'data'
+
 const { WALLET_TX_SEARCH } = model.form
 
 export const selectOnlyShow = (state, s) => {

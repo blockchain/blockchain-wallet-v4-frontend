@@ -30,11 +30,7 @@ const InputRow = styled(Row)`
 
 export const LoadingButton = ({ children, loading, ...rest }) => (
   <Button height='48px' disabled={loading} {...rest}>
-    {loading ? (
-      <HeartbeatLoader height='20px' width='20px' color='white' />
-    ) : (
-      children
-    )}
+    {loading ? <HeartbeatLoader height='20px' width='20px' color='white' /> : children}
   </Button>
 )
 
@@ -77,13 +73,7 @@ const Verified = ({ className, email }) => (
   </Container>
 )
 
-const EmailSent = ({
-  changeEmail,
-  className,
-  email,
-  loading,
-  sendVerification
-}) => (
+const EmailSent = ({ changeEmail, className, email, loading, sendVerification }) => (
   <Container className={className}>
     <Text weight='300'>
       <FormattedMessage
@@ -99,11 +89,7 @@ const EmailSent = ({
           defaultMessage='Change Email'
         />
       </ChangeButton>
-      <LoadingButton
-        nature='primary'
-        onClick={sendVerification}
-        loading={loading}
-      >
+      <LoadingButton nature='primary' onClick={sendVerification} loading={loading}>
         <FormattedMessage
           id='components.EmailVerification.sendemailagain'
           defaultMessage='Send Again'
@@ -113,15 +99,7 @@ const EmailSent = ({
   </Container>
 )
 
-const EmailInput = ({
-  className,
-  errorBottom,
-  input,
-  label,
-  loading,
-  meta,
-  updateEmail
-}) => (
+const EmailInput = ({ className, errorBottom, input, label, loading, meta, updateEmail }) => (
   <Container className={className}>
     {label && (
       <label htmlFor='email'>
@@ -134,15 +112,12 @@ const EmailInput = ({
     <InputRow>
       <TextBox
         errorBottom={errorBottom}
-        placeholder={'satoshi@blockchain.com'}
+        placeholder='satoshi@blockchain.com'
         input={input}
         meta={meta}
       />
       <LoadingButton nature='primary' onClick={updateEmail} loading={loading}>
-        <FormattedMessage
-          id='components.EmailVerification.sendnow'
-          defaultMessage='Send Now'
-        />
+        <FormattedMessage id='components.EmailVerification.sendnow' defaultMessage='Send Now' />
       </LoadingButton>
     </InputRow>
   </Container>
@@ -163,41 +138,33 @@ export default class EmailVerification extends React.PureComponent {
 
   render() {
     const { changeEmail, sendVerification, updateEmail } = this
-    const {
-      className,
-      errorBottom,
-      input,
-      label,
-      loading,
-      meta,
-      verificationSent,
-      verified
-    } = this.props
+    const { className, errorBottom, input, label, loading, meta, verificationSent, verified } =
+      this.props
     const email = input.value
 
-    if (verified) return <Verified {...{ email, className }} />
+    if (verified) return <Verified {...{ className, email }} />
     if (verificationSent)
       return (
         <EmailSent
           {...{
-            email,
-            sendVerification,
             changeEmail,
             className,
-            loading
+            email,
+            loading,
+            sendVerification
           }}
         />
       )
     return (
       <EmailInput
         {...{
-          input,
-          meta,
-          updateEmail,
           className,
           errorBottom,
+          input,
           label,
-          loading
+          loading,
+          meta,
+          updateEmail
         }}
       />
     )

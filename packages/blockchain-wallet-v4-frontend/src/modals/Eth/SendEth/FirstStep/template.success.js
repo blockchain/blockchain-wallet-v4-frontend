@@ -6,8 +6,8 @@ import PropTypes from 'prop-types'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Banner, Button, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import { Remote } from '@core'
+import { Banner, Button, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import {
   FiatConverter,

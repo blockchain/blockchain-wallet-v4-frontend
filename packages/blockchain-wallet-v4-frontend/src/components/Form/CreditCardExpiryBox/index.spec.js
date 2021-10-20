@@ -7,8 +7,6 @@ describe('normalizeCreditCardExpiry', () => {
     expect(normalizeCreditCardExpiry('09/')).toBe('09/')
     expect(normalizeCreditCardExpiry('/', '9')).toBe('09/')
     expect(normalizeCreditCardExpiry('12/20')).toBe('12/20')
-    expect(normalizeCreditCardExpiry('invalid_characters!@#$%^&&*()+')).toBe(
-      undefined
-    )
+    expect(normalizeCreditCardExpiry('invalid_characters!@#$%^&&*()+')).toBeUndefined()
   })
 })

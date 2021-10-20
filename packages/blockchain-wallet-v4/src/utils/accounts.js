@@ -8,8 +8,8 @@ import { isValidBtcAddress } from './btc'
 export const addFromToAccountNames = (wallet, accountList, txList) => {
   const hdWallets = wallet.hd_wallets
   map(
-    tx =>
-      hdWallets.map(hdWallet =>
+    (tx) =>
+      hdWallets.map((hdWallet) =>
         take(length(accountList), hdWallet.accounts).map((account, index) => {
           if (account) {
             if (account.label === tx.from) {
@@ -32,11 +32,11 @@ export const addFromToAccountNames = (wallet, accountList, txList) => {
     txList
   )
 
-  txList.map(tx => {
-    tx.inputs.map(input => {
+  txList.map((tx) => {
+    tx.inputs.map((input) => {
       input.address = toCashAddr(input.address, true)
     })
-    tx.outputs.map(output => {
+    tx.outputs.map((output) => {
       output.address = toCashAddr(output.address, true)
     })
   })

@@ -7,7 +7,7 @@ const components = {
   DropdownIndicator: null
 }
 
-const createOption = label => ({
+const createOption = (label) => ({
   label,
   value: label
 })
@@ -43,14 +43,14 @@ class CreatableInputContainer extends React.PureComponent {
     }
   }
 
-  handleChange = value => {
+  handleChange = (value) => {
     this.setState({ value })
     if (this.props.onChange) {
       !value ? this.props.onChange(value) : this.props.onChange({ value })
     }
   }
 
-  handleInputChange = inputValue => {
+  handleInputChange = (inputValue) => {
     this.setState({ inputValue })
   }
 
@@ -64,7 +64,7 @@ class CreatableInputContainer extends React.PureComponent {
     }
   }
 
-  handleKeyDown = event => {
+  handleKeyDown = (event) => {
     const { inputValue, value } = this.state
     if (!inputValue || !this.props.isMulti) return
     switch (event.key) {
@@ -75,7 +75,7 @@ class CreatableInputContainer extends React.PureComponent {
     }
   }
 
-  handleBlur = event => {
+  handleBlur = (event) => {
     this.props.onBlur()
     const { inputValue, value } = this.state
     if (!inputValue) return

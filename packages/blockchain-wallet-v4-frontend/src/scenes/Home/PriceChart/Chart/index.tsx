@@ -19,18 +19,16 @@ const ChartContainer = (props: Props) => {
   }, [props.cache.coin, props.cache.time])
 
   return props.data.cata({
-    Success: value => (
-      <Chart currency={props.currency} coin={value.coin} data={value.data} />
-    ),
-    Failure: message => <Error>{message}</Error>,
+    Failure: (message) => <Error>{message}</Error>,
     Loading: () => <Loading />,
-    NotAsked: () => <Loading />
+    NotAsked: () => <Loading />,
+    Success: (value) => <Chart currency={props.currency} coin={value.coin} data={value.data} />
   })
 }
 
-const mapStateToProps = state => getData(state)
+const mapStateToProps = (state) => getData(state)
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   priceChartActions: bindActionCreators(actions.components.priceChart, dispatch)
 })
 

@@ -1,28 +1,28 @@
 import * as AT from './actionTypes'
 
-export const initialized = payload => ({
-  type: AT.SEND_ETH_INITIALIZED,
-  payload
+export const initialized = (payload) => ({
+  payload,
+  type: AT.SEND_ETH_INITIALIZED
 })
 export const destroyed = () => ({ type: AT.SEND_ETH_DESTROYED })
 export const retrySendEth = (txHash: string, isErc20: boolean) => ({
-  type: AT.RETRY_SEND_ETH,
-  payload: { txHash, isErc20 }
+  payload: { isErc20, txHash },
+  type: AT.RETRY_SEND_ETH
 })
 export const sendEthPaymentUpdatedLoading = () => ({
   type: AT.SEND_ETH_PAYMENT_UPDATED_LOADING
 })
-export const sendEthPaymentUpdatedSuccess = payment => ({
-  type: AT.SEND_ETH_PAYMENT_UPDATED_SUCCESS,
-  payload: payment
+export const sendEthPaymentUpdatedSuccess = (payment) => ({
+  payload: payment,
+  type: AT.SEND_ETH_PAYMENT_UPDATED_SUCCESS
 })
-export const sendEthPaymentUpdatedFailure = e => ({
-  type: AT.SEND_ETH_PAYMENT_UPDATED_FAILURE,
-  payload: e
+export const sendEthPaymentUpdatedFailure = (e) => ({
+  payload: e,
+  type: AT.SEND_ETH_PAYMENT_UPDATED_FAILURE
 })
-export const sendEthFirstStepMaximumAmountClicked = coinCode => ({
-  type: AT.SEND_ETH_FIRST_STEP_MAXIMUM_AMOUNT_CLICKED,
-  payload: coinCode
+export const sendEthFirstStepMaximumAmountClicked = (coinCode) => ({
+  payload: coinCode,
+  type: AT.SEND_ETH_FIRST_STEP_MAXIMUM_AMOUNT_CLICKED
 })
 export const sendEthFirstStepSubmitClicked = () => ({
   type: AT.SEND_ETH_FIRST_STEP_SUBMIT_CLICKED
@@ -36,20 +36,20 @@ export const sendEthSecondStepCancelClicked = () => ({
 export const sendEthFirstStepFeeToggled = () => ({
   type: AT.SEND_ETH_FIRST_STEP_FEE_TOGGLED
 })
-export const sendEthCheckIsContract = address => ({
-  type: AT.SEND_ETH_CHECK_IS_CONTRACT,
-  payload: address
+export const sendEthCheckIsContract = (address) => ({
+  payload: address,
+  type: AT.SEND_ETH_CHECK_IS_CONTRACT
 })
 export const sendEthCheckIsContractLoading = () => ({
   type: AT.SEND_ETH_CHECK_IS_CONTRACT_LOADING
 })
-export const sendEthCheckIsContractSuccess = isContract => ({
-  type: AT.SEND_ETH_CHECK_IS_CONTRACT_SUCCESS,
-  payload: isContract
+export const sendEthCheckIsContractSuccess = (isContract) => ({
+  payload: isContract,
+  type: AT.SEND_ETH_CHECK_IS_CONTRACT_SUCCESS
 })
-export const sendEthCheckIsContractFailure = e => ({
-  type: AT.SEND_ETH_CHECK_IS_CONTRACT_FAILURE,
-  payload: e
+export const sendEthCheckIsContractFailure = (e) => ({
+  payload: e,
+  type: AT.SEND_ETH_CHECK_IS_CONTRACT_FAILURE
 })
 export const sendEthFirstStepRegularFeeClicked = () => ({
   type: AT.SEND_ETH_FIRST_STEP_REGULAR_FEE_CLICKED

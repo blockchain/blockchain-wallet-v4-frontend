@@ -13,32 +13,30 @@ import * as A from './actions'
 const XLM_ACCT_NAME = 'Private Key Wallet'
 
 export default ({ api, networks } = {}) => {
-  const createXlm = function * ({ kv, password }) {
+  const createXlm = function* ({ kv, password }) {
     try {
       const mnemonicT = yield select(getMnemonic, password)
       const mnemonic = yield callTask(mnemonicT)
       const keypair = yield call(getKeyPair, mnemonic)
       const xlm = {
-        default_account_idx: 0,
         accounts: [
           {
-            publicKey: keypair.publicKey(),
+            archived: false,
             label: XLM_ACCT_NAME,
-            archived: false
+            publicKey: keypair.publicKey()
           }
         ],
+        default_account_idx: 0,
         tx_notes: {}
       }
       const newkv = set(KVStoreEntry.value, xlm, kv)
       yield put(A.createMetadataXlm(newkv))
     } catch (e) {
-      throw new Error(
-        '[NOT IMPLEMENTED] MISSING_SECOND_PASSWORD in core.createXlm saga'
-      )
+      throw new Error('[NOT IMPLEMENTED] MISSING_SECOND_PASSWORD in core.createXlm saga')
     }
   }
 
-  const fetchMetadataXlm = function * (secondPasswordSagaEnhancer) {
+  const fetchMetadataXlm = function* (secondPasswordSagaEnhancer) {
     try {
       const typeId = derivationMap[XLM]
       const mxpriv = yield select(getMetadataXpriv)
