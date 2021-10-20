@@ -5,7 +5,7 @@ import { Types } from '@core'
 import { RemoteDataType, SDDVerifiedType } from '@core/types'
 import { actions, actionTypes, model, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
-import { KycStateType } from 'data/modules/types'
+import { KycStateType } from 'data/types'
 import * as C from 'services/alerts'
 
 import profileSagas from '../../modules/profile/sagas'

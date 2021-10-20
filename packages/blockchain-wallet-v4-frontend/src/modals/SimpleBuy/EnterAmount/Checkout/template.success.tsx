@@ -9,7 +9,7 @@ import { coinToString, fiatToString } from '@core/exchange/utils'
 import { CoinType, OrderType, SBPaymentMethodType, SBPaymentTypes } from '@core/types'
 import { Banner, Icon, Text } from 'blockchain-info-components'
 import { AmountTextBox } from 'components/Exchange'
-import { FlyoutWrapper, getPeriodTitleText } from 'components/Flyout'
+import { FlyoutOopsError, FlyoutWrapper, getPeriodTitleText } from 'components/Flyout'
 import { Form } from 'components/Form'
 import { model } from 'data'
 import { convertStandardToBase } from 'data/components/exchange/services'
@@ -20,7 +20,6 @@ import Scheduler from '../../../RecurringBuys/Scheduler'
 import { Row } from '../../../Swap/EnterAmount/Checkout'
 import CryptoItem from '../../CryptoSelection/CryptoSelector/CryptoItem'
 import { BuyOrSell, ErrorCodeMappings } from '../../model'
-import Failure from '../template.failure'
 import { Props as OwnProps, SuccessStateType } from '.'
 import ActionButton from './ActionButton'
 import IncreaseLimits from './IncreaseLimits'
@@ -150,6 +149,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const setOrderFrequncy = useCallback(() => {
     props.buySellActions.setStep({ step: 'FREQUENCY' })
   }, [])
+
+  const errorCallback = useCallback(() => {
+    props.buySellActions.setStep({
+      fiatCurrency: props.fiatCurrency || 'USD',
+      step: 'CRYPTO_SELECTION'
+    })
+  }, [props.fiatCurrency])
+
   const isSddBuy = props.isSddFlow && props.orderType === 'BUY'
 
   let method = selectedMethod || defaultMethod
@@ -180,7 +187,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
   if (!props.formValues) return null
   if (!fiatCurrency || !baseCurrency)
-    return <Failure fiatCurrency={props.fiatCurrency} buySellActions={props.buySellActions} />
+    return (
+      <FlyoutOopsError
+        action='retry'
+        data-e2e='sbTryCurrencySelectionAgain'
+        handler={errorCallback}
+      />
+    )
 
   const limits = props.sddLimit || LIMIT
   const sddLimit = { ...limits }

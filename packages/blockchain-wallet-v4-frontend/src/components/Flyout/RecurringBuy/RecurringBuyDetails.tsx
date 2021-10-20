@@ -3,11 +3,11 @@ import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 import styled from 'styled-components'
 
+import { Exchange } from '@core'
 import { FiatType, SBPaymentTypes } from '@core/types'
 import { Banner, Button } from 'blockchain-info-components'
 import { RecurringBuyPeriods } from 'data/types'
 
-import { Exchange } from '../../../../../blockchain-wallet-v4/src'
 import CheckoutRow from '../../Rows/Checkout'
 import Container from '../Container'
 import Content from '../Content'

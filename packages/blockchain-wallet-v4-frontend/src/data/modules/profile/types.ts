@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios'
 
-import { NabuAddressType, NabuApiErrorType, RemoteDataType } from '@core/types'
-import { CampaignsType } from 'data/types'
+import type { NabuAddressType, NabuApiErrorType, RemoteDataType, WalletFiatType } from '@core/types'
+import type { CampaignsType } from 'data/components/identityVerification/types'
 
 import * as AT from './actionTypes'
 
@@ -82,8 +82,15 @@ export type Tiers = {
   selected: 0 | 1 | 2 | 3
 }
 
+export type UserTradingCurencies = {
+  defaultWalletCurrency: WalletFiatType
+  preferredFiatTradingCurrency: WalletFiatType
+  usableFiatCurrencies: WalletFiatType[]
+}
+
 export type UserDataType = {
   address?: NabuAddressType
+  currencies: UserTradingCurencies
   dob: string
   email: string
   emailVerified: boolean

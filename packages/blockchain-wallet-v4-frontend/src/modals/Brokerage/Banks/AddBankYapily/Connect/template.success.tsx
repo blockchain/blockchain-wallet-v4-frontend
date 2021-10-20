@@ -1,8 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { model } from 'data'
-
 import {
   BankWaitIndicator,
   BankWrapper,
@@ -14,8 +12,6 @@ import {
   Section
 } from '../../../../components'
 import { OwnProps, Props as _P, SuccessStateType } from '.'
-
-const { YAPILY_CONT_IN_BROWSER } = model.analytics.FIAT_DEPOSIT_EVENTS
 
 type Props = OwnProps & SuccessStateType & _P
 
@@ -46,12 +42,7 @@ const Success = (props: Props) => {
         </ScanWithPhone>
         <Hr />
         <Section>
-          <LinkViaDesktop
-            authUrl={props.account?.attributes?.authorisationUrl as string}
-            onClick={() => {
-              props.analyticsActions.logEvent(YAPILY_CONT_IN_BROWSER)
-            }}
-          >
+          <LinkViaDesktop authUrl={props.account?.attributes?.authorisationUrl as string}>
             {props.isFlow ? (
               <FormattedMessage
                 id='modals.brokerage.pay_via_desktop'

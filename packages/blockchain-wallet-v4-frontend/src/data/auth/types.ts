@@ -1,6 +1,5 @@
 import { RemoteDataType } from '@core/types'
-
-import { actions } from './slice'
+import { actions } from 'data'
 
 export type AuthStateType = {
   auth_type: number
@@ -13,7 +12,7 @@ export type AuthStateType = {
   manifestFile: null
   metadataRestore: RemoteDataType<any, any>
   mobileLoginStarted: boolean
-  registerEmail: undefined
+  registerEmail?: string
   registering: RemoteDataType<any, any>
   resetAccount: boolean
   restoring: RemoteDataType<any, any>
@@ -114,18 +113,18 @@ interface LoginFailureActionType {
   payload: {
     err?: string
   }
-  type: typeof actions.loginFailure.type
+  type: typeof actions.auth.loginFailure.type
 }
 interface InitializeLoginSuccessActionType {
-  type: typeof actions.initializeLoginSuccess.type
+  type: typeof actions.auth.initializeLoginSuccess.type
 }
 
 interface InitializeLoginLoadingActionType {
-  type: typeof actions.initializeLoginLoading.type
+  type: typeof actions.auth.initializeLoginLoading.type
 }
 
 interface InitializeLoginFailureActionType {
-  type: typeof actions.initializeLoginFailure.type
+  type: typeof actions.auth.initializeLoginFailure.type
 }
 
 interface LoginRouteSagaActionType {
@@ -134,26 +133,26 @@ interface LoginRouteSagaActionType {
     firstLogin?: boolean
     mobileLogin?: boolean
   }
-  type: typeof actions.loginRoutine.type
+  type: typeof actions.auth.loginRoutine.type
 }
 
 interface TriggerWalletMagicLinkSuccessActionType {
-  type: typeof actions.triggerWalletMagicLinkSuccess.type
+  type: typeof actions.auth.triggerWalletMagicLinkSuccess.type
 }
 
 interface TriggerWalletMagicLinkLoadingActionType {
-  type: typeof actions.triggerWalletMagicLinkLoading.type
+  type: typeof actions.auth.triggerWalletMagicLinkLoading.type
 }
 
 interface TriggerWalletMagicLinkFailureActionType {
-  type: typeof actions.triggerWalletMagicLinkFailure
+  type: typeof actions.auth.triggerWalletMagicLinkFailure
 }
 
 interface SetMagicLinkInfoActionType {
   payload: {
     magicLinkInfo: WalletDataFromMagicLink
   }
-  type: typeof actions.setMagicLinkInfo.type
+  type: typeof actions.auth.setMagicLinkInfo.type
 }
 
 export type AuthActionTypes =

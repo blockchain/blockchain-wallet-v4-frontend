@@ -25,12 +25,12 @@ import {
 import { errorHandler, errorHandlerCode } from '@core/utils'
 import { actions, selectors } from 'data'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
-import { UserDataType } from 'data/modules/types'
 import {
   AddBankStepType,
   BankPartners,
   BankTransferAccountType,
-  BrokerageModalOriginType
+  BrokerageModalOriginType,
+  UserDataType
 } from 'data/types'
 
 import profileSagas from '../../modules/profile/sagas'
@@ -80,11 +80,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     coreSagas,
     networks
   })
-  const { fetchBankTransferAccounts } = brokerageSagas({
-    api,
-    coreSagas,
-    networks
-  })
+  const { fetchBankTransferAccounts } = brokerageSagas({ api })
 
   const activateSBCard = function* ({ payload }: ReturnType<typeof A.activateCard>) {
     let providerDetails: ProviderDetailsType
@@ -365,10 +361,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(actions.form.stopSubmit('simpleBuyCheckout'))
       yield put(A.fetchOrders())
       yield put(A.setStep({ order: buyOrder, step: 'CHECKOUT_CONFIRM' }))
-
-      // log user tier
-      const currentTier = selectors.modules.profile.getCurrentTier(yield select())
-      yield put(actions.analytics.logEvent(['SB_CREATE_ORDER_USER_TIER', 'TIER', currentTier]))
     } catch (e) {
       // After CC has been activated we try to create an order
       // If order creation fails go back to ENTER_AMOUNT step
@@ -1213,8 +1205,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const latestPendingOrder = S.getSBLatestPendingOrder(yield select())
 
     yield put(actions.modals.showModal('SIMPLE_BUY_MODAL', { cryptoCurrency, origin }))
-    const fiatCurrencyR = selectors.core.settings.getCurrency(yield select())
-    const fiatCurrency = fiatCurrencyR.getOrElse('USD')
+    const currencies = selectors.modules.profile.getUserCurrencies(yield select())
+    const fiatCurrency = currencies?.defaultWalletCurrency || 'USD'
     if (latestPendingOrder) {
       const bankAccount = yield call(getBankInformation, latestPendingOrder as SBOrderType)
       let step: T.StepActionsPayload['step'] =

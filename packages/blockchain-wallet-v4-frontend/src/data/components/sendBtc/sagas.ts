@@ -9,7 +9,7 @@ import { APIType } from '@core/network/api'
 import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
 import { AddressTypesType, BtcAccountFromType, BtcFromType, BtcPaymentType } from '@core/types'
 import { errorHandler } from '@core/utils'
-import { actions, actionTypes, model, selectors } from 'data'
+import { actions, actionTypes, selectors } from 'data'
 import { ModalNameType } from 'data/modals/types'
 import * as C from 'services/alerts'
 import * as Lockbox from 'services/lockbox'
@@ -22,7 +22,6 @@ import * as S from './selectors'
 
 const DUST = 546
 const DUST_BTC = '0.00000546'
-const { TRANSACTION_EVENTS } = model.analytics
 const coin = 'BTC'
 
 export const logLocation = 'components/sendBtc/sagas'
@@ -137,7 +136,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         origin: 'SendBtc'
       })
     )
-    yield put(actions.analytics.logEvent([...TRANSACTION_EVENTS.BITPAY_FAILURE, 'invoice expired']))
   }
 
   const firstStepSubmitClicked = function* () {
@@ -484,12 +482,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         value: amt.reduce(add, 0)
       })
 
-      yield put(actions.analytics.logEvent([...TRANSACTION_EVENTS.SEND, coin, coinAmount]))
-      if (payPro) {
-        yield put(
-          actions.analytics.logEvent([...TRANSACTION_EVENTS.BITPAY_SUCCESS, `${coinAmount} BTC`])
-        )
-      }
       // triggers email notification to user that
       // non-custodial funds were sent from the wallet
       if (fromType === ADDRESS_TYPES.ACCOUNT) {
@@ -505,7 +497,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(actions.components.lockbox.setConnectionError(e))
       } else {
         yield put(actions.logs.logErrorMessage(logLocation, 'secondStepSubmitClicked', e))
-        yield put(actions.analytics.logEvent([...TRANSACTION_EVENTS.SEND_FAILURE, coin, e]))
         if (fromType === ADDRESS_TYPES.CUSTODIAL && error) {
           if (error === 'Pending withdrawal locks') {
             yield call(showWithdrawalLockAlert)
@@ -518,9 +509,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               coinName: 'Bitcoin'
             })
           )
-        }
-        if (payPro) {
-          yield put(actions.analytics.logEvent([...TRANSACTION_EVENTS.BITPAY_FAILURE, e]))
         }
       }
     }

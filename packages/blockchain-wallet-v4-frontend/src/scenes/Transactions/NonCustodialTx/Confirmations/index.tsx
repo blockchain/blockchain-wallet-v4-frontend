@@ -42,7 +42,7 @@ const IconWrapper = styled.div`
 `
 
 const Confirmations = (props: Props) => {
-  const { blockHeight, coin, domains, isConfirmed, onViewTxDetails, txBlockHeight = 0 } = props
+  const { blockHeight, coin, domains, isConfirmed, txBlockHeight = 0 } = props
   const conf = blockHeight - txBlockHeight + 1
   const confirmations = props.confirmations || (conf > 0 && txBlockHeight) ? conf : 0
   const { coinfig } = window.coins[coin]
@@ -80,7 +80,6 @@ const Confirmations = (props: Props) => {
           href={`${domains.comRoot}/search/?search=${props.hash}`}
           target='_blank'
           data-e2e='transactionListItemExplorerLink'
-          onClick={() => onViewTxDetails(coin)}
         >
           <Icon name='open-in-new-tab' color='marketing-primary' cursor size='17px' />
         </Link>
@@ -120,7 +119,6 @@ type OwnProps = {
   confirmations?: number
   hash: string
   isConfirmed?: boolean
-  onViewTxDetails: (coin: CoinType) => void
   txBlockHeight?: number
 }
 

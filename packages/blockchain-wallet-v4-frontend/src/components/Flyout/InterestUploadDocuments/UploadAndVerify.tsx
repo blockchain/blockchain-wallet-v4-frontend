@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
+import { FileUploadItem, InterestEDDDocumentsResponse } from '@core/types'
 import { Button, Text } from 'blockchain-info-components'
-import { FileUploadItem, InterestEDDDocumentsResponse } from 'blockchain-wallet-v4/src/types'
+import { toBase64 } from 'utils/helpers'
 
-import { toBase64 } from '../../../utils/helpers'
 import DragAndDrop from '../../DragAndDrop'
 import Container from '../Container'
 import Content from '../Content'
@@ -29,7 +29,7 @@ const Subtitle = styled(Text)`
 export const ContentDivider = styled.div`
   height: 20px;
   border-bottom: 1px solid ${(props) => props.theme.grey000};
-  margin: 40px 0 0 0;
+  margin: 40px 0;
 `
 
 const ContentWrapper = styled.div`

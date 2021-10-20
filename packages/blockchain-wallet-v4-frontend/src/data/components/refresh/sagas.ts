@@ -70,7 +70,7 @@ export default () => {
         case contains('/xlm/transactions', pathname):
           yield call(refreshXlmTransactions)
           break
-        case !!window.coins[maybeCoin]?.coinfig?.type?.erc20Address:
+        case selectors.core.data.coins.getErc20Coins().includes(maybeCoin):
           yield call(refreshErc20Transactions, pathname.split('/')[1])
           break
         case selectors.core.data.coins.getCustodialCoins().includes(maybeCoin):

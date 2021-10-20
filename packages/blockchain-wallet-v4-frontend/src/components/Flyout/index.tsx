@@ -10,6 +10,7 @@ import { media } from 'services/styles'
 import OrderSummary from './Brokerage/OrderSummary'
 import FlyoutContainer from './Container'
 import FlyoutContent from './Content'
+import FlyoutOopsError from './Errors/Oops'
 import FlyoutFooter from './Footer'
 import FlyoutHeader from './Header'
 // Interest Upload Documents specific layout screens
@@ -32,6 +33,7 @@ export {
   FlyoutContent,
   FlyoutFooter,
   FlyoutHeader,
+  FlyoutOopsError,
   FlyoutSubHeader,
   FrequencyScreen,
   GetStarted,

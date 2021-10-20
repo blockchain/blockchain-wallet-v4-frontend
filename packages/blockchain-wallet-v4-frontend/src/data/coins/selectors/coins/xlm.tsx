@@ -9,7 +9,7 @@ import { ExtractSuccess } from '@core/remote/types'
 import { createDeepEqualSelector } from '@core/utils'
 import { generateTradingAccount } from 'data/coins/utils'
 import { convertStandardToBase } from 'data/components/exchange/services'
-import { SwapAccountType } from 'data/components/types'
+import { SwapAccountType } from 'data/types'
 
 import { getTradingBalance } from '..'
 

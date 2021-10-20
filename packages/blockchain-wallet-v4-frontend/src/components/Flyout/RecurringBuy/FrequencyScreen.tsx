@@ -1,13 +1,10 @@
 import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { SBPaymentTypes } from '@core/network/api/simpleBuy/types'
+import { SBPaymentTypes } from '@core/types'
 import { Text } from 'blockchain-info-components'
+import { RecurringBuyNextPayment, RecurringBuyPeriods } from 'data/types'
 
-import {
-  RecurringBuyNextPayment,
-  RecurringBuyPeriods
-} from '../../../data/components/recurringBuy/types'
 import { OptionRightActionRow, OptionRightActionRowProps } from '../../Rows'
 import Container from '../Container'
 import Content from '../Content'

@@ -1,6 +1,5 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { CardNameType } from 'components/Form/CreditCardBox/model'
 import { BeneficiaryType, CoinType, FiatType, WalletCurrencyType } from '@core/types'
+import { CardNameType } from 'components/Form/CreditCardBox/model'
 import { BankDetails, RecurringBuyFailureReasons, RecurringBuyPeriods } from 'data/types'
 
 export type Everypay3DSResponseType = {

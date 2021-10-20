@@ -13,13 +13,13 @@ import {
   SuccessCartridge
 } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
-import { model } from 'data'
 import { UserTierType } from 'data/types'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import { ITEMS, TIER_TYPES, TIERS } from './model'
 
-const { INTEREST_EVENTS } = model.analytics
+const SILVER_LIMIT = '2000'
+const GOLD_LIMIT = '500000'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -184,7 +184,7 @@ const getTierStatus = (
 }
 
 const Template: React.FC<Props> = (props) => {
-  const { analyticsActions, interestEDDStatus, sddEligible, userData, userTiers } = props
+  const { interestEDDStatus, sddEligible, userData, userTiers } = props
 
   if (!Array.isArray(userTiers)) {
     return null
@@ -275,7 +275,7 @@ const Template: React.FC<Props> = (props) => {
                   amount: fiatToString({
                     digits: 0,
                     unit: (silverTier.limits.currency || 'USD') as WalletFiatType,
-                    value: silverTier.limits.annual
+                    value: SILVER_LIMIT
                   })
                 }}
               />
@@ -320,7 +320,7 @@ const Template: React.FC<Props> = (props) => {
                   amount: fiatToString({
                     digits: 0,
                     unit: (goldTier.limits.currency || 'USD') as WalletFiatType,
-                    value: goldTier.limits.daily
+                    value: GOLD_LIMIT
                   })
                 }}
               />
@@ -373,21 +373,14 @@ const Template: React.FC<Props> = (props) => {
         {interestEDDStatus?.eddNeeded && !interestEDDStatus?.eddPassed && (
           <LinkWrapper>
             <Link
-              href='https://share.hsforms.com/1DS4i94fURdutr8OXYOxfrg2qt44'
+              onClick={() => {
+                props.interestUploadDocumentActions.showModal({
+                  origin: 'InterestUploadDocument'
+                })
+              }}
               style={{ width: '100%' }}
-              target='_blank'
             >
-              <Button
-                data-e2e='earnInterestSupplyInformation'
-                fullwidth
-                nature='primary'
-                onClick={() => {
-                  analyticsActions.logEvent(INTEREST_EVENTS.SETTINGS.SUPPLY_INFORMATION)
-                  /* interestActions.handleWithdrawalSupplyInformation({
-                    origin: 'Settings'
-                  }) */
-                }}
-              >
+              <Button data-e2e='earnInterestSupplyInformation' fullwidth nature='primary'>
                 <FormattedMessage
                   id='scenes.interest.submit_information'
                   defaultMessage='Submit Information'

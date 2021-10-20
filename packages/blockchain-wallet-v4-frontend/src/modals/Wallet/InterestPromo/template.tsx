@@ -7,11 +7,8 @@ import { fiatToString } from '@core/exchange/utils'
 import { WalletFiatType } from '@core/types'
 import { Button, Link, Modal, ModalBody, ModalHeader, Text } from 'blockchain-info-components'
 import { BlueCartridge } from 'components/Cartridge'
-import { model } from 'data'
 
 import { Props as OwnProps, SuccessStateType } from './index'
-
-const { INTEREST_EVENTS } = model.analytics
 
 const ModalHeaderBorderless = styled(ModalHeader)`
   border-bottom: none;
@@ -38,7 +35,6 @@ type Props = OwnProps & SuccessStateType
 
 const Success: React.FC<Props> = ({
   afterTransaction,
-  analyticsActions,
   closeAll,
   interestActions,
   interestRate,
@@ -113,7 +109,6 @@ const Success: React.FC<Props> = ({
           fullwidth
           onClick={() => {
             interestActions.showInterestModal({ coin: currency, step: 'DEPOSIT' })
-            analyticsActions.logEvent(INTEREST_EVENTS.MODAL.START_EARNING)
           }}
         >
           <FormattedMessage id='modals.interestpromo.button' defaultMessage='Start Earning Now' />
@@ -128,7 +123,6 @@ const Success: React.FC<Props> = ({
           }}
           onClick={() => {
             interestActions.stopShowingInterestModal()
-            analyticsActions.logEvent(INTEREST_EVENTS.MODAL.DONT_SHOW_AGAIN)
           }}
         >
           <FormattedMessage

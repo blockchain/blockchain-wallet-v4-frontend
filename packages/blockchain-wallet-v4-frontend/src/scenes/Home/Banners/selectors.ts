@@ -16,10 +16,22 @@ export type BannerType =
   | 'continueToGold'
   | 'recurringBuys'
   | 'coinListing'
+  | 'coinRename'
+  | 'celoEURRewards'
   | 'servicePriceUnavailable'
   | null
 
 export const getNewCoinAnnouncement = (coin: string) => `${coin}-homepage`
+export const getCoinRenameAnnouncement = (coin: string) => `${coin}-rename`
+
+const showBanner = (flag: boolean, banner: string, announcementState) => {
+  return (
+    flag &&
+    (!announcementState ||
+      !announcementState[banner] ||
+      (announcementState[banner] && !announcementState[banner].dismissed))
+  )
+}
 
 export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const announcementState = selectors.cache.getLastAnnouncementState(state)
@@ -69,11 +81,25 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   // newCurrency
   const newCoinListing = selectors.core.walletOptions.getNewCoinListing(state).getOrElse('')
   const newCoinAnnouncement = getNewCoinAnnouncement(newCoinListing)
-  const isNewCurrency =
-    newCoinListing &&
-    (!announcementState ||
-      !announcementState[newCoinAnnouncement] ||
-      (announcementState[newCoinAnnouncement] && !announcementState[newCoinAnnouncement].dismissed))
+  const isNewCurrency = showBanner(!!newCoinListing, newCoinAnnouncement, announcementState)
+
+  // coinRename
+  const coinRename = selectors.core.walletOptions.getCoinRename(state).getOrElse('')
+  const coinRenameAnnouncement = getCoinRenameAnnouncement(coinRename)
+  const showRenameBanner = showBanner(!!coinRename, coinRenameAnnouncement, announcementState)
+
+  // cEUR Rewards
+  const cEURAnnouncement = selectors.core.walletOptions
+    .getCeloEurRewards(state)
+    .getOrElse(false) as boolean
+  const cEURAnnouncementAnnouncement = 'ceur-rewards'
+  const showCEURBanner =
+    showBanner(cEURAnnouncement, cEURAnnouncementAnnouncement, announcementState) &&
+    userData &&
+    userData.tiers?.current >= 1 &&
+    userData.address &&
+    userData.address.country &&
+    ['GB', 'US', 'IT'].indexOf(userData.address.country) === -1
 
   const isTier3SDD = sddEligibleTier === 3
 
@@ -87,6 +113,8 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     bannerToShow = 'servicePriceUnavailable'
   } else if (isSimpleBuyOrderPending && !isTier3SDD) {
     bannerToShow = 'sbOrder'
+  } else if (showCEURBanner) {
+    bannerToShow = 'celoEURRewards'
   } else if (isKycStateNone && isUserActive && !isFirstLogin && !isTier3SDD) {
     bannerToShow = 'finishKyc'
   } else if (userData?.tiers?.current < 2 || isKycStateNone) {
@@ -100,6 +128,8 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     bannerToShow = 'continueToGold'
   } else if (isNewCurrency) {
     bannerToShow = 'newCurrency'
+  } else if (showRenameBanner) {
+    bannerToShow = 'coinRename'
   } else if (isRecurringBuy) {
     bannerToShow = 'recurringBuys'
   } else {

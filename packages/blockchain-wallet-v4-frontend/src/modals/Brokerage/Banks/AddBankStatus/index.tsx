@@ -15,22 +15,21 @@ export type OwnProps = {
   yapilyBankId?: string
 }
 type LinkDispatchPropsType = {
-  analyticsActions: typeof actions.analytics
   brokerageActions: typeof actions.components.brokerage
 }
 
 class LinkBankStatus extends PureComponent<Props> {
   render() {
     return this.props.data.cata({
-      Success: val =>
+      Failure: () => null,
+      Loading: () => <Loading text={LoadingTextEnum.PROCESSING} />,
+      NotAsked: () => <Loading text={LoadingTextEnum.PROCESSING} />,
+      Success: (val) =>
         val.bankStatus === 'ACTIVE' ? (
           <Success {...val} {...this.props} />
         ) : (
           <BankLinkError {...val} {...this.props} />
-        ),
-      Failure: () => null,
-      Loading: () => <Loading text={LoadingTextEnum.PROCESSING} />,
-      NotAsked: () => <Loading text={LoadingTextEnum.PROCESSING} />
+        )
     })
   }
 }
@@ -40,15 +39,12 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type SuccessStateType = ReturnType<typeof getData>['data']
-export type Props = OwnProps &
-  LinkDispatchPropsType &
-  ConnectedProps<typeof connector>
+export type Props = OwnProps & LinkDispatchPropsType & ConnectedProps<typeof connector>
 
 export default connector(LinkBankStatus)

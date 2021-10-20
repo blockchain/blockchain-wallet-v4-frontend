@@ -874,6 +874,11 @@ export const countries: Country[] = [
     value: 'RS'
   },
   {
+    emoji: '🇷🇺',
+    text: 'Russia',
+    value: 'RU'
+  },
+  {
     emoji: '🇷�',
     text: 'Rwanda',
     value: 'RW'

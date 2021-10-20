@@ -38,7 +38,6 @@ const mapStateToProps = (state: RootState) => ({
   walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch)
 })
 

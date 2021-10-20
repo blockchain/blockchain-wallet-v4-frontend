@@ -2,12 +2,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import Remote from '@core/remote'
-import { ModalOriginType } from 'data/modals/types'
-import { SetPeriodPayload } from 'data/types'
+import { ModalOriginType, RecurringBuyOrigins, SetPeriodPayload } from 'data/types'
 
 import {
   RecurringBuyNextPayment,
-  RecurringBuyOrigins,
   RecurringBuyPeriods,
   RecurringBuyRegisteredList,
   RecurringBuyState,

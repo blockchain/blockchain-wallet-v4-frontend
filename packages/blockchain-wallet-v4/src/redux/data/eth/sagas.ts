@@ -29,7 +29,11 @@ import { all, call, put, select, take } from 'redux-saga/effects'
 import { APIType } from '@core/network/api'
 import { EthRawTxType } from '@core/network/api/eth/types'
 import { EthProcessedTxType } from '@core/transactions/types'
-import { Erc20CoinType, FetchCustodialOrdersAndTransactionsReturnType } from '@core/types'
+import {
+  CoinfigType,
+  Erc20CoinType,
+  FetchCustodialOrdersAndTransactionsReturnType
+} from '@core/types'
 import { errorHandler } from '@core/utils'
 import { calculateFee } from '@core/utils/eth'
 
@@ -294,6 +298,24 @@ export default ({ api }: { api: APIType }) => {
         data.tokenAccounts.map(function* (val) {
           // TODO: erc20 phase 2, key off hash not symbol
           const symbol = toUpper(val.tokenSymbol)
+          if (!window.coins[symbol]) {
+            window.coins[symbol] = {
+              coinfig: {
+                displaySymbol: symbol,
+                name: symbol,
+                precision: val.decimals,
+                products: ['PrivateKey'],
+                symbol,
+                type: {
+                  erc20Address: val.tokenHash,
+                  name: 'ERC20',
+                  parentChain: 'ETH',
+                  websiteUrl: ''
+                }
+              } as CoinfigType
+            }
+          }
+          if (window.coins[symbol].coinfig.type.name !== 'ERC20') return
           yield put(A.fetchErc20DataLoading(symbol))
           const contract = val.tokenHash
           const tokenData = data.tokenAccounts.find(

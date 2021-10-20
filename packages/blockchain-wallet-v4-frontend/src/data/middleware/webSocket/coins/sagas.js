@@ -4,7 +4,7 @@ import { call, put, select } from 'redux-saga/effects'
 import { v4 as uuidv4 } from 'uuid'
 
 import { crypto as wCrypto } from '@core'
-import { actions, model, selectors } from 'data'
+import { actions, selectors } from 'data'
 import * as T from 'services/alerts'
 
 import { WALLET_TX_SEARCH } from '../../../form/model'
@@ -15,8 +15,6 @@ import {
   ethSentConfirmed,
   header
 } from './messageTypes'
-
-const { MOBILE_LOGIN } = model.analytics
 
 export default ({ api, socket }) => {
   const send = socket.send.bind(socket)
@@ -42,7 +40,6 @@ export default ({ api, socket }) => {
     }
 
     yield put(actions.auth.secureChannelLoginLoading())
-    yield put(actions.analytics.logEvent(MOBILE_LOGIN.MOBILE_LOGIN))
     yield put(actions.core.data.misc.sendSecureChannelMessage(payload))
   }
 
@@ -169,6 +166,7 @@ export default ({ api, socket }) => {
         break
       }
     }
+
     return 'sent'
   }
 

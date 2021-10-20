@@ -12,7 +12,7 @@ import {
   SettingHeader,
   SettingSummary
 } from 'components/Setting'
-import { actions, model } from 'data'
+import { actions } from 'data'
 import { isBrowserSafari } from 'services/browser'
 
 const isSafari = isBrowserSafari()
@@ -24,7 +24,6 @@ const TextWrapper = styled(Text)`
   }
 `
 
-const { ENABLE_BTC_LINKS } = model.analytics.PREFERENCE_EVENTS.GENERAL
 class CryptoLinkHandlingContainer extends React.PureComponent {
   constructor(props) {
     super(props)
@@ -33,11 +32,7 @@ class CryptoLinkHandlingContainer extends React.PureComponent {
 
   onEnableClick = () => {
     this.setState((prevState) => ({ warningDisplayed: !prevState.warningDisplayed }))
-
     this.props.preferencesActions.setLinkHandling()
-
-    // LEGACY
-    this.props.analyticsActions.logEvent(ENABLE_BTC_LINKS)
   }
 
   render() {
@@ -101,7 +96,6 @@ class CryptoLinkHandlingContainer extends React.PureComponent {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 

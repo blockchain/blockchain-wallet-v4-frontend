@@ -5,7 +5,7 @@ import { call, delay, fork, put, select, take } from 'redux-saga/effects'
 
 import { Types } from '@core'
 import { DEFAULT_INVITATIONS } from '@core/model'
-import { actions, actionTypes, model, selectors } from 'data'
+import { actions, actionTypes, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
 import profileSagas from 'data/modules/profile/sagas'
 import walletSagas from 'data/wallet/sagas'
@@ -17,8 +17,6 @@ import { guessCurrencyBasedOnCountry } from './helpers'
 import { parseMagicLink } from './sagas.utils'
 import * as S from './selectors'
 import { LoginErrorType, LoginSteps, WalletDataFromMagicLink } from './types'
-
-const { MOBILE_LOGIN } = model.analytics
 
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'auth/sagas'
@@ -185,7 +183,6 @@ export default ({ api, coreSagas, networks }) => {
       // set payload language to settings language
       const language = yield select(selectors.preferences.getLanguage)
       yield put(actions.modules.settings.updateLanguage(language))
-      yield put(actions.analytics.initUserSession())
       // simple buy tasks
       // only run the fetch simplebuy if there's no simplebuygoal
       const goals = selectors.goals.getGoals(yield select())
@@ -395,7 +392,6 @@ export default ({ api, coreSagas, networks }) => {
   const mobileLogin = function* (action) {
     try {
       yield put(actions.auth.mobileLoginStarted())
-      yield put(actions.analytics.logEvent(MOBILE_LOGIN.LEGACY))
       const { guid, password, sharedKey } = yield call(
         coreSagas.settings.decodePairingCode,
         action.payload

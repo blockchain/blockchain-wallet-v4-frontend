@@ -8,7 +8,7 @@ import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
 import { ExtractSuccess } from '@core/remote/types'
 import { createDeepEqualSelector } from '@core/utils'
 import { generateTradingAccount } from 'data/coins/utils'
-import { SwapAccountType } from 'data/components/types'
+import { SwapAccountType } from 'data/types'
 
 import { getTradingBalance } from '..'
 

@@ -1,18 +1,5 @@
 import BigNumber from 'bignumber.js'
-import {
-  add,
-  curry,
-  flatten,
-  head,
-  last,
-  lift,
-  map,
-  not,
-  pathOr,
-  reduce,
-  reject,
-  toPairs
-} from 'ramda'
+import { add, curry, flatten, lift, map, not, pathOr, reduce, reject } from 'ramda'
 
 import { Exchange, Remote } from '@core'
 import {
@@ -200,12 +187,13 @@ export const getCoinsBalanceInfo = createDeepEqualSelector(
     const transform = (currency) => {
       return coins.map((coin) => {
         const transform2 = (rates, balance) => {
+          if (!rates.price) return 0
           return Exchange.convertCoinToFiat({ coin, currency, rates, value: balance })
         }
 
         const balanceR = getBalanceSelector(coin)(state)
         const ratesR = selectors.core.data.coins.getRates(coin, state)
-        return ratesR ? lift(transform2)(ratesR, balanceR) : Remote.of('0')
+        return lift(transform2)(ratesR, balanceR)
       })
     }
 
@@ -254,28 +242,18 @@ export const getFiatBalanceInfo = createDeepEqualSelector(
   }
 )
 
-export const getAllCoinsBalancesSelector = (state) => {
-  return selectors.core.data.coins.getAllCoins().reduce((acc, curr) => {
-    return {
-      ...acc,
-      [curr]: getBalanceSelector(curr)(state).getOrElse(0).valueOf()
-    }
-  }, {})
-}
-
 export const getCoinsSortedByBalance = createDeepEqualSelector(
   [
     selectors.custodial.getRecentSwapTxs,
     selectors.components.utils.getCoinsWithBalanceOrMethod,
-    getAllCoinsBalancesSelector,
     (state: RootState) => state
   ],
-  (recentSwapTxsR, coinsR, balances, state: RootState) => {
+  (recentSwapTxsR, coinsR, state: RootState) => {
     const transform = (coins: ExtractSuccess<typeof coinsR>) => {
       const coinSort = (a?: CoinfigType, b?: CoinfigType) => {
         if (!a || !b) return -1
-        if (window.coins[a.symbol].coinfig.type.name === 'FIAT') return 1
-        if (window.coins[b.symbol].coinfig.type.name === 'FIAT') return 1
+        if (window.coins[a.symbol].coinfig.type.name === 'FIAT') return -1
+        if (window.coins[b.symbol].coinfig.type.name === 'FIAT') return -1
 
         const coinA = a.symbol
         const coinB = b.symbol
@@ -295,45 +273,35 @@ export const getCoinsSortedByBalance = createDeepEqualSelector(
           coin: coinA,
           currency,
           rates: ratesA,
-          value: balances[coinA]
+          value: getBalanceSelector(coinA)(state).getOrElse(0).valueOf()
         })
         const coinBFiat = Exchange.convertCoinToFiat({
           coin: coinB,
           currency,
           rates: ratesB,
-          value: balances[coinB]
+          value: getBalanceSelector(coinB)(state).getOrElse(0).valueOf()
         })
 
         return Number(coinAFiat) > Number(coinBFiat) ? -1 : 1
       }
 
-      // returns all fiats that user is currently eligible for
-      // @ts-ignore
-      const fiatList = reject(
-        not,
-        map((coin) => {
-          if (coin.coinfig.type.name === 'FIAT' && coin.method === true) {
-            return coin.coinfig
-          }
-        }, coins)
-      )
-
       // returns all coins with balances as a list
-      const cryptoList = map(
+      const coinsWithBalance = map(
         (coin) => coins.find((c) => c.coinfig.symbol === coin),
         reject(
-          not,
-          map((x) => last(x) !== 0 && head(x), toPairs(balances))
+          (coin) => getBalanceSelector(coin)(state).getOrElse(0) <= 0,
+          Object.keys(window.coins)
         )
-      ).map((coin) => coin?.coinfig)
+      )
+        .map((coin) => coin?.coinfig)
+        .filter(Boolean)
 
-      // list of fiats eligible and then coins with balances as single list
-      const coinsWithBalance = [...fiatList, ...cryptoList]
       const coinsInRecentSwaps = [
         ...new Set(
           recentSwapTxsR.getOrElse([] as SwapOrderType[]).map((tx) => getOutputFromPair(tx.pair))
         )
       ]
+
       const coinsWithoutBalanceToTrack = coinsInRecentSwaps
         .filter((coin) => !coinsWithBalance.find((coinfig) => coinfig?.symbol === coin))
         .filter((coin) => window.coins[coin])

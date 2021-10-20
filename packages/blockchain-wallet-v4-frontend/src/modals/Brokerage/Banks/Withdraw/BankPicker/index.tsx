@@ -4,12 +4,12 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
 import { BeneficiaryType, ExtractSuccess, WalletFiatType } from '@core/types'
+import { FlyoutOopsError } from 'components/Flyout'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 
 import Loading from '../EnterAmount/template.loading'
 import getData from './selectors'
-import Failure from './template.failure'
 import Success from './template.success'
 
 class BankPicker extends PureComponent<Props> {
@@ -22,7 +22,13 @@ class BankPicker extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Failure: () => <Failure {...this.props} handleClose={this.props.handleClose} />,
+      Failure: () => (
+        <FlyoutOopsError
+          action='close'
+          data-e2e='withdrawReload'
+          handler={this.props.handleClose}
+        />
+      ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
       Success: (val) => <Success {...this.props} {...val} />

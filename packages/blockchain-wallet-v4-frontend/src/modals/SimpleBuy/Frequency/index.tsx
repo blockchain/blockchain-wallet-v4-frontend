@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { buyPaymentMethodSelectedPaymentTypeDictionary } from 'middleware/analyticsMiddleware/utils'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { RemoteDataType, SBPaymentMethodType } from '@core/types'
+import { RemoteDataType, SBPaymentMethodType, SBPaymentTypes } from '@core/types'
 import DataError from 'components/DataError'
 import { FrequencyScreen } from 'components/Flyout'
 import { actions } from 'data'
@@ -38,7 +39,9 @@ class Frequency extends PureComponent<Props> {
             <FrequencyScreen
               headerAction={this.props.backToEnterAmount}
               headerMode='back'
-              method={method}
+              method={
+                buyPaymentMethodSelectedPaymentTypeDictionary(method) as unknown as SBPaymentTypes
+              }
               paymentInfo={val.paymentInfo}
               setPeriod={this.handleFrequencySelection}
             />

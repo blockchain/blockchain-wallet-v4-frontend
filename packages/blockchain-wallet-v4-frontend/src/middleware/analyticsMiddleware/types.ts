@@ -167,7 +167,6 @@ enum WithdrawalMethod {
 }
 
 type BasePayload = {
-  guid: string
   originalTimestamp: string
 }
 
@@ -545,7 +544,7 @@ type SettingsTabClickedDestination =
   | 'WALLETS&ADDRESSES'
 
 type SettingsTabClickedPayload = BasePayload & {
-  destination: SettingsTabClickedDestination
+  settings_tab: SettingsTabClickedDestination
 }
 
 type SignedUpPayload = BasePayload

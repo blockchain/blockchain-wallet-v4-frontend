@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
 import { SBPaymentTypes } from '@core/network/api/simpleBuy/types'
 import { BeneficiaryType, ExtractSuccess, WalletFiatType } from '@core/types'
+import { FlyoutOopsError } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import {
@@ -16,7 +17,6 @@ import {
 } from 'data/types'
 
 import getData from './selectors'
-import Failure from './template.failure'
 import Loading from './template.loading'
 import Success from './template.success'
 
@@ -41,6 +41,10 @@ const EnterAmount = (props: Props) => {
       props.custodialActions.fetchCustodialBeneficiaries(props.fiatCurrency)
       props.withdrawActions.fetchWithdrawalLock()
     }
+  }, [props.fiatCurrency])
+
+  const errorCallback = useCallback(() => {
+    props.custodialActions.fetchCustodialBeneficiaries(props.fiatCurrency)
   }, [props.fiatCurrency])
 
   const handleSubmit = () => {
@@ -91,7 +95,9 @@ const EnterAmount = (props: Props) => {
   }
 
   return props.data.cata({
-    Failure: () => <Failure {...props} />,
+    Failure: () => (
+      <FlyoutOopsError action='retry' data-e2e='withdrawReload' handler={errorCallback} />
+    ),
     Loading: () => <Loading />,
     NotAsked: () => <Loading />,
     Success: (val) => (

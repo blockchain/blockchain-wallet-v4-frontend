@@ -12,18 +12,18 @@
         }
       },
       "coinListing": "",
-      "erc20s": ["AAVE", "PAX", "USDC", "USDT", "WDGLD", "YFI"],
+      "coinRename": "CLOUT",
       "sift": {
         "apiKey": "0ecd212038"
       },
       "featureFlags": {
+        "cEURRewards": true,
         "eddInterestFileUpload": true,
         "legacyMagicEmailLink": false,
         "legacyMobilePairing": false,
         "legacyWalletRecovery": false,
         "recurringBuys": true,
-        "signupCountry": true,
-        "ssoDummy": false
+        "signupCountry": true
       }
     }
   },

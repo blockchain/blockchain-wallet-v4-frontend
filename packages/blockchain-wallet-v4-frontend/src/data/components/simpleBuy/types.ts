@@ -1,4 +1,4 @@
-import {
+import type {
   CoinType,
   Everypay3DSResponseType,
   FiatEligibleType,
@@ -22,10 +22,9 @@ import {
   SwapQuoteType,
   SwapUserLimitsType
 } from '@core/types'
-import { RecurringBuyPeriods } from 'data/types'
-
-import { CountryType } from '../identityVerification/types'
-import { SwapAccountType, SwapBaseCounterTypes } from '../swap/types'
+import type { CountryType } from 'data/components/identityVerification/types'
+import type { RecurringBuyPeriods } from 'data/components/recurringBuy/types'
+import type { SwapAccountType, SwapBaseCounterTypes } from 'data/components/swap/types'
 
 // Types
 export type SBAddCardFormValuesType = {

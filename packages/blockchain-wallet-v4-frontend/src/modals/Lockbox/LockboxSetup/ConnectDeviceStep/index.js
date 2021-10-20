@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
 
-import { SETUP_TIMEOUT } from './../model'
+import { SETUP_TIMEOUT } from '../model'
 import Template from './template'
 
 class ConnectDeviceStepContainer extends React.PureComponent {
@@ -62,18 +62,14 @@ ConnectDeviceStepContainer.propTypes = {
   supportLink: PropTypes.string.isRequired
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   connection: selectors.components.lockbox.getCurrentConnection(state),
-  setupType: selectors.components.lockbox.getNewDeviceSetupType(state),
-  deviceType: selectors.components.lockbox.getNewDeviceType(state)
+  deviceType: selectors.components.lockbox.getNewDeviceType(state),
+  setupType: selectors.components.lockbox.getNewDeviceSetupType(state)
 })
 
-const mapDispatchToProps = dispatch => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
+const mapDispatchToProps = (dispatch) => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ConnectDeviceStepContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(ConnectDeviceStepContainer)

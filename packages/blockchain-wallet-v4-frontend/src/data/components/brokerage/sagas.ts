@@ -21,9 +21,8 @@ import * as S from './selectors'
 import { actions as A } from './slice'
 import { OBType } from './types'
 
-export default ({ api }: { api: APIType; coreSagas: any; networks: any }) => {
-  const deleteSavedBank = function* ({ payload }: ReturnType<typeof A.deleteSavedBank>) {
-    const bankId = payload
+export default ({ api }: { api: APIType }) => {
+  const deleteSavedBank = function* ({ payload: bankId }: ReturnType<typeof A.deleteSavedBank>) {
     try {
       yield put(actions.form.startSubmit('linkedBanks'))
       yield call(api.deleteSavedAccount, bankId, 'banktransfer')
@@ -150,8 +149,6 @@ export default ({ api }: { api: APIType; coreSagas: any; networks: any }) => {
             )
           }
         }
-      } else {
-        actions.analytics.logEvent(['BANK_LINK_FAILED', bankData.state, ...attributes])
       }
     } catch (e) {
       yield put(

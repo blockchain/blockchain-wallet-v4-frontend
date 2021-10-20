@@ -1,6 +1,6 @@
 import moment from 'moment'
 import { flatten, last, length } from 'ramda'
-import { all, call, put, select, take } from 'redux-saga/effects'
+import { call, put, select, take } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
 import { FetchCustodialOrdersAndTransactionsReturnType } from '@core/types'

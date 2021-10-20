@@ -15,7 +15,7 @@ import {
   SBBalancesType
 } from '@core/types'
 import { errorHandler } from '@core/utils'
-import { actions, model, selectors } from 'data'
+import { actions, selectors } from 'data'
 import coinSagas from 'data/coins/sagas'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 
@@ -26,10 +26,8 @@ import * as S from './selectors'
 import { actions as A } from './slice'
 import { InterestDepositFormType, InterestWithdrawalFormType } from './types'
 
-const { INTEREST_EVENTS } = model.analytics
 const DEPOSIT_FORM = 'interestDepositForm'
 const WITHDRAWAL_FORM = 'interestWithdrawalForm'
-
 export const logLocation = 'components/interest/sagas'
 
 export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; networks: any }) => {
@@ -450,14 +448,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // notify UI of success
       yield put(actions.form.stopSubmit(DEPOSIT_FORM))
       yield put(A.setInterestStep({ data: { depositSuccess: true }, name: 'ACCOUNT_SUMMARY' }))
-      yield put(actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_SUCCESS))
 
       const afterTransactionR = yield select(selectors.components.interest.getAfterTransaction)
       const afterTransaction = afterTransactionR.getOrElse({
         show: false
       } as InterestAfterTransactionType)
       if (afterTransaction?.show) {
-        yield put(actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_ONE_CLICK))
         yield put(actions.components.interest.resetShowInterestCardAfterTransaction())
       }
 
@@ -476,7 +472,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           name: 'ACCOUNT_SUMMARY'
         })
       )
-      yield put(actions.analytics.logEvent(INTEREST_EVENTS.DEPOSIT.SEND_FAILURE))
     }
   }
 
@@ -515,7 +510,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           name: 'ACCOUNT_SUMMARY'
         })
       )
-      yield put(actions.analytics.logEvent(INTEREST_EVENTS.WITHDRAWAL.REQUEST_SUCCESS))
       yield delay(3000)
       yield put(A.fetchInterestBalance())
       yield put(A.fetchEDDStatus())
@@ -525,7 +519,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(
         A.setInterestStep({ data: { error, withdrawSuccess: false }, name: 'ACCOUNT_SUMMARY' })
       )
-      yield put(actions.analytics.logEvent(INTEREST_EVENTS.WITHDRAWAL.REQUEST_FAILURE))
     }
   }
 

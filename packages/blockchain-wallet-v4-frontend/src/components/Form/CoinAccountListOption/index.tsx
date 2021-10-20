@@ -88,7 +88,13 @@ const CoinAccountListOption: React.FC<Props> = (props) => {
   } = props
 
   return (
-    <Option data-e2e='changeAcct' displayOnly={displayOnly} onClick={props.onClick} role='button'>
+    <Option
+      className='coin-account-option'
+      data-e2e='changeAcct'
+      displayOnly={displayOnly}
+      onClick={props.onClick}
+      role='button'
+    >
       <FlexStartRow>
         <CoinAccountIcon accountType={account.type} coin={coin} style={{ marginRight: '12px' }} />
         <div>

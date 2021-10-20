@@ -67,7 +67,6 @@ const NonCustodialTx = ({
   handleRetrySendEth,
   handleToggle,
   isToggled,
-  onViewTxDetails,
   transaction
 }: Props & ParentClassProps) => (
   <TxRowContainer className={isToggled ? 'active' : ''} data-e2e='transactionRow'>
@@ -199,7 +198,6 @@ const NonCustodialTx = ({
             coin={coin}
             hash={transaction.hash}
             txBlockHeight={transaction.blockHeight}
-            onViewTxDetails={onViewTxDetails}
           />
           {transaction.type !== 'received' && 'fee' in transaction && (
             <TransactionFee coin={coin} feeR={transaction.fee} hash={transaction.hash} />
@@ -215,7 +213,6 @@ type ParentClassProps = {
   handleRetrySendEth: (e: any, txHash: string, isErc20: boolean) => void
   handleToggle: () => void
   isToggled: boolean
-  onViewTxDetails: (value: any) => void
 }
 
 export default NonCustodialTx

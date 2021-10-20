@@ -1,9 +1,8 @@
 import { Remote } from '@core'
 import { InterestEDDStatus, SDDEligibleType } from '@core/types'
 import { selectors } from 'data'
-import { UserDataType } from 'data/modules/types'
 import { RootState } from 'data/rootReducer'
-import { UserTierType } from 'data/types'
+import { UserDataType, UserTierType } from 'data/types'
 
 const getData = (state: RootState) => {
   const userData = selectors.modules.profile.getUserData(state).getOrElse({

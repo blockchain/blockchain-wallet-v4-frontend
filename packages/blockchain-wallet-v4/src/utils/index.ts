@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import deepEqual from 'fast-deep-equal'
 import { createSelectorCreator, defaultMemoize } from 'reselect'
 

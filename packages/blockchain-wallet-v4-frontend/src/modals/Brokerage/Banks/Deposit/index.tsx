@@ -151,9 +151,6 @@ type OwnProps = ModalPropsType
 type LinkStatePropsType = {
   step: BankDWStepType
 }
-export type FailurePropsType = {
-  handleClose: () => void
-}
 
 export type Props = OwnProps & LinkStatePropsType & ConnectedProps<typeof connector>
 

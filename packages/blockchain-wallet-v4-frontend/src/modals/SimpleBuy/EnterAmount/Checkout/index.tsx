@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux'
 
 import { Remote } from '@core'
 import { OrderType, SBPaymentTypes } from '@core/types'
+import { FlyoutOopsError } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { getValidPaymentMethod } from 'data/components/simpleBuy/model'
 import { RootState } from 'data/rootReducer'
@@ -15,7 +16,6 @@ import {
   OwnProps as EnterAmountOwnProps,
   SuccessStateType as EnterAmountSuccessStateType
 } from '../index'
-import Failure from '../template.failure'
 import getData from './selectors'
 import Success from './template.success'
 
@@ -26,7 +26,7 @@ class Checkout extends PureComponent<Props> {
     const amount = goalAmount || this.props.formValues?.amount || '0'
     const cryptoAmount = this.props.formValues?.cryptoAmount
     const period = this.props.formValues?.period || RecurringBuyPeriods.ONE_TIME
-
+    this.errorCallback = this.errorCallback.bind(this)
     this.props.buySellActions.initializeCheckout({
       account: this.props.swapAccount,
       amount,
@@ -159,12 +159,20 @@ class Checkout extends PureComponent<Props> {
     }
   }
 
+  errorCallback() {
+    this.props.buySellActions.setStep({
+      fiatCurrency: this.props.fiatCurrency || 'USD',
+      step: 'CRYPTO_SELECTION'
+    })
+  }
+
   render() {
     return this.props.data.cata({
       Failure: () => (
-        <Failure
-          fiatCurrency={this.props.fiatCurrency}
-          buySellActions={this.props.buySellActions}
+        <FlyoutOopsError
+          action='retry'
+          data-e2e='sbTryCurrencySelectionAgain'
+          handler={this.errorCallback}
         />
       ),
       Loading: () => <Loading />,

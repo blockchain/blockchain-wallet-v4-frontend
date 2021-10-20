@@ -148,7 +148,6 @@ const Template: React.FC<Props> = (props) => {
           nature='primary'
           data-e2e='upgradeNowBtn'
           onClick={() => {
-            props.analyticsActions.logEvent(['UPGRADE_TO_GOLD', 'upgrade_now_clicked'])
             props.verifyIdentity()
           }}
           style={{ marginTop: '16px' }}
@@ -163,7 +162,6 @@ const Template: React.FC<Props> = (props) => {
           nature='empty-blue'
           data-e2e='doLaterBtn'
           onClick={() => {
-            props.analyticsActions.logEvent(['UPGRADE_TO_GOLD', 'Ill_do_it_later_clicked'])
             props.handleClose()
           }}
           style={{ marginTop: '8px' }}

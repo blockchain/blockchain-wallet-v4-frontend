@@ -5,15 +5,9 @@ import styled from 'styled-components'
 
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper, Row, Title } from 'components/Flyout'
-import { model } from 'data'
 import { AddBankStepType } from 'data/types'
 
 import { Props as _P } from '.'
-
-const {
-  ACCEPT_YAPILY_AIS_AGREEMENT,
-  DECLINE_YAPILY_AIS_AGREEMENT
-} = model.analytics.FIAT_DEPOSIT_EVENTS
 
 const Wrapper = styled.div`
   display: flex;
@@ -32,20 +26,21 @@ const DropdownTitleRow = styled.div`
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  /* chevorn icon rotation */
+
   > span:last-child {
     size: 10px;
     transition: transform 0.2s;
-    color: ${props => props.theme.grey600};
+    color: ${(props) => props.theme.grey600};
+
     &.active {
       transform: rotate(180deg);
     }
   }
 `
 const InfoTitle = styled(Title)`
-  font-weight: 600px;
+  font-weight: 600;
   line-height: 1.5;
-  color: ${props => props.theme.grey900};
+  color: ${(props) => props.theme.grey900};
 `
 
 const InfoDropdown = styled.div`
@@ -61,10 +56,10 @@ const InfoDropdown = styled.div`
 const InfoText = styled(Title)`
   font-size: 14px;
   font-weight: 500;
-  color: ${props => props.theme.grey600};
+  color: ${(props) => props.theme.grey600};
   line-height: 1.5;
   a {
-    color: ${props => props.theme.blue600};
+    color: ${(props) => props.theme.blue600};
     cursor: pointer;
     text-decoration: none;
   }
@@ -92,8 +87,7 @@ const DropdownItem = ({ bodyText, titleText }) => {
 
 const Success = (props: Props) => {
   const { entity } = props
-  const entityName =
-    entity === 'Safeconnect(UK)' ? 'SafeConnect' : 'SafeConnect (UAB)'
+  const entityName = entity === 'Safeconnect(UK)' ? 'SafeConnect' : 'SafeConnect (UAB)'
 
   const today = moment()
   today.add(90, 'day')
@@ -102,11 +96,7 @@ const Success = (props: Props) => {
     <Wrapper>
       <FlyoutWrapper style={{ paddingBottom: '24px' }}>
         <BackContainer>
-          <Image
-            name='safe-connect'
-            size='20px'
-            style={{ marginRight: '28px' }}
-          />
+          <Image name='safe-connect' size='20px' style={{ marginRight: '28px' }} />
           <FormattedMessage
             id='modals.brokerage.authorize.title'
             defaultMessage='{entityName}'
@@ -209,9 +199,13 @@ const Success = (props: Props) => {
             {entityName !== 'SafeConnect' && (
               <FormattedMessage
                 id='modals.brokerage.authorize.bol.terms'
-                defaultMessage="View SafeConnect UAB <a>Terms and Conditions</a> for more information."
-                values = {{
-                  a: msg => <a href='https://yapi.ly/GDNT' rel='noopener noreferrer' target='_blank'>{msg}</a>
+                defaultMessage='View SafeConnect UAB <a>Terms and Conditions</a> for more information.'
+                values={{
+                  a: (msg) => (
+                    <a href='https://yapi.ly/GDNT' rel='noopener noreferrer' target='_blank'>
+                      {msg}
+                    </a>
+                  )
                 }}
               />
             )}
@@ -236,7 +230,6 @@ const Success = (props: Props) => {
             props.brokerageActions.setAddBankStep({
               addBankStep: AddBankStepType.ADD_BANK_CONNECT
             })
-            props.analyticsActions.logEvent(ACCEPT_YAPILY_AIS_AGREEMENT)
           }}
         >
           <FormattedMessage id='copy.approve' defaultMessage='Approve' />
@@ -251,7 +244,6 @@ const Success = (props: Props) => {
           style={{ marginTop: '16px' }}
           onClick={() => {
             props.handleClose()
-            props.analyticsActions.logEvent(DECLINE_YAPILY_AIS_AGREEMENT)
           }}
         >
           <FormattedMessage id='copy.deny' defaultMessage='Deny' />

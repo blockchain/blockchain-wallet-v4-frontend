@@ -1,7 +1,5 @@
 import React from 'react'
-import { mapObjIndexed, values } from 'ramda'
 
-import { SupportedWalletCurrencyType } from '@core/types'
 import { Wrapper } from 'components/Balances'
 
 import { BalancesWrapper } from '../model'
@@ -15,17 +13,11 @@ const Template = (props) => {
     <Wrapper>
       <PendingSBTransactions />
       <BalancesWrapper className={props.isActive ? 'active' : ''}>
-        {values(
-          mapObjIndexed(
-            (coin: SupportedWalletCurrencyType) => (
-              <Balance
-                coin={coin.coinfig.symbol}
-                coinTicker={coin.coinfig.symbol}
-                key={coin.coinfig.symbol}
-              />
-            ),
-            coins
-          )
+        {coins.map(
+          (coin) => (
+            <Balance coin={coin.symbol} coinTicker={coin.symbol} key={coin.symbol} />
+          ),
+          coins
         )}
       </BalancesWrapper>
     </Wrapper>

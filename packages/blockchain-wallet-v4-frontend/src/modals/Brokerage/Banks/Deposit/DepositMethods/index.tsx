@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
+import { FlyoutOopsError } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 import { Loading, LoadingTextEnum } from '../../../../components'
 import { getData } from './selectors'
-import Failure from './template.failure'
 import Success from './template.success'
 
 const DepositMethods = (props) => {
@@ -20,8 +20,14 @@ const DepositMethods = (props) => {
     }
   }, [])
 
+  const errorCallback = useCallback(() => {
+    props.brokerageActions.fetchBankTransferAccounts()
+  }, [])
+
   return props.data.cata({
-    Failure: () => <Failure {...props} />,
+    Failure: () => (
+      <FlyoutOopsError action='retry' data-e2e='withdrawReload' handler={errorCallback} />
+    ),
     Loading: () => <Loading text={LoadingTextEnum.LOADING} />,
     NotAsked: () => <Loading text={LoadingTextEnum.LOADING} />,
     Success: (val) => <Success {...val} {...props} />
@@ -35,7 +41,6 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
-  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)

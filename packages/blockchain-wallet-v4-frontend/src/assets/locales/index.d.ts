@@ -1642,7 +1642,7 @@ type MessagesType = {
   'modals.simplebuy.summary.cancelbuy': 'Cancel Buy'
   'modals.simplebuy.summary.cancelsell': 'Cancel Sell'
   'modals.simplebuy.summary.complete_card_payment': 'Complete Card Payment'
-  'modals.simplebuy.summary.complete_card_info_main': 'Your final amount might change due to market activity. For security purposes, a {days} holding period will be applied to your funds. You can Sell or Swap during this time. We will notify you once the funds are available to be withdrawn.'
+  'modals.simplebuy.summary.complete_card_info_main': 'Your final amount might change due to market activity. For security purposes, a {days} day holding period will be applied to your funds. You can Sell or Swap during this time. We will notify you once the funds are available to be withdrawn.'
   'modals.simplebuy.summary.complete_card_info_additional': 'In the meantime, you can sell into Cash, swap, and trade within Blockchain.com.'
   'modals.simplebuy.summary.created': 'Created'
   'modals.simplebuy.summary.paymentmethod': 'Payment Method'
