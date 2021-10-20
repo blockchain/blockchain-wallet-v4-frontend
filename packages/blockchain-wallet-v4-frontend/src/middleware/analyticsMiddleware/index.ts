@@ -2294,8 +2294,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         analytics.push(AnalyticsKey.SETTINGS_TAB_CLICKED, {
           properties: {
-            destination,
-            originalTimestamp: getOriginalTimestamp()
+            originalTimestamp: getOriginalTimestamp(),
+            settings_tab: destination
           },
           traits: {
             email,
