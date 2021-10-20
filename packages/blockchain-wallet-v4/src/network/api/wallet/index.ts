@@ -106,17 +106,16 @@ export default ({ get, post, rootUrl }) => {
 
   const pollForMagicLinkData = (sessionToken) =>
     get({
-      data: { format: 'json' },
+      contentType: 'application/json',
       endPoint: '/wallet/poll-for-wallet-info',
       sessionToken,
       url: rootUrl
     })
 
-  const authorizeVerifyDevice = (guid, fromSessionId, payload) =>
+  const authorizeVerifyDevice = (fromSessionId, payload) =>
     post({
       data: {
         fromSessionId,
-        guid,
         method: 'authorize-verify-device',
         payload
       },

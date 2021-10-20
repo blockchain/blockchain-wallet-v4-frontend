@@ -598,6 +598,7 @@ export default ({ api, coreSagas, networks }) => {
   const triggerWalletMagicLink = function* (action) {
     const formValues = yield select(selectors.form.getFormValues('login'))
     const { step } = formValues
+    const pollForMagicLinkData = yield select(selectors.core.walletOptions.getPollForMagicLinkData)
     yield put(startSubmit('login'))
     try {
       yield put(actions.auth.triggerWalletMagicLinkLoading())
@@ -609,7 +610,10 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
       } else {
         yield put(actions.form.change('login', 'step', LoginSteps.CHECK_EMAIL))
-        yield call(pollingForMagicLinkDataSession, sessionToken)
+        // polling feature flag
+        if (pollForMagicLinkData) {
+          yield call(pollingForMagicLinkDataSession, sessionToken)
+        }
       }
       yield put(actions.auth.triggerWalletMagicLinkSuccess())
     } catch (e) {
@@ -624,13 +628,11 @@ export default ({ api, coreSagas, networks }) => {
   const authorizeVerifyDevice = function* () {
     const { wallet } = yield select(selectors.auth.getMagicLinkData)
     const magicLinkDataEncoded = yield select(selectors.auth.getMagicLinkDataEncoded)
-    const session = yield select(selectors.session.getSession, wallet.guid, wallet.email)
     try {
       yield put(actions.auth.authorizeVerifyDeviceLoading())
       const { error, success } = yield call(
         api.authorizeVerifyDevice,
-        wallet.guid,
-        session,
+        wallet.session_id,
         magicLinkDataEncoded
       )
       if (success) {

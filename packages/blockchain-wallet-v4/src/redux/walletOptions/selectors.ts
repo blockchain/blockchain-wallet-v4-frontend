@@ -61,3 +61,6 @@ export const getEDDInterestFileUpload = (state: RootState) =>
 // celoEUR sweepstake feature flag
 export const getCeloEurRewards = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'cEURRewards']))
+
+export const getPollForMagicLinkData = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'pollForMagicLinkData']))

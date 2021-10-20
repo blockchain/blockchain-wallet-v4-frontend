@@ -2207,6 +2207,7 @@ type MessagesType = {
   'scenes.logins.twofa.lost': 'Lost access to your 2FA device?'
   'scenes.login.mobile': 'SMS Code'
   'scenes.login.gethelp': 'Get Help'
+  'scenes.login.verify': "We're verifying your login attempt. Please wait..."
   'scenes.login.version': 'Version {version}'
   'scenes.login.need.help': 'Need help?'
   'scenes.login.password': 'Password'

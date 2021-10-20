@@ -21,3 +21,4 @@ export const getMagicLinkData = (state: RootState): WalletDataFromMagicLink | nu
 export const getMagicLinkDataEncoded = (state: RootState) => state.auth.magicLinkDataEncoded
 export const getUserGeoData = path(['auth', 'userGeoData'])
 export const getManifest = path(['auth', 'manifestFile'])
+export const getAuthorizeVerifyDevice = (state: RootState) => state.auth.authorizeVerifyDevice

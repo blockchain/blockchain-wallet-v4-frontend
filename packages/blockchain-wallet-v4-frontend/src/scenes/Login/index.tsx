@@ -247,15 +247,6 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
                 https://login.blockchain.com
               </Text>
             </PhishingWarning>
-            <ButtonRow>
-              <Button
-                data-e2e=''
-                nature='empty-blue'
-                onClick={() => this.setStep(LoginSteps.VERIFY_MAGIC_LINK)}
-              >
-                Auth Magic Link
-              </Button>
-            </ButtonRow>
           </>
         )}
       </>

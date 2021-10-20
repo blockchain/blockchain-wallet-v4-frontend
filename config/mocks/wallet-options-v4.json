@@ -21,6 +21,7 @@
         "eddInterestFileUpload": true,
         "legacyMobilePairing": false,
         "legacyWalletRecovery": false,
+        "pollForMagicLinkData": true,
         "recurringBuys": true,
         "signupCountry": true
       }
