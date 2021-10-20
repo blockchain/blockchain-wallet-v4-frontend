@@ -162,9 +162,26 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
             // @ts-ignore
             payment = yield payment.setIsContract(false)
             yield put(A.sendEthCheckIsContractSuccess(false))
+
+            if (payment.value()?.to?.type || payment.value()?.to?.type === ADDRESS_TYPES.ADDRESS) {
+              const appState = yield select(identity)
+              const currency = selectors.core.settings
+                .getCurrency(appState)
+                .getOrFail('Failed to get currency')
+              yield put(
+                A.sendEthFetchLimits(
+                  coin,
+                  WalletAcountEnum.CUSTODIAL,
+                  coin,
+                  WalletAcountEnum.NON_CUSTODIAL,
+                  currency
+                )
+              )
+            }
             return
           }
           yield put(A.sendEthCheckIsContract(value))
+
           return
         case 'amount':
           const amountPayload = payload as SendEthFormAmountActionType['payload']
@@ -175,24 +192,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
             value: amountPayload.coin
           })
           payment = yield payment.amount(weiAmount)
-          if (
-            payment.value().from.type === ADDRESS_TYPES.CUSTODIAL &&
-            (payment.value()?.to?.type || payment.value()?.to?.type === ADDRESS_TYPES.ADDRESS)
-          ) {
-            const appState = yield select(identity)
-            const currency = selectors.core.settings
-              .getCurrency(appState)
-              .getOrFail('Failed to get currency')
-            yield put(
-              A.sendEthFetchLimits(
-                coin,
-                WalletAcountEnum.CUSTODIAL,
-                coin,
-                WalletAcountEnum.NON_CUSTODIAL,
-                currency
-              )
-            )
-          }
           break
         case 'description':
           const descPayload = payload as SendEthFormDescActionType['payload']

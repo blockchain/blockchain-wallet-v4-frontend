@@ -1,15 +1,18 @@
 import React from 'react'
 import BigNumber from 'bignumber.js'
-import { prop } from 'ramda'
+import { isEmpty, prop } from 'ramda'
 
 import { Exchange } from '@core'
+import Currencies from '@core/exchange/currencies'
+import { formatFiat } from '@core/exchange/utils'
 
 import {
   InsufficientFundsMessage,
   InvalidAmountMessage,
   MaximumAmountMessage,
   MaximumFeeMessage,
-  MinimumFeeMessage
+  MinimumFeeMessage,
+  OverYourLimitMessage
 } from './validationMessages'
 
 // eslint-disable-next-line
@@ -73,4 +76,23 @@ export const shouldWarn = ({ initialRender, nextProps, props, structure, values 
     !structure.deepEqual(values, nextProps.values) ||
     props.effectiveBalance !== nextProps.effectiveBalance
   )
+}
+
+export const isSendLimitOver = (value, allValues, props) => {
+  const { from, sendLimits } = props
+  const fiatValue = prop('fiat', value)
+  const isFromCustodial = from && from.type === 'CUSTODIAL'
+
+  if (!isFromCustodial || isEmpty(sendLimits) || isEmpty(sendLimits?.globalLimit?.available)) {
+    return undefined
+  }
+
+  const { currency, value: availableAmount } = sendLimits?.globalLimit?.available
+
+  return fiatValue > Number(availableAmount) ? (
+    <OverYourLimitMessage
+      amount={formatFiat(availableAmount)}
+      currency={Currencies[currency].units[currency].symbol}
+    />
+  ) : undefined
 }

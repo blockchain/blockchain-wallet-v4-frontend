@@ -50,6 +50,7 @@ import RegularFeeLink from './RegularFeeLink'
 import {
   insufficientFunds,
   invalidAmount,
+  isSendLimitOver,
   maximumAmount,
   maximumFee,
   minimumFee,
@@ -202,7 +203,7 @@ const FirstStep = (props) => {
             disabled={unconfirmedTx}
             component={FiatConverter}
             coin={coin}
-            validate={[required, invalidAmount, insufficientFunds, maximumAmount]}
+            validate={[required, invalidAmount, insufficientFunds, maximumAmount, isSendLimitOver]}
             data-e2e={`${coin}Send`}
             marginTop='8px'
           />

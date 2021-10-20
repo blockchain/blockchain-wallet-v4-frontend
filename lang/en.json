@@ -1050,6 +1050,7 @@
     "modals.send.banner.title": "Uprade to Gold. Send More Crypto.",
     "modals.send.banner.description": "Verify your ID now and unlock Gold level trading. Send up to {dayCurrencySymbol}{dayAmount} a day. Now, your limit is {yearCurrencySymbol}{yearAmount} annually.",
     "modals.send.banner.get_started": "Get Stared",
+    "modals.send.over_your_limit": "Over your limit! Send up to {currency}{amount}.",
     "modals.sendbch.amountnotzeromessage": "Invalid amount",
     "modals.sendBch.firststep.bitpay.insufficientfunds": "Insufficient funds to complete BitPay transaction",
     "modals.sendbch.firststep.blockbrowser": "Sending Bitcoin Cash from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.",
