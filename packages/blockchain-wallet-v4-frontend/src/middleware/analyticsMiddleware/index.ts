@@ -2317,10 +2317,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const { href, pathname, search } = window.location
         const { referrer, title } = document
         const currency = 'BTC'
+        const origin = 'SEND'
 
         analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
           properties: {
             currency,
+            origin,
             originalTimestamp: getOriginalTimestamp()
           },
           traits: {
@@ -2359,10 +2361,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const { href, pathname, search } = window.location
         const { referrer, title } = document
         const currency = 'BCH'
+        const origin = 'SEND'
 
         analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
           properties: {
             currency,
+            origin,
             originalTimestamp: getOriginalTimestamp()
           },
           traits: {
@@ -2401,10 +2405,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const { href, pathname, search } = window.location
         const { referrer, title } = document
         const currency = 'XLM'
+        const origin = 'SEND'
 
         analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
           properties: {
             currency,
+            origin,
             originalTimestamp: getOriginalTimestamp()
           },
           traits: {
@@ -2443,10 +2449,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const { href, pathname, search } = window.location
         const { referrer, title } = document
         const currency = action.payload
+        const origin = 'SEND'
 
         analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
           properties: {
             currency,
+            origin,
             originalTimestamp: getOriginalTimestamp()
           },
           traits: {
