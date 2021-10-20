@@ -9,9 +9,9 @@ export enum ExchangeErrorCodes {
   INVALID_CREDENTIALS = 8
 }
 export enum ProductAuthOptions {
-  EXCHANGE = 'EXCHANGE',
-  EXPLORER = 'EXPLORER',
-  WALLET = 'WALLET'
+  EXCHANGE = 'exchange',
+  EXPLORER = 'explorer',
+  WALLET = 'wallet'
 }
 
 export enum AccountUnificationFlows {
@@ -38,9 +38,9 @@ export enum LoginSteps {
 }
 
 export enum PlatformTypes {
-  ANDROID = 'ANDROID',
-  IOS = 'IOS',
-  WEB = 'WEB'
+  ANDROID = 'android',
+  IOS = 'ios',
+  WEB = 'web'
 }
 
 export enum RecoverSteps {
@@ -162,10 +162,7 @@ export type SecureChannelLoginType = undefined
 
 export type AuthStateType = {
   accountUnificationFlow?: AccountUnificationFlows
-  authPlatform?: PlatformTypes
   auth_type: number
-  designatedProduct: ProductAuthOptions
-  designatedProductRedirect?: string
   exchangeAuth: {
     exchangeLogin: RemoteDataType<ExchangeLoginFailureType, ExchangeLoginSuccessType>
     exchangeLoginError?: ExchangeErrorCodes
@@ -180,6 +177,11 @@ export type AuthStateType = {
   manifestFile: any
   metadataRestore: RemoteDataType<string, MetadataRestoreType>
   mobileLoginStarted: boolean
+  productAuthMetadata: {
+    platform?: PlatformTypes | string | null
+    product?: ProductAuthOptions | string | null
+    redirect?: string | null
+  }
   registerEmail?: string
   registering: RemoteDataType<RegisteringFailureType, RegisteringSuccessType>
   resetAccount: boolean

@@ -78,7 +78,7 @@ export const parseMagicLink = function* (params) {
       yield put(actions.form.change('login', 'email', walletData?.email))
       yield put(actions.auth.setMagicLinkInfo(loginData))
       yield put(
-        actions.auth.setDesignatedProductMetadata({
+        actions.auth.setProductAuthMetadata({
           designatedProduct: ProductAuthOptions.WALLET
         })
       )
@@ -99,7 +99,7 @@ export const parseMagicLink = function* (params) {
       }
       yield put(actions.auth.setMagicLinkInfo(loginData))
       yield put(
-        actions.auth.setDesignatedProductMetadata({
+        actions.auth.setProductAuthMetadata({
           designatedProduct: ProductAuthOptions.EXCHANGE
         })
       )
