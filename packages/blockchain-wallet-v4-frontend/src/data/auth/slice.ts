@@ -20,6 +20,7 @@ import {
 const initialState: AuthStateType = {
   accountUnificationFlow: undefined,
   auth_type: 0,
+  authorizeVerifyDevice: Remote.NotAsked,
   exchangeAuth: {
     exchangeLogin: Remote.NotAsked,
     exchangeLoginError: undefined,
@@ -31,6 +32,7 @@ const initialState: AuthStateType = {
   kycReset: undefined,
   login: Remote.NotAsked,
   magicLinkData: undefined,
+  magicLinkDataEncoded: undefined,
   manifestFile: null,
   metadataRestore: Remote.NotAsked,
   mobileLoginStarted: false,
@@ -66,6 +68,17 @@ const authSlice = createSlice({
     authenticate: (state) => {
       state.isAuthenticated = true
     },
+    authorizeVerifyDevice: () => {},
+    authorizeVerifyDeviceFailure: (state, action) => {
+      state.authorizeVerifyDevice = Remote.Failure(action.payload)
+    },
+    authorizeVerifyDeviceLoading: (state) => {
+      state.authorizeVerifyDevice = Remote.Loading
+    },
+    authorizeVerifyDeviceSuccess: (state, action) => {
+      state.authorizeVerifyDevice = Remote.Success(action.payload)
+    },
+
     clearLoginError: (state) => {
       state.login = Remote.NotAsked
       state.exchangeAuth.exchangeLogin = Remote.NotAsked
@@ -171,6 +184,9 @@ const authSlice = createSlice({
     },
     setMagicLinkInfo: (state, action: PayloadAction<AuthStateType['magicLinkData']>) => {
       state.magicLinkData = action.payload
+    },
+    setMagicLinkInfoEncoded: (state, action: PayloadAction<AuthStateType['magicLinkDataEncoded']>) => {
+      state.magicLinkDataEncoded = action.payload
     },
     setManifestFile: (state, action: PayloadAction<AuthStateType['manifestFile']>) => {
       state.manifestFile = action.payload

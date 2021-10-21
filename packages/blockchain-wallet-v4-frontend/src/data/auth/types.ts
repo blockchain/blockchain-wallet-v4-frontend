@@ -34,7 +34,8 @@ export enum LoginSteps {
   UPGRADE_CONFIRM = 'UPGRADE_CONFIRM',
   UPGRADE_PASSWORD = 'UPGRADE_PASSWORD',
   UPGRADE_SUCCESS = 'UPGRADE_SUCCESS',
-  VERIFICATION_MOBILE = 'VERIFICATION_MOBILE'
+  VERIFICATION_MOBILE = 'VERIFICATION_MOBILE',
+  VERIFY_MAGIC_LINK = 'VERIFY_MAGIC_LINK'
 }
 
 export enum PlatformTypes {
@@ -120,17 +121,8 @@ export type WalletDataFromMagicLink = {
       recovery_token?: string
       user_id?: string
     }
+    session_id?: string
   }
-}
-
-// TODO: this is here to handle old version of magic link
-// Can be removed when it's completely deprecated
-export type WalletDataFromMagicLinkLegacy = {
-  email: string
-  email_code?: string
-  guid: string
-  is_mobile_setup: string | boolean
-  mobile_device_type: number | null
 }
 
 export type LoginErrorType =
@@ -169,6 +161,7 @@ export type ProductAuthMetadata = {
 export type AuthStateType = {
   accountUnificationFlow?: AccountUnificationFlows
   auth_type: number
+  authorizeVerifyDevice: RemoteDataType<any, any>
   exchangeAuth: {
     exchangeLogin: RemoteDataType<ExchangeLoginFailureType, ExchangeLoginSuccessType>
     exchangeLoginError?: ExchangeErrorCodes
@@ -180,7 +173,8 @@ export type AuthStateType = {
   kycReset?: boolean
   login: RemoteDataType<LoginFailureType, LoginSuccessType>
   magicLinkData?: WalletDataFromMagicLink
-  manifestFile: any
+  magicLinkDataEncoded?: string
+  manifestFile: null
   metadataRestore: RemoteDataType<string, MetadataRestoreType>
   mobileLoginStarted: boolean
   productAuthMetadata: ProductAuthMetadata

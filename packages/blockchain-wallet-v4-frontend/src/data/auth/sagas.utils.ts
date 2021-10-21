@@ -1,4 +1,4 @@
-import { call, put, select } from 'redux-saga/effects'
+import { put, select } from 'redux-saga/effects'
 
 import { actions, selectors } from 'data'
 import * as C from 'services/alerts'
@@ -8,8 +8,7 @@ import {
   LoginSteps,
   PlatformTypes,
   ProductAuthOptions,
-  UserType,
-  WalletDataFromMagicLink
+  UserType
 } from './types'
 
 const logLocation = 'auth/sagas'
@@ -41,8 +40,9 @@ const testMagicLinkData = {
 }
 
 // TODO: cleanup this function
-export const parseMagicLink = function* (magicLink) {
+export const parseMagicLink = function* () {
   try {
+    const magicLink = yield select(selectors.auth.getMagicLinkData)
     const {
       exchange: exchangeData,
       mergeable,
@@ -51,6 +51,9 @@ export const parseMagicLink = function* (magicLink) {
       upgradeable,
       wallet: walletData
     } = magicLink
+    const session = yield select(selectors.session.getSession, walletData.guid, walletData.email)
+    const sessionIdFromLink = walletData.session_id
+
     if (!unified && (mergeable || upgradeable)) {
       if (product === ProductAuthOptions.WALLET && mergeable) {
         // send them to wallet password screen
@@ -71,24 +74,35 @@ export const parseMagicLink = function* (magicLink) {
     }
     // store data in the cache and update form values to be used to submit login
     if (product === ProductAuthOptions.WALLET) {
-      yield put(actions.cache.emailStored(walletData?.email))
-      yield put(actions.cache.guidStored(walletData?.guid))
-      yield put(actions.cache.mobileConnectedStored(walletData?.is_mobile_setup))
-      yield put(actions.form.change('login', 'emailToken', walletData?.email_code))
-      yield put(actions.form.change('login', 'guid', walletData?.guid))
-      yield put(actions.form.change('login', 'email', walletData?.email))
-      yield put(actions.auth.setMagicLinkInfo(magicLink))
-      yield put(
-        actions.auth.setProductAuthMetadata({
-          platform: PlatformTypes.WEB,
-          product: ProductAuthOptions.WALLET
-        })
+      // remove feature flag when not necessary
+      const shouldPollForMagicLinkData = yield select(
+        selectors.core.walletOptions.getPollForMagicLinkData
       )
-      // check if mobile detected
-      if (walletData?.is_mobile_setup) {
-        yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
+      if (session !== sessionIdFromLink && shouldPollForMagicLinkData) {
+        yield put(actions.form.change('login', 'step', LoginSteps.VERIFY_MAGIC_LINK))
       } else {
-        yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD_WALLET))
+        // grab all the data from the JSON wallet data
+        // store data in the cache and update form values to be used to submit login
+        yield put(actions.cache.emailStored(walletData?.email))
+        yield put(actions.cache.guidStored(walletData?.guid))
+        yield put(actions.cache.mobileConnectedStored(walletData?.is_mobile_setup))
+        yield put(actions.cache.hasCloudBackup(walletData.has_cloud_backup))
+        yield put(actions.form.change('login', 'emailToken', walletData?.email_code))
+        yield put(actions.form.change('login', 'guid', walletData?.guid))
+        yield put(actions.form.change('login', 'email', walletData?.email))
+        yield put(actions.auth.setMagicLinkInfo(magicLink))
+        yield put(
+          actions.auth.setProductAuthMetadata({
+            platform: PlatformTypes.WEB,
+            product: ProductAuthOptions.WALLET
+          })
+        )
+        // check if mobile detected
+        if (walletData?.is_mobile_setup) {
+          yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
+        } else {
+          yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD_WALLET))
+        }
       }
     }
     if (product === ProductAuthOptions.EXCHANGE) {

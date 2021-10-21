@@ -26,6 +26,7 @@ import UpgradeSuccess from './AccountUnification/UpgradeSuccess'
 import ExchangeEnterEmail from './Exchange/EnterEmail'
 import EnterPasswordExchange from './Exchange/EnterPasswordExchange'
 import {
+  CreateAccount,
   getLoginPageFooter,
   getLoginPageSubTitle,
   getLoginPageTitle,
@@ -36,6 +37,7 @@ import CheckEmail from './Wallet/CheckEmail'
 import WalletEnterEmailOrGuid from './Wallet/EnterEmailOrGuid'
 import EnterPasswordWallet from './Wallet/EnterPasswordWallet'
 import VerificationMobile from './Wallet/VerificationMobile'
+import VerifyMagicLink from './VerifyMagicLink'
 
 class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StateProps> {
   constructor(props) {
@@ -206,6 +208,8 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
                   return <EnterPasswordWallet {...loginProps} />
                 case LoginSteps.CHECK_EMAIL:
                   return <CheckEmail {...loginProps} />
+                case LoginSteps.VERIFY_MAGIC_LINK:
+                  return <VerifyMagicLink {...loginProps} />
                 case LoginSteps.VERIFICATION_MOBILE:
                   return <VerificationMobile {...loginProps} />
                 case LoginSteps.UPGRADE_CONFIRM:

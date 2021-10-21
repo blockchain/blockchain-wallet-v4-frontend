@@ -303,6 +303,24 @@ export default ({ api, coreSagas, networks }) => {
     return yield call(pollingSession, session, n - 1)
   }
 
+  const pollingForMagicLinkDataSession = function* (session, n = 50) {
+    if (n === 0) {
+      return false
+    }
+    try {
+      yield delay(2000)
+      const response = yield call(api.getMagicLinkData, session)
+      if (prop('wallet', response)) {
+        yield put(actions.auth.setMagicLinkInfo(response))
+        yield call(parseMagicLink)
+        return true
+      }
+    } catch (error) {
+      return false
+    }
+    return yield call(pollingForMagicLinkDataSession, session, n - 1)
+  }
+
   const login = function* (action) {
     const { code, guid, password, sharedKey } = action.payload
     const formValues = yield select(selectors.form.getFormValues('login'))
@@ -654,11 +672,12 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.form.change('login', 'guid', walletGuidOrMagicLinkFromUrl))
           yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
           break
+        // url has base64 encrypted magic link JSON
         default:
-          const magicLink = JSON.parse(
-            atob(walletGuidOrMagicLinkFromUrl)
-          ) as WalletDataFromMagicLink
-          yield call(parseMagicLink, magicLink)
+          const magicLink = JSON.parse(atob(walletGuidOrMagicLinkFromUrl))
+          yield put(actions.auth.setMagicLinkInfo(magicLink))
+          yield put(actions.auth.setMagicLinkInfoEncoded(walletGuidOrMagicLinkFromUrl))
+          yield call(parseMagicLink)
       }
 
       // hide loading and ensure latest app version
@@ -677,25 +696,24 @@ export default ({ api, coreSagas, networks }) => {
   const triggerWalletMagicLink = function* (action) {
     const formValues = yield select(selectors.form.getFormValues('login'))
     const { step } = formValues
-    const legacyMagicEmailLink = (yield select(
-      selectors.core.walletOptions.getFeatureLegacyMagicEmailLink
-    )).getOrElse(true)
-
+    const shouldPollForMagicLinkData = yield select(
+      selectors.core.walletOptions.getPollForMagicLinkData
+    )
     yield put(startSubmit('login'))
     try {
       yield put(actions.auth.triggerWalletMagicLinkLoading())
       const sessionToken = yield call(api.obtainSessionToken)
       const { captchaToken, email, product } = action.payload
       yield put(actions.session.saveSession(assoc(email, sessionToken, {})))
-      if (legacyMagicEmailLink) {
-        yield call(api.triggerWalletMagicLinkLegacy, email, captchaToken, sessionToken)
-      } else {
-        yield call(api.triggerWalletMagicLink, email, captchaToken, sessionToken, product)
-      }
+      yield call(api.triggerWalletMagicLink, email, captchaToken, sessionToken)
       if (step === LoginSteps.CHECK_EMAIL) {
         yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
       } else {
         yield put(actions.form.change('login', 'step', LoginSteps.CHECK_EMAIL))
+      }
+      // polling feature flag
+      if (shouldPollForMagicLinkData) {
+        yield call(pollingForMagicLinkDataSession, sessionToken)
       }
       yield put(actions.auth.triggerWalletMagicLinkSuccess())
     } catch (e) {
@@ -704,6 +722,26 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.alerts.displayError(C.VERIFY_EMAIL_SENT_ERROR))
     } finally {
       yield put(stopSubmit('login'))
+    }
+  }
+
+  const authorizeVerifyDevice = function* () {
+    const { wallet } = yield select(selectors.auth.getMagicLinkData)
+    const magicLinkDataEncoded = yield select(selectors.auth.getMagicLinkDataEncoded)
+    try {
+      yield put(actions.auth.authorizeVerifyDeviceLoading())
+      const { error, success } = yield call(
+        api.authorizeVerifyDevice,
+        wallet.session_id,
+        magicLinkDataEncoded
+      )
+      if (success) {
+        yield put(actions.auth.authorizeVerifyDeviceSuccess(true))
+      } else {
+        yield put(actions.auth.authorizeVerifyDeviceFailure(error))
+      }
+    } catch (e) {
+      yield put(actions.auth.authorizeVerifyDeviceFailure(e.error))
     }
   }
 
@@ -752,6 +790,7 @@ export default ({ api, coreSagas, networks }) => {
   }
   return {
     authNabu,
+    authorizeVerifyDevice,
     continueLoginProcess,
     exchangeLogin,
     getUserGeoLocation,
@@ -760,6 +799,7 @@ export default ({ api, coreSagas, networks }) => {
     loginRoutineSaga,
     mobileLogin,
     pingManifestFile,
+    pollingForMagicLinkDataSession,
     pollingSession,
     register,
     resendSmsLoginCode,

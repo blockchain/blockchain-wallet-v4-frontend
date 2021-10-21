@@ -2,6 +2,7 @@ import { RootState } from 'data/rootReducer'
 
 import { AuthStateType } from './types'
 
+// TODO: organize these functions
 export function getAccountReset(state: RootState): AuthStateType['resetAccount'] {
   return state.auth.resetAccount
 }
@@ -11,7 +12,6 @@ export function getAccountUnificationFlowType(
 ): AuthStateType['accountUnificationFlow'] {
   return state.auth.accountUnificationFlow
 }
-
 
 export function getAuthType(state: RootState): AuthStateType['auth_type'] {
   return state.auth.auth_type
@@ -80,3 +80,5 @@ export function isAuthenticated(state: RootState): AuthStateType['isAuthenticate
 export function getJwtToken(state: RootState): AuthStateType['exchangeAuth']['jwtToken'] {
   return state.auth.exchangeAuth.jwtToken
 }
+export const getMagicLinkDataEncoded = (state: RootState) => state.auth.magicLinkDataEncoded
+export const getAuthorizeVerifyDevice = (state: RootState) => state.auth.authorizeVerifyDevice
