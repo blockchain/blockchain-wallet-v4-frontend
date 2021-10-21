@@ -2,7 +2,7 @@ import { ethers } from 'ethers'
 import { call, put, select } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
-import { fulfillNftOrder } from '@core/redux/payment/nfts'
+import { fulfillNftOrder, fulfillNftSellOrder } from '@core/redux/payment/nfts'
 import { errorHandler } from '@core/utils'
 import { getPrivateKey } from '@core/utils/eth'
 import { selectors } from 'data'
@@ -42,7 +42,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const createBuyOrder = function* (action: ReturnType<typeof A.createBuyOrder>) {
+  const getEthSigner = function* () {
     try {
       const password = yield call(promptForSecondPassword)
       const getMnemonic = (state) => selectors.core.wallet.getMnemonic(state, password)
@@ -50,7 +50,25 @@ export default ({ api }: { api: APIType }) => {
       const mnemonic = yield call(() => taskToPromise(mnemonicT))
       const privateKey = getPrivateKey(mnemonic)
       const wallet = new ethers.Wallet(privateKey, provider)
-      yield call(fulfillNftOrder, action.payload.order, wallet)
+      return wallet
+    } catch (e) {
+      throw new Error('Error getting eth wallet signer.')
+    }
+  }
+
+  const createBuyOrder = function* (action: ReturnType<typeof A.createBuyOrder>) {
+    try {
+      const signer = yield call(getEthSigner)
+      yield call(fulfillNftOrder, action.payload.order, signer)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  const createSellOrder = function* (action: ReturnType<typeof A.createSellOrder>) {
+    try {
+      const signer = yield call(getEthSigner)
+      yield call(fulfillNftSellOrder, action.payload.asset, signer)
     } catch (e) {
       console.log(e)
     }
@@ -58,6 +76,7 @@ export default ({ api }: { api: APIType }) => {
 
   return {
     createBuyOrder,
+    createSellOrder,
     fetchNftAssets,
     fetchNftOrders
   }

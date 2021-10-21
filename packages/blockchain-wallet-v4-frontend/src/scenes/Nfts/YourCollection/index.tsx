@@ -1,11 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { NftAssetsType } from '@core/network/api/nfts/types'
-import { RemoteDataType } from '@core/types'
-import { Text } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 import { PageTitle, SubTitle, Title } from 'components/Layout'
 
+import { Props as OwnProps } from '..'
 import {
   Asset,
   AssetCollection,
@@ -17,7 +16,7 @@ import {
   StyledCoinDisplay
 } from '../components'
 
-const YourCollection: React.FC<Props> = ({ assetsR }) => {
+const YourCollection: React.FC<Props> = ({ assetsR, nftsActions }) => {
   return (
     <div>
       <PageTitle>
@@ -89,6 +88,13 @@ const YourCollection: React.FC<Props> = ({ assetsR }) => {
                       </Text>
                     </PriceInfo>
                   </AssetDetails>
+                  <Button
+                    data-e2e='sellNft'
+                    nature='primary'
+                    onClick={() => nftsActions.createSellOrder({ asset })}
+                  >
+                    <FormattedMessage id='copy.sell' defaultMessage='Sell' />
+                  </Button>
                 </Asset>
               )
             })}
@@ -99,8 +105,6 @@ const YourCollection: React.FC<Props> = ({ assetsR }) => {
   )
 }
 
-type Props = {
-  assetsR: RemoteDataType<string, NftAssetsType['assets']>
-}
+type Props = OwnProps
 
 export default YourCollection

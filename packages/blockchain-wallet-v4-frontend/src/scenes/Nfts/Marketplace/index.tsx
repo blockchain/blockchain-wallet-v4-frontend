@@ -132,8 +132,6 @@ const Marketplace: React.FC<Props> = (props: Props) => {
   )
 }
 
-type Props = OwnProps & {
-  ordersR: RemoteDataType<string, NftOrdersType['orders']>
-}
+type Props = OwnProps
 
 export default Marketplace

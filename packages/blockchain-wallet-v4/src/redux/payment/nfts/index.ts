@@ -1,9 +1,13 @@
 import { ethers, Signer } from 'ethers'
 
-import { NftOrdersType } from '@core/network/api/nfts/types'
+import { NftAssetsType, NftOrdersType } from '@core/network/api/nfts/types'
 
 import { wyvernABI } from './abi'
-import { _makeMatchingOrder, assignOrdersToSides, bigNumberToBN, NULL_BLOCK_HASH } from './utils'
+import { _makeMatchingOrder, assignOrdersToSides, NULL_BLOCK_HASH } from './utils'
+
+export const fulfillNftSellOrder = async (asset: NftAssetsType['assets'][0], signer: Signer) => {
+  console.log('👋 Jamie!')
+}
 
 export const fulfillNftOrder = async (order: NftOrdersType['orders'][0], signer: Signer) => {
   const accountAddress = await signer.getAddress()

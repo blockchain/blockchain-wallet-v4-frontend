@@ -9,7 +9,7 @@ import Marketplace from './Marketplace'
 import YourCollection from './YourCollection'
 
 const Nfts: React.FC<Props> = (props) => {
-  const { assetsR, nftsActions } = props
+  const { nftsActions } = props
 
   useEffect(() => {
     nftsActions.fetchNftAssets()
@@ -18,7 +18,7 @@ const Nfts: React.FC<Props> = (props) => {
 
   return (
     <div>
-      <YourCollection assetsR={assetsR} />
+      <YourCollection {...props} />
       <Marketplace {...props} />
     </div>
   )
