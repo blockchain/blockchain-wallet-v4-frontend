@@ -21,7 +21,7 @@ const Error = (props) => {
           defaultMessage='Device verification failed.'
         />
       </Text>
-      <Text style={{ margin: '8px 0 12px 0' }} size='16px' color='red600' weight={500}>
+      <Text style={{ margin: '8px 0 12px' }} size='16px' color='red600' weight={500}>
         <FormattedMessage
           id='scenes.authorizelogin.error.msg'
           defaultMessage='Error: {error}'
