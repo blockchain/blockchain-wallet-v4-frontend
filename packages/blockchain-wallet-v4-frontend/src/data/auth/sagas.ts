@@ -270,7 +270,7 @@ export default ({ api, coreSagas, networks }) => {
     }
     try {
       yield delay(2000)
-      const response = yield call(api.pollForMagicLinkData, session)
+      const response = yield call(api.getMagicLinkData, session)
       if (prop('wallet', response)) {
         yield put(actions.auth.setMagicLinkInfo(response))
         yield call(parseMagicLink)
@@ -602,7 +602,9 @@ export default ({ api, coreSagas, networks }) => {
   const triggerWalletMagicLink = function* (action) {
     const formValues = yield select(selectors.form.getFormValues('login'))
     const { step } = formValues
-    const pollForMagicLinkData = yield select(selectors.core.walletOptions.getPollForMagicLinkData)
+    const shouldPollForMagicLinkData = yield select(
+      selectors.core.walletOptions.getPollForMagicLinkData
+    )
     yield put(startSubmit('login'))
     try {
       yield put(actions.auth.triggerWalletMagicLinkLoading())
@@ -616,7 +618,7 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.form.change('login', 'step', LoginSteps.CHECK_EMAIL))
       }
       // polling feature flag
-      if (pollForMagicLinkData) {
+      if (shouldPollForMagicLinkData) {
         yield call(pollingForMagicLinkDataSession, sessionToken)
       }
       yield put(actions.auth.triggerWalletMagicLinkSuccess())
@@ -647,7 +649,6 @@ export default ({ api, coreSagas, networks }) => {
     } catch (e) {
       yield put(actions.auth.authorizeVerifyDeviceFailure(e.error))
     }
-    // if it fails,
   }
 
   const getUserGeoLocation = function* () {

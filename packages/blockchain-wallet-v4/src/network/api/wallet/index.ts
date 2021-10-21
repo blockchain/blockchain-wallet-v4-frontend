@@ -104,7 +104,7 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl
     })
 
-  const pollForMagicLinkData = (sessionToken) =>
+  const getMagicLinkData = (sessionToken) =>
     get({
       contentType: 'application/json',
       endPoint: '/wallet/poll-for-wallet-info',
@@ -280,11 +280,11 @@ export default ({ get, post, rootUrl }) => {
     fetchPayloadWithSharedKey,
     fetchPayloadWithTwoFactorAuth,
     generateUUIDs,
+    getMagicLinkData,
     getPairingPassword,
     getPinValue,
     handle2faReset,
     obtainSessionToken,
-    pollForMagicLinkData,
     pollForSessionGUID,
     remindGuid,
     resendSmsLoginCode,

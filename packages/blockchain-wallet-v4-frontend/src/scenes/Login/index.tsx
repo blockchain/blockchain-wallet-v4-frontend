@@ -3,10 +3,9 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
 import { formValueSelector, getFormMeta, InjectedFormProps, reduxForm } from 'redux-form'
-import styled from 'styled-components'
 
 import { RemoteDataType } from '@core/types'
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { Icon, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
@@ -22,12 +21,6 @@ import { CreateAccount, LOGIN_FORM_NAME, PhishingWarning } from './model'
 import VerificationMobile from './VerificationMobile'
 import VerifyMagicLink from './VerifyMagicLink'
 
-// TODO: remove temp
-const ButtonRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-top: 8px;
-`
 class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StateProps> {
   constructor(props) {
     super(props)

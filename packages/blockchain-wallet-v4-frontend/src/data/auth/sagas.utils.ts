@@ -6,7 +6,6 @@ import * as C from 'services/alerts'
 import { LoginSteps } from './types'
 
 const logLocation = 'auth/sagas'
-// TODO: remove once old magic link endpoint is deprecated
 
 export const parseMagicLink = function* () {
   try {
