@@ -160,6 +160,12 @@ export type RestoringType = undefined
 
 export type SecureChannelLoginType = undefined
 
+export type ProductAuthMetadata = {
+  platform?: PlatformTypes | string | null
+  product?: ProductAuthOptions | string | null
+  redirect?: string | null
+}
+
 export type AuthStateType = {
   accountUnificationFlow?: AccountUnificationFlows
   auth_type: number
@@ -177,11 +183,7 @@ export type AuthStateType = {
   manifestFile: any
   metadataRestore: RemoteDataType<string, MetadataRestoreType>
   mobileLoginStarted: boolean
-  productAuthMetadata: {
-    platform?: PlatformTypes | string | null
-    product?: ProductAuthOptions | string | null
-    redirect?: string | null
-  }
+  productAuthMetadata: ProductAuthMetadata
   registerEmail?: string
   registering: RemoteDataType<RegisteringFailureType, RegisteringSuccessType>
   resetAccount: boolean

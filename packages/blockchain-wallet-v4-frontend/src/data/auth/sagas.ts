@@ -592,28 +592,35 @@ export default ({ api, coreSagas, networks }) => {
 
   const initializeLogin = function* () {
     try {
+      // set loading
       yield put(actions.auth.initializeLoginLoading())
+
       // open coin ws needed for coin streams and channel key for mobile login
       yield put(actions.ws.startSocket())
+
       // pull product auth data from querystring
       const searchString = yield select(selectors.router.getSearch)
       const queryParams = new URLSearchParams(searchString)
       const platform = queryParams.get('platform')
       const product = queryParams.get('app')
+      const redirect = queryParams.get('redirect')
+
       // store product auth data
       yield put(
         actions.auth.setProductAuthMetadata({
           platform,
           product,
-          redirect: queryParams.get('redirect')
+          redirect
         })
       )
+
       // select required data to initialize auth below
       const pathname = yield select(selectors.router.getPathname)
       const urlPathParams = pathname.split('/')
-      const walletGuidFromUrl = urlPathParams[2]
+      const walletGuidOrMagicLinkFromUrl = urlPathParams[2]
       const storedGuid = yield select(selectors.cache.getStoredGuid)
       const lastGuid = yield select(selectors.cache.getLastGuid)
+
       // initialize login form and/or set initial auth step
       // 👋 ORDER MATTERS
       switch (true) {
@@ -622,7 +629,7 @@ export default ({ api, coreSagas, networks }) => {
           yield call(loadMobileAuthWebView)
           break
         // no guid on path, use cached/stored guid if exists
-        case (storedGuid || lastGuid) && !walletGuidFromUrl:
+        case (storedGuid || lastGuid) && !walletGuidOrMagicLinkFromUrl:
           // select required data
           const isMobileConnected = yield select(selectors.cache.getMobileConnected)
           const email = yield select(selectors.cache.getEmail)
@@ -639,17 +646,22 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.form.change('login', 'step', initialStep))
           break
         // url is just /login, take them to enter guid or email
-        case !walletGuidFromUrl:
+        case !walletGuidOrMagicLinkFromUrl:
           yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
           break
         // guid is on the url e.g. login/{guid}
-        case isGuid(walletGuidFromUrl):
-          yield put(actions.form.change('login', 'guid', walletGuidFromUrl))
+        case isGuid(walletGuidOrMagicLinkFromUrl):
+          yield put(actions.form.change('login', 'guid', walletGuidOrMagicLinkFromUrl))
           yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
           break
         default:
-          yield call(parseMagicLink, urlPathParams)
+          const magicLink = JSON.parse(
+            atob(walletGuidOrMagicLinkFromUrl)
+          ) as WalletDataFromMagicLink
+          yield call(parseMagicLink, magicLink)
       }
+
+      // hide loading and ensure latest app version
       yield put(actions.auth.initializeLoginSuccess())
       yield put(actions.auth.pingManifestFile())
     } catch (e) {

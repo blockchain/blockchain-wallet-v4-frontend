@@ -5,8 +5,7 @@ import styled from 'styled-components'
 import { Image, Link, Text } from 'blockchain-info-components'
 import Announcements from 'components/Announcements'
 import { Navbar, NavbarBrand } from 'components/Navbar'
-import { LoginSteps, ProductAuthOptions } from 'data/types'
-import Wallet from 'layouts/Wallet'
+import { LoginSteps, ProductAuthMetadata, ProductAuthOptions } from 'data/types'
 import { media } from 'services/styles'
 
 const NavbarStyled = styled(Navbar)`
@@ -22,7 +21,6 @@ const NavbarBrandStyled = styled(NavbarBrand)`
   justify-content: center;
   padding-left: 0;
 `
-
 const BlockchainLogoImage = styled(Image)`
   width: 240px;
   display: block;
@@ -36,19 +34,16 @@ const PublicBrand = styled.div`
   justify-content: center;
   align-items: center;
 `
-
-const ExhangeHeader = styled(Text)`
+const ExchangeHeader = styled(Text)`
   color: ${(props) => props.theme.blue400};
   font-size: 24px;
   font-weight: 600;
 `
-
 const WalletHeader = styled(Text)`
   color: ${(props) => props.theme.purple400};
   font-size: 24px;
   font-weight: 600;
 `
-
 const HeaderLink = styled(Link)`
   display: flex;
   flex-direction: row;
@@ -56,15 +51,14 @@ const HeaderLink = styled(Link)`
   align-items: center;
 `
 
-const Header = ({ designatedProduct, loginStep }) => {
+const Header = ({ loginStep, productAuthMetadata }: Props) => {
   const showExchangeHeader =
-    (loginStep === LoginSteps.ENTER_PASSWORD_EXCHANGE ||
-      designatedProduct === ProductAuthOptions.EXCHANGE) &&
+    (loginStep === LoginSteps.ENTER_PASSWORD_EXCHANGE || productAuthMetadata?.product === ProductAuthOptions.EXCHANGE) &&
     loginStep !== LoginSteps.ENTER_PASSWORD_WALLET
   const showWalletHeader =
-    (loginStep === LoginSteps.ENTER_PASSWORD_WALLET ||
-      designatedProduct === ProductAuthOptions.WALLET) &&
+    (loginStep === LoginSteps.ENTER_PASSWORD_WALLET || productAuthMetadata?.product === ProductAuthOptions.WALLET) &&
     loginStep !== LoginSteps.ENTER_PASSWORD_EXCHANGE
+
   return (
     <>
       <NavbarStyled height='112px'>
@@ -73,9 +67,9 @@ const Header = ({ designatedProduct, loginStep }) => {
             <HeaderLink href='https://www.blockchain.com'>
               <BlockchainLogoImage name='blockchain-logo' height='24px' />
               {showExchangeHeader && (
-                <ExhangeHeader>
+                <ExchangeHeader>
                   <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
-                </ExhangeHeader>
+                </ExchangeHeader>
               )}
               {showWalletHeader && (
                 <WalletHeader>
@@ -89,6 +83,11 @@ const Header = ({ designatedProduct, loginStep }) => {
       <Announcements type='service' alertArea='public' />
     </>
   )
+}
+
+type Props = {
+  loginStep?: LoginSteps
+  productAuthMetadata?: ProductAuthMetadata
 }
 
 export default Header

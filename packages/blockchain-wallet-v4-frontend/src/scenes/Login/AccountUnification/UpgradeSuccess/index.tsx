@@ -7,11 +7,11 @@ import Exchange from './exchange.success'
 import Wallet from './wallet.success'
 
 const UpgradeSuccess = (props: Props) => {
-  const { designatedProduct } = props
+  const { product } = props.productAuthMetadata
   return (
     <>
-      {designatedProduct === ProductAuthOptions.EXCHANGE && <Exchange {...props} />}
-      {designatedProduct === ProductAuthOptions.WALLET && <Wallet {...props} />}
+      {product === ProductAuthOptions.EXCHANGE && <Exchange {...props} />}
+      {product === ProductAuthOptions.WALLET && <Wallet {...props} />}
     </>
   )
 }

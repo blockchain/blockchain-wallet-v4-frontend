@@ -96,7 +96,6 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     const {
       authActions,
       code,
-      designatedProduct,
       exchangePassword,
       exchangeTwoFA,
       formActions,
@@ -105,6 +104,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       guidOrEmail,
       language,
       password,
+      productAuthMetadata,
       upgradePassword
     } = this.props
 
@@ -127,7 +127,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
         authActions.triggerWalletMagicLink({
           captchaToken: this.state.captchaToken,
           email: guidOrEmail,
-          product: designatedProduct
+          product: productAuthMetadata.product
         })
         this.initCaptcha()
       }
@@ -161,7 +161,8 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
   }
 
   render() {
-    const { authPlatform, designatedProduct, exchangeLoginData, formValues } = this.props
+    const { exchangeLoginData, formValues, productAuthMetadata } = this.props
+    const { platform, product } = productAuthMetadata
     const { step } = formValues || LoginSteps.ENTER_EMAIL_GUID
 
     // TODO: fix this to handle both wallet and exchange login in a data.cata
@@ -175,11 +176,12 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       busy,
       exchangeError: error,
       handleSmsResend: this.handleSmsResend,
-      loginError: undefined
+      initCaptcha: this.initCaptcha,
+      isMobileViewLogin: platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS,
+      loginError: undefined,
+      setStep: this.setStep,
+      ...this.props
     }
-
-    const isMobileViewLogin =
-      authPlatform === PlatformTypes.ANDROID || authPlatform === PlatformTypes.IOS
 
     return (
       <>
@@ -199,66 +201,36 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
             {(() => {
               switch (step) {
                 case LoginSteps.ENTER_PASSWORD_EXCHANGE:
-                  return (
-                    <EnterPasswordExchange
-                      {...this.props}
-                      {...loginProps}
-                      setStep={this.setStep}
-                      initCaptcha={this.initCaptcha}
-                    />
-                  )
+                  return <EnterPasswordExchange {...loginProps} />
                 case LoginSteps.ENTER_PASSWORD_WALLET:
-                  return (
-                    <EnterPasswordWallet
-                      {...this.props}
-                      {...loginProps}
-                      setStep={this.setStep}
-                      initCaptcha={this.initCaptcha}
-                      isMobileViewLogin={isMobileViewLogin}
-                    />
-                  )
+                  return <EnterPasswordWallet {...loginProps} />
                 case LoginSteps.CHECK_EMAIL:
-                  return (
-                    <CheckEmail
-                      {...this.props}
-                      {...loginProps}
-                      setStep={this.setStep}
-                      initCaptcha={this.initCaptcha}
-                    />
-                  )
+                  return <CheckEmail {...loginProps} />
                 case LoginSteps.VERIFICATION_MOBILE:
-                  return (
-                    <VerificationMobile {...this.props} {...loginProps} setStep={this.setStep} />
-                  )
+                  return <VerificationMobile {...loginProps} />
                 case LoginSteps.UPGRADE_CONFIRM:
-                  return (
-                    <MergeAccountConfirm
-                      {...this.props}
-                      {...loginProps}
-                      setStep={this.setStep}
-                      initCaptcha={this.initCaptcha}
-                    />
-                  )
+                  return <MergeAccountConfirm {...loginProps} />
                 case LoginSteps.UPGRADE_PASSWORD:
-                  return <UpgradePassword {...this.props} {...loginProps} setStep={this.setStep} />
+                  return <UpgradePassword {...loginProps} />
                 case LoginSteps.UPGRADE_SUCCESS:
-                  return <UpgradeSuccess {...this.props} setStep={this.setStep} />
+                  return <UpgradeSuccess {...loginProps} />
                 case LoginSteps.PRODUCT_PICKER_AFTER_AUTHENTICATION:
                 case LoginSteps.PRODUCT_PICKER_BEFORE_AUTHENTICATION:
-                  return <ProductPicker {...this.props} {...loginProps} setStep={this.setStep} />
+                  return <ProductPicker {...loginProps} />
                 case LoginSteps.ENTER_EMAIL_GUID:
                 default:
-                  if (designatedProduct === ProductAuthOptions.EXCHANGE) {
-                    return <ExchangeEnterEmail {...this.props} {...loginProps} />
-                  }
-                  return <WalletEnterEmailOrGuid {...this.props} {...loginProps} />
+                  return product === ProductAuthOptions.EXCHANGE ? (
+                    <ExchangeEnterEmail {...loginProps} />
+                  ) : (
+                    <WalletEnterEmailOrGuid {...loginProps} />
+                  )
               }
             })()}
           </Form>
         </Wrapper>
 
         {/* FOOTER */}
-        {!isMobileViewLogin && getLoginPageFooter(step, this.loginWithMobileClicked)}
+        {!loginProps.isMobileViewLogin && getLoginPageFooter(step, this.loginWithMobileClicked)}
       </>
     )
   }
@@ -266,11 +238,9 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
 
 const mapStateToProps = (state) => ({
   accountUnificationFlow: selectors.auth.getAccountUnificationFlowType(state),
-  authPlatform: selectors.auth.getAuthPlatform(state),
   authType: selectors.auth.getAuthType(state) as Number,
   code: formValueSelector(LOGIN_FORM_NAME)(state, 'code'),
   data: getData(state),
-  designatedProduct: selectors.auth.getDesignatedProduct(state) as ProductAuthOptions,
   exchangeLoginData: selectors.auth.getExchangeLogin(state) as RemoteDataType<any, any>,
   exchangePassword: formValueSelector(LOGIN_FORM_NAME)(state, 'exchangePassword'),
   exchangeTwoFA: formValueSelector(LOGIN_FORM_NAME)(state, 'exchangeTwoFA'),
@@ -284,6 +254,7 @@ const mapStateToProps = (state) => ({
   jwtToken: selectors.auth.getJwtToken(state),
   language: selectors.preferences.getLanguage(state),
   password: formValueSelector(LOGIN_FORM_NAME)(state, 'password'),
+  productAuthMetadata: selectors.auth.getProductAuthMetadata(state),
   upgradePassword: formValueSelector('login')(state, 'upgradeAccountPassword') || ('' as string),
   walletLoginData: selectors.auth.getLogin(state) as RemoteDataType<any, any>
 })

@@ -12,9 +12,6 @@ export function getAccountUnificationFlowType(
   return state.auth.accountUnificationFlow
 }
 
-export function getAuthPlatform(state: RootState): AuthStateType['authPlatform'] {
-  return state.auth.authPlatform
-}
 
 export function getAuthType(state: RootState): AuthStateType['auth_type'] {
   return state.auth.auth_type
@@ -32,8 +29,8 @@ export function getRestoring(state: RootState): AuthStateType['restoring'] {
   return state.auth.restoring
 }
 
-export function getDesignatedProduct(state: RootState): AuthStateType['designatedProduct'] {
-  return state.auth.designatedProduct
+export function getProductAuthMetadata(state: RootState): AuthStateType['productAuthMetadata'] {
+  return state.auth.productAuthMetadata
 }
 
 export function getSecureChannelLogin(state: RootState): AuthStateType['secureChannelLogin'] {

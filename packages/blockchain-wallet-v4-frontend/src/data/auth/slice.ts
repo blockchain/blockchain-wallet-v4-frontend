@@ -11,8 +11,6 @@ import {
   LoginFailureType,
   LoginSuccessType,
   MetadataRestoreType,
-  PlatformTypes,
-  ProductAuthOptions,
   RegisteringFailureType,
   RegisteringSuccessType,
   RestoringType,
@@ -179,11 +177,7 @@ const authSlice = createSlice({
     },
     setProductAuthMetadata: (
       state,
-      action: PayloadAction<{
-        platform: PlatformTypes | string | null
-        product: ProductAuthOptions | string | null
-        redirect: string | null
-      }>
+      action: PayloadAction<AuthStateType['productAuthMetadata']>
     ) => {
       const { platform, product, redirect } = action.payload
       state.productAuthMetadata = {

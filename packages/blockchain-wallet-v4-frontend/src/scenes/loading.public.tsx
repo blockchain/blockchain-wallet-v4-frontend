@@ -37,7 +37,7 @@ const LoaderContainer = styled.div`
 const PublicLoading = () => {
   return (
     <Wrapper>
-      <Header designatedProduct={undefined} loginStep={undefined} />
+      <Header />
       <LoaderContainer>
         <SpinningLoader width='36px' height='36px' />
         <Text size='18px' weight={600} color='white' style={{ marginTop: '16px' }}>
