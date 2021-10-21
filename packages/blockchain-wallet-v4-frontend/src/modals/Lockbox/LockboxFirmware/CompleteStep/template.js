@@ -16,13 +16,13 @@ const ButtonContainer = styled.div`
   margin-top: 30px;
 `
 
-const CompleteStep = props => {
+const CompleteStep = (props) => {
   const { onInstallApps, status } = props
 
   return (
-    <React.Fragment>
+    <>
       {status === 'uptodate' && (
-        <React.Fragment>
+        <>
           <Title>
             <Text weight={500}>
               <FormattedMessage
@@ -39,10 +39,10 @@ const CompleteStep = props => {
               </Text>
             </Content>
           </Title>
-        </React.Fragment>
+        </>
       )}
       {status === 'success' && (
-        <React.Fragment>
+        <>
           <Title>
             <Text>
               <FormattedMessage
@@ -67,10 +67,10 @@ const CompleteStep = props => {
               'lockbox-success3': '3x'
             }}
           />
-        </React.Fragment>
+        </>
       )}
       {status === 'error' && (
-        <React.Fragment>
+        <>
           <Title>
             <Text>
               <FormattedMessage
@@ -87,7 +87,7 @@ const CompleteStep = props => {
               />
             </Text>
           </Content>
-        </React.Fragment>
+        </>
       )}
       <ButtonContainer>
         {status === 'success' && (
@@ -104,7 +104,7 @@ const CompleteStep = props => {
           </Button>
         )}
       </ButtonContainer>
-    </React.Fragment>
+    </>
   )
 }
 

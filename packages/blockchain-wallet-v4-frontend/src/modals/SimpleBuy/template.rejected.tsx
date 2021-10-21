@@ -34,23 +34,17 @@ const MainText = styled(Text)`
 `
 
 const DisclaimerTitle = styled(Title)`
-  color: ${props => props.theme.grey600};
+  color: ${(props) => props.theme.grey600};
   margin-bottom: 34px;
   font-size: 12px;
   text-align: center;
 `
 
-const Rejected: React.FC<{ handleClose: () => void }> = props => {
+const Rejected: React.FC<{ handleClose: () => void }> = (props) => {
   return (
     <Top>
       <MainText color='grey800' size='20px' weight={600}>
-        <Icon
-          cursor
-          data-e2e='sbCloseModalIcon'
-          name='user'
-          size='22px'
-          color='blue600'
-        />
+        <Icon cursor data-e2e='sbCloseModalIcon' name='user' size='22px' color='blue600' />
         <Icon
           cursor
           data-e2e='sbCloseModalIcon'

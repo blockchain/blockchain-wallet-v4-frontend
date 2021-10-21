@@ -13,7 +13,7 @@ const CustomTabMenu = styled(TabMenu)`
   margin-bottom: 12px;
 `
 
-const TabMenuTimeFrame: React.FC<Props> = props => {
+const TabMenuTimeFrame: React.FC<Props> = (props) => {
   const [value, setTab] = useState<'long' | 'short'>('long')
   const handleTimeFrameChange = (value: 'long' | 'short') => {
     setTab(value)
@@ -27,10 +27,7 @@ const TabMenuTimeFrame: React.FC<Props> = props => {
         selected={equals(value, 'long')}
         onClick={() => handleTimeFrameChange('long')}
       >
-        <FormattedMessage
-          id='modals.interest.deposit.longterm'
-          defaultMessage='Long-term'
-        />
+        <FormattedMessage id='modals.interest.deposit.longterm' defaultMessage='Long-term' />
       </TabMenuItem>
       <TabMenuItem
         width='50%'
@@ -38,10 +35,7 @@ const TabMenuTimeFrame: React.FC<Props> = props => {
         selected={equals(value, 'short')}
         onClick={() => handleTimeFrameChange('short')}
       >
-        <FormattedMessage
-          id='modals.interest.deposit.shortterm'
-          defaultMessage='Short-term'
-        />
+        <FormattedMessage id='modals.interest.deposit.shortterm' defaultMessage='Short-term' />
       </TabMenuItem>
     </CustomTabMenu>
   )

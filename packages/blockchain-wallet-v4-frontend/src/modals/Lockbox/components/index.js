@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { Icon, Text } from 'blockchain-info-components'
 
 const StepHeader = styled.div`
-  background-color: ${props => props.theme.white};
+  background-color: ${(props) => props.theme.white};
   justify-content: space-evenly;
   padding: 30px 30px 0px 30px;
   border-radius: 4px 4px 0 0;
@@ -22,7 +22,7 @@ const Step = styled.div`
 const Line = styled.div`
   width: 100%;
   position: relative;
-  border-top: 4px solid ${props => props.theme.grey000};
+  border-top: 4px solid ${(props) => props.theme.grey000};
   &:before {
     content: '';
     left: 0;
@@ -30,7 +30,7 @@ const Line = styled.div`
     height: 4px;
     bottom: 0px;
     position: absolute;
-    background: ${props => props.theme.blue600};
+    background: ${(props) => props.theme.blue600};
     transition: width 0.5s 0.3s;
   }
   &.complete {
@@ -49,14 +49,14 @@ const Circle = styled.div`
   justify-content: center;
   flex-direction: column;
   overflow: hidden;
-  border: 2px solid ${props => props.theme.grey000};
+  border: 2px solid ${(props) => props.theme.grey000};
   transition: border 0.3s, background-color 0.2s;
   &.active,
   &.complete {
-    border: 2px solid ${props => props.theme.blue600};
+    border: 2px solid ${(props) => props.theme.blue600};
   }
   &.complete {
-    background-color: ${props => props.theme.blue600};
+    background-color: ${(props) => props.theme.blue600};
   }
 `
 const CircleContent = styled.div`
@@ -85,22 +85,12 @@ class ModalStepper extends React.PureComponent {
           return (
             <React.Fragment key={i}>
               <Step>
-                <Circle className={active + ' ' + complete}>
-                  <CircleContent className={active + ' ' + complete}>
-                    <Text
-                      size='13px'
-                      color={
-                        active ? 'blue600' : complete ? 'white' : 'grey000'
-                      }
-                    >
+                <Circle className={`${active} ${complete}`}>
+                  <CircleContent className={`${active} ${complete}`}>
+                    <Text size='13px' color={active ? 'blue600' : complete ? 'white' : 'grey000'}>
                       {i}
                     </Text>
-                    <CheckIcon
-                      name='checkmark'
-                      size='10px'
-                      weight='600'
-                      color='white'
-                    />
+                    <CheckIcon name='checkmark' size='10px' weight='600' color='white' />
                   </CircleContent>
                 </Circle>
               </Step>
@@ -114,8 +104,8 @@ class ModalStepper extends React.PureComponent {
 }
 
 ModalStepper.propTypes = {
-  totalSteps: PropTypes.number.isRequired,
-  currentStep: PropTypes.number.isRequired
+  currentStep: PropTypes.number.isRequired,
+  totalSteps: PropTypes.number.isRequired
 }
 
 export default ModalStepper

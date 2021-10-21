@@ -10,8 +10,8 @@ import QRCodeWrapper from 'components/QRCodeWrapper'
 import { actions, selectors } from 'data'
 import { LoginSteps } from 'data/types'
 
-import { Props as OwnProps } from '..'
-import { BackArrowFormHeader, LOGIN_FORM_NAME, NeedHelpLink } from '../model'
+import { Props as OwnProps } from '../..'
+import { BackArrowFormHeader, LOGIN_FORM_NAME, NeedHelpLink } from '../../model'
 
 const Body = styled.div`
   display: flex;
@@ -33,17 +33,25 @@ const LinkRow = styled.div`
 `
 
 const VerificationMobile = (props: Props) => {
-  const { qrData, setStep } = props
+  const {
+    authActions,
+    cacheActions,
+    formActions,
+    phonePubKey,
+    qrData,
+    secureChannelLoginState,
+    setStep
+  } = props
 
   const handleBackArrowClick = () => {
-    props.cacheActions.removedStoredLogin()
-    props.formActions.destroy(LOGIN_FORM_NAME)
-    props.setStep(LoginSteps.ENTER_EMAIL_GUID)
-    props.authActions.clearLoginError()
+    cacheActions.removedStoredLogin()
+    formActions.destroy(LOGIN_FORM_NAME)
+    setStep(LoginSteps.ENTER_EMAIL_GUID)
+    authActions.clearLoginError()
   }
 
   const loginWithPasswordClicked = () => {
-    props.authActions.analyticsLoginMethodSelected('PASSWORD')
+    authActions.analyticsLoginMethodSelected('PASSWORD')
     setStep(LoginSteps.ENTER_PASSWORD_WALLET)
   }
 
@@ -51,7 +59,7 @@ const VerificationMobile = (props: Props) => {
     <>
       <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} />
       <Body>
-        {!props.phonePubKey && (
+        {!phonePubKey && (
           <TextColumn>
             <Icon name='padlock' color='blue600' size='20px' style={{ padding: '0 0 16px 4px' }} />
             <Text
@@ -92,7 +100,7 @@ const VerificationMobile = (props: Props) => {
             </Text>
           </TextColumn>
         )}
-        {props.secureChannelLoginState.cata({
+        {secureChannelLoginState.cata({
           Failure: (e) => (
             <Text>
               {typeof e === 'string' ? (
@@ -139,7 +147,7 @@ const VerificationMobile = (props: Props) => {
         >
           <FormattedMessage id='buttons.login_with_password' defaultMessage='Login with Password' />
         </Button>
-        <NeedHelpLink authActions={props.authActions} origin='QR_CODE' />
+        <NeedHelpLink authActions={authActions} origin='QR_CODE' />
       </LinkRow>
     </>
   )

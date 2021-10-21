@@ -11,15 +11,15 @@ class LocalCurrencyContainer extends React.PureComponent {
     const { data } = this.props
 
     return data.cata({
-      Success: value => <Success currency={value} />,
-      Failure: message => <Error message={message} />,
+      Failure: (message) => <Error message={message} />,
       Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      NotAsked: () => <Loading />,
+      Success: (value) => <Success currency={value} />
     })
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state)
 })
 

@@ -5,13 +5,8 @@ import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import {
-  BlockchainLoader,
-  Button,
-  Image,
-  Text
-} from 'blockchain-info-components'
 import { Remote } from '@core'
+import { BlockchainLoader, Button, Image, Text } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import * as Lockbox from 'services/lockbox'
 
@@ -50,9 +45,9 @@ const BtcRequiredText = styled(Text)`
   text-align: center;
 `
 
-const getKeyByValue = value => {
+const getKeyByValue = (value) => {
   return Object.keys(Lockbox.constants.supportedApps).find(
-    key => Lockbox.constants.supportedApps[key] === value
+    (key) => Lockbox.constants.supportedApps[key] === value
   )
 }
 
@@ -66,7 +61,23 @@ class LockboxAppManagerContainer extends React.PureComponent {
   componentDidUpdate(prevProps) {
     if (this.props.appChangeStatus !== prevProps.appChangeStatus) {
       this.props.appChangeStatus.cata({
-        Success: val => {
+        Failure: (val) => {
+          // install/uninstall APIs use different keys for appName
+          const AppName = Lockbox.constants.supportedApps[val.appName]
+            ? Lockbox.constants.supportedApps[val.appName]
+            : val.appName
+          this.props.lockboxActions.resetAppChangeStatus()
+          this.setState({
+            [AppName]: { error: val.error, status: 'Error' }
+          })
+          // clears the status text after 10 seconds
+          setTimeout(() => {
+            this.setState({ [AppName]: { changeType: '', status: null } })
+          }, FAIL_STATUS_TIMEOUT)
+        },
+        Loading: () => {},
+        NotAsked: () => {},
+        Success: (val) => {
           // install/uninstall APIs use different keys for appName
           const AppName = Lockbox.constants.supportedApps[val.appName]
             ? Lockbox.constants.supportedApps[val.appName]
@@ -77,23 +88,7 @@ class LockboxAppManagerContainer extends React.PureComponent {
           setTimeout(() => {
             this.setState({ [AppName]: { status: null } })
           }, SUCCESS_STATUS_TIMEOUT)
-        },
-        Failure: val => {
-          // install/uninstall APIs use different keys for appName
-          const AppName = Lockbox.constants.supportedApps[val.appName]
-            ? Lockbox.constants.supportedApps[val.appName]
-            : val.appName
-          this.props.lockboxActions.resetAppChangeStatus()
-          this.setState({
-            [AppName]: { status: 'Error', error: val.error }
-          })
-          // clears the status text after 10 seconds
-          setTimeout(() => {
-            this.setState({ [AppName]: { changeType: '', status: null } })
-          }, FAIL_STATUS_TIMEOUT)
-        },
-        Loading: () => {},
-        NotAsked: () => {}
+        }
       })
     }
   }
@@ -105,20 +100,20 @@ class LockboxAppManagerContainer extends React.PureComponent {
   onAppInstall = (appName, coin) => {
     this.setState({
       [appName]: {
-        status: 'Updating',
+        appName,
         changeType: 'Installing',
-        appName
+        status: 'Updating'
       }
     })
     this.props.lockboxActions.installApplication(coin)
   }
 
-  onAppUninstall = appName => {
+  onAppUninstall = (appName) => {
     this.setState({
       [appName]: {
-        status: 'Updating',
+        appName,
         changeType: 'Uninstalling',
-        appName
+        status: 'Updating'
       }
     })
     this.props.lockboxActions.uninstallApplication(appName)
@@ -128,8 +123,26 @@ class LockboxAppManagerContainer extends React.PureComponent {
     const { appChangeStatus, appVersionInfos, connection } = this.props
     const disableButtons = !Remote.NotAsked.is(appChangeStatus)
     const appListView = appVersionInfos.cata({
-      Success: apps => {
-        const appList = apps.map(app => {
+      Failure: () => (
+        <Text size='16px' weight={400}>
+          <FormattedMessage
+            id='components.lockbox.appmanager.appfailure'
+            defaultMessage='Failed to load application list. Please try again later.'
+          />
+        </Text>
+      ),
+      Loading: () => (
+        <Wrapper>
+          <Loader style={{ margin: '32px' }} width='75px' height='75px' />
+        </Wrapper>
+      ),
+      NotAsked: () => (
+        <Wrapper>
+          <Loader style={{ margin: '32px' }} width='75px' height='75px' />
+        </Wrapper>
+      ),
+      Success: (apps) => {
+        const appList = apps.map((app) => {
           const appName = app.name
           const coin = getKeyByValue(appName)
           return (
@@ -150,7 +163,7 @@ class LockboxAppManagerContainer extends React.PureComponent {
           )
         })
         return (
-          <React.Fragment>
+          <>
             {appList}
             <AllowManagerText size='11px' weight={400}>
               <FormattedMessage
@@ -174,27 +187,9 @@ class LockboxAppManagerContainer extends React.PureComponent {
             >
               {this.props.mainButtonText}
             </ContinueButton>
-          </React.Fragment>
+          </>
         )
-      },
-      Failure: () => (
-        <Text size='16px' weight={400}>
-          <FormattedMessage
-            id='components.lockbox.appmanager.appfailure'
-            defaultMessage='Failed to load application list. Please try again later.'
-          />
-        </Text>
-      ),
-      Loading: () => (
-        <Wrapper>
-          <Loader style={{ margin: '32px' }} width='75px' height='75px' />
-        </Wrapper>
-      ),
-      NotAsked: () => (
-        <Wrapper>
-          <Loader style={{ margin: '32px' }} width='75px' height='75px' />
-        </Wrapper>
-      )
+      }
     })
 
     return (
@@ -230,19 +225,14 @@ LockboxAppManagerContainer.propTypes = {
   onClose: PropTypes.func.isRequired
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   appChangeStatus: selectors.components.lockbox.getAppChangeStatus(state),
-  appVersionInfos: selectors.components.lockbox.getLatestApplicationVersions(
-    state
-  ),
+  appVersionInfos: selectors.components.lockbox.getLatestApplicationVersions(state),
   connection: selectors.components.lockbox.getCurrentConnection(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LockboxAppManagerContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(LockboxAppManagerContainer)

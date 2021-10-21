@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { ProductAuthOptions } from 'data/types'
+import { ProductAuthMetadata } from 'data/types'
 
 import CreateAccount from './CreateAccount'
 import DropdownLanguage from './DropdownLanguage'
@@ -14,11 +14,11 @@ const FooterInner = styled.div`
   padding-bottom: 0;
 `
 
-const Footer = ({ designatedProduct, isLogin }: Props) => {
+const Footer = ({ isLogin, productAuthMetadata }: Props) => {
   return (
     <>
       <FooterInner>
-        {isLogin ? <CreateAccount designatedProduct={designatedProduct} /> : null}
+        {isLogin ? <CreateAccount productAuthMetadata={productAuthMetadata} /> : null}
         {/* TODO: figure out when to show this */}
         {/* <ProductPicker /> */}
       </FooterInner>
@@ -32,8 +32,8 @@ const Footer = ({ designatedProduct, isLogin }: Props) => {
 }
 
 type Props = {
-  designatedProduct: ProductAuthOptions
   isLogin: boolean
+  productAuthMetadata: ProductAuthMetadata
 }
 
 export default Footer

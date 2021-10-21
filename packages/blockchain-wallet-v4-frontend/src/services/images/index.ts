@@ -1,4 +1,4 @@
-export const getBankLogoImageName = bankName => {
+export const getBankLogoImageName = (bankName) => {
   switch (bankName) {
     case 'Acorns':
       return 'bank-logo-acorns'

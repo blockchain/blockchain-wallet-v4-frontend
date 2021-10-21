@@ -5,8 +5,8 @@ import styled from 'styled-components'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { LoginSteps } from 'data/types'
 
-import { Props as OwnProps } from '..'
-import { BackArrowFormHeader, CircleBackground, LOGIN_FORM_NAME } from '../model'
+import { Props as OwnProps } from '../..'
+import { BackArrowFormHeader, CircleBackground, LOGIN_FORM_NAME } from '../../model'
 
 const FormBody = styled.div`
   display: flex;
@@ -19,8 +19,8 @@ const CheckEmail = (props: Props) => {
     props.cacheActions.removedStoredLogin()
     props.formActions.destroy(LOGIN_FORM_NAME)
     props.setStep(LoginSteps.ENTER_EMAIL_GUID)
-    props.initCaptcha()
     props.authActions.clearLoginError()
+    props.initCaptcha()
   }
   return (
     <>

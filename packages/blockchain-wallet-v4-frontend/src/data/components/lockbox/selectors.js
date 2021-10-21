@@ -19,52 +19,24 @@ export const getNewDeviceShowBtcWarning = path([
   'newDeviceSetup',
   'showBtcWarning'
 ])
-export const getNewDeviceType = path([
-  'components',
-  'lockbox',
-  'newDeviceSetup',
-  'deviceType'
-])
-export const getNewDeviceInfo = path([
-  'components',
-  'lockbox',
-  'newDeviceSetup',
-  'device'
-])
+export const getNewDeviceType = path(['components', 'lockbox', 'newDeviceSetup', 'deviceType'])
+export const getNewDeviceInfo = path(['components', 'lockbox', 'newDeviceSetup', 'device'])
 
 // Device Connections
-export const getCurrentConnection = path([
-  'components',
-  'lockbox',
-  'connection'
-])
+export const getCurrentConnection = path(['components', 'lockbox', 'connection'])
 
 // Firmware
 export const getFirmwareUpdateStep = path(['components', 'lockbox', 'firmware'])
 
 // Application Installs
-export const getDeviceTargetId = path([
-  'components',
-  'lockbox',
-  'appManager',
-  'targetId'
-])
+export const getDeviceTargetId = path(['components', 'lockbox', 'appManager', 'targetId'])
 export const getLatestApplicationVersions = path([
   'components',
   'lockbox',
   'appManager',
   'latestAppInfos'
 ])
-export const getAppChangeStatus = path([
-  'components',
-  'lockbox',
-  'appManager',
-  'appChangeStatus'
-])
+export const getAppChangeStatus = path(['components', 'lockbox', 'appManager', 'appChangeStatus'])
 
 // Misc
-export const getProductTourVisibility = path([
-  'components',
-  'lockbox',
-  'showProductTour'
-])
+export const getProductTourVisibility = path(['components', 'lockbox', 'showProductTour'])

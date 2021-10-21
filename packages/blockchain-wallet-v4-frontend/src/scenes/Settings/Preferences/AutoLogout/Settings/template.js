@@ -26,7 +26,7 @@ const ButtonWrapper = styled.div`
   }
 `
 
-const Settings = props => {
+const Settings = (props) => {
   const { handleSubmit, handleToggle, invalid, submitting } = props
 
   return (
@@ -56,12 +56,7 @@ const Settings = props => {
           </Text>
         </FormGroup>
         <ButtonWrapper>
-          <Button
-            nature='empty'
-            capitalize
-            onClick={handleToggle}
-            data-e2e='cancelAutoLogout'
-          >
+          <Button nature='empty' capitalize onClick={handleToggle} data-e2e='cancelAutoLogout'>
             <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
           </Button>
           <Button
@@ -83,8 +78,8 @@ const Settings = props => {
 }
 
 Settings.propTypes = {
-  handleToggle: PropTypes.func.isRequired,
-  handleClick: PropTypes.func.isRequired
+  handleClick: PropTypes.func.isRequired,
+  handleToggle: PropTypes.func.isRequired
 }
 
 export default reduxForm({ form: 'settingAutoLogoutTime' })(Settings)

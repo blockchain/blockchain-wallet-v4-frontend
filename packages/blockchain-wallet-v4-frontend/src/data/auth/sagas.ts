@@ -303,6 +303,24 @@ export default ({ api, coreSagas, networks }) => {
     return yield call(pollingSession, session, n - 1)
   }
 
+  const pollingForMagicLinkDataSession = function* (session, n = 50) {
+    if (n === 0) {
+      return false
+    }
+    try {
+      yield delay(2000)
+      const response = yield call(api.getMagicLinkData, session)
+      if (prop('wallet', response)) {
+        yield put(actions.auth.setMagicLinkInfo(response))
+        yield call(parseMagicLink)
+        return true
+      }
+    } catch (error) {
+      return false
+    }
+    return yield call(pollingForMagicLinkDataSession, session, n - 1)
+  }
+
   const login = function* (action) {
     const { code, guid, password, sharedKey } = action.payload
     const formValues = yield select(selectors.form.getFormValues('login'))
@@ -592,64 +610,77 @@ export default ({ api, coreSagas, networks }) => {
 
   const initializeLogin = function* () {
     try {
+      // set loading
       yield put(actions.auth.initializeLoginLoading())
-      // determining product designation from URL
+
+      // open coin ws needed for coin streams and channel key for mobile login
+      yield put(actions.ws.startSocket())
+
+      // pull product auth data from querystring
       const searchString = yield select(selectors.router.getSearch)
       const queryParams = new URLSearchParams(searchString)
+      const platform = queryParams.get('platform')
+      const product = queryParams.get('app')
+      const redirect = queryParams.get('redirect')
+
+      // store product auth data
       yield put(
-        actions.auth.setDesignatedProductMetadata({
-          designatedProduct: queryParams.get('app'),
-          designatedProductRedirect: queryParams.get('redirect')
+        actions.auth.setProductAuthMetadata({
+          platform,
+          product,
+          redirect
         })
       )
-      // Checks if platform is specified in URL. Usually to check
-      // If this is being opened in mobile app webview
-      yield put(actions.auth.setAuthPlatform(queryParams.get('platform')))
-      // Opens coin socket, needed for coin streams and channel key for mobile login
-      yield put(actions.ws.startSocket())
-      // Grab pathname to determine next step
-      // Depending on if pathname is just /login
-      // /login/{guid} or /login/{base64_link}
+
+      // select required data to initialize auth below
       const pathname = yield select(selectors.router.getPathname)
-      const params = pathname.split('/')
-      const isMobileConnected = yield select(selectors.cache.getMobileConnected)
-      const email = yield select(selectors.cache.getEmail)
-      // Check for both stored GUID (from email) and lastGuid (last successful login)
+      const urlPathParams = pathname.split('/')
+      const walletGuidOrMagicLinkFromUrl = urlPathParams[2]
       const storedGuid = yield select(selectors.cache.getStoredGuid)
       const lastGuid = yield select(selectors.cache.getLastGuid)
-      const loginLinkParameter = params[2]
-      const designatedProduct = yield select(S.getDesignatedProduct)
-      const platform = yield select(selectors.auth.getAuthPlatform)
-      if (platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS) {
-        yield call(loadMobileAuthWebView)
-      } else if ((storedGuid || lastGuid) && !loginLinkParameter) {
-        // logic to be compatible with lastGuid in cache make sure that email matches
-        // guid being used for login eventually can deprecate after some time
-        if (lastGuid) {
-          yield put(actions.form.change('login', 'guid', lastGuid))
+
+      // initialize login form and/or set initial auth step
+      // 👋 ORDER MATTERS
+      switch (true) {
+        // mobile webview auth flow
+        case platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS:
+          yield call(loadMobileAuthWebView)
+          break
+        // no guid on path, use cached/stored guid if exists
+        case (storedGuid || lastGuid) && !walletGuidOrMagicLinkFromUrl:
+          // select required data
+          const isMobileConnected = yield select(selectors.cache.getMobileConnected)
+          const email = yield select(selectors.cache.getEmail)
+          // logic to be compatible with lastGuid in cache make sure that email matches
+          // guid being used for login eventually can be cleared after some time
+          yield put(actions.form.change('login', 'guid', lastGuid || storedGuid))
           yield put(actions.form.change('login', 'email', email))
-        } else {
-          yield put(actions.form.change('login', 'guid', storedGuid))
-          yield put(actions.form.change('login', 'email', email))
-        }
-        if (isMobileConnected) {
+          // determine initial step
+          const initialStep = isMobileConnected
+            ? LoginSteps.VERIFICATION_MOBILE
+            : product === ProductAuthOptions.EXCHANGE
+            ? LoginSteps.ENTER_PASSWORD_EXCHANGE
+            : LoginSteps.ENTER_PASSWORD_WALLET
+          yield put(actions.form.change('login', 'step', initialStep))
+          break
+        // url is just /login, take them to enter guid or email
+        case !walletGuidOrMagicLinkFromUrl:
+          yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
+          break
+        // guid is on the url e.g. login/{guid}
+        case isGuid(walletGuidOrMagicLinkFromUrl):
+          yield put(actions.form.change('login', 'guid', walletGuidOrMagicLinkFromUrl))
           yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
-        } else if (designatedProduct === ProductAuthOptions.EXCHANGE) {
-          yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
-        } else {
-          yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD_WALLET))
-        }
-        // if url is just /login, take them to enter guid or email
-      } else if (!loginLinkParameter) {
-        yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
-        // we detect a guid in the pathname
-      } else if (isGuid(loginLinkParameter)) {
-        const guidFromRoute = loginLinkParameter
-        yield put(actions.form.change('login', 'guid', guidFromRoute))
-        yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
-      } else {
-        yield call(parseMagicLink, params)
+          break
+        // url has base64 encrypted magic link JSON
+        default:
+          const magicLink = JSON.parse(atob(walletGuidOrMagicLinkFromUrl))
+          yield put(actions.auth.setMagicLinkInfo(magicLink))
+          yield put(actions.auth.setMagicLinkInfoEncoded(walletGuidOrMagicLinkFromUrl))
+          yield call(parseMagicLink)
       }
+
+      // hide loading and ensure latest app version
       yield put(actions.auth.initializeLoginSuccess())
       yield put(actions.auth.pingManifestFile())
     } catch (e) {
@@ -665,25 +696,24 @@ export default ({ api, coreSagas, networks }) => {
   const triggerWalletMagicLink = function* (action) {
     const formValues = yield select(selectors.form.getFormValues('login'))
     const { step } = formValues
-    const legacyMagicEmailLink = (yield select(
-      selectors.core.walletOptions.getFeatureLegacyMagicEmailLink
-    )).getOrElse(true)
-
+    const shouldPollForMagicLinkData = yield select(
+      selectors.core.walletOptions.getPollForMagicLinkData
+    )
     yield put(startSubmit('login'))
     try {
       yield put(actions.auth.triggerWalletMagicLinkLoading())
       const sessionToken = yield call(api.obtainSessionToken)
       const { captchaToken, email, product } = action.payload
       yield put(actions.session.saveSession(assoc(email, sessionToken, {})))
-      if (legacyMagicEmailLink) {
-        yield call(api.triggerWalletMagicLinkLegacy, email, captchaToken, sessionToken)
-      } else {
-        yield call(api.triggerWalletMagicLink, email, captchaToken, sessionToken, product)
-      }
+      yield call(api.triggerWalletMagicLink, email, captchaToken, sessionToken)
       if (step === LoginSteps.CHECK_EMAIL) {
         yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
       } else {
         yield put(actions.form.change('login', 'step', LoginSteps.CHECK_EMAIL))
+      }
+      // polling feature flag
+      if (shouldPollForMagicLinkData) {
+        yield call(pollingForMagicLinkDataSession, sessionToken)
       }
       yield put(actions.auth.triggerWalletMagicLinkSuccess())
     } catch (e) {
@@ -692,6 +722,26 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.alerts.displayError(C.VERIFY_EMAIL_SENT_ERROR))
     } finally {
       yield put(stopSubmit('login'))
+    }
+  }
+
+  const authorizeVerifyDevice = function* () {
+    const { wallet } = yield select(selectors.auth.getMagicLinkData)
+    const magicLinkDataEncoded = yield select(selectors.auth.getMagicLinkDataEncoded)
+    try {
+      yield put(actions.auth.authorizeVerifyDeviceLoading())
+      const { error, success } = yield call(
+        api.authorizeVerifyDevice,
+        wallet.session_id,
+        magicLinkDataEncoded
+      )
+      if (success) {
+        yield put(actions.auth.authorizeVerifyDeviceSuccess(true))
+      } else {
+        yield put(actions.auth.authorizeVerifyDeviceFailure(error))
+      }
+    } catch (e) {
+      yield put(actions.auth.authorizeVerifyDeviceFailure(e.error))
     }
   }
 
@@ -740,6 +790,7 @@ export default ({ api, coreSagas, networks }) => {
   }
   return {
     authNabu,
+    authorizeVerifyDevice,
     continueLoginProcess,
     exchangeLogin,
     getUserGeoLocation,
@@ -748,6 +799,7 @@ export default ({ api, coreSagas, networks }) => {
     loginRoutineSaga,
     mobileLogin,
     pingManifestFile,
+    pollingForMagicLinkDataSession,
     pollingSession,
     register,
     resendSmsLoginCode,

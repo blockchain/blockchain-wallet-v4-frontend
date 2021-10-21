@@ -9,24 +9,20 @@ import {
   MaximumAmountMessage
 } from './validationMessages'
 
-const getEffectiveBalance = props => {
+const getEffectiveBalance = (props) => {
   return Number(props.effectiveBalance)
 }
 
 export const insufficientFunds = (value, allValues, props) => {
-  return getEffectiveBalance(props) > 0 ? (
-    undefined
-  ) : (
-    <InsufficientFundsMessage />
-  )
+  return getEffectiveBalance(props) > 0 ? undefined : <InsufficientFundsMessage />
 }
 
 export const invalidAmount = (value, allValues, props) => {
   const valueBch = prop('coin', value)
   const valueSatoshi = Exchange.convertCoinToCoin({
-    value: valueBch,
     baseToStandard: false,
-    coin: 'BCH'
+    coin: 'BCH',
+    value: valueBch
   })
   return valueSatoshi > 0 ? undefined : <InvalidAmountMessage />
 }
@@ -34,24 +30,14 @@ export const invalidAmount = (value, allValues, props) => {
 export const maximumAmount = (value, allValues, props) => {
   const valueBch = prop('coin', value)
   const valueSatoshi = Exchange.convertCoinToCoin({
-    value: valueBch,
     baseToStandard: false,
-    coin: 'BCH'
+    coin: 'BCH',
+    value: valueBch
   })
-  return valueSatoshi <= getEffectiveBalance(props) ? (
-    undefined
-  ) : (
-    <MaximumAmountMessage />
-  )
+  return valueSatoshi <= getEffectiveBalance(props) ? undefined : <MaximumAmountMessage />
 }
 
-export const shouldError = ({
-  initialRender,
-  nextProps,
-  props,
-  structure,
-  values
-}) => {
+export const shouldError = ({ initialRender, nextProps, props, structure, values }) => {
   if (initialRender) {
     return true
   }

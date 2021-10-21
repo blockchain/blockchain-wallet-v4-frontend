@@ -11,15 +11,12 @@ const ContentWrapper = styled(ModalBody)`
   padding: 20px;
 `
 
-const LockboxFirmware = props => {
+const LockboxFirmware = (props) => {
   const { children, onClose, position, step, total, totalSteps } = props
   return (
     <Modal size='small' position={position} total={total}>
       <ModalHeader onClose={onClose}>
-        <FormattedMessage
-          id='modals.lockbox.firmware.title'
-          defaultMessage='Firmware Update'
-        />
+        <FormattedMessage id='modals.lockbox.firmware.title' defaultMessage='Firmware Update' />
       </ModalHeader>
       <ModalStepper currentStep={step} totalSteps={totalSteps} />
       <ContentWrapper>{children}</ContentWrapper>
@@ -28,10 +25,10 @@ const LockboxFirmware = props => {
 }
 
 LockboxFirmware.propTypes = {
-  position: PropTypes.number.isRequired,
-  total: PropTypes.number.isRequired,
   onClose: PropTypes.func.isRequired,
+  position: PropTypes.number.isRequired,
   step: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired,
   totalSteps: PropTypes.number.isRequired
 }
 

@@ -14,10 +14,10 @@ class EmailAddressContainer extends React.PureComponent {
   constructor(props) {
     super(props)
     this.state = {
-      updateToggled: false,
-      verifyToggled: false,
+      isEditing: false,
       successToggled: false,
-      isEditing: false
+      updateToggled: false,
+      verifyToggled: false
     }
 
     this.handleResend = this.handleResend.bind(this)
@@ -80,7 +80,10 @@ class EmailAddressContainer extends React.PureComponent {
     const { data, ...rest } = this.props
 
     return data.cata({
-      Success: value => (
+      Failure: (message) => <Error {...rest} message={message} />,
+      Loading: () => <Loading {...rest} />,
+      NotAsked: () => <Loading {...rest} />,
+      Success: (value) => (
         <Success
           {...rest}
           uiState={this.state}
@@ -91,30 +94,21 @@ class EmailAddressContainer extends React.PureComponent {
           handleEmailChangeCancel={this.handleEmailChangeCancel}
           handleEmailChangeSubmit={this.handleEmailChangeSubmit}
         />
-      ),
-      Failure: message => <Error {...rest} message={message} />,
-      Loading: () => <Loading {...rest} />,
-      NotAsked: () => <Loading {...rest} />
+      )
     })
   }
 }
 
-const mapStateToProps = state => ({
-  data: getData(state),
+const mapStateToProps = (state) => ({
   code: formValueSelector('securityEmailAddress')(state, 'emailCode'),
+  data: getData(state),
   updatedEmail: formValueSelector('securityEmailAddress')(state, 'changeEmail')
 })
 
-const mapDispatchToProps = dispatch => ({
-  settingsActions: bindActionCreators(actions.modules.settings, dispatch),
+const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
-  securityCenterActions: bindActionCreators(
-    actions.modules.securityCenter,
-    dispatch
-  )
+  securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch),
+  settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(EmailAddressContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(EmailAddressContainer)

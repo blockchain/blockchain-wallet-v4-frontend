@@ -4,9 +4,9 @@ import { BigNumber } from 'bignumber.js'
 import { mapObjIndexed, prop } from 'ramda'
 import styled from 'styled-components'
 
-import { Banner } from 'blockchain-info-components'
 import { Exchange } from '@core'
 import Currencies from '@core/exchange/currencies'
+import { Banner } from 'blockchain-info-components'
 import { model } from 'data'
 
 import ModalIcon from '../ModalIcon'
@@ -29,7 +29,7 @@ export const InfoBanner = (props) => {
   const fee = prop('fee', props)
   const reserveXlm = Exchange.convertCoinToCoin({
     coin: 'XLM',
-    value: reserve,
+    value: reserve
   })
   const currency = prop('currency', props)
   const rates = prop('rates', props)
@@ -37,11 +37,11 @@ export const InfoBanner = (props) => {
     coin: 'XLM',
     currency,
     rates,
-    value: new BigNumber.sum(effectiveBalance, fee),
+    value: new BigNumber.sum(effectiveBalance, fee)
   })
   const effectiveBalanceXlm = Exchange.convertCoinToCoin({
     coin: 'XLM',
-    value: new BigNumber.sum(effectiveBalance, fee),
+    value: new BigNumber.sum(effectiveBalance, fee)
   })
   const modalProps = { currency, effectiveBalanceXlm, fee, rates, reserveXlm }
 
@@ -52,7 +52,7 @@ export const InfoBanner = (props) => {
         defaultMessage='Your available balance is {currencySymbol}{effectiveBalanceFiat} (minus fee). Learn about Stellar’s minimum balance.'
         values={{
           currencySymbol: currencySymbolMap[currency],
-          effectiveBalanceFiat,
+          effectiveBalanceFiat
         }}
       />
       <ModalIcon modal={RESERVE_LEARN_MODAL} {...modalProps} />

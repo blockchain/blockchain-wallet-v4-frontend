@@ -12,16 +12,26 @@ export const XLM = 'xlm'
 export const WALLET_CREDENTIALS = 'walletCredentials'
 
 export const derivationMap = {
-  [ROOT]: -1,
-  [WHATSNEW]: 2, // Deprecated
-  [BUYSELL]: 3, // Deprecated
-  [CONTACTS]: 4, // Deprecated
-  [ETH]: 5,
-  [SHAPESHIFT]: 6, // Deprecated
+  // Deprecated
   [BCH]: 7,
+
   [BTC]: 8,
+
+  // Deprecated
+  [BUYSELL]: 3,
+
+  // Deprecated
+  [CONTACTS]: 4,
+
+  // Deprecated
+  [ETH]: 5,
+
   [LOCKBOX]: 9,
+
+  [ROOT]: -1,
+  [SHAPESHIFT]: 6,
   [USER_CREDENTIALS]: 10,
-  [XLM]: 11,
-  [WALLET_CREDENTIALS]: 12
+  [WALLET_CREDENTIALS]: 12,
+  [WHATSNEW]: 2,
+  [XLM]: 11
 }

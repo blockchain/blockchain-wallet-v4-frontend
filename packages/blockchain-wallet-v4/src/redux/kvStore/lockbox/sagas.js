@@ -9,7 +9,7 @@ import { getMetadataXpriv } from '../root/selectors'
 import * as A from './actions'
 
 export default ({ api, networks }) => {
-  const createLockbox = function * (kv) {
+  const createLockbox = function* (kv) {
     const newLockboxEntry = {
       devices: [],
       version: 4
@@ -18,9 +18,9 @@ export default ({ api, networks }) => {
     yield put(A.createMetadataLockbox(newkv))
   }
 
-  const upgradeLockboxV4 = function * (kv) {
+  const upgradeLockboxV4 = function* (kv) {
     try {
-      let upgradedDevices = kv.value.devices.map(d => {
+      const upgradedDevices = kv.value.devices.map((d) => {
         const BtcXpub = path(['btc', 'accounts', 0, 'xpub'], d)
         const BtcLabel = path(['btc', 'accounts', 0, 'label'], d)
         const BchXpub = path(['bch', 'accounts', 0, 'xpub'], d)
@@ -38,11 +38,11 @@ export default ({ api, networks }) => {
 
         return {
           ...d,
-          btc: {
-            accounts: [btcAccount]
-          },
           bch: {
             accounts: [bchAccount]
+          },
+          btc: {
+            accounts: [btcAccount]
           }
         }
       })
@@ -55,7 +55,7 @@ export default ({ api, networks }) => {
     }
   }
 
-  const fetchMetadataLockbox = function * () {
+  const fetchMetadataLockbox = function* () {
     try {
       const typeId = derivationMap[LOCKBOX]
       const mxpriv = yield select(getMetadataXpriv)

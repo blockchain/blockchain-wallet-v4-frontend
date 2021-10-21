@@ -6,7 +6,7 @@ import styled, { css } from 'styled-components'
 
 import Alerts from 'components/Alerts'
 import { selectors } from 'data'
-import { LoginSteps, ProductAuthOptions } from 'data/types'
+import { LoginSteps, ProductAuthMetadata } from 'data/types'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { media } from 'services/styles'
 
@@ -67,10 +67,10 @@ const ContentContainer = styled.div<{ isLogin?: boolean }>`
 
 const PublicLayoutContainer = ({
   component: Component,
-  designatedProduct,
   exact = false,
   loginStep,
-  path
+  path,
+  productAuthMetadata
 }: Props) => {
   const isLogin = path === '/login'
   return (
@@ -85,7 +85,7 @@ const PublicLayoutContainer = ({
             <Alerts />
 
             <HeaderContainer>
-              <Header designatedProduct={designatedProduct} loginStep={loginStep} />
+              <Header productAuthMetadata={productAuthMetadata} loginStep={loginStep} />
             </HeaderContainer>
 
             <Modals />
@@ -94,7 +94,7 @@ const PublicLayoutContainer = ({
             </ContentContainer>
 
             <FooterContainer>
-              <Footer isLogin={isLogin} designatedProduct={designatedProduct} />
+              <Footer isLogin={isLogin} productAuthMetadata={productAuthMetadata} />
             </FooterContainer>
           </Wrapper>
         </ErrorBoundary>
@@ -105,15 +105,15 @@ const PublicLayoutContainer = ({
 
 type Props = {
   component: ComponentType<any>
-  designatedProduct: ProductAuthOptions
   exact?: boolean
   loginStep: LoginSteps
   path: string
+  productAuthMetadata: ProductAuthMetadata
 }
 
 const mapStateToProps = (state) => ({
-  designatedProduct: selectors.auth.getDesignatedProduct(state) as ProductAuthOptions,
-  loginStep: formValueSelector('login')(state, 'step')
+  loginStep: formValueSelector('login')(state, 'step'),
+  productAuthMetadata: selectors.auth.getProductAuthMetadata(state)
 })
 
 const connector = connect(mapStateToProps)

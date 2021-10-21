@@ -5,35 +5,31 @@ import { Field } from 'redux-form'
 import { HeartbeatLoader, Text } from 'blockchain-info-components'
 import { FormGroup, FormItem, TextBox } from 'components/Form'
 import { isBrowserSupported } from 'services/browser'
-import { required, validWalletIdOrEmail } from 'services/forms'
+import { required, validEmail } from 'services/forms'
 
-import { Props } from '..'
+import { Props } from '../..'
 import {
   ActionButton,
-  GuidError,
   LinkRow,
   LoginFormLabel,
   NeedHelpLink,
   removeWhitespace,
   UnsupportedBrowserWarning
-} from '../model'
+} from '../../model'
 
 const isSupportedBrowser = isBrowserSupported()
 
-const Wallet = (props: Props) => {
-  const { authActions, busy, guidOrEmail, invalid, loginError, submitting } = props
-  const guidError = loginError && loginError.toLowerCase().includes('unknown wallet id')
+const EnterEmail = (props: Props) => {
+  const { authActions, busy, guidOrEmail, invalid, submitting } = props
   return (
     <>
       <FormGroup>
         {!isSupportedBrowser && <UnsupportedBrowserWarning />}
         <FormItem>
           <LoginFormLabel htmlFor='guid'>
-            <FormattedMessage
-              id='scenes.login.email_guid'
-              defaultMessage='Your Email or Wallet ID'
-            />
+            <FormattedMessage id='scenes.register.youremail' defaultMessage='Your Email' />
           </LoginFormLabel>
+
           <Field
             component={TextBox}
             data-e2e='loginGuidOrEmail'
@@ -41,21 +37,11 @@ const Wallet = (props: Props) => {
             disableSpellcheck
             name='guidOrEmail'
             normalize={removeWhitespace}
-            validate={[required, validWalletIdOrEmail]}
-            placeholder='Enter your email or wallet ID'
+            validate={[required, validEmail]}
+            placeholder='Enter your email'
             autoFocus
           />
         </FormItem>
-        {guidError && (
-          <GuidError inline>
-            <Text size='12px' color='error' weight={400} data-e2e='walletIdError'>
-              <FormattedMessage
-                id='scenes.login.guid_error'
-                defaultMessage='Unknown Wallet ID. Please check that it was entered correctly or try signing in with your email.'
-              />
-            </Text>
-          </GuidError>
-        )}
       </FormGroup>
       <LinkRow>
         <ActionButton
@@ -81,4 +67,4 @@ const Wallet = (props: Props) => {
   )
 }
 
-export default Wallet
+export default EnterEmail

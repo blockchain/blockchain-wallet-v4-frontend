@@ -108,10 +108,7 @@ class SecondStep extends React.PureComponent<Props, State> {
                       />
                     )}
                     {!isRestoringFromMetadata && (
-                      <FormattedMessage
-                        id='copy.new_password'
-                        defaultMessage='New Password'
-                      />
+                      <FormattedMessage id='copy.new_password' defaultMessage='New Password' />
                     )}
                   </FormLabel>
                   <Field

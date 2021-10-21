@@ -62,7 +62,7 @@ const Circle = styled.div`
   height: 50px;
   min-width: 50px;
   background-color: white;
-  border: 5px solid ${props => props.theme.blue900};
+  border: 5px solid ${(props) => props.theme.blue900};
   transition: background-color 0.4s, border 0.4s;
   border-radius: 50px;
   ${media.mobile`
@@ -71,8 +71,8 @@ const Circle = styled.div`
     min-width: 25px;
   `};
   &.active {
-    background-color: ${props => props.theme.grey000};
-    border: 5px solid ${props => props.theme.grey000};
+    background-color: ${(props) => props.theme.grey000};
+    border: 5px solid ${(props) => props.theme.grey000};
   }
 `
 const StepText = styled(Text)`
@@ -86,14 +86,9 @@ const StepText = styled(Text)`
     word-break: initial;
   `};
 `
-const SecurityCenter = props => {
+const SecurityCenter = (props) => {
   const { children, progress } = props
-  const {
-    emailComplete,
-    mnemonicComplete,
-    overallProgress,
-    twoFactorComplete
-  } = progress
+  const { emailComplete, mnemonicComplete, overallProgress, twoFactorComplete } = progress
 
   return (
     <Wrapper>
@@ -131,11 +126,7 @@ const SecurityCenter = props => {
                     <Text size={mobile ? '14px' : '36px'}>1</Text>
                   )}
                 </Circle>
-                <StepText
-                  success={emailComplete}
-                  size={mobile ? '12px' : '14px'}
-                  weight={400}
-                >
+                <StepText success={emailComplete} size={mobile ? '12px' : '14px'} weight={400}>
                   {mobile ? (
                     <FormattedMessage
                       id='scenes.securitycenter.steps.step1mobile'
@@ -151,12 +142,8 @@ const SecurityCenter = props => {
               </StepSection>
               <StepSection
                 success={twoFactorComplete}
-                leftRadius={
-                  twoFactorComplete && emailComplete ? 'true' : undefined
-                }
-                rightRadius={
-                  twoFactorComplete && emailComplete ? 'true' : undefined
-                }
+                leftRadius={twoFactorComplete && emailComplete ? 'true' : undefined}
+                rightRadius={twoFactorComplete && emailComplete ? 'true' : undefined}
               >
                 <Circle className={twoFactorComplete ? 'active' : ''}>
                   {twoFactorComplete ? (
@@ -169,11 +156,7 @@ const SecurityCenter = props => {
                     <Text size={mobile ? '14px' : '36px'}>2</Text>
                   )}
                 </Circle>
-                <StepText
-                  success={twoFactorComplete}
-                  size={mobile ? '12px' : '14px'}
-                  weight={400}
-                >
+                <StepText success={twoFactorComplete} size={mobile ? '12px' : '14px'} weight={400}>
                   {mobile ? (
                     <FormattedMessage
                       id='scenes.securitycenter.steps.step2mobile'
@@ -202,11 +185,7 @@ const SecurityCenter = props => {
                     <Text size={mobile ? '14px' : '36px'}>3</Text>
                   )}
                 </Circle>
-                <StepText
-                  success={mnemonicComplete}
-                  size={mobile ? '12px' : '14px'}
-                  weight={400}
-                >
+                <StepText success={mnemonicComplete} size={mobile ? '12px' : '14px'} weight={400}>
                   <FormattedMessage
                     id='scenes.securitycenter.steps.step3.savephrase'
                     defaultMessage='Save Secret Private Key Recovery Phrase'

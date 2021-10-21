@@ -9,16 +9,16 @@ const streamingMiddleware = (streamingService, api) => {
     return api
       .getXlmTransactions({
         limit: 1,
-        publicKey,
+        publicKey
       })
       .then(head)
       .then(prop('paging_token'))
       .then((txCursor) => ({
         id: publicKey,
-        txCursor,
+        txCursor
       }))
       .catch(() => ({
-        id: publicKey,
+        id: publicKey
       }))
   }
 

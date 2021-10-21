@@ -16,8 +16,8 @@ export const getData = createDeepEqualSelector(
     const xlm = xlmR.getOrElse([])
 
     return Remote.of({
-      btc: btc[0],
       bch: bch[0],
+      btc: btc[0],
       eth: eth[0],
       xlm: xlm[0]
     })

@@ -13,19 +13,13 @@ class RenameDeviceContainer extends React.PureComponent {
 
   onSubmit = () => {
     const { newDeviceName } = this.props
-    const isNotUnique = requireUniqueDeviceName(
-      newDeviceName,
-      this.props.usedDeviceNames
-    )
+    const isNotUnique = requireUniqueDeviceName(newDeviceName, this.props.usedDeviceNames)
     if (isNotUnique) {
       throw new SubmissionError({
         newDeviceName: isNotUnique
       })
     } else {
-      this.props.lockboxActions.updateDeviceName(
-        this.props.deviceIndex,
-        newDeviceName
-      )
+      this.props.lockboxActions.updateDeviceName(this.props.deviceIndex, newDeviceName)
       this.handleToggle()
     }
   }
@@ -55,22 +49,17 @@ class RenameDeviceContainer extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  deviceName: selectors.core.kvStore.lockbox
-    .getDeviceName(state, ownProps.deviceIndex)
-    .getOrFail(),
+  deviceName: selectors.core.kvStore.lockbox.getDeviceName(state, ownProps.deviceIndex).getOrFail(),
+  newDeviceName: formValueSelector('RenameDevice')(state, 'newDeviceName'),
   usedDeviceNames: selectors.core.kvStore.lockbox
     .getDevices(state)
     .getOrElse([])
-    .map(d => d.device_name),
-  newDeviceName: formValueSelector('RenameDevice')(state, 'newDeviceName')
+    .map((d) => d.device_name)
 })
 
-const mapDispatchToProps = dispatch => ({
-  lockboxActions: bindActionCreators(actions.core.kvStore.lockbox, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch)
+const mapDispatchToProps = (dispatch) => ({
+  formActions: bindActionCreators(actions.form, dispatch),
+  lockboxActions: bindActionCreators(actions.core.kvStore.lockbox, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(RenameDeviceContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(RenameDeviceContainer)

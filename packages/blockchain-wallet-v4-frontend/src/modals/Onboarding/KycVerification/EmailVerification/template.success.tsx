@@ -3,13 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled, { DefaultTheme } from 'styled-components'
 
-import {
-  Button,
-  HeartbeatLoader,
-  Icon,
-  Link,
-  Text
-} from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, Link, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
 import { model } from 'data'
@@ -28,7 +22,7 @@ const Wrapper = styled.div`
 
 const IconWrapper = styled.div<{ color: keyof DefaultTheme }>`
   display: flex;
-  background: ${props => props.theme[props.color]};
+  background: ${(props) => props.theme[props.color]};
   height: 40px;
   width: 40px;
   justify-content: center;
@@ -79,7 +73,7 @@ export const Label = styled.label`
   text-align: left;
 `
 
-const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
+const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const [changeEmail, setChangeEmail] = useState(false)
 
   return (
@@ -103,22 +97,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
           <IconWrapper color='blue600'>
             <Icon color='white' name='email' size='24px' />
           </IconWrapper>
-          <Text
-            size='20px'
-            weight={600}
-            color='black'
-            style={{ marginTop: '8px' }}
-          >
+          <Text size='20px' weight={600} color='black' style={{ marginTop: '8px' }}>
             {changeEmail ? (
               <FormattedMessage
                 id='modals.simplebuy.verifyemail.change_your_email'
                 defaultMessage='Change Your Email Address'
               />
             ) : (
-              <FormattedMessage
-                id='scenes.verifyemail.title'
-                defaultMessage='Verify Your Email'
-              />
+              <FormattedMessage id='scenes.verifyemail.title' defaultMessage='Verify Your Email' />
             )}
           </Text>
 
@@ -163,12 +149,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             </CustomForm>
           ) : (
             <>
-              <Text
-                color='grey900'
-                style={{ marginTop: '8px' }}
-                size='16px'
-                weight={500}
-              >
+              <Text color='grey900' style={{ marginTop: '8px' }} size='16px' weight={500}>
                 <FormattedMessage
                   id='scenes.verifyemail.description'
                   defaultMessage='We sent a verification email to <b>{email}</b>. Please click the link in the email to continue.'
@@ -198,7 +179,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
         <ResendContainer>
           <Text
             color='grey900'
-            style={{ marginRight: '2px', display: 'inline-block' }}
+            style={{ display: 'inline-block', marginRight: '2px' }}
             size='16px'
             weight={500}
           >
@@ -216,10 +197,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = props => {
             data-e2e='resendVerifyEmail'
             color='blue600'
           >
-            <FormattedMessage
-              id='modals.simplebuy.verifyemail.resend'
-              defaultMessage='Resend'
-            />
+            <FormattedMessage id='modals.simplebuy.verifyemail.resend' defaultMessage='Resend' />
           </Link>
         </ResendContainer>
       )}
@@ -233,6 +211,6 @@ type Props = OwnProps & {
 }
 
 export default reduxForm<{}, Props>({
-  form: VERIFY_EMAIL_FORM,
-  destroyOnUnmount: false
+  destroyOnUnmount: false,
+  form: VERIFY_EMAIL_FORM
 })(Success)

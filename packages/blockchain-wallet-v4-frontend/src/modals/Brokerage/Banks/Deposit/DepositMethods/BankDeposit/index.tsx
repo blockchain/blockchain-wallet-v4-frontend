@@ -2,8 +2,8 @@ import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Icon } from 'blockchain-info-components'
 import { SBPaymentMethodType } from '@core/types'
+import { Icon } from 'blockchain-info-components'
 import { SuccessCartridge } from 'components/Cartridge'
 import {
   Content,
@@ -54,16 +54,10 @@ const BankDeposit = ({ icon, onClick, value }: Props) => (
         <DisplayIconBank>{icon}</DisplayIconBank>
         <Content>
           <DisplayTitleBank>
-            <FormattedMessage
-              id='modals.simplebuy.linkbank'
-              defaultMessage='Link a Bank'
-            />
+            <FormattedMessage id='modals.simplebuy.linkbank' defaultMessage='Link a Bank' />
           </DisplayTitleBank>
           <DisplaySubTitle>
-            <FormattedMessage
-              id='copy.instantly_available'
-              defaultMessage='Instantly Available'
-            />
+            <FormattedMessage id='copy.instantly_available' defaultMessage='Instantly Available' />
           </DisplaySubTitle>
           <Description>
             <FormattedMessage
@@ -76,10 +70,7 @@ const BankDeposit = ({ icon, onClick, value }: Props) => (
       </TopSection>
       <CartridgeContainer>
         <SuccessCartridge>
-          <FormattedMessage
-            id='copy.most_popular'
-            defaultMessage='Most Popular'
-          />
+          <FormattedMessage id='copy.most_popular' defaultMessage='Most Popular' />
         </SuccessCartridge>
       </CartridgeContainer>
     </MainContent>

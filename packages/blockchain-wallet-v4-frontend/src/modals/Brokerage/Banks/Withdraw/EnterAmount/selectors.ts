@@ -1,8 +1,8 @@
 import { lift } from 'ramda'
 
-import { getFiatBalance, getWithdrawableFiatBalance } from 'components/Balances/selectors'
 import { Remote } from '@core'
 import { ExtractSuccess, InvitationsType } from '@core/types'
+import { getFiatBalance, getWithdrawableFiatBalance } from 'components/Balances/selectors'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { BankTransferAccountType } from 'data/types'

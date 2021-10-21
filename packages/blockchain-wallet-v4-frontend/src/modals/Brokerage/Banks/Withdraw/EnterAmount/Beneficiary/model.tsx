@@ -18,11 +18,7 @@ export const BeneficiaryIcon = (props: Props) => {
       return <Icon name='bank-filled' color='blue600' />
     }
     case !!props.transferAccount: {
-      return (
-        <Image
-          name={getBankLogoImageName(props.transferAccount?.details.bankName)}
-        />
-      )
+      return <Image name={getBankLogoImageName(props.transferAccount?.details.bankName)} />
     }
     default: {
       return <Icon name='plus-in-circle-filled' color='blue600' />
@@ -39,12 +35,9 @@ export const BeneficiaryName = (props: Props) => {
         <Title asValue>{props.beneficiary.address}</Title>
       </>
     )
-  } else if (props.transferAccount) {
-    const {
-      accountNumber,
-      bankAccountType,
-      bankName
-    } = props.transferAccount?.details
+  }
+  if (props.transferAccount) {
+    const { accountNumber, bankAccountType, bankName } = props.transferAccount?.details
 
     return (
       <>
@@ -55,11 +48,10 @@ export const BeneficiaryName = (props: Props) => {
         </Title>
       </>
     )
-  } else {
-    return (
-      <Value asTitle>
-        <FormattedMessage id='buttons.add_bank' defaultMessage='Add a Bank' />
-      </Value>
-    )
   }
+  return (
+    <Value asTitle>
+      <FormattedMessage id='buttons.add_bank' defaultMessage='Add a Bank' />
+    </Value>
+  )
 }

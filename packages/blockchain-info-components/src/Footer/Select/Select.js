@@ -19,11 +19,10 @@ const SelectElement = styled.select`
   text-align: center;
   cursor: pointer;
   outline: none;
-  background-color: ${props =>
-    props.transparent ? 'transparent' : 'var(--grey000)'};
-  padding: ${props => (props.transparent ? '0' : '0 1rem')};
+  background-color: ${(props) => (props.transparent ? 'transparent' : 'var(--grey000)')};
+  padding: ${(props) => (props.transparent ? '0' : '0 1rem')};
   @media only screen and (max-width: 48rem) {
-    width: ${props => (props.transparent ? 'auto' : '100%')};
+    width: ${(props) => (props.transparent ? 'auto' : '100%')};
   }
 `
 
@@ -45,7 +44,7 @@ class Select extends PureComponent {
 
   onChange(e) {
     if (e.target && this.props.onChange) {
-      let value = e.target.value
+      const { value } = e.target
       this.setState({ value }, () => {
         this.props.onChange(value)
       })
@@ -55,13 +54,13 @@ class Select extends PureComponent {
   render() {
     let options = null
     if (this.props.values) {
-      options = this.props.values.map(val => (
+      options = this.props.values.map((val) => (
         <option key={val} value={val}>
           {val}
         </option>
       ))
     } else if (this.props.items) {
-      options = this.props.items.map(val => (
+      options = this.props.items.map((val) => (
         <option key={val.value} value={val.value}>
           {val.text}
         </option>

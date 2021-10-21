@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
-import { ExchangeErrorCodes } from 'data/types'
 
 import {
   AccountUnificationFlows,
@@ -12,8 +11,6 @@ import {
   LoginFailureType,
   LoginSuccessType,
   MetadataRestoreType,
-  PlatformTypes,
-  ProductAuthOptions,
   RegisteringFailureType,
   RegisteringSuccessType,
   RestoringType,
@@ -22,10 +19,8 @@ import {
 
 const initialState: AuthStateType = {
   accountUnificationFlow: undefined,
-  authPlatform: PlatformTypes.WEB,
   auth_type: 0,
-  designatedProduct: ProductAuthOptions.WALLET,
-  designatedProductRedirect: undefined,
+  authorizeVerifyDevice: Remote.NotAsked,
   exchangeAuth: {
     exchangeLogin: Remote.NotAsked,
     exchangeLoginError: undefined,
@@ -37,9 +32,15 @@ const initialState: AuthStateType = {
   kycReset: undefined,
   login: Remote.NotAsked,
   magicLinkData: undefined,
+  magicLinkDataEncoded: undefined,
   manifestFile: null,
   metadataRestore: Remote.NotAsked,
   mobileLoginStarted: false,
+  productAuthMetadata: {
+    platform: null,
+    product: null,
+    redirect: null
+  },
   registerEmail: undefined,
   registering: Remote.NotAsked,
   resetAccount: false,
@@ -67,6 +68,17 @@ const authSlice = createSlice({
     authenticate: (state) => {
       state.isAuthenticated = true
     },
+    authorizeVerifyDevice: () => {},
+    authorizeVerifyDeviceFailure: (state, action) => {
+      state.authorizeVerifyDevice = Remote.Failure(action.payload)
+    },
+    authorizeVerifyDeviceLoading: (state) => {
+      state.authorizeVerifyDevice = Remote.Loading
+    },
+    authorizeVerifyDeviceSuccess: (state, action) => {
+      state.authorizeVerifyDevice = Remote.Success(action.payload)
+    },
+
     clearLoginError: (state) => {
       state.login = Remote.NotAsked
       state.exchangeAuth.exchangeLogin = Remote.NotAsked
@@ -158,37 +170,8 @@ const authSlice = createSlice({
     setAccountUnificationFlowType: (state, action: PayloadAction<AccountUnificationFlows>) => {
       state.accountUnificationFlow = action.payload
     },
-    setAuthPlatform: (state, action: PayloadAction<string | null>) => {
-      const platform = action.payload
-      if (platform && platform.toUpperCase() === PlatformTypes.ANDROID) {
-        state.authPlatform = PlatformTypes.ANDROID
-      } else if (platform && platform.toUpperCase() === PlatformTypes.IOS) {
-        state.authPlatform = PlatformTypes.IOS
-      } else state.authPlatform = PlatformTypes.WEB
-    },
     setAuthType: (state, action) => {
       state.auth_type = action.payload
-    },
-    setDesignatedProductMetadata: (
-      state,
-      action: PayloadAction<{
-        designatedProduct?: string | null
-        designatedProductRedirect?: AuthStateType['designatedProductRedirect'] | null
-      }>
-    ) => {
-      const { designatedProduct, designatedProductRedirect } = action.payload
-      // TODO: update to check for explorer when applicable
-      if (designatedProduct && designatedProduct.toUpperCase() === ProductAuthOptions.WALLET) {
-        state.designatedProduct = ProductAuthOptions.WALLET
-      } else if (
-        designatedProduct &&
-        designatedProduct.toUpperCase() === ProductAuthOptions.EXCHANGE
-      ) {
-        state.designatedProduct = ProductAuthOptions.EXCHANGE
-      }
-      if (typeof designatedProductRedirect === 'string') {
-        state.designatedProductRedirect = designatedProductRedirect
-      }
     },
     setFirstLogin: (state, action: PayloadAction<AuthStateType['firstLogin']>) => {
       state.firstLogin = action.payload
@@ -202,8 +185,22 @@ const authSlice = createSlice({
     setMagicLinkInfo: (state, action: PayloadAction<AuthStateType['magicLinkData']>) => {
       state.magicLinkData = action.payload
     },
+    setMagicLinkInfoEncoded: (state, action: PayloadAction<AuthStateType['magicLinkDataEncoded']>) => {
+      state.magicLinkDataEncoded = action.payload
+    },
     setManifestFile: (state, action: PayloadAction<AuthStateType['manifestFile']>) => {
       state.manifestFile = action.payload
+    },
+    setProductAuthMetadata: (
+      state,
+      action: PayloadAction<AuthStateType['productAuthMetadata']>
+    ) => {
+      const { platform, product, redirect } = action.payload
+      state.productAuthMetadata = {
+        platform,
+        product,
+        redirect
+      }
     },
     setRegisterEmail: (state, action: PayloadAction<AuthStateType['registerEmail']>) => {
       state.registerEmail = action.payload

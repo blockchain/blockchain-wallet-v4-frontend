@@ -43,7 +43,7 @@ const ServerErrorText = styled(Text)`
 const Failure: React.FC<{
   message?: { message: string | Error }
   onClose: () => void
-}> = props => {
+}> = (props) => {
   return (
     <Wrapper data-e2e='veriffFailureContainer'>
       <Image name='gold-notice' width='70' height='66' />
@@ -65,18 +65,13 @@ const Failure: React.FC<{
             id='identityverification.failure.content2'
             defaultMessage='If you want to learn more about our verification process. Visit our'
           />{' '}
-          <Link
-            href='https://support.blockchain.com/'
-            size='14px'
-            target='_blank'
-            weight={500}
-          >
+          <Link href='https://support.blockchain.com/' size='14px' target='_blank' weight={500}>
             <FormattedMessage
               id='identityverification.failure.link'
               defaultMessage='Support Center'
             />
           </Link>
-          {'.'}
+          .
         </Text>
         <ServerErrorText color='red500' size='14px' weight={500}>
           <FormattedMessage

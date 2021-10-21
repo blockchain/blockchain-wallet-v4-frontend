@@ -2,6 +2,7 @@ import { RootState } from 'data/rootReducer'
 
 import { AuthStateType } from './types'
 
+// TODO: organize these functions
 export function getAccountReset(state: RootState): AuthStateType['resetAccount'] {
   return state.auth.resetAccount
 }
@@ -10,10 +11,6 @@ export function getAccountUnificationFlowType(
   state: RootState
 ): AuthStateType['accountUnificationFlow'] {
   return state.auth.accountUnificationFlow
-}
-
-export function getAuthPlatform(state: RootState): AuthStateType['authPlatform'] {
-  return state.auth.authPlatform
 }
 
 export function getAuthType(state: RootState): AuthStateType['auth_type'] {
@@ -32,8 +29,8 @@ export function getRestoring(state: RootState): AuthStateType['restoring'] {
   return state.auth.restoring
 }
 
-export function getDesignatedProduct(state: RootState): AuthStateType['designatedProduct'] {
-  return state.auth.designatedProduct
+export function getProductAuthMetadata(state: RootState): AuthStateType['productAuthMetadata'] {
+  return state.auth.productAuthMetadata
 }
 
 export function getSecureChannelLogin(state: RootState): AuthStateType['secureChannelLogin'] {
@@ -83,3 +80,5 @@ export function isAuthenticated(state: RootState): AuthStateType['isAuthenticate
 export function getJwtToken(state: RootState): AuthStateType['exchangeAuth']['jwtToken'] {
   return state.auth.exchangeAuth.jwtToken
 }
+export const getMagicLinkDataEncoded = (state: RootState) => state.auth.magicLinkDataEncoded
+export const getAuthorizeVerifyDevice = (state: RootState) => state.auth.authorizeVerifyDevice

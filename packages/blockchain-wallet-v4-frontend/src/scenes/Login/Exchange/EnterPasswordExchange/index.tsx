@@ -1,15 +1,14 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
 import { Field } from 'redux-form'
 
-import { Banner, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
+import { HeartbeatLoader, Text } from 'blockchain-info-components'
 import { FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
 import { ExchangeErrorCodes, LoginSteps } from 'data/types'
 import { isBrowserSupported } from 'services/browser'
 import { required } from 'services/forms'
 
-import { Props } from '..'
+import { Props } from '../..'
 import {
   ActionButton,
   BackArrowFormHeader,
@@ -17,24 +16,34 @@ import {
   LOGIN_FORM_NAME,
   NeedHelpLink,
   removeWhitespace,
-  Row,
   UnsupportedBrowserWarning
-} from '../model'
+} from '../../model'
 
 const isSupportedBrowser = isBrowserSupported()
 
 const EnterPasswordExchange = (props: Props) => {
-  const { busy, exchangeError, exchangePassword, invalid, submitting } = props
+  const {
+    authActions,
+    busy,
+    cacheActions,
+    exchangeError,
+    exchangePassword,
+    formActions,
+    initCaptcha,
+    invalid,
+    setStep,
+    submitting
+  } = props
   const passwordError = exchangeError && exchangeError === ExchangeErrorCodes.INVALID_CREDENTIALS
   const twoFactorRequired = exchangeError && exchangeError === ExchangeErrorCodes.BAD_2FA
   const twoFactorError = exchangeError && exchangeError === ExchangeErrorCodes.WRONG_2FA
 
   const handleBackArrowClick = () => {
-    props.cacheActions.removedStoredLogin()
-    props.formActions.destroy(LOGIN_FORM_NAME)
-    props.setStep(LoginSteps.ENTER_EMAIL_GUID)
-    props.authActions.clearLoginError()
-    props.initCaptcha()
+    cacheActions.removedStoredLogin()
+    formActions.destroy(LOGIN_FORM_NAME)
+    setStep(LoginSteps.ENTER_EMAIL_GUID)
+    authActions.clearLoginError()
+    initCaptcha()
   }
   return (
     <>
@@ -125,7 +134,7 @@ const EnterPasswordExchange = (props: Props) => {
             </Text>
           )}
         </ActionButton>
-        <NeedHelpLink authActions={props.authActions} origin='PASSWORD' />
+        <NeedHelpLink authActions={authActions} origin='PASSWORD' />
       </CenteredColumn>
     </>
   )

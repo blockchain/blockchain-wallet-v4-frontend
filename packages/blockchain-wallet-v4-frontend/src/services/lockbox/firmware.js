@@ -4,24 +4,19 @@ import constants from './constants'
 import utils from './utils'
 
 // gets firmware information about device
-const getDeviceFirmwareInfo = transport => {
+const getDeviceFirmwareInfo = (transport) => {
   return new Promise((resolve, reject) => {
     transport.send(...constants.apdus.get_firmware).then(
-      res => {
+      (res) => {
         const byteArray = [...res]
         const data = byteArray.slice(0, byteArray.length - 2)
         const targetIdStr = Buffer.from(data.slice(0, 4))
         const targetId = targetIdStr.readUIntBE(0, 4)
         const seVersionLength = data[4]
-        const seVersion = Buffer.from(
-          data.slice(5, 5 + seVersionLength)
-        ).toString()
+        const seVersion = Buffer.from(data.slice(5, 5 + seVersionLength)).toString()
         const flagsLength = data[5 + seVersionLength]
         const flags = Buffer.from(
-          data.slice(
-            5 + seVersionLength + 1,
-            5 + seVersionLength + 1 + flagsLength
-          )
+          data.slice(5 + seVersionLength + 1, 5 + seVersionLength + 1 + flagsLength)
         ).toString()
 
         const mcuVersionLength = data[5 + seVersionLength + 1 + flagsLength]
@@ -38,16 +33,16 @@ const getDeviceFirmwareInfo = transport => {
 
         if (!seVersionLength) {
           resolve({
-            targetId,
-            seVersion: '0.0.0',
             flags: '',
-            mcuVersion: ''
+            mcuVersion: '',
+            seVersion: '0.0.0',
+            targetId
           })
         }
 
-        resolve({ targetId, seVersion, flags, mcuVersion })
+        resolve({ flags, mcuVersion, seVersion, targetId })
       },
-      error => {
+      (error) => {
         reject(error)
       }
     )
@@ -68,14 +63,10 @@ const installOsuFirmware = (transport, baseUrl, osuFirmware, targetId) => {
       delete params.shouldFlashMcu
 
       // build socket url
-      const url =
-        `${baseUrl}${constants.socketPaths.install}` +
-        `?${qs.stringify(params)}`
+      const url = `${baseUrl}${constants.socketPaths.install}` + `?${qs.stringify(params)}`
 
       // install osu firmware
-      const res = await utils.mapSocketError(
-        utils.createDeviceSocket(transport, url).toPromise()
-      )
+      const res = await utils.mapSocketError(utils.createDeviceSocket(transport, url).toPromise())
 
       if (res.err) {
         reject(res.errMsg)
@@ -101,14 +92,10 @@ const installFinalFirmware = (transport, baseUrl, finalFirmware, targetId) => {
       }
 
       // build socket url
-      const url =
-        `${baseUrl}${constants.socketPaths.install}` +
-        `?${qs.stringify(params)}`
+      const url = `${baseUrl}${constants.socketPaths.install}` + `?${qs.stringify(params)}`
 
       // install final firmware
-      const res = await utils.mapSocketError(
-        utils.createDeviceSocket(transport, url).toPromise()
-      )
+      const res = await utils.mapSocketError(utils.createDeviceSocket(transport, url).toPromise())
 
       if (res.err) {
         reject(res.errMsg)

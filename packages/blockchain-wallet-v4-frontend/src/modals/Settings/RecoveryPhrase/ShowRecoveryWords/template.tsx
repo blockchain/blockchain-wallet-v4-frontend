@@ -19,7 +19,7 @@ const Header = styled.div`
 
 const WordBox = styled.div`
   padding: 16px;
-  border-top: 1px solid ${props => props.theme.grey000};
+  border-top: 1px solid ${(props) => props.theme.grey000};
   display: flex;
   align-items: center;
 `

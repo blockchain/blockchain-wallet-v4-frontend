@@ -12,34 +12,26 @@ const DropdownContainer = styled.div`
   background-color: #fff;
   position: absolute;
   left: 0;
-  top: ${props => props.dropdownTop}px;
-  transform: translateX(${props => props.x}px) translateY(${props => props.y}px);
+  top: ${(props) => props.dropdownTop}px;
+  transform: translateX(${(props) => props.x}px) translateY(${(props) => props.y}px);
   transition: all 0.3s ease-in-out;
   border-radius: var(--lgBorderRadius);
   z-index: 1000;
-  box-shadow: 0 10px 60px -10px rgba(0, 0, 0, 0.25),
-    0 8px 16px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 60px -10px rgba(0, 0, 0, 0.25), 0 8px 16px rgba(0, 0, 0, 0.1);
   min-width: 15rem;
 `
 
-const Dropdown = props => {
+const Dropdown = (props) => {
   if (props.kind in props.map) {
-    let component = props.map[props.kind].component
+    const { component } = props.map[props.kind]
 
     return (
-      <DropdownContainer
-        dropdownTop={props.dropdownTop}
-        x={props.x || 0}
-        y={props.y || 0}
-      >
-        {typeof component === 'object'
-          ? component
-          : React.createElement(component)}
+      <DropdownContainer dropdownTop={props.dropdownTop} x={props.x || 0} y={props.y || 0}>
+        {typeof component === 'object' ? component : React.createElement(component)}
       </DropdownContainer>
     )
-  } else {
-    return null
   }
+  return null
 }
 
 class MenuDropdown extends PureComponent {
@@ -52,15 +44,15 @@ class MenuDropdown extends PureComponent {
 
   state = {
     dropDown: null,
-    products: {
-      left: 0,
-      top: 0,
-      height: 0
-    },
     markets: {
+      height: 0,
       left: 0,
-      top: 0,
-      height: 0
+      top: 0
+    },
+    products: {
+      height: 0,
+      left: 0,
+      top: 0
     }
   }
 
@@ -76,19 +68,19 @@ class MenuDropdown extends PureComponent {
     }
   }
 
-  handleMouseMove = e => {
+  handleMouseMove = (e) => {
     this.mouseX = e.clientX
     this.mouseY = e.clientY
   }
 
-  handleMouseLeave = e => {
+  handleMouseLeave = (e) => {
     if (window) {
       window.setTimeout(this.checkPointer, 500)
     }
   }
 
   checkPointer = () => {
-    let elem = document && document.elementFromPoint(this.mouseX, this.mouseY)
+    const elem = document && document.elementFromPoint(this.mouseX, this.mouseY)
     if (elem && this.ref && this.ref.current) {
       if (!this.ref.current.contains(elem)) {
         this.setState({ dropDown: null })
@@ -96,12 +88,12 @@ class MenuDropdown extends PureComponent {
     }
   }
 
-  handleClickOutside = evt => {
+  handleClickOutside = (evt) => {
     this.setState({ dropDown: null })
   }
 
   toggleDropdown(name, onlyOn) {
-    return e => {
+    return (e) => {
       let dropDownVal = null
       if (typeof name === 'string') {
         if (this.state.dropDown === name && !onlyOn) {
@@ -113,10 +105,7 @@ class MenuDropdown extends PureComponent {
         dropDownVal = null
       }
       if (dropDownVal && this.state.dropDown !== dropDownVal) {
-        if (
-          dropDownVal in this.props.map &&
-          this.props.map[dropDownVal].onActive
-        ) {
+        if (dropDownVal in this.props.map && this.props.map[dropDownVal].onActive) {
           this.props.map[dropDownVal].onActive()
         }
       }
@@ -129,7 +118,7 @@ class MenuDropdown extends PureComponent {
       <li key={kind}>
         <DropdownLink
           callback={({ height, left, top }) => {
-            this.setState({ [kind]: { left, top, height } })
+            this.setState({ [kind]: { height, left, top } })
           }}
           onClick={this.toggleDropdown(kind)}
           onMouseOver={this.toggleDropdown(kind, true)}
@@ -144,23 +133,21 @@ class MenuDropdown extends PureComponent {
     let dropX = 0
     let dropY = 0
     let dropdownTip = null
-    let dropdownTop = this.props.dropdownTop
+    const { dropdownTop } = this.props
 
     if (this.state.dropDown !== null) {
-      let kind = this.state.dropDown
+      const kind = this.state.dropDown
       dropX = this.state[kind].left
       dropY = this.state[kind].top + this.state[kind].height + 10
-      dropdownTip = (
-        <DropdownTip dropdownTop={dropdownTop} x={dropX + 24} y={dropY - 4} />
-      )
+      dropdownTip = <DropdownTip dropdownTop={dropdownTop} x={dropX + 24} y={dropY - 4} />
     }
 
     return (
       <div ref={this.ref} onMouseLeave={this.handleMouseLeave}>
         <ButtonGroup>
           <ul>
-            {Object.keys(this.props.map).map(name => {
-              let vals = this.props.map[name]
+            {Object.keys(this.props.map).map((name) => {
+              const vals = this.props.map[name]
               return this.getLink(name, vals.linkText)
             })}
           </ul>

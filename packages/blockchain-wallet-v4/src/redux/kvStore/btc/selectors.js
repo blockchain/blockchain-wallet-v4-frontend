@@ -6,11 +6,10 @@ import { BTC } from '../config'
 export const getMetadata = path([kvStorePath, BTC])
 export const getAddressLabel = (address, state) =>
   getMetadata(state).map(path(['value', 'address_labels', address]))
-export const getAddressLabelKeys = state =>
+export const getAddressLabelKeys = (state) =>
   keys(
     getMetadata(state)
       .map(path(['value', 'address_labels']))
       .getOrElse({})
   )
-export const getAddressLabels = state =>
-  getMetadata(state).map(path(['value', 'address_labels']))
+export const getAddressLabels = (state) => getMetadata(state).map(path(['value', 'address_labels']))

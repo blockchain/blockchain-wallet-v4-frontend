@@ -5,50 +5,39 @@ import { or, path, prop, propEq } from 'ramda'
 import { Text } from 'blockchain-info-components'
 
 export const headers = {
-  SILVER: (
-    <FormattedMessage
-      id='components.identityverification.tiercard.silver'
-      defaultMessage='Silver Level'
-    />
-  ),
   GOLD: (
     <FormattedMessage
       id='components.identityverification.tiercard.gold'
       defaultMessage='Gold Level'
     />
+  ),
+  SILVER: (
+    <FormattedMessage
+      id='components.identityverification.tiercard.silver'
+      defaultMessage='Silver Level'
+    />
   )
 }
 
 export const levelName = {
-  SILVER: (
-    <FormattedMessage
-      id='components.identityverification.tiercard.silverlevelname'
-      defaultMessage='Silver'
-    />
-  ),
   GOLD: (
     <FormattedMessage
       id='components.identityverification.tiercard.goldlevelname'
       defaultMessage='Gold'
     />
+  ),
+  SILVER: (
+    <FormattedMessage
+      id='components.identityverification.tiercard.silverlevelname'
+      defaultMessage='Silver'
+    />
   )
 }
 
 export const messages = {
-  EMAIL: (
+  ADDRESS: (
     <Text size='12px'>
-      <FormattedMessage
-        id='components.identityverification.tiercard.email'
-        defaultMessage='Verified Email'
-      />
-    </Text>
-  ),
-  NAME: (
-    <Text size='12px'>
-      <FormattedMessage
-        id='components.identityverification.tiercard.name'
-        defaultMessage='Name'
-      />
+      <FormattedMessage id='copy.address' defaultMessage='Address' />
     </Text>
   ),
   DOB: (
@@ -59,16 +48,11 @@ export const messages = {
       />
     </Text>
   ),
-  ADDRESS: (
-    <Text size='12px'>
-      <FormattedMessage id='copy.address' defaultMessage='Address' />
-    </Text>
-  ),
-  TIER1: (
+  EMAIL: (
     <Text size='12px'>
       <FormattedMessage
-        id='components.identityverification.tiercard.silverplus'
-        defaultMessage='Silver Level +'
+        id='components.identityverification.tiercard.email'
+        defaultMessage='Verified Email'
       />
     </Text>
   ),
@@ -80,11 +64,24 @@ export const messages = {
       />
     </Text>
   ),
+  NAME: (
+    <Text size='12px'>
+      <FormattedMessage id='components.identityverification.tiercard.name' defaultMessage='Name' />
+    </Text>
+  ),
   SELFIE: (
-    <Text size='12px' style={{ marginBottom: '26px', display: 'inline-block' }}>
+    <Text size='12px' style={{ display: 'inline-block', marginBottom: '26px' }}>
       <FormattedMessage
         id='components.identityverification.tiercard.portraitphoto'
         defaultMessage='Portrait Photo'
+      />
+    </Text>
+  ),
+  TIER1: (
+    <Text size='12px'>
+      <FormattedMessage
+        id='components.identityverification.tiercard.silverplus'
+        defaultMessage='Silver Level +'
       />
     </Text>
   )
@@ -130,18 +127,10 @@ export const status = (tier, userTiers, time) => {
       )
     case 'rejected':
       if (nextTier) {
-        if (
-          or(
-            propEq('state', 'none', nextTier),
-            propEq('state', 'pending', nextTier)
-          )
-        ) {
+        if (or(propEq('state', 'none', nextTier), propEq('state', 'pending', nextTier))) {
           return (
             <Text size='14px' color='btc'>
-              <FormattedMessage
-                id='copy.in_review'
-                defaultMessage='In Review'
-              />
+              <FormattedMessage id='copy.in_review' defaultMessage='In Review' />
             </Text>
           )
         }
@@ -176,19 +165,19 @@ export const status = (tier, userTiers, time) => {
 }
 
 export const ctas = {
-  SILVER: (
-    <span data-e2e='unlockSilverBtn'>
-      <FormattedMessage
-        id='components.identityverification.tiercard.silvercta'
-        defaultMessage='Unlock Silver'
-      />
-    </span>
-  ),
   GOLD: (
     <span data-e2e='unlockGoldBtn'>
       <FormattedMessage
         id='components.identityverification.tiercard.goldctamedal'
         defaultMessage='Unlock Gold 🥇'
+      />
+    </span>
+  ),
+  SILVER: (
+    <span data-e2e='unlockSilverBtn'>
+      <FormattedMessage
+        id='components.identityverification.tiercard.silvercta'
+        defaultMessage='Unlock Silver'
       />
     </span>
   )

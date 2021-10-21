@@ -16,7 +16,7 @@ class UploadDocumentsSuccessContainer extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   reference: selectors.components.uploadDocuments.getReference(state)
 })
 

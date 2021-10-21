@@ -9,9 +9,9 @@ export enum ExchangeErrorCodes {
   INVALID_CREDENTIALS = 8
 }
 export enum ProductAuthOptions {
-  EXCHANGE = 'EXCHANGE',
-  EXPLORER = 'EXPLORER',
-  WALLET = 'WALLET'
+  EXCHANGE = 'exchange',
+  EXPLORER = 'explorer',
+  WALLET = 'wallet'
 }
 
 export enum AccountUnificationFlows {
@@ -34,13 +34,14 @@ export enum LoginSteps {
   UPGRADE_CONFIRM = 'UPGRADE_CONFIRM',
   UPGRADE_PASSWORD = 'UPGRADE_PASSWORD',
   UPGRADE_SUCCESS = 'UPGRADE_SUCCESS',
-  VERIFICATION_MOBILE = 'VERIFICATION_MOBILE'
+  VERIFICATION_MOBILE = 'VERIFICATION_MOBILE',
+  VERIFY_MAGIC_LINK = 'VERIFY_MAGIC_LINK'
 }
 
 export enum PlatformTypes {
-  ANDROID = 'ANDROID',
-  IOS = 'IOS',
-  WEB = 'WEB'
+  ANDROID = 'android',
+  IOS = 'ios',
+  WEB = 'web'
 }
 
 export enum RecoverSteps {
@@ -120,17 +121,8 @@ export type WalletDataFromMagicLink = {
       recovery_token?: string
       user_id?: string
     }
+    session_id?: string
   }
-}
-
-// TODO: this is here to handle old version of magic link
-// Can be removed when it's completely deprecated
-export type WalletDataFromMagicLinkLegacy = {
-  email: string
-  email_code?: string
-  guid: string
-  is_mobile_setup: string | boolean
-  mobile_device_type: number | null
 }
 
 export type LoginErrorType =
@@ -160,12 +152,16 @@ export type RestoringType = undefined
 
 export type SecureChannelLoginType = undefined
 
+export type ProductAuthMetadata = {
+  platform?: PlatformTypes | string | null
+  product?: ProductAuthOptions | string | null
+  redirect?: string | null
+}
+
 export type AuthStateType = {
   accountUnificationFlow?: AccountUnificationFlows
-  authPlatform?: PlatformTypes
   auth_type: number
-  designatedProduct: ProductAuthOptions
-  designatedProductRedirect?: string
+  authorizeVerifyDevice: RemoteDataType<any, any>
   exchangeAuth: {
     exchangeLogin: RemoteDataType<ExchangeLoginFailureType, ExchangeLoginSuccessType>
     exchangeLoginError?: ExchangeErrorCodes
@@ -177,9 +173,11 @@ export type AuthStateType = {
   kycReset?: boolean
   login: RemoteDataType<LoginFailureType, LoginSuccessType>
   magicLinkData?: WalletDataFromMagicLink
-  manifestFile: any
+  magicLinkDataEncoded?: string
+  manifestFile: null
   metadataRestore: RemoteDataType<string, MetadataRestoreType>
   mobileLoginStarted: boolean
+  productAuthMetadata: ProductAuthMetadata
   registerEmail?: string
   registering: RemoteDataType<RegisteringFailureType, RegisteringSuccessType>
   resetAccount: boolean

@@ -31,12 +31,12 @@ const DeviceWrapper = styled.div`
   align-items: center;
   height: 170px;
   width: 160px;
-  border: 1px solid ${props => props.theme.grey200};
+  border: 1px solid ${(props) => props.theme.grey200};
   border-radius: 3px;
   &:hover {
     cursor: pointer;
-    border-color: ${props => props.theme.blue200};
-    box-shadow: 0 0 2px 0 ${props => props.theme.blue600} inset;
+    border-color: ${(props) => props.theme.blue200};
+    box-shadow: 0 0 2px 0 ${(props) => props.theme.blue600} inset;
   }
 `
 const RestoreDeviceWrapper = styled.div`
@@ -48,11 +48,11 @@ const RestoreDeviceWrapper = styled.div`
   padding: 20px 18px;
   box-sizing: border-box;
   border-radius: 3px;
-  background-color: ${props => props.theme.grey000};
+  background-color: ${(props) => props.theme.grey000};
   &:hover {
     cursor: pointer;
-    border-color: ${props => props.theme.blue200};
-    box-shadow: 0 0 2px 0 ${props => props.theme.blue600} inset;
+    border-color: ${(props) => props.theme.blue200};
+    box-shadow: 0 0 2px 0 ${(props) => props.theme.blue600} inset;
   }
 `
 const LearnHowLink = styled(Link)`
@@ -60,10 +60,10 @@ const LearnHowLink = styled(Link)`
 `
 const LearnHowText = styled(Text)`
   margin-right: 6px;
-  color: ${props => props.theme.blue600};
+  color: ${(props) => props.theme.blue600};
 `
 
-const DeviceSelectStep = props => {
+const DeviceSelectStep = (props) => {
   const { handleRestoreClick, handleStepChange } = props
   return (
     <Wrapper>
@@ -77,11 +77,7 @@ const DeviceSelectStep = props => {
       </IntroTextWrapper>
       <SelectDeviceWrapper>
         <DeviceWrapper onClick={() => handleStepChange('blockchain')}>
-          <Image
-            width='75%'
-            name='lockbox-device'
-            srcset={{ 'lockbox-device': '1x' }}
-          />
+          <Image width='75%' name='lockbox-device' srcset={{ 'lockbox-device': '1x' }} />
           <Text size='16px' weight={500} style={{ marginTop: '18px' }}>
             <FormattedMessage
               id='modals.lockboxsetup.deviceselect.lockbox'
@@ -96,16 +92,9 @@ const DeviceSelectStep = props => {
           </Text>
         </DeviceWrapper>
         <DeviceWrapper onClick={() => handleStepChange('ledger')}>
-          <Image
-            width='75%'
-            name='ledger-nano-s'
-            srcset={{ 'ledger-nano-s': '1x' }}
-          />
+          <Image width='75%' name='ledger-nano-s' srcset={{ 'ledger-nano-s': '1x' }} />
           <Text size='16px' weight={500} style={{ marginTop: '10px' }}>
-            <FormattedMessage
-              id='modals.lockboxsetup.deviceselect.nanos'
-              defaultMessage='Nano S'
-            />
+            <FormattedMessage id='modals.lockboxsetup.deviceselect.nanos' defaultMessage='Nano S' />
           </Text>
           <Text size='12px' weight={400}>
             <FormattedMessage
@@ -129,12 +118,7 @@ const DeviceSelectStep = props => {
               defaultMessage='Learn How'
             />
           </LearnHowText>
-          <Icon
-            name='arrow-right'
-            color='blue600'
-            size='16px'
-            style={{ marginTop: '1px' }}
-          />
+          <Icon name='arrow-right' color='blue600' size='16px' style={{ marginTop: '1px' }} />
         </LearnHowLink>
       </RestoreDeviceWrapper>
     </Wrapper>

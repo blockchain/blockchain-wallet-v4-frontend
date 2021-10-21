@@ -26,17 +26,13 @@ const Header = styled(Menu)`
   width: 100%;
 `
 const TransactionsWrapper = styled.div`
-  height: calc(
-    100% - ${props => (props.showLockboxDownload ? '455px' : '350px')}
-  );
+  height: calc(100% - ${(props) => (props.showLockboxDownload ? '455px' : '350px')});
   position: relative;
   top: 218px;
   overflow: scroll;
 `
 const SettingsWrapper = styled.div`
-  height: calc(
-    100% - ${props => (props.showLockboxDownload ? '340px' : '250px')}
-  );
+  height: calc(100% - ${(props) => (props.showLockboxDownload ? '340px' : '250px')});
   position: relative;
   top: 122px;
   overflow: scroll;
@@ -74,19 +70,14 @@ class LockboxDashboardContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  showLockboxDownload: selectors.preferences.getShowLockboxSoftwareDownload(
-    state
-  )
+const mapStateToProps = (state) => ({
+  showLockboxDownload: selectors.preferences.getShowLockboxSoftwareDownload(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
-const enhance = compose(
-  withRouter,
-  connect(mapStateToProps, mapDispatchToProps)
-)
+const enhance = compose(withRouter, connect(mapStateToProps, mapDispatchToProps))
 
 export default enhance(LockboxDashboardContainer)

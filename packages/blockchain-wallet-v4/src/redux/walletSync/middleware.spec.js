@@ -5,10 +5,7 @@ import Remote from '../../remote'
 import { getReceiveAddress } from '../../types/HDAccount'
 import { getReceiveIndex } from '../data/btc/selectors'
 import { getAccountXpub } from '../wallet/selectors'
-import {
-  addressLookaheadCount,
-  getHDAccountAddressPromises
-} from './middleware'
+import { addressLookaheadCount, getHDAccountAddressPromises } from './middleware'
 
 jest.mock('../wallet/selectors')
 jest.mock('../data/btc/selectors')
@@ -27,8 +24,7 @@ describe('getHDAccountAddressPromises', () => {
   }
   const receiveIndex = 5
   const xpub = '1234'
-  const mockDerivation = (account, index, network) =>
-    `${account.index}${index}${network}`
+  const mockDerivation = (account, index, network) => `${account.index}${index}${network}`
   getAccountXpub.mockReturnValue(xpub)
   getReceiveIndex.mockReturnValue(Remote.of(receiveIndex))
   getReceiveAddress.mockImplementation(mockDerivation)
@@ -60,7 +56,7 @@ describe('getHDAccountAddressPromises', () => {
     expect(getReceiveAddress).toHaveBeenCalledTimes(addressLookaheadCount)
     expect(getReceiveAddress.mock.calls).toEqual(
       map(
-        index => [account, index, networks.bitcoin.NETWORK_BTC],
+        (index) => [account, index, networks.bitcoin.NETWORK_BTC],
         range(receiveIndex, receiveIndex + addressLookaheadCount)
       )
     )
@@ -68,13 +64,13 @@ describe('getHDAccountAddressPromises', () => {
 
   it('should return array of Promises resolving with getReceiveAddress values', async () => {
     const expectedResult = map(
-      index => mockDerivation(account, index, networks.bitcoin.NETWORK_BTC),
+      (index) => mockDerivation(account, index, networks.bitcoin.NETWORK_BTC),
       range(receiveIndex, receiveIndex + addressLookaheadCount)
     )
 
-    const promise = Promise.all(
-      getHDAccountAddressPromises(state, account)
-    ).then(result => expect(result).toEqual(expectedResult))
+    const promise = Promise.all(getHDAccountAddressPromises(state, account)).then((result) =>
+      expect(result).toEqual(expectedResult)
+    )
 
     jest.runAllTimers()
 

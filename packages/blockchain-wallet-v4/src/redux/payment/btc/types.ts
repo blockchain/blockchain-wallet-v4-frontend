@@ -33,7 +33,4 @@ export type BtcLegacyFromType = IBtcFromType & {
   type: 'LEGACY'
 }
 
-export type BtcFromType =
-  | BtcAccountFromType
-  | BtcLegacyFromType
-  | CustodialFromType
+export type BtcFromType = BtcAccountFromType | BtcLegacyFromType | CustodialFromType
