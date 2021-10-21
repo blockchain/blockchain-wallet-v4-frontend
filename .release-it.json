@@ -4,7 +4,9 @@
       "rm -rf packages/blockchain-wallet-v4-frontend/build",
       "rm -rf packages/blockchain-wallet-v4-frontend/extracted-ts",
       "yarn manage:translations"
-    ]
+    ],
+    "before:release": "echo 🚨 REMINDER: Update default branch in Github to be this release branch now! 🚨",
+    "after:release": "echo ✅ SUCCESS! 🚨 REMINDER: After CI build has completed the 'pull repository/code step', reset default branch in Github back to development!"
   },
   "git": {
     "requireCleanWorkingDir": false,
