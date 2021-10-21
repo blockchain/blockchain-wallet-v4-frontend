@@ -437,8 +437,7 @@ export function _makeMatchingOrder({
 
   const times = _getTimeParameters(0)
   // Compat for matching buy orders that have fee recipient still on them
-  // const feeRecipient = order.fee_recipient === NULL_ADDRESS ? OPENSEA_FEE_RECIPIENT : NULL_ADDRESS
-  const feeRecipient = OPENSEA_FEE_RECIPIENT
+  const feeRecipient = order.feeRecipient === NULL_ADDRESS ? OPENSEA_FEE_RECIPIENT : NULL_ADDRESS
 
   const matchingOrder: UnhashedOrder = {
     basePrice: new BigNumber(order.basePrice),

@@ -7,6 +7,7 @@ import { _makeMatchingOrder, assignOrdersToSides, bigNumberToBN, NULL_BLOCK_HASH
 
 export const fulfillNftOrder = async (order: NftOrdersType['orders'][0], signer: Signer) => {
   const accountAddress = await signer.getAddress()
+  // TODO: get gas limit
   const txnData = {
     from: accountAddress,
     gasLimit: 325_000,
@@ -26,7 +27,7 @@ export const fulfillNftOrder = async (order: NftOrdersType['orders'][0], signer:
       buy.exchange,
       buy.maker,
       buy.taker,
-      '0x0000000000000000000000000000000000000000', // DISCREPANCY!
+      buy.feeRecipient,
       buy.target,
       buy.staticTarget,
       buy.paymentToken,
@@ -47,7 +48,6 @@ export const fulfillNftOrder = async (order: NftOrdersType['orders'][0], signer:
       buy.extra.toString(),
       buy.listingTime.toString(),
       buy.expirationTime.toString(),
-      // TODO FIXME: this is a hack
       buy.salt.toString(),
       sell.makerRelayerFee.toString(),
       sell.takerRelayerFee.toString(),
