@@ -26,18 +26,17 @@ import UpgradeSuccess from './AccountUnification/UpgradeSuccess'
 import ExchangeEnterEmail from './Exchange/EnterEmail'
 import EnterPasswordExchange from './Exchange/EnterPasswordExchange'
 import {
-  CreateAccount,
   getLoginPageFooter,
   getLoginPageSubTitle,
   getLoginPageTitle,
   LOGIN_FORM_NAME
 } from './model'
 import { getData } from './selectors'
+import VerifyMagicLink from './VerifyMagicLink'
 import CheckEmail from './Wallet/CheckEmail'
 import WalletEnterEmailOrGuid from './Wallet/EnterEmailOrGuid'
 import EnterPasswordWallet from './Wallet/EnterPasswordWallet'
 import VerificationMobile from './Wallet/VerificationMobile'
-import VerifyMagicLink from './VerifyMagicLink'
 
 class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StateProps> {
   constructor(props) {
