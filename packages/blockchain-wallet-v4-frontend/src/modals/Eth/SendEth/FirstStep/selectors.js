@@ -37,7 +37,6 @@ const getData = createDeepEqualSelector(
     const enableToggle = !isEmpty(lockboxDevicesR.getOrElse([]))
     // TODO: include any/all ERC20 balances in future
     const hasErc20Balance = gt(prop('balance', paxBalanceR.getOrElse(0)), 0)
-
     const sendLimits = sendLimitsR.getOrElse({})
 
     const transform = (payment) => {

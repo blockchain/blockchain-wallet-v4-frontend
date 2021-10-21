@@ -1,12 +1,15 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { TIER_TYPES } from 'blockchain-wallet-v4-frontend/src/modals/Settings/TradingLimits/model'
 import Bowser from 'bowser'
 import PropTypes from 'prop-types'
+import { isEmpty } from 'ramda'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Banner, Button, Image, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import UpgradeToGoldBanner from 'components/Flyout/Banners/UpgradeToGold'
 import {
   CountdownTimer,
   FiatConverter,
@@ -26,7 +29,13 @@ import UnstoppableDomains from 'components/UnstoppableDomains'
 import { model } from 'data'
 import { required, validBchAddress } from 'services/forms'
 
-import { insufficientFunds, invalidAmount, maximumAmount, shouldError } from './validation'
+import {
+  insufficientFunds,
+  invalidAmount,
+  isSendLimitOver,
+  maximumAmount,
+  shouldError
+} from './validation'
 
 const WarningBanners = styled(Banner)`
   margin: -6px 0 12px;
@@ -63,6 +72,7 @@ const FirstStep = (props) => {
     isMnemonicVerified,
     payPro,
     pristine,
+    sendLimits,
     submitting,
     totalFee
   } = props
@@ -178,7 +188,7 @@ const FirstStep = (props) => {
           <Field
             name='amount'
             component={FiatConverter}
-            validate={[required, invalidAmount, insufficientFunds, maximumAmount]}
+            validate={[required, invalidAmount, insufficientFunds, maximumAmount, isSendLimitOver]}
             coin='BCH'
             marginTop='8px'
             data-e2e='sendBch'
@@ -244,6 +254,11 @@ const FirstStep = (props) => {
         </Text>
       )}
       {isFromCustody && !isMnemonicVerified ? <MnemonicRequiredForCustodySend /> : null}
+      {isFromCustody &&
+      !isEmpty(sendLimits) &&
+      sendLimits?.globalLimit?.suggestedUpgrade?.requiredTier === TIER_TYPES.GOLD ? (
+        <UpgradeToGoldBanner limits={sendLimits} style={{ marginTop: '10px' }} />
+      ) : null}
       <SubmitFormGroup>
         <Button
           type='submit'

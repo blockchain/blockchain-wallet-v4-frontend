@@ -35,3 +35,14 @@ export const InsufficientFundsMessage = () => (
     defaultMessage='Insufficient funds'
   />
 )
+
+export const OverYourLimitMessage = (props) => (
+  <FormattedMessage
+    id='modals.send.over_your_limit'
+    defaultMessage='Over your limit! Send up to {currency}{amount}.'
+    values={{
+      amount: props.amount,
+      currency: props.currency
+    }}
+  />
+)
