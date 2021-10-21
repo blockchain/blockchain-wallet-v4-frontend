@@ -1,5 +1,6 @@
 import { PaymentValue, RemoteDataType } from '@core/types'
-import { SeamlessLimits } from 'data/types'
+
+import { SeamlessLimits } from '../withdraw/types'
 
 // State
 export type SendBchState = {
