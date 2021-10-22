@@ -36,7 +36,7 @@ export const getSiftKey = (state) => getWebOptions(state).map(path(['sift', 'api
 
 // show pairing code flag on staging
 export const getPairingCodeFlag = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'legacyMobilePairing']))
+  getWebOptions(state).map(path(['featureFlags', 'developerMobilePairing']))
 
 // recurring buys flag
 export const getFeatureFlagRecurringBuys = (state: RootState) =>
