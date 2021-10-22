@@ -1,13 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { BeneficiaryType } from '@core/types'
+import { BeneficiaryType, NabuSymbolNumberType } from '@core/types'
 import { Icon } from 'blockchain-info-components'
 import { Col } from 'components/Flyout'
 import { Content, DisplayPaymentIcon } from 'components/SimpleBuy'
-import { BankTransferAccountType } from 'data/types'
+import { BankTransferAccountType, UserDataType } from 'data/types'
 
-import { Props as OwnProps } from '../template.success'
+import { SuccessStateType } from '..'
 import { BeneficiaryIcon, BeneficiaryName } from './model'
 
 const Container = styled.div<{ onClick }>`
@@ -43,6 +43,13 @@ const Beneficary: React.FC<Props> = (props) => {
   )
 }
 
+export type OwnProps = SuccessStateType & {
+  handleBankSelection: (
+    userData: UserDataType,
+    beneficiary?: BeneficiaryType | BankTransferAccountType
+  ) => void
+  minAmount: NabuSymbolNumberType
+}
 export type Props = OwnProps & {
   beneficiary?: BeneficiaryType
   transferAccount?: BankTransferAccountType
