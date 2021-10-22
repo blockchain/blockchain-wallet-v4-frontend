@@ -162,7 +162,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
             // @ts-ignore
             payment = yield payment.setIsContract(false)
             yield put(A.sendEthCheckIsContractSuccess(false))
-
+            // seamless limits logic
             if (payment.value()?.to?.type || payment.value()?.to?.type === ADDRESS_TYPES.ADDRESS) {
               const appState = yield select(identity)
               const currency = selectors.core.settings
