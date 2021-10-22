@@ -93,7 +93,9 @@ const EnterAmountContainer = (props) => {
         val.paymentMethods.methods.find((method) => method.limits.max !== '0')
       const paymentAccount = getDefaultMethod(props.defaultMethod, val.bankTransferAccounts)
       const paymentMethod = val.paymentMethods.methods.find(
-        (method) => method.type === SBPaymentTypes.BANK_TRANSFER
+        (method) =>
+          method.type === SBPaymentTypes.BANK_TRANSFER ||
+          method.type === SBPaymentTypes.BANK_ACCOUNT
       )
       let handleMethodClick: () => void
 
@@ -102,7 +104,6 @@ const EnterAmountContainer = (props) => {
       } else {
         handleMethodClick = handleAddMethod
       }
-
       return isUserEligible ? (
         <EnterAmount
           onSubmit={onSubmit}

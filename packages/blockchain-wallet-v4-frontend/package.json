@@ -106,6 +106,7 @@
     "d3-time-format": "3.0.0",
     "data.either": "1.5.2",
     "data.maybe": "1.2.3",
+    "date-fns": "2.25.0",
     "es6-promise": "4.2.8",
     "fast-memoize": "2.5.2",
     "framer-motion": "4.1.8",

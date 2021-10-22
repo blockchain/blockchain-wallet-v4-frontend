@@ -32,7 +32,7 @@ export const SubTitleNoValue = (args) => (
 export const SubTitleToolTip = (args) => (
   <CheckoutRow
     {...args}
-    toolTip='Newly added funds are subject to a holding period. You can transfer funds between your Trading, Rewards, and Exchange accounts now and withdraw them once the hold ends.'
+    toolTip='Newly added funds are subject to a holding period. You can transfer between your Trading, Rewards, and Exchange accounts in the meantime.'
     subTitle='$30,0000 Available'
     title='Daily Limit'
   />

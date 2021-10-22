@@ -11,20 +11,35 @@ export const getData = createDeepEqualSelector(
     selectors.router.getPathname,
     selectors.core.kvStore.lockbox.getDevices,
     selectors.core.settings.getCountryCode,
-    selectors.core.walletOptions.getDomains
+    selectors.core.walletOptions.getDomains,
+    selectors.modules.profile.getUserData
   ],
-  (menuOpened: boolean, firstLogin: boolean, pathname, lockboxDevicesR, countryCodeR, domainsR) => {
-    const transform = (countryCode, domains: ExtractSuccess<typeof domainsR>, lockboxDevices) => {
+  (
+    menuOpened: boolean,
+    firstLogin: boolean,
+    pathname,
+    lockboxDevicesR,
+    countryCodeR,
+    domainsR,
+    userDataR
+  ) => {
+    const transform = (
+      countryCode,
+      domains: ExtractSuccess<typeof domainsR>,
+      lockboxDevices,
+      userData: ExtractSuccess<typeof userDataR>
+    ) => {
       return {
         countryCode,
         domains,
         firstLogin,
         lockboxDevices,
         menuOpened,
-        pathname
+        pathname,
+        userData
       }
     }
 
-    return lift(transform)(countryCodeR, domainsR, lockboxDevicesR)
+    return lift(transform)(countryCodeR, domainsR, lockboxDevicesR, userDataR)
   }
 )

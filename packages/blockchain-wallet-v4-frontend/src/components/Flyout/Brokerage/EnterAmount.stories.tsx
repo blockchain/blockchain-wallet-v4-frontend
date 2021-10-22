@@ -95,20 +95,42 @@ DefaultDeposit.args = {
 //   }
 // }
 
-// export const DefaultWithdrawal = Template.bind({})
-// DefaultWithdrawal.args = {
-//   fiatCurrency: 'USD',
-//   handleBack: () => {},
-//   handleMethodClick: () => {},
-//   orderType: BrokerageOrderType.WITHDRAW,
-//   paymentMethod: {
-//     currency: 'USD',
-//     eligible: true,
-//     limits: {
-//       max: '3000000',
-//       min: '100'
-//     },
-//     subTypes: [],
-//     type: SBPaymentTypes.BANK_TRANSFER
-//   }
-// }
+export const DefaultWithdrawal = Template.bind({})
+DefaultWithdrawal.args = {
+  fee: '20',
+  fiatCurrency: 'USD',
+  handleBack: () => {},
+  handleMethodClick: () => {},
+  orderType: BrokerageOrderType.WITHDRAW,
+  paymentAccount: {
+    address: 'foo',
+    agent: {
+      account: 'fooooo',
+      accountType: 'Good one',
+      address: '555 20th st. los angeles, ca',
+      code: 'doooooo',
+      country: 'US',
+      name: 'thing',
+      recipient: 'thingy',
+      recipientAddress: 'yomomma.com',
+      routingNumber: 'oooooasdfasdfa',
+      swiftCode: 'adf4vbvbvnxn'
+    },
+    currency: 'USD',
+    id: 'ddddd-ddddd-ddddd-d-ddddddd',
+    name: 'a bank',
+    state: 'ACTIVE',
+    whitelisted: true
+  },
+  paymentMethod: {
+    currency: 'USD',
+    eligible: true,
+    limits: {
+      max: '3000000',
+      min: '100'
+    },
+    subTypes: [],
+    type: SBPaymentTypes.BANK_TRANSFER
+  },
+  withdrawableBalance: '5000'
+}

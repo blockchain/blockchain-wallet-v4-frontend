@@ -6,8 +6,16 @@ import styled from 'styled-components'
 
 import Currencies from '@core/exchange/currencies'
 import { fiatToString } from '@core/exchange/utils'
-import { FiatType, SBPaymentMethodType } from '@core/types'
-import { Box, Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
+import { BeneficiaryType, FiatType, SBPaymentMethodType } from '@core/types'
+import {
+  Box,
+  Button,
+  HeartbeatLoader,
+  Icon,
+  Link,
+  Text,
+  TextGroup
+} from 'blockchain-info-components'
 import { AmountTextBox } from 'components/Exchange'
 import {
   FlyoutContainer,
@@ -19,6 +27,7 @@ import {
 import {
   DepositOrWithdrawal,
   getBankText,
+  getBrokerageLimits,
   getIcon,
   normalizeAmount,
   PaymentArrowContainer,
@@ -31,23 +40,11 @@ import { CheckoutRow } from 'components/Rows'
 import { DisplayPaymentIcon } from 'components/SimpleBuy'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { BankTransferAccountType, BrokerageOrderType } from 'data/types'
-import { debounce } from 'utils/helpers'
+import { debounce, memoizer } from 'utils/helpers'
 
 const CustomForm = styled(Form)`
   width: 100%;
   height: 100%;
-`
-const Limits = styled.div`
-  display: flex;
-  flex-direction: row;
-  padding: 15px 40px;
-  border-top: 1px solid ${(props) => props.theme.grey000};
-  border-bottom: 1px solid ${(props) => props.theme.grey000};
-`
-const LimitWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
 `
 const FiatIconWrapper = styled.div`
   display: flex;
@@ -114,79 +111,104 @@ const AmountTextBoxShaker = styled(AmountTextBox)<{ meta: { error: string } }>`
 `
 
 type LimitSectionProps = {
+  fee: string
   fiatCurrency: Props['fiatCurrency']
+  handleLearnMoreClick?: Props['handleLearnMoreClick']
+  limitAmount: string
   orderType: Props['orderType']
-  paymentMethod: Props['paymentMethod']
 }
-const LimitSection = ({ fiatCurrency, orderType, paymentMethod }: LimitSectionProps) => {
-  if (paymentMethod.limits) {
-    switch (orderType) {
-      case BrokerageOrderType.WITHDRAW:
-        const withdrawSubTitle = (
-          <>
-            {fiatToString({
-              unit: fiatCurrency as FiatType,
-              value: '50'
-            })}
-          </>
-        )
-        return (
-          <CheckoutRow
-            toolTip={
-              <FormattedMessage
-                id='modals.brokerage.withdraw_holding_period'
-                defaultMessage='Newly added funds are subject to a holding period. You can transfer funds between your Trading, Rewards, and Exchange accounts now and withdraw them once the hold ends.'
-              />
-            }
-            subTitle={withdrawSubTitle}
-            title={
-              <FormattedMessage
-                id='modals.withdraw.available_for_withdrawal'
-                defaultMessage='Available for Withdrawal'
-              />
-            }
-            additionalText={
-              <FiatIconWrapper>
-                <Icon color={fiatCurrency} name={fiatCurrency} size='32px' />
-                <SubIconWrapper>
-                  <Icon size='24px' color='USD' name='arrow-up' />
-                </SubIconWrapper>
-              </FiatIconWrapper>
-            }
-          />
-        )
-      case BrokerageOrderType.DEPOSIT:
-        const depositSubTitle = (
-          <>
-            {fiatToString({
-              unit: fiatCurrency as FiatType,
-              value: convertBaseToStandard('FIAT', paymentMethod.limits.max)
-            })}{' '}
-            <FormattedMessage id='copy.available' defaultMessage='Available' />
-          </>
-        )
-        return (
-          <CheckoutRow
-            subTitle={depositSubTitle}
-            title={
-              <FormattedMessage id='modals.brokerage.daily_limit' defaultMessage='Daily Limit' />
-            }
-            additionalText={
-              <FiatIconWrapper>
-                <Icon color={fiatCurrency} name={fiatCurrency} size='32px' />
-                <SubIconWrapper>
-                  <Icon size='24px' color='USD' name='arrow-down' />
-                </SubIconWrapper>
-              </FiatIconWrapper>
-            }
-          />
-        )
-      default:
-        break
-    }
+const LimitSection = ({
+  fee,
+  fiatCurrency,
+  handleLearnMoreClick,
+  limitAmount,
+  orderType
+}: LimitSectionProps) => {
+  switch (orderType) {
+    case BrokerageOrderType.WITHDRAW:
+      const withdrawSubTitle = (
+        <>
+          {fiatToString({
+            unit: fiatCurrency as FiatType,
+            value: convertBaseToStandard('FIAT', limitAmount)
+          })}
+          {(fee as unknown as number) > 0 && ( // coerce fee into a number and make sure it's positive
+            <div style={{ display: 'flex', marginTop: '4px' }}>
+              <Text size='14px' weight={500}>
+                <FormattedMessage id='modals.withdraw.fee' defaultMessage='Withdraw Fee' />
+              </Text>{' '}
+              <Text size='14px' color='grey600' weight={500} style={{ marginLeft: '4px' }}>
+                {fiatToString({
+                  unit: fiatCurrency as FiatType,
+                  value: fee
+                })}
+              </Text>
+            </div>
+          )}
+        </>
+      )
+      return (
+        <CheckoutRow
+          toolTip={
+            <TextGroup inline>
+              <Text color='grey600' size='14px' weight={500}>
+                <FormattedMessage
+                  id='modals.brokerage.withdraw_holding_period'
+                  defaultMessage='Newly added funds are subject to a holding period. You can transfer between your Trading, Rewards, and Exchange accounts in the meantime.'
+                />
+              </Text>
+              <Link size='14px' weight={500} onClick={handleLearnMoreClick}>
+                <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
+              </Link>
+            </TextGroup>
+          }
+          subTitle={withdrawSubTitle}
+          title={
+            <FormattedMessage
+              id='modals.withdraw.available_for_withdrawal'
+              defaultMessage='Available for Withdrawal'
+            />
+          }
+          additionalText={
+            <FiatIconWrapper>
+              <Icon color={fiatCurrency} name={fiatCurrency} size='32px' />
+              <SubIconWrapper>
+                <Icon size='24px' color={fiatCurrency} name='arrow-up' />
+              </SubIconWrapper>
+            </FiatIconWrapper>
+          }
+        />
+      )
+    case BrokerageOrderType.DEPOSIT:
+      const depositSubTitle = (
+        <>
+          {fiatToString({
+            unit: fiatCurrency as FiatType,
+            value: convertBaseToStandard('FIAT', limitAmount)
+          })}{' '}
+          <FormattedMessage id='copy.available' defaultMessage='Available' />
+        </>
+      )
+      return (
+        <CheckoutRow
+          subTitle={depositSubTitle}
+          title={
+            <FormattedMessage id='modals.brokerage.daily_limit' defaultMessage='Daily Limit' />
+          }
+          additionalText={
+            <FiatIconWrapper>
+              <Icon color={fiatCurrency} name={fiatCurrency} size='32px' />
+              <SubIconWrapper>
+                <Icon size='24px' color={fiatCurrency} name='arrow-down' />
+              </SubIconWrapper>
+            </FiatIconWrapper>
+          }
+        />
+      )
+    default:
+      return <></>
+      break
   }
-  // TODO: return something if no limits are available
-  return <></>
 }
 
 // This debounces the amount input onChange callback in order to allow the user
@@ -204,8 +226,10 @@ const debounceValidate = (limits, dispatch) =>
 type AmountProps = {
   fiatCurrency: Props['fiatCurrency']
   limits: Props['paymentMethod']['limits']
+  orderType: Props['orderType']
 }
-const Amount = React.memo(({ fiatCurrency, limits }: AmountProps) => {
+
+const Amount = memoizer(({ fiatCurrency, limits, orderType }: AmountProps) => {
   const dispatch = useDispatch()
   return (
     <FlyoutWrapper>
@@ -214,7 +238,9 @@ const Amount = React.memo(({ fiatCurrency, limits }: AmountProps) => {
           {Currencies[fiatCurrency]?.units[fiatCurrency].symbol}
         </Text>
         <Field
-          data-e2e='depositAmountInput'
+          data-e2e={
+            orderType === BrokerageOrderType.DEPOSIT ? 'depositAmountInput' : 'withdrawAmountInput'
+          }
           name='amount'
           component={AmountTextBoxShaker}
           onChange={debounceValidate(limits, dispatch)}
@@ -253,10 +279,10 @@ const Account = ({ handleMethodClick, invalid, paymentAccount }) => {
   )
 }
 
-const NextButton = ({ invalid, paymentAccount, pristine, submitting }) => {
+const NextButton = ({ invalid, orderType, paymentAccount, pristine, submitting }) => {
   return (
     <Button
-      data-e2e='submitDepositAmount'
+      data-e2e={orderType === BrokerageOrderType.DEPOSIT ? 'submitDepositAmount' : 'withdrawNext'}
       height='48px'
       size='16px'
       nature='primary'
@@ -275,18 +301,29 @@ const NextButton = ({ invalid, paymentAccount, pristine, submitting }) => {
 }
 
 const EnterAmount = ({
+  fee = '0',
   fiatCurrency,
-  form,
   handleBack,
+  handleLearnMoreClick,
   handleMethodClick,
   handleSubmit,
   invalid,
+  minWithdrawAmount,
   orderType,
   paymentAccount,
   paymentMethod,
   pristine,
-  submitting
+  submitting,
+  withdrawableBalance
 }: Props) => {
+  const minMaxLimits = getBrokerageLimits({
+    fee,
+    minWithdrawAmount,
+    orderType,
+    paymentMethod,
+    withdrawableBalance
+  })
+
   return (
     <CustomForm onSubmit={handleSubmit}>
       <FlyoutContainer>
@@ -297,15 +334,18 @@ const EnterAmount = ({
           {(orderType === BrokerageOrderType.DEPOSIT ||
             orderType === BrokerageOrderType.WITHDRAW) && (
             <LimitSection
+              fee={fee}
               fiatCurrency={fiatCurrency}
+              handleLearnMoreClick={handleLearnMoreClick}
               orderType={orderType}
-              paymentMethod={paymentMethod}
+              limitAmount={withdrawableBalance || paymentMethod.limits.max}
             />
           )}
+
           <div
             style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center' }}
           >
-            <Amount fiatCurrency={fiatCurrency} limits={paymentMethod.limits} />
+            <Amount fiatCurrency={fiatCurrency} limits={minMaxLimits} orderType={orderType} />
           </div>
         </FlyoutContent>
         <FlyoutFooter>
@@ -317,6 +357,7 @@ const EnterAmount = ({
           <NextButton
             paymentAccount={paymentAccount}
             invalid={invalid}
+            orderType={orderType}
             pristine={pristine}
             submitting={submitting}
           />
@@ -327,12 +368,16 @@ const EnterAmount = ({
 }
 
 type OwnProps = {
+  fee?: string
   fiatCurrency: FiatType
   handleBack: () => void
+  handleLearnMoreClick?: () => void
   handleMethodClick: () => void
+  minWithdrawAmount?: string
   orderType: BrokerageOrderType
-  paymentAccount?: BankTransferAccountType
+  paymentAccount?: BankTransferAccountType | BeneficiaryType
   paymentMethod: SBPaymentMethodType
+  withdrawableBalance?: string
 }
 
 type Props = OwnProps & InjectedFormProps<{}, OwnProps>

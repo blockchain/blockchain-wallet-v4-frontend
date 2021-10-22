@@ -681,6 +681,26 @@ const DepositOrWithdrawal = (props: { fiatCurrency: FiatType; orderType: Brokera
   )
 }
 
+const getBrokerageLimits = ({
+  fee,
+  minWithdrawAmount,
+  orderType,
+  paymentMethod,
+  withdrawableBalance
+}: {
+  fee: string
+  minWithdrawAmount?: string
+  orderType: BrokerageOrderType
+  paymentMethod: SBPaymentMethodType
+  withdrawableBalance?: string
+}) => {
+  return orderType === BrokerageOrderType.DEPOSIT
+    ? paymentMethod.limits
+    : orderType === BrokerageOrderType.WITHDRAW && withdrawableBalance && minWithdrawAmount
+    ? { max: (Number(withdrawableBalance) - Number(fee)).toString(), min: minWithdrawAmount }
+    : { max: '0', min: '0' }
+}
+
 const normalizeAmount = (value, prevValue) => {
   // eslint-disable-next-line no-restricted-globals
   if (isNaN(Number(value)) && value !== '.' && value !== '') return prevValue
@@ -697,6 +717,7 @@ export {
   DisplayValue,
   getActionText,
   getBankText,
+  getBrokerageLimits,
   getDefaultMethod,
   getIcon,
   getPaymentMethodText,

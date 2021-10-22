@@ -29,6 +29,7 @@ const getData = (state: RootState, ownProps: OwnProps) => {
     defaultMethodR = undefined
     bankTransferAccountsR = Remote.Success([])
   }
+  const paymentMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(state)
 
   const formErrors = selectors.form.getFormSyncErrors('custodyWithdrawForm')(state)
   const userDataR = selectors.modules.profile.getUserData(state)
@@ -38,7 +39,7 @@ const getData = (state: RootState, ownProps: OwnProps) => {
   )
 
   const feesR = selectors.components.withdraw.getFeeForCurrency(state, ownProps.fiatCurrency)
-  const lockR = selectors.components.withdraw.getWithdrawalLocks(state)
+  const withdrawalLocksR = selectors.components.withdraw.getWithdrawalLocks(state)
 
   return lift(
     (
@@ -49,7 +50,8 @@ const getData = (state: RootState, ownProps: OwnProps) => {
       userData: ExtractSuccess<typeof userDataR>,
       minAmount: ExtractSuccess<typeof minAmountR>,
       fees: ExtractSuccess<typeof feesR>,
-      locks: ExtractSuccess<typeof lockR>
+      paymentMethods: ExtractSuccess<typeof paymentMethodsR>,
+      withdrawalLocks: ExtractSuccess<typeof withdrawalLocksR>
     ) => ({
       availableBalance,
       bankTransferAccounts,
@@ -57,10 +59,11 @@ const getData = (state: RootState, ownProps: OwnProps) => {
       defaultMethod: defaultMethodR,
       fees,
       formErrors,
-      locks,
       minAmount,
+      paymentMethods,
       userData,
-      withdrawableBalance
+      withdrawableBalance,
+      withdrawalLocks
     })
   )(
     bankTransferAccountsR,
@@ -70,7 +73,8 @@ const getData = (state: RootState, ownProps: OwnProps) => {
     userDataR,
     minAmountR,
     feesR,
-    lockR
+    paymentMethodsR,
+    withdrawalLocksR
   )
 }
 

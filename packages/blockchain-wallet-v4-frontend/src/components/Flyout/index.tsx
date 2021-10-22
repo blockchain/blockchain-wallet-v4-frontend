@@ -6,9 +6,11 @@ import styled from 'styled-components'
 import { Modal, Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
-import EnterAmount from './Brokerage/EnterAmount'
 // Brokerage specific flyout screens
+import EnterAmount from './Brokerage/EnterAmount'
+import OnHold from './Brokerage/OnHold'
 import OrderSummary from './Brokerage/OrderSummary'
+// Flyout layout base components
 import FlyoutContainer from './Container'
 import FlyoutContent from './Content'
 import FlyoutOopsError from './Errors/Oops'
@@ -38,6 +40,7 @@ export {
   FlyoutSubHeader,
   FrequencyScreen,
   GetStarted,
+  OnHold,
   OrderSummary,
   RecurringBuyDetails,
   RecurringBuyGettingStarted,

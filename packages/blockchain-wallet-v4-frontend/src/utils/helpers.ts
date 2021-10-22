@@ -12,6 +12,20 @@ export const debounce = (func, wait) => {
   }
 }
 
+// React.memo still renders whenever it feels like it so this memoizer
+// gives you more more control to guarentee no unwanted rendering
+export const memoizer = (component) => {
+  const cached = {}
+
+  return function (args) {
+    const key = JSON.stringify(args)
+    if (!cached[key]) {
+      cached[key] = component(args)
+    }
+    return cached[key]
+  }
+}
+
 export const checkHasWebcam = () => {
   const media = navigator.mediaDevices
   if (!prop('enumerateDevices', media)) return Promise.resolve(false)
