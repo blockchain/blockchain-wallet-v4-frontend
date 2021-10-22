@@ -631,20 +631,24 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const authorizeVerifyDevice = function* () {
+  const authorizeVerifyDevice = function* (action) {
+    const confirmDevice = action.payload
     const { wallet } = yield select(selectors.auth.getMagicLinkData)
     const magicLinkDataEncoded = yield select(selectors.auth.getMagicLinkDataEncoded)
     try {
       yield put(actions.auth.authorizeVerifyDeviceLoading())
-      const { error, success } = yield call(
+      const data = yield call(
         api.authorizeVerifyDevice,
         wallet.session_id,
-        magicLinkDataEncoded
+        magicLinkDataEncoded,
+        confirmDevice
       )
-      if (success) {
-        yield put(actions.auth.authorizeVerifyDeviceSuccess(true))
+      if (data.success) {
+        yield put(actions.auth.authorizeVerifyDeviceSuccess({ deviceAuthorized: true }))
+      } else if (data.confirmation_required) {
+        yield put(actions.auth.authorizeVerifyDeviceSuccess(data))
       } else {
-        yield put(actions.auth.authorizeVerifyDeviceFailure(error))
+        yield put(actions.auth.authorizeVerifyDeviceFailure(data.error))
       }
     } catch (e) {
       yield put(actions.auth.authorizeVerifyDeviceFailure(e.error))

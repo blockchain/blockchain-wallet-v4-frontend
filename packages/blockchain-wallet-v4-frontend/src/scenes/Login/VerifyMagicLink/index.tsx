@@ -14,8 +14,8 @@ class VerifyMagicLink extends React.PureComponent<Props> {
     return this.props.data.cata({
       Failure: (val) => <Error error={val} />,
       Loading: () => <Loading />,
-      NotAsked: () => <VerifyDevicePrompt {...this.props} />,
-      Success: () => <Success />
+      NotAsked: () => <Loading />,
+      Success: (val) => <Success {...this.props} {...val} />
     })
   }
 }
