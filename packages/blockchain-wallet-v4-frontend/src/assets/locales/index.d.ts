@@ -232,6 +232,7 @@ type MessagesType = {
   'components.alerts.update_address_label_success': 'Address label updated.'
   'components.alerts.update_imported_address_label_error': 'Failed to update imported address label'
   'components.alerts.update_imported_address_label_success': 'Address label updated'
+  'components.alerts.verify_device_expiry': 'Device verification session expired.'
   'components.alerts.verify_email_sent': 'Verification email sent. Please check your email.'
   'components.alerts.verify_email_sent_error': 'Error sending verification email. Please try again later.'
   'components.alerts.wallet_loading_error': 'Could not retrieve essential data. Try again later.'

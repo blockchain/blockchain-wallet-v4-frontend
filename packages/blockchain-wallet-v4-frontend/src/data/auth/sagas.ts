@@ -266,10 +266,12 @@ export default ({ api, coreSagas, networks }) => {
 
   const pollingForMagicLinkDataSession = function* (session, n = 50) {
     if (n === 0) {
+      yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
+      yield put(actions.alerts.displayInfo(C.VERIFY_DEVICE_EXPIRY, undefined, true))
       return false
     }
     try {
-      yield delay(2000)
+      yield delay(2500)
       const response = yield call(api.getMagicLinkData, session)
       if (prop('wallet', response)) {
         yield put(actions.auth.setMagicLinkInfo(response))
