@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Button, Icon, Image, Text } from 'blockchain-info-components'
+import { Banner, Button, Icon, Image, Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
 import { Props } from '..'
@@ -117,12 +117,125 @@ const Success = (props) => {
             defaultMessage='We noticed a login attempt recently from a different browser or device. If this was you, verify the login device.'
           />
         </Text>
+        <DeviceInfoWrapper>
+          <DeviceInfoHeader>
+            <Text size='16px' weight={500} color='success'>
+              <FormattedMessage
+                id='scenes.authorizelogin.yourdevice'
+                defaultMessage='Your Device'
+              />
+            </Text>
+            &nbsp;
+            <Text size='16px' weight={500} color='grey700'>
+              <FormattedMessage id='scenes.authorizelogin.vs' defaultMessage='vs.' />
+            </Text>
+            &nbsp;
+            <Text size='16px' weight={500} color='error'>
+              <FormattedMessage
+                id='scenes.authorizelogin.requestingdevice'
+                defaultMessage='Requesting Device'
+              />
+            </Text>
+          </DeviceInfoHeader>
+          <DeviceDiff>
+            <DeviceInfoRow>
+              <DeviceInfoTitleRow>
+                {/* eslint-disable */}
+                {approver.browser === requester.browser ? (
+                  <Icon name='checkmark-circle-filled' color='success' size='16px' />
+                ) : (
+                  <Icon
+                    name='close-circle'
+                    color='error'
+                    size='20px'
+                    style={{ marginLeft: '-2px', marginRight: '-2px' }}
+                  />
+                )}
+                &nbsp;
+                <Text size='14px' style={{ paddingLeft: '6px' }}>
+                  <FormattedMessage id='scenes.authorizelogin.browser' defaultMessage='Browser: ' />
+                </Text>
+              </DeviceInfoTitleRow>
+              <Banner type='success' inline>
+                {approver.browser}
+              </Banner>
+              {approver.browser !== requester.browser && (
+                <Banner type='warning' inline>
+                  {requester.browser}
+                </Banner>
+              )}
+              {/* eslint-enable */}
+            </DeviceInfoRow>
+            <DeviceInfoRow>
+              <DeviceInfoTitleRow>
+                {/* eslint-disable */}
+                {approver.ip_address === requester.ip_address ? (
+                  <Icon name='checkmark-circle-filled' color='success' size='16px' />
+                ) : (
+                  <Icon
+                    name='close-circle'
+                    color='error'
+                    size='20px'
+                    style={{ marginLeft: '-2px', marginRight: '-2px' }}
+                  />
+                )}
+                &nbsp;
+                <Text size='14px' style={{ paddingLeft: '6px' }}>
+                  <FormattedMessage
+                    id='scenes.authorizelogin.ipaddress'
+                    defaultMessage='IP Address: '
+                  />
+                </Text>
+              </DeviceInfoTitleRow>
+              <Banner type='success' inline>
+                {approver.ip_address}
+              </Banner>
+              {approver.ip_address !== requester.ip_address && (
+                <Banner type='warning' inline>
+                  {requester.ip_address}
+                </Banner>
+              )}
+              {/* eslint-enable */}
+            </DeviceInfoRow>
+            <DeviceInfoRow>
+              <DeviceInfoTitleRow>
+                {/* eslint-disable */}
+                {approver.country_code === requester.country_code ? (
+                  <Icon name='checkmark-circle-filled' color='success' size='16px' />
+                ) : (
+                  <Icon
+                    name='close-circle'
+                    color='error'
+                    size='20px'
+                    style={{ marginLeft: '-2px', marginRight: '-2px' }}
+                  />
+                )}
+                &nbsp;
+                <Text size='14px' style={{ paddingLeft: '6px' }}>
+                  <FormattedMessage
+                    id='scenes.authorizelogin.country'
+                    defaultMessage='Country of Origin: '
+                  />
+                </Text>
+              </DeviceInfoTitleRow>
+              <Banner type='success' inline>
+                {approver.country_code}
+              </Banner>
+              {approver.country_code !== requester.country_code && (
+                <Banner type='warning' inline>
+                  {requester.country_code}
+                </Banner>
+              )}
+              {/* eslint-enable */}
+            </DeviceInfoRow>
+          </DeviceDiff>
+        </DeviceInfoWrapper>
       </FormBody>
       <ApproveWrapper>
         <ApproveRejectButtons
           data-e2e='approveLogin'
           nature='warning'
-          onClick={props.authActions.authorizeVerifyDevice}
+          onClick={() => props.authActions.authorizeVerifyDevice(true)}
         >
           <FormattedMessage id='modals.mobilenumberverify.verify' defaultMessage='Verify' />
         </ApproveRejectButtons>
@@ -132,7 +245,7 @@ const Success = (props) => {
         <ApproveRejectButtons
           data-e2e='rejectLogin'
           nature='primary'
-          // onClick={props.onReject}
+          onClick={() => props.authActions.authorizeVerifyDevice(false)}
         >
           <FormattedMessage id='scenes.authorizelogin.reject' defaultMessage='Reject' />
         </ApproveRejectButtons>
