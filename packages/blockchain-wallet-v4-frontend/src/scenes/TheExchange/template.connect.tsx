@@ -82,7 +82,13 @@ const ExchangeConnect = (props: Props) => (
               defaultMessage='Not Connected'
             />
           </CustomOrangeCartridge>
-          <Button data-e2e='connectToExchange' nature='primary' height='48px' fullwidth>
+          <Button
+            data-e2e='connectToExchange'
+            nature='primary'
+            height='48px'
+            fullwidth
+            onClick={props.onSignup}
+          >
             <FormattedMessage id='scenes.exchange.connectnow' defaultMessage='Connect Now' />
           </Button>
         </>
