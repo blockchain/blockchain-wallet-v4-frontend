@@ -226,8 +226,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             default:
               payment = yield payment.to(address as unknown as string, toType)
           }
-          const { from } = yield select(selectors.form.getFormValues(FORM))
           // seamless limits logic
+          const { from } = yield select(selectors.form.getFormValues(FORM))
           if (toType === ADDRESS_TYPES.ACCOUNT && from.type === ADDRESS_TYPES.CUSTODIAL) {
             const appState = yield select(identity)
             const currency = selectors.core.settings
