@@ -19,6 +19,7 @@
       "featureFlags": {
         "cEURRewards": true,
         "eddInterestFileUpload": true,
+        "developerMobilePairing": true,
         "pollForMagicLinkData": true,
         "recurringBuys": true,
         "signupCountry": true
