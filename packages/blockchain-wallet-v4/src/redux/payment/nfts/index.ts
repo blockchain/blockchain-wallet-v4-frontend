@@ -221,8 +221,8 @@ export const fulfillNftOrder = async (order: NftOrdersType['orders'][0], signer:
   )
 
   try {
-    const match = await contract.atomicMatch_(...args, txnData)
-    console.log(match.hash)
+    // const match = await contract.atomicMatch_(...args, txnData)
+    // console.log(match.hash)
     debugger
   } catch (e) {
     console.log(e)
