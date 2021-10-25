@@ -4,7 +4,7 @@ import { Field } from 'redux-form'
 
 import { HeartbeatLoader, Text } from 'blockchain-info-components'
 import { FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
-import { ExchangeErrorCodes, LoginSteps } from 'data/types'
+import { ExchangeErrorCodes } from 'data/types'
 import { isBrowserSupported } from 'services/browser'
 import { required } from 'services/forms'
 
@@ -25,26 +25,16 @@ const EnterPasswordExchange = (props: Props) => {
   const {
     authActions,
     busy,
-    cacheActions,
     exchangeError,
-    formActions,
     formValues,
-    initCaptcha,
+    handleBackArrowClick,
     invalid,
-    setStep,
     submitting
   } = props
   const passwordError = exchangeError && exchangeError === ExchangeErrorCodes.INVALID_CREDENTIALS
   const twoFactorRequired = exchangeError && exchangeError === ExchangeErrorCodes.BAD_2FA
   const twoFactorError = exchangeError && exchangeError === ExchangeErrorCodes.WRONG_2FA
 
-  const handleBackArrowClick = () => {
-    cacheActions.removedStoredLogin()
-    formActions.destroy(LOGIN_FORM_NAME)
-    setStep(LoginSteps.ENTER_EMAIL_GUID)
-    authActions.clearLoginError()
-    initCaptcha()
-  }
   return (
     <>
       <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} hideGuid />
@@ -72,17 +62,7 @@ const EnterPasswordExchange = (props: Props) => {
                 id='scenes.login.exchange.wrong_password'
                 defaultMessage='Login failed - invalid credentials.'
               />
-              {/* some sort of prompts to reset password?
-               {'  '}
-              <LinkContainer to='/recover'>
-                <Link size='12px' data-e2e='loginRecover'>
-                  <FormattedMessage
-                    id='scenes.login.recover_account'
-                    defaultMessage='Recover account'
-                  />
-                  .
-                </Link>
-              </LinkContainer>  */}
+              {/* some sort of prompts to reset password?  */}
             </FormError>
           )}
         </FormItem>

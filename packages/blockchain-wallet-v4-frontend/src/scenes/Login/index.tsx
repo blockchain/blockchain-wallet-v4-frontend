@@ -72,9 +72,14 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     /* eslint-enable */
   }
 
-  // Every step is part of one form
-  // One submit function that fires different events
-  // Depending on which step user is on
+  handleBackArrowClick = () => {
+    this.props.cacheActions.removedStoredLogin()
+    this.props.formActions.destroy(LOGIN_FORM_NAME)
+    this.props.setStep(LoginSteps.ENTER_EMAIL_GUID)
+    this.props.authActions.clearLoginError()
+    this.initCaptcha()
+  }
+
   handleSubmit = (e) => {
     e.preventDefault()
     // sometimes captcha doesnt mount correctly (race condition?)
@@ -100,24 +105,32 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
   }
 
   render() {
-    const { exchangeLoginData, formValues, productAuthMetadata } = this.props
+    const { exchangeLoginData, formValues, productAuthMetadata, walletLoginData } = this.props
     const { platform, product } = productAuthMetadata
     const { step } = formValues || LoginSteps.ENTER_EMAIL_GUID
 
-    // TODO: fix this to handle both wallet and exchange login in a data.cata
-    const { busy, error } = exchangeLoginData.cata({
-      Failure: (val) => ({ busy: false, error: val }),
+    const { exchangeBusy, exchangeError } = exchangeLoginData.cata({
+      Failure: (val) => ({ busy: false, exchangeError: val }),
       Loading: () => <Loading />,
-      NotAsked: () => ({ busy: false, error: null }),
-      Success: () => ({ busy: false, error: null })
+      NotAsked: () => ({ busy: false, exchangeError: null }),
+      Success: () => ({ busy: false, exchangeError: null })
     })
+
+    const { busy, walletError } = walletLoginData.cata({
+      Failure: (val) => ({ busy: false, walletError: val }),
+      Loading: () => <Loading />,
+      NotAsked: () => ({ busy: false, walletError: null }),
+      Success: () => ({ busy: false, walletError: null })
+    })
+
+    // TODO see if we still need busy
     const loginProps = {
       busy,
-      exchangeError: error,
-      initCaptcha: this.initCaptcha,
+      exchangeError,
+      handleBackArrowClick: this.handleBackArrowClick,
       isMobileViewLogin: platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS,
-      loginError: undefined,
       setStep: this.setStep,
+      walletError,
       ...this.props
     }
 
@@ -199,15 +212,15 @@ const mapDispatchToProps = (dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type FormProps = {
-  busy: boolean
+  busy?: boolean
   exchangeError?: ExchangeErrorCodes
-  initCaptcha: () => void
+  handleBackArrowClick: () => void
   invalid: boolean
   isMobileViewLogin?: boolean
-  loginError?: string
   pristine: boolean
   setStep: (step: LoginSteps) => void
   submitting: boolean
+  walletError?: any
 }
 
 type StateProps = {

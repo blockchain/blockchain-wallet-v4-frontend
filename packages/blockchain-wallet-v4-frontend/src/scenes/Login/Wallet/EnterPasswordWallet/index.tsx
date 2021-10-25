@@ -1,11 +1,13 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Field } from 'redux-form'
 
+import { RemoteDataType } from '@core/types'
 import { HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import { FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
-import { LoginSteps } from 'data/types'
+import { selectors } from 'data'
 import { isBrowserSupported } from 'services/browser'
 import { required } from 'services/forms'
 
@@ -14,7 +16,6 @@ import {
   ActionButton,
   BackArrowFormHeader,
   CenteredColumn,
-  LOGIN_FORM_NAME,
   NeedHelpLink,
   removeWhitespace,
   Row,
@@ -28,35 +29,24 @@ const EnterPasswordWallet = (props: Props) => {
     authActions,
     authType,
     busy,
-    cacheActions,
-    formActions,
     formValues,
-    initCaptcha,
+    handleBackArrowClick,
     invalid,
     isMobileViewLogin,
-    loginError,
-    setStep,
-    submitting
+    submitting,
+    walletError
   } = props
-  const passwordError = loginError && loginError.toLowerCase().includes('wrong_wallet_password')
-  const accountLocked =
-    loginError &&
-    (loginError.toLowerCase().includes('this account has been locked') ||
-      loginError.toLowerCase().includes('account is locked'))
 
-  const twoFactorError = loginError && loginError.toLowerCase().includes('authentication code')
+  const passwordError = walletError && walletError.toLowerCase().includes('wrong_wallet_password')
+  const accountLocked =
+    walletError &&
+    (walletError.toLowerCase().includes('this account has been locked') ||
+      walletError.toLowerCase().includes('account is locked'))
+
+  const twoFactorError = walletError && walletError.toLowerCase().includes('authentication code')
   const handleSmsResend = () => {
     authActions.resendSmsCode({ email: formValues?.email, guid: formValues?.guid })
   }
-
-  const handleBackArrowClick = () => {
-    cacheActions.removedStoredLogin()
-    formActions.destroy(LOGIN_FORM_NAME)
-    setStep(LoginSteps.ENTER_EMAIL_GUID)
-    authActions.clearLoginError()
-    initCaptcha()
-  }
-
   return (
     <>
       <BackArrowFormHeader
@@ -101,7 +91,9 @@ const EnterPasswordWallet = (props: Props) => {
               </LinkContainer>
             </FormError>
           )}
-          {accountLocked && <FormError position='relative'>{loginError?.split('.')[0]}.</FormError>}
+          {accountLocked && (
+            <FormError position='relative'>{walletError?.split('.')[0]}.</FormError>
+          )}
         </FormItem>
       </FormGroup>
       {authType > 0 && (
@@ -135,9 +127,9 @@ const EnterPasswordWallet = (props: Props) => {
                 <FormattedMessage id='scenes.login.resendsms' defaultMessage='Resend SMS' />
               </Link>
             )}
-            {twoFactorError && <FormError position='absolute'>{loginError}</FormError>}
+            {twoFactorError && <FormError position='absolute'>{walletError}</FormError>}
             {accountLocked && (
-              <FormError position='absolute'>{loginError?.split('.')[0]}.</FormError>
+              <FormError position='absolute'>{walletError?.split('.')[0]}.</FormError>
             )}
           </FormItem>
           <Row style={{ marginTop: '16px' }}>
@@ -179,4 +171,10 @@ const EnterPasswordWallet = (props: Props) => {
   )
 }
 
-export default EnterPasswordWallet
+const mapStateToProps = (state) => ({
+  walletLoginData: selectors.auth.getLogin(state) as RemoteDataType<any, any>
+})
+
+const connector = connect(mapStateToProps)
+
+export default connector(EnterPasswordWallet)

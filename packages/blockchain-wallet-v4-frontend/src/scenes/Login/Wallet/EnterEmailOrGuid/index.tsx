@@ -21,8 +21,8 @@ import {
 const isSupportedBrowser = isBrowserSupported()
 
 const EnterEmailOrGuid = (props: Props) => {
-  const { authActions, busy, formValues, invalid, loginError, submitting } = props
-  const guidError = loginError && loginError.toLowerCase().includes('unknown wallet id')
+  const { authActions, busy, formValues, invalid, submitting, walletError } = props
+  const guidError = walletError && walletError.toLowerCase().includes('unknown wallet id')
 
   return (
     <>
