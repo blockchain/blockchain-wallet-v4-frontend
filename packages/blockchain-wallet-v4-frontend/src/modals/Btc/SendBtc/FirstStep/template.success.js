@@ -1,7 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { TIER_TYPES } from 'blockchain-wallet-v4-frontend/src/modals/Settings/TradingLimits/model'
 import Bowser from 'bowser'
 import PropTypes from 'prop-types'
+import { isEmpty } from 'ramda'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
@@ -15,6 +17,7 @@ import {
   TooltipIcon
 } from 'blockchain-info-components'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import UpgradeToGoldBanner from 'components/Flyout/Banners/UpgradeToGold'
 import {
   CountdownTimer,
   FiatConverter,
@@ -52,6 +55,7 @@ import RegularFeeLink from './RegularFeeLink'
 import {
   insufficientFunds,
   invalidAmount,
+  isSendLimitOver,
   maximumAmount,
   maximumFeePerByte,
   minimumAmount,
@@ -108,6 +112,7 @@ const FirstStep = (props) => {
     payPro,
     priorityFeePerByte,
     regularFeePerByte,
+    sendLimits,
     totalFee
   } = rest
   const isPayPro = !!payPro
@@ -220,7 +225,14 @@ const FirstStep = (props) => {
           <Field
             name='amount'
             component={FiatConverter}
-            validate={[required, invalidAmount, insufficientFunds, minimumAmount, maximumAmount]}
+            validate={[
+              required,
+              invalidAmount,
+              insufficientFunds,
+              minimumAmount,
+              maximumAmount,
+              isSendLimitOver
+            ]}
             coin='BTC'
             data-e2e='sendBtc'
             disabled={isPayPro}
@@ -373,6 +385,11 @@ const FirstStep = (props) => {
         </Text>
       )}
       {isFromCustody && !isMnemonicVerified ? <MnemonicRequiredForCustodySend /> : null}
+      {isFromCustody &&
+      !isEmpty(sendLimits) &&
+      sendLimits?.globalLimit?.suggestedUpgrade?.requiredTier === TIER_TYPES.GOLD ? (
+        <UpgradeToGoldBanner limits={sendLimits} style={{ marginTop: '10px' }} />
+      ) : null}
       <SubmitFormGroup>
         <Button
           type='submit'

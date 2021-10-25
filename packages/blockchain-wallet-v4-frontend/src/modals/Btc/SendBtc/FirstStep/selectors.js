@@ -14,7 +14,8 @@ export const getData = createDeepEqualSelector(
     selectors.core.common.btc.getActiveAddresses,
     selectors.core.kvStore.lockbox.getDevices,
     selectors.core.wallet.isMnemonicVerified,
-    selectors.form.getFormValues(model.components.sendBtc.FORM)
+    selectors.form.getFormValues(model.components.sendBtc.FORM),
+    selectors.components.sendBtc.getSendLimits
   ],
   (
     feePerByteToggled,
@@ -23,7 +24,8 @@ export const getData = createDeepEqualSelector(
     btcAddressesR,
     lockboxDevicesR,
     isMnemonicVerified,
-    formValues
+    formValues,
+    sendLimitsR
   ) => {
     const btcAccountsLength = length(btcAccountsR.getOrElse([]))
     const btcAddressesLength = length(btcAddressesR.getOrElse([]))
@@ -35,6 +37,7 @@ export const getData = createDeepEqualSelector(
     const feePerByte = prop('feePerByte', formValues)
     const destination = prop('to', formValues)
     const from = prop('from', formValues)
+    const sendLimits = sendLimitsR.getOrElse({})
 
     const transform = (payment) => {
       const regularFeePerByte = path(['fees', 'regular'], payment)
@@ -86,6 +89,7 @@ export const getData = createDeepEqualSelector(
         network,
         priorityFeePerByte,
         regularFeePerByte,
+        sendLimits,
         totalFee
       }
     }

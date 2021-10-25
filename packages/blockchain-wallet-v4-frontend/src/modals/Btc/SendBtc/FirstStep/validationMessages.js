@@ -84,3 +84,14 @@ export const AddressMatchesPriv = () => (
     defaultMessage='This private key does not match the watch only address above'
   />
 )
+
+export const OverYourLimitMessage = (props) => (
+  <FormattedMessage
+    id='modals.send.over_your_limit'
+    defaultMessage='Over your limit! Send up to {currency}{amount}.'
+    values={{
+      amount: props.amount,
+      currency: props.currency
+    }}
+  />
+)
