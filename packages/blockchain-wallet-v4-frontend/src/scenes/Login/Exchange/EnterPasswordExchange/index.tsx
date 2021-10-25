@@ -27,8 +27,8 @@ const EnterPasswordExchange = (props: Props) => {
     busy,
     cacheActions,
     exchangeError,
-    exchangePassword,
     formActions,
+    formValues,
     initCaptcha,
     invalid,
     setStep,
@@ -122,7 +122,7 @@ const EnterPasswordExchange = (props: Props) => {
           nature='primary'
           fullwidth
           height='48px'
-          disabled={submitting || invalid || busy || !exchangePassword}
+          disabled={submitting || invalid || busy || !formValues?.exchangePassword}
           data-e2e='passwordButton'
           style={{ marginBottom: '16px' }}
         >

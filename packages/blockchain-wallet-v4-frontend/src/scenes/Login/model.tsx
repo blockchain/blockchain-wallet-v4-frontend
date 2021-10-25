@@ -203,13 +203,14 @@ export const getLoginPageSubTitle = (step) => {
       )
     case LoginSteps.ENTER_PASSWORD_EXCHANGE:
     case LoginSteps.ENTER_PASSWORD_WALLET:
-    default:
       return (
         <FormattedMessage
           id='scenes.login.enter_password_login'
           defaultMessage='Enter your password to login'
         />
       )
+    default:
+      return null
   }
 }
 

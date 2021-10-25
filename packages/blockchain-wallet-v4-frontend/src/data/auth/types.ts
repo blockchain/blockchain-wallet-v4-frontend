@@ -9,9 +9,9 @@ export enum ExchangeErrorCodes {
   INVALID_CREDENTIALS = 8
 }
 export enum ProductAuthOptions {
-  EXCHANGE = 'exchange',
-  EXPLORER = 'explorer',
-  WALLET = 'wallet'
+  EXCHANGE = 'EXCHANGE',
+  EXPLORER = 'EXPLORER',
+  WALLET = 'WALLET'
 }
 
 export enum AccountUnificationFlows {
@@ -66,12 +66,13 @@ export type LoginPayloadType = {
 }
 
 export type ExchangeLoginType = {
-  code: string
-  password: string
+  code?: string
+  password?: string
   username: string
 }
 
 export type LoginFormType = {
+  code?: string
   email: string
   emailToken?: string
   exchangePassword?: string
@@ -81,6 +82,7 @@ export type LoginFormType = {
   password?: string
   step?: LoginSteps
   twoFA?: number | string
+  upgradePassword?: string
 }
 
 export enum UserType {

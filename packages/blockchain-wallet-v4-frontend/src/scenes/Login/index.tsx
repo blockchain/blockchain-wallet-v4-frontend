@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose } from 'redux'
-import { formValueSelector, getFormMeta, InjectedFormProps, reduxForm } from 'redux-form'
+import { InjectedFormProps, reduxForm } from 'redux-form'
 
 import { RemoteDataType } from '@core/types'
 import { Text } from 'blockchain-info-components'
@@ -15,7 +15,6 @@ import {
   PlatformTypes,
   ProductAuthOptions
 } from 'data/types'
-import { isGuid } from 'services/forms'
 
 // step templates
 import Loading from '../loading.public'
@@ -59,7 +58,8 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     /* eslint-disable */
     if (!window.grecaptcha || !window.grecaptcha.enterprise) return
     window.grecaptcha.enterprise.ready(() => {
-      window.grecaptcha.enterprise.execute(window.CAPTCHA_KEY, { action: 'LOGIN' })
+      window.grecaptcha.enterprise
+        .execute(window.CAPTCHA_KEY, { action: 'LOGIN' })
         .then((captchaToken) => {
           console.log('Captcha success')
           this.setState({ captchaToken })
@@ -80,80 +80,18 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     // sometimes captcha doesnt mount correctly (race condition?)
     // if it's undefined, try to re-init for token
     if (!this.state.captchaToken) {
-      return this.initCaptcha(this.continueLoginProcess)
+      return this.initCaptcha(
+        this.props.authActions.continueLoginProcess({
+          captchaToken: this.state.captchaToken,
+          initCaptcha: this.initCaptcha
+        })
+      )
     }
     // we have a captcha token, continue login process
-    this.continueLoginProcess()
-  }
-
-  handleSmsResend = () => {
-    this.props.authActions.resendSmsCode({
-      email: this.props.formValues?.email,
-      guid: this.props.guid
+    this.props.authActions.continueLoginProcess({
+      captchaToken: this.state.captchaToken,
+      initCaptcha: this.initCaptcha
     })
-  }
-
-  continueLoginProcess = () => {
-    const {
-      authActions,
-      code,
-      exchangePassword,
-      exchangeTwoFA,
-      formActions,
-      formValues,
-      guid,
-      guidOrEmail,
-      language,
-      password,
-      productAuthMetadata,
-      upgradePassword
-    } = this.props
-
-    // only uppercase if authType is not Yubikey
-    let auth = code
-    if (auth && this.props.authType !== 1) {
-      auth = auth.toUpperCase()
-    }
-
-    // if we're trying to trigger the verification link
-    if (
-      formValues.step === LoginSteps.ENTER_EMAIL_GUID ||
-      formValues.step === LoginSteps.CHECK_EMAIL
-    ) {
-      if (isGuid(guidOrEmail)) {
-        formActions.change(LOGIN_FORM_NAME, 'guid', guidOrEmail)
-        formActions.change(LOGIN_FORM_NAME, 'step', LoginSteps.VERIFICATION_MOBILE)
-      } else {
-        formActions.change(LOGIN_FORM_NAME, 'email', guidOrEmail)
-        authActions.triggerWalletMagicLink({
-          captchaToken: this.state.captchaToken,
-          email: guidOrEmail,
-          product: productAuthMetadata.product
-        })
-        this.initCaptcha()
-      }
-      const idType = isGuid(guidOrEmail) ? 'WALLET_ID' : 'EMAIL'
-      authActions.analyticsLoginIdEntered(idType)
-    } else if (formValues.step === LoginSteps.ENTER_PASSWORD_WALLET) {
-      // if we're trying to submit password to authenticate
-      authActions.login({ code: auth, guid, mobileLogin: null, password, sharedKey: null })
-    } else if (formValues.step === LoginSteps.UPGRADE_PASSWORD) {
-      authActions.register({
-        country: undefined,
-        email: formValues.email,
-        language,
-        password: upgradePassword,
-        state: undefined
-      })
-      // TODO: add action here that merges the account or sets step to merge
-    } else {
-      // Authenticate to Exchange
-      authActions.exchangeLogin({
-        code: exchangeTwoFA,
-        password: exchangePassword,
-        username: formValues.email
-      })
-    }
   }
 
   loginWithMobileClicked = () => {
@@ -176,7 +114,6 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     const loginProps = {
       busy,
       exchangeError: error,
-      handleSmsResend: this.handleSmsResend,
       initCaptcha: this.initCaptcha,
       isMobileViewLogin: platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS,
       loginError: undefined,
@@ -242,23 +179,14 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
 const mapStateToProps = (state) => ({
   accountUnificationFlow: selectors.auth.getAccountUnificationFlowType(state),
   authType: selectors.auth.getAuthType(state) as Number,
-  code: formValueSelector(LOGIN_FORM_NAME)(state, 'code'),
   data: getData(state),
   exchangeLoginData: selectors.auth.getExchangeLogin(state) as RemoteDataType<any, any>,
-  exchangePassword: formValueSelector(LOGIN_FORM_NAME)(state, 'exchangePassword'),
-  exchangeTwoFA: formValueSelector(LOGIN_FORM_NAME)(state, 'exchangeTwoFA'),
-  formMeta: getFormMeta(LOGIN_FORM_NAME)(state),
   formValues: selectors.form.getFormValues(LOGIN_FORM_NAME)(state) as LoginFormType,
-  guid: formValueSelector(LOGIN_FORM_NAME)(state, 'guid'),
-  guidOrEmail: formValueSelector(LOGIN_FORM_NAME)(state, 'guidOrEmail'),
   initialValues: {
     step: LoginSteps.ENTER_EMAIL_GUID
   },
   jwtToken: selectors.auth.getJwtToken(state),
-  language: selectors.preferences.getLanguage(state),
-  password: formValueSelector(LOGIN_FORM_NAME)(state, 'password'),
   productAuthMetadata: selectors.auth.getProductAuthMetadata(state),
-  upgradePassword: formValueSelector('login')(state, 'upgradeAccountPassword') || ('' as string),
   walletLoginData: selectors.auth.getLogin(state) as RemoteDataType<any, any>
 })
 

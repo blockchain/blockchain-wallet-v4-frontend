@@ -31,12 +31,10 @@ const EnterPasswordWallet = (props: Props) => {
     cacheActions,
     formActions,
     formValues,
-    guid,
     initCaptcha,
     invalid,
     isMobileViewLogin,
     loginError,
-    password,
     setStep,
     submitting
   } = props
@@ -48,7 +46,7 @@ const EnterPasswordWallet = (props: Props) => {
 
   const twoFactorError = loginError && loginError.toLowerCase().includes('authentication code')
   const handleSmsResend = () => {
-    authActions.resendSmsCode({ email: formValues?.email, guid })
+    authActions.resendSmsCode({ email: formValues?.email, guid: formValues?.guid })
   }
 
   const handleBackArrowClick = () => {
@@ -163,7 +161,7 @@ const EnterPasswordWallet = (props: Props) => {
           nature='primary'
           fullwidth
           height='48px'
-          disabled={submitting || invalid || busy || !password}
+          disabled={submitting || invalid || busy || !formValues?.password}
           data-e2e='passwordButton'
           style={{ marginBottom: '16px' }}
         >

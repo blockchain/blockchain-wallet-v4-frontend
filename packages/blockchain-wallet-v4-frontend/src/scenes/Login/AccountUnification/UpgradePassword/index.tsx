@@ -31,7 +31,9 @@ const UpgradePassword = (props: Props) => {
           validate={[required, validStrongPassword]}
           component={PasswordBox}
           showPasswordScore
-          passwordScore={has('zxcvbn', window) ? window.zxcvbn(props.upgradePassword).score : 0}
+          passwordScore={
+            has('zxcvbn', window) ? window.zxcvbn(props.formValues.upgradePassword).score : 0
+          }
         />
       </FormGroup>
       <FormGroup>

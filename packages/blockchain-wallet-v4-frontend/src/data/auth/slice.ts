@@ -83,7 +83,7 @@ const authSlice = createSlice({
       state.login = Remote.NotAsked
       state.exchangeAuth.exchangeLogin = Remote.NotAsked
     },
-    continueLoginProcess: () => {},
+    continueLoginProcess: (state, action) => {},
     exchangeLogin: (state, action: PayloadAction<ExchangeLoginType>) => {},
     exchangeLoginFailure: (state, action: PayloadAction<ExchangeLoginFailureType>) => {
       state.exchangeAuth.exchangeLogin = Remote.Failure(action.payload)
@@ -185,7 +185,10 @@ const authSlice = createSlice({
     setMagicLinkInfo: (state, action: PayloadAction<AuthStateType['magicLinkData']>) => {
       state.magicLinkData = action.payload
     },
-    setMagicLinkInfoEncoded: (state, action: PayloadAction<AuthStateType['magicLinkDataEncoded']>) => {
+    setMagicLinkInfoEncoded: (
+      state,
+      action: PayloadAction<AuthStateType['magicLinkDataEncoded']>
+    ) => {
       state.magicLinkDataEncoded = action.payload
     },
     setManifestFile: (state, action: PayloadAction<AuthStateType['manifestFile']>) => {
