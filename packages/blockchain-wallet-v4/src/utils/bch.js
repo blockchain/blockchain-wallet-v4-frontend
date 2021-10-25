@@ -20,7 +20,10 @@ export const toCashAddr = (address, displayOnly) => {
 
     switch (version) {
       case pubKeyHash:
-        return formatAddr(cashaddress.encode(cashAddrPrefix, 'pubkeyhash', hash), displayOnly)
+        return formatAddr(
+          cashaddress.encode(cashAddrPrefix, 'pubkeyhash', Buffer.from(hash)),
+          displayOnly
+        )
       case scriptHash:
         return formatAddr(cashaddress.encode(cashAddrPrefix, 'scripthash', hash), displayOnly)
       default:
