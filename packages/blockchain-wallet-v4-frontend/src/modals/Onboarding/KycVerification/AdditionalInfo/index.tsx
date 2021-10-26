@@ -4,10 +4,9 @@ import { actions } from 'data'
 
 import AdditionalInfo from './template'
 
-const mapDispatchToProps = dispatch => ({
-  goToNextStep: () =>
-    dispatch(actions.components.identityVerification.goToNextStep()),
-  closeAllModals: () => dispatch(actions.modals.closeAllModals())
+const mapDispatchToProps = (dispatch) => ({
+  closeAllModals: () => dispatch(actions.modals.closeAllModals()),
+  goToNextStep: () => dispatch(actions.components.identityVerification.goToNextStep())
 })
 
 const connector = connect(undefined, mapDispatchToProps)

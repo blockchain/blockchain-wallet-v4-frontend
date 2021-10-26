@@ -40,17 +40,11 @@ class EmptyResultsContainer extends React.PureComponent {
               target='_blank'
               referrer='noreferrer'
             >
-              <FormattedMessage
-                id='components.emptytx.body2'
-                defaultMessage='reach out to us'
-              />
+              <FormattedMessage id='components.emptytx.body2' defaultMessage='reach out to us' />
             </Link>
           </Text>
           <Text size='12px' weight={400}>
-            <FormattedMessage
-              id='components.emptytx.body3'
-              defaultMessage='if you need help.'
-            />
+            <FormattedMessage id='components.emptytx.body3' defaultMessage='if you need help.' />
           </Text>
         </TextGroup>
       </Wrapper>

@@ -2,9 +2,7 @@ import * as services from './services'
 
 describe(`showResult`, () => {
   it(`should return false when all inputs are empty`, () => {
-    expect(
-      services.showResult({ address: ``, message: ``, signature: `` })
-    ).toEqual(false)
+    expect(services.showResult({ address: ``, message: ``, signature: `` })).toEqual(false)
   })
 
   it(`should return false when some inputs are empty`, () => {

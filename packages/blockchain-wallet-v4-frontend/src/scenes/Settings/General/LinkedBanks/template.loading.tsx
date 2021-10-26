@@ -3,11 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { SpinningLoader } from 'blockchain-info-components'
-import {
-  SettingContainer,
-  SettingHeader,
-  SettingSummary
-} from 'components/Setting'
+import { SettingContainer, SettingHeader, SettingSummary } from 'components/Setting'
 import { media } from 'services/styles'
 
 const CustomSettingContainer = styled(SettingContainer)`
@@ -26,10 +22,7 @@ const Loading: React.FC = () => {
     <CustomSettingContainer>
       <SettingSummary>
         <CustomSettingHeader>
-          <FormattedMessage
-            id='scenes.settings.linked_banks'
-            defaultMessage='Linked Banks'
-          />
+          <FormattedMessage id='scenes.settings.linked_banks' defaultMessage='Linked Banks' />
         </CustomSettingHeader>
         <SpinningLoader height='30px' width='30px' />
       </SettingSummary>

@@ -6,7 +6,7 @@ import sagas from './sagas'
 export default ({ api }) => {
   const settingsSagas = sagas({ api })
 
-  return function * coreSettingsSaga() {
+  return function* coreSettingsSaga() {
     yield takeLatest(AT.FETCH_SETTINGS, settingsSagas.fetchSettings)
   }
 }

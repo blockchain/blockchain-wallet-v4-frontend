@@ -14,11 +14,7 @@ describe('settings reducers', () => {
     const action = actions.addMnemonic({
       mnemonic: ['hello', 'world']
     })
-    const expectedState = assoc(
-      'recovery_phrase',
-      ['hello', 'world'],
-      INITIAL_STATE
-    )
+    const expectedState = assoc('recovery_phrase', ['hello', 'world'], INITIAL_STATE)
     expect(reducer(INITIAL_STATE, action)).toEqual(expectedState)
   })
 
@@ -31,8 +27,6 @@ describe('settings reducers', () => {
   it('should handle REMOVE_RECOVERY_PHRASE', () => {
     const action = actions.removeRecoveryPhrase()
     const expectedState = INITIAL_STATE
-    expect(reducer({ recovery_phrase: ['foo', 'bar'] }, action)).toEqual(
-      expectedState
-    )
+    expect(reducer({ recovery_phrase: ['foo', 'bar'] }, action)).toEqual(expectedState)
   })
 })

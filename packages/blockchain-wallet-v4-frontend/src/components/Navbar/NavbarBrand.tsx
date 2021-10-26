@@ -20,7 +20,7 @@ const BaseBrand = styled.div`
   `}
 `
 
-const NavbarBrand = props => {
+const NavbarBrand = (props) => {
   const { children, ...rest } = props
 
   return <BaseBrand {...rest}>{children}</BaseBrand>

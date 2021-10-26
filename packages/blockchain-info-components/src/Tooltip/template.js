@@ -11,15 +11,15 @@ const StyledTip = styled(ReactTooltip)`
   z-index: 2000 !important;
   font-size: 11px !important;
   pointer-events: auto !important;
-  background-color: ${({ bgColor }) => bgColor + ' !important'};
-  opacity: ${({ opacity }) => opacity + ' !important'};
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  max-width: ${props => props.maxWidth || '200px'};
-  max-height: ${props => props.maxHeight || ''};
+  background-color: ${({ bgColor }) => `${bgColor} !important`};
+  opacity: ${({ opacity }) => `${opacity} !important`};
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  max-width: ${(props) => props.maxWidth || '200px'};
+  max-height: ${(props) => props.maxHeight || ''};
 `
 
-const Tooltip = props => {
+const Tooltip = (props) => {
   const { bgColor, children, id, opacity, padding, ...rest } = props
 
   return (

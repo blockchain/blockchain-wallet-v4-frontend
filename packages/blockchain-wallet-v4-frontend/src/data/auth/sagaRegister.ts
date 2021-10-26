@@ -7,6 +7,7 @@ export default ({ api, coreSagas, networks }) => {
   const authSagas = sagas({ api, coreSagas, networks })
 
   return function* authSaga() {
+    yield takeLatest(actions.authorizeVerifyDevice.type, authSagas.authorizeVerifyDevice)
     yield takeLatest(actions.login.type, authSagas.login)
     yield takeLatest(actions.mobileLogin.type, authSagas.mobileLogin)
     yield takeLatest(actions.register.type, authSagas.register)

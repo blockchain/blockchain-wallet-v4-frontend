@@ -78,7 +78,7 @@ const Item = styled.li`
   & > a,
   & > a:hover,
   & > a:visited {
-    color: ${props => props.theme.white};
+    color: ${(props) => props.theme.white};
     position: relative;
     text-decoration: none;
     text-transform: uppercase;
@@ -183,7 +183,7 @@ const Item = styled.li`
         }
       }
       & a {
-        color: ${props => props.theme.white};
+        color: ${(props) => props.theme.white};
         display: block;
         font-size: 12px;
         font-weight: 400;

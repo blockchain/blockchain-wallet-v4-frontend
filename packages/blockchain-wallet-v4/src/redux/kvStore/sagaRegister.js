@@ -9,7 +9,7 @@ import walletCredentials from './walletCredentials/sagaRegister'
 import xlm from './xlm/sagaRegister'
 
 export default ({ api, networks }) =>
-  function * coreKvStoreSaga() {
+  function* coreKvStoreSaga() {
     yield fork(bch({ api, networks }))
     yield fork(btc({ api, networks }))
     yield fork(eth({ api, networks }))

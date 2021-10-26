@@ -1,13 +1,4 @@
-import {
-  compose,
-  defaultTo,
-  head,
-  keys,
-  path,
-  pickBy,
-  propEq,
-  split
-} from 'ramda'
+import { compose, defaultTo, head, keys, path, pickBy, propEq, split } from 'ramda'
 import {
   getFormAsyncErrors,
   getFormError,
@@ -27,16 +18,10 @@ import {
   isValid
 } from 'redux-form'
 
-const getActiveField = formName => state =>
-  compose(
-    defaultTo(null),
-    head,
-    keys,
-    pickBy(propEq('active', true)),
-    getFormMeta(formName)
-  )(state)
+const getActiveField = (formName) => (state) =>
+  compose(defaultTo(null), head, keys, pickBy(propEq('active', true)), getFormMeta(formName))(state)
 
-const isAsyncValidating = formName => state => {
+const isAsyncValidating = (formName) => (state) => {
   const formPath = split('.', formName)
   return path(['form', ...formPath, 'asyncValidating'], state)
 }

@@ -10,13 +10,13 @@ import Error from './template.error'
 import Loading from './template.loading'
 import Success from './template.success'
 
-const createOption = label => ({
+const createOption = (label) => ({
   label,
   value: label
 })
 
 class CurrencyListContainer extends React.PureComponent {
-  onCoinSelection = newValue => {
+  onCoinSelection = (newValue) => {
     if (!newValue) return
     if (contains(newValue, map(prop('value'), this.props.formValues))) return
     this.props.formActions.change('lockboxTransactions', 'search', {
@@ -24,7 +24,7 @@ class CurrencyListContainer extends React.PureComponent {
     })
   }
 
-  onSaveCoinMD = coin => {
+  onSaveCoinMD = (coin) => {
     this.props.lockboxActions.saveCoinMD(this.props.deviceIndex, coin)
   }
 
@@ -37,7 +37,10 @@ class CurrencyListContainer extends React.PureComponent {
 
     return deviceInfo
       ? data.cata({
-          Success: val => (
+          Failure: () => <Error handleRefresh={this.onRefresh} />,
+          Loading: () => <Loading />,
+          NotAsked: () => null,
+          Success: (val) => (
             <Success
               data={val}
               formValues={formValues}
@@ -46,27 +49,21 @@ class CurrencyListContainer extends React.PureComponent {
               handleSaveCoinMD={this.onSaveCoinMD}
               handleCoinSelection={this.onCoinSelection}
             />
-          ),
-          Loading: () => <Loading />,
-          Failure: () => <Error handleRefresh={this.onRefresh} />,
-          NotAsked: () => null
+          )
         })
       : null
   }
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  data: getData(state),
-  coinContexts: getCoinContexts(state, ownProps.deviceIndex)
+  coinContexts: getCoinContexts(state, ownProps.deviceIndex),
+  data: getData(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch),
   refreshActions: bindActionCreators(actions.components.refresh, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CurrencyListContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(CurrencyListContainer)

@@ -10,7 +10,7 @@ const Success: React.FC<Props> = (props) => {
   const isUserEligible =
     props.paymentMethods.methods.length &&
     props.paymentMethods.methods.find(
-      (method) => method.limits.max !== '0' && method.currency === props.fiatCurrency
+      (method) => method.limits?.max !== '0' && method.currency === props.fiatCurrency
     )
 
   // Check to see if user can sell into their wallet's preferred currency

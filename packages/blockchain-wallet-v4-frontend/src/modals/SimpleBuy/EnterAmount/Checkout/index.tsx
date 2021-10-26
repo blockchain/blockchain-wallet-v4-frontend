@@ -26,7 +26,7 @@ class Checkout extends PureComponent<Props> {
     const amount = goalAmount || this.props.formValues?.amount || '0'
     const cryptoAmount = this.props.formValues?.cryptoAmount
     const period = this.props.formValues?.period || RecurringBuyPeriods.ONE_TIME
-
+    this.errorCallback = this.errorCallback.bind(this)
     this.props.buySellActions.initializeCheckout({
       account: this.props.swapAccount,
       amount,

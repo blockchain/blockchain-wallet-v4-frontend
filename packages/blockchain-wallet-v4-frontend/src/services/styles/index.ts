@@ -9,27 +9,27 @@ const types = {
 
 const templates = {
   a: (type, size) => ({ [type]: size }),
-  h: (type, size) => ({ [type]: `0px ${size}px` }),
-  v: (type, size) => ({ [type]: `${size}px 0px` }),
-  t: (type, size) => ({ [`${type}Top`]: size }),
-  r: (type, size) => ({ [`${type}Right`]: size }),
   b: (type, size) => ({ [`${type}Bottom`]: size }),
-  l: (type, size) => ({ [`${type}Left`]: size })
+  h: (type, size) => ({ [type]: `0px ${size}px` }),
+  l: (type, size) => ({ [`${type}Left`]: size }),
+  r: (type, size) => ({ [`${type}Right`]: size }),
+  t: (type, size) => ({ [`${type}Top`]: size }),
+  v: (type, size) => ({ [type]: `${size}px 0px` })
 }
 
-export const spacing = value =>
+export const spacing = (value) =>
   mergeAll(
-    value.split(' ').map(statement => {
-      let [rule, size] = statement.split('-')
-      let [type, tmpl] = rule.split('')
-      let valid = types[type] && templates[tmpl] && size % 5 === 0
+    value.split(' ').map((statement) => {
+      const [rule, size] = statement.split('-')
+      const [type, tmpl] = rule.split('')
+      const valid = types[type] && templates[tmpl] && size % 5 === 0
       return valid ? templates[tmpl](types[type], parseInt(size)) : {}
     })
   )
 
 const flexDirections = {
-  row: 'row',
-  col: 'column'
+  col: 'column',
+  row: 'row'
 }
 
 const flexProperties = {
@@ -38,16 +38,16 @@ const flexProperties = {
 }
 
 const flexRules = {
+  around: 'space-around',
+  base: 'baseline',
+  between: 'space-between',
   center: 'center',
   end: 'flex-end',
-  start: 'flex-start',
-  base: 'baseline',
-  around: 'space-around',
-  between: 'space-between',
-  evenly: 'space-evenly'
+  evenly: 'space-evenly',
+  start: 'flex-start'
 }
 
-export const flex = value => {
+export const flex = (value) => {
   const [directions, ...params] = value.split(' ')
   const base = {
     display: 'flex',
@@ -55,7 +55,7 @@ export const flex = value => {
   }
   return mergeAll(
     [base].concat(
-      params.map(p => {
+      params.map((p) => {
         const [property, rule] = p.split('/')
         return { [flexProperties[property]]: flexRules[rule] }
       })
@@ -66,18 +66,18 @@ export const flex = value => {
 export const isMobile = () => window.outerWidth <= 479
 
 export const sizes = {
+  desktop: 2560,
+  laptop: 1023,
+  laptopL: 1439,
+  laptopM: 1279,
   mobile: 479,
   tablet: 767,
-  tabletL: 991,
-  laptop: 1023,
-  laptopM: 1279,
-  laptopL: 1439,
-  desktop: 2560
+  tabletL: 991
 }
 
 export const heights = {
-  small: 600,
-  big: 800
+  big: 800,
+  small: 600
 }
 
 export type SizesTypes = typeof sizes
@@ -114,9 +114,7 @@ export const media = Object.keys(sizes).reduce((acc, label) => {
       ${css(...args)};
     }
   `
-  acc['atLeast' + label[0].toUpperCase() + label.slice(1, label.length)] = (
-    ...args
-  ) => css`
+  acc[`atLeast${label[0].toUpperCase()}${label.slice(1, label.length)}`] = (...args) => css`
     @media (min-width: ${sizes[label] + 1}px) {
       // @ts-ignore
       ${css(...args)};

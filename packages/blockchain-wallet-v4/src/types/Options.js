@@ -19,24 +19,23 @@ export const selectLogoutTime = view(logoutTime)
 
 export const setLogoutTime = set(logoutTime)
 
-export const toJS = pipe(Options.guard, txnotes => {
+export const toJS = pipe(Options.guard, (txnotes) => {
   return txnotes.toObject()
 })
 
-export const fromJS = object => {
+export const fromJS = (object) => {
   if (isOptions(object)) {
     return object
-  } else {
-    return new Options(object)
   }
+  return new Options(object)
 }
 
-export const reviver = object => {
+export const reviver = (object) => {
   return new Options(object)
 }
 
 export const js = (iterations = 5000) => ({
-  pbkdf2_iterations: iterations,
   html5_notifications: false,
-  logout_time: 600000
+  logout_time: 600000,
+  pbkdf2_iterations: iterations
 })

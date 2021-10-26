@@ -2,13 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import {
-  Button,
-  Image,
-  Modal,
-  ModalHeader,
-  Text
-} from 'blockchain-info-components'
+import { Button, Image, Modal, ModalHeader, Text } from 'blockchain-info-components'
 
 const Body = styled.div`
   display: flex;
@@ -25,7 +19,7 @@ const Title = styled(Text)`
   font-size: 26px;
   b {
     font-weight: 500;
-    color: ${props => props.theme.success};
+    color: ${(props) => props.theme.success};
   }
 `
 const Message = styled(Text)`
@@ -63,10 +57,7 @@ export const BitPayInvoiceExpired = ({ close, position, total }) => (
         />
       </Message>
       <FooterButton nature='primary' size='20px' fullwidth onClick={close}>
-        <FormattedMessage
-          defaultMessage='OK'
-          id='modals.support.contact_support'
-        />
+        <FormattedMessage defaultMessage='OK' id='modals.support.contact_support' />
       </FooterButton>
     </Body>
   </Modal>

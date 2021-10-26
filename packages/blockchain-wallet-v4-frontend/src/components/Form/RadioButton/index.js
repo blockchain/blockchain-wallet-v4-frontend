@@ -23,7 +23,7 @@ const Error = styled(Text)`
   left: 0;
   height: 15px;
 `
-const getErrorState = meta => {
+const getErrorState = (meta) => {
   return meta.touched && meta.invalid ? 'invalid' : 'initial'
 }
 

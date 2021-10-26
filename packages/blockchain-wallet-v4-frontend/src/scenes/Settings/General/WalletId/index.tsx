@@ -44,7 +44,7 @@ const WalletId = (props: Props) => {
   )
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   guid: selectors.core.wallet.getGuid(state) as string
 })
 

@@ -5,14 +5,6 @@ import { Text } from 'blockchain-info-components'
 
 export const CONFIRM_STEPS = {
   connect: {
-    name: 'connect',
-    index: 1,
-    title: () => (
-      <FormattedMessage
-        id='modals.lockbox.connectionprompt.connect.title'
-        defaultMessage='Connect Your Lockbox'
-      />
-    ),
     content: (appName, isTx) =>
       isTx ? (
         <FormattedMessage
@@ -21,7 +13,7 @@ export const CONFIRM_STEPS = {
           values={{ appName }}
         />
       ) : (
-        <React.Fragment>
+        <>
           <FormattedMessage
             id='modals.lockbox.connectionprompt.connect.generic'
             defaultMessage='Connect and unlock your hardware device. Then open the {appName} app on the device.'
@@ -34,23 +26,50 @@ export const CONFIRM_STEPS = {
               values={{ appName }}
             />
           </Text>
-        </React.Fragment>
+        </>
       ),
     image: () => 'lockbox-send-connect',
+    index: 1,
+    name: 'connect',
     srcset: () => ({
       'lockbox-send-connect2': '2x',
       'lockbox-send-connect3': '3x'
-    })
-  },
-  ready: {
-    name: 'ready',
-    index: 2,
+    }),
     title: () => (
       <FormattedMessage
-        id='modals.lockbox.connectionprompt.ready.title'
-        defaultMessage='Review Transaction Details'
+        id='modals.lockbox.connectionprompt.connect.title'
+        defaultMessage='Connect Your Lockbox'
+      />
+    )
+  },
+  error: {
+    content: () => (
+      <FormattedMessage
+        id='modals.lockbox.connectionprompt.error.content'
+        defaultMessage='Something went wrong. Please reconnect your device and try again.'
       />
     ),
+    image: () => 'lockbox-failed',
+    index: 3,
+    name: 'error',
+    srcset: () => ({
+      'lockbox-failed2': '2x',
+      'lockbox-failed3': '3x'
+    }),
+    title: (appName, isTx) =>
+      isTx ? (
+        <FormattedMessage
+          id='modals.lockbox.connectionprompt.error.txtitle'
+          defaultMessage='Transaction Failed'
+        />
+      ) : (
+        <FormattedMessage
+          id='modals.lockbox.connectionprompt.error.generictitle'
+          defaultMessage='An Error Occurred'
+        />
+      )
+  },
+  ready: {
     content: () => (
       <FormattedMessage
         id='modals.lockbox.connectionprompt.ready.content'
@@ -58,28 +77,20 @@ export const CONFIRM_STEPS = {
       />
     ),
     image: () => 'lockbox-send-review',
+    index: 2,
+    name: 'ready',
     srcset: () => ({
       'lockbox-send-review2': '2x',
       'lockbox-send-review3': '3x'
-    })
+    }),
+    title: () => (
+      <FormattedMessage
+        id='modals.lockbox.connectionprompt.ready.title'
+        defaultMessage='Review Transaction Details'
+      />
+    )
   },
   success: {
-    name: 'success',
-    index: 3,
-    title: (appName, isTx) =>
-      isTx ? (
-        <FormattedMessage
-          id='modals.lockbox.connectionprompt.success.title'
-          defaultMessage='Your {appName} Transaction Was Sent'
-          values={{ appName }}
-        />
-      ) : (
-        <FormattedMessage
-          id='modals.lockbox.connectionprompt.success.titlegeneric'
-          defaultMessage='{appName} Success'
-          values={{ appName }}
-        />
-      ),
     content: (appName, isTx) =>
       isTx ? (
         <FormattedMessage
@@ -94,36 +105,25 @@ export const CONFIRM_STEPS = {
         />
       ),
     image: () => 'lockbox-success',
+    index: 3,
+    name: 'success',
     srcset: () => ({
       'lockbox-success2': '2x',
       'lockbox-success3': '3x'
-    })
-  },
-  error: {
-    name: 'error',
-    index: 3,
+    }),
     title: (appName, isTx) =>
       isTx ? (
         <FormattedMessage
-          id='modals.lockbox.connectionprompt.error.txtitle'
-          defaultMessage='Transaction Failed'
+          id='modals.lockbox.connectionprompt.success.title'
+          defaultMessage='Your {appName} Transaction Was Sent'
+          values={{ appName }}
         />
       ) : (
         <FormattedMessage
-          id='modals.lockbox.connectionprompt.error.generictitle'
-          defaultMessage='An Error Occurred'
+          id='modals.lockbox.connectionprompt.success.titlegeneric'
+          defaultMessage='{appName} Success'
+          values={{ appName }}
         />
-      ),
-    content: () => (
-      <FormattedMessage
-        id='modals.lockbox.connectionprompt.error.content'
-        defaultMessage='Something went wrong. Please reconnect your device and try again.'
-      />
-    ),
-    image: () => 'lockbox-failed',
-    srcset: () => ({
-      'lockbox-failed2': '2x',
-      'lockbox-failed3': '3x'
-    })
+      )
   }
 }

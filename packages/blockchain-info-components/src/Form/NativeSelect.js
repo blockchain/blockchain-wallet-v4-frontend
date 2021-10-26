@@ -16,19 +16,19 @@ const BaseSelectInput = styled.select`
   background-size: 12px;
   background-repeat: no-repeat;
   background-position: center right 10px;
-  color: ${props => props.theme['grey800']};
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  background-color: ${props => props.theme.white};
-  border: 1px solid ${props => props.theme.grey200};
-  margin-left: ${props => (props.inline ? '5px' : '0px')};
+  color: ${(props) => props.theme.grey800};
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: ${(props) => props.theme.white};
+  border: 1px solid ${(props) => props.theme.grey200};
+  margin-left: ${(props) => (props.inline ? '5px' : '0px')};
   &:active,
   &:focus {
-    border: 1px solid ${props => props.theme.blue600};
+    border: 1px solid ${(props) => props.theme.blue600};
   }
 `
 
-const selectBorderColor = state => {
+const selectBorderColor = (state) => {
   switch (state) {
     case 'initial':
       return 'grey200'
@@ -41,7 +41,7 @@ const selectBorderColor = state => {
   }
 }
 
-const SelectInput = props => {
+const SelectInput = (props) => {
   const { disabled, errorState, input, ...rest } = props
   const borderColor = selectBorderColor(errorState)
 
