@@ -615,13 +615,14 @@ export default ({ api, coreSagas, networks }) => {
       // open coin ws needed for coin streams and channel key for mobile login
       yield put(actions.ws.startSocket())
 
-      // pull product auth data from querystring
+      // get product auth data from querystring
       const searchString = yield select(selectors.router.getSearch)
       const queryParams = new URLSearchParams(searchString)
-      // default platform to WEB if not explicitly set
+      // get device platform param or default to web
       const platform = (queryParams.get('platform') || PlatformTypes.WEB) as PlatformTypes
-      // default product to WALLET if not explicitly set
-      const product = (queryParams.get('product') || ProductAuthOptions.WALLET) as ProductAuthOptions
+      // get product param or default to wallet
+      const product = (queryParams.get('product') ||
+        ProductAuthOptions.WALLET) as ProductAuthOptions
       const redirect = queryParams.get('redirect')
 
       // store product auth data defaulting to product=wallet and platform=web
@@ -800,7 +801,7 @@ export default ({ api, coreSagas, networks }) => {
     login,
     loginRoutineSaga,
     mobileLogin,
-    pingManifestFile,
+    pingManifestFile, // TODO: move to misc
     pollingForMagicLinkDataSession,
     pollingSession,
     register,
@@ -808,8 +809,8 @@ export default ({ api, coreSagas, networks }) => {
     resetAccount,
     restore,
     restoreFromMetadata,
-    saveGoals,
-    startSockets,
+    saveGoals, // TODO: move to misc or goals
+    startSockets, // TODO: move to misc
     triggerWalletMagicLink
   }
 }
