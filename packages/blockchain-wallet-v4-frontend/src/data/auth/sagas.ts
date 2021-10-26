@@ -621,7 +621,7 @@ export default ({ api, coreSagas, networks }) => {
       // default platform to WEB if not explicitly set
       const platform = (queryParams.get('platform') || PlatformTypes.WEB) as PlatformTypes
       // default product to WALLET if not explicitly set
-      const product = (queryParams.get('app') || ProductAuthOptions.WALLET) as ProductAuthOptions
+      const product = (queryParams.get('product') || ProductAuthOptions.WALLET) as ProductAuthOptions
       const redirect = queryParams.get('redirect')
 
       // store product auth data defaulting to product=wallet and platform=web
