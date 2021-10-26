@@ -2,12 +2,14 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import Bowser from 'bowser'
 import PropTypes from 'prop-types'
+import { isEmpty } from 'ramda'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Remote } from '@core'
 import { Banner, Button, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import UpgradeToGoldBanner from 'components/Flyout/Banners/UpgradeToGold'
 import {
   Form,
   FormGroup,
@@ -25,6 +27,7 @@ import UnstoppableDomains from 'components/UnstoppableDomains'
 import { model } from 'data'
 import { required, validXlmAddress } from 'services/forms'
 
+import { TIER_TYPES } from '../../../Settings/TradingLimits/model'
 import { ErrorBanner } from './ErrorBanner'
 import { InfoBanner } from './InfoBanner'
 import { NoAccountTemplate } from './NoAccountTemplate'
@@ -82,6 +85,7 @@ const FirstStep = (props) => {
     isMnemonicVerified,
     noAccount,
     pristine,
+    sendLimits,
     submit,
     submitting,
     swapActions
@@ -279,6 +283,11 @@ const FirstStep = (props) => {
             </FormItem>
           </FormGroup>
           {isFromCustody && !isMnemonicVerified ? <MnemonicRequiredForCustodySend /> : null}
+          {isFromCustody &&
+          !isEmpty(sendLimits) &&
+          sendLimits?.globalLimit?.suggestedUpgrade?.requiredTier === TIER_TYPES.GOLD ? (
+            <UpgradeToGoldBanner limits={sendLimits} />
+          ) : null}
           <SubmitFormGroup>
             <Button
               /*

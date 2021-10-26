@@ -1,4 +1,4 @@
-import { convertCoinToCoin, convertFiatToCoin } from '@core/exchange'
+import { convertCoinToCoin, convertCoinToFiat, convertFiatToCoin } from '@core/exchange'
 
 import { SendFormType } from '../types'
 import { Props } from '.'
@@ -9,6 +9,18 @@ const maximumAmount = (amount: string, balance: string | number, fee: string): b
   return Number(amount) > Number(balance) - Number(fee)
 }
 
+const maximumAmountWithLimit = (
+  amount: string,
+  balance: string | number,
+  limit: string | number,
+  fee: string
+): boolean | string => {
+  if (!amount) return false
+
+  // check current amount vs limit, also check is limit + fee in available balance
+  return Number(amount) > Number(limit) && Number(limit) + Number(fee) <= Number(balance)
+}
+
 const minimumAmount = (amount: string, min: number) => {
   if (!amount) return false
 
@@ -16,7 +28,7 @@ const minimumAmount = (amount: string, min: number) => {
 }
 
 export const validate = (formValues: SendFormType, props: Props) => {
-  const { feesR, minR, rates, walletCurrency: currency } = props
+  const { feesR, minR, rates, sendLimits, walletCurrency: currency } = props
   const { amount, fix, selectedAccount } = formValues
   const { coin } = selectedAccount
 
@@ -43,7 +55,37 @@ export const validate = (formValues: SendFormType, props: Props) => {
   })
 
   const isBelowMin = minimumAmount(cryptoStandardAmt, minR.getOrElse(0) || 0)
-  const isAboveMax = maximumAmount(cryptoBaseAmt, selectedAccount.balance, feeBaseAmt)
+  let isAboveMax = maximumAmount(cryptoBaseAmt, selectedAccount.balance, feeBaseAmt)
+
+  // do this only for seamless limits and if amount is below current balance
+  if (sendLimits?.globalLimit?.available && !isAboveMax) {
+    const { value: limitAmount } = sendLimits.globalLimit.available
+    const maxLimit =
+      fix === 'FIAT'
+        ? limitAmount
+        : convertFiatToCoin({
+            coin,
+            currency,
+            maxPrecision: 8,
+            rates,
+            value: limitAmount
+          })
+    const maxLimitFee =
+      fix === 'FIAT'
+        ? convertCoinToFiat({
+            coin,
+            currency,
+            isStandard: true,
+            rates,
+            value: fee
+          })
+        : convertCoinToCoin({
+            baseToStandard: false,
+            coin,
+            value: fee
+          })
+    isAboveMax = maximumAmountWithLimit(amount, selectedAccount.balance, maxLimit, maxLimitFee)
+  }
 
   return {
     amount: isBelowMin ? 'BELOW_MIN' : isAboveMax ? 'ABOVE_MAX' : false

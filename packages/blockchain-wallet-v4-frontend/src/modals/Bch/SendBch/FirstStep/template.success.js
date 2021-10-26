@@ -1,6 +1,5 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { TIER_TYPES } from 'blockchain-wallet-v4-frontend/src/modals/Settings/TradingLimits/model'
 import Bowser from 'bowser'
 import PropTypes from 'prop-types'
 import { isEmpty } from 'ramda'
@@ -29,6 +28,7 @@ import UnstoppableDomains from 'components/UnstoppableDomains'
 import { model } from 'data'
 import { required, validBchAddress } from 'services/forms'
 
+import { TIER_TYPES } from '../../../Settings/TradingLimits/model'
 import {
   insufficientFunds,
   invalidAmount,
@@ -257,7 +257,7 @@ const FirstStep = (props) => {
       {isFromCustody &&
       !isEmpty(sendLimits) &&
       sendLimits?.globalLimit?.suggestedUpgrade?.requiredTier === TIER_TYPES.GOLD ? (
-        <UpgradeToGoldBanner limits={sendLimits} style={{ marginTop: '10px' }} />
+        <UpgradeToGoldBanner limits={sendLimits} />
       ) : null}
       <SubmitFormGroup>
         <Button

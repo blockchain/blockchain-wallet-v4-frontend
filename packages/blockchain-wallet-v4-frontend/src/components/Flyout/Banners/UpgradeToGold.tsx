@@ -19,6 +19,7 @@ const Wrapper = styled.div`
   border: 1px solid ${(props) => props.theme.grey000};
   border-radius: 8px;
   padding: 20px;
+  margin: 10px 0;
 
   ${media.atLeastLaptop`
     height: 142px;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { isEmpty } from 'ramda'
 import { compose } from 'redux'
 import { Field } from 'redux-form'
 import reduxForm, { InjectedFormProps } from 'redux-form/lib/reduxForm'
@@ -15,6 +16,7 @@ import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import CollapseText from 'components/CollapseText'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
+import UpgradeToGoldBanner from 'components/Flyout/Banners/UpgradeToGold'
 import { StepHeader } from 'components/Flyout/SendRequestCrypto'
 import { Form } from 'components/Form'
 import { DisplayContainer } from 'components/SimpleBuy'
@@ -24,6 +26,7 @@ import { formatTextAmount } from 'services/forms'
 import { media } from 'services/styles'
 import { hexToRgb } from 'utils/helpers'
 
+import { TIER_TYPES } from '../../Settings/TradingLimits/model'
 import { Row } from '../../Swap/EnterAmount/Checkout'
 import { Props as OwnProps } from '..'
 import { SEND_FORM } from '../model'
@@ -112,8 +115,16 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
     currencyNode.style.fontSize = `${fontSizeNumber * (fontRatio - 0.3)}px`
   }
 
-  const { formActions, formErrors, formValues, minR, rates, sendCryptoActions, walletCurrency } =
-    props
+  const {
+    formActions,
+    formErrors,
+    formValues,
+    minR,
+    rates,
+    sendCryptoActions,
+    sendLimits,
+    walletCurrency
+  } = props
   const amtError = typeof formErrors.amount === 'string' && formErrors.amount
   const { amount, fix, selectedAccount, to } = formValues
   const { coin } = selectedAccount
@@ -336,6 +347,10 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
           paddingTop: '0px'
         }}
       >
+        {!isEmpty(sendLimits) &&
+        sendLimits?.globalLimit?.suggestedUpgrade?.requiredTier === TIER_TYPES.GOLD ? (
+          <UpgradeToGoldBanner limits={sendLimits} />
+        ) : null}
         <Button
           nature='primary'
           type='submit'
