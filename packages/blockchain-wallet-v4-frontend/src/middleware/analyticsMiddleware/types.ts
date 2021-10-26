@@ -364,6 +364,7 @@ type LoginHelpClickedPayload = BasePayload & {
 }
 
 type LoginRequestApprovedOrFailedPayload = BasePayload & {
+  error?: 'REJECTED' | 'EXPIRED' | 'TIMED_OUT' | 'UNKNOWN'
   method: 'SECURE_CHANNEL' | 'MAGIC_LINK'
 }
 

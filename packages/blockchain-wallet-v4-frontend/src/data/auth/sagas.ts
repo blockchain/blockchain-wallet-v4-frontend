@@ -268,6 +268,7 @@ export default ({ api, coreSagas, networks }) => {
     if (n === 0) {
       yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
       yield put(actions.alerts.displayInfo(C.VERIFY_DEVICE_EXPIRY, undefined, true))
+      yield put(actions.auth.analyticsAuthorizeVerifyDeviceFailure('TIMED_OUT'))
       return false
     }
     try {
@@ -652,14 +653,20 @@ export default ({ api, coreSagas, networks }) => {
       )
       if (data.success) {
         yield put(actions.auth.authorizeVerifyDeviceSuccess({ deviceAuthorized: true }))
+        yield put(actions.auth.analyticsAuthorizeVerifyDeviceSuccess())
       }
     } catch (e) {
       if (e.status === 401 && e.confirmation_required) {
         yield put(actions.auth.authorizeVerifyDeviceSuccess(e))
-      } else if (e.status === 409 || (e.status === 400 && e.link_expired)) {
+      } else if (e.status === 409) {
         yield put(actions.auth.authorizeVerifyDeviceFailure(e))
+        yield put(actions.auth.analyticsAuthorizeVerifyDeviceFailure('REJECTED'))
+      } else if (e.status === 400 && e.link_expired) {
+        yield put(actions.auth.authorizeVerifyDeviceFailure(e))
+        yield put(actions.auth.analyticsAuthorizeVerifyDeviceFailure('EXPIRED'))
       } else {
         yield put(actions.auth.authorizeVerifyDeviceFailure(e.error))
+        yield put(actions.auth.analyticsAuthorizeVerifyDeviceFailure('UNKNOWN'))
       }
     }
   }
