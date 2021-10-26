@@ -25,7 +25,7 @@ const Error = (props) => {
         ) : error.link_expired ? (
           <FormattedMessage
             id='scenes.login.device_verification_expired'
-            defaultMessage='Verication link expired.'
+            defaultMessage='Verification link expired.'
           />
         ) : (
           <FormattedMessage

@@ -2191,7 +2191,7 @@ type MessagesType = {
   'scenes.login.browserwarning': 'Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, Edge, or Opera.'
   'scenes.login.checkemail': 'If you have an account registered with this email address, you will receive an email with a link to verify your device. <b>Open the link in this browser window.</b>'
   'scenes.login.clickhere': 'click here.'
-  'scenes.login.device_verification_expired': 'Verication link expired.'
+  'scenes.login.device_verification_expired': 'Verification link expired.'
   'scenes.login._device_verification_expired.copy': 'Return to your original device to request a new one.' 
   'scenes.login.device_verification_failed': 'Device verification failed.'
   'scenes.login.device_verification_rejected': 'Device verification rejected.'

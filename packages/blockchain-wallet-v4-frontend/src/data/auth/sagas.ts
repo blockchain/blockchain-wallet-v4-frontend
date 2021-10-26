@@ -271,7 +271,7 @@ export default ({ api, coreSagas, networks }) => {
       return false
     }
     try {
-      yield delay(2500)
+      yield delay(2000)
       const response = yield call(api.getMagicLinkData, session)
       if (prop('wallet', response)) {
         yield put(actions.auth.setMagicLinkInfo(response))
