@@ -2,7 +2,6 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import Bowser from 'bowser'
 import PropTypes from 'prop-types'
-import { isEmpty } from 'ramda'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
@@ -163,6 +162,9 @@ const FirstStep = (props) => {
           </Text>
         </WarningBanners>
       )}
+      <FormGroup>
+        <CustodyToAccountMessage coin='BTC' account={from} amount={amount} />
+      </FormGroup>
       <FormGroup margin={isFromCustody ? '15px' : '8px'}>
         <FormItem>
           <FormLabel htmlFor='to'>
@@ -210,9 +212,6 @@ const FirstStep = (props) => {
         </FormItem>
       </FormGroup>
       <UnstoppableDomains form={model.components.sendBtc.FORM} />
-      <FormGroup>
-        <CustodyToAccountMessage coin='BTC' account={from} amount={amount} />
-      </FormGroup>
       <FormGroup margin='15px'>
         <FormItem>
           <FormLabel htmlFor='amount'>

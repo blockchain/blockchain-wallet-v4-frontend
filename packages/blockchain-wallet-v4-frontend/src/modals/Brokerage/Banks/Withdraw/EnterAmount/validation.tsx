@@ -1,6 +1,6 @@
 import { selectors } from 'data'
 
-import { Props } from './template.success'
+import { SuccessStateType as Props } from '.'
 
 export const maximumAmount = (value: string, allValues, restProps: Props) => {
   if (!value) return true

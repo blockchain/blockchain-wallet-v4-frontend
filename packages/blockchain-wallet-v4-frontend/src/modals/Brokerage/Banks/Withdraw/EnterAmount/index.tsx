@@ -5,22 +5,21 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { Remote } from '@core'
 import { SBPaymentTypes } from '@core/network/api/simpleBuy/types'
 import { BeneficiaryType, ExtractSuccess, WalletFiatType } from '@core/types'
-import { FlyoutOopsError } from 'components/Flyout'
+import { EnterAmount, FlyoutOopsError } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import {
   BankPartners,
   BankTransferAccountType,
-  UserDataType,
+  BrokerageOrderType,
   WithdrawCheckoutFormValuesType,
   WithdrawStepEnum
 } from 'data/types'
 
 import getData from './selectors'
 import Loading from './template.loading'
-import Success from './template.success'
 
-const EnterAmount = (props: Props) => {
+const EnterAmountContainer = (props: Props) => {
   useEffect(() => {
     let paymentMethod: SBPaymentTypes | 'ALL' = 'ALL'
     if (props.defaultMethod) {
@@ -69,28 +68,33 @@ const EnterAmount = (props: Props) => {
     }
   }
 
-  const handleBankSelection = (
-    userData: UserDataType,
-    beneficiary?: BeneficiaryType | BankTransferAccountType
-  ) => {
-    if (!beneficiary) {
+  const handleBankSelection = () => {
+    if (!props.beneficiary) {
       props.buySellActions.showModal({ origin: 'WithdrawModal' })
-      if (userData.tiers.current === 2) {
-        return props.buySellActions.setStep({
+      if (props.userData.tiers.current === 2) {
+        props.buySellActions.setStep({
           addBank: true,
           displayBack: false,
           fiatCurrency: props.fiatCurrency,
           step: 'BANK_WIRE_DETAILS'
         })
+        return
       }
-      return props.buySellActions.setStep({
+      props.buySellActions.setStep({
         step: 'KYC_REQUIRED'
       })
+      return
     }
 
     props.withdrawActions.setStep({
       fiatCurrency: props.fiatCurrency,
       step: WithdrawStepEnum.BANK_PICKER
+    })
+  }
+
+  const handleLearnMoreClick = () => {
+    props.withdrawActions.setStep({
+      step: WithdrawStepEnum.ON_HOLD
     })
   }
 
@@ -100,23 +104,43 @@ const EnterAmount = (props: Props) => {
     ),
     Loading: () => <Loading />,
     NotAsked: () => <Loading />,
-    Success: (val) => (
-      <Success
-        {...props}
-        {...val}
-        onSubmit={handleSubmit}
-        handleBankSelection={handleBankSelection}
-      />
-    )
+    Success: (val) => {
+      const paymentMethod = val.paymentMethods.methods.find((method) => {
+        return (
+          method.type === SBPaymentTypes.BANK_TRANSFER ||
+          method.type === SBPaymentTypes.BANK_ACCOUNT
+        )
+      })
+
+      if (!paymentMethod) {
+        return <FlyoutOopsError action='retry' data-e2e='withdrawReload' handler={errorCallback} />
+      }
+
+      return (
+        <EnterAmount
+          onSubmit={handleSubmit}
+          initialValues={{ currency: props.fiatCurrency }}
+          fee={val.fees.minorValue}
+          fiatCurrency={props.fiatCurrency}
+          handleBack={props.handleClose}
+          handleMethodClick={handleBankSelection}
+          handleLearnMoreClick={handleLearnMoreClick}
+          orderType={BrokerageOrderType.WITHDRAW}
+          paymentAccount={val.defaultMethod || props.beneficiary || val.defaultBeneficiary}
+          paymentMethod={paymentMethod}
+          withdrawableBalance={val.withdrawableBalance}
+          minWithdrawAmount={val.minAmount.minorValue}
+        />
+      )
+    }
   })
 }
 
 const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   data: getData(state, ownProps),
   defaultMethod: selectors.components.brokerage.getAccount(state),
-  formValues: selectors.form.getFormValues('custodyWithdrawForm')(
-    state
-  ) as WithdrawCheckoutFormValuesType
+  formValues: selectors.form.getFormValues('brokerageTx')(state) as WithdrawCheckoutFormValuesType,
+  userData: selectors.modules.profile.getUserData(state).getOrFail('Unknown user')
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -139,4 +163,4 @@ export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>> & {
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default connector(EnterAmount)
+export default connector(EnterAmountContainer)

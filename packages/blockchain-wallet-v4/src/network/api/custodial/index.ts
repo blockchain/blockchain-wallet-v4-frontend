@@ -1,4 +1,4 @@
-import { CoinType, SBPaymentTypes, WalletFiatType } from '@core/types'
+import { CoinType, FiatType, SBPaymentTypes, WalletFiatType } from '@core/types'
 import {
   BankTransferAccountType,
   NabuProductType,
@@ -28,9 +28,12 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const getWithdrawalLocks = (): WithdrawalLockResponseType =>
+  const getWithdrawalLocks = (currency: FiatType): WithdrawalLockResponseType =>
     authorizedGet({
-      endPoint: '/payments/withdrawals/locks',
+      data: {
+        currency
+      },
+      endPoint: `/payments/withdrawals/locks`,
       url: nabuUrl
     })
 
@@ -94,8 +97,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       contentType: 'application/json',
       data: {
         currency,
-        paymentMethod,
-        product: 'SIMPLEBUY'
+        paymentMethod
       },
       endPoint: '/payments/withdrawals/locks/check',
       url: nabuUrl

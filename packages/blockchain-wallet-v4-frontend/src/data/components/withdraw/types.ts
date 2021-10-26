@@ -21,12 +21,13 @@ export enum WithdrawStepEnum {
   ENTER_AMOUNT = 'ENTER_AMOUNT',
   INELIGIBLE = 'INELIGIBLE',
   LOADING = 'LOADING',
+  ON_HOLD = 'ON_HOLD',
   WITHDRAWAL_DETAILS = 'WITHDRAWAL_DETAILS',
   WITHDRAWAL_METHODS = 'WITHDRAWAL_METHODS'
 }
 
 export type WithdrawStepActionsPayload =
-  | { step: WithdrawStepEnum.LOADING | WithdrawStepEnum.INELIGIBLE }
+  | { step: WithdrawStepEnum.LOADING | WithdrawStepEnum.INELIGIBLE | WithdrawStepEnum.ON_HOLD }
   | {
       beneficiary?: BeneficiaryType
       fiatCurrency: WalletFiatType
