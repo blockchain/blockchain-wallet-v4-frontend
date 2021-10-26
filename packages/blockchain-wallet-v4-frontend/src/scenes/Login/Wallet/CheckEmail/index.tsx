@@ -15,16 +15,9 @@ const FormBody = styled.div`
 `
 
 const CheckEmail = (props: Props) => {
-  const handleBackArrowClick = () => {
-    props.cacheActions.removedStoredLogin()
-    props.formActions.destroy(LOGIN_FORM_NAME)
-    props.setStep(LoginSteps.ENTER_EMAIL_GUID)
-    props.authActions.clearLoginError()
-    props.initCaptcha()
-  }
   return (
     <>
-      <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} />
+      <BackArrowFormHeader {...props} handleBackArrowClick={props.handleBackArrowClick} />
       <FormBody>
         <CircleBackground color='blue600'>
           <Icon name='computer' color='white' size='24px' />

@@ -21,8 +21,8 @@ import {
 const isSupportedBrowser = isBrowserSupported()
 
 const EnterEmailOrGuid = (props: Props) => {
-  const { authActions, busy, guidOrEmail, invalid, loginError, submitting } = props
-  const guidError = loginError && loginError.toLowerCase().includes('unknown wallet id')
+  const { authActions, busy, formValues, invalid, submitting, walletError } = props
+  const guidError = walletError && walletError.toLowerCase().includes('unknown wallet id')
 
   return (
     <>
@@ -64,7 +64,7 @@ const EnterEmailOrGuid = (props: Props) => {
           nature='primary'
           fullwidth
           height='48px'
-          disabled={submitting || invalid || busy || !guidOrEmail}
+          disabled={submitting || invalid || busy || !formValues?.guidOrEmail}
           data-e2e='loginButton'
           style={{ marginBottom: '16px' }}
         >

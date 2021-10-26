@@ -35,20 +35,12 @@ const LinkRow = styled.div`
 const VerificationMobile = (props: Props) => {
   const {
     authActions,
-    cacheActions,
-    formActions,
+    handleBackArrowClick,
     phonePubKey,
     qrData,
     secureChannelLoginState,
     setStep
   } = props
-
-  const handleBackArrowClick = () => {
-    cacheActions.removedStoredLogin()
-    formActions.destroy(LOGIN_FORM_NAME)
-    setStep(LoginSteps.ENTER_EMAIL_GUID)
-    authActions.clearLoginError()
-  }
 
   const loginWithPasswordClicked = () => {
     authActions.analyticsLoginMethodSelected('PASSWORD')

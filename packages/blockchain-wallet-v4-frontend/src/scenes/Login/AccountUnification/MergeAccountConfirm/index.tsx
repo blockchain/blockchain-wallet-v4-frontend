@@ -23,15 +23,7 @@ const TextStack = styled.div`
 `
 
 const MergeAccountConfirm = (props: Props) => {
-  const { accountUnificationFlow, authActions, cacheActions, formActions, initCaptcha, setStep } =
-    props
-  const handleBackArrowClick = () => {
-    cacheActions.removedStoredLogin()
-    formActions.destroy(LOGIN_FORM_NAME)
-    setStep(LoginSteps.ENTER_EMAIL_GUID)
-    authActions.clearLoginError()
-    initCaptcha()
-  }
+  const { accountUnificationFlow, authActions, handleBackArrowClick, setStep } = props
 
   const handleUpgradeAccountClick = () => {
     if (accountUnificationFlow === AccountUnificationFlows.EXCHANGE_UPGRADE) {

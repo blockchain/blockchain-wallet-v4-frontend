@@ -20,7 +20,7 @@ import {
 const isSupportedBrowser = isBrowserSupported()
 
 const EnterEmail = (props: Props) => {
-  const { authActions, busy, guidOrEmail, invalid, submitting } = props
+  const { authActions, busy, formValues, invalid, submitting } = props
   return (
     <>
       <FormGroup>
@@ -49,7 +49,7 @@ const EnterEmail = (props: Props) => {
           nature='primary'
           fullwidth
           height='48px'
-          disabled={submitting || invalid || busy || !guidOrEmail}
+          disabled={submitting || invalid || busy || !formValues?.guidOrEmail}
           data-e2e='loginButton'
           style={{ marginBottom: '16px' }}
         >
