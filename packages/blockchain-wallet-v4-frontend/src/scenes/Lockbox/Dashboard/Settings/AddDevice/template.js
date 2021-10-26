@@ -10,7 +10,7 @@ import {
   SettingSummary
 } from 'components/Setting'
 
-const AddDevice = props => {
+const AddDevice = (props) => {
   const { isBrowserSupported, onClick } = props
 
   return (

@@ -15,8 +15,8 @@ const stretchAnimation = css`
 const Container = styled.div`
   display: flex;
   justify-content: space-around;
-  width: ${props => props.width};
-  height: ${props => props.height};
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
   text-align: center;
   font-size: 10px;
 `
@@ -24,7 +24,7 @@ const Rectangle = styled.div`
   display: inline-block;
   width: 15%;
   height: 100%;
-  background-color: ${props => props.theme[props.color]};
+  background-color: ${(props) => props.theme[props.color]};
   ${stretchAnimation};
 `
 const Rectangle1 = styled(Rectangle)`
@@ -43,7 +43,7 @@ const Rectangle5 = styled(Rectangle)`
   animation-delay: -0.7s;
 `
 
-const FlatLoader2 = props => {
+const FlatLoader2 = (props) => {
   const { color, ...rest } = props
 
   return (
@@ -58,15 +58,15 @@ const FlatLoader2 = props => {
 }
 
 FlatLoader2.propTypes = {
-  width: PropTypes.string.isRequired,
+  color: PropTypes.oneOf(keysIn(Palette())),
   height: PropTypes.string.isRequired,
-  color: PropTypes.oneOf(keysIn(Palette()))
+  width: PropTypes.string.isRequired
 }
 
 FlatLoader2.defaultProps = {
-  width: '45px',
+  color: 'blue600',
   height: '50px',
-  color: 'blue600'
+  width: '45px'
 }
 
 export default FlatLoader2

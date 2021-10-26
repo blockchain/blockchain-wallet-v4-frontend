@@ -8,7 +8,7 @@ import { Icon } from '../../Icons'
 
 const Wrapper = styled.div`
   display: inline-flex;
-  text-transform: ${props => (props.uppercase ? 'uppercase' : 'none')};
+  text-transform: ${(props) => (props.uppercase ? 'uppercase' : 'none')};
   position: relative;
   width: 100%;
 `
@@ -29,46 +29,45 @@ const DropdownIcon = styled(Icon)`
 `
 const DropdownList = styled.ul`
   background-clip: padding-box;
-  background-color: ${props => props.theme.white};
+  background-color: ${(props) => props.theme.white};
   border-radius: 8px;
   bottom: 0;
   box-sizing: border-box;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  display: ${props => (props.toggled ? 'block' : 'none')};
+  display: ${(props) => (props.toggled ? 'block' : 'none')};
   float: none;
   height: auto;
-  width: ${props => (props.width ? props.width : 'inherit')};
+  width: ${(props) => (props.width ? props.width : 'inherit')};
   line-height: 24px;
   list-style-image: none;
   list-style-position: outside;
   list-style-type: none;
-  margin: ${props => (props.margin ? props.margin : '2px 0')};
+  margin: ${(props) => (props.margin ? props.margin : '2px 0')};
   min-width: 20px;
   overflow: auto;
   padding: 5px;
   position: absolute;
   right: 0;
   z-index: 10;
-  ${props =>
-    props.down ? 'top: 25px; bottom: auto;' : 'top: auto; bottom: 25px;'};
+  ${(props) => (props.down ? 'top: 25px; bottom: auto;' : 'top: auto; bottom: 25px;')};
 `
 
 const DropdownItem = styled.li`
-  color: ${props => props.theme['grey900']};
+  color: ${(props) => props.theme.grey900};
   cursor: pointer;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 14px;
   font-weight: 500;
-  text-align: ${props => (props.textAlign ? props.textAlign : 'left')};
+  text-align: ${(props) => (props.textAlign ? props.textAlign : 'left')};
   white-space: nowrap;
 
   > div:hover {
-    color: ${props => props.theme.blue600};
+    color: ${(props) => props.theme.blue600};
   }
 `
 
-const Dropdown = props => {
+const Dropdown = (props) => {
   const {
     color,
     components,
@@ -118,10 +117,10 @@ const Dropdown = props => {
 
 Dropdown.defaultProps = {
   color: 'blue600',
-  toggled: false,
+  down: false,
   selectedValue: 0,
-  uppercase: true,
-  down: false
+  toggled: false,
+  uppercase: true
 }
 
 Dropdown.propTypes = {

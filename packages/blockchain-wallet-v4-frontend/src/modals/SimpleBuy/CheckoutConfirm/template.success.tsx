@@ -17,7 +17,8 @@ import {
   TextGroup
 } from 'blockchain-info-components'
 import { ErrorCartridge } from 'components/Cartridge'
-import { FlyoutWrapper, getPeriodSubTitleText, getPeriodTitleText, Row } from 'components/Flyout'
+import { FlyoutWrapper, Row } from 'components/Flyout'
+import { getPeriodSubTitleText, getPeriodTitleText } from 'components/Flyout/model'
 import { Form } from 'components/Form'
 import {
   getBaseAmount,

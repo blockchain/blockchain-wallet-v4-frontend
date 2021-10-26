@@ -13,23 +13,16 @@ import { preferencesReducer } from 'data/preferences/reducers'
 import { MediaContextProvider } from 'providers/MatchMediaProvider'
 import ThemeProvider from 'providers/ThemeProvider'
 
-export const createTestStore = (
-  reducers = {},
-  sagas = [],
-  middlewares = []
-) => {
+export const createTestStore = (reducers = {}, sagas = [], middlewares = []) => {
   const sagaMiddleware = createSagaMiddleware()
   const combinedReducers = combineReducers({
     form: formReducer,
     preferences: preferencesReducer,
     ...reducers
   })
-  const createTestStore = applyMiddleware(
-    sagaMiddleware,
-    ...middlewares
-  )(createStore)
+  const createTestStore = applyMiddleware(sagaMiddleware, ...middlewares)(createStore)
   const testStore = createTestStore(combinedReducers)
-  sagaMiddleware.run(function * () {
+  sagaMiddleware.run(function* () {
     yield all(map(fork, sagas))
   })
 
@@ -42,9 +35,7 @@ export const TestBed = ({ children, initialRoutes, store, withRouter }) => (
       <ThemeProvider>
         <MediaContextProvider>
           {withRouter ? (
-            <MemoryRouter initialEntries={initialRoutes}>
-              {children}
-            </MemoryRouter>
+            <MemoryRouter initialEntries={initialRoutes}>{children}</MemoryRouter>
           ) : (
             children
           )}
@@ -55,14 +46,14 @@ export const TestBed = ({ children, initialRoutes, store, withRouter }) => (
 )
 
 TestBed.propTypes = {
+  initialRoutes: PropTypes.array,
   store: PropTypes.any.isRequired,
-  withRouter: PropTypes.bool,
-  initialRoutes: PropTypes.array
+  withRouter: PropTypes.bool
 }
 
 TestBed.defaultProps = {
-  withRouter: false,
-  initialRoutes: ['/']
+  initialRoutes: ['/'],
+  withRouter: false
 }
 
 export const getDispatchSpyReducer = () => {

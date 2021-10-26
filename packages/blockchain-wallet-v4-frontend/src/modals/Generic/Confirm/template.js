@@ -13,18 +13,13 @@ import {
 } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 
-import {
-  selectCancel,
-  selectConfirm,
-  selectMessage,
-  selectTitle
-} from './helpers'
+import { selectCancel, selectConfirm, selectMessage, selectTitle } from './helpers'
 
 const Wrapper = styled.div`
   font-weight: 400;
-  color: ${props => props.theme.grey700};
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: ${(props) => props.theme.grey700};
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 `
 const Cancel = styled.span`
   margin-right: 20px;
@@ -56,7 +51,7 @@ const ConfirmTemplate = ({
         <ModalHeader onClose={close}>{selectTitle(title)}</ModalHeader>
         <ModalBody>
           {image && <ModalImage name={image} />}
-          <Text size={'16px'} weight={400}>
+          <Text size='16px' weight={400}>
             {selectMessage(message, messageValues)}
           </Text>
         </ModalBody>

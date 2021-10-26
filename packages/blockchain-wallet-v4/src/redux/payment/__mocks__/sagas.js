@@ -1,19 +1,19 @@
-const createSagas = require.requireActual('../sagas').default
+const createSagas = jest.requireActual('../sagas').default
 
 const mockCreate = ({ create }) => ({
   create: ({ netwotk, payment }) => ({
-    value: jest.fn(() => this),
-    init: jest.fn(),
-    to: jest.fn(),
     amount: jest.fn(),
-    from: jest.fn(),
-    fee: jest.fn(),
     build: jest.fn(),
     buildSweep: jest.fn(),
-    sign: jest.fn(),
-    publish: jest.fn(),
+    chain: jest.fn(),
     description: jest.fn(),
-    chain: jest.fn()
+    fee: jest.fn(),
+    from: jest.fn(),
+    init: jest.fn(),
+    publish: jest.fn(),
+    sign: jest.fn(),
+    to: jest.fn(),
+    value: jest.fn(() => this)
   })
 })
 

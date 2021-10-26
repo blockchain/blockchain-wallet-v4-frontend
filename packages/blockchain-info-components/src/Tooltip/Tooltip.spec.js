@@ -7,7 +7,7 @@ import Tooltip from './template'
 describe('Tooltip component', () => {
   it('renders correctly', () => {
     const component = shallow(
-      <Tooltip id={'tip'}>
+      <Tooltip id='tip'>
         <span>Tool Text</span>
       </Tooltip>
     )

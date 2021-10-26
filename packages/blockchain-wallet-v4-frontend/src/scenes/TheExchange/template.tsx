@@ -34,10 +34,7 @@ const Exchange = (props: Props) => (
           <Icon name='blockchain-logo' color='blue600' size='26px' />
         </IconBackground>
         <SceneHeaderText>
-          <FormattedMessage
-            id='scenes.exchange.blockchain'
-            defaultMessage='Exchange'
-          />
+          <FormattedMessage id='scenes.exchange.blockchain' defaultMessage='Exchange' />
         </SceneHeaderText>
       </HeaderTextWrapper>
     </SceneHeader>

@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { Text, TextInput } from 'blockchain-info-components'
 import { Exchange } from '@core'
+import { Text, TextInput } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   width: 100%;

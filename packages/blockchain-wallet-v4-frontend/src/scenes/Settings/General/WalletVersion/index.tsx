@@ -26,7 +26,7 @@ const WalletVersion = (props: Props) => {
   )
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   version: selectors.core.wallet.getVersion(state) as string
 })
 

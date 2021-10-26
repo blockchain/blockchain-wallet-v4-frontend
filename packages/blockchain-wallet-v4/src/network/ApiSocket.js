@@ -51,25 +51,11 @@ export default class ApiSocket {
       try {
         this.socket = new WebSocket(this.wsUrl)
         this.socket.onopen = onOpen
-        this.socket.onmessage = compose(
-          onMessage,
-          this.handleSystemMessage,
-          this.extractMessage
-        )
+        this.socket.onmessage = compose(onMessage, this.handleSystemMessage, this.extractMessage)
         this.socket.onclose = onClose
         this.socket.onerror = onError
-        this.reconnect = this.connect.bind(
-          this,
-          onOpen,
-          onMessage,
-          onClose,
-          onError,
-          fallback
-        )
-        this.heartbeatIntervalPID = setInterval(
-          this.tryToReconnect,
-          this.heartbeatInterval
-        )
+        this.reconnect = this.connect.bind(this, onOpen, onMessage, onClose, onError, fallback)
+        this.heartbeatIntervalPID = setInterval(this.tryToReconnect, this.heartbeatInterval)
       } catch (e) {
         onError(e)
       }
@@ -80,19 +66,16 @@ export default class ApiSocket {
     return compose(JSON.parse, prop('data'))(msg)
   }
 
-  send = message => {
+  send = (message) => {
     if (this.isReady()) {
       this.socket.send(JSON.stringify(message))
     }
   }
 
-  handleSystemMessage = msg => {
+  handleSystemMessage = (msg) => {
     if (isHeartbeatMsg(msg)) {
       this.stopReconnecting()
-      this.heartbeatIntervalPID = setInterval(
-        this.tryToReconnect,
-        this.heartbeatInterval
-      )
+      this.heartbeatIntervalPID = setInterval(this.tryToReconnect, this.heartbeatInterval)
     }
     if (isServerRebootMsg(msg)) {
       this.stopReconnecting()

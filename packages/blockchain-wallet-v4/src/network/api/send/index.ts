@@ -6,14 +6,14 @@ export default ({ apiUrl, post }) => {
     currency?: string
   ): UnstoppableDomainResultsType => {
     return post({
-      url: apiUrl,
       contentType: 'application/json',
-      endPoint: '/resolve',
       data: {
-        name,
-        currency
+        currency,
+        name
       },
-      removeDefaultPostData: true
+      endPoint: '/resolve',
+      removeDefaultPostData: true,
+      url: apiUrl
     })
   }
 

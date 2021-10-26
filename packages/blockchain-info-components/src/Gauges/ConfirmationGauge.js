@@ -14,12 +14,12 @@ const Bar = styled.div`
   display: flex;
   flex-grow: 1;
   height: 15px;
-  border: 1px solid ${props => props.theme.black};
+  border: 1px solid ${(props) => props.theme.black};
   box-sizing: border-box;
-  background-color: ${props => props.theme[props.color]};
+  background-color: ${(props) => props.theme[props.color]};
 `
 
-const selectColor = nbConfirmations => {
+const selectColor = (nbConfirmations) => {
   switch (nbConfirmations) {
     case 1:
       return 'brand-yellow-lighter'
@@ -32,7 +32,7 @@ const selectColor = nbConfirmations => {
   }
 }
 
-const ConfirmationGauge = props => {
+const ConfirmationGauge = (props) => {
   const { nbConfirmations } = props
   const color = selectColor(nbConfirmations)
 

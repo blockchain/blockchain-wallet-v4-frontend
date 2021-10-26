@@ -31,7 +31,7 @@ const DetailColumn = styled.div`
 `
 
 const DetailColTitle = styled(DetailColumn)`
-  border-bottom: ${props => `solid 1px ${props.theme.grey000}`};
+  border-bottom: ${(props) => `solid 1px ${props.theme.grey000}`};
   padding-bottom: 0.5rem;
 `
 
@@ -116,10 +116,7 @@ const QrCodeAddressInfo = ({
       </DetailColumn>
       <DetailColumn>
         <DetailRowText color='grey600' size='12px' weight={500}>
-          <FormattedMessage
-            id='copy.private_key'
-            defaultMessage='Private Key'
-          />
+          <FormattedMessage id='copy.private_key' defaultMessage='Private Key' />
         </DetailRowText>
 
         <DataRowText size='14px' weight={600} data-e2e='xlmPrivateKeyPrivKey'>

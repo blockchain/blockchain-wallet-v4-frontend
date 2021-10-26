@@ -1,32 +1,35 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
+import styled, { css } from 'styled-components'
 
-import { CustomBlueCartridge } from '../index'
-import { OwnProps as Props } from '.'
+import { WithdrawalLockResponseType } from '@core/types'
+import WithdrawalLockHold from 'components/Brokerage/WithdrawalLockHold'
+import { BlueCartridge } from 'components/Cartridge'
 
-const LockTime = (props: Props & { lockTime: number }) => {
-  const { coin, lockTime, withdrawable } = props
-  return (
-    <CustomBlueCartridge>
-      {withdrawable ? (
-        <FormattedMessage
-          id='modals.send.firststep.amt_greater_than_custody_withdraw'
-          defaultMessage='Your available balance is {withdrawable} {coin}. The remaining balance will be available to be withdrawn within {lockTime} days.'
-          values={{
-            coin,
-            lockTime,
-            withdrawable
-          }}
-        />
-      ) : (
-        <FormattedMessage
-          id='modals.send.firststep.available_in_x_days'
-          defaultMessage='Your {coin} will be available to be withdrawn within {lockTime} days.'
-          values={{ coin, lockTime }}
-        />
-      )}
-    </CustomBlueCartridge>
-  )
+const customCartridge = css`
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+`
+const CustomBlueCartridge = styled(BlueCartridge)`
+  ${customCartridge}
+`
+
+const LockTime = ({ withdrawalLocks }: Props) => (
+  <CustomBlueCartridge>
+    {withdrawalLocks && (
+      <WithdrawalLockHold
+        amount={withdrawalLocks.totalLocked.amount}
+        currency={withdrawalLocks.totalLocked.currency}
+        mode='tooltip'
+      />
+    )}
+  </CustomBlueCartridge>
+)
+
+type Props = {
+  withdrawalLocks: WithdrawalLockResponseType
 }
 
 export default LockTime

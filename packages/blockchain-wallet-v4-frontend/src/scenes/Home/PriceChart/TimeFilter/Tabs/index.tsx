@@ -4,8 +4,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { TabMenu, TabMenuItem } from 'blockchain-info-components'
 import { TimeRange } from '@core/types'
+import { TabMenu, TabMenuItem } from 'blockchain-info-components'
 import { actions } from 'data'
 import { media } from 'services/styles'
 
@@ -64,7 +64,7 @@ const TabsContainer = ({ currentTab, handleClick }: OwnProps) => {
   )
 }
 
-export const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = (dispatch) => ({
   layoutActions: bindActionCreators(actions.components.layoutWallet, dispatch)
 })
 

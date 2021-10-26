@@ -11,7 +11,7 @@ import {
   SecuritySummary
 } from '../../components'
 
-const EmailAddress = props => {
+const EmailAddress = (props) => {
   const { message } = props
 
   return (

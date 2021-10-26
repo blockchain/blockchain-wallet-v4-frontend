@@ -111,12 +111,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     let card: SBCardType
     try {
       yield put(A.fetchCardLoading())
-      const order = S.getSBLatestPendingOrder(yield select())
-      if (!order) throw new Error(NO_ORDER_EXISTS)
-      const currency = getFiatFromPair(order.pair)
-      if (!currency) throw new Error(NO_FIAT_CURRENCY)
+      const state = yield select()
+      let currency = selectors.core.settings.getCurrency(state).getOrElse('USD')
+      const origin = S.getOrigin(state)
+      if (origin !== 'SettingsGeneral') {
+        const order = S.getSBLatestPendingOrder(state)
+        if (!order) throw new Error(NO_ORDER_EXISTS)
+        currency = getFiatFromPair(order.pair)
+        if (!currency) throw new Error(NO_FIAT_CURRENCY)
+      }
 
-      const userDataR = selectors.modules.profile.getUserData(yield select())
+      const userDataR = selectors.modules.profile.getUserData(state)
       const userData = userDataR.getOrFail('NO_USER_ADDRESS')
 
       if (!billingAddress) throw new Error('NO_USER_ADDRESS')

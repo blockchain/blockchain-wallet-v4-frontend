@@ -19,12 +19,11 @@ export const label = AddressBookEntry.define('label')
 export const selectAddr = view(addr)
 export const selectLabel = view(label)
 
-export const fromJS = x =>
-  is(AddressBookEntry, x) ? x : new AddressBookEntry(x)
+export const fromJS = (x) => (is(AddressBookEntry, x) ? x : new AddressBookEntry(x))
 
 export const toJS = pipe(AddressBookEntry.guard, iToJS)
 
-export const reviver = jsObject => {
+export const reviver = (jsObject) => {
   return new AddressBookEntry(jsObject)
 }
 

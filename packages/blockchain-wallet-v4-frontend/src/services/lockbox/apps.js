@@ -5,22 +5,19 @@ import constants from './constants'
 import utils from './utils'
 
 // gets version of btc application
-const getBtcAppVersion = transport => {
+const getBtcAppVersion = (transport) => {
   return new Promise((resolve, reject) => {
     transport.send(...constants.apdus.get_btc_app_version).then(
-      res => {
+      (res) => {
         const byteArray = [...res]
         resolve({
-          full: byteArray
-            .slice(2, 5)
-            .join()
-            .replace(/,/g, '.'),
+          full: byteArray.slice(2, 5).join().replace(/,/g, '.'),
           major: byteArray[2],
           minor: byteArray[3],
           patch: byteArray[4]
         })
       },
-      error => {
+      (error) => {
         reject(error)
       }
     )
@@ -45,22 +42,18 @@ const uninstallApp = (transport, baseUrl, targetId, appInfo) => {
       // socket params
       // `hash` property may need to be added back again in the future
       const params = {
-        targetId,
-        perso: appInfo.perso,
         deleteKey: appInfo.delete_key,
         firmware: appInfo.delete,
-        firmwareKey: appInfo.delete_key
+        firmwareKey: appInfo.delete_key,
+        perso: appInfo.perso,
+        targetId
       }
 
       // build socket url
-      const url =
-        `${baseUrl}${constants.socketPaths.install}` +
-        `?${qs.stringify(params)}`
+      const url = `${baseUrl}${constants.socketPaths.install}` + `?${qs.stringify(params)}`
 
       // uninstall app via socket
-      const res = await utils.mapSocketError(
-        utils.createDeviceSocket(transport, url).toPromise()
-      )
+      const res = await utils.mapSocketError(utils.createDeviceSocket(transport, url).toPromise())
 
       if (res.err) {
         reject(res.errMsg)
@@ -90,28 +83,22 @@ const installApp = (transport, baseUrl, targetId, appName, appInfos) => {
       // ensure timeout is long enough for user to allow device access
       transport.exchangeTimeout = 20000
       // derive latest app info
-      const latestAppInfo = find(propEq('app', constants.appIds[appName]))(
-        appInfos
-      )
+      const latestAppInfo = find(propEq('app', constants.appIds[appName]))(appInfos)
       // socket params
       // `hash` property may need to be added back again in the future
       const params = {
-        targetId,
-        perso: latestAppInfo.perso,
         deleteKey: latestAppInfo.delete_key,
         firmware: latestAppInfo.firmware,
-        firmwareKey: latestAppInfo.firmware_key
+        firmwareKey: latestAppInfo.firmware_key,
+        perso: latestAppInfo.perso,
+        targetId
       }
 
       // build socket url
-      const url =
-        `${baseUrl}${constants.socketPaths.install}` +
-        `?${qs.stringify(params)}`
+      const url = `${baseUrl}${constants.socketPaths.install}` + `?${qs.stringify(params)}`
 
       // install app via socket
-      const res = await utils.mapSocketError(
-        utils.createDeviceSocket(transport, url).toPromise()
-      )
+      const res = await utils.mapSocketError(utils.createDeviceSocket(transport, url).toPromise())
 
       if (res.err) {
         reject(res.errMsg)

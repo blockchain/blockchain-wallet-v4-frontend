@@ -13,7 +13,10 @@ class SecondStepContainer extends React.PureComponent {
   render() {
     const { actions, data } = this.props
     return data.cata({
-      Success: value => (
+      Failure: (message) => <Error>{message}</Error>,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />,
+      Success: (value) => (
         <Success
           {...value}
           coin='BCH'
@@ -21,19 +24,16 @@ class SecondStepContainer extends React.PureComponent {
           handleBack={actions.sendBchSecondStepCancelClicked}
           handleBitPayInvoiceExpiration={actions.sendBchBitPayInvoiceExpired}
         />
-      ),
-      Failure: message => <Error>{message}</Error>,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      )
     })
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   data: getData(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.sendBch, dispatch)
 })
 

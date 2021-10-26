@@ -3,7 +3,7 @@ import rates from './rates/sagas'
 import xlm from './xlm/sagas'
 
 export default ({ api, coinsSocket, ratesSocket }) => ({
-  xlm: xlm(),
   rates: rates({ api, ratesSocket }),
-  sds: coins({ api, coinsSocket })
+  sds: coins({ api, coinsSocket }),
+  xlm: xlm()
 })

@@ -8,9 +8,7 @@ import Settings from './template'
 
 class SettingsContainer extends React.PureComponent {
   handleClick = () => {
-    this.props.settingsActions.updateTwoStepRemember(
-      Number(!this.props.authTypeNeverSave)
-    )
+    this.props.settingsActions.updateTwoStepRemember(Number(!this.props.authTypeNeverSave))
   }
 
   render() {
@@ -18,13 +16,11 @@ class SettingsContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  authTypeNeverSave: selectors.core.settings
-    .getAuthTypeNeverSave(state)
-    .getOrElse(0)
+const mapStateToProps = (state) => ({
+  authTypeNeverSave: selectors.core.settings.getAuthTypeNeverSave(state).getOrElse(0)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })

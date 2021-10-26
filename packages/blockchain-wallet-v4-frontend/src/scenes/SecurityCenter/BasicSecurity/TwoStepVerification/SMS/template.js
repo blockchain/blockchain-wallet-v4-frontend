@@ -13,7 +13,7 @@ import { required, validMobileNumber } from 'services/forms'
 const AuthenticatorSummary = styled.div`
   width: 100%;
   padding: 0px 20px;
-  opacity: ${props => (props.verified ? 0.3 : 1)};
+  opacity: ${(props) => (props.verified ? 0.3 : 1)};
   @media (min-width: 992px) {
     width: 110%;
   }
@@ -39,15 +39,8 @@ const QRInputWrapper = styled.div`
   }
 `
 
-const SmsAuth = props => {
-  const {
-    changeMobileNumber,
-    code,
-    data,
-    handleSubmit,
-    invalid,
-    uiState
-  } = props
+const SmsAuth = (props) => {
+  const { changeMobileNumber, code, data, handleSubmit, invalid, uiState } = props
   const { countryCode, smsNumber, smsVerified } = data
 
   return (
@@ -55,7 +48,7 @@ const SmsAuth = props => {
       <AuthenticatorSummary verified={uiState.successToggled}>
         <SmsAuthContainer>
           {(!smsNumber && !smsVerified) || uiState.changeNumberToggled ? (
-            <Fragment>
+            <>
               <Text size='14px' weight={400}>
                 <FormattedMessage
                   id='scenes.security.twostepverification.sms.entermobile'
@@ -75,9 +68,9 @@ const SmsAuth = props => {
                   Get Verification Code
                 </Button>
               </QRInputWrapper>
-            </Fragment>
+            </>
           ) : (
-            <Fragment>
+            <>
               <Text size='14px' weight={400}>
                 <FormattedMessage
                   id='scenes.security.twostepverification.sms.entercode'
@@ -85,11 +78,7 @@ const SmsAuth = props => {
                 />
               </Text>
               <QRInputWrapper>
-                <Field
-                  name='verificationCode'
-                  component={TextBox}
-                  validate={[required]}
-                />
+                <Field name='verificationCode' component={TextBox} validate={[required]} />
                 <Link weight={500} size='12px' onClick={changeMobileNumber}>
                   Change mobile number
                 </Link>
@@ -97,7 +86,7 @@ const SmsAuth = props => {
                   Submit Code
                 </Button>
               </QRInputWrapper>
-            </Fragment>
+            </>
           )}
         </SmsAuthContainer>
       </AuthenticatorSummary>
@@ -106,13 +95,13 @@ const SmsAuth = props => {
 }
 
 SmsAuth.propTypes = {
+  changeMobileNumber: PropTypes.func.isRequired,
   data: PropTypes.shape({
-    smsVerified: PropTypes.number,
     authType: PropTypes.number,
-    smsNumber: PropTypes.string
+    smsNumber: PropTypes.string,
+    smsVerified: PropTypes.number
   }),
-  onSubmit: PropTypes.func.isRequired,
-  changeMobileNumber: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired
 }
 
 export default reduxForm({

@@ -2,13 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import {
-  Banner,
-  Button,
-  HeartbeatLoader,
-  Link,
-  Text
-} from 'blockchain-info-components'
+import { Banner, Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import {
@@ -50,7 +44,7 @@ const Footer = styled.div`
   }
 `
 
-const Success = props => {
+const Success = (props) => {
   const {
     amount,
     coin,
@@ -68,7 +62,7 @@ const Success = props => {
   } = props
 
   return (
-    <React.Fragment>
+    <>
       {payPro && (
         <CountdownTimer
           expiryDate={payPro.expiration}
@@ -88,10 +82,7 @@ const Success = props => {
         </LargeTableRow>
         <LargeTableRow>
           <Text size='16px' weight={500}>
-            <FormattedMessage
-              id='modals.sendbch.secondstep.to'
-              defaultMessage='To:'
-            />
+            <FormattedMessage id='modals.sendbch.secondstep.to' defaultMessage='To:' />
           </Text>
           <TextTo size='16px' weight={400} data-e2e='bchToAddress'>
             {payPro ? `BitPay[${payPro.merchant}]` : toAddress}
@@ -100,10 +91,7 @@ const Success = props => {
         {description && (
           <LargeTableRow>
             <Text size='16px' weight={500}>
-              <FormattedMessage
-                id='modals.sendbch.secondstep.note'
-                defaultMessage='Note:'
-              />
+              <FormattedMessage id='modals.sendbch.secondstep.note' defaultMessage='Note:' />
             </Text>
             <Text size='16px' weight={400} data-e2e='bchSendDescription'>
               {description}
@@ -129,10 +117,7 @@ const Success = props => {
         </LargeTableRow>
         <LargeTableRow>
           <Text size='16px' weight={500}>
-            <FormattedMessage
-              id='modals.sendbch.secondstep.fee'
-              defaultMessage='Fee:'
-            />
+            <FormattedMessage id='modals.sendbch.secondstep.fee' defaultMessage='Fee:' />
           </Text>
           <ExchangeAmounts>
             <SummaryExchangeAmount>
@@ -149,10 +134,7 @@ const Success = props => {
         </LargeTableRow>
         <LargeTableRow>
           <Text size='16px' weight={400}>
-            <FormattedMessage
-              id='modals.sendbch.secondstep.sendtotal'
-              defaultMessage='Total:'
-            />
+            <FormattedMessage id='modals.sendbch.secondstep.sendtotal' defaultMessage='Total:' />
           </Text>
           <ExchangeAmounts>
             <SummaryExchangeAmount data-e2e={`${coin}SendTotal`}>
@@ -209,7 +191,7 @@ const Success = props => {
           <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
         </Link>
       </Footer>
-    </React.Fragment>
+    </>
   )
 }
 

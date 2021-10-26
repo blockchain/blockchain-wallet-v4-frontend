@@ -24,14 +24,9 @@ const EmailRequired = () => (
           defaultMessage='Email is required to use this feature.'
         />
       </Text>
-      <LinkContainer
-        to={{ pathname: '/security-center', state: { changeEmail: true } }}
-      >
+      <LinkContainer to={{ pathname: '/security-center', state: { changeEmail: true } }}>
         <Link size='18px'>
-          <FormattedMessage
-            id='components.emailrequired.addemail'
-            defaultMessage='Add email'
-          />
+          <FormattedMessage id='components.emailrequired.addemail' defaultMessage='Add email' />
         </Link>
       </LinkContainer>
     </TextGroup>

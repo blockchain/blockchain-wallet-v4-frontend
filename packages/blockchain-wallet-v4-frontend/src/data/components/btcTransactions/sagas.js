@@ -9,13 +9,13 @@ export const logLocation = 'components/btcTransactions/sagas'
 
 export default () => {
   const { WALLET_TX_SEARCH } = model.form
-  const initialized = function * () {
+  const initialized = function* () {
     try {
       const defaultSource = 'all'
       const initialValues = {
+        search: '',
         source: defaultSource,
-        status: '',
-        search: ''
+        status: ''
       }
       yield put(actions.form.initialize(WALLET_TX_SEARCH, initialValues))
       yield put(actions.core.data.btc.fetchTransactions('', true))
@@ -24,7 +24,7 @@ export default () => {
     }
   }
 
-  const loadMore = function * () {
+  const loadMore = function* () {
     try {
       const onlyShow = yield select(S.selectOnlyShow)
       yield put(actions.core.data.btc.fetchTransactions(onlyShow, false))
@@ -33,7 +33,7 @@ export default () => {
     }
   }
 
-  const formChanged = function * (action) {
+  const formChanged = function* (action) {
     try {
       const form = path(['meta', 'form'], action)
       const field = path(['meta', 'field'], action)
@@ -46,7 +46,7 @@ export default () => {
           yield put(actions.core.data.btc.fetchTransactions(onlyShow, true))
           break
         case 'status':
-          const filter = payload => {
+          const filter = (payload) => {
             switch (payload) {
               case 'sent':
                 return 1
@@ -58,13 +58,7 @@ export default () => {
                 break
             }
           }
-          yield put(
-            actions.core.data.btc.fetchTransactions(
-              onlyShow,
-              true,
-              filter(payload)
-            )
-          )
+          yield put(actions.core.data.btc.fetchTransactions(onlyShow, true, filter(payload)))
           break
       }
     } catch (e) {
@@ -73,8 +67,8 @@ export default () => {
   }
 
   return {
-    initialized,
     formChanged,
+    initialized,
     loadMore
   }
 }

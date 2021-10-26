@@ -6,7 +6,7 @@ import sagas from './sagas'
 export default ({ api, networks }) => {
   const kvStoreEthSagas = sagas({ api, networks })
 
-  return function * coreKvStoreEthSaga() {
+  return function* coreKvStoreEthSaga() {
     yield takeLatest(AT.FETCH_METADATA_ETH, kvStoreEthSagas.fetchMetadataEth)
   }
 }

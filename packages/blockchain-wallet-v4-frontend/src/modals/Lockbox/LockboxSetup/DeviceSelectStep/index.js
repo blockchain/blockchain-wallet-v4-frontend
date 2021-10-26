@@ -7,15 +7,13 @@ import { actions } from 'data'
 import SetupTypeStep from './template'
 
 class DeviceSelectStepContainer extends React.PureComponent {
-  onChangeStep = deviceType => {
-    this.props.lockboxActions.setDeviceSetupType(
-      deviceType === 'ledger' ? 'Nano S' : 'Lockbox'
-    )
+  onChangeStep = (deviceType) => {
+    this.props.lockboxActions.setDeviceSetupType(deviceType === 'ledger' ? 'Nano S' : 'Lockbox')
     this.props.lockboxActions.changeDeviceSetupStep('setup-type')
   }
 
   handleRestoreClick = () => {
-    let restoreWindow = window.open('', '_blank')
+    const restoreWindow = window.open('', '_blank')
     restoreWindow.opener = null
     restoreWindow.location = this.props.restoreDeviceLink
     restoreWindow.focus()
@@ -31,7 +29,7 @@ class DeviceSelectStepContainer extends React.PureComponent {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 

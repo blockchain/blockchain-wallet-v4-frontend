@@ -15,7 +15,7 @@ const DetailRow = styled.div`
   display: flex;
   margin-bottom: 10px;
   align-items: flex-start;
-  flex-direction: ${props => (props.column ? 'column' : 'row')};
+  flex-direction: ${(props) => (props.column ? 'column' : 'row')};
   > div:first-child {
     margin-right: 2px;
   }
@@ -33,17 +33,14 @@ const ClickableText = styled(Text)`
   cursor: pointer;
 `
 
-const SecondStep = props => {
+const SecondStep = (props) => {
   const { address, closeAll, message, resetForm, signedMessage } = props
 
   return (
     <Wrapper>
       <DetailRow>
         <Text size='14px' weight={500}>
-          <FormattedMessage
-            id='modals.signmessage.secondstep.address'
-            defaultMessage='Address:'
-          />
+          <FormattedMessage id='modals.signmessage.secondstep.address' defaultMessage='Address:' />
         </Text>
         <Text size='14px' weight={400} data-e2e='signMessageAddressValue'>
           {address}
@@ -51,10 +48,7 @@ const SecondStep = props => {
       </DetailRow>
       <DetailRow>
         <Text size='14px' weight={500}>
-          <FormattedMessage
-            id='modals.signmessage.secondstep.message'
-            defaultMessage='Message:'
-          />
+          <FormattedMessage id='modals.signmessage.secondstep.message' defaultMessage='Message:' />
         </Text>
         <Text size='14px' weight={400} data-e2e='signMessageMsgValue'>
           {message}
@@ -76,16 +70,9 @@ const SecondStep = props => {
           onClick={resetForm}
           data-e2e='signMessageResetFormButton'
         >
-          <FormattedMessage
-            id='modals.signmessage.reset'
-            defaultMessage='Reset Form'
-          />
+          <FormattedMessage id='modals.signmessage.reset' defaultMessage='Reset Form' />
         </ClickableText>
-        <Button
-          nature='primary'
-          onClick={closeAll}
-          data-e2e='signMessageDoneButton'
-        >
+        <Button nature='primary' onClick={closeAll} data-e2e='signMessageDoneButton'>
           <FormattedMessage id='buttons.done' defaultMessage='Done' />
         </Button>
       </SubmitRow>

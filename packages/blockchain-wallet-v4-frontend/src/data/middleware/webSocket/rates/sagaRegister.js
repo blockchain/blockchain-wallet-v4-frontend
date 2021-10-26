@@ -6,7 +6,7 @@ import sagasFactory from './sagas'
 export default ({ api, ratesSocket }) => {
   const sagas = sagasFactory({ api, ratesSocket })
 
-  return function * ratesSocketSaga() {
+  return function* ratesSocketSaga() {
     yield takeEvery(AT.OPEN_SOCKET, sagas.onOpen)
     yield takeEvery(AT.MESSAGE_SOCKET, sagas.onMessage)
     yield takeEvery(AT.CLOSE_SOCKET, sagas.onClose)
