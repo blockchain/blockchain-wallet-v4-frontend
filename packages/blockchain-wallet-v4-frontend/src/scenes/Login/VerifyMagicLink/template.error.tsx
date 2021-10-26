@@ -12,21 +12,46 @@ const Wrapper = styled.div`
 `
 
 const Error = (props) => {
+  const { error } = props
   return (
     <Wrapper>
       <Icon color='error' name='close-circle' size='40px' />
       <Text size='20px' weight={600} color='black' style={{ marginTop: '8px' }}>
-        <FormattedMessage
-          id='scenes.login.device_verification_failed'
-          defaultMessage='Device verification failed.'
-        />
+        {error.request_denied ? (
+          <FormattedMessage
+            id='scenes.login.device_verification_rejected'
+            defaultMessage='Device verification rejected.'
+          />
+        ) : error.link_expired ? (
+          <FormattedMessage
+            id='scenes.login.device_verification_expired'
+            defaultMessage='Verication link expired.'
+          />
+        ) : (
+          <FormattedMessage
+            id='scenes.login.device_verification_failed'
+            defaultMessage='Device verification failed.'
+          />
+        )}
       </Text>
       <Text style={{ margin: '8px 0 12px' }} size='16px' color='red600' weight={500}>
-        <FormattedMessage
-          id='scenes.authorizelogin.error.msg'
-          defaultMessage='Error: {error}'
-          values={{ error: props.error }}
-        />
+        {error.request_denied ? (
+          <FormattedMessage
+            id='scenes.authorizelogin.loading.rejected.content'
+            defaultMessage='Please contact our support team if you have any questions or concerns.'
+          />
+        ) : error.link_expired ? (
+          <FormattedMessage
+            id='scenes.login._device_verification_expired.copy'
+            defaultMessage='Return to your original device to request a new one.'
+          />
+        ) : (
+          <FormattedMessage
+            id='scenes.authorizelogin.error.msg'
+            defaultMessage='Error: {error}'
+            values={{ error }}
+          />
+        )}
       </Text>
     </Wrapper>
   )

@@ -20,7 +20,7 @@
         "cEURRewards": true,
         "eddInterestFileUpload": true,
         "legacyMobilePairing": true,
-        "pollForMagicLinkData": false,
+        "pollForMagicLinkData": true,
         "recurringBuys": true,
         "signupCountry": true
       }

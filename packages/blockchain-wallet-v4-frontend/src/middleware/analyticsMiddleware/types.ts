@@ -363,6 +363,10 @@ type LoginHelpClickedPayload = BasePayload & {
   site_redirect: 'WALLET' | 'EXCHANGE'
 }
 
+type LoginRequestApprovedOrFailedPayload = BasePayload & {
+  method: 'SECURE_CHANNEL' | 'MAGIC_LINK'
+}
+
 type SignUpCountrySelectPayload = BasePayload & {
   country: string
 }
@@ -709,6 +713,7 @@ type AnalyticsProperties =
   | LoginIdentifierEnteredPayload
   | LoginMethodSelectedPayload
   | LoginRequestPayload
+  | LoginRequestApprovedOrFailedPayload
   | ManageTabSelectionClickedPayload
   | NotificationPreferencesUpdatedPayload
   | PrivateKeysShownPayload

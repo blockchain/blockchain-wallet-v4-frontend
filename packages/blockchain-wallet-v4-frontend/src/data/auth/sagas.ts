@@ -278,6 +278,11 @@ export default ({ api, coreSagas, networks }) => {
         yield call(parseMagicLink)
         return true
       }
+      if (response.request_denied) {
+        yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
+        yield put(actions.alerts.displayError(C.VERIFY_DEVICE_FAILED, undefined, true))
+        return false
+      }
     } catch (error) {
       return false
     }
@@ -647,13 +652,15 @@ export default ({ api, coreSagas, networks }) => {
       )
       if (data.success) {
         yield put(actions.auth.authorizeVerifyDeviceSuccess({ deviceAuthorized: true }))
-      } else if (data.confirmation_required) {
-        yield put(actions.auth.authorizeVerifyDeviceSuccess(data))
-      } else {
-        yield put(actions.auth.authorizeVerifyDeviceFailure(data.error))
       }
     } catch (e) {
-      yield put(actions.auth.authorizeVerifyDeviceFailure(e.error))
+      if (e.status === 401 && e.confirmation_required) {
+        yield put(actions.auth.authorizeVerifyDeviceSuccess(e))
+      } else if (e.status === 409 || (e.status === 400 && e.link_expired)) {
+        yield put(actions.auth.authorizeVerifyDeviceFailure(e))
+      } else {
+        yield put(actions.auth.authorizeVerifyDeviceFailure(e.error))
+      }
     }
   }
 

@@ -2957,6 +2957,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         analytics.push(AnalyticsKey.LOGIN_REQUEST_APPROVED, {
           properties: {
+            method: 'SECURE_CHANNEL',
             originalTimestamp: getOriginalTimestamp(),
             request_platform: 'WALLET'
           },
@@ -2978,6 +2979,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         analytics.push(AnalyticsKey.LOGIN_REQUEST_DENIED, {
           properties: {
+            method: 'SECURE_CHANNEL',
             originalTimestamp: getOriginalTimestamp(),
             request_platform: 'WALLET'
           },
