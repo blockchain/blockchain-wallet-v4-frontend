@@ -11,6 +11,9 @@ import {
   LoginFailureType,
   LoginSuccessType,
   MetadataRestoreType,
+  PlatformTypes,
+  ProductAuthMetadata,
+  ProductAuthOptions,
   RegisteringFailureType,
   RegisteringSuccessType,
   RestoringType,
@@ -37,9 +40,9 @@ const initialState: AuthStateType = {
   metadataRestore: Remote.NotAsked,
   mobileLoginStarted: false,
   productAuthMetadata: {
-    platform: null,
-    product: null,
-    redirect: null
+    platform: PlatformTypes.WEB,
+    product: ProductAuthOptions.WALLET,
+    redirect: undefined
   },
   registerEmail: undefined,
   registering: Remote.NotAsked,
@@ -185,20 +188,20 @@ const authSlice = createSlice({
     setMagicLinkInfo: (state, action: PayloadAction<AuthStateType['magicLinkData']>) => {
       state.magicLinkData = action.payload
     },
-    setMagicLinkInfoEncoded: (state, action: PayloadAction<AuthStateType['magicLinkDataEncoded']>) => {
+    setMagicLinkInfoEncoded: (
+      state,
+      action: PayloadAction<AuthStateType['magicLinkDataEncoded']>
+    ) => {
       state.magicLinkDataEncoded = action.payload
     },
     setManifestFile: (state, action: PayloadAction<AuthStateType['manifestFile']>) => {
       state.manifestFile = action.payload
     },
-    setProductAuthMetadata: (
-      state,
-      action: PayloadAction<AuthStateType['productAuthMetadata']>
-    ) => {
+    setProductAuthMetadata: (state, action: PayloadAction<ProductAuthMetadata>) => {
       const { platform, product, redirect } = action.payload
       state.productAuthMetadata = {
-        platform,
-        product,
+        platform: platform.toUpperCase() as PlatformTypes,
+        product: product.toUpperCase() as ProductAuthOptions,
         redirect
       }
     },

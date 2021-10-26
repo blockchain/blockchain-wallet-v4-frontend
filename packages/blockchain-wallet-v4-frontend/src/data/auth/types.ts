@@ -9,9 +9,9 @@ export enum ExchangeErrorCodes {
   INVALID_CREDENTIALS = 8
 }
 export enum ProductAuthOptions {
-  EXCHANGE = 'exchange',
-  EXPLORER = 'explorer',
-  WALLET = 'wallet'
+  EXCHANGE = 'EXCHANGE',
+  EXPLORER = 'EXPLORER',
+  WALLET = 'WALLET'
 }
 
 export enum AccountUnificationFlows {
@@ -39,9 +39,9 @@ export enum LoginSteps {
 }
 
 export enum PlatformTypes {
-  ANDROID = 'android',
-  IOS = 'ios',
-  WEB = 'web'
+  ANDROID = 'ANDROID',
+  IOS = 'IOS',
+  WEB = 'WEB'
 }
 
 export enum RecoverSteps {
@@ -153,9 +153,9 @@ export type RestoringType = undefined
 export type SecureChannelLoginType = undefined
 
 export type ProductAuthMetadata = {
-  platform?: PlatformTypes | string | null
-  product?: ProductAuthOptions | string | null
-  redirect?: string | null
+  platform: PlatformTypes
+  product: ProductAuthOptions
+  redirect?: string
 }
 
 export type AuthStateType = {
@@ -184,4 +184,29 @@ export type AuthStateType = {
   restoring: RemoteDataType<string, RestoringType>
   secureChannelLogin: RemoteDataType<string, SecureChannelLoginType>
   userGeoData: any
+}
+
+//
+// mobile message types
+//
+export type MobileAuthConnectedMessage = {
+  status: 'connected'
+}
+
+export type MobileAuthWalletMergeMessage = {
+  data?: {
+    guid: string
+    password: string
+    sessionId: string
+  }
+  error?: string
+  status: 'error' | 'success'
+}
+
+export type MobileAuthExchangeMessage = {
+  data?: {
+    jwt: string
+  }
+  error?: string
+  status: 'error' | 'success'
 }

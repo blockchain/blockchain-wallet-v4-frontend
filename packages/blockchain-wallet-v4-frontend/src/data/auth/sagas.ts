@@ -1,10 +1,9 @@
 import * as Bitcoin from 'bitcoinjs-lib'
-import Login from 'blockchain-wallet-v4-frontend/src/scenes/Login'
 import { assoc, find, prop, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, delay, fork, put, select, take } from 'redux-saga/effects'
 
-import { Exchange, Types } from '@core'
+import { Types } from '@core'
 import { DEFAULT_INVITATIONS } from '@core/model'
 import { errorHandler } from '@core/utils'
 import { actions, actionTypes, selectors } from 'data'
@@ -16,11 +15,11 @@ import { isGuid } from 'services/forms'
 import { askSecondPasswordEnhancer } from 'services/sagas'
 
 import { guessCurrencyBasedOnCountry } from './helpers'
-import { loadMobileAuthWebView, parseMagicLink } from './sagas.utils'
+import { initMobileAuthFlow } from './sagas.mobile'
+import { parseMagicLink } from './sagas.utils'
 import * as S from './selectors'
 import {
   AccountUnificationFlows,
-  ExchangeErrorCodes,
   LoginErrorType,
   LoginSteps,
   PlatformTypes,
@@ -619,16 +618,18 @@ export default ({ api, coreSagas, networks }) => {
       // pull product auth data from querystring
       const searchString = yield select(selectors.router.getSearch)
       const queryParams = new URLSearchParams(searchString)
-      const platform = queryParams.get('platform')
-      const product = queryParams.get('app')
+      // default platform to WEB if not explicitly set
+      const platform = (queryParams.get('platform') || PlatformTypes.WEB) as PlatformTypes
+      // default product to WALLET if not explicitly set
+      const product = (queryParams.get('app') || ProductAuthOptions.WALLET) as ProductAuthOptions
       const redirect = queryParams.get('redirect')
 
-      // store product auth data
+      // store product auth data defaulting to product=wallet and platform=web
       yield put(
         actions.auth.setProductAuthMetadata({
           platform,
           product,
-          redirect
+          redirect: redirect || undefined
         })
       )
 
@@ -640,11 +641,11 @@ export default ({ api, coreSagas, networks }) => {
       const lastGuid = yield select(selectors.cache.getLastGuid)
 
       // initialize login form and/or set initial auth step
-      // 👋 ORDER MATTERS
+      // 👋 Case order matters, think before changing!
       switch (true) {
         // mobile webview auth flow
-        case platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS:
-          yield call(loadMobileAuthWebView)
+        case platform !== PlatformTypes.WEB:
+          yield call(initMobileAuthFlow)
           break
         // no guid on path, use cached/stored guid if exists
         case (storedGuid || lastGuid) && !walletGuidOrMagicLinkFromUrl:
@@ -690,6 +691,7 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   // this is the function we run when submitting the login form
+  // TODO: is this needed? why so empty?
   const continueLoginProcess = function* (action) {}
 
   // triggers verification email for login
@@ -703,7 +705,7 @@ export default ({ api, coreSagas, networks }) => {
     try {
       yield put(actions.auth.triggerWalletMagicLinkLoading())
       const sessionToken = yield call(api.obtainSessionToken)
-      const { captchaToken, email, product } = action.payload
+      const { captchaToken, email } = action.payload
       yield put(actions.session.saveSession(assoc(email, sessionToken, {})))
       yield call(api.triggerWalletMagicLink, email, captchaToken, sessionToken)
       if (step === LoginSteps.CHECK_EMAIL) {
@@ -750,7 +752,7 @@ export default ({ api, coreSagas, networks }) => {
       const userLocationData = yield call(api.getLocation)
       yield put(actions.auth.setUserGeoLocation(userLocationData))
     } catch (e) {
-      // todo
+      // do nothing
     }
   }
 

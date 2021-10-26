@@ -217,44 +217,44 @@ const buildDevServerConfig = (
       progress: true
     },
     historyApiFallback: true,
-    // headers: {
-    //   'Access-Control-Allow-Origin': '*',
-    //   'Content-Security-Policy': [
-    //     `img-src 'self' *.googleusercontent.com *.zendesk.com *.yapily.com https://raw.githubusercontent.com https://login.blockchain.com data: blob:`,
-    //     allowUnsafeScripts
-    //       ? `script-src 'nonce-${CSP_NONCE}' 'self' 'unsafe-eval'`
-    //       : `script-src 'nonce-${CSP_NONCE}' 'self'`,
-    //     allowUnsafeStyles
-    //       ? `style-src 'self' 'unsafe-inline'`
-    //       : `style-src 'nonce-${CSP_NONCE}' 'self'`,
-    //     `frame-src ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://magic.veriff.me https://www.google.com/ https://www.gstatic.com https://localhost:8080 http://localhost:8080 http://localhost:8081`,
-    //     `child-src ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
-    //     [
-    //       'connect-src',
-    //       "'self'",
-    //       'data:',
-    //       'ws://localhost:8080',
-    //       'wss://localhost:8080',
-    //       'wss://api.ledgerwallet.com',
-    //       envConfig.API_DOMAIN,
-    //       envConfig.EVERYPAY_URL,
-    //       envConfig.HORIZON_URL,
-    //       envConfig.LEDGER_SOCKET_URL,
-    //       envConfig.LEDGER_URL,
-    //       envConfig.ROOT_URL,
-    //       envConfig.VERIFF_URL,
-    //       envConfig.WALLET_HELPER_DOMAIN,
-    //       envConfig.WEB_SOCKET_URL,
-    //       'https://friendbot.stellar.org',
-    //       'https://bitpay.com',
-    //       'https://static.zdassets.com',
-    //       'https://ekr.zdassets.com'
-    //     ].join(' '),
-    //     "object-src 'none'",
-    //     "media-src 'self' https://storage.googleapis.com/bc_public_assets/ data: mediastream: blob:",
-    //     "font-src 'self'"
-    //   ].join('; ')
-    // },
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Content-Security-Policy': [
+        `img-src 'self' *.googleusercontent.com *.zendesk.com *.yapily.com https://raw.githubusercontent.com https://login.blockchain.com data: blob:`,
+        allowUnsafeScripts
+          ? `script-src 'nonce-${CSP_NONCE}' 'self' 'unsafe-eval'`
+          : `script-src 'nonce-${CSP_NONCE}' 'self'`,
+        allowUnsafeStyles
+          ? `style-src 'self' 'unsafe-inline'`
+          : `style-src 'nonce-${CSP_NONCE}' 'self'`,
+        `frame-src ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://magic.veriff.me https://www.google.com/ https://www.gstatic.com https://localhost:8080 http://localhost:8080 http://localhost:8081`,
+        `child-src ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
+        [
+          'connect-src',
+          "'self'",
+          'data:',
+          'ws://localhost:8080',
+          'wss://localhost:8080',
+          'wss://api.ledgerwallet.com',
+          envConfig.API_DOMAIN,
+          envConfig.EVERYPAY_URL,
+          envConfig.HORIZON_URL,
+          envConfig.LEDGER_SOCKET_URL,
+          envConfig.LEDGER_URL,
+          envConfig.ROOT_URL,
+          envConfig.VERIFF_URL,
+          envConfig.WALLET_HELPER_DOMAIN,
+          envConfig.WEB_SOCKET_URL,
+          'https://friendbot.stellar.org',
+          'https://bitpay.com',
+          'https://static.zdassets.com',
+          'https://ekr.zdassets.com'
+        ].join(' '),
+        "object-src 'none'",
+        "media-src 'self' https://storage.googleapis.com/bc_public_assets/ data: mediastream: blob:",
+        "font-src 'self'"
+      ].join('; ')
+    },
     hot: useHMR,
     https: httpsConfig,
     liveReload: !useHMR,
