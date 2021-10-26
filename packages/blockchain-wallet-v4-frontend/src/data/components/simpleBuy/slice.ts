@@ -56,6 +56,7 @@ const initialState: SimpleBuyState = {
   order: undefined,
   orderType: undefined,
   orders: Remote.NotAsked,
+  origin: undefined,
   pair: undefined,
   pairs: Remote.NotAsked,
   payment: Remote.NotAsked,
@@ -451,7 +452,11 @@ const buySellSlice = createSlice({
         orderType?: SBOrderActionType
         origin: SBShowModalOriginType
       }>
-    ) => {},
+    ) => {
+      state.origin = action.payload.origin
+      state.cryptoCurrency = action.payload.cryptoCurrency
+      state.orderType = action.payload.orderType
+    },
     startPollSellQuote: (
       state,
       action: PayloadAction<{
