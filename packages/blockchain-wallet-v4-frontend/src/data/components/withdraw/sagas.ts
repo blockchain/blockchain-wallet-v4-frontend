@@ -1,10 +1,10 @@
-import { call, put } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 
 import { displayFiatToFiat } from '@core/exchange'
 import { APIType } from '@core/network/api'
-import { SBPaymentMethodType, SBPaymentTypes } from '@core/types'
+import { FiatType, SBPaymentMethodType, SBPaymentTypes } from '@core/types'
 import { errorHandler } from '@core/utils'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { WithdrawStepEnum } from 'data/types'
 
 import { convertStandardToBase } from '../exchange/services'
@@ -111,10 +111,15 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchWithdrawLocks = function* () {
+  const fetchWithdrawLocks = function* (action: ReturnType<typeof A.fetchWithdrawalLock>) {
     yield put(A.fetchWithdrawalFeesLoading())
+    const currency =
+      action.currency || (selectors.components.withdraw.getFiatCurrency(yield select()) as FiatType)
     try {
-      const locks: ReturnType<typeof api.getWithdrawalLocks> = yield call(api.getWithdrawalLocks)
+      const locks: ReturnType<typeof api.getWithdrawalLocks> = yield call(
+        api.getWithdrawalLocks,
+        currency
+      )
       yield put(A.fetchWithdrawalLockSuccess(locks))
     } catch (e) {
       const error = errorHandler(e)

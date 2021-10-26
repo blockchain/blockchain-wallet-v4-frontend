@@ -4,6 +4,7 @@ import { call, put, select } from 'redux-saga/effects'
 
 import { convertCoinToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
+import { FiatType } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
 import { ModalName, ModalNameType } from 'data/modals/types'
@@ -30,9 +31,11 @@ export default ({ api }: { api: APIType }) => {
 
   const fetchLocks = function* () {
     yield put(A.fetchWithdrawalLocksLoading())
+    const currency = selectors.components.brokerage.getFiatCurrency(yield select()) as FiatType
     try {
       const withdrawalFees: ReturnType<typeof api.getWithdrawalLocks> = yield call(
-        api.getWithdrawalLocks
+        api.getWithdrawalLocks,
+        currency
       )
 
       yield put(A.fetchWithdrawalLocksSuccess(withdrawalFees))

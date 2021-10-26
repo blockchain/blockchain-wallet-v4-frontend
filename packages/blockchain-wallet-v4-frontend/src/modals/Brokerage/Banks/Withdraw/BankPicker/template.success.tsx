@@ -5,10 +5,10 @@ import styled from 'styled-components'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { AddNewButton } from 'components/Brokerage'
 import { FlyoutWrapper } from 'components/Flyout'
+import { Bank, BankWire } from 'components/Flyout/model'
 import { WithdrawStepEnum } from 'data/types'
 import { getBankLogoImageName } from 'services/images'
 
-import { Bank, BankWire } from '../../model'
 import { Props as OwnProps, SuccessStateType } from '.'
 
 const Top = styled.div`
@@ -67,6 +67,7 @@ const Success: React.FC<Props> = (props) => {
       {props.beneficiaries.map((beneficiary) => {
         return (
           <BankWire
+            key={beneficiary.id}
             beneficiary={beneficiary}
             isActive={props.beneficiary?.id === beneficiary.id}
             onClick={() => {
