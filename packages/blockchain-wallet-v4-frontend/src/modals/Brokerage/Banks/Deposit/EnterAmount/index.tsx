@@ -4,7 +4,13 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
 import { SBPaymentMethodType } from '@core/network/api/simpleBuy/types'
-import { ExtractSuccess, RemoteDataType, SBPaymentTypes, WalletFiatType } from '@core/types'
+import {
+  ExtractSuccess,
+  FiatType,
+  RemoteDataType,
+  SBPaymentTypes,
+  WalletFiatType
+} from '@core/types'
 import { EnterAmount, FlyoutOopsError } from 'components/Flyout'
 import { getDefaultMethod } from 'components/Flyout/model'
 import { actions, selectors } from 'data'
@@ -21,7 +27,7 @@ import {
 import { Loading, LoadingTextEnum } from '../../../../components'
 import getData from './selectors'
 
-const EnterAmountContainer = (props) => {
+const EnterAmountContainer = (props: Props) => {
   useEffect(() => {
     if (props.fiatCurrency && !Remote.Success.is(props.data)) {
       props.buySellActions.fetchPaymentMethods(props.fiatCurrency)
@@ -104,11 +110,11 @@ const EnterAmountContainer = (props) => {
       } else {
         handleMethodClick = handleAddMethod
       }
-      return isUserEligible ? (
+      return isUserEligible && paymentMethod ? (
         <EnterAmount
           onSubmit={onSubmit}
           initialValues={{ currency: props.fiatCurrency }}
-          fiatCurrency={props.fiatCurrency}
+          fiatCurrency={props.fiatCurrency as FiatType}
           handleBack={handleBack}
           handleMethodClick={handleMethodClick}
           orderType={BrokerageOrderType.DEPOSIT}
@@ -126,7 +132,7 @@ const EnterAmountContainer = (props) => {
   })
 }
 
-const mapStateToProps = (state: RootState): LinkStatePropsType => ({
+const mapStateToProps = (state: RootState) => ({
   data: getData(state),
   defaultMethod: selectors.components.brokerage.getAccount(state),
   fiatCurrency: selectors.components.brokerage.getFiatCurrency(state)
@@ -134,26 +140,16 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch)
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   handleClose: () => void
-  method: SBPaymentMethodType
-}
-export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>> & {
-  formErrors: { amount?: 'ABOVE_MAX' | 'BELOW_MIN' | false }
-}
-export type LinkStatePropsType = {
-  data: RemoteDataType<string, SuccessStateType>
-  defaultMethod: BankTransferAccountType | undefined
-  fiatCurrency: WalletFiatType | undefined
+  method?: SBPaymentMethodType
 }
 
 export type Props = OwnProps & ConnectedProps<typeof connector>
-export type ValidateProps = Props & SuccessStateType & LinkStatePropsType
 
 export default connector(EnterAmountContainer)

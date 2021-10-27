@@ -111,14 +111,14 @@ const AmountTextBoxShaker = styled(AmountTextBox)<{ meta: { error: string } }>`
 `
 
 type LimitSectionProps = {
-  fee: string
+  fee?: string
   fiatCurrency: Props['fiatCurrency']
-  handleLearnMoreClick?: Props['handleLearnMoreClick']
+  handleLearnMoreClick?: () => void
   limitAmount: string
   orderType: Props['orderType']
 }
 const LimitSection = ({
-  fee,
+  fee = '0',
   fiatCurrency,
   handleLearnMoreClick,
   limitAmount,
@@ -140,7 +140,7 @@ const LimitSection = ({
               <Text size='14px' color='grey600' weight={500} style={{ marginLeft: '4px' }}>
                 {fiatToString({
                   unit: fiatCurrency as FiatType,
-                  value: fee
+                  value: convertBaseToStandard('FIAT', fee)
                 })}
               </Text>
             </div>
@@ -221,7 +221,7 @@ const debounceValidate = (limits, dispatch) =>
     if (error) {
       dispatch(stopAsyncValidation('brokerageTx', error))
     }
-  }, 750)
+  }, 300)
 
 type AmountProps = {
   fiatCurrency: Props['fiatCurrency']
@@ -229,21 +229,53 @@ type AmountProps = {
   orderType: Props['orderType']
 }
 
-const Amount = memoizer(({ fiatCurrency, limits, orderType }: AmountProps) => {
+const renderAmount = (props) => {
+  return (
+    <div style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
+      <div
+        style={{
+          alignItems: 'center',
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center'
+        }}
+      >
+        <Text size='56px' color='textBlack' weight={500}>
+          {Currencies[props.fiatCurrency]?.units[props.fiatCurrency].symbol}
+        </Text>
+        <AmountTextBoxShaker {...props} />
+      </div>
+      <div
+        style={{
+          alignItems: 'center',
+          display: 'flex',
+          flexDirection: 'row',
+          height: '1rem',
+          justifyContent: 'center',
+          marginTop: '5px'
+        }}
+      >
+        {props.meta.error && <Text>{props.meta.error}</Text>}
+      </div>
+    </div>
+  )
+}
+
+const Amount = memoizer((props: AmountProps) => {
   const dispatch = useDispatch()
   return (
     <FlyoutWrapper>
       <AmountRow id='amount-row'>
-        <Text size='56px' color='textBlack' weight={500}>
-          {Currencies[fiatCurrency]?.units[fiatCurrency].symbol}
-        </Text>
         <Field
           data-e2e={
-            orderType === BrokerageOrderType.DEPOSIT ? 'depositAmountInput' : 'withdrawAmountInput'
+            props.orderType === BrokerageOrderType.DEPOSIT
+              ? 'depositAmountInput'
+              : 'withdrawAmountInput'
           }
           name='amount'
-          component={AmountTextBoxShaker}
-          onChange={debounceValidate(limits, dispatch)}
+          component={renderAmount}
+          fiatCurrency={props.fiatCurrency}
+          onChange={debounceValidate(props.limits, dispatch)}
           normalize={normalizeAmount}
           maxFontSize='56px'
           placeholder='0'
@@ -259,7 +291,17 @@ const Amount = memoizer(({ fiatCurrency, limits, orderType }: AmountProps) => {
   )
 })
 
-const Account = ({ handleMethodClick, invalid, paymentAccount }) => {
+const Account = ({
+  handleMethodClick,
+  invalid,
+  paymentAccount,
+  paymentMethod
+}: {
+  handleMethodClick: () => void
+  invalid: boolean
+  paymentAccount?: BankTransferAccountType | BeneficiaryType
+  paymentMethod: SBPaymentMethodType
+}) => {
   return (
     <Box
       disabled={invalid}
@@ -269,7 +311,7 @@ const Account = ({ handleMethodClick, invalid, paymentAccount }) => {
       isMethod={!!paymentAccount}
     >
       <DisplayPaymentIcon showBackground={!paymentAccount}>
-        {getIcon(paymentAccount, false, invalid)}
+        {getIcon({ ...paymentMethod, ...paymentAccount } as SBPaymentMethodType, false, invalid)}
       </DisplayPaymentIcon>
       <PaymentText isMethod={!!paymentAccount}>{getBankText(paymentAccount)}</PaymentText>
       <PaymentArrowContainer>
@@ -301,7 +343,7 @@ const NextButton = ({ invalid, orderType, paymentAccount, pristine, submitting }
 }
 
 const EnterAmount = ({
-  fee = '0',
+  fee,
   fiatCurrency,
   handleBack,
   handleLearnMoreClick,
@@ -353,6 +395,7 @@ const EnterAmount = ({
             handleMethodClick={handleMethodClick}
             invalid={invalid}
             paymentAccount={paymentAccount}
+            paymentMethod={paymentMethod}
           />
           <NextButton
             paymentAccount={paymentAccount}
@@ -367,18 +410,31 @@ const EnterAmount = ({
   )
 }
 
-type OwnProps = {
-  fee?: string
-  fiatCurrency: FiatType
-  handleBack: () => void
-  handleLearnMoreClick?: () => void
-  handleMethodClick: () => void
-  minWithdrawAmount?: string
-  orderType: BrokerageOrderType
-  paymentAccount?: BankTransferAccountType | BeneficiaryType
-  paymentMethod: SBPaymentMethodType
-  withdrawableBalance?: string
-}
+export type OwnProps =
+  | {
+      fee?: never
+      fiatCurrency: FiatType
+      handleBack: () => void
+      handleLearnMoreClick?: never
+      handleMethodClick: () => void
+      minWithdrawAmount?: never
+      orderType: BrokerageOrderType.DEPOSIT
+      paymentAccount?: BankTransferAccountType | BeneficiaryType
+      paymentMethod: SBPaymentMethodType
+      withdrawableBalance?: never
+    }
+  | {
+      fee: string
+      fiatCurrency: FiatType
+      handleBack: () => void
+      handleLearnMoreClick: () => void
+      handleMethodClick: () => void
+      minWithdrawAmount: string
+      orderType: BrokerageOrderType.WITHDRAW
+      paymentAccount?: BankTransferAccountType | BeneficiaryType
+      paymentMethod: SBPaymentMethodType
+      withdrawableBalance: string
+    } // add another union type here when moving buy sell enter amount screens over
 
 type Props = OwnProps & InjectedFormProps<{}, OwnProps>
 
