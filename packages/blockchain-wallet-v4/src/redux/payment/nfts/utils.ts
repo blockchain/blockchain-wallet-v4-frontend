@@ -99,7 +99,7 @@ const ethABI_local = {
  * @param type The ABI type to calculate a default value for
  * @return The default value for that type
  */
-const generateDefaultValue = (type: string): any => {
+const generateDefaultValue = (type: string): string | boolean | number => {
   switch (type) {
     case 'address':
     case 'bytes20':
@@ -915,7 +915,7 @@ export async function _makeSellOrder({
       schema: schema.name as WyvernSchemaName
     },
     paymentToken,
-    quantity: new BigNumber(1),
+    quantity: new BigNumber(quantity),
     replacementPattern,
     saleKind: orderSaleKind,
     salt: new BigNumber(69),
@@ -1125,7 +1125,7 @@ async function approveSemiOrNonFungibleToken({
   tokenId: string
 }): Promise<string | null> {
   let txHash
-  const schema = schemaMap[schemaName]
+  // const schema = schemaMap[schemaName]
   const tokenContract = new ethers.Contract(tokenAddress, tokenAbi, signer)
 
   if (!proxyAddress) {

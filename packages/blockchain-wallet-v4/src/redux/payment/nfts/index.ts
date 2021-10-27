@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js'
 import { ethers, Signer } from 'ethers'
 
 import { NftAsset, NftOrdersType } from '@core/network/api/nfts/types'
@@ -7,7 +6,6 @@ import { wyvernExchange_ABI } from './abis'
 import {
   _makeMatchingOrder,
   _makeSellOrder,
-  _ownsAssetOnChain,
   assignOrdersToSides,
   NULL_BLOCK_HASH,
   validateOrderParameters
