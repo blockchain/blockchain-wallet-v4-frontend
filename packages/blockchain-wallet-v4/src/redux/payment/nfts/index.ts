@@ -1,12 +1,40 @@
+import BigNumber from 'bignumber.js'
 import { ethers, Signer } from 'ethers'
 
-import { NftAssetsType, NftOrdersType } from '@core/network/api/nfts/types'
+import { NftAsset, NftOrdersType } from '@core/network/api/nfts/types'
 
-import { wyvernABI } from './abi'
-import { _makeMatchingOrder, assignOrdersToSides, NULL_BLOCK_HASH } from './utils'
+import { wyvernExchange_ABI } from './abis'
+import {
+  _makeMatchingOrder,
+  _makeSellOrder,
+  _ownsAssetOnChain,
+  assignOrdersToSides,
+  NULL_BLOCK_HASH,
+  validateOrderParameters
+} from './utils'
 
-export const fulfillNftSellOrder = async (asset: NftAssetsType['assets'][0], signer: Signer) => {
-  console.log('👋 Jamie!')
+export const fulfillNftSellOrder = async (asset: NftAsset, signer: Signer) => {
+  // 1. use the _makeSellOrder to create the object & initialize the proxy contract for this sale.
+  const accountAddress = await signer.getAddress()
+  console.log(asset)
+  const order = await _makeSellOrder({
+    accountAddress,
+    asset,
+    buyerAddress: '0x0000000000000000000000000000000000000000',
+    expirationTime: 0,
+    extraBountyBasisPoints: 0,
+    paymentTokenAddress: '0x0000000000000000000000000000000000000000',
+    quantity: 1,
+    startAmount: 0.1,
+    waitForHighestBid: false
+  })
+  console.log(order)
+  const validity = await validateOrderParameters({ order })
+  console.log(validity)
+  // 2. Validation & Approvals (Deploy Proxy contract here)
+  // 3. Compute hash of the order and output {...order, hash:hash(order)}
+  // 4. Obtain a signature from the signer (using the mnemonic & Ethers JS) over the hash and message.
+  // 5. Access the OpenSea post order route.
 }
 
 export const fulfillNftOrder = async (order: NftOrdersType['orders'][0], signer: Signer) => {
@@ -91,7 +119,7 @@ export const fulfillNftOrder = async (order: NftOrdersType['orders'][0], signer:
 
   const contract = new ethers.Contract(
     '0x7be8076f4ea4a4ad08075c2508e481d6c946d12b',
-    wyvernABI,
+    wyvernExchange_ABI,
     signer
   )
 

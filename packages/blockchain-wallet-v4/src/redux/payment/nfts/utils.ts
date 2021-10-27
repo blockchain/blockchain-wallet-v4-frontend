@@ -1,17 +1,27 @@
 import BigNumber from 'bignumber.js'
 import BN from 'bn.js'
 import * as ethABI from 'ethereumjs-abi'
-import { ethers } from 'ethers'
+import { ethers, Signer } from 'ethers'
 
 import {
+  Asset,
+  ComputedFees,
+  FeeMethod,
+  HowToCall,
+  NftAsset,
   NftOrderSide,
   NftOrdersType,
   NftSaleKind,
+  PartialReadonlyContractAbi,
   SolidityTypes,
   UnhashedOrder,
-  UnsignedOrder
+  UnsignedOrder,
+  WyvernAsset,
+  WyvernNFTAsset,
+  WyvernSchemaName
 } from '@core/network/api/nfts/types'
 
+import { ERC721_ABI, ERC1155_ABI, proxyRegistry_ABI, wyvernExchange_ABI } from './abis'
 import { schemaMap } from './schemas'
 import { FunctionInputKind } from './types'
 
@@ -24,6 +34,12 @@ const MIN_EXPIRATION_SECONDS = 10
 const ORDER_MATCHING_LATENCY_SECONDS = 60 * 60 * 24 * 7
 const OPENSEA_FEE_RECIPIENT = '0x5b3256965e7c3cf26e11fcaf296dfc8807c01073'
 const MAX_DIGITS_IN_UNSIGNED_256_INT = 72
+export const DEFAULT_BUYER_FEE_BASIS_POINTS = 0
+export const DEFAULT_SELLER_FEE_BASIS_POINTS = 250
+export const OPENSEA_SELLER_BOUNTY_BASIS_POINTS = 100
+export const DEFAULT_MAX_BOUNTY = DEFAULT_SELLER_FEE_BASIS_POINTS
+export const ENJIN_ADDRESS = '0xfaaFDc07907ff5120a76b34b731b278c38d6043C'
+export const ENJIN_COIN_ADDRESS = '0xf629cbd94d3791c9250152bd8dfbdf380e2a3b9c'
 
 export const bigNumberToBN = (value: BigNumber) => {
   return new BN(value.toString(), 10)
@@ -241,7 +257,11 @@ export const encodeDefaultCall = (abi, address) => {
 }
 
 export const encodeSell = (schema, asset, address) => {
-  const transfer = schema.functions.transfer(asset)
+  const transfer = schema.functions.transfer({
+    address: asset.asset_contract.address,
+    id: asset.token_id,
+    quantity: 1
+  })
   return {
     calldata: encodeDefaultCall(transfer, address),
     replacementPattern: encodeReplacementPattern(transfer),
@@ -338,6 +358,38 @@ function _getTimeParameters(
   }
 }
 
+// function _getSchema(schemaName?: WyvernSchemaName): Schema<any> {
+//   const schemaName_ = schemaName || WyvernSchemaName.ERC721
+//   const schema = WyvernSchemas.schemas[this._networkName].filter((s) => s.name == schemaName_)[0]
+
+//   if (!schema) {
+//     throw new Error(
+//       `Trading for this asset (${schemaName_}) is not yet supported. Please contact us or check back later!`
+//     )
+//   }
+//   return schema
+// }
+
+function toBaseUnitAmount(amount: BigNumber, decimals: number): BigNumber {
+  const unit = new BigNumber(10).pow(decimals)
+  const baseUnitAmount = amount.times(unit)
+  const hasDecimals = baseUnitAmount.decimalPlaces() !== 0
+  if (hasDecimals) {
+    throw new Error(`Invalid unit amount: ${amount.toString()} - Too many decimal places`)
+  }
+  return baseUnitAmount
+}
+
+function makeBigNumber(arg: number | string | BigNumber): BigNumber {
+  // Zero sometimes returned as 0x from contracts
+  if (arg === '0x') {
+    arg = 0
+  }
+  // fix "new BigNumber() number type has more than 15 significant digits"
+  arg = arg.toString()
+  return new BigNumber(arg)
+}
+
 export function assignOrdersToSides(
   order: Order,
   matchingOrder: UnsignedOrder
@@ -374,6 +426,111 @@ export function _getMetadata(order: Order, referrerAddress?: string) {
   }
   return undefined
 }
+
+/**
+ * To-DO make it work with the dynamic price setting from the on-chain data. Currently hard-coded. Currently doesn't work with Enjin assets
+ * Get current transfer fees for an asset
+ * @param web3 Web3 instance
+ * @param asset The asset to check for transfer fees
+ */
+async function getTransferFeeSettings(
+  // web3: Web3,
+  {
+    accountAddress,
+    asset
+  }: {
+    accountAddress?: string
+    asset: Asset
+  }
+) {
+  let transferFee: BigNumber | undefined
+  let transferFeeTokenAddress: string | undefined
+
+  // if (asset.tokenAddress.toLowerCase() == ENJIN_ADDRESS.toLowerCase()) {
+  //   // Enjin asset
+  //   const feeContract = web3.eth.contract(ERC1155 as any).at(asset.tokenAddress)
+
+  //   const params = await promisifyCall<any[]>((c) =>
+  //     feeContract.transferSettings(asset.tokenId, { from: accountAddress }, c)
+  //   )
+  //   if (params) {
+  //     transferFee = makeBigNumber(params[3])
+  //     if (params[2] == 0) {
+  //       transferFeeTokenAddress = ENJIN_COIN_ADDRESS
+  //     }
+  //   }
+  // }
+  return { transferFee, transferFeeTokenAddress }
+}
+
+/**
+ * Compute the `basePrice` and `extra` parameters to be used to price an order.
+ * Also validates the expiration time and auction type.
+ * @param tokenAddress Address of the ERC-20 token to use for trading.
+ * Use the null address for ETH
+ * @param expirationTime When the auction expires, or 0 if never.
+ * @param startAmount The base value for the order, in the token's main units (e.g. ETH instead of wei)
+ * @param endAmount The end value for the order, in the token's main units (e.g. ETH instead of wei). If unspecified, the order's `extra` attribute will be 0
+ */
+// async function _getPriceParameters(
+//   orderSide: NftOrderSide,
+//   tokenAddress: string,
+//   expirationTime: number,
+//   startAmount: number,
+//   endAmount?: number,
+//   waitingForBestCounterOrder = false,
+//   englishAuctionReservePrice?: number
+// ) {
+//   const priceDiff = endAmount != null ? startAmount - endAmount : 0
+//   const paymentToken = tokenAddress.toLowerCase()
+//   const isEther = tokenAddress == NULL_ADDRESS
+//   const { tokens } = await this.api.getPaymentTokens({ address: paymentToken })
+//   const token = tokens[0]
+
+//   // Validation
+//   if (Number.isNaN(startAmount) || startAmount == null || startAmount < 0) {
+//     throw new Error(`Starting price must be a number >= 0`)
+//   }
+//   if (!isEther && !token) {
+//     throw new Error(`No ERC-20 token found for '${paymentToken}'`)
+//   }
+//   if (isEther && waitingForBestCounterOrder) {
+//     throw new Error(`English auctions must use wrapped ETH or an ERC-20 token.`)
+//   }
+//   if (isEther && orderSide === NftOrderSide.Buy) {
+//     throw new Error(`Offers must use wrapped ETH or an ERC-20 token.`)
+//   }
+//   if (priceDiff < 0) {
+//     throw new Error('End price must be less than or equal to the start price.')
+//   }
+//   if (priceDiff > 0 && expirationTime == 0) {
+//     throw new Error('Expiration time must be set if order will change in price.')
+//   }
+//   if (englishAuctionReservePrice && !waitingForBestCounterOrder) {
+//     throw new Error('Reserve prices may only be set on English auctions.')
+//   }
+//   if (englishAuctionReservePrice && englishAuctionReservePrice < startAmount) {
+//     throw new Error('Reserve price must be greater than or equal to the start amount.')
+//   }
+
+//   // Note: WyvernProtocol.toBaseUnitAmount(makeBigNumber(startAmount), token.decimals)
+//   // will fail if too many decimal places, so special-case ether
+//   const basePrice = isEther
+//     ? makeBigNumber(this.web3.toWei(startAmount, 'ether')).round()
+//     : WyvernProtocol.toBaseUnitAmount(makeBigNumber(startAmount), token.decimals)
+
+//   const extra = isEther
+//     ? makeBigNumber(this.web3.toWei(priceDiff, 'ether')).round()
+//     : WyvernProtocol.toBaseUnitAmount(makeBigNumber(priceDiff), token.decimals)
+
+//   const reservePrice = englishAuctionReservePrice
+//     ? isEther
+//       ? makeBigNumber(this.web3.toWei(englishAuctionReservePrice, 'ether')).round()
+//       : WyvernProtocol.toBaseUnitAmount(makeBigNumber(englishAuctionReservePrice), token.decimals)
+//     : undefined
+
+//   return { basePrice, extra, paymentToken, reservePrice }
+// }
 
 export function _makeMatchingOrder({
   accountAddress,
@@ -474,4 +631,834 @@ export function _makeMatchingOrder({
     ...matchingOrder,
     hash: getOrderHash(matchingOrder)
   }
+}
+
+/**
+ * Compute the fees for an order
+ * @param param0 __namedParameters
+ * @param asset Asset to use for fees. May be blank ONLY for multi-collection bundles.
+ * @param side The side of the order (buy or sell)
+ * @param accountAddress The account to check fees for (useful if fees differ by account, like transfer fees)
+ * @param extraBountyBasisPoints The basis points to add for the bounty. Will throw if it exceeds the assets' contract's OpenSea fee.
+ */
+async function computeFees({
+  asset,
+  extraBountyBasisPoints = 0,
+  side
+}: {
+  asset?: NftAsset
+  extraBountyBasisPoints?: number
+  side: NftOrderSide
+}): Promise<ComputedFees> {
+  let openseaBuyerFeeBasisPoints = DEFAULT_BUYER_FEE_BASIS_POINTS
+  let openseaSellerFeeBasisPoints = DEFAULT_SELLER_FEE_BASIS_POINTS
+  let devBuyerFeeBasisPoints = 0
+  let devSellerFeeBasisPoints = 0
+  let transferFee = makeBigNumber(0)
+  let transferFeeTokenAddress = null
+  let maxTotalBountyBPS = DEFAULT_MAX_BOUNTY
+
+  if (asset) {
+    openseaBuyerFeeBasisPoints = +asset.asset_contract.opensea_buyer_fee_basis_points
+    openseaSellerFeeBasisPoints = +asset.asset_contract.opensea_seller_fee_basis_points
+    devBuyerFeeBasisPoints = +asset.asset_contract.dev_buyer_fee_basis_points
+    devSellerFeeBasisPoints = +asset.asset_contract.dev_seller_fee_basis_points
+
+    maxTotalBountyBPS = openseaSellerFeeBasisPoints
+  }
+
+  // Compute transferFrom fees
+  if (side === NftOrderSide.Sell && asset) {
+    // Server-side knowledge
+    transferFee = asset.transfer_fee ? makeBigNumber(asset.transfer_fee) : transferFee
+    transferFeeTokenAddress = asset.transfer_fee_payment_token
+      ? asset.transfer_fee_payment_token
+      : transferFeeTokenAddress
+  }
+
+  // Compute bounty
+  const sellerBountyBasisPoints = side === NftOrderSide.Sell ? extraBountyBasisPoints : 0
+
+  // Check that bounty is in range of the opensea fee
+  const bountyTooLarge =
+    sellerBountyBasisPoints + OPENSEA_SELLER_BOUNTY_BASIS_POINTS > maxTotalBountyBPS
+  if (sellerBountyBasisPoints > 0 && bountyTooLarge) {
+    let errorMessage = `Total bounty exceeds the maximum for this asset type (${
+      maxTotalBountyBPS / 100
+    }%).`
+    if (maxTotalBountyBPS >= OPENSEA_SELLER_BOUNTY_BASIS_POINTS) {
+      errorMessage += ` Remember that OpenSea will add ${
+        OPENSEA_SELLER_BOUNTY_BASIS_POINTS / 100
+      }% for referrers with OpenSea accounts!`
+    }
+    throw new Error(errorMessage)
+  }
+
+  return {
+    devBuyerFeeBasisPoints,
+    devSellerFeeBasisPoints,
+    openseaBuyerFeeBasisPoints,
+    openseaSellerFeeBasisPoints,
+    sellerBountyBasisPoints,
+    totalBuyerFeeBasisPoints: openseaBuyerFeeBasisPoints + devBuyerFeeBasisPoints,
+    totalSellerFeeBasisPoints: openseaSellerFeeBasisPoints + devSellerFeeBasisPoints,
+    transferFee,
+    transferFeeTokenAddress
+  }
+}
+
+/**
+ * Compute the `basePrice` and `extra` parameters to be used to price an order.
+ * Also validates the expiration time and auction type.
+ * @param tokenAddress Address of the ERC-20 token to use for trading.
+ * Use the null address for ETH
+ * @param expirationTime When the auction expires, or 0 if never.
+ * @param startAmount The base value for the order, in the token's main units (e.g. ETH instead of wei)
+ * @param endAmount The end value for the order, in the token's main units (e.g. ETH instead of wei). If unspecified, the order's `extra` attribute will be 0
+ */
+async function _getPriceParameters(
+  orderSide: NftOrderSide,
+  tokenAddress: string,
+  expirationTime: number,
+  startAmount: number,
+  endAmount?: number,
+  waitingForBestCounterOrder = false,
+  englishAuctionReservePrice?: number
+) {
+  const priceDiff = endAmount != null ? startAmount - endAmount : 0
+  const paymentToken = tokenAddress.toLowerCase()
+  const isEther = tokenAddress === NULL_ADDRESS
+  // const { tokens } = await this.api.getPaymentTokens({ address: paymentToken })
+  // const token = tokens[0]
+
+  // Validation
+  if (Number.isNaN(startAmount) || startAmount == null || startAmount < 0) {
+    throw new Error(`Starting price must be a number >= 0`)
+  }
+  // if (!isEther && !token) {
+  //   throw new Error(`No ERC-20 token found for '${paymentToken}'`)
+  // }
+  if (isEther && waitingForBestCounterOrder) {
+    throw new Error(`English auctions must use wrapped ETH or an ERC-20 token.`)
+  }
+  if (isEther && orderSide === NftOrderSide.Buy) {
+    throw new Error(`Offers must use wrapped ETH or an ERC-20 token.`)
+  }
+  if (priceDiff < 0) {
+    throw new Error('End price must be less than or equal to the start price.')
+  }
+  if (priceDiff > 0 && expirationTime === 0) {
+    throw new Error('Expiration time must be set if order will change in price.')
+  }
+  if (englishAuctionReservePrice && !waitingForBestCounterOrder) {
+    throw new Error('Reserve prices may only be set on English auctions.')
+  }
+  if (englishAuctionReservePrice && englishAuctionReservePrice < startAmount) {
+    throw new Error('Reserve price must be greater than or equal to the start amount.')
+  }
+
+  // to-do: implement all of the below values for other types of tokens (as commented out)
+  // Note: WyvernProtocol.toBaseUnitAmount(makeBigNumber(startAmount), token.decimals)
+  // will fail if too many decimal places, so special-case ether
+  // const basePrice = isEther
+  //   ? (ethers.utils.parseEther(startAmount.toString())
+  //   : WyvernProtocol.toBaseUnitAmount(makeBigNumber(startAmount), token.decimals)
+
+  // const extra = isEther
+  //   ? makeBigNumber(this.web3.toWei(priceDiff, 'ether')).round()
+  //   : WyvernProtocol.toBaseUnitAmount(makeBigNumber(priceDiff), token.decimals)
+
+  // const reservePrice = englishAuctionReservePrice
+  //   ? isEther
+  //     ? makeBigNumber(this.web3.toWei(englishAuctionReservePrice, 'ether')).round()
+  //     : WyvernProtocol.toBaseUnitAmount(makeBigNumber(englishAuctionReservePrice), token.decimals)
+  //   : undefined
+  const basePrice = ethers.utils.parseEther(startAmount.toString())
+  const extra = ethers.utils.parseEther(priceDiff.toString())
+  const reservePrice = englishAuctionReservePrice
+    ? ethers.utils.parseEther(englishAuctionReservePrice.toString())
+    : undefined
+  return { basePrice, extra, paymentToken, reservePrice }
+}
+
+function _getSellFeeParameters(
+  totalBuyerFeeBasisPoints: number,
+  totalSellerFeeBasisPoints: number,
+  waitForHighestBid: boolean,
+  sellerBountyBasisPoints = 0
+) {
+  // to-do:reimplement this validation
+  // _validateFees(totalBuyerFeeBasisPoints, totalSellerFeeBasisPoints)
+  // Use buyer as the maker when it's an English auction, so Wyvern sets prices correctly
+  const feeRecipient = waitForHighestBid ? NULL_ADDRESS : OPENSEA_FEE_RECIPIENT
+
+  // Swap maker/taker fees when it's an English auction,
+  // since these sell orders are takers not makers
+  const makerRelayerFee = waitForHighestBid
+    ? makeBigNumber(totalBuyerFeeBasisPoints)
+    : makeBigNumber(totalSellerFeeBasisPoints)
+  const takerRelayerFee = waitForHighestBid
+    ? makeBigNumber(totalSellerFeeBasisPoints)
+    : makeBigNumber(totalBuyerFeeBasisPoints)
+
+  return {
+    feeMethod: FeeMethod.SplitFee,
+    feeRecipient,
+    makerProtocolFee: makeBigNumber(0),
+    makerReferrerFee: makeBigNumber(sellerBountyBasisPoints),
+    makerRelayerFee,
+    takerProtocolFee: makeBigNumber(0),
+    takerRelayerFee
+  }
+}
+
+// Creating the most basic sell order structure (selling for fixed price, ETH as payment currency, no time limit on order)
+export async function _makeSellOrder({
+  accountAddress,
+  asset,
+  buyerAddress,
+  endAmount,
+  englishAuctionReservePrice = 0,
+  expirationTime,
+  extraBountyBasisPoints = 0,
+  listingTime,
+  paymentTokenAddress,
+  quantity,
+  startAmount,
+  waitForHighestBid
+}: {
+  accountAddress: string
+  asset: NftAsset
+  buyerAddress: string
+  endAmount?: number
+  englishAuctionReservePrice?: number
+  expirationTime: number
+  extraBountyBasisPoints: number
+  listingTime?: number
+  paymentTokenAddress: string
+  quantity: number
+  startAmount: number
+  waitForHighestBid: boolean
+}): Promise<UnhashedOrder> {
+  // todo: re-implement this later:
+  // accountAddress = validateAndFormatWalletAddress(this.web3, accountAddress)
+  // const schema = _getSchema(asset.schemaName)
+  // const quantityBN = toBaseUnitAmount(makeBigNumber(quantity), asset.decimals || 0)
+  // const { sellerBountyBasisPoints, totalBuyerFeeBasisPoints, totalSellerFeeBasisPoints } =
+  //   await computeFees({ asset, extraBountyBasisPoints, side: NftOrderSide.Sell })
+  // Temporary hard-coded test values
+  const { sellerBountyBasisPoints, totalBuyerFeeBasisPoints, totalSellerFeeBasisPoints } =
+    await computeFees({
+      asset,
+      extraBountyBasisPoints,
+      side: NftOrderSide.Sell
+    })
+
+  const schema = await schemaMap[asset.asset_contract.schema_name ?? WyvernSchemaName.ERC721]
+  // const wyAsset = getWyvernAsset(schema, asset)
+  const { calldata, replacementPattern, target } = encodeSell(schema, asset, accountAddress)
+  const orderSaleKind =
+    endAmount != null && endAmount !== startAmount
+      ? NftSaleKind.DutchAuction
+      : NftSaleKind.FixedPrice
+  const { basePrice, extra, paymentToken, reservePrice } = await _getPriceParameters(
+    NftOrderSide.Sell,
+    paymentTokenAddress,
+    expirationTime,
+    startAmount,
+    endAmount,
+    waitForHighestBid,
+    englishAuctionReservePrice
+  )
+  const times = _getTimeParameters(0, Math.round(Date.now() / 1000))
+  const {
+    feeMethod,
+    feeRecipient,
+    makerProtocolFee,
+    makerReferrerFee,
+    makerRelayerFee,
+    takerProtocolFee,
+    takerRelayerFee
+  } = _getSellFeeParameters(
+    totalBuyerFeeBasisPoints,
+    totalSellerFeeBasisPoints,
+    waitForHighestBid,
+    sellerBountyBasisPoints
+  )
+  // to-do implement the dyanmic configuration of these values:
+  const staticTarget = NULL_ADDRESS
+  const staticExtradata = '0x'
+  if (!asset.asset_contract) {
+    throw new Error('contract address not defined within asset')
+  }
+  return {
+    basePrice: new BigNumber(basePrice.toString()),
+    calldata,
+    englishAuctionReservePrice: reservePrice ? new BigNumber(reservePrice.toString()) : undefined,
+    exchange: '0x7Be8076f4EA4A4AD08075C2508e481d6C946D12b',
+    expirationTime: times.expirationTime,
+    extra: new BigNumber(extra.toString()),
+    feeMethod,
+    feeRecipient,
+    howToCall: HowToCall.Call,
+    listingTime: times.listingTime,
+    maker: accountAddress,
+    makerProtocolFee,
+    makerReferrerFee,
+    makerRelayerFee,
+    metadata: {
+      asset: {
+        address: asset.asset_contract.address.toLowerCase(),
+        id: asset.token_id.toLowerCase() || NULL_ADDRESS,
+        quantity: new BigNumber(1).toString()
+      },
+      schema: schema.name as WyvernSchemaName
+    },
+    paymentToken,
+    quantity: new BigNumber(1),
+    replacementPattern,
+    saleKind: orderSaleKind,
+    salt: new BigNumber(69),
+    side: NftOrderSide.Sell,
+    staticExtradata,
+    staticTarget,
+    taker: buyerAddress,
+    takerProtocolFee,
+    takerRelayerFee,
+    target,
+    waitingForBestCounterOrder: waitForHighestBid
+  }
+}
+
+function delay(time) {
+  return new Promise((resolve) => setTimeout(resolve, time))
+}
+
+async function _getProxy(signer, retries = 0): Promise<string | null> {
+  const wyvernProxyRegistry = new ethers.Contract(
+    '0xa5409ec958C83C3f309868babACA7c86DCB077c1',
+    proxyRegistry_ABI,
+    signer
+  )
+  let proxyAddress: string | null = await wyvernProxyRegistry.proxies(signer.getAddress())
+
+  if (proxyAddress === '0x') {
+    throw new Error(
+      "Couldn't retrieve your account from the blockchain - make sure you're on the correct Ethereum network!"
+    )
+  }
+
+  if (!proxyAddress || proxyAddress === NULL_ADDRESS) {
+    if (retries > 0) {
+      await delay(1000)
+      return _getProxy(signer, retries - 1)
+    }
+    proxyAddress = null
+  }
+  return proxyAddress
+}
+
+async function _initializeProxy(signer): Promise<string> {
+  const accountAddress = await signer.getAddress()
+  console.log(`Initializing proxy for account: ${accountAddress}`)
+
+  const txnData = {
+    from: accountAddress,
+    gasLimit: 325_000,
+    gasPrice: 120_000_000_000
+  }
+  // const gasEstimate = await this._wyvernProtocolReadOnly.wyvernProxyRegistry.registerProxy.estimateGasAsync(txnData)
+  const wyvernProxyRegistry = new ethers.Contract(
+    '0xa5409ec958C83C3f309868babACA7c86DCB077c1',
+    proxyRegistry_ABI,
+    signer
+  )
+  const transactionHash = await wyvernProxyRegistry.registerProxy([], txnData)
+  const receipt = await transactionHash.wait()
+  console.log(receipt)
+  const proxyAddress = await _getProxy(signer, 10)
+  if (!proxyAddress) {
+    throw new Error(
+      'Failed to initialize your account :( Please restart your wallet/browser and try again!'
+    )
+  }
+
+  return proxyAddress
+}
+
+async function getAssetBalance(
+  { accountAddress, asset, signer }: { accountAddress: string; asset: Asset; signer: Signer },
+  retries = 1
+): Promise<BigNumber> {
+  const schema = schemaMap[asset.schemaName ?? WyvernSchemaName.ERC721]
+  if (!asset.tokenId) {
+    throw new Error('Token ID Required.')
+  }
+  const wyAsset = {
+    address: asset.tokenAddress.toLowerCase(),
+    id: asset.tokenId.toLowerCase(),
+    quantity: new BigNumber(1).toString()
+  }
+
+  if (schema.functions.countOf) {
+    // ERC20 or ERC1155 (non-Enjin)
+    console.log('we in here')
+    const erc1155Contract = new ethers.Contract(wyAsset.address, ERC1155_ABI, signer)
+    const count = await erc1155Contract.balanceOf(accountAddress, wyAsset.id)
+    console.log(count)
+    if (count !== undefined) {
+      return new BigNumber(parseInt(count._hex))
+    }
+  } else if (schema.functions.ownerOf) {
+    // ERC721 asset
+    // const abi = schema.functions
+    console.log('we shouldnt be in here')
+    const erc721Contract = new ethers.Contract(wyAsset.address, ERC721_ABI, signer)
+    const owner = await erc721Contract.ownerOf(wyAsset.id)
+    if (owner) {
+      return owner.toLowerCase() === accountAddress.toLowerCase()
+        ? new BigNumber(1)
+        : new BigNumber(0)
+    }
+  } else {
+    // Missing ownership call - skip check to allow listings
+    // by default
+    throw new Error('Missing ownership schema for this asset type')
+  }
+
+  if (retries <= 0) {
+    throw new Error('Unable to get current owner from smart contract')
+  } else {
+    await delay(500)
+    // Recursively check owner again
+    return getAssetBalance({ accountAddress, asset, signer }, retries - 1)
+  }
+}
+
+export async function _ownsAssetOnChain({
+  accountAddress,
+  proxyAddress,
+  schemaName,
+  signer,
+  wyAsset
+}: {
+  accountAddress: string
+  proxyAddress?: string | null
+  schemaName: WyvernSchemaName
+  signer: Signer
+  wyAsset: WyvernAsset
+}): Promise<boolean> {
+  const asset: Asset = {
+    schemaName,
+    tokenAddress: wyAsset.address,
+    tokenId: wyAsset.id || null
+  }
+
+  const minAmount = new BigNumber('quantity' in wyAsset ? wyAsset.quantity : 1)
+
+  const accountBalance = await getAssetBalance({ accountAddress, asset, signer })
+  if (accountBalance.isGreaterThanOrEqualTo(minAmount)) {
+    return true
+  }
+
+  proxyAddress = proxyAddress || (await _getProxy(accountAddress))
+  if (proxyAddress) {
+    const proxyBalance = await getAssetBalance({ accountAddress: proxyAddress, asset, signer })
+    if (proxyBalance.isGreaterThanOrEqualTo(minAmount)) {
+      return true
+    }
+  }
+
+  return false
+}
+
+// async function getNonCompliantApprovalAddress(
+//   erc721Contract: any,
+//   tokenId: string,
+//   accountAddress: string
+// ): Promise<string | undefined> {
+//   const results = await Promise.all([
+//     // CRYPTOKITTIES check
+//     promisifyCall<string>((c) => erc721Contract.kittyIndexToApproved.call(tokenId, c)),
+//     // Etherbots check
+//     promisifyCall<string>((c) => erc721Contract.partIndexToApproved.call(tokenId, c))
+//   ])
+
+//   return _.compact(results)[0]
+// }
+
+/**
+ * Approve a non-fungible token for use in trades.
+ * Requires an account to be initialized first.
+ * Called internally, but exposed for dev flexibility.
+ * Checks to see if already approved, first. Then tries different approval methods from best to worst.
+ * @param param0 __namedParamters Object
+ * @param tokenId Token id to approve, but only used if approve-all isn't
+ *  supported by the token contract
+ * @param tokenAddress The contract address of the token being approved
+ * @param accountAddress The user's wallet address
+ * @param proxyAddress Address of the user's proxy contract. If not provided,
+ *  will attempt to fetch it from Wyvern.
+ * @param tokenAbi ABI of the token's contract. Defaults to a flexible ERC-721
+ *  contract.
+ * @param skipApproveAllIfTokenAddressIn an optional list of token addresses that, if a token is approve-all type, will skip approval
+ * @param schemaName The Wyvern schema name corresponding to the asset type
+ * @returns Transaction hash if a new transaction was created, otherwise null
+ */
+async function approveSemiOrNonFungibleToken({
+  tokenId,
+  tokenAddress,
+  accountAddress,
+  proxyAddress,
+  tokenAbi = ERC721_ABI,
+  schemaName = WyvernSchemaName.ERC721,
+  signer,
+  skipApproveAllIfTokenAddressIn = new Set()
+}: {
+  accountAddress: string
+  proxyAddress?: string
+  schemaName?: WyvernSchemaName
+  signer: Signer
+  skipApproveAllIfTokenAddressIn?: Set<string>
+  tokenAbi?: PartialReadonlyContractAbi
+  tokenAddress: string
+  tokenId: string
+}): Promise<string | null> {
+  let txHash
+  const schema = schemaMap[schemaName]
+  const tokenContract = new ethers.Contract(tokenAddress, tokenAbi, signer)
+
+  if (!proxyAddress) {
+    proxyAddress = (await _getProxy(accountAddress)) || undefined
+    if (!proxyAddress) {
+      throw new Error('Uninitialized account')
+    }
+  }
+
+  const approvalAllCheck = async () => {
+    // NOTE:
+    // Use this long way of calling so we can check for method existence on a bool-returning method.
+    const isApprovedForAll = await tokenContract.isApprovedForAll(accountAddress, proxyAddress)
+    return parseInt(isApprovedForAll)
+  }
+  const isApprovedForAll = await approvalAllCheck()
+
+  if (isApprovedForAll === 1) {
+    // Supports ApproveAll
+    console.log('Already approved proxy for all tokens')
+    return null
+  }
+
+  if (isApprovedForAll === 0) {
+    // Supports ApproveAll
+    //  not approved for all yet
+
+    if (skipApproveAllIfTokenAddressIn.has(tokenAddress)) {
+      console.log('Already approving proxy for all tokens in another transaction')
+      return null
+    }
+    skipApproveAllIfTokenAddressIn.add(tokenAddress)
+
+    try {
+      txHash = await tokenContract.setApprovalForAll(proxyAddress, true)
+      if (txHash === null) {
+        throw new Error('Failed sending approval transaction')
+      }
+      const receipt = await txHash.wait()
+      if (receipt.status) {
+        console.log(
+          `Transaction receipt : https://www.etherscan.io/tx/${receipt.logs[1].transactionHash}\n`
+        )
+        const approvalCheck = await approvalAllCheck()
+        if (approvalCheck !== 1) {
+          return null
+        }
+      }
+    } catch (error) {
+      console.error(error)
+      throw new Error(
+        "Couldn't get permission to approve these tokens for trading. Their contract might not be implemented correctly. Please contact the developer!"
+      )
+    }
+  }
+  // to-do: implement the logic for ERC721 assets
+  // // Does not support ApproveAll (ERC721 v1 or v2)
+  // console.log('Contract does not support Approve All')
+
+  // const approvalOneCheck = async () => {
+  //   // Note: approvedAddr will be '0x' if not supported
+  //   let approvedAddr = await tokenContract.getApproved.call(tokenId)
+  //   if (approvedAddr === proxyAddress) {
+  //     console.log('Already approved proxy for this token')
+  //     return true
+  //   }
+  //   console.log(`Approve response: ${approvedAddr}`)
+
+  //   // SPECIAL CASING non-compliant contracts
+  //   if (!approvedAddr) {
+  //     approvedAddr = await getNonCompliantApprovalAddress(contract, tokenId, accountAddress)
+  //     if (approvedAddr == proxyAddress) {
+  //       this.logger('Already approved proxy for this item')
+  //       return true
+  //     }
+  //     this.logger(`Special-case approve response: ${approvedAddr}`)
+  //   }
+  //   return false
+  // }
+
+  // const isApprovedForOne = await approvalOneCheck()
+  // if (isApprovedForOne) {
+  //   return null
+  // }
+
+  // // Call `approve`
+
+  // try {
+  //   this._dispatch(EventType.ApproveAsset, {
+  //     accountAddress,
+  //     asset: getWyvernAsset(schema, { tokenAddress, tokenId }),
+  //     proxyAddress
+  //   })
+
+  //   const txHash = await sendRawTransaction(
+  //     this.web3,
+  //     {
+  //       data: contract.approve.getData(proxyAddress, tokenId),
+  //       from: accountAddress,
+  //       to: contract.address
+  //     },
+  //     (error) => {
+  //       this._dispatch(EventType.TransactionDenied, { accountAddress, error })
+  //     }
+  //   )
+
+  //   await this._confirmTransaction(
+  //     txHash,
+  //     EventType.ApproveAsset,
+  //     'Approving single token for trading',
+  //     approvalOneCheck
+  //   )
+  //   return txHash
+  // } catch (error) {
+  //   console.error(error)
+  //   throw new Error(
+  //     "Couldn't get permission to approve this token for trading. Its contract might not be implemented correctly. Please contact the developer!"
+  //   )
+  // }
+  return txHash
+}
+
+async function _approveAll({
+  proxyAddress,
+  schemaNames,
+  signer,
+  wyAssets
+}: {
+  proxyAddress?: string
+  schemaNames: WyvernSchemaName[]
+  signer: Signer
+  wyAssets: WyvernAsset[]
+}) {
+  proxyAddress = proxyAddress || (await _getProxy(signer)) || undefined
+  if (!proxyAddress) {
+    proxyAddress = await _initializeProxy(signer)
+  }
+  const contractsWithApproveAll: Set<string> = new Set()
+  const accountAddress = await signer.getAddress()
+
+  return Promise.all(
+    wyAssets.map(async (wyAsset, i) => {
+      const schemaName = schemaNames[i]
+      // Verify that the taker owns the asset
+      let isOwner
+      try {
+        isOwner = await _ownsAssetOnChain({
+          accountAddress,
+          proxyAddress,
+          schemaName,
+          signer,
+          wyAsset
+        })
+      } catch (error) {
+        // let it through for assets we don't support yet
+        isOwner = true
+      }
+      if (!isOwner) {
+        const minAmount = 'quantity' in wyAsset ? wyAsset.quantity : 1
+        console.error(
+          `Failed on-chain ownership check: ${accountAddress} on ${schemaName}:`,
+          wyAsset
+        )
+        throw new Error(
+          `You don't own enough to do that (${minAmount} base units of ${wyAsset.address}${
+            wyAsset.id ? ` token ${wyAsset.id}` : ''
+          })`
+        )
+      }
+      switch (schemaName) {
+        case WyvernSchemaName.ERC721:
+        case WyvernSchemaName.ERC1155:
+        case WyvernSchemaName.LegacyEnjin:
+        case WyvernSchemaName.ENSShortNameAuction:
+          // Handle NFTs and SFTs
+          const wyNFTAsset = wyAsset as WyvernNFTAsset
+          return approveSemiOrNonFungibleToken({
+            accountAddress,
+            proxyAddress,
+            schemaName,
+            signer,
+            skipApproveAllIfTokenAddressIn: contractsWithApproveAll,
+            tokenAddress: wyNFTAsset.address,
+            tokenId: wyNFTAsset.id
+          })
+        // to-do: Implement for fungible tokens
+        // case WyvernSchemaName.ERC20:
+        //   // Handle FTs
+        //   const wyFTAsset = wyAsset as WyvernFTAsset
+        //   if (contractsWithApproveAll.has(wyFTAsset.address)) {
+        //     // Return null to indicate no tx occurred
+        //     return null
+        //   }
+        //   contractsWithApproveAll.add(wyFTAsset.address)
+        //   return await this.approveFungibleToken({
+        //     accountAddress,
+        //     proxyAddress,
+        //     tokenAddress: wyFTAsset.address
+        //   })
+        // For other assets, including contracts:
+        // Send them to the user's proxy
+        // if (where != WyvernAssetLocation.Proxy) {
+        //   return this.transferOne({
+        //     schemaName: schema.name,
+        //     asset: wyAsset,
+        //     isWyvernAsset: true,
+        //     fromAddress: accountAddress,
+        //     toAddress: proxy
+        //   })
+        // }
+        // return true
+        default:
+          throw new Error('Unkown Schema')
+      }
+    })
+  )
+}
+
+export async function validateOrderParameters({
+  order
+}: {
+  order: UnhashedOrder
+}): Promise<boolean> {
+  const wyvernExchangeContract = new ethers.Contract(order.exchange, wyvernExchange_ABI)
+  const buyValid = await wyvernExchangeContract.validateOrderParameters_(
+    [
+      order.exchange,
+      order.maker,
+      order.taker,
+      order.feeRecipient,
+      order.target,
+      order.staticTarget,
+      order.paymentToken
+    ],
+    [
+      order.makerRelayerFee,
+      order.takerRelayerFee,
+      order.makerProtocolFee,
+      order.takerProtocolFee,
+      order.basePrice,
+      order.extra,
+      order.listingTime,
+      order.expirationTime,
+      order.salt
+    ],
+    order.feeMethod,
+    order.side,
+    order.saleKind,
+    order.howToCall,
+    order.calldata,
+    order.replacementPattern,
+    order.staticExtradata
+  )
+  if (!buyValid) {
+    console.error(order)
+    throw new Error(
+      `Failed to validate buy order parameters. Make sure you're on the right network!`
+    )
+  }
+  return buyValid
+}
+// to-do: once the order validation is working, make sure the approvals are all working correctly and then finish implementing this function.
+async function _sellOrderValidationAndApprovals({
+  order,
+  proxyAddress,
+  signer
+}: {
+  order: UnhashedOrder
+  proxyAddress: string
+  signer: Signer
+}) {
+  const wyAssets =
+    'bundle' in order.metadata
+      ? order.metadata.bundle.assets
+      : order.metadata.asset
+      ? [order.metadata.asset]
+      : []
+
+  const schemaNames =
+    'bundle' in order.metadata && 'schemas' in order.metadata.bundle
+      ? order.metadata.bundle.schemas
+      : 'schema' in order.metadata
+      ? [order.metadata.schema]
+      : []
+  const tokenAddress = order.paymentToken
+
+  await _approveAll({ proxyAddress, schemaNames, signer, wyAssets })
+
+  // // For fulfilling bids,
+  // // need to approve access to fungible token because of the way fees are paid
+  // // This can be done at a higher level to show UI
+  // if (tokenAddress !== NULL_ADDRESS) {
+  //   const minimumAmount = makeBigNumber(order.basePrice)
+  //   await this.approveFungibleToken({ accountAddress, minimumAmount, tokenAddress })
+  // }
+
+  // to-do: sell parameters validation
+  // // Check sell parameters
+  // const sellValid =
+  //   await this._wyvernProtocolReadOnly.wyvernExchange.validateOrderParameters_.callAsync(
+  //     [
+  //       order.exchange,
+  //       order.maker,
+  //       order.taker,
+  //       order.feeRecipient,
+  //       order.target,
+  //       order.staticTarget,
+  //       order.paymentToken
+  //     ],
+  //     [
+  //       order.makerRelayerFee,
+  //       order.takerRelayerFee,
+  //       order.makerProtocolFee,
+  //       order.takerProtocolFee,
+  //       order.basePrice,
+  //       order.extra,
+  //       order.listingTime,
+  //       order.expirationTime,
+  //       order.salt
+  //     ],
+  //     order.feeMethod,
+  //     order.side,
+  //     order.saleKind,
+  //     order.howToCall,
+  //     order.calldata,
+  //     order.replacementPattern,
+  //     order.staticExtradata,
+  //     { from: accountAddress }
+  //   )
+  // if (!sellValid) {
+  //   console.error(order)
+  //   throw new Error(
+  //     `Failed to validate sell order parameters. Make sure you're on the right network!`
+  //   )
+  // }
 }
