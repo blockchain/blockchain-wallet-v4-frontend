@@ -192,15 +192,11 @@ const generatePseudoRandomSalt = (): string => {
 
 export const encodeCall = (abi, parameters: any[]): string => {
   const inputTypes = abi.inputs.map((i) => i.type)
-  const encoded = `0x${Buffer.concat([
-    Buffer.from(ethABI.methodID(abi.name, inputTypes)),
-    Buffer.from(ethABI.rawEncode(inputTypes, parameters))
-  ]).toString('hex')}`
-  const encoded2 = Buffer.from(ethers.utils.defaultAbiCoder.encode(inputTypes, parameters))
-
-  debugger
-  console.log(encoded)
-  console.log(encoded2)
+  const fragment = ethers.utils.Fragment.from(abi)
+  const encoded = `${Buffer.concat([
+    Buffer.from(ethers.utils.Interface.getSighash(fragment)),
+    Buffer.from(ethers.utils.defaultAbiCoder.encode(inputTypes, parameters).slice(2))
+  ])}`
 
   return encoded
 }
