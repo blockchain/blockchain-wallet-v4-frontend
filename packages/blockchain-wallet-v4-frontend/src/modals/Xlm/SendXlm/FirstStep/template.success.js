@@ -37,6 +37,7 @@ import {
   balanceReserveAmount,
   insufficientFunds,
   invalidAmount,
+  isSendLimitOver,
   shouldError,
   shouldWarn,
   validateMemo,
@@ -191,7 +192,7 @@ const FirstStep = (props) => {
                 component={XlmFiatConverter}
                 error={error}
                 coin='XLM'
-                validate={[required, invalidAmount, insufficientFunds]}
+                validate={[required, invalidAmount, insufficientFunds, isSendLimitOver]}
                 data-e2e='sendXlm'
                 marginTop='8px'
               />
