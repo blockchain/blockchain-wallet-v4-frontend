@@ -1048,7 +1048,7 @@
     "modals.send.firststep.fromcustody11": "At this time, Blockchain.com only allows sending from your {coin} Trading Account to your {coin} Wallet.",
     "modals.send.firststep.fromcustody2": "Please backup your Wallet before before sending crypto to it.",
     "modals.send.banner.title": "Uprade to Gold. Send More Crypto.",
-    "modals.send.banner.description": "Verify your ID now and unlock Gold level trading. Send up to {dayCurrencySymbol}{dayAmount} a day. Now, your limit is {yearCurrencySymbol}{yearAmount} annually.",
+    "modals.send.banner.description": "Verify your ID now and unlock Gold level trading. Send up to {dayCurrencySymbol}{dayAmount} a day.",
     "modals.send.banner.get_started": "Get Stared",
     "modals.send.over_your_limit": "Over your limit! Send up to {currency}{amount}.",
     "modals.sendbch.amountnotzeromessage": "Invalid amount",
