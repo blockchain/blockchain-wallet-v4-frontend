@@ -1533,7 +1533,7 @@ type MessagesType = {
   'modals.simplebuy.confirm.activity': 'Your final amount may change due to market activity.'
   'modals.simplebuy.confirm.activity_card11': 'Your final amount might change due to market activity. Your funds will be available to Sell, Swap or withdraw instantly.'
   'modals.simplebuy.confirm.activity_card2': 'Your crypto will be available to be withdrawn within <b>{days} days</b>.'
-  'modals.simplebuy.confirm.activity_accept_terms': 'I agree to Blockchain’s <a>Terms of Service</a> and its return, refund and cancellation policy.'
+  'modals.simplebuy.confirm.activity_accept_terms1': 'I agree to Blockchain’s <a>Terms of Service</a> and its return, refund and cancellation policy.'
   'modals.simplebuy.confirm.funds_wallet': '{coin} Wallet'
   'modals.simplebuy.confirm.payment_card': 'Credit Card'
   'modals.simplebuy.confirm.buynow': 'Buy Now'

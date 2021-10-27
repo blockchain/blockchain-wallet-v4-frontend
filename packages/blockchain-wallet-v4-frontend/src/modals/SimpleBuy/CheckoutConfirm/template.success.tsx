@@ -392,7 +392,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
                 onChange={() => setAcceptTerms((acceptTerms) => !acceptTerms)}
               >
                 <FormattedMessage
-                  id='modals.simplebuy.confirm.activity_accept_terms'
+                  id='modals.simplebuy.confirm.activity_accept_terms1'
                   defaultMessage='I agree to Blockchain’s <a>Terms of Service</a> and its return, refund and cancellation policy.'
                   values={{
                     a: (msg) => (
