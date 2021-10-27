@@ -8,13 +8,13 @@ export default {
       currency: 'SGD',
       decimal_digits: 0,
       rate: '1',
-      symbol: '¢S$',
+      symbol: '¢S$'
     },
     SGD: {
       currency: 'SGD',
       decimal_digits: 2,
       rate: '100',
-      symbol: 'S$',
-    },
-  },
+      symbol: 'S$'
+    }
+  }
 }

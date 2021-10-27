@@ -5,10 +5,10 @@ import { actions } from 'data'
 
 export const logLocation = 'bitpay'
 
-export const parsePaymentRequest = function * (rawPaymentRequest) {
+export const parsePaymentRequest = function* (rawPaymentRequest) {
   try {
-    const rawBody = rawPaymentRequest.rawBody
-    const headers = rawPaymentRequest.headers
+    const { rawBody } = rawPaymentRequest
+    const { headers } = rawPaymentRequest
     let paymentRequest
 
     if (!rawBody) {
@@ -28,11 +28,8 @@ export const parsePaymentRequest = function * (rawPaymentRequest) {
       throw new Error('Digest missing from response headers')
     }
 
-    let digest = headers.digest.split('=')[1]
-    let hash = crypto
-      .createHash('sha256')
-      .update(rawBody, 'utf8')
-      .digest('hex')
+    const digest = headers.digest.split('=')[1]
+    const hash = crypto.createHash('sha256').update(rawBody, 'utf8').digest('hex')
 
     if (digest !== hash) {
       throw new Error(
@@ -44,8 +41,6 @@ export const parsePaymentRequest = function * (rawPaymentRequest) {
     paymentRequest.headers = headers
     return paymentRequest
   } catch (e) {
-    yield put(
-      actions.logs.logErrorMessage(logLocation, 'parsePaymentRequest', e)
-    )
+    yield put(actions.logs.logErrorMessage(logLocation, 'parsePaymentRequest', e))
   }
 }

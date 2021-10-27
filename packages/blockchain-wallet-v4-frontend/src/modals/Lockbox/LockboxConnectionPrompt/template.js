@@ -4,13 +4,7 @@ import PropTypes from 'prop-types'
 import { prop } from 'ramda'
 import styled from 'styled-components'
 
-import {
-  Image,
-  Modal,
-  ModalBody,
-  ModalHeader,
-  Text
-} from 'blockchain-info-components'
+import { Image, Modal, ModalBody, ModalHeader, Text } from 'blockchain-info-components'
 
 import ModalStepper from '../components'
 import { CONFIRM_STEPS } from './model'
@@ -29,8 +23,8 @@ const ImageContainer = styled.div`
   position: relative;
 `
 const MarqueeContainer = styled.marquee.attrs({
-  scrollamount: 3,
-  behavior: 'alternate'
+  behavior: 'alternate',
+  scrollamount: 3
 })`
   position: absolute;
   padding: 4px;
@@ -39,7 +33,7 @@ const MarqueeContainer = styled.marquee.attrs({
   top: 50%;
 `
 
-const LockboxConnectionPrompt = props => {
+const LockboxConnectionPrompt = (props) => {
   const { onClose, position, total, ...rest } = props
   const { appName, currentConnection, isTx, marquees } = rest
   const { error, ready, success } = currentConnection
@@ -55,7 +49,7 @@ const LockboxConnectionPrompt = props => {
     step = prop('name', CONFIRM_STEPS.connect)
   }
 
-  let currentStep = prop('index', CONFIRM_STEPS[step])
+  const currentStep = prop('index', CONFIRM_STEPS[step])
 
   return (
     <Modal size='small' position={position} total={total}>
@@ -71,9 +65,7 @@ const LockboxConnectionPrompt = props => {
           <Text>{CONFIRM_STEPS[step].title(appName, isTx)}</Text>
         </Title>
         <Content>
-          <Text color='grey500'>
-            {CONFIRM_STEPS[step].content(appName, isTx)}
-          </Text>
+          <Text color='grey500'>{CONFIRM_STEPS[step].content(appName, isTx)}</Text>
         </Content>
         <ImageContainer>
           <Image
@@ -85,7 +77,7 @@ const LockboxConnectionPrompt = props => {
             {step === 'ready' &&
               marquees.map((marquee, i) => (
                 <Text size='12px' weight={400}>
-                  {i + 1 + '. ' + marquee}
+                  {`${i + 1}. ${marquee}`}
                 </Text>
               ))}
           </MarqueeContainer>

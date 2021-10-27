@@ -20,14 +20,14 @@ const { KYC_STATES } = model.profile
 
 const BlueCartridgeCTA = styled(CustomCartridge)`
   cursor: pointer;
-  background-color: ${props => props.theme.blue600};
+  background-color: ${(props) => props.theme.blue600};
   font-weight: 600;
 `
 
 const DateOrAmount = styled.div`
   height: 100%;
   padding-left: 20px;
-  border-left: 1px solid ${props => props.theme.grey000};
+  border-left: 1px solid ${(props) => props.theme.grey000};
 
   > div:first-child {
     margin-bottom: 4px;
@@ -37,30 +37,18 @@ const DateOrAmount = styled.div`
 const Ended = () => {
   return (
     <GreyCartridge>
-      <FormattedMessage
-        id='scenes.airdrop.stx.expired'
-        defaultMessage='Offer Expired'
-      />
+      <FormattedMessage id='scenes.airdrop.stx.expired' defaultMessage='Offer Expired' />
     </GreyCartridge>
   )
 }
 
-export const StxHeader = ({
-  stxCampaign
-}: {
-  stxCampaign: CampaignInfoType
-}) => {
+export const StxHeader = ({ stxCampaign }: { stxCampaign: CampaignInfoType }) => {
   switch (stxCampaign.userCampaignState) {
     case 'TASK_FINISHED':
     case 'REWARD_RECEIVED':
       return <span>STX Private Key Wallet</span>
     default:
-      return (
-        <FormattedMessage
-          id='scenes.airdrops.stx'
-          defaultMessage='Blockstack'
-        />
-      )
+      return <FormattedMessage id='scenes.airdrops.stx' defaultMessage='Blockstack' />
   }
 }
 
@@ -70,12 +58,7 @@ export const StxInfo = ({ stxCampaign }: { stxCampaign: CampaignInfoType }) => {
     case 'REWARD_RECEIVED':
       return (
         <>
-          <Text
-            color='grey800'
-            size='14px'
-            weight={700}
-            style={{ margin: '16px 0 4px' }}
-          >
+          <Text color='grey800' size='14px' weight={700} style={{ margin: '16px 0 4px' }}>
             <FormattedMessage
               id='scenes.airdrops.stx.wallet.q1'
               defaultMessage='Where are my Stacks?'
@@ -108,32 +91,22 @@ export const StxInfo = ({ stxCampaign }: { stxCampaign: CampaignInfoType }) => {
             rel='noopener noreferrer'
             size='12px'
           >
-            <FormattedMessage
-              id='buttons.learn_more'
-              defaultMessage='Learn More'
-            />
+            <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
           </Link>
         </Text>
       )
   }
 }
 
-const calcStxAmount = stxCampaign => {
-  let stxAmount =
+const calcStxAmount = (stxCampaign) => {
+  const stxAmount =
     stxCampaign.userCampaignTransactionResponseList.length &&
     stxCampaign.userCampaignTransactionResponseList[0].withdrawalQuantity
   if (!stxAmount) return
-  return new BigNumber(stxAmount)
-    .dividedBy(10000000)
-    .toString()
-    .concat(' STX')
+  return new BigNumber(stxAmount).dividedBy(10000000).toString().concat(' STX')
 }
 
-export const StxDateOrAmount = ({
-  stxCampaign
-}: {
-  stxCampaign: CampaignInfoType
-}) => {
+export const StxDateOrAmount = ({ stxCampaign }: { stxCampaign: CampaignInfoType }) => {
   switch (stxCampaign.userCampaignState) {
     case 'TASK_FINISHED':
       return null
@@ -152,16 +125,10 @@ export const StxDateOrAmount = ({
       return (
         <DateOrAmount>
           <Text size='16px' color='grey800' weight={600}>
-            <FormattedMessage
-              id='scenes.airdrop.stx.jan'
-              defaultMessage='Jan. 2020'
-            />
+            <FormattedMessage id='scenes.airdrop.stx.jan' defaultMessage='Jan. 2020' />
           </Text>
           <Text size='12px' color='grey600' weight={500}>
-            <FormattedMessage
-              id='scenes.airdrop.stx.date'
-              defaultMessage='Airdrop Date'
-            />
+            <FormattedMessage id='scenes.airdrop.stx.date' defaultMessage='Airdrop Date' />
           </Text>
         </DateOrAmount>
       )
@@ -177,11 +144,7 @@ export const StxStatus = ({
     (campaign: CampaignInfoType) => campaign.campaignName === 'BLOCKSTACK'
   )
 
-  if (
-    kycState !== KYC_STATES.VERIFIED &&
-    stxCampaign &&
-    stxCampaign.campaignState === 'ENDED'
-  ) {
+  if (kycState !== KYC_STATES.VERIFIED && stxCampaign && stxCampaign.campaignState === 'ENDED') {
     return <Ended />
   }
 
@@ -190,20 +153,14 @@ export const StxStatus = ({
     case KYC_STATES.EXPIRED:
       return (
         <ErrorCartridge>
-          <FormattedMessage
-            id='scenes.airdrop.stx.ineligible'
-            defaultMessage='Ineligible'
-          />
+          <FormattedMessage id='scenes.airdrop.stx.ineligible' defaultMessage='Ineligible' />
         </ErrorCartridge>
       )
     case KYC_STATES.PENDING:
     case KYC_STATES.UNDER_REVIEW:
       return (
         <GreyCartridge>
-          <FormattedMessage
-            id='scenes.airdrop.stx.pending'
-            defaultMessage='Pending KYC'
-          />
+          <FormattedMessage id='scenes.airdrop.stx.pending' defaultMessage='Pending KYC' />
         </GreyCartridge>
       )
     case KYC_STATES.VERIFIED:
@@ -212,19 +169,13 @@ export const StxStatus = ({
           case 'FAILED':
             return (
               <ErrorCartridge>
-                <FormattedMessage
-                  id='scenes.airdrop.stx.failed'
-                  defaultMessage='Failed'
-                />
+                <FormattedMessage id='scenes.airdrop.stx.failed' defaultMessage='Failed' />
               </ErrorCartridge>
             )
           case 'REWARD_RECEIVED':
             return (
               <SuccessCartridge>
-                <FormattedMessage
-                  id='scenes.airdrop.stx.received'
-                  defaultMessage='Received'
-                />
+                <FormattedMessage id='scenes.airdrop.stx.received' defaultMessage='Received' />
               </SuccessCartridge>
             )
           case 'NONE':
@@ -234,14 +185,9 @@ export const StxStatus = ({
 
             return (
               <BlueCartridgeCTA
-                onClick={() =>
-                  identityVerificationActions.claimCampaignClicked('BLOCKSTACK')
-                }
+                onClick={() => identityVerificationActions.claimCampaignClicked('BLOCKSTACK')}
               >
-                <FormattedMessage
-                  id='scenes.airdrop.stx.claim'
-                  defaultMessage='Claim'
-                />
+                <FormattedMessage id='scenes.airdrop.stx.claim' defaultMessage='Claim' />
               </BlueCartridgeCTA>
             )
           case 'TASK_FINISHED':
@@ -257,17 +203,11 @@ export const StxStatus = ({
           case 'REGISTERED':
             return stxCampaign.attributes['x-campaign-reject-reason'] ? (
               <ErrorCartridge>
-                <FormattedMessage
-                  id='scenes.airdrop.stx.ineligible'
-                  defaultMessage='Ineligible'
-                />
+                <FormattedMessage id='scenes.airdrop.stx.ineligible' defaultMessage='Ineligible' />
               </ErrorCartridge>
             ) : (
               <SuccessCartridge>
-                <FormattedMessage
-                  id='scenes.airdrop.stx.claimed'
-                  defaultMessage='Claimed'
-                />
+                <FormattedMessage id='scenes.airdrop.stx.claimed' defaultMessage='Claimed' />
               </SuccessCartridge>
             )
           default:
@@ -283,11 +223,7 @@ export const StxStatus = ({
   }
 }
 
-export const StxFooterCta = ({
-  kycState,
-  tags,
-  userCampaignsInfoResponseList
-}: Props) => {
+export const StxFooterCta = ({ kycState, tags, userCampaignsInfoResponseList }: Props) => {
   const stxCampaign = userCampaignsInfoResponseList.find(
     (campaign: CampaignInfoType) => campaign.campaignName === 'BLOCKSTACK'
   )
@@ -312,21 +248,14 @@ export const StxFooterCta = ({
             >
               <FormattedMessage id='copy.here' defaultMessage='here' />
             </Link>
-            {'.'}
+            .
           </Text>
         )
       case 'FAILED':
         return (
-          <Link
-            href='https://support.blockchain.com'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
+          <Link href='https://support.blockchain.com' target='_blank' rel='noopener noreferrer'>
             <Button nature='light' fullwidth data-e2e='contactSupport'>
-              <FormattedMessage
-                id='buttons.contact_support'
-                defaultMessage='Contact Support'
-              />
+              <FormattedMessage id='buttons.contact_support' defaultMessage='Contact Support' />
             </Button>
           </Link>
         )
@@ -350,25 +279,15 @@ export const StxFooterCta = ({
           rel='noopener noreferrer'
         >
           <Button nature='light' fullwidth data-e2e='stxLearnMore'>
-            <FormattedMessage
-              id='buttons.learn_more'
-              defaultMessage='Learn More'
-            />
+            <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
           </Button>
         </Link>
       )
     case KYC_STATES.VERIFIED:
       return tags.BLOCKSTACK ? (
-        <Link
-          href='https://blockchain.com/getcrypto'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
+        <Link href='https://blockchain.com/getcrypto' target='_blank' rel='noopener noreferrer'>
           <Button nature='light' fullwidth data-e2e='stxShare'>
-            <FormattedMessage
-              id='scenes.airdrop.stx.share'
-              defaultMessage='Share'
-            />
+            <FormattedMessage id='scenes.airdrop.stx.share' defaultMessage='Share' />
           </Button>
         </Link>
       ) : (
@@ -378,10 +297,7 @@ export const StxFooterCta = ({
           rel='noopener noreferrer'
         >
           <Button nature='light' fullwidth data-e2e='stxLearnMore'>
-            <FormattedMessage
-              id='buttons.learn_more'
-              defaultMessage='Learn More'
-            />
+            <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
           </Button>
         </Link>
       )

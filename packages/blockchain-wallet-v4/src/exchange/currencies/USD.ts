@@ -8,13 +8,13 @@ export default {
       currency: 'USD',
       decimal_digits: 0,
       rate: '1',
-      symbol: '¢$',
+      symbol: '¢$'
     },
     USD: {
       currency: 'USD',
       decimal_digits: 2,
       rate: '100',
-      symbol: '$',
-    },
-  },
+      symbol: '$'
+    }
+  }
 }

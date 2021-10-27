@@ -4,13 +4,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import BigNumber from 'bignumber.js'
 import { bindActionCreators, Dispatch } from 'redux'
 
+import { CoinType, ExtractSuccess, FiatType, TimeRange } from '@core/types'
 import { SkeletonRectangle } from 'blockchain-info-components'
-import {
-  CoinType,
-  ExtractSuccess,
-  FiatType,
-  TimeRange
-} from '@core/types'
 import { actions } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { RootState } from 'data/rootReducer'
@@ -43,7 +38,10 @@ class UserPortfolioPositionChange extends PureComponent<Props> {
 
   render() {
     return this.props.data.cata({
-      Success: val => (
+      Failure: () => <SkeletonRectangle height='17px' width='40px' bgColor='red400' />,
+      Loading: () => <SkeletonRectangle height='17px' width='40px' />,
+      NotAsked: () => <SkeletonRectangle height='17px' width='40px' />,
+      Success: (val) => (
         <PriceChange
           isPortfolioPosition
           priceChange={{
@@ -57,12 +55,7 @@ class UserPortfolioPositionChange extends PureComponent<Props> {
             defaultMessage='today'
           />
         </PriceChange>
-      ),
-      Failure: () => (
-        <SkeletonRectangle height='17px' width='40px' bgColor={'red400'} />
-      ),
-      Loading: () => <SkeletonRectangle height='17px' width='40px' />,
-      NotAsked: () => <SkeletonRectangle height='17px' width='40px' />
+      )
     })
   }
 }

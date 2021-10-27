@@ -48,15 +48,11 @@ export default () => {
 
   const onError = (action) => {
     const message = path(['payload', 'error', 'message'], action)
-    actions.logs.logErrorMessage(
-      'middleware/webSocket/xlm/sagas',
-      'streamError',
-      message
-    )
+    actions.logs.logErrorMessage('middleware/webSocket/xlm/sagas', 'streamError', message)
   }
 
   return {
     onError,
-    onMessage,
+    onMessage
   }
 }

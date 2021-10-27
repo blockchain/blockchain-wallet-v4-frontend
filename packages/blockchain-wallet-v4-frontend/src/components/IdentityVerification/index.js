@@ -53,7 +53,7 @@ export const InputWrapper = styled.div`
 export const PartnerHeader = styled.div`
   font-size: 30px;
   font-weight: 600;
-  color: ${props => props.color && props.theme[props.color]};
+  color: ${(props) => props.color && props.theme[props.color]};
   ${media.mobile`
     font-size: 20px;
     font-weight: 500;
@@ -88,7 +88,7 @@ export const ErrorWrapper = styled.div`
   margin-top: 5px;
   a {
     cursor: pointer;
-    color: ${props => props.theme.blue600};
+    color: ${(props) => props.theme.blue600};
   }
 `
 
@@ -106,11 +106,10 @@ export const ColRightInner = styled.div`
 export const EmailHelper = styled.span`
   margin-top: 5px;
   font-size: 12px;
-  color: ${props =>
-    props.error ? props.theme['error'] : props.theme['grey400']};
+  color: ${(props) => (props.error ? props.theme.error : props.theme.grey400)};
   a {
     cursor: pointer;
-    color: ${props => props.theme.blue600};
+    color: ${(props) => props.theme.blue600};
   }
 `
 export const CenteredWrapper = styled.div`
@@ -128,7 +127,7 @@ export const CancelWrapper = styled(CenteredWrapper)`
 `
 
 export const BorderBox = styled.div`
-  border: 1px solid ${props => props.theme.grey000};
+  border: 1px solid ${(props) => props.theme.grey000};
   padding: 30px;
 `
 
@@ -137,12 +136,12 @@ export const BorderBox = styled.div`
  */
 export const FieldMimic = styled.div`
   height: 48px;
-  border: 1px solid ${props => props.theme.grey000};
+  border: 1px solid ${(props) => props.theme.grey000};
   padding: 0 15px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: ${props => props.width || '85%'};
+  width: ${(props) => props.width || '85%'};
   justify-content: space-between;
   border-radius: 4px;
   ${media.mobile`
@@ -156,14 +155,15 @@ export const FieldMimic = styled.div`
 
 export const IdentityVerificationForm = styled(Form)`
   height: 100%;
-  label[for='${props => props.activeField}'] {
-    color: ${props => props.theme.blue900};
+  label[for='${(props) => props.activeField}'] {
+    color: ${(props) => props.theme.blue900};
   }
-  label[for='${props => props.activeField}'] + div {
-    .bc__control, input {
+  label[for='${(props) => props.activeField}'] + div {
+    .bc__control,
+    input {
       background-color: ${({ theme }) => theme.white};
-      border: 1px solid ${props =>
-        props.activeFieldError ? props.theme.error : props.theme.blue600};
+      border: 1px solid
+        ${(props) => (props.activeFieldError ? props.theme.error : props.theme.blue600)};
     }
   }
 `
@@ -194,9 +194,9 @@ export const Label = styled.label`
 `
 
 export const BackButton = styled(Button)`
-  color: ${props => props.theme.white};
-  background-color: ${props => props.theme.grey200};
-  border-color: ${props => props.theme.grey200};
+  color: ${(props) => props.theme.white};
+  background-color: ${(props) => props.theme.grey200};
+  border-color: ${(props) => props.theme.grey200};
 `
 
 export const IdentityVerificationImage = styled(Image)`

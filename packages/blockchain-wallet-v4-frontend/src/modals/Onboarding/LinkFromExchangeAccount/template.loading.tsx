@@ -2,13 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import {
-  BlockchainLoader,
-  Button,
-  Icon,
-  Text,
-  TextGroup
-} from 'blockchain-info-components'
+import { BlockchainLoader, Button, Icon, Text, TextGroup } from 'blockchain-info-components'
 import { DisplayPaymentIcon } from 'components/SimpleBuy'
 
 import { Props } from '.'
@@ -22,7 +16,7 @@ const MainTitle = styled(Text)`
   margin-bottom: 20px;
 `
 
-const Loading: React.FC<Props & { close: () => void }> = props => {
+const Loading: React.FC<Props & { close: () => void }> = (props) => {
   return (
     <Content>
       <ActionsWrapper>
@@ -39,9 +33,7 @@ const Loading: React.FC<Props & { close: () => void }> = props => {
         )}
       </ActionsWrapper>
       <MainContent>
-        {props.emailVerified ? (
-          <BlockchainLoader width='80px' height='80px' />
-        ) : null}
+        {props.emailVerified ? <BlockchainLoader width='80px' height='80px' /> : null}
         {!props.emailVerified && (
           <>
             <DisplayIcon showBackground>

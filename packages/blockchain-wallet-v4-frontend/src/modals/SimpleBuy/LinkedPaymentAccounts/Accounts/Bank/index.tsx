@@ -3,21 +3,17 @@ import styled from 'styled-components'
 
 import { SBPaymentMethodType } from '@core/types'
 import { Title, Value } from 'components/Flyout'
-import {
-  DisplayContainer,
-  DisplayIcon,
-  MultiRowContainer
-} from 'components/SimpleBuy'
+import { DisplayContainer, DisplayIcon, MultiRowContainer } from 'components/SimpleBuy'
 
 const StyledTitle = styled(Title)`
   text-transform: capitalize;
-  color: ${p => p.theme.grey600};
+  color: ${(p) => p.theme.grey600};
   font-weight: 500;
   font-size: 14px;
 `
 
 const StyledValue = styled(Value)`
-  color: ${p => p.theme.grey900};
+  color: ${(p) => p.theme.grey900};
   font-weight: 600;
   font-size: 16px;
 `
@@ -30,17 +26,14 @@ type Props = {
 }
 
 const Bank = ({ icon, onClick, text, value }: Props) => (
-  <DisplayContainer
-    data-e2e={`sb${value.type.toLowerCase()}Banks`}
-    role='button'
-    onClick={onClick}
-  >
+  <DisplayContainer data-e2e={`sb${value.type.toLowerCase()}Banks`} role='button' onClick={onClick}>
     <DisplayIcon>{icon}</DisplayIcon>
     <MultiRowContainer>
       <StyledValue asTitle>{text}</StyledValue>
       <StyledTitle asValue>
-        {`${value.details?.bankAccountType?.toLowerCase() || ''} account ${value
-          .details?.accountNumber || ''}`}
+        {`${value.details?.bankAccountType?.toLowerCase() || ''} account ${
+          value.details?.accountNumber || ''
+        }`}
       </StyledTitle>
     </MultiRowContainer>
   </DisplayContainer>

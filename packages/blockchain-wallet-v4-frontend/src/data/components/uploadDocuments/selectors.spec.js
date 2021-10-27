@@ -1,4 +1,5 @@
 import * as selectors from './selectors'
+
 describe('upload document selectors', () => {
   it('getData should return the data', () => {
     const state = {

@@ -2,8 +2,8 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Button, Text } from 'blockchain-info-components'
 import { CoinType } from '@core/types'
+import { Button, Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
 import { Props } from '.'

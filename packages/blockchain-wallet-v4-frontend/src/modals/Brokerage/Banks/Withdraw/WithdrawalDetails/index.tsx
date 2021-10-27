@@ -2,12 +2,9 @@ import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Button, Icon, Text } from 'blockchain-info-components'
 import { fiatToString } from '@core/exchange/utils'
-import {
-  WalletFiatType,
-  WithdrawResponseType
-} from '@core/types'
+import { WalletFiatType, WithdrawResponseType } from '@core/types'
+import { Button, Icon, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   height: 100%;
@@ -38,7 +35,7 @@ const SuccessIcon = styled(Icon)`
   position: absolute;
   top: -16px;
   right: -22px;
-  background: ${props => props.theme.white};
+  background: ${(props) => props.theme.white};
 `
 
 class WithdrawalDetails extends PureComponent<Props> {
@@ -50,16 +47,12 @@ class WithdrawalDetails extends PureComponent<Props> {
         <div>
           <IconContainer>
             <Icon size='72px' color='USD' name={this.props.fiatCurrency} />
-            <SuccessIcon
-              name='checkmark-circle-filled'
-              color='USD'
-              size='28px'
-            />
+            <SuccessIcon name='checkmark-circle-filled' color='USD' size='28px' />
           </IconContainer>
           <Title weight={600} size='20px'>
             {fiatToString({
-              value: this.props.withdrawal.amount.value,
-              unit: this.props.withdrawal.amount.symbol
+              unit: this.props.withdrawal.amount.symbol,
+              value: this.props.withdrawal.amount.value
             })}{' '}
             {this.props.withdrawal.amount.symbol}
           </Title>

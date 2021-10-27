@@ -128,10 +128,10 @@ const getOrderHashHex = (order: UnhashedOrder): string => {
     { type: SolidityTypes.Address, value: order.exchange },
     { type: SolidityTypes.Address, value: order.maker },
     { type: SolidityTypes.Address, value: order.taker },
-    { type: SolidityTypes.Uint256, value: bigNumberToBN(order.makerRelayerFee) },
-    { type: SolidityTypes.Uint256, value: bigNumberToBN(order.takerRelayerFee) },
-    { type: SolidityTypes.Uint256, value: bigNumberToBN(order.makerProtocolFee) },
-    { type: SolidityTypes.Uint256, value: bigNumberToBN(order.takerProtocolFee) },
+    { type: SolidityTypes.Uint256, value: order.makerRelayerFee.toString() },
+    { type: SolidityTypes.Uint256, value: order.takerRelayerFee.toString() },
+    { type: SolidityTypes.Uint256, value: order.makerProtocolFee.toString() },
+    { type: SolidityTypes.Uint256, value: order.takerProtocolFee.toString() },
     { type: SolidityTypes.Address, value: order.feeRecipient },
     { type: SolidityTypes.Uint8, value: order.feeMethod },
     { type: SolidityTypes.Uint8, value: order.side },
@@ -143,16 +143,16 @@ const getOrderHashHex = (order: UnhashedOrder): string => {
     { type: SolidityTypes.Address, value: order.staticTarget },
     { type: SolidityTypes.Bytes, value: new Buffer(order.staticExtradata.slice(2), 'hex') },
     { type: SolidityTypes.Address, value: order.paymentToken },
-    { type: SolidityTypes.Uint256, value: bigNumberToBN(order.basePrice) },
-    { type: SolidityTypes.Uint256, value: bigNumberToBN(order.extra) },
-    { type: SolidityTypes.Uint256, value: bigNumberToBN(order.listingTime) },
-    { type: SolidityTypes.Uint256, value: bigNumberToBN(order.expirationTime) },
-    { type: SolidityTypes.Uint256, value: bigNumberToBN(order.salt) }
+    { type: SolidityTypes.Uint256, value: order.basePrice.toString() },
+    { type: SolidityTypes.Uint256, value: order.extra.toString() },
+    { type: SolidityTypes.Uint256, value: order.listingTime.toString() },
+    { type: SolidityTypes.Uint256, value: order.expirationTime.toString() },
+    { type: SolidityTypes.Uint256, value: order.salt.toString() }
   ]
   const types = orderParts.map((o) => o.type)
   const values = orderParts.map((o) => o.value)
-  const hash = ethABI.soliditySHA3(types, values)
-  return hash.toString('hex')
+  const hash = ethers.utils.solidityKeccak256(types, values)
+  return hash
 }
 
 /**
@@ -191,10 +191,17 @@ const generatePseudoRandomSalt = (): string => {
 
 export const encodeCall = (abi, parameters: any[]): string => {
   const inputTypes = abi.inputs.map((i) => i.type)
-  return `0x${Buffer.concat([
+  const encoded = `0x${Buffer.concat([
     Buffer.from(ethABI.methodID(abi.name, inputTypes)),
     Buffer.from(ethABI.rawEncode(inputTypes, parameters))
   ]).toString('hex')}`
+  const encoded2 = Buffer.from(ethers.utils.defaultAbiCoder.encode(inputTypes, parameters))
+
+  debugger
+  console.log(encoded)
+  console.log(encoded2)
+
+  return encoded
 }
 
 /**

@@ -6,7 +6,7 @@ import sagas from './sagas'
 export default ({ api, coreSagas, networks }) => {
   const requestSagas = sagas({ api, coreSagas, networks })
 
-  return function * requestSaga() {
+  return function* requestSaga() {
     yield takeLatest(AT.GET_NEXT_ADDRESS, requestSagas.getNextAddress)
   }
 }

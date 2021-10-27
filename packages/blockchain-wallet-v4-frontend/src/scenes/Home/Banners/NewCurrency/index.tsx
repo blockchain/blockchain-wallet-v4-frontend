@@ -4,8 +4,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
-import { Button, Icon, Text } from 'blockchain-info-components'
 import { CoinType } from '@core/types'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { media } from 'services/styles'
 

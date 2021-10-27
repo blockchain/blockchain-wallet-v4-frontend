@@ -20,14 +20,14 @@ const Error = styled(Text)`
   top: 40px;
   right: 0;
 `
-const getErrorState = meta => {
+const getErrorState = (meta) => {
   return meta.dirty && meta.invalid ? 'invalid' : 'initial'
 }
 
 class DateBoxDebounced extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { value: props.input.value, open: props.open }
+    this.state = { open: props.open, value: props.input.value }
     this.timeout = undefined
     this.handleChange = this.handleChange.bind(this)
     this.handleBlur = this.handleBlur.bind(this)

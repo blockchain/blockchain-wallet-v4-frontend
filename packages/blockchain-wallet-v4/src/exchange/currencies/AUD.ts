@@ -8,13 +8,13 @@ export default {
       currency: 'AUD',
       decimal_digits: 2,
       rate: '100',
-      symbol: 'AU$',
+      symbol: 'AU$'
     },
     CENT: {
       currency: 'AUD',
       decimal_digits: 0,
       rate: '1',
-      symbol: '¢AU$',
-    },
-  },
+      symbol: '¢AU$'
+    }
+  }
 }

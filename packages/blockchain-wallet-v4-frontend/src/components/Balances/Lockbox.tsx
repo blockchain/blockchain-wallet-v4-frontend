@@ -22,13 +22,12 @@ const Wrapper = styled.div<{
   align-items: center;
   border-radius: 3px;
   transition: box-shadow 0.3s, opacity 0.3s;
-  opacity: ${props => (props.isInactive ? 0.5 : 1)};
-  background-color: ${props => props.theme.grey000};
-  box-shadow: ${props =>
-    props.isActive ? 'rgba(0,0,0,.25) 0px 5px 12px 0px' : 'none'};
-  cursor: ${props => (props.disableClick ? 'not-allowed' : 'pointer')};
+  opacity: ${(props) => (props.isInactive ? 0.5 : 1)};
+  background-color: ${(props) => props.theme.grey000};
+  box-shadow: ${(props) => (props.isActive ? 'rgba(0,0,0,.25) 0px 5px 12px 0px' : 'none')};
+  cursor: ${(props) => (props.disableClick ? 'not-allowed' : 'pointer')};
   * {
-    cursor: ${props => (props.disableClick ? 'not-allowed' : 'pointer')};
+    cursor: ${(props) => (props.disableClick ? 'not-allowed' : 'pointer')};
   }
   ${media.tablet`
     margin-right: 15px;
@@ -41,7 +40,7 @@ const IconBox = styled.div<{ coin: string }>`
   padding: 5px;
   margin-right: 10px;
   border-radius: 3px;
-  background-color: ${props => props.theme[props.coin]};
+  background-color: ${(props) => props.theme[props.coin]};
 `
 const Balance = styled.div`
   > div:first-child {
@@ -49,11 +48,9 @@ const Balance = styled.div`
   }
 `
 const browser = Bowser.getParser(window.navigator.userAgent)
-const isBrowserSupported = browser.satisfies(
-  model.components.lockbox.supportedBrowsers
-)
+const isBrowserSupported = browser.satisfies(model.components.lockbox.supportedBrowsers)
 
-export const CurrencyItem = props => {
+export const CurrencyItem = (props) => {
   return (
     <Wrapper
       onClick={props.onClick}

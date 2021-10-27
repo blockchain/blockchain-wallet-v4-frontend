@@ -33,7 +33,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: ${props => props.theme.white};
+  background-color: ${(props) => props.theme.white};
   width: 100%;
   cursor: pointer;
   text-align: center;
@@ -45,7 +45,7 @@ const Container = styled.div`
     margin-bottom: 10px;
   }
   &:hover {
-    background-color: ${props => props.theme.grey000};
+    background-color: ${(props) => props.theme.grey000};
   }
 
   ${media.atLeastMobile`
@@ -53,15 +53,9 @@ const Container = styled.div`
   `}
 `
 
-const TwoStepSetup = props => {
+const TwoStepSetup = (props) => {
   const { close, closeAll, position, total, ...rest } = props
-  const {
-    authType,
-    handleDisable,
-    handleGoogleAuthenticator,
-    handleMobile,
-    handleYubico
-  } = rest
+  const { authType, handleDisable, handleGoogleAuthenticator, handleMobile, handleYubico } = rest
 
   return authType !== 0 ? (
     <Modal size='large' position={position} total={total}>
@@ -84,10 +78,7 @@ const TwoStepSetup = props => {
           <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
         </Link>
         <Button nature='warning' onClick={handleDisable}>
-          <FormattedMessage
-            id='modals.twostepsetup.disable'
-            defaultMessage='Disable'
-          />
+          <FormattedMessage id='modals.twostepsetup.disable' defaultMessage='Disable' />
         </Button>
       </ModalFooter>
     </Modal>
@@ -127,19 +118,13 @@ const TwoStepSetup = props => {
           <Container onClick={handleYubico}>
             <Image name='yubikey' height='100px' />
             <Text size='14px' weight={400}>
-              <FormattedMessage
-                id='modals.twostepsetup.useyubikey'
-                defaultMessage='Yubikey'
-              />
+              <FormattedMessage id='modals.twostepsetup.useyubikey' defaultMessage='Yubikey' />
             </Text>
           </Container>
           <Container onClick={handleMobile}>
             <Image name='smartphone' height='100px' />
             <Text size='14px' weight={400}>
-              <FormattedMessage
-                id='modals.twostepsetup.usemobile'
-                defaultMessage='Mobile number'
-              />
+              <FormattedMessage id='modals.twostepsetup.usemobile' defaultMessage='Mobile number' />
             </Text>
           </Container>
         </Wrapper>

@@ -3,13 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { equals, prop } from 'ramda'
 import styled from 'styled-components'
 
-import {
-  Banner,
-  Button,
-  HeartbeatLoader,
-  Icon,
-  Text
-} from 'blockchain-info-components'
+import { Banner, Button, HeartbeatLoader, Icon, Text } from 'blockchain-info-components'
 
 const Row = styled.div`
   width: 100%;
@@ -45,14 +39,14 @@ const AppActions = styled.div`
 const IconBox = styled.div`
   padding: 5px;
   border-radius: 3px;
-  background-color: ${props => props.theme[props.coin]};
+  background-color: ${(props) => props.theme[props.coin]};
 `
 const InstallButton = styled(Button)`
   border-radius: 20px;
   height: 40px;
   width: 40px;
   &:hover {
-    background-color: ${props => !props.disabled && props.theme.blue000};
+    background-color: ${(props) => !props.disabled && props.theme.blue000};
   }
 `
 const UninstallButton = styled(Button)`
@@ -91,11 +85,7 @@ class CoinActions extends React.PureComponent {
       case 'Updating':
         return (
           <AppActions>
-            <HeartbeatLoader
-              style={{ marginRight: '8px' }}
-              height='36px'
-              width='36px'
-            />
+            <HeartbeatLoader style={{ marginRight: '8px' }} height='36px' width='36px' />
           </AppActions>
         )
       case 'Error':
@@ -110,11 +100,7 @@ class CoinActions extends React.PureComponent {
       case 'Success':
         return (
           <AppActions>
-            <StatusIcon
-              color='bch'
-              name='checkmark-in-circle-filled'
-              size='40px'
-            />
+            <StatusIcon color='bch' name='checkmark-in-circle-filled' size='40px' />
           </AppActions>
         )
       default:
@@ -145,16 +131,8 @@ class CoinActions extends React.PureComponent {
   }
 }
 
-const LockboxAppManager = props => {
-  const {
-    app,
-    coin,
-    coinState,
-    disableUpdates,
-    installApp,
-    requireBtc,
-    uninstallApp
-  } = props
+const LockboxAppManager = (props) => {
+  const { app, coin, coinState, disableUpdates, installApp, requireBtc, uninstallApp } = props
   const { name, version } = app
   const coinLower = coin.toLowerCase()
 
@@ -166,15 +144,11 @@ const LockboxAppManager = props => {
         </IconBox>
         <div>
           <NameContainer>
-            <Text size='14px' weight={500} color={'grey700'}>
+            <Text size='14px' weight={500} color='grey700'>
               {name}
             </Text>
             {equals('btc', coinLower) && requireBtc && (
-              <RequiredBadge
-                label='true'
-                type='informational'
-                style={{ margin: '4px 0' }}
-              >
+              <RequiredBadge label='true' type='informational' style={{ margin: '4px 0' }}>
                 <FormattedMessage
                   id='components.lockbox.appmanager.required'
                   defaultMessage='Required'

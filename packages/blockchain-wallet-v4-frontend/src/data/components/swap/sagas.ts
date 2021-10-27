@@ -14,7 +14,6 @@ import { NabuProducts } from 'data/types'
 
 import profileSagas from '../../modules/profile/sagas'
 import { convertStandardToBase } from '../exchange/services'
-import { swap } from '../selectors'
 import sendSagas from '../send/sagas'
 import { selectReceiveAddress } from '../utils/sagas'
 import * as A from './actions'

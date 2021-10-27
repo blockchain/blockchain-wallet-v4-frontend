@@ -6,10 +6,7 @@ import { sizes } from 'services/styles'
 import 'matchmedia-polyfill'
 import 'matchmedia-polyfill/matchMedia.addListener'
 
-const mediaMatchers = map(
-  size => window.matchMedia(`(max-width: ${size}px)`),
-  sizes
-)
+const mediaMatchers = map((size) => window.matchMedia(`(max-width: ${size}px)`), sizes)
 const getMediaMatches = () => map(({ matches }) => matches, mediaMatchers)
 
 const startingMedia = getMediaMatches()
@@ -35,8 +32,7 @@ export class MediaContextProvider extends React.Component {
 
   componentWillUnmount() {
     forEachObjIndexed(
-      (matcher, matcherName) =>
-        matcher.removeListener(this.updateHandlers[matcherName]),
+      (matcher, matcherName) => matcher.removeListener(this.updateHandlers[matcherName]),
       mediaMatchers
     )
   }
@@ -50,9 +46,7 @@ export class MediaContextProvider extends React.Component {
   render() {
     const { children } = this.props
     const { media } = this.state
-    return (
-      <mediaContext.Provider value={media}>{children}</mediaContext.Provider>
-    )
+    return <mediaContext.Provider value={media}>{children}</mediaContext.Provider>
   }
 }
 

@@ -5,8 +5,8 @@ export const splitPair = split('-')
 
 export const AUTH_ERROR_MESSAGE = {
   channel: 'auth',
-  event: 'rejected',
-  description: 'Can not process auth request, token can not be found'
+  description: 'Can not process auth request, token can not be found',
+  event: 'rejected'
 }
 
 export const ADVICE_SUBSCRIBE_SUCCESS_MESSAGE = {
@@ -59,50 +59,50 @@ export const RATES_UPDATED_MESSAGE = {
   event: 'updated'
 }
 
-export const getRatesSubscribeMessage = pairs => ({
-  channel: 'exchange_rate',
+export const getRatesSubscribeMessage = (pairs) => ({
   action: 'subscribe',
+  channel: 'exchange_rate',
   params: {
-    type: 'exchangeRates',
-    pairs
+    pairs,
+    type: 'exchangeRates'
   }
 })
 
 export const getRatesUnsubscribeMessage = () => ({
-  channel: 'exchange_rate',
   action: 'unsubscribe',
+  channel: 'exchange_rate',
   params: {
     type: 'allCurrencyPairs'
   }
 })
 
 export const getAdviceSubscribeMessage = (pair, volume, fix, fiatCurrency) => ({
-  channel: 'conversion',
   action: 'subscribe',
+  channel: 'conversion',
   params: {
-    type: 'conversionSpecification',
-    pair,
-    volume,
+    fiatCurrency,
     fix,
-    fiatCurrency
+    pair,
+    type: 'conversionSpecification',
+    volume
   }
 })
 
-export const getAdviceUnsubscribeMessage = pair => ({
-  channel: 'conversion',
+export const getAdviceUnsubscribeMessage = (pair) => ({
   action: 'unsubscribe',
+  channel: 'conversion',
   params: {
-    type: 'conversionPair',
-    pair
+    pair,
+    type: 'conversionPair'
   }
 })
 
-export const getAuthMessage = token => ({
-  channel: 'auth',
+export const getAuthMessage = (token) => ({
   action: 'subscribe',
+  channel: 'auth',
   params: {
-    type: 'auth',
-    token
+    token,
+    type: 'auth'
   }
 })
 
@@ -111,8 +111,8 @@ export const MAX_ERROR = 'Too big volume'
 
 export const FIX_TYPES = {
   BASE: 'base',
-  COUNTER: 'counter',
   BASE_IN_FIAT: 'baseInFiat',
+  COUNTER: 'counter',
   COUNTER_IN_FIAT: 'counterInFiat'
 }
 
@@ -134,15 +134,15 @@ export const mapFixToFieldName = flip(prop)({
 
 export const swapCoinAndFiat = flip(prop)({
   [BASE]: BASE_IN_FIAT,
-  [COUNTER]: COUNTER_IN_FIAT,
   [BASE_IN_FIAT]: BASE,
+  [COUNTER]: COUNTER_IN_FIAT,
   [COUNTER_IN_FIAT]: COUNTER
 })
 
 export const swapBaseAndCounter = flip(prop)({
   [BASE]: COUNTER,
-  [COUNTER]: BASE,
   [BASE_IN_FIAT]: COUNTER_IN_FIAT,
+  [COUNTER]: BASE,
   [COUNTER_IN_FIAT]: BASE_IN_FIAT
 })
 

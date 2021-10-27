@@ -10,7 +10,7 @@ const ModalIcon = styled(Icon)`
   margin-left: 24px;
   cursor: pointer;
   font-size: 20px;
-  color: ${props => props.theme['brand-secondary']};
+  color: ${(props) => props.theme['brand-secondary']};
 `
 
 const ModalIconContainer = ({ className, showModal }) => (
@@ -23,10 +23,7 @@ const ModalIconContainer = ({ className, showModal }) => (
 )
 
 const mapDispatchToProps = (dispatch, props) => ({
-  showModal: dispatch.bind(
-    null,
-    actions.modals.showModal(props.modal, { ...props })
-  )
+  showModal: dispatch.bind(null, actions.modals.showModal(props.modal, { ...props }))
 })
 
 export default connect(null, mapDispatchToProps)(ModalIconContainer)
