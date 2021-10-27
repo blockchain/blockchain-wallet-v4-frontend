@@ -6,13 +6,7 @@ import PropTypes from 'prop-types'
 import { prop } from 'ramda'
 import styled from 'styled-components'
 
-import {
-  Button,
-  HeartbeatLoader,
-  Link,
-  Text,
-  TextGroup
-} from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Link, Text, TextGroup } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
 const FileContainer = styled.div`
@@ -21,7 +15,7 @@ const FileContainer = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  border: 1px solid ${props => props.theme.blue200};
+  border: 1px solid ${(props) => props.theme.blue200};
   border-radius: 4px;
   padding: 4px;
   width: 100%;
@@ -42,7 +36,7 @@ const Icons = styled.div`
   justify-content: space-around;
   width: 100%;
   & > * {
-    fill: ${props => props.theme.blue900};
+    fill: ${(props) => props.theme.blue900};
   }
 `
 const IdContainer = styled.div`
@@ -69,14 +63,14 @@ const UploadZone = styled(Dropzone)`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  background-color: ${props => props.theme.white};
-  border: 1px solid ${props => props.theme.blue200};
+  background-color: ${(props) => props.theme.white};
+  border: 1px solid ${(props) => props.theme.blue200};
   border-radius: 8px;
   padding: 8px;
 `
 const UploadZoneContainer = styled.div`
   padding: 16px;
-  border: 1px dashed ${props => props.theme.blue200};
+  border: 1px dashed ${(props) => props.theme.blue200};
   border-radius: 8px;
 `
 const Wrapper = styled.div`
@@ -85,7 +79,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   padding: 35px;
   box-sizing: border-box;
-  background-color: ${props => props.theme.grey000};
+  background-color: ${(props) => props.theme.grey000};
 
   ${media.tablet`
     flex-direction: column;
@@ -108,10 +102,7 @@ const UploadDocuments = ({
     <TextContainer>
       <TextGroup inline>
         <Text color='blue900' size='16px' weight={400}>
-          <FormattedMessage
-            id='scenes.uploaddoc.hello'
-            defaultMessage='Hello '
-          />
+          <FormattedMessage id='scenes.uploaddoc.hello' defaultMessage='Hello ' />
         </Text>
         <Text color='blue900' size='16px' weight={400}>
           {prop('firstName', data)},
@@ -145,16 +136,13 @@ const UploadDocuments = ({
         ref={setDropzoneRef}
       >
         {files.length === 0 ? (
-          <Fragment>
+          <>
             {isMobile.matches ? (
               <Link onClick={openDropzone} weight={500}>
-                <FormattedMessage
-                  id='scenes.uploaddoc.browsefiles'
-                  defaultMessage='Browse files'
-                />
+                <FormattedMessage id='scenes.uploaddoc.browsefiles' defaultMessage='Browse files' />
               </Link>
             ) : (
-              <Fragment>
+              <>
                 <Text color='blue900' size='20px' weight={400}>
                   <FormattedMessage
                     id='scenes.uploaddoc.dragdrop'
@@ -169,22 +157,16 @@ const UploadDocuments = ({
                     />
                   </Text>
                   <Link onClick={openDropzone} weight={500}>
-                    <FormattedMessage
-                      id='scenes.uploaddoc.browse'
-                      defaultMessage='or browse'
-                    />
+                    <FormattedMessage id='scenes.uploaddoc.browse' defaultMessage='or browse' />
                   </Link>
                 </TextGroup>
-              </Fragment>
+              </>
             )}
             <Icons>
               <IdContainer>
                 <FasPassport />
                 <Text color='blue900' size='12px' weight={400}>
-                  <FormattedMessage
-                    id='scenes.uploaddoc.passport'
-                    defaultMessage='Passport'
-                  />
+                  <FormattedMessage id='scenes.uploaddoc.passport' defaultMessage='Passport' />
                 </Text>
               </IdContainer>
               <IdContainer>
@@ -199,16 +181,13 @@ const UploadDocuments = ({
               <IdContainer>
                 <FasIdCard />
                 <Text color='blue900' size='12px' weight={400}>
-                  <FormattedMessage
-                    id='scenes.uploaddoc.idcard'
-                    defaultMessage='ID Card'
-                  />
+                  <FormattedMessage id='scenes.uploaddoc.idcard' defaultMessage='ID Card' />
                 </Text>
               </IdContainer>
             </Icons>
-          </Fragment>
+          </>
         ) : (
-          <Fragment>
+          <>
             <FilesList>
               {files.map((file, index) => (
                 <FileContainer key={index}>
@@ -227,10 +206,7 @@ const UploadDocuments = ({
                     size='12px'
                     weight={400}
                   >
-                    <FormattedMessage
-                      id='scenes.uploaddoc.deletedoc'
-                      defaultMessage='Delete'
-                    />
+                    <FormattedMessage id='scenes.uploaddoc.deletedoc' defaultMessage='Delete' />
                   </Text>
                 </FileContainer>
               ))}
@@ -241,7 +217,7 @@ const UploadDocuments = ({
                 defaultMessage='Browse my computer'
               />
             </Link>
-          </Fragment>
+          </>
         )}
         <Text color='grey400' size='14px' weight={400}>
           <FormattedMessage
@@ -254,10 +230,7 @@ const UploadDocuments = ({
             {loading ? (
               <HeartbeatLoader height='20px' width='20px' color='white' />
             ) : (
-              <FormattedMessage
-                id='scenes.uploaddoc.uploadnow'
-                defaultMessage='Upload Now'
-              />
+              <FormattedMessage id='scenes.uploaddoc.uploadnow' defaultMessage='Upload Now' />
             )}
           </UploadButton>
         )}

@@ -6,8 +6,8 @@ function Success({ handleVeriffMessage, url }) {
   useEffect(() => {
     if (!isActive && !document.getElementById('veriffFrame')) {
       createVeriffFrame({
-        url,
-        onEvent: handleVeriffMessage
+        onEvent: handleVeriffMessage,
+        url
       })
       setIsActive(true)
     }

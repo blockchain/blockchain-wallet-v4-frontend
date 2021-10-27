@@ -2,6 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
+import { CoinType, ImportedAddrType } from '@core/types'
 import {
   Banner,
   ComponentDropdown,
@@ -10,7 +11,6 @@ import {
   TableRow,
   Text
 } from 'blockchain-info-components'
-import { CoinType, ImportedAddrType } from '@core/types'
 import SwitchableDisplay from 'components/Display/SwitchableDisplay'
 import { media } from 'services/styles'
 
@@ -31,11 +31,7 @@ const AddressCell = styled(Text)`
 `
 
 const MoreOptions = () => (
-  <Link
-    weight={500}
-    size='13px'
-    data-e2e='importedAddressesMoreOptionsDropdown'
-  >
+  <Link weight={500} size='13px' data-e2e='importedAddressesMoreOptionsDropdown'>
     <FormattedMessage id='buttons.manage' defaultMessage='Manage' />
   </Link>
 )
@@ -59,9 +55,7 @@ const AddressRow = ({
         <AddressCell
           weight={500}
           size='13px'
-          data-e2e={`${
-            archived ? 'archived' : 'unarchived'
-          }ImportedAddressName`}
+          data-e2e={`${archived ? 'archived' : 'unarchived'}ImportedAddressName`}
         >
           {address.addr}
         </AddressCell>
@@ -86,10 +80,7 @@ const AddressRow = ({
           {address.label ? address.label : ''}
         </Text>
       </TableCell>
-      <TableCell
-        width='10%'
-        style={{ display: 'flex', justifyContent: 'flex-end' }}
-      >
+      <TableCell width='10%' style={{ display: 'flex', justifyContent: 'flex-end' }}>
         {renderOptions && (
           <div>
             <ComponentDropdown

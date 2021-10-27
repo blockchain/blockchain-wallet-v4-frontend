@@ -6,8 +6,8 @@ import PropTypes from 'prop-types'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Banner, Button, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import { Remote } from '@core'
+import { Banner, Button, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import ComboDisplay from 'components/Display/ComboDisplay'
 import {
   FiatConverter,
@@ -147,6 +147,9 @@ const FirstStep = (props) => {
           </Text>
         </WarningBanners>
       )}
+      <FormGroup>
+        <CustodyToAccountMessage coin={coin} account={from} amount={amount} />
+      </FormGroup>
       <FormGroup margin='8px'>
         <FormItem>
           <FormLabel HtmlFor='to'>
@@ -185,9 +188,6 @@ const FirstStep = (props) => {
         </FormItem>
       </FormGroup>
       <UnstoppableDomains form={model.components.sendEth.FORM} />
-      <FormGroup>
-        <CustodyToAccountMessage coin={coin} account={from} amount={amount} />
-      </FormGroup>
       <FormGroup margin='15px'>
         <FormItem>
           <FormLabel HtmlFor='amount'>

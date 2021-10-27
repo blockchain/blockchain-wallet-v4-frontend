@@ -2,11 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { compose } from 'redux'
 
-import {
-  BeneficiaryType,
-  WalletFiatType,
-  WithdrawResponseType
-} from '@core/types'
+import { BeneficiaryType, WalletFiatType, WithdrawResponseType } from '@core/types'
 import DataError from 'components/DataError'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { selectors } from 'data'
@@ -20,6 +16,7 @@ import BankPicker from './BankPicker'
 import ConfirmWithdraw from './ConfirmWithdraw'
 import Loading from './ConfirmWithdraw/template.loading'
 import EnterAmount from './EnterAmount'
+import OnHold from './OnHold'
 import WithdrawalDetails from './WithdrawalDetails'
 import WithdrawalMethods from './WithdrawalMethods'
 
@@ -85,6 +82,11 @@ class Withdraw extends PureComponent<Props, State> {
             <DataError message={{ message: BROKERAGE_INELIGIBLE }} />
           </FlyoutChild>
         )}
+        {this.props.step === WithdrawStepEnum.ON_HOLD && (
+          <FlyoutChild>
+            <OnHold handleClose={this.handleClose} />
+          </FlyoutChild>
+        )}
       </Flyout>
     )
   }
@@ -108,7 +110,7 @@ const enhance = compose(
 type OwnProps = ModalPropsType
 type LinkStatePropsType =
   | {
-      step: WithdrawStepEnum.LOADING | WithdrawStepEnum.INELIGIBLE
+      step: WithdrawStepEnum.LOADING | WithdrawStepEnum.INELIGIBLE | WithdrawStepEnum.ON_HOLD
     }
   | {
       beneficiary?: BeneficiaryType

@@ -27,11 +27,11 @@ const Row = styled.div`
 
 const sortByTime = compose(reverse, sortBy(prop('time')))
 
-const LockboxTransactions = props => {
+const LockboxTransactions = (props) => {
   const { isLoading, loadMore, transactions, transactionsAtBounds } = props
   return (
     <LazyLoadWrapper onLazyLoad={loadMore}>
-      {sortByTime(transactions).map(transaction => (
+      {sortByTime(transactions).map((transaction) => (
         <NonCustodialTxItem
           key={transaction.hash}
           coin={transaction.coin}

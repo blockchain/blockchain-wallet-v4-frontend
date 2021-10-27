@@ -1566,7 +1566,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             const depositMethod = state.components.brokerage.account
               ? DepositMethod.BANK_ACCOUNT
               : DepositMethod.BANK_TRANSFER
-            const { currency } = state.components.brokerage.fiatCurrency
+            const currency = state.components.brokerage.fiatCurrency
 
             analytics.push(AnalyticsKey.DEPOSIT_METHOD_SELECTED, {
               properties: {
@@ -2294,8 +2294,8 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         analytics.push(AnalyticsKey.SETTINGS_TAB_CLICKED, {
           properties: {
-            destination,
-            originalTimestamp: getOriginalTimestamp()
+            originalTimestamp: getOriginalTimestamp(),
+            settings_tab: destination
           },
           traits: {
             email,
@@ -2317,10 +2317,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const { href, pathname, search } = window.location
         const { referrer, title } = document
         const currency = 'BTC'
+        const origin = 'SEND'
 
         analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
           properties: {
             currency,
+            origin,
             originalTimestamp: getOriginalTimestamp()
           },
           traits: {
@@ -2359,10 +2361,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const { href, pathname, search } = window.location
         const { referrer, title } = document
         const currency = 'BCH'
+        const origin = 'SEND'
 
         analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
           properties: {
             currency,
+            origin,
             originalTimestamp: getOriginalTimestamp()
           },
           traits: {
@@ -2401,10 +2405,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const { href, pathname, search } = window.location
         const { referrer, title } = document
         const currency = 'XLM'
+        const origin = 'SEND'
 
         analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
           properties: {
             currency,
+            origin,
             originalTimestamp: getOriginalTimestamp()
           },
           traits: {
@@ -2443,10 +2449,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const { href, pathname, search } = window.location
         const { referrer, title } = document
         const currency = action.payload
+        const origin = 'SEND'
 
         analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
           properties: {
             currency,
+            origin,
             originalTimestamp: getOriginalTimestamp()
           },
           traits: {
@@ -2885,7 +2893,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
 
-        const { loginMethod } = action.payload
+        const loginMethod = action.payload
         analytics.push(AnalyticsKey.LOGIN_METHOD_SELECTED, {
           properties: {
             login_method: loginMethod,
@@ -2949,6 +2957,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         analytics.push(AnalyticsKey.LOGIN_REQUEST_APPROVED, {
           properties: {
+            method: 'SECURE_CHANNEL',
             originalTimestamp: getOriginalTimestamp(),
             request_platform: 'WALLET'
           },
@@ -2970,6 +2979,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         analytics.push(AnalyticsKey.LOGIN_REQUEST_DENIED, {
           properties: {
+            method: 'SECURE_CHANNEL',
             originalTimestamp: getOriginalTimestamp(),
             request_platform: 'WALLET'
           },
@@ -2981,6 +2991,54 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
+
+      case actions.auth.analyticsAuthorizeVerifyDeviceSuccess.type: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+
+        analytics.push(AnalyticsKey.LOGIN_REQUEST_APPROVED, {
+          properties: {
+            method: 'MAGIC_LINK',
+            originalTimestamp: getOriginalTimestamp(),
+            request_platform: 'WALLET'
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+
+      case actions.auth.analyticsAuthorizeVerifyDeviceFailure.type: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const error = action.payload
+        analytics.push(AnalyticsKey.LOGIN_REQUEST_DENIED, {
+          properties: {
+            error,
+            method: 'MAGIC_LINK',
+            originalTimestamp: getOriginalTimestamp(),
+            request_platform: 'WALLET'
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+
       case actions.auth.loginTwoStepVerificationDenied.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null

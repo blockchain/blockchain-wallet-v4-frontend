@@ -947,6 +947,20 @@ const getAlertContent = (message, data = undefined) => {
           defaultMessage='Failed to update imported address label'
         />
       )
+    case C.VERIFY_DEVICE_EXPIRY:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.verify_device_expiry'
+          defaultMessage='Device verification session expired.'
+        />
+      )
+    case C.VERIFY_DEVICE_FAILED:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.verify_device_failed'
+          defaultMessage='Failed to verify device.'
+        />
+      )
     case C.VERIFY_EMAIL_SENT:
       return buildMessageTemplate(
         <FormattedMessage

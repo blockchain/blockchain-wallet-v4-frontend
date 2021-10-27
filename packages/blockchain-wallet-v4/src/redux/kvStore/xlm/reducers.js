@@ -18,8 +18,8 @@ export default (state = INITIAL_STATE, action) => {
       return Remote.Loading
     }
     case AT.SET_TRANSACTION_NOTE_XLM: {
-      let valueLens = compose(mapped, KVStoreEntry.value)
-      let setNote = assocPath(['tx_notes', payload.txHash], payload.txNote)
+      const valueLens = compose(mapped, KVStoreEntry.value)
+      const setNote = assocPath(['tx_notes', payload.txHash], payload.txNote)
       return over(valueLens, setNote, state)
     }
     case AT.CREATE_METADATA_XLM:

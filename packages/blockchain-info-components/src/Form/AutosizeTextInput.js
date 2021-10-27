@@ -5,45 +5,44 @@ import styled from 'styled-components'
 
 import { selectBorderColor, selectFocusBorderColor } from './helper'
 
-const BaseTextInput = styled(AutosizeInput).attrs(props => ({
-  type: 'text',
+const BaseTextInput = styled(AutosizeInput).attrs((props) => ({
   'data-lpignore': props.noLastPass,
   disabled: props.disabled,
-  maxLength: props.maxLength
+  maxLength: props.maxLength,
+  type: 'text'
 }))`
   display: block;
   width: 100%;
-  height: ${props => props.height};
-  min-height: ${props => (props.minHeight ? props.minHeight : '40px')};
+  height: ${(props) => props.height};
+  min-height: ${(props) => (props.minHeight ? props.minHeight : '40px')};
   padding: 6px 12px;
   box-sizing: border-box;
   font-size: 14px;
   font-weight: 400;
-  color: ${props => props.theme['grey800']};
-  background-color: ${props => props.theme.white};
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: ${(props) => props.theme.grey800};
+  background-color: ${(props) => props.theme.white};
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background-image: none;
   outline-width: 0;
   user-select: text;
-  border: 1px solid ${props => props.theme[props.borderColor]};
-  border-right: ${props => (props.borderRightNone ? 'none' : '')};
+  border: 1px solid ${(props) => props.theme[props.borderColor]};
+  border-right: ${(props) => (props.borderRightNone ? 'none' : '')};
 
   &:focus {
-    border: 1px solid
-      ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
+    border: 1px solid ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
   }
   &:focus::placeholder {
     opacity: 0.25;
   }
   &::placeholder {
-    color: ${props => props.theme.grey600};
+    color: ${(props) => props.theme.grey600};
     font-size: 14px;
     font-weight: 500;
   }
   &:disabled {
     cursor: not-allowed;
-    background-color: ${props => props.theme.grey100};
+    background-color: ${(props) => props.theme.grey100};
     border: '1px solid transparent';
   }
 `
@@ -67,7 +66,7 @@ class TextInput extends React.Component {
     }
   }
 
-  refInput = input => {
+  refInput = (input) => {
     this.input = input
   }
 

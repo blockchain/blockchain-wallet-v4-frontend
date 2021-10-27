@@ -8,13 +8,13 @@ export default {
       currency: 'CNY',
       decimal_digits: 0,
       rate: '1',
-      symbol: '¢¥',
+      symbol: '¢¥'
     },
     CNY: {
       currency: 'CNY',
       decimal_digits: 2,
       rate: '100',
-      symbol: '¥',
-    },
-  },
+      symbol: '¥'
+    }
+  }
 }

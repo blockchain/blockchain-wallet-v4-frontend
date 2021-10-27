@@ -1,42 +1,26 @@
-import { call, put } from 'redux-saga/effects'
+import { call, put, select } from 'redux-saga/effects'
 
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import * as C from 'services/alerts'
 
-import { LoginSteps, WalletDataFromMagicLink, WalletDataFromMagicLinkLegacy } from './types'
+import { LoginSteps } from './types'
 
 const logLocation = 'auth/sagas'
-// TODO: remove once old magic link endpoint is deprecated
-const parseMagicLinkLegacy = function* (params) {
-  try {
-    const loginData = JSON.parse(atob(params[2])) as WalletDataFromMagicLinkLegacy
-    // this flag is stored as a string in JSON object this converts it to a variable
-    const mobileSetup = loginData.is_mobile_setup === 'true'
-    // store data in the cache and update form values to be used to submit login
-    yield put(actions.cache.emailStored(loginData.email))
-    yield put(actions.cache.guidStored(loginData.guid))
-    yield put(actions.cache.mobileConnectedStored(mobileSetup))
-    yield put(actions.form.change('login', 'emailToken', loginData.email_code))
-    yield put(actions.form.change('login', 'guid', loginData.guid))
-    yield put(actions.form.change('login', 'email', loginData.email))
-    // check if mobile detected
-    if (mobileSetup) {
-      yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
-    } else {
-      yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
-    }
-  } catch (e) {
-    yield put(actions.logs.logErrorMessage(logLocation, 'parseLink', e))
-    yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
-  }
-}
 
-export const parseMagicLink = function* (params) {
+export const parseMagicLink = function* () {
   try {
-    const loginData = JSON.parse(atob(params[2])) as WalletDataFromMagicLink
-    // TODO: remove this check once old magic link is deprecated
-    if (loginData.wallet) {
-      const walletData = loginData.wallet
+    const loginData = yield select(selectors.auth.getMagicLinkData)
+    const walletData = loginData.wallet
+    const session = yield select(selectors.session.getSession, walletData.guid, walletData.email)
+    const sessionIdFromLink = walletData.session_id
+    // Remove feature flag when not neccessary
+    const pollForMagicLinkData = (yield select(
+      selectors.core.walletOptions.getPollForMagicLinkData
+    )).getOrElse(false)
+    if (session !== sessionIdFromLink && pollForMagicLinkData) {
+      yield put(actions.auth.authorizeVerifyDevice())
+      yield put(actions.form.change('login', 'step', LoginSteps.VERIFY_MAGIC_LINK))
+    } else {
       // grab all the data from the JSON wallet data
       // store data in the cache and update form values to be used to submit login
       yield put(actions.cache.emailStored(walletData.email))
@@ -53,10 +37,8 @@ export const parseMagicLink = function* (params) {
       } else {
         yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
       }
-    } else {
-      yield call(parseMagicLinkLegacy, params)
+      yield put(actions.auth.magicLinkParsed())
     }
-    yield put(actions.auth.magicLinkParsed())
   } catch (e) {
     yield put(actions.logs.logErrorMessage(logLocation, 'parseLink', e))
     yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))

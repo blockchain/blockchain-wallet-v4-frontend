@@ -2,7 +2,7 @@ import * as crypto from '../walletCrypto/index'
 import { Address, serializer } from './index'
 
 describe('Address', () => {
-  const addressFixture = { priv: '5priv', addr: '1addr' }
+  const addressFixture = { addr: '1addr', priv: '5priv' }
   const address = Address.fromJS(addressFixture)
   crypto.encryptDataWithKey = (data, key, iv) => `enc<${data}>`
 
@@ -24,7 +24,7 @@ describe('Address', () => {
 
   describe('setLabel', () => {
     it('should set the label of an address object', () => {
-      let withNewLabel = Address.setLabel('new_label', address)
+      const withNewLabel = Address.setLabel('new_label', address)
       expect(address.label).toEqual(void 0)
       expect(withNewLabel.label).toEqual('new_label')
     })

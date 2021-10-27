@@ -104,6 +104,26 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl
     })
 
+  const getMagicLinkData = (sessionToken) =>
+    get({
+      contentType: 'application/json',
+      endPoint: '/wallet/poll-for-wallet-info',
+      sessionToken,
+      url: rootUrl
+    })
+
+  const authorizeVerifyDevice = (fromSessionId, payload, confirm_device) =>
+    post({
+      data: {
+        confirm_device,
+        fromSessionId,
+        method: 'authorize-verify-device',
+        payload
+      },
+      endPoint: '/wallet',
+      url: rootUrl
+    })
+
   const generateUUIDs = (count) =>
     get({
       data: { format: 'json', n: count },
@@ -140,20 +160,6 @@ export default ({ get, post, rootUrl }) => {
     })
 
   const remindGuid = (email, captchaToken, sessionToken) => {
-    post({
-      data: {
-        captcha: captchaToken,
-        email,
-        method: 'send-guid-reminder',
-        siteKey: window.CAPTCHA_KEY
-      },
-      endPoint: '/wallet',
-      sessionToken,
-      url: rootUrl
-    })
-  }
-
-  const triggerWalletMagicLinkLegacy = (email, captchaToken, sessionToken) => {
     post({
       data: {
         captcha: captchaToken,
@@ -266,6 +272,7 @@ export default ({ get, post, rootUrl }) => {
 
   return {
     authorizeLogin,
+    authorizeVerifyDevice,
     createPayload,
     createPinEntry,
     deauthorizeBrowser,
@@ -274,6 +281,7 @@ export default ({ get, post, rootUrl }) => {
     fetchPayloadWithSharedKey,
     fetchPayloadWithTwoFactorAuth,
     generateUUIDs,
+    getMagicLinkData,
     getPairingPassword,
     getPinValue,
     handle2faReset,
@@ -286,7 +294,6 @@ export default ({ get, post, rootUrl }) => {
     sendSecureChannel,
     triggerMnemonicViewedAlert,
     triggerNonCustodialSendAlert,
-    triggerWalletMagicLinkLegacy,
     updateMnemonicBackup,
     verifyEmailToken
   }

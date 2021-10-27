@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Text } from 'blockchain-info-components'
 
-const LineItemText = props => {
+const LineItemText = (props) => {
   return (
     <Text color='grey900' size='16px' weight={600} lineHeight='24px' capitalize>
       {props.children}
@@ -10,7 +10,7 @@ const LineItemText = props => {
   )
 }
 
-const FormattedBank = bank => {
+const FormattedBank = (bank) => {
   if (!bank || !bank.details) return 'Bank Transfer'
   const { accountNumber, bankAccountType, bankName } = bank.details
 

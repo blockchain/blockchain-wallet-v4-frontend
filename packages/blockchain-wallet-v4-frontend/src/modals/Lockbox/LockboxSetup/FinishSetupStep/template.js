@@ -16,34 +16,23 @@ const IntroText = styled(Text)`
 `
 const SkipTourText = styled(Text)`
   cursor: pointer;
-  color: ${props => props.theme.blue600};
+  color: ${(props) => props.theme.blue600};
   margin: 25px 0 12px;
 `
-const FinishSetupStep = props => {
+const FinishSetupStep = (props) => {
   const { onFinishSetup } = props
 
   return (
     <Wrapper>
-      <Image
-        style={{ marginBottom: '18px' }}
-        name='lockbox-onboard-complete'
-        width='100%'
-      />
+      <Image style={{ marginBottom: '18px' }} name='lockbox-onboard-complete' width='100%' />
       <IntroText size='12px' weight={400}>
         <FormattedMessage
           id='modals.lockboxsetup.finishstep.intro'
           defaultMessage="Congratulations! Your Lockbox is ready. You'll be able to view your Lockbox balance in your Wallet any time, but will need your device connected to transfer funds."
         />
       </IntroText>
-      <SkipTourText
-        size='11px'
-        weight={400}
-        onClick={() => onFinishSetup(false)}
-      >
-        <FormattedMessage
-          id='modals.lockboxsetup.finishstep.skiptour'
-          defaultMessage='Skip Tour'
-        />
+      <SkipTourText size='11px' weight={400} onClick={() => onFinishSetup(false)}>
+        <FormattedMessage id='modals.lockboxsetup.finishstep.skiptour' defaultMessage='Skip Tour' />
       </SkipTourText>
       <Button fullwidth onClick={() => onFinishSetup(true)} nature='primary'>
         <FormattedMessage

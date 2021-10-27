@@ -9,7 +9,7 @@ import { media } from 'services/styles'
 const NavbarStyled = styled(Navbar)`
   padding: 0 16px;
   box-sizing: border-box;
-  background-color: ${props => props.theme.grey900};
+  background-color: ${(props) => props.theme.grey900};
   background-image: url('/img/bg-pattern.svg');
 `
 const NavbarBrandStyled = styled(NavbarBrand)`

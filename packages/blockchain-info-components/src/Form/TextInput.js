@@ -5,47 +5,46 @@ import styled from 'styled-components'
 import { Icon } from '../Icons'
 import { selectBorderColor, selectFocusBorderColor } from './helper'
 
-const BaseTextInput = styled.input.attrs(props => ({
-  type: 'text',
+const BaseTextInput = styled.input.attrs((props) => ({
   'data-lpignore': props.noLastPass,
   disabled: props.disabled,
   maxLength: props.maxLength,
-  spellCheck: props.disableSpellcheck ? 'false' : 'true'
+  spellCheck: props.disableSpellcheck ? 'false' : 'true',
+  type: 'text'
 }))`
   display: block;
   width: 100%;
-  height: ${props => props.height};
-  min-height: ${props => props.height};
-  padding: ${props => (props.icon ? '6px 12px 6px 38px' : '6px 12px')};
+  height: ${(props) => props.height};
+  min-height: ${(props) => props.height};
+  padding: ${(props) => (props.icon ? '6px 12px 6px 38px' : '6px 12px')};
   box-sizing: border-box;
   font-size: 16px;
   font-weight: 500;
-  color: ${props => props.theme['grey800']};
+  color: ${(props) => props.theme.grey800};
   background-color: ${({ theme }) => theme.white};
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background-image: none;
   outline-width: 0;
   user-select: text;
   border: ${({ borderColor, theme }) => `1px solid ${theme[borderColor]}`};
-  border-right: ${props => (props.borderRightNone ? 'none' : '')};
+  border-right: ${(props) => (props.borderRightNone ? 'none' : '')};
   border-radius: 8px;
 
   &:focus {
-    border: 1px solid
-      ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
+    border: 1px solid ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
   }
   &:focus::placeholder {
     opacity: 0.25;
   }
   &::placeholder {
-    color: ${props => props.theme.grey400};
+    color: ${(props) => props.theme.grey400};
     font-size: 14px;
     font-weight: 500;
   }
   &:disabled {
     cursor: not-allowed;
-    background-color: ${props => props.theme.grey100};
+    background-color: ${(props) => props.theme.grey100};
     border: '1px solid transparent';
   }
 `
@@ -59,7 +58,7 @@ const InputIcon = styled(Icon)`
   position: absolute;
   top: 12px;
   left: 12px;
-  color: ${props => props.theme['grey400']};
+  color: ${(props) => props.theme.grey400};
 `
 
 class TextInput extends React.Component {
@@ -81,11 +80,11 @@ class TextInput extends React.Component {
     }
   }
 
-  refInput = input => {
+  refInput = (input) => {
     this.input = input
   }
 
-  onKeyPressed = evt => {
+  onKeyPressed = (evt) => {
     const event = evt || window.event
     if (event.keyCode === 27) {
       event.stopPropagation()

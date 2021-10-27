@@ -16,30 +16,32 @@ export const getData = createDeepEqualSelector(
       coinPrices: ExtractSuccess<typeof coinPricesR>,
       coinPricesPrevious: ExtractSuccess<typeof coinPricesPreviousR>
     ) => {
-      const cryptos = selectors.components.swap.getCoins()
+      const cryptos = selectors.core.data.coins.getAllCoins()
 
-      return map((coin: string) => {
+      const m = cryptos.map((coin: string) => {
         const { coinfig } = window.coins[coin]
 
         const currentPrice = coinPrices[coinfig.symbol]
         const yesterdayPrice = coinPricesPrevious[coinfig.symbol]
         const coinBalance = getBalanceSelector(coinfig.symbol)(state).getOrElse(0).valueOf()
-        return (
-          coinfig.type.name !== 'FIAT' && {
-            balance:
-              coinfig.type.name === 'ERC20'
-                ? getErc20Balance(coinfig.symbol)(state).getOrElse(0)
-                : coinBalance,
-            coin: coinfig.symbol,
-            coinModel: coin,
-            name: `${coinfig.name} (${coinfig.displaySymbol})`,
-            price: currentPrice,
-            priceChange: Number(
-              ((currentPrice - yesterdayPrice) / yesterdayPrice) * 100
-            ).toPrecision(2)
-          }
-        )
-      }, cryptos)
+        return {
+          balance:
+            coinfig.type.name === 'ERC20'
+              ? getErc20Balance(coinfig.symbol)(state).getOrElse(0)
+              : coinBalance,
+          coin: coinfig.symbol,
+          coinModel: coin,
+          name: `${coinfig.name} (${coinfig.displaySymbol})`,
+          price: currentPrice,
+          priceChange: Number(((currentPrice - yesterdayPrice) / yesterdayPrice) * 100).toPrecision(
+            2
+          )
+        }
+      })
+
+      return m?.filter(({ price }) => {
+        return !!price || price === 0
+      })
     }
 
     return lift(transform)(coinPricesR, coinPricesPreviousR)

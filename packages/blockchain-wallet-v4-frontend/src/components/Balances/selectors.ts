@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { add, curry, flatten, lift, map, not, pathOr, reduce, reject } from 'ramda'
+import { add, curry, flatten, lift, map, pathOr, reduce, reject } from 'ramda'
 
 import { Exchange, Remote } from '@core'
 import {
@@ -151,7 +151,7 @@ export const getWithdrawableFiatBalance = curry(
       sbBalancesR.getOrElse({
         [currency]: DEFAULT_SB_BALANCE
       })[currency]?.withdrawable || '0'
-    return Remote.of(convertBaseToStandard('FIAT', fiatBalance))
+    return Remote.of(fiatBalance)
   }
 )
 
@@ -289,7 +289,9 @@ export const getCoinsSortedByBalance = createDeepEqualSelector(
       const coinsWithBalance = map(
         (coin) => coins.find((c) => c.coinfig.symbol === coin),
         reject(
-          (coin) => getBalanceSelector(coin)(state).getOrElse(0) <= 0,
+          (coin) =>
+            getBalanceSelector(coin)(state).getOrElse(0) <= 0 &&
+            window.coins[coin].coinfig.type.name !== 'FIAT',
           Object.keys(window.coins)
         )
       )

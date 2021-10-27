@@ -4,9 +4,9 @@ import { getLockRuleMessaging } from 'blockchain-wallet-v4-frontend/src/modals/S
 import moment from 'moment'
 import styled from 'styled-components'
 
-import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
 import { fiatToString } from '@core/exchange/utils'
 import { FiatType, SBPaymentTypes } from '@core/types'
+import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
 import { FlyoutContainer, FlyoutContent, FlyoutFooter, FlyoutHeader } from 'components/Flyout'
 import { BankDWStepType, BankPartners } from 'data/types'
 

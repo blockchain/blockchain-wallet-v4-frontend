@@ -27,19 +27,19 @@ import * as A from './actions'
 const BCH_ACCT_NAME = 'Private Key Wallet'
 
 export default ({ api, networks }) => {
-  const createBch = function * (kv, hdAccounts, bchAccounts) {
-    const createAccountEntry = x => ({
-      label: `${BCH_ACCT_NAME}${x > 0 ? ` ${x + 1}` : ''}`,
-      archived: pathOr(false, [x, 'archived'], hdAccounts)
+  const createBch = function* (kv, hdAccounts, bchAccounts) {
+    const createAccountEntry = (x) => ({
+      archived: pathOr(false, [x, 'archived'], hdAccounts),
+      label: `${BCH_ACCT_NAME}${x > 0 ? ` ${x + 1}` : ''}`
     })
 
     const newBchEntry = {
-      default_account_idx: 0,
       accounts: concat(
         bchAccounts,
         map(createAccountEntry, range(length(bchAccounts), hdAccounts.length))
       ),
-      addresses: {}
+      addresses: {},
+      default_account_idx: 0
     }
 
     const newkv = set(KVStoreEntry.value, newBchEntry, kv)
@@ -47,7 +47,7 @@ export default ({ api, networks }) => {
     yield put(bchActions.fetchData())
   }
 
-  const createBchAddresses = function * (kv) {
+  const createBchAddresses = function* (kv) {
     const newBchEntry = {
       ...kv.value,
       addresses: {}
@@ -56,19 +56,14 @@ export default ({ api, networks }) => {
     yield put(A.createMetadataBch(newkv))
   }
 
-  const importLegacyAddress = function * (action) {
+  const importLegacyAddress = function* (action) {
     const { payload } = action
     const { key, label } = payload
-    const addr = Address.importAddress(
-      key,
-      new Date(),
-      label,
-      networks.bch
-    ).toJS()
+    const addr = Address.importAddress(key, new Date(), label, networks.bch).toJS()
     yield put(A.setLegacyAddress(addr))
   }
 
-  const fetchMetadataBch = function * () {
+  const fetchMetadataBch = function* () {
     try {
       const typeId = derivationMap[BCH]
       const mxpriv = yield select(getMetadataXpriv)
@@ -83,12 +78,13 @@ export default ({ api, networks }) => {
         gt(length(hdAccounts), length(bchAccounts))
       ) {
         return yield call(createBch, newkv, hdAccounts, bchAccounts)
-      } else if (isNil(newkv.value.addresses)) {
+      }
+      if (isNil(newkv.value.addresses)) {
         return yield call(createBchAddresses, newkv)
       }
       // update account labels
       const legacyWalletName = 'My Bitcoin Cash Wallet'
-      forEach(account => {
+      forEach((account) => {
         // check if legacy format is used
         if (startsWith(legacyWalletName, account.label)) {
           // pluck label suffix e.g. " 2"

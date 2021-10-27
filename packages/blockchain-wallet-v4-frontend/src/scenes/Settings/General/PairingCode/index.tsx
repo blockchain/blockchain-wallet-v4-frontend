@@ -62,11 +62,7 @@ class PairingCode extends React.PureComponent<Props> {
           </SettingDescription>
         </SettingSummary>
         <SettingComponent>
-          <Button
-            data-e2e='showQrCode'
-            nature='empty-blue'
-            onClick={this.onShowCode}
-          >
+          <Button data-e2e='showQrCode' nature='empty-blue' onClick={this.onShowCode}>
             <FormattedMessage
               id='scenes.settings.general.pairingcode.settings.show'
               defaultMessage='Show Pairing Code'
@@ -78,7 +74,7 @@ class PairingCode extends React.PureComponent<Props> {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

@@ -3,11 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
-import {
-  ErrorCartridge,
-  GreyCartridge,
-  SuccessCartridge
-} from 'components/Cartridge'
+import { ErrorCartridge, GreyCartridge, SuccessCartridge } from 'components/Cartridge'
 import { model } from 'data'
 
 const { KYC_STATES } = model.profile
@@ -19,12 +15,7 @@ const Copy = styled(Text)`
 
 export const AirdropInfoHeader = () => {
   return (
-    <Text
-      size='20px'
-      color='grey800'
-      weight={600}
-      style={{ marginTop: '16px' }}
-    >
+    <Text size='20px' color='grey800' weight={600} style={{ marginTop: '16px' }}>
       <FormattedMessage
         id='scenes.airdrops.success.airdropprogram'
         defaultMessage='Airdrop Program'
@@ -92,22 +83,14 @@ export const AirdropInfoButton = ({ kycState }) => {
     case KYC_STATES.VERIFIED:
       return (
         <>
-          <Text
-            size='14px'
-            style={{ marginBottom: '16px' }}
-            color='grey600'
-            weight={500}
-          >
+          <Text size='14px' style={{ marginBottom: '16px' }} color='grey600' weight={500}>
             <FormattedMessage
               id='scenes.airdrop.notify'
               defaultMessage='We will notify you for future airdrops.'
             />
           </Text>
           <SuccessCartridge>
-            <FormattedMessage
-              id='scenes.airdrop.enrolled'
-              defaultMessage='Enrolled'
-            />
+            <FormattedMessage id='scenes.airdrop.enrolled' defaultMessage='Enrolled' />
           </SuccessCartridge>
         </>
       )

@@ -8,13 +8,13 @@ export default {
       currency: 'TRY',
       decimal_digits: 0,
       rate: '1',
-      symbol: '₺',
+      symbol: '₺'
     },
     TRY: {
       currency: 'TRY',
       decimal_digits: 2,
       rate: '100',
-      symbol: '₺',
-    },
-  },
+      symbol: '₺'
+    }
+  }
 }

@@ -1,8 +1,8 @@
 import { map, mapObjIndexed } from 'ramda'
 
-const createSagas = require.requireActual('../sagas').default
+const createSagas = jest.requireActual('../sagas').default
 
-const mockFunctionsDeep = attr => {
+const mockFunctionsDeep = (attr) => {
   // Mock
   if (typeof attr === 'function') return jest.fn()
 
@@ -16,5 +16,4 @@ const mockFunctionsDeep = attr => {
   return attr
 }
 
-export default ({ api } = { api: {} }) =>
-  mockFunctionsDeep(createSagas({ api }))
+export default ({ api } = { api: {} }) => mockFunctionsDeep(createSagas({ api }))

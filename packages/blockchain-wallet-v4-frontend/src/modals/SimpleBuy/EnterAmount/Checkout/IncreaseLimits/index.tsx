@@ -16,7 +16,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 40px 40px;
-  border-top: 1px solid ${props => props.theme['grey000']};
+  border-top: 1px solid ${(props) => props.theme.grey000};
 `
 const TitleText = styled(Text)`
   display: flex;
@@ -40,7 +40,7 @@ const IncreaseLimits: React.FC<Props> = () => (
   <Wrapper>
     <Container>
       <HeaderContainer>
-        <DisplayPaymentIcon showBackground={true}>
+        <DisplayPaymentIcon showBackground>
           <Icon name='question-in-circle-filled' size='22px' color='blue600' />
         </DisplayPaymentIcon>
         <TitleText size='16px' weight={600} color='grey800'>

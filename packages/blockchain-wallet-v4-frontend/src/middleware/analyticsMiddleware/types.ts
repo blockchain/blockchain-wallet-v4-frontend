@@ -363,6 +363,11 @@ type LoginHelpClickedPayload = BasePayload & {
   site_redirect: 'WALLET' | 'EXCHANGE'
 }
 
+type LoginRequestApprovedOrFailedPayload = BasePayload & {
+  error?: 'REJECTED' | 'EXPIRED' | 'TIMED_OUT' | 'UNKNOWN'
+  method: 'SECURE_CHANNEL' | 'MAGIC_LINK'
+}
+
 type SignUpCountrySelectPayload = BasePayload & {
   country: string
 }
@@ -544,7 +549,7 @@ type SettingsTabClickedDestination =
   | 'WALLETS&ADDRESSES'
 
 type SettingsTabClickedPayload = BasePayload & {
-  destination: SettingsTabClickedDestination
+  settings_tab: SettingsTabClickedDestination
 }
 
 type SignedUpPayload = BasePayload
@@ -709,6 +714,7 @@ type AnalyticsProperties =
   | LoginIdentifierEnteredPayload
   | LoginMethodSelectedPayload
   | LoginRequestPayload
+  | LoginRequestApprovedOrFailedPayload
   | ManageTabSelectionClickedPayload
   | NotificationPreferencesUpdatedPayload
   | PrivateKeysShownPayload

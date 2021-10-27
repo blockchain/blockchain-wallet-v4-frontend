@@ -9,12 +9,11 @@ const ModalBackground = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  display: ${props => (props.isLast ? 'flex' : 'none')};
+  display: ${(props) => (props.isLast ? 'flex' : 'none')};
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
-  background-color: ${props =>
-    props.theme.black && transparentize(0.5, props.theme.black)};
+  background-color: ${(props) => props.theme.black && transparentize(0.5, props.theme.black)};
   z-index: 1040;
 
   @media (min-width: 768px) {
@@ -30,23 +29,22 @@ const ModalBackground = styled.div`
 `
 
 const BaseModal = styled.div`
-  display: ${props => (props.isLast ? 'block' : 'none')};
+  display: ${(props) => (props.isLast ? 'block' : 'none')};
   position: relative;
   width: 100%;
-  z-index: ${props => (props.type === 'tray' ? 1039 : 1040)};
-  background-color: ${props => props.theme.white};
+  z-index: ${(props) => (props.type === 'tray' ? 1039 : 1040)};
+  background-color: ${(props) => props.theme.white};
   box-shadow: none;
   border-radius: 8px;
 
   @media (min-width: 768px) {
-    width: ${props => props.width};
+    width: ${(props) => props.width};
     margin-top: initial;
-    box-shadow: 0 5px 15px
-      ${props => props.theme.black && transparentize(0.5, props.theme.black)};
+    box-shadow: 0 5px 15px ${(props) => props.theme.black && transparentize(0.5, props.theme.black)};
   }
 `
 
-const selectWidth = size => {
+const selectWidth = (size) => {
   switch (size) {
     case 'auto':
       return 'auto'
@@ -68,7 +66,7 @@ const selectWidth = size => {
 const Modal = forwardRef((props, ref) => {
   const { children, ...rest } = props
   const modalDataE2e = rest.dataE2e || 'modal'
-  const type = rest.type
+  const { type } = rest
   const size = rest.size || 'medium'
   const position = rest.position || 1
   const total = rest.total || 1
@@ -78,42 +76,31 @@ const Modal = forwardRef((props, ref) => {
 
   if (type === 'tray') {
     return (
+      <BaseModal data-e2e={modalDataE2e} isLast position={position} width={width} {...rest}>
+        {children}
+      </BaseModal>
+    )
+  }
+  return (
+    <ModalBackground isLast={isLast} position={position} className={rest.class}>
       <BaseModal
         data-e2e={modalDataE2e}
-        isLast={true}
+        isLast={isLast}
         position={position}
         width={width}
+        ref={ref}
         {...rest}
       >
         {children}
       </BaseModal>
-    )
-  } else {
-    return (
-      <ModalBackground
-        isLast={isLast}
-        position={position}
-        className={rest.class}
-      >
-        <BaseModal
-          data-e2e={modalDataE2e}
-          isLast={isLast}
-          position={position}
-          width={width}
-          ref={ref}
-          {...rest}
-        >
-          {children}
-        </BaseModal>
-      </ModalBackground>
-    )
-  }
+    </ModalBackground>
+  )
 })
 
 Modal.propTypes = {
   position: PropTypes.number,
-  total: PropTypes.number,
-  size: PropTypes.oneOf(['xsmall', 'small', 'medium', 'large', 'xlarge', ''])
+  size: PropTypes.oneOf(['xsmall', 'small', 'medium', 'large', 'xlarge', '']),
+  total: PropTypes.number
 }
 
 export default Modal

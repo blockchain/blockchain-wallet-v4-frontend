@@ -124,6 +124,7 @@ export type CustodialTransferResponseType = {
 export type InterestEDDStatus = {
   eddNeeded: boolean
   eddPassed: boolean
+  eddSubmitted: boolean
 }
 
 export type InterestEDDDocumentsResponse = {

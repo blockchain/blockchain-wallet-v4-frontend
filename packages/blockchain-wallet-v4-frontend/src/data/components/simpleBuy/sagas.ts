@@ -20,6 +20,7 @@ import {
   SBPaymentTypes,
   SBQuoteType,
   SwapOrderType,
+  WalletFiatType,
   WalletOptionsType
 } from '@core/types'
 import { errorHandler, errorHandlerCode } from '@core/utils'
@@ -110,12 +111,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     let card: SBCardType
     try {
       yield put(A.fetchCardLoading())
-      const order = S.getSBLatestPendingOrder(yield select())
-      if (!order) throw new Error(NO_ORDER_EXISTS)
-      const currency = getFiatFromPair(order.pair)
-      if (!currency) throw new Error(NO_FIAT_CURRENCY)
+      const state = yield select()
+      let currency = selectors.core.settings.getCurrency(state).getOrElse('USD')
+      const origin = S.getOrigin(state)
+      if (origin !== 'SettingsGeneral') {
+        const order = S.getSBLatestPendingOrder(state)
+        if (!order) throw new Error(NO_ORDER_EXISTS)
+        currency = getFiatFromPair(order.pair)
+        if (!currency) throw new Error(NO_FIAT_CURRENCY)
+      }
 
-      const userDataR = selectors.modules.profile.getUserData(yield select())
+      const userDataR = selectors.modules.profile.getUserData(state)
       const userData = userDataR.getOrFail('NO_USER_ADDRESS')
 
       if (!billingAddress) throw new Error('NO_USER_ADDRESS')
@@ -1205,8 +1211,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const latestPendingOrder = S.getSBLatestPendingOrder(yield select())
 
     yield put(actions.modals.showModal('SIMPLE_BUY_MODAL', { cryptoCurrency, origin }))
-    const fiatCurrencyR = selectors.core.settings.getCurrency(yield select())
-    const fiatCurrency = fiatCurrencyR.getOrElse('USD')
+    const fiatCurrency = selectors.core.settings
+      .getCurrency(yield select())
+      .getOrElse('USD') as WalletFiatType
+
     if (latestPendingOrder) {
       const bankAccount = yield call(getBankInformation, latestPendingOrder as SBOrderType)
       let step: T.StepActionsPayload['step'] =

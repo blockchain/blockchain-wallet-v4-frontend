@@ -19,6 +19,7 @@ import EnterEmailOrGuid from './EnterEmailOrGuid'
 import EnterPassword from './EnterPassword'
 import { CreateAccount, LOGIN_FORM_NAME, PhishingWarning } from './model'
 import VerificationMobile from './VerificationMobile'
+import VerifyMagicLink from './VerifyMagicLink'
 
 class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StateProps> {
   constructor(props) {
@@ -133,9 +134,10 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     return (
       <>
         <Text color='white' size='24px' weight={600} style={{ marginBottom: '24px' }}>
-          {step === LoginSteps.ENTER_PASSWORD ? (
+          {step === LoginSteps.ENTER_PASSWORD && (
             <FormattedMessage id='scenes.login.authorize' defaultMessage='Authorize login' />
-          ) : (
+          )}
+          {step === LoginSteps.ENTER_EMAIL_GUID && (
             <FormattedMessage id='scenes.login.welcome' defaultMessage='Welcome back!' />
           )}
         </Text>
@@ -194,6 +196,9 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
                       initCaptcha={this.initCaptcha}
                     />
                   )
+
+                case LoginSteps.VERIFY_MAGIC_LINK:
+                  return <VerifyMagicLink {...this.props} {...loginProps} setStep={this.setStep} />
 
                 case LoginSteps.VERIFICATION_MOBILE:
                   return (

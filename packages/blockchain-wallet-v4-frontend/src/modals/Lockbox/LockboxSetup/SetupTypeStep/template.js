@@ -27,17 +27,13 @@ const ExistingButton = styled(Button)`
   height: 55px;
 `
 
-const SetupTypeStep = props => {
+const SetupTypeStep = (props) => {
   const { deviceType, handleStepChange } = props
   return (
     <Wrapper>
       {deviceType === 'Lockbox' ? (
         <DeviceWrapper>
-          <Image
-            width='60%'
-            name='lockbox-device'
-            srcset={{ 'lockbox-device': '1x' }}
-          />
+          <Image width='60%' name='lockbox-device' srcset={{ 'lockbox-device': '1x' }} />
           <Text size='16px' weight={500} style={{ marginTop: '20px' }}>
             <FormattedMessage
               id='modals.lockboxsetup.setuptypestep.connectlockbox'
@@ -47,11 +43,7 @@ const SetupTypeStep = props => {
         </DeviceWrapper>
       ) : (
         <DeviceWrapper>
-          <Image
-            width='55%'
-            name='ledger-nano-s'
-            srcset={{ 'ledger-nano-s': '1x' }}
-          />
+          <Image width='55%' name='ledger-nano-s' srcset={{ 'ledger-nano-s': '1x' }} />
           <Text size='16px' weight={500} style={{ marginTop: '24px' }}>
             <FormattedMessage
               id='modals.lockboxsetup.setuptypestep.connectnanos'
@@ -60,11 +52,7 @@ const SetupTypeStep = props => {
           </Text>
         </DeviceWrapper>
       )}
-      <NewButton
-        nature='primary'
-        fullwidth
-        onClick={() => handleStepChange('new')}
-      >
+      <NewButton nature='primary' fullwidth onClick={() => handleStepChange('new')}>
         <TextGroup>
           <Text size='14px' weight={400} color='white'>
             <FormattedMessage
@@ -80,11 +68,7 @@ const SetupTypeStep = props => {
           </Text>
         </TextGroup>
       </NewButton>
-      <ExistingButton
-        nature='received'
-        fullwidth
-        onClick={() => handleStepChange('existing')}
-      >
+      <ExistingButton nature='received' fullwidth onClick={() => handleStepChange('existing')}>
         <TextGroup>
           <Text size='14px' weight={400} color='white'>
             <FormattedMessage

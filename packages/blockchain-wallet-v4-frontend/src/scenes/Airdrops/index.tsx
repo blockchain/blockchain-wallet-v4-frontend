@@ -5,17 +5,9 @@ import { lift } from 'ramda'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
+import { NabuApiErrorType, RemoteDataType } from '@core/types'
 import { Icon, Text } from 'blockchain-info-components'
-import {
-  NabuApiErrorType,
-  RemoteDataType
-} from '@core/types'
-import {
-  IconBackground,
-  SceneHeader,
-  SceneHeaderText,
-  SceneSubHeaderText
-} from 'components/Layout'
+import { IconBackground, SceneHeader, SceneHeaderText, SceneSubHeaderText } from 'components/Layout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { UserCampaignsType, UserDataType } from 'data/types'
@@ -49,10 +41,7 @@ class Airdrops extends React.PureComponent<Props> {
       kycState: 'NONE'
     } as SuccessStateType)
     const AirdropCards = data.cata({
-      Success: val => <Success {...val} {...this.props} />,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />,
-      Failure: e =>
+      Failure: (e) =>
         e.type === 'INVALID_CREDENTIALS' ? (
           // @ts-ignore
           <Success
@@ -64,16 +53,15 @@ class Airdrops extends React.PureComponent<Props> {
           />
         ) : (
           <Text size='16px' weight={500}>
-            Oops. Something went wrong and we don't know why.{' '}
-            <b>Here's the error: {e.type}</b>
+            Oops. Something went wrong and we don't know why. <b>Here's the error: {e.type}</b>
           </Text>
-        )
+        ),
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />,
+      Success: (val) => <Success {...val} {...this.props} />
     })
     const PastAirdrops = data.cata({
-      Success: val => <PastAirdropsSuccess {...val} {...this.props} />,
-      Loading: () => <Text weight={500}>Loading...</Text>,
-      NotAsked: () => <Text weight={500}>Loading...</Text>,
-      Failure: e =>
+      Failure: (e) =>
         e.type === 'INVALID_CREDENTIALS' ? (
           <Text weight={500} size='12px'>
             <FormattedMessage
@@ -83,10 +71,12 @@ class Airdrops extends React.PureComponent<Props> {
           </Text>
         ) : (
           <Text size='16px' weight={500}>
-            Oops. Something went wrong and we don't know why.{' '}
-            <b>Here's the error: {e.type}</b>
+            Oops. Something went wrong and we don't know why. <b>Here's the error: {e.type}</b>
           </Text>
-        )
+        ),
+      Loading: () => <Text weight={500}>Loading...</Text>,
+      NotAsked: () => <Text weight={500}>Loading...</Text>,
+      Success: (val) => <PastAirdropsSuccess {...val} {...this.props} />
     })
     if (!hasEmail) return <EmailRequired />
     return (
@@ -96,10 +86,7 @@ class Airdrops extends React.PureComponent<Props> {
             <Icon name='parachute' color='blue600' size='24px' />
           </IconBackground>
           <SceneHeaderText>
-            <FormattedMessage
-              id='scenes.airdrops.header'
-              defaultMessage='Airdrops'
-            />
+            <FormattedMessage id='scenes.airdrops.header' defaultMessage='Airdrops' />
           </SceneHeaderText>
         </SceneHeader>
         <SceneSubHeaderText>
@@ -110,7 +97,7 @@ class Airdrops extends React.PureComponent<Props> {
         </SceneSubHeaderText>
         {AirdropCards}
         {userData.kycState === 'VERIFIED' && (
-          <React.Fragment>
+          <>
             <History>
               <MainTitle size='24px' color='grey800' weight={600}>
                 <FormattedMessage
@@ -120,7 +107,7 @@ class Airdrops extends React.PureComponent<Props> {
               </MainTitle>
             </History>
             {PastAirdrops}
-          </React.Fragment>
+          </>
         )}
       </Wrapper>
     )
@@ -135,13 +122,10 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
     selectors.modules.profile.getUserData(state),
     selectors.modules.profile.getUserCampaigns(state)
   ),
-  hasEmail: selectors.core.settings
-    .getEmail(state)
-    .map(Boolean)
-    .getOrElse(false)
+  hasEmail: selectors.core.settings.getEmail(state).map(Boolean).getOrElse(false)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   identityVerificationActions: bindActionCreators(
     actions.components.identityVerification,
     dispatch

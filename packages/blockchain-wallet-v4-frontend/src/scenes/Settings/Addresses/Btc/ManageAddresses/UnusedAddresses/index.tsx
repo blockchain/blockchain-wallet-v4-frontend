@@ -8,6 +8,8 @@ import { bindActionCreators } from 'redux'
 import { formValueSelector } from 'redux-form'
 import styled from 'styled-components'
 
+import { Types } from '@core'
+import { HDDerivationType } from '@core/types'
 import {
   Banner,
   Button,
@@ -16,9 +18,7 @@ import {
   Link,
   Text
 } from 'blockchain-info-components'
-import { Types } from '@core'
 import { SettingDescription, SettingHeader } from 'components/Setting'
-import { HDDerivationType } from '@core/types'
 import { actions, selectors } from 'data'
 import * as C from 'services/alerts'
 

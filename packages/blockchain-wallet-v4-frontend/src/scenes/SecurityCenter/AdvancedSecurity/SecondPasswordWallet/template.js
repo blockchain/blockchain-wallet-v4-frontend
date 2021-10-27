@@ -12,7 +12,7 @@ import {
 
 import Settings from './Settings'
 
-const SecondPasswordWallet = props => {
+const SecondPasswordWallet = (props) => {
   const { secondPasswordEnabled } = props
   if (!secondPasswordEnabled) return null
   return (

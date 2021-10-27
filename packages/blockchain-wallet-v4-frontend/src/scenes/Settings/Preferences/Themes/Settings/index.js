@@ -17,11 +17,7 @@ class SettingsContainer extends React.PureComponent {
 
   componentDidUpdate(prevProps) {
     const { newTheme, theme } = this.props
-    if (
-      !isNil(newTheme) &&
-      !equals(theme, newTheme) &&
-      !equals(prevProps.newTheme, newTheme)
-    ) {
+    if (!isNil(newTheme) && !equals(theme, newTheme) && !equals(prevProps.newTheme, newTheme)) {
       this.props.preferencesActions.setTheme(newTheme)
     }
   }
@@ -31,14 +27,14 @@ class SettingsContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  theme: selectors.preferences.getTheme(state),
-  newTheme: formValueSelector('settingTheme')(state, 'theme')
+const mapStateToProps = (state) => ({
+  newTheme: formValueSelector('settingTheme')(state, 'theme'),
+  theme: selectors.preferences.getTheme(state)
 })
 
-const mapDispatchToProps = dispatch => ({
-  preferencesActions: bindActionCreators(actions.preferences, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch)
+const mapDispatchToProps = (dispatch) => ({
+  formActions: bindActionCreators(actions.form, dispatch),
+  preferencesActions: bindActionCreators(actions.preferences, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsContainer)

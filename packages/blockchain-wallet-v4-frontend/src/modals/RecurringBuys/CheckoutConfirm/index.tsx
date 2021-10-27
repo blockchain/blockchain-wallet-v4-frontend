@@ -3,19 +3,18 @@ import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
 import { fiatToString } from '@core/exchange/utils'
+import { FiatType, SBOrderType } from '@core/types'
+import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
 import {
   FlyoutContainer,
   FlyoutContent,
   FlyoutFooter,
   FlyoutHeader,
-  FlyoutSubHeader,
-  getPeriodSubTitleText,
-  getPeriodTitleText
+  FlyoutSubHeader
 } from 'components/Flyout'
+import { getPeriodSubTitleText, getPeriodTitleText } from 'components/Flyout/model'
 import { CheckoutRow } from 'components/Rows'
-import { FiatType, SBOrderType } from '@core/types'
 import { actions, selectors } from 'data'
 import {
   getBankAccount,

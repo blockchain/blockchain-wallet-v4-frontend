@@ -8,9 +8,10 @@ const fs = require('fs')
 const HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
-const NodePolyfillPlugin = require("node-polyfill-webpack-plugin")
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 const threadLoader = require('thread-loader')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 
 // configs
 let mockWalletOptions = require('./../../config/mocks/wallet-options-v4')
@@ -20,7 +21,7 @@ const CONFIG_PATH = require('./../../config/paths')
 const threadLoaderSettings = {
   name: 'thread-loader-pool',
   workers: 2,
-  workerParallelJobs: 50,
+  workerParallelJobs: 50
 }
 threadLoader.warmup(threadLoaderSettings, ['babel-loader', 'ts-loader'])
 
@@ -33,16 +34,16 @@ const getAndLogEnvConfig = () => {
   const isSslEnabled = process.env.DISABLE_SSL
     ? false
     : fs.existsSync(CONFIG_PATH.sslConfig + '/key.pem') &&
-    fs.existsSync(CONFIG_PATH.sslConfig + '/cert.pem')
+      fs.existsSync(CONFIG_PATH.sslConfig + '/cert.pem')
 
   try {
     envConfig = require(CONFIG_PATH.envConfig + `/${process.env.NODE_ENV}` + '.js')
   } catch (e) {
     console.log(
       chalk.red('\u{1F6A8} WARNING \u{1F6A8} ') +
-      chalk.yellow(
-        `Failed to load ${process.env.NODE_ENV}.js config file! Using the production config instead.\n`
-      )
+        chalk.yellow(
+          `Failed to load ${process.env.NODE_ENV}.js config file! Using the production config instead.\n`
+        )
     )
     envConfig = require(CONFIG_PATH.envConfig + '/production.js')
   } finally {
@@ -86,7 +87,8 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
   },
   output: {
     assetModuleFilename: 'resources/[name][ext]', // default asset path that is usually overwritten in specific modules.rules
-    chunkFilename: (pathData) => pathData.chunk.name ? '[name]-[chunkhash:6].js' : 'chunk-[chunkhash:6].js',
+    chunkFilename: (pathData) =>
+      pathData.chunk.name ? '[name]-[chunkhash:6].js' : 'chunk-[chunkhash:6].js',
     crossOriginLoading: 'anonymous',
     path: CONFIG_PATH.ciBuild,
     publicPath: '/'
@@ -134,7 +136,8 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
     ]
   },
   performance: { hints: false }, // TODO: enable bundle size warnings in future
-  plugins: concat([
+  plugins: concat(
+    [
       new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
         template: CONFIG_PATH.src + '/index.html',
@@ -170,7 +173,8 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
           windows: true,
           yandex: true
         }
-      })],
+      })
+    ],
     extraPluginsList
   ),
   optimization: {
@@ -178,8 +182,18 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
       name: `manifest-${new Date().getTime()}`
     },
     splitChunks: {
-      maxSize: 750000, // 0.75 MB max chunk size
-    }
+      maxSize: 750000 // 0.75 MB max chunk size
+    },
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          warnings: false,
+          compress: { keep_fnames: true },
+          mangle: { keep_fnames: true }
+        },
+        parallel: true
+      })
+    ]
   }
 })
 
@@ -207,7 +221,6 @@ const buildDevServerConfig = (
   } else {
     console.log(chalk.cyan('SSL: ') + chalk.blue('disabled'))
   }
-
 
   return {
     allowedHosts: 'all',

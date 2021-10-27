@@ -1,8 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { Text } from 'blockchain-info-components'
 import { SBPaymentTypes } from '@core/types'
+import { Text } from 'blockchain-info-components'
 import { getCoinFromPair, getOrderType } from 'data/components/simpleBuy/model'
 import { BankTransferAccountType, RecurringBuyFailureReasons } from 'data/types'
 

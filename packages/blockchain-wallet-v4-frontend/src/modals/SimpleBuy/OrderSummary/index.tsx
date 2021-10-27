@@ -13,7 +13,8 @@ import {
   SBPaymentTypes
 } from '@core/types'
 import DataError from 'components/DataError'
-import { getPeriodForSuccess, OrderSummary as Success } from 'components/Flyout'
+import { OrderSummary } from 'components/Flyout'
+import { getPeriodForSuccess } from 'components/Flyout/model'
 import { actions, selectors } from 'data'
 import {
   getBaseAmount,
@@ -37,7 +38,7 @@ import { getData } from './selectors'
 import SuccessSdd from './template.sdd.success'
 
 const { getSymbol } = Exchange
-class OrderSummary extends PureComponent<Props> {
+class OrderSummaryContainer extends PureComponent<Props> {
   componentDidMount() {
     if (!Remote.Success.is(this.props.data)) {
       this.props.buySellActions.fetchCards(false)
@@ -46,7 +47,6 @@ class OrderSummary extends PureComponent<Props> {
       this.props.recurringBuyActions.fetchPaymentInfo()
     }
     this.props.buySellActions.fetchOrders()
-
     if (
       this.props.order.state === 'PENDING_DEPOSIT' &&
       this.props.order.attributes?.everypay?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
@@ -112,7 +112,7 @@ class OrderSummary extends PureComponent<Props> {
         ) : val.userData?.tiers?.current !== 2 ? (
           <SuccessSdd {...val} {...this.props} />
         ) : (
-          <Success
+          <OrderSummary
             baseAmount={getBaseAmount(order)}
             baseCurrency={getBaseCurrency(order)}
             counterAmount={`${currencySymbol}${getCounterAmount(order)}`}
@@ -134,7 +134,7 @@ class OrderSummary extends PureComponent<Props> {
                 order.paymentType === SBPaymentTypes.BANK_TRANSFER ||
                 order.paymentType === SBPaymentTypes.FUNDS)}
             {val.afterTransaction.show && <InterestBanner handleClose={this.props.handleClose} />}
-          </Success>
+          </OrderSummary>
         )
       }
     })
@@ -182,4 +182,4 @@ type LinkStatePropsType = {
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default connector(OrderSummary)
+export default connector(OrderSummaryContainer)

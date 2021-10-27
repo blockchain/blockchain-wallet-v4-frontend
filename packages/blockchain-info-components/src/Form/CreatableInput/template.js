@@ -36,7 +36,7 @@ const StyledCreatableSelect = styled(CreatableSelect)`
     }
   `}
 
-  ${props =>
+  ${(props) =>
     // @ts-ignore
     props.isOptionsEmpty &&
     `
@@ -46,7 +46,7 @@ const StyledCreatableSelect = styled(CreatableSelect)`
   `}
 `
 
-const MultiValueContainer = props => {
+const MultiValueContainer = (props) => {
   return (
     <components.MultiValueContainer {...props}>
       {props.selectProps.multiValueContainer
@@ -56,16 +56,16 @@ const MultiValueContainer = props => {
   )
 }
 
-const getComponents = isMulti =>
+const getComponents = (isMulti) =>
   isMulti
     ? {
+        Control,
         DropdownIndicator: null,
-        MultiValueContainer,
-        Control
+        MultiValueContainer
       }
-    : { MultiValueContainer, Control }
+    : { Control, MultiValueContainer }
 
-const CreatableInput = props => {
+const CreatableInput = (props) => {
   const {
     autoFocus,
     errorState,

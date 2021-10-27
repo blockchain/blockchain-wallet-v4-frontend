@@ -9,14 +9,14 @@ import { getMetadataXpriv } from '../root/selectors'
 import * as A from './actions'
 
 export default ({ api, networks }) => {
-  const createUserCredentials = function * (kv) {
+  const createUserCredentials = function* (kv) {
     const user_id = ''
     const lifetime_token = ''
-    const newkv = set(KVStoreEntry.value, { user_id, lifetime_token }, kv)
+    const newkv = set(KVStoreEntry.value, { lifetime_token, user_id }, kv)
     yield put(A.createMetadataUserCredentials(newkv))
   }
 
-  const fetchMetadataUserCredentials = function * () {
+  const fetchMetadataUserCredentials = function* () {
     try {
       const typeId = derivationMap[USER_CREDENTIALS]
       const mxpriv = yield select(getMetadataXpriv)

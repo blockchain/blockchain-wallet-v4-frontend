@@ -16,10 +16,7 @@ const AutoLogout = () => {
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage
-            id='scenes.preferences.autologout.title'
-            defaultMessage='Auto Logout'
-          />
+          <FormattedMessage id='scenes.preferences.autologout.title' defaultMessage='Auto Logout' />
         </SettingHeader>
         <SettingDescription>
           <FormattedMessage

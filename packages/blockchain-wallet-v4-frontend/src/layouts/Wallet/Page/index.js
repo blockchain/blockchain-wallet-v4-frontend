@@ -19,8 +19,7 @@ const Wrapper = styled.div`
 class PageContainer extends React.Component {
   componentDidUpdate(prevProps) {
     if (
-      prevProps.children.props.computedMatch.url !==
-      this.props.children.props.computedMatch.url
+      prevProps.children.props.computedMatch.url !== this.props.children.props.computedMatch.url
     ) {
       try {
         ReactDOM.findDOMNode(this).scrollTop = 0
