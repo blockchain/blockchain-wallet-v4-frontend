@@ -39,6 +39,8 @@ export const getFiatCurrency = (state: RootState) => state.components.buySell.fi
 
 export const getSBOrders = (state: RootState) => state.components.buySell.orders
 
+export const getOrigin = (state: RootState) => state.components.buySell.origin
+
 export const getSBPaymentMethods = (state: RootState) => state.components.buySell.methods
 
 export const getSBBalances = (state: RootState) => state.components.buySell.balances

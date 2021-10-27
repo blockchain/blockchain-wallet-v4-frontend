@@ -78,14 +78,11 @@ const PricesTable = (props: Props) => {
       ) : (
         <table {...getTableProps()}>
           <thead>
-            {/* eslint-disable */}
-            {headerGroups.map(headerGroup => (
+            {headerGroups.map((headerGroup) => (
+              // eslint-disable-next-line react/jsx-key
               <tr {...headerGroup.getHeaderGroupProps()}>
-                {headerGroup.headers.map(column => (
-                  <th
-                    key={column.key}
-                    {...column.getHeaderProps(column.getSortByToggleProps())}
-                  >
+                {headerGroup.headers.map((column) => (
+                  <th key={column.key} {...column.getHeaderProps(column.getSortByToggleProps())}>
                     <HeaderText>
                       {column.render('Header')}
                       <div>
@@ -104,7 +101,6 @@ const PricesTable = (props: Props) => {
                 ))}
               </tr>
             ))}
-            {/* eslint-enable */}
           </thead>
           <tbody {...getTableBodyProps()}>
             {rows.map((row) => {

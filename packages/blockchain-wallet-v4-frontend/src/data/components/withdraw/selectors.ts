@@ -46,5 +46,5 @@ export const getLocks = (state: RootState) => state.components.withdraw.withdraw
 export const getWithdrawalLocks = (state: RootState) => {
   const locksR = getLocks(state)
 
-  return lift((locksResponse: ExtractSuccess<typeof locksR>) => locksResponse.locks)(locksR)
+  return lift((locksResponse: ExtractSuccess<typeof locksR>) => locksResponse)(locksR)
 }

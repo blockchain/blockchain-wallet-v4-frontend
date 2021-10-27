@@ -1,9 +1,7 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import moment from 'moment'
 import { bindActionCreators } from 'redux'
 
-import { CoinType } from '@core/types'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -17,18 +15,13 @@ class LockTimeContainer extends React.PureComponent<Props> {
   }
 
   render() {
-    const { data, ...rest } = this.props
+    const { data } = this.props
 
     return data.cata({
       Failure: () => null,
       Loading: () => null,
       NotAsked: () => null,
-      Success: (val) => (
-        <LockTime
-          {...rest}
-          lockTime={moment.duration(val.withdrawLockCheck?.lockTime, 'seconds').days()}
-        />
-      )
+      Success: (val) => <LockTime {...val} />
     })
   }
 }
@@ -43,11 +36,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export type OwnProps = {
-  coin: CoinType
-  withdrawable?: string
-}
-
-export type Props = OwnProps & ConnectedProps<typeof connector>
+type Props = ConnectedProps<typeof connector>
 
 export default connector(LockTimeContainer)

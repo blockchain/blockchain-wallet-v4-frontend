@@ -62,6 +62,20 @@ export type LoginFormType = {
   twoFA?: number | string
 }
 
+export type AuthorzieDeviceMismatchData = {
+  approver?: {
+    browser: string
+    country_code: string
+    ip_address: string
+  }
+  confirmation_required?: boolean
+  requester?: {
+    browser: string
+    country_code: string
+    ip_address: string
+  }
+  success: boolean
+}
 export type WalletDataFromMagicLink = {
   exchange?: {
     email?: string

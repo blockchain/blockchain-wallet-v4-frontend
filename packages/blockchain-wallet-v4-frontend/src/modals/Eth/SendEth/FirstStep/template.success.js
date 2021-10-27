@@ -147,6 +147,9 @@ const FirstStep = (props) => {
           </Text>
         </WarningBanners>
       )}
+      <FormGroup>
+        <CustodyToAccountMessage coin={coin} account={from} amount={amount} />
+      </FormGroup>
       <FormGroup margin='8px'>
         <FormItem>
           <FormLabel HtmlFor='to'>
@@ -185,9 +188,6 @@ const FirstStep = (props) => {
         </FormItem>
       </FormGroup>
       <UnstoppableDomains form={model.components.sendEth.FORM} />
-      <FormGroup>
-        <CustodyToAccountMessage coin={coin} account={from} amount={amount} />
-      </FormGroup>
       <FormGroup margin='15px'>
         <FormItem>
           <FormLabel HtmlFor='amount'>

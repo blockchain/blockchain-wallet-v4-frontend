@@ -266,6 +266,9 @@ export default ({ api, coreSagas, networks }) => {
 
   const pollingForMagicLinkDataSession = function* (session, n = 50) {
     if (n === 0) {
+      yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
+      yield put(actions.alerts.displayInfo(C.VERIFY_DEVICE_EXPIRY, undefined, true))
+      yield put(actions.auth.analyticsAuthorizeVerifyDeviceFailure('TIMED_OUT'))
       return false
     }
     try {
@@ -275,6 +278,11 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.auth.setMagicLinkInfo(response))
         yield call(parseMagicLink)
         return true
+      }
+      if (response.request_denied) {
+        yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
+        yield put(actions.alerts.displayError(C.VERIFY_DEVICE_FAILED, undefined, true))
+        return false
       }
     } catch (error) {
       return false
@@ -602,9 +610,9 @@ export default ({ api, coreSagas, networks }) => {
   const triggerWalletMagicLink = function* (action) {
     const formValues = yield select(selectors.form.getFormValues('login'))
     const { step } = formValues
-    const shouldPollForMagicLinkData = yield select(
+    const shouldPollForMagicLinkData = (yield select(
       selectors.core.walletOptions.getPollForMagicLinkData
-    )
+    )).getOrElse(false)
     yield put(startSubmit('login'))
     try {
       yield put(actions.auth.triggerWalletMagicLinkLoading())
@@ -631,23 +639,35 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const authorizeVerifyDevice = function* () {
+  const authorizeVerifyDevice = function* (action) {
+    const confirmDevice = action.payload
     const { wallet } = yield select(selectors.auth.getMagicLinkData)
     const magicLinkDataEncoded = yield select(selectors.auth.getMagicLinkDataEncoded)
     try {
       yield put(actions.auth.authorizeVerifyDeviceLoading())
-      const { error, success } = yield call(
+      const data = yield call(
         api.authorizeVerifyDevice,
         wallet.session_id,
-        magicLinkDataEncoded
+        magicLinkDataEncoded,
+        confirmDevice
       )
-      if (success) {
-        yield put(actions.auth.authorizeVerifyDeviceSuccess(true))
-      } else {
-        yield put(actions.auth.authorizeVerifyDeviceFailure(error))
+      if (data.success) {
+        yield put(actions.auth.authorizeVerifyDeviceSuccess({ deviceAuthorized: true }))
+        yield put(actions.auth.analyticsAuthorizeVerifyDeviceSuccess())
       }
     } catch (e) {
-      yield put(actions.auth.authorizeVerifyDeviceFailure(e.error))
+      if (e.status === 401 && e.confirmation_required) {
+        yield put(actions.auth.authorizeVerifyDeviceSuccess(e))
+      } else if (e.status === 409) {
+        yield put(actions.auth.authorizeVerifyDeviceFailure(e))
+        yield put(actions.auth.analyticsAuthorizeVerifyDeviceFailure('REJECTED'))
+      } else if (e.status === 400 && e.link_expired) {
+        yield put(actions.auth.authorizeVerifyDeviceFailure(e))
+        yield put(actions.auth.analyticsAuthorizeVerifyDeviceFailure('EXPIRED'))
+      } else {
+        yield put(actions.auth.authorizeVerifyDeviceFailure(e.error))
+        yield put(actions.auth.analyticsAuthorizeVerifyDeviceFailure('UNKNOWN'))
+      }
     }
   }
 

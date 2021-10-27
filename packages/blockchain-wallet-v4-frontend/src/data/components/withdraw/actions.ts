@@ -1,5 +1,6 @@
 import {
   BeneficiaryType,
+  FiatType,
   SBPaymentTypes,
   WalletFiatType,
   WithdrawalLockResponseType,
@@ -74,7 +75,7 @@ export const fetchWithdrawalFeesSuccess = (
   type: AT.FETCH_WITHDRAWAL_FEES_SUCCESS
 })
 
-export const fetchWithdrawalLock = (currency?: WalletFiatType) => ({
+export const fetchWithdrawalLock = (currency?: FiatType) => ({
   currency,
   type: AT.FETCH_WITHDRAWAL_LOCK
 })

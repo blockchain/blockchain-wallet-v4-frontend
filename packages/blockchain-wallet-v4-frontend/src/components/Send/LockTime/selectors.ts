@@ -4,11 +4,11 @@ import { ExtractSuccess } from '@core/types'
 import { selectors } from 'data'
 
 const getData = (state) => {
-  const withdrawLockCheckR = selectors.components.send.getWithdrawLockCheckRule(state)
+  const withdrawalLocksR = selectors.components.withdraw.getWithdrawalLocks(state)
 
-  return lift((withdrawLockCheck: ExtractSuccess<typeof withdrawLockCheckR>) => ({
-    withdrawLockCheck
-  }))(withdrawLockCheckR)
+  return lift((withdrawalLocks: ExtractSuccess<typeof withdrawalLocksR>) => ({
+    withdrawalLocks
+  }))(withdrawalLocksR)
 }
 
 export default getData
