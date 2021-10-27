@@ -6,6 +6,7 @@ import { ethers, Signer } from 'ethers'
 import {
   Asset,
   ComputedFees,
+  ECSignature,
   FeeMethod,
   HowToCall,
   NftAsset,
@@ -788,6 +789,89 @@ async function _getPriceParameters(
   return { basePrice, extra, paymentToken, reservePrice }
 }
 
+/**
+ * Checks whether a given address contains any code
+ * @param web3 Web3 instance
+ * @param address input address
+ */
+export async function isContractAddress(address: string): Promise<boolean> {
+  const provider = ethers.getDefaultProvider()
+  const code = await provider.getCode(address)
+  return code !== '0x'
+}
+
+/**
+ * Instead of signing an off-chain order, you can approve an order
+ * with on on-chain transaction using this method
+ * @param order Order to approve
+ * @returns Transaction hash of the approval transaction
+ */
+async function _approveOrder(order: UnsignedOrder, signer: Signer) {
+  const accountAddress = order.maker
+  const includeInOrderBook = true
+  const wyvernExchangeContract = new ethers.Contract(order.exchange, wyvernExchange_ABI, signer)
+
+  const transactionHash = await wyvernExchangeContract.approveOrder_(
+    [
+      order.exchange,
+      order.maker,
+      order.taker,
+      order.feeRecipient,
+      order.target,
+      order.staticTarget,
+      order.paymentToken
+    ],
+    [
+      order.makerRelayerFee,
+      order.takerRelayerFee,
+      order.makerProtocolFee,
+      order.takerProtocolFee,
+      order.basePrice,
+      order.extra,
+      order.listingTime,
+      order.expirationTime,
+      order.salt
+    ],
+    order.feeMethod,
+    order.side,
+    order.saleKind,
+    order.howToCall,
+    order.calldata,
+    order.replacementPattern,
+    order.staticExtradata,
+    includeInOrderBook,
+    { from: accountAddress }
+  )
+  console.log(`sending approval transaction`)
+  const receipt = await transactionHash.wait()
+  console.log(receipt)
+  return transactionHash
+}
+
+export async function _authorizeOrder(
+  order: UnsignedOrder,
+  signer: Signer
+): Promise<ECSignature | null> {
+  const message = order.hash
+  const signerAddress = order.maker
+  const makerIsSmartContract = await isContractAddress(signerAddress)
+
+  try {
+    if (makerIsSmartContract) {
+      // The web3 provider is probably a smart contract wallet.
+      // Fallback to on-chain approval.
+      await _approveOrder(order, signer)
+      return null
+    }
+    const signatureDataHex = await signer.signMessage(message)
+    const { r, s, v } = ethers.utils.splitSignature(signatureDataHex)
+    return { r, s, v }
+  } catch (error) {
+    console.error('failed to create signature')
+    throw error
+  }
+}
+
 function _getSellFeeParameters(
   totalBuyerFeeBasisPoints: number,
   totalSellerFeeBasisPoints: number,
@@ -925,7 +1009,9 @@ export async function _makeSellOrder({
     quantity: new BigNumber(quantity),
     replacementPattern,
     saleKind: orderSaleKind,
-    salt: new BigNumber(69),
+    // FIX: Put in a rmakeMaeal salt
+    // @ts-ignore
+    salt: generatePseudoRandomSalt(),
     side: NftOrderSide.Sell,
     staticExtradata,
     staticTarget,
@@ -1009,17 +1095,14 @@ async function getAssetBalance(
 
   if (schema.functions.countOf) {
     // ERC20 or ERC1155 (non-Enjin)
-    console.log('we in here')
     const erc1155Contract = new ethers.Contract(wyAsset.address, ERC1155_ABI, signer)
     const count = await erc1155Contract.balanceOf(accountAddress, wyAsset.id)
-    console.log(count)
     if (count !== undefined) {
       return new BigNumber(parseInt(count._hex))
     }
   } else if (schema.functions.ownerOf) {
     // ERC721 asset
     // const abi = schema.functions
-    console.log('we shouldnt be in here')
     const erc721Contract = new ethers.Contract(wyAsset.address, ERC721_ABI, signer)
     const owner = await erc721Contract.ownerOf(wyAsset.id)
     if (owner) {
@@ -1143,9 +1226,11 @@ async function approveSemiOrNonFungibleToken({
   }
 
   const approvalAllCheck = async () => {
+    console.log('Performing approve all check')
     // NOTE:
     // Use this long way of calling so we can check for method existence on a bool-returning method.
     const isApprovedForAll = await tokenContract.isApprovedForAll(accountAddress, proxyAddress)
+    console.log(isApprovedForAll)
     return parseInt(isApprovedForAll)
   }
   const isApprovedForAll = await approvalAllCheck()
@@ -1351,13 +1436,15 @@ async function _approveAll({
   )
 }
 
-export async function validateOrderParameters({
-  order
+async function validateOrderParameters({
+  order,
+  signer
 }: {
   order: UnhashedOrder
+  signer: Signer
 }): Promise<boolean> {
-  const wyvernExchangeContract = new ethers.Contract(order.exchange, wyvernExchange_ABI)
-  const buyValid = await wyvernExchangeContract.validateOrderParameters_(
+  const wyvernExchangeContract = new ethers.Contract(order.exchange, wyvernExchange_ABI, signer)
+  const orderValid = await wyvernExchangeContract.validateOrderParameters_(
     [
       order.exchange,
       order.maker,
@@ -1368,14 +1455,14 @@ export async function validateOrderParameters({
       order.paymentToken
     ],
     [
-      order.makerRelayerFee,
-      order.takerRelayerFee,
-      order.makerProtocolFee,
-      order.takerProtocolFee,
-      order.basePrice,
-      order.extra,
-      order.listingTime,
-      order.expirationTime,
+      order.makerRelayerFee.toNumber(),
+      order.takerRelayerFee.toNumber(),
+      order.makerProtocolFee.toNumber(),
+      order.takerProtocolFee.toNumber(),
+      order.basePrice.toString(),
+      order.extra.toNumber(),
+      order.listingTime.toNumber(),
+      order.expirationTime.toNumber(),
       order.salt
     ],
     order.feeMethod,
@@ -1386,22 +1473,18 @@ export async function validateOrderParameters({
     order.replacementPattern,
     order.staticExtradata
   )
-  if (!buyValid) {
+  if (!orderValid) {
     console.error(order)
-    throw new Error(
-      `Failed to validate buy order parameters. Make sure you're on the right network!`
-    )
+    throw new Error(`Failed to validate order parameters. Make sure you're on the right network!`)
   }
-  return buyValid
+  return orderValid
 }
 // to-do: once the order validation is working, make sure the approvals are all working correctly and then finish implementing this function.
-async function _sellOrderValidationAndApprovals({
+export async function _sellOrderValidationAndApprovals({
   order,
-  proxyAddress,
   signer
 }: {
   order: UnhashedOrder
-  proxyAddress: string
   signer: Signer
 }) {
   const wyAssets =
@@ -1417,9 +1500,8 @@ async function _sellOrderValidationAndApprovals({
       : 'schema' in order.metadata
       ? [order.metadata.schema]
       : []
-  const tokenAddress = order.paymentToken
 
-  await _approveAll({ proxyAddress, schemaNames, signer, wyAssets })
+  await _approveAll({ schemaNames, signer, wyAssets })
 
   // // For fulfilling bids,
   // // need to approve access to fungible token because of the way fees are paid
@@ -1431,41 +1513,5 @@ async function _sellOrderValidationAndApprovals({
 
   // to-do: sell parameters validation
   // // Check sell parameters
-  // const sellValid =
-  //   await this._wyvernProtocolReadOnly.wyvernExchange.validateOrderParameters_.callAsync(
-  //     [
-  //       order.exchange,
-  //       order.maker,
-  //       order.taker,
-  //       order.feeRecipient,
-  //       order.target,
-  //       order.staticTarget,
-  //       order.paymentToken
-  //     ],
-  //     [
-  //       order.makerRelayerFee,
-  //       order.takerRelayerFee,
-  //       order.makerProtocolFee,
-  //       order.takerProtocolFee,
-  //       order.basePrice,
-  //       order.extra,
-  //       order.listingTime,
-  //       order.expirationTime,
-  //       order.salt
-  //     ],
-  //     order.feeMethod,
-  //     order.side,
-  //     order.saleKind,
-  //     order.howToCall,
-  //     order.calldata,
-  //     order.replacementPattern,
-  //     order.staticExtradata,
-  //     { from: accountAddress }
-  //   )
-  // if (!sellValid) {
-  //   console.error(order)
-  //   throw new Error(
-  //     `Failed to validate sell order parameters. Make sure you're on the right network!`
-  //   )
-  // }
+  return validateOrderParameters({ order, signer })
 }

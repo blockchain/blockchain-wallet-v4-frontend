@@ -4,17 +4,18 @@ import { NftAsset, NftOrdersType } from '@core/network/api/nfts/types'
 
 import { wyvernExchange_ABI } from './abis'
 import {
+  _authorizeOrder,
   _makeMatchingOrder,
   _makeSellOrder,
+  _sellOrderValidationAndApprovals,
   assignOrdersToSides,
-  NULL_BLOCK_HASH,
-  validateOrderParameters
+  getOrderHash,
+  NULL_BLOCK_HASH
 } from './utils'
 
 export const fulfillNftSellOrder = async (asset: NftAsset, signer: Signer) => {
   // 1. use the _makeSellOrder to create the object & initialize the proxy contract for this sale.
   const accountAddress = await signer.getAddress()
-  console.log(asset)
   const order = await _makeSellOrder({
     accountAddress,
     asset,
@@ -27,12 +28,30 @@ export const fulfillNftSellOrder = async (asset: NftAsset, signer: Signer) => {
     waitForHighestBid: false
   })
   console.log(order)
-  const validity = await validateOrderParameters({ order })
-  console.log(validity)
-  // 2. Validation & Approvals (Deploy Proxy contract here)
+  // 2. Validation of sell order fields & Transaction Approvals (Proxy initialized here if needed also)
+  const validatedAndApproved = await _sellOrderValidationAndApprovals({ order, signer })
+  console.log(`Successful approvals and validations?: ${validatedAndApproved}`)
   // 3. Compute hash of the order and output {...order, hash:hash(order)}
+  const hashedOrder = {
+    ...order,
+    hash: getOrderHash(order)
+  }
   // 4. Obtain a signature from the signer (using the mnemonic & Ethers JS) over the hash and message.
-  // 5. Access the OpenSea post order route.
+  let signature
+  try {
+    signature = await _authorizeOrder(hashedOrder, signer)
+  } catch (error) {
+    console.error(error)
+    throw new Error('You declined to authorize your auction')
+  }
+
+  const orderWithSignature = {
+    ...hashedOrder,
+    ...signature
+  }
+  console.log('next up, try to post this to the OpenSea API:')
+  console.log(orderWithSignature)
+  // 5. Send to the OpenSea post order route.
 }
 
 export const fulfillNftOrder = async (order: NftOrdersType['orders'][0], signer: Signer) => {
