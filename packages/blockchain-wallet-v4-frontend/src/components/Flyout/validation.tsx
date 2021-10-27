@@ -25,7 +25,7 @@ export const minMaxAmount = (limits: { max: string; min: string }, amount: strin
       amount: (
         <FormattedMessage
           id='copy.forms.amount_max'
-          defaultMessage='The maximum amount is {amount}'
+          defaultMessage='Your maximum amount is {amount}'
           values={{
             amount: formattedMax
           }}
@@ -38,7 +38,7 @@ export const minMaxAmount = (limits: { max: string; min: string }, amount: strin
       amount: (
         <FormattedMessage
           id='copy.forms.amount_min'
-          defaultMessage='The minimum amount is {amount}'
+          defaultMessage='Your minimum amount is {amount}'
           values={{
             amount: formattedMin
           }}

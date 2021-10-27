@@ -29,6 +29,8 @@ const authSlice = createSlice({
   initialState,
   name: 'auth',
   reducers: {
+    analyticsAuthorizeVerifyDeviceFailure: (state, action) => {},
+    analyticsAuthorizeVerifyDeviceSuccess: () => {},
     authenticate: (state) => {
       state.isAuthenticated = true
     },

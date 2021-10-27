@@ -14,8 +14,11 @@ export const parseMagicLink = function* () {
     const session = yield select(selectors.session.getSession, walletData.guid, walletData.email)
     const sessionIdFromLink = walletData.session_id
     // Remove feature flag when not neccessary
-    const pollForMagicLinkData = yield select(selectors.core.walletOptions.getPollForMagicLinkData)
+    const pollForMagicLinkData = (yield select(
+      selectors.core.walletOptions.getPollForMagicLinkData
+    )).getOrElse(false)
     if (session !== sessionIdFromLink && pollForMagicLinkData) {
+      yield put(actions.auth.authorizeVerifyDevice())
       yield put(actions.form.change('login', 'step', LoginSteps.VERIFY_MAGIC_LINK))
     } else {
       // grab all the data from the JSON wallet data
