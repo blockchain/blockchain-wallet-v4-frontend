@@ -115,7 +115,7 @@ const UpgradeToGoldBanner = ({ limits, verifyIdentity }: Props) => {
               id='modals.send.banner.description'
               defaultMessage='Verify your ID now and unlock Gold level trading. Send up to {dayCurrencySymbol}{dayAmount} a day.'
               values={{
-                dayAmount: formatFiat(suggestedUpgrade.available.value),
+                dayAmount: formatFiat(suggestedUpgrade.available.value, 0),
                 dayCurrencySymbol:
                   Currencies[suggestedUpgrade.available.currency].units[
                     suggestedUpgrade.available.currency
