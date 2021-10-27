@@ -197,14 +197,6 @@ export default ({ api, coreSagas, networks }) => {
       const signupCountryEnabled = (yield select(
         selectors.core.walletOptions.getFeatureSignupCountry
       )).getOrElse(false)
-      if (firstLogin && signupCountryEnabled && !isAccountReset && !recovery) {
-        // create nabu user
-        yield call(createUser)
-        // store initial address in case of US state we add prefix
-        const userState = country === 'US' ? `US-${state}` : state
-        yield call(api.setUserInitialAddress, country, userState)
-        yield call(coreSagas.settings.fetchSettings)
-      }
 
       if (firstLogin && signupCountryEnabled && !isAccountReset && !recovery) {
         // create nabu user

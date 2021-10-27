@@ -32,7 +32,6 @@ export const getUserData = (state: RootState) => state.profile.userData
 export const getUserCampaigns = (state: RootState) => state.profile.userCampaigns
 
 export const getUserId = compose(lift(prop('id')), getUserData)
-export const getUserCurrencies = compose(lift(prop('currencies')), getUserData)
 export const getWalletAddresses = compose(lift(prop('walletAddresses')), getUserData)
 export const getUserActivationState = compose(lift(prop('state')), getUserData)
 export const getUserKYCState = compose(lift(prop('kycState')), getUserData) as (
