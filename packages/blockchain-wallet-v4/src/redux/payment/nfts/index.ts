@@ -52,6 +52,7 @@ export const fulfillNftSellOrder = async (asset: NftAsset, signer: Signer) => {
   console.log('next up, try to post this to the OpenSea API:')
   console.log(orderWithSignature)
   // 5. Send to the OpenSea post order route.
+  return orderWithSignature
 }
 
 export const fulfillNftOrder = async (order: NftOrdersType['orders'][0], signer: Signer) => {

@@ -68,7 +68,9 @@ export default ({ api }: { api: APIType }) => {
   const createSellOrder = function* (action: ReturnType<typeof A.createSellOrder>) {
     try {
       const signer = yield call(getEthSigner)
-      yield call(fulfillNftSellOrder, action.payload.asset, signer)
+      const order = yield call(fulfillNftSellOrder, action.payload.asset, signer)
+      const result = yield call(api.postNftOrder, order)
+      console.log(result)
     } catch (e) {
       console.log(e)
     }

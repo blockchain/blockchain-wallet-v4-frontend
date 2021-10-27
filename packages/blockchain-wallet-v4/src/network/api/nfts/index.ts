@@ -1,9 +1,18 @@
 import { NftAssetsType, NftOrdersType } from './types'
 
-const JAYZ_ADDRESS = '0x3b417faee9d2ff636701100891dc2755b5321cc3'
+// const JAYZ_ADDRESS = '0x3b417faee9d2ff636701100891dc2755b5321cc3'
 
-export default ({ get }) => {
-  const fulfillNftOrder = () => {}
+export default ({ get, post }) => {
+  const postNftOrder = (order) => {
+    return post({
+      contentType: 'application/json',
+      data: { order },
+      endPoint: `/wyvern/v1/orders/post`,
+      ignoreQueryParams: true,
+      removeDefaultPostData: true,
+      url: 'https://api.opensea.io'
+    })
+  }
 
   const getNftAssets = (
     owner: string,
@@ -35,6 +44,7 @@ export default ({ get }) => {
 
   return {
     getNftAssets,
-    getNftOrders
+    getNftOrders,
+    postNftOrder
   }
 }
