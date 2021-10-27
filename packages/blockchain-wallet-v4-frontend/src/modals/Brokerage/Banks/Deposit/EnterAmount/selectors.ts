@@ -14,7 +14,6 @@ const getData = (state) => {
     state,
     SBPaymentTypes.BANK_TRANSFER
   )
-  const formErrors = selectors.form.getFormSyncErrors('brokerageTx')(state)
   return lift(
     (
       depositLimits: ExtractSuccess<typeof depositLimitsR>,
@@ -25,7 +24,6 @@ const getData = (state) => {
       defaultMethod: defaultMethodR,
       depositLimits,
       eligibility,
-      formErrors,
       paymentMethods
     })
   )(depositLimitsR, eligibilityR, paymentMethodsR)

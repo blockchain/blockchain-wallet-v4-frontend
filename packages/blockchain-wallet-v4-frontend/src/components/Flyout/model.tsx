@@ -360,27 +360,39 @@ const DisplayValue = styled(Value)`
 `
 
 const renderBankText = (
-  value: SBPaymentMethodType | BankTransferAccountType
+  value: SBPaymentMethodType | BankTransferAccountType | BeneficiaryType
 ): string | ReactElement => {
-  return value.details ? (
-    value.details.bankName ? (
-      value.details.bankName
-    ) : (
-      value.details.accountNumber
-    )
-  ) : (
-    <FormattedMessage id='copy.bank_account' defaultMessage='Bank Account' />
-  )
+  if ('agent' in value) {
+    // BeneficiaryType
+    return value.name
+  }
+  if ('details' in value && value.details?.bankName) {
+    // BankTransferAccountType | SBPaymentMethodType
+    return value.details.bankName ? value.details.bankName : value.details?.accountNumber
+  }
+  return <FormattedMessage id='copy.bank_account' defaultMessage='Bank Account' />
 }
 
-const renderBank = (value: SBPaymentMethodType | BankTransferAccountType) => (
+const renderBankSubText = (
+  value: SBPaymentMethodType | BankTransferAccountType | BeneficiaryType
+): string | ReactElement => {
+  if ('agent' in value) {
+    // BeneficiaryType
+    return value.address
+  }
+  if ('details' in value && value.details?.bankAccountType) {
+    // BankTransferAccountType | SBPaymentMethodType
+    return `${value.details?.bankAccountType?.toLowerCase() || ''} account ${
+      value.details?.accountNumber || ''
+    }`
+  }
+  return <></>
+}
+
+const renderBank = (value: SBPaymentMethodType | BankTransferAccountType | BeneficiaryType) => (
   <>
     <DisplayValue>{renderBankText(value)}</DisplayValue>
-    <DisplayTitle>
-      {`${value.details?.bankAccountType?.toLowerCase() || ''} account ${
-        value.details?.accountNumber || ''
-      }`}
-    </DisplayTitle>
+    <DisplayTitle>{renderBankSubText(value)}</DisplayTitle>
   </>
 )
 
@@ -461,12 +473,14 @@ const getIcon = (
       return <Icon size='32px' color='USD' name={method.currency as WalletCurrencyType} />
     case SBPaymentTypes.BANK_TRANSFER:
       return <Image name={getBankLogoImageName(method.details?.bankName)} height='48px' />
+    case SBPaymentTypes.BANK_ACCOUNT:
+      return <Icon name='bank-filled' color='blue600' />
     default:
       return <></>
   }
 }
 
-const getBankText = (method?: SBPaymentMethodType) => {
+const getBankText = (method?: SBPaymentMethodType | BankTransferAccountType | BeneficiaryType) => {
   if (!method) {
     return (
       <FormattedMessage
@@ -681,23 +695,26 @@ const DepositOrWithdrawal = (props: { fiatCurrency: FiatType; orderType: Brokera
   )
 }
 
-const getBrokerageLimits = ({
-  fee,
-  minWithdrawAmount,
-  orderType,
-  paymentMethod,
-  withdrawableBalance
-}: {
-  fee: string
-  minWithdrawAmount?: string
-  orderType: BrokerageOrderType
+type DepositBrokerageLimits = {
+  orderType: BrokerageOrderType.DEPOSIT
   paymentMethod: SBPaymentMethodType
+}
+type WithdrawalBrokerageLimits = {
+  fee?: string
+  minWithdrawAmount?: string
+  orderType: BrokerageOrderType.WITHDRAW
   withdrawableBalance?: string
-}) => {
-  return orderType === BrokerageOrderType.DEPOSIT
-    ? paymentMethod.limits
-    : orderType === BrokerageOrderType.WITHDRAW && withdrawableBalance && minWithdrawAmount
-    ? { max: (Number(withdrawableBalance) - Number(fee)).toString(), min: minWithdrawAmount }
+}
+const getBrokerageLimits = (props: DepositBrokerageLimits | WithdrawalBrokerageLimits) => {
+  return props.orderType === BrokerageOrderType.DEPOSIT
+    ? props.paymentMethod.limits
+    : props.orderType === BrokerageOrderType.WITHDRAW &&
+      props.withdrawableBalance &&
+      props.minWithdrawAmount
+    ? {
+        max: (Number(props.withdrawableBalance) - Number(props.fee || '0')).toString(),
+        min: props.minWithdrawAmount
+      }
     : { max: '0', min: '0' }
 }
 
