@@ -48,7 +48,6 @@ class CheckoutConfirm extends PureComponent<Props> {
 
     const userTier = userData?.tiers?.current
     const inputCurrency = this.props.order.inputCurrency as WalletFiatType
-
     // check for SDD flow and direct to add card
     if (isSddFlow && this.props.order.paymentType === SBPaymentTypes.PAYMENT_CARD) {
       if (isUserSddVerified) {

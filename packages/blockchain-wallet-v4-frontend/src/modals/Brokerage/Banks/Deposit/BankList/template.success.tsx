@@ -6,10 +6,10 @@ import { BeneficiaryType, NabuSymbolNumberType } from '@core/types'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { AddNewButton } from 'components/Brokerage'
 import { FlyoutWrapper } from 'components/Flyout'
+import { Bank, BankWire } from 'components/Flyout/model'
 import { BankDWStepType, BankTransferAccountType } from 'data/types'
 import { getBankLogoImageName } from 'services/images'
 
-import { Bank, BankWire } from '../../model'
 import { Props as _P } from '.'
 
 type OwnProps = {
@@ -84,6 +84,7 @@ const BankList = (props: Props) => {
         ))}
         {props.beneficiaries.map((beneficiary) => (
           <BankWire
+            key={beneficiary.id}
             beneficiary={beneficiary}
             minAmount={props.minAmount}
             onClick={() => {

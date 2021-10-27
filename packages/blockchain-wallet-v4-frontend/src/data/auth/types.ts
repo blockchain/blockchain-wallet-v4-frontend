@@ -93,6 +93,20 @@ export enum UserType {
   WALLET_EXCHANGE_NOT_LINKED = 'WALLET_EXCHANGE_NOT_LINKED'
 }
 
+export type AuthorzieDeviceMismatchData = {
+  approver?: {
+    browser: string
+    country_code: string
+    ip_address: string
+  }
+  confirmation_required?: boolean
+  requester?: {
+    browser: string
+    country_code: string
+    ip_address: string
+  }
+  success: boolean
+}
 export type WalletDataFromMagicLink = {
   exchange?: {
     email?: string

@@ -169,6 +169,14 @@ export enum BrokerageModalOriginType {
   WITHDRAWAL = 'WithdrawModal'
 }
 
+export enum BrokerageOrderType {
+  BUY = 'BUY',
+  DEPOSIT = 'DEPOSIT',
+  SELL = 'SELL',
+  SWAP = 'SWAP',
+  WITHDRAW = 'WITHDRAW'
+}
+
 export type BrokerageTxFormValuesType =
   | {
       amount?: number

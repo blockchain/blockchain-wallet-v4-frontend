@@ -2957,6 +2957,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         analytics.push(AnalyticsKey.LOGIN_REQUEST_APPROVED, {
           properties: {
+            method: 'SECURE_CHANNEL',
             originalTimestamp: getOriginalTimestamp(),
             request_platform: 'WALLET'
           },
@@ -2978,6 +2979,54 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         analytics.push(AnalyticsKey.LOGIN_REQUEST_DENIED, {
           properties: {
+            method: 'SECURE_CHANNEL',
+            originalTimestamp: getOriginalTimestamp(),
+            request_platform: 'WALLET'
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+
+      case actions.auth.analyticsAuthorizeVerifyDeviceSuccess.type: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+
+        analytics.push(AnalyticsKey.LOGIN_REQUEST_APPROVED, {
+          properties: {
+            method: 'MAGIC_LINK',
+            originalTimestamp: getOriginalTimestamp(),
+            request_platform: 'WALLET'
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+
+      case actions.auth.analyticsAuthorizeVerifyDeviceFailure.type: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const error = action.payload
+        analytics.push(AnalyticsKey.LOGIN_REQUEST_DENIED, {
+          properties: {
+            error,
+            method: 'MAGIC_LINK',
             originalTimestamp: getOriginalTimestamp(),
             request_platform: 'WALLET'
           },

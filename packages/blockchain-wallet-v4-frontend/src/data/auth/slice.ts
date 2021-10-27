@@ -56,6 +56,8 @@ const authSlice = createSlice({
   initialState,
   name: 'auth',
   reducers: {
+    analyticsAuthorizeVerifyDeviceFailure: (state, action) => {},
+    analyticsAuthorizeVerifyDeviceSuccess: () => {},
     analyticsLoginIdEntered: (state, action) => {},
     analyticsLoginMethodSelected: (state, action) => {},
     analyticsLoginPasswordDenied: () => {},
