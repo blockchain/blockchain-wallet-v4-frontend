@@ -94,7 +94,15 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch),
-  sendCryptoActions: bindActionCreators(actions.components.sendCrypto, dispatch)
+  sendCryptoActions: bindActionCreators(actions.components.sendCrypto, dispatch),
+  verifyIdentity: () =>
+    dispatch(
+      actions.components.identityVerification.verifyIdentity({
+        needMoreInfo: false,
+        origin: 'Send',
+        tier: 2
+      })
+    )
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

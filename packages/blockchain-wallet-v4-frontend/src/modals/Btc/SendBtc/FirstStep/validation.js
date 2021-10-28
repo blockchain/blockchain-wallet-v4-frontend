@@ -5,6 +5,7 @@ import { Exchange, utils } from '@core'
 import Currencies from '@core/exchange/currencies'
 import { formatFiat } from '@core/exchange/utils'
 
+import { OverYourLimitMessage } from '../../../components'
 import {
   AddressMatchesPriv,
   InsufficientFundsMessage,
@@ -13,8 +14,7 @@ import {
   MaximumFeeMessage,
   MinimumAmountMessage,
   MinimumFeeMessage,
-  MinimumOneSatoshiMessage,
-  OverYourLimitMessage
+  MinimumOneSatoshiMessage
 } from './validationMessages'
 
 const DUST = 546

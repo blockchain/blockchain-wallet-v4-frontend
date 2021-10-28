@@ -418,6 +418,17 @@ const TopText = styled(Text)<{
   margin-bottom: ${(props) => (props.marginBottom ? '16px' : '0px')};
 `
 
+const OverYourLimitMessage = ({ amount, currency }) => (
+  <FormattedMessage
+    id='modals.send.over_your_limit'
+    defaultMessage='Over your limit! Send up to {currency}{amount}.'
+    values={{
+      amount,
+      currency
+    }}
+  />
+)
+
 export {
   BankSearchIcon,
   BankSearchInput,
@@ -434,6 +445,7 @@ export {
   ModalNavWithBackArrow,
   ModalNavWithCloseIcon,
   NavText,
+  OverYourLimitMessage,
   ScanWithPhone,
   Section,
   SimpleBankRow,

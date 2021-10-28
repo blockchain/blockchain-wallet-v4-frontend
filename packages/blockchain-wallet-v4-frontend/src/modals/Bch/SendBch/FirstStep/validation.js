@@ -5,11 +5,11 @@ import { Exchange } from '@core'
 import Currencies from '@core/exchange/currencies'
 import { formatFiat } from '@core/exchange/utils'
 
+import { OverYourLimitMessage } from '../../../components'
 import {
   InsufficientFundsMessage,
   InvalidAmountMessage,
-  MaximumAmountMessage,
-  OverYourLimitMessage
+  MaximumAmountMessage
 } from './validationMessages'
 
 const getEffectiveBalance = (props) => {

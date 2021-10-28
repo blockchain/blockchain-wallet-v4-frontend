@@ -57,14 +57,3 @@ export const MinimumFeeMessage = (props) => (
     <MinimumFeeLink coin={props.coin} />
   </Wrapper>
 )
-
-export const OverYourLimitMessage = (props) => (
-  <FormattedMessage
-    id='modals.send.over_your_limit'
-    defaultMessage='Over your limit! Send up to {currency}{amount}.'
-    values={{
-      amount: props.amount,
-      currency: props.currency
-    }}
-  />
-)

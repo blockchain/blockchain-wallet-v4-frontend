@@ -1,13 +1,10 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
-import { Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import Currencies from '@core/exchange/currencies'
 import { formatFiat } from '@core/exchange/utils'
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
-import { actions } from 'data'
 import { SeamlessLimits } from 'data/types'
 import { media } from 'services/styles'
 
@@ -81,14 +78,14 @@ const CloseLink = styled.div`
 
 const UpgradeToGoldBanner = ({ limits, verifyIdentity }: Props) => {
   const [isBannerHidden, hideBanner] = useState(false)
-  const { available, suggestedUpgrade } = limits.globalLimit
+  const { suggestedUpgrade } = limits.globalLimit
 
   if (isBannerHidden) {
     return null
   }
 
   const closeBanner = () => {
-    hideBanner(!isBannerHidden)
+    hideBanner((prevValue) => !prevValue)
   }
 
   return (
@@ -142,18 +139,6 @@ const UpgradeToGoldBanner = ({ limits, verifyIdentity }: Props) => {
   )
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  verifyIdentity: () =>
-    dispatch(
-      actions.components.identityVerification.verifyIdentity({
-        needMoreInfo: false,
-        origin: 'Send',
-        tier: 2
-      })
-    )
-})
+type Props = { limits: SeamlessLimits; verifyIdentity: () => void }
 
-const connector = connect(undefined, mapDispatchToProps)
-type Props = ConnectedProps<typeof connector> & { limits: SeamlessLimits }
-
-export default connector(UpgradeToGoldBanner)
+export default UpgradeToGoldBanner

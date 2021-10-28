@@ -6,13 +6,13 @@ import { Exchange } from '@core'
 import Currencies from '@core/exchange/currencies'
 import { formatFiat } from '@core/exchange/utils'
 
+import { OverYourLimitMessage } from '../../../components'
 import {
   InsufficientFundsMessage,
   InvalidAmountMessage,
   MaximumAmountMessage,
   MaximumFeeMessage,
-  MinimumFeeMessage,
-  OverYourLimitMessage
+  MinimumFeeMessage
 } from './validationMessages'
 
 // eslint-disable-next-line

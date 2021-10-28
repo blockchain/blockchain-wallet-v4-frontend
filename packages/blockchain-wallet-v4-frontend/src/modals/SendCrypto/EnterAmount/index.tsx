@@ -123,6 +123,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
     rates,
     sendCryptoActions,
     sendLimits,
+    verifyIdentity,
     walletCurrency
   } = props
   const amtError = typeof formErrors.amount === 'string' && formErrors.amount
@@ -349,7 +350,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
       >
         {!isEmpty(sendLimits) &&
         sendLimits?.globalLimit?.suggestedUpgrade?.requiredTier === TIER_TYPES.GOLD ? (
-          <UpgradeToGoldBanner limits={sendLimits} />
+          <UpgradeToGoldBanner limits={sendLimits} verifyIdentity={verifyIdentity} />
         ) : null}
         <Button
           nature='primary'

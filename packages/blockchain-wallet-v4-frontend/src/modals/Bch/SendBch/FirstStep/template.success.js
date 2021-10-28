@@ -74,7 +74,8 @@ const FirstStep = (props) => {
     pristine,
     sendLimits,
     submitting,
-    totalFee
+    totalFee,
+    verifyIdentity
   } = props
   const isPayPro = !!payPro
   const isFromLockbox = from && from.type === 'LOCKBOX'
@@ -257,7 +258,7 @@ const FirstStep = (props) => {
       {isFromCustody &&
       !isEmpty(sendLimits) &&
       sendLimits?.globalLimit?.suggestedUpgrade?.requiredTier === TIER_TYPES.GOLD ? (
-        <UpgradeToGoldBanner limits={sendLimits} />
+        <UpgradeToGoldBanner limits={sendLimits} verifyIdentity={verifyIdentity} />
       ) : null}
       <SubmitFormGroup>
         <Button
