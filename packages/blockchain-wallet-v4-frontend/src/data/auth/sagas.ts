@@ -712,7 +712,7 @@ export default ({ api, coreSagas, networks }) => {
       guidOrEmail,
       password,
       step,
-      upgradePassword
+      upgradeAccountPassword
     } = yield select(selectors.form.getFormValues(LOGIN_FORM_NAME))
     const authType = yield select(selectors.auth.getAuthType)
     const language = yield select(selectors.preferences.getLanguage)
@@ -754,7 +754,7 @@ export default ({ api, coreSagas, networks }) => {
             country: undefined,
             email,
             language,
-            password: upgradePassword,
+            password: upgradeAccountPassword,
             state: undefined
           })
         )

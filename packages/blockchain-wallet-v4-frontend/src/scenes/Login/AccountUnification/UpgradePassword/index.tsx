@@ -17,6 +17,8 @@ const UpgradePassword = (props: Props) => {
   const handleBackArrowClick = () => {
     props.setStep(LoginSteps.UPGRADE_CONFIRM)
   }
+  const { upgradePassword = '' } = props.formValues || {}
+  const passwordScore = window.zxcvbn ? window.zxcvbn(upgradePassword).score : 0
 
   return (
     <>
@@ -31,9 +33,7 @@ const UpgradePassword = (props: Props) => {
           validate={[required, validStrongPassword]}
           component={PasswordBox}
           showPasswordScore
-          passwordScore={
-            has('zxcvbn', window) ? window.zxcvbn(props.formValues.upgradePassword).score : 0
-          }
+          passwordScore={passwordScore}
         />
       </FormGroup>
       <FormGroup>

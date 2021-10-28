@@ -66,6 +66,7 @@ export const initMobileAuthFlow = function* () {
   const { platform, product } = yield select(selectors.auth.getProductAuthMetadata)
 
   // wait for auth payload message from mobile
+  // TODO: JUST COMMENTING THIS OUT FOR DEV PURPOSES, UNCOMMENT LATER
   try {
     // start event listener for message from mobile
     mobileMessageChannel = yield call(pollForMessageFromMobile)
@@ -79,6 +80,30 @@ export const initMobileAuthFlow = function* () {
   } catch (e) {
     mobileMessageChannel.end()
   }
+  // authPayloadFromMobile = {
+  //   exchange: {
+  //     email: 'leora+235+1002@blockchain.com',
+  //     user_id: 'ed005bec-1ced-4fc0-95ea-0d6f75ecae10'
+  //   },
+  //   wallet: {
+  //     guid: '543e134b-e022-4fd6-9185-700b5e90908a',
+  //     email: 'leora+235+1002@blockchain.com',
+  //     two_fa_type: 0,
+  //     email_code:
+  //       'G4XNGu7Pg5yI3qDTyMXTduTFdDZaT40MREr3/yYwwo6vC+aRfqeZqTZlMStgWmsg/9Qq5sLW6LtFS5k/7J+bT2nPs6v2YDz+ud666sodqmTwtsRfEGSVAyW1XX5EUG+tNpA8Jk90coxQtGUL94XV99Yt64W6i9rdDEeDn4UCUhP/KZ4w3iK/og7bLSNFqPIf',
+  //     is_mobile_setup: false,
+  //     has_cloud_backup: false,
+  //     nabu: {
+  //       user_id: '85d02fd0-c74d-4cc5-878e-a77bddb988a3',
+  //       recovery_token: 'e728e8e6-a709-4768-bd51-b08b2796d853'
+  //     }
+  //   },
+  //   user_type: 'EXCHANGE',
+  //   upgradeable: true,
+  //   mergeable: null,
+  //   unified: null,
+  //   product: 'EXCHANGE'
+  // }
 
   // store payload to redux state so we can use later
   yield put(actions.auth.setMagicLinkInfo(authPayloadFromMobile))
