@@ -23,7 +23,7 @@ export default () => {
       }
 
       if (!currentManifest) {
-        yield put(actions.auth.setManifestFile(nextManifest))
+        yield put(actions.misc.setManifestFile(nextManifest))
       }
     } catch (e) {
       // ignore error, wallet failed to fetch happens rarely

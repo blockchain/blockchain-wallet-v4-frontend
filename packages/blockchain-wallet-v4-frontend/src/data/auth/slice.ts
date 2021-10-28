@@ -195,9 +195,6 @@ const authSlice = createSlice({
     ) => {
       state.magicLinkDataEncoded = action.payload
     },
-    setManifestFile: (state, action: PayloadAction<AuthStateType['manifestFile']>) => {
-      state.manifestFile = action.payload
-    },
     setProductAuthMetadata: (state, action: PayloadAction<ProductAuthMetadata>) => {
       const { platform, product, redirect } = action.payload
       state.productAuthMetadata = {
