@@ -13,6 +13,8 @@ import {
   WalletDataFromMagicLink
 } from 'data/types'
 
+import { LOGIN_FORM } from './model'
+
 let messageListener
 
 // global function for mobile clients to call to pass message
@@ -93,32 +95,32 @@ export const initMobileAuthFlow = function* () {
   switch (true) {
     // mobile wallet merge
     case product === ProductAuthOptions.WALLET && mergeable:
-      yield put(actions.form.change('login', 'emailToken', walletData?.email_code))
-      yield put(actions.form.change('login', 'guid', walletData?.guid))
-      yield put(actions.form.change('login', 'email', walletData?.email))
+      yield put(actions.form.change(LOGIN_FORM, 'emailToken', walletData?.email_code))
+      yield put(actions.form.change(LOGIN_FORM, 'guid', walletData?.guid))
+      yield put(actions.form.change(LOGIN_FORM, 'email', walletData?.email))
       yield put(
         actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.MOBILE_WALLET_MERGE)
       )
-      yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD_WALLET))
+      yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
       break
     // mobile exchange merge
     case product === ProductAuthOptions.EXCHANGE && mergeable:
-      yield put(actions.form.change('login', 'email', exchangeData?.email))
-      yield put(actions.form.change('login', 'emailToken', walletData?.email_code))
-      yield put(actions.form.change('login', 'guid', walletData?.guid))
-      yield put(actions.form.change('login', 'email', walletData?.email))
+      yield put(actions.form.change(LOGIN_FORM, 'email', exchangeData?.email))
+      yield put(actions.form.change(LOGIN_FORM, 'emailToken', walletData?.email_code))
+      yield put(actions.form.change(LOGIN_FORM, 'guid', walletData?.guid))
+      yield put(actions.form.change(LOGIN_FORM, 'email', walletData?.email))
       yield put(
         actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.MOBILE_EXCHANGE_MERGE)
       )
-      yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
+      yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
       break
     // mobile exchange upgrade
     case product === ProductAuthOptions.EXCHANGE && upgradeable:
-      yield put(actions.form.change('login', 'email', exchangeData?.email))
+      yield put(actions.form.change(LOGIN_FORM, 'email', exchangeData?.email))
       yield put(
         actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.MOBILE_EXCHANGE_UPGRADE)
       )
-      yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
+      yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
       break
     // no sso flow require, continue to auth
     default:
