@@ -2192,7 +2192,7 @@ type MessagesType = {
   'scenes.login.approve': 'Approve your login'
   'scenes.login.authorize': 'Authorize login'
   'scenes.login.browserwarning': 'Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, Edge, or Opera.'
-  'scenes.login.checkemail': 'If you have an account registered with this email address, you will receive an email with a link to verify your device. <b>Open the link in this browser window.</b>'
+  'scenes.login.checkemail': 'If you have an account registered with this email address, you will receive an email with a link to verify your device.'
   'scenes.login.clickhere': 'click here.'
   'scenes.login.device_verification_expired': 'Verification link expired.'
   'scenes.login._device_verification_expired.copy': 'The device approval link has expired, please try again.'
