@@ -4,6 +4,7 @@ import {
   FiatType,
   SBPaymentTypes,
   SBTransactionStateType,
+  WalletAcountType,
   WalletCurrencyType,
   WalletFiatType
 } from '@core/types'

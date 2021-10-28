@@ -3,12 +3,14 @@ import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 import Bowser from 'bowser'
 import PropTypes from 'prop-types'
+import { isEmpty } from 'ramda'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Remote } from '@core'
 import { Banner, Button, Link, Text, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import UpgradeToGoldBanner from 'components/Flyout/Banners/UpgradeToGold'
 import {
   FiatConverter,
   Form,
@@ -39,6 +41,7 @@ import UnstoppableDomains from 'components/UnstoppableDomains'
 import { model } from 'data'
 import { required, validEthAddress } from 'services/forms'
 
+import { TIER_TYPES } from '../../../Settings/TradingLimits/model'
 import LowBalanceWarning from './LowBalanceWarning'
 import LowEthWarningForErc20 from './LowEthWarningForErc20'
 import MinFeeForRetryInvalid from './MinFeeForRetryInvalid'
@@ -47,6 +50,7 @@ import RegularFeeLink from './RegularFeeLink'
 import {
   insufficientFunds,
   invalidAmount,
+  isSendLimitOver,
   maximumAmount,
   maximumFee,
   minimumFee,
@@ -89,8 +93,10 @@ const FirstStep = (props) => {
     priorityFee,
     pristine,
     regularFee,
+    sendLimits,
     submitting,
-    unconfirmedTx
+    unconfirmedTx,
+    verifyIdentity
   } = props
   const isFromLockbox = from && from.type === 'LOCKBOX'
   const isFromCustody = from && from.type === 'CUSTODIAL'
@@ -198,7 +204,7 @@ const FirstStep = (props) => {
             disabled={unconfirmedTx}
             component={FiatConverter}
             coin={coin}
-            validate={[required, invalidAmount, insufficientFunds, maximumAmount]}
+            validate={[required, invalidAmount, insufficientFunds, maximumAmount, isSendLimitOver]}
             data-e2e={`${coin}Send`}
             marginTop='8px'
           />
@@ -313,6 +319,11 @@ const FirstStep = (props) => {
       {disableRetryAttempt && <MinFeeForRetryInvalid />}
       {disableDueToLowEth && <LowEthWarningForErc20 coin={coin} />}
       {isFromCustody && !isMnemonicVerified ? <MnemonicRequiredForCustodySend /> : null}
+      {isFromCustody &&
+      !isEmpty(sendLimits) &&
+      sendLimits?.globalLimit?.suggestedUpgrade?.requiredTier === TIER_TYPES.GOLD ? (
+        <UpgradeToGoldBanner limits={sendLimits} verifyIdentity={verifyIdentity} />
+      ) : null}
       <SubmitFormGroup>
         <Button
           type='submit'

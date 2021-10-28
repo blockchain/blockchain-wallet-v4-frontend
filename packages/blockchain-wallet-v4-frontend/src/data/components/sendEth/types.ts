@@ -1,10 +1,12 @@
 import { EthAccountFromType } from '@core/redux/payment/eth/types'
 import { CustodialFromType, Erc20CoinType, EthPaymentType, RemoteDataType } from '@core/types'
+import { SeamlessLimits } from 'data/types'
 
 export type SendEthState = {
   feeToggled: boolean
   isContract: RemoteDataType<string, boolean>
   payment: RemoteDataType<string, ReturnType<EthPaymentType['value']>>
+  sendLimits: RemoteDataType<string, SeamlessLimits>
   step: 1 | 2
 }
 
