@@ -10,6 +10,7 @@ import components from './components/sagaRegister'
 import custodial from './custodial/sagaRegister'
 import goals from './goals/sagaRegister'
 import middleware from './middleware/sagaRegister'
+import misc from './misc/sagaRegister'
 import modules from './modules/sagaRegister'
 import preferences from './preferences/sagaRegister'
 import prices from './prices/sagaRegister'
@@ -61,6 +62,7 @@ export default function* rootSaga({ api, coinsSocket, networks, options, ratesSo
     fork(auth({ api, coreSagas, networks })),
     fork(components({ api, coreSagas, networks, options })),
     fork(custodial({ api, coreSagas, networks })),
+    fork(misc()),
     fork(modules({ api, coreSagas, networks })),
     fork(preferences()),
     fork(prices({ api })),

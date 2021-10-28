@@ -1,4 +1,5 @@
-import { put, select } from 'redux-saga/effects'
+import { prop } from 'ramda'
+import { call, delay, put, select } from 'redux-saga/effects'
 
 import { actions, selectors } from 'data'
 import * as C from 'services/alerts'
@@ -99,4 +100,46 @@ export const parseMagicLink = function* () {
     yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
     yield put(actions.alerts.displayError(C.MAGIC_LINK_PARSE_ERROR))
   }
+}
+
+export const pollForSessionFromGuid = function* (api, session, n = 50) {
+  if (n === 0) {
+    return false
+  }
+  try {
+    yield delay(2000)
+    const response = yield call(api.pollForSessionGUID, session)
+    if (prop('guid', response)) {
+      return true
+    }
+  } catch (error) {
+    return false
+  }
+  return yield call(pollForSessionFromGuid, api, session, n - 1)
+}
+
+export const pollForSessionFromAuthPayload = function* (api, session, n = 50) {
+  if (n === 0) {
+    yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
+    yield put(actions.alerts.displayInfo(C.VERIFY_DEVICE_EXPIRY, undefined, true))
+    yield put(actions.auth.analyticsAuthorizeVerifyDeviceFailure('TIMED_OUT'))
+    return false
+  }
+  try {
+    yield delay(2000)
+    const response = yield call(api.getMagicLinkData, session)
+    if (prop('wallet', response)) {
+      yield put(actions.auth.setMagicLinkInfo(response))
+      yield call(parseMagicLink)
+      return true
+    }
+    if (response.request_denied) {
+      yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
+      yield put(actions.alerts.displayError(C.VERIFY_DEVICE_FAILED, undefined, true))
+      return false
+    }
+  } catch (error) {
+    return false
+  }
+  return yield call(pollForSessionFromAuthPayload, api, session, n - 1)
 }

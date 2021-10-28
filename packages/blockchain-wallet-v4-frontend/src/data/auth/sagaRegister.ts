@@ -18,7 +18,6 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.initializeLogin.type, authSagas.initializeLogin)
     yield takeLatest(actions.triggerWalletMagicLink.type, authSagas.triggerWalletMagicLink)
     yield takeLatest(actions.getUserGeoLocation.type, authSagas.getUserGeoLocation)
-    yield takeLatest(actions.pingManifestFile.type, authSagas.pingManifestFile)
     // @ts-ignore
     yield takeLatest(actions.loginRoutine.type, authSagas.loginRoutineSaga)
     yield takeLatest(actions.exchangeLogin.type, authSagas.exchangeLogin)

@@ -1,13 +1,13 @@
-import * as Bitcoin from 'bitcoinjs-lib'
-import { assoc, find, prop, propEq } from 'ramda'
+import { assoc, find, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
-import { call, delay, fork, put, select, take } from 'redux-saga/effects'
+import { call, fork, put, select, take } from 'redux-saga/effects'
 
-import { Types } from '@core'
 import { DEFAULT_INVITATIONS } from '@core/model'
 import { errorHandler } from '@core/utils'
 import { actions, actionTypes, selectors } from 'data'
-import { ModalName } from 'data/modals/types'
+import { fetchBalances } from 'data/balance/sagas'
+import goalSagas from 'data/goals/sagas'
+import miscSagas from 'data/misc/sagas'
 import profileSagas from 'data/modules/profile/sagas'
 import walletSagas from 'data/wallet/sagas'
 import * as C from 'services/alerts'
@@ -17,7 +17,11 @@ import { askSecondPasswordEnhancer } from 'services/sagas'
 
 import { LOGIN_FORM } from './model'
 import { initMobileAuthFlow } from './sagas.mobile'
-import { parseMagicLink } from './sagas.utils'
+import {
+  parseMagicLink,
+  pollForSessionFromAuthPayload,
+  pollForSessionFromGuid
+} from './sagas.utils'
 import * as S from './selectors'
 import {
   AccountUnificationFlows,
@@ -35,31 +39,16 @@ export default ({ api, coreSagas, networks }) => {
     coreSagas,
     networks
   })
-
-  const { checkDataErrors, updateMnemonicBackup, upgradeAddressLabelsSaga } = walletSagas({
+  const {
+    checkDataErrors,
+    checkXpubCacheLegitimacy,
+    updateMnemonicBackup,
+    upgradeAddressLabelsSaga
+  } = walletSagas({
     coreSagas
   })
-
-  const saveGoals = function* (firstLogin) {
-    // only for non first login users we save goal here for first login users we do that over verify email page
-    if (!firstLogin) {
-      yield put(actions.goals.saveGoal({ data: {}, name: 'welcomeModal' }))
-    }
-    yield put(actions.goals.saveGoal({ data: {}, name: 'swapUpgrade' }))
-    yield put(actions.goals.saveGoal({ data: {}, name: 'swapGetStarted' }))
-    yield put(actions.goals.saveGoal({ data: {}, name: 'kycDocResubmit' }))
-    yield put(actions.goals.saveGoal({ data: {}, name: 'transferEth' }))
-    yield put(actions.goals.saveGoal({ data: {}, name: 'syncPit' }))
-    yield put(actions.goals.saveGoal({ data: {}, name: 'interestPromo' }))
-    // when airdrops are running
-    // yield put(actions.goals.saveGoal('upgradeForAirdrop'))
-    // yield put(actions.goals.saveGoal('airdropClaim'))
-  }
-
-  const startSockets = function* () {
-    yield put(actions.middleware.webSocket.coins.authSocket())
-    yield put(actions.middleware.webSocket.xlm.startStreams())
-  }
+  const { saveGoals } = goalSagas({ api, coreSagas, networks })
+  const { startCoinWebsockets } = miscSagas()
 
   const authNabu = function* () {
     yield put(actions.components.identityVerification.fetchSupportedCountries())
@@ -68,54 +57,6 @@ export default ({ api, coreSagas, networks }) => {
       actionTypes.components.identityVerification.SET_SUPPORTED_COUNTRIES_FAILURE
     ])
     yield put(actions.modules.profile.signIn())
-  }
-
-  const fetchBalances = function* () {
-    yield put(actions.core.data.bch.fetchData())
-    yield put(actions.core.data.btc.fetchData())
-    yield put(actions.core.data.xlm.fetchData())
-    yield put(actions.core.data.eth.fetchData())
-    yield put(actions.core.data.eth.fetchErc20Data())
-    yield put(actions.components.refresh.refreshRates())
-    yield put(actions.custodial.fetchRecentSwapTxs())
-  }
-
-  const checkXpubCacheLegitimacy = function* () {
-    const wallet = yield select(selectors.core.wallet.getWallet)
-    const accounts = Types.Wallet.selectHDAccounts(wallet)
-    const first5 = accounts.slice(0, 5)
-
-    let isValidReceive = true
-    let isValidChange = true
-    first5.forEach((account) => {
-      account.derivations.forEach((derivation) => {
-        const { cache, xpub } = derivation
-        const { changeAccount, receiveAccount } = cache
-        const accountNode = Bitcoin.bip32.fromBase58(xpub)
-
-        const validReceive = accountNode.derive(0).neutered().toBase58()
-        const validChange = accountNode.derive(1).neutered().toBase58()
-
-        if (receiveAccount !== validReceive) {
-          isValidReceive = false
-          // eslint-disable-next-line
-          console.log(`Receive cache is incorrect for ${derivation.type} at ${account.index}`)
-        }
-        if (changeAccount !== validChange) {
-          isValidChange = false
-          // eslint-disable-next-line
-          console.log(`Change cache is incorrect for ${derivation.type} at ${account.index}`)
-        }
-      })
-    })
-
-    if (!isValidReceive) {
-      yield put(actions.auth.logWrongReceiveCache())
-    }
-
-    if (!isValidChange) {
-      yield put(actions.auth.logWrongChangeCache())
-    }
   }
 
   const exchangeLogin = function* (action) {
@@ -209,7 +150,7 @@ export default ({ api, coreSagas, networks }) => {
       yield call(upgradeAddressLabelsSaga)
       yield put(actions.auth.loginSuccess({}))
       yield put(actions.auth.startLogoutTimer())
-      yield call(startSockets)
+      yield call(startCoinWebsockets)
       const guid = yield select(selectors.core.wallet.getGuid)
       // store guid and email in cache for future login
       yield put(actions.cache.guidEntered(guid))
@@ -257,76 +198,6 @@ export default ({ api, coreSagas, networks }) => {
       // Redirect to error page instead of notification
       yield put(actions.alerts.displayError(C.WALLET_LOADING_ERROR))
     }
-  }
-
-  const pingManifestFile = function* () {
-    try {
-      const domains = (yield select(selectors.core.walletOptions.getDomains)).getOrElse({
-        comWalletApp: 'https://login.blockchain.com'
-      })
-      const response = yield fetch(domains.comWalletApp)
-      const raw = yield response.text()
-      const nextManifest = raw.match(/manifest\.\d*.js/)[0]
-
-      const currentManifest = yield select(S.getManifest)
-
-      if (currentManifest && nextManifest !== currentManifest) {
-        yield put(actions.modals.showModal(ModalName.NEW_VERSION_AVAILABLE, { origin: 'Unknown' }))
-      }
-
-      if (!currentManifest) {
-        yield put(actions.auth.setManifestFile(nextManifest))
-      }
-    } catch (e) {
-      // wallet failed to fetch
-      // happens rarely but could happen
-      // ignore error
-    }
-
-    yield delay(10_000)
-    yield put(actions.auth.pingManifestFile())
-  }
-
-  const pollingSession = function* (session, n = 50) {
-    if (n === 0) {
-      return false
-    }
-    try {
-      yield delay(2000)
-      const response = yield call(api.pollForSessionGUID, session)
-      if (prop('guid', response)) {
-        return true
-      }
-    } catch (error) {
-      return false
-    }
-    return yield call(pollingSession, session, n - 1)
-  }
-
-  const pollingForMagicLinkDataSession = function* (session, n = 50) {
-    if (n === 0) {
-      yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
-      yield put(actions.alerts.displayInfo(C.VERIFY_DEVICE_EXPIRY, undefined, true))
-      yield put(actions.auth.analyticsAuthorizeVerifyDeviceFailure('TIMED_OUT'))
-      return false
-    }
-    try {
-      yield delay(2000)
-      const response = yield call(api.getMagicLinkData, session)
-      if (prop('wallet', response)) {
-        yield put(actions.auth.setMagicLinkInfo(response))
-        yield call(parseMagicLink)
-        return true
-      }
-      if (response.request_denied) {
-        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
-        yield put(actions.alerts.displayError(C.VERIFY_DEVICE_FAILED, undefined, true))
-        return false
-      }
-    } catch (error) {
-      return false
-    }
-    return yield call(pollingForMagicLinkDataSession, session, n - 1)
   }
 
   const login = function* (action) {
@@ -394,7 +265,7 @@ export default ({ api, coreSagas, networks }) => {
             actions.alerts.displayInfo(C.AUTHORIZATION_REQUIRED_INFO, undefined, true)
           )
           // polling for email authorization
-          const authorized = yield call(pollingSession, session)
+          const authorized = yield call(pollForSessionFromGuid, api, session)
           yield put(actions.alerts.dismissAlert(authRequiredAlert.payload.id))
           if (authorized) {
             try {
@@ -692,7 +563,7 @@ export default ({ api, coreSagas, networks }) => {
 
       // hide loading and ensure latest app version
       yield put(actions.auth.initializeLoginSuccess())
-      yield put(actions.auth.pingManifestFile())
+      yield put(actions.misc.pingManifestFile())
     } catch (e) {
       yield put(actions.auth.initializeLoginFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'initializeLogin', e))
@@ -792,9 +663,9 @@ export default ({ api, coreSagas, networks }) => {
       } else {
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.CHECK_EMAIL))
       }
-      // polling feature flag
+      // poll for session from auth payload if feature flag enabled
       if (shouldPollForMagicLinkData) {
-        yield call(pollingForMagicLinkDataSession, sessionToken)
+        yield call(pollForSessionFromAuthPayload, api, sessionToken)
       }
       yield put(actions.auth.triggerWalletMagicLinkSuccess())
     } catch (e) {
@@ -892,16 +763,11 @@ export default ({ api, coreSagas, networks }) => {
     login,
     loginRoutineSaga,
     mobileLogin,
-    pingManifestFile, // TODO: move to misc
-    pollingForMagicLinkDataSession,
-    pollingSession,
     register,
     resendSmsLoginCode,
     resetAccount,
     restore,
     restoreFromMetadata,
-    saveGoals, // TODO: move to misc or goals
-    startSockets, // TODO: move to misc
     triggerWalletMagicLink
   }
 }
