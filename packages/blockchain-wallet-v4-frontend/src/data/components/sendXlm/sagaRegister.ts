@@ -27,5 +27,6 @@ export default ({ api, coreSagas, networks }) => {
       sendXlmSagas.checkIfDestinationIsExchange
     )
     yield takeLatest(actionTypes.CHANGE, sendXlmSagas.formChanged)
+    yield takeLatest(AT.SEND_XLM_FETCH_LIMITS, sendXlmSagas.fetchSendLimits)
   }
 }

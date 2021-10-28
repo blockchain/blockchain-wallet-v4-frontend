@@ -9,11 +9,18 @@ import {
   WithdrawalMinsAndFeesResponse,
   WithdrawResponseType
 } from '@core/types'
+import { SeamlessLimits } from 'data/types'
 
-import { SendCryptoState, SendCryptoStepPayload, SendCryptoStepType } from './types'
+import {
+  FetchSendLimitsPayload,
+  SendCryptoState,
+  SendCryptoStepPayload,
+  SendCryptoStepType
+} from './types'
 
 const initialState: SendCryptoState = {
   initialCoin: undefined,
+  sendLimits: Remote.NotAsked,
   step: SendCryptoStepType.COIN_SELECTION,
   transaction: Remote.NotAsked,
   withdrawLocks: Remote.NotAsked,
@@ -24,6 +31,16 @@ const sendCryptoSlice = createSlice({
   initialState,
   name: 'sendCrypto',
   reducers: {
+    fetchSendLimits: (state, action: PayloadAction<FetchSendLimitsPayload>) => {},
+    fetchSendLimitsFailure: (state, action: PayloadAction<string>) => {
+      state.sendLimits = Remote.Failure(action.payload)
+    },
+    fetchSendLimitsLoading: (state) => {
+      state.sendLimits = Remote.Loading
+    },
+    fetchSendLimitsSuccess: (state, action: PayloadAction<SeamlessLimits>) => {
+      state.sendLimits = Remote.Success(action.payload)
+    },
     fetchWithdrawalFees: () => {},
     fetchWithdrawalFeesFailure: (state, action: PayloadAction<string>) => {
       state.withdrawalFeesAndMins = Remote.Failure(action.payload)

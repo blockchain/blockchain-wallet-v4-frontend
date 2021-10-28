@@ -7,9 +7,8 @@ import { call, delay, put, race, select, take } from 'redux-saga/effects'
 import { Exchange, utils } from '@core'
 import { APIType } from '@core/network/api'
 import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
-import { BtcAccountFromType, BtcFromType, BtcPaymentType } from '@core/types'
+import { BtcAccountFromType, BtcFromType, BtcPaymentType, WalletAcountEnum } from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
-import { ModalNameType } from 'data/modals/types'
 import * as C from 'services/alerts'
 import * as Lockbox from 'services/lockbox'
 import { promptForSecondPassword } from 'services/sagas'
@@ -227,6 +226,23 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             default:
               payment = yield payment.to(address as unknown as string, toType)
           }
+          // seamless limits logic
+          const { from } = yield select(selectors.form.getFormValues(FORM))
+          if (toType === ADDRESS_TYPES.ACCOUNT && from.type === ADDRESS_TYPES.CUSTODIAL) {
+            const appState = yield select(identity)
+            const currency = selectors.core.settings
+              .getCurrency(appState)
+              .getOrFail('Failed to get currency')
+            yield put(
+              A.sendBchFetchLimits(
+                coin,
+                WalletAcountEnum.CUSTODIAL,
+                coin,
+                WalletAcountEnum.NON_CUSTODIAL,
+                currency
+              )
+            )
+          }
           break
         case 'amount':
           const bchAmount = prop('coin', payload)
@@ -395,10 +411,29 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const fetchSendLimits = function* ({ payload }: ReturnType<typeof A.sendBchFetchLimits>) {
+    const { currency, fromAccount, inputCurrency, outputCurrency, toAccount } = payload
+    try {
+      yield put(A.sendBchFetchLimitsLoading())
+      const limitsResponse: ReturnType<typeof api.getCrossBorderTransactions> = yield call(
+        api.getCrossBorderTransactions,
+        inputCurrency,
+        fromAccount,
+        outputCurrency,
+        toAccount,
+        currency
+      )
+      yield put(A.sendBchFetchLimitsSuccess(limitsResponse))
+    } catch (e) {
+      yield put(A.sendBchFetchLimitsFailure(e))
+    }
+  }
+
   return {
     bitPayInvoiceEntered,
     bitpayInvoiceExpired,
     destroyed,
+    fetchSendLimits,
     firstStepSubmitClicked,
     formChanged,
     initialized,

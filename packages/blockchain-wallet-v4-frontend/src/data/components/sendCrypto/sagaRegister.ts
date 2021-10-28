@@ -12,6 +12,7 @@ export default ({ api }) => {
     yield takeLatest(A.fetchWithdrawalFees.type, sendCryptoSagas.fetchFees)
     yield takeLatest(A.fetchWithdrawalLocks.type, sendCryptoSagas.fetchLocks)
     yield takeLatest(A.submitTransaction.type, sendCryptoSagas.submitTransaction)
+    yield takeLatest(A.fetchSendLimits.type, sendCryptoSagas.fetchSendLimits)
     // TODO: remove when all tokens moved to sendCrypto
     // @ts-ignore
     yield takeEvery(actionTypes.CHANGE, sendCryptoSagas.onFormChange)
