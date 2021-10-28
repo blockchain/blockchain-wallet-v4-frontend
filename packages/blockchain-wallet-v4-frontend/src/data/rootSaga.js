@@ -1,9 +1,8 @@
-import { all, call, delay, fork, put } from 'redux-saga/effects'
+import { all, call, fork } from 'redux-saga/effects'
 
 import { coreRootSagaFactory, coreSagasFactory } from '@core'
-import { tryParseLanguageFromUrl } from 'services/locales'
+import miscSagas from 'data/misc/sagas'
 
-import * as actions from './actions'
 import alerts from './alerts/sagaRegister'
 import auth from './auth/sagaRegister'
 import components from './components/sagaRegister'
@@ -18,46 +17,12 @@ import router from './router/sagaRegister'
 import session from './session/sagaRegister'
 import wallet from './wallet/sagaRegister'
 
-const logLocation = 'data/rootSaga'
-
-const welcomeSaga = function* () {
-  try {
-    const version = window.APP_VERSION
-    const style1 = 'background: #F00; color: #FFF; font-size: 24px;'
-    const style2 = 'font-size: 18px;'
-    /* eslint-disable */
-    console.log('=======================================================')
-    console.log(`%c Wallet version ${version}`, style2)
-    console.log('=======================================================')
-    console.log('%c STOP!!', style1)
-    console.log('%c This browser feature is intended for developers.', style2)
-    console.log('%c If someone told you to copy-paste something here,', style2)
-    console.log('%c it is a scam and will give them access to your money!', style2)
-    /* eslint-enable */
-  } catch (e) {
-    yield put(actions.logs.logErrorMessage(logLocation, 'welcomeSaga', e))
-  }
-}
-
-const languageInitSaga = function* () {
-  try {
-    yield delay(250)
-    const lang = tryParseLanguageFromUrl()
-    if (lang.language) {
-      yield put(actions.preferences.setLanguage(lang.language, false))
-      if (lang.cultureCode) {
-        yield put(actions.preferences.setCulture(lang.cultureCode))
-      }
-    }
-  } catch (e) {
-    yield put(actions.logs.logErrorMessage(logLocation, 'languageInitSaga', e))
-  }
-}
-
 export default function* rootSaga({ api, coinsSocket, networks, options, ratesSocket }) {
   const coreSagas = coreSagasFactory({ api, networks, options })
+  const { initAppLanguage, logAppConsoleWarning } = miscSagas()
+
   yield all([
-    call(welcomeSaga),
+    call(logAppConsoleWarning),
     fork(alerts),
     fork(auth({ api, coreSagas, networks })),
     fork(components({ api, coreSagas, networks, options })),
@@ -72,6 +37,6 @@ export default function* rootSaga({ api, coinsSocket, networks, options, ratesSo
     fork(coreRootSagaFactory({ api, networks, options })),
     fork(router()),
     fork(session({ api })),
-    call(languageInitSaga)
+    call(initAppLanguage)
   ])
 }

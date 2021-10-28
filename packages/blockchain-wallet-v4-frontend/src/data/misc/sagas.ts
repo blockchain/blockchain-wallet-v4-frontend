@@ -2,6 +2,7 @@ import { delay, put, select } from 'redux-saga/effects'
 
 import { actions, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
+import { tryParseLanguageFromUrl } from 'services/locales'
 
 import * as S from './selectors'
 
@@ -37,7 +38,44 @@ export default () => {
     yield put(actions.middleware.webSocket.xlm.startStreams())
   }
 
+  // eslint-disable-next-line require-yield
+  const logAppConsoleWarning = function* () {
+    try {
+      const version = window.APP_VERSION
+      const style1 = 'background: #F00; color: #FFF; font-size: 24px;'
+      const style2 = 'font-size: 18px;'
+      /* eslint-disable */
+      console.log('=======================================================')
+      console.log(`%c Wallet version ${version}`, style2)
+      console.log('=======================================================')
+      console.log('%c STOP!!', style1)
+      console.log('%c This browser feature is intended for developers.', style2)
+      console.log('%c If someone told you to copy-paste something here,', style2)
+      console.log('%c it is a scam and will give them access to your money!', style2)
+      /* eslint-enable */
+    } catch (e) {
+      // do nothing
+    }
+  }
+
+  const initAppLanguage = function* () {
+    try {
+      yield delay(250)
+      const lang = tryParseLanguageFromUrl()
+      if (lang?.language) {
+        yield put(actions.preferences.setLanguage(lang.language, false))
+        if (lang.cultureCode) {
+          yield put(actions.preferences.setCulture(lang.cultureCode))
+        }
+      }
+    } catch (e) {
+      // do nothing, app will fallback to english
+    }
+  }
+
   return {
+    initAppLanguage,
+    logAppConsoleWarning,
     pingManifestFile,
     startCoinWebsockets
   }
