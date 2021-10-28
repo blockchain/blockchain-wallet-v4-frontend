@@ -403,6 +403,7 @@ type MessagesType = {
   'copy.from': 'From'
   'copy.from:': 'From: '
   'copy.home': 'Home'
+  'copy.held_until': 'Held until'
   'copy.here': 'here'
   'copy.holdings': 'Holdings'
   'copy.in_review': 'In Review'

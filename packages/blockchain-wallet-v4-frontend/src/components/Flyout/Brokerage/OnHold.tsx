@@ -44,7 +44,7 @@ const OnHold = ({ fiatCurrency, handleHeaderClick, locks, totalLockedAmount }: P
               color='grey400'
               style={{ letterSpacing: '1px' }}
             >
-              Clear Date
+              <FormattedMessage id='copy.held_until' defaultMessage='Held until' />
             </Text>
             <Text
               uppercase
@@ -53,7 +53,7 @@ const OnHold = ({ fiatCurrency, handleHeaderClick, locks, totalLockedAmount }: P
               color='grey400'
               style={{ letterSpacing: '1px' }}
             >
-              Amount
+              <FormattedMessage id='copy.amount' defaultMessage='Amount' />
             </Text>
           </div>
         )}
