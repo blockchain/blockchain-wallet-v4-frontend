@@ -82,6 +82,7 @@ export const initMobileAuthFlow = function* () {
   } catch (e) {
     mobileMessageChannel.end()
   }
+  // TEST DATA
   // authPayloadFromMobile = {
   //   exchange: {
   //     email: 'leora+235+1002@blockchain.com',
@@ -101,8 +102,8 @@ export const initMobileAuthFlow = function* () {
   //     }
   //   },
   //   user_type: 'EXCHANGE',
-  //   upgradeable: true,
-  //   mergeable: null,
+  //   upgradeable: null,
+  //   mergeable: true,
   //   unified: null,
   //   product: 'EXCHANGE'
   // }
