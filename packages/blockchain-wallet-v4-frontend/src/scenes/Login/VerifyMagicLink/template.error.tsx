@@ -28,10 +28,7 @@ const Error = (props) => {
             defaultMessage='Verification link expired.'
           />
         ) : (
-          <FormattedMessage
-            id='scenes.login.device_verification_failed'
-            defaultMessage='Device verification failed.'
-          />
+          <FormattedMessage id='copy.oops' defaultMessage='Oops. Something went wrong.' />
         )}
       </Text>
       <Text style={{ margin: '8px 0 12px' }} size='16px' color='red600' weight={500}>
@@ -43,7 +40,7 @@ const Error = (props) => {
         ) : error.link_expired ? (
           <FormattedMessage
             id='scenes.login._device_verification_expired.copy'
-            defaultMessage='Return to your original device to request a new one.'
+            defaultMessage='The device approval link has expired, please try again.'
           />
         ) : (
           <FormattedMessage

@@ -126,7 +126,6 @@ const authSlice = createSlice({
     mobileLoginStarted: (state) => {
       state.mobileLoginStarted = true
     },
-    pingManifestFile: () => {},
     register: (state, action) => {},
     registerFailure: (state, action: PayloadAction<RegisteringFailureType>) => {
       state.registering = Remote.Failure(action.payload)
@@ -195,9 +194,6 @@ const authSlice = createSlice({
       action: PayloadAction<AuthStateType['magicLinkDataEncoded']>
     ) => {
       state.magicLinkDataEncoded = action.payload
-    },
-    setManifestFile: (state, action: PayloadAction<AuthStateType['manifestFile']>) => {
-      state.manifestFile = action.payload
     },
     setProductAuthMetadata: (state, action: PayloadAction<ProductAuthMetadata>) => {
       const { platform, product, redirect } = action.payload
