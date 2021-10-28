@@ -261,13 +261,23 @@ export const encodeDefaultCall = (abi, address) => {
 }
 
 export const encodeSell = (schema, asset, address) => {
-  const transfer = schema.functions.transfer({
-    address: asset.asset_contract.address,
-    id: asset.token_id,
-    quantity: 1
+  const wyvAsset = schema.assetFromFields({
+    Address: asset.asset_contract.address,
+    ID: asset.token_id,
+    Name: asset.name,
+    Quantity: new BigNumber(1).toString()
   })
+  const transfer = schema.functions.transfer(wyvAsset)
+  const tokenInterface = new ethers.utils.Interface(ERC1155_ABI)
+  const calldata = tokenInterface.encodeFunctionData('safeTransferFrom', [
+    address.toLowerCase(),
+    NULL_ADDRESS,
+    asset.token_id,
+    wyvAsset.quantity,
+    []
+  ])
   return {
-    calldata: encodeDefaultCall(transfer, address),
+    calldata,
     replacementPattern: encodeReplacementPattern(transfer),
     target: transfer.target
   }
