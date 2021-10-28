@@ -105,11 +105,11 @@ export type SBShowModalOriginType =
   | 'Goals'
 
 export enum SBCardStateEnum {
-  PENDING,
-  CREATED,
-  ACTIVE,
-  BLOCKED,
-  FRAUD_REVIEW
+  ACTIVE = 'ACTIVE',
+  BLOCKED = 'BLOCKED',
+  CREATED = 'CREATED',
+  FRAUD_REVIEW = 'FRAUD_REVIEW',
+  PENDING = 'PENDING'
 }
 
 // State
