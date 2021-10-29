@@ -169,7 +169,7 @@ export type RestoringType = undefined
 export type SecureChannelLoginType = undefined
 
 export type ProductAuthMetadata = {
-  platform: PlatformTypes
+  platform?: PlatformTypes
   product: ProductAuthOptions
   redirect?: string
 }

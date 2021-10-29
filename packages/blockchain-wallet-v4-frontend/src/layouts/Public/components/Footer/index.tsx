@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { ProductAuthMetadata } from 'data/types'
+import { LoginSteps, ProductAuthMetadata } from 'data/types'
 
 import CreateAccount from './CreateAccount'
 import DropdownLanguage from './DropdownLanguage'
@@ -14,13 +14,18 @@ const FooterInner = styled.div`
   padding-bottom: 0;
 `
 
-const Footer = ({ isLogin, productAuthMetadata }: Props) => {
+const Footer = ({ isLogin, loginStep, productAuthMetadata }: Props) => {
   return (
     <>
       <FooterInner>
-        {isLogin ? <CreateAccount productAuthMetadata={productAuthMetadata} /> : null}
-        {/* TODO: figure out when to show this */}
-        {/* <ProductPicker /> */}
+        {isLogin && loginStep === LoginSteps.ENTER_EMAIL_GUID && (
+          <CreateAccount productAuthMetadata={productAuthMetadata} />
+        )}
+        {isLogin &&
+          (loginStep === LoginSteps.ENTER_PASSWORD_WALLET ||
+            loginStep === LoginSteps.ENTER_PASSWORD_EXCHANGE) && (
+            <ProductPicker productAuthMetadata={productAuthMetadata} />
+          )}
       </FooterInner>
       <FooterInner>
         <DropdownLanguage color='grey400' size='16px' />
@@ -33,6 +38,7 @@ const Footer = ({ isLogin, productAuthMetadata }: Props) => {
 
 type Props = {
   isLogin: boolean
+  loginStep: LoginSteps
   productAuthMetadata: ProductAuthMetadata
 }
 

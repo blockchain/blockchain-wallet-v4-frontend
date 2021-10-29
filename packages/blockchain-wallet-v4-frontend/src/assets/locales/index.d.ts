@@ -2255,6 +2255,7 @@ type MessagesType = {
   'scenes.login.wallet.exchange_link': 'Looking for the Exchange?'
   'scenes.login.wallet.exchange_login': 'Log In ->'
   'scenes.login.wallet.message.sent': 'Message Sent'
+  'scenes.login.wallet.wallet_link': 'Looking for the Wallet?'
   'scenes.login.wallet.connected.title': 'Mobile Device Connected'
   'scenes.login.wallet.connected.description_1': 'We sent your connected mobile device a notification. Open the app to confirm auto-log in on the web.'
   'scenes.login.wallet.connected.description_2': 'Didn’t get the notification? Make sure you have push notifications enabled. You can also scan this QR with your mobile app to login.'

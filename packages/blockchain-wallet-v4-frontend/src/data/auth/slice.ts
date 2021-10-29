@@ -198,7 +198,7 @@ const authSlice = createSlice({
     setProductAuthMetadata: (state, action: PayloadAction<ProductAuthMetadata>) => {
       const { platform, product, redirect } = action.payload
       state.productAuthMetadata = {
-        platform: platform.toUpperCase() as PlatformTypes,
+        platform: platform?.toUpperCase() as PlatformTypes,
         product: product.toUpperCase() as ProductAuthOptions,
         redirect
       }

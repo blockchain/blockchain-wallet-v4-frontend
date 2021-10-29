@@ -94,7 +94,11 @@ const PublicLayoutContainer = ({
             </ContentContainer>
 
             <FooterContainer>
-              <Footer isLogin={isLogin} productAuthMetadata={productAuthMetadata} />
+              <Footer
+                isLogin={isLogin}
+                productAuthMetadata={productAuthMetadata}
+                loginStep={loginStep}
+              />
             </FooterContainer>
           </Wrapper>
         </ErrorBoundary>

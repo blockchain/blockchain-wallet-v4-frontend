@@ -233,7 +233,6 @@ export const getLoginPageFooter = (step, loginWithMobileClicked) => {
         </Text>
       )
     case LoginSteps.ENTER_EMAIL_GUID:
-    default:
       return (
         <>
           <Text size='14px' color='grey400' weight={500} style={{ margin: '24px 0 16px' }}>
@@ -250,5 +249,7 @@ export const getLoginPageFooter = (step, loginWithMobileClicked) => {
           </PhishingWarning>
         </>
       )
+    default:
+      return null
   }
 }
