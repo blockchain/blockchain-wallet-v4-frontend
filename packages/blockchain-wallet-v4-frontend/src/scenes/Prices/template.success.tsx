@@ -5,8 +5,6 @@ import AutoSizer from 'react-virtualized-auto-sizer'
 import { FixedSizeList as List } from 'react-window'
 import styled from 'styled-components'
 
-import { DisplayValue } from 'components/Flyout/model'
-
 import { Props as _P, SuccessStateType as _S } from '.'
 import { CellText, getTableColumns, HeaderText, TableWrapper } from './Table'
 
