@@ -7,6 +7,8 @@ import { Props } from '../../index'
 import { CenteredColumn } from '../../model'
 
 const ExchangeSuccess = (props: Props) => {
+  const encodedRedirect = props.productAuthMetadata.redirect as string
+  const redirect = decodeURIComponent(encodedRedirect)
   return (
     <>
       <CenteredColumn style={{ textAlign: 'center' }}>
@@ -19,7 +21,7 @@ const ExchangeSuccess = (props: Props) => {
         </Text>
         <Button nature='green' data-e2e='test'>
           <Link
-            href={`https://local.staging.blockchain.info:8888/auth?jwt=${props.jwtToken}`}
+            href={`${redirect}/auth?jwt=${props.jwtToken}`}
             rel='noopener noreferrer'
             target='_blank'
             color='white'
