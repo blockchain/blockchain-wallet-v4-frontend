@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 import { LoginSteps, ProductAuthOptions } from 'data/types'
 
 const SubCard = styled.div`
@@ -22,17 +22,23 @@ const SignUpText = styled(Text)`
 `
 
 const ProductPicker = (props) => {
-  const { authActions, formActions, productAuthMetadata } = props
+  const { authActions, formActions, formValues, productAuthMetadata } = props
   const handleProductPickerClick = () => {
     if (productAuthMetadata.product === ProductAuthOptions.WALLET) {
       authActions.setProductAuthMetadata({ product: ProductAuthOptions.EXCHANGE })
-      formActions.change('login', 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE)
+      if (formValues.email) {
+        formActions.change('login', 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE)
+      } else {
+        formActions.destroy('login')
+        formActions.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID)
+      }
     }
     if (productAuthMetadata.product === ProductAuthOptions.EXCHANGE) {
       authActions.setProductAuthMetadata({ product: ProductAuthOptions.WALLET })
       formActions.change('login', 'step', LoginSteps.ENTER_PASSWORD_WALLET)
     }
   }
+
   return (
     <SubCard onClick={handleProductPickerClick}>
       <Text size='16px' color='grey400' weight={500}>
@@ -56,12 +62,15 @@ const ProductPicker = (props) => {
     </SubCard>
   )
 }
+const mapStateToProps = (state) => ({
+  formValues: selectors.form.getFormValues('login')(state)
+})
 
 const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   formActions: bindActionCreators(actions.form, dispatch)
 })
 
-const connector = connect(null, mapDispatchToProps)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export default connector(ProductPicker)
