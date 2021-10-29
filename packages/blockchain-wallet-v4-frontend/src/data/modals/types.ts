@@ -124,7 +124,6 @@ export type ModalOriginType =
   | 'SendBch'
   | 'SendBtc'
   | 'SendEth'
-  | 'SendExchangePromo'
   | 'SendXlm'
   | 'SettingsGeneral'
   | 'SettingsPage'

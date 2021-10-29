@@ -1,5 +1,4 @@
 import React, { memo } from 'react'
-import BigNumber from 'bignumber.js'
 import styled from 'styled-components'
 
 import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
@@ -8,7 +7,6 @@ import { Banner } from 'blockchain-info-components'
 import { FormGroup, FormLabel } from 'components/Form'
 import { media } from 'services/styles'
 
-import ExchangePromo from './ExchangePromo'
 import LockTime from './LockTime'
 
 export const Row = styled.div`
@@ -84,17 +82,5 @@ export const CustomFeeAlertBanner = styled(Banner)`
 
 export const CustodyToAccountMessage = memo(({ account }: { account: CustodialFromType }) => {
   if (account.type !== ADDRESS_TYPES.CUSTODIAL) return null
-  const isAvailableEqualToZero = new BigNumber(account.available).isLessThanOrEqualTo('0')
-  const isWithdrawableEqualToZero = new BigNumber(account.withdrawable).isLessThanOrEqualTo('0')
-  const isAvailableEqualToWithdrawable = new BigNumber(account.available).isEqualTo(
-    account.withdrawable
-  )
-
-  switch (true) {
-    case isWithdrawableEqualToZero && !isAvailableEqualToZero: // withdrawable = 0 && available = 5
-    case !isWithdrawableEqualToZero && !isAvailableEqualToWithdrawable: // withdrawable = 5 && available = 8
-      return <LockTime />
-    default:
-      return <ExchangePromo />
-  }
+  return <LockTime />
 })
