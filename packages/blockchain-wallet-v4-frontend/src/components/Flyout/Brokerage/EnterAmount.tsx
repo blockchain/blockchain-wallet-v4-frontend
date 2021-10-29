@@ -113,17 +113,10 @@ const AmountTextBoxShaker = styled(AmountTextBox)<{ meta: { error: string } }>`
 type LimitSectionProps = {
   fee?: string
   fiatCurrency: Props['fiatCurrency']
-  handleLearnMoreClick?: () => void
   limitAmount: string
   orderType: Props['orderType']
 }
-const LimitSection = ({
-  fee = '0',
-  fiatCurrency,
-  handleLearnMoreClick,
-  limitAmount,
-  orderType
-}: LimitSectionProps) => {
+const LimitSection = ({ fee = '0', fiatCurrency, limitAmount, orderType }: LimitSectionProps) => {
   switch (orderType) {
     case BrokerageOrderType.WITHDRAW:
       const withdrawSubTitle = (
@@ -157,7 +150,12 @@ const LimitSection = ({
                   defaultMessage='Newly added funds are subject to a holding period. You can transfer between your Trading, Rewards, and Exchange accounts in the meantime.'
                 />
               </Text>
-              <Link size='14px' weight={500} onClick={handleLearnMoreClick}>
+              <Link
+                weight={500}
+                size='14px'
+                target='_blank'
+                href='https://support.blockchain.com/hc/en-us/articles/360051018131-Trading-Account-Withdrawal-Holds'
+              >
                 <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
               </Link>
             </TextGroup>
@@ -346,7 +344,6 @@ const EnterAmount = ({
   fee,
   fiatCurrency,
   handleBack,
-  handleLearnMoreClick,
   handleMethodClick,
   handleSubmit,
   invalid,
@@ -369,7 +366,11 @@ const EnterAmount = ({
   return (
     <CustomForm onSubmit={handleSubmit}>
       <FlyoutContainer>
-        <FlyoutHeader data-e2e='depositBackToDepositMethods' mode='back' onClick={handleBack}>
+        <FlyoutHeader
+          data-e2e='depositBackToDepositMethods'
+          mode={orderType === BrokerageOrderType.DEPOSIT ? 'back' : 'close'}
+          onClick={handleBack}
+        >
           <DepositOrWithdrawal fiatCurrency={fiatCurrency} orderType={orderType} />
         </FlyoutHeader>
         <FlyoutContent mode='top'>
@@ -378,7 +379,6 @@ const EnterAmount = ({
             <LimitSection
               fee={fee}
               fiatCurrency={fiatCurrency}
-              handleLearnMoreClick={handleLearnMoreClick}
               orderType={orderType}
               limitAmount={withdrawableBalance || paymentMethod.limits.max}
             />
@@ -415,7 +415,6 @@ export type OwnProps =
       fee?: never
       fiatCurrency: FiatType
       handleBack: () => void
-      handleLearnMoreClick?: never
       handleMethodClick: () => void
       minWithdrawAmount?: never
       orderType: BrokerageOrderType.DEPOSIT
@@ -427,7 +426,6 @@ export type OwnProps =
       fee: string
       fiatCurrency: FiatType
       handleBack: () => void
-      handleLearnMoreClick: () => void
       handleMethodClick: () => void
       minWithdrawAmount: string
       orderType: BrokerageOrderType.WITHDRAW
