@@ -26,7 +26,7 @@ export const TableWrapper = styled.div`
     /* make sure the inner table is always as wide as needed */
     display: table;
     width: 99%;
-    height: 100%;
+    height: calc(100vh - 220px);
     border-spacing: 0;
     border: 1px solid ${(props) => props.theme.grey100};
     border-radius: 8px;

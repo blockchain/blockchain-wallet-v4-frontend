@@ -17,6 +17,10 @@ const NoResultsWrapper = styled.div`
   margin-top: 120px;
 `
 
+const TableBodyWrapper = styled.div`
+  height: calc(100% - 52px);
+`
+
 const options = {
   disableMultiSort: true,
   disableSortRemove: true
@@ -127,21 +131,19 @@ const PricesTable = (props: Props) => {
               </div>
             ))}
           </div>
-          {/* <AutoSizer>
-            {({ height, width }) => {
-              console.log('[HEIGHT]: ', height)
-              console.log('[WIDTH]: ', width)
-              console.log('[ROWS LENGTH]: ', rows.length)
-
-            return ( */}
-          <div {...getTableBodyProps()}>
-            <List height={300} width='100%' itemCount={rows.length} itemSize={105}>
-              {RenderRow}
-            </List>
-          </div>
-          {/* } )
-            }}
-          </AutoSizer> */}
+          <TableBodyWrapper>
+            <AutoSizer>
+              {({ height, width }) => {
+                return (
+                  <div {...getTableBodyProps()}>
+                    <List height={height} width={width} itemCount={rows.length} itemSize={105}>
+                      {RenderRow}
+                    </List>
+                  </div>
+                )
+              }}
+            </AutoSizer>
+          </TableBodyWrapper>
         </div>
       )}
     </TableWrapper>
