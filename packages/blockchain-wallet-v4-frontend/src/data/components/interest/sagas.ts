@@ -583,8 +583,22 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.fetchEDDWithdrawLimitsFailure({ error }))
     }
   }
+  const fetchEDDDepositLimits = function* ({
+    payload
+  }: ReturnType<typeof A.fetchEDDDepositLimits>) {
+    try {
+      yield put(A.fetchEDDDepositLimitsLoading())
+      const interestEDDDepositLimits: ReturnType<typeof api.getSavingsEDDDepositLimits> =
+        yield call(api.getSavingsEDDDepositLimits, payload.currency)
+      yield put(A.fetchEDDDepositLimitsSuccess({ interestEDDDepositLimits }))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchEDDWithdrawLimitsFailure({ error }))
+    }
+  }
 
   return {
+    fetchEDDDepositLimits,
     fetchEDDStatus,
     fetchEDDWithdrawLimits,
     fetchInterestAccount,
