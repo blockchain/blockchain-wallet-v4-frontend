@@ -81,12 +81,6 @@ const EnterAmountContainer = (props: Props) => {
     }
   }
 
-  const handleLearnMoreClick = () => {
-    props.withdrawActions.setStep({
-      step: WithdrawStepEnum.ON_HOLD
-    })
-  }
-
   return props.data.cata({
     Failure: () => (
       <FlyoutOopsError action='retry' data-e2e='withdrawReload' handler={errorCallback} />
@@ -128,7 +122,6 @@ const EnterAmountContainer = (props: Props) => {
           fiatCurrency={props.fiatCurrency}
           handleBack={props.handleClose}
           handleMethodClick={handleBankSelection}
-          handleLearnMoreClick={handleLearnMoreClick}
           orderType={BrokerageOrderType.WITHDRAW}
           paymentAccount={val.defaultMethod || props.beneficiary || val.defaultBeneficiary}
           paymentMethod={selectedPaymentMethod}
