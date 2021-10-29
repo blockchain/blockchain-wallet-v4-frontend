@@ -134,7 +134,7 @@ const PricesTable = (props: Props) => {
               {({ height, width }) => {
                 return (
                   <div {...getTableBodyProps()}>
-                    <List height={height} width={width} itemCount={rows.length} itemSize={105}>
+                    <List height={height} width={width} itemCount={rows.length} itemSize={130}>
                       {RenderRow}
                     </List>
                   </div>

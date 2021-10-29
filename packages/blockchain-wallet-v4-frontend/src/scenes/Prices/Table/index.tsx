@@ -33,7 +33,7 @@ export const TableWrapper = styled.div`
 
     .td {
       border-top: 1px solid ${(props) => props.theme.grey100};
-      height: 73px;
+      height: 100px;
     }
 
     .th {
@@ -47,12 +47,12 @@ export const TableWrapper = styled.div`
       margin: 0;
       padding: 16px 8px;
       text-align: left;
-      /* make sure each cell grows equally */
-      width: 1%;
+      width: 20%;
     }
 
     .tr {
-      display: table-row;
+      display: table;
+      width: 100%;
     }
   }
 `
