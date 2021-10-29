@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { LoginSteps, ProductAuthMetadata } from 'data/types'
+import { LoginSteps, PlatformTypes, ProductAuthMetadata } from 'data/types'
 
 import CreateAccount from './CreateAccount'
 import DropdownLanguage from './DropdownLanguage'
@@ -22,6 +22,7 @@ const Footer = ({ isLogin, loginStep, productAuthMetadata }: Props) => {
           <CreateAccount productAuthMetadata={productAuthMetadata} />
         )}
         {isLogin &&
+          productAuthMetadata.platform === PlatformTypes.WEB &&
           (loginStep === LoginSteps.ENTER_PASSWORD_WALLET ||
             loginStep === LoginSteps.ENTER_PASSWORD_EXCHANGE) && (
             <ProductPicker productAuthMetadata={productAuthMetadata} />
