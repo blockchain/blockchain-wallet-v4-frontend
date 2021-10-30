@@ -53,10 +53,12 @@ const HeaderLink = styled(Link)`
 
 const Header = ({ loginStep, productAuthMetadata }: Props) => {
   const showExchangeHeader =
-    (loginStep === LoginSteps.ENTER_PASSWORD_EXCHANGE || productAuthMetadata?.product === ProductAuthOptions.EXCHANGE) &&
+    (loginStep === LoginSteps.ENTER_PASSWORD_EXCHANGE ||
+      productAuthMetadata?.product === ProductAuthOptions.EXCHANGE) &&
     loginStep !== LoginSteps.ENTER_PASSWORD_WALLET
   const showWalletHeader =
-    (loginStep === LoginSteps.ENTER_PASSWORD_WALLET || productAuthMetadata?.product === ProductAuthOptions.WALLET) &&
+    (loginStep === LoginSteps.ENTER_PASSWORD_WALLET ||
+      productAuthMetadata?.product === ProductAuthOptions.WALLET) &&
     loginStep !== LoginSteps.ENTER_PASSWORD_EXCHANGE
 
   return (

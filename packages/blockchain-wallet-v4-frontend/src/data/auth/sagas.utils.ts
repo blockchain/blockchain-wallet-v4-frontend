@@ -52,9 +52,6 @@ export const parseMagicLink = function* () {
     }
     // store data in the cache and update form values to be used to submit login
     if (product === ProductAuthOptions.WALLET) {
-      const shouldPollForMagicLinkData = yield select(
-        selectors.core.walletOptions.getPollForMagicLinkData
-      )
       if (session !== sessionIdFromLink && shouldPollForMagicLinkData) {
         // TODO: question for merge, do we need the next line?
         yield put(actions.auth.authorizeVerifyDevice())

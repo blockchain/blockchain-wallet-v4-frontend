@@ -16,12 +16,6 @@ const UpgradeLoading = () => {
             defaultMessage='Upgrading Your Account'
           />
         </Text>
-        <Text size='16px' weight={500} color='grey900' lineHeight='1.5'>
-          <FormattedMessage
-            id='scenes.login.upgrade_loading.upgrading.body'
-            defaultMessage='You can now use your email and new password to log in to your Blockchain.com Wallet and the Exchange.'
-          />
-        </Text>
       </CenteredColumn>
     </>
   )

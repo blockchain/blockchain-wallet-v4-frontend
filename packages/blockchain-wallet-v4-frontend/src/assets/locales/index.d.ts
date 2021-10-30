@@ -36,6 +36,7 @@ type MessagesType = {
   'buttons.go_back': 'Go Back'
   'buttons.hide': 'Hide'
   'buttons.import_now': 'Import Now'
+  'buttons.i_understand': 'I Understand'
   'buttons.keep': 'Keep'
   'buttons.learn_more': 'Learn More'
   'buttons.learn_more_arrow': 'Learn more ->'
@@ -2247,8 +2248,8 @@ type MessagesType = {
   'scences.login.wallet_guid': 'Wallet: {guid}'
   'scenes.login.upgrade_loading.upgrading.body': 'You can now use your email and new password to log in to your Blockchain.com Wallet and the Exchange.'
   'scenes.login.upgrade_loading.upgrading.header': 'Upgrading Your Account'
-  'scenes.login.upgrade_success.wallet': 'Upgrade successful, taking you to Blockchain.com Wallet...'
-  'scenes.login.upgrade_success.exchange': 'Upgrade successful, taking you to the Blockchain.com Exchange...'
+  'scenes.login.upgrade_success': 'Upgrade successful.'
+  'scenes.login.upgrade_success.copy': 'You can now use your Wallet email and password to log in to your Blockchain.com Wallet and the Exchange.'
   'scenes.login.simplebuy.header': 'Buy Crypto With Credit Card'
   'scenes.login.wallet.link': "Don't have a wallet?"
   'scenes.login.wallet.link_signup': "Don't have a Blockchain Wallet?"

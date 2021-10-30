@@ -181,7 +181,6 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
             })()}
           </Form>
         </Wrapper>
-
         {/* FOOTER */}
         {!loginProps.isMobileViewLogin && getLoginPageFooter(step, this.loginWithMobileClicked)}
       </>

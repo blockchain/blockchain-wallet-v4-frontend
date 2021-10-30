@@ -185,8 +185,9 @@ export const getLoginPageTitle = (step) => {
         />
       )
     case LoginSteps.ENTER_EMAIL_GUID:
-    default:
       return <FormattedMessage id='scenes.login.welcome' defaultMessage='Welcome back!' />
+    default:
+      return null
   }
 }
 
