@@ -206,7 +206,7 @@ export const encodeCall = (abi, parameters: any[]): string => {
  * @param   replaceKind Parameter kind to replace
  * @return  The resulting encoded replacementPattern
  */
-const encodeReplacementPattern = (
+export const encodeReplacementPattern = (
   abi,
   replaceKind = FunctionInputKind.Replaceable,
   encodeToBytes = true
