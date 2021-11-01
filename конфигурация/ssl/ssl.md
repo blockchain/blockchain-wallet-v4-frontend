@@ -23,8 +23,6 @@ Follow these steps for MacOs:
 3) Open Chrome and navigate to `chrome://flags/#allow-insecure-localhost` via the URL
 4) Enable the "Allow invalid certificates for resources loaded from localhost." setting
 5) Now simply start the HTTPS enabled server via `yarn start` and navigate to [https://localhost:8080]()
-
 NOTE: Chrome will still warn you that the connection is "Not Secure" via red letters but that is OK for our purposes
-
 Windows
 - TODO
