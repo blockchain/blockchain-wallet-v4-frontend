@@ -12,27 +12,18 @@ import {
   SettingWrapper
 } from 'components/Setting'
 
-const WalletAccessTor = props => {
+const WalletAccessTor = (props) => {
   const { blockingTor, handleClick } = props
   return (
     <SettingContainer>
       <SettingSummary>
         <SettingHeader>
-          <FormattedMessage
-            id='scenes.settings.tor.title'
-            defaultMessage='Wallet Access via Tor'
-          />
+          <FormattedMessage id='scenes.settings.tor.title' defaultMessage='Wallet Access via Tor' />
           <SettingStatus active={blockingTor}>
             {blockingTor ? (
-              <FormattedMessage
-                id='scenes.security.tor.blocked'
-                defaultMessage='Blocked'
-              />
+              <FormattedMessage id='scenes.security.tor.blocked' defaultMessage='Blocked' />
             ) : (
-              <FormattedMessage
-                id='scenes.security.tor.allowed'
-                defaultMessage='Allowed'
-              />
+              <FormattedMessage id='scenes.security.tor.allowed' defaultMessage='Allowed' />
             )}
           </SettingStatus>
         </SettingHeader>

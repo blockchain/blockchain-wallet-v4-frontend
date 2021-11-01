@@ -5,12 +5,7 @@ import { defaultTo, filter, prop } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
-import {
-  ExtractSuccess,
-  SBOrderType,
-  SBPaymentTypes,
-  WalletFiatType
-} from '@core/types'
+import { ExtractSuccess, SBOrderType, SBPaymentTypes, WalletFiatType } from '@core/types'
 import DataError from 'components/DataError'
 import { actions, selectors } from 'data'
 import { getFiatFromPair, getOrderType } from 'data/components/simpleBuy/model'
@@ -53,7 +48,6 @@ class CheckoutConfirm extends PureComponent<Props> {
 
     const userTier = userData?.tiers?.current
     const inputCurrency = this.props.order.inputCurrency as WalletFiatType
-
     // check for SDD flow and direct to add card
     if (isSddFlow && this.props.order.paymentType === SBPaymentTypes.PAYMENT_CARD) {
       if (isUserSddVerified) {

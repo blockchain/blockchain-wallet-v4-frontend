@@ -15,25 +15,16 @@ class LoginIpRestrictionContainer extends React.PureComponent {
     const { ...rest } = this.props
     const ipLockOn = this.props.ipLockOn === 1
 
-    return (
-      <LoginIpRestriction
-        {...rest}
-        ipLockOn={ipLockOn}
-        handleClick={this.handleClick}
-      />
-    )
+    return <LoginIpRestriction {...rest} ipLockOn={ipLockOn} handleClick={this.handleClick} />
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   ipLockOn: selectors.core.settings.getIpLockOn(state).getOrElse(0)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LoginIpRestrictionContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(LoginIpRestrictionContainer)

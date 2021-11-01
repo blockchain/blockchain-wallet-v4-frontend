@@ -10,9 +10,9 @@ import { StickyHeader } from 'components/Layout'
 import { media } from 'services/styles'
 
 const StyledIconButton = styled(IconButton)`
-  border: 1px solid ${props => props.theme['grey100']};
+  border: 1px solid ${(props) => props.theme.grey100};
   border-radius: 8px;
-  color: ${props => props.theme['blue600']};
+  color: ${(props) => props.theme.blue600};
   margin-right: 12px;
 `
 const Search = styled.div`

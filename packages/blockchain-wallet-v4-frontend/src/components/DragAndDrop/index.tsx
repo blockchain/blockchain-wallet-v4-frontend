@@ -36,7 +36,7 @@ const MainSection = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 22px;
-  height: 36px;
+  min-height: 36px;
   width: 230px;
 `
 const ActionButtonsContainer = styled.div`

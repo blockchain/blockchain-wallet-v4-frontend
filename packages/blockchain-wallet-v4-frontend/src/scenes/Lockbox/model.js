@@ -8,21 +8,20 @@ const TooltipBody = styled.div`
   position: relative;
   min-width: 300px;
   max-width: 400px;
-  background-color: ${props => props.theme.white};
+  background-color: ${(props) => props.theme.white};
   border-radius: 4px;
 `
 const TooltipContent = styled.div`
-  color: ${props => props.theme.white};
+  color: ${(props) => props.theme.white};
   padding: 20px;
 `
 const TooltipFooter = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: ${props =>
-    props.isLastStep ? 'flex-end' : 'space-between'};
+  justify-content: ${(props) => (props.isLastStep ? 'flex-end' : 'space-between')};
   align-content: center;
   align-items: center;
-  color: ${props => props.theme.white};
+  color: ${(props) => props.theme.white};
   padding: 6px 20px 20px;
 `
 const StepChangeWrapper = styled.div`
@@ -55,10 +54,7 @@ export const TourTooltip = ({
         <TooltipFooter isLastStep={isLastStep}>
           {!isLastStep && (
             <ClickableText size='13px' weight={400} {...skipProps}>
-              <FormattedMessage
-                id='scenes.lockbox.tour.skip'
-                defaultMessage='Skip Tour'
-              />
+              <FormattedMessage id='scenes.lockbox.tour.skip' defaultMessage='Skip Tour' />
             </ClickableText>
           )}
           <StepChangeWrapper>
@@ -73,22 +69,11 @@ export const TourTooltip = ({
                 <FormattedMessage id='buttons.back' defaultMessage='Back' />
               </Button>
             )}
-            <Button
-              width='110px'
-              height='38px'
-              nature='primary'
-              {...primaryProps}
-            >
+            <Button width='110px' height='38px' nature='primary' {...primaryProps}>
               {isLastStep ? (
-                <FormattedMessage
-                  id='scenes.lockbox.tour.finish'
-                  defaultMessage='Finish Tour'
-                />
+                <FormattedMessage id='scenes.lockbox.tour.finish' defaultMessage='Finish Tour' />
               ) : (
-                <FormattedMessage
-                  id='scenes.lockbox.tour.next'
-                  defaultMessage='Next'
-                />
+                <FormattedMessage id='scenes.lockbox.tour.next' defaultMessage='Next' />
               )}
             </Button>
           </StepChangeWrapper>
@@ -100,9 +85,8 @@ export const TourTooltip = ({
 
 export const TOUR_STEPS = [
   {
-    target: '.tour-step1',
     content: (
-      <React.Fragment>
+      <>
         <StepTitle weight={500}>
           <FormattedMessage
             id='scenes.lockbox.tour.stepone.title'
@@ -115,24 +99,21 @@ export const TOUR_STEPS = [
             defaultMessage="This is the dashboard for your Lockbox. Below is the list of all transactions made with your Lockbox. Let's learn more about these assets."
           />
         </Text>
-      </React.Fragment>
+      </>
     ),
-    placement: 'bottom',
-    offset: 4,
     disableBeacon: true,
     disableOverlayClose: true,
     hideCloseButton: true,
-    showSkipButton: true
+    offset: 4,
+    placement: 'bottom',
+    showSkipButton: true,
+    target: '.tour-step1'
   },
   {
-    target: '.tour-step2',
     content: (
-      <React.Fragment>
+      <>
         <StepTitle weight={500}>
-          <FormattedMessage
-            id='scenes.lockbox.tour.steptwo.title'
-            defaultMessage='Asset List'
-          />
+          <FormattedMessage id='scenes.lockbox.tour.steptwo.title' defaultMessage='Asset List' />
         </StepTitle>
         <Text size='14px' weight={400}>
           <FormattedMessage
@@ -140,19 +121,19 @@ export const TOUR_STEPS = [
             defaultMessage='Here are the assets supported by your Lockbox. The balances of each asset are displayed on each card. Clicking on a card will filter the transaction list below to just that asset.'
           />
         </Text>
-      </React.Fragment>
+      </>
     ),
-    placement: 'bottom',
-    offset: 4,
     disableBeacon: true,
     disableOverlayClose: true,
     hideCloseButton: true,
-    showSkipButton: true
+    offset: 4,
+    placement: 'bottom',
+    showSkipButton: true,
+    target: '.tour-step2'
   },
   {
-    target: '.tour-step3',
     content: (
-      <React.Fragment>
+      <>
         <StepTitle weight={500}>
           <FormattedMessage
             id='scenes.lockbox.tour.stepthree.title'
@@ -165,24 +146,21 @@ export const TOUR_STEPS = [
             defaultMessage='Here you can search for any transaction made with your Lockbox by entering coin names, addresses or descriptions. Asset filters, applied by clicking the asset cards above, will also show here.'
           />
         </Text>
-      </React.Fragment>
+      </>
     ),
-    placement: 'bottom',
-    offset: 4,
     disableBeacon: true,
     disableOverlayClose: true,
     hideCloseButton: true,
-    showSkipButton: true
+    offset: 4,
+    placement: 'bottom',
+    showSkipButton: true,
+    target: '.tour-step3'
   },
   {
-    target: '.tour-step4',
     content: (
-      <React.Fragment>
+      <>
         <StepTitle weight={500}>
-          <FormattedMessage
-            id='scenes.lockbox.tour.stepfour.title'
-            defaultMessage='App Manager'
-          />
+          <FormattedMessage id='scenes.lockbox.tour.stepfour.title' defaultMessage='App Manager' />
         </StepTitle>
         <Text size='14px' weight={400}>
           <FormattedMessage
@@ -190,19 +168,19 @@ export const TOUR_STEPS = [
             defaultMessage='Want to add, update or remove applications?  Clicking here will open the app manager and allow you to change and update the apps on your device.'
           />
         </Text>
-      </React.Fragment>
+      </>
     ),
-    placement: 'bottom-end',
-    offset: 4,
     disableBeacon: true,
     disableOverlayClose: true,
     hideCloseButton: true,
-    showSkipButton: true
+    offset: 4,
+    placement: 'bottom-end',
+    showSkipButton: true,
+    target: '.tour-step4'
   },
   {
-    target: '.tour-step5',
     content: (
-      <React.Fragment>
+      <>
         <StepTitle weight={500}>
           <FormattedMessage
             id='scenes.lockbox.tour.stepfive.title'
@@ -215,13 +193,14 @@ export const TOUR_STEPS = [
             defaultMessage='Clicking here will bring you to the settings page where you can rename your device, install firmware updates, verify your devices authenticity and much more!'
           />
         </Text>
-      </React.Fragment>
+      </>
     ),
-    placement: 'bottom-end',
-    offset: 4,
     disableBeacon: true,
     disableOverlayClose: true,
     hideCloseButton: true,
-    showSkipButton: true
+    offset: 4,
+    placement: 'bottom-end',
+    showSkipButton: true,
+    target: '.tour-step5'
   }
 ]

@@ -3,15 +3,11 @@ import { lift } from 'ramda'
 import { ExtractSuccess, FiatType } from '@core/types'
 import { selectors } from 'data'
 
-export const getData = state => {
+export const getData = (state) => {
   const balancesR = selectors.components.simpleBuy.getSBBalances(state)
-  const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(
-    state
-  )
+  const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(state)
   const cardsR = selectors.components.simpleBuy.getSBCards(state)
-  const paymentMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(
-    state
-  )
+  const paymentMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(state)
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
 
   return lift(

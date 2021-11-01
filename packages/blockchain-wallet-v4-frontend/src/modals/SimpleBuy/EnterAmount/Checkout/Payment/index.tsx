@@ -3,10 +3,16 @@ import { FormattedMessage } from 'react-intl'
 import styled, { css } from 'styled-components'
 
 import { Box, Icon } from 'blockchain-info-components'
+import {
+  getIcon,
+  getText,
+  PaymentArrowContainer,
+  PaymentText,
+  SectionTitle
+} from 'components/Flyout/model'
 import { DisplayPaymentIcon } from 'components/SimpleBuy'
 
 import { Props } from '../template.success'
-import { getIcon, getText, PaymentArrowContainer, PaymentText, SectionTitle } from './model'
 
 const RightArrowIcon = styled(Icon)<{
   disabled?: boolean

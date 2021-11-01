@@ -3,18 +3,11 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
+import { CoinType, InterestRateType, RemoteDataType } from '@core/types'
 import { SkeletonRectangle } from 'blockchain-info-components'
-import {
-  CoinType,
-  InterestRateType,
-  RemoteDataType
-} from '@core/types'
 import { actions } from 'data'
 
-import {
-  StateType as ParentStateType,
-  SuccessStateType as ParentSuccessStateType
-} from '..'
+import { StateType as ParentStateType, SuccessStateType as ParentSuccessStateType } from '..'
 import { getData } from './selectors'
 import SummaryCard from './template.success'
 
@@ -26,10 +19,10 @@ const LoadingCard = () => <LoadingBox width='330px' height='275px' />
 class SummaryCardContainer extends PureComponent<Props> {
   render() {
     return this.props.data.cata({
-      Success: val => <SummaryCard {...this.props} {...val} />,
       Failure: () => null,
       Loading: () => <LoadingCard />,
-      NotAsked: () => <LoadingCard />
+      NotAsked: () => <LoadingCard />,
+      Success: (val) => <SummaryCard {...this.props} {...val} />
     })
   }
 }

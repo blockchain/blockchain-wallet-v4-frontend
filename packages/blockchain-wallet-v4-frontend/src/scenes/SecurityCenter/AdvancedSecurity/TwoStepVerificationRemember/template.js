@@ -13,7 +13,7 @@ import {
 
 import Settings from './Settings'
 
-const TwoStepVerificationRemember = props => {
+const TwoStepVerificationRemember = (props) => {
   const { authTypeNeverSave } = props
 
   return (

@@ -8,13 +8,13 @@ export default {
       currency: 'BRL',
       decimal_digits: 2,
       rate: '100',
-      symbol: 'R$',
+      symbol: 'R$'
     },
     CENT: {
       currency: 'BRL',
       decimal_digits: 0,
       rate: '1',
-      symbol: '¢R$',
-    },
-  },
+      symbol: '¢R$'
+    }
+  }
 }

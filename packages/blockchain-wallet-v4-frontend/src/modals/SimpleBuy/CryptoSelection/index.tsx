@@ -18,6 +18,7 @@ class CryptoSelection extends PureComponent<Props> {
       this.props.buySellActions.fetchPairs({ currency: this.props.fiatCurrency })
       this.props.buySellActions.fetchFiatEligible(this.props.fiatCurrency)
       this.props.buySellActions.fetchSDDEligibility()
+      this.props.buySellActions.fetchOrders()
     }
   }
 

@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   }
 `
 
-const CountdownTimer = props => (
+const CountdownTimer = (props) => (
   <Wrapper {...props}>
     {!props.payProInvoice ? (
       <Text size='11px' weight={400} color='grey400'>
@@ -28,11 +28,7 @@ const CountdownTimer = props => (
         />
       </Text>
     ) : (
-      <Text
-        size='14px'
-        weight={500}
-        color={getCountdownColor(props.expiryDate)}
-      >
+      <Text size='14px' weight={500} color={getCountdownColor(props.expiryDate)}>
         <FormattedMessage
           id='modals.sendbtc.firststep.paypro_expiry_text'
           defaultMessage='Remaining time {timeLeft}'
@@ -63,16 +59,12 @@ CountdownTimer.propTypes = {
   timeLeft: PropTypes.string
 }
 
-export const getCountdownColor = expiryDateString => {
+export const getCountdownColor = (expiryDateString) => {
   const expiryDate = new Date(expiryDateString)
   const oneMinuteLimit = new Date(expiryDate - 60000)
   const fiveMinuteLimit = new Date(expiryDate - 5 * 60000)
   const now = new Date(Date.now())
-  return now > oneMinuteLimit
-    ? 'error'
-    : now > fiveMinuteLimit
-    ? 'warn'
-    : 'grey400'
+  return now > oneMinuteLimit ? 'error' : now > fiveMinuteLimit ? 'warn' : 'grey400'
 }
 
 CountdownTimer.defaultProps = {

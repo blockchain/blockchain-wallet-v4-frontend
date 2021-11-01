@@ -1,9 +1,11 @@
-import { CoinType, SBPaymentTypes, WalletFiatType } from '@core/types'
+import { CoinType, FiatType, SBPaymentTypes, WalletAcountType, WalletFiatType } from '@core/types'
 import {
   BankTransferAccountType,
   NabuProductType,
   ProductEligibility,
-  ProductEligibilityResponse
+  ProductEligibilityResponse,
+  SeamlessLimits,
+  WithdrawLimitsResponse
 } from 'data/types'
 
 import { SBTransactionsType } from '../simpleBuy/types'
@@ -28,9 +30,12 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const getWithdrawalLocks = (): WithdrawalLockResponseType =>
+  const getWithdrawalLocks = (currency: FiatType): WithdrawalLockResponseType =>
     authorizedGet({
-      endPoint: '/payments/withdrawals/locks',
+      data: {
+        currency
+      },
+      endPoint: `/payments/withdrawals/locks`,
       url: nabuUrl
     })
 
@@ -94,8 +99,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       contentType: 'application/json',
       data: {
         currency,
-        paymentMethod,
-        product: 'SIMPLEBUY'
+        paymentMethod
       },
       endPoint: '/payments/withdrawals/locks/check',
       url: nabuUrl
@@ -138,13 +142,43 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       url: nabuUrl
     })
 
+  const getWithdrawalLimits = (currency?: FiatType): WithdrawLimitsResponse =>
+    authorizedGet({
+      data: {
+        currency
+      },
+      endPoint: `/v2/limits/withdrawals`,
+      url: nabuUrl
+    })
+
+  const getCrossBorderTransactions = (
+    inputCurrency: CoinType,
+    fromAccount: WalletAcountType,
+    outputCurrency: CoinType,
+    toAccount: WalletAcountType,
+    currency?: WalletFiatType
+  ): SeamlessLimits =>
+    authorizedGet({
+      data: {
+        currency,
+        fromAccount,
+        inputCurrency,
+        outputCurrency,
+        toAccount
+      },
+      endPoint: `/limits/crossborder/transaction`,
+      url: nabuUrl
+    })
+
   return {
     checkWithdrawalLocks,
     getBeneficiaries,
+    getCrossBorderTransactions,
     getEligibilityForProduct,
     getProductsEligibility,
     getTransactionsHistory,
     getWithdrawalFees,
+    getWithdrawalLimits,
     getWithdrawalLocks,
     initiateCustodialTransfer,
     notifyNonCustodialToCustodialTransfer,

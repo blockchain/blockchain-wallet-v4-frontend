@@ -16,7 +16,7 @@ const ButtonContainer = styled.button`
   outline: none;
 
   > span {
-    background-color: ${props => (props.color ? props.color : 'white')};
+    background-color: ${(props) => (props.color ? props.color : 'white')};
     border-radius: var(--smBorderRadius);
     display: block;
     height: 2px;
@@ -28,7 +28,7 @@ const ButtonContainer = styled.button`
 
   > span::before,
   > span::after {
-    background-color: ${props => (props.color ? props.color : 'white')};
+    background-color: ${(props) => (props.color ? props.color : 'white')};
     border-radius: var(--smBorderRadius);
     content: '';
     display: block;
@@ -82,7 +82,7 @@ class MenuButton extends PureComponent {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    let active = prevState.active
+    let { active } = prevState
     // eslint-disable-next-line no-prototype-builtins
     if (nextProps.hasOwnProperty('active')) {
       active = nextProps.active
@@ -91,7 +91,7 @@ class MenuButton extends PureComponent {
   }
 
   handleClick = () => {
-    let nextActive = !this.state.active
+    const nextActive = !this.state.active
     this.setState({ active: nextActive })
     if (this.props.callback) {
       this.props.callback(nextActive)
@@ -99,13 +99,9 @@ class MenuButton extends PureComponent {
   }
 
   render() {
-    let classes = this.state.active ? 'is-active' : ''
+    const classes = this.state.active ? 'is-active' : ''
     return (
-      <ButtonContainer
-        color={this.props.color}
-        className={classes}
-        onClick={this.handleClick}
-      >
+      <ButtonContainer color={this.props.color} className={classes} onClick={this.handleClick}>
         <span />
       </ButtonContainer>
     )

@@ -3,12 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { filter } from 'ramda'
 import styled from 'styled-components'
 
-import {
-  Button,
-  TableCell,
-  TableHeader,
-  Text
-} from 'blockchain-info-components'
+import { Button, TableCell, TableHeader, Text } from 'blockchain-info-components'
 import { SettingDescription, SettingHeader } from 'components/Setting'
 
 import { Table } from '../../components'
@@ -32,36 +27,33 @@ const ClickableText = styled(Text)`
   text-align: right;
 `
 
-const BchImportedAddresses = props => {
+const BchImportedAddresses = (props) => {
   const { importedAddresses, onEditLabel, onTransferAll, search } = props
 
-  const isMatch = address =>
-    !search || address.addr.toLowerCase().indexOf(search) > -1
+  const isMatch = (address) => !search || address.addr.toLowerCase().indexOf(search) > -1
 
-  const importedAddressesTableRows = filter(isMatch, importedAddresses).map(
-    address => {
-      return (
-        <AddressRow
-          key={address.addr}
-          address={address}
-          coin='BCH'
-          dataE2e='bchImportedAddressRow'
-          renderOptions={() => [
-            <ClickableText
-              size='small'
-              onClick={() => onEditLabel(address)}
-              data-e2e='btcSignMessageImportedAddressLink'
-            >
-              <FormattedMessage
-                id='scenes.settings.addresses.edit_name'
-                defaultMessage='Edit Label'
-              />
-            </ClickableText>
-          ]}
-        />
-      )
-    }
-  )
+  const importedAddressesTableRows = filter(isMatch, importedAddresses).map((address) => {
+    return (
+      <AddressRow
+        key={address.addr}
+        address={address}
+        coin='BCH'
+        dataE2e='bchImportedAddressRow'
+        renderOptions={() => [
+          <ClickableText
+            size='small'
+            onClick={() => onEditLabel(address)}
+            data-e2e='btcSignMessageImportedAddressLink'
+          >
+            <FormattedMessage
+              id='scenes.settings.addresses.edit_name'
+              defaultMessage='Edit Label'
+            />
+          </ClickableText>
+        ]}
+      />
+    )
+  })
 
   return (
     <Wrapper>
@@ -117,10 +109,7 @@ const BchImportedAddresses = props => {
                 />
               </Text>
             </TableCell>
-            <TableCell
-              width='10%'
-              style={{ display: 'flex', justifyContent: 'flex-end' }}
-            >
+            <TableCell width='10%' style={{ display: 'flex', justifyContent: 'flex-end' }}>
               <Text color='grey900' size='14px' weight={500}>
                 <FormattedMessage id='copy.actions' defaultMessage='Actions' />
               </Text>

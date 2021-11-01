@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Icon, Image, Text } from 'blockchain-info-components'
 import {
   OrderType,
   SBPaymentMethodType,
@@ -11,6 +10,7 @@ import {
   WalletCurrencyType,
   WalletFiatEnum
 } from '@core/types'
+import { Icon, Image, Text } from 'blockchain-info-components'
 import { AddNewButton } from 'components/Brokerage'
 import { FlyoutWrapper } from 'components/Flyout'
 import { CARD_TYPES, DEFAULT_CARD_SVG_LOGO } from 'components/Form/CreditCardBox/model'

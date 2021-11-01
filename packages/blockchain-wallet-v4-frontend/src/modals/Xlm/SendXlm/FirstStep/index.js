@@ -30,7 +30,15 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.sendXlm, dispatch),
   formActions: bindActionCreators(actions.form, dispatch),
-  swapActions: bindActionCreators(actions.components.swap, dispatch)
+  swapActions: bindActionCreators(actions.components.swap, dispatch),
+  verifyIdentity: () =>
+    dispatch(
+      actions.components.identityVerification.verifyIdentity({
+        needMoreInfo: false,
+        origin: 'Send',
+        tier: 2
+      })
+    )
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FirstStep)

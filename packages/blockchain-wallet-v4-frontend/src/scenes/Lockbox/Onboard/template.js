@@ -3,14 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import Bowser from 'bowser'
 import styled from 'styled-components'
 
-import {
-  Banner,
-  Button,
-  Icon,
-  Image,
-  Link,
-  Text
-} from 'blockchain-info-components'
+import { Banner, Button, Icon, Image, Link, Text } from 'blockchain-info-components'
 import { model } from 'data'
 import { media } from 'services/styles'
 
@@ -35,7 +28,7 @@ const GetStartedContainer = styled.div`
   width: ${containerWidth};
   box-sizing: border-box;
   height: 325px;
-  border: 1px solid ${props => props.theme.blue000};
+  border: 1px solid ${(props) => props.theme.blue000};
   border-radius: 3px;
   background-image: url('/img/lockbox@2x.png');
   background-repeat: no-repeat;
@@ -95,7 +88,7 @@ const LearnMoreContainer = styled.div`
   padding: ${containerPadding};
   box-sizing: border-box;
   border-radius: 3px;
-  background-color: ${props => props.theme.grey000};
+  background-color: ${(props) => props.theme.grey000};
   ${media.mobile`
     width: 100%;
     flex-direction: column;
@@ -110,19 +103,17 @@ const LearnMoreLink = styled(Link)`
 `
 const LearnMoreText = styled(Text)`
   margin-right: 15px;
-  color: ${props => props.theme.blue600};
+  color: ${(props) => props.theme.blue600};
 `
 const SetupGuideText = styled(Text)`
   margin: 0 4px;
-  color: ${props => props.theme.blue600};
+  color: ${(props) => props.theme.blue600};
 `
 const BrowserWarning = styled(Banner)``
 const browser = Bowser.getParser(window.navigator.userAgent)
-const disableSetup = !browser.satisfies(
-  model.components.lockbox.supportedBrowsers
-)
+const disableSetup = !browser.satisfies(model.components.lockbox.supportedBrowsers)
 
-const Onboard = props => {
+const Onboard = (props) => {
   const { launchLockboxSetup } = props
 
   return (
@@ -130,12 +121,7 @@ const Onboard = props => {
       <IntroContainer>
         <GetStartedContainer height='325px' url='url(/img/lockbox@2x.png)'>
           <GetStartedContent>
-            <GetStartedHeader
-              size='26px'
-              weight={500}
-              color='blue900'
-              width='200px'
-            >
+            <GetStartedHeader size='26px' weight={500} color='blue900' width='200px'>
               <FormattedMessage
                 id='scenes.lockbox.welcome.title'
                 defaultMessage='Secure Your Crypto Offline'
@@ -147,11 +133,7 @@ const Onboard = props => {
                 defaultMessage='Trade, send and receive straight from your offline hardware wallet. Blockchain Lockbox works seamlessly with your Blockchain Wallet.'
               />
             </GetStartedText>
-            <GetStartedButton
-              nature='primary'
-              disabled={disableSetup}
-              onClick={launchLockboxSetup}
-            >
+            <GetStartedButton nature='primary' disabled={disableSetup} onClick={launchLockboxSetup}>
               <FormattedMessage
                 id='scenes.lockbox.welcome.getstarted'
                 defaultMessage='Get Started'
@@ -165,9 +147,7 @@ const Onboard = props => {
                 />
               </Text>
               <LearnMoreLink
-                href={
-                  'https://blockchain.zendesk.com/hc/en-us/sections/360002593291-Setting-Up-Lockbox'
-                }
+                href='https://blockchain.zendesk.com/hc/en-us/sections/360002593291-Setting-Up-Lockbox'
                 target='_blank'
               >
                 <SetupGuideText size='13px' weight={400}>
@@ -181,10 +161,7 @@ const Onboard = props => {
           </GetStartedContent>
           <PoweredByContainer>
             <PoweredByText size='11px' weight={400} color='blue900'>
-              <FormattedMessage
-                id='scenes.lockbox.welcome.poweredby'
-                defaultMessage='Powered By'
-              />
+              <FormattedMessage id='scenes.lockbox.welcome.poweredby' defaultMessage='Powered By' />
             </PoweredByText>
             <Image
               width='100%'
@@ -203,15 +180,9 @@ const Onboard = props => {
               defaultMessage="Don't have a Lockbox? Secure your crypto now."
             />
           </Text>
-          <LearnMoreLink
-            href={'https://www.blockchain.com/lockbox'}
-            target='_blank'
-          >
+          <LearnMoreLink href='https://www.blockchain.com/lockbox' target='_blank'>
             <LearnMoreText size='15px'>
-              <FormattedMessage
-                id='buttons.learn_more'
-                defaultMessage='Learn More'
-              />
+              <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
             </LearnMoreText>
             <Icon name='arrow-right' color='blue600' size='18px' />
           </LearnMoreLink>

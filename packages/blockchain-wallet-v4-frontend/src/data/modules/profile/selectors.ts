@@ -1,3 +1,4 @@
+import { createSelector } from '@reduxjs/toolkit'
 import {
   any,
   complement,
@@ -62,7 +63,10 @@ export const isSilverOrAbove = compose(
 )
 
 export const getCurrentTier = compose(path(['data', 'current']), lift(path(['tiers'])), getUserData)
-
+export const getUserCurrencies = createSelector(getUserData, (userDataR) => {
+  const userData = userDataR.getOrElse({} as UserDataType)
+  return userData.currencies
+})
 export const getUserCountryCode = compose(lift(path(['address', 'country'])), getUserData)
 export const getUserStateCode = compose(lift(path(['address', 'state'])), getUserData)
 export const getUserTiers = compose(lift(prop('tiers')), getUserData)

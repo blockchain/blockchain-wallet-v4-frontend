@@ -7,20 +7,20 @@ import { selectBorderColor, selectFocusBorderColor } from '../helper'
 
 const BaseDateInput = styled(ReactDatetime)`
   position: relative;
-  width: ${props => (props.fullwidth ? '100%' : '150px')};
+  width: ${(props) => (props.fullwidth ? '100%' : '150px')};
 
   .form-control {
     display: block;
-    width: ${props => (props.fullwidth ? '100%' : '150px')};
+    width: ${(props) => (props.fullwidth ? '100%' : '150px')};
     height: 48px;
     min-height: 48px;
     padding: 6px 12px;
     box-sizing: border-box;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-      Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+      Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 16px;
     font-weight: 400;
-    color: ${props => props.theme['grey800']};
+    color: ${(props) => props.theme.grey800};
     background-color: ${({ theme }) => theme.white};
     background-image: none;
     outline-width: 0;
@@ -28,8 +28,7 @@ const BaseDateInput = styled(ReactDatetime)`
     border-radius: 8px;
     border: ${({ borderColor, theme }) => `1px solid ${theme[borderColor]}`};
     &:focus {
-      border: 1px solid
-        ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
+      border: 1px solid ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
     }
   }
 
@@ -42,7 +41,7 @@ const BaseDateInput = styled(ReactDatetime)`
     z-index: 99999 !important;
     background: #fff;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    border: 1px solid ${props => props.theme.grey100};
+    border: 1px solid ${(props) => props.theme.grey100};
     border-radius: 4px;
   }
 
@@ -69,8 +68,8 @@ const BaseDateInput = styled(ReactDatetime)`
     height: 28px;
   }
   .rdtPicker td {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-      Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+      Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
@@ -81,14 +80,14 @@ const BaseDateInput = styled(ReactDatetime)`
   .rdtPicker td.rdtSecond:hover,
   .rdtPicker .rdtTimeToggle:hover {
     cursor: pointer;
-    background: ${props => props.theme.grey000};
-    border: 1px solid ${props => props.theme.grey000};
+    background: ${(props) => props.theme.grey000};
+    border: 1px solid ${(props) => props.theme.grey000};
     border-radius: 5px;
     box-sizing: border-box;
   }
   .rdtPicker td.rdtOld,
   .rdtPicker td.rdtNew {
-    color: ${props => props.theme['grey400']};
+    color: ${(props) => props.theme.grey400};
   }
   .rdtPicker td.rdtToday {
     position: relative;
@@ -105,30 +104,30 @@ const BaseDateInput = styled(ReactDatetime)`
   }
   .rdtPicker td.rdtActive,
   .rdtPicker td.rdtActive:hover {
-    background-color: ${props => props.theme.blue600};
-    color: ${props => props.theme.white};
+    background-color: ${(props) => props.theme.blue600};
+    color: ${(props) => props.theme.white};
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    border: 1px solid ${props => props.theme.blue600};
+    border: 1px solid ${(props) => props.theme.blue600};
     border-radius: 5px;
     box-sizing: border-box;
   }
   .rdtPicker td.rdtActive.rdtToday:before {
-    border-bottom-color: ${props => props.theme.white};
+    border-bottom-color: ${(props) => props.theme.white};
   }
   .rdtPicker td.rdtDisabled,
   .rdtPicker td.rdtDisabled:hover {
     background: none;
-    color: ${props => props.theme.grey000};
+    color: ${(props) => props.theme.grey000};
     cursor: not-allowed;
   }
 
   .rdtPicker td span.rdtOld {
-    color: ${props => props.theme['grey400']};
+    color: ${(props) => props.theme.grey400};
   }
   .rdtPicker td span.rdtDisabled,
   .rdtPicker td span.rdtDisabled:hover {
     background: none;
-    color: ${props => props.theme.grey000};
+    color: ${(props) => props.theme.grey000};
     cursor: not-allowed;
   }
   .rdtPicker th {
@@ -138,20 +137,20 @@ const BaseDateInput = styled(ReactDatetime)`
     width: 14.2857%;
     border-bottom: none;
     cursor: default;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-      Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+      Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 14px;
     font-weight: 400;
-    color: ${props => props.theme['grey800']};
+    color: ${(props) => props.theme.grey800};
   }
   .rdtPicker th.rdtSwitch {
     width: 100px;
     height: 30px;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-      Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+      Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 14px;
     font-weight: 400;
-    border: 1px solid ${props => props.theme.grey000};
+    border: 1px solid ${(props) => props.theme.grey000};
     border-radius: 5px;
     box-sizing: border-box;
   }
@@ -163,11 +162,11 @@ const BaseDateInput = styled(ReactDatetime)`
     align-items: center;
     width: 30px;
     height: 30px;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-      Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+      Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 24px;
     font-weight: 400;
-    border: 1px solid ${props => props.theme.grey000};
+    border: 1px solid ${(props) => props.theme.grey000};
     border-radius: 5px;
     box-sizing: border-box;
   }
@@ -182,7 +181,7 @@ const BaseDateInput = styled(ReactDatetime)`
   .rdtPicker th.rdtDisabled,
   .rdtPicker th.rdtDisabled:hover {
     background: none;
-    color: ${props => props.theme.grey000};
+    color: ${(props) => props.theme.grey000};
     cursor: not-allowed;
   }
   .rdtPicker thead tr:first-child th {
@@ -202,7 +201,7 @@ const BaseDateInput = styled(ReactDatetime)`
     cursor: pointer;
   }
   .rdtPicker button:hover {
-    background-color: ${props => props.theme.grey000};
+    background-color: ${(props) => props.theme.grey000};
   }
 
   .rdtPicker thead button {
@@ -270,7 +269,7 @@ const BaseDateInput = styled(ReactDatetime)`
   }
 `
 
-const DateInput = props => {
+const DateInput = (props) => {
   const { errorState, ...rest } = props
 
   return (
@@ -284,43 +283,43 @@ const DateInput = props => {
 
 // Documentation: https://github.com/arqex/react-datetime
 DateInput.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  dateFormat: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  timeFormat: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  input: PropTypes.bool,
-  open: PropTypes.bool,
-  locale: PropTypes.string,
-  utc: PropTypes.bool,
-  onChange: PropTypes.func,
-  onFocus: PropTypes.func,
-  onBlur: PropTypes.func,
-  viewMode: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   className: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  closeOnSelect: PropTypes.bool,
+  closeOnTab: PropTypes.bool,
+  dateFormat: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  defaultValue: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  disableOnClickOutside: PropTypes.bool,
+  fullwidth: PropTypes.bool,
+  input: PropTypes.bool,
   inputProps: PropTypes.object,
   isValidDate: PropTypes.func,
+  locale: PropTypes.string,
+  onBlur: PropTypes.func,
+  onChange: PropTypes.func,
+  onFocus: PropTypes.func,
+  open: PropTypes.bool,
   renderDay: PropTypes.func,
   renderMonth: PropTypes.func,
   renderYear: PropTypes.func,
   strictParsing: PropTypes.bool,
-  closeOnSelect: PropTypes.bool,
-  closeOnTab: PropTypes.bool,
   timeConstraints: PropTypes.object,
-  disableOnClickOutside: PropTypes.bool,
-  fullwidth: PropTypes.bool
+  timeFormat: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  utc: PropTypes.bool,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  viewMode: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
 }
 
 DateInput.defaultProps = {
-  dateFormat: true,
-  timeFormat: false,
-  input: true,
-  utc: false,
-  viewMode: 'days',
   className: '',
-  strictParsing: false,
   closeOnSelect: true,
   closeOnTab: true,
-  fullwidth: false
+  dateFormat: true,
+  fullwidth: false,
+  input: true,
+  strictParsing: false,
+  timeFormat: false,
+  utc: false,
+  viewMode: 'days'
 }
 
 export default DateInput

@@ -4,8 +4,10 @@ import { call, put, select } from 'redux-saga/effects'
 
 import { convertCoinToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
+import { FiatType, WalletAcountEnum } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
+import { SwapBaseCounterTypes } from 'data/components/swap/types'
 import { ModalName, ModalNameType } from 'data/modals/types'
 
 import * as S from './selectors'
@@ -30,9 +32,11 @@ export default ({ api }: { api: APIType }) => {
 
   const fetchLocks = function* () {
     yield put(A.fetchWithdrawalLocksLoading())
+    const currency = selectors.components.brokerage.getFiatCurrency(yield select()) as FiatType
     try {
       const withdrawalFees: ReturnType<typeof api.getWithdrawalLocks> = yield call(
-        api.getWithdrawalLocks
+        api.getWithdrawalLocks,
+        currency
       )
 
       yield put(A.fetchWithdrawalLocksSuccess(withdrawalFees))
@@ -99,9 +103,35 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const fetchSendLimits = function* ({ payload }: ReturnType<typeof A.fetchSendLimits>) {
+    const state = yield select()
+    const { coin, type } = payload.account
+
+    if (type !== SwapBaseCounterTypes.CUSTODIAL) {
+      return
+    }
+
+    const currency = selectors.core.settings.getCurrency(state).getOrElse('USD')
+    try {
+      yield put(A.fetchSendLimitsLoading())
+      const limitsResponse: ReturnType<typeof api.getCrossBorderTransactions> = yield call(
+        api.getCrossBorderTransactions,
+        coin,
+        WalletAcountEnum.CUSTODIAL,
+        coin,
+        WalletAcountEnum.NON_CUSTODIAL,
+        currency
+      )
+      yield put(A.fetchSendLimitsSuccess(limitsResponse))
+    } catch (e) {
+      yield put(A.fetchSendLimitsFailure(e))
+    }
+  }
+
   return {
     fetchFees,
     fetchLocks,
+    fetchSendLimits,
     onFormChange,
     // fetchTransactionDetails,
     submitTransaction

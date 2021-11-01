@@ -26,6 +26,7 @@ export default ({ api }: { api: APIType }) => {
       const data = yield call(api.getCoinPrices, request, timestamp)
       yield put(A.fetchCoinPricesSuccess(data))
     } catch (e) {
+      console.log(e)
       yield put(A.fetchCoinPricesFailure(e.message))
     }
   }

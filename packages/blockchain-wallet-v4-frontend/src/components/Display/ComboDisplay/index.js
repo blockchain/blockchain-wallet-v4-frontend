@@ -10,8 +10,8 @@ class ComboDisplayContainer extends React.PureComponent {
 }
 
 ComboDisplay.propTypes = {
-  coin: PropTypes.string.isRequired,
-  children: PropTypes.string.isRequired
+  children: PropTypes.string.isRequired,
+  coin: PropTypes.string.isRequired
 }
 
 export default ComboDisplayContainer

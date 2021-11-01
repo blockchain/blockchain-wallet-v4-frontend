@@ -16,6 +16,7 @@ import {
   TooltipIcon
 } from 'blockchain-info-components'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import UpgradeToGoldBanner from 'components/Flyout/Banners/UpgradeToGold'
 import {
   CountdownTimer,
   FiatConverter,
@@ -48,11 +49,13 @@ import UnstoppableDomains from 'components/UnstoppableDomains'
 import { model } from 'data'
 import { required, validBtcAddress } from 'services/forms'
 
+import { TIER_TYPES } from '../../../Settings/TradingLimits/model'
 import PriorityFeeLink from './PriorityFeeLink'
 import RegularFeeLink from './RegularFeeLink'
 import {
   insufficientFunds,
   invalidAmount,
+  isSendLimitOver,
   maximumAmount,
   maximumFeePerByte,
   minimumAmount,
@@ -109,7 +112,9 @@ const FirstStep = (props) => {
     payPro,
     priorityFeePerByte,
     regularFeePerByte,
-    totalFee
+    sendLimits,
+    totalFee,
+    verifyIdentity
   } = rest
   const isPayPro = !!payPro
   const isFromLockbox = from && from.type === 'LOCKBOX'
@@ -163,6 +168,9 @@ const FirstStep = (props) => {
           </Text>
         </WarningBanners>
       )}
+      <FormGroup>
+        <CustodyToAccountMessage coin='BTC' account={from} amount={amount} />
+      </FormGroup>
       <FormGroup margin={isFromCustody ? '15px' : '8px'}>
         <FormItem>
           <FormLabel htmlFor='to'>
@@ -210,9 +218,6 @@ const FirstStep = (props) => {
         </FormItem>
       </FormGroup>
       <UnstoppableDomains form={model.components.sendBtc.FORM} />
-      <FormGroup>
-        <CustodyToAccountMessage coin='BTC' account={from} amount={amount} />
-      </FormGroup>
       <FormGroup margin='15px'>
         <FormItem>
           <FormLabel htmlFor='amount'>
@@ -221,7 +226,14 @@ const FirstStep = (props) => {
           <Field
             name='amount'
             component={FiatConverter}
-            validate={[required, invalidAmount, insufficientFunds, minimumAmount, maximumAmount]}
+            validate={[
+              required,
+              invalidAmount,
+              insufficientFunds,
+              minimumAmount,
+              maximumAmount,
+              isSendLimitOver
+            ]}
             coin='BTC'
             data-e2e='sendBtc'
             disabled={isPayPro}
@@ -374,6 +386,11 @@ const FirstStep = (props) => {
         </Text>
       )}
       {isFromCustody && !isMnemonicVerified ? <MnemonicRequiredForCustodySend /> : null}
+      {isFromCustody &&
+      !isEmpty(sendLimits) &&
+      sendLimits?.globalLimit?.suggestedUpgrade?.requiredTier === TIER_TYPES.GOLD ? (
+        <UpgradeToGoldBanner limits={sendLimits} verifyIdentity={verifyIdentity} />
+      ) : null}
       <SubmitFormGroup>
         <Button
           type='submit'

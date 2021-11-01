@@ -74,10 +74,10 @@ export const ItemIcon = styled.div`
   font-size: 16px;
   font-weight: 500;
   max-width: 40px;
-  color: ${props => props.theme.grey800};
+  color: ${(props) => props.theme.grey800};
   align-items: center;
   justify-content: center;
-  background-color: ${props => props.theme.blue000};
+  background-color: ${(props) => props.theme.blue000};
   width: 40px;
   height: 40px;
   border-radius: 50%;

@@ -12,7 +12,7 @@ import {
   SecuritySummary
 } from '../../components'
 
-const TwoStepVerification = props => {
+const TwoStepVerification = (props) => {
   const { message } = props
 
   return (

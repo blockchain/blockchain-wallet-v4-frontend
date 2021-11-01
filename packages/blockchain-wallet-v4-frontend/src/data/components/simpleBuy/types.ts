@@ -131,6 +131,7 @@ export type SimpleBuyState = {
   order: undefined | SBOrderType
   orderType?: SBOrderActionType
   orders: RemoteDataType<string, Array<SBOrderType>>
+  origin?: SBShowModalOriginType
   pair: undefined | SBPairType
   pairs: RemoteDataType<string, Array<SBPairType>>
   payment: RemoteDataType<string, undefined | PaymentValue>

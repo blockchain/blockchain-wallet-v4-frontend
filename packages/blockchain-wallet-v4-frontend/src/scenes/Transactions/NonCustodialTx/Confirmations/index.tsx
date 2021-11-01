@@ -4,8 +4,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import { toString } from 'ramda'
 import styled from 'styled-components'
 
-import { Icon, Link, Tooltip, TooltipHost } from 'blockchain-info-components'
 import { CoinType, WalletOptionsType } from '@core/types'
+import { Icon, Link, Tooltip, TooltipHost } from 'blockchain-info-components'
 import { selectors } from 'data'
 import { media } from 'services/styles'
 

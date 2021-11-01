@@ -1,3 +1,6 @@
+import { CoinType, WalletAcountType, WalletFiatType } from '@core/types'
+import { SeamlessLimits } from 'data/types'
+
 import * as AT from './actionTypes'
 
 export const initialized = (payload) => ({
@@ -76,4 +79,34 @@ export const firstStepMaximumFeeClicked = () => ({
 export const showNoAccountForm = (shouldShow) => ({
   payload: { shouldShow },
   type: AT.SEND_XLM_SHOW_NO_ACCOUNT_FORM
+})
+
+export const sendXlmFetchLimits = (
+  inputCurrency: CoinType,
+  fromAccount: WalletAcountType,
+  outputCurrency: CoinType,
+  toAccount: WalletAcountType,
+  currency?: WalletFiatType
+) => ({
+  payload: {
+    currency,
+    fromAccount,
+    inputCurrency,
+    outputCurrency,
+    toAccount
+  },
+  type: AT.SEND_XLM_FETCH_LIMITS
+})
+export const sendXlmFetchLimitsFailure = (error: string) => ({
+  payload: {
+    error
+  },
+  type: AT.SEND_XLM_FETCH_LIMITS_FAILURE
+})
+export const sendXlmFetchLimitsLoading = () => ({
+  type: AT.SEND_XLM_FETCH_LIMITS_LOADING
+})
+export const sendXlmFetchLimitsSuccess = (limitsResponse: SeamlessLimits) => ({
+  payload: limitsResponse,
+  type: AT.SEND_XLM_FETCH_LIMITS_SUCCESS
 })

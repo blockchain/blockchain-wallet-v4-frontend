@@ -15,19 +15,17 @@ export const selectAddressLabel = curry((index, as) =>
   pipe(AddressLabelMap.guard, view(addressLabel(index)))(as)
 )
 
-export const toJS = pipe(AddressLabelMap.guard, addressLabelMap => {
+export const toJS = pipe(AddressLabelMap.guard, (addressLabelMap) => {
   const addressLabelList = addressLabelMap.toList()
   return map(AddressLabel.toJS, addressLabelList).toArray()
 })
 
 export const deleteLabel = curry((index, addressLabelMap) =>
-  pipe(AddressLabelMap.guard, amap => amap.delete(index.toString()))(
-    addressLabelMap
-  )
+  pipe(AddressLabelMap.guard, (amap) => amap.delete(index.toString()))(addressLabelMap)
 )
 
 export const setLabel = curry((index, label, addressLabelMap) =>
-  pipe(AddressLabelMap.guard, amap =>
+  pipe(AddressLabelMap.guard, (amap) =>
     amap.set(index.toString(), AddressLabel.fromJS({ index, label }))
   )(addressLabelMap)
 )
@@ -35,15 +33,11 @@ export const setLabel = curry((index, label, addressLabelMap) =>
 export const fromJS = (labels = []) => {
   if (is(AddressLabelMap, labels)) {
     return labels
-  } else {
-    const addressLabels = compose(
-      indexBy(prop('index')),
-      map(AddressLabel.fromJS)
-    )(labels)
-    return new AddressLabelMap(addressLabels)
   }
+  const addressLabels = compose(indexBy(prop('index')), map(AddressLabel.fromJS))(labels)
+  return new AddressLabelMap(addressLabels)
 }
 
-export const reviver = jsObject => {
+export const reviver = (jsObject) => {
   return new AddressLabelMap(jsObject)
 }

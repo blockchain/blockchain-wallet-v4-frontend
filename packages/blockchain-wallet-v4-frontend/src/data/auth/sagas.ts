@@ -264,6 +264,32 @@ export default ({ api, coreSagas, networks }) => {
     return yield call(pollingSession, session, n - 1)
   }
 
+  const pollingForMagicLinkDataSession = function* (session, n = 50) {
+    if (n === 0) {
+      yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
+      yield put(actions.alerts.displayInfo(C.VERIFY_DEVICE_EXPIRY, undefined, true))
+      yield put(actions.auth.analyticsAuthorizeVerifyDeviceFailure('TIMED_OUT'))
+      return false
+    }
+    try {
+      yield delay(2000)
+      const response = yield call(api.getMagicLinkData, session)
+      if (prop('wallet', response)) {
+        yield put(actions.auth.setMagicLinkInfo(response))
+        yield call(parseMagicLink)
+        return true
+      }
+      if (response.request_denied) {
+        yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
+        yield put(actions.alerts.displayError(C.VERIFY_DEVICE_FAILED, undefined, true))
+        return false
+      }
+    } catch (error) {
+      return false
+    }
+    return yield call(pollingForMagicLinkDataSession, session, n - 1)
+  }
+
   const login = function* (action) {
     const { code, guid, password, sharedKey } = action.payload
     const formValues = yield select(selectors.form.getFormValues('login'))
@@ -567,7 +593,10 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
         // if path has base64 encrypted JSON
       } else {
-        yield call(parseMagicLink, params)
+        const loginData = JSON.parse(atob(params[2])) as WalletDataFromMagicLink
+        yield put(actions.auth.setMagicLinkInfo(loginData))
+        yield put(actions.auth.setMagicLinkInfoEncoded(params[2]))
+        yield call(parseMagicLink)
       }
       yield put(actions.auth.initializeLoginSuccess())
       yield put(actions.auth.pingManifestFile())
@@ -581,24 +610,24 @@ export default ({ api, coreSagas, networks }) => {
   const triggerWalletMagicLink = function* (action) {
     const formValues = yield select(selectors.form.getFormValues('login'))
     const { step } = formValues
-    const legacyMagicEmailLink = (yield select(
-      selectors.core.walletOptions.getFeatureLegacyMagicEmailLink
-    )).getOrElse(true)
+    const shouldPollForMagicLinkData = (yield select(
+      selectors.core.walletOptions.getPollForMagicLinkData
+    )).getOrElse(false)
     yield put(startSubmit('login'))
     try {
       yield put(actions.auth.triggerWalletMagicLinkLoading())
       const sessionToken = yield call(api.obtainSessionToken)
       const { captchaToken, email } = action.payload
       yield put(actions.session.saveSession(assoc(email, sessionToken, {})))
-      if (legacyMagicEmailLink) {
-        yield call(api.triggerWalletMagicLinkLegacy, email, captchaToken, sessionToken)
-      } else {
-        yield call(api.triggerWalletMagicLink, email, captchaToken, sessionToken)
-      }
+      yield call(api.triggerWalletMagicLink, email, captchaToken, sessionToken)
       if (step === LoginSteps.CHECK_EMAIL) {
         yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
       } else {
         yield put(actions.form.change('login', 'step', LoginSteps.CHECK_EMAIL))
+      }
+      // polling feature flag
+      if (shouldPollForMagicLinkData) {
+        yield call(pollingForMagicLinkDataSession, sessionToken)
       }
       yield put(actions.auth.triggerWalletMagicLinkSuccess())
     } catch (e) {
@@ -607,6 +636,38 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.alerts.displayError(C.VERIFY_EMAIL_SENT_ERROR))
     } finally {
       yield put(stopSubmit('login'))
+    }
+  }
+
+  const authorizeVerifyDevice = function* (action) {
+    const confirmDevice = action.payload
+    const { wallet } = yield select(selectors.auth.getMagicLinkData)
+    const magicLinkDataEncoded = yield select(selectors.auth.getMagicLinkDataEncoded)
+    try {
+      yield put(actions.auth.authorizeVerifyDeviceLoading())
+      const data = yield call(
+        api.authorizeVerifyDevice,
+        wallet.session_id,
+        magicLinkDataEncoded,
+        confirmDevice
+      )
+      if (data.success) {
+        yield put(actions.auth.authorizeVerifyDeviceSuccess({ deviceAuthorized: true }))
+        yield put(actions.auth.analyticsAuthorizeVerifyDeviceSuccess())
+      }
+    } catch (e) {
+      if (e.status === 401 && e.confirmation_required) {
+        yield put(actions.auth.authorizeVerifyDeviceSuccess(e))
+      } else if (e.status === 409) {
+        yield put(actions.auth.authorizeVerifyDeviceFailure(e))
+        yield put(actions.auth.analyticsAuthorizeVerifyDeviceFailure('REJECTED'))
+      } else if (e.status === 400 && e.link_expired) {
+        yield put(actions.auth.authorizeVerifyDeviceFailure(e))
+        yield put(actions.auth.analyticsAuthorizeVerifyDeviceFailure('EXPIRED'))
+      } else {
+        yield put(actions.auth.authorizeVerifyDeviceFailure(e.error))
+        yield put(actions.auth.analyticsAuthorizeVerifyDeviceFailure('UNKNOWN'))
+      }
     }
   }
 
@@ -655,12 +716,14 @@ export default ({ api, coreSagas, networks }) => {
   }
   return {
     authNabu,
+    authorizeVerifyDevice,
     getUserGeoLocation,
     initializeLogin,
     login,
     loginRoutineSaga,
     mobileLogin,
     pingManifestFile,
+    pollingForMagicLinkDataSession,
     pollingSession,
     register,
     resendSmsLoginCode,

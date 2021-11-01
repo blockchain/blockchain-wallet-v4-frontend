@@ -1,5 +1,5 @@
 const getTracking = ({ url }: { url: string }) =>
-  fetch(`${url}/tracking`, {
+  fetch(`${url}/events/tracking`, {
     credentials: 'include'
   })
 

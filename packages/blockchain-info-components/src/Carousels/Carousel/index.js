@@ -16,10 +16,7 @@ class Carousel extends React.PureComponent {
   componentDidMount() {
     const { auto, delay } = this.props
     if (auto) {
-      this.interval = setInterval(
-        () => this.setState({ index: this.getNextIndex() }),
-        delay
-      )
+      this.interval = setInterval(() => this.setState({ index: this.getNextIndex() }), delay)
     }
   }
 
@@ -70,20 +67,20 @@ class Carousel extends React.PureComponent {
 }
 
 Carousel.propTypes = {
+  arrows: PropTypes.bool,
   auto: PropTypes.bool,
+  chips: PropTypes.bool,
   delay: PropTypes.number,
   height: PropTypes.number,
-  arrows: PropTypes.bool,
-  chips: PropTypes.bool,
   nextButton: PropTypes.bool
 }
 
 Carousel.defaultProps = {
+  arrows: true,
   auto: false,
+  chips: true,
   delay: 3000,
   height: 150,
-  arrows: true,
-  chips: true,
   nextButton: true
 }
 

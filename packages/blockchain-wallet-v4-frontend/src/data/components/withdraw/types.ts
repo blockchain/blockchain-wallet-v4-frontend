@@ -1,5 +1,6 @@
 import {
   BeneficiaryType,
+  FiatType,
   RemoteDataType,
   WalletFiatType,
   WithdrawalLockResponseType,
@@ -21,12 +22,13 @@ export enum WithdrawStepEnum {
   ENTER_AMOUNT = 'ENTER_AMOUNT',
   INELIGIBLE = 'INELIGIBLE',
   LOADING = 'LOADING',
+  ON_HOLD = 'ON_HOLD',
   WITHDRAWAL_DETAILS = 'WITHDRAWAL_DETAILS',
   WITHDRAWAL_METHODS = 'WITHDRAWAL_METHODS'
 }
 
 export type WithdrawStepActionsPayload =
-  | { step: WithdrawStepEnum.LOADING | WithdrawStepEnum.INELIGIBLE }
+  | { step: WithdrawStepEnum.LOADING | WithdrawStepEnum.INELIGIBLE | WithdrawStepEnum.ON_HOLD }
   | {
       beneficiary?: BeneficiaryType
       fiatCurrency: WalletFiatType
@@ -108,3 +110,61 @@ export type WithdrawActionTypes =
   | FetchWithdrawalLockFailure
   | FetchWithdrawalLockLoading
   | FetchWithdrawalLockSuccess
+
+type LimitItem = {
+  available: string
+  limit: string
+  used: string
+}
+
+export type WithdrawLimitsResponse = {
+  cryptoLimit: {
+    available: string
+    daily: LimitItem
+    monthly: LimitItem
+    suggestedUpgrade: {
+      daily: LimitItem
+      monthly: LimitItem
+      requiredTier: number
+      requirements: string[]
+    }
+  }
+  currency: FiatType
+  fiatLimit: {
+    available: string
+    suggestedUpgrade: {
+      daily: LimitItem
+      monthly: LimitItem
+      requiredTier: number
+      requirements: string[]
+    }
+  }
+  userId: string
+}
+
+type SeamlessLimitItem = {
+  currency: FiatType
+  value: string
+}
+
+export type SeamlessLimits = {
+  globalLimit: {
+    available: SeamlessLimitItem
+    currency: FiatType
+    suggestedUpgrade: {
+      available: SeamlessLimitItem
+      daily: {
+        available: SeamlessLimitItem
+        limit: SeamlessLimitItem
+        used: SeamlessLimitItem
+      }
+      monthly: {
+        available: SeamlessLimitItem
+        limit: SeamlessLimitItem
+        used: SeamlessLimitItem
+      }
+      requiredTier: number
+      requirements: string[]
+    }
+  }
+}

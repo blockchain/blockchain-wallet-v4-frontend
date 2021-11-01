@@ -8,33 +8,24 @@ import WalletAccessTor from './template'
 
 class WalletAccessTorContainer extends React.PureComponent {
   handleClick = () => {
-    this.props.settingsActions.updateBlockTorIps(
-      Number(!this.props.blockTorIps)
-    )
+    this.props.settingsActions.updateBlockTorIps(Number(!this.props.blockTorIps))
   }
 
   render() {
     const blockingTor = this.props.blockTorIps
 
     return (
-      <WalletAccessTor
-        {...this.props}
-        handleClick={this.handleClick}
-        blockingTor={blockingTor}
-      />
+      <WalletAccessTor {...this.props} handleClick={this.handleClick} blockingTor={blockingTor} />
     )
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   blockTorIps: selectors.core.settings.getBlockTorIps(state).getOrElse(0)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WalletAccessTorContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(WalletAccessTorContainer)

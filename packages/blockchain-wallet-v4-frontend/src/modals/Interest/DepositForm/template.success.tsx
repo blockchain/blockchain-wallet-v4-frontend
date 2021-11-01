@@ -6,6 +6,7 @@ import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 
 import { Exchange } from '@core'
 import { fiatToString, formatFiat } from '@core/exchange/utils'
+import { CoinType, DepositLimits } from '@core/types'
 import {
   Button,
   Icon,
@@ -22,7 +23,7 @@ import { RootState } from 'data/rootReducer'
 import { required } from 'services/forms'
 
 import { amountToCrypto, amountToFiat, calcCompoundInterest, maxFiat } from '../conversions'
-import { CartrigeText, CustomOrangeCartridge } from '../WithdrawalForm/model'
+import { CustomOrangeCartridge } from '../WithdrawalForm/model'
 import { CurrencySuccessStateType, DataSuccessStateType, OwnProps as ParentOwnProps } from '.'
 import {
   AgreementContainer,
@@ -57,6 +58,22 @@ import {
 import TabMenuTimeFrame from './TabMenuTimeFrame'
 import { maxDepositAmount, minDepositAmount } from './validation'
 
+const checkIsAmountUnderDepositLimit = (
+  interestDepositLimits: DepositLimits,
+  coin: CoinType,
+  depositAmount: string
+): boolean => {
+  const { depositLimits } = interestDepositLimits
+
+  if (!depositLimits || depositLimits.length === 0) {
+    return false
+  }
+
+  const coinLimit = depositLimits.find((dep) => dep.savingsCurrency === coin)?.amount || 0
+  // compare entered amount with deposit limit for current coin
+  return Number(depositAmount) > coinLimit
+}
+
 const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (props) => {
   const {
     coin,
@@ -68,8 +85,8 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     formErrors,
     handleDisplayToggle,
     interestActions,
+    interestEDDDepositLimits,
     interestEDDStatus,
-    interestEDDWithdrawLimits,
     interestLimits,
     interestRate,
     invalid,
@@ -112,16 +129,14 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
     // @ts-ignore
     !payment.isSufficientEthForErc20
 
-  const showEDDWithdrawLimit =
-    (interestEDDWithdrawLimits?.withdrawLimits
-      ? Number(depositAmountFiat) > Number(interestEDDWithdrawLimits?.withdrawLimits.amount)
-      : false) &&
+  const showEDDDepositLimit =
+    checkIsAmountUnderDepositLimit(interestEDDDepositLimits, coin, depositAmountFiat) &&
     !interestEDDStatus?.eddSubmitted &&
     !interestEDDStatus?.eddPassed
 
   const handleFormSubmit = () => {
     interestActions.submitDepositForm(coin)
-    props.setShowSupply(showEDDWithdrawLimit)
+    props.setShowSupply(showEDDDepositLimit)
   }
 
   if (submitting) {
@@ -358,15 +373,13 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
             )}
           </AmountError>
         )}
-        {showEDDWithdrawLimit && (
+        {showEDDDepositLimit && (
           <CustomOrangeCartridge>
             <Icon name='info' color='orange600' size='18px' style={{ marginRight: '12px' }} />
-            <CartrigeText>
-              <FormattedMessage
-                id='modals.interest.deposit.edd_need'
-                defaultMessage="Transferring this amount requires further verification. We'll ask you for those details in the next step."
-              />
-            </CartrigeText>
+            <FormattedMessage
+              id='modals.interest.deposit.edd_need'
+              defaultMessage="Transferring this amount requires further verification. We'll ask you for those details in the next step."
+            />
           </CustomOrangeCartridge>
         )}
         <CalculatorWrapper>

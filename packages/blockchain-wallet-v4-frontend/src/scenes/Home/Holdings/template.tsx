@@ -3,8 +3,8 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { toLower } from 'ramda'
 import styled from 'styled-components'
 
-import { Icon, Text } from 'blockchain-info-components'
 import { CoinfigType, CoinType } from '@core/types'
+import { Icon, Text } from 'blockchain-info-components'
 import { HomeBalanceRow, HomeBalanceTable } from 'components/Balances'
 
 import { Props } from '.'

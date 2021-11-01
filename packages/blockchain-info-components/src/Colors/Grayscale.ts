@@ -4,6 +4,6 @@ import { DefaultTheme } from 'styled-components'
 
 import Default from './Default'
 
-const Grayscale: DefaultTheme = mapObjIndexed(num => grayscale(num), Default)
+const Grayscale: DefaultTheme = mapObjIndexed((num) => grayscale(num), Default)
 
 export default Grayscale

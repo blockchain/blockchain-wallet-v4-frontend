@@ -16,9 +16,7 @@ class SettingContainer extends React.PureComponent {
   onSubmit = () => {
     const { autoLogoutTime } = this.props
 
-    this.props.settingsActions.updateAutoLogout(
-      parseInt(autoLogoutTime) * 60000
-    )
+    this.props.settingsActions.updateAutoLogout(parseInt(autoLogoutTime) * 60000)
     this.handleToggle()
   }
 
@@ -32,29 +30,17 @@ class SettingContainer extends React.PureComponent {
     const { logoutTime } = this.props
 
     return this.state.updateToggled ? (
-      <AutoLogoutForm
-        onSubmit={this.onSubmit}
-        handleToggle={this.handleToggle}
-      />
+      <AutoLogoutForm onSubmit={this.onSubmit} handleToggle={this.handleToggle} />
     ) : (
       <SettingWrapper>
-        <Text
-          data-e2e='autoLogoutValue'
-          color='grey800'
-          size='15px'
-          weight={600}
-        >
+        <Text data-e2e='autoLogoutValue' color='grey800' size='15px' weight={600}>
           <FormattedMessage
             id='scenes.preferences.autologout.settings.minutes'
             defaultMessage='{time} minutes'
             values={{ time: logoutTime }}
           />
         </Text>
-        <Button
-          nature='primary'
-          onClick={this.handleToggle}
-          data-e2e='changeAutoLogout'
-        >
+        <Button nature='primary' onClick={this.handleToggle} data-e2e='changeAutoLogout'>
           <FormattedMessage
             id='scenes.preferences.autologout.settings.updateform.change'
             defaultMessage='Change'
@@ -65,14 +51,12 @@ class SettingContainer extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  autoLogoutTime: parseInt(
-    formValueSelector('settingAutoLogoutTime')(state, 'autoLogoutTime')
-  ),
+const mapStateToProps = (state) => ({
+  autoLogoutTime: parseInt(formValueSelector('settingAutoLogoutTime')(state, 'autoLogoutTime')),
   logoutTime: parseInt(selectors.core.wallet.getLogoutTime(state) / 60000)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   formActions: bindActionCreators(actions.form, dispatch),
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })

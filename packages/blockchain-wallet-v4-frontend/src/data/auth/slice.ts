@@ -6,12 +6,14 @@ import { AuthStateType } from 'data/types'
 
 const initialState: AuthStateType = {
   auth_type: 0,
+  authorizeVerifyDevice: Remote.NotAsked,
   firstLogin: false,
   isAuthenticated: false,
   isLoggingIn: false,
   kycReset: undefined,
   login: Remote.NotAsked,
   magicLinkData: null,
+  magicLinkDataEncoded: undefined,
   manifestFile: null,
   metadataRestore: Remote.NotAsked,
   mobileLoginStarted: false,
@@ -27,9 +29,22 @@ const authSlice = createSlice({
   initialState,
   name: 'auth',
   reducers: {
+    analyticsAuthorizeVerifyDeviceFailure: (state, action) => {},
+    analyticsAuthorizeVerifyDeviceSuccess: () => {},
     authenticate: (state) => {
       state.isAuthenticated = true
     },
+    authorizeVerifyDevice: () => {},
+    authorizeVerifyDeviceFailure: (state, action) => {
+      state.authorizeVerifyDevice = Remote.Failure(action.payload)
+    },
+    authorizeVerifyDeviceLoading: (state) => {
+      state.authorizeVerifyDevice = Remote.Loading
+    },
+    authorizeVerifyDeviceSuccess: (state, action) => {
+      state.authorizeVerifyDevice = Remote.Success(action.payload)
+    },
+
     clearLoginError: (state) => {
       state.login = Remote.NotAsked
     },
@@ -129,6 +144,9 @@ const authSlice = createSlice({
     },
     setMagicLinkInfo: (state, action) => {
       state.magicLinkData = action.payload
+    },
+    setMagicLinkInfoEncoded: (state, action) => {
+      state.magicLinkDataEncoded = action.payload
     },
     setManifestFile: (state, action) => {
       state.manifestFile = action.payload

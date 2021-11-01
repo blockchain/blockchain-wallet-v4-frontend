@@ -8,13 +8,13 @@ export default {
       currency: 'KRW',
       decimal_digits: 0,
       rate: '1',
-      symbol: '¢₩',
+      symbol: '¢₩'
     },
     KRW: {
       currency: 'KRW',
       decimal_digits: 2,
       rate: '100',
-      symbol: '₩',
-    },
-  },
+      symbol: '₩'
+    }
+  }
 }

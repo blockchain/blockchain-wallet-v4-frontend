@@ -3,12 +3,14 @@ import { actions } from 'data'
 
 export type AuthStateType = {
   auth_type: number
+  authorizeVerifyDevice: RemoteDataType<any, any>
   firstLogin: boolean
   isAuthenticated: boolean
   isLoggingIn: boolean
   kycReset: undefined
   login: RemoteDataType<any, any>
   magicLinkData: null
+  magicLinkDataEncoded?: string
   manifestFile: null
   metadataRestore: RemoteDataType<any, any>
   mobileLoginStarted: boolean
@@ -25,7 +27,8 @@ export enum LoginSteps {
   ENTER_EMAIL_GUID = 'ENTER_EMAIL_GUID',
   ENTER_PASSWORD = 'ENTER_PASSWORD',
   LOADING = 'LOADING',
-  VERIFICATION_MOBILE = 'VERIFICATION_MOBILE'
+  VERIFICATION_MOBILE = 'VERIFICATION_MOBILE',
+  VERIFY_MAGIC_LINK = 'VERIFY_MAGIC_LINK'
 }
 
 export enum RecoverSteps {
@@ -59,6 +62,20 @@ export type LoginFormType = {
   twoFA?: number | string
 }
 
+export type AuthorzieDeviceMismatchData = {
+  approver?: {
+    browser: string
+    country_code: string
+    ip_address: string
+  }
+  confirmation_required?: boolean
+  requester?: {
+    browser: string
+    country_code: string
+    ip_address: string
+  }
+  success: boolean
+}
 export type WalletDataFromMagicLink = {
   exchange?: {
     email?: string
@@ -86,17 +103,8 @@ export type WalletDataFromMagicLink = {
       recovery_token?: string
       user_id?: string
     }
+    session_id?: string
   }
-}
-
-// TODO: this is here to handle old version of magic link
-// Can be removed when it's completely deprecated
-export type WalletDataFromMagicLinkLegacy = {
-  email: string
-  email_code?: string
-  guid: string
-  is_mobile_setup: string | boolean
-  mobile_device_type: number | null
 }
 
 export type LoginErrorType =

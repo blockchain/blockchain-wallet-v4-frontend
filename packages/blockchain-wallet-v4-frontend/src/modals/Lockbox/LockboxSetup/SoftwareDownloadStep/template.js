@@ -7,13 +7,7 @@ import Bowser from 'bowser'
 import { prop } from 'ramda'
 import styled from 'styled-components'
 
-import {
-  BlockchainLoader,
-  Button,
-  Icon,
-  Link,
-  Text
-} from 'blockchain-info-components'
+import { BlockchainLoader, Button, Icon, Link, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   display: flex;
@@ -36,7 +30,7 @@ const DownloadButton = styled(Button)`
   margin: 30px 0 20px;
 `
 const DismissText = styled(Text)`
-  color: ${props => props.theme.blue600};
+  color: ${(props) => props.theme.blue600};
   &:hover {
     cursor: pointer;
   }
@@ -62,14 +56,8 @@ const getOsSpecificUpdater = () => {
   }
 }
 
-const SoftwareDownloadStep = props => {
-  const {
-    hasDownloaded,
-    onGoBackToDownload,
-    onSkipDownload,
-    onStartDownload,
-    onStepChange
-  } = props
+const SoftwareDownloadStep = (props) => {
+  const { hasDownloaded, onGoBackToDownload, onSkipDownload, onStartDownload, onStepChange } = props
   return hasDownloaded ? (
     <Wrapper>
       <HeadingWrapper>
@@ -130,10 +118,7 @@ const SoftwareDownloadStep = props => {
       </Text>
       <Link
         href={prop('updater', getOsSpecificUpdater())}
-        download={`lockbox-updater-1.0.0.${prop(
-          'extension',
-          getOsSpecificUpdater()
-        )}`}
+        download={`lockbox-updater-1.0.0.${prop('extension', getOsSpecificUpdater())}`}
       >
         <DownloadButton nature='primary' fullwidth onClick={onStartDownload}>
           <Text size='16px' weight={500} color='white'>

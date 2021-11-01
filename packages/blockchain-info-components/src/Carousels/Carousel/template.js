@@ -19,7 +19,7 @@ const Wrapper = styled.div`
 const Content = styled.div`
   position: relative;
   width: 100%;
-  min-height: ${props => props.height}px;
+  min-height: ${(props) => props.height}px;
   overflow-x: hidden;
 `
 const Slider = styled.div`
@@ -29,8 +29,8 @@ const Slider = styled.div`
   justify-content: center;
   align-items: center;
   top: 0;
-  left: ${props => props.index * -100}%;
-  width: ${props => (props.total + 1) * 100}%;
+  left: ${(props) => props.index * -100}%;
+  width: ${(props) => (props.total + 1) * 100}%;
   min-height: auto;
   transition: all 0.4s ease-in-out;
 
@@ -55,23 +55,22 @@ const Control = styled.div`
   height: 10px;
   margin: 0 10px;
   border-radius: 5px;
-  background-color: ${props =>
-    props.active ? props.theme.blue600 : props.theme['grey500']};
+  background-color: ${(props) => (props.active ? props.theme.blue600 : props.theme.grey500)};
   cursor: pointer;
   z-index: ;
 `
 const Arrow = styled(Icon).attrs({
+  color: 'grey800',
   name: 'chevron-down',
   size: '34px',
-  weight: 700,
-  color: 'grey800'
+  weight: 700
 })`
   position: absolute;
   top: 50%;
   margin-top: -18px;
-  left: ${props => (props.left ? '10px' : 'initial')};
-  right: ${props => (!props.left ? '10px' : 'initial')};
-  transform: ${props => (props.left ? 'rotate(90deg)' : 'rotate(-90deg)')};
+  left: ${(props) => (props.left ? '10px' : 'initial')};
+  right: ${(props) => (!props.left ? '10px' : 'initial')};
+  transform: ${(props) => (props.left ? 'rotate(90deg)' : 'rotate(-90deg)')};
   cursor: pointer;
   z-index: 1;
 
@@ -89,7 +88,7 @@ const FooterWrapper = styled.div`
   }
 `
 
-const Carousel = props => {
+const Carousel = (props) => {
   const {
     arrows,
     children,
@@ -115,11 +114,7 @@ const Carousel = props => {
       {chips && (
         <Controls>
           {range(0, total + 1).map((value, arrayIndex) => (
-            <Control
-              key={arrayIndex}
-              onClick={() => handleClick(value)}
-              active={index === value}
-            />
+            <Control key={arrayIndex} onClick={() => handleClick(value)} active={index === value} />
           ))}
         </Controls>
       )}
@@ -127,10 +122,7 @@ const Carousel = props => {
         <FooterWrapper>
           {index < total && (
             <Button width='60px' nature='light' onClick={handleNext}>
-              <FormattedMessage
-                id='components.emptyscenecarousel.next'
-                defaultMessage='Next'
-              />
+              <FormattedMessage id='components.emptyscenecarousel.next' defaultMessage='Next' />
             </Button>
           )}
           {index === total && (
@@ -148,12 +140,12 @@ const Carousel = props => {
 }
 
 Carousel.propTypes = {
-  index: PropTypes.number.isRequired,
-  total: PropTypes.number.isRequired,
-  height: PropTypes.number.isRequired,
-  handleClick: PropTypes.func.isRequired,
   arrows: PropTypes.bool.isRequired,
-  chips: PropTypes.bool.isRequired
+  chips: PropTypes.bool.isRequired,
+  handleClick: PropTypes.func.isRequired,
+  height: PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
+  total: PropTypes.number.isRequired
 }
 
 export default Carousel

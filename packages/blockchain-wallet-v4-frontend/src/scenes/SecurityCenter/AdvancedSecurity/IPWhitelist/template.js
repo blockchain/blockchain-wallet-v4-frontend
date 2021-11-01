@@ -28,7 +28,7 @@ const ButtonWrapper = styled.div`
 const Input = styled(Field)`
   margin-top: 20px;
 `
-const IPWhitelist = props => {
+const IPWhitelist = (props) => {
   const {
     currentWhitelist,
     handleCancel,
@@ -76,17 +76,9 @@ const IPWhitelist = props => {
               />
               <ButtonWrapper>
                 <Button nature='empty' capitalize onClick={handleCancel}>
-                  <FormattedMessage
-                    id='buttons.cancel'
-                    defaultMessage='Cancel'
-                  />
+                  <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
                 </Button>
-                <Button
-                  type='submit'
-                  nature='primary'
-                  capitalize
-                  disabled={submitting || invalid}
-                >
+                <Button type='submit' nature='primary' capitalize disabled={submitting || invalid}>
                   <FormattedMessage
                     id='scenes.securitycenter.advanced.ipwhitelist.save'
                     defaultMessage='Save'
@@ -103,9 +95,9 @@ const IPWhitelist = props => {
 
 IPWhitelist.propTypes = {
   currentWhitelist: PropTypes.string.isRequired,
-  updateToggled: PropTypes.bool.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
   handleToggle: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired
+  updateToggled: PropTypes.bool.isRequired
 }
 
 export default reduxForm({ form: 'settingIPWhitelist' })(IPWhitelist)

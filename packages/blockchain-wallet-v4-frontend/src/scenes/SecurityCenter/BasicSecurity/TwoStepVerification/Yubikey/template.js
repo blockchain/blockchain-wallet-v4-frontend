@@ -12,7 +12,7 @@ import { spacing } from 'services/styles'
 const AuthenticatorSummary = styled.div`
   width: 100%;
   padding: 0px 20px;
-  opacity: ${props => (props.success ? 0.3 : 1)};
+  opacity: ${(props) => (props.success ? 0.3 : 1)};
   @media (min-width: 992px) {
     width: 110%;
   }
@@ -47,20 +47,20 @@ const YubikeyInput = styled.input`
   font-size: 16px;
   font-weight: 400;
   line-height: 1.42;
-  color: ${props => props.theme['grey800']};
-  background-color: ${props => props.theme.white};
+  color: ${(props) => props.theme.grey800};
+  background-color: ${(props) => props.theme.white};
   background-image: none;
   outline-width: 0;
   user-select: text;
   border-radius: 4px;
-  border: 1px solid ${props => props.theme.grey100};
+  border: 1px solid ${(props) => props.theme.grey100};
 
   &::-webkit-input-placeholder {
-    color: ${props => props.theme.grey200};
+    color: ${(props) => props.theme.grey200};
   }
 `
 
-const Yubikey = props => {
+const Yubikey = (props) => {
   const { handleInput, handleSubmit, uiState, value } = props
 
   return (
@@ -82,12 +82,7 @@ const Yubikey = props => {
             </Text>
           </YubikeyCopy>
           <YubikeyInputWrapper>
-            <YubikeyInput
-              type='password'
-              name='yubikeyCode'
-              value={value}
-              onChange={handleInput}
-            />
+            <YubikeyInput type='password' name='yubikeyCode' value={value} onChange={handleInput} />
           </YubikeyInputWrapper>
           <Button nature='primary' type='submit'>
             <FormattedMessage

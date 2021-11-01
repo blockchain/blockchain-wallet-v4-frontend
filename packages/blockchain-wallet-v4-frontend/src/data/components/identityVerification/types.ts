@@ -8,6 +8,7 @@ export type VerifyIdentityOriginType =
   | 'DashboardPromo'
   | 'Unknown'
   | 'Swap'
+  | 'Send'
   | 'Goals'
   | 'AccountReset'
   | 'Resubmission'

@@ -4,6 +4,7 @@ import {
   FiatType,
   SBPaymentTypes,
   SBTransactionStateType,
+  WalletAcountType,
   WalletCurrencyType,
   WalletFiatType
 } from '@core/types'
@@ -58,20 +59,18 @@ export type PaymentDepositPendingResponseType = {
   updatedAt: string
 }
 
+export type WithdrawLockAmount = {
+  amount: string
+  currency: FiatType
+}
 export type WithdrawalLock = {
-  attributes: {}
+  amount: WithdrawLockAmount
   expiresAt: string
-  id: string
-  insertedAt: string
-  lockRuleId: string
-  paymentId: string
-  updatedAt: string
-  usdAmount: NabuMoneyFloatType
-  userId: string
 }
 
 export type WithdrawalLockResponseType = {
   locks: Array<WithdrawalLock>
+  totalLocked: WithdrawLockAmount
 }
 
 export type WithdrawResponseType = {

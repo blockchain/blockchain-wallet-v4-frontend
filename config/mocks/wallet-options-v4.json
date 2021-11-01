@@ -19,9 +19,8 @@
       "featureFlags": {
         "cEURRewards": true,
         "eddInterestFileUpload": true,
-        "legacyMagicEmailLink": false,
-        "legacyMobilePairing": false,
-        "legacyWalletRecovery": false,
+        "developerMobilePairing": true,
+        "pollForMagicLinkData": true,
         "recurringBuys": true,
         "signupCountry": true
       }

@@ -16,13 +16,13 @@ import { flex, spacing } from 'services/styles'
 
 const Wrapper = styled.div`
   display: flex;
-  justify-content: ${props => (props.extraCopy ? null : 'center')};
+  justify-content: ${(props) => (props.extraCopy ? null : 'center')};
 `
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: ${props => (props.extraCopy ? null : 'center')};
-  align-items: ${props => (props.extraCopy ? null : 'center')};
+  justify-content: ${(props) => (props.extraCopy ? null : 'center')};
+  align-items: ${(props) => (props.extraCopy ? null : 'center')};
   height: 100%;
   padding: 0;
   box-sizing: border-box;
@@ -37,15 +37,8 @@ const Buttons = styled(ButtonGroup)`
   }
 `
 
-const ConfirmDisable2FA = props => {
-  const {
-    authName,
-    extraCopy,
-    handleContinue,
-    position,
-    total,
-    ...rest
-  } = props
+const ConfirmDisable2FA = (props) => {
+  const { authName, extraCopy, handleContinue, position, total, ...rest } = props
   const { closeAll } = rest
 
   return (
@@ -53,10 +46,7 @@ const ConfirmDisable2FA = props => {
       <ModalHeader onClose={closeAll}>
         <div style={flex('row align/center')}>
           <Icon name='lock' size='20px' style={spacing('pr-5')} />
-          <FormattedMessage
-            id='modals.disable2fa.title'
-            defaultMessage='Disable Two-Step'
-          />
+          <FormattedMessage id='modals.disable2fa.title' defaultMessage='Disable Two-Step' />
         </div>
       </ModalHeader>
       <ModalBody>
@@ -85,10 +75,7 @@ const ConfirmDisable2FA = props => {
             Close
           </Text>
           <Button nature='warning' onClick={handleContinue}>
-            <FormattedMessage
-              id='modals.disable2fa.disable'
-              defaultMessage='Disable'
-            />
+            <FormattedMessage id='modals.disable2fa.disable' defaultMessage='Disable' />
           </Button>
         </Buttons>
       </ModalFooter>
