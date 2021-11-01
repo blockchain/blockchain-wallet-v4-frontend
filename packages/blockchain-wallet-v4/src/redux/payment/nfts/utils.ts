@@ -1068,17 +1068,19 @@ async function _initializeProxy(signer): Promise<string> {
   const accountAddress = await signer.getAddress()
   console.log(`Initializing proxy for account: ${accountAddress}`)
 
-  const txnData = {
-    from: accountAddress,
-    gasLimit: 325_000,
-    gasPrice: 120_000_000_000
-  }
-  // const gasEstimate = await this._wyvernProtocolReadOnly.wyvernProxyRegistry.registerProxy.estimateGasAsync(txnData)
   const wyvernProxyRegistry = new ethers.Contract(
     '0xa5409ec958C83C3f309868babACA7c86DCB077c1',
     proxyRegistry_ABI,
     signer
   )
+  const gasPrice = await signer.getGasPrice()
+  const gasLimit = await wyvernProxyRegistry.estimateGas.registerProxy([])
+  const txnData = {
+    from: accountAddress,
+    gasLimit: parseInt(gasLimit._hex),
+    gasPrice: parseInt(gasPrice._hex)
+  }
+
   const transactionHash = await wyvernProxyRegistry.registerProxy([], txnData)
   const receipt = await transactionHash.wait()
   console.log(receipt)

@@ -56,14 +56,14 @@ export const fulfillNftSellOrder = async (asset: NftAsset, signer: Signer) => {
 }
 
 export const fulfillNftOrder = async (order: NftOrdersType['orders'][0], signer: Signer) => {
+  const contract = new ethers.Contract(
+    '0x7be8076f4ea4a4ad08075c2508e481d6c946d12b',
+    wyvernExchange_ABI,
+    signer
+  )
+
   const accountAddress = await signer.getAddress()
-  // TODO: get gas limit
-  const txnData = {
-    from: accountAddress,
-    gasLimit: 325_000,
-    gasPrice: 120_000_000_000,
-    value: order.basePrice.toString()
-  }
+
   const matchingOrder = _makeMatchingOrder({
     accountAddress,
     order,
@@ -134,12 +134,6 @@ export const fulfillNftOrder = async (order: NftOrdersType['orders'][0], signer:
       NULL_BLOCK_HASH
     ]
   ]
-
-  const contract = new ethers.Contract(
-    '0x7be8076f4ea4a4ad08075c2508e481d6c946d12b',
-    wyvernExchange_ABI,
-    signer
-  )
 
   const isBuyValid = await contract.validateOrder_(
     [
@@ -265,6 +259,17 @@ export const fulfillNftOrder = async (order: NftOrdersType['orders'][0], signer:
     buy.staticExtradata,
     sell.staticExtradata
   )
+  const gasPrice = await signer.getGasPrice()
+  // to-do: uncomment once calldata is fixed.
+  // const gasLimit = await contract.estimateGas.atomicMatch_(...args)
+  const txnData = {
+    from: accountAddress,
+    gasLimit: 325_000,
+    // to-do: once the calldata is fixed try this.
+    // gasLimit: parseInt(gasLimit._hex)
+    gasPrice: parseInt(gasPrice._hex),
+    value: order.basePrice.toString()
+  }
 
   try {
     // const match = await contract.atomicMatch_(...args, txnData)
