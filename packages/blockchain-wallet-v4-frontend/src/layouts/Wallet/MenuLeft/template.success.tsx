@@ -47,10 +47,11 @@ const MenuLeft = (props: Props) => {
   const isLaptop = useMedia('laptop')
   const userTier = props.userData?.tiers?.current
   const isTier2 = userTier >= 2
+  const onHoldEnabled = props.onHold
   return (
     <Container toggled={props.menuOpened}>
       {!isLaptop && <Balances />}
-      {!isLaptop && isTier2 && <OnHold />}
+      {!isLaptop && isTier2 && onHoldEnabled && <OnHold />}
       <Overflow>
         <Navigation {...props} />
       </Overflow>

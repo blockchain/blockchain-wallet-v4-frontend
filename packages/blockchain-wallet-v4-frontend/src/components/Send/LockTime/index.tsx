@@ -21,7 +21,7 @@ class LockTimeContainer extends React.PureComponent<Props> {
       Failure: () => null,
       Loading: () => null,
       NotAsked: () => null,
-      Success: (val) => <LockTime {...val} />
+      Success: (val) => (val.onHold ? <LockTime {...val} /> : null)
     })
   }
 }
