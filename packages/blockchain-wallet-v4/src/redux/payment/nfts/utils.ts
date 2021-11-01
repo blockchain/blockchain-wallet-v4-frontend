@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js'
 import BN from 'bn.js'
-import * as ethABI from 'ethereumjs-abi'
 import { ethers, Signer } from 'ethers'
 
 import {
@@ -227,12 +226,20 @@ const encodeReplacementPattern = (
     .reduce((offset, { bitmask, type, value }) => {
       if (!value) return offset
       // The 0xff bytes in the mask select the replacement bytes. All other bytes are 0x00.
-      const cur = new Buffer(ethABI.rawEncode([type], [value]).length).fill(bitmask)
+      const cur = Buffer.from(
+        ethers.utils.defaultAbiCoder.encode([type], [value]).substring(2),
+        'hex'
+      ).fill(bitmask)
       if (ethABI_local.isDynamic(type)) {
         if (bitmask) {
           throw new Error('Replacement is not supported for dynamic parameters.')
         }
-        output.push(new Buffer(ethABI.rawEncode(['uint256'], [dynamicOffset]).length))
+        output.push(
+          Buffer.from(
+            ethers.utils.defaultAbiCoder.encode(['uint256'], [dynamicOffset]).substring(2),
+            'hex'
+          )
+        )
         data.push(cur)
         return offset + cur.length
       }
@@ -240,7 +247,7 @@ const encodeReplacementPattern = (
       return offset
     }, dynamicOffset)
   // 4 initial bytes of 0x00 for the method hash.
-  const methodIdMask = new Buffer(4)
+  const methodIdMask = Buffer.alloc(4)
   const mask = Buffer.concat([methodIdMask, Buffer.concat(output.concat(data))])
   return encodeToBytes ? `0x${mask.toString('hex')}` : mask.map((b) => (b ? 1 : 0)).join('')
 }
