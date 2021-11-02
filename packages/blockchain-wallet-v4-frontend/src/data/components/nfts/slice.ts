@@ -47,6 +47,7 @@ const nftsSlice = createSlice({
   initialState,
   name: 'nfts',
   reducers: {
+    cancelListings: (state, action: PayloadAction<{ asset: NftAssetsType['assets'][0] }>) => {},
     createBuyOrder: (state, action: PayloadAction<{ order: NftOrdersType['orders'][0] }>) => {},
     createSellOrder: (state, action: PayloadAction<{ asset: NftAssetsType['assets'][0] }>) => {},
     fetchNftAssets: () => {},

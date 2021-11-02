@@ -2,7 +2,7 @@ import { ethers } from 'ethers'
 import { call, put, select } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
-import { fulfillNftOrder, fulfillNftSellOrder } from '@core/redux/payment/nfts'
+import { cancelNftListings, fulfillNftOrder, fulfillNftSellOrder } from '@core/redux/payment/nfts'
 import { errorHandler } from '@core/utils'
 import { getPrivateKey } from '@core/utils/eth'
 import { selectors } from 'data'
@@ -56,6 +56,15 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const cancelListings = function* (action: ReturnType<typeof A.cancelListings>) {
+    try {
+      const signer = yield call(getEthSigner)
+      yield call(cancelNftListings, action.payload.asset, signer)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   const createBuyOrder = function* (action: ReturnType<typeof A.createBuyOrder>) {
     try {
       const signer = yield call(getEthSigner)
@@ -77,6 +86,7 @@ export default ({ api }: { api: APIType }) => {
   }
 
   return {
+    cancelListings,
     createBuyOrder,
     createSellOrder,
     fetchNftAssets,

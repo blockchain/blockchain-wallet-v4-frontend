@@ -88,13 +88,30 @@ const YourCollection: React.FC<Props> = ({ assetsR, nftsActions }) => {
                       </Text>
                     </PriceInfo>
                   </AssetDetails>
-                  <Button
-                    data-e2e='sellNft'
-                    nature='primary'
-                    onClick={() => nftsActions.createSellOrder({ asset })}
-                  >
-                    <FormattedMessage id='copy.sell' defaultMessage='Sell' />
-                  </Button>
+                  {asset.sell_orders ? (
+                    <Button
+                      data-e2e='sellNft'
+                      nature='primary'
+                      onClick={() => nftsActions.cancelListings({ asset })}
+                    >
+                      {asset.sell_orders.length > 1 ? (
+                        <FormattedMessage
+                          id='copy.cancel_listings'
+                          defaultMessage='Cancel Listings'
+                        />
+                      ) : (
+                        <FormattedMessage id='copy.cance_listing' defaultMessage='Cancel Listing' />
+                      )}
+                    </Button>
+                  ) : (
+                    <Button
+                      data-e2e='sellNft'
+                      nature='primary'
+                      onClick={() => nftsActions.createSellOrder({ asset })}
+                    >
+                      <FormattedMessage id='copy.sell' defaultMessage='Sell' />
+                    </Button>
+                  )}
                 </Asset>
               )
             })}

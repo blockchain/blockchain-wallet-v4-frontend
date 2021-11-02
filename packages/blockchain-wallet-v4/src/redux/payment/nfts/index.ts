@@ -13,6 +13,10 @@ import {
   NULL_BLOCK_HASH
 } from './utils'
 
+export const cancelNftListings = async (asset: NftAsset, signer: Signer) => {
+  console.log('Cancel listings')
+}
+
 export const fulfillNftSellOrder = async (asset: NftAsset, signer: Signer) => {
   // 1. use the _makeSellOrder to create the object & initialize the proxy contract for this sale.
   const accountAddress = await signer.getAddress()
