@@ -398,7 +398,7 @@ export interface NftAsset {
     description: string
     dev_buyer_fee_basis_points: number
     dev_seller_fee_basis_points: number
-    external_link: null
+    external_link: string | null
     image_url: null
     name: string
     nft_version: null
@@ -416,25 +416,25 @@ export interface NftAsset {
   background_color: null | string
   collection: {
     banner_image_url: string
-    chat_url: null
+    chat_url: string | null
     created_date: string
     default_to_fiat: boolean
-    description: string
+    description: string | null
     dev_buyer_fee_basis_points: string
     dev_seller_fee_basis_points: string
-    discord_url: string
+    discord_url: string | null
     display_data: {
       card_display_style: string
     }
-    external_url: string
+    external_url: string | null
     featured: boolean
     featured_image_url: string
     hidden: boolean
     image_url: string
-    instagram_username: string
+    instagram_username: string | null
     is_subject_to_whitelist: boolean
     large_image_url: string
-    medium_username: string
+    medium_username: string | null
     name: string
     only_proxied_transfers: boolean
     opensea_buyer_fee_basis_points: string
@@ -444,8 +444,8 @@ export interface NftAsset {
     safelist_request_status: string
     short_description: null
     slug: string
-    telegram_url: null
-    twitter_username: string
+    telegram_url: string | null
+    twitter_username: string | null
     wiki_url: null
   }
   creator: {
@@ -453,7 +453,7 @@ export interface NftAsset {
     config: string
     profile_img_url: string
     user: {
-      username: string
+      username: string | null
     }
   }
   decimals: null
@@ -495,8 +495,8 @@ export interface NftAsset {
         config: string
         profile_img_url: string
         user: {
-          username: string
-        }
+          username: string | null
+        } | null
       }
       id: number
       timestamp: string
@@ -506,7 +506,7 @@ export interface NftAsset {
         profile_img_url: string
         user: {
           username: string
-        }
+        } | null
       }
       transaction_hash: string
       transaction_index: string
@@ -520,7 +520,7 @@ export interface NftAsset {
     config: string
     profile_img_url: string
     user: {
-      username: string
+      username: string | null
     }
   }
   permalink: string
