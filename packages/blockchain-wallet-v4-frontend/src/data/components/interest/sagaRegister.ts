@@ -60,5 +60,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield takeLatest(actions.stopShowingInterestModal.type, interestSagas.stopShowingInterestModal)
     yield takeLatest(actions.fetchEDDStatus.type, interestSagas.fetchEDDStatus)
     yield takeLatest(actions.fetchEDDWithdrawLimits.type, interestSagas.fetchEDDWithdrawLimits)
+    yield takeLatest(actions.fetchEDDDepositLimits.type, interestSagas.fetchEDDDepositLimits)
   }
 }

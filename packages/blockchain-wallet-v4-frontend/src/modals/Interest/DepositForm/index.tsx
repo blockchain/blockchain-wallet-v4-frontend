@@ -15,7 +15,7 @@ class DepositForm extends PureComponent<Props> {
   componentDidMount() {
     const { walletCurrency } = this.props
     this.handleInitializeDepositForm()
-    this.props.interestActions.fetchEDDWithdrawLimits({ currency: walletCurrency })
+    this.props.interestActions.fetchEDDDepositLimits({ currency: walletCurrency })
   }
 
   handleDisplayToggle = (isCoin: boolean) => {
