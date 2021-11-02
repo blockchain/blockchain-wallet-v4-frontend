@@ -99,11 +99,10 @@ export const getDefaultPaymentMethod = (state: RootState) => {
           case SBPaymentTypes.USER_CARD:
           case SBPaymentTypes.PAYMENT_CARD:
             if (!method) return
-            const active = SBCardStateEnum.ACTIVE
             const sbCards = getSBCards(state).getOrElse([])
             const sbCard = sbCards.find(
               (value) =>
-                value.id === lastOrder.paymentMethodId && value.state === SBCardStateEnum[active]
+                value.id === lastOrder.paymentMethodId && value.state === SBCardStateEnum.ACTIVE
             )
             const card = sbCard?.card || undefined
 

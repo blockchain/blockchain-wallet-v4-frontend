@@ -54,6 +54,10 @@ export const getFeatureLegacyMagicEmailLink = (state: RootState) =>
 export const getFeatureSignupCountry = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'signupCountry']))
 
+// on hold funds feature flag
+export const getWithdrawalLocksFundsOnHold = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'withdrawalLocksFundsOnHold']))
+
 // signup country feature flag
 export const getEDDInterestFileUpload = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'eddInterestFileUpload']))

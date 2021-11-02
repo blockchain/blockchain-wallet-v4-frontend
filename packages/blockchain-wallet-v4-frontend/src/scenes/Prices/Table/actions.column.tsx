@@ -21,28 +21,30 @@ export const getActionsColumn = (
 ) => ({
   Cell: ({ row: { original: values } }) => (
     <CellWrapper>
-      <Button
-        data-e2e={`${values.coin}BuySellBtn`}
-        height='32px'
-        nature='primary'
-        onClick={() => {
-          buySellActions.showModal({
-            cryptoCurrency: values.coin,
-            orderType: OrderType.BUY,
-            origin: 'Prices'
-          })
-        }}
-        width='96px'
-        style={{ marginRight: '12px' }}
-      >
-        <Text size='14px' color='white' weight={600}>
-          {Number(values.balance) > 0 ? (
-            <FormattedMessage id='buttons.buy_sell' defaultMessage='Buy & Sell' />
-          ) : (
-            <FormattedMessage id='buttons.buy' defaultMessage='Buy' />
-          )}
-        </Text>
-      </Button>
+      {values.products.includes('CustodialWalletBalance') ? (
+        <Button
+          data-e2e={`${values.coin}BuySellBtn`}
+          height='32px'
+          nature='primary'
+          onClick={() => {
+            buySellActions.showModal({
+              cryptoCurrency: values.coin,
+              orderType: OrderType.BUY,
+              origin: 'Prices'
+            })
+          }}
+          width='96px'
+          style={{ marginRight: '12px' }}
+        >
+          <Text size='14px' color='white' weight={600}>
+            {Number(values.balance) > 0 ? (
+              <FormattedMessage id='buttons.buy_sell' defaultMessage='Buy & Sell' />
+            ) : (
+              <FormattedMessage id='buttons.buy' defaultMessage='Buy' />
+            )}
+          </Text>
+        </Button>
+      ) : null}
       <Button
         data-e2e={`${values.coin}SwapBtn`}
         height='32px'

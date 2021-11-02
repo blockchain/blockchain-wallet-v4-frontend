@@ -2847,7 +2847,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
 
-        const { origin } = action.payload
+        const origin = action.payload
 
         analytics.push(AnalyticsKey.LOGIN_HELP_CLICKED, {
           properties: {
@@ -3153,7 +3153,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
 
-        const { recoveryType } = action.payload
+        const recoveryType = action.payload
 
         analytics.push(AnalyticsKey.RECOVERY_OPTION_SELECTED, {
           properties: {
@@ -3198,7 +3198,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
 
-        const { origin } = action.payload
+        const origin = action.payload
 
         analytics.push(AnalyticsKey.RESET_ACCOUNT_CANCELLED, {
           properties: {
@@ -3222,7 +3222,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
 
-        const { origin } = action.payload
+        const origin = action.payload
 
         analytics.push(AnalyticsKey.RESET_ACCOUNT_CLICKED, {
           properties: {

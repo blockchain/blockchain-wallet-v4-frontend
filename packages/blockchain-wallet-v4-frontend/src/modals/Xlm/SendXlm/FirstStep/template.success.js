@@ -147,7 +147,7 @@ const FirstStep = (props) => {
             </WarningBanners>
           )}
           <FormGroup>
-            <CustodyToAccountMessage coin='XLM' account={from} amount={amount} />
+            <CustodyToAccountMessage account={from} />
           </FormGroup>
           <FormGroup margin={isFromCustody ? '15px' : '8px'}>
             <FormItem>

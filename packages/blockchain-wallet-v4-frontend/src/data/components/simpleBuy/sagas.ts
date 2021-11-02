@@ -467,7 +467,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         paymentMethodId
       )
 
-      if (account?.partner === BankPartners.YAPILY) {
+      // Check if the user has a yapily account and if they're submitting a bank transfer order
+      if (
+        order.paymentType === SBPaymentTypes.BANK_TRANSFER &&
+        account?.partner === BankPartners.YAPILY
+      ) {
         const { RETRY_AMOUNT, SECONDS } = POLLING
         // for OB the authorisationUrl isn't in the initial response to confirm
         // order. We need to poll the order for it.
