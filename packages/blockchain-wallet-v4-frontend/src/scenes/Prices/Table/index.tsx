@@ -24,7 +24,7 @@ export const TableWrapper = styled.div`
 
   .table {
     /* make sure the inner table is always as wide as needed */
-    display: table;
+    display: block;
     width: 99%;
     height: calc(100vh - 220px);
     border-spacing: 0;
