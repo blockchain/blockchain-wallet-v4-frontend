@@ -25,7 +25,8 @@ import type {
 import type { CountryType } from 'data/components/identityVerification/types'
 import type { RecurringBuyPeriods } from 'data/components/recurringBuy/types'
 import type { SwapAccountType, SwapBaseCounterTypes } from 'data/components/swap/types'
-import { SeamlessLimits } from 'data/types'
+
+import { SeamlessLimits } from '../withdraw/types'
 
 // Types
 export type SBAddCardFormValuesType = {
