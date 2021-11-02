@@ -35,7 +35,8 @@ export const getData = createDeepEqualSelector(
           price: currentPrice,
           priceChange: Number(((currentPrice - yesterdayPrice) / yesterdayPrice) * 100).toPrecision(
             2
-          )
+          ),
+          products: coinfig.products
         }
       })
 
