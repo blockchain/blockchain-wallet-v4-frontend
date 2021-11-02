@@ -264,7 +264,7 @@ export const fulfillNftOrder = async (order: NftOrdersType['orders'][0], signer:
   // const gasLimit = await contract.estimateGas.atomicMatch_(...args)
   const txnData = {
     from: accountAddress,
-    gasLimit: 325_000,
+    gasLimit: 230_000,
     // to-do: once the calldata is fixed try this.
     // gasLimit: parseInt(gasLimit._hex)
     gasPrice: parseInt(gasPrice._hex),

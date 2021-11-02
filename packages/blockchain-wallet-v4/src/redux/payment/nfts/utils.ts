@@ -1074,14 +1074,13 @@ async function _initializeProxy(signer): Promise<string> {
     signer
   )
   const gasPrice = await signer.getGasPrice()
-  const gasLimit = await wyvernProxyRegistry.estimateGas.registerProxy([])
   const txnData = {
     from: accountAddress,
-    gasLimit: parseInt(gasLimit._hex),
+    gasLimit: 410_000,
     gasPrice: parseInt(gasPrice._hex)
   }
 
-  const transactionHash = await wyvernProxyRegistry.registerProxy([], txnData)
+  const transactionHash = await wyvernProxyRegistry.registerProxy(txnData)
   const receipt = await transactionHash.wait()
   console.log(receipt)
   const proxyAddress = await _getProxy(signer, 10)
