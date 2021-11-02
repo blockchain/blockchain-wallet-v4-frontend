@@ -29,6 +29,7 @@ import {
   BankTransferAccountType,
   InitializeCheckout,
   ModalOriginType,
+  SBCardStateEnum,
   SBFixType,
   SBShowModalOriginType,
   StepActionsPayload,
@@ -208,7 +209,9 @@ const buySellSlice = createSlice({
       state.cards = Remote.Loading
     },
     fetchCardsSuccess: (state, action: PayloadAction<SBCardType[]>) => {
-      state.cards = Remote.Success(action.payload)
+      state.cards = Remote.Success(
+        action.payload.filter((card) => card.state !== SBCardStateEnum.BLOCKED)
+      )
     },
     fetchFiatEligible: (state, action: PayloadAction<FiatType>) => {},
     fetchFiatEligibleFailure: (state, action: PayloadAction<string>) => {

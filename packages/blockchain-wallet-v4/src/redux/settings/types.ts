@@ -6,4 +6,5 @@ export type InvitationsType = {
   achDepositWithdrawal: boolean
   openBanking: boolean
   segwit: boolean
+  withdrawalLocksFundsOnHold: boolean
 }

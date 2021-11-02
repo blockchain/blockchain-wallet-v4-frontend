@@ -22,24 +22,37 @@ export const TableWrapper = styled.div`
     overflow-y: hidden;
   }
 
-  table {
+  .table {
     /* make sure the inner table is always as wide as needed */
-    width: 100%;
+    display: table;
+    width: 99%;
+    height: calc(100vh - 220px);
     border-spacing: 0;
     border: 1px solid ${(props) => props.theme.grey100};
     border-radius: 8px;
 
-    td {
+    .td {
       border-top: 1px solid ${(props) => props.theme.grey100};
+      height: 100px;
     }
 
-    th,
-    td {
+    .th {
+      display: table-header-group;
+    }
+
+    .th,
+    .td {
+      vertical-align: middle;
+      display: table-cell;
       margin: 0;
       padding: 16px 8px;
       text-align: left;
-      /* make sure each cell grows equally */
-      width: 1%;
+      width: 20%;
+    }
+
+    .tr {
+      display: table;
+      width: 100%;
     }
   }
 `
