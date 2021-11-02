@@ -525,6 +525,8 @@ export default ({ api, coreSagas, networks }) => {
       switch (true) {
         // mobile webview auth flow
         case platform !== PlatformTypes.WEB:
+          // eslint-disable-next-line
+          console.log('SSO mobile flow detected: ', platform, product)
           yield call(initMobileAuthFlow)
           break
         // no guid on path, use cached/stored guid if exists

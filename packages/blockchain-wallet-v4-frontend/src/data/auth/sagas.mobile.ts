@@ -20,6 +20,8 @@ let messageListener
 // global function for mobile clients to call to pass message
 // this must be exposed on window
 window.receiveMessageFromMobile = (message) => {
+  // eslint-disable-next-line
+  console.log('SSO mobile message: ', message)
   messageListener(message)
 }
 
@@ -27,6 +29,8 @@ window.receiveMessageFromMobile = (message) => {
 // this function must be always be called first before we are able to detect messages since it will expose the
 // emitter on messageListener so receiveMessageFromMobile func can emit the actual message
 const pollForMessageFromMobile = () => {
+  // eslint-disable-next-line
+  console.log('SSO message polling started')
   return eventChannel((emitter) => {
     messageListener = emitter
     return () => emitter(END)
@@ -74,10 +78,16 @@ export const initMobileAuthFlow = function* () {
     mobileMessageChannel = yield call(pollForMessageFromMobile)
     // let mobile know webview has finished loading
     sendMessageToMobile(platform, { status: 'connected' })
+    // eslint-disable-next-line
+    console.log('SSO sent connected message to mobile')
     // wait for auth payload message from mobile
     while (true) {
       authPayloadFromMobile = yield take(mobileMessageChannel)
-      if (authPayloadFromMobile) break
+      if (authPayloadFromMobile) {
+        // eslint-disable-next-line
+        console.log('SSO auth payload message:', authPayloadFromMobile)
+        break
+      }
     }
   } catch (e) {
     mobileMessageChannel.end()
