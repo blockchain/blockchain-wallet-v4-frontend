@@ -1531,3 +1531,47 @@ export async function _sellOrderValidationAndApprovals({
   // // Check sell parameters
   return validateOrderParameters({ order, signer })
 }
+
+async function _cancelOrder({ order, signer }: { order: Order; signer: Signer }) {
+  console.log('Cancelling order')
+  const accountAddress = await signer.getAddress()
+  const wyvernExchangeContract = new ethers.Contract(order.exchange, wyvernExchange_ABI, signer)
+  const transactionHash = await wyvernExchangeContract.cancelOrder_(
+    [
+      order.exchange,
+      order.maker,
+      order.taker,
+      order.feeRecipient,
+      order.target,
+      order.staticTarget,
+      order.paymentToken
+    ],
+    [
+      order.makerRelayerFee,
+      order.takerRelayerFee,
+      order.makerProtocolFee,
+      order.takerProtocolFee,
+      order.basePrice,
+      order.extra,
+      order.listingTime,
+      order.expirationTime,
+      order.salt
+    ],
+    order.feeMethod,
+    order.side,
+    order.saleKind,
+    order.howToCall,
+    order.calldata,
+    order.replacementPattern,
+    order.staticExtradata,
+    order.v || 0,
+    order.r || NULL_BLOCK_HASH,
+    order.s || NULL_BLOCK_HASH,
+    { from: accountAddress }
+  )
+  const receipt = await transactionHash.wait()
+  console.log(receipt)
+
+  // TODO: Add in wyvern contract call for validate order OR check the hash is stored in cancelled orders
+  // to ensure that the order has in fact been cancelled on the wyvrn exchange protocol.
+}
