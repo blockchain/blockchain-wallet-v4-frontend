@@ -634,7 +634,10 @@ export function _makeMatchingOrder({
     metadata: order.metadata,
     paymentToken: order.paymentToken,
     quantity: order.quantity,
-    replacementPattern,
+    // TODO: Fix the replacement patten generation for buy orders.
+    // replacementPattern,
+    replacementPattern:
+      '0x00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
     saleKind: NftSaleKind.FixedPrice,
     // @ts-ignore
     salt: generatePseudoRandomSalt(),
@@ -861,6 +864,18 @@ async function _approveOrder(order: UnsignedOrder, signer: Signer) {
   return transactionHash
 }
 
+export async function _signMessage({
+  message,
+  signer
+}: {
+  message: string
+  signer: Signer
+}): Promise<ECSignature | null> {
+  const signatureDataHex = await signer.signMessage(message)
+  const { r, s, v } = ethers.utils.splitSignature(signatureDataHex)
+  return { r, s, v }
+}
+
 export async function _authorizeOrder(
   order: UnsignedOrder,
   signer: Signer
@@ -878,7 +893,7 @@ export async function _authorizeOrder(
     }
     const signatureDataHex = await signer.signMessage(message)
     const { r, s, v } = ethers.utils.splitSignature(signatureDataHex)
-    return { r, s, v }
+    return _signMessage({ message, signer })
   } catch (error) {
     console.error('failed to create signature')
     throw error
@@ -1530,4 +1545,47 @@ export async function _sellOrderValidationAndApprovals({
   // to-do: sell parameters validation
   // // Check sell parameters
   return validateOrderParameters({ order, signer })
+}
+
+export async function _validateOrderWyvern({
+  order,
+  signer
+}: {
+  order: Order
+  signer: Signer
+}): Promise<boolean> {
+  const wyvernExchangeContract = new ethers.Contract(order.exchange, wyvernExchange_ABI, signer)
+  const isValid = await wyvernExchangeContract.validateOrder_(
+    [
+      order.exchange,
+      order.maker,
+      order.taker,
+      order.feeRecipient,
+      order.target,
+      order.staticTarget,
+      order.paymentToken
+    ],
+    [
+      order.makerRelayerFee.toNumber(),
+      order.takerRelayerFee.toNumber(),
+      order.makerProtocolFee.toNumber(),
+      order.takerProtocolFee.toNumber(),
+      order.basePrice.toString(),
+      order.extra.toNumber(),
+      order.listingTime.toNumber(),
+      order.expirationTime.toNumber(),
+      order.salt
+    ],
+    order.feeMethod,
+    order.side,
+    order.saleKind,
+    order.howToCall,
+    order.calldata,
+    order.replacementPattern,
+    order.staticExtradata,
+    order.v || 0,
+    order.r || NULL_BLOCK_HASH,
+    order.s || NULL_BLOCK_HASH
+  )
+  return isValid
 }
