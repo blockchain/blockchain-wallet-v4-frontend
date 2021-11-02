@@ -6,7 +6,6 @@ import { selectors } from 'data'
 import { Props } from '..'
 import Error from './template.error'
 import Loading from './template.loading'
-import VerifyDevicePrompt from './template.prompt'
 import Success from './template.success'
 
 class VerifyMagicLink extends React.PureComponent<Props> {

@@ -110,5 +110,5 @@ export default {
         </IntlProvider>
       )
     ],
-    title: 'Flyouts/Images'
+    title: 'Components/Images'
   } as Meta
