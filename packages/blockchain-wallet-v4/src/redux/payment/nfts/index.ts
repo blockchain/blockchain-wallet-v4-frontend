@@ -73,25 +73,19 @@ export const fulfillNftOrder = async (order: NftOrdersType['orders'][0], signer:
   })
 
   let { buy, sell } = assignOrdersToSides(order, matchingOrder)
-  const signature = _signMessage({ message: buy.hash, signer })
+  const signature = await _signMessage({ message: buy.hash, signer })
   // TODO: ensure that there are no more changes being made to this buy object when the atomic Match is being called.
   buy = {
     ...buy,
     ...signature
   }
-  // console.log('Buy Object:')
-  // console.log(buy)
-
-  // console.log('Sell Object:')
-  // console.log(sell)
-
   const isSellValid = await _validateOrderWyvern({ order: sell, signer })
   if (!isSellValid) throw new Error('Sell order is invalid')
 
   const isBuyValid = await _validateOrderWyvern({ order: buy, signer })
   console.log(`isSellValid?: ${isSellValid}`)
   console.log(`isBuyValid?: ${isBuyValid}`)
-  // if (!isBuyValid) throw new Error('Buy order is invalid')
+  if (!isBuyValid) throw new Error('Buy order is invalid')
 
   const args = [
     [

@@ -865,13 +865,17 @@ async function _approveOrder(order: UnsignedOrder, signer: Signer) {
 }
 
 export async function _signMessage({
+  isHash = true,
   message,
   signer
 }: {
+  isHash?: boolean
   message: string
   signer: Signer
 }): Promise<ECSignature | null> {
-  const signatureDataHex = await signer.signMessage(message)
+  const signatureDataHex = isHash
+    ? await signer.signMessage(ethers.utils.arrayify(message))
+    : await signer.signMessage(message)
   const { r, s, v } = ethers.utils.splitSignature(signatureDataHex)
   return { r, s, v }
 }
