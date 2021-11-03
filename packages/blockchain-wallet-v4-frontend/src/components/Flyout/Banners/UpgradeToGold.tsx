@@ -6,8 +6,10 @@ import Currencies from '@core/exchange/currencies'
 import { formatFiat } from '@core/exchange/utils'
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { LimitWithEffective, SeamlessLimits } from 'data/types'
+import { SeamlessLimits } from 'data/types'
 import { media } from 'services/styles'
+
+import { getEffectiveLimit } from './model'
 
 const Wrapper = styled.div`
   display: flex;
@@ -79,7 +81,6 @@ const CloseLink = styled.div`
 
 const UpgradeToGoldBanner = ({ limits, verifyIdentity }: Props) => {
   const [isBannerHidden, hideBanner] = useState(false)
-  const { current } = limits
 
   if (isBannerHidden) {
     return null
@@ -89,20 +90,10 @@ const UpgradeToGoldBanner = ({ limits, verifyIdentity }: Props) => {
     hideBanner((prevValue) => !prevValue)
   }
 
-  // find effective limit
-  let effectiveLimit = {} as LimitWithEffective
-  if (current?.daily?.effective) {
-    effectiveLimit = current.daily
-  }
-  if (current?.monthly?.effective) {
-    effectiveLimit = current.monthly
-  }
-  if (current?.yearly?.effective) {
-    effectiveLimit = current.yearly
-  }
+  const effectiveLimit = getEffectiveLimit(limits)
 
   // if there is no effective limit we can't show banner
-  if (!effectiveLimit?.limit) {
+  if (!effectiveLimit) {
     return null
   }
 
