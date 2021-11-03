@@ -16,6 +16,13 @@
       "sift": {
         "apiKey": "0ecd212038"
       },
+      "nfts": [
+        {
+          "collection_name": "doodles-official",
+          "asset_contract_address": "0x8a90CAb2b38dba80c64b7734e58Ee1dB38B8992e",
+          "total_supply": "10_000"
+        }
+      ],
       "featureFlags": {
         "cEURRewards": true,
         "eddInterestFileUpload": true,

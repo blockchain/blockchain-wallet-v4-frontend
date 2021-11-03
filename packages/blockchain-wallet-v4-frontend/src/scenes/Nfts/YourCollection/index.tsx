@@ -100,7 +100,10 @@ const YourCollection: React.FC<Props> = ({ assetsR, nftsActions }) => {
                           defaultMessage='Cancel Listings'
                         />
                       ) : (
-                        <FormattedMessage id='copy.cance_listing' defaultMessage='Cancel Listing' />
+                        <FormattedMessage
+                          id='copy.cancel_listing'
+                          defaultMessage='Cancel Listing'
+                        />
                       )}
                     </Button>
                   ) : (
