@@ -4,7 +4,7 @@ import { bindActionCreators, compose } from 'redux'
 
 import Flyout, { duration, FlyoutChild, FlyoutWrapper } from 'components/Flyout'
 import { actions, selectors } from 'data'
-import { WalletConnectStep } from 'data/components/walletConnect/types'
+import { WalletConnectPayload, WalletConnectStep } from 'data/components/walletConnect/types'
 import { ModalName } from 'data/modals/types'
 import { RootState } from 'data/rootReducer'
 import ModalEnhancer from 'providers/ModalEnhancer'
@@ -55,20 +55,23 @@ class WalletConnectContainer extends PureComponent<Props, State> {
               NotAsked: () => <Loading />,
               Success: (val) => {
                 const successProps = { ...this.props, ...val, handleClose: this.handleClose }
+
+                const value = val as WalletConnectPayload
+
                 switch (true) {
-                  case val.name === WalletConnectStep.APPROVE_TRANSACTION_STEP:
+                  case value.name === WalletConnectStep.APPROVE_TRANSACTION_STEP:
                     return <ApproveTransactionStep {...successProps} />
 
-                  case val.name === WalletConnectStep.AUTHORIZE_CONNECTION:
+                  case value.name === WalletConnectStep.AUTHORIZE_CONNECTION:
                     return <AuthorizeConnectionStep {...successProps} />
 
-                  case val.name === WalletConnectStep.DISCONNECTION_NOTICE:
+                  case value.name === WalletConnectStep.DISCONNECTION_NOTICE:
                     return <DisconnectionNoticeStep {...successProps} />
 
-                  case val.name === WalletConnectStep.SESSION_DASHBOARD:
+                  case value.name === WalletConnectStep.SESSION_DASHBOARD:
                     return <SessionDashboardStep {...successProps} />
 
-                  case val.name === WalletConnectStep.TRANSACTION_SENT:
+                  case value.name === WalletConnectStep.TRANSACTION_SENT:
                     return null
 
                   default:
