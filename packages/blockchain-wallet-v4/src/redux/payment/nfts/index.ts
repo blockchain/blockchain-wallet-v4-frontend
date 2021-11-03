@@ -8,6 +8,8 @@ import {
   _makeMatchingOrder,
   _makeSellOrder,
   _sellOrderValidationAndApprovals,
+  _signMessage,
+  _validateOrderWyvern,
   assignOrdersToSides,
   getOrderHash,
   NULL_BLOCK_HASH
@@ -74,7 +76,20 @@ export const fulfillNftOrder = async (order: NftOrdersType['orders'][0], signer:
     recipientAddress: accountAddress
   })
 
-  const { buy, sell } = assignOrdersToSides(order, matchingOrder)
+  let { buy, sell } = assignOrdersToSides(order, matchingOrder)
+  const signature = await _signMessage({ message: buy.hash, signer })
+  // TODO: ensure that there are no more changes being made to this buy object when the atomic Match is being called.
+  buy = {
+    ...buy,
+    ...signature
+  }
+  const isSellValid = await _validateOrderWyvern({ order: sell, signer })
+  if (!isSellValid) throw new Error('Sell order is invalid')
+
+  const isBuyValid = await _validateOrderWyvern({ order: buy, signer })
+  console.log(`isSellValid?: ${isSellValid}`)
+  console.log(`isBuyValid?: ${isBuyValid}`)
+  if (!isBuyValid) throw new Error('Buy order is invalid')
 
   const args = [
     [
@@ -138,75 +153,6 @@ export const fulfillNftOrder = async (order: NftOrdersType['orders'][0], signer:
       NULL_BLOCK_HASH
     ]
   ]
-
-  const isBuyValid = await contract.validateOrder_(
-    [
-      buy.exchange,
-      buy.maker,
-      buy.taker,
-      '0x0000000000000000000000000000000000000000',
-      buy.target,
-      buy.staticTarget,
-      buy.paymentToken
-    ],
-    [
-      buy.makerRelayerFee.toString(),
-      buy.takerRelayerFee.toString(),
-      buy.makerProtocolFee.toString(),
-      buy.takerProtocolFee.toString(),
-      buy.basePrice.toString(),
-      buy.extra.toString(),
-      buy.listingTime.toString(),
-      buy.expirationTime.toString(),
-      buy.salt.toString()
-    ],
-    buy.feeMethod,
-    buy.side,
-    buy.saleKind,
-    buy.howToCall,
-    buy.calldata,
-    '0x00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
-    buy.staticExtradata,
-    buy.v || 0,
-    buy.r || NULL_BLOCK_HASH,
-    buy.s || NULL_BLOCK_HASH
-  )
-
-  const isSellValid = await contract.validateOrder_(
-    [
-      sell.exchange,
-      sell.maker,
-      sell.taker,
-      sell.feeRecipient,
-      sell.target,
-      sell.staticTarget,
-      sell.paymentToken
-    ],
-    [
-      sell.makerRelayerFee.toString(),
-      sell.takerRelayerFee.toString(),
-      sell.makerProtocolFee.toString(),
-      sell.takerProtocolFee.toString(),
-      sell.basePrice.toString(),
-      sell.extra.toString(),
-      sell.listingTime.toString(),
-      sell.expirationTime.toString(),
-      sell.salt.toString()
-    ],
-    sell.feeMethod,
-    sell.side,
-    sell.saleKind,
-    sell.howToCall,
-    sell.calldata,
-    '0x000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
-    sell.staticExtradata,
-    sell.v || 0,
-    sell.r || NULL_BLOCK_HASH,
-    sell.s || NULL_BLOCK_HASH
-  )
-
-  // if (!isBuyValid) throw new Error('Buy order is invalid')
-  // if (!isSellValid) throw new Error('Sell order is invalid')
 
   const matchPrice = await contract.calculateMatchPrice_(
     [
