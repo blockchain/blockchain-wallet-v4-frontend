@@ -1367,7 +1367,7 @@ type MessagesType = {
   'modals.sendBch.firststep.towallet': 'To'
   'modals.send.banner.title': 'Uprade to Gold. Send More Crypto.'
   'modals.send.banner.description': 'Verify your ID now and unlock Gold level trading. Send up to {dayCurrencySymbol}{dayAmount} a day.'
-  'modals.send.banner.get_started': 'Get Stared'
+  'modals.send.banner.get_started': 'Get Started'
   'modals.send.over_your_limit': 'Over your limit! Send up to {currency}{amount}.'
   'modals.sendbch.amountnotzeromessage': 'Invalid amount'
   'modals.sendbch.coin': 'Currency:'

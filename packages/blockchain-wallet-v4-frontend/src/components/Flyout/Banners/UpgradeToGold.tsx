@@ -139,7 +139,7 @@ const UpgradeToGoldBanner = ({ limits, verifyIdentity }: Props) => {
             <FormattedMessage id='copy.not_now' defaultMessage='Not Now' />
           </BannerButton>
           <BannerButton onClick={verifyIdentity} data-e2e='continueToGold' nature='primary'>
-            <FormattedMessage id='modals.send.banner.get_started' defaultMessage='Get Stared' />
+            <FormattedMessage id='modals.send.banner.get_started' defaultMessage='Get Started' />
           </BannerButton>
         </Row>
       </Column>
