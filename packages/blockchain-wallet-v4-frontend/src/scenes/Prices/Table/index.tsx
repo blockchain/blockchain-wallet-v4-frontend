@@ -84,15 +84,12 @@ export const HeaderText = styled.div`
 `
 
 export const getTableColumns =
-  // TODO: remove routerActions
-
-
-    ({ buySellActions, modalActions, routerActions, walletCurrency }: TableColumnsType) =>
-    () =>
-      [
-        getNameColumn(modalActions),
-        getPriceColumn(walletCurrency),
-        getPriceChangeColumn(),
-        getBalanceColumn(),
-        getActionsColumn(modalActions, buySellActions)
-      ]
+  ({ buySellActions, modalActions, walletCurrency }: TableColumnsType) =>
+  () =>
+    [
+      getNameColumn(modalActions),
+      getPriceColumn(walletCurrency),
+      getPriceChangeColumn(),
+      getBalanceColumn(),
+      getActionsColumn(modalActions, buySellActions)
+    ]
