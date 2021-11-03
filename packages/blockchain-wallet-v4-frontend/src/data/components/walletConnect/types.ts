@@ -1,5 +1,4 @@
-import { Remote } from '@core'
-import { RemoteDataType } from '@core/types'
+import { RemoteDataType, RemoteLoading } from '@core/types'
 
 /*
 {
@@ -77,13 +76,13 @@ export enum WalletConnectStep {
   TRANSACTION_SENT = 'TRANSACTION_SENT'
 }
 
-export type WalletConnectStepPayload =
-  | Remote.Loading
-  | {
-      data?: RequestEthSendTxType | any // TODO
-      error?: any // TODO
-      name: keyof typeof WalletConnectStep
-    }
+export type WalletConnectPayload = {
+  data?: RequestEthSendTxType | any // TODO
+  error?: any // TODO
+  name: keyof typeof WalletConnectStep
+}
+
+export type WalletConnectStepPayload = WalletConnectPayload | RemoteLoading
 
 export type WalletConnectState = {
   sessionDetails?: SessionDetailsType

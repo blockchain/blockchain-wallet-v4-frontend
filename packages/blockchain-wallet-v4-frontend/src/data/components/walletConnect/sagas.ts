@@ -4,7 +4,11 @@ import { call, cancel, cancelled, fork, put, select, take, takeLatest } from 're
 
 import { coreSelectors } from 'blockchain-wallet-v4/src'
 import Remote from 'blockchain-wallet-v4/src/remote'
-import { RequestMethodType, WalletConnectStep } from 'data/components/walletConnect/types'
+import {
+  RequestMethodType,
+  WalletConnectPayload,
+  WalletConnectStep
+} from 'data/components/walletConnect/types'
 
 import { actions as A } from './slice'
 
@@ -13,7 +17,7 @@ export default ({ coreSagas }) => {
 
   // session call request from dapp
   const handleSessionCallRequest = function* (action: ReturnType<typeof A.setStep>) {
-    const { payload } = action
+    const payload = action.payload as WalletConnectPayload
 
     switch (true) {
       case payload.data.method === RequestMethodType.ETH_SEND_TX:
@@ -31,7 +35,7 @@ export default ({ coreSagas }) => {
 
   // session failed, ended by dapp or rejected by user
   const handleSessionDisconnect = function* (action: ReturnType<typeof A.setStep>) {
-    const { payload } = action
+    const payload = action.payload as WalletConnectPayload
     // connection has ended
     yield put(
       A.setStep({
@@ -44,7 +48,7 @@ export default ({ coreSagas }) => {
 
   // session request from dapp
   const handleSessionRequest = function* (action: ReturnType<typeof A.setStep>) {
-    const { payload } = action
+    const payload = action.payload as WalletConnectPayload
     // show user session accept/reject screen
     yield put(
       A.setStep({
@@ -121,13 +125,13 @@ export default ({ coreSagas }) => {
   }
 
   const respondToSessionRequest = function* (action: ReturnType<typeof A.setStep>) {
-    const { payload } = action
+    const payload = action.payload as WalletConnectPayload
 
     try {
       yield put(A.setStep(Remote.Loading))
-      if (payload.action === 'APPROVE') {
+      if (payload.name === 'APPROVE_TRANSACTION_STEP') {
         // store dapp details on state
-        yield put(A.setSessionDetails(payload.sessionDetails))
+        yield put(A.setSessionDetails(payload.data.sessionDetails))
 
         const ethAccount = (yield select(coreSelectors.kvStore.eth.getContext)).getOrFail(
           'Failed to extract ETH account.'
@@ -153,17 +157,17 @@ export default ({ coreSagas }) => {
   }
 
   const respondToTxSendRequest = function* (action: ReturnType<typeof A.setStep>) {
-    const { payload } = action
+    const payload = action.payload as WalletConnectPayload
 
     try {
       yield put(A.setStep(Remote.Loading))
-      if (payload.action === 'APPROVE') {
+      if (payload.name === 'APPROVE_TRANSACTION_STEP') {
         // TODO
       } else {
         // user rejected transaction
         rpc.rejectRequest({
           error: { message: 'Transaction rejected by user.' },
-          id: payload.requestDetails.id
+          id: payload.data.requestDetails.id
         })
 
         yield put(

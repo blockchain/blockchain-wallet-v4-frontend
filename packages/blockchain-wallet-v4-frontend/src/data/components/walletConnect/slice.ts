@@ -24,7 +24,7 @@ const walletConnectSlice = createSlice({
     respondToTxSendRequest: (state, action: PayloadAction<T.RespondToTxSendRequestPayload>) => {},
     setSessionDetails: (state, action: PayloadAction<T.SessionDetailsType>) => {},
     setStep: (state, action: PayloadAction<T.WalletConnectStepPayload>) => {
-      const { payload } = action
+      const payload = action.payload as T.WalletConnectPayload
       state.step = Remote.Success({
         data: payload.data,
         error: payload.error,
