@@ -5,6 +5,7 @@ import { NftAsset, NftOrdersType } from '@core/network/api/nfts/types'
 import { wyvernExchange_ABI } from './abis'
 import {
   _authorizeOrder,
+  _cancelOrder,
   _makeMatchingOrder,
   _makeSellOrder,
   _sellOrderValidationAndApprovals,
@@ -16,7 +17,10 @@ import {
 } from './utils'
 
 export const cancelNftListings = async (asset: NftAsset, signer: Signer) => {
-  console.log('Cancel listings')
+  // TODO: on front end maybe worth having a way for users to select which one of their sell orders they want to cancel and then input the order directly to this function.
+  const sellOrder = asset.sell_orders[0]
+  console.log(sellOrder)
+  const cancelled = await _cancelOrder({ sellOrder, signer })
 }
 
 export const fulfillNftSellOrder = async (asset: NftAsset, signer: Signer) => {

@@ -13,6 +13,7 @@ import {
   NftOrdersType,
   NftSaleKind,
   PartialReadonlyContractAbi,
+  SellOrder,
   SolidityTypes,
   UnhashedOrder,
   UnsignedOrder,
@@ -1570,15 +1571,15 @@ export async function _validateOrderWyvern({
       order.paymentToken
     ],
     [
-      order.makerRelayerFee.toNumber(),
-      order.takerRelayerFee.toNumber(),
-      order.makerProtocolFee.toNumber(),
-      order.takerProtocolFee.toNumber(),
+      order.makerRelayerFee.toString(),
+      order.takerRelayerFee.toString(),
+      order.makerProtocolFee.toString(),
+      order.takerProtocolFee.toString(),
       order.basePrice.toString(),
-      order.extra.toNumber(),
-      order.listingTime.toNumber(),
-      order.expirationTime.toNumber(),
-      order.salt
+      order.extra.toString(),
+      order.listingTime.toString(),
+      order.expirationTime.toString(),
+      order.salt.toString()
     ],
     order.feeMethod,
     order.side,
@@ -1592,4 +1593,133 @@ export async function _validateOrderWyvern({
     order.s || NULL_BLOCK_HASH
   )
   return isValid
+}
+
+export async function _cancelOrder({
+  sellOrder,
+  signer
+}: {
+  sellOrder: SellOrder
+  signer: Signer
+}) {
+  const accountAddress = await signer.getAddress()
+  const order = {
+    basePrice: sellOrder.base_price.toString(),
+    calldata: sellOrder.calldata,
+    exchange: sellOrder.exchange,
+    expirationTime: sellOrder.expiration_time.toString(),
+    extra: sellOrder.extra.toString(),
+    feeMethod: sellOrder.fee_method,
+    feeRecipient: sellOrder.fee_recipient.address,
+    hash: sellOrder.order_hash,
+    howToCall: sellOrder.how_to_call,
+    listingTime: sellOrder.listing_time.toString(),
+    maker: sellOrder.maker.address,
+    makerProtocolFee: sellOrder.maker_protocol_fee.toString(),
+    makerReferrerFee: sellOrder.maker_referrer_fee.toString(),
+    makerRelayerFee: sellOrder.maker_relayer_fee.toString(),
+    metadata: sellOrder.metadata,
+    paymentToken: sellOrder.payment_token,
+    quantity: sellOrder.quantity.toString(),
+    r: sellOrder.r,
+    replacementPattern: sellOrder.replacement_pattern,
+    s: sellOrder.s,
+    saleKind: sellOrder.sale_kind,
+    salt: sellOrder.salt.toString(),
+    side: sellOrder.side,
+    staticExtradata: sellOrder.static_extradata,
+    staticTarget: sellOrder.static_target,
+    taker: sellOrder.taker.address,
+    takerProtocolFee: sellOrder.taker_protocol_fee,
+    takerRelayerFee: sellOrder.taker_relayer_fee,
+    target: sellOrder.target,
+    v: sellOrder.v,
+    // TODO: Find out how to fetch the true value for waitingForBestCounter
+    waitingForBestCounterOrder: false
+  }
+
+  const wyvernExchangeContract = new ethers.Contract(order.exchange, wyvernExchange_ABI, signer)
+  const gasPrice = await signer.getGasPrice()
+  const txnData = {
+    from: accountAddress,
+    gasLimit: 100_000,
+    gasPrice: parseInt(gasPrice._hex)
+  }
+  // Weird & inconsistent quoarum error during gas estimation... use default value if fails
+  try {
+    const gasLimitEstimated = await wyvernExchangeContract.estimateGas.cancelOrder_(
+      [
+        order.exchange,
+        order.maker,
+        order.taker,
+        order.feeRecipient,
+        order.target,
+        order.staticTarget,
+        order.paymentToken
+      ],
+      [
+        order.makerRelayerFee.toString(),
+        order.takerRelayerFee.toString(),
+        order.makerProtocolFee.toString(),
+        order.takerProtocolFee.toString(),
+        order.basePrice.toString(),
+        order.extra.toString(),
+        order.listingTime.toString(),
+        order.expirationTime.toString(),
+        order.salt.toString()
+      ],
+      order.feeMethod,
+      order.side,
+      order.saleKind,
+      order.howToCall,
+      order.calldata,
+      order.replacementPattern,
+      order.staticExtradata,
+      order.v || 0,
+      order.r || NULL_BLOCK_HASH,
+      order.s || NULL_BLOCK_HASH,
+      txnData
+    )
+    txnData.gasLimit = parseInt(gasLimitEstimated._hex)
+  } catch (e) {
+    console.log('Gas estimation failed, using hardcoded gasLimit value')
+  }
+  const transactionHash = await wyvernExchangeContract.cancelOrder_(
+    [
+      order.exchange,
+      order.maker,
+      order.taker,
+      order.feeRecipient,
+      order.target,
+      order.staticTarget,
+      order.paymentToken
+    ],
+    [
+      order.makerRelayerFee,
+      order.takerRelayerFee,
+      order.makerProtocolFee,
+      order.takerProtocolFee,
+      order.basePrice,
+      order.extra,
+      order.listingTime,
+      order.expirationTime,
+      order.salt
+    ],
+    order.feeMethod,
+    order.side,
+    order.saleKind,
+    order.howToCall,
+    order.calldata,
+    order.replacementPattern,
+    order.staticExtradata,
+    order.v || 0,
+    order.r || NULL_BLOCK_HASH,
+    order.s || NULL_BLOCK_HASH,
+    { from: accountAddress }
+  )
+
+  const receipt = await transactionHash.wait()
+  // @ts-ignore: order here is valid type for _validateOrderWyvern, but not for other functions that handle Order types due to numerical compairsons made in aother files.
+  const isValidOrder = await _validateOrderWyvern({ order, signer })
+  return !isValidOrder
 }
