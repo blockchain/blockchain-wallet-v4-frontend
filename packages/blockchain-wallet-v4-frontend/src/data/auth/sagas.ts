@@ -494,26 +494,29 @@ export default ({ api, coreSagas, networks }) => {
 
       // open coin ws needed for coin streams and channel key for mobile login
       yield put(actions.ws.startSocket())
-
+      // get last product they authed into from cache
+      const lastProductFromCache = yield select(selectors.cache.getLastProduct)
       // get product auth data from querystring
       const searchString = yield select(selectors.router.getSearch)
       const queryParams = new URLSearchParams(searchString)
       // get device platform param or default to web
       const platform = (queryParams.get('platform') || PlatformTypes.WEB) as PlatformTypes
       // get product param or default to wallet
-      const product = (queryParams.get('product') ||
-        ProductAuthOptions.WALLET) as ProductAuthOptions
+      const product = (queryParams.get('product') || lastProductFromCache) as ProductAuthOptions
       const redirect = queryParams.get('redirect')
 
-      // store product auth data defaulting to product=wallet and platform=web
-      yield put(
-        actions.auth.setProductAuthMetadata({
-          platform,
-          product,
-          redirect: redirect || undefined
-        })
-      )
-
+      // if there's a product from url param or if have a
+      // last logged into product stored in cache, then
+      // store product auth data defaulting to platform=web
+      if (product || lastProductFromCache) {
+        yield put(
+          actions.auth.setProductAuthMetadata({
+            platform,
+            product: product || lastProductFromCache,
+            redirect: redirect || undefined
+          })
+        )
+      }
       // select required data to initialize auth below
       const pathname = yield select(selectors.router.getPathname)
       const urlPathParams = pathname.split('/')
@@ -523,6 +526,13 @@ export default ({ api, coreSagas, networks }) => {
       // initialize login form and/or set initial auth step
       // 👋 Case order matters, think before changing!
       switch (true) {
+        // if there's no product from url or cache
+        // we set the step to product picker
+        case !product || !lastProductFromCache:
+          yield put(
+            actions.form.change(LOGIN_FORM, 'step', LoginSteps.PRODUCT_PICKER_BEFORE_AUTHENTICATION)
+          )
+          break
         // mobile webview auth flow
         case platform !== PlatformTypes.WEB:
           // eslint-disable-next-line
