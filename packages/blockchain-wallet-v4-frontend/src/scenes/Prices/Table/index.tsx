@@ -31,13 +31,9 @@ export const TableWrapper = styled.div`
     border: 1px solid ${(props) => props.theme.grey100};
     border-radius: 8px;
 
-    .td {
-      border-top: 1px solid ${(props) => props.theme.grey100};
-      height: 100px;
-    }
-
     .th {
       display: table-header-group;
+      padding: 16px 8px;
     }
 
     .th,
@@ -45,9 +41,14 @@ export const TableWrapper = styled.div`
       vertical-align: middle;
       display: table-cell;
       margin: 0;
-      padding: 16px 8px;
       text-align: left;
       width: 20%;
+    }
+
+    .td {
+      border-top: 1px solid ${(props) => props.theme.grey100};
+      height: 90px;
+      padding: 0;
     }
 
     .tr {
