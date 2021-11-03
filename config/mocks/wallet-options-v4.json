@@ -2,26 +2,29 @@
   "platforms": {
     "web": {
       "application": {
-        "analyticsSiteId": 2,
-        "environment": "dev",
+        "analyticsSiteId": 3,
+        "environment": "prod",
         "announcements": {
-          "lockbox": {},
           "public": {},
+          "request": {},
+          "send": {},
           "swap": {},
           "wallet": {}
         }
       },
-      "coinListing": "",
-      "coinRename": "CLOUT",
+      "coinListing": "WBTC",
+      "erc20s": ["AAVE", "PAX", "DAI", "USDC", "USDT", "WBTC", "WDGLD", "YFI"],
       "sift": {
-        "apiKey": "0ecd212038"
+        "apiKey": "3c629728c4",
+        "paymentKey": "6cfc253dcd"
       },
-      "featureFlags": {
-        "cEURRewards": true,
-        "eddInterestFileUpload": true,
-        "developerMobilePairing": true,
+      "mobile_auth": {
+        "enabled": false
+      },
+      "featureFlags":{
+        "developerMobilePairing": false,
         "withdrawalLocksFundsOnHold": true,
-        "pollForMagicLinkData": true,
+        "pollForMagicLinkData": false,
         "recurringBuys": true,
         "signupCountry": true
       }
@@ -32,15 +35,15 @@
     "bitpay": "https://bitpay.com",
     "comRoot": "https://www.blockchain.com",
     "comWalletApp": "https://login.blockchain.com",
-    "everypay": "https://igw-demo.every-pay.com",
+    "everypay": "https://pay.every-pay.eu",
     "exchange": "https://exchange.blockchain.com",
-    "horizon": "https://horizon.stellar.org",
+    "horizon": "https://api.blockchain.info/stellar",
     "ledger": "https://manager.api.live.ledger.com",
     "ledgerSocket": "wss://api.ledgerwallet.com",
     "root": "https://blockchain.info",
     "veriff": "https://magic.veriff.me",
     "walletHelper": "https://wallet-helper.blockchain.com",
     "webSocket": "wss://ws.blockchain.info",
-    "yapilyCallbackUrl": "https://blockchain.com/brokerage-link-success"
+    "yapilyCallbackUrl": "https://www.blockchain.com/brokerage-link-success"
   }
 }
