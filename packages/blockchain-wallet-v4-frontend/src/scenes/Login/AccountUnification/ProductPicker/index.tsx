@@ -2,7 +2,8 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Icon, Image, Text } from 'blockchain-info-components'
+import { Icon, Image, Link, Text } from 'blockchain-info-components'
+import { LoginSteps, ProductAuthOptions } from 'data/types'
 
 import { Props } from '../../index'
 
@@ -27,9 +28,17 @@ const TextStack = styled.div`
 `
 
 const ProductPicker = (props: Props) => {
+  const handleWalletClick = () => {
+    props.authActions.setProductAuthMetadata({ product: ProductAuthOptions.WALLET })
+    props.formActions.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID)
+  }
+  const handleExchangeClick = () => {
+    props.authActions.setProductAuthMetadata({ product: ProductAuthOptions.EXCHANGE })
+    props.formActions.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID)
+  }
   return (
     <>
-      <IconTextRow>
+      <IconTextRow onClick={handleWalletClick}>
         <Image name='wallet-logo' height='48px' width='48px' />
         <TextStack style={{ marginTop: 0 }}>
           <Text color='grey900' size='24px' weight={600} lineHeight='1.5'>
@@ -44,7 +53,7 @@ const ProductPicker = (props: Props) => {
         </TextStack>
         <Icon name='chevron-right' size='32px' color='grey400' />
       </IconTextRow>
-      <IconTextRow>
+      <IconTextRow onClick={handleExchangeClick}>
         <Image name='exchange-logo' height='48px' width='48px' />
         <TextStack>
           <Text color='grey900' size='24px' weight={600} lineHeight='1.5'>
@@ -59,21 +68,23 @@ const ProductPicker = (props: Props) => {
         </TextStack>
         <Icon name='chevron-right' size='32px' color='grey400' />
       </IconTextRow>
-      <IconTextRow>
-        <Image name='explorer-logo' height='48px' width='48px' />
-        <TextStack style={{ marginBottom: 0 }}>
-          <Text color='grey900' size='24px' weight={600} lineHeight='1.5'>
-            <FormattedMessage id='copy.explorer' defaultMessage='Explorer' />
-          </Text>
-          <Text color='grey600' size='16px' weight={500} lineHeight='1.5'>
-            <FormattedMessage
-              id='scenes.login.productpicker.explorer'
-              defaultMessage='Data analytics for BTC, ETH and more.'
-            />
-          </Text>
-        </TextStack>
-        <Icon name='chevron-right' size='32px' color='grey400' />
-      </IconTextRow>
+      <Link href='https://blockchain.com/explorer' rel='noopener noreferrer'>
+        <IconTextRow>
+          <Image name='explorer-logo' height='48px' width='48px' />
+          <TextStack style={{ marginBottom: 0 }}>
+            <Text color='grey900' size='24px' weight={600} lineHeight='1.5'>
+              <FormattedMessage id='copy.explorer' defaultMessage='Explorer' />
+            </Text>
+            <Text color='grey600' size='16px' weight={500} lineHeight='1.5'>
+              <FormattedMessage
+                id='scenes.login.productpicker.explorer'
+                defaultMessage='Data analytics for BTC, ETH and more.'
+              />
+            </Text>
+          </TextStack>
+          <Icon name='chevron-right' size='32px' color='grey400' />
+        </IconTextRow>
+      </Link>
     </>
   )
 }

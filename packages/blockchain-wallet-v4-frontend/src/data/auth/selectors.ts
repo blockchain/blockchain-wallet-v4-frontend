@@ -33,6 +33,10 @@ export function getProductAuthMetadata(state: RootState): AuthStateType['product
   return state.auth.productAuthMetadata
 }
 
+export function getProduct(state: RootState): AuthStateType['productAuthMetadata']['product'] {
+  return state.auth.productAuthMetadata.product
+}
+
 export function getSecureChannelLogin(state: RootState): AuthStateType['secureChannelLogin'] {
   return state.auth.secureChannelLogin
 }

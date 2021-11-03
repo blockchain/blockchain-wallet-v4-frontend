@@ -62,6 +62,7 @@ export default ({ api, coreSagas, networks }) => {
   const exchangeLogin = function* (action) {
     const { code, password, username } = action.payload
     const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
+    const product = yield select(selectors.auth.getProduct)
     yield put(startSubmit(LOGIN_FORM))
 
     try {
@@ -80,6 +81,9 @@ export default ({ api, coreSagas, networks }) => {
       } else {
         // here we call the merge endpoint and then direct them to exchange
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_SUCCESS))
+      }
+      if (product === ProductAuthOptions.EXCHANGE) {
+        yield put(actions.cache.lastProduct(ProductAuthOptions.EXCHANGE))
       }
       yield put(stopSubmit(LOGIN_FORM))
     } catch (e) {
@@ -185,7 +189,8 @@ export default ({ api, coreSagas, networks }) => {
         yield call(api.setUserInitialAddress, country, userState)
         yield call(coreSagas.settings.fetchSettings)
       }
-
+      // set last logged into product as wallet in cache
+      yield put(actions.cache.lastProduct(ProductAuthOptions.WALLET))
       // We are checking wallet metadata to see if mnemonic is verified
       // and then syncing that information with new Wallet Account model
       // being used for SSO
