@@ -1,4 +1,4 @@
-import Remote from '@core/remote'
+import { Remote } from '@core'
 import { RemoteDataType } from '@core/types'
 
 /*

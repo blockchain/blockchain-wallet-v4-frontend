@@ -164,7 +164,10 @@ export default ({ api, coreSagas, networks }) => {
   const defineWalletConnectGoal = function* (search) {
     // cant use URLSearchParams as it parses the oddly formed uri incorrectly
     const walletConnectURI = search.split('?uri=')[1]
-    yield put(actions.goals.saveGoal('walletConnect', walletConnectURI))
+    const name = 'walletConnect'
+    const data = walletConnectURI
+
+    yield put(actions.goals.saveGoal({ data, name }))
   }
 
   const defineDeepLinkGoals = function* (pathname, search) {
@@ -520,9 +523,12 @@ export default ({ api, coreSagas, networks }) => {
       const { data: uri, id } = goal
       yield put(actions.goals.deleteGoal(id))
       yield put(
-        actions.goals.addInitialModal('walletConnect', ModalName.WALLET_CONNECT_MODAL, {
-          origin,
-          uri
+        actions.goals.addInitialModal({
+          data: {
+            origin
+          },
+          key: 'walletConnect',
+          name: ModalName.WALLET_CONNECT_MODAL
         })
       )
     } catch (e) {
