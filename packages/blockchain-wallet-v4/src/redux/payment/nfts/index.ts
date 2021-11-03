@@ -212,8 +212,8 @@ export const fulfillNftOrder = async (order: NftOrdersType['orders'][0], signer:
     gasPrice: parseInt(gasPrice._hex),
     value: order.basePrice.toString()
   }
-  // const gasLimitEstimated = await contract.estimateGas.atomicMatch_(...args, txnData)
-  // txnData.gasLimit = parseInt(gasLimitEstimated._hex)
+  const gasLimitEstimated = await contract.estimateGas.atomicMatch_(...args, txnData)
+  txnData.gasLimit = parseInt(gasLimitEstimated._hex)
   try {
     // const match = await contract.atomicMatch_(...args, txnData)
     // send success to frontend
