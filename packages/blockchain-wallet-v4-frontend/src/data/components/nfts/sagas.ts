@@ -40,17 +40,22 @@ export default ({ api }: { api: APIType }) => {
 
       yield put(A.fetchNftOrdersLoading())
 
+      // get recent events for the collection
       const { asset_events } = yield call(
         api.getNftRecentEvents,
         marketplace.collection.slug,
         marketplace.page
       )
-      const { token_ids_queried } = marketplace
+      // map events to token_ids
       const token_ids: string[] = asset_events.map((e) => e.asset?.token_id).filter(Boolean)
+      // get previously queried token_ids
+      const { token_ids_queried } = marketplace
+      // uniquify old and new token_ids
       const new_unique_token_ids = [...new Set(token_ids)].filter(
         (id) => !token_ids_queried.includes(id)
       )
 
+      // fetch nfts for new token_ids
       const nfts: ReturnType<typeof api.getNftOrders> = yield call(
         api.getNftOrders,
         NFT_ORDER_PAGE_LIMIT,
@@ -59,7 +64,9 @@ export default ({ api }: { api: APIType }) => {
       )
 
       const nextPage = marketplace.page + 1
+      // when there are no more unique token_ids, we are done
       const atBound = new_unique_token_ids.every((id) => token_ids_queried.includes(id))
+      // update marketplace state
       yield put(
         A.setMarketplaceData({
           atBound,
@@ -67,9 +74,11 @@ export default ({ api }: { api: APIType }) => {
           token_ids_queried: new_unique_token_ids.concat(token_ids_queried)
         })
       )
+      // map orders to order objects
       const orders = nfts.orders.map(orderFromJSON).reduce((prev, curr) => {
         const prevOrder = prev.find((order) => order.asset?.tokenId === curr.asset?.tokenId)
 
+        // if order already exists, use cheapest order
         if (prevOrder) {
           return prevOrder.basePrice < curr.basePrice
             ? prev
@@ -78,6 +87,7 @@ export default ({ api }: { api: APIType }) => {
 
         return [...prev, curr]
       }, [] as ReturnType<typeof orderFromJSON>[])
+      // set orders to state
       yield put(A.fetchNftOrdersSuccess(orders))
     } catch (e) {
       const error = errorHandler(e)
