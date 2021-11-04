@@ -20,37 +20,47 @@
         {
           "opensea_slug": "doodles-official",
           "display_name": "Doodles",
-          "asset_contract_address": "0x8a90CAb2b38dba80c64b7734e58Ee1dB38B8992e",
-          "image_url": "https://lh3.googleusercontent.com/7B0qai02OdHA8P_EOVK672qUliyjQdQDGNrACxs7WnTgZAkJa_wWURnIFKeOh5VTf8cfTqW3wQpozGedaC9mteKphEOtztls02RlWQ=s120",
-          "total_supply": 10000
+          "image_url": "https://lh3.googleusercontent.com/7B0qai02OdHA8P_EOVK672qUliyjQdQDGNrACxs7WnTgZAkJa_wWURnIFKeOh5VTf8cfTqW3wQpozGedaC9mteKphEOtztls02RlWQ=s120"
         },
         {
           "opensea_slug": "cryptopunks",
           "display_name": "Cryptopunks",
-          "asset_contract_address": "0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb",
-          "image_url": "https://lh3.googleusercontent.com/BdxvLseXcfl57BiuQcQYdJ64v-aI8din7WPk0Pgo3qQFhAUH-B6i-dCqqc_mCkRIzULmwzwecnohLhrcH8A9mpWIZqA7ygc52Sr81hE=s120",
-          "total_supply": 10000
+          "image_url": "https://lh3.googleusercontent.com/BdxvLseXcfl57BiuQcQYdJ64v-aI8din7WPk0Pgo3qQFhAUH-B6i-dCqqc_mCkRIzULmwzwecnohLhrcH8A9mpWIZqA7ygc52Sr81hE=s120"
         },
         {
           "opensea_slug": "boredapeyachtclub",
           "display_name": "Bored Ape Yacht Club",
-          "asset_contract_address": "0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d",
-          "image_url": "https://lh3.googleusercontent.com/Ju9CkWtV-1Okvf45wo8UctR-M9He2PjILP0oOvxE89AyiPPGtrR3gysu1Zgy0hjd2xKIgjJJtWIc0ybj4Vd7wv8t3pxDGHoJBzDB=s120",
-          "total_supply": 10000
+          "image_url": "https://lh3.googleusercontent.com/Ju9CkWtV-1Okvf45wo8UctR-M9He2PjILP0oOvxE89AyiPPGtrR3gysu1Zgy0hjd2xKIgjJJtWIc0ybj4Vd7wv8t3pxDGHoJBzDB=s120"
         },
         {
           "opensea_slug": "parallelalpha",
           "display_name": "Parallel Alpha",
-          "asset_contract_address": "0x76be3b62873462d2142405439777e971754e8e77",
-          "image_url": "https://lh3.googleusercontent.com/nxaymgd9aJIzLXb0r3oLO0VCMFi0Zex1ubTmEYekEKwOVq1YijOULDeT1qCjk71OTsQW47zmvZ2ZuycXorgu6WA6Wosc6CiOuVnAXGk=s120",
-          "total_supply": 382
+          "image_url": "https://lh3.googleusercontent.com/nxaymgd9aJIzLXb0r3oLO0VCMFi0Zex1ubTmEYekEKwOVq1YijOULDeT1qCjk71OTsQW47zmvZ2ZuycXorgu6WA6Wosc6CiOuVnAXGk=s120"
         },
         {
           "opensea_slug": "theshiboshis",
           "display_name": "The Shiboshis",
-          "asset_contract_address": "0x11450058d796b02eb53e65374be59cff65d3fe7f",
-          "image_url": "https://lh3.googleusercontent.com/9G_SbzGpWnId_ouP-rsTfv1UIeSaaayelyZVyo7eVETYp2uDXDXeH82Yvw4AchRHuKSrixHhGQ7ri5UUepQLaK9BpwhMH1yjImnXHA=s120",
-          "total_supply": 10000
+          "image_url": "https://lh3.googleusercontent.com/9G_SbzGpWnId_ouP-rsTfv1UIeSaaayelyZVyo7eVETYp2uDXDXeH82Yvw4AchRHuKSrixHhGQ7ri5UUepQLaK9BpwhMH1yjImnXHA=s120"
+        },
+        {
+          "opensea_slug": "sandbox",
+          "display_name": "Sandbox",
+          "image_url": "https://lh3.googleusercontent.com/SXH8tW1siikB80rwCRnjm1a5xM_MwTg9Xl9Db6mioIk9HIlDM09pVoSR7GKJgS6ulSUpgW9BDtMk_ePX_NKgO9A=s60"
+        },
+        {
+          "opensea_slug": "cryptoadz-by-gremplin",
+          "display_name": "Cryptoadz",
+          "image_url": "https://lh3.googleusercontent.com/iofetZEyiEIGcNyJKpbOafb_efJyeo7QOYnTog8qcQJhqoBU-Vu9l3lXidZhXOAdu6dj4fzWW6BZDU5vLseC-K03rMMu-_j2LvwcbHo=s120"
+        },
+        {
+          "opensea_slug": "partydegenerates",
+          "display_name": "Party Degenerates",
+          "image_url": "https://lh3.googleusercontent.com/so2WQ5_GY72dOEffETYPsjc5Z1gv35qHITyikSRdqhtxYWaXqH4mRuBmxz1m0fFe-qGCPoCLZrND3zlpTi2OWWJipln9P66vVIGr=s120"
+        },
+        {
+          "opensea_slug": "cool-cats-nfts",
+          "display_name": "Cool Cats",
+          "image_url": "https://lh3.googleusercontent.com/so2WQ5_GY72dOEffETYPsjc5Z1gv35qHITyikSRdqhtxYWaXqH4mRuBmxz1m0fFe-qGCPoCLZrND3zlpTi2OWWJipln9P66vVIGr=s120"
         }
       ],
       "featureFlags": {
