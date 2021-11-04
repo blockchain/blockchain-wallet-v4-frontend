@@ -2,45 +2,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
-import { NftAssetsType, NftOrdersType } from '@core/network/api/nfts/types'
 import {
-  CoinType,
-  Everypay3DSResponseType,
-  FiatEligibleType,
-  FiatType,
-  PaymentValue,
-  ProviderDetailsType,
-  SBAccountType,
-  SBBalancesType,
-  SBCardType,
-  SBOrderActionType,
-  SBOrderType,
-  SBPairsType,
-  SBPairType,
-  SBPaymentMethodsType,
-  SBPaymentMethodType,
-  SBPaymentTypes,
-  SBQuoteType,
-  SDDEligibleType,
-  SDDVerifiedType,
-  SwapQuoteType,
-  SwapUserLimitsType
-} from '@core/types'
-import {
-  BankTransferAccountType,
-  InitializeCheckout,
-  ModalOriginType,
-  SBFixType,
-  SBShowModalOriginType,
-  StepActionsPayload,
-  SwapAccountType
-} from 'data/types'
+  CollectionData,
+  NftAssetsType,
+  NftOrdersType,
+  OpenSeaCollection
+} from '@core/network/api/nfts/types'
 
 import { NftsStateType } from './types'
 
 const initialState: NftsStateType = {
   assets: Remote.NotAsked,
-  orders: Remote.NotAsked
+  marketplace: { page: 0, token_ids_queried: [] },
+  orders: []
 }
 
 const nftsSlice = createSlice({
@@ -62,13 +36,40 @@ const nftsSlice = createSlice({
     },
     fetchNftOrders: () => {},
     fetchNftOrdersFailure: (state, action: PayloadAction<string>) => {
-      state.orders = Remote.Failure(action.payload)
+      state.orders = [
+        ...state.orders.slice(0, state.orders.length - 1),
+        Remote.Failure(action.payload)
+      ]
     },
     fetchNftOrdersLoading: (state) => {
-      state.orders = Remote.Loading
+      state.orders = [...state.orders, Remote.Loading]
     },
     fetchNftOrdersSuccess: (state, action: PayloadAction<NftOrdersType['orders']>) => {
-      state.orders = Remote.Success(action.payload)
+      state.orders = [
+        ...state.orders.slice(0, state.orders.length - 1),
+        Remote.Success(action.payload)
+      ]
+    },
+    resetNftOrders: (state) => {
+      state.orders = []
+    },
+    setMarketplaceBounds: (state, action: PayloadAction<{ atBound: boolean }>) => {
+      state.marketplace.atBound = action.payload.atBound
+    },
+    setMarketplaceData: (
+      state,
+      action: PayloadAction<{
+        atBound?: boolean
+        collection?: CollectionData
+        page?: number
+        token_ids_queried?: string[]
+      }>
+    ) => {
+      if (action.payload.page) state.marketplace.page = action.payload.page
+      if (action.payload.atBound) state.marketplace.atBound = action.payload.atBound
+      if (action.payload.collection) state.marketplace.collection = action.payload.collection
+      if (action.payload.token_ids_queried)
+        state.marketplace.token_ids_queried = action.payload.token_ids_queried
     }
   }
 })

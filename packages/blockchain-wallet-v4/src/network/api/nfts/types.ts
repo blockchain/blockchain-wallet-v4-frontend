@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { any } from 'ramda'
 
 /**
  * Wyvern order side: buy or sell.
@@ -252,9 +253,20 @@ export interface OpenSeaCollection extends OpenSeaFees {
   paymentTokens: OpenSeaFungibleToken[]
   payoutAddress?: string
   slug: string
-  stats: object
+  stats: Stats
   traitStats: OpenSeaTraitStats
   wikiLink?: string
+}
+
+export interface CollectionData {
+  collection_data: {
+    primary_asset_contracts: {
+      address: string
+      total_supply: number
+    }[]
+  }
+  slug: string
+  stats: Stats
 }
 
 /**
@@ -650,3 +662,33 @@ export interface PartialAbiDefinition {
 }
 
 export type PartialReadonlyContractAbi = Array<Readonly<PartialAbiDefinition>>
+
+export interface Stats {
+  average_price: number
+  count: number
+  floor_price: number
+  market_cap: number
+  num_owners: number
+  num_reports: number
+  one_day_average_price: number
+  one_day_change: number
+  one_day_sales: number
+  one_day_volume: number
+  seven_day_average_price: number
+  seven_day_change: number
+  seven_day_sales: number
+  seven_day_volume: number
+  thirty_day_average_price: number
+  thirty_day_change: number
+  thirty_day_sales: number
+  thirty_day_volume: number
+  total_sales: number
+  total_supply: number
+  total_volume: number
+}
+
+export type AssetEventsType = {
+  approved_account: any
+  asset: NftAsset
+  created_date: string
+}[]

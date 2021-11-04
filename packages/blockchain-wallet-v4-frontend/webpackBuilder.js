@@ -249,6 +249,9 @@ const buildDevServerConfig = (
           'ws://localhost:8080',
           'wss://localhost:8080',
           'wss://api.ledgerwallet.com',
+          // TODO: remove this once we have proper endpoint
+          // used for fetching nft stuff
+          'http://explorer-gateway.traefik',
           'https://ipfs.io',
           'https://api.opensea.io',
           'https://eth-mainnet.alchemyapi.io',
