@@ -170,7 +170,7 @@ export type SecureChannelLoginType = undefined
 
 export type ProductAuthMetadata = {
   platform?: PlatformTypes
-  product: ProductAuthOptions
+  product?: ProductAuthOptions
   redirect?: string
 }
 

@@ -41,7 +41,7 @@ const initialState: AuthStateType = {
   mobileLoginStarted: false,
   productAuthMetadata: {
     platform: PlatformTypes.WEB,
-    product: ProductAuthOptions.WALLET,
+    product: undefined,
     redirect: undefined
   },
   registerEmail: undefined,
@@ -199,7 +199,7 @@ const authSlice = createSlice({
       const { platform, product, redirect } = action.payload
       state.productAuthMetadata = {
         platform: platform?.toUpperCase() as PlatformTypes,
-        product: product.toUpperCase() as ProductAuthOptions,
+        product: product?.toUpperCase() as ProductAuthOptions,
         redirect
       }
     },
