@@ -6,6 +6,7 @@ import airdropWelcome2 from './img/airdrop-welcome@2x.png'
 import airdropWelcomeBanner from './img/airdrop-welcome-banner.png'
 import airdropWelcomeBanner2 from './img/airdrop-welcome-banner@2x.png'
 import alert from './img/alert.svg'
+import alertOrange from './img/alert-orange.svg'
 import allowCamera from './img/allow-camera.png'
 import allowCamera2 from './img/allow-camera@2x.png'
 import allowCamera3 from './img/allow-camera@3x.png'
@@ -167,6 +168,7 @@ const Images = {
   'airdrop-welcome-banner2': airdropWelcomeBanner2,
   'airdrop-welcome2': airdropWelcome2,
   alert,
+  'alert-orange': alertOrange,
   'allow-camera': allowCamera,
   'allow-camera2': allowCamera2,
   'allow-camera3': allowCamera3,

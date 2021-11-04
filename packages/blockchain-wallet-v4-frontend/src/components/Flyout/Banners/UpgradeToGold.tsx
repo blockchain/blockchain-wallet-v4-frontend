@@ -5,8 +5,11 @@ import styled from 'styled-components'
 import Currencies from '@core/exchange/currencies'
 import { formatFiat } from '@core/exchange/utils'
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { SeamlessLimits } from 'data/types'
 import { media } from 'services/styles'
+
+import { getEffectiveLimit } from './model'
 
 const Wrapper = styled.div`
   display: flex;
@@ -78,7 +81,6 @@ const CloseLink = styled.div`
 
 const UpgradeToGoldBanner = ({ limits, verifyIdentity }: Props) => {
   const [isBannerHidden, hideBanner] = useState(false)
-  const { suggestedUpgrade } = limits.globalLimit
 
   if (isBannerHidden) {
     return null
@@ -86,6 +88,13 @@ const UpgradeToGoldBanner = ({ limits, verifyIdentity }: Props) => {
 
   const closeBanner = () => {
     hideBanner((prevValue) => !prevValue)
+  }
+
+  const effectiveLimit = getEffectiveLimit(limits)
+
+  // if there is no effective limit we can't show banner
+  if (!effectiveLimit) {
+    return null
   }
 
   return (
@@ -112,11 +121,10 @@ const UpgradeToGoldBanner = ({ limits, verifyIdentity }: Props) => {
               id='modals.send.banner.description'
               defaultMessage='Verify your ID now and unlock Gold level trading. Send up to {dayCurrencySymbol}{dayAmount} a day.'
               values={{
-                dayAmount: formatFiat(suggestedUpgrade.available.value, 0),
+                dayAmount: formatFiat(convertBaseToStandard('FIAT', effectiveLimit.limit.value), 0),
                 dayCurrencySymbol:
-                  Currencies[suggestedUpgrade.available.currency].units[
-                    suggestedUpgrade.available.currency
-                  ].symbol
+                  Currencies[effectiveLimit.limit.currency].units[effectiveLimit.limit.currency]
+                    .symbol
               }}
             />
           </Copy>
@@ -131,7 +139,7 @@ const UpgradeToGoldBanner = ({ limits, verifyIdentity }: Props) => {
             <FormattedMessage id='copy.not_now' defaultMessage='Not Now' />
           </BannerButton>
           <BannerButton onClick={verifyIdentity} data-e2e='continueToGold' nature='primary'>
-            <FormattedMessage id='modals.send.banner.get_started' defaultMessage='Get Stared' />
+            <FormattedMessage id='modals.send.banner.get_started' defaultMessage='Get Started' />
           </BannerButton>
         </Row>
       </Column>
