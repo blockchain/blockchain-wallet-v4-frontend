@@ -56,11 +56,11 @@ export const isSendLimitOver = (value, allValues, props) => {
   const fiatValue = prop('fiat', value)
   const isFromCustodial = from && from.type === 'CUSTODIAL'
 
-  if (!isFromCustodial || isEmpty(sendLimits) || isEmpty(sendLimits?.globalLimit?.available)) {
+  if (!isFromCustodial || isEmpty(sendLimits) || isEmpty(sendLimits?.current?.available)) {
     return undefined
   }
 
-  const { currency, value: availableAmount } = sendLimits?.globalLimit?.available
+  const { currency, value: availableAmount } = sendLimits?.current?.available
 
   return fiatValue > Number(availableAmount) ? (
     <OverYourLimitMessage
