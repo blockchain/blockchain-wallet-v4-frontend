@@ -15,6 +15,8 @@ import {
 
 import { LOGIN_FORM } from './model'
 
+// TODO: remove all console logs after dev debugging phase
+
 let messageListener
 
 // global function for mobile clients to call to pass message
@@ -46,7 +48,12 @@ const sendMessageToMobile = (
     // ios
     case platform === PlatformTypes.IOS && window.webkit:
       try {
-        window.webkit.messageHandlers.sessionHandler.postMessage(message)
+        // ios has two different message handlers
+        if ((message as MobileAuthConnectedMessage).status) {
+          window.webkit.messageHandlers.connectionStatusHandler.postMessage(message)
+        } else {
+          window.webkit.messageHandlers.credentialsHandler.postMessage(message)
+        }
       } catch (e) {
         throw new Error('Failed to send message to iOS')
       }
@@ -72,7 +79,6 @@ export const initMobileAuthFlow = function* () {
   const { platform, product } = yield select(selectors.auth.getProductAuthMetadata)
 
   // wait for auth payload message from mobile
-  // TODO: JUST COMMENTING THIS OUT FOR DEV PURPOSES, UNCOMMENT LATER
   try {
     // start event listener for message from mobile
     mobileMessageChannel = yield call(pollForMessageFromMobile)
@@ -117,6 +123,9 @@ export const initMobileAuthFlow = function* () {
   //   unified: null,
   //   product: 'EXCHANGE'
   // }
+
+  // TODO: mobile will send us an encoded string version of the auth payload,
+  //  need to parse before storing in redux
 
   // store payload to redux state so we can use later
   yield put(actions.auth.setMagicLinkInfo(authPayloadFromMobile))
