@@ -29,6 +29,8 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.HANDLE_SWAP_MAX_AMOUNT_CLICK, swapSagas.handleSwapMaxAmountClick)
     yield takeLatest(AT.HANDLE_SWAP_MIN_AMOUNT_CLICK, swapSagas.handleSwapMinAmountClick)
 
+    yield takeLatest(AT.SWAP_FETCH_LIMITS, swapSagas.fetchCrossBorderLimits)
+
     yield takeLatest(AT.START_POLL_QUOTE, function* () {
       if (pollTask && pollTask.isRunning) yield cancel(pollTask)
       pollTask = yield fork(swapSagas.fetchQuote)

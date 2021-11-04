@@ -506,6 +506,26 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     yield put(actions.form.change('swapAmount', 'amount', amount))
   }
 
+  const fetchCrossBorderLimits = function* ({
+    payload
+  }: ReturnType<typeof A.fetchCrossBorderLimits>) {
+    const { currency, fromAccount, inputCurrency, outputCurrency, toAccount } = payload
+    try {
+      yield put(A.fetchCrossBorderLimitsLoading())
+      const limitsResponse: ReturnType<typeof api.getCrossBorderTransactions> = yield call(
+        api.getCrossBorderTransactions,
+        inputCurrency,
+        fromAccount,
+        outputCurrency,
+        toAccount,
+        currency
+      )
+      yield put(A.fetchCrossBorderLimitsSuccess(limitsResponse))
+    } catch (e) {
+      yield put(A.fetchCrossBorderLimitsFailure(e))
+    }
+  }
+
   return {
     calculateProvisionalPayment,
     cancelOrder,
@@ -513,6 +533,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     changeCounter,
     changeTrendingPair,
     createOrder,
+    fetchCrossBorderLimits,
     fetchCustodialEligibility,
     fetchLimits,
     fetchPairs,

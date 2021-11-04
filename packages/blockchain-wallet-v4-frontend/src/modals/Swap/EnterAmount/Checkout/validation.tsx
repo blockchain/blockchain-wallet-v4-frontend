@@ -17,6 +17,7 @@ export const getMaxMin = (
   BASE: SwapAccountType,
   COUNTER: SwapAccountType
 ) => {
+  // eslint-disable-next-line default-case
   switch (minOrMax) {
     case 'max':
       const fiatMax = new BigNumber(convertBaseToStandard('FIAT', limits.maxPossibleOrder))

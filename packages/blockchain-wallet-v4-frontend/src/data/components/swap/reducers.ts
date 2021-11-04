@@ -4,6 +4,7 @@ import * as AT from './actionTypes'
 import { SwapActionTypes, SwapState } from './types'
 
 const INITIAL_STATE: SwapState = {
+  crossBorderLimits: Remote.NotAsked,
   custodialEligibility: Remote.NotAsked,
   fix: 'FIAT',
   limits: Remote.NotAsked,
@@ -167,6 +168,24 @@ const swapReducer = (state = INITIAL_STATE, action: SwapActionTypes): SwapState 
           }
         }
       }
+    case AT.SWAP_FETCH_LIMITS_LOADING: {
+      return {
+        ...state,
+        crossBorderLimits: Remote.Loading
+      }
+    }
+    case AT.SWAP_FETCH_LIMITS_SUCCESS: {
+      return {
+        ...state,
+        crossBorderLimits: Remote.Success(action.payload)
+      }
+    }
+    case AT.SWAP_FETCH_LIMITS_FAILURE: {
+      return {
+        ...state,
+        crossBorderLimits: Remote.Failure(action.payload)
+      }
+    }
     default:
       return state
   }

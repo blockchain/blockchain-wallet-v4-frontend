@@ -18,6 +18,7 @@ import { LimitWithEffective, SBCheckoutFormValuesType, SwapBaseCounterTypes } fr
 import { CRYPTO_DECIMALS, FIAT_DECIMALS, formatTextAmount } from 'services/forms'
 
 import { OverLimitButton } from '../../../components'
+import { getEffectiveLimit } from '../../../model'
 import Scheduler from '../../../RecurringBuys/Scheduler'
 import { Row } from '../../../Swap/EnterAmount/Checkout'
 import CryptoItem from '../../CryptoSelection/CryptoSelector/CryptoItem'
@@ -348,16 +349,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           value
         })
 
-  let effectiveLimit = {} as LimitWithEffective
-  if (crossBorderLimits.current?.daily?.effective) {
-    effectiveLimit = crossBorderLimits.current.daily
-  }
-  if (crossBorderLimits.current?.monthly?.effective) {
-    effectiveLimit = crossBorderLimits.current.monthly
-  }
-  if (crossBorderLimits.current?.yearly?.effective) {
-    effectiveLimit = crossBorderLimits.current.yearly
-  }
+  const effectiveLimit = getEffectiveLimit(crossBorderLimits)
 
   const showLimitErrorForSell =
     showError && amtError === 'ABOVE_MAX_LIMIT' && props.orderType === OrderType.SELL
@@ -613,7 +605,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             />
           )}
 
-          {showLimitErrorForSell && (
+          {showLimitErrorForSell && effectiveLimit && (
             <>
               <OverLimitButton coin={cryptoCurrency} />
               <FormattedMessage

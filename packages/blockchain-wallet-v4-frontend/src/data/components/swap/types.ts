@@ -6,6 +6,7 @@ import {
   SwapQuoteType,
   SwapUserLimitsType
 } from '@core/types'
+import { SeamlessLimits } from 'data/types'
 
 import * as AT from './actionTypes'
 
@@ -54,6 +55,7 @@ export type SwapCheckoutFixType = 'CRYPTO' | 'FIAT'
 
 // state
 export type SwapState = {
+  crossBorderLimits: RemoteDataType<string, SeamlessLimits>
   custodialEligibility: RemoteDataType<string, boolean>
   fix: SwapCheckoutFixType
   limits: RemoteDataType<string, SwapUserLimitsType>
@@ -232,8 +234,25 @@ export type SwapStepPayload =
       step: 'NO_HOLDINGS'
     }
 
+interface SwapFetchLimitsFailureActionType {
+  payload: {
+    error: string
+  }
+  type: typeof AT.SWAP_FETCH_LIMITS_FAILURE
+}
+interface SwapFetchLimitsLoadingActionType {
+  type: typeof AT.SWAP_FETCH_LIMITS_LOADING
+}
+interface SwapFetchLimitsSuccessActionType {
+  payload: SeamlessLimits
+  type: typeof AT.SWAP_FETCH_LIMITS_SUCCESS
+}
+
 export type SwapActionTypes =
   | FetchCustodialEligibilityFailureActionType
+  | SwapFetchLimitsFailureActionType
+  | SwapFetchLimitsLoadingActionType
+  | SwapFetchLimitsSuccessActionType
   | FetchCustodialLoadingActionType
   | FetchEligibilitySuccessActionType
   | FetchLimitsFailureActionType

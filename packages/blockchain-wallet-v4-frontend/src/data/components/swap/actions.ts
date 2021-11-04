@@ -3,9 +3,12 @@ import {
   PaymentValue,
   SwapOrderType,
   SwapQuoteType,
-  SwapUserLimitsType
+  SwapUserLimitsType,
+  WalletAcountType,
+  WalletFiatType
 } from '@core/types'
 import { ModalOriginType } from 'data/modals/types'
+import { SeamlessLimits } from 'data/types'
 
 import * as AT from './actionTypes'
 import { SwapAccountType, SwapActionTypes, SwapCheckoutFixType, SwapStepPayload } from './types'
@@ -227,4 +230,34 @@ export const updatePaymentSuccess = (payment: PaymentValue | undefined): SwapAct
     payment
   },
   type: AT.UPDATE_PAYMENT_SUCCESS
+})
+
+export const fetchCrossBorderLimits = (
+  inputCurrency: CoinType,
+  fromAccount: WalletAcountType,
+  outputCurrency: CoinType,
+  toAccount: WalletAcountType,
+  currency?: WalletFiatType
+) => ({
+  payload: {
+    currency,
+    fromAccount,
+    inputCurrency,
+    outputCurrency,
+    toAccount
+  },
+  type: AT.SWAP_FETCH_LIMITS
+})
+export const fetchCrossBorderLimitsFailure = (error: string) => ({
+  payload: {
+    error
+  },
+  type: AT.SWAP_FETCH_LIMITS_FAILURE
+})
+export const fetchCrossBorderLimitsLoading = () => ({
+  type: AT.SWAP_FETCH_LIMITS_LOADING
+})
+export const fetchCrossBorderLimitsSuccess = (limitsResponse: SeamlessLimits) => ({
+  payload: limitsResponse,
+  type: AT.SWAP_FETCH_LIMITS_SUCCESS
 })
