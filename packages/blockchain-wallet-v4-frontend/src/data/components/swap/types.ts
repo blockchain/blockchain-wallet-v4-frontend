@@ -6,7 +6,8 @@ import {
   SwapQuoteType,
   SwapUserLimitsType
 } from '@core/types'
-import { SeamlessLimits } from 'data/types'
+
+import { SeamlessLimits } from '../withdraw/types'
 
 export type MempoolFeeType = 'regular' | 'priority'
 

@@ -11,8 +11,8 @@ import {
   SwapUserLimitsType
 } from '@core/types'
 import { ModalOriginType } from 'data/modals/types'
-import { SeamlessLimits } from 'data/types'
 
+import { SeamlessLimits } from '../withdraw/types'
 import { SwapAccountType, SwapCheckoutFixType, SwapState, SwapStepPayload } from './types'
 
 const initialState: SwapState = {
