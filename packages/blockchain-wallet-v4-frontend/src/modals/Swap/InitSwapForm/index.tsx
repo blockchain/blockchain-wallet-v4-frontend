@@ -257,10 +257,10 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   role='button'
                   data-e2e='trending1'
                   onClick={() =>
-                    this.props.swapActions.changeTrendingPair(
-                      this.getCustodialWallet(accounts, 'BTC'),
-                      this.getCustodialWallet(accounts, 'ETH')
-                    )
+                    this.props.swapActions.changeTrendingPair({
+                      baseAccount: this.getCustodialWallet(accounts, 'BTC'),
+                      counterAccount: this.getCustodialWallet(accounts, 'ETH')
+                    })
                   }
                 >
                   <FlexStartRow>
@@ -287,10 +287,10 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   role='button'
                   data-e2e='trending2'
                   onClick={() =>
-                    this.props.swapActions.changeTrendingPair(
-                      this.getCustodialWallet(accounts, 'ETH'),
-                      this.getCustodialWallet(accounts, 'BTC')
-                    )
+                    this.props.swapActions.changeTrendingPair({
+                      baseAccount: this.getCustodialWallet(accounts, 'ETH'),
+                      counterAccount: this.getCustodialWallet(accounts, 'BTC')
+                    })
                   }
                 >
                   <FlexStartRow>
@@ -317,10 +317,10 @@ class InitSwapForm extends PureComponent<InjectedFormProps<{}, Props> & Props> {
                   role='button'
                   data-e2e='trending3'
                   onClick={() =>
-                    this.props.swapActions.changeTrendingPair(
-                      this.getCustodialWallet(accounts, 'BTC'),
-                      this.getCustodialWallet(accounts, 'PAX')
-                    )
+                    this.props.swapActions.changeTrendingPair({
+                      baseAccount: this.getCustodialWallet(accounts, 'BTC'),
+                      counterAccount: this.getCustodialWallet(accounts, 'PAX')
+                    })
                   }
                 >
                   <FlexStartRow>

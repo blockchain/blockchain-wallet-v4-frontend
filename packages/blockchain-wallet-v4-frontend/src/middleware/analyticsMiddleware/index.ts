@@ -706,7 +706,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
 
-      case AT.components.swap.SWITCH_FIX: {
+      case actions.components.swap.switchFix.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -966,7 +966,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case AT.components.swap.SET_STEP: {
+      case actions.components.swap.setStep.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -1046,7 +1046,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         }
         break
       }
-      case AT.components.swap.HANDLE_SWAP_MAX_AMOUNT_CLICK: {
+      case actions.components.swap.handleSwapMaxAmountClick.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -1082,7 +1082,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-      case AT.components.swap.HANDLE_SWAP_MIN_AMOUNT_CLICK: {
+      case actions.components.swap.handleSwapMinAmountClick.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -1117,7 +1117,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case AT.components.swap.CHANGE_BASE: {
+      case actions.components.swap.changeBase.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -1145,7 +1145,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case AT.components.swap.CHANGE_COUNTER: {
+      case actions.components.swap.changeCounter.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -1173,7 +1173,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case AT.components.swap.CREATE_ORDER: {
+      case actions.components.swap.createOrder.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified

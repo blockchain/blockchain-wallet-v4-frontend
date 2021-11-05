@@ -16,10 +16,9 @@ import profileSagas from '../../modules/profile/sagas'
 import { convertStandardToBase } from '../exchange/services'
 import sendSagas from '../send/sagas'
 import { selectReceiveAddress } from '../utils/sagas'
-import * as A from './actions'
-import * as AT from './actionTypes'
 import { FALLBACK_DELAY } from './model'
 import * as S from './selectors'
+import { actions as A } from './slice'
 import {
   InitSwapFormValuesType,
   MempoolFeeType,
@@ -302,7 +301,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           COUNTER.coin,
           new BigNumber(convertStandardToBase(BASE.coin, 1))
         )
-        yield put(A.fetchQuoteSuccess(quote, rate))
+        yield put(A.fetchQuoteSuccess({ quote, rate }))
         const refresh = -moment().diff(quote.expiresAt)
         yield delay(refresh)
       } catch (e) {
@@ -392,8 +391,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       ) as SwapAmountFormValues
 
       yield race({
-        failure: take(AT.FETCH_QUOTE_FAILURE),
-        success: take(AT.FETCH_QUOTE_SUCCESS)
+        failure: take(A.fetchQuoteFailure.type),
+        success: take(A.fetchQuoteSuccess.type)
       })
       const quote = S.getQuote(yield select()).getOrFail(NO_QUOTE)
 

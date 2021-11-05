@@ -182,11 +182,11 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
   const handleMinMaxClick = () => {
     if (amtError === 'BELOW_MIN') {
-      props.swapActions.handleSwapMinAmountClick(fix === 'FIAT' ? fiatMin : min)
+      props.swapActions.handleSwapMinAmountClick({ amount: fix === 'FIAT' ? fiatMin : min })
     }
 
     if (amtError === 'ABOVE_MAX' || amtError === 'NEGATIVE_INCOMING_AMT') {
-      props.swapActions.handleSwapMinAmountClick(fix === 'FIAT' ? fiatMax : max)
+      props.swapActions.handleSwapMinAmountClick({ amount: fix === 'FIAT' ? fiatMax : max })
     }
   }
 
@@ -270,7 +270,10 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             cursor
             name='up-down-chevron'
             onClick={() =>
-              props.swapActions.switchFix(quoteAmount, fix === 'FIAT' ? 'CRYPTO' : 'FIAT')
+              props.swapActions.switchFix({
+                amount: quoteAmount,
+                fix: fix === 'FIAT' ? 'CRYPTO' : 'FIAT'
+              })
             }
             role='button'
             size='24px'
@@ -393,7 +396,9 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               role='button'
               data-e2e='swapMin'
               onClick={() =>
-                props.swapActions.handleSwapMinAmountClick(fix === 'FIAT' ? fiatMin : min)
+                props.swapActions.handleSwapMinAmountClick({
+                  amount: fix === 'FIAT' ? fiatMin : min
+                })
               }
             >
               <FormattedMessage id='buttons.swap_min' defaultMessage='Swap Min' />
@@ -402,8 +407,8 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               role='button'
               data-e2e='swapMax'
               onClick={() => {
-                props.swapActions.switchFix(quoteAmount, 'CRYPTO')
-                props.swapActions.handleSwapMinAmountClick(max)
+                props.swapActions.switchFix({ amount: quoteAmount, fix: 'CRYPTO' })
+                props.swapActions.handleSwapMinAmountClick({ amount: max })
               }}
             >
               <FormattedMessage id='buttons.swap_max' defaultMessage='Swap Max' />

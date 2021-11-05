@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import styled from 'styled-components'
 
 import { formatCoin } from '@core/exchange/utils'
-import { ExtractSuccess, WalletAcountEnum } from '@core/types'
+import { CrossBorderLimitsPyload, ExtractSuccess, WalletAcountEnum } from '@core/types'
 import { CoinAccountIcon, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { selectors } from 'data'
@@ -73,12 +73,12 @@ class EnterAmount extends PureComponent<Props> {
           : WalletAcountEnum.NON_CUSTODIAL
       const inputCurrency = BASE.coin
       const outputCurrency = COUNTER.coin
-      this.props.swapActions.fetchCrossBorderLimits(
-        inputCurrency,
+      this.props.swapActions.fetchCrossBorderLimits({
         fromAccount,
+        inputCurrency,
         outputCurrency,
         toAccount
-      )
+      } as CrossBorderLimitsPyload)
     }
   }
 
