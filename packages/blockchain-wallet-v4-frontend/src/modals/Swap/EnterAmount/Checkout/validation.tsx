@@ -17,7 +17,6 @@ export const getMaxMin = (
   BASE: SwapAccountType,
   COUNTER: SwapAccountType
 ) => {
-  // eslint-disable-next-line default-case
   switch (minOrMax) {
     case 'max':
       const fiatMax = new BigNumber(convertBaseToStandard('FIAT', limits.maxPossibleOrder))
@@ -57,6 +56,8 @@ export const getMaxMin = (
 
       // We add 7 USD to 3.5 USD so worst case user receives 3.5 USD of BTC
       return (counterFeeInBase + baseMin).toPrecision(CRYPTO_DECIMALS)
+    default:
+      break
   }
 }
 

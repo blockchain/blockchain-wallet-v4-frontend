@@ -121,8 +121,8 @@ const swapSlice = createSlice({
         status: Remote.Success('Success')
       }
     },
-    handleSwapMaxAmountClick: (state, action: PayloadAction<{ amount: string }>) => {},
-    handleSwapMinAmountClick: (state, action: PayloadAction<{ amount: string }>) => {},
+    handleSwapMaxAmountClick: (state, action: PayloadAction<{ amount: string | undefined }>) => {},
+    handleSwapMinAmountClick: (state, action: PayloadAction<{ amount: string | undefined }>) => {},
     initAmountForm: () => {},
     refreshAccounts: () => {},
     setCheckoutFix: (state, action: PayloadAction<SwapCheckoutFixType>) => {
