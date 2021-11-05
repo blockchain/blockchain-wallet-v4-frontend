@@ -25,7 +25,7 @@ export const getData = createDeepEqualSelector(
         const yesterdayPrice = coinPricesPrevious[coinfig.symbol]
         const coinBalance = getBalanceSelector(coinfig.symbol)(state).getOrElse(0).valueOf()
         const priceChangeNum = Number(((currentPrice - yesterdayPrice) / yesterdayPrice) * 100)
-        const priceChangeStr = Number.isNaN(priceChangeNum) ? '0' : priceChangeNumber.toPrecision(2)
+        const priceChangeStr = Number.isNaN(priceChangeNum) ? '0' : priceChangeNum.toPrecision(2)
 
         return {
           balance:
