@@ -1,4 +1,4 @@
-import { RemoteDataType, RemoteLoading } from '@core/types'
+import { RemoteDataType } from '@core/types'
 
 /*
 {
@@ -60,29 +60,29 @@ export type SessionDetailsType = {
 }
 
 export type RespondToSessionRequestPayload = {
-  action: 'APPROVE' | 'REJECT'
   sessionDetails: SessionDetailsType
+  userResponse: 'APPROVE' | 'REJECT'
 }
 
 export type RespondToTxSendRequestPayload = {
-  action: 'APPROVE' | 'REJECT'
   requestDetails: RequestEthSendTxType
+  userResponse: 'APPROVE' | 'REJECT'
 }
+
 export enum WalletConnectStep {
-  APPROVE_TRANSACTION_STEP = 'APPROVE_TRANSACTION_STEP',
+  APPROVE_TRANSACTION = 'APPROVE_TRANSACTION',
   AUTHORIZE_CONNECTION = 'AUTHORIZE_CONNECTION',
   DISCONNECTION_NOTICE = 'DISCONNECTION_NOTICE',
+  LOADING = 'LOADING',
   SESSION_DASHBOARD = 'SESSION_DASHBOARD',
   TRANSACTION_SENT = 'TRANSACTION_SENT'
 }
 
-export type WalletConnectPayload = {
+export type WalletConnectStepPayload = {
   data?: RequestEthSendTxType | any // TODO
   error?: any // TODO
   name: keyof typeof WalletConnectStep
 }
-
-export type WalletConnectStepPayload = WalletConnectPayload | RemoteLoading
 
 export type WalletConnectState = {
   sessionDetails?: SessionDetailsType

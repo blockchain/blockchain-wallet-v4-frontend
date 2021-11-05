@@ -4,7 +4,7 @@ import { bindActionCreators, compose } from 'redux'
 
 import Flyout, { duration, FlyoutChild, FlyoutWrapper } from 'components/Flyout'
 import { actions, selectors } from 'data'
-import { WalletConnectPayload, WalletConnectStep } from 'data/components/walletConnect/types'
+import { WalletConnectStep } from 'data/components/walletConnect/types'
 import { ModalName } from 'data/modals/types'
 import { RootState } from 'data/rootReducer'
 import ModalEnhancer from 'providers/ModalEnhancer'
@@ -56,24 +56,23 @@ class WalletConnectContainer extends PureComponent<Props, State> {
               Success: (val) => {
                 const successProps = { ...this.props, ...val, handleClose: this.handleClose }
 
-                const value = val as WalletConnectPayload
-
                 switch (true) {
-                  case value.name === WalletConnectStep.APPROVE_TRANSACTION_STEP:
+                  case val.name === WalletConnectStep.APPROVE_TRANSACTION:
                     return <ApproveTransactionStep {...successProps} />
 
-                  case value.name === WalletConnectStep.AUTHORIZE_CONNECTION:
+                  case val.name === WalletConnectStep.AUTHORIZE_CONNECTION:
                     return <AuthorizeConnectionStep {...successProps} />
 
-                  case value.name === WalletConnectStep.DISCONNECTION_NOTICE:
+                  case val.name === WalletConnectStep.DISCONNECTION_NOTICE:
                     return <DisconnectionNoticeStep {...successProps} />
 
-                  case value.name === WalletConnectStep.SESSION_DASHBOARD:
+                  case val.name === WalletConnectStep.SESSION_DASHBOARD:
                     return <SessionDashboardStep {...successProps} />
 
-                  case value.name === WalletConnectStep.TRANSACTION_SENT:
+                  case val.name === WalletConnectStep.TRANSACTION_SENT:
                     return null
 
+                  case val.name === WalletConnectStep.LOADING:
                   default:
                     return <Loading />
                 }

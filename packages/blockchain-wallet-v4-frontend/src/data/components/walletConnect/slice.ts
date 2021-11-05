@@ -15,26 +15,28 @@ const walletConnectSlice = createSlice({
   name: 'walletConnect',
   reducers: {
     handleSessionCallRequest: (state, action: PayloadAction<T.RequestMessagePayload>) => {},
+    // handleSessionCallRequest: {
+    //   prepare: ({ data, error }: { data: any, error: any }) => ({ payload: { data, error } }),
+    //   reducer: () => {}
+    // },
     handleSessionDisconnect: (state, action) => {},
     handleSessionRequest: (state, action) => {},
     initWalletConnect: (state, action: PayloadAction<string>) => {},
-    respondToSessionRequest: (state, action: PayloadAction<T.RespondToSessionRequestPayload>) => {
-      state.sessionDetails = action.payload.sessionDetails
-    },
+    respondToSessionRequest: (state, action: PayloadAction<any>) => {},
     respondToTxSendRequest: (state, action: PayloadAction<T.RespondToTxSendRequestPayload>) => {},
-    setSessionDetails: (state, action: PayloadAction<T.SessionDetailsType>) => {},
+    setSessionDetails: (state, action: PayloadAction<T.SessionDetailsType>) => {
+      state.sessionDetails = action.payload
+    },
     setStep: (state, action: PayloadAction<T.WalletConnectStepPayload>) => {
-      const payload = action.payload as T.WalletConnectPayload
       state.step = Remote.Success({
-        data: payload.data,
-        error: payload.error,
-        name: payload.name
+        data: action.payload?.data,
+        error: action.payload?.error,
+        name: action.payload?.name
       })
     }
   }
 })
 
-export const { initWalletConnect } = walletConnectSlice.actions
 const { actions } = walletConnectSlice
 const walletConnectReducer = walletConnectSlice.reducer
 export { actions, walletConnectReducer }
