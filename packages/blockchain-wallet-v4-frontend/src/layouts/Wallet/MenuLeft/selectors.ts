@@ -1,6 +1,6 @@
 import { lift } from 'ramda'
 
-import { ExtractSuccess, InvitationsType } from '@core/types'
+import { ExtractSuccess } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
 
@@ -23,7 +23,7 @@ export const getData = createDeepEqualSelector(
     countryCodeR,
     domainsR,
     userDataR,
-    onHoldR
+    withdrawalLocksFundsOnHoldR
   ) => {
     const transform = (
       countryCode,
@@ -37,9 +37,9 @@ export const getData = createDeepEqualSelector(
         firstLogin,
         lockboxDevices,
         menuOpened,
-        onHold: onHoldR.getOrElse(false),
         pathname,
-        userData
+        userData,
+        withdrawalLocksFundsOnHold: withdrawalLocksFundsOnHoldR.getOrElse(false)
       }
     }
 
