@@ -71,11 +71,11 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
   entry: {
     app: {
       dependOn: 'polyfills',
-      filename: 'app-[chunkhash:10].js',
+      filename: 'app-[contenthash:10].js',
       import: CONFIG_PATH.src + '/index.js'
     },
     polyfills: {
-      filename: 'polyfills-[chunkhash:10].js',
+      filename: 'polyfills-[contenthash:10].js',
       import: [
         '@babel/polyfill',
         'bignumber.js',
