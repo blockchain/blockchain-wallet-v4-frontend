@@ -15,10 +15,6 @@ const walletConnectSlice = createSlice({
   name: 'walletConnect',
   reducers: {
     handleSessionCallRequest: (state, action: PayloadAction<T.RequestMessagePayload>) => {},
-    // handleSessionCallRequest: {
-    //   prepare: ({ data, error }: { data: any, error: any }) => ({ payload: { data, error } }),
-    //   reducer: () => {}
-    // },
     handleSessionDisconnect: (state, action) => {},
     handleSessionRequest: (state, action) => {},
     initWalletConnect: (state, action: PayloadAction<string>) => {},

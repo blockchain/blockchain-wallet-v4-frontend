@@ -11,7 +11,9 @@ export default ({ coreSagas }) => {
   let rpc
 
   // session call request from dapp
-  const handleSessionCallRequest = function* ({ payload }) {
+  const handleSessionCallRequest = function* ({
+    payload
+  }: ReturnType<typeof A.handleSessionCallRequest>) {
     switch (true) {
       case payload.data.method === RequestMethodType.ETH_SEND_TX:
         return yield put(
@@ -27,7 +29,9 @@ export default ({ coreSagas }) => {
   }
 
   // session failed, ended by dapp or rejected by user
-  const handleSessionDisconnect = function* ({ payload }) {
+  const handleSessionDisconnect = function* ({
+    payload
+  }: ReturnType<typeof A.handleSessionDisconnect>) {
     // connection has ended
     yield put(
       A.setStep({
@@ -39,7 +43,7 @@ export default ({ coreSagas }) => {
   }
 
   // session request from dapp
-  const handleSessionRequest = function* ({ payload }) {
+  const handleSessionRequest = function* ({ payload }: ReturnType<typeof A.handleSessionRequest>) {
     // show user session accept/reject screen
     yield put(
       A.setStep({
@@ -107,7 +111,7 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const initWalletConnect = function* ({ payload }) {
+  const initWalletConnect = function* ({ payload }: ReturnType<typeof A.initWalletConnect>) {
     const rpcTask = yield fork(startRpcConnection, { uri: payload })
 
     // listen for user requested disconnect
@@ -115,7 +119,9 @@ export default ({ coreSagas }) => {
     yield cancel(rpcTask)
   }
 
-  const respondToSessionRequest = function* ({ payload }) {
+  const respondToSessionRequest = function* ({
+    payload
+  }: ReturnType<typeof A.respondToSessionRequest>) {
     try {
       yield put(A.setStep({ name: WalletConnectStep.LOADING }))
 
@@ -146,7 +152,9 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const respondToTxSendRequest = function* ({ payload }) {
+  const respondToTxSendRequest = function* ({
+    payload
+  }: ReturnType<typeof A.respondToTxSendRequest>) {
     try {
       yield put(A.setStep({ name: WalletConnectStep.LOADING }))
 
@@ -156,7 +164,7 @@ export default ({ coreSagas }) => {
         // user rejected transaction
         rpc.rejectRequest({
           error: { message: 'Transaction rejected by user.' },
-          id: payload.data.requestDetails.id
+          id: payload.requestDetails.id
         })
 
         yield put(
