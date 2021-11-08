@@ -6,6 +6,7 @@ import { wyvernExchange_ABI } from './abis'
 import {
   _atomicMatch,
   _authorizeOrder,
+  _buyOrderValidationAndApprovals,
   _makeBuyOrder,
   _makeMatchingOrder,
   _makeSellOrder,
@@ -75,7 +76,7 @@ export const fulfillNftOrder = async (order: NftOrdersType['orders'][0], signer:
   if (order.waitingForBestCounterOrder || order.saleKind !== 0) {
     const buyOrder = await _makeMatchingOrder({
       accountAddress,
-      offer: '1000000000000000',
+      offer: '10000000000000000',
       order,
       recipientAddress: accountAddress
     })
@@ -84,9 +85,9 @@ export const fulfillNftOrder = async (order: NftOrdersType['orders'][0], signer:
       ...buyOrder,
       ...signature
     }
-    const isBuyValid = await _validateOrderWyvern({ order: buy, signer })
-    console.log(`Is a valid buy order: ${isBuyValid}`)
+    await _buyOrderValidationAndApprovals({ order: buy, signer })
     console.log('Post buy order to OpenSea API')
+    console.log(buyOrder)
   }
   // Is a fixed price listing:
   else {

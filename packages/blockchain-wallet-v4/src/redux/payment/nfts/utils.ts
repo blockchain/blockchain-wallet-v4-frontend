@@ -1684,7 +1684,7 @@ async function fungibleTokenApprovals({
   return receipt
 }
 
-async function _buyOrderValidationAndApprovals({
+export async function _buyOrderValidationAndApprovals({
   counterOrder,
   order,
   signer
@@ -1699,7 +1699,8 @@ async function _buyOrderValidationAndApprovals({
   if (tokenAddress !== NULL_ADDRESS) {
     const fungibleTokenInterface = new ethers.Contract(order.paymentToken, ERC20_ABI, signer)
 
-    const balance = await fungibleTokenInterface.balanceOf(accountAddress)
+    const balance = new BigNumber(await fungibleTokenInterface.balanceOf(accountAddress))
+    console.log(`WETH balance: ${balance}`)
 
     /* NOTE: no buy-side auctions for now, so sell.saleKind === 0 */
     const minimumAmount = new BigNumber(order.basePrice)
@@ -1710,7 +1711,7 @@ async function _buyOrderValidationAndApprovals({
     // }
 
     // Check WETH balance
-    if (balance.toNumber() < minimumAmount.toNumber()) {
+    if (balance.isLessThan(minimumAmount)) {
       if (tokenAddress === WETH_ADDRESS) {
         throw new Error('Insufficient balance. You may need to wrap Ether.')
       } else {
