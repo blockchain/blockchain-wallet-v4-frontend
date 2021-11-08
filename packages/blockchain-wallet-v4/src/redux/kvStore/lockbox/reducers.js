@@ -1,13 +1,4 @@
-import {
-  append,
-  assoc,
-  assocPath,
-  compose,
-  lensIndex,
-  lensPath,
-  lensProp,
-  remove
-} from 'ramda'
+import { append, assoc, assocPath, compose, lensIndex, lensPath, lensProp, remove } from 'ramda'
 import { mapped, over, set } from 'ramda-lens'
 
 import Remote from '../../../remote'
@@ -50,19 +41,16 @@ export default (state = INITIAL_STATE, action) => {
       )
 
       // TODO: multiple account support
-      const accountLabelLens = coin => lensPath([coin, 'accounts', 0, 'label'])
+      const accountLabelLens = (coin) => lensPath([coin, 'accounts', 0, 'label'])
 
       const setDeviceName = compose(
         assoc('device_name', deviceName),
-        set(accountLabelLens('btc'), deviceName + ' - BTC Wallet'),
-        set(accountLabelLens('bch'), deviceName + ' - BCH Wallet'),
-        set(accountLabelLens('eth'), deviceName + ' - ETH Wallet'),
-        lockboxKv => {
+        set(accountLabelLens('btc'), `${deviceName} - BTC Wallet`),
+        set(accountLabelLens('bch'), `${deviceName} - BCH Wallet`),
+        set(accountLabelLens('eth'), `${deviceName} - ETH Wallet`),
+        (lockboxKv) => {
           if (lockboxKv.xlm) {
-            return set(
-              accountLabelLens('xlm'),
-              deviceName + ' - XLM Wallet'
-            )(lockboxKv)
+            return set(accountLabelLens('xlm'), `${deviceName} - XLM Wallet`)(lockboxKv)
           }
           return lockboxKv
         }
@@ -72,35 +60,35 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.ADD_COIN_ENTRY: {
       const { account, coin, deviceIndex } = payload
-      let valueLens = compose(
+      const valueLens = compose(
         mapped,
         KVStoreEntry.value,
         lensProp('devices'),
         lensIndex(parseInt(deviceIndex))
       )
-      let addCoin = assocPath([coin], account)
+      const addCoin = assocPath([coin], account)
       return over(valueLens, addCoin, state)
     }
     case AT.SET_LATEST_TX_ETH_LOCKBOX: {
       const { deviceIndex, txHash } = payload
-      let valueLens = compose(
+      const valueLens = compose(
         mapped,
         KVStoreEntry.value,
         lensProp('devices'),
         lensIndex(parseInt(deviceIndex))
       )
-      let setTx = assocPath(['eth', 'last_tx'], txHash)
+      const setTx = assocPath(['eth', 'last_tx'], txHash)
       return over(valueLens, setTx, state)
     }
     case AT.SET_LATEST_TX_TIMESTAMP_ETH_LOCKBOX: {
       const { deviceIndex, timestamp } = payload
-      let valueLens = compose(
+      const valueLens = compose(
         mapped,
         KVStoreEntry.value,
         lensProp('devices'),
         lensIndex(parseInt(deviceIndex))
       )
-      let setTxTimestamp = assocPath(['eth', 'last_tx_timestamp'], timestamp)
+      const setTxTimestamp = assocPath(['eth', 'last_tx_timestamp'], timestamp)
       return over(valueLens, setTxTimestamp, state)
     }
     // DELETE

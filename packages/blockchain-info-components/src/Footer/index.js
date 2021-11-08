@@ -198,7 +198,7 @@ const BlueLogo = styled(Image)`
   }
 `
 
-let supportedLanguages = {
+const supportedLanguages = {
   da: 'Danish',
   de: 'German',
   en: 'English',
@@ -206,7 +206,7 @@ let supportedLanguages = {
   fr: 'French'
 }
 
-let langItems = Object.keys(supportedLanguages).map(langKey => {
+const langItems = Object.keys(supportedLanguages).map((langKey) => {
   return {
     text: supportedLanguages[langKey],
     value: langKey
@@ -220,8 +220,8 @@ class Footer extends PureComponent {
 
     this.lang = this.cookies.get('clang') || 'en'
 
-    let langPathMatch = window.location.pathname.match(/^\/([a-z]{2})\//)
-    let langPath = langPathMatch && langPathMatch[1]
+    const langPathMatch = window.location.pathname.match(/^\/([a-z]{2})\//)
+    const langPath = langPathMatch && langPathMatch[1]
     if (langPath && langPath in supportedLanguages) {
       this.lang = langPath
     }
@@ -237,15 +237,12 @@ class Footer extends PureComponent {
     }
 
     let toLocation = window.location
-    let pathname = window.location.pathname
-    let langPathMatch = pathname.match(/^\/([a-z]{2})\/(.*)/)
+    const { pathname } = window.location
+    const langPathMatch = pathname.match(/^\/([a-z]{2})\/(.*)/)
     if (langPathMatch && langPathMatch[1] in supportedLanguages) {
-      toLocation =
-        value === 'en'
-          ? '/' + langPathMatch[2]
-          : '/' + value + '/' + langPathMatch[2]
+      toLocation = value === 'en' ? `/${langPathMatch[2]}` : `/${value}/${langPathMatch[2]}`
     } else {
-      toLocation = value === 'en' ? pathname : '/' + value + pathname
+      toLocation = value === 'en' ? pathname : `/${value}${pathname}`
     }
     window.setTimeout(() => {
       // trigger page refresh
@@ -263,7 +260,7 @@ class Footer extends PureComponent {
                 <h5>Products</h5>
                 <ul>
                   <li>
-                    <Link locale={this.lang} href={'/wallet'}>
+                    <Link locale={this.lang} href='/wallet'>
                       Wallet
                     </Link>
                   </li>
@@ -273,12 +270,12 @@ class Footer extends PureComponent {
                     </Link>
                   </li>
                   <li>
-                    <Link locale={this.lang} href={'/lockbox'}>
+                    <Link locale={this.lang} href='/lockbox'>
                       Lockbox
                     </Link>
                   </li>
                   <li>
-                    <Link locale={this.lang} href={'/api'}>
+                    <Link locale={this.lang} href='/api'>
                       Developers
                     </Link>
                   </li>
@@ -289,27 +286,27 @@ class Footer extends PureComponent {
                 <h5>Data</h5>
                 <ul>
                   <li>
-                    <Link locale={this.lang} href={'/prices'}>
+                    <Link locale={this.lang} href='/prices'>
                       Prices
                     </Link>
                   </li>
                   <li>
-                    <Link locale={this.lang} href={'/charts'}>
+                    <Link locale={this.lang} href='/charts'>
                       Charts
                     </Link>
                   </li>
                   <li>
-                    <Link locale={this.lang} href={'/explorer'}>
+                    <Link locale={this.lang} href='/explorer'>
                       Bitcoin Explorer
                     </Link>
                   </li>
                   <li>
-                    <Link locale={this.lang} href={'/explorer?currency=BCH'}>
+                    <Link locale={this.lang} href='/explorer?currency=BCH'>
                       Bitcoin Cash Explorer
                     </Link>
                   </li>
                   <li>
-                    <Link locale={this.lang} href={'/explorer?currency=ETH'}>
+                    <Link locale={this.lang} href='/explorer?currency=ETH'>
                       Ethereum Explorer
                     </Link>
                   </li>
@@ -320,23 +317,17 @@ class Footer extends PureComponent {
                 <h5>Learn</h5>
                 <ul>
                   <li>
-                    <Link
-                      locale={this.lang}
-                      href={'/learning-portal/bitcoin-faq'}
-                    >
+                    <Link locale={this.lang} href='/learning-portal/bitcoin-faq'>
                       What is Bitcoin
                     </Link>
                   </li>
                   <li>
-                    <Link
-                      locale={this.lang}
-                      href={'/learning-portal/ether-basics'}
-                    >
+                    <Link locale={this.lang} href='/learning-portal/ether-basics'>
                       What is Ethereum
                     </Link>
                   </li>
                   <li>
-                    <Link locale={this.lang} href={'/learning-portal'}>
+                    <Link locale={this.lang} href='/learning-portal'>
                       Getting Started
                     </Link>
                   </li>
@@ -344,7 +335,7 @@ class Footer extends PureComponent {
                     <Link href='https://blog.blockchain.com'>Blog</Link>
                   </li>
                   <li>
-                    <Link locale={this.lang} href={'/research'}>
+                    <Link locale={this.lang} href='/research'>
                       Research
                     </Link>
                   </li>
@@ -355,23 +346,23 @@ class Footer extends PureComponent {
                 <h5>Company</h5>
                 <ul>
                   <li>
-                    <Link locale={this.lang} href={'/about'}>
+                    <Link locale={this.lang} href='/about'>
                       About
                     </Link>
                   </li>
                   <li>
-                    <Link locale={this.lang} href={'/team'}>
+                    <Link locale={this.lang} href='/team'>
                       Team
                     </Link>
                   </li>
                   <li>
-                    <Link locale={this.lang} href={'/careers'}>
+                    <Link locale={this.lang} href='/careers'>
                       Careers
                     </Link>
                     <NavBadge>Hiring</NavBadge>
                   </li>
                   <li>
-                    <Link locale={this.lang} href={'/legal'}>
+                    <Link locale={this.lang} href='/legal'>
                       Legal
                     </Link>
                   </li>
@@ -382,7 +373,7 @@ class Footer extends PureComponent {
                 <h5>Contact Us</h5>
                 <ul>
                   <li>
-                    <Link locale={this.lang} href={'/press'}>
+                    <Link locale={this.lang} href='/press'>
                       Press
                     </Link>
                   </li>
@@ -390,18 +381,14 @@ class Footer extends PureComponent {
                     <Link href='https://support.blockchain.com'>Support</Link>
                   </li>
                   <li>
-                    <Link href='https://www.blockchain-status.com/'>
-                      Status
-                    </Link>
+                    <Link href='https://www.blockchain-status.com/'>Status</Link>
                   </li>
                 </ul>
               </Column>
 
               <Column>
                 <BlueLogo name='blockchain-icon' height='44px' />
-                <Copyright>
-                  © {new Date().getFullYear()} BLOCKCHAIN LUXEMBOURG S.A.
-                </Copyright>
+                <Copyright>© {new Date().getFullYear()} BLOCKCHAIN LUXEMBOURG S.A.</Copyright>
               </Column>
             </SiteNav>
             <LangNav>

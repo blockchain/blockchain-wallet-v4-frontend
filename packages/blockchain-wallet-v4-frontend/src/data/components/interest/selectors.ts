@@ -58,3 +58,6 @@ export const getInterestEDDStatus = (state: RootState) =>
 
 export const getInterestEDDWithdrawLimits = (state: RootState) =>
   state.components.interest.interestEDDWithdrawLimits
+
+export const getInterestEDDDepositLimits = (state: RootState) =>
+  state.components.interest.interestEDDDepositLimits

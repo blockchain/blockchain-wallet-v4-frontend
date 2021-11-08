@@ -2,33 +2,33 @@ import PropTypes from 'prop-types'
 import { complement, findLast, propEq } from 'ramda'
 
 export const USER_ACTIVATION_STATES = {
-  NONE: 'NONE',
-  CREATED: 'CREATED',
   ACTIVE: 'ACTIVE',
-  BLOCKED: 'BLOCKED'
+  BLOCKED: 'BLOCKED',
+  CREATED: 'CREATED',
+  NONE: 'NONE'
 }
 
 export const KYC_STATES = {
+  EXPIRED: 'EXPIRED',
   NONE: 'NONE',
   PENDING: 'PENDING',
-  UNDER_REVIEW: 'UNDER_REVIEW',
   REJECTED: 'REJECTED',
-  VERIFIED: 'VERIFIED',
-  EXPIRED: 'EXPIRED'
+  UNDER_REVIEW: 'UNDER_REVIEW',
+  VERIFIED: 'VERIFIED'
 }
 
 export const TIERS_STATES = {
+  EXPIRED: 'expired',
   NONE: 'none',
   PENDING: 'pending',
-  UNDER_REVIEW: 'under_review',
   REJECTED: 'rejected',
-  VERIFIED: 'verified',
-  EXPIRED: 'expired'
+  UNDER_REVIEW: 'under_review',
+  VERIFIED: 'verified'
 }
 
 export const DOC_RESUBMISSION_REASONS = {
-  GENERAL: 0,
-  EXPIRED: 1
+  EXPIRED: 1,
+  GENERAL: 0
 }
 
 export const ERROR_TYPES = {
@@ -42,28 +42,28 @@ export const TIERS = {
 }
 
 export const INITIAL_TIERS = [
-  { index: 0, name: 'Tier 0', state: 'none', limits: null },
+  { index: 0, limits: null, name: 'Tier 0', state: 'none' },
   {
     index: 1,
+    limits: { annual: 1000.0, currency: 'USD', daily: null, type: 'CRYPTO' },
     name: 'Tier 1',
-    state: 'none',
-    limits: { type: 'CRYPTO', currency: 'USD', daily: null, annual: 1000.0 }
+    state: 'none'
   },
   {
     index: 2,
+    limits: { annual: null, currency: 'USD', daily: 25000.0, type: 'CRYPTO' },
     name: 'Tier 2',
-    state: 'none',
-    limits: { type: 'CRYPTO', currency: 'USD', daily: 25000.0, annual: null }
+    state: 'none'
   }
 ]
 
 export const AddressPropType = PropTypes.shape({
   city: PropTypes.string.isRequired,
+  country: PropTypes.string.isRequired,
   line1: PropTypes.string.isRequired,
   line2: PropTypes.string,
-  state: PropTypes.string.isRequired,
-  country: PropTypes.string.isRequired,
-  postCode: PropTypes.string.isRequired
+  postCode: PropTypes.string.isRequired,
+  state: PropTypes.string.isRequired
 })
 
 export const CountryPropType = PropTypes.shape({
@@ -73,16 +73,10 @@ export const CountryPropType = PropTypes.shape({
   scopes: PropTypes.arrayOf(PropTypes.string)
 })
 
-export const getLastAttemptedTier = findLast(
-  complement(propEq('state', TIERS_STATES.NONE))
-)
+export const getLastAttemptedTier = findLast(complement(propEq('state', TIERS_STATES.NONE)))
 
-export const getLastUnrejectedTier = findLast(
-  complement(propEq('state', TIERS_STATES.REJECTED))
-)
+export const getLastUnrejectedTier = findLast(complement(propEq('state', TIERS_STATES.REJECTED)))
 
-export const getLastVerifiedTier = findLast(
-  propEq('state', TIERS_STATES.VERIFIED)
-)
+export const getLastVerifiedTier = findLast(propEq('state', TIERS_STATES.VERIFIED))
 
 export const WITHDRAW_LOCK_DEFAULT_DAYS = 3

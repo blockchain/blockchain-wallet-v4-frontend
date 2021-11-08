@@ -5,19 +5,18 @@ import styled from 'styled-components'
 const BaseTabMenuItem = styled.span`
   position: relative;
   padding: 12px 20px;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-weight: 600;
   font-size: 14px;
   text-align: center;
   border-radius: 8px;
   white-space: nowrap;
-  width: ${props => props.width || 'auto'};
+  width: ${(props) => props.width || 'auto'};
   margin: 2px;
-  color: ${props =>
-    props.selected ? props.theme.blue600 : props.theme.grey400};
-  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
-  ${props =>
+  color: ${(props) => (props.selected ? props.theme.blue600 : props.theme.grey400)};
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+  ${(props) =>
     props.selected &&
     `
     border-radius: 6px;
@@ -28,7 +27,7 @@ const BaseTabMenuItem = styled.span`
   transition: color 0.3s, background-color 0.3s;
 
   &:hover {
-    color: ${props => !props.disabled && props.theme.blue600};
+    color: ${(props) => !props.disabled && props.theme.blue600};
   }
 
   @media (max-width: 767px) {
@@ -37,7 +36,7 @@ const BaseTabMenuItem = styled.span`
   }
 `
 
-const TabMenuItem = props => {
+const TabMenuItem = (props) => {
   const { children, className, selected, ...rest } = props
   const isSelectedOrActive = selected || className === 'active'
 

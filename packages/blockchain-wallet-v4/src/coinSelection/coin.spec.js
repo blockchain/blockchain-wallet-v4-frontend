@@ -44,7 +44,7 @@ describe('Coin Selection', () => {
     })
     it('coins map', () => {
       const A = Coin.fromJS({ value: 100 })
-      const square = x => x * x
+      const square = (x) => x * x
       expect(A.overValue(square).value).toEqual(square(A.value))
     })
     it('coin empty', () => {
@@ -69,20 +69,16 @@ describe('Coin Selection', () => {
       expect(Coin.effectiveValue(55, A)).toEqual(6860) // 15000 - 55 * 148 = 6860
 
       const B = Coin.fromJS({
-        value: 15000,
-        address: 'bc1qxddx2wmn97swgznpkthv940ktg8ycxg0ygxxp9'
+        address: 'bc1qxddx2wmn97swgznpkthv940ktg8ycxg0ygxxp9',
+        value: 15000
       })
       expect(Coin.effectiveValue(55, B)).toEqual(11274) // 15000 - 55 * 67.75 = 11273.75
     })
     it('should return zero coin value', () => {
-      expect(Coin.effectiveValue(55000, Coin.fromJS({ value: 15000 }))).toEqual(
-        0
-      )
+      expect(Coin.effectiveValue(55000, Coin.fromJS({ value: 15000 }))).toEqual(0)
     })
     it('should return max coin value', () => {
-      expect(Coin.effectiveValue(0, Coin.fromJS({ value: 15000 }))).toEqual(
-        15000
-      )
+      expect(Coin.effectiveValue(0, Coin.fromJS({ value: 15000 }))).toEqual(15000)
     })
   })
 })
@@ -92,116 +88,96 @@ describe('bip69SortInputs', () => {
   it('should sort inputs by hash', () => {
     const assortedInputs = [
       {
-        txHash:
-          'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        txHash: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
         value: 1
       },
       {
-        txHash:
-          'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+        txHash: 'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
         value: 2
       },
       {
-        txHash:
-          'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+        txHash: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
         value: 3
       },
       {
-        txHash:
-          'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbff',
+        txHash: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbff',
         value: 4
       },
       {
-        txHash:
-          'ffbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+        txHash: 'ffbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
         value: 5
       }
-    ].map(input => new Coin.Coin(input))
+    ].map((input) => new Coin.Coin(input))
     const sortedInputs = [
       {
-        txHash:
-          'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        txHash: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
         value: 1
       },
       {
-        txHash:
-          'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+        txHash: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
         value: 3
       },
       {
-        txHash:
-          'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbff',
+        txHash: 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbff',
         value: 4
       },
       {
-        txHash:
-          'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
+        txHash: 'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc',
         value: 2
       },
       {
-        txHash:
-          'ffbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
+        txHash: 'ffbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',
         value: 5
       }
-    ].map(input => new Coin.Coin(input))
+    ].map((input) => new Coin.Coin(input))
     expect(bip69SortInputs(assortedInputs)).toEqual(sortedInputs)
   })
 
   it('should sort inputs with equal hash by value', () => {
     const assortedInputs = [
       {
-        txHash:
-          'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        txHash: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
         value: 1
       },
       {
-        txHash:
-          'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        txHash: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
         value: 0
       },
       {
-        txHash:
-          'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        txHash: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
         value: 3
       },
       {
-        txHash:
-          'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        txHash: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
         value: 10
       },
       {
-        txHash:
-          'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        txHash: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
         value: 2
       }
-    ].map(input => new Coin.Coin(input))
+    ].map((input) => new Coin.Coin(input))
     const sortedInputs = [
       {
-        txHash:
-          'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        txHash: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
         value: 0
       },
       {
-        txHash:
-          'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        txHash: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
         value: 1
       },
       {
-        txHash:
-          'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        txHash: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
         value: 2
       },
       {
-        txHash:
-          'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        txHash: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
         value: 3
       },
       {
-        txHash:
-          'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+        txHash: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
         value: 10
       }
-    ].map(input => new Coin.Coin(input))
+    ].map((input) => new Coin.Coin(input))
     expect(bip69SortInputs(assortedInputs)).toEqual(sortedInputs)
   })
 })
@@ -231,7 +207,7 @@ describe('bip69SortOutputs', () => {
         value: 2
       }
     ].map(
-      output =>
+      (output) =>
         new Coin.Coin({
           ...output,
           script: Buffer.from(output.script, 'hex')
@@ -259,7 +235,7 @@ describe('bip69SortOutputs', () => {
         value: 10
       }
     ].map(
-      output =>
+      (output) =>
         new Coin.Coin({
           ...output,
           script: Buffer.from(output.script, 'hex')
@@ -291,7 +267,7 @@ describe('bip69SortOutputs', () => {
         value: 0
       }
     ].map(
-      output =>
+      (output) =>
         new Coin.Coin({
           ...output,
           script: Buffer.from(output.script, 'hex')
@@ -319,7 +295,7 @@ describe('bip69SortOutputs', () => {
         value: 0
       }
     ].map(
-      output =>
+      (output) =>
         new Coin.Coin({
           ...output,
           script: Buffer.from(output.script, 'hex')

@@ -16,11 +16,7 @@ const PendingSBTransactions: React.FC<Props> = ({ n }) => {
   return n > 0 ? (
     <Wrapper>
       <Text size='12px' weight={600} color='grey600'>
-        {n}{' '}
-        <FormattedMessage
-          defaultMessage='Pending Transactions'
-          id='copy.pending_txs'
-        />
+        {n} <FormattedMessage defaultMessage='Pending Transactions' id='copy.pending_txs' />
       </Text>
     </Wrapper>
   ) : null

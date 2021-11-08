@@ -39,6 +39,8 @@ export const getFiatCurrency = (state: RootState) => state.components.buySell.fi
 
 export const getSBOrders = (state: RootState) => state.components.buySell.orders
 
+export const getOrigin = (state: RootState) => state.components.buySell.origin
+
 export const getSBPaymentMethods = (state: RootState) => state.components.buySell.methods
 
 export const getSBBalances = (state: RootState) => state.components.buySell.balances
@@ -97,11 +99,10 @@ export const getDefaultPaymentMethod = (state: RootState) => {
           case SBPaymentTypes.USER_CARD:
           case SBPaymentTypes.PAYMENT_CARD:
             if (!method) return
-            const active = SBCardStateEnum.ACTIVE
             const sbCards = getSBCards(state).getOrElse([])
             const sbCard = sbCards.find(
               (value) =>
-                value.id === lastOrder.paymentMethodId && value.state === SBCardStateEnum[active]
+                value.id === lastOrder.paymentMethodId && value.state === SBCardStateEnum.ACTIVE
             )
             const card = sbCard?.card || undefined
 

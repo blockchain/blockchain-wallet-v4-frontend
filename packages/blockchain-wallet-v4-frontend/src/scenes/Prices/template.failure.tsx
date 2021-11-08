@@ -16,10 +16,7 @@ const StatusWrapper = styled.div`
 export default () => (
   <StatusWrapper>
     <Text weight={600} color='grey600'>
-      <FormattedMessage
-        id='scenes.prices.failure'
-        defaultMessage='Failed to load asset prices.'
-      />
+      <FormattedMessage id='scenes.prices.failure' defaultMessage='Failed to load asset prices.' />
     </Text>
   </StatusWrapper>
 )

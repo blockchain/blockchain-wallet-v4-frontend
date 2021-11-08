@@ -19,12 +19,12 @@ export default class Type extends eImmutable.Map<{}, {}> {
   }
 
   toJSON() {
-    return { data: this.toObject(), __serializedType__: this.constructor.name }
+    return { __serializedType__: this.constructor.name, data: this.toObject() }
   }
 
   static define(prop) {
-    let defineProp = prop => compose(this.lens, iLensProp(prop))
-    let propLens = defineProp(prop)
+    const defineProp = (prop) => compose(this.lens, iLensProp(prop))
+    const propLens = defineProp(prop)
     Object.defineProperty(this.prototype, prop, {
       configurable: false,
       enumerable: true,

@@ -19,17 +19,9 @@ const Loading: React.FC<Props> = ({ order, polling }) => {
   return (
     <Wrapper>
       <BlockchainLoader width='80px' height='80px' />
-      <Text
-        weight={600}
-        size='20px'
-        color='grey800'
-        style={{ marginTop: '24px' }}
-      >
+      <Text weight={600} size='20px' color='grey800' style={{ marginTop: '24px' }}>
         {polling || order ? (
-          <FormattedMessage
-            id='modals.simplebuy.processing'
-            defaultMessage='Processing…'
-          />
+          <FormattedMessage id='modals.simplebuy.processing' defaultMessage='Processing…' />
         ) : (
           <FormattedMessage
             id='modals.simplebuy.linking_card'
@@ -37,12 +29,7 @@ const Loading: React.FC<Props> = ({ order, polling }) => {
           />
         )}
       </Text>
-      <Text
-        weight={600}
-        size='14px'
-        color='grey600'
-        style={{ marginTop: '20px' }}
-      >
+      <Text weight={600} size='14px' color='grey600' style={{ marginTop: '20px' }}>
         <FormattedMessage
           id='modals.simplebuy.linking_card.time'
           defaultMessage='This could take up to 1 minute. Please do not close this window.'

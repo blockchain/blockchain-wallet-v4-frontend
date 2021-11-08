@@ -7,7 +7,7 @@ import {
   ProviderDetailsType,
   RemoteDataType,
   SBCardType,
-  SBOrderType,
+  SBOrderType
 } from '@core/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'

@@ -5,10 +5,10 @@ const Wrapper = styled.div`
   width: 100%;
   display: flex;
   position: relative;
-  flex-direction: ${props => (props.inline ? 'row' : 'column')};
-  margin-bottom: ${props => (props.margin ? props.margin : '16px')};
+  flex-direction: ${(props) => (props.inline ? 'row' : 'column')};
+  margin-bottom: ${(props) => (props.margin ? props.margin : '16px')};
   > div {
-    margin-right: ${props => (props.inline ? '15px' : '0px')};
+    margin-right: ${(props) => (props.inline ? '15px' : '0px')};
     &:last-child {
       margin-right: 0px;
     }
@@ -18,7 +18,7 @@ const Wrapper = styled.div`
   }
 `
 
-const FormGroup = props => {
+const FormGroup = (props) => {
   const { children, ...rest } = props
 
   return <Wrapper {...rest}>{children}</Wrapper>

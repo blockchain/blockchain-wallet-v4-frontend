@@ -1,8 +1,8 @@
 import * as AT from './actionTypes'
 
 export const updateMetadataRoot = (payload = {}) => ({
-  type: AT.UPDATE_METADATA_ROOT,
-  payload
+  payload,
+  type: AT.UPDATE_METADATA_ROOT
 })
 
 // FETCH_METADATA_ROOT
@@ -10,11 +10,11 @@ export const fetchMetadataRoot = () => ({ type: AT.FETCH_METADATA_ROOT })
 export const fetchMetadataRootLoading = () => ({
   type: AT.FETCH_METADATA_ROOT_LOADING
 })
-export const fetchMetadataRootSuccess = data => ({
-  type: AT.FETCH_METADATA_ROOT_SUCCESS,
-  payload: data
+export const fetchMetadataRootSuccess = (data) => ({
+  payload: data,
+  type: AT.FETCH_METADATA_ROOT_SUCCESS
 })
-export const fetchMetadataRootFailure = error => ({
-  type: AT.FETCH_METADATA_ROOT_FAILURE,
-  payload: error
+export const fetchMetadataRootFailure = (error) => ({
+  payload: error,
+  type: AT.FETCH_METADATA_ROOT_FAILURE
 })

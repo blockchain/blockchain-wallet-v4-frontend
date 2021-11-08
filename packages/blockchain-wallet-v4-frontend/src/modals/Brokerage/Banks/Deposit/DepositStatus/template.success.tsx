@@ -3,9 +3,9 @@ import { FormattedMessage } from 'react-intl'
 import { InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, Icon, Text } from 'blockchain-info-components'
 import { fiatToString } from '@core/exchange/utils'
 import { FiatType } from '@core/types'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { BankPartners } from 'data/types'
 

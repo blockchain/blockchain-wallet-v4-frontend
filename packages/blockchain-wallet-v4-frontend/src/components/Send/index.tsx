@@ -1,16 +1,12 @@
-import React from 'react'
-import BigNumber from 'bignumber.js'
-import styled, { css } from 'styled-components'
+import React, { memo } from 'react'
+import styled from 'styled-components'
 
 import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
-import { CoinType, CustodialFromType } from '@core/types'
+import { CustodialFromType } from '@core/types'
 import { Banner } from 'blockchain-info-components'
-import { BlueCartridge } from 'components/Cartridge'
 import { FormGroup, FormLabel } from 'components/Form'
-import { convertBaseToStandard } from 'data/components/exchange/services'
 import { media } from 'services/styles'
 
-import ExchangePromo from './ExchangePromo'
 import LockTime from './LockTime'
 
 export const Row = styled.div`
@@ -83,44 +79,8 @@ export const FeePerByteContainer = styled.div`
 export const CustomFeeAlertBanner = styled(Banner)`
   margin-bottom: 18px;
 `
-const customCartridge = css`
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-`
-export const CustomBlueCartridge = styled(BlueCartridge)`
-  ${customCartridge}
-`
 
-export const CustodyToAccountMessage = ({
-  account,
-  coin
-}: {
-  account: CustodialFromType
-  // eslint-disable-next-line
-  amount?: {
-    coin: string
-    coinCode: CoinType
-    fiat: string
-  }
-  coin: CoinType
-}) => {
+export const CustodyToAccountMessage = memo(({ account }: { account: CustodialFromType }) => {
   if (account.type !== ADDRESS_TYPES.CUSTODIAL) return null
-  const isAvailableNone = new BigNumber(account.available).isLessThanOrEqualTo('0')
-  const isWithdrawableNone = new BigNumber(account.withdrawable).isLessThanOrEqualTo('0')
-  const isAvailableEqualToWithdrawable = new BigNumber(account.available).isEqualTo(
-    account.withdrawable
-  )
-
-  switch (true) {
-    // all funds are 'locked'
-    case isWithdrawableNone && !isAvailableNone:
-      return <LockTime coin={coin} />
-    case !isWithdrawableNone && !isAvailableEqualToWithdrawable:
-      return (
-        <LockTime coin={coin} withdrawable={convertBaseToStandard(coin, account.withdrawable)} />
-      )
-    default:
-      return <ExchangePromo />
-  }
-}
+  return <LockTime />
+})

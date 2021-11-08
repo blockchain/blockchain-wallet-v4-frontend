@@ -22,13 +22,13 @@ class DropdownLink extends PureComponent {
   }
 
   resized = throttle(() => {
-    let rect = this.ref.current.getBoundingClientRect()
+    const rect = this.ref.current.getBoundingClientRect()
     if (this.props.callback) {
       this.props.callback(rect)
     }
   }, 200)
 
-  mouseOver = throttle(e => {
+  mouseOver = throttle((e) => {
     this.resized()
     this.props.onMouseOver(e)
   }, 200)

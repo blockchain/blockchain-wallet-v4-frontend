@@ -14,14 +14,14 @@ const Wrapper = styled.div`
 `
 const ErrorText = styled(Text)<{ mobileSize: string }>`
   font-weight: 500;
-  color: ${props => props.theme.red600};
-  font-size: ${props => props.mobileSize};
+  color: ${(props) => props.theme.red600};
+  font-size: ${(props) => props.mobileSize};
   ${media.atLeastMobile`
-    font-size: ${props => props.size};
+    font-size: ${(props) => props.size};
   `}
 `
 
-export default props => (
+export default (props) => (
   <Wrapper>
     <ErrorText {...props}>{props.children}</ErrorText>
   </Wrapper>

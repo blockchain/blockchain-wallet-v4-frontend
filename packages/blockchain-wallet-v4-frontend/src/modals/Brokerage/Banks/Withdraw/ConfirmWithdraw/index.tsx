@@ -42,9 +42,7 @@ class ConfirmWithdraw extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   data: getData(state, ownProps),
-  formValues: selectors.form.getFormValues('custodyWithdrawForm')(
-    state
-  ) as WithdrawCheckoutFormValuesType
+  formValues: selectors.form.getFormValues('brokerageTx')(state) as WithdrawCheckoutFormValuesType
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

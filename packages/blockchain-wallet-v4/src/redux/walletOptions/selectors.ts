@@ -36,7 +36,7 @@ export const getSiftKey = (state) => getWebOptions(state).map(path(['sift', 'api
 
 // show pairing code flag on staging
 export const getPairingCodeFlag = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'legacyMobilePairing']))
+  getWebOptions(state).map(path(['featureFlags', 'developerMobilePairing']))
 
 // recurring buys flag
 export const getFeatureFlagRecurringBuys = (state: RootState) =>
@@ -54,6 +54,10 @@ export const getFeatureLegacyMagicEmailLink = (state: RootState) =>
 export const getFeatureSignupCountry = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'signupCountry']))
 
+// on hold funds feature flag
+export const getWithdrawalLocksFundsOnHold = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'withdrawalLocksFundsOnHold']))
+
 // signup country feature flag
 export const getEDDInterestFileUpload = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'eddInterestFileUpload']))
@@ -61,3 +65,6 @@ export const getEDDInterestFileUpload = (state: RootState) =>
 // celoEUR sweepstake feature flag
 export const getCeloEurRewards = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'cEURRewards']))
+
+export const getPollForMagicLinkData = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'pollForMagicLinkData']))

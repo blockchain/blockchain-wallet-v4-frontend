@@ -12,7 +12,7 @@ import { InterestHistoryCoinFormType } from 'data/components/interest/types'
 import { RootState } from 'data/rootReducer'
 
 const IconButtonCss = css`
-  border: 1px solid ${props => props.theme.grey100};
+  border: 1px solid ${(props) => props.theme.grey100};
   border-radius: 8px;
   margin-right: 12px;
 `
@@ -21,18 +21,18 @@ const DownloadButton = styled(CSVLink)`
 `
 const StyledIconButton = styled(IconButton)`
   ${IconButtonCss};
-  color: ${props => props.theme.blue600};
+  color: ${(props) => props.theme.blue600};
 `
 const SuccessIconButton = styled(IconButton)`
   ${IconButtonCss};
-  color: ${props => props.theme.white};
-  background-color: ${props => props.theme.green600};
+  color: ${(props) => props.theme.white};
+  background-color: ${(props) => props.theme.green600};
   opacity: 1;
 `
 const FailedIconButton = styled(IconButton)`
   ${IconButtonCss};
-  color: ${props => props.theme.white};
-  background-color: ${props => props.theme.red600};
+  color: ${(props) => props.theme.white};
+  background-color: ${(props) => props.theme.red600};
   opacity: 1;
 `
 const LoadingButton = styled(Button)`
@@ -74,47 +74,12 @@ class DownloadTransactions extends React.PureComponent<Props> {
     const txList = flatten(
       txPages &&
         // @ts-ignore
-        txPages.map(pages => map(page => page, (pages && pages.data) || []))
+        txPages.map((pages) => map((page) => page, (pages && pages.data) || []))
     )
 
     return (
       txList?.length > 0 &&
       transactionsReportR.cata({
-        Success: val => {
-          return this.state.hasSavedReport ? (
-            <SuccessIconButton
-              data-e2e='interestTxReportSaved'
-              disabled
-              height='45px'
-              name='checkmark-in-circle-filled'
-              nature='primary'
-              width='140px'
-            >
-              <FormattedMessage id='copy.saved' defaultMessage='Saved' />
-            </SuccessIconButton>
-          ) : (
-            <DownloadButton
-              data={val}
-              filename='Interest_Transactions.csv'
-              onClick={this.handleSaveReport}
-              target='_blank'
-              width='100%'
-            >
-              <StyledIconButton
-                data-e2e='saveInterestTxReport'
-                height='45px'
-                name='download'
-                nature='light'
-                width='140px'
-              >
-                <FormattedMessage
-                  id='scenes.interest.transactions.savereport'
-                  defaultMessage='Save Report'
-                />
-              </StyledIconButton>
-            </DownloadButton>
-          )
-        },
         Failure: () => (
           <FailedIconButton
             data-e2e='interestTxReportFailed'
@@ -148,7 +113,42 @@ class DownloadTransactions extends React.PureComponent<Props> {
           >
             <FormattedMessage id='copy.download' defaultMessage='Download' />
           </StyledIconButton>
-        )
+        ),
+        Success: (val) => {
+          return this.state.hasSavedReport ? (
+            <SuccessIconButton
+              data-e2e='interestTxReportSaved'
+              disabled
+              height='45px'
+              name='checkmark-in-circle-filled'
+              nature='primary'
+              width='140px'
+            >
+              <FormattedMessage id='copy.saved' defaultMessage='Saved' />
+            </SuccessIconButton>
+          ) : (
+            <DownloadButton
+              data={val}
+              filename='Interest_Transactions.csv'
+              onClick={this.handleSaveReport}
+              target='_blank'
+              width='100%'
+            >
+              <StyledIconButton
+                data-e2e='saveInterestTxReport'
+                height='45px'
+                name='download'
+                nature='light'
+                width='140px'
+              >
+                <FormattedMessage
+                  id='scenes.interest.transactions.savereport'
+                  defaultMessage='Save Report'
+                />
+              </StyledIconButton>
+            </DownloadButton>
+          )
+        }
       })
     )
   }
@@ -158,9 +158,7 @@ const mapStateToProps = (state: RootState) => ({
   formValues: selectors.form.getFormValues('interestHistoryCoin')(
     state
   ) as InterestHistoryCoinFormType,
-  transactionsReportR: selectors.components.interest.getInterestTransactionsReport(
-    state
-  ),
+  transactionsReportR: selectors.components.interest.getInterestTransactionsReport(state),
   txPages: selectors.components.interest.getInterestTransactions(state)
 })
 

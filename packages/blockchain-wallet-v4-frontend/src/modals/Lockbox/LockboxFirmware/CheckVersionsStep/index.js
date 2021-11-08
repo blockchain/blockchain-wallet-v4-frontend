@@ -15,13 +15,11 @@ class CheckVersionsContainer extends React.PureComponent {
 
   render() {
     const { status } = this.props
-    return (
-      <CheckVersionsStep status={status} onStartInstall={this.onStartInstall} />
-    )
+    return <CheckVersionsStep status={status} onStartInstall={this.onStartInstall} />
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 

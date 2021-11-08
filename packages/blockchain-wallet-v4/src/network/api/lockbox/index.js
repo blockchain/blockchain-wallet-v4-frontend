@@ -1,76 +1,76 @@
 export default ({ get, ledgerUrl, post }) => {
-  const getApplications = req =>
+  const getApplications = (req) =>
     post({
-      url: ledgerUrl,
+      contentType: 'application/json',
+      data: req,
       endPoint: '/api/get_apps',
-      contentType: 'application/json',
-      data: req
+      url: ledgerUrl
     })
 
-  const getFinalFirmwareById = id =>
+  const getFinalFirmwareById = (id) =>
     get({
-      url: ledgerUrl,
+      contentType: 'application/json',
       endPoint: `/api/firmware_final_versions/${id}`,
-      contentType: 'application/json',
-      ignoreQueryParams: true
+      ignoreQueryParams: true,
+      url: ledgerUrl
     })
 
-  const getDeviceVersion = req =>
+  const getDeviceVersion = (req) =>
     post({
-      url: ledgerUrl,
+      contentType: 'application/json',
+      data: req,
       endPoint: '/api/get_device_version',
-      contentType: 'application/json',
-      data: req
+      url: ledgerUrl
     })
 
-  const getCurrentFirmware = req =>
+  const getCurrentFirmware = (req) =>
     post({
-      url: ledgerUrl,
+      contentType: 'application/json',
+      data: req,
       endPoint: '/api/get_firmware_version',
-      contentType: 'application/json',
-      data: req
+      url: ledgerUrl
     })
 
-  const getLatestFirmware = req =>
+  const getLatestFirmware = (req) =>
     post({
-      url: ledgerUrl,
-      endPoint: '/api/get_latest_firmware',
       contentType: 'application/json',
-      data: req
+      data: req,
+      endPoint: '/api/get_latest_firmware',
+      url: ledgerUrl
     })
 
   const getCurrentOsu = () =>
     post({
-      url: ledgerUrl,
-      endPoint: '/api/get_osu_version',
       contentType: 'application/json',
-      data: {}
+      data: {},
+      endPoint: '/api/get_osu_version',
+      url: ledgerUrl
     })
 
   const getMcus = () =>
     get({
-      url: ledgerUrl,
-      endPoint: '/api/mcu_versions',
       contentType: 'application/json',
-      ignoreQueryParams: true
+      endPoint: '/api/mcu_versions',
+      ignoreQueryParams: true,
+      url: ledgerUrl
     })
 
-  const getNextMcu = bootLoaderVersion =>
+  const getNextMcu = (bootLoaderVersion) =>
     post({
-      url: ledgerUrl,
-      endPoint: '/api/mcu_versions_bootloader',
       contentType: 'application/json',
       data: {
         bootloader_version: bootLoaderVersion
-      }
+      },
+      endPoint: '/api/mcu_versions_bootloader',
+      url: ledgerUrl
     })
 
   return {
     getApplications,
-    getFinalFirmwareById,
     getCurrentFirmware,
-    getDeviceVersion,
     getCurrentOsu,
+    getDeviceVersion,
+    getFinalFirmwareById,
     getLatestFirmware,
     getMcus,
     getNextMcu

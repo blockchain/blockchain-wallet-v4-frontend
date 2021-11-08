@@ -8,7 +8,7 @@ import { actions, selectors } from 'data'
 import SetupTypeStep from './template'
 
 class SetupTypeStepContainer extends React.PureComponent {
-  onChangeStep = setupType => {
+  onChangeStep = (setupType) => {
     this.props.lockboxActions.setSetupNewOrExisting(setupType)
     if (equals('existing', setupType)) {
       this.props.lockboxActions.changeDeviceSetupStep('software-download')
@@ -19,23 +19,17 @@ class SetupTypeStepContainer extends React.PureComponent {
 
   render() {
     return (
-      <SetupTypeStep
-        handleStepChange={this.onChangeStep}
-        deviceType={this.props.setupDeviceType}
-      />
+      <SetupTypeStep handleStepChange={this.onChangeStep} deviceType={this.props.setupDeviceType} />
     )
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   setupDeviceType: selectors.components.lockbox.getNewDeviceType(state)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   lockboxActions: bindActionCreators(actions.components.lockbox, dispatch)
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SetupTypeStepContainer)
+export default connect(mapStateToProps, mapDispatchToProps)(SetupTypeStepContainer)

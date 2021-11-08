@@ -14,9 +14,9 @@ describe('xlm uri decode', () => {
   it('should decode xlm pay uri', () => {
     expect(decodeXlmURI(XLM_PAY_URI)).toEqual({
       address: PLAIN_ADDRESS,
+      amount: AMOUNT.toString(),
       memo: MEMO,
-      note: MSG,
-      amount: AMOUNT.toString()
+      note: MSG
     })
   })
 })

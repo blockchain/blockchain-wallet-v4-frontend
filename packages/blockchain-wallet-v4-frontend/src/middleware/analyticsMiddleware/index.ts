@@ -2847,7 +2847,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
 
-        const { origin } = action.payload
+        const origin = action.payload
 
         analytics.push(AnalyticsKey.LOGIN_HELP_CLICKED, {
           properties: {
@@ -2957,6 +2957,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         analytics.push(AnalyticsKey.LOGIN_REQUEST_APPROVED, {
           properties: {
+            method: 'SECURE_CHANNEL',
             originalTimestamp: getOriginalTimestamp(),
             request_platform: 'WALLET'
           },
@@ -2978,6 +2979,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         analytics.push(AnalyticsKey.LOGIN_REQUEST_DENIED, {
           properties: {
+            method: 'SECURE_CHANNEL',
             originalTimestamp: getOriginalTimestamp(),
             request_platform: 'WALLET'
           },
@@ -2989,6 +2991,54 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
+
+      case actions.auth.analyticsAuthorizeVerifyDeviceSuccess.type: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+
+        analytics.push(AnalyticsKey.LOGIN_REQUEST_APPROVED, {
+          properties: {
+            method: 'MAGIC_LINK',
+            originalTimestamp: getOriginalTimestamp(),
+            request_platform: 'WALLET'
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+
+      case actions.auth.analyticsAuthorizeVerifyDeviceFailure.type: {
+        const state = store.getState()
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const error = action.payload
+        analytics.push(AnalyticsKey.LOGIN_REQUEST_DENIED, {
+          properties: {
+            error,
+            method: 'MAGIC_LINK',
+            originalTimestamp: getOriginalTimestamp(),
+            request_platform: 'WALLET'
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+
       case actions.auth.loginTwoStepVerificationDenied.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
@@ -3104,7 +3154,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
 
-        const { recoveryType } = action.payload
+        const recoveryType = action.payload
 
         analytics.push(AnalyticsKey.RECOVERY_OPTION_SELECTED, {
           properties: {
@@ -3149,7 +3199,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
 
-        const { origin } = action.payload
+        const origin = action.payload
 
         analytics.push(AnalyticsKey.RESET_ACCOUNT_CANCELLED, {
           properties: {
@@ -3173,7 +3223,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
 
-        const { origin } = action.payload
+        const origin = action.payload
 
         analytics.push(AnalyticsKey.RESET_ACCOUNT_CLICKED, {
           properties: {

@@ -3,21 +3,15 @@ import { FormattedMessage } from 'react-intl'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import {
-  Button,
-  Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader
-} from 'blockchain-info-components'
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'blockchain-info-components'
 import { Form, FormGroup, FormItem, TextBox } from 'components/Form'
 import { required } from 'services/forms'
 
 const Wrapper = styled.div`
   font-weight: 400;
-  color: ${props => props.theme.grey700};
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: ${(props) => props.theme.grey700};
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 `
 const Label = styled.label`
   display: block;

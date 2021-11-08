@@ -19,9 +19,9 @@
       "featureFlags": {
         "cEURRewards": true,
         "eddInterestFileUpload": true,
-        "legacyMagicEmailLink": false,
-        "legacyMobilePairing": false,
-        "legacyWalletRecovery": false,
+        "developerMobilePairing": true,
+        "withdrawalLocksFundsOnHold": true,
+        "pollForMagicLinkData": true,
         "recurringBuys": true,
         "signupCountry": true
       }
@@ -41,6 +41,6 @@
     "veriff": "https://magic.veriff.me",
     "walletHelper": "https://wallet-helper.blockchain.com",
     "webSocket": "wss://ws.blockchain.info",
-    "yapilyCallbackUrl": "https://staging.blockchain.com/brokerage-link-success"
+    "yapilyCallbackUrl": "https://blockchain.com/brokerage-link-success"
   }
 }

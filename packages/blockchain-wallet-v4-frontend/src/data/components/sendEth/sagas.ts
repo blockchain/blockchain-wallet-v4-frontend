@@ -9,11 +9,10 @@ import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
 import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
 import { EthAccountFromType } from '@core/redux/payment/eth/types'
-import { Erc20CoinType, EthPaymentType } from '@core/types'
+import { Erc20CoinType, EthPaymentType, WalletAcountEnum } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { calculateFee } from '@core/utils/eth'
 import { actions, actionTypes, selectors } from 'data'
-import { ModalNameType } from 'data/modals/types'
 import * as C from 'services/alerts'
 import * as Lockbox from 'services/lockbox'
 import { promptForSecondPassword } from 'services/sagas'
@@ -159,13 +158,30 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
           yield put(A.sendEthPaymentUpdatedSuccess(payment.value()))
           // After updating payment success check if to isContract
 
-          if (payment.value().from.type === 'CUSTODIAL') {
+          if (payment.value().from.type === ADDRESS_TYPES.CUSTODIAL) {
             // @ts-ignore
             payment = yield payment.setIsContract(false)
             yield put(A.sendEthCheckIsContractSuccess(false))
+            // seamless limits logic
+            if (payment.value()?.to?.type || payment.value()?.to?.type === ADDRESS_TYPES.ADDRESS) {
+              const appState = yield select(identity)
+              const currency = selectors.core.settings
+                .getCurrency(appState)
+                .getOrFail('Failed to get currency')
+              yield put(
+                A.sendEthFetchLimits(
+                  coin,
+                  WalletAcountEnum.CUSTODIAL,
+                  coin,
+                  WalletAcountEnum.NON_CUSTODIAL,
+                  currency
+                )
+              )
+            }
             return
           }
           yield put(A.sendEthCheckIsContract(value))
+
           return
         case 'amount':
           const amountPayload = payload as SendEthFormAmountActionType['payload']
@@ -529,9 +545,28 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
     }
   }
 
+  const fetchSendLimits = function* ({ payload }: ReturnType<typeof A.sendEthFetchLimits>) {
+    const { currency, fromAccount, inputCurrency, outputCurrency, toAccount } = payload
+    try {
+      yield put(A.sendEthFetchLimitsLoading())
+      const limitsResponse: ReturnType<typeof api.getCrossBorderTransactions> = yield call(
+        api.getCrossBorderTransactions,
+        inputCurrency,
+        fromAccount,
+        outputCurrency,
+        toAccount,
+        currency
+      )
+      yield put(A.sendEthFetchLimitsSuccess(limitsResponse))
+    } catch (e) {
+      yield put(A.sendEthFetchLimitsFailure(e))
+    }
+  }
+
   return {
     checkIsContract,
     destroyed,
+    fetchSendLimits,
     firstStepSubmitClicked,
     formChanged,
     initialized,

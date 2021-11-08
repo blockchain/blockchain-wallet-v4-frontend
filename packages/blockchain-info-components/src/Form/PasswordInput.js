@@ -3,11 +3,11 @@ import styled from 'styled-components'
 
 import { selectBorderColor, selectFocusBorderColor } from './helper'
 
-const BasePasswordInput = styled.input.attrs(props => ({
-  type: 'password',
-  spellCheck: 'false',
+const BasePasswordInput = styled.input.attrs((props) => ({
+  'data-lpignore': props.noLastPass,
   disabled: props.disabled,
-  'data-lpignore': props.noLastPass
+  spellCheck: 'false',
+  type: 'password'
 }))`
   position: relative;
   display: block;
@@ -19,37 +19,36 @@ const BasePasswordInput = styled.input.attrs(props => ({
   letter-spacing: 4px;
   font-size: 20px;
   font-weight: 500;
-  color: ${props => props.theme['grey800']};
+  color: ${(props) => props.theme.grey800};
   background-color: ${({ theme }) => theme.white};
   background-image: none;
   outline-width: 0;
   user-select: text;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   border-radius: 8px;
   border: ${({ borderColor, theme }) => `1px solid ${theme[borderColor]}`};
 
   &:focus {
-    border: 1px solid
-      ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
+    border: 1px solid ${({ focusedBorderColor, theme }) => theme[focusedBorderColor]};
   }
   &:focus::placeholder {
     opacity: 0.25;
   }
   &::placeholder {
-    color: ${props => props.theme.grey400};
+    color: ${(props) => props.theme.grey400};
     font-size: 14px;
     font-weight: 500;
   }
   &::-webkit-input-placeholder {
     opacity: 0.4;
-    color: ${props => props.theme['grey400']};
+    color: ${(props) => props.theme.grey400};
     font-size: 14px;
     font-weight: 500;
   }
   &:disabled {
     cursor: not-allowed;
-    background-color: ${props => props.theme.grey100};
+    background-color: ${(props) => props.theme.grey100};
     border: '1px solid transparent';
   }
 `
@@ -61,7 +60,7 @@ class PasswordInput extends React.Component {
     }
   }
 
-  refInput = input => {
+  refInput = (input) => {
     this.input = input
   }
 

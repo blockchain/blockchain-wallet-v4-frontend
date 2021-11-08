@@ -11,11 +11,11 @@ const Circle = styled.div`
   align-items: center;
   width: 74px;
   height: 74px;
-  background: ${props => props.theme.white};
-  border: 2px solid ${props => props.theme.grey200};
+  background: ${(props) => props.theme.white};
+  border: 2px solid ${(props) => props.theme.grey200};
   border-radius: 74px;
   &.active {
-    background: ${props => props.theme.grey000};
+    background: ${(props) => props.theme.grey000};
   }
   ${media.atLeastMobile`
     display: flex;
@@ -25,7 +25,7 @@ const StyledIcon = styled(Icon)`
   display: flex;
 `
 
-const SecurityIcon = props => (
+const SecurityIcon = (props) => (
   <Circle className={props.enabled ? 'active' : ''}>
     <StyledIcon
       size='40px'

@@ -28,3 +28,12 @@ export const ToolTipNoAdditional = (args) => (
 export const SubTitleNoValue = (args) => (
   <CheckoutRow {...args} subTitle='Sub title text' title='Frequency' />
 )
+
+export const SubTitleToolTip = (args) => (
+  <CheckoutRow
+    {...args}
+    toolTip='Newly added funds are subject to a holding period. You can transfer between your Trading, Rewards, and Exchange accounts in the meantime.'
+    subTitle='$30,0000 Available'
+    title='Daily Limit'
+  />
+)

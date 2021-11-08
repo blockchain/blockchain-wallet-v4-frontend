@@ -9,23 +9,23 @@ function WS(uri, protocols, opts) {
 if (WebSocket) {
   WS.prototype = WebSocket.prototype
 
-  WS.prototype.on = function(event, callback) {
-    this['on' + event] = callback
+  WS.prototype.on = function (event, callback) {
+    this[`on${event}`] = callback
   }
 
-  WS.prototype.once = function(event, callback) {
-    this['on' + event] = function() {
+  WS.prototype.once = function (event, callback) {
+    this[`on${event}`] = function () {
       callback.apply(callback, arguments)
-      this['on' + event] = null
+      this[`on${event}`] = null
     }.bind(this)
   }
 
-  WS.prototype.off = function(event) {
-    this['on' + event] = null
+  WS.prototype.off = function (event) {
+    this[`on${event}`] = null
   }
 }
 
-let toArrayFormat = a => (Array.isArray(a) ? a : [a])
+const toArrayFormat = (a) => (Array.isArray(a) ? a : [a])
 
 class Socket {
   constructor({ options = {}, url }) {
@@ -45,21 +45,13 @@ class Socket {
 
   reconnectCount = 0
 
-  connect(
-    onOpen = identity,
-    onMessage = identity,
-    onClose = identity,
-    onError = identity
-  ) {
+  connect(onOpen = identity, onMessage = identity, onClose = identity, onError = identity) {
     if (!this.socket || this.socket.readyState === 3) {
       try {
         this.pingIntervalPID = setInterval(this.ping, this.pingInterval)
         this.socket = new WS(this.wsUrl, [], { headers: this.headers })
         this.socket.on('open', onOpen)
-        this.socket.on(
-          'message',
-          compose(onMessage, this.onPong, this.extractMessage)
-        )
+        this.socket.on('message', compose(onMessage, this.onPong, this.extractMessage))
         this.socket.on('close', onClose)
         this.socket.on('error', onError)
         this.reconnect = this.connect.bind(this, onOpen, onMessage, onClose)
@@ -82,13 +74,10 @@ class Socket {
 
   ping = () => {
     this.send(Socket.pingMessage())
-    this.pingTimeoutPID = setTimeout(
-      compose(this.reconnect, this.close),
-      this.pingTimeout
-    )
+    this.pingTimeoutPID = setTimeout(compose(this.reconnect, this.close), this.pingTimeout)
   }
 
-  onPong = msg => {
+  onPong = (msg) => {
     if (propEq('command', 'pong')) {
       clearTimeout(this.pingTimeoutPID)
     }
@@ -110,10 +99,8 @@ class Socket {
 
   static addrSubMessage(addresses) {
     if (addresses == null) return ''
-    let toMsg = addr => JSON.stringify({ op: 'addr_sub', addr })
-    return toArrayFormat(addresses)
-      .map(toMsg)
-      .reduce(concat, '')
+    const toMsg = (addr) => JSON.stringify({ addr, op: 'addr_sub' })
+    return toArrayFormat(addresses).map(toMsg).reduce(concat, '')
   }
 
   static pingMessage() {

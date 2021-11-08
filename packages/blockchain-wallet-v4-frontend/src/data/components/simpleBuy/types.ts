@@ -105,11 +105,11 @@ export type SBShowModalOriginType =
   | 'Goals'
 
 export enum SBCardStateEnum {
-  PENDING,
-  CREATED,
-  ACTIVE,
-  BLOCKED,
-  FRAUD_REVIEW
+  ACTIVE = 'ACTIVE',
+  BLOCKED = 'BLOCKED',
+  CREATED = 'CREATED',
+  FRAUD_REVIEW = 'FRAUD_REVIEW',
+  PENDING = 'PENDING'
 }
 
 // State
@@ -131,6 +131,7 @@ export type SimpleBuyState = {
   order: undefined | SBOrderType
   orderType?: SBOrderActionType
   orders: RemoteDataType<string, Array<SBOrderType>>
+  origin?: SBShowModalOriginType
   pair: undefined | SBPairType
   pairs: RemoteDataType<string, Array<SBPairType>>
   payment: RemoteDataType<string, undefined | PaymentValue>

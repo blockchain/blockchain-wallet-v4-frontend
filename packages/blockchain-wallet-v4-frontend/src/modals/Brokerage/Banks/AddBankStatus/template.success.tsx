@@ -46,11 +46,11 @@ const Subcontent = styled(Text)`
   text-align: center;
 `
 
-const Success: React.FC<Props> = props => {
+const Success: React.FC<Props> = (props) => {
   let bankName = ''
   if (props.yapilyBankId && props.bankCredentials?.attributes) {
     const bank = props.bankCredentials.attributes?.institutions.find(
-      bank => bank.id === props.yapilyBankId
+      (bank) => bank.id === props.yapilyBankId
     )
     bankName = bank ? bank.fullName : ''
   }
@@ -69,10 +69,7 @@ const Success: React.FC<Props> = props => {
         <Container>
           <Image width='100px' name='bank-success' />
           <Title color='grey800' size='20px' weight={600}>
-            <FormattedMessage
-              id='copy.bank_linked.title'
-              defaultMessage='Bank Linked!'
-            />
+            <FormattedMessage id='copy.bank_linked.title' defaultMessage='Bank Linked!' />
           </Title>
           <Subcontent color='grey600' weight={500}>
             {props.yapilyBankId ? (

@@ -5,10 +5,10 @@ import styled from 'styled-components'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { AddNewButton } from 'components/Brokerage'
 import { FlyoutWrapper } from 'components/Flyout'
+import { Bank, BankWire } from 'components/Flyout/model'
 import { WithdrawStepEnum } from 'data/types'
 import { getBankLogoImageName } from 'services/images'
 
-import { Bank, BankWire } from '../../model'
 import { Props as OwnProps, SuccessStateType } from '.'
 
 const Top = styled.div`
@@ -20,7 +20,7 @@ const getLinkedBankIcon = (bankName: string): ReactElement => (
   <Image name={getBankLogoImageName(bankName)} height='48px' />
 )
 
-const Success: React.FC<Props> = props => {
+const Success: React.FC<Props> = (props) => {
   return (
     <div>
       <FlyoutWrapper>
@@ -35,20 +35,17 @@ const Success: React.FC<Props> = props => {
             style={{ marginRight: '8px' }}
             onClick={() =>
               props.withdrawActions.setStep({
-                step: WithdrawStepEnum.ENTER_AMOUNT,
-                fiatCurrency: props.fiatCurrency
+                fiatCurrency: props.fiatCurrency,
+                step: WithdrawStepEnum.ENTER_AMOUNT
               })
             }
           />
           <Text color='grey800' size='20px' weight={600}>
-            <FormattedMessage
-              id='scenes.settings.linked_banks'
-              defaultMessage='Linked Banks'
-            />
+            <FormattedMessage id='scenes.settings.linked_banks' defaultMessage='Linked Banks' />
           </Text>
         </Top>
       </FlyoutWrapper>
-      {props.bankTransferAccounts.map(account => {
+      {props.bankTransferAccounts.map((account) => {
         return (
           <Bank
             key={account.id}
@@ -67,9 +64,10 @@ const Success: React.FC<Props> = props => {
           />
         )
       })}
-      {props.beneficiaries.map(beneficiary => {
+      {props.beneficiaries.map((beneficiary) => {
         return (
           <BankWire
+            key={beneficiary.id}
             beneficiary={beneficiary}
             isActive={props.beneficiary?.id === beneficiary.id}
             onClick={() => {
@@ -80,7 +78,7 @@ const Success: React.FC<Props> = props => {
                 step: WithdrawStepEnum.ENTER_AMOUNT
               })
             }}
-            type={'WITHDRAWAL'}
+            type='WITHDRAWAL'
           />
         )
       })}

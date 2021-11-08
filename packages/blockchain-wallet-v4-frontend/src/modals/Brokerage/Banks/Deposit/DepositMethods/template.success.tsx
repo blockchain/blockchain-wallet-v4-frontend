@@ -2,12 +2,8 @@ import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
+import { SBPaymentMethodsType, SBPaymentMethodType, SBPaymentTypes } from '@core/types'
 import { Icon, Image, Text } from 'blockchain-info-components'
-import {
-  SBPaymentMethodsType,
-  SBPaymentMethodType,
-  SBPaymentTypes
-} from '@core/types'
 import { FlyoutWrapper } from 'components/Flyout'
 import { AddBankStepType, BankDWStepType, BrokerageModalOriginType } from 'data/types'
 
@@ -75,13 +71,7 @@ const getType = (value: SBPaymentMethodType) => {
   }
 }
 
-const Success = ({
-  addNew,
-  brokerageActions,
-  close,
-  fiatCurrency,
-  paymentMethods
-}: Props) => {
+const Success = ({ addNew, brokerageActions, close, fiatCurrency, paymentMethods }: Props) => {
   const bankTransfer = paymentMethods.methods.find(
     (method) => method.type === SBPaymentTypes.BANK_TRANSFER
   )

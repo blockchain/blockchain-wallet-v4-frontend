@@ -13,7 +13,10 @@ class SecondStepContainer extends React.PureComponent {
   render() {
     const { actions, coin, coinDisplayName, data } = this.props
     return data.cata({
-      Success: value => (
+      Failure: (message) => <Error>{message}</Error>,
+      Loading: () => <Loading />,
+      NotAsked: () => <Loading />,
+      Success: (value) => (
         <Success
           {...value}
           coin={coin}
@@ -21,10 +24,7 @@ class SecondStepContainer extends React.PureComponent {
           handleBack={actions.sendEthSecondStepCancelClicked}
           handleSubmit={actions.sendEthSecondStepSubmitClicked}
         />
-      ),
-      Failure: message => <Error>{message}</Error>,
-      Loading: () => <Loading />,
-      NotAsked: () => <Loading />
+      )
     })
   }
 }
@@ -33,7 +33,7 @@ const mapStateToProps = (state, ownProps) => ({
   data: getData(state, ownProps.coin)
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.sendEth, dispatch)
 })
 
