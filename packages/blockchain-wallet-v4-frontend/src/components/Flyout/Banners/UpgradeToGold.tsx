@@ -7,9 +7,8 @@ import { formatFiat } from '@core/exchange/utils'
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { SeamlessLimits } from 'data/types'
+import { getEffectiveLimit } from 'services/custodial'
 import { media } from 'services/styles'
-
-import { getEffectiveLimit } from './model'
 
 const Wrapper = styled.div`
   display: flex;

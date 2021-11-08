@@ -54,7 +54,7 @@ const FeaturesSmall = (props: Props & { showModal: (modal: 'SEND' | 'REQUEST') =
           </DropdownMenuItem>
           <DropdownMenuItem
             data-e2e='exchangeLink'
-            onClick={() => props.swapActions.showModal('FeaturesTopNav')}
+            onClick={() => props.swapActions.showModal({ origin: 'FeaturesTopNav' })}
           >
             <Destination>
               <FormattedMessage id='buttons.swap' defaultMessage='Swap' />

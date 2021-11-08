@@ -14,7 +14,8 @@ import { getPeriodTitleText } from 'components/Flyout/model'
 import { Form } from 'components/Form'
 import { model } from 'data'
 import { convertBaseToStandard, convertStandardToBase } from 'data/components/exchange/services'
-import { LimitWithEffective, SBCheckoutFormValuesType, SwapBaseCounterTypes } from 'data/types'
+import { SBCheckoutFormValuesType, SwapBaseCounterTypes } from 'data/types'
+import { getEffectiveLimit } from 'services/custodial'
 import { CRYPTO_DECIMALS, FIAT_DECIMALS, formatTextAmount } from 'services/forms'
 
 import { OverLimitButton } from '../../../components'
@@ -348,16 +349,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           value
         })
 
-  let effectiveLimit = {} as LimitWithEffective
-  if (crossBorderLimits.current?.daily?.effective) {
-    effectiveLimit = crossBorderLimits.current.daily
-  }
-  if (crossBorderLimits.current?.monthly?.effective) {
-    effectiveLimit = crossBorderLimits.current.monthly
-  }
-  if (crossBorderLimits.current?.yearly?.effective) {
-    effectiveLimit = crossBorderLimits.current.yearly
-  }
+  const effectiveLimit = getEffectiveLimit(crossBorderLimits)
 
   const showLimitErrorForSell =
     showError && amtError === 'ABOVE_MAX_LIMIT' && props.orderType === OrderType.SELL
@@ -613,7 +605,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             />
           )}
 
-          {showLimitErrorForSell && (
+          {showLimitErrorForSell && effectiveLimit && (
             <>
               <OverLimitButton coin={cryptoCurrency} />
               <FormattedMessage
