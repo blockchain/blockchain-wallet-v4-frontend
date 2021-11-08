@@ -679,8 +679,12 @@ async function computeFees({
   if (asset) {
     openseaBuyerFeeBasisPoints = +asset.asset_contract.opensea_buyer_fee_basis_points
     openseaSellerFeeBasisPoints = +asset.asset_contract.opensea_seller_fee_basis_points
-    devBuyerFeeBasisPoints = +asset.asset_contract.dev_buyer_fee_basis_points
-    devSellerFeeBasisPoints = +asset.asset_contract.dev_seller_fee_basis_points
+    devBuyerFeeBasisPoints =
+      +asset.asset_contract.dev_buyer_fee_basis_points +
+        parseInt(asset.collection?.dev_buyer_fee_basis_points) || 0
+    devSellerFeeBasisPoints =
+      +asset.asset_contract.dev_seller_fee_basis_points +
+        parseInt(asset.collection?.dev_seller_fee_basis_points) || 0
 
     maxTotalBountyBPS = openseaSellerFeeBasisPoints
   }
@@ -983,7 +987,7 @@ function _getSellFeeParameters(
     feeRecipient,
     makerProtocolFee: new BigNumber(0),
     makerReferrerFee: new BigNumber(sellerBountyBasisPoints),
-    makerRelayerFee,
+    makerRelayerFee: new BigNumber(makerRelayerFee),
     takerProtocolFee: new BigNumber(0),
     takerRelayerFee
   }
@@ -997,7 +1001,7 @@ export async function _makeSellOrder({
   endAmount,
   englishAuctionReservePrice = 0,
   expirationTime,
-  extraBountyBasisPoints = 0,
+  extraBountyBasisPoints = 2.5,
   listingTime,
   paymentTokenAddress,
   quantity,
@@ -1072,7 +1076,7 @@ export async function _makeSellOrder({
     basePrice: new BigNumber(basePrice.toString()),
     calldata,
     englishAuctionReservePrice: reservePrice ? new BigNumber(reservePrice.toString()) : undefined,
-    exchange: '0x7Be8076f4EA4A4AD08075C2508e481d6C946D12b',
+    exchange: '0x7Be8076f4EA4A4AD08075C2508e481d6C946D12b'.toLowerCase(),
     expirationTime: times.expirationTime,
     extra: new BigNumber(extra.toString()),
     feeMethod,
@@ -1653,7 +1657,6 @@ export async function _validateOrderWyvern({
   return isValid
 }
 
-
 export async function _cancelOrder({
   sellOrder,
   signer
@@ -1782,7 +1785,7 @@ export async function _cancelOrder({
   const isValidOrder = await _validateOrderWyvern({ order, signer })
   return !isValidOrder
 }
-  
+
 async function fungibleTokenApprovals({
   minimumAmount,
   signer,
@@ -2053,14 +2056,20 @@ export async function _atomicMatch({
       NULL_BLOCK_HASH
     ]
   ]
-  const gasLimitEstimated = await wyvernExchangeContract.estimateGas.atomicMatch_(...args, txnData)
-  txnData.gasLimit = parseInt(gasLimitEstimated._hex)
+  try {
+    const gasLimitEstimated = await wyvernExchangeContract.estimateGas.atomicMatch_(
+      ...args,
+      txnData
+    )
+    txnData.gasLimit = parseInt(gasLimitEstimated._hex)
+  } catch (e) {
+    console.log('Gas estimation failed, using hardcoded gasLimit value')
+  }
+
   try {
     // const match = await wyvernExchangeContract.atomicMatch_(...args, txnData)
     // const receipt = await match.wait()
     // console.log(receipt)
-    console.log('we got here')
-    console.log(txnData)
     // send success to frontend
   } catch (e) {
     console.log(e)
