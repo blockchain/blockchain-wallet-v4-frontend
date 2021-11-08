@@ -499,28 +499,24 @@ export default ({ api, coreSagas, networks }) => {
 
       // open coin ws needed for coin streams and channel key for mobile login
       yield put(actions.ws.startSocket())
-      // get last product they authed into from cache
-      const lastProductFromCache = yield select(selectors.cache.getLastProduct)
       // get product auth data from querystring
       const searchString = yield select(selectors.router.getSearch)
       const queryParams = new URLSearchParams(searchString)
       // get device platform param or default to web
       const platform = (queryParams.get('platform') || PlatformTypes.WEB) as PlatformTypes
       // get product param or default to wallet
-      const productFromParams = queryParams.get('product') as ProductAuthOptions
+      const product = (queryParams.get('product') ||
+        ProductAuthOptions.WALLET) as ProductAuthOptions
       const redirect = queryParams.get('redirect')
-      // if there's a product from url param or if have a
-      // last logged into product stored in cache, then
-      // store product auth data defaulting to platform=web
-      if (productFromParams || lastProductFromCache) {
-        yield put(
-          actions.auth.setProductAuthMetadata({
-            platform,
-            product: productFromParams || lastProductFromCache,
-            redirect: redirect || undefined
-          })
-        )
-      }
+
+      // store product auth data defaulting to product=wallet and platform=web
+      yield put(
+        actions.auth.setProductAuthMetadata({
+          platform,
+          product,
+          redirect: redirect || undefined
+        })
+      )
 
       // select required data to initialize auth below
       const pathname = yield select(selectors.router.getPathname)
@@ -530,17 +526,9 @@ export default ({ api, coreSagas, networks }) => {
       const lastGuid = yield select(selectors.cache.getLastGuid)
       // This is the product that we set based on query param or cache
       // It can be undefined as well, and we use this to show them the product picker
-      const product = yield select(selectors.auth.getProduct)
       // initialize login form and/or set initial auth step
       // 👋 Case order matters, think before changing!
       switch (true) {
-        // if there's no product from url or cache
-        // we set the step to product picker
-        case !product:
-          yield put(
-            actions.form.change(LOGIN_FORM, 'step', LoginSteps.PRODUCT_PICKER_BEFORE_AUTHENTICATION)
-          )
-          break
         // mobile webview auth flow
         case platform !== PlatformTypes.WEB:
           // eslint-disable-next-line
