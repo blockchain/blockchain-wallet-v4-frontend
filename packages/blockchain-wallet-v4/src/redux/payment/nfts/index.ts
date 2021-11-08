@@ -4,7 +4,11 @@ import { NftAsset, NftOrdersType } from '@core/network/api/nfts/types'
 
 import { wyvernExchange_ABI } from './abis'
 import {
+  _atomicMatch,
   _authorizeOrder,
+  _buyOrderValidationAndApprovals,
+   _cancelOrder,
+  _makeBuyOrder,
   _makeMatchingOrder,
   _makeSellOrder,
   _sellOrderValidationAndApprovals,
@@ -16,7 +20,10 @@ import {
 } from './utils'
 
 export const cancelNftListings = async (asset: NftAsset, signer: Signer) => {
-  console.log('Cancel listings')
+  // TODO: on front end maybe worth having a way for users to select which one of their sell orders they want to cancel and then input the order directly to this function.
+  const sellOrder = asset.sell_orders[0]
+  console.log(sellOrder)
+  const cancelled = await _cancelOrder({ sellOrder, signer })
 }
 
 export const fulfillNftSellOrder = async (asset: NftAsset, signer: Signer) => {
@@ -69,160 +76,98 @@ export const fulfillNftOrder = async (order: NftOrdersType['orders'][0], signer:
   )
 
   const accountAddress = await signer.getAddress()
-
-  const matchingOrder = _makeMatchingOrder({
-    accountAddress,
-    order,
-    recipientAddress: accountAddress
-  })
-
-  let { buy, sell } = assignOrdersToSides(order, matchingOrder)
-  const signature = await _signMessage({ message: buy.hash, signer })
-  // TODO: ensure that there are no more changes being made to this buy object when the atomic Match is being called.
-  buy = {
-    ...buy,
-    ...signature
+  // Is an auction listing:
+  if (order.waitingForBestCounterOrder || order.saleKind !== 0) {
+    const buyOrder = await _makeMatchingOrder({
+      accountAddress,
+      offer: '10000000000000000',
+      order,
+      recipientAddress: accountAddress
+    })
+    const signature = await _signMessage({ message: buyOrder.hash, signer })
+    const buy = {
+      ...buyOrder,
+      ...signature
+    }
+    await _buyOrderValidationAndApprovals({ order: buy, signer })
+    console.log('Post buy order to OpenSea API')
+    console.log(buyOrder)
   }
-  const isSellValid = await _validateOrderWyvern({ order: sell, signer })
-  if (!isSellValid) throw new Error('Sell order is invalid')
+  // Is a fixed price listing:
+  else {
+    const matchingOrder = _makeMatchingOrder({
+      accountAddress,
+      order,
+      recipientAddress: accountAddress
+    })
 
-  const isBuyValid = await _validateOrderWyvern({ order: buy, signer })
-  console.log(`isSellValid?: ${isSellValid}`)
-  console.log(`isBuyValid?: ${isBuyValid}`)
-  if (!isBuyValid) throw new Error('Buy order is invalid')
-
-  const args = [
-    [
-      buy.exchange,
-      buy.maker,
-      buy.taker,
-      buy.feeRecipient,
-      buy.target,
-      buy.staticTarget,
-      buy.paymentToken,
-      sell.exchange,
-      sell.maker,
-      sell.taker,
-      sell.feeRecipient,
-      sell.target,
-      sell.staticTarget,
-      sell.paymentToken
-    ],
-    [
-      buy.makerRelayerFee.toString(),
-      buy.takerRelayerFee.toString(),
-      buy.makerProtocolFee.toString(),
-      buy.takerProtocolFee.toString(),
-      buy.basePrice.toString(),
-      buy.extra.toString(),
-      buy.listingTime.toString(),
-      buy.expirationTime.toString(),
-      buy.salt.toString(),
-      sell.makerRelayerFee.toString(),
-      sell.takerRelayerFee.toString(),
-      sell.makerProtocolFee.toString(),
-      sell.takerProtocolFee.toString(),
-      sell.basePrice.toString(),
-      sell.extra.toString(),
-      sell.listingTime.toString(),
-      sell.expirationTime.toString(),
-      sell.salt.toString()
-    ],
-    [
-      buy.feeMethod,
-      buy.side,
-      buy.saleKind,
-      buy.howToCall,
-      sell.feeMethod,
-      sell.side,
-      sell.saleKind,
-      sell.howToCall
-    ],
-    buy.calldata,
-    sell.calldata,
-    '0x00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
-    '0x000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
-    buy.staticExtradata,
-    sell.staticExtradata,
-    [buy.v || 0, sell.v || 0],
-    [
-      buy.r || NULL_BLOCK_HASH,
-      buy.s || NULL_BLOCK_HASH,
-      sell.r || NULL_BLOCK_HASH,
-      sell.s || NULL_BLOCK_HASH,
-      NULL_BLOCK_HASH
-    ]
-  ]
-
-  const matchPrice = await contract.calculateMatchPrice_(
-    [
-      buy.exchange,
-      buy.maker,
-      buy.taker,
-      buy.feeRecipient,
-      buy.target,
-      buy.staticTarget,
-      buy.paymentToken,
-      sell.exchange,
-      sell.maker,
-      sell.taker,
-      sell.feeRecipient,
-      sell.target,
-      sell.staticTarget,
-      sell.paymentToken
-    ],
-    [
-      buy.makerRelayerFee.toString(),
-      buy.takerRelayerFee.toString(),
-      buy.makerProtocolFee.toString(),
-      buy.takerProtocolFee.toString(),
-      buy.basePrice.toString(),
-      buy.extra.toString(),
-      buy.listingTime.toString(),
-      buy.expirationTime.toString(),
-      // TODO FIXME: this is a hack
-      buy.salt.toString(),
-      sell.makerRelayerFee.toString(),
-      sell.takerRelayerFee.toString(),
-      sell.makerProtocolFee.toString(),
-      sell.takerProtocolFee.toString(),
-      sell.basePrice.toString(),
-      sell.extra.toString(),
-      sell.listingTime.toString(),
-      sell.expirationTime.toString(),
-      sell.salt.toString()
-    ],
-    [
-      buy.feeMethod,
-      buy.side,
-      buy.saleKind,
-      buy.howToCall,
-      sell.feeMethod,
-      sell.side,
-      sell.saleKind,
-      sell.howToCall
-    ],
-    buy.calldata,
-    sell.calldata,
-    buy.replacementPattern,
-    sell.replacementPattern,
-    buy.staticExtradata,
-    sell.staticExtradata
-  )
-  const gasPrice = await signer.getGasPrice()
-  const txnData = {
-    from: accountAddress,
-    gasLimit: 230_000,
-    gasPrice: parseInt(gasPrice._hex),
-    value: order.basePrice.toString()
-  }
-  const gasLimitEstimated = await contract.estimateGas.atomicMatch_(...args, txnData)
-  txnData.gasLimit = parseInt(gasLimitEstimated._hex)
-  try {
-    // const match = await contract.atomicMatch_(...args, txnData)
-    // send success to frontend
-  } catch (e) {
-    console.log(e)
+    let { buy, sell } = assignOrdersToSides(order, matchingOrder)
+    const signature = await _signMessage({ message: buy.hash, signer })
+    // TODO: ensure that there are no more changes being made to this buy object when the atomic Match is being called.
+    buy = {
+      ...buy,
+      ...signature
+    }
+    const isSellValid = await _validateOrderWyvern({ order: sell, signer })
+    if (!isSellValid) throw new Error('Sell order is invalid')
+    const isBuyValid = await _validateOrderWyvern({ order: buy, signer })
+    if (!isBuyValid) throw new Error('Buy order is invalid')
+    const matchPrice = await contract.calculateMatchPrice_(
+      [
+        buy.exchange,
+        buy.maker,
+        buy.taker,
+        buy.feeRecipient,
+        buy.target,
+        buy.staticTarget,
+        buy.paymentToken,
+        sell.exchange,
+        sell.maker,
+        sell.taker,
+        sell.feeRecipient,
+        sell.target,
+        sell.staticTarget,
+        sell.paymentToken
+      ],
+      [
+        buy.makerRelayerFee.toString(),
+        buy.takerRelayerFee.toString(),
+        buy.makerProtocolFee.toString(),
+        buy.takerProtocolFee.toString(),
+        buy.basePrice.toString(),
+        buy.extra.toString(),
+        buy.listingTime.toString(),
+        buy.expirationTime.toString(),
+        // TODO FIXME: this is a hack
+        buy.salt.toString(),
+        sell.makerRelayerFee.toString(),
+        sell.takerRelayerFee.toString(),
+        sell.makerProtocolFee.toString(),
+        sell.takerProtocolFee.toString(),
+        sell.basePrice.toString(),
+        sell.extra.toString(),
+        sell.listingTime.toString(),
+        sell.expirationTime.toString(),
+        sell.salt.toString()
+      ],
+      [
+        buy.feeMethod,
+        buy.side,
+        buy.saleKind,
+        buy.howToCall,
+        sell.feeMethod,
+        sell.side,
+        sell.saleKind,
+        sell.howToCall
+      ],
+      buy.calldata,
+      sell.calldata,
+      buy.replacementPattern,
+      sell.replacementPattern,
+      buy.staticExtradata,
+      sell.staticExtradata
+    )
+    await _atomicMatch({ buy, sell, signer })
   }
 }
 

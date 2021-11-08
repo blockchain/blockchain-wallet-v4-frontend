@@ -398,6 +398,81 @@ export interface Order extends UnsignedOrder, Partial<ECSignature> {
   takerAccount?: OpenSeaAccount
 }
 
+export interface SellOrder {
+  approved_on_chain: boolean
+  base_price: string
+  bounty_multiple: string
+  calldata: string
+  cancelled: boolean
+  closing_date: null
+  closing_extendable: boolean
+  created_date: string
+  current_bounty: string
+  current_price: string
+  exchange: string
+  expiration_time: number
+  extra: string
+  fee_method: number
+  fee_recipient: {
+    address: string
+    config: string
+    profile_img_url: string
+    user: number
+  }
+  finalized: boolean
+  how_to_call: number
+  listing_time: number
+  maker: {
+    address: string
+    config: string
+    profile_img_url: string
+    user: number
+  }
+  maker_protocol_fee: string
+  maker_referrer_fee: string
+  maker_relayer_fee: string
+  marked_invalid: boolean
+  metadata: {
+    asset: {
+      address: string
+      id: string
+    }
+    schema: string
+  }
+  order_hash: string
+  payment_token: string
+  payment_token_contract: {
+    address: string
+    decimals: number
+    eth_price: string
+    id: number
+    image_url: string
+    name: string
+    symbol: string
+    usd_price: string
+  }
+  prefixed_hash: string
+  quantity: string
+  r: string
+  replacement_pattern: string
+  s: string
+  sale_kind: number
+  salt: string
+  side: number
+  static_extradata: string
+  static_target: string
+  taker: {
+    address: string
+    config: string
+    profile_img_url: string
+    user: number
+  }
+  taker_protocol_fee: string
+  taker_relayer_fee: string
+  target: string
+  v: number
+}
+
 export interface NftAsset {
   animation_original_url: null
   animation_url: null
@@ -536,80 +611,7 @@ export interface NftAsset {
     }
   }
   permalink: string
-  sell_orders: {
-    approved_on_chain: boolean
-    base_price: string
-    bounty_multiple: string
-    calldata: string
-    cancelled: boolean
-    closing_date: null
-    closing_extendable: boolean
-    created_date: string
-    current_bounty: string
-    current_price: string
-    exchange: string
-    expiration_time: number
-    extra: string
-    fee_method: number
-    fee_recipient: {
-      address: string
-      config: string
-      profile_img_url: string
-      user: number
-    }
-    finalized: boolean
-    how_to_call: number
-    listing_time: number
-    maker: {
-      address: string
-      config: string
-      profile_img_url: string
-      user: number
-    }
-    maker_protocol_fee: string
-    maker_referrer_fee: string
-    maker_relayer_fee: string
-    marked_invalid: boolean
-    metadata: {
-      asset: {
-        address: string
-        id: string
-      }
-      schema: string
-    }
-    order_hash: string
-    payment_token: string
-    payment_token_contract: {
-      address: string
-      decimals: number
-      eth_price: string
-      id: number
-      image_url: string
-      name: string
-      symbol: string
-      usd_price: string
-    }
-    prefixed_hash: string
-    quantity: string
-    r: string
-    replacement_pattern: string
-    s: string
-    sale_kind: number
-    salt: string
-    side: number
-    static_extradata: string
-    static_target: string
-    taker: {
-      address: string
-      config: string
-      profile_img_url: string
-      user: number
-    }
-    taker_protocol_fee: string
-    taker_relayer_fee: string
-    target: string
-    v: number
-  }[]
+  sell_orders: SellOrder[]
   token_id: string
   token_metadata: null
   top_bid: null
