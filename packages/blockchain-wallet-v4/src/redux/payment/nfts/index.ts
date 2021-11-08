@@ -6,7 +6,9 @@ import { wyvernExchange_ABI } from './abis'
 import {
   _atomicMatch,
   _authorizeOrder,
-  _cancelOrder,
+  _buyOrderValidationAndApprovals,
+   _cancelOrder,
+  _makeBuyOrder,
   _makeMatchingOrder,
   _makeSellOrder,
   _sellOrderValidationAndApprovals,
@@ -74,87 +76,99 @@ export const fulfillNftOrder = async (order: NftOrdersType['orders'][0], signer:
   )
 
   const accountAddress = await signer.getAddress()
-
-  const matchingOrder = _makeMatchingOrder({
-    accountAddress,
-    order,
-    recipientAddress: accountAddress
-  })
-
-  let { buy, sell } = assignOrdersToSides(order, matchingOrder)
-  // Hash and sign the buy object so that it is valid
-  const signature = await _signMessage({ message: buy.hash, signer })
-  // TODO: ensure that there are no more changes being made to this buy object when the atomic Match is being called.
-  buy = {
-    ...buy,
-    ...signature
+  // Is an auction listing:
+  if (order.waitingForBestCounterOrder || order.saleKind !== 0) {
+    const buyOrder = await _makeMatchingOrder({
+      accountAddress,
+      offer: '10000000000000000',
+      order,
+      recipientAddress: accountAddress
+    })
+    const signature = await _signMessage({ message: buyOrder.hash, signer })
+    const buy = {
+      ...buyOrder,
+      ...signature
+    }
+    await _buyOrderValidationAndApprovals({ order: buy, signer })
+    console.log('Post buy order to OpenSea API')
+    console.log(buyOrder)
   }
-  console.log(buy)
-  console.log(sell)
-  const isSellValid = await _validateOrderWyvern({ order: sell, signer })
-  if (!isSellValid) throw new Error('Sell order is invalid')
+  // Is a fixed price listing:
+  else {
+    const matchingOrder = _makeMatchingOrder({
+      accountAddress,
+      order,
+      recipientAddress: accountAddress
+    })
 
-  const isBuyValid = await _validateOrderWyvern({ order: buy, signer })
-  console.log(`isSellValid?: ${isSellValid}`)
-  console.log(`isBuyValid?: ${isBuyValid}`)
-  if (!isBuyValid) throw new Error('Buy order is invalid')
-
-  const matchPrice = await contract.calculateMatchPrice_(
-    [
-      buy.exchange,
-      buy.maker,
-      buy.taker,
-      buy.feeRecipient,
-      buy.target,
-      buy.staticTarget,
-      buy.paymentToken,
-      sell.exchange,
-      sell.maker,
-      sell.taker,
-      sell.feeRecipient,
-      sell.target,
-      sell.staticTarget,
-      sell.paymentToken
-    ],
-    [
-      buy.makerRelayerFee.toString(),
-      buy.takerRelayerFee.toString(),
-      buy.makerProtocolFee.toString(),
-      buy.takerProtocolFee.toString(),
-      buy.basePrice.toString(),
-      buy.extra.toString(),
-      buy.listingTime.toString(),
-      buy.expirationTime.toString(),
-      // TODO FIXME: this is a hack
-      buy.salt.toString(),
-      sell.makerRelayerFee.toString(),
-      sell.takerRelayerFee.toString(),
-      sell.makerProtocolFee.toString(),
-      sell.takerProtocolFee.toString(),
-      sell.basePrice.toString(),
-      sell.extra.toString(),
-      sell.listingTime.toString(),
-      sell.expirationTime.toString(),
-      sell.salt.toString()
-    ],
-    [
-      buy.feeMethod,
-      buy.side,
-      buy.saleKind,
-      buy.howToCall,
-      sell.feeMethod,
-      sell.side,
-      sell.saleKind,
-      sell.howToCall
-    ],
-    buy.calldata,
-    sell.calldata,
-    buy.replacementPattern,
-    sell.replacementPattern,
-    buy.staticExtradata,
-    sell.staticExtradata
-  )
-  await _atomicMatch({ buy, sell, signer })
+    let { buy, sell } = assignOrdersToSides(order, matchingOrder)
+    const signature = await _signMessage({ message: buy.hash, signer })
+    // TODO: ensure that there are no more changes being made to this buy object when the atomic Match is being called.
+    buy = {
+      ...buy,
+      ...signature
+    }
+    const isSellValid = await _validateOrderWyvern({ order: sell, signer })
+    if (!isSellValid) throw new Error('Sell order is invalid')
+    const isBuyValid = await _validateOrderWyvern({ order: buy, signer })
+    if (!isBuyValid) throw new Error('Buy order is invalid')
+    const matchPrice = await contract.calculateMatchPrice_(
+      [
+        buy.exchange,
+        buy.maker,
+        buy.taker,
+        buy.feeRecipient,
+        buy.target,
+        buy.staticTarget,
+        buy.paymentToken,
+        sell.exchange,
+        sell.maker,
+        sell.taker,
+        sell.feeRecipient,
+        sell.target,
+        sell.staticTarget,
+        sell.paymentToken
+      ],
+      [
+        buy.makerRelayerFee.toString(),
+        buy.takerRelayerFee.toString(),
+        buy.makerProtocolFee.toString(),
+        buy.takerProtocolFee.toString(),
+        buy.basePrice.toString(),
+        buy.extra.toString(),
+        buy.listingTime.toString(),
+        buy.expirationTime.toString(),
+        // TODO FIXME: this is a hack
+        buy.salt.toString(),
+        sell.makerRelayerFee.toString(),
+        sell.takerRelayerFee.toString(),
+        sell.makerProtocolFee.toString(),
+        sell.takerProtocolFee.toString(),
+        sell.basePrice.toString(),
+        sell.extra.toString(),
+        sell.listingTime.toString(),
+        sell.expirationTime.toString(),
+        sell.salt.toString()
+      ],
+      [
+        buy.feeMethod,
+        buy.side,
+        buy.saleKind,
+        buy.howToCall,
+        sell.feeMethod,
+        sell.side,
+        sell.saleKind,
+        sell.howToCall
+      ],
+      buy.calldata,
+      sell.calldata,
+      buy.replacementPattern,
+      sell.replacementPattern,
+      buy.staticExtradata,
+      sell.staticExtradata
+    )
+    await _atomicMatch({ buy, sell, signer })
+  }
 }
 
 // https://codesandbox.io/s/beautiful-euclid-nd7s8?file=/src/index.ts
