@@ -12,7 +12,8 @@ export const getData = createDeepEqualSelector(
     selectors.core.kvStore.lockbox.getDevices,
     selectors.core.settings.getCountryCode,
     selectors.core.walletOptions.getDomains,
-    selectors.modules.profile.getUserData
+    selectors.modules.profile.getUserData,
+    selectors.core.walletOptions.getWithdrawalLocksFundsOnHold
   ],
   (
     menuOpened: boolean,
@@ -21,7 +22,8 @@ export const getData = createDeepEqualSelector(
     lockboxDevicesR,
     countryCodeR,
     domainsR,
-    userDataR
+    userDataR,
+    withdrawalLocksFundsOnHoldR
   ) => {
     const transform = (
       countryCode,
@@ -36,7 +38,8 @@ export const getData = createDeepEqualSelector(
         lockboxDevices,
         menuOpened,
         pathname,
-        userData
+        userData,
+        withdrawalLocksFundsOnHold: withdrawalLocksFundsOnHoldR.getOrElse(false)
       }
     }
 

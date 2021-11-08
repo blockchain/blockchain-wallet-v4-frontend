@@ -4,6 +4,7 @@ import {
   FiatType,
   SBPaymentTypes,
   SBTransactionStateType,
+  WalletAcountType,
   WalletCurrencyType,
   WalletFiatType
 } from '@core/types'
@@ -148,4 +149,12 @@ export type GetTransactionsHistoryType = {
   currency: WalletCurrencyType
   fromValue?: string
   toValue?: string
+}
+
+export type CrossBorderLimitsPyload = {
+  currency?: WalletFiatType
+  fromAccount: WalletAcountType
+  inputCurrency: CoinType
+  outputCurrency: CoinType
+  toAccount: WalletAcountType
 }

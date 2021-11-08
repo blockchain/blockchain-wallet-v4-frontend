@@ -467,7 +467,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         paymentMethodId
       )
 
-      if (account?.partner === BankPartners.YAPILY) {
+      // Check if the user has a yapily account and if they're submitting a bank transfer order
+      if (
+        order.paymentType === SBPaymentTypes.BANK_TRANSFER &&
+        account?.partner === BankPartners.YAPILY
+      ) {
         const { RETRY_AMOUNT, SECONDS } = POLLING
         // for OB the authorisationUrl isn't in the initial response to confirm
         // order. We need to poll the order for it.
@@ -1300,6 +1304,26 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const fetchCrossBorderLimits = function* ({
+    payload
+  }: ReturnType<typeof A.fetchCrossBorderLimits>) {
+    const { currency, fromAccount, inputCurrency, outputCurrency, toAccount } = payload
+    try {
+      yield put(A.fetchCrossBorderLimitsLoading())
+      const limitsResponse: ReturnType<typeof api.getCrossBorderTransactions> = yield call(
+        api.getCrossBorderTransactions,
+        inputCurrency,
+        fromAccount,
+        outputCurrency,
+        toAccount,
+        currency
+      )
+      yield put(A.fetchCrossBorderLimitsSuccess(limitsResponse))
+    } catch (e) {
+      yield put(A.fetchCrossBorderLimitsFailure(e))
+    }
+  }
+
   return {
     activateSBCard,
     addCardDetails,
@@ -1310,6 +1334,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     confirmSBFundsOrder,
     createSBOrder,
     deleteSBCard,
+    fetchCrossBorderLimits,
     fetchFiatEligible,
     fetchLimits,
     fetchPaymentAccount,

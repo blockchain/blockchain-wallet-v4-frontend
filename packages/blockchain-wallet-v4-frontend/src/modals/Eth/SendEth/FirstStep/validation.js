@@ -1,9 +1,13 @@
 import React from 'react'
 import BigNumber from 'bignumber.js'
-import { prop } from 'ramda'
+import { isEmpty, prop } from 'ramda'
 
 import { Exchange } from '@core'
+import Currencies from '@core/exchange/currencies'
+import { formatFiat } from '@core/exchange/utils'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 
+import { OverYourLimitMessage } from '../../../components'
 import {
   InsufficientFundsMessage,
   InvalidAmountMessage,
@@ -12,10 +16,12 @@ import {
   MinimumFeeMessage
 } from './validationMessages'
 
+// eslint-disable-next-line
 export const insufficientFunds = (value, allValues, props) => {
   return props.effectiveBalance > 0 ? undefined : <InsufficientFundsMessage />
 }
 
+// eslint-disable-next-line
 export const invalidAmount = (value, allValues, props) => {
   const valueEth = prop('coin', value)
   const valueWei = Exchange.convertCoinToCoin({
@@ -40,7 +46,9 @@ export const maximumAmount = (value, allValues, props) => {
     ) ? undefined : (
       <MaximumAmountMessage coin={props.coin} />
     )
-  } catch (e) {}
+  } catch (e) {
+    // do nothing
+  }
 }
 
 export const minimumFee = (value, allValues, props) =>
@@ -69,4 +77,24 @@ export const shouldWarn = ({ initialRender, nextProps, props, structure, values 
     !structure.deepEqual(values, nextProps.values) ||
     props.effectiveBalance !== nextProps.effectiveBalance
   )
+}
+
+export const isSendLimitOver = (value, allValues, props) => {
+  const { from, sendLimits } = props
+  const fiatValue = prop('fiat', value)
+  const isFromCustodial = from && from.type === 'CUSTODIAL'
+
+  if (!isFromCustodial || isEmpty(sendLimits) || isEmpty(sendLimits?.current)) {
+    return undefined
+  }
+
+  const { currency, value: availableAmount } = sendLimits?.current?.available
+  const availableAmountInBase = convertBaseToStandard('FIAT', availableAmount)
+
+  return fiatValue > Number(availableAmountInBase) ? (
+    <OverYourLimitMessage
+      amount={formatFiat(availableAmountInBase)}
+      currency={Currencies[currency].units[currency].symbol}
+    />
+  ) : undefined
 }

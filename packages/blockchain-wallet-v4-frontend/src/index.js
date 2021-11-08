@@ -1,5 +1,6 @@
 // eslint-disable-next-line simple-import-sort/imports
 import './create-nonce' // 👋 create-nonce needs to be imported first or it breaks styled-components
+import 'regenerator-runtime/runtime.js'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'

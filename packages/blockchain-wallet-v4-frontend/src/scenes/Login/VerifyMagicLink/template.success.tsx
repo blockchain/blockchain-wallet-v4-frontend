@@ -198,7 +198,7 @@ const Success = (props) => {
           <DeviceInfoRow>
             <DeviceInfoTitleRow>
               {/* eslint-disable */}
-              {approver.country_code === requester.country_code ? (
+              {approver.country_name === requester.country_name ? (
                 <Icon name='checkmark-circle-filled' color='success' size='16px' />
               ) : (
                 <Icon
@@ -217,11 +217,11 @@ const Success = (props) => {
               </Text>
             </DeviceInfoTitleRow>
             <Banner type='success' inline>
-              {approver.country_code}
+              {approver.country_name}
             </Banner>
-            {approver.country_code !== requester.country_code && (
+            {approver.country_name !== requester.country_name && (
               <Banner type='warning' inline>
-                {requester.country_code}
+                {requester.country_name}
               </Banner>
             )}
             {/* eslint-enable */}
