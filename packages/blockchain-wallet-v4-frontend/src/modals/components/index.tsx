@@ -418,6 +418,39 @@ const TopText = styled(Text)<{
   margin-bottom: ${(props) => (props.marginBottom ? '16px' : '0px')};
 `
 
+const OverYourLimitMessage = ({ amount, currency }) => (
+  <FormattedMessage
+    id='modals.send.over_your_limit'
+    defaultMessage='Over your limit! Send up to {currency}{amount}.'
+    values={{
+      amount,
+      currency
+    }}
+  />
+)
+
+const StyledOvalButton = styled(Button)`
+  border-radius: 32px;
+`
+const OverLimitButton = ({ coin }) => (
+  <StyledOvalButton
+    data-e2e='overLimitButton'
+    height='48px'
+    size='16px'
+    nature='dark-grey'
+    fullwidth
+  >
+    <Image width='16px' height='16px' name='alert-orange' />
+    <Text weight={600} size='16px' style={{ marginLeft: '2px' }} color='white'>
+      <FormattedMessage
+        id='copy.not_enough_coin'
+        defaultMessage='Not Enough {coin}'
+        values={{ coin }}
+      />
+    </Text>
+  </StyledOvalButton>
+)
+
 export {
   BankSearchIcon,
   BankSearchInput,
@@ -434,6 +467,8 @@ export {
   ModalNavWithBackArrow,
   ModalNavWithCloseIcon,
   NavText,
+  OverLimitButton,
+  OverYourLimitMessage,
   ScanWithPhone,
   Section,
   SimpleBankRow,

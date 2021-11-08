@@ -64,7 +64,7 @@
     "bip32-path": "0.4.2",
     "bip39": "2.5.0",
     "bip69": "2.1.4",
-    "bitcoinforksjs-lib": "git://github.com/blockchain/bitcoinjs-lib.git#opt-in-bitcoincash-sighash",
+    "bitcoinforksjs-lib": "https://github.com/blockchain/bitcoinjs-lib.git#opt-in-bitcoincash-sighash",
     "bitcoinjs-lib": "5.2.0",
     "bitcoinjs-message": "2.2.0",
     "bs58": "4.0.1",

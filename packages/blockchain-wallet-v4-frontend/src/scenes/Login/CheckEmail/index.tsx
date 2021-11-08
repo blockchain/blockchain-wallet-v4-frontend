@@ -41,7 +41,7 @@ const CheckEmail = (props: Props) => {
         >
           <FormattedMessage
             id='scenes.login.checkemail'
-            defaultMessage='If you have an account registered with this email address, you will receive an email with a link to verify your device. <b>Open the link in this browser window.</b>'
+            defaultMessage='If you have an account registered with this email address, you will receive an email with a link to verify your device.'
           />
         </Text>
       </FormBody>

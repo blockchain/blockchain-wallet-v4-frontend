@@ -33,8 +33,6 @@ const circleSize = 4
 
 const tooltipBorderRadius = 4
 
-const margin = 8
-
 const Wrapper = styled.div`
   position: relative;
   height: 80px;
@@ -45,8 +43,11 @@ const Wrapper = styled.div`
 `
 
 const Chart = ({ coin, currency, data }: { coin: CoinType; currency: FiatType; data: Data[] }) => {
-  const [ref, { height, width }] = useMeasure({ polyfill: ResizeObserver })
+  const [ref, bounds] = useMeasure({ polyfill: ResizeObserver })
   const color = Color(coin as keyof DefaultTheme) || '#000'
+
+  const width = bounds.width || 100
+  const height = bounds.height || 100
 
   const {
     hideTooltip,
@@ -110,8 +111,8 @@ const Chart = ({ coin, currency, data }: { coin: CoinType; currency: FiatType; d
   )
 
   return (
-    <Wrapper ref={ref}>
-      <svg width={Math.abs(width - margin)} height={height}>
+    <Wrapper>
+      <svg ref={ref} width='100%' height='100%' viewBox={`0 0 ${width} ${height}`}>
         <LinearGradient id={color} fromOpacity={0.5} toOpacity={0} from={color} to='white' />
 
         <AreaClosed<Data>

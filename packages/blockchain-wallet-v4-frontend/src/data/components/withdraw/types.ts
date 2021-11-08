@@ -1,5 +1,6 @@
 import {
   BeneficiaryType,
+  FiatType,
   RemoteDataType,
   WalletFiatType,
   WithdrawalLockResponseType,
@@ -109,3 +110,74 @@ export type WithdrawActionTypes =
   | FetchWithdrawalLockFailure
   | FetchWithdrawalLockLoading
   | FetchWithdrawalLockSuccess
+
+type LimitItem = {
+  available: string
+  limit: string
+  used: string
+}
+
+export type WithdrawLimitsResponse = {
+  cryptoLimit: {
+    available: string
+    daily: LimitItem
+    monthly: LimitItem
+    suggestedUpgrade: {
+      daily: LimitItem
+      monthly: LimitItem
+      requiredTier: number
+      requirements: string[]
+    }
+  }
+  currency: FiatType
+  fiatLimit: {
+    available: string
+    suggestedUpgrade: {
+      daily: LimitItem
+      monthly: LimitItem
+      requiredTier: number
+      requirements: string[]
+    }
+  }
+  userId: string
+}
+
+type SeamlessLimitItem = {
+  currency: FiatType
+  value: string
+}
+
+export type LimitWithEffective = {
+  effective: boolean
+  limit: SeamlessLimitItem
+}
+
+export type SeamlessLimits = {
+  currency: FiatType
+  current: {
+    available: SeamlessLimitItem
+    daily?: LimitWithEffective
+    monthly?: LimitWithEffective
+    yearly?: LimitWithEffective
+  }
+  suggestedUpgrade: {
+    available: SeamlessLimitItem
+    daily?: {
+      available: SeamlessLimitItem
+      limit: SeamlessLimitItem
+      used: SeamlessLimitItem
+    }
+    monthly?: {
+      available: SeamlessLimitItem
+      limit: SeamlessLimitItem
+      used: SeamlessLimitItem
+    }
+    requiredTier: number
+    requirements: string[]
+    yearly?: {
+      available: SeamlessLimitItem
+      limit: SeamlessLimitItem
+      used: SeamlessLimitItem
+    }
+  }
+}

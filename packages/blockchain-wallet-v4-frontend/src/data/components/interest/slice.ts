@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { append, assoc, compose, dropLast, lensProp, over } from 'ramda'
 
 import {
+  DepositLimits,
   InterestAccountBalanceType,
   InterestAccountType,
   InterestAfterTransactionType,
@@ -38,6 +39,7 @@ const initialState: InterestState = {
     minFiat: 0
   },
   instruments: Remote.NotAsked,
+  interestEDDDepositLimits: Remote.NotAsked,
   interestEDDStatus: Remote.NotAsked,
   interestEDDWithdrawLimits: Remote.NotAsked,
   interestEligible: Remote.NotAsked,
@@ -91,6 +93,23 @@ const interestSlice = createSlice({
       action: PayloadAction<{ interestEDDWithdrawLimits: WithdrawLimits }>
     ) => {
       state.interestEDDWithdrawLimits = Remote.Success(action.payload.interestEDDWithdrawLimits)
+    },
+    // eslint-disable-next-line
+    fetchEDDDepositLimits: (state, action: PayloadAction<{ currency: FiatType }>) => {},
+
+    fetchEDDDepositLimitsFailure: (state, action: PayloadAction<ErrorStringType>) => {
+      state.interestEDDDepositLimits = Remote.Failure(action.payload.error)
+    },
+
+    fetchEDDDepositLimitsLoading: (state) => {
+      state.interestEDDWithdrawLimits = Remote.Loading
+    },
+
+    fetchEDDDepositLimitsSuccess: (
+      state,
+      action: PayloadAction<{ interestEDDDepositLimits: DepositLimits }>
+    ) => {
+      state.interestEDDDepositLimits = Remote.Success(action.payload.interestEDDDepositLimits)
     },
 
     // ACCOUNT

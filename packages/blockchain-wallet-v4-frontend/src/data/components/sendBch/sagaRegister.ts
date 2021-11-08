@@ -18,5 +18,6 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.SEND_BCH_SECOND_STEP_SUBMIT_CLICKED, sendBchSagas.secondStepSubmitClicked)
     yield takeLatest(AT.SEND_BCH_BITPAY_INVOICE_EXPIRED, sendBchSagas.bitpayInvoiceExpired)
     yield takeEvery(actionTypes.CHANGE, sendBchSagas.formChanged)
+    yield takeLatest(AT.SEND_BCH_FETCH_LIMITS, sendBchSagas.fetchSendLimits)
   }
 }

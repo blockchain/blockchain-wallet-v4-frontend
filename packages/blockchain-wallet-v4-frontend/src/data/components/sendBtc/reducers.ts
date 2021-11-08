@@ -8,6 +8,7 @@ import { SendBtcState } from './types'
 const INITIAL_STATE: SendBtcState = {
   feePerByteToggled: false,
   payment: Remote.NotAsked,
+  sendLimits: Remote.NotAsked,
   step: 1
 }
 
@@ -34,6 +35,15 @@ export function sendBtcReducer(state = INITIAL_STATE, action) {
     }
     case AT.SEND_BTC_SECOND_STEP_CANCEL_CLICKED: {
       return assoc('step', 1, state)
+    }
+    case AT.SEND_BTC_FETCH_LIMITS_LOADING: {
+      return assoc('sendLimits', Remote.Loading, state)
+    }
+    case AT.SEND_BTC_FETCH_LIMITS_SUCCESS: {
+      return assoc('sendLimits', Remote.Success(action.payload), state)
+    }
+    case AT.SEND_BTC_FETCH_LIMITS_FAILURE: {
+      return assoc('sendLimits', Remote.Failure(action.payload), state)
     }
     default:
       return state
