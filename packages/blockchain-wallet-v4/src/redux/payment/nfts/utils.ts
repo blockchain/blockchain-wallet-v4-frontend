@@ -402,16 +402,6 @@ function toBaseUnitAmount(amount: BigNumber, decimals: number): BigNumber {
   return baseUnitAmount
 }
 
-function makeBigNumber(arg: number | string | BigNumber): BigNumber {
-  // Zero sometimes returned as 0x from contracts
-  if (arg === '0x') {
-    arg = 0
-  }
-  // fix "new BigNumber() number type has more than 15 significant digits"
-  arg = arg.toString()
-  return new BigNumber(arg)
-}
-
 export function assignOrdersToSides(
   order: Order,
   matchingOrder: UnsignedOrder
@@ -476,7 +466,7 @@ async function getTransferFeeSettings(
   //     feeContract.transferSettings(asset.tokenId, { from: accountAddress }, c)
   //   )
   //   if (params) {
-  //     transferFee = makeBigNumber(params[3])
+  //     transferFee = new BigNumber(params[3])
   //     if (params[2] == 0) {
   //       transferFeeTokenAddress = ENJIN_COIN_ADDRESS
   //     }
@@ -535,20 +525,20 @@ async function getTransferFeeSettings(
 //     throw new Error('Reserve price must be greater than or equal to the start amount.')
 //   }
 
-//   // Note: WyvernProtocol.toBaseUnitAmount(makeBigNumber(startAmount), token.decimals)
+//   // Note: WyvernProtocol.toBaseUnitAmount(new BigNumber(startAmount), token.decimals)
 //   // will fail if too many decimal places, so special-case ether
 //   const basePrice = isEther
-//     ? makeBigNumber(this.web3.toWei(startAmount, 'ether')).round()
-//     : WyvernProtocol.toBaseUnitAmount(makeBigNumber(startAmount), token.decimals)
+//     ? new BigNumber(this.web3.toWei(startAmount, 'ether')).round()
+//     : WyvernProtocol.toBaseUnitAmount(new BigNumber(startAmount), token.decimals)
 
 //   const extra = isEther
-//     ? makeBigNumber(this.web3.toWei(priceDiff, 'ether')).round()
-//     : WyvernProtocol.toBaseUnitAmount(makeBigNumber(priceDiff), token.decimals)
+//     ? new BigNumber(this.web3.toWei(priceDiff, 'ether')).round()
+//     : WyvernProtocol.toBaseUnitAmount(new BigNumber(priceDiff), token.decimals)
 
 //   const reservePrice = englishAuctionReservePrice
 //     ? isEther
-//       ? makeBigNumber(this.web3.toWei(englishAuctionReservePrice, 'ether')).round()
-//       : WyvernProtocol.toBaseUnitAmount(makeBigNumber(englishAuctionReservePrice), token.decimals)
+//       ? new BigNumber(this.web3.toWei(englishAuctionReservePrice, 'ether')).round()
+//       : WyvernProtocol.toBaseUnitAmount(new BigNumber(englishAuctionReservePrice), token.decimals)
 //     : undefined
 
 //   return { basePrice, extra, paymentToken, reservePrice }
@@ -556,11 +546,13 @@ async function getTransferFeeSettings(
 
 export function _makeMatchingOrder({
   accountAddress,
+  offer,
   order,
   recipientAddress
 }: {
   // UnsignedOrder;
   accountAddress: string
+  offer?: string
   order: Order
   recipientAddress: string
 }): UnsignedOrder {
@@ -619,7 +611,7 @@ export function _makeMatchingOrder({
   const feeRecipient = order.feeRecipient === NULL_ADDRESS ? OPENSEA_FEE_RECIPIENT : NULL_ADDRESS
 
   const matchingOrder: UnhashedOrder = {
-    basePrice: new BigNumber(order.basePrice),
+    basePrice: offer ? new BigNumber(offer) : new BigNumber(order.basePrice),
     calldata,
     exchange: order.exchange,
     expirationTime: times.expirationTime,
@@ -679,7 +671,7 @@ async function computeFees({
   let openseaSellerFeeBasisPoints = DEFAULT_SELLER_FEE_BASIS_POINTS
   let devBuyerFeeBasisPoints = 0
   let devSellerFeeBasisPoints = 0
-  let transferFee = makeBigNumber(0)
+  let transferFee = new BigNumber(0)
   let transferFeeTokenAddress = null
   let maxTotalBountyBPS = DEFAULT_MAX_BOUNTY
 
@@ -695,7 +687,7 @@ async function computeFees({
   // Compute transferFrom fees
   if (side === NftOrderSide.Sell && asset) {
     // Server-side knowledge
-    transferFee = asset.transfer_fee ? makeBigNumber(asset.transfer_fee) : transferFee
+    transferFee = asset.transfer_fee ? new BigNumber(asset.transfer_fee) : transferFee
     transferFeeTokenAddress = asset.transfer_fee_payment_token
       ? asset.transfer_fee_payment_token
       : transferFeeTokenAddress
@@ -783,20 +775,20 @@ async function _getPriceParameters(
   }
 
   // to-do: implement all of the below values for other types of tokens (as commented out)
-  // Note: WyvernProtocol.toBaseUnitAmount(makeBigNumber(startAmount), token.decimals)
+  // Note: WyvernProtocol.toBaseUnitAmount(new BigNumber(startAmount), token.decimals)
   // will fail if too many decimal places, so special-case ether
   // const basePrice = isEther
   //   ? (ethers.utils.parseEther(startAmount.toString())
-  //   : WyvernProtocol.toBaseUnitAmount(makeBigNumber(startAmount), token.decimals)
+  //   : WyvernProtocol.toBaseUnitAmount(new BigNumber(startAmount), token.decimals)
 
   // const extra = isEther
-  //   ? makeBigNumber(this.web3.toWei(priceDiff, 'ether')).round()
-  //   : WyvernProtocol.toBaseUnitAmount(makeBigNumber(priceDiff), token.decimals)
+  //   ? new BigNumber(this.web3.toWei(priceDiff, 'ether')).round()
+  //   : WyvernProtocol.toBaseUnitAmount(new BigNumber(priceDiff), token.decimals)
 
   // const reservePrice = englishAuctionReservePrice
   //   ? isEther
-  //     ? makeBigNumber(this.web3.toWei(englishAuctionReservePrice, 'ether')).round()
-  //     : WyvernProtocol.toBaseUnitAmount(makeBigNumber(englishAuctionReservePrice), token.decimals)
+  //     ? new BigNumber(this.web3.toWei(englishAuctionReservePrice, 'ether')).round()
+  //     : WyvernProtocol.toBaseUnitAmount(new BigNumber(englishAuctionReservePrice), token.decimals)
   //   : undefined
   const basePrice = ethers.utils.parseEther(startAmount.toString())
   const extra = ethers.utils.parseEther(priceDiff.toString())
@@ -905,6 +897,66 @@ export async function _authorizeOrder(
   }
 }
 
+/**
+ * Validate fee parameters
+ * @param totalBuyerFeeBasisPoints Total buyer fees
+ * @param totalSellerFeeBasisPoints Total seller fees
+ */
+function _validateFees(totalBuyerFeeBasisPoints: number, totalSellerFeeBasisPoints: number) {
+  const maxFeePercent = INVERSE_BASIS_POINT / 100
+
+  if (
+    totalBuyerFeeBasisPoints > INVERSE_BASIS_POINT ||
+    totalSellerFeeBasisPoints > INVERSE_BASIS_POINT
+  ) {
+    throw new Error(`Invalid buyer/seller fees: must be less than ${maxFeePercent}%`)
+  }
+
+  if (totalBuyerFeeBasisPoints < 0 || totalSellerFeeBasisPoints < 0) {
+    throw new Error(`Invalid buyer/seller fees: must be at least 0%`)
+  }
+}
+
+function _getBuyFeeParameters(
+  totalBuyerFeeBasisPoints: number,
+  totalSellerFeeBasisPoints: number,
+  sellOrder?: UnhashedOrder
+) {
+  _validateFees(totalBuyerFeeBasisPoints, totalSellerFeeBasisPoints)
+  let makerRelayerFee
+  let takerRelayerFee
+  if (sellOrder) {
+    // Use the sell order's fees to ensure compatiblity and force the order
+    // to only be acceptable by the sell order maker.
+    // Swap maker/taker depending on whether it's an English auction (taker)
+    // TODO add extraBountyBasisPoints when making bidder bounties
+    makerRelayerFee = sellOrder.waitingForBestCounterOrder
+      ? new BigNumber(sellOrder.makerRelayerFee)
+      : new BigNumber(sellOrder.takerRelayerFee)
+    takerRelayerFee = sellOrder.waitingForBestCounterOrder
+      ? new BigNumber(sellOrder.takerRelayerFee)
+      : new BigNumber(sellOrder.makerRelayerFee)
+  } else {
+    makerRelayerFee = new BigNumber(totalBuyerFeeBasisPoints)
+    takerRelayerFee = new BigNumber(totalSellerFeeBasisPoints)
+  }
+
+  return {
+    feeMethod: FeeMethod.SplitFee,
+    // TODO use buyerBountyBPS
+    feeRecipient: OPENSEA_FEE_RECIPIENT,
+
+    makerProtocolFee: new BigNumber(0),
+
+    makerReferrerFee: new BigNumber(0),
+
+    makerRelayerFee,
+
+    takerProtocolFee: new BigNumber(0),
+
+    takerRelayerFee
+  }
+}
 function _getSellFeeParameters(
   totalBuyerFeeBasisPoints: number,
   totalSellerFeeBasisPoints: number,
@@ -919,19 +971,19 @@ function _getSellFeeParameters(
   // Swap maker/taker fees when it's an English auction,
   // since these sell orders are takers not makers
   const makerRelayerFee = waitForHighestBid
-    ? makeBigNumber(totalBuyerFeeBasisPoints)
-    : makeBigNumber(totalSellerFeeBasisPoints)
+    ? new BigNumber(totalBuyerFeeBasisPoints)
+    : new BigNumber(totalSellerFeeBasisPoints)
   const takerRelayerFee = waitForHighestBid
-    ? makeBigNumber(totalSellerFeeBasisPoints)
-    : makeBigNumber(totalBuyerFeeBasisPoints)
+    ? new BigNumber(totalSellerFeeBasisPoints)
+    : new BigNumber(totalBuyerFeeBasisPoints)
 
   return {
     feeMethod: FeeMethod.SplitFee,
     feeRecipient,
-    makerProtocolFee: makeBigNumber(0),
-    makerReferrerFee: makeBigNumber(sellerBountyBasisPoints),
+    makerProtocolFee: new BigNumber(0),
+    makerReferrerFee: new BigNumber(sellerBountyBasisPoints),
     makerRelayerFee,
-    takerProtocolFee: makeBigNumber(0),
+    takerProtocolFee: new BigNumber(0),
     takerRelayerFee
   }
 }
@@ -967,7 +1019,7 @@ export async function _makeSellOrder({
   // todo: re-implement this later:
   // accountAddress = validateAndFormatWalletAddress(this.web3, accountAddress)
   // const schema = _getSchema(asset.schemaName)
-  // const quantityBN = toBaseUnitAmount(makeBigNumber(quantity), asset.decimals || 0)
+  // const quantityBN = toBaseUnitAmount(new BigNumber(quantity), asset.decimals || 0)
   // const { sellerBountyBasisPoints, totalBuyerFeeBasisPoints, totalSellerFeeBasisPoints } =
   //   await computeFees({ asset, extraBountyBasisPoints, side: NftOrderSide.Sell })
   // Temporary hard-coded test values
@@ -1543,7 +1595,7 @@ export async function _sellOrderValidationAndApprovals({
   // // need to approve access to fungible token because of the way fees are paid
   // // This can be done at a higher level to show UI
   // if (tokenAddress !== NULL_ADDRESS) {
-  //   const minimumAmount = makeBigNumber(order.basePrice)
+  //   const minimumAmount = new BigNumber(order.basePrice)
   //   await this.approveFungibleToken({ accountAddress, minimumAmount, tokenAddress })
   // }
 
@@ -1650,7 +1702,7 @@ async function _buyOrderValidationAndApprovals({
     const balance = await fungibleTokenInterface.balanceOf(accountAddress)
 
     /* NOTE: no buy-side auctions for now, so sell.saleKind === 0 */
-    const minimumAmount = makeBigNumber(order.basePrice)
+    const minimumAmount = new BigNumber(order.basePrice)
     // TODO: implement this counterOrder functionality for auctions
     // if (counterOrder) {
     //   minimumAmount = await this._getRequiredAmountForTakingSellOrder(counterOrder)
@@ -1883,4 +1935,113 @@ export async function _atomicMatch({
   }
 
   // Call atomic match transaction here!
+}
+
+export async function _makeBuyOrder({
+  accountAddress,
+  asset,
+  buyerAddress,
+  endAmount,
+  englishAuctionReservePrice = 0,
+  expirationTime,
+  extraBountyBasisPoints = 0,
+  listingTime,
+  paymentTokenAddress,
+  quantity,
+  sellOrder,
+  startAmount,
+  waitForHighestBid
+}: {
+  accountAddress: string
+  asset: NftAsset
+  buyerAddress: string
+  endAmount?: number
+  englishAuctionReservePrice?: number
+  expirationTime: number
+  extraBountyBasisPoints: number
+  listingTime?: number
+  paymentTokenAddress: string
+  quantity: number
+  sellOrder?: Order
+  startAmount: number
+  waitForHighestBid: boolean
+}): Promise<UnhashedOrder> {
+  const schema = await schemaMap[asset.asset_contract.schema_name ?? WyvernSchemaName.ERC721]
+  // const wyAsset = getWyvernAsset(schema, asset, quantityBN)
+  const taker = sellOrder ? sellOrder.maker : NULL_ADDRESS
+
+  const { totalBuyerFeeBasisPoints, totalSellerFeeBasisPoints } = await computeFees({
+    asset,
+    extraBountyBasisPoints,
+    side: NftOrderSide.Buy
+  })
+
+  const {
+    feeMethod,
+    feeRecipient,
+    makerProtocolFee,
+    makerReferrerFee,
+    makerRelayerFee,
+    takerProtocolFee,
+    takerRelayerFee
+  } = _getBuyFeeParameters(totalBuyerFeeBasisPoints, totalSellerFeeBasisPoints, sellOrder)
+
+  const { calldata, replacementPattern, target } = encodeBuy(schema, asset, accountAddress)
+
+  const { basePrice, extra, paymentToken } = await _getPriceParameters(
+    NftOrderSide.Buy,
+    paymentTokenAddress,
+    expirationTime,
+    startAmount
+  )
+  const times = _getTimeParameters(expirationTime)
+
+  // const { staticExtradata, staticTarget } = await _getStaticCallTargetAndExtraData({
+  //   asset: openSeaAsset,
+  //   useTxnOriginStaticCall: false
+  // })
+  const staticExtradata = '0x'
+  const staticTarget = NULL_ADDRESS
+
+  if (!asset.asset_contract) {
+    throw new Error('contract address not defined within asset')
+  }
+  return {
+    basePrice: new BigNumber(basePrice.toString()),
+    calldata,
+    exchange: '0x7Be8076f4EA4A4AD08075C2508e481d6C946D12b',
+    expirationTime: times.expirationTime,
+    extra: new BigNumber(extra.toString()),
+    feeMethod,
+    feeRecipient,
+    howToCall: HowToCall.Call,
+    listingTime: times.listingTime,
+    maker: accountAddress,
+    makerProtocolFee,
+    makerReferrerFee,
+    makerRelayerFee,
+    metadata: {
+      asset: {
+        address: asset.asset_contract.address.toLowerCase(),
+        id: asset.token_id.toLowerCase() || NULL_ADDRESS,
+        quantity: new BigNumber(1).toString()
+        // Add in referral address here
+      },
+      schema: schema.name as WyvernSchemaName
+    },
+    paymentToken,
+    quantity: new BigNumber(1),
+    replacementPattern,
+    saleKind: NftSaleKind.FixedPrice,
+    // @ts-ignore
+    salt: generatePseudoRandomSalt(),
+    side: NftOrderSide.Buy,
+    staticExtradata,
+    staticTarget,
+    taker,
+    takerProtocolFee,
+    takerRelayerFee,
+    target,
+    waitingForBestCounterOrder: false
+  }
 }
