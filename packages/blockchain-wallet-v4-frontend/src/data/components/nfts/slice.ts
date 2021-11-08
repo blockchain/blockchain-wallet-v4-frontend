@@ -2,19 +2,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
-import {
-  CollectionData,
-  NftAssetsType,
-  NftOrdersType,
-  OpenSeaCollection
-} from '@core/network/api/nfts/types'
+import { CollectionData, NftAssetsType, NftOrdersType } from '@core/network/api/nfts/types'
 
 import { NftsStateType } from './types'
 
 const initialState: NftsStateType = {
   assets: Remote.NotAsked,
   marketplace: { page: 0, token_ids_queried: [] },
-  orders: { isFailure: false, isLoading: false, list: [] }
+  orders: { isFailure: false, isLoading: true, list: [] }
 }
 
 const nftsSlice = createSlice({
@@ -48,7 +43,7 @@ const nftsSlice = createSlice({
     },
     resetNftOrders: (state) => {
       state.orders.isFailure = false
-      state.orders.isLoading = false
+      state.orders.isLoading = true
       state.orders.list = []
     },
     setMarketplaceBounds: (state, action: PayloadAction<{ atBound: boolean }>) => {

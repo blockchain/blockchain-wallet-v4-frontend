@@ -264,9 +264,10 @@ export interface CollectionData {
       address: string
       total_supply: number
     }[]
+    stats: Stats
   }
+  name: string
   slug: string
-  stats: Stats
 }
 
 /**

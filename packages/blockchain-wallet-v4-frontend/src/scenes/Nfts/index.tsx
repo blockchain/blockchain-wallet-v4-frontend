@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from '@reduxjs/toolkit'
+import styled from 'styled-components'
 
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
+import NftHeader from './Header'
 import Marketplace from './Marketplace'
 import YourCollection from './YourCollection'
 
@@ -17,24 +19,31 @@ const DEFAULT_NFTS = [
   }
 ]
 
+const NftPage = styled.div`
+  width: 100%;
+`
+
 const Nfts: React.FC<Props> = (props) => {
   const { nftsActions } = props
+  const [activeTab, setActiveTab] = useState<'explore' | 'my-collection'>('my-collection')
 
   useEffect(() => {
     nftsActions.fetchNftAssets()
   }, [])
 
   return (
-    <div>
-      <YourCollection {...props} />
-      <Marketplace {...props} />
-    </div>
+    <NftPage>
+      <NftHeader activeTab={activeTab} setActiveTab={setActiveTab} />
+      {activeTab === 'my-collection' ? <YourCollection {...props} /> : null}
+      {activeTab === 'explore' ? <Marketplace {...props} /> : null}
+    </NftPage>
   )
 }
 
 const mapStateToProps = (state: RootState) => ({
   assetsR: selectors.components.nfts.getNftAssets(state),
   collections: selectors.core.walletOptions.getNfts(state).getOrElse(DEFAULT_NFTS),
+  formValues: selectors.form.getFormValues('nftMarketplace')(state),
   marketplace: selectors.components.nfts.getMarketplace(state),
   orders: selectors.components.nfts.getNftOrders(state)
 })

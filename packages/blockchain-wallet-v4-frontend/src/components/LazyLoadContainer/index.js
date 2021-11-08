@@ -25,8 +25,6 @@ class LazyLoadContainer extends React.PureComponent {
     const { onLazyLoad, triggerDistance } = this.props
     const wrapperRect = this.wrapper.getBoundingClientRect()
     const containerRect = this.container.getBoundingClientRect()
-    console.log('bottom + triggerDistance', wrapperRect.bottom + triggerDistance)
-    console.log('container bottom', containerRect.bottom)
     if (wrapperRect.bottom + triggerDistance > containerRect.bottom) {
       onLazyLoad()
     }

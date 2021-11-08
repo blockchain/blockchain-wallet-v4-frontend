@@ -158,8 +158,8 @@ export default ({ api }: { api: APIType }) => {
     if (action.meta.form !== 'nftMarketplace') return
     if (action.meta.field === 'collection') {
       try {
-        const res: CollectionData = yield call(api.getNftCollectionInfo, action.payload)
         yield put(A.resetNftOrders())
+        const res: CollectionData = yield call(api.getNftCollectionInfo, action.payload)
         yield put(
           A.setMarketplaceData({
             atBound: false,
