@@ -5,6 +5,7 @@ import { media } from 'services/styles'
 
 export const CollectionWrapper = styled.div`
   display: grid;
+  overflow: scroll;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   margin-top: 8px;
   gap: 20px;

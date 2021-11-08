@@ -9,5 +9,9 @@ export type NftsStateType = {
     page: number
     token_ids_queried: string[]
   }
-  orders: RemoteDataType<string, NftOrdersType['orders']>[]
+  orders: {
+    isFailure: boolean
+    isLoading: boolean
+    list: NftOrdersType['orders']
+  }
 }

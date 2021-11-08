@@ -35,8 +35,8 @@ const Nfts: React.FC<Props> = (props) => {
 const mapStateToProps = (state: RootState) => ({
   assetsR: selectors.components.nfts.getNftAssets(state),
   collections: selectors.core.walletOptions.getNfts(state).getOrElse(DEFAULT_NFTS),
-  listOfRemoteOrders: selectors.components.nfts.getNftOrders(state),
-  marketplace: selectors.components.nfts.getMarketplace(state)
+  marketplace: selectors.components.nfts.getMarketplace(state),
+  orders: selectors.components.nfts.getNftOrders(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

@@ -14,7 +14,7 @@ import { NftsStateType } from './types'
 const initialState: NftsStateType = {
   assets: Remote.NotAsked,
   marketplace: { page: 0, token_ids_queried: [] },
-  orders: []
+  orders: { isFailure: false, isLoading: false, list: [] }
 }
 
 const nftsSlice = createSlice({
@@ -36,22 +36,20 @@ const nftsSlice = createSlice({
     },
     fetchNftOrders: () => {},
     fetchNftOrdersFailure: (state, action: PayloadAction<string>) => {
-      state.orders = [
-        ...state.orders.slice(0, state.orders.length - 1),
-        Remote.Failure(action.payload)
-      ]
+      state.orders.isFailure = true
     },
     fetchNftOrdersLoading: (state) => {
-      state.orders = [...state.orders, Remote.Loading]
+      state.orders.isLoading = true
     },
     fetchNftOrdersSuccess: (state, action: PayloadAction<NftOrdersType['orders']>) => {
-      state.orders = [
-        ...state.orders.slice(0, state.orders.length - 1),
-        Remote.Success(action.payload)
-      ]
+      state.orders.isFailure = false
+      state.orders.isLoading = false
+      state.orders.list = [...state.orders.list, ...action.payload]
     },
     resetNftOrders: (state) => {
-      state.orders = []
+      state.orders.isFailure = false
+      state.orders.isLoading = false
+      state.orders.list = []
     },
     setMarketplaceBounds: (state, action: PayloadAction<{ atBound: boolean }>) => {
       state.marketplace.atBound = action.payload.atBound
