@@ -2056,13 +2056,20 @@ export async function _atomicMatch({
       NULL_BLOCK_HASH
     ]
   ]
-  const gasLimitEstimated = await wyvernExchangeContract.estimateGas.atomicMatch_(...args, txnData)
-  txnData.gasLimit = parseInt(gasLimitEstimated._hex)
+  try {
+    const gasLimitEstimated = await wyvernExchangeContract.estimateGas.atomicMatch_(
+      ...args,
+      txnData
+    )
+    txnData.gasLimit = parseInt(gasLimitEstimated._hex)
+  } catch (e) {
+    console.log('Gas estimation failed, using hardcoded gasLimit value')
+  }
+
   try {
     // const match = await wyvernExchangeContract.atomicMatch_(...args, txnData)
     // const receipt = await match.wait()
     // console.log(receipt)
-    console.log(txnData)
     // send success to frontend
   } catch (e) {
     console.log(e)
