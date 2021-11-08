@@ -1,8 +1,12 @@
 import React from 'react'
-import { path, prop } from 'ramda'
+import { isEmpty, path, prop } from 'ramda'
 
 import { Exchange, utils } from '@core'
+import Currencies from '@core/exchange/currencies'
+import { formatFiat } from '@core/exchange/utils'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 
+import { OverYourLimitMessage } from '../../../components'
 import {
   AddressMatchesPriv,
   InsufficientFundsMessage,
@@ -92,4 +96,25 @@ export const isAddressDerivedFromPriv = (value, allValues, props) => {
   const address = path(['from', 'address'], allValues)
   const key = utils.btc.privateKeyStringToKey(value, format, props.network)
   return utils.btc.keyPairToAddress(key) === address ? undefined : <AddressMatchesPriv />
+}
+
+export const isSendLimitOver = (value, allValues, props) => {
+  const { from, sendLimits } = props
+  const fiatValue = prop('fiat', value)
+  const isFromCustodial = from && from.type === 'CUSTODIAL'
+
+  if (!isFromCustodial || isEmpty(sendLimits) || isEmpty(sendLimits?.current)) {
+    return undefined
+  }
+
+  const { currency, value: availableAmount } = sendLimits?.current?.available
+
+  const availableAmountInBase = convertBaseToStandard('FIAT', availableAmount)
+
+  return fiatValue > Number(availableAmountInBase) ? (
+    <OverYourLimitMessage
+      amount={formatFiat(availableAmountInBase)}
+      currency={Currencies[currency].units[currency].symbol}
+    />
+  ) : undefined
 }

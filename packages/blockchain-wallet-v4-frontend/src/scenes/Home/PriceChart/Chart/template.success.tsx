@@ -35,8 +35,6 @@ const circleStroke = 2
 
 const tooltipBorderRadius = 4
 
-const margin = 8
-
 const Wrapper = styled.div`
   position: relative;
   height: 300px;
@@ -47,7 +45,11 @@ const Wrapper = styled.div`
 `
 
 const Chart = ({ coin, currency, data }: OwnProps) => {
-  const [ref, { height, width }] = useMeasure({ polyfill: ResizeObserver })
+  const [ref, bounds] = useMeasure({ polyfill: ResizeObserver })
+
+  const width = bounds.width || 100
+  const height = bounds.height || 100
+
   const color = Color(coin as keyof DefaultTheme) || '#000'
   const {
     hideTooltip,
@@ -81,7 +83,7 @@ const Chart = ({ coin, currency, data }: OwnProps) => {
   const yScale = useMemo(
     () =>
       scaleLinear({
-        domain: [min(data, getXValue), max(data, getXValue) || 0],
+        domain: [min(data, getXValue) - height / 5, max(data, getXValue) + height / 5],
         range: [height, 0]
       }),
     [height, data]
@@ -109,8 +111,8 @@ const Chart = ({ coin, currency, data }: OwnProps) => {
   )
 
   return (
-    <Wrapper ref={ref}>
-      <svg width={Math.abs(width - margin)} height={height}>
+    <Wrapper>
+      <svg ref={ref} width='100%' height='100%' viewBox={`0 0 ${width} ${height}`}>
         <LinearGradient id={color} fromOpacity={0.5} toOpacity={0} from={color} to='white' />
 
         <AreaClosed<Data>

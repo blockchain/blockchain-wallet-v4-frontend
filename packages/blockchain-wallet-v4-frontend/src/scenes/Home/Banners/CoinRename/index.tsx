@@ -9,7 +9,7 @@ import { Button, Icon, Text } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { media } from 'services/styles'
 
-import { getCoinRenameAnnouncement, getNewCoinAnnouncement } from '../selectors'
+import { getCoinRenameAnnouncement } from '../selectors'
 
 const Wrapper = styled.div`
   display: flex;

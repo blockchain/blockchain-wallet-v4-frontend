@@ -22,7 +22,7 @@ import {
   WyvernSchemaName
 } from '@core/network/api/nfts/types'
 
-import { ERC721_ABI, ERC1155_ABI, proxyRegistry_ABI, wyvernExchange_ABI } from './abis'
+import { ERC20_ABI, ERC721_ABI, ERC1155_ABI, proxyRegistry_ABI, wyvernExchange_ABI } from './abis'
 import { schemaMap } from './schemas'
 import { FunctionInputKind } from './types'
 
@@ -41,6 +41,7 @@ export const OPENSEA_SELLER_BOUNTY_BASIS_POINTS = 100
 export const DEFAULT_MAX_BOUNTY = DEFAULT_SELLER_FEE_BASIS_POINTS
 export const ENJIN_ADDRESS = '0xfaaFDc07907ff5120a76b34b731b278c38d6043C'
 export const ENJIN_COIN_ADDRESS = '0xf629cbd94d3791c9250152bd8dfbdf380e2a3b9c'
+const WETH_ADDRESS = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
 
 export const bigNumberToBN = (value: BigNumber) => {
   return new BN(value.toString(), 10)
@@ -1549,7 +1550,12 @@ export async function _sellOrderValidationAndApprovals({
 
   // to-do: sell parameters validation
   // // Check sell parameters
-  return validateOrderParameters({ order, signer })
+  const sellValid = validateOrderParameters({ order, signer })
+  if (!sellValid) {
+    console.error(order)
+    throw new Error(`Failed to validate sell order parameters!`)
+  }
+  return sellValid
 }
 
 export async function _validateOrderWyvern({
@@ -1594,6 +1600,7 @@ export async function _validateOrderWyvern({
   )
   return isValid
 }
+
 
 export async function _cancelOrder({
   sellOrder,
@@ -1722,4 +1729,287 @@ export async function _cancelOrder({
   // @ts-ignore: order here is valid type for _validateOrderWyvern, but not for other functions that handle Order types due to numerical compairsons made in aother files.
   const isValidOrder = await _validateOrderWyvern({ order, signer })
   return !isValidOrder
+}
+  
+async function fungibleTokenApprovals({
+  minimumAmount,
+  signer,
+  tokenAddress
+}: {
+  minimumAmount: BigNumber
+  signer: Signer
+  tokenAddress: string
+}) {
+  const proxyAddress = await _getProxy(signer)
+  const accountAddress = await signer.getAddress()
+  const fungibleTokenInterface = new ethers.Contract(tokenAddress, ERC20_ABI, signer)
+  const approvedAmount = new BigNumber(
+    await fungibleTokenInterface.allowance(accountAddress, proxyAddress)
+  )
+  if (approvedAmount.isGreaterThanOrEqualTo(minimumAmount)) {
+    console.log('Already approved enough ERC20 tokens')
+    return null
+  }
+  console.log('Not enough ERC20 allowance approved for this trade')
+  // Note: approving maximum ammount so this doesnt need to be done again for future trades.
+  const txHash = await fungibleTokenInterface.approve(
+    proxyAddress,
+    ethers.constants.MaxInt256.toString(),
+    {
+      from: accountAddress
+    }
+  )
+  const receipt = await txHash.wait()
+  return receipt
+}
+
+async function _buyOrderValidationAndApprovals({
+  counterOrder,
+  order,
+  signer
+}: {
+  counterOrder?: Order
+  order: Order
+  signer: Signer
+}) {
+  const tokenAddress = order.paymentToken
+  const accountAddress = await signer.getAddress()
+
+  if (tokenAddress !== NULL_ADDRESS) {
+    const fungibleTokenInterface = new ethers.Contract(order.paymentToken, ERC20_ABI, signer)
+
+    const balance = await fungibleTokenInterface.balanceOf(accountAddress)
+
+    /* NOTE: no buy-side auctions for now, so sell.saleKind === 0 */
+    const minimumAmount = makeBigNumber(order.basePrice)
+    // TODO: implement this counterOrder functionality for auctions
+    // if (counterOrder) {
+    //   minimumAmount = await this._getRequiredAmountForTakingSellOrder(counterOrder)
+    //  minimumAmount = await this._getRequiredAmountForTakingSellOrder(counterOrder)
+    // }
+
+    // Check WETH balance
+    if (balance.toNumber() < minimumAmount.toNumber()) {
+      if (tokenAddress === WETH_ADDRESS) {
+        throw new Error('Insufficient balance. You may need to wrap Ether.')
+      } else {
+        throw new Error('Insufficient balance.')
+      }
+    }
+
+    // Check token approval
+    // This can be done at a higher level to show UI
+    await fungibleTokenApprovals({ minimumAmount, signer, tokenAddress })
+  }
+
+  // Check order formation
+  const buyValid = await _validateOrderWyvern({ order, signer })
+  if (!buyValid) {
+    console.error(order)
+    throw new Error(
+      `Failed to validate buy order parameters. Make sure you're on the right network!`
+    )
+  }
+}
+
+async function _validateMatch(
+  {
+    buy,
+    sell,
+    signer
+  }: {
+    buy: Order
+    sell: Order
+    signer: Signer
+  },
+  retries = 1
+): Promise<boolean> {
+  try {
+    const wyvernExchangeContract = new ethers.Contract(sell.exchange, wyvernExchange_ABI, signer)
+    // Wyvern Exchange can match
+    const canMatch = await wyvernExchangeContract.ordersCanMatch_(
+      [
+        buy.exchange,
+        buy.maker,
+        buy.taker,
+        buy.feeRecipient,
+        buy.target,
+        buy.staticTarget,
+        buy.paymentToken,
+        sell.exchange,
+        sell.maker,
+        sell.taker,
+        sell.feeRecipient,
+        sell.target,
+        sell.staticTarget,
+        sell.paymentToken
+      ],
+      [
+        buy.makerRelayerFee.toString(),
+        buy.takerRelayerFee.toString(),
+        buy.makerProtocolFee.toString(),
+        buy.takerProtocolFee.toString(),
+        buy.basePrice.toString(),
+        buy.extra.toString(),
+        buy.listingTime.toString(),
+        buy.expirationTime.toString(),
+        buy.salt.toString(),
+        sell.makerRelayerFee.toString(),
+        sell.takerRelayerFee.toString(),
+        sell.makerProtocolFee.toString(),
+        sell.takerProtocolFee.toString(),
+        sell.basePrice.toString(),
+        sell.extra.toString(),
+        sell.listingTime.toString(),
+        sell.expirationTime.toString(),
+        sell.salt.toString()
+      ],
+      [
+        buy.feeMethod,
+        buy.side,
+        buy.saleKind,
+        buy.howToCall,
+        sell.feeMethod,
+        sell.side,
+        sell.saleKind,
+        sell.howToCall
+      ],
+      buy.calldata,
+      sell.calldata,
+      buy.replacementPattern,
+      sell.replacementPattern,
+      buy.staticExtradata,
+      sell.staticExtradata
+    )
+    console.log(`Orders matching: ${canMatch}`)
+
+    const calldataCanMatch = await wyvernExchangeContract.orderCalldataCanMatch(
+      buy.calldata,
+      buy.replacementPattern,
+      sell.calldata,
+      sell.replacementPattern
+    )
+    console.log(`Order calldata matching: ${calldataCanMatch}`)
+
+    if (!calldataCanMatch || !canMatch) {
+      throw new Error('Unable to match offer data with auction data.')
+    }
+
+    return true
+  } catch (error) {
+    if (retries <= 0) {
+      throw new Error(
+        `Error matching this listing: ${error}. Please contact the maker or try again later!`
+      )
+    }
+    await delay(500)
+    return _validateMatch({ buy, sell, signer }, retries - 1)
+  }
+}
+
+export async function _atomicMatch({
+  buy,
+  sell,
+  signer
+}: {
+  buy: Order
+  sell: Order
+  signer: Signer
+}) {
+  let value
+  const accountAddress = (await signer.getAddress()).toLowerCase()
+  if (sell.maker.toLowerCase() === accountAddress) {
+    await _sellOrderValidationAndApprovals({ order: sell, signer })
+  } else if (buy.maker.toLowerCase() === accountAddress) {
+    await _buyOrderValidationAndApprovals({ counterOrder: sell, order: buy, signer })
+  }
+  if (buy.paymentToken === NULL_ADDRESS) {
+    // For some reason uses wyvern contract for calculating the max price?.. update if needed from basePrice => max price
+    const fee = sell.takerRelayerFee.div(INVERSE_BASIS_POINT).times(sell.basePrice)
+    value = sell.basePrice.plus(fee)
+  }
+
+  await _validateMatch({ buy, sell, signer })
+  const wyvernExchangeContract = new ethers.Contract(sell.exchange, wyvernExchange_ABI, signer)
+  const gasPrice = await signer.getGasPrice()
+  const txnData = {
+    from: accountAddress,
+    gasLimit: 230_000,
+    gasPrice: parseInt(gasPrice._hex),
+    value: sell.basePrice.toString()
+  }
+  const args = [
+    [
+      buy.exchange,
+      buy.maker,
+      buy.taker,
+      buy.feeRecipient,
+      buy.target,
+      buy.staticTarget,
+      buy.paymentToken,
+      sell.exchange,
+      sell.maker,
+      sell.taker,
+      sell.feeRecipient,
+      sell.target,
+      sell.staticTarget,
+      sell.paymentToken
+    ],
+    [
+      buy.makerRelayerFee.toString(),
+      buy.takerRelayerFee.toString(),
+      buy.makerProtocolFee.toString(),
+      buy.takerProtocolFee.toString(),
+      buy.basePrice.toString(),
+      buy.extra.toString(),
+      buy.listingTime.toString(),
+      buy.expirationTime.toString(),
+      buy.salt.toString(),
+      sell.makerRelayerFee.toString(),
+      sell.takerRelayerFee.toString(),
+      sell.makerProtocolFee.toString(),
+      sell.takerProtocolFee.toString(),
+      sell.basePrice.toString(),
+      sell.extra.toString(),
+      sell.listingTime.toString(),
+      sell.expirationTime.toString(),
+      sell.salt.toString()
+    ],
+    [
+      buy.feeMethod,
+      buy.side,
+      buy.saleKind,
+      buy.howToCall,
+      sell.feeMethod,
+      sell.side,
+      sell.saleKind,
+      sell.howToCall
+    ],
+    buy.calldata,
+    sell.calldata,
+    '0x00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
+    '0x000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
+    buy.staticExtradata,
+    sell.staticExtradata,
+    [buy.v || 0, sell.v || 0],
+    [
+      buy.r || NULL_BLOCK_HASH,
+      buy.s || NULL_BLOCK_HASH,
+      sell.r || NULL_BLOCK_HASH,
+      sell.s || NULL_BLOCK_HASH,
+      NULL_BLOCK_HASH
+    ]
+  ]
+  const gasLimitEstimated = await wyvernExchangeContract.estimateGas.atomicMatch_(...args, txnData)
+  txnData.gasLimit = parseInt(gasLimitEstimated._hex)
+  try {
+    // const match = await wyvernExchangeContract.atomicMatch_(...args, txnData)
+    // const receipt = await match.wait()
+    // console.log(receipt)
+    console.log('we got here')
+    console.log(txnData)
+    // send success to frontend
+  } catch (e) {
+    console.log(e)
+  }
 }

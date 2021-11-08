@@ -1,4 +1,5 @@
-import { PaymentValue } from '@core/types'
+import { CoinType, PaymentValue, WalletAcountType, WalletFiatType } from '@core/types'
+import { SeamlessLimits } from 'data/types'
 
 import * as AT from './actionTypes'
 
@@ -63,4 +64,34 @@ export const sendBtcSecondStepCancelClicked = () => ({
 
 export const sendBtcBitPayInvoiceExpired = () => ({
   type: AT.SEND_BTC_BITPAY_INVOICE_EXPIRED
+})
+
+export const sendBtcFetchLimits = (
+  inputCurrency: CoinType,
+  fromAccount: WalletAcountType,
+  outputCurrency: CoinType,
+  toAccount: WalletAcountType,
+  currency?: WalletFiatType
+) => ({
+  payload: {
+    currency,
+    fromAccount,
+    inputCurrency,
+    outputCurrency,
+    toAccount
+  },
+  type: AT.SEND_BTC_FETCH_LIMITS
+})
+export const sendBtcFetchLimitsFailure = (error: string) => ({
+  payload: {
+    error
+  },
+  type: AT.SEND_BTC_FETCH_LIMITS_FAILURE
+})
+export const sendBtcFetchLimitsLoading = () => ({
+  type: AT.SEND_BTC_FETCH_LIMITS_LOADING
+})
+export const sendBtcFetchLimitsSuccess = (limitsResponse: SeamlessLimits) => ({
+  payload: limitsResponse,
+  type: AT.SEND_BTC_FETCH_LIMITS_SUCCESS
 })

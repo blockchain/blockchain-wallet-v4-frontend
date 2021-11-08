@@ -6,7 +6,6 @@ import {
   equals,
   filter,
   flatten,
-  head,
   isNil,
   join,
   last,
@@ -278,14 +277,16 @@ export default ({ api }: { api: APIType }) => {
   //
   const fetchErc20Data = function* (action: ReturnType<typeof A.fetchErc20Data>) {
     const { coin } = action.payload
-    const ethAddr = head(S.getContext(yield select()))
-    const data: ReturnType<typeof api.getAccountTokensBalances> = yield call(
-      api.getAccountTokensBalances,
-      ethAddr
-    )
-
-    yield put(A.fetchErc20AccountTokenBalancesSuccess(data.tokenAccounts))
     try {
+      const ethAddr = (yield select(kvStoreSelectors.getDefaultAddress)).getOrFail(
+        'No Default ETH Address.'
+      )
+      const data: ReturnType<typeof api.getAccountTokensBalances> = yield call(
+        api.getAccountTokensBalances,
+        ethAddr
+      )
+
+      yield put(A.fetchErc20AccountTokenBalancesSuccess(data.tokenAccounts))
       yield all(
         data.tokenAccounts.map(function* (val) {
           // TODO: erc20 phase 2, key off hash not symbol

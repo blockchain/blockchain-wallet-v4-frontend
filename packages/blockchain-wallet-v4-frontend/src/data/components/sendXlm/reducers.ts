@@ -9,6 +9,7 @@ const INITIAL_STATE = {
   feeToggled: false,
   isDestinationExchange: Remote.NotAsked,
   payment: Remote.NotAsked,
+  sendLimits: Remote.NotAsked,
   showNoAccountForm: false,
   step: 1
 }
@@ -59,6 +60,15 @@ export function sendXlmReducer(state = INITIAL_STATE, action) {
     }
     case AT.SEND_XLM_SHOW_NO_ACCOUNT_FORM: {
       return assoc('showNoAccountForm', payload.shouldShow, state)
+    }
+    case AT.SEND_XLM_FETCH_LIMITS_LOADING: {
+      return assoc('sendLimits', Remote.Loading, state)
+    }
+    case AT.SEND_XLM_FETCH_LIMITS_SUCCESS: {
+      return assoc('sendLimits', Remote.Success(payload), state)
+    }
+    case AT.SEND_XLM_FETCH_LIMITS_FAILURE: {
+      return assoc('sendLimits', Remote.Failure(payload), state)
     }
     default:
       return state

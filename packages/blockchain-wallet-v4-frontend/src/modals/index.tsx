@@ -72,7 +72,6 @@ const MobileNumberVerify = React.lazy(() => import('./Mobile/MobileNumberVerify'
 // SETTINGS
 const AutoDisconnection = React.lazy(() => import('./Settings/AutoDisconnection'))
 const ConfirmDisable2FA = React.lazy(() => import('./Settings/ConfirmDisable2FA'))
-
 const RecoveryPhrase = React.lazy(() => import('./Settings/RecoveryPhrase'))
 const SecondPassword = React.lazy(() => import('./Settings/SecondPassword'))
 const TradingLimits = React.lazy(() => import('./Settings/TradingLimits'))

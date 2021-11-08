@@ -4,6 +4,7 @@ import { NftAsset, NftOrdersType } from '@core/network/api/nfts/types'
 
 import { wyvernExchange_ABI } from './abis'
 import {
+  _atomicMatch,
   _authorizeOrder,
   _cancelOrder,
   _makeMatchingOrder,
@@ -81,12 +82,15 @@ export const fulfillNftOrder = async (order: NftOrdersType['orders'][0], signer:
   })
 
   let { buy, sell } = assignOrdersToSides(order, matchingOrder)
+  // Hash and sign the buy object so that it is valid
   const signature = await _signMessage({ message: buy.hash, signer })
   // TODO: ensure that there are no more changes being made to this buy object when the atomic Match is being called.
   buy = {
     ...buy,
     ...signature
   }
+  console.log(buy)
+  console.log(sell)
   const isSellValid = await _validateOrderWyvern({ order: sell, signer })
   if (!isSellValid) throw new Error('Sell order is invalid')
 
@@ -94,69 +98,6 @@ export const fulfillNftOrder = async (order: NftOrdersType['orders'][0], signer:
   console.log(`isSellValid?: ${isSellValid}`)
   console.log(`isBuyValid?: ${isBuyValid}`)
   if (!isBuyValid) throw new Error('Buy order is invalid')
-
-  const args = [
-    [
-      buy.exchange,
-      buy.maker,
-      buy.taker,
-      buy.feeRecipient,
-      buy.target,
-      buy.staticTarget,
-      buy.paymentToken,
-      sell.exchange,
-      sell.maker,
-      sell.taker,
-      sell.feeRecipient,
-      sell.target,
-      sell.staticTarget,
-      sell.paymentToken
-    ],
-    [
-      buy.makerRelayerFee.toString(),
-      buy.takerRelayerFee.toString(),
-      buy.makerProtocolFee.toString(),
-      buy.takerProtocolFee.toString(),
-      buy.basePrice.toString(),
-      buy.extra.toString(),
-      buy.listingTime.toString(),
-      buy.expirationTime.toString(),
-      buy.salt.toString(),
-      sell.makerRelayerFee.toString(),
-      sell.takerRelayerFee.toString(),
-      sell.makerProtocolFee.toString(),
-      sell.takerProtocolFee.toString(),
-      sell.basePrice.toString(),
-      sell.extra.toString(),
-      sell.listingTime.toString(),
-      sell.expirationTime.toString(),
-      sell.salt.toString()
-    ],
-    [
-      buy.feeMethod,
-      buy.side,
-      buy.saleKind,
-      buy.howToCall,
-      sell.feeMethod,
-      sell.side,
-      sell.saleKind,
-      sell.howToCall
-    ],
-    buy.calldata,
-    sell.calldata,
-    '0x00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
-    '0x000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
-    buy.staticExtradata,
-    sell.staticExtradata,
-    [buy.v || 0, sell.v || 0],
-    [
-      buy.r || NULL_BLOCK_HASH,
-      buy.s || NULL_BLOCK_HASH,
-      sell.r || NULL_BLOCK_HASH,
-      sell.s || NULL_BLOCK_HASH,
-      NULL_BLOCK_HASH
-    ]
-  ]
 
   const matchPrice = await contract.calculateMatchPrice_(
     [
@@ -213,21 +154,7 @@ export const fulfillNftOrder = async (order: NftOrdersType['orders'][0], signer:
     buy.staticExtradata,
     sell.staticExtradata
   )
-  const gasPrice = await signer.getGasPrice()
-  const txnData = {
-    from: accountAddress,
-    gasLimit: 230_000,
-    gasPrice: parseInt(gasPrice._hex),
-    value: order.basePrice.toString()
-  }
-  const gasLimitEstimated = await contract.estimateGas.atomicMatch_(...args, txnData)
-  txnData.gasLimit = parseInt(gasLimitEstimated._hex)
-  try {
-    // const match = await contract.atomicMatch_(...args, txnData)
-    // send success to frontend
-  } catch (e) {
-    console.log(e)
-  }
+  await _atomicMatch({ buy, sell, signer })
 }
 
 // https://codesandbox.io/s/beautiful-euclid-nd7s8?file=/src/index.ts

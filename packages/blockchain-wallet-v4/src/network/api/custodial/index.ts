@@ -1,9 +1,11 @@
-import { CoinType, FiatType, SBPaymentTypes, WalletFiatType } from '@core/types'
+import { CoinType, FiatType, SBPaymentTypes, WalletAcountType, WalletFiatType } from '@core/types'
 import {
   BankTransferAccountType,
   NabuProductType,
   ProductEligibility,
-  ProductEligibilityResponse
+  ProductEligibilityResponse,
+  SeamlessLimits,
+  WithdrawLimitsResponse
 } from 'data/types'
 
 import { SBTransactionsType } from '../simpleBuy/types'
@@ -140,13 +142,43 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       url: nabuUrl
     })
 
+  const getWithdrawalLimits = (currency?: FiatType): WithdrawLimitsResponse =>
+    authorizedGet({
+      data: {
+        currency
+      },
+      endPoint: `/v2/limits/withdrawals`,
+      url: nabuUrl
+    })
+
+  const getCrossBorderTransactions = (
+    inputCurrency: CoinType,
+    fromAccount: WalletAcountType,
+    outputCurrency: CoinType,
+    toAccount: WalletAcountType,
+    currency?: WalletFiatType
+  ): SeamlessLimits =>
+    authorizedGet({
+      data: {
+        currency,
+        fromAccount,
+        inputCurrency,
+        outputCurrency,
+        toAccount
+      },
+      endPoint: `/limits/crossborder/transaction`,
+      url: nabuUrl
+    })
+
   return {
     checkWithdrawalLocks,
     getBeneficiaries,
+    getCrossBorderTransactions,
     getEligibilityForProduct,
     getProductsEligibility,
     getTransactionsHistory,
     getWithdrawalFees,
+    getWithdrawalLimits,
     getWithdrawalLocks,
     initiateCustodialTransfer,
     notifyNonCustodialToCustodialTransfer,
