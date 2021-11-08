@@ -13,11 +13,16 @@ import {
   TextGroup
 } from 'blockchain-info-components'
 import { FormLabel } from 'components/Form'
+import { Wrapper } from 'components/Public'
 import { LoginFormType, LoginSteps } from 'data/types'
 
 export const LOGIN_FORM_NAME = 'login'
 
 export const removeWhitespace = (string) => string.replace(/\s/g, ``)
+
+export const LoginWrapper = styled(Wrapper)`
+  z-index: 1;
+`
 
 export const ActionButton = styled(Button)`
   margin-top: 15px;

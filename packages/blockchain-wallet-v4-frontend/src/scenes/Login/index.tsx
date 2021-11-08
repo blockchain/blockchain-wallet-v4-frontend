@@ -6,7 +6,6 @@ import { InjectedFormProps, reduxForm } from 'redux-form'
 import { RemoteDataType } from '@core/types'
 import { Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
-import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
 import {
   ExchangeErrorCodes,
@@ -28,7 +27,8 @@ import {
   getLoginPageFooter,
   getLoginPageSubTitle,
   getLoginPageTitle,
-  LOGIN_FORM_NAME
+  LOGIN_FORM_NAME,
+  LoginWrapper
 } from './model'
 import { getData } from './selectors'
 import VerifyMagicLink from './VerifyMagicLink'
@@ -147,7 +147,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
         </Text>
 
         {/* CONTENT */}
-        <Wrapper>
+        <LoginWrapper>
           <Form onSubmit={this.handleSubmit}>
             {(() => {
               switch (step) {
@@ -180,7 +180,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
               }
             })()}
           </Form>
-        </Wrapper>
+        </LoginWrapper>
         {/* FOOTER */}
         {!loginProps.isMobileViewLogin && getLoginPageFooter(step, this.loginWithMobileClicked)}
       </>

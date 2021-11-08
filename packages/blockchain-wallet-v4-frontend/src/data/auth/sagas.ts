@@ -606,7 +606,7 @@ export default ({ api, coreSagas, networks }) => {
         // If it's a guid, we take them to the enter mobile verification step
         if (isGuid(guidOrEmail)) {
           yield put(actions.form.change(LOGIN_FORM, 'guid', guidOrEmail))
-          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.VERIFICATION_MOBILE))
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
         } else {
           // if it's an email, we triger the magic link email
           yield put(actions.form.change(LOGIN_FORM, 'email', guidOrEmail))
