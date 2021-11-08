@@ -362,3 +362,20 @@ export const minimumAmount = (
     ? 'BELOW_MIN'
     : false
 }
+
+export const checkCrossBorderLimit = (
+  value: string,
+  allValues: SBCheckoutFormValuesType,
+  props: Props
+): boolean | string => {
+  const { crossBorderLimits } = props
+
+  if (!crossBorderLimits?.current) {
+    return false
+  }
+
+  const { value: availableAmount } = crossBorderLimits?.current?.available
+  const availableAmountInBase = convertBaseToStandard('FIAT', availableAmount)
+
+  return Number(value) > Number(availableAmountInBase) ? 'ABOVE_MAX_LIMIT' : false
+}

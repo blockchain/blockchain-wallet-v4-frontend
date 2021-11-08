@@ -6,3 +6,4 @@ export const getCheckDestination = path(['components', 'sendXlm', 'checkDestinat
 export const getIsDestinationExchange = path(['components', 'sendXlm', 'isDestinationExchange'])
 export const getFeeToggled = path(['components', 'sendXlm', 'feeToggled'])
 export const showNoAccountForm = path(['components', 'sendXlm', 'showNoAccountForm'])
+export const getSendLimits = path(['components', 'sendXlm', 'sendLimits'])

@@ -2,6 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import Bowser from 'bowser'
 import PropTypes from 'prop-types'
+import { isEmpty } from 'ramda'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
@@ -15,6 +16,7 @@ import {
   TooltipIcon
 } from 'blockchain-info-components'
 import ComboDisplay from 'components/Display/ComboDisplay'
+import UpgradeToGoldBanner from 'components/Flyout/Banners/UpgradeToGold'
 import {
   CountdownTimer,
   FiatConverter,
@@ -47,11 +49,13 @@ import UnstoppableDomains from 'components/UnstoppableDomains'
 import { model } from 'data'
 import { required, validBtcAddress } from 'services/forms'
 
+import { TIER_TYPES } from '../../../Settings/TradingLimits/model'
 import PriorityFeeLink from './PriorityFeeLink'
 import RegularFeeLink from './RegularFeeLink'
 import {
   insufficientFunds,
   invalidAmount,
+  isSendLimitOver,
   maximumAmount,
   maximumFeePerByte,
   minimumAmount,
@@ -108,7 +112,9 @@ const FirstStep = (props) => {
     payPro,
     priorityFeePerByte,
     regularFeePerByte,
-    totalFee
+    sendLimits,
+    totalFee,
+    verifyIdentity
   } = rest
   const isPayPro = !!payPro
   const isFromLockbox = from && from.type === 'LOCKBOX'
@@ -163,7 +169,7 @@ const FirstStep = (props) => {
         </WarningBanners>
       )}
       <FormGroup>
-        <CustodyToAccountMessage coin='BTC' account={from} amount={amount} />
+        <CustodyToAccountMessage coin='BTC' account={from} />
       </FormGroup>
       <FormGroup margin={isFromCustody ? '15px' : '8px'}>
         <FormItem>
@@ -220,7 +226,14 @@ const FirstStep = (props) => {
           <Field
             name='amount'
             component={FiatConverter}
-            validate={[required, invalidAmount, insufficientFunds, minimumAmount, maximumAmount]}
+            validate={[
+              required,
+              invalidAmount,
+              insufficientFunds,
+              minimumAmount,
+              maximumAmount,
+              isSendLimitOver
+            ]}
             coin='BTC'
             data-e2e='sendBtc'
             disabled={isPayPro}
@@ -373,6 +386,11 @@ const FirstStep = (props) => {
         </Text>
       )}
       {isFromCustody && !isMnemonicVerified ? <MnemonicRequiredForCustodySend /> : null}
+      {isFromCustody &&
+      !isEmpty(sendLimits) &&
+      sendLimits?.suggestedUpgrade?.requiredTier === TIER_TYPES.GOLD ? (
+        <UpgradeToGoldBanner limits={sendLimits} verifyIdentity={verifyIdentity} />
+      ) : null}
       <SubmitFormGroup>
         <Button
           type='submit'

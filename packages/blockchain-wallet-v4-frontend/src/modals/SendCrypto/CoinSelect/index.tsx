@@ -80,6 +80,7 @@ class SendCoinSelect extends React.PureComponent<InjectedFormProps<{}, Props> & 
             onClick={() => {
               formActions.change(SEND_FORM, 'selectedAccount', account)
               sendCryptoActions.setStep({ step: SendCryptoStepType.ENTER_TO })
+              sendCryptoActions.fetchSendLimits({ account })
             }}
             walletCurrency={walletCurrency}
           />

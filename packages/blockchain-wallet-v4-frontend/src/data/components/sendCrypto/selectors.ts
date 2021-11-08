@@ -13,3 +13,5 @@ export const getWithdrawalMin = (state: RootState, coin: string) =>
   state.components.sendCrypto.withdrawalFeesAndMins.map(
     (x) => x.minAmounts.find(({ symbol }) => symbol === coin)?.value
   )
+
+export const getSendLimits = (state: RootState) => state.components.sendCrypto.sendLimits

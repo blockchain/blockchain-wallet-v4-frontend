@@ -18,6 +18,7 @@ export const Wrapper = styled.div`
 `
 export const AmountTextBox = styled(ResizeableFontInput(AutosizeTextBox))<{
   fiatActive: boolean
+  haveError: boolean
 }>`
   height: 86px;
   max-width: ${({ fiatActive }) => (fiatActive ? '100%' : '75%')};
@@ -43,7 +44,7 @@ export const AmountTextBox = styled(ResizeableFontInput(AutosizeTextBox))<{
     max-width: 100%;
     border: none;
     text-align: center;
-    color: ${(props) => props.theme.textBlack};
+    color: ${(props) => (props.haveError ? props.theme.red400 : props.theme.textBlack)};
     background-color: ${(props) => props.theme.white};
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
       Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;

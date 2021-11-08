@@ -27,5 +27,6 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.SEND_ETH_FIRST_STEP_PRIORITY_FEE_CLICKED, sendEthSagas.priorityFeeClicked)
     yield takeLatest(AT.SEND_ETH_FIRST_STEP_MINIMUM_FEE_CLICKED, sendEthSagas.minimumFeeClicked)
     yield takeLatest(AT.SEND_ETH_FIRST_STEP_MAXIMUM_FEE_CLICKED, sendEthSagas.maximumFeeClicked)
+    yield takeLatest(AT.SEND_ETH_FETCH_LIMITS, sendEthSagas.fetchSendLimits)
   }
 }

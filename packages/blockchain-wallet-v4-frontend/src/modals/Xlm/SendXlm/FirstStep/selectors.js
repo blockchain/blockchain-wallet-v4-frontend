@@ -16,7 +16,8 @@ const getData = createDeepEqualSelector(
     selectors.form.getFormValues(model.components.sendXlm.FORM),
     selectors.form.getActiveField(model.components.sendXlm.FORM),
     selectors.components.sendXlm.showNoAccountForm,
-    (state) => selectors.core.data.coins.getRates('XLM', state)
+    (state) => selectors.core.data.coins.getRates('XLM', state),
+    selectors.components.sendXlm.getSendLimits
   ],
   (
     paymentR,
@@ -29,12 +30,14 @@ const getData = createDeepEqualSelector(
     formValues,
     activeField,
     noAccount,
-    ratesR
+    ratesR,
+    sendLimitsR
   ) => {
     const amount = prop('amount', formValues)
     const destination = prop('to', formValues)
     const from = prop('from', formValues)
     const isDestinationExchange = isDestinationExchangeR.getOrElse(false)
+    const sendLimits = sendLimitsR.getOrElse({})
 
     const transform = (payment, currency, rates) => {
       const effectiveBalance = propOr('0', 'effectiveBalance', payment)
@@ -59,7 +62,8 @@ const getData = createDeepEqualSelector(
         isMnemonicVerified,
         noAccount,
         rates,
-        reserve
+        reserve,
+        sendLimits
       }
     }
     return lift(transform)(paymentR, currencyR, ratesR)

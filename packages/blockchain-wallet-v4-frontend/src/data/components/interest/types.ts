@@ -1,11 +1,11 @@
 import {
   AccountTypes,
   CoinType,
+  DepositLimits,
   FiatType,
   InterestAccountBalanceType,
   InterestAccountType,
   InterestAfterTransactionType,
-  InterestEDDDocumentsResponse,
   InterestEDDStatus,
   InterestEligibleType,
   InterestInstrumentsType,
@@ -75,6 +75,7 @@ export interface InterestState {
   coin: CoinType
   depositLimits: InterestMinMaxType
   instruments: RemoteDataType<string, InterestInstrumentsType>
+  interestEDDDepositLimits: RemoteDataType<string, DepositLimits>
   interestEDDStatus: RemoteDataType<string, InterestEDDStatus>
   interestEDDWithdrawLimits: RemoteDataType<string, WithdrawLimits>
   interestEligible: RemoteDataType<string, InterestEligibleType>
