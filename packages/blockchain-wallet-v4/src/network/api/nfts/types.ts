@@ -532,6 +532,7 @@ export interface NftAsset {
     safelist_request_status: string
     short_description: null
     slug: string
+    stats: Stats
     telegram_url: string | null
     twitter_username: string | null
     wiki_url: null
@@ -616,7 +617,13 @@ export interface NftAsset {
   token_id: string
   token_metadata: null
   top_bid: null
-  traits: []
+  traits: [
+    {
+      trait_count: number
+      trait_type: string
+      value: string
+    }
+  ]
   transfer_fee: string | null
   transfer_fee_payment_token: null
 }

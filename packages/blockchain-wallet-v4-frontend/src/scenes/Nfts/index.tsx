@@ -25,7 +25,7 @@ const NftPage = styled.div`
 
 const Nfts: React.FC<Props> = (props) => {
   const { nftsActions } = props
-  const [activeTab, setActiveTab] = useState<'explore' | 'my-collection'>('my-collection')
+  const [activeTab, setActiveTab] = useState<'explore' | 'my-collection'>('explore')
 
   useEffect(() => {
     nftsActions.fetchNftAssets()
@@ -34,8 +34,8 @@ const Nfts: React.FC<Props> = (props) => {
   return (
     <NftPage>
       <NftHeader activeTab={activeTab} setActiveTab={setActiveTab} />
-      {activeTab === 'my-collection' ? <YourCollection {...props} /> : null}
       {activeTab === 'explore' ? <Marketplace {...props} /> : null}
+      {activeTab === 'my-collection' ? <YourCollection {...props} /> : null}
     </NftPage>
   )
 }

@@ -15,6 +15,14 @@ export default ({ get, post }) => {
     })
   }
 
+  const getNftAsset = (contract_address: string, token_id: string): NftAssetsType => {
+    return get({
+      endPoint: `/${contract_address}/${token_id}`,
+      ignoreQueryParams: true,
+      url: 'https://api.opensea.io/api/v1/asset'
+    })
+  }
+
   const getNftAssets = (
     owner: string,
     offset = 0,
@@ -64,6 +72,7 @@ export default ({ get, post }) => {
   }
 
   return {
+    getNftAsset,
     getNftAssets,
     getNftCollectionInfo,
     getNftOrders,

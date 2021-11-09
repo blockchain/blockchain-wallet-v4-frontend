@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Button, Link, Text } from 'blockchain-info-components'
+import { Button, Link, SpinningLoader, Text } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import LazyLoadContainer from 'components/LazyLoadContainer'
 import { media } from 'services/styles'
@@ -44,7 +44,7 @@ const LazyLoadWrapper = styled(LazyLoadContainer)`
   }
   ${media.atLeastLaptopL`
     > div {
-      grid-template-columns: repeat(4, minmax(0, 1fr));  
+      grid-template-columns: repeat(3, minmax(0, 1fr));  
     }
   `}
 `
@@ -69,11 +69,6 @@ const Marketplace: React.FC<Props> = (props: Props) => {
                 background={`url(${order.asset.imageUrl.replace(/=s\d*/, '')})`}
                 backgroundColor={`#${order.asset?.backgroundColor}` || '#fff'}
               />
-              {/* <AssetImage
-                  alt={order.asset.imageUrl}
-                  style={{ width: '100%' }}
-                  src={order.asset.imageUrl}
-                /> */}
               <AssetDetails>
                 <div>
                   <AssetCollection>
@@ -115,18 +110,25 @@ const Marketplace: React.FC<Props> = (props: Props) => {
                   data-e2e='buyNft'
                   nature='primary'
                   fullwidth
-                  onClick={() => nftsActions.createBuyOrder({ order })}
+                  onClick={() => nftsActions.nftOrderFlowOpen({ order })}
                 >
                   <FormattedMessage id='copy.buy' defaultMessage='Buy' />
                 </Button>
-                <Link size='11px' href={order.asset.openseaLink} target='_blank'>
+                <Link
+                  style={{ marginTop: '2px' }}
+                  size='11px'
+                  href={order.asset.openseaLink}
+                  target='_blank'
+                >
                   View on Opensea
                 </Link>
               </CTAWrapper>
             </MarketplaceAsset>
           )
         })}
-        {props.orders.isLoading ? <div>Loading</div> : null}
+        {props.orders.isLoading ? (
+          <SpinningLoader width='14px' height='14px' borderWidth='3px' />
+        ) : null}
       </LazyLoadWrapper>
       {props.marketplace.atBound ? <div>No more NFTs for sale in this collection</div> : null}
     </MarketplaceWrapper>

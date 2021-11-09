@@ -7,7 +7,8 @@ import { CollectionData } from '@core/network/api/nfts/types'
 import { cancelNftListings, fulfillNftOrder, fulfillNftSellOrder } from '@core/redux/payment/nfts'
 import { errorHandler } from '@core/utils'
 import { getPrivateKey } from '@core/utils/eth'
-import { selectors } from 'data'
+import { actions, selectors } from 'data'
+import { ModalName } from 'data/modals/types'
 import { promptForSecondPassword } from 'services/sagas'
 
 import * as S from './selectors'
@@ -175,6 +176,26 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const nftOrderFlowOpen = function* (action: ReturnType<typeof A.nftOrderFlowOpen>) {
+    yield put(actions.modals.showModal(ModalName.NFT_ORDER, { origin: 'Unknown' }))
+    try {
+      yield put(actions.components.nfts.fetchNftOrderAssetLoading())
+      const asset = yield call(
+        api.getNftAsset,
+        action.payload.order.asset!.assetContract!.address,
+        action.payload.order.asset!.tokenId!
+      )
+      yield put(actions.components.nfts.fetchNftOrderAssetSuccess(asset))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(actions.components.nfts.fetchNftOrderAssetFailure(error))
+    }
+  }
+
+  const nftOrderFlowClose = function* () {
+    yield put(actions.modals.closeAllModals())
+  }
+
   return {
     cancelListings,
     createBuyOrder,
@@ -182,6 +203,8 @@ export default ({ api }: { api: APIType }) => {
     fetchNftAssets,
     fetchNftOrders,
     formChanged,
-    formInitialized
+    formInitialized,
+    nftOrderFlowClose,
+    nftOrderFlowOpen
   }
 }

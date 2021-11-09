@@ -69,6 +69,9 @@ const CollectionField = styled.div`
 const CollectionLabel = styled.label`
   display: flex;
   align-items: center;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
   img {
     margin-left: -8px;
     border-radius: 8px;
