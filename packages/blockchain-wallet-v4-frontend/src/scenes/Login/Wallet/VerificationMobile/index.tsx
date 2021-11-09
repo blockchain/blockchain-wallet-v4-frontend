@@ -11,7 +11,7 @@ import { actions, selectors } from 'data'
 import { LoginSteps } from 'data/types'
 
 import { Props as OwnProps } from '../..'
-import { BackArrowFormHeader, LOGIN_FORM_NAME, NeedHelpLink } from '../../model'
+import { BackArrowFormHeader, Column, LOGIN_FORM_NAME, NeedHelpLink } from '../../model'
 
 const Body = styled.div`
   display: flex;
@@ -30,6 +30,11 @@ const LinkRow = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`
+
+const CheckAppTextColumn = styled(Column)`
+  min-height: 264px;
+  margin-top: 24px;
 `
 
 const VerificationMobile = (props: Props) => {
@@ -51,47 +56,45 @@ const VerificationMobile = (props: Props) => {
     <>
       <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} />
       <Body>
-        {!phonePubKey && (
-          <TextColumn>
-            <Icon name='padlock' color='blue600' size='20px' style={{ padding: '0 0 16px 4px' }} />
-            <Text
-              color='grey900'
-              size='16px'
-              weight={600}
-              lineHeight='1.5'
-              style={{ marginBottom: '16px' }}
-            >
-              <FormattedMessage
-                id='scenes.login.wallet.mobile_login.title'
-                defaultMessage='Log in with mobile app'
-              />
-            </Text>
-            <Text
-              color='grey900'
-              size='12px'
-              weight={500}
-              lineHeight='1.5'
-              style={{ marginBottom: '16px' }}
-            >
-              <FormattedMessage
-                id='scenes.login.wallet.mobile_login.description_one'
-                defaultMessage='Scan this QR code with the Blockchain.com mobile app.'
-              />
-            </Text>
-            <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
-              <FormattedMessage
-                id='scenes.login.wallet.mobile_login.description.ios'
-                defaultMessage='iOS - Tap the Menu button at the top left corner of the app to reveal Web Log In option.'
-              />
-            </Text>
-            <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
-              <FormattedMessage
-                id='scenes.login.wallet.mobile_login.description.android'
-                defaultMessage='Android - Tap the QR code icon at the top right corner of the app.'
-              />
-            </Text>
-          </TextColumn>
-        )}
+        <TextColumn>
+          <Icon name='padlock' color='blue600' size='20px' style={{ padding: '0 0 16px 4px' }} />
+          <Text
+            color='grey900'
+            size='16px'
+            weight={600}
+            lineHeight='1.5'
+            style={{ marginBottom: '16px' }}
+          >
+            <FormattedMessage
+              id='scenes.login.wallet.mobile_login.title'
+              defaultMessage='Log in with mobile app'
+            />
+          </Text>
+          <Text
+            color='grey900'
+            size='12px'
+            weight={500}
+            lineHeight='1.5'
+            style={{ marginBottom: '16px' }}
+          >
+            <FormattedMessage
+              id='scenes.login.wallet.mobile_login.description_one'
+              defaultMessage='Scan this QR code with the Blockchain.com mobile app.'
+            />
+          </Text>
+          <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
+            <FormattedMessage
+              id='scenes.login.wallet.mobile_login.description.ios'
+              defaultMessage='iOS - Tap the Menu button at the top left corner of the app to reveal Web Log In option.'
+            />
+          </Text>
+          <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
+            <FormattedMessage
+              id='scenes.login.wallet.mobile_login.description.android'
+              defaultMessage='Android - Tap the QR code icon at the top right corner of the app.'
+            />
+          </Text>
+        </TextColumn>
         {secureChannelLoginState.cata({
           Failure: (e) => (
             <Text>
@@ -107,12 +110,27 @@ const VerificationMobile = (props: Props) => {
           ),
           Loading: () => {
             return (
-              <Text size='14px' weight={600}>
-                <FormattedMessage
-                  id='scenes.login.qrcodelogin_success_confirm'
-                  defaultMessage='Please confirm the login on your mobile device.'
-                />
-              </Text>
+              <CheckAppTextColumn>
+                <Text size='14px' weight={600}>
+                  <FormattedMessage
+                    id='scenes.login.qrcodelogin_success_confirm'
+                    defaultMessage='Please confirm the login on your mobile device.'
+                  />
+                </Text>
+                <Text
+                  color='blue600'
+                  size='14px'
+                  weight={600}
+                  style={{ cursor: 'pointer', marginTop: '8px' }}
+                  data-e2e='qrCodeRefresh'
+                  onClick={props.authActions.secureChannelLoginNotAsked}
+                >
+                  <FormattedMessage
+                    id='scenes.login.qrcodelogin_refresh_code'
+                    defaultMessage='Refresh Code'
+                  />
+                </Text>
+              </CheckAppTextColumn>
             )
           },
           NotAsked: () => <QRCodeWrapper value={qrData} size={175} showImage />,

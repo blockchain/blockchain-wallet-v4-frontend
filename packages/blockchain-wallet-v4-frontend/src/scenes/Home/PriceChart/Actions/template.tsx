@@ -51,7 +51,7 @@ const Actions = ({ buySellActions, coinName, cryptoCurrency, swapActions }: Prop
         data-e2e='swapButton'
         height='42px'
         nature='empty-secondary'
-        onClick={() => swapActions.showModal('PriceChart')}
+        onClick={() => swapActions.showModal({ origin: 'PriceChart' })}
       >
         <Text color='blue600' size='16px' lineHeight='24px' weight={600}>
           <FormattedMessage
