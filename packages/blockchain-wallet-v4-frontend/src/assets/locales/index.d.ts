@@ -2265,6 +2265,7 @@ type MessagesType = {
   'scenes.login.qrcodelogin_failed': 'Login failed. Please refresh browser and try again.'
   'scenes.login.qrcodelogin_success': 'Success! Logging in...'
   'scenes.login.qrcodelogin_success_confirm': 'Please confirm the login on your mobile device.'
+  'scenes.login.qrcodelogin_refresh_code': 'Refresh Code'
   'scenes.login.recovery_options.title': 'Recovery Options'
   'scenes.login.recovery_options.cloud_backup.title': 'Recover Account with Cloud Backup'
   'scenes.login.recovery_options.cloud_backup': 'Restore your account using your phone and the cloud.'
