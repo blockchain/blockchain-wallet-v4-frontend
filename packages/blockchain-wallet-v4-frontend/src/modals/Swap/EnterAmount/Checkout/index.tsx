@@ -476,7 +476,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               weight={500}
               style={{ marginTop: '24px', textAlign: 'center' }}
             >
-              {amtError === 'BELOW_MIN' ? (
+              {amtError === 'BELOW_MIN' && (
                 <FormattedMessage
                   id='copy.swap_minimum_amount'
                   defaultMessage='To avoid uncesssary fees and network slipage, the minimum amount for this pair is {amount}.'
@@ -487,9 +487,9 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                         : `${min} ${baseCoinfig.displaySymbol}`
                   }}
                 />
-              ) : null}
+              )}
 
-              {amtError === 'ABOVE_MAX' ? (
+              {amtError === 'ABOVE_MAX' && (
                 <FormattedMessage
                   id='copy.swap_maximum_amount'
                   defaultMessage='The maximum amount of {coin} you can swap from this wallet is {amount}.'
@@ -501,7 +501,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     coin: BASE.coin
                   }}
                 />
-              ) : null}
+              )}
             </Text>
           </ButtonContainer>
         )}

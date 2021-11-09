@@ -339,7 +339,7 @@ type MessagesType = {
   'components.txlistitem.valueattime': 'Value When {type}'
   'components.txlistitem.watchonly': 'Non-Spendable'
   'copy.account': 'Account'
-  'copy.above_max': '{value} Miximum'
+  'copy.above_max': '{value} Maximum'
   'copy.above_swap_max': 'You can swap up to {value}'
   'copy.above_swap_max_silver': 'Upgrade your profile to swap this amount.'
   'copy.actions': 'Actions'
