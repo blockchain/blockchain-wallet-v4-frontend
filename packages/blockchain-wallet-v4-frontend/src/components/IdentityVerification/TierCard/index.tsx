@@ -189,7 +189,7 @@ export const TierCard = ({
               jumbo
               fullwidth
               nature='primary'
-              onClick={() => swapActions.showModal('SettingsProfile')}
+              onClick={() => swapActions.showModal({ origin: 'SettingsProfile' })}
               data-e2e='swapNowBtn'
             >
               <FormattedMessage

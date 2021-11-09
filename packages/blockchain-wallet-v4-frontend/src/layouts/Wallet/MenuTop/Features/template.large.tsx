@@ -45,7 +45,7 @@ const FeaturesLarge = (props: Props & { showModal: (modal: 'SEND' | 'REQUEST') =
       <NavbarNavItem>
         <NavbarNavItemButton
           data-e2e='exchangeLink'
-          onClick={() => props.swapActions.showModal('FeaturesTopNav')}
+          onClick={() => props.swapActions.showModal({ origin: 'FeaturesTopNav' })}
         >
           <NavbarNavItemIcon size='18px' name='arrow-switch-thick' />
           <NavbarNavItemTextHeader size='14px' weight={600}>

@@ -7,7 +7,7 @@ import {
   SwapUserLimitsType
 } from '@core/types'
 
-import * as AT from './actionTypes'
+import { SeamlessLimits } from '../withdraw/types'
 
 export type MempoolFeeType = 'regular' | 'priority'
 
@@ -54,6 +54,7 @@ export type SwapCheckoutFixType = 'CRYPTO' | 'FIAT'
 
 // state
 export type SwapState = {
+  crossBorderLimits: RemoteDataType<string, SeamlessLimits>
   custodialEligibility: RemoteDataType<string, boolean>
   fix: SwapCheckoutFixType
   limits: RemoteDataType<string, SwapUserLimitsType>
@@ -67,123 +68,6 @@ export type SwapState = {
     list: Array<SwapOrderType>
     status: RemoteDataType<string, string>
   }
-}
-
-// actions
-interface FetchCustodialEligibilityFailureActionType {
-  payload: {
-    error: string
-  }
-  type: typeof AT.FETCH_CUSTODIAL_ELIGIBILITY_FAILURE
-}
-interface FetchCustodialLoadingActionType {
-  type: typeof AT.FETCH_CUSTODIAL_ELIGIBILITY_LOADING
-}
-interface FetchEligibilitySuccessActionType {
-  payload: {
-    eligibility: boolean
-  }
-  type: typeof AT.FETCH_CUSTODIAL_ELIGIBILITY_SUCCESS
-}
-
-interface FetchLimitsFailureActionType {
-  payload: {
-    error: string
-  }
-  type: typeof AT.FETCH_LIMITS_FAILURE
-}
-interface FetchLimitsLoadingActionType {
-  type: typeof AT.FETCH_LIMITS_LOADING
-}
-interface FetchLimitsSuccessActionType {
-  payload: {
-    limits: SwapUserLimitsType
-  }
-  type: typeof AT.FETCH_LIMITS_SUCCESS
-}
-
-interface FetchPairsFailureActionType {
-  payload: {
-    error: string
-  }
-  type: typeof AT.FETCH_PAIRS_FAILURE
-}
-interface FetchPairsLoadingActionType {
-  type: typeof AT.FETCH_PAIRS_LOADING
-}
-interface FetchPairsSuccessActionType {
-  payload: {
-    pairs: Array<string>
-  }
-  type: typeof AT.FETCH_PAIRS_SUCCESS
-}
-
-interface FetchQuoteFailureActionType {
-  payload: {
-    error: string
-  }
-  type: typeof AT.FETCH_QUOTE_FAILURE
-}
-interface FetchQuoteLoadingActionType {
-  type: typeof AT.FETCH_QUOTE_LOADING
-}
-interface FetchQuoteSuccessActionType {
-  payload: {
-    quote: SwapQuoteType
-    rate: number
-  }
-  type: typeof AT.FETCH_QUOTE_SUCCESS
-}
-
-interface FetchTradesFailureActionType {
-  payload: {
-    error: string
-  }
-  type: typeof AT.FETCH_TRADES_FAILURE
-}
-interface FetchTradesLoadingActionType {
-  type: typeof AT.FETCH_TRADES_LOADING
-}
-interface FetchTradesSuccessActionType {
-  payload: {
-    trades: Array<SwapOrderType>
-  }
-  type: typeof AT.FETCH_TRADES_SUCCESS
-}
-
-interface UpdatePaymentFailureActionType {
-  payload: {
-    error: string
-  }
-  type: typeof AT.UPDATE_PAYMENT_FAILURE
-}
-interface UpdatePaymentLoadingActionType {
-  type: typeof AT.UPDATE_PAYMENT_LOADING
-}
-interface UpdatePaymentSuccessActionType {
-  payload: {
-    payment: undefined | PaymentValue
-  }
-  type: typeof AT.UPDATE_PAYMENT_SUCCESS
-}
-
-interface SetSwapCheckoutFixType {
-  payload: {
-    fix: SwapCheckoutFixType
-  }
-  type: typeof AT.SET_CHECKOUT_FIX
-}
-interface SetSwapStepActionType {
-  payload: SwapStepPayload
-  type: typeof AT.SET_STEP
-}
-
-interface SwitchFixActionType {
-  payload: {
-    amount: string
-    fix: SwapCheckoutFixType
-  }
-  type: typeof AT.SWITCH_FIX
 }
 
 export type SwapStepPayload =
@@ -231,26 +115,3 @@ export type SwapStepPayload =
       options?: never
       step: 'NO_HOLDINGS'
     }
-
-export type SwapActionTypes =
-  | FetchCustodialEligibilityFailureActionType
-  | FetchCustodialLoadingActionType
-  | FetchEligibilitySuccessActionType
-  | FetchLimitsFailureActionType
-  | FetchLimitsLoadingActionType
-  | FetchLimitsSuccessActionType
-  | FetchQuoteFailureActionType
-  | FetchQuoteLoadingActionType
-  | FetchQuoteSuccessActionType
-  | FetchPairsFailureActionType
-  | FetchPairsLoadingActionType
-  | FetchPairsSuccessActionType
-  | FetchTradesFailureActionType
-  | FetchTradesLoadingActionType
-  | FetchTradesSuccessActionType
-  | UpdatePaymentFailureActionType
-  | UpdatePaymentLoadingActionType
-  | UpdatePaymentSuccessActionType
-  | SetSwapCheckoutFixType
-  | SetSwapStepActionType
-  | SwitchFixActionType

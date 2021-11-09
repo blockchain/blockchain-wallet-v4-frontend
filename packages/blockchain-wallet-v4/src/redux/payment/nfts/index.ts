@@ -7,7 +7,7 @@ import {
   _atomicMatch,
   _authorizeOrder,
   _buyOrderValidationAndApprovals,
-   _cancelOrder,
+  _cancelOrder,
   _makeBuyOrder,
   _makeMatchingOrder,
   _makeSellOrder,
@@ -21,6 +21,9 @@ import {
 
 export const cancelNftListings = async (asset: NftAsset, signer: Signer) => {
   // TODO: on front end maybe worth having a way for users to select which one of their sell orders they want to cancel and then input the order directly to this function.
+  if (!asset.sell_orders) {
+    throw new Error('Not a compatible asset order.')
+  }
   const sellOrder = asset.sell_orders[0]
   console.log(sellOrder)
   const cancelled = await _cancelOrder({ sellOrder, signer })
@@ -40,7 +43,6 @@ export const fulfillNftSellOrder = async (asset: NftAsset, signer: Signer) => {
     startAmount: 0.1,
     waitForHighestBid: false
   })
-  console.log(order)
   // 2. Validation of sell order fields & Transaction Approvals (Proxy initialized here if needed also)
   const validatedAndApproved = await _sellOrderValidationAndApprovals({ order, signer })
   console.log(`Successful approvals and validations?: ${validatedAndApproved}`)

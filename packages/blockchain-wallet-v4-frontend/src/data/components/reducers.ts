@@ -23,7 +23,7 @@ import { sendXlmReducer } from './sendXlm/reducers'
 import { settingsReducer } from './settings/slice'
 import signMessage from './signMessage/reducers'
 import { buySellReducer as buySell } from './simpleBuy/slice'
-import swapReducer from './swap/reducers'
+import { swapSliceReducer as swap } from './swap/slice'
 import uploadDocuments from './uploadDocuments/reducers'
 import veriff from './veriff/reducers'
 import { withdrawReducer } from './withdraw/reducers'
@@ -52,7 +52,7 @@ const componentReducer = combineReducers({
   sendXlm: sendXlmReducer,
   settings: settingsReducer,
   signMessage,
-  swap: swapReducer,
+  swap,
   uploadDocuments,
   veriff,
   withdraw: withdrawReducer

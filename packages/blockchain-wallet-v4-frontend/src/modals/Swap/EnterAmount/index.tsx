@@ -4,12 +4,17 @@ import { connect, ConnectedProps } from 'react-redux'
 import styled from 'styled-components'
 
 import { formatCoin } from '@core/exchange/utils'
-import { ExtractSuccess } from '@core/types'
+import { CrossBorderLimitsPyload, ExtractSuccess, WalletAcountEnum } from '@core/types'
 import { CoinAccountIcon, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { InitSwapFormValuesType, SwapAccountType, SwapCoinType } from 'data/types'
+import {
+  InitSwapFormValuesType,
+  SwapAccountType,
+  SwapBaseCounterTypes,
+  SwapCoinType
+} from 'data/types'
 
 import { Props as BaseProps, SuccessStateType as SuccessType } from '..'
 import { BalanceRow, Border, Option, OptionTitle, OptionValue, TopText } from '../components'
@@ -53,6 +58,28 @@ const Toggler = styled.div`
 class EnterAmount extends PureComponent<Props> {
   componentDidMount() {
     this.props.swapActions.initAmountForm()
+
+    if (this.props?.initSwapFormValues?.BASE && this.props?.initSwapFormValues?.COUNTER) {
+      const { BASE, COUNTER } = this.props.initSwapFormValues
+
+      // fetch crossborder limits
+      const fromAccount =
+        BASE.type === SwapBaseCounterTypes.CUSTODIAL
+          ? WalletAcountEnum.CUSTODIAL
+          : WalletAcountEnum.NON_CUSTODIAL
+      const toAccount =
+        COUNTER.type === SwapBaseCounterTypes.CUSTODIAL
+          ? WalletAcountEnum.CUSTODIAL
+          : WalletAcountEnum.NON_CUSTODIAL
+      const inputCurrency = BASE.coin
+      const outputCurrency = COUNTER.coin
+      this.props.swapActions.fetchCrossBorderLimits({
+        fromAccount,
+        inputCurrency,
+        outputCurrency,
+        toAccount
+      } as CrossBorderLimitsPyload)
+    }
   }
 
   handleStepCoinSelection = (accounts: { [key in SwapCoinType]: Array<SwapAccountType> }) => {
@@ -203,6 +230,7 @@ const mapStateToProps = (state: RootState) => {
   return {
     data: getData(state),
     initSwapFormValues: selectors.form.getFormValues('initSwap')(state) as InitSwapFormValuesType,
+    isPristine: selectors.form.isPristine('swapAmount')(state),
     quoteR: selectors.components.swap.getQuote(state)
   }
 }
