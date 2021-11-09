@@ -9,7 +9,6 @@ import {
   Asset,
   AssetCollection,
   AssetDetails,
-  AssetImage,
   CollectionWrapper,
   ImageContainer,
   PriceInfo,
@@ -47,16 +46,9 @@ const YourCollection: React.FC<Props> = ({ assetsR, nftsActions }) => {
               return (
                 <Asset key={asset.token_id}>
                   <ImageContainer
-                    style={{
-                      backgroundColor: `#${asset.background_color}` || '#fff'
-                    }}
-                  >
-                    <AssetImage
-                      alt={asset.image_url}
-                      style={{ width: '100%' }}
-                      src={asset.image_url}
-                    />
-                  </ImageContainer>
+                    backgroundColor={`#${asset.background_color}` || '#fff'}
+                    background={`url(${asset.image_url})`}
+                  />
                   <AssetDetails>
                     <div>
                       <AssetCollection>

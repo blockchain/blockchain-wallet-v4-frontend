@@ -7,22 +7,39 @@ import { convertCoinToCoin } from '@core/exchange'
 import { Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import { Form } from 'components/Form'
+import { media } from 'services/styles'
 
 import { Props as OwnProps } from '../..'
 
 const Wrapper = styled.div`
-  margin-right: 20px;
-  width: 25%;
   position: sticky;
-  top: 61px;
   height: 100%;
+  top: 48px;
   overflow: scroll;
+  background: ${(props) => props.theme.white};
+  z-index: 20;
+  ${media.atLeastTabletL`
+    top: 61px;
+    margin-right: 20px;
+    max-width: 300px;
+    width: 25%;
+  `} > form {
+    ${media.tabletL`
+      display: flex;
+      > div {
+        flex: 1;
+      }
+    `}
+  }
 `
 
 const FormWrapper = styled.div`
   gap: 8px;
   max-height: 322px;
   overflow: scroll;
+  ${media.tabletL`
+    max-height: 170px;
+  `}
 `
 
 const Collection = styled.div`

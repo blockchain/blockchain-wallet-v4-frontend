@@ -12,7 +12,6 @@ import {
   Asset,
   AssetCollection,
   AssetDetails,
-  AssetImage,
   ImageContainer,
   PriceInfo,
   StyledCoinDisplay
@@ -22,10 +21,18 @@ import MarketForm from './MarketForm'
 const MarketplaceWrapper = styled.div`
   display: flex;
   width: 100%;
+  ${media.tabletL`
+    flex-direction: column;
+  `}
+`
+
+const CTAWrapper = styled.div`
+  padding: 8px;
 `
 
 const LazyLoadWrapper = styled(LazyLoadContainer)`
-  ${media.atLeastLaptopM`
+  max-width: 1000px;
+  ${media.atLeastTabletL`
     width: 75%;
   `}
   > div {
@@ -35,6 +42,11 @@ const LazyLoadWrapper = styled(LazyLoadContainer)`
     gap: 20px;
     margin-bottom: 20px;
   }
+  ${media.atLeastLaptopL`
+    > div {
+      grid-template-columns: repeat(4, minmax(0, 1fr));  
+    }
+  `}
 `
 
 const MarketplaceAsset = styled(Asset)``
@@ -54,58 +66,63 @@ const Marketplace: React.FC<Props> = (props: Props) => {
           return (
             <MarketplaceAsset key={order.calldata}>
               <ImageContainer
-                style={{
-                  backgroundColor: `#${order.asset?.backgroundColor}` || '#fff'
-                }}
-              >
-                <AssetImage
+                background={`url(${order.asset.imageUrl.replace(/=s\d*/, '')})`}
+                backgroundColor={`#${order.asset?.backgroundColor}` || '#fff'}
+              />
+              {/* <AssetImage
                   alt={order.asset.imageUrl}
                   style={{ width: '100%' }}
                   src={order.asset.imageUrl}
-                />
-              </ImageContainer>
+                /> */}
               <AssetDetails>
                 <div>
                   <AssetCollection>
-                    <Text style={{ whiteSpace: 'nowrap' }} size='12px' color='grey600' weight={600}>
+                    <Text style={{ whiteSpace: 'nowrap' }} size='14px' color='grey800' weight={600}>
                       {order.asset.collection.name}
                     </Text>
                   </AssetCollection>
-                  <Text style={{ marginTop: '4px' }} size='12px' color='grey800' weight={600}>
+                  <Text style={{ marginTop: '4px' }} size='16px' color='black' weight={600}>
                     {order.asset.name}
                   </Text>
                 </div>
                 <PriceInfo>
-                  <Text size='12px' color='grey600' weight={600}>
+                  <Text size='12px' color='black' weight={600}>
                     <FormattedMessage id='copy.price' defaultMessage='Price' />
                   </Text>
-                  <Text style={{ marginTop: '4px' }} size='12px' color='grey800' weight={600}>
+                  <Text color='black' style={{ display: 'flex', marginTop: '4px' }}>
                     <StyledCoinDisplay
-                      size='12px'
-                      color='grey800'
+                      size='14px'
+                      color='black'
                       weight={600}
                       coin={order.paymentTokenContract.symbol}
                     >
                       {order.basePrice}
                     </StyledCoinDisplay>
+                    &nbsp;-&nbsp;
+                    <FiatDisplay
+                      size='12px'
+                      color='grey600'
+                      weight={600}
+                      coin={order.paymentTokenContract.symbol}
+                    >
+                      {order.basePrice}
+                    </FiatDisplay>
                   </Text>
-                  <FiatDisplay coin={order.paymentTokenContract.symbol}>
-                    {order.basePrice}
-                  </FiatDisplay>
                 </PriceInfo>
               </AssetDetails>
-              <Button
-                data-e2e='buyNft'
-                nature='primary'
-                onClick={() => nftsActions.createBuyOrder({ order })}
-              >
-                <FormattedMessage id='copy.buy' defaultMessage='Buy' />
-              </Button>
-              <Link href={order.asset.openseaLink} target='_blank'>
-                <Button data-e2e='buyNft' nature='primary'>
-                  View on Opensea
+              <CTAWrapper>
+                <Button
+                  data-e2e='buyNft'
+                  nature='primary'
+                  fullwidth
+                  onClick={() => nftsActions.createBuyOrder({ order })}
+                >
+                  <FormattedMessage id='copy.buy' defaultMessage='Buy' />
                 </Button>
-              </Link>
+                <Link size='11px' href={order.asset.openseaLink} target='_blank'>
+                  View on Opensea
+                </Link>
+              </CTAWrapper>
             </MarketplaceAsset>
           )
         })}

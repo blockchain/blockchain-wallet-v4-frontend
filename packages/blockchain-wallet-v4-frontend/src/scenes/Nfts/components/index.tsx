@@ -28,7 +28,7 @@ export const Asset = styled.div`
   flex-direction: column;
   border: ${(props) => `1px solid ${props.theme.grey100}`};
 `
-export const ImageContainer = styled.div`
+export const ImageContainer = styled.div<{ background?: string; backgroundColor?: string }>`
   align-items: center;
   display: flex;
   justify-content: center;
@@ -37,29 +37,21 @@ export const ImageContainer = styled.div`
   height: 285px;
   overflow: hidden;
   position: relative;
-`
-export const AssetImage = styled.img`
-  object-fit: contain;
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: 100%;
-  border-radius: 0px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+  background-image: ${(props) => props.background};
+  background-color: ${(props) => props.backgroundColor};
 `
 export const AssetDetails = styled.div`
-  display: flex;
-  justify-content: space-between;
   padding: 12px 8px;
   background: ${(props) => props.theme.white};
-  > div {
-    width: 50%;
-  }
 `
 export const AssetCollection = styled.div`
   overflow: hidden;
 `
 export const PriceInfo = styled.div`
-  text-align: right;
+  margin-top: 16px;
 `
 export const StyledCoinDisplay = styled(CoinDisplay)`
   justify-content: flex-end;
