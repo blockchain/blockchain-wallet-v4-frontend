@@ -655,6 +655,7 @@ export default ({ api, coreSagas, networks }) => {
   // triggers verification email for login
   const triggerWalletMagicLink = function* (action) {
     const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
+    const { product } = yield select(selectors.auth.getProductAuthMetadata)
     const { step } = formValues
     const shouldPollForMagicLinkData = (yield select(
       selectors.core.walletOptions.getPollForMagicLinkData
@@ -665,7 +666,7 @@ export default ({ api, coreSagas, networks }) => {
       const sessionToken = yield call(api.obtainSessionToken)
       const { captchaToken, email } = action.payload
       yield put(actions.session.saveSession(assoc(email, sessionToken, {})))
-      yield call(api.triggerWalletMagicLink, email, captchaToken, sessionToken)
+      yield call(api.triggerWalletMagicLink, sessionToken, email, captchaToken, product)
       if (step === LoginSteps.CHECK_EMAIL) {
         yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
       } else {
