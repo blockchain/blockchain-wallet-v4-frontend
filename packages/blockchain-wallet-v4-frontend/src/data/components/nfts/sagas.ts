@@ -80,7 +80,6 @@ export default ({ api }: { api: APIType }) => {
       // when there are no more unique token_ids, we are done
       const atBound = new_unique_token_ids.every((id) => token_ids_queried.includes(id))
       // update marketplace state
-      console.log(atBound)
       yield put(
         A.setMarketplaceData({
           atBound,
