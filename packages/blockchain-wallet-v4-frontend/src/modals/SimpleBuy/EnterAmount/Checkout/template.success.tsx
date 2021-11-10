@@ -5,7 +5,7 @@ import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import Currencies from '@core/exchange/currencies'
-import { coinToString, fiatToString } from '@core/exchange/utils'
+import { coinToString, fiatToString, formatFiat } from '@core/exchange/utils'
 import { CoinType, OrderType, SBPaymentMethodType, SBPaymentTypes } from '@core/types'
 import { Banner, Icon, Text } from 'blockchain-info-components'
 import { AmountTextBox } from 'components/Exchange'
@@ -13,10 +13,12 @@ import { FlyoutOopsError, FlyoutWrapper } from 'components/Flyout'
 import { getPeriodTitleText } from 'components/Flyout/model'
 import { Form } from 'components/Form'
 import { model } from 'data'
-import { convertStandardToBase } from 'data/components/exchange/services'
+import { convertBaseToStandard, convertStandardToBase } from 'data/components/exchange/services'
 import { SBCheckoutFormValuesType, SwapBaseCounterTypes } from 'data/types'
+import { getEffectiveLimit } from 'services/custodial'
 import { CRYPTO_DECIMALS, FIAT_DECIMALS, formatTextAmount } from 'services/forms'
 
+import { OverLimitButton } from '../../../components'
 import Scheduler from '../../../RecurringBuys/Scheduler'
 import { Row } from '../../../Swap/EnterAmount/Checkout'
 import CryptoItem from '../../CryptoSelection/CryptoSelector/CryptoItem'
@@ -25,15 +27,25 @@ import { Props as OwnProps, SuccessStateType } from '.'
 import ActionButton from './ActionButton'
 import IncreaseLimits from './IncreaseLimits'
 import Payment from './Payment'
-import { formatQuote, getMaxMin, getQuote, maximumAmount, minimumAmount } from './validation'
+import {
+  checkCrossBorderLimit,
+  formatQuote,
+  getMaxMin,
+  getQuote,
+  maximumAmount,
+  minimumAmount
+} from './validation'
 
 const { LIMIT, LIMIT_FACTOR } = model.components.simpleBuy
 
-const AmountRow = styled(Row)`
+const AmountRow = styled(Row)<{ isError: boolean }>`
   position: relative;
   padding: 24px;
   justify-content: center;
   border: 0;
+  > input {
+    color: ${(props) => (props.isError ? 'red400' : 'textBlack')};
+  }
 `
 const LiftedActions = styled.div`
   display: flex;
@@ -140,6 +152,7 @@ const isLimitError = (code: number | string): boolean => {
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const {
     cards,
+    crossBorderLimits,
     cryptoCurrency,
     defaultMethod,
     fiatCurrency,
@@ -149,14 +162,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const [fontRatio, setRatio] = useState(1)
   const setOrderFrequncy = useCallback(() => {
     props.buySellActions.setStep({ step: 'FREQUENCY' })
-  }, [])
+  }, [props.buySellActions])
 
   const errorCallback = useCallback(() => {
     props.buySellActions.setStep({
       fiatCurrency: props.fiatCurrency || 'USD',
       step: 'CRYPTO_SELECTION'
     })
-  }, [props.fiatCurrency])
+  }, [props.fiatCurrency, props.buySellActions])
 
   const isSddBuy = props.isSddFlow && props.orderType === 'BUY'
 
@@ -236,12 +249,15 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     Number(min),
     Number(max)
   )
+
   const errorMinMax = props.formValues?.amount
     ? getAmountLimitsError(Number(props.formValues?.amount), Number(min), Number(max))
     : null
 
   const amtError =
     (typeof props.formErrors.amount === 'string' && props.formErrors.amount) || errorMinMax
+
+  const showError = !props.isPristine && amtError
 
   const handleMinMaxClick = () => {
     const prop = amtError === 'BELOW_MIN' ? 'min' : 'max'
@@ -333,6 +349,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           value
         })
 
+  const effectiveLimit = getEffectiveLimit(crossBorderLimits)
+
+  const showLimitErrorForSell =
+    showError && amtError === 'ABOVE_MAX_LIMIT' && props.orderType === OrderType.SELL
+
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper style={{ borderBottom: 'grey000', paddingBottom: '0px' }}>
@@ -376,9 +397,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
         }}
       >
         <LiftedActions>
-          <AmountRow id='amount-row'>
+          <AmountRow id='amount-row' isError={!!showError}>
             {fix === 'FIAT' && (
-              <Text size='56px' color='textBlack' weight={500}>
+              <Text size='56px' color={showError ? 'red400' : 'textBlack'} weight={500}>
                 {Currencies[fiatCurrency].units[fiatCurrency].symbol}
               </Text>
             )}
@@ -386,7 +407,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               data-e2e='sbAmountInput'
               name='amount'
               component={AmountTextBox}
-              validate={[maximumAmount, minimumAmount]}
+              validate={[maximumAmount, minimumAmount, checkCrossBorderLimit]}
               normalize={normalizeAmount}
               // eslint-disable-next-line
               onUpdate={resizeSymbol.bind(null, fix === 'FIAT')}
@@ -394,13 +415,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               placeholder='0'
               // leave fiatActive always to avoid 50% width in HOC?
               fiatActive
+              haveError={!!showError}
               {...{
                 autoFocus: true,
                 hideError: true
               }}
             />
             {fix === 'CRYPTO' && (
-              <Text size='56px' color='textBlack' weight={500}>
+              <Text size='56px' color={showError ? 'red400' : 'textBlack'} weight={500}>
                 {cryptoCurrency}
               </Text>
             )}
@@ -422,7 +444,12 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             ) : (
               <QuoteRow>
                 <div />
-                <Text color='grey600' size='14px' weight={500} data-e2e='sbQuoteAmount'>
+                <Text
+                  color={showError ? 'red400' : 'grey600'}
+                  size='14px'
+                  weight={500}
+                  data-e2e='sbQuoteAmount'
+                >
                   {formatQuote(quoteAmt, props.pair.pair, fix)}
                 </Text>
                 <Icon
@@ -569,12 +596,31 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               )}
             </Banner>
           )}
-          <ActionButton
-            {...props}
-            isSufficientEthForErc20={isSufficientEthForErc20 || false}
-            isDailyLimitExceeded={isDailyLimitExceeded || false}
-            isAmountInBounds={amountInBounds}
-          />
+          {!showLimitErrorForSell && (
+            <ActionButton
+              {...props}
+              isSufficientEthForErc20={isSufficientEthForErc20 || false}
+              isDailyLimitExceeded={isDailyLimitExceeded || false}
+              isAmountInBounds={amountInBounds}
+            />
+          )}
+
+          {showLimitErrorForSell && effectiveLimit && (
+            <>
+              <OverLimitButton coin={cryptoCurrency} />
+              <FormattedMessage
+                id='modals.simplebuy.checkout.sellmaxamount'
+                defaultMessage='The maximum amount of {coin} you can sell from this account is {amount}'
+                values={{
+                  amount: formatFiat(convertBaseToStandard('FIAT', effectiveLimit.limit.value), 0),
+                  coin: cryptoCurrency,
+                  symbol:
+                    Currencies[effectiveLimit.limit.currency].units[effectiveLimit.limit.currency]
+                      .symbol
+                }}
+              />
+            </>
+          )}
 
           {isDailyLimitExceeded && (
             <Amounts>

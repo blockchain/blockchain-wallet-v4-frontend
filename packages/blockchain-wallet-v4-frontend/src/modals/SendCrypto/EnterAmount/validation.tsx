@@ -1,4 +1,5 @@
 import { convertCoinToCoin, convertCoinToFiat, convertFiatToCoin } from '@core/exchange'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 
 import { SendFormType } from '../types'
 import { Props } from '.'
@@ -58,17 +59,20 @@ export const validate = (formValues: SendFormType, props: Props) => {
   let isAboveMax = maximumAmount(cryptoBaseAmt, selectedAccount.balance, feeBaseAmt)
 
   // do this only for seamless limits and if amount is below current balance
-  if (sendLimits?.globalLimit?.available && !isAboveMax) {
-    const { value: limitAmount } = sendLimits.globalLimit.available
+  if (sendLimits?.current?.available && !isAboveMax) {
+    const { value: limitAmount } = sendLimits.current.available
+
+    const limitAmountInBase = convertBaseToStandard('FIAT', limitAmount)
+
     const maxLimit =
       fix === 'FIAT'
-        ? limitAmount
+        ? limitAmountInBase
         : convertFiatToCoin({
             coin,
             currency,
             maxPrecision: 8,
             rates,
-            value: limitAmount
+            value: limitAmountInBase
           })
     const maxLimitFee =
       fix === 'FIAT'

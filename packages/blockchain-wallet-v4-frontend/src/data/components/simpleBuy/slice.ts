@@ -4,6 +4,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Remote } from '@core'
 import {
   CoinType,
+  CrossBorderLimitsPyload,
   Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
@@ -32,6 +33,7 @@ import {
   SBCardStateEnum,
   SBFixType,
   SBShowModalOriginType,
+  SeamlessLimits,
   StepActionsPayload,
   SwapAccountType
 } from 'data/types'
@@ -46,6 +48,7 @@ const initialState: SimpleBuyState = {
   card: Remote.NotAsked,
   cardId: undefined,
   cards: Remote.NotAsked,
+  crossBorderLimits: Remote.NotAsked,
   cryptoCurrency: undefined,
   displayBack: false,
   everypay3DS: Remote.NotAsked,
@@ -213,6 +216,18 @@ const buySellSlice = createSlice({
         action.payload.filter((card) => card.state !== SBCardStateEnum.BLOCKED)
       )
     },
+
+    fetchCrossBorderLimits: (state, action: PayloadAction<CrossBorderLimitsPyload>) => {},
+    fetchCrossBorderLimitsFailure: (state, action: PayloadAction<string>) => {
+      state.crossBorderLimits = Remote.Failure(action.payload)
+    },
+    fetchCrossBorderLimitsLoading: (state) => {
+      state.crossBorderLimits = Remote.Loading
+    },
+    fetchCrossBorderLimitsSuccess: (state, action: PayloadAction<SeamlessLimits>) => {
+      state.crossBorderLimits = Remote.Success(action.payload)
+    },
+
     fetchFiatEligible: (state, action: PayloadAction<FiatType>) => {},
     fetchFiatEligibleFailure: (state, action: PayloadAction<string>) => {
       state.fiatEligible = Remote.Failure(action.payload)

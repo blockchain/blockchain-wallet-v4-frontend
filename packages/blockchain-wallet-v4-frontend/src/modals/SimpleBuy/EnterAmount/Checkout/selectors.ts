@@ -3,6 +3,7 @@ import { lift } from 'ramda'
 import { ExtractSuccess, SBPaymentTypes } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
+import { SeamlessLimits } from 'data/types'
 
 import { OwnProps } from '.'
 
@@ -28,9 +29,13 @@ const getData = (state: RootState, ownProps: OwnProps) => {
     .getOrElse([])
   const limitsR = selectors.components.simpleBuy.getLimits(state)
   const hasFiatBalance = selectors.components.simpleBuy.hasFiatBalances(state)
+
   const isRecurringBuy = selectors.core.walletOptions
     .getFeatureFlagRecurringBuys(state)
     .getOrElse(false) as boolean
+  const crossBorderLimits = selectors.components.simpleBuy
+    .getCrossBorderLimits(state)
+    .getOrElse({} as SeamlessLimits)
 
   return lift(
     (
@@ -45,6 +50,7 @@ const getData = (state: RootState, ownProps: OwnProps) => {
     ) => ({
       bankTransferAccounts,
       cards,
+      crossBorderLimits,
       formErrors,
       hasFiatBalance,
       hasPaymentAccount: hasFiatBalance || cards.length > 0 || bankTransferAccounts.length > 0,

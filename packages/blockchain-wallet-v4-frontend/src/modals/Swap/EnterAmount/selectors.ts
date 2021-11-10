@@ -5,7 +5,7 @@ import { selectors } from 'data'
 import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
 import { getCoinAccounts } from 'data/coins/selectors'
 import { RootState } from 'data/rootReducer'
-import { InitSwapFormValuesType, SwapAmountFormValues } from 'data/types'
+import { InitSwapFormValuesType, SeamlessLimits, SwapAmountFormValues } from 'data/types'
 
 const getData = (state: RootState) => {
   const formErrors = selectors.form.getFormSyncErrors('swapAmount')(state)
@@ -24,6 +24,9 @@ const getData = (state: RootState) => {
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
   const coins = selectors.components.swap.getCoins()
   const accounts = getCoinAccounts(state, { coins, ...SWAP_ACCOUNTS_SELECTOR })
+  const crossBorderLimits = selectors.components.swap
+    .getCrossBorderLimits(state)
+    .getOrElse({} as SeamlessLimits)
   return lift(
     (
       incomingAmount: ExtractSuccess<typeof incomingAmountR>,
@@ -34,6 +37,7 @@ const getData = (state: RootState) => {
     ) => ({
       accounts,
       baseRates,
+      crossBorderLimits,
       formErrors,
       formValues,
       incomingAmount,

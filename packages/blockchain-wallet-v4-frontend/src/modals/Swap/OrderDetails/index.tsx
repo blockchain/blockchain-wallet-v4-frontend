@@ -75,7 +75,7 @@ class OrderDetails extends PureComponent<InjectedFormProps<{}, Props> & Props> {
             <Form
               onSubmit={(e: any) => {
                 e.preventDefault()
-                this.props.swapActions.cancelOrder(order!.id)
+                this.props.swapActions.cancelOrder({ id: order?.id ?? null })
               }}
             >
               <Button

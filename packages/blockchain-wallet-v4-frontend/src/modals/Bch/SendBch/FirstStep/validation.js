@@ -4,6 +4,7 @@ import { isEmpty, prop } from 'ramda'
 import { Exchange } from '@core'
 import Currencies from '@core/exchange/currencies'
 import { formatFiat } from '@core/exchange/utils'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 
 import { OverYourLimitMessage } from '../../../components'
 import {
@@ -62,9 +63,11 @@ export const isSendLimitOver = (value, allValues, props) => {
 
   const { currency, value: availableAmount } = sendLimits?.current?.available
 
-  return fiatValue > Number(availableAmount) ? (
+  const availableAmountInBase = convertBaseToStandard('FIAT', availableAmount)
+
+  return fiatValue > Number(availableAmountInBase) ? (
     <OverYourLimitMessage
-      amount={formatFiat(availableAmount)}
+      amount={formatFiat(availableAmountInBase)}
       currency={Currencies[currency].units[currency].symbol}
     />
   ) : undefined
