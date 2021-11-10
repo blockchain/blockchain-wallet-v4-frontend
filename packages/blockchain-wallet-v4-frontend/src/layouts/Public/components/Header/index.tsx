@@ -56,10 +56,6 @@ const Header = ({ loginStep, productAuthMetadata }: Props) => {
     (loginStep === LoginSteps.ENTER_PASSWORD_EXCHANGE ||
       productAuthMetadata?.product === ProductAuthOptions.EXCHANGE) &&
     loginStep !== LoginSteps.ENTER_PASSWORD_WALLET
-  const showWalletHeader =
-    (loginStep === LoginSteps.ENTER_PASSWORD_WALLET ||
-      productAuthMetadata?.product === ProductAuthOptions.WALLET) &&
-    loginStep !== LoginSteps.ENTER_PASSWORD_EXCHANGE
 
   return (
     <>
@@ -72,11 +68,6 @@ const Header = ({ loginStep, productAuthMetadata }: Props) => {
                 <ExchangeHeader>
                   <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
                 </ExchangeHeader>
-              )}
-              {showWalletHeader && (
-                <WalletHeader>
-                  <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
-                </WalletHeader>
               )}
             </HeaderLink>
           </PublicBrand>
