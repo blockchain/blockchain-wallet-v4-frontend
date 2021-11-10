@@ -1,7 +1,7 @@
 import { AssetEventsType, NftAssetsType, NftOrdersType } from './types'
 
 // const JAYZ_ADDRESS = '0x3b417faee9d2ff636701100891dc2755b5321cc3'
-export const NFT_ORDER_PAGE_LIMIT = 30
+export const NFT_ORDER_PAGE_LIMIT = 10
 
 export default ({ get, post }) => {
   const postNftOrder = (order) => {
@@ -26,7 +26,7 @@ export default ({ get, post }) => {
   const getNftAssets = (
     owner: string,
     offset = 0,
-    limit = 10,
+    limit = NFT_ORDER_PAGE_LIMIT,
     order_direction: 'asc' | 'desc' = 'asc'
   ): NftAssetsType => {
     return get({
@@ -49,6 +49,9 @@ export default ({ get, post }) => {
       endPoint: `/events?collection_slug=${slug}&event_type=created&format=json&limit=${NFT_ORDER_PAGE_LIMIT}&offset=${
         NFT_ORDER_PAGE_LIMIT * page
       }`,
+      headers: {
+        'X-API-KEY': 'd0b6281e87d84702b020419fdf58ea81'
+      },
       ignoreQueryParams: true,
       url: 'https://api.opensea.io/api/v1'
     })

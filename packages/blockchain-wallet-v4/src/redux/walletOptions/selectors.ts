@@ -37,6 +37,15 @@ export const getNfts = (state) => getOptions(state).map((x) => x.platforms.web.n
 // FEATURE FLAG SELECTORS
 //
 
+// all flags
+export const getFeatureFlags = (
+  state: RootState
+): RemoteDataType<string, { [key in string]: boolean }> =>
+  getWebOptions(state).map(path(['featureFlags'])) as RemoteDataType<
+    string,
+    { [key in string]: boolean }
+  >
+
 // show pairing code flag on staging
 export const getPairingCodeFlag = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'developerMobilePairing']))

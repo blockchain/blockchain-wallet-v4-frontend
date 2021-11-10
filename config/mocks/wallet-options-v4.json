@@ -64,6 +64,7 @@
         }
       ],
       "featureFlags": {
+        "nfts": true,
         "cEURRewards": true,
         "eddInterestFileUpload": true,
         "developerMobilePairing": true,

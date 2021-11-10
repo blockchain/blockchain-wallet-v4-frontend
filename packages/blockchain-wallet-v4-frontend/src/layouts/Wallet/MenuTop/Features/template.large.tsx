@@ -80,19 +80,21 @@ const FeaturesLarge = (props: Props & { showModal: (modal: 'SEND' | 'REQUEST') =
         </NavbarNavItem>
       </LinkContainer>
       <NavbarDivider />
-      <LinkContainer to='/nfts' activeClassName='active'>
-        <NavbarNavItem>
-          <NavbarNavItemButton data-e2e='nftsLink'>
-            <Image name='nft' height='50%' style={{ marginRight: '4px' }} />
-            <NavbarNavItemTextHeader size='14px' weight={600}>
-              <FormattedMessage
-                id='layouts.wallet.menuleft.navigation.nfts'
-                defaultMessage='NFTs'
-              />
-            </NavbarNavItemTextHeader>
-          </NavbarNavItemButton>
-        </NavbarNavItem>
-      </LinkContainer>
+      {props.featureFlags.nfts ? (
+        <LinkContainer to='/nfts' activeClassName='active'>
+          <NavbarNavItem>
+            <NavbarNavItemButton data-e2e='nftsLink'>
+              <Image name='nft' height='50%' style={{ marginRight: '4px' }} />
+              <NavbarNavItemTextHeader size='14px' weight={600}>
+                <FormattedMessage
+                  id='layouts.wallet.menuleft.navigation.nfts'
+                  defaultMessage='NFTs'
+                />
+              </NavbarNavItemTextHeader>
+            </NavbarNavItemButton>
+          </NavbarNavItem>
+        </LinkContainer>
+      ) : null}
     </>
   )
 }

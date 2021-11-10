@@ -12,7 +12,14 @@ import {
 import { NftOrderStepEnum, NftsStateType } from './types'
 
 const initialState: NftsStateType = {
-  assets: Remote.NotAsked,
+  assets: {
+    atBound: false,
+    collection: 'all',
+    isFailure: false,
+    isLoading: true,
+    list: [],
+    page: 0
+  },
   marketplace: { page: 0, token_ids_queried: [] },
   orderFlow: { activeOrder: null, asset: Remote.NotAsked, step: NftOrderStepEnum.SHOW_ASSET },
   orders: { isFailure: false, isLoading: true, list: [] }
@@ -27,13 +34,15 @@ const nftsSlice = createSlice({
     createSellOrder: (state, action: PayloadAction<{ asset: NftAssetsType['assets'][0] }>) => {},
     fetchNftAssets: () => {},
     fetchNftAssetsFailure: (state, action: PayloadAction<string>) => {
-      state.assets = Remote.Failure(action.payload)
+      state.assets.isFailure = true
     },
     fetchNftAssetsLoading: (state) => {
-      state.assets = Remote.Loading
+      state.assets.isLoading = true
     },
     fetchNftAssetsSuccess: (state, action: PayloadAction<NftAssetsType['assets']>) => {
-      state.assets = Remote.Success(action.payload)
+      state.assets.isFailure = false
+      state.assets.isLoading = false
+      state.assets.list = [...state.assets.list, ...action.payload]
     },
     fetchNftOrderAsset: () => {},
     fetchNftOrderAssetFailure: (state, action: PayloadAction<string>) => {
@@ -72,6 +81,13 @@ const nftsSlice = createSlice({
       state.orders.isLoading = true
       state.orders.list = []
     },
+    setAssetBounds: (state, action: PayloadAction<{ atBound: boolean }>) => {
+      state.assets.atBound = action.payload.atBound
+    },
+    setAssetData: (state, action: PayloadAction<{ collection?: string; page?: number }>) => {
+      state.assets.collection = action.payload.collection || 'all'
+      state.assets.page = action.payload.page || 0
+    },
     setMarketplaceBounds: (state, action: PayloadAction<{ atBound: boolean }>) => {
       state.marketplace.atBound = action.payload.atBound
     },
@@ -84,7 +100,7 @@ const nftsSlice = createSlice({
         token_ids_queried?: string[]
       }>
     ) => {
-      if (action.payload.page) state.marketplace.page = action.payload.page
+      state.marketplace.page = action.payload.page || 0
       if (action.payload.atBound) state.marketplace.atBound = action.payload.atBound
       if (action.payload.collection) state.marketplace.collection = action.payload.collection
       if (action.payload.token_ids_queried)

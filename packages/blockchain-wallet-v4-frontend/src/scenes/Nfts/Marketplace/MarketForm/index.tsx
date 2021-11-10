@@ -10,28 +10,7 @@ import { Form } from 'components/Form'
 import { media } from 'services/styles'
 
 import { Props as OwnProps } from '../..'
-
-const Wrapper = styled.div`
-  position: sticky;
-  height: 100%;
-  top: 48px;
-  overflow: scroll;
-  background: ${(props) => props.theme.white};
-  z-index: 20;
-  ${media.atLeastTabletL`
-    top: 61px;
-    margin-right: 20px;
-    max-width: 300px;
-    width: 25%;
-  `} > form {
-    ${media.tabletL`
-      display: flex;
-      > div {
-        flex: 1;
-      }
-    `}
-  }
-`
+import { InfoStatsWrapper, LeftColWrapper } from '../../components'
 
 const FormWrapper = styled.div`
   gap: 8px;
@@ -40,13 +19,6 @@ const FormWrapper = styled.div`
   ${media.tabletL`
     max-height: 170px;
   `}
-`
-
-const Collection = styled.div`
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid ${(props) => props.theme.grey100};
-  margin-bottom: 16px;
 `
 
 const CollectionField = styled.div`
@@ -82,9 +54,9 @@ const CollectionLabel = styled.label`
 
 const MarketForm: React.FC<Props> = (props: Props) => {
   return (
-    <Wrapper>
+    <LeftColWrapper>
       <Form>
-        <Collection>
+        <InfoStatsWrapper>
           <Text color='grey400' weight={600} size='18px'>
             {props.marketplace.collection?.name}
           </Text>
@@ -137,7 +109,7 @@ const MarketForm: React.FC<Props> = (props: Props) => {
               value: props.marketplace.collection?.collection_data?.stats?.floor_price || 0
             })}
           </CoinDisplay>
-        </Collection>
+        </InfoStatsWrapper>
         <FormWrapper>
           {props.collections.map((collection) => (
             <CollectionField
@@ -170,13 +142,14 @@ const MarketForm: React.FC<Props> = (props: Props) => {
           ))}
         </FormWrapper>
       </Form>
-    </Wrapper>
+    </LeftColWrapper>
   )
 }
 
 type Props = OwnProps
 
 export default reduxForm<{}, OwnProps>({
+  destroyOnUnmount: false,
   form: 'nftMarketplace',
   initialValues: { collection: 'doodles-official' }
 })(MarketForm)
