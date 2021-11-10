@@ -6,7 +6,8 @@ import {
   CollectionData,
   NftAsset,
   NftAssetsType,
-  NftOrdersType
+  NftOrdersType,
+  SellOrder
 } from '@core/network/api/nfts/types'
 
 import { NftOrderStepEnum, NftsStateType } from './types'
@@ -20,6 +21,7 @@ const initialState: NftsStateType = {
     list: [],
     page: 0
   },
+  cancelListing: Remote.NotAsked,
   marketplace: { page: 0, token_ids_queried: [] },
   orderFlow: { activeOrder: null, asset: Remote.NotAsked, step: NftOrderStepEnum.SHOW_ASSET },
   orders: { isFailure: false, isLoading: true, list: [] }
@@ -29,7 +31,16 @@ const nftsSlice = createSlice({
   initialState,
   name: 'nfts',
   reducers: {
-    cancelListings: (state, action: PayloadAction<{ asset: NftAssetsType['assets'][0] }>) => {},
+    cancelListing: (state, action: PayloadAction<{ sell_order: SellOrder }>) => {},
+    cancelListingFailure: (state, action: PayloadAction<{ error: string }>) => {
+      state.cancelListing = Remote.Success(action.payload.error)
+    },
+    cancelListingLoading: (state) => {
+      state.cancelListing = Remote.Loading
+    },
+    cancelListingSuccess: (state) => {
+      state.cancelListing = Remote.Success(true)
+    },
     createBuyOrder: (state, action: PayloadAction<{ order: NftOrdersType['orders'][0] }>) => {},
     createSellOrder: (state, action: PayloadAction<{ asset: NftAssetsType['assets'][0] }>) => {},
     fetchNftAssets: () => {},

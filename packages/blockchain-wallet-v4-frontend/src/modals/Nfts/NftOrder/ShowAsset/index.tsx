@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
+import { Remote } from '@core'
 import { displayCoinToCoin } from '@core/exchange'
 import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { BlueCartridge } from 'components/Cartridge'
@@ -11,7 +12,7 @@ import { Row, Title, Value } from 'components/Flyout/model'
 import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'
 import { Props as OwnProps } from '..'
 
-const ShowAsset: React.FC<Props> = ({ close, orderFlow }) => {
+const ShowAsset: React.FC<Props> = ({ cancelListing, close, nftActions, orderFlow }) => {
   // activeOrder ? User wants to buy : User wants to sell
   const { activeOrder } = orderFlow
   return (
@@ -119,7 +120,14 @@ const ShowAsset: React.FC<Props> = ({ close, orderFlow }) => {
               val.sell_orders?.length ? (
                 <>
                   <Title>
-                    <FormattedMessage id='copy.active_listings' defaultMessage='Active Listings' />:
+                    {Remote.Loading.is(cancelListing) ? (
+                      <SpinningLoader width='11px' height='11px' borderWidth='3px' />
+                    ) : (
+                      <FormattedMessage
+                        id='copy.active_listings:'
+                        defaultMessage='Active Listings:'
+                      />
+                    )}
                   </Title>
                   <br />
                   {val.sell_orders.map((sell_order) => {
@@ -127,6 +135,8 @@ const ShowAsset: React.FC<Props> = ({ close, orderFlow }) => {
                       <Button
                         style={{ marginBottom: '8px' }}
                         key={sell_order.order_hash}
+                        disabled={Remote.Loading.is(cancelListing)}
+                        onClick={() => nftActions.cancelListing({ sell_order })}
                         nature='primary'
                         data-e2e='cancelListingNft'
                       >

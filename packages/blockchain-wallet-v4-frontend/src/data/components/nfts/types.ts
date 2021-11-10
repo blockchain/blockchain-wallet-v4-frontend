@@ -20,6 +20,7 @@ export type NftsStateType = {
     list: NftAssetsType['assets']
     page: number
   }
+  cancelListing: RemoteDataType<string, boolean>
   marketplace: {
     atBound?: boolean
     collection?: CollectionData

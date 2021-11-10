@@ -71,6 +71,7 @@ class NftOrder extends PureComponent<Props, State> {
 }
 
 const mapStateToProps = (state) => ({
+  cancelListing: selectors.components.nfts.getCancelListing(state),
   orderFlow: selectors.components.nfts.getOrderFlow(state)
 })
 

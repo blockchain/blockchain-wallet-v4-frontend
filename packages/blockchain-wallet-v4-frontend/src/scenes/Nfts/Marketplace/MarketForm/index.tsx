@@ -14,7 +14,7 @@ import { InfoStatsWrapper, LeftColWrapper } from '../../components'
 
 const FormWrapper = styled.div`
   gap: 8px;
-  max-height: 322px;
+  max-height: 500px;
   overflow: scroll;
   ${media.tabletL`
     max-height: 170px;

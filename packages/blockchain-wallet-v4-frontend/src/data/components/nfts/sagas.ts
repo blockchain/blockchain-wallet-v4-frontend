@@ -4,7 +4,7 @@ import { call, put, select } from 'redux-saga/effects'
 import { APIType } from '@core/network/api'
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
 import { CollectionData } from '@core/network/api/nfts/types'
-import { cancelNftListings, fulfillNftOrder, fulfillNftSellOrder } from '@core/redux/payment/nfts'
+import { cancelNftListing, fulfillNftOrder, fulfillNftSellOrder } from '@core/redux/payment/nfts'
 import { errorHandler } from '@core/utils'
 import { getPrivateKey } from '@core/utils/eth'
 import { actions, selectors } from 'data'
@@ -122,12 +122,17 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const cancelListings = function* (action: ReturnType<typeof A.cancelListings>) {
+  const cancelListing = function* (action: ReturnType<typeof A.cancelListing>) {
     try {
       const signer = yield call(getEthSigner)
-      yield call(cancelNftListings, action.payload.asset, signer)
+      yield put(A.cancelListingLoading())
+      yield call(cancelNftListing, action.payload.sell_order, signer)
+      yield put(A.cancelListingSuccess())
+      yield put(actions.alerts.displaySuccess(`Successfully cancelled listing!`))
     } catch (e) {
-      console.log(e)
+      const error = errorHandler(e)
+      yield put(actions.alerts.displayError(error))
+      yield put(A.cancelListingFailure({ error }))
     }
   }
 
@@ -230,7 +235,7 @@ export default ({ api }: { api: APIType }) => {
   }
 
   return {
-    cancelListings,
+    cancelListing,
     createBuyOrder,
     createSellOrder,
     fetchNftAssets,

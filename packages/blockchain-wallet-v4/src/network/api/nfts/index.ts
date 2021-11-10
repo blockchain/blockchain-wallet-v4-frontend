@@ -1,6 +1,6 @@
 import { AssetEventsType, NftAssetsType, NftOrdersType } from './types'
 
-const JAYZ_ADDRESS = '0x3b417faee9d2ff636701100891dc2755b5321cc3'
+// const JAYZ_ADDRESS = '0x3b417faee9d2ff636701100891dc2755b5321cc3'
 export const NFT_ORDER_PAGE_LIMIT = 10
 
 export default ({ get, post }) => {
@@ -24,13 +24,13 @@ export default ({ get, post }) => {
   }
 
   const getNftAssets = (
-    owner: string = JAYZ_ADDRESS,
+    owner: string /* = JAYZ_ADDRESS */,
     offset = 0,
     limit = NFT_ORDER_PAGE_LIMIT,
     order_direction: 'asc' | 'desc' = 'asc'
   ): NftAssetsType => {
     return get({
-      endPoint: `?owner=${JAYZ_ADDRESS}&order_direction=${order_direction}&offset=${
+      endPoint: `?owner=${owner}&order_direction=${order_direction}&offset=${
         offset * NFT_ORDER_PAGE_LIMIT
       }&limit=${limit}`,
       ignoreQueryParams: true,
