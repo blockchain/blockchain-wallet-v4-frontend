@@ -34,9 +34,9 @@ export default ({ api }: { api: APIType }) => {
       )
 
       if (nfts.assets.length < NFT_ORDER_PAGE_LIMIT) {
-        yield put(A.setAssetsState({ atBound: true }))
+        yield put(A.setAssetBounds({ atBound: true }))
       } else {
-        yield put(A.setAssetsState({ atBound: false, page: assets.page + 1 }))
+        yield put(A.setAssetData({ page: assets.page + 1 }))
       }
 
       yield put(A.fetchNftAssetsSuccess(nfts.assets))
@@ -80,6 +80,7 @@ export default ({ api }: { api: APIType }) => {
       // when there are no more unique token_ids, we are done
       const atBound = new_unique_token_ids.every((id) => token_ids_queried.includes(id))
       // update marketplace state
+      console.log(atBound)
       yield put(
         A.setMarketplaceData({
           atBound,
@@ -189,7 +190,7 @@ export default ({ api }: { api: APIType }) => {
     }
     if (action.meta.form === 'nftCollection') {
       if (action.meta.field === 'collection') {
-        yield put(A.setAssetsState({ atBound: false, page: 0 }))
+        yield put(A.setAssetData({ collection: action.payload }))
       }
     }
   }

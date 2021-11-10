@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { NftAsset } from '@core/network/api/nfts/types'
-import { Text } from 'blockchain-info-components'
+import { SpinningLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay/'
 import { Form } from 'components/Form'
@@ -66,6 +66,8 @@ const NftCollectionForm: React.FC<Props> = (props: Props) => {
     return acc + Number(asset.last_sale.total_price)
   }, 0)
 
+  console.log(props.assets)
+
   return (
     <LeftColWrapper>
       <Form>
@@ -76,38 +78,68 @@ const NftCollectionForm: React.FC<Props> = (props: Props) => {
           <Text style={{ marginTop: '8px' }} color='black' weight={600} size='14px'>
             <FormattedMessage id='copy.balance' defaultMessage='Balance' />
           </Text>
-          <Text color='black' style={{ display: 'flex', marginTop: '4px' }}>
-            <CoinDisplay
-              coin='ETH'
-              weight={600}
-              size='16px'
-              color='black'
-              style={{ marginTop: '1px' }}
-            >
-              {balance}
-            </CoinDisplay>
-            &nbsp;-&nbsp;
-            <FiatDisplay
-              coin='ETH'
-              weight={600}
-              size='12px'
-              color='grey600'
-              style={{ marginTop: '1px' }}
-            >
-              {balance}
-            </FiatDisplay>
-          </Text>
+          {props.assets.isLoading ? (
+            <div style={{ marginTop: '4px' }}>
+              <SpinningLoader width='14px' height='14px' borderWidth='3px' />
+            </div>
+          ) : (
+            <Text color='black' style={{ display: 'flex', marginTop: '4px' }}>
+              <CoinDisplay
+                coin='ETH'
+                weight={600}
+                size='16px'
+                color='black'
+                style={{ marginTop: '1px' }}
+              >
+                {balance}
+              </CoinDisplay>
+              &nbsp;-&nbsp;
+              <FiatDisplay
+                coin='ETH'
+                weight={600}
+                size='12px'
+                color='grey600'
+                style={{ marginTop: '1px' }}
+              >
+                {balance}
+              </FiatDisplay>
+            </Text>
+          )}
         </InfoStatsWrapper>
         <FormWrapper>
+          <CollectionField
+            key='all'
+            // @ts-ignore
+            className={props.assets.collection === 'all' ? 'active' : ''}
+          >
+            <Field
+              component='input'
+              type='radio'
+              id='all'
+              name='collection'
+              value='all'
+              onChange={() => props.formActions.change('nftCollection', 'collection', 'all')}
+            />
+            <CollectionLabel htmlFor='all'>
+              <Text
+                cursor='pointer'
+                style={{ marginLeft: '4px;', marginTop: '2px' }}
+                color='black'
+                weight={600}
+              >
+                <FormattedMessage id='copy.all' defaultMessage='All' />
+              </Text>
+            </CollectionLabel>
+          </CollectionField>
           {collections.map((collection) => (
             <CollectionField
               key={collection.slug}
               // @ts-ignore
-              className={props.formValues?.collection === collection.slug ? 'active' : ''}
+              className={props.assets.collection === collection.slug ? 'active' : ''}
             >
               <Field
                 component='input'
-                type='checkbox'
+                type='radio'
                 id={collection.slug}
                 name='collection'
                 value={collection.slug}

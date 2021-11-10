@@ -81,9 +81,12 @@ const nftsSlice = createSlice({
       state.orders.isLoading = true
       state.orders.list = []
     },
-    setAssetsState: (state, action: PayloadAction<{ atBound?: boolean; page?: number }>) => {
-      if (action.payload.atBound) state.assets.atBound = action.payload.atBound
-      if (action.payload.page) state.assets.page = action.payload.page
+    setAssetBounds: (state, action: PayloadAction<{ atBound: boolean }>) => {
+      state.assets.atBound = action.payload.atBound
+    },
+    setAssetData: (state, action: PayloadAction<{ collection?: string; page?: number }>) => {
+      state.assets.collection = action.payload.collection || 'all'
+      state.assets.page = action.payload.page || 0
     },
     setMarketplaceBounds: (state, action: PayloadAction<{ atBound: boolean }>) => {
       state.marketplace.atBound = action.payload.atBound
@@ -97,7 +100,7 @@ const nftsSlice = createSlice({
         token_ids_queried?: string[]
       }>
     ) => {
-      if (action.payload.page) state.marketplace.page = action.payload.page
+      state.marketplace.page = action.payload.page || 0
       if (action.payload.atBound) state.marketplace.atBound = action.payload.atBound
       if (action.payload.collection) state.marketplace.collection = action.payload.collection
       if (action.payload.token_ids_queried)

@@ -23,11 +23,16 @@ const YourCollection: React.FC<Props> = (props) => {
     props.nftsActions.fetchNftAssets()
   }, [])
 
+  const assets =
+    props.assets.collection === 'all'
+      ? props.assets.list
+      : props.assets.list.filter((asset) => asset.collection.slug === props.assets.collection)
+
   return (
     <NftPageWrapper>
       <CollectionForm {...props} />
       <LazyLoadWrapper onLazyLoad={() => /* TODO */ {}}>
-        {props.assets.list.map((asset) => {
+        {assets.map((asset) => {
           if (!asset) return null
           return (
             <Asset key={asset.token_id}>
@@ -105,7 +110,7 @@ const YourCollection: React.FC<Props> = (props) => {
         {props.assets.isLoading ? (
           <SpinningLoader width='14px' height='14px' borderWidth='3px' />
         ) : null}
-        {props.assets.atBound ? (
+        {props.assets.atBound && props.assets.collection === 'all' ? (
           <Text weight={600}>
             <span aria-label='cry' role='img'>
               😭
