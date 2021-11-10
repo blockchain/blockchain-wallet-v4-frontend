@@ -55,7 +55,7 @@ const CollectionLabel = styled.label`
 
 const NftCollectionForm: React.FC<Props> = (props: Props) => {
   const collections = props.assets.list.reduce((acc, asset) => {
-    if (acc[asset.collection.slug]) {
+    if (acc.find((collection) => collection.slug === asset.collection.slug)) {
       return acc
     }
     acc.push(asset.collection)
