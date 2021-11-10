@@ -12,7 +12,14 @@ import {
 import { NftOrderStepEnum, NftsStateType } from './types'
 
 const initialState: NftsStateType = {
-  assets: Remote.NotAsked,
+  assets: {
+    atBound: false,
+    collection: 'all',
+    isFailure: false,
+    isLoading: true,
+    list: [],
+    page: 0
+  },
   marketplace: { page: 0, token_ids_queried: [] },
   orderFlow: { activeOrder: null, asset: Remote.NotAsked, step: NftOrderStepEnum.SHOW_ASSET },
   orders: { isFailure: false, isLoading: true, list: [] }
@@ -27,13 +34,15 @@ const nftsSlice = createSlice({
     createSellOrder: (state, action: PayloadAction<{ asset: NftAssetsType['assets'][0] }>) => {},
     fetchNftAssets: () => {},
     fetchNftAssetsFailure: (state, action: PayloadAction<string>) => {
-      state.assets = Remote.Failure(action.payload)
+      state.assets.isFailure = true
     },
     fetchNftAssetsLoading: (state) => {
-      state.assets = Remote.Loading
+      state.assets.isLoading = true
     },
     fetchNftAssetsSuccess: (state, action: PayloadAction<NftAssetsType['assets']>) => {
-      state.assets = Remote.Success(action.payload)
+      state.assets.isFailure = false
+      state.assets.isLoading = false
+      state.assets.list = [...state.assets.list, ...action.payload]
     },
     fetchNftOrderAsset: () => {},
     fetchNftOrderAssetFailure: (state, action: PayloadAction<string>) => {
@@ -71,6 +80,10 @@ const nftsSlice = createSlice({
       state.orders.isFailure = false
       state.orders.isLoading = true
       state.orders.list = []
+    },
+    setAssetsState: (state, action: PayloadAction<{ atBound?: boolean; page?: number }>) => {
+      if (action.payload.atBound) state.assets.atBound = action.payload.atBound
+      if (action.payload.page) state.assets.page = action.payload.page
     },
     setMarketplaceBounds: (state, action: PayloadAction<{ atBound: boolean }>) => {
       state.marketplace.atBound = action.payload.atBound

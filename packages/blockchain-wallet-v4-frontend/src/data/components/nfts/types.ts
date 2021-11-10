@@ -12,7 +12,14 @@ export enum NftOrderStepEnum {
 }
 
 export type NftsStateType = {
-  assets: RemoteDataType<string, NftAssetsType['assets']>
+  assets: {
+    atBound: boolean
+    collection: string
+    isFailure: boolean
+    isLoading: boolean
+    list: NftAssetsType['assets']
+    page: number
+  }
   marketplace: {
     atBound?: boolean
     collection?: CollectionData

@@ -7,13 +7,15 @@ import { selectors } from 'data'
 export const getData = createSelector(
   [
     path<any>(['router', 'location', 'pathname']),
-    (state) => selectors.core.settings.getInvitations(state)
+    selectors.core.settings.getInvitations,
+    selectors.core.walletOptions.getFeatureFlags
   ],
-  (pathname: string, invitationsR) => {
+  (pathname: string, invitationsR, featureFlagsR) => {
     const params = pathname.split('/')
     const coin = toUpper(params[1])
     return {
       coin,
+      featureFlags: featureFlagsR.getOrElse({} as { [key in string]: boolean }),
       invitations: invitationsR.getOrElse(DEFAULT_INVITATIONS),
       lockboxDeviceId: params[3],
       lockboxPath: pathname.includes('lockbox'),

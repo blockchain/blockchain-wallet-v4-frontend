@@ -22,10 +22,22 @@ const taskToPromise = (t) => new Promise((resolve, reject) => t.fork(reject, res
 export default ({ api }: { api: APIType }) => {
   const fetchNftAssets = function* () {
     try {
+      const assets = S.getNftAssets(yield select())
+      if (assets.atBound) return
       yield put(A.fetchNftAssetsLoading())
       const ethAddrR = selectors.core.kvStore.eth.getDefaultAddress(yield select())
       const ethAddr = ethAddrR.getOrFail('No ETH address.')
-      const nfts: ReturnType<typeof api.getNftAssets> = yield call(api.getNftAssets, ethAddr)
+      const nfts: ReturnType<typeof api.getNftAssets> = yield call(
+        api.getNftAssets,
+        ethAddr,
+        assets.page
+      )
+
+      if (nfts.assets.length < NFT_ORDER_PAGE_LIMIT) {
+        yield put(A.setAssetsState({ atBound: true }))
+      } else {
+        yield put(A.setAssetsState({ atBound: false, page: assets.page + 1 }))
+      }
 
       yield put(A.fetchNftAssetsSuccess(nfts.assets))
     } catch (e) {
@@ -156,22 +168,28 @@ export default ({ api }: { api: APIType }) => {
   }
 
   const formChanged = function* (action) {
-    if (action.meta.form !== 'nftMarketplace') return
-    if (action.meta.field === 'collection') {
-      try {
-        yield put(A.resetNftOrders())
-        const res: CollectionData = yield call(api.getNftCollectionInfo, action.payload)
-        yield put(
-          A.setMarketplaceData({
-            atBound: false,
-            collection: res,
-            page: 1,
-            token_ids_queried: []
-          })
-        )
-        yield put(A.fetchNftOrders())
-      } catch (e) {
-        console.log(e)
+    if (action.meta.form === 'nftMarketplace') {
+      if (action.meta.field === 'collection') {
+        try {
+          yield put(A.resetNftOrders())
+          const res: CollectionData = yield call(api.getNftCollectionInfo, action.payload)
+          yield put(
+            A.setMarketplaceData({
+              atBound: false,
+              collection: res,
+              page: 1,
+              token_ids_queried: []
+            })
+          )
+          yield put(A.fetchNftOrders())
+        } catch (e) {
+          console.log(e)
+        }
+      }
+    }
+    if (action.meta.form === 'nftCollection') {
+      if (action.meta.field === 'collection') {
+        yield put(A.setAssetsState({ atBound: false, page: 0 }))
       }
     }
   }
