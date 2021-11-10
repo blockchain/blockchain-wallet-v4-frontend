@@ -6,7 +6,6 @@ import { Remote } from '@core'
 import { SBPaymentTypes } from '@core/network/api/simpleBuy/types'
 import {
   BeneficiaryType,
-  CrossBorderLimitsPyload,
   ExtractSuccess,
   SBPaymentMethodType,
   WalletAcountEnum,
@@ -105,7 +104,7 @@ const EnterAmountContainer = (props: Props) => {
     Loading: () => <Loading />,
     NotAsked: () => <Loading />,
     Success: (val) => {
-      const { crossBorderLimits } = val
+      const { crossBorderLimits, formErrors } = val
       const bankTransferMethod = val.paymentMethods.methods.find((method) => {
         return method.type === SBPaymentTypes.BANK_TRANSFER
       })
@@ -132,8 +131,6 @@ const EnterAmountContainer = (props: Props) => {
         selectedPaymentMethod = bankAccountMethod
       }
 
-      // console.log('formErrorsBrokerage', val.formErrorsBrokerage)
-
       return (
         <EnterAmount
           onSubmit={handleSubmit}
@@ -148,6 +145,7 @@ const EnterAmountContainer = (props: Props) => {
           withdrawableBalance={val.withdrawableBalance}
           minWithdrawAmount={val.minAmount.minorValue}
           crossBorderLimits={crossBorderLimits}
+          formErrors={formErrors}
         />
       )
     }

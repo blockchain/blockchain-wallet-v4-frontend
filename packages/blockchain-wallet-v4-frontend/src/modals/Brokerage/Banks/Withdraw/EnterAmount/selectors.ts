@@ -31,7 +31,6 @@ const getData = (state: RootState, ownProps: OwnProps) => {
   }
   const paymentMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(state)
 
-  const formErrors = selectors.form.getFormSyncErrors('custodyWithdrawForm')(state)
   const userDataR = selectors.modules.profile.getUserData(state)
   const minAmountR = selectors.components.withdraw.getMinAmountForCurrency(
     state,
@@ -43,7 +42,7 @@ const getData = (state: RootState, ownProps: OwnProps) => {
   const crossBorderLimits = selectors.components.withdraw
     .getCrossBorderLimits(state)
     .getOrElse({} as CrossBorderLimits)
-  const formErrorsBrokerage = selectors.form.getFormAsyncErrors('brokerageTx')(state)
+  const formErrors = selectors.form.getFormAsyncErrors('brokerageTx')(state)
 
   return lift(
     (
@@ -64,7 +63,6 @@ const getData = (state: RootState, ownProps: OwnProps) => {
       defaultMethod: defaultMethodR,
       fees,
       formErrors,
-      formErrorsBrokerage,
       minAmount,
       paymentMethods,
       userData,

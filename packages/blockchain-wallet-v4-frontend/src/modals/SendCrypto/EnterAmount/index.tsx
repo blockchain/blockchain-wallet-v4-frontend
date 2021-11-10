@@ -287,9 +287,15 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
                 }}
               >
                 {amtError === 'ABOVE_MAX' ? (
-                  <FormattedMessage id='copy.above_max' defaultMessage='Amount is above Max' />
+                  <FormattedMessage
+                    id='copy.above_max_amount'
+                    defaultMessage='Amount is above Max'
+                  />
                 ) : (
-                  <FormattedMessage id='copy.below_min' defaultMessage='Amount is below Min' />
+                  <FormattedMessage
+                    id='copy.below_min_amount'
+                    defaultMessage='Amount is below Min'
+                  />
                 )}
               </CustomErrorCartridge>
             </div>

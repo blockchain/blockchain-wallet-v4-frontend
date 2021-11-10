@@ -105,7 +105,7 @@ const EnterAmountContainer = (props: Props) => {
           method.type === SBPaymentTypes.BANK_ACCOUNT
       )
       let handleMethodClick: () => void
-      const { crossBorderLimits } = val
+      const { crossBorderLimits, formErrors } = val
 
       if (val.bankTransferAccounts.length > 0) {
         handleMethodClick = handleChangeMethod
@@ -113,7 +113,6 @@ const EnterAmountContainer = (props: Props) => {
         handleMethodClick = handleAddMethod
       }
 
-      // console.log(val.formErrors)
       return isUserEligible && paymentMethod ? (
         <EnterAmount
           onSubmit={onSubmit}
@@ -125,6 +124,7 @@ const EnterAmountContainer = (props: Props) => {
           paymentAccount={paymentAccount}
           paymentMethod={paymentMethod}
           crossBorderLimits={crossBorderLimits}
+          formErrors={formErrors}
         />
       ) : (
         <FlyoutOopsError

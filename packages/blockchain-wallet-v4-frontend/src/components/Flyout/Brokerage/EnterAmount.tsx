@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useDispatch } from 'react-redux'
-import { Field, InjectedFormProps, reduxForm, stopAsyncValidation } from 'redux-form'
+import { Field, FormErrors, InjectedFormProps, reduxForm, stopAsyncValidation } from 'redux-form'
 import styled from 'styled-components'
 
 import Currencies from '@core/exchange/currencies'
@@ -32,6 +32,7 @@ import {
   normalizeAmount,
   PaymentArrowContainer,
   PaymentText,
+  renderBankFullName,
   RightArrowIcon
 } from 'components/Flyout/model'
 import { checkCrossBorderLimit, minMaxAmount } from 'components/Flyout/validation'
@@ -52,7 +53,7 @@ const FiatIconWrapper = styled.div`
   justify-content: center;
   position: relative;
 `
-const AmountRow = styled.div`
+const AmountRow = styled.div<{ isError: boolean }>`
   display: flex;
   flex-direction: row;
   box-sizing: border-box;
@@ -62,6 +63,9 @@ const AmountRow = styled.div`
   padding: 24px;
   justify-content: center;
   border: 0;
+  > input {
+    color: ${(props) => (props.isError ? 'red400' : 'textBlack')};
+  }
 `
 const SubIconWrapper = styled.div`
   background-color: ${(props) => props.theme['fiat-light']};
@@ -82,7 +86,7 @@ const AmountTextBoxShaker = styled(AmountTextBox)<{ meta: { error: string } }>`
     perspective: 1000px;
 
     input {
-      color: ${p.theme.grey700};
+      color: ${p.theme.red400};
     }`
       : ''}
 
@@ -213,23 +217,41 @@ const LimitSection = ({ fee = '0', fiatCurrency, limitAmount, orderType }: Limit
 // to type without running validation on every keystroke. It waits 750 ms after
 // the user has stopped typing to run validation and manually dispatches the error
 // if needed. This makes for a nice error UX when typing
-const debounceValidate = (limits, crossBorderLimits, dispatch) =>
+const debounceValidate = (limits, crossBorderLimits, orderType, fiatCurrency, bankText, dispatch) =>
   debounce((event, newValue) => {
-    const error = minMaxAmount(limits, newValue)
+    // check cross border limits
+    const limitError = checkCrossBorderLimit(
+      crossBorderLimits,
+      newValue,
+      orderType,
+      fiatCurrency,
+      bankText
+    )
+    if (limitError) {
+      dispatch(stopAsyncValidation('brokerageTx', limitError))
+    }
+
+    const error = minMaxAmount(limits, orderType, fiatCurrency, newValue)
     if (error) {
       dispatch(stopAsyncValidation('brokerageTx', error))
-    }
-    const errorLimit = checkCrossBorderLimit(crossBorderLimits, newValue)
-    if (errorLimit) {
-      // console.log('show me the monkey')
     }
   }, 300)
 
 type AmountProps = {
+  bankText: string
   crossBorderLimits: Props['crossBorderLimits']
   fiatCurrency: Props['fiatCurrency']
   limits: Props['paymentMethod']['limits']
   orderType: Props['orderType']
+  showError: boolean
+}
+
+const ErrorMessage = ({ error, orderType }) => {
+  if (orderType === BrokerageOrderType.WITHDRAW || orderType === BrokerageOrderType.DEPOSIT) {
+    return <>{error?.amount}</>
+  }
+
+  return <></>
 }
 
 const renderAmount = (props) => {
@@ -243,7 +265,7 @@ const renderAmount = (props) => {
           justifyContent: 'center'
         }}
       >
-        <Text size='56px' color='textBlack' weight={500}>
+        <Text size='56px' color={props.meta.error ? 'red400' : 'textBlack'} weight={500}>
           {Currencies[props.fiatCurrency]?.units[props.fiatCurrency].symbol}
         </Text>
         <AmountTextBoxShaker {...props} />
@@ -257,9 +279,7 @@ const renderAmount = (props) => {
           justifyContent: 'center',
           marginTop: '5px'
         }}
-      >
-        {props.meta.error && <Text>{props.meta.error}</Text>}
-      </div>
+      />
     </div>
   )
 }
@@ -268,7 +288,7 @@ const Amount = memoizer((props: AmountProps) => {
   const dispatch = useDispatch()
   return (
     <FlyoutWrapper>
-      <AmountRow id='amount-row'>
+      <AmountRow id='amount-row' isError={!!props.showError}>
         <Field
           data-e2e={
             props.orderType === BrokerageOrderType.DEPOSIT
@@ -278,7 +298,14 @@ const Amount = memoizer((props: AmountProps) => {
           name='amount'
           component={renderAmount}
           fiatCurrency={props.fiatCurrency}
-          onChange={debounceValidate(props.limits, props.crossBorderLimits, dispatch)}
+          onChange={debounceValidate(
+            props.limits,
+            props.crossBorderLimits,
+            props.orderType,
+            props.fiatCurrency,
+            props.bankText,
+            dispatch
+          )}
           normalize={normalizeAmount}
           maxFontSize='56px'
           placeholder='0'
@@ -349,6 +376,7 @@ const EnterAmount = ({
   crossBorderLimits,
   fee,
   fiatCurrency,
+  formErrors,
   handleBack,
   handleMethodClick,
   handleSubmit,
@@ -369,7 +397,8 @@ const EnterAmount = ({
     withdrawableBalance
   })
 
-  // console.log('crossBorderLimits', crossBorderLimits)
+  const showError = !!formErrors
+
   return (
     <CustomForm onSubmit={handleSubmit}>
       <FlyoutContainer>
@@ -399,6 +428,10 @@ const EnterAmount = ({
               limits={minMaxLimits}
               orderType={orderType}
               crossBorderLimits={crossBorderLimits}
+              showError={showError}
+              bankText={
+                orderType === BrokerageOrderType.DEPOSIT ? renderBankFullName(paymentAccount) : ''
+              }
             />
           </div>
         </FlyoutContent>
@@ -409,13 +442,16 @@ const EnterAmount = ({
             paymentAccount={paymentAccount}
             paymentMethod={paymentMethod}
           />
-          <NextButton
-            paymentAccount={paymentAccount}
-            invalid={invalid}
-            orderType={orderType}
-            pristine={pristine}
-            submitting={submitting}
-          />
+          {!showError && (
+            <NextButton
+              paymentAccount={paymentAccount}
+              invalid={invalid}
+              orderType={orderType}
+              pristine={pristine}
+              submitting={submitting}
+            />
+          )}
+          {showError && <ErrorMessage error={formErrors} orderType={orderType} />}
         </FlyoutFooter>
       </FlyoutContainer>
     </CustomForm>
@@ -427,6 +463,8 @@ export type OwnProps =
       crossBorderLimits: CrossBorderLimits
       fee?: never
       fiatCurrency: FiatType
+      // formErrors: FormErrors<{ amount?: 'ABOVE_MAX' | 'BELOW_MIN' | false }, string> | undefined
+      formErrors: FormErrors<{}, string> | undefined
       handleBack: () => void
       handleMethodClick: () => void
       minWithdrawAmount?: never
@@ -439,6 +477,7 @@ export type OwnProps =
       crossBorderLimits: CrossBorderLimits
       fee: string
       fiatCurrency: FiatType
+      formErrors: FormErrors<{}, string> | undefined
       handleBack: () => void
       handleMethodClick: () => void
       minWithdrawAmount: string
