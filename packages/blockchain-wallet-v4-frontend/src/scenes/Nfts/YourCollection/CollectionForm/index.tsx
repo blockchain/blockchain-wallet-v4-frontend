@@ -63,7 +63,7 @@ const NftCollectionForm: React.FC<Props> = (props: Props) => {
     return acc
   }, [] as NftAsset['collection'][])
   const balance = props.assets.list.reduce((acc, asset) => {
-    return acc + Number(asset.last_sale.total_price)
+    return acc + Number(asset.last_sale?.total_price || 0)
   }, 0)
 
   return (

@@ -31,7 +31,7 @@ const YourCollection: React.FC<Props> = (props) => {
   return (
     <NftPageWrapper>
       <CollectionForm {...props} />
-      <LazyLoadWrapper onLazyLoad={() => /* TODO */ {}}>
+      <LazyLoadWrapper onLazyLoad={() => props.nftsActions.fetchNftAssets()}>
         {assets.map((asset) => {
           if (!asset) return null
           return (
@@ -55,25 +55,31 @@ const YourCollection: React.FC<Props> = (props) => {
                   <Text size='12px' color='black' weight={600}>
                     <FormattedMessage id='copy.last_sale' defaultMessage='Last Sale' />
                   </Text>
-                  <Text color='black' style={{ display: 'flex', marginTop: '4px' }}>
-                    <StyledCoinDisplay
-                      size='14px'
-                      color='black'
-                      weight={600}
-                      coin={asset.last_sale.payment_token.symbol}
-                    >
-                      {asset.last_sale.total_price}
-                    </StyledCoinDisplay>
-                    &nbsp;-&nbsp;
-                    <FiatDisplay
-                      size='12px'
-                      color='grey600'
-                      weight={600}
-                      coin={asset.last_sale.payment_token.symbol}
-                    >
-                      {asset.last_sale.total_price}
-                    </FiatDisplay>
-                  </Text>
+                  {asset.last_sale ? (
+                    <Text color='black' style={{ display: 'flex', marginTop: '4px' }}>
+                      <StyledCoinDisplay
+                        size='14px'
+                        color='black'
+                        weight={600}
+                        coin={asset.last_sale.payment_token.symbol}
+                      >
+                        {asset.last_sale.total_price}
+                      </StyledCoinDisplay>
+                      &nbsp;-&nbsp;
+                      <FiatDisplay
+                        size='12px'
+                        color='grey600'
+                        weight={600}
+                        coin={asset.last_sale.payment_token.symbol}
+                      >
+                        {asset.last_sale.total_price}
+                      </FiatDisplay>
+                    </Text>
+                  ) : (
+                    <Text color='grey600' size='12px' weight={600}>
+                      N/A
+                    </Text>
+                  )}
                 </PriceInfo>
               </AssetDetails>
               <CTAWrapper>

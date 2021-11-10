@@ -13,6 +13,7 @@ export const AssetDesc = styled.div`
 `
 
 export const StickyCTA = styled.div`
+  background: ${(props) => props.theme.white};
   position: sticky;
   padding: 40px;
   bottom: 0;

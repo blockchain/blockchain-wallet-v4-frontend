@@ -213,7 +213,12 @@ export default ({ api }: { api: APIType }) => {
     try {
       yield put(actions.components.nfts.fetchNftOrderAssetLoading())
       const asset = yield call(api.getNftAsset, address, token_id)
-      yield put(actions.components.nfts.fetchNftOrderAssetSuccess(asset))
+      yield put(
+        actions.components.nfts.fetchNftOrderAssetSuccess({
+          ...asset,
+          sell_orders: action.payload.asset?.sell_orders
+        })
+      )
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.components.nfts.fetchNftOrderAssetFailure(error))

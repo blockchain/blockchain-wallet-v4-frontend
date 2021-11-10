@@ -101,7 +101,7 @@ const ShowAsset: React.FC<Props> = ({ close, orderFlow }) => {
             <StickyCTA>
               {/* TODO: make a bid */}
               {/* activeOrder, user can buy now */}
-              {activeOrder && (
+              {activeOrder ? (
                 <Button jumbo nature='primary' fullwidth data-e2e='buyNft'>
                   <FormattedMessage
                     id='copy.buy_now_for'
@@ -114,19 +114,43 @@ const ShowAsset: React.FC<Props> = ({ close, orderFlow }) => {
                     defaultMessage='Buy Now for {for}'
                   />
                 </Button>
-              )}
-              {/* TODO: show fee required to cancel */}
-              {/* User has 1 or more sell_orders, cancel them */}
-              {!!val.orders?.length && (
-                <Button jumbo nature='primary' fullwidth data-e2e='cancelListingNft'>
-                  <FormattedMessage id='copy.cancel_listings' defaultMessage='Cancel Listing(s)' />
-                </Button>
-              )}
-              {/* TODO: show fee required to list (if needed) */}
-              {!val.orders?.length && (
-                <Button jumbo nature='empty-blue' fullwidth data-e2e='sellNft'>
-                  <FormattedMessage id='copy.mark_for_sale' defaultMessage='Mark for Sale' />
-                </Button>
+              ) : /* TODO: show fee required to cancel */
+              /* User has 1 or more sell_orders, cancel them */
+              val.sell_orders?.length ? (
+                <>
+                  <Title>
+                    <FormattedMessage id='copy.active_listings' defaultMessage='Active Listings' />:
+                  </Title>
+                  <br />
+                  {val.sell_orders.map((sell_order) => {
+                    return (
+                      <Button
+                        style={{ marginBottom: '8px' }}
+                        key={sell_order.order_hash}
+                        nature='primary'
+                        data-e2e='cancelListingNft'
+                      >
+                        <FormattedMessage
+                          id='copy.cancel_listings'
+                          values={{
+                            val: displayCoinToCoin({
+                              coin: sell_order.payment_token_contract?.symbol || 'ETH',
+                              value: sell_order.current_price
+                            })
+                          }}
+                          defaultMessage='Cancel Listing for {val}'
+                        />
+                      </Button>
+                    )
+                  })}
+                </>
+              ) : (
+                /* TODO: show fee required to list (if needed) */
+                !val.sell_orders?.length && (
+                  <Button jumbo nature='empty-blue' fullwidth data-e2e='sellNft'>
+                    <FormattedMessage id='copy.mark_for_sale' defaultMessage='Mark for Sale' />
+                  </Button>
+                )
               )}
             </StickyCTA>
           </>
