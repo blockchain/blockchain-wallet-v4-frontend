@@ -98,7 +98,6 @@ export const parseMagicLink = function* () {
       )
       yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
     }
-    yield put(actions.cache.lastProduct(product as ProductAuthOptions))
     yield put(actions.auth.analyticsMagicLinkParsed())
   } catch (e) {
     yield put(actions.logs.logErrorMessage(logLocation, 'parseLink', e))
