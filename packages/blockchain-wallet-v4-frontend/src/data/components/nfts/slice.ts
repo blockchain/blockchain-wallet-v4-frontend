@@ -71,15 +71,27 @@ const nftsSlice = createSlice({
       state.orderFlow.asset = Remote.NotAsked
       state.orderFlow.step = NftOrderStepEnum.SHOW_ASSET
     },
-    nftOrderFlowOpen: (state, action: PayloadAction<{ order: NftOrdersType['orders'][0] }>) => {
+    nftOrderFlowOpen: (
+      state,
+      action: PayloadAction<
+        { asset: NftAsset; order?: never } | { asset?: never; order: NftOrdersType['orders'][0] }
+      >
+    ) => {
+      if (action.payload.order) {
+        state.orderFlow.activeOrder = action.payload.order
+      }
       state.orderFlow.asset = Remote.Loading
-      state.orderFlow.activeOrder = action.payload.order
       state.orderFlow.step = NftOrderStepEnum.SHOW_ASSET
     },
     resetNftOrders: (state) => {
       state.orders.isFailure = false
       state.orders.isLoading = true
       state.orders.list = []
+    },
+    resetOrderFlow: (state) => {
+      state.orderFlow.asset = Remote.NotAsked
+      state.orderFlow.step = NftOrderStepEnum.SHOW_ASSET
+      state.orderFlow.activeOrder = null
     },
     setAssetBounds: (state, action: PayloadAction<{ atBound: boolean }>) => {
       state.assets.atBound = action.payload.atBound

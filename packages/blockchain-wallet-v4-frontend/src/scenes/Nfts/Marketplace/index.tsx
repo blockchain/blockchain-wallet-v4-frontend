@@ -85,7 +85,7 @@ const Marketplace: React.FC<Props> = (props: Props) => {
                   <FormattedMessage id='copy.buy' defaultMessage='Buy' />
                 </Button>
                 <Link
-                  style={{ marginTop: '2px' }}
+                  style={{ display: 'block', marginTop: '8px', textAlign: 'center', width: '100%' }}
                   size='11px'
                   href={order.asset.openseaLink}
                   target='_blank'

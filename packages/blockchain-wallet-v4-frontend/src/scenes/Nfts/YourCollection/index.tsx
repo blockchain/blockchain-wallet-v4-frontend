@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, Link, SpinningLoader, Text } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 
 import { Props as OwnProps } from '..'
@@ -82,7 +82,7 @@ const YourCollection: React.FC<Props> = (props) => {
                     fullwidth
                     data-e2e='cancelListing'
                     nature='primary'
-                    onClick={() => props.nftsActions.cancelListings({ asset })}
+                    onClick={() => props.nftsActions.nftOrderFlowOpen({ asset })}
                   >
                     {asset.sell_orders.length > 1 ? (
                       <FormattedMessage
@@ -98,11 +98,19 @@ const YourCollection: React.FC<Props> = (props) => {
                     fullwidth
                     data-e2e='sellNft'
                     nature='primary'
-                    onClick={() => props.nftsActions.createSellOrder({ asset })}
+                    onClick={() => props.nftsActions.nftOrderFlowOpen({ asset })}
                   >
                     <FormattedMessage id='copy.sell' defaultMessage='Sell' />
                   </Button>
                 )}
+                <Link
+                  style={{ display: 'block', marginTop: '8px', textAlign: 'center', width: '100%' }}
+                  size='11px'
+                  href={asset.permalink}
+                  target='_blank'
+                >
+                  View on Opensea
+                </Link>
               </CTAWrapper>
             </Asset>
           )

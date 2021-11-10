@@ -66,8 +66,6 @@ const NftCollectionForm: React.FC<Props> = (props: Props) => {
     return acc + Number(asset.last_sale.total_price)
   }, 0)
 
-  console.log(props.assets)
-
   return (
     <LeftColWrapper>
       <Form>

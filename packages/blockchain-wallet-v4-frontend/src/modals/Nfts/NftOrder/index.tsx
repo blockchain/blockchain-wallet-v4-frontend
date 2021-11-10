@@ -26,11 +26,11 @@ class NftOrder extends PureComponent<Props, State> {
   }
 
   componentWillUnmount() {
-    this.setStep(NftOrderStepEnum.SHOW_ASSET)
+    this.props.nftActions.resetOrderFlow()
   }
 
   setStep = (step: NftOrderStepEnum) => {
-    // TODO
+    // TODO (if needed)
   }
 
   handleClose = () => {

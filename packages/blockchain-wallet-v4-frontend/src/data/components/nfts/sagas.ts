@@ -196,13 +196,23 @@ export default ({ api }: { api: APIType }) => {
 
   const nftOrderFlowOpen = function* (action: ReturnType<typeof A.nftOrderFlowOpen>) {
     yield put(actions.modals.showModal(ModalName.NFT_ORDER, { origin: 'Unknown' }))
+    let address
+    let token_id
+    // User wants to buy an asset
+    if (action.payload.order) {
+      const { asset } = action.payload.order
+      address = asset!.assetContract.address
+      token_id = asset!.tokenId
+    }
+    // User wants to sell an asset
+    else if (action.payload.asset) {
+      address = action.payload.asset.asset_contract.address
+      token_id = action.payload.asset.token_id
+    }
+
     try {
       yield put(actions.components.nfts.fetchNftOrderAssetLoading())
-      const asset = yield call(
-        api.getNftAsset,
-        action.payload.order.asset!.assetContract!.address,
-        action.payload.order.asset!.tokenId!
-      )
+      const asset = yield call(api.getNftAsset, address, token_id)
       yield put(actions.components.nfts.fetchNftOrderAssetSuccess(asset))
     } catch (e) {
       const error = errorHandler(e)

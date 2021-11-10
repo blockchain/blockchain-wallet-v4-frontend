@@ -604,6 +604,7 @@ export interface NftAsset {
   listing_date: null
   name: string
   num_sales: number
+  orders: Order[]
   owner: {
     address: string
     config: string
