@@ -4,7 +4,14 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
 import { SBPaymentTypes } from '@core/network/api/simpleBuy/types'
-import { BeneficiaryType, ExtractSuccess, SBPaymentMethodType, WalletFiatType } from '@core/types'
+import {
+  BeneficiaryType,
+  CrossBorderLimitsPyload,
+  ExtractSuccess,
+  SBPaymentMethodType,
+  WalletAcountEnum,
+  WalletFiatType
+} from '@core/types'
 import { EnterAmount, FlyoutOopsError } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -40,6 +47,16 @@ const EnterAmountContainer = (props: Props) => {
       props.custodialActions.fetchCustodialBeneficiaries(props.fiatCurrency)
       props.withdrawActions.fetchWithdrawalLock()
     }
+
+    // cross border limits
+    const fromAccount = WalletAcountEnum.CUSTODIAL
+    const toAccount = WalletAcountEnum.NON_CUSTODIAL
+    props.withdrawActions.fetchCrossBorderLimits(
+      props.fiatCurrency,
+      fromAccount,
+      props.fiatCurrency,
+      toAccount
+    )
   }, [props.fiatCurrency])
 
   const errorCallback = useCallback(() => {
@@ -88,6 +105,7 @@ const EnterAmountContainer = (props: Props) => {
     Loading: () => <Loading />,
     NotAsked: () => <Loading />,
     Success: (val) => {
+      const { crossBorderLimits } = val
       const bankTransferMethod = val.paymentMethods.methods.find((method) => {
         return method.type === SBPaymentTypes.BANK_TRANSFER
       })
@@ -114,6 +132,8 @@ const EnterAmountContainer = (props: Props) => {
         selectedPaymentMethod = bankAccountMethod
       }
 
+      // console.log('formErrorsBrokerage', val.formErrorsBrokerage)
+
       return (
         <EnterAmount
           onSubmit={handleSubmit}
@@ -127,6 +147,7 @@ const EnterAmountContainer = (props: Props) => {
           paymentMethod={selectedPaymentMethod}
           withdrawableBalance={val.withdrawableBalance}
           minWithdrawAmount={val.minAmount.minorValue}
+          crossBorderLimits={crossBorderLimits}
         />
       )
     }

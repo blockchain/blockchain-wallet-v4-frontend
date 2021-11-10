@@ -1,9 +1,8 @@
 import { lift } from 'ramda'
 
-import { ExtractSuccess, SBPaymentTypes } from '@core/types'
+import { CrossBorderLimits, ExtractSuccess, SBPaymentTypes } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { SeamlessLimits } from 'data/types'
 
 import { OwnProps } from '.'
 
@@ -35,7 +34,7 @@ const getData = (state: RootState, ownProps: OwnProps) => {
     .getOrElse(false) as boolean
   const crossBorderLimits = selectors.components.simpleBuy
     .getCrossBorderLimits(state)
-    .getOrElse({} as SeamlessLimits)
+    .getOrElse({} as CrossBorderLimits)
 
   return lift(
     (

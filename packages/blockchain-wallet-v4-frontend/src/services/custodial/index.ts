@@ -1,6 +1,6 @@
-import { LimitWithEffective, SeamlessLimits } from 'data/types'
+import { CrossBorderLimits, LimitWithEffective } from '@core/types'
 
-export const getEffectiveLimit = (limits: SeamlessLimits): LimitWithEffective | undefined => {
+export const getEffectiveLimit = (limits: CrossBorderLimits): LimitWithEffective | undefined => {
   const { current } = limits
   switch (true) {
     case current?.daily?.effective:
@@ -14,7 +14,7 @@ export const getEffectiveLimit = (limits: SeamlessLimits): LimitWithEffective | 
   }
 }
 
-export const getEffectivePeriod = (limits: SeamlessLimits): string | undefined => {
+export const getEffectivePeriod = (limits: CrossBorderLimits): string | undefined => {
   const { current } = limits
   switch (true) {
     case current?.daily?.effective:

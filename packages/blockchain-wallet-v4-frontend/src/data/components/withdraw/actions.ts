@@ -1,7 +1,10 @@
 import {
   BeneficiaryType,
+  CoinType,
+  CrossBorderLimits,
   FiatType,
   SBPaymentTypes,
+  WalletAcountType,
   WalletFiatType,
   WithdrawalLockResponseType,
   WithdrawalMinsAndFeesResponse
@@ -98,4 +101,34 @@ export const fetchWithdrawalLockSuccess = (
     withdrawLockResponse
   },
   type: AT.FETCH_WITHDRAWAL_LOCK_SUCCESS
+})
+
+export const fetchCrossBorderLimits = (
+  inputCurrency: CoinType,
+  fromAccount: WalletAcountType,
+  outputCurrency: CoinType,
+  toAccount: WalletAcountType,
+  currency?: WalletFiatType
+) => ({
+  payload: {
+    currency,
+    fromAccount,
+    inputCurrency,
+    outputCurrency,
+    toAccount
+  },
+  type: AT.FETCH_WITHDRAWAL_CROSSBORDER_LIMITS
+})
+export const fetchCrossBorderLimitsFailure = (error: string) => ({
+  payload: {
+    error
+  },
+  type: AT.FETCH_WITHDRAWAL_CROSSBORDER_LIMITS_FAILURE
+})
+export const fetchCrossBorderLimitsLoading = () => ({
+  type: AT.FETCH_WITHDRAWAL_CROSSBORDER_LIMITS_LOADING
+})
+export const fetchCrossBorderLimitsSuccess = (limitsResponse: CrossBorderLimits) => ({
+  payload: limitsResponse,
+  type: AT.FETCH_WITHDRAWAL_CROSSBORDER_LIMITS_SUCCESS
 })

@@ -1,15 +1,16 @@
 /* eslint-disable no-param-reassign */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import Remote from '@core/remote'
 import {
+  CrossBorderLimits,
   // ProductTypes,
   // SBTransactionType,
   WithdrawalLockResponseType,
   WithdrawalMinsAndFeesResponse,
   WithdrawResponseType
 } from '@core/types'
-import { SeamlessLimits } from 'data/types'
 
 import {
   FetchSendLimitsPayload,
@@ -38,7 +39,7 @@ const sendCryptoSlice = createSlice({
     fetchSendLimitsLoading: (state) => {
       state.sendLimits = Remote.Loading
     },
-    fetchSendLimitsSuccess: (state, action: PayloadAction<SeamlessLimits>) => {
+    fetchSendLimitsSuccess: (state, action: PayloadAction<CrossBorderLimits>) => {
       state.sendLimits = Remote.Success(action.payload)
     },
     fetchWithdrawalFees: () => {},

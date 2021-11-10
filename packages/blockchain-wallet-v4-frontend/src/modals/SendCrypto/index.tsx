@@ -3,11 +3,12 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import { reduxForm } from 'redux-form'
 
+import { CrossBorderLimits } from '@core/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { SendCryptoStepType } from 'data/components/sendCrypto/types'
 import { RootState } from 'data/rootReducer'
-import { ModalName, SeamlessLimits } from 'data/types'
+import { ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../types'
@@ -85,7 +86,9 @@ const mapStateToProps = (state: RootState) => ({
     coin: state.components.sendCrypto.initialCoin,
     fix: 'CRYPTO'
   },
-  sendLimits: selectors.components.sendCrypto.getSendLimits(state).getOrElse({} as SeamlessLimits),
+  sendLimits: selectors.components.sendCrypto
+    .getSendLimits(state)
+    .getOrElse({} as CrossBorderLimits),
   sendableCoins: getData(),
   step: selectors.components.sendCrypto.getStep(state),
   walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')

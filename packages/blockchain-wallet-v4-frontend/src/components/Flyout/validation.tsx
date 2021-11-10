@@ -1,8 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
+// import { AlertButton } from 'blockchain-wallet-v4-frontend/src/modals/components'
 import { fiatToString } from '@core/exchange/utils'
-import { FiatType } from '@core/types'
+import { CrossBorderLimits, FiatType } from '@core/types'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 
 export const minMaxAmount = (limits: { max: string; min: string }, amount: string) => {
@@ -16,6 +17,7 @@ export const minMaxAmount = (limits: { max: string; min: string }, amount: strin
     unit: 'USD' as FiatType,
     value: min
   })
+
   // This handles the default case where we show "0" in the input field but
   // it's just a placeholder and amount actuall equals '' in redux
   if (amount === '') return undefined
@@ -46,4 +48,18 @@ export const minMaxAmount = (limits: { max: string; min: string }, amount: strin
       )
     }
   }
+}
+
+export const checkCrossBorderLimit = (
+  crossBorderLimits: CrossBorderLimits,
+  amount: string
+): boolean | string => {
+  if (!crossBorderLimits?.current) {
+    return false
+  }
+
+  const { value: availableAmount } = crossBorderLimits?.current?.available
+  const availableAmountInBase = convertBaseToStandard('FIAT', availableAmount)
+
+  return Number(amount) > Number(availableAmountInBase) ? 'ABOVE_MAX_LIMIT' : false
 }

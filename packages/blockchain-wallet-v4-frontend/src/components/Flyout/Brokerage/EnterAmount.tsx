@@ -6,7 +6,7 @@ import styled from 'styled-components'
 
 import Currencies from '@core/exchange/currencies'
 import { fiatToString } from '@core/exchange/utils'
-import { BeneficiaryType, FiatType, SBPaymentMethodType } from '@core/types'
+import { BeneficiaryType, CrossBorderLimits, FiatType, SBPaymentMethodType } from '@core/types'
 import {
   Box,
   Button,
@@ -34,7 +34,7 @@ import {
   PaymentText,
   RightArrowIcon
 } from 'components/Flyout/model'
-import { minMaxAmount } from 'components/Flyout/validation'
+import { checkCrossBorderLimit, minMaxAmount } from 'components/Flyout/validation'
 import { Form } from 'components/Form'
 import { CheckoutRow } from 'components/Rows'
 import { DisplayPaymentIcon } from 'components/SimpleBuy'
@@ -213,15 +213,20 @@ const LimitSection = ({ fee = '0', fiatCurrency, limitAmount, orderType }: Limit
 // to type without running validation on every keystroke. It waits 750 ms after
 // the user has stopped typing to run validation and manually dispatches the error
 // if needed. This makes for a nice error UX when typing
-const debounceValidate = (limits, dispatch) =>
+const debounceValidate = (limits, crossBorderLimits, dispatch) =>
   debounce((event, newValue) => {
     const error = minMaxAmount(limits, newValue)
     if (error) {
       dispatch(stopAsyncValidation('brokerageTx', error))
     }
+    const errorLimit = checkCrossBorderLimit(crossBorderLimits, newValue)
+    if (errorLimit) {
+      // console.log('show me the monkey')
+    }
   }, 300)
 
 type AmountProps = {
+  crossBorderLimits: Props['crossBorderLimits']
   fiatCurrency: Props['fiatCurrency']
   limits: Props['paymentMethod']['limits']
   orderType: Props['orderType']
@@ -273,7 +278,7 @@ const Amount = memoizer((props: AmountProps) => {
           name='amount'
           component={renderAmount}
           fiatCurrency={props.fiatCurrency}
-          onChange={debounceValidate(props.limits, dispatch)}
+          onChange={debounceValidate(props.limits, props.crossBorderLimits, dispatch)}
           normalize={normalizeAmount}
           maxFontSize='56px'
           placeholder='0'
@@ -341,6 +346,7 @@ const NextButton = ({ invalid, orderType, paymentAccount, pristine, submitting }
 }
 
 const EnterAmount = ({
+  crossBorderLimits,
   fee,
   fiatCurrency,
   handleBack,
@@ -363,6 +369,7 @@ const EnterAmount = ({
     withdrawableBalance
   })
 
+  // console.log('crossBorderLimits', crossBorderLimits)
   return (
     <CustomForm onSubmit={handleSubmit}>
       <FlyoutContainer>
@@ -387,7 +394,12 @@ const EnterAmount = ({
           <div
             style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center' }}
           >
-            <Amount fiatCurrency={fiatCurrency} limits={minMaxLimits} orderType={orderType} />
+            <Amount
+              fiatCurrency={fiatCurrency}
+              limits={minMaxLimits}
+              orderType={orderType}
+              crossBorderLimits={crossBorderLimits}
+            />
           </div>
         </FlyoutContent>
         <FlyoutFooter>
@@ -412,6 +424,7 @@ const EnterAmount = ({
 
 export type OwnProps =
   | {
+      crossBorderLimits: CrossBorderLimits
       fee?: never
       fiatCurrency: FiatType
       handleBack: () => void
@@ -423,6 +436,7 @@ export type OwnProps =
       withdrawableBalance?: never
     }
   | {
+      crossBorderLimits: CrossBorderLimits
       fee: string
       fiatCurrency: FiatType
       handleBack: () => void

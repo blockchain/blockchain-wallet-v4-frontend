@@ -1,4 +1,4 @@
-import { FiatType, RemoteDataType, WalletFiatType } from '@core/types'
+import { CrossBorderLimits, FiatType, RemoteDataType, WalletFiatType } from '@core/types'
 
 export enum BankPartners {
   YAPILY = 'YAPILY',
@@ -192,6 +192,7 @@ export type BrokerageState = {
   bankCredentials: RemoteDataType<string, OBType>
   bankStatus: RemoteDataType<string, BankStatusType>
   bankTransferAccounts: RemoteDataType<string, Array<BankTransferAccountType>>
+  crossBorderLimits: RemoteDataType<string, CrossBorderLimits>
   dwStep: BankDWStepType
   fastLink: RemoteDataType<string, FastLinkType>
   fiatCurrency: WalletFiatType | undefined
