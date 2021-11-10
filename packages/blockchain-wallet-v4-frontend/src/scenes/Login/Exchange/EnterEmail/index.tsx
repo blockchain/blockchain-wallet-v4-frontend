@@ -12,6 +12,7 @@ import {
   ActionButton,
   LinkRow,
   LoginFormLabel,
+  LoginWrapper,
   NeedHelpLink,
   removeWhitespace,
   UnsupportedBrowserWarning
@@ -22,7 +23,7 @@ const isSupportedBrowser = isBrowserSupported()
 const EnterEmail = (props: Props) => {
   const { authActions, busy, formValues, invalid, submitting } = props
   return (
-    <>
+    <LoginWrapper>
       <FormGroup>
         {!isSupportedBrowser && <UnsupportedBrowserWarning />}
         <FormItem>
@@ -63,7 +64,7 @@ const EnterEmail = (props: Props) => {
         </ActionButton>
         <NeedHelpLink authActions={authActions} origin='IDENTIFIER' />
       </LinkRow>
-    </>
+    </LoginWrapper>
   )
 }
 

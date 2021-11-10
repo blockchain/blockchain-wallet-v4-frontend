@@ -6,7 +6,7 @@ import { Button, Icon, Text } from 'blockchain-info-components'
 import { LoginSteps } from 'data/types'
 
 import { Props as OwnProps } from '../..'
-import { BackArrowFormHeader, CircleBackground, LOGIN_FORM_NAME } from '../../model'
+import { BackArrowFormHeader, CircleBackground, LoginWrapper } from '../../model'
 
 const FormBody = styled.div`
   display: flex;
@@ -16,7 +16,7 @@ const FormBody = styled.div`
 
 const CheckEmail = (props: Props) => {
   return (
-    <>
+    <LoginWrapper>
       <BackArrowFormHeader {...props} handleBackArrowClick={props.handleBackArrowClick} />
       <FormBody>
         <CircleBackground color='blue600'>
@@ -41,7 +41,7 @@ const CheckEmail = (props: Props) => {
       <Button type='submit' nature='empty-blue' fullwidth height='48px' data-e2e='loginResendEmail'>
         <FormattedMessage id='buttons.email_didnt_arrive' defaultMessage="Email didn't arrive?" />
       </Button>
-    </>
+    </LoginWrapper>
   )
 }
 

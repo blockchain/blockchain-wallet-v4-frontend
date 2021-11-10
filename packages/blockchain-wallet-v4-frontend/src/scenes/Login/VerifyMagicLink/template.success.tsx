@@ -6,6 +6,7 @@ import { Banner, Button, Icon, Image, Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
 import { Props } from '..'
+import { LoginWrapper } from '../model'
 
 const InfoWrapper = styled.div`
   width: 100%;
@@ -87,25 +88,27 @@ const SuccessWrapper = styled.div`
 const Success = (props) => {
   const { approver, requester } = props
   return props.deviceAuthorized ? (
-    <SuccessWrapper>
-      <Icon color='success' name='checkmark-circle-filled' size='40px' />
+    <LoginWrapper>
+      <SuccessWrapper>
+        <Icon color='success' name='checkmark-circle-filled' size='40px' />
 
-      <Text size='20px' weight={600} color='black' style={{ marginTop: '8px' }}>
-        <FormattedMessage
-          id='scenes.login.device_verified'
-          defaultMessage='Your device is verified!'
-        />
-      </Text>
+        <Text size='20px' weight={600} color='black' style={{ marginTop: '8px' }}>
+          <FormattedMessage
+            id='scenes.login.device_verified'
+            defaultMessage='Your device is verified!'
+          />
+        </Text>
 
-      <Text color='grey900' style={{ marginTop: '8px' }} size='16px' weight={500}>
-        <FormattedMessage
-          id='scenes.login.device_verified.copy'
-          defaultMessage='Return to previous browser to continue logging in.'
-        />
-      </Text>
-    </SuccessWrapper>
+        <Text color='grey900' style={{ marginTop: '8px' }} size='16px' weight={500}>
+          <FormattedMessage
+            id='scenes.login.device_verified.copy'
+            defaultMessage='Return to previous browser to continue logging in.'
+          />
+        </Text>
+      </SuccessWrapper>
+    </LoginWrapper>
   ) : (
-    <>
+    <LoginWrapper>
       <FormBody>
         <Image name='blockchain-icon' width='40px' height='40px' />
         <Text size='20px' weight={600} color='grey900' style={{ marginTop: '24px' }}>
@@ -247,7 +250,7 @@ const Success = (props) => {
           <FormattedMessage id='scenes.authorizelogin.reject' defaultMessage='Reject' />
         </ApproveRejectButtons>
       </ApproveWrapper>
-    </>
+    </LoginWrapper>
   )
 }
 

@@ -24,6 +24,10 @@ export const LoginWrapper = styled(Wrapper)`
   z-index: 1;
 `
 
+export const WrapperWithPadding = styled.div`
+  padding: 0 32px;
+`
+
 export const ActionButton = styled(Button)`
   margin-top: 15px;
 `
@@ -166,6 +170,41 @@ export const NeedHelpLink = (props: { authActions; origin: string }) => (
   </LinkContainer>
 )
 
+const SubCard = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+  border-top: 1px solid ${(props) => props.theme.grey000};
+  padding: 0;
+`
+const SignUpText = styled(Text)`
+  &:hover {
+    font-weight: 600;
+  }
+`
+const Divider = styled.div`
+  height: 10px;
+  background-color: ${(props) => props.theme.grey100};
+  width: 100%;
+`
+export const SignUpLink = () => (
+  <LinkContainer data-e2e='signupLink' to='/signup'>
+    <Link>
+      <SubCard>
+        <Text size='16px' color='grey600' weight={500} style={{ marginTop: '16px' }}>
+          <FormattedMessage
+            id='scenes.login.account_signup'
+            defaultMessage="Don't have a Blockchain Account?"
+          />
+        </Text>
+        &nbsp;
+        <SignUpText size='16px' color='blue600' weight={600} style={{ marginTop: '16px' }}>
+          <FormattedMessage id='buttons.signup_now' defaultMessage='Sign up Now ->' />
+        </SignUpText>
+      </SubCard>
+    </Link>
+  </LinkContainer>
+)
 export const UnsupportedBrowserWarning = () => (
   <BrowserWarning>
     <Banner type='warning'>
@@ -220,24 +259,8 @@ export const getLoginPageSubTitle = (step) => {
   }
 }
 
-export const getLoginPageFooter = (step, loginWithMobileClicked) => {
+export const getLoginPageFooter = (step) => {
   switch (step) {
-    case LoginSteps.ENTER_PASSWORD_WALLET:
-      return (
-        <Text
-          color='white'
-          weight={600}
-          size='16px'
-          cursor='pointer'
-          style={{ marginTop: '24px' }}
-          onClick={loginWithMobileClicked}
-        >
-          <FormattedMessage
-            id='scenes.login.loginwithmobile'
-            defaultMessage='Log In with Mobile App ->'
-          />
-        </Text>
-      )
     case LoginSteps.ENTER_EMAIL_GUID:
       return (
         <>

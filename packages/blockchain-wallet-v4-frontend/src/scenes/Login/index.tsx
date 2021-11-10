@@ -28,7 +28,8 @@ import {
   getLoginPageSubTitle,
   getLoginPageTitle,
   LOGIN_FORM_NAME,
-  LoginWrapper
+  LoginWrapper,
+  SignUpLink
 } from './model'
 import { getData } from './selectors'
 import VerifyMagicLink from './VerifyMagicLink'
@@ -99,11 +100,6 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     })
   }
 
-  loginWithMobileClicked = () => {
-    this.props.authActions.analyticsLoginMethodSelected('SECURE_CHANNEL')
-    this.setStep(LoginSteps.VERIFICATION_MOBILE)
-  }
-
   render() {
     const { exchangeLoginData, formValues, productAuthMetadata, walletLoginData } = this.props
     const { platform, product } = productAuthMetadata
@@ -147,42 +143,42 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
         </Text>
 
         {/* CONTENT */}
-        <LoginWrapper>
-          <Form onSubmit={this.handleSubmit}>
-            {(() => {
-              switch (step) {
-                case LoginSteps.ENTER_PASSWORD_EXCHANGE:
-                  return <EnterPasswordExchange {...loginProps} />
-                case LoginSteps.ENTER_PASSWORD_WALLET:
-                  return <EnterPasswordWallet {...loginProps} />
-                case LoginSteps.CHECK_EMAIL:
-                  return <CheckEmail {...loginProps} />
-                case LoginSteps.VERIFY_MAGIC_LINK:
-                  return <VerifyMagicLink {...loginProps} />
-                case LoginSteps.VERIFICATION_MOBILE:
-                  return <VerificationMobile {...loginProps} />
-                case LoginSteps.UPGRADE_CONFIRM:
-                  return <MergeAccountConfirm {...loginProps} />
-                case LoginSteps.UPGRADE_PASSWORD:
-                  return <UpgradePassword {...loginProps} />
-                case LoginSteps.UPGRADE_SUCCESS:
-                  return <UpgradeSuccess {...loginProps} />
-                case LoginSteps.PRODUCT_PICKER_AFTER_AUTHENTICATION:
-                case LoginSteps.PRODUCT_PICKER_BEFORE_AUTHENTICATION:
-                  return <ProductPicker {...loginProps} />
-                case LoginSteps.ENTER_EMAIL_GUID:
-                default:
-                  return product === ProductAuthOptions.EXCHANGE ? (
-                    <ExchangeEnterEmail {...loginProps} />
-                  ) : (
-                    <WalletEnterEmailOrGuid {...loginProps} />
-                  )
-              }
-            })()}
-          </Form>
-        </LoginWrapper>
+
+        <Form onSubmit={this.handleSubmit}>
+          {(() => {
+            switch (step) {
+              case LoginSteps.ENTER_PASSWORD_EXCHANGE:
+                return <EnterPasswordExchange {...loginProps} />
+              case LoginSteps.ENTER_PASSWORD_WALLET:
+                return <EnterPasswordWallet {...loginProps} />
+              case LoginSteps.CHECK_EMAIL:
+                return <CheckEmail {...loginProps} />
+              case LoginSteps.VERIFY_MAGIC_LINK:
+                return <VerifyMagicLink {...loginProps} />
+              case LoginSteps.VERIFICATION_MOBILE:
+                return <VerificationMobile {...loginProps} />
+              case LoginSteps.UPGRADE_CONFIRM:
+                return <MergeAccountConfirm {...loginProps} />
+              case LoginSteps.UPGRADE_PASSWORD:
+                return <UpgradePassword {...loginProps} />
+              case LoginSteps.UPGRADE_SUCCESS:
+                return <UpgradeSuccess {...loginProps} />
+              case LoginSteps.PRODUCT_PICKER_AFTER_AUTHENTICATION:
+              case LoginSteps.PRODUCT_PICKER_BEFORE_AUTHENTICATION:
+                return <ProductPicker {...loginProps} />
+              case LoginSteps.ENTER_EMAIL_GUID:
+              default:
+                return product === ProductAuthOptions.EXCHANGE ? (
+                  <ExchangeEnterEmail {...loginProps} />
+                ) : (
+                  <WalletEnterEmailOrGuid {...loginProps} />
+                )
+            }
+          })()}
+        </Form>
+
         {/* FOOTER */}
-        {!loginProps.isMobileViewLogin && getLoginPageFooter(step, this.loginWithMobileClicked)}
+        {!loginProps.isMobileViewLogin && getLoginPageFooter(step)}
       </>
     )
   }

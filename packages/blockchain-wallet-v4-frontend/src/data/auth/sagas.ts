@@ -613,8 +613,7 @@ export default ({ api, coreSagas, networks }) => {
           yield put(
             actions.auth.triggerWalletMagicLink({
               captchaToken,
-              email: guidOrEmail,
-              product
+              email: guidOrEmail
             })
           )
           initCaptcha()
