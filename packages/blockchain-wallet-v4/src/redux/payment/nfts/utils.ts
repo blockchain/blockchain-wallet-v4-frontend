@@ -176,6 +176,31 @@ export function getOrderHash(order: UnhashedOrder) {
   return getOrderHashHex(orderWithStringTypes as any)
 }
 
+async function safeGasEstimation(estimationFunction, args, txData, retries = 2) {
+  let estimatedValue
+  try {
+    estimatedValue = parseInt((await estimationFunction(...args, txData))._hex)
+  } catch (e) {
+    const error = e as { code: string }
+    const errorCode = error.code || undefined
+    if (errorCode === 'UNPREDICTABLE_GAS_LIMIT') {
+      throw new Error('Transaction will fail, check Ether balance and gas limit.')
+    } else if (errorCode === 'SERVER_ERROR') {
+      console.log('Server error whilst estimating gas')
+      if (retries > 0) {
+        safeGasEstimation(estimationFunction, args, txData, retries - 1)
+      } else {
+        throw new Error('Gas estimation failing consistently.')
+      }
+    } else {
+      console.log(JSON.stringify(e, null, 4))
+      console.log(error.code)
+    }
+    estimatedValue = txData.gasLimit
+  }
+  return estimatedValue
+}
+
 /**
  * Generates a pseudo-random 256-bit salt.
  * The salt can be included in an 0x order, ensuring that the order generates a unique orderHash
@@ -632,7 +657,7 @@ export function _makeMatchingOrder({
     // replacementPattern,
     replacementPattern:
       '0x00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
-    saleKind: NftSaleKind.FixedPrice,
+    saleKind: order.saleKind,
     // @ts-ignore
     salt: generatePseudoRandomSalt(),
     side: (order.side + 1) % 2,
@@ -856,7 +881,6 @@ async function _approveOrder(order: UnsignedOrder, signer: Signer) {
     includeInOrderBook,
     { from: accountAddress }
   )
-  console.log(`sending approval transaction`)
   const receipt = await transactionHash.wait()
   console.log(receipt)
   return transactionHash
@@ -1150,14 +1174,15 @@ async function _initializeProxy(signer): Promise<string> {
     proxyRegistry_ABI,
     signer
   )
-  const gasPrice = await signer.getGasPrice()
   const txnData = {
     from: accountAddress,
-    gasLimit: 410_000,
-    gasPrice: parseInt(gasPrice._hex)
+    gasLimit: 410_000
   }
-  const gasLimitEstimated = await wyvernProxyRegistry.estimateGas.registerProxy(txnData)
-  txnData.gasLimit = parseInt(gasLimitEstimated._hex)
+  txnData.gasLimit = await safeGasEstimation(
+    wyvernProxyRegistry.estimateGas.registerProxy,
+    [],
+    txnData
+  )
 
   const transactionHash = await wyvernProxyRegistry.registerProxy(txnData)
   const receipt = await transactionHash.wait()
@@ -1319,7 +1344,6 @@ async function approveSemiOrNonFungibleToken({
   }
 
   const approvalAllCheck = async () => {
-    console.log('Performing approve all check')
     // NOTE:
     // Use this long way of calling so we can check for method existence on a bool-returning method.
     const isApprovedForAll = await tokenContract.isApprovedForAll(accountAddress, proxyAddress)
@@ -1701,52 +1725,12 @@ export async function _cancelOrder({
   }
 
   const wyvernExchangeContract = new ethers.Contract(order.exchange, wyvernExchange_ABI, signer)
-  const gasPrice = await signer.getGasPrice()
   const txnData = {
     from: accountAddress,
-    gasLimit: 100_000,
-    gasPrice: parseInt(gasPrice._hex)
+    gasLimit: 100_000
   }
   // Weird & inconsistent quoarum error during gas estimation... use default value if fails
-  try {
-    const gasLimitEstimated = await wyvernExchangeContract.estimateGas.cancelOrder_(
-      [
-        order.exchange,
-        order.maker,
-        order.taker,
-        order.feeRecipient,
-        order.target,
-        order.staticTarget,
-        order.paymentToken
-      ],
-      [
-        order.makerRelayerFee.toString(),
-        order.takerRelayerFee.toString(),
-        order.makerProtocolFee.toString(),
-        order.takerProtocolFee.toString(),
-        order.basePrice.toString(),
-        order.extra.toString(),
-        order.listingTime.toString(),
-        order.expirationTime.toString(),
-        order.salt.toString()
-      ],
-      order.feeMethod,
-      order.side,
-      order.saleKind,
-      order.howToCall,
-      order.calldata,
-      order.replacementPattern,
-      order.staticExtradata,
-      order.v || 0,
-      order.r || NULL_BLOCK_HASH,
-      order.s || NULL_BLOCK_HASH,
-      txnData
-    )
-    txnData.gasLimit = parseInt(gasLimitEstimated._hex)
-  } catch (e) {
-    console.log('Gas estimation failed, using hardcoded gasLimit value')
-  }
-  const transactionHash = await wyvernExchangeContract.cancelOrder_(
+  const args = [
     [
       order.exchange,
       order.maker,
@@ -1757,15 +1741,15 @@ export async function _cancelOrder({
       order.paymentToken
     ],
     [
-      order.makerRelayerFee,
-      order.takerRelayerFee,
-      order.makerProtocolFee,
-      order.takerProtocolFee,
-      order.basePrice,
-      order.extra,
-      order.listingTime,
-      order.expirationTime,
-      order.salt
+      order.makerRelayerFee.toString(),
+      order.takerRelayerFee.toString(),
+      order.makerProtocolFee.toString(),
+      order.takerProtocolFee.toString(),
+      order.basePrice.toString(),
+      order.extra.toString(),
+      order.listingTime.toString(),
+      order.expirationTime.toString(),
+      order.salt.toString()
     ],
     order.feeMethod,
     order.side,
@@ -1777,8 +1761,16 @@ export async function _cancelOrder({
     order.v || 0,
     order.r || NULL_BLOCK_HASH,
     order.s || NULL_BLOCK_HASH,
-    { from: accountAddress }
+    txnData
+  ]
+
+  txnData.gasLimit = await safeGasEstimation(
+    wyvernExchangeContract.estimateGas.cancelOrder_,
+    args,
+    txnData
   )
+
+  const transactionHash = await wyvernExchangeContract.cancelOrder_(...args, txnData)
 
   const receipt = await transactionHash.wait()
   // @ts-ignore: order here is valid type for _validateOrderWyvern, but not for other functions that handle Order types due to numerical compairsons made in aother files.
@@ -1795,7 +1787,12 @@ async function fungibleTokenApprovals({
   signer: Signer
   tokenAddress: string
 }) {
-  const proxyAddress = await _getProxy(signer)
+  let proxyAddress =
+    '0xe5c783ee536cf5e63e792988335c4255169be4e1' || (await _getProxy(signer)) || undefined
+  if (!proxyAddress) {
+    console.log('Initialising proxy for account now')
+    proxyAddress = await _initializeProxy(signer)
+  }
   const accountAddress = await signer.getAddress()
   const fungibleTokenInterface = new ethers.Contract(tokenAddress, ERC20_ABI, signer)
   const approvedAmount = new BigNumber(
@@ -1807,12 +1804,21 @@ async function fungibleTokenApprovals({
   }
   console.log('Not enough ERC20 allowance approved for this trade')
   // Note: approving maximum ammount so this doesnt need to be done again for future trades.
+  const args = [proxyAddress, ethers.constants.MaxInt256.toString()]
+  const txnData = {
+    from: accountAddress,
+    gasLimit: 120_000
+  }
+  txnData.gasLimit = await safeGasEstimation(
+    fungibleTokenInterface.estimateGas.approve,
+    args,
+    txnData
+  )
+
   const txHash = await fungibleTokenInterface.approve(
     proxyAddress,
     ethers.constants.MaxInt256.toString(),
-    {
-      from: accountAddress
-    }
+    txnData
   )
   const receipt = await txHash.wait()
   return receipt
@@ -1829,12 +1835,10 @@ export async function _buyOrderValidationAndApprovals({
 }) {
   const tokenAddress = order.paymentToken
   const accountAddress = await signer.getAddress()
-
   if (tokenAddress !== NULL_ADDRESS) {
     const fungibleTokenInterface = new ethers.Contract(order.paymentToken, ERC20_ABI, signer)
 
     const balance = new BigNumber(await fungibleTokenInterface.balanceOf(accountAddress))
-    console.log(`WETH balance: ${balance}`)
 
     /* NOTE: no buy-side auctions for now, so sell.saleKind === 0 */
     const minimumAmount = new BigNumber(order.basePrice)
@@ -1987,12 +1991,10 @@ export async function _atomicMatch({
 
   await _validateMatch({ buy, sell, signer })
   const wyvernExchangeContract = new ethers.Contract(sell.exchange, wyvernExchange_ABI, signer)
-  const gasPrice = await signer.getGasPrice()
   const txnData = {
     from: accountAddress,
-    gasLimit: 230_000,
-    gasPrice: parseInt(gasPrice._hex),
-    value: sell.basePrice.toString()
+    gasLimit: 350_000,
+    value: sell.paymentToken === NULL_ADDRESS ? sell.basePrice.toString() : '0'
   }
   const args = [
     [
@@ -2056,17 +2058,15 @@ export async function _atomicMatch({
       NULL_BLOCK_HASH
     ]
   ]
-  try {
-    const gasLimitEstimated = await wyvernExchangeContract.estimateGas.atomicMatch_(
-      ...args,
-      txnData
-    )
-    txnData.gasLimit = parseInt(gasLimitEstimated._hex)
-  } catch (e) {
-    console.log('Gas estimation failed, using hardcoded gasLimit value')
-  }
 
+  txnData.gasLimit = await safeGasEstimation(
+    wyvernExchangeContract.estimateGas.atomicMatch_,
+    args,
+    txnData
+  )
   try {
+    console.log(txnData)
+    // console.log('Making atomic match now.')
     // const match = await wyvernExchangeContract.atomicMatch_(...args, txnData)
     // const receipt = await match.wait()
     // console.log(receipt)

@@ -25,7 +25,6 @@ export const cancelNftListings = async (asset: NftAsset, signer: Signer) => {
     throw new Error('Not a compatible asset order.')
   }
   const sellOrder = asset.sell_orders[0]
-  console.log(sellOrder)
   const cancelled = await _cancelOrder({ sellOrder, signer })
 }
 
@@ -76,40 +75,36 @@ export const fulfillNftOrder = async (order: NftOrdersType['orders'][0], signer:
     wyvernExchange_ABI,
     signer
   )
-
   const accountAddress = await signer.getAddress()
-  // Is an auction listing:
-  if (order.waitingForBestCounterOrder || order.saleKind !== 0) {
-    const buyOrder = await _makeMatchingOrder({
-      accountAddress,
-      offer: '10000000000000000',
-      order,
-      recipientAddress: accountAddress
-    })
-    const signature = await _signMessage({ message: buyOrder.hash, signer })
-    const buy = {
-      ...buyOrder,
-      ...signature
-    }
-    await _buyOrderValidationAndApprovals({ order: buy, signer })
-    console.log('Post buy order to OpenSea API')
-    console.log(buyOrder)
+  // TODO: If its an english auction bid above the basePrice include an offer property in the _makeMatchingOrder call
+  const matchingOrder = _makeMatchingOrder({
+    accountAddress,
+    order,
+    recipientAddress: accountAddress
+  })
+  let { buy, sell } = assignOrdersToSides(order, matchingOrder)
+  const signature = await _signMessage({ message: buy.hash, signer })
+  buy = {
+    ...buy,
+    ...signature
   }
-  // Is a fixed price listing:
+  console.log(buy)
+  // Perform buy order validations (abstracted away from _atomicMatch because english auction bids don't hit that function)
+  // await _buyOrderValidationAndApprovals({ order: buy, signer })
+  // Is an english auction sale
+  if (order.waitingForBestCounterOrder) {
+    await _buyOrderValidationAndApprovals({ order: buy, signer })
+    console.log('Post buy order to OpenSea API because its an english auction')
+    console.log(buy)
+    // return buy
+  }
+  // Is a dutch auction TODO: Find out why validations fail for buy order validations
+  else if (order.saleKind === 1) {
+    throw new Error('Dutch auctions not currently supported')
+    // await _atomicMatch({ buy, sell, signer })
+  }
+  // Is a fixed price sale
   else {
-    const matchingOrder = _makeMatchingOrder({
-      accountAddress,
-      order,
-      recipientAddress: accountAddress
-    })
-
-    let { buy, sell } = assignOrdersToSides(order, matchingOrder)
-    const signature = await _signMessage({ message: buy.hash, signer })
-    // TODO: ensure that there are no more changes being made to this buy object when the atomic Match is being called.
-    buy = {
-      ...buy,
-      ...signature
-    }
     const isSellValid = await _validateOrderWyvern({ order: sell, signer })
     if (!isSellValid) throw new Error('Sell order is invalid')
     const isBuyValid = await _validateOrderWyvern({ order: buy, signer })
