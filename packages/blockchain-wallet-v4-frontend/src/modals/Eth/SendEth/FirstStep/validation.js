@@ -83,7 +83,7 @@ export const isSendLimitOver = (value, allValues, props) => {
   const fiatValue = prop('fiat', value)
   const isFromCustodial = from && from.type === 'CUSTODIAL'
 
-  if (!isFromCustodial || isEmpty(sendLimits) || isEmpty(sendLimits?.current?.available)) {
+  if (!isFromCustodial || isEmpty(sendLimits) || !sendLimits?.current?.available?.currency) {
     return undefined
   }
 
