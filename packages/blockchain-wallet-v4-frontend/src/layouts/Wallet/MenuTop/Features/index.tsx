@@ -25,8 +25,6 @@ class FeaturesContainer extends React.PureComponent<Props> {
       })
     }
 
-    const { coinfig } = window.coins[coin]
-
     if (type === 'REQUEST') {
       return modalActions.showModal('REQUEST_CRYPTO_MODAL', {
         coin,
