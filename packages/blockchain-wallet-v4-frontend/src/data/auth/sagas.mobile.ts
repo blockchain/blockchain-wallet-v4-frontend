@@ -85,7 +85,7 @@ const sendMessageToMobile = (
       }
       break
     // android
-    case platform === PlatformTypes.ANDROID && window.BCAndroidSSI:
+    case platform === PlatformTypes.ANDROID:
       console.log('sendMessageToMobile android detected')
       try {
         console.log(
