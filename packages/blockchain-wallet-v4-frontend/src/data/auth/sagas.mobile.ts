@@ -1,6 +1,6 @@
 import { END, eventChannel } from 'redux-saga'
 import { call, put, select, take } from 'redux-saga/effects'
-
+import { hasPath } from 'ramda'
 import { actions, selectors } from 'data'
 import {
   AccountUnificationFlows,
@@ -44,29 +44,48 @@ const sendMessageToMobile = (
   platform: PlatformTypes,
   message: MobileAuthConnectedMessage | MobileAuthWalletMergeMessage | MobileAuthExchangeMessage
 ) => {
+  // messages must be passed as strings to mobile clients
+  const messageStringified = JSON.stringify(message)
+  console.log('sendMessageToMobile start')
   switch (true) {
     // ios
     case platform === PlatformTypes.IOS && window.webkit:
+      console.log('sendMessageToMobile ios detected')
       try {
+        console.log(
+          'sendMessageToMobile connectionStatusHandler exists?: ',
+          hasPath(['webkit', 'messageHandlers', 'connectionStatusHandler'], window)
+        )
+        console.log(
+          'sendMessageToMobile credentialsHandler exists?: ',
+          hasPath(['webkit', 'messageHandlers', 'credentialsHandler'], window)
+        )
         // ios has two different message handlers
         if ((message as MobileAuthConnectedMessage).status) {
-          window.webkit.messageHandlers.connectionStatusHandler.postMessage(message)
+          console.log('sendMessageToMobile inside connectionStatusHandler')
+          window.webkit.messageHandlers.connectionStatusHandler.postMessage(messageStringified)
         } else {
-          window.webkit.messageHandlers.credentialsHandler.postMessage(message)
+          window.webkit.messageHandlers.credentialsHandler.postMessage(messageStringified)
         }
       } catch (e) {
         throw new Error('Failed to send message to iOS')
       }
       break
     // android
-    case platform === PlatformTypes.ANDROID && window.Android:
+    case platform === PlatformTypes.ANDROID && window.BCAndroidSSI:
+      console.log('sendMessageToMobile android detected')
       try {
-        window.Android.postMessage(message)
+        console.log(
+          'sendMessageToMobile postMessage exists?: ',
+          hasPath(['BCAndroidSSI', 'postMessage'], window)
+        )
+        window.BCAndroidSSI.postMessage(messageStringified)
       } catch (e) {
         throw new Error('Failed to send message to Android')
       }
       break
     default:
+      console.log('sendMessageToMobile no mobile window detected')
       throw new Error('Unable to send message. Missing platform type or window function')
   }
 }
@@ -82,6 +101,7 @@ export const initMobileAuthFlow = function* () {
   try {
     // start event listener for message from mobile
     mobileMessageChannel = yield call(pollForMessageFromMobile)
+    console.log('calling sendMessageToMobile')
     // let mobile know webview has finished loading
     sendMessageToMobile(platform, { status: 'connected' })
     // eslint-disable-next-line
