@@ -3,7 +3,7 @@ import { AssetEventsType, NftAssetsType, NftOrdersType } from './types'
 // const JAYZ_ADDRESS = '0x3b417faee9d2ff636701100891dc2755b5321cc3'
 export const NFT_ORDER_PAGE_LIMIT = 10
 
-export default ({ get, post }) => {
+export default ({ apiUrl, get, post }) => {
   const postNftOrder = (order) => {
     return post({
       contentType: 'application/json',
@@ -42,7 +42,7 @@ export default ({ get, post }) => {
     return get({
       endPoint: `/nft/collection/${slug}`,
       ignoreQueryParams: true,
-      url: 'http://explorer-gateway.traefik'
+      url: `${apiUrl}/explorer-gateway`
     })
   }
 
