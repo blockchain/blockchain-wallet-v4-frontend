@@ -234,6 +234,10 @@ export default ({ api }: { api: APIType }) => {
     yield put(actions.modals.closeAllModals())
   }
 
+  const searchNftAssetContract = function* (action: ReturnType<typeof A.searchNftAssetContract>) {
+    console.log(action)
+  }
+
   return {
     cancelListing,
     createBuyOrder,
@@ -243,6 +247,7 @@ export default ({ api }: { api: APIType }) => {
     formChanged,
     formInitialized,
     nftOrderFlowClose,
-    nftOrderFlowOpen
+    nftOrderFlowOpen,
+    searchNftAssetContract
   }
 }

@@ -104,6 +104,7 @@ const nftsSlice = createSlice({
       state.orderFlow.step = NftOrderStepEnum.SHOW_ASSET
       state.orderFlow.activeOrder = null
     },
+    searchNftAssetContract: (state, action: PayloadAction<{ asset_contract_address }>) => {},
     setAssetBounds: (state, action: PayloadAction<{ atBound: boolean }>) => {
       state.assets.atBound = action.payload.atBound
     },

@@ -2,6 +2,8 @@ import { AssetEventsType, NftAssetsType, NftOrdersType } from './types'
 
 // const JAYZ_ADDRESS = '0x3b417faee9d2ff636701100891dc2755b5321cc3'
 export const NFT_ORDER_PAGE_LIMIT = 10
+const openseaApi = 'https://api.opensea.io/api/v1'
+const openseaExchangeApi = 'https://api.opensea.io/wyvern/v1'
 
 export default ({ apiUrl, get, post }) => {
   const postNftOrder = (order) => {
@@ -15,11 +17,19 @@ export default ({ apiUrl, get, post }) => {
     })
   }
 
+  const getAssetContract = (asset_contract_address: string) => {
+    return get({
+      endPoint: `/${asset_contract_address}`,
+      ignoreQueryParams: true,
+      url: `${openseaApi}/asset_contract`
+    })
+  }
+
   const getNftAsset = (contract_address: string, token_id: string): NftAssetsType => {
     return get({
       endPoint: `/${contract_address}/${token_id}`,
       ignoreQueryParams: true,
-      url: 'https://api.opensea.io/api/v1/asset'
+      url: `${openseaApi}/asset`
     })
   }
 
@@ -34,7 +44,7 @@ export default ({ apiUrl, get, post }) => {
         offset * NFT_ORDER_PAGE_LIMIT
       }&limit=${limit}`,
       ignoreQueryParams: true,
-      url: 'https://api.opensea.io/api/v1/assets'
+      url: `${openseaApi}/assets`
     })
   }
 
@@ -55,7 +65,7 @@ export default ({ apiUrl, get, post }) => {
         'X-API-KEY': 'd0b6281e87d84702b020419fdf58ea81'
       },
       ignoreQueryParams: true,
-      url: 'https://api.opensea.io/api/v1'
+      url: openseaApi
     })
   }
 
@@ -72,11 +82,12 @@ export default ({ apiUrl, get, post }) => {
         'X-API-KEY': 'd0b6281e87d84702b020419fdf58ea81'
       },
       ignoreQueryParams: true,
-      url: 'https://api.opensea.io/wyvern/v1/orders'
+      url: `${openseaExchangeApi}/orders`
     })
   }
 
   return {
+    getAssetContract,
     getNftAsset,
     getNftAssets,
     getNftCollectionInfo,
