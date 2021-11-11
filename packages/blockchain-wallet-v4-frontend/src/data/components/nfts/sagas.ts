@@ -15,7 +15,6 @@ import * as S from './selectors'
 import { actions as A } from './slice'
 import { orderFromJSON } from './utils'
 
-const provider = ethers.providers.getDefaultProvider()
 export const logLocation = 'components/nfts/sagas'
 const taskToPromise = (t) => new Promise((resolve, reject) => t.fork(reject, resolve))
 
@@ -115,7 +114,7 @@ export default ({ api }: { api: APIType }) => {
       const mnemonicT = yield select(getMnemonic)
       const mnemonic = yield call(() => taskToPromise(mnemonicT))
       const privateKey = getPrivateKey(mnemonic)
-      const wallet = new ethers.Wallet(privateKey, provider)
+      const wallet = new ethers.Wallet(privateKey, api.ethProvider)
       return wallet
     } catch (e) {
       throw new Error('Error getting eth wallet signer.')
@@ -148,7 +147,7 @@ export default ({ api }: { api: APIType }) => {
   const createSellOrder = function* (action: ReturnType<typeof A.createSellOrder>) {
     try {
       const signer = yield call(getEthSigner)
-      const order = yield call(fulfillNftSellOrder, action.payload.asset, signer)
+      const order = yield call(fulfillNftSellOrder, action.payload.asset, signer, api.ethProvider)
       const result = yield call(api.postNftOrder, order)
       console.log(result)
     } catch (e) {
