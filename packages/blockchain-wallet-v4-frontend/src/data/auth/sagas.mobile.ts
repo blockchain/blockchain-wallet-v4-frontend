@@ -1,6 +1,7 @@
+import { hasPath, pathOr } from 'ramda'
 import { END, eventChannel } from 'redux-saga'
 import { call, put, select, take } from 'redux-saga/effects'
-import { hasPath } from 'ramda'
+
 import { actions, selectors } from 'data'
 import {
   AccountUnificationFlows,
@@ -52,9 +53,18 @@ const sendMessageToMobile = (
   console.log('sendMessageToMobile BCAndroidSSI defined:', hasPath(['BCAndroidSSI'], window))
   switch (true) {
     // ios
-    case platform === PlatformTypes.IOS && window.webkit:
+    case platform === PlatformTypes.IOS:
       console.log('sendMessageToMobile ios detected')
       try {
+        console.log(
+          'sendMessageToMobile webkit.messageHandlers exists?: ',
+          hasPath(['webkit', 'messageHandlers'], window)
+        )
+        try {
+          console.log(window.webkit.messageHandlers)
+        } catch (e) {
+          console.log('messageHandlers missing')
+        }
         console.log(
           'sendMessageToMobile connectionStatusHandler exists?: ',
           hasPath(['webkit', 'messageHandlers', 'connectionStatusHandler'], window)
