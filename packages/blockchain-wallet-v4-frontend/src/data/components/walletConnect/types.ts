@@ -60,13 +60,13 @@ export type SessionDetailsType = {
 }
 
 export type RespondToSessionRequestPayload = {
+  action: 'APPROVE' | 'REJECT'
   sessionDetails: SessionDetailsType
-  userResponse: 'APPROVE' | 'REJECT'
 }
 
 export type RespondToTxSendRequestPayload = {
+  action: 'APPROVE' | 'REJECT'
   requestDetails: RequestEthSendTxType
-  userResponse: 'APPROVE' | 'REJECT'
 }
 
 export enum WalletConnectStep {

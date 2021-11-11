@@ -16,6 +16,7 @@ export default ({ coreSagas }) => {
   }: ReturnType<typeof A.handleSessionCallRequest>) {
     switch (true) {
       case payload.data.method === RequestMethodType.ETH_SEND_TX:
+        console.log('handle session request handler!!', payload)
         return yield put(
           A.setStep({
             data: payload.data,
@@ -44,6 +45,7 @@ export default ({ coreSagas }) => {
 
   // session request from dapp
   const handleSessionRequest = function* ({ payload }: ReturnType<typeof A.handleSessionRequest>) {
+    console.log('handle session request handler!!', payload)
     // show user session accept/reject screen
     yield put(
       A.setStep({
@@ -58,16 +60,19 @@ export default ({ coreSagas }) => {
     return eventChannel((emit) => {
       // subscribe to session requests
       rpc.on('session_request', (error, data) => {
+        console.log('sessin request called!!!', data, error)
         emit(A.handleSessionRequest({ data, error }))
       })
 
       // subscribe to call requests
       rpc.on('call_request', (error, data) => {
+        console.log('call request called!!', data, error)
         emit(A.handleSessionCallRequest({ data, error }))
       })
 
       // subscribe to disconnects
       rpc.on('disconnect', (error, data) => {
+        console.log('disconnected!!', data, error)
         emit(A.handleSessionDisconnect({ data, error }))
       })
 
@@ -85,15 +90,20 @@ export default ({ coreSagas }) => {
       rpc = new WalletConnect({
         clientMeta: {
           description: 'Blockchain.com Wallet',
-          icons: ['https://walletconnect.org/walletconnect-logo.png'], // TODO
+          icons: [''], // TODO
           name: 'Blockchain.com Wallet',
           url: 'https://login.blockchain.com'
         },
         uri
       })
 
+      console.log('===rpc===', rpc)
+
       // start listeners for rpc messages
       channel = yield call(createRpcListenerChannels)
+
+      // TODO:WC: Move this somewhere
+      localStorage.setItem('walletConnectUri', uri)
 
       while (true) {
         // message from rpc, forward action
@@ -125,7 +135,12 @@ export default ({ coreSagas }) => {
     try {
       yield put(A.setStep({ name: WalletConnectStep.LOADING }))
 
-      if (payload.userResponse === 'APPROVE') {
+      console.log('this is the response payload!!! IMPT', payload)
+
+      if (payload.action === 'APPROVE') {
+        // TODO:WC: move this to better place
+        localStorage.setItem('walletConnectSession', JSON.stringify(payload.sessionDetails))
+
         // store dapp details on state
         yield put(A.setSessionDetails(payload.sessionDetails))
 
@@ -158,7 +173,7 @@ export default ({ coreSagas }) => {
     try {
       yield put(A.setStep({ name: WalletConnectStep.LOADING }))
 
-      if (payload.userResponse === 'APPROVE') {
+      if (payload.action === 'APPROVE') {
         // TODO
       } else {
         // user rejected transaction

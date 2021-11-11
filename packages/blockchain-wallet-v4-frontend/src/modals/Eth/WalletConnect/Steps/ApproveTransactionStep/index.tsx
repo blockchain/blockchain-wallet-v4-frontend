@@ -15,10 +15,13 @@ const Wrapper = styled.div`
 const ApproveTransactionStep = (props) => {
   const { data: requestDetails, sessionDetails } = props
   const txDetails = requestDetails.params[0]
-  const approveRequest = () =>
+  console.log('approve this tx step!!!', requestDetails)
+  const approveRequest = () => {
     props.walletConnectActions.respondToTxSendRequest({ action: 'APPROVE', requestDetails })
-  const rejectRequest = () =>
+  }
+  const rejectRequest = () => {
     props.walletConnectActions.respondToTxSendRequest({ action: 'REJECT', requestDetails })
+  }
 
   return (
     <Wrapper>

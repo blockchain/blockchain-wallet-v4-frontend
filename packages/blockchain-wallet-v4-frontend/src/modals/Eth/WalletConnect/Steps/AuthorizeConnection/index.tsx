@@ -16,10 +16,15 @@ const Wrapper = styled.div`
 
 const AuthorizeConnectionStep = (props) => {
   const sessionDetails = props.data
-  const approveRequest = () =>
+  const approveRequest = () => {
+    console.log('approve connection button clicked', sessionDetails)
     props.walletConnectActions.respondToSessionRequest({ action: 'APPROVE', sessionDetails })
-  const rejectRequest = () =>
+  }
+  const rejectRequest = () => {
+    console.log('reject connection button clicked', sessionDetails)
     props.walletConnectActions.respondToSessionRequest({ action: 'REJECT', sessionDetails })
+  }
+
   return (
     <Wrapper>
       <img

@@ -82,6 +82,22 @@ const Settings = (props: Props) => {
             </LinkContainer>
             <LinkContainer
               onClick={() => {
+                props.settingsActions.generalSettingsInternalRedirect('walletConnect')
+              }}
+              to='/settings/walletConnect'
+              activeClassName='active'
+            >
+              <DropdownMenuItem data-e2e='settings_walletConnectLink'>
+                <Destination>
+                  <FormattedMessage
+                    id='layouts.wallet.header.walletConnect'
+                    defaultMessage='WalletConnect'
+                  />
+                </Destination>
+              </DropdownMenuItem>
+            </LinkContainer>
+            <LinkContainer
+              onClick={() => {
                 props.settingsActions.generalSettingsInternalRedirect('WalletAndAddresses')
               }}
               to='/settings/addresses'

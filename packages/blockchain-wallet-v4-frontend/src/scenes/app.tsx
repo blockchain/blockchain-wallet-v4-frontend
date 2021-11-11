@@ -52,6 +52,7 @@ const Prices = React.lazy(() => import('./Prices'))
 const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
 const TheExchange = React.lazy(() => import('./TheExchange'))
 const Transactions = React.lazy(() => import('./Transactions'))
+const WalletConnectSessions = React.lazy(() => import('./WalletConnectSessions'))
 
 const App = ({
   apiUrl,
@@ -113,6 +114,10 @@ const App = ({
                     <WalletLayout path='/settings/addresses' component={Addresses} />
                     <WalletLayout path='/settings/general' component={General} />
                     <WalletLayout path='/settings/preferences' component={Preferences} />
+                    <WalletLayout
+                      path='/settings/walletConnect'
+                      component={WalletConnectSessions}
+                    />
                     <WalletLayout path='/prices' component={Prices} />
                     {values(
                       map((coinModel) => {
