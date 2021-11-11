@@ -31,7 +31,10 @@ import Status from './Status'
 import TransactionFee from './TransactionFee'
 
 const BannerWrapper = styled.div`
-  margin-left: 6px;
+  margin: 0 6px;
+  &:not(:first-child) {
+    margin-top: 4px;
+  }
 `
 const AddressesColumn = styled.div`
   display: none;
@@ -84,27 +87,31 @@ const NonCustodialTx = ({
             </Banner>
           </BannerWrapper>
         )}
-        {'erc20' in transaction && transaction.erc20 && (
-          <BannerWrapper>
-            <Banner label='true' size='10px' type='informational'>
-              <FormattedMessage id='components.txlistitem.erc20fee' defaultMessage='ERC20 Fee' />
-            </Banner>
-          </BannerWrapper>
-        )}
-        {'state' in transaction && transaction.state === 'PENDING' && transaction.type === 'sent' && (
-          <TooltipHost id='transaction.pending.eth' data-place='right'>
-            <BannerWrapper
-              onClick={(e) => handleRetrySendEth(e, transaction.hash, transaction.erc20)}
-            >
-              <Banner label='true'>
-                <FormattedMessage
-                  id='components.txlistitem.retrytx'
-                  defaultMessage='Resend Transaction'
-                />
+        <div>
+          {'erc20' in transaction && transaction.erc20 && (
+            <BannerWrapper>
+              <Banner label='true' size='10px' type='informational'>
+                <FormattedMessage id='components.txlistitem.erc20fee' defaultMessage='ERC20 Fee' />
               </Banner>
             </BannerWrapper>
-          </TooltipHost>
-        )}
+          )}
+          {'state' in transaction &&
+            transaction.state === 'PENDING' &&
+            transaction.type === 'sent' && (
+              <TooltipHost id='transaction.pending.eth' data-place='right'>
+                <BannerWrapper
+                  onClick={(e) => handleRetrySendEth(e, transaction.hash, transaction.erc20)}
+                >
+                  <Banner label='true' size='11px'>
+                    <FormattedMessage
+                      id='components.txlistitem.retrytx'
+                      defaultMessage='Resend Transaction'
+                    />
+                  </Banner>
+                </BannerWrapper>
+              </TooltipHost>
+            )}
+        </div>
       </Row>
       <AddressesColumn data-e2e='transactionAddressesColumn'>
         <Addresses to={toAccountFormatter(transaction)} from={fromAccountFormatter(transaction)} />

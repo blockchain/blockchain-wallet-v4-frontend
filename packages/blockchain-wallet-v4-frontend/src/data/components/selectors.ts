@@ -8,6 +8,7 @@ import * as interestUploadDocument from './interestUploadDocument/selectors'
 import * as layoutWallet from './layoutWallet/selectors'
 import * as lockbox from './lockbox/selectors'
 import * as manageAddresses from './manageAddresses/selectors'
+import * as nfts from './nfts/selectors'
 import * as priceChart from './priceChart/selectors'
 import * as priceTicker from './priceTicker/selectors'
 import * as recoveryPhrase from './recoveryPhrase/selectors'
@@ -40,6 +41,7 @@ export {
   layoutWallet,
   lockbox,
   manageAddresses,
+  nfts,
   priceChart,
   priceTicker,
   recoveryPhrase,
