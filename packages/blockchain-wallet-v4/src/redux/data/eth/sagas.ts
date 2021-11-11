@@ -3,7 +3,6 @@ import moment from 'moment'
 import {
   addIndex,
   concat,
-  dissoc,
   equals,
   filter,
   flatten,
@@ -12,23 +11,20 @@ import {
   last,
   length,
   map,
-  mapObjIndexed,
   nth,
   path,
   pluck,
   prop,
-  sum,
   takeLast,
   toLower,
-  toUpper,
-  values
+  toUpper
 } from 'ramda'
 import { all, call, put, select, take } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
 import { EthRawTxType } from '@core/network/api/eth/types'
 import { EthProcessedTxType } from '@core/transactions/types'
-import { Erc20CoinType, FetchCustodialOrdersAndTransactionsReturnType } from '@core/types'
+import { Await, Erc20CoinType, FetchCustodialOrdersAndTransactionsReturnType } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { calculateFee } from '@core/utils/eth'
 
@@ -55,29 +51,29 @@ export default ({ api }: { api: APIType }) => {
   //
   const fetchData = function* () {
     try {
-      yield put(A.fetchDataLoading())
-      const context = yield select(S.getContext)
-      const data = yield call(api.getEthData, context)
-      const latestBlock = yield call(api.getEthLatestBlock)
-      // account treatments
-      const finalBalance = sum(values(data).map((obj) => obj.balance))
-      const totalReceived = sum(values(data).map((obj) => obj.totalReceived))
-      const totalSent = sum(values(data).map((obj) => obj.totalSent))
-      const nTx = sum(values(data).map((obj) => obj.txn_count))
-      const addresses = mapObjIndexed((num) => dissoc('txns', num), data)
+      const context = kvStoreSelectors.getDefaultAddress(yield select()).getOrFail('No ETH address')
+      const balance: Await<ReturnType<typeof api.getEthAccountBalance>> = yield call(
+        api.getEthAccountBalance,
+        context
+      )
+      const nonce: Await<ReturnType<typeof api.getEthAccountNonce>> = yield call(
+        api.getEthAccountNonce,
+        context
+      )
+      const latestBlock: Await<ReturnType<typeof api.getEthLatestBlock>> = yield call(
+        api.getEthLatestBlock
+      )
 
       const ethData = {
-        addresses,
-        info: {
-          eth: {
-            final_balance: finalBalance,
-            n_tx: nTx,
-            total_received: totalReceived,
-            total_sent: totalSent
+        addresses: {
+          [context]: {
+            balance,
+            nonce
           }
         },
         latest_block: latestBlock
       }
+
       yield put(A.fetchDataSuccess(ethData))
       // eslint-disable-next-line
       try {

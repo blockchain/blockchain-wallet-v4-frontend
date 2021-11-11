@@ -1,15 +1,29 @@
-import { AccountTokensBalancesResponseType, EthRawTxType } from './types'
+import * as ethers from 'ethers'
+
+import { AccountTokensBalancesResponseType, EthAccountSummaryType, EthRawTxType } from './types'
+
+const provider = ethers.providers.getDefaultProvider()
 
 export default ({ apiUrl, get, post }) => {
   //
-  // Misc
+  // Deprecate
   //
+
+  // web3.eth.getBalance
+  const getEthBalances = (context) =>
+    get({
+      endPoint: `/eth/account/${Array.isArray(context) ? context.join(',') : context}/balance`,
+      url: apiUrl
+    })
+
+  // https://docs.ethers.io/v5/api/providers/provider/#Provider-getCode
   const checkContract = (address) =>
     get({
       endPoint: `/eth/account/${address}/isContract`,
       url: apiUrl
     })
 
+  // https://docs.ethers.io/v5/api/providers/provider/#Provider-getGasPrice
   const getEthFees = (contractAddress) => {
     const baseUrl = '/mempool/fees/eth'
     return get({
@@ -19,6 +33,7 @@ export default ({ apiUrl, get, post }) => {
     })
   }
 
+  // https://docs.ethers.io/v5/api/providers/provider/#Provider-sendTransaction
   const pushEthTx = (rawTx) =>
     post({
       contentType: 'application/json',
@@ -28,7 +43,8 @@ export default ({ apiUrl, get, post }) => {
     })
 
   //
-  // V2
+  // Transactions and Erc20 Balance
+  // TODO: @sean
   //
   const getEthTransactionV2 = (hash): EthRawTxType =>
     get({
@@ -51,7 +67,11 @@ export default ({ apiUrl, get, post }) => {
       url: apiUrl
     })
 
-  const getEthAccountSummaryV2 = (account, page, pageSize) =>
+  const getEthAccountSummaryV2 = (
+    account,
+    page?: number,
+    pageSize?: number
+  ): EthAccountSummaryType =>
     get({
       data: { page, size: pageSize },
       endPoint: `/v2/eth/data/account/${account}/wallet`,
@@ -78,54 +98,25 @@ export default ({ apiUrl, get, post }) => {
       url: apiUrl
     })
 
-  //
-  // LEGACY ETH ENDPOINTS
-  // TODO: update to v2 endpoints, deprecate these
-  //
-  const getEthBalances = (context) =>
-    get({
-      endPoint: `/eth/account/${Array.isArray(context) ? context.join(',') : context}/balance`,
-      url: apiUrl
-    })
-
-  const getEthData = (context) =>
-    get({
-      endPoint: `/eth/account/${Array.isArray(context) ? context.join(',') : context}`,
-      url: apiUrl
-    })
-
-  const getEthTransactions = (context, page = 0) =>
-    get({
-      data: { page },
-      endPoint: `/eth/account/${Array.isArray(context) ? context.join(',') : context}`,
-      url: apiUrl
-    })
-
-  const getEthLatestBlock = () =>
-    get({
-      endPoint: '/eth/latestblock',
-      url: apiUrl
-    })
-
-  const getEthTransaction = (hash) =>
-    get({
-      endPoint: `/eth/tx/${hash}`,
-      url: apiUrl
-    })
+  // V3
+  const getEthAccountBalance = (account: string) => provider.getBalance(account)
+  const getEthAccountNonce = (account: string) => provider.getTransactionCount(account)
+  const getEthLatestBlock = () => provider.getBlockNumber()
+  const getEthGasPrice = () => provider.getGasPrice()
 
   return {
     checkContract,
     getAccountTokensBalances,
     getErc20AccountSummaryV2,
     getErc20TransactionsV2,
+    getEthAccountBalance,
+    getEthAccountNonce,
     getEthAccountSummaryV2,
     getEthBalances,
-    getEthData,
     getEthFees,
+    getEthGasPrice,
     getEthLatestBlock,
-    getEthTransaction,
     getEthTransactionV2,
-    getEthTransactions,
     getEthTransactionsV2,
     pushEthTx
   }

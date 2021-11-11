@@ -124,6 +124,7 @@ import logoLoader from './img/logo-loader.gif'
 import mastercardLogo from './img/mastercard-logo.svg'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
 import money from './img/money.png'
+import nft from './img/nft.png'
 import printer from './img/printer.svg'
 import proofOfAddress from './img/proof-of-address.svg'
 import qrCode from './img/qr-code.png'
@@ -289,6 +290,7 @@ const Images = {
   'mastercard-logo': mastercardLogo,
   'micro-deposits-whole': microDepositsWhole,
   money,
+  nft,
   printer,
   'proof-of-address': proofOfAddress,
   'qr-code': qrCode,

@@ -12,7 +12,7 @@ export const getDefaultAccount = function* (coin: CoinType) {
 
 // retrieves the next receive address
 export const getNextReceiveAddress = function* (coin: CoinType) {
-  return selectors.core.data.eth
+  return selectors.core.kvStore.eth
     .getDefaultAddress(yield select())
     .getOrFail(`Failed to get ${coin} receive address`)
 }

@@ -30,9 +30,21 @@ export const getXlmExchangeAddresses = () => Remote.of([])
 export const getVeriffDomain = (state) => getDomains(state).map(prop('veriff'))
 export const getSiftKey = (state) => getWebOptions(state).map(path(['sift', 'apiKey']))
 
+// Nfts
+export const getNfts = (state) => getOptions(state).map((x) => x.platforms.web.nfts)
+
 //
 // FEATURE FLAG SELECTORS
 //
+
+// all flags
+export const getFeatureFlags = (
+  state: RootState
+): RemoteDataType<string, { [key in string]: boolean }> =>
+  getWebOptions(state).map(path(['featureFlags'])) as RemoteDataType<
+    string,
+    { [key in string]: boolean }
+  >
 
 // show pairing code flag on staging
 export const getPairingCodeFlag = (state: RootState) =>
