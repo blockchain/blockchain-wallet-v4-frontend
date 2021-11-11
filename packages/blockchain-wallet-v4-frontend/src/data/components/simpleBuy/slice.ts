@@ -218,7 +218,7 @@ const buySellSlice = createSlice({
     },
 
     fetchCrossBorderLimits: (state, action: PayloadAction<CrossBorderLimitsPyload>) => {},
-    fetchCrossBorderLimitsFailure: (state, action: PayloadAction<string>) => {
+    fetchCrossBorderLimitsFailure: (state, action: PayloadAction<unknown>) => {
       state.crossBorderLimits = Remote.Failure(action.payload)
     },
     fetchCrossBorderLimitsLoading: (state) => {

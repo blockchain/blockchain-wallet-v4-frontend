@@ -26,6 +26,15 @@ import {
 import { errorHandler, errorHandlerCode } from '@core/utils'
 import { actions, selectors } from 'data'
 import { generateProvisionalPaymentAmount } from 'data/coins/utils'
+import brokerageSagas from 'data/components/brokerage/sagas'
+import { convertBaseToStandard, convertStandardToBase } from 'data/components/exchange/services'
+import sendSagas from 'data/components/send/sagas'
+import { FALLBACK_DELAY, getOutputFromPair } from 'data/components/swap/model'
+import swapSagas from 'data/components/swap/sagas'
+import { SwapBaseCounterTypes } from 'data/components/swap/types'
+import { getRate, NO_QUOTE } from 'data/components/swap/utils'
+import { selectReceiveAddress } from 'data/components/utils/sagas'
+import profileSagas from 'data/modules/profile/sagas'
 import {
   AddBankStepType,
   BankPartners,
@@ -34,15 +43,6 @@ import {
   UserDataType
 } from 'data/types'
 
-import profileSagas from '../../modules/profile/sagas'
-import brokerageSagas from '../brokerage/sagas'
-import { convertBaseToStandard, convertStandardToBase } from '../exchange/services'
-import sendSagas from '../send/sagas'
-import { FALLBACK_DELAY, getOutputFromPair } from '../swap/model'
-import swapSagas from '../swap/sagas'
-import { SwapBaseCounterTypes } from '../swap/types'
-import { getRate, NO_QUOTE } from '../swap/utils'
-import { selectReceiveAddress } from '../utils/sagas'
 import {
   DEFAULT_SB_BALANCES,
   DEFAULT_SB_METHODS,
@@ -143,6 +143,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const addCardDetails = function* () {
     try {
+      const paymentProcessors: boolean = (yield select(
+        selectors.core.walletOptions.getPaymentProcessors
+      )).getOrElse(false)
+
       const formValues: T.SBAddCardFormValuesType = yield select(
         selectors.form.getFormValues('addCCForm')
       )
@@ -151,6 +155,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const nextCardAlreadyExists = getNextCardExists(existingCards, formValues)
 
       if (nextCardAlreadyExists) throw new Error('CARD_ALREADY_SAVED')
+
+      if (paymentProcessors) {
+        // Should use new payment processors
+      }
 
       yield put(
         A.setStep({
