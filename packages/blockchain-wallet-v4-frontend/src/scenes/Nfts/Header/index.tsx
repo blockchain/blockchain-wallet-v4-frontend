@@ -1,13 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { compose } from 'redux'
-import { Field, reduxForm } from 'redux-form'
+import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, TabMenu, TabMenuItem } from 'blockchain-info-components'
 import { Form, TextBox } from 'components/Form'
-import { selectors } from 'data'
 
 import { Props as OwnProps } from '..'
 
@@ -36,8 +34,17 @@ const StyledForm = styled(Form)`
   }
 `
 
-const NftHeader: React.FC<Props> = ({ activeTab, formState, nftsActions, setActiveTab }) => {
-  console.log(formState)
+const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = ({
+  activeTab,
+  nftsActions,
+  setActiveTab,
+  ...rest
+}) => {
+  const handleSubmit = (e) => {
+    if (!e) return
+    e.preventDefault()
+    nftsActions.searchNftAssetContract({ asset_contract_address: e.target[0].value })
+  }
 
   return (
     <Wrapper>
@@ -54,18 +61,13 @@ const NftHeader: React.FC<Props> = ({ activeTab, formState, nftsActions, setActi
           </TabMenuItem>
         </TabMenu>
       </TabsContainer>
-      <StyledForm
-        onSubmit={(e) => {
-          e.preventDefault()
-          nftsActions.searchNftAssetContract(e.target.elements.search.value)
-        }}
-      >
+      <StyledForm onSubmit={handleSubmit}>
         <Field
           placeholder='Search Collection By Contract Address'
           name='search'
           component={TextBox}
         />
-        <Button data-e2e='searchNfts' type='submit' nature='primary'>
+        <Button disabled={rest.submitting} data-e2e='searchNfts' type='submit' nature='primary'>
           <FormattedMessage id='buttons.search' defaultMessage='Search' />
         </Button>
       </StyledForm>
@@ -73,18 +75,9 @@ const NftHeader: React.FC<Props> = ({ activeTab, formState, nftsActions, setActi
   )
 }
 
-const mapStateToProps = (state: any) => ({
-  formState: selectors.form.getFormMeta('nftSearch')(state)
-})
+type Props = OwnProps & {
+  activeTab: 'explore' | 'my-collection'
+  setActiveTab: React.Dispatch<React.SetStateAction<'explore' | 'my-collection'>>
+}
 
-const connector = connect(mapStateToProps)
-
-type Props = OwnProps &
-  ConnectedProps<typeof connector> & {
-    activeTab: 'explore' | 'my-collection'
-    setActiveTab: React.Dispatch<React.SetStateAction<'explore' | 'my-collection'>>
-  }
-
-const enhance = compose<any>(connector, reduxForm<{}, OwnProps>({ form: 'nftSearch' }))
-
-export default enhance(NftHeader)
+export default reduxForm<{}, Props>({ form: 'nftSearch' })(NftHeader)

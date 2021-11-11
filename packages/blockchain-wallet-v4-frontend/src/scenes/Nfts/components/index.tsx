@@ -18,7 +18,7 @@ export const LeftColWrapper = styled.div`
   top: 48px;
   overflow: scroll;
   background: ${(props) => props.theme.white};
-  z-index: 20;
+  z-index: 1;
   ${media.atLeastTabletL`
   top: 61px;
   margin-right: 20px;
