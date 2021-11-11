@@ -107,7 +107,12 @@ export const parseMagicLink = function* () {
           product: ProductAuthOptions.EXCHANGE
         })
       )
-      yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
+      // if the account is unified, they're using wallet to login and retrieve token
+      if (unified) {
+        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
+      } else {
+        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
+      }
     }
     yield put(actions.auth.analyticsMagicLinkParsed())
   } catch (e) {
