@@ -1,20 +1,19 @@
-import { ethers, Signer } from 'ethers'
+import BigNumber from 'bignumber.js'
+import { Signer } from 'ethers'
 
-import { NftAsset, NftOrdersType, SellOrder } from '@core/network/api/nfts/types'
+import { NftAsset, NftOrderSide, NftOrdersType, SellOrder } from '@core/network/api/nfts/types'
 
-import { wyvernExchange_ABI } from './abis'
 import {
   _atomicMatch,
-  _authorizeOrder,
   _buyOrderValidationAndApprovals,
   _cancelOrder,
-  _makeMatchingOrder,
-  _makeSellOrder,
-  _sellOrderValidationAndApprovals,
-  _signMessage,
-  _validateOrderWyvern,
-  assignOrdersToSides,
-  getOrderHash
+  calculateAtomicMatchFees,
+  calculatePaymentProxyApprovals,
+  calculateProxyApprovalFees,
+  calculateProxyFees,
+  createMatchingOrders,
+  createSellOrder,
+  NULL_ADDRESS
 } from './utils'
 
 export const cancelNftListing = async (sellOrder: SellOrder, signer: Signer) => {
@@ -22,67 +21,22 @@ export const cancelNftListing = async (sellOrder: SellOrder, signer: Signer) => 
   return cancelled
 }
 
-export const fulfillNftSellOrder = async (asset: NftAsset, signer: Signer) => {
-  // 1. use the _makeSellOrder to create the object & initialize the proxy contract for this sale.
-  const accountAddress = await signer.getAddress()
-  const order = await _makeSellOrder({
-    accountAddress,
-    asset,
-    buyerAddress: '0x0000000000000000000000000000000000000000',
-    expirationTime: 0,
-    extraBountyBasisPoints: 0,
-    paymentTokenAddress: '0x0000000000000000000000000000000000000000',
-    quantity: 1,
-    startAmount: 0.1,
-    waitForHighestBid: false
-  })
-  // 2. Validation of sell order fields & Transaction Approvals (Proxy initialized here if needed also)
-  const validatedAndApproved = await _sellOrderValidationAndApprovals({ order, signer })
-  console.log(`Successful approvals and validations?: ${validatedAndApproved}`)
-  // 3. Compute hash of the order and output {...order, hash:hash(order)}
-  const hashedOrder = {
-    ...order,
-    hash: getOrderHash(order)
-  }
-  // 4. Obtain a signature from the signer (using the mnemonic & Ethers JS) over the hash and message.
-  let signature
-  try {
-    signature = await _authorizeOrder(hashedOrder, signer)
-  } catch (error) {
-    console.error(error)
-    throw new Error('You declined to authorize your auction')
-  }
-
-  const orderWithSignature = {
-    ...hashedOrder,
-    ...signature
-  }
+export const fulfillNftSellOrder = async (
+  asset: NftAsset,
+  signer: Signer,
+  startPrice = 0.011, // The starting price for auctions / sale price for fixed price sale orders (TODO: Remove default 0.1 value)
+  endPrice: number | null = null, // Implement later for to enable dutch auction sales.
+  waitForHighestBid = false // True = English auction
+) => {
+  const signedOrder = await createSellOrder(asset, signer, startPrice, endPrice, waitForHighestBid)
   console.log('next up, try to post this to the OpenSea API:')
-  console.log(orderWithSignature)
-  // 5. Send to the OpenSea post order route.
-  return orderWithSignature
+  console.log(signedOrder)
+  return signedOrder
 }
 
+// TODO: Be able to pass in custom value for price for making auction bids.
 export const fulfillNftOrder = async (order: NftOrdersType['orders'][0], signer: Signer) => {
-  const contract = new ethers.Contract(
-    '0x7be8076f4ea4a4ad08075c2508e481d6c946d12b',
-    wyvernExchange_ABI,
-    signer
-  )
-  const accountAddress = await signer.getAddress()
-  // TODO: If its an english auction bid above the basePrice include an offer property in the _makeMatchingOrder call
-  const matchingOrder = _makeMatchingOrder({
-    accountAddress,
-    order,
-    recipientAddress: accountAddress
-  })
-  let { buy, sell } = assignOrdersToSides(order, matchingOrder)
-  const signature = await _signMessage({ message: buy.hash, signer })
-  buy = {
-    ...buy,
-    ...signature
-  }
-  console.log(buy)
+  const { buy, sell } = await createMatchingOrders(order, signer)
   // Perform buy order validations (abstracted away from _atomicMatch because english auction bids don't hit that function)
   // await _buyOrderValidationAndApprovals({ order: buy, signer })
   // Is an english auction sale
@@ -99,66 +53,48 @@ export const fulfillNftOrder = async (order: NftOrdersType['orders'][0], signer:
   }
   // Is a fixed price sale
   else {
-    const isSellValid = await _validateOrderWyvern({ order: sell, signer })
-    if (!isSellValid) throw new Error('Sell order is invalid')
-    const isBuyValid = await _validateOrderWyvern({ order: buy, signer })
-    if (!isBuyValid) throw new Error('Buy order is invalid')
-    const matchPrice = await contract.calculateMatchPrice_(
-      [
-        buy.exchange,
-        buy.maker,
-        buy.taker,
-        buy.feeRecipient,
-        buy.target,
-        buy.staticTarget,
-        buy.paymentToken,
-        sell.exchange,
-        sell.maker,
-        sell.taker,
-        sell.feeRecipient,
-        sell.target,
-        sell.staticTarget,
-        sell.paymentToken
-      ],
-      [
-        buy.makerRelayerFee.toString(),
-        buy.takerRelayerFee.toString(),
-        buy.makerProtocolFee.toString(),
-        buy.takerProtocolFee.toString(),
-        buy.basePrice.toString(),
-        buy.extra.toString(),
-        buy.listingTime.toString(),
-        buy.expirationTime.toString(),
-        // TODO FIXME: this is a hack
-        buy.salt.toString(),
-        sell.makerRelayerFee.toString(),
-        sell.takerRelayerFee.toString(),
-        sell.makerProtocolFee.toString(),
-        sell.takerProtocolFee.toString(),
-        sell.basePrice.toString(),
-        sell.extra.toString(),
-        sell.listingTime.toString(),
-        sell.expirationTime.toString(),
-        sell.salt.toString()
-      ],
-      [
-        buy.feeMethod,
-        buy.side,
-        buy.saleKind,
-        buy.howToCall,
-        sell.feeMethod,
-        sell.side,
-        sell.saleKind,
-        sell.howToCall
-      ],
-      buy.calldata,
-      sell.calldata,
-      buy.replacementPattern,
-      sell.replacementPattern,
-      buy.staticExtradata,
-      sell.staticExtradata
-    )
     await _atomicMatch({ buy, sell, signer })
+  }
+}
+
+// Calculates all the fees a user will need to pay/encounter on their journey to either sell/buy an NFT
+// order and counterOrder needed for sell orders, only order needed for buy order calculations (May need to put a default value here in future / change the way these are called into two seperate functions?)
+export const calculateGasFees = async (order, counterOrder, signer) => {
+  let totalFees = '0'
+  let proxyFees = '0'
+  let approvalFees = '0'
+  let gasFees = '0'
+  // Sell orders always need proxy address and approval:
+  if (order.side === NftOrderSide.Sell) {
+    // 1. Calculate the gas cost of deploying proxy if needed (can estimate using ethers)
+    proxyFees = (await calculateProxyFees(signer)).toString()
+    // 2. Calculate the gas cost of making the approvals (can only estimate using ethers if the proxy has been deployed, otherwise can add a safe value here)
+    approvalFees =
+      proxyFees.toString() === '0'
+        ? (await calculateProxyApprovalFees(order, signer)).toString()
+        : '300000'
+    totalFees = new BigNumber(approvalFees).plus(new BigNumber(proxyFees)).toString()
+  }
+  // Buy orders dont need any approval or proxy IF payment token is Ether.
+  // However, if payment token is an ERC20 approval must be given to the payment proxy address
+  else {
+    // 1. Calculate gas cost of approvals (if needed) - possible with ethers
+    approvalFees =
+      order.paymentToken !== NULL_ADDRESS
+        ? (await calculatePaymentProxyApprovals(order, signer)).toString()
+        : '0'
+    // 2. Caclulate the gas cost of the _atomicMatch function call
+    gasFees =
+      approvalFees === '0'
+        ? (await calculateAtomicMatchFees(order, counterOrder, signer)).toString()
+        : '350000'
+    totalFees = new BigNumber(approvalFees).plus(new BigNumber(gasFees)).toString()
+  }
+  return {
+    approvalFees,
+    gasFees,
+    proxyFees,
+    totalFees
   }
 }
 
