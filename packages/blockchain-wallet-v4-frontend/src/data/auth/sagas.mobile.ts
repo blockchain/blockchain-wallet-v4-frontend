@@ -47,6 +47,9 @@ const sendMessageToMobile = (
   // messages must be passed as strings to mobile clients
   const messageStringified = JSON.stringify(message)
   console.log('sendMessageToMobile start')
+  console.log('sendMessageToMobile platform:', platform)
+  console.log('sendMessageToMobile webkit defined:', hasPath(['webkit'], window))
+  console.log('sendMessageToMobile BCAndroidSSI defined:', hasPath(['BCAndroidSSI'], window))
   switch (true) {
     // ios
     case platform === PlatformTypes.IOS && window.webkit:
