@@ -233,6 +233,21 @@ export default ({ api }: { api: APIType }) => {
     yield put(actions.modals.closeAllModals())
   }
 
+  const searchNftAssetContract = function* (action: ReturnType<typeof A.searchNftAssetContract>) {
+    try {
+      yield put(actions.form.startSubmit('nftSearch'))
+      const res = yield call(api.getAssetContract, action.payload.asset_contract_address)
+      yield put(actions.form.stopSubmit('nftSearch'))
+      yield put(actions.form.setSubmitSucceeded('nftSearch'))
+      yield put(actions.form.change('nftMarketplace', 'collection', res.collection.slug))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(actions.form.stopSubmit('nftSearch'))
+      yield put(actions.alerts.displayError("Sorry! We couldn't find that collection."))
+      actions.form.setSubmitFailed('nftSearch', error)
+    }
+  }
+
   return {
     cancelListing,
     createBuyOrder,
@@ -242,6 +257,7 @@ export default ({ api }: { api: APIType }) => {
     formChanged,
     formInitialized,
     nftOrderFlowClose,
-    nftOrderFlowOpen
+    nftOrderFlowOpen,
+    searchNftAssetContract
   }
 }

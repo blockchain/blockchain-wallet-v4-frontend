@@ -98,6 +98,13 @@ const Marketplace: React.FC<Props> = (props: Props) => {
         })}
         {props.orders.isLoading ? (
           <SpinningLoader width='14px' height='14px' borderWidth='3px' />
+        ) : props.orders.isFailure ? (
+          <Text weight={600}>
+            <span aria-label='cry' role='img'>
+              😭
+            </span>{' '}
+            Error fetching NFTs!
+          </Text>
         ) : null}
       </LazyLoadWrapper>
       {props.marketplace.atBound ? <div>No more NFTs for sale in this collection</div> : null}
