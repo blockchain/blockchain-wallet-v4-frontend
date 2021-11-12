@@ -132,6 +132,9 @@ const nftsSlice = createSlice({
       if (action.payload.collection) state.marketplace.collection = action.payload.collection
       if (action.payload.token_ids_queried)
         state.marketplace.token_ids_queried = action.payload.token_ids_queried
+    },
+    setOrderFlowStep: (state, action: PayloadAction<{ step: NftOrderStepEnum }>) => {
+      state.orderFlow.step = action.payload.step
     }
   }
 })
