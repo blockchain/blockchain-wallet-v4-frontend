@@ -833,8 +833,10 @@ async function _getPriceParameters(
  * @param web3 Web3 instance
  * @param address input address
  */
-export async function isContractAddress(address: string): Promise<boolean> {
-  const provider = ethers.getDefaultProvider()
+export async function isContractAddress(
+  address: string,
+  provider: ethers.providers.Provider
+): Promise<boolean> {
   const code = await provider.getCode(address)
   return code !== '0x'
 }
@@ -904,11 +906,12 @@ export async function _signMessage({
 
 export async function _authorizeOrder(
   order: UnsignedOrder,
-  signer: Signer
+  signer: Signer,
+  provider: ethers.providers.Provider
 ): Promise<ECSignature | null> {
   const message = order.hash
   const signerAddress = order.maker
-  const makerIsSmartContract = await isContractAddress(signerAddress)
+  const makerIsSmartContract = await isContractAddress(signerAddress, provider)
 
   try {
     if (makerIsSmartContract) {

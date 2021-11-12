@@ -28,7 +28,7 @@ const Nfts: React.FC<Props> = (props) => {
 
   return (
     <NftPage>
-      <NftHeader activeTab={activeTab} setActiveTab={setActiveTab} />
+      <NftHeader {...props} activeTab={activeTab} setActiveTab={setActiveTab} />
       {activeTab === 'explore' ? <Marketplace {...props} /> : null}
       {activeTab === 'my-collection' ? <YourCollection {...props} /> : null}
     </NftPage>

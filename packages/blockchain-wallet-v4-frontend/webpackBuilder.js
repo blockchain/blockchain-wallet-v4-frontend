@@ -238,7 +238,7 @@ const buildDevServerConfig = (
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Content-Security-Policy': [
-        `img-src 'self' *ipfs.io *.googleusercontent.com *.zendesk.com *.yapily.com https://raw.githubusercontent.com https://login.blockchain.com data: blob:`,
+        `img-src 'self' *.googleusercontent.com *.zendesk.com *.yapily.com https://raw.githubusercontent.com https://login.blockchain.com data: blob:`,
         allowUnsafeScripts
           ? `script-src 'nonce-${CSP_NONCE}' 'self' 'unsafe-eval'`
           : `script-src 'nonce-${CSP_NONCE}' 'self'`,
@@ -254,16 +254,7 @@ const buildDevServerConfig = (
           'ws://localhost:8080',
           'wss://localhost:8080',
           'wss://api.ledgerwallet.com',
-          // TODO: remove this once we have proper endpoint
-          // used for fetching nft stuff
-          'http://explorer-gateway.traefik',
-          'https://ipfs.io',
           'https://api.opensea.io',
-          'https://eth-mainnet.alchemyapi.io',
-          'https://api.etherscan.io',
-          'https://cloudflare-eth.com',
-          'https://eth-mainnet.gateway.pokt.network',
-          'https://mainnet.infura.io',
           envConfig.API_DOMAIN,
           envConfig.EVERYPAY_URL,
           envConfig.HORIZON_URL,

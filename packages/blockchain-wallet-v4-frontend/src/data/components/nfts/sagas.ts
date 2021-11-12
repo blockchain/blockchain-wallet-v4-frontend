@@ -15,7 +15,6 @@ import * as S from './selectors'
 import { actions as A } from './slice'
 import { orderFromJSON } from './utils'
 
-const provider = ethers.providers.getDefaultProvider()
 export const logLocation = 'components/nfts/sagas'
 const taskToPromise = (t) => new Promise((resolve, reject) => t.fork(reject, resolve))
 
@@ -115,7 +114,7 @@ export default ({ api }: { api: APIType }) => {
       const mnemonicT = yield select(getMnemonic)
       const mnemonic = yield call(() => taskToPromise(mnemonicT))
       const privateKey = getPrivateKey(mnemonic)
-      const wallet = new ethers.Wallet(privateKey, provider)
+      const wallet = new ethers.Wallet(privateKey, api.ethProvider)
       return wallet
     } catch (e) {
       throw new Error('Error getting eth wallet signer.')
@@ -148,7 +147,7 @@ export default ({ api }: { api: APIType }) => {
   const createSellOrder = function* (action: ReturnType<typeof A.createSellOrder>) {
     try {
       const signer = yield call(getEthSigner)
-      const order = yield call(fulfillNftSellOrder, action.payload.asset, signer)
+      const order = yield call(fulfillNftSellOrder, action.payload.asset, signer, api.ethProvider)
       const result = yield call(api.postNftOrder, order)
       console.log(result)
     } catch (e) {
@@ -234,6 +233,21 @@ export default ({ api }: { api: APIType }) => {
     yield put(actions.modals.closeAllModals())
   }
 
+  const searchNftAssetContract = function* (action: ReturnType<typeof A.searchNftAssetContract>) {
+    try {
+      yield put(actions.form.startSubmit('nftSearch'))
+      const res = yield call(api.getAssetContract, action.payload.asset_contract_address)
+      yield put(actions.form.stopSubmit('nftSearch'))
+      yield put(actions.form.setSubmitSucceeded('nftSearch'))
+      yield put(actions.form.change('nftMarketplace', 'collection', res.collection.slug))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(actions.form.stopSubmit('nftSearch'))
+      yield put(actions.alerts.displayError("Sorry! We couldn't find that collection."))
+      actions.form.setSubmitFailed('nftSearch', error)
+    }
+  }
+
   return {
     cancelListing,
     createBuyOrder,
@@ -243,6 +257,7 @@ export default ({ api }: { api: APIType }) => {
     formChanged,
     formInitialized,
     nftOrderFlowClose,
-    nftOrderFlowOpen
+    nftOrderFlowOpen,
+    searchNftAssetContract
   }
 }
