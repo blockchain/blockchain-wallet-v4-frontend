@@ -6,6 +6,7 @@ import styled from 'styled-components'
 
 import { RemoteDataType } from '@core/types'
 import { Button, Icon, Text } from 'blockchain-info-components'
+import { Wrapper } from 'components/Public'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import { actions, selectors } from 'data'
 import { LoginSteps } from 'data/types'
@@ -53,7 +54,7 @@ const VerificationMobile = (props: Props) => {
   }
 
   return (
-    <>
+    <Wrapper>
       <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} />
       <Body>
         <TextColumn>
@@ -159,7 +160,7 @@ const VerificationMobile = (props: Props) => {
         </Button>
         <NeedHelpLink authActions={props.authActions} origin='QR_CODE' />
       </LinkRow>
-    </>
+    </Wrapper>
   )
 }
 

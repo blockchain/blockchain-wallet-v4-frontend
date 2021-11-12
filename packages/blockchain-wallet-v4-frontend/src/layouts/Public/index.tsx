@@ -66,10 +66,7 @@ const ContentContainer = styled.div<{ isLogin?: boolean }>`
 
 const PublicLayoutContainer = ({ component: Component, exact = false, loginStep, path }: Props) => {
   const isLogin = path === '/login'
-  const isFirstLoginStep = isLogin && loginStep === LoginSteps.ENTER_EMAIL_GUID
-  const isSecondLoginStep =
-    isLogin &&
-    (loginStep === LoginSteps.VERIFICATION_MOBILE || loginStep === LoginSteps.ENTER_PASSWORD)
+
   return (
     <Route
       path={path}
@@ -91,7 +88,7 @@ const PublicLayoutContainer = ({ component: Component, exact = false, loginStep,
             </ContentContainer>
 
             <FooterContainer>
-              <Footer isFirstLoginStep={isFirstLoginStep} isSecondLoginStep={isSecondLoginStep} />
+              <Footer isLogin={isLogin} />
             </FooterContainer>
           </Wrapper>
         </ErrorBoundary>

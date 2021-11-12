@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
+import { Wrapper } from 'components/Public'
 import { LoginSteps } from 'data/types'
 
 import { Props as OwnProps } from '..'
@@ -23,7 +24,7 @@ const CheckEmail = (props: Props) => {
     props.authActions.clearLoginError()
   }
   return (
-    <>
+    <Wrapper>
       <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} />
       <FormBody>
         <CircleBackground color='blue600'>
@@ -48,7 +49,7 @@ const CheckEmail = (props: Props) => {
       <Button type='submit' nature='empty-blue' fullwidth height='48px' data-e2e='loginResendEmail'>
         <FormattedMessage id='buttons.email_didnt_arrive' defaultMessage="Email didn't arrive?" />
       </Button>
-    </>
+    </Wrapper>
   )
 }
 

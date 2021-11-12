@@ -17,7 +17,7 @@ import Loading from '../loading.public'
 import CheckEmail from './CheckEmail'
 import EnterEmailOrGuid from './EnterEmailOrGuid'
 import EnterPassword from './EnterPassword'
-import { CreateAccount, LOGIN_FORM_NAME, PhishingWarning } from './model'
+import { LOGIN_FORM_NAME, PhishingWarning } from './model'
 import VerificationMobile from './VerificationMobile'
 import VerifyMagicLink from './VerifyMagicLink'
 
@@ -111,11 +111,6 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     }
   }
 
-  loginWithMobileClicked = () => {
-    this.props.authActions.loginMethodSelected('SECURE_CHANNEL')
-    this.setStep(LoginSteps.VERIFICATION_MOBILE)
-  }
-
   render() {
     const { data, formValues } = this.props
     const { step } = formValues || LoginSteps.ENTER_EMAIL_GUID
@@ -164,70 +159,50 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
             />
           </Text>
         )}
-        <Wrapper>
-          <Form onSubmit={this.handleSubmit}>
-            {(() => {
-              switch (step) {
-                case LoginSteps.ENTER_EMAIL_GUID:
-                  return (
-                    <EnterEmailOrGuid
-                      {...this.props}
-                      {...loginProps}
-                      setStep={this.setStep}
-                      initCaptcha={this.initCaptcha}
-                    />
-                  )
-                case LoginSteps.ENTER_PASSWORD:
-                  return (
-                    <EnterPassword
-                      {...this.props}
-                      {...loginProps}
-                      setStep={this.setStep}
-                      initCaptcha={this.initCaptcha}
-                    />
-                  )
+        <Form onSubmit={this.handleSubmit}>
+          {(() => {
+            switch (step) {
+              case LoginSteps.ENTER_EMAIL_GUID:
+                return (
+                  <EnterEmailOrGuid
+                    {...this.props}
+                    {...loginProps}
+                    setStep={this.setStep}
+                    initCaptcha={this.initCaptcha}
+                  />
+                )
+              case LoginSteps.ENTER_PASSWORD:
+                return (
+                  <EnterPassword
+                    {...this.props}
+                    {...loginProps}
+                    setStep={this.setStep}
+                    initCaptcha={this.initCaptcha}
+                  />
+                )
 
-                case LoginSteps.CHECK_EMAIL:
-                  return (
-                    <CheckEmail
-                      {...this.props}
-                      {...loginProps}
-                      setStep={this.setStep}
-                      initCaptcha={this.initCaptcha}
-                    />
-                  )
+              case LoginSteps.CHECK_EMAIL:
+                return (
+                  <CheckEmail
+                    {...this.props}
+                    {...loginProps}
+                    setStep={this.setStep}
+                    initCaptcha={this.initCaptcha}
+                  />
+                )
 
-                case LoginSteps.VERIFY_MAGIC_LINK:
-                  return <VerifyMagicLink {...this.props} {...loginProps} setStep={this.setStep} />
+              case LoginSteps.VERIFY_MAGIC_LINK:
+                return <VerifyMagicLink {...this.props} {...loginProps} setStep={this.setStep} />
 
-                case LoginSteps.VERIFICATION_MOBILE:
-                  return (
-                    <VerificationMobile {...this.props} {...loginProps} setStep={this.setStep} />
-                  )
-                default:
-                  return null
-              }
-            })()}
-          </Form>
-        </Wrapper>
-        {step === LoginSteps.ENTER_PASSWORD && (
-          <Text
-            color='white'
-            weight={600}
-            size='16px'
-            cursor='pointer'
-            style={{ marginTop: '24px' }}
-            onClick={this.loginWithMobileClicked}
-          >
-            <FormattedMessage
-              id='scenes.login.loginwithmobile'
-              defaultMessage='Log In with Mobile App ->'
-            />
-          </Text>
-        )}
+              case LoginSteps.VERIFICATION_MOBILE:
+                return <VerificationMobile {...this.props} {...loginProps} setStep={this.setStep} />
+              default:
+                return null
+            }
+          })()}
+        </Form>
         {step === LoginSteps.ENTER_EMAIL_GUID && (
           <>
-            <CreateAccount />
             <Text size='14px' color='grey400' weight={500} style={{ marginBottom: '16px' }}>
               <FormattedMessage
                 id='scenes.login.phishingwarning'
