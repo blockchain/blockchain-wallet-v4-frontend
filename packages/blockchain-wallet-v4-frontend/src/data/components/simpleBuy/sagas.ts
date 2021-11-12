@@ -29,20 +29,6 @@ import { generateProvisionalPaymentAmount } from 'data/coins/utils'
 import brokerageSagas from 'data/components/brokerage/sagas'
 import { convertBaseToStandard, convertStandardToBase } from 'data/components/exchange/services'
 import sendSagas from 'data/components/send/sagas'
-import { FALLBACK_DELAY, getOutputFromPair } from 'data/components/swap/model'
-import swapSagas from 'data/components/swap/sagas'
-import { SwapBaseCounterTypes } from 'data/components/swap/types'
-import { getRate, NO_QUOTE } from 'data/components/swap/utils'
-import { selectReceiveAddress } from 'data/components/utils/sagas'
-import profileSagas from 'data/modules/profile/sagas'
-import {
-  AddBankStepType,
-  BankPartners,
-  BankTransferAccountType,
-  BrokerageModalOriginType,
-  UserDataType
-} from 'data/types'
-
 import {
   DEFAULT_SB_BALANCES,
   DEFAULT_SB_METHODS,
@@ -57,11 +43,24 @@ import {
   NO_PAYMENT_TYPE,
   POLLING,
   SDD_TIER
-} from './model'
-import * as S from './selectors'
-import { actions as A } from './slice'
-import * as T from './types'
-import { getDirection } from './utils'
+} from 'data/components/simpleBuy/model'
+import * as S from 'data/components/simpleBuy/selectors'
+import { actions as A } from 'data/components/simpleBuy/slice'
+import * as T from 'data/components/simpleBuy/types'
+import { getDirection } from 'data/components/simpleBuy/utils'
+import { FALLBACK_DELAY, getOutputFromPair } from 'data/components/swap/model'
+import swapSagas from 'data/components/swap/sagas'
+import { SwapBaseCounterTypes } from 'data/components/swap/types'
+import { getRate, NO_QUOTE } from 'data/components/swap/utils'
+import { selectReceiveAddress } from 'data/components/utils/sagas'
+import profileSagas from 'data/modules/profile/sagas'
+import {
+  AddBankStepType,
+  BankPartners,
+  BankTransferAccountType,
+  BrokerageModalOriginType,
+  UserDataType
+} from 'data/types'
 
 export const logLocation = 'components/simpleBuy/sagas'
 
@@ -157,7 +156,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (nextCardAlreadyExists) throw new Error('CARD_ALREADY_SAVED')
 
       if (paymentProcessors) {
-        // Should use new payment processors
+        // eslint-disable-next-line no-console
+        console.log(formValues)
       }
 
       yield put(

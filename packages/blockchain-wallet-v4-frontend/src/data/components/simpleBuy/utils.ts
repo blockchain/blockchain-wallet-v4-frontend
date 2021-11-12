@@ -1,9 +1,7 @@
 import { SwapOrderDirectionType } from '@core/types'
+import { SwapAccountType, SwapBaseCounterTypes } from 'data/components/swap/types'
 
-import { SwapAccountType, SwapBaseCounterTypes } from '../swap/types'
-
-// eslint-disable-next-line import/prefer-default-export
-export const getDirection = (
+const getDirection = (
   from: SwapAccountType
 ): Exclude<SwapOrderDirectionType, 'TO_USERKEY' | 'ON_CHAIN'> => {
   switch (true) {
@@ -13,3 +11,5 @@ export const getDirection = (
       return 'INTERNAL'
   }
 }
+
+export { getDirection }
