@@ -906,12 +906,11 @@ export async function _signMessage({
 
 export async function _authorizeOrder(
   order: UnsignedOrder,
-  signer: Signer,
-  provider: ethers.providers.Provider
+  signer: Signer
 ): Promise<ECSignature | null> {
   const message = order.hash
   const signerAddress = order.maker
-  const makerIsSmartContract = await isContractAddress(signerAddress, provider)
+  const makerIsSmartContract = await isContractAddress(signerAddress, signer.provider!)
 
   try {
     if (makerIsSmartContract) {

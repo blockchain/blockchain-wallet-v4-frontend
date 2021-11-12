@@ -22,11 +22,7 @@ export const cancelNftListing = async (sellOrder: SellOrder, signer: Signer) => 
   return cancelled
 }
 
-export const fulfillNftSellOrder = async (
-  asset: NftAsset,
-  signer: Signer,
-  provider: ethers.providers.Provider
-) => {
+export const fulfillNftSellOrder = async (asset: NftAsset, signer: Signer) => {
   // 1. use the _makeSellOrder to create the object & initialize the proxy contract for this sale.
   const accountAddress = await signer.getAddress()
   const order = await _makeSellOrder({
@@ -51,7 +47,7 @@ export const fulfillNftSellOrder = async (
   // 4. Obtain a signature from the signer (using the mnemonic & Ethers JS) over the hash and message.
   let signature
   try {
-    signature = await _authorizeOrder(hashedOrder, signer, provider)
+    signature = await _authorizeOrder(hashedOrder, signer)
   } catch (error) {
     console.error(error)
     throw new Error('You declined to authorize your auction')
