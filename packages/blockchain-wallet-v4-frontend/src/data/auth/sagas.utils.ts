@@ -2,6 +2,7 @@ import { prop } from 'ramda'
 import { call, delay, put, select } from 'redux-saga/effects'
 
 import { actions, selectors } from 'data'
+import { getUserActivationState } from 'data/modules/profile/selectors'
 import * as C from 'services/alerts'
 
 import { LOGIN_FORM } from './model'
@@ -61,6 +62,10 @@ export const parseMagicLink = function* () {
         )
       }
     }
+    if (unified) {
+      actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.UNIFIED)
+    }
+
     // store data in the cache and update form values to be used to submit login
     if (productAuth === ProductAuthOptions.WALLET) {
       if (session !== sessionIdFromLink && shouldPollForMagicLinkData) {

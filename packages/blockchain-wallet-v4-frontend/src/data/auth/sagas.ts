@@ -205,6 +205,7 @@ export default ({ api, coreSagas, networks }) => {
     const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
     const { email, emailToken } = formValues
     const accountUpgradeFlow = yield select(S.getAccountUnificationFlowType)
+    const product = yield select(S.getProduct)
     let session = yield select(selectors.session.getSession, guid, email)
     // JUST FOR ANALYTICS PURPOSES
     if (code) {
@@ -240,18 +241,32 @@ export default ({ api, coreSagas, networks }) => {
       })
       // Check which unification flow we're running
       // to determine what we want to do after authing user
-      if (accountUpgradeFlow === AccountUnificationFlows.WALLET_MERGE) {
-        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_CONFIRM))
-      } else if (accountUpgradeFlow === AccountUnificationFlows.MOBILE_WALLET_MERGE) {
-        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
-      } else if (
-        accountUpgradeFlow === AccountUnificationFlows.EXCHANGE_MERGE ||
-        accountUpgradeFlow === AccountUnificationFlows.MOBILE_EXCHANGE_MERGE
-      ) {
-        // call action to merge account
-        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_SUCCESS))
-      } else {
-        yield call(loginRoutineSaga, {})
+      switch (true) {
+        case accountUpgradeFlow === AccountUnificationFlows.WALLET_MERGE:
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_CONFIRM))
+          break
+        case accountUpgradeFlow === AccountUnificationFlows.MOBILE_WALLET_MERGE:
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
+          break
+        case accountUpgradeFlow === AccountUnificationFlows.EXCHANGE_MERGE ||
+          accountUpgradeFlow === AccountUnificationFlows.MOBILE_EXCHANGE_MERGE:
+          // call action to merge account
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_SUCCESS))
+          break
+        // if account is unified, we have
+        case accountUpgradeFlow === AccountUnificationFlows.UNIFIED:
+          if (product === ProductAuthOptions.WALLET) {
+            yield call(loginRoutineSaga, {})
+          } else if (product === ProductAuthOptions.EXCHANGE) {
+            // CODE HERE TO AUTOMATICALLY DIRECT TO EXCHANGE
+          } else {
+            // If proudct is undefined, show user product picker to choose
+            actions.form.change(LOGIN_FORM, 'step', LoginSteps.PRODUCT_PICKER_AFTER_AUTHENTICATION)
+          }
+          break
+        default:
+          yield call(loginRoutineSaga, {})
+          break
       }
       yield put(stopSubmit(LOGIN_FORM))
     } catch (e) {
