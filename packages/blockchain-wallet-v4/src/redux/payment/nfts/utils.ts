@@ -239,44 +239,20 @@ export const encodeReplacementPattern = (
   replaceKind = FunctionInputKind.Replaceable,
   encodeToBytes = true
 ): string => {
-  const output: Buffer[] = []
-  const data: Buffer[] = []
-  const dynamicOffset = abi.inputs.reduce((len, { type }) => {
-    const match = type.match(/\[(.+)\]$/)
-    return len + (match ? parseInt(match[1], 10) * 32 : 32)
-  }, 0)
-  abi.inputs
-    .map(({ kind, type, value }) => ({
-      bitmask: kind === replaceKind ? 255 : 0,
-      type: ethABI_local.elementaryName(type),
-      value: value !== undefined ? value : generateDefaultValue(type)
-    }))
-    .reduce((offset, { bitmask, type, value }) => {
-      if (!value) return offset
-      // The 0xff bytes in the mask select the replacement bytes. All other bytes are 0x00.
-      const cur = Buffer.from(
-        ethers.utils.defaultAbiCoder.encode([type], [value]).substring(2),
-        'hex'
-      ).fill(bitmask)
-      if (ethABI_local.isDynamic(type)) {
-        if (bitmask) {
-          throw new Error('Replacement is not supported for dynamic parameters.')
-        }
-        output.push(
-          Buffer.from(
-            ethers.utils.defaultAbiCoder.encode(['uint256'], [dynamicOffset]).substring(2),
-            'hex'
-          )
+  let data: Buffer[] = []
+  data = abi.inputs.map(({ kind, type, value }) => {
+    const bitmask = kind === replaceKind ? 255 : 0
+    const cValue =
+      value !== undefined ? value : generateDefaultValue(ethABI_local.elementaryName(type))
+    return ethABI_local.isDynamic(type)
+      ? Buffer.alloc(32)
+      : Buffer.from(ethers.utils.defaultAbiCoder.encode([type], [cValue]).substring(2), 'hex').fill(
+          bitmask
         )
-        data.push(cur)
-        return offset + cur.length
-      }
-      output.push(cur)
-      return offset
-    }, dynamicOffset)
+  })
   // 4 initial bytes of 0x00 for the method hash.
   const methodIdMask = Buffer.alloc(4)
-  const mask = Buffer.concat([methodIdMask, Buffer.concat(output.concat(data))])
+  const mask = Buffer.concat([methodIdMask, ...data])
   return encodeToBytes ? `0x${mask.toString('hex')}` : mask.map((b) => (b ? 1 : 0)).join('')
 }
 
@@ -656,8 +632,7 @@ export function _makeMatchingOrder({
     quantity: order.quantity,
     // TODO: Fix the replacement patten generation for buy orders.
     // replacementPattern,
-    replacementPattern:
-      '0x00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
+    replacementPattern,
     saleKind: order.saleKind,
     // @ts-ignore
     salt: generatePseudoRandomSalt(),
@@ -1124,8 +1099,7 @@ export async function _makeSellOrder({
     },
     paymentToken,
     quantity: new BigNumber(quantity),
-    replacementPattern:
-      '0x000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
+    replacementPattern,
     saleKind: orderSaleKind,
     // FIX: Put in a rmakeMaeal salt
     // @ts-ignore
@@ -2039,8 +2013,8 @@ export async function _atomicMatch({
     ],
     buy.calldata,
     sell.calldata,
-    '0x00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
-    '0x000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
+    buy.replacementPattern,
+    sell.replacementPattern,
     buy.staticExtradata,
     sell.staticExtradata,
     [buy.v || 0, sell.v || 0],
@@ -2352,8 +2326,8 @@ export async function calculateAtomicMatchFees(order: Order, counterOrder: Order
     ],
     order.calldata,
     counterOrder.calldata,
-    '0x00000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
-    '0x000000000000000000000000000000000000000000000000000000000000000000000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000',
+    order.replacementPattern,
+    counterOrder.replacementPattern,
     order.staticExtradata,
     counterOrder.staticExtradata,
     [order.v || 0, counterOrder.v || 0],
