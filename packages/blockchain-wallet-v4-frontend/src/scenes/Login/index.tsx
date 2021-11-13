@@ -95,7 +95,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     ) {
       if (isGuid(guidOrEmail)) {
         formActions.change(LOGIN_FORM_NAME, 'guid', guidOrEmail)
-        formActions.change(LOGIN_FORM_NAME, 'step', LoginSteps.VERIFICATION_MOBILE)
+        formActions.change(LOGIN_FORM_NAME, 'step', LoginSteps.ENTER_PASSWORD)
       } else {
         formActions.change(LOGIN_FORM_NAME, 'email', guidOrEmail)
         authActions.triggerWalletMagicLink({
@@ -136,12 +136,6 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
             <FormattedMessage id='scenes.login.welcome' defaultMessage='Welcome back!' />
           )}
         </Text>
-        {step === LoginSteps.VERIFICATION_MOBILE && (
-          <Text color='grey400' weight={500} style={{ marginBottom: '32px' }}>
-            <FormattedMessage id='scenes.login.approve' defaultMessage='Approve your login' />
-          </Text>
-        )}
-
         {step === LoginSteps.ENTER_PASSWORD && (
           <Text color='grey400' weight={500} style={{ marginBottom: '32px' }}>
             <FormattedMessage
@@ -194,8 +188,6 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
               case LoginSteps.VERIFY_MAGIC_LINK:
                 return <VerifyMagicLink {...this.props} {...loginProps} setStep={this.setStep} />
 
-              case LoginSteps.VERIFICATION_MOBILE:
-                return <VerificationMobile {...this.props} {...loginProps} setStep={this.setStep} />
               default:
                 return null
             }

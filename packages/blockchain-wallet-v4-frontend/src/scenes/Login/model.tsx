@@ -101,20 +101,20 @@ export const BackArrowFormHeader = (props: {
           onClick={() => props.handleBackArrowClick()}
         />
         <Column>
-          {props.formValues.email ? (
+          {props.formValues?.email ? (
             <Text color='grey400' size='14px' weight={600} lineHeight='1.5'>
               <FormattedMessage
                 id='scenes.login.signingin_email'
                 defaultMessage='Signing in with {email}'
-                values={{ email: props.formValues.email }}
+                values={{ email: props.formValues?.email }}
               />
             </Text>
-          ) : props.formValues.email ? (
+          ) : props.formValues?.email ? (
             <Text color='grey400' size='14px' weight={600} lineHeight='1.5'>
               <FormattedMessage
                 id='scenes.recovery.email'
                 defaultMessage='Recovering {email}'
-                values={{ email: props.formValues.email }}
+                values={{ email: props.formValues?.email }}
               />
             </Text>
           ) : (
@@ -122,16 +122,16 @@ export const BackArrowFormHeader = (props: {
               <FormattedMessage
                 id='scences.login.wallet_guid'
                 defaultMessage='Wallet: {guid}'
-                values={{ guid: props.formValues.guid }}
+                values={{ guid: props.formValues?.guid }}
               />
             </Text>
           )}
-          {props.formValues.step !== LoginSteps.CHECK_EMAIL && props.formValues.email && (
+          {props.formValues?.step !== LoginSteps.CHECK_EMAIL && props.formValues?.email && (
             <Text size='12px' weight={500} color='grey400'>
               <FormattedMessage
                 id='scences.login.wallet_guid'
                 defaultMessage='Wallet: {guid}'
-                values={{ guid: props.formValues.guid }}
+                values={{ guid: props.formValues?.guid }}
               />
             </Text>
           )}
