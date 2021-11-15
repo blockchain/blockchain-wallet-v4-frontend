@@ -18,12 +18,16 @@ export const parseMagicLink = function* () {
       exchange: exchangeData,
       mergeable,
       product,
+      session_id,
       unified,
       upgradeable,
       wallet: walletData
     } = magicLink
-    const session = yield select(selectors.session.getSession, walletData?.guid, walletData?.email)
-    const sessionIdFromLink = walletData?.session_id
+    const session = yield select(
+      selectors.session.getSession,
+      walletData?.guid,
+      walletData?.email || exchangeData?.email
+    )
     // remove feature flag when not necessary
     const shouldPollForMagicLinkData = (yield select(
       selectors.core.walletOptions.getPollForMagicLinkData
@@ -39,7 +43,7 @@ export const parseMagicLink = function* () {
         productAuth = ProductAuthOptions.WALLET
       }
     }
-    if (session !== sessionIdFromLink && shouldPollForMagicLinkData) {
+    if (session !== session_id && shouldPollForMagicLinkData) {
       // TODO: question for merge, do we need the next line?
       yield put(actions.auth.authorizeVerifyDevice())
       yield put(actions.form.change('login', 'step', LoginSteps.VERIFY_MAGIC_LINK))
@@ -68,7 +72,7 @@ export const parseMagicLink = function* () {
 
     // store data in the cache and update form values to be used to submit login
     if (productAuth === ProductAuthOptions.WALLET) {
-      if (session !== sessionIdFromLink && shouldPollForMagicLinkData) {
+      if (session !== session_id && shouldPollForMagicLinkData) {
         // TODO: question for merge, do we need the next line?
         yield put(actions.auth.authorizeVerifyDevice())
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.VERIFY_MAGIC_LINK))

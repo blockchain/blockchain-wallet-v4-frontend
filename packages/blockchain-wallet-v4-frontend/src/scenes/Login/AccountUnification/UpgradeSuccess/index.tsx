@@ -8,9 +8,7 @@ import { Props } from '../../index'
 import { CenteredColumn, LoginWrapper } from '../../model'
 
 const UpgradeSuccess = (props: Props) => {
-  const { product, redirect } = props.productAuthMetadata
-  const exchangeRedirect = decodeURIComponent(redirect as string)
-
+  const { magicLinkData, productAuthMetadata } = props
   return (
     <LoginWrapper>
       <CenteredColumn style={{ textAlign: 'center' }}>
@@ -27,7 +25,7 @@ const UpgradeSuccess = (props: Props) => {
             defaultMessage='You can now use your Wallet email and password to log in to your Blockchain.com Wallet and the Exchange.'
           />
         </Text>
-        {product === ProductAuthOptions.WALLET && (
+        {productAuthMetadata.product === ProductAuthOptions.WALLET && (
           <Button
             nature='primary'
             fullwidth
@@ -39,7 +37,7 @@ const UpgradeSuccess = (props: Props) => {
             <FormattedMessage id='buttons.i_understand' defaultMessage='I Understand' />
           </Button>
         )}
-        {product === ProductAuthOptions.EXCHANGE && (
+        {productAuthMetadata.product === ProductAuthOptions.EXCHANGE && (
           <Button
             nature='primary'
             fullwidth
@@ -48,7 +46,7 @@ const UpgradeSuccess = (props: Props) => {
             style={{ marginTop: '16px' }}
           >
             <Link
-              href={`${exchangeRedirect}/auth?jwt=${props.jwtToken}`}
+              href={`${magicLinkData?.exchange_auth_url}${props.jwtToken}`}
               rel='noopener noreferrer'
               target='_blank'
               color='white'

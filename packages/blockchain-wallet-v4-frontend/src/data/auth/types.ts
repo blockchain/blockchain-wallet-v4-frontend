@@ -114,8 +114,10 @@ export type WalletDataFromMagicLink = {
     twoFaMode?: boolean
     user_id?: string
   }
+  exchange_auth_url?: string
   mergeable?: boolean | null
   product?: ProductAuthOptions
+  session_id?: string
   unified?: boolean
   upgradeable?: boolean | null
   user_type?: UserType
@@ -138,7 +140,6 @@ export type WalletDataFromMagicLink = {
       recovery_token?: string
       user_id?: string
     }
-    session_id?: string
   }
 }
 

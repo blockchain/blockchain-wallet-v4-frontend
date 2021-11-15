@@ -12,7 +12,8 @@ import {
   LoginFormType,
   LoginSteps,
   PlatformTypes,
-  ProductAuthOptions
+  ProductAuthOptions,
+  WalletDataFromMagicLink
 } from 'data/types'
 
 // step templates
@@ -194,6 +195,7 @@ const mapStateToProps = (state) => ({
     step: LoginSteps.ENTER_EMAIL_GUID
   },
   jwtToken: selectors.auth.getJwtToken(state),
+  magicLinkData: selectors.auth.getMagicLinkData(state),
   productAuthMetadata: selectors.auth.getProductAuthMetadata(state),
   walletLoginData: selectors.auth.getLogin(state) as RemoteDataType<any, any>
 })
