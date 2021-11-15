@@ -20,6 +20,7 @@ export enum AccountUnificationFlows {
   MOBILE_EXCHANGE_MERGE = 'MOBILE_EXCHANGE_MERGE',
   MOBILE_EXCHANGE_UPGRADE = 'MOBILE_EXCHANGE_UPGRADE',
   MOBILE_WALLET_MERGE = 'MOBILE_WALLET_MERGE',
+  UNIFIED = 'UNIFIED',
   WALLET_MERGE = 'WALLET_MERGE'
 }
 
@@ -113,8 +114,10 @@ export type WalletDataFromMagicLink = {
     twoFaMode?: boolean
     user_id?: string
   }
+  exchange_auth_url?: string
   mergeable?: boolean | null
   product?: ProductAuthOptions
+  session_id?: string
   unified?: boolean
   upgradeable?: boolean | null
   user_type?: UserType
@@ -137,7 +140,6 @@ export type WalletDataFromMagicLink = {
       recovery_token?: string
       user_id?: string
     }
-    session_id?: string
   }
 }
 

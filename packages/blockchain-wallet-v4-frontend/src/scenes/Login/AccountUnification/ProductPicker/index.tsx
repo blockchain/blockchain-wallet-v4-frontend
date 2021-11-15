@@ -6,6 +6,7 @@ import { Icon, Image, Link, Text } from 'blockchain-info-components'
 import { LoginSteps, ProductAuthOptions } from 'data/types'
 
 import { Props } from '../../index'
+import { LoginWrapper } from '../../model'
 
 const IconTextRow = styled.div`
   display: flex;
@@ -37,7 +38,7 @@ const ProductPicker = (props: Props) => {
     props.formActions.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID)
   }
   return (
-    <>
+    <LoginWrapper>
       <IconTextRow onClick={handleWalletClick}>
         <Image name='wallet-logo' height='48px' width='48px' />
         <TextStack style={{ marginTop: 0 }}>
@@ -85,7 +86,7 @@ const ProductPicker = (props: Props) => {
           <Icon name='chevron-right' size='32px' color='grey400' />
         </IconTextRow>
       </Link>
-    </>
+    </LoginWrapper>
   )
 }
 

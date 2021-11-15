@@ -82,9 +82,6 @@ export default ({ api, coreSagas, networks }) => {
         // here we call the merge endpoint and then direct them to exchange
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_SUCCESS))
       }
-      if (product === ProductAuthOptions.EXCHANGE) {
-        yield put(actions.cache.lastProduct(ProductAuthOptions.EXCHANGE))
-      }
       yield put(stopSubmit(LOGIN_FORM))
     } catch (e) {
       yield put(actions.auth.exchangeLoginFailure(e.code))
@@ -189,8 +186,6 @@ export default ({ api, coreSagas, networks }) => {
         yield call(api.setUserInitialAddress, country, userState)
         yield call(coreSagas.settings.fetchSettings)
       }
-      // set last logged into product as wallet in cache
-      yield put(actions.cache.lastProduct(ProductAuthOptions.WALLET))
       // We are checking wallet metadata to see if mnemonic is verified
       // and then syncing that information with new Wallet Account model
       // being used for SSO
@@ -210,6 +205,7 @@ export default ({ api, coreSagas, networks }) => {
     const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
     const { email, emailToken } = formValues
     const accountUpgradeFlow = yield select(S.getAccountUnificationFlowType)
+    const product = yield select(S.getProduct)
     let session = yield select(selectors.session.getSession, guid, email)
     // JUST FOR ANALYTICS PURPOSES
     if (code) {
@@ -245,18 +241,32 @@ export default ({ api, coreSagas, networks }) => {
       })
       // Check which unification flow we're running
       // to determine what we want to do after authing user
-      if (accountUpgradeFlow === AccountUnificationFlows.WALLET_MERGE) {
-        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_CONFIRM))
-      } else if (accountUpgradeFlow === AccountUnificationFlows.MOBILE_WALLET_MERGE) {
-        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
-      } else if (
-        accountUpgradeFlow === AccountUnificationFlows.EXCHANGE_MERGE ||
-        accountUpgradeFlow === AccountUnificationFlows.MOBILE_EXCHANGE_MERGE
-      ) {
-        // call action to merge account
-        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_SUCCESS))
-      } else {
-        yield call(loginRoutineSaga, {})
+      switch (true) {
+        case accountUpgradeFlow === AccountUnificationFlows.WALLET_MERGE:
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_CONFIRM))
+          break
+        case accountUpgradeFlow === AccountUnificationFlows.MOBILE_WALLET_MERGE:
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
+          break
+        case accountUpgradeFlow === AccountUnificationFlows.EXCHANGE_MERGE ||
+          accountUpgradeFlow === AccountUnificationFlows.MOBILE_EXCHANGE_MERGE:
+          // call action to merge account
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_SUCCESS))
+          break
+        // if account is unified, we have
+        case accountUpgradeFlow === AccountUnificationFlows.UNIFIED:
+          if (product === ProductAuthOptions.WALLET) {
+            yield call(loginRoutineSaga, {})
+          } else if (product === ProductAuthOptions.EXCHANGE) {
+            // CODE HERE TO AUTOMATICALLY DIRECT TO EXCHANGE
+          } else {
+            // If proudct is undefined, show user product picker to choose
+            actions.form.change(LOGIN_FORM, 'step', LoginSteps.PRODUCT_PICKER_AFTER_AUTHENTICATION)
+          }
+          break
+        default:
+          yield call(loginRoutineSaga, {})
+          break
       }
       yield put(stopSubmit(LOGIN_FORM))
     } catch (e) {
@@ -496,7 +506,6 @@ export default ({ api, coreSagas, networks }) => {
     try {
       // set loading
       yield put(actions.auth.initializeLoginLoading())
-
       // open coin ws needed for coin streams and channel key for mobile login
       yield put(actions.ws.startSocket())
       // get product auth data from querystring
@@ -505,8 +514,7 @@ export default ({ api, coreSagas, networks }) => {
       // get device platform param or default to web
       const platform = (queryParams.get('platform') || PlatformTypes.WEB) as PlatformTypes
       // get product param or default to wallet
-      const product = (queryParams.get('product') ||
-        ProductAuthOptions.WALLET) as ProductAuthOptions
+      const product = (queryParams.get('product') || undefined) as ProductAuthOptions
       const redirect = queryParams.get('redirect')
 
       // store product auth data defaulting to product=wallet and platform=web
@@ -604,15 +612,14 @@ export default ({ api, coreSagas, networks }) => {
         // If it's a guid, we take them to the enter mobile verification step
         if (isGuid(guidOrEmail)) {
           yield put(actions.form.change(LOGIN_FORM, 'guid', guidOrEmail))
-          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.VERIFICATION_MOBILE))
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
         } else {
           // if it's an email, we triger the magic link email
           yield put(actions.form.change(LOGIN_FORM, 'email', guidOrEmail))
           yield put(
             actions.auth.triggerWalletMagicLink({
               captchaToken,
-              email: guidOrEmail,
-              product
+              email: guidOrEmail
             })
           )
           initCaptcha()
@@ -653,6 +660,7 @@ export default ({ api, coreSagas, networks }) => {
   // triggers verification email for login
   const triggerWalletMagicLink = function* (action) {
     const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
+    const { product } = yield select(selectors.auth.getProductAuthMetadata)
     const { step } = formValues
     const shouldPollForMagicLinkData = (yield select(
       selectors.core.walletOptions.getPollForMagicLinkData
@@ -663,7 +671,7 @@ export default ({ api, coreSagas, networks }) => {
       const sessionToken = yield call(api.obtainSessionToken)
       const { captchaToken, email } = action.payload
       yield put(actions.session.saveSession(assoc(email, sessionToken, {})))
-      yield call(api.triggerWalletMagicLink, email, captchaToken, sessionToken)
+      yield call(api.triggerWalletMagicLink, sessionToken, email, captchaToken, product)
       if (step === LoginSteps.CHECK_EMAIL) {
         yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
       } else {

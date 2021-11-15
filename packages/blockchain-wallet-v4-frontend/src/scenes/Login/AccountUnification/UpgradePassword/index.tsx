@@ -9,7 +9,7 @@ import { LoginSteps } from 'data/types'
 import { required, validPasswordConfirmation, validStrongPassword } from 'services/forms'
 
 import { Props } from '../../index'
-import { ActionButton, BackArrowFormHeader, LinkRow, NeedHelpLink } from '../../model'
+import { ActionButton, BackArrowFormHeader, LinkRow, LoginWrapper, NeedHelpLink } from '../../model'
 
 const validatePasswordConfirmation = validPasswordConfirmation('upgradeAccountPassword')
 
@@ -21,7 +21,7 @@ const UpgradePassword = (props: Props) => {
   const passwordScore = window.zxcvbn ? window.zxcvbn(upgradePassword).score : 0
 
   return (
-    <>
+    <LoginWrapper>
       <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} hideGuid />
       <FormGroup>
         <FormLabel htmlFor='upgradePassword'>
@@ -67,7 +67,7 @@ const UpgradePassword = (props: Props) => {
         </ActionButton>
         <NeedHelpLink authActions={props.authActions} origin='UPGRADE_ACCOUNT_NEW_PASSWORD' />
       </LinkRow>
-    </>
+    </LoginWrapper>
   )
 }
 

@@ -20,7 +20,6 @@ const Body = styled.div`
 const TextColumn = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 60%;
   margin-right: 24px;
   > div {
     margin-bottom: 16px;

@@ -13,7 +13,7 @@ import {
   ActionButton,
   BackArrowFormHeader,
   CenteredColumn,
-  LOGIN_FORM_NAME,
+  LoginWrapper,
   NeedHelpLink,
   removeWhitespace,
   UnsupportedBrowserWarning
@@ -36,7 +36,7 @@ const EnterPasswordExchange = (props: Props) => {
   const twoFactorError = exchangeError && exchangeError === ExchangeErrorCodes.WRONG_2FA
 
   return (
-    <>
+    <LoginWrapper>
       <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} hideGuid />
       <FormGroup>
         {!isSupportedBrowser && <UnsupportedBrowserWarning />}
@@ -116,7 +116,7 @@ const EnterPasswordExchange = (props: Props) => {
         </ActionButton>
         <NeedHelpLink authActions={authActions} origin='PASSWORD' />
       </CenteredColumn>
-    </>
+    </LoginWrapper>
   )
 }
 

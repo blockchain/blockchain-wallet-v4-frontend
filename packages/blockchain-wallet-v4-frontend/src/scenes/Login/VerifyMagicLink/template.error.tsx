@@ -4,7 +4,9 @@ import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
 
-const Wrapper = styled.div`
+import { LoginWrapper } from '../model'
+
+const Wrapper = styled(LoginWrapper)`
   display: flex;
   text-align: center;
   align-items: center;

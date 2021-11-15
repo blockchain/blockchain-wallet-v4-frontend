@@ -11,7 +11,8 @@ import {
   BackArrowFormHeader,
   CenteredColumn,
   CircleBackground,
-  LOGIN_FORM_NAME
+  LOGIN_FORM_NAME,
+  LoginWrapper
 } from '../../model'
 
 const IconTextRow = styled.div`
@@ -51,7 +52,7 @@ const MergeAccountConfirm = (props: Props) => {
   }
 
   return (
-    <>
+    <LoginWrapper>
       <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} hideGuid />
       <CenteredColumn style={{ textAlign: 'center' }}>
         <Image name='account-icons' />
@@ -134,7 +135,7 @@ const MergeAccountConfirm = (props: Props) => {
         whatever product they want to  be logged into */}
         <FormattedMessage id='copy.later' defaultMessage="I'll Do This Later" />
       </Button>
-    </>
+    </LoginWrapper>
   )
 }
 

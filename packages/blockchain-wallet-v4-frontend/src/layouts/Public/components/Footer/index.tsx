@@ -18,15 +18,7 @@ const Footer = ({ isLogin, loginStep, productAuthMetadata }: Props) => {
   return (
     <>
       <FooterInner>
-        {isLogin && loginStep === LoginSteps.ENTER_EMAIL_GUID && (
-          <CreateAccount productAuthMetadata={productAuthMetadata} />
-        )}
-        {isLogin &&
-          productAuthMetadata.platform === PlatformTypes.WEB &&
-          (loginStep === LoginSteps.ENTER_PASSWORD_WALLET ||
-            loginStep === LoginSteps.ENTER_PASSWORD_EXCHANGE) && (
-            <ProductPicker productAuthMetadata={productAuthMetadata} />
-          )}
+        {isLogin && <ProductPicker productAuthMetadata={productAuthMetadata} />}
       </FooterInner>
       <FooterInner>
         <DropdownLanguage color='grey400' size='16px' />

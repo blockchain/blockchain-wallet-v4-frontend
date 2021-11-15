@@ -14,6 +14,7 @@ export const getData = (state: RootState) => {
   const exchangeLoginR = selectors.auth.getExchangeLogin(state)
   const jwtToken = selectors.auth.getJwtToken(state)
   const language = selectors.preferences.getLanguage(state)
+  const magicLinkData = selectors.auth.getMagicLinkData(state)
   const productAuthMetadata = selectors.auth.getProductAuthMetadata(state)
   const walletLoginR = selectors.auth.getLogin(state)
 
@@ -28,6 +29,7 @@ export const getData = (state: RootState) => {
       formValues,
       jwtToken,
       language,
+      magicLinkData,
       productAuthMetadata,
       walletLogin
     })
