@@ -2,7 +2,6 @@ import { prop } from 'ramda'
 import { call, delay, put, select } from 'redux-saga/effects'
 
 import { actions, selectors } from 'data'
-import { getUserActivationState } from 'data/modules/profile/selectors'
 import * as C from 'services/alerts'
 
 import { LOGIN_FORM } from './model'
