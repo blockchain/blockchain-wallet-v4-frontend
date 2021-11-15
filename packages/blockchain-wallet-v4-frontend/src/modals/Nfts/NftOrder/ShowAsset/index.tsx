@@ -19,7 +19,18 @@ const ShowAsset: React.FC<Props> = ({ cancelListing, close, nftActions, orderFlo
   return (
     <>
       {orderFlow.asset.cata({
-        Failure: (e) => <Text>{e}</Text>,
+        Failure: (e) => (
+          <div style={{ position: 'relative' }}>
+            <Icon
+              onClick={() => close()}
+              name='close'
+              cursor
+              role='button'
+              style={{ position: 'absolute', right: '40px', top: '40px' }}
+            />
+            <Text color='red600'>{e}</Text>
+          </div>
+        ),
         Loading: () => (
           <AssetDesc>
             <SpinningLoader width='14px' height='14px' borderWidth='3px' />
