@@ -54,14 +54,21 @@ export const minMaxAmount = (
             )}
           </AlertButton>
           {orderType === BrokerageOrderType.WITHDRAW && (
-            <FormattedMessage
-              id='modals.brokerage.withdraw_limit_max'
-              defaultMessage='The maximum amount of {currency} you can withdraw from this account is {amount}'
-              values={{
-                amount: formattedMax,
-                currency: fiatCurrency
-              }}
-            />
+            <Text
+              size='14px'
+              color='textBlack'
+              weight={500}
+              style={{ marginTop: '24px', textAlign: 'center' }}
+            >
+              <FormattedMessage
+                id='modals.brokerage.withdraw_limit_max'
+                defaultMessage='The maximum amount of {currency} you can withdraw from this account is {amount}'
+                values={{
+                  amount: formattedMax,
+                  currency: fiatCurrency
+                }}
+              />
+            </Text>
           )}
         </>
       )

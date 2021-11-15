@@ -3,10 +3,9 @@ import { FormattedMessage } from 'react-intl'
 import styled, { css } from 'styled-components'
 
 import { Button, Icon, Image, SpinningLoader, Text } from 'blockchain-info-components'
-import { FlyoutWrapper } from 'components/Flyout'
 import { OBInstitution } from 'data/types'
 
-const BankWrapper = styled(FlyoutWrapper)`
+const BankWrapper = styled.div`
   padding: 37px 0 34px;
   height: 100%;
   width: 100%;
