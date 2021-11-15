@@ -10,6 +10,7 @@ import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../types'
 // import NftConfirmBuy from './ConfirmBuy'
+import MarkForSale from './MarkForSale'
 import ShowAsset from './ShowAsset'
 
 class NftOrder extends PureComponent<Props, State> {
@@ -27,10 +28,6 @@ class NftOrder extends PureComponent<Props, State> {
 
   componentWillUnmount() {
     this.props.nftActions.resetOrderFlow()
-  }
-
-  setStep = (step: NftOrderStepEnum) => {
-    // TODO (if needed)
   }
 
   handleClose = () => {
@@ -65,6 +62,11 @@ class NftOrder extends PureComponent<Props, State> {
             <NftConfirmBuy {...this.props} />
           </FlyoutChild>
         )} */}
+        {step === NftOrderStepEnum.MARK_FOR_SALE && (
+          <FlyoutChild>
+            <MarkForSale {...this.props} />
+          </FlyoutChild>
+        )}
       </Flyout>
     )
   }

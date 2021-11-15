@@ -8,6 +8,7 @@ import { RemoteDataType } from '@core/types'
 
 export enum NftOrderStepEnum {
   CONFIRM_BUY = 'CONFIRM_BUY',
+  MARK_FOR_SALE = 'MARK_FOR_SALE',
   SHOW_ASSET = 'SHOW_ASSET'
 }
 
