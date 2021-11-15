@@ -4,7 +4,7 @@ import { find, isEmpty, pathOr, propEq, propOr } from 'ramda'
 import { bindActionCreators } from 'redux'
 
 import { Remote } from '@core'
-import { OrderType, SBPaymentTypes } from '@core/types'
+import { CrossBorderLimitsPyload, OrderType, SBPaymentTypes, WalletAcountEnum } from '@core/types'
 import { FlyoutOopsError } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { getValidPaymentMethod } from 'data/components/simpleBuy/model'
@@ -57,6 +57,23 @@ class Checkout extends PureComponent<Props> {
       currency: this.props.fiatCurrency,
       side: this.props.orderType || OrderType.BUY
     })
+
+    // fetch crossborder limits
+    this.props.buySellActions.fetchCrossBorderLimits({
+      fromAccount:
+        this.props.orderType === OrderType.BUY
+          ? WalletAcountEnum.CUSTODIAL
+          : this.props.swapAccount?.type || WalletAcountEnum.CUSTODIAL,
+      inputCurrency:
+        this.props.orderType === OrderType.BUY
+          ? this.props.fiatCurrency
+          : this.props.cryptoCurrency,
+      outputCurrency:
+        this.props.orderType === OrderType.BUY
+          ? this.props.cryptoCurrency
+          : this.props.fiatCurrency,
+      toAccount: WalletAcountEnum.CUSTODIAL
+    } as CrossBorderLimitsPyload)
   }
 
   componentDidUpdate(prevProps) {
@@ -190,6 +207,7 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
     | SBCheckoutFormValuesType
     | undefined,
   goals: selectors.goals.getGoals(state),
+  isPristine: selectors.form.isPristine('simpleBuyCheckout')(state),
   preferences: selectors.preferences.getSBCheckoutPreferences(state),
   sbOrders: selectors.components.simpleBuy.getSBOrders(state).getOrElse([])
 })

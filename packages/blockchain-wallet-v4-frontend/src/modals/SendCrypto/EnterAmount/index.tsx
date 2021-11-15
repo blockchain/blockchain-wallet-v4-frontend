@@ -348,8 +348,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
           paddingTop: '0px'
         }}
       >
-        {!isEmpty(sendLimits) &&
-        sendLimits?.globalLimit?.suggestedUpgrade?.requiredTier === TIER_TYPES.GOLD ? (
+        {!isEmpty(sendLimits) && sendLimits?.suggestedUpgrade?.requiredTier === TIER_TYPES.GOLD ? (
           <UpgradeToGoldBanner limits={sendLimits} verifyIdentity={verifyIdentity} />
         ) : null}
         <Button

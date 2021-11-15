@@ -47,6 +47,8 @@ export const getSBBalances = (state: RootState) => state.components.buySell.bala
 
 export const getSBCards = (state: RootState) => state.components.buySell.cards
 
+export const getCrossBorderLimits = (state: RootState) => state.components.buySell.crossBorderLimits
+
 export const getDefaultPaymentMethod = (state: RootState) => {
   const fiatCurrency = getFiatCurrency(state)
   const orders = getSBOrders(state).getOrElse([])

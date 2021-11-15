@@ -6,6 +6,7 @@ import * as StellarSdk from 'stellar-sdk'
 import { Exchange, utils } from '@core'
 import Currencies from '@core/exchange/currencies'
 import { formatFiat } from '@core/exchange/utils'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 
 import { OverYourLimitMessage } from '../../../components'
 import {
@@ -151,15 +152,16 @@ export const isSendLimitOver = (value, allValues, props) => {
   const fiatValue = prop('fiat', value)
   const isFromCustodial = from && from.type === 'CUSTODIAL'
 
-  if (!isFromCustodial || isEmpty(sendLimits) || isEmpty(sendLimits?.current?.available)) {
+  if (!isFromCustodial || isEmpty(sendLimits) || !sendLimits?.current?.available?.currency) {
     return undefined
   }
 
   const { currency, value: availableAmount } = sendLimits?.current?.available
+  const availableAmountInBase = convertBaseToStandard('FIAT', availableAmount)
 
-  return fiatValue > Number(availableAmount) ? (
+  return fiatValue > Number(availableAmountInBase) ? (
     <OverYourLimitMessage
-      amount={formatFiat(availableAmount)}
+      amount={formatFiat(availableAmountInBase)}
       currency={Currencies[currency].units[currency].symbol}
     />
   ) : undefined
