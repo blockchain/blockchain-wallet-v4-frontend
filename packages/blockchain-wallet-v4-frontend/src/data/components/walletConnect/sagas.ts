@@ -16,7 +16,6 @@ export default ({ coreSagas }) => {
   }: ReturnType<typeof A.handleSessionCallRequest>) {
     switch (true) {
       case payload.data.method === RequestMethodType.ETH_SEND_TX:
-        console.log('handle session request handler!!', payload)
         return yield put(
           A.setStep({
             data: payload.data,
@@ -45,7 +44,6 @@ export default ({ coreSagas }) => {
 
   // session request from dapp
   const handleSessionRequest = function* ({ payload }: ReturnType<typeof A.handleSessionRequest>) {
-    console.log('handle session request handler!!', payload)
     // show user session accept/reject screen
     yield put(
       A.setStep({
@@ -60,19 +58,22 @@ export default ({ coreSagas }) => {
     return eventChannel((emit) => {
       // subscribe to session requests
       rpc.on('session_request', (error, data) => {
-        console.log('sessin request called!!!', data, error)
+        // eslint-disable-next-line no-console
+        console.log('RPC: session_request]:', data, error)
         emit(A.handleSessionRequest({ data, error }))
       })
 
       // subscribe to call requests
       rpc.on('call_request', (error, data) => {
-        console.log('call request called!!', data, error)
+        // eslint-disable-next-line no-console
+        console.log('[RPC: call_request]: ', data, error)
         emit(A.handleSessionCallRequest({ data, error }))
       })
 
       // subscribe to disconnects
       rpc.on('disconnect', (error, data) => {
-        console.log('disconnected!!', data, error)
+        // eslint-disable-next-line no-console
+        console.log('RPC: disconnect]:', data, error)
         emit(A.handleSessionDisconnect({ data, error }))
       })
 
@@ -96,8 +97,8 @@ export default ({ coreSagas }) => {
         },
         uri
       })
-
-      console.log('===rpc===', rpc)
+      // eslint-disable-next-line no-console
+      console.log('[RPC Initialized]: ', rpc)
 
       // start listeners for rpc messages
       channel = yield call(createRpcListenerChannels)
@@ -112,7 +113,7 @@ export default ({ coreSagas }) => {
       }
     } catch (e) {
       // eslint-disable-next-line no-console
-      console.log('rpc error', e)
+      console.log('[RPC Error]: ', e)
     } finally {
       if (yield cancelled()) {
         channel.close()
@@ -134,8 +135,8 @@ export default ({ coreSagas }) => {
   }: ReturnType<typeof A.respondToSessionRequest>) {
     try {
       yield put(A.setStep({ name: WalletConnectStep.LOADING }))
-
-      console.log('this is the response payload!!! IMPT', payload)
+      // eslint-disable-next-line no-console
+      console.log('[Response to Session Request]: ', payload)
 
       if (payload.action === 'APPROVE') {
         // TODO:WC: move this to better place
