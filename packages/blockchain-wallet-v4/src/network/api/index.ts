@@ -11,6 +11,7 @@ import kvStore from './kvStore'
 import kyc from './kyc'
 import lockbox from './lockbox'
 import misc from './misc'
+import nfts from './nfts'
 import profile from './profile'
 import rates from './rates'
 import send from './send'
@@ -58,6 +59,7 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
     }),
     ...lockbox({ ledgerUrl, ...http }),
     ...misc({ apiUrl, ...http }),
+    ...nfts({ apiUrl, ...http }),
     ...profile({
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
@@ -99,6 +101,7 @@ export type APIType = ReturnType<typeof bch> &
   ReturnType<typeof interest> &
   ReturnType<typeof kyc> &
   ReturnType<typeof misc> &
+  ReturnType<typeof nfts> &
   ReturnType<typeof profile> &
   ReturnType<typeof simpleBuy> &
   ReturnType<typeof send> &

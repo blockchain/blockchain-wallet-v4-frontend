@@ -41,6 +41,9 @@ const XlmReserveLearn = React.lazy(() => import('./Xlm/XlmReserveLearn'))
 const RequestCrypto = React.lazy(() => import('./RequestCrypto'))
 const SendCrypto = React.lazy(() => import('./SendCrypto'))
 
+// NFTS
+const NftOrder = React.lazy(() => import('./Nfts/NftOrder'))
+
 // GENERIC
 const Confirm = React.lazy(() => import('./Generic/Confirm'))
 const PromptInput = React.lazy(() => import('./Generic/PromptInput'))
@@ -73,7 +76,6 @@ const MobileNumberVerify = React.lazy(() => import('./Mobile/MobileNumberVerify'
 // SETTINGS
 const AutoDisconnection = React.lazy(() => import('./Settings/AutoDisconnection'))
 const ConfirmDisable2FA = React.lazy(() => import('./Settings/ConfirmDisable2FA'))
-
 const RecoveryPhrase = React.lazy(() => import('./Settings/RecoveryPhrase'))
 const SecondPassword = React.lazy(() => import('./Settings/SecondPassword'))
 const TradingLimits = React.lazy(() => import('./Settings/TradingLimits'))
@@ -306,6 +308,7 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.SEND_XLM_RESERVE_LEARN_MODAL) ? (
           <XlmReserveLearn />
         ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.NFT_ORDER) ? <NftOrder /> : null}
         {/* This should always be loaded */}
         <NewVersionAvailable disableOutsideClose />
       </>

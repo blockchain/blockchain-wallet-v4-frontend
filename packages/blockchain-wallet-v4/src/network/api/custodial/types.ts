@@ -150,3 +150,11 @@ export type GetTransactionsHistoryType = {
   fromValue?: string
   toValue?: string
 }
+
+export type CrossBorderLimitsPyload = {
+  currency?: WalletFiatType
+  fromAccount: WalletAcountType
+  inputCurrency: CoinType
+  outputCurrency: CoinType
+  toAccount: WalletAcountType
+}

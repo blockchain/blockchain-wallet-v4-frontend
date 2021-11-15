@@ -48,6 +48,7 @@ export enum ModalName {
   MOBILE_NUMBER_VERIFY_MODAL = 'MOBILE_NUMBER_VERIFY_MODAL',
   NABU_USER_CONFLICT_REDIRECT = 'NABU_USER_CONFLICT_REDIRECT',
   NEW_VERSION_AVAILABLE = 'NEW_VERSION_AVAILABLE',
+  NFT_ORDER = 'NFT_ORDER',
   PAIRING_CODE_MODAL = 'PAIRING_CODE_MODAL',
   PROMPT_INPUT_MODAL = 'PROMPT_INPUT_MODAL',
   QR_CODE_MODAL = 'QR_CODE_MODAL',
@@ -124,7 +125,6 @@ export type ModalOriginType =
   | 'SendBch'
   | 'SendBtc'
   | 'SendEth'
-  | 'SendExchangePromo'
   | 'SendXlm'
   | 'SettingsGeneral'
   | 'SettingsPage'

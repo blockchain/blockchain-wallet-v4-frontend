@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import EthUtil from 'ethereumjs-util'
+import * as ethers from 'ethers'
 import { identity, indexOf, isNil, mergeRight, path, prop } from 'ramda'
 import { call, select } from 'redux-saga/effects'
 
@@ -285,6 +285,7 @@ export default ({ api }: { api: APIType }) => {
       *init({ coin, isErc20 }) {
         // eslint-disable-next-line one-var
         let contractAddress, fees
+
         try {
           if (isErc20) {
             contractAddress = window.coins[coin].coinfig.type.erc20Address
@@ -376,7 +377,7 @@ export default ({ api }: { api: APIType }) => {
 
       to(destination) {
         const to = calculateTo(destination)
-        if (!EthUtil.isValidAddress(to.address)) {
+        if (!ethers.utils.isAddress(to.address)) {
           throw new Error('Invalid address')
         }
         return makePayment(mergeRight(p, { to }))

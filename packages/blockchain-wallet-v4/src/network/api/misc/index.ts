@@ -47,7 +47,7 @@ export default ({ apiUrl, get, post }) => {
       data: {
         captcha: captchaToken,
         email,
-        product: 'wallet',
+        product: 'WALLET',
         siteKey: window.CAPTCHA_KEY
       },
       endPoint: '/auth/email-reminder',

@@ -47,6 +47,8 @@ export const getSBBalances = (state: RootState) => state.components.buySell.bala
 
 export const getSBCards = (state: RootState) => state.components.buySell.cards
 
+export const getCrossBorderLimits = (state: RootState) => state.components.buySell.crossBorderLimits
+
 export const getDefaultPaymentMethod = (state: RootState) => {
   const fiatCurrency = getFiatCurrency(state)
   const orders = getSBOrders(state).getOrElse([])
@@ -99,11 +101,10 @@ export const getDefaultPaymentMethod = (state: RootState) => {
           case SBPaymentTypes.USER_CARD:
           case SBPaymentTypes.PAYMENT_CARD:
             if (!method) return
-            const active = SBCardStateEnum.ACTIVE
             const sbCards = getSBCards(state).getOrElse([])
             const sbCard = sbCards.find(
               (value) =>
-                value.id === lastOrder.paymentMethodId && value.state === SBCardStateEnum[active]
+                value.id === lastOrder.paymentMethodId && value.state === SBCardStateEnum.ACTIVE
             )
             const card = sbCard?.card || undefined
 

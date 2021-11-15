@@ -30,6 +30,8 @@ export const getFix = (state: RootState) => state.components.swap.fix
 
 export const getTradesStatus = (state: RootState) => state.components.swap.trades.status
 
+export const getCrossBorderLimits = (state: RootState) => state.components.swap.crossBorderLimits
+
 export const getLatestPendingSwapTrade = (state: RootState) => {
   const trades = state.components.swap.trades.list
   return trades.find((trade) => {

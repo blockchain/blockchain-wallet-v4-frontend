@@ -2,6 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 
+import { Image } from 'blockchain-info-components'
 import {
   NavbarDivider,
   NavbarNavItem,
@@ -44,7 +45,7 @@ const FeaturesLarge = (props: Props & { showModal: (modal: 'SEND' | 'REQUEST') =
       <NavbarNavItem>
         <NavbarNavItemButton
           data-e2e='exchangeLink'
-          onClick={() => props.swapActions.showModal('FeaturesTopNav')}
+          onClick={() => props.swapActions.showModal({ origin: 'FeaturesTopNav' })}
         >
           <NavbarNavItemIcon size='18px' name='arrow-switch-thick' />
           <NavbarNavItemTextHeader size='14px' weight={600}>
@@ -78,6 +79,22 @@ const FeaturesLarge = (props: Props & { showModal: (modal: 'SEND' | 'REQUEST') =
           </NavbarNavItemButton>
         </NavbarNavItem>
       </LinkContainer>
+      <NavbarDivider />
+      {props.featureFlags.nfts ? (
+        <LinkContainer to='/nfts' activeClassName='active'>
+          <NavbarNavItem>
+            <NavbarNavItemButton data-e2e='nftsLink'>
+              <Image name='nft' height='50%' style={{ marginRight: '4px' }} />
+              <NavbarNavItemTextHeader size='14px' weight={600}>
+                <FormattedMessage
+                  id='layouts.wallet.menuleft.navigation.nfts'
+                  defaultMessage='NFTs'
+                />
+              </NavbarNavItemTextHeader>
+            </NavbarNavItemButton>
+          </NavbarNavItem>
+        </LinkContainer>
+      ) : null}
     </>
   )
 }

@@ -13,6 +13,7 @@ import interest from './interest/sagaRegister'
 import interestUploadDocument from './interestUploadDocument/sagaRegister'
 import lockbox from './lockbox/sagaRegister'
 import manageAddresses from './manageAddresses/sagaRegister'
+import nfts from './nfts/sagaRegister'
 import onboarding from './onboarding/sagaRegister'
 import priceChart from './priceChart/sagaRegister'
 import recurringBuy from './recurringBuy/sagaRegister'
@@ -52,6 +53,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(importBtcAddress({ api, coreSagas, networks }))
     yield fork(manageAddresses({ api, networks }))
     yield fork(onboarding())
+    yield fork(nfts({ api }))
     yield fork(priceChart())
     yield fork(refresh())
     yield fork(request({ api, coreSagas, networks }))

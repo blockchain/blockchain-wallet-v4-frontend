@@ -8,6 +8,7 @@ import { reducer as interestUploadDocumentReducer } from './interestUploadDocume
 import { layoutWalletReducer as layoutWallet } from './layoutWallet/slice'
 import lockbox from './lockbox/reducers'
 import manageAddresses from './manageAddresses/reducers'
+import { nftsReducer } from './nfts/slice'
 import { priceChartReducer } from './priceChart/slice'
 import { recoveryPhraseReducer } from './recoveryPhrase/reducers'
 import { reducer as recurringBuy } from './recurringBuy/slice'
@@ -22,7 +23,7 @@ import { sendXlmReducer } from './sendXlm/reducers'
 import { settingsReducer } from './settings/slice'
 import signMessage from './signMessage/reducers'
 import { buySellReducer as buySell } from './simpleBuy/slice'
-import swapReducer from './swap/reducers'
+import { swapSliceReducer as swap } from './swap/slice'
 import uploadDocuments from './uploadDocuments/reducers'
 import veriff from './veriff/reducers'
 import { walletConnectReducer as walletConnect } from './walletConnect/slice'
@@ -38,6 +39,7 @@ const componentReducer = combineReducers({
   layoutWallet,
   lockbox,
   manageAddresses,
+  nfts: nftsReducer,
   priceChart: priceChartReducer,
   recoveryPhrase: recoveryPhraseReducer,
   recurringBuy,
@@ -51,7 +53,7 @@ const componentReducer = combineReducers({
   sendXlm: sendXlmReducer,
   settings: settingsReducer,
   signMessage,
-  swap: swapReducer,
+  swap,
   uploadDocuments,
   veriff,
   walletConnect,

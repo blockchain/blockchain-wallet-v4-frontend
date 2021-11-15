@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js'
-import EthereumAbi from 'ethereumjs-abi'
-import EthUtil from 'ethereumjs-util'
+import * as ethers from 'ethers'
 import { equals, head, identity, includes, path, pathOr, prop, propOr } from 'ramda'
 import { change, destroy, initialize, startSubmit, stopSubmit } from 'redux-form'
 import { call, delay, put, select, take } from 'redux-saga/effects'
@@ -502,7 +501,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       if (isErc20) {
         coin =
           Object.keys(window.coins).find(
-            (c: string) => tx.to === window.coins[c].coinfig.type.erc20Address
+            (c: string) =>
+              tx.to.toLowerCase() === window.coins[c].coinfig.type.erc20Address?.toLowerCase()
           ) || ETH
       }
 
@@ -524,12 +524,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         payment = yield call(setTo, tx.to, payment)
       } else {
         if (!tx.data) throw new Error('NO_ERC20_DATA')
-        const value = EthereumAbi.rawDecode(
+        const value = ethers.utils.defaultAbiCoder.decode(
           ['uint256'],
-          Buffer.from(tx.data.slice(120, 138), 'hex')
+          `0x${'0'.repeat(64 - tx.data?.slice(120, 138).length)}${tx.data.slice(120, 138)}`
         )
-        const to = EthUtil.toChecksumAddress(`0x${tx.data?.slice(32, 72)}`)
+        const to = ethers.utils.getAddress(`0x${tx.data?.slice(32, 72)}`)
 
+        // @ts-ignore
         payment = yield call(setAmount, value, coin as Erc20CoinType, payment)
         payment = yield call(setTo, to, payment)
       }

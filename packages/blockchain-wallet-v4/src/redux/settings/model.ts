@@ -7,7 +7,8 @@ export const DEFAULT_INVITATIONS: InvitationsType = {
   XLM: true,
   achDepositWithdrawal: false,
   openBanking: false,
-  segwit: false
+  segwit: true,
+  withdrawalLocksFundsOnHold: true
 }
 
 export default DEFAULT_INVITATIONS

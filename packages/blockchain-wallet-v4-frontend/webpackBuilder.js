@@ -71,11 +71,11 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
   entry: {
     app: {
       dependOn: 'polyfills',
-      filename: 'app-[contenthash:6].js',
+      filename: 'app-[contenthash:10].js',
       import: CONFIG_PATH.src + '/index.js'
     },
     polyfills: {
-      filename: 'polyfills-[contenthash:6].js',
+      filename: 'polyfills-[contenthash:10].js',
       import: [
         '@babel/polyfill',
         'bignumber.js',
@@ -88,7 +88,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
   output: {
     assetModuleFilename: 'resources/[name][ext]', // default asset path that is usually overwritten in specific modules.rules
     chunkFilename: (pathData) =>
-      pathData.chunk.name ? '[name]-[chunkhash:6].js' : 'chunk-[chunkhash:6].js',
+      pathData.chunk.name ? '[name]-[chunkhash:10].js' : 'chunk-[chunkhash:10].js',
     crossOriginLoading: 'anonymous',
     path: CONFIG_PATH.ciBuild,
     publicPath: '/'
@@ -178,11 +178,16 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
     extraPluginsList
   ),
   optimization: {
-    runtimeChunk: {
-      name: `manifest-${new Date().getTime()}`
-    },
+    moduleIds: 'named',
     splitChunks: {
-      maxSize: 750000 // 0.75 MB max chunk size
+      maxSize: 1000000, // 1 MB max chunk size
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        },
+      },
     },
     minimizer: [
       new TerserPlugin({
@@ -248,6 +253,7 @@ const buildDevServerConfig = (
           'data:',
           'ws://localhost:8080',
           'wss://localhost:8080',
+          'https://api.opensea.io',
           'wss://api.ledgerwallet.com',
           'wss://*.walletconnect.org',
           envConfig.API_DOMAIN,

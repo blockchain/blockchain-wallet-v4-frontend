@@ -5,8 +5,8 @@ import { media, useMedia } from 'services/styles'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import Balances from './Balances'
+import FundsOnHold from './FundsOnHold'
 import Navigation from './Navigation'
-import OnHold from './OnHold'
 
 export const Container = styled.div<{ toggled?: boolean }>`
   display: flex;
@@ -47,10 +47,11 @@ const MenuLeft = (props: Props) => {
   const isLaptop = useMedia('laptop')
   const userTier = props.userData?.tiers?.current
   const isTier2 = userTier >= 2
+
   return (
     <Container toggled={props.menuOpened}>
       {!isLaptop && <Balances />}
-      {!isLaptop && isTier2 && <OnHold />}
+      {!isLaptop && isTier2 && props.withdrawalLocksFundsOnHold && <FundsOnHold />}
       <Overflow>
         <Navigation {...props} />
       </Overflow>

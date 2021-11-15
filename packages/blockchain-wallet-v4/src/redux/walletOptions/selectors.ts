@@ -30,9 +30,21 @@ export const getXlmExchangeAddresses = () => Remote.of([])
 export const getVeriffDomain = (state) => getDomains(state).map(prop('veriff'))
 export const getSiftKey = (state) => getWebOptions(state).map(path(['sift', 'apiKey']))
 
+// Nfts
+export const getNfts = (state) => getOptions(state).map((x) => x.platforms.web.nfts)
+
 //
 // FEATURE FLAG SELECTORS
 //
+
+// all flags
+export const getFeatureFlags = (
+  state: RootState
+): RemoteDataType<string, { [key in string]: boolean }> =>
+  getWebOptions(state).map(path(['featureFlags'])) as RemoteDataType<
+    string,
+    { [key in string]: boolean }
+  >
 
 // show pairing code flag on staging
 export const getPairingCodeFlag = (state: RootState) =>
@@ -53,6 +65,10 @@ export const getFeatureLegacyMagicEmailLink = (state: RootState) =>
 // signup country feature flag
 export const getFeatureSignupCountry = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'signupCountry']))
+
+// on hold funds feature flag
+export const getWithdrawalLocksFundsOnHold = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'withdrawalLocksFundsOnHold']))
 
 // signup country feature flag
 export const getEDDInterestFileUpload = (state: RootState) =>

@@ -131,7 +131,7 @@ const FirstStep = (props) => {
         </WarningBanners>
       )}
       <FormGroup>
-        <CustodyToAccountMessage coin='BCH' account={from} amount={amount} />
+        <CustodyToAccountMessage coin='BCH' account={from} />
       </FormGroup>
       <FormGroup margin='15px'>
         <FormItem>
@@ -257,7 +257,7 @@ const FirstStep = (props) => {
       {isFromCustody && !isMnemonicVerified ? <MnemonicRequiredForCustodySend /> : null}
       {isFromCustody &&
       !isEmpty(sendLimits) &&
-      sendLimits?.globalLimit?.suggestedUpgrade?.requiredTier === TIER_TYPES.GOLD ? (
+      sendLimits?.suggestedUpgrade?.requiredTier === TIER_TYPES.GOLD ? (
         <UpgradeToGoldBanner limits={sendLimits} verifyIdentity={verifyIdentity} />
       ) : null}
       <SubmitFormGroup>

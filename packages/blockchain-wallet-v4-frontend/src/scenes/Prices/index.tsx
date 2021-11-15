@@ -8,7 +8,7 @@ import styled from 'styled-components'
 import { ExtractSuccess } from '@core/types'
 import { Icon, Text } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
-import { SceneWrapper } from 'components/Layout'
+import { Header, PageTitle, SceneWrapper, SubTitle, Title } from 'components/Layout'
 import { actions, selectors } from 'data'
 
 import { getData } from './selectors'
@@ -16,31 +16,6 @@ import Failure from './template.failure'
 import Loading from './template.loading'
 import PricesTable from './template.success'
 
-const Header = styled.div`
-  width: 100%;
-  margin-bottom: 32px;
-`
-const PageTitle = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-end;
-  width: 100%;
-`
-const Title = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-
-  & > :first-child {
-    margin-right: 16px;
-  }
-`
-const SubTitle = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  margin: 16px 8px 0 0;
-`
 const TextFilterWrapper = styled.div`
   display: flex;
   position: relative;
@@ -135,9 +110,11 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   priceActions: bindActionCreators(actions.prices, dispatch),
-  routerActions: bindActionCreators(actions.router, dispatch)
+  routerActions: bindActionCreators(actions.router, dispatch),
+  swapActions: bindActionCreators(actions.components.swap, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -145,8 +122,10 @@ const enhance = compose(reduxForm({ form: 'prices' }), connector)
 
 export type TableColumnsType = {
   buySellActions: ReturnType<typeof mapDispatchToProps>['buySellActions']
+  formActions: ReturnType<typeof mapDispatchToProps>['formActions']
   modalActions: ReturnType<typeof mapDispatchToProps>['modalActions']
   routerActions: ReturnType<typeof mapDispatchToProps>['routerActions']
+  swapActions: ReturnType<typeof mapDispatchToProps>['swapActions']
   walletCurrency: ReturnType<typeof selectors.core.settings.getCurrency>
 }
 export type Props = ConnectedProps<typeof connector>

@@ -147,24 +147,37 @@ type SeamlessLimitItem = {
   value: string
 }
 
+export type LimitWithEffective = {
+  effective: boolean
+  limit: SeamlessLimitItem
+}
+
 export type SeamlessLimits = {
-  globalLimit: {
+  currency: FiatType
+  current: {
     available: SeamlessLimitItem
-    currency: FiatType
-    suggestedUpgrade: {
+    daily?: LimitWithEffective
+    monthly?: LimitWithEffective
+    yearly?: LimitWithEffective
+  }
+  suggestedUpgrade: {
+    available: SeamlessLimitItem
+    daily?: {
       available: SeamlessLimitItem
-      daily: {
-        available: SeamlessLimitItem
-        limit: SeamlessLimitItem
-        used: SeamlessLimitItem
-      }
-      monthly: {
-        available: SeamlessLimitItem
-        limit: SeamlessLimitItem
-        used: SeamlessLimitItem
-      }
-      requiredTier: number
-      requirements: string[]
+      limit: SeamlessLimitItem
+      used: SeamlessLimitItem
+    }
+    monthly?: {
+      available: SeamlessLimitItem
+      limit: SeamlessLimitItem
+      used: SeamlessLimitItem
+    }
+    requiredTier: number
+    requirements: string[]
+    yearly?: {
+      available: SeamlessLimitItem
+      limit: SeamlessLimitItem
+      used: SeamlessLimitItem
     }
   }
 }

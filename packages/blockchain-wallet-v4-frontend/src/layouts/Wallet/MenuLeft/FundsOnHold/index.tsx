@@ -10,7 +10,7 @@ import { WithdrawStepEnum } from 'data/types'
 
 import getData from './selectors'
 
-export const OnHoldContainer = (props: Props) => {
+export const FundsOnHoldContainer = (props: Props) => {
   useEffect(() => {
     props.withdrawActions.fetchWithdrawalLock(props.walletCurrency)
   }, [props.walletCurrency])
@@ -54,4 +54,4 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 export type SuccessStateType = ReturnType<typeof getData>
 export type Props = ConnectedProps<typeof connector>
 
-export default connector(OnHoldContainer)
+export default connector(FundsOnHoldContainer)

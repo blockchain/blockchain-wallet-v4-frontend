@@ -22,24 +22,38 @@ export const TableWrapper = styled.div`
     overflow-y: hidden;
   }
 
-  table {
+  .table {
     /* make sure the inner table is always as wide as needed */
-    width: 100%;
+    display: block;
+    width: 99%;
+    height: calc(100vh - 220px);
     border-spacing: 0;
     border: 1px solid ${(props) => props.theme.grey100};
     border-radius: 8px;
 
-    td {
-      border-top: 1px solid ${(props) => props.theme.grey100};
+    .th {
+      display: table-header-group;
+      padding: 16px 8px;
     }
 
-    th,
-    td {
+    .th,
+    .td {
+      vertical-align: middle;
+      display: table-cell;
       margin: 0;
-      padding: 16px 8px;
       text-align: left;
-      /* make sure each cell grows equally */
-      width: 1%;
+      width: 20%;
+    }
+
+    .td {
+      border-top: 1px solid ${(props) => props.theme.grey100};
+      height: 90px;
+      padding: 0;
+    }
+
+    .tr {
+      display: table;
+      width: 100%;
     }
   }
 `
@@ -70,12 +84,12 @@ export const HeaderText = styled.div`
 `
 
 export const getTableColumns =
-  ({ buySellActions, modalActions, routerActions, walletCurrency }: TableColumnsType) =>
+  ({ buySellActions, formActions, modalActions, swapActions, walletCurrency }: TableColumnsType) =>
   () =>
     [
-      getNameColumn(routerActions),
+      getNameColumn(modalActions),
       getPriceColumn(walletCurrency),
       getPriceChangeColumn(),
       getBalanceColumn(),
-      getActionsColumn(modalActions, buySellActions)
+      getActionsColumn(modalActions, buySellActions, swapActions, formActions)
     ]

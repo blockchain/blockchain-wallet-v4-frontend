@@ -56,6 +56,8 @@ export const getMaxMin = (
 
       // We add 7 USD to 3.5 USD so worst case user receives 3.5 USD of BTC
       return (counterFeeInBase + baseMin).toPrecision(CRYPTO_DECIMALS)
+    default:
+      break
   }
 }
 

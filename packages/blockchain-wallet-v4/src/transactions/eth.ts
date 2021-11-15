@@ -7,7 +7,6 @@ import { calculateFee } from '@core/utils/eth'
 import {
   getDefaultAddress,
   getDefaultLabel,
-  getErc20Accounts,
   getErc20TxNote,
   getEthTxNote
 } from '../redux/kvStore/eth/selectors'
