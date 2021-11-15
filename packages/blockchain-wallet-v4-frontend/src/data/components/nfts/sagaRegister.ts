@@ -9,6 +9,7 @@ export default ({ api }) => {
 
   return function* nftSaga() {
     yield takeLatest(actions.cancelListing, nftsSagas.cancelListing)
+    yield takeLatest(actions.clearAndRefetchOrders, nftsSagas.clearAndRefetchOrders)
     yield takeLatest(actions.createBuyOrder, nftsSagas.createBuyOrder)
     yield takeLatest(actions.createSellOrder, nftsSagas.createSellOrder)
     yield takeLatest(actions.fetchNftAssets, nftsSagas.fetchNftAssets)

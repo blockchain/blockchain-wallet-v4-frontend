@@ -27,7 +27,10 @@ const Marketplace: React.FC<Props> = (props: Props) => {
   return (
     <NftPageWrapper>
       <MarketForm {...props} />
-      <LazyLoadWrapper onLazyLoad={nftsActions.fetchNftOrders} triggerDistance={300}>
+      <LazyLoadWrapper
+        onLazyLoad={() => !orders.isLoading && nftsActions.fetchNftOrders()}
+        triggerDistance={300}
+      >
         {orders.list.map((order) => {
           if (!order.paymentTokenContract) return null
           if (!window.coins[order.paymentTokenContract.symbol]) return null

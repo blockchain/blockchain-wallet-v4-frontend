@@ -17,14 +17,14 @@ const initialState: NftsStateType = {
     atBound: false,
     collection: 'all',
     isFailure: false,
-    isLoading: true,
+    isLoading: false,
     list: [],
     page: 0
   },
   cancelListing: Remote.NotAsked,
   marketplace: { page: 0, token_ids_queried: [] },
   orderFlow: { activeOrder: null, asset: Remote.NotAsked, step: NftOrderStepEnum.SHOW_ASSET },
-  orders: { isFailure: false, isLoading: true, list: [] }
+  orders: { isFailure: false, isLoading: false, list: [] }
 }
 
 const nftsSlice = createSlice({
@@ -41,6 +41,7 @@ const nftsSlice = createSlice({
     cancelListingSuccess: (state) => {
       state.cancelListing = Remote.Success(true)
     },
+    clearAndRefetchOrders: (state) => {},
     createBuyOrder: (
       state,
       action: PayloadAction<{ amount?: string; coin?: string; order: NftOrdersType['orders'][0] }>
@@ -71,6 +72,7 @@ const nftsSlice = createSlice({
     fetchNftOrders: () => {},
     fetchNftOrdersFailure: (state, action: PayloadAction<string>) => {
       state.orders.isFailure = true
+      state.orders.isLoading = false
     },
     fetchNftOrdersLoading: (state) => {
       state.orders.isLoading = true
@@ -99,8 +101,11 @@ const nftsSlice = createSlice({
     },
     resetNftOrders: (state) => {
       state.orders.isFailure = false
-      state.orders.isLoading = true
+      state.orders.isLoading = false
       state.orders.list = []
+      state.marketplace.atBound = false
+      state.marketplace.page = 0
+      state.marketplace.token_ids_queried = []
     },
     resetOrderFlow: (state) => {
       state.orderFlow.asset = Remote.NotAsked
