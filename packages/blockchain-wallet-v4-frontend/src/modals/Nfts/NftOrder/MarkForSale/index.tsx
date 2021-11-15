@@ -104,6 +104,25 @@ const MarkForSale: React.FC<Props> = (props) => {
                       </FiatDisplay>
                     </Value>
                   </Row>
+                  <Row>
+                    <Value asTitle>
+                      <FormattedMessage id='copy.service_fees' defaultMessage='Service Fees' />
+                    </Value>
+                    <Title asValue>
+                      <FormattedMessage
+                        id='copy.opensea_service_fee'
+                        defaultMessage='OpenSea Service Fee'
+                      />{' '}
+                      {val.asset_contract.opensea_seller_fee_basis_points / 100}%
+                    </Title>
+                    <Title asValue>
+                      <FormattedMessage
+                        id='copy.creator_royalty'
+                        defaultMessage='Creator Royalty'
+                      />{' '}
+                      {Number(val.collection.dev_seller_fee_basis_points) / 100}%
+                    </Title>
+                  </Row>
                 </>
               ) : (
                 <Row>
