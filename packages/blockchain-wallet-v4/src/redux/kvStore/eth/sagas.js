@@ -20,7 +20,7 @@ export default ({ api, networks } = {}) => {
       const mnemonicT = yield select(obtainMnemonic)
       const mnemonic = yield callTask(mnemonicT)
       const defaultIndex = 0
-      const addr = eth.deriveAddress(mnemonic, defaultIndex)
+      const addr = eth.deriveAddress(mnemonic)
 
       return { addr, defaultIndex }
     } catch (e) {

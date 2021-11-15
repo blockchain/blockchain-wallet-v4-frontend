@@ -24,10 +24,17 @@ const CoinIcon = styled(Icon)`
   margin-right: 16px;
 `
 
-export const getNameColumn = (routerActions: TableColumnsType['routerActions']) => ({
+export const getNameColumn = (modalActions: TableColumnsType['modalActions']) => ({
   Cell: ({ row: { original: values } }) => {
     return (
-      <CellWrapper onClick={() => routerActions.push(`${values.coin}/transactions`)}>
+      <CellWrapper
+        onClick={() => {
+          modalActions.showModal('REQUEST_CRYPTO_MODAL', {
+            origin: 'Prices',
+            preselectedCoin: values.coin
+          })
+        }}
+      >
         <CoinIcon name={values.coin} size='32px' color={values.coin} />
         <CellText>{values.name}</CellText>
       </CellWrapper>

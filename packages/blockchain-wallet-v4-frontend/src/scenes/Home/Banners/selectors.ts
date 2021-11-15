@@ -99,7 +99,7 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     userData.tiers?.current >= 1 &&
     userData.address &&
     userData.address.country &&
-    ['GB', 'US', 'IT'].indexOf(userData.address.country) === -1
+    ['US', 'IT'].indexOf(userData.address.country) === -1
 
   const isTier3SDD = sddEligibleTier === 3
 

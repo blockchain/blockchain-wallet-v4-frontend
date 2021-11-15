@@ -33,7 +33,12 @@ class LazyLoadContainer extends React.PureComponent {
   render() {
     const { children, className } = this.props
     return (
-      <Wrapper className={className} onScroll={this.onScroll} ref={this.setWrapperRef}>
+      <Wrapper
+        className={className}
+        onWheel={this.onScroll}
+        onScroll={this.onScroll}
+        ref={this.setWrapperRef}
+      >
         <Container className='container' ref={this.setContainerRef}>
           {children}
         </Container>

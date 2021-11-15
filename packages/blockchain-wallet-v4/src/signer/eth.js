@@ -1,8 +1,8 @@
 import Eth from '@ledgerhq/hw-app-eth'
 import BigNumber from 'bignumber.js'
 import Task from 'data.task'
-import EthereumAbi from 'ethereumjs-abi'
 import EthereumTx from 'ethereumjs-tx'
+import * as ethers from 'ethers'
 import { curry } from 'ramda'
 
 import * as eth from '../utils/eth'
@@ -15,7 +15,7 @@ const toHex = (value) => {
 
 export const signErc20 = curry((network = 1, mnemonic, data, contractAddress) => {
   const { amount, gasLimit, gasPrice, index, nonce, to } = data
-  const privateKey = eth.getPrivateKey(mnemonic, index)
+  const wallet = ethers.Wallet.fromMnemonic(mnemonic, `m/44'/60'/0'/0/${index}`)
   const transferMethodHex = '0xa9059cbb'
 
   // block ERC20 transfers/sends that are being created with 0 amount
@@ -27,35 +27,30 @@ export const signErc20 = curry((network = 1, mnemonic, data, contractAddress) =>
     chainId: network,
     data:
       transferMethodHex +
-      EthereumAbi.rawEncode(['address'], [to]).toString('hex') +
-      EthereumAbi.rawEncode(['uint256'], [amount.toString()]).toString('hex'),
+      ethers.utils.defaultAbiCoder
+        .encode(['address', 'uint256'], [to, amount.toString()])
+        .replace('0x', ''),
     gasLimit: toHex(gasLimit),
     gasPrice: toHex(gasPrice),
     nonce: toHex(nonce),
     to: contractAddress,
     value: toHex(0)
   }
-  const tx = new EthereumTx(txParams)
-  tx.sign(privateKey)
-  const rawTx = `0x${tx.serialize().toString('hex')}`
-  return Task.of(rawTx)
+  return Task.of(wallet.signTransaction(txParams))
 })
 
 export const sign = curry((network = 1, mnemonic, data) => {
   const { amount, gasLimit, gasPrice, index, nonce, to } = data
-  const privateKey = eth.getPrivateKey(mnemonic, index)
+  const wallet = ethers.Wallet.fromMnemonic(mnemonic, `m/44'/60'/0'/0/${index}`)
   const txParams = {
     chainId: network,
     gasLimit: toHex(gasLimit),
     gasPrice: toHex(gasPrice),
-    nonce: toHex(nonce),
+    nonce,
     to,
     value: toHex(amount)
   }
-  const tx = new EthereumTx(txParams)
-  tx.sign(privateKey)
-  const rawTx = `0x${tx.serialize().toString('hex')}`
-  return Task.of(rawTx)
+  return Task.of(wallet.signTransaction(txParams))
 })
 
 export const serialize = (network, raw, signature) => {
