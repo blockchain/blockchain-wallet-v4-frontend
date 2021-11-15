@@ -41,7 +41,10 @@ const nftsSlice = createSlice({
     cancelListingSuccess: (state) => {
       state.cancelListing = Remote.Success(true)
     },
-    createBuyOrder: (state, action: PayloadAction<{ order: NftOrdersType['orders'][0] }>) => {},
+    createBuyOrder: (
+      state,
+      action: PayloadAction<{ amount?: string; coin?: string; order: NftOrdersType['orders'][0] }>
+    ) => {},
     createSellOrder: (state, action: PayloadAction<{ asset: NftAssetsType['assets'][0] }>) => {},
     fetchNftAssets: () => {},
     fetchNftAssetsFailure: (state, action: PayloadAction<string>) => {
