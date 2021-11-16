@@ -1387,7 +1387,7 @@ type MessagesType = {
   'modals.send.banner.title': 'Uprade to Gold. Send More Crypto.'
   'modals.send.banner.description': 'Verify your ID now and unlock Gold level trading. Send up to {dayCurrencySymbol}{dayAmount} a day.'
   'modals.send.banner.get_started': 'Get Started'
-  'modals.send.over_your_limit': 'Over your limit! Send up to {currency}{amount}.'
+  'modals.send.over_your_limit_and_period': 'Over your limit! Send up to {currency}{amount}. Now, your limit is {currency}{limit} a {period}.'
   'modals.sendbch.amountnotzeromessage': 'Invalid amount'
   'modals.sendbch.coin': 'Currency:'
   'modals.sendbch.firststep.blockbrowser': 'Sending Bitcoin Cash from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.'

@@ -89,6 +89,11 @@ export const validate = (formValues: SendFormType, props: Props) => {
             value: fee
           })
     isAboveMax = maximumAmountWithLimit(amount, selectedAccount.balance, maxLimit, maxLimitFee)
+    if (isAboveMax) {
+      return {
+        amount: 'ABOVE_MAX_LIMIT'
+      }
+    }
   }
 
   return {

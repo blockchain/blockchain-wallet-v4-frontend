@@ -417,13 +417,15 @@ const TopText = styled(Text)<{
   margin-bottom: ${(props) => (props.marginBottom ? '16px' : '0px')};
 `
 
-const OverYourLimitMessage = ({ amount, currency }) => (
+const OverYourLimitMessage = ({ amount, currency, limit, period }) => (
   <FormattedMessage
-    id='modals.send.over_your_limit'
-    defaultMessage='Over your limit! Send up to {currency}{amount}.'
+    id='modals.send.over_your_limit_and_period'
+    defaultMessage='Over your limit! Send up to {currency}{amount}. Now, your limit is {currency}{limit} a {period}.'
     values={{
       amount,
-      currency
+      currency,
+      limit,
+      period
     }}
   />
 )

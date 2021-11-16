@@ -17,6 +17,7 @@ import CollapseText from 'components/CollapseText'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
 import UpgradeToGoldBanner from 'components/Flyout/Banners/UpgradeToGold'
+import UpgradeToGoldLine, { Flows } from 'components/Flyout/Banners/UpgradeToGoldLine'
 import { StepHeader } from 'components/Flyout/SendRequestCrypto'
 import { Form } from 'components/Form'
 import { DisplayContainer } from 'components/SimpleBuy'
@@ -354,9 +355,10 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
           paddingTop: '0px'
         }}
       >
-        {!isEmpty(sendLimits) && sendLimits?.suggestedUpgrade?.requiredTier === TIER_TYPES.GOLD ? (
+        {sendLimits?.suggestedUpgrade?.requiredTier === TIER_TYPES.GOLD ? (
           <UpgradeToGoldBanner limits={sendLimits} verifyIdentity={verifyIdentity} />
         ) : null}
+
         <Button
           nature='primary'
           type='submit'
@@ -367,6 +369,10 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
         >
           <FormattedMessage id='buttons.next' defaultMessage='Next' />
         </Button>
+
+        {sendLimits?.suggestedUpgrade?.requiredTier === TIER_TYPES.GOLD && (
+          <UpgradeToGoldLine type={Flows.SEND} verifyIdentity={props.verifyIdentity} />
+        )}
       </FlyoutWrapper>
     </Wrapper>
   )
@@ -396,7 +402,7 @@ const enhance = compose(
 export type Props = ConnectedProps<typeof connector> &
   OwnProps & {
     formErrors: {
-      amount?: 'ABOVE_MAX' | 'BELOW_MIN' | 'NEGATIVE_INCOMING_AMT' | boolean
+      amount?: 'ABOVE_MAX' | 'ABOVE_MAX_LIMIT' | 'BELOW_MIN' | 'NEGATIVE_INCOMING_AMT' | boolean
     }
   }
 
