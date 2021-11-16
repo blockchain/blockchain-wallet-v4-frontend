@@ -2157,7 +2157,8 @@ export async function createSellOrder(
   signer: Signer,
   startPrice: number,
   endPrice: number | null,
-  waitForHighestBid: boolean
+  waitForHighestBid: boolean,
+  paymentTokenAddress: string
 ): Promise<Order> {
   // 1. use the _makeSellOrder to create the object & initialize the proxy contract for this sale.
   const accountAddress = await signer.getAddress()
@@ -2168,14 +2169,14 @@ export async function createSellOrder(
     endAmount: endPrice,
     expirationTime: 0,
     extraBountyBasisPoints: 0,
-    paymentTokenAddress: '0x0000000000000000000000000000000000000000',
+    paymentTokenAddress,
     quantity: 1,
     startAmount: startPrice, // only supports Ether Sales at the moment due to hardcoded conversion in _getPricingParameters)
     waitForHighestBid
   })
   // 2. Validation of sell order fields & Transaction Approvals (Proxy initialized here if needed also)
-  const validatedAndApproved = await _sellOrderValidationAndApprovals({ order, signer })
-  console.log(`Successful approvals and validations?: ${validatedAndApproved}`)
+  // const validatedAndApproved = await _sellOrderValidationAndApprovals({ order, signer })
+  // console.log(`Successful approvals and validations?: ${validatedAndApproved}`)
   // 3. Compute hash of the order and output {...order, hash:hash(order)}
   const hashedOrder = {
     ...order,
@@ -2274,6 +2275,89 @@ export async function calculatePaymentProxyApprovals(order: Order, signer: Signe
       { gasLimit: 90_000 }
     )
   )
+}
+
+export async function calculateCancellation(sellOrder: SellOrder, signer: Signer) {
+  const order = {
+    basePrice: sellOrder.base_price.toString(),
+    calldata: sellOrder.calldata,
+    exchange: sellOrder.exchange,
+    expirationTime: sellOrder.expiration_time.toString(),
+    extra: sellOrder.extra.toString(),
+    feeMethod: sellOrder.fee_method,
+    feeRecipient: sellOrder.fee_recipient.address,
+    hash: sellOrder.order_hash,
+    howToCall: sellOrder.how_to_call,
+    listingTime: sellOrder.listing_time.toString(),
+    maker: sellOrder.maker.address,
+    makerProtocolFee: sellOrder.maker_protocol_fee.toString(),
+    makerReferrerFee: sellOrder.maker_referrer_fee.toString(),
+    makerRelayerFee: sellOrder.maker_relayer_fee.toString(),
+    metadata: sellOrder.metadata,
+    paymentToken: sellOrder.payment_token,
+    quantity: sellOrder.quantity.toString(),
+    r: sellOrder.r,
+    replacementPattern: sellOrder.replacement_pattern,
+    s: sellOrder.s,
+    saleKind: sellOrder.sale_kind,
+    salt: sellOrder.salt.toString(),
+    side: sellOrder.side,
+    staticExtradata: sellOrder.static_extradata,
+    staticTarget: sellOrder.static_target,
+    taker: sellOrder.taker.address,
+    takerProtocolFee: sellOrder.taker_protocol_fee,
+    takerRelayerFee: sellOrder.taker_relayer_fee,
+    target: sellOrder.target,
+    v: sellOrder.v,
+    // TODO: Find out how to fetch the true value for waitingForBestCounter
+    waitingForBestCounterOrder: false
+  }
+
+  const wyvernExchangeContract = new ethers.Contract(order.exchange, wyvernExchange_ABI, signer)
+  const txnData = {
+    gasLimit: 120_000
+  }
+  // Weird & inconsistent quoarum error during gas estimation... use default value if fails
+  const args = [
+    [
+      order.exchange,
+      order.maker,
+      order.taker,
+      order.feeRecipient,
+      order.target,
+      order.staticTarget,
+      order.paymentToken
+    ],
+    [
+      order.makerRelayerFee.toString(),
+      order.takerRelayerFee.toString(),
+      order.makerProtocolFee.toString(),
+      order.takerProtocolFee.toString(),
+      order.basePrice.toString(),
+      order.extra.toString(),
+      order.listingTime.toString(),
+      order.expirationTime.toString(),
+      order.salt.toString()
+    ],
+    order.feeMethod,
+    order.side,
+    order.saleKind,
+    order.howToCall,
+    order.calldata,
+    order.replacementPattern,
+    order.staticExtradata,
+    order.v || 0,
+    order.r || NULL_BLOCK_HASH,
+    order.s || NULL_BLOCK_HASH
+  ]
+
+  const gasLimit = await safeGasEstimation(
+    wyvernExchangeContract.estimateGas.cancelOrder_,
+    args,
+    txnData
+  )
+
+  return new BigNumber(gasLimit)
 }
 
 export async function calculateAtomicMatchFees(order: Order, counterOrder: Order, signer: Signer) {
