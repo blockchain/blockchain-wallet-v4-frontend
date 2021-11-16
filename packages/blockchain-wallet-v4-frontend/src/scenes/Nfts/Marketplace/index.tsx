@@ -22,13 +22,13 @@ import MarketForm from './MarketForm'
 const MarketplaceAsset = styled(Asset)``
 
 const Marketplace: React.FC<Props> = (props: Props) => {
-  const { nftsActions, orders } = props
+  const { marketplace, nftsActions } = props
 
   return (
     <NftPageWrapper>
       <MarketForm {...props} />
       <LazyLoadWrapper onLazyLoad={nftsActions.fetchNftOrders} triggerDistance={300}>
-        {orders.list.map((order) => {
+        {marketplace.list.map((order) => {
           if (!order.paymentTokenContract) return null
           if (!window.coins[order.paymentTokenContract.symbol]) return null
           if (!order.asset) return null
@@ -96,9 +96,9 @@ const Marketplace: React.FC<Props> = (props: Props) => {
             </MarketplaceAsset>
           )
         })}
-        {props.orders.isLoading ? (
+        {props.marketplace.isLoading ? (
           <SpinningLoader width='14px' height='14px' borderWidth='3px' />
-        ) : props.orders.isFailure ? (
+        ) : props.marketplace.isFailure ? (
           <Text weight={600}>
             <span aria-label='cry' role='img'>
               😭

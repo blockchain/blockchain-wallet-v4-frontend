@@ -1,4 +1,9 @@
-import { AssetEventsType, NftAssetsType, NftOrdersType } from './types'
+import {
+  AssetEventsType,
+  ExplorerGatewayNftCollectionType,
+  NftAssetsType,
+  NftOrdersType
+} from './types'
 
 // const JAYZ_ADDRESS = '0x3b417faee9d2ff636701100891dc2755b5321cc3'
 export const NFT_ORDER_PAGE_LIMIT = 10
@@ -48,6 +53,19 @@ export default ({ apiUrl, get, post }) => {
     })
   }
 
+  const getNftCollections = (
+    offset?: number,
+    limit?: number,
+    sortedBy?: string,
+    direction?: 'ASC' | 'DESC'
+  ): ExplorerGatewayNftCollectionType => {
+    return get({
+      endPoint: `/nft/collections`,
+      ignoreQueryParams: true,
+      url: `${apiUrl}/explorer-gateway`
+    })
+  }
+
   const getNftCollectionInfo = (slug: string) => {
     return get({
       endPoint: `/nft/collection/${slug}`,
@@ -91,6 +109,7 @@ export default ({ apiUrl, get, post }) => {
     getNftAsset,
     getNftAssets,
     getNftCollectionInfo,
+    getNftCollections,
     getNftOrders,
     getNftRecentEvents,
     postNftOrder

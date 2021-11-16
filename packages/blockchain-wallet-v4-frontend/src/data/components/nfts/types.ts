@@ -1,5 +1,6 @@
 import {
   CollectionData,
+  ExplorerGatewayNftCollectionType,
   NftAsset,
   NftAssetsType,
   NftOrdersType
@@ -23,9 +24,13 @@ export type NftsStateType = {
     page: number
   }
   cancelListing: RemoteDataType<string, boolean>
+  collections: RemoteDataType<string, ExplorerGatewayNftCollectionType>
   marketplace: {
     atBound?: boolean
     collection?: CollectionData
+    isFailure: boolean
+    isLoading: boolean
+    list: NftOrdersType['orders']
     page: number
     token_ids_queried: string[]
   }
@@ -33,10 +38,5 @@ export type NftsStateType = {
     activeOrder: NftOrdersType['orders'][0] | null
     asset: RemoteDataType<string, NftAsset>
     step: NftOrderStepEnum
-  }
-  orders: {
-    isFailure: boolean
-    isLoading: boolean
-    list: NftOrdersType['orders']
   }
 }
