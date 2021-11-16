@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 
 import { Remote } from '@core'
 import { displayCoinToCoin } from '@core/exchange'
-import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, Icon, Link, SpinningLoader, Text } from 'blockchain-info-components'
 import { BlueCartridge } from 'components/Cartridge'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -19,7 +19,18 @@ const ShowAsset: React.FC<Props> = ({ cancelListing, close, nftActions, orderFlo
   return (
     <>
       {orderFlow.asset.cata({
-        Failure: (e) => <Text>{e}</Text>,
+        Failure: (e) => (
+          <div style={{ position: 'relative' }}>
+            <Icon
+              onClick={() => close()}
+              name='close'
+              cursor
+              role='button'
+              style={{ position: 'absolute', right: '40px', top: '40px' }}
+            />
+            <Text color='red600'>{e}</Text>
+          </div>
+        ),
         Loading: () => (
           <AssetDesc>
             <SpinningLoader width='14px' height='14px' borderWidth='3px' />
@@ -104,18 +115,33 @@ const ShowAsset: React.FC<Props> = ({ cancelListing, close, nftActions, orderFlo
               {/* TODO: make a bid */}
               {/* activeOrder, user can buy now */}
               {activeOrder ? (
-                <Button jumbo nature='primary' fullwidth data-e2e='buyNft'>
-                  <FormattedMessage
-                    id='copy.buy_now_for'
-                    values={{
-                      for: displayCoinToCoin({
-                        coin: activeOrder.paymentTokenContract?.symbol || 'ETH',
-                        value: activeOrder.basePrice.toString()
-                      })
-                    }}
-                    defaultMessage='Buy Now for {for}'
-                  />
-                </Button>
+                <div>
+                  <Button jumbo nature='primary' fullwidth data-e2e='buyNft'>
+                    <FormattedMessage
+                      id='copy.buy_now_for'
+                      values={{
+                        for: displayCoinToCoin({
+                          coin: activeOrder.paymentTokenContract?.symbol || 'ETH',
+                          value: activeOrder.basePrice.toString()
+                        })
+                      }}
+                      defaultMessage='Buy Now for {for}'
+                    />
+                  </Button>
+                  <Text size='12px' weight={500} style={{ margin: '8px 0', textAlign: 'center' }}>
+                    Or
+                  </Text>
+                  <Link
+                    weight={600}
+                    size='14px'
+                    onClick={() =>
+                      nftActions.setOrderFlowStep({ step: NftOrderStepEnum.MAKE_OFFER })
+                    }
+                    style={{ display: 'block', textAlign: 'center', width: '100%' }}
+                  >
+                    Make an Offer
+                  </Link>
+                </div>
               ) : /* TODO: show fee required to cancel */
               /* User has 1 or more sell_orders, cancel them */
               val.sell_orders?.length ? (
