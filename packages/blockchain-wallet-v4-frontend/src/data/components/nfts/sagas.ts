@@ -1,6 +1,7 @@
 import { ethers } from 'ethers'
 import { call, put, select } from 'redux-saga/effects'
 
+import { Remote } from '@core'
 import { APIType } from '@core/network/api'
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
 import { CollectionData } from '@core/network/api/nfts/types'
@@ -42,6 +43,19 @@ export default ({ api }: { api: APIType }) => {
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchNftAssetsFailure(error))
+    }
+  }
+
+  const fetchNftCollections = function* () {
+    try {
+      const collections = S.getNftCollections(yield select())
+      if (Remote.Success.is(collections)) return
+      yield put(A.fetchNftCollectionsLoading())
+      const nfts: ReturnType<typeof api.getNftCollections> = yield call(api.getNftCollections)
+      yield put(A.fetchNftCollectionsSuccess(nfts))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchNftCollectionsFailure(error))
     }
   }
 
@@ -261,6 +275,7 @@ export default ({ api }: { api: APIType }) => {
     createBuyOrder,
     createSellOrder,
     fetchNftAssets,
+    fetchNftCollections,
     fetchNftOrders,
     formChanged,
     formInitialized,

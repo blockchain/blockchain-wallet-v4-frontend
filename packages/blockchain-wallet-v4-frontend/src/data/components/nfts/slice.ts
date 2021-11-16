@@ -4,6 +4,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Remote } from '@core'
 import {
   CollectionData,
+  ExplorerGatewayNftCollectionType,
   NftAsset,
   NftAssetsType,
   NftOrdersType,
@@ -22,6 +23,7 @@ const initialState: NftsStateType = {
     page: 0
   },
   cancelListing: Remote.NotAsked,
+  collections: Remote.NotAsked,
   marketplace: {
     atBound: false,
     isFailure: false,
@@ -60,6 +62,19 @@ const nftsSlice = createSlice({
       state.assets.isFailure = false
       state.assets.isLoading = false
       state.assets.list = [...state.assets.list, ...action.payload]
+    },
+    fetchNftCollections: () => {},
+    fetchNftCollectionsFailure: (state, action: PayloadAction<string>) => {
+      state.collections = Remote.Failure(action.payload)
+    },
+    fetchNftCollectionsLoading: (state) => {
+      state.collections = Remote.Loading
+    },
+    fetchNftCollectionsSuccess: (
+      state,
+      action: PayloadAction<ExplorerGatewayNftCollectionType>
+    ) => {
+      state.collections = Remote.Success(action.payload)
     },
     fetchNftOrderAsset: () => {},
     fetchNftOrderAssetFailure: (state, action: PayloadAction<string>) => {
