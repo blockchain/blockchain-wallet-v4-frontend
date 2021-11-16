@@ -22,7 +22,7 @@ import { AlertButton } from '../../../components'
 import Scheduler from '../../../RecurringBuys/Scheduler'
 import { Row } from '../../../Swap/EnterAmount/Checkout'
 import CryptoItem from '../../CryptoSelection/CryptoSelector/CryptoItem'
-import { BuyOrSell, ErrorCodeMappings } from '../../model'
+import { ErrorCodeMappings } from '../../model'
 import { Props as OwnProps, SuccessStateType } from '.'
 import ActionButton from './ActionButton'
 import IncreaseLimits from './IncreaseLimits'
@@ -377,7 +377,11 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 })
               }
             />
-            <BuyOrSell {...props} crypto={cryptoCurrency || 'Crypto'} />
+            <FormattedMessage
+              id='buttons.buy_sell_now'
+              defaultMessage='{orderType} Now'
+              values={{ orderType: props.orderType === OrderType.BUY ? 'Buy' : 'Sell' }}
+            />
           </LeftTopCol>
         </TopText>
       </FlyoutWrapper>

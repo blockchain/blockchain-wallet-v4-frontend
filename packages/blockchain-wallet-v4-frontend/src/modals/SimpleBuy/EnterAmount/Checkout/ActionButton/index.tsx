@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
+import { OrderType } from '@core/types'
 import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 
 import { Props as OwnProps, SuccessStateType } from '..'
@@ -108,7 +109,13 @@ const ActionButton: React.FC<Props> = (props) => {
           {props.submitting ? (
             <HeartbeatLoader height='16px' width='16px' color='white' />
           ) : (
-            <FormattedMessage id='buttons.next' defaultMessage='Next' />
+            <FormattedMessage
+              id='buttons.preview_buysell'
+              defaultMessage='Preview {orderType}'
+              values={{
+                orderType: props.orderType === OrderType.BUY ? 'Buy' : 'Sell'
+              }}
+            />
           )}
         </Button>
       )
