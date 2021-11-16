@@ -139,8 +139,11 @@ export default ({ api }: { api: APIType }) => {
     try {
       const signer = yield call(getEthSigner)
       yield call(fulfillNftOrder, action.payload.order, signer)
+      yield put(actions.alerts.displaySuccess('Buy order created!'))
     } catch (e) {
-      console.log(e)
+      const error = errorHandler(e)
+      yield put(actions.logs.logErrorMessage(error))
+      yield put(actions.alerts.displayError(error))
     }
   }
 
@@ -148,10 +151,12 @@ export default ({ api }: { api: APIType }) => {
     try {
       const signer = yield call(getEthSigner)
       const order = yield call(fulfillNftSellOrder, action.payload.asset, signer)
-      const result = yield call(api.postNftOrder, order)
-      console.log(result)
+      yield call(api.postNftOrder, order)
+      yield put(actions.alerts.displaySuccess('Sell order created!'))
     } catch (e) {
-      console.log(e)
+      const error = errorHandler(e)
+      yield put(actions.logs.logErrorMessage(error))
+      yield put(actions.alerts.displayError(error))
     }
   }
 
@@ -167,7 +172,9 @@ export default ({ api }: { api: APIType }) => {
       )
       yield put(A.fetchNftOrders())
     } catch (e) {
-      console.log(e)
+      const error = errorHandler(e)
+      yield put(actions.logs.logErrorMessage(error))
+      yield put(actions.alerts.displayError(error))
     }
   }
 
@@ -187,7 +194,8 @@ export default ({ api }: { api: APIType }) => {
           )
           yield put(A.fetchNftOrders())
         } catch (e) {
-          console.log(e)
+          const error = errorHandler(e)
+          yield put(actions.logs.logErrorMessage(error))
         }
       }
     }
