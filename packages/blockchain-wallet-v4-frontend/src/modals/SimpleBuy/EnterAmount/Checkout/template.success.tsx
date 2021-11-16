@@ -18,7 +18,7 @@ import { SBCheckoutFormValuesType, SwapBaseCounterTypes } from 'data/types'
 import { getEffectiveLimit } from 'services/custodial'
 import { CRYPTO_DECIMALS, FIAT_DECIMALS, formatTextAmount } from 'services/forms'
 
-import { OverLimitButton } from '../../../components'
+import { AlertButton } from '../../../components'
 import Scheduler from '../../../RecurringBuys/Scheduler'
 import { Row } from '../../../Swap/EnterAmount/Checkout'
 import CryptoItem from '../../CryptoSelection/CryptoSelector/CryptoItem'
@@ -607,16 +607,19 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
           {showLimitErrorForSell && effectiveLimit && (
             <>
-              <OverLimitButton coin={cryptoCurrency} />
+              <AlertButton>
+                <FormattedMessage
+                  id='copy.not_enough_coin'
+                  defaultMessage='Not Enough {coin}'
+                  values={{ coin: cryptoCurrency }}
+                />
+              </AlertButton>
               <FormattedMessage
                 id='modals.simplebuy.checkout.sellmaxamount'
                 defaultMessage='The maximum amount of {coin} you can sell from this account is {amount}'
                 values={{
                   amount: formatFiat(convertBaseToStandard('FIAT', effectiveLimit.limit.value), 0),
-                  coin: cryptoCurrency,
-                  symbol:
-                    Currencies[effectiveLimit.limit.currency].units[effectiveLimit.limit.currency]
-                      .symbol
+                  coin: cryptoCurrency
                 }}
               />
             </>

@@ -11,6 +11,44 @@ const store = createStore(combineReducers({}))
 export default {
   args: {
     close: () => {},
+    limits: {
+      currency: 'GBP',
+      current: {
+        available: {
+          currency: 'GBP',
+          value: '200000'
+        },
+        daily: {
+          effective: true,
+          limit: {
+            currency: 'GBP',
+            value: '200000'
+          }
+        }
+      },
+      suggestedUpgrade: {
+        available: {
+          currency: 'GBP',
+          value: '20000000'
+        },
+        daily: {
+          available: {
+            currency: 'GBP',
+            value: '20000000'
+          },
+          limit: {
+            currency: 'GBP',
+            value: '20000000'
+          },
+          used: {
+            currency: 'GBP',
+            value: '0'
+          }
+        },
+        requiredTier: 2,
+        requirements: ['KYC']
+      }
+    },
     verifyIdentity: () => {}
   },
   component: UpgradeToGold,
