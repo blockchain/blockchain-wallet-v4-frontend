@@ -31,6 +31,8 @@
   "domains": {
     "api": "https://api.blockchain.info",
     "bitpay": "https://bitpay.com",
+    "checkout": "https://api.checkout.com",
+    "stripe": "https://api.stripe.com",
     "comRoot": "https://www.blockchain.com",
     "comWalletApp": "https://login.blockchain.com",
     "everypay": "https://igw-demo.every-pay.com",

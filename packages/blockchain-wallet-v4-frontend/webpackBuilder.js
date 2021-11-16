@@ -186,8 +186,8 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
           test: /[\\/]node_modules[\\/]/,
           name: 'vendors',
           chunks: 'all'
-        },
-      },
+        }
+      }
     },
     minimizer: [
       new TerserPlugin({
@@ -255,6 +255,8 @@ const buildDevServerConfig = (
           'wss://localhost:8080',
           'wss://api.ledgerwallet.com',
           envConfig.API_DOMAIN,
+          envConfig.CHECKOUT_URL,
+          envConfig.STRIPE_URL,
           envConfig.EVERYPAY_URL,
           envConfig.HORIZON_URL,
           envConfig.LEDGER_SOCKET_URL,
@@ -284,6 +286,8 @@ const buildDevServerConfig = (
           bitpay: envConfig.BITPAY_URL,
           comRoot: envConfig.COM_ROOT,
           comWalletApp: localhostUrl,
+          checkout: envConfig.CHECKOUT_URL,
+          stripe: envConfig.STRIPE_URL,
           everypay: envConfig.EVERYPAY_URL,
           exchange: envConfig.EXCHANGE_URL,
           horizon: envConfig.HORIZON_URL,

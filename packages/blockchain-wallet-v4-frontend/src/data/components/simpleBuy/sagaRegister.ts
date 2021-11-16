@@ -15,7 +15,7 @@ export default ({ api, coreSagas, networks }) => {
 
   return function* simpleBuySaga() {
     yield takeEvery(actionTypes.form.CHANGE, simpleBuySagas.formChanged)
-    yield takeLatest(actions.activateCard.type, simpleBuySagas.activateSBCard)
+    yield takeLatest(actions.activateCard.type, simpleBuySagas.activatePaymentCard)
     yield takeLatest(actions.addCard.type, simpleBuySagas.addCardDetails)
     yield takeLatest(actions.addCardFinished, simpleBuySagas.addCardFinished)
     yield takeLatest(actions.cancelOrder.type, simpleBuySagas.cancelSBOrder)

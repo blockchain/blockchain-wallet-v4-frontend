@@ -14,6 +14,7 @@ import { CoinType, FiatCurrenciesType, FiatType, WalletCurrencyType } from '../.
 import { NabuCustodialProductType, ProductTypes, WithdrawResponseType } from '../custodial/types'
 import { SwapOrderStateType, SwapOrderType, SwapUserLimitsType } from '../swap/types'
 import {
+  CardAcquirer,
   FiatEligibleType,
   NabuAddressType,
   SBAccountType,
@@ -39,11 +40,13 @@ export default ({
   authorizedGet,
   authorizedPost,
   authorizedPut,
+  checkoutUrl,
   everypayUrl,
   get,
-  nabuUrl
+  nabuUrl,
+  stripeUrl
 }) => {
-  const activateSBCard = (cardId: SBCardType['id'], customerUrl: string): SBCardType =>
+  const activatePaymentCard = (cardId: SBCardType['id'], customerUrl: string): SBCardType =>
     authorizedPost({
       contentType: 'application/json',
       data: {
@@ -388,7 +391,75 @@ export default ({
       url: nabuUrl
     })
 
-  const submitSBCardDetailsToEverypay = ({
+  const getCardAcquirers = (): CardAcquirer[] =>
+    authorizedGet({
+      contentType: 'application/json',
+      endPoint: '/payments/card-acquirers',
+      ignoreQueryParams: true,
+      url: nabuUrl
+    })
+
+  const submitCardDetailsToCheckout = ({
+    accessToken,
+    ccNumber,
+    cvc,
+    expirationDate,
+    holderName
+  }: {
+    accessToken: string
+    ccNumber: string
+    cvc: string
+    expirationDate: Moment
+    holderName: string
+  }) =>
+    axios({
+      data: {
+        cvv: cvc,
+        expiry_month: expirationDate.month() + 1,
+        expiry_year: expirationDate.year(),
+        name: holderName,
+        number: ccNumber,
+        type: 'card'
+      },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      url: `${checkoutUrl}/tokens`
+    })
+
+  const submitCardDetailsToStripe = ({
+    accessToken,
+    ccNumber,
+    cvc,
+    expirationDate
+  }: {
+    accessToken: string
+    ccNumber: string
+    cvc: string
+    expirationDate: Moment
+  }) => {
+    const params = new URLSearchParams()
+
+    params.append('type', 'card')
+    params.append('card[number]', ccNumber)
+    params.append('card[exp_month]', `${expirationDate.month() + 1}`)
+    params.append('card[exp_year]', `${expirationDate.year()}`)
+    params.append('card[cvc]', `${cvc}`)
+
+    return axios({
+      data: params,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      method: 'POST',
+      url: `${stripeUrl}/v1/payment_methods`
+    })
+  }
+
+  const submitCardDetailsToEverypay = ({
     accessToken,
     apiUserName,
     ccNumber,
@@ -466,7 +537,7 @@ export default ({
     })
 
   return {
-    activateSBCard,
+    activatePaymentCard,
     cancelSBOrder,
     confirmSBOrder,
     createBankAccountLink,
@@ -478,6 +549,7 @@ export default ({
     deleteSavedAccount,
     getBankTransferAccountDetails,
     getBankTransferAccounts,
+    getCardAcquirers,
     getPaymentById,
     getRBPaymentInfo,
     getRBRegisteredList,
@@ -494,7 +566,9 @@ export default ({
     getSBQuote,
     getSBTransactions,
     getUnifiedSellTrades,
-    submitSBCardDetailsToEverypay,
+    submitCardDetailsToCheckout,
+    submitCardDetailsToEverypay,
+    submitCardDetailsToStripe,
     updateBankAccountLink,
     withdrawSBFunds
   }

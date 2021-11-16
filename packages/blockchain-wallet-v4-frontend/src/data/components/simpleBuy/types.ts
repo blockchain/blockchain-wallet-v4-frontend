@@ -219,3 +219,10 @@ export type StepActionsPayload =
         | 'LOADING'
         | 'FREQUENCY'
     }
+
+export type PaymentApiKeys = {
+  checkout_uk: string
+  checkout_us: string
+  stripe_uk: string
+  stripe_us: string
+}

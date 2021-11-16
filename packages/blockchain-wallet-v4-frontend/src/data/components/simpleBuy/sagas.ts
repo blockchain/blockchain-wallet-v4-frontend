@@ -7,6 +7,7 @@ import { call, cancel, delay, fork, put, race, retry, select, take } from 'redux
 import { Remote } from '@core'
 import { APIType } from '@core/network/api'
 import {
+  CardAcquirer,
   Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
@@ -47,7 +48,7 @@ import {
 import * as S from 'data/components/simpleBuy/selectors'
 import { actions as A } from 'data/components/simpleBuy/slice'
 import * as T from 'data/components/simpleBuy/types'
-import { getDirection } from 'data/components/simpleBuy/utils'
+import { getDirection, getPaymentApiKeys } from 'data/components/simpleBuy/utils'
 import { FALLBACK_DELAY, getOutputFromPair } from 'data/components/swap/model'
 import swapSagas from 'data/components/swap/sagas'
 import { SwapBaseCounterTypes } from 'data/components/swap/types'
@@ -82,20 +83,24 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   })
   const { fetchBankTransferAccounts } = brokerageSagas({ api })
 
-  const activateSBCard = function* ({ payload }: ReturnType<typeof A.activateCard>) {
+  const activatePaymentCard = function* ({ payload }: ReturnType<typeof A.activateCard>) {
     let providerDetails: ProviderDetailsType
     try {
       yield put(A.activateCardLoading())
+
       const domainsR = selectors.core.walletOptions.getDomains(yield select())
+
       const domains = domainsR.getOrElse({
         walletHelper: 'https://wallet-helper.blockchain.com'
       } as WalletOptionsType['domains'])
+
       if (payload.partner === 'EVERYPAY') {
         providerDetails = yield call(
-          api.activateSBCard,
+          api.activatePaymentCard,
           payload.id,
           `${domains.walletHelper}/wallet-helper/everypay/#/response-handler`
         )
+
         yield put(A.activateCardSuccess(providerDetails))
       } else {
         throw new Error('UNKNOWN_PARTNER')
@@ -156,8 +161,92 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (nextCardAlreadyExists) throw new Error('CARD_ALREADY_SAVED')
 
       if (paymentProcessors) {
+        const paymentMethodTokens: { [partner: string]: string } = {}
+
+        /* const cardAcquirers: CardAcquirer[] = yield call(api.getCardAcquirers) */
+
+        // TODO remove this MOCK
+        const cardAcquirers: CardAcquirer[] = [
+          {
+            apiKey:
+              'pk_test_51JhAakHxBe1tOCzxhX2cvybhcCPMMXfQQghkI7X9VEUFMTyLvcyLVFXSkM9bjsynKmRRwLwkalcPrWJeGaNriU6S00x8XQ9VLX',
+            cardAcquirerAccountCodes: ['stripe_uk'],
+            cardAcquirerName: 'stripe'
+          },
+          {
+            apiKey:
+              'pk_test_51JhAakHxBe1tOCzxhX2cvybhcCPMMXfQQghkI7X9VEUFMTyLvcyLVFXSkM9bjsynKmRRwLwkalcPrWJeGaNriU6S00x8XQ9VLX',
+            cardAcquirerAccountCodes: ['stripe_us'],
+            cardAcquirerName: 'stripe'
+          },
+          {
+            apiKey: 'pk_sbox_eiq2rsadi5eambtzil662iccmil',
+            cardAcquirerAccountCodes: ['checkout_uk', 'checkout_us'],
+            cardAcquirerName: 'checkout'
+          }
+        ]
+
+        const paymentApiKeys = getPaymentApiKeys(cardAcquirers)
+
+        // CHECKOUT
+        if (paymentApiKeys?.checkout_uk) {
+          const {
+            data: { token }
+          } = yield call(api.submitCardDetailsToCheckout, {
+            accessToken: paymentApiKeys.checkout_uk,
+            ccNumber: formValues['card-number'].replace(/[^\d]/g, ''),
+            cvc: formValues.cvc,
+            expirationDate: moment(formValues['expiry-date'], 'MM/YY'),
+            holderName: formValues['name-on-card']
+          })
+
+          paymentMethodTokens.checkout_uk = token
+        }
+
+        if (paymentApiKeys?.checkout_us) {
+          const {
+            data: { token }
+          } = yield call(api.submitCardDetailsToCheckout, {
+            accessToken: paymentApiKeys.checkout_us,
+            ccNumber: formValues['card-number'].replace(/[^\d]/g, ''),
+            cvc: formValues.cvc,
+            expirationDate: moment(formValues['expiry-date'], 'MM/YY'),
+            holderName: formValues['name-on-card']
+          })
+
+          paymentMethodTokens.checkout_us = token
+        }
+
+        // STRIPE
+        if (paymentApiKeys?.stripe_uk) {
+          const {
+            data: { id }
+          } = yield call(api.submitCardDetailsToStripe, {
+            accessToken: paymentApiKeys.stripe_uk,
+            ccNumber: formValues['card-number'].replace(/[^\d]/g, ''),
+            cvc: formValues.cvc,
+            expirationDate: moment(formValues['expiry-date'], 'MM/YY')
+          })
+
+          paymentMethodTokens.stripe_uk = id
+        }
+
+        if (paymentApiKeys?.stripe_us) {
+          const {
+            data: { id }
+          } = yield call(api.submitCardDetailsToStripe, {
+            accessToken: paymentApiKeys.stripe_us,
+            ccNumber: formValues['card-number'].replace(/[^\d]/g, ''),
+            cvc: formValues.cvc,
+            expirationDate: moment(formValues['expiry-date'], 'MM/YY')
+          })
+
+          paymentMethodTokens.stripe_us = id
+        }
+
         // eslint-disable-next-line no-console
-        console.log(formValues)
+        console.log({ cardAcquirers, paymentApiKeys, paymentMethodTokens })
+        return
       }
 
       yield put(
@@ -168,17 +257,22 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.addCardLoading())
 
       let waitForAction = true
+
       // Create card
       if (formValues.billingaddress && !formValues.sameAsBillingAddress) {
         yield call(fetchSBCardSDD, formValues.billingaddress)
+
         waitForAction = false
       } else {
         yield put(A.fetchCard())
       }
+
       if (waitForAction) {
         yield take([A.fetchCardSuccess.type, A.fetchCardFailure.type])
       }
+
       const cardR = S.getSBCard(yield select())
+
       const card = cardR.getOrFail('CARD_CREATION_FAILED')
 
       // Activate card
@@ -191,7 +285,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       const response: { data: Everypay3DSResponseType } = yield call(
         // @ts-ignore
-        api.submitSBCardDetailsToEverypay,
+        api.submitCardDetailsToEverypay,
         {
           accessToken: providerDetails.everypay.mobileToken,
           apiUserName: providerDetails.everypay.apiUsername,
@@ -1333,7 +1427,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   return {
-    activateSBCard,
+    activatePaymentCard,
     addCardDetails,
     addCardFinished,
     cancelSBOrder,
