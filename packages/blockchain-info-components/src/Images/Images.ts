@@ -54,7 +54,6 @@ import circleEmpty from './img/circle-empty.svg'
 import closeError from './img/close-error.svg'
 import cloudCheck from './img/cloud_check.svg'
 import coinPax from './img/coin-pax.svg'
-// coin logos
 import coins from './img/coins'
 import emailError from './img/email-error.svg'
 import emailSuccess from './img/email-success.svg'
@@ -152,6 +151,7 @@ import visaLogo from './img/visa-logo.svg'
 import visaNewLogo from './img/visa-new-logo.svg'
 import wallet from './img/wallet.svg'
 import walletBlue from './img/wallet-blue.svg'
+import walletConnectCircleLogo from './img/walletconnect-logo-circle-blue.svg'
 import warningCircleFilled from './img/warning-circle-filled.png'
 import worldAlert from './img/world-alert.jpg'
 import worldAlert2 from './img/world-alert@2x.jpg'
@@ -314,6 +314,7 @@ const Images = {
   'visa-new-logo': visaNewLogo,
   wallet,
   'wallet-blue': walletBlue,
+  'walletconnect-circle-logo': walletConnectCircleLogo,
   'warning-circle-filled': warningCircleFilled,
   'world-alert': worldAlert,
   'world-alert2': worldAlert2,
