@@ -3,7 +3,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 
-import { actions } from 'data'
+import { actions, selectors } from 'data'
+import { RootState } from 'data/rootReducer'
 
 import Header from './template'
 
@@ -18,13 +19,19 @@ class HeaderContainer extends React.PureComponent<Props> {
   }
 }
 
+const mapStateToProps = (state: RootState) => ({
+  isRedesignEnabled: selectors.core.walletOptions
+    .getWithdrawalLocksFundsOnHold(state)
+    .getOrElse(false) as boolean
+})
+
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.layoutWallet, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
   refreshActions: bindActionCreators(actions.components.refresh, dispatch)
 })
 
-const connector = connect(null, mapDispatchToProps)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type Props = ConnectedProps<typeof connector>
 

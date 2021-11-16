@@ -10,6 +10,9 @@ const Header = (props) => {
   const isLaptop = useMedia('laptop')
   const isTablet = useMedia('tablet')
 
+  if (props.isRedesignEnabled) {
+    return <>foo</>
+  }
   return (
     <>{isTablet ? <Small {...props} /> : isLaptop ? <Medium {...props} /> : <Large {...props} />}</>
   )

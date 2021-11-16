@@ -71,6 +71,7 @@
         "withdrawalLocksFundsOnHold": true,
         "pollForMagicLinkData": true,
         "recurringBuys": true,
+        "isRedesignEnabled": true,
         "signupCountry": true
       }
     }
