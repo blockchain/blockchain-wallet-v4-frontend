@@ -21,7 +21,7 @@ class HeaderContainer extends React.PureComponent<Props> {
 
 const mapStateToProps = (state: RootState) => ({
   isRedesignEnabled: selectors.core.walletOptions
-    .getWithdrawalLocksFundsOnHold(state)
+    .getRedesignEnabled(state)
     .getOrElse(false) as boolean
 })
 
