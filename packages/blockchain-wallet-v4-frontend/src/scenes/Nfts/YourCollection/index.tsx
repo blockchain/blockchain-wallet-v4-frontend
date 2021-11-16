@@ -125,18 +125,32 @@ const YourCollection: React.FC<Props> = (props) => {
           <SpinningLoader width='14px' height='14px' borderWidth='3px' />
         ) : null}
         {props.assets.atBound && props.assets.collection === 'all' ? (
-          <Text weight={600}>
-            <span aria-label='cry' role='img'>
-              😭
-            </span>{' '}
-            No more NFTs to view!
-          </Text>
+          props.assets.list.length === 0 ? (
+            <Text weight={600}>
+              <span aria-label='flag' role='img'>
+                🏴‍☠️
+              </span>{' '}
+              Your collection is looking a bit empty there. How about{' '}
+              <Link onClick={() => props.setActiveTab('explore')} weight={600}>
+                exploring the market?
+              </Link>
+            </Text>
+          ) : (
+            <Text weight={600}>
+              <span aria-label='cry' role='img'>
+                😭
+              </span>{' '}
+              No more NFTs to view!
+            </Text>
+          )
         ) : null}
       </LazyLoadWrapper>
     </NftPageWrapper>
   )
 }
 
-export type Props = OwnProps
+export type Props = OwnProps & {
+  setActiveTab: React.Dispatch<React.SetStateAction<'explore' | 'my-collection'>>
+}
 
 export default YourCollection

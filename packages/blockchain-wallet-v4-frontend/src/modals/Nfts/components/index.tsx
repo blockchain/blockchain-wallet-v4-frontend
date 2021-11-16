@@ -1,11 +1,11 @@
 import styled from 'styled-components'
 
-export const FullAssetImage = styled.div<{ backgroundImage }>`
+export const FullAssetImage = styled.div<{ backgroundImage; cropped?: boolean }>`
   background-image: ${({ backgroundImage }) => `url(${backgroundImage})`};
   background-size: cover;
   background-position: center;
   width: 100%;
-  height: 480px;
+  height: ${(props) => (props.cropped ? '240px' : '480px')};
 `
 
 export const AssetDesc = styled.div`
@@ -15,7 +15,7 @@ export const AssetDesc = styled.div`
 export const StickyCTA = styled.div`
   background: ${(props) => props.theme.white};
   position: sticky;
-  padding: 40px;
+  padding: 20px 40px;
   bottom: 0;
   left: 0;
 `

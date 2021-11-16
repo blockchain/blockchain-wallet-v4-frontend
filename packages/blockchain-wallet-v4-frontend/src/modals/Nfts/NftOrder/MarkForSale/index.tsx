@@ -50,7 +50,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                 role='button'
                 style={{ position: 'absolute', right: '40px', top: '40px' }}
               />
-              <FullAssetImage backgroundImage={val?.image_url.replace(/=s\d*/, '')} />
+              <FullAssetImage cropped backgroundImage={val?.image_url.replace(/=s\d*/, '')} />
             </div>
             <AssetDesc>
               <Text size='16px' color='grey900' weight={600}>
