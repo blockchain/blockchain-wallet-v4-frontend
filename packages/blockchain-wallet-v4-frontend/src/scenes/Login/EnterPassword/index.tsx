@@ -66,7 +66,8 @@ const MobileAuthSideWrapper = styled(Wrapper)`
   border-radius: 0 8px 8px 0;
   background-color: ${(props) => props.theme.grey000};
   z-index: 0;
-  right: 1px;
+  top: 5px;
+  right: 5px;
   align-items: center;
   padding: 16px 32px;
 `
