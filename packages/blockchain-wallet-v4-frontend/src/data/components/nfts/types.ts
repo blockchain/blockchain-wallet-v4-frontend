@@ -5,7 +5,8 @@ import {
   NftAssetsType,
   NftOrdersType
 } from '@core/network/api/nfts/types'
-import { RemoteDataType } from '@core/types'
+import { calculateGasFees, getNftBuyOrders } from '@core/redux/payment/nfts'
+import { Await, RemoteDataType } from '@core/types'
 
 export enum NftOrderStepEnum {
   CONFIRM_BUY = 'CONFIRM_BUY',
@@ -37,6 +38,7 @@ export type NftsStateType = {
   orderFlow: {
     activeOrder: NftOrdersType['orders'][0] | null
     asset: RemoteDataType<string, NftAsset>
+    fees: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>
     step: NftOrderStepEnum
   }
 }

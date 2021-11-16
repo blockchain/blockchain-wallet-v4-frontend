@@ -10,6 +10,8 @@ import {
   NftOrdersType,
   SellOrder
 } from '@core/network/api/nfts/types'
+import { calculateGasFees, getNftBuyOrders } from '@core/redux/payment/nfts'
+import { Await } from '@core/types'
 
 import { NftOrderStepEnum, NftsStateType } from './types'
 
@@ -32,7 +34,12 @@ const initialState: NftsStateType = {
     page: 0,
     token_ids_queried: []
   },
-  orderFlow: { activeOrder: null, asset: Remote.NotAsked, step: NftOrderStepEnum.SHOW_ASSET }
+  orderFlow: {
+    activeOrder: null,
+    asset: Remote.NotAsked,
+    fees: Remote.NotAsked,
+    step: NftOrderStepEnum.SHOW_ASSET
+  }
 }
 
 const nftsSlice = createSlice({
@@ -54,6 +61,22 @@ const nftsSlice = createSlice({
       action: PayloadAction<{ amount?: string; coin?: string; order: NftOrdersType['orders'][0] }>
     ) => {},
     createSellOrder: (state, action: PayloadAction<{ asset: NftAssetsType['assets'][0] }>) => {},
+    fetchFees: (
+      state,
+      action: PayloadAction<{ amount?: string; coin?: string; order: NftOrdersType['orders'][0] }>
+    ) => {},
+    fetchFeesFailure: (state, action: PayloadAction<string>) => {
+      state.orderFlow.fees = Remote.Failure(action.payload)
+    },
+    fetchFeesLoading: (state) => {
+      state.orderFlow.fees = Remote.Loading
+    },
+    fetchFeesSuccess: (
+      state,
+      action: PayloadAction<Await<ReturnType<typeof calculateGasFees>>>
+    ) => {
+      state.orderFlow.fees = Remote.Success(action.payload)
+    },
     fetchNftAssets: () => {},
     fetchNftAssetsFailure: (state, action: PayloadAction<string>) => {
       state.assets.isFailure = true

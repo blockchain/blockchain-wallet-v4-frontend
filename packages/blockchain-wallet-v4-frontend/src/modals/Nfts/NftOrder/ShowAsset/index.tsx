@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Remote } from '@core'
@@ -16,6 +16,13 @@ import { Props as OwnProps } from '..'
 const ShowAsset: React.FC<Props> = ({ cancelListing, close, nftActions, orderFlow }) => {
   // activeOrder ? User wants to buy : User wants to sell
   const { activeOrder } = orderFlow
+
+  useEffect(() => {
+    if (activeOrder) {
+      nftActions.fetchFees({ order: activeOrder })
+    }
+  }, [])
+
   return (
     <>
       {orderFlow.asset.cata({
@@ -115,35 +122,108 @@ const ShowAsset: React.FC<Props> = ({ cancelListing, close, nftActions, orderFlo
               {/* TODO: make a bid */}
               {/* activeOrder, user can buy now */}
               {activeOrder ? (
-                <div>
-                  <Button jumbo nature='primary' fullwidth data-e2e='buyNft'>
-                    <FormattedMessage
-                      id='copy.buy_now_for'
-                      values={{
-                        for: displayCoinToCoin({
-                          coin: activeOrder.paymentTokenContract?.symbol || 'ETH',
-                          value: activeOrder.basePrice.toString()
-                        })
-                      }}
-                      defaultMessage='Buy Now for {for}'
-                    />
-                  </Button>
-                  <Text size='12px' weight={500} style={{ margin: '8px 0', textAlign: 'center' }}>
-                    Or
-                  </Text>
-                  <Link
-                    weight={600}
-                    size='14px'
-                    onClick={() =>
-                      nftActions.setOrderFlowStep({ step: NftOrderStepEnum.MAKE_OFFER })
-                    }
-                    style={{ display: 'block', textAlign: 'center', width: '100%' }}
-                  >
-                    Make an Offer
-                  </Link>
-                </div>
-              ) : /* TODO: show fee required to cancel */
-              /* User has 1 or more sell_orders, cancel them */
+                orderFlow.fees.cata({
+                  Failure: (e) => (
+                    <div>
+                      <Button
+                        onClick={() => nftActions.createBuyOrder({ order: activeOrder })}
+                        jumbo
+                        nature='sent'
+                        fullwidth
+                        disabled
+                        data-e2e='buyNft'
+                      >
+                        <FormattedMessage
+                          id='copy.buy_now_for'
+                          values={{
+                            for: displayCoinToCoin({
+                              coin: activeOrder.paymentTokenContract?.symbol || 'ETH',
+                              value: activeOrder.basePrice.toString()
+                            })
+                          }}
+                          defaultMessage='Buy Now for {for}'
+                        />
+                      </Button>
+                      <Text
+                        weight={600}
+                        color='grey800'
+                        style={{ marginTop: '8px', textAlign: 'center' }}
+                      >
+                        <span role='img' aria-label='cry'>
+                          😭
+                        </span>{' '}
+                        <FormattedMessage
+                          id='copy.not_enough_funds'
+                          defaultMessage="Unfortunately you don't have enough ETH to buy this NFT."
+                        />
+                      </Text>
+                    </div>
+                  ),
+                  Loading: () => (
+                    <Button
+                      onClick={() => nftActions.createBuyOrder({ order: activeOrder })}
+                      jumbo
+                      nature='primary'
+                      fullwidth
+                      disabled
+                      data-e2e='buyNft'
+                    >
+                      <FormattedMessage id='copy.loading' defaultMessage='Loading...' />
+                    </Button>
+                  ),
+                  NotAsked: () => (
+                    <Button
+                      onClick={() => nftActions.createBuyOrder({ order: activeOrder })}
+                      jumbo
+                      nature='primary'
+                      fullwidth
+                      disabled
+                      data-e2e='buyNft'
+                    >
+                      <FormattedMessage id='copy.loading' defaultMessage='Loading...' />
+                    </Button>
+                  ),
+                  Success: () => (
+                    <div>
+                      <Button
+                        onClick={() => nftActions.createBuyOrder({ order: activeOrder })}
+                        jumbo
+                        nature='primary'
+                        fullwidth
+                        data-e2e='buyNft'
+                      >
+                        <FormattedMessage
+                          id='copy.buy_now_for'
+                          values={{
+                            for: displayCoinToCoin({
+                              coin: activeOrder.paymentTokenContract?.symbol || 'ETH',
+                              value: activeOrder.basePrice.toString()
+                            })
+                          }}
+                          defaultMessage='Buy Now for {for}'
+                        />
+                      </Button>
+                      <Text
+                        size='12px'
+                        weight={500}
+                        style={{ margin: '8px 0', textAlign: 'center' }}
+                      >
+                        Or
+                      </Text>
+                      <Link
+                        weight={600}
+                        size='14px'
+                        onClick={() =>
+                          nftActions.setOrderFlowStep({ step: NftOrderStepEnum.MAKE_OFFER })
+                        }
+                        style={{ display: 'block', textAlign: 'center', width: '100%' }}
+                      >
+                        Make an Offer
+                      </Link>
+                    </div>
+                  )
+                }) /* TODO: show fee required to cancel */
+              ) : /* User has 1 or more sell_orders, cancel them */
               val.sell_orders?.length ? (
                 <>
                   <Title>

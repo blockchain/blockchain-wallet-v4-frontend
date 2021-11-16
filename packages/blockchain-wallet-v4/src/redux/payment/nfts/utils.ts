@@ -196,6 +196,7 @@ async function safeGasEstimation(estimationFunction, args, txData, retries = 2) 
     } else {
       console.log(JSON.stringify(e, null, 4))
       console.log(error.code)
+      throw error.code
     }
     estimatedValue = txData.gasLimit
   }

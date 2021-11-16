@@ -82,13 +82,34 @@ export const getNftBuyOrders = async (
 }
 // Calculates all the fees a user will need to pay/encounter on their journey to either sell/buy an NFT
 // order and counterOrder needed for sell orders, only order needed for buy order calculations (May need to put a default value here in future / change the way these are called into two seperate functions?)
-export const calculateGasFees = async (
-  operation: gasCalculationOperations,
-  signer: Signer,
-  cancelOrder?: SellOrder,
-  buyOrder?: Order,
-  counterOrder?: Order
-) => {
+export const calculateGasFees = async ({
+  buyOrder,
+  cancelOrder,
+  counterOrder,
+  operation,
+  signer
+}:
+  | {
+      buyOrder: Order
+      cancelOrder?: never
+      counterOrder: Order
+      operation: gasCalculationOperations.Buy
+      signer: Signer
+    }
+  | {
+      buyOrder: Order
+      cancelOrder?: never
+      counterOrder?: never
+      operation: gasCalculationOperations.Sell
+      signer: Signer
+    }
+  | {
+      buyOrder?: never
+      cancelOrder: SellOrder
+      counterOrder?: never
+      operation: gasCalculationOperations.Cancel
+      signer: Signer
+    }) => {
   let totalFees = '0'
   let proxyFees = '0'
   let approvalFees = '0'
