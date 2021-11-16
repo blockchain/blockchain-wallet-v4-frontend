@@ -64,6 +64,7 @@ type MessagesType = {
   'buttons.swap': 'Swap'
   'buttons.swap_min': 'Swap Min'
   'buttons.swap_max': 'Swap Max'
+  'buttons.swap_now': 'Swap Now'
   'buttons.swap_x_for_y': 'Swap {base} for {counter}'
   'buttons.transact': 'Transact'
   'buttons.transfer': 'Transfer'
