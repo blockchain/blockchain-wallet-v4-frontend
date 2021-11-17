@@ -399,6 +399,26 @@ export interface Order extends UnsignedOrder, Partial<ECSignature> {
   takerAccount?: OpenSeaAccount
 }
 
+export enum GasCalculationOperations {
+  Buy = 'buy',
+  Cancel = 'cancel',
+  Sell = 'sell',
+  Transfer = 'transfer'
+}
+
+export interface GasDataI {
+  approvalFees: number
+  gasFees: number
+  gasPrice: number
+  proxyFees: number
+  totalFees: number
+}
+
+export interface txnData {
+  gasLimit: number
+  gasPrice: number
+}
+
 export interface SellOrder {
   approved_on_chain: boolean
   base_price: string
@@ -702,4 +722,25 @@ export type AssetEventsType = {
   approved_account: any
   asset: NftAsset
   created_date: string
+}[]
+
+export type ExplorerGatewayNftCollectionType = {
+  added_timestamp: string
+  average_price: string
+  count: number
+  created_timestamp: string
+  floor_price: string
+  image_url: string
+  large_image_url: string
+  market_cap: string
+  name: string
+  num_owners: number
+  one_day_average_price: string
+  one_day_change: string
+  one_day_sales: string
+  one_day_volume: string
+  slug: string
+  total_sales: number
+  total_supply: number
+  total_volume: string
 }[]
