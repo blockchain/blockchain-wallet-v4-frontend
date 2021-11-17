@@ -18,6 +18,9 @@ export default ({ api }) => {
       yield put(actions.middleware.webSocket.rates.stopSocket())
       yield put(actions.middleware.webSocket.coins.stopSocket())
       yield put(actions.middleware.webSocket.xlm.stopStreams())
+      // sets logout time so we know whether or not to
+      // send notification to mobile phone for login
+      yield put(actions.cache.lastLogout(Date.now()))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'logout', e))
     } finally {
