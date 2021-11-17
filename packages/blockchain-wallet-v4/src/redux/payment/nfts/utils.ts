@@ -7,7 +7,7 @@ import {
   ComputedFees,
   ECSignature,
   FeeMethod,
-  gasData,
+  GasDataI,
   HowToCall,
   NftAsset,
   NftOrderSide,
@@ -1435,7 +1435,7 @@ async function _approveAll({
   signer,
   wyAssets
 }: {
-  gasData: gasData
+  gasData: GasDataI
   proxyAddress?: string
   schemaNames: WyvernSchemaName[]
   signer: Signer
@@ -1581,7 +1581,7 @@ export async function _sellOrderValidationAndApprovals({
   order,
   signer
 }: {
-  gasData: gasData
+  gasData: GasDataI
   order: UnhashedOrder
   signer: Signer
 }) {
@@ -1795,7 +1795,7 @@ export async function _buyOrderValidationAndApprovals({
   signer
 }: {
   counterOrder?: Order
-  gasData: gasData
+  gasData: GasDataI
   order: Order
   signer: Signer
 }) {
@@ -1947,7 +1947,7 @@ export async function _atomicMatch({
   signer
 }: {
   buy: Order
-  gasData: gasData
+  gasData: GasDataI
   sell: Order
   signer: Signer
 }) {
@@ -2037,7 +2037,8 @@ export async function _atomicMatch({
 
   try {
     // console.log('Making atomic match now.')
-    // const match = await wyvernExchangeContract.atomicMatch_(...args, txnData)
+    const match = await wyvernExchangeContract.atomicMatch_(...args, txnData)
+    return match
     // const receipt = await match.wait()
     // console.log(receipt)
     // send success to frontend

@@ -3,7 +3,8 @@ import {
   ExplorerGatewayNftCollectionType,
   NftAsset,
   NftAssetsType,
-  NftOrdersType
+  NftOrdersType,
+  Order
 } from '@core/network/api/nfts/types'
 import { calculateGasFees, getNftBuyOrders } from '@core/redux/payment/nfts'
 import { Await, RemoteDataType } from '@core/types'
@@ -39,6 +40,7 @@ export type NftsStateType = {
     activeOrder: NftOrdersType['orders'][0] | null
     asset: RemoteDataType<string, NftAsset>
     fees: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>
+    order: RemoteDataType<string, Order>
     step: NftOrderStepEnum
   }
 }
