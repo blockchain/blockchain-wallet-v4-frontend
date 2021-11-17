@@ -1438,6 +1438,11 @@ type MessagesType = {
   'modals.sendbtc.secondstep.send': 'Send Bitcoin'
   'modals.sendbtc.secondstep.to': 'To:'
   'modals.sendbtc.secontstep.sendtotal': 'Total:'
+  "modals.sendcrypto.coinselect.noaccounts": "Currently there are no accounts for the selected crypto.",
+  "modals.sendcrypto.coinselect.subtitle": "Select the wallet you want to send from.",
+  "modals.sendcrypto.coinselect.title": "Send Crypto",
+  "modals.sendcrypto.enteramount.title": "Send",
+  "modals.sendcrypto.enteramount.over_limits": "Sending from Trade Accounts cannot exceed {currency}{amount} a {period}. You have {currency}{remainingAmount} remaining.",
   'modals.sendeth.amountnotzeromessage': 'Invalid amount'
   'modals.sendeth.cointitle': 'Send {coinDisplayName}'
   'modals.sendeth.firststep.browserwarn': 'Sending Ether from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.'

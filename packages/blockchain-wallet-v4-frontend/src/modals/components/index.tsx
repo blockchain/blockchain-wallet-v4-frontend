@@ -467,6 +467,34 @@ const AlertButton = ({ children }) => (
   </StyledOvalButton>
 )
 
+const SendMaxWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 32px;
+  margin-top: 70px;
+  width: 100%;
+`
+const SendMax = styled(Button)`
+  padding: 6px 12px;
+  width: 100px;
+  color: ${(props) => props.theme.blue600};
+  border-color: ${(props) => props.theme.grey100};
+`
+const SendMaxButton = ({ onClick, type }) => (
+  <SendMaxWrapper>
+    <SendMax data-e2e={`${type}MaxButton`} onClick={onClick}>
+      <FormattedMessage
+        id='modals.simplebuy.checkout.maxbuysell'
+        defaultMessage='{orderType} Max'
+        values={{
+          orderType: type
+        }}
+      />
+    </SendMax>
+  </SendMaxWrapper>
+)
+
 export {
   AlertButton,
   BankSearchIcon,
@@ -488,6 +516,7 @@ export {
   OverYourLimitMessage,
   ScanWithPhone,
   Section,
+  SendMaxButton,
   SimpleBankRow,
   TopText
 }
