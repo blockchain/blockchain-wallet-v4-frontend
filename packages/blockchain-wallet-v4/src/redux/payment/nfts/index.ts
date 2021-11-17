@@ -24,7 +24,9 @@ import {
   calculateProxyFees,
   createMatchingOrders,
   createSellOrder,
-  NULL_ADDRESS
+  NULL_ADDRESS,
+  transferAsset,
+  verifyTransfered
 } from './utils'
 
 export const cancelNftListing = async (sellOrder: SellOrder, signer: Signer, gasData: gasData) => {
@@ -157,6 +159,18 @@ export const calculateGasFees = async (
   }
 }
 
+export const fulfillTransfer = async (
+  asset: NftAsset,
+  signer: Signer,
+  recipient: string,
+  txnData: { gasLimit: string; gasPrice: string }
+) => {
+  await transferAsset(asset, signer, recipient.toLowerCase(), txnData)
+  const verified = await verifyTransfered(asset, signer, recipient.toLowerCase())
+  if (!verified) {
+    throw new Error('Asset transfer failed!')
+  }
+}
 // https://codesandbox.io/s/beautiful-euclid-nd7s8?file=/src/index.ts
 // metamask https://etherscan.io/tx/0xb52c163434d85e79a63e34cadbfb980d928e4e70129284ae084d9ad992ba9778
 // bc.com https://etherscan.io/tx/0xdb0620e6e1b186f4f84e4740b2453506b61416d79fd7de01a6e7ed2f9e5e3623
