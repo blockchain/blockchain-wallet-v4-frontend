@@ -2258,6 +2258,69 @@ export async function calculateProxyApprovalFees(order: Order, signer: Signer) {
       )
 }
 
+async function getFairGasPrice(signer: Signer, gasPrice: string): Promise<string> {
+  const latestGasPrice = parseInt((await signer.getGasPrice())._hex)
+  return new BigNumber(gasPrice).isGreaterThan(new BigNumber(latestGasPrice))
+    ? latestGasPrice.toString()
+    : gasPrice
+}
+
+export async function verifyTransfered(
+  asset: NftAsset,
+  signer: Signer,
+  recipient: string
+): Promise<boolean> {
+  let tokenContract
+  let isTransfered
+  if (asset.asset_contract.schema_name === WyvernSchemaName.ERC721) {
+    tokenContract = new ethers.Contract(asset.asset_contract.address, ERC721_ABI, signer)
+    const ownerOf = await tokenContract.ownerOf(asset.token_id)
+    isTransfered = ownerOf.toLowerCase() === recipient.toLowerCase()
+  } else {
+    tokenContract = new ethers.Contract(asset.asset_contract.address, ERC1155_ABI, signer)
+    const balanceOf = await tokenContract.balanceOf(recipient.toLowerCase(), asset.token_id)
+    isTransfered = balanceOf > 0
+  }
+  return isTransfered
+}
+
+export async function transferAsset(
+  asset: NftAsset,
+  signer: Signer,
+  recipient: string,
+  txnData: { gasLimit: string; gasPrice: string }
+) {
+  const accountAddress = await signer.getAddress()
+  let tokenContract
+  const args = [accountAddress, recipient, asset.token_id]
+  if (asset.asset_contract.schema_name === WyvernSchemaName.ERC721) {
+    tokenContract = new ethers.Contract(asset.asset_contract.address, ERC721_ABI, signer)
+  } else {
+    tokenContract = new ethers.Contract(asset.asset_contract.address, ERC1155_ABI, signer)
+    args.push('1')
+  }
+  const gasPrice = await getFairGasPrice(signer, txnData.gasPrice)
+  const txHash = await tokenContract.safeTransferFrom(...args, {
+    gasLimit: txnData.gasLimit,
+    gasPrice
+  })
+  const receipt = await txHash.wait()
+  return receipt
+}
+
+export async function calculateTransferFees(asset: NftAsset, signer: Signer, recipient: string) {
+  const accountAddress = await signer.getAddress()
+  let tokenContract
+  const args = [accountAddress, recipient, asset.token_id]
+  if (asset.asset_contract.schema_name === WyvernSchemaName.ERC721) {
+    tokenContract = new ethers.Contract(asset.asset_contract.address, ERC721_ABI, signer)
+  } else {
+    tokenContract = new ethers.Contract(asset.asset_contract.address, ERC1155_ABI, signer)
+    args.push('1')
+  }
+  return safeGasEstimation(tokenContract.gasEstimation.safeTransferFrom, args, { gasLimit: 250_00 })
+}
+
 export async function calculatePaymentProxyApprovals(order: Order, signer: Signer) {
   const minimumAmount = new BigNumber(order.basePrice)
   const tokenContract = new ethers.Contract(order.paymentToken, ERC20_ABI, signer)
