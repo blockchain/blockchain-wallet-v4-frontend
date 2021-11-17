@@ -399,14 +399,14 @@ export interface Order extends UnsignedOrder, Partial<ECSignature> {
   takerAccount?: OpenSeaAccount
 }
 
-export enum gasCalculationOperations {
+export enum GasCalculationOperations {
   Buy = 'buy',
   Cancel = 'cancel',
   Sell = 'sell',
   Transfer = 'transfer'
 }
 
-export interface gasData {
+export interface GasDataI {
   approvalFees: number
   gasFees: number
   gasPrice: number
