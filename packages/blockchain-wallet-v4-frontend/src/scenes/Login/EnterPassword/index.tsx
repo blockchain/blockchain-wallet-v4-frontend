@@ -61,7 +61,7 @@ const MobileAuthSideWrapper = styled(Wrapper)`
   flex-direction: column;
   position: relative;
   overflow: visible;
-  min-height: 352px;
+  height: 90%;
   max-width: 274px;
   border-radius: 0 8px 8px 0;
   background-color: ${(props) => props.theme.grey000};
@@ -239,86 +239,31 @@ const EnterPassword = (props: Props) => {
       </FormWrapper>
       <MobileAuthSideWrapper>
         <TextColumn>
-          {props.secureChannelLoginState.cata({
-            Failure: (e) => (
-              <Text>
-                {typeof e === 'string' ? (
-                  e
-                ) : (
-                  <FormattedMessage
-                    id='scenes.login.qrcodelogin_failed'
-                    defaultMessage='Login failed. Please refresh browser and try again.'
-                  />
-                )}
-              </Text>
-            ),
-            Loading: () => {
-              return (
-                <CheckAppTextColumn>
-                  <Text size='14px' weight={600}>
-                    <FormattedMessage
-                      id='scenes.login.qrcodelogin_success_confirm'
-                      defaultMessage='Please confirm the login on your mobile device.'
-                    />
-                  </Text>
-                  <Text
-                    color='blue600'
-                    size='14px'
-                    weight={600}
-                    style={{ cursor: 'pointer', marginTop: '8px' }}
-                    data-e2e='qrCodeRefresh'
-                    onClick={props.authActions.secureChannelLoginNotAsked}
-                  >
-                    <FormattedMessage
-                      id='scenes.login.qrcodelogin_refresh_code'
-                      defaultMessage='Refresh Code'
-                    />
-                  </Text>
-                </CheckAppTextColumn>
-              )
-            },
-            NotAsked: () => {
-              return (
-                <>
-                  <QRCodeWrapper value={qrData} size={150} showImage />
-                  <Text
-                    color='grey900'
-                    size='14px'
-                    weight={600}
-                    lineHeight='1.5'
-                    style={{ marginBottom: '8px' }}
-                  >
-                    <FormattedMessage
-                      id='scenes.login.wallet.mobile_app_login.title'
-                      defaultMessage='Or Log in with Mobile App'
-                    />
-                  </Text>
-                  <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
-                    <FormattedMessage
-                      id='scenes.login.wallet.mobile_login.description.ios'
-                      defaultMessage='<b>iOS</b> - Tap the Menu button at the top left corner of the app to reveal Web Log In option.'
-                    />
-                  </Text>
-                  <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
-                    <FormattedMessage
-                      id='scenes.login.wallet.mobile_login.description.android'
-                      defaultMessage='<b>Android</b> - Tap the QR code icon at the top right corner of the app.'
-                    />
-                  </Text>
-                </>
-              )
-            },
-            Success: () => {
-              return (
-                <Text size='14px' weight={600}>
-                  <FormattedMessage
-                    id='scenes.login.qrcodelogin_success'
-                    defaultMessage='Success! Logging in...'
-                  />
-                </Text>
-              )
-            }
-          })}
+          <QRCodeWrapper value={qrData} size={150} showImage />
+          <Text
+            color='grey900'
+            size='14px'
+            weight={600}
+            lineHeight='1.5'
+            style={{ marginBottom: '8px' }}
+          >
+            <FormattedMessage
+              id='scenes.login.wallet.mobile_app_login.title'
+              defaultMessage='Or Log in with Mobile App'
+            />
+          </Text>
+          <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
+            <FormattedMessage
+              id='scenes.login.wallet.mobile_login.description.ios'
+              defaultMessage='<b>iOS</b> - Tap the Menu button at the top left corner of the app to reveal Web Log In option.'
+            />
+          </Text>
+          <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
+            <FormattedMessage
+              id='scenes.login.wallet.mobile_login.description.android'
+              defaultMessage='<b>Android</b> - Tap the QR code icon at the top right corner of the app.'
+            />
+          </Text>
         </TextColumn>
       </MobileAuthSideWrapper>
     </OuterWrapper>
@@ -328,7 +273,6 @@ const EnterPassword = (props: Props) => {
 const mapStateToProps = (state) => ({
   phonePubKey: selectors.cache.getPhonePubkey(state),
   qrData: selectors.cache.getChannelPrivKeyForQrData(state),
-  secureChannelLoginState: selectors.auth.getSecureChannelLogin(state) as RemoteDataType<any, any>,
   walletLoginData: selectors.auth.getLogin(state)
 })
 

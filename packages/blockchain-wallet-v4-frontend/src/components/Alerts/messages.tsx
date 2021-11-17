@@ -487,6 +487,20 @@ const getAlertContent = (message, data = undefined) => {
           defaultMessage='Mobile verification code sent'
         />
       )
+    case C.MOBILE_LOGIN_CONFIRM:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.mobile_login_confirm'
+          defaultMessage='Please confirm the login on your mobile device.'
+        />
+      )
+    case C.MOBILE_LOGIN_DECLINED:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.mobile_login_declined'
+          defaultMessage='Mobile Log In Failed. Scan QR code to try again.'
+        />
+      )
     case C.MOBILE_LOGIN_ERROR:
       return buildMessageTemplate(
         <FormattedMessage
@@ -506,6 +520,13 @@ const getAlertContent = (message, data = undefined) => {
         <FormattedMessage
           id='components.alerts.mobile_login_scan_error'
           defaultMessage='Could not scan the mobile login QR Code'
+        />
+      )
+    case C.MOBILE_LOGIN_SUCCESS:
+      return buildMessageTemplate(
+        <FormattedMessage
+          id='components.alerts.mobile_login_success'
+          defaultMessage='Success! Logging in...'
         />
       )
     case C.MOBILE_UPDATE_ERROR:

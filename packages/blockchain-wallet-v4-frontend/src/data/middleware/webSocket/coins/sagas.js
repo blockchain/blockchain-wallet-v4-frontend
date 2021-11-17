@@ -40,6 +40,7 @@ export default ({ api, socket }) => {
     }
 
     yield put(actions.auth.secureChannelLoginLoading())
+    yield put(actions.alerts.displayInfo(T.MOBILE_LOGIN_CONFIRM))
     yield put(actions.core.data.misc.sendSecureChannelMessage(payload))
   }
 
@@ -287,6 +288,7 @@ export default ({ api, socket }) => {
             if (!payload.success) {
               yield put(actions.cache.channelPhoneConnected(undefined))
               yield put(actions.auth.secureChannelLoginFailure('Phone declined'))
+              yield put(actions.alerts.displayError(T.MOBILE_LOGIN_DECLINED))
               return
             }
 
@@ -307,8 +309,8 @@ export default ({ api, socket }) => {
               if (decrypted.remember) {
                 yield put(actions.cache.channelPhoneConnected(pubkey.toString('hex')))
               }
-
               yield put(actions.auth.secureChannelLoginSuccess())
+              yield put(actions.alerts.displaySuccess(T.MOBILE_LOGIN_SUCCESS))
               yield put(actions.form.change('login', 'guid', decrypted.guid))
               yield put(actions.form.change('login', 'password', decrypted.password))
               yield put(actions.form.startSubmit('login'))
