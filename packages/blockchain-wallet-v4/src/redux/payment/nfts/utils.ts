@@ -7,6 +7,7 @@ import {
   ComputedFees,
   ECSignature,
   FeeMethod,
+  gasData,
   HowToCall,
   NftAsset,
   NftOrderSide,
@@ -15,6 +16,7 @@ import {
   PartialReadonlyContractAbi,
   SellOrder,
   SolidityTypes,
+  txnData,
   UnhashedOrder,
   UnsignedOrder,
   WyvernAsset,
@@ -1143,22 +1145,13 @@ async function _getProxy(signer, retries = 0): Promise<string | null> {
   return proxyAddress
 }
 
-async function _initializeProxy(signer): Promise<string> {
+async function _initializeProxy(signer, txnData): Promise<string> {
   console.log(`Initializing proxy`)
   const wyvernProxyRegistry = new ethers.Contract(
     '0xa5409ec958C83C3f309868babACA7c86DCB077c1',
     proxyRegistry_ABI,
     signer
   )
-  const txnData = {
-    gasLimit: 410_000
-  }
-  txnData.gasLimit = await safeGasEstimation(
-    wyvernProxyRegistry.estimateGas.registerProxy,
-    [],
-    txnData
-  )
-
   const transactionHash = await wyvernProxyRegistry.registerProxy(txnData)
   const receipt = await transactionHash.wait()
   console.log(receipt)
@@ -1291,6 +1284,7 @@ export async function _ownsAssetOnChain({
 async function approveSemiOrNonFungibleToken({
   tokenId,
   tokenAddress,
+  txnData,
   accountAddress,
   proxyAddress,
   tokenAbi = ERC721_ABI,
@@ -1306,6 +1300,7 @@ async function approveSemiOrNonFungibleToken({
   tokenAbi?: PartialReadonlyContractAbi
   tokenAddress: string
   tokenId: string
+  txnData: txnData
 }): Promise<string | null> {
   let txHash
   // const schema = schemaMap[schemaName]
@@ -1344,7 +1339,7 @@ async function approveSemiOrNonFungibleToken({
     skipApproveAllIfTokenAddressIn.add(tokenAddress)
 
     try {
-      txHash = await tokenContract.setApprovalForAll(proxyAddress, true)
+      txHash = await tokenContract.setApprovalForAll(proxyAddress, true, txnData)
       if (txHash === null) {
         throw new Error('Failed sending approval transaction')
       }
@@ -1433,19 +1428,23 @@ async function approveSemiOrNonFungibleToken({
 }
 
 async function _approveAll({
+  gasData,
   proxyAddress,
   schemaNames,
   signer,
   wyAssets
 }: {
+  gasData: gasData
   proxyAddress?: string
   schemaNames: WyvernSchemaName[]
   signer: Signer
   wyAssets: WyvernAsset[]
 }) {
+  // TODO: Use getFairGasPrice after merge!
+  const { approvalFees, gasPrice, proxyFees } = gasData
   proxyAddress = proxyAddress || (await _getProxy(signer)) || undefined
   if (!proxyAddress) {
-    proxyAddress = await _initializeProxy(signer)
+    proxyAddress = await _initializeProxy(signer, { gasLimit: proxyFees, gasPrice })
   }
   const contractsWithApproveAll: Set<string> = new Set()
   const accountAddress = await signer.getAddress()
@@ -1493,7 +1492,11 @@ async function _approveAll({
             signer,
             skipApproveAllIfTokenAddressIn: contractsWithApproveAll,
             tokenAddress: wyNFTAsset.address,
-            tokenId: wyNFTAsset.id
+            tokenId: wyNFTAsset.id,
+            txnData: {
+              gasLimit: approvalFees,
+              gasPrice
+            }
           })
         // to-do: Implement for fungible tokens
         // case WyvernSchemaName.ERC20:
@@ -1573,9 +1576,11 @@ async function validateOrderParameters({
 }
 // to-do: once the order validation is working, make sure the approvals are all working correctly and then finish implementing this function.
 export async function _sellOrderValidationAndApprovals({
+  gasData,
   order,
   signer
 }: {
+  gasData: gasData
   order: UnhashedOrder
   signer: Signer
 }) {
@@ -1592,8 +1597,7 @@ export async function _sellOrderValidationAndApprovals({
       : 'schema' in order.metadata
       ? [order.metadata.schema]
       : []
-
-  await _approveAll({ schemaNames, signer, wyAssets })
+  await _approveAll({ gasData, schemaNames, signer, wyAssets })
 
   // // For fulfilling bids,
   // // need to approve access to fungible token because of the way fees are paid
@@ -1658,10 +1662,12 @@ export async function _validateOrderWyvern({
 
 export async function _cancelOrder({
   sellOrder,
-  signer
+  signer,
+  txnData
 }: {
   sellOrder: SellOrder
   signer: Signer
+  txnData: txnData
 }) {
   const accountAddress = await signer.getAddress()
   const order = {
@@ -1700,10 +1706,6 @@ export async function _cancelOrder({
   }
 
   const wyvernExchangeContract = new ethers.Contract(order.exchange, wyvernExchange_ABI, signer)
-  const txnData = {
-    from: accountAddress,
-    gasLimit: 100_000
-  }
   // Weird & inconsistent quoarum error during gas estimation... use default value if fails
   const args = [
     [
@@ -1754,11 +1756,13 @@ export async function _cancelOrder({
 async function fungibleTokenApprovals({
   minimumAmount,
   signer,
-  tokenAddress
+  tokenAddress,
+  txnData
 }: {
   minimumAmount: BigNumber
   signer: Signer
   tokenAddress: string
+  txnData: txnData
 }) {
   const proxyAddress = WYVERN_TOKEN_PAYMENT_PROXY || undefined
   const accountAddress = await signer.getAddress()
@@ -1773,15 +1777,6 @@ async function fungibleTokenApprovals({
   console.log('Not enough ERC20 allowance approved for this trade')
   // Note: approving maximum ammount so this doesnt need to be done again for future trades.
   const args = [proxyAddress, ethers.constants.MaxInt256.toString()]
-  const txnData = {
-    from: accountAddress,
-    gasLimit: 120_000
-  }
-  txnData.gasLimit = await safeGasEstimation(
-    fungibleTokenInterface.estimateGas.approve,
-    args,
-    txnData
-  )
 
   const txHash = await fungibleTokenInterface.approve(
     proxyAddress,
@@ -1794,13 +1789,22 @@ async function fungibleTokenApprovals({
 
 export async function _buyOrderValidationAndApprovals({
   counterOrder,
+  gasData,
   order,
   signer
 }: {
   counterOrder?: Order
+  gasData: gasData
   order: Order
   signer: Signer
 }) {
+  // TODO: Use getFairGasPrice after merge!
+  const { approvalFees, gasPrice } = gasData
+
+  const txnData = {
+    gasLimit: approvalFees,
+    gasPrice
+  }
   const tokenAddress = order.paymentToken
   const accountAddress = await signer.getAddress()
   if (tokenAddress !== NULL_ADDRESS) {
@@ -1827,7 +1831,7 @@ export async function _buyOrderValidationAndApprovals({
 
     // Check token approval
     // This can be done at a higher level to show UI
-    await fungibleTokenApprovals({ minimumAmount, signer, tokenAddress })
+    await fungibleTokenApprovals({ minimumAmount, signer, tokenAddress, txnData })
   }
 
   // Check order formation
@@ -1937,19 +1941,22 @@ async function _validateMatch(
 
 export async function _atomicMatch({
   buy,
+  gasData,
   sell,
   signer
 }: {
   buy: Order
+  gasData: gasData
   sell: Order
   signer: Signer
 }) {
+  const { gasFees, gasPrice } = gasData
   let value
   const accountAddress = (await signer.getAddress()).toLowerCase()
   if (sell.maker.toLowerCase() === accountAddress) {
-    await _sellOrderValidationAndApprovals({ order: sell, signer })
+    await _sellOrderValidationAndApprovals({ gasData, order: sell, signer })
   } else if (buy.maker.toLowerCase() === accountAddress) {
-    await _buyOrderValidationAndApprovals({ counterOrder: sell, order: buy, signer })
+    await _buyOrderValidationAndApprovals({ counterOrder: sell, gasData, order: buy, signer })
   }
   if (buy.paymentToken === NULL_ADDRESS) {
     // For some reason uses wyvern contract for calculating the max price?.. update if needed from basePrice => max price
@@ -1960,8 +1967,8 @@ export async function _atomicMatch({
   await _validateMatch({ buy, sell, signer })
   const wyvernExchangeContract = new ethers.Contract(sell.exchange, wyvernExchange_ABI, signer)
   const txnData = {
-    from: accountAddress,
-    gasLimit: 350_000,
+    gasLimit: gasFees,
+    gasPrice,
     value: sell.paymentToken === NULL_ADDRESS ? sell.basePrice.toString() : '0'
   }
   const args = [
@@ -2027,13 +2034,7 @@ export async function _atomicMatch({
     ]
   ]
 
-  txnData.gasLimit = await safeGasEstimation(
-    wyvernExchangeContract.estimateGas.atomicMatch_,
-    args,
-    txnData
-  )
   try {
-    console.log(txnData)
     // console.log('Making atomic match now.')
     // const match = await wyvernExchangeContract.atomicMatch_(...args, txnData)
     // const receipt = await match.wait()

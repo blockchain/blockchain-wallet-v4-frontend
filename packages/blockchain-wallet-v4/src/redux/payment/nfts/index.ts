@@ -3,11 +3,13 @@ import { Signer } from 'ethers'
 
 import {
   gasCalculationOperations,
+  gasData,
   NftAsset,
   NftOrderSide,
   NftOrdersType,
   Order,
-  SellOrder
+  SellOrder,
+  txnData
 } from '@core/network/api/nfts/types'
 
 import {
@@ -25,13 +27,18 @@ import {
   NULL_ADDRESS
 } from './utils'
 
-export const cancelNftListing = async (sellOrder: SellOrder, signer: Signer) => {
-  const cancelled = await _cancelOrder({ sellOrder, signer })
+export const cancelNftListing = async (sellOrder: SellOrder, signer: Signer, gasData: gasData) => {
+  const { gasFees, gasPrice } = gasData
+  const txnData = {
+    gasLimit: gasFees,
+    gasPrice
+  }
+  const cancelled = await _cancelOrder({ sellOrder, signer, txnData })
   return cancelled
 }
 
-export const fulfillNftSellOrder = async (order: Order, signer: Signer) => {
-  const validatedAndApproved = await _sellOrderValidationAndApprovals({ order, signer })
+export const fulfillNftSellOrder = async (order: Order, signer: Signer, gasData: gasData) => {
+  const validatedAndApproved = await _sellOrderValidationAndApprovals({ gasData, order, signer })
   console.log(`Successful approvals and validations?: ${validatedAndApproved}`)
   return order
 }
@@ -55,12 +62,17 @@ export const getNftSellOrder = async (
 }
 
 // TODO: Be able to pass in custom value for price for making auction bids.
-export const fulfillNftOrder = async (buy: Order, sell: Order, signer: Signer) => {
+export const fulfillNftOrder = async (
+  buy: Order,
+  sell: Order,
+  signer: Signer,
+  gasData: gasData
+) => {
   // Perform buy order validations (abstracted away from _atomicMatch because english auction bids don't hit that function)
   // await _buyOrderValidationAndApprovals({ order: buy, signer })
   // Is an english auction sale
   if (sell.waitingForBestCounterOrder) {
-    await _buyOrderValidationAndApprovals({ order: buy, signer })
+    await _buyOrderValidationAndApprovals({ gasData, order: buy, signer })
     console.log('Post buy order to OpenSea API because its an english auction')
     console.log(buy)
     return buy
@@ -71,7 +83,7 @@ export const fulfillNftOrder = async (buy: Order, sell: Order, signer: Signer) =
     // await _atomicMatch({ buy, sell, signer })
   }
   // Is a fixed price sale
-  await _atomicMatch({ buy, sell, signer })
+  await _atomicMatch({ buy, gasData, sell, signer })
 }
 
 export const getNftBuyOrders = async (
@@ -87,26 +99,33 @@ export const calculateGasFees = async (
   signer: Signer,
   cancelOrder?: SellOrder,
   buyOrder?: Order,
-  counterOrder?: Order
-) => {
-  let totalFees = '0'
-  let proxyFees = '0'
-  let approvalFees = '0'
-  let gasFees = '0'
+  counterOrder?: Order,
+  transferAsset?: NftAsset,
+  transferRecipient?: string
+): Promise<gasData> => {
+  let totalFees = 0
+  let proxyFees = 0
+  let approvalFees = 0
+  let gasFees = 0
   if (operation === gasCalculationOperations.Cancel && cancelOrder) {
-    // TODO: Fix castng of types here!!
-    gasFees = (await calculateCancellation(cancelOrder, signer)).toString()
+    gasFees = (await calculateCancellation(cancelOrder, signer)).toNumber()
+  } else if (
+    operation === gasCalculationOperations.Transfer &&
+    transferAsset &&
+    transferRecipient
+  ) {
+    // TODO: After merge uncomment this.
+    // gasFees = await calculateTransferFees(transferAsset, signer, transferRecipient)
   }
   // Sell orders always need proxy address and approval:
   else if (operation === gasCalculationOperations.Sell && buyOrder) {
     // 1. Calculate the gas cost of deploying proxy if needed (can estimate using ethers)
-    proxyFees = (await calculateProxyFees(signer)).toString()
+    proxyFees = (await calculateProxyFees(signer)).toNumber()
     // 2. Calculate the gas cost of making the approvals (can only estimate using ethers if the proxy has been deployed, otherwise can add a safe value here)
     approvalFees =
       proxyFees.toString() === '0'
-        ? (await calculateProxyApprovalFees(buyOrder, signer)).toString()
-        : '300000'
-    totalFees = new BigNumber(approvalFees).plus(new BigNumber(proxyFees)).toString()
+        ? (await calculateProxyApprovalFees(buyOrder, signer)).toNumber()
+        : 300_000
   }
   // Buy orders dont need any approval or proxy IF payment token is Ether.
   // However, if payment token is an ERC20 approval must be given to the payment proxy address
@@ -117,20 +136,22 @@ export const calculateGasFees = async (
     // 1. Calculate gas cost of approvals (if needed) - possible with ethers
     approvalFees =
       buyOrder.paymentToken !== NULL_ADDRESS
-        ? (await calculatePaymentProxyApprovals(buyOrder, signer)).toString()
-        : '0'
+        ? (await calculatePaymentProxyApprovals(buyOrder, signer)).toNumber()
+        : 0
     // 2. Caclulate the gas cost of the _atomicMatch function call
     gasFees =
-      approvalFees === '0'
-        ? (await calculateAtomicMatchFees(buyOrder, counterOrder, signer)).toString()
-        : '350000'
-    totalFees = new BigNumber(approvalFees).plus(new BigNumber(gasFees)).toString()
+      approvalFees === 0
+        ? (await calculateAtomicMatchFees(buyOrder, counterOrder, signer)).toNumber()
+        : 350_000
   } else {
     throw new Error('Invalid operation type or arguments provided.')
   }
+  const gasPrice = parseInt((await signer.getGasPrice())._hex)
+  totalFees = approvalFees + gasFees + proxyFees
   return {
     approvalFees,
     gasFees,
+    gasPrice,
     proxyFees,
     totalFees
   }
