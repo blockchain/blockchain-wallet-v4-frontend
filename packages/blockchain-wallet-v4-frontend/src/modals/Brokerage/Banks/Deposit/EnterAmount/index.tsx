@@ -125,6 +125,7 @@ const EnterAmountContainer = (props: Props) => {
           paymentMethod={paymentMethod}
           crossBorderLimits={crossBorderLimits}
           formErrors={formErrors}
+          formActions={props.formActions}
         />
       ) : (
         <FlyoutOopsError
@@ -145,7 +146,8 @@ const mapStateToProps = (state: RootState) => ({
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

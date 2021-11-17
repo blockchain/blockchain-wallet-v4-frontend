@@ -28,7 +28,7 @@ import { formatTextAmount } from 'services/forms'
 import { media } from 'services/styles'
 import { hexToRgb } from 'utils/helpers'
 
-import { AlertButton, SendMaxButton } from '../../components'
+import { AlertButton, MaxButton } from '../../components'
 import { TIER_TYPES } from '../../Settings/TradingLimits/model'
 import { Row } from '../../Swap/EnterAmount/Checkout'
 import { Props as OwnProps } from '..'
@@ -318,7 +318,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
           ) : null}
         </QuoteActionContainer>
 
-        <SendMaxButton
+        <MaxButton
           type='Send'
           onClick={() => {
             formActions.change(SEND_FORM, 'fix', 'CRYPTO')

@@ -146,6 +146,7 @@ const EnterAmountContainer = (props: Props) => {
           minWithdrawAmount={val.minAmount.minorValue}
           crossBorderLimits={crossBorderLimits}
           formErrors={formErrors}
+          formActions={props.formActions}
         />
       )
     }

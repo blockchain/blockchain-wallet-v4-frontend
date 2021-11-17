@@ -39,9 +39,12 @@ import { checkCrossBorderLimit, minMaxAmount } from 'components/Flyout/validatio
 import { Form } from 'components/Form'
 import { CheckoutRow } from 'components/Rows'
 import { DisplayPaymentIcon } from 'components/SimpleBuy'
+import { actions } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { BankTransferAccountType, BrokerageOrderType } from 'data/types'
 import { debounce, memoizer } from 'utils/helpers'
+
+import { MaxButton } from '../../../modals/components'
 
 const CustomForm = styled(Form)`
   width: 100%;
@@ -376,6 +379,7 @@ const EnterAmount = ({
   crossBorderLimits,
   fee,
   fiatCurrency,
+  formActions,
   formErrors,
   handleBack,
   handleMethodClick,
@@ -419,7 +423,6 @@ const EnterAmount = ({
               limitAmount={withdrawableBalance || paymentMethod.limits.max}
             />
           )}
-
           <div
             style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center' }}
           >
@@ -434,6 +437,16 @@ const EnterAmount = ({
               }
             />
           </div>
+          <MaxButton
+            type={orderType === BrokerageOrderType.DEPOSIT ? 'Deposit' : 'Withdrawal'}
+            onClick={() => {
+              formActions.change(
+                'brokerageTx',
+                'amount',
+                convertBaseToStandard('FIAT', withdrawableBalance || paymentMethod.limits.max)
+              )
+            }}
+          />
         </FlyoutContent>
         <FlyoutFooter>
           <Account
@@ -463,6 +476,7 @@ export type OwnProps =
       crossBorderLimits: CrossBorderLimits
       fee?: never
       fiatCurrency: FiatType
+      formActions: typeof actions.form
       // formErrors: FormErrors<{ amount?: 'ABOVE_MAX' | 'BELOW_MIN' | false }, string> | undefined
       formErrors: FormErrors<{}, string> | undefined
       handleBack: () => void
@@ -477,6 +491,7 @@ export type OwnProps =
       crossBorderLimits: CrossBorderLimits
       fee: string
       fiatCurrency: FiatType
+      formActions: typeof actions.form
       formErrors: FormErrors<{}, string> | undefined
       handleBack: () => void
       handleMethodClick: () => void

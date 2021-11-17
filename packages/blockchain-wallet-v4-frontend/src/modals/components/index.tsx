@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Interest/DepositForm/model'
 import styled, { css } from 'styled-components'
 
 import { Button, Icon, Image, SpinningLoader, Text } from 'blockchain-info-components'
@@ -467,7 +468,7 @@ const AlertButton = ({ children }) => (
   </StyledOvalButton>
 )
 
-const SendMaxWrapper = styled.div`
+const MaxButtonWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -475,15 +476,10 @@ const SendMaxWrapper = styled.div`
   margin-top: 70px;
   width: 100%;
 `
-const SendMax = styled(Button)`
-  padding: 6px 12px;
-  width: 100px;
-  color: ${(props) => props.theme.blue600};
-  border-color: ${(props) => props.theme.grey100};
-`
-const SendMaxButton = ({ onClick, type }) => (
-  <SendMaxWrapper>
-    <SendMax data-e2e={`${type}MaxButton`} onClick={onClick}>
+
+const MaxButton = ({ onClick, type }) => (
+  <MaxButtonWrapper>
+    <GreyBlueCartridge role='button' data-e2e={`${type}MaxButton`} onClick={onClick}>
       <FormattedMessage
         id='modals.simplebuy.checkout.maxbuysell'
         defaultMessage='{orderType} Max'
@@ -491,8 +487,8 @@ const SendMaxButton = ({ onClick, type }) => (
           orderType: type
         }}
       />
-    </SendMax>
-  </SendMaxWrapper>
+    </GreyBlueCartridge>
+  </MaxButtonWrapper>
 )
 
 export {
@@ -509,6 +505,7 @@ export {
   LinkViaDesktop,
   Loading,
   LoadingUpdating,
+  MaxButton,
   ModalNavWithBackArrow,
   ModalNavWithCloseIcon,
   NavText,
@@ -516,7 +513,6 @@ export {
   OverYourLimitMessage,
   ScanWithPhone,
   Section,
-  SendMaxButton,
   SimpleBankRow,
   TopText
 }
