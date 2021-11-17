@@ -154,7 +154,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                   fullwidth
                   data-e2e='makeOfferNft'
                   disabled={disabled}
-                  onClick={() => nftActions.createBuyOrder({ order: activeOrder, ...formValues })}
+                  // onClick={() => nftActions.createOrder({ order: activeOrder, ...formValues })}
                 >
                   {formValues.amount ? (
                     <FormattedMessage

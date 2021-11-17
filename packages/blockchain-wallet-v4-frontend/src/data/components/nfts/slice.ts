@@ -5,11 +5,16 @@ import { Remote } from '@core'
 import {
   CollectionData,
   ExplorerGatewayNftCollectionType,
+  GasCalculationOperations,
+  GasDataI,
   NftAsset,
   NftAssetsType,
   NftOrdersType,
+  Order,
   SellOrder
 } from '@core/network/api/nfts/types'
+import { calculateGasFees, getNftBuyOrders } from '@core/redux/payment/nfts'
+import { Await } from '@core/types'
 
 import { NftOrderStepEnum, NftsStateType } from './types'
 
@@ -32,14 +37,23 @@ const initialState: NftsStateType = {
     page: 0,
     token_ids_queried: []
   },
-  orderFlow: { activeOrder: null, asset: Remote.NotAsked, step: NftOrderStepEnum.SHOW_ASSET }
+  orderFlow: {
+    activeOrder: null,
+    asset: Remote.NotAsked,
+    fees: Remote.NotAsked,
+    order: Remote.NotAsked,
+    step: NftOrderStepEnum.SHOW_ASSET
+  }
 }
 
 const nftsSlice = createSlice({
   initialState,
   name: 'nfts',
   reducers: {
-    cancelListing: (state, action: PayloadAction<{ sell_order: SellOrder }>) => {},
+    cancelListing: (
+      state,
+      action: PayloadAction<{ gasData: GasDataI; sell_order: SellOrder }>
+    ) => {},
     cancelListingFailure: (state, action: PayloadAction<{ error: string }>) => {
       state.cancelListing = Remote.Success(action.payload.error)
     },
@@ -49,11 +63,46 @@ const nftsSlice = createSlice({
     cancelListingSuccess: (state) => {
       state.cancelListing = Remote.Success(true)
     },
-    createBuyOrder: (
+    createOrder: (
       state,
-      action: PayloadAction<{ amount?: string; coin?: string; order: NftOrdersType['orders'][0] }>
+      action: PayloadAction<{
+        amount?: string
+        coin?: string
+        gasData: GasDataI
+        order: NftOrdersType['orders'][0]
+      }>
     ) => {},
+    createOrderFailure: (state, action: PayloadAction<string>) => {
+      state.orderFlow.order = Remote.Failure(action.payload)
+    },
+    createOrderLoading: (state) => {
+      state.orderFlow.order = Remote.Loading
+    },
+    createOrderSuccess: (state, action: PayloadAction<Order>) => {
+      state.orderFlow.order = Remote.Success(action.payload)
+    },
     createSellOrder: (state, action: PayloadAction<{ asset: NftAssetsType['assets'][0] }>) => {},
+    fetchFees: (
+      state,
+      action: PayloadAction<{
+        amount?: string
+        coin?: string
+        operation: GasCalculationOperations
+        order: NftOrdersType['orders'][0]
+      }>
+    ) => {},
+    fetchFeesFailure: (state, action: PayloadAction<string>) => {
+      state.orderFlow.fees = Remote.Failure(action.payload)
+    },
+    fetchFeesLoading: (state) => {
+      state.orderFlow.fees = Remote.Loading
+    },
+    fetchFeesSuccess: (
+      state,
+      action: PayloadAction<Await<ReturnType<typeof calculateGasFees>>>
+    ) => {
+      state.orderFlow.fees = Remote.Success(action.payload)
+    },
     fetchNftAssets: () => {},
     fetchNftAssetsFailure: (state, action: PayloadAction<string>) => {
       state.assets.isFailure = true
