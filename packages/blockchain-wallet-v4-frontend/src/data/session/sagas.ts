@@ -14,7 +14,6 @@ export default ({ api }) => {
 
   const logout = function* () {
     try {
-      yield put(actions.cache.disconnectChannelPhone())
       yield put(actions.modules.profile.clearSession())
       yield put(actions.middleware.webSocket.rates.stopSocket())
       yield put(actions.middleware.webSocket.coins.stopSocket())

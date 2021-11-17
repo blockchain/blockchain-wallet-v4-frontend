@@ -35,6 +35,7 @@ import {
 const OuterWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
   ${media.tabletL`
     width: 100%;
     justify-content: center;
@@ -66,7 +67,6 @@ const MobileAuthSideWrapper = styled(Wrapper)`
   border-radius: 0 8px 8px 0;
   background-color: ${(props) => props.theme.grey000};
   z-index: 0;
-  top: 5px;
   right: 5px;
   align-items: center;
   padding: 16px 32px;
