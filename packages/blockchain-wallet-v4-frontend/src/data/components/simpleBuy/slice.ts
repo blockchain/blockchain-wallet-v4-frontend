@@ -193,7 +193,7 @@ const buySellSlice = createSlice({
     fetchBalanceSuccess: (state, action: PayloadAction<SBBalancesType>) => {
       state.balances = Remote.Success(action.payload)
     },
-    fetchCard: () => {},
+    fetchCard: (state, action: PayloadAction<{ [cardAcquirerAccountCode: string]: string }>) => {},
     fetchCardFailure: (state, action: PayloadAction<string>) => {
       state.card = Remote.Failure(action.payload)
     },

@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import { getQuote } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/EnterAmount/Checkout/validation'
 import moment from 'moment'
 import { defaultTo, filter, prop } from 'ramda'
-import { call, cancel, delay, fork, put, race, retry, select, take } from 'redux-saga/effects'
+import { all, call, cancel, delay, fork, put, race, retry, select, take } from 'redux-saga/effects'
 
 import { Remote } from '@core'
 import { APIType } from '@core/network/api'
@@ -48,7 +48,7 @@ import {
 import * as S from 'data/components/simpleBuy/selectors'
 import { actions as A } from 'data/components/simpleBuy/slice'
 import * as T from 'data/components/simpleBuy/types'
-import { getDirection, getPaymentApiKeys } from 'data/components/simpleBuy/utils'
+import { getDirection } from 'data/components/simpleBuy/utils'
 import { FALLBACK_DELAY, getOutputFromPair } from 'data/components/swap/model'
 import swapSagas from 'data/components/swap/sagas'
 import { SwapBaseCounterTypes } from 'data/components/swap/types'
@@ -111,7 +111,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const fetchSBCardSDD = function* (billingAddress: T.SBBillingAddressFormValuesType) {
+  const fetchCardSDD = function* (
+    billingAddress: T.SBBillingAddressFormValuesType,
+    paymentMethodTokens: {
+      [cardAcquirerAccountCode: string]: string
+    }
+  ) {
     let card: SBCardType
     try {
       yield put(A.fetchCardLoading())
@@ -131,12 +136,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (!billingAddress) throw new Error('NO_USER_ADDRESS')
 
       card = yield call(
-        api.createSBCard,
+        api.createPaymentCard,
         currency,
         {
           ...billingAddress
         },
-        userData.email
+        userData.email,
+        paymentMethodTokens
       )
       yield put(A.fetchCardSuccess(card))
     } catch (e) {
@@ -160,9 +166,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       if (nextCardAlreadyExists) throw new Error('CARD_ALREADY_SAVED')
 
-      if (paymentProcessors) {
-        const paymentMethodTokens: { [partner: string]: string } = {}
+      const paymentMethodTokens: { [partner: string]: string } = {}
 
+      if (paymentProcessors) {
         /* const cardAcquirers: CardAcquirer[] = yield call(api.getCardAcquirers) */
 
         // TODO remove this MOCK
@@ -186,68 +192,34 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           }
         ]
 
-        const paymentApiKeys = getPaymentApiKeys(cardAcquirers)
+        yield all(
+          cardAcquirers.map(function* (paymentCall) {
+            const partner = paymentCall.cardAcquirerName
+            const accountCodes = paymentCall.cardAcquirerAccountCodes
+            const accessToken = paymentCall.apiKey
 
-        // CHECKOUT
-        if (paymentApiKeys?.checkout_uk) {
-          const {
-            data: { token }
-          } = yield call(api.submitCardDetailsToCheckout, {
-            accessToken: paymentApiKeys.checkout_uk,
-            ccNumber: formValues['card-number'].replace(/[^\d]/g, ''),
-            cvc: formValues.cvc,
-            expirationDate: moment(formValues['expiry-date'], 'MM/YY'),
-            holderName: formValues['name-on-card']
+            yield all(
+              accountCodes.map(function* (accountCode) {
+                if (partner === 'stripe') {
+                  const {
+                    data: { id }
+                  } = yield call(api.submitCardDetailsToStripe, {
+                    accessToken,
+                    ccNumber: formValues['card-number'].replace(/[^\d]/g, ''),
+                    cvc: formValues.cvc,
+                    expirationDate: moment(formValues['expiry-date'], 'MM/YY')
+                  })
+
+                  paymentMethodTokens[accountCode] = id
+                }
+              })
+            )
           })
-
-          paymentMethodTokens.checkout_uk = token
-        }
-
-        if (paymentApiKeys?.checkout_us) {
-          const {
-            data: { token }
-          } = yield call(api.submitCardDetailsToCheckout, {
-            accessToken: paymentApiKeys.checkout_us,
-            ccNumber: formValues['card-number'].replace(/[^\d]/g, ''),
-            cvc: formValues.cvc,
-            expirationDate: moment(formValues['expiry-date'], 'MM/YY'),
-            holderName: formValues['name-on-card']
-          })
-
-          paymentMethodTokens.checkout_us = token
-        }
-
-        // STRIPE
-        if (paymentApiKeys?.stripe_uk) {
-          const {
-            data: { id }
-          } = yield call(api.submitCardDetailsToStripe, {
-            accessToken: paymentApiKeys.stripe_uk,
-            ccNumber: formValues['card-number'].replace(/[^\d]/g, ''),
-            cvc: formValues.cvc,
-            expirationDate: moment(formValues['expiry-date'], 'MM/YY')
-          })
-
-          paymentMethodTokens.stripe_uk = id
-        }
-
-        if (paymentApiKeys?.stripe_us) {
-          const {
-            data: { id }
-          } = yield call(api.submitCardDetailsToStripe, {
-            accessToken: paymentApiKeys.stripe_us,
-            ccNumber: formValues['card-number'].replace(/[^\d]/g, ''),
-            cvc: formValues.cvc,
-            expirationDate: moment(formValues['expiry-date'], 'MM/YY')
-          })
-
-          paymentMethodTokens.stripe_us = id
-        }
-
-        // eslint-disable-next-line no-console
-        console.log({ cardAcquirers, paymentApiKeys, paymentMethodTokens })
-        return
+        )
       }
+
+      // eslint-disable-next-line no-console
+      console.log(paymentMethodTokens)
 
       yield put(
         A.setStep({
@@ -260,11 +232,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       // Create card
       if (formValues.billingaddress && !formValues.sameAsBillingAddress) {
-        yield call(fetchSBCardSDD, formValues.billingaddress)
+        // eslint-disable-next-line no-console
+        console.log('HERERERERE')
+        yield call(fetchCardSDD, formValues.billingaddress, paymentMethodTokens)
 
         waitForAction = false
       } else {
-        yield put(A.fetchCard())
+        // eslint-disable-next-line no-console
+        console.log('HARARAR')
+        yield put(A.fetchCard(paymentMethodTokens))
       }
 
       if (waitForAction) {
@@ -649,7 +625,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const fetchSBCard = function* () {
+  const fetchCard = function* ({ payload }: ReturnType<typeof A.fetchCard>) {
     let card: SBCardType
     try {
       yield put(A.fetchCardLoading())
@@ -666,12 +642,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (!address) throw new Error('NO_USER_ADDRESS')
 
       card = yield call(
-        api.createSBCard,
+        api.createPaymentCard,
         currency,
         {
           ...address
         },
-        userData.email
+        userData.email,
+        payload
       )
       yield put(A.fetchCardSuccess(card))
     } catch (e) {
@@ -699,7 +676,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const fetchSBCards = function* ({ payload }: ReturnType<typeof A.fetchCards>) {
+  const fetchCards = function* ({ payload }: ReturnType<typeof A.fetchCards>) {
     try {
       yield call(waitForUserData)
 
@@ -1436,15 +1413,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     confirmSBFundsOrder,
     createSBOrder,
     deleteSBCard,
+    fetchCard,
+    fetchCardSDD,
+    fetchCards,
     fetchCrossBorderLimits,
     fetchFiatEligible,
     fetchLimits,
     fetchPaymentAccount,
     fetchPaymentMethods,
     fetchSBBalances,
-    fetchSBCard,
-    fetchSBCardSDD,
-    fetchSBCards,
     fetchSBOrders,
     fetchSBPairs,
     fetchSBQuote,

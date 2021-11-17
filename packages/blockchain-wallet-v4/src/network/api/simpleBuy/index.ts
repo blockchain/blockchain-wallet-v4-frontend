@@ -64,17 +64,21 @@ export default ({
       url: nabuUrl
     })
 
-  const createSBCard = (
+  const createPaymentCard = (
     currency: FiatType,
     address: NabuAddressType,
-    email: UserDataType['email']
+    email: UserDataType['email'],
+    paymentMethodTokens: {
+      [cardAcquirerAccountCode: string]: string
+    }
   ): SBCardType =>
     authorizedPost({
       contentType: 'application/json',
       data: {
         address,
         currency,
-        email
+        email,
+        paymentMethodTokens
       },
       endPoint: '/payments/cards',
       removeDefaultPostData: true,
@@ -542,8 +546,8 @@ export default ({
     confirmSBOrder,
     createBankAccountLink,
     createFiatDeposit,
+    createPaymentCard,
     createRecurringBuy,
-    createSBCard,
     createSBOrder,
     deleteRecurringBuy,
     deleteSavedAccount,
