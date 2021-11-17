@@ -57,6 +57,11 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const clearAndRefetchOrders = function* () {
+    yield put(A.resetNftOrders())
+    yield put(A.fetchNftOrders())
+  }
+  
   const fetchNftCollections = function* () {
     try {
       const collections = S.getNftCollections(yield select())
@@ -322,6 +327,7 @@ export default ({ api }: { api: APIType }) => {
 
   return {
     cancelListing,
+    clearAndRefetchOrders,
     createOrder,
     createSellOrder,
     fetchFees,

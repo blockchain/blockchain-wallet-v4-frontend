@@ -23,7 +23,7 @@ const initialState: NftsStateType = {
     atBound: false,
     collection: 'all',
     isFailure: false,
-    isLoading: true,
+    isLoading: false,
     list: [],
     page: 0
   },
@@ -63,6 +63,7 @@ const nftsSlice = createSlice({
     cancelListingSuccess: (state) => {
       state.cancelListing = Remote.Success(true)
     },
+    clearAndRefetchOrders: (state) => {},
     createOrder: (
       state,
       action: PayloadAction<{
@@ -140,6 +141,7 @@ const nftsSlice = createSlice({
     },
     fetchNftOrders: () => {},
     fetchNftOrdersFailure: (state, action: PayloadAction<string>) => {
+      state.marketplace.isLoading = false
       state.marketplace.isFailure = true
     },
     fetchNftOrdersLoading: (state) => {
@@ -168,6 +170,9 @@ const nftsSlice = createSlice({
       state.orderFlow.step = NftOrderStepEnum.SHOW_ASSET
     },
     resetNftOrders: (state) => {
+      state.marketplace.atBound = false
+      state.marketplace.page = 0
+      state.marketplace.token_ids_queried = []
       state.marketplace.isFailure = false
       state.marketplace.isLoading = true
       state.marketplace.list = []
