@@ -399,6 +399,26 @@ export interface Order extends UnsignedOrder, Partial<ECSignature> {
   takerAccount?: OpenSeaAccount
 }
 
+export enum gasCalculationOperations {
+  Buy = 'buy',
+  Cancel = 'cancel',
+  Sell = 'sell',
+  Transfer = 'transfer'
+}
+
+export interface gasData {
+  approvalFees: number
+  gasFees: number
+  gasPrice: number
+  proxyFees: number
+  totalFees: number
+}
+
+export interface txnData {
+  gasLimit: number
+  gasPrice: number
+}
+
 export interface SellOrder {
   approved_on_chain: boolean
   base_price: string
