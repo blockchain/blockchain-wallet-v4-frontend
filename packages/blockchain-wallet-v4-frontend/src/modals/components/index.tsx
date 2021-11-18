@@ -451,7 +451,23 @@ const OverLimitButton = ({ coin }) => (
   </StyledOvalButton>
 )
 
+const AlertButton = ({ children }) => (
+  <StyledOvalButton
+    data-e2e='overLimitButton'
+    height='48px'
+    size='16px'
+    nature='dark-grey'
+    fullwidth
+  >
+    <Image width='16px' height='16px' name='alert-orange' />
+    <Text weight={600} size='16px' style={{ marginLeft: '2px' }} color='white'>
+      {children}
+    </Text>
+  </StyledOvalButton>
+)
+
 export {
+  AlertButton,
   BankSearchIcon,
   BankSearchInput,
   BankSearchWrapper,

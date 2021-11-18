@@ -7,7 +7,7 @@ import { formatCoin } from '@core/exchange/utils'
 import { CrossBorderLimitsPyload, ExtractSuccess, WalletAcountEnum } from '@core/types'
 import { CoinAccountIcon, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import { selectors } from 'data'
+import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import {
   InitSwapFormValuesType,
@@ -235,13 +235,24 @@ const mapStateToProps = (state: RootState) => {
   }
 }
 
-const connector = connect(mapStateToProps)
+const mapDispatchToProps = (dispatch) => ({
+  verifyIdentity: () =>
+    dispatch(
+      actions.components.identityVerification.verifyIdentity({
+        needMoreInfo: false,
+        origin: 'Swap',
+        tier: 2
+      })
+    )
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = BaseProps & { handleClose: () => void }
 export type Props = OwnProps & SuccessType & ConnectedProps<typeof connector>
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>> & {
   formErrors: {
-    amount?: 'ABOVE_MAX' | 'BELOW_MIN' | 'NEGATIVE_INCOMING_AMT' | boolean
+    amount?: 'ABOVE_MAX' | 'BELOW_MIN' | 'NEGATIVE_INCOMING_AMT' | 'ABOVE_MAX_LIMIT' | boolean
   }
 }
 

@@ -13,3 +13,17 @@ export const getEffectiveLimit = (limits: SeamlessLimits): LimitWithEffective | 
       return undefined
   }
 }
+
+export const getEffectivePeriod = (limits: SeamlessLimits): string | undefined => {
+  const { current } = limits
+  switch (true) {
+    case current?.daily?.effective:
+      return 'day'
+    case current?.monthly?.effective:
+      return 'month'
+    case current?.yearly?.effective:
+      return 'year'
+    default:
+      return undefined
+  }
+}

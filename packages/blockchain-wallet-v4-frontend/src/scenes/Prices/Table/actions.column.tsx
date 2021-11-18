@@ -17,7 +17,9 @@ const CellWrapper = styled.div`
 
 export const getActionsColumn = (
   modalActions: TableColumnsType['modalActions'],
-  buySellActions: TableColumnsType['buySellActions']
+  buySellActions: TableColumnsType['buySellActions'],
+  swapActions: TableColumnsType['swapActions'],
+  formActions: TableColumnsType['formActions']
 ) => ({
   Cell: ({ row: { original: values } }) => (
     <CellWrapper>
@@ -49,11 +51,15 @@ export const getActionsColumn = (
             data-e2e={`${values.coin}SwapBtn`}
             height='32px'
             nature='empty-blue'
-            onClick={() =>
+            onClick={() => {
+              formActions.destroy('initSwap')
               modalActions.showModal('SWAP_MODAL', {
                 origin: 'Prices'
               })
-            }
+              swapActions.setStep({
+                step: 'INIT_SWAP'
+              })
+            }}
             width='68px'
           >
             <Text size='14px' color='blue600' weight={600}>

@@ -265,11 +265,7 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
               {this.props.submitting ? (
                 <HeartbeatLoader height='16px' width='16px' color='white' />
               ) : (
-                <FormattedMessage
-                  id='buttons.swap_x_for_y'
-                  defaultMessage='Swap {base} for {counter}'
-                  values={{ base: baseCoinDisplaySymbol, counter: counterCoinDisplaySymbol }}
-                />
+                <FormattedMessage id='buttons.swap_now' defaultMessage='Swap Now' />
               )}
             </Button>
             <Button
