@@ -1,10 +1,9 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, TabMenu, TabMenuItem } from 'blockchain-info-components'
+import { Button, Icon, TabMenu, TabMenuItem } from 'blockchain-info-components'
 import { Form, TextBox } from 'components/Form'
 
 import { Props as OwnProps } from '..'
@@ -17,6 +16,7 @@ const Wrapper = styled.div`
   position: sticky;
   top: 0;
   margin-bottom: 8px;
+  align-items: center;
   display: flex;
   gap: 24px;
 `
@@ -43,6 +43,7 @@ const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = ({
   const handleSubmit = (e) => {
     if (!e) return
     e.preventDefault()
+    setActiveTab('explore')
     nftsActions.searchNftAssetContract({ asset_contract_address: e.target[0].value })
   }
 
@@ -70,6 +71,18 @@ const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = ({
         <Button disabled={rest.submitting} data-e2e='searchNfts' type='submit' nature='primary'>
           <FormattedMessage id='buttons.search' defaultMessage='Search' />
         </Button>
+        <Icon
+          role='button'
+          size='24px'
+          cursor
+          name='refresh'
+          color='blue600'
+          onClick={() =>
+            activeTab === 'explore'
+              ? nftsActions.clearAndRefetchOrders()
+              : nftsActions.clearAndRefetchAssets()
+          }
+        />
       </StyledForm>
     </Wrapper>
   )

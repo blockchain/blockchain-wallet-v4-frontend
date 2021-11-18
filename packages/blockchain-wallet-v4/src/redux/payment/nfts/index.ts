@@ -1,171 +1,176 @@
-import { ethers, Signer } from 'ethers'
+import { Signer } from 'ethers'
 
-import { NftAsset, NftOrdersType, SellOrder } from '@core/network/api/nfts/types'
+import {
+  GasCalculationOperations,
+  GasDataI,
+  NftAsset,
+  NftOrdersType,
+  Order,
+  SellOrder
+} from '@core/network/api/nfts/types'
 
-import { wyvernExchange_ABI } from './abis'
 import {
   _atomicMatch,
-  _authorizeOrder,
   _buyOrderValidationAndApprovals,
   _cancelOrder,
-  _makeMatchingOrder,
-  _makeSellOrder,
   _sellOrderValidationAndApprovals,
-  _signMessage,
-  _validateOrderWyvern,
-  assignOrdersToSides,
-  getOrderHash
+  calculateAtomicMatchFees,
+  calculateCancellation,
+  calculatePaymentProxyApprovals,
+  calculateProxyApprovalFees,
+  calculateProxyFees,
+  createMatchingOrders,
+  createSellOrder,
+  NULL_ADDRESS,
+  transferAsset,
+  verifyTransfered
 } from './utils'
 
-export const cancelNftListing = async (sellOrder: SellOrder, signer: Signer) => {
-  const cancelled = await _cancelOrder({ sellOrder, signer })
+export const cancelNftListing = async (sellOrder: SellOrder, signer: Signer, gasData: GasDataI) => {
+  const { gasFees, gasPrice } = gasData
+  const txnData = {
+    gasLimit: gasFees,
+    gasPrice
+  }
+  const cancelled = await _cancelOrder({ sellOrder, signer, txnData })
   return cancelled
 }
 
-export const fulfillNftSellOrder = async (
-  asset: NftAsset,
-  signer: Signer,
-  provider: ethers.providers.Provider
-) => {
-  // 1. use the _makeSellOrder to create the object & initialize the proxy contract for this sale.
-  const accountAddress = await signer.getAddress()
-  const order = await _makeSellOrder({
-    accountAddress,
-    asset,
-    buyerAddress: '0x0000000000000000000000000000000000000000',
-    expirationTime: 0,
-    extraBountyBasisPoints: 0,
-    paymentTokenAddress: '0x0000000000000000000000000000000000000000',
-    quantity: 1,
-    startAmount: 0.1,
-    waitForHighestBid: false
-  })
-  // 2. Validation of sell order fields & Transaction Approvals (Proxy initialized here if needed also)
-  const validatedAndApproved = await _sellOrderValidationAndApprovals({ order, signer })
+export const fulfillNftSellOrder = async (order: Order, signer: Signer, gasData: GasDataI) => {
+  const validatedAndApproved = await _sellOrderValidationAndApprovals({ gasData, order, signer })
+  // eslint-disable-next-line no-console
   console.log(`Successful approvals and validations?: ${validatedAndApproved}`)
-  // 3. Compute hash of the order and output {...order, hash:hash(order)}
-  const hashedOrder = {
-    ...order,
-    hash: getOrderHash(order)
-  }
-  // 4. Obtain a signature from the signer (using the mnemonic & Ethers JS) over the hash and message.
-  let signature
-  try {
-    signature = await _authorizeOrder(hashedOrder, signer, provider)
-  } catch (error) {
-    console.error(error)
-    throw new Error('You declined to authorize your auction')
-  }
-
-  const orderWithSignature = {
-    ...hashedOrder,
-    ...signature
-  }
-  console.log('next up, try to post this to the OpenSea API:')
-  console.log(orderWithSignature)
-  // 5. Send to the OpenSea post order route.
-  return orderWithSignature
+  return order
 }
 
-export const fulfillNftOrder = async (order: NftOrdersType['orders'][0], signer: Signer) => {
-  const contract = new ethers.Contract(
-    '0x7be8076f4ea4a4ad08075c2508e481d6c946d12b',
-    wyvernExchange_ABI,
-    signer
+export const getNftSellOrder = async (
+  asset: NftAsset,
+  signer: Signer,
+  startPrice = 0.011, // The starting price for auctions / sale price for fixed price sale orders (TODO: Remove default 0.1 value)
+  endPrice: number | null = null, // Implement later for to enable dutch auction sales.
+  waitForHighestBid = false, // True = English auction,
+  paymentTokenAddress = '0x0000000000000000000000000000000000000000'
+): Promise<Order> => {
+  return createSellOrder(
+    asset,
+    signer,
+    startPrice,
+    endPrice,
+    waitForHighestBid,
+    paymentTokenAddress
   )
-  const accountAddress = await signer.getAddress()
-  // TODO: If its an english auction bid above the basePrice include an offer property in the _makeMatchingOrder call
-  const matchingOrder = _makeMatchingOrder({
-    accountAddress,
-    order,
-    recipientAddress: accountAddress
-  })
-  let { buy, sell } = assignOrdersToSides(order, matchingOrder)
-  const signature = await _signMessage({ message: buy.hash, signer })
-  buy = {
-    ...buy,
-    ...signature
-  }
-  console.log(buy)
+}
+
+// TODO: Be able to pass in custom value for price for making auction bids.
+export const fulfillNftOrder = async (
+  buy: Order,
+  sell: Order,
+  signer: Signer,
+  gasData: GasDataI
+) => {
   // Perform buy order validations (abstracted away from _atomicMatch because english auction bids don't hit that function)
   // await _buyOrderValidationAndApprovals({ order: buy, signer })
   // Is an english auction sale
-  if (order.waitingForBestCounterOrder) {
-    await _buyOrderValidationAndApprovals({ order: buy, signer })
+  if (sell.waitingForBestCounterOrder) {
+    await _buyOrderValidationAndApprovals({ gasData, order: buy, signer })
+    // eslint-disable-next-line no-console
     console.log('Post buy order to OpenSea API because its an english auction')
+    // eslint-disable-next-line no-console
     console.log(buy)
-    // return buy
+    return buy
   }
   // Is a dutch auction TODO: Find out why validations fail for buy order validations
-  else if (order.saleKind === 1) {
+  if (sell.saleKind === 1) {
     throw new Error('Dutch auctions not currently supported')
     // await _atomicMatch({ buy, sell, signer })
   }
   // Is a fixed price sale
-  else {
-    const isSellValid = await _validateOrderWyvern({ order: sell, signer })
-    if (!isSellValid) throw new Error('Sell order is invalid')
-    const isBuyValid = await _validateOrderWyvern({ order: buy, signer })
-    if (!isBuyValid) throw new Error('Buy order is invalid')
-    const matchPrice = await contract.calculateMatchPrice_(
-      [
-        buy.exchange,
-        buy.maker,
-        buy.taker,
-        buy.feeRecipient,
-        buy.target,
-        buy.staticTarget,
-        buy.paymentToken,
-        sell.exchange,
-        sell.maker,
-        sell.taker,
-        sell.feeRecipient,
-        sell.target,
-        sell.staticTarget,
-        sell.paymentToken
-      ],
-      [
-        buy.makerRelayerFee.toString(),
-        buy.takerRelayerFee.toString(),
-        buy.makerProtocolFee.toString(),
-        buy.takerProtocolFee.toString(),
-        buy.basePrice.toString(),
-        buy.extra.toString(),
-        buy.listingTime.toString(),
-        buy.expirationTime.toString(),
-        // TODO FIXME: this is a hack
-        buy.salt.toString(),
-        sell.makerRelayerFee.toString(),
-        sell.takerRelayerFee.toString(),
-        sell.makerProtocolFee.toString(),
-        sell.takerProtocolFee.toString(),
-        sell.basePrice.toString(),
-        sell.extra.toString(),
-        sell.listingTime.toString(),
-        sell.expirationTime.toString(),
-        sell.salt.toString()
-      ],
-      [
-        buy.feeMethod,
-        buy.side,
-        buy.saleKind,
-        buy.howToCall,
-        sell.feeMethod,
-        sell.side,
-        sell.saleKind,
-        sell.howToCall
-      ],
-      buy.calldata,
-      sell.calldata,
-      buy.replacementPattern,
-      sell.replacementPattern,
-      buy.staticExtradata,
-      sell.staticExtradata
-    )
-    await _atomicMatch({ buy, sell, signer })
+  await _atomicMatch({ buy, gasData, sell, signer })
+}
+
+export const getNftBuyOrders = async (
+  order: NftOrdersType['orders'][0],
+  signer: Signer
+): Promise<{ buy: Order; sell: Order }> => {
+  return createMatchingOrders(order, signer)
+}
+// Calculates all the fees a user will need to pay/encounter on their journey to either sell/buy an NFT
+// order and counterOrder needed for sell orders, only order needed for buy order calculations (May need to put a default value here in future / change the way these are called into two seperate functions?)
+export const calculateGasFees = async (
+  operation: GasCalculationOperations,
+  signer: Signer,
+  cancelOrder?: SellOrder,
+  buyOrder?: Order,
+  sellOrder?: Order,
+  transferAsset?: NftAsset,
+  transferRecipient?: string
+): Promise<GasDataI> => {
+  let totalFees = 0
+  let proxyFees = 0
+  let approvalFees = 0
+  let gasFees = 0
+  if (operation === GasCalculationOperations.Cancel && cancelOrder) {
+    gasFees = (await calculateCancellation(cancelOrder, signer)).toNumber()
+  } else if (
+    operation === GasCalculationOperations.Transfer &&
+    transferAsset &&
+    transferRecipient
+  ) {
+    // TODO: After merge uncomment this.
+    // gasFees = await calculateTransferFees(transferAsset, signer, transferRecipient)
+  }
+  // Sell orders always need proxy address and approval:
+  else if (operation === GasCalculationOperations.Sell && sellOrder) {
+    // 1. Calculate the gas cost of deploying proxy if needed (can estimate using ethers)
+    proxyFees = (await calculateProxyFees(signer)).toNumber()
+    // 2. Calculate the gas cost of making the approvals (can only estimate using ethers if the proxy has been deployed, otherwise can add a safe value here)
+    approvalFees =
+      proxyFees.toString() === '0'
+        ? (await calculateProxyApprovalFees(sellOrder, signer)).toNumber()
+        : 300_000
+  }
+  // Buy orders dont need any approval or proxy IF payment token is Ether.
+  // However, if payment token is an ERC20 approval must be given to the payment proxy address
+  else if (operation === GasCalculationOperations.Buy && buyOrder) {
+    if (!sellOrder) {
+      throw new Error('counter order not provdided into the calculate gas function.')
+    }
+    // 1. Calculate gas cost of approvals (if needed) - possible with ethers
+    approvalFees =
+      buyOrder.paymentToken !== NULL_ADDRESS
+        ? (await calculatePaymentProxyApprovals(buyOrder, signer)).toNumber()
+        : 0
+    // 2. Caclulate the gas cost of the _atomicMatch function call
+    gasFees =
+      approvalFees === 0
+        ? (await calculateAtomicMatchFees(buyOrder, sellOrder, signer)).toNumber()
+        : 350_000
+  } else {
+    throw new Error('Invalid operation type or arguments provided.')
+  }
+  const gasPrice = parseInt((await signer.getGasPrice())._hex)
+  totalFees = approvalFees + gasFees + proxyFees
+  return {
+    approvalFees,
+    gasFees,
+    gasPrice,
+    proxyFees,
+    totalFees
   }
 }
 
+export const fulfillTransfer = async (
+  asset: NftAsset,
+  signer: Signer,
+  recipient: string,
+  txnData: { gasLimit: string; gasPrice: string }
+) => {
+  await transferAsset(asset, signer, recipient.toLowerCase(), txnData)
+  const verified = await verifyTransfered(asset, signer, recipient.toLowerCase())
+  if (!verified) {
+    throw new Error('Asset transfer failed!')
+  }
+}
 // https://codesandbox.io/s/beautiful-euclid-nd7s8?file=/src/index.ts
 // metamask https://etherscan.io/tx/0xb52c163434d85e79a63e34cadbfb980d928e4e70129284ae084d9ad992ba9778
 // bc.com https://etherscan.io/tx/0xdb0620e6e1b186f4f84e4740b2453506b61416d79fd7de01a6e7ed2f9e5e3623
