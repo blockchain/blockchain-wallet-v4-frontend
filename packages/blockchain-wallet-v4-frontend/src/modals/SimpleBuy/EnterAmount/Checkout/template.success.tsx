@@ -678,7 +678,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   (props.orderType === OrderType.BUY ? (
                     <FormattedMessage
                       id='modals.simplebuy.checkout.buy.abovemax'
-                      defaultMessage='The maximum amount of {coin} you can buy with your {currency} Account s account is {amount}'
+                      defaultMessage='The maximum amount of {coin} you can buy with your {currency} {amount}'
                       values={{
                         amount:
                           fix === 'FIAT'
