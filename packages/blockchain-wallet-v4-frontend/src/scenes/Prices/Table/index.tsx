@@ -84,12 +84,12 @@ export const HeaderText = styled.div`
 `
 
 export const getTableColumns =
-  ({ buySellActions, modalActions, walletCurrency }: TableColumnsType) =>
+  ({ buySellActions, formActions, modalActions, swapActions, walletCurrency }: TableColumnsType) =>
   () =>
     [
       getNameColumn(modalActions),
       getPriceColumn(walletCurrency),
       getPriceChangeColumn(),
       getBalanceColumn(),
-      getActionsColumn(modalActions, buySellActions)
+      getActionsColumn(modalActions, buySellActions, swapActions, formActions)
     ]
