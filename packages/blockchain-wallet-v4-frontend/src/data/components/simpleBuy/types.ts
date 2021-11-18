@@ -1,5 +1,6 @@
 import type {
   CoinType,
+  CrossBorderLimits,
   Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
@@ -25,8 +26,6 @@ import type {
 import type { CountryType } from 'data/components/identityVerification/types'
 import type { RecurringBuyPeriods } from 'data/components/recurringBuy/types'
 import type { SwapAccountType, SwapBaseCounterTypes } from 'data/components/swap/types'
-
-import { SeamlessLimits } from '../withdraw/types'
 
 // Types
 export type SBAddCardFormValuesType = {
@@ -122,7 +121,7 @@ export type SimpleBuyState = {
   card: RemoteDataType<string, SBCardType>
   cardId: undefined | string
   cards: RemoteDataType<string, Array<SBCardType>>
-  crossBorderLimits: RemoteDataType<string, SeamlessLimits>
+  crossBorderLimits: RemoteDataType<string, CrossBorderLimits>
   cryptoCurrency: undefined | CoinType
   displayBack: boolean
   everypay3DS: RemoteDataType<string, Everypay3DSResponseType>

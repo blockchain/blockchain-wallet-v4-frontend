@@ -74,21 +74,12 @@ export const validate = (formValues: SendFormType, props: Props) => {
             rates,
             value: limitAmountInBase
           })
-    const maxLimitFee =
-      fix === 'FIAT'
-        ? convertCoinToFiat({
-            coin,
-            currency,
-            isStandard: true,
-            rates,
-            value: fee
-          })
-        : convertCoinToCoin({
-            baseToStandard: false,
-            coin,
-            value: fee
-          })
-    isAboveMax = maximumAmountWithLimit(amount, selectedAccount.balance, maxLimit, maxLimitFee)
+    isAboveMax = maximumAmountWithLimit(amount, selectedAccount.balance, maxLimit, feeBaseAmt)
+    if (isAboveMax) {
+      return {
+        amount: 'ABOVE_MAX_LIMIT'
+      }
+    }
   }
 
   return {

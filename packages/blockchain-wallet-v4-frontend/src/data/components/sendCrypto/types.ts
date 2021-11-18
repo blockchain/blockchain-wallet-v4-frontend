@@ -1,15 +1,16 @@
 import {
+  CrossBorderLimits,
   RemoteDataType,
   WithdrawalLockResponseType,
   WithdrawalMinsAndFeesResponse,
   WithdrawResponseType
 } from '@core/types'
-import { SeamlessLimits, SwapAccountType } from 'data/types'
+import { SwapAccountType } from 'data/types'
 
 // state
 export type SendCryptoState = {
   initialCoin?: string
-  sendLimits: RemoteDataType<string, SeamlessLimits>
+  sendLimits: RemoteDataType<string, CrossBorderLimits>
   step: SendCryptoStepType
   transaction: RemoteDataType<string, WithdrawResponseType>
   withdrawLocks: RemoteDataType<string, WithdrawalLockResponseType>

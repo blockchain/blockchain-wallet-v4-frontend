@@ -4,6 +4,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Remote } from '@core'
 import {
   CoinType,
+  CrossBorderLimits,
   CrossBorderLimitsPyload,
   Everypay3DSResponseType,
   FiatEligibleType,
@@ -33,7 +34,6 @@ import {
   SBCardStateEnum,
   SBFixType,
   SBShowModalOriginType,
-  SeamlessLimits,
   StepActionsPayload,
   SwapAccountType
 } from 'data/types'
@@ -224,7 +224,7 @@ const buySellSlice = createSlice({
     fetchCrossBorderLimitsLoading: (state) => {
       state.crossBorderLimits = Remote.Loading
     },
-    fetchCrossBorderLimitsSuccess: (state, action: PayloadAction<SeamlessLimits>) => {
+    fetchCrossBorderLimitsSuccess: (state, action: PayloadAction<CrossBorderLimits>) => {
       state.crossBorderLimits = Remote.Success(action.payload)
     },
 
