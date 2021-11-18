@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { Navbar } from 'components/NavbarV2'
 import { useMedia } from 'services/styles'
 
 import Large from './template.large'
@@ -11,7 +12,7 @@ const Header = (props) => {
   const isTablet = useMedia('tablet')
 
   if (props.isRedesignEnabled) {
-    return <>foo</>
+    return <Navbar />
   }
   return (
     <>{isTablet ? <Small {...props} /> : isLaptop ? <Medium {...props} /> : <Large {...props} />}</>

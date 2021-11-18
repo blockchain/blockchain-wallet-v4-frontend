@@ -1,17 +1,12 @@
 import React from 'react'
 import { IntlProvider } from 'react-intl'
-import { Provider } from 'react-redux'
 import { configureStore } from '@reduxjs/toolkit'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { combineReducers } from 'redux'
 
-import { SBPaymentTypes } from '@core/types'
 import form from 'data/form/reducers'
-import { BrokerageOrderType } from 'data/types'
 
 import Navbar from './Navbar'
-
-const store = configureStore({ reducer: combineReducers({ form }) })
 
 export default {
   argTypes: {},
@@ -20,7 +15,7 @@ export default {
     (Story) => {
       return (
         <IntlProvider locale='en'>
-          <div>{Story()}</div>
+          <div style={{ border: '1px solid #333', height: '600px' }}>{Story()}</div>
         </IntlProvider>
       )
     }
