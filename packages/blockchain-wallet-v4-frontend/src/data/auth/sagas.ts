@@ -551,11 +551,10 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.form.change(LOGIN_FORM, 'guid', lastGuid || storedGuid))
           yield put(actions.form.change(LOGIN_FORM, 'email', email))
           // determine initial step
-          const initialStep = isMobileConnected
-            ? LoginSteps.VERIFICATION_MOBILE
-            : product === ProductAuthOptions.EXCHANGE
-            ? LoginSteps.ENTER_PASSWORD_EXCHANGE
-            : LoginSteps.ENTER_PASSWORD_WALLET
+          const initialStep =
+            product === ProductAuthOptions.EXCHANGE
+              ? LoginSteps.ENTER_PASSWORD_EXCHANGE
+              : LoginSteps.ENTER_PASSWORD_WALLET
           yield put(actions.form.change(LOGIN_FORM, 'step', initialStep))
           break
         // url is just /login, take them to enter guid or email
@@ -565,7 +564,7 @@ export default ({ api, coreSagas, networks }) => {
         // guid is on the url e.g. login/{guid}
         case isGuid(walletGuidOrMagicLinkFromUrl):
           yield put(actions.form.change(LOGIN_FORM, 'guid', walletGuidOrMagicLinkFromUrl))
-          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.VERIFICATION_MOBILE))
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
           break
         // url has base64 encrypted magic link JSON
         default:

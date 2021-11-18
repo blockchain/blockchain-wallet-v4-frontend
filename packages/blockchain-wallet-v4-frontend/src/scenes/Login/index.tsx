@@ -37,7 +37,6 @@ import VerifyMagicLink from './VerifyMagicLink'
 import CheckEmail from './Wallet/CheckEmail'
 import WalletEnterEmailOrGuid from './Wallet/EnterEmailOrGuid'
 import EnterPasswordWallet from './Wallet/EnterPasswordWallet'
-import VerificationMobile from './Wallet/VerificationMobile'
 
 class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StateProps> {
   constructor(props) {
@@ -156,8 +155,6 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
                 return <CheckEmail {...loginProps} />
               case LoginSteps.VERIFY_MAGIC_LINK:
                 return <VerifyMagicLink {...loginProps} />
-              case LoginSteps.VERIFICATION_MOBILE:
-                return <VerificationMobile {...loginProps} />
               case LoginSteps.UPGRADE_CONFIRM:
                 return <MergeAccountConfirm {...loginProps} />
               case LoginSteps.UPGRADE_PASSWORD:

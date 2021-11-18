@@ -92,12 +92,7 @@ export const parseMagicLink = function* () {
             product: ProductAuthOptions.WALLET
           })
         )
-        // check if mobile detected
-        if (walletData?.is_mobile_setup) {
-          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.VERIFICATION_MOBILE))
-        } else {
-          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
-        }
+        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
       }
     }
     if (productAuth === ProductAuthOptions.EXCHANGE) {

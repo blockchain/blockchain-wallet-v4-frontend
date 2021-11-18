@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Banner, Button, Icon, Image, Text } from 'blockchain-info-components'
+import { Wrapper } from 'components/Public'
 import { media } from 'services/styles'
 
 import { Props } from '..'

@@ -3,10 +3,9 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
+import { Wrapper } from 'components/Public'
 
-import { LoginWrapper } from '../model'
-
-const Wrapper = styled(LoginWrapper)`
+const ErrorWrapper = styled(Wrapper)`
   display: flex;
   text-align: center;
   align-items: center;
@@ -16,7 +15,7 @@ const Wrapper = styled(LoginWrapper)`
 const Error = (props) => {
   const { error } = props
   return (
-    <Wrapper>
+    <ErrorWrapper>
       <Icon color='error' name='close-circle' size='40px' />
       <Text size='20px' weight={600} color='black' style={{ marginTop: '8px' }}>
         {error.request_denied ? (
@@ -52,7 +51,7 @@ const Error = (props) => {
           />
         )}
       </Text>
-    </Wrapper>
+    </ErrorWrapper>
   )
 }
 

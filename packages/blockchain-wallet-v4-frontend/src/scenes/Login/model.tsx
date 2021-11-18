@@ -51,6 +51,7 @@ export const GuidError = styled(TextGroup)`
 export const LoginFormLabel = styled(FormLabel)`
   margin-bottom: 8px;
 `
+
 export const CircleBackground = styled.div<{ color?: string; size?: string }>`
   display: flex;
   justify-content: center;
@@ -127,7 +128,7 @@ export const BackArrowFormHeader = (props: {
               <FormattedMessage
                 id='scenes.login.signingin_email'
                 defaultMessage='Signing in with {email}'
-                values={{ email: props.formValues.email }}
+                values={{ email: props.formValues?.email }}
               />
             </Text>
           ) : (
@@ -135,7 +136,7 @@ export const BackArrowFormHeader = (props: {
               <FormattedMessage
                 id='scences.login.wallet_guid'
                 defaultMessage='Wallet: {guid}'
-                values={{ guid: props.formValues.guid }}
+                values={{ guid: props.formValues?.guid }}
               />
             </Text>
           )}
@@ -237,8 +238,6 @@ export const getLoginPageTitle = (step) => {
 
 export const getLoginPageSubTitle = (step) => {
   switch (step) {
-    case LoginSteps.VERIFICATION_MOBILE:
-      return <FormattedMessage id='scenes.login.approve' defaultMessage='Approve your login' />
     case LoginSteps.UPGRADE_PASSWORD:
       return (
         <FormattedMessage

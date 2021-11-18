@@ -73,6 +73,7 @@ const PublicLayoutContainer = ({
   productAuthMetadata
 }: Props) => {
   const isLogin = path === '/login'
+
   return (
     <Route
       path={path}
@@ -94,11 +95,7 @@ const PublicLayoutContainer = ({
             </ContentContainer>
 
             <FooterContainer>
-              <Footer
-                isLogin={isLogin}
-                productAuthMetadata={productAuthMetadata}
-                loginStep={loginStep}
-              />
+              <Footer />
             </FooterContainer>
           </Wrapper>
         </ErrorBoundary>
