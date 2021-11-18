@@ -27,7 +27,7 @@ const Nfts: React.FC<Props> = (props) => {
   const [activeTab, setActiveTab] = useState<'explore' | 'my-collection'>('explore')
 
   useEffect(() => {
-    props.nftsActions.fetchNftCollections()
+    props.nftsActions.fetchNftCollections({})
   }, [])
 
   return (

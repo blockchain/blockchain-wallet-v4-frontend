@@ -6,6 +6,7 @@ import { APIType } from '@core/network/api'
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
 import {
   CollectionData,
+  ExplorerGatewayNftCollectionType,
   GasCalculationOperations,
   GasDataI,
   Order,
@@ -69,12 +70,16 @@ export default ({ api }: { api: APIType }) => {
     yield put(A.fetchNftOrders())
   }
 
-  const fetchNftCollections = function* () {
+  const fetchNftCollections = function* (action: ReturnType<typeof A.fetchNftCollections>) {
     try {
       const collections = S.getNftCollections(yield select())
       if (Remote.Success.is(collections)) return
       yield put(A.fetchNftCollectionsLoading())
-      const nfts: ReturnType<typeof api.getNftCollections> = yield call(api.getNftCollections)
+      const nfts: ReturnType<typeof api.getNftCollections> = yield call(
+        api.getNftCollections,
+        action.payload.sortBy,
+        action.payload.direction
+      )
       yield put(A.fetchNftCollectionsSuccess(nfts))
     } catch (e) {
       const error = errorHandler(e)
@@ -217,8 +222,8 @@ export default ({ api }: { api: APIType }) => {
         yield put(A.fetchFeesSuccess(fees))
       }
     } catch (e) {
-      const error = errorHandler(e)
       console.log(e)
+      const error = errorHandler(e)
       yield put(A.fetchFeesFailure(error))
     }
   }
@@ -280,6 +285,10 @@ export default ({ api }: { api: APIType }) => {
 
   const formChanged = function* (action) {
     if (action.meta.form === 'nftMarketplace') {
+      const formValues = selectors.form.getFormValues(action.meta.form)(yield select()) as {
+        direction: 'ASC' | 'DESC'
+        sortBy: keyof ExplorerGatewayNftCollectionType
+      }
       if (action.meta.field === 'collection') {
         try {
           yield put(A.resetNftOrders())
@@ -297,6 +306,14 @@ export default ({ api }: { api: APIType }) => {
           const error = errorHandler(e)
           yield put(actions.logs.logErrorMessage(error))
         }
+      }
+      if (action.meta.field === 'sortBy') {
+        yield put(
+          A.fetchNftCollections({ direction: formValues.direction, sortBy: action.payload })
+        )
+      }
+      if (action.meta.field === 'direction') {
+        yield put(A.fetchNftCollections({ direction: action.payload, sortBy: formValues.sortBy }))
       }
     }
     if (action.meta.form === 'nftCollection') {

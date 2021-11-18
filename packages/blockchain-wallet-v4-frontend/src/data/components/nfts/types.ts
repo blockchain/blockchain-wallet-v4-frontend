@@ -6,7 +6,7 @@ import {
   NftOrdersType,
   Order
 } from '@core/network/api/nfts/types'
-import { calculateGasFees, getNftBuyOrders } from '@core/redux/payment/nfts'
+import { calculateGasFees } from '@core/redux/payment/nfts'
 import { Await, RemoteDataType } from '@core/types'
 
 export enum NftOrderStepEnum {
@@ -26,7 +26,7 @@ export type NftsStateType = {
     page: number
   }
   cancelListing: RemoteDataType<string, boolean>
-  collections: RemoteDataType<string, ExplorerGatewayNftCollectionType>
+  collections: RemoteDataType<string, ExplorerGatewayNftCollectionType[]>
   marketplace: {
     atBound?: boolean
     collection?: CollectionData

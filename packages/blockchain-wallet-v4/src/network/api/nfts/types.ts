@@ -724,7 +724,7 @@ export type AssetEventsType = {
   created_date: string
 }[]
 
-export type ExplorerGatewayNftCollectionType = {
+export interface ExplorerGatewayNftCollectionType {
   added_timestamp: string
   average_price: string
   count: number
@@ -743,4 +743,4 @@ export type ExplorerGatewayNftCollectionType = {
   total_sales: number
   total_supply: number
   total_volume: string
-}[]
+}

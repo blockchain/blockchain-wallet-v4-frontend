@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { convertCoinToCoin } from '@core/exchange'
-import { SpinningLoader, Text } from 'blockchain-info-components'
+import { Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import { Form } from 'components/Form'
 import { media } from 'services/styles'

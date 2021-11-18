@@ -54,11 +54,11 @@ export default ({ apiUrl, get, post }) => {
   }
 
   const getNftCollections = (
-    offset?: number,
-    limit?: number,
     sortedBy?: string,
-    direction?: 'ASC' | 'DESC'
-  ): ExplorerGatewayNftCollectionType => {
+    direction?: 'ASC' | 'DESC',
+    offset?: number,
+    limit?: number
+  ): ExplorerGatewayNftCollectionType[] => {
     return get({
       endPoint: `/nft/collections`,
       ignoreQueryParams: true,

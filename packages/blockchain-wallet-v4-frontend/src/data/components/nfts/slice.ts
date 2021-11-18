@@ -128,7 +128,13 @@ const nftsSlice = createSlice({
       state.assets.isLoading = false
       state.assets.list = [...state.assets.list, ...action.payload]
     },
-    fetchNftCollections: () => {},
+    fetchNftCollections: (
+      state,
+      action: PayloadAction<{
+        direction?: 'ASC' | 'DESC'
+        sortBy?: keyof ExplorerGatewayNftCollectionType
+      }>
+    ) => {},
     fetchNftCollectionsFailure: (state, action: PayloadAction<string>) => {
       state.collections = Remote.Failure(action.payload)
     },
@@ -137,7 +143,7 @@ const nftsSlice = createSlice({
     },
     fetchNftCollectionsSuccess: (
       state,
-      action: PayloadAction<ExplorerGatewayNftCollectionType>
+      action: PayloadAction<ExplorerGatewayNftCollectionType[]>
     ) => {
       state.collections = Remote.Success(action.payload)
     },
