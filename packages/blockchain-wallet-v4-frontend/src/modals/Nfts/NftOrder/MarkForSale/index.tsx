@@ -4,6 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 
+import { Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
 import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { ErrorCartridge } from 'components/Cartridge'
@@ -16,12 +17,16 @@ import { NftOrderStepEnum } from 'data/components/nfts/types'
 
 import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'
 import { Props as OwnProps } from '..'
+import SellFees from '../ShowAsset/Sell/fees'
 
 const MarkForSale: React.FC<Props> = (props) => {
   const { close, formValues, nftActions, orderFlow } = props
   const coin = 'ETH'
 
-  const disabled = formValues['sale-type'] === 'fixed-price' ? !formValues.amount : true
+  const disabled =
+    formValues['sale-type'] === 'fixed-price'
+      ? !formValues.amount || !Remote.Success.is(props.orderFlow.fees)
+      : true
 
   return (
     <>
@@ -135,6 +140,7 @@ const MarkForSale: React.FC<Props> = (props) => {
               )}
             </Form>
             <StickyCTA>
+              <SellFees {...props} asset={val} />
               <Button
                 jumbo
                 nature='primary'

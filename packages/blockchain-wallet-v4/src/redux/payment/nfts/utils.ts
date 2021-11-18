@@ -2043,7 +2043,9 @@ export async function _atomicMatch({
     // console.log(receipt)
     // send success to frontend
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.log(e)
+    throw e
   }
 }
 
@@ -2212,13 +2214,14 @@ export async function createMatchingOrders(
     order,
     recipientAddress: accountAddress
   })
+  // eslint-disable-next-line prefer-const
   let { buy, sell } = assignOrdersToSides(order, matchingOrder)
   const signature = await _signMessage({ message: buy.hash, signer })
   buy = {
     ...buy,
     ...signature
   }
-  console.log(buy)
+
   const isSellValid = await _validateOrderWyvern({ order: sell, signer })
   if (!isSellValid) throw new Error('Sell order is invalid')
   const isBuyValid = await _validateOrderWyvern({ order: buy, signer })
@@ -2233,6 +2236,7 @@ export async function calculateProxyFees(signer: Signer) {
     proxyRegistry_ABI,
     signer
   )
+
   return proxyAddress
     ? new BigNumber(0)
     : new BigNumber(
