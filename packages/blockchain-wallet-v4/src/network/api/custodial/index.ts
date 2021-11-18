@@ -1,10 +1,16 @@
-import { CoinType, FiatType, SBPaymentTypes, WalletAcountType, WalletFiatType } from '@core/types'
+import {
+  CoinType,
+  CrossBorderLimits,
+  FiatType,
+  SBPaymentTypes,
+  WalletAcountType,
+  WalletFiatType
+} from '@core/types'
 import {
   BankTransferAccountType,
   NabuProductType,
   ProductEligibility,
   ProductEligibilityResponse,
-  SeamlessLimits,
   WithdrawLimitsResponse
 } from 'data/types'
 
@@ -157,7 +163,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
     outputCurrency: CoinType,
     toAccount: WalletAcountType,
     currency?: WalletFiatType
-  ): SeamlessLimits =>
+  ): CrossBorderLimits =>
     authorizedGet({
       data: {
         currency,

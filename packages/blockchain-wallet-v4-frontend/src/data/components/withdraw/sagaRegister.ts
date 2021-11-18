@@ -19,5 +19,6 @@ export default ({ api }) => {
     )
     yield takeLatest(AT.FETCH_WITHDRAWAL_FEES, withdrawSagas.fetchFees)
     yield takeLatest(AT.FETCH_WITHDRAWAL_LOCK, withdrawSagas.fetchWithdrawLocks)
+    yield takeLatest(AT.FETCH_WITHDRAWAL_CROSSBORDER_LIMITS, withdrawSagas.fetchCrossBorderLimits)
   }
 }

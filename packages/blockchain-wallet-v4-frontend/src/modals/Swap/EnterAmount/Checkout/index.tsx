@@ -459,9 +459,9 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               ) : (
                 <FormattedMessage
                   id='copy.above_max'
-                  defaultMessage='{value} Maximum'
+                  defaultMessage='{amount} Maximum'
                   values={{
-                    value:
+                    amount:
                       fix === 'FIAT'
                         ? fiatToString({ unit: walletCurrency, value: fiatMax })
                         : `${max} ${baseCoinfig.displaySymbol}`
@@ -509,11 +509,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
         {showLimitError && effectiveLimit && (
           <>
             <AlertButton>
-              <FormattedMessage
-                id='copy.over_your_limit'
-                defaultMessage='Over Your Limit'
-                values={{ coin: COUNTER.coin }}
-              />
+              <FormattedMessage id='copy.over_your_limit' defaultMessage='Over Your Limit' />
             </AlertButton>
             <FormattedMessage
               id='modals.swap.cross_border_max'
