@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { init } from 'ramda'
 
 import { Remote } from '@core'
 import {
@@ -63,6 +64,7 @@ const nftsSlice = createSlice({
     cancelListingSuccess: (state) => {
       state.cancelListing = Remote.Success(true)
     },
+    clearAndRefetchAssets: (state) => {},
     clearAndRefetchOrders: (state) => {},
     createOrder: (
       state,
@@ -91,6 +93,10 @@ const nftsSlice = createSlice({
             coin?: string
             operation: GasCalculationOperations.Buy
             order: NftOrdersType['orders'][0]
+          }
+        | {
+            asset: NftAsset
+            operation: GasCalculationOperations.Sell
           }
         | {
             operation: GasCalculationOperations.Cancel
@@ -174,6 +180,12 @@ const nftsSlice = createSlice({
       }
       state.orderFlow.asset = Remote.Loading
       state.orderFlow.step = NftOrderStepEnum.SHOW_ASSET
+    },
+    resetNftAssets: (state) => {
+      state.assets.atBound = false
+      state.assets.page = 0
+      state.assets.isLoading = false
+      state.assets.list = []
     },
     resetNftOrders: (state) => {
       state.marketplace.atBound = false

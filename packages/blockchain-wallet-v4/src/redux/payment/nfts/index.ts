@@ -101,7 +101,7 @@ export const calculateGasFees = async (
   signer: Signer,
   cancelOrder?: SellOrder,
   buyOrder?: Order,
-  counterOrder?: Order,
+  sellOrder?: Order,
   transferAsset?: NftAsset,
   transferRecipient?: string
 ): Promise<GasDataI> => {
@@ -120,19 +120,19 @@ export const calculateGasFees = async (
     // gasFees = await calculateTransferFees(transferAsset, signer, transferRecipient)
   }
   // Sell orders always need proxy address and approval:
-  else if (operation === GasCalculationOperations.Sell && buyOrder) {
+  else if (operation === GasCalculationOperations.Sell && sellOrder) {
     // 1. Calculate the gas cost of deploying proxy if needed (can estimate using ethers)
     proxyFees = (await calculateProxyFees(signer)).toNumber()
     // 2. Calculate the gas cost of making the approvals (can only estimate using ethers if the proxy has been deployed, otherwise can add a safe value here)
     approvalFees =
       proxyFees.toString() === '0'
-        ? (await calculateProxyApprovalFees(buyOrder, signer)).toNumber()
+        ? (await calculateProxyApprovalFees(sellOrder, signer)).toNumber()
         : 300_000
   }
   // Buy orders dont need any approval or proxy IF payment token is Ether.
   // However, if payment token is an ERC20 approval must be given to the payment proxy address
   else if (operation === GasCalculationOperations.Buy && buyOrder) {
-    if (!counterOrder) {
+    if (!sellOrder) {
       throw new Error('counter order not provdided into the calculate gas function.')
     }
     // 1. Calculate gas cost of approvals (if needed) - possible with ethers
@@ -143,7 +143,7 @@ export const calculateGasFees = async (
     // 2. Caclulate the gas cost of the _atomicMatch function call
     gasFees =
       approvalFees === 0
-        ? (await calculateAtomicMatchFees(buyOrder, counterOrder, signer)).toNumber()
+        ? (await calculateAtomicMatchFees(buyOrder, sellOrder, signer)).toNumber()
         : 350_000
   } else {
     throw new Error('Invalid operation type or arguments provided.')

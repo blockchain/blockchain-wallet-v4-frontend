@@ -1,12 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import { Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { BlueCartridge } from 'components/Cartridge'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Row, Title, Value } from 'components/Flyout/model'
-import { NftOrderStepEnum } from 'data/components/nfts/types'
 
 import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'
 import { Props as OwnProps } from '..'
@@ -14,9 +13,10 @@ import BuyCTA from './BuyNow/cta'
 import BuyFees from './BuyNow/fees'
 import CancelListingCTA from './CancelListing/cta'
 import CancelListingFees from './CancelListing/fees'
+import SellCTA from './Sell/cta'
 
 const ShowAsset: React.FC<Props> = (props) => {
-  const { close, nftActions, orderFlow } = props
+  const { close, orderFlow } = props
   // activeOrder ? User wants to buy : User wants to sell
   const { activeOrder } = orderFlow
 
@@ -99,11 +99,6 @@ const ShowAsset: React.FC<Props> = (props) => {
                 </Value>
               </Row>
             )}
-            {activeOrder ? (
-              <BuyFees {...props} />
-            ) : val.sell_orders.length > 0 ? (
-              <CancelListingFees {...props} asset={val} />
-            ) : null}
             {val?.traits?.map((trait, index) => (
               // eslint-disable-next-line react/no-array-index-key
               <Row key={index}>
@@ -123,26 +118,20 @@ const ShowAsset: React.FC<Props> = (props) => {
             <StickyCTA>
               {/* activeOrder, user can buy now */}
               {activeOrder ? (
-                <BuyCTA {...props} />
+                <>
+                  <BuyFees {...props} />
+                  <BuyCTA {...props} />
+                </>
               ) : /* User has 1 or more sell_orders, cancel them */
               val.sell_orders?.length ? (
-                <CancelListingCTA {...props} asset={val} />
-              ) : (
-                /* TODO: show fee required to list (if needed) */
-                !val.sell_orders?.length && (
-                  <Button
-                    jumbo
-                    nature='empty-blue'
-                    fullwidth
-                    data-e2e='sellNft'
-                    onClick={() =>
-                      nftActions.setOrderFlowStep({ step: NftOrderStepEnum.MARK_FOR_SALE })
-                    }
-                  >
-                    <FormattedMessage id='copy.mark_for_sale' defaultMessage='Mark for Sale' />
-                  </Button>
-                )
-              )}
+                <>
+                  <CancelListingFees {...props} asset={val} />
+                  <CancelListingCTA {...props} asset={val} />
+                </>
+              ) : /* No sell_orders, can mark for sale */
+              !val.sell_orders?.length ? (
+                <SellCTA {...props} />
+              ) : null}
             </StickyCTA>
           </>
         )

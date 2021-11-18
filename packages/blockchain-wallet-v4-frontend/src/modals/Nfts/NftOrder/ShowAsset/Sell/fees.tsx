@@ -2,26 +2,26 @@ import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 
-import { GasCalculationOperations } from '@core/network/api/nfts/types'
+import { GasCalculationOperations, NftAsset } from '@core/network/api/nfts/types'
 import { SpinningLoader } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Title, Value } from 'components/Flyout/model'
 
-import { AssetDesc, CTARow } from '../../../components'
+import { CTARow } from '../../../components'
 import { Props as OwnProps } from '../..'
 
 const Fees: React.FC<Props> = (props) => {
   const { nftActions, orderFlow } = props
-  const { activeOrder } = orderFlow
 
   useEffect(() => {
-    if (activeOrder) {
-      nftActions.fetchFees({ operation: GasCalculationOperations.Buy, order: activeOrder })
+    if (props.asset) {
+      nftActions.fetchFees({
+        asset: props.asset,
+        operation: GasCalculationOperations.Sell
+      })
     }
   }, [])
-
-  if (!activeOrder) return null
 
   return (
     <>
@@ -36,6 +36,7 @@ const Fees: React.FC<Props> = (props) => {
         Success: (val) => {
           return (
             <>
+              {console.log(val.totalFees)}
               <CTARow>
                 <Title>
                   <FormattedMessage id='copy.fees' defaultMessage='Fees' />
@@ -52,38 +53,6 @@ const Fees: React.FC<Props> = (props) => {
                   </div>
                 </Value>
               </CTARow>
-              <CTARow>
-                <Title>
-                  <FormattedMessage id='copy.total' defaultMessage='Total' />
-                </Title>
-                <Value>
-                  <div style={{ display: 'flex' }}>
-                    <CoinDisplay
-                      size='14px'
-                      color='black'
-                      weight={600}
-                      coin={activeOrder.paymentTokenContract?.symbol}
-                    >
-                      {new BigNumber(val.totalFees)
-                        .multipliedBy(val.gasPrice)
-                        .plus(activeOrder.basePrice)
-                        .toString()}
-                    </CoinDisplay>
-                    &nbsp;-&nbsp;
-                    <FiatDisplay
-                      size='12px'
-                      color='grey600'
-                      weight={600}
-                      coin={activeOrder.paymentTokenContract?.symbol}
-                    >
-                      {new BigNumber(val.totalFees)
-                        .multipliedBy(val.gasPrice)
-                        .plus(activeOrder.basePrice)
-                        .toString()}
-                    </FiatDisplay>
-                  </div>
-                </Value>
-              </CTARow>
             </>
           )
         }
@@ -92,6 +61,6 @@ const Fees: React.FC<Props> = (props) => {
   )
 }
 
-type Props = OwnProps
+type Props = OwnProps & { asset: NftAsset }
 
 export default Fees

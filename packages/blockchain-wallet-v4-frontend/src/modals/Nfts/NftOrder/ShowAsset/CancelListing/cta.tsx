@@ -10,7 +10,7 @@ import { Title } from 'components/Flyout/model'
 import { Props as OwnProps } from '../..'
 
 const CTA: React.FC<Props> = (props) => {
-  const { cancelListing } = props
+  const { cancelListing, nftActions, orderFlow } = props
 
   return (
     <>
@@ -22,28 +22,39 @@ const CTA: React.FC<Props> = (props) => {
         )}
       </Title>
       <br />
-      {props.asset.sell_orders.map((sell_order) => {
-        return (
-          <Button
-            style={{ marginBottom: '8px' }}
-            key={sell_order.order_hash}
-            disabled={Remote.Loading.is(cancelListing)}
-            // onClick={() => nftActions.cancelListing({ sell_order })}
-            nature='primary'
-            data-e2e='cancelListingNft'
-          >
-            <FormattedMessage
-              id='copy.cancel_listings'
-              values={{
-                val: displayCoinToCoin({
-                  coin: sell_order.payment_token_contract?.symbol || 'ETH',
-                  value: sell_order.current_price
-                })
-              }}
-              defaultMessage='Cancel Listing for {val}'
-            />
-          </Button>
-        )
+      {orderFlow.fees.cata({
+        Failure: (e) => null,
+        Loading: () => null,
+        NotAsked: () => null,
+        Success: (val) => {
+          return (
+            <>
+              {props.asset.sell_orders.map((sell_order) => {
+                return (
+                  <Button
+                    style={{ marginBottom: '8px' }}
+                    key={sell_order.order_hash}
+                    disabled={Remote.Loading.is(cancelListing)}
+                    onClick={() => nftActions.cancelListing({ gasData: val, sell_order })}
+                    nature='primary'
+                    data-e2e='cancelListingNft'
+                  >
+                    <FormattedMessage
+                      id='copy.cancel_listings'
+                      values={{
+                        val: displayCoinToCoin({
+                          coin: sell_order.payment_token_contract?.symbol || 'ETH',
+                          value: sell_order.current_price
+                        })
+                      }}
+                      defaultMessage='Cancel Listing for {val}'
+                    />
+                  </Button>
+                )
+              })}
+            </>
+          )
+        }
       })}
     </>
   )

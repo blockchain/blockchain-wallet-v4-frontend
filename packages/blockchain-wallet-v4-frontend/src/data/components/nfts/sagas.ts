@@ -15,7 +15,8 @@ import {
   calculateGasFees,
   cancelNftListing,
   fulfillNftOrder,
-  getNftBuyOrders
+  getNftBuyOrders,
+  getNftSellOrder
 } from '@core/redux/payment/nfts'
 import { Await } from '@core/types'
 import { errorHandler } from '@core/utils'
@@ -56,6 +57,11 @@ export default ({ api }: { api: APIType }) => {
       const error = errorHandler(e)
       yield put(A.fetchNftAssetsFailure(error))
     }
+  }
+
+  const clearAndRefetchAssets = function* () {
+    yield put(A.resetNftAssets())
+    yield put(A.fetchNftAssets())
   }
 
   const clearAndRefetchOrders = function* () {
@@ -194,9 +200,25 @@ export default ({ api }: { api: APIType }) => {
           action.payload.order as SellOrder
         )
         yield put(A.fetchFeesSuccess(fees))
+      } else if (action.payload.operation === GasCalculationOperations.Sell) {
+        const order: Await<ReturnType<typeof getNftSellOrder>> = yield call(
+          getNftSellOrder,
+          action.payload.asset,
+          signer
+        )
+        fees = yield call(
+          calculateGasFees,
+          GasCalculationOperations.Sell,
+          signer,
+          undefined,
+          undefined,
+          order
+        )
+        yield put(A.fetchFeesSuccess(fees))
       }
     } catch (e) {
       const error = errorHandler(e)
+      console.log(e)
       yield put(A.fetchFeesFailure(error))
     }
   }
@@ -336,6 +358,7 @@ export default ({ api }: { api: APIType }) => {
 
   return {
     cancelListing,
+    clearAndRefetchAssets,
     clearAndRefetchOrders,
     createOrder,
     createSellOrder,

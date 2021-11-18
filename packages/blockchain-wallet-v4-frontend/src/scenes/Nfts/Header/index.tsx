@@ -77,7 +77,11 @@ const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = ({
           cursor
           name='refresh'
           color='blue600'
-          onClick={() => nftsActions.clearAndRefetchOrders()}
+          onClick={() =>
+            activeTab === 'explore'
+              ? nftsActions.clearAndRefetchOrders()
+              : nftsActions.clearAndRefetchAssets()
+          }
         />
       </StyledForm>
     </Wrapper>
