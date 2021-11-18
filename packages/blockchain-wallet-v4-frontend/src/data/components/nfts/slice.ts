@@ -85,12 +85,18 @@ const nftsSlice = createSlice({
     createSellOrder: (state, action: PayloadAction<{ asset: NftAssetsType['assets'][0] }>) => {},
     fetchFees: (
       state,
-      action: PayloadAction<{
-        amount?: string
-        coin?: string
-        operation: GasCalculationOperations
-        order: NftOrdersType['orders'][0]
-      }>
+      action: PayloadAction<
+        | {
+            amount?: string
+            coin?: string
+            operation: GasCalculationOperations.Buy
+            order: NftOrdersType['orders'][0]
+          }
+        | {
+            operation: GasCalculationOperations.Cancel
+            order: SellOrder
+          }
+      >
     ) => {},
     fetchFeesFailure: (state, action: PayloadAction<string>) => {
       state.orderFlow.fees = Remote.Failure(action.payload)

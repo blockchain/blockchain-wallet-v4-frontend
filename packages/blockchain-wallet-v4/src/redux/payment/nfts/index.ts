@@ -1,15 +1,12 @@
-import BigNumber from 'bignumber.js'
 import { Signer } from 'ethers'
 
 import {
   GasCalculationOperations,
   GasDataI,
   NftAsset,
-  NftOrderSide,
   NftOrdersType,
   Order,
-  SellOrder,
-  txnData
+  SellOrder
 } from '@core/network/api/nfts/types'
 
 import {
@@ -41,6 +38,7 @@ export const cancelNftListing = async (sellOrder: SellOrder, signer: Signer, gas
 
 export const fulfillNftSellOrder = async (order: Order, signer: Signer, gasData: GasDataI) => {
   const validatedAndApproved = await _sellOrderValidationAndApprovals({ gasData, order, signer })
+  // eslint-disable-next-line no-console
   console.log(`Successful approvals and validations?: ${validatedAndApproved}`)
   return order
 }
@@ -75,7 +73,9 @@ export const fulfillNftOrder = async (
   // Is an english auction sale
   if (sell.waitingForBestCounterOrder) {
     await _buyOrderValidationAndApprovals({ gasData, order: buy, signer })
+    // eslint-disable-next-line no-console
     console.log('Post buy order to OpenSea API because its an english auction')
+    // eslint-disable-next-line no-console
     console.log(buy)
     return buy
   }

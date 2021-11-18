@@ -2043,7 +2043,9 @@ export async function _atomicMatch({
     // console.log(receipt)
     // send success to frontend
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.log(e)
+    throw e
   }
 }
 

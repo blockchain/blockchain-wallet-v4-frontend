@@ -1,4 +1,4 @@
-import { ethers } from 'ethers'
+import { ethers, Signer } from 'ethers'
 import { call, put, select } from 'redux-saga/effects'
 
 import { Remote } from '@core'
@@ -8,7 +8,8 @@ import {
   CollectionData,
   GasCalculationOperations,
   GasDataI,
-  Order
+  Order,
+  SellOrder
 } from '@core/network/api/nfts/types'
 import {
   calculateGasFees,
@@ -61,7 +62,7 @@ export default ({ api }: { api: APIType }) => {
     yield put(A.resetNftOrders())
     yield put(A.fetchNftOrders())
   }
-  
+
   const fetchNftCollections = function* () {
     try {
       const collections = S.getNftCollections(yield select())
@@ -168,14 +169,14 @@ export default ({ api }: { api: APIType }) => {
   const fetchFees = function* (action: ReturnType<typeof A.fetchFees>) {
     try {
       yield put(A.fetchFeesLoading())
-      const signer = yield call(getEthSigner)
-      const { buy, sell }: Await<ReturnType<typeof getNftBuyOrders>> = yield call(
-        getNftBuyOrders,
-        action.payload.order,
-        signer
-      )
+      const signer: Signer = yield call(getEthSigner)
       let fees: GasDataI
       if (action.payload.operation === GasCalculationOperations.Buy) {
+        const { buy, sell }: Await<ReturnType<typeof getNftBuyOrders>> = yield call(
+          getNftBuyOrders,
+          action.payload.order,
+          signer
+        )
         fees = yield call(
           calculateGasFees,
           GasCalculationOperations.Buy,
@@ -183,6 +184,14 @@ export default ({ api }: { api: APIType }) => {
           undefined,
           buy,
           sell
+        )
+        yield put(A.fetchFeesSuccess(fees))
+      } else if (action.payload.operation === GasCalculationOperations.Cancel) {
+        fees = yield call(
+          calculateGasFees,
+          GasCalculationOperations.Cancel,
+          signer,
+          action.payload.order as SellOrder
         )
         yield put(A.fetchFeesSuccess(fees))
       }

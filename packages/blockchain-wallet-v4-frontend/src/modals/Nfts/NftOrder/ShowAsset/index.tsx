@@ -1,11 +1,7 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import BigNumber from 'bignumber.js'
 
-import { Remote } from '@core'
-import { displayCoinToCoin } from '@core/exchange'
-import { GasCalculationOperations } from '@core/network/api/nfts/types'
-import { Button, Icon, Link, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { BlueCartridge } from 'components/Cartridge'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -14,16 +10,15 @@ import { NftOrderStepEnum } from 'data/components/nfts/types'
 
 import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'
 import { Props as OwnProps } from '..'
+import BuyCTA from './BuyNow/cta'
+import BuyFees from './BuyNow/fees'
+import CancelListingCTA from './CancelListing/cta'
+import CancelListingFees from './CancelListing/fees'
 
-const ShowAsset: React.FC<Props> = ({ cancelListing, close, nftActions, orderFlow }) => {
+const ShowAsset: React.FC<Props> = (props) => {
+  const { close, nftActions, orderFlow } = props
   // activeOrder ? User wants to buy : User wants to sell
   const { activeOrder } = orderFlow
-
-  useEffect(() => {
-    if (activeOrder) {
-      nftActions.fetchFees({ operation: GasCalculationOperations.Buy, order: activeOrder })
-    }
-  }, [])
 
   return (
     <>
@@ -104,66 +99,11 @@ const ShowAsset: React.FC<Props> = ({ cancelListing, close, nftActions, orderFlo
                 </Value>
               </Row>
             )}
-            {activeOrder &&
-              orderFlow.fees.cata({
-                Failure: (e) => null,
-                Loading: () => null,
-                NotAsked: () => null,
-                Success: (val) => {
-                  return (
-                    <>
-                      <Row>
-                        <Title>
-                          <FormattedMessage id='copy.fees' defaultMessage='Fees' />
-                        </Title>
-                        <Value>
-                          <div style={{ display: 'flex' }}>
-                            <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
-                              {new BigNumber(val.totalFees).multipliedBy(val.gasPrice).toString()}
-                            </CoinDisplay>
-                            &nbsp;-&nbsp;
-                            <FiatDisplay size='12px' color='grey600' weight={600} coin='ETH'>
-                              {new BigNumber(val.totalFees).multipliedBy(val.gasPrice).toString()}
-                            </FiatDisplay>
-                          </div>
-                        </Value>
-                      </Row>
-                      <Row>
-                        <Title>
-                          <FormattedMessage id='copy.total' defaultMessage='Total' />
-                        </Title>
-                        <Value>
-                          <div style={{ display: 'flex' }}>
-                            <CoinDisplay
-                              size='14px'
-                              color='black'
-                              weight={600}
-                              coin={activeOrder.paymentTokenContract?.symbol}
-                            >
-                              {new BigNumber(val.totalFees)
-                                .multipliedBy(val.gasPrice)
-                                .plus(activeOrder.basePrice)
-                                .toString()}
-                            </CoinDisplay>
-                            &nbsp;-&nbsp;
-                            <FiatDisplay
-                              size='12px'
-                              color='grey600'
-                              weight={600}
-                              coin={activeOrder.paymentTokenContract?.symbol}
-                            >
-                              {new BigNumber(val.totalFees)
-                                .multipliedBy(val.gasPrice)
-                                .plus(activeOrder.basePrice)
-                                .toString()}
-                            </FiatDisplay>
-                          </div>
-                        </Value>
-                      </Row>
-                    </>
-                  )
-                }
-              })}
+            {activeOrder ? (
+              <BuyFees {...props} />
+            ) : val.sell_orders.length > 0 ? (
+              <CancelListingFees {...props} asset={val} />
+            ) : null}
             {val?.traits?.map((trait, index) => (
               // eslint-disable-next-line react/no-array-index-key
               <Row key={index}>
@@ -181,140 +121,12 @@ const ShowAsset: React.FC<Props> = ({ cancelListing, close, nftActions, orderFlo
               </Row>
             ))}
             <StickyCTA>
-              {/* TODO: make a bid */}
               {/* activeOrder, user can buy now */}
               {activeOrder ? (
-                orderFlow.fees.cata({
-                  Failure: (e) => (
-                    <div>
-                      <Button jumbo nature='sent' fullwidth disabled data-e2e='buyNft'>
-                        <FormattedMessage
-                          id='copy.buy_now_for'
-                          values={{
-                            for: displayCoinToCoin({
-                              coin: activeOrder.paymentTokenContract?.symbol || 'ETH',
-                              value: activeOrder.basePrice.toString()
-                            })
-                          }}
-                          defaultMessage='Buy Now for {for}'
-                        />
-                      </Button>
-                      <Text
-                        weight={600}
-                        color='grey800'
-                        style={{ marginTop: '8px', textAlign: 'center' }}
-                      >
-                        <span role='img' aria-label='cry'>
-                          😭
-                        </span>{' '}
-                        {e === 'INSUFFICIENT_FUNDS' ? (
-                          <FormattedMessage
-                            id='copy.not_enough_funds'
-                            defaultMessage="Unfortunately you don't have enough ETH to buy this NFT."
-                          />
-                        ) : e === 'Sell order is invalid' ? (
-                          <FormattedMessage
-                            id='copy.may_already_have_completed'
-                            defaultMessage='Invalid sell order. You may have already completed this transaction.'
-                          />
-                        ) : (
-                          e
-                        )}
-                      </Text>
-                    </div>
-                  ),
-                  Loading: () => (
-                    <Button jumbo nature='primary' fullwidth disabled data-e2e='buyNft'>
-                      <FormattedMessage id='copy.loading' defaultMessage='Loading...' />
-                    </Button>
-                  ),
-                  NotAsked: () => (
-                    <Button jumbo nature='primary' fullwidth disabled data-e2e='buyNft'>
-                      <FormattedMessage id='copy.loading' defaultMessage='Loading...' />
-                    </Button>
-                  ),
-                  Success: (val) => (
-                    <div>
-                      <Button
-                        onClick={() => nftActions.createOrder({ gasData: val, order: activeOrder })}
-                        jumbo
-                        nature='primary'
-                        fullwidth
-                        disabled={Remote.Loading.is(orderFlow.order)}
-                        data-e2e='buyNft'
-                      >
-                        <FormattedMessage
-                          id='copy.buy_now_for'
-                          values={{
-                            for: displayCoinToCoin({
-                              coin: activeOrder.paymentTokenContract?.symbol || 'ETH',
-                              value: new BigNumber(val.totalFees)
-                                .multipliedBy(val.gasPrice)
-                                .plus(activeOrder.basePrice)
-                                .toString()
-                            })
-                          }}
-                          defaultMessage='Buy Now for {for}'
-                        />
-                      </Button>
-                      <Text
-                        size='12px'
-                        weight={500}
-                        style={{ margin: '8px 0', textAlign: 'center' }}
-                      >
-                        Or
-                      </Text>
-                      <Link
-                        weight={600}
-                        size='14px'
-                        onClick={() =>
-                          nftActions.setOrderFlowStep({ step: NftOrderStepEnum.MAKE_OFFER })
-                        }
-                        style={{ display: 'block', textAlign: 'center', width: '100%' }}
-                      >
-                        Make an Offer
-                      </Link>
-                    </div>
-                  )
-                }) /* TODO: show fee required to cancel */
+                <BuyCTA {...props} />
               ) : /* User has 1 or more sell_orders, cancel them */
               val.sell_orders?.length ? (
-                <>
-                  <Title>
-                    {Remote.Loading.is(cancelListing) ? (
-                      <SpinningLoader width='11px' height='11px' borderWidth='3px' />
-                    ) : (
-                      <FormattedMessage
-                        id='copy.active_listings:'
-                        defaultMessage='Active Listings:'
-                      />
-                    )}
-                  </Title>
-                  <br />
-                  {val.sell_orders.map((sell_order) => {
-                    return (
-                      <Button
-                        style={{ marginBottom: '8px' }}
-                        key={sell_order.order_hash}
-                        disabled={Remote.Loading.is(cancelListing)}
-                        // onClick={() => nftActions.cancelListing({ sell_order })}
-                        nature='primary'
-                        data-e2e='cancelListingNft'
-                      >
-                        <FormattedMessage
-                          id='copy.cancel_listings'
-                          values={{
-                            val: displayCoinToCoin({
-                              coin: sell_order.payment_token_contract?.symbol || 'ETH',
-                              value: sell_order.current_price
-                            })
-                          }}
-                          defaultMessage='Cancel Listing for {val}'
-                        />
-                      </Button>
-                    )
-                  })}
-                </>
+                <CancelListingCTA {...props} asset={val} />
               ) : (
                 /* TODO: show fee required to list (if needed) */
                 !val.sell_orders?.length && (
