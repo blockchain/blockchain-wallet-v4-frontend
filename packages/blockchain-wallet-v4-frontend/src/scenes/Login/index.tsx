@@ -7,7 +7,6 @@ import { formValueSelector, getFormMeta, InjectedFormProps, reduxForm } from 're
 import { RemoteDataType } from '@core/types'
 import { Icon, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
-import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
 import { LoginFormType, LoginSteps } from 'data/types'
 import { isGuid } from 'services/forms'
@@ -18,7 +17,6 @@ import CheckEmail from './CheckEmail'
 import EnterEmailOrGuid from './EnterEmailOrGuid'
 import EnterPassword from './EnterPassword'
 import { LOGIN_FORM_NAME, PhishingWarning } from './model'
-import VerificationMobile from './VerificationMobile'
 import VerifyMagicLink from './VerifyMagicLink'
 
 class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StateProps> {
@@ -195,7 +193,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
         </Form>
         {step === LoginSteps.ENTER_EMAIL_GUID && (
           <>
-            <Text size='14px' color='grey400' weight={500} style={{ marginBottom: '16px' }}>
+            <Text size='14px' color='grey400' weight={500} style={{ margin: '16px 0' }}>
               <FormattedMessage
                 id='scenes.login.phishingwarning'
                 defaultMessage='Please check that you are visiting the correct URL'
