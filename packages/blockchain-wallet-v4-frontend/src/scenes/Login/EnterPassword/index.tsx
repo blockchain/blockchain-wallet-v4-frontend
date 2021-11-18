@@ -36,6 +36,7 @@ const OuterWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  height: 100%;
   ${media.tabletL`
     width: 100%;
     justify-content: center;
@@ -49,25 +50,15 @@ const FormWrapper = styled(Wrapper)`
   padding: 32px 0;
 `
 
-const SideWrapper = styled.div`
-  height: 480px;
-  width: 280px;
-  ${media.tabletL`
-    display: none;
-  `};
-`
 const MobileAuthSideWrapper = styled(Wrapper)`
-  display: flex;
-  flex-direction: column;
   position: relative;
   overflow: visible;
-  height: 90%;
   max-width: 274px;
+  height: 95%;
   border-radius: 0 8px 8px 0;
   background-color: ${(props) => props.theme.grey000};
   z-index: 0;
   right: 1px;
-  align-items: center;
   padding: 16px 32px;
 `
 
@@ -79,10 +70,6 @@ const TextColumn = styled.div`
   > div {
     margin-bottom: 8px;
   }
-`
-const CheckAppTextColumn = styled(Column)`
-  min-height: 264px;
-  margin-top: 24px;
 `
 const isSupportedBrowser = isBrowserSupported()
 
@@ -244,7 +231,7 @@ const EnterPassword = (props: Props) => {
             color='grey900'
             size='14px'
             weight={600}
-            lineHeight='1.5'
+            lineHeight='1.25'
             style={{ marginBottom: '8px' }}
           >
             <FormattedMessage
