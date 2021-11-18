@@ -11,6 +11,7 @@ export default ({ coreSagas }) => {
     yield takeLatest(A.handleSessionDisconnect.type, walletConnectSagas.handleSessionDisconnect)
     yield takeLatest(A.handleSessionRequest.type, walletConnectSagas.handleSessionRequest)
     yield takeLatest(A.initWalletConnect.type, walletConnectSagas.initWalletConnect)
+    yield takeLatest(A.renewRpcConnection.type, walletConnectSagas.renewRpcConnection)
     yield takeLatest(A.respondToSessionRequest.type, walletConnectSagas.respondToSessionRequest)
     yield takeLatest(A.respondToTxSendRequest.type, walletConnectSagas.respondToTxSendRequest)
   }

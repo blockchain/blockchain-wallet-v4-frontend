@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import { useSortBy, useTable } from 'react-table'
@@ -43,14 +43,37 @@ const NoResultsWrapper = styled.div`
 // props.walletConnectActions.setStep({ name: WalletConnectStep.SESSION_DASHBOARD })
 // actions.modals.showModal(ModalName.WALLET_CONNECT_MODAL, walletConnect.data)
 
+const WalletConnect = ({ data, modalActions, walletConnectActions }) => {
+  const [walletConnectData, changeWalletConnectData] = useState([])
 
-const WalletConnect = ({ data, modalActions }) => {
-  const columns = React.useMemo(getTableColumns({ modalActions }), [])
+  useEffect(() => {
+    const walletConnectString = localStorage.getItem('WalletConnect')
+    if (walletConnectString) {
+      const walletConnectObj = JSON.parse(walletConnectString)
+
+      // console.log(
+      //   'walletConnectStuff',
+      //   walletConnectObj,
+      //   walletConnectObj[0].uri,
+      //   walletConnectObj[0].sessionDetails
+      // )
+
+      // modalActions.showModal(ModalName.WALLET_CONNECT_MODAL, {
+      //   origin: 'WalletConnectSessions',
+      //   uri: walletConnectObj[0].uri
+      // })
+      // walletConnectActions.setSessionDetails(walletConnectObj[0].sessionDetails)
+      // walletConnectActions.setStep({ name: WalletConnectStep.SESSION_DASHBOARD })
+      changeWalletConnectData(walletConnectObj)
+    }
+  }, [])
+
+  const columns = useMemo(getTableColumns({ modalActions, walletConnectActions }), [])
 
   const { getTableBodyProps, getTableProps, headerGroups, prepareRow, rows } = useTable(
     {
       columns,
-      data,
+      data: walletConnectData,
       disableMultiSort: true,
       disableSortRemove: true,
       initialState: {
@@ -149,33 +172,9 @@ const WalletConnect = ({ data, modalActions }) => {
   )
 }
 
-// TODO
-const mapStateToProps = () => ({
-  data: [
-    {
-      connected: true,
-      icon: 'https://www.blockchain.com/blockchain-logo-circle.png',
-      link: 'zora.co',
-      name: 'Zora'
-    },
-    {
-      connected: false,
-      icon: 'https://www.blockchain.com/blockchain-logo-circle.png',
-      link: 'opensea.io',
-      name: 'OpenSea'
-    },
-    {
-      connected: false,
-      icon: 'https://www.blockchain.com/blockchain-logo-circle.png',
-      link: 'ideamarket.io',
-      name: 'Ideamarket'
-    }
-  ]
-})
-
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   walletConnectActions: bindActionCreators(actions.components.walletConnect, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(WalletConnect)
+export default connect(null, mapDispatchToProps)(WalletConnect)

@@ -62,6 +62,7 @@ export type SessionDetailsType = {
 export type RespondToSessionRequestPayload = {
   action: 'APPROVE' | 'REJECT'
   sessionDetails: SessionDetailsType
+  uri: string
 }
 
 export type RespondToTxSendRequestPayload = {
@@ -87,4 +88,5 @@ export type WalletConnectStepPayload = {
 export type WalletConnectState = {
   sessionDetails?: SessionDetailsType
   step: RemoteDataType<string, WalletConnectStepPayload>
+  uri: string
 }

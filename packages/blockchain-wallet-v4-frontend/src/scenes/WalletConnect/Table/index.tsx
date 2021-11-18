@@ -81,6 +81,11 @@ export const HeaderText = styled.div`
 `
 
 export const getTableColumns =
-  ({ modalActions }) =>
+  ({ modalActions, walletConnectActions }) =>
   () =>
-    [getNameColumn(), getLinkColumn(), getWalletColumn(), getManageColumn(modalActions)]
+    [
+      getNameColumn(),
+      getLinkColumn(),
+      getWalletColumn(),
+      getManageColumn(modalActions, walletConnectActions)
+    ]

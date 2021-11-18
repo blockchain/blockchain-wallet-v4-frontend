@@ -5,7 +5,7 @@ import { CellHeaderText, CellText } from '.'
 
 export const getLinkColumn = () => ({
   Cell: ({ row: { original: values } }) => {
-    return <CellText>{values.link}</CellText>
+    return <CellText>{values.sessionDetails.peerMeta.url}</CellText>
   },
   Header: () => (
     <CellHeaderText>

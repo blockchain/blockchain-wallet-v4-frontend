@@ -3,9 +3,18 @@ import { eventChannel } from 'redux-saga'
 import { call, cancel, cancelled, fork, put, select, take } from 'redux-saga/effects'
 
 import { coreSelectors } from 'blockchain-wallet-v4/src'
+import { actions } from 'data'
 import { RequestMethodType, WalletConnectStep } from 'data/components/walletConnect/types'
+import { ModalName } from 'data/modals/types'
 
 import { actions as A } from './slice'
+
+const CLIENT_META_DATA = {
+  description: 'Blockchain.com Wallet',
+  icons: [''], // TODO
+  name: 'Blockchain.com Wallet',
+  url: 'https://login.blockchain.com'
+}
 
 export default ({ coreSagas }) => {
   let rpc
@@ -59,7 +68,7 @@ export default ({ coreSagas }) => {
       // subscribe to session requests
       rpc.on('session_request', (error, data) => {
         // eslint-disable-next-line no-console
-        console.log('RPC: session_request]:', data, error)
+        console.log('[RPC: session_request]:', data, error)
         emit(A.handleSessionRequest({ data, error }))
       })
 
@@ -73,7 +82,8 @@ export default ({ coreSagas }) => {
       // subscribe to disconnects
       rpc.on('disconnect', (error, data) => {
         // eslint-disable-next-line no-console
-        console.log('RPC: disconnect]:', data, error)
+        console.log('[RPC: disconnect]:', data, error)
+        // TODO: remove from localStorage
         emit(A.handleSessionDisconnect({ data, error }))
       })
 
@@ -86,25 +96,22 @@ export default ({ coreSagas }) => {
   const startRpcConnection = function* ({ uri }: { uri: string }) {
     let channel
 
+    // eslint-disable-next-line no-console
+    console.log('[RPC URI]: ', uri)
+
     try {
       // init rpc
       rpc = new WalletConnect({
-        clientMeta: {
-          description: 'Blockchain.com Wallet',
-          icons: [''], // TODO
-          name: 'Blockchain.com Wallet',
-          url: 'https://login.blockchain.com'
-        },
+        clientMeta: CLIENT_META_DATA,
         uri
       })
       // eslint-disable-next-line no-console
       console.log('[RPC Initialized]: ', rpc)
 
+      yield put(A.setUri(uri))
+
       // start listeners for rpc messages
       channel = yield call(createRpcListenerChannels)
-
-      // TODO:WC: Move this somewhere
-      localStorage.setItem('walletConnectUri', uri)
 
       while (true) {
         // message from rpc, forward action
@@ -119,6 +126,30 @@ export default ({ coreSagas }) => {
         channel.close()
         rpc.killSession()
       }
+    }
+  }
+
+  const renewRpcConnection = function* ({ payload }: ReturnType<typeof A.renewRpcConnection>) {
+    // eslint-disable-next-line no-console
+    console.log('[Renew RPC Payload]: ', payload)
+    if (rpc) {
+      // eslint-disable-next-line no-console
+      console.log('[Existing RPC found]: ', rpc)
+      yield put(A.setUri(payload.uri))
+      yield put(A.setSessionDetails(payload.sessionDetails))
+      yield put(A.setStep({ name: WalletConnectStep.SESSION_DASHBOARD }))
+      yield put(
+        actions.modals.showModal(ModalName.WALLET_CONNECT_MODAL, { origin: 'WalletConnect' })
+      )
+    } else {
+      // eslint-disable-next-line no-console
+      console.log('[No RPC found]: ', rpc)
+      yield put(A.setSessionDetails(payload.sessionDetails))
+      yield put(A.setStep({ name: WalletConnectStep.SESSION_DASHBOARD }))
+      yield put(
+        actions.modals.showModal(ModalName.WALLET_CONNECT_MODAL, { origin: 'WalletConnect' })
+      )
+      yield put(A.initWalletConnect(payload.uri))
     }
   }
 
@@ -139,11 +170,9 @@ export default ({ coreSagas }) => {
       console.log('[Response to Session Request]: ', payload)
 
       if (payload.action === 'APPROVE') {
-        // TODO:WC: move this to better place
-        localStorage.setItem('walletConnectSession', JSON.stringify(payload.sessionDetails))
-
         // store dapp details on state
         yield put(A.setSessionDetails(payload.sessionDetails))
+        yield put(A.setLocalStorage(null))
 
         const ethAccount = (yield select(coreSelectors.kvStore.eth.getContext)).getOrFail(
           'Failed to extract ETH account.'
@@ -199,6 +228,7 @@ export default ({ coreSagas }) => {
     handleSessionDisconnect,
     handleSessionRequest,
     initWalletConnect,
+    renewRpcConnection,
     respondToSessionRequest,
     respondToTxSendRequest
   }

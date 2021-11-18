@@ -142,6 +142,7 @@ export type ModalOriginType =
   | 'TransactionList'
   | 'Unknown'
   | 'WalletBalanceDropdown'
+  | 'WalletConnect'
   | 'WelcomeModal'
   | 'WithdrawModal'
   | 'CurrencyList'
