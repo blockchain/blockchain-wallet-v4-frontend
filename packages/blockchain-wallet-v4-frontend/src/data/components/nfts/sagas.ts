@@ -1,10 +1,24 @@
-import { ethers } from 'ethers'
+import { ethers, Signer } from 'ethers'
 import { call, put, select } from 'redux-saga/effects'
 
+import { Remote } from '@core'
 import { APIType } from '@core/network/api'
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
-import { CollectionData } from '@core/network/api/nfts/types'
-import { cancelNftListing, fulfillNftOrder, fulfillNftSellOrder } from '@core/redux/payment/nfts'
+import {
+  CollectionData,
+  GasCalculationOperations,
+  GasDataI,
+  Order,
+  SellOrder
+} from '@core/network/api/nfts/types'
+import {
+  calculateGasFees,
+  cancelNftListing,
+  fulfillNftOrder,
+  getNftBuyOrders,
+  getNftSellOrder
+} from '@core/redux/payment/nfts'
+import { Await } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { getPrivateKey } from '@core/utils/eth'
 import { actions, selectors } from 'data'
@@ -42,6 +56,29 @@ export default ({ api }: { api: APIType }) => {
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchNftAssetsFailure(error))
+    }
+  }
+
+  const clearAndRefetchAssets = function* () {
+    yield put(A.resetNftAssets())
+    yield put(A.fetchNftAssets())
+  }
+
+  const clearAndRefetchOrders = function* () {
+    yield put(A.resetNftOrders())
+    yield put(A.fetchNftOrders())
+  }
+
+  const fetchNftCollections = function* () {
+    try {
+      const collections = S.getNftCollections(yield select())
+      if (Remote.Success.is(collections)) return
+      yield put(A.fetchNftCollectionsLoading())
+      const nfts: ReturnType<typeof api.getNftCollections> = yield call(api.getNftCollections)
+      yield put(A.fetchNftCollectionsSuccess(nfts))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchNftCollectionsFailure(error))
     }
   }
 
@@ -125,7 +162,7 @@ export default ({ api }: { api: APIType }) => {
     try {
       const signer = yield call(getEthSigner)
       yield put(A.cancelListingLoading())
-      yield call(cancelNftListing, action.payload.sell_order, signer)
+      yield call(cancelNftListing, action.payload.sell_order, signer, action.payload.gasData)
       yield put(A.cancelListingSuccess())
       yield put(actions.alerts.displaySuccess(`Successfully cancelled listing!`))
     } catch (e) {
@@ -135,23 +172,91 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const createBuyOrder = function* (action: ReturnType<typeof A.createBuyOrder>) {
+  const fetchFees = function* (action: ReturnType<typeof A.fetchFees>) {
     try {
-      const signer = yield call(getEthSigner)
-      yield call(fulfillNftOrder, action.payload.order, signer)
+      yield put(A.fetchFeesLoading())
+      const signer: Signer = yield call(getEthSigner)
+      let fees: GasDataI
+      if (action.payload.operation === GasCalculationOperations.Buy) {
+        const { buy, sell }: Await<ReturnType<typeof getNftBuyOrders>> = yield call(
+          getNftBuyOrders,
+          action.payload.order,
+          signer
+        )
+        fees = yield call(
+          calculateGasFees,
+          GasCalculationOperations.Buy,
+          signer,
+          undefined,
+          buy,
+          sell
+        )
+        yield put(A.fetchFeesSuccess(fees))
+      } else if (action.payload.operation === GasCalculationOperations.Cancel) {
+        fees = yield call(
+          calculateGasFees,
+          GasCalculationOperations.Cancel,
+          signer,
+          action.payload.order as SellOrder
+        )
+        yield put(A.fetchFeesSuccess(fees))
+      } else if (action.payload.operation === GasCalculationOperations.Sell) {
+        const order: Await<ReturnType<typeof getNftSellOrder>> = yield call(
+          getNftSellOrder,
+          action.payload.asset,
+          signer
+        )
+        fees = yield call(
+          calculateGasFees,
+          GasCalculationOperations.Sell,
+          signer,
+          undefined,
+          undefined,
+          order
+        )
+        yield put(A.fetchFeesSuccess(fees))
+      }
     } catch (e) {
+      const error = errorHandler(e)
       console.log(e)
+      yield put(A.fetchFeesFailure(error))
+    }
+  }
+
+  const createOrder = function* (action: ReturnType<typeof A.createOrder>) {
+    try {
+      yield put(A.createOrderLoading())
+      const signer = yield call(getEthSigner)
+      const { buy, sell }: Await<ReturnType<typeof getNftBuyOrders>> = yield call(
+        getNftBuyOrders,
+        action.payload.order,
+        signer
+      )
+      const order: Order = yield call(fulfillNftOrder, buy, sell, signer, action.payload.gasData)
+      yield put(actions.modals.closeAllModals())
+      yield put(A.createOrderSuccess(order))
+      yield put(A.resetNftOrders())
+      yield put(A.setMarketplaceData({ atBound: false, page: 1, token_ids_queried: [] }))
+      yield put(A.fetchNftOrders())
+      yield put(actions.alerts.displaySuccess(`Successfully created order!`))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.createOrderFailure(error))
+      yield put(actions.logs.logErrorMessage(error))
+      yield put(actions.alerts.displayError(error))
     }
   }
 
   const createSellOrder = function* (action: ReturnType<typeof A.createSellOrder>) {
     try {
       const signer = yield call(getEthSigner)
-      const order = yield call(fulfillNftSellOrder, action.payload.asset, signer, api.ethProvider)
-      const result = yield call(api.postNftOrder, order)
-      console.log(result)
+      // const order = yield call(fulfillNftSellOrder, action.payload.asset, signer)
+      // yield call(api.postNftOrder, order)
+      // yield put(actions.alerts.displaySuccess('Sell order created!'))
     } catch (e) {
-      console.log(e)
+      const error = errorHandler(e)
+      yield put(actions.logs.logErrorMessage(error))
+      yield put(actions.alerts.displayError(error))
     }
   }
 
@@ -167,7 +272,9 @@ export default ({ api }: { api: APIType }) => {
       )
       yield put(A.fetchNftOrders())
     } catch (e) {
-      console.log(e)
+      const error = errorHandler(e)
+      yield put(actions.logs.logErrorMessage(error))
+      yield put(actions.alerts.displayError(error))
     }
   }
 
@@ -187,7 +294,8 @@ export default ({ api }: { api: APIType }) => {
           )
           yield put(A.fetchNftOrders())
         } catch (e) {
-          console.log(e)
+          const error = errorHandler(e)
+          yield put(actions.logs.logErrorMessage(error))
         }
       }
     }
@@ -250,9 +358,13 @@ export default ({ api }: { api: APIType }) => {
 
   return {
     cancelListing,
-    createBuyOrder,
+    clearAndRefetchAssets,
+    clearAndRefetchOrders,
+    createOrder,
     createSellOrder,
+    fetchFees,
     fetchNftAssets,
+    fetchNftCollections,
     fetchNftOrders,
     formChanged,
     formInitialized,
