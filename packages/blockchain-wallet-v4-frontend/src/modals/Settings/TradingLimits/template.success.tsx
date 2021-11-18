@@ -1,6 +1,5 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { path } from 'ramda'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
@@ -21,6 +20,13 @@ import { ITEMS, TIER_TYPES, TIERS } from './model'
 const SILVER_LIMIT = '2000'
 const GOLD_LIMIT = '500000'
 
+const TextWrapper = styled(Text)`
+  a {
+    color: ${(props) => props.theme.blue600};
+    text-decoration: none;
+  }
+`
+
 const Wrapper = styled.div`
   width: 100%;
   height: 100%;
@@ -36,7 +42,7 @@ const Title = styled(Text)`
 const IconsContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: space-between;
   width: 100%;
 `
 const Item = styled.div<{ isClickable?: boolean }>`
@@ -184,41 +190,23 @@ const getTierStatus = (
 }
 
 const Template: React.FC<Props> = (props) => {
-  const { interestEDDStatus, sddEligible, userData, userTiers } = props
+  const { limitsAndDetails } = props
 
-  if (!Array.isArray(userTiers)) {
-    return null
-  }
-  const silverTier = userTiers.find((userTier) => userTier.index === TIER_TYPES.SILVER)
-  const goldTier = userTiers.find((userTier) => userTier.index === TIER_TYPES.GOLD)
+  const { approvedTierLimit: currentTier } = limitsAndDetails
 
-  const userCurrentTier = (path(['tiers', 'current'], userData) as number) ?? 0
-
-  const sddCheckTier =
-    sddEligible && sddEligible.tier === TIER_TYPES.SILVER_PLUS
-      ? TIER_TYPES.SILVER_PLUS
-      : userCurrentTier
-  const currentTier: number | undefined =
-    userCurrentTier === TIER_TYPES.NONE ? userCurrentTier : sddCheckTier
   const isUserGold = currentTier === TIER_TYPES.GOLD
   const isUserVerifiedSilver =
     currentTier === TIER_TYPES.SILVER || isUserGold || currentTier === TIER_TYPES.SILVER_PLUS
 
-  const swapProduct =
-    props.productsEligibility && props.productsEligibility.find((pE) => pE.product === 'SWAP')
-  const buySellProduct =
-    props.productsEligibility && props.productsEligibility.find((pE) => pE.product === 'SIMPLEBUY')
-  const brokerageProduct =
-    props.productsEligibility && props.productsEligibility.find((pE) => pE.product === 'BROKERAGE')
-  const savingsProduct =
-    props.productsEligibility && props.productsEligibility.find((pE) => pE.product === 'SAVINGS')
+  const isGoldInreview = false
 
-  const isGoldInreview = goldTier.state === 'under_review' || goldTier.state === 'pending'
+  console.log('limitsAndDetails', limitsAndDetails)
 
   return (
     <Wrapper>
       <HeaderWrapper>
         <IconsContainer>
+          <Image width='26px' name='bar-chart' />
           <Icon
             cursor
             data-e2e='tradingLimitsCloseButton'
@@ -229,17 +217,30 @@ const Template: React.FC<Props> = (props) => {
             onClick={props.handleClose}
           />
         </IconsContainer>
-        <Title color='grey800' size='24px' weight={600}>
+        <Title color='textBlack' size='24px' weight={600} style={{ marginTop: '18px' }}>
           <FormattedMessage
-            id='layouts.wallet.header.tradinglimits'
-            defaultMessage='Trading Limits'
+            id='modals.limits_and_features.title'
+            defaultMessage='Limits & Features'
           />
         </Title>
-        <Text color='grey600' size='16px' weight={500} style={{ marginTop: '8px' }}>
-          <FormattedMessage
-            id='modals.tradinglimits.description'
-            defaultMessage='Unlock features within your Blockchain.com Wallet. Some features may ask you to verify your identity.'
-          />
+        <Text
+          color='textBlack'
+          size='16px'
+          weight={500}
+          style={{ fontStyle: 'normal', marginTop: '8px' }}
+        >
+          {isUserVerifiedSilver && (
+            <FormattedMessage
+              id='modals.limits_and_features.subtitle.silver'
+              defaultMessage='Unlock new trading features in your Blockchain.com Wallet by verifying your ID and linked a bank or card.'
+            />
+          )}
+          {isUserGold && (
+            <FormattedMessage
+              id='modals.limits_and_features.subtitle.gold'
+              defaultMessage='You currently have the highest level of Account Limits and features available.'
+            />
+          )}
         </Text>
       </HeaderWrapper>
 
@@ -274,7 +275,7 @@ const Template: React.FC<Props> = (props) => {
                 values={{
                   amount: fiatToString({
                     digits: 0,
-                    unit: (silverTier.limits.currency || 'USD') as WalletFiatType,
+                    unit: 'USD' as WalletFiatType,
                     value: SILVER_LIMIT
                   })
                 }}
@@ -288,15 +289,17 @@ const Template: React.FC<Props> = (props) => {
               />
             </Text>
           </TierDescription>
-
-          {getTierStatus(currentTier, TIER_TYPES.SILVER, silverTier, false)}
         </Item>
 
         <Item
           onClick={() =>
             isUserGold || isGoldInreview
               ? null
-              : props.identityVerificationActions.verifyIdentity(TIER_TYPES.GOLD, false)
+              : props.identityVerificationActions.verifyIdentity({
+                  needMoreInfo: false,
+                  origin: 'Settings',
+                  tier: TIER_TYPES.GOLD
+                })
           }
           isClickable={!isUserGold}
           data-e2e={`continueKycTier${TIER_TYPES.GOLD}Btn`}
@@ -319,15 +322,14 @@ const Template: React.FC<Props> = (props) => {
                 values={{
                   amount: fiatToString({
                     digits: 0,
-                    unit: (goldTier.limits.currency || 'USD') as WalletFiatType,
+                    unit: 'USD' as WalletFiatType,
                     value: GOLD_LIMIT
                   })
                 }}
               />
             </ItemSubtitle>
 
-            {interestEDDStatus?.eddNeeded && !interestEDDStatus?.eddPassed ? (
-              <TextGroup inline>
+            {/* <TextGroup inline>
                 <Text color='grey600' size='12px' weight={500}>
                   <FormattedMessage
                     id='modals.tradinglimits.gold_desc_high_edd'
@@ -343,35 +345,26 @@ const Template: React.FC<Props> = (props) => {
                 >
                   <FormattedMessage id='buttons.learn_more' defaultMessage='Learn More' />
                 </Link>
-              </TextGroup>
-            ) : (
-              <TextGroup inline>
-                <Text color='grey600' size='12px' weight={500}>
-                  <FormattedMessage
-                    id='modals.tradinglimits.gold_desc1'
-                    defaultMessage='You’ll need to verify your identity by uploading an ID and a selfie.'
-                  />
-                </Text>
-                <Text color='grey600' italic size='12px' weight={500}>
-                  <FormattedMessage
-                    id='modals.tradinglimits.gold_desc2'
-                    defaultMessage='Requires Silver Tier approval.'
-                  />
-                </Text>
-              </TextGroup>
-            )}
-          </TierDescription>
+              </TextGroup> */}
 
-          {getTierStatus(
-            currentTier === TIER_TYPES.SILVER_PLUS ? TIER_TYPES.SILVER : currentTier,
-            TIER_TYPES.GOLD,
-            goldTier,
-            interestEDDStatus?.eddNeeded && !interestEDDStatus?.eddPassed
-          )}
+            <TextGroup inline>
+              <Text color='grey600' size='12px' weight={500}>
+                <FormattedMessage
+                  id='modals.tradinglimits.gold_desc1'
+                  defaultMessage='You’ll need to verify your identity by uploading an ID and a selfie.'
+                />
+              </Text>
+              <Text color='grey600' italic size='12px' weight={500}>
+                <FormattedMessage
+                  id='modals.tradinglimits.gold_desc2'
+                  defaultMessage='Requires Silver Tier approval.'
+                />
+              </Text>
+            </TextGroup>
+          </TierDescription>
         </Item>
 
-        {interestEDDStatus?.eddNeeded && !interestEDDStatus?.eddPassed && (
-          <LinkWrapper>
+        {/* <LinkWrapper>
             <Link
               onClick={() => {
                 props.interestUploadDocumentActions.showModal({
@@ -387,8 +380,7 @@ const Template: React.FC<Props> = (props) => {
                 />
               </Button>
             </Link>
-          </LinkWrapper>
-        )}
+          </LinkWrapper> */}
 
         <ContentItem>
           <IconWrapper>
@@ -418,7 +410,7 @@ const Template: React.FC<Props> = (props) => {
           <ItemTitle>
             <FormattedMessage id='modals.tradinglimits.swap_crypto' defaultMessage='Swap Crypto' />
           </ItemTitle>
-          {getItemBadgeStatus(currentTier, ITEMS.SWAP, swapProduct?.eligible)}
+          {getItemBadgeStatus(currentTier, ITEMS.SWAP, false)}
         </ContentItem>
 
         <ContentItem>
@@ -439,7 +431,7 @@ const Template: React.FC<Props> = (props) => {
               defaultMessage='Buy with a Card'
             />
           </ItemTitle>
-          {getItemBadgeStatus(currentTier, ITEMS.BUY_WITH_A_CARD, buySellProduct?.eligible)}
+          {getItemBadgeStatus(currentTier, ITEMS.BUY_WITH_A_CARD, false)}
         </ContentItem>
         <ContentItem>
           <Icon name='bank-filled' color='blue600' size='20px' />
@@ -449,11 +441,7 @@ const Template: React.FC<Props> = (props) => {
               defaultMessage='Deposits & Withdrawals'
             />
           </ItemTitle>
-          {getItemBadgeStatus(
-            currentTier,
-            ITEMS.DEPOSIT_AND_WITHDRAWAL,
-            brokerageProduct?.eligible
-          )}
+          {getItemBadgeStatus(currentTier, ITEMS.DEPOSIT_AND_WITHDRAWAL, false)}
         </ContentItem>
         <ContentItem>
           <Icon name='percentage' color='blue600' size='20px' />
@@ -463,7 +451,6 @@ const Template: React.FC<Props> = (props) => {
               defaultMessage='Earn Rewards'
             />
           </ItemTitle>
-          {getItemBadgeStatus(currentTier, ITEMS.EARN_INTEREST, savingsProduct?.eligible)}
         </ContentItem>
       </MainContent>
 
@@ -476,7 +463,13 @@ const Template: React.FC<Props> = (props) => {
             nature='primary'
             data-e2e='tradingLimitsUnlockAll'
             type='button'
-            onClick={() => props.identityVerificationActions.verifyIdentity(2, false)}
+            onClick={() =>
+              props.identityVerificationActions.verifyIdentity({
+                needMoreInfo: false,
+                origin: 'Settings',
+                tier: TIER_TYPES.GOLD
+              })
+            }
           >
             {isUserVerifiedSilver ? (
               <FormattedMessage
@@ -488,6 +481,53 @@ const Template: React.FC<Props> = (props) => {
             )}
           </Button>
         )}
+
+        <TextWrapper
+          size='12px'
+          weight={500}
+          color='gray600'
+          style={{
+            marginBottom: '12px',
+            marginTop: '12px'
+          }}
+        >
+          <FormattedMessage
+            id='modals.limits_and_features.footer.line1'
+            defaultMessage='Transaction limits may apply to certain banks and card issuers.'
+          />
+        </TextWrapper>
+
+        <TextWrapper
+          size='12px'
+          weight={500}
+          color='gray600'
+          style={{
+            marginBottom: '12px'
+          }}
+        >
+          <FormattedMessage
+            id='modals.limits_and_features.footer.line2'
+            defaultMessage='Purchase or deposit limits are determined by many factors, including verification completed on your account, your purchase history, your payment type, and more.'
+          />
+        </TextWrapper>
+
+        <TextWrapper size='12px' weight={500} color='gray600'>
+          <FormattedMessage
+            id='modals.limits_and_features.footer.line3'
+            defaultMessage='Learn more about Trading Accounts, Limits, and features by visiting our <a>Support Center</a>.'
+            values={{
+              a: (msg) => (
+                <a
+                  href='https://support.blockchain.com/hc/en-us/articles/4410561005844'
+                  target='_blank'
+                  rel='noopener noreferrrer noreferrer'
+                >
+                  {msg}
+                </a>
+              )
+            }}
+          />
+        </TextWrapper>
       </FooterWrapper>
     </Wrapper>
   )

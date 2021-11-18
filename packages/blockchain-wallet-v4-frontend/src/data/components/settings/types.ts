@@ -8,16 +8,32 @@ export enum NabuProducts {
   SWAP = 'SWAP'
 }
 
-export type ProductEligibility = {
-  eligible: boolean
-  ineligibilityReason: string | undefined
-  product: NabuProductType
-}
 export type ProductEligibilityResponse = {
   eligible: boolean
 }
 
+type SettingsItem = {
+  currency: string
+  enabled?: boolean
+  localisedMessage: string
+  period: string
+  value: string
+}
+
+export type LimitsAndDetails = {
+  approvedTierLimit: number
+  buyAndDepositWithBank: SettingsItem
+  buyAndSell: SettingsItem
+  buyWithCard: SettingsItem
+  currency: string
+  receiveCrypto: SettingsItem
+  savingsInterest: SettingsItem
+  sendCrypto: SettingsItem
+  swapCrypto: SettingsItem
+  withdrawalWithBank: SettingsItem
+}
+
 // State
 export type SettingsState = {
-  productsEligibility: RemoteDataType<string, Array<ProductEligibility>>
+  limitsAndDetails: RemoteDataType<string, LimitsAndDetails>
 }

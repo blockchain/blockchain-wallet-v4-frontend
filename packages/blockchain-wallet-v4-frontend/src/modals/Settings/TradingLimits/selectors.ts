@@ -1,43 +1,15 @@
-import { Remote } from '@core'
-import { InterestEDDStatus, SDDEligibleType } from '@core/types'
+import { lift } from 'ramda'
+
+import { ExtractSuccess } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { UserDataType, UserTierType } from 'data/types'
 
 const getData = (state: RootState) => {
-  const userData = selectors.modules.profile.getUserData(state).getOrElse({
-    address: undefined,
-    id: '',
-    kycState: 'NONE',
-    mobile: '',
-    mobileVerified: false,
-    state: 'NONE',
-    tiers: { current: 0 }
-  } as UserDataType)
-  // @ts-ignore
-  const userTiers = selectors.modules.profile.getTiers(state).getOrElse({} as UserTierType)
+  const limitsAndDetailsR = selectors.components.settings.getLimitsAndDetails(state)
 
-  const sddEligible = selectors.components.buySell.getSddEligible(state).getOrElse({
-    eligible: false,
-    ineligibilityReason: 'KYC_TIER',
-    tier: 0
-  } as SDDEligibleType)
-
-  const productsEligibility = selectors.components.settings
-    .getProductsEligibility(state)
-    .getOrElse([])
-
-  const interestEDDStatus = selectors.components.interest
-    .getInterestEDDStatus(state)
-    .getOrElse({} as InterestEDDStatus)
-
-  return Remote.Success({
-    interestEDDStatus,
-    productsEligibility,
-    sddEligible,
-    userData,
-    userTiers
-  })
+  return lift((limitsAndDetails: ExtractSuccess<typeof limitsAndDetailsR>) => ({
+    limitsAndDetails
+  }))(limitsAndDetailsR)
 }
 
 export default getData

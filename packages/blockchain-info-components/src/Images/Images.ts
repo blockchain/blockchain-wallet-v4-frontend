@@ -35,6 +35,7 @@ import bankLogoUsaa from './img/banks/bank-logo-usaa.svg'
 import bankLogoVenmo from './img/banks/bank-logo-venmo.svg'
 import bankLogoWellsFargo from './img/banks/bank-logo-wells-fargo.svg'
 import bankLogoDagSite from './img/banks/bank-logo-yodlee-test.svg'
+import barChart from './img/bar-chart.svg'
 import blockchainIcon from './img/bc-icon.svg'
 import blockchainLogo from './img/bc-logo.svg'
 import blockchainLogoCircle from './img/bc-logo-circle.svg'
@@ -198,6 +199,7 @@ const Images = {
   'bank-logo-wells-fargo': bankLogoWellsFargo,
   'bank-rejected': bankRejected,
   'bank-success': bankSuccess,
+  'bar-chart': barChart,
   'bg-banner-pattern': bgBannerPattern,
   'bg-banner-pattern-lg': bgBannerPatternLg,
   'bg-pattern': bgPattern,
