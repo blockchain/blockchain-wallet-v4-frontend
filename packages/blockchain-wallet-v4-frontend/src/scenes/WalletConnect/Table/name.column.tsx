@@ -21,20 +21,17 @@ const Logo = styled.img`
   margin-right: 16px;
 `
 
-// values.sessionDetails.peerMeta.icons[0]
-// values.sessionDetails.peerMeta.name
-
 export const getNameColumn = () => ({
   Cell: ({ row: { original: values } }) => {
     return (
       <CellWrapper>
         <Logo
-          src={`${values.sessionDetails.peerMeta.icons[0]}`}
-          alt={`${values.sessionDetails.peerMeta.name}`}
+          src={values.sessionDetails.peerMeta.icons[0]}
+          alt={values.sessionDetails.peerMeta.name}
           width='32'
           height='32'
         />
-        <CellText>{`${values.sessionDetails.peerMeta.name}`}</CellText>
+        <CellText size='16px'>{values.sessionDetails.peerMeta.name}</CellText>
       </CellWrapper>
     )
   },

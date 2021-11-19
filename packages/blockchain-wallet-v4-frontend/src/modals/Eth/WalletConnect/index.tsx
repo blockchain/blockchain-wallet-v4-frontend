@@ -24,11 +24,13 @@ class WalletConnectContainer extends PureComponent<Props, State> {
   }
 
   componentDidMount() {
-    /* eslint-disable */
+    const { uri, walletConnectActions } = this.props
+    // eslint-disable-next-line
     this.setState({ show: true })
-    /* eslint-enable */
-    if (this.props.uri) {
-      this.props.walletConnectActions.initWalletConnect(this.props.uri)
+
+    // only init new wc session if we detect a new uri from goal
+    if (uri) {
+      walletConnectActions.initWalletConnect(uri)
     }
   }
 
@@ -40,8 +42,6 @@ class WalletConnectContainer extends PureComponent<Props, State> {
   }
 
   render() {
-    const { stepR } = this.props
-
     return (
       <Flyout
         {...this.props}
@@ -51,7 +51,7 @@ class WalletConnectContainer extends PureComponent<Props, State> {
       >
         <FlyoutChild>
           <FlyoutWrapper>
-            {stepR.cata({
+            {this.props.stepR.cata({
               Failure: (err) => <Failure {...err} handleClose={this.handleClose} />,
               Loading: () => <Loading />,
               NotAsked: () => <Loading />,
@@ -63,6 +63,7 @@ class WalletConnectContainer extends PureComponent<Props, State> {
                     return <ApproveTransactionStep {...successProps} />
 
                   case val.name === WalletConnectStep.AUTHORIZE_CONNECTION:
+                    // @ts-ignore
                     return <AuthorizeConnectionStep {...successProps} />
 
                   case val.name === WalletConnectStep.DISCONNECTION_NOTICE:

@@ -3,8 +3,6 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
-import { WalletConnectStep } from 'data/components/walletConnect/types'
-import { ModalName } from 'data/modals/types'
 
 import { CellHeaderText } from '.'
 
@@ -15,7 +13,7 @@ const CellWrapper = styled.div`
   padding-right: 8px;
 `
 
-export const getManageColumn = (modalActions, walletConnectActions) => ({
+export const getActionsColumn = (modalActions, walletConnectActions) => ({
   Cell: ({ row: { original: values } }) => (
     <CellWrapper>
       <Button
@@ -23,28 +21,26 @@ export const getManageColumn = (modalActions, walletConnectActions) => ({
         height='32px'
         nature='primary'
         onClick={() => {
-          walletConnectActions.renewRpcConnection(values)
+          walletConnectActions.launchDappConnection(values)
         }}
         width='68px'
+        style={{ marginRight: '8px' }}
       >
         <Text size='14px' color='white' weight={600}>
           <FormattedMessage id='buttons.launch' defaultMessage='Launch' />
         </Text>
       </Button>
       <Button
-        data-e2e={`${values.sessionDetails.peerMeta.name}DisconnectBtn`}
+        data-e2e={`${values.sessionDetails.peerMeta.name}RemoveBtn`}
         height='32px'
-        nature='warning'
+        nature='empty-red'
         onClick={() => {
-          modalActions.showModal(ModalName.WALLET_CONNECT_MODAL, {
-            origin: 'WalletConnect',
-            uri: '' // TODO
-          })
+          walletConnectActions.removeDappConnection(values)
         }}
         width='68px'
       >
-        <Text size='14px' color='white' weight={600}>
-          <FormattedMessage id='buttons.disconnect' defaultMessage='Disconnect' />
+        <Text size='14px' color='red600' weight={600}>
+          <FormattedMessage id='buttons.remove' defaultMessage='Remove' />
         </Text>
       </Button>
     </CellWrapper>
@@ -54,6 +50,6 @@ export const getManageColumn = (modalActions, walletConnectActions) => ({
       <FormattedMessage id='copy.actions' defaultMessage='Actions' />
     </CellHeaderText>
   ),
-  accessor: 'manage',
+  accessor: 'actions',
   disableSortBy: true
 })

@@ -14,13 +14,12 @@ const Wrapper = styled.div`
   flex-direction: column;
 `
 
-const AuthorizeConnectionStep = (props) => {
-  const sessionDetails = props.data
+const AuthorizeConnectionStep = ({ data: sessionDetails, uri, walletConnectActions }) => {
   const approveRequest = () => {
-    props.walletConnectActions.respondToSessionRequest({ action: 'APPROVE', sessionDetails })
+    walletConnectActions.respondToSessionRequest({ action: 'APPROVE', sessionDetails, uri })
   }
   const rejectRequest = () => {
-    props.walletConnectActions.respondToSessionRequest({ action: 'REJECT', sessionDetails })
+    walletConnectActions.respondToSessionRequest({ action: 'REJECT', sessionDetails, uri })
   }
 
   return (

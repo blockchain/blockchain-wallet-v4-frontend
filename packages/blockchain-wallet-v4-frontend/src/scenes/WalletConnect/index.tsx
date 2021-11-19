@@ -1,15 +1,13 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import { useSortBy, useTable } from 'react-table'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
-import { Image, Text } from 'blockchain-info-components'
+import { Button, Image, Text } from 'blockchain-info-components'
 import { Header, PageTitle, SceneWrapper, SubTitle, Title } from 'components/Layout'
-import { actions } from 'data'
-import { WalletConnectStep } from 'data/components/walletConnect/types'
-import { ModalName } from 'data/modals/types'
+import { actions, selectors } from 'data'
 
 import { CellText, getTableColumns, HeaderText, TableWrapper } from './Table'
 
@@ -23,57 +21,14 @@ const NoResultsWrapper = styled.div`
   margin-top: 120px;
 `
 
-// useEffect(() => {
-//   const walletConnectSession = localStorage.getItem('walletConnectSession')
-//   const uri = localStorage.getItem('walletConnectUri')
-//
-//   if (walletConnectSession && uri) {
-//     // props.walletConnectActions.initWalletConnect(uri)
-//     modalActions.showModal(ModalName.WALLET_CONNECT_MODAL, {
-//       origin: 'WalletConnectSessions',
-//       uri
-//     })
-//     walletConnectActions.setSessionDetails(JSON.parse(walletConnectSession))
-//     walletConnectActions.setStep({ name: WalletConnectStep.SESSION_DASHBOARD })
-//   }
-// }, [])
-
-// props.walletConnectActions.initWalletConnect(this.props.uri)
-// props.walletConnectActions.setSessionDetails
-// props.walletConnectActions.setStep({ name: WalletConnectStep.SESSION_DASHBOARD })
-// actions.modals.showModal(ModalName.WALLET_CONNECT_MODAL, walletConnect.data)
-
-const WalletConnect = ({ data, modalActions, walletConnectActions }) => {
-  const [walletConnectData, changeWalletConnectData] = useState([])
-
-  useEffect(() => {
-    const walletConnectString = localStorage.getItem('WalletConnect')
-    if (walletConnectString) {
-      const walletConnectObj = JSON.parse(walletConnectString)
-
-      // console.log(
-      //   'walletConnectStuff',
-      //   walletConnectObj,
-      //   walletConnectObj[0].uri,
-      //   walletConnectObj[0].sessionDetails
-      // )
-
-      // modalActions.showModal(ModalName.WALLET_CONNECT_MODAL, {
-      //   origin: 'WalletConnectSessions',
-      //   uri: walletConnectObj[0].uri
-      // })
-      // walletConnectActions.setSessionDetails(walletConnectObj[0].sessionDetails)
-      // walletConnectActions.setStep({ name: WalletConnectStep.SESSION_DASHBOARD })
-      changeWalletConnectData(walletConnectObj)
-    }
-  }, [])
-
-  const columns = useMemo(getTableColumns({ modalActions, walletConnectActions }), [])
-
+const WalletConnect = ({ dappList, modalActions, walletConnectActions }) => {
   const { getTableBodyProps, getTableProps, headerGroups, prepareRow, rows } = useTable(
     {
-      columns,
-      data: walletConnectData,
+      columns: useMemo(
+        () => getTableColumns({ modalActions, walletConnectActions }),
+        [modalActions, walletConnectActions]
+      ),
+      data: useMemo(() => dappList, [dappList]),
       disableMultiSort: true,
       disableSortRemove: true,
       initialState: {
@@ -103,6 +58,11 @@ const WalletConnect = ({ data, modalActions, walletConnectActions }) => {
               </Text>
             </SubTitle>
           </div>
+          <Button data-e2e='addNewConnectionBtn' nature='primary' onClick={() => {}}>
+            <Text size='14px' color='white' weight={600}>
+              <FormattedMessage id='buttons.connect-dapp' defaultMessage='Connect Dapp' />
+            </Text>
+          </Button>
         </PageTitle>
       </Header>
       <TableWrapper>
@@ -172,9 +132,13 @@ const WalletConnect = ({ data, modalActions, walletConnectActions }) => {
   )
 }
 
+const mapStateToProps = () => ({
+  dappList: selectors.components.walletConnect.getAuthorizedDappsList()
+})
+
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
   walletConnectActions: bindActionCreators(actions.components.walletConnect, dispatch)
 })
 
-export default connect(null, mapDispatchToProps)(WalletConnect)
+export default connect(mapStateToProps, mapDispatchToProps)(WalletConnect)

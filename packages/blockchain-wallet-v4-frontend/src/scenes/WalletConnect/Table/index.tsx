@@ -2,17 +2,15 @@ import styled from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
 
+import { getActionsColumn } from './actions.column'
 import { getLinkColumn } from './link.column'
-import { getManageColumn } from './manage.column'
 import { getNameColumn } from './name.column'
 import { getWalletColumn } from './wallet.column'
 
 export const TableWrapper = styled.div`
-  /* make table full page width */
   display: block;
   max-width: 100%;
 
-  /* make the table scrollable when it gets too small */
   .tableWrap {
     display: block;
     max-width: 100%;
@@ -21,9 +19,8 @@ export const TableWrapper = styled.div`
   }
 
   .table {
-    /* make sure the inner table is always as wide as needed */
     display: block;
-    width: 99%;
+    width: calc(100% - 1px);
     border-spacing: 0;
     border: 1px solid ${(props) => props.theme.grey100};
     border-radius: 8px;
@@ -57,15 +54,15 @@ export const TableWrapper = styled.div`
 
 export const CellHeaderText = styled(Text)`
   font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 20px;
-  color: ${(props) => props.theme.grey400};
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  color: ${(props) => props.theme.black};
 `
 export const CellText = styled(Text)`
   font-style: normal;
-  font-weight: 500;
-  font-size: ${(props) => (props.size ? props.size : '16px')};
+  font-weight: 600;
+  font-size: ${(props) => (props.size ? props.size : '14px')};
   line-height: 24px;
   color: ${(props) => (props.color ? props.color : props.theme.grey900)};
 `
@@ -80,12 +77,9 @@ export const HeaderText = styled.div`
   }
 `
 
-export const getTableColumns =
-  ({ modalActions, walletConnectActions }) =>
-  () =>
-    [
-      getNameColumn(),
-      getLinkColumn(),
-      getWalletColumn(),
-      getManageColumn(modalActions, walletConnectActions)
-    ]
+export const getTableColumns = ({ modalActions, walletConnectActions }) => [
+  getNameColumn(),
+  getLinkColumn(),
+  getWalletColumn(),
+  getActionsColumn(modalActions, walletConnectActions)
+]

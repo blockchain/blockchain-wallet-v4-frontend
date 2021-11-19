@@ -238,7 +238,7 @@ const buildDevServerConfig = (
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Content-Security-Policy': [
-        `img-src 'self' *.blockchain.com *.googleusercontent.com *.zendesk.com *.yapily.com *.walletconnect.org https://raw.githubusercontent.com data: blob:`,
+        `img-src 'self' data: blob: https:`,
         allowUnsafeScripts
           ? `script-src 'nonce-${CSP_NONCE}' 'self' 'unsafe-eval'`
           : `script-src 'nonce-${CSP_NONCE}' 'self'`,

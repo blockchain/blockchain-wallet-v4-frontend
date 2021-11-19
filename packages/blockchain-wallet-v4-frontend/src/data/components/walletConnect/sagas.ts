@@ -7,17 +7,46 @@ import { actions } from 'data'
 import { RequestMethodType, WalletConnectStep } from 'data/components/walletConnect/types'
 import { ModalName } from 'data/modals/types'
 
+import { BC_CLIENT_METADATA, WC_STORAGE_KEY } from './model'
+import * as S from './selectors'
 import { actions as A } from './slice'
-
-const CLIENT_META_DATA = {
-  description: 'Blockchain.com Wallet',
-  icons: [''], // TODO
-  name: 'Blockchain.com Wallet',
-  url: 'https://login.blockchain.com'
-}
 
 export default ({ coreSagas }) => {
   let rpc
+
+  // adds a new dapp connection to local storage
+  const addDappToLocalStorage = function* ({ sessionDetails, uri }) {
+    // get existing dapp connections
+    const dappList = yield select(S.getAuthorizedDappsList)
+    // check if dapp was already stored
+    const matchIndex = dappList.findIndex(
+      (dapp) => dapp.sessionDetails.peerId === sessionDetails.peerId
+    )
+
+    if (matchIndex !== -1) {
+      // update exist dapp if match found
+      dappList[matchIndex] = { sessionDetails, uri }
+    } else {
+      // push new dapp to list
+      dappList.push({ sessionDetails, uri })
+    }
+
+    // write list back to local storage
+    localStorage.setItem(WC_STORAGE_KEY, JSON.stringify(dappList))
+  }
+
+  // removes a previously stored dapp from local storage
+  const removeDappFromLocalStorage = function* ({ sessionDetails }) {
+    // get existing dapp connections
+    const dappList = yield select(S.getAuthorizedDappsList)
+    // remove desired dapp and restore
+    localStorage.setItem(
+      WC_STORAGE_KEY,
+      JSON.stringify(
+        dappList.filter((dapp) => dapp.sessionDetails.peerId !== sessionDetails.peerId)
+      )
+    )
+  }
 
   // session call request from dapp
   const handleSessionCallRequest = function* ({
@@ -41,7 +70,6 @@ export default ({ coreSagas }) => {
   const handleSessionDisconnect = function* ({
     payload
   }: ReturnType<typeof A.handleSessionDisconnect>) {
-    // connection has ended
     yield put(
       A.setStep({
         data: payload.data,
@@ -67,23 +95,17 @@ export default ({ coreSagas }) => {
     return eventChannel((emit) => {
       // subscribe to session requests
       rpc.on('session_request', (error, data) => {
-        // eslint-disable-next-line no-console
-        console.log('[RPC: session_request]:', data, error)
         emit(A.handleSessionRequest({ data, error }))
       })
 
       // subscribe to call requests
       rpc.on('call_request', (error, data) => {
-        // eslint-disable-next-line no-console
-        console.log('[RPC: call_request]: ', data, error)
         emit(A.handleSessionCallRequest({ data, error }))
       })
 
       // subscribe to disconnects
       rpc.on('disconnect', (error, data) => {
-        // eslint-disable-next-line no-console
-        console.log('[RPC: disconnect]:', data, error)
-        // TODO: remove from localStorage
+        // TODO: remove from localStorage?
         emit(A.handleSessionDisconnect({ data, error }))
       })
 
@@ -96,19 +118,12 @@ export default ({ coreSagas }) => {
   const startRpcConnection = function* ({ uri }: { uri: string }) {
     let channel
 
-    // eslint-disable-next-line no-console
-    console.log('[RPC URI]: ', uri)
-
     try {
       // init rpc
       rpc = new WalletConnect({
-        clientMeta: CLIENT_META_DATA,
+        clientMeta: BC_CLIENT_METADATA,
         uri
       })
-      // eslint-disable-next-line no-console
-      console.log('[RPC Initialized]: ', rpc)
-
-      yield put(A.setUri(uri))
 
       // start listeners for rpc messages
       channel = yield call(createRpcListenerChannels)
@@ -129,21 +144,14 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const renewRpcConnection = function* ({ payload }: ReturnType<typeof A.renewRpcConnection>) {
-    // eslint-disable-next-line no-console
-    console.log('[Renew RPC Payload]: ', payload)
+  const launchDappConnection = function* ({ payload }: ReturnType<typeof A.launchDappConnection>) {
     if (rpc) {
-      // eslint-disable-next-line no-console
-      console.log('[Existing RPC found]: ', rpc)
-      yield put(A.setUri(payload.uri))
       yield put(A.setSessionDetails(payload.sessionDetails))
       yield put(A.setStep({ name: WalletConnectStep.SESSION_DASHBOARD }))
       yield put(
         actions.modals.showModal(ModalName.WALLET_CONNECT_MODAL, { origin: 'WalletConnect' })
       )
     } else {
-      // eslint-disable-next-line no-console
-      console.log('[No RPC found]: ', rpc)
       yield put(A.setSessionDetails(payload.sessionDetails))
       yield put(A.setStep({ name: WalletConnectStep.SESSION_DASHBOARD }))
       yield put(
@@ -153,26 +161,41 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const initWalletConnect = function* ({ payload }: ReturnType<typeof A.initWalletConnect>) {
-    const rpcTask = yield fork(startRpcConnection, { uri: payload })
+  const removeDappConnection = function* ({ payload }: ReturnType<typeof A.removeDappConnection>) {
+    const { sessionDetails } = payload
+    // if rpc connection exists and it matches the dapp to be removed
+    if (rpc && sessionDetails.peerId === rpc.peerId) {
+      // kill session and notify dapp of disconnect
+      rpc.killSession()
+      // reset internal rpc to null
+      rpc = null
+    }
+    // remove from local storage
+    yield call(removeDappFromLocalStorage, { sessionDetails })
+  }
 
-    // listen for user requested disconnect
+  const initWalletConnect = function* ({ payload: uri }: ReturnType<typeof A.initWalletConnect>) {
+    // start rpc connection and listeners
+    const rpcTask = yield fork(startRpcConnection, { uri })
+    // wait for a disconnect event
     yield take(A.handleSessionDisconnect.type)
+    // disconnect received, kill rpc
     yield cancel(rpcTask)
   }
 
   const respondToSessionRequest = function* ({
     payload
   }: ReturnType<typeof A.respondToSessionRequest>) {
+    const { action, sessionDetails, uri } = payload
+
     try {
       yield put(A.setStep({ name: WalletConnectStep.LOADING }))
-      // eslint-disable-next-line no-console
-      console.log('[Response to Session Request]: ', payload)
 
-      if (payload.action === 'APPROVE') {
+      if (action === 'APPROVE') {
         // store dapp details on state
-        yield put(A.setSessionDetails(payload.sessionDetails))
-        yield put(A.setLocalStorage(null))
+        yield put(A.setSessionDetails(sessionDetails))
+        // store dapp connection in local storage
+        yield call(addDappToLocalStorage, { sessionDetails, uri })
 
         const ethAccount = (yield select(coreSelectors.kvStore.eth.getContext)).getOrFail(
           'Failed to extract ETH account.'
@@ -228,7 +251,8 @@ export default ({ coreSagas }) => {
     handleSessionDisconnect,
     handleSessionRequest,
     initWalletConnect,
-    renewRpcConnection,
+    launchDappConnection,
+    removeDappConnection,
     respondToSessionRequest,
     respondToTxSendRequest
   }
