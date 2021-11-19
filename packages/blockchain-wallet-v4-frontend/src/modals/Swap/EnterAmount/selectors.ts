@@ -1,11 +1,11 @@
 import { lift } from 'ramda'
 
-import { ExtractSuccess, FiatType } from '@core/types'
+import { CrossBorderLimits, ExtractSuccess, FiatType } from '@core/types'
 import { selectors } from 'data'
 import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
 import { getCoinAccounts } from 'data/coins/selectors'
 import { RootState } from 'data/rootReducer'
-import { InitSwapFormValuesType, SeamlessLimits, SwapAmountFormValues } from 'data/types'
+import { InitSwapFormValuesType, SwapAmountFormValues } from 'data/types'
 
 const getData = (state: RootState) => {
   const formErrors = selectors.form.getFormSyncErrors('swapAmount')(state)
@@ -26,7 +26,7 @@ const getData = (state: RootState) => {
   const accounts = getCoinAccounts(state, { coins, ...SWAP_ACCOUNTS_SELECTOR })
   const crossBorderLimits = selectors.components.swap
     .getCrossBorderLimits(state)
-    .getOrElse({} as SeamlessLimits)
+    .getOrElse({} as CrossBorderLimits)
   return lift(
     (
       incomingAmount: ExtractSuccess<typeof incomingAmountR>,

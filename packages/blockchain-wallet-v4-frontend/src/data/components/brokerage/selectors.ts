@@ -28,6 +28,9 @@ export const getFiatCurrency = (state: RootState) => state.components.brokerage.
 
 export const getIsFlow = (state: RootState) => state.components.brokerage.isFlow
 
+export const getCrossBorderLimits = (state: RootState) =>
+  state.components.brokerage.crossBorderLimits
+
 export const getWithdrawableBalance = createSelector(
   (state: RootState) => selectors.components.simpleBuy.getSBBalances(state),
   (state: RootState) => selectors.modules.profile.getUserCurrencies(state),

@@ -15,6 +15,7 @@ const Wrapper = styled.div`
   align-items: flex-start;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
     Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  margin-top: ${(props) => (props.showError ? '20px' : '0')};
 `
 const FiatConverterInput = styled.div`
   display: flex;
@@ -75,7 +76,7 @@ const Converter = (props) => {
   const errorState = getErrorState(meta)
 
   return (
-    <Wrapper className={className}>
+    <Wrapper className={className} showError={!!(meta.touched && meta.error)}>
       <FiatConverterInput marginTop={marginTop}>
         <Container>
           <TextInput
@@ -130,8 +131,7 @@ Converter.propTypes = {
   handleBlur: PropTypes.func.isRequired,
   handleCoinChange: PropTypes.func.isRequired,
   handleFiatChange: PropTypes.func.isRequired,
-  handleFocus: PropTypes.func.isRequired,
-  unit: PropTypes.string.isRequired
+  handleFocus: PropTypes.func.isRequired
 }
 
 export default Converter

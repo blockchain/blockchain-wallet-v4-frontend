@@ -4,7 +4,7 @@ import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { convertCoinToCoin } from '@core/exchange'
-import { Text } from 'blockchain-info-components'
+import { Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import { Form } from 'components/Form'
 import { media } from 'services/styles'
@@ -111,35 +111,44 @@ const MarketForm: React.FC<Props> = (props: Props) => {
           </CoinDisplay>
         </InfoStatsWrapper>
         <FormWrapper>
-          {props.collections.map((collection) => (
-            <CollectionField
-              key={collection.opensea_slug}
-              // @ts-ignore
-              className={props.formValues?.collection === collection.opensea_slug ? 'active' : ''}
-            >
-              <Field
-                component='input'
-                type='radio'
-                id={collection.opensea_slug}
-                name='collection'
-                value={collection.opensea_slug}
-                onChange={() =>
-                  props.formActions.change('nftMarketplace', 'collection', collection.opensea_slug)
-                }
-              />
-              <CollectionLabel htmlFor={collection.opensea_slug}>
-                <img src={collection.image_url} alt={collection.display_name} />
-                <Text
-                  cursor='pointer'
-                  style={{ marginLeft: '4px;', marginTop: '2px' }}
-                  color='black'
-                  weight={600}
+          {props.collections.cata({
+            Failure: () => null,
+            Loading: () => <SpinningLoader width='14px' height='14px' borderWidth='3px' />,
+            NotAsked: () => null,
+            Success: (collections) => {
+              return collections.map((collection) => (
+                <CollectionField
+                  key={collection.slug}
+                  className={
+                    // @ts-ignore
+                    props.formValues?.collection === collection.slug ? 'active' : ''
+                  }
                 >
-                  {collection.display_name}
-                </Text>
-              </CollectionLabel>
-            </CollectionField>
-          ))}
+                  <Field
+                    component='input'
+                    type='radio'
+                    id={collection.slug}
+                    name='collection'
+                    value={collection.slug}
+                    onChange={() =>
+                      props.formActions.change('nftMarketplace', 'collection', collection.slug)
+                    }
+                  />
+                  <CollectionLabel htmlFor={collection.slug}>
+                    <img src={collection.image_url} alt={collection.name} />
+                    <Text
+                      cursor='pointer'
+                      style={{ marginLeft: '4px;', marginTop: '2px' }}
+                      color='black'
+                      weight={600}
+                    >
+                      {collection.name}
+                    </Text>
+                  </CollectionLabel>
+                </CollectionField>
+              ))
+            }
+          })}
         </FormWrapper>
       </Form>
     </LeftColWrapper>
