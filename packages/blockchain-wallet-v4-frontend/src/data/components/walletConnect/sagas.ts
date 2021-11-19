@@ -119,6 +119,9 @@ export default ({ coreSagas }) => {
     let channel
 
     try {
+      // TODO: evaluate the need for this HACK!?
+      localStorage.setItem('walletconnect', '')
+
       // init rpc
       rpc = new WalletConnect({
         clientMeta: BC_CLIENT_METADATA,
