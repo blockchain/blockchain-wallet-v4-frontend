@@ -248,7 +248,7 @@ export const encodeReplacementPattern = (
     const cValue =
       value !== undefined ? value : generateDefaultValue(ethABI_local.elementaryName(type))
     return ethABI_local.isDynamic(type)
-      ? Buffer.alloc(32)
+      ? Buffer.alloc(64)
       : Buffer.from(ethers.utils.defaultAbiCoder.encode([type], [cValue]).substring(2), 'hex').fill(
           bitmask
         )
@@ -282,14 +282,27 @@ export const encodeSell = (schema, asset, address) => {
     Quantity: new BigNumber(1).toString()
   })
   const transfer = schema.functions.transfer(wyvAsset)
-  const tokenInterface = new ethers.utils.Interface(ERC1155_ABI)
-  const calldata = tokenInterface.encodeFunctionData('safeTransferFrom', [
-    address.toLowerCase(),
-    NULL_ADDRESS,
-    asset.token_id,
-    wyvAsset.quantity,
-    []
-  ])
+  let calldata
+  if (schema.name === 'ERC1155') {
+    const tokenInterface = new ethers.utils.Interface(ERC1155_ABI)
+    calldata = tokenInterface.encodeFunctionData('safeTransferFrom', [
+      address.toLowerCase(),
+      NULL_ADDRESS,
+      asset.token_id,
+      wyvAsset.quantity,
+      []
+    ])
+  } else if (schema.name === 'ERC721') {
+    const tokenInterface = new ethers.utils.Interface(ERC721_ABI)
+    calldata = tokenInterface.encodeFunctionData('safeTransferFrom', [
+      address.toLowerCase(),
+      NULL_ADDRESS,
+      asset.token_id,
+      []
+    ])
+  } else {
+    throw new Error(`Unsupported Asset Standard: ${schema.name}`);
+  }
   return {
     calldata,
     replacementPattern: encodeReplacementPattern(transfer),
@@ -2300,13 +2313,14 @@ export async function transferAsset(
 ) {
   const accountAddress = await signer.getAddress()
   let tokenContract
-  const args = [accountAddress, recipient, asset.token_id]
+  const args: Array<any> = [accountAddress, recipient, asset.token_id]
   if (asset.asset_contract.schema_name === WyvernSchemaName.ERC721) {
     tokenContract = new ethers.Contract(asset.asset_contract.address, ERC721_ABI, signer)
   } else {
     tokenContract = new ethers.Contract(asset.asset_contract.address, ERC1155_ABI, signer)
     args.push('1')
   }
+  args.push([])
   const gasPrice = await getFairGasPrice(signer, txnData.gasPrice)
   const txHash = await tokenContract.safeTransferFrom(...args, {
     gasLimit: txnData.gasLimit,
