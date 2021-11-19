@@ -2,7 +2,7 @@ import React from 'react'
 import { IntlProvider } from 'react-intl'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 
-import { OrderType, SBPaymentTypes } from '@core/types'
+import { OrderType, BSPaymentTypes } from '@core/types'
 
 import OrderSummary from './OrderSummary'
 
@@ -36,7 +36,7 @@ Default.args = {
   orderType: OrderType.BUY,
   outputCurrency: 'BTC',
   paymentState: null,
-  paymentType: SBPaymentTypes.PAYMENT_CARD
+  paymentType: BSPaymentTypes.PAYMENT_CARD
 }
 
 export const FundsSuccess = Template.bind({})
@@ -53,7 +53,7 @@ FundsSuccess.args = {
   orderType: OrderType.BUY,
   outputCurrency: 'BTC',
   paymentState: null,
-  paymentType: SBPaymentTypes.FUNDS
+  paymentType: BSPaymentTypes.FUNDS
 }
 
 export const BankSuccess = Template.bind({})
@@ -70,7 +70,7 @@ BankSuccess.args = {
   orderType: OrderType.BUY,
   outputCurrency: 'ETH',
   paymentState: null,
-  paymentType: SBPaymentTypes.BANK_TRANSFER
+  paymentType: BSPaymentTypes.BANK_TRANSFER
 }
 
 export const CardPending = Template.bind({})
@@ -87,7 +87,7 @@ CardPending.args = {
   orderType: OrderType.BUY,
   outputCurrency: 'BTC',
   paymentState: null,
-  paymentType: SBPaymentTypes.PAYMENT_CARD
+  paymentType: BSPaymentTypes.PAYMENT_CARD
 }
 
 export const WithPromo = Template.bind({})
@@ -110,5 +110,5 @@ WithPromo.args = {
   orderType: OrderType.BUY,
   outputCurrency: 'BTC',
   paymentState: null,
-  paymentType: SBPaymentTypes.PAYMENT_CARD
+  paymentType: BSPaymentTypes.PAYMENT_CARD
 }

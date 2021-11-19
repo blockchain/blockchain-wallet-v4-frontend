@@ -1,4 +1,4 @@
-import { SBPaymentTypes } from '@core/types'
+import { BSPaymentTypes } from '@core/types'
 import { RecurringBuyOrigins, RecurringBuyPeriods, SetPeriodPayload } from 'data/types'
 
 enum AnalyticsKey {
@@ -452,7 +452,7 @@ export type RecurringBuyCancelPayload = BasePayload & {
   input_currency: string
   origin: keyof typeof RecurringBuyOrigins
   output_currency: string
-  payment_method: SBPaymentTypes
+  payment_method: BSPaymentTypes
 }
 
 export type RecurringBuyClickedPayload = BasePayload & {

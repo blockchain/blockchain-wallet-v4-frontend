@@ -2,43 +2,43 @@ import {
   CoinType,
   FiatType,
   ProcessedSwapOrderType,
-  SBOrderType,
-  SBTransactionStateType,
-  SBTransactionType,
+  BSOrderType,
+  BSTransactionStateType,
+  BSTransactionType,
   WalletCurrencyType
 } from '@core/types'
 
 import * as AT from './actionTypes'
 
 export type FetchCustodialOrdersAndTransactionsReturnType = {
-  orders: Array<SBOrderType | SBTransactionType | ProcessedSwapOrderType>
+  orders: Array<BSOrderType | BSTransactionType | ProcessedSwapOrderType>
 }
 
 // state
-export type SBCoreStateType = {
+export type BSCoreStateType = {
   coins: {
     [key in string]: {
-      nextSBTransactionsURL: string | null
+      nextBSTransactionsURL: string | null
       pendingTxsN: number
     }
   }
 }
 
 // actions
-interface SetNextSBTransactionsURL {
+interface SetNextBSTransactionsURL {
   payload: {
     coin: WalletCurrencyType
     next: string | null
     pendingTxsN: number
   }
-  type: typeof AT.SET_SB_CORE_COIN_DATA
+  type: typeof AT.SET_BS_CORE_COIN_DATA
 }
 
-export type SBCoreActionTypes = SetNextSBTransactionsURL
+export type BSCoreActionTypes = SetNextBSTransactionsURL
 
 // 🚨 TEMP HACK 🚨
 // TODO: remove once we have unified custodial transaction endpoints
-export type FiatSBAndSwapTransactionType = {
+export type FiatBSAndSwapTransactionType = {
   amount: {
     fiatSymbol?: FiatType
     inputMoney?: string
@@ -62,6 +62,6 @@ export type FiatSBAndSwapTransactionType = {
   }
   id: string
   insertedAt: string
-  state: SBTransactionStateType | 'FINISHED'
+  state: BSTransactionStateType | 'FINISHED'
   type: 'DEPOSIT' | 'WITHDRAWAL' | 'REFUNDED' | 'SELL' | 'CHARGE'
 }

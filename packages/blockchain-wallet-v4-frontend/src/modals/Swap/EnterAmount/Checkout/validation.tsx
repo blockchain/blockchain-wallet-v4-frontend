@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import { Exchange } from '@core'
 import { PaymentValue, RatesType, SwapQuoteType, SwapUserLimitsType } from '@core/types'
 import { convertBaseToStandard, convertStandardToBase } from 'data/components/exchange/services'
-import { SBCheckoutFormValuesType, SwapAccountType, SwapAmountFormValues } from 'data/types'
+import { BSCheckoutFormValuesType, SwapAccountType, SwapAmountFormValues } from 'data/types'
 import { CRYPTO_DECIMALS } from 'services/forms'
 
 import { Props } from '.'
@@ -121,7 +121,7 @@ export const incomingAmountNonZero = (value, allValues, restProps: Props) => {
 
 export const checkCrossBorderLimit = (
   value: string,
-  allValues: SBCheckoutFormValuesType,
+  allValues: BSCheckoutFormValuesType,
   props: Props
 ): boolean | string => {
   const { crossBorderLimits } = props

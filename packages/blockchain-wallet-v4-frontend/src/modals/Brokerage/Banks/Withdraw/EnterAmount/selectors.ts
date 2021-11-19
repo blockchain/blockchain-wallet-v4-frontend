@@ -29,7 +29,7 @@ const getData = (state: RootState, ownProps: OwnProps) => {
     defaultMethodR = undefined
     bankTransferAccountsR = Remote.Success([])
   }
-  const paymentMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(state)
+  const paymentMethodsR = selectors.components.buySell.getBSPaymentMethods(state)
 
   const userDataR = selectors.modules.profile.getUserData(state)
   const minAmountR = selectors.components.withdraw.getMinAmountForCurrency(

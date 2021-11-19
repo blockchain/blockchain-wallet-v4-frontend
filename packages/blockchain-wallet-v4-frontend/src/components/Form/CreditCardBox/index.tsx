@@ -3,10 +3,10 @@ import { FormattedMessage } from 'react-intl'
 import { CommonFieldProps, WrappedFieldMetaProps } from 'redux-form'
 import styled from 'styled-components'
 
-import { SBPaymentTypes } from '@core/types'
+import { BSPaymentTypes } from '@core/types'
 import { TextBox } from 'components/Form'
 
-import { Props as AddCardProps } from '../../../modals/SimpleBuy/AddCard/template.success'
+import { Props as AddCardProps } from '../../../modals/BuySell/AddCard/template.success'
 import { DEFAULT_CARD_FORMAT, DEFAULT_CARD_SVG_LOGO, getCardTypeByValue } from './model'
 
 const duration = 250
@@ -41,7 +41,7 @@ export const normalizeCreditCard = (value, previousValue) => {
 export const validateCreditCard = (value, allValues, props: AddCardProps) => {
   const cardType = getCardTypeByValue(value)
   const cardMethod = props.paymentMethods.methods.find(
-    (method) => method.type === SBPaymentTypes.PAYMENT_CARD
+    (method) => method.type === BSPaymentTypes.PAYMENT_CARD
   )
 
   if (!cardType) {

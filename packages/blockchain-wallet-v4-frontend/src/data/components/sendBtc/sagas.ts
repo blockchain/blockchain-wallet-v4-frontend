@@ -453,7 +453,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         if (!value.selection) return
 
         yield call(
-          api.withdrawSBFunds,
+          api.withdrawBSFunds,
           value.to[0].address,
           coin,
           new BigNumber(value.amount[0]).toString(),

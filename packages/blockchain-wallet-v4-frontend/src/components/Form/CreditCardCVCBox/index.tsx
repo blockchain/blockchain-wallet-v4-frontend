@@ -3,14 +3,14 @@ import { FormattedMessage } from 'react-intl'
 import { CommonFieldProps, Normalizer, Validator, WrappedFieldMetaProps } from 'redux-form'
 
 import { TextBox } from 'components/Form'
-import { SBAddCardFormValuesType } from 'data/types'
+import { BSAddCardFormValuesType } from 'data/types'
 
 import { DEFAULT_CVC_LENGTH, getCardTypeByValue } from '../CreditCardBox/model'
 
 export const normalizeCreditCardCVC: Normalizer = (
   value,
   previousValue,
-  allValues: SBAddCardFormValuesType
+  allValues: BSAddCardFormValuesType
 ) => {
   if (!value) return value
 
@@ -24,7 +24,7 @@ export const normalizeCreditCardCVC: Normalizer = (
   return onlyNums
 }
 
-export const validateCreditCardCVC: Validator = (value, allValues: SBAddCardFormValuesType) => {
+export const validateCreditCardCVC: Validator = (value, allValues: BSAddCardFormValuesType) => {
   const { cvcLength } = getCardTypeByValue(allValues['card-number']) || {
     cvcLength: DEFAULT_CVC_LENGTH
   }

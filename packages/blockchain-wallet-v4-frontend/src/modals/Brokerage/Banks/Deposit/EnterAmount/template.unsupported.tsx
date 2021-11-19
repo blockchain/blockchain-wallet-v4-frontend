@@ -99,7 +99,7 @@ export const Unsupported = ({
         />
       </Subcontent>
       <Button
-        data-e2e='submitSBAmount'
+        data-e2e='submitBSAmount'
         height='48px'
         size='16px'
         nature='primary'

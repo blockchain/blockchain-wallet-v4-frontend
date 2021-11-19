@@ -8,7 +8,7 @@ import { BankTransferAccountType } from 'data/types'
 import { OwnProps } from '.'
 
 export const getData = (state: RootState, ownProps: OwnProps) => {
-  const balancesR = selectors.components.simpleBuy.getSBBalances(state)
+  const balancesR = selectors.components.buySell.getBSBalances(state)
   const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(state)
   const account = selectors.components.brokerage.getAccount(state) as BankTransferAccountType
   const beneficiariesR = selectors.custodial.getBeneficiaries(state)

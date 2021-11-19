@@ -14,7 +14,7 @@ export type VerifyIdentityOriginType =
   | 'Resubmission'
   | 'Onboarding'
   | 'Settings'
-  | 'SimpleBuy'
+  | 'BuySell'
   | 'Interest'
 
 export type StepsType = 'personal' | 'moreInfo' | 'mobile' | 'verify' | 'submitted'

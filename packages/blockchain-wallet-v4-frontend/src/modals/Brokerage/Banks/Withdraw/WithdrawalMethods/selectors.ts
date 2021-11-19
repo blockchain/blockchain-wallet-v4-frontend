@@ -1,12 +1,12 @@
 import { lift } from 'ramda'
 
-import { ExtractSuccess, FiatType, InvitationsType, SBPaymentTypes } from '@core/types'
+import { ExtractSuccess, FiatType, InvitationsType, BSPaymentTypes } from '@core/types'
 import { selectors } from 'data'
 
 const getData = (state) => {
-  const balancesR = selectors.components.simpleBuy.getSBBalances(state)
+  const balancesR = selectors.components.buySell.getBSBalances(state)
   const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(state)
-  const paymentMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(state)
+  const paymentMethodsR = selectors.components.buySell.getBSPaymentMethods(state)
   // TODO: Remove this when Open Banking gets rolled out 100%
   const invitations: InvitationsType = selectors.core.settings.getInvitations(state).getOrElse({
     openBanking: false
@@ -29,7 +29,7 @@ const getData = (state) => {
         (!invitations.openBanking && {
           ...paymentMethods,
           methods: paymentMethods.methods.filter((m) => {
-            return m.type === SBPaymentTypes.BANK_ACCOUNT || m.currency === 'USD'
+            return m.type === BSPaymentTypes.BANK_ACCOUNT || m.currency === 'USD'
           })
         }) ||
         paymentMethods,

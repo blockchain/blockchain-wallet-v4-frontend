@@ -891,7 +891,7 @@ export const countries: Country[] = [
   {
     emoji: '🇸�',
     text: 'Solomon Islands',
-    value: 'SB'
+    value: 'BS'
   },
   {
     emoji: '🇸�',

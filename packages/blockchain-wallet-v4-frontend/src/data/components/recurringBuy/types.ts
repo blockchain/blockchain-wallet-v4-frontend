@@ -1,4 +1,4 @@
-import type { FiatType, RemoteDataType, SBPaymentTypes, WalletCurrencyType } from '@core/types'
+import type { FiatType, RemoteDataType, BSPaymentTypes, WalletCurrencyType } from '@core/types'
 import type { ModalOriginType, RecurringBuyOrigins } from 'data/modals/types'
 
 export enum ActionEnum {
@@ -46,7 +46,7 @@ export type RecurringBuyRegisteredList = {
   inputValue: string
   insertedAt: string
   nextPayment: string
-  paymentMethod: SBPaymentTypes
+  paymentMethod: BSPaymentTypes
   paymentMethodId: string | null
   period: RecurringBuyPeriods
   state: RecurringBuyItemState
@@ -55,7 +55,7 @@ export type RecurringBuyRegisteredList = {
 }
 
 export type RecurringBuyNextPayment = {
-  eligibleMethods: SBPaymentTypes[]
+  eligibleMethods: BSPaymentTypes[]
   nextPayment: string
   period: RecurringBuyPeriods
 }

@@ -206,7 +206,7 @@ const Template: React.FC<Props> = (props) => {
 
   const swapProduct =
     props.productsEligibility && props.productsEligibility.find((pE) => pE.product === 'SWAP')
-  const simpleBuyProduct =
+  const buySellProduct =
     props.productsEligibility && props.productsEligibility.find((pE) => pE.product === 'SIMPLEBUY')
   const brokerageProduct =
     props.productsEligibility && props.productsEligibility.find((pE) => pE.product === 'BROKERAGE')
@@ -439,7 +439,7 @@ const Template: React.FC<Props> = (props) => {
               defaultMessage='Buy with a Card'
             />
           </ItemTitle>
-          {getItemBadgeStatus(currentTier, ITEMS.BUY_WITH_A_CARD, simpleBuyProduct?.eligible)}
+          {getItemBadgeStatus(currentTier, ITEMS.BUY_WITH_A_CARD, buySellProduct?.eligible)}
         </ContentItem>
         <ContentItem>
           <Icon name='bank-filled' color='blue600' size='20px' />

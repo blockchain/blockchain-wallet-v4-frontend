@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { FiatType, SBPaymentTypes } from '@core/types'
+import { FiatType, BSPaymentTypes } from '@core/types'
 import { Box, Button, Text } from 'blockchain-info-components'
 import { CARD_TYPES, DEFAULT_CARD_SVG_LOGO } from 'components/Form/CreditCardBox/model'
 import { SettingComponent, SettingContainer, SettingSummary } from 'components/Setting'
@@ -41,7 +41,7 @@ const Success: React.FC<
   InjectedFormProps<{}, Props & { fiatCurrency?: FiatType }> & Props & { fiatCurrency?: FiatType }
 > = (props) => {
   const ccPaymentMethod = props.paymentMethods.methods.find(
-    (m) => m.type === SBPaymentTypes.PAYMENT_CARD
+    (m) => m.type === BSPaymentTypes.PAYMENT_CARD
   )
   const activeCards = props.cards.filter((card) => card.state === 'ACTIVE')
 

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { FiatType, RemoteDataType, SBCardType, SBPaymentMethodsType } from '@core/types'
+import { FiatType, RemoteDataType, BSCardType, BSPaymentMethodsType } from '@core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -49,8 +49,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type SuccessStateType = {
-  cards: Array<SBCardType>
-  paymentMethods: SBPaymentMethodsType
+  cards: Array<BSCardType>
+  paymentMethods: BSPaymentMethodsType
 }
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>
