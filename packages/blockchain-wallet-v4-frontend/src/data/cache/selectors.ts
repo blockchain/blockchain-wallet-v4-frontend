@@ -17,7 +17,8 @@ export const getPhonePubkey = (state): string | undefined =>
   path(['cache', 'channelPhonePubkey'], state)
 export const getHasCloudBackup = (state): boolean | undefined =>
   path(['cache', 'hasCloudBackup'], state)
-export const getLastLogout = (state): boolean | undefined => path(['cache', 'lastLogout'], state)
+export const getLastLogoutTimestamp = (state): boolean | undefined =>
+  path(['cache', 'lastLogoutTimestamp'], state)
 
 export const getChannelPrivKeyForQrData = (state) => {
   const channelPrivKey = getChannelPrivKey(state)

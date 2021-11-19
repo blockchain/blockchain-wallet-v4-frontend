@@ -571,15 +571,9 @@ export default ({ api, coreSagas, networks }) => {
       if ((storedGuid || lastGuid) && !loginLinkParameter) {
         // logic to be compatible with lastGuid in cache make sure that email matches
         // guid being used for login eventually can deprecate after some time
-        if (lastGuid) {
-          yield put(actions.form.change('login', 'guid', lastGuid))
-          yield put(actions.form.change('login', 'email', email))
-        } else {
-          yield put(actions.form.change('login', 'guid', storedGuid))
-          yield put(actions.form.change('login', 'email', email))
-        }
+        yield put(actions.form.change('login', 'guid', lastGuid || storedGuid))
+        yield put(actions.form.change('login', 'email', email))
         yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
-
         // if url is just /login, take them to enter guid or email
       } else if (!loginLinkParameter) {
         yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))

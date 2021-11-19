@@ -67,7 +67,7 @@ export default ({ api, socket }) => {
     // Also, if we already know a phone, let's ping it to give us it's secrets
     const phonePubkey = yield select(selectors.cache.getPhonePubkey)
     const guid = yield select(selectors.cache.getLastGuid)
-    const lastLogoutTime = yield select(selectors.cache.getLastLogout)
+    const lastLogoutTime = yield select(selectors.cache.getLastLogoutTimestamp)
 
     // only ping phone if last logout time is more than 5 minutes
     // prevents pinging phone again right when user logs out
