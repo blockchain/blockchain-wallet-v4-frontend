@@ -80,7 +80,8 @@ class NftOrder extends PureComponent<Props, State> {
 
 const mapStateToProps = (state) => ({
   cancelListing: selectors.components.nfts.getCancelListing(state),
-  orderFlow: selectors.components.nfts.getOrderFlow(state)
+  orderFlow: selectors.components.nfts.getOrderFlow(state),
+  sellOrder: selectors.components.nfts.getSellOrder(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

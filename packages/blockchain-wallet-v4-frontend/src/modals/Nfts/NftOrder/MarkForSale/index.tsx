@@ -6,6 +6,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import { Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
+import { GasCalculationOperations } from '@core/network/api/nfts/types'
 import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { ErrorCartridge } from 'components/Cartridge'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -25,7 +26,7 @@ const MarkForSale: React.FC<Props> = (props) => {
 
   const disabled =
     formValues['sale-type'] === 'fixed-price'
-      ? !formValues.amount || !Remote.Success.is(props.orderFlow.fees)
+      ? !formValues.amount || Remote.Loading.is(props.sellOrder)
       : true
 
   return (
@@ -97,7 +98,17 @@ const MarkForSale: React.FC<Props> = (props) => {
                       </b>
                     </Title>
                     <Value>
-                      <Field name='amount' component={NumberBox} />
+                      <Field
+                        name='amount'
+                        component={NumberBox}
+                        onChange={(e) =>
+                          nftActions.fetchFees({
+                            asset: val,
+                            operation: GasCalculationOperations.Sell,
+                            startPrice: e.target.value
+                          })
+                        }
+                      />
                     </Value>
                     <Value>
                       <FiatDisplay size='12px' weight={600} coin={coin}>
@@ -141,26 +152,47 @@ const MarkForSale: React.FC<Props> = (props) => {
             </Form>
             <StickyCTA>
               <SellFees {...props} asset={val} />
-              <Button
-                jumbo
-                nature='primary'
-                fullwidth
-                data-e2e='sellNft'
-                disabled={disabled}
-                onClick={() => nftActions.createSellOrder({ asset: val })}
-              >
-                {formValues.amount ? (
-                  <FormattedMessage
-                    id='copy.mark_for_sale'
-                    defaultMessage='Mark for Sale for {val}'
-                    values={{
-                      val: `${formValues.amount} ${coin}`
-                    }}
-                  />
-                ) : (
-                  <FormattedMessage id='copy.mark_for_sale' defaultMessage='Mark for Sale' />
-                )}
-              </Button>
+              {props.orderFlow.fees.cata({
+                Failure: (e) => (
+                  <Button jumbo nature='sent' fullwidth data-e2e='sellNft' disabled>
+                    <FormattedMessage id='copy.mark_for_sale' defaultMessage='Mark for Sale' />
+                  </Button>
+                ),
+                Loading: () => (
+                  <Button jumbo nature='primary' fullwidth data-e2e='sellNft' disabled>
+                    <FormattedMessage id='copy.mark_for_sale' defaultMessage='Mark for Sale' />
+                  </Button>
+                ),
+                NotAsked: () => null,
+                Success: (fees) => (
+                  <Button
+                    jumbo
+                    nature='primary'
+                    fullwidth
+                    data-e2e='sellNft'
+                    disabled={disabled}
+                    onClick={() =>
+                      nftActions.createSellOrder({
+                        asset: val,
+                        gasData: fees,
+                        startPrice: Number(formValues.amount)
+                      })
+                    }
+                  >
+                    {formValues.amount ? (
+                      <FormattedMessage
+                        id='copy.mark_for_sale'
+                        defaultMessage='Mark for Sale for {val}'
+                        values={{
+                          val: `${formValues.amount} ${coin}`
+                        }}
+                      />
+                    ) : (
+                      <FormattedMessage id='copy.mark_for_sale' defaultMessage='Mark for Sale' />
+                    )}
+                  </Button>
+                )
+              })}
             </StickyCTA>
           </>
         )

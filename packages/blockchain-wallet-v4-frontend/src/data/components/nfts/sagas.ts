@@ -16,6 +16,7 @@ import {
   calculateGasFees,
   cancelNftListing,
   fulfillNftOrder,
+  fulfillNftSellOrder,
   getNftBuyOrders,
   getNftSellOrder
 } from '@core/redux/payment/nfts'
@@ -209,7 +210,8 @@ export default ({ api }: { api: APIType }) => {
         const order: Await<ReturnType<typeof getNftSellOrder>> = yield call(
           getNftSellOrder,
           action.payload.asset,
-          signer
+          signer,
+          action.payload.startPrice
         )
         fees = yield call(
           calculateGasFees,
@@ -222,7 +224,6 @@ export default ({ api }: { api: APIType }) => {
         yield put(A.fetchFeesSuccess(fees))
       }
     } catch (e) {
-      console.log(e)
       const error = errorHandler(e)
       yield put(A.fetchFeesFailure(error))
     }
@@ -254,12 +255,23 @@ export default ({ api }: { api: APIType }) => {
 
   const createSellOrder = function* (action: ReturnType<typeof A.createSellOrder>) {
     try {
+      yield put(A.createSellOrderLoading())
       const signer = yield call(getEthSigner)
-      // const order = yield call(fulfillNftSellOrder, action.payload.asset, signer)
-      // yield call(api.postNftOrder, order)
-      // yield put(actions.alerts.displaySuccess('Sell order created!'))
+      const signedOrder: Await<ReturnType<typeof getNftSellOrder>> = yield call(
+        getNftSellOrder,
+        action.payload.asset,
+        signer,
+        action.payload.startPrice
+      )
+      const order = yield call(fulfillNftSellOrder, signedOrder, signer, action.payload.gasData)
+      yield call(api.postNftOrder, order)
+      yield put(A.clearAndRefetchAssets())
+      yield put(actions.modals.closeAllModals())
+      yield put(actions.alerts.displaySuccess('Sell order created!'))
+      yield put(A.createSellOrderSuccess(order))
     } catch (e) {
       const error = errorHandler(e)
+      yield put(A.createSellOrderFailure(error))
       yield put(actions.logs.logErrorMessage(error))
       yield put(actions.alerts.displayError(error))
     }
