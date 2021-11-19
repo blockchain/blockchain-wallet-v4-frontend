@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { CoinType } from '@core/types'
 import { Icon, Text } from 'blockchain-info-components'
 import { CustomCartridge } from 'components/Cartridge'
-import { FlyoutWrapper } from 'components/Flyout'
 import { Form } from 'components/Form'
 
 export const FORM_NAME = 'interestDepositForm'
@@ -22,19 +21,10 @@ export const CustomForm = styled(Form)`
   display: flex;
   flex-direction: column;
 `
-export const Top = styled(FlyoutWrapper)`
-  padding-bottom: 0;
-`
 export const TopText = styled(Text)`
   display: flex;
   width: 100%;
   align-items: center;
-`
-export const Bottom = styled(FlyoutWrapper)`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  height: 100%;
 `
 export const CustomFormLabel = styled.div`
   margin: 24px 0 10px 0;

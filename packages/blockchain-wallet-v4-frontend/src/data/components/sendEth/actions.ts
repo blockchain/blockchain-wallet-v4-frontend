@@ -1,5 +1,4 @@
-import { CoinType, WalletAcountType, WalletFiatType } from '@core/types'
-import { SeamlessLimits } from 'data/types'
+import { CoinType, CrossBorderLimits, WalletAcountType, WalletFiatType } from '@core/types'
 
 import * as AT from './actionTypes'
 
@@ -92,7 +91,7 @@ export const sendEthFetchLimitsFailure = (error: string) => ({
 export const sendEthFetchLimitsLoading = () => ({
   type: AT.SEND_ETH_FETCH_LIMITS_LOADING
 })
-export const sendEthFetchLimitsSuccess = (limitsResponse: SeamlessLimits) => ({
+export const sendEthFetchLimitsSuccess = (limitsResponse: CrossBorderLimits) => ({
   payload: limitsResponse,
   type: AT.SEND_ETH_FETCH_LIMITS_SUCCESS
 })

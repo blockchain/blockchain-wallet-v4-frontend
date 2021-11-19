@@ -1,7 +1,7 @@
 import { lift } from 'ramda'
 
 import { Remote } from '@core'
-import { ExtractSuccess, InvitationsType } from '@core/types'
+import { CrossBorderLimits, ExtractSuccess, InvitationsType } from '@core/types'
 import { getFiatBalance, getWithdrawableFiatBalance } from 'components/Balances/selectors'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -31,7 +31,6 @@ const getData = (state: RootState, ownProps: OwnProps) => {
   }
   const paymentMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(state)
 
-  const formErrors = selectors.form.getFormSyncErrors('custodyWithdrawForm')(state)
   const userDataR = selectors.modules.profile.getUserData(state)
   const minAmountR = selectors.components.withdraw.getMinAmountForCurrency(
     state,
@@ -40,6 +39,10 @@ const getData = (state: RootState, ownProps: OwnProps) => {
 
   const feesR = selectors.components.withdraw.getFeeForCurrency(state, ownProps.fiatCurrency)
   const withdrawalLocksR = selectors.components.withdraw.getWithdrawalLocks(state)
+  const crossBorderLimits = selectors.components.withdraw
+    .getCrossBorderLimits(state)
+    .getOrElse({} as CrossBorderLimits)
+  const formErrors = selectors.form.getFormAsyncErrors('brokerageTx')(state)
 
   return lift(
     (
@@ -55,6 +58,7 @@ const getData = (state: RootState, ownProps: OwnProps) => {
     ) => ({
       availableBalance,
       bankTransferAccounts,
+      crossBorderLimits,
       defaultBeneficiary,
       defaultMethod: defaultMethodR,
       fees,

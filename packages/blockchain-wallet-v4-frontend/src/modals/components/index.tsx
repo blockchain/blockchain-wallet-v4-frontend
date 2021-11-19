@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
+import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Interest/DepositForm/model'
 import styled, { css } from 'styled-components'
 
 import { Button, Icon, Image, SpinningLoader, Text } from 'blockchain-info-components'
-import { FlyoutWrapper } from 'components/Flyout'
 import { OBInstitution } from 'data/types'
 
-const BankWrapper = styled(FlyoutWrapper)`
+const BankWrapper = styled.div`
   padding: 37px 0 34px;
   height: 100%;
   width: 100%;
@@ -418,13 +418,15 @@ const TopText = styled(Text)<{
   margin-bottom: ${(props) => (props.marginBottom ? '16px' : '0px')};
 `
 
-const OverYourLimitMessage = ({ amount, currency }) => (
+const OverYourLimitMessage = ({ amount, currency, limit, period }) => (
   <FormattedMessage
-    id='modals.send.over_your_limit'
-    defaultMessage='Over your limit! Send up to {currency}{amount}.'
+    id='modals.send.over_your_limit_and_period'
+    defaultMessage='Over your limit! Send up to {currency}{amount}. Now, your limit is {currency}{limit} a {period}.'
     values={{
       amount,
-      currency
+      currency,
+      limit,
+      period
     }}
   />
 )
@@ -451,7 +453,46 @@ const OverLimitButton = ({ coin }) => (
   </StyledOvalButton>
 )
 
+const AlertButton = ({ children }) => (
+  <StyledOvalButton
+    data-e2e='overLimitButton'
+    height='48px'
+    size='16px'
+    nature='dark-grey'
+    fullwidth
+  >
+    <Image width='16px' height='16px' name='alert-orange' />
+    <Text weight={600} size='16px' style={{ marginLeft: '2px' }} color='white'>
+      {children}
+    </Text>
+  </StyledOvalButton>
+)
+
+const MaxButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 32px;
+  margin-top: 70px;
+  width: 100%;
+`
+
+const MaxButton = ({ onClick, type }) => (
+  <MaxButtonWrapper>
+    <GreyBlueCartridge role='button' data-e2e={`${type}MaxButton`} onClick={onClick}>
+      <FormattedMessage
+        id='modals.simplebuy.checkout.maxbuysell'
+        defaultMessage='{orderType} Max'
+        values={{
+          orderType: type
+        }}
+      />
+    </GreyBlueCartridge>
+  </MaxButtonWrapper>
+)
+
 export {
+  AlertButton,
   BankSearchIcon,
   BankSearchInput,
   BankSearchWrapper,
@@ -464,6 +505,7 @@ export {
   LinkViaDesktop,
   Loading,
   LoadingUpdating,
+  MaxButton,
   ModalNavWithBackArrow,
   ModalNavWithCloseIcon,
   NavText,

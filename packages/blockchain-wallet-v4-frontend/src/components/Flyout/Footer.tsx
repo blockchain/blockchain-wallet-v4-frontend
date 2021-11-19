@@ -5,6 +5,7 @@ const Footer = styled.div`
   width: 100%;
   box-sizing: border-box;
   padding: 40px;
+  height: 50%;
 
   @media (max-width: 767px) {
     padding: 20px;

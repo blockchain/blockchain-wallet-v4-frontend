@@ -1,5 +1,6 @@
 import {
   BeneficiaryType,
+  CrossBorderLimits,
   FiatType,
   RemoteDataType,
   WalletFiatType,
@@ -58,6 +59,7 @@ export type WithdrawStepActionsPayload =
 export type WithdrawState = {
   amount?: string
   beneficiary?: BeneficiaryType
+  crossBorderLimits: RemoteDataType<string, CrossBorderLimits>
   feesAndMinAmount: RemoteDataType<string, WithdrawalMinsAndFeesResponse>
   fiatCurrency: WalletFiatType
   step: WithdrawStepEnum
@@ -102,6 +104,20 @@ interface FetchWithdrawalLockSuccess {
   type: typeof AT.FETCH_WITHDRAWAL_LOCK_SUCCESS
 }
 
+interface FetchCrossBorderLimitFailure {
+  payload: {
+    error: string
+  }
+  type: typeof AT.FETCH_WITHDRAWAL_CROSSBORDER_LIMITS_FAILURE
+}
+interface FetchCrossBorderLimitLoading {
+  type: typeof AT.FETCH_WITHDRAWAL_CROSSBORDER_LIMITS_LOADING
+}
+interface FetchCrossBorderLimitSuccess {
+  payload: CrossBorderLimits
+  type: typeof AT.FETCH_WITHDRAWAL_CROSSBORDER_LIMITS_SUCCESS
+}
+
 export type WithdrawActionTypes =
   | SetStepAction
   | FetchWithdrawalFeesFailure
@@ -110,6 +126,9 @@ export type WithdrawActionTypes =
   | FetchWithdrawalLockFailure
   | FetchWithdrawalLockLoading
   | FetchWithdrawalLockSuccess
+  | FetchCrossBorderLimitFailure
+  | FetchCrossBorderLimitLoading
+  | FetchCrossBorderLimitSuccess
 
 type LimitItem = {
   available: string
@@ -140,44 +159,4 @@ export type WithdrawLimitsResponse = {
     }
   }
   userId: string
-}
-
-type SeamlessLimitItem = {
-  currency: FiatType
-  value: string
-}
-
-export type LimitWithEffective = {
-  effective: boolean
-  limit: SeamlessLimitItem
-}
-
-export type SeamlessLimits = {
-  currency: FiatType
-  current: {
-    available: SeamlessLimitItem
-    daily?: LimitWithEffective
-    monthly?: LimitWithEffective
-    yearly?: LimitWithEffective
-  }
-  suggestedUpgrade: {
-    available: SeamlessLimitItem
-    daily?: {
-      available: SeamlessLimitItem
-      limit: SeamlessLimitItem
-      used: SeamlessLimitItem
-    }
-    monthly?: {
-      available: SeamlessLimitItem
-      limit: SeamlessLimitItem
-      used: SeamlessLimitItem
-    }
-    requiredTier: number
-    requirements: string[]
-    yearly?: {
-      available: SeamlessLimitItem
-      limit: SeamlessLimitItem
-      used: SeamlessLimitItem
-    }
-  }
 }
