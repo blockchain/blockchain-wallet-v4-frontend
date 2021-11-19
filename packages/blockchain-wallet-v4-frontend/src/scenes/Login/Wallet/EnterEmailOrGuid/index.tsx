@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { HeartbeatLoader, Image, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
+import { HeartbeatLoader, Image, Text } from 'blockchain-info-components'
 import { FormGroup, FormItem, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { ProductAuthOptions } from 'data/types'

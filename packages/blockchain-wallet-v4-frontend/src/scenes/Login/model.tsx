@@ -32,7 +32,7 @@ export const ProductTab = styled.div<{ backgroundColor?: string }>`
   align-items: center;
   padding: 16px 0;
   cursor: pointer;
-  border-radius: 8px 0;
+  border-radius: 8px 8px 0 0;
   background-color: ${(props) =>
     props.backgroundColor ? props.theme[props.backgroundColor] : 'none'};
 `
@@ -89,7 +89,17 @@ export const RectangleBackground = styled.div`
 `
 const TopRow = styled.div`
   display: flex;
+  justify-content: space-between;
   margin-bottom: 24px;
+  align-items: center;
+`
+const BackArrow = styled.div`
+  display: flex;
+  align-items: center;
+`
+const EmailAndGuid = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `
 export const HelpRow = styled.div`
   display: flex;
@@ -124,51 +134,47 @@ export const BackArrowFormHeader = (props: {
   hideBackArrow?: boolean
   hideGuid?: boolean
 }) => {
+  const guid = props.formValues?.guid
+  const firstPartGuid = guid && guid.slice(0, 4)
+  const lastPartGuid = guid && guid.slice(-4)
   return (
     <>
       <TopRow>
-        {!props.hideBackArrow && (
-          <Icon
-            cursor
-            data-e2e='signupBack'
-            name='arrow-left'
-            size='24px'
-            color='grey400'
-            style={{ marginRight: '8px' }}
-            role='button'
-            onClick={() => props.handleBackArrowClick()}
-          />
-        )}
-        <Column>
+        <BackArrow>
+          {!props.hideBackArrow && (
+            <Icon
+              cursor
+              data-e2e='signupBack'
+              name='arrow-left'
+              size='24px'
+              color='grey400'
+              style={{ marginRight: '8px' }}
+              role='button'
+              onClick={() => props.handleBackArrowClick()}
+            />
+          )}
+          <Text color='grey900' size='14px' weight={600} lineHeight='1.5'>
+            <FormattedMessage id='copy.back' defaultMessage='Back' />
+          </Text>
+        </BackArrow>
+        <EmailAndGuid>
           {props.hideGuid || props.formValues.email ? (
-            <Text color='grey400' size='14px' weight={600} lineHeight='1.5'>
-              <FormattedMessage
-                id='scenes.login.signingin_email'
-                defaultMessage='Signing in with {email}'
-                values={{ email: props.formValues?.email }}
-              />
+            <Text color='blue600' size='12px' weight={600} lineHeight='1.5'>
+              {props.formValues?.email}
             </Text>
           ) : (
-            <Text color='grey400' size='14px' weight={600} lineHeight='1.5'>
-              <FormattedMessage
-                id='scences.login.wallet_guid'
-                defaultMessage='Wallet: {guid}'
-                values={{ guid: props.formValues?.guid }}
-              />
+            <Text color='grey400' size='12px' weight={600} lineHeight='1.5'>
+              ({firstPartGuid}...{lastPartGuid})
             </Text>
           )}
           {props.formValues.step !== LoginSteps.CHECK_EMAIL &&
             props.formValues.email &&
             !props.hideGuid && (
               <Text size='12px' weight={500} color='grey400'>
-                <FormattedMessage
-                  id='scences.login.wallet_guid'
-                  defaultMessage='Wallet: {guid}'
-                  values={{ guid: props.formValues.guid }}
-                />
+                ({firstPartGuid}...{lastPartGuid}
               </Text>
             )}
-        </Column>
+        </EmailAndGuid>
       </TopRow>
     </>
   )
