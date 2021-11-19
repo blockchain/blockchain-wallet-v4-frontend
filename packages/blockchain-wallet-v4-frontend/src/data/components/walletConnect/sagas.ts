@@ -28,7 +28,8 @@ export default ({ coreSagas }) => {
     const dappList = yield select(S.getAuthorizedDappsList)
     // check if dapp was already stored
     const matchIndex = dappList.findIndex(
-      (dapp) => dapp.sessionDetails.peerId === sessionDetails.peerId
+      (dapp) =>
+        JSON.stringify(dapp.sessionDetails.peerMeta) === JSON.stringify(sessionDetails.peerMeta)
     )
 
     if (matchIndex !== -1) {
@@ -51,7 +52,10 @@ export default ({ coreSagas }) => {
     localStorage.setItem(
       WC_STORAGE_KEY,
       JSON.stringify(
-        dappList.filter((dapp) => dapp.sessionDetails.peerId !== sessionDetails.peerId)
+        dappList.filter(
+          (dapp) =>
+            JSON.stringify(dapp.sessionDetails.peerMeta) !== JSON.stringify(sessionDetails.peerMeta)
+        )
       )
     )
   }
@@ -128,7 +132,9 @@ export default ({ coreSagas }) => {
 
     try {
       // TODO: evaluate the need for this HACK!?
-      localStorage.setItem('walletconnect', '')
+      localStorage.removeItem('walletconnect')
+      localStorage.removeItem('walletConnectUri')
+      localStorage.removeItem('walletConnectSession')
 
       // init rpc
       rpc = new WalletConnect({
@@ -165,7 +171,7 @@ export default ({ coreSagas }) => {
       )
 
       // if rpc connection exists and it matches the requested dapp to be launched
-      if (!rpc || sessionDetails.peerId !== rpc.peerId) {
+      if (!rpc || JSON.stringify(sessionDetails.peerMeta) !== JSON.stringify(rpc.peerMeta)) {
         yield put(A.initWalletConnect(uri))
       }
     } catch (e) {
@@ -177,7 +183,7 @@ export default ({ coreSagas }) => {
     try {
       const { sessionDetails } = payload
       // if rpc connection exists and it matches the dapp to be removed
-      if (rpc && sessionDetails.peerId === rpc.peerId) {
+      if (rpc && JSON.stringify(sessionDetails.peerMeta) === JSON.stringify(rpc.peerMeta)) {
         // kill session and notify dapp of disconnect
         rpc.killSession()
         // reset internal rpc to null
