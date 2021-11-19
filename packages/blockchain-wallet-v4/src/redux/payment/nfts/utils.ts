@@ -248,7 +248,7 @@ export const encodeReplacementPattern = (
     const cValue =
       value !== undefined ? value : generateDefaultValue(ethABI_local.elementaryName(type))
     return ethABI_local.isDynamic(type)
-      ? Buffer.alloc(32)
+      ? Buffer.alloc(64)
       : Buffer.from(ethers.utils.defaultAbiCoder.encode([type], [cValue]).substring(2), 'hex').fill(
           bitmask
         )
