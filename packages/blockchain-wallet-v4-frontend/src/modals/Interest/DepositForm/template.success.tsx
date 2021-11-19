@@ -16,6 +16,7 @@ import {
   TooltipHost,
   TooltipIcon
 } from 'blockchain-info-components'
+import { FlyoutWrapper } from 'components/Flyout'
 import { CheckBox, CoinBalanceDropdown, NumberBox } from 'components/Form'
 import { actions, selectors } from 'data'
 import { InterestDepositFormType } from 'data/components/interest/types'
@@ -30,7 +31,6 @@ import {
   AmountError,
   AmountFieldContainer,
   ArrowIcon,
-  Bottom,
   ButtonContainer,
   CalculatorContainer,
   CalculatorDesc,
@@ -52,7 +52,6 @@ import {
   ToggleCoinFiat,
   ToggleCoinText,
   ToggleFiatText,
-  Top,
   TopText
 } from './model'
 import TabMenuTimeFrame from './TabMenuTimeFrame'
@@ -162,7 +161,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
 
   return (
     <CustomForm onSubmit={handleFormSubmit}>
-      <Top>
+      <FlyoutWrapper style={{ paddingBottom: '0' }}>
         <TopText color='grey800' size='20px' weight={600}>
           <ArrowIcon
             onClick={() => interestActions.setInterestStep({ name: 'ACCOUNT_SUMMARY' })}
@@ -498,8 +497,15 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
             </Text>
           </CalculatorContainer>
         </CalculatorWrapper>
-      </Top>
-      <Bottom>
+      </FlyoutWrapper>
+      <FlyoutWrapper
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%',
+          justifyContent: 'flex-end'
+        }}
+      >
         <Field component={CheckBox} hideErrors name='terms' validate={[required]}>
           <TermsContainer>
             <Text lineHeight='1.4' size='14px' weight={500}>
@@ -583,7 +589,7 @@ const DepositForm: React.FC<InjectedFormProps<{ form: string }, Props> & Props> 
             </Text>
           </Button>
         </ButtonContainer>
-      </Bottom>
+      </FlyoutWrapper>
     </CustomForm>
   )
 }
