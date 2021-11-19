@@ -158,3 +158,43 @@ export type CrossBorderLimitsPyload = {
   outputCurrency: CoinType
   toAccount: WalletAcountType
 }
+
+type CrossBorderLimitItem = {
+  currency: FiatType
+  value: string
+}
+
+export type LimitWithEffective = {
+  effective: boolean
+  limit: CrossBorderLimitItem
+}
+
+export type CrossBorderLimits = {
+  currency: FiatType
+  current: {
+    available: CrossBorderLimitItem
+    daily?: LimitWithEffective
+    monthly?: LimitWithEffective
+    yearly?: LimitWithEffective
+  }
+  suggestedUpgrade: {
+    available: CrossBorderLimitItem
+    daily?: {
+      available: CrossBorderLimitItem
+      limit: CrossBorderLimitItem
+      used: CrossBorderLimitItem
+    }
+    monthly?: {
+      available: CrossBorderLimitItem
+      limit: CrossBorderLimitItem
+      used: CrossBorderLimitItem
+    }
+    requiredTier: number
+    requirements: string[]
+    yearly?: {
+      available: CrossBorderLimitItem
+      limit: CrossBorderLimitItem
+      used: CrossBorderLimitItem
+    }
+  }
+}

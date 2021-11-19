@@ -4,13 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
 import { SBPaymentMethodType } from '@core/network/api/simpleBuy/types'
-import {
-  ExtractSuccess,
-  FiatType,
-  RemoteDataType,
-  SBPaymentTypes,
-  WalletFiatType
-} from '@core/types'
+import { CrossBorderLimitsPyload, FiatType, SBPaymentTypes, WalletAcountEnum } from '@core/types'
 import { EnterAmount, FlyoutOopsError } from 'components/Flyout'
 import { getDefaultMethod } from 'components/Flyout/model'
 import { actions, selectors } from 'data'
@@ -19,7 +13,6 @@ import {
   AddBankStepType,
   BankDWStepType,
   BankPartners,
-  BankTransferAccountType,
   BrokerageModalOriginType,
   BrokerageOrderType
 } from 'data/types'
@@ -35,6 +28,14 @@ const EnterAmountContainer = (props: Props) => {
       props.brokerageActions.fetchBankTransferAccounts()
       props.buySellActions.fetchSDDEligibility()
     }
+
+    // fetch crossborder limits
+    props.brokerageActions.fetchCrossBorderLimits({
+      fromAccount: WalletAcountEnum.NON_CUSTODIAL,
+      inputCurrency: props.fiatCurrency,
+      outputCurrency: props.fiatCurrency,
+      toAccount: WalletAcountEnum.CUSTODIAL
+    } as CrossBorderLimitsPyload)
   }, [props.fiatCurrency])
 
   const onSubmit = () => {
@@ -104,12 +105,14 @@ const EnterAmountContainer = (props: Props) => {
           method.type === SBPaymentTypes.BANK_ACCOUNT
       )
       let handleMethodClick: () => void
+      const { crossBorderLimits, formErrors } = val
 
       if (val.bankTransferAccounts.length > 0) {
         handleMethodClick = handleChangeMethod
       } else {
         handleMethodClick = handleAddMethod
       }
+
       return isUserEligible && paymentMethod ? (
         <EnterAmount
           onSubmit={onSubmit}
@@ -120,6 +123,9 @@ const EnterAmountContainer = (props: Props) => {
           orderType={BrokerageOrderType.DEPOSIT}
           paymentAccount={paymentAccount}
           paymentMethod={paymentMethod}
+          crossBorderLimits={crossBorderLimits}
+          formErrors={formErrors}
+          formActions={props.formActions}
         />
       ) : (
         <FlyoutOopsError
@@ -140,7 +146,8 @@ const mapStateToProps = (state: RootState) => ({
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
   brokerageActions: bindActionCreators(actions.components.brokerage, dispatch),
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  formActions: bindActionCreators(actions.form, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

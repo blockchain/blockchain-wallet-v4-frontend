@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import { Exchange } from '@core'
 import { PaymentValue, RatesType, SwapQuoteType, SwapUserLimitsType } from '@core/types'
 import { convertBaseToStandard, convertStandardToBase } from 'data/components/exchange/services'
-import { SwapAccountType, SwapAmountFormValues } from 'data/types'
+import { SBCheckoutFormValuesType, SwapAccountType, SwapAmountFormValues } from 'data/types'
 import { CRYPTO_DECIMALS } from 'services/forms'
 
 import { Props } from '.'
@@ -117,4 +117,21 @@ export const maximumAmountSilver = (restProps: Props, amtError: string | boolean
 export const incomingAmountNonZero = (value, allValues, restProps: Props) => {
   const { incomingAmount } = restProps
   return incomingAmount.isNegative ? 'NEGATIVE_INCOMING_AMT' : false
+}
+
+export const checkCrossBorderLimit = (
+  value: string,
+  allValues: SBCheckoutFormValuesType,
+  props: Props
+): boolean | string => {
+  const { crossBorderLimits } = props
+
+  if (!crossBorderLimits?.current) {
+    return false
+  }
+
+  const { value: availableAmount } = crossBorderLimits?.current?.available
+  const availableAmountInBase = convertBaseToStandard('FIAT', availableAmount)
+
+  return Number(value) > Number(availableAmountInBase) ? 'ABOVE_MAX_LIMIT' : false
 }

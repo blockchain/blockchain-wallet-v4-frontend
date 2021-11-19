@@ -6,6 +6,7 @@ import { WithdrawActionTypes, WithdrawState, WithdrawStepEnum } from './types'
 const INITIAL_STATE: WithdrawState = {
   amount: undefined,
   beneficiary: undefined,
+  crossBorderLimits: Remote.NotAsked,
   feesAndMinAmount: Remote.NotAsked,
   fiatCurrency: 'EUR',
   step: WithdrawStepEnum.ENTER_AMOUNT,
@@ -86,6 +87,24 @@ export function withdrawReducer(state = INITIAL_STATE, action: WithdrawActionTyp
       return {
         ...state,
         withdrawLocks: Remote.Failure(action.payload.error)
+      }
+    }
+    case AT.FETCH_WITHDRAWAL_CROSSBORDER_LIMITS_LOADING: {
+      return {
+        ...state,
+        crossBorderLimits: Remote.Loading
+      }
+    }
+    case AT.FETCH_WITHDRAWAL_CROSSBORDER_LIMITS_SUCCESS: {
+      return {
+        ...state,
+        crossBorderLimits: Remote.Success(action.payload)
+      }
+    }
+    case AT.FETCH_WITHDRAWAL_CROSSBORDER_LIMITS_FAILURE: {
+      return {
+        ...state,
+        crossBorderLimits: Remote.Failure(action.payload)
       }
     }
     default:

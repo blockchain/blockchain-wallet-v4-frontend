@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { isEmpty } from 'ramda'
 import { compose } from 'redux'
 import { Field } from 'redux-form'
 import reduxForm, { InjectedFormProps } from 'redux-form/lib/reduxForm'
@@ -9,6 +8,7 @@ import styled from 'styled-components'
 
 import { convertCoinToCoin, convertCoinToFiat, convertFiatToCoin } from '@core/exchange'
 import Currencies from '@core/exchange/currencies'
+import { formatFiat } from '@core/exchange/utils'
 import { getRatesSelector } from '@core/redux/data/misc/selectors'
 import { RatesType } from '@core/types'
 import { Button, Icon, SkeletonRectangle, Text } from 'blockchain-info-components'
@@ -16,16 +16,19 @@ import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import CollapseText from 'components/CollapseText'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
-import UpgradeToGoldBanner from 'components/Flyout/Banners/UpgradeToGold'
+import UpgradeToGoldLine, { Flows } from 'components/Flyout/Banners/UpgradeToGoldLine'
 import { StepHeader } from 'components/Flyout/SendRequestCrypto'
 import { Form } from 'components/Form'
 import { DisplayContainer } from 'components/SimpleBuy'
 import { selectors } from 'data'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { SendCryptoStepType } from 'data/components/sendCrypto/types'
+import { getEffectiveLimit, getEffectivePeriod } from 'services/custodial'
 import { formatTextAmount } from 'services/forms'
 import { media } from 'services/styles'
 import { hexToRgb } from 'utils/helpers'
 
+import { AlertButton, MaxButton } from '../../components'
 import { TIER_TYPES } from '../../Settings/TradingLimits/model'
 import { Row } from '../../Swap/EnterAmount/Checkout'
 import { Props as OwnProps } from '..'
@@ -46,11 +49,14 @@ const Amounts = styled.div`
   justify-content: space-between;
   align-items: center;
 `
-const AmountRow = styled(Row)`
+const AmountRow = styled(Row)<{ isError: boolean }>`
   position: relative;
   padding: 24px;
   justify-content: center;
   border: 0;
+  > input {
+    color: ${(props) => (props.isError ? 'red400' : 'textBlack')};
+  }
 `
 const CheckoutDisplayContainer = styled(DisplayContainer)`
   justify-content: space-between;
@@ -166,6 +172,9 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
 
   const quote = fix === 'CRYPTO' ? fiatAmt : cryptoAmt
 
+  const effectiveLimit = getEffectiveLimit(sendLimits)
+  const effectivePeriod = getEffectivePeriod(sendLimits)
+
   return (
     <Wrapper onSubmit={() => sendCryptoActions.setStep({ step: SendCryptoStepType.CONFIRM })}>
       <FlyoutWrapper>
@@ -219,9 +228,9 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
           paddingTop: '0px'
         }}
       >
-        <AmountRow id='amount-row'>
+        <AmountRow id='amount-row' isError={!!amtError}>
           {fix === 'FIAT' && (
-            <Text size='56px' color='textBlack' weight={500}>
+            <Text size='56px' color={amtError ? 'red400' : 'textBlack'} weight={500}>
               {Currencies[walletCurrency].units[walletCurrency].symbol}
             </Text>
           )}
@@ -237,13 +246,14 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
             placeholder='0'
             // leave fiatActive always to avoid 50% width in HOC?
             fiatActive
+            haveError={!!amtError}
             {...{
               autoFocus: true,
               hideError: true
             }}
           />
           {fix === 'CRYPTO' && (
-            <Text size='56px' color='textBlack' weight={500}>
+            <Text size='56px' color={amtError ? 'red400' : 'textBlack'} weight={500}>
               {coin}
             </Text>
           )}
@@ -251,8 +261,13 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
         <QuoteActionContainer>
           <QuoteRow>
             <div />
-            <Text color='grey600' size='14px' weight={500} data-e2e='sendQuoteAmount'>
-              {quote}
+            <Text
+              color={amtError ? 'red400' : 'grey600'}
+              size='14px'
+              weight={500}
+              data-e2e='sendQuoteAmount'
+            >
+              {fix === 'FIAT' && coin} {quote} {fix === 'CRYPTO' && walletCurrency}
             </Text>
             <Icon
               color='blue600'
@@ -267,7 +282,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
               data-e2e='sendSwitchIcon'
             />
           </QuoteRow>
-          {amtError ? (
+          {amtError && amtError !== 'ABOVE_MAX_LIMIT' ? (
             <div
               style={{
                 display: 'flex',
@@ -286,15 +301,31 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
                   )
                 }}
               >
-                {amtError === 'ABOVE_MAX' ? (
-                  <FormattedMessage id='copy.above_max' defaultMessage='Amount is above Max' />
-                ) : (
-                  <FormattedMessage id='copy.below_min' defaultMessage='Amount is below Min' />
+                {amtError === 'ABOVE_MAX' && (
+                  <FormattedMessage
+                    id='copy.above_max_amount'
+                    defaultMessage='Amount is above Max'
+                  />
+                )}
+                {amtError === 'BELOW_MIN' && (
+                  <FormattedMessage
+                    id='copy.below_min_amount'
+                    defaultMessage='Amount is below Min'
+                  />
                 )}
               </CustomErrorCartridge>
             </div>
           ) : null}
         </QuoteActionContainer>
+
+        <MaxButton
+          type='Send'
+          onClick={() => {
+            formActions.change(SEND_FORM, 'fix', 'CRYPTO')
+            formActions.change(SEND_FORM, 'amount', maxMinusFee)
+          }}
+        />
+
         <Amounts>
           <Text
             cursor='pointer'
@@ -348,19 +379,79 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
           paddingTop: '0px'
         }}
       >
-        {!isEmpty(sendLimits) && sendLimits?.suggestedUpgrade?.requiredTier === TIER_TYPES.GOLD ? (
-          <UpgradeToGoldBanner limits={sendLimits} verifyIdentity={verifyIdentity} />
-        ) : null}
-        <Button
-          nature='primary'
-          type='submit'
-          data-e2e='enterAmountBtn'
-          fullwidth
-          jumbo
-          disabled={!amount || !!formErrors.amount}
-        >
-          <FormattedMessage id='buttons.next' defaultMessage='Next' />
-        </Button>
+        {!amtError && (
+          <Button
+            nature='primary'
+            type='submit'
+            data-e2e='enterAmountBtn'
+            fullwidth
+            jumbo
+            disabled={!amount || !!formErrors.amount}
+          >
+            <FormattedMessage id='buttons.next' defaultMessage='Next' />
+          </Button>
+        )}
+
+        {amtError && amtError === 'ABOVE_MAX_LIMIT' && effectiveLimit && (
+          <>
+            <AlertButton>
+              <FormattedMessage id='copy.over_your_limit' defaultMessage='Over Your Limit' />
+            </AlertButton>
+            <Text
+              size='14px'
+              color='grey900'
+              weight={500}
+              style={{ marginBottom: '24px', marginTop: '24px', textAlign: 'center' }}
+            >
+              <FormattedMessage
+                id='modals.sendcrypto.enteramount.over_limits'
+                defaultMessage='Sending from Trade Accounts cannot exceed {currency}{amount} a {period}. You have {currency}{remainingAmount} remaining.'
+                values={{
+                  amount: formatFiat(convertBaseToStandard('FIAT', effectiveLimit.limit.value), 0),
+                  currency: walletCurrency,
+                  period: effectivePeriod,
+                  remainingAmount: formatFiat(
+                    convertBaseToStandard('FIAT', sendLimits.current?.available?.value || 0),
+                    0
+                  )
+                }}
+              />
+            </Text>
+          </>
+        )}
+
+        {amtError === 'ABOVE_MAX' && (
+          <AlertButton>
+            <FormattedMessage
+              id='copy.above_max'
+              defaultMessage='{amount} Maximum'
+              values={{
+                amount:
+                  fix === 'FIAT'
+                    ? `${Currencies[walletCurrency].units[walletCurrency].symbol} ${max}`
+                    : `${coin} ${max}`
+              }}
+            />
+          </AlertButton>
+        )}
+        {amtError === 'BELOW_MIN' && (
+          <AlertButton>
+            <FormattedMessage
+              id='copy.below_min'
+              defaultMessage='{amount} Minimum'
+              values={{
+                amount:
+                  fix === 'FIAT'
+                    ? `${Currencies[walletCurrency].units[walletCurrency].symbol} ${min}`
+                    : `${coin} ${min}`
+              }}
+            />
+          </AlertButton>
+        )}
+
+        {sendLimits?.suggestedUpgrade?.requiredTier === TIER_TYPES.GOLD && (
+          <UpgradeToGoldLine type={Flows.SEND} verifyIdentity={verifyIdentity} />
+        )}
       </FlyoutWrapper>
     </Wrapper>
   )
@@ -390,7 +481,7 @@ const enhance = compose(
 export type Props = ConnectedProps<typeof connector> &
   OwnProps & {
     formErrors: {
-      amount?: 'ABOVE_MAX' | 'BELOW_MIN' | 'NEGATIVE_INCOMING_AMT' | boolean
+      amount?: 'ABOVE_MAX' | 'ABOVE_MAX_LIMIT' | 'BELOW_MIN' | 'NEGATIVE_INCOMING_AMT' | boolean
     }
   }
 
