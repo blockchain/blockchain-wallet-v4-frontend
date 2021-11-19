@@ -571,18 +571,9 @@ export default ({ api, coreSagas, networks }) => {
       if ((storedGuid || lastGuid) && !loginLinkParameter) {
         // logic to be compatible with lastGuid in cache make sure that email matches
         // guid being used for login eventually can deprecate after some time
-        if (lastGuid) {
-          yield put(actions.form.change('login', 'guid', lastGuid))
-          yield put(actions.form.change('login', 'email', email))
-        } else {
-          yield put(actions.form.change('login', 'guid', storedGuid))
-          yield put(actions.form.change('login', 'email', email))
-        }
-        if (isMobileConnected) {
-          yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
-        } else {
-          yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
-        }
+        yield put(actions.form.change('login', 'guid', lastGuid || storedGuid))
+        yield put(actions.form.change('login', 'email', email))
+        yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
         // if url is just /login, take them to enter guid or email
       } else if (!loginLinkParameter) {
         yield put(actions.form.change('login', 'step', LoginSteps.ENTER_EMAIL_GUID))
@@ -590,7 +581,7 @@ export default ({ api, coreSagas, networks }) => {
       } else if (isGuid(loginLinkParameter)) {
         const guidFromRoute = loginLinkParameter
         yield put(actions.form.change('login', 'guid', guidFromRoute))
-        yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
+        yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
         // if path has base64 encrypted JSON
       } else {
         const loginData = JSON.parse(atob(params[2])) as WalletDataFromMagicLink
