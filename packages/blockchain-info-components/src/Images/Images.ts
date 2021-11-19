@@ -64,7 +64,9 @@ import emptyTx from './img/empty-tx.svg'
 import ethAirdrop from './img/eth-airdrop.png'
 import ethAirdrop2 from './img/eth-airdrop@2x.png'
 import exchange from './img/exchange.svg'
+import exchangeGrayscale from './img/exchange-grayscale.svg'
 import exchangeLogo from './img/exchange-logo.svg'
+import exchangeNoBackground from './img/exchange-no-background.svg'
 import explorerLogo from './img/explorer-logo.svg'
 import facebookWhite from './img/facebook-white.svg'
 import failedKyc from './img/failed-kyc.png'
@@ -154,7 +156,9 @@ import visaLogo from './img/visa-logo.svg'
 import visaNewLogo from './img/visa-new-logo.svg'
 import wallet from './img/wallet.svg'
 import walletBlue from './img/wallet-blue.svg'
+import walletGrayscale from './img/wallet-grayscale.svg'
 import walletLogo from './img/wallet-logo.svg'
+import walletNoBackground from './img/wallet-no-background.svg'
 import warningCircleFilled from './img/warning-circle-filled.png'
 import worldAlert from './img/world-alert.jpg'
 import worldAlert2 from './img/world-alert@2x.jpg'
@@ -229,7 +233,9 @@ const Images = {
   'eth-airdrop': ethAirdrop,
   'eth-airdrop2': ethAirdrop2,
   exchange,
+  'exchange-grayscale': exchangeGrayscale,
   'exchange-logo': exchangeLogo,
+  'exchange-no-background': exchangeNoBackground,
   'explorer-logo': explorerLogo,
   'facebook-white': facebookWhite,
   'failed-kyc': failedKyc,
@@ -319,7 +325,9 @@ const Images = {
   'visa-new-logo': visaNewLogo,
   wallet,
   'wallet-blue': walletBlue,
+  'wallet-grayscale': walletGrayscale,
   'wallet-logo': walletLogo,
+  'wallet-no-background': walletNoBackground,
   'warning-circle-filled': warningCircleFilled,
   'world-alert': worldAlert,
   'world-alert2': worldAlert2,

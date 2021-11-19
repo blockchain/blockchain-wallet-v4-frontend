@@ -3,9 +3,10 @@ import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { HeartbeatLoader, Text } from 'blockchain-info-components'
+import { HeartbeatLoader, Image, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import { FormGroup, FormItem, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
+import { ProductAuthOptions } from 'data/types'
 import { isBrowserSupported } from 'services/browser'
 import { required, validWalletIdOrEmail } from 'services/forms'
 
@@ -16,8 +17,10 @@ import {
   LinkRow,
   LoginFormLabel,
   NeedHelpLink,
+  ProductTab,
   removeWhitespace,
   SignUpLink,
+  TabWrapper,
   UnsupportedBrowserWarning,
   WrapperWithPadding
 } from '../../model'
@@ -26,7 +29,7 @@ const LoginWrapper = styled(Wrapper)`
   display: flex;
   flex-direction: column;
   z-index: 1;
-  padding: 32px 0;
+  padding: 0 0 32px 0;
 `
 
 const isSupportedBrowser = isBrowserSupported()
@@ -37,10 +40,29 @@ const EnterEmailOrGuid = (props: Props) => {
 
   return (
     <LoginWrapper>
+      <TabWrapper>
+        <ProductTab>
+          <Image name='wallet-no-background' height='28px' style={{ marginRight: '12px' }} />
+          <Text size='20px' weight={600} color='purple600'>
+            <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
+          </Text>
+        </ProductTab>
+        <ProductTab
+          backgroundColor='grey000'
+          onClick={() =>
+            authActions.setProductAuthMetadata({ product: ProductAuthOptions.EXCHANGE })
+          }
+        >
+          <Image name='exchange-grayscale' height='26px' style={{ marginRight: '12px' }} />
+          <Text size='20px' weight={600} color='grey400'>
+            <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
+          </Text>
+        </ProductTab>
+      </TabWrapper>
       <WrapperWithPadding>
         <FormGroup>
           {!isSupportedBrowser && <UnsupportedBrowserWarning />}
-          <FormItem>
+          <FormItem style={{ marginTop: '40px' }}>
             <LoginFormLabel htmlFor='guid'>
               <FormattedMessage
                 id='scenes.login.email_guid'

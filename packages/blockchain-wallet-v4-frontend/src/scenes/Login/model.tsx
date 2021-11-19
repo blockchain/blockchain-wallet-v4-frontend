@@ -20,6 +20,23 @@ export const LOGIN_FORM_NAME = 'login'
 
 export const removeWhitespace = (string) => string.replace(/\s/g, ``)
 
+export const TabWrapper = styled.div`
+  display: flex;
+  width: 100%;
+`
+
+export const ProductTab = styled.div<{ backgroundColor?: string }>`
+  display: flex;
+  justify-content: center;
+  width: 50%;
+  align-items: center;
+  padding: 16px 0;
+  cursor: pointer;
+  border-radius: 8px 0;
+  background-color: ${(props) =>
+    props.backgroundColor ? props.theme[props.backgroundColor] : 'none'};
+`
+
 export const LoginWrapper = styled(Wrapper)`
   z-index: 1;
 `
