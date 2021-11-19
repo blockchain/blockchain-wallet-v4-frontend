@@ -10,6 +10,7 @@ import { RootState } from 'data/rootReducer'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../types'
+import AddNewConnectionStep from './Steps/AddNewConnectionStep'
 import ApproveTransactionStep from './Steps/ApproveTransactionStep'
 import AuthorizeConnectionStep from './Steps/AuthorizeConnection'
 import DisconnectionNoticeStep from './Steps/DisconnectionNotice'
@@ -59,6 +60,9 @@ class WalletConnectContainer extends PureComponent<Props, State> {
                 const successProps = { ...this.props, ...val, handleClose: this.handleClose }
 
                 switch (true) {
+                  case val.name === WalletConnectStep.ADD_NEW_CONNECTION:
+                    return <AddNewConnectionStep {...successProps} />
+
                   case val.name === WalletConnectStep.APPROVE_TRANSACTION:
                     return <ApproveTransactionStep {...successProps} />
 

@@ -3,11 +3,15 @@ import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import { useSortBy, useTable } from 'react-table'
 import { bindActionCreators } from 'redux'
+import { put } from 'redux-saga/effects'
 import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
 import { Header, PageTitle, SceneWrapper, SubTitle, Title } from 'components/Layout'
 import { actions, selectors } from 'data'
+import { actions as A } from 'data/components/walletConnect/slice'
+import { WalletConnectStep } from 'data/components/walletConnect/types'
+import { ModalName } from 'data/modals/types'
 
 import { CellText, getTableColumns, HeaderText, TableWrapper } from './Table'
 
@@ -58,7 +62,14 @@ const WalletConnect = ({ dappList, modalActions, walletConnectActions }) => {
               </Text>
             </SubTitle>
           </div>
-          <Button data-e2e='addNewConnectionBtn' nature='primary' onClick={() => {}}>
+          <Button
+            data-e2e='addNewConnectionBtn'
+            nature='primary'
+            onClick={() => {
+              walletConnectActions.setStep({ name: WalletConnectStep.ADD_NEW_CONNECTION })
+              modalActions.showModal(ModalName.WALLET_CONNECT_MODAL, { origin: 'WalletConnect' })
+            }}
+          >
             <Text size='14px' color='white' weight={600}>
               <FormattedMessage id='buttons.connect-dapp' defaultMessage='Connect Dapp' />
             </Text>

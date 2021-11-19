@@ -7,6 +7,7 @@ export default ({ coreSagas }) => {
   const walletConnectSagas = sagas({ coreSagas })
 
   return function* walletConnectSaga() {
+    yield takeLatest(A.addNewDappConnection.type, walletConnectSagas.addNewDappConnection)
     yield takeLatest(A.handleSessionCallRequest.type, walletConnectSagas.handleSessionCallRequest)
     yield takeLatest(A.handleSessionDisconnect.type, walletConnectSagas.handleSessionDisconnect)
     yield takeLatest(A.handleSessionRequest.type, walletConnectSagas.handleSessionRequest)

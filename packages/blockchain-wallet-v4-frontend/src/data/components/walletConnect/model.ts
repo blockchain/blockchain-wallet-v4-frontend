@@ -5,3 +5,4 @@ export const BC_CLIENT_METADATA = {
   name: 'Blockchain.com Wallet',
   url: 'https://login.blockchain.com'
 }
+export const WC_ADD_DAPP_FORM = 'addNewDappConnection'

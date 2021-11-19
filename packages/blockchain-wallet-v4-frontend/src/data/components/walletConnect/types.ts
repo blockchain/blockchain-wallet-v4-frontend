@@ -49,6 +49,7 @@ export type RespondToTxSendRequestPayload = {
 }
 
 export enum WalletConnectStep {
+  ADD_NEW_CONNECTION = 'ADD_NEW_CONNECTION',
   APPROVE_TRANSACTION = 'APPROVE_TRANSACTION',
   AUTHORIZE_CONNECTION = 'AUTHORIZE_CONNECTION',
   DISCONNECTION_NOTICE = 'DISCONNECTION_NOTICE',
@@ -72,4 +73,8 @@ export type WalletConnectState = {
 export type ModifyDappConnectionPayload = {
   sessionDetails: SessionDetailsType
   uri: string
+}
+
+export type AddNewDappFormType = {
+  newConnectionString: string
 }

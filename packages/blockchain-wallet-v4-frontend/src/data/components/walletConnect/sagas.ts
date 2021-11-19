@@ -3,13 +3,21 @@ import { eventChannel } from 'redux-saga'
 import { call, cancel, cancelled, fork, put, select, take } from 'redux-saga/effects'
 
 import { coreSelectors } from 'blockchain-wallet-v4/src'
-import { actions } from 'data'
-import { RequestMethodType, WalletConnectStep } from 'data/components/walletConnect/types'
+import { actions, selectors } from 'data'
+import {
+  AddNewDappFormType,
+  RequestMethodType,
+  WalletConnectStep
+} from 'data/components/walletConnect/types'
 import { ModalName } from 'data/modals/types'
 
-import { BC_CLIENT_METADATA, WC_STORAGE_KEY } from './model'
+import { BC_CLIENT_METADATA, WC_ADD_DAPP_FORM, WC_STORAGE_KEY } from './model'
 import * as S from './selectors'
 import { actions as A } from './slice'
+
+const logError = (e) => {
+  console.error('WC Error: ', e)
+}
 
 export default ({ coreSagas }) => {
   let rpc
@@ -137,8 +145,7 @@ export default ({ coreSagas }) => {
         yield put(action)
       }
     } catch (e) {
-      // eslint-disable-next-line no-console
-      console.log('[RPC Error]: ', e)
+      logError(e)
     } finally {
       if (yield cancelled()) {
         channel.close()
@@ -148,42 +155,52 @@ export default ({ coreSagas }) => {
   }
 
   const launchDappConnection = function* ({ payload }: ReturnType<typeof A.launchDappConnection>) {
-    if (rpc) {
-      yield put(A.setSessionDetails(payload.sessionDetails))
+    try {
+      const { sessionDetails, uri } = payload
+
+      yield put(A.setSessionDetails(sessionDetails))
       yield put(A.setStep({ name: WalletConnectStep.SESSION_DASHBOARD }))
       yield put(
         actions.modals.showModal(ModalName.WALLET_CONNECT_MODAL, { origin: 'WalletConnect' })
       )
-    } else {
-      yield put(A.setSessionDetails(payload.sessionDetails))
-      yield put(A.setStep({ name: WalletConnectStep.SESSION_DASHBOARD }))
-      yield put(
-        actions.modals.showModal(ModalName.WALLET_CONNECT_MODAL, { origin: 'WalletConnect' })
-      )
-      yield put(A.initWalletConnect(payload.uri))
+
+      // if rpc connection exists and it matches the requested dapp to be launched
+      if (!rpc || sessionDetails.peerId !== rpc.peerId) {
+        yield put(A.initWalletConnect(uri))
+      }
+    } catch (e) {
+      logError(e)
     }
   }
 
   const removeDappConnection = function* ({ payload }: ReturnType<typeof A.removeDappConnection>) {
-    const { sessionDetails } = payload
-    // if rpc connection exists and it matches the dapp to be removed
-    if (rpc && sessionDetails.peerId === rpc.peerId) {
-      // kill session and notify dapp of disconnect
-      rpc.killSession()
-      // reset internal rpc to null
-      rpc = null
+    try {
+      const { sessionDetails } = payload
+      // if rpc connection exists and it matches the dapp to be removed
+      if (rpc && sessionDetails.peerId === rpc.peerId) {
+        // kill session and notify dapp of disconnect
+        rpc.killSession()
+        // reset internal rpc to null
+        rpc = null
+      }
+      // remove from local storage
+      yield call(removeDappFromLocalStorage, { sessionDetails })
+    } catch (e) {
+      logError(e)
     }
-    // remove from local storage
-    yield call(removeDappFromLocalStorage, { sessionDetails })
   }
 
   const initWalletConnect = function* ({ payload: uri }: ReturnType<typeof A.initWalletConnect>) {
-    // start rpc connection and listeners
-    const rpcTask = yield fork(startRpcConnection, { uri })
-    // wait for a disconnect event
-    yield take(A.handleSessionDisconnect.type)
-    // disconnect received, kill rpc
-    yield cancel(rpcTask)
+    try {
+      // start rpc connection and listeners
+      const rpcTask = yield fork(startRpcConnection, { uri })
+      // wait for a disconnect event
+      yield take(A.handleSessionDisconnect.type)
+      // disconnect received, kill rpc
+      yield cancel(rpcTask)
+    } catch (e) {
+      logError(e)
+    }
   }
 
   const respondToSessionRequest = function* ({
@@ -219,7 +236,7 @@ export default ({ coreSagas }) => {
         rpc.rejectSession({ message: 'Connection rejected by user.' })
       }
     } catch (e) {
-      // TODO
+      logError(e)
     }
   }
 
@@ -245,11 +262,24 @@ export default ({ coreSagas }) => {
         )
       }
     } catch (e) {
-      // TODO
+      logError(e)
+    }
+  }
+
+  const addNewDappConnection = function* ({ payload }: ReturnType<typeof A.addNewDappConnection>) {
+    try {
+      yield put(A.setStep({ name: WalletConnectStep.LOADING }))
+      const { newConnectionString } = selectors.form.getFormValues(WC_ADD_DAPP_FORM)(
+        yield select()
+      ) as AddNewDappFormType
+      yield put(A.initWalletConnect(newConnectionString))
+    } catch (e) {
+      logError(e)
     }
   }
 
   return {
+    addNewDappConnection,
     handleSessionCallRequest,
     handleSessionDisconnect,
     handleSessionRequest,

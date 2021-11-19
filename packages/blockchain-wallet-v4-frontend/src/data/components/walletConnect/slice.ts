@@ -15,12 +15,13 @@ const walletConnectSlice = createSlice({
   initialState: INITIAL_STATE,
   name: 'walletConnect',
   reducers: {
+    addNewDappConnection: (state, action) => {},
     handleSessionCallRequest: (state, action: PayloadAction<T.RequestMessagePayload>) => {},
     handleSessionDisconnect: (state, action) => {},
     handleSessionRequest: (state, action) => {},
     initWalletConnect: (state, action: PayloadAction<string>) => {},
-    launchDappConnection: (state, action: PayloadAction<T.ModifyDappConnectionPayload>) => {}, // TODO change any
-    removeDappConnection: (state, action: PayloadAction<T.ModifyDappConnectionPayload>) => {}, // TODO change any
+    launchDappConnection: (state, action: PayloadAction<T.ModifyDappConnectionPayload>) => {},
+    removeDappConnection: (state, action: PayloadAction<T.ModifyDappConnectionPayload>) => {},
     respondToSessionRequest: (state, action: PayloadAction<T.RespondToSessionRequestPayload>) => {},
     respondToTxSendRequest: (state, action: PayloadAction<T.RespondToTxSendRequestPayload>) => {},
     setSessionDetails: (state, action: PayloadAction<T.SessionDetailsType>) => {

@@ -6,6 +6,7 @@ import * as sendBtc from './sendBtc/model'
 import * as sendEth from './sendEth/model'
 import * as sendXlm from './sendXlm/model'
 import * as simpleBuy from './simpleBuy/model'
+import * as walletConnect from './walletConnect/model'
 
 export {
   identityVerification,
@@ -15,5 +16,6 @@ export {
   sendBtc,
   sendEth,
   sendXlm,
-  simpleBuy
+  simpleBuy,
+  walletConnect
 }
