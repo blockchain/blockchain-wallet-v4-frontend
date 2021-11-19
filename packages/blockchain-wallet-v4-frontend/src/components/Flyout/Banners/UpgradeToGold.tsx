@@ -4,9 +4,9 @@ import styled from 'styled-components'
 
 import Currencies from '@core/exchange/currencies'
 import { formatFiat } from '@core/exchange/utils'
+import { CrossBorderLimits } from '@core/types'
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { SeamlessLimits } from 'data/types'
 import { getEffectiveLimit } from 'services/custodial'
 import { media } from 'services/styles'
 
@@ -146,6 +146,6 @@ const UpgradeToGoldBanner = ({ limits, verifyIdentity }: Props) => {
   )
 }
 
-type Props = { limits: SeamlessLimits; verifyIdentity: () => void }
+type Props = { limits: CrossBorderLimits; verifyIdentity: () => void }
 
 export default UpgradeToGoldBanner

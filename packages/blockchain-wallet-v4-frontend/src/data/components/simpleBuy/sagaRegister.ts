@@ -49,6 +49,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.pollOrder.type, simpleBuySagas.pollSBOrder)
     yield takeLatest(actions.showModal.type, simpleBuySagas.showModal)
     yield takeLatest(actions.switchFix.type, simpleBuySagas.switchFix)
+    yield takeLatest(actions.fetchCrossBorderLimits.type, simpleBuySagas.fetchCrossBorderLimits)
 
     // Fetch balances when profile/user is fetched
     yield takeLatest(

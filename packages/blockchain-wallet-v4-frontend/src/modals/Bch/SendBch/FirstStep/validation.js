@@ -5,6 +5,7 @@ import { Exchange } from '@core'
 import Currencies from '@core/exchange/currencies'
 import { formatFiat } from '@core/exchange/utils'
 import { convertBaseToStandard } from 'data/components/exchange/services'
+import { getEffectiveLimit, getEffectivePeriod } from 'services/custodial'
 
 import { OverYourLimitMessage } from '../../../components'
 import {
@@ -65,10 +66,15 @@ export const isSendLimitOver = (value, allValues, props) => {
 
   const availableAmountInBase = convertBaseToStandard('FIAT', availableAmount)
 
+  const effectiveLimit = getEffectiveLimit(sendLimits)
+  const effectivePeriod = getEffectivePeriod(sendLimits)
+
   return fiatValue > Number(availableAmountInBase) ? (
     <OverYourLimitMessage
       amount={formatFiat(availableAmountInBase)}
       currency={Currencies[currency].units[currency].symbol}
+      limit={formatFiat(convertBaseToStandard('FIAT', effectiveLimit.limit.value), 0)}
+      period={effectivePeriod}
     />
   ) : undefined
 }

@@ -9,7 +9,7 @@ const initialState = {
   hasCloudBackup: undefined,
   lastEmail: undefined,
   lastGuid: undefined,
-  lastLogout: undefined,
+  lastLogoutTimestamp: undefined,
   mobileConnected: undefined
 }
 
@@ -49,8 +49,8 @@ const cacheSlice = createSlice({
     hasCloudBackup: (state, action) => {
       state.hasCloudBackup = action.payload
     },
-    lastLogout: (state, action) => {
-      state.lastLogout = action.payload
+    lastLogoutTimestamp: (state, action) => {
+      state.lastLogoutTimestamp = action.payload
     },
     mobileConnectedStored: (state, action) => {
       state.mobileConnected = action.payload

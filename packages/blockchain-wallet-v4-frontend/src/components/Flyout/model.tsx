@@ -373,6 +373,22 @@ const renderBankText = (
   return <FormattedMessage id='copy.bank_account' defaultMessage='Bank Account' />
 }
 
+const renderBankFullName = (
+  method?: SBPaymentMethodType | BankTransferAccountType | BeneficiaryType
+): string => {
+  if (method) {
+    if ('agent' in method) {
+      // BeneficiaryType
+      return method.name
+    }
+    if ('details' in method && method.details?.bankName) {
+      // BankTransferAccountType | SBPaymentMethodType
+      return method.details.bankName ? method.details.bankName : method.details?.accountNumber
+    }
+  }
+  return ''
+}
+
 const renderBankSubText = (
   value: SBPaymentMethodType | BankTransferAccountType | BeneficiaryType
 ): string | ReactElement => {
@@ -748,6 +764,7 @@ export {
   PaymentText,
   RECURRING_BUY_PERIOD_FETCH,
   renderBank,
+  renderBankFullName,
   renderBankText,
   renderCard,
   renderCardText,
