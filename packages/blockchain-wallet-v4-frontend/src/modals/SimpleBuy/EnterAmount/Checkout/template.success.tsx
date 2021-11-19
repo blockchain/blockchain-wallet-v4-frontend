@@ -6,7 +6,13 @@ import styled from 'styled-components'
 
 import Currencies from '@core/exchange/currencies'
 import { coinToString, fiatToString, formatFiat } from '@core/exchange/utils'
-import { CoinType, OrderType, SBPaymentMethodType, SBPaymentTypes } from '@core/types'
+import {
+  CoinType,
+  OrderType,
+  SBOrderActionType,
+  SBPaymentMethodType,
+  SBPaymentTypes
+} from '@core/types'
 import { Banner, Icon, Text } from 'blockchain-info-components'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutOopsError, FlyoutWrapper } from 'components/Flyout'
@@ -94,7 +100,6 @@ const QuoteRow = styled.div`
 `
 const ActionsRow = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   margin-bottom: 32px;
   margin-top: 16px;
@@ -104,6 +109,18 @@ const ActionsItem = styled.div`
   flex-direction: column;
 `
 
+const MaxAvailableWrapper = styled.div<{ orderType: SBOrderActionType }>`
+  width: 100%;
+  display: flex;
+  justify-content: ${({ orderType }) => (orderType === OrderType.BUY ? 'center' : 'space-between')};
+  align-items: center;
+`
+
+const CartridgeWrapper = styled.div`
+  display: flex;
+`
+
+        
 export const ButtonContainer = styled.div`
   margin-top: 24px;
 `
@@ -176,14 +193,14 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     })
   }, [props.fiatCurrency, props.buySellActions])
 
-  const isSddBuy = props.isSddFlow && props.orderType === 'BUY'
+  const isSddBuy = props.isSddFlow && props.orderType === OrderType.BUY
 
   let method = selectedMethod || defaultMethod
   if (isSddBuy && cards && cards.length === 1) {
     const card = cards[0]
 
     const defaultCardMethod = props.paymentMethods.methods.find(
-      (m) => m.type === SBPaymentTypes.PAYMENT_CARD && orderType === 'BUY'
+      (m) => m.type === SBPaymentTypes.PAYMENT_CARD && orderType === OrderType.BUY
     )
     method = {
       ...card,
@@ -357,7 +374,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const effectiveLimit = getEffectiveLimit(crossBorderLimits)
 
   const showLimitError = showError && amtError === 'ABOVE_MAX_LIMIT'
-
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper style={{ borderBottom: 'grey000', paddingBottom: '0px' }}>
@@ -436,7 +452,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             )}
           </AmountRow>
           <QuoteActionContainer>
-            {props.isSddFlow && props.orderType === 'BUY' && amtError === 'BELOW_MIN' ? (
+            {props.isSddFlow && props.orderType === OrderType.BUY && amtError === 'BELOW_MIN' ? (
               <ErrorAmountContainer onClick={handleMinMaxClick}>
                 <GreyBlueCartridge role='button' data-e2e='sbEnterAmountMin'>
                   <FormattedMessage
@@ -496,10 +512,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           {(!props.isSddFlow || props.orderType === OrderType.SELL) &&
             props.pair &&
             Number(min) <= Number(max) && (
-              <Amounts onClick={handleMinMaxClick}>
-                <>
-                  {amtError === 'BELOW_MIN' ? (
-                    <GreyBlueCartridge role='button' data-e2e='sbEnterAmountMin'>
+              <Amounts>
+                {amtError === 'BELOW_MIN' ? (
+                  <CartridgeWrapper onClick={handleMinMaxClick}>
+                    <GreyBlueCartridge data-e2e='sbEnterAmountMin' role='button'>
                       <FormattedMessage
                         id='modals.simplebuy.checkout.belowmin'
                         defaultMessage='{value} Minimum {orderType}'
@@ -509,18 +525,32 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                         }}
                       />
                     </GreyBlueCartridge>
-                  ) : (
-                    <Cartridge error={amtError === 'ABOVE_MAX'}>
-                      <FormattedMessage
-                        id='modals.simplebuy.checkout.maxbuysell'
-                        defaultMessage='{orderType} Max'
-                        values={{
-                          orderType: orderType === OrderType.BUY ? 'Buy' : 'Sell'
-                        }}
-                      />
-                    </Cartridge>
-                  )}
-                </>
+                  </CartridgeWrapper>
+                ) : (
+                  <MaxAvailableWrapper orderType={orderType}>
+                    {orderType === OrderType.SELL && (
+                      <ActionsItem>
+                        <Text color='grey600' size='14px' weight={500}>
+                          <FormattedMessage id='copy.available' defaultMessage='Available' />
+                        </Text>
+                        <Text color='grey900' weight={600}>
+                          {getValue(max)}
+                        </Text>
+                      </ActionsItem>
+                    )}
+                    <CartridgeWrapper onClick={handleMinMaxClick}>
+                      <Cartridge error={amtError === 'ABOVE_MAX'}>
+                        <FormattedMessage
+                          id='modals.simplebuy.checkout.maxbuysell'
+                          defaultMessage='{orderType} Max'
+                          values={{
+                            orderType: orderType === OrderType.BUY ? 'Buy' : 'Sell'
+                          }}
+                        />
+                      </Cartridge>
+                    </CartridgeWrapper>
+                  </MaxAvailableWrapper>
+                )}
               </Amounts>
             )}
           {!props.isSddFlow &&
