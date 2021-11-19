@@ -32,10 +32,10 @@ const ApproveTransactionStep = (props) => {
           height='100px'
           width='auto'
           style={{ marginBottom: '0.5rem' }}
-          src='https://example.walletconnect.org/favicon.ico'
+          src={sessionDetails.peerMeta.icons[0]}
         />
         <Text weight={600} color='grey900' size='20px' style={{ marginBottom: '1rem' }}>
-          Sushi wants to connect
+          {sessionDetails.peerMeta.name} wants to connect
         </Text>
         <Text weight={500} color='grey600' size='14px' style={{ marginBottom: '0.5rem' }}>
           url
