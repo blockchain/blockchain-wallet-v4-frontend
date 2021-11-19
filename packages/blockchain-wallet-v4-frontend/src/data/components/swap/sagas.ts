@@ -262,17 +262,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
 
   // 👋
   // Eventually there won't be much difference between a swap, buy, or sell.
-  // We have 2 different directories (swap/simpleBuy) of sagas/actions/types
+  // We have 2 different directories (swap/buySell) of sagas/actions/types
   // but on the BE there won't be any difference, just on the FE (if product)
   // decides to keep things that way. In my opinion there is no difference
   // but for now I'm copying a lot of the code from here and putting it in
-  // simpleBuy.
+  // buySell.
   //
-  // As of this writing, simpleBuy only fetches one quote and doesn't need
+  // As of this writing, buySell only fetches one quote and doesn't need
   // to worry about expiration, but since we're now using swap 2.0 for sell
   // (and eventually buy) we'll need to worry about expiration and polling.
   //
-  // We can't just call the swap fetchQuote function from simpleBuy, because
+  // We can't just call the swap fetchQuote function from buySell, because
   // setting the swap quote loading will set the buy/sell quote loading,
   // which we might not want. This is a case of breakdown between product/design/development.
 

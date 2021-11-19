@@ -108,8 +108,8 @@ export const getEthData = (
         .map(toDropdown)
         .map(toGroup('Wallet')),
       showCustodial || showCustodialWithAddress
-        ? selectors.components.simpleBuy
-            .getSBBalances(state)
+        ? selectors.components.buySell
+            .getBSBalances(state)
             .map((x) => ({
               ...x.ETH,
               address: accountAddress ? accountAddress.data : null
@@ -250,8 +250,8 @@ export const getErc20Data = (
         .map(toGroup('Wallet')),
       Remote.of([]),
       showCustodial || showCustodialWithAddress
-        ? selectors.components.simpleBuy
-            .getSBBalances(state)
+        ? selectors.components.buySell
+            .getBSBalances(state)
             .map((x) => ({
               ...x[coin],
               address: accountAddress ? accountAddress.data : null

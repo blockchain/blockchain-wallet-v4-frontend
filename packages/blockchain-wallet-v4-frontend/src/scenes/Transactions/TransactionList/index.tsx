@@ -2,20 +2,20 @@ import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
 import {
+  BSOrderType,
+  BSTransactionType,
   CoinType,
-  FiatSBAndSwapTransactionType,
+  FiatBSAndSwapTransactionType,
   FiatType,
   ProcessedTxType,
   RemoteDataType,
-  SBOrderType,
-  SBTransactionType,
   WalletCurrencyType
 } from '@core/types'
 import DataError from 'components/DataError'
 
+import BuySellListItem from '../BSOrderTx'
 import CustodialTxListItem from '../CustodialTx'
 import NonCustodialTxListItem from '../NonCustodialTx'
-import SimpleBuyListItem from '../SBOrderTx'
 import SwapOrderTx from '../SwapOrderTx'
 import Loading from './template.loading'
 
@@ -54,11 +54,11 @@ class TransactionList extends PureComponent<Props> {
               // @ts-ignore
               <SwapOrderTx key={tx.id} order={tx} coin={coin as CoinType} />
             ) : 'pair' in tx ? (
-              <SimpleBuyListItem key={tx.id} order={tx} />
+              <BuySellListItem key={tx.id} order={tx} />
             ) : (
               <CustodialTxListItem
                 key={tx.id}
-                tx={tx as FiatSBAndSwapTransactionType}
+                tx={tx as FiatBSAndSwapTransactionType}
                 {...this.props}
               />
             )
@@ -73,13 +73,13 @@ export type Props = {
   coin: WalletCurrencyType
   coinTicker: string
   currency: FiatType
-  data: RemoteDataType<{ message: string }, Array<SBOrderType | ProcessedTxType>>
+  data: RemoteDataType<{ message: string }, Array<BSOrderType | ProcessedTxType>>
   onArchive: (address: string) => void
   onLoadMore: () => void
   onRefresh: () => void
   sourceType?: string
 }
 
-export type SuccessStateType = Array<SBOrderType | SBTransactionType | ProcessedTxType>
+export type SuccessStateType = Array<BSOrderType | BSTransactionType | ProcessedTxType>
 
 export default TransactionList

@@ -98,7 +98,7 @@ const PairDeviceStep = (props) => {
               <Text size='12px' weight={400}>
                 <FormattedMessage
                   id='modals.lockboxsetup.pairdevice.timeout.issue1'
-                  defaultMessage='My device is connected with the supplied USB cable.'
+                  defaultMessage='My device is connected with the supplied UBS cable.'
                 />
               </Text>
             </CheckboxLabel>

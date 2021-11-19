@@ -9,8 +9,8 @@ import {
   PaymentType,
   PaymentValue,
   RemoteDataType,
-  SBOrderType,
-  SBPaymentTypes,
+  BSOrderType,
+  BSPaymentTypes,
   WalletFiatType
 } from '@core/types'
 import { errorHandler } from '@core/utils'
@@ -64,7 +64,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const { currency } = action.payload
     try {
       yield put(A.fetchPaymentsTradingAccountLoading(currency))
-      const tradingAccount: BeneficiaryType = yield call(api.getSBPaymentAccount, currency)
+      const tradingAccount: BeneficiaryType = yield call(api.getBSPaymentAccount, currency)
       yield put(A.fetchPaymentsTradingAccountSuccess(currency, tradingAccount))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'fetchPaymentsTradingAccount', e))
@@ -149,10 +149,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const getWithdrawalLockCheck = function* () {
     try {
       yield put(A.getLockRuleLoading())
-      const payment: SBOrderType = yield select(selectors.components.simpleBuy.getSBOrder)
+      const payment: BSOrderType = yield select(selectors.components.buySell.getBSOrder)
 
       const fiatCurrency: WalletFiatType = yield select(
-        selectors.components.simpleBuy.getFiatCurrency
+        selectors.components.buySell.getFiatCurrency
       )
       const state = yield select()
       const settingsCurrency: WalletFiatType = selectors.core.settings
@@ -163,12 +163,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       // Lock rule can only be called with BANK_TRANSFER and PAYMENT_CARD
       // Adding check here to only pass those too, else pass BANK_TRANSFER
-      const withdrawalCheckPayment: SBPaymentTypes =
+      const withdrawalCheckPayment: BSPaymentTypes =
         payment &&
-        (payment.paymentType === SBPaymentTypes.BANK_TRANSFER ||
-          payment.paymentType === SBPaymentTypes.PAYMENT_CARD)
+        (payment.paymentType === BSPaymentTypes.BANK_TRANSFER ||
+          payment.paymentType === BSPaymentTypes.PAYMENT_CARD)
           ? payment.paymentType
-          : SBPaymentTypes.BANK_TRANSFER
+          : BSPaymentTypes.BANK_TRANSFER
 
       const withdrawalLockCheckResponse = yield call(
         api.checkWithdrawalLocks,

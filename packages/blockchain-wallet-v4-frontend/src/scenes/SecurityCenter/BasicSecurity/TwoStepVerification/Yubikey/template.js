@@ -71,7 +71,7 @@ const Yubikey = (props) => {
             <Text size='14px' weight={400}>
               <FormattedMessage
                 id='scenes.security.twostepverification.yubi.step1'
-                defaultMessage="1. Insert the Yubikey into your computer's USB port."
+                defaultMessage="1. Insert the Yubikey into your computer's UBS port."
               />
             </Text>
             <Text size='14px' weight={400} style={spacing('mt-5')}>

@@ -7,7 +7,7 @@ import { AgentType } from '@core/types'
 import { Icon, Link, TabMenu, TabMenuItem, Text, TextGroup } from 'blockchain-info-components'
 import CopyClipboardButton from 'components/Clipboard/CopyClipboardButton'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
-import { DisplayIcon, DisplaySubTitle, DisplayTitle } from 'components/SimpleBuy'
+import { DisplayIcon, DisplaySubTitle, DisplayTitle } from 'components/BuySell'
 import { BankDWStepType } from 'data/types'
 
 import { Props as OwnProps, SuccessStateType } from '.'

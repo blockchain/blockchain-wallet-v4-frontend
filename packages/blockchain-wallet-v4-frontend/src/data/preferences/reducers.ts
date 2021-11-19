@@ -61,7 +61,7 @@ export function preferencesReducer(
         culture
       }
     }
-    case AT.SET_SB_CHECKOUT_FIX: {
+    case AT.SET_BS_CHECKOUT_FIX: {
       return {
         ...state,
         sbCheckout: {

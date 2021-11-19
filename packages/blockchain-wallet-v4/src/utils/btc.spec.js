@@ -128,12 +128,12 @@ describe('Btc Utils', () => {
     it('should handle hex format', () => {
       const hexFormatPriv = '0F9068759F84E38016CD0D2D7AA28D0A0A98664D0A2597C679B7F3D352005E5D'
       const address = privToAddress(hexFormatPriv)
-      expect(address).toBe('1EQqb51PAxSVPKc8TmFp23SBXxmpuhQcS')
+      expect(address).toBe('1EQqb51PAxSVPKc8TmFp23BSXxmpuhQcS')
     })
     it('should handle base64 format', () => {
       const base64FormatPriv = 'D5BodZ+E44AWzQ0teqKNCgqYZk0KJZfGebfz01IAXl0='
       const address = privToAddress(base64FormatPriv)
-      expect(address).toBe('1EQqb51PAxSVPKc8TmFp23SBXxmpuhQcS')
+      expect(address).toBe('1EQqb51PAxSVPKc8TmFp23BSXxmpuhQcS')
     })
   })
 })

@@ -3619,7 +3619,7 @@
         "id": "modals.simplebuy.link_card_failed"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/AddCard/model.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/AddCard/model.json"
   },
   {
     "descriptors": [
@@ -3700,7 +3700,7 @@
         "id": "modals.simplebuy.add_card.pricacy_disclaimer"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/AddCard/template.success.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/AddCard/template.success.json"
   },
   {
     "descriptors": [
@@ -3797,7 +3797,7 @@
         "id": "copy.deny"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/Authorize/index.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/Authorize/index.json"
   },
   {
     "descriptors": [
@@ -3806,7 +3806,7 @@
         "id": "loader.message.gettingready"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/BankWireDetails/template.loading.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/BankWireDetails/template.loading.json"
   },
   {
     "descriptors": [
@@ -3931,7 +3931,7 @@
         "id": "modals.simplebuy.transferdetails.agree"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/BankWireDetails/template.success.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/BankWireDetails/template.success.json"
   },
   {
     "descriptors": [
@@ -3980,7 +3980,7 @@
         "id": "modals.simplebuy.save_my_card"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/BillingAddress/template.success.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/BillingAddress/template.success.json"
   },
   {
     "descriptors": [
@@ -4033,7 +4033,7 @@
         "id": "buttons.cancel"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/CheckoutConfirm/template.success.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/CheckoutConfirm/template.success.json"
   },
   {
     "descriptors": [
@@ -4066,7 +4066,7 @@
         "id": "buttons.sell_crypto"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/CryptoSelection/CryptoSelector/index.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/CryptoSelection/CryptoSelector/index.json"
   },
   {
     "descriptors": [
@@ -4107,7 +4107,7 @@
         "id": "modals.wallet.welcome.sb.button"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/CryptoSelection/CryptoSelector/SellEmptyState/index.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/CryptoSelection/CryptoSelector/SellEmptyState/index.json"
   },
   {
     "descriptors": [
@@ -4120,7 +4120,7 @@
         "id": "buttons.tryagain"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/CryptoSelection/template.failure.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/CryptoSelection/template.failure.json"
   },
   {
     "descriptors": [
@@ -4153,7 +4153,7 @@
         "id": "buttons.ok"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/CryptoSelection/template.unsupported.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/CryptoSelection/template.unsupported.json"
   },
   {
     "descriptors": [
@@ -4178,7 +4178,7 @@
         "id": "modals.simplebuy.setupaccount"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/EnterAmount/Checkout/ActionButton/index.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/EnterAmount/Checkout/ActionButton/index.json"
   },
   {
     "descriptors": [
@@ -4191,7 +4191,7 @@
         "id": "modals.simplebuy.checkout.larger_amount.info"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/EnterAmount/Checkout/IncreaseLimits/index.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/EnterAmount/Checkout/IncreaseLimits/index.json"
   },
   {
     "descriptors": [
@@ -4204,7 +4204,7 @@
         "id": "modals.simplebuy.checkout.receive"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/EnterAmount/Checkout/Payment/index.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/EnterAmount/Checkout/Payment/index.json"
   },
   {
     "descriptors": [
@@ -4233,7 +4233,7 @@
         "id": "modals.simplebuy.confirm.jump_to_payment"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/EnterAmount/Checkout/Payment/model.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/EnterAmount/Checkout/Payment/model.json"
   },
   {
     "descriptors": [
@@ -4270,7 +4270,7 @@
         "id": "copy.not_enough_eth1"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/EnterAmount/Checkout/template.success.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/EnterAmount/Checkout/template.success.json"
   },
   {
     "descriptors": [
@@ -4283,7 +4283,7 @@
         "id": "buttons.tryagain"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/EnterAmount/template.failure.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/EnterAmount/template.failure.json"
   },
   {
     "descriptors": [
@@ -4316,7 +4316,7 @@
         "id": "buttons.ok"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/EnterAmount/template.unsupported.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/EnterAmount/template.unsupported.json"
   },
   {
     "descriptors": [
@@ -4357,7 +4357,7 @@
         "id": "modals.confirm.confirm.verify_identity"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/KycRequired/template.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/KycRequired/template.json"
   },
   {
     "descriptors": [
@@ -4370,7 +4370,7 @@
         "id": "modals.simplebuy.paymentcard"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/LinkedPaymentAccounts/Accounts/Card/index.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/LinkedPaymentAccounts/Accounts/Card/index.json"
   },
   {
     "descriptors": [
@@ -4403,7 +4403,7 @@
         "id": "buttons.add_new"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/LinkedPaymentAccounts/Accounts/index.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/LinkedPaymentAccounts/Accounts/index.json"
   },
   {
     "descriptors": [
@@ -4436,7 +4436,7 @@
         "id": "modals.simplebuy.deposit.bank_transfer"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/model.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/model.json"
   },
   {
     "descriptors": [
@@ -4445,7 +4445,7 @@
         "id": "copy.confirm_with_your_bank"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/OpenBankingConnect/template.success.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/OpenBankingConnect/template.success.json"
   },
   {
     "descriptors": [
@@ -4462,7 +4462,7 @@
         "id": "modals.simplebuy.interest_banner.earn_now"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/OrderSummary/InterestBanner/template.success.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/OrderSummary/InterestBanner/template.success.json"
   },
   {
     "descriptors": [
@@ -4487,7 +4487,7 @@
         "id": "modals.simplebuy.unknown"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/OrderSummary/model.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/OrderSummary/model.json"
   },
   {
     "descriptors": [
@@ -4532,7 +4532,7 @@
         "id": "modals.simplebuy.summary.learn_more"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/OrderSummary/template.sdd.success.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/OrderSummary/template.sdd.success.json"
   },
   {
     "descriptors": [
@@ -4597,7 +4597,7 @@
         "id": "modals.simplebuy.summary.ach_lock"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/OrderSummary/template.success.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/OrderSummary/template.success.json"
   },
   {
     "descriptors": [
@@ -4610,7 +4610,7 @@
         "id": "modals.simplebuy.bankwire.description_v2"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/PaymentMethods/Methods/BankWire/index.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/PaymentMethods/Methods/BankWire/index.json"
   },
   {
     "descriptors": [
@@ -4635,7 +4635,7 @@
         "id": "copy.no_payment_methods"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/PaymentMethods/Methods/index.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/PaymentMethods/Methods/index.json"
   },
   {
     "descriptors": [
@@ -4652,7 +4652,7 @@
         "id": "modals.simplebuy.linkbank.description"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/PaymentMethods/Methods/LinkBank/index.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/PaymentMethods/Methods/LinkBank/index.json"
   },
   {
     "descriptors": [
@@ -4669,7 +4669,7 @@
         "id": "copy.most_popular"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/PaymentMethods/Methods/PaymentCard/index.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/PaymentMethods/Methods/PaymentCard/index.json"
   },
   {
     "descriptors": [
@@ -4682,7 +4682,7 @@
         "id": "buttons.tryagain"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/PaymentMethods/template.failure.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/PaymentMethods/template.failure.json"
   },
   {
     "descriptors": [
@@ -4715,7 +4715,7 @@
         "id": "buttons.ok"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/PaymentMethods/template.unsupported.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/PaymentMethods/template.unsupported.json"
   },
   {
     "descriptors": [
@@ -4764,7 +4764,7 @@
         "id": "copy.swap_amount_change_disclaimer"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/PreviewSell/index.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/PreviewSell/index.json"
   },
   {
     "descriptors": [
@@ -4793,7 +4793,7 @@
         "id": "modals.simplebuy.unknown"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/SellOrderSummary/model.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/SellOrderSummary/model.json"
   },
   {
     "descriptors": [
@@ -4826,7 +4826,7 @@
         "id": "modals.simplebuy.summary.paymentmethod"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/SellOrderSummary/template.success.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/SellOrderSummary/template.success.json"
   },
   {
     "descriptors": [
@@ -4835,7 +4835,7 @@
         "id": "modals.simplebuy.processing"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/template.loading.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/template.loading.json"
   },
   {
     "descriptors": [
@@ -4852,7 +4852,7 @@
         "id": "scenes.exchange.exchangeform.refreshlatest"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/template.pending.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/template.pending.json"
   },
   {
     "descriptors": [
@@ -4897,7 +4897,7 @@
         "id": "modals.simplebuy.rejected.contact_support"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/template.rejected.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/template.rejected.json"
   },
   {
     "descriptors": [
@@ -4914,7 +4914,7 @@
         "id": "modals.simplebuy.linking_card.time"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/ThreeDSHandler/template.loading.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/ThreeDSHandler/template.loading.json"
   },
   {
     "descriptors": [
@@ -4963,7 +4963,7 @@
         "id": "modals.confirm.cancel.verify_identity"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/UpgradeToGold/template.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/UpgradeToGold/template.json"
   },
   {
     "descriptors": [
@@ -5000,7 +5000,7 @@
         "id": "modals.simplebuy.verifyemail.resend"
       }
     ],
-    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/SimpleBuy/VerifyEmail/template.success.json"
+    "path": "extracted-ts/packages/blockchain-wallet-v4-frontend/src/modals/BuySell/VerifyEmail/template.success.json"
   },
   {
     "descriptors": [

@@ -114,7 +114,7 @@ export default ({ api }: { api: APIType }) => {
 
       // eslint-disable-next-line
       const processedTxPage: Array<EthProcessedTxType> = yield call(__processTxs, txPage)
-      const nextSBTransactionsURL = selectors.data.custodial.getNextSBTransactionsURL(
+      const nextBSTransactionsURL = selectors.data.custodial.getNextBSTransactionsURL(
         yield select(),
         'ETH'
       )
@@ -124,7 +124,7 @@ export default ({ api }: { api: APIType }) => {
         nextPage,
         atBounds,
         'ETH',
-        reset ? null : nextSBTransactionsURL
+        reset ? null : nextBSTransactionsURL
       )
       const page = flatten([processedTxPage, custodialPage.orders]).sort((a, b) => {
         return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
@@ -344,7 +344,7 @@ export default ({ api }: { api: APIType }) => {
       // eslint-disable-next-line
       const walletPage: Array<EthProcessedTxType> = yield call(__processErc20Txs, txs, token)
       const coin: Erc20CoinType = token.toUpperCase()
-      const nextSBTransactionsURL = selectors.data.custodial.getNextSBTransactionsURL(
+      const nextBSTransactionsURL = selectors.data.custodial.getNextBSTransactionsURL(
         yield select(),
         coin
       )
@@ -354,7 +354,7 @@ export default ({ api }: { api: APIType }) => {
         nextPage,
         atBounds,
         coin,
-        reset ? null : nextSBTransactionsURL
+        reset ? null : nextBSTransactionsURL
       )
       const page = flatten([walletPage, custodialPage.orders]).sort((a, b) => {
         return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()

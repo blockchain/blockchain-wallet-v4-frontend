@@ -95,7 +95,7 @@ export const getData = (state, ownProps: OwnProps) => {
       }
   }
   const currencyR = selectors.core.settings.getCurrency(state)
-  const sbBalancesR = selectors.components.simpleBuy.getSBBalances(state)
+  const sbBalancesR = selectors.components.buySell.getBSBalances(state)
 
   const transform = (
     addressData,

@@ -6,7 +6,7 @@ import styled from 'styled-components'
 
 import Currencies from '@core/exchange/currencies'
 import { fiatToString } from '@core/exchange/utils'
-import { BeneficiaryType, CrossBorderLimits, FiatType, SBPaymentMethodType } from '@core/types'
+import { BeneficiaryType, CrossBorderLimits, FiatType, BSPaymentMethodType } from '@core/types'
 import {
   Box,
   Button,
@@ -38,7 +38,7 @@ import {
 import { checkCrossBorderLimit, minMaxAmount } from 'components/Flyout/validation'
 import { Form } from 'components/Form'
 import { CheckoutRow } from 'components/Rows'
-import { DisplayPaymentIcon } from 'components/SimpleBuy'
+import { DisplayPaymentIcon } from 'components/BuySell'
 import { actions } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { BankTransferAccountType, BrokerageOrderType } from 'data/types'
@@ -333,7 +333,7 @@ const Account = ({
   handleMethodClick: () => void
   invalid: boolean
   paymentAccount?: BankTransferAccountType | BeneficiaryType
-  paymentMethod: SBPaymentMethodType
+  paymentMethod: BSPaymentMethodType
 }) => {
   return (
     <Box
@@ -344,7 +344,7 @@ const Account = ({
       isMethod={!!paymentAccount}
     >
       <DisplayPaymentIcon showBackground={!paymentAccount}>
-        {getIcon({ ...paymentMethod, ...paymentAccount } as SBPaymentMethodType, false, invalid)}
+        {getIcon({ ...paymentMethod, ...paymentAccount } as BSPaymentMethodType, false, invalid)}
       </DisplayPaymentIcon>
       <PaymentText isMethod={!!paymentAccount}>{getBankText(paymentAccount)}</PaymentText>
       <PaymentArrowContainer>
@@ -484,7 +484,7 @@ export type OwnProps =
       minWithdrawAmount?: never
       orderType: BrokerageOrderType.DEPOSIT
       paymentAccount?: BankTransferAccountType | BeneficiaryType
-      paymentMethod: SBPaymentMethodType
+      paymentMethod: BSPaymentMethodType
       withdrawableBalance?: never
     }
   | {
@@ -498,7 +498,7 @@ export type OwnProps =
       minWithdrawAmount: string
       orderType: BrokerageOrderType.WITHDRAW
       paymentAccount?: BankTransferAccountType | BeneficiaryType
-      paymentMethod: SBPaymentMethodType
+      paymentMethod: BSPaymentMethodType
       withdrawableBalance: string
     } // add another union type here when moving buy sell enter amount screens over
 

@@ -2,8 +2,8 @@ import {
   AgentType,
   CoinType,
   FiatType,
-  SBPaymentTypes,
-  SBTransactionStateType,
+  BSPaymentTypes,
+  BSTransactionStateType,
   WalletAcountType,
   WalletCurrencyType,
   WalletFiatType
@@ -54,7 +54,7 @@ export type PaymentDepositPendingResponseType = {
   insertedAt: string
   owner: string
   product: NabuCustodialProductType
-  state: SBTransactionStateType
+  state: BSTransactionStateType
   txHash: string
   updatedAt: string
 }
@@ -142,7 +142,7 @@ export type PaymentMethod = {
   ineligibleReason: IneligibilityReasons
   limits: { max: string; min: string }
   subTypes: string[]
-  type: SBPaymentTypes.PAYMENT_CARD | SBPaymentTypes.BANK_ACCOUNT
+  type: BSPaymentTypes.PAYMENT_CARD | BSPaymentTypes.BANK_ACCOUNT
 }
 
 export type GetTransactionsHistoryType = {

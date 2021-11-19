@@ -98,7 +98,7 @@ const ConnectDeviceStep = (props) => {
             <Text size='13px' weight={400}>
               <FormattedMessage
                 id='modals.lockboxsetup.connectdevice.new.stepone'
-                defaultMessage='Connect your {deviceType} to your computer with the supplied USB cable.'
+                defaultMessage='Connect your {deviceType} to your computer with the supplied UBS cable.'
                 values={{ deviceType }}
               />
             </Text>
@@ -202,7 +202,7 @@ const ConnectDeviceStep = (props) => {
             <StepText size='13px' weight={400}>
               <FormattedMessage
                 id='modals.lockboxsetup.connectdevice.existing.stepone'
-                defaultMessage='1. Connect your {deviceType} to your computer with the supplied USB cable.'
+                defaultMessage='1. Connect your {deviceType} to your computer with the supplied UBS cable.'
                 values={{ deviceType }}
               />
             </StepText>

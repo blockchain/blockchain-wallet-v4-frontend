@@ -1099,7 +1099,7 @@ type MessagesType = {
   'modals.lockboxfirmware.installstep.title': 'Finalizing Install'
   'modals.lockboxfirmware.uninstallapps.message1': "Update in progress. Please keep your browser opened, your device opened, and wait while your device's applications are uninstalled for the time being."
   'modals.lockboxfirmware.uninstallapps.message2': 'Also, please verify the below on your device before continuing.'
-  'modals.lockboxsetup.connectdevice.existing.stepone': '1. Connect your {deviceType} to your computer with the supplied USB cable.'
+  'modals.lockboxsetup.connectdevice.existing.stepone': '1. Connect your {deviceType} to your computer with the supplied UBS cable.'
   'modals.lockboxsetup.connectdevice.existing.stepthreenew': '3. Ensure the device dashboard is open and you are not in an application.'
   'modals.lockboxsetup.connectdevice.existing.steptwo1': '2. Enter your pin on the device.'
   'modals.lockboxsetup.connectdevice.new.five': '5.'
@@ -1110,7 +1110,7 @@ type MessagesType = {
   'modals.lockboxsetup.connectdevice.new.six': '6.'
   'modals.lockboxsetup.connectdevice.new.stepfivenew': "Ensure your device's dashboard is open."
   'modals.lockboxsetup.connectdevice.new.stepfour': 'Complete backup phrase process.'
-  'modals.lockboxsetup.connectdevice.new.stepone': 'Connect your {deviceType} to your computer with the supplied USB cable.'
+  'modals.lockboxsetup.connectdevice.new.stepone': 'Connect your {deviceType} to your computer with the supplied UBS cable.'
   'modals.lockboxsetup.connectdevice.new.stepsixnew': 'Press the continue button below.'
   'modals.lockboxsetup.connectdevice.new.stepthree': 'Set a pin for your device.'
   'modals.lockboxsetup.connectdevice.new.steptwo': 'Press both buttons on the top of your {deviceType} to begin.'
@@ -1145,7 +1145,7 @@ type MessagesType = {
   'modals.lockboxsetup.pairdevice.install': "Don't have the Bitcoin app on your {deviceType}? Install it"
   'modals.lockboxsetup.pairdevice.intro': 'Open the Bitcoin app on your {deviceType}. This will pair your device with your Blockchain wallet so that you can always view the balance of your Lockbox.'
   'modals.lockboxsetup.pairdevice.timeout.header': 'Are you having issues?'
-  'modals.lockboxsetup.pairdevice.timeout.issue1': 'My device is connected with the supplied USB cable.'
+  'modals.lockboxsetup.pairdevice.timeout.issue1': 'My device is connected with the supplied UBS cable.'
   'modals.lockboxsetup.pairdevice.timeout.issue2.part1': 'I have installed the Bitcoin app. If you do not have the app installed, click'
   'modals.lockboxsetup.pairdevice.timeout.issue2.part3': 'to install it.'
   'modals.lockboxsetup.pairdevice.timeout.issue3': 'The Bitcoin app is open on my device. Use the top buttons to scroll left or right to the Bitcoin app. Then press the top two buttons to open the app.'
@@ -1441,11 +1441,11 @@ type MessagesType = {
   'modals.sendbtc.secondstep.send': 'Send Bitcoin'
   'modals.sendbtc.secondstep.to': 'To:'
   'modals.sendbtc.secontstep.sendtotal': 'Total:'
-  "modals.sendcrypto.coinselect.noaccounts": "Currently there are no accounts for the selected crypto.",
-  "modals.sendcrypto.coinselect.subtitle": "Select the wallet you want to send from.",
-  "modals.sendcrypto.coinselect.title": "Send Crypto",
-  "modals.sendcrypto.enteramount.title": "Send",
-  "modals.sendcrypto.enteramount.over_limits": "Sending from Trade Accounts cannot exceed {currency}{amount} a {period}. You have {currency}{remainingAmount} remaining.",
+  'modals.sendcrypto.coinselect.noaccounts': 'Currently there are no accounts for the selected crypto.'
+  'modals.sendcrypto.coinselect.subtitle': 'Select the wallet you want to send from.'
+  'modals.sendcrypto.coinselect.title': 'Send Crypto'
+  'modals.sendcrypto.enteramount.title': 'Send'
+  'modals.sendcrypto.enteramount.over_limits': 'Sending from Trade Accounts cannot exceed {currency}{amount} a {period}. You have {currency}{remainingAmount} remaining.'
   'modals.sendeth.amountnotzeromessage': 'Invalid amount'
   'modals.sendeth.cointitle': 'Send {coinDisplayName}'
   'modals.sendeth.firststep.browserwarn': 'Sending Ether from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.'
@@ -2490,7 +2490,7 @@ type MessagesType = {
   'scenes.security.twostepverification.mobile.title': 'Two-Step Verification - Mobile Phone Number'
   'scenes.security.twostepverification.sms.entercode': 'Enter your verification code below and click submit.'
   'scenes.security.twostepverification.sms.entermobile': 'Enter your mobile number and click Get Code. A verification code will be sent.'
-  'scenes.security.twostepverification.yubi.step1': "1. Insert the Yubikey into your computer's USB port."
+  'scenes.security.twostepverification.yubi.step1': "1. Insert the Yubikey into your computer's UBS port."
   'scenes.security.twostepverification.yubi.step2': '2. Pair your Yubikey.'
   'scenes.security.twostepverification.yubi.submit': 'Submit'
   'scenes.security.twostepverification.yubi.title': 'Two-Step Verification - Yubikey'

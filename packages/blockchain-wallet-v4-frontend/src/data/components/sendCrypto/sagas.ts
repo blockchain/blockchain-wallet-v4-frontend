@@ -88,8 +88,8 @@ export default ({ api }: { api: APIType }) => {
       const finalAmt = convertCoinToCoin({ baseToStandard: false, coin, value: amount })
       const finalFee = convertCoinToCoin({ baseToStandard: false, coin, value: fee || 0 })
 
-      const response: ReturnType<typeof api.withdrawSBFunds> = yield call(
-        api.withdrawSBFunds,
+      const response: ReturnType<typeof api.withdrawBSFunds> = yield call(
+        api.withdrawBSFunds,
         to,
         coin,
         finalAmt,
