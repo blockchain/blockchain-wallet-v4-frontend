@@ -201,7 +201,11 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
     paymentPartner === BankPartners.YAPILY ? (
       <FormattedMessage id='copy.next' defaultMessage='Next' />
     ) : (
-      `${orderType === OrderType.BUY ? 'Buy' : 'Sell'} ${baseAmount} ${baseCurrencyDisplay}`
+      <FormattedMessage
+        id='buttons.buy_sell_now'
+        defaultMessage='{orderType} Now'
+        values={{ orderType: orderType === OrderType.BUY ? 'Buy' : 'Sell' }}
+      />
     )
   return (
     <CustomForm onSubmit={props.handleSubmit}>

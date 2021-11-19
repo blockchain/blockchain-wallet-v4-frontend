@@ -38,18 +38,15 @@ const CustomForm = styled(Form)`
 
 const RowItem = styled(Row)`
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
 `
 const TopRow = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
 `
 
 const RowIcon = styled.div`
   display: flex;
-  flex-direction: row;
 `
 
 const RowItemContainer = styled.div`
@@ -76,7 +73,6 @@ const AdditionalText = styled(Text)`
 `
 const ToolTipText = styled.div`
   display: flex;
-  flex-direction: row;
   border-radius: 8px;
   margin-top: 8px;
   padding: 16px;
@@ -127,7 +123,6 @@ const DisclaimerText = styled(Text)`
   display: flex;
   font-size: 14px;
   font-weight: 500;
-  flex-direction: row;
   margin-top: 24px;
   text-align: left;
   a {
@@ -538,10 +533,10 @@ class PreviewSell extends PureComponent<
                   ) : (
                     <Text weight={600} color='white'>
                       <FormattedMessage
-                        id='buttons.sell_coin'
-                        defaultMessage='Sell {displayName}'
+                        id='buttons.buy_sell_now'
+                        defaultMessage='{orderType} Now'
                         values={{
-                          displayName: this.displayAmount(formValues, account)
+                          orderType: 'Sell'
                         }}
                       />
                     </Text>
