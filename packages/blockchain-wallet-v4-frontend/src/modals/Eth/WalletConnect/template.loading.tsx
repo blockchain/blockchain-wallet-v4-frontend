@@ -5,7 +5,7 @@ import { BlockchainLoader, Text } from 'blockchain-info-components'
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 80px);
   align-items: center;
   justify-content: center;
   display: flex;
@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 const Loading = () => (
   <Wrapper>
     <BlockchainLoader width='80px' height='80px' />
-    <Text weight={600} color='grey600' style={{ marginTop: '24px' }}>
+    <Text weight={600} color='grey900' style={{ marginTop: '24px' }}>
       Loading Wallet Connect
     </Text>
   </Wrapper>
