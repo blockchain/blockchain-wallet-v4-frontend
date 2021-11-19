@@ -78,3 +78,8 @@ export type ModifyDappConnectionPayload = {
 export type AddNewDappFormType = {
   newConnectionString: string
 }
+
+export type InitWalletConnectPayload = {
+  sessionDetails?: SessionDetailsType
+  uri: string
+}

@@ -6,6 +6,7 @@ import { coreSelectors } from 'blockchain-wallet-v4/src'
 import { actions, selectors } from 'data'
 import {
   AddNewDappFormType,
+  InitWalletConnectPayload,
   RequestMethodType,
   WalletConnectStep
 } from 'data/components/walletConnect/types'
@@ -23,7 +24,7 @@ export default ({ coreSagas }) => {
   let rpc
 
   // adds a new dapp connection to local storage
-  const addDappToLocalStorage = function* ({ sessionDetails, uri }) {
+  const addDappToLocalStorage = function* ({ clientId, sessionDetails, uri }) {
     // get existing dapp connections
     const dappList = yield select(S.getAuthorizedDappsList)
     // check if dapp was already stored
@@ -34,10 +35,10 @@ export default ({ coreSagas }) => {
 
     if (matchIndex !== -1) {
       // update exist dapp if match found
-      dappList[matchIndex] = { sessionDetails, uri }
+      dappList[matchIndex] = { clientId, sessionDetails, uri }
     } else {
       // push new dapp to list
-      dappList.push({ sessionDetails, uri })
+      dappList.push({ clientId, sessionDetails, uri })
     }
 
     // write list back to local storage
@@ -127,20 +128,29 @@ export default ({ coreSagas }) => {
     })
   }
 
-  const startRpcConnection = function* ({ uri }: { uri: string }) {
+  const startRpcConnection = function* ({ sessionDetails, uri }: InitWalletConnectPayload) {
     let channel
-
     try {
       // TODO: evaluate the need for this HACK!?
       localStorage.removeItem('walletconnect')
-      localStorage.removeItem('walletConnectUri')
-      localStorage.removeItem('walletConnectSession')
 
       // init rpc
       rpc = new WalletConnect({
         clientMeta: BC_CLIENT_METADATA,
         uri
       })
+
+      // check for existing client id
+      if (sessionDetails) {
+        const dappList = yield select(S.getAuthorizedDappsList)
+        const matchIndex = dappList.findIndex(
+          (dapp) =>
+            JSON.stringify(dapp.sessionDetails.peerMeta) === JSON.stringify(sessionDetails.peerMeta)
+        )
+        if (matchIndex !== -1) {
+          rpc.client = dappList[matchIndex].clientId
+        }
+      }
 
       // start listeners for rpc messages
       channel = yield call(createRpcListenerChannels)
@@ -172,7 +182,7 @@ export default ({ coreSagas }) => {
 
       // if rpc connection exists and it matches the requested dapp to be launched
       if (!rpc || JSON.stringify(sessionDetails.peerMeta) !== JSON.stringify(rpc.peerMeta)) {
-        yield put(A.initWalletConnect(uri))
+        yield put(A.initWalletConnect({ sessionDetails, uri }))
       }
     } catch (e) {
       logError(e)
@@ -196,10 +206,11 @@ export default ({ coreSagas }) => {
     }
   }
 
-  const initWalletConnect = function* ({ payload: uri }: ReturnType<typeof A.initWalletConnect>) {
+  const initWalletConnect = function* ({ payload }: ReturnType<typeof A.initWalletConnect>) {
     try {
+      const { sessionDetails, uri } = payload
       // start rpc connection and listeners
-      const rpcTask = yield fork(startRpcConnection, { uri })
+      const rpcTask = yield fork(startRpcConnection, { sessionDetails, uri })
       // wait for a disconnect event
       yield take(A.handleSessionDisconnect.type)
       // disconnect received, kill rpc
@@ -220,8 +231,10 @@ export default ({ coreSagas }) => {
       if (action === 'APPROVE') {
         // store dapp details on state
         yield put(A.setSessionDetails(sessionDetails))
+
+        // TODO: really pulling clientId from rpc...?
         // store dapp connection in local storage
-        yield call(addDappToLocalStorage, { sessionDetails, uri })
+        yield call(addDappToLocalStorage, { clientId: rpc.clientId, sessionDetails, uri })
 
         const ethAccount = (yield select(coreSelectors.kvStore.eth.getContext)).getOrFail(
           'Failed to extract ETH account.'
@@ -278,7 +291,7 @@ export default ({ coreSagas }) => {
       const { newConnectionString } = selectors.form.getFormValues(WC_ADD_DAPP_FORM)(
         yield select()
       ) as AddNewDappFormType
-      yield put(A.initWalletConnect(newConnectionString))
+      yield put(A.initWalletConnect({ uri: newConnectionString }))
     } catch (e) {
       logError(e)
     }
