@@ -505,16 +505,18 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             Number(min) <= Number(max) && (
               <Amounts>
                 {amtError === 'BELOW_MIN' ? (
-                  <GreyBlueCartridge data-e2e='sbEnterAmountMin' role='button'>
-                    <FormattedMessage
-                      id='modals.simplebuy.checkout.belowmin'
-                      defaultMessage='{value} Minimum {orderType}'
-                      values={{
-                        orderType: props.orderType === OrderType.BUY ? 'Buy' : 'Sell',
-                        value: getValue(min)
-                      }}
-                    />
-                  </GreyBlueCartridge>
+                  <CartridgeWrapper onClick={handleMinMaxClick}>
+                    <GreyBlueCartridge data-e2e='sbEnterAmountMin' role='button'>
+                      <FormattedMessage
+                        id='modals.simplebuy.checkout.belowmin'
+                        defaultMessage='{value} Minimum {orderType}'
+                        values={{
+                          orderType: props.orderType === OrderType.BUY ? 'Buy' : 'Sell',
+                          value: getValue(min)
+                        }}
+                      />
+                    </GreyBlueCartridge>
+                  </CartridgeWrapper>
                 ) : (
                   <MaxAvailableWrapper orderType={orderType}>
                     {orderType === OrderType.SELL && (
