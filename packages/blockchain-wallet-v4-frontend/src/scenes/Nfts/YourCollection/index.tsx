@@ -115,7 +115,7 @@ const YourCollection: React.FC<Props> = (props) => {
                   href={asset.permalink}
                   target='_blank'
                 >
-                  View on Opensea
+                  View on OpenSea
                 </Link>
               </CTAWrapper>
             </Asset>
