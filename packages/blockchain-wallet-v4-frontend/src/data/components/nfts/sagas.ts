@@ -164,20 +164,6 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const cancelListing = function* (action: ReturnType<typeof A.cancelListing>) {
-    try {
-      const signer = yield call(getEthSigner)
-      yield put(A.cancelListingLoading())
-      yield call(cancelNftListing, action.payload.sell_order, signer, action.payload.gasData)
-      yield put(A.cancelListingSuccess())
-      yield put(actions.alerts.displaySuccess(`Successfully cancelled listing!`))
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(actions.alerts.displayError(error))
-      yield put(A.cancelListingFailure({ error }))
-    }
-  }
-
   const fetchFees = function* (action: ReturnType<typeof A.fetchFees>) {
     try {
       yield put(A.fetchFeesLoading())
@@ -274,6 +260,22 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.createSellOrderFailure(error))
       yield put(actions.logs.logErrorMessage(error))
       yield put(actions.alerts.displayError(error))
+    }
+  }
+
+  const cancelListing = function* (action: ReturnType<typeof A.cancelListing>) {
+    try {
+      const signer = yield call(getEthSigner)
+      yield put(A.cancelListingLoading())
+      yield call(cancelNftListing, action.payload.sell_order, signer, action.payload.gasData)
+      yield put(A.clearAndRefetchAssets())
+      yield put(A.cancelListingSuccess())
+      yield put(actions.modals.closeAllModals())
+      yield put(actions.alerts.displaySuccess(`Successfully cancelled listing!`))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(actions.alerts.displayError(error))
+      yield put(A.cancelListingFailure({ error }))
     }
   }
 
