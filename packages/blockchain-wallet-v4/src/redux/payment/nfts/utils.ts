@@ -565,6 +565,7 @@ async function getTransferFeeSettings(
 
 export function _makeMatchingOrder({
   accountAddress,
+  expirationTime,
   offer,
   order,
   paymentTokenAddress,
@@ -572,7 +573,8 @@ export function _makeMatchingOrder({
 }: {
   // UnsignedOrder;
   accountAddress: string
-  offer?: string
+  expirationTime: number
+  offer: null | string
   order: Order
   paymentTokenAddress: null | string
   recipientAddress: string
@@ -627,7 +629,7 @@ export function _makeMatchingOrder({
     Error
   >
 
-  const times = _getTimeParameters(0)
+  const times = _getTimeParameters(expirationTime)
   // Compat for matching buy orders that have fee recipient still on them
   const feeRecipient = order.feeRecipient === NULL_ADDRESS ? OPENSEA_FEE_RECIPIENT : NULL_ADDRESS
 
@@ -2174,6 +2176,7 @@ export async function _makeBuyOrder({
 }
 export async function createSellOrder(
   asset: NftAsset,
+  expirationTime: number,
   signer: Signer,
   startPrice: number,
   endPrice: number | null,
@@ -2187,7 +2190,7 @@ export async function createSellOrder(
     asset,
     buyerAddress: '0x0000000000000000000000000000000000000000',
     endAmount: endPrice,
-    expirationTime: 0,
+    expirationTime,
     extraBountyBasisPoints: 0,
     paymentTokenAddress,
     quantity: 1,
@@ -2219,6 +2222,8 @@ export async function createSellOrder(
 }
 
 export async function createMatchingOrders(
+  expirationTime: number,
+  offer: null | string,
   order: NftOrdersType['orders'][0],
   signer: Signer,
   paymentTokenAddress: null | string
@@ -2227,6 +2232,8 @@ export async function createMatchingOrders(
   // TODO: If its an english auction bid above the basePrice include an offer property in the _makeMatchingOrder call
   const matchingOrder = _makeMatchingOrder({
     accountAddress,
+    expirationTime,
+    offer,
     order,
     paymentTokenAddress,
     recipientAddress: accountAddress
