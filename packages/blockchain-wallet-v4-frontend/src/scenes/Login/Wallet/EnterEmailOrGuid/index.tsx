@@ -28,7 +28,6 @@ import {
 const LoginWrapper = styled(Wrapper)`
   display: flex;
   flex-direction: column;
-  z-index: 1;
   padding: 0 0 32px 0;
 `
 

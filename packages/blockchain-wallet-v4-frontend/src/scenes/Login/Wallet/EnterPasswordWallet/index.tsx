@@ -6,12 +6,12 @@ import { bindActionCreators } from 'redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { RemoteDataType } from '@core/types'
-import { HeartbeatLoader, Icon, Link, Text } from 'blockchain-info-components'
+import { HeartbeatLoader, Image, Link, Text } from 'blockchain-info-components'
 import { FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import { actions, selectors } from 'data'
+import { LoginSteps, ProductAuthOptions } from 'data/types'
 import { isBrowserSupported } from 'services/browser'
 import { required } from 'services/forms'
 import { media } from 'services/styles'
@@ -22,9 +22,11 @@ import {
   BackArrowFormHeader,
   CenteredColumn,
   NeedHelpLink,
+  ProductTab,
   removeWhitespace,
   Row,
   SignUpLink,
+  TabWrapper,
   UnsupportedBrowserWarning,
   WrapperWithPadding
 } from '../../model'
@@ -32,6 +34,8 @@ import {
 const OuterWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
+  height: 100%;
   ${media.tabletL`
     width: 100%;
     justify-content: center;
@@ -42,29 +46,19 @@ const FormWrapper = styled(Wrapper)`
   display: flex;
   flex-direction: column;
   z-index: 1;
-  padding: 32px 0;
+  padding: 0 0 32px 0;
   max-height: 384px;
 `
 
-const SideWrapper = styled.div`
-  height: 480px;
-  width: 280px;
-  ${media.tabletL`
-    display: none;
-  `};
-`
 const MobileAuthSideWrapper = styled(Wrapper)`
-  display: flex;
-  flex-direction: column;
   position: relative;
   overflow: visible;
-  max-height: 352px;
   max-width: 274px;
+  height: 95%;
   border-radius: 0 8px 8px 0;
   background-color: ${(props) => props.theme.grey000};
   z-index: 0;
   right: 1px;
-  align-items: center;
   padding: 16px 32px;
 `
 
@@ -90,10 +84,14 @@ const EnterPasswordWallet = (props: Props) => {
     invalid,
     isMobileViewLogin,
     qrData,
-    secureChannelLoginState,
     submitting,
     walletError
   } = props
+
+  const onExhangeTabClick = () => {
+    authActions.setProductAuthMetadata({ product: ProductAuthOptions.EXCHANGE })
+    props.setStep(LoginSteps.ENTER_EMAIL_GUID)
+  }
 
   const passwordError = walletError && walletError.toLowerCase().includes('wrong_wallet_password')
   const accountLocked =
@@ -108,13 +106,22 @@ const EnterPasswordWallet = (props: Props) => {
   return (
     <OuterWrapper>
       <FormWrapper>
+        <TabWrapper>
+          <ProductTab>
+            <Image name='wallet-no-background' height='28px' style={{ marginRight: '12px' }} />
+            <Text size='20px' weight={600} color='purple600'>
+              <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
+            </Text>
+          </ProductTab>
+          <ProductTab backgroundColor='grey000' onClick={onExhangeTabClick}>
+            <Image name='exchange-grayscale' height='26px' style={{ marginRight: '12px' }} />
+            <Text size='20px' weight={600} color='grey400'>
+              <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
+            </Text>
+          </ProductTab>
+        </TabWrapper>
         <WrapperWithPadding>
-          <BackArrowFormHeader
-            {...props}
-            handleBackArrowClick={handleBackArrowClick}
-            hideGuid={isMobileViewLogin}
-            hideBackArrow={isMobileViewLogin}
-          />
+          <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} />
           <FormGroup>
             {!isSupportedBrowser && <UnsupportedBrowserWarning />}
             <FormItem>
@@ -225,54 +232,20 @@ const EnterPasswordWallet = (props: Props) => {
                 </Text>
               )}
             </ActionButton>
-            <NeedHelpLink authActions={authActions} origin='PASSWORD' />
+            <NeedHelpLink authActions={props.authActions} origin='PASSWORD' />
           </CenteredColumn>
         </WrapperWithPadding>
         <SignUpLink />
       </FormWrapper>
       <MobileAuthSideWrapper>
         <TextColumn>
-          {secureChannelLoginState.cata({
-            Failure: (e) => (
-              <Text>
-                {typeof e === 'string' ? (
-                  e
-                ) : (
-                  <FormattedMessage
-                    id='scenes.login.qrcodelogin_failed'
-                    defaultMessage='Login failed. Please refresh browser and try again.'
-                  />
-                )}
-              </Text>
-            ),
-            Loading: () => {
-              return (
-                <Text size='14px' weight={600}>
-                  <FormattedMessage
-                    id='scenes.login.qrcodelogin_success_confirm'
-                    defaultMessage='Please confirm the login on your mobile device.'
-                  />
-                </Text>
-              )
-            },
-            NotAsked: () => <QRCodeWrapper value={qrData} size={150} showImage />,
-            Success: () => {
-              return (
-                <Text size='14px' weight={600}>
-                  <FormattedMessage
-                    id='scenes.login.qrcodelogin_success'
-                    defaultMessage='Success! Logging in...'
-                  />
-                </Text>
-              )
-            }
-          })}
+          <QRCodeWrapper value={qrData} size={150} showImage />
           <Text
             color='grey900'
             size='14px'
             weight={600}
-            lineHeight='1.5'
-            style={{ marginBottom: '16px' }}
+            lineHeight='1.25'
+            style={{ marginBottom: '8px' }}
           >
             <FormattedMessage
               id='scenes.login.wallet.mobile_app_login.title'
@@ -300,8 +273,7 @@ const EnterPasswordWallet = (props: Props) => {
 const mapStateToProps = (state) => ({
   phonePubKey: selectors.cache.getPhonePubkey(state),
   qrData: selectors.cache.getChannelPrivKeyForQrData(state),
-  secureChannelLoginState: selectors.auth.getSecureChannelLogin(state) as RemoteDataType<any, any>,
-  walletLoginData: selectors.auth.getLogin(state) as RemoteDataType<any, any>
+  walletLoginData: selectors.auth.getLogin(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({
