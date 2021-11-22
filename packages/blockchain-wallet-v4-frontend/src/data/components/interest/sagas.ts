@@ -160,7 +160,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
       // TODO figure out any replacement type
       const report = concat(reportHeaders, txList) as any
-      yield put(A.fetchInterestTransactionsReportSuccess({ ...report }))
+      yield put(A.fetchInterestTransactionsReportSuccess(report))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchInterestTransactionsReportFailure(error))
