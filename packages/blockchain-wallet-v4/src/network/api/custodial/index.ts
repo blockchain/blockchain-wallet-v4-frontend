@@ -171,7 +171,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
 
   const getLimitsAndFeaturesDetails = () =>
     authorizedGet({
-      endPoint: `/limits/recap`,
+      endPoint: `/limits/overview`,
       url: nabuUrl
     })
 

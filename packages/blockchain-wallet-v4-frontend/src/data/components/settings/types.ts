@@ -1,4 +1,4 @@
-import { RemoteDataType } from '@core/types'
+import { FiatType, RemoteDataType } from '@core/types'
 
 export type NabuProductType = 'SWAP' | 'SIMPLEBUY' | 'SAVINGS' | 'BROKERAGE'
 export enum NabuProducts {
@@ -12,25 +12,22 @@ export type ProductEligibilityResponse = {
   eligible: boolean
 }
 
-type SettingsItem = {
-  currency: string
-  enabled?: boolean
-  localisedMessage: string
+export type SettingsLimit = {
   period: string
-  value: string
+  value: {
+    currency: FiatType
+    value: string
+  }
+}
+
+export type SettingsItem = {
+  enabled: boolean
+  limit: SettingsLimit
+  name: string
 }
 
 export type LimitsAndDetails = {
-  approvedTierLimit: number
-  buyAndDepositWithBank: SettingsItem
-  buyAndSell: SettingsItem
-  buyWithCard: SettingsItem
-  currency: string
-  receiveCrypto: SettingsItem
-  savingsInterest: SettingsItem
-  sendCrypto: SettingsItem
-  swapCrypto: SettingsItem
-  withdrawalWithBank: SettingsItem
+  limits: SettingsItem[]
 }
 
 // State
