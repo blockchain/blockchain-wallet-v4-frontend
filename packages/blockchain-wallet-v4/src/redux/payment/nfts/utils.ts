@@ -700,12 +700,8 @@ async function computeFees({
   if (asset) {
     openseaBuyerFeeBasisPoints = +asset.asset_contract.opensea_buyer_fee_basis_points
     openseaSellerFeeBasisPoints = +asset.asset_contract.opensea_seller_fee_basis_points
-    devBuyerFeeBasisPoints =
-      +asset.asset_contract.dev_buyer_fee_basis_points +
-        parseInt(asset.collection?.dev_buyer_fee_basis_points) || 0
-    devSellerFeeBasisPoints =
-      +asset.asset_contract.dev_seller_fee_basis_points +
-        parseInt(asset.collection?.dev_seller_fee_basis_points) || 0
+    devBuyerFeeBasisPoints = parseInt(asset.collection?.dev_buyer_fee_basis_points)
+    devSellerFeeBasisPoints = parseInt(asset.collection?.dev_seller_fee_basis_points)
 
     maxTotalBountyBPS = openseaSellerFeeBasisPoints
   }
