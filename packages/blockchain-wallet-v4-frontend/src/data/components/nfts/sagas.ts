@@ -74,7 +74,8 @@ export default ({ api }: { api: APIType }) => {
   const fetchNftCollections = function* (action: ReturnType<typeof A.fetchNftCollections>) {
     try {
       const collections = S.getNftCollections(yield select())
-      if (Remote.Success.is(collections)) return
+      if (Remote.Success.is(collections) && !action.payload.direction && !action.payload.sortBy)
+        return
       yield put(A.fetchNftCollectionsLoading())
       const nfts: ReturnType<typeof api.getNftCollections> = yield call(
         api.getNftCollections,
@@ -299,9 +300,13 @@ export default ({ api }: { api: APIType }) => {
 
   const formChanged = function* (action) {
     if (action.meta.form === 'nftMarketplace') {
-      const formValues = selectors.form.getFormValues(action.meta.form)(yield select()) as {
-        direction: 'ASC' | 'DESC'
-        sortBy: keyof ExplorerGatewayNftCollectionType
+      if (action.meta.field === 'sortBy') {
+        yield put(
+          A.fetchNftCollections({
+            direction: action.payload.split('-')[1] as 'ASC' | 'DESC',
+            sortBy: action.payload.split('-')[0] as keyof ExplorerGatewayNftCollectionType
+          })
+        )
       }
       if (action.meta.field === 'collection') {
         try {
@@ -320,14 +325,6 @@ export default ({ api }: { api: APIType }) => {
           const error = errorHandler(e)
           yield put(actions.logs.logErrorMessage(error))
         }
-      }
-      if (action.meta.field === 'sortBy') {
-        yield put(
-          A.fetchNftCollections({ direction: formValues.direction, sortBy: action.payload })
-        )
-      }
-      if (action.meta.field === 'direction') {
-        yield put(A.fetchNftCollections({ direction: action.payload, sortBy: formValues.sortBy }))
       }
     }
     if (action.meta.form === 'nftCollection') {
@@ -360,8 +357,8 @@ export default ({ api }: { api: APIType }) => {
       yield put(
         actions.components.nfts.fetchNftOrderAssetSuccess({
           ...asset,
-          sell_orders: action.payload.asset?.sell_orders.filter(
-            ({ maker }) => maker.address === ethAddr
+          sell_orders: action.payload.asset?.sell_orders?.filter(
+            ({ maker }) => maker.address.toLowerCase() === ethAddr.toLowerCase()
           )
         })
       )
