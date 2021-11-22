@@ -90,9 +90,10 @@ export const fulfillNftOrder = async (
 
 export const getNftBuyOrders = async (
   order: NftOrdersType['orders'][0],
-  signer: Signer
+  signer: Signer,
+  paymentTokenAddress = null
 ): Promise<{ buy: Order; sell: Order }> => {
-  return createMatchingOrders(order, signer)
+  return createMatchingOrders(order, signer, paymentTokenAddress)
 }
 // Calculates all the fees a user will need to pay/encounter on their journey to either sell/buy an NFT
 // order and counterOrder needed for sell orders, only order needed for buy order calculations (May need to put a default value here in future / change the way these are called into two seperate functions?)

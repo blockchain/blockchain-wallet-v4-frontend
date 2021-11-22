@@ -301,7 +301,7 @@ export const encodeSell = (schema, asset, address) => {
       []
     ])
   } else {
-    throw new Error(`Unsupported Asset Standard: ${schema.name}`);
+    throw new Error(`Unsupported Asset Standard: ${schema.name}`)
   }
   return {
     calldata,
@@ -567,12 +567,14 @@ export function _makeMatchingOrder({
   accountAddress,
   offer,
   order,
+  paymentTokenAddress,
   recipientAddress
 }: {
   // UnsignedOrder;
   accountAddress: string
   offer?: string
   order: Order
+  paymentTokenAddress: null | string
   recipientAddress: string
 }): UnsignedOrder {
   accountAddress = ethers.utils.getAddress(accountAddress)
@@ -644,7 +646,7 @@ export function _makeMatchingOrder({
     makerReferrerFee: new BigNumber(order.makerReferrerFee),
     makerRelayerFee: new BigNumber(order.makerRelayerFee),
     metadata: order.metadata,
-    paymentToken: order.paymentToken,
+    paymentToken: paymentTokenAddress ?? order.paymentToken,
     quantity: order.quantity,
     // TODO: Fix the replacement patten generation for buy orders.
     // replacementPattern,
@@ -2218,13 +2220,15 @@ export async function createSellOrder(
 
 export async function createMatchingOrders(
   order: NftOrdersType['orders'][0],
-  signer: Signer
+  signer: Signer,
+  paymentTokenAddress: null | string
 ): Promise<{ buy: Order; sell: Order }> {
   const accountAddress = await signer.getAddress()
   // TODO: If its an english auction bid above the basePrice include an offer property in the _makeMatchingOrder call
   const matchingOrder = _makeMatchingOrder({
     accountAddress,
     order,
+    paymentTokenAddress,
     recipientAddress: accountAddress
   })
   // eslint-disable-next-line prefer-const
