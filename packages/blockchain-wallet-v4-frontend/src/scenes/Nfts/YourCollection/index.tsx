@@ -83,7 +83,8 @@ const YourCollection: React.FC<Props> = (props) => {
                 </PriceInfo>
               </AssetDetails>
               <CTAWrapper>
-                {asset.sell_orders ? (
+                {asset.sell_orders?.filter(({ maker }) => maker.address === props.defaultEthAddr)
+                  .length ? (
                   <Button
                     fullwidth
                     data-e2e='cancelListing'

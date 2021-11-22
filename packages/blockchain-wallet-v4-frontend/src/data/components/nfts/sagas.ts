@@ -341,6 +341,7 @@ export default ({ api }: { api: APIType }) => {
     yield put(actions.modals.showModal(ModalName.NFT_ORDER, { origin: 'Unknown' }))
     let address
     let token_id
+    const ethAddr = selectors.core.kvStore.eth.getDefaultAddress(yield select()).getOrElse('')
     // User wants to buy an asset
     if (action.payload.order) {
       const { asset } = action.payload.order
@@ -359,7 +360,9 @@ export default ({ api }: { api: APIType }) => {
       yield put(
         actions.components.nfts.fetchNftOrderAssetSuccess({
           ...asset,
-          sell_orders: action.payload.asset?.sell_orders
+          sell_orders: action.payload.asset?.sell_orders.filter(
+            ({ maker }) => maker.address === ethAddr
+          )
         })
       )
     } catch (e) {

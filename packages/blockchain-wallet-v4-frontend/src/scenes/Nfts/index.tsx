@@ -10,15 +10,6 @@ import NftHeader from './Header'
 import Marketplace from './Marketplace'
 import YourCollection from './YourCollection'
 
-const DEFAULT_NFTS = [
-  {
-    display_name: 'Doodles',
-    image_url:
-      'https://lh3.googleusercontent.com/7B0qai02OdHA8P_EOVK672qUliyjQdQDGNrACxs7WnTgZAkJa_wWURnIFKeOh5VTf8cfTqW3wQpozGedaC9mteKphEOtztls02RlWQ=s120',
-    opensea_slug: 'doodles-official'
-  }
-]
-
 const NftPage = styled.div`
   width: 100%;
 `
@@ -44,6 +35,7 @@ const Nfts: React.FC<Props> = (props) => {
 const mapStateToProps = (state: RootState) => ({
   assets: selectors.components.nfts.getNftAssets(state),
   collections: selectors.components.nfts.getNftCollections(state),
+  defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse(''),
   formValues: selectors.form.getFormValues('nftMarketplace')(state),
   marketplace: selectors.components.nfts.getMarketplace(state)
 })
