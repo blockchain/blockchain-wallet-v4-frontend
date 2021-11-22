@@ -1319,7 +1319,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         currency
       )
       yield put(A.fetchCrossBorderLimitsSuccess(limitsResponse))
-    } catch (e: any) {
+    } catch (e) {
       yield put(A.fetchCrossBorderLimitsFailure(e))
     }
   }
