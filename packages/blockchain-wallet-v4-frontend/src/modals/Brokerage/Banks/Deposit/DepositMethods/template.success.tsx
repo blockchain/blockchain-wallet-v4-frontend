@@ -129,7 +129,6 @@ const Success = ({ addNew, brokerageActions, close, fiatCurrency, paymentMethods
                 })
               }
             }}
-            text={getType(bankTransfer)}
             value={bankTransfer}
           />
         )}
