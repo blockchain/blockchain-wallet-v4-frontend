@@ -89,19 +89,19 @@ export function withdrawReducer(state = INITIAL_STATE, action: WithdrawActionTyp
         withdrawLocks: Remote.Failure(action.payload.error)
       }
     }
-    case AT.FETCH_WITHDRAWAL_CROSSBORDER_LIMITS_LOADING: {
+    case AT.FETCH_WITHDRAWAL_CROSBSORDER_LIMITS_LOADING: {
       return {
         ...state,
         crossBorderLimits: Remote.Loading
       }
     }
-    case AT.FETCH_WITHDRAWAL_CROSSBORDER_LIMITS_SUCCESS: {
+    case AT.FETCH_WITHDRAWAL_CROSBSORDER_LIMITS_SUCCESS: {
       return {
         ...state,
         crossBorderLimits: Remote.Success(action.payload)
       }
     }
-    case AT.FETCH_WITHDRAWAL_CROSSBORDER_LIMITS_FAILURE: {
+    case AT.FETCH_WITHDRAWAL_CROSBSORDER_LIMITS_FAILURE: {
       return {
         ...state,
         crossBorderLimits: Remote.Failure(action.payload)

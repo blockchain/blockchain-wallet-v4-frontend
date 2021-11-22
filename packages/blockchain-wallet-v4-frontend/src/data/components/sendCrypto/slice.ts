@@ -6,7 +6,7 @@ import Remote from '@core/remote'
 import {
   CrossBorderLimits,
   // ProductTypes,
-  // SBTransactionType,
+  // BSTransactionType,
   WithdrawalLockResponseType,
   WithdrawalMinsAndFeesResponse,
   WithdrawResponseType

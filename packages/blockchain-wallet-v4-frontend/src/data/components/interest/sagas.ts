@@ -12,7 +12,7 @@ import {
   PaymentValue,
   RatesType,
   RemoteDataType,
-  SBBalancesType
+  BSBalancesType
 } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
@@ -232,8 +232,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
           // custodial account selected
           if (isCustodialAccountSelected) {
-            const custodialBalances: SBBalancesType = (yield select(
-              selectors.components.simpleBuy.getSBBalances
+            const custodialBalances: BSBalancesType = (yield select(
+              selectors.components.buySell.getBSBalances
             )).getOrFail('Failed to get balance')
 
             yield call(createLimits, undefined, custodialBalances)
@@ -276,9 +276,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       actions.components.buySell.fetchBalanceSuccess.type,
       actions.components.buySell.fetchBalanceFailure.type
     ])
-    const custodialBalances = (yield select(
-      selectors.components.simpleBuy.getSBBalances
-    )).getOrFail('Failed to get balances')
+    const custodialBalances = (yield select(selectors.components.buySell.getBSBalances)).getOrFail(
+      'Failed to get balances'
+    )
     const custodialAccount = (yield call(getCustodialAccountForCoin, coin)).getOrFail(
       'Failed to fetch account'
     )

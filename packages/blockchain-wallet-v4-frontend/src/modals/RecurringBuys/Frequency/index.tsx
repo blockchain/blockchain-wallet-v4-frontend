@@ -5,11 +5,11 @@ import { buyPaymentMethodSelectedPaymentTypeDictionary } from 'middleware/analyt
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
-import { SBOrderType, SBPaymentTypes } from '@core/types'
+import { BSOrderType, BSPaymentTypes } from '@core/types'
 import DataError from 'components/DataError'
 import { FrequencyScreen } from 'components/Flyout'
 import { actions, selectors } from 'data'
-import { getBaseAmount } from 'data/components/simpleBuy/model'
+import { getBaseAmount } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
 import { RecurringBuyOrigins, RecurringBuyPeriods, RecurringBuyStepType } from 'data/types'
 
@@ -47,7 +47,7 @@ const Frequency = ({ data, order, recurringBuyActions }: Props) => {
             method={
               buyPaymentMethodSelectedPaymentTypeDictionary(
                 order.paymentType
-              ) as unknown as SBPaymentTypes
+              ) as unknown as BSPaymentTypes
             }
             headerAction={backToGetStarted}
             headerMode='back'
@@ -68,7 +68,7 @@ const Frequency = ({ data, order, recurringBuyActions }: Props) => {
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
-  order: selectors.components.simpleBuy.getSBOrder(state) as SBOrderType
+  order: selectors.components.buySell.getBSOrder(state) as BSOrderType
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

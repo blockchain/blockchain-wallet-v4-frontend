@@ -108,14 +108,14 @@ interface FetchCrossBorderLimitFailure {
   payload: {
     error: string
   }
-  type: typeof AT.FETCH_WITHDRAWAL_CROSSBORDER_LIMITS_FAILURE
+  type: typeof AT.FETCH_WITHDRAWAL_CROSBSORDER_LIMITS_FAILURE
 }
 interface FetchCrossBorderLimitLoading {
-  type: typeof AT.FETCH_WITHDRAWAL_CROSSBORDER_LIMITS_LOADING
+  type: typeof AT.FETCH_WITHDRAWAL_CROSBSORDER_LIMITS_LOADING
 }
 interface FetchCrossBorderLimitSuccess {
   payload: CrossBorderLimits
-  type: typeof AT.FETCH_WITHDRAWAL_CROSSBORDER_LIMITS_SUCCESS
+  type: typeof AT.FETCH_WITHDRAWAL_CROSBSORDER_LIMITS_SUCCESS
 }
 
 export type WithdrawActionTypes =

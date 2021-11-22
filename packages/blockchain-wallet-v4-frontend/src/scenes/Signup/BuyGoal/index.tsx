@@ -7,7 +7,7 @@ import styled from 'styled-components'
 
 import Currencies from '@core/exchange/currencies'
 import { Icon, Link, Text } from 'blockchain-info-components'
-import { SimpleBuyWidgetGoalDataType } from 'data/types'
+import { BuySellWidgetGoalDataType } from 'data/types'
 
 import { Card, CardHeader, CardsWrapper, SignInText, SubCard } from '../components'
 import SignupForm from '../components/SignupForm'
@@ -56,8 +56,8 @@ const Amount = styled(Text)`
 
 const BuyGoal = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) => {
   const { goals } = props
-  const dataGoal = find(propEq('name', 'simpleBuy'), goals)
-  const goalData: SimpleBuyWidgetGoalDataType = propOr({}, 'data', dataGoal)
+  const dataGoal = find(propEq('name', 'buySell'), goals)
+  const goalData: BuySellWidgetGoalDataType = propOr({}, 'data', dataGoal)
   const { amount, crypto, fiatCurrency } = goalData
   const showBuyHeader =
     !isNil(goalData) && !isEmpty(goalData) && !!fiatCurrency && !!crypto && !!amount

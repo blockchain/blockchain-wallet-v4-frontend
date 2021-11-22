@@ -1,11 +1,11 @@
 import React, { useCallback, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { getLockRuleMessaging } from 'blockchain-wallet-v4-frontend/src/modals/SimpleBuy/model'
+import { getLockRuleMessaging } from 'blockchain-wallet-v4-frontend/src/modals/BuySell/model'
 import moment from 'moment'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
-import { FiatType, SBPaymentTypes } from '@core/types'
+import { FiatType, BSPaymentTypes } from '@core/types'
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
 import { FlyoutContainer, FlyoutContent, FlyoutFooter, FlyoutHeader } from 'components/Flyout'
 import { BankDWStepType, BankPartners } from 'data/types'
@@ -100,7 +100,7 @@ const Success = (props: Props) => {
           </LineItemText>
         </Row>
         <div style={{ padding: '20px 40px 0' }}>
-          {getLockRuleMessaging(showLock, days, SBPaymentTypes.BANK_TRANSFER)}
+          {getLockRuleMessaging(showLock, days, BSPaymentTypes.BANK_TRANSFER)}
         </div>
       </FlyoutContent>
       <FlyoutFooter>

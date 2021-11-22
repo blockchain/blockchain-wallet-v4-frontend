@@ -2,7 +2,7 @@ export type FlyoutE2EType =
   | 'faqModal'
   | 'interestModal'
   | 'recoveryPhraseModal'
-  | 'simpleBuyModal'
+  | 'buySellModal'
   | 'welcomeModal'
   | 'withdrawalModal'
   | 'custodyWithdrawModal'

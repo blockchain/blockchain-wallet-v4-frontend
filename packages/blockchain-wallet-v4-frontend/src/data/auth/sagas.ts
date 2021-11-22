@@ -186,8 +186,8 @@ export default ({ api, coreSagas, networks }) => {
       // simple buy tasks
       // only run the fetch simplebuy if there's no simplebuygoal
       const goals = selectors.goals.getGoals(yield select())
-      const simpleBuyGoal = find(propEq('name', 'simpleBuy'), goals)
-      if (!simpleBuyGoal) {
+      const buySellGoal = find(propEq('name', 'buySell'), goals)
+      if (!buySellGoal) {
         yield put(actions.components.buySell.fetchPaymentMethods())
       }
       // swap tasks

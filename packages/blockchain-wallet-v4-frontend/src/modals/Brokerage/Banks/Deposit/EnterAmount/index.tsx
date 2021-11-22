@@ -3,8 +3,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
-import { SBPaymentMethodType } from '@core/network/api/simpleBuy/types'
-import { CrossBorderLimitsPyload, FiatType, SBPaymentTypes, WalletAcountEnum } from '@core/types'
+import { BSPaymentMethodType } from '@core/network/api/buySell/types'
+import { CrossBorderLimitsPyload, FiatType, BSPaymentTypes, WalletAcountEnum } from '@core/types'
 import { EnterAmount, FlyoutOopsError } from 'components/Flyout'
 import { getDefaultMethod } from 'components/Flyout/model'
 import { actions, selectors } from 'data'
@@ -101,8 +101,8 @@ const EnterAmountContainer = (props: Props) => {
       const paymentAccount = getDefaultMethod(props.defaultMethod, val.bankTransferAccounts)
       const paymentMethod = val.paymentMethods.methods.find(
         (method) =>
-          method.type === SBPaymentTypes.BANK_TRANSFER ||
-          method.type === SBPaymentTypes.BANK_ACCOUNT
+          method.type === BSPaymentTypes.BANK_TRANSFER ||
+          method.type === BSPaymentTypes.BANK_ACCOUNT
       )
       let handleMethodClick: () => void
       const { crossBorderLimits, formErrors } = val
@@ -154,7 +154,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   handleClose: () => void
-  method?: SBPaymentMethodType
+  method?: BSPaymentMethodType
 }
 
 export type Props = OwnProps & ConnectedProps<typeof connector>

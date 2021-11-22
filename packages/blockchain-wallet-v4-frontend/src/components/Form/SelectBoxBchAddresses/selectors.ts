@@ -198,8 +198,8 @@ export const getData = (
         .map(toDropdown)
         .map(toGroup('Wallet')),
       showCustodial || showCustodialWithAddress
-        ? selectors.components.simpleBuy
-            .getSBBalances(state)
+        ? selectors.components.buySell
+            .getBSBalances(state)
             .map((x) => ({
               ...x.BCH,
               address: accountAddress ? accountAddress.data : null

@@ -335,7 +335,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         if (!value.amount) throw new Error('missing_amount_from_custodial')
         if (!value.selection) throw new Error('missing_selection_from_custodial')
         yield call(
-          api.withdrawSBFunds,
+          api.withdrawBSFunds,
           utils.bch.isCashAddr(value.to[0].address)
             ? value.to[0].address
             : utils.bch.toCashAddr(value.to[0].address),

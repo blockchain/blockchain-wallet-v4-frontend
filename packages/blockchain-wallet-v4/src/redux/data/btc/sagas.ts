@@ -72,7 +72,7 @@ export default ({ api }: { api: APIType }) => {
       const atBounds = length(data.txs) < TX_PER_PAGE
       yield put(A.transactionsAtBound(atBounds))
       const txPage: Array<ProcessedTxType> = yield call(__processTxs, data.txs)
-      const nextSBTransactionsURL = selectors.data.custodial.getNextSBTransactionsURL(
+      const nextBSTransactionsURL = selectors.data.custodial.getNextBSTransactionsURL(
         yield select(),
         'BTC'
       )
@@ -82,7 +82,7 @@ export default ({ api }: { api: APIType }) => {
         offset,
         atBounds,
         'BTC',
-        reset ? null : nextSBTransactionsURL
+        reset ? null : nextBSTransactionsURL
       )
       const page = flatten([txPage, custodialPage.orders]).sort((a, b) => {
         return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
