@@ -24,7 +24,8 @@
         "withdrawalLocksFundsOnHold": true,
         "pollForMagicLinkData": true,
         "recurringBuys": true,
-        "signupCountry": true
+        "signupCountry": true,
+        "paymentProcessors": true
       }
     }
   },

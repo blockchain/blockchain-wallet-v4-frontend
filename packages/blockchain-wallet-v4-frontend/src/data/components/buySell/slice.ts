@@ -3,14 +3,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
 import {
-  CoinType,
-  CrossBorderLimits,
-  CrossBorderLimitsPyload,
-  Everypay3DSResponseType,
-  FiatEligibleType,
-  FiatType,
-  PaymentValue,
-  ProviderDetailsType,
   BSAccountType,
   BSBalancesType,
   BSCardType,
@@ -22,6 +14,14 @@ import {
   BSPaymentMethodType,
   BSPaymentTypes,
   BSQuoteType,
+  CoinType,
+  CrossBorderLimits,
+  CrossBorderLimitsPyload,
+  Everypay3DSResponseType,
+  FiatEligibleType,
+  FiatType,
+  PaymentValue,
+  ProviderDetailsType,
   SDDEligibleType,
   SDDVerifiedType,
   SwapQuoteType,
@@ -29,11 +29,11 @@ import {
 } from '@core/types'
 import {
   BankTransferAccountType,
-  InitializeCheckout,
-  ModalOriginType,
   BSCardStateEnum,
   BSFixType,
   BSShowModalOriginType,
+  InitializeCheckout,
+  ModalOriginType,
   StepActionsPayload,
   SwapAccountType
 } from 'data/types'
@@ -218,7 +218,7 @@ const buySellSlice = createSlice({
     },
 
     fetchCrossBorderLimits: (state, action: PayloadAction<CrossBorderLimitsPyload>) => {},
-    fetchCrossBorderLimitsFailure: (state, action: PayloadAction<string>) => {
+    fetchCrossBorderLimitsFailure: (state, action: PayloadAction<unknown>) => {
       state.crossBorderLimits = Remote.Failure(action.payload)
     },
     fetchCrossBorderLimitsLoading: (state) => {

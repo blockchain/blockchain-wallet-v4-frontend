@@ -4,12 +4,12 @@ import { head, isEmpty, isNil, lift } from 'ramda'
 import { createSelector } from 'reselect'
 
 import {
-  ExtractSuccess,
-  FiatType,
-  FiatTypeEnum,
   BSPaymentMethodType,
   BSPaymentTypes,
-  BSQuoteType
+  BSQuoteType,
+  ExtractSuccess,
+  FiatType,
+  FiatTypeEnum
 } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'

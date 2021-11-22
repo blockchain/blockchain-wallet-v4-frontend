@@ -1,13 +1,4 @@
 import type {
-  CoinType,
-  CrossBorderLimits,
-  Everypay3DSResponseType,
-  FiatEligibleType,
-  FiatType,
-  NabuAddressType,
-  PaymentValue,
-  ProviderDetailsType,
-  RemoteDataType,
   BSAccountType,
   BSBalancesType,
   BSCardType,
@@ -17,6 +8,15 @@ import type {
   BSPaymentMethodsType,
   BSPaymentMethodType,
   BSQuoteType,
+  CoinType,
+  CrossBorderLimits,
+  Everypay3DSResponseType,
+  FiatEligibleType,
+  FiatType,
+  NabuAddressType,
+  PaymentValue,
+  ProviderDetailsType,
+  RemoteDataType,
   SDDEligibleType,
   SDDVerifiedType,
   SwapOrderType,
@@ -67,6 +67,8 @@ export type BSFixType = 'CRYPTO' | 'FIAT'
 export enum BuySellStepType {
   '3DS_HANDLER',
   'ADD_CARD',
+  'ADD_CARD_CHECKOUT',
+  'ADD_CARD_EVERYPAY',
   'AUTHORIZE_PAYMENT',
   'BANK_WIRE_DETAILS',
   'CC_BILLING_ADDRESS',
@@ -217,4 +219,7 @@ export type StepActionsPayload =
         | 'UPGRADE_TO_GOLD'
         | 'LOADING'
         | 'FREQUENCY'
+    }
+  | {
+      step: 'ADD_CARD_EVERYPAY' | 'ADD_CARD_CHECKOUT'
     }

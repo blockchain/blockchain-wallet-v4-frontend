@@ -1191,6 +1191,22 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield call(pollBSBalances)
       }
     }
+
+    // if step is `ADD_CARD`, do async call
+
+    if (action.payload.step === 'ADD_CARD') {
+      /*  const paymentProcessors: boolean = (yield select(
+        selectors.core.walletOptions.getPaymentProcessors
+      )).getOrElse(false)
+
+      if (!paymentProcessors) {
+        A.setStep({
+          step: 'ADD_CARD_EVERYPAY'
+        })
+
+        return
+      } */
+    }
   }
 
   // Util function to help match payment method ID
