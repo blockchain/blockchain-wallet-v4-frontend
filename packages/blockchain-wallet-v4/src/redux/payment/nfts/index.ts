@@ -49,10 +49,12 @@ export const getNftSellOrder = async (
   startPrice = 0.011, // The starting price for auctions / sale price for fixed price sale orders (TODO: Remove default 0.1 value)
   endPrice: number | null = null, // Implement later for to enable dutch auction sales.
   waitForHighestBid = false, // True = English auction,
-  paymentTokenAddress = '0x0000000000000000000000000000000000000000'
+  paymentTokenAddress = '0x0000000000000000000000000000000000000000',
+  expirationTime = 0
 ): Promise<Order> => {
   return createSellOrder(
     asset,
+    expirationTime,
     signer,
     startPrice,
     endPrice,
@@ -90,9 +92,12 @@ export const fulfillNftOrder = async (
 
 export const getNftBuyOrders = async (
   order: NftOrdersType['orders'][0],
-  signer: Signer
+  signer: Signer,
+  expirationTime = 0,
+  offer = null,
+  paymentTokenAddress = null
 ): Promise<{ buy: Order; sell: Order }> => {
-  return createMatchingOrders(order, signer)
+  return createMatchingOrders(expirationTime, offer, order, signer, paymentTokenAddress)
 }
 // Calculates all the fees a user will need to pay/encounter on their journey to either sell/buy an NFT
 // order and counterOrder needed for sell orders, only order needed for buy order calculations (May need to put a default value here in future / change the way these are called into two seperate functions?)
