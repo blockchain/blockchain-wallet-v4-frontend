@@ -17,7 +17,7 @@ const getData = (state: RootState) => {
   // @ts-ignore
   const userTiers = selectors.modules.profile.getTiers(state).getOrElse({} as UserTierType)
 
-  const sddEligible = selectors.components.simpleBuy.getSddEligible(state).getOrElse({
+  const sddEligible = selectors.components.buySell.getSddEligible(state).getOrElse({
     eligible: false,
     ineligibilityReason: 'KYC_TIER',
     tier: 0

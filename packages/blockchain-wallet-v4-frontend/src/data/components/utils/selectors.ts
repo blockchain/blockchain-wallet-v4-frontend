@@ -4,7 +4,7 @@ import {
   AccountTokensBalancesResponseType,
   CoinfigType,
   ExtractSuccess,
-  SBPaymentTypes,
+  BSPaymentTypes,
   SwapOrderType
 } from '@core/types'
 import { selectors } from 'data'
@@ -14,9 +14,9 @@ import { getOutputFromPair } from '../swap/model'
 
 // eslint-disable-next-line import/prefer-default-export
 export const getCoinsWithBalanceOrMethod = (state: RootState) => {
-  const sbMethodsR = selectors.components.simpleBuy.getSBPaymentMethods(state)
+  const sbMethodsR = selectors.components.buySell.getBSPaymentMethods(state)
   // TODO, check all custodial features
-  const sbBalancesR = selectors.components.simpleBuy.getSBBalances(state)
+  const sbBalancesR = selectors.components.buySell.getBSBalances(state)
   const erc20sR = selectors.core.data.eth.getErc20AccountTokenBalances(state)
   const recentSwapTxs = selectors.custodial.getRecentSwapTxs(state).getOrElse([] as SwapOrderType[])
   const custodials = selectors.core.data.coins.getCustodialCoins()
@@ -61,7 +61,7 @@ export const getCoinsWithBalanceOrMethod = (state: RootState) => {
             coin.coinfig.type.name !== 'FIAT' ||
             !!paymentMethods.methods.find(
               (method) =>
-                method.currency === coin.coinfig.symbol && method.type === SBPaymentTypes.FUNDS
+                method.currency === coin.coinfig.symbol && method.type === BSPaymentTypes.FUNDS
             )
         }
       }, coinOrder)

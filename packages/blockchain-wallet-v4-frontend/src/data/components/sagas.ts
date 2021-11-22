@@ -1,6 +1,7 @@
 import bchTransactions from './bchTransactions/sagas'
 import brokerage from './brokerage/sagas'
 import btcTransactions from './btcTransactions/sagas'
+import buySell from './buySell/sagas'
 import coinTransactions from './coinTransactions/sagas'
 import ethTransactions from './ethTransactions/sagas'
 import fiatTransactions from './fiatTransactions/sagas'
@@ -25,7 +26,6 @@ import sendEth from './sendEth/sagas'
 import sendXlm from './sendXlm/sagas'
 import settings from './settings/sagas'
 import signMessage from './signMessage/sagas'
-import simpleBuy from './simpleBuy/sagas'
 import swap from './swap/sagas'
 import uploadDocuments from './uploadDocuments/sagas'
 import veriff from './veriff/sagas'
@@ -36,6 +36,7 @@ export default ({ api, coreSagas, networks }) => ({
   bchTransactions: bchTransactions(),
   brokerage: brokerage({ api }),
   btcTransactions: btcTransactions(),
+  buySell: buySell({ api, coreSagas, networks }),
   coinTransactions: coinTransactions(),
   ethTransactions: ethTransactions(),
   fiatTransactions: fiatTransactions(),
@@ -60,7 +61,6 @@ export default ({ api, coreSagas, networks }) => ({
   sendXlm: sendXlm({ api, coreSagas, networks }),
   settings: settings({ api, coreSagas }),
   signMessage: signMessage({ coreSagas }),
-  simpleBuy: simpleBuy({ api, coreSagas, networks }),
   swap: swap({ api, coreSagas, networks }),
   uploadDocument: uploadDocuments({ api }),
   veriff: veriff({ api, coreSagas }),

@@ -1,6 +1,6 @@
 import { lift } from 'ramda'
 
-import { SBBalanceType } from '@core/network/api/simpleBuy/types'
+import { BSBalanceType } from '@core/network/api/buySell/types'
 import { ExtractSuccess } from '@core/remote/types'
 import { CoinType } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
@@ -29,7 +29,7 @@ export const getAccounts = createDeepEqualSelector(
       // add trading accounts if requested
       if (ownProps?.tradingAccounts && coinfig.products.includes('CustodialWalletBalance')) {
         accounts = accounts.concat(
-          generateTradingAccount(coin as CoinType, sbBalance as SBBalanceType)
+          generateTradingAccount(coin as CoinType, sbBalance as BSBalanceType)
         )
       }
 

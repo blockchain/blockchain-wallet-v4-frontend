@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 import styled from 'styled-components'
 
-import { OrderType, SBOrderStateType, SBPaymentTypes } from '@core/types'
+import { OrderType, BSOrderStateType, BSPaymentTypes } from '@core/types'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
 
 import Container from '../Container'
@@ -69,7 +69,7 @@ const OrderSummary: React.FC<Props> = ({
   paymentType
 }) => {
   const isPendingDeposit = orderState === 'PENDING_DEPOSIT'
-  const isPendingAch = isPendingDeposit && paymentType === SBPaymentTypes.BANK_TRANSFER
+  const isPendingAch = isPendingDeposit && paymentType === BSPaymentTypes.BANK_TRANSFER
   const isTransactionPending = isPendingDeposit && paymentState === 'WAITING_FOR_3DS_RESPONSE'
 
   const days = moment.duration(lockTime, 'seconds').days()
@@ -202,8 +202,8 @@ const OrderSummary: React.FC<Props> = ({
             </Bottom>
           )}
           {orderType === 'BUY' &&
-            (paymentType === SBPaymentTypes.PAYMENT_CARD ||
-              paymentType === SBPaymentTypes.USER_CARD) && (
+            (paymentType === BSPaymentTypes.PAYMENT_CARD ||
+              paymentType === BSPaymentTypes.USER_CARD) && (
               <BottomInfo>
                 <Text color='grey600' size='14px' weight={500}>
                   <FormattedMessage
@@ -230,7 +230,7 @@ const OrderSummary: React.FC<Props> = ({
               </BottomInfo>
             )}
           {orderType === 'BUY' &&
-            paymentType === SBPaymentTypes.BANK_TRANSFER &&
+            paymentType === BSPaymentTypes.BANK_TRANSFER &&
             orderState !== 'FAILED' &&
             !isPendingAch && (
               <BottomInfo>
@@ -286,11 +286,11 @@ export type Props = {
   handleCompleteButton?: () => void
   handleOkButton: () => void
   lockTime: number
-  orderState: SBOrderStateType
+  orderState: BSOrderStateType
   orderType: OrderType
   outputCurrency: string
   paymentState: 'WAITING_FOR_3DS_RESPONSE' | null
-  paymentType: SBPaymentTypes
+  paymentType: BSPaymentTypes
 }
 
 export default OrderSummary

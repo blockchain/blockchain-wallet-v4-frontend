@@ -32,11 +32,7 @@ export const parseMagicLink = function* () {
       yield put(actions.form.change('login', 'email', walletData.email))
       yield put(actions.auth.setMagicLinkInfo(loginData))
       // check if mobile detected
-      if (walletData.is_mobile_setup) {
-        yield put(actions.form.change('login', 'step', LoginSteps.VERIFICATION_MOBILE))
-      } else {
-        yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
-      }
+      yield put(actions.form.change('login', 'step', LoginSteps.ENTER_PASSWORD))
       yield put(actions.auth.magicLinkParsed())
     }
   } catch (e) {

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { FiatType, RemoteDataType, SBAccountType } from '@core/types'
+import { FiatType, RemoteDataType, BSAccountType } from '@core/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -45,7 +45,7 @@ export type OwnProps = {
 }
 
 export type SuccessStateType = {
-  account: SBAccountType
+  account: BSAccountType
   userData: UserDataType
 }
 type LinkStatePropsType = {

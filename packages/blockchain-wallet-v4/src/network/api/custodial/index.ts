@@ -2,7 +2,7 @@ import {
   CoinType,
   CrossBorderLimits,
   FiatType,
-  SBPaymentTypes,
+  BSPaymentTypes,
   WalletAcountType,
   WalletFiatType
 } from '@core/types'
@@ -14,7 +14,7 @@ import {
   WithdrawLimitsResponse
 } from 'data/types'
 
-import { SBTransactionsType } from '../simpleBuy/types'
+import { BSTransactionsType } from '../buySell/types'
 import {
   BeneficiariesType,
   BeneficiaryType,
@@ -86,7 +86,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
 
   const getWithdrawalFees = (
     product: WithdrawalFeesProductType,
-    paymentMethod?: SBPaymentTypes | 'DEFAULT' | 'ALL'
+    paymentMethod?: BSPaymentTypes | 'DEFAULT' | 'ALL'
   ): WithdrawalMinsAndFeesResponse =>
     authorizedGet({
       data: {
@@ -98,7 +98,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
     })
 
   const checkWithdrawalLocks = (
-    paymentMethod: SBPaymentTypes,
+    paymentMethod: BSPaymentTypes,
     currency: WalletFiatType
   ): WithdrawalLockCheckResponseType =>
     authorizedPost({
@@ -135,7 +135,7 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
     currency,
     fromValue,
     toValue
-  }: GetTransactionsHistoryType): SBTransactionsType =>
+  }: GetTransactionsHistoryType): BSTransactionsType =>
     authorizedGet({
       data: {
         currency,

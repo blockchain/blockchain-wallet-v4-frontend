@@ -2,14 +2,14 @@ import React from 'react'
 import { IntlProvider } from 'react-intl'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 
-import { SBPaymentTypes } from '@core/types'
+import { BSPaymentTypes } from '@core/types'
 import { RecurringBuyPeriods } from 'data/types'
 
 import RecurringBuyDetails from './RecurringBuyDetails'
 
 export default {
   argTypes: {
-    paymentMethod: { options: Object.values(SBPaymentTypes) },
+    paymentMethod: { options: Object.values(BSPaymentTypes) },
     period: { options: Object.values(RecurringBuyPeriods) }
   },
   args: {
@@ -19,7 +19,7 @@ export default {
     currency: 'USD',
     id: '12344',
     nextPayment: 'Tues, March 18',
-    paymentMethod: SBPaymentTypes.FUNDS,
+    paymentMethod: BSPaymentTypes.FUNDS,
     period: RecurringBuyPeriods.WEEKLY,
     removeClick: () => {},
     standardAmount: '20'

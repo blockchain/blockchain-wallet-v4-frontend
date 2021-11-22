@@ -4,7 +4,7 @@ import { Remote } from '@core'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
-import { DEFAULT_SB_BALANCE } from '../simpleBuy/model'
+import { DEFAULT_BS_BALANCE } from '../buySell/model'
 
 export const getBankCredentials = (state: RootState) => state.components.brokerage.bankCredentials
 
@@ -32,14 +32,14 @@ export const getCrossBorderLimits = (state: RootState) =>
   state.components.brokerage.crossBorderLimits
 
 export const getWithdrawableBalance = createSelector(
-  (state: RootState) => selectors.components.simpleBuy.getSBBalances(state),
+  (state: RootState) => selectors.components.buySell.getBSBalances(state),
   (state: RootState) => selectors.modules.profile.getUserCurrencies(state),
   (sbBalancesR, userCurrencies) => {
     const { defaultWalletCurrency } = userCurrencies
 
     return Remote.of(
       sbBalancesR.getOrElse({
-        [defaultWalletCurrency]: DEFAULT_SB_BALANCE
+        [defaultWalletCurrency]: DEFAULT_BS_BALANCE
       })[defaultWalletCurrency]?.withdrawable || '0'
     )
   }

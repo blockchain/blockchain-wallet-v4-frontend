@@ -4,14 +4,14 @@ import { Wrapper } from 'components/Balances'
 
 import { BalancesWrapper } from '../model'
 import Balance from './Balance'
-import PendingSBTransactions from './PendingSBTransactions'
+import PendingBSTransactions from './PendingBSTransactions'
 
 const Template = (props) => {
   const { coins } = props
 
   return (
     <Wrapper>
-      <PendingSBTransactions />
+      <PendingBSTransactions />
       <BalancesWrapper className={props.isActive ? 'active' : ''}>
         {coins.map(
           (coin) => (

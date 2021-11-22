@@ -1,10 +1,10 @@
-import { CoinType, InterestBalanceType, SBBalanceType } from '@core/types'
+import { CoinType, InterestBalanceType, BSBalanceType } from '@core/types'
 import { convertStandardToBase } from 'data/components/exchange/services'
 import { SwapAccountType, SwapBaseCounterTypes } from 'data/types'
 
 export const generateTradingAccount = (
   coin: CoinType,
-  sbBalance?: SBBalanceType
+  sbBalance?: BSBalanceType
 ): SwapAccountType[] => {
   const { coinfig } = window.coins[coin]
   return [

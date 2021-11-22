@@ -2,6 +2,7 @@ import apiAuthorize from './apiAuthorize'
 import bch from './bch'
 import bitpay from './bitpay'
 import btc from './btc'
+import buySell from './buySell'
 import coin from './coin'
 import custodial from './custodial'
 import eth from './eth'
@@ -16,7 +17,6 @@ import profile from './profile'
 import rates from './rates'
 import send from './send'
 import settings from './settings'
-import simpleBuy from './simpleBuy'
 import swap from './swap'
 import wallet from './wallet'
 import xlm from './xlm'
@@ -70,7 +70,7 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
     }),
     ...send({ apiUrl, ...http }),
     ...settings({ rootUrl, ...http }),
-    ...simpleBuy({
+    ...buySell({
       authorizedDelete: authorizedHttp.deleteRequest,
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
@@ -103,7 +103,7 @@ export type APIType = ReturnType<typeof bch> &
   ReturnType<typeof misc> &
   ReturnType<typeof nfts> &
   ReturnType<typeof profile> &
-  ReturnType<typeof simpleBuy> &
+  ReturnType<typeof buySell> &
   ReturnType<typeof send> &
   ReturnType<typeof swap> &
   ReturnType<typeof wallet> &
