@@ -36,8 +36,8 @@ const CTA: React.FC<Props> = (props) => {
         Success: (val) => {
           return (
             <>
-              {props.asset.sell_orders.length ? (
-                props.asset.sell_orders.map((sell_order) => {
+              {props.asset.sell_orders?.length ? (
+                props.asset.sell_orders?.map((sell_order) => {
                   return (
                     <Button
                       style={{ marginBottom: '8px' }}
