@@ -86,7 +86,8 @@ const CTA: React.FC<Props> = (props) => {
                 defaultMessage='Buy Now for {for}'
               />
             </Button>
-            <Text size='12px' weight={500} style={{ margin: '8px 0', textAlign: 'center' }}>
+            {/* TODO: MAKE AN OFFER */}
+            {/* <Text size='12px' weight={500} style={{ margin: '8px 0', textAlign: 'center' }}>
               Or
             </Text>
             <Link
@@ -96,7 +97,7 @@ const CTA: React.FC<Props> = (props) => {
               style={{ display: 'block', textAlign: 'center', width: '100%' }}
             >
               Make an Offer
-            </Link>
+            </Link> */}
           </div>
         )
       })}

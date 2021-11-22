@@ -17,7 +17,6 @@
         "apiKey": "0ecd212038"
       },
       "featureFlags": {
-        "nfts": true,
         "cEURRewards": true,
         "eddInterestFileUpload": true,
         "developerMobilePairing": true,

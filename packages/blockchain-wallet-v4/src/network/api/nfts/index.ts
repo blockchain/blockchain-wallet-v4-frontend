@@ -15,10 +15,10 @@ export default ({ apiUrl, get, post }) => {
     return post({
       contentType: 'application/json',
       data: { order },
-      endPoint: `/wyvern/v1/orders/post`,
+      endPoint: `/nft/order`,
       ignoreQueryParams: true,
       removeDefaultPostData: true,
-      url: 'https://api.opensea.io'
+      url: `${apiUrl}/explorer-gateway`
     })
   }
 

@@ -135,7 +135,9 @@ const MarketForm: React.FC<Props> = (props: Props) => {
                     }
                   />
                   <CollectionLabel htmlFor={collection.slug}>
-                    <img src={collection.image_url} alt={collection.name} />
+                    {collection.image_url ? (
+                      <img src={collection.image_url} alt={collection.name} />
+                    ) : null}
                     <Text
                       cursor='pointer'
                       style={{ marginLeft: '4px;', marginTop: '2px' }}

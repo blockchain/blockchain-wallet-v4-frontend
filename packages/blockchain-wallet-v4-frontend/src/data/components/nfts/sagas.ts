@@ -16,6 +16,7 @@ import {
   calculateGasFees,
   cancelNftListing,
   fulfillNftOrder,
+  fulfillNftSellOrder,
   getNftBuyOrders,
   getNftSellOrder
 } from '@core/redux/payment/nfts'
@@ -163,20 +164,6 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const cancelListing = function* (action: ReturnType<typeof A.cancelListing>) {
-    try {
-      const signer = yield call(getEthSigner)
-      yield put(A.cancelListingLoading())
-      yield call(cancelNftListing, action.payload.sell_order, signer, action.payload.gasData)
-      yield put(A.cancelListingSuccess())
-      yield put(actions.alerts.displaySuccess(`Successfully cancelled listing!`))
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(actions.alerts.displayError(error))
-      yield put(A.cancelListingFailure({ error }))
-    }
-  }
-
   const fetchFees = function* (action: ReturnType<typeof A.fetchFees>) {
     try {
       yield put(A.fetchFeesLoading())
@@ -209,7 +196,8 @@ export default ({ api }: { api: APIType }) => {
         const order: Await<ReturnType<typeof getNftSellOrder>> = yield call(
           getNftSellOrder,
           action.payload.asset,
-          signer
+          signer,
+          action.payload.startPrice
         )
         fees = yield call(
           calculateGasFees,
@@ -222,7 +210,6 @@ export default ({ api }: { api: APIType }) => {
         yield put(A.fetchFeesSuccess(fees))
       }
     } catch (e) {
-      console.log(e)
       const error = errorHandler(e)
       yield put(A.fetchFeesFailure(error))
     }
@@ -254,14 +241,41 @@ export default ({ api }: { api: APIType }) => {
 
   const createSellOrder = function* (action: ReturnType<typeof A.createSellOrder>) {
     try {
+      yield put(A.createSellOrderLoading())
       const signer = yield call(getEthSigner)
-      // const order = yield call(fulfillNftSellOrder, action.payload.asset, signer)
-      // yield call(api.postNftOrder, order)
-      // yield put(actions.alerts.displaySuccess('Sell order created!'))
+      const signedOrder: Await<ReturnType<typeof getNftSellOrder>> = yield call(
+        getNftSellOrder,
+        action.payload.asset,
+        signer,
+        action.payload.startPrice
+      )
+      const order = yield call(fulfillNftSellOrder, signedOrder, signer, action.payload.gasData)
+      yield call(api.postNftOrder, order)
+      yield put(A.clearAndRefetchAssets())
+      yield put(actions.modals.closeAllModals())
+      yield put(actions.alerts.displaySuccess('Sell order created!'))
+      yield put(A.createSellOrderSuccess(order))
     } catch (e) {
       const error = errorHandler(e)
+      yield put(A.createSellOrderFailure(error))
       yield put(actions.logs.logErrorMessage(error))
       yield put(actions.alerts.displayError(error))
+    }
+  }
+
+  const cancelListing = function* (action: ReturnType<typeof A.cancelListing>) {
+    try {
+      const signer = yield call(getEthSigner)
+      yield put(A.cancelListingLoading())
+      yield call(cancelNftListing, action.payload.sell_order, signer, action.payload.gasData)
+      yield put(A.clearAndRefetchAssets())
+      yield put(A.cancelListingSuccess())
+      yield put(actions.modals.closeAllModals())
+      yield put(actions.alerts.displaySuccess(`Successfully cancelled listing!`))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(actions.alerts.displayError(error))
+      yield put(A.cancelListingFailure({ error }))
     }
   }
 
@@ -327,6 +341,7 @@ export default ({ api }: { api: APIType }) => {
     yield put(actions.modals.showModal(ModalName.NFT_ORDER, { origin: 'Unknown' }))
     let address
     let token_id
+    const ethAddr = selectors.core.kvStore.eth.getDefaultAddress(yield select()).getOrElse('')
     // User wants to buy an asset
     if (action.payload.order) {
       const { asset } = action.payload.order
@@ -345,7 +360,9 @@ export default ({ api }: { api: APIType }) => {
       yield put(
         actions.components.nfts.fetchNftOrderAssetSuccess({
           ...asset,
-          sell_orders: action.payload.asset?.sell_orders
+          sell_orders: action.payload.asset?.sell_orders.filter(
+            ({ maker }) => maker.address === ethAddr
+          )
         })
       )
     } catch (e) {

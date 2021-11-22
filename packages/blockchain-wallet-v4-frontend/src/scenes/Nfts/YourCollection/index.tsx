@@ -83,7 +83,8 @@ const YourCollection: React.FC<Props> = (props) => {
                 </PriceInfo>
               </AssetDetails>
               <CTAWrapper>
-                {asset.sell_orders ? (
+                {asset.sell_orders?.filter(({ maker }) => maker.address === props.defaultEthAddr)
+                  .length ? (
                   <Button
                     fullwidth
                     data-e2e='cancelListing'
@@ -115,7 +116,7 @@ const YourCollection: React.FC<Props> = (props) => {
                   href={asset.permalink}
                   target='_blank'
                 >
-                  View on Opensea
+                  View on OpenSea
                 </Link>
               </CTAWrapper>
             </Asset>

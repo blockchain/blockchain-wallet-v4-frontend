@@ -80,7 +80,7 @@ const FeaturesLarge = (props: Props & { showModal: (modal: 'SEND' | 'REQUEST') =
         </NavbarNavItem>
       </LinkContainer>
       <NavbarDivider />
-      {props.featureFlags.nfts ? (
+      {props.invitations.nfts ? (
         <LinkContainer to='/nfts' activeClassName='active'>
           <NavbarNavItem>
             <NavbarNavItemButton data-e2e='nftsLink'>
