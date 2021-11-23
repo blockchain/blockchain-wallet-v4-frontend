@@ -73,10 +73,15 @@ export const fulfillNftOrder = async (
   // Perform buy order validations (abstracted away from _atomicMatch because english auction bids don't hit that function)
   // await _buyOrderValidationAndApprovals({ order: buy, signer })
   // Is an english auction sale
-  if (sell.waitingForBestCounterOrder) {
+  if (
+    sell.waitingForBestCounterOrder ||
+    (!sell.waitingForBestCounterOrder && buy.paymentToken !== NULL_ADDRESS)
+  ) {
     await _buyOrderValidationAndApprovals({ gasData, order: buy, signer })
     // eslint-disable-next-line no-console
-    console.log('Post buy order to OpenSea API because its an english auction')
+    console.log(
+      'Post buy order to OpenSea API because its an english auction or user is making an offer.'
+    )
     // eslint-disable-next-line no-console
     console.log(buy)
     return buy
@@ -153,7 +158,7 @@ export const calculateGasFees = async (
         : 0
     // 2. Caclulate the gas cost of the _atomicMatch function call
     gasFees =
-      approvalFees === 0
+      approvalFees === 0 && buyOrder.paymentToken === NULL_ADDRESS
         ? (await calculateAtomicMatchFees(buyOrder, sellOrder, signer)).toNumber()
         : 350_000
   } else {

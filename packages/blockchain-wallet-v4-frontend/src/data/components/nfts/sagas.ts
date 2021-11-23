@@ -256,7 +256,6 @@ export default ({ api }: { api: APIType }) => {
         sell
       )
       const order = yield call(fulfillNftOrder, buy, sell, signer, gasData)
-      debugger
       yield call(api.postNftOrder, order)
       yield put(actions.modals.closeAllModals())
       yield put(A.createOfferSuccess(order))
