@@ -67,6 +67,23 @@ const nftsSlice = createSlice({
     },
     clearAndRefetchAssets: (state) => {},
     clearAndRefetchOrders: (state) => {},
+    createOffer: (
+      state,
+      action: PayloadAction<{
+        amount?: string
+        coin?: string
+        order: NftOrdersType['orders'][0]
+      }>
+    ) => {},
+    createOfferFailure: (state, action: PayloadAction<string>) => {
+      state.orderFlow.order = Remote.Failure(action.payload)
+    },
+    createOfferLoading: (state) => {
+      state.orderFlow.order = Remote.Loading
+    },
+    createOfferSuccess: (state, action: PayloadAction<Order>) => {
+      state.orderFlow.order = Remote.Success(action.payload)
+    },
     createOrder: (
       state,
       action: PayloadAction<{
@@ -190,8 +207,10 @@ const nftsSlice = createSlice({
     },
     nftOrderFlowClose: (state) => {
       state.orderFlow.activeOrder = null
-      state.orderFlow.asset = Remote.NotAsked
       state.orderFlow.step = NftOrderStepEnum.SHOW_ASSET
+      state.orderFlow.asset = Remote.NotAsked
+      state.orderFlow.fees = Remote.NotAsked
+      state.orderFlow.order = Remote.NotAsked
     },
     nftOrderFlowOpen: (
       state,

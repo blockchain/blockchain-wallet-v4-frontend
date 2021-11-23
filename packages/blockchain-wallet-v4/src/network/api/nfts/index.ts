@@ -98,7 +98,7 @@ export default ({ apiUrl, get, post }) => {
     side = 1 // 0 for buy, 1 for sell,
   ): NftOrdersType => {
     return get({
-      endPoint: `?asset_contract_address=${asset_contract_address}&payment_token_address=${payment_token_address}&sale_kind=0&bundled=false&include_bundled=false&include_invalid=false&side=${side}&limit=${limit}${token_ids}`,
+      endPoint: `?asset_contract_address=${asset_contract_address}&sale_kind=0&bundled=false&include_bundled=false&include_invalid=false&side=${side}&limit=${limit}${token_ids}`,
       headers: {
         'X-API-KEY': 'd0b6281e87d84702b020419fdf58ea81'
       },
