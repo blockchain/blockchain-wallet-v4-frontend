@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { path } from 'ramda'
 import styled from 'styled-components'
@@ -7,7 +7,6 @@ import { fiatToString } from '@core/exchange/utils'
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { SuccessCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
-import { actions } from 'data'
 import { ModalName } from 'data/modals/types'
 import { SettingsItem, SettingsLimit } from 'data/types'
 
@@ -153,7 +152,7 @@ const LimitStatus = styled(Text)`
 
 type Props = OwnProps & SuccessStateType
 
-const upgradeWallet = (tier: TIER_TYPES, modalActions: typeof actions.modals) => {
+const upgradeWallet = (tier: TIER_TYPES, showUpgradeModal: () => void) => {
   if (tier === TIER_TYPES.GOLD) {
     return
   }
@@ -190,11 +189,7 @@ const upgradeWallet = (tier: TIER_TYPES, modalActions: typeof actions.modals) =>
         nature='primary'
         data-e2e='tradingLimitsUnlockAll'
         type='button'
-        onClick={() => {
-          modalActions.showModal(ModalName.UPGRADE_NOW_MODAL, {
-            origin: 'TradingLimits'
-          })
-        }}
+        onClick={showUpgradeModal}
       >
         {tier === TIER_TYPES.NONE ? (
           <FormattedMessage id='modals.send.banner.get_started' defaultMessage='Get Started' />
@@ -330,7 +325,12 @@ const renderStatus = (limit: SettingsItem) => {
 }
 
 const Template: React.FC<Props> = (props) => {
-  const { limitsAndDetails, sddEligible, userData, userTiers } = props
+  const { limitsAndDetails, modalActions, sddEligible, userData, userTiers } = props
+  const showUpgradeModal = useCallback(() => {
+    modalActions.showModal(ModalName.UPGRADE_NOW_MODAL, {
+      origin: 'TradingLimits'
+    })
+  }, [modalActions])
 
   if (!Array.isArray(userTiers)) {
     return null
@@ -399,7 +399,7 @@ const Template: React.FC<Props> = (props) => {
       </HeaderWrapper>
 
       <MainContent>
-        {upgradeWallet(currentTier, props.modalActions)}
+        {upgradeWallet(currentTier, showUpgradeModal)}
 
         <HeadlineWrapper>
           <Headline>

@@ -1,15 +1,10 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { path } from 'ramda'
 import styled, { css } from 'styled-components'
 
 import { Button, Image, Link, Text } from 'blockchain-info-components'
-import {
-  BlueCartridge,
-  ErrorCartridge,
-  OrangeCartridge,
-  SuccessCartridge
-} from 'components/Cartridge'
+import { BlueCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
 
 import { TIER_TYPES } from '../TradingLimits/model'
@@ -91,7 +86,16 @@ type Props = OwnProps & SuccessStateType
 
 const Template: React.FC<Props> = (props) => {
   const { identityVerificationActions, interestEDDStatus, sddEligible, userData, userTiers } = props
-
+  const startVerification = useCallback(
+    (tier: TIER_TYPES) => () => {
+      identityVerificationActions.verifyIdentity({
+        needMoreInfo: false,
+        origin: 'Settings',
+        tier
+      })
+    },
+    [identityVerificationActions]
+  )
   if (!Array.isArray(userTiers)) {
     return null
   }
@@ -109,7 +113,7 @@ const Template: React.FC<Props> = (props) => {
   const isUserTierSilver =
     currentTier === TIER_TYPES.SILVER || currentTier === TIER_TYPES.SILVER_PLUS
 
-  const isGoldInreview = goldTier.state === 'under_review' || goldTier.state === 'pending'
+  const isGoldInReview = goldTier.state === 'under_review' || goldTier.state === 'pending'
 
   return (
     <Wrapper>
@@ -164,7 +168,7 @@ const Template: React.FC<Props> = (props) => {
                 />
               </span>
             </UpgradeDescription>
-            {interestEDDStatus?.eddSubmitted || isGoldInreview ? (
+            {interestEDDStatus?.eddSubmitted || isGoldInReview ? (
               <StatusCartridge>
                 <BlueCartridge fontSize='12px'>
                   <FormattedMessage
@@ -181,13 +185,7 @@ const Template: React.FC<Props> = (props) => {
                 nature='light'
                 data-e2e='upgradeNowUnlockGoldLimits'
                 type='button'
-                onClick={() =>
-                  identityVerificationActions.verifyIdentity({
-                    needMoreInfo: false,
-                    origin: 'Settings',
-                    tier: TIER_TYPES.GOLD
-                  })
-                }
+                onClick={startVerification(TIER_TYPES.GOLD)}
               >
                 <FormattedMessage
                   id='modals.upgradenow.unlock_gold_limits'
@@ -226,13 +224,7 @@ const Template: React.FC<Props> = (props) => {
               nature='primary'
               data-e2e='upgradeNowUnlockSilverLimits'
               type='button'
-              onClick={() =>
-                identityVerificationActions.verifyIdentity({
-                  needMoreInfo: false,
-                  origin: 'Settings',
-                  tier: TIER_TYPES.SILVER
-                })
-              }
+              onClick={startVerification(TIER_TYPES.SILVER)}
             >
               <FormattedMessage
                 id='modals.upgradenow.unlock_silver_limits'
