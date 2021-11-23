@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { Modal, Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
+import BuySellLimitReached from './Brokerage/BuySellLimitReached'
 // Brokerage specific flyout screens
 import EnterAmount from './Brokerage/EnterAmount'
 import OnHold from './Brokerage/OnHold'
@@ -31,6 +32,7 @@ import FlyoutSubHeader from './SubHeader'
 
 export {
   AdditionalInformation,
+  BuySellLimitReached,
   EnterAmount,
   FlyoutContainer,
   FlyoutContent,

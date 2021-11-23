@@ -1678,6 +1678,8 @@ type MessagesType = {
   'modals.simplebuy.kycrequired.buy_crypto_description': 'Use your Bank, Debit or Credit card to fund any crypto purchase.'
   'modals.simplebuy.kycrequired.swap_at_anytime': 'Swap at Anytime'
   'modals.simplebuy.kycrequired.swap_at_anytime_description': 'Instantly exchange your crypto for another without leaving your wallet.'
+  'modals.simplebuy.limit_reached_sub_title': 'The maximum amount of pending orders is {limitNumber}'
+  'modals.simplebuy.limit_reached_title': "You've reached your limit"
   'modals.simplebuy.setupaccount': "Next, we'll set up your account."
   'modals.simplebuy.success': 'Trade Complete'
   'modals.simplebuy.summary.ach_lock': 'Note: You will not be able to Send or Withdraw these funds from your Wallet for the next {days} days.'

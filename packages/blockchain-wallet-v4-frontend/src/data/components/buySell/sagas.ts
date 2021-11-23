@@ -625,7 +625,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         fiatEligible = {
           buySellTradingEligible: true,
           eligible: true,
-          paymentAccountEligible: true
+          maxPendingConfirmationSimpleBuyTrades: 1,
+          maxPendingDepositSimpleBuyTrades: 1,
+          paymentAccountEligible: true,
+          pendingConfirmationSimpleBuyTrades: 0,
+          pendingDepositSimpleBuyTrades: 0,
+          simpleBuyPendingTradesEligible: true,
+          simpleBuyTradingEligible: true
         }
       } else {
         fiatEligible = yield call(api.getBSFiatEligible, payload)
@@ -1212,29 +1218,26 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const showModal = function* ({ payload }: ReturnType<typeof A.showModal>) {
     const { cryptoCurrency, orderType, origin } = payload
+    let hasPendingOBOrder = false
     const latestPendingOrder = S.getBSLatestPendingOrder(yield select())
+
+    // Check if there is a pending_deposit Open Banking order
+    if (latestPendingOrder) {
+      const bankAccount = yield call(getBankInformation, latestPendingOrder as BSOrderType)
+      hasPendingOBOrder = prop('partner', bankAccount) === BankPartners.YAPILY
+    }
 
     yield put(actions.modals.showModal('SIMPLE_BUY_MODAL', { cryptoCurrency, origin }))
     const fiatCurrency = selectors.core.settings
       .getCurrency(yield select())
       .getOrElse('USD') as WalletFiatType
 
-    if (latestPendingOrder) {
-      const bankAccount = yield call(getBankInformation, latestPendingOrder as BSOrderType)
-      let step: T.StepActionsPayload['step'] =
-        latestPendingOrder.state === 'PENDING_CONFIRMATION' ? 'CHECKOUT_CONFIRM' : 'ORDER_SUMMARY'
-
-      // When user closes the QR code modal and opens it via one of the pending
-      // buy buttons in the app. We need to take them to the qrcode screen and
-      // poll for the order status
-      if (
-        latestPendingOrder.state === 'PENDING_DEPOSIT' &&
-        prop('partner', bankAccount) === BankPartners.YAPILY
-      ) {
-        step = 'OPEN_BANKING_CONNECT'
-        yield fork(confirmOrderPoll, A.confirmOrderPoll(latestPendingOrder))
-      }
-
+    // When user closes the QR code modal and opens it via one of the pending
+    // buy buttons in the app. We need to take them to the qrcode screen and
+    // poll for the order status
+    if (hasPendingOBOrder && latestPendingOrder) {
+      const step: T.StepActionsPayload['step'] = 'OPEN_BANKING_CONNECT'
+      yield fork(confirmOrderPoll, A.confirmOrderPoll(latestPendingOrder))
       yield put(
         A.setStep({
           order: latestPendingOrder,

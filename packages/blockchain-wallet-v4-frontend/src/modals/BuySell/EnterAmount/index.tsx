@@ -5,16 +5,16 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
 import {
-  CoinType,
-  ExtractSuccess,
-  FiatType,
-  RemoteDataType,
   BSOrderActionType,
   BSOrderType,
   BSPairType,
-  BSPaymentMethodType
+  BSPaymentMethodType,
+  CoinType,
+  ExtractSuccess,
+  FiatType,
+  RemoteDataType
 } from '@core/types'
-import { FlyoutOopsError } from 'components/Flyout'
+import { BuySellLimitReached, FlyoutOopsError } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { DEFAULT_BS_METHODS } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
@@ -63,7 +63,20 @@ class EnterAmount extends PureComponent<Props> {
       ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
-      Success: (val) => <Success {...val} {...this.props} />
+      Success: (val) => {
+        const userHitMaxPendingDeposits =
+          val.eligibility.maxPendingDepositSimpleBuyTrades ===
+          val.eligibility.pendingDepositSimpleBuyTrades
+        if (userHitMaxPendingDeposits) {
+          return (
+            <BuySellLimitReached
+              handleClose={this.props.handleClose}
+              limitNumber={val.eligibility.maxPendingDepositSimpleBuyTrades}
+            />
+          )
+        }
+        return <Success {...val} {...this.props} />
+      }
     })
   }
 }
