@@ -6,7 +6,9 @@ import { RootState } from 'data/rootReducer'
 import { BSAddCardFormValuesType } from 'data/types'
 
 export const getData = (state: RootState) => {
-  const formValues = selectors.form.getFormValues('addCCForm')(state) as BSAddCardFormValuesType
+  const formValues = selectors.form.getFormValues('addCardEverypayForm')(
+    state
+  ) as BSAddCardFormValuesType
   const order = selectors.components.buySell.getBSOrder(state)
   const paymentMethodsR = selectors.components.buySell.getBSPaymentMethods(state)
   const supportedCountriesR = selectors.components.identityVerification.getSupportedCountries(state)

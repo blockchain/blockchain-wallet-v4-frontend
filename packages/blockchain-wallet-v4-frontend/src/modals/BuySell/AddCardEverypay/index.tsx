@@ -27,8 +27,8 @@ class AddCardEverypay extends PureComponent<Props> {
   }
 
   setDefaultCountry = (country: CountryType) => {
-    this.props.formActions.change('addCCForm', 'billingaddress.country', country)
-    this.props.formActions.clearFields('addCCForm', false, false, 'billingaddress.state')
+    this.props.formActions.change('addCardEverypayForm', 'billingaddress.country', country)
+    this.props.formActions.clearFields('addCardEverypayForm', false, false, 'billingaddress.state')
   }
 
   onCountryChange = (e, value) => {

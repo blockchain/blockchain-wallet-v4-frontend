@@ -5,7 +5,7 @@ export type WalletFormType =
   | '@SEND.BTC.FORM'
   | '@SEND.ETH.FORM'
   | '@SEND.XLM.FORM'
-  | 'addCCForm'
+  | 'addCardEverypayForm'
   | 'airdropClaim'
   | 'brokerageTx'
   | 'cancelBSOrderForm'

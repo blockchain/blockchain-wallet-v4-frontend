@@ -24,6 +24,7 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 import { Loading as StdLoading, LoadingTextEnum } from '../components'
 import { ModalPropsType } from '../types'
 // step templates
+import AddCardCheckout from './AddCardCheckout'
 import AddCardEverypay from './AddCardEverypay'
 import Authorize from './Authorize'
 import BankWireDetails from './BankWireDetails'
@@ -66,7 +67,7 @@ class BuySell extends PureComponent<Props, State> {
     this.props.buySellActions.destroyCheckout()
     this.props.formActions.destroy('buySellCheckout')
     this.props.formActions.destroy('ccBillingAddress')
-    this.props.formActions.destroy('addCCForm')
+    this.props.formActions.destroy('addCardEverypayForm')
   }
 
   backToEnterAmount = () => {
@@ -186,14 +187,11 @@ class BuySell extends PureComponent<Props, State> {
                 <AddCardEverypay {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
-            {this.props.step === 'ADD_CARD_EVERYPAY' && (
+            {this.props.step === 'ADD_CARD_CHECKOUT' && (
               <FlyoutChild>
-                {
-                  // ADD CHECKOUt CARD
-                }
+                <AddCardCheckout {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
-
             {this.props.step === 'CC_BILLING_ADDRESS' && (
               <FlyoutChild>
                 <BillingAddress {...this.props} handleClose={this.handleClose} />

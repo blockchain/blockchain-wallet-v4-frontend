@@ -123,6 +123,8 @@ export type BuySellState = {
   card: RemoteDataType<string, BSCardType>
   cardId: undefined | string
   cards: RemoteDataType<string, Array<BSCardType>>
+  checkoutAccountCodes: undefined | Array<string>
+  checkoutApiKey: undefined | string
   crossBorderLimits: RemoteDataType<string, CrossBorderLimits>
   cryptoCurrency: undefined | CoinType
   displayBack: boolean
@@ -212,14 +214,17 @@ export type StepActionsPayload =
       step: 'PREVIEW_SELL'
     }
   | {
+      checkoutAccountCodes: Array<string>
+      checkoutApiKey: string
+      step: 'ADD_CARD_CHECKOUT'
+    }
+  | {
       step:
         | 'ADD_CARD'
+        | 'ADD_CARD_EVERYPAY'
         | 'CC_BILLING_ADDRESS'
         | 'KYC_REQUIRED'
         | 'UPGRADE_TO_GOLD'
         | 'LOADING'
         | 'FREQUENCY'
-    }
-  | {
-      step: 'ADD_CARD_EVERYPAY' | 'ADD_CARD_CHECKOUT'
     }

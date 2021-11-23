@@ -123,7 +123,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = (prop
   }
 
   useEffect(() => {
-    props.formActions.change('addCCForm', 'sameAsBillingAddress', true)
+    props.formActions.change('addCardEverypayForm', 'sameAsBillingAddress', true)
   }, [])
 
   return (
@@ -449,5 +449,5 @@ export type ErrorType = BSAddCardErrorType
 
 export default reduxForm<{}, Props, ErrorType>({
   destroyOnUnmount: false,
-  form: 'addCCForm'
+  form: 'addCardEverypayForm'
 })(Success)

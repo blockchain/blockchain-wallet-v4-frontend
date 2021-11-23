@@ -48,6 +48,8 @@ const initialState: BuySellState = {
   card: Remote.NotAsked,
   cardId: undefined,
   cards: Remote.NotAsked,
+  checkoutAccountCodes: [],
+  checkoutApiKey: undefined,
   crossBorderLimits: Remote.NotAsked,
   cryptoCurrency: undefined,
   displayBack: false,
@@ -123,6 +125,12 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
       return { order: payload.order, step: payload.step }
     case 'SELL_ORDER_SUMMARY':
       return { sellOrder: payload.sellOrder, step: payload.step }
+    case 'ADD_CARD_CHECKOUT':
+      return {
+        checkoutAccountCodes: payload.checkoutAccountCodes,
+        checkoutApiKey: payload.checkoutApiKey,
+        step: payload.step
+      }
     default:
       return { step: payload.step }
   }
@@ -456,8 +464,11 @@ const buySellSlice = createSlice({
           state.sellOrder = stepPayload.sellOrder
           state.step = stepPayload.step
           break
-        case 'LOADING':
-        case 'FREQUENCY':
+        case 'ADD_CARD_CHECKOUT':
+          state.checkoutAccountCodes = stepPayload.checkoutAccountCodes
+          state.checkoutApiKey = stepPayload.checkoutApiKey
+          state.step = stepPayload.step
+          break
         default:
           state.step = stepPayload.step
           break
