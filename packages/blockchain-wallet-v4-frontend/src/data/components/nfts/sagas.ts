@@ -182,10 +182,15 @@ export default ({ api }: { api: APIType }) => {
       const signer: Signer = yield call(getEthSigner)
       let fees: GasDataI
       if (action.payload.operation === GasCalculationOperations.Buy) {
+        // TODO: DONT DEFAULT TO 1 WEEK
+        const expirationTime = moment().add(7, 'day').unix()
         const { buy, sell }: Await<ReturnType<typeof getNftBuyOrders>> = yield call(
           getNftBuyOrders,
           action.payload.order,
-          signer
+          signer,
+          action.payload.offer ? expirationTime : undefined,
+          action.payload.offer,
+          action.payload.paymentTokenAddress
         )
         fees = yield call(
           calculateGasFees,
@@ -222,6 +227,8 @@ export default ({ api }: { api: APIType }) => {
         yield put(A.fetchFeesSuccess(fees))
       }
     } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log(e)
       const error = errorHandler(e)
       yield put(A.fetchFeesFailure(error))
     }
