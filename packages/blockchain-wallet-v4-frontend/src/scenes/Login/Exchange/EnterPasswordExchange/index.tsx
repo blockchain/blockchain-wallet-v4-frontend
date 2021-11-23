@@ -38,7 +38,6 @@ const EnterPasswordExchange = (props: Props) => {
     formValues,
     handleBackArrowClick,
     invalid,
-
     submitting
   } = props
   const passwordError = exchangeError && exchangeError === ExchangeErrorCodes.INVALID_CREDENTIALS
@@ -66,8 +65,8 @@ const EnterPasswordExchange = (props: Props) => {
           </Text>
         </ProductTab>
       </TabWrapper>
-      <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} hideGuid />
       <WrapperWithPadding>
+        <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} hideGuid />
         <FormGroup>
           {!isSupportedBrowser && <UnsupportedBrowserWarning />}
           <FormItem>

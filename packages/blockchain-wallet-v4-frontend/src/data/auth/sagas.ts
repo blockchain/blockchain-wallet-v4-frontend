@@ -601,7 +601,6 @@ export default ({ api, coreSagas, networks }) => {
     } = yield select(selectors.form.getFormValues(LOGIN_FORM))
     const authType = yield select(selectors.auth.getAuthType)
     const language = yield select(selectors.preferences.getLanguage)
-    const { product } = yield select(selectors.auth.getProductAuthMetadata)
     try {
       // set code to uppercase if type is not yubikey
       let auth = code
@@ -616,11 +615,11 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
         } else {
           // if it's an email, we triger the magic link email
-          yield put(actions.form.change(LOGIN_FORM, 'email', guidOrEmail))
+          yield put(actions.form.change(LOGIN_FORM, 'email', guidOrEmail || email))
           yield put(
             actions.auth.triggerWalletMagicLink({
               captchaToken,
-              email: guidOrEmail
+              email: guidOrEmail || email
             })
           )
           initCaptcha()

@@ -13,6 +13,7 @@ const logLocation = 'auth/sagas'
 export const parseMagicLink = function* () {
   try {
     const magicLink = yield select(selectors.auth.getMagicLinkData)
+    const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
     const {
       exchange: exchangeData,
       mergeable,
@@ -22,11 +23,8 @@ export const parseMagicLink = function* () {
       upgradeable,
       wallet: walletData
     } = magicLink
-    const session = yield select(
-      selectors.session.getSession,
-      walletData?.guid,
-      walletData?.email || exchangeData?.email
-    )
+    const userEmail = walletData?.email || exchangeData?.email || formValues?.email
+    const session = yield select(selectors.session.getSession, walletData?.guid, userEmail)
     // remove feature flag when not necessary
     const shouldPollForMagicLinkData = false
     // handles cases where we don't yet know which product user wants to authenticate to
@@ -41,10 +39,10 @@ export const parseMagicLink = function* () {
       }
     }
     if (session !== session_id && shouldPollForMagicLinkData) {
-      // TODO: question for merge, do we need the next line?
       yield put(actions.auth.authorizeVerifyDevice())
       yield put(actions.form.change('login', 'step', LoginSteps.VERIFY_MAGIC_LINK))
     }
+    // TODO: WRAP IN FEATURE FLAG
     if (!unified && (mergeable || upgradeable)) {
       if (productAuth === ProductAuthOptions.WALLET && mergeable) {
         // send them to wallet password screen
@@ -63,6 +61,7 @@ export const parseMagicLink = function* () {
         )
       }
     }
+    // TODDO: WRAP ABOVE IN FEATURE FLAG
     if (unified) {
       actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.UNIFIED)
     }

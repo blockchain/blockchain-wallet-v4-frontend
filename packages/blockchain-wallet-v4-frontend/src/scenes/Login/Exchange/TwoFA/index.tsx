@@ -3,73 +3,69 @@ import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { HeartbeatLoader, Image, Text } from 'blockchain-info-components'
-import { FormGroup, FormItem, TextBox } from 'components/Form'
+import { HeartbeatLoader, Text } from 'blockchain-info-components'
+import { FormError, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
-import { ProductAuthOptions } from 'data/types'
+import { ExchangeErrorCodes } from 'data/types'
 import { isBrowserSupported } from 'services/browser'
-import { required, validEmail } from 'services/forms'
+import { required } from 'services/forms'
 
 import { Props } from '../..'
 import {
   ActionButton,
+  BackArrowFormHeader,
   LinkRow,
-  LoginFormLabel,
   NeedHelpLink,
-  ProductTab,
   removeWhitespace,
   SignUpLink,
-  TabWrapper,
-  UnsupportedBrowserWarning,
   WrapperWithPadding
 } from '../../model'
-
-const isSupportedBrowser = isBrowserSupported()
 
 const LoginWrapper = styled(Wrapper)`
   padding: 0 0 32px 0;
 `
-
 const TwoFAExchange = (props: Props) => {
-  const { authActions, busy, formValues, invalid, submitting } = props
+  const {
+    authActions,
+    busy,
+    exchangeError,
+    formValues,
+    handleBackArrowClick,
+    invalid,
+    submitting
+  } = props
+  const twoFactorRequired = exchangeError && exchangeError === ExchangeErrorCodes.BAD_2FA
+  const twoFactorError = exchangeError && exchangeError === ExchangeErrorCodes.WRONG_2FA
+
   return (
     <LoginWrapper>
-      <TabWrapper>
-        <ProductTab
-          backgroundColor='grey000'
-          onClick={() => authActions.setProductAuthMetadata({ product: ProductAuthOptions.WALLET })}
-        >
-          <Image name='wallet-grayscale' height='28px' style={{ marginRight: '12px' }} />
-          <Text size='20px' weight={600} color='grey400'>
-            <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
-          </Text>
-        </ProductTab>
-        <ProductTab>
-          <Image name='exchange-no-background' height='26px' style={{ marginRight: '12px' }} />
-          <Text size='20px' weight={600} color='blue600'>
-            <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
-          </Text>
-        </ProductTab>
-      </TabWrapper>
       <WrapperWithPadding>
+        <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} hideGuid />
         <FormGroup>
-          {!isSupportedBrowser && <UnsupportedBrowserWarning />}
-          <FormItem style={{ marginTop: '40px' }}>
-            <LoginFormLabel htmlFor='guid'>
-              <FormattedMessage id='scenes.register.youremail' defaultMessage='Your Email' />
-            </LoginFormLabel>
-
+          <FormItem>
+            <FormLabel htmlFor='code'>
+              <FormattedMessage
+                id='scenes.logins.twofa.enter_code'
+                defaultMessage='Enter your Two Factor Authentication Code'
+              />
+            </FormLabel>
             <Field
-              component={TextBox}
-              data-e2e='loginGuidOrEmail'
-              disabled={!isSupportedBrowser}
-              disableSpellcheck
-              name='guidOrEmail'
+              name='exchangeTwoFA'
               normalize={removeWhitespace}
-              validate={[required, validEmail]}
-              placeholder='Enter your email'
+              validate={[required]}
+              component={TextBox}
+              noLastPass
               autoFocus
+              data-e2e='loginTwoFactorCode'
             />
+            {twoFactorError && (
+              <FormError position='absolute'>
+                <FormattedMessage
+                  id='scenes.login.exchange.incorrect_code'
+                  defaultMessage='Incorrect code'
+                />
+              </FormError>
+            )}
           </FormItem>
         </FormGroup>
         <LinkRow>

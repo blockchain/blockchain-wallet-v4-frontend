@@ -74,7 +74,7 @@ export type ExchangeLoginType = {
 
 export type LoginFormType = {
   code?: string
-  email: string
+  email?: string
   emailToken?: string
   exchangePassword?: string
   exchangeTwoFA?: string
