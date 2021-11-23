@@ -13,6 +13,7 @@ import {
   BSOrderType,
   BSPaymentTypes,
   BSQuoteType,
+  CardAcquirer,
   Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
@@ -144,7 +145,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const addCardDetails = function* () {
     try {
       const formValues: T.BSAddCardFormValuesType = yield select(
-        selectors.form.getFormValues('addCCForm')
+        selectors.form.getFormValues('addCardEverypayForm')
       )
       const existingCardsR = S.getBSCards(yield select())
       const existingCards = existingCardsR.getOrElse([] as Array<BSCardType>)
@@ -202,9 +203,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           step: 'ADD_CARD'
         })
       )
-      yield put(actions.form.startSubmit('addCCForm'))
+      yield put(actions.form.startSubmit('addCardEverypayForm'))
       yield put(
-        actions.form.stopSubmit('addCCForm', {
+        actions.form.stopSubmit('addCardEverypayForm', {
           _error: error as T.BSAddCardErrorType
         })
       )
@@ -1107,7 +1108,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const pollBSCardErrorHandler = function* (state: BSCardStateType) {
     yield put(A.setStep({ step: 'ADD_CARD' }))
-    yield put(actions.form.startSubmit('addCCForm'))
+    yield put(actions.form.startSubmit('addCardEverypayForm'))
 
     let error
     switch (state) {
@@ -1119,7 +1120,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
 
     yield put(
-      actions.form.stopSubmit('addCCForm', {
+      actions.form.stopSubmit('addCardEverypayForm', {
         _error: error
       })
     )
@@ -1196,6 +1197,66 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (action.payload.step === 'ORDER_SUMMARY') {
         yield call(pollBSBalances)
       }
+    }
+
+    if (action.payload.step === 'ADD_CARD') {
+      const paymentProcessors: boolean = (yield select(
+        selectors.core.walletOptions.getPaymentProcessors
+      )).getOrElse(false)
+
+      if (!paymentProcessors) {
+        yield put(
+          A.setStep({
+            step: 'ADD_CARD_EVERYPAY'
+          })
+        )
+
+        return
+      }
+
+      // const cardAcquirers: CardAcquirer[] = yield call(api.getCardAcquirers)
+
+      // TODO remove this mock
+      const cardAcquirers: CardAcquirer[] = [
+        {
+          apiKey: 'pk_sbox_eiq2rsadi5eambtzil662iccmil',
+          cardAcquirerAccountCodes: ['checkout_uk', 'checkout_us'],
+          cardAcquirerName: 'checkout'
+        },
+        {
+          apiKey: 'pk_sbox_eiq2rsadi5eambtzil662iccmil',
+          cardAcquirerAccountCodes: ['checkout_uk', 'checkout_us'],
+          cardAcquirerName: 'checkout'
+        }
+      ]
+
+      const checkoutAcquirers: CardAcquirer[] = cardAcquirers.filter(
+        (cardAcquirer: CardAcquirer) => cardAcquirer.cardAcquirerName === 'checkout'
+      )
+
+      if (checkoutAcquirers.length === 0) {
+        yield put(
+          A.setStep({
+            step: 'ADD_CARD_EVERYPAY'
+          })
+        )
+
+        return
+      }
+
+      const checkoutAccountCodes = checkoutAcquirers.reduce((prev, curr) => {
+        return [...new Set([...prev, ...curr.cardAcquirerAccountCodes])]
+      }, [] as string[])
+
+      const checkoutApiKey = checkoutAcquirers[0].apiKey
+
+      yield put(
+        A.setStep({
+          checkoutAccountCodes,
+          checkoutApiKey,
+          step: 'ADD_CARD_CHECKOUT'
+        })
+      )
     }
   }
 

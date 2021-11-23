@@ -4,12 +4,12 @@ import { head, isEmpty, isNil, lift } from 'ramda'
 import { createSelector } from 'reselect'
 
 import {
-  ExtractSuccess,
-  FiatType,
-  FiatTypeEnum,
   BSPaymentMethodType,
   BSPaymentTypes,
-  BSQuoteType
+  BSQuoteType,
+  ExtractSuccess,
+  FiatType,
+  FiatTypeEnum
 } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -259,3 +259,8 @@ export const getLimits = (state: RootState) => state.components.buySell.limits
 
 export const getSddTransactionFinished = (state: RootState) =>
   state.components.buySell.sddTransactionFinished
+
+export const getCheckoutAccountCodes = (state: RootState) =>
+  state.components.buySell.checkoutAccountCodes
+
+export const getCheckoutApiKey = (state: RootState) => state.components.buySell.checkoutApiKey

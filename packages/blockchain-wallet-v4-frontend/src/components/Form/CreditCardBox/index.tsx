@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { BSPaymentTypes } from '@core/types'
 import { TextBox } from 'components/Form'
 
-import { Props as AddCardProps } from '../../../modals/BuySell/AddCard/template.success'
+import { Props as AddCardProps } from '../../../modals/BuySell/AddCardEverypay/template.success'
 import { DEFAULT_CARD_FORMAT, DEFAULT_CARD_SVG_LOGO, getCardTypeByValue } from './model'
 
 const duration = 250

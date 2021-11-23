@@ -315,3 +315,11 @@ export type Limits = {
   max: string
   min: string
 }
+
+type CardAcquirerName = 'stripe' | 'checkout'
+
+export type CardAcquirer = {
+  apiKey: string
+  cardAcquirerAccountCodes: string[]
+  cardAcquirerName: CardAcquirerName
+}
