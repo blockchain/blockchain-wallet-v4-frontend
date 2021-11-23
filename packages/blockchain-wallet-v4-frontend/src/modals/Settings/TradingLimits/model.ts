@@ -5,51 +5,30 @@ export enum TIER_TYPES {
   SILVER_PLUS = 3
 }
 
-export enum ITEMS {
-  BUY_WITH_A_CARD = 'buy_with_a_card',
-  CASH_ACCOUNT = 'cash_account',
-  DEPOSIT_AND_WITHDRAWAL = 'deposit_and_withdrawal',
-  EARN_INTEREST = 'earn_interest',
-  RECEIVE = 'receive',
-  SEND = 'send',
-  SWAP = 'swap'
+export enum SETTINGS_ITEMS {
+  BUY_AND_DEPOSIT_WITH_BANK = 'BUY_AND_DEPOSIT_WITH_BANK',
+  BUY_AND_SELL = 'BUY_AND_SELL',
+  BUY_WITH_CARD = 'BUY_WITH_CARD',
+  RECEIVE_CRYPTO = 'RECEIVE_CRYPTO',
+  SAVINGS_INTEREST = 'SAVINGS_INTEREST',
+  SEND_CRYPTO = 'SEND_CRYPTO',
+  SWAP_CRYPTO = 'SWAP_CRYPTO',
+  WITHDRAW_WITH_BANK = 'WITHDRAW_WITH_BANK'
 }
 
-export const TIERS = {
-  [TIER_TYPES.NONE]: {
-    [ITEMS.SEND]: true,
-    [ITEMS.RECEIVE]: true,
-    [ITEMS.SWAP]: false,
-    [ITEMS.CASH_ACCOUNT]: false,
-    [ITEMS.BUY_WITH_A_CARD]: false,
-    [ITEMS.DEPOSIT_AND_WITHDRAWAL]: false,
-    [ITEMS.EARN_INTEREST]: false
-  },
-  [TIER_TYPES.SILVER]: {
-    [ITEMS.SEND]: true,
-    [ITEMS.RECEIVE]: true,
-    [ITEMS.SWAP]: true,
-    [ITEMS.CASH_ACCOUNT]: false,
-    [ITEMS.BUY_WITH_A_CARD]: false,
-    [ITEMS.DEPOSIT_AND_WITHDRAWAL]: false,
-    [ITEMS.EARN_INTEREST]: false
-  },
-  [TIER_TYPES.GOLD]: {
-    [ITEMS.SEND]: true,
-    [ITEMS.RECEIVE]: true,
-    [ITEMS.SWAP]: true,
-    [ITEMS.CASH_ACCOUNT]: true,
-    [ITEMS.BUY_WITH_A_CARD]: true,
-    [ITEMS.DEPOSIT_AND_WITHDRAWAL]: true,
-    [ITEMS.EARN_INTEREST]: true
-  },
-  [TIER_TYPES.SILVER_PLUS]: {
-    [ITEMS.SEND]: true,
-    [ITEMS.RECEIVE]: true,
-    [ITEMS.SWAP]: true,
-    [ITEMS.CASH_ACCOUNT]: false,
-    [ITEMS.BUY_WITH_A_CARD]: true,
-    [ITEMS.DEPOSIT_AND_WITHDRAWAL]: false,
-    [ITEMS.EARN_INTEREST]: false
-  }
+export enum SETTINGS_ITEM_PERIOD {
+  DAY = 'DAY',
+  MONTH = 'MONTH',
+  YEAR = 'YEAR'
+}
+
+export enum SETTINGS_ITEMS_ICONS {
+  BUY_AND_DEPOSIT_WITH_BANK = 'bank-empty',
+  BUY_AND_SELL = 'sell',
+  BUY_WITH_CARD = 'credit-card',
+  RECEIVE_CRYPTO = 'qr-code-new',
+  SAVINGS_INTEREST = 'interest',
+  SEND_CRYPTO = 'send-crypto',
+  SWAP_CRYPTO = 'swap',
+  WITHDRAW_WITH_BANK = 'bank-empty'
 }

@@ -1,13 +1,10 @@
-import { lift } from 'ramda'
-
-import { ExtractSuccess, InterestEDDStatus, SDDEligibleType } from '@core/types'
+import { Remote } from '@core'
+import { InterestEDDStatus, SDDEligibleType } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { UserDataType, UserTierType } from 'data/types'
 
 const getData = (state: RootState) => {
-  const limitsAndDetailsR = selectors.components.settings.getLimitsAndDetails(state)
-
   const userData = selectors.modules.profile.getUserData(state).getOrElse({
     address: undefined,
     id: '',
@@ -30,13 +27,12 @@ const getData = (state: RootState) => {
     .getInterestEDDStatus(state)
     .getOrElse({} as InterestEDDStatus)
 
-  return lift((limitsAndDetails: ExtractSuccess<typeof limitsAndDetailsR>) => ({
+  return Remote.Success({
     interestEDDStatus,
-    limitsAndDetails,
     sddEligible,
     userData,
     userTiers
-  }))(limitsAndDetailsR)
+  })
 }
 
 export default getData

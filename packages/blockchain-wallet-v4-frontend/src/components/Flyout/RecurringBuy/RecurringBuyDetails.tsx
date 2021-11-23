@@ -4,7 +4,7 @@ import moment from 'moment'
 import styled from 'styled-components'
 
 import { Exchange } from '@core'
-import { FiatType, BSPaymentTypes } from '@core/types'
+import { BSPaymentTypes, FiatType } from '@core/types'
 import { Banner, Button } from 'blockchain-info-components'
 import { RecurringBuyPeriods } from 'data/types'
 

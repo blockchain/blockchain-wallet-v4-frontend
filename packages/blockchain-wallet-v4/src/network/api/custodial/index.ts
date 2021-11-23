@@ -9,7 +9,6 @@ import {
 import {
   BankTransferAccountType,
   NabuProductType,
-  ProductEligibility,
   ProductEligibilityResponse,
   WithdrawLimitsResponse
 } from 'data/types'
@@ -119,12 +118,6 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       url: nabuUrl
     })
 
-  const getProductsEligibility = (): ProductEligibility[] =>
-    authorizedGet({
-      endPoint: '/eligible/products',
-      url: nabuUrl
-    })
-
   const getEligibilityForProduct = (product: NabuProductType): ProductEligibilityResponse =>
     authorizedGet({
       endPoint: `/eligible/product/${product}`,
@@ -176,12 +169,18 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
       url: nabuUrl
     })
 
+  const getLimitsAndFeaturesDetails = () =>
+    authorizedGet({
+      endPoint: `/limits/overview`,
+      url: nabuUrl
+    })
+
   return {
     checkWithdrawalLocks,
     getBeneficiaries,
     getCrossBorderTransactions,
     getEligibilityForProduct,
-    getProductsEligibility,
+    getLimitsAndFeaturesDetails,
     getTransactionsHistory,
     getWithdrawalFees,
     getWithdrawalLimits,
