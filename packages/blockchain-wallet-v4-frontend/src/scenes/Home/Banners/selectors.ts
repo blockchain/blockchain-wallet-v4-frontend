@@ -42,9 +42,6 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     .getOrElse(false)
   const ordersR = selectors.components.buySell.getBSOrders(state)
   const orders: Array<BSOrderType> = ordersR.getOrElse([])
-  const isBuySellOrderPending = orders.find(
-    (order) => order.state === 'PENDING_CONFIRMATION' || order.state === 'PENDING_DEPOSIT'
-  )
 
   const isUserActive =
     selectors.modules.profile.getUserActivationState(state).getOrElse('') !== 'NONE'
@@ -111,8 +108,6 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     bannerToShow = 'resubmit'
   } else if (isServicePriceUnavailable) {
     bannerToShow = 'servicePriceUnavailable'
-  } else if (isBuySellOrderPending && !isTier3SDD) {
-    bannerToShow = 'sbOrder'
   } else if (showCEURBanner) {
     bannerToShow = 'celoEURRewards'
   } else if (isKycStateNone && isUserActive && !isFirstLogin && !isTier3SDD) {
