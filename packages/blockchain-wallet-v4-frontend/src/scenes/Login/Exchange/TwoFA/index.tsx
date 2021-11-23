@@ -8,13 +8,11 @@ import { FormGroup, FormItem, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { ProductAuthOptions } from 'data/types'
 import { isBrowserSupported } from 'services/browser'
-import { required, validWalletIdOrEmail } from 'services/forms'
-import { media } from 'services/styles'
+import { required, validEmail } from 'services/forms'
 
 import { Props } from '../..'
 import {
   ActionButton,
-  GuidError,
   LinkRow,
   LoginFormLabel,
   NeedHelpLink,
@@ -26,35 +24,29 @@ import {
   WrapperWithPadding
 } from '../../model'
 
+const isSupportedBrowser = isBrowserSupported()
+
 const LoginWrapper = styled(Wrapper)`
-  display: flex;
-  flex-direction: column;
   padding: 0 0 32px 0;
 `
 
-const isSupportedBrowser = isBrowserSupported()
-
-const EnterEmailOrGuid = (props: Props) => {
-  const { authActions, busy, formValues, invalid, submitting, walletError } = props
-  const guidError = walletError && walletError.toLowerCase().includes('unknown wallet id')
-
+const TwoFAExchange = (props: Props) => {
+  const { authActions, busy, formValues, invalid, submitting } = props
   return (
     <LoginWrapper>
       <TabWrapper>
-        <ProductTab>
-          <Image name='wallet-no-background' height='28px' style={{ marginRight: '12px' }} />
-          <Text size='20px' weight={600} color='purple600'>
+        <ProductTab
+          backgroundColor='grey000'
+          onClick={() => authActions.setProductAuthMetadata({ product: ProductAuthOptions.WALLET })}
+        >
+          <Image name='wallet-grayscale' height='28px' style={{ marginRight: '12px' }} />
+          <Text size='20px' weight={600} color='grey400'>
             <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
           </Text>
         </ProductTab>
-        <ProductTab
-          backgroundColor='grey000'
-          onClick={() =>
-            authActions.setProductAuthMetadata({ product: ProductAuthOptions.EXCHANGE })
-          }
-        >
-          <Image name='exchange-grayscale' height='26px' style={{ marginRight: '12px' }} />
-          <Text size='20px' weight={600} color='grey400'>
+        <ProductTab>
+          <Image name='exchange-no-background' height='26px' style={{ marginRight: '12px' }} />
+          <Text size='20px' weight={600} color='blue600'>
             <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
           </Text>
         </ProductTab>
@@ -64,11 +56,9 @@ const EnterEmailOrGuid = (props: Props) => {
           {!isSupportedBrowser && <UnsupportedBrowserWarning />}
           <FormItem style={{ marginTop: '40px' }}>
             <LoginFormLabel htmlFor='guid'>
-              <FormattedMessage
-                id='scenes.login.email_guid'
-                defaultMessage='Your Email or Wallet ID'
-              />
+              <FormattedMessage id='scenes.register.youremail' defaultMessage='Your Email' />
             </LoginFormLabel>
+
             <Field
               component={TextBox}
               data-e2e='loginGuidOrEmail'
@@ -76,21 +66,11 @@ const EnterEmailOrGuid = (props: Props) => {
               disableSpellcheck
               name='guidOrEmail'
               normalize={removeWhitespace}
-              validate={[required, validWalletIdOrEmail]}
-              placeholder='Enter your email or wallet ID'
+              validate={[required, validEmail]}
+              placeholder='Enter your email'
               autoFocus
             />
           </FormItem>
-          {guidError && (
-            <GuidError inline>
-              <Text size='12px' color='error' weight={400} data-e2e='walletIdError'>
-                <FormattedMessage
-                  id='scenes.login.guid_error'
-                  defaultMessage='Unknown Wallet ID. Please check that it was entered correctly or try signing in with your email.'
-                />
-              </Text>
-            </GuidError>
-          )}
         </FormGroup>
         <LinkRow>
           <ActionButton
@@ -118,4 +98,4 @@ const EnterEmailOrGuid = (props: Props) => {
   )
 }
 
-export default EnterEmailOrGuid
+export default TwoFAExchange

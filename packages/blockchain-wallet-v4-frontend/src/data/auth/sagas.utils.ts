@@ -28,9 +28,7 @@ export const parseMagicLink = function* () {
       walletData?.email || exchangeData?.email
     )
     // remove feature flag when not necessary
-    const shouldPollForMagicLinkData = (yield select(
-      selectors.core.walletOptions.getPollForMagicLinkData
-    )).getOrElse(false)
+    const shouldPollForMagicLinkData = false
     // handles cases where we don't yet know which product user wants to authenticate to
     // if there's only wallet data or exchange data, we can deduce which product they want
     let productAuth = product

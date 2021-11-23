@@ -4,7 +4,7 @@ import { bindActionCreators, compose } from 'redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 
 import { RemoteDataType } from '@core/types'
-import { Text } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import { actions, selectors } from 'data'
 import {
@@ -24,12 +24,12 @@ import UpgradePassword from './AccountUnification/UpgradePassword'
 import UpgradeSuccess from './AccountUnification/UpgradeSuccess'
 import ExchangeEnterEmail from './Exchange/EnterEmail'
 import EnterPasswordExchange from './Exchange/EnterPasswordExchange'
+import TwoFAExchange from './Exchange/TwoFA'
 import {
   getLoginPageFooter,
   getLoginPageSubTitle,
   getLoginPageTitle,
   LOGIN_FORM_NAME,
-  LoginWrapper,
   SignUpLink
 } from './model'
 import { getData } from './selectors'
@@ -37,6 +37,7 @@ import VerifyMagicLink from './VerifyMagicLink'
 import CheckEmail from './Wallet/CheckEmail'
 import WalletEnterEmailOrGuid from './Wallet/EnterEmailOrGuid'
 import EnterPasswordWallet from './Wallet/EnterPasswordWallet'
+import TwoFAWallet from './Wallet/TwoFA'
 
 class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StateProps> {
   constructor(props) {
@@ -151,6 +152,12 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
                 return <EnterPasswordExchange {...loginProps} />
               case LoginSteps.ENTER_PASSWORD_WALLET:
                 return <EnterPasswordWallet {...loginProps} />
+              case LoginSteps.TWO_FA:
+                return product === ProductAuthOptions.EXCHANGE ? (
+                  <TwoFAExchange {...loginProps} />
+                ) : (
+                  <TwoFAWallet {...loginProps} />
+                )
               case LoginSteps.CHECK_EMAIL:
                 return <CheckEmail {...loginProps} />
               case LoginSteps.VERIFY_MAGIC_LINK:
@@ -176,6 +183,9 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
         </Form>
 
         {/* FOOTER */}
+        <Button nature='empty' data-e2e='test' onClick={() => this.setStep(LoginSteps.TWO_FA)}>
+          2FA
+        </Button>
         {!loginProps.isMobileViewLogin && getLoginPageFooter(step)}
       </>
     )

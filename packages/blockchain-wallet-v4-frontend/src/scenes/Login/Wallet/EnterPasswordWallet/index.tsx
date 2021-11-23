@@ -7,7 +7,7 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { HeartbeatLoader, Image, Link, Text } from 'blockchain-info-components'
-import { FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
+import { FormError, FormGroup, FormItem, FormLabel, PasswordBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import { actions, selectors } from 'data'
@@ -23,8 +23,6 @@ import {
   CenteredColumn,
   NeedHelpLink,
   ProductTab,
-  removeWhitespace,
-  Row,
   SignUpLink,
   TabWrapper,
   UnsupportedBrowserWarning,
@@ -77,12 +75,10 @@ const isSupportedBrowser = isBrowserSupported()
 const EnterPasswordWallet = (props: Props) => {
   const {
     authActions,
-    authType,
     busy,
     formValues,
     handleBackArrowClick,
     invalid,
-    isMobileViewLogin,
     qrData,
     submitting,
     walletError
@@ -99,10 +95,6 @@ const EnterPasswordWallet = (props: Props) => {
     (walletError.toLowerCase().includes('this account has been locked') ||
       walletError.toLowerCase().includes('account is locked'))
 
-  const twoFactorError = walletError && walletError.toLowerCase().includes('authentication code')
-  const handleSmsResend = () => {
-    authActions.resendSmsCode({ email: formValues?.email, guid: formValues?.guid })
-  }
   return (
     <OuterWrapper>
       <FormWrapper>
@@ -121,7 +113,11 @@ const EnterPasswordWallet = (props: Props) => {
           </ProductTab>
         </TabWrapper>
         <WrapperWithPadding>
-          <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} />
+          <BackArrowFormHeader
+            {...props}
+            handleBackArrowClick={handleBackArrowClick}
+            marginTop='28px'
+          />
           <FormGroup>
             {!isSupportedBrowser && <UnsupportedBrowserWarning />}
             <FormItem>
@@ -163,57 +159,6 @@ const EnterPasswordWallet = (props: Props) => {
               )}
             </FormItem>
           </FormGroup>
-          {authType > 0 && (
-            <FormGroup>
-              <FormItem>
-                <FormLabel htmlFor='code'>
-                  {authType === 1 && (
-                    <FormattedMessage
-                      id='scenes.login.yubikey_verify'
-                      defaultMessage='Verify with your Yubikey'
-                    />
-                  )}
-                  {(authType === 4 || authType === 5) && (
-                    <FormattedMessage
-                      id='scenes.logins.twofa.enter_code'
-                      defaultMessage='Enter your Two Factor Authentication Code'
-                    />
-                  )}
-                </FormLabel>
-                <Field
-                  name='code'
-                  normalize={removeWhitespace}
-                  validate={[required]}
-                  component={authType === 1 ? PasswordBox : TextBox}
-                  noLastPass
-                  autoFocus
-                  data-e2e='loginTwoFactorCode'
-                />
-                {authType === 5 && (
-                  <Link size='12px' weight={400} onClick={handleSmsResend}>
-                    <FormattedMessage id='scenes.login.resendsms' defaultMessage='Resend SMS' />
-                  </Link>
-                )}
-                {twoFactorError && <FormError position='absolute'>{walletError}</FormError>}
-                {accountLocked && (
-                  <FormError position='absolute'>{walletError?.split('.')[0]}.</FormError>
-                )}
-              </FormItem>
-              <Row style={{ marginTop: '16px' }}>
-                <Text size='14px' weight={600} color='grey600' style={{ marginRight: '4px' }}>
-                  <FormattedMessage
-                    id='scenes.logins.twofa.lost'
-                    defaultMessage='Lost access to your 2FA device?'
-                  />
-                </Text>
-                <LinkContainer to='/reset-2fa'>
-                  <Link size='14px' weight={600} data-e2e='reset2fa'>
-                    <FormattedMessage id='copy.reset_now' defaultMessage='Reset Now' />
-                  </Link>
-                </LinkContainer>
-              </Row>
-            </FormGroup>
-          )}
           <CenteredColumn>
             <ActionButton
               type='submit'

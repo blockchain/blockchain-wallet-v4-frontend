@@ -87,11 +87,12 @@ export const RectangleBackground = styled.div`
   border-radius: 8px;
   margin-top: 24px;
 `
-const TopRow = styled.div`
+const TopRow = styled.div<{ marginTop?: string }>`
   display: flex;
   justify-content: space-between;
   margin-bottom: 24px;
   align-items: center;
+  margin-top: ${(props) => (props.marginTop ? props.marginTop : 'auto')};
 `
 const BackArrow = styled.div`
   display: flex;
@@ -100,6 +101,7 @@ const BackArrow = styled.div`
 const EmailAndGuid = styled.div`
   display: flex;
   justify-content: flex-end;
+  align-items: center;
 `
 export const HelpRow = styled.div`
   display: flex;
@@ -133,14 +135,15 @@ export const BackArrowFormHeader = (props: {
   handleBackArrowClick: () => void
   hideBackArrow?: boolean
   hideGuid?: boolean
+  marginTop?: string
 }) => {
   const guid = props.formValues?.guid
   const firstPartGuid = guid && guid.slice(0, 4)
   const lastPartGuid = guid && guid.slice(-4)
   return (
     <>
-      <TopRow>
-        <BackArrow>
+      <TopRow marginTop={props.marginTop}>
+        <BackArrow onClick={() => props.handleBackArrowClick()}>
           {!props.hideBackArrow && (
             <Icon
               cursor
@@ -150,7 +153,6 @@ export const BackArrowFormHeader = (props: {
               color='grey400'
               style={{ marginRight: '8px' }}
               role='button'
-              onClick={() => props.handleBackArrowClick()}
             />
           )}
           <Text color='grey900' size='14px' weight={600} lineHeight='1.5'>
@@ -159,7 +161,13 @@ export const BackArrowFormHeader = (props: {
         </BackArrow>
         <EmailAndGuid>
           {props.hideGuid || props.formValues.email ? (
-            <Text color='blue600' size='12px' weight={600} lineHeight='1.5'>
+            <Text
+              color='blue600'
+              size='12px'
+              weight={600}
+              lineHeight='1.5'
+              style={{ marginRight: '2px' }}
+            >
               {props.formValues?.email}
             </Text>
           ) : (
@@ -171,7 +179,7 @@ export const BackArrowFormHeader = (props: {
             props.formValues.email &&
             !props.hideGuid && (
               <Text size='12px' weight={500} color='grey400'>
-                ({firstPartGuid}...{lastPartGuid}
+                ({firstPartGuid}...{lastPartGuid})
               </Text>
             )}
         </EmailAndGuid>

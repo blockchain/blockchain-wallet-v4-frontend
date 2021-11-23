@@ -300,6 +300,7 @@ export default ({ api, coreSagas, networks }) => {
               if (typeof error !== 'string' && error?.auth_type > 0) {
                 yield put(actions.auth.setAuthType(error.auth_type))
                 yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
+                yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.TWO_FA))
                 yield put(actions.auth.loginFailure(undefined))
                 // otherwise only other error could be wrong wallet password
               } else {
@@ -315,6 +316,7 @@ export default ({ api, coreSagas, networks }) => {
         case typeof error !== 'string' && error.auth_type > 0:
           yield put(actions.auth.loginFailure(undefined))
           yield put(actions.auth.setAuthType(typeof error !== 'string' && error.auth_type))
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.TWO_FA))
           yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
           break
         // Wrong wallet password error is just returned as a string

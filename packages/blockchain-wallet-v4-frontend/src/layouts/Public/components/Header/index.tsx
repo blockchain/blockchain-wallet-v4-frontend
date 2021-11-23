@@ -51,12 +51,7 @@ const HeaderLink = styled(Link)`
   align-items: center;
 `
 
-const Header = ({ loginStep, productAuthMetadata }: Props) => {
-  const showExchangeHeader =
-    (loginStep === LoginSteps.ENTER_PASSWORD_EXCHANGE ||
-      productAuthMetadata?.product === ProductAuthOptions.EXCHANGE) &&
-    loginStep !== LoginSteps.ENTER_PASSWORD_WALLET
-
+const Header = () => {
   return (
     <>
       <NavbarStyled height='112px'>
@@ -64,11 +59,6 @@ const Header = ({ loginStep, productAuthMetadata }: Props) => {
           <PublicBrand>
             <HeaderLink href='https://www.blockchain.com'>
               <BlockchainLogoImage name='blockchain-logo' height='24px' />
-              {showExchangeHeader && (
-                <ExchangeHeader>
-                  <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
-                </ExchangeHeader>
-              )}
             </HeaderLink>
           </PublicBrand>
         </NavbarBrandStyled>
@@ -76,11 +66,6 @@ const Header = ({ loginStep, productAuthMetadata }: Props) => {
       <Announcements type='service' alertArea='public' />
     </>
   )
-}
-
-type Props = {
-  loginStep?: LoginSteps
-  productAuthMetadata?: ProductAuthMetadata
 }
 
 export default Header

@@ -1,12 +1,8 @@
 import React, { ComponentType } from 'react'
-import { connect } from 'react-redux'
 import { Route } from 'react-router-dom'
-import { formValueSelector } from 'redux-form'
 import styled, { css } from 'styled-components'
 
 import Alerts from 'components/Alerts'
-import { selectors } from 'data'
-import { LoginSteps, ProductAuthMetadata } from 'data/types'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { media } from 'services/styles'
 
@@ -65,13 +61,7 @@ const ContentContainer = styled.div<{ isLogin?: boolean }>`
     `}
 `
 
-const PublicLayoutContainer = ({
-  component: Component,
-  exact = false,
-  loginStep,
-  path,
-  productAuthMetadata
-}: Props) => {
+const PublicLayoutContainer = ({ component: Component, exact = false, path }: Props) => {
   const isLogin = path === '/login'
 
   return (
@@ -86,7 +76,7 @@ const PublicLayoutContainer = ({
             <Alerts />
 
             <HeaderContainer>
-              <Header productAuthMetadata={productAuthMetadata} loginStep={loginStep} />
+              <Header />
             </HeaderContainer>
 
             <Modals />
@@ -107,16 +97,7 @@ const PublicLayoutContainer = ({
 type Props = {
   component: ComponentType<any>
   exact?: boolean
-  loginStep: LoginSteps
   path: string
-  productAuthMetadata: ProductAuthMetadata
 }
 
-const mapStateToProps = (state) => ({
-  loginStep: formValueSelector('login')(state, 'step'),
-  productAuthMetadata: selectors.auth.getProductAuthMetadata(state)
-})
-
-const connector = connect(mapStateToProps)
-
-export default connector(PublicLayoutContainer)
+export default PublicLayoutContainer
