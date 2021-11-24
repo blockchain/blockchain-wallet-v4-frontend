@@ -1214,21 +1214,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         return
       }
 
-      // const cardAcquirers: CardAcquirer[] = yield call(api.getCardAcquirers)
-
-      // TODO remove this mock
-      const cardAcquirers: CardAcquirer[] = [
-        {
-          apiKey: 'pk_sbox_eiq2rsadi5eambtzil662iccmil',
-          cardAcquirerAccountCodes: ['checkout_uk', 'checkout_us'],
-          cardAcquirerName: 'checkout'
-        },
-        {
-          apiKey: 'pk_sbox_eiq2rsadi5eambtzil662iccmil',
-          cardAcquirerAccountCodes: ['checkout_uk', 'checkout_us'],
-          cardAcquirerName: 'checkout'
-        }
-      ]
+      const cardAcquirers: CardAcquirer[] = yield call(api.getCardAcquirers)
 
       const checkoutAcquirers: CardAcquirer[] = cardAcquirers.filter(
         (cardAcquirer: CardAcquirer) => cardAcquirer.cardAcquirerName === 'checkout'
