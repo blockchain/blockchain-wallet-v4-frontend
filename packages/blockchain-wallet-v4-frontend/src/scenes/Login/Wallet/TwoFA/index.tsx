@@ -19,13 +19,13 @@ import {
   GuidError,
   LinkRow,
   LoginFormLabel,
-  NeedHelpLink,
   ProductTab,
   removeWhitespace,
   Row,
   SignUpLink,
   TabWrapper,
   UnsupportedBrowserWarning,
+  WalletNeedHelpLink,
   WrapperWithPadding
 } from '../../model'
 
@@ -136,7 +136,7 @@ const TwoFAWallet = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          <NeedHelpLink authActions={props.authActions} origin='PASSWORD' />
+          <WalletNeedHelpLink authActions={props.authActions} origin='PASSWORD' />
         </CenteredColumn>
       </WrapperWithPadding>
       <SignUpLink />

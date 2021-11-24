@@ -4,7 +4,7 @@ import { bindActionCreators, compose } from 'redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 
 import { RemoteDataType } from '@core/types'
-import { Button, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import { actions, selectors } from 'data'
 import {
@@ -12,8 +12,7 @@ import {
   LoginFormType,
   LoginSteps,
   PlatformTypes,
-  ProductAuthOptions,
-  WalletDataFromMagicLink
+  ProductAuthOptions
 } from 'data/types'
 
 // step templates
@@ -29,8 +28,7 @@ import {
   getLoginPageFooter,
   getLoginPageSubTitle,
   getLoginPageTitle,
-  LOGIN_FORM_NAME,
-  SignUpLink
+  LOGIN_FORM_NAME
 } from './model'
 import { getData } from './selectors'
 import VerifyMagicLink from './VerifyMagicLink'

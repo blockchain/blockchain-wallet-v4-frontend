@@ -14,8 +14,8 @@ import { Props } from '../..'
 import {
   ActionButton,
   BackArrowFormHeader,
+  ExchangeNeedHelpLink,
   LinkRow,
-  NeedHelpLink,
   removeWhitespace,
   SignUpLink,
   WrapperWithPadding
@@ -85,7 +85,7 @@ const TwoFAExchange = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          <NeedHelpLink authActions={authActions} origin='IDENTIFIER' />
+          <ExchangeNeedHelpLink authActions={authActions} origin='IDENTIFIER' />
         </LinkRow>
       </WrapperWithPadding>
       <SignUpLink />

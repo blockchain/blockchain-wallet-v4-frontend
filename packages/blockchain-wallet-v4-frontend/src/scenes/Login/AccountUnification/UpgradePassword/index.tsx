@@ -9,7 +9,7 @@ import { LoginSteps } from 'data/types'
 import { required, validPasswordConfirmation, validStrongPassword } from 'services/forms'
 
 import { Props } from '../../index'
-import { ActionButton, BackArrowFormHeader, LinkRow, LoginWrapper, NeedHelpLink } from '../../model'
+import { ActionButton, BackArrowFormHeader, LinkRow, LoginWrapper } from '../../model'
 
 const validatePasswordConfirmation = validPasswordConfirmation('upgradeAccountPassword')
 
@@ -65,7 +65,7 @@ const UpgradePassword = (props: Props) => {
           </Text>
           {/* )} */}
         </ActionButton>
-        <NeedHelpLink authActions={props.authActions} origin='UPGRADE_ACCOUNT_NEW_PASSWORD' />
+        {/* <NeedHelpLink authActions={props.authActions} origin='UPGRADE_ACCOUNT_NEW_PASSWORD' /> */}
       </LinkRow>
     </LoginWrapper>
   )

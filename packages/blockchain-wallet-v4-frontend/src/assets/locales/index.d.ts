@@ -2091,6 +2091,7 @@ type MessagesType = {
   'scenes.hardware.subheader': 'Trade, send and receive from your offline hardware wallet.'
   'scenes.hardware.title': 'Hardware'
   'scenes.help.2fa.lostexplain': 'Reset your 2FA right now to gain access to your Wallet.'
+  'scenes.help.2fa.lostexplain_exchange': 'Learn how to reset 2FA for your Exchange account.'
   'scenes.help.2falost': 'Lost your 2FA device?'
   'scenes.help.contact.stillneedhelp': 'Still need help?'
   'scenes.help.forgotpassword': 'Forgot your password?'

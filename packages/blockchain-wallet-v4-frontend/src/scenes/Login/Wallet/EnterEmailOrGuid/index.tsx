@@ -17,12 +17,12 @@ import {
   GuidError,
   LinkRow,
   LoginFormLabel,
-  NeedHelpLink,
   ProductTab,
   removeWhitespace,
   SignUpLink,
   TabWrapper,
   UnsupportedBrowserWarning,
+  WalletNeedHelpLink,
   WrapperWithPadding
 } from '../../model'
 
@@ -110,7 +110,7 @@ const EnterEmailOrGuid = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          <NeedHelpLink authActions={authActions} origin='IDENTIFIER' />
+          <WalletNeedHelpLink authActions={authActions} origin='IDENTIFIER' />
         </LinkRow>
       </WrapperWithPadding>
       <SignUpLink />

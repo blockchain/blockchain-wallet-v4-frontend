@@ -15,7 +15,7 @@ import {
   ActionButton,
   BackArrowFormHeader,
   CenteredColumn,
-  NeedHelpLink,
+  ExchangeNeedHelpLink,
   ProductTab,
   removeWhitespace,
   SignUpLink,
@@ -148,7 +148,7 @@ const EnterPasswordExchange = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          <NeedHelpLink authActions={authActions} origin='PASSWORD' />
+          <ExchangeNeedHelpLink authActions={authActions} origin='PASSWORD' />
         </CenteredColumn>
       </WrapperWithPadding>
       <SignUpLink />

@@ -194,8 +194,25 @@ export const LinkRow = styled.div`
   align-items: center;
 `
 
-export const NeedHelpLink = (props: { authActions; origin: string }) => (
-  <LinkContainer to='/help' onClick={() => props.authActions.needHelpClicked(props.origin)}>
+const EXCHANGE_SUPPORT_2FA_SECTION =
+  'https://exchange-support.blockchain.com/hc/en-us/articles/360029748191-How-can-I-reset-my-2-Factor-Authentication-2FA-'
+
+export const WalletNeedHelpLink = (props: { authActions; origin: string }) => (
+  <LinkContainer
+    to='/help'
+    onClick={() => props.authActions.analyticsNeedHelpClicked(props.origin)}
+  >
+    <Link size='13px' weight={600} data-e2e='loginGetHelp'>
+      <FormattedMessage id='copy.need_some_help' defaultMessage='Need some help?' />
+    </Link>
+  </LinkContainer>
+)
+
+export const ExchangeNeedHelpLink = (props: { authActions; origin: string }) => (
+  <LinkContainer
+    to='/help-exchange'
+    onClick={() => props.authActions.analyticsNeedHelpClicked(props.origin)}
+  >
     <Link size='13px' weight={600} data-e2e='loginGetHelp'>
       <FormattedMessage id='copy.need_some_help' defaultMessage='Need some help?' />
     </Link>

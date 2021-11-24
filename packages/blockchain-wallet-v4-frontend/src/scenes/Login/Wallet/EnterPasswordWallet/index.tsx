@@ -21,11 +21,11 @@ import {
   ActionButton,
   BackArrowFormHeader,
   CenteredColumn,
-  NeedHelpLink,
   ProductTab,
   SignUpLink,
   TabWrapper,
   UnsupportedBrowserWarning,
+  WalletNeedHelpLink,
   WrapperWithPadding
 } from '../../model'
 
@@ -177,7 +177,7 @@ const EnterPasswordWallet = (props: Props) => {
                 </Text>
               )}
             </ActionButton>
-            <NeedHelpLink authActions={props.authActions} origin='PASSWORD' />
+            <WalletNeedHelpLink authActions={props.authActions} origin='PASSWORD' />
           </CenteredColumn>
         </WrapperWithPadding>
         <SignUpLink />

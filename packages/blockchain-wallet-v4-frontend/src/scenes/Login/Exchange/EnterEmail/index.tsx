@@ -13,9 +13,9 @@ import { required, validEmail } from 'services/forms'
 import { Props } from '../..'
 import {
   ActionButton,
+  ExchangeNeedHelpLink,
   LinkRow,
   LoginFormLabel,
-  NeedHelpLink,
   ProductTab,
   removeWhitespace,
   SignUpLink,
@@ -90,7 +90,7 @@ const EnterEmail = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          <NeedHelpLink authActions={authActions} origin='IDENTIFIER' />
+          <ExchangeNeedHelpLink authActions={authActions} origin='IDENTIFIER' />
         </LinkRow>
       </WrapperWithPadding>
       <SignUpLink />
