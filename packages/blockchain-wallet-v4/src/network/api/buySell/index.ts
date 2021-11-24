@@ -30,6 +30,7 @@ import {
   BSTransactionStateType,
   BSTransactionsType,
   BSTransactionType,
+  CardAcquirer,
   FiatEligibleType,
   NabuAddressType
 } from './types'
@@ -75,6 +76,14 @@ export default ({
       },
       endPoint: '/payments/cards',
       removeDefaultPostData: true,
+      url: nabuUrl
+    })
+
+  const getCardAcquirers = (): CardAcquirer[] =>
+    authorizedGet({
+      contentType: 'application/json',
+      endPoint: '/payments/card-acquirers',
+      ignoreQueryParams: true,
       url: nabuUrl
     })
 
@@ -490,6 +499,7 @@ export default ({
     getBSTransactions,
     getBankTransferAccountDetails,
     getBankTransferAccounts,
+    getCardAcquirers,
     getPaymentById,
     getRBPaymentInfo,
     getRBRegisteredList,

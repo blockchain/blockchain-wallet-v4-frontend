@@ -6,7 +6,6 @@ import { bindActionCreators } from 'redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { RemoteDataType } from '@core/types'
 import { Banner, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import { FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
@@ -15,7 +14,7 @@ import { actions, selectors } from 'data'
 import { LoginSteps } from 'data/types'
 import { isBrowserSupported } from 'services/browser'
 import { required } from 'services/forms'
-import { media } from 'services/styles'
+import { isMobile, media } from 'services/styles'
 
 import { Props as OwnProps } from '..'
 import {
@@ -23,7 +22,6 @@ import {
   BackArrowFormHeader,
   BrowserWarning,
   CenteredColumn,
-  Column,
   LOGIN_FORM_NAME,
   NeedHelpLink,
   removeWhitespace,
@@ -40,6 +38,7 @@ const OuterWrapper = styled.div`
   ${media.tabletL`
     width: 100%;
     justify-content: center;
+    padding: 0;
   `};
 `
 
@@ -48,6 +47,9 @@ const FormWrapper = styled(Wrapper)`
   flex-direction: column;
   z-index: 1;
   padding: 32px 0;
+  ${media.tabletL`
+  padding: 16px 0;
+`};
 `
 
 const MobileAuthSideWrapper = styled(Wrapper)`
@@ -224,35 +226,37 @@ const EnterPassword = (props: Props) => {
         </WrapperWithPadding>
         <SignUpLink />
       </FormWrapper>
-      <MobileAuthSideWrapper>
-        <TextColumn>
-          <QRCodeWrapper value={qrData} size={150} showImage />
-          <Text
-            color='grey900'
-            size='14px'
-            weight={600}
-            lineHeight='1.25'
-            style={{ marginBottom: '8px' }}
-          >
-            <FormattedMessage
-              id='scenes.login.wallet.mobile_app_login.title'
-              defaultMessage='Or Log in with Mobile App'
-            />
-          </Text>
-          <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
-            <FormattedMessage
-              id='scenes.login.wallet.mobile_login.description.ios'
-              defaultMessage='<b>iOS</b> - Tap the Menu button at the top left corner of the app to reveal Web Log In option.'
-            />
-          </Text>
-          <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
-            <FormattedMessage
-              id='scenes.login.wallet.mobile_login.description.android'
-              defaultMessage='<b>Android</b> - Tap the QR code icon at the top right corner of the app.'
-            />
-          </Text>
-        </TextColumn>
-      </MobileAuthSideWrapper>
+      {!isMobile() && (
+        <MobileAuthSideWrapper>
+          <TextColumn>
+            <QRCodeWrapper value={qrData} size={150} showImage />
+            <Text
+              color='grey900'
+              size='14px'
+              weight={600}
+              lineHeight='1.25'
+              style={{ marginBottom: '8px' }}
+            >
+              <FormattedMessage
+                id='scenes.login.wallet.mobile_app_login.title'
+                defaultMessage='Or Log in with Mobile App'
+              />
+            </Text>
+            <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
+              <FormattedMessage
+                id='scenes.login.wallet.mobile_login.description.ios'
+                defaultMessage='<b>iOS</b> - Tap the Menu button at the top left corner of the app to reveal Web Log In option.'
+              />
+            </Text>
+            <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
+              <FormattedMessage
+                id='scenes.login.wallet.mobile_login.description.android'
+                defaultMessage='<b>Android</b> - Tap the QR code icon at the top right corner of the app.'
+              />
+            </Text>
+          </TextColumn>
+        </MobileAuthSideWrapper>
+      )}
     </OuterWrapper>
   )
 }

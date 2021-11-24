@@ -41,24 +41,18 @@ export default ({ api, coreSagas }) => {
     }
   }
 
-  const fetchProductsEligibility = function* () {
+  const fetchLimitsAndDetails = function* () {
     try {
-      yield put(A.fetchProductsEligibilityLoading())
-      const userIdR = yield select(selectors.core.kvStore.userCredentials.getUserId)
-      const userId = userIdR.getOrElse(null)
-      if (userId) {
-        const data = yield call(api.getProductsEligibility)
-        yield put(A.fetchProductsEligibilitySuccess(data))
-      } else {
-        yield put(A.fetchProductsEligibilitySuccess(Remote.Success([])))
-      }
+      yield put(A.fetchLimitsAndDetailsLoading())
+      const data = yield call(api.getLimitsAndFeaturesDetails)
+      yield put(A.fetchLimitsAndDetailsSuccess(data))
     } catch (e) {
-      yield put(A.fetchProductsEligibilityFailure(e))
+      yield put(A.fetchLimitsAndDetailsFailure(e))
     }
   }
 
   return {
-    fetchProductsEligibility,
+    fetchLimitsAndDetails,
     notificationsFormChanged,
     notificationsInitialized
   }

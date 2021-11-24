@@ -4,13 +4,13 @@ import { find, isEmpty, propEq, propOr } from 'ramda'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 
 import {
-  CoinType,
-  FiatType,
   BSOrderActionType,
   BSOrderType,
   BSPairType,
   BSPaymentMethodType,
   BSPaymentTypes,
+  CoinType,
+  FiatType,
   SwapOrderType
 } from '@core/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
@@ -24,7 +24,8 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 import { Loading as StdLoading, LoadingTextEnum } from '../components'
 import { ModalPropsType } from '../types'
 // step templates
-import AddCard from './AddCard'
+import AddCardCheckout from './AddCardCheckout'
+import AddCardEverypay from './AddCardEverypay'
 import Authorize from './Authorize'
 import BankWireDetails from './BankWireDetails'
 import BillingAddress from './BillingAddress'
@@ -66,7 +67,7 @@ class BuySell extends PureComponent<Props, State> {
     this.props.buySellActions.destroyCheckout()
     this.props.formActions.destroy('buySellCheckout')
     this.props.formActions.destroy('ccBillingAddress')
-    this.props.formActions.destroy('addCCForm')
+    this.props.formActions.destroy('addCardEverypayForm')
   }
 
   backToEnterAmount = () => {
@@ -176,7 +177,19 @@ class BuySell extends PureComponent<Props, State> {
             )}
             {this.props.step === 'ADD_CARD' && (
               <FlyoutChild>
-                <AddCard {...this.props} handleClose={this.handleClose} />
+                {
+                  // LOADING
+                }
+              </FlyoutChild>
+            )}
+            {this.props.step === 'ADD_CARD_EVERYPAY' && (
+              <FlyoutChild>
+                <AddCardEverypay {...this.props} handleClose={this.handleClose} />
+              </FlyoutChild>
+            )}
+            {this.props.step === 'ADD_CARD_CHECKOUT' && (
+              <FlyoutChild>
+                <AddCardCheckout {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
             {this.props.step === 'CC_BILLING_ADDRESS' && (
@@ -343,10 +356,19 @@ type LinkStatePropsType =
       step: 'LINK_BANK_STATUS'
     }
   | {
+      step: 'ADD_CARD'
+    }
+  | {
       cardId?: string
       cryptoCurrency?: CoinType
       pair: BSPairType
-      step: 'ADD_CARD'
+      step: 'ADD_CARD_EVERYPAY'
+    }
+  | {
+      cardId?: string
+      cryptoCurrency?: CoinType
+      pair: BSPairType
+      step: 'ADD_CARD_CHECKOUT'
     }
   | {
       goals: Array<{ data: any; id: string; name: GoalsType }>

@@ -3,14 +3,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
 import {
-  CoinType,
-  CrossBorderLimits,
-  CrossBorderLimitsPyload,
-  Everypay3DSResponseType,
-  FiatEligibleType,
-  FiatType,
-  PaymentValue,
-  ProviderDetailsType,
   BSAccountType,
   BSBalancesType,
   BSCardType,
@@ -22,6 +14,14 @@ import {
   BSPaymentMethodType,
   BSPaymentTypes,
   BSQuoteType,
+  CoinType,
+  CrossBorderLimits,
+  CrossBorderLimitsPyload,
+  Everypay3DSResponseType,
+  FiatEligibleType,
+  FiatType,
+  PaymentValue,
+  ProviderDetailsType,
   SDDEligibleType,
   SDDVerifiedType,
   SwapQuoteType,
@@ -29,11 +29,11 @@ import {
 } from '@core/types'
 import {
   BankTransferAccountType,
-  InitializeCheckout,
-  ModalOriginType,
   BSCardStateEnum,
   BSFixType,
   BSShowModalOriginType,
+  InitializeCheckout,
+  ModalOriginType,
   StepActionsPayload,
   SwapAccountType
 } from 'data/types'
@@ -48,6 +48,8 @@ const initialState: BuySellState = {
   card: Remote.NotAsked,
   cardId: undefined,
   cards: Remote.NotAsked,
+  checkoutAccountCodes: [],
+  checkoutApiKey: undefined,
   crossBorderLimits: Remote.NotAsked,
   cryptoCurrency: undefined,
   displayBack: false,
@@ -123,6 +125,12 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
       return { order: payload.order, step: payload.step }
     case 'SELL_ORDER_SUMMARY':
       return { sellOrder: payload.sellOrder, step: payload.step }
+    case 'ADD_CARD_CHECKOUT':
+      return {
+        checkoutAccountCodes: payload.checkoutAccountCodes,
+        checkoutApiKey: payload.checkoutApiKey,
+        step: payload.step
+      }
     default:
       return { step: payload.step }
   }
@@ -218,7 +226,7 @@ const buySellSlice = createSlice({
     },
 
     fetchCrossBorderLimits: (state, action: PayloadAction<CrossBorderLimitsPyload>) => {},
-    fetchCrossBorderLimitsFailure: (state, action: PayloadAction<string>) => {
+    fetchCrossBorderLimitsFailure: (state, action: PayloadAction<unknown>) => {
       state.crossBorderLimits = Remote.Failure(action.payload)
     },
     fetchCrossBorderLimitsLoading: (state) => {
@@ -456,8 +464,11 @@ const buySellSlice = createSlice({
           state.sellOrder = stepPayload.sellOrder
           state.step = stepPayload.step
           break
-        case 'LOADING':
-        case 'FREQUENCY':
+        case 'ADD_CARD_CHECKOUT':
+          state.checkoutAccountCodes = stepPayload.checkoutAccountCodes
+          state.checkoutApiKey = stepPayload.checkoutApiKey
+          state.step = stepPayload.step
+          break
         default:
           state.step = stepPayload.step
           break

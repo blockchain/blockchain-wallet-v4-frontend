@@ -302,10 +302,24 @@ export enum BSPendingTransactionStateEnum {
 export type FiatEligibleType = {
   buySellTradingEligible: boolean
   eligible: boolean
+  maxPendingConfirmationSimpleBuyTrades: number
+  maxPendingDepositSimpleBuyTrades: number
   paymentAccountEligible: boolean
+  pendingConfirmationSimpleBuyTrades: number
+  pendingDepositSimpleBuyTrades: number
+  simpleBuyPendingTradesEligible: boolean
+  simpleBuyTradingEligible: boolean
 }
 
 export type Limits = {
   max: string
   min: string
+}
+
+type CardAcquirerName = 'stripe' | 'checkout'
+
+export type CardAcquirer = {
+  apiKey: string
+  cardAcquirerAccountCodes: string[]
+  cardAcquirerName: CardAcquirerName
 }

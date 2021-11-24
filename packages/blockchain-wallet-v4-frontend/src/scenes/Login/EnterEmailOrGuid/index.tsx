@@ -8,6 +8,7 @@ import { FormGroup, FormItem, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { isBrowserSupported } from 'services/browser'
 import { required, validWalletIdOrEmail } from 'services/forms'
+import { media } from 'services/styles'
 
 import { Props } from '..'
 import {
@@ -29,6 +30,9 @@ const LoginWrapper = styled(Wrapper)`
   flex-direction: column;
   z-index: 1;
   padding: 32px 0;
+  ${media.tabletL`
+  padding: 16px 0;
+`};
 `
 
 const EnterEmailOrGuid = (props: Props) => {

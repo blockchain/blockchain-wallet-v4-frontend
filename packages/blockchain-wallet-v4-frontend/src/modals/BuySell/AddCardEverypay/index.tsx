@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
-import { CoinType, BSPairType } from '@core/types'
+import { BSPairType, CoinType } from '@core/types'
 import DataError from 'components/DataError'
 import { actions, selectors } from 'data'
 import { CountryType } from 'data/components/identityVerification/types'
@@ -13,7 +13,7 @@ import Loading from '../template.loading'
 import { getData } from './selectors'
 import Success from './template.success'
 
-class AddCard extends PureComponent<Props> {
+class AddCardEverypay extends PureComponent<Props> {
   componentDidMount() {
     this.props.buySellActions.fetchPaymentMethods(this.props.fiatCurrency)
 
@@ -27,8 +27,8 @@ class AddCard extends PureComponent<Props> {
   }
 
   setDefaultCountry = (country: CountryType) => {
-    this.props.formActions.change('addCCForm', 'billingaddress.country', country)
-    this.props.formActions.clearFields('addCCForm', false, false, 'billingaddress.state')
+    this.props.formActions.change('addCardEverypayForm', 'billingaddress.country', country)
+    this.props.formActions.clearFields('addCardEverypayForm', false, false, 'billingaddress.state')
   }
 
   onCountryChange = (e, value) => {
@@ -83,4 +83,4 @@ export type LinkDispatchPropsType = ReturnType<typeof mapDispatchToProps>
 export type SuccessStateType = ReturnType<typeof getData>['data']
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddCard)
+export default connect(mapStateToProps, mapDispatchToProps)(AddCardEverypay)

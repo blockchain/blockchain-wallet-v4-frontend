@@ -13,6 +13,7 @@ import {
   BSOrderType,
   BSPaymentTypes,
   BSQuoteType,
+  CardAcquirer,
   Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
@@ -144,7 +145,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const addCardDetails = function* () {
     try {
       const formValues: T.BSAddCardFormValuesType = yield select(
-        selectors.form.getFormValues('addCCForm')
+        selectors.form.getFormValues('addCardEverypayForm')
       )
       const existingCardsR = S.getBSCards(yield select())
       const existingCards = existingCardsR.getOrElse([] as Array<BSCardType>)
@@ -202,9 +203,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           step: 'ADD_CARD'
         })
       )
-      yield put(actions.form.startSubmit('addCCForm'))
+      yield put(actions.form.startSubmit('addCardEverypayForm'))
       yield put(
-        actions.form.stopSubmit('addCCForm', {
+        actions.form.stopSubmit('addCardEverypayForm', {
           _error: error as T.BSAddCardErrorType
         })
       )
@@ -625,7 +626,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         fiatEligible = {
           buySellTradingEligible: true,
           eligible: true,
-          paymentAccountEligible: true
+          maxPendingConfirmationSimpleBuyTrades: 1,
+          maxPendingDepositSimpleBuyTrades: 1,
+          paymentAccountEligible: true,
+          pendingConfirmationSimpleBuyTrades: 0,
+          pendingDepositSimpleBuyTrades: 0,
+          simpleBuyPendingTradesEligible: true,
+          simpleBuyTradingEligible: true
         }
       } else {
         fiatEligible = yield call(api.getBSFiatEligible, payload)
@@ -1101,7 +1108,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const pollBSCardErrorHandler = function* (state: BSCardStateType) {
     yield put(A.setStep({ step: 'ADD_CARD' }))
-    yield put(actions.form.startSubmit('addCCForm'))
+    yield put(actions.form.startSubmit('addCardEverypayForm'))
 
     let error
     switch (state) {
@@ -1113,7 +1120,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
 
     yield put(
-      actions.form.stopSubmit('addCCForm', {
+      actions.form.stopSubmit('addCardEverypayForm', {
         _error: error
       })
     )
@@ -1191,6 +1198,52 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield call(pollBSBalances)
       }
     }
+
+    if (action.payload.step === 'ADD_CARD') {
+      const paymentProcessors: boolean = (yield select(
+        selectors.core.walletOptions.getPaymentProcessors
+      )).getOrElse(false)
+
+      if (!paymentProcessors) {
+        yield put(
+          A.setStep({
+            step: 'ADD_CARD_EVERYPAY'
+          })
+        )
+
+        return
+      }
+
+      const cardAcquirers: CardAcquirer[] = yield call(api.getCardAcquirers)
+
+      const checkoutAcquirers: CardAcquirer[] = cardAcquirers.filter(
+        (cardAcquirer: CardAcquirer) => cardAcquirer.cardAcquirerName === 'checkout'
+      )
+
+      if (checkoutAcquirers.length === 0) {
+        yield put(
+          A.setStep({
+            step: 'ADD_CARD_EVERYPAY'
+          })
+        )
+
+        return
+      }
+
+      const checkoutAccountCodes = checkoutAcquirers.reduce((prev, curr) => {
+        return [...new Set([...prev, ...curr.cardAcquirerAccountCodes])]
+      }, [] as string[])
+
+      const checkoutApiKey = checkoutAcquirers[0].apiKey
+
+      yield put(
+        A.setStep({
+          checkoutAccountCodes,
+          checkoutApiKey,
+          step: 'ADD_CARD_CHECKOUT'
+        })
+      )
+    }
   }
 
   // Util function to help match payment method ID
@@ -1212,29 +1265,26 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const showModal = function* ({ payload }: ReturnType<typeof A.showModal>) {
     const { cryptoCurrency, orderType, origin } = payload
+    let hasPendingOBOrder = false
     const latestPendingOrder = S.getBSLatestPendingOrder(yield select())
+
+    // Check if there is a pending_deposit Open Banking order
+    if (latestPendingOrder) {
+      const bankAccount = yield call(getBankInformation, latestPendingOrder as BSOrderType)
+      hasPendingOBOrder = prop('partner', bankAccount) === BankPartners.YAPILY
+    }
 
     yield put(actions.modals.showModal('SIMPLE_BUY_MODAL', { cryptoCurrency, origin }))
     const fiatCurrency = selectors.core.settings
       .getCurrency(yield select())
       .getOrElse('USD') as WalletFiatType
 
-    if (latestPendingOrder) {
-      const bankAccount = yield call(getBankInformation, latestPendingOrder as BSOrderType)
-      let step: T.StepActionsPayload['step'] =
-        latestPendingOrder.state === 'PENDING_CONFIRMATION' ? 'CHECKOUT_CONFIRM' : 'ORDER_SUMMARY'
-
-      // When user closes the QR code modal and opens it via one of the pending
-      // buy buttons in the app. We need to take them to the qrcode screen and
-      // poll for the order status
-      if (
-        latestPendingOrder.state === 'PENDING_DEPOSIT' &&
-        prop('partner', bankAccount) === BankPartners.YAPILY
-      ) {
-        step = 'OPEN_BANKING_CONNECT'
-        yield fork(confirmOrderPoll, A.confirmOrderPoll(latestPendingOrder))
-      }
-
+    // When user closes the QR code modal and opens it via one of the pending
+    // buy buttons in the app. We need to take them to the qrcode screen and
+    // poll for the order status
+    if (hasPendingOBOrder && latestPendingOrder) {
+      const step: T.StepActionsPayload['step'] = 'OPEN_BANKING_CONNECT'
+      yield fork(confirmOrderPoll, A.confirmOrderPoll(latestPendingOrder))
       yield put(
         A.setStep({
           order: latestPendingOrder,
