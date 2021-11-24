@@ -95,7 +95,7 @@ export const parseMagicLink = function* () {
     if (productAuth === ProductAuthOptions.EXCHANGE) {
       // set state with all exchange login information
       yield put(actions.cache.emailStored(exchangeData?.email))
-      yield put(actions.form.change(LOGIN_FORM, 'email', exchangeData?.email))
+      yield put(actions.form.change(LOGIN_FORM, 'email', userEmail))
       if (walletData) {
         yield put(actions.form.change(LOGIN_FORM, 'emailToken', walletData?.email_code))
         yield put(actions.form.change(LOGIN_FORM, 'guid', walletData?.guid))
