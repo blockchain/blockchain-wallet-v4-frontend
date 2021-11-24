@@ -155,7 +155,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(
         A.setStep({
-          step: '3DS_HANDLER'
+          step: '3DS_HANDLER_EVERYPAY'
         })
       )
       yield put(A.addCardLoading())
@@ -494,7 +494,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (order.paymentType === BSPaymentTypes.BANK_TRANSFER) {
         yield put(A.setStep({ order: confirmedOrder, step: 'ORDER_SUMMARY' }))
       } else {
-        yield put(A.setStep({ order: confirmedOrder, step: '3DS_HANDLER' }))
+        yield put(A.setStep({ order: confirmedOrder, step: '3DS_HANDLER_EVERYPAY' }))
       }
       yield put(A.fetchOrders())
     } catch (e) {
@@ -1146,7 +1146,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       card = yield call(api.getBSCard, payload)
       retryAttempts += 1
       step = S.getStep(yield select())
-      if (step !== '3DS_HANDLER') {
+      if (step !== '3DS_HANDLER_EVERYPAY') {
         yield cancel()
       }
       yield delay(3000)
@@ -1183,7 +1183,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       order = yield call(api.getBSOrder, payload)
       step = S.getStep(yield select())
       retryAttempts += 1
-      if (step !== '3DS_HANDLER') {
+      if (step !== '3DS_HANDLER_EVERYPAY') {
         yield cancel()
       }
       yield delay(3000)

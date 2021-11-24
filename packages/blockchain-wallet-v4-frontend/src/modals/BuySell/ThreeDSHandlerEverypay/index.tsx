@@ -3,11 +3,11 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import {
+  BSCardType,
+  BSOrderType,
   Everypay3DSResponseType,
   ProviderDetailsType,
-  RemoteDataType,
-  BSCardType,
-  BSOrderType
+  RemoteDataType
 } from '@core/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
@@ -17,7 +17,7 @@ import { getData } from './selectors'
 import Loading from './template.loading'
 import Success from './template.success'
 
-class ThreeDSHandler extends PureComponent<Props, State> {
+class ThreeDSHandlerEverypay extends PureComponent<Props, State> {
   state: State = {
     threeDSCallbackReceived: false
   }
@@ -103,4 +103,4 @@ type LinkStatePropsType = {
 export type Props = OwnProps & ConnectedProps<typeof connector>
 export type State = { threeDSCallbackReceived: boolean }
 
-export default connector(ThreeDSHandler)
+export default connector(ThreeDSHandlerEverypay)

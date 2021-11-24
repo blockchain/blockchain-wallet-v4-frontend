@@ -4,12 +4,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
-const AddCardCheckout = ({ checkoutAccountCodes, checkoutApiKey }: Props) => {
-  return (
-    <>
-      {`${checkoutAccountCodes}`} {`${checkoutApiKey}`}
-    </>
-  )
+const AddCardCheckout = (props: Props) => {
+  return <></>
 }
 
 const mapStateToProps = (state: RootState) => ({

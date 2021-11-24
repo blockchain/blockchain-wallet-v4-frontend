@@ -5,12 +5,12 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { Exchange, Remote } from '@core'
 import {
-  ExtractSuccess,
-  OrderType,
-  RemoteDataType,
   BSOrderType,
   BSPaymentMethodType,
-  BSPaymentTypes
+  BSPaymentTypes,
+  ExtractSuccess,
+  OrderType,
+  RemoteDataType
 } from '@core/types'
 import DataError from 'components/DataError'
 import { OrderSummary } from 'components/Flyout'
@@ -25,10 +25,10 @@ import {
 } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
 import {
+  BSCheckoutFormValuesType,
   RecurringBuyOrigins,
   RecurringBuyPeriods,
-  RecurringBuyStepType,
-  BSCheckoutFormValuesType
+  RecurringBuyStepType
 } from 'data/types'
 
 import Loading from '../template.loading'
@@ -53,7 +53,7 @@ class OrderSummaryContainer extends PureComponent<Props> {
     ) {
       this.props.buySellActions.setStep({
         order: this.props.order,
-        step: '3DS_HANDLER'
+        step: '3DS_HANDLER_EVERYPAY'
       })
     }
     this.props.interestActions.fetchShowInterestCardAfterTransaction({})
@@ -88,7 +88,7 @@ class OrderSummaryContainer extends PureComponent<Props> {
   handleCompleteButton = () => {
     this.props.buySellActions.setStep({
       order: this.props.order,
-      step: '3DS_HANDLER'
+      step: '3DS_HANDLER_EVERYPAY'
     })
   }
 
