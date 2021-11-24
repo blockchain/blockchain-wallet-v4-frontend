@@ -73,7 +73,7 @@ export default ({ api }: { api: APIType }) => {
         if (p.isErc20) {
           const { coinfig } = window.coins[p.coin]
           const contractAddress = coinfig.type.erc20Address
-          const assets: ReturnType<typeof api.getAssets> = yield call(api.getAssets)
+          const assets: ReturnType<typeof api.getErc20Assets> = yield call(api.getErc20Assets)
           const token = assets.currencies.find(({ type }) => type.erc20Address === contractAddress)
           if (!token || (token && token.symbol !== coinfig.symbol)) {
             throw new Error('Can not trust token contract')
