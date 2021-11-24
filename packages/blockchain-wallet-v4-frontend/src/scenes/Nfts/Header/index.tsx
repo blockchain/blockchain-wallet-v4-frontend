@@ -60,6 +60,9 @@ const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = ({
           >
             My Collection
           </TabMenuItem>
+          <TabMenuItem onClick={() => setActiveTab('offers')} selected={activeTab === 'offers'}>
+            Offers
+          </TabMenuItem>
         </TabMenu>
       </TabsContainer>
       <StyledForm onSubmit={handleSubmit}>
@@ -89,8 +92,8 @@ const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = ({
 }
 
 type Props = OwnProps & {
-  activeTab: 'explore' | 'my-collection'
-  setActiveTab: React.Dispatch<React.SetStateAction<'explore' | 'my-collection'>>
+  activeTab: 'explore' | 'my-collection' | 'offers'
+  setActiveTab: React.Dispatch<React.SetStateAction<'explore' | 'my-collection' | 'offers'>>
 }
 
 export default reduxForm<{}, Props>({ form: 'nftSearch' })(NftHeader)

@@ -10,6 +10,7 @@ export default ({ api }) => {
   return function* nftSaga() {
     yield takeLatest(actions.cancelListing, nftsSagas.cancelListing)
     yield takeLatest(actions.clearAndRefetchAssets, nftsSagas.clearAndRefetchAssets)
+    yield takeLatest(actions.clearAndRefetchOffersMade, nftsSagas.clearAndRefetchOffersMade)
     yield takeLatest(actions.clearAndRefetchOrders, nftsSagas.clearAndRefetchOrders)
     yield takeLatest(actions.createOffer, nftsSagas.createOffer)
     yield takeLatest(actions.createOrder, nftsSagas.createOrder)
@@ -17,6 +18,7 @@ export default ({ api }) => {
     yield takeLatest(actions.fetchFees, nftsSagas.fetchFees)
     yield takeLatest(actions.fetchNftAssets, nftsSagas.fetchNftAssets)
     yield takeLatest(actions.fetchNftCollections, nftsSagas.fetchNftCollections)
+    yield takeLatest(actions.fetchNftOffersMade, nftsSagas.fetchNftOffersMade)
     yield takeLatest(actions.fetchNftOrders, nftsSagas.fetchNftOrders)
     yield takeLatest(actions.nftOrderFlowClose, nftsSagas.nftOrderFlowClose)
     yield takeLatest(actions.nftOrderFlowOpen, nftsSagas.nftOrderFlowOpen)
