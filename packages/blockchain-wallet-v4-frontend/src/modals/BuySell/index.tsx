@@ -45,7 +45,7 @@ import SellOrderSummary from './SellOrderSummary'
 import Loading from './template.loading'
 import Pending from './template.pending'
 import Rejected from './template.rejected'
-import ThreeDSHandler from './ThreeDSHandler'
+import ThreeDSHandlerEverypay from './ThreeDSHandlerEverypay'
 import UpgradeToGold from './UpgradeToGold'
 import VerifyEmail from './VerifyEmail'
 
@@ -197,9 +197,9 @@ class BuySell extends PureComponent<Props, State> {
                 <BillingAddress {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
-            {this.props.step === '3DS_HANDLER' && (
+            {this.props.step === '3DS_HANDLER_EVERYPAY' && (
               <FlyoutChild>
-                <ThreeDSHandler {...this.props} handleClose={this.handleClose} />
+                <ThreeDSHandlerEverypay {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
             {this.props.step === 'AUTHORIZE_PAYMENT' && (
@@ -320,7 +320,7 @@ type LinkStatePropsType =
   | {
       step:
         | 'CRYPTO_SELECTION'
-        | '3DS_HANDLER'
+        | '3DS_HANDLER_EVERYPAY'
         | 'CC_BILLING_ADDRESS'
         | 'KYC_REQUIRED'
         | 'UPGRADE_TO_GOLD'

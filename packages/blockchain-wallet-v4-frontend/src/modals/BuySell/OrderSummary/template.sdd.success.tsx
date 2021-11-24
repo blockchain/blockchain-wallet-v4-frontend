@@ -187,7 +187,7 @@ const Success: React.FC<Props> = (props) => {
                 onClick={() =>
                   props.buySellActions.setStep({
                     order: props.order,
-                    step: '3DS_HANDLER'
+                    step: '3DS_HANDLER_EVERYPAY'
                   })
                 }
                 style={{ marginBottom: '16px' }}
