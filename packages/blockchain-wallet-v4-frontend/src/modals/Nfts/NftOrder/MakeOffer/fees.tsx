@@ -15,9 +15,17 @@ const Fees: React.FC<Props> = (props) => {
   const { nftActions, orderFlow } = props
   const { activeOrder } = orderFlow
 
+  // User can only make an offer in WETH
+  const WETH = window.coins.WETH.coinfig.type.erc20Address
+
   useEffect(() => {
     if (activeOrder) {
-      nftActions.fetchFees({ operation: GasCalculationOperations.Buy, order: activeOrder })
+      nftActions.fetchFees({
+        offer: '0',
+        operation: GasCalculationOperations.Buy,
+        order: activeOrder,
+        paymentTokenAddress: WETH
+      })
     }
   }, [])
 
@@ -43,43 +51,11 @@ const Fees: React.FC<Props> = (props) => {
                 <Value>
                   <div style={{ display: 'flex' }}>
                     <CoinDisplay size='14px' color='black' weight={600} coin='ETH'>
-                      {new BigNumber(val.totalFees).multipliedBy(val.gasPrice).toString()}
+                      {new BigNumber(val.approvalFees).multipliedBy(val.gasPrice).toString()}
                     </CoinDisplay>
                     &nbsp;-&nbsp;
                     <FiatDisplay size='12px' color='grey600' weight={600} coin='ETH'>
-                      {new BigNumber(val.totalFees).multipliedBy(val.gasPrice).toString()}
-                    </FiatDisplay>
-                  </div>
-                </Value>
-              </CTARow>
-              <CTARow>
-                <Title>
-                  <FormattedMessage id='copy.total' defaultMessage='Total' />
-                </Title>
-                <Value>
-                  <div style={{ display: 'flex' }}>
-                    <CoinDisplay
-                      size='14px'
-                      color='black'
-                      weight={600}
-                      coin={activeOrder.paymentTokenContract?.symbol}
-                    >
-                      {new BigNumber(val.totalFees)
-                        .multipliedBy(val.gasPrice)
-                        .plus(activeOrder.basePrice)
-                        .toString()}
-                    </CoinDisplay>
-                    &nbsp;-&nbsp;
-                    <FiatDisplay
-                      size='12px'
-                      color='grey600'
-                      weight={600}
-                      coin={activeOrder.paymentTokenContract?.symbol}
-                    >
-                      {new BigNumber(val.totalFees)
-                        .multipliedBy(val.gasPrice)
-                        .plus(activeOrder.basePrice)
-                        .toString()}
+                      {new BigNumber(val.approvalFees).multipliedBy(val.gasPrice).toString()}
                     </FiatDisplay>
                   </div>
                 </Value>

@@ -110,6 +110,16 @@ const MarketForm: React.FC<Props> = (props: Props) => {
               value: props.marketplace.collection?.collection_data?.stats?.floor_price || 0
             })}
           </CoinDisplay>
+          <Text style={{ marginTop: '8px' }} color='black' weight={600} size='14px'>
+            <FormattedMessage
+              id='copy.num_owners_over_total'
+              defaultMessage='Number of Owners / Total Supply'
+            />
+          </Text>
+          <Text weight={500} size='12px' color='grey600'>
+            {props.marketplace.collection?.collection_data?.stats?.num_owners || 0} /{' '}
+            {props.marketplace.collection?.collection_data?.stats?.total_supply || 0}
+          </Text>
         </InfoStatsWrapper>
         <FormWrapper>
           <div style={{ marginBottom: '8px' }}>

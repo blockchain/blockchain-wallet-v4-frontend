@@ -1,7 +1,9 @@
 import { ethers, Signer } from 'ethers'
+import moment from 'moment'
 import { call, put, select } from 'redux-saga/effects'
 
 import { Remote } from '@core'
+import { convertCoinToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
 import { NFT_ORDER_PAGE_LIMIT } from '@core/network/api/nfts'
 import {
@@ -77,11 +79,20 @@ export default ({ api }: { api: APIType }) => {
       if (Remote.Success.is(collections) && !action.payload.direction && !action.payload.sortBy)
         return
       yield put(A.fetchNftCollectionsLoading())
-      const nfts: ReturnType<typeof api.getNftCollections> = yield call(
+      const response: ReturnType<typeof api.getNftCollections> = yield call(
         api.getNftCollections,
         action.payload.sortBy,
         action.payload.direction
       )
+      // filter crypto punks, or others
+      const exclusionList = ['CryptoPunks']
+      const excludeCollections = (collection: ExplorerGatewayNftCollectionType) => {
+        return !(exclusionList.indexOf(collection.name) > -1)
+      }
+      // filter collections w/ no img
+      const hasImageUrl = (collection: ExplorerGatewayNftCollectionType) => collection.image_url
+
+      const nfts = response.filter(excludeCollections).filter(hasImageUrl)
       yield put(A.fetchNftCollectionsSuccess(nfts))
     } catch (e) {
       const error = errorHandler(e)
@@ -171,10 +182,15 @@ export default ({ api }: { api: APIType }) => {
       const signer: Signer = yield call(getEthSigner)
       let fees: GasDataI
       if (action.payload.operation === GasCalculationOperations.Buy) {
+        // TODO: DONT DEFAULT TO 1 WEEK
+        const expirationTime = moment().add(7, 'day').unix()
         const { buy, sell }: Await<ReturnType<typeof getNftBuyOrders>> = yield call(
           getNftBuyOrders,
           action.payload.order,
-          signer
+          signer,
+          action.payload.offer ? expirationTime : undefined,
+          action.payload.offer,
+          action.payload.paymentTokenAddress
         )
         fees = yield call(
           calculateGasFees,
@@ -211,8 +227,54 @@ export default ({ api }: { api: APIType }) => {
         yield put(A.fetchFeesSuccess(fees))
       }
     } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log(e)
       const error = errorHandler(e)
       yield put(A.fetchFeesFailure(error))
+    }
+  }
+
+  const createOffer = function* (action: ReturnType<typeof A.createOffer>) {
+    try {
+      yield put(A.createOfferLoading())
+      const signer = yield call(getEthSigner)
+      const { coinfig } = window.coins[action.payload.coin || 'WETH']
+      // TODO: DONT DEFAULT TO 1 WEEK
+      const expirationTime = moment().add(7, 'day').unix()
+      const amount = convertCoinToCoin({
+        baseToStandard: false,
+        coin: coinfig.symbol,
+        value: action.payload.amount || '0'
+      })
+      const { buy, sell }: Await<ReturnType<typeof getNftBuyOrders>> = yield call(
+        getNftBuyOrders,
+        action.payload.order,
+        signer,
+        expirationTime,
+        amount,
+        coinfig.type.erc20Address
+      )
+      const gasData: GasDataI = yield call(
+        calculateGasFees,
+        GasCalculationOperations.Buy,
+        signer,
+        undefined,
+        buy,
+        sell
+      )
+      const order = yield call(fulfillNftOrder, buy, sell, signer, gasData)
+      yield call(api.postNftOrder, order)
+      yield put(actions.modals.closeAllModals())
+      yield put(A.createOfferSuccess(order))
+      yield put(A.resetNftOrders())
+      yield put(A.setMarketplaceData({ atBound: false, page: 1, token_ids_queried: [] }))
+      yield put(A.fetchNftOrders())
+      yield put(actions.alerts.displaySuccess(`Successfully created offer!`))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.createOfferFailure(error))
+      yield put(actions.logs.logErrorMessage(error))
+      yield put(actions.alerts.displayError(error))
     }
   }
 
@@ -391,6 +453,7 @@ export default ({ api }: { api: APIType }) => {
     cancelListing,
     clearAndRefetchAssets,
     clearAndRefetchOrders,
+    createOffer,
     createOrder,
     createSellOrder,
     fetchFees,

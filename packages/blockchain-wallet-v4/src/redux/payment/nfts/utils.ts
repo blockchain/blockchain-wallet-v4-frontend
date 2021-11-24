@@ -644,9 +644,9 @@ export function _makeMatchingOrder({
     howToCall: order.howToCall,
     listingTime: times.listingTime,
     maker: accountAddress,
-    makerProtocolFee: new BigNumber(order.makerProtocolFee),
+    makerProtocolFee: new BigNumber(order.takerProtocolFee),
     makerReferrerFee: new BigNumber(order.makerReferrerFee),
-    makerRelayerFee: new BigNumber(order.makerRelayerFee),
+    makerRelayerFee: new BigNumber(order.takerRelayerFee),
     metadata: order.metadata,
     paymentToken: paymentTokenAddress ?? order.paymentToken,
     quantity: order.quantity,
@@ -660,8 +660,8 @@ export function _makeMatchingOrder({
     staticExtradata: '0x',
     staticTarget: NULL_ADDRESS,
     taker: order.maker,
-    takerProtocolFee: new BigNumber(order.takerProtocolFee),
-    takerRelayerFee: new BigNumber(order.takerRelayerFee),
+    takerProtocolFee: new BigNumber(order.makerProtocolFee),
+    takerRelayerFee: new BigNumber(order.makerRelayerFee),
     target,
     waitingForBestCounterOrder: false
   }

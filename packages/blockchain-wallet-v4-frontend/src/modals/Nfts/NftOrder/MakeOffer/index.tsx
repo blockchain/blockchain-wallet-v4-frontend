@@ -1,10 +1,10 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { map } from 'ramda'
 import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 
+import { Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
 import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
@@ -16,12 +16,13 @@ import { NftOrderStepEnum } from 'data/components/nfts/types'
 
 import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'
 import { Props as OwnProps } from '..'
+import MakeOfferFees from './fees'
 
 const MakeOffer: React.FC<Props> = (props) => {
   const { close, formValues, nftActions, orderFlow } = props
   const { activeOrder } = orderFlow
 
-  const disabled = !formValues.amount
+  const disabled = !formValues.amount || Remote.Loading.is(orderFlow.order)
 
   return (
     <>
@@ -84,13 +85,13 @@ const MakeOffer: React.FC<Props> = (props) => {
                     elements={[
                       {
                         group: '',
-                        items: map(
-                          (coin) => ({
+                        items: val.collection.payment_tokens
+                          .map((token) => token.symbol)
+                          .filter((symbol) => symbol === 'WETH')
+                          .map((coin) => ({
                             text: window.coins[coin].coinfig.symbol,
                             value: window.coins[coin].coinfig.symbol
-                          }),
-                          ['USDC', 'DAI', 'WETH']
-                        )
+                          }))
                       }
                     ]}
                   />
@@ -148,13 +149,14 @@ const MakeOffer: React.FC<Props> = (props) => {
             </Form>
             {activeOrder ? (
               <StickyCTA>
+                <MakeOfferFees {...props} />
                 <Button
                   jumbo
                   nature='primary'
                   fullwidth
                   data-e2e='makeOfferNft'
                   disabled={disabled}
-                  // onClick={() => nftActions.createOrder({ order: activeOrder, ...formValues })}
+                  onClick={() => nftActions.createOffer({ order: activeOrder, ...formValues })}
                 >
                   {formValues.amount ? (
                     <FormattedMessage
@@ -190,7 +192,7 @@ const enhance = compose(
   reduxForm<{}, OwnProps>({
     form: 'nftMakeOffer',
     initialValues: {
-      coin: 'USDC'
+      coin: 'WETH'
     }
   }),
   connector
