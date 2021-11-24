@@ -211,6 +211,8 @@ const nftsSlice = createSlice({
       state.orderFlow.asset = Remote.NotAsked
       state.orderFlow.fees = Remote.NotAsked
       state.orderFlow.order = Remote.NotAsked
+      state.cancelListing = Remote.NotAsked
+      state.sellOrder = Remote.NotAsked
     },
     nftOrderFlowOpen: (
       state,
