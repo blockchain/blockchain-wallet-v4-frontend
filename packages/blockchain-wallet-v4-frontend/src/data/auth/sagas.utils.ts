@@ -25,8 +25,15 @@ export const parseMagicLink = function* () {
     } = magicLink
     const userEmail = walletData?.email || exchangeData?.email || formValues?.email
     const session = yield select(selectors.session.getSession, walletData?.guid, userEmail)
+    // feature flag for merge and upgrade wallet + exchange
+    // shipping signup first before
+    const showMergeAndUpradeFlows = (yield select(
+      selectors.core.walletOptions.getMergeAndUpgradeAccounts
+    )).getOrElse(false)
     // remove feature flag when not necessary
-    const shouldPollForMagicLinkData = false
+    const shouldPollForMagicLinkData = (yield select(
+      selectors.core.walletOptions.getPollForMagicLinkData
+    )).getOrElse(false)
     // handles cases where we don't yet know which product user wants to authenticate to
     // if there's only wallet data or exchange data, we can deduce which product they want
     let productAuth = product
@@ -42,23 +49,28 @@ export const parseMagicLink = function* () {
       yield put(actions.auth.authorizeVerifyDevice())
       yield put(actions.form.change('login', 'step', LoginSteps.VERIFY_MAGIC_LINK))
     }
-    // TODO: WRAP IN FEATURE FLAG
-    if (!unified && (mergeable || upgradeable)) {
-      if (productAuth === ProductAuthOptions.WALLET && mergeable) {
-        // send them to wallet password screen
-        yield put(actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.WALLET_MERGE))
-      }
-      if (productAuth === ProductAuthOptions.EXCHANGE && mergeable) {
-        // send them to exchange password screen
-        yield put(
-          actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.EXCHANGE_MERGE)
-        )
-      }
-      if (productAuth === ProductAuthOptions.EXCHANGE && upgradeable) {
-        // send them to exchange password screen
-        yield put(
-          actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.EXCHANGE_UPGRADE)
-        )
+    // THESE ARE THE MERGE AND UPGRADE FLOWS
+    //
+    if (showMergeAndUpradeFlows) {
+      if (!unified && (mergeable || upgradeable)) {
+        if (productAuth === ProductAuthOptions.WALLET && mergeable) {
+          // send them to wallet password screen
+          yield put(
+            actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.WALLET_MERGE)
+          )
+        }
+        if (productAuth === ProductAuthOptions.EXCHANGE && mergeable) {
+          // send them to exchange password screen
+          yield put(
+            actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.EXCHANGE_MERGE)
+          )
+        }
+        if (productAuth === ProductAuthOptions.EXCHANGE && upgradeable) {
+          // send them to exchange password screen
+          yield put(
+            actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.EXCHANGE_UPGRADE)
+          )
+        }
       }
     }
     // TODDO: WRAP ABOVE IN FEATURE FLAG

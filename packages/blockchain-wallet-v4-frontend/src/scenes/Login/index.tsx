@@ -183,9 +183,6 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
         </Form>
 
         {/* FOOTER */}
-        <Button nature='empty' data-e2e='test' onClick={() => this.setStep(LoginSteps.TWO_FA)}>
-          2FA
-        </Button>
         {!loginProps.isMobileViewLogin && getLoginPageFooter(step)}
       </>
     )

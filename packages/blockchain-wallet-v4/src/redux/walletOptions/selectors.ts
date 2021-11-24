@@ -77,3 +77,7 @@ export const getCeloEurRewards = (state: RootState) =>
 
 export const getPollForMagicLinkData = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'pollForMagicLinkData']))
+
+// merge and upgrade wallet + exchange accounts
+export const getMergeAndUpgradeAccounts = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'mergeAndUpgrade']))

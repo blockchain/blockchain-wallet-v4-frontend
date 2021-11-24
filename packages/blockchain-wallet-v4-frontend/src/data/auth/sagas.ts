@@ -62,7 +62,8 @@ export default ({ api, coreSagas, networks }) => {
   const exchangeLogin = function* (action) {
     const { code, password, username } = action.payload
     const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
-    const product = yield select(selectors.auth.getProduct)
+    const magicLinkData: WalletDataFromMagicLink = yield select(S.getMagicLinkData)
+    const exchangeURL = magicLinkData?.exchange_auth_url
     yield put(startSubmit(LOGIN_FORM))
     try {
       const response = yield call(api.exchangeSignIn, code, password, username)
@@ -78,8 +79,7 @@ export default ({ api, coreSagas, networks }) => {
       } else if (unificationFlowType === AccountUnificationFlows.MOBILE_EXCHANGE_UPGRADE) {
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_PASSWORD))
       } else {
-        // here we call the merge endpoint and then direct them to exchange
-        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_SUCCESS))
+        window.open(`${exchangeURL}${jwtToken}`, '_self', 'noreferrer')
       }
       yield put(stopSubmit(LOGIN_FORM))
     } catch (e) {

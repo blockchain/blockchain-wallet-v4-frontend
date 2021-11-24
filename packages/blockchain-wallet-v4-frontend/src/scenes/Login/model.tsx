@@ -97,6 +97,7 @@ const TopRow = styled.div<{ marginTop?: string }>`
 const BackArrow = styled.div`
   display: flex;
   align-items: center;
+  cursor: pointer;
 `
 const EmailAndGuid = styled.div`
   display: flex;
@@ -146,7 +147,6 @@ export const BackArrowFormHeader = (props: {
         <BackArrow onClick={() => props.handleBackArrowClick()}>
           {!props.hideBackArrow && (
             <Icon
-              cursor
               data-e2e='signupBack'
               name='arrow-left'
               size='24px'
