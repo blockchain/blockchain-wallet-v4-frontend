@@ -64,7 +64,6 @@ export default ({ api, coreSagas, networks }) => {
     const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
     const product = yield select(selectors.auth.getProduct)
     yield put(startSubmit(LOGIN_FORM))
-
     try {
       const response = yield call(api.exchangeSignIn, code, password, username)
       const { token: jwtToken } = response
@@ -85,6 +84,9 @@ export default ({ api, coreSagas, networks }) => {
       yield put(stopSubmit(LOGIN_FORM))
     } catch (e) {
       yield put(actions.auth.exchangeLoginFailure(e.code))
+      if (e.code && e.code === 11) {
+        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.TWO_FA))
+      }
       yield put(stopSubmit(LOGIN_FORM))
     }
   }

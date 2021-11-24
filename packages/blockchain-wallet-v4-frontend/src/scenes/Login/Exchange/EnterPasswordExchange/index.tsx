@@ -66,7 +66,12 @@ const EnterPasswordExchange = (props: Props) => {
         </ProductTab>
       </TabWrapper>
       <WrapperWithPadding>
-        <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} hideGuid />
+        <BackArrowFormHeader
+          {...props}
+          handleBackArrowClick={handleBackArrowClick}
+          hideGuid
+          marginTop='28px'
+        />
         <FormGroup>
           {!isSupportedBrowser && <UnsupportedBrowserWarning />}
           <FormItem>
@@ -96,7 +101,7 @@ const EnterPasswordExchange = (props: Props) => {
             )}
           </FormItem>
         </FormGroup>
-        {(twoFactorRequired || twoFactorError) && (
+        {/* {(twoFactorRequired || twoFactorError) && (
           <FormGroup>
             <FormItem>
               <FormLabel htmlFor='code'>
@@ -124,7 +129,7 @@ const EnterPasswordExchange = (props: Props) => {
               )}
             </FormItem>
           </FormGroup>
-        )}
+        )} */}
         <CenteredColumn>
           <ActionButton
             type='submit'

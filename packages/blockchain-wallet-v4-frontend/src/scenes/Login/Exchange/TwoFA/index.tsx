@@ -22,7 +22,7 @@ import {
 } from '../../model'
 
 const LoginWrapper = styled(Wrapper)`
-  padding: 0 0 32px 0;
+  padding: 32px 0;
 `
 const TwoFAExchange = (props: Props) => {
   const {
@@ -34,7 +34,6 @@ const TwoFAExchange = (props: Props) => {
     invalid,
     submitting
   } = props
-  const twoFactorRequired = exchangeError && exchangeError === ExchangeErrorCodes.BAD_2FA
   const twoFactorError = exchangeError && exchangeError === ExchangeErrorCodes.WRONG_2FA
 
   return (
@@ -74,7 +73,7 @@ const TwoFAExchange = (props: Props) => {
             nature='primary'
             fullwidth
             height='48px'
-            disabled={submitting || invalid || busy || !formValues?.guidOrEmail}
+            disabled={submitting || invalid || busy || !formValues?.exchangeTwoFA}
             data-e2e='loginButton'
             style={{ marginBottom: '16px' }}
           >
