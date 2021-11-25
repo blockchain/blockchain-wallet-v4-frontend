@@ -6,7 +6,7 @@ import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
-import { FiatType, OrderType, BSPaymentTypes } from '@core/types'
+import { BSPaymentTypes, FiatType, OrderType } from '@core/types'
 import {
   Button,
   CheckBoxInput,
@@ -458,4 +458,4 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
 
 type Props = OwnProps & SuccessStateType
 
-export default reduxForm<{ form: string }, Props>({ form: 'sbCheckoutConfirm' })(Success)
+export default reduxForm<{ form: string }, Props>({ form: 'bsCheckoutConfirm' })(Success)
