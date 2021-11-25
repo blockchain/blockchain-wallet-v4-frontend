@@ -66,6 +66,8 @@ export type BSCurrencySelectFormType = {
 export type BSFixType = 'CRYPTO' | 'FIAT'
 export enum BuySellStepType {
   '3DS_HANDLER_EVERYPAY',
+  '3DS_HANDLER_STRIPE',
+  '3DS_HANDLER_CHECKOUT',
   'ADD_CARD',
   'ADD_CARD_CHECKOUT',
   'ADD_CARD_EVERYPAY',
@@ -208,7 +210,10 @@ export type StepActionsPayload =
       pair: BSPairType
       step: 'LINKED_PAYMENT_ACCOUNTS'
     }
-  | { order?: BSOrderType; step: '3DS_HANDLER_EVERYPAY' }
+  | {
+      order?: BSOrderType
+      step: '3DS_HANDLER_EVERYPAY' | '3DS_HANDLER_STRIPE' | '3DS_HANDLER_CHECKOUT'
+    }
   | {
       sellOrderType?: SwapBaseCounterTypes
       step: 'PREVIEW_SELL'

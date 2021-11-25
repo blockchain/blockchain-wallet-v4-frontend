@@ -178,7 +178,7 @@ class BuySell extends PureComponent<Props, State> {
             {this.props.step === 'ADD_CARD' && (
               <FlyoutChild>
                 {
-                  // LOADING
+                  // TODO add loading state
                 }
               </FlyoutChild>
             )}
@@ -200,6 +200,20 @@ class BuySell extends PureComponent<Props, State> {
             {this.props.step === '3DS_HANDLER_EVERYPAY' && (
               <FlyoutChild>
                 <ThreeDSHandlerEverypay {...this.props} handleClose={this.handleClose} />
+              </FlyoutChild>
+            )}
+            {this.props.step === '3DS_HANDLER_CHECKOUT' && (
+              <FlyoutChild>
+                {
+                  // TODO add 3ds handler checkout
+                }
+              </FlyoutChild>
+            )}
+            {this.props.step === '3DS_HANDLER_STRIPE' && (
+              <FlyoutChild>
+                {
+                  // TODO add 3ds handler checkout
+                }
               </FlyoutChild>
             )}
             {this.props.step === 'AUTHORIZE_PAYMENT' && (
@@ -321,6 +335,8 @@ type LinkStatePropsType =
       step:
         | 'CRYPTO_SELECTION'
         | '3DS_HANDLER_EVERYPAY'
+        | '3DS_HANDLER_CHECKOUT'
+        | '3DS_HANDLER_STRIPE'
         | 'CC_BILLING_ADDRESS'
         | 'KYC_REQUIRED'
         | 'UPGRADE_TO_GOLD'

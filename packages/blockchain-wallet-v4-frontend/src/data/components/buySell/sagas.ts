@@ -454,7 +454,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             ? {
                 everypay: {
                   customerUrl: `${domains.walletHelper}/wallet-helper/everypay/#/response-handler`
-                }
+                },
+                // TODO add correct redirect url here
+                redirectURL: '###'
               }
             : undefined
       } else if (account?.partner === BankPartners.YAPILY) {
@@ -474,7 +476,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         account?.partner === BankPartners.YAPILY
       ) {
         const { RETRY_AMOUNT, SECONDS } = POLLING
-        // for OB the authorisationUrl isn't in the initial response to confirm
+        // for OB the authorizationUrl isn't in the initial response to confirm
         // order. We need to poll the order for it.
         yield put(A.setStep({ step: 'LOADING' }))
         const order = yield retry(RETRY_AMOUNT, SECONDS * 1000, AuthUrlCheck, confirmedOrder.id)
@@ -493,8 +495,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       if (order.paymentType === BSPaymentTypes.BANK_TRANSFER) {
         yield put(A.setStep({ order: confirmedOrder, step: 'ORDER_SUMMARY' }))
-      } else {
+      } else if (
+        confirmedOrder.attributes?.everypay ||
+        confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'EVERYPAY'
+      ) {
         yield put(A.setStep({ order: confirmedOrder, step: '3DS_HANDLER_EVERYPAY' }))
+      } else if (confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'STRIPE') {
+        yield put(A.setStep({ order: confirmedOrder, step: '3DS_HANDLER_STRIPE' }))
+      } else if (confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'CHECKOUT') {
+        yield put(A.setStep({ order: confirmedOrder, step: '3DS_HANDLER_CHECKOUT' }))
+      } else {
+        throw new Error('Unknown payment provider')
       }
       yield put(A.fetchOrders())
     } catch (e) {
