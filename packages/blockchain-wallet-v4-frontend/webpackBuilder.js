@@ -293,8 +293,7 @@ const buildDevServerConfig = (
           root: envConfig.ROOT_URL,
           veriff: envConfig.VERIFF_URL,
           walletHelper: envConfig.WALLET_HELPER_DOMAIN,
-          webSocket: envConfig.WEB_SOCKET_URL,
-          yapilyCallbackUrl: envConfig.YAPILY_CALLBACK_URL
+          webSocket: envConfig.WEB_SOCKET_URL
         }
 
         res.json(mockWalletOptions)
