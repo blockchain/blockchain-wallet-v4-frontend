@@ -440,8 +440,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const account = selectors.components.brokerage.getAccount(yield select())
       const domainsR = selectors.core.walletOptions.getDomains(yield select())
       const domains = domainsR.getOrElse({
-        walletHelper: 'https://wallet-helper.blockchain.com',
-        yapilyCallbackUrl: 'https://www.blockchain.com/brokerage-link-success'
+        comRoot: 'https://www.blockchain.com',
+        walletHelper: 'https://wallet-helper.blockchain.com'
       } as WalletOptionsType['domains'])
 
       let attributes
@@ -458,7 +458,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
               }
             : undefined
       } else if (account?.partner === BankPartners.YAPILY) {
-        attributes = { callback: domains.yapilyCallbackUrl }
+        attributes = { callback: `${domains.comRoot}/brokerage-link-success` }
       }
 
       const confirmedOrder: BSOrderType = yield call(
