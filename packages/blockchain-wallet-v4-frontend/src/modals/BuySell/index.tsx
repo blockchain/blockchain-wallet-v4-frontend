@@ -23,7 +23,6 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { Loading as StdLoading, LoadingTextEnum } from '../components'
 import { ModalPropsType } from '../types'
-// step templates
 import AddCardCheckout from './AddCardCheckout'
 import AddCardEverypay from './AddCardEverypay'
 import Authorize from './Authorize'
@@ -41,11 +40,11 @@ import PaymentMethods from './PaymentMethods'
 import PreviewSell from './PreviewSell'
 import getData from './selectors'
 import SellOrderSummary from './SellOrderSummary'
-// step wrappers
 import Loading from './template.loading'
 import Pending from './template.pending'
 import Rejected from './template.rejected'
 import ThreeDSHandlerEverypay from './ThreeDSHandlerEverypay'
+import ThreeDSHandlerStripe from './ThreeDSHandlerStripe'
 import UpgradeToGold from './UpgradeToGold'
 import VerifyEmail from './VerifyEmail'
 
@@ -211,9 +210,7 @@ class BuySell extends PureComponent<Props, State> {
             )}
             {this.props.step === '3DS_HANDLER_STRIPE' && (
               <FlyoutChild>
-                {
-                  // TODO add 3ds handler checkout
-                }
+                <ThreeDSHandlerStripe {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
             {this.props.step === 'AUTHORIZE_PAYMENT' && (

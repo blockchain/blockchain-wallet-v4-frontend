@@ -215,9 +215,9 @@ export default ({
       url: nabuUrl
     })
 
-  const getBSCards = (): Array<BSCardType> =>
+  const getBSCards = (useNewPaymentProviders: boolean): Array<BSCardType> =>
     authorizedGet({
-      endPoint: '/payments/cards',
+      endPoint: `/payments/cards?cardProvider=${useNewPaymentProviders}`,
       url: nabuUrl
     })
 

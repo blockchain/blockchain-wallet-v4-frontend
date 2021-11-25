@@ -620,7 +620,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       if (!loadCards) return yield put(A.fetchCardsSuccess([]))
       if (!payload) yield put(A.fetchCardsLoading())
-      const cards = yield call(api.getBSCards)
+      const cards = yield call(
+        api.getBSCards,
+        Boolean(selectors.core.walletOptions.getUseNewPaymentProviders(yield select()))
+      )
       yield put(A.fetchCardsSuccess(cards))
     } catch (e) {
       const error = errorHandler(e)
@@ -1211,11 +1214,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
 
     if (action.payload.step === 'ADD_CARD') {
-      const paymentProcessors: boolean = (yield select(
-        selectors.core.walletOptions.getPaymentProcessors
+      const addCheckoutPaymentProvider: boolean = (yield select(
+        selectors.core.walletOptions.getAddCheckoutPaymentProvider
       )).getOrElse(false)
 
-      if (!paymentProcessors) {
+      if (!addCheckoutPaymentProvider) {
         yield put(
           A.setStep({
             step: 'ADD_CARD_EVERYPAY'
