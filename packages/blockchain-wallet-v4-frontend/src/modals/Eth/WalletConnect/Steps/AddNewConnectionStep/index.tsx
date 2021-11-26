@@ -19,7 +19,7 @@ const AddNewConnectionStep = (props) => {
   return (
     <Wrapper>
       <Text weight={600} color='grey900' size='20px' style={{ marginBottom: '1rem' }}>
-        Copy and paste the connection string below from desired Dapp.
+        Copy and paste the Wallet Connect text below from desired Dapp.
       </Text>
       <Field
         name='newConnectionString'
@@ -37,6 +37,7 @@ const AddNewConnectionStep = (props) => {
         data-e2e='addConnection'
         nature='primary'
         size='16px'
+        style={{ marginTop: '1rem' }}
         onClick={props.walletConnectActions.addNewDappConnection}
       >
         Add Connection
