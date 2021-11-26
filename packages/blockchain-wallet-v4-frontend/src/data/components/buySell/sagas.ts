@@ -502,8 +502,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(A.setStep({ order: confirmedOrder, step: '3DS_HANDLER_EVERYPAY' }))
       } else if (confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'STRIPE') {
         yield put(A.setStep({ order: confirmedOrder, step: '3DS_HANDLER_STRIPE' }))
-      } else if (confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'CHECKOUT') {
-        yield put(A.setStep({ order: confirmedOrder, step: '3DS_HANDLER_CHECKOUT' }))
+      } else if (confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'CHECKOUTDOTCOM') {
+        yield put(A.setStep({ order: confirmedOrder, step: '3DS_HANDLER_CHECKOUTDOTCOM' }))
       } else {
         throw new Error('Unknown payment provider')
       }
@@ -1214,11 +1214,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
 
     if (action.payload.step === 'ADD_CARD') {
-      const addCheckoutPaymentProvider: boolean = (yield select(
-        selectors.core.walletOptions.getAddCheckoutPaymentProvider
+      const addCheckoutDotComPaymentProvider: boolean = (yield select(
+        selectors.core.walletOptions.getAddCheckoutDotComPaymentProvider
       )).getOrElse(false)
 
-      if (!addCheckoutPaymentProvider) {
+      if (!addCheckoutDotComPaymentProvider) {
         yield put(
           A.setStep({
             step: 'ADD_CARD_EVERYPAY'
@@ -1244,17 +1244,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         return
       }
 
-      const checkoutAccountCodes = checkoutAcquirers.reduce((prev, curr) => {
+      const checkoutDotComAccountCodes = checkoutAcquirers.reduce((prev, curr) => {
         return [...new Set([...prev, ...curr.cardAcquirerAccountCodes])]
       }, [] as string[])
 
-      const checkoutApiKey = checkoutAcquirers[0].apiKey
+      const checkoutDotComApiKey = checkoutAcquirers[0].apiKey
 
       yield put(
         A.setStep({
-          checkoutAccountCodes,
-          checkoutApiKey,
-          step: 'ADD_CARD_CHECKOUT'
+          checkoutDotComAccountCodes,
+          checkoutDotComApiKey,
+          step: 'ADD_CARD_CHECKOUTDOTCOM'
         })
       )
     }

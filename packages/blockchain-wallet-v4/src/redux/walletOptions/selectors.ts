@@ -79,8 +79,8 @@ export const getPollForMagicLinkData = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'pollForMagicLinkData']))
 
 // send the card to new payment processors feature flag (checkout)
-export const getAddCheckoutPaymentProvider = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'addCheckoutPaymentProvider']))
+export const getAddCheckoutDotComPaymentProvider = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'addCheckoutDotComPaymentProvider']))
 
 // send the card to new payment processors feature flag (stripe)
 export const getAddStripePaymentProvider = (state: RootState) =>

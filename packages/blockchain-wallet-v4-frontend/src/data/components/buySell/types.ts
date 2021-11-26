@@ -67,9 +67,9 @@ export type BSFixType = 'CRYPTO' | 'FIAT'
 export enum BuySellStepType {
   '3DS_HANDLER_EVERYPAY',
   '3DS_HANDLER_STRIPE',
-  '3DS_HANDLER_CHECKOUT',
+  '3DS_HANDLER_CHECKOUTDOTCOM',
   'ADD_CARD',
-  'ADD_CARD_CHECKOUT',
+  'ADD_CARD_CHECKOUTDOTCOM',
   'ADD_CARD_EVERYPAY',
   'AUTHORIZE_PAYMENT',
   'BANK_WIRE_DETAILS',
@@ -125,8 +125,8 @@ export type BuySellState = {
   card: RemoteDataType<string, BSCardType>
   cardId: undefined | string
   cards: RemoteDataType<string, Array<BSCardType>>
-  checkoutAccountCodes: undefined | Array<string>
-  checkoutApiKey: undefined | string
+  checkoutDotComAccountCodes: undefined | Array<string>
+  checkoutDotComApiKey: undefined | string
   crossBorderLimits: RemoteDataType<string, CrossBorderLimits>
   cryptoCurrency: undefined | CoinType
   displayBack: boolean
@@ -212,16 +212,16 @@ export type StepActionsPayload =
     }
   | {
       order?: BSOrderType
-      step: '3DS_HANDLER_EVERYPAY' | '3DS_HANDLER_STRIPE' | '3DS_HANDLER_CHECKOUT'
+      step: '3DS_HANDLER_EVERYPAY' | '3DS_HANDLER_STRIPE' | '3DS_HANDLER_CHECKOUTDOTCOM'
     }
   | {
       sellOrderType?: SwapBaseCounterTypes
       step: 'PREVIEW_SELL'
     }
   | {
-      checkoutAccountCodes: Array<string>
-      checkoutApiKey: string
-      step: 'ADD_CARD_CHECKOUT'
+      checkoutDotComAccountCodes: Array<string>
+      checkoutDotComApiKey: string
+      step: 'ADD_CARD_CHECKOUTDOTCOM'
     }
   | {
       step:

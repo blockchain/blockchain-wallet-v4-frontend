@@ -48,8 +48,8 @@ const initialState: BuySellState = {
   card: Remote.NotAsked,
   cardId: undefined,
   cards: Remote.NotAsked,
-  checkoutAccountCodes: [],
-  checkoutApiKey: undefined,
+  checkoutDotComAccountCodes: [],
+  checkoutDotComApiKey: undefined,
   crossBorderLimits: Remote.NotAsked,
   cryptoCurrency: undefined,
   displayBack: false,
@@ -123,14 +123,14 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
       return { order: payload.order, step: payload.step }
     case '3DS_HANDLER_EVERYPAY':
     case '3DS_HANDLER_STRIPE':
-    case '3DS_HANDLER_CHECKOUT':
+    case '3DS_HANDLER_CHECKOUTDOTCOM':
       return { order: payload.order, step: payload.step }
     case 'SELL_ORDER_SUMMARY':
       return { sellOrder: payload.sellOrder, step: payload.step }
-    case 'ADD_CARD_CHECKOUT':
+    case 'ADD_CARD_CHECKOUTDOTCOM':
       return {
-        checkoutAccountCodes: payload.checkoutAccountCodes,
-        checkoutApiKey: payload.checkoutApiKey,
+        checkoutDotComAccountCodes: payload.checkoutDotComAccountCodes,
+        checkoutDotComApiKey: payload.checkoutDotComApiKey,
         step: payload.step
       }
     default:
@@ -466,9 +466,9 @@ const buySellSlice = createSlice({
           state.sellOrder = stepPayload.sellOrder
           state.step = stepPayload.step
           break
-        case 'ADD_CARD_CHECKOUT':
-          state.checkoutAccountCodes = stepPayload.checkoutAccountCodes
-          state.checkoutApiKey = stepPayload.checkoutApiKey
+        case 'ADD_CARD_CHECKOUTDOTCOM':
+          state.checkoutDotComAccountCodes = stepPayload.checkoutDotComAccountCodes
+          state.checkoutDotComApiKey = stepPayload.checkoutDotComApiKey
           state.step = stepPayload.step
           break
         default:

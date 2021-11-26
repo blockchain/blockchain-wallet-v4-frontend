@@ -261,6 +261,6 @@ export const getSddTransactionFinished = (state: RootState) =>
   state.components.buySell.sddTransactionFinished
 
 export const getCheckoutAccountCodes = (state: RootState) =>
-  state.components.buySell.checkoutAccountCodes
+  state.components.buySell.checkoutDotComAccountCodes
 
-export const getCheckoutApiKey = (state: RootState) => state.components.buySell.checkoutApiKey
+export const getCheckoutApiKey = (state: RootState) => state.components.buySell.checkoutDotComApiKey

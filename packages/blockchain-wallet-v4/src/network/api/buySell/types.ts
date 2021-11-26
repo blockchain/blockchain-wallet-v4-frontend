@@ -171,7 +171,7 @@ export type BSOrderProperties = {
     authorisationUrl?: string
     cardProvider?: {
       cardAcquirerAccountCode: string
-      cardAcquirerName: 'CHECKOUT' | 'STRIPE' | 'EVERYPAY'
+      cardAcquirerName: 'CHECKOUTDOTCOM' | 'STRIPE' | 'EVERYPAY'
       clientSecret: string
       paymentLink: string
       paymentState: string
