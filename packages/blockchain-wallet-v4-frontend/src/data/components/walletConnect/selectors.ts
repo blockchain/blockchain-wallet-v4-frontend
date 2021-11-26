@@ -1,12 +1,32 @@
 import { RootState } from 'data/rootReducer'
 
-import { WC_STORAGE_KEY } from './model'
+import { InitWalletConnectPayload } from './types'
 
-// TODO: types!
-export const getAuthorizedDappsList = (): Array<any> => {
-  const dappListString = localStorage.getItem(WC_STORAGE_KEY)
-  return dappListString ? JSON.parse(dappListString) : []
+export const getAuthorizedDappsList = (): Array<InitWalletConnectPayload> => {
+  const authorizedDappsList: Array<InitWalletConnectPayload> = []
+
+  for (let i = 0; i < localStorage.length; i += 1) {
+    const localStorageKey = localStorage.key(i)
+
+    // TODO if check could use better logic
+    if (localStorageKey && localStorageKey.startsWith('wc:')) {
+      const localStorageValue = localStorage.getItem(localStorageKey)
+      if (localStorageValue) {
+        authorizedDappsList.push({
+          sessionDetails: JSON.parse(localStorageValue),
+          uri: localStorageKey
+        })
+      }
+    }
+  }
+
+  return authorizedDappsList
 }
+
+export const isDappInLS = (uri: string): boolean => {
+  return !!localStorage.getItem(uri)
+}
+
 export const getSessionDetails = (state: RootState) => state.components.walletConnect.sessionDetails
 export const getStep = (state: RootState) => state.components.walletConnect.step
 export const getUri = (state: RootState) => state.components.walletConnect.uri

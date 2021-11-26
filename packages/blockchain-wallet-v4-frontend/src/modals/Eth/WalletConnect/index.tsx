@@ -31,7 +31,7 @@ class WalletConnectContainer extends PureComponent<Props, State> {
 
     // only init new wc session if we detect a new uri from goal
     if (uri) {
-      walletConnectActions.initWalletConnect(uri)
+      walletConnectActions.initWalletConnect({ uri })
     }
   }
 
@@ -67,7 +67,6 @@ class WalletConnectContainer extends PureComponent<Props, State> {
                     return <ApproveTransactionStep {...successProps} />
 
                   case val.name === WalletConnectStep.AUTHORIZE_CONNECTION:
-                    // @ts-ignore
                     return <AuthorizeConnectionStep {...successProps} />
 
                   case val.name === WalletConnectStep.DISCONNECTION_NOTICE:

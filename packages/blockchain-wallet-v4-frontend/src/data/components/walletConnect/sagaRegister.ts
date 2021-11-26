@@ -16,5 +16,6 @@ export default ({ coreSagas }) => {
     yield takeLatest(A.removeDappConnection.type, walletConnectSagas.removeDappConnection)
     yield takeLatest(A.respondToSessionRequest.type, walletConnectSagas.respondToSessionRequest)
     yield takeLatest(A.respondToTxSendRequest.type, walletConnectSagas.respondToTxSendRequest)
+    yield takeLatest(A.initLSWalletConnect.type, walletConnectSagas.initLSWalletConnects)
   }
 }

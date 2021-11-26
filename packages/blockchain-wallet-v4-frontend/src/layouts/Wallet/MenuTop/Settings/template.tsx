@@ -91,7 +91,7 @@ const Settings = (props: Props) => {
                 <Destination>
                   <FormattedMessage
                     id='layouts.wallet.header.walletConnect'
-                    defaultMessage='WalletConnect'
+                    defaultMessage='Wallet Connect'
                   />
                 </Destination>
               </DropdownMenuItem>

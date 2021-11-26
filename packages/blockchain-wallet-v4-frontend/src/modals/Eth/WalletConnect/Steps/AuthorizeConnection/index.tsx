@@ -25,7 +25,9 @@ const DappInfo = styled.div`
   align-items: center;
 `
 
-const AuthorizeConnectionStep = ({ data: sessionDetails, uri, walletConnectActions }) => {
+const AuthorizeConnectionStep = (props) => {
+  const { data: sessionDetails, uri, walletConnectActions } = props
+
   const approveRequest = () => {
     walletConnectActions.respondToSessionRequest({ action: 'APPROVE', sessionDetails, uri })
   }
