@@ -58,7 +58,7 @@ export const width = 480
 const AnimatedModal = motion(Modal)
 
 const FlyoutModal = styled(AnimatedModal)`
-  border-radius: 0px;
+  border-radius: 0;
   overflow: auto;
   position: absolute;
   top: 0;
@@ -156,29 +156,28 @@ export const StickyHeaderFlyoutWrapper = styled(FlyoutWrapper)`
   z-index: 99;
 `
 
-const Flyout = ({ children, isOpen, ...props }: Props) => {
-  return (
-    <AnimatePresence>
-      {isOpen && !props.userClickedOutside ? (
-        <FlyoutModal
-          transition={{
-            bounce: 0,
-            type: 'spring'
-          }}
-          initial={{ x: width }}
-          animate={{ x: 0 }}
-          exit={{ x: width }}
-          {...props}
-        >
-          <FlyoutChildren>
-            {/* Each child must be wrapped in FlyoutChild for transitioning to work */}
-            {children}
-          </FlyoutChildren>
-        </FlyoutModal>
-      ) : null}
-    </AnimatePresence>
-  )
-}
+const Flyout = ({ children, isOpen, ...props }: Props) => (
+  <AnimatePresence>
+    {isOpen && !props.userClickedOutside ? (
+      <FlyoutModal
+        transition={{
+          bounce: 0,
+          duration: 1,
+          type: 'spring'
+        }}
+        initial={{ x: width }}
+        animate={{ x: 0 }}
+        exit={{ x: width }}
+        {...props}
+      >
+        <FlyoutChildren>
+          {/* Each child must be wrapped in FlyoutChild for transitioning to work */}
+          {children}
+        </FlyoutChildren>
+      </FlyoutModal>
+    ) : null}
+  </AnimatePresence>
+)
 
 type Props = Omit<ModalPropsType, 'close'> & {
   children: ReactNode
