@@ -17,11 +17,17 @@ const Iframe = styled.iframe`
   margin-top: 16px;
 `
 
+const clientSecret = 'pi_3K06AsHxBe1tOCzx19pxrIdA_secret_YZdITtWnwL8rRktF7dn2Ye3gm'
+
+const publishableKey =
+  'pk_test_51JhAakHxBe1tOCzxhX2cvybhcCPMMXfQQghkI7X9VEUFMTyLvcyLVFXSkM9bjsynKmRRwLwkalcPrWJeGaNriU6S00x8XQ9VLX'
+
 const ThreeDSHandlerStripe = ({ domains, order }: Props) => {
   return (
     <CustomFlyoutWrapper>
       <Iframe
-        src={`${domains.walletHelper}/wallet-helper/stripe/#/paymentLink/${order?.attributes?.cardProvider?.publishableKey}/${order?.attributes?.cardProvider?.clientSecret}}`}
+        // src={`${domains.walletHelper}/wallet-helper/stripe/#/paymentLink/${order?.attributes?.cardProvider?.publishableKey}/${order?.attributes?.cardProvider?.clientSecret}}`}
+        src={`${domains.walletHelper}/wallet-helper/stripe/#/paymentLink/${publishableKey}/${clientSecret}`}
       />
     </CustomFlyoutWrapper>
   )
