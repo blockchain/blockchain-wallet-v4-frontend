@@ -2,10 +2,10 @@ import { Remote } from '@core'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
-const { BS_CHANGE_EMAIL_FORM } = model.components.buySell
+const { FORM_BS_CHANGE_EMAIL } = model.components.buySell
 
 export const getData = (state: RootState) => {
-  const formErrors = selectors.form.getFormSyncErrors(BS_CHANGE_EMAIL_FORM)(state)
+  const formErrors = selectors.form.getFormSyncErrors(FORM_BS_CHANGE_EMAIL)(state)
 
   const emailAuth = selectors.auth.getRegisterEmail(state)
   const emailFromSettings = selectors.core.settings.getEmail(state).getOrElse(null)

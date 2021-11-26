@@ -10,7 +10,7 @@ import Loading from '../template.loading'
 import { getData } from './selectors'
 import Success from './template.success'
 
-const { BS_CHANGE_EMAIL_FORM } = model.components.buySell
+const { FORM_BS_CHANGE_EMAIL } = model.components.buySell
 
 class VerifyEmail extends PureComponent<Props> {
   componentDidMount() {
@@ -74,7 +74,7 @@ const mapStateToProps = (state: RootState) => ({
   cryptoCurrency: selectors.components.buySell.getCryptoCurrency(state),
   data: getData(state),
   fiatCurrency: selectors.components.buySell.getFiatCurrency(state),
-  formValues: selectors.form.getFormValues(BS_CHANGE_EMAIL_FORM)(state) as
+  formValues: selectors.form.getFormValues(FORM_BS_CHANGE_EMAIL)(state) as
     | BSVerifyEmailFormValuesType
     | undefined,
   isEmailVerified: selectors.core.settings.getEmailVerified(state).getOrElse(false),

@@ -12,13 +12,16 @@ import {
   required,
   requiredZipCode
 } from 'services/forms'
+import { model } from 'data'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import CountrySelect from './CountrySelect'
 
+const { FORMS_BS_BILLING_ADDRESS } = model.components.buySell
+
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`
   border-bottom: 1px solid ${(props) => props.theme.grey000};
-  padding-bottom: 0px;
+  padding-bottom: 0;
 `
 const Top = styled(Text)`
   display: flex;
@@ -166,5 +169,5 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
 export default reduxForm<{}, Props>({
   destroyOnUnmount: false,
-  form: 'ccBillingAddress'
+  form: FORMS_BS_BILLING_ADDRESS
 })(Success)

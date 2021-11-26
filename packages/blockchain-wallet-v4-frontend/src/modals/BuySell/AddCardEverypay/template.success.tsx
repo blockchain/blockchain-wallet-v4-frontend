@@ -35,9 +35,12 @@ import {
   required,
   requiredZipCode
 } from 'services/forms'
+import { model } from 'data'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import { Error } from './model'
+
+const { FORM_BS_ADD_EVERYPAY_CARD } = model.components.buySell
 
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`
   height: 100%;
@@ -123,7 +126,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = (prop
   }
 
   useEffect(() => {
-    props.formActions.change('addCardEverypayForm', 'sameAsBillingAddress', true)
+    props.formActions.change(FORM_BS_ADD_EVERYPAY_CARD, 'sameAsBillingAddress', true)
   }, [])
 
   return (
@@ -449,5 +452,5 @@ export type ErrorType = BSAddCardErrorType
 
 export default reduxForm<{}, Props, ErrorType>({
   destroyOnUnmount: false,
-  form: 'addCardEverypayForm'
+  form: FORM_BS_ADD_EVERYPAY_CARD
 })(Success)

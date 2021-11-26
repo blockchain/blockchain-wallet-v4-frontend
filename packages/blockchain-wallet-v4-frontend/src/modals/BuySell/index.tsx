@@ -14,7 +14,7 @@ import {
   SwapOrderType
 } from '@core/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/buySell/model'
 import { GoalsType } from 'data/goals/types'
 import { RootState } from 'data/rootReducer'
@@ -48,6 +48,8 @@ import ThreeDSHandlerStripe from './ThreeDSHandlerStripe'
 import UpgradeToGold from './UpgradeToGold'
 import VerifyEmail from './VerifyEmail'
 
+const { FORM_BS_CHECKOUT, FORMS_BS_BILLING_ADDRESS, FORM_BS_ADD_EVERYPAY_CARD } = model.components.buySell
+
 class BuySell extends PureComponent<Props, State> {
   constructor(props) {
     super(props)
@@ -64,9 +66,9 @@ class BuySell extends PureComponent<Props, State> {
   componentWillUnmount() {
     this.props.buySellActions.pollBalances()
     this.props.buySellActions.destroyCheckout()
-    this.props.formActions.destroy('buySellCheckout')
-    this.props.formActions.destroy('ccBillingAddress')
-    this.props.formActions.destroy('addCardEverypayForm')
+    this.props.formActions.destroy(FORM_BS_CHECKOUT)
+    this.props.formActions.destroy(FORMS_BS_BILLING_ADDRESS)
+    this.props.formActions.destroy(FORM_BS_ADD_EVERYPAY_CARD)
   }
 
   backToEnterAmount = () => {

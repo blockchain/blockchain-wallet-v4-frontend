@@ -1,14 +1,16 @@
 import { lift } from 'ramda'
 
 import { ExtractSuccess, FiatType } from '@core/types'
-import { selectors } from 'data'
+import { model, selectors } from 'data'
 import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
 import { getCoinAccounts } from 'data/coins/selectors'
 import { BSCheckoutFormValuesType } from 'data/types'
 
+const { FORM_BS_CHECKOUT } = model.components.buySell
+
 export const getData = (state) => {
   const eligibilityR = selectors.components.buySell.getBSFiatEligible(state)
-  const formValues = selectors.form.getFormValues('buySellCheckout')(
+  const formValues = selectors.form.getFormValues(FORM_BS_CHECKOUT)(
     state
   ) as BSCheckoutFormValuesType
   const emailVerifiedR = selectors.core.settings.getEmailVerified(state)

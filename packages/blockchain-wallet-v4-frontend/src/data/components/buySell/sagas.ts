@@ -50,8 +50,14 @@ import {
   getCoinFromPair,
   getFiatFromPair,
   getNextCardExists,
+  FORM_BS_ADD_EVERYPAY_CARD,
+  FORMS_BS_BILLING_ADDRESS,
+  FORM_BS_CANCEL_ORDER,
+  FORM_BS_CHECKOUT,
+  FORM_BS_CHECKOUT_CONFIRM,
+  FORM_BS_PREVIEW_SELL,
   NO_ACCOUNT,
-  NO_CHECKOUT_VALS,
+  NO_CHECKOUT_VALUES,
   NO_FIAT_CURRENCY,
   NO_ORDER_EXISTS,
   NO_PAIR_SELECTED,
@@ -145,7 +151,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const addCardDetails = function* () {
     try {
       const formValues: T.BSAddCardFormValuesType = yield select(
-        selectors.form.getFormValues('addCardEverypayForm')
+        selectors.form.getFormValues(FORM_BS_ADD_EVERYPAY_CARD)
       )
       const existingCardsR = S.getBSCards(yield select())
       const existingCards = existingCardsR.getOrElse([] as Array<BSCardType>)
@@ -203,9 +209,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           step: 'ADD_CARD'
         })
       )
-      yield put(actions.form.startSubmit('addCardEverypayForm'))
+      yield put(actions.form.startSubmit(FORM_BS_ADD_EVERYPAY_CARD))
       yield put(
-        actions.form.stopSubmit('addCardEverypayForm', {
+        actions.form.stopSubmit(FORM_BS_ADD_EVERYPAY_CARD, {
           _error: error as T.BSAddCardErrorType
         })
       )
@@ -225,9 +231,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const { state } = payload
       const fiatCurrency = getFiatFromPair(payload.pair)
       const cryptoCurrency = getCoinFromPair(payload.pair)
-      yield put(actions.form.startSubmit('cancelBSOrderForm'))
+      yield put(actions.form.startSubmit(FORM_BS_CANCEL_ORDER))
       yield call(api.cancelBSOrder, payload)
-      yield put(actions.form.stopSubmit('cancelBSOrderForm'))
+      yield put(actions.form.stopSubmit(FORM_BS_CANCEL_ORDER))
       yield put(A.fetchOrders())
       if (state === 'PENDING_CONFIRMATION' && fiatCurrency && cryptoCurrency) {
         const pair = S.getBSPair(yield select())
@@ -256,27 +262,27 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
     } catch (e) {
       const error = errorHandler(e)
-      yield put(actions.form.stopSubmit('cancelBSOrderForm', { _error: error }))
+      yield put(actions.form.stopSubmit(FORM_BS_CANCEL_ORDER, { _error: error }))
     }
   }
 
   const createBSOrder = function* ({ payload }: ReturnType<typeof A.createOrder>) {
     const { paymentMethodId, paymentType } = payload
     const values: T.BSCheckoutFormValuesType = yield select(
-      selectors.form.getFormValues('buySellCheckout')
+      selectors.form.getFormValues(FORM_BS_CHECKOUT)
     )
     try {
       const pair = S.getBSPair(yield select())
-      if (!values) throw new Error(NO_CHECKOUT_VALS)
+      if (!values) throw new Error(NO_CHECKOUT_VALUES)
       if (!pair) throw new Error(NO_PAIR_SELECTED)
       const { fix, orderType, period } = values
 
       // since two screens use this order creation saga and they have different
       // forms, detect the order type and set correct form to submitting
       if (orderType === OrderType.SELL) {
-        yield put(actions.form.startSubmit('previewSell'))
+        yield put(actions.form.startSubmit(FORM_BS_PREVIEW_SELL))
       } else {
-        yield put(actions.form.startSubmit('buySellCheckout'))
+        yield put(actions.form.startSubmit(FORM_BS_CHECKOUT))
       }
 
       const fiat = getFiatFromPair(pair.pair)
@@ -337,7 +343,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             step: 'SELL_ORDER_SUMMARY'
           })
         )
-        yield put(actions.form.stopSubmit('previewSell'))
+        yield put(actions.form.stopSubmit(FORM_BS_PREVIEW_SELL))
         yield put(actions.components.refresh.refreshClicked())
         return yield put(actions.components.swap.fetchTrades())
       }
@@ -365,7 +371,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         paymentMethodId
       )
 
-      yield put(actions.form.stopSubmit('buySellCheckout'))
+      yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT))
       yield put(A.fetchOrders())
       yield put(A.setStep({ order: buyOrder, step: 'CHECKOUT_CONFIRM' }))
     } catch (e) {
@@ -395,15 +401,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           )
           yield take(A.initializeCheckout.type)
           yield delay(3000)
-          yield put(actions.form.startSubmit('buySellCheckout'))
+          yield put(actions.form.startSubmit(FORM_BS_CHECKOUT))
         }
       }
 
       const error: number | string = errorHandlerCode(e)
       if (values?.orderType === OrderType.SELL) {
-        yield put(actions.form.stopSubmit('previewSell', { _error: error }))
+        yield put(actions.form.stopSubmit(FORM_BS_PREVIEW_SELL, { _error: error }))
       }
-      yield put(actions.form.stopSubmit('buySellCheckout', { _error: error }))
+      yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT, { _error: error }))
     }
   }
 
@@ -427,7 +433,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const confirmOrderPoll = function* ({ payload }: ReturnType<typeof A.confirmOrderPoll>) {
     const { RETRY_AMOUNT, SECONDS } = POLLING
     const confirmedOrder = yield retry(RETRY_AMOUNT, SECONDS * 1000, OrderConfirmCheck, payload.id)
-    yield put(actions.form.stopSubmit('bsCheckoutConfirm'))
+    yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
     yield put(A.setStep({ order: confirmedOrder, step: 'ORDER_SUMMARY' }))
     yield put(A.fetchOrders())
   }
@@ -436,7 +442,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const { order, paymentMethodId } = payload
     try {
       if (!order) throw new Error(NO_ORDER_EXISTS)
-      yield put(actions.form.startSubmit('bsCheckoutConfirm'))
+      yield put(actions.form.startSubmit(FORM_BS_CHECKOUT_CONFIRM))
       const account = selectors.components.brokerage.getAccount(yield select())
       const domainsR = selectors.core.walletOptions.getDomains(yield select())
       const domains = domainsR.getOrElse({
@@ -491,7 +497,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // Refresh recurring buy list to check for new pending RBs for next step
       yield put(actions.components.recurringBuy.fetchRegisteredList())
 
-      yield put(actions.form.stopSubmit('bsCheckoutConfirm'))
+      yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
 
       if (order.paymentType === BSPaymentTypes.BANK_TRANSFER) {
         yield put(A.setStep({ order: confirmedOrder, step: 'ORDER_SUMMARY' }))
@@ -511,8 +517,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.setStep({ order, step: 'CHECKOUT_CONFIRM' }))
-      yield put(actions.form.startSubmit('bsCheckoutConfirm'))
-      yield put(actions.form.stopSubmit('bsCheckoutConfirm', { _error: error }))
+      yield put(actions.form.startSubmit(FORM_BS_CHECKOUT_CONFIRM))
+      yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM, { _error: error }))
     }
   }
 
@@ -520,30 +526,29 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     try {
       const order = S.getBSOrder(yield select())
       if (!order) throw new Error(NO_ORDER_EXISTS)
-      yield put(actions.form.startSubmit('bsCheckoutConfirm'))
+      yield put(actions.form.startSubmit(FORM_BS_CHECKOUT_CONFIRM))
       const confirmedOrder: BSOrderType = yield call(api.confirmBSOrder, order as BSOrderType)
-      yield put(actions.form.stopSubmit('bsCheckoutConfirm'))
+      yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
       yield put(A.fetchOrders())
       yield put(A.setStep({ order: confirmedOrder, step: 'ORDER_SUMMARY' }))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(actions.form.stopSubmit('bsCheckoutConfirm', { _error: error }))
+      yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM, { _error: error }))
     }
   }
 
-  // TODO: move to BROKERAGE
   const deleteBSCard = function* ({ payload }: ReturnType<typeof A.deleteCard>) {
     try {
       if (!payload) return
-      yield put(actions.form.startSubmit('linkedCards'))
+      yield put(actions.form.startSubmit(FORM_BS_CHECKOUT_CONFIRM))
       yield call(api.deleteSavedAccount, payload, 'cards')
       yield put(A.fetchCards(true))
       yield take([A.fetchCardsSuccess.type, A.fetchCardsFailure.type])
-      yield put(actions.form.stopSubmit('linkedCards'))
+      yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
       yield put(actions.alerts.displaySuccess('Card removed.'))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(actions.form.stopSubmit('linkedCards', { _error: error }))
+      yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM, { _error: error }))
       yield put(actions.alerts.displayError('Error removing card.'))
     }
   }
@@ -568,7 +573,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       const userDataR = selectors.modules.profile.getUserData(yield select())
       const billingAddressForm: T.BSBillingAddressFormValuesType | undefined = yield select(
-        selectors.form.getFormValues('ccBillingAddress')
+        selectors.form.getFormValues(FORMS_BS_BILLING_ADDRESS)
       )
 
       const userData = userDataR.getOrFail('NO_USER_ADDRESS')
@@ -844,9 +849,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const formChanged = function* (action) {
     try {
-      if (action.meta.form !== 'buySellCheckout') return
+      if (action.meta.form !== FORM_BS_CHECKOUT) return
       if (action.meta.field !== 'amount') return
-      const formValues = selectors.form.getFormValues('buySellCheckout')(
+      const formValues = selectors.form.getFormValues(FORM_BS_CHECKOUT)(
         yield select()
       ) as T.BSCheckoutFormValuesType
       const account = S.getSwapAccount(yield select())
@@ -863,7 +868,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const amt = getQuote(pair.pair, quote.rate, formValues.fix, formValues.amount)
 
       const cryptoAmt = formValues.fix === 'CRYPTO' ? formValues.amount : amt
-      yield put(actions.form.change('buySellCheckout', 'cryptoAmount', cryptoAmt))
+      yield put(actions.form.change(FORM_BS_CHECKOUT, 'cryptoAmount', cryptoAmt))
       if (account.type === SwapBaseCounterTypes.CUSTODIAL) return
       // @ts-ignore
       let payment = paymentGetOrElse(account.coin, paymentR)
@@ -913,7 +918,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const { amount, coin } = payload
     const standardAmt = convertBaseToStandard(coin, amount)
 
-    yield put(actions.form.change('buySellCheckout', 'amount', standardAmt))
+    yield put(actions.form.change(FORM_BS_CHECKOUT, 'amount', standardAmt))
   }
 
   const handleBuyMinAmountClick = function* ({
@@ -922,7 +927,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const { amount, coin } = payload
     const standardAmt = convertBaseToStandard(coin, amount)
 
-    yield put(actions.form.change('buySellCheckout', 'amount', standardAmt))
+    yield put(actions.form.change(FORM_BS_CHECKOUT, 'amount', standardAmt))
   }
 
   const handleSellMaxAmountClick = function* ({
@@ -931,7 +936,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const { amount, coin } = payload
     const standardAmt = convertBaseToStandard(coin, amount)
 
-    yield put(actions.form.change('buySellCheckout', 'amount', standardAmt))
+    yield put(actions.form.change(FORM_BS_CHECKOUT, 'amount', standardAmt))
   }
 
   const handleSellMinAmountClick = function* ({
@@ -940,12 +945,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const { amount, coin } = payload
     const standardAmt = convertBaseToStandard(coin, amount)
 
-    yield put(actions.form.change('buySellCheckout', 'amount', standardAmt))
+    yield put(actions.form.change(FORM_BS_CHECKOUT, 'amount', standardAmt))
   }
 
   const handleBSMethodChange = function* ({ payload }: ReturnType<typeof A.handleMethodChange>) {
     const values: T.BSCheckoutFormValuesType = yield select(
-      selectors.form.getFormValues('buySellCheckout')
+      selectors.form.getFormValues(FORM_BS_CHECKOUT)
     )
 
     const { isFlow, method } = payload
@@ -1054,7 +1059,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         }
 
     yield put(
-      actions.form.initialize('ccBillingAddress', {
+      actions.form.initialize(FORMS_BS_BILLING_ADDRESS, {
         ...address
       })
     )
@@ -1085,7 +1090,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const quote = S.getSellQuote(yield select()).getOrFail(NO_QUOTE)
 
         if (account.type === SwapBaseCounterTypes.ACCOUNT) {
-          const formValues = selectors.form.getFormValues('buySellCheckout')(
+          const formValues = selectors.form.getFormValues(FORM_BS_CHECKOUT)(
             yield select()
           ) as T.BSCheckoutFormValuesType
           const payment = yield call(
@@ -1106,7 +1111,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         .getOrElse(false) as boolean
 
       yield put(
-        actions.form.initialize('buySellCheckout', {
+        actions.form.initialize(FORM_BS_CHECKOUT, {
           amount,
           cryptoAmount,
           fix,
@@ -1122,7 +1127,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const pollBSCardErrorHandler = function* (state: BSCardStateType) {
     yield put(A.setStep({ step: 'ADD_CARD' }))
-    yield put(actions.form.startSubmit('addCardEverypayForm'))
+    yield put(actions.form.startSubmit(FORM_BS_ADD_EVERYPAY_CARD))
 
     let error
     switch (state) {
@@ -1134,7 +1139,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
 
     yield put(
-      actions.form.stopSubmit('addCardEverypayForm', {
+      actions.form.stopSubmit(FORM_BS_ADD_EVERYPAY_CARD, {
         _error: error
       })
     )
@@ -1344,11 +1349,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const switchFix = function* ({ payload }: ReturnType<typeof A.switchFix>) {
-    yield put(actions.form.change('buySellCheckout', 'fix', payload.fix))
+    yield put(actions.form.change(FORM_BS_CHECKOUT, 'fix', payload.fix))
     yield put(actions.preferences.setBSCheckoutFix(payload.orderType, payload.fix))
     const newAmount = new BigNumber(payload.amount).isGreaterThan(0) ? payload.amount : undefined
-    yield put(actions.form.change('buySellCheckout', 'amount', newAmount))
-    yield put(actions.form.focus('buySellCheckout', 'amount'))
+    yield put(actions.form.change(FORM_BS_CHECKOUT, 'amount', newAmount))
+    yield put(actions.form.focus(FORM_BS_CHECKOUT, 'amount'))
   }
 
   const fetchLimits = function* ({ payload }: ReturnType<typeof A.fetchLimits>) {

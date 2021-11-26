@@ -11,7 +11,7 @@ import { required, validEmail } from 'services/forms'
 
 import { Props as OwnProps } from '.'
 
-const { BS_CHANGE_EMAIL_FORM } = model.components.buySell
+const { FORM_BS_CHANGE_EMAIL } = model.components.buySell
 
 const Wrapper = styled.div`
   width: 100%;
@@ -213,5 +213,5 @@ type Props = OwnProps & {
 
 export default reduxForm<{}, Props>({
   destroyOnUnmount: false,
-  form: BS_CHANGE_EMAIL_FORM
+  form: FORM_BS_CHANGE_EMAIL
 })(Template)
