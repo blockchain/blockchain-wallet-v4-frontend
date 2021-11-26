@@ -47,15 +47,15 @@ import { selectReceiveAddress } from '../utils/sagas'
 import {
   DEFAULT_BS_BALANCES,
   DEFAULT_BS_METHODS,
-  getCoinFromPair,
-  getFiatFromPair,
-  getNextCardExists,
   FORM_BS_ADD_EVERYPAY_CARD,
-  FORMS_BS_BILLING_ADDRESS,
   FORM_BS_CANCEL_ORDER,
   FORM_BS_CHECKOUT,
   FORM_BS_CHECKOUT_CONFIRM,
   FORM_BS_PREVIEW_SELL,
+  FORMS_BS_BILLING_ADDRESS,
+  getCoinFromPair,
+  getFiatFromPair,
+  getNextCardExists,
   NO_ACCOUNT,
   NO_CHECKOUT_VALUES,
   NO_FIAT_CURRENCY,
@@ -206,7 +206,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const error = errorHandler(e)
       yield put(
         A.setStep({
-          step: 'ADD_CARD'
+          step: 'ADD_CARD_DETERMINE_PROVIDER'
         })
       )
       yield put(actions.form.startSubmit(FORM_BS_ADD_EVERYPAY_CARD))
@@ -1017,7 +1017,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       case BSPaymentTypes.PAYMENT_CARD:
         return yield put(
           A.setStep({
-            step: 'ADD_CARD'
+            step: 'ADD_CARD_DETERMINE_PROVIDER'
           })
         )
       default:
@@ -1126,7 +1126,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const pollBSCardErrorHandler = function* (state: BSCardStateType) {
-    yield put(A.setStep({ step: 'ADD_CARD' }))
+    yield put(A.setStep({ step: 'ADD_CARD_DETERMINE_PROVIDER' }))
     yield put(actions.form.startSubmit(FORM_BS_ADD_EVERYPAY_CARD))
 
     let error
@@ -1218,7 +1218,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
     }
 
-    if (action.payload.step === 'ADD_CARD') {
+    if (action.payload.step === 'ADD_CARD_DETERMINE_PROVIDER') {
       const addCheckoutDotComPaymentProvider: boolean = (yield select(
         selectors.core.walletOptions.getAddCheckoutDotComPaymentProvider
       )).getOrElse(false)

@@ -48,7 +48,8 @@ import ThreeDSHandlerStripe from './ThreeDSHandlerStripe'
 import UpgradeToGold from './UpgradeToGold'
 import VerifyEmail from './VerifyEmail'
 
-const { FORM_BS_CHECKOUT, FORMS_BS_BILLING_ADDRESS, FORM_BS_ADD_EVERYPAY_CARD } = model.components.buySell
+const { FORM_BS_ADD_EVERYPAY_CARD, FORM_BS_CHECKOUT, FORMS_BS_BILLING_ADDRESS } =
+  model.components.buySell
 
 class BuySell extends PureComponent<Props, State> {
   constructor(props) {
@@ -176,17 +177,14 @@ class BuySell extends PureComponent<Props, State> {
                 <LinkedPaymentAccounts {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
-            {this.props.step === 'ADD_CARD' && (
+            {this.props.step === 'ADD_CARD_DETERMINE_PROVIDER' && (
               <FlyoutChild>
-                {
-                  // TODO add loading state
-                }
+                <Loading />
               </FlyoutChild>
             )}
             {this.props.step === 'ADD_CARD_EVERYPAY' && (
               <FlyoutChild>
-                {/* <AddCardEverypay {...this.props} handleClose={this.handleClose} /> */}
-                <ThreeDSHandlerStripe {...this.props} handleClose={this.handleClose} />
+                <AddCardEverypay {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
             {this.props.step === 'ADD_CARD_CHECKOUTDOTCOM' && (
@@ -372,7 +370,7 @@ type LinkStatePropsType =
       step: 'LINK_BANK_STATUS'
     }
   | {
-      step: 'ADD_CARD'
+      step: 'ADD_CARD_DETERMINE_PROVIDER'
     }
   | {
       cardId?: string

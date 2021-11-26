@@ -68,7 +68,7 @@ export enum BuySellStepType {
   '3DS_HANDLER_EVERYPAY',
   '3DS_HANDLER_STRIPE',
   '3DS_HANDLER_CHECKOUTDOTCOM',
-  'ADD_CARD',
+  'ADD_CARD_DETERMINE_PROVIDER',
   'ADD_CARD_CHECKOUTDOTCOM',
   'ADD_CARD_EVERYPAY',
   'AUTHORIZE_PAYMENT',
@@ -225,7 +225,7 @@ export type StepActionsPayload =
     }
   | {
       step:
-        | 'ADD_CARD'
+        | 'ADD_CARD_DETERMINE_PROVIDER'
         | 'ADD_CARD_EVERYPAY'
         | 'CC_BILLING_ADDRESS'
         | 'KYC_REQUIRED'

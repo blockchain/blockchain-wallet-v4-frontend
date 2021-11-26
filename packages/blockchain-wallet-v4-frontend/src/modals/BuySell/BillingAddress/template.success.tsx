@@ -6,13 +6,13 @@ import styled from 'styled-components'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormGroup, FormItem, FormLabel, SelectBoxUSState, TextBox } from 'components/Form'
+import { model } from 'data'
 import {
   countryUsesPostalCode,
   countryUsesZipcode,
   required,
   requiredZipCode
 } from 'services/forms'
-import { model } from 'data'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import CountrySelect from './CountrySelect'
@@ -53,7 +53,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               role='button'
               onClick={() =>
                 props.buySellActions.setStep({
-                  step: 'ADD_CARD'
+                  step: 'ADD_CARD_DETERMINE_PROVIDER'
                 })
               }
             />

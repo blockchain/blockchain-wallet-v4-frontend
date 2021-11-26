@@ -5,7 +5,7 @@ import { defaultTo, filter, prop } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
-import { ExtractSuccess, BSOrderType, BSPaymentTypes, WalletFiatType } from '@core/types'
+import { BSOrderType, BSPaymentTypes, ExtractSuccess, WalletFiatType } from '@core/types'
 import DataError from 'components/DataError'
 import { actions, model, selectors } from 'data'
 import { getFiatFromPair, getOrderType } from 'data/components/buySell/model'
@@ -61,7 +61,7 @@ class CheckoutConfirm extends PureComponent<Props> {
           })
         }
         return this.props.buySellActions.setStep({
-          step: 'ADD_CARD'
+          step: 'ADD_CARD_DETERMINE_PROVIDER'
         })
       }
       return this.props.buySellActions.setStep({
@@ -94,7 +94,7 @@ class CheckoutConfirm extends PureComponent<Props> {
             paymentMethodId: this.props.order.paymentMethodId
           })
         }
-        return this.props.buySellActions.setStep({ step: 'ADD_CARD' })
+        return this.props.buySellActions.setStep({ step: 'ADD_CARD_DETERMINE_PROVIDER' })
 
       case BSPaymentTypes.BANK_TRANSFER:
         const [bankAccount] = filter(

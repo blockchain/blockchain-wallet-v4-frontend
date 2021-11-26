@@ -37,7 +37,7 @@ const Success: React.FC<Props> = (props) => {
               })
             } else {
               props.buySellActions.setStep({
-                step: 'ADD_CARD'
+                step: 'ADD_CARD_DETERMINE_PROVIDER'
               })
             }
           }}

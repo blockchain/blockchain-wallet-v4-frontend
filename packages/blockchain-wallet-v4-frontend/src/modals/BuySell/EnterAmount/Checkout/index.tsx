@@ -4,12 +4,12 @@ import { find, isEmpty, pathOr, propEq, propOr } from 'ramda'
 import { bindActionCreators } from 'redux'
 
 import { Remote } from '@core'
-import { CrossBorderLimitsPyload, OrderType, BSPaymentTypes, WalletAcountEnum } from '@core/types'
+import { BSPaymentTypes, CrossBorderLimitsPyload, OrderType, WalletAcountEnum } from '@core/types'
 import { FlyoutOopsError } from 'components/Flyout'
 import { actions, model, selectors } from 'data'
 import { getValidPaymentMethod } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
-import { RecurringBuyPeriods, BSCheckoutFormValuesType, UserDataType } from 'data/types'
+import { BSCheckoutFormValuesType, RecurringBuyPeriods, UserDataType } from 'data/types'
 
 import Loading from '../../template.loading'
 import {
@@ -152,7 +152,7 @@ class Checkout extends PureComponent<Props> {
       switch (method.type) {
         case BSPaymentTypes.PAYMENT_CARD:
           this.props.buySellActions.setStep({
-            step: 'ADD_CARD'
+            step: 'ADD_CARD_DETERMINE_PROVIDER'
           })
           break
         case BSPaymentTypes.USER_CARD:

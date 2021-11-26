@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { WalletOptionsType } from '@core/types'
 import { FlyoutWrapper } from 'components/Flyout'
-import { selectors } from 'data'
+import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`
@@ -17,17 +18,46 @@ const Iframe = styled.iframe`
   margin-top: 16px;
 `
 
-const clientSecret = 'pi_3K06AsHxBe1tOCzx19pxrIdA_secret_YZdITtWnwL8rRktF7dn2Ye3gm'
+const ThreeDSHandlerStripe = ({ buySellActions, domains, order }: Props) => {
+  const handlePostMessage = async ({
+    data
+  }: {
+    data: { details: any; status: 'error' | 'success' }
+  }) => {
+    // eslint-disable-next-line no-console
+    console.log('RECEIVED_MESSAGE', data)
 
-const publishableKey =
-  'pk_test_51JhAakHxBe1tOCzxhX2cvybhcCPMMXfQQghkI7X9VEUFMTyLvcyLVFXSkM9bjsynKmRRwLwkalcPrWJeGaNriU6S00x8XQ9VLX'
+    if (data.status === 'error') {
+      // TODO handle this error
+      // eslint-disable-next-line no-alert
+      window.alert('FAILED')
 
-const ThreeDSHandlerStripe = ({ domains, order }: Props) => {
+      buySellActions.setStep({
+        fiatCurrency: 'USD',
+        step: 'CRYPTO_SELECTION'
+      })
+    } else if (data.status === 'success') {
+      if (!order) {
+        throw new Error('order not found')
+      }
+
+      buySellActions.setStep({
+        order,
+        step: 'ORDER_SUMMARY'
+      })
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('message', handlePostMessage, false)
+
+    return () => window.removeEventListener('message', handlePostMessage, false)
+  })
+
   return (
     <CustomFlyoutWrapper>
       <Iframe
-        // src={`${domains.walletHelper}/wallet-helper/stripe/#/paymentLink/${order?.attributes?.cardProvider?.publishableKey}/${order?.attributes?.cardProvider?.clientSecret}}`}
-        src={`${domains.walletHelper}/wallet-helper/stripe/#/paymentLink/${publishableKey}/${clientSecret}`}
+        src={`${domains.walletHelper}/wallet-helper/stripe/#/paymentLink/${order?.attributes?.cardProvider?.publishableKey}/${order?.attributes?.cardProvider?.clientSecret}}`}
       />
     </CustomFlyoutWrapper>
   )
@@ -40,7 +70,11 @@ const mapStateToProps = (state: RootState) => ({
   order: selectors.components.buySell.getBSOrder(state)
 })
 
-const connector = connect(mapStateToProps)
+const mapDispatchToProps = (dispatch) => ({
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = {
   handleClose: () => void
