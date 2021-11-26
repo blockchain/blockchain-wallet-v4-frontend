@@ -183,7 +183,8 @@ class BuySell extends PureComponent<Props, State> {
             )}
             {this.props.step === 'ADD_CARD_EVERYPAY' && (
               <FlyoutChild>
-                <AddCardEverypay {...this.props} handleClose={this.handleClose} />
+                {/* <AddCardEverypay {...this.props} handleClose={this.handleClose} /> */}
+                <ThreeDSHandlerStripe {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
             {this.props.step === 'ADD_CARD_CHECKOUTDOTCOM' && (

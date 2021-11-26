@@ -17,7 +17,7 @@
         "apiKey": "0ecd212038"
       },
       "featureFlags": {
-        "addCheckoutDotComPaymentProvider": false,
+        "addCheckoutPaymentProvider": false,
         "addStripePaymentProvider": false,
         "cEURRewards": true,
         "developerMobilePairing": true,
