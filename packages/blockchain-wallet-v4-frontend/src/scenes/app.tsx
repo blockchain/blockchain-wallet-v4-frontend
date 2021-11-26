@@ -75,6 +75,8 @@ const App = ({
     getTracking({ url: apiUrl })
   }, [apiUrl])
 
+  useEffect(() => {}, [])
+
   return (
     <Provider store={store}>
       <ThemeProvider>

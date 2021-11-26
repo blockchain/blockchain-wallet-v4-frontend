@@ -12,7 +12,7 @@ import {
 } from 'data/components/walletConnect/types'
 import { ModalName } from 'data/modals/types'
 
-import { BC_CLIENT_METADATA, WC_ADD_DAPP_FORM, WC_STORAGE_KEY } from './model'
+import { BC_CLIENT_METADATA, WC_ADD_DAPP_FORM } from './model'
 import * as S from './selectors'
 import { actions as A } from './slice'
 
@@ -21,45 +21,8 @@ const logError = (e) => {
 }
 
 export default ({ coreSagas }) => {
-  let rpc
-
-  // adds a new dapp connection to local storage
-  const addDappToLocalStorage = function* ({ clientId, sessionDetails, uri }) {
-    // get existing dapp connections
-    const dappList = yield select(S.getAuthorizedDappsList)
-    // check if dapp was already stored
-    const matchIndex = dappList.findIndex(
-      (dapp) =>
-        JSON.stringify(dapp.sessionDetails.peerMeta) === JSON.stringify(sessionDetails.peerMeta)
-    )
-
-    if (matchIndex !== -1) {
-      // update exist dapp if match found
-      dappList[matchIndex] = { clientId, sessionDetails, uri }
-    } else {
-      // push new dapp to list
-      dappList.push({ clientId, sessionDetails, uri })
-    }
-
-    // write list back to local storage
-    localStorage.setItem(WC_STORAGE_KEY, JSON.stringify(dappList))
-  }
-
-  // removes a previously stored dapp from local storage
-  const removeDappFromLocalStorage = function* ({ sessionDetails }) {
-    // get existing dapp connections
-    const dappList = yield select(S.getAuthorizedDappsList)
-    // remove desired dapp and restore
-    localStorage.setItem(
-      WC_STORAGE_KEY,
-      JSON.stringify(
-        dappList.filter(
-          (dapp) =>
-            JSON.stringify(dapp.sessionDetails.peerMeta) !== JSON.stringify(sessionDetails.peerMeta)
-        )
-      )
-    )
-  }
+  let rpc: WalletConnect
+  let dappsList: Array<WalletConnect>
 
   // session call request from dapp
   const handleSessionCallRequest = function* ({
@@ -108,22 +71,28 @@ export default ({ coreSagas }) => {
     return eventChannel((emit) => {
       // subscribe to session requests
       rpc.on('session_request', (error, data) => {
+        // eslint-disable-next-line no-console
+        console.log('got session request', data, error)
         emit(A.handleSessionRequest({ data, error }))
       })
 
       // subscribe to call requests
       rpc.on('call_request', (error, data) => {
+        // eslint-disable-next-line no-console
+        console.log('got call request', data, error)
         emit(A.handleSessionCallRequest({ data, error }))
       })
 
       // subscribe to disconnects
       rpc.on('disconnect', (error, data) => {
+        // eslint-disable-next-line no-console
+        console.log('got disconnect request', data, error)
         // TODO: remove from localStorage?
         emit(A.handleSessionDisconnect({ data, error }))
       })
 
       return () => {
-        rpc.killSession()
+        // rpc.killSession()
       }
     })
   }
@@ -131,33 +100,62 @@ export default ({ coreSagas }) => {
   const startRpcConnection = function* ({ sessionDetails, uri }: InitWalletConnectPayload) {
     let channel
     try {
-      // TODO: evaluate the need for this HACK!?
-      localStorage.removeItem('walletconnect')
+      // eslint-disable-next-line no-console
+      console.log('before create walletConnect', sessionDetails, uri)
 
-      // init rpc
-      rpc = new WalletConnect({
-        clientMeta: BC_CLIENT_METADATA,
-        uri
-      })
-
-      // check for existing client id
       if (sessionDetails) {
-        const dappList = yield select(S.getAuthorizedDappsList)
-        const matchIndex = dappList.findIndex(
-          (dapp) =>
-            JSON.stringify(dapp.sessionDetails.peerMeta) === JSON.stringify(sessionDetails.peerMeta)
+        // eslint-disable-next-line no-console
+        console.log('session details found, reusing old walletConnect')
+        // eslint-disable-next-line no-console
+        console.log('uri: ', uri)
+        // eslint-disable-next-line no-console
+        console.log('sessionDetails:', sessionDetails)
+        // eslint-disable-next-line no-console
+        console.log('dappsList', JSON.stringify(dappsList))
+        // eslint-disable-next-line no-console
+        console.log('sessionDetails', JSON.stringify(sessionDetails))
+        const foundRpc = dappsList.find(
+          (dapp) => JSON.stringify(dapp.session) === JSON.stringify(sessionDetails)
         )
-        if (matchIndex !== -1) {
-          rpc.client = dappList[matchIndex].clientId
+
+        if (foundRpc) {
+          // eslint-disable-next-line no-console
+          console.log('found rpc in dapps list!', foundRpc)
+          rpc = foundRpc
+        } else {
+          throw new Error('RPC not found in localStorage')
         }
+      } else {
+        // eslint-disable-next-line no-console
+        console.log('no session details, creating new object')
+        // eslint-disable-next-line no-console
+        console.log('uri: ', uri)
+        const newRpc = new WalletConnect({
+          clientMeta: BC_CLIENT_METADATA,
+          storageId: uri,
+          uri
+        })
+        dappsList.push(newRpc)
+        rpc = newRpc
       }
+
+      // set uri in redux state so it can be picked up when re-launched
+      // yield put(A.setUri(uri))
+      // eslint-disable-next-line no-console
+      console.log('after create walletConnect', rpc, rpc.session, sessionDetails, uri)
 
       // start listeners for rpc messages
       channel = yield call(createRpcListenerChannels)
+      // eslint-disable-next-line no-console
+      console.log('got the channel', channel)
 
       while (true) {
+        // eslint-disable-next-line no-console
+        console.log('while loop true')
         // message from rpc, forward action
         const action = yield take(channel)
+        // eslint-disable-next-line no-console
+        console.log('action', action)
         yield put(action)
       }
     } catch (e) {
@@ -165,42 +163,50 @@ export default ({ coreSagas }) => {
     } finally {
       if (yield cancelled()) {
         channel.close()
-        rpc.killSession()
+        // rpc.killSession()
       }
     }
   }
 
   const launchDappConnection = function* ({ payload }: ReturnType<typeof A.launchDappConnection>) {
     try {
+      // eslint-disable-next-line no-console
+      console.log('===launching dapp===', payload)
       const { sessionDetails, uri } = payload
-
       yield put(A.setSessionDetails(sessionDetails))
-      yield put(A.setStep({ name: WalletConnectStep.SESSION_DASHBOARD }))
+      yield put(A.initWalletConnect({ sessionDetails, uri }))
       yield put(
         actions.modals.showModal(ModalName.WALLET_CONNECT_MODAL, { origin: 'WalletConnect' })
       )
-
-      // if rpc connection exists and it matches the requested dapp to be launched
-      if (!rpc || JSON.stringify(sessionDetails.peerMeta) !== JSON.stringify(rpc.peerMeta)) {
-        yield put(A.initWalletConnect({ sessionDetails, uri }))
-      }
+      yield put(A.setStep({ name: WalletConnectStep.SESSION_DASHBOARD }))
     } catch (e) {
       logError(e)
     }
   }
 
-  const removeDappConnection = function* ({ payload }: ReturnType<typeof A.removeDappConnection>) {
+  const removeDappConnection = function ({ payload }: ReturnType<typeof A.removeDappConnection>) {
     try {
-      const { sessionDetails } = payload
+      // eslint-disable-next-line no-console
+      console.log('remove rpc ==> ', payload)
+      const { sessionDetails, uri } = payload
+      // eslint-disable-next-line no-console
+      console.log('data ===>', sessionDetails, uri)
       // if rpc connection exists and it matches the dapp to be removed
-      if (rpc && JSON.stringify(sessionDetails.peerMeta) === JSON.stringify(rpc.peerMeta)) {
+      if (
+        rpc &&
+        sessionDetails &&
+        JSON.stringify(sessionDetails.peerMeta) === JSON.stringify(rpc.peerMeta)
+      ) {
         // kill session and notify dapp of disconnect
         rpc.killSession()
-        // reset internal rpc to null
-        rpc = null
+      } else {
+        const removeRpc = new WalletConnect({
+          clientMeta: BC_CLIENT_METADATA,
+          session: sessionDetails,
+          storageId: uri
+        })
+        removeRpc.killSession()
       }
-      // remove from local storage
-      yield call(removeDappFromLocalStorage, { sessionDetails })
     } catch (e) {
       logError(e)
     }
@@ -220,6 +226,17 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const initLSWalletConnects = function* () {
+    const dappsListObj = yield select(S.getAuthorizedDappsList)
+    dappsList = dappsListObj.map((dapp) => {
+      return new WalletConnect({
+        clientMeta: BC_CLIENT_METADATA,
+        session: dapp.sessionDetails,
+        storageId: dapp.uri
+      })
+    })
+  }
+
   const respondToSessionRequest = function* ({
     payload
   }: ReturnType<typeof A.respondToSessionRequest>) {
@@ -229,12 +246,8 @@ export default ({ coreSagas }) => {
       yield put(A.setStep({ name: WalletConnectStep.LOADING }))
 
       if (action === 'APPROVE') {
-        // store dapp details on state
-        yield put(A.setSessionDetails(sessionDetails))
-
-        // TODO: really pulling clientId from rpc...?
         // store dapp connection in local storage
-        yield call(addDappToLocalStorage, { clientId: rpc.clientId, sessionDetails, uri })
+        yield put(A.setSessionDetails(sessionDetails))
 
         const ethAccount = (yield select(coreSelectors.kvStore.eth.getContext)).getOrFail(
           'Failed to extract ETH account.'
@@ -286,6 +299,8 @@ export default ({ coreSagas }) => {
   }
 
   const addNewDappConnection = function* ({ payload }: ReturnType<typeof A.addNewDappConnection>) {
+    // eslint-disable-next-line no-console
+    console.log('adding new dapp connection...')
     try {
       yield put(A.setStep({ name: WalletConnectStep.LOADING }))
       const { newConnectionString } = selectors.form.getFormValues(WC_ADD_DAPP_FORM)(
@@ -302,6 +317,7 @@ export default ({ coreSagas }) => {
     handleSessionCallRequest,
     handleSessionDisconnect,
     handleSessionRequest,
+    initLSWalletConnects,
     initWalletConnect,
     launchDappConnection,
     removeDappConnection,

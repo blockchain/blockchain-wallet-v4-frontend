@@ -1,15 +1,13 @@
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
 import { useSortBy, useTable } from 'react-table'
 import { bindActionCreators } from 'redux'
-import { put } from 'redux-saga/effects'
 import styled from 'styled-components'
 
 import { Button, Image, Text } from 'blockchain-info-components'
 import { Header, PageTitle, SceneWrapper, SubTitle, Title } from 'components/Layout'
 import { actions, selectors } from 'data'
-import { actions as A } from 'data/components/walletConnect/slice'
 import { WalletConnectStep } from 'data/components/walletConnect/types'
 import { ModalName } from 'data/modals/types'
 
@@ -26,6 +24,10 @@ const NoResultsWrapper = styled.div`
 `
 
 const WalletConnect = ({ dappList, modalActions, walletConnectActions }) => {
+  useEffect(() => {
+    walletConnectActions.initLSWalletConnect()
+  }, [])
+
   const { getTableBodyProps, getTableProps, headerGroups, prepareRow, rows } = useTable(
     {
       columns: useMemo(

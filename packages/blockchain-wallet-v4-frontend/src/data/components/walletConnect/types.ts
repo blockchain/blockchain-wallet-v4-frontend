@@ -1,3 +1,5 @@
+import { IWalletConnectSession } from '@walletconnect/types'
+
 import { RemoteDataType } from '@core/types'
 
 export enum RequestMethodType {
@@ -26,20 +28,9 @@ export type RequestEthSendTxType = {
   }>
 }
 
-export type SessionDetailsType = {
-  chainId?: number
-  peerId: string
-  peerMeta: {
-    description?: string
-    icons: Array<string>
-    name: string
-    url: string
-  }
-}
-
 export type RespondToSessionRequestPayload = {
   action: 'APPROVE' | 'REJECT'
-  sessionDetails: SessionDetailsType
+  sessionDetails: IWalletConnectSession
   uri: string
 }
 
@@ -59,19 +50,14 @@ export enum WalletConnectStep {
 }
 
 export type WalletConnectStepPayload = {
-  data?: RequestEthSendTxType | SessionDetailsType
+  data?: RequestEthSendTxType | IWalletConnectSession
   error?: any // TODO
   name: keyof typeof WalletConnectStep
 }
 
 export type WalletConnectState = {
-  sessionDetails?: SessionDetailsType
+  sessionDetails?: IWalletConnectSession
   step: RemoteDataType<string, WalletConnectStepPayload>
-  uri: string
-}
-
-export type ModifyDappConnectionPayload = {
-  sessionDetails: SessionDetailsType
   uri: string
 }
 
@@ -80,6 +66,11 @@ export type AddNewDappFormType = {
 }
 
 export type InitWalletConnectPayload = {
-  sessionDetails?: SessionDetailsType
+  sessionDetails?: IWalletConnectSession
+  uri: string
+}
+
+export type ReuseWalletConnectPayload = {
+  sessionDetails: IWalletConnectSession
   uri: string
 }
