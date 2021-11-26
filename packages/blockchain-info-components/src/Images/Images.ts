@@ -77,6 +77,7 @@ import failedKyc3 from './img/failed-kyc@3x.png'
 import fileDelete from './img/file-delete.svg'
 import fileDownload from './img/file-download.svg'
 import fintecture from './img/fintecture.svg'
+import globe from './img/globe.svg'
 import goldApproved from './img/gold-approved.svg'
 import goldNotice from './img/gold-notice.png'
 import goldVerified from './img/gold-verified.svg'
@@ -253,6 +254,7 @@ const Images = {
   'firmware-connect': firmwareConnect,
   'firmware-connect2': firmwareConnect2,
   'firmware-connect3': firmwareConnect3,
+  globe,
   'gold-approved': goldApproved,
   'gold-notice': goldNotice,
   'gold-verified': goldVerified,

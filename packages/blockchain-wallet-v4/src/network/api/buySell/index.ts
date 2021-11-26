@@ -257,7 +257,7 @@ export default ({
       url: nabuUrl
     })
 
-  const getBSPairs = (currency: keyof FiatCurrenciesType): { pairs: Array<BSPairType> } =>
+  const getBSPairs = (currency?: keyof FiatCurrenciesType): { pairs: Array<BSPairType> } =>
     get({
       data: {
         fiatCurrency: currency

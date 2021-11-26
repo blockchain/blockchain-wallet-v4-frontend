@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
-import { FiatType, RemoteDataType, BSOrderActionType, BSOrderType, BSPairType } from '@core/types'
+import { BSOrderActionType, BSOrderType, BSPairType, FiatType, RemoteDataType } from '@core/types'
 import { FlyoutOopsError } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
