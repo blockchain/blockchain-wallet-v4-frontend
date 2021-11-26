@@ -8,9 +8,12 @@ import { Box, Button, Text } from 'blockchain-info-components'
 import { CARD_TYPES, DEFAULT_CARD_SVG_LOGO } from 'components/Form/CreditCardBox/model'
 import { SettingComponent, SettingContainer, SettingSummary } from 'components/Setting'
 import { media } from 'services/styles'
+import { model } from 'data'
 
 import { CardDetails, Child, CustomSettingHeader, RemoveButton } from '../styles'
 import { Props as OwnProps, SuccessStateType } from '.'
+
+const { FORM_BS_CHECKOUT_CONFIRM } = model.components.buySell
 
 const CustomSettingContainer = styled(SettingContainer)`
   ${media.atLeastLaptopL`
@@ -127,4 +130,4 @@ type Props = OwnProps &
     handleCreditCardClick: () => void
   }
 
-export default reduxForm<{}, Props>({ form: 'linkedCards' })(Success)
+export default reduxForm<{}, Props>({ form: FORM_BS_CHECKOUT_CONFIRM })(Success)

@@ -5,13 +5,15 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { Remote } from '@core'
 import { BSPairType, CoinType } from '@core/types'
 import DataError from 'components/DataError'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import { CountryType } from 'data/components/identityVerification/types'
 import { RootState } from 'data/rootReducer'
 
 import Loading from '../template.loading'
 import { getData } from './selectors'
 import Success from './template.success'
+
+const { FORM_BS_ADD_EVERYPAY_CARD } = model.components.buySell
 
 class AddCardEverypay extends PureComponent<Props> {
   componentDidMount() {
@@ -27,8 +29,13 @@ class AddCardEverypay extends PureComponent<Props> {
   }
 
   setDefaultCountry = (country: CountryType) => {
-    this.props.formActions.change('addCardEverypayForm', 'billingaddress.country', country)
-    this.props.formActions.clearFields('addCardEverypayForm', false, false, 'billingaddress.state')
+    this.props.formActions.change(FORM_BS_ADD_EVERYPAY_CARD, 'billingaddress.country', country)
+    this.props.formActions.clearFields(
+      FORM_BS_ADD_EVERYPAY_CARD,
+      false,
+      false,
+      'billingaddress.state'
+    )
   }
 
   onCountryChange = (e, value) => {

@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { FormGroup, FormItem, FormLabel, SelectBoxUSState, TextBox } from 'components/Form'
+import { model } from 'data'
 import {
   countryUsesPostalCode,
   countryUsesZipcode,
@@ -16,9 +17,11 @@ import {
 import { Props as OwnProps, SuccessStateType } from '.'
 import CountrySelect from './CountrySelect'
 
+const { FORMS_BS_BILLING_ADDRESS } = model.components.buySell
+
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`
   border-bottom: 1px solid ${(props) => props.theme.grey000};
-  padding-bottom: 0px;
+  padding-bottom: 0;
 `
 const Top = styled(Text)`
   display: flex;
@@ -50,7 +53,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               role='button'
               onClick={() =>
                 props.buySellActions.setStep({
-                  step: 'ADD_CARD'
+                  step: 'ADD_CARD_DETERMINE_PROVIDER'
                 })
               }
             />
@@ -166,5 +169,5 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
 export default reduxForm<{}, Props>({
   destroyOnUnmount: false,
-  form: 'ccBillingAddress'
+  form: FORMS_BS_BILLING_ADDRESS
 })(Success)

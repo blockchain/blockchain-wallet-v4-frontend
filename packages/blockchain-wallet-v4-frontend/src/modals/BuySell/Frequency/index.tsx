@@ -6,12 +6,14 @@ import { bindActionCreators, Dispatch } from 'redux'
 import { RemoteDataType, BSPaymentMethodType, BSPaymentTypes } from '@core/types'
 import DataError from 'components/DataError'
 import { FrequencyScreen } from 'components/Flyout'
-import { actions } from 'data'
+import { actions, model } from 'data'
 import { RootState } from 'data/rootReducer'
 import { RecurringBuyOrigins, RecurringBuyPeriods } from 'data/types'
 
 import { Loading, LoadingTextEnum } from '../../components'
 import getData from './selectors'
+
+const { FORM_BS_CHECKOUT } = model.components.buySell
 
 class Frequency extends PureComponent<Props> {
   componentDidMount() {
@@ -19,7 +21,7 @@ class Frequency extends PureComponent<Props> {
   }
 
   handleFrequencySelection = (period: RecurringBuyPeriods) => {
-    this.props.formActions.change('buySellCheckout', 'period', period)
+    this.props.formActions.change(FORM_BS_CHECKOUT, 'period', period)
     this.props.backToEnterAmount()
     this.props.recurringBuyActions.setPeriod({
       origin: RecurringBuyOrigins.SIMPLE_BUY_FREQUENCY_SCREEN,

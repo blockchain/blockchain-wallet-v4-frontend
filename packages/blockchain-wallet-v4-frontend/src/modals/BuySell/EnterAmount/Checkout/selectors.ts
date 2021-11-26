@@ -1,14 +1,16 @@
 import { lift } from 'ramda'
 
 import { CrossBorderLimits, ExtractSuccess, BSPaymentTypes } from '@core/types'
-import { selectors } from 'data'
+import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 import { OwnProps } from '.'
 
+const { FORM_BS_CHECKOUT } = model.components.buySell
+
 const getData = (state: RootState, ownProps: OwnProps) => {
   const coin = selectors.components.buySell.getCryptoCurrency(state) || 'BTC'
-  const formErrors = selectors.form.getFormSyncErrors('buySellCheckout')(state)
+  const formErrors = selectors.form.getFormSyncErrors(FORM_BS_CHECKOUT)(state)
   // used for sell only now, eventually buy as well
   // TODO: use swap2 quote for buy AND sell
   const paymentR = selectors.components.buySell.getPayment(state)

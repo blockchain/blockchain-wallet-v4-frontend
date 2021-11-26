@@ -11,7 +11,7 @@ import {
   FiatType,
   FiatTypeEnum
 } from '@core/types'
-import { selectors } from 'data'
+import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 import { convertBaseToStandard, convertStandardToBase } from '../exchange/services'
@@ -19,6 +19,8 @@ import { getInputFromPair, getOutputFromPair } from '../swap/model'
 import { getRate } from '../swap/utils'
 import { LIMIT } from './model'
 import { BSCardStateEnum, BSCheckoutFormValuesType } from './types'
+
+const { FORM_BS_CHECKOUT } = model.components.buySell
 
 const hasEligibleFiatCurrency = (currency) =>
   currency === FiatTypeEnum.USD || currency === FiatTypeEnum.GBP || currency === FiatTypeEnum.EUR
@@ -200,7 +202,7 @@ export const getPayment = (state: RootState) => state.components.buySell.payment
 
 export const getIncomingAmount = (state: RootState) => {
   const quoteR = getSellQuote(state)
-  const values = (selectors.form.getFormValues('buySellCheckout')(
+  const values = (selectors.form.getFormValues(FORM_BS_CHECKOUT)(
     state
   ) as BSCheckoutFormValuesType) || { amount: '0', fix: 'CRYPTO' }
 
@@ -261,6 +263,6 @@ export const getSddTransactionFinished = (state: RootState) =>
   state.components.buySell.sddTransactionFinished
 
 export const getCheckoutAccountCodes = (state: RootState) =>
-  state.components.buySell.checkoutAccountCodes
+  state.components.buySell.checkoutDotComAccountCodes
 
-export const getCheckoutApiKey = (state: RootState) => state.components.buySell.checkoutApiKey
+export const getCheckoutApiKey = (state: RootState) => state.components.buySell.checkoutDotComApiKey

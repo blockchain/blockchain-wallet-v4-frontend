@@ -43,7 +43,7 @@ import {
   minimumAmount
 } from './validation'
 
-const { LIMIT, LIMIT_FACTOR } = model.components.buySell
+const { FORM_BS_CHECKOUT, LIMIT, LIMIT_FACTOR } = model.components.buySell
 
 const AmountRow = styled(Row)<{ isError: boolean }>`
   position: relative;
@@ -820,5 +820,5 @@ export type Props = OwnProps & SuccessStateType
 
 export default reduxForm<{}, Props>({
   destroyOnUnmount: false,
-  form: 'buySellCheckout'
+  form: FORM_BS_CHECKOUT
 })(Success)

@@ -5,7 +5,7 @@ import { Remote } from '@core'
 import { APIType } from '@core/network/api'
 import { BSPaymentMethodType, BSPaymentTypes, BSTransactionType } from '@core/types'
 import { errorHandler } from '@core/utils'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import {
   AddBankStepType,
   BankDWStepType,
@@ -20,6 +20,8 @@ import { DEFAULT_METHODS, POLLING } from './model'
 import * as S from './selectors'
 import { actions as A } from './slice'
 import { OBType } from './types'
+
+const { FORM_BS_CHECKOUT } = model.components.buySell
 
 export default ({ api }: { api: APIType }) => {
   const deleteSavedBank = function* ({ payload: bankId }: ReturnType<typeof A.deleteSavedBank>) {
@@ -113,7 +115,7 @@ export default ({ api }: { api: APIType }) => {
 
       if (bankData.state === 'ACTIVE') {
         const values: BSCheckoutFormValuesType = yield select(
-          selectors.form.getFormValues('buySellCheckout')
+          selectors.form.getFormValues(FORM_BS_CHECKOUT)
         )
 
         // Set the brokerage defaultMethod to this new bank. Typically to
