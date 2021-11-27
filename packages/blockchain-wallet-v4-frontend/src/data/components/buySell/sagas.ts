@@ -798,6 +798,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  // TODO: this (legacy?) fetch quote does not seem to be used - remove?
   const fetchBSQuote = function* ({ payload }: ReturnType<typeof A.fetchQuote>) {
     try {
       const { amount, orderType, pair } = payload
@@ -807,6 +808,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchQuoteFailure(error))
+    }
+  }
+
+  const fetchBuyQuote = function* ({ payload }: ReturnType<typeof A.fetchBuyQuote>) {
+    try {
+      yield put(A.fetchQuoteLoading())
+    } catch (e) {
+      const error = errorHandler(e)
     }
   }
 

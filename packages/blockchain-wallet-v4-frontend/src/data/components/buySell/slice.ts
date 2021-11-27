@@ -203,6 +203,7 @@ const buySellSlice = createSlice({
     fetchBalanceSuccess: (state, action: PayloadAction<BSBalancesType>) => {
       state.balances = Remote.Success(action.payload)
     },
+    fetchBuyQuote: (state, action: PayloadAction<any>) => {}, // TODO: @sean types
     fetchCard: () => {},
     fetchCardFailure: (state, action: PayloadAction<string>) => {
       state.card = Remote.Failure(action.payload)
