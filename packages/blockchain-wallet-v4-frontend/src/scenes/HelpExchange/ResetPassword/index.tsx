@@ -6,8 +6,9 @@ import { bindActionCreators, compose } from 'redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
-import { FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
+import { RemoteDataType } from '@core/types'
+import { Button, HeartbeatLoader, Link, SpinningLoader, Text } from 'blockchain-info-components'
+import { Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
 import { required, validEmail } from 'services/forms'
@@ -33,45 +34,79 @@ const SignUpText = styled(Text)`
   }
 `
 
-const EnterEmail = (props: InjectedFormProps<{}, Props> & Props) => {
-  const removeWhitespace = (string) => string.replace(/\s/g, ``)
+const LoadingWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+const removeWhitespace = (string) => string.replace(/\s/g, ``)
+
+const EnterEmail: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
+  const { invalid, submitting } = props
+
+  const onSubmit = (e) => {
+    e.preventDefault()
+    props.authActions.exchangeResetPassword(props.formValues?.email)
+  }
   return (
     <FormWrapper>
       <WrapperWithPadding>
-        <FormGroup>
-          <FormItem style={{ marginTop: '40px' }}>
-            <FormLabel htmlFor='email'>
-              <FormattedMessage id='scenes.register.youremail' defaultMessage='Your Email' />
-            </FormLabel>
-            <Field
-              component={TextBox}
-              data-e2e='exchangeEmail'
-              disableSpellcheck
-              name='email'
-              normalize={removeWhitespace}
-              validate={[required, validEmail]}
-              placeholder='Enter your email'
-              autoFocus
-            />
-          </FormItem>
-        </FormGroup>
-        <Button
-          type='submit'
-          nature='primary'
-          fullwidth
-          height='48px'
-          //   disabled={submitting || invalid || busy || !formValues?.email}
-          data-e2e='loginButton'
-          style={{ marginBottom: '16px' }}
-        >
-          {/* {submitting ? (
-            <HeartbeatLoader height='20px' width='20px' color='white' />
-          ) : ( */}
-          <Text color='whiteFade900' size='16px' weight={600}>
-            <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
-          </Text>
-          {/* )} */}
-        </Button>
+        {props.resetExchangePasswordR.cata({
+          Failure: (val) => <Text>Fail</Text>,
+          Loading: () => (
+            <LoadingWrapper>
+              <SpinningLoader width='40px' height='40px' />
+            </LoadingWrapper>
+          ),
+          NotAsked: () => (
+            <Form onSubmit={onSubmit}>
+              <Text color='grey900' size='20px' weight={600} style={{ textAlign: 'center' }}>
+                <FormattedMessage
+                  id='copy.forgot_exchange_password'
+                  defaultMessage='Forgot Exchange Password'
+                />
+              </Text>
+              <FormGroup>
+                <FormItem style={{ marginTop: '30px' }}>
+                  <FormLabel htmlFor='email'>
+                    <FormattedMessage id='scenes.register.youremail' defaultMessage='Your Email' />
+                  </FormLabel>
+                  <Field
+                    component={TextBox}
+                    data-e2e='exchangeEmail'
+                    disableSpellcheck
+                    name='email'
+                    normalize={removeWhitespace}
+                    validate={[required, validEmail]}
+                    placeholder='Enter your email'
+                    autoFocus
+                  />
+                </FormItem>
+              </FormGroup>
+              <Button
+                type='submit'
+                nature='primary'
+                fullwidth
+                height='48px'
+                disabled={submitting || invalid}
+                data-e2e='loginButton'
+                style={{ marginBottom: '16px' }}
+              >
+                {submitting ? (
+                  <HeartbeatLoader height='20px' width='20px' color='white' />
+                ) : (
+                  <Text color='whiteFade900' size='16px' weight={600}>
+                    <FormattedMessage
+                      id='scenes.login.exchange.help.requestpasswordreset'
+                      defaultMessage='Request password reset'
+                    />
+                  </Text>
+                )}
+              </Button>
+            </Form>
+          ),
+          Success: () => <Text>YAY</Text>
+        })}
       </WrapperWithPadding>
       <LinkContainer data-e2e='signupLink' to='/signup'>
         <Link>
@@ -93,12 +128,27 @@ const EnterEmail = (props: InjectedFormProps<{}, Props> & Props) => {
   )
 }
 
+const mapStateToProps = (state) => ({
+  formValues: selectors.form.getFormValues('exchangePasswordReset')(state),
+  resetExchangePasswordR: selectors.auth.getExchangeResetPassword(state)
+})
+
 const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch)
 })
 
-const connector = connect(null, mapDispatchToProps)
-type Props = {}
-const enhance = compose(reduxForm({ form: 'exchangePasswordReset' }), connector)
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
-export default enhance(EnterEmail)
+type LinkStatePropsType = {
+  authActions: typeof actions.auth
+  formValues: {
+    email: string
+  }
+  resetExchangePasswordR: RemoteDataType<string, null>
+}
+type Props = LinkStatePropsType & {
+  showPasswordResetForm: () => void
+}
+const enhance = compose(reduxForm<{}, Props>({ form: 'exchangePasswordReset' }), connector)
+
+export default enhance(EnterEmail) as React.ComponentType

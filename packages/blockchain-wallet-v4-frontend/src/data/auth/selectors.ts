@@ -86,3 +86,9 @@ export function getJwtToken(state: RootState): AuthStateType['exchangeAuth']['jw
 }
 export const getMagicLinkDataEncoded = (state: RootState) => state.auth.magicLinkDataEncoded
 export const getAuthorizeVerifyDevice = (state: RootState) => state.auth.authorizeVerifyDevice
+
+export function getExchangeResetPassword(
+  state: RootState
+): AuthStateType['exchangeAuth']['resetPassword'] {
+  return state.auth.exchangeAuth.resetPassword
+}

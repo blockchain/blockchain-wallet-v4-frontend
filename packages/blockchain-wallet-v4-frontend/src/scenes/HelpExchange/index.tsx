@@ -143,8 +143,9 @@ class Help extends React.PureComponent<Props, State> {
           </TextGroup>
         </Footer>
       </Wrapper>
-    ) : // <ResetPassword />
-    null
+    ) : (
+      <ResetPassword />
+    )
   }
 }
 

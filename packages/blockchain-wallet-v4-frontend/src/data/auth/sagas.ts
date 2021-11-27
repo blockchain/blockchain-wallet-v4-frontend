@@ -64,11 +64,11 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.auth.exchangeResetPasswordLoading())
     yield put(startSubmit('exchangePasswordReset'))
     try {
-      const response = yield call(api.exchangeResetPassword(email))
+      const response = yield call(api.exchangeResetPassword, email)
       yield put(stopSubmit('exchangePasswordReset'))
       yield put(actions.auth.exchangeResetPasswordSuccess(response))
     } catch (e) {
-      yield put(actions.auth.exchangeLoginFailure(e))
+      yield put(actions.auth.exchangeResetPasswordFailure(e))
       yield put(stopSubmit('exchangePasswordReset'))
     }
   }
