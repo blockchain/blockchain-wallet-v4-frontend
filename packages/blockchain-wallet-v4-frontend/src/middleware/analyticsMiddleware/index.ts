@@ -767,7 +767,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
 
         const inputCurrency = state.components.buySell.fiatCurrency
-        const inputAmount = Number(state.form.simpleBuyCheckout.values.amount)
+        const inputAmount = Number(state.form.buySellCheckout.values.amount)
         const inputAMountMax = Number(state.components.buySell.pair.buyMax) / 100
         const outputCurrency = state.components.buySell.cryptoCurrency
 
@@ -1425,7 +1425,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
                 ? AccountType.TRADING
                 : AccountType.USERKEY
             const inputCurrency = state.components.buySell.fiatCurrency
-            const inputAmount = Number(state.form.simpleBuyCheckout.values.amount)
+            const inputAmount = Number(state.form.buySellCheckout.values.amount)
             const outputCurrency = state.components.buySell.cryptoCurrency
 
             analytics.push(AnalyticsKey.SELL_AMOUNT_ENTERED, {

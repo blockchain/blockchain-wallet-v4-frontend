@@ -49,7 +49,7 @@ export const getIntroductionText = (coin: string) => {
 
 // retrieves custodial account balances
 export const getTradingBalance = (coin: CoinType, state) => {
-  return selectors.components.simpleBuy.getSBBalances(state).map((x) => x[coin])
+  return selectors.components.buySell.getBSBalances(state).map((x) => x[coin])
 }
 
 // retrieves custodial account balances

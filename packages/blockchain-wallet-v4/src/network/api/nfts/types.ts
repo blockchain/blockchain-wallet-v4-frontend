@@ -547,6 +547,9 @@ export interface NftAsset {
     only_proxied_transfers: boolean
     opensea_buyer_fee_basis_points: string
     opensea_seller_fee_basis_points: string
+    payment_tokens: {
+      symbol: string
+    }[]
     payout_address: string
     require_email: boolean
     safelist_request_status: string
@@ -633,6 +636,7 @@ export interface NftAsset {
       username: string | null
     }
   }
+
   permalink: string
   sell_orders: SellOrder[]
   token_id: string

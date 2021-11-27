@@ -8,7 +8,7 @@ import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Title, Value } from 'components/Flyout/model'
 
-import { AssetDesc, CTARow } from '../../../components'
+import { CTARow } from '../../../components'
 import { Props as OwnProps } from '../..'
 
 const Fees: React.FC<Props> = (props) => {

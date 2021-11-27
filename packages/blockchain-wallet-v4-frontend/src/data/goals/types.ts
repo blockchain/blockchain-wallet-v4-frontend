@@ -10,7 +10,7 @@ export type GoalsType =
   | 'payment'
   | 'paymentProtocol'
   | 'referral'
-  | 'simpleBuy'
+  | 'buySell'
   | 'swap'
   | 'swapGetStarted'
   | 'swapUpgrade'
@@ -23,7 +23,7 @@ export type GoalsType =
   | 'interestPromo'
 
 export type GoalType = { data: any; id: string; name: GoalsType }
-export type SimpleBuyWidgetGoalDataType = {
+export type BuySellWidgetGoalDataType = {
   amount: string
   crypto: CoinType
   email?: string

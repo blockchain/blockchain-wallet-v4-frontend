@@ -4,7 +4,7 @@ import moment from 'moment'
 import styled from 'styled-components'
 
 import { Exchange } from '@core'
-import { FiatType, SBPaymentTypes } from '@core/types'
+import { BSPaymentTypes, FiatType } from '@core/types'
 import { Banner, Button } from 'blockchain-info-components'
 import { RecurringBuyPeriods } from 'data/types'
 
@@ -101,7 +101,7 @@ export type Props = {
   currency: FiatType
   id: string
   nextPayment: string | number
-  paymentMethod: SBPaymentTypes
+  paymentMethod: BSPaymentTypes
   period: RecurringBuyPeriods
   removeClick: (id: string) => void
   standardAmount: string | number

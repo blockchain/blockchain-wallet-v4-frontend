@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { fiatToString } from '@core/exchange/utils'
-import { FiatSBAndSwapTransactionType } from '@core/types'
+import { FiatBSAndSwapTransactionType } from '@core/types'
 import { Text } from 'blockchain-info-components'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 
@@ -134,7 +134,7 @@ const CustodialTxListItem: React.FC<Props> = (props) => {
 }
 
 export type Props = OwnProps & {
-  tx: FiatSBAndSwapTransactionType
+  tx: FiatBSAndSwapTransactionType
 }
 
 export default CustodialTxListItem

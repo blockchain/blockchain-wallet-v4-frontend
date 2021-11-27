@@ -43,4 +43,5 @@ export type NftsStateType = {
     order: RemoteDataType<string, Order>
     step: NftOrderStepEnum
   }
+  sellOrder: RemoteDataType<string, boolean>
 }

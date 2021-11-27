@@ -78,6 +78,18 @@ const FeaturesSmall = (props: Props & { showModal: (modal: 'SEND' | 'REQUEST') =
               </Destination>
             </DropdownMenuItem>
           </LinkContainer>
+          {props.invitations.nfts ? (
+            <LinkContainer to='/rewards' activeClassName='active'>
+              <DropdownMenuItem data-e2e='interestLink'>
+                <Destination>
+                  <FormattedMessage
+                    id='layouts.wallet.menuleft.navigation.earninterest'
+                    defaultMessage='Earn Rewards'
+                  />
+                </Destination>
+              </DropdownMenuItem>
+            </LinkContainer>
+          ) : null}
         </DropdownMenu>
       )}
     </NavbarNavItemButton>

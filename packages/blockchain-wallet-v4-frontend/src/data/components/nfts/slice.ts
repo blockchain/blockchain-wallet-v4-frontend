@@ -44,7 +44,8 @@ const initialState: NftsStateType = {
     fees: Remote.NotAsked,
     order: Remote.NotAsked,
     step: NftOrderStepEnum.SHOW_ASSET
-  }
+  },
+  sellOrder: Remote.NotAsked
 }
 
 const nftsSlice = createSlice({
@@ -66,6 +67,23 @@ const nftsSlice = createSlice({
     },
     clearAndRefetchAssets: (state) => {},
     clearAndRefetchOrders: (state) => {},
+    createOffer: (
+      state,
+      action: PayloadAction<{
+        amount?: string
+        coin?: string
+        order: NftOrdersType['orders'][0]
+      }>
+    ) => {},
+    createOfferFailure: (state, action: PayloadAction<string>) => {
+      state.orderFlow.order = Remote.Failure(action.payload)
+    },
+    createOfferLoading: (state) => {
+      state.orderFlow.order = Remote.Loading
+    },
+    createOfferSuccess: (state, action: PayloadAction<Order>) => {
+      state.orderFlow.order = Remote.Success(action.payload)
+    },
     createOrder: (
       state,
       action: PayloadAction<{
@@ -84,19 +102,36 @@ const nftsSlice = createSlice({
     createOrderSuccess: (state, action: PayloadAction<Order>) => {
       state.orderFlow.order = Remote.Success(action.payload)
     },
-    createSellOrder: (state, action: PayloadAction<{ asset: NftAssetsType['assets'][0] }>) => {},
+    createSellOrder: (
+      state,
+      action: PayloadAction<{
+        asset: NftAssetsType['assets'][0]
+        gasData: GasDataI
+        startPrice: number
+      }>
+    ) => {},
+    createSellOrderFailure: (state, action: PayloadAction<string>) => {
+      state.sellOrder = Remote.Failure(action.payload)
+    },
+    createSellOrderLoading: (state) => {
+      state.sellOrder = Remote.Loading
+    },
+    createSellOrderSuccess: (state, action: PayloadAction<Order>) => {
+      state.sellOrder = Remote.Success(action.payload)
+    },
     fetchFees: (
       state,
       action: PayloadAction<
         | {
-            amount?: string
-            coin?: string
+            offer?: string
             operation: GasCalculationOperations.Buy
             order: NftOrdersType['orders'][0]
+            paymentTokenAddress?: string
           }
         | {
             asset: NftAsset
             operation: GasCalculationOperations.Sell
+            startPrice: number
           }
         | {
             operation: GasCalculationOperations.Cancel
@@ -172,8 +207,10 @@ const nftsSlice = createSlice({
     },
     nftOrderFlowClose: (state) => {
       state.orderFlow.activeOrder = null
-      state.orderFlow.asset = Remote.NotAsked
       state.orderFlow.step = NftOrderStepEnum.SHOW_ASSET
+      state.orderFlow.asset = Remote.NotAsked
+      state.orderFlow.fees = Remote.NotAsked
+      state.orderFlow.order = Remote.NotAsked
     },
     nftOrderFlowOpen: (
       state,

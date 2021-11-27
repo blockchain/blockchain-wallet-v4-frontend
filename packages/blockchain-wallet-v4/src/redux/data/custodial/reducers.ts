@@ -1,21 +1,21 @@
 import * as AT from './actionTypes'
-import { SBCoreActionTypes, SBCoreStateType } from './types'
+import { BSCoreActionTypes, BSCoreStateType } from './types'
 
-const INITIAL_STATE: SBCoreStateType = {
+const INITIAL_STATE: BSCoreStateType = {
   coins: {}
 }
 
 /* eslint-disable import/prefer-default-export */
-export function custodialReducer(state = INITIAL_STATE, action: SBCoreActionTypes) {
+export function custodialReducer(state = INITIAL_STATE, action: BSCoreActionTypes) {
   switch (action.type) {
-    case AT.SET_SB_CORE_COIN_DATA: {
+    case AT.SET_BS_CORE_COIN_DATA: {
       return {
         ...state,
         coins: {
           ...state.coins,
           [action.payload.coin]: {
             ...state.coins[action.payload.coin],
-            nextSBTransactionsURL: action.payload.next,
+            nextBSTransactionsURL: action.payload.next,
             pendingTxsN: action.payload.pendingTxsN
           }
         }

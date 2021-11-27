@@ -301,7 +301,7 @@ export const encodeSell = (schema, asset, address) => {
       []
     ])
   } else {
-    throw new Error(`Unsupported Asset Standard: ${schema.name}`);
+    throw new Error(`Unsupported Asset Standard: ${schema.name}`)
   }
   return {
     calldata,
@@ -565,14 +565,18 @@ async function getTransferFeeSettings(
 
 export function _makeMatchingOrder({
   accountAddress,
+  expirationTime,
   offer,
   order,
+  paymentTokenAddress,
   recipientAddress
 }: {
   // UnsignedOrder;
   accountAddress: string
-  offer?: string
+  expirationTime: number
+  offer: null | string
   order: Order
+  paymentTokenAddress: null | string
   recipientAddress: string
 }): UnsignedOrder {
   accountAddress = ethers.utils.getAddress(accountAddress)
@@ -625,7 +629,7 @@ export function _makeMatchingOrder({
     Error
   >
 
-  const times = _getTimeParameters(0)
+  const times = _getTimeParameters(expirationTime)
   // Compat for matching buy orders that have fee recipient still on them
   const feeRecipient = order.feeRecipient === NULL_ADDRESS ? OPENSEA_FEE_RECIPIENT : NULL_ADDRESS
 
@@ -640,11 +644,11 @@ export function _makeMatchingOrder({
     howToCall: order.howToCall,
     listingTime: times.listingTime,
     maker: accountAddress,
-    makerProtocolFee: new BigNumber(order.makerProtocolFee),
+    makerProtocolFee: new BigNumber(order.takerProtocolFee),
     makerReferrerFee: new BigNumber(order.makerReferrerFee),
-    makerRelayerFee: new BigNumber(order.makerRelayerFee),
+    makerRelayerFee: new BigNumber(order.takerRelayerFee),
     metadata: order.metadata,
-    paymentToken: order.paymentToken,
+    paymentToken: paymentTokenAddress ?? order.paymentToken,
     quantity: order.quantity,
     // TODO: Fix the replacement patten generation for buy orders.
     // replacementPattern,
@@ -656,8 +660,8 @@ export function _makeMatchingOrder({
     staticExtradata: '0x',
     staticTarget: NULL_ADDRESS,
     taker: order.maker,
-    takerProtocolFee: new BigNumber(order.takerProtocolFee),
-    takerRelayerFee: new BigNumber(order.takerRelayerFee),
+    takerProtocolFee: new BigNumber(order.makerProtocolFee),
+    takerRelayerFee: new BigNumber(order.makerRelayerFee),
     target,
     waitingForBestCounterOrder: false
   }
@@ -696,12 +700,8 @@ async function computeFees({
   if (asset) {
     openseaBuyerFeeBasisPoints = +asset.asset_contract.opensea_buyer_fee_basis_points
     openseaSellerFeeBasisPoints = +asset.asset_contract.opensea_seller_fee_basis_points
-    devBuyerFeeBasisPoints =
-      +asset.asset_contract.dev_buyer_fee_basis_points +
-        parseInt(asset.collection?.dev_buyer_fee_basis_points) || 0
-    devSellerFeeBasisPoints =
-      +asset.asset_contract.dev_seller_fee_basis_points +
-        parseInt(asset.collection?.dev_seller_fee_basis_points) || 0
+    devBuyerFeeBasisPoints = parseInt(asset.collection?.dev_buyer_fee_basis_points)
+    devSellerFeeBasisPoints = parseInt(asset.collection?.dev_seller_fee_basis_points)
 
     maxTotalBountyBPS = openseaSellerFeeBasisPoints
   }
@@ -2172,6 +2172,7 @@ export async function _makeBuyOrder({
 }
 export async function createSellOrder(
   asset: NftAsset,
+  expirationTime: number,
   signer: Signer,
   startPrice: number,
   endPrice: number | null,
@@ -2185,7 +2186,7 @@ export async function createSellOrder(
     asset,
     buyerAddress: '0x0000000000000000000000000000000000000000',
     endAmount: endPrice,
-    expirationTime: 0,
+    expirationTime,
     extraBountyBasisPoints: 0,
     paymentTokenAddress,
     quantity: 1,
@@ -2217,14 +2218,20 @@ export async function createSellOrder(
 }
 
 export async function createMatchingOrders(
+  expirationTime: number,
+  offer: null | string,
   order: NftOrdersType['orders'][0],
-  signer: Signer
+  signer: Signer,
+  paymentTokenAddress: null | string
 ): Promise<{ buy: Order; sell: Order }> {
   const accountAddress = await signer.getAddress()
   // TODO: If its an english auction bid above the basePrice include an offer property in the _makeMatchingOrder call
   const matchingOrder = _makeMatchingOrder({
     accountAddress,
+    expirationTime,
+    offer,
     order,
+    paymentTokenAddress,
     recipientAddress: accountAddress
   })
   // eslint-disable-next-line prefer-const

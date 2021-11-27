@@ -59,8 +59,8 @@ const Settings = (props: Props) => {
             >
               <Destination>
                 <FormattedMessage
-                  id='layouts.wallet.header.tradinglimits'
-                  defaultMessage='Trading Limits'
+                  id='modals.limits_and_features.title'
+                  defaultMessage='Limits & Features'
                 />
               </Destination>
             </DropdownMenuItem>

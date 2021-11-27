@@ -13,7 +13,7 @@ import {
   DisplayIcon,
   DisplayPaymentIcon,
   MultiRowContainer
-} from 'components/SimpleBuy'
+} from 'components/BuySell'
 import { BankDetails } from 'data/types'
 import { formatTextAmount } from 'services/forms'
 

@@ -3,6 +3,7 @@ import { fork } from 'redux-saga/effects'
 import bchTransactions from './bchTransactions/sagaRegister'
 import brokerage from './brokerage/sagaRegister'
 import btcTransactions from './btcTransactions/sagaRegister'
+import buySell from './buySell/sagaRegister'
 import coinTransactions from './coinTransactions/sagaRegister'
 import ethTransactions from './ethTransactions/sagaRegister'
 import fiatTransactions from './fiatTransactions/sagaRegister'
@@ -28,7 +29,6 @@ import sendEth from './sendEth/sagaRegister'
 import sendXlm from './sendXlm/sagaRegister'
 import settings from './settings/sagaRegister'
 import signMessage from './signMessage/sagaRegister'
-import simpleBuy from './simpleBuy/sagaRegister'
 import swap from './swap/sagaRegister'
 import uploadDocuments from './uploadDocuments/sagaRegister'
 import veriff from './veriff/sagaRegister'
@@ -67,7 +67,7 @@ export default ({ api, coreSagas, networks }) =>
     yield fork(sendXlm({ api, coreSagas, networks }))
     yield fork(settings({ api, coreSagas }))
     yield fork(signMessage({ coreSagas }))
-    yield fork(simpleBuy({ api, coreSagas, networks }))
+    yield fork(buySell({ api, coreSagas, networks }))
     yield fork(swap({ api, coreSagas, networks }))
     yield fork(uploadDocuments({ api }))
     yield fork(walletConnect({ coreSagas }))

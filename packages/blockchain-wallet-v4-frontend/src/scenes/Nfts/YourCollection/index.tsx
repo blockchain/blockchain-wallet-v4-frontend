@@ -83,14 +83,16 @@ const YourCollection: React.FC<Props> = (props) => {
                 </PriceInfo>
               </AssetDetails>
               <CTAWrapper>
-                {asset.sell_orders ? (
+                {asset.sell_orders?.filter(
+                  ({ maker }) => maker.address.toLowerCase() === props.defaultEthAddr.toLowerCase()
+                ).length ? (
                   <Button
                     fullwidth
                     data-e2e='cancelListing'
                     nature='primary'
                     onClick={() => props.nftsActions.nftOrderFlowOpen({ asset })}
                   >
-                    {asset.sell_orders.length > 1 ? (
+                    {asset.sell_orders?.length > 1 ? (
                       <FormattedMessage
                         id='copy.cancel_listings'
                         defaultMessage='Cancel Listings'
@@ -115,7 +117,7 @@ const YourCollection: React.FC<Props> = (props) => {
                   href={asset.permalink}
                   target='_blank'
                 >
-                  View on Opensea
+                  View on OpenSea
                 </Link>
               </CTAWrapper>
             </Asset>

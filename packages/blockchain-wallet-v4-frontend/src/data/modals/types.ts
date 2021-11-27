@@ -80,6 +80,7 @@ export enum ModalName {
   TWO_STEP_YUBICO_MODAL = 'TWO_STEP_YUBICO_MODAL',
   UPGRADE_ADDRESS_LABELS_MODAL = 'UPGRADE_ADDRESS_LABELS_MODAL',
   UPGRADE_FOR_AIRDROP_MODAL = 'UPGRADE_FOR_AIRDROP_MODAL',
+  UPGRADE_NOW_MODAL = 'UPGRADE_NOW_MODAL',
   VERIFY_MESSAGE_MODAL = 'VERIFY_MESSAGE_MODAL',
   WALLET_CONNECT_MODAL = 'WALLET_CONNECT_MODAL',
   WELCOME_MODAL = 'WELCOME_MODAL'
@@ -118,8 +119,8 @@ export type ModalOriginType =
   | 'RecurringBuys'
   | 'RecurringBuyPromo'
   | 'RunKycGoal'
-  | 'SBEnterAmountCheckout'
-  | 'SBPaymentMethodSelection'
+  | 'BSEnterAmountCheckout'
+  | 'BSPaymentMethodSelection'
   | 'SellEmpty'
   | 'Send'
   | 'SendBch'
@@ -130,9 +131,9 @@ export type ModalOriginType =
   | 'SettingsPage'
   | 'SettingsProfile'
   | 'SideNav'
-  | 'SimpleBuyLink'
-  | 'SimpleBuyStatus'
-  | 'SimpleBuyOrderSummary'
+  | 'BuySellLink'
+  | 'BuySellStatus'
+  | 'BuySellOrderSummary'
   | 'Swap'
   | 'SwapPrompt'
   | 'SwapLimitPrompt'

@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { Button, Icon, Link, SpinningLoader, Text, TextGroup } from 'blockchain-info-components'
 import { FormLabel } from 'components/Form'
 import { LoginFormType, LoginSteps } from 'data/types'
+import { media } from 'services/styles'
 
 export const LOGIN_FORM_NAME = 'login'
 
@@ -29,6 +30,10 @@ export const GuidError = styled(TextGroup)`
 `
 export const LoginFormLabel = styled(FormLabel)`
   margin-bottom: 8px;
+`
+
+export const WrapperWithPadding = styled.div`
+  padding: 0 32px;
 `
 export const CircleBackground = styled.div`
   display: flex;
@@ -97,20 +102,20 @@ export const BackArrowFormHeader = (props: {
           onClick={() => props.handleBackArrowClick()}
         />
         <Column>
-          {props.formValues.email ? (
+          {props.formValues?.email ? (
             <Text color='grey400' size='14px' weight={600} lineHeight='1.5'>
               <FormattedMessage
                 id='scenes.login.signingin_email'
                 defaultMessage='Signing in with {email}'
-                values={{ email: props.formValues.email }}
+                values={{ email: props.formValues?.email }}
               />
             </Text>
-          ) : props.formValues.email ? (
+          ) : props.formValues?.email ? (
             <Text color='grey400' size='14px' weight={600} lineHeight='1.5'>
               <FormattedMessage
                 id='scenes.recovery.email'
                 defaultMessage='Recovering {email}'
-                values={{ email: props.formValues.email }}
+                values={{ email: props.formValues?.email }}
               />
             </Text>
           ) : (
@@ -118,16 +123,16 @@ export const BackArrowFormHeader = (props: {
               <FormattedMessage
                 id='scences.login.wallet_guid'
                 defaultMessage='Wallet: {guid}'
-                values={{ guid: props.formValues.guid }}
+                values={{ guid: props.formValues?.guid }}
               />
             </Text>
           )}
-          {props.formValues.step !== LoginSteps.CHECK_EMAIL && props.formValues.email && (
+          {props.formValues?.step !== LoginSteps.CHECK_EMAIL && props.formValues?.email && (
             <Text size='12px' weight={500} color='grey400'>
               <FormattedMessage
                 id='scences.login.wallet_guid'
                 defaultMessage='Wallet: {guid}'
-                values={{ guid: props.formValues.guid }}
+                values={{ guid: props.formValues?.guid }}
               />
             </Text>
           )}
@@ -154,32 +159,38 @@ export const NeedHelpLink = (props: { authActions; origin: string }) => (
 const SubCard = styled.div`
   display: flex;
   justify-content: center;
-  margin: 8px 0 32px;
+  margin-top: 24px;
+  border-top: 1px solid ${(props) => props.theme.grey000};
+  padding: 0;
+  ${media.tabletL`
+  flex-direction: column;
+  align-items: center;
+`};
 `
 const SignUpText = styled(Text)`
+  margin-top: 16px;
+  ${media.tabletL`
+margin-top: 0;
+`};
   &:hover {
-    color: ${(props) => props.theme.white};
     font-weight: 600;
   }
 `
-
-export const CreateAccount = () => {
-  return (
-    <LinkContainer data-e2e='signupLink' to='/signup'>
-      <Link>
-        <SubCard>
-          <Text size='16px' color='grey400' weight={500}>
-            <FormattedMessage
-              id='scenes.login.account_signup'
-              defaultMessage="Don't have a Blockchain Account?"
-            />
-          </Text>
-          &nbsp;
-          <SignUpText size='16px' color='white' weight={600}>
-            <FormattedMessage id='buttons.signup_now' defaultMessage='Sign up Now ->' />
-          </SignUpText>
-        </SubCard>
-      </Link>
-    </LinkContainer>
-  )
-}
+export const SignUpLink = () => (
+  <LinkContainer data-e2e='signupLink' to='/signup'>
+    <Link>
+      <SubCard>
+        <Text size='16px' color='grey600' weight={500} style={{ marginTop: '16px' }}>
+          <FormattedMessage
+            id='scenes.login.account_signup'
+            defaultMessage="Don't have a Blockchain Account?"
+          />
+        </Text>
+        &nbsp;
+        <SignUpText size='16px' color='blue600' weight={600}>
+          <FormattedMessage id='buttons.signup_now' defaultMessage='Sign up Now ->' />
+        </SignUpText>
+      </SubCard>
+    </Link>
+  </LinkContainer>
+)

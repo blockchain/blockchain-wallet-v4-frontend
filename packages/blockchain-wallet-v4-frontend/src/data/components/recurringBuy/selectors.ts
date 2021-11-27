@@ -2,7 +2,7 @@ import { createSelector } from '@reduxjs/toolkit'
 import { buyPaymentMethodSelectedPaymentTypeDictionary } from 'middleware/analyticsMiddleware/utils'
 import { compose, flatten, uniq } from 'ramda'
 
-import { SBPaymentMethodType, SBPaymentTypes } from '@core/types'
+import { BSPaymentMethodType, BSPaymentTypes } from '@core/types'
 import { RootState } from 'data/rootReducer'
 
 import { getPayment } from '../interest/selectors'
@@ -19,7 +19,7 @@ export const getPaymentInfoPeriod = (period: RecurringBuyPeriods) =>
     return paymentInfoR.getOrElse([]).filter((pi) => pi.period === period)[0]
   })
 
-export const isAvailableMethod = (period: RecurringBuyPeriods, method?: SBPaymentMethodType) =>
+export const isAvailableMethod = (period: RecurringBuyPeriods, method?: BSPaymentMethodType) =>
   createSelector(getPaymentInfoPeriod(period), (paymentInfoPeriod) => {
     if (!method) return false
     // All periods support ONE_TIME buys
@@ -29,7 +29,7 @@ export const isAvailableMethod = (period: RecurringBuyPeriods, method?: SBPaymen
     // remove the need for USER_CARD
     const methodType = buyPaymentMethodSelectedPaymentTypeDictionary(
       method.type
-    ) as unknown as SBPaymentTypes
+    ) as unknown as BSPaymentTypes
     return (paymentInfoPeriod && paymentInfoPeriod.eligibleMethods.includes(methodType)) || false
   })
 
@@ -42,14 +42,14 @@ export const availableMethods = createSelector(getPaymentInfo, (paymentInfoR) =>
   return uniq(flatten(data))
 })
 
-export const hasAvailablePeriods = (method?: SBPaymentMethodType) =>
+export const hasAvailablePeriods = (method?: BSPaymentMethodType) =>
   createSelector(getPaymentInfo, (paymentInfoR) => {
     if (!method) return false
 
     const paymentInfo = paymentInfoR.getOrElse([]).filter((pi) => {
       const methodType = buyPaymentMethodSelectedPaymentTypeDictionary(
         method.type
-      ) as unknown as SBPaymentTypes
+      ) as unknown as BSPaymentTypes
       return pi.eligibleMethods.includes(methodType)
     })
 

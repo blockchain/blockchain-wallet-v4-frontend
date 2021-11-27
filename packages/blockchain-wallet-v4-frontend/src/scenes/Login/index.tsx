@@ -7,7 +7,6 @@ import { formValueSelector, getFormMeta, InjectedFormProps, reduxForm } from 're
 import { RemoteDataType } from '@core/types'
 import { Icon, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
-import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
 import { LoginFormType, LoginSteps } from 'data/types'
 import { isGuid } from 'services/forms'
@@ -17,8 +16,7 @@ import Loading from '../loading.public'
 import CheckEmail from './CheckEmail'
 import EnterEmailOrGuid from './EnterEmailOrGuid'
 import EnterPassword from './EnterPassword'
-import { CreateAccount, LOGIN_FORM_NAME, PhishingWarning } from './model'
-import VerificationMobile from './VerificationMobile'
+import { LOGIN_FORM_NAME, PhishingWarning } from './model'
 import VerifyMagicLink from './VerifyMagicLink'
 
 class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StateProps> {
@@ -95,7 +93,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     ) {
       if (isGuid(guidOrEmail)) {
         formActions.change(LOGIN_FORM_NAME, 'guid', guidOrEmail)
-        formActions.change(LOGIN_FORM_NAME, 'step', LoginSteps.VERIFICATION_MOBILE)
+        formActions.change(LOGIN_FORM_NAME, 'step', LoginSteps.ENTER_PASSWORD)
       } else {
         formActions.change(LOGIN_FORM_NAME, 'email', guidOrEmail)
         authActions.triggerWalletMagicLink({
@@ -109,11 +107,6 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     } else {
       authActions.login({ code: auth, guid, mobileLogin: null, password, sharedKey: null })
     }
-  }
-
-  loginWithMobileClicked = () => {
-    this.props.authActions.loginMethodSelected('SECURE_CHANNEL')
-    this.setStep(LoginSteps.VERIFICATION_MOBILE)
   }
 
   render() {
@@ -141,12 +134,6 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
             <FormattedMessage id='scenes.login.welcome' defaultMessage='Welcome back!' />
           )}
         </Text>
-        {step === LoginSteps.VERIFICATION_MOBILE && (
-          <Text color='grey400' weight={500} style={{ marginBottom: '32px' }}>
-            <FormattedMessage id='scenes.login.approve' defaultMessage='Approve your login' />
-          </Text>
-        )}
-
         {step === LoginSteps.ENTER_PASSWORD && (
           <Text color='grey400' weight={500} style={{ marginBottom: '32px' }}>
             <FormattedMessage
@@ -164,71 +151,49 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
             />
           </Text>
         )}
-        <Wrapper>
-          <Form onSubmit={this.handleSubmit}>
-            {(() => {
-              switch (step) {
-                case LoginSteps.ENTER_EMAIL_GUID:
-                  return (
-                    <EnterEmailOrGuid
-                      {...this.props}
-                      {...loginProps}
-                      setStep={this.setStep}
-                      initCaptcha={this.initCaptcha}
-                    />
-                  )
-                case LoginSteps.ENTER_PASSWORD:
-                  return (
-                    <EnterPassword
-                      {...this.props}
-                      {...loginProps}
-                      setStep={this.setStep}
-                      initCaptcha={this.initCaptcha}
-                    />
-                  )
+        <Form onSubmit={this.handleSubmit}>
+          {(() => {
+            switch (step) {
+              case LoginSteps.ENTER_EMAIL_GUID:
+                return (
+                  <EnterEmailOrGuid
+                    {...this.props}
+                    {...loginProps}
+                    setStep={this.setStep}
+                    initCaptcha={this.initCaptcha}
+                  />
+                )
+              case LoginSteps.ENTER_PASSWORD:
+                return (
+                  <EnterPassword
+                    {...this.props}
+                    {...loginProps}
+                    setStep={this.setStep}
+                    initCaptcha={this.initCaptcha}
+                  />
+                )
 
-                case LoginSteps.CHECK_EMAIL:
-                  return (
-                    <CheckEmail
-                      {...this.props}
-                      {...loginProps}
-                      setStep={this.setStep}
-                      initCaptcha={this.initCaptcha}
-                    />
-                  )
+              case LoginSteps.CHECK_EMAIL:
+                return (
+                  <CheckEmail
+                    {...this.props}
+                    {...loginProps}
+                    setStep={this.setStep}
+                    initCaptcha={this.initCaptcha}
+                  />
+                )
 
-                case LoginSteps.VERIFY_MAGIC_LINK:
-                  return <VerifyMagicLink {...this.props} {...loginProps} setStep={this.setStep} />
+              case LoginSteps.VERIFY_MAGIC_LINK:
+                return <VerifyMagicLink {...this.props} {...loginProps} setStep={this.setStep} />
 
-                case LoginSteps.VERIFICATION_MOBILE:
-                  return (
-                    <VerificationMobile {...this.props} {...loginProps} setStep={this.setStep} />
-                  )
-                default:
-                  return null
-              }
-            })()}
-          </Form>
-        </Wrapper>
-        {step === LoginSteps.ENTER_PASSWORD && (
-          <Text
-            color='white'
-            weight={600}
-            size='16px'
-            cursor='pointer'
-            style={{ marginTop: '24px' }}
-            onClick={this.loginWithMobileClicked}
-          >
-            <FormattedMessage
-              id='scenes.login.loginwithmobile'
-              defaultMessage='Log In with Mobile App ->'
-            />
-          </Text>
-        )}
+              default:
+                return null
+            }
+          })()}
+        </Form>
         {step === LoginSteps.ENTER_EMAIL_GUID && (
           <>
-            <CreateAccount />
-            <Text size='14px' color='grey400' weight={500} style={{ marginBottom: '16px' }}>
+            <Text size='14px' color='grey400' weight={500} style={{ margin: '16px 0' }}>
               <FormattedMessage
                 id='scenes.login.phishingwarning'
                 defaultMessage='Please check that you are visiting the correct URL'

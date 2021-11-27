@@ -10,17 +10,17 @@ import type {
 } from 'middleware/analyticsMiddleware/types'
 import { PaymentType } from 'middleware/analyticsMiddleware/types'
 
-import { PaymentValue, SBPaymentTypes } from '@core/types'
+import { PaymentValue, BSPaymentTypes } from '@core/types'
 import {
   BrokerageModalOriginType,
-  SBShowModalOriginType,
+  BSShowModalOriginType,
   VerifyIdentityOriginType
 } from 'data/types'
 
 // The origin dictionaries are only necessary until we remove the MATOMO tracker,
 // after that, we should refactor those origins to use the correct origins with enums
 
-const buySellClickedOriginDictionary = (rawOrigin: SBShowModalOriginType): BuySellClickedOrigin => {
+const buySellClickedOriginDictionary = (rawOrigin: BSShowModalOriginType): BuySellClickedOrigin => {
   switch (rawOrigin) {
     case 'InterestPage':
       return 'SAVINGS'
@@ -34,7 +34,7 @@ const buySellClickedOriginDictionary = (rawOrigin: SBShowModalOriginType): BuySe
       return 'LINK_BANK'
     case 'PriceChart':
       return 'PRICE_CHART'
-    case 'SimpleBuyLink':
+    case 'BuySellLink':
       return 'BUY_WIDGET'
     case 'CurrencyList':
       return 'CURRENCY_PAGE'
@@ -55,18 +55,18 @@ const buySellClickedOriginDictionary = (rawOrigin: SBShowModalOriginType): BuySe
 }
 
 const buyPaymentMethodSelectedPaymentTypeDictionary = (
-  rawPaymentType: SBPaymentTypes
+  rawPaymentType: BSPaymentTypes
 ): PaymentType => {
   switch (rawPaymentType) {
-    case SBPaymentTypes.USER_CARD:
+    case BSPaymentTypes.USER_CARD:
       return PaymentType.PAYMENT_CARD
-    case SBPaymentTypes.LINK_BANK:
+    case BSPaymentTypes.LINK_BANK:
       return PaymentType.BANK_ACCOUNT
-    case SBPaymentTypes.BANK_ACCOUNT:
+    case BSPaymentTypes.BANK_ACCOUNT:
       return PaymentType.BANK_ACCOUNT
-    case SBPaymentTypes.FUNDS:
+    case BSPaymentTypes.FUNDS:
       return PaymentType.FUNDS
-    case SBPaymentTypes.BANK_TRANSFER:
+    case BSPaymentTypes.BANK_TRANSFER:
       return PaymentType.BANK_TRANSFER
     default:
       return PaymentType.BANK_ACCOUNT
@@ -199,7 +199,7 @@ const upgradeVerificationClickedOriginDictionary = (
       return 'RESUBMISSION'
     case 'Settings':
       return 'SETTINGS'
-    case 'SimpleBuy':
+    case 'BuySell':
       return 'SIMPLEBUY'
     case 'Swap':
       return 'SWAP'

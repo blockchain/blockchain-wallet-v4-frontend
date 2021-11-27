@@ -4,7 +4,7 @@ import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
-import { SBPaymentMethodType, SBPaymentTypes, WalletFiatEnum, WalletFiatType } from '@core/types'
+import { BSPaymentMethodType, BSPaymentTypes, WalletFiatEnum, WalletFiatType } from '@core/types'
 import { Box, Image, Text } from 'blockchain-info-components'
 import { SettingContainer, SettingSummary } from 'components/Setting'
 import { convertBaseToStandard } from 'data/components/exchange/services'
@@ -22,11 +22,11 @@ const BankIconWrapper = styled.div`
 `
 
 const getAvailableAmountForCurrency = (
-  methods: SBPaymentMethodType[],
+  methods: BSPaymentMethodType[],
   currency: WalletFiatType
 ) => {
   const method = methods.find(
-    (method) => method.type === SBPaymentTypes.FUNDS && method.currency === currency
+    (method) => method.type === BSPaymentTypes.FUNDS && method.currency === currency
   )
   if (method) {
     return Number(method.limits.max)

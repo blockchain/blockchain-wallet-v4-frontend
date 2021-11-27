@@ -85,7 +85,7 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.goals.saveGoal({ data: {}, name: 'interest' }))
   }
 
-  const defineSimpleBuyGoal = function* (search) {
+  const defineBuySellGoal = function* (search) {
     // /#/open/simple-buy?crypto={BTC | ETH | ...}&amount={1 | 99 | 200 | ...}&email={test@blockchain.com | ...}&fiatCurrency={USD | GBP | ...}
     const params = new URLSearchParams(search)
     const amount = params.get('amount')
@@ -101,7 +101,7 @@ export default ({ api, coreSagas, networks }) => {
           email,
           fiatCurrency
         },
-        name: 'simpleBuy'
+        name: 'buySell'
       })
     )
 
@@ -190,7 +190,7 @@ export default ({ api, coreSagas, networks }) => {
 
     // /#/open/simple-buy
     if (startsWith(DeepLinkGoal.SIMPLE_BUY, pathname)) {
-      return yield call(defineSimpleBuyGoal, search)
+      return yield call(defineBuySellGoal, search)
     }
 
     // /#/open/swap
@@ -270,7 +270,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runSimpleBuyGoal = function* (goal: GoalType) {
+  const runBuySellGoal = function* (goal: GoalType) {
     const {
       data: { amount, crypto, fiatCurrency, id }
     } = goal
@@ -284,7 +284,7 @@ export default ({ api, coreSagas, networks }) => {
           fiatCurrency,
           origin
         },
-        key: 'simpleBuyModal',
+        key: 'buySellModal',
         name: 'SIMPLE_BUY_MODAL'
       })
     )
@@ -663,11 +663,11 @@ export default ({ api, coreSagas, networks }) => {
     const initialModals = yield select(selectors.goals.getInitialModals)
     const {
       airdropClaim,
+      buySellModal,
       interestPromo,
       kycDocResubmit,
       linkAccount,
       payment,
-      simpleBuyModal,
       swap,
       swapGetStarted,
       swapUpgrade,
@@ -716,11 +716,11 @@ export default ({ api, coreSagas, networks }) => {
         })
       )
     }
-    if (simpleBuyModal) {
+    if (buySellModal) {
       return yield put(
         actions.components.buySell.showModal({
-          cryptoCurrency: simpleBuyModal.data.crypto,
-          origin: 'SimpleBuyLink'
+          cryptoCurrency: buySellModal.data.crypto,
+          origin: 'BuySellLink'
         })
       )
     }
@@ -763,8 +763,8 @@ export default ({ api, coreSagas, networks }) => {
         case 'referral':
           yield call(runReferralGoal, goal)
           break
-        case 'simpleBuy':
-          yield call(runSimpleBuyGoal, goal)
+        case 'buySell':
+          yield call(runBuySellGoal, goal)
           break
         case 'swap':
           yield call(runSwapModal, goal)
