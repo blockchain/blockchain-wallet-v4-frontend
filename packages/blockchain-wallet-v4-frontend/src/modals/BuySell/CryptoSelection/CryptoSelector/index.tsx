@@ -4,7 +4,7 @@ import { any, map, values } from 'ramda'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { OrderType, BSPairType } from '@core/types'
+import { BSPairType, OrderType } from '@core/types'
 import { Icon, Image, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption } from 'components/Form'

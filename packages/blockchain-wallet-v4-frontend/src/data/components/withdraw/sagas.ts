@@ -2,7 +2,7 @@ import { call, put, select } from 'redux-saga/effects'
 
 import { displayFiatToFiat } from '@core/exchange'
 import { APIType } from '@core/network/api'
-import { FiatType, BSPaymentMethodType, BSPaymentTypes } from '@core/types'
+import { BSPaymentMethodType, BSPaymentTypes, FiatType } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
 import { WithdrawStepEnum } from 'data/types'

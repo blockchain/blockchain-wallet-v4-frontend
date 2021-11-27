@@ -4,7 +4,6 @@ import styled from 'styled-components'
 
 import { BSPaymentMethodType } from '@core/types'
 import { Icon, Image } from 'blockchain-info-components'
-import { SuccessCartridge } from 'components/Cartridge'
 import {
   Content,
   Description,
@@ -13,6 +12,7 @@ import {
   DisplaySubTitle,
   DisplayTitle
 } from 'components/BuySell'
+import { SuccessCartridge } from 'components/Cartridge'
 import { media } from 'services/styles'
 
 const DisplayIconPayment = styled(DisplayIcon)`

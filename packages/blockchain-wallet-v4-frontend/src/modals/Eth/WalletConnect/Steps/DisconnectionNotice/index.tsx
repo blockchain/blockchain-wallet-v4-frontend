@@ -45,7 +45,6 @@ const DisconnectionNoticeStep = (props) => {
           </Button>
         </>
       )}
-
     </Wrapper>
   )
 }
