@@ -8,6 +8,8 @@ import {
   ExchangeLoginFailureType,
   ExchangeLoginSuccessType,
   ExchangeLoginType,
+  ExchangeResetPasswordFailureType,
+  ExchangeResetPasswordSuccessType,
   LoginFailureType,
   LoginSuccessType,
   MetadataRestoreType,
@@ -27,7 +29,8 @@ const initialState: AuthStateType = {
   exchangeAuth: {
     exchangeLogin: Remote.NotAsked,
     exchangeLoginError: undefined,
-    jwtToken: undefined
+    jwtToken: undefined,
+    resetPassword: Remote.NotAsked
   },
   firstLogin: false,
   isAuthenticated: false,
@@ -98,6 +101,22 @@ const authSlice = createSlice({
     },
     exchangeLoginSuccess: (state, action: PayloadAction<ExchangeLoginSuccessType>) => {
       state.exchangeAuth.exchangeLogin = Remote.Success(action.payload)
+    },
+    exchangeResetPassword: (state, action: PayloadAction<string>) => {},
+    exchangeResetPasswordFailure: (
+      state,
+      action: PayloadAction<ExchangeResetPasswordFailureType>
+    ) => {
+      state.exchangeAuth.resetPassword = Remote.Failure(action.payload)
+    },
+    exchangeResetPasswordLoading: (state) => {
+      state.exchangeAuth.resetPassword = Remote.Loading
+    },
+    exchangeResetPasswordSuccess: (
+      state,
+      action: PayloadAction<ExchangeResetPasswordSuccessType>
+    ) => {
+      state.exchangeAuth.resetPassword = Remote.Success(action.payload)
     },
     getUserGeoLocation: () => {},
     initializeLogin: () => {},

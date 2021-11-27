@@ -11,6 +11,18 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
       url: nabuUrl
     })
   }
+
+  const exchangeResetPassword = (email) => {
+    post({
+      contentType: 'application/json',
+      data: {
+        email
+      },
+      endPoint: '/password/reset/create',
+      url: nabuUrl
+    })
+  }
+
   const generateRetailToken = (guid, sharedKey) =>
     post({
       data: {
@@ -203,6 +215,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
   return {
     createLinkAccountId,
     createUser,
+    exchangeResetPassword,
     exchangeSignIn,
     finaliseLinking,
     generateRetailToken,

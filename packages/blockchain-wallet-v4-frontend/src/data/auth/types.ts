@@ -156,6 +156,10 @@ export type ExchangeLoginSuccessType = {}
 
 export type ExchangeLoginFailureType = any
 
+export type ExchangeResetPasswordSuccessType = any
+
+export type ExchangeResetPasswordFailureType = any
+
 export type LoginSuccessType = {}
 
 export type LoginFailureType = string | boolean | undefined
@@ -184,6 +188,7 @@ export type AuthStateType = {
     exchangeLogin: RemoteDataType<ExchangeLoginFailureType, ExchangeLoginSuccessType>
     exchangeLoginError?: ExchangeErrorCodes
     jwtToken?: string
+    resetPassword?: RemoteDataType<string, string>
   }
   firstLogin: boolean
   isAuthenticated: boolean

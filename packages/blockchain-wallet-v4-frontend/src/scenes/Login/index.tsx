@@ -4,7 +4,7 @@ import { bindActionCreators, compose } from 'redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 
 import { RemoteDataType } from '@core/types'
-import { Text } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import { actions, selectors } from 'data'
 import {
@@ -179,7 +179,12 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
             }
           })()}
         </Form>
-
+        <Button
+          data-e2e='test'
+          onClick={() => loginProps.authActions.exchangeResetPassword('leora@blockchain.com')}
+        >
+          Test
+        </Button>
         {/* FOOTER */}
         {!loginProps.isMobileViewLogin && getLoginPageFooter(step)}
       </>

@@ -59,6 +59,20 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.modules.profile.signIn())
   }
 
+  const exchangeResetPassword = function* (action) {
+    const email = action.payload
+    yield put(actions.auth.exchangeResetPasswordLoading())
+    yield put(startSubmit('exchangePasswordReset'))
+    try {
+      const response = yield call(api.exchangeResetPassword(email))
+      yield put(stopSubmit('exchangePasswordReset'))
+      yield put(actions.auth.exchangeResetPasswordSuccess(response))
+    } catch (e) {
+      yield put(actions.auth.exchangeLoginFailure(e))
+      yield put(stopSubmit('exchangePasswordReset'))
+    }
+  }
+
   const exchangeLogin = function* (action) {
     const { code, password, username } = action.payload
     const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
@@ -774,6 +788,7 @@ export default ({ api, coreSagas, networks }) => {
     authorizeVerifyDevice,
     continueLoginProcess,
     exchangeLogin,
+    exchangeResetPassword,
     getUserGeoLocation,
     initializeLogin,
     login,
