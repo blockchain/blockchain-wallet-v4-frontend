@@ -143,7 +143,7 @@ const TradingCurrencySelector = (props: Props) => {
           <SubContent color='grey600' weight={500}>
             <FormattedMessage
               id='modals.simplebuy.select_trading_currency.description'
-              defaultMessage='Right now, {currency} is not supported for buying crypto.You can add a bank account or card from the list of available currencies below.'
+              defaultMessage='Right now, {currency} is not supported for buying crypto. You can add a bank account or card from the list of available currencies below.'
               values={{
                 currency: props.fiatCurrency
               }}

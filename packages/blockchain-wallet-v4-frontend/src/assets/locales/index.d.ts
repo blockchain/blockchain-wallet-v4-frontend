@@ -1636,7 +1636,7 @@ type MessagesType = {
   'modals.simplebuy.card_ending_in': 'Card Ending in {lastFour}'
 
   'modals.simplebuy.select_trading_currency.title': 'Select a Trading Currency.'
-  'modals.simplebuy.select_trading_currency.description': 'Right now, {currency} is not supported for buying crypto.You can add a bank account or card from the list of available currencies below.'
+  'modals.simplebuy.select_trading_currency.description': 'Right now, {currency} is not supported for buying crypto. You can add a bank account or card from the list of available currencies below.'
   'modals.simplebuy.select_trading_currency.disclaimer': 'Additional bank fees may apply. Your bank may add fee and Exchange Rates to each transaction.'
 
   'modals.simplebuy.card_expire': 'Exp: {month}/{year}'
