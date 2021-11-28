@@ -53,6 +53,7 @@ const Nfts = React.lazy(() => import('./Nfts'))
 const SecurityCenter = React.lazy(() => import('./SecurityCenter'))
 const TheExchange = React.lazy(() => import('./TheExchange'))
 const Transactions = React.lazy(() => import('./Transactions'))
+const WalletConnect = React.lazy(() => import('./WalletConnect'))
 
 const App = ({
   apiUrl,
@@ -62,7 +63,8 @@ const App = ({
   legacyWalletRecoveryEnabled,
   persistor,
   store,
-  userData
+  userData,
+  walletConnectEnabled
 }: Props) => {
   const Loading = isAuthenticated ? WalletLoading : PublicLoading
 
@@ -115,6 +117,9 @@ const App = ({
                     <WalletLayout path='/settings/addresses' component={Addresses} />
                     <WalletLayout path='/settings/general' component={General} />
                     <WalletLayout path='/settings/preferences' component={Preferences} />
+                    {walletConnectEnabled && (
+                      <WalletLayout path='/settings/walletConnect' component={WalletConnect} />
+                    )}
                     <WalletLayout path='/prices' component={Prices} />
                     {values(
                       map((coinModel) => {
@@ -153,7 +158,10 @@ const mapStateToProps = (state) => ({
   legacyWalletRecoveryEnabled: selectors.core.walletOptions
     .getFeatureLegacyWalletRecovery(state)
     .getOrElse(false) as boolean,
-  userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType)
+  userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType),
+  walletConnectEnabled: selectors.core.walletOptions
+    .getWalletConnectEnabled(state)
+    .getOrElse(false) as boolean
 })
 
 const connector = connect(mapStateToProps)

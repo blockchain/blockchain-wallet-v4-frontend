@@ -1180,7 +1180,6 @@ type MessagesType = {
   'modals.mobilenumberverify.title': 'Verify Mobile Number'
   'modals.mobilenumberverify.verify': 'Verify'
   'modals.onboarding.linkfromexchange.failure': 'We could not connect your Wallet to Exchange. Please go back to Exchange and try again.'
-  'modals.onboarding.linkfromexchange.failureheader': 'Connection Error'
   'modals.onboarding.linkfromexchange.need_to_verify': "You'll need to verify"
   'modals.onboarding.linkfromexchange.no_email': 'You do not have an email associated with this wallet. Please to Security Center to set your email.'
   'modals.onboarding.linkfromexchange.send_email': 'Resend Email'

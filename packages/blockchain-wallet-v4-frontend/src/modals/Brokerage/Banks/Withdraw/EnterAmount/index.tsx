@@ -6,8 +6,8 @@ import { Remote } from '@core'
 import { BSPaymentTypes } from '@core/network/api/buySell/types'
 import {
   BeneficiaryType,
-  ExtractSuccess,
   BSPaymentMethodType,
+  ExtractSuccess,
   WalletAcountEnum,
   WalletFiatType
 } from '@core/types'

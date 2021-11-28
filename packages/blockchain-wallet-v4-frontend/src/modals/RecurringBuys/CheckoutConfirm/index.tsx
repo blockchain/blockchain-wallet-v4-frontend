@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { fiatToString } from '@core/exchange/utils'
-import { FiatType, BSOrderType } from '@core/types'
+import { BSOrderType, FiatType } from '@core/types'
 import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
 import {
   FlyoutContainer,

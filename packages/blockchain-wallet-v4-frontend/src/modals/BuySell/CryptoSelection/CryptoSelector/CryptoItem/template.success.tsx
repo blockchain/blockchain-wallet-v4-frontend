@@ -3,8 +3,8 @@ import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
 import { Icon } from 'blockchain-info-components'
-import { Title, Value } from 'components/Flyout'
 import { DisplayContainer } from 'components/BuySell'
+import { Title, Value } from 'components/Flyout'
 import { media } from 'services/styles'
 import { hexToRgb } from 'utils/helpers'
 

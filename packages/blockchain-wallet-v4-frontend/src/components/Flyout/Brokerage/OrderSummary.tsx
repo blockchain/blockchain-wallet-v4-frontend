@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 import styled from 'styled-components'
 
-import { OrderType, BSOrderStateType, BSPaymentTypes } from '@core/types'
+import { BSOrderStateType, BSPaymentTypes, OrderType } from '@core/types'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
 
 import Container from '../Container'

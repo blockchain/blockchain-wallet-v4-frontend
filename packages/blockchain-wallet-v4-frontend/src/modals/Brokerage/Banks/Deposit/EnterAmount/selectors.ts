@@ -1,6 +1,6 @@
 import { lift } from 'ramda'
 
-import { CrossBorderLimits, ExtractSuccess, BSPaymentTypes } from '@core/types'
+import { BSPaymentTypes, CrossBorderLimits, ExtractSuccess } from '@core/types'
 import { selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { BankTransferAccountType } from 'data/types'

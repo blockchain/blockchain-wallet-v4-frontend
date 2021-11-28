@@ -5,12 +5,12 @@ import { call, CallEffect, delay, put, select } from 'redux-saga/effects'
 import { APIType } from '@core/network/api'
 import {
   BeneficiaryType,
+  BSOrderType,
+  BSPaymentTypes,
   CoinType,
   PaymentType,
   PaymentValue,
   RemoteDataType,
-  BSOrderType,
-  BSPaymentTypes,
   WalletFiatType
 } from '@core/types'
 import { errorHandler } from '@core/utils'
