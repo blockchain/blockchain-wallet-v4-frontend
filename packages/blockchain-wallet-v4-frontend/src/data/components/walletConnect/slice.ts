@@ -5,10 +5,11 @@ import { IWalletConnectSession } from '@walletconnect/types'
 import Remote from '@core/remote'
 
 import * as T from './types'
+import { WalletConnectStep } from './types'
 
 const INITIAL_STATE: T.WalletConnectState = {
   sessionDetails: undefined,
-  step: Remote.NotAsked,
+  step: Remote.of({ name: WalletConnectStep.LOADING }),
   uri: ''
 }
 
@@ -35,7 +36,8 @@ const walletConnectSlice = createSlice({
         error: action.payload?.error,
         name: action.payload?.name
       })
-    }
+    },
+    showAddNewDapp: (state, action) => {}
   }
 })
 

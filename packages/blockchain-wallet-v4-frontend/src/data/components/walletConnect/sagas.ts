@@ -2,7 +2,7 @@
 // TODO: remove console logs
 import WalletConnect from '@walletconnect/client'
 import { eventChannel } from 'redux-saga'
-import { call, cancel, cancelled, fork, put, select, take } from 'redux-saga/effects'
+import { call, cancel, cancelled, delay, fork, put, select, take } from 'redux-saga/effects'
 
 import { coreSelectors } from 'blockchain-wallet-v4/src'
 import { actions, selectors } from 'data'
@@ -293,6 +293,20 @@ export default ({ coreSagas }) => {
     }
   }
 
+  const showAddNewDapp = function* () {
+    try {
+      yield put(A.setStep({ name: WalletConnectStep.LOADING }))
+      yield put(
+        actions.modals.showModal(ModalName.WALLET_CONNECT_MODAL, { origin: 'WalletConnect' })
+      )
+      // without this delay, the flyout jarringly jumps around 🤷
+      yield delay(1000)
+      yield put(A.setStep({ name: WalletConnectStep.ADD_NEW_CONNECTION }))
+    } catch (e) {
+      logError(e)
+    }
+  }
+
   return {
     addNewDappConnection,
     handleSessionCallRequest,
@@ -303,6 +317,7 @@ export default ({ coreSagas }) => {
     launchDappConnection,
     removeDappConnection,
     respondToSessionRequest,
-    respondToTxSendRequest
+    respondToTxSendRequest,
+    showAddNewDapp
   }
 }

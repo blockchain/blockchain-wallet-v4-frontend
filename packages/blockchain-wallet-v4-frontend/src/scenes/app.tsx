@@ -118,7 +118,7 @@ const App = ({
                     <WalletLayout path='/settings/general' component={General} />
                     <WalletLayout path='/settings/preferences' component={Preferences} />
                     {walletConnectEnabled && (
-                      <WalletLayout path='/settings/walletConnect' component={WalletConnect} />
+                      <WalletLayout path='/dapps' component={WalletConnect} />
                     )}
                     <WalletLayout path='/prices' component={Prices} />
                     {values(

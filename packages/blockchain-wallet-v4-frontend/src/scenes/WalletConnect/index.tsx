@@ -52,14 +52,15 @@ const WalletConnect = ({ dappList, modalActions, walletConnectActions }) => {
             <Title>
               <Image name='walletconnect-circle-logo' height='36px' />
               <Text color='grey800' size='32px' weight={600}>
-                WalletConnect
+                Dapps
               </Text>
             </Title>
             <SubTitle>
               <Text color='grey600' size='16px' weight={500}>
                 <FormattedMessage
                   id='scenes.walletconnect.subtitle'
-                  defaultMessage='Manage the decentralized applications (dapps) connected to your wallet.'
+                  defaultMessage='Interact with and manage the Decentralized Applications (Dapps) connected to your wallet via {poweredBy}.'
+                  values={{ poweredBy: 'WalletConnect' }}
                 />
               </Text>
             </SubTitle>
@@ -67,10 +68,7 @@ const WalletConnect = ({ dappList, modalActions, walletConnectActions }) => {
           <Button
             data-e2e='addNewConnectionBtn'
             nature='primary'
-            onClick={() => {
-              walletConnectActions.setStep({ name: WalletConnectStep.ADD_NEW_CONNECTION })
-              modalActions.showModal(ModalName.WALLET_CONNECT_MODAL, { origin: 'WalletConnect' })
-            }}
+            onClick={walletConnectActions.showAddNewDapp}
           >
             <Text size='14px' color='white' weight={600}>
               <FormattedMessage id='buttons.connect-dapp' defaultMessage='Connect Dapp' />

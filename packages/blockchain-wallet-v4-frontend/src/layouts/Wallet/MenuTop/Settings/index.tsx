@@ -2,15 +2,11 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
-import { actions, selectors } from 'data'
+import { actions } from 'data'
 
 import Settings from './template'
 
 const SettingsContainer = (props: Props) => <Settings {...props} />
-
-const mapStateToProps = (state) => ({
-  walletConnectEnabled: selectors.core.walletOptions.getWalletConnectEnabled(state).getOrElse(false)
-})
 
 const mapDispatchToProps = (dispatch) => ({
   modalActions: bindActionCreators(actions.modals, dispatch),
@@ -18,7 +14,7 @@ const mapDispatchToProps = (dispatch) => ({
   settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
-const connector = connect(mapStateToProps, mapDispatchToProps)
+const connector = connect(null, mapDispatchToProps)
 
 export type Props = ConnectedProps<typeof connector>
 

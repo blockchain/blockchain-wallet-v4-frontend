@@ -18,12 +18,7 @@ const DropdownSeparator = styled.div`
   background: ${(props) => props.theme.grey000};
 `
 
-const Settings = ({
-  modalActions,
-  sessionActions,
-  settingsActions,
-  walletConnectEnabled
-}: Props) => {
+const Settings = ({ modalActions, sessionActions, settingsActions }: Props) => {
   const ref = useRef(null)
   const [isMenuOpen, toggleIsMenuOpen] = useState(false)
   useOnClickOutside(ref, () => toggleIsMenuOpen(false))
@@ -85,19 +80,6 @@ const Settings = ({
                 </Destination>
               </DropdownMenuItem>
             </LinkContainer>
-            {walletConnectEnabled && (
-              <LinkContainer
-                onClick={() => {
-                  settingsActions.generalSettingsInternalRedirect('walletConnect')
-                }}
-                to='/settings/walletConnect'
-                activeClassName='active'
-              >
-                <DropdownMenuItem data-e2e='settings_walletConnectLink'>
-                  <Destination>Wallet Connect</Destination>
-                </DropdownMenuItem>
-              </LinkContainer>
-            )}
             <LinkContainer
               onClick={() => {
                 settingsActions.generalSettingsInternalRedirect('WalletAndAddresses')
