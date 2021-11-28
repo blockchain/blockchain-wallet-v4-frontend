@@ -518,20 +518,25 @@ export default ({ api, coreSagas, networks }) => {
   const runWalletConnectGoal = function* (goal: GoalType) {
     try {
       const { data: uri, id } = goal
+      const walletConnectEnabled = (yield select(
+        selectors.core.walletOptions.getWalletConnectEnabled
+      )).getOrElse(false)
       yield put(actions.goals.deleteGoal(id))
-      yield put(
-        actions.goals.addInitialModal({
-          data: {
-            origin,
-            uri
-          },
-          key: 'walletConnect',
-          name: ModalName.WALLET_CONNECT_MODAL
-        })
-      )
+      if (walletConnectEnabled) {
+        yield put(
+          actions.goals.addInitialModal({
+            data: {
+              origin,
+              uri
+            },
+            key: 'walletConnect',
+            name: ModalName.WALLET_CONNECT_MODAL
+          })
+        )
+      }
     } catch (e) {
       const error = errorHandler(e)
-      yield put(actions.logs.låogErrorMessage('goals', 'runWalletConnectGoal', error))
+      yield put(actions.logs.logErrorMessage('goals', 'runWalletConnectGoal', error))
     }
   }
 
