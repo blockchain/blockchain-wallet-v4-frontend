@@ -21,7 +21,6 @@ import {
   ProductTypes,
   ProviderDetailsType,
   SwapOrderType,
-  WalletFiatType,
   WalletOptionsType
 } from '@core/types'
 import { errorHandler, errorHandlerCode } from '@core/utils'
@@ -56,6 +55,7 @@ import {
   getCoinFromPair,
   getFiatFromPair,
   getNextCardExists,
+  isFiatCurrencySupported,
   NO_ACCOUNT,
   NO_CHECKOUT_VALUES,
   NO_FIAT_CURRENCY,
@@ -1296,7 +1296,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield put(actions.modals.showModal('SIMPLE_BUY_MODAL', { cryptoCurrency, origin }))
     const fiatCurrency = selectors.core.settings
       .getCurrency(yield select())
-      .getOrElse('USD') as WalletFiatType
+      .getOrElse('USD') as FiatType
 
     // When user closes the QR code modal and opens it via one of the pending
     // buy buttons in the app. We need to take them to the qrcode screen and
@@ -1344,7 +1344,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           break
       }
     } else {
-      yield put(A.setStep({ cryptoCurrency, fiatCurrency, step: 'CRYPTO_SELECTION' }))
+      const originalFiatCurrency = isFiatCurrencySupported(fiatCurrency) ? undefined : fiatCurrency
+      yield put(
+        A.setStep({ cryptoCurrency, fiatCurrency, originalFiatCurrency, step: 'CRYPTO_SELECTION' })
+      )
     }
   }
 
@@ -1393,6 +1396,35 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const setFiatTradingCurrency = function* () {
+    try {
+      const state = yield select()
+      const cryptoCurrency = S.getCryptoCurrency(state) || 'BTC'
+      const fiatCurrency = S.getFiatCurrency(state) || 'USD'
+      const orderType = S.getOrderType(state) || 'BUY'
+      yield put(A.fetchPairs({ coin: cryptoCurrency, currency: fiatCurrency }))
+      // wait to load new pairs
+      yield take([A.fetchPairsSuccess.type, A.fetchPairsFailure.type])
+      // state has been changed we need most recent pairs
+      const pairs = S.getBSPairs(yield select()).getOrElse([])
+
+      // find a pair
+      const pair = pairs.filter((pair) => pair.pair === `${cryptoCurrency}-${fiatCurrency}`)[0]
+      yield put(A.fetchPaymentMethods(fiatCurrency))
+      yield put(
+        A.setStep({
+          cryptoCurrency,
+          fiatCurrency,
+          orderType,
+          pair,
+          step: 'ENTER_AMOUNT'
+        })
+      )
+    } catch (e) {
+      // do nothing
+    }
+  }
+
   return {
     activateBSCard,
     addCardDetails,
@@ -1430,6 +1462,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     pollBSBalances,
     pollBSCard,
     pollBSOrder,
+    setFiatTradingCurrency,
     setStepChange,
     showModal,
     switchFix

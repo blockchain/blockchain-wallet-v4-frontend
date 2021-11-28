@@ -63,6 +63,7 @@ const initialState: BuySellState = {
   orderType: undefined,
   orders: Remote.NotAsked,
   origin: undefined,
+  originalFiatCurrency: undefined,
   pair: undefined,
   pairs: Remote.NotAsked,
   payment: Remote.NotAsked,
@@ -104,6 +105,7 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
         cryptoCurrency: payload.cryptoCurrency,
         fiatCurrency: payload.fiatCurrency,
         orderType: payload.orderType,
+        originalFiatCurrency: payload.originalFiatCurrency,
         step: payload.step
       }
     case 'BANK_WIRE_DETAILS':
@@ -275,7 +277,7 @@ const buySellSlice = createSlice({
     fetchOrdersSuccess: (state, action: PayloadAction<BSOrderType[]>) => {
       state.orders = Remote.Success(action.payload)
     },
-    fetchPairs: (state, action: PayloadAction<{ coin?: CoinType; currency: FiatType }>) => {},
+    fetchPairs: (state, action: PayloadAction<{ coin?: CoinType; currency?: FiatType }>) => {},
     fetchPairsFailure: (state, action: PayloadAction<string>) => {
       state.pairs = Remote.Failure(action.payload)
     },
@@ -413,6 +415,9 @@ const buySellSlice = createSlice({
     setFiatCurrency: (state, action: PayloadAction<FiatType>) => {
       state.fiatCurrency = action.payload
     },
+    setFiatTradingCurrency: (state, action: PayloadAction<FiatType>) => {
+      state.fiatCurrency = action.payload
+    },
     setMethod: (state, action: PayloadAction<BSPaymentMethodType>) => {
       state.method = action.payload
     },
@@ -436,6 +441,7 @@ const buySellSlice = createSlice({
           state.addBank = undefined
           state.cryptoCurrency = stepPayload.cryptoCurrency
           state.fiatCurrency = stepPayload.fiatCurrency
+          state.originalFiatCurrency = stepPayload.originalFiatCurrency
           state.orderType = stepPayload.orderType
           state.step = stepPayload.step
           state.swapAccount = undefined

@@ -4,18 +4,13 @@ import { BuySellLimitReached } from 'components/Flyout'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import CryptoSelector from './CryptoSelector'
-import Unsupported from './template.unsupported'
 
 const Success: React.FC<Props> = (props) => {
   const isUserEligible = props.pairs.length && props.eligibility.eligible && props.fiatCurrency
-  const isUserSddEligible = props.sddEligible && props.sddEligible.eligible
   const userHitMaxPendingDeposits =
     props.eligibility.maxPendingDepositSimpleBuyTrades ===
     props.eligibility.pendingDepositSimpleBuyTrades
 
-  if (isUserEligible || isUserSddEligible) {
-    return <CryptoSelector {...props} />
-  }
   if (!isUserEligible && userHitMaxPendingDeposits) {
     return (
       <BuySellLimitReached
@@ -24,7 +19,8 @@ const Success: React.FC<Props> = (props) => {
       />
     )
   }
-  return <Unsupported {...props} />
+  // now we always return this list
+  return <CryptoSelector {...props} />
 }
 
 export type Props = OwnProps & SuccessStateType
