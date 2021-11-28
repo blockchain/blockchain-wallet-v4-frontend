@@ -1,4 +1,5 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
@@ -18,7 +19,10 @@ const DisconnectionNoticeStep = (props) => {
     <Wrapper>
       {!sessionDetails && (
         <Text weight={600} color='grey600' size='20px'>
-          Failure to establish or maintain connection!
+          <FormattedMessage
+            id='scenes.walletconnect.session_failure'
+            defaultMessage='Failed to establish or maintain a connection!'
+          />
         </Text>
       )}
       {sessionDetails && (
@@ -31,7 +35,13 @@ const DisconnectionNoticeStep = (props) => {
             src={sessionDetails.peerMeta.icons[0]}
           />
           <Text weight={600} color='grey600' size='20px' style={{ marginBottom: '3.5rem' }}>
-            Your session with {sessionDetails.peerMeta.name} has ended.
+            <FormattedMessage
+              id='scenes.walletconnect.session_ended'
+              defaultMessage='Your session with {dapp} has been terminated.'
+              values={{
+                dapp: sessionDetails.peerMeta.name
+              }}
+            />
           </Text>
           <Button
             fullwidth
@@ -41,7 +51,7 @@ const DisconnectionNoticeStep = (props) => {
             size='16px'
             onClick={handleClose}
           >
-            Close
+            <FormattedMessage id='copy.close' defaultMessage='Close' />
           </Button>
         </>
       )}

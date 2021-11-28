@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+// TODO: remove console logs
 import WalletConnect from '@walletconnect/client'
 import { eventChannel } from 'redux-saga'
 import { call, cancel, cancelled, fork, put, select, take } from 'redux-saga/effects'
@@ -71,21 +73,18 @@ export default ({ coreSagas }) => {
     return eventChannel((emit) => {
       // subscribe to session requests
       rpc.on('session_request', (error, data) => {
-        // eslint-disable-next-line no-console
         console.log('got session request', data, error)
         emit(A.handleSessionRequest({ data, error }))
       })
 
       // subscribe to call requests
       rpc.on('call_request', (error, data) => {
-        // eslint-disable-next-line no-console
         console.log('got call request', data, error)
         emit(A.handleSessionCallRequest({ data, error }))
       })
 
       // subscribe to disconnects
       rpc.on('disconnect', (error, data) => {
-        // eslint-disable-next-line no-console
         console.log('got disconnect request', data, error)
         // TODO: remove from localStorage?
         emit(A.handleSessionDisconnect({ data, error }))
@@ -100,18 +99,14 @@ export default ({ coreSagas }) => {
   const startRpcConnection = function* ({ sessionDetails, uri }: InitWalletConnectPayload) {
     let channel
     try {
-      // eslint-disable-next-line no-console
       console.log('before create walletConnect', sessionDetails, uri)
 
       if (sessionDetails) {
-        // eslint-disable-next-line no-console
         console.log('session details found, reusing old walletConnect')
-        // eslint-disable-next-line no-console
         console.log('uri: ', uri)
-        // eslint-disable-next-line no-console
         console.log('sessionDetails:', sessionDetails)
-        // eslint-disable-next-line no-console
         console.log('dappsList', JSON.stringify(dappsList))
+
         const foundRpc = dappsList.find(
           (dapp) => JSON.stringify(dapp.session) === JSON.stringify(sessionDetails)
         )
@@ -124,10 +119,9 @@ export default ({ coreSagas }) => {
           throw new Error('RPC not found in localStorage')
         }
       } else {
-        // eslint-disable-next-line no-console
         console.log('no session details, creating new object')
-        // eslint-disable-next-line no-console
         console.log('uri: ', uri)
+
         const newRpc = new WalletConnect({
           clientMeta: BC_CLIENT_METADATA,
           storageId: uri,
@@ -137,22 +131,16 @@ export default ({ coreSagas }) => {
         rpc = newRpc
       }
 
-      // set uri in redux state so it can be picked up when re-launched
-      // yield put(A.setUri(uri))
-      // eslint-disable-next-line no-console
       console.log('after walletConnect created', rpc, rpc.session, sessionDetails, uri)
 
       // start listeners for rpc messages
       channel = yield call(createRpcListenerChannels)
-      // eslint-disable-next-line no-console
       console.log('got the channel', channel)
 
       while (true) {
-        // eslint-disable-next-line no-console
         console.log('while loop true')
         // message from rpc, forward action
         const action = yield take(channel)
-        // eslint-disable-next-line no-console
         console.log('action', action)
         yield put(action)
       }
@@ -168,7 +156,6 @@ export default ({ coreSagas }) => {
 
   const launchDappConnection = function* ({ payload }: ReturnType<typeof A.launchDappConnection>) {
     try {
-      // eslint-disable-next-line no-console
       console.log('launching dapp: ', payload)
       const { sessionDetails, uri } = payload
       yield put(A.setSessionDetails(sessionDetails))
@@ -184,10 +171,7 @@ export default ({ coreSagas }) => {
 
   const removeDappConnection = function ({ payload }: ReturnType<typeof A.removeDappConnection>) {
     try {
-      // eslint-disable-next-line no-console
-      console.log('remove rpc payload: ', payload)
       const { sessionDetails, uri } = payload
-      // eslint-disable-next-line no-console
       console.log('remove rpc data: ', sessionDetails, uri)
       // if rpc connection exists and it matches the dapp to be removed
       if (
@@ -297,7 +281,6 @@ export default ({ coreSagas }) => {
   }
 
   const addNewDappConnection = function* () {
-    // eslint-disable-next-line no-console
     console.log('adding new dapp connection...')
     try {
       yield put(A.setStep({ name: WalletConnectStep.LOADING }))

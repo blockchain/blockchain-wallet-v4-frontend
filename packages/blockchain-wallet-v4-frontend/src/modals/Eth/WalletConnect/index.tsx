@@ -29,7 +29,7 @@ class WalletConnectContainer extends PureComponent<Props, State> {
     // eslint-disable-next-line
     this.setState({ show: true })
 
-    // only init new wc session if we detect a new uri from goal
+    // only init new wc session if we detect a new uri from deeplink/goal
     if (uri) {
       walletConnectActions.initWalletConnect({ uri })
     }
@@ -107,9 +107,9 @@ const enhance = compose(
 )
 
 type OwnProps = {
-  uri: string
+  uri?: string
 }
-type Props = OwnProps & ModalPropsType & ConnectedProps<typeof connector>
+export type Props = OwnProps & ModalPropsType & ConnectedProps<typeof connector>
 type State = { show: boolean }
 
 export default enhance(WalletConnectContainer)

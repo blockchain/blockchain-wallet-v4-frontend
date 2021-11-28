@@ -8,7 +8,6 @@ export const getAuthorizedDappsList = (): Array<InitWalletConnectPayload> => {
   for (let i = 0; i < localStorage.length; i += 1) {
     const localStorageKey = localStorage.key(i)
 
-    // TODO if check could use better logic
     if (localStorageKey && localStorageKey.startsWith('wc:')) {
       const localStorageValue = localStorage.getItem(localStorageKey)
       if (localStorageValue) {
@@ -21,10 +20,6 @@ export const getAuthorizedDappsList = (): Array<InitWalletConnectPayload> => {
   }
 
   return authorizedDappsList
-}
-
-export const isDappInLS = (uri: string): boolean => {
-  return !!localStorage.getItem(uri)
 }
 
 export const getSessionDetails = (state: RootState) => state.components.walletConnect.sessionDetails

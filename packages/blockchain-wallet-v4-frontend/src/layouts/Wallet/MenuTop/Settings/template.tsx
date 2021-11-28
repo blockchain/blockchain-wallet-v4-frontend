@@ -94,12 +94,7 @@ const Settings = ({
                 activeClassName='active'
               >
                 <DropdownMenuItem data-e2e='settings_walletConnectLink'>
-                  <Destination>
-                    <FormattedMessage
-                      id='layouts.wallet.header.walletConnect'
-                      defaultMessage='Wallet Connect'
-                    />
-                  </Destination>
+                  <Destination>Wallet Connect</Destination>
                 </DropdownMenuItem>
               </LinkContainer>
             )}

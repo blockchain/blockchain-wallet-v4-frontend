@@ -1,5 +1,5 @@
 import React from 'react'
-// import { FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Icon, Image, Text } from 'blockchain-info-components'
@@ -51,10 +51,13 @@ const Failure: React.FC<Props> = (props) => (
         srcset={{ 'world-alert2': '2x', 'world-alert3': '3x' }}
       />
       <Title color='grey800' size='20px' weight={600}>
-        Connection Error
+        <FormattedMessage id='copy.connection_error' defaultMessage='Connection Error' />
       </Title>
       <SubContent color='grey600' weight={500}>
-        Failed to communicate with Wallet Connect!
+        <FormattedMessage
+          id='scenes.walletconnect.server_failure'
+          defaultMessage='Failed to connect with Wallet Connect servers'
+        />
       </SubContent>
     </Container>
   </Top>

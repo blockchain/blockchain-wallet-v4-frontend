@@ -1,4 +1,5 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { BlockchainLoader, Text } from 'blockchain-info-components'
@@ -16,7 +17,7 @@ const Loading = () => (
   <Wrapper>
     <BlockchainLoader width='80px' height='80px' />
     <Text weight={600} color='grey900' style={{ marginTop: '24px' }}>
-      Loading Wallet Connect
+      <FormattedMessage id='copy.loading' defaultMessage='Loading...' />
     </Text>
   </Wrapper>
 )

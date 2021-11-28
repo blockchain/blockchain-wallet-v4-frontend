@@ -11,11 +11,10 @@ const Wrapper = styled.div`
   flex-direction: column;
   overflow: hidden;
 `
-
 const TxBlock = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 15px 0px 15px 0px;
+  margin: 15px 0;
 `
 
 const ApproveTransactionStep = (props) => {

@@ -1,4 +1,5 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Text } from 'blockchain-info-components'
@@ -13,12 +14,10 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
 `
-
 const ButtonGroup = styled.div`
   margin-bottom: 96px;
   width: 100%;
 `
-
 const DappInfo = styled.div`
   display: flex;
   flex-direction: column;
@@ -46,7 +45,13 @@ const AuthorizeConnectionStep = (props) => {
           src={sessionDetails.peerMeta.icons[0]}
         />
         <Text weight={600} color='grey900' size='20px' style={{ marginBottom: '1rem' }}>
-          {sessionDetails.peerMeta.name} wants to connect.
+          <FormattedMessage
+            id='scenes.walletconnect.session_request'
+            defaultMessage='{dapp} wants to connect to your wallet.'
+            values={{
+              dapp: sessionDetails.peerMeta.name
+            }}
+          />
         </Text>
         <Text weight={500} color='grey600' size='14px' style={{ marginBottom: '0.5rem' }}>
           {sessionDetails.peerMeta.url}
@@ -62,7 +67,7 @@ const AuthorizeConnectionStep = (props) => {
           style={{ marginBottom: '1rem' }}
           onClick={rejectRequest}
         >
-          Cancel
+          <FormattedMessage id='copy.deny' defaultMessage='Deny' />
         </Button>
         <Button
           fullwidth
@@ -72,7 +77,7 @@ const AuthorizeConnectionStep = (props) => {
           size='16px'
           onClick={approveRequest}
         >
-          Confirm
+          <FormattedMessage id='copy.approve' defaultMessage='Approve' />
         </Button>
       </ButtonGroup>
     </Wrapper>

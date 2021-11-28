@@ -35,9 +35,6 @@ const walletConnectSlice = createSlice({
         error: action.payload?.error,
         name: action.payload?.name
       })
-    },
-    setUri: (state, action: PayloadAction<string>) => {
-      state.uri = action.payload
     }
   }
 })
