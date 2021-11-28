@@ -73,7 +73,6 @@ const MemoField = styled.div`
 const FirstStep = (props) => {
   const {
     activeField,
-    amount,
     balanceStatus,
     error,
     excludeLockbox,

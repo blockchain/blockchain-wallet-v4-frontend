@@ -38,8 +38,6 @@ const StepTitle = styled(Text)`
 `
 export const TourTooltip = ({
   backProps,
-  closeProps,
-  continuous,
   index,
   isLastStep,
   primaryProps,

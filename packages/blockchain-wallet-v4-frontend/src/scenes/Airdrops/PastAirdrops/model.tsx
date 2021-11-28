@@ -57,6 +57,8 @@ export const Status = ({ campaignName, campaignState, userCampaignState }: Campa
             </Text>
           </BlueCartridge>
         )
+      default:
+        ;<Text>-</Text>
     }
   }
   switch (true) {
