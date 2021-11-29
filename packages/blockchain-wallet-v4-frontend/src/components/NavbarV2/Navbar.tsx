@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
+import { media } from 'services/styles'
 
 const NavContainer = styled.div`
   display: flex;
@@ -9,6 +10,10 @@ const NavContainer = styled.div`
   padding: 0 16px;
   border-bottom: 1px solid #f0f2f7;
   height: 56px;
+
+  ${media.mobile`
+    // handle mobile navbar
+  `}
 `
 
 const Logo = styled.a`
