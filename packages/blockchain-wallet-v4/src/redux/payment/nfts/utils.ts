@@ -631,7 +631,7 @@ export function _makeMatchingOrder({
 
   const times = _getTimeParameters(expirationTime)
   // Compat for matching buy orders that have fee recipient still on them
-  const feeRecipient = order.feeRecipient === NULL_ADDRESS ? OPENSEA_FEE_RECIPIENT : NULL_ADDRESS
+  const feeRecipient = OPENSEA_FEE_RECIPIENT
 
   const matchingOrder: UnhashedOrder = {
     basePrice: offer ? new BigNumber(offer) : new BigNumber(order.basePrice),
@@ -650,8 +650,6 @@ export function _makeMatchingOrder({
     metadata: order.metadata,
     paymentToken: paymentTokenAddress ?? order.paymentToken,
     quantity: order.quantity,
-    // TODO: Fix the replacement patten generation for buy orders.
-    // replacementPattern,
     replacementPattern,
     saleKind: order.saleKind,
     // @ts-ignore
