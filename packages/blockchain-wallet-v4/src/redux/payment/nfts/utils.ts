@@ -182,7 +182,7 @@ export function getOrderHash(order: UnhashedOrder) {
 async function safeGasEstimation(estimationFunction, args, txData, retries = 2) {
   let estimatedValue
   try {
-    estimatedValue = parseInt((await estimationFunction(...args, txData))._hex)
+    estimatedValue = Math.ceil(parseInt((await estimationFunction(...args, txData))._hex) * 1.2)
   } catch (e) {
     const error = e as { code: string }
     const errorCode = error.code || undefined
