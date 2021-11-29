@@ -17,7 +17,7 @@ class RecoverContainer extends React.PureComponent<Props> {
   }
 
   render() {
-    const { kycReset, metadataRestore, previousStep, recoverPassword, restoringR } = this.props
+    const { kycReset, metadataRestore, previousStep, restoringR } = this.props
     const isRestoring = Remote.Loading.is(restoringR)
 
     return metadataRestore.cata({

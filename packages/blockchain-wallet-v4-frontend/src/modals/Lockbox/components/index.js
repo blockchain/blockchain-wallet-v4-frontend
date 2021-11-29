@@ -83,7 +83,7 @@ class ModalStepper extends React.PureComponent {
           const active = currentStep === i ? 'active' : null
           const complete = currentStep > i ? 'complete' : null
           return (
-            <React.Fragment key={i}>
+            <React.Fragment key={currentStep}>
               <Step>
                 <Circle className={`${active} ${complete}`}>
                   <CircleContent className={`${active} ${complete}`}>

@@ -1,10 +1,10 @@
 import {
-  CoinType,
-  FiatType,
-  ProcessedSwapOrderType,
   BSOrderType,
   BSTransactionStateType,
   BSTransactionType,
+  CoinType,
+  FiatType,
+  ProcessedSwapOrderType,
   WalletCurrencyType
 } from '@core/types'
 

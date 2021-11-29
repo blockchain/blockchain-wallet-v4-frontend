@@ -41,7 +41,6 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     .map(anyPass([equals(GENERAL), equals(EXPIRED)]))
     .getOrElse(false)
   const ordersR = selectors.components.buySell.getBSOrders(state)
-  const orders: Array<BSOrderType> = ordersR.getOrElse([])
 
   const isUserActive =
     selectors.modules.profile.getUserActivationState(state).getOrElse('') !== 'NONE'

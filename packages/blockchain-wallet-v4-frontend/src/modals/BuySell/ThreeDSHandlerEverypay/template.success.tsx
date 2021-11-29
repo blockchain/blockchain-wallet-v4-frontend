@@ -37,7 +37,7 @@ const Success: React.FC<Props> = (props) => {
               })
             } else {
               props.buySellActions.setStep({
-                step: 'ADD_CARD'
+                step: 'ADD_CARD_DETERMINE_PROVIDER'
               })
             }
           }}
@@ -49,7 +49,7 @@ const Success: React.FC<Props> = (props) => {
             props.type === 'CARD'
               ? props.providerDetails.everypay.paymentLink
               : props.order && props.order.attributes
-              ? props.order.attributes.everypay.paymentLink
+              ? props.order.attributes?.everypay?.paymentLink || ''
               : ''
           )}`}
         />

@@ -28,6 +28,7 @@ import * as swap from './swap/selectors'
 import * as uploadDocuments from './uploadDocuments/selectors'
 import * as utils from './utils/selectors'
 import * as veriff from './veriff/selectors'
+import * as walletConnect from './walletConnect/selectors'
 import * as withdraw from './withdraw/selectors'
 
 export {
@@ -61,5 +62,6 @@ export {
   uploadDocuments,
   utils,
   veriff,
+  walletConnect,
   withdraw
 }

@@ -3,13 +3,13 @@ import { add, curry, flatten, lift, map, pathOr, reduce, reject } from 'ramda'
 
 import { Exchange, Remote } from '@core'
 import {
+  BSBalancesType,
+  BSBalanceType,
   CoinfigType,
   ExtractSuccess,
   InterestAccountBalanceType,
   RatesType,
   RemoteDataType,
-  BSBalancesType,
-  BSBalanceType,
   SwapOrderType,
   WalletFiatEnum,
   WalletFiatType

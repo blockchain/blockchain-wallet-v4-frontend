@@ -48,8 +48,8 @@ const initialState: BuySellState = {
   card: Remote.NotAsked,
   cardId: undefined,
   cards: Remote.NotAsked,
-  checkoutAccountCodes: [],
-  checkoutApiKey: undefined,
+  checkoutDotComAccountCodes: [],
+  checkoutDotComApiKey: undefined,
   crossBorderLimits: Remote.NotAsked,
   cryptoCurrency: undefined,
   displayBack: false,
@@ -63,6 +63,7 @@ const initialState: BuySellState = {
   orderType: undefined,
   orders: Remote.NotAsked,
   origin: undefined,
+  originalFiatCurrency: undefined,
   pair: undefined,
   pairs: Remote.NotAsked,
   payment: Remote.NotAsked,
@@ -104,6 +105,7 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
         cryptoCurrency: payload.cryptoCurrency,
         fiatCurrency: payload.fiatCurrency,
         orderType: payload.orderType,
+        originalFiatCurrency: payload.originalFiatCurrency,
         step: payload.step
       }
     case 'BANK_WIRE_DETAILS':
@@ -121,14 +123,16 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
     case 'ORDER_SUMMARY':
     case 'OPEN_BANKING_CONNECT':
       return { order: payload.order, step: payload.step }
-    case '3DS_HANDLER':
+    case '3DS_HANDLER_EVERYPAY':
+    case '3DS_HANDLER_STRIPE':
+    case '3DS_HANDLER_CHECKOUTDOTCOM':
       return { order: payload.order, step: payload.step }
     case 'SELL_ORDER_SUMMARY':
       return { sellOrder: payload.sellOrder, step: payload.step }
-    case 'ADD_CARD_CHECKOUT':
+    case 'ADD_CARD_CHECKOUTDOTCOM':
       return {
-        checkoutAccountCodes: payload.checkoutAccountCodes,
-        checkoutApiKey: payload.checkoutApiKey,
+        checkoutDotComAccountCodes: payload.checkoutDotComAccountCodes,
+        checkoutDotComApiKey: payload.checkoutDotComApiKey,
         step: payload.step
       }
     default:
@@ -273,7 +277,7 @@ const buySellSlice = createSlice({
     fetchOrdersSuccess: (state, action: PayloadAction<BSOrderType[]>) => {
       state.orders = Remote.Success(action.payload)
     },
-    fetchPairs: (state, action: PayloadAction<{ coin?: CoinType; currency: FiatType }>) => {},
+    fetchPairs: (state, action: PayloadAction<{ coin?: CoinType; currency?: FiatType }>) => {},
     fetchPairsFailure: (state, action: PayloadAction<string>) => {
       state.pairs = Remote.Failure(action.payload)
     },
@@ -411,6 +415,9 @@ const buySellSlice = createSlice({
     setFiatCurrency: (state, action: PayloadAction<FiatType>) => {
       state.fiatCurrency = action.payload
     },
+    setFiatTradingCurrency: (state, action: PayloadAction<FiatType>) => {
+      state.fiatCurrency = action.payload
+    },
     setMethod: (state, action: PayloadAction<BSPaymentMethodType>) => {
       state.method = action.payload
     },
@@ -434,6 +441,7 @@ const buySellSlice = createSlice({
           state.addBank = undefined
           state.cryptoCurrency = stepPayload.cryptoCurrency
           state.fiatCurrency = stepPayload.fiatCurrency
+          state.originalFiatCurrency = stepPayload.originalFiatCurrency
           state.orderType = stepPayload.orderType
           state.step = stepPayload.step
           state.swapAccount = undefined
@@ -446,7 +454,7 @@ const buySellSlice = createSlice({
           state.order = stepPayload.order
           state.step = stepPayload.step
           break
-        case '3DS_HANDLER':
+        case '3DS_HANDLER_EVERYPAY':
         case 'CHECKOUT_CONFIRM':
         case 'OPEN_BANKING_CONNECT':
         case 'ORDER_SUMMARY':
@@ -464,9 +472,9 @@ const buySellSlice = createSlice({
           state.sellOrder = stepPayload.sellOrder
           state.step = stepPayload.step
           break
-        case 'ADD_CARD_CHECKOUT':
-          state.checkoutAccountCodes = stepPayload.checkoutAccountCodes
-          state.checkoutApiKey = stepPayload.checkoutApiKey
+        case 'ADD_CARD_CHECKOUTDOTCOM':
+          state.checkoutDotComAccountCodes = stepPayload.checkoutDotComAccountCodes
+          state.checkoutDotComApiKey = stepPayload.checkoutDotComApiKey
           state.step = stepPayload.step
           break
         default:

@@ -1,8 +1,8 @@
 import {
-  FiatBSAndSwapTransactionType,
-  ProcessedTxType,
   BSOrderType,
-  BSTransactionType
+  BSTransactionType,
+  FiatBSAndSwapTransactionType,
+  ProcessedTxType
 } from '@core/types'
 
 export type TransferType = 'sent' | 'received' | 'transferred' | ''

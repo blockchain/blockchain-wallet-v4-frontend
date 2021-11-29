@@ -17,6 +17,7 @@ export type GoalsType =
   | 'syncPit'
   | 'transferEth'
   | 'upgradeForAirdrop'
+  | 'walletConnect'
   | 'welcomeModal'
   | 'interest'
   | 'interestPromo'
@@ -49,5 +50,6 @@ export enum DeepLinkGoal {
   REFERRAL = 'referral',
   REWARDS = 'rewards',
   SIMPLE_BUY = 'simple-buy',
-  SWAP = 'swap'
+  SWAP = 'swap',
+  WALLET_CONNECT = 'wc'
 }

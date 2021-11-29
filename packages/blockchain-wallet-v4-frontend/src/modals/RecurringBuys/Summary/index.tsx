@@ -6,7 +6,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
-import { FiatType, BSOrderType, WithdrawalLockCheckRule } from '@core/types'
+import { BSOrderType, FiatType, WithdrawalLockCheckRule } from '@core/types'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { FlyoutContainer, FlyoutContent, FlyoutFooter } from 'components/Flyout'
 import { getPeriodTitleText } from 'components/Flyout/model'

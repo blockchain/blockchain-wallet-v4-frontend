@@ -3,7 +3,7 @@ import { call, put, select } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
 import { ProcessedTxType } from '@core/transactions/types'
-import { CoinType, ProcessedSwapOrderType, BSPendingTransactionStateEnum } from '@core/types'
+import { BSPendingTransactionStateEnum, CoinType, ProcessedSwapOrderType } from '@core/types'
 
 import * as A from './actions'
 import * as S from './selectors'

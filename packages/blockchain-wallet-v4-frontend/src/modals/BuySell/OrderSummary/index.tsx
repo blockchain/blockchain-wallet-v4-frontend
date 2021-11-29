@@ -5,17 +5,17 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { Exchange, Remote } from '@core'
 import {
-  ExtractSuccess,
-  OrderType,
-  RemoteDataType,
   BSOrderType,
   BSPaymentMethodType,
-  BSPaymentTypes
+  BSPaymentTypes,
+  ExtractSuccess,
+  OrderType,
+  RemoteDataType
 } from '@core/types'
 import DataError from 'components/DataError'
 import { OrderSummary } from 'components/Flyout'
 import { getPeriodForSuccess } from 'components/Flyout/model'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import {
   getBaseAmount,
   getBaseCurrency,
@@ -25,19 +25,20 @@ import {
 } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
 import {
+  BSCheckoutFormValuesType,
   RecurringBuyOrigins,
   RecurringBuyPeriods,
-  RecurringBuyStepType,
-  BSCheckoutFormValuesType
+  RecurringBuyStepType
 } from 'data/types'
 
 import Loading from '../template.loading'
-// import Success from './template.success'
 import InterestBanner from './InterestBanner'
 import { getData } from './selectors'
 import SuccessSdd from './template.sdd.success'
 
 const { getSymbol } = Exchange
+const { FORM_BS_CHECKOUT } = model.components.buySell
+
 class OrderSummaryContainer extends PureComponent<Props> {
   componentDidMount() {
     if (!Remote.Success.is(this.props.data)) {
@@ -53,7 +54,7 @@ class OrderSummaryContainer extends PureComponent<Props> {
     ) {
       this.props.buySellActions.setStep({
         order: this.props.order,
-        step: '3DS_HANDLER'
+        step: '3DS_HANDLER_EVERYPAY'
       })
     }
     this.props.interestActions.fetchShowInterestCardAfterTransaction({})
@@ -88,7 +89,7 @@ class OrderSummaryContainer extends PureComponent<Props> {
   handleCompleteButton = () => {
     this.props.buySellActions.setStep({
       order: this.props.order,
-      step: '3DS_HANDLER'
+      step: '3DS_HANDLER_EVERYPAY'
     })
   }
 
@@ -143,7 +144,7 @@ class OrderSummaryContainer extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState, ownProps: OwnProps): LinkStatePropsType => ({
   data: getData(state),
-  formValues: selectors.form.getFormValues('buySellCheckout')(state) as BSCheckoutFormValuesType,
+  formValues: selectors.form.getFormValues(FORM_BS_CHECKOUT)(state) as BSCheckoutFormValuesType,
   hasAvailablePeriods: selectors.components.recurringBuy.hasAvailablePeriods(ownProps.method)(
     state
   ),

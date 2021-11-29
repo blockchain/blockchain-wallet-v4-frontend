@@ -294,11 +294,10 @@ export const encodeSell = (schema, asset, address) => {
     ])
   } else if (schema.name === 'ERC721') {
     const tokenInterface = new ethers.utils.Interface(ERC721_ABI)
-    calldata = tokenInterface.encodeFunctionData('safeTransferFrom', [
+    calldata = tokenInterface.encodeFunctionData('transferFrom', [
       address.toLowerCase(),
       NULL_ADDRESS,
-      asset.token_id,
-      []
+      asset.token_id
     ])
   } else {
     throw new Error(`Unsupported Asset Standard: ${schema.name}`)
@@ -631,7 +630,7 @@ export function _makeMatchingOrder({
 
   const times = _getTimeParameters(expirationTime)
   // Compat for matching buy orders that have fee recipient still on them
-  const feeRecipient = order.feeRecipient === NULL_ADDRESS ? OPENSEA_FEE_RECIPIENT : NULL_ADDRESS
+  const feeRecipient = OPENSEA_FEE_RECIPIENT
 
   const matchingOrder: UnhashedOrder = {
     basePrice: offer ? new BigNumber(offer) : new BigNumber(order.basePrice),
@@ -650,8 +649,6 @@ export function _makeMatchingOrder({
     metadata: order.metadata,
     paymentToken: paymentTokenAddress ?? order.paymentToken,
     quantity: order.quantity,
-    // TODO: Fix the replacement patten generation for buy orders.
-    // replacementPattern,
     replacementPattern,
     saleKind: order.saleKind,
     // @ts-ignore
@@ -1332,17 +1329,17 @@ async function approveSemiOrNonFungibleToken({
     // Use this long way of calling so we can check for method existence on a bool-returning method.
     const isApprovedForAll = await tokenContract.isApprovedForAll(accountAddress, proxyAddress)
     console.log(isApprovedForAll)
-    return parseInt(isApprovedForAll)
+    return isApprovedForAll
   }
   const isApprovedForAll = await approvalAllCheck()
 
-  if (isApprovedForAll === 1) {
+  if (isApprovedForAll) {
     // Supports ApproveAll
     console.log('Already approved proxy for all tokens')
     return null
   }
 
-  if (isApprovedForAll === 0) {
+  if (!isApprovedForAll) {
     // Supports ApproveAll
     //  not approved for all yet
 
@@ -1363,7 +1360,7 @@ async function approveSemiOrNonFungibleToken({
           `Transaction receipt : https://www.etherscan.io/tx/${receipt.logs[1].transactionHash}\n`
         )
         const approvalCheck = await approvalAllCheck()
-        if (approvalCheck !== 1) {
+        if (!approvalCheck) {
           return null
         }
       }

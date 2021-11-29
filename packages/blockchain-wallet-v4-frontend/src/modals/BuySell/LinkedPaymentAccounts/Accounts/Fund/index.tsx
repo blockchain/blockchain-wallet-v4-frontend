@@ -3,10 +3,10 @@ import styled from 'styled-components'
 
 import Currencies from '@core/exchange/currencies'
 import { fiatToString } from '@core/exchange/utils'
-import { FiatType, BSBalanceType, BSPaymentMethodType } from '@core/types'
+import { BSBalanceType, BSPaymentMethodType, FiatType } from '@core/types'
+import { DisplayContainer, DisplayIcon, MultiRowContainer } from 'components/BuySell'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Title, Value } from 'components/Flyout'
-import { DisplayContainer, DisplayIcon, MultiRowContainer } from 'components/BuySell'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 
 const DisplayMoney = styled.div`

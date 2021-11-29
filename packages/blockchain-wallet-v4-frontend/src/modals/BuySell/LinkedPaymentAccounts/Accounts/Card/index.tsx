@@ -3,8 +3,8 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { BSPaymentMethodType } from '@core/types'
-import { Title, Value } from 'components/Flyout'
 import { DisplayContainer, DisplayIcon, MultiRowContainer } from 'components/BuySell'
+import { Title, Value } from 'components/Flyout'
 
 const StyledValue = styled(Value)`
   text-transform: capitalize;

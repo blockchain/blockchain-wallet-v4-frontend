@@ -5,9 +5,9 @@ import { defaultTo, filter, prop } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
-import { ExtractSuccess, BSOrderType, BSPaymentTypes, WalletFiatType } from '@core/types'
+import { BSOrderType, BSPaymentTypes, ExtractSuccess, WalletFiatType } from '@core/types'
 import DataError from 'components/DataError'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import { getFiatFromPair, getOrderType } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
 import {
@@ -22,6 +22,8 @@ import {
 import Loading from '../template.loading'
 import { getData } from './selectors'
 import Success from './template.success'
+
+const { FORM_BS_CHECKOUT } = model.components.buySell
 
 class CheckoutConfirm extends PureComponent<Props> {
   componentDidMount() {
@@ -59,7 +61,7 @@ class CheckoutConfirm extends PureComponent<Props> {
           })
         }
         return this.props.buySellActions.setStep({
-          step: 'ADD_CARD'
+          step: 'ADD_CARD_DETERMINE_PROVIDER'
         })
       }
       return this.props.buySellActions.setStep({
@@ -92,7 +94,7 @@ class CheckoutConfirm extends PureComponent<Props> {
             paymentMethodId: this.props.order.paymentMethodId
           })
         }
-        return this.props.buySellActions.setStep({ step: 'ADD_CARD' })
+        return this.props.buySellActions.setStep({ step: 'ADD_CARD_DETERMINE_PROVIDER' })
 
       case BSPaymentTypes.BANK_TRANSFER:
         const [bankAccount] = filter(
@@ -143,7 +145,7 @@ class CheckoutConfirm extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
-  formValues: selectors.form.getFormValues('buySellCheckout')(state) as BSCheckoutFormValuesType
+  formValues: selectors.form.getFormValues(FORM_BS_CHECKOUT)(state) as BSCheckoutFormValuesType
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

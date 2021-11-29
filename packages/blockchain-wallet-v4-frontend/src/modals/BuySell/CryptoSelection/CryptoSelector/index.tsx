@@ -4,7 +4,7 @@ import { any, map, values } from 'ramda'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { OrderType, BSPairType } from '@core/types'
+import { BSPairType, OrderType } from '@core/types'
 import { Icon, Image, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption } from 'components/Form'
@@ -17,7 +17,7 @@ import { Props as OwnProps, SuccessStateType } from '../index'
 import CryptoItem from './CryptoItem'
 import SellEmptyState from './SellEmptyState'
 
-const { BS_CRYPTO_SELECTION } = model.components.buySell
+const { FORM_BS_CHECKOUT, FORM_BS_CRYPTO_SELECTION } = model.components.buySell
 
 const Wrapper = styled.div`
   display: flex;
@@ -88,6 +88,13 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
       })
     }
 
+    // in case of not directly supported fiat currency lend user to select trading currency from list
+    if (props.originalFiatCurrency) {
+      return props.buySellActions.setStep({
+        step: 'TRADING_CURRENCY_SELECTOR'
+      })
+    }
+
     // default continue to enter amount step
     return props.buySellActions.setStep({
       cryptoCurrency: getCoinFromPair(pair.pair),
@@ -113,7 +120,7 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     })
     // reset form values so order doesn't hold values
     // if user changes wallet/coin
-    props.formActions.change('buySellCheckout', 'amount', '')
+    props.formActions.change(FORM_BS_CHECKOUT, 'amount', '')
   }
 
   // Check to see if any accounts have balance
@@ -271,5 +278,5 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
 
 export default reduxForm<{}, Props>({
   destroyOnUnmount: false,
-  form: BS_CRYPTO_SELECTION
+  form: FORM_BS_CRYPTO_SELECTION
 })(CryptoSelector)

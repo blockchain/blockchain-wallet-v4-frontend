@@ -21,7 +21,6 @@ import {
   ProductTypes,
   ProviderDetailsType,
   SwapOrderType,
-  WalletFiatType,
   WalletOptionsType
 } from '@core/types'
 import { errorHandler, errorHandlerCode } from '@core/utils'
@@ -47,11 +46,18 @@ import { selectReceiveAddress } from '../utils/sagas'
 import {
   DEFAULT_BS_BALANCES,
   DEFAULT_BS_METHODS,
+  FORM_BS_ADD_EVERYPAY_CARD,
+  FORM_BS_CANCEL_ORDER,
+  FORM_BS_CHECKOUT,
+  FORM_BS_CHECKOUT_CONFIRM,
+  FORM_BS_PREVIEW_SELL,
+  FORMS_BS_BILLING_ADDRESS,
   getCoinFromPair,
   getFiatFromPair,
   getNextCardExists,
+  isFiatCurrencySupported,
   NO_ACCOUNT,
-  NO_CHECKOUT_VALS,
+  NO_CHECKOUT_VALUES,
   NO_FIAT_CURRENCY,
   NO_ORDER_EXISTS,
   NO_PAIR_SELECTED,
@@ -145,7 +151,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const addCardDetails = function* () {
     try {
       const formValues: T.BSAddCardFormValuesType = yield select(
-        selectors.form.getFormValues('addCardEverypayForm')
+        selectors.form.getFormValues(FORM_BS_ADD_EVERYPAY_CARD)
       )
       const existingCardsR = S.getBSCards(yield select())
       const existingCards = existingCardsR.getOrElse([] as Array<BSCardType>)
@@ -155,7 +161,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       yield put(
         A.setStep({
-          step: '3DS_HANDLER'
+          step: '3DS_HANDLER_EVERYPAY'
         })
       )
       yield put(A.addCardLoading())
@@ -200,12 +206,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const error = errorHandler(e)
       yield put(
         A.setStep({
-          step: 'ADD_CARD'
+          step: 'ADD_CARD_DETERMINE_PROVIDER'
         })
       )
-      yield put(actions.form.startSubmit('addCardEverypayForm'))
+      yield put(actions.form.startSubmit(FORM_BS_ADD_EVERYPAY_CARD))
       yield put(
-        actions.form.stopSubmit('addCardEverypayForm', {
+        actions.form.stopSubmit(FORM_BS_ADD_EVERYPAY_CARD, {
           _error: error as T.BSAddCardErrorType
         })
       )
@@ -225,9 +231,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const { state } = payload
       const fiatCurrency = getFiatFromPair(payload.pair)
       const cryptoCurrency = getCoinFromPair(payload.pair)
-      yield put(actions.form.startSubmit('cancelBSOrderForm'))
+      yield put(actions.form.startSubmit(FORM_BS_CANCEL_ORDER))
       yield call(api.cancelBSOrder, payload)
-      yield put(actions.form.stopSubmit('cancelBSOrderForm'))
+      yield put(actions.form.stopSubmit(FORM_BS_CANCEL_ORDER))
       yield put(A.fetchOrders())
       if (state === 'PENDING_CONFIRMATION' && fiatCurrency && cryptoCurrency) {
         const pair = S.getBSPair(yield select())
@@ -256,27 +262,27 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
     } catch (e) {
       const error = errorHandler(e)
-      yield put(actions.form.stopSubmit('cancelBSOrderForm', { _error: error }))
+      yield put(actions.form.stopSubmit(FORM_BS_CANCEL_ORDER, { _error: error }))
     }
   }
 
   const createBSOrder = function* ({ payload }: ReturnType<typeof A.createOrder>) {
     const { paymentMethodId, paymentType } = payload
     const values: T.BSCheckoutFormValuesType = yield select(
-      selectors.form.getFormValues('buySellCheckout')
+      selectors.form.getFormValues(FORM_BS_CHECKOUT)
     )
     try {
       const pair = S.getBSPair(yield select())
-      if (!values) throw new Error(NO_CHECKOUT_VALS)
+      if (!values) throw new Error(NO_CHECKOUT_VALUES)
       if (!pair) throw new Error(NO_PAIR_SELECTED)
       const { fix, orderType, period } = values
 
       // since two screens use this order creation saga and they have different
       // forms, detect the order type and set correct form to submitting
       if (orderType === OrderType.SELL) {
-        yield put(actions.form.startSubmit('previewSell'))
+        yield put(actions.form.startSubmit(FORM_BS_PREVIEW_SELL))
       } else {
-        yield put(actions.form.startSubmit('buySellCheckout'))
+        yield put(actions.form.startSubmit(FORM_BS_CHECKOUT))
       }
 
       const fiat = getFiatFromPair(pair.pair)
@@ -337,7 +343,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             step: 'SELL_ORDER_SUMMARY'
           })
         )
-        yield put(actions.form.stopSubmit('previewSell'))
+        yield put(actions.form.stopSubmit(FORM_BS_PREVIEW_SELL))
         yield put(actions.components.refresh.refreshClicked())
         return yield put(actions.components.swap.fetchTrades())
       }
@@ -365,7 +371,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         paymentMethodId
       )
 
-      yield put(actions.form.stopSubmit('buySellCheckout'))
+      yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT))
       yield put(A.fetchOrders())
       yield put(A.setStep({ order: buyOrder, step: 'CHECKOUT_CONFIRM' }))
     } catch (e) {
@@ -395,15 +401,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           )
           yield take(A.initializeCheckout.type)
           yield delay(3000)
-          yield put(actions.form.startSubmit('buySellCheckout'))
+          yield put(actions.form.startSubmit(FORM_BS_CHECKOUT))
         }
       }
 
       const error: number | string = errorHandlerCode(e)
       if (values?.orderType === OrderType.SELL) {
-        yield put(actions.form.stopSubmit('previewSell', { _error: error }))
+        yield put(actions.form.stopSubmit(FORM_BS_PREVIEW_SELL, { _error: error }))
       }
-      yield put(actions.form.stopSubmit('buySellCheckout', { _error: error }))
+      yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT, { _error: error }))
     }
   }
 
@@ -427,7 +433,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const confirmOrderPoll = function* ({ payload }: ReturnType<typeof A.confirmOrderPoll>) {
     const { RETRY_AMOUNT, SECONDS } = POLLING
     const confirmedOrder = yield retry(RETRY_AMOUNT, SECONDS * 1000, OrderConfirmCheck, payload.id)
-    yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
+    yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
     yield put(A.setStep({ order: confirmedOrder, step: 'ORDER_SUMMARY' }))
     yield put(A.fetchOrders())
   }
@@ -436,12 +442,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const { order, paymentMethodId } = payload
     try {
       if (!order) throw new Error(NO_ORDER_EXISTS)
-      yield put(actions.form.startSubmit('sbCheckoutConfirm'))
+      yield put(actions.form.startSubmit(FORM_BS_CHECKOUT_CONFIRM))
       const account = selectors.components.brokerage.getAccount(yield select())
       const domainsR = selectors.core.walletOptions.getDomains(yield select())
       const domains = domainsR.getOrElse({
-        walletHelper: 'https://wallet-helper.blockchain.com',
-        yapilyCallbackUrl: 'https://www.blockchain.com/brokerage-link-success'
+        comRoot: 'https://www.blockchain.com',
+        walletHelper: 'https://wallet-helper.blockchain.com'
       } as WalletOptionsType['domains'])
 
       let attributes
@@ -454,11 +460,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             ? {
                 everypay: {
                   customerUrl: `${domains.walletHelper}/wallet-helper/everypay/#/response-handler`
-                }
+                },
+                // TODO add correct redirect url here
+                redirectURL: '###'
               }
             : undefined
       } else if (account?.partner === BankPartners.YAPILY) {
-        attributes = { callback: domains.yapilyCallbackUrl }
+        attributes = { callback: `${domains.comRoot}/brokerage-link-success` }
       }
 
       const confirmedOrder: BSOrderType = yield call(
@@ -474,7 +482,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         account?.partner === BankPartners.YAPILY
       ) {
         const { RETRY_AMOUNT, SECONDS } = POLLING
-        // for OB the authorisationUrl isn't in the initial response to confirm
+        // for OB the authorizationUrl isn't in the initial response to confirm
         // order. We need to poll the order for it.
         yield put(A.setStep({ step: 'LOADING' }))
         const order = yield retry(RETRY_AMOUNT, SECONDS * 1000, AuthUrlCheck, confirmedOrder.id)
@@ -489,19 +497,28 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // Refresh recurring buy list to check for new pending RBs for next step
       yield put(actions.components.recurringBuy.fetchRegisteredList())
 
-      yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
+      yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
 
       if (order.paymentType === BSPaymentTypes.BANK_TRANSFER) {
         yield put(A.setStep({ order: confirmedOrder, step: 'ORDER_SUMMARY' }))
+      } else if (
+        confirmedOrder.attributes?.everypay ||
+        confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'EVERYPAY'
+      ) {
+        yield put(A.setStep({ order: confirmedOrder, step: '3DS_HANDLER_EVERYPAY' }))
+      } else if (confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'STRIPE') {
+        yield put(A.setStep({ order: confirmedOrder, step: '3DS_HANDLER_STRIPE' }))
+      } else if (confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'CHECKOUTDOTCOM') {
+        yield put(A.setStep({ order: confirmedOrder, step: '3DS_HANDLER_CHECKOUTDOTCOM' }))
       } else {
-        yield put(A.setStep({ order: confirmedOrder, step: '3DS_HANDLER' }))
+        throw new Error('Unknown payment provider')
       }
       yield put(A.fetchOrders())
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.setStep({ order, step: 'CHECKOUT_CONFIRM' }))
-      yield put(actions.form.startSubmit('sbCheckoutConfirm'))
-      yield put(actions.form.stopSubmit('sbCheckoutConfirm', { _error: error }))
+      yield put(actions.form.startSubmit(FORM_BS_CHECKOUT_CONFIRM))
+      yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM, { _error: error }))
     }
   }
 
@@ -509,30 +526,29 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     try {
       const order = S.getBSOrder(yield select())
       if (!order) throw new Error(NO_ORDER_EXISTS)
-      yield put(actions.form.startSubmit('sbCheckoutConfirm'))
+      yield put(actions.form.startSubmit(FORM_BS_CHECKOUT_CONFIRM))
       const confirmedOrder: BSOrderType = yield call(api.confirmBSOrder, order as BSOrderType)
-      yield put(actions.form.stopSubmit('sbCheckoutConfirm'))
+      yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
       yield put(A.fetchOrders())
       yield put(A.setStep({ order: confirmedOrder, step: 'ORDER_SUMMARY' }))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(actions.form.stopSubmit('sbCheckoutConfirm', { _error: error }))
+      yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM, { _error: error }))
     }
   }
 
-  // TODO: move to BROKERAGE
   const deleteBSCard = function* ({ payload }: ReturnType<typeof A.deleteCard>) {
     try {
       if (!payload) return
-      yield put(actions.form.startSubmit('linkedCards'))
+      yield put(actions.form.startSubmit(FORM_BS_CHECKOUT_CONFIRM))
       yield call(api.deleteSavedAccount, payload, 'cards')
       yield put(A.fetchCards(true))
       yield take([A.fetchCardsSuccess.type, A.fetchCardsFailure.type])
-      yield put(actions.form.stopSubmit('linkedCards'))
+      yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM))
       yield put(actions.alerts.displaySuccess('Card removed.'))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(actions.form.stopSubmit('linkedCards', { _error: error }))
+      yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT_CONFIRM, { _error: error }))
       yield put(actions.alerts.displayError('Error removing card.'))
     }
   }
@@ -557,7 +573,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       const userDataR = selectors.modules.profile.getUserData(yield select())
       const billingAddressForm: T.BSBillingAddressFormValuesType | undefined = yield select(
-        selectors.form.getFormValues('ccBillingAddress')
+        selectors.form.getFormValues(FORMS_BS_BILLING_ADDRESS)
       )
 
       const userData = userDataR.getOrFail('NO_USER_ADDRESS')
@@ -609,7 +625,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       if (!loadCards) return yield put(A.fetchCardsSuccess([]))
       if (!payload) yield put(A.fetchCardsLoading())
-      const cards = yield call(api.getBSCards)
+      const cards = yield call(
+        api.getBSCards,
+        Boolean(selectors.core.walletOptions.getUseNewPaymentProviders(yield select()))
+      )
       yield put(A.fetchCardsSuccess(cards))
     } catch (e) {
       const error = errorHandler(e)
@@ -830,9 +849,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const formChanged = function* (action) {
     try {
-      if (action.meta.form !== 'buySellCheckout') return
+      if (action.meta.form !== FORM_BS_CHECKOUT) return
       if (action.meta.field !== 'amount') return
-      const formValues = selectors.form.getFormValues('buySellCheckout')(
+      const formValues = selectors.form.getFormValues(FORM_BS_CHECKOUT)(
         yield select()
       ) as T.BSCheckoutFormValuesType
       const account = S.getSwapAccount(yield select())
@@ -849,7 +868,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const amt = getQuote(pair.pair, quote.rate, formValues.fix, formValues.amount)
 
       const cryptoAmt = formValues.fix === 'CRYPTO' ? formValues.amount : amt
-      yield put(actions.form.change('buySellCheckout', 'cryptoAmount', cryptoAmt))
+      yield put(actions.form.change(FORM_BS_CHECKOUT, 'cryptoAmount', cryptoAmt))
       if (account.type === SwapBaseCounterTypes.CUSTODIAL) return
       // @ts-ignore
       let payment = paymentGetOrElse(account.coin, paymentR)
@@ -899,7 +918,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const { amount, coin } = payload
     const standardAmt = convertBaseToStandard(coin, amount)
 
-    yield put(actions.form.change('buySellCheckout', 'amount', standardAmt))
+    yield put(actions.form.change(FORM_BS_CHECKOUT, 'amount', standardAmt))
   }
 
   const handleBuyMinAmountClick = function* ({
@@ -908,7 +927,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const { amount, coin } = payload
     const standardAmt = convertBaseToStandard(coin, amount)
 
-    yield put(actions.form.change('buySellCheckout', 'amount', standardAmt))
+    yield put(actions.form.change(FORM_BS_CHECKOUT, 'amount', standardAmt))
   }
 
   const handleSellMaxAmountClick = function* ({
@@ -917,7 +936,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const { amount, coin } = payload
     const standardAmt = convertBaseToStandard(coin, amount)
 
-    yield put(actions.form.change('buySellCheckout', 'amount', standardAmt))
+    yield put(actions.form.change(FORM_BS_CHECKOUT, 'amount', standardAmt))
   }
 
   const handleSellMinAmountClick = function* ({
@@ -926,12 +945,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const { amount, coin } = payload
     const standardAmt = convertBaseToStandard(coin, amount)
 
-    yield put(actions.form.change('buySellCheckout', 'amount', standardAmt))
+    yield put(actions.form.change(FORM_BS_CHECKOUT, 'amount', standardAmt))
   }
 
   const handleBSMethodChange = function* ({ payload }: ReturnType<typeof A.handleMethodChange>) {
     const values: T.BSCheckoutFormValuesType = yield select(
-      selectors.form.getFormValues('buySellCheckout')
+      selectors.form.getFormValues(FORM_BS_CHECKOUT)
     )
 
     const { isFlow, method } = payload
@@ -998,7 +1017,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       case BSPaymentTypes.PAYMENT_CARD:
         return yield put(
           A.setStep({
-            step: 'ADD_CARD'
+            step: 'ADD_CARD_DETERMINE_PROVIDER'
           })
         )
       default:
@@ -1040,7 +1059,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         }
 
     yield put(
-      actions.form.initialize('ccBillingAddress', {
+      actions.form.initialize(FORMS_BS_BILLING_ADDRESS, {
         ...address
       })
     )
@@ -1071,7 +1090,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const quote = S.getSellQuote(yield select()).getOrFail(NO_QUOTE)
 
         if (account.type === SwapBaseCounterTypes.ACCOUNT) {
-          const formValues = selectors.form.getFormValues('buySellCheckout')(
+          const formValues = selectors.form.getFormValues(FORM_BS_CHECKOUT)(
             yield select()
           ) as T.BSCheckoutFormValuesType
           const payment = yield call(
@@ -1092,7 +1111,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         .getOrElse(false) as boolean
 
       yield put(
-        actions.form.initialize('buySellCheckout', {
+        actions.form.initialize(FORM_BS_CHECKOUT, {
           amount,
           cryptoAmount,
           fix,
@@ -1107,8 +1126,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const pollBSCardErrorHandler = function* (state: BSCardStateType) {
-    yield put(A.setStep({ step: 'ADD_CARD' }))
-    yield put(actions.form.startSubmit('addCardEverypayForm'))
+    yield put(A.setStep({ step: 'ADD_CARD_DETERMINE_PROVIDER' }))
+    yield put(actions.form.startSubmit(FORM_BS_ADD_EVERYPAY_CARD))
 
     let error
     switch (state) {
@@ -1120,7 +1139,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
 
     yield put(
-      actions.form.stopSubmit('addCardEverypayForm', {
+      actions.form.stopSubmit(FORM_BS_ADD_EVERYPAY_CARD, {
         _error: error
       })
     )
@@ -1146,7 +1165,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       card = yield call(api.getBSCard, payload)
       retryAttempts += 1
       step = S.getStep(yield select())
-      if (step !== '3DS_HANDLER') {
+      if (step !== '3DS_HANDLER_EVERYPAY') {
         yield cancel()
       }
       yield delay(3000)
@@ -1183,7 +1202,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       order = yield call(api.getBSOrder, payload)
       step = S.getStep(yield select())
       retryAttempts += 1
-      if (step !== '3DS_HANDLER') {
+      if (step !== '3DS_HANDLER_EVERYPAY') {
         yield cancel()
       }
       yield delay(3000)
@@ -1199,12 +1218,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
     }
 
-    if (action.payload.step === 'ADD_CARD') {
-      const paymentProcessors: boolean = (yield select(
-        selectors.core.walletOptions.getPaymentProcessors
+    if (action.payload.step === 'ADD_CARD_DETERMINE_PROVIDER') {
+      const addCheckoutDotComPaymentProvider: boolean = (yield select(
+        selectors.core.walletOptions.getAddCheckoutDotComPaymentProvider
       )).getOrElse(false)
 
-      if (!paymentProcessors) {
+      if (!addCheckoutDotComPaymentProvider) {
         yield put(
           A.setStep({
             step: 'ADD_CARD_EVERYPAY'
@@ -1230,17 +1249,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         return
       }
 
-      const checkoutAccountCodes = checkoutAcquirers.reduce((prev, curr) => {
+      const checkoutDotComAccountCodes = checkoutAcquirers.reduce((prev, curr) => {
         return [...new Set([...prev, ...curr.cardAcquirerAccountCodes])]
       }, [] as string[])
 
-      const checkoutApiKey = checkoutAcquirers[0].apiKey
+      const checkoutDotComApiKey = checkoutAcquirers[0].apiKey
 
       yield put(
         A.setStep({
-          checkoutAccountCodes,
-          checkoutApiKey,
-          step: 'ADD_CARD_CHECKOUT'
+          checkoutDotComAccountCodes,
+          checkoutDotComApiKey,
+          step: 'ADD_CARD_CHECKOUTDOTCOM'
         })
       )
     }
@@ -1277,7 +1296,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield put(actions.modals.showModal('SIMPLE_BUY_MODAL', { cryptoCurrency, origin }))
     const fiatCurrency = selectors.core.settings
       .getCurrency(yield select())
-      .getOrElse('USD') as WalletFiatType
+      .getOrElse('USD') as FiatType
 
     // When user closes the QR code modal and opens it via one of the pending
     // buy buttons in the app. We need to take them to the qrcode screen and
@@ -1325,16 +1344,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           break
       }
     } else {
-      yield put(A.setStep({ cryptoCurrency, fiatCurrency, step: 'CRYPTO_SELECTION' }))
+      const originalFiatCurrency = isFiatCurrencySupported(fiatCurrency) ? undefined : fiatCurrency
+      yield put(
+        A.setStep({ cryptoCurrency, fiatCurrency, originalFiatCurrency, step: 'CRYPTO_SELECTION' })
+      )
     }
   }
 
   const switchFix = function* ({ payload }: ReturnType<typeof A.switchFix>) {
-    yield put(actions.form.change('buySellCheckout', 'fix', payload.fix))
+    yield put(actions.form.change(FORM_BS_CHECKOUT, 'fix', payload.fix))
     yield put(actions.preferences.setBSCheckoutFix(payload.orderType, payload.fix))
     const newAmount = new BigNumber(payload.amount).isGreaterThan(0) ? payload.amount : undefined
-    yield put(actions.form.change('buySellCheckout', 'amount', newAmount))
-    yield put(actions.form.focus('buySellCheckout', 'amount'))
+    yield put(actions.form.change(FORM_BS_CHECKOUT, 'amount', newAmount))
+    yield put(actions.form.focus(FORM_BS_CHECKOUT, 'amount'))
   }
 
   const fetchLimits = function* ({ payload }: ReturnType<typeof A.fetchLimits>) {
@@ -1371,6 +1393,35 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.fetchCrossBorderLimitsSuccess(limitsResponse))
     } catch (e) {
       yield put(A.fetchCrossBorderLimitsFailure(e))
+    }
+  }
+
+  const setFiatTradingCurrency = function* () {
+    try {
+      const state = yield select()
+      const cryptoCurrency = S.getCryptoCurrency(state) || 'BTC'
+      const fiatCurrency = S.getFiatCurrency(state) || 'USD'
+      const orderType = S.getOrderType(state) || 'BUY'
+      yield put(A.fetchPairs({ coin: cryptoCurrency, currency: fiatCurrency }))
+      // wait to load new pairs
+      yield take([A.fetchPairsSuccess.type, A.fetchPairsFailure.type])
+      // state has been changed we need most recent pairs
+      const pairs = S.getBSPairs(yield select()).getOrElse([])
+
+      // find a pair
+      const pair = pairs.filter((pair) => pair.pair === `${cryptoCurrency}-${fiatCurrency}`)[0]
+      yield put(A.fetchPaymentMethods(fiatCurrency))
+      yield put(
+        A.setStep({
+          cryptoCurrency,
+          fiatCurrency,
+          orderType,
+          pair,
+          step: 'ENTER_AMOUNT'
+        })
+      )
+    } catch (e) {
+      // do nothing
     }
   }
 
@@ -1411,6 +1462,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     pollBSBalances,
     pollBSCard,
     pollBSOrder,
+    setFiatTradingCurrency,
     setStepChange,
     showModal,
     switchFix
