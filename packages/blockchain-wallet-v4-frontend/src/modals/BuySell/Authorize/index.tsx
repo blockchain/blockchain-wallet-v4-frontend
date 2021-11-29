@@ -6,7 +6,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
-import { FiatType, BSOrderType } from '@core/types'
+import { BSOrderType, FiatType } from '@core/types'
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper, Row, Title, Value } from 'components/Flyout'
 import { actions, selectors } from 'data'

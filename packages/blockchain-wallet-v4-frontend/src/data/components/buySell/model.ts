@@ -8,8 +8,10 @@ import {
   BSPairsType,
   BSPaymentTypes,
   CoinType,
+  FiatType,
   Limits,
   SwapOrderType,
+  WalletFiatEnum,
   WalletFiatType
 } from '@core/types'
 
@@ -154,3 +156,5 @@ export const getValidPaymentMethod = (method: BSPaymentTypes) => {
 
   return method
 }
+
+export const isFiatCurrencySupported = (currency: FiatType) => currency in WalletFiatEnum

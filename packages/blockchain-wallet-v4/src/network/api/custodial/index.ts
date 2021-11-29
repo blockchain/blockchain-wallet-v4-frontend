@@ -1,8 +1,8 @@
 import {
+  BSPaymentTypes,
   CoinType,
   CrossBorderLimits,
   FiatType,
-  BSPaymentTypes,
   WalletAcountType,
   WalletFiatType
 } from '@core/types'

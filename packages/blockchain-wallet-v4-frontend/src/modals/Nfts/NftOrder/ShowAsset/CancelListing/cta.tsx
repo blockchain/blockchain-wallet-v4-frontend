@@ -23,7 +23,7 @@ const CTA: React.FC<Props> = (props) => {
       </Title>
       <br />
       {orderFlow.fees.cata({
-        Failure: (e) => (
+        Failure: () => (
           <Text size='14px' weight={600}>
             <FormattedMessage
               id='copy.no_active_sell_listings'

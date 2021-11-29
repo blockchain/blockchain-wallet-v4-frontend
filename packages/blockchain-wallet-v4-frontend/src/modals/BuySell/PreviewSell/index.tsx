@@ -7,7 +7,7 @@ import styled from 'styled-components'
 
 import { Exchange } from '@core'
 import { coinToString, formatFiat } from '@core/exchange/utils'
-import { CoinType, PaymentValue, RatesType, BSOrderActionType, BSPairType } from '@core/types'
+import { BSOrderActionType, BSPairType, CoinType, PaymentValue, RatesType } from '@core/types'
 import {
   Button,
   HeartbeatLoader,

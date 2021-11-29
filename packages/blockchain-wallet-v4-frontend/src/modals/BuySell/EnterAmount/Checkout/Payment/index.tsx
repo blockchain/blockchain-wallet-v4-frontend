@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled, { css } from 'styled-components'
 
 import { Box, Icon } from 'blockchain-info-components'
+import { DisplayPaymentIcon } from 'components/BuySell'
 import {
   getIcon,
   getText,
@@ -10,7 +11,6 @@ import {
   PaymentText,
   SectionTitle
 } from 'components/Flyout/model'
-import { DisplayPaymentIcon } from 'components/BuySell'
 
 import { Props } from '../template.success'
 

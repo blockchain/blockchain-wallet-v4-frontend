@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { CoinType, FiatType, BSOrderActionType } from '@core/types'
+import { BSOrderActionType, CoinType, FiatType } from '@core/types'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 import { SwapAccountType } from 'data/types'

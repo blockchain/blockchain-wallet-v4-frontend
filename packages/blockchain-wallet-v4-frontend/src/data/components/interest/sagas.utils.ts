@@ -5,12 +5,12 @@ import { Exchange } from '@core'
 import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
 import {
   AccountTypes,
+  BSBalancesType,
   CoinType,
   FiatType,
   PaymentType,
   PaymentValue,
-  RatesType,
-  BSBalancesType
+  RatesType
 } from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
 import { promptForSecondPassword } from 'services/sagas'

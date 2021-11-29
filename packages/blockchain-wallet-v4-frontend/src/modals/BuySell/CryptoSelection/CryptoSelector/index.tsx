@@ -4,7 +4,7 @@ import { any, map, values } from 'ramda'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { OrderType, BSPairType } from '@core/types'
+import { BSPairType, OrderType } from '@core/types'
 import { Icon, Image, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption } from 'components/Form'
@@ -85,6 +85,13 @@ const CryptoSelector: React.FC<InjectedFormProps<{}, Props> & Props> = (props) =
     if (currentTier === 3 && props.sbOrders?.length > 0) {
       return props.buySellActions.setStep({
         step: 'UPGRADE_TO_GOLD'
+      })
+    }
+
+    // in case of not directly supported fiat currency lend user to select trading currency from list
+    if (props.originalFiatCurrency) {
+      return props.buySellActions.setStep({
+        step: 'TRADING_CURRENCY_SELECTOR'
       })
     }
 

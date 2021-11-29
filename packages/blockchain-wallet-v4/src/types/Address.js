@@ -140,7 +140,7 @@ export const fromString = (keyOrAddr, createdTime, label, bipPass, { api, networ
     key.compressed = false
     const uad = utils.btc.keyPairToAddress(key)
     return wrapPromiseInTask(() => api.getBalances([cad, uad])).fold(
-      (e) => {
+      () => {
         key.compressed = true
         return importAddress(key, createdTime, label, network)
       },

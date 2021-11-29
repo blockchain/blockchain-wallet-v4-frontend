@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { buyPaymentMethodSelectedPaymentTypeDictionary } from 'middleware/analyticsMiddleware/utils'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { RemoteDataType, BSPaymentMethodType, BSPaymentTypes } from '@core/types'
+import { BSPaymentMethodType, BSPaymentTypes, RemoteDataType } from '@core/types'
 import DataError from 'components/DataError'
 import { FrequencyScreen } from 'components/Flyout'
 import { actions, model } from 'data'

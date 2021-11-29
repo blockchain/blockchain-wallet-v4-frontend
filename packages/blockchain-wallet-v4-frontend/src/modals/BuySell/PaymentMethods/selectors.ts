@@ -1,6 +1,6 @@
 import { lift } from 'ramda'
 
-import { ExtractSuccess, FiatType, InvitationsType, BSPaymentTypes } from '@core/types'
+import { BSPaymentTypes, ExtractSuccess, FiatType, InvitationsType } from '@core/types'
 import { selectors } from 'data'
 
 const getData = (state) => {

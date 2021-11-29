@@ -7,12 +7,12 @@ import { Exchange, Remote } from '@core'
 import { APIType } from '@core/network/api'
 import {
   AccountTypes,
+  BSBalancesType,
   CoinType,
   InterestAfterTransactionType,
   PaymentValue,
   RatesType,
-  RemoteDataType,
-  BSBalancesType
+  RemoteDataType
 } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'

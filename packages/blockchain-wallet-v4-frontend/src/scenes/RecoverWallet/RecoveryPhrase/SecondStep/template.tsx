@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { has, props } from 'ramda'
-import { Field, reduxForm } from 'redux-form'
+import { has } from 'ramda'
+import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'

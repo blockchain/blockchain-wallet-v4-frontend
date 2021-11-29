@@ -2,7 +2,7 @@ import React from 'react'
 import { IntlProvider } from 'react-intl'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 
-import { OrderType, BSPaymentTypes } from '@core/types'
+import { BSPaymentTypes, OrderType } from '@core/types'
 
 import OrderSummary from './OrderSummary'
 

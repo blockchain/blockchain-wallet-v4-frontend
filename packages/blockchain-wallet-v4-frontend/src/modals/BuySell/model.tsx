@@ -3,12 +3,12 @@ import { FormattedMessage } from 'react-intl'
 
 import { fiatToString } from '@core/exchange/utils'
 import {
-  CoinType,
-  FiatType,
   BSCardType,
   BSOrderActionType,
   BSOrderType,
-  BSPaymentTypes
+  BSPaymentTypes,
+  CoinType,
+  FiatType
 } from '@core/types'
 import { Link, Text, TextGroup } from 'blockchain-info-components'
 import { getBaseCurrency, getCounterCurrency, getOrderType } from 'data/components/buySell/model'

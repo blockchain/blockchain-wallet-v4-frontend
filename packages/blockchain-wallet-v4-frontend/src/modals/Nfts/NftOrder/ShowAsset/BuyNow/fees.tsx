@@ -26,7 +26,7 @@ const Fees: React.FC<Props> = (props) => {
   return (
     <>
       {orderFlow.fees.cata({
-        Failure: (e) => null,
+        Failure: () => null,
         Loading: () => (
           <CTARow>
             <SpinningLoader width='14px' height='14px' borderWidth='3px' />

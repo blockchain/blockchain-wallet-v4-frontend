@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
 import { BSPaymentMethodType } from '@core/network/api/buySell/types'
-import { CrossBorderLimitsPyload, FiatType, BSPaymentTypes, WalletAcountEnum } from '@core/types'
+import { BSPaymentTypes, CrossBorderLimitsPyload, FiatType, WalletAcountEnum } from '@core/types'
 import { EnterAmount, FlyoutOopsError } from 'components/Flyout'
 import { getDefaultMethod } from 'components/Flyout/model'
 import { actions, selectors } from 'data'

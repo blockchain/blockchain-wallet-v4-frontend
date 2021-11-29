@@ -2,8 +2,8 @@ import React, { ReactElement } from 'react'
 import styled from 'styled-components'
 
 import { BSPaymentMethodType } from '@core/types'
-import { Title, Value } from 'components/Flyout'
 import { DisplayContainer, DisplayIcon, MultiRowContainer } from 'components/BuySell'
+import { Title, Value } from 'components/Flyout'
 
 const StyledTitle = styled(Title)`
   text-transform: capitalize;

@@ -161,13 +161,16 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const defineDeepLinkGoals = function* (pathname, search) {
-    if (startsWith(DeepLinkGoal.LINK_ACCOUNT, pathname)) {
-      return yield call(defineLinkAccountGoal, search)
-    }
+  const defineWalletConnectGoal = function* (search) {
+    // cant use URLSearchParams as it parses the oddly formed uri incorrectly
+    const walletConnectURI = search.split('?uri=')[1]
+    yield put(actions.goals.saveGoal({ data: walletConnectURI, name: 'walletConnect' }))
+  }
 
-    if (startsWith(DeepLinkGoal.REFERRAL, pathname)) {
-      return yield call(defineReferralGoal, search)
+  const defineDeepLinkGoals = function* (pathname, search) {
+    // /#/open/wc?uri={wc_uri}
+    if (startsWith(DeepLinkGoal.WALLET_CONNECT, pathname)) {
+      return yield call(defineWalletConnectGoal, search)
     }
 
     // /#/open/kyc?tier={0 | 1 | 2 | ...} tier is optional
@@ -175,7 +178,6 @@ export default ({ api, coreSagas, networks }) => {
       return yield call(defineKycGoal, search)
     }
 
-    // TODO check why it uses includes
     // crypto send / bitpay links
     if (includes(DeepLinkGoal.BITCOIN, pathname)) {
       return yield call(defineSendCryptoGoal, pathname, search)
@@ -199,6 +201,14 @@ export default ({ api, coreSagas, networks }) => {
     // /#/open/rewards /#/open/interest
     if (startsWith(DeepLinkGoal.REWARDS, pathname) || startsWith(DeepLinkGoal.INTEREST, pathname)) {
       return yield call(defineInterestGoal)
+    }
+
+    if (startsWith(DeepLinkGoal.LINK_ACCOUNT, pathname)) {
+      return yield call(defineLinkAccountGoal, search)
+    }
+
+    if (startsWith(DeepLinkGoal.REFERRAL, pathname)) {
+      return yield call(defineReferralGoal, search)
     }
 
     yield call(defineActionGoal, pathname, search)
@@ -505,6 +515,31 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const runWalletConnectGoal = function* (goal: GoalType) {
+    try {
+      const { data: uri, id } = goal
+      const walletConnectEnabled = (yield select(
+        selectors.core.walletOptions.getWalletConnectEnabled
+      )).getOrElse(false)
+      yield put(actions.goals.deleteGoal(id))
+      if (walletConnectEnabled) {
+        yield put(
+          actions.goals.addInitialModal({
+            data: {
+              origin,
+              uri
+            },
+            key: 'walletConnect',
+            name: ModalName.WALLET_CONNECT_MODAL
+          })
+        )
+      }
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(actions.logs.logErrorMessage('goals', 'runWalletConnectGoal', error))
+    }
+  }
+
   const runSyncPitGoal = function* (goal: GoalType) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -582,7 +617,7 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.goals.addInitialRedirect('interest'))
   }
   const runInterestPromo = function* (goal: GoalType) {
-    // do not show imediately modal, wait 5 seconds
+    // do not show immediately modal, wait 5 seconds
     yield delay(WAIT_FOR_INTEREST_PROMO_MODAL)
     yield call(waitForUserData)
     const { id } = goal
@@ -643,6 +678,7 @@ export default ({ api, coreSagas, networks }) => {
       swapUpgrade,
       transferEth,
       upgradeForAirdrop,
+      walletConnect,
       welcomeModal
     } = initialModals
 
@@ -659,6 +695,9 @@ export default ({ api, coreSagas, networks }) => {
           origin: 'KycDocResubmitGoal'
         })
       )
+    }
+    if (walletConnect) {
+      return yield put(actions.modals.showModal(ModalName.WALLET_CONNECT_MODAL, walletConnect.data))
     }
     if (payment) {
       return yield put(actions.modals.showModal(payment.name, payment.data))
@@ -746,6 +785,9 @@ export default ({ api, coreSagas, networks }) => {
           break
         case 'upgradeForAirdrop':
           yield call(runUpgradeForAirdropGoal, goal)
+          break
+        case 'walletConnect':
+          yield call(runWalletConnectGoal, goal)
           break
         case 'welcomeModal':
           yield call(runWelcomeModal, goal)

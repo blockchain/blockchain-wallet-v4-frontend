@@ -6,7 +6,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
-import { ExtractSuccess, FiatType, RemoteDataType, BSOrderType } from '@core/types'
+import { BSOrderType, ExtractSuccess, FiatType, RemoteDataType } from '@core/types'
 import { Button, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import {

@@ -27,6 +27,7 @@ import {
   normalizeCreditCardExpiry,
   validateCreditCardExpiry
 } from 'components/Form/CreditCardExpiryBox'
+import { model } from 'data'
 import { CountryType } from 'data/components/identityVerification/types'
 import { BSAddCardErrorType } from 'data/types'
 import {
@@ -35,7 +36,6 @@ import {
   required,
   requiredZipCode
 } from 'services/forms'
-import { model } from 'data'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import { Error } from './model'

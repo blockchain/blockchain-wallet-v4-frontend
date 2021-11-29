@@ -2,9 +2,9 @@ import { lift, mapObjIndexed, toUpper, values } from 'ramda'
 
 import {
   AccountTokensBalancesResponseType,
+  BSPaymentTypes,
   CoinfigType,
   ExtractSuccess,
-  BSPaymentTypes,
   SwapOrderType
 } from '@core/types'
 import { selectors } from 'data'
