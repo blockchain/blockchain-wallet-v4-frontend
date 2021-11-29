@@ -294,11 +294,10 @@ export const encodeSell = (schema, asset, address) => {
     ])
   } else if (schema.name === 'ERC721') {
     const tokenInterface = new ethers.utils.Interface(ERC721_ABI)
-    calldata = tokenInterface.encodeFunctionData('safeTransferFrom', [
+    calldata = tokenInterface.encodeFunctionData('transferFrom', [
       address.toLowerCase(),
       NULL_ADDRESS,
-      asset.token_id,
-      []
+      asset.token_id
     ])
   } else {
     throw new Error(`Unsupported Asset Standard: ${schema.name}`)
@@ -1363,7 +1362,7 @@ async function approveSemiOrNonFungibleToken({
           `Transaction receipt : https://www.etherscan.io/tx/${receipt.logs[1].transactionHash}\n`
         )
         const approvalCheck = await approvalAllCheck()
-        if (approvalCheck !== 1) {
+        if (!approvalCheck) {
           return null
         }
       }
