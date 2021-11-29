@@ -179,12 +179,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
             }
           })()}
         </Form>
-        <Button
-          data-e2e='test'
-          onClick={() => loginProps.authActions.exchangeResetPassword('leora@blockchain.com')}
-        >
-          Test
-        </Button>
+
         {/* FOOTER */}
         {!loginProps.isMobileViewLogin && getLoginPageFooter(step)}
       </>

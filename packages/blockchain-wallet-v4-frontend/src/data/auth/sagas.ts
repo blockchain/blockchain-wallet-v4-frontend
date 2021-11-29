@@ -79,6 +79,7 @@ export default ({ api, coreSagas, networks }) => {
     const magicLinkData: WalletDataFromMagicLink = yield select(S.getMagicLinkData)
     const exchangeURL = magicLinkData?.exchange_auth_url
     yield put(startSubmit(LOGIN_FORM))
+
     try {
       const response = yield call(api.exchangeSignIn, code, password, username)
       const { token: jwtToken } = response
