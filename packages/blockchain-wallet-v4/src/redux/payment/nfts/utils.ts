@@ -1332,17 +1332,17 @@ async function approveSemiOrNonFungibleToken({
     // Use this long way of calling so we can check for method existence on a bool-returning method.
     const isApprovedForAll = await tokenContract.isApprovedForAll(accountAddress, proxyAddress)
     console.log(isApprovedForAll)
-    return parseInt(isApprovedForAll)
+    return isApprovedForAll
   }
   const isApprovedForAll = await approvalAllCheck()
 
-  if (isApprovedForAll === 1) {
+  if (isApprovedForAll) {
     // Supports ApproveAll
     console.log('Already approved proxy for all tokens')
     return null
   }
 
-  if (isApprovedForAll === 0) {
+  if (!isApprovedForAll) {
     // Supports ApproveAll
     //  not approved for all yet
 
