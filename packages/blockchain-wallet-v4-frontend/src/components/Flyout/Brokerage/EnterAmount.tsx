@@ -234,7 +234,7 @@ const debounceValidate = (limits, crossBorderLimits, orderType, fiatCurrency, ba
       dispatch(stopAsyncValidation('brokerageTx', limitError))
     }
 
-    const error = minMaxAmount(limits, orderType, fiatCurrency, newValue)
+    const error = minMaxAmount(limits, orderType, fiatCurrency, newValue, bankText)
     if (error) {
       dispatch(stopAsyncValidation('brokerageTx', error))
     }
