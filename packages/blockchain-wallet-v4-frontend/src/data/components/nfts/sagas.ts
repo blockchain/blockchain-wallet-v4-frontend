@@ -299,7 +299,8 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.createOfferSuccess(order))
       yield put(A.resetNftOrders())
       yield put(A.setMarketplaceData({ atBound: false, page: 1, token_ids_queried: [] }))
-      yield put(A.fetchNftOrders())
+      yield put(A.clearAndRefetchOffersMade())
+      yield put(A.clearAndRefetchOrders())
       yield put(actions.alerts.displaySuccess(`Successfully created offer!`))
     } catch (e) {
       const error = errorHandler(e)

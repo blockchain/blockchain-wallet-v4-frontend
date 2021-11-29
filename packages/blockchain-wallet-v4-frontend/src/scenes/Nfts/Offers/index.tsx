@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 
 import { displayCoinToCoin } from '@core/exchange'
-import { Button, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 import LazyLoadWrapper from 'components/LazyLoadContainer'
 
 import { Props as OwnProps } from '..'
@@ -25,13 +25,17 @@ const Col = styled.div`
   }
 `
 
+const LazyLoadContainer = styled(LazyLoadWrapper)`
+  max-width: 1200px;
+`
+
 const Offers: React.FC<Props> = (props) => {
   useEffect(() => {
     props.nftsActions.fetchNftOffersMade()
   }, [])
 
   return (
-    <LazyLoadWrapper onLazyLoad={() => props.nftsActions.fetchNftOffersMade()}>
+    <LazyLoadContainer onLazyLoad={() => props.nftsActions.fetchNftOffersMade()}>
       {props.offersMade.list.map((offer, i) => {
         return (
           <Row key={i}>
@@ -49,16 +53,11 @@ const Offers: React.FC<Props> = (props) => {
               <div>
                 {displayCoinToCoin({ coin: offer.payment_token.symbol, value: offer.bid_amount })}
               </div>
-              <div>
-                <Button width='72px' height='32px' data-e2e='cancelOffer' nature='empty-blue'>
-                  Cancel
-                </Button>
-              </div>
             </Col>
           </Row>
         )
       })}
-    </LazyLoadWrapper>
+    </LazyLoadContainer>
   )
 }
 
