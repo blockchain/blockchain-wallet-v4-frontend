@@ -5,14 +5,10 @@ import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 
 import { Remote } from '@core'
-import { convertCoinToCoin } from '@core/exchange'
 import { GasCalculationOperations } from '@core/network/api/nfts/types'
 import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
-import { ErrorCartridge } from 'components/Cartridge'
-import FiatDisplay from 'components/Display/FiatDisplay'
 import { Row, Title, Value } from 'components/Flyout/model'
-import { Form, NumberBox, TextBox } from 'components/Form'
-import TabMenuNftSaleType from 'components/Form/TabMenuNftSaleType'
+import { Form, TextBox } from 'components/Form'
 import { selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { required, validEthAddress } from 'services/forms'
@@ -23,9 +19,8 @@ import TransferFees from '../ShowAsset/Transfer/fees'
 
 const Transfer: React.FC<Props> = (props) => {
   const { close, formValues, nftActions, orderFlow } = props
-  const coin = 'ETH'
 
-  const disabled = formValues ? !formValues.to || Remote.Loading.is(props.sellOrder) : true
+  const disabled = formValues ? !formValues.to || Remote.Loading.is(props.transfer) : true
 
   return (
     <>
@@ -82,17 +77,37 @@ const Transfer: React.FC<Props> = (props) => {
                   </b>
                 </Title>
                 <Value>
-                  <Field name='to' component={TextBox} validate={[required, validEthAddress]} />
+                  <Field
+                    onChange={(e) =>
+                      props.nftActions.fetchFees({
+                        operation: GasCalculationOperations.Transfer,
+                        asset: val,
+                        to: e.target.value
+                      })
+                    }
+                    name='to'
+                    component={TextBox}
+                    validate={[required, validEthAddress]}
+                  />
                 </Value>
               </Row>
             </Form>
             <StickyCTA>
               <TransferFees {...props} asset={val} />
               {props.orderFlow.fees.cata({
-                Failure: () => (
-                  <Button jumbo nature='sent' fullwidth data-e2e='sellNft' disabled>
-                    <FormattedMessage id='copy.transfer' defaultMessage='Transfer' />
-                  </Button>
+                Failure: (e) => (
+                  <>
+                    <Text
+                      size='14px'
+                      weight={600}
+                      style={{ marginBottom: '8px', maxHeight: '200px' }}
+                    >
+                      {e}
+                    </Text>
+                    <Button jumbo nature='sent' fullwidth data-e2e='sellNft' disabled>
+                      <FormattedMessage id='copy.transfer' defaultMessage='Transfer' />
+                    </Button>
+                  </>
                 ),
                 Loading: () => (
                   <Button jumbo nature='primary' fullwidth data-e2e='sellNft' disabled>

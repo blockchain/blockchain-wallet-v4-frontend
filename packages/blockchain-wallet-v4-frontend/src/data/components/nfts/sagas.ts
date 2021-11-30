@@ -19,6 +19,7 @@ import {
   cancelNftListing,
   fulfillNftOrder,
   fulfillNftSellOrder,
+  fulfillTransfer,
   getNftBuyOrders,
   getNftSellOrder
 } from '@core/redux/payment/nfts'
@@ -370,6 +371,27 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const createTransfer = function* (action: ReturnType<typeof A.createTransfer>) {
+    try {
+      yield put(A.createTransferLoading())
+      const signer = yield call(getEthSigner)
+      const order = yield call(fulfillTransfer, action.payload.asset, signer, action.payload.to, {
+        gasLimit: action.payload.gasData.gasFees.toString(),
+        gasPrice: action.payload.gasData.gasPrice.toString()
+      })
+      yield call(api.postNftOrder, order)
+      yield put(A.clearAndRefetchAssets())
+      yield put(actions.modals.closeAllModals())
+      yield put(actions.alerts.displaySuccess('Transfer successful!'))
+      yield put(A.createTransferSuccess(order))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.createTransferFailure(error))
+      yield put(actions.logs.logErrorMessage(error))
+      yield put(actions.alerts.displayError(error))
+    }
+  }
+
   const cancelListing = function* (action: ReturnType<typeof A.cancelListing>) {
     try {
       const signer = yield call(getEthSigner)
@@ -501,6 +523,7 @@ export default ({ api }: { api: APIType }) => {
     createOffer,
     createOrder,
     createSellOrder,
+    createTransfer,
     fetchFees,
     fetchNftAssets,
     fetchNftCollections,
