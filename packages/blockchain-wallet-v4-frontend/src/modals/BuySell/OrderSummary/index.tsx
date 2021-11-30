@@ -47,15 +47,40 @@ class OrderSummaryContainer extends PureComponent<Props> {
       this.props.recurringBuyActions.fetchRegisteredList()
       this.props.recurringBuyActions.fetchPaymentInfo()
     }
+
     this.props.buySellActions.fetchOrders()
-    if (
-      this.props.order.state === 'PENDING_DEPOSIT' &&
-      this.props.order.attributes?.everypay?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
-    ) {
-      this.props.buySellActions.setStep({
-        order: this.props.order,
-        step: '3DS_HANDLER_EVERYPAY'
-      })
+
+    if (this.props.order.state === 'PENDING_DEPOSIT') {
+      if (
+        (this.props.order.attributes?.cardProvider?.cardAcquirerName === 'EVERYPAY' &&
+          this.props.order.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE') ||
+        this.props.order.attributes?.everypay?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
+      ) {
+        this.props.buySellActions.setStep({
+          order: this.props.order,
+          step: '3DS_HANDLER_EVERYPAY'
+        })
+      }
+
+      if (
+        this.props.order.attributes?.cardProvider?.cardAcquirerName === 'STRIPE' &&
+        this.props.order.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
+      ) {
+        this.props.buySellActions.setStep({
+          order: this.props.order,
+          step: '3DS_HANDLER_STRIPE'
+        })
+      }
+
+      if (
+        this.props.order.attributes?.cardProvider?.cardAcquirerName === 'CHECKOUTDOTCOM' &&
+        this.props.order.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
+      ) {
+        this.props.buySellActions.setStep({
+          order: this.props.order,
+          step: '3DS_HANDLER_CHECKOUTDOTCOM'
+        })
+      }
     }
     this.props.interestActions.fetchShowInterestCardAfterTransaction({})
   }
@@ -87,10 +112,29 @@ class OrderSummaryContainer extends PureComponent<Props> {
   }
 
   handleCompleteButton = () => {
-    this.props.buySellActions.setStep({
-      order: this.props.order,
-      step: '3DS_HANDLER_EVERYPAY'
-    })
+    if (
+      this.props.order.attributes?.cardProvider?.cardAcquirerName === 'EVERYPAY' ||
+      this.props.order.attributes?.everypay
+    ) {
+      this.props.buySellActions.setStep({
+        order: this.props.order,
+        step: '3DS_HANDLER_EVERYPAY'
+      })
+    }
+
+    if (this.props.order.attributes?.cardProvider?.cardAcquirerName === 'STRIPE') {
+      this.props.buySellActions.setStep({
+        order: this.props.order,
+        step: '3DS_HANDLER_STRIPE'
+      })
+    }
+
+    if (this.props.order.attributes?.cardProvider?.cardAcquirerName === 'CHECKOUTDOTCOM') {
+      this.props.buySellActions.setStep({
+        order: this.props.order,
+        step: '3DS_HANDLER_CHECKOUTDOTCOM'
+      })
+    }
   }
 
   render() {

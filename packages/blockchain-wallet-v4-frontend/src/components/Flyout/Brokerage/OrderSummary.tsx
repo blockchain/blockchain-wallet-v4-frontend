@@ -289,7 +289,15 @@ export type Props = {
   orderState: BSOrderStateType
   orderType: OrderType
   outputCurrency: string
-  paymentState: 'WAITING_FOR_3DS_RESPONSE' | null
+  paymentState:
+    | 'INITIAL'
+    | 'WAITING_FOR_3DS_RESPONSE'
+    | 'CONFIRMED_3DS'
+    | 'SETTLED'
+    | 'VOIDED'
+    | 'ABANDONED'
+    | 'FAILED'
+    | null
   paymentType: BSPaymentTypes
 }
 

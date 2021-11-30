@@ -174,13 +174,29 @@ export type BSOrderProperties = {
       cardAcquirerName: 'CHECKOUTDOTCOM' | 'STRIPE' | 'EVERYPAY'
       clientSecret: string
       paymentLink: string
-      paymentState: string
+      paymentState:
+        | 'INITIAL'
+        | 'WAITING_FOR_3DS_RESPONSE'
+        | 'CONFIRMED_3DS'
+        | 'SETTLED'
+        | 'VOIDED'
+        | 'ABANDONED'
+        | 'FAILED'
+        | null
       publishableApiKey: string
     }
     consentId?: string
     everypay?: {
       paymentLink: string
-      paymentState: 'WAITING_FOR_3DS_RESPONSE' | null
+      paymentState:
+        | 'INITIAL'
+        | 'WAITING_FOR_3DS_RESPONSE'
+        | 'CONFIRMED_3DS'
+        | 'SETTLED'
+        | 'VOIDED'
+        | 'ABANDONED'
+        | 'FAILED'
+        | null
     }
     expiresAt?: string
     paymentId: string
