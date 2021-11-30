@@ -723,10 +723,31 @@ export interface Stats {
 }
 
 export type AssetEventsType = {
-  approved_account: any
-  asset: NftAsset
-  created_date: string
-}[]
+  asset_events: {
+    approved_account: any
+    asset: NftAsset
+    created_date: string
+  }[]
+}
+
+export type OfferEventsType = {
+  asset_events: {
+    approved_account: any
+    asset: NftAsset
+    bid_amount: string
+    created_date: string
+    payment_token: {
+      address: string
+      decimals: number
+      eth_price: string
+      id: number
+      image_url: string
+      name: string
+      symbol: string
+      usd_price: string
+    }
+  }[]
+}
 
 export interface ExplorerGatewayNftCollectionType {
   added_timestamp: string

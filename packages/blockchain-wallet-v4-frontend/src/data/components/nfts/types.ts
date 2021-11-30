@@ -1,9 +1,11 @@
 import {
+  AssetEventsType,
   CollectionData,
   ExplorerGatewayNftCollectionType,
   NftAsset,
   NftAssetsType,
   NftOrdersType,
+  OfferEventsType,
   Order
 } from '@core/network/api/nfts/types'
 import { calculateGasFees } from '@core/redux/payment/nfts'
@@ -35,6 +37,13 @@ export type NftsStateType = {
     list: NftOrdersType['orders']
     page: number
     token_ids_queried: string[]
+  }
+  offersMade: {
+    atBound?: boolean
+    isFailure: boolean
+    isLoading: boolean
+    list: OfferEventsType['asset_events']
+    page: number
   }
   orderFlow: {
     activeOrder: NftOrdersType['orders'][0] | null

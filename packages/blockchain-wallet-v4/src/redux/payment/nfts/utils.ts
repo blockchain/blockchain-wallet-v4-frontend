@@ -182,7 +182,7 @@ export function getOrderHash(order: UnhashedOrder) {
 async function safeGasEstimation(estimationFunction, args, txData, retries = 2) {
   let estimatedValue
   try {
-    estimatedValue = parseInt((await estimationFunction(...args, txData))._hex)
+    estimatedValue = Math.ceil(parseInt((await estimationFunction(...args, txData))._hex) * 1.2)
   } catch (e) {
     const error = e as { code: string }
     const errorCode = error.code || undefined
@@ -294,11 +294,10 @@ export const encodeSell = (schema, asset, address) => {
     ])
   } else if (schema.name === 'ERC721') {
     const tokenInterface = new ethers.utils.Interface(ERC721_ABI)
-    calldata = tokenInterface.encodeFunctionData('safeTransferFrom', [
+    calldata = tokenInterface.encodeFunctionData('transferFrom', [
       address.toLowerCase(),
       NULL_ADDRESS,
-      asset.token_id,
-      []
+      asset.token_id
     ])
   } else {
     throw new Error(`Unsupported Asset Standard: ${schema.name}`)
@@ -1330,17 +1329,17 @@ async function approveSemiOrNonFungibleToken({
     // Use this long way of calling so we can check for method existence on a bool-returning method.
     const isApprovedForAll = await tokenContract.isApprovedForAll(accountAddress, proxyAddress)
     console.log(isApprovedForAll)
-    return parseInt(isApprovedForAll)
+    return isApprovedForAll
   }
   const isApprovedForAll = await approvalAllCheck()
 
-  if (isApprovedForAll === 1) {
+  if (isApprovedForAll) {
     // Supports ApproveAll
     console.log('Already approved proxy for all tokens')
     return null
   }
 
-  if (isApprovedForAll === 0) {
+  if (!isApprovedForAll) {
     // Supports ApproveAll
     //  not approved for all yet
 
@@ -1361,7 +1360,7 @@ async function approveSemiOrNonFungibleToken({
           `Transaction receipt : https://www.etherscan.io/tx/${receipt.logs[1].transactionHash}\n`
         )
         const approvalCheck = await approvalAllCheck()
-        if (approvalCheck !== 1) {
+        if (!approvalCheck) {
           return null
         }
       }

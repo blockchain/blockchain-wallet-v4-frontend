@@ -152,7 +152,7 @@ const YourCollection: React.FC<Props> = (props) => {
 }
 
 export type Props = OwnProps & {
-  setActiveTab: React.Dispatch<React.SetStateAction<'explore' | 'my-collection'>>
+  setActiveTab: React.Dispatch<React.SetStateAction<'explore' | 'my-collection' | 'offers'>>
 }
 
 export default YourCollection

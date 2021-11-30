@@ -175,7 +175,7 @@ export type BSOrderProperties = {
       clientSecret: string
       paymentLink: string
       paymentState: string
-      publishableKey: string
+      publishableApiKey: string
     }
     consentId?: string
     everypay?: {
