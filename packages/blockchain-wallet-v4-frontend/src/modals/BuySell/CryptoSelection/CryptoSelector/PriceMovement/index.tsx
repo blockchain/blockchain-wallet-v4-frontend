@@ -1,5 +1,6 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { equals } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled, { DefaultTheme } from 'styled-components'
 
@@ -11,7 +12,7 @@ import { RootState } from 'data/rootReducer'
 
 import { getData } from './selectors'
 
-const Container = styled.span`
+const Container = styled.div`
   margin-left: 4px;
 `
 const Change = styled.span<{ color: keyof DefaultTheme }>`
@@ -41,13 +42,15 @@ const getColorFromMovement = (movement: PriceMovementDirType) => {
   }
 }
 
-class PriceMovement extends PureComponent<Props, State> {
+class PriceMovement extends React.Component<Props> {
   componentDidMount() {
     if (!Remote.Success.is(this.props.data)) {
       const { coin } = this.props
       this.props.miscActions.fetchPriceChange(coin, this.props.fiat || 'EUR', TimeRange.DAY)
     }
   }
+
+  shouldComponentUpdate = (nextProps) => !equals(this.props, nextProps)
 
   render() {
     return (
@@ -84,6 +87,5 @@ export type OwnProps = {
 }
 
 type Props = OwnProps & ConnectedProps<typeof connector>
-type State = {}
 
 export default connector(PriceMovement)

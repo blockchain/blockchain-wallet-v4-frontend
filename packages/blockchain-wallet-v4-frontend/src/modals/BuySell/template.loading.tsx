@@ -13,15 +13,13 @@ const Wrapper = styled.div`
   flex-direction: column;
 `
 
-const Loading = () => {
-  return (
-    <Wrapper>
-      <BlockchainLoader width='80px' height='80px' />
-      <Text weight={600} color='grey600' style={{ marginTop: '24px' }}>
-        <FormattedMessage id='modals.simplebuy.processing' defaultMessage='Processing…' />
-      </Text>
-    </Wrapper>
-  )
-}
+const Loading = React.memo(() => (
+  <Wrapper>
+    <BlockchainLoader width='80px' height='80px' />
+    <Text weight={600} color='grey600' style={{ marginTop: '24px' }}>
+      <FormattedMessage id='modals.simplebuy.processing' defaultMessage='Processing…' />
+    </Text>
+  </Wrapper>
+))
 
 export default Loading

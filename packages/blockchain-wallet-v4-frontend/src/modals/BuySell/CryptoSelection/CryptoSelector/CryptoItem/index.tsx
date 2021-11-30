@@ -1,16 +1,16 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators, Dispatch } from 'redux'
+import { equals } from 'ramda'
 
-import { CoinType, FiatType, BSOrderActionType } from '@core/types'
-import { actions } from 'data'
+import { BSOrderActionType, BSPairType, CoinType, FiatType } from '@core/types'
 import { RootState } from 'data/rootReducer'
-import { SwapAccountType } from 'data/types'
 
 import { getData } from './selectors'
 import Success from './template.success'
 
-class CryptoItem extends PureComponent<Props> {
+class CryptoItem extends React.Component<Props> {
+  shouldComponentUpdate = (nextProps) => !equals(this.props, nextProps)
+
   render() {
     return this.props.data.cata({
       Failure: () => null,
@@ -25,18 +25,14 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   data: getData(state, ownProps)
 })
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  miscActions: bindActionCreators(actions.core.data.misc, dispatch)
-})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
+const connector = connect(mapStateToProps)
 
 export type OwnProps = {
-  account?: SwapAccountType
   coin: CoinType
   fiat: FiatType
   onClick?: (string) => void
   orderType: BSOrderActionType
+  pair?: BSPairType
 }
 export type SuccessStateType = ReturnType<typeof getData>['data']
 export type Props = OwnProps & ConnectedProps<typeof connector>

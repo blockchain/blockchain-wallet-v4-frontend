@@ -1,5 +1,6 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { equals } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
@@ -12,7 +13,7 @@ import Loading from '../template.loading'
 import { getData } from './selectors'
 import Success from './template.success'
 
-class CryptoSelection extends PureComponent<Props> {
+class CryptoSelection extends React.Component<Props> {
   componentDidMount() {
     if (this.props.fiatCurrency && !Remote.Success.is(this.props.data)) {
       this.props.buySellActions.fetchPairs({ currency: this.props.fiatCurrency })
@@ -21,6 +22,8 @@ class CryptoSelection extends PureComponent<Props> {
       this.props.buySellActions.fetchOrders()
     }
   }
+
+  shouldComponentUpdate = (nextProps) => !equals(this.props, nextProps)
 
   errorCallback() {
     this.props.buySellActions.setStep({
