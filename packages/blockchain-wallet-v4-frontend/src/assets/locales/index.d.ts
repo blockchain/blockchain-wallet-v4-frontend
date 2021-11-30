@@ -2248,6 +2248,7 @@ type MessagesType = {
   'scenes.login.enter_password': 'Enter your password'
   'scenes.login.enter_password_login': 'Enter your password to login'
   'scenes.login.exchange.help.requestpasswordreset': 'Request password reset'
+  'scenes.login.exchange.help.passwordresetsuccess': "If you're registered on the Exchange, you will receive an email with instructions on how to reset your password shortly."
   'scenes.login.exchange.incorrect_code': 'Incorrect code'
   'scenes.login.exchange.wrong_password': 'Login failed - invalid credentials.'
   'scenes.login.needhelp': 'Need additional help logging in?'

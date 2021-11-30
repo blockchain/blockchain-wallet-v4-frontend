@@ -45,7 +45,6 @@ const FormWrapper = styled(Wrapper)`
   flex-direction: column;
   z-index: 1;
   padding: 0 0 32px 0;
-  max-height: 384px;
 `
 
 const MobileAuthSideWrapper = styled(Wrapper)`

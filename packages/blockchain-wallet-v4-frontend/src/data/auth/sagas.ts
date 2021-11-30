@@ -77,9 +77,9 @@ export default ({ api, coreSagas, networks }) => {
     const { code, password, username } = action.payload
     const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
     const magicLinkData: WalletDataFromMagicLink = yield select(S.getMagicLinkData)
+    const { redirect } = yield select(S.getProductAuthMetadata)
     const exchangeURL = magicLinkData?.exchange_auth_url
     yield put(startSubmit(LOGIN_FORM))
-
     try {
       const response = yield call(api.exchangeSignIn, code, password, username)
       const { token: jwtToken } = response
@@ -535,7 +535,6 @@ export default ({ api, coreSagas, networks }) => {
       // get product param or default to wallet
       const product = (queryParams.get('product') || undefined) as ProductAuthOptions
       const redirect = queryParams.get('redirect')
-
       // store product auth data defaulting to product=wallet and platform=web
       yield put(
         actions.auth.setProductAuthMetadata({

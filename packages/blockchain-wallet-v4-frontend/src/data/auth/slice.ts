@@ -112,6 +112,9 @@ const authSlice = createSlice({
     exchangeResetPasswordLoading: (state) => {
       state.exchangeAuth.resetPassword = Remote.Loading
     },
+    exchangeResetPasswordNotAsked: (state) => {
+      state.exchangeAuth.resetPassword = Remote.NotAsked
+    },
     exchangeResetPasswordSuccess: (
       state,
       action: PayloadAction<ExchangeResetPasswordSuccessType>
