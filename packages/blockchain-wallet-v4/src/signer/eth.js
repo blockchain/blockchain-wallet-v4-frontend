@@ -13,8 +13,8 @@ const toHex = (value) => {
   return isOdd(hex) ? `0x0${hex}` : `0x${hex}`
 }
 
-export const signErc20 = curry((network = 1, mnemonic, data, contractAddress) => {
-  const { amount, gasLimit, gasPrice, index, nonce, to } = data
+export const signErc20 = curry((network = 1, mnemonic, txnData, contractAddress) => {
+  const { amount, data, gasLimit, gasPrice, index, nonce, to } = txnData
   const wallet = ethers.Wallet.fromMnemonic(mnemonic, `m/44'/60'/0'/0/${index}`)
   const transferMethodHex = '0xa9059cbb'
 
@@ -27,9 +27,13 @@ export const signErc20 = curry((network = 1, mnemonic, data, contractAddress) =>
     chainId: network,
     data:
       transferMethodHex +
-      ethers.utils.defaultAbiCoder
-        .encode(['address', 'uint256'], [to, amount.toString()])
-        .replace('0x', ''),
+        ethers.utils.defaultAbiCoder
+          .encode(['address', 'uint256'], [to, amount.toString()])
+          .replace('0x', '') +
+        data !==
+      null
+        ? data
+        : '',
     gasLimit: toHex(gasLimit),
     gasPrice: toHex(gasPrice),
     nonce: toHex(nonce),
@@ -39,11 +43,12 @@ export const signErc20 = curry((network = 1, mnemonic, data, contractAddress) =>
   return Task.of(wallet.signTransaction(txParams))
 })
 
-export const sign = curry((network = 1, mnemonic, data) => {
-  const { amount, gasLimit, gasPrice, index, nonce, to } = data
+export const sign = curry((network = 1, mnemonic, txnData) => {
+  const { amount, data, gasLimit, gasPrice, index, nonce, to } = txnData
   const wallet = ethers.Wallet.fromMnemonic(mnemonic, `m/44'/60'/0'/0/${index}`)
   const txParams = {
     chainId: network,
+    ...(data && { data }),
     gasLimit: toHex(gasLimit),
     gasPrice: toHex(gasPrice),
     nonce,

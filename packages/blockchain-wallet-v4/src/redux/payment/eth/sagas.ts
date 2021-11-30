@@ -78,9 +78,11 @@ export default ({ api }: { api: APIType }) => {
           if (!token || (token && token.symbol !== coinfig.symbol)) {
             throw new Error('Can not trust token contract')
           }
-          sign = (data) => taskToPromise(eth.signErc20(network, mnemonic, data, contractAddress))
+          sign = (txnData) => {
+            taskToPromise(eth.signErc20(network, mnemonic, txnData, contractAddress))
+          }
         } else {
-          sign = (data) => taskToPromise(eth.sign(network, mnemonic, data))
+          sign = (txnData) => taskToPromise(eth.sign(network, mnemonic, txnData))
         }
         return yield call(sign, p.raw)
       }
@@ -118,6 +120,7 @@ export default ({ api }: { api: APIType }) => {
         const index = yield call(selectIndex, fromData)
         const to = path(['to', 'address'], p)
         const amount = prop('amount', p)
+        const data = prop('data', p) || null
         const gasPrice = convertGweiToWei(prop('feeInGwei', p))
         const gasLimit =
           p.isErc20 || p.isContract
@@ -138,6 +141,7 @@ export default ({ api }: { api: APIType }) => {
         if (!isPositiveInteger(nonce)) throw new Error('invalid_nonce')
         const raw = {
           amount,
+          data,
           from,
           fromType,
           gasLimit,

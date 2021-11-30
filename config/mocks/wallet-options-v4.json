@@ -25,6 +25,23 @@
         "recurringBuys": true,
         "signupCountry": true,
         "paymentProcessors": true
+      },
+      "hotWalletAddresses":{
+        "exchange": {
+          "eth": "0x9AA65464b4cFbe3Dc2BDB3dF412AeE2B3De86687"
+        },
+        "lending": {
+          "eth": "0x67f889e6C1CE3E817705E00D528eB7F8be492B9E"
+        },
+        "rewards": {
+          "eth": "0xA00E2A7652248AbEb209398227DAE413E9479e52"
+        },
+        "simplebuy": {
+          "eth": "0x23f4569002a5A07f0Ecf688142eEB6bcD883eeF8"
+        },
+        "swap": {
+          "eth": "0xC88F7666330b4b511358b7742dC2a3234710e7B1"
+        }
       }
     }
   },

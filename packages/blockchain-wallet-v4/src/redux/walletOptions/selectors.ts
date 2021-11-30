@@ -1,7 +1,7 @@
 import { path, prop } from 'ramda'
 
 import { Remote } from '@core'
-import { /* AccountTokensBalancesResponseType, */ RemoteDataType } from '@core/types'
+import { /* AccountTokensBalancesResponseType, */ Product, RemoteDataType } from '@core/types'
 import { RootState } from 'data/rootReducer'
 
 import { WalletOptionsType } from './types'
@@ -81,3 +81,6 @@ export const getPollForMagicLinkData = (state: RootState) =>
 // send the card to new payment processors feature flag
 export const getPaymentProcessors = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'paymentProcessors']))
+
+export const getHotWalletAddresses = (state: RootState, product: Product) =>
+  getWebOptions(state).map(path(['hotWalletAddresses', product, 'eth']))
