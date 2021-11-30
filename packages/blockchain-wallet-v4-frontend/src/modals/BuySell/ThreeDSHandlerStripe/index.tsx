@@ -24,9 +24,6 @@ const ThreeDSHandlerStripe = ({ buySellActions, domains, order }: Props) => {
   }: {
     data: { details: any; status: 'error' | 'success' }
   }) => {
-    // eslint-disable-next-line no-console
-    console.log('RECEIVED_MESSAGE', data)
-
     if (data.status === 'error') {
       // TODO handle this error
       // eslint-disable-next-line no-alert
