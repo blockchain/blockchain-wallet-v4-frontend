@@ -455,6 +455,7 @@ const buySellSlice = createSlice({
           state.step = stepPayload.step
           break
         case '3DS_HANDLER_EVERYPAY':
+        case '3DS_HANDLER_STRIPE':
         case 'CHECKOUT_CONFIRM':
         case 'OPEN_BANKING_CONNECT':
         case 'ORDER_SUMMARY':
