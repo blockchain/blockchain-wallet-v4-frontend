@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 
 import { GasCalculationOperations, NftAsset } from '@core/network/api/nfts/types'
-import { NULL_ADDRESS } from '@core/redux/payment/nfts/utils'
 import { SpinningLoader } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -20,7 +19,7 @@ const Fees: React.FC<Props> = (props) => {
       nftActions.fetchFees({
         asset: props.asset,
         operation: GasCalculationOperations.Transfer,
-        to: NULL_ADDRESS
+        to: '0x9e38F81217F693367F03e7bbd583fDEA1eE297E3'
       })
     }
   }, [])

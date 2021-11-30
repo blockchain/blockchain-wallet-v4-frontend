@@ -2337,8 +2337,8 @@ export async function calculateTransferFees(asset: NftAsset, signer: Signer, rec
   } else {
     tokenContract = new ethers.Contract(asset.asset_contract.address, ERC1155_ABI, signer)
     args.push('1')
-    args.push('0x')
   }
+  args.push('0x')
   return safeGasEstimation(tokenContract.estimateGas.safeTransferFrom, args, { gasLimit: 250_000 })
 }
 

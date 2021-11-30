@@ -122,6 +122,7 @@ const Transfer: React.FC<Props> = (props) => {
                     fullwidth
                     data-e2e='transferNft'
                     disabled={disabled}
+                    type='submit'
                     onClick={() =>
                       nftActions.createTransfer({
                         asset: val,
