@@ -645,26 +645,38 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           {!showLimitError && showError && (
             <ButtonContainer>
               <AlertButton>
-                {amtError === 'BELOW_MIN' ? (
+                {props.orderType === OrderType.BUY ? (
+                  amtError === 'BELOW_MIN' ? (
+                    <FormattedMessage
+                      id='copy.not_enough_coin'
+                      defaultMessage='Not Enough {coin}'
+                      values={{
+                        value:
+                          fix === 'FIAT'
+                            ? fiatToString({ unit: props.walletCurrency, value: min })
+                            : `${min} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`
+                      }}
+                    />
+                  ) : (
+                    <FormattedMessage
+                      id='copy.above_max'
+                      defaultMessage='{amount} Maximum'
+                      values={{
+                        amount:
+                          fix === 'FIAT'
+                            ? fiatToString({ unit: props.walletCurrency, value: max })
+                            : `${max} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`
+                      }}
+                    />
+                  )
+                ) : null}
+
+                {props.orderType === OrderType.SELL && (
                   <FormattedMessage
-                    id='copy.below_min'
-                    defaultMessage='{value} Minimum'
+                    id='copy.not_enough_coin'
+                    defaultMessage='Not Enough {coin}'
                     values={{
-                      value:
-                        fix === 'FIAT'
-                          ? fiatToString({ unit: props.walletCurrency, value: min })
-                          : `${min} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`
-                    }}
-                  />
-                ) : (
-                  <FormattedMessage
-                    id='copy.above_max'
-                    defaultMessage='{amount} Maximum'
-                    values={{
-                      amount:
-                        fix === 'FIAT'
-                          ? fiatToString({ unit: props.walletCurrency, value: max })
-                          : `${max} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`
+                      coin: cryptoCurrency
                     }}
                   />
                 )}
