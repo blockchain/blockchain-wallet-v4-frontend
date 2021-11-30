@@ -408,7 +408,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
         fiat={props.fiatCurrency || 'USD'}
         coin={props.cryptoCurrency}
         orderType={props.orderType}
-        account={props.swapAccount}
       />
       <FlyoutWrapper
         style={{
