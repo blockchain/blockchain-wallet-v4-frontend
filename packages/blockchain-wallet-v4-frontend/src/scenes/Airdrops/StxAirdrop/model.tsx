@@ -103,7 +103,7 @@ const calcStxAmount = (stxCampaign) => {
     stxCampaign.userCampaignTransactionResponseList.length &&
     stxCampaign.userCampaignTransactionResponseList[0].withdrawalQuantity
   if (!stxAmount) return
-  return new BigNumber(stxAmount).dividedBy(10000000).toString().concat(' STX')
+  return new BigNumber(stxAmount).dividedBy(1000000).toString().concat(' STX')
 }
 
 export const StxDateOrAmount = ({ stxCampaign }: { stxCampaign: CampaignInfoType }) => {
