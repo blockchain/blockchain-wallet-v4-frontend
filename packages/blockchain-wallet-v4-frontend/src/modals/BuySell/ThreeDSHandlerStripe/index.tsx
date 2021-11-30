@@ -57,7 +57,7 @@ const ThreeDSHandlerStripe = ({ buySellActions, domains, order }: Props) => {
   return (
     <CustomFlyoutWrapper>
       <Iframe
-        src={`${domains.walletHelper}/wallet-helper/stripe/#/paymentLink/${order?.attributes?.cardProvider?.publishableKey}/${order?.attributes?.cardProvider?.clientSecret}}`}
+        src={`${domains.walletHelper}/wallet-helper/stripe/#/paymentLink/${order?.attributes?.cardProvider?.publishableApiKey}/${order?.attributes?.cardProvider?.clientSecret}`}
       />
     </CustomFlyoutWrapper>
   )
