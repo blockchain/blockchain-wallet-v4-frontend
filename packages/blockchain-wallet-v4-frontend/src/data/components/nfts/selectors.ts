@@ -7,3 +7,4 @@ export const getOffersMade = (state: RootState) => state.components.nfts.offersM
 export const getOrderFlow = (state: RootState) => state.components.nfts.orderFlow
 export const getCancelListing = (state: RootState) => state.components.nfts.cancelListing
 export const getSellOrder = (state: RootState) => state.components.nfts.sellOrder
+export const getTransfer = (state: RootState) => state.components.nfts.transfer

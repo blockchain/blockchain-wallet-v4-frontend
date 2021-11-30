@@ -14,6 +14,7 @@ import BuyFees from './BuyNow/fees'
 import CancelListingCTA from './CancelListing/cta'
 import CancelListingFees from './CancelListing/fees'
 import SellCTA from './Sell/cta'
+import TransferCTA from './Transfer/cta'
 
 const ShowAsset: React.FC<Props> = (props) => {
   const { close, orderFlow } = props
@@ -130,7 +131,10 @@ const ShowAsset: React.FC<Props> = (props) => {
                 </>
               ) : /* No sell_orders, can mark for sale */
               !val.sell_orders?.length ? (
-                <SellCTA {...props} />
+                <>
+                  <SellCTA {...props} />
+                  <TransferCTA {...props} />
+                </>
               ) : null}
             </StickyCTA>
           </>

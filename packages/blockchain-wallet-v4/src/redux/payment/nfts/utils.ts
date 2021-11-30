@@ -196,6 +196,7 @@ async function safeGasEstimation(estimationFunction, args, txData, retries = 2) 
         console.error('Gas estimation failing consistently.')
       }
     } else {
+      console.log(e)
       console.log(JSON.stringify(e, null, 4))
       console.log(error.code)
       throw error.code
@@ -2343,8 +2344,9 @@ export async function calculateTransferFees(asset: NftAsset, signer: Signer, rec
   } else {
     tokenContract = new ethers.Contract(asset.asset_contract.address, ERC1155_ABI, signer)
     args.push('1')
+    args.push('0x')
   }
-  return safeGasEstimation(tokenContract.gasEstimation.safeTransferFrom, args, { gasLimit: 250_00 })
+  return safeGasEstimation(tokenContract.estimateGas.safeTransferFrom, args, { gasLimit: 250_000 })
 }
 
 export async function calculatePaymentProxyApprovals(order: Order, signer: Signer) {

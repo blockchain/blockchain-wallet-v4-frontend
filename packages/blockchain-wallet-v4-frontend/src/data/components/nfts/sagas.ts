@@ -256,6 +256,18 @@ export default ({ api }: { api: APIType }) => {
           order
         )
         yield put(A.fetchFeesSuccess(fees))
+      } else if (action.payload.operation === GasCalculationOperations.Transfer) {
+        fees = yield call(
+          calculateGasFees,
+          GasCalculationOperations.Transfer,
+          signer,
+          undefined,
+          undefined,
+          undefined,
+          action.payload.asset,
+          action.payload.to
+        )
+        yield put(A.fetchFeesSuccess(fees))
       }
     } catch (e) {
       // eslint-disable-next-line no-console
