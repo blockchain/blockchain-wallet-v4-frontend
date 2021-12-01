@@ -13,8 +13,10 @@ export default ({ apiUrl, get, openseaApi, post }) => {
   const openseaUrl = `${openseaApi}/api/v1`
   const openseaMarketplaceApi = `${openseaApi}/wyvern/v1`
 
+  const IS_TESTNET = openseaApi.includes('rinkeby')
+
   const headers = {
-    'X-API-KEY': openseaApi.includes('rinkeby')
+    'X-API-KEY': IS_TESTNET
       ? 'b6f0671559ae4285bcecc7b9702f224a'
       : 'd0b6281e87d84702b020419fdf58ea81'
   }
@@ -84,7 +86,7 @@ export default ({ apiUrl, get, openseaApi, post }) => {
 
   const getNftCollectionInfo = (slug: string) => {
     return get({
-      endPoint: `/nft/collection/${slug}/rinkeby`,
+      endPoint: `/nft/collection/${slug}/${IS_TESTNET ? 'rinkeby' : ''}`,
       ignoreQueryParams: true,
       url: `http://localhost:8081`
     })
