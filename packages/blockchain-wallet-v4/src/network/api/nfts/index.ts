@@ -92,7 +92,7 @@ export default ({ apiUrl, get, post }) => {
 
   const getNftCollectionInfo = (slug: string) => {
     return get({
-      endPoint: `/nft/collection/${slug}`,
+      endPoint: `/nft/collection/${slug}/`,
       ignoreQueryParams: true,
       url: `${apiUrl}/explorer-gateway`
     })
