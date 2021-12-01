@@ -100,7 +100,7 @@ export default ({ api, coreSagas, networks }) => {
     } catch (e) {
       yield put(actions.auth.exchangeLoginFailure(e.code))
       if (e.code && e.code === 11) {
-        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.TWO_FA))
+        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.TWO_FA_EXCHANGE))
       }
       yield put(stopSubmit(LOGIN_FORM))
     }
@@ -317,7 +317,7 @@ export default ({ api, coreSagas, networks }) => {
               if (typeof error !== 'string' && error?.auth_type > 0) {
                 yield put(actions.auth.setAuthType(error.auth_type))
                 yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
-                yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.TWO_FA))
+                yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.TWO_FA_WALLET))
                 yield put(actions.auth.loginFailure(undefined))
                 // otherwise only other error could be wrong wallet password
               } else {
@@ -333,7 +333,7 @@ export default ({ api, coreSagas, networks }) => {
         case typeof error !== 'string' && error.auth_type > 0:
           yield put(actions.auth.loginFailure(undefined))
           yield put(actions.auth.setAuthType(typeof error !== 'string' && error.auth_type))
-          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.TWO_FA))
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.TWO_FA_WALLET))
           yield put(actions.alerts.displayInfo(C.TWOFA_REQUIRED_INFO))
           break
         // Wrong wallet password error is just returned as a string
@@ -617,6 +617,7 @@ export default ({ api, coreSagas, networks }) => {
     } = yield select(selectors.form.getFormValues(LOGIN_FORM))
     const authType = yield select(selectors.auth.getAuthType)
     const language = yield select(selectors.preferences.getLanguage)
+    const product = yield select(S.getProduct)
     try {
       // set code to uppercase if type is not yubikey
       let auth = code
@@ -643,7 +644,7 @@ export default ({ api, coreSagas, networks }) => {
         // Passing ID type used to analytics
         const idType = isGuid(guidOrEmail) ? 'WALLET_ID' : 'EMAIL'
         yield put(actions.auth.analyticsLoginIdEntered(idType))
-      } else if (step === LoginSteps.ENTER_PASSWORD_WALLET) {
+      } else if (step === LoginSteps.ENTER_PASSWORD_WALLET || step === LoginSteps.TWO_FA_WALLET) {
         yield put(
           actions.auth.login({ code: auth, guid, mobileLogin: null, password, sharedKey: null })
         )

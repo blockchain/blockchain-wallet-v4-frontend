@@ -150,12 +150,10 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
                 return <EnterPasswordExchange {...loginProps} />
               case LoginSteps.ENTER_PASSWORD_WALLET:
                 return <EnterPasswordWallet {...loginProps} />
-              case LoginSteps.TWO_FA:
-                return product === ProductAuthOptions.EXCHANGE ? (
-                  <TwoFAExchange {...loginProps} />
-                ) : (
-                  <TwoFAWallet {...loginProps} />
-                )
+              case LoginSteps.TWO_FA_EXCHANGE:
+                return <TwoFAExchange {...loginProps} />
+              case LoginSteps.TWO_FA_WALLET:
+                return <TwoFAWallet {...loginProps} />
               case LoginSteps.CHECK_EMAIL:
                 return <CheckEmail {...loginProps} />
               case LoginSteps.VERIFY_MAGIC_LINK:
