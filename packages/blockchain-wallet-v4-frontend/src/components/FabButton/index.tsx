@@ -1,13 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Button, Icon, Text } from 'blockchain-info-components'
+import { Button, Text } from 'blockchain-info-components'
 
 const StyledButton = styled(Button)`
-  background-image: linear-gradient(170deg, #595fee, #21cae0);
+  background-image: radial-gradient(ellipse at bottom right, #21cae0 0%, #595fee 80%);
   color: white;
   width: 88px;
   min-width: 88px;
+  height: 32px;
   padding-right: 0;
   padding-left: 0;
   border: none;

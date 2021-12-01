@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Icon, Text } from 'blockchain-info-components'
+import FabButton from 'components/FabButton'
 import { media } from 'services/styles'
 
 const NavContainer = styled.div`
@@ -69,7 +70,7 @@ const Navbar = () => {
     <NavContainer>
       <NavLeft>
         <Logo href='/'>
-          <Icon color='#3D89F5' name='blockchain-logo' size='30px' />
+          <Icon color='#3D89F5' name='blockchain-logo' size='35px' />
         </Logo>
         <PrimaryNavItems>
           <li>
@@ -97,9 +98,7 @@ const Navbar = () => {
       <NavRight>
         <SecondaryNavItems>
           <li>
-            <Text size='14px' weight={600}>
-              <a href=''>Trade</a>
-            </Text>
+            <FabButton />
           </li>
           <li>
             <Text size='14px' weight={600}>
