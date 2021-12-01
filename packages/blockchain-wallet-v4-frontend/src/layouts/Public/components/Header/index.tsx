@@ -1,18 +1,17 @@
 import React from 'react'
-import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Image, Link, Text } from 'blockchain-info-components'
 import Announcements from 'components/Announcements'
 import { Navbar, NavbarBrand } from 'components/Navbar'
-import { LoginSteps, ProductAuthMetadata, ProductAuthOptions } from 'data/types'
 import { media } from 'services/styles'
 
-const NavbarStyled = styled(Navbar)`
+const NavbarStyled = styled(Navbar)<{ authProduct: string }>`
   padding: 0 16px;
   box-sizing: border-box;
-  background-color: ${(props) => props.theme.grey900};
-  background-image: url('/img/bg-pattern.svg');
+  background-color: ${(props) =>
+    props.authProduct === 'EXCHANGE' ? props.theme.exchangeLogin : props.theme.grey900};
+  background-image: ${(props) => props.authProduct !== 'EXCHANGE' && `url('/img/bg-pattern.svg')`};
 `
 const NavbarBrandStyled = styled(NavbarBrand)`
   display: flex;
@@ -34,16 +33,6 @@ const PublicBrand = styled.div`
   justify-content: center;
   align-items: center;
 `
-const ExchangeHeader = styled(Text)`
-  color: ${(props) => props.theme.blue400};
-  font-size: 24px;
-  font-weight: 600;
-`
-const WalletHeader = styled(Text)`
-  color: ${(props) => props.theme.purple400};
-  font-size: 24px;
-  font-weight: 600;
-`
 const HeaderLink = styled(Link)`
   display: flex;
   flex-direction: row;
@@ -51,10 +40,10 @@ const HeaderLink = styled(Link)`
   align-items: center;
 `
 
-const Header = () => {
+const Header = (props) => {
   return (
     <>
-      <NavbarStyled height='112px'>
+      <NavbarStyled height='112px' authProduct={props.authProduct}>
         <NavbarBrandStyled>
           <PublicBrand>
             <HeaderLink href='https://www.blockchain.com'>
