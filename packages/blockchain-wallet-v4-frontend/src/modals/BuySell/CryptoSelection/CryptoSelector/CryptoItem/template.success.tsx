@@ -65,11 +65,8 @@ const PlusMinusIconWrapper = styled.div`
 
 type Props = OwnProps & ParentOwnProps & SuccessStateType
 
-class Success extends React.Component<Props> {
-  shouldComponentUpdate = (nextProps) => !equals(this.props, nextProps)
-
-  render() {
-    const { coin, fiat, onClick, orderType, rates } = this.props
+const Success = React.memo(
+  ({ coin, fiat, onClick, orderType, rates }: Props) => {
     const { coinfig } = window.coins[coin]
     const displayName = coinfig.name
 
@@ -116,7 +113,8 @@ class Success extends React.Component<Props> {
         )}
       </CheckoutDisplayContainer>
     )
-  }
-}
+  },
+  (prevProps, nextProps) => equals(prevProps, nextProps)
+)
 
 export default Success
