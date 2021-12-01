@@ -76,8 +76,6 @@ const withdrawSlice = createSlice({
         fiatCurrency: WalletFiatType
       }>
     ) => {},
-    // handleWithdrawMaxAmountClick: (state, action: PayloadAction<number>) => {},
-    // handleWithdrawMinAmountClick: (state, action: PayloadAction<number>) => {},
     handleWithdrawMaxAmountClick: (state, action: PayloadAction<{ amount: number }>) => {},
     handleWithdrawMinAmountClick: (state, action: PayloadAction<{ amount: number }>) => {},
 

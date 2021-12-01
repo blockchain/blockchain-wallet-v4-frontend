@@ -1741,7 +1741,7 @@ type MessagesType = {
   'modals.simplebuy.underreview': 'ID Verification Pending'
   'modals.simplebuy.unknown': 'Unknown Status'
   'modals.simplebuy.unsupported-subcontent': "Currently we don't support buying crypto with"
-  'modals.simplebuy.unsupported-subcontent-1': "Well this is awkward. We don't support buying crypto yet for"
+  'modals.simplebuy.unsupported-subcontent-1': "Well this is awkward. We don't support buying crypto yet for your region."
   'modals.simplebuy.unsupported-subcontent-2': "We'll send you an update when we do."
   'modals.simplebuy.unsupported-title': 'Buy Crypto Coming Soon for'
   'modals.simplebuy.waitingondepo': 'Waiting on Funds'
