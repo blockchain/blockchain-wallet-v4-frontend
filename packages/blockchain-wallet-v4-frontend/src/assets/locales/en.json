@@ -487,7 +487,7 @@
   "copy.swap_in_wallet": "Your {coin} is now in your Wallet.",
   "copy.swap_instantly_exchange": "Instantly exchange your crypto.",
   "copy.swap_maximum_amount": "The maximum amount of {coin} you can swap from this wallet is {amount}.",
-  "copy.swap_minimum_amount": "To avoid uncesssary fees and network slipage, the minimum amount for this pair is {amount}.",
+  "copy.swap_minimum_amount": "To avoid unnecessary fees and network slippage, the minimum amount for this pair is {amount}.",
   "copy.swap_name_address": "We need to know your name and address to comply with local laws.",
   "copy.swap_not_enough_funds": "This wallet does not have enough funds for a swap.",
   "copy.swap_start": "Start Swapping",

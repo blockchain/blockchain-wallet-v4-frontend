@@ -510,7 +510,7 @@ type MessagesType = {
   'copy.swap_verify_id': 'Verify your identity to increase how much you can Swap everyday.'
   'copy.view_prices': 'View Prices'
   'copy.swap_your_crypto': 'Swap Your Crypto'
-  'copy.swap_minimum_amount': 'To avoid uncesssary fees and network slipage, the minimum amount for this pair is {amount}.'
+  'copy.swap_minimum_amount': 'To avoid unnecessary fees and network slippage, the minimum amount for this pair is {amount}.'
   'copy.swap_maximum_amount': 'The maximum amount of {coin} you can swap from this wallet is {amount}.'
   'copy.viewTransaction': 'View Transaction'
   'copy.viewTransactions': 'View Transactions'

@@ -479,7 +479,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               {amtError === 'BELOW_MIN' && (
                 <FormattedMessage
                   id='copy.swap_minimum_amount'
-                  defaultMessage='To avoid uncesssary fees and network slipage, the minimum amount for this pair is {amount}.'
+                  defaultMessage='To avoid unnecessary fees and network slippage, the minimum amount for this pair is {amount}.'
                   values={{
                     amount:
                       fix === 'FIAT'
