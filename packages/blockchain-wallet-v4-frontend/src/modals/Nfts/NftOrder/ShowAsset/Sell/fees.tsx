@@ -18,7 +18,8 @@ const Fees: React.FC<Props> = (props) => {
     if (props.asset) {
       nftActions.fetchFees({
         asset: props.asset,
-        operation: GasCalculationOperations.Sell
+        operation: GasCalculationOperations.Sell,
+        startPrice: 0.11
       })
     }
   }, [])
@@ -26,17 +27,18 @@ const Fees: React.FC<Props> = (props) => {
   return (
     <>
       {orderFlow.fees.cata({
-        Failure: (e) => null,
+        Failure: () => null,
         Loading: () => (
           <CTARow>
-            <SpinningLoader width='14px' height='14px' borderWidth='3px' />
+            <div style={{ marginBottom: '22px' }}>
+              <SpinningLoader width='14px' height='14px' borderWidth='3px' />
+            </div>
           </CTARow>
         ),
         NotAsked: () => null,
         Success: (val) => {
           return (
             <>
-              {console.log(val.totalFees)}
               <CTARow>
                 <Title>
                   <FormattedMessage id='copy.fees' defaultMessage='Fees' />

@@ -50,6 +50,14 @@ const CTA: React.FC<Props> = (props) => {
                 e
               )}
             </Text>
+            <Link
+              weight={600}
+              size='14px'
+              onClick={() => nftActions.setOrderFlowStep({ step: NftOrderStepEnum.MAKE_OFFER })}
+              style={{ display: 'block', marginTop: '8px', textAlign: 'center', width: '100%' }}
+            >
+              Make an Offer
+            </Link>
           </div>
         ),
         Loading: () => (

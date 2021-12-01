@@ -547,6 +547,9 @@ export interface NftAsset {
     only_proxied_transfers: boolean
     opensea_buyer_fee_basis_points: string
     opensea_seller_fee_basis_points: string
+    payment_tokens: {
+      symbol: string
+    }[]
     payout_address: string
     require_email: boolean
     safelist_request_status: string
@@ -633,6 +636,7 @@ export interface NftAsset {
       username: string | null
     }
   }
+
   permalink: string
   sell_orders: SellOrder[]
   token_id: string
@@ -719,10 +723,31 @@ export interface Stats {
 }
 
 export type AssetEventsType = {
-  approved_account: any
-  asset: NftAsset
-  created_date: string
-}[]
+  asset_events: {
+    approved_account: any
+    asset: NftAsset
+    created_date: string
+  }[]
+}
+
+export type OfferEventsType = {
+  asset_events: {
+    approved_account: any
+    asset: NftAsset
+    bid_amount: string
+    created_date: string
+    payment_token: {
+      address: string
+      decimals: number
+      eth_price: string
+      id: number
+      image_url: string
+      name: string
+      symbol: string
+      usd_price: string
+    }
+  }[]
+}
 
 export interface ExplorerGatewayNftCollectionType {
   added_timestamp: string

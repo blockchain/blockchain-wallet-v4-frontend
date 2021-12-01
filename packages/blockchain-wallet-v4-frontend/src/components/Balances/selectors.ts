@@ -3,21 +3,21 @@ import { add, curry, flatten, lift, map, pathOr, reduce, reject } from 'ramda'
 
 import { Exchange, Remote } from '@core'
 import {
+  BSBalancesType,
+  BSBalanceType,
   CoinfigType,
   ExtractSuccess,
   InterestAccountBalanceType,
   RatesType,
   RemoteDataType,
-  SBBalancesType,
-  SBBalanceType,
   SwapOrderType,
   WalletFiatEnum,
   WalletFiatType
 } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'
 import { selectors } from 'data'
+import { DEFAULT_BS_BALANCE } from 'data/components/buySell/model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { DEFAULT_SB_BALANCE } from 'data/components/simpleBuy/model'
 import { getOutputFromPair } from 'data/components/swap/model'
 import { RootState } from 'data/rootReducer'
 
@@ -32,15 +32,15 @@ export const getCoinCustodialBalance = (
 ): ((state: RootState) => RemoteDataType<string, number>) =>
   createDeepEqualSelector(
     [
-      selectors.components.simpleBuy.getSBBalances,
+      selectors.components.buySell.getBSBalances,
       selectors.components.interest.getInterestAccountBalance
     ],
     (
-      sbBalancesR: RemoteDataType<string, SBBalancesType>,
+      sbBalancesR: RemoteDataType<string, BSBalancesType>,
       interestAccountBalanceR: RemoteDataType<string, InterestAccountBalanceType>
     ) => {
       const sbCoinBalance = sbBalancesR.getOrElse({
-        [coin]: DEFAULT_SB_BALANCE
+        [coin]: DEFAULT_BS_BALANCE
       })[coin]
       const interestCoinBalance = interestAccountBalanceR.getOrElse({
         [coin]: { balance: '0' } as InterestAccountBalanceType[typeof coin]
@@ -132,10 +132,10 @@ export const getXlmBalance = createDeepEqualSelector(
 
 export const getFiatBalance = curry(
   (currency: WalletFiatType, state: RootState): RemoteDataType<string, number> => {
-    const sbBalancesR = selectors.components.simpleBuy.getSBBalances(state)
+    const sbBalancesR = selectors.components.buySell.getBSBalances(state)
     const fiatBalance =
       sbBalancesR.getOrElse({
-        [currency]: DEFAULT_SB_BALANCE
+        [currency]: DEFAULT_BS_BALANCE
       })[currency]?.available || '0'
     return Remote.of(new BigNumber(convertBaseToStandard('FIAT', fiatBalance)).toNumber())
   }
@@ -145,11 +145,11 @@ export const getWithdrawableFiatBalance = curry(
   (
     currency: WalletFiatType,
     state: RootState
-  ): RemoteDataType<string, SBBalanceType['withdrawable']> => {
-    const sbBalancesR = selectors.components.simpleBuy.getSBBalances(state)
+  ): RemoteDataType<string, BSBalanceType['withdrawable']> => {
+    const sbBalancesR = selectors.components.buySell.getBSBalances(state)
     const fiatBalance =
       sbBalancesR.getOrElse({
-        [currency]: DEFAULT_SB_BALANCE
+        [currency]: DEFAULT_BS_BALANCE
       })[currency]?.withdrawable || '0'
     return Remote.of(fiatBalance)
   }
@@ -205,7 +205,7 @@ export const getFiatBalanceInfo = createDeepEqualSelector(
   [
     selectors.core.data.coins.getBtcTicker,
     selectors.core.settings.getCurrency,
-    selectors.components.simpleBuy.getSBBalances
+    selectors.components.buySell.getBSBalances
   ],
   (btcRatesR, currencyR, sbBalancesR) => {
     const transform = (

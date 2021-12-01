@@ -1187,7 +1187,6 @@ type MessagesType = {
   'modals.mobilenumberverify.title': 'Verify Mobile Number'
   'modals.mobilenumberverify.verify': 'Verify'
   'modals.onboarding.linkfromexchange.failure': 'We could not connect your Wallet to Exchange. Please go back to Exchange and try again.'
-  'modals.onboarding.linkfromexchange.failureheader': 'Connection Error'
   'modals.onboarding.linkfromexchange.need_to_verify': "You'll need to verify"
   'modals.onboarding.linkfromexchange.no_email': 'You do not have an email associated with this wallet. Please to Security Center to set your email.'
   'modals.onboarding.linkfromexchange.send_email': 'Resend Email'
@@ -1263,23 +1262,18 @@ type MessagesType = {
   'modals.recoveryphrase.success': 'Success!'
   'modals.recoveryphrase.success.body': 'Your Wallet is now backed up.'
   'modals.recoveryphrase.success.close': 'Close'
-
   'modals.recurringbuys.notification.title': 'Recurring buys'
   'modals.recurringbuys.notification.button': 'Setup recurring buy'
   'modals.recurringbuys.disabled.paymentmethod': 'Recurring buys are not available for this payment method yet.'
   'modals.recurringbuys.delete_confirmation_title': 'Are you sure you want to remove this Recurring Buy?'
   'modals.recurringbuys.notification.page_1.title': 'Instead of timing the market, many smart investors use'
   'modals.recurringbuys.notification.page_1.description': 'Dollar cost averaging'
-
   'modals.recurringbuys.notification.page_2.title': 'The strategy is pretty simple'
   'modals.recurringbuys.notification.page_2.description': 'Invest the same amount every week'
-
   'modals.recurringbuys.notification.page_3.title': 'When the price goes down'
   'modals.recurringbuys.notification.page_3.description': 'You’ll buy more crypto'
-
   'modals.recurringbuys.notification.page_4.title': 'When the price goes up'
   'modals.recurringbuys.notification.page_4.description': 'You’ll buy less'
-
   'modals.recurringbuys.notification.page_5.title': 'But does it work?'
   'modals.recurringbuys.notification.page_5.description': 'Over the past 5 years, buying Bitcoin every week performed better than timing the market'
   'modals.recurringbuys.notification.page_5.disclaimer': '82% of the time.'
@@ -1288,27 +1282,21 @@ type MessagesType = {
   'modals.recurringbuys.timeframe.every_week': 'Every week'
   'modals.recurringbuys.timeframe.2_weeks': 'Every 2 weeks'
   'modals.recurringbuys.timeframe.every_month': 'Every month'
-
   'modals.recurringbuys.period_fetch_error': 'There was an error fetching recurring buy frequency options. Please try again.'
   'modals.recurringbuys.time_options.one_time': 'One Time'
   'modals.recurringbuys.time_options.daily': 'Daily'
   'modals.recurringbuys.time_options.weekly': 'Weekly'
   'modals.recurringbuys.time_options.bi_weekly': 'Twice a Month'
   'modals.recurringbuys.time_options.monthly': 'Monthly'
-
   'modals.recurringbuys.frequency_disabled': '{period} recurring buys are unavailable for your payment method at this time.'
-
   'modals.recurringbuys.get_started.title': 'Set Up a Recurring Buy'
   'modals.recurringbuys.get_started.description': 'Buy {amount} of {outputCurrency} every day, week or month with a Recurring Buy. No need to ever time the market.'
   'modals.recurringbuys.get_started.buy_amount_of_currency': 'Buy {amount} of {currency}'
   'modals.recurringbuys.get_started.get_started': 'Get Started'
   'modals.recurringbuys.get_started.maybe_later': 'Maybe Later'
-
   'modals.recurringbuys.get_started.get_started': 'Get Started'
   'modals.recurringbuys.get_started.maybe_later': 'Maybe Later'
-
   'modals.recurringbuys.available_methods_tool_tip': 'Recurring Buys are only available for these methods at this time: {methods}'
-
   'modals.recurringbuys.recurring_buy_started': 'Recurring Buy Started!'
   'modals.recurringbuys.select_a_frequency': 'Select a Frequency'
   'modals.recurringbuys.we_will_buy': 'We will buy {fiatAmount} of {coin} {period} at that moment’s market price. Cancel this recurring buy at anytime.'
@@ -1448,11 +1436,11 @@ type MessagesType = {
   'modals.sendbtc.secondstep.send': 'Send Bitcoin'
   'modals.sendbtc.secondstep.to': 'To:'
   'modals.sendbtc.secontstep.sendtotal': 'Total:'
-  "modals.sendcrypto.coinselect.noaccounts": "Currently there are no accounts for the selected crypto.",
-  "modals.sendcrypto.coinselect.subtitle": "Select the wallet you want to send from.",
-  "modals.sendcrypto.coinselect.title": "Send Crypto",
-  "modals.sendcrypto.enteramount.title": "Send",
-  "modals.sendcrypto.enteramount.over_limits": "Sending from Trade Accounts cannot exceed {currency}{amount} a {period}. You have {currency}{remainingAmount} remaining.",
+  'modals.sendcrypto.coinselect.noaccounts': 'Currently there are no accounts for the selected crypto.'
+  'modals.sendcrypto.coinselect.subtitle': 'Select the wallet you want to send from.'
+  'modals.sendcrypto.coinselect.title': 'Send Crypto'
+  'modals.sendcrypto.enteramount.title': 'Send'
+  'modals.sendcrypto.enteramount.over_limits': 'Sending from Trade Accounts cannot exceed {currency}{amount} a {period}. You have {currency}{remainingAmount} remaining.'
   'modals.sendeth.amountnotzeromessage': 'Invalid amount'
   'modals.sendeth.cointitle': 'Send {coinDisplayName}'
   'modals.sendeth.firststep.browserwarn': 'Sending Ether from Lockbox can only be done while using the Brave, Chrome, Firefox or Opera browsers.'
@@ -1652,6 +1640,11 @@ type MessagesType = {
   'modals.simplebuy.linkbank.description': 'Link your bank and instantly buy crypto at anytime.'
   'modals.simplebuy.card_limit': '{card} Limit'
   'modals.simplebuy.card_ending_in': 'Card Ending in {lastFour}'
+
+  'modals.simplebuy.select_trading_currency.title': 'Select a Trading Currency.'
+  'modals.simplebuy.select_trading_currency.description': 'Right now, {currency} is not supported for buying crypto. You can add a bank account or card from the list of available currencies below.'
+  'modals.simplebuy.select_trading_currency.disclaimer': 'Additional bank fees may apply. Your bank may add fee and Exchange Rates to each transaction.'
+
   'modals.simplebuy.card_expire': 'Exp: {month}/{year}'
   'modals.simplebuy.goldupgrade.title1': 'Upgrade Your Profile.'
   'modals.simplebuy.goldupgrade.title2': 'Buy & Sell More Crypto.'
@@ -1685,6 +1678,8 @@ type MessagesType = {
   'modals.simplebuy.kycrequired.buy_crypto_description': 'Use your Bank, Debit or Credit card to fund any crypto purchase.'
   'modals.simplebuy.kycrequired.swap_at_anytime': 'Swap at Anytime'
   'modals.simplebuy.kycrequired.swap_at_anytime_description': 'Instantly exchange your crypto for another without leaving your wallet.'
+  'modals.simplebuy.limit_reached_sub_title': 'The maximum amount of pending orders is {limitNumber}'
+  'modals.simplebuy.limit_reached_title': "You've reached your limit"
   'modals.simplebuy.setupaccount': "Next, we'll set up your account."
   'modals.simplebuy.success': 'Trade Complete'
   'modals.simplebuy.summary.ach_lock': 'Note: You will not be able to Send or Withdraw these funds from your Wallet for the next {days} days.'
@@ -1794,6 +1789,12 @@ type MessagesType = {
   'modals.transfereth.title1': 'Updating Ethereum Address'
   'modals.transfereth.to': 'To:'
   'modals.transfereth.txfee': 'Transaction Fee:'
+  'modals.limits_and_features.title': 'Limits & Features'
+  'modals.limits_and_features.subtitle.silver': 'Unlock new trading features in your Blockchain.com Wallet by verifying your ID and linked a bank or card.'
+  'modals.limits_and_features.subtitle.gold': 'You currently have the highest level of Account Limits and features available.'
+  'modals.limits_and_features.footer.line1': 'Transaction limits may apply to certain banks and card issuers.'
+  'modals.limits_and_features.footer.line2': 'Purchase or deposit limits are determined by many factors, including verification completed on your account, your purchase history, your payment type, and more.'
+  'modals.limits_and_features.footer.line3': 'Learn more about Trading Accounts, Limits, and features by visiting our <a>Support Center</a>.'
   'modals.tradinglimits.approved': 'Approved'
   'modals.tradinglimits.description': 'Unlock features within your Blockchain.com Wallet. Some features may ask you to verify your identity.'
   'modals.tradinglimits.info_needed': 'Info Needed'
@@ -1806,6 +1807,19 @@ type MessagesType = {
   'modals.tradinglimits.silver_subheader': 'Trade up to {amount}/year.'
   'modals.tradinglimits.unlocked': 'Unlocked'
   'modals.tradinglimits.send_crypto': 'Send Crypto'
+  'modals.tradinglimits.a_day': 'a Day'
+  'modals.tradinglimits.a_month': 'a Month'
+  'modals.tradinglimits.a_year': 'a Year'
+  'modals.tradinglimits.a_year': 'No limit'
+  'modals.tradinglimits.from_trading_account': 'from Trading Accounts'
+  'modals.tradinglimits.to_trading_account': 'to Trading Accounts'
+  'modals.tradinglimits.your_limits': 'Your Limits & Features'
+  'modals.tradinglimits.upgrade.tier.zero.description': 'Blockchain.com offers two types of Account Limits, each designed to suit your crypto goals and needs.'
+  'modals.tradinglimits.upgrade.tier.silver.title': 'Upgrade to Gold Limits'
+  'modals.tradinglimits.upgrade.tier.silver.description': 'Verify your ID and link your bank to Buy & Sell Crypto straight from your wallet.'
+  'modals.tradinglimits.upgrade.silver_limits': 'Silver Limits'
+  'modals.tradinglimits.upgrade.gold_limits': 'Gold Limits'
+  'modals.tradinglimits.upgrade.unlock_tier_zero': 'Unlock new trading features in your Blockchain.com Wallet by verifying your ID and link a bank or card.'
   'modals.tradinglimits.receive_crypto': 'Receive Crypto'
   'modals.tradinglimits.swap_crypto': 'Swap Crypto'
   'modals.tradinglimits.cash_accounts': 'Cash Accounts'
@@ -1813,6 +1827,17 @@ type MessagesType = {
   'modals.tradinglimits.deposits_and_withdrawals': 'Deposits & Withdrawals'
   'modals.tradinglimits.earn_interest': 'Earn Rewards'
   'modals.tradinglimits.unlock_gold_tier': 'Unlock Gold Tier ->'
+  'modals.tradinglimits.card_purchase': 'Card Purchases'
+  'modals.tradinglimits.bank_buy_and_deposit': 'Bank Buys / Deposits'
+  'modals.tradinglimits.bank_withdrawals': 'Bank Withdrawals'
+  'modals.upgradenow.subtitle': 'Start buying & selling crypto today.'
+  'modals.upgradenow.gold_details': 'Connect your bank or card to your Wallet. Hold cash in your wallet. Earn crypto with Rewards.'
+  'modals.upgradenow.gold_details_additional': 'Includes all Silver limits and features.'
+  'modals.upgradenow.silver_subtitle': 'Unlock Trade Accounts and Swap.'
+  'modals.upgradenow.silver_details': 'Unlock Swap - our in-app exchange.'
+  'modals.upgradenow.in_manual_review': 'In Manual Review'
+  'modals.upgradenow.unlock_gold_limits': 'Unlock Gold Limits'
+  'modals.upgradenow.unlock_silver_limits': 'Unlock Silver Limits'
   'modals.twostepgoogleauthenticator.enable': 'Enable 2FA'
   'modals.twostepgoogleauthenticator.explain': 'Scan this QR code with your Google Authenticator app on your mobile phone (download for iOS or Android).'
   'modals.twostepgoogleauthenticator.explain2': 'Once scanned you will be presented with a random 6 digit number.'

@@ -1,9 +1,9 @@
 import {
   BeneficiaryType,
+  BSPaymentTypes,
   CoinType,
   CrossBorderLimits,
   FiatType,
-  SBPaymentTypes,
   WalletAcountType,
   WalletFiatType,
   WithdrawalLockResponseType,
@@ -53,7 +53,7 @@ export const handleWithdrawMinAmountClick = (amount: number) => ({
   type: AT.HANDLE_WITHDRAWAL_MIN_AMOUNT_CLICK
 })
 
-export const fetchWithdrawalFees = (paymentMethod?: SBPaymentTypes | 'ALL') => ({
+export const fetchWithdrawalFees = (paymentMethod?: BSPaymentTypes | 'ALL') => ({
   payload: { paymentMethod },
   type: AT.FETCH_WITHDRAWAL_FEES
 })
@@ -117,18 +117,18 @@ export const fetchCrossBorderLimits = (
     outputCurrency,
     toAccount
   },
-  type: AT.FETCH_WITHDRAWAL_CROSSBORDER_LIMITS
+  type: AT.FETCH_WITHDRAWAL_CROSBSORDER_LIMITS
 })
 export const fetchCrossBorderLimitsFailure = (error: string) => ({
   payload: {
     error
   },
-  type: AT.FETCH_WITHDRAWAL_CROSSBORDER_LIMITS_FAILURE
+  type: AT.FETCH_WITHDRAWAL_CROSBSORDER_LIMITS_FAILURE
 })
 export const fetchCrossBorderLimitsLoading = () => ({
-  type: AT.FETCH_WITHDRAWAL_CROSSBORDER_LIMITS_LOADING
+  type: AT.FETCH_WITHDRAWAL_CROSBSORDER_LIMITS_LOADING
 })
 export const fetchCrossBorderLimitsSuccess = (limitsResponse: CrossBorderLimits) => ({
   payload: limitsResponse,
-  type: AT.FETCH_WITHDRAWAL_CROSSBORDER_LIMITS_SUCCESS
+  type: AT.FETCH_WITHDRAWAL_CROSBSORDER_LIMITS_SUCCESS
 })

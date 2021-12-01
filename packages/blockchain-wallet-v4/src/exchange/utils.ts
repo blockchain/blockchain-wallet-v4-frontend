@@ -49,7 +49,7 @@ export const fiatToString = ({
   unit: FiatType
   value: string | number
 }): string => {
-  const options = { currency: unit, style: 'currency' }
+  const options = { currency: unit, minimumFractionDigits: digits, style: 'currency' }
 
   return new Intl.NumberFormat(getLang(), options).format(new BigNumber(value).toNumber())
 }

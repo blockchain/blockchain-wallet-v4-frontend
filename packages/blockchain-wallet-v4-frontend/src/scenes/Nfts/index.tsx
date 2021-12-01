@@ -8,23 +8,15 @@ import { RootState } from 'data/rootReducer'
 
 import NftHeader from './Header'
 import Marketplace from './Marketplace'
+import Offers from './Offers'
 import YourCollection from './YourCollection'
-
-const DEFAULT_NFTS = [
-  {
-    display_name: 'Doodles',
-    image_url:
-      'https://lh3.googleusercontent.com/7B0qai02OdHA8P_EOVK672qUliyjQdQDGNrACxs7WnTgZAkJa_wWURnIFKeOh5VTf8cfTqW3wQpozGedaC9mteKphEOtztls02RlWQ=s120',
-    opensea_slug: 'doodles-official'
-  }
-]
 
 const NftPage = styled.div`
   width: 100%;
 `
 
 const Nfts: React.FC<Props> = (props) => {
-  const [activeTab, setActiveTab] = useState<'explore' | 'my-collection'>('explore')
+  const [activeTab, setActiveTab] = useState<'explore' | 'my-collection' | 'offers'>('explore')
 
   useEffect(() => {
     props.nftsActions.fetchNftCollections({})
@@ -37,6 +29,7 @@ const Nfts: React.FC<Props> = (props) => {
       {activeTab === 'my-collection' ? (
         <YourCollection {...props} setActiveTab={setActiveTab} />
       ) : null}
+      {activeTab === 'offers' ? <Offers {...props} /> : null}
     </NftPage>
   )
 }
@@ -44,8 +37,10 @@ const Nfts: React.FC<Props> = (props) => {
 const mapStateToProps = (state: RootState) => ({
   assets: selectors.components.nfts.getNftAssets(state),
   collections: selectors.components.nfts.getNftCollections(state),
+  defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse(''),
   formValues: selectors.form.getFormValues('nftMarketplace')(state),
-  marketplace: selectors.components.nfts.getMarketplace(state)
+  marketplace: selectors.components.nfts.getMarketplace(state),
+  offersMade: selectors.components.nfts.getOffersMade(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

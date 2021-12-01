@@ -7,12 +7,12 @@ import { Exchange, Remote } from '@core'
 import { APIType } from '@core/network/api'
 import {
   AccountTypes,
+  BSBalancesType,
   CoinType,
   InterestAfterTransactionType,
   PaymentValue,
   RatesType,
-  RemoteDataType,
-  SBBalancesType
+  RemoteDataType
 } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
@@ -160,7 +160,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
       // TODO figure out any replacement type
       const report = concat(reportHeaders, txList) as any
-      yield put(A.fetchInterestTransactionsReportSuccess({ ...report }))
+      yield put(A.fetchInterestTransactionsReportSuccess(report))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchInterestTransactionsReportFailure(error))
@@ -232,8 +232,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
           // custodial account selected
           if (isCustodialAccountSelected) {
-            const custodialBalances: SBBalancesType = (yield select(
-              selectors.components.simpleBuy.getSBBalances
+            const custodialBalances: BSBalancesType = (yield select(
+              selectors.components.buySell.getBSBalances
             )).getOrFail('Failed to get balance')
 
             yield call(createLimits, undefined, custodialBalances)
@@ -276,9 +276,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       actions.components.buySell.fetchBalanceSuccess.type,
       actions.components.buySell.fetchBalanceFailure.type
     ])
-    const custodialBalances = (yield select(
-      selectors.components.simpleBuy.getSBBalances
-    )).getOrFail('Failed to get balances')
+    const custodialBalances = (yield select(selectors.components.buySell.getBSBalances)).getOrFail(
+      'Failed to get balances'
+    )
     const custodialAccount = (yield call(getCustodialAccountForCoin, coin)).getOrFail(
       'Failed to fetch account'
     )

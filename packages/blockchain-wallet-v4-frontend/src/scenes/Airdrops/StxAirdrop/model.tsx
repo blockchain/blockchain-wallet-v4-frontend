@@ -262,6 +262,7 @@ export const StxFooterCta = ({ kycState, tags, userCampaignsInfoResponseList }: 
       case undefined:
       case 'REGISTERED':
       case 'NONE':
+      default:
         return null
     }
   }

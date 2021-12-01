@@ -182,7 +182,7 @@ export function getOrderHash(order: UnhashedOrder) {
 async function safeGasEstimation(estimationFunction, args, txData, retries = 2) {
   let estimatedValue
   try {
-    estimatedValue = parseInt((await estimationFunction(...args, txData))._hex)
+    estimatedValue = Math.ceil(parseInt((await estimationFunction(...args, txData))._hex) * 1.2)
   } catch (e) {
     const error = e as { code: string }
     const errorCode = error.code || undefined
@@ -196,6 +196,7 @@ async function safeGasEstimation(estimationFunction, args, txData, retries = 2) 
         console.error('Gas estimation failing consistently.')
       }
     } else {
+      console.log(e)
       console.log(JSON.stringify(e, null, 4))
       console.log(error.code)
       throw error.code
@@ -294,14 +295,13 @@ export const encodeSell = (schema, asset, address) => {
     ])
   } else if (schema.name === 'ERC721') {
     const tokenInterface = new ethers.utils.Interface(ERC721_ABI)
-    calldata = tokenInterface.encodeFunctionData('safeTransferFrom', [
+    calldata = tokenInterface.encodeFunctionData('transferFrom', [
       address.toLowerCase(),
       NULL_ADDRESS,
-      asset.token_id,
-      []
+      asset.token_id
     ])
   } else {
-    throw new Error(`Unsupported Asset Standard: ${schema.name}`);
+    throw new Error(`Unsupported Asset Standard: ${schema.name}`)
   }
   return {
     calldata,
@@ -565,14 +565,18 @@ async function getTransferFeeSettings(
 
 export function _makeMatchingOrder({
   accountAddress,
+  expirationTime,
   offer,
   order,
+  paymentTokenAddress,
   recipientAddress
 }: {
   // UnsignedOrder;
   accountAddress: string
-  offer?: string
+  expirationTime: number
+  offer: null | string
   order: Order
+  paymentTokenAddress: null | string
   recipientAddress: string
 }): UnsignedOrder {
   accountAddress = ethers.utils.getAddress(accountAddress)
@@ -625,9 +629,9 @@ export function _makeMatchingOrder({
     Error
   >
 
-  const times = _getTimeParameters(0)
+  const times = _getTimeParameters(expirationTime)
   // Compat for matching buy orders that have fee recipient still on them
-  const feeRecipient = order.feeRecipient === NULL_ADDRESS ? OPENSEA_FEE_RECIPIENT : NULL_ADDRESS
+  const feeRecipient = OPENSEA_FEE_RECIPIENT
 
   const matchingOrder: UnhashedOrder = {
     basePrice: offer ? new BigNumber(offer) : new BigNumber(order.basePrice),
@@ -640,14 +644,12 @@ export function _makeMatchingOrder({
     howToCall: order.howToCall,
     listingTime: times.listingTime,
     maker: accountAddress,
-    makerProtocolFee: new BigNumber(order.makerProtocolFee),
+    makerProtocolFee: new BigNumber(order.takerProtocolFee),
     makerReferrerFee: new BigNumber(order.makerReferrerFee),
-    makerRelayerFee: new BigNumber(order.makerRelayerFee),
+    makerRelayerFee: new BigNumber(order.takerRelayerFee),
     metadata: order.metadata,
-    paymentToken: order.paymentToken,
+    paymentToken: paymentTokenAddress ?? order.paymentToken,
     quantity: order.quantity,
-    // TODO: Fix the replacement patten generation for buy orders.
-    // replacementPattern,
     replacementPattern,
     saleKind: order.saleKind,
     // @ts-ignore
@@ -656,8 +658,8 @@ export function _makeMatchingOrder({
     staticExtradata: '0x',
     staticTarget: NULL_ADDRESS,
     taker: order.maker,
-    takerProtocolFee: new BigNumber(order.takerProtocolFee),
-    takerRelayerFee: new BigNumber(order.takerRelayerFee),
+    takerProtocolFee: new BigNumber(order.makerProtocolFee),
+    takerRelayerFee: new BigNumber(order.makerRelayerFee),
     target,
     waitingForBestCounterOrder: false
   }
@@ -696,12 +698,8 @@ async function computeFees({
   if (asset) {
     openseaBuyerFeeBasisPoints = +asset.asset_contract.opensea_buyer_fee_basis_points
     openseaSellerFeeBasisPoints = +asset.asset_contract.opensea_seller_fee_basis_points
-    devBuyerFeeBasisPoints =
-      +asset.asset_contract.dev_buyer_fee_basis_points +
-        parseInt(asset.collection?.dev_buyer_fee_basis_points) || 0
-    devSellerFeeBasisPoints =
-      +asset.asset_contract.dev_seller_fee_basis_points +
-        parseInt(asset.collection?.dev_seller_fee_basis_points) || 0
+    devBuyerFeeBasisPoints = parseInt(asset.collection?.dev_buyer_fee_basis_points)
+    devSellerFeeBasisPoints = parseInt(asset.collection?.dev_seller_fee_basis_points)
 
     maxTotalBountyBPS = openseaSellerFeeBasisPoints
   }
@@ -875,8 +873,7 @@ async function _approveOrder(order: UnsignedOrder, signer: Signer) {
     includeInOrderBook,
     { from: accountAddress }
   )
-  const receipt = await transactionHash.wait()
-  console.log(receipt)
+
   return transactionHash
 }
 
@@ -1166,9 +1163,7 @@ async function _initializeProxy(signer, txnData): Promise<string> {
     proxyRegistry_ABI,
     signer
   )
-  const transactionHash = await wyvernProxyRegistry.registerProxy(txnData)
-  const receipt = await transactionHash.wait()
-  console.log(receipt)
+  await wyvernProxyRegistry.registerProxy(txnData)
   const proxyAddress = await _getProxy(signer, 10)
   if (!proxyAddress) {
     throw new Error(
@@ -1332,17 +1327,17 @@ async function approveSemiOrNonFungibleToken({
     // Use this long way of calling so we can check for method existence on a bool-returning method.
     const isApprovedForAll = await tokenContract.isApprovedForAll(accountAddress, proxyAddress)
     console.log(isApprovedForAll)
-    return parseInt(isApprovedForAll)
+    return isApprovedForAll
   }
   const isApprovedForAll = await approvalAllCheck()
 
-  if (isApprovedForAll === 1) {
+  if (isApprovedForAll) {
     // Supports ApproveAll
     console.log('Already approved proxy for all tokens')
     return null
   }
 
-  if (isApprovedForAll === 0) {
+  if (!isApprovedForAll) {
     // Supports ApproveAll
     //  not approved for all yet
 
@@ -1363,7 +1358,7 @@ async function approveSemiOrNonFungibleToken({
           `Transaction receipt : https://www.etherscan.io/tx/${receipt.logs[1].transactionHash}\n`
         )
         const approvalCheck = await approvalAllCheck()
-        if (approvalCheck !== 1) {
+        if (!approvalCheck) {
           return null
         }
       }
@@ -1759,9 +1754,8 @@ export async function _cancelOrder({
     args,
     txnData
   )
-  const transactionHash = await wyvernExchangeContract.cancelOrder_(...args, txnData)
+  await wyvernExchangeContract.cancelOrder_(...args, txnData)
 
-  const receipt = await transactionHash.wait()
   // @ts-ignore: order here is valid type for _validateOrderWyvern, but not for other functions that handle Order types due to numerical compairsons made in aother files.
   const isValidOrder = await _validateOrderWyvern({ order, signer })
   return !isValidOrder
@@ -1789,16 +1783,14 @@ async function fungibleTokenApprovals({
     return null
   }
   console.log('Not enough ERC20 allowance approved for this trade')
-  // Note: approving maximum ammount so this doesnt need to be done again for future trades.
-  const args = [proxyAddress, ethers.constants.MaxInt256.toString()]
 
+  // Note: approving maximum amount so this doesnt need to be done again for future trades.
   const txHash = await fungibleTokenInterface.approve(
     proxyAddress,
     ethers.constants.MaxInt256.toString(),
     txnData
   )
-  const receipt = await txHash.wait()
-  return receipt
+  return txHash
 }
 
 export async function _buyOrderValidationAndApprovals({
@@ -2172,6 +2164,7 @@ export async function _makeBuyOrder({
 }
 export async function createSellOrder(
   asset: NftAsset,
+  expirationTime: number,
   signer: Signer,
   startPrice: number,
   endPrice: number | null,
@@ -2185,7 +2178,7 @@ export async function createSellOrder(
     asset,
     buyerAddress: '0x0000000000000000000000000000000000000000',
     endAmount: endPrice,
-    expirationTime: 0,
+    expirationTime,
     extraBountyBasisPoints: 0,
     paymentTokenAddress,
     quantity: 1,
@@ -2217,14 +2210,20 @@ export async function createSellOrder(
 }
 
 export async function createMatchingOrders(
+  expirationTime: number,
+  offer: null | string,
   order: NftOrdersType['orders'][0],
-  signer: Signer
+  signer: Signer,
+  paymentTokenAddress: null | string
 ): Promise<{ buy: Order; sell: Order }> {
   const accountAddress = await signer.getAddress()
   // TODO: If its an english auction bid above the basePrice include an offer property in the _makeMatchingOrder call
   const matchingOrder = _makeMatchingOrder({
     accountAddress,
+    expirationTime,
+    offer,
     order,
+    paymentTokenAddress,
     recipientAddress: accountAddress
   })
   // eslint-disable-next-line prefer-const
@@ -2326,8 +2325,7 @@ export async function transferAsset(
     gasLimit: txnData.gasLimit,
     gasPrice
   })
-  const receipt = await txHash.wait()
-  return receipt
+  return txHash
 }
 
 export async function calculateTransferFees(asset: NftAsset, signer: Signer, recipient: string) {
@@ -2340,7 +2338,8 @@ export async function calculateTransferFees(asset: NftAsset, signer: Signer, rec
     tokenContract = new ethers.Contract(asset.asset_contract.address, ERC1155_ABI, signer)
     args.push('1')
   }
-  return safeGasEstimation(tokenContract.gasEstimation.safeTransferFrom, args, { gasLimit: 250_00 })
+  args.push('0x')
+  return safeGasEstimation(tokenContract.estimateGas.safeTransferFrom, args, { gasLimit: 250_000 })
 }
 
 export async function calculatePaymentProxyApprovals(order: Order, signer: Signer) {

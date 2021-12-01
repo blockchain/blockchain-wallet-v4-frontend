@@ -10,9 +10,9 @@ import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../types'
 import MakeOffer from './MakeOffer'
-// import NftConfirmBuy from './ConfirmBuy'
 import MarkForSale from './MarkForSale'
 import ShowAsset from './ShowAsset'
+import Transfer from './Transfer'
 
 class NftOrder extends PureComponent<Props, State> {
   constructor(props) {
@@ -58,11 +58,6 @@ class NftOrder extends PureComponent<Props, State> {
             <ShowAsset {...this.props} />
           </FlyoutChild>
         )}
-        {/* {step === NftOrderStepEnum.CONFIRM_BUY && (
-          <FlyoutChild>
-            <NftConfirmBuy {...this.props} />
-          </FlyoutChild>
-        )} */}
         {step === NftOrderStepEnum.MARK_FOR_SALE && (
           <FlyoutChild>
             <MarkForSale {...this.props} />
@@ -73,6 +68,11 @@ class NftOrder extends PureComponent<Props, State> {
             <MakeOffer {...this.props} />
           </FlyoutChild>
         )}
+        {step === NftOrderStepEnum.TRANSFER && (
+          <FlyoutChild>
+            <Transfer {...this.props} />
+          </FlyoutChild>
+        )}
       </Flyout>
     )
   }
@@ -80,7 +80,9 @@ class NftOrder extends PureComponent<Props, State> {
 
 const mapStateToProps = (state) => ({
   cancelListing: selectors.components.nfts.getCancelListing(state),
-  orderFlow: selectors.components.nfts.getOrderFlow(state)
+  orderFlow: selectors.components.nfts.getOrderFlow(state),
+  sellOrder: selectors.components.nfts.getSellOrder(state),
+  transfer: selectors.components.nfts.getTransfer(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

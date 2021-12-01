@@ -2,7 +2,7 @@ import { call, put, select } from 'redux-saga/effects'
 
 import { displayFiatToFiat } from '@core/exchange'
 import { APIType } from '@core/network/api'
-import { FiatType, SBPaymentMethodType, SBPaymentTypes } from '@core/types'
+import { BSPaymentMethodType, BSPaymentTypes, FiatType } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
 import { WithdrawStepEnum } from 'data/types'
@@ -51,8 +51,8 @@ export default ({ api }: { api: APIType }) => {
 
     yield put(A.setStep({ step: WithdrawStepEnum.LOADING }))
 
-    const paymentMethods: SBPaymentMethodType[] = yield call(
-      api.getSBPaymentMethods,
+    const paymentMethods: BSPaymentMethodType[] = yield call(
+      api.getBSPaymentMethods,
       fiatCurrency,
       true
     )
@@ -60,8 +60,8 @@ export default ({ api }: { api: APIType }) => {
     const eligibleMethods = paymentMethods.filter(
       (method) =>
         method.currency === fiatCurrency &&
-        (method.type === SBPaymentTypes.BANK_ACCOUNT ||
-          method.type === SBPaymentTypes.BANK_TRANSFER)
+        (method.type === BSPaymentTypes.BANK_ACCOUNT ||
+          method.type === BSPaymentTypes.BANK_TRANSFER)
     )
 
     if (eligibleMethods.length === 0) {

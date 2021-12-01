@@ -116,7 +116,7 @@ class BuyCrypto extends PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) as WalletFiatType
+  fiatCurrency: selectors.components.buySell.getFiatCurrency(state) as WalletFiatType
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

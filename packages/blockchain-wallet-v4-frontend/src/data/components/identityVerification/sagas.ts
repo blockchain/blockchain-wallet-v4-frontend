@@ -424,12 +424,12 @@ export default ({ api, coreSagas, networks }) => {
         if (sddVerified.verified) {
           // SDD verified, refetch user profile
           yield put(actions.modules.profile.fetchUser())
-          // run callback to get back to SB flow
+          // run callback to get back to BS flow
           if (payload.onCompletionCallback) {
             payload.onCompletionCallback()
           }
 
-          // wait for SB create to finish
+          // wait for BS create to finish
           yield take([
             actions.components.buySell.fetchOrdersSuccess.type,
             actions.components.buySell.fetchOrdersFailure.type
@@ -439,7 +439,7 @@ export default ({ api, coreSagas, networks }) => {
         } else {
           // SDD denied, continue to veriff
           yield call(goToNextStep)
-          // create SB order in background in case user drops out of veriff flow
+          // create BS order in background in case user drops out of veriff flow
           if (payload.onCompletionCallback) {
             payload.onCompletionCallback()
           }

@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
-import { DisplayPaymentIcon } from 'components/SimpleBuy'
+import { DisplayPaymentIcon } from 'components/BuySell'
 
 import { Props } from '.'
 import { ButtonWrapper, ItemIcon, ListWrapper, MainWrapper, TitleWrapper } from './styles'

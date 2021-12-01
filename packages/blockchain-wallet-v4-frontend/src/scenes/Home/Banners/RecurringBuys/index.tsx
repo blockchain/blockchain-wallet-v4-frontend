@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
-import { SBOrderType } from '@core/types'
+import { BSOrderType } from '@core/types'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -115,7 +115,7 @@ const RecurringBuys = (props: Props) => {
 }
 
 const mapStateToProps = (state: RootState): LinkStatePropsType => ({
-  latestPendingOrder: selectors.components.simpleBuy.getSBLatestPendingOrder(state)
+  latestPendingOrder: selectors.components.buySell.getBSLatestPendingOrder(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -126,7 +126,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type LinkStatePropsType = {
-  latestPendingOrder?: SBOrderType
+  latestPendingOrder?: BSOrderType
 }
 type Props = ConnectedProps<typeof connector>
 

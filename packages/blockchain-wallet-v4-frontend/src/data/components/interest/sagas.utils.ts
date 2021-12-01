@@ -5,12 +5,12 @@ import { Exchange } from '@core'
 import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
 import {
   AccountTypes,
+  BSBalancesType,
   CoinType,
   FiatType,
   PaymentType,
   PaymentValue,
-  RatesType,
-  SBBalancesType
+  RatesType
 } from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
 import { promptForSecondPassword } from 'services/sagas'
@@ -64,7 +64,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
     return updatedPayment.value()
   }
 
-  const createLimits = function* (payment?: PaymentValue, custodialBalances?: SBBalancesType) {
+  const createLimits = function* (payment?: PaymentValue, custodialBalances?: BSBalancesType) {
     try {
       const coin = S.getCoinType(yield select())
       const limitsR = S.getInterestLimits(yield select())
@@ -150,8 +150,8 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
       actionTypes.components.send.FETCH_PAYMENTS_TRADING_ACCOUNTS_FAILURE
     ])
 
-    const custodialAccount = selectors.components.simpleBuy
-      .getSBBalances(state)
+    const custodialAccount = selectors.components.buySell
+      .getBSBalances(state)
       .map((balances) => ({
         ...balances[coin]
       }))

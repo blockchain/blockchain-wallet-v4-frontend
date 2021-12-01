@@ -1,5 +1,5 @@
-import { SBOrderActionType } from '@core/types'
-import { SBFixType } from 'data/types'
+import { BSOrderActionType } from '@core/types'
+import { BSFixType } from 'data/types'
 
 import * as AT from './actionTypes'
 
@@ -13,12 +13,12 @@ export const setLanguage = (language, showAlert) => ({
 })
 export const toggleCoinDisplayed = () => ({ type: AT.TOGGLE_COIN_DISPLAY })
 
-export const setSBCheckoutFix = (orderType: SBOrderActionType, fix: SBFixType) => ({
+export const setBSCheckoutFix = (orderType: BSOrderActionType, fix: BSFixType) => ({
   payload: {
     fix,
     orderType
   },
-  type: AT.SET_SB_CHECKOUT_FIX
+  type: AT.SET_BS_CHECKOUT_FIX
 })
 export const setTheme = (theme) => ({ payload: { theme }, type: AT.SET_THEME })
 export const setTotalBalancesDropdown = (payload) => ({

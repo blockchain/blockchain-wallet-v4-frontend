@@ -47,6 +47,16 @@ const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = ({
     nftsActions.searchNftAssetContract({ asset_contract_address: e.target[0].value })
   }
 
+  const handleRefresh = () => {
+    if (activeTab === 'explore') {
+      nftsActions.clearAndRefetchOrders()
+    } else if (activeTab === 'my-collection') {
+      nftsActions.clearAndRefetchAssets()
+    } else {
+      nftsActions.clearAndRefetchOffersMade()
+    }
+  }
+
   return (
     <Wrapper>
       <TabsContainer>
@@ -59,6 +69,9 @@ const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = ({
             selected={activeTab === 'my-collection'}
           >
             My Collection
+          </TabMenuItem>
+          <TabMenuItem onClick={() => setActiveTab('offers')} selected={activeTab === 'offers'}>
+            Offers
           </TabMenuItem>
         </TabMenu>
       </TabsContainer>
@@ -77,11 +90,7 @@ const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = ({
           cursor
           name='refresh'
           color='blue600'
-          onClick={() =>
-            activeTab === 'explore'
-              ? nftsActions.clearAndRefetchOrders()
-              : nftsActions.clearAndRefetchAssets()
-          }
+          onClick={handleRefresh}
         />
       </StyledForm>
     </Wrapper>
@@ -89,8 +98,8 @@ const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = ({
 }
 
 type Props = OwnProps & {
-  activeTab: 'explore' | 'my-collection'
-  setActiveTab: React.Dispatch<React.SetStateAction<'explore' | 'my-collection'>>
+  activeTab: 'explore' | 'my-collection' | 'offers'
+  setActiveTab: React.Dispatch<React.SetStateAction<'explore' | 'my-collection' | 'offers'>>
 }
 
 export default reduxForm<{}, Props>({ form: 'nftSearch' })(NftHeader)

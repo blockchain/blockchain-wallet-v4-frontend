@@ -4,7 +4,7 @@ import { any } from 'ramda'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { SBPaymentMethodType, SBPaymentTypes, WalletFiatEnum } from '@core/types'
+import { BSPaymentMethodType, BSPaymentTypes, WalletFiatEnum } from '@core/types'
 import { Box, Button, Image, Text } from 'blockchain-info-components'
 import { SettingComponent, SettingContainer, SettingSummary } from 'components/Setting'
 import { BankTransferAccountType } from 'data/types'
@@ -38,7 +38,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   )
 
   const isEligible = any(
-    (method: SBPaymentMethodType) => method.type === SBPaymentTypes.BANK_TRANSFER
+    (method: BSPaymentMethodType) => method.type === BSPaymentTypes.BANK_TRANSFER
   )(props.paymentMethods.methods)
   return (
     <StyledSettingsContainer>

@@ -17,15 +17,18 @@
         "apiKey": "0ecd212038"
       },
       "featureFlags": {
-        "nfts": true,
+        "addCheckoutPaymentProvider": false,
+        "addStripePaymentProvider": false,
         "cEURRewards": true,
-        "eddInterestFileUpload": true,
         "developerMobilePairing": true,
         "mergeAndUpgrade": false,
-        "withdrawalLocksFundsOnHold": true,
+        "eddInterestFileUpload": true,
         "pollForMagicLinkData": true,
         "recurringBuys": true,
-        "signupCountry": true
+        "signupCountry": true,
+        "walletConnect": true,
+        "withdrawalLocksFundsOnHold": true,
+        "useNewPaymentProviders": true
       }
     }
   },
@@ -42,7 +45,6 @@
     "root": "https://blockchain.info",
     "veriff": "https://magic.veriff.me",
     "walletHelper": "https://wallet-helper.blockchain.com",
-    "webSocket": "wss://ws.blockchain.info",
-    "yapilyCallbackUrl": "https://blockchain.com/brokerage-link-success"
+    "webSocket": "wss://ws.blockchain.info"
   }
 }

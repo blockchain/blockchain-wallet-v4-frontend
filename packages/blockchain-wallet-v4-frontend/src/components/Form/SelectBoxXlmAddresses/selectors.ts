@@ -108,8 +108,8 @@ export const getData = (
           .map(toDropdown)
           .map(toGroup('Lockbox')),
     showCustodial || showCustodialWithAddress
-      ? selectors.components.simpleBuy
-          .getSBBalances(state)
+      ? selectors.components.buySell
+          .getBSBalances(state)
           .map((x) => ({
             ...x.XLM,
             address: accountAddress ? accountAddress.data : null

@@ -1,4 +1,3 @@
 import { RootState } from 'data/rootReducer'
 
-export const getProductsEligibility = (state: RootState) =>
-  state.components.settings.productsEligibility
+export const getLimitsAndDetails = (state: RootState) => state.components.settings.limitsAndDetails

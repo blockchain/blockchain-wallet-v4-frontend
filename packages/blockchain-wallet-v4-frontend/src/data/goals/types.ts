@@ -10,19 +10,20 @@ export type GoalsType =
   | 'payment'
   | 'paymentProtocol'
   | 'referral'
-  | 'simpleBuy'
+  | 'buySell'
   | 'swap'
   | 'swapGetStarted'
   | 'swapUpgrade'
   | 'syncPit'
   | 'transferEth'
   | 'upgradeForAirdrop'
+  | 'walletConnect'
   | 'welcomeModal'
   | 'interest'
   | 'interestPromo'
 
 export type GoalType = { data: any; id: string; name: GoalsType }
-export type SimpleBuyWidgetGoalDataType = {
+export type BuySellWidgetGoalDataType = {
   amount: string
   crypto: CoinType
   email?: string
@@ -49,5 +50,6 @@ export enum DeepLinkGoal {
   REFERRAL = 'referral',
   REWARDS = 'rewards',
   SIMPLE_BUY = 'simple-buy',
-  SWAP = 'swap'
+  SWAP = 'swap',
+  WALLET_CONNECT = 'wc'
 }

@@ -2,7 +2,8 @@ import {
   AssetEventsType,
   ExplorerGatewayNftCollectionType,
   NftAssetsType,
-  NftOrdersType
+  NftOrdersType,
+  OfferEventsType
 } from './types'
 
 // const JAYZ_ADDRESS = '0x3b417faee9d2ff636701100891dc2755b5321cc3'
@@ -14,11 +15,14 @@ export default ({ apiUrl, get, post }) => {
   const postNftOrder = (order) => {
     return post({
       contentType: 'application/json',
-      data: { order },
-      endPoint: `/wyvern/v1/orders/post`,
+      data: order,
+      endPoint: `/orders/post/`,
+      headers: {
+        'X-API-KEY': 'd0b6281e87d84702b020419fdf58ea81'
+      },
       ignoreQueryParams: true,
       removeDefaultPostData: true,
-      url: 'https://api.opensea.io'
+      url: `${openseaExchangeApi}`
     })
   }
 
@@ -53,18 +57,38 @@ export default ({ apiUrl, get, post }) => {
     })
   }
 
+  const getOffersMade = (
+    account_address: string,
+    offset = 0,
+    limit = NFT_ORDER_PAGE_LIMIT
+  ): OfferEventsType => {
+    return get({
+      endPoint: `?only_opensea=true&offset=${
+        offset * NFT_ORDER_PAGE_LIMIT
+      }&limit=${limit}&event_type=offer_entered&account_address=${account_address}`,
+      headers: {
+        'X-API-KEY': 'd0b6281e87d84702b020419fdf58ea81'
+      },
+      ignoreQueryParams: true,
+      url: `${openseaApi}/events`
+    })
+  }
+
   const getNftCollections = (
-    sortedBy?: string,
-    direction?: 'ASC' | 'DESC',
+    sortedBy = '7_day_vol',
+    direction = 'DESC',
     offset?: number,
     limit?: number
   ): ExplorerGatewayNftCollectionType[] => {
     return get({
-      endPoint: `/nft/collections`,
+      endPoint: `/nft/collections?sortedBy=${sortedBy}&direction=${direction}`,
       ignoreQueryParams: true,
       url: `${apiUrl}/explorer-gateway`
     })
   }
+
+  // TODO
+  // const getOffersReceived = () => {}
 
   const getNftCollectionInfo = (slug: string) => {
     return get({
@@ -95,7 +119,7 @@ export default ({ apiUrl, get, post }) => {
     side = 1 // 0 for buy, 1 for sell,
   ): NftOrdersType => {
     return get({
-      endPoint: `?asset_contract_address=${asset_contract_address}&payment_token_address=${payment_token_address}&sale_kind=0&bundled=false&include_bundled=false&include_invalid=false&side=${side}&limit=${limit}${token_ids}`,
+      endPoint: `?asset_contract_address=${asset_contract_address}&sale_kind=0&bundled=false&include_bundled=false&include_invalid=false&is_english=false&side=${side}&limit=${limit}${token_ids}`,
       headers: {
         'X-API-KEY': 'd0b6281e87d84702b020419fdf58ea81'
       },
@@ -112,6 +136,7 @@ export default ({ apiUrl, get, post }) => {
     getNftCollections,
     getNftOrders,
     getNftRecentEvents,
+    getOffersMade,
     postNftOrder
   }
 }

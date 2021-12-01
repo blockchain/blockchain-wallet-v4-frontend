@@ -1,17 +1,17 @@
-import { CoinType, SBCoreActionTypes } from '@core/types'
+import { BSCoreActionTypes, CoinType } from '@core/types'
 
 import * as AT from './actionTypes'
 
 /* eslint-disable import/prefer-default-export */
-export const setSBCoreCoinData = (
+export const setBSCoreCoinData = (
   coin: CoinType,
   next: string | null,
   pendingTxsN: number
-): SBCoreActionTypes => ({
+): BSCoreActionTypes => ({
   payload: {
     coin,
     next,
     pendingTxsN
   },
-  type: AT.SET_SB_CORE_COIN_DATA
+  type: AT.SET_BS_CORE_COIN_DATA
 })

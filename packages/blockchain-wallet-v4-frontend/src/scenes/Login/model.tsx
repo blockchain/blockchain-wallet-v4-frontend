@@ -15,6 +15,7 @@ import {
 import { FormLabel } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { LoginFormType, LoginSteps } from 'data/types'
+import { media } from 'services/styles'
 
 export const LOGIN_FORM_NAME = 'login'
 
@@ -225,16 +226,19 @@ const SubCard = styled.div`
   margin-top: 24px;
   border-top: 1px solid ${(props) => props.theme.grey000};
   padding: 0;
+  ${media.tabletL`
+  flex-direction: column;
+  align-items: center;
+`};
 `
 const SignUpText = styled(Text)`
+  margin-top: 16px;
+  ${media.tabletL`
+margin-top: 0;
+`};
   &:hover {
     font-weight: 600;
   }
-`
-const Divider = styled.div`
-  height: 10px;
-  background-color: ${(props) => props.theme.grey100};
-  width: 100%;
 `
 export const SignUpLink = () => (
   <LinkContainer data-e2e='signupLink' to='/signup'>
@@ -247,7 +251,7 @@ export const SignUpLink = () => (
           />
         </Text>
         &nbsp;
-        <SignUpText size='16px' color='blue600' weight={600} style={{ marginTop: '16px' }}>
+        <SignUpText size='16px' color='blue600' weight={600}>
           <FormattedMessage id='buttons.signup_now' defaultMessage='Sign up Now ->' />
         </SignUpText>
       </SubCard>

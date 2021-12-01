@@ -14,7 +14,7 @@ import { actions, selectors } from 'data'
 import { LoginSteps, ProductAuthOptions } from 'data/types'
 import { isBrowserSupported } from 'services/browser'
 import { required } from 'services/forms'
-import { media } from 'services/styles'
+import { isMobile, media } from 'services/styles'
 
 import { Props as OwnProps } from '../..'
 import {
@@ -37,6 +37,7 @@ const OuterWrapper = styled.div`
   ${media.tabletL`
     width: 100%;
     justify-content: center;
+    padding: 0;
   `};
 `
 
@@ -181,35 +182,37 @@ const EnterPasswordWallet = (props: Props) => {
         </WrapperWithPadding>
         <SignUpLink />
       </FormWrapper>
-      <MobileAuthSideWrapper>
-        <TextColumn>
-          <QRCodeWrapper value={qrData} size={150} showImage />
-          <Text
-            color='grey900'
-            size='14px'
-            weight={600}
-            lineHeight='1.25'
-            style={{ marginBottom: '8px' }}
-          >
-            <FormattedMessage
-              id='scenes.login.wallet.mobile_app_login.title'
-              defaultMessage='Or Log in with Mobile App'
-            />
-          </Text>
-          <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
-            <FormattedMessage
-              id='scenes.login.wallet.mobile_login.description.ios'
-              defaultMessage='<b>iOS</b> - Tap the Menu button at the top left corner of the app to reveal Web Log In option.'
-            />
-          </Text>
-          <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
-            <FormattedMessage
-              id='scenes.login.wallet.mobile_login.description.android'
-              defaultMessage='<b>Android</b> - Tap the QR code icon at the top right corner of the app.'
-            />
-          </Text>
-        </TextColumn>
-      </MobileAuthSideWrapper>
+      {!isMobile() && (
+        <MobileAuthSideWrapper>
+          <TextColumn>
+            <QRCodeWrapper value={qrData} size={150} showImage />
+            <Text
+              color='grey900'
+              size='14px'
+              weight={600}
+              lineHeight='1.25'
+              style={{ marginBottom: '8px' }}
+            >
+              <FormattedMessage
+                id='scenes.login.wallet.mobile_app_login.title'
+                defaultMessage='Or Log in with Mobile App'
+              />
+            </Text>
+            <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
+              <FormattedMessage
+                id='scenes.login.wallet.mobile_login.description.ios'
+                defaultMessage='<b>iOS</b> - Tap the Menu button at the top left corner of the app to reveal Web Log In option.'
+              />
+            </Text>
+            <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
+              <FormattedMessage
+                id='scenes.login.wallet.mobile_login.description.android'
+                defaultMessage='<b>Android</b> - Tap the QR code icon at the top right corner of the app.'
+              />
+            </Text>
+          </TextColumn>
+        </MobileAuthSideWrapper>
+      )}
     </OuterWrapper>
   )
 }

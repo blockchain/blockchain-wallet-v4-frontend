@@ -3,11 +3,11 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
-import { SBPaymentTypes } from '@core/network/api/simpleBuy/types'
+import { BSPaymentTypes } from '@core/network/api/buySell/types'
 import {
   BeneficiaryType,
+  BSPaymentMethodType,
   ExtractSuccess,
-  SBPaymentMethodType,
   WalletAcountEnum,
   WalletFiatType
 } from '@core/types'
@@ -27,14 +27,14 @@ import Loading from './template.loading'
 
 const EnterAmountContainer = (props: Props) => {
   useEffect(() => {
-    let paymentMethod: SBPaymentTypes | 'ALL' = 'ALL'
+    let paymentMethod: BSPaymentTypes | 'ALL' = 'ALL'
     if (props.defaultMethod) {
-      paymentMethod = SBPaymentTypes.BANK_TRANSFER
+      paymentMethod = BSPaymentTypes.BANK_TRANSFER
       if (
         props.defaultMethod.partner !== BankPartners.YODLEE &&
         props.defaultMethod.currency === 'USD'
       ) {
-        paymentMethod = SBPaymentTypes.BANK_ACCOUNT
+        paymentMethod = BSPaymentTypes.BANK_ACCOUNT
       }
     }
     // We need to make this call each time we load the enter amount component
@@ -106,11 +106,11 @@ const EnterAmountContainer = (props: Props) => {
     Success: (val) => {
       const { crossBorderLimits, formErrors } = val
       const bankTransferMethod = val.paymentMethods.methods.find((method) => {
-        return method.type === SBPaymentTypes.BANK_TRANSFER
+        return method.type === BSPaymentTypes.BANK_TRANSFER
       })
 
       const bankAccountMethod = val.paymentMethods.methods.find((method) => {
-        return method.type === SBPaymentTypes.BANK_ACCOUNT
+        return method.type === BSPaymentTypes.BANK_ACCOUNT
       })
 
       const eligiblePaymentMethod = bankTransferMethod || bankAccountMethod
@@ -124,7 +124,7 @@ const EnterAmountContainer = (props: Props) => {
       // for beneficiary type which is a BANK_ACCOUNT type. It's worth noting that we also pass
       // these in a specific order "val.defaultMethod || props.beneficiary || val.defaultBeneficiary"
       // as the paymentAccount in the EnterAmount component which is necessary
-      let selectedPaymentMethod: SBPaymentMethodType = eligiblePaymentMethod
+      let selectedPaymentMethod: BSPaymentMethodType = eligiblePaymentMethod
       if (val.defaultMethod && bankTransferMethod) {
         selectedPaymentMethod = bankTransferMethod
       } else if ((props.beneficiary || val.defaultBeneficiary) && bankAccountMethod) {
