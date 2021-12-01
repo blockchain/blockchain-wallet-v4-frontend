@@ -45,6 +45,7 @@ export const ENJIN_ADDRESS = '0xfaaFDc07907ff5120a76b34b731b278c38d6043C'
 export const ENJIN_COIN_ADDRESS = '0xf629cbd94d3791c9250152bd8dfbdf380e2a3b9c'
 const WETH_ADDRESS = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
 const WYVERN_TOKEN_PAYMENT_PROXY = '0xe5c783ee536cf5e63e792988335c4255169be4e1'
+const WYVERN_CONTRACT_ADDR = '0xd219a8bad2bd4075b7089d51c1841be83fbe1353'
 
 export const bigNumberToBN = (value: BigNumber) => {
   return new BN(value.toString(), 10)
@@ -1091,7 +1092,7 @@ export async function _makeSellOrder({
     basePrice: new BigNumber(basePrice.toString()),
     calldata,
     englishAuctionReservePrice: reservePrice ? new BigNumber(reservePrice.toString()) : undefined,
-    exchange: '0x7Be8076f4EA4A4AD08075C2508e481d6C946D12b'.toLowerCase(),
+    exchange: WYVERN_CONTRACT_ADDR.toLowerCase(),
     expirationTime: times.expirationTime,
     extra: new BigNumber(extra.toString()),
     feeMethod,
@@ -2131,7 +2132,7 @@ export async function _makeBuyOrder({
   return {
     basePrice: new BigNumber(basePrice.toString()),
     calldata,
-    exchange: '0x7Be8076f4EA4A4AD08075C2508e481d6C946D12b',
+    exchange: WYVERN_CONTRACT_ADDR,
     expirationTime: times.expirationTime,
     extra: new BigNumber(extra.toString()),
     feeMethod,
