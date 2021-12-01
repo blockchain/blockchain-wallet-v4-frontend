@@ -1376,7 +1376,7 @@ type MessagesType = {
   'modals.sendBch.firststep.share_tooltip': 'Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
   'modals.sendBch.firststep.towallet': 'To'
   'modals.send.banner.title': 'Uprade to Gold. Send More Crypto.'
-  'modals.send.banner.description': 'Verify your ID now and unlock Gold level trading. Send up to {dayCurrencySymbol}{dayAmount} a day.'
+  'modals.send.banner.description': 'Verify your ID now and unlock Gold level trading. Send up to {dayCurrencySymbol}{dayAmount} a day. Now, your limit is {currency}{limit} a {period}.'
   'modals.send.banner.get_started': 'Get Started'
   'modals.send.over_your_limit_and_period': 'Over your limit! Send up to {currency}{amount}. Now, your limit is {currency}{limit} a {period}.'
   'modals.sendbch.amountnotzeromessage': 'Invalid amount'
