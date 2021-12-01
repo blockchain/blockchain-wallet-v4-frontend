@@ -4,7 +4,7 @@ import {
   BSTransactionStateType,
   CoinType,
   FiatType,
-  WalletAcountType,
+  WalletAccountType,
   WalletCurrencyType,
   WalletFiatType
 } from '@core/types'
@@ -151,12 +151,12 @@ export type GetTransactionsHistoryType = {
   toValue?: string
 }
 
-export type CrossBorderLimitsPyload = {
+export type CrossBorderLimitsPayload = {
   currency?: WalletFiatType
-  fromAccount: WalletAcountType
+  fromAccount: WalletAccountType
   inputCurrency: CoinType
   outputCurrency: CoinType
-  toAccount: WalletAcountType
+  toAccount: WalletAccountType
 }
 
 type CrossBorderLimitItem = {

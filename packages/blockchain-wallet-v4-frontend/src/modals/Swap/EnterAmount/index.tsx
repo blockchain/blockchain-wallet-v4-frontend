@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import styled from 'styled-components'
 
 import { formatCoin } from '@core/exchange/utils'
-import { CrossBorderLimitsPyload, ExtractSuccess, WalletAcountEnum } from '@core/types'
+import { CrossBorderLimitsPayload, ExtractSuccess, WalletAccountEnum } from '@core/types'
 import { CoinAccountIcon, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { actions, selectors } from 'data'
@@ -65,12 +65,12 @@ class EnterAmount extends PureComponent<Props> {
       // fetch crossborder limits
       const fromAccount =
         BASE.type === SwapBaseCounterTypes.CUSTODIAL
-          ? WalletAcountEnum.CUSTODIAL
-          : WalletAcountEnum.NON_CUSTODIAL
+          ? WalletAccountEnum.CUSTODIAL
+          : WalletAccountEnum.NON_CUSTODIAL
       const toAccount =
         COUNTER.type === SwapBaseCounterTypes.CUSTODIAL
-          ? WalletAcountEnum.CUSTODIAL
-          : WalletAcountEnum.NON_CUSTODIAL
+          ? WalletAccountEnum.CUSTODIAL
+          : WalletAccountEnum.NON_CUSTODIAL
       const inputCurrency = BASE.coin
       const outputCurrency = COUNTER.coin
       this.props.swapActions.fetchCrossBorderLimits({
@@ -78,7 +78,7 @@ class EnterAmount extends PureComponent<Props> {
         inputCurrency,
         outputCurrency,
         toAccount
-      } as CrossBorderLimitsPyload)
+      } as CrossBorderLimitsPayload)
     }
   }
 

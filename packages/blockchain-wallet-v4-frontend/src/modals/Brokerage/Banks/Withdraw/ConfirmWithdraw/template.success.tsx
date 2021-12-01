@@ -40,12 +40,11 @@ const Success: React.FC<InjectedFormProps<WithdrawCheckoutFormValuesType, Props>
     <Form
       onSubmit={(e) => {
         e.preventDefault()
-
-        props.withdrawActions.handleCustodyWithdraw(
-          props.formValues.amount,
-          props.beneficiary || props.defaultMethod || null,
-          props.fiatCurrency
-        )
+        props.withdrawActions.handleCustodyWithdraw({
+          amount: props.formValues.amount,
+          beneficiary: props.beneficiary || props.defaultMethod || null,
+          fiatCurrency: props.fiatCurrency
+        })
       }}
     >
       <FlyoutWrapper>

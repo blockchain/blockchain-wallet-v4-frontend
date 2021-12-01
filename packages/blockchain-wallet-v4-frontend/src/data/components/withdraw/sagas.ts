@@ -8,7 +8,7 @@ import { actions, selectors } from 'data'
 import { WithdrawStepEnum } from 'data/types'
 
 import { convertStandardToBase } from '../exchange/services'
-import * as A from './actions'
+import { actions as A } from './slice'
 
 const SERVICE_NAME = 'simplebuy'
 
@@ -114,7 +114,8 @@ export default ({ api }: { api: APIType }) => {
   const fetchWithdrawLocks = function* (action: ReturnType<typeof A.fetchWithdrawalLock>) {
     yield put(A.fetchWithdrawalFeesLoading())
     const currency =
-      action.currency || (selectors.components.withdraw.getFiatCurrency(yield select()) as FiatType)
+      action.payload.currency ||
+      (selectors.components.withdraw.getFiatCurrency(yield select()) as FiatType)
     try {
       const locks: ReturnType<typeof api.getWithdrawalLocks> = yield call(
         api.getWithdrawalLocks,

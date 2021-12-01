@@ -16,7 +16,7 @@ const BankList = (props: Props) => {
   useEffect(() => {
     if (props.fiatCurrency && !Remote.Success.is(props.data)) {
       props.brokerageActions.fetchBankTransferAccounts()
-      props.withdrawActions.fetchWithdrawalFees('ALL')
+      props.withdrawActions.fetchWithdrawalFees({ paymentMethod: 'ALL' })
     }
     props.custodialActions.fetchCustodialBeneficiaries(props.fiatCurrency)
   }, [])

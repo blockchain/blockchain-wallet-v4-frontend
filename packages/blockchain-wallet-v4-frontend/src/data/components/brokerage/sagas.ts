@@ -258,7 +258,7 @@ export default ({ api }: { api: APIType }) => {
 
   const handleWithdrawClick = function* ({ payload }: ReturnType<typeof A.handleWithdrawClick>) {
     yield put(actions.form.destroy('brokerageTx'))
-    yield put(actions.components.withdraw.showModal(payload))
+    yield put(actions.components.withdraw.showModal({ fiatCurrency: payload }))
 
     const bankTransferAccountsR = selectors.components.brokerage.getBankTransferAccounts(
       yield select()
