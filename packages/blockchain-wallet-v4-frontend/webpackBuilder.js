@@ -260,7 +260,9 @@ const buildDevServerConfig = (
           envConfig.VERIFF_URL,
           envConfig.WALLET_HELPER_DOMAIN,
           envConfig.WEB_SOCKET_URL,
-          'https://api.opensea.io',
+          envConfig.OPENSEA_API,
+          'http://localhost:8081',
+          'https://api-rinkeby.etherscan.io',
           'https://friendbot.stellar.org',
           'https://bitpay.com',
           'https://static.zdassets.com',
@@ -291,6 +293,7 @@ const buildDevServerConfig = (
           horizon: envConfig.HORIZON_URL,
           ledger: localhostUrl + '/ledger', // will trigger reverse proxy
           ledgerSocket: envConfig.LEDGER_SOCKET_URL,
+          openseaApi: envConfig.OPENSEA_API,
           root: envConfig.ROOT_URL,
           veriff: envConfig.VERIFF_URL,
           walletHelper: envConfig.WALLET_HELPER_DOMAIN,

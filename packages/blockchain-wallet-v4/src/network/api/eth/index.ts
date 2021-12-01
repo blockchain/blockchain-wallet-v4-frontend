@@ -7,7 +7,7 @@ export default ({ apiUrl, get, post }) => {
   // Deprecate
   //
 
-  const ethProvider = ethers.providers.getDefaultProvider(`${apiUrl}/eth/nodes/rpc`)
+  const ethProvider = new ethers.providers.EtherscanProvider('rinkeby')
 
   // web3.eth.getBalance
   const getEthBalances = (context) =>
