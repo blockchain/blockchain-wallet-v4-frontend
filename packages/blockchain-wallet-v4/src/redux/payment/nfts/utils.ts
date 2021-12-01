@@ -196,6 +196,7 @@ async function safeGasEstimation(estimationFunction, args, txData, retries = 2) 
         console.error('Gas estimation failing consistently.')
       }
     } else {
+      console.log(e)
       console.log(JSON.stringify(e, null, 4))
       console.log(error.code)
       throw error.code
@@ -872,8 +873,7 @@ async function _approveOrder(order: UnsignedOrder, signer: Signer) {
     includeInOrderBook,
     { from: accountAddress }
   )
-  const receipt = await transactionHash.wait()
-  console.log(receipt)
+
   return transactionHash
 }
 
@@ -1163,9 +1163,7 @@ async function _initializeProxy(signer, txnData): Promise<string> {
     proxyRegistry_ABI,
     signer
   )
-  const transactionHash = await wyvernProxyRegistry.registerProxy(txnData)
-  const receipt = await transactionHash.wait()
-  console.log(receipt)
+  await wyvernProxyRegistry.registerProxy(txnData)
   const proxyAddress = await _getProxy(signer, 10)
   if (!proxyAddress) {
     throw new Error(
@@ -1756,9 +1754,8 @@ export async function _cancelOrder({
     args,
     txnData
   )
-  const transactionHash = await wyvernExchangeContract.cancelOrder_(...args, txnData)
+  await wyvernExchangeContract.cancelOrder_(...args, txnData)
 
-  const receipt = await transactionHash.wait()
   // @ts-ignore: order here is valid type for _validateOrderWyvern, but not for other functions that handle Order types due to numerical compairsons made in aother files.
   const isValidOrder = await _validateOrderWyvern({ order, signer })
   return !isValidOrder
@@ -1786,16 +1783,14 @@ async function fungibleTokenApprovals({
     return null
   }
   console.log('Not enough ERC20 allowance approved for this trade')
-  // Note: approving maximum ammount so this doesnt need to be done again for future trades.
-  const args = [proxyAddress, ethers.constants.MaxInt256.toString()]
 
+  // Note: approving maximum amount so this doesnt need to be done again for future trades.
   const txHash = await fungibleTokenInterface.approve(
     proxyAddress,
     ethers.constants.MaxInt256.toString(),
     txnData
   )
-  const receipt = await txHash.wait()
-  return receipt
+  return txHash
 }
 
 export async function _buyOrderValidationAndApprovals({
@@ -2330,8 +2325,7 @@ export async function transferAsset(
     gasLimit: txnData.gasLimit,
     gasPrice
   })
-  const receipt = await txHash.wait()
-  return receipt
+  return txHash
 }
 
 export async function calculateTransferFees(asset: NftAsset, signer: Signer, recipient: string) {
@@ -2344,7 +2338,8 @@ export async function calculateTransferFees(asset: NftAsset, signer: Signer, rec
     tokenContract = new ethers.Contract(asset.asset_contract.address, ERC1155_ABI, signer)
     args.push('1')
   }
-  return safeGasEstimation(tokenContract.gasEstimation.safeTransferFrom, args, { gasLimit: 250_00 })
+  args.push('0x')
+  return safeGasEstimation(tokenContract.estimateGas.safeTransferFrom, args, { gasLimit: 250_000 })
 }
 
 export async function calculatePaymentProxyApprovals(order: Order, signer: Signer) {

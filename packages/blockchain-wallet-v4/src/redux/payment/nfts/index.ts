@@ -19,6 +19,7 @@ import {
   calculatePaymentProxyApprovals,
   calculateProxyApprovalFees,
   calculateProxyFees,
+  calculateTransferFees,
   createMatchingOrders,
   createSellOrder,
   NULL_ADDRESS,
@@ -132,8 +133,7 @@ export const calculateGasFees = async (
     transferAsset &&
     transferRecipient
   ) {
-    // TODO: After merge uncomment this.
-    // gasFees = await calculateTransferFees(transferAsset, signer, transferRecipient)
+    gasFees = await calculateTransferFees(transferAsset, signer, transferRecipient)
   }
   // Sell orders always need proxy address and approval:
   else if (operation === GasCalculationOperations.Sell && sellOrder) {

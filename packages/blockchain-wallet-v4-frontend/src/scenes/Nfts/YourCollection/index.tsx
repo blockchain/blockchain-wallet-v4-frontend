@@ -108,7 +108,10 @@ const YourCollection: React.FC<Props> = (props) => {
                     nature='primary'
                     onClick={() => props.nftsActions.nftOrderFlowOpen({ asset })}
                   >
-                    <FormattedMessage id='copy.sell' defaultMessage='Sell' />
+                    <FormattedMessage
+                      id='copy.sell_or_transfer'
+                      defaultMessage='Sell or Transfer'
+                    />
                   </Button>
                 )}
                 <Link
