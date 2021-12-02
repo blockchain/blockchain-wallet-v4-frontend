@@ -4,12 +4,12 @@ import { find, isEmpty, pathOr, propEq, propOr } from 'ramda'
 import { bindActionCreators } from 'redux'
 
 import { Remote } from '@core'
-import { CrossBorderLimitsPyload, OrderType, BSPaymentTypes, WalletAcountEnum } from '@core/types'
+import { BSPaymentTypes, CrossBorderLimitsPyload, OrderType, WalletAcountEnum } from '@core/types'
 import { FlyoutOopsError } from 'components/Flyout'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import { getValidPaymentMethod } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
-import { RecurringBuyPeriods, BSCheckoutFormValuesType, UserDataType } from 'data/types'
+import { BSCheckoutFormValuesType, RecurringBuyPeriods, UserDataType } from 'data/types'
 
 import Loading from '../../template.loading'
 import {
@@ -18,6 +18,8 @@ import {
 } from '../index'
 import getData from './selectors'
 import Success from './template.success'
+
+const { FORM_BS_CHECKOUT } = model.components.buySell
 
 class Checkout extends PureComponent<Props> {
   componentDidMount() {
@@ -150,7 +152,7 @@ class Checkout extends PureComponent<Props> {
       switch (method.type) {
         case BSPaymentTypes.PAYMENT_CARD:
           this.props.buySellActions.setStep({
-            step: 'ADD_CARD'
+            step: 'ADD_CARD_DETERMINE_PROVIDER'
           })
           break
         case BSPaymentTypes.USER_CARD:
@@ -203,11 +205,11 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   cryptoCurrency: selectors.components.buySell.getCryptoCurrency(state) || 'BTC',
   data: getData(state, ownProps),
   fiatCurrency: selectors.components.buySell.getFiatCurrency(state) || 'USD',
-  formValues: selectors.form.getFormValues('buySellCheckout')(state) as
+  formValues: selectors.form.getFormValues(FORM_BS_CHECKOUT)(state) as
     | BSCheckoutFormValuesType
     | undefined,
   goals: selectors.goals.getGoals(state),
-  isPristine: selectors.form.isPristine('buySellCheckout')(state),
+  isPristine: selectors.form.isPristine(FORM_BS_CHECKOUT)(state),
   preferences: selectors.preferences.getBSCheckoutPreferences(state),
   sbOrders: selectors.components.buySell.getBSOrders(state).getOrElse([])
 })

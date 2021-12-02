@@ -1,9 +1,9 @@
 import {
   BeneficiaryType,
+  BSPaymentTypes,
   CoinType,
   CrossBorderLimits,
   FiatType,
-  BSPaymentTypes,
   WalletAcountType,
   WalletFiatType,
   WithdrawalLockResponseType,

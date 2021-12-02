@@ -27,7 +27,7 @@ const Fees: React.FC<Props> = (props) => {
   return (
     <>
       {orderFlow.fees.cata({
-        Failure: (e) => null,
+        Failure: () => null,
         Loading: () => (
           <CTARow>
             <div style={{ marginBottom: '22px' }}>

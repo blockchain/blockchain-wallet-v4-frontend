@@ -1,5 +1,5 @@
 import { Map } from 'immutable-ext'
-import { forEach, head, isEmpty, isNil, path, pathOr, prop, toLower } from 'ramda'
+import { forEach, head, isEmpty, isNil, pathOr, prop, toLower } from 'ramda'
 import { set } from 'ramda-lens'
 import { call, put, select } from 'redux-saga/effects'
 

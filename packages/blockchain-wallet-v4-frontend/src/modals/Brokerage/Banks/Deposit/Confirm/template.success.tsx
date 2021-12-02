@@ -5,7 +5,7 @@ import moment from 'moment'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
-import { FiatType, BSPaymentTypes } from '@core/types'
+import { BSPaymentTypes, FiatType } from '@core/types'
 import { Button, HeartbeatLoader, Text } from 'blockchain-info-components'
 import { FlyoutContainer, FlyoutContent, FlyoutFooter, FlyoutHeader } from 'components/Flyout'
 import { BankDWStepType, BankPartners } from 'data/types'

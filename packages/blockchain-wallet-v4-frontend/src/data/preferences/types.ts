@@ -1,4 +1,4 @@
-import { CoinType, BSOrderActionType, TimeRange } from '@core/types'
+import { BSOrderActionType, CoinType, TimeRange } from '@core/types'
 import { BSFixType } from 'data/types'
 
 import * as AT from './actionTypes'

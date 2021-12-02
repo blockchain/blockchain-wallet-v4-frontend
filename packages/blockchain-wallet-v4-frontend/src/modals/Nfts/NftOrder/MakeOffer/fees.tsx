@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 
 import { GasCalculationOperations } from '@core/network/api/nfts/types'
-import { SpinningLoader } from 'blockchain-info-components'
+import { SpinningLoader, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Title, Value } from 'components/Flyout/model'
@@ -21,7 +21,7 @@ const Fees: React.FC<Props> = (props) => {
   useEffect(() => {
     if (activeOrder) {
       nftActions.fetchFees({
-        offer: '0',
+        offer: '10000',
         operation: GasCalculationOperations.Buy,
         order: activeOrder,
         paymentTokenAddress: WETH
@@ -34,7 +34,7 @@ const Fees: React.FC<Props> = (props) => {
   return (
     <>
       {orderFlow.fees.cata({
-        Failure: (e) => null,
+        Failure: () => null,
         Loading: () => (
           <CTARow>
             <SpinningLoader width='14px' height='14px' borderWidth='3px' />
@@ -45,8 +45,13 @@ const Fees: React.FC<Props> = (props) => {
           return (
             <>
               <CTARow>
-                <Title>
+                <Title style={{ display: 'flex' }}>
                   <FormattedMessage id='copy.fees' defaultMessage='Fees' />
+                  {val.approvalFees > 0 ? (
+                    <TooltipHost id='tooltip.opensea_offer_approval_fees'>
+                      <TooltipIcon name='question-in-circle-filled' />
+                    </TooltipHost>
+                  ) : null}
                 </Title>
                 <Value>
                   <div style={{ display: 'flex' }}>

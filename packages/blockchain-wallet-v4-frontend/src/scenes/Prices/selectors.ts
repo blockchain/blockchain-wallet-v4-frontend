@@ -1,4 +1,4 @@
-import { lift, map } from 'ramda'
+import { lift } from 'ramda'
 
 import { ExtractSuccess } from '@core/types'
 import { createDeepEqualSelector } from '@core/utils'

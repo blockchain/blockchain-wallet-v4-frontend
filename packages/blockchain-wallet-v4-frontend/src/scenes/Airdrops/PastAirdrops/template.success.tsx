@@ -54,7 +54,7 @@ export default function Success({ userCampaignsInfoResponseList }: Props) {
             // User has campaign transactions
             campaign.userCampaignTransactionResponseList.map((campaignTransaction) => {
               return (
-                <TableRow>
+                <TableRow key={campaignTransaction.withdrawalCurrency}>
                   <TableCell width='18%'>
                     <Type {...campaign} />
                   </TableCell>

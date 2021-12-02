@@ -5,21 +5,23 @@ import { Remote } from '@core'
 import { APIType } from '@core/network/api'
 import { BSPaymentMethodType, BSPaymentTypes, BSTransactionType } from '@core/types'
 import { errorHandler } from '@core/utils'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import {
   AddBankStepType,
   BankDWStepType,
   BankPartners,
   BankStatusType,
   BrokerageModalOriginType,
-  FastLinkType,
-  BSCheckoutFormValuesType
+  BSCheckoutFormValuesType,
+  FastLinkType
 } from 'data/types'
 
 import { DEFAULT_METHODS, POLLING } from './model'
 import * as S from './selectors'
 import { actions as A } from './slice'
 import { OBType } from './types'
+
+const { FORM_BS_CHECKOUT } = model.components.buySell
 
 export default ({ api }: { api: APIType }) => {
   const deleteSavedBank = function* ({ payload: bankId }: ReturnType<typeof A.deleteSavedBank>) {
@@ -71,10 +73,10 @@ export default ({ api }: { api: APIType }) => {
       if (typeof account === 'string' && bankCredentials) {
         // Yapily
         const domainsR = yield select(selectors.core.walletOptions.getDomains)
-        const { yapilyCallbackUrl } = domainsR.getOrElse({
-          yapilyCallbackUrl: 'https://www.blockchain.com/brokerage-link-success'
+        const { comRoot } = domainsR.getOrElse({
+          comRoot: 'https://www.blockchain.com'
         })
-        const callback = yapilyCallbackUrl
+        const callback = `${comRoot}/brokerage-link-success`
         bankId = bankCredentials.id
         attributes = { callback, institutionId: account }
       } else if (typeof account === 'object' && fastLink) {
@@ -113,7 +115,7 @@ export default ({ api }: { api: APIType }) => {
 
       if (bankData.state === 'ACTIVE') {
         const values: BSCheckoutFormValuesType = yield select(
-          selectors.form.getFormValues('buySellCheckout')
+          selectors.form.getFormValues(FORM_BS_CHECKOUT)
         )
 
         // Set the brokerage defaultMethod to this new bank. Typically to
@@ -305,10 +307,11 @@ export default ({ api }: { api: APIType }) => {
     const { amount, currency } = yield select(getFormValues('brokerageTx'))
     const { id, partner } = yield select(selectors.components.brokerage.getAccount)
     const domainsR = yield select(selectors.core.walletOptions.getDomains)
-    const { yapilyCallbackUrl } = domainsR.getOrElse({
-      yapilyCallbackUrl: 'https://www.blockchain.com/brokerage-link-success'
+    const { comRoot } = domainsR.getOrElse({
+      comRoot: 'https://www.blockchain.com'
     })
-    const callback = partner === BankPartners.YAPILY ? yapilyCallbackUrl : undefined
+    const callback =
+      partner === BankPartners.YAPILY ? `${comRoot}/brokerage-link-success` : undefined
     const attributes = { callback }
     try {
       const data = yield call(api.createFiatDeposit, amount, id, currency, attributes)

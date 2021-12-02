@@ -8,6 +8,7 @@ import { RootState } from 'data/rootReducer'
 
 import NftHeader from './Header'
 import Marketplace from './Marketplace'
+import Offers from './Offers'
 import YourCollection from './YourCollection'
 
 const NftPage = styled.div`
@@ -15,7 +16,7 @@ const NftPage = styled.div`
 `
 
 const Nfts: React.FC<Props> = (props) => {
-  const [activeTab, setActiveTab] = useState<'explore' | 'my-collection'>('explore')
+  const [activeTab, setActiveTab] = useState<'explore' | 'my-collection' | 'offers'>('explore')
 
   useEffect(() => {
     props.nftsActions.fetchNftCollections({})
@@ -28,6 +29,7 @@ const Nfts: React.FC<Props> = (props) => {
       {activeTab === 'my-collection' ? (
         <YourCollection {...props} setActiveTab={setActiveTab} />
       ) : null}
+      {activeTab === 'offers' ? <Offers {...props} /> : null}
     </NftPage>
   )
 }
@@ -37,7 +39,8 @@ const mapStateToProps = (state: RootState) => ({
   collections: selectors.components.nfts.getNftCollections(state),
   defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse(''),
   formValues: selectors.form.getFormValues('nftMarketplace')(state),
-  marketplace: selectors.components.nfts.getMarketplace(state)
+  marketplace: selectors.components.nfts.getMarketplace(state),
+  offersMade: selectors.components.nfts.getOffersMade(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

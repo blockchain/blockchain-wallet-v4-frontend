@@ -19,11 +19,11 @@ import { createSelector } from 'reselect'
 
 import {
   AddressTypesType,
+  BSOrderType,
+  BSTransactionType,
   CoinfigType,
   ProcessedTxType,
-  RemoteDataType,
-  BSOrderType,
-  BSTransactionType
+  RemoteDataType
 } from '@core/types'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'

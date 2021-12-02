@@ -306,6 +306,12 @@ class Tooltips extends React.PureComponent {
             defaultMessage='Your crypto is safe, but pricing data is currently unavailable.'
           />
         </Tooltip>
+        <Tooltip id='tooltip.opensea_offer_approval_fees' maxWidth='160px'>
+          <FormattedMessage
+            id='copy.opensea_offer_approval_fees'
+            defaultMessage='A one time fee required to make offers in the selected ERC20.'
+          />
+        </Tooltip>
       </TooltipWrapper>
     )
   }

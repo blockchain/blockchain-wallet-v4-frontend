@@ -80,7 +80,6 @@ const selectColor = (nature, small) => {
         color: small ? 'blue600' : 'grey800',
         hoverBorderColor: 'white'
       }
-
     case 'empty-blue': {
       return {
         backgroundColor: 'white',
@@ -89,14 +88,20 @@ const selectColor = (nature, small) => {
         hoverBorderColor: 'blue600'
       }
     }
-
+    case 'empty-red': {
+      return {
+        backgroundColor: 'white',
+        borderColor: 'grey100',
+        color: 'red600',
+        hoverBorderColor: 'red600'
+      }
+    }
     case 'empty-secondary':
       return {
         backgroundColor: 'white',
         borderColor: 'blue600',
         color: 'blue600'
       }
-
     case 'gray':
       return {
         backgroundColor: 'grey500',

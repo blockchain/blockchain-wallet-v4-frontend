@@ -2,14 +2,16 @@ import moment from 'moment'
 import { defaultTo, filter } from 'ramda'
 
 import {
-  CoinType,
-  Limits,
   BSCardType,
   BSOrderActionType,
   BSOrderType,
   BSPairsType,
   BSPaymentTypes,
+  CoinType,
+  FiatType,
+  Limits,
   SwapOrderType,
+  WalletFiatEnum,
   WalletFiatType
 } from '@core/types'
 
@@ -38,15 +40,23 @@ export const LIMIT_FACTOR = 100 // we get 10000 from API
 
 export const SDD_TIER = 3
 
-export const NO_CHECKOUT_VALS = 'No checkout values'
+export const NO_CHECKOUT_VALUES = 'No checkout values'
 export const NO_PAIR_SELECTED = 'NO_PAIR_SELECTED'
 export const NO_ACCOUNT = 'NO_ACCOUNT'
 export const NO_PAYMENT_TYPE = 'NO_PAYMENT_TYPE'
 export const NO_FIAT_CURRENCY = 'NO_FIAT_CURRENCY'
 export const NO_ORDER_EXISTS = 'NO_ORDER_EXISTS_TO_CONFIRM'
 
-export const BS_CHANGE_EMAIL_FORM = 'sbChangeEmail'
-export const BS_CRYPTO_SELECTION = 'sbCryptoSelection'
+// FORMS
+export const FORM_BS_ADD_EVERYPAY_CARD = 'addCardEverypayForm'
+export const FORM_BS_CANCEL_ORDER = 'cancelBSOrderForm'
+export const FORM_BS_CHANGE_EMAIL = 'bsChangeEmail'
+export const FORM_BS_CHECKOUT_CONFIRM = 'bsCheckoutConfirm'
+export const FORM_BS_CHECKOUT = 'buySellCheckout'
+export const FORM_BS_CRYPTO_SELECTION = 'bsCryptoSelection'
+export const FORM_BS_PREVIEW_SELL = 'previewSell'
+export const FORM_BS_LINKED_CARDS = 'linkedCards'
+export const FORMS_BS_BILLING_ADDRESS = 'ccBillingAddress'
 
 export const splitPair = (
   pair: BSPairsType
@@ -146,3 +156,5 @@ export const getValidPaymentMethod = (method: BSPaymentTypes) => {
 
   return method
 }
+
+export const isFiatCurrencySupported = (currency: FiatType) => currency in WalletFiatEnum

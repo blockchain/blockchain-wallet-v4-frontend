@@ -22,7 +22,7 @@ export const LeftColWrapper = styled.div`
   ${media.atLeastTabletL`
   top: 61px;
   margin-right: 20px;
-  max-width: 300px;
+  max-width: 320px;
   width: 25%;
 `} > form {
     ${media.tabletL`

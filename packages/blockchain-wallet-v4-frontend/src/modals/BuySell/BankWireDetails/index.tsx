@@ -3,12 +3,12 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import {
-  CoinType,
-  FiatType,
-  RemoteDataType,
   BSAccountType,
   BSOrderType,
-  BSPairType
+  BSPairType,
+  CoinType,
+  FiatType,
+  RemoteDataType
 } from '@core/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'

@@ -1,9 +1,9 @@
 import {
   AgentType,
-  CoinType,
-  FiatType,
   BSPaymentTypes,
   BSTransactionStateType,
+  CoinType,
+  FiatType,
   WalletAcountType,
   WalletCurrencyType,
   WalletFiatType

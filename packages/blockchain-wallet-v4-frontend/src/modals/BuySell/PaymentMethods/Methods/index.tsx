@@ -4,9 +4,9 @@ import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import {
-  OrderType,
   BSPaymentMethodType,
   BSPaymentTypes,
+  OrderType,
   WalletCurrencyType,
   WalletFiatEnum
 } from '@core/types'
@@ -263,5 +263,5 @@ class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
 
 export default reduxForm<{}, Props>({
   destroyOnUnmount: false,
-  form: 'sbPaymentMethods'
+  form: 'bsPaymentMethods'
 })(Methods)

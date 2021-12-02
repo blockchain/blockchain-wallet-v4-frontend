@@ -75,8 +75,8 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type OwnProps = {
   coin: CoinType
-  handleClose: () => void
   handleBSClick: (string) => void
+  handleClose: () => void
   showSupply: boolean
   stepMetadata: InterestStepMetadata
   walletCurrency: FiatType

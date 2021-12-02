@@ -96,7 +96,7 @@ export type BSCardType = {
   | { card: null; state: Exclude<BSCardStateType, 'ACTIVE'> }
 )
 
-export type BSCardPartnerType = 'EVERYPAY'
+export type BSCardPartnerType = 'EVERYPAY' | 'CARDPROVIDER'
 
 export type BSCardStateType = 'PENDING' | 'CREATED' | 'ACTIVE' | 'BLOCKED' | 'FRAUD_REVIEW'
 
@@ -147,6 +147,7 @@ export type BSProviderAttributesType = {
   everypay: {
     customerUrl: string
   }
+  redirectUrl: string
 }
 
 export type ProviderDetailsType = {
@@ -165,13 +166,37 @@ export type BSMoneyType = {
   symbol: WalletCurrencyType
 }
 
-export type IBSBuyOrderType = {
+export type BSOrderProperties = {
   attributes?: {
     authorisationUrl?: string
-    consentId?: string
-    everypay: {
+    cardProvider?: {
+      cardAcquirerAccountCode: string
+      cardAcquirerName: 'CHECKOUTDOTCOM' | 'STRIPE' | 'EVERYPAY'
+      clientSecret: string
       paymentLink: string
-      paymentState: 'WAITING_FOR_3DS_RESPONSE' | null
+      paymentState:
+        | 'INITIAL'
+        | 'WAITING_FOR_3DS_RESPONSE'
+        | 'CONFIRMED_3DS'
+        | 'SETTLED'
+        | 'VOIDED'
+        | 'ABANDONED'
+        | 'FAILED'
+        | null
+      publishableApiKey: string
+    }
+    consentId?: string
+    everypay?: {
+      paymentLink: string
+      paymentState:
+        | 'INITIAL'
+        | 'WAITING_FOR_3DS_RESPONSE'
+        | 'CONFIRMED_3DS'
+        | 'SETTLED'
+        | 'VOIDED'
+        | 'ABANDONED'
+        | 'FAILED'
+        | null
     }
     expiresAt?: string
     paymentId: string
@@ -198,12 +223,12 @@ export enum OrderType {
   SELL = 'SELL'
 }
 export type BSOrderActionType = keyof typeof OrderType
-export type BSBuyOrderType = IBSBuyOrderType & {
+export type BSBuyOrderType = BSOrderProperties & {
   inputCurrency: FiatType
   outputCurrency: CoinType
   pair: BSPairsType
 }
-export type BSSellOrderType = IBSBuyOrderType & {
+export type BSSellOrderType = BSOrderProperties & {
   inputCurrency: CoinType
   outputCurrency: FiatType
   pair: BSPairsType

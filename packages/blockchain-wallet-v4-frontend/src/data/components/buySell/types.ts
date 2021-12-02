@@ -66,8 +66,10 @@ export type BSCurrencySelectFormType = {
 export type BSFixType = 'CRYPTO' | 'FIAT'
 export enum BuySellStepType {
   '3DS_HANDLER_EVERYPAY',
-  'ADD_CARD',
-  'ADD_CARD_CHECKOUT',
+  '3DS_HANDLER_STRIPE',
+  '3DS_HANDLER_CHECKOUTDOTCOM',
+  'ADD_CARD_DETERMINE_PROVIDER',
+  'ADD_CARD_CHECKOUTDOTCOM',
   'ADD_CARD_EVERYPAY',
   'AUTHORIZE_PAYMENT',
   'BANK_WIRE_DETAILS',
@@ -81,6 +83,7 @@ export enum BuySellStepType {
   'OPEN_BANKING_CONNECT',
   'PAYMENT_METHODS',
   'PREVIEW_SELL',
+  'TRADING_CURRENCY_SELECTOR',
   'ORDER_SUMMARY',
   'SELL_ORDER_SUMMARY',
   'TRANSFER_DETAILS',
@@ -123,8 +126,8 @@ export type BuySellState = {
   card: RemoteDataType<string, BSCardType>
   cardId: undefined | string
   cards: RemoteDataType<string, Array<BSCardType>>
-  checkoutAccountCodes: undefined | Array<string>
-  checkoutApiKey: undefined | string
+  checkoutDotComAccountCodes: undefined | Array<string>
+  checkoutDotComApiKey: undefined | string
   crossBorderLimits: RemoteDataType<string, CrossBorderLimits>
   cryptoCurrency: undefined | CoinType
   displayBack: boolean
@@ -138,6 +141,7 @@ export type BuySellState = {
   orderType?: BSOrderActionType
   orders: RemoteDataType<string, Array<BSOrderType>>
   origin?: BSShowModalOriginType
+  originalFiatCurrency: undefined | FiatType
   pair: undefined | BSPairType
   pairs: RemoteDataType<string, Array<BSPairType>>
   payment: RemoteDataType<string, undefined | PaymentValue>
@@ -186,6 +190,7 @@ export type StepActionsPayload =
       cryptoCurrency?: CoinType
       fiatCurrency: FiatType
       orderType?: BSOrderActionType
+      originalFiatCurrency?: FiatType
       step: 'CRYPTO_SELECTION'
     }
   | {
@@ -208,23 +213,27 @@ export type StepActionsPayload =
       pair: BSPairType
       step: 'LINKED_PAYMENT_ACCOUNTS'
     }
-  | { order?: BSOrderType; step: '3DS_HANDLER_EVERYPAY' }
+  | {
+      order?: BSOrderType
+      step: '3DS_HANDLER_EVERYPAY' | '3DS_HANDLER_STRIPE' | '3DS_HANDLER_CHECKOUTDOTCOM'
+    }
   | {
       sellOrderType?: SwapBaseCounterTypes
       step: 'PREVIEW_SELL'
     }
   | {
-      checkoutAccountCodes: Array<string>
-      checkoutApiKey: string
-      step: 'ADD_CARD_CHECKOUT'
+      checkoutDotComAccountCodes: Array<string>
+      checkoutDotComApiKey: string
+      step: 'ADD_CARD_CHECKOUTDOTCOM'
     }
   | {
       step:
-        | 'ADD_CARD'
+        | 'ADD_CARD_DETERMINE_PROVIDER'
         | 'ADD_CARD_EVERYPAY'
         | 'CC_BILLING_ADDRESS'
         | 'KYC_REQUIRED'
         | 'UPGRADE_TO_GOLD'
         | 'LOADING'
+        | 'TRADING_CURRENCY_SELECTOR'
         | 'FREQUENCY'
     }

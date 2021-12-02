@@ -4,14 +4,14 @@ import { UnitType } from '@core/exchange'
 import Currencies from '@core/exchange/currencies'
 import { coinToString, fiatToString } from '@core/exchange/utils'
 import {
-  OrderType,
-  PaymentValue,
   BSBalancesType,
   BSOrderActionType,
   BSPairType,
   BSPaymentMethodType,
   BSPaymentTypes,
   BSQuoteType,
+  OrderType,
+  PaymentValue,
   SwapQuoteType,
   SwapUserLimitsType
 } from '@core/types'

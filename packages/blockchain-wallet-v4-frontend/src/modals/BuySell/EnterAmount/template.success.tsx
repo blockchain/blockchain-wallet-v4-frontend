@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { OrderType, BSPaymentTypes } from '@core/types'
+import { BSPaymentTypes, OrderType } from '@core/types'
 
 import { LinkStatePropsType, Props as OwnProps, SuccessStateType } from '.'
 import Checkout from './Checkout'

@@ -79,12 +79,24 @@ const FeaturesSmall = (props: Props & { showModal: (modal: 'SEND' | 'REQUEST') =
             </DropdownMenuItem>
           </LinkContainer>
           {props.invitations.nfts ? (
-            <LinkContainer to='/rewards' activeClassName='active'>
-              <DropdownMenuItem data-e2e='interestLink'>
+            <LinkContainer to='/nfts' activeClassName='active'>
+              <DropdownMenuItem data-e2e='nftsLink'>
                 <Destination>
                   <FormattedMessage
-                    id='layouts.wallet.menuleft.navigation.earninterest'
-                    defaultMessage='Earn Rewards'
+                    id='layouts.wallet.menuleft.navigation.nfts'
+                    defaultMessage='NFTs'
+                  />
+                </Destination>
+              </DropdownMenuItem>
+            </LinkContainer>
+          ) : null}
+          {props.walletConnectEnabled ? (
+            <LinkContainer to='/dapps' activeClassName='active'>
+              <DropdownMenuItem data-e2e='dappsLink'>
+                <Destination>
+                  <FormattedMessage
+                    id='layouts.wallet.menuleft.navigation.dapps'
+                    defaultMessage='Dapps'
                   />
                 </Destination>
               </DropdownMenuItem>

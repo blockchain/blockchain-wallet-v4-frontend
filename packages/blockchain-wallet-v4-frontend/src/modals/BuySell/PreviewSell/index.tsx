@@ -7,7 +7,7 @@ import styled from 'styled-components'
 
 import { Exchange } from '@core'
 import { coinToString, formatFiat } from '@core/exchange/utils'
-import { CoinType, PaymentValue, RatesType, BSOrderActionType, BSPairType } from '@core/types'
+import { BSOrderActionType, BSPairType, CoinType, PaymentValue, RatesType } from '@core/types'
 import {
   Button,
   HeartbeatLoader,
@@ -19,7 +19,7 @@ import {
 } from 'blockchain-info-components'
 import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row, Value } from 'components/Flyout'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import { getFiatFromPair } from 'data/components/buySell/model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { getInputFromPair, getOutputFromPair } from 'data/components/swap/model'
@@ -28,6 +28,8 @@ import { BSCheckoutFormValuesType, SwapAccountType, SwapBaseCounterTypes } from 
 
 import { Border, TopText } from '../../Swap/components'
 import Loading from '../template.loading'
+
+const { FORM_BS_CHECKOUT, FORM_BS_PREVIEW_SELL } = model.components.buySell
 
 const CustomForm = styled(Form)`
   height: 100%;
@@ -597,7 +599,7 @@ const mapStateToProps = (state: RootState) => {
   return {
     account: selectors.components.buySell.getSwapAccount(state),
     coin,
-    formValues: selectors.form.getFormValues('buySellCheckout')(state) as BSCheckoutFormValuesType,
+    formValues: selectors.form.getFormValues(FORM_BS_CHECKOUT)(state) as BSCheckoutFormValuesType,
     incomingAmountR: selectors.components.buySell.getIncomingAmount(state),
     pair: selectors.components.buySell.getBSPair(state),
     payment,
@@ -616,7 +618,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 const enhance = compose(
   reduxForm<{ destroyOnUnmount: boolean; form: string }, Props>({
     destroyOnUnmount: false,
-    form: 'previewSell'
+    form: FORM_BS_PREVIEW_SELL
   }),
   connector
 )

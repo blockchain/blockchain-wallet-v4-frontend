@@ -18,7 +18,7 @@ const DropdownSeparator = styled.div`
   background: ${(props) => props.theme.grey000};
 `
 
-const Settings = (props: Props) => {
+const Settings = ({ modalActions, sessionActions, settingsActions }: Props) => {
   const ref = useRef(null)
   const [isMenuOpen, toggleIsMenuOpen] = useState(false)
   useOnClickOutside(ref, () => toggleIsMenuOpen(false))
@@ -36,7 +36,7 @@ const Settings = (props: Props) => {
             <DropdownMenuArrow />
             <LinkContainer
               onClick={() => {
-                props.settingsActions.generalSettingsInternalRedirect('General')
+                settingsActions.generalSettingsInternalRedirect('General')
               }}
               to='/settings/general'
               activeClassName='active'
@@ -50,11 +50,11 @@ const Settings = (props: Props) => {
             <DropdownMenuItem
               data-e2e='settings_profileLink'
               onClick={() => {
-                props.modalActions.showModal('TRADING_LIMITS_MODAL', {
+                modalActions.showModal('TRADING_LIMITS_MODAL', {
                   origin: 'TradingLimits'
                 })
 
-                props.settingsActions.generalSettingsInternalRedirect('TradingLimits')
+                settingsActions.generalSettingsInternalRedirect('TradingLimits')
               }}
             >
               <Destination>
@@ -66,7 +66,7 @@ const Settings = (props: Props) => {
             </DropdownMenuItem>
             <LinkContainer
               onClick={() => {
-                props.settingsActions.generalSettingsInternalRedirect('Preferences')
+                settingsActions.generalSettingsInternalRedirect('Preferences')
               }}
               to='/settings/preferences'
               activeClassName='active'
@@ -82,7 +82,7 @@ const Settings = (props: Props) => {
             </LinkContainer>
             <LinkContainer
               onClick={() => {
-                props.settingsActions.generalSettingsInternalRedirect('WalletAndAddresses')
+                settingsActions.generalSettingsInternalRedirect('WalletAndAddresses')
               }}
               to='/settings/addresses'
               activeClassName='active'
@@ -99,7 +99,7 @@ const Settings = (props: Props) => {
             <DropdownSeparator />
             <DropdownMenuItem
               onClick={() => {
-                props.sessionActions.logout()
+                sessionActions.logout()
               }}
               data-e2e='logoutLink'
             >

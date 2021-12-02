@@ -36,9 +36,6 @@ const ContinueButton = styled(Button)`
   margin: 42px 20px 0;
   max-width: 400px;
 `
-const ServerErrorText = styled(Text)`
-  margin-top: 42px;
-`
 
 const Failure: React.FC<{
   message?: { message: string | Error }
@@ -73,13 +70,6 @@ const Failure: React.FC<{
           </Link>
           .
         </Text>
-        <ServerErrorText color='red500' size='14px' weight={500}>
-          <FormattedMessage
-            id='identityverification.failure.error'
-            defaultMessage='Server Error: {description}'
-            values={props.message}
-          />
-        </ServerErrorText>
       </Content>
       <ContinueButton
         jumbo
