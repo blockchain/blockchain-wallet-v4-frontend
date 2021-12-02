@@ -20,6 +20,9 @@ class HeaderContainer extends React.PureComponent<Props> {
 }
 
 const mapStateToProps = (state: RootState) => ({
+  featureFlags: selectors.core.walletOptions
+    .getFeatureFlags(state)
+    .getOrElse({} as { [key in string]: boolean }),
   isRedesignEnabled: selectors.core.walletOptions
     .getRedesignEnabled(state)
     .getOrElse(false) as boolean

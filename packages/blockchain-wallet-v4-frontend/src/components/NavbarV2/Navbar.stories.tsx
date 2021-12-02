@@ -1,10 +1,7 @@
 import React from 'react'
-import { IntlProvider } from 'react-intl'
-import { configureStore } from '@reduxjs/toolkit'
+import { FormattedMessage, IntlProvider } from 'react-intl'
+import { BrowserRouter } from 'react-router-dom'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
-import { combineReducers } from 'redux'
-
-import form from 'data/form/reducers'
 
 import Navbar from './Navbar'
 
@@ -14,16 +11,48 @@ export default {
   decorators: [
     (Story) => {
       return (
-        <IntlProvider locale='en'>
-          <div style={{ border: '1px solid #333', height: '600px' }}>{Story()}</div>
-        </IntlProvider>
+        <BrowserRouter>
+          <IntlProvider locale='en'>
+            <div style={{ border: '1px solid #333', height: '600px' }}>{Story()}</div>
+          </IntlProvider>
+        </BrowserRouter>
       )
     }
   ],
   title: 'Layout/Navigation'
 } as ComponentMeta<typeof Navbar>
 
-const Template: ComponentStory<typeof Navbar> = (args) => <Navbar />
+const Template: ComponentStory<typeof Navbar> = (args) => <Navbar {...args} />
+
+const PrimaryNavItems = [
+  {
+    dest: '/home',
+    e2e: 'homeLink',
+    text: <FormattedMessage id='copy.home' defaultMessage='Home' />
+  },
+  {
+    dest: '/prices',
+    e2e: 'pricesLink',
+    text: <FormattedMessage id='copy.prices' defaultMessage='Prices' />
+  },
+  {
+    dest: '/rewards',
+    e2e: 'rewardsLink',
+    text: <FormattedMessage id='copy.rewards' defaultMessage='Rewards' />
+  },
+  {
+    dest: '/nfts',
+    e2e: 'nftsLink',
+    text: <FormattedMessage id='layouts.wallet.menuleft.navigation.nfts' defaultMessage='NFTs' />
+  },
+  {
+    dest: '/daaps',
+    e2e: 'daapsLink',
+    text: <FormattedMessage id='copy.daaps' defaultMessage='Daaps' />
+  }
+]
 
 export const Default = Template.bind({})
-Default.args = {}
+Default.args = {
+  primaryNavItems: PrimaryNavItems
+}

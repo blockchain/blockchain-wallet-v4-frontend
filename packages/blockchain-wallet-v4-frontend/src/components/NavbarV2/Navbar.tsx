@@ -1,9 +1,16 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { Icon, Text } from 'blockchain-info-components'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import FabButton from 'components/FabButton'
 import { media } from 'services/styles'
+
+export type PrimaryNavItem = {
+  dest: string
+  e2e: string
+  text: string | React.ReactNode
+}
 
 const NavContainer = styled.div`
   display: flex;
@@ -17,11 +24,14 @@ const NavContainer = styled.div`
   `}
 `
 
-const Logo = styled.a`
+const Logo = styled.div`
   display: flex;
   align-items: center;
-  text-decoration: none;
-  color: #3d89f5;
+
+  & > a {
+    color: #3d89f5;
+    text-decoration: none;
+  }
 `
 
 const NavLeft = styled.div`
@@ -54,45 +64,57 @@ const ListStyles = styled.ul`
     padding: 10px;
     transition: background-color 0.3s, color 0.3s;
 
-    &:hover {
+    &:hover,
+    &.active {
       background-color: #ecf5fe;
       color: #0c6cf2;
     }
   }
 `
 
-const PrimaryNavItems = styled(ListStyles)``
+const PrimaryNavItems = styled(ListStyles)`
+  cursor: pointer;
+`
 
-const SecondaryNavItems = styled(ListStyles)``
+const SecondaryNavItems = styled(ListStyles)`
+  cursor: pointer;
+`
 
-const Navbar = () => {
+const NavButton = styled(Button)`
+  display: flex;
+  align-items: center;
+  position: relative;
+  transition: color 0.3s;
+  background: transparent;
+  min-width: auto;
+  width: auto;
+  padding: 0;
+  border: 0;
+
+  &:hover {
+    background-color: transparent;
+  }
+`
+
+const Navbar = ({ primaryNavItems }: Props) => {
   return (
     <NavContainer>
       <NavLeft>
-        <Logo href='/'>
-          <Icon color='#3D89F5' name='blockchain-logo' size='35px' />
+        <Logo>
+          <NavLink to='/home' data-e2e='homeLink'>
+            <Icon color='#3D89F5' name='blockchain-logo' size='35px' />
+          </NavLink>
         </Logo>
         <PrimaryNavItems>
-          <li>
-            <Text size='14px' weight={600}>
-              <a href=''>Home</a>
-            </Text>
-          </li>
-          <li>
-            <Text size='14px' weight={600}>
-              <a href=''>Prices</a>
-            </Text>
-          </li>
-          <li>
-            <Text size='14px' weight={600}>
-              <a href=''>Rewards</a>
-            </Text>
-          </li>
-          <li>
-            <Text size='14px' weight={600}>
-              <a href=''>NFTs</a>
-            </Text>
-          </li>
+          {primaryNavItems.map((item: PrimaryNavItem) => (
+            <li key={item.e2e}>
+              <NavLink to={item.dest} data-e2e={item.e2e}>
+                <Text size='14px' weight={600}>
+                  {item.text}
+                </Text>
+              </NavLink>
+            </li>
+          ))}
         </PrimaryNavItems>
       </NavLeft>
       <NavRight>
@@ -101,19 +123,19 @@ const Navbar = () => {
             <FabButton />
           </li>
           <li>
-            <Text size='14px' weight={600}>
-              <a href=''>Mobile</a>
-            </Text>
+            <NavButton data-e2e='mobileQRLink'>
+              <Icon color='#98A1B2' name='mobile' size='15px' />
+            </NavButton>
           </li>
           <li>
-            <Text size='14px' weight={600}>
-              <a href=''>Refresh</a>
-            </Text>
+            <NavButton data-e2e='refreshLink'>
+              <Icon color='#F0F2F7' name='refresh' size='23px' />
+            </NavButton>
           </li>
           <li>
-            <Text size='14px' weight={600}>
-              <a href=''>Settings</a>
-            </Text>
+            <NavButton data-e2e='settingsLink'>
+              <Icon color='#98A1B2' name='user' size='15px' />
+            </NavButton>
           </li>
         </SecondaryNavItems>
       </NavRight>
@@ -121,6 +143,8 @@ const Navbar = () => {
   )
 }
 
-type Props = {}
+type Props = {
+  primaryNavItems: Array<PrimaryNavItem>
+}
 
 export default Navbar
