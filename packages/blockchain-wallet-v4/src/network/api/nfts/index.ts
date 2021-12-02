@@ -86,9 +86,9 @@ export default ({ apiUrl, get, openseaApi, post }) => {
 
   const getNftCollectionInfo = (slug: string) => {
     return get({
-      endPoint: `/nft/collection/${slug}/${IS_TESTNET ? 'rinkeby' : ''}`,
+      endPoint: `/nft/collection/${slug}${IS_TESTNET ? '/rinkeby' : ''}`,
       ignoreQueryParams: true,
-      url: `http://localhost:8081`
+      url: `${apiUrl}/explorer-gateway`
     })
   }
 
