@@ -27,20 +27,20 @@
         "paymentProcessors": true
       },
       "hotWalletAddresses":{
+        "swap": {
+          "eth": "0xC05f893248D843192A989AEE6dC26d21426E78AF"
+        },
         "exchange": {
-          "eth": "0x9AA65464b4cFbe3Dc2BDB3dF412AeE2B3De86687"
-        },
-        "lending": {
-          "eth": "0x67f889e6C1CE3E817705E00D528eB7F8be492B9E"
-        },
-        "rewards": {
-          "eth": "0xA00E2A7652248AbEb209398227DAE413E9479e52"
+          "eth": "0x95eFeFA0A4564BfABfBB1Ee08A359C062EB0A94b"
         },
         "simplebuy": {
-          "eth": "0x23f4569002a5A07f0Ecf688142eEB6bcD883eeF8"
+          "eth": "0xFF202CBC6C794516164E45621143acDe4a3FEa24"
         },
-        "swap": {
-          "eth": "0xC88F7666330b4b511358b7742dC2a3234710e7B1"
+        "lending": {
+          "eth": "0xBA0145434A0a53E58D10680254756F679c359463"
+        },
+        "rewards": {
+          "eth": "0x7d9d70c1A99FcC952d48b781947FAa0a3795083E"
         }
       }
     }
