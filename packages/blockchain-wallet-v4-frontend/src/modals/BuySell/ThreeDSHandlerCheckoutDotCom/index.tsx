@@ -18,25 +18,15 @@ const Iframe = styled.iframe`
   margin-top: 16px;
 `
 
-const ThreeDSHandlerStripe = ({ buySellActions, domains, order }: Props) => {
+const ThreeDSHandlerCheckoutDotCom = ({ buySellActions, domains, order }: Props) => {
   if (!order) {
     throw new Error('Order is not defined')
   }
 
-  const handlePostMessage = async ({
-    data
-  }: {
-    data: { details: any; provider: 'stripe'; status: 'error' | 'success' }
-  }) => {
-    if (data.provider !== 'stripe') return
+  const handlePostMessage = async ({ data }: { data: { provider: 'checkoutdotcom' } }) => {
+    if (data.provider !== 'checkoutdotcom') return
 
-    if (data.status === 'error') {
-      throw new Error('Something went wrong with the 3DS process on Stripe')
-    }
-
-    if (data.status === 'success') {
-      await buySellActions.pollOrder(order.id)
-    }
+    buySellActions.pollOrder(order.id)
   }
 
   useEffect(() => {
@@ -45,10 +35,12 @@ const ThreeDSHandlerStripe = ({ buySellActions, domains, order }: Props) => {
     return () => window.removeEventListener('message', handlePostMessage, false)
   })
 
+  const paymentLink = encodeURIComponent(order.attributes?.cardProvider?.paymentLink || '')
+
   return (
     <CustomFlyoutWrapper>
       <Iframe
-        src={`${domains.walletHelper}/wallet-helper/stripe/#/paymentLink/${order?.attributes?.cardProvider?.publishableApiKey}/${order?.attributes?.cardProvider?.clientSecret}`}
+        src={`${domains.walletHelper}/wallet-helper/checkoutdotcom/#/paymentLink/${paymentLink}`}
       />
     </CustomFlyoutWrapper>
   )
@@ -73,4 +65,4 @@ type OwnProps = {
 
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default connector(ThreeDSHandlerStripe)
+export default connector(ThreeDSHandlerCheckoutDotCom)

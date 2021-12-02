@@ -61,7 +61,7 @@ class CheckoutConfirm extends PureComponent<Props> {
           })
         }
         return this.props.buySellActions.setStep({
-          step: 'ADD_CARD_DETERMINE_PROVIDER'
+          step: 'DETERMINE_CARD_PROVIDER'
         })
       }
       return this.props.buySellActions.setStep({
@@ -94,7 +94,7 @@ class CheckoutConfirm extends PureComponent<Props> {
             paymentMethodId: this.props.order.paymentMethodId
           })
         }
-        return this.props.buySellActions.setStep({ step: 'ADD_CARD_DETERMINE_PROVIDER' })
+        return this.props.buySellActions.setStep({ step: 'DETERMINE_CARD_PROVIDER' })
 
       case BSPaymentTypes.BANK_TRANSFER:
         const [bankAccount] = filter(
