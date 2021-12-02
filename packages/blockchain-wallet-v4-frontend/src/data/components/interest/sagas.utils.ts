@@ -50,7 +50,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
         updatedPayment = yield updatedPayment.memoType('text')
         // @ts-ignore
         updatedPayment = yield updatedPayment.setDestinationAccountExists(true)
-      } else if (coin === 'ETH' && hotwalletAddress) {
+      } else if (hotwalletAddress && payment.coin === 'ETH') {
         // @ts-ignore
         updatedPayment = yield updatedPayment.data(destination)
         updatedPayment = yield updatedPayment.to(hotwalletAddress)

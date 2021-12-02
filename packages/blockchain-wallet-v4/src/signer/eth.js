@@ -27,14 +27,11 @@ export const signErc20 = curry((network = 1, mnemonic, txnData, contractAddress)
     chainId: network,
     data:
       transferMethodHex +
-        ethers.utils.defaultAbiCoder
-          .encode(['address', 'uint256'], [to, amount.toString()])
-          .replace('0x', '') +
-        data !==
-      null
-        ? data
-        : '',
-    gasLimit: toHex(gasLimit),
+      ethers.utils.defaultAbiCoder
+        .encode(['address', 'uint256'], [to, amount.toString()])
+        .replace('0x', '') +
+      (data !== null ? data.substring(2) : ''),
+    gasLimit: toHex(data ? gasLimit + 600 : gasLimit),
     gasPrice: toHex(gasPrice),
     nonce: toHex(nonce),
     to: contractAddress,

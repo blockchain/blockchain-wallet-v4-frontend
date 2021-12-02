@@ -46,7 +46,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         payment = yield payment.memoType('text')
         // @ts-ignore
         payment = yield payment.setDestinationAccountExists(true)
-      } else if (coin === 'ETH' && hotwalletAddress) {
+      } else if (hotwalletAddress && payment.coin === 'ETH') {
         // @ts-ignore
         payment = yield payment.data(destination)
         payment = yield payment.to(hotwalletAddress)

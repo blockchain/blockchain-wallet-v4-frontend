@@ -78,9 +78,8 @@ export default ({ api }: { api: APIType }) => {
           if (!token || (token && token.symbol !== coinfig.symbol)) {
             throw new Error('Can not trust token contract')
           }
-          sign = (txnData) => {
+          sign = (txnData) =>
             taskToPromise(eth.signErc20(network, mnemonic, txnData, contractAddress))
-          }
         } else {
           sign = (txnData) => taskToPromise(eth.sign(network, mnemonic, txnData))
         }
@@ -321,13 +320,9 @@ export default ({ api }: { api: APIType }) => {
       *publish() {
         const signed = prop('signed', p)
         if (isNil(signed)) throw new Error('missing_signed_tx')
-        // TODO: Uncomment & delete temporary testing logic below (using ethProvider to post order)
-        // const publish = () => api.pushEthTx(signed).then(prop('txHash'))
-        // const txId = yield call(publish)
-        // yield call(settingsSagas.setLastTxTime)
-        const provider = api.ethProvider
-        const txId = yield provider.sendTransaction(signed)
-        // console.log(txId)
+        const publish = () => api.pushEthTx(signed).then(prop('txHash'))
+        const txId = yield call(publish)
+        yield call(settingsSagas.setLastTxTime)
         return makePayment(mergeRight(p, { txId }))
       },
 
