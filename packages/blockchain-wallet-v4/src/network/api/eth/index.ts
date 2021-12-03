@@ -2,12 +2,17 @@ import * as ethers from 'ethers'
 
 import { AccountTokensBalancesResponseType, EthAccountSummaryType, EthRawTxType } from './types'
 
-export default ({ apiUrl, get, post }) => {
+export default ({ apiUrl, get, openseaApi, post }) => {
+  // ONLY FOR TESTING OPENSEA!
+  const IS_TESTNET = openseaApi.includes('rinkeby')
+
+  const ethProvider = IS_TESTNET
+    ? new ethers.providers.EtherscanProvider('rinkeby')
+    : ethers.providers.getDefaultProvider(`${apiUrl}/eth/nodes/rpc`)
   //
   // Deprecate
   //
-
-  const ethProvider = ethers.providers.getDefaultProvider(`${apiUrl}/eth/nodes/rpc`)
+  //
 
   // web3.eth.getBalance
   const getEthBalances = (context) =>

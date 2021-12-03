@@ -8,6 +8,7 @@ module.exports = {
   HORIZON_URL: 'https://api.blockchain.info/stellar',
   LEDGER_SOCKET_URL: 'wss://api.ledgerwallet.com',
   LEDGER_URL: 'https://manager.api.live.ledger.com',
+  OPENSEA_API: 'https://api.opensea.io/api',
   RECAPTCHA_KEY: '6LcxysYaAAAAAOf5QgMWz-GXzoXjpvSrSXETmtlU',
   ROOT_URL: 'https://blockchain.info',
   VERIFF_URL: 'https://magic.veriff.me',

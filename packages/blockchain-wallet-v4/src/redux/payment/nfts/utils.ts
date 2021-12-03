@@ -35,7 +35,6 @@ export const NULL_BLOCK_HASH = '0x0000000000000000000000000000000000000000000000
 export const NULL_ADDRESS = '0x0000000000000000000000000000000000000000'
 const MIN_EXPIRATION_SECONDS = 10
 const ORDER_MATCHING_LATENCY_SECONDS = 60 * 60 * 24 * 7
-const OPENSEA_FEE_RECIPIENT = '0x5b3256965e7c3cf26e11fcaf296dfc8807c01073'
 const MAX_DIGITS_IN_UNSIGNED_256_INT = 72
 export const DEFAULT_BUYER_FEE_BASIS_POINTS = 0
 export const DEFAULT_SELLER_FEE_BASIS_POINTS = 250
@@ -45,6 +44,10 @@ export const ENJIN_ADDRESS = '0xfaaFDc07907ff5120a76b34b731b278c38d6043C'
 export const ENJIN_COIN_ADDRESS = '0xf629cbd94d3791c9250152bd8dfbdf380e2a3b9c'
 const WETH_ADDRESS = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
 const WYVERN_TOKEN_PAYMENT_PROXY = '0xe5c783ee536cf5e63e792988335c4255169be4e1'
+const WYVERN_CONTRACT_ADDR_RINKEBY = '0x5206e78b21Ce315ce284FB24cf05e0585A93B1d9'
+const WYVERN_CONTRACT_ADDR_MAINNET = '0x7Be8076f4EA4A4AD08075C2508e481d6C946D12b'
+const OPENSEA_FEE_RECIPIENT_RINKEBY = NULL_ADDRESS
+const OPENSEA_FEE_RECIPIENT = '0x5b3256965e7c3cf26e11fcaf296dfc8807c01073'
 
 export const bigNumberToBN = (value: BigNumber) => {
   return new BN(value.toString(), 10)
@@ -566,6 +569,7 @@ async function getTransferFeeSettings(
 export function _makeMatchingOrder({
   accountAddress,
   expirationTime,
+  network,
   offer,
   order,
   paymentTokenAddress,
@@ -574,6 +578,7 @@ export function _makeMatchingOrder({
   // UnsignedOrder;
   accountAddress: string
   expirationTime: number
+  network: string
   offer: null | string
   order: Order
   paymentTokenAddress: null | string
@@ -631,7 +636,7 @@ export function _makeMatchingOrder({
 
   const times = _getTimeParameters(expirationTime)
   // Compat for matching buy orders that have fee recipient still on them
-  const feeRecipient = OPENSEA_FEE_RECIPIENT
+  const feeRecipient = network === 'rinkeby' ? OPENSEA_FEE_RECIPIENT_RINKEBY : OPENSEA_FEE_RECIPIENT
 
   const matchingOrder: UnhashedOrder = {
     basePrice: offer ? new BigNumber(offer) : new BigNumber(order.basePrice),
@@ -1018,6 +1023,7 @@ export async function _makeSellOrder({
   expirationTime,
   extraBountyBasisPoints = 2.5,
   listingTime,
+  network,
   paymentTokenAddress,
   quantity,
   startAmount,
@@ -1031,6 +1037,7 @@ export async function _makeSellOrder({
   expirationTime: number
   extraBountyBasisPoints: number
   listingTime?: number
+  network: string
   paymentTokenAddress: string
   quantity: number
   startAmount: number
@@ -1091,7 +1098,10 @@ export async function _makeSellOrder({
     basePrice: new BigNumber(basePrice.toString()),
     calldata,
     englishAuctionReservePrice: reservePrice ? new BigNumber(reservePrice.toString()) : undefined,
-    exchange: '0x7Be8076f4EA4A4AD08075C2508e481d6C946D12b'.toLowerCase(),
+    exchange: (network === 'rinkeby'
+      ? WYVERN_CONTRACT_ADDR_RINKEBY
+      : WYVERN_CONTRACT_ADDR_MAINNET
+    ).toLowerCase(),
     expirationTime: times.expirationTime,
     extra: new BigNumber(extra.toString()),
     feeMethod,
@@ -2063,6 +2073,7 @@ export async function _makeBuyOrder({
   expirationTime,
   extraBountyBasisPoints = 0,
   listingTime,
+  network,
   paymentTokenAddress,
   quantity,
   sellOrder,
@@ -2077,6 +2088,7 @@ export async function _makeBuyOrder({
   expirationTime: number
   extraBountyBasisPoints: number
   listingTime?: number
+  network: string
   paymentTokenAddress: string
   quantity: number
   sellOrder?: Order
@@ -2126,7 +2138,7 @@ export async function _makeBuyOrder({
   return {
     basePrice: new BigNumber(basePrice.toString()),
     calldata,
-    exchange: '0x7Be8076f4EA4A4AD08075C2508e481d6C946D12b',
+    exchange: network === 'rinkeby' ? WYVERN_CONTRACT_ADDR_RINKEBY : WYVERN_CONTRACT_ADDR_MAINNET,
     expirationTime: times.expirationTime,
     extra: new BigNumber(extra.toString()),
     feeMethod,
@@ -2169,7 +2181,8 @@ export async function createSellOrder(
   startPrice: number,
   endPrice: number | null,
   waitForHighestBid: boolean,
-  paymentTokenAddress: string
+  paymentTokenAddress: string,
+  network: string
 ): Promise<Order> {
   // 1. use the _makeSellOrder to create the object & initialize the proxy contract for this sale.
   const accountAddress = await signer.getAddress()
@@ -2180,9 +2193,11 @@ export async function createSellOrder(
     endAmount: endPrice,
     expirationTime,
     extraBountyBasisPoints: 0,
+    network,
     paymentTokenAddress,
     quantity: 1,
-    startAmount: startPrice, // only supports Ether Sales at the moment due to hardcoded conversion in _getPricingParameters)
+    startAmount: startPrice,
+    // only supports Ether Sales at the moment due to hardcoded conversion in _getPricingParameters)
     waitForHighestBid
   })
   // 2. Validation of sell order fields & Transaction Approvals (Proxy initialized here if needed also)
@@ -2214,6 +2229,7 @@ export async function createMatchingOrders(
   offer: null | string,
   order: NftOrdersType['orders'][0],
   signer: Signer,
+  network: string,
   paymentTokenAddress: null | string
 ): Promise<{ buy: Order; sell: Order }> {
   const accountAddress = await signer.getAddress()
@@ -2221,6 +2237,7 @@ export async function createMatchingOrders(
   const matchingOrder = _makeMatchingOrder({
     accountAddress,
     expirationTime,
+    network,
     offer,
     order,
     paymentTokenAddress,
@@ -2506,11 +2523,13 @@ export async function calculateAtomicMatchFees(order: Order, counterOrder: Order
       NULL_BLOCK_HASH
     ]
   ]
+  console.log(counterOrder)
   const wyvernExchangeContract = new ethers.Contract(
     counterOrder.exchange,
     wyvernExchange_ABI,
     signer
   )
+  console.log(signer)
   return new BigNumber(
     await safeGasEstimation(wyvernExchangeContract.estimateGas.atomicMatch_, args, {
       gasLimit: 350_000,

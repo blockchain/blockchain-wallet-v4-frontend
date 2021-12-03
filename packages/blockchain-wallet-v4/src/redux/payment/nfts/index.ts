@@ -48,6 +48,7 @@ export const getNftSellOrder = async (
   asset: NftAsset,
   signer: Signer,
   startPrice = 0.011, // The starting price for auctions / sale price for fixed price sale orders (TODO: Remove default 0.1 value)
+  network: string,
   endPrice: number | null = null, // Implement later for to enable dutch auction sales.
   waitForHighestBid = false, // True = English auction,
   paymentTokenAddress = '0x0000000000000000000000000000000000000000',
@@ -60,7 +61,8 @@ export const getNftSellOrder = async (
     startPrice,
     endPrice,
     waitForHighestBid,
-    paymentTokenAddress
+    paymentTokenAddress,
+    network
   )
 }
 
@@ -100,6 +102,7 @@ export const getNftBuyOrders = async (
   order: NftOrdersType['orders'][0],
   signer: Signer,
   expirationTime = 0,
+  network: string,
   offer?: string,
   paymentTokenAddress?: string
 ): Promise<{ buy: Order; sell: Order }> => {
@@ -108,6 +111,7 @@ export const getNftBuyOrders = async (
     offer || null,
     order,
     signer,
+    network,
     paymentTokenAddress || null
   )
 }
