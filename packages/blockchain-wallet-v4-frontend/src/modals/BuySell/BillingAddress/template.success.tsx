@@ -53,7 +53,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               role='button'
               onClick={() =>
                 props.buySellActions.setStep({
-                  step: 'ADD_CARD_DETERMINE_PROVIDER'
+                  step: 'DETERMINE_CARD_PROVIDER'
                 })
               }
             />

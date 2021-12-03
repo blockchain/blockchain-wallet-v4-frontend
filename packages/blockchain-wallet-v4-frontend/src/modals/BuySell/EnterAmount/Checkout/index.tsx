@@ -152,7 +152,7 @@ class Checkout extends PureComponent<Props> {
       switch (method.type) {
         case BSPaymentTypes.PAYMENT_CARD:
           this.props.buySellActions.setStep({
-            step: 'ADD_CARD_DETERMINE_PROVIDER'
+            step: 'DETERMINE_CARD_PROVIDER'
           })
           break
         case BSPaymentTypes.USER_CARD:

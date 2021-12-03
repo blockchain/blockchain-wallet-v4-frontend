@@ -178,7 +178,7 @@ class BuySell extends PureComponent<Props, State> {
                 <LinkedPaymentAccounts {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
-            {this.props.step === 'ADD_CARD_DETERMINE_PROVIDER' && (
+            {this.props.step === 'DETERMINE_CARD_PROVIDER' && (
               <FlyoutChild>
                 <Loading />
               </FlyoutChild>
@@ -376,7 +376,7 @@ type LinkStatePropsType =
       step: 'LINK_BANK_STATUS'
     }
   | {
-      step: 'ADD_CARD_DETERMINE_PROVIDER'
+      step: 'DETERMINE_CARD_PROVIDER'
     }
   | {
       step: 'TRADING_CURRENCY_SELECTOR'
