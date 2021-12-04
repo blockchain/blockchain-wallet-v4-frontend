@@ -9,7 +9,6 @@ import { Wrapper } from 'components/Public'
 import { ProductAuthOptions } from 'data/types'
 import { isBrowserSupported } from 'services/browser'
 import { required, validWalletIdOrEmail } from 'services/forms'
-import { media } from 'services/styles'
 
 import { Props } from '../..'
 import {

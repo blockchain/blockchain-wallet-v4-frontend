@@ -7,7 +7,6 @@ import { HeartbeatLoader, Text } from 'blockchain-info-components'
 import { FormError, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { ExchangeErrorCodes } from 'data/types'
-import { isBrowserSupported } from 'services/browser'
 import { required } from 'services/forms'
 
 import { Props } from '../..'

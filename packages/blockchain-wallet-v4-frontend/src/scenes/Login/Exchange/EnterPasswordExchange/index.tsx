@@ -41,14 +41,11 @@ const EnterPasswordExchange = (props: Props) => {
     submitting
   } = props
   const passwordError = exchangeError && exchangeError === ExchangeErrorCodes.INVALID_CREDENTIALS
-  const twoFactorRequired = exchangeError && exchangeError === ExchangeErrorCodes.BAD_2FA
-  const twoFactorError = exchangeError && exchangeError === ExchangeErrorCodes.WRONG_2FA
 
   const onWalletTabClick = () => {
     authActions.setProductAuthMetadata({ product: ProductAuthOptions.WALLET })
     props.setStep(LoginSteps.ENTER_EMAIL_GUID)
   }
-
   return (
     <LoginWrapper>
       <TabWrapper>
@@ -101,35 +98,6 @@ const EnterPasswordExchange = (props: Props) => {
             )}
           </FormItem>
         </FormGroup>
-        {/* {(twoFactorRequired || twoFactorError) && (
-          <FormGroup>
-            <FormItem>
-              <FormLabel htmlFor='code'>
-                <FormattedMessage
-                  id='scenes.logins.twofa.enter_code'
-                  defaultMessage='Enter your Two Factor Authentication Code'
-                />
-              </FormLabel>
-              <Field
-                name='exchangeTwoFA'
-                normalize={removeWhitespace}
-                validate={[required]}
-                component={TextBox}
-                noLastPass
-                autoFocus
-                data-e2e='loginTwoFactorCode'
-              />
-              {twoFactorError && (
-                <FormError position='absolute'>
-                  <FormattedMessage
-                    id='scenes.login.exchange.incorrect_code'
-                    defaultMessage='Incorrect code'
-                  />
-                </FormError>
-              )}
-            </FormItem>
-          </FormGroup>
-        )} */}
         <CenteredColumn>
           <ActionButton
             type='submit'
