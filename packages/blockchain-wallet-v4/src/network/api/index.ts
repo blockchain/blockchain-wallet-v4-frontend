@@ -30,10 +30,12 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
     everypay: everypayUrl,
     horizon: horizonUrl,
     ledger: ledgerUrl,
-    opensea: openseaApi,
     root: rootUrl
   } = options.domains
   const nabuUrl = `${apiUrl}/nabu-gateway`
+
+  // TODO: remove this once new applications pr with opensea api is merged
+  const openseaApi = 'https://api.opensea.io'
 
   return {
     ...bch({ apiUrl, ...http }),
