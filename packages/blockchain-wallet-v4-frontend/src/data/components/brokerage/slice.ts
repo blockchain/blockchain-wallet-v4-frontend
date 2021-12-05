@@ -2,7 +2,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
-import { CrossBorderLimits, CrossBorderLimitsPyload, WalletFiatType } from '@core/types'
+import { CrossBorderLimits, CrossBorderLimitsPayload, WalletFiatType } from '@core/types'
 import { ModalNameType } from 'data/modals/types'
 import { BankTransferAccountType } from 'data/types'
 
@@ -65,7 +65,7 @@ const brokerageSlice = createSlice({
     fetchBankTransferUpdate: (state, action: PayloadAction<YodleeAccountType | string>) => {},
 
     // cross border limits
-    fetchCrossBorderLimits: (state, action: PayloadAction<CrossBorderLimitsPyload>) => {},
+    fetchCrossBorderLimits: (state, action: PayloadAction<CrossBorderLimitsPayload>) => {},
     fetchCrossBorderLimitsFailure: (state, action: PayloadAction<string>) => {
       state.crossBorderLimits = Remote.Failure(action.payload)
     },

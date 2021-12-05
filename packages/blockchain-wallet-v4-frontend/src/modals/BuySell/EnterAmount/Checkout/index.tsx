@@ -4,7 +4,7 @@ import { find, isEmpty, pathOr, propEq, propOr } from 'ramda'
 import { bindActionCreators } from 'redux'
 
 import { Remote } from '@core'
-import { BSPaymentTypes, CrossBorderLimitsPyload, OrderType, WalletAcountEnum } from '@core/types'
+import { BSPaymentTypes, CrossBorderLimitsPayload, OrderType, WalletAccountEnum } from '@core/types'
 import { FlyoutOopsError } from 'components/Flyout'
 import { actions, model, selectors } from 'data'
 import { getValidPaymentMethod } from 'data/components/buySell/model'
@@ -64,8 +64,8 @@ class Checkout extends PureComponent<Props> {
     this.props.buySellActions.fetchCrossBorderLimits({
       fromAccount:
         this.props.orderType === OrderType.BUY
-          ? WalletAcountEnum.CUSTODIAL
-          : this.props.swapAccount?.type || WalletAcountEnum.CUSTODIAL,
+          ? WalletAccountEnum.CUSTODIAL
+          : this.props.swapAccount?.type || WalletAccountEnum.CUSTODIAL,
       inputCurrency:
         this.props.orderType === OrderType.BUY
           ? this.props.fiatCurrency
@@ -74,8 +74,8 @@ class Checkout extends PureComponent<Props> {
         this.props.orderType === OrderType.BUY
           ? this.props.cryptoCurrency
           : this.props.fiatCurrency,
-      toAccount: WalletAcountEnum.CUSTODIAL
-    } as CrossBorderLimitsPyload)
+      toAccount: WalletAccountEnum.CUSTODIAL
+    } as CrossBorderLimitsPayload)
   }
 
   componentDidUpdate(prevProps) {

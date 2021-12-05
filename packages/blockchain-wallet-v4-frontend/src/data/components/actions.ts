@@ -33,7 +33,7 @@ import { actions as swap } from './swap/slice'
 import * as uploadDocuments from './uploadDocuments/actions'
 import * as veriff from './veriff/actions'
 import { actions as walletConnect } from './walletConnect/slice'
-import * as withdraw from './withdraw/actions'
+import { actions as withdraw } from './withdraw/slice'
 import * as xlmTransactions from './xlmTransactions/actions'
 
 export {

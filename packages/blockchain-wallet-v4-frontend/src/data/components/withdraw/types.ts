@@ -10,7 +10,6 @@ import {
 } from '@core/types'
 
 import { BankTransferAccountType } from '../brokerage/types'
-import * as AT from './actionTypes'
 
 // types
 export type WithdrawCheckoutFormValuesType = {
@@ -66,69 +65,6 @@ export type WithdrawState = {
   withdrawLocks: RemoteDataType<string, WithdrawalLockResponseType>
   withdrawal?: WithdrawResponseType
 }
-
-// actions
-interface SetStepAction {
-  payload: WithdrawStepActionsPayload
-  type: typeof AT.SET_STEP
-}
-interface FetchWithdrawalFeesFailure {
-  payload: {
-    error: string
-  }
-  type: typeof AT.FETCH_WITHDRAWAL_FEES_FAILURE
-}
-interface FetchWithdrawalFeesLoading {
-  type: typeof AT.FETCH_WITHDRAWAL_FEES_LOADING
-}
-interface FetchWithdrawalFeesSuccess {
-  payload: {
-    withdrawFeesResponse: WithdrawalMinsAndFeesResponse
-  }
-  type: typeof AT.FETCH_WITHDRAWAL_FEES_SUCCESS
-}
-
-interface FetchWithdrawalLockFailure {
-  payload: {
-    error: string
-  }
-  type: typeof AT.FETCH_WITHDRAWAL_LOCK_FAILURE
-}
-interface FetchWithdrawalLockLoading {
-  type: typeof AT.FETCH_WITHDRAWAL_LOCK_LOADING
-}
-interface FetchWithdrawalLockSuccess {
-  payload: {
-    withdrawLockResponse: WithdrawalLockResponseType
-  }
-  type: typeof AT.FETCH_WITHDRAWAL_LOCK_SUCCESS
-}
-
-interface FetchCrossBorderLimitFailure {
-  payload: {
-    error: string
-  }
-  type: typeof AT.FETCH_WITHDRAWAL_CROSBSORDER_LIMITS_FAILURE
-}
-interface FetchCrossBorderLimitLoading {
-  type: typeof AT.FETCH_WITHDRAWAL_CROSBSORDER_LIMITS_LOADING
-}
-interface FetchCrossBorderLimitSuccess {
-  payload: CrossBorderLimits
-  type: typeof AT.FETCH_WITHDRAWAL_CROSBSORDER_LIMITS_SUCCESS
-}
-
-export type WithdrawActionTypes =
-  | SetStepAction
-  | FetchWithdrawalFeesFailure
-  | FetchWithdrawalFeesSuccess
-  | FetchWithdrawalFeesLoading
-  | FetchWithdrawalLockFailure
-  | FetchWithdrawalLockLoading
-  | FetchWithdrawalLockSuccess
-  | FetchCrossBorderLimitFailure
-  | FetchCrossBorderLimitLoading
-  | FetchCrossBorderLimitSuccess
 
 type LimitItem = {
   available: string

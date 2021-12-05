@@ -7,7 +7,7 @@ import { call, delay, put, race, select, take } from 'redux-saga/effects'
 import { Exchange, utils } from '@core'
 import { APIType } from '@core/network/api'
 import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
-import { BtcAccountFromType, BtcFromType, BtcPaymentType, WalletAcountEnum } from '@core/types'
+import { BtcAccountFromType, BtcFromType, BtcPaymentType, WalletAccountEnum } from '@core/types'
 import { actions, actionTypes, selectors } from 'data'
 import * as C from 'services/alerts'
 import * as Lockbox from 'services/lockbox'
@@ -236,9 +236,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             yield put(
               A.sendBchFetchLimits(
                 coin,
-                WalletAcountEnum.CUSTODIAL,
+                WalletAccountEnum.CUSTODIAL,
                 coin,
-                WalletAcountEnum.NON_CUSTODIAL,
+                WalletAccountEnum.NON_CUSTODIAL,
                 currency
               )
             )

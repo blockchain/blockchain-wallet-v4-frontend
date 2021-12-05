@@ -27,7 +27,7 @@ import { swapSliceReducer as swap } from './swap/slice'
 import uploadDocuments from './uploadDocuments/reducers'
 import veriff from './veriff/reducers'
 import { walletConnectReducer as walletConnect } from './walletConnect/slice'
-import { withdrawReducer } from './withdraw/reducers'
+import { withdrawReducer as withdraw } from './withdraw/slice'
 
 const componentReducer = combineReducers({
   brokerage,
@@ -57,7 +57,7 @@ const componentReducer = combineReducers({
   uploadDocuments,
   veriff,
   walletConnect,
-  withdraw: withdrawReducer
+  withdraw
 })
 
 export default componentReducer

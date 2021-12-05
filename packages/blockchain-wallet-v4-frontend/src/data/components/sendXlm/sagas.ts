@@ -6,7 +6,7 @@ import { call, delay, put, select } from 'redux-saga/effects'
 import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
 import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
-import { AddressTypesType, CustodialFromType, WalletAcountEnum, XlmPaymentType } from '@core/types'
+import { AddressTypesType, CustodialFromType, WalletAccountEnum, XlmPaymentType } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
 import * as C from 'services/alerts'
@@ -175,9 +175,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             yield put(
               A.sendXlmFetchLimits(
                 coin,
-                WalletAcountEnum.CUSTODIAL,
+                WalletAccountEnum.CUSTODIAL,
                 coin,
-                WalletAcountEnum.NON_CUSTODIAL,
+                WalletAccountEnum.NON_CUSTODIAL,
                 currency
               )
             )
