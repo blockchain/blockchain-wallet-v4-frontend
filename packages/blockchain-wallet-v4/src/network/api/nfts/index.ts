@@ -10,8 +10,7 @@ import {
 export const NFT_ORDER_PAGE_LIMIT = 10
 
 export default ({ apiUrl, get, openseaApi, post }) => {
-  const IS_TESTNET = openseaApi.includes('rinkeby')
-
+  const IS_TESTNET = openseaApi && openseaApi.includes('rinkeby')
   const openseaUrl = `${openseaApi}/api/v1`
   const openseaMarketplaceApi = `${openseaApi}/wyvern/v1`
 
