@@ -15,7 +15,6 @@ import { isGuid } from 'services/forms'
 import { getFiatCurrencyFromCountry } from 'services/locales'
 import { askSecondPasswordEnhancer } from 'services/sagas'
 
-import { LOGIN_FORM } from './model'
 import { initMobileAuthFlow } from './sagas.mobile'
 import {
   parseMagicLink,
@@ -49,6 +48,8 @@ export default ({ api, coreSagas, networks }) => {
   })
   const { saveGoals } = goalSagas({ api, coreSagas, networks })
   const { startCoinWebsockets } = miscSagas()
+
+  const LOGIN_FORM = 'login'
 
   const authNabu = function* () {
     yield put(actions.components.identityVerification.fetchSupportedCountries())
@@ -88,14 +89,16 @@ export default ({ api, coreSagas, networks }) => {
         unificationFlowType === AccountUnificationFlows.EXCHANGE_UPGRADE
       ) {
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_CONFIRM))
+        yield put(stopSubmit(LOGIN_FORM))
       } else if (unificationFlowType === AccountUnificationFlows.MOBILE_EXCHANGE_MERGE) {
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
+        yield put(stopSubmit(LOGIN_FORM))
       } else if (unificationFlowType === AccountUnificationFlows.MOBILE_EXCHANGE_UPGRADE) {
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_PASSWORD))
+        yield put(stopSubmit(LOGIN_FORM))
       } else {
         window.open(`${exchangeURL}${jwtToken}`, '_self', 'noreferrer')
       }
-      yield put(stopSubmit(LOGIN_FORM))
     } catch (e) {
       yield put(actions.auth.exchangeLoginFailure(e.code))
       if (e.code && e.code === 11) {
