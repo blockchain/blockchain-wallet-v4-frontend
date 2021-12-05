@@ -293,7 +293,7 @@ const buildDevServerConfig = (
           horizon: envConfig.HORIZON_URL,
           ledger: localhostUrl + '/ledger', // will trigger reverse proxy
           ledgerSocket: envConfig.LEDGER_SOCKET_URL,
-          openseaApi: envConfig.OPENSEA_API,
+          opensea: envConfig.OPENSEA_API,
           root: envConfig.ROOT_URL,
           veriff: envConfig.VERIFF_URL,
           walletHelper: envConfig.WALLET_HELPER_DOMAIN,

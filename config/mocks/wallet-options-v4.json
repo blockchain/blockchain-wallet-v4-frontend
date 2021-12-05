@@ -2,17 +2,15 @@
   "platforms": {
     "web": {
       "application": {
-        "analyticsSiteId": 2,
         "environment": "dev",
         "announcements": {
-          "lockbox": {},
           "public": {},
           "swap": {},
           "wallet": {}
         }
       },
       "coinListing": "",
-      "coinRename": "CLOUT",
+      "coinRename": "",
       "sift": {
         "apiKey": "0ecd212038"
       },
@@ -28,7 +26,6 @@
         "walletConnect": true,
         "withdrawalLocksFundsOnHold": true,
         "useNewPaymentProviders": true
-        "paymentProcessors": true
       },
       "hotWalletAddresses":{
         "swap": {
@@ -59,7 +56,7 @@
     "horizon": "https://horizon.stellar.org",
     "ledger": "https://manager.api.live.ledger.com",
     "ledgerSocket": "wss://api.ledgerwallet.com",
-    "openseaApi": "https://api.opensea.io",
+    "opensea": "https://api.opensea.io",
     "root": "https://blockchain.info",
     "veriff": "https://magic.veriff.me",
     "walletHelper": "https://wallet-helper.blockchain.com",
