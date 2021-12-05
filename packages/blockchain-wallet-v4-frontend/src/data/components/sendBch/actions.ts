@@ -1,4 +1,4 @@
-import { CoinType, CrossBorderLimits, WalletAcountType, WalletFiatType } from '@core/types'
+import { CoinType, CrossBorderLimits, WalletAccountType, WalletFiatType } from '@core/types'
 
 import * as AT from './actionTypes'
 
@@ -39,9 +39,9 @@ export const sendBchBitPayInvoiceExpired = () => ({
 
 export const sendBchFetchLimits = (
   inputCurrency: CoinType,
-  fromAccount: WalletAcountType,
+  fromAccount: WalletAccountType,
   outputCurrency: CoinType,
-  toAccount: WalletAcountType,
+  toAccount: WalletAccountType,
   currency?: WalletFiatType
 ) => ({
   payload: {

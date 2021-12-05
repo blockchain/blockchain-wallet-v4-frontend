@@ -12,7 +12,7 @@ import {
   BtcAccountFromType,
   BtcFromType,
   BtcPaymentType,
-  WalletAcountEnum
+  WalletAccountEnum
 } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, actionTypes, selectors } from 'data'
@@ -240,9 +240,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
                 yield put(
                   A.sendBtcFetchLimits(
                     coin,
-                    WalletAcountEnum.CUSTODIAL,
+                    WalletAccountEnum.CUSTODIAL,
                     coin,
-                    WalletAcountEnum.NON_CUSTODIAL,
+                    WalletAccountEnum.NON_CUSTODIAL,
                     currency
                   )
                 )

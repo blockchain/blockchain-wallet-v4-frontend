@@ -428,8 +428,8 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
               values={{
                 amount:
                   fix === 'FIAT'
-                    ? `${Currencies[walletCurrency].units[walletCurrency].symbol} ${max}`
-                    : `${coin} ${max}`
+                    ? `${Currencies[walletCurrency].units[walletCurrency].symbol}${max}`
+                    : `${coin}${max}`
               }}
             />
           </AlertButton>
@@ -442,8 +442,8 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
               values={{
                 amount:
                   fix === 'FIAT'
-                    ? `${Currencies[walletCurrency].units[walletCurrency].symbol} ${min}`
-                    : `${coin} ${min}`
+                    ? `${Currencies[walletCurrency].units[walletCurrency].symbol}${min}`
+                    : `${coin}${min}`
               }}
             />
           </AlertButton>

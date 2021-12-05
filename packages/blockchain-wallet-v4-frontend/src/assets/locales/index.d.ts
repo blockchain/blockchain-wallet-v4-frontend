@@ -518,7 +518,7 @@ type MessagesType = {
   'copy.swap_verify_id': 'Verify your identity to increase how much you can Swap everyday.'
   'copy.view_prices': 'View Prices'
   'copy.swap_your_crypto': 'Swap Your Crypto'
-  'copy.swap_minimum_amount': 'To avoid uncesssary fees and network slipage, the minimum amount for this pair is {amount}.'
+  'copy.swap_minimum_amount': 'To avoid unnecessary fees and network slippage, the minimum amount for this pair is {amount}.'
   'copy.swap_maximum_amount': 'The maximum amount of {coin} you can swap from this wallet is {amount}.'
   'copy.viewTransaction': 'View Transaction'
   'copy.viewTransactions': 'View Transactions'
@@ -1383,7 +1383,7 @@ type MessagesType = {
   'modals.sendBch.firststep.share_tooltip': 'Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
   'modals.sendBch.firststep.towallet': 'To'
   'modals.send.banner.title': 'Uprade to Gold. Send More Crypto.'
-  'modals.send.banner.description': 'Verify your ID now and unlock Gold level trading. Send up to {dayCurrencySymbol}{dayAmount} a day.'
+  'modals.send.banner.description': 'Verify your ID now and unlock Gold level trading. Send up to {dayCurrencySymbol}{dayAmount} a day. Now, your limit is {currency}{limit} a {period}.'
   'modals.send.banner.get_started': 'Get Started'
   'modals.send.over_your_limit_and_period': 'Over your limit! Send up to {currency}{amount}. Now, your limit is {currency}{limit} a {period}.'
   'modals.sendbch.amountnotzeromessage': 'Invalid amount'
@@ -1748,7 +1748,7 @@ type MessagesType = {
   'modals.simplebuy.underreview': 'ID Verification Pending'
   'modals.simplebuy.unknown': 'Unknown Status'
   'modals.simplebuy.unsupported-subcontent': "Currently we don't support buying crypto with"
-  'modals.simplebuy.unsupported-subcontent-1': "Well this is awkward. We don't support buying crypto yet for"
+  'modals.simplebuy.unsupported-subcontent-1': "Well this is awkward. We don't support buying crypto yet for your region."
   'modals.simplebuy.unsupported-subcontent-2': "We'll send you an update when we do."
   'modals.simplebuy.unsupported-title': 'Buy Crypto Coming Soon for'
   'modals.simplebuy.waitingondepo': 'Waiting on Funds'

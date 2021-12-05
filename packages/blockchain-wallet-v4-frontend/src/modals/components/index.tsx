@@ -434,24 +434,6 @@ const OverYourLimitMessage = ({ amount, currency, limit, period }) => (
 const StyledOvalButton = styled(Button)`
   border-radius: 32px;
 `
-const OverLimitButton = ({ coin }) => (
-  <StyledOvalButton
-    data-e2e='overLimitButton'
-    height='48px'
-    size='16px'
-    nature='dark-grey'
-    fullwidth
-  >
-    <Image width='16px' height='16px' name='alert-orange' />
-    <Text weight={600} size='16px' style={{ marginLeft: '2px' }} color='white'>
-      <FormattedMessage
-        id='copy.not_enough_coin'
-        defaultMessage='Not Enough {coin}'
-        values={{ coin }}
-      />
-    </Text>
-  </StyledOvalButton>
-)
 
 const AlertButton = ({ children }) => (
   <StyledOvalButton
@@ -509,7 +491,6 @@ export {
   ModalNavWithBackArrow,
   ModalNavWithCloseIcon,
   NavText,
-  OverLimitButton,
   OverYourLimitMessage,
   ScanWithPhone,
   Section,

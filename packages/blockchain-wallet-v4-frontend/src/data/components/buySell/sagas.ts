@@ -206,7 +206,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const error = errorHandler(e)
       yield put(
         A.setStep({
-          step: 'ADD_CARD_DETERMINE_PROVIDER'
+          step: 'DETERMINE_CARD_PROVIDER'
         })
       )
       yield put(actions.form.startSubmit(FORM_BS_ADD_EVERYPAY_CARD))
@@ -1020,7 +1020,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       case BSPaymentTypes.PAYMENT_CARD:
         return yield put(
           A.setStep({
-            step: 'ADD_CARD_DETERMINE_PROVIDER'
+            step: 'DETERMINE_CARD_PROVIDER'
           })
         )
       default:
@@ -1129,7 +1129,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const pollBSCardErrorHandler = function* (state: BSCardStateType) {
-    yield put(A.setStep({ step: 'ADD_CARD_DETERMINE_PROVIDER' }))
+    yield put(A.setStep({ step: 'DETERMINE_CARD_PROVIDER' }))
     yield put(actions.form.startSubmit(FORM_BS_ADD_EVERYPAY_CARD))
 
     let error
@@ -1168,7 +1168,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       card = yield call(api.getBSCard, payload)
       retryAttempts += 1
       step = S.getStep(yield select())
-      if (step !== '3DS_HANDLER_EVERYPAY') {
+      if (
+        step !== '3DS_HANDLER_EVERYPAY' &&
+        step !== '3DS_HANDLER_STRIPE' &&
+        step !== '3DS_HANDLER_CHECKOUTDOTCOM'
+      ) {
         yield cancel()
       }
       yield delay(3000)
@@ -1205,7 +1209,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       order = yield call(api.getBSOrder, payload)
       step = S.getStep(yield select())
       retryAttempts += 1
-      if (step !== '3DS_HANDLER_EVERYPAY') {
+      if (
+        step !== '3DS_HANDLER_EVERYPAY' &&
+        step !== '3DS_HANDLER_STRIPE' &&
+        step !== '3DS_HANDLER_CHECKOUTDOTCOM'
+      ) {
         yield cancel()
       }
       yield delay(3000)
@@ -1221,7 +1229,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
     }
 
-    if (action.payload.step === 'ADD_CARD_DETERMINE_PROVIDER') {
+    if (action.payload.step === 'DETERMINE_CARD_PROVIDER') {
       const addCheckoutDotComPaymentProvider: boolean = (yield select(
         selectors.core.walletOptions.getAddCheckoutDotComPaymentProvider
       )).getOrElse(false)

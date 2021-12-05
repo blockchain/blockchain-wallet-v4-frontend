@@ -119,7 +119,7 @@ class BuySellListItem extends PureComponent<Props, State> {
                 onClick={(e) => {
                   e.preventDefault()
                   e.stopPropagation()
-                  return this.showModal(order)
+                  return this.handleToggle()
                 }}
               >
                 <FormattedMessage

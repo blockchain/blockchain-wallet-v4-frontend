@@ -16,7 +16,7 @@ import {
   Order,
   SellOrder
 } from '@core/network/api/nfts/types'
-import { calculateGasFees, getNftBuyOrders } from '@core/redux/payment/nfts'
+import { calculateGasFees } from '@core/redux/payment/nfts'
 import { Await } from '@core/types'
 
 import { NftOrderStepEnum, NftsStateType } from './types'

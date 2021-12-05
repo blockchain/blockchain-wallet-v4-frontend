@@ -5,9 +5,9 @@ import styled from 'styled-components'
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 
-import { LinkStatePropsType, Props as OwnProps, SuccessStateType } from '.'
+import { Props as OwnProps, SuccessStateType } from '.'
 
-export type Props = OwnProps & SuccessStateType & LinkStatePropsType
+export type Props = OwnProps & SuccessStateType
 
 const Top = styled(FlyoutWrapper)`
   padding-bottom: 0px;
@@ -36,14 +36,13 @@ const Title = styled(Text)`
   text-align: center;
 `
 
-const Subcontent = styled(Text)`
+const SubContent = styled(Text)`
   margin-bottom: 56px;
   text-align: center;
 `
 
 const Unsupported: React.FC<Props> = (props) => {
   const { paymentAccountEligible } = props.eligibility
-
   return (
     <Top>
       <CloseIcon
@@ -75,7 +74,7 @@ const Unsupported: React.FC<Props> = (props) => {
             />
           )}
         </Title>
-        <Subcontent color='grey600' weight={500}>
+        <SubContent color='grey600' weight={500}>
           {paymentAccountEligible ? (
             <>
               <FormattedMessage
@@ -98,7 +97,7 @@ const Unsupported: React.FC<Props> = (props) => {
             id='modals.simplebuy.unsupported-subcontent-2'
             defaultMessage="We'll send you an update when we do."
           />
-        </Subcontent>
+        </SubContent>
         <Button
           data-e2e='submitBSAmount'
           height='48px'

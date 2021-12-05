@@ -8,7 +8,7 @@ import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
 import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
 import { EthAccountFromType } from '@core/redux/payment/eth/types'
-import { Erc20CoinType, EthPaymentType, WalletAcountEnum } from '@core/types'
+import { Erc20CoinType, EthPaymentType, WalletAccountEnum } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { calculateFee } from '@core/utils/eth'
 import { actions, actionTypes, selectors } from 'data'
@@ -170,9 +170,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
               yield put(
                 A.sendEthFetchLimits(
                   coin,
-                  WalletAcountEnum.CUSTODIAL,
+                  WalletAccountEnum.CUSTODIAL,
                   coin,
-                  WalletAcountEnum.NON_CUSTODIAL,
+                  WalletAccountEnum.NON_CUSTODIAL,
                   currency
                 )
               )

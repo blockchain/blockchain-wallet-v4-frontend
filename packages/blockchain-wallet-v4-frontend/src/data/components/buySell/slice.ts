@@ -16,7 +16,7 @@ import {
   BSQuoteType,
   CoinType,
   CrossBorderLimits,
-  CrossBorderLimitsPyload,
+  CrossBorderLimitsPayload,
   Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
@@ -229,7 +229,7 @@ const buySellSlice = createSlice({
       )
     },
 
-    fetchCrossBorderLimits: (state, action: PayloadAction<CrossBorderLimitsPyload>) => {},
+    fetchCrossBorderLimits: (state, action: PayloadAction<CrossBorderLimitsPayload>) => {},
     fetchCrossBorderLimitsFailure: (state, action: PayloadAction<unknown>) => {
       state.crossBorderLimits = Remote.Failure(action.payload)
     },

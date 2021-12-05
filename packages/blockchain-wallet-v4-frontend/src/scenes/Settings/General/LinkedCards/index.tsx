@@ -20,7 +20,7 @@ class LinkedCards extends PureComponent<Props> {
     this.props.buySellActions.showModal({ origin: 'SettingsGeneral' })
     this.props.buySellActions.setFiatCurrency(this.props.fiatCurrency || 'USD')
     this.props.buySellActions.setStep({
-      step: 'ADD_CARD_DETERMINE_PROVIDER'
+      step: 'DETERMINE_CARD_PROVIDER'
     })
     this.props.buySellActions.addCardFinished()
   }
