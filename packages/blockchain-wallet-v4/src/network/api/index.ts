@@ -24,14 +24,16 @@ import xlm from './xlm'
 const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: any = {}) => {
   const http = httpService({ apiKey })
   const authorizedHttp = apiAuthorize(http, getAuthCredentials, reauthenticate)
-  const apiUrl = options.domains.api
-  const bitpayUrl = options.domains.bitpay
-  const everypayUrl = options.domains.everypay
-  const horizonUrl = options.domains.horizon
-  const ledgerUrl = options.domains.ledger
+  const {
+    api: apiUrl,
+    bitpay: bitpayUrl,
+    everypay: everypayUrl,
+    horizon: horizonUrl,
+    ledger: ledgerUrl,
+    opensea: openseaApi,
+    root: rootUrl
+  } = options.domains
   const nabuUrl = `${apiUrl}/nabu-gateway`
-  const rootUrl = options.domains.root
-  const { openseaApi } = options.domains
 
   return {
     ...bch({ apiUrl, ...http }),
