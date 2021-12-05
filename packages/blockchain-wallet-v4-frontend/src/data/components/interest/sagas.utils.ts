@@ -29,7 +29,8 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
   const buildAndPublishPayment = function* (
     coin: CoinType,
     payment: PaymentType,
-    destination: string
+    destination: string,
+    hotwalletAddress?: string
   ): Generator<PaymentType | CallEffect, PaymentValue, any> {
     let updatedPayment = payment
     // eslint-disable-next-line no-useless-catch
@@ -49,6 +50,10 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
         updatedPayment = yield updatedPayment.memoType('text')
         // @ts-ignore
         updatedPayment = yield updatedPayment.setDestinationAccountExists(true)
+      } else if (hotwalletAddress && payment.coin === 'ETH') {
+        // @ts-ignore
+        updatedPayment = yield updatedPayment.data(destination)
+        updatedPayment = yield updatedPayment.to(hotwalletAddress)
       } else {
         updatedPayment = yield updatedPayment.to(destination, 'CUSTODIAL')
       }
