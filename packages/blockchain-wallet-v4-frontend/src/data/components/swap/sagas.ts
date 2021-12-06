@@ -198,17 +198,22 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
         try {
           const hotWalletAddress = selectors.core.walletOptions
             .getHotWalletAddresses(yield select(), Product.SWAP)
-            .getOrFail('No extra data') as String
+            .getOrElse(null)
           if (typeof hotWalletAddress !== 'string') {
-            throw new Error('Hot Wallet Address not located.')
+            console.error(
+              'Unable to retreive hotwallet address; falling back to deposit and sweep.'
+            )
+            yield call(buildAndPublishPayment, payment.coin, payment, order.kind.depositAddress)
+          } else {
+            yield call(
+              buildAndPublishPayment,
+              payment.coin,
+              payment,
+              order.kind.depositAddress,
+              hotWalletAddress
+            )
           }
-          yield call(
-            buildAndPublishPayment,
-            payment.coin,
-            payment,
-            order.kind.depositAddress,
-            hotWalletAddress
-          )
+
           yield call(api.updateSwapOrder, order.id, 'DEPOSIT_SENT')
         } catch (e) {
           yield call(api.updateSwapOrder, order.id, 'CANCEL')
