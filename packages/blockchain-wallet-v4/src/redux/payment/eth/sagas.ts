@@ -119,7 +119,7 @@ export default ({ api }: { api: APIType }) => {
         const index = yield call(selectIndex, fromData)
         const to = path(['to', 'address'], p)
         const amount = prop('amount', p)
-        const data = prop('data', p) || null
+        const depositAddress = prop('depositAddress', p) || null
         const gasPrice = convertGweiToWei(prop('feeInGwei', p))
         const gasLimit =
           p.isErc20 || p.isContract
@@ -140,7 +140,7 @@ export default ({ api }: { api: APIType }) => {
         if (!isPositiveInteger(nonce)) throw new Error('invalid_nonce')
         const raw = {
           amount,
-          data,
+          depositAddress,
           from,
           fromType,
           gasLimit,
@@ -185,8 +185,8 @@ export default ({ api }: { api: APIType }) => {
       },
 
       coin: 'ETH',
-      data(data) {
-        return makePayment(mergeRight(p, { data }))
+      depositAddress(depositAddress) {
+        return makePayment(mergeRight(p, { depositAddress }))
       },
 
       description(message) {
