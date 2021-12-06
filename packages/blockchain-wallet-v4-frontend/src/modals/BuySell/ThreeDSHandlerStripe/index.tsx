@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { WalletOptionsType } from '@core/types'
+import DataError from 'components/DataError'
 import { FlyoutWrapper } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -19,6 +20,7 @@ const Iframe = styled.iframe`
 `
 
 const ThreeDSHandlerStripe = ({ buySellActions, domains, order }: Props) => {
+  const [isError, setError] = useState(false)
   if (!order) {
     throw new Error('Order is not defined')
   }
@@ -31,7 +33,7 @@ const ThreeDSHandlerStripe = ({ buySellActions, domains, order }: Props) => {
     if (data.provider !== 'stripe') return
 
     if (data.status === 'error') {
-      throw new Error('Something went wrong with the 3DS process on Stripe')
+      setError(true)
     }
 
     if (data.status === 'success') {
@@ -44,6 +46,14 @@ const ThreeDSHandlerStripe = ({ buySellActions, domains, order }: Props) => {
 
     return () => window.removeEventListener('message', handlePostMessage, false)
   })
+
+  const handleRefresh = () => {
+    buySellActions.destroyCheckout()
+  }
+
+  if (isError) {
+    return <DataError onClick={handleRefresh} />
+  }
 
   return (
     <CustomFlyoutWrapper>
