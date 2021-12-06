@@ -115,7 +115,13 @@ const YourCollection: React.FC<Props> = (props) => {
                   </Button>
                 )}
                 <Link
-                  style={{ display: 'block', marginTop: '8px', textAlign: 'center', width: '100%' }}
+                  style={{
+                    display: 'block',
+                    marginBottom: '8px',
+                    marginTop: '14px',
+                    textAlign: 'center',
+                    width: '100%'
+                  }}
                   size='11px'
                   href={asset.permalink}
                   target='_blank'

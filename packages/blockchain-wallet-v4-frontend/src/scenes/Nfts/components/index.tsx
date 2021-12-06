@@ -83,7 +83,7 @@ export const ImageContainer = styled.div<{ background?: string; backgroundColor?
   position: relative;
   background-size: cover;
   background-position: center;
-  border-radius: 8px;
+  border-radius: 6px;
   background-image: ${(props) => props.background};
   background-color: ${(props) => props.backgroundColor};
 `
