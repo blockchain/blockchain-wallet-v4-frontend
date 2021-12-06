@@ -557,8 +557,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       )
       yield put(A.fetchShowInterestCardAfterTransactionSuccess({ afterTransaction }))
     } catch (e) {
-      const error = errorHandler(e)
-      yield put(A.fetchShowInterestCardAfterTransactionFailure({ error }))
+      // TODO: Make this error not break the order summary page. This is failing with the new card providers
+      // const error = errorHandler(e)
+      // yield put(A.fetchShowInterestCardAfterTransactionFailure({ error }))
+      yield put(
+        A.fetchShowInterestCardAfterTransactionSuccess({
+          // @ts-ignore
+          afterTransaction: {
+            show: false
+          }
+        })
+      )
     }
   }
 

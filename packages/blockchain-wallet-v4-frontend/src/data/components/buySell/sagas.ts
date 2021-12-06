@@ -507,8 +507,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       ) {
         yield put(A.setStep({ order: confirmedOrder, step: '3DS_HANDLER_EVERYPAY' }))
       } else if (confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'STRIPE') {
-        // eslint-disable-next-line no-console
-        console.log('STRIPE', confirmedOrder)
         yield put(A.setStep({ order: confirmedOrder, step: '3DS_HANDLER_STRIPE' }))
       } else if (confirmedOrder.attributes?.cardProvider?.cardAcquirerName === 'CHECKOUTDOTCOM') {
         yield put(A.setStep({ order: confirmedOrder, step: '3DS_HANDLER_CHECKOUTDOTCOM' }))

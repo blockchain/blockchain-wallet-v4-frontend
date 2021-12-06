@@ -47,16 +47,6 @@ const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = ({
     nftsActions.searchNftAssetContract({ asset_contract_address: e.target[0].value })
   }
 
-  const handleRefresh = () => {
-    if (activeTab === 'explore') {
-      nftsActions.clearAndRefetchOrders()
-    } else if (activeTab === 'my-collection') {
-      nftsActions.clearAndRefetchAssets()
-    } else {
-      nftsActions.clearAndRefetchOffersMade()
-    }
-  }
-
   return (
     <Wrapper>
       <TabsContainer>
@@ -84,14 +74,6 @@ const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = ({
         <Button disabled={rest.submitting} data-e2e='searchNfts' type='submit' nature='primary'>
           <FormattedMessage id='buttons.search' defaultMessage='Search' />
         </Button>
-        <Icon
-          role='button'
-          size='24px'
-          cursor
-          name='refresh'
-          color='blue600'
-          onClick={handleRefresh}
-        />
       </StyledForm>
     </Wrapper>
   )
@@ -99,7 +81,7 @@ const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = ({
 
 type Props = OwnProps & {
   activeTab: 'explore' | 'my-collection' | 'offers'
-  setActiveTab: React.Dispatch<React.SetStateAction<'explore' | 'my-collection' | 'offers'>>
+  setActiveTab: (tab: 'explore' | 'my-collection' | 'offers') => void
 }
 
 export default reduxForm<{}, Props>({ form: 'nftSearch' })(NftHeader)

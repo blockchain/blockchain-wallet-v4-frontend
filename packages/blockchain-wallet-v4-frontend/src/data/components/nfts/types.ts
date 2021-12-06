@@ -20,6 +20,7 @@ export enum NftOrderStepEnum {
 }
 
 export type NftsStateType = {
+  activeTab: 'explore' | 'my-collection' | 'offers'
   assets: {
     atBound: boolean
     collection: string
