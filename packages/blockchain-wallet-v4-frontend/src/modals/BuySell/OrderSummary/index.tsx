@@ -82,6 +82,7 @@ class OrderSummaryContainer extends PureComponent<Props> {
         })
       }
     }
+
     this.props.interestActions.fetchShowInterestCardAfterTransaction({})
   }
 
@@ -178,7 +179,9 @@ class OrderSummaryContainer extends PureComponent<Props> {
                 order.paymentType === BSPaymentTypes.USER_CARD ||
                 order.paymentType === BSPaymentTypes.BANK_TRANSFER ||
                 order.paymentType === BSPaymentTypes.FUNDS)}
-            {val.afterTransaction.show && <InterestBanner handleClose={this.props.handleClose} />}
+            {val.interestAfterTransaction.show ? (
+              <InterestBanner handleClose={this.props.handleClose} />
+            ) : null}
           </OrderSummary>
         )
       }
