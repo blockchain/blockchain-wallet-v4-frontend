@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 
 import { displayCoinToCoin } from '@core/exchange'
-import { Text } from 'blockchain-info-components'
+import { SpinningLoader, Text } from 'blockchain-info-components'
 import LazyLoadWrapper from 'components/LazyLoadContainer'
 
 import { Props as OwnProps } from '..'
@@ -33,6 +33,13 @@ const Offers: React.FC<Props> = (props) => {
   useEffect(() => {
     props.nftsActions.fetchNftOffersMade()
   }, [])
+
+  if (props.offersMade.isLoading)
+    return (
+      <div style={{ marginTop: '20px' }}>
+        <SpinningLoader width='14px' height='14px' borderWidth='3px' />
+      </div>
+    )
 
   return (
     <LazyLoadContainer onLazyLoad={() => props.nftsActions.fetchNftOffersMade()}>
