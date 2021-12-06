@@ -97,6 +97,7 @@ export type ModalOriginType =
   | 'AddBankModalWithdraw'
   | 'BankDetailsModal'
   | 'BankDeposit'
+  | 'CompleteProfileBanner'
   | 'DepositWithdrawalModal'
   | 'EmptyFeed'
   | 'ExchangeForm'
