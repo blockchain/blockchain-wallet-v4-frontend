@@ -16,7 +16,7 @@ import {
   Order,
   SellOrder
 } from '@core/network/api/nfts/types'
-import { calculateGasFees, getNftBuyOrders } from '@core/redux/payment/nfts'
+import { calculateGasFees } from '@core/redux/payment/nfts'
 import { Await } from '@core/types'
 
 import { NftOrderStepEnum, NftsStateType } from './types'
@@ -54,7 +54,8 @@ const initialState: NftsStateType = {
     order: Remote.NotAsked,
     step: NftOrderStepEnum.SHOW_ASSET
   },
-  sellOrder: Remote.NotAsked
+  sellOrder: Remote.NotAsked,
+  transfer: Remote.NotAsked
 }
 
 const nftsSlice = createSlice({
@@ -129,6 +130,23 @@ const nftsSlice = createSlice({
     createSellOrderSuccess: (state, action: PayloadAction<Order>) => {
       state.sellOrder = Remote.Success(action.payload)
     },
+    createTransfer: (
+      state,
+      action: PayloadAction<{
+        asset: NftAssetsType['assets'][0]
+        gasData: GasDataI
+        to: string
+      }>
+    ) => {},
+    createTransferFailure: (state, action: PayloadAction<string>) => {
+      state.transfer = Remote.Failure(action.payload)
+    },
+    createTransferLoading: (state) => {
+      state.transfer = Remote.Loading
+    },
+    createTransferSuccess: (state, action: PayloadAction<boolean>) => {
+      state.transfer = Remote.Success(action.payload)
+    },
     fetchFees: (
       state,
       action: PayloadAction<
@@ -142,6 +160,11 @@ const nftsSlice = createSlice({
             asset: NftAsset
             operation: GasCalculationOperations.Sell
             startPrice: number
+          }
+        | {
+            asset: NftAsset
+            operation: GasCalculationOperations.Transfer
+            to: string
           }
         | {
             operation: GasCalculationOperations.Cancel

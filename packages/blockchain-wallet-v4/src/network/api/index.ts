@@ -24,13 +24,18 @@ import xlm from './xlm'
 const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: any = {}) => {
   const http = httpService({ apiKey })
   const authorizedHttp = apiAuthorize(http, getAuthCredentials, reauthenticate)
-  const apiUrl = options.domains.api
-  const bitpayUrl = options.domains.bitpay
-  const everypayUrl = options.domains.everypay
-  const horizonUrl = options.domains.horizon
-  const ledgerUrl = options.domains.ledger
+  const {
+    api: apiUrl,
+    bitpay: bitpayUrl,
+    everypay: everypayUrl,
+    horizon: horizonUrl,
+    ledger: ledgerUrl,
+    root: rootUrl
+  } = options.domains
   const nabuUrl = `${apiUrl}/nabu-gateway`
-  const rootUrl = options.domains.root
+
+  // TODO: remove this once new applications pr with opensea api is merged
+  const openseaApi = 'https://api.opensea.io'
 
   return {
     ...bch({ apiUrl, ...http }),
@@ -43,7 +48,7 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
       nabuUrl,
       ...http
     }),
-    ...eth({ apiUrl, ...http }),
+    ...eth({ apiUrl, openseaApi, ...http }),
     ...kvStore({ apiUrl, networks, ...http }),
     ...kyc({
       authorizedGet: authorizedHttp.get,
@@ -59,7 +64,7 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
     }),
     ...lockbox({ ledgerUrl, ...http }),
     ...misc({ apiUrl, ...http }),
-    ...nfts({ apiUrl, ...http }),
+    ...nfts({ apiUrl, openseaApi, ...http }),
     ...profile({
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,

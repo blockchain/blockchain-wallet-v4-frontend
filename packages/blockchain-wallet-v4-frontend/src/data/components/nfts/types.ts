@@ -15,7 +15,8 @@ export enum NftOrderStepEnum {
   CONFIRM_BUY = 'CONFIRM_BUY',
   MAKE_OFFER = 'MAKE_OFFER',
   MARK_FOR_SALE = 'MARK_FOR_SALE',
-  SHOW_ASSET = 'SHOW_ASSET'
+  SHOW_ASSET = 'SHOW_ASSET',
+  TRANSFER = 'TRANSFER'
 }
 
 export type NftsStateType = {
@@ -53,4 +54,5 @@ export type NftsStateType = {
     step: NftOrderStepEnum
   }
   sellOrder: RemoteDataType<string, boolean>
+  transfer: RemoteDataType<string, boolean>
 }
