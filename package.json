@@ -148,6 +148,7 @@
     "cross-env": "7.0.3",
     "css-loader": "4.3.0",
     "cz-conventional-changelog": "3.3.0",
+    "base64url": "^3.0.1",
     "enzyme": "3.11.0",
     "enzyme-adapter-react-16": "1.15.6",
     "enzyme-to-json": "3.6.2",
