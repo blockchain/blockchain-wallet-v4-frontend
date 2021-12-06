@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
-import { ExtractSuccess, WalletFiatEnum } from '@core/types'
+import { ExtractSuccess } from '@core/types'
 import { FlyoutOopsError } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -15,10 +15,7 @@ import Success from './template.success'
 class CryptoSelection extends PureComponent<Props> {
   componentDidMount() {
     if (this.props.fiatCurrency && !Remote.Success.is(this.props.data)) {
-      const currentCurrencyIsInSupportedFiat = this.props.fiatCurrency in WalletFiatEnum
-      // for other currencies use as pre fill USD
-      const currency = currentCurrencyIsInSupportedFiat ? this.props.fiatCurrency : 'USD'
-      this.props.buySellActions.fetchPairs({ currency })
+      this.props.buySellActions.fetchPairs({ currency: this.props.fiatCurrency })
       this.props.buySellActions.fetchFiatEligible(this.props.fiatCurrency)
       this.props.buySellActions.fetchSDDEligibility()
       this.props.buySellActions.fetchOrders()
@@ -52,7 +49,6 @@ const mapStateToProps = (state: RootState) => ({
   data: getData(state),
   fiatCurrency: selectors.components.buySell.getFiatCurrency(state) || 'USD',
   isFirstLogin: selectors.auth.getFirstLogin(state),
-  originalFiatCurrency: selectors.components.buySell.getOriginalFiatCurrency(state),
   sddTransactionFinished: selectors.components.buySell.getSddTransactionFinished(state)
 })
 
