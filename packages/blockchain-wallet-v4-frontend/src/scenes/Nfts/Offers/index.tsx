@@ -36,27 +36,40 @@ const Offers: React.FC<Props> = (props) => {
 
   return (
     <LazyLoadContainer onLazyLoad={() => props.nftsActions.fetchNftOffersMade()}>
-      {props.offersMade.list.map((offer, i) => {
-        return (
-          <Row key={i}>
-            <Col>
-              <img
-                style={{ height: '32px', marginRight: '8px' }}
-                alt=''
-                src={offer.asset.image_thumbnail_url}
-              />
-              <div>{offer.asset.collection.name}</div>
-              <div>-</div>
-              <div>({offer.asset.name})</div>
-            </Col>
-            <Col>
-              <div>
-                {displayCoinToCoin({ coin: offer.payment_token.symbol, value: offer.bid_amount })}
-              </div>
-            </Col>
-          </Row>
-        )
-      })}
+      {props.offersMade.list.length ? (
+        props.offersMade.list.map((offer, i) => {
+          return (
+            <Row key={i}>
+              <Col>
+                <img
+                  style={{ height: '32px', marginRight: '8px' }}
+                  alt=''
+                  src={offer.asset.image_thumbnail_url}
+                />
+                <div>{offer.asset.collection.name}</div>
+                <div>-</div>
+                <div>({offer.asset.name})</div>
+              </Col>
+              <Col>
+                <div>
+                  {displayCoinToCoin({ coin: offer.payment_token.symbol, value: offer.bid_amount })}
+                </div>
+              </Col>
+            </Row>
+          )
+        })
+      ) : (
+        <Row>
+          <Col>
+            <div>
+              <span role='img' aria-label='See no evil'>
+                🙈
+              </span>{' '}
+              No offers made yet!
+            </div>
+          </Col>
+        </Row>
+      )}
     </LazyLoadContainer>
   )
 }
