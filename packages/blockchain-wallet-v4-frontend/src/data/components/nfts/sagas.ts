@@ -462,7 +462,8 @@ export default ({ api }: { api: APIType }) => {
           yield put(
             A.setMarketplaceData({
               atBound: false,
-              collection: res,
+              // @ts-ignore
+              collection: IS_TESTNET ? { ...res, collection_data: { ...res } } : res,
               page: 1,
               token_ids_queried: []
             })
