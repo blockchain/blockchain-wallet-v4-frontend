@@ -190,7 +190,7 @@
     "node-polyfill-webpack-plugin": "1.1.4",
     "prettier": "2.3.2",
     "prettier-config-constellation": "0.0.5",
-    "react-circular-progressbar": "^2.0.4",
+    "react-circular-progressbar": "2.0.4",
     "react-refresh": "0.10.0",
     "redux-mock-store": "1.5.4",
     "redux-saga-test-plan": "4.0.3",
