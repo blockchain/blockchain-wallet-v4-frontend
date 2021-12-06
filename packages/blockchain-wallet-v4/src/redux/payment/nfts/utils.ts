@@ -48,6 +48,8 @@ const WYVERN_CONTRACT_ADDR_RINKEBY = '0x5206e78b21Ce315ce284FB24cf05e0585A93B1d9
 const WYVERN_CONTRACT_ADDR_MAINNET = '0x7Be8076f4EA4A4AD08075C2508e481d6C946D12b'
 const OPENSEA_FEE_RECIPIENT_RINKEBY = NULL_ADDRESS
 const OPENSEA_FEE_RECIPIENT = '0x5b3256965e7c3cf26e11fcaf296dfc8807c01073'
+const WYVERN_PROXY_REGISTRY_ADDRESS = '0xa5409ec958C83C3f309868babACA7c86DCB077c1'
+const WYVERN_PROXY_REGISTRY_ADDRESS_RINKEBY = '0xF57B2c51dED3A29e6891aba85459d600256Cf317'
 
 export const bigNumberToBN = (value: BigNumber) => {
   return new BN(value.toString(), 10)
@@ -1143,11 +1145,13 @@ function delay(time) {
 }
 
 async function _getProxy(signer, retries = 0): Promise<string | null> {
-  const wyvernProxyRegistry = new ethers.Contract(
-    '0xa5409ec958C83C3f309868babACA7c86DCB077c1',
-    proxyRegistry_ABI,
-    signer
-  )
+  const address =
+    // @ts-ignore
+    signer.provider?.network?.name === 'rinkeby'
+      ? WYVERN_PROXY_REGISTRY_ADDRESS_RINKEBY
+      : WYVERN_PROXY_REGISTRY_ADDRESS
+
+  const wyvernProxyRegistry = new ethers.Contract(address, proxyRegistry_ABI, signer)
   let proxyAddress: string | null = await wyvernProxyRegistry.proxies(signer.getAddress())
 
   if (proxyAddress === '0x') {
@@ -1167,12 +1171,14 @@ async function _getProxy(signer, retries = 0): Promise<string | null> {
 }
 
 async function _initializeProxy(signer, txnData): Promise<string> {
+  const address =
+    // @ts-ignore
+    signer.provider?.network?.name === 'rinkeby'
+      ? WYVERN_PROXY_REGISTRY_ADDRESS_RINKEBY
+      : WYVERN_PROXY_REGISTRY_ADDRESS
+
   console.log(`Initializing proxy`)
-  const wyvernProxyRegistry = new ethers.Contract(
-    '0xa5409ec958C83C3f309868babACA7c86DCB077c1',
-    proxyRegistry_ABI,
-    signer
-  )
+  const wyvernProxyRegistry = new ethers.Contract(address, proxyRegistry_ABI, signer)
   await wyvernProxyRegistry.registerProxy(txnData)
   const proxyAddress = await _getProxy(signer, 10)
   if (!proxyAddress) {
@@ -2259,12 +2265,14 @@ export async function createMatchingOrders(
 }
 
 export async function calculateProxyFees(signer: Signer) {
+  const address =
+    // @ts-ignore
+    signer.provider?.network?.name === 'rinkeby'
+      ? WYVERN_PROXY_REGISTRY_ADDRESS_RINKEBY
+      : WYVERN_PROXY_REGISTRY_ADDRESS
+
   const proxyAddress = await _getProxy(signer)
-  const wyvernProxyRegistry = new ethers.Contract(
-    '0xa5409ec958C83C3f309868babACA7c86DCB077c1',
-    proxyRegistry_ABI,
-    signer
-  )
+  const wyvernProxyRegistry = new ethers.Contract(address, proxyRegistry_ABI, signer)
 
   return proxyAddress
     ? new BigNumber(0)
