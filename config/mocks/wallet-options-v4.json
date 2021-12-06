@@ -18,6 +18,7 @@
         "addCheckoutPaymentProvider": false,
         "addStripePaymentProvider": false,
         "cEURRewards": true,
+        "completeYourProfile": true,
         "developerMobilePairing": true,
         "eddInterestFileUpload": true,
         "pollForMagicLinkData": true,
