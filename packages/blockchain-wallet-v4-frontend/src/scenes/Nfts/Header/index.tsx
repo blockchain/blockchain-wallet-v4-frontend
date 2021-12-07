@@ -56,6 +56,11 @@ const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = ({
     setShowDropdown(false)
   }
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    nftsActions.searchNftAssetContract({ asset_contract_address: e.target[0].value })
+  }
+
   return (
     <Wrapper>
       <TabsContainer>
@@ -74,7 +79,7 @@ const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = ({
           </TabMenuItem>
         </TabMenu>
       </TabsContainer>
-      <StyledForm>
+      <StyledForm onSubmit={handleSubmit}>
         <Field
           placeholder='Search Collections'
           name='search'
@@ -82,7 +87,7 @@ const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = ({
           onBlur={() => setShowDropdown(false)}
           onChange={debounce((_, val) => {
             setShowDropdown(true)
-            nftsActions.searchNftAssetContract({ asset_contract_address: val })
+            nftsActions.searchNftAssetContract({ search: val })
           }, 500)}
           component={TextBox}
         />

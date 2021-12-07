@@ -301,7 +301,7 @@ const nftsSlice = createSlice({
     },
     searchNftAssetContract: (
       state,
-      action: PayloadAction<{ asset_contract_address: string }>
+      action: PayloadAction<{ asset_contract_address?: string; search?: string }>
     ) => {},
     setActiveTab: (state, action: PayloadAction<'explore' | 'my-collection' | 'offers'>) => {
       state.activeTab = action.payload
