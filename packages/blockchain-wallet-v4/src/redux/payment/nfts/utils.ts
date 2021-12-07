@@ -43,7 +43,9 @@ export const DEFAULT_MAX_BOUNTY = DEFAULT_SELLER_FEE_BASIS_POINTS
 export const ENJIN_ADDRESS = '0xfaaFDc07907ff5120a76b34b731b278c38d6043C'
 export const ENJIN_COIN_ADDRESS = '0xf629cbd94d3791c9250152bd8dfbdf380e2a3b9c'
 const WETH_ADDRESS = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
+const WETH_ADDRESS_RINKEBY = '0xc778417E063141139Fce010982780140Aa0cD5Ab'
 const WYVERN_TOKEN_PAYMENT_PROXY = '0xe5c783ee536cf5e63e792988335c4255169be4e1'
+const WYVERN_TOKEN_PAYMENT_PROXY_RINKEBY = '0x82d102457854c985221249f86659c9d6cf12aa72'
 const WYVERN_CONTRACT_ADDR_RINKEBY = '0x5206e78b21Ce315ce284FB24cf05e0585A93B1d9'
 const WYVERN_CONTRACT_ADDR_MAINNET = '0x7Be8076f4EA4A4AD08075C2508e481d6C946D12b'
 const OPENSEA_FEE_RECIPIENT_RINKEBY = NULL_ADDRESS
@@ -53,6 +55,11 @@ const WYVERN_PROXY_REGISTRY_ADDRESS_RINKEBY = '0xF57B2c51dED3A29e6891aba85459d60
 
 export const bigNumberToBN = (value: BigNumber) => {
   return new BN(value.toString(), 10)
+}
+
+export const getNetwork = (signer: Signer) => {
+  // @ts-ignore
+  return signer.provider?.network?.name || 'mainnet'
 }
 
 const ethABI_local = {
@@ -1146,8 +1153,7 @@ function delay(time) {
 
 async function _getProxy(signer, retries = 0): Promise<string | null> {
   const address =
-    // @ts-ignore
-    signer.provider?.network?.name === 'rinkeby'
+    getNetwork(signer) === 'rinkeby'
       ? WYVERN_PROXY_REGISTRY_ADDRESS_RINKEBY
       : WYVERN_PROXY_REGISTRY_ADDRESS
 
@@ -1172,8 +1178,7 @@ async function _getProxy(signer, retries = 0): Promise<string | null> {
 
 async function _initializeProxy(signer, txnData): Promise<string> {
   const address =
-    // @ts-ignore
-    signer.provider?.network?.name === 'rinkeby'
+    getNetwork(signer) === 'rinkeby'
       ? WYVERN_PROXY_REGISTRY_ADDRESS_RINKEBY
       : WYVERN_PROXY_REGISTRY_ADDRESS
 
@@ -1788,7 +1793,10 @@ async function fungibleTokenApprovals({
   tokenAddress: string
   txnData: txnData
 }) {
-  const proxyAddress = WYVERN_TOKEN_PAYMENT_PROXY || undefined
+  const proxyAddress =
+    getNetwork(signer) === 'rinkeby'
+      ? WYVERN_TOKEN_PAYMENT_PROXY_RINKEBY
+      : WYVERN_TOKEN_PAYMENT_PROXY || undefined
   const accountAddress = await signer.getAddress()
   const fungibleTokenInterface = new ethers.Contract(tokenAddress, ERC20_ABI, signer)
   const approvedAmount = new BigNumber(
@@ -1828,6 +1836,7 @@ export async function _buyOrderValidationAndApprovals({
     gasPrice
   }
   const tokenAddress = order.paymentToken
+  const wethAddress = getNetwork(signer) === 'rinkeby' ? WETH_ADDRESS_RINKEBY : WETH_ADDRESS
   const accountAddress = await signer.getAddress()
   if (tokenAddress !== NULL_ADDRESS) {
     const fungibleTokenInterface = new ethers.Contract(order.paymentToken, ERC20_ABI, signer)
@@ -1844,7 +1853,7 @@ export async function _buyOrderValidationAndApprovals({
 
     // Check WETH balance
     if (balance.isLessThan(minimumAmount)) {
-      if (tokenAddress === WETH_ADDRESS) {
+      if (tokenAddress === wethAddress) {
         throw new Error('Insufficient balance. You may need to wrap Ether.')
       } else {
         throw new Error('Insufficient balance.')
@@ -2266,8 +2275,7 @@ export async function createMatchingOrders(
 
 export async function calculateProxyFees(signer: Signer) {
   const address =
-    // @ts-ignore
-    signer.provider?.network?.name === 'rinkeby'
+    getNetwork(signer) === 'rinkeby'
       ? WYVERN_PROXY_REGISTRY_ADDRESS_RINKEBY
       : WYVERN_PROXY_REGISTRY_ADDRESS
 
@@ -2370,16 +2378,18 @@ export async function calculateTransferFees(asset: NftAsset, signer: Signer, rec
 export async function calculatePaymentProxyApprovals(order: Order, signer: Signer) {
   const minimumAmount = new BigNumber(order.basePrice)
   const tokenContract = new ethers.Contract(order.paymentToken, ERC20_ABI, signer)
-  const approvedBalance = new BigNumber(
-    await tokenContract.allowance(order.maker, WYVERN_TOKEN_PAYMENT_PROXY)
-  )
+  const proxyAddress =
+    getNetwork(signer) === 'rinkeby'
+      ? WYVERN_TOKEN_PAYMENT_PROXY_RINKEBY
+      : WYVERN_TOKEN_PAYMENT_PROXY
+  const approvedBalance = new BigNumber(await tokenContract.allowance(order.maker, proxyAddress))
   if (approvedBalance.isGreaterThanOrEqualTo(minimumAmount)) {
     return new BigNumber(0)
   }
   return new BigNumber(
     await safeGasEstimation(
       tokenContract.estimateGas.approve,
-      [WYVERN_TOKEN_PAYMENT_PROXY, ethers.constants.MaxInt256],
+      [proxyAddress, ethers.constants.MaxInt256],
       { gasLimit: 90_000 }
     )
   )
