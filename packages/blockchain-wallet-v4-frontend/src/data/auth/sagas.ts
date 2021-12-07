@@ -715,13 +715,13 @@ export default ({ api, coreSagas, networks }) => {
 
   const authorizeVerifyDevice = function* (action) {
     const confirmDevice = action.payload
-    const { wallet } = yield select(selectors.auth.getMagicLinkData)
+    const { session_id } = yield select(selectors.auth.getMagicLinkData)
     const magicLinkDataEncoded = yield select(selectors.auth.getMagicLinkDataEncoded)
     try {
       yield put(actions.auth.authorizeVerifyDeviceLoading())
       const data = yield call(
         api.authorizeVerifyDevice,
-        wallet.session_id,
+        session_id,
         magicLinkDataEncoded,
         confirmDevice
       )

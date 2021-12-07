@@ -45,10 +45,6 @@ export const parseMagicLink = function* () {
         productAuth = ProductAuthOptions.WALLET
       }
     }
-    if (session !== session_id && shouldPollForMagicLinkData) {
-      yield put(actions.auth.authorizeVerifyDevice())
-      yield put(actions.form.change('login', 'step', LoginSteps.VERIFY_MAGIC_LINK))
-    }
     // THESE ARE THE MERGE AND UPGRADE FLOWS
     //
     if (showMergeAndUpradeFlows) {
@@ -71,12 +67,11 @@ export const parseMagicLink = function* () {
             actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.EXCHANGE_UPGRADE)
           )
         }
+      } else if (unified) {
+        actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.UNIFIED)
       }
     }
     // TODDO: WRAP ABOVE IN FEATURE FLAG
-    if (unified) {
-      actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.UNIFIED)
-    }
 
     // store data in the cache and update form values to be used to submit login
     if (productAuth === ProductAuthOptions.WALLET) {
@@ -105,26 +100,29 @@ export const parseMagicLink = function* () {
       }
     }
     if (productAuth === ProductAuthOptions.EXCHANGE) {
-      // set state with all exchange login information
-      yield put(actions.cache.emailStored(exchangeData?.email))
-      yield put(actions.form.change(LOGIN_FORM, 'email', userEmail))
-      if (walletData) {
-        yield put(actions.form.change(LOGIN_FORM, 'emailToken', walletData?.email_code))
-        yield put(actions.form.change(LOGIN_FORM, 'guid', walletData?.guid))
-      }
-      yield put(actions.auth.setMagicLinkInfo(magicLink))
-      yield put(
-        actions.auth.setProductAuthMetadata({
-          platform: PlatformTypes.WEB,
-          product: ProductAuthOptions.EXCHANGE
-        })
-      )
-      // if the account is unified, they're using wallet to login and retrieve token
-      if (unified) {
-        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
+      if (session !== session_id && shouldPollForMagicLinkData) {
+        // TODO: question for merge, do we need the next line?
+        yield put(actions.auth.authorizeVerifyDevice())
+        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.VERIFY_MAGIC_LINK))
       } else {
+        // set state with all exchange login information
+        yield put(actions.cache.emailStored(exchangeData?.email))
+        yield put(actions.form.change(LOGIN_FORM, 'email', userEmail))
+        if (walletData) {
+          yield put(actions.form.change(LOGIN_FORM, 'emailToken', walletData?.email_code))
+          yield put(actions.form.change(LOGIN_FORM, 'guid', walletData?.guid))
+        }
+        yield put(actions.auth.setMagicLinkInfo(magicLink))
+        yield put(
+          actions.auth.setProductAuthMetadata({
+            platform: PlatformTypes.WEB,
+            product: ProductAuthOptions.EXCHANGE
+          })
+        )
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE))
       }
+      // if the account is unified, they're using wallet to login and retrieve token
+      // TODO** need to fix logic here, not sure what to do with this
     }
     yield put(actions.auth.analyticsMagicLinkParsed())
   } catch (e) {
