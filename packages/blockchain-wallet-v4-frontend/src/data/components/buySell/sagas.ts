@@ -647,7 +647,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const fetchSDDEligible = function* () {
     try {
       yield put(A.fetchSDDEligibleLoading())
-      yield call(waitForUserData)
       // check if user is already tier 2
       if (!(yield call(isTier2))) {
         // user not tier 2, call for sdd eligibility
