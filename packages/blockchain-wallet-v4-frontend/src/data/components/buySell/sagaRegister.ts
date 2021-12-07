@@ -32,6 +32,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.fetchSDDVerified.type, buySellSagas.fetchSDDVerified)
     yield takeLatest(actions.fetchLimits.type, buySellSagas.fetchLimits)
     yield takeLatest(actions.fetchOrders.type, buySellSagas.fetchBSOrders)
+    yield takeLatest(actions.fetchBSOrders.type, buySellSagas.fetchBSOrders)
     yield takeLatest(actions.fetchPairs.type, buySellSagas.fetchBSPairs)
     yield takeLatest(actions.fetchPaymentAccount.type, buySellSagas.fetchPaymentAccount)
     yield takeLatest(actions.fetchPaymentMethods.type, buySellSagas.fetchPaymentMethods)

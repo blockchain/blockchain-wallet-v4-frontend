@@ -19,7 +19,7 @@ class CryptoSelection extends React.Component<Props> {
       this.props.buySellActions.fetchPairs({ currency: this.props.fiatCurrency })
       this.props.buySellActions.fetchFiatEligible(this.props.fiatCurrency)
       this.props.buySellActions.fetchSDDEligibility()
-      this.props.buySellActions.fetchOrders()
+      this.props.buySellActions.fetchBSOrders()
     }
   }
 
@@ -44,6 +44,7 @@ class CryptoSelection extends React.Component<Props> {
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
       Success: (val) => <Success {...this.props} {...val} />
+      //  <Loading />
     })
   }
 }
