@@ -1154,7 +1154,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const pollBSCard = function* ({ payload }: ReturnType<typeof A.pollCard>) {
     let retryAttempts = 0
-    const maxRetryAttempts = 20
+    const maxRetryAttempts = 40
 
     let card: ReturnType<typeof api.getBSCard> = yield call(api.getBSCard, payload)
     let step = S.getStep(yield select())
@@ -1173,7 +1173,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       ) {
         yield cancel()
       }
-      yield delay(3000)
+      yield delay(1500)
     }
 
     switch (card.state) {
@@ -1198,7 +1198,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const pollBSOrder = function* ({ payload }: ReturnType<typeof A.pollOrder>) {
     let retryAttempts = 0
-    const maxRetryAttempts = 20
+    const maxRetryAttempts = 40
 
     let order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, payload)
     let step = S.getStep(yield select())
@@ -1214,7 +1214,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       ) {
         yield cancel()
       }
-      yield delay(3000)
+      yield delay(1500)
     }
 
     yield put(A.setStep({ order, step: 'ORDER_SUMMARY' }))
