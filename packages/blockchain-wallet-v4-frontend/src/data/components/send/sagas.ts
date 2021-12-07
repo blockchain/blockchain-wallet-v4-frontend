@@ -5,12 +5,12 @@ import { call, CallEffect, delay, put, select } from 'redux-saga/effects'
 import { APIType } from '@core/network/api'
 import {
   BeneficiaryType,
+  BSOrderType,
+  BSPaymentTypes,
   CoinType,
   PaymentType,
   PaymentValue,
   RemoteDataType,
-  BSOrderType,
-  BSPaymentTypes,
   WalletFiatType
 } from '@core/types'
 import { errorHandler } from '@core/utils'
@@ -31,7 +31,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const buildAndPublishPayment = function* (
     coin: string,
     payment: PaymentType,
-    destination: string
+    destination: string,
+    hotwalletAddress?: string
   ): Generator<PaymentType | CallEffect, PaymentValue, any> {
     // eslint-disable-next-line no-useless-catch
     try {
@@ -45,6 +46,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         payment = yield payment.memoType('text')
         // @ts-ignore
         payment = yield payment.setDestinationAccountExists(true)
+      } else if (hotwalletAddress && payment.coin === 'ETH') {
+        // @ts-ignore
+        payment = yield payment.data(destination)
+        payment = yield payment.to(hotwalletAddress)
       } else {
         payment = yield payment.to(destination, 'CUSTODIAL')
       }

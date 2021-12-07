@@ -7,12 +7,13 @@ import { Exchange, Remote } from '@core'
 import { APIType } from '@core/network/api'
 import {
   AccountTypes,
+  BSBalancesType,
   CoinType,
   InterestAfterTransactionType,
   PaymentValue,
+  Product,
   RatesType,
-  RemoteDataType,
-  BSBalancesType
+  RemoteDataType
 } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
@@ -434,8 +435,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           throw new Error('Missing deposit address')
         }
 
+        const hotWalletAddress = selectors.core.walletOptions
+          .getHotWalletAddresses(yield select(), Product.REWARDS)
+          .getOrFail('No extra data') as String
+        if (typeof hotWalletAddress !== 'string') {
+          throw new Error('Hot Wallet Address not located.')
+        }
         // build and publish payment to network
-        const transaction = yield call(buildAndPublishPayment, coin, payment, depositAddress)
+        const transaction = yield call(
+          buildAndPublishPayment,
+          coin,
+          payment,
+          depositAddress,
+          hotWalletAddress
+        )
         // notify backend of incoming non-custodial deposit
         yield put(
           actions.components.send.notifyNonCustodialToCustodialTransfer(
@@ -544,8 +557,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       )
       yield put(A.fetchShowInterestCardAfterTransactionSuccess({ afterTransaction }))
     } catch (e) {
-      const error = errorHandler(e)
-      yield put(A.fetchShowInterestCardAfterTransactionFailure({ error }))
+      // TODO: Make this error not break the order summary page. This is failing with the new card providers
+      // const error = errorHandler(e)
+      // yield put(A.fetchShowInterestCardAfterTransactionFailure({ error }))
+      yield put(
+        A.fetchShowInterestCardAfterTransactionSuccess({
+          // @ts-ignore
+          afterTransaction: {
+            show: false
+          }
+        })
+      )
     }
   }
 

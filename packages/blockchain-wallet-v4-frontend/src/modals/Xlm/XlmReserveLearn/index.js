@@ -1,12 +1,11 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 import { bindActionCreators, compose } from 'redux'
 import styled from 'styled-components'
 
 import { Icon, Link, Modal, ModalBody, ModalHeader, Text } from 'blockchain-info-components'
-import { actions, model } from 'data'
+import { actions } from 'data'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 import { getData } from './selectors'
@@ -163,14 +162,6 @@ class XlmReserveLearn extends React.PureComponent {
       </Modal>
     )
   }
-}
-
-XlmReserveLearn.propTypes = {
-  currency: PropTypes.string.isRequired,
-  effectiveBalanceXlm: PropTypes.string.isRequired,
-  fee: PropTypes.string.isRequired,
-  rates: PropTypes.object.isRequired,
-  reserveXlm: PropTypes.string.isRequired
 }
 
 const mapDispatchToProps = (dispatch) => ({

@@ -99,12 +99,12 @@ export type BtcAccountType = {
   xpub: string
 }
 
-export enum WalletAcountEnum {
+export enum WalletAccountEnum {
   CUSTODIAL = 'CUSTODIAL',
   NON_CUSTODIAL = 'NON_CUSTODIAL'
 }
 
-export type WalletAcountType = keyof typeof WalletAcountEnum
+export type WalletAccountType = keyof typeof WalletAccountEnum
 
 export type HDDerivationType = 'bech32' | 'legacy'
 

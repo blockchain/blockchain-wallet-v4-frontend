@@ -13,7 +13,8 @@ export const minMaxAmount = (
   limits: { max: string; min: string },
   orderType: BrokerageOrderType,
   fiatCurrency: FiatType,
-  amount: string
+  amount: string,
+  bankText: string
 ) => {
   const max = convertBaseToStandard('FIAT', limits.max)
   const min = convertBaseToStandard('FIAT', limits.min)
@@ -26,8 +27,13 @@ export const minMaxAmount = (
     value: min
   })
 
+  const formattedAmount = fiatToString({
+    unit: fiatCurrency,
+    value: amount
+  })
+
   // This handles the default case where we show "0" in the input field but
-  // it's just a placeholder and amount actuall equals '' in redux
+  // it's just a placeholder and amount actual equals '' in redux
   if (amount === '') return undefined
   // The min max logic
   if (Number(amount) > Number(max)) {
@@ -66,6 +72,25 @@ export const minMaxAmount = (
                 values={{
                   amount: formattedMax,
                   currency: fiatCurrency
+                }}
+              />
+            </Text>
+          )}
+
+          {orderType === BrokerageOrderType.DEPOSIT && (
+            <Text
+              size='14px'
+              color='textBlack'
+              weight={500}
+              style={{ marginTop: '24px', textAlign: 'center' }}
+            >
+              <FormattedMessage
+                id='modals.brokerage.deposit_limit'
+                defaultMessage='Looks like your {bank} only allows deposits up to {maxAmount} at at time. To deposit {enterAmount}, split your deposit into multiple transactions.'
+                values={{
+                  bank: bankText,
+                  enterAmount: formattedAmount,
+                  maxAmount: formattedMax
                 }}
               />
             </Text>

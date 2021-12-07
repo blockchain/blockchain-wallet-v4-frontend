@@ -510,7 +510,7 @@ type MessagesType = {
   'copy.swap_verify_id': 'Verify your identity to increase how much you can Swap everyday.'
   'copy.view_prices': 'View Prices'
   'copy.swap_your_crypto': 'Swap Your Crypto'
-  'copy.swap_minimum_amount': 'To avoid uncesssary fees and network slipage, the minimum amount for this pair is {amount}.'
+  'copy.swap_minimum_amount': 'To avoid unnecessary fees and network slippage, the minimum amount for this pair is {amount}.'
   'copy.swap_maximum_amount': 'The maximum amount of {coin} you can swap from this wallet is {amount}.'
   'copy.viewTransaction': 'View Transaction'
   'copy.viewTransactions': 'View Transactions'
@@ -1180,7 +1180,6 @@ type MessagesType = {
   'modals.mobilenumberverify.title': 'Verify Mobile Number'
   'modals.mobilenumberverify.verify': 'Verify'
   'modals.onboarding.linkfromexchange.failure': 'We could not connect your Wallet to Exchange. Please go back to Exchange and try again.'
-  'modals.onboarding.linkfromexchange.failureheader': 'Connection Error'
   'modals.onboarding.linkfromexchange.need_to_verify': "You'll need to verify"
   'modals.onboarding.linkfromexchange.no_email': 'You do not have an email associated with this wallet. Please to Security Center to set your email.'
   'modals.onboarding.linkfromexchange.send_email': 'Resend Email'
@@ -1256,23 +1255,18 @@ type MessagesType = {
   'modals.recoveryphrase.success': 'Success!'
   'modals.recoveryphrase.success.body': 'Your Wallet is now backed up.'
   'modals.recoveryphrase.success.close': 'Close'
-
   'modals.recurringbuys.notification.title': 'Recurring buys'
   'modals.recurringbuys.notification.button': 'Setup recurring buy'
   'modals.recurringbuys.disabled.paymentmethod': 'Recurring buys are not available for this payment method yet.'
   'modals.recurringbuys.delete_confirmation_title': 'Are you sure you want to remove this Recurring Buy?'
   'modals.recurringbuys.notification.page_1.title': 'Instead of timing the market, many smart investors use'
   'modals.recurringbuys.notification.page_1.description': 'Dollar cost averaging'
-
   'modals.recurringbuys.notification.page_2.title': 'The strategy is pretty simple'
   'modals.recurringbuys.notification.page_2.description': 'Invest the same amount every week'
-
   'modals.recurringbuys.notification.page_3.title': 'When the price goes down'
   'modals.recurringbuys.notification.page_3.description': 'You’ll buy more crypto'
-
   'modals.recurringbuys.notification.page_4.title': 'When the price goes up'
   'modals.recurringbuys.notification.page_4.description': 'You’ll buy less'
-
   'modals.recurringbuys.notification.page_5.title': 'But does it work?'
   'modals.recurringbuys.notification.page_5.description': 'Over the past 5 years, buying Bitcoin every week performed better than timing the market'
   'modals.recurringbuys.notification.page_5.disclaimer': '82% of the time.'
@@ -1281,27 +1275,21 @@ type MessagesType = {
   'modals.recurringbuys.timeframe.every_week': 'Every week'
   'modals.recurringbuys.timeframe.2_weeks': 'Every 2 weeks'
   'modals.recurringbuys.timeframe.every_month': 'Every month'
-
   'modals.recurringbuys.period_fetch_error': 'There was an error fetching recurring buy frequency options. Please try again.'
   'modals.recurringbuys.time_options.one_time': 'One Time'
   'modals.recurringbuys.time_options.daily': 'Daily'
   'modals.recurringbuys.time_options.weekly': 'Weekly'
   'modals.recurringbuys.time_options.bi_weekly': 'Twice a Month'
   'modals.recurringbuys.time_options.monthly': 'Monthly'
-
   'modals.recurringbuys.frequency_disabled': '{period} recurring buys are unavailable for your payment method at this time.'
-
   'modals.recurringbuys.get_started.title': 'Set Up a Recurring Buy'
   'modals.recurringbuys.get_started.description': 'Buy {amount} of {outputCurrency} every day, week or month with a Recurring Buy. No need to ever time the market.'
   'modals.recurringbuys.get_started.buy_amount_of_currency': 'Buy {amount} of {currency}'
   'modals.recurringbuys.get_started.get_started': 'Get Started'
   'modals.recurringbuys.get_started.maybe_later': 'Maybe Later'
-
   'modals.recurringbuys.get_started.get_started': 'Get Started'
   'modals.recurringbuys.get_started.maybe_later': 'Maybe Later'
-
   'modals.recurringbuys.available_methods_tool_tip': 'Recurring Buys are only available for these methods at this time: {methods}'
-
   'modals.recurringbuys.recurring_buy_started': 'Recurring Buy Started!'
   'modals.recurringbuys.select_a_frequency': 'Select a Frequency'
   'modals.recurringbuys.we_will_buy': 'We will buy {fiatAmount} of {coin} {period} at that moment’s market price. Cancel this recurring buy at anytime.'
@@ -1388,7 +1376,7 @@ type MessagesType = {
   'modals.sendBch.firststep.share_tooltip': 'Add a note to remind yourself what this transaction relates to. This note will be private and only seen by you.'
   'modals.sendBch.firststep.towallet': 'To'
   'modals.send.banner.title': 'Uprade to Gold. Send More Crypto.'
-  'modals.send.banner.description': 'Verify your ID now and unlock Gold level trading. Send up to {dayCurrencySymbol}{dayAmount} a day.'
+  'modals.send.banner.description': 'Verify your ID now and unlock Gold level trading. Send up to {dayCurrencySymbol}{dayAmount} a day. Now, your limit is {currency}{limit} a {period}.'
   'modals.send.banner.get_started': 'Get Started'
   'modals.send.over_your_limit_and_period': 'Over your limit! Send up to {currency}{amount}. Now, your limit is {currency}{limit} a {period}.'
   'modals.sendbch.amountnotzeromessage': 'Invalid amount'
@@ -1645,6 +1633,11 @@ type MessagesType = {
   'modals.simplebuy.linkbank.description': 'Link your bank and instantly buy crypto at anytime.'
   'modals.simplebuy.card_limit': '{card} Limit'
   'modals.simplebuy.card_ending_in': 'Card Ending in {lastFour}'
+
+  'modals.simplebuy.select_trading_currency.title': 'Select a Trading Currency.'
+  'modals.simplebuy.select_trading_currency.description': 'Right now, {currency} is not supported for buying crypto. You can add a bank account or card from the list of available currencies below.'
+  'modals.simplebuy.select_trading_currency.disclaimer': 'Additional bank fees may apply. Your bank may add fee and Exchange Rates to each transaction.'
+
   'modals.simplebuy.card_expire': 'Exp: {month}/{year}'
   'modals.simplebuy.goldupgrade.title1': 'Upgrade Your Profile.'
   'modals.simplebuy.goldupgrade.title2': 'Buy & Sell More Crypto.'
@@ -1748,7 +1741,7 @@ type MessagesType = {
   'modals.simplebuy.underreview': 'ID Verification Pending'
   'modals.simplebuy.unknown': 'Unknown Status'
   'modals.simplebuy.unsupported-subcontent': "Currently we don't support buying crypto with"
-  'modals.simplebuy.unsupported-subcontent-1': "Well this is awkward. We don't support buying crypto yet for"
+  'modals.simplebuy.unsupported-subcontent-1': "Well this is awkward. We don't support buying crypto yet for your region."
   'modals.simplebuy.unsupported-subcontent-2': "We'll send you an update when we do."
   'modals.simplebuy.unsupported-title': 'Buy Crypto Coming Soon for'
   'modals.simplebuy.waitingondepo': 'Waiting on Funds'
@@ -1819,7 +1812,6 @@ type MessagesType = {
   'modals.tradinglimits.upgrade.tier.silver.title': 'Upgrade to Gold Limits'
   'modals.tradinglimits.upgrade.tier.silver.description': 'Verify your ID and link your bank to Buy & Sell Crypto straight from your wallet.'
   'modals.tradinglimits.upgrade.silver_limits': 'Silver Limits'
-  'modals.tradinglimits.upgrade.include_silver_limits': 'Includes Silver Features'
   'modals.tradinglimits.upgrade.gold_limits': 'Gold Limits'
   'modals.tradinglimits.upgrade.unlock_tier_zero': 'Unlock new trading features in your Blockchain.com Wallet by verifying your ID and link a bank or card.'
   'modals.tradinglimits.receive_crypto': 'Receive Crypto'

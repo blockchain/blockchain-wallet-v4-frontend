@@ -19,6 +19,7 @@ import {
   cancelNftListing,
   fulfillNftOrder,
   fulfillNftSellOrder,
+  fulfillTransfer,
   getNftBuyOrders,
   getNftSellOrder
 } from '@core/redux/payment/nfts'
@@ -37,6 +38,23 @@ export const logLocation = 'components/nfts/sagas'
 const taskToPromise = (t) => new Promise((resolve, reject) => t.fork(reject, resolve))
 
 export default ({ api }: { api: APIType }) => {
+  const IS_TESTNET = api.ethProvider.network?.name === 'rinkeby'
+
+  const clearAndRefetchAssets = function* () {
+    yield put(A.resetNftAssets())
+    yield put(A.fetchNftAssets())
+  }
+
+  const clearAndRefetchOrders = function* () {
+    yield put(A.resetNftOrders())
+    yield put(A.fetchNftOrders())
+  }
+
+  const clearAndRefetchOffersMade = function* () {
+    yield put(A.resetNftOffersMade())
+    yield put(A.fetchNftOffersMade())
+  }
+
   const fetchNftAssets = function* () {
     try {
       const assets = S.getNftAssets(yield select())
@@ -61,16 +79,6 @@ export default ({ api }: { api: APIType }) => {
       const error = errorHandler(e)
       yield put(A.fetchNftAssetsFailure(error))
     }
-  }
-
-  const clearAndRefetchAssets = function* () {
-    yield put(A.resetNftAssets())
-    yield put(A.fetchNftAssets())
-  }
-
-  const clearAndRefetchOrders = function* () {
-    yield put(A.resetNftOrders())
-    yield put(A.fetchNftOrders())
   }
 
   const fetchNftCollections = function* (action: ReturnType<typeof A.fetchNftCollections>) {
@@ -100,6 +108,32 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const fetchNftOffersMade = function* () {
+    try {
+      const offers = S.getOffersMade(yield select())
+      if (offers.atBound) return
+      yield put(A.fetchNftOffersMadeLoading())
+      const ethAddrR = selectors.core.kvStore.eth.getDefaultAddress(yield select())
+      const ethAddr = ethAddrR.getOrFail('No ETH address.')
+      const { asset_events }: ReturnType<typeof api.getOffersMade> = yield call(
+        api.getOffersMade,
+        ethAddr,
+        offers.page
+      )
+
+      if (asset_events.length < NFT_ORDER_PAGE_LIMIT) {
+        yield put(A.setOffersMadeBounds({ atBound: true }))
+      } else {
+        yield put(A.setOffersMadeData({ page: offers.page + 1 }))
+      }
+
+      yield put(A.fetchNftOffersMadeSuccess(asset_events))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchNftOffersMadeFailure(error))
+    }
+  }
+
   const fetchNftOrders = function* () {
     try {
       const marketplace = S.getMarketplace(yield select())
@@ -115,6 +149,16 @@ export default ({ api }: { api: APIType }) => {
       )
       // map events to token_ids
       const token_ids: string[] = asset_events.map((e) => e.asset?.token_id).filter(Boolean)
+      // how many token_ids are the same?
+      const non_unique_token_ids_map = {}
+      let non_unique_token_ids = 0
+      for (let i = 0; i < token_ids.length; i++) {
+        if (non_unique_token_ids_map[token_ids[i]]) {
+          non_unique_token_ids += 1
+        } else {
+          non_unique_token_ids_map[token_ids[i]] = 1
+        }
+      }
       // get previously queried token_ids
       const { token_ids_queried } = marketplace
       // uniquify old and new token_ids
@@ -130,7 +174,7 @@ export default ({ api }: { api: APIType }) => {
         new_unique_token_ids.map((val) => `&token_ids=${val}`).join('')
       )
 
-      const nextPage = marketplace.page + 1
+      const nextPage = marketplace.page + 1 + non_unique_token_ids
       // when there are no more unique token_ids, we are done
       const atBound = new_unique_token_ids.every((id) => token_ids_queried.includes(id))
       // update marketplace state
@@ -189,6 +233,7 @@ export default ({ api }: { api: APIType }) => {
           action.payload.order,
           signer,
           action.payload.offer ? expirationTime : undefined,
+          IS_TESTNET ? 'rinkeby' : 'mainnet',
           action.payload.offer,
           action.payload.paymentTokenAddress
         )
@@ -214,7 +259,8 @@ export default ({ api }: { api: APIType }) => {
           getNftSellOrder,
           action.payload.asset,
           signer,
-          action.payload.startPrice
+          action.payload.startPrice,
+          IS_TESTNET ? 'rinkeby' : 'mainnet'
         )
         fees = yield call(
           calculateGasFees,
@@ -223,6 +269,18 @@ export default ({ api }: { api: APIType }) => {
           undefined,
           undefined,
           order
+        )
+        yield put(A.fetchFeesSuccess(fees))
+      } else if (action.payload.operation === GasCalculationOperations.Transfer) {
+        fees = yield call(
+          calculateGasFees,
+          GasCalculationOperations.Transfer,
+          signer,
+          undefined,
+          undefined,
+          undefined,
+          action.payload.asset,
+          action.payload.to
         )
         yield put(A.fetchFeesSuccess(fees))
       }
@@ -251,6 +309,7 @@ export default ({ api }: { api: APIType }) => {
         action.payload.order,
         signer,
         expirationTime,
+        IS_TESTNET ? 'rinkeby' : 'mainnet',
         amount,
         coinfig.type.erc20Address
       )
@@ -268,7 +327,8 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.createOfferSuccess(order))
       yield put(A.resetNftOrders())
       yield put(A.setMarketplaceData({ atBound: false, page: 1, token_ids_queried: [] }))
-      yield put(A.fetchNftOrders())
+      yield put(A.clearAndRefetchOffersMade())
+      yield put(A.clearAndRefetchOrders())
       yield put(actions.alerts.displaySuccess(`Successfully created offer!`))
     } catch (e) {
       const error = errorHandler(e)
@@ -285,7 +345,9 @@ export default ({ api }: { api: APIType }) => {
       const { buy, sell }: Await<ReturnType<typeof getNftBuyOrders>> = yield call(
         getNftBuyOrders,
         action.payload.order,
-        signer
+        signer,
+        undefined,
+        IS_TESTNET ? 'rinkeby' : 'mainnet'
       )
       const order: Order = yield call(fulfillNftOrder, buy, sell, signer, action.payload.gasData)
       yield put(actions.modals.closeAllModals())
@@ -310,7 +372,8 @@ export default ({ api }: { api: APIType }) => {
         getNftSellOrder,
         action.payload.asset,
         signer,
-        action.payload.startPrice
+        action.payload.startPrice,
+        IS_TESTNET ? 'rinkeby' : 'mainnet'
       )
       const order = yield call(fulfillNftSellOrder, signedOrder, signer, action.payload.gasData)
       yield call(api.postNftOrder, order)
@@ -321,6 +384,27 @@ export default ({ api }: { api: APIType }) => {
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.createSellOrderFailure(error))
+      yield put(actions.logs.logErrorMessage(error))
+      yield put(actions.alerts.displayError(error))
+    }
+  }
+
+  const createTransfer = function* (action: ReturnType<typeof A.createTransfer>) {
+    try {
+      yield put(A.createTransferLoading())
+      const signer = yield call(getEthSigner)
+      const order = yield call(fulfillTransfer, action.payload.asset, signer, action.payload.to, {
+        gasLimit: action.payload.gasData.gasFees.toString(),
+        gasPrice: action.payload.gasData.gasPrice.toString()
+      })
+      yield call(api.postNftOrder, order)
+      yield put(A.clearAndRefetchAssets())
+      yield put(actions.modals.closeAllModals())
+      yield put(actions.alerts.displaySuccess('Transfer successful!'))
+      yield put(A.createTransferSuccess(order))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.createTransferFailure(error))
       yield put(actions.logs.logErrorMessage(error))
       yield put(actions.alerts.displayError(error))
     }
@@ -349,7 +433,8 @@ export default ({ api }: { api: APIType }) => {
       const res: CollectionData = yield call(api.getNftCollectionInfo, action.payload.collection)
       yield put(
         A.setMarketplaceData({
-          collection: res
+          // @ts-ignore
+          collection: IS_TESTNET ? { ...res, collection_data: { ...res } } : res
         })
       )
       yield put(A.fetchNftOrders())
@@ -377,7 +462,8 @@ export default ({ api }: { api: APIType }) => {
           yield put(
             A.setMarketplaceData({
               atBound: false,
-              collection: res,
+              // @ts-ignore
+              collection: IS_TESTNET ? { ...res, collection_data: { ...res } } : res,
               page: 1,
               token_ids_queried: []
             })
@@ -452,13 +538,16 @@ export default ({ api }: { api: APIType }) => {
   return {
     cancelListing,
     clearAndRefetchAssets,
+    clearAndRefetchOffersMade,
     clearAndRefetchOrders,
     createOffer,
     createOrder,
     createSellOrder,
+    createTransfer,
     fetchFees,
     fetchNftAssets,
     fetchNftCollections,
+    fetchNftOffersMade,
     fetchNftOrders,
     formChanged,
     formInitialized,

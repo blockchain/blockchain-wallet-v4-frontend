@@ -4,7 +4,7 @@ import { call, delay, put, race, select, take } from 'redux-saga/effects'
 
 import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
-import { CoinType, PaymentType, PaymentValue, SwapQuoteType } from '@core/types'
+import { CoinType, PaymentType, PaymentValue, Product, SwapQuoteType } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
 import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
@@ -196,7 +196,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const payment = paymentGetOrElse(BASE.coin, paymentR)
       if (onChain) {
         try {
-          yield call(buildAndPublishPayment, payment.coin, payment, order.kind.depositAddress)
+          const hotWalletAddress = selectors.core.walletOptions
+            .getHotWalletAddresses(yield select(), Product.SWAP)
+            .getOrFail('No extra data') as String
+          if (typeof hotWalletAddress !== 'string') {
+            throw new Error('Hot Wallet Address not located.')
+          }
+          yield call(
+            buildAndPublishPayment,
+            payment.coin,
+            payment,
+            order.kind.depositAddress,
+            hotWalletAddress
+          )
           yield call(api.updateSwapOrder, order.id, 'DEPOSIT_SENT')
         } catch (e) {
           yield call(api.updateSwapOrder, order.id, 'CANCEL')

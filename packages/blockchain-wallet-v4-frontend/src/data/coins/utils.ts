@@ -1,4 +1,4 @@
-import { CoinType, InterestBalanceType, BSBalanceType } from '@core/types'
+import { BSBalanceType, CoinType, InterestBalanceType } from '@core/types'
 import { convertStandardToBase } from 'data/components/exchange/services'
 import { SwapAccountType, SwapBaseCounterTypes } from 'data/types'
 

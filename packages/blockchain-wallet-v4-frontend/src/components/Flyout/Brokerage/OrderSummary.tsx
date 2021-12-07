@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import moment from 'moment'
 import styled from 'styled-components'
 
-import { OrderType, BSOrderStateType, BSPaymentTypes } from '@core/types'
+import { BSOrderStateType, BSPaymentTypes, OrderType } from '@core/types'
 import { Button, Icon, Link, Text } from 'blockchain-info-components'
 
 import Container from '../Container'
@@ -289,7 +289,15 @@ export type Props = {
   orderState: BSOrderStateType
   orderType: OrderType
   outputCurrency: string
-  paymentState: 'WAITING_FOR_3DS_RESPONSE' | null
+  paymentState:
+    | 'INITIAL'
+    | 'WAITING_FOR_3DS_RESPONSE'
+    | 'CONFIRMED_3DS'
+    | 'SETTLED'
+    | 'VOIDED'
+    | 'ABANDONED'
+    | 'FAILED'
+    | null
   paymentType: BSPaymentTypes
 }
 

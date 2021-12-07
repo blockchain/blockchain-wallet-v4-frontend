@@ -6,7 +6,7 @@ import styled from 'styled-components'
 
 import Currencies from '@core/exchange/currencies'
 import { fiatToString } from '@core/exchange/utils'
-import { BeneficiaryType, CrossBorderLimits, FiatType, BSPaymentMethodType } from '@core/types'
+import { BeneficiaryType, BSPaymentMethodType, CrossBorderLimits, FiatType } from '@core/types'
 import {
   Box,
   Button,
@@ -16,6 +16,7 @@ import {
   Text,
   TextGroup
 } from 'blockchain-info-components'
+import { DisplayPaymentIcon } from 'components/BuySell'
 import { AmountTextBox } from 'components/Exchange'
 import {
   FlyoutContainer,
@@ -38,7 +39,6 @@ import {
 import { checkCrossBorderLimit, minMaxAmount } from 'components/Flyout/validation'
 import { Form } from 'components/Form'
 import { CheckoutRow } from 'components/Rows'
-import { DisplayPaymentIcon } from 'components/BuySell'
 import { actions } from 'data'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import { BankTransferAccountType, BrokerageOrderType } from 'data/types'
@@ -234,7 +234,7 @@ const debounceValidate = (limits, crossBorderLimits, orderType, fiatCurrency, ba
       dispatch(stopAsyncValidation('brokerageTx', limitError))
     }
 
-    const error = minMaxAmount(limits, orderType, fiatCurrency, newValue)
+    const error = minMaxAmount(limits, orderType, fiatCurrency, newValue, bankText)
     if (error) {
       dispatch(stopAsyncValidation('brokerageTx', error))
     }

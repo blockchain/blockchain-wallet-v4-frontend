@@ -78,9 +78,42 @@ const Success: React.FC<Props> = (props) => {
   const baseCurrency = getBaseCurrency(props.order)
   const days = moment.duration(props.lockTime, 'seconds').days()
 
-  const isTransactionPending =
-    props.order.state === 'PENDING_DEPOSIT' &&
-    props.order.attributes?.everypay?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
+  let isTransactionPending = false
+
+  if (props.order.state === 'PENDING_DEPOSIT') {
+    if (
+      props.order.attributes?.cardProvider?.paymentState === 'WAITING_FOR_3DS_RESPONSE' ||
+      props.order.attributes?.everypay?.paymentState === 'WAITING_FOR_3DS_RESPONSE'
+    ) {
+      isTransactionPending = true
+    }
+  }
+
+  const completePayment = () => {
+    if (
+      props.order.attributes?.cardProvider?.cardAcquirerName === 'EVERYPAY' ||
+      props.order.attributes?.everypay
+    ) {
+      props.buySellActions.setStep({
+        order: props.order,
+        step: '3DS_HANDLER_EVERYPAY'
+      })
+    }
+
+    if (props.order.attributes?.cardProvider?.cardAcquirerName === 'STRIPE') {
+      props.buySellActions.setStep({
+        order: props.order,
+        step: '3DS_HANDLER_STRIPE'
+      })
+    }
+
+    if (props.order.attributes?.cardProvider?.cardAcquirerName === 'CHECKOUTDOTCOM') {
+      props.buySellActions.setStep({
+        order: props.order,
+        step: '3DS_HANDLER_CHECKOUTDOTCOM'
+      })
+    }
+  }
 
   const handleCancel = () => {
     props.buySellActions.cancelOrder(props.order)
@@ -184,12 +217,7 @@ const Success: React.FC<Props> = (props) => {
                 size='16px'
                 height='48px'
                 nature='primary'
-                onClick={() =>
-                  props.buySellActions.setStep({
-                    order: props.order,
-                    step: '3DS_HANDLER'
-                  })
-                }
+                onClick={completePayment}
                 style={{ marginBottom: '16px' }}
               >
                 <FormattedMessage

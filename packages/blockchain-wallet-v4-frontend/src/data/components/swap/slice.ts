@@ -5,7 +5,7 @@ import Remote from '@core/remote'
 import {
   CoinType,
   CrossBorderLimits,
-  CrossBorderLimitsPyload,
+  CrossBorderLimitsPayload,
   PaymentValue,
   SwapOrderType,
   SwapQuoteType,
@@ -46,7 +46,7 @@ const swapSlice = createSlice({
     createOrder: () => {},
 
     // cross border limits
-    fetchCrossBorderLimits: (state, action: PayloadAction<CrossBorderLimitsPyload>) => {},
+    fetchCrossBorderLimits: (state, action: PayloadAction<CrossBorderLimitsPayload>) => {},
     fetchCrossBorderLimitsFailure: (state, action: PayloadAction<string>) => {
       state.crossBorderLimits = Remote.Failure(action.payload)
     },

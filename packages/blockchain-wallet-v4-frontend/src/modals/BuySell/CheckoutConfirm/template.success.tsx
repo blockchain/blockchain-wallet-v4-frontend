@@ -6,7 +6,7 @@ import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
-import { FiatType, OrderType, BSPaymentTypes } from '@core/types'
+import { BSPaymentTypes, FiatType, OrderType } from '@core/types'
 import {
   Button,
   CheckBoxInput,
@@ -20,6 +20,7 @@ import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row } from 'components/Flyout'
 import { getPeriodSubTitleText, getPeriodTitleText } from 'components/Flyout/model'
 import { Form } from 'components/Form'
+import { model } from 'data'
 import {
   getBaseAmount,
   getBaseCurrency,
@@ -37,6 +38,8 @@ import {
   getPaymentMethodDetails
 } from '../model'
 import { Props as OwnProps, SuccessStateType } from '.'
+
+const { FORM_BS_CHECKOUT_CONFIRM } = model.components.buySell
 
 const CustomForm = styled(Form)`
   height: 100%;
@@ -458,4 +461,4 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
 
 type Props = OwnProps & SuccessStateType
 
-export default reduxForm<{ form: string }, Props>({ form: 'sbCheckoutConfirm' })(Success)
+export default reduxForm<{ form: string }, Props>({ form: FORM_BS_CHECKOUT_CONFIRM })(Success)

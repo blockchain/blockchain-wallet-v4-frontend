@@ -6,7 +6,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
-import { ExtractSuccess, FiatType, RemoteDataType, BSOrderType } from '@core/types'
+import { BSOrderType, ExtractSuccess, FiatType, RemoteDataType } from '@core/types'
 import { Button, Text } from 'blockchain-info-components'
 import { actions } from 'data'
 import {
@@ -119,7 +119,7 @@ class BuySellListItem extends PureComponent<Props, State> {
                 onClick={(e) => {
                   e.preventDefault()
                   e.stopPropagation()
-                  return this.showModal(order)
+                  return this.handleToggle()
                 }}
               >
                 <FormattedMessage

@@ -13,7 +13,9 @@ import { getData } from './selectors'
 
 const DepositMethods = (props: Props) => {
   useEffect(() => {
-    props.withdrawActions.fetchWithdrawalLock(props.tradingCurrencies?.defaultWalletCurrency)
+    props.withdrawActions.fetchWithdrawalLock({
+      currency: props.tradingCurrencies?.defaultWalletCurrency
+    })
   }, [props.tradingCurrencies?.defaultWalletCurrency])
 
   return props.data.cata({

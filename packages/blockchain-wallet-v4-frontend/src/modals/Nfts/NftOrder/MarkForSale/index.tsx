@@ -153,7 +153,7 @@ const MarkForSale: React.FC<Props> = (props) => {
             <StickyCTA>
               <SellFees {...props} asset={val} />
               {props.orderFlow.fees.cata({
-                Failure: (e) => (
+                Failure: () => (
                   <Button jumbo nature='sent' fullwidth data-e2e='sellNft' disabled>
                     <FormattedMessage id='copy.mark_for_sale' defaultMessage='Mark for Sale' />
                   </Button>

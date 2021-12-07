@@ -56,7 +56,7 @@ const MobileAuthSideWrapper = styled(Wrapper)`
   position: relative;
   overflow: visible;
   max-width: 274px;
-  height: 95%;
+  height: 96%;
   border-radius: 0 8px 8px 0;
   background-color: ${(props) => props.theme.grey000};
   z-index: 0;

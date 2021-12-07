@@ -215,9 +215,10 @@ export default ({
       url: nabuUrl
     })
 
-  const getBSCards = (): Array<BSCardType> =>
+  const getBSCards = (useNewPaymentProviders: boolean): Array<BSCardType> =>
     authorizedGet({
-      endPoint: '/payments/cards',
+      endPoint: `/payments/cards?cardProvider=${useNewPaymentProviders}`,
+      ignoreQueryParams: true,
       url: nabuUrl
     })
 
@@ -257,7 +258,7 @@ export default ({
       url: nabuUrl
     })
 
-  const getBSPairs = (currency: keyof FiatCurrenciesType): { pairs: Array<BSPairType> } =>
+  const getBSPairs = (currency?: keyof FiatCurrenciesType): { pairs: Array<BSPairType> } =>
     get({
       data: {
         fiatCurrency: currency

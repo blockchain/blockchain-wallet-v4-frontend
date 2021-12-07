@@ -16,7 +16,7 @@ import Success from './template.success'
 class ConfirmWithdraw extends PureComponent<Props> {
   componentDidMount() {
     if (!Remote.Success.is(this.props.data)) {
-      this.props.withdrawActions.fetchWithdrawalFees()
+      this.props.withdrawActions.fetchWithdrawalFees({})
     }
   }
 

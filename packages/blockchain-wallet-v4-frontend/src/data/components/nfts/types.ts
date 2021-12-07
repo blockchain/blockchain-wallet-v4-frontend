@@ -1,9 +1,11 @@
 import {
+  AssetEventsType,
   CollectionData,
   ExplorerGatewayNftCollectionType,
   NftAsset,
   NftAssetsType,
   NftOrdersType,
+  OfferEventsType,
   Order
 } from '@core/network/api/nfts/types'
 import { calculateGasFees } from '@core/redux/payment/nfts'
@@ -13,10 +15,12 @@ export enum NftOrderStepEnum {
   CONFIRM_BUY = 'CONFIRM_BUY',
   MAKE_OFFER = 'MAKE_OFFER',
   MARK_FOR_SALE = 'MARK_FOR_SALE',
-  SHOW_ASSET = 'SHOW_ASSET'
+  SHOW_ASSET = 'SHOW_ASSET',
+  TRANSFER = 'TRANSFER'
 }
 
 export type NftsStateType = {
+  activeTab: 'explore' | 'my-collection' | 'offers'
   assets: {
     atBound: boolean
     collection: string
@@ -36,6 +40,13 @@ export type NftsStateType = {
     page: number
     token_ids_queried: string[]
   }
+  offersMade: {
+    atBound?: boolean
+    isFailure: boolean
+    isLoading: boolean
+    list: OfferEventsType['asset_events']
+    page: number
+  }
   orderFlow: {
     activeOrder: NftOrdersType['orders'][0] | null
     asset: RemoteDataType<string, NftAsset>
@@ -44,4 +55,5 @@ export type NftsStateType = {
     step: NftOrderStepEnum
   }
   sellOrder: RemoteDataType<string, boolean>
+  transfer: RemoteDataType<string, boolean>
 }

@@ -17,7 +17,7 @@ import { Props as OwnProps, SuccessStateType } from '../index'
 import CryptoItem from './CryptoItem'
 import SellEmptyState from './SellEmptyState'
 
-const { BS_CRYPTO_SELECTION } = model.components.buySell
+const { FORM_BS_CHECKOUT, FORM_BS_CRYPTO_SELECTION } = model.components.buySell
 
 const Wrapper = styled.div`
   display: flex;
@@ -121,7 +121,9 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
     })
     // reset form values so order doesn't hold values
     // if user changes wallet/coin
-    this.props.formActions.change('buySellCheckout', 'amount', '')
+
+    props.formActions.change(FORM_BS_CHECKOUT, 'amount', '')
+
   }
 
   // Check to see if any accounts have balance
@@ -286,5 +288,5 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
 
 export default reduxForm<{}, Props>({
   destroyOnUnmount: false,
-  form: BS_CRYPTO_SELECTION
+  form: FORM_BS_CRYPTO_SELECTION
 })(CryptoSelector)

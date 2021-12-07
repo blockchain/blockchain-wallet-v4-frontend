@@ -108,11 +108,20 @@ const YourCollection: React.FC<Props> = (props) => {
                     nature='primary'
                     onClick={() => props.nftsActions.nftOrderFlowOpen({ asset })}
                   >
-                    <FormattedMessage id='copy.sell' defaultMessage='Sell' />
+                    <FormattedMessage
+                      id='copy.sell_or_transfer'
+                      defaultMessage='Sell or Transfer'
+                    />
                   </Button>
                 )}
                 <Link
-                  style={{ display: 'block', marginTop: '8px', textAlign: 'center', width: '100%' }}
+                  style={{
+                    display: 'block',
+                    marginBottom: '8px',
+                    marginTop: '14px',
+                    textAlign: 'center',
+                    width: '100%'
+                  }}
                   size='11px'
                   href={asset.permalink}
                   target='_blank'
@@ -152,7 +161,7 @@ const YourCollection: React.FC<Props> = (props) => {
 }
 
 export type Props = OwnProps & {
-  setActiveTab: React.Dispatch<React.SetStateAction<'explore' | 'my-collection'>>
+  setActiveTab: (tab: 'explore' | 'my-collection' | 'offers') => void
 }
 
 export default YourCollection

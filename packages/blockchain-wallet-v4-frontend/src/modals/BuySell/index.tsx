@@ -14,7 +14,7 @@ import {
   SwapOrderType
 } from '@core/types'
 import Flyout, { duration, FlyoutChild } from 'components/Flyout'
-import { actions, selectors } from 'data'
+import { actions, model, selectors } from 'data'
 import { getCoinFromPair, getFiatFromPair } from 'data/components/buySell/model'
 import { GoalsType } from 'data/goals/types'
 import { RootState } from 'data/rootReducer'
@@ -23,8 +23,7 @@ import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { Loading as StdLoading, LoadingTextEnum } from '../components'
 import { ModalPropsType } from '../types'
-// step templates
-import AddCardCheckout from './AddCardCheckout'
+import AddCardCheckoutDotCom from './AddCardCheckoutDotCom'
 import AddCardEverypay from './AddCardEverypay'
 import Authorize from './Authorize'
 import BankWireDetails from './BankWireDetails'
@@ -41,13 +40,17 @@ import PaymentMethods from './PaymentMethods'
 import PreviewSell from './PreviewSell'
 import getData from './selectors'
 import SellOrderSummary from './SellOrderSummary'
-// step wrappers
 import Loading from './template.loading'
 import Pending from './template.pending'
 import Rejected from './template.rejected'
-import ThreeDSHandler from './ThreeDSHandler'
+import ThreeDSHandlerEverypay from './ThreeDSHandlerEverypay'
+import ThreeDSHandlerStripe from './ThreeDSHandlerStripe'
+import TradingCurrencySelector from './TradingCurrencySelector'
 import UpgradeToGold from './UpgradeToGold'
 import VerifyEmail from './VerifyEmail'
+
+const { FORM_BS_ADD_EVERYPAY_CARD, FORM_BS_CHECKOUT, FORMS_BS_BILLING_ADDRESS } =
+  model.components.buySell
 
 class BuySell extends PureComponent<Props, State> {
   constructor(props) {
@@ -65,9 +68,9 @@ class BuySell extends PureComponent<Props, State> {
   componentWillUnmount() {
     this.props.buySellActions.pollBalances()
     this.props.buySellActions.destroyCheckout()
-    this.props.formActions.destroy('buySellCheckout')
-    this.props.formActions.destroy('ccBillingAddress')
-    this.props.formActions.destroy('addCardEverypayForm')
+    this.props.formActions.destroy(FORM_BS_CHECKOUT)
+    this.props.formActions.destroy(FORMS_BS_BILLING_ADDRESS)
+    this.props.formActions.destroy(FORM_BS_ADD_EVERYPAY_CARD)
   }
 
   backToEnterAmount = () => {
@@ -175,11 +178,9 @@ class BuySell extends PureComponent<Props, State> {
                 <LinkedPaymentAccounts {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
-            {this.props.step === 'ADD_CARD' && (
+            {this.props.step === 'DETERMINE_CARD_PROVIDER' && (
               <FlyoutChild>
-                {
-                  // LOADING
-                }
+                <Loading />
               </FlyoutChild>
             )}
             {this.props.step === 'ADD_CARD_EVERYPAY' && (
@@ -187,19 +188,31 @@ class BuySell extends PureComponent<Props, State> {
                 <AddCardEverypay {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
-            {this.props.step === 'ADD_CARD_CHECKOUT' && (
+            {this.props.step === 'ADD_CARD_CHECKOUTDOTCOM' && (
               <FlyoutChild>
-                <AddCardCheckout {...this.props} handleClose={this.handleClose} />
+                <AddCardCheckoutDotCom {...this.props} handleClose={this.handleClose} />
+              </FlyoutChild>
+            )}
+            {this.props.step === '3DS_HANDLER_EVERYPAY' && (
+              <FlyoutChild>
+                <ThreeDSHandlerEverypay {...this.props} handleClose={this.handleClose} />
+              </FlyoutChild>
+            )}
+            {this.props.step === '3DS_HANDLER_CHECKOUTDOTCOM' && (
+              <FlyoutChild>
+                {
+                  // TODO add 3ds handler checkout
+                }
+              </FlyoutChild>
+            )}
+            {this.props.step === '3DS_HANDLER_STRIPE' && (
+              <FlyoutChild>
+                <ThreeDSHandlerStripe {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
             {this.props.step === 'CC_BILLING_ADDRESS' && (
               <FlyoutChild>
                 <BillingAddress {...this.props} handleClose={this.handleClose} />
-              </FlyoutChild>
-            )}
-            {this.props.step === '3DS_HANDLER' && (
-              <FlyoutChild>
-                <ThreeDSHandler {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
             {this.props.step === 'AUTHORIZE_PAYMENT' && (
@@ -215,6 +228,11 @@ class BuySell extends PureComponent<Props, State> {
             {this.props.step === 'ORDER_SUMMARY' && (
               <FlyoutChild>
                 <OrderSummary {...this.props} handleClose={this.handleClose} />
+              </FlyoutChild>
+            )}
+            {this.props.step === 'TRADING_CURRENCY_SELECTOR' && (
+              <FlyoutChild>
+                <TradingCurrencySelector {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
             {/*
@@ -320,7 +338,9 @@ type LinkStatePropsType =
   | {
       step:
         | 'CRYPTO_SELECTION'
-        | '3DS_HANDLER'
+        | '3DS_HANDLER_EVERYPAY'
+        | '3DS_HANDLER_CHECKOUTDOTCOM'
+        | '3DS_HANDLER_STRIPE'
         | 'CC_BILLING_ADDRESS'
         | 'KYC_REQUIRED'
         | 'UPGRADE_TO_GOLD'
@@ -356,7 +376,10 @@ type LinkStatePropsType =
       step: 'LINK_BANK_STATUS'
     }
   | {
-      step: 'ADD_CARD'
+      step: 'DETERMINE_CARD_PROVIDER'
+    }
+  | {
+      step: 'TRADING_CURRENCY_SELECTOR'
     }
   | {
       cardId?: string
@@ -368,7 +391,7 @@ type LinkStatePropsType =
       cardId?: string
       cryptoCurrency?: CoinType
       pair: BSPairType
-      step: 'ADD_CARD_CHECKOUT'
+      step: 'ADD_CARD_CHECKOUTDOTCOM'
     }
   | {
       goals: Array<{ data: any; id: string; name: GoalsType }>

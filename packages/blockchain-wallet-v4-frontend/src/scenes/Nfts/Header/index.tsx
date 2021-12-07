@@ -60,6 +60,9 @@ const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = ({
           >
             My Collection
           </TabMenuItem>
+          <TabMenuItem onClick={() => setActiveTab('offers')} selected={activeTab === 'offers'}>
+            Offers
+          </TabMenuItem>
         </TabMenu>
       </TabsContainer>
       <StyledForm onSubmit={handleSubmit}>
@@ -71,26 +74,14 @@ const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = ({
         <Button disabled={rest.submitting} data-e2e='searchNfts' type='submit' nature='primary'>
           <FormattedMessage id='buttons.search' defaultMessage='Search' />
         </Button>
-        <Icon
-          role='button'
-          size='24px'
-          cursor
-          name='refresh'
-          color='blue600'
-          onClick={() =>
-            activeTab === 'explore'
-              ? nftsActions.clearAndRefetchOrders()
-              : nftsActions.clearAndRefetchAssets()
-          }
-        />
       </StyledForm>
     </Wrapper>
   )
 }
 
 type Props = OwnProps & {
-  activeTab: 'explore' | 'my-collection'
-  setActiveTab: React.Dispatch<React.SetStateAction<'explore' | 'my-collection'>>
+  activeTab: 'explore' | 'my-collection' | 'offers'
+  setActiveTab: (tab: 'explore' | 'my-collection' | 'offers') => void
 }
 
 export default reduxForm<{}, Props>({ form: 'nftSearch' })(NftHeader)

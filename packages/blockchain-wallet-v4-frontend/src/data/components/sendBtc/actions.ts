@@ -2,7 +2,7 @@ import {
   CoinType,
   CrossBorderLimits,
   PaymentValue,
-  WalletAcountType,
+  WalletAccountType,
   WalletFiatType
 } from '@core/types'
 
@@ -73,9 +73,9 @@ export const sendBtcBitPayInvoiceExpired = () => ({
 
 export const sendBtcFetchLimits = (
   inputCurrency: CoinType,
-  fromAccount: WalletAcountType,
+  fromAccount: WalletAccountType,
   outputCurrency: CoinType,
-  toAccount: WalletAcountType,
+  toAccount: WalletAccountType,
   currency?: WalletFiatType
 ) => ({
   payload: {
