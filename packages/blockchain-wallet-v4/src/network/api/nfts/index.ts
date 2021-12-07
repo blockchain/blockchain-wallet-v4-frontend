@@ -69,9 +69,7 @@ export default ({ apiUrl, get, openseaApi, post }) => {
 
   const getNftCollections = (
     sortedBy = '7_day_vol',
-    direction = 'DESC',
-    offset?: number,
-    limit?: number
+    direction = 'DESC'
   ): ExplorerGatewayNftCollectionType[] => {
     return get({
       endPoint: `/nft/collections?sortedBy=${sortedBy}&direction=${direction}`,
@@ -82,6 +80,14 @@ export default ({ apiUrl, get, openseaApi, post }) => {
 
   // TODO
   // const getOffersReceived = () => {}
+
+  const searchNftCollectionInfo = (slug: string): ExplorerGatewayNftCollectionType[] => {
+    return get({
+      endPoint: `/nft/collection/search?query=${slug}`,
+      ignoreQueryParams: true,
+      url: `${apiUrl}/explorer-gateway`
+    })
+  }
 
   const getNftCollectionInfo = (slug: string) => {
     return get({
@@ -138,6 +144,7 @@ export default ({ apiUrl, get, openseaApi, post }) => {
     getNftOrders,
     getNftRecentEvents,
     getOffersMade,
-    postNftOrder
+    postNftOrder,
+    searchNftCollectionInfo
   }
 }

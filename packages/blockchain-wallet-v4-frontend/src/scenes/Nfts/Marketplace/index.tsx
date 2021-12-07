@@ -111,7 +111,7 @@ const Marketplace: React.FC<Props> = (props: Props) => {
               </MarketplaceAsset>
             )
           })
-        ) : props.marketplace.isLoading ? null : (
+        ) : props.marketplace.isLoading || props.marketplace.isFailure ? null : (
           <Text weight={600}>
             <span aria-label='see no evil' role='img'>
               🙈

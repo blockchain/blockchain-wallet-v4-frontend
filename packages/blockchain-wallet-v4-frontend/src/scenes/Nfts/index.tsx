@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import styled from 'styled-components'
@@ -39,6 +39,7 @@ const Nfts: React.FC<Props> = (props) => {
 const mapStateToProps = (state: RootState) => ({
   activeTab: selectors.components.nfts.getNftActiveTab(state),
   assets: selectors.components.nfts.getNftAssets(state),
+  collectionSearch: selectors.components.nfts.getCollectionSearch(state),
   collections: selectors.components.nfts.getNftCollections(state),
   defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse(''),
   formValues: selectors.form.getFormValues('nftMarketplace')(state),
