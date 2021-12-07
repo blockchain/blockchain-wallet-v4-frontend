@@ -64,10 +64,11 @@ export const sign = curry((network = 1, mnemonic, txnData) => {
 
 export const serialize = (network, raw, signature) => {
   const { amount, depositAddress, gasLimit, gasPrice, nonce, to } = raw
+  const gasLimitAdjusted = depositAddress ? gasLimit + 600 : gasLimit
   const txParams = {
     chainId: network,
     ...(depositAddress && { data: depositAddress }),
-    gasLimit: toHex(depositAddress ? gasLimit + 600 : gasLimit),
+    gasLimit: toHex(gasLimitAdjusted),
     gasPrice: toHex(gasPrice),
     nonce: toHex(nonce),
     r: `0x${signature.r}`,
