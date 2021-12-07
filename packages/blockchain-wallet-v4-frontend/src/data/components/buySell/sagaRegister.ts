@@ -31,7 +31,6 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.fetchSDDEligibility.type, buySellSagas.fetchSDDEligible)
     yield takeLatest(actions.fetchSDDVerified.type, buySellSagas.fetchSDDVerified)
     yield takeLatest(actions.fetchLimits.type, buySellSagas.fetchLimits)
-    yield takeLatest(actions.fetchOrders.type, buySellSagas.fetchBSOrders)
     yield takeLatest(actions.fetchPairs.type, buySellSagas.fetchBSPairs)
     yield takeLatest(actions.fetchPaymentAccount.type, buySellSagas.fetchPaymentAccount)
     yield takeLatest(actions.fetchPaymentMethods.type, buySellSagas.fetchPaymentMethods)
@@ -63,6 +62,13 @@ export default ({ api, coreSagas, networks }) => {
     )
     // Fetch balances and orders when step changes to order summary
     yield takeLatest(actions.setStep.type, buySellSagas.setStepChange)
+
+    // TODO: there are two sagas running on actions.fetchOrders.type that is extremely expensive
+    // we created a new temp lightweight action to fetch just the sb orders.
+    // in future we need to decouple these so we can get just custodial or just non-custodial txs/orders
+    yield takeLatest(actions.fetchBSOrders.type, buySellSagas.fetchBSOrders)
+
+    yield takeLatest(actions.fetchOrders.type, buySellSagas.fetchBSOrders)
     // Refresh coin tx lists
     yield takeLatest(actions.fetchOrders.type, function* () {
       yield call(waitForUserData)

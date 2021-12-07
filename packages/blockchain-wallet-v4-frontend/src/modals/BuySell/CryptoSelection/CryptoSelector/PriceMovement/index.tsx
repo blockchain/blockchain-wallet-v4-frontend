@@ -1,5 +1,6 @@
-import React, { PureComponent } from 'react'
+import React, { memo, useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { equals } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled, { DefaultTheme } from 'styled-components'
 
@@ -11,7 +12,7 @@ import { RootState } from 'data/rootReducer'
 
 import { getData } from './selectors'
 
-const Container = styled.span`
+const Container = styled.div`
   margin-left: 4px;
 `
 const Change = styled.span<{ color: keyof DefaultTheme }>`
@@ -41,18 +42,18 @@ const getColorFromMovement = (movement: PriceMovementDirType) => {
   }
 }
 
-class PriceMovement extends PureComponent<Props, State> {
-  componentDidMount() {
-    if (!Remote.Success.is(this.props.data)) {
-      const { coin } = this.props
-      this.props.miscActions.fetchPriceChange(coin, this.props.fiat || 'EUR', TimeRange.DAY)
-    }
-  }
+const PriceMovement = memo(
+  (props: Props) => {
+    useEffect(() => {
+      const { coin, data, fiat, miscActions } = props
+      if (!Remote.Success.is(data)) {
+        miscActions.fetchPriceChange(coin, fiat || 'EUR', TimeRange.DAY)
+      }
+    }, [props])
 
-  render() {
     return (
       <Container>
-        {this.props.data.cata({
+        {props.data.cata({
           Failure: () => null,
           Loading: () => <SkeletonRectangle height='12px' width='40px' />,
           NotAsked: () => null,
@@ -65,8 +66,9 @@ class PriceMovement extends PureComponent<Props, State> {
         })}
       </Container>
     )
-  }
-}
+  },
+  (prevProps, nextProps) => equals(prevProps, nextProps)
+)
 
 const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   data: getData(state, ownProps)
@@ -84,6 +86,5 @@ export type OwnProps = {
 }
 
 type Props = OwnProps & ConnectedProps<typeof connector>
-type State = {}
 
 export default connector(PriceMovement)
