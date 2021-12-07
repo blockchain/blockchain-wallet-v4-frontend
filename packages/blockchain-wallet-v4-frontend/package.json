@@ -127,6 +127,7 @@
     "ramda": "0.26.1",
     "react": "16.14.0",
     "react-animations": "1.0.0",
+    "react-circular-progressbar": "2.0.4",
     "react-copy-to-clipboard": "5.0.3",
     "react-csv": "2.0.3",
     "react-dom": "16.14.0",

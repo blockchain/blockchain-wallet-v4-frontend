@@ -1,15 +1,16 @@
 import React from 'react'
 import { buildStyles, CircularProgressbarWithChildren } from 'react-circular-progressbar'
+import { withTheme } from 'styled-components'
 
 import 'react-circular-progressbar/dist/styles.css'
 
-const ProgressCircle = ({ children, percentage, strokeWidth }) => {
+const ProgressCircle = ({ children, percentage, strokeWidth, theme }) => {
   return (
     <CircularProgressbarWithChildren
       styles={buildStyles({
-        backgroundColor: '#0C6CF2',
-        pathColor: '#0C6CF2',
-        trailColor: '#F0F2F7'
+        backgroundColor: theme.blue600,
+        pathColor: theme.blue600,
+        trailColor: theme.grey000
       })}
       strokeWidth={strokeWidth}
       value={percentage}
@@ -19,4 +20,4 @@ const ProgressCircle = ({ children, percentage, strokeWidth }) => {
   )
 }
 
-export default ProgressCircle
+export default withTheme(ProgressCircle)

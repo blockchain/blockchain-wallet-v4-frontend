@@ -61,7 +61,7 @@ const CompleteYourProfile = ({ buySellActions, data, fiatCurrency, verifyIdentit
     buySellActions.fetchCards(false)
     buySellActions.fetchPaymentMethods(fiatCurrency)
     buySellActions.fetchBalance({ skipLoading: true })
-  }, [])
+  }, [fiatCurrency, buySellActions])
 
   const { currentStep } = data
   const percentage = currentStep ? currentStep / MAX_STEPS : 0
