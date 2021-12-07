@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { equals } from 'ramda'
 
@@ -8,18 +8,16 @@ import { RootState } from 'data/rootReducer'
 import { getData } from './selectors'
 import Success from './template.success'
 
-class CryptoItem extends React.Component<Props> {
-  shouldComponentUpdate = (nextProps) => !equals(this.props, nextProps)
-
-  render() {
-    return this.props.data.cata({
+const CryptoItem = memo(
+  (props: Props) =>
+    props.data.cata({
       Failure: () => null,
       Loading: () => null,
       NotAsked: () => null,
-      Success: (val) => <Success {...this.props} {...val} />
-    })
-  }
-}
+      Success: (val) => <Success {...props} {...val} />
+    }),
+  (prevProps, nextProps) => equals(prevProps, nextProps)
+)
 
 const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   data: getData(state, ownProps)

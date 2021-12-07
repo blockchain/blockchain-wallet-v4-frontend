@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo, useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { equals } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
@@ -42,20 +42,18 @@ const getColorFromMovement = (movement: PriceMovementDirType) => {
   }
 }
 
-class PriceMovement extends React.Component<Props> {
-  componentDidMount() {
-    if (!Remote.Success.is(this.props.data)) {
-      const { coin } = this.props
-      this.props.miscActions.fetchPriceChange(coin, this.props.fiat || 'EUR', TimeRange.DAY)
-    }
-  }
+const PriceMovement = memo(
+  (props: Props) => {
+    useEffect(() => {
+      const { coin, data, fiat, miscActions } = props
+      if (!Remote.Success.is(data)) {
+        miscActions.fetchPriceChange(coin, fiat || 'EUR', TimeRange.DAY)
+      }
+    }, [props])
 
-  shouldComponentUpdate = (nextProps) => !equals(this.props, nextProps)
-
-  render() {
     return (
       <Container>
-        {this.props.data.cata({
+        {props.data.cata({
           Failure: () => null,
           Loading: () => <SkeletonRectangle height='12px' width='40px' />,
           NotAsked: () => null,
@@ -68,8 +66,9 @@ class PriceMovement extends React.Component<Props> {
         })}
       </Container>
     )
-  }
-}
+  },
+  (prevProps, nextProps) => equals(prevProps, nextProps)
+)
 
 const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   data: getData(state, ownProps)

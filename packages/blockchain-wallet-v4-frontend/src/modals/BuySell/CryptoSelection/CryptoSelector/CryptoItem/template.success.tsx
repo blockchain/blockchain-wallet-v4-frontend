@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { equals } from 'ramda'
 import styled from 'styled-components'
 
@@ -65,11 +65,10 @@ const PlusMinusIconWrapper = styled.div`
 
 type Props = OwnProps & ParentOwnProps & SuccessStateType
 
-const Success = React.memo(
+const Success = memo(
   ({ coin, fiat, onClick, orderType, rates }: Props) => {
     const { coinfig } = window.coins[coin]
     const displayName = coinfig.name
-
     return (
       <CheckoutDisplayContainer
         data-e2e={`sb${coin}-${fiat}CurrencySelector`}
