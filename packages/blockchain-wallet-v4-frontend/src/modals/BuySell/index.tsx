@@ -48,6 +48,7 @@ import ThreeDSHandlerStripe from './ThreeDSHandlerStripe'
 import TradingCurrencySelector from './TradingCurrencySelector'
 import UpgradeToGold from './UpgradeToGold'
 import VerifyEmail from './VerifyEmail'
+import ThreeDSHandlerCheckoutDotCom from './ThreeDSHandlerCheckoutDotCom'
 
 const { FORM_BS_ADD_EVERYPAY_CARD, FORM_BS_CHECKOUT, FORMS_BS_BILLING_ADDRESS } =
   model.components.buySell
@@ -200,9 +201,7 @@ class BuySell extends PureComponent<Props, State> {
             )}
             {this.props.step === '3DS_HANDLER_CHECKOUTDOTCOM' && (
               <FlyoutChild>
-                {
-                  // TODO add 3ds handler checkout
-                }
+                <ThreeDSHandlerCheckoutDotCom {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
             {this.props.step === '3DS_HANDLER_STRIPE' && (

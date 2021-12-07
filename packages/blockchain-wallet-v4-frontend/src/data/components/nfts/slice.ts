@@ -32,6 +32,7 @@ const initialState: NftsStateType = {
     page: 0
   },
   cancelListing: Remote.NotAsked,
+  collectionSearch: [],
   collections: Remote.NotAsked,
   marketplace: {
     atBound: false,
@@ -300,7 +301,7 @@ const nftsSlice = createSlice({
     },
     searchNftAssetContract: (
       state,
-      action: PayloadAction<{ asset_contract_address: string }>
+      action: PayloadAction<{ asset_contract_address?: string; search?: string }>
     ) => {},
     setActiveTab: (state, action: PayloadAction<'explore' | 'my-collection' | 'offers'>) => {
       state.activeTab = action.payload
@@ -311,6 +312,9 @@ const nftsSlice = createSlice({
     setAssetData: (state, action: PayloadAction<{ collection?: string; page?: number }>) => {
       state.assets.collection = action.payload.collection || 'all'
       state.assets.page = action.payload.page || 0
+    },
+    setCollectionSearch: (state, action: PayloadAction<ExplorerGatewayNftCollectionType[]>) => {
+      state.collectionSearch = action.payload
     },
     setMarketplaceBounds: (state, action: PayloadAction<{ atBound: boolean }>) => {
       state.marketplace.atBound = action.payload.atBound
