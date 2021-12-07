@@ -179,6 +179,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas; network
       const amount = convertStandardToBase(BASE.coin, swapAmountFormValues.cryptoAmount)
 
       const quote = S.getQuote(yield select()).getOrFail('NO_SWAP_QUOTE')
+      // eslint-disable-next-line no-console
+      console.log('[quote]:  ', quote)
       const refundAddr = onChain ? yield call(selectReceiveAddress, BASE, networks) : undefined
       const destinationAddr = toChain
         ? yield call(selectReceiveAddress, COUNTER, networks)

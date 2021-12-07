@@ -8,6 +8,7 @@ import type {
   BSPaymentMethodsType,
   BSPaymentMethodType,
   BSQuoteType,
+  BuyQuoteType,
   CoinType,
   CrossBorderLimits,
   Everypay3DSResponseType,
@@ -122,6 +123,7 @@ export type BuySellState = {
   account: RemoteDataType<string, BSAccountType>
   addBank: boolean | undefined
   balances: RemoteDataType<string, BSBalancesType>
+  buyQuote: RemoteDataType<string, { quote: BuyQuoteType }>
   card: RemoteDataType<string, BSCardType>
   cardId: undefined | string
   cards: RemoteDataType<string, Array<BSCardType>>

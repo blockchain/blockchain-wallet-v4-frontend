@@ -273,6 +273,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     )
     try {
       const pair = S.getBSPair(yield select())
+      const buyQuote = S.getBuyQuote(yield select())
       if (!values) throw new Error(NO_CHECKOUT_VALUES)
       if (!pair) throw new Error(NO_PAIR_SELECTED)
       const { fix, orderType, period } = values
@@ -367,9 +368,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         input,
         output,
         paymentType,
+        buyQuote.data.quote.quoteId,
         period,
         paymentMethodId
       )
+
+      // eslint-disable-next-line no-console
+      console.log('[buyOrder is here!!!]: ', buyOrder)
 
       yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT))
       yield put(A.fetchOrders())
@@ -814,8 +819,26 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const fetchBuyQuote = function* ({ payload }: ReturnType<typeof A.fetchBuyQuote>) {
     try {
       yield put(A.fetchQuoteLoading())
+
+      const { inputValue, pair, paymentMethod, paymentMethodId, profile } = payload
+
+      const quote: ReturnType<typeof api.getBuyQuote> = yield call(
+        api.getBuyQuote,
+        pair,
+        profile,
+        inputValue,
+        paymentMethod,
+        paymentMethodId
+      )
+
+      yield put(A.fetchBuyQuoteSuccess({ quote }))
+      const refresh = -moment().diff(quote.quoteExpiresAt)
+      yield delay(refresh)
     } catch (e) {
       const error = errorHandler(e)
+      yield put(A.fetchBuyQuoteFailure(error))
+      yield delay(FALLBACK_DELAY)
+      // yield put(A.startPollSellQuote(payload))
     }
   }
 
@@ -1419,6 +1442,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchBSOrders,
     fetchBSPairs,
     fetchBSQuote,
+    fetchBuyQuote,
     fetchCrossBorderLimits,
     fetchFiatEligible,
     fetchLimits,
