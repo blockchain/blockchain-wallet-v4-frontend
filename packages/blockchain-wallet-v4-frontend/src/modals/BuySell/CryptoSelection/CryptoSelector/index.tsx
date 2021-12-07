@@ -122,8 +122,7 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
     // reset form values so order doesn't hold values
     // if user changes wallet/coin
 
-    props.formActions.change(FORM_BS_CHECKOUT, 'amount', '')
-
+    this.props.formActions.change(FORM_BS_CHECKOUT, 'amount', '')
   }
 
   // Check to see if any accounts have balance

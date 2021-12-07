@@ -44,7 +44,6 @@ class CryptoSelection extends React.Component<Props> {
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
       Success: (val) => <Success {...this.props} {...val} />
-      //  <Loading />
     })
   }
 }
