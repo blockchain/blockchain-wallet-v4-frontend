@@ -1,7 +1,6 @@
 import { lift } from 'ramda'
 
 import { ExtractSuccess, FiatType } from '@core/types'
-import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { model, selectors } from 'data'
 import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
 import { getCoinAccounts } from 'data/coins/selectors'
