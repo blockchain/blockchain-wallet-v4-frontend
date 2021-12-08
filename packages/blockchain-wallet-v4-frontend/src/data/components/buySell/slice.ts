@@ -192,6 +192,7 @@ const buySellSlice = createSlice({
       state.quote = Remote.NotAsked
       state.step = 'CRYPTO_SELECTION'
     },
+    fetchBSOrders: () => {},
     fetchBalance: (
       state,
       action: PayloadAction<{ currency?: CoinType; skipLoading?: boolean }>

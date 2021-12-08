@@ -1,10 +1,10 @@
-import React from 'react'
-import { FormattedMessage } from 'react-intl'
+import React, { useState } from 'react'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Button, Icon, TabMenu, TabMenuItem } from 'blockchain-info-components'
-import { Form, TextBox } from 'components/Form'
+import { TabMenu, TabMenuItem } from 'blockchain-info-components'
+import { Form, SelectBox, TextBox } from 'components/Form'
+import { debounce } from 'utils/helpers'
 
 import { Props as OwnProps } from '..'
 
@@ -28,10 +28,19 @@ const TabsContainer = styled.div`
 const StyledForm = styled(Form)`
   display: flex;
   align-items: center;
+  position: relative;
   gap: 8px;
   > div {
     max-width: 400px;
   }
+`
+
+const CollectionsContainer = styled.div`
+  position: absolute;
+  width: 100%;
+  border-radius: 8px;
+  top: 48px;
+  left: 0;
 `
 
 const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = ({
@@ -40,21 +49,16 @@ const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = ({
   setActiveTab,
   ...rest
 }) => {
-  const handleSubmit = (e) => {
-    if (!e) return
-    e.preventDefault()
-    setActiveTab('explore')
-    nftsActions.searchNftAssetContract({ asset_contract_address: e.target[0].value })
+  const [showDropdown, setShowDropdown] = useState(false)
+
+  const handleChange = (e) => {
+    rest.formActions.change('nftMarketplace', 'collection', e)
+    setShowDropdown(false)
   }
 
-  const handleRefresh = () => {
-    if (activeTab === 'explore') {
-      nftsActions.clearAndRefetchOrders()
-    } else if (activeTab === 'my-collection') {
-      nftsActions.clearAndRefetchAssets()
-    } else {
-      nftsActions.clearAndRefetchOffersMade()
-    }
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    nftsActions.searchNftAssetContract({ asset_contract_address: e.target[0].value })
   }
 
   return (
@@ -77,21 +81,55 @@ const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = ({
       </TabsContainer>
       <StyledForm onSubmit={handleSubmit}>
         <Field
-          placeholder='Search Collection By Contract Address'
+          placeholder='Search Collections'
           name='search'
+          onFocus={() => setShowDropdown(true)}
+          onBlur={() => setShowDropdown(false)}
+          onChange={debounce((_, val) => {
+            setShowDropdown(true)
+            nftsActions.searchNftAssetContract({ search: val })
+          }, 500)}
           component={TextBox}
         />
-        <Button disabled={rest.submitting} data-e2e='searchNfts' type='submit' nature='primary'>
-          <FormattedMessage id='buttons.search' defaultMessage='Search' />
-        </Button>
-        <Icon
-          role='button'
-          size='24px'
-          cursor
-          name='refresh'
-          color='blue600'
-          onClick={handleRefresh}
-        />
+        <CollectionsContainer>
+          {rest.collectionSearch.length && showDropdown ? (
+            <Field
+              name='collections'
+              component={SelectBox}
+              searchEnabled={false}
+              hideIndicator
+              hideFocusedControl
+              menuIsOpen
+              onChange={handleChange}
+              templateItem={(props: { img: string; text: string; value: string }) => {
+                const nft = rest.collectionSearch.find((nft) => nft.slug === props.value)
+                if (!nft) return null
+                return (
+                  <div style={{ alignItems: 'center', display: 'flex' }}>
+                    <img
+                      style={{ borderRadius: '4px' }}
+                      height='24px'
+                      width='24px'
+                      alt='hello'
+                      src={nft.image_url}
+                    />
+                    <div style={{ marginLeft: '8px' }}>{nft.name}</div>
+                  </div>
+                )
+              }}
+              elements={[
+                {
+                  group: '',
+                  items: rest.collectionSearch.map((item) => ({
+                    img: item.image_url,
+                    text: item.name,
+                    value: item.slug
+                  }))
+                }
+              ]}
+            />
+          ) : null}
+        </CollectionsContainer>
       </StyledForm>
     </Wrapper>
   )
@@ -99,7 +137,7 @@ const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = ({
 
 type Props = OwnProps & {
   activeTab: 'explore' | 'my-collection' | 'offers'
-  setActiveTab: React.Dispatch<React.SetStateAction<'explore' | 'my-collection' | 'offers'>>
+  setActiveTab: (tab: 'explore' | 'my-collection' | 'offers') => void
 }
 
 export default reduxForm<{}, Props>({ form: 'nftSearch' })(NftHeader)

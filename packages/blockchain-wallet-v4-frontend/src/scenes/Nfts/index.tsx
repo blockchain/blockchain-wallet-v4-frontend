@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import styled from 'styled-components'
@@ -16,26 +16,30 @@ const NftPage = styled.div`
 `
 
 const Nfts: React.FC<Props> = (props) => {
-  const [activeTab, setActiveTab] = useState<'explore' | 'my-collection' | 'offers'>('explore')
-
   useEffect(() => {
     props.nftsActions.fetchNftCollections({})
   }, [])
 
+  const setActiveTab = (tab: 'explore' | 'my-collection' | 'offers') => {
+    props.nftsActions.setActiveTab(tab)
+  }
+
   return (
     <NftPage>
-      <NftHeader {...props} activeTab={activeTab} setActiveTab={setActiveTab} />
-      {activeTab === 'explore' ? <Marketplace {...props} /> : null}
-      {activeTab === 'my-collection' ? (
+      <NftHeader {...props} setActiveTab={setActiveTab} />
+      {props.activeTab === 'explore' ? <Marketplace {...props} /> : null}
+      {props.activeTab === 'my-collection' ? (
         <YourCollection {...props} setActiveTab={setActiveTab} />
       ) : null}
-      {activeTab === 'offers' ? <Offers {...props} /> : null}
+      {props.activeTab === 'offers' ? <Offers {...props} /> : null}
     </NftPage>
   )
 }
 
 const mapStateToProps = (state: RootState) => ({
+  activeTab: selectors.components.nfts.getNftActiveTab(state),
   assets: selectors.components.nfts.getNftAssets(state),
+  collectionSearch: selectors.components.nfts.getCollectionSearch(state),
   collections: selectors.components.nfts.getNftCollections(state),
   defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse(''),
   formValues: selectors.form.getFormValues('nftMarketplace')(state),

@@ -22,6 +22,7 @@ import { Await } from '@core/types'
 import { NftOrderStepEnum, NftsStateType } from './types'
 
 const initialState: NftsStateType = {
+  activeTab: 'explore',
   assets: {
     atBound: false,
     collection: 'all',
@@ -31,6 +32,7 @@ const initialState: NftsStateType = {
     page: 0
   },
   cancelListing: Remote.NotAsked,
+  collectionSearch: [],
   collections: Remote.NotAsked,
   marketplace: {
     atBound: false,
@@ -299,14 +301,20 @@ const nftsSlice = createSlice({
     },
     searchNftAssetContract: (
       state,
-      action: PayloadAction<{ asset_contract_address: string }>
+      action: PayloadAction<{ asset_contract_address?: string; search?: string }>
     ) => {},
+    setActiveTab: (state, action: PayloadAction<'explore' | 'my-collection' | 'offers'>) => {
+      state.activeTab = action.payload
+    },
     setAssetBounds: (state, action: PayloadAction<{ atBound: boolean }>) => {
       state.assets.atBound = action.payload.atBound
     },
     setAssetData: (state, action: PayloadAction<{ collection?: string; page?: number }>) => {
       state.assets.collection = action.payload.collection || 'all'
       state.assets.page = action.payload.page || 0
+    },
+    setCollectionSearch: (state, action: PayloadAction<ExplorerGatewayNftCollectionType[]>) => {
+      state.collectionSearch = action.payload
     },
     setMarketplaceBounds: (state, action: PayloadAction<{ atBound: boolean }>) => {
       state.marketplace.atBound = action.payload.atBound

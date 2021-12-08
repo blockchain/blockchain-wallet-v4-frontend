@@ -180,7 +180,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     method: selectedMethod,
     orderType
   } = props
-  const [fontRatio, setRatio] = useState(1)
+  const [fontRatio, setFontRatio] = useState(1)
   const setOrderFrequncy = useCallback(() => {
     props.buySellActions.setStep({ step: 'FREQUENCY' })
   }, [props.buySellActions])
@@ -338,7 +338,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
   const resizeSymbol = (isFiat, inputNode, fontSizeRatio, fontSizeNumber) => {
     if (Number(fontSizeRatio) > 0) {
-      setRatio(fontSizeRatio > 1 ? 1 : fontSizeRatio)
+      setFontRatio(fontSizeRatio > 1 ? 1 : fontSizeRatio)
     }
     const amountRowNode = inputNode.closest('#amount-row')
     const currencyNode = isFiat
@@ -408,7 +408,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
         fiat={props.fiatCurrency || 'USD'}
         coin={props.cryptoCurrency}
         orderType={props.orderType}
-        account={props.swapAccount}
       />
       <FlyoutWrapper
         style={{

@@ -329,6 +329,7 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.setMarketplaceData({ atBound: false, page: 1, token_ids_queried: [] }))
       yield put(A.clearAndRefetchOffersMade())
       yield put(A.clearAndRefetchOrders())
+      yield put(A.setActiveTab('offers'))
       yield put(actions.alerts.displaySuccess(`Successfully created offer!`))
     } catch (e) {
       const error = errorHandler(e)
@@ -355,6 +356,7 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.resetNftOrders())
       yield put(A.setMarketplaceData({ atBound: false, page: 1, token_ids_queried: [] }))
       yield put(A.fetchNftOrders())
+      yield put(A.setActiveTab('my-collection'))
       yield put(actions.alerts.displaySuccess(`Successfully created order!`))
     } catch (e) {
       const error = errorHandler(e)
@@ -462,7 +464,8 @@ export default ({ api }: { api: APIType }) => {
           yield put(
             A.setMarketplaceData({
               atBound: false,
-              collection: res,
+              // @ts-ignore
+              collection: IS_TESTNET ? { ...res, collection_data: { ...res } } : res,
               page: 1,
               token_ids_queried: []
             })
@@ -521,15 +524,22 @@ export default ({ api }: { api: APIType }) => {
 
   const searchNftAssetContract = function* (action: ReturnType<typeof A.searchNftAssetContract>) {
     try {
-      yield put(actions.form.startSubmit('nftSearch'))
-      const res = yield call(api.getAssetContract, action.payload.asset_contract_address)
-      yield put(actions.form.stopSubmit('nftSearch'))
-      yield put(actions.form.setSubmitSucceeded('nftSearch'))
-      yield put(actions.form.change('nftMarketplace', 'collection', res.collection.slug))
+      if (action.payload.search) {
+        const res: ReturnType<typeof api.searchNftCollectionInfo> = yield call(
+          api.searchNftCollectionInfo,
+          action.payload.search
+        )
+        yield put(A.setCollectionSearch(res))
+      } else if (action.payload.asset_contract_address) {
+        if (ethers.utils.isAddress(action.payload.asset_contract_address)) {
+          const res = yield call(api.getAssetContract, action.payload.asset_contract_address)
+          yield put(actions.form.change('nftMarketplace', 'collection', res.collection.slug))
+        }
+      }
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.form.stopSubmit('nftSearch'))
-      yield put(actions.alerts.displayError("Sorry! We couldn't find that collection."))
+      yield put(actions.alerts.displayError('Sorry! We had an issue searching that collection.'))
       actions.form.setSubmitFailed('nftSearch', error)
     }
   }

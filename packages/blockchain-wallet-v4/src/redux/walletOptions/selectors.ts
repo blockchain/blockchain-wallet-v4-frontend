@@ -100,4 +100,6 @@ export const getWalletConnectEnabled = (state: RootState) =>
 export const getHotWalletAddresses = (state: RootState, product: Product) =>
   getWebOptions(state).map(path(['hotWalletAddresses', product, 'eth']))
 
-
+// show/hide complete your profile flyout
+export const getCompleteYourProfile = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'completeYourProfile']))

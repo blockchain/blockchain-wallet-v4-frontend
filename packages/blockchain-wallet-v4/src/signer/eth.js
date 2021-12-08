@@ -7,6 +7,8 @@ import { curry } from 'ramda'
 
 import * as eth from '../utils/eth'
 
+const extraGas = 600
+
 const isOdd = (str) => str.length % 2 !== 0
 const toHex = (value) => {
   const hex = new BigNumber(value).toString(16)
@@ -14,7 +16,7 @@ const toHex = (value) => {
 }
 
 export const signErc20 = curry((network = 1, mnemonic, txnData, contractAddress) => {
-  const { amount, data, gasLimit, gasPrice, index, nonce, to } = txnData
+  const { amount, depositAddress, gasLimit, gasPrice, index, nonce, to } = txnData
   const wallet = ethers.Wallet.fromMnemonic(mnemonic, `m/44'/60'/0'/0/${index}`)
   const transferMethodHex = '0xa9059cbb'
 
@@ -22,16 +24,22 @@ export const signErc20 = curry((network = 1, mnemonic, txnData, contractAddress)
   if (new BigNumber(amount).isZero()) {
     return Task.rejected(new Error('erc20_amount_cannot_be_zero'))
   }
-
+  let data =
+    transferMethodHex +
+    ethers.utils.defaultAbiCoder
+      .encode(['address', 'uint256'], [to, amount.toString()])
+      .replace('0x', '')
+  let gasLimitAdjusted = gasLimit
+  // If a deposit address is specified, append the the address to the end of data payload and increase the gasLimit.
+  if (depositAddress) {
+    data += depositAddress.replace('0x', '')
+    gasLimitAdjusted += extraGas
+  }
+  //
   const txParams = {
     chainId: network,
-    data:
-      transferMethodHex +
-      ethers.utils.defaultAbiCoder
-        .encode(['address', 'uint256'], [to, amount.toString()])
-        .replace('0x', '') +
-      (data !== null ? data.substring(2) : ''),
-    gasLimit: toHex(data ? gasLimit + 600 : gasLimit),
+    data,
+    gasLimit: toHex(gasLimitAdjusted),
     gasPrice: toHex(gasPrice),
     nonce: toHex(nonce),
     to: contractAddress,
@@ -41,12 +49,13 @@ export const signErc20 = curry((network = 1, mnemonic, txnData, contractAddress)
 })
 
 export const sign = curry((network = 1, mnemonic, txnData) => {
-  const { amount, data, gasLimit, gasPrice, index, nonce, to } = txnData
+  const { amount, depositAddress, gasLimit, gasPrice, index, nonce, to } = txnData
   const wallet = ethers.Wallet.fromMnemonic(mnemonic, `m/44'/60'/0'/0/${index}`)
+  const gasLimitAdjusted = depositAddress ? gasLimit + extraGas : gasLimit
   const txParams = {
     chainId: network,
-    ...(data && { data }),
-    gasLimit: toHex(data ? gasLimit + 600 : gasLimit),
+    ...(depositAddress && { data: depositAddress }),
+    gasLimit: toHex(gasLimitAdjusted),
     gasPrice: toHex(gasPrice),
     nonce,
     to,
@@ -56,11 +65,12 @@ export const sign = curry((network = 1, mnemonic, txnData) => {
 })
 
 export const serialize = (network, raw, signature) => {
-  const { amount, data, gasLimit, gasPrice, nonce, to } = raw
+  const { amount, depositAddress, gasLimit, gasPrice, nonce, to } = raw
+  const gasLimitAdjusted = depositAddress ? gasLimit + extraGas : gasLimit
   const txParams = {
     chainId: network,
-    ...(data && { data }),
-    gasLimit: toHex(data ? gasLimit + 600 : gasLimit),
+    ...(depositAddress && { data: depositAddress }),
+    gasLimit: toHex(gasLimitAdjusted),
     gasPrice: toHex(gasPrice),
     nonce: toHex(nonce),
     r: `0x${signature.r}`,
