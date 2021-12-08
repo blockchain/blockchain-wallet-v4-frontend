@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { WalletOptionsType } from '@core/types'
+import DataError from 'components/DataError'
 import { FlyoutWrapper } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -23,8 +24,8 @@ const ThreeDSHandlerCheckoutDotCom = ({ buySellActions, domains, order }: Props)
     throw new Error('Order is not defined')
   }
 
-  const handlePostMessage = async ({ data }: { data: { provider: 'checkoutdotcom' } }) => {
-    if (data.provider !== 'checkoutdotcom') return
+  const handlePostMessage = async ({ data }: { data: { payment: 'successful' } }) => {
+    if (data.payment !== 'successful') return
 
     buySellActions.pollOrder(order.id)
   }
@@ -35,7 +36,15 @@ const ThreeDSHandlerCheckoutDotCom = ({ buySellActions, domains, order }: Props)
     return () => window.removeEventListener('message', handlePostMessage, false)
   })
 
-  const paymentLink = encodeURIComponent(order.attributes?.cardProvider?.paymentLink || '')
+  const handleRefresh = () => {
+    buySellActions.destroyCheckout()
+  }
+
+  if (!order.attributes?.cardProvider?.paymentLink) {
+    return <DataError onClick={handleRefresh} />
+  }
+
+  const paymentLink = encodeURIComponent(order.attributes.cardProvider.paymentLink)
 
   return (
     <CustomFlyoutWrapper>
