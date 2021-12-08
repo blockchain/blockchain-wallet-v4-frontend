@@ -7,6 +7,8 @@ import { curry } from 'ramda'
 
 import * as eth from '../utils/eth'
 
+const extraGas = 600
+
 const isOdd = (str) => str.length % 2 !== 0
 const toHex = (value) => {
   const hex = new BigNumber(value).toString(16)
@@ -31,7 +33,7 @@ export const signErc20 = curry((network = 1, mnemonic, txnData, contractAddress)
   // If a deposit address is specified, append the the address to the end of data payload and increase the gasLimit.
   if (depositAddress) {
     data += depositAddress.replace('0x', '')
-    gasLimitAdjusted += 600
+    gasLimitAdjusted += extraGas
   }
   //
   const txParams = {
@@ -49,7 +51,7 @@ export const signErc20 = curry((network = 1, mnemonic, txnData, contractAddress)
 export const sign = curry((network = 1, mnemonic, txnData) => {
   const { amount, depositAddress, gasLimit, gasPrice, index, nonce, to } = txnData
   const wallet = ethers.Wallet.fromMnemonic(mnemonic, `m/44'/60'/0'/0/${index}`)
-  const gasLimitAdjusted = depositAddress ? gasLimit + 600 : gasLimit
+  const gasLimitAdjusted = depositAddress ? gasLimit + extraGas : gasLimit
   const txParams = {
     chainId: network,
     ...(depositAddress && { data: depositAddress }),
@@ -64,7 +66,7 @@ export const sign = curry((network = 1, mnemonic, txnData) => {
 
 export const serialize = (network, raw, signature) => {
   const { amount, depositAddress, gasLimit, gasPrice, nonce, to } = raw
-  const gasLimitAdjusted = depositAddress ? gasLimit + 600 : gasLimit
+  const gasLimitAdjusted = depositAddress ? gasLimit + extraGas : gasLimit
   const txParams = {
     chainId: network,
     ...(depositAddress && { data: depositAddress }),
