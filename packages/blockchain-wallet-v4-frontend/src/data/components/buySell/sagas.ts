@@ -459,10 +459,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           order.paymentMethodId || paymentMethodId
             ? {
                 everypay: {
-                  customerUrl: `${domains.walletHelper}/wallet-helper/everypay/#/response-handler`
+                  customerUrl: `${domains.walletHelper}/wallet-helper/payment/#/`
                 },
-                // TODO add correct redirect url here for checkout, everypay and stripe, like `card-provider`
-                redirectURL: `${domains.walletHelper}/wallet-helper/everypay/#/response-handler`
+                redirectURL: `${domains.walletHelper}/wallet-helper/payment/#/`
               }
             : undefined
       } else if (account?.partner === BankPartners.YAPILY) {
