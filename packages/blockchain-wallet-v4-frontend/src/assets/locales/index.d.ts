@@ -2124,6 +2124,7 @@ type MessagesType = {
   'scenes.help.lostguid': "Don't know your Wallet ID?"
   'scenes.help.lostguidrecover': 'We can send you a reminder email right now.'
   'scenes.help.password.explain_phrase': 'Use your 12 word Secret Private Key Recovery Phrase to access your Wallet.'
+  'scenes.help.password.request': 'Request a password reset for your Exchange account.'
   'scenes.help.recover': 'Recover Funds'
   'scenes.help.remind': 'Remind Me'
   'scenes.help.reset': 'Reset 2FA'

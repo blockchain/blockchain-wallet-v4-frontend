@@ -81,8 +81,8 @@ class Help extends React.PureComponent<Props, State> {
             </Text>
             <Text size='12px' color='grey800' weight={400}>
               <FormattedMessage
-                id='scenes.help.password.explain_phrase'
-                defaultMessage='Directs to reset password form'
+                id='scenes.help.password.request'
+                defaultMessage='Request a password reset for your Exchange account.'
               />
             </Text>
           </Left>
