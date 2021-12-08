@@ -124,7 +124,6 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
     case 'CHECKOUT_CONFIRM':
     case 'ORDER_SUMMARY':
     case 'OPEN_BANKING_CONNECT':
-      return { order: payload.order, step: payload.step }
     case '3DS_HANDLER_EVERYPAY':
     case '3DS_HANDLER_STRIPE':
     case '3DS_HANDLER_CHECKOUTDOTCOM':
@@ -470,6 +469,7 @@ const buySellSlice = createSlice({
           break
         case '3DS_HANDLER_EVERYPAY':
         case '3DS_HANDLER_STRIPE':
+        case '3DS_HANDLER_CHECKOUTDOTCOM':
         case 'CHECKOUT_CONFIRM':
         case 'OPEN_BANKING_CONNECT':
         case 'ORDER_SUMMARY':
