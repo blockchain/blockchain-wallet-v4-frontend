@@ -1,13 +1,13 @@
 import { lift } from 'ramda'
 
 import { ExtractSuccess, FiatType } from '@core/types'
+import { createDeepEqualSelector } from 'blockchain-wallet-v4/src/utils'
 import { model, selectors } from 'data'
 import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
 import { getCoinAccounts } from 'data/coins/selectors'
 import { BSCheckoutFormValuesType } from 'data/types'
 
 const { FORM_BS_CHECKOUT } = model.components.buySell
-
 export const getData = (state) => {
   const eligibilityR = selectors.components.buySell.getBSFiatEligible(state)
   const formValues = selectors.form.getFormValues(FORM_BS_CHECKOUT)(

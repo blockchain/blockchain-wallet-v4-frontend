@@ -16,6 +16,8 @@ import Success from './template.success'
 class CryptoSelection extends React.Component<Props> {
   componentDidMount() {
     if (this.props.fiatCurrency && !Remote.Success.is(this.props.data)) {
+      this.props.priceActions.fetchCoinPrices()
+      this.props.priceActions.fetchCoinPricesPreviousDay()
       this.props.buySellActions.fetchPairs({ currency: this.props.fiatCurrency })
       this.props.buySellActions.fetchFiatEligible(this.props.fiatCurrency)
       this.props.buySellActions.fetchSDDEligibility()
@@ -57,7 +59,8 @@ const mapStateToProps = (state: RootState) => ({
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch),
+  priceActions: bindActionCreators(actions.prices, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
