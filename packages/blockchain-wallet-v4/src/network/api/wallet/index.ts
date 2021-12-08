@@ -112,10 +112,11 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl
     })
 
-  const authorizeVerifyDevice = (fromSessionId, payload, confirm_device) =>
+  const authorizeVerifyDevice = (fromSessionId, payload, confirm_device, exchange_only_login) =>
     post({
       data: {
         confirm_device,
+        exchange_only_login,
         fromSessionId,
         method: 'authorize-verify-device',
         payload

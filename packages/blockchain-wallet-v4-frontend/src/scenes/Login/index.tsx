@@ -4,7 +4,7 @@ import { bindActionCreators, compose } from 'redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 
 import { RemoteDataType } from '@core/types'
-import { Button, Text } from 'blockchain-info-components'
+import { Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import { actions, selectors } from 'data'
 import {

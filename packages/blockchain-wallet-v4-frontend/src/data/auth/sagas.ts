@@ -715,24 +715,29 @@ export default ({ api, coreSagas, networks }) => {
 
   const authorizeVerifyDevice = function* (action) {
     const confirmDevice = action.payload
-    const { session_id } = yield select(selectors.auth.getMagicLinkData)
+    const { session_id, wallet } = yield select(selectors.auth.getMagicLinkData)
     const magicLinkDataEncoded = yield select(selectors.auth.getMagicLinkDataEncoded)
+    const exchange_only_login = !wallet
     try {
       yield put(actions.auth.authorizeVerifyDeviceLoading())
       const data = yield call(
         api.authorizeVerifyDevice,
         session_id,
         magicLinkDataEncoded,
-        confirmDevice
+        confirmDevice,
+        exchange_only_login
       )
       if (data.success) {
         yield put(actions.auth.authorizeVerifyDeviceSuccess({ deviceAuthorized: true }))
         yield put(actions.auth.analyticsAuthorizeVerifyDeviceSuccess())
       }
     } catch (e) {
-      if (e.status === 401 && e.confirmation_required) {
+      if (
+        (e.status === 401 && e.confirmation_required) ||
+        (e.status === 409 && e.exchange_only_login)
+      ) {
         yield put(actions.auth.authorizeVerifyDeviceSuccess(e))
-      } else if (e.status === 409) {
+      } else if (e.status === 409 && e.request_denied) {
         yield put(actions.auth.authorizeVerifyDeviceFailure(e))
         yield put(actions.auth.analyticsAuthorizeVerifyDeviceFailure('REJECTED'))
       } else if (e.status === 400 && e.link_expired) {

@@ -11,7 +11,6 @@ import {
   BackArrowFormHeader,
   CenteredColumn,
   CircleBackground,
-  LOGIN_FORM_NAME,
   LoginWrapper
 } from '../../model'
 
