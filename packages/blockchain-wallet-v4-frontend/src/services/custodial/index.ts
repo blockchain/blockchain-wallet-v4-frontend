@@ -1,4 +1,4 @@
-import { CrossBorderLimits, LimitWithEffective } from '@core/types'
+import { CrossBorderLimits, CrossBorderLimitSuggestedItem, LimitWithEffective } from '@core/types'
 
 export const getEffectiveLimit = (limits: CrossBorderLimits): LimitWithEffective | undefined => {
   const { current } = limits
@@ -26,4 +26,34 @@ export const getEffectivePeriod = (limits: CrossBorderLimits): string | undefine
     default:
       return undefined
   }
+}
+
+export const getSuggestedPeriod = (limits: CrossBorderLimits): string | undefined => {
+  const { suggestedUpgrade } = limits
+  if (suggestedUpgrade?.daily) {
+    return 'day'
+  }
+  if (suggestedUpgrade?.monthly) {
+    return 'month'
+  }
+  if (suggestedUpgrade?.yearly) {
+    return 'year'
+  }
+  return undefined
+}
+
+export const getSuggestedLimit = (
+  limits: CrossBorderLimits
+): CrossBorderLimitSuggestedItem | undefined => {
+  const { suggestedUpgrade } = limits
+  if (suggestedUpgrade?.daily) {
+    return suggestedUpgrade?.daily
+  }
+  if (suggestedUpgrade?.monthly) {
+    return suggestedUpgrade?.monthly
+  }
+  if (suggestedUpgrade?.yearly) {
+    return suggestedUpgrade?.yearly
+  }
+  return undefined
 }

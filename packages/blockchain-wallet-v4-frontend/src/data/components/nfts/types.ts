@@ -1,5 +1,4 @@
 import {
-  AssetEventsType,
   CollectionData,
   ExplorerGatewayNftCollectionType,
   NftAsset,
@@ -30,6 +29,7 @@ export type NftsStateType = {
     page: number
   }
   cancelListing: RemoteDataType<string, boolean>
+  collectionSearch: ExplorerGatewayNftCollectionType[]
   collections: RemoteDataType<string, ExplorerGatewayNftCollectionType[]>
   marketplace: {
     atBound?: boolean

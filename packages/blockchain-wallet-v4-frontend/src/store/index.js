@@ -88,6 +88,10 @@ const configuredStore = async function () {
   // TODO: remove this
   window.coins.XLM.coinfig.type.isMemoBased = true
 
+  if (options.domains.opensea && options.domains.opensea.includes('rinkeby')) {
+    window.coins.WETH.coinfig.type.erc20Address = '0xc778417E063141139Fce010982780140Aa0cD5Ab'
+  }
+
   const apiKey = '1770d5d9-bcea-4d28-ad21-6cbd5be018a8'
   const socketUrl = options.domains.webSocket
   const horizonUrl = options.domains.horizon
