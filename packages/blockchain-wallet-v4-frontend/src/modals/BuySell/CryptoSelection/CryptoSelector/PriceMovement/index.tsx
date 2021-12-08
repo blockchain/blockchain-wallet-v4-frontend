@@ -1,11 +1,10 @@
-import React, { memo, useEffect } from 'react'
+import React, { memo } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { equals } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled, { DefaultTheme } from 'styled-components'
 
-import { Remote } from '@core'
-import { CoinType, FiatType, PriceMovementDirType, TimeRange } from '@core/types'
+import { CoinType, FiatType } from '@core/types'
 import { SkeletonRectangle } from 'blockchain-info-components'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -20,53 +19,26 @@ const Change = styled.span<{ color: keyof DefaultTheme }>`
   color: ${(props) => props.theme[props.color]};
 `
 
-const getSignFromMovement = (movement: PriceMovementDirType) => {
-  switch (movement) {
-    case 'down':
-      return '-'
-    case 'up':
-      return '+'
-    default:
-      return ''
-  }
-}
-
-const getColorFromMovement = (movement: PriceMovementDirType) => {
-  switch (movement) {
-    case 'down':
-      return 'red600'
-    case 'up':
-      return 'green600'
-    default:
-      return 'grey600'
-  }
+const getColorFromMovement = (val: string) => {
+  const parsedVal = parseFloat(val)
+  if (parsedVal > 0) return 'green600'
+  if (parsedVal < 0) return 'red600'
+  return 'grey600'
 }
 
 const PriceMovement = memo(
-  (props: Props) => {
-    useEffect(() => {
-      const { coin, data, fiat, miscActions } = props
-      if (!Remote.Success.is(data)) {
-        miscActions.fetchPriceChange(coin, fiat || 'EUR', TimeRange.DAY)
-      }
-    }, [props])
-
-    return (
-      <Container>
-        {props.data.cata({
-          Failure: () => null,
-          Loading: () => <SkeletonRectangle height='12px' width='40px' />,
-          NotAsked: () => null,
-          Success: (val) => (
-            <Change color={getColorFromMovement(val.price24Hr.overallChange.movement)}>
-              {getSignFromMovement(val.price24Hr.overallChange.movement)}
-              {val.price24Hr.overallChange.percentChange}%
-            </Change>
-          )
-        })}
-      </Container>
-    )
-  },
+  (props: Props) => (
+    <Container>
+      {props.data.cata({
+        Failure: () => null,
+        Loading: () => <SkeletonRectangle height='12px' width='40px' />,
+        NotAsked: () => null,
+        Success: (val) => {
+          return <Change color={getColorFromMovement(val)}>{val}%</Change>
+        }
+      })}
+    </Container>
+  ),
   (prevProps, nextProps) => equals(prevProps, nextProps)
 )
 
