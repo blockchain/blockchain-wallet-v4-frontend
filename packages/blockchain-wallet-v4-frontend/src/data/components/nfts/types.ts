@@ -25,7 +25,7 @@ export type NftsStateType = {
     collection: string
     isFailure: boolean
     isLoading: boolean
-    list: NftAssetsType['assets']
+    list: NftAssetsType
     page: number
   }
   cancelListing: RemoteDataType<string, boolean>

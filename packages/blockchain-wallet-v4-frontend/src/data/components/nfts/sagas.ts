@@ -68,13 +68,13 @@ export default ({ api }: { api: APIType }) => {
         assets.page
       )
 
-      if (nfts.assets.length < NFT_ORDER_PAGE_LIMIT) {
+      if (nfts.length < NFT_ORDER_PAGE_LIMIT) {
         yield put(A.setAssetBounds({ atBound: true }))
       } else {
         yield put(A.setAssetData({ page: assets.page + 1 }))
       }
 
-      yield put(A.fetchNftAssetsSuccess(nfts.assets))
+      yield put(A.fetchNftAssetsSuccess(nfts))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchNftAssetsFailure(error))
@@ -171,7 +171,7 @@ export default ({ api }: { api: APIType }) => {
         api.getNftOrders,
         NFT_ORDER_PAGE_LIMIT,
         marketplace.collection.collection_data.primary_asset_contracts[0].address,
-        new_unique_token_ids.map((val) => `&token_ids=${val}`).join('')
+        new_unique_token_ids.join(',')
       )
 
       const nextPage = marketplace.page + 1 + non_unique_token_ids
@@ -357,7 +357,11 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.setMarketplaceData({ atBound: false, page: 1, token_ids_queried: [] }))
       yield put(A.fetchNftOrders())
       yield put(A.setActiveTab('my-collection'))
-      yield put(actions.alerts.displaySuccess(`Successfully created order!`))
+      yield put(
+        actions.alerts.displaySuccess(
+          `Successfully created order! It may take a few minutes to appear in your collection.`
+        )
+      )
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.createOrderFailure(error))

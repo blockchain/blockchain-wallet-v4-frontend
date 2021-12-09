@@ -118,7 +118,7 @@ const nftsSlice = createSlice({
     createSellOrder: (
       state,
       action: PayloadAction<{
-        asset: NftAssetsType['assets'][0]
+        asset: NftAssetsType[0]
         gasData: GasDataI
         startPrice: number
       }>
@@ -135,7 +135,7 @@ const nftsSlice = createSlice({
     createTransfer: (
       state,
       action: PayloadAction<{
-        asset: NftAssetsType['assets'][0]
+        asset: NftAssetsType[0]
         gasData: GasDataI
         to: string
       }>
@@ -193,7 +193,7 @@ const nftsSlice = createSlice({
     fetchNftAssetsLoading: (state) => {
       state.assets.isLoading = true
     },
-    fetchNftAssetsSuccess: (state, action: PayloadAction<NftAssetsType['assets']>) => {
+    fetchNftAssetsSuccess: (state, action: PayloadAction<NftAssetsType>) => {
       state.assets.isFailure = false
       state.assets.isLoading = false
       state.assets.list = [...state.assets.list, ...action.payload]

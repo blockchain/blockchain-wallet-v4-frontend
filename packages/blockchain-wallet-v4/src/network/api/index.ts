@@ -62,7 +62,7 @@ const api = ({ apiKey, getAuthCredentials, networks, options, reauthenticate }: 
     }),
     ...lockbox({ ledgerUrl, ...http }),
     ...misc({ apiUrl, ...http }),
-    ...nfts({ apiUrl, openseaApi, ...http }),
+    ...nfts({ apiUrl, ...http }),
     ...profile({
       authorizedGet: authorizedHttp.get,
       authorizedPost: authorizedHttp.post,
