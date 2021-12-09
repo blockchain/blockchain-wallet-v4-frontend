@@ -50,58 +50,58 @@ const ButtonWrapper = styled.div`
 
 const rows: Array<RowType> = [
   {
-    description: () => (
+    description: (
       <FormattedMessage
         id='modals.trade.swap.description'
         defaultMessage='Exchange Crypto for Another'
       />
     ),
     handleClick: () => {},
-    header: () => <FormattedMessage id='buttons.swap' defaultMessage='Swap' />,
+    header: <FormattedMessage id='buttons.swap' defaultMessage='Swap' />,
     iconName: 'swap'
   },
   {
-    description: () => (
+    description: (
       <FormattedMessage
         id='modals.trade.send.description'
         defaultMessage='Transfer to Another Wallet'
       />
     ),
     handleClick: () => {},
-    header: () => <FormattedMessage id='buttons.send' defaultMessage='Send' />,
+    header: <FormattedMessage id='buttons.send' defaultMessage='Send' />,
     iconName: 'send'
   },
   {
-    description: () => (
+    description: (
       <FormattedMessage
         id='modals.trade.receive.description'
         defaultMessage='Receive Crypto to Your Wallet'
       />
     ),
     handleClick: () => {},
-    header: () => <FormattedMessage id='buttons.receive' defaultMessage='Receive' />,
+    header: <FormattedMessage id='buttons.receive' defaultMessage='Receive' />,
     iconName: 'receive'
   },
   {
-    description: () => (
+    description: (
       <FormattedMessage
         id='modals.trade.receive.description'
         defaultMessage='Add Cash to Your Cash Account'
       />
     ),
     handleClick: () => {},
-    header: () => <FormattedMessage id='buttons.deposit' defaultMessage='Deposit' />,
+    header: <FormattedMessage id='buttons.deposit' defaultMessage='Deposit' />,
     iconName: 'deposit'
   },
   {
-    description: () => (
+    description: (
       <FormattedMessage
         id='modals.trade.receive.description'
         defaultMessage='Cash Out to Your Bank Account'
       />
     ),
     handleClick: () => {},
-    header: () => <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />,
+    header: <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />,
     iconName: 'withdraw'
   }
 ]
@@ -134,10 +134,10 @@ class TradeContainer extends React.PureComponent<Props> {
               return (
                 <OptionRightActionRow key={iconName} onClick={handleClick}>
                   <Text color='grey900' weight={600}>
-                    {header()}
+                    {header}
                   </Text>
                   <Text color='grey600' size='14px' weight={500}>
-                    {description()}
+                    {description}
                   </Text>
                 </OptionRightActionRow>
               )
@@ -179,9 +179,9 @@ type OwnPropsType = {
 }
 
 type RowType = {
-  description: () => JSX.Element
+  description: JSX.Element
   handleClick: () => void
-  header: () => JSX.Element
+  header: JSX.Element
   iconName: string
 }
 
