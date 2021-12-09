@@ -647,10 +647,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 {props.orderType === OrderType.BUY ? (
                   amtError === 'BELOW_MIN' ? (
                     <FormattedMessage
-                      id='copy.not_enough_coin'
-                      defaultMessage='Not Enough {coin}'
+                      id='copy.below_min'
+                      defaultMessage='{amount} Minimum'
                       values={{
-                        value:
+                        amount:
                           fix === 'FIAT'
                             ? fiatToString({ unit: props.walletCurrency, value: min })
                             : `${min} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`
