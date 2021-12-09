@@ -50,8 +50,8 @@ const MenuLeft = (props: Props) => {
 
   return (
     <Container toggled={props.menuOpened}>
-      {!isLaptop && <Balances />}
-      {!isLaptop && isTier2 && props.withdrawalLocksFundsOnHold && <FundsOnHold />}
+      <Balances />
+      {isTier2 && props.withdrawalLocksFundsOnHold && <FundsOnHold />}
       <Overflow>
         <Navigation {...props} />
       </Overflow>
