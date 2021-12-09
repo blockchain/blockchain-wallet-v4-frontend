@@ -99,6 +99,7 @@ const QRCode = React.lazy(() => import('./QRCode'))
 const SignMessage = React.lazy(() => import('./SignMessage'))
 const SimpleBuy = React.lazy(() => import('./SimpleBuy'))
 const Swap = React.lazy(() => import('./Swap'))
+const Trade = React.lazy(() => import('./Trade'))
 const RecurringBuys = React.lazy(() => import('./RecurringBuys'))
 const InterestUploadDocuments = React.lazy(() => import('./InterestUploadDocuments'))
 
@@ -265,6 +266,7 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.SUPPORT_MODAL) ? <Support /> : null}
         {props.modals.find((modal) => modal.type === ModalName.SWAP_MODAL) ? <Swap /> : null}
+        {props.modals.find((modal) => modal.type === ModalName.TRADE_MODAL) ? <Trade /> : null}
         {props.modals.find((modal) => modal.type === ModalName.TRANSFER_ETH_MODAL) ? (
           <TransferEth />
         ) : null}

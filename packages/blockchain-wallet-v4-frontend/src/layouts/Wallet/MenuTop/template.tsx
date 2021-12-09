@@ -2,6 +2,7 @@ import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Navbar } from 'components/NavbarV2'
+import { ModalName } from 'data/types'
 import { useMedia } from 'services/styles'
 
 import { Props } from '.'
@@ -23,8 +24,14 @@ const Header = (props: OwnProps) => {
     props.sessionActions.logout()
   }, [])
 
+  const fabCallback = useCallback(() => {
+    props.modalActions.showModal(ModalName.TRADE_MODAL, {
+      origin: 'Header'
+    })
+  }, [])
+
   const limitsCallback = useCallback(() => {
-    props.modalActions.showModal('TRADING_LIMITS_MODAL', {
+    props.modalActions.showModal(ModalName.TRADING_LIMITS_MODAL, {
       origin: 'TradingLimits'
     })
     props.settingsActions.generalSettingsInternalRedirect('TradingLimits')
@@ -68,7 +75,7 @@ const Header = (props: OwnProps) => {
     return (
       <Navbar
         primaryNavItems={PrimaryNavItems}
-        fabClickHandler={() => {}}
+        fabClickHandler={fabCallback}
         mobileClickHandler={() => {}}
         refreshClickHandler={refreshCallback}
         limitsClickHandler={limitsCallback}
