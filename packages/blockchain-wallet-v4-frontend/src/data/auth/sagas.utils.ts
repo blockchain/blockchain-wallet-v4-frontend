@@ -158,7 +158,7 @@ export const pollForSessionFromAuthPayload = function* (api, session, n = 50) {
   try {
     yield delay(2000)
     const response = yield call(api.getMagicLinkData, session)
-    if (prop('wallet', response)) {
+    if (prop('wallet', response) || prop('exchange', response)) {
       yield put(actions.auth.setMagicLinkInfo(response))
       yield call(parseMagicLink)
       return true

@@ -732,10 +732,7 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.auth.analyticsAuthorizeVerifyDeviceSuccess())
       }
     } catch (e) {
-      if (
-        (e.status === 401 && e.confirmation_required) ||
-        (e.status === 409 && e.exchange_only_login)
-      ) {
+      if (e.status === 401 && e.confirmation_required) {
         yield put(actions.auth.authorizeVerifyDeviceSuccess(e))
       } else if (e.status === 409 && e.request_denied) {
         yield put(actions.auth.authorizeVerifyDeviceFailure(e))
