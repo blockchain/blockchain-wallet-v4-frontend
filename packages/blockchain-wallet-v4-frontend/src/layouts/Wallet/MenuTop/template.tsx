@@ -23,6 +23,12 @@ const Header = (props: OwnProps) => {
     props.sessionActions.logout()
   }, [])
 
+  const fabCallback = useCallback(() => {
+    props.modalActions.showModal('TRADE_MODAL', {
+      origin: 'Header'
+    })
+  }, [])
+
   const limitsCallback = useCallback(() => {
     props.modalActions.showModal('TRADING_LIMITS_MODAL', {
       origin: 'TradingLimits'
@@ -68,7 +74,7 @@ const Header = (props: OwnProps) => {
     return (
       <Navbar
         primaryNavItems={PrimaryNavItems}
-        fabClickHandler={() => {}}
+        fabClickHandler={fabCallback}
         mobileClickHandler={() => {}}
         refreshClickHandler={refreshCallback}
         limitsClickHandler={limitsCallback}
