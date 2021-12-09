@@ -28,7 +28,9 @@ export default {
   title: 'FabButton'
 } as ComponentMeta<typeof FabButton>
 
-const Template: ComponentStory<typeof FabButton> = (args) => <FabButton />
+const Template: ComponentStory<typeof FabButton> = (args) => <FabButton {...args} />
 
 export const Default = Template.bind({})
-Default.args = {}
+Default.args = {
+  onClick: () => {}
+}

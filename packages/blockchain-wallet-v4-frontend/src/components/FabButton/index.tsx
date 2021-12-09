@@ -25,9 +25,9 @@ const FabIcon = (
   </svg>
 )
 
-const FabButton = () => {
+const FabButton = ({ onClick }: Props) => {
   return (
-    <StyledButton data-e2e='fabButton'>
+    <StyledButton onClick={onClick} data-e2e='fabButton'>
       {FabIcon}
       <Text weight={600} size='14px' color='white' style={{ paddingLeft: '5px' }}>
         Trade
@@ -36,6 +36,8 @@ const FabButton = () => {
   )
 }
 
-type Props = {}
+type Props = {
+  onClick: () => void
+}
 
 export default FabButton

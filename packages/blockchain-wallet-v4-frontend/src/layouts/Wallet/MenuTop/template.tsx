@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Navbar } from 'components/NavbarV2'
@@ -15,6 +15,21 @@ const Header = (props: OwnProps) => {
   const isLaptop = useMedia('laptop')
   const isTablet = useMedia('tablet')
 
+  const refreshCallback = useCallback(() => {
+    props.refreshActions.refreshClicked()
+  }, [])
+
+  const logoutCallback = useCallback(() => {
+    props.sessionActions.logout()
+  }, [])
+
+  const limitsCallback = useCallback(() => {
+    props.modalActions.showModal('TRADING_LIMITS_MODAL', {
+      origin: 'TradingLimits'
+    })
+    props.settingsActions.generalSettingsInternalRedirect('TradingLimits')
+  }, [])
+
   const PrimaryNavItems = [
     {
       dest: '/home',
@@ -30,11 +45,6 @@ const Header = (props: OwnProps) => {
       dest: '/rewards',
       e2e: 'rewardsLink',
       text: <FormattedMessage id='copy.rewards' defaultMessage='Rewards' />
-    },
-    {
-      dest: '/daaps',
-      e2e: 'daapsLink',
-      text: <FormattedMessage id='copy.daaps' defaultMessage='Daaps' />
     }
   ]
 
@@ -46,8 +56,25 @@ const Header = (props: OwnProps) => {
     })
   }
 
+  if (props.featureFlags.daaps) {
+    PrimaryNavItems.push({
+      dest: '/daaps',
+      e2e: 'daapsLink',
+      text: <FormattedMessage id='copy.daaps' defaultMessage='Daaps' />
+    })
+  }
+
   if (props.isRedesignEnabled) {
-    return <Navbar primaryNavItems={PrimaryNavItems} />
+    return (
+      <Navbar
+        primaryNavItems={PrimaryNavItems}
+        fabClickHandler={() => {}}
+        mobileClickHandler={() => {}}
+        refreshClickHandler={refreshCallback}
+        limitsClickHandler={limitsCallback}
+        logoutClickHandler={logoutCallback}
+      />
+    )
   }
   return (
     <>{isTablet ? <Small {...props} /> : isLaptop ? <Medium {...props} /> : <Large {...props} />}</>

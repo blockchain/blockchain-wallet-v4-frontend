@@ -1889,15 +1889,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@blockchain-com/constellation@npm:0.0.11":
-  version: 0.0.11
-  resolution: "@blockchain-com/constellation@npm:0.0.11"
+"@blockchain-com/constellation@npm:^0.0.15":
+  version: 0.0.15
+  resolution: "@blockchain-com/constellation@npm:0.0.15"
   dependencies:
     styled-components: ^5.3.0
   peerDependencies:
     react: ^17.0.2
     react-dom: ^17.0.2
-  checksum: cce7cff15bc6c34baa95bc5e8513dc08b720370259b57bb6f166b4a22a95c09de642e23b2af92511bbce2d886bdfec9f801dad46fc7599de871f12d0ceff9581
+  checksum: cde61865a1204b960129df4a21e78d5e930e8aff3ba8eb7dba54a8c2ab5a3edf942ab44e59d47841b9c52b07a5a4e21d2368ecfe5d310cbbc0e96663a9954679
   languageName: node
   linkType: hard
 
@@ -9055,7 +9055,7 @@ __metadata:
   dependencies:
     "@babel/polyfill": 7.12.1
     "@blockchain-com/components": 6.1.1
-    "@blockchain-com/constellation": 0.0.11
+    "@blockchain-com/constellation": ^0.0.15
     "@formatjs/intl-relativetimeformat": 7.2.10
     "@ledgerhq/hw-app-btc": 4.33.7
     "@ledgerhq/hw-app-eth": 4.32.0

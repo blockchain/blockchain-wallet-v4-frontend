@@ -31,7 +31,9 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.layoutWallet, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
-  refreshActions: bindActionCreators(actions.components.refresh, dispatch)
+  refreshActions: bindActionCreators(actions.components.refresh, dispatch),
+  sessionActions: bindActionCreators(actions.session, dispatch),
+  settingsActions: bindActionCreators(actions.modules.settings, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
