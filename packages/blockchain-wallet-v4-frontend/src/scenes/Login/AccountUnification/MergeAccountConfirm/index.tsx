@@ -132,7 +132,7 @@ const MergeAccountConfirm = (props: Props) => {
       >
         {/* might need to do some loading state here while user is being logged into
         whatever product they want to  be logged into */}
-        <FormattedMessage id='copy.later' defaultMessage="I'll Do This Later" />
+        <FormattedMessage id='copy.ill_do_this_later' defaultMessage="I'll Do This Later" />
       </Button>
     </LoginWrapper>
   )

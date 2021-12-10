@@ -433,7 +433,7 @@ type MessagesType = {
   'copy.instantly_fund': 'Send, Receive and instantly fund your trades using the Trading Account.'
   'copy.interest_transactions_report': 'Reward Transactions Report'
   'copy.oops': 'Oops. Something went wrong.'
-  'copy.later:': "I'll Do This Later"
+  'copy.ill_do_this_later:': "I'll Do This Later"
   'copy.loading': 'Loading...'
   'copy.learn_more': 'Learn more'
   'copy.pending': 'Pending'

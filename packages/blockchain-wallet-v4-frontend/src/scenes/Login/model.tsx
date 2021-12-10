@@ -17,8 +17,6 @@ import { Wrapper } from 'components/Public'
 import { LoginFormType, LoginSteps } from 'data/types'
 import { media } from 'services/styles'
 
-export const LOGIN_FORM_NAME = 'login'
-
 export const removeWhitespace = (string) => string.replace(/\s/g, ``)
 
 export const TabWrapper = styled.div`

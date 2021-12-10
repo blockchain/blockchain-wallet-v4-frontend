@@ -7,6 +7,7 @@ import { RemoteDataType } from '@core/types'
 import { Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import { actions, selectors } from 'data'
+import { LOGIN_FORM } from 'data/auth/model'
 import {
   ExchangeErrorCodes,
   LoginFormType,
@@ -18,18 +19,12 @@ import {
 // step templates
 import Loading from '../loading.public'
 import MergeAccountConfirm from './AccountUnification/MergeAccountConfirm'
-import ProductPicker from './AccountUnification/ProductPicker'
 import UpgradePassword from './AccountUnification/UpgradePassword'
 import UpgradeSuccess from './AccountUnification/UpgradeSuccess'
 import ExchangeEnterEmail from './Exchange/EnterEmail'
 import EnterPasswordExchange from './Exchange/EnterPasswordExchange'
 import TwoFAExchange from './Exchange/TwoFA'
-import {
-  getLoginPageFooter,
-  getLoginPageSubTitle,
-  getLoginPageTitle,
-  LOGIN_FORM_NAME
-} from './model'
+import { getLoginPageFooter, getLoginPageSubTitle, getLoginPageTitle } from './model'
 import { getData } from './selectors'
 import VerifyMagicLink from './VerifyMagicLink'
 import CheckEmail from './Wallet/CheckEmail'
@@ -51,7 +46,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
   }
 
   setStep = (step: LoginSteps) => {
-    this.props.formActions.change(LOGIN_FORM_NAME, 'step', step)
+    this.props.formActions.change(LOGIN_FORM, 'step', step)
   }
 
   initCaptcha = (callback?) => {
@@ -74,7 +69,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
 
   handleBackArrowClick = () => {
     this.props.cacheActions.removedStoredLogin()
-    this.props.formActions.destroy(LOGIN_FORM_NAME)
+    this.props.formActions.destroy(LOGIN_FORM)
     this.setStep(LoginSteps.ENTER_EMAIL_GUID)
     this.props.authActions.clearLoginError()
     this.initCaptcha()
@@ -164,9 +159,6 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
                 return <UpgradePassword {...loginProps} />
               case LoginSteps.UPGRADE_SUCCESS:
                 return <UpgradeSuccess {...loginProps} />
-              case LoginSteps.PRODUCT_PICKER_AFTER_AUTHENTICATION:
-              case LoginSteps.PRODUCT_PICKER_BEFORE_AUTHENTICATION:
-                return <ProductPicker {...loginProps} />
               case LoginSteps.ENTER_EMAIL_GUID:
               default:
                 return product === ProductAuthOptions.EXCHANGE ? (
@@ -190,7 +182,7 @@ const mapStateToProps = (state) => ({
   authType: selectors.auth.getAuthType(state) as Number,
   data: getData(state),
   exchangeLoginData: selectors.auth.getExchangeLogin(state) as RemoteDataType<any, any>,
-  formValues: selectors.form.getFormValues(LOGIN_FORM_NAME)(state) as LoginFormType,
+  formValues: selectors.form.getFormValues(LOGIN_FORM)(state) as LoginFormType,
   initialValues: {
     step: LoginSteps.ENTER_EMAIL_GUID
   },
@@ -225,6 +217,6 @@ type StateProps = {
 }
 export type Props = ConnectedProps<typeof connector> & FormProps
 
-const enhance = compose<any>(reduxForm({ form: LOGIN_FORM_NAME }), connector)
+const enhance = compose<any>(reduxForm({ form: LOGIN_FORM }), connector)
 
 export default enhance(Login)

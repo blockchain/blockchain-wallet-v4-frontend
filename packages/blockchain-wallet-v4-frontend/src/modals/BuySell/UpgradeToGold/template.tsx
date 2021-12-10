@@ -167,7 +167,7 @@ const Template: React.FC<Props> = (props) => {
           style={{ marginTop: '8px' }}
           type='button'
         >
-          <FormattedMessage id='copy.later' defaultMessage="I'll Do This Later" />
+          <FormattedMessage id='copy.ill_do_this_later' defaultMessage="I'll Do This Later" />
         </Button>
       </ContentContainer>
     </Wrapper>
