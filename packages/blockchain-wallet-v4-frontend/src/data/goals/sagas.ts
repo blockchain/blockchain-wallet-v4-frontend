@@ -736,7 +736,11 @@ export default ({ api, coreSagas, networks }) => {
       const sddEligible = yield call(api.fetchSDDEligible)
       // show SDD flow for eligible country
       if (sddEligible.eligible) {
-        return yield put(actions.components.buySell.showModal({ origin: 'WelcomeModal' }))
+        // return yield put(actions.components.buySell.showModal({ origin: 'WelcomeModal' }))
+        // show new complete profile modal
+        return yield put(
+          actions.modals.showModal(ModalName.COMPLETE_USER_PROFILE, welcomeModal.data)
+        )
       }
       return yield put(actions.modals.showModal(welcomeModal.name, welcomeModal.data))
     }
