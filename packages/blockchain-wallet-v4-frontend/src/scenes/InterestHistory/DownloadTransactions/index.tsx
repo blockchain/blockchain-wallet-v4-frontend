@@ -115,6 +115,9 @@ class DownloadTransactions extends React.PureComponent<Props> {
           </StyledIconButton>
         ),
         Success: (val) => {
+          // eslint-disable-next-line
+          console.log('val from response', val)
+          const valResults = Array.isArray(val) ? val : [[], []]
           return this.state.hasSavedReport ? (
             <SuccessIconButton
               data-e2e='interestTxReportSaved'
@@ -128,7 +131,7 @@ class DownloadTransactions extends React.PureComponent<Props> {
             </SuccessIconButton>
           ) : (
             <DownloadButton
-              data={val}
+              data={valResults}
               filename='Interest_Transactions.csv'
               onClick={this.handleSaveReport}
               target='_blank'
