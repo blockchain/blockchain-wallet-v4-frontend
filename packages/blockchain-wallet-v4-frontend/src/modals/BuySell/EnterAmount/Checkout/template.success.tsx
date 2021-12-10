@@ -508,48 +508,33 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               </Scheduler>
             )}
 
-          {(!props.isSddFlow || props.orderType === OrderType.SELL) &&
-            props.pair &&
-            Number(min) <= Number(max) && (
-              <Amounts>
-                <MaxAvailableWrapper orderType={orderType}>
-                  {orderType === OrderType.SELL && (
-                    <ActionsItem>
-                      <Text color='grey600' size='14px' weight={500}>
-                        <FormattedMessage id='copy.available' defaultMessage='Available' />
-                      </Text>
-                      <Text color='grey900' weight={600}>
-                        {getValue(max)}
-                      </Text>
-                    </ActionsItem>
-                  )}
-                  <CartridgeWrapper onClick={handleMinMaxClick}>
-                    <Cartridge error={amtError === 'ABOVE_MAX'}>
-                      <FormattedMessage
-                        id='modals.simplebuy.checkout.maxbuysell'
-                        defaultMessage='{orderType} Max'
-                        values={{
-                          orderType: orderType === OrderType.BUY ? 'Buy' : 'Sell'
-                        }}
-                      />
-                    </Cartridge>
-                  </CartridgeWrapper>
-                </MaxAvailableWrapper>
-              </Amounts>
-            )}
-          {!props.isSddFlow &&
-            props.orderType === OrderType.SELL &&
-            props.pair &&
-            Number(min) > Number(max) && (
-              <Amounts>
-                <GreyBlueCartridge role='button' data-e2e='sbEnterAmountNotEnoughFundsForSell'>
-                  <FormattedMessage
-                    id='modals.simplebuy.checkout.not_enough_funds_for_sell'
-                    defaultMessage='Not Enough funds for Sell'
-                  />
-                </GreyBlueCartridge>
-              </Amounts>
-            )}
+          {(!props.isSddFlow || props.orderType === OrderType.SELL) && props.pair && (
+            <Amounts>
+              <MaxAvailableWrapper orderType={orderType}>
+                {orderType === OrderType.SELL && (
+                  <ActionsItem>
+                    <Text color='grey600' size='14px' weight={500}>
+                      <FormattedMessage id='copy.available' defaultMessage='Available' />
+                    </Text>
+                    <Text color='grey900' weight={600}>
+                      {getValue(max)}
+                    </Text>
+                  </ActionsItem>
+                )}
+                <CartridgeWrapper onClick={handleMinMaxClick}>
+                  <Cartridge error={amtError === 'ABOVE_MAX'}>
+                    <FormattedMessage
+                      id='modals.simplebuy.checkout.maxbuysell'
+                      defaultMessage='{orderType} Max'
+                      values={{
+                        orderType: orderType === OrderType.BUY ? 'Buy' : 'Sell'
+                      }}
+                    />
+                  </Cartridge>
+                </CartridgeWrapper>
+              </MaxAvailableWrapper>
+            </Amounts>
+          )}
           {props.isSddFlow && props.orderType === OrderType.BUY && (
             <ActionsRow>
               <ActionsItem>
