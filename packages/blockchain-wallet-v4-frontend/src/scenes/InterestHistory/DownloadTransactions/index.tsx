@@ -115,8 +115,7 @@ class DownloadTransactions extends React.PureComponent<Props> {
           </StyledIconButton>
         ),
         Success: (val) => {
-          // eslint-disable-next-line
-          console.log('val from response', val)
+          // potential race condition in render - ensure data is always valid for csv
           const valResults = Array.isArray(val) ? val : [[], []]
           return this.state.hasSavedReport ? (
             <SuccessIconButton
