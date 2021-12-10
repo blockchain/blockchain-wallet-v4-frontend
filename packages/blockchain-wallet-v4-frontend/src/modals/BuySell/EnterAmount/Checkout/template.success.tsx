@@ -512,44 +512,29 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             props.pair &&
             Number(min) <= Number(max) && (
               <Amounts>
-                {amtError === 'BELOW_MIN' ? (
+                <MaxAvailableWrapper orderType={orderType}>
+                  {orderType === OrderType.SELL && (
+                    <ActionsItem>
+                      <Text color='grey600' size='14px' weight={500}>
+                        <FormattedMessage id='copy.available' defaultMessage='Available' />
+                      </Text>
+                      <Text color='grey900' weight={600}>
+                        {getValue(max)}
+                      </Text>
+                    </ActionsItem>
+                  )}
                   <CartridgeWrapper onClick={handleMinMaxClick}>
-                    <GreyBlueCartridge data-e2e='sbEnterAmountMin' role='button'>
+                    <Cartridge error={amtError === 'ABOVE_MAX'}>
                       <FormattedMessage
-                        id='modals.simplebuy.checkout.belowmin'
-                        defaultMessage='{value} Minimum {orderType}'
+                        id='modals.simplebuy.checkout.maxbuysell'
+                        defaultMessage='{orderType} Max'
                         values={{
-                          orderType: props.orderType === OrderType.BUY ? 'Buy' : 'Sell',
-                          value: getValue(min)
+                          orderType: orderType === OrderType.BUY ? 'Buy' : 'Sell'
                         }}
                       />
-                    </GreyBlueCartridge>
+                    </Cartridge>
                   </CartridgeWrapper>
-                ) : (
-                  <MaxAvailableWrapper orderType={orderType}>
-                    {orderType === OrderType.SELL && (
-                      <ActionsItem>
-                        <Text color='grey600' size='14px' weight={500}>
-                          <FormattedMessage id='copy.available' defaultMessage='Available' />
-                        </Text>
-                        <Text color='grey900' weight={600}>
-                          {getValue(max)}
-                        </Text>
-                      </ActionsItem>
-                    )}
-                    <CartridgeWrapper onClick={handleMinMaxClick}>
-                      <Cartridge error={amtError === 'ABOVE_MAX'}>
-                        <FormattedMessage
-                          id='modals.simplebuy.checkout.maxbuysell'
-                          defaultMessage='{orderType} Max'
-                          values={{
-                            orderType: orderType === OrderType.BUY ? 'Buy' : 'Sell'
-                          }}
-                        />
-                      </Cartridge>
-                    </CartridgeWrapper>
-                  </MaxAvailableWrapper>
-                )}
+                </MaxAvailableWrapper>
               </Amounts>
             )}
           {!props.isSddFlow &&
