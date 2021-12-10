@@ -17,14 +17,14 @@ class BillingAddress extends PureComponent<Props> {
   }
 
   handleSubmit = () => {
-    this.props.buySellActions.setStep({ step: 'ADD_CARD_DETERMINE_PROVIDER' })
+    this.props.buySellActions.setStep({ step: 'DETERMINE_CARD_PROVIDER' })
   }
 
   render() {
     return this.props.data.cata({
       Failure: () => (
         <DataError
-          onClick={() => this.props.buySellActions.setStep({ step: 'ADD_CARD_DETERMINE_PROVIDER' })}
+          onClick={() => this.props.buySellActions.setStep({ step: 'DETERMINE_CARD_PROVIDER' })}
         />
       ),
       Loading: () => <Loading />,

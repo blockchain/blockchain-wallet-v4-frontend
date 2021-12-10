@@ -36,8 +36,7 @@ const NoAccountsText = styled.div`
 
 class SendCoinSelect extends React.PureComponent<InjectedFormProps<{}, Props> & Props> {
   render() {
-    const { close, data, formActions, sendCryptoActions, sendableCoins, walletCurrency } =
-      this.props
+    const { close, data, formActions, sendCryptoActions, walletCurrency } = this.props
 
     return (
       <Wrapper>

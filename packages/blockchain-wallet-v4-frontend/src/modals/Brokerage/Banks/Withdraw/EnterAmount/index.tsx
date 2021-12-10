@@ -6,9 +6,10 @@ import { Remote } from '@core'
 import { BSPaymentTypes } from '@core/network/api/buySell/types'
 import {
   BeneficiaryType,
-  ExtractSuccess,
   BSPaymentMethodType,
-  WalletAcountEnum,
+  CrossBorderLimitsPayload,
+  ExtractSuccess,
+  WalletAccountEnum,
   WalletFiatType
 } from '@core/types'
 import { EnterAmount, FlyoutOopsError } from 'components/Flyout'
@@ -39,23 +40,23 @@ const EnterAmountContainer = (props: Props) => {
     }
     // We need to make this call each time we load the enter amount component
     // because the bank wires and ach have different min/max/fees
-    props.withdrawActions.fetchWithdrawalFees(paymentMethod)
+    props.withdrawActions.fetchWithdrawalFees({ paymentMethod })
 
     if (props.fiatCurrency && !Remote.Success.is(props.data)) {
       props.brokerageActions.fetchBankTransferAccounts()
       props.custodialActions.fetchCustodialBeneficiaries(props.fiatCurrency)
-      props.withdrawActions.fetchWithdrawalLock()
+      props.withdrawActions.fetchWithdrawalLock({})
     }
 
     // cross border limits
-    const fromAccount = WalletAcountEnum.CUSTODIAL
-    const toAccount = WalletAcountEnum.NON_CUSTODIAL
-    props.withdrawActions.fetchCrossBorderLimits(
-      props.fiatCurrency,
+    const fromAccount = WalletAccountEnum.CUSTODIAL
+    const toAccount = WalletAccountEnum.NON_CUSTODIAL
+    props.withdrawActions.fetchCrossBorderLimits({
       fromAccount,
-      props.fiatCurrency,
+      inputCurrency: props.fiatCurrency,
+      outputCurrency: props.fiatCurrency,
       toAccount
-    )
+    } as CrossBorderLimitsPayload)
   }, [props.fiatCurrency])
 
   const errorCallback = useCallback(() => {

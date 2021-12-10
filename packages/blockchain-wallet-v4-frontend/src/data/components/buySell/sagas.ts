@@ -21,7 +21,6 @@ import {
   ProductTypes,
   ProviderDetailsType,
   SwapOrderType,
-  WalletFiatType,
   WalletOptionsType
 } from '@core/types'
 import { errorHandler, errorHandlerCode } from '@core/utils'
@@ -56,6 +55,7 @@ import {
   getCoinFromPair,
   getFiatFromPair,
   getNextCardExists,
+  isFiatCurrencySupported,
   NO_ACCOUNT,
   NO_CHECKOUT_VALUES,
   NO_FIAT_CURRENCY,
@@ -206,7 +206,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const error = errorHandler(e)
       yield put(
         A.setStep({
-          step: 'ADD_CARD_DETERMINE_PROVIDER'
+          step: 'DETERMINE_CARD_PROVIDER'
         })
       )
       yield put(actions.form.startSubmit(FORM_BS_ADD_EVERYPAY_CARD))
@@ -271,11 +271,19 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const values: T.BSCheckoutFormValuesType = yield select(
       selectors.form.getFormValues(FORM_BS_CHECKOUT)
     )
+    const isFlexiblePricingModel = (yield select(
+      selectors.core.walletOptions.getFlexiblePricingModel
+    )).getOrElse(false)
     try {
       const pair = S.getBSPair(yield select())
-      const buyQuote = S.getBuyQuote(yield select())
+      const buyQuote = isFlexiblePricingModel
+        ? S.getBuyQuote(yield select()).getOrFail(NO_QUOTE)
+        : undefined
+      console.log('buyQuote() redux state', buyQuote)
+
       if (!values) throw new Error(NO_CHECKOUT_VALUES)
       if (!pair) throw new Error(NO_PAIR_SELECTED)
+      if (!buyQuote) throw new Error(NO_QUOTE)
       const { fix, orderType, period } = values
 
       // since two screens use this order creation saga and they have different
@@ -368,13 +376,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         input,
         output,
         paymentType,
-        buyQuote.data.quote.quoteId,
         period,
-        paymentMethodId
+        paymentMethodId,
+        buyQuote.quote.quoteId
       )
-
-      // eslint-disable-next-line no-console
-      console.log('[buyOrder is here!!!]: ', buyOrder)
 
       yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT))
       yield put(A.fetchOrders())
@@ -466,8 +471,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
                 everypay: {
                   customerUrl: `${domains.walletHelper}/wallet-helper/everypay/#/response-handler`
                 },
-                // TODO add correct redirect url here
-                redirectURL: '###'
+                // TODO add correct redirect url here for checkout, everypay and stripe, like `card-provider`
+                redirectURL: `${domains.walletHelper}/wallet-helper/everypay/#/response-handler`
               }
             : undefined
       } else if (account?.partner === BankPartners.YAPILY) {
@@ -634,6 +639,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         api.getBSCards,
         Boolean(selectors.core.walletOptions.getUseNewPaymentProviders(yield select()))
       )
+
       yield put(A.fetchCardsSuccess(cards))
     } catch (e) {
       const error = errorHandler(e)
@@ -803,8 +809,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  // TODO: this (legacy?) fetch quote does not seem to be used - remove?
   const fetchBSQuote = function* ({ payload }: ReturnType<typeof A.fetchQuote>) {
+    // this is actually fetchQuote() action
     try {
       const { amount, orderType, pair } = payload
       yield put(A.fetchQuoteLoading())
@@ -819,16 +825,15 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const fetchBuyQuote = function* ({ payload }: ReturnType<typeof A.fetchBuyQuote>) {
     try {
       yield put(A.fetchQuoteLoading())
-
-      const { inputValue, pair, paymentMethod, paymentMethodId, profile } = payload
+      const { amount, pair } = payload
 
       const quote: ReturnType<typeof api.getBuyQuote> = yield call(
         api.getBuyQuote,
         pair,
-        profile,
-        inputValue,
-        paymentMethod,
-        paymentMethodId
+        'SIMPLEBUY',
+        amount,
+        'BANK_TRANSFER',
+        'd74992e0-a462-4aeb-903e-fc8e9a11bb40'
       )
 
       yield put(A.fetchBuyQuoteSuccess({ quote }))
@@ -838,7 +843,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const error = errorHandler(e)
       yield put(A.fetchBuyQuoteFailure(error))
       yield delay(FALLBACK_DELAY)
-      // yield put(A.startPollSellQuote(payload))
+      yield put(A.startPollBuyQuote(payload))
     }
   }
 
@@ -1049,7 +1054,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       case BSPaymentTypes.PAYMENT_CARD:
         return yield put(
           A.setStep({
-            step: 'ADD_CARD_DETERMINE_PROVIDER'
+            step: 'DETERMINE_CARD_PROVIDER'
           })
         )
       default:
@@ -1107,12 +1112,33 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (!pair) throw new Error(NO_PAIR_SELECTED)
       // Fetch rates
       if (orderType === OrderType.BUY) {
-        yield put(A.fetchQuote({ amount: '0', orderType, pair: pair.pair }))
+        // Q for dylan: what is the code below for?
+        // yield put(A.fetchQuote({ amount: '0', orderType, pair: pair.pair }))
+        console.log('amount/pair before buyQuote: ', amount, pair)
+        const isFlexiblePricingModel = (yield select(
+          selectors.core.walletOptions.getFlexiblePricingModel
+        )).getOrElse(false)
+        if (isFlexiblePricingModel) {
+          yield put(A.fetchBuyQuote({ amount: '0', pair: pair.pair }))
+        } else {
+          // Q for dylan: what is this code for?
+          yield put(A.fetchQuote({ amount: '0', orderType, pair: pair.pair }))
+        }
+        if (isFlexiblePricingModel) {
+          yield put(A.startPollBuyQuote({ amount, pair: pair.pair }))
+          yield race({
+            failure: take(A.fetchBuyQuoteFailure.type),
+            success: take(A.fetchBuyQuoteSuccess.type)
+          })
+          const quote = S.getBuyQuote(yield select()).getOrFail(NO_QUOTE)
+          console.log('final quote: ', quote)
+          console.log('final quote amount: ', amount)
+        }
+
         // used for sell only now, eventually buy as well
         // TODO: use swap2 quote for buy AND sell
       } else {
         if (!account) throw NO_ACCOUNT
-
         yield put(A.fetchSellQuote({ account, pair: pair.pair }))
         yield put(A.startPollSellQuote({ account, pair: pair.pair }))
         yield race({
@@ -1158,7 +1184,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const pollBSCardErrorHandler = function* (state: BSCardStateType) {
-    yield put(A.setStep({ step: 'ADD_CARD_DETERMINE_PROVIDER' }))
+    yield put(A.setStep({ step: 'DETERMINE_CARD_PROVIDER' }))
     yield put(actions.form.startSubmit(FORM_BS_ADD_EVERYPAY_CARD))
 
     let error
@@ -1197,7 +1223,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       card = yield call(api.getBSCard, payload)
       retryAttempts += 1
       step = S.getStep(yield select())
-      if (step !== '3DS_HANDLER_EVERYPAY') {
+      if (
+        step !== '3DS_HANDLER_EVERYPAY' &&
+        step !== '3DS_HANDLER_STRIPE' &&
+        step !== '3DS_HANDLER_CHECKOUTDOTCOM'
+      ) {
         yield cancel()
       }
       yield delay(3000)
@@ -1234,7 +1264,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       order = yield call(api.getBSOrder, payload)
       step = S.getStep(yield select())
       retryAttempts += 1
-      if (step !== '3DS_HANDLER_EVERYPAY') {
+      if (
+        step !== '3DS_HANDLER_EVERYPAY' &&
+        step !== '3DS_HANDLER_STRIPE' &&
+        step !== '3DS_HANDLER_CHECKOUTDOTCOM'
+      ) {
         yield cancel()
       }
       yield delay(3000)
@@ -1250,7 +1284,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
     }
 
-    if (action.payload.step === 'ADD_CARD_DETERMINE_PROVIDER') {
+    if (action.payload.step === 'DETERMINE_CARD_PROVIDER') {
       const addCheckoutDotComPaymentProvider: boolean = (yield select(
         selectors.core.walletOptions.getAddCheckoutDotComPaymentProvider
       )).getOrElse(false)
@@ -1328,7 +1362,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield put(actions.modals.showModal('SIMPLE_BUY_MODAL', { cryptoCurrency, origin }))
     const fiatCurrency = selectors.core.settings
       .getCurrency(yield select())
-      .getOrElse('USD') as WalletFiatType
+      .getOrElse('USD') as FiatType
 
     // When user closes the QR code modal and opens it via one of the pending
     // buy buttons in the app. We need to take them to the qrcode screen and
@@ -1376,7 +1410,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           break
       }
     } else {
-      yield put(A.setStep({ cryptoCurrency, fiatCurrency, step: 'CRYPTO_SELECTION' }))
+      const originalFiatCurrency = isFiatCurrencySupported(fiatCurrency) ? undefined : fiatCurrency
+      yield put(
+        A.setStep({ cryptoCurrency, fiatCurrency, originalFiatCurrency, step: 'CRYPTO_SELECTION' })
+      )
     }
   }
 
@@ -1425,6 +1462,35 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
+  const setFiatTradingCurrency = function* () {
+    try {
+      const state = yield select()
+      const cryptoCurrency = S.getCryptoCurrency(state) || 'BTC'
+      const fiatCurrency = S.getFiatCurrency(state) || 'USD'
+      const orderType = S.getOrderType(state) || 'BUY'
+      yield put(A.fetchPairs({ coin: cryptoCurrency, currency: fiatCurrency }))
+      // wait to load new pairs
+      yield take([A.fetchPairsSuccess.type, A.fetchPairsFailure.type])
+      // state has been changed we need most recent pairs
+      const pairs = S.getBSPairs(yield select()).getOrElse([])
+
+      // find a pair
+      const pair = pairs.filter((pair) => pair.pair === `${cryptoCurrency}-${fiatCurrency}`)[0]
+      yield put(A.fetchPaymentMethods(fiatCurrency))
+      yield put(
+        A.setStep({
+          cryptoCurrency,
+          fiatCurrency,
+          orderType,
+          pair,
+          step: 'ENTER_AMOUNT'
+        })
+      )
+    } catch (e) {
+      // do nothing
+    }
+  }
+
   return {
     activateBSCard,
     addCardDetails,
@@ -1463,6 +1529,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     pollBSBalances,
     pollBSCard,
     pollBSOrder,
+    setFiatTradingCurrency,
     setStepChange,
     showModal,
     switchFix

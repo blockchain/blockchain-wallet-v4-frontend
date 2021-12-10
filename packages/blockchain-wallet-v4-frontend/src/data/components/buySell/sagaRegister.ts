@@ -49,6 +49,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.pollOrder.type, buySellSagas.pollBSOrder)
     yield takeLatest(actions.showModal.type, buySellSagas.showModal)
     yield takeLatest(actions.switchFix.type, buySellSagas.switchFix)
+    yield takeLatest(actions.setFiatTradingCurrency.type, buySellSagas.setFiatTradingCurrency)
     yield takeLatest(actions.fetchCrossBorderLimits.type, buySellSagas.fetchCrossBorderLimits)
 
     // Fetch balances when profile/user is fetched
@@ -82,6 +83,16 @@ export default ({ api, coreSagas, networks }) => {
         if (pollTask && pollTask.isRunning()) yield cancel(pollTask)
         pollTask = yield fork(buySellSagas.fetchSellQuote, payload)
         yield take(actions.stopPollSellQuote.type)
+        yield cancel(pollTask)
+      }
+    )
+
+    yield takeLatest(
+      actions.startPollBuyQuote.type,
+      function* (payload: ReturnType<typeof actions.startPollBuyQuote>) {
+        if (pollTask && pollTask.isRunning()) yield cancel(pollTask)
+        pollTask = yield fork(buySellSagas.fetchBuyQuote, payload)
+        yield take(actions.stopPollBuyQuote.type)
         yield cancel(pollTask)
       }
     )

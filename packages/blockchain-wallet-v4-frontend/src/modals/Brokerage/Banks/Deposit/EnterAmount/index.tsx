@@ -4,7 +4,7 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
 import { BSPaymentMethodType } from '@core/network/api/buySell/types'
-import { CrossBorderLimitsPyload, FiatType, BSPaymentTypes, WalletAcountEnum } from '@core/types'
+import { BSPaymentTypes, CrossBorderLimitsPayload, FiatType, WalletAccountEnum } from '@core/types'
 import { EnterAmount, FlyoutOopsError } from 'components/Flyout'
 import { getDefaultMethod } from 'components/Flyout/model'
 import { actions, selectors } from 'data'
@@ -31,11 +31,11 @@ const EnterAmountContainer = (props: Props) => {
 
     // fetch crossborder limits
     props.brokerageActions.fetchCrossBorderLimits({
-      fromAccount: WalletAcountEnum.NON_CUSTODIAL,
+      fromAccount: WalletAccountEnum.NON_CUSTODIAL,
       inputCurrency: props.fiatCurrency,
       outputCurrency: props.fiatCurrency,
-      toAccount: WalletAcountEnum.CUSTODIAL
-    } as CrossBorderLimitsPyload)
+      toAccount: WalletAccountEnum.CUSTODIAL
+    } as CrossBorderLimitsPayload)
   }, [props.fiatCurrency])
 
   const onSubmit = () => {

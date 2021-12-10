@@ -2,34 +2,30 @@ import {
   AssetEventsType,
   ExplorerGatewayNftCollectionType,
   NftAssetsType,
-  NftOrdersType
+  NftOrdersType,
+  OfferEventsType
 } from './types'
 
 // const JAYZ_ADDRESS = '0x3b417faee9d2ff636701100891dc2755b5321cc3'
 export const NFT_ORDER_PAGE_LIMIT = 10
-const openseaApi = 'https://api.opensea.io/api/v1'
-const openseaExchangeApi = 'https://api.opensea.io/wyvern/v1'
 
-export default ({ apiUrl, get, post }) => {
-  const postNftOrder = (order) => {
-    return post({
-      contentType: 'application/json',
-      data: order,
-      endPoint: `/orders/post/`,
-      headers: {
-        'X-API-KEY': 'd0b6281e87d84702b020419fdf58ea81'
-      },
-      ignoreQueryParams: true,
-      removeDefaultPostData: true,
-      url: `${openseaExchangeApi}`
-    })
+export default ({ apiUrl, get, openseaApi, post }) => {
+  const IS_TESTNET = openseaApi && openseaApi.includes('rinkeby')
+  const openseaUrl = `${openseaApi}/api/v1`
+  const openseaMarketplaceApi = `${openseaApi}/wyvern/v1`
+
+  const headers = {
+    'X-API-KEY': IS_TESTNET
+      ? 'b6f0671559ae4285bcecc7b9702f224a'
+      : 'd0b6281e87d84702b020419fdf58ea81'
   }
 
   const getAssetContract = (asset_contract_address: string) => {
     return get({
       endPoint: `/${asset_contract_address}`,
+      headers,
       ignoreQueryParams: true,
-      url: `${openseaApi}/asset_contract`
+      url: `${openseaUrl}/asset_contract`
     })
   }
 
@@ -37,7 +33,7 @@ export default ({ apiUrl, get, post }) => {
     return get({
       endPoint: `/${contract_address}/${token_id}`,
       ignoreQueryParams: true,
-      url: `${openseaApi}/asset`
+      url: `${openseaUrl}/asset`
     })
   }
 
@@ -52,7 +48,22 @@ export default ({ apiUrl, get, post }) => {
         offset * NFT_ORDER_PAGE_LIMIT
       }&limit=${limit}`,
       ignoreQueryParams: true,
-      url: `${openseaApi}/assets`
+      url: `${openseaUrl}/assets`
+    })
+  }
+
+  const getOffersMade = (
+    account_address: string,
+    offset = 0,
+    limit = NFT_ORDER_PAGE_LIMIT
+  ): OfferEventsType => {
+    return get({
+      endPoint: `?only_opensea=true&offset=${
+        offset * NFT_ORDER_PAGE_LIMIT
+      }&limit=${limit}&event_type=offer_entered&account_address=${account_address}`,
+      headers,
+      ignoreQueryParams: true,
+      url: `${openseaUrl}/events`
     })
   }
 
@@ -69,9 +80,12 @@ export default ({ apiUrl, get, post }) => {
     })
   }
 
+  // TODO
+  // const getOffersReceived = () => {}
+
   const getNftCollectionInfo = (slug: string) => {
     return get({
-      endPoint: `/nft/collection/${slug}`,
+      endPoint: `/nft/collection/${slug}/${IS_TESTNET ? 'rinkeby' : ''}`,
       ignoreQueryParams: true,
       url: `${apiUrl}/explorer-gateway`
     })
@@ -82,11 +96,9 @@ export default ({ apiUrl, get, post }) => {
       endPoint: `/events?collection_slug=${slug}&event_type=created&format=json&limit=${NFT_ORDER_PAGE_LIMIT}&offset=${
         NFT_ORDER_PAGE_LIMIT * page
       }`,
-      headers: {
-        'X-API-KEY': 'd0b6281e87d84702b020419fdf58ea81'
-      },
+      headers,
       ignoreQueryParams: true,
-      url: openseaApi
+      url: openseaUrl
     })
   }
 
@@ -99,11 +111,21 @@ export default ({ apiUrl, get, post }) => {
   ): NftOrdersType => {
     return get({
       endPoint: `?asset_contract_address=${asset_contract_address}&sale_kind=0&bundled=false&include_bundled=false&include_invalid=false&is_english=false&side=${side}&limit=${limit}${token_ids}`,
-      headers: {
-        'X-API-KEY': 'd0b6281e87d84702b020419fdf58ea81'
-      },
+      headers,
       ignoreQueryParams: true,
-      url: `${openseaExchangeApi}/orders`
+      url: `${openseaMarketplaceApi}/orders`
+    })
+  }
+
+  const postNftOrder = (order) => {
+    return post({
+      contentType: 'application/json',
+      data: order,
+      endPoint: `/orders/post/`,
+      headers,
+      ignoreQueryParams: true,
+      removeDefaultPostData: true,
+      url: `${openseaMarketplaceApi}`
     })
   }
 
@@ -115,6 +137,7 @@ export default ({ apiUrl, get, post }) => {
     getNftCollections,
     getNftOrders,
     getNftRecentEvents,
+    getOffersMade,
     postNftOrder
   }
 }

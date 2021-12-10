@@ -20,6 +20,7 @@ import { ErrorCartridge } from 'components/Cartridge'
 import { FlyoutWrapper, Row } from 'components/Flyout'
 import { getPeriodSubTitleText, getPeriodTitleText } from 'components/Flyout/model'
 import { Form } from 'components/Form'
+import { model } from 'data'
 import {
   getBaseAmount,
   getBaseCurrency,
@@ -37,7 +38,6 @@ import {
   getPaymentMethodDetails
 } from '../model'
 import { Props as OwnProps, SuccessStateType } from '.'
-import { model } from 'data'
 
 const { FORM_BS_CHECKOUT_CONFIRM } = model.components.buySell
 

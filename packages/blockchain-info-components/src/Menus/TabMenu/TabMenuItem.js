@@ -41,7 +41,7 @@ const TabMenuItem = (props) => {
   const isSelectedOrActive = selected || className === 'active'
 
   return (
-    <BaseTabMenuItem selected={isSelectedOrActive} {...rest}>
+    <BaseTabMenuItem role='button' selected={isSelectedOrActive} {...rest}>
       {children}
     </BaseTabMenuItem>
   )

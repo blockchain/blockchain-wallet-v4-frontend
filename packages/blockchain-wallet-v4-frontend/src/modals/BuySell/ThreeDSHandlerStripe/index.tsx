@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import styled from 'styled-components'
 
 import { WalletOptionsType } from '@core/types'
+import DataError from 'components/DataError'
 import { FlyoutWrapper } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -19,32 +20,24 @@ const Iframe = styled.iframe`
 `
 
 const ThreeDSHandlerStripe = ({ buySellActions, domains, order }: Props) => {
+  const [isError, setError] = useState(false)
+  if (!order) {
+    throw new Error('Order is not defined')
+  }
+
   const handlePostMessage = async ({
     data
   }: {
-    data: { details: any; status: 'error' | 'success' }
+    data: { details: any; provider: 'stripe'; status: 'error' | 'success' }
   }) => {
-    // eslint-disable-next-line no-console
-    console.log('RECEIVED_MESSAGE', data)
+    if (data.provider !== 'stripe') return
 
     if (data.status === 'error') {
-      // TODO handle this error
-      // eslint-disable-next-line no-alert
-      window.alert('FAILED')
+      setError(true)
+    }
 
-      buySellActions.setStep({
-        fiatCurrency: 'USD',
-        step: 'CRYPTO_SELECTION'
-      })
-    } else if (data.status === 'success') {
-      if (!order) {
-        throw new Error('order not found')
-      }
-
-      buySellActions.setStep({
-        order,
-        step: 'ORDER_SUMMARY'
-      })
+    if (data.status === 'success') {
+      await buySellActions.pollOrder(order.id)
     }
   }
 
@@ -54,10 +47,18 @@ const ThreeDSHandlerStripe = ({ buySellActions, domains, order }: Props) => {
     return () => window.removeEventListener('message', handlePostMessage, false)
   })
 
+  const handleRefresh = () => {
+    buySellActions.destroyCheckout()
+  }
+
+  if (isError) {
+    return <DataError onClick={handleRefresh} />
+  }
+
   return (
     <CustomFlyoutWrapper>
       <Iframe
-        src={`${domains.walletHelper}/wallet-helper/stripe/#/paymentLink/${order?.attributes?.cardProvider?.publishableKey}/${order?.attributes?.cardProvider?.clientSecret}}`}
+        src={`${domains.walletHelper}/wallet-helper/stripe/#/paymentLink/${order?.attributes?.cardProvider?.publishableApiKey}/${order?.attributes?.cardProvider?.clientSecret}`}
       />
     </CustomFlyoutWrapper>
   )

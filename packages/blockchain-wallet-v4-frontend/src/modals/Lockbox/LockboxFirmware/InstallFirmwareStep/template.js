@@ -17,7 +17,7 @@ const Content = styled.div`
   align-items: center;
 `
 
-const InstallFirmware = (props) => {
+const InstallFirmware = () => {
   return (
     <>
       <Title>

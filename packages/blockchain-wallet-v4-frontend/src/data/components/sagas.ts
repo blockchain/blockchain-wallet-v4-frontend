@@ -29,6 +29,7 @@ import signMessage from './signMessage/sagas'
 import swap from './swap/sagas'
 import uploadDocuments from './uploadDocuments/sagas'
 import veriff from './veriff/sagas'
+import walletConnect from './walletConnect/sagas'
 import withdraw from './withdraw/sagas'
 import xlmTransactions from './xlmTransactions/sagas'
 
@@ -64,6 +65,7 @@ export default ({ api, coreSagas, networks }) => ({
   swap: swap({ api, coreSagas, networks }),
   uploadDocument: uploadDocuments({ api }),
   veriff: veriff({ api, coreSagas }),
+  walletConnect: walletConnect({ coreSagas }),
   withdraw: withdraw({ api }),
   xlmTransactions: xlmTransactions()
 })

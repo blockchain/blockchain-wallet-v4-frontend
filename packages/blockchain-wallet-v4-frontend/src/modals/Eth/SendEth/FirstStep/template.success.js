@@ -206,6 +206,7 @@ const FirstStep = (props) => {
             coin={coin}
             validate={[required, invalidAmount, insufficientFunds, maximumAmount, isSendLimitOver]}
             data-e2e={`${coin}Send`}
+            errorBottom
             marginTop='8px'
           />
         </FormItem>

@@ -171,6 +171,8 @@ const isLimitError = (code: number | string): boolean => {
 }
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
+  console.log('props here:', props)
+
   const {
     cards,
     crossBorderLimits,
@@ -180,7 +182,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     method: selectedMethod,
     orderType
   } = props
-  const [fontRatio, setRatio] = useState(1)
+  const [fontRatio, setFontRatio] = useState(1)
   const setOrderFrequncy = useCallback(() => {
     props.buySellActions.setStep({ step: 'FREQUENCY' })
   }, [props.buySellActions])
@@ -338,7 +340,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
   const resizeSymbol = (isFiat, inputNode, fontSizeRatio, fontSizeNumber) => {
     if (Number(fontSizeRatio) > 0) {
-      setRatio(fontSizeRatio > 1 ? 1 : fontSizeRatio)
+      setFontRatio(fontSizeRatio > 1 ? 1 : fontSizeRatio)
     }
     const amountRowNode = inputNode.closest('#amount-row')
     const currencyNode = isFiat
@@ -645,26 +647,38 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           {!showLimitError && showError && (
             <ButtonContainer>
               <AlertButton>
-                {amtError === 'BELOW_MIN' ? (
+                {props.orderType === OrderType.BUY ? (
+                  amtError === 'BELOW_MIN' ? (
+                    <FormattedMessage
+                      id='copy.not_enough_coin'
+                      defaultMessage='Not Enough {coin}'
+                      values={{
+                        value:
+                          fix === 'FIAT'
+                            ? fiatToString({ unit: props.walletCurrency, value: min })
+                            : `${min} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`
+                      }}
+                    />
+                  ) : (
+                    <FormattedMessage
+                      id='copy.above_max'
+                      defaultMessage='{amount} Maximum'
+                      values={{
+                        amount:
+                          fix === 'FIAT'
+                            ? fiatToString({ unit: props.walletCurrency, value: max })
+                            : `${max} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`
+                      }}
+                    />
+                  )
+                ) : null}
+
+                {props.orderType === OrderType.SELL && (
                   <FormattedMessage
-                    id='copy.below_min'
-                    defaultMessage='{value} Minimum'
+                    id='copy.not_enough_coin'
+                    defaultMessage='Not Enough {coin}'
                     values={{
-                      value:
-                        fix === 'FIAT'
-                          ? fiatToString({ unit: props.walletCurrency, value: min })
-                          : `${min} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`
-                    }}
-                  />
-                ) : (
-                  <FormattedMessage
-                    id='copy.above_max'
-                    defaultMessage='{amount} Maximum'
-                    values={{
-                      amount:
-                        fix === 'FIAT'
-                          ? fiatToString({ unit: props.walletCurrency, value: max })
-                          : `${max} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`
+                      coin: cryptoCurrency
                     }}
                   />
                 )}

@@ -69,7 +69,7 @@ export enum BuySellStepType {
   '3DS_HANDLER_EVERYPAY',
   '3DS_HANDLER_STRIPE',
   '3DS_HANDLER_CHECKOUTDOTCOM',
-  'ADD_CARD_DETERMINE_PROVIDER',
+  'DETERMINE_CARD_PROVIDER',
   'ADD_CARD_CHECKOUTDOTCOM',
   'ADD_CARD_EVERYPAY',
   'AUTHORIZE_PAYMENT',
@@ -84,6 +84,7 @@ export enum BuySellStepType {
   'OPEN_BANKING_CONNECT',
   'PAYMENT_METHODS',
   'PREVIEW_SELL',
+  'TRADING_CURRENCY_SELECTOR',
   'ORDER_SUMMARY',
   'SELL_ORDER_SUMMARY',
   'TRANSFER_DETAILS',
@@ -142,6 +143,7 @@ export type BuySellState = {
   orderType?: BSOrderActionType
   orders: RemoteDataType<string, Array<BSOrderType>>
   origin?: BSShowModalOriginType
+  originalFiatCurrency: undefined | FiatType
   pair: undefined | BSPairType
   pairs: RemoteDataType<string, Array<BSPairType>>
   payment: RemoteDataType<string, undefined | PaymentValue>
@@ -190,6 +192,7 @@ export type StepActionsPayload =
       cryptoCurrency?: CoinType
       fiatCurrency: FiatType
       orderType?: BSOrderActionType
+      originalFiatCurrency?: FiatType
       step: 'CRYPTO_SELECTION'
     }
   | {
@@ -227,11 +230,12 @@ export type StepActionsPayload =
     }
   | {
       step:
-        | 'ADD_CARD_DETERMINE_PROVIDER'
+        | 'DETERMINE_CARD_PROVIDER'
         | 'ADD_CARD_EVERYPAY'
         | 'CC_BILLING_ADDRESS'
         | 'KYC_REQUIRED'
         | 'UPGRADE_TO_GOLD'
         | 'LOADING'
+        | 'TRADING_CURRENCY_SELECTOR'
         | 'FREQUENCY'
     }

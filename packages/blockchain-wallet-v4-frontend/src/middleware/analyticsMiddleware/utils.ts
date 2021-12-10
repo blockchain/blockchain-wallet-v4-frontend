@@ -10,7 +10,7 @@ import type {
 } from 'middleware/analyticsMiddleware/types'
 import { PaymentType } from 'middleware/analyticsMiddleware/types'
 
-import { PaymentValue, BSPaymentTypes } from '@core/types'
+import { BSPaymentTypes, PaymentValue } from '@core/types'
 import {
   BrokerageModalOriginType,
   BSShowModalOriginType,

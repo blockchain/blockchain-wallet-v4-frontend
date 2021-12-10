@@ -35,9 +35,9 @@ const AccountSummary: React.FC<Props> = (props) => {
     accountBalances,
     coin,
     flagEDDInterestFileUpload,
+    handleBSClick,
     handleClose,
     handleDepositClick,
-    handleBSClick,
     interestActions,
     interestLimits,
     interestRate,
@@ -466,8 +466,8 @@ const AccountSummary: React.FC<Props> = (props) => {
 
 type ParentProps = {
   coin: CoinType
-  handleDepositClick: () => void
   handleBSClick: (string) => void
+  handleDepositClick: () => void
   stepMetadata: InterestStepMetadata
   walletCurrency: FiatType
 }

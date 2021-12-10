@@ -8,6 +8,7 @@ export const getData = (state: RootState) => {
   const bankAccountsR = selectors.components.brokerage.getBankTransferAccounts(state)
 
   const quoteR = selectors.components.buySell.getBSQuote(state)
+  const buyQuoteR = selectors.components.buySell.getBuyQuote(state)
   const sbBalancesR = selectors.components.buySell.getBSBalances(state)
   const userDataR = selectors.modules.profile.getUserData(state)
   const withdrawLockCheckR = selectors.components.send.getWithdrawLockCheckRule(state)
@@ -19,6 +20,7 @@ export const getData = (state: RootState) => {
   return lift(
     (
       bankAccounts: ExtractSuccess<typeof bankAccountsR>,
+      buyQuote: ExtractSuccess<typeof buyQuoteR>,
       quote: ExtractSuccess<typeof quoteR>,
       sbBalances: ExtractSuccess<typeof sbBalancesR>,
       userData: ExtractSuccess<typeof userDataR>,
@@ -29,6 +31,7 @@ export const getData = (state: RootState) => {
       cards: ExtractSuccess<typeof cardsR>
     ) => ({
       bankAccounts,
+      buyQuote,
       cards,
       isSddFlow: sddEligible.eligible || userSDDTier === 3,
       isUserSddVerified,
@@ -40,6 +43,7 @@ export const getData = (state: RootState) => {
   )(
     bankAccountsR,
     quoteR,
+    buyQuoteR,
     sbBalancesR,
     userDataR,
     withdrawLockCheckR,

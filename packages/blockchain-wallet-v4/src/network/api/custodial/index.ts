@@ -1,9 +1,9 @@
 import {
+  BSPaymentTypes,
   CoinType,
   CrossBorderLimits,
   FiatType,
-  BSPaymentTypes,
-  WalletAcountType,
+  WalletAccountType,
   WalletFiatType
 } from '@core/types'
 import {
@@ -152,9 +152,9 @@ export default ({ authorizedGet, authorizedPost, nabuUrl }) => {
 
   const getCrossBorderTransactions = (
     inputCurrency: CoinType,
-    fromAccount: WalletAcountType,
+    fromAccount: WalletAccountType,
     outputCurrency: CoinType,
-    toAccount: WalletAcountType,
+    toAccount: WalletAccountType,
     currency?: WalletFiatType
   ): CrossBorderLimits =>
     authorizedGet({

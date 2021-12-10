@@ -45,6 +45,7 @@ import Pending from './template.pending'
 import Rejected from './template.rejected'
 import ThreeDSHandlerEverypay from './ThreeDSHandlerEverypay'
 import ThreeDSHandlerStripe from './ThreeDSHandlerStripe'
+import TradingCurrencySelector from './TradingCurrencySelector'
 import UpgradeToGold from './UpgradeToGold'
 import VerifyEmail from './VerifyEmail'
 
@@ -177,7 +178,7 @@ class BuySell extends PureComponent<Props, State> {
                 <LinkedPaymentAccounts {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
-            {this.props.step === 'ADD_CARD_DETERMINE_PROVIDER' && (
+            {this.props.step === 'DETERMINE_CARD_PROVIDER' && (
               <FlyoutChild>
                 <Loading />
               </FlyoutChild>
@@ -227,6 +228,11 @@ class BuySell extends PureComponent<Props, State> {
             {this.props.step === 'ORDER_SUMMARY' && (
               <FlyoutChild>
                 <OrderSummary {...this.props} handleClose={this.handleClose} />
+              </FlyoutChild>
+            )}
+            {this.props.step === 'TRADING_CURRENCY_SELECTOR' && (
+              <FlyoutChild>
+                <TradingCurrencySelector {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
             {/*
@@ -370,7 +376,10 @@ type LinkStatePropsType =
       step: 'LINK_BANK_STATUS'
     }
   | {
-      step: 'ADD_CARD_DETERMINE_PROVIDER'
+      step: 'DETERMINE_CARD_PROVIDER'
+    }
+  | {
+      step: 'TRADING_CURRENCY_SELECTOR'
     }
   | {
       cardId?: string

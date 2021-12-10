@@ -1,7 +1,7 @@
 import { path, prop } from 'ramda'
 
 import { Remote } from '@core'
-import { /* AccountTokensBalancesResponseType, */ RemoteDataType } from '@core/types'
+import { /* AccountTokensBalancesResponseType, */ Product, RemoteDataType } from '@core/types'
 import { RootState } from 'data/rootReducer'
 
 import { WalletOptionsType } from './types'
@@ -89,3 +89,13 @@ export const getAddStripePaymentProvider = (state: RootState) =>
 // use card from new payment providers (stripe and checkout)
 export const getUseNewPaymentProviders = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'useNewPaymentProviders']))
+
+export const getFlexiblePricingModel = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'flexiblePricingModel']))
+
+// show/hide wallet connect
+export const getWalletConnectEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'walletConnect']))
+
+export const getHotWalletAddresses = (state: RootState, product: Product) =>
+  getWebOptions(state).map(path(['hotWalletAddresses', product, 'eth']))

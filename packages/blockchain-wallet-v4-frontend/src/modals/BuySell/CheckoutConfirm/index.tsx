@@ -27,11 +27,18 @@ const { FORM_BS_CHECKOUT } = model.components.buySell
 
 class CheckoutConfirm extends PureComponent<Props> {
   componentDidMount() {
-    this.props.buySellActions.fetchQuote({
-      amount: this.props.order.inputQuantity,
-      orderType: getOrderType(this.props.order),
-      pair: this.props.order.pair
-    })
+    if (this.props.flexiblePricingModel) {
+      this.props.buySellActions.fetchBuyQuote({
+        amount: this.props.order.inputQuantity,
+        pair: this.props.order.pair
+      })
+    } else {
+      this.props.buySellActions.fetchQuote({
+        amount: this.props.order.inputQuantity,
+        orderType: getOrderType(this.props.order),
+        pair: this.props.order.pair
+      })
+    }
     this.props.sendActions.getLockRule()
     if (!Remote.Success.is(this.props.data)) {
       this.props.buySellActions.fetchSDDEligibility()
@@ -61,7 +68,7 @@ class CheckoutConfirm extends PureComponent<Props> {
           })
         }
         return this.props.buySellActions.setStep({
-          step: 'ADD_CARD_DETERMINE_PROVIDER'
+          step: 'DETERMINE_CARD_PROVIDER'
         })
       }
       return this.props.buySellActions.setStep({
@@ -94,7 +101,7 @@ class CheckoutConfirm extends PureComponent<Props> {
             paymentMethodId: this.props.order.paymentMethodId
           })
         }
-        return this.props.buySellActions.setStep({ step: 'ADD_CARD_DETERMINE_PROVIDER' })
+        return this.props.buySellActions.setStep({ step: 'DETERMINE_CARD_PROVIDER' })
 
       case BSPaymentTypes.BANK_TRANSFER:
         const [bankAccount] = filter(
@@ -145,6 +152,9 @@ class CheckoutConfirm extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
+  flexiblePricingModel: selectors.core.walletOptions
+    .getFlexiblePricingModel(state)
+    .getOrElse(false),
   formValues: selectors.form.getFormValues(FORM_BS_CHECKOUT)(state) as BSCheckoutFormValuesType
 })
 

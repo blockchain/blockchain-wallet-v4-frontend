@@ -193,6 +193,7 @@ const FirstStep = (props) => {
             coin='BCH'
             marginTop='8px'
             data-e2e='sendBch'
+            errorBottom
             disabled={isPayPro}
           />
         </FormItem>

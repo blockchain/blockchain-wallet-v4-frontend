@@ -7,7 +7,7 @@ import { formatFiat } from '@core/exchange/utils'
 import { CrossBorderLimits } from '@core/types'
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { getEffectiveLimit } from 'services/custodial'
+import { getEffectiveLimit, getEffectivePeriod } from 'services/custodial'
 import { media } from 'services/styles'
 
 const Wrapper = styled.div`
@@ -68,6 +68,8 @@ const Copy = styled(Text)`
 const BannerButton = styled(Button)`
   height: 32px;
   font-size: 14px;
+  width: 80px;
+  min-width: 90px;
   ${media.mobile`
     margin-top: 16px;
     padding: 10px;
@@ -89,7 +91,9 @@ const UpgradeToGoldBanner = ({ limits, verifyIdentity }: Props) => {
     hideBanner((prevValue) => !prevValue)
   }
 
+  const { currency } = limits?.current?.available
   const effectiveLimit = getEffectiveLimit(limits)
+  const effectivePeriod = getEffectivePeriod(limits)
 
   // if there is no effective limit we can't show banner
   if (!effectiveLimit) {
@@ -118,12 +122,15 @@ const UpgradeToGoldBanner = ({ limits, verifyIdentity }: Props) => {
           <Copy size='14px' color='grey900' weight={500}>
             <FormattedMessage
               id='modals.send.banner.description'
-              defaultMessage='Verify your ID now and unlock Gold level trading. Send up to {dayCurrencySymbol}{dayAmount} a day.'
+              defaultMessage='Verify your ID now and unlock Gold level trading. Send up to {dayCurrencySymbol}{dayAmount} a day.  Now, your limit is {currency}{limit} a {period}.'
               values={{
+                currency: Currencies[currency].units[currency].symbol,
                 dayAmount: formatFiat(convertBaseToStandard('FIAT', effectiveLimit.limit.value), 0),
                 dayCurrencySymbol:
                   Currencies[effectiveLimit.limit.currency].units[effectiveLimit.limit.currency]
-                    .symbol
+                    .symbol,
+                limit: formatFiat(convertBaseToStandard('FIAT', effectiveLimit.limit.value), 0),
+                period: effectivePeriod
               }}
             />
           </Copy>

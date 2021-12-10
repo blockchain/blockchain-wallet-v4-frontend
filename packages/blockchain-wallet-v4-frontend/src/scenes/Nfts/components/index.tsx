@@ -22,7 +22,7 @@ export const LeftColWrapper = styled.div`
   ${media.atLeastTabletL`
   top: 61px;
   margin-right: 20px;
-  max-width: 300px;
+  max-width: 320px;
   width: 25%;
 `} > form {
     ${media.tabletL`
@@ -83,7 +83,7 @@ export const ImageContainer = styled.div<{ background?: string; backgroundColor?
   position: relative;
   background-size: cover;
   background-position: center;
-  border-radius: 8px;
+  border-radius: 6px;
   background-image: ${(props) => props.background};
   background-color: ${(props) => props.backgroundColor};
 `

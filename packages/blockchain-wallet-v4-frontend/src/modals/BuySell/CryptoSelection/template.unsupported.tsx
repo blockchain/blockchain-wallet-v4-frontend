@@ -36,7 +36,7 @@ const Title = styled(Text)`
   text-align: center;
 `
 
-const Subcontent = styled(Text)`
+const SubContent = styled(Text)`
   margin-bottom: 56px;
   text-align: center;
 `
@@ -74,31 +74,30 @@ const Unsupported: React.FC<Props> = (props) => {
             />
           )}
         </Title>
-        <Subcontent color='grey600' weight={500}>
+        <SubContent color='grey600' weight={500}>
           {paymentAccountEligible ? (
             <>
               <FormattedMessage
                 id='modals.simplebuy.unsupported-subcontent'
-                defaultMessage="Currently we don't support buying crypto with"
-              />{' '}
-              {props.fiatCurrency}
-              {'. '}
+                defaultMessage="Currently we don't support buying crypto with {currency}."
+                values={{
+                  currency: props.fiatCurrency
+                }}
+              />
             </>
           ) : (
             <>
               <FormattedMessage
                 id='modals.simplebuy.unsupported-subcontent-1'
-                defaultMessage="Well this is awkward. We don't support buying crypto yet for"
-              />{' '}
-              <FormattedMessage id='modals.simplebuy.fiatregion' defaultMessage='your region' />
-              {'. '}
+                defaultMessage="Well this is awkward. We don't support buying crypto yet for your region."
+              />
             </>
           )}
           <FormattedMessage
             id='modals.simplebuy.unsupported-subcontent-2'
             defaultMessage="We'll send you an update when we do."
           />
-        </Subcontent>
+        </SubContent>
         <Button
           data-e2e='submitBSAmount'
           height='48px'

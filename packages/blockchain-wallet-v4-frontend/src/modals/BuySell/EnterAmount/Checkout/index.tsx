@@ -4,7 +4,7 @@ import { find, isEmpty, pathOr, propEq, propOr } from 'ramda'
 import { bindActionCreators } from 'redux'
 
 import { Remote } from '@core'
-import { BSPaymentTypes, CrossBorderLimitsPyload, OrderType, WalletAcountEnum } from '@core/types'
+import { BSPaymentTypes, CrossBorderLimitsPayload, OrderType, WalletAccountEnum } from '@core/types'
 import { FlyoutOopsError } from 'components/Flyout'
 import { actions, model, selectors } from 'data'
 import { getValidPaymentMethod } from 'data/components/buySell/model'
@@ -64,8 +64,8 @@ class Checkout extends PureComponent<Props> {
     this.props.buySellActions.fetchCrossBorderLimits({
       fromAccount:
         this.props.orderType === OrderType.BUY
-          ? WalletAcountEnum.CUSTODIAL
-          : this.props.swapAccount?.type || WalletAcountEnum.CUSTODIAL,
+          ? WalletAccountEnum.CUSTODIAL
+          : this.props.swapAccount?.type || WalletAccountEnum.CUSTODIAL,
       inputCurrency:
         this.props.orderType === OrderType.BUY
           ? this.props.fiatCurrency
@@ -74,8 +74,8 @@ class Checkout extends PureComponent<Props> {
         this.props.orderType === OrderType.BUY
           ? this.props.cryptoCurrency
           : this.props.fiatCurrency,
-      toAccount: WalletAcountEnum.CUSTODIAL
-    } as CrossBorderLimitsPyload)
+      toAccount: WalletAccountEnum.CUSTODIAL
+    } as CrossBorderLimitsPayload)
   }
 
   componentDidUpdate(prevProps) {
@@ -152,7 +152,7 @@ class Checkout extends PureComponent<Props> {
       switch (method.type) {
         case BSPaymentTypes.PAYMENT_CARD:
           this.props.buySellActions.setStep({
-            step: 'ADD_CARD_DETERMINE_PROVIDER'
+            step: 'DETERMINE_CARD_PROVIDER'
           })
           break
         case BSPaymentTypes.USER_CARD:
@@ -186,6 +186,8 @@ class Checkout extends PureComponent<Props> {
   }
 
   render() {
+    console.log('higher level props', this.props)
+
     return this.props.data.cata({
       Failure: () => (
         <FlyoutOopsError
@@ -196,7 +198,10 @@ class Checkout extends PureComponent<Props> {
       ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
-      Success: (val) => <Success {...this.props} {...val} onSubmit={this.handleSubmit} />
+      Success: (val) => {
+        console.log('val here: ', val)
+        return <Success {...this.props} {...val} onSubmit={this.handleSubmit} />
+      }
     })
   }
 }

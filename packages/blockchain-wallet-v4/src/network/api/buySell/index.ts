@@ -114,9 +114,9 @@ export default ({
     input: BSMoneyType,
     output: BSMoneyType,
     paymentType: BSPaymentMethodType['type'],
-    quoteId: string,
     period?: RecurringBuyPeriods,
-    paymentMethodId?: BSCardType['id']
+    paymentMethodId?: BSCardType['id'],
+    quoteId?: string
   ): BSOrderType =>
     authorizedPost({
       contentType: 'application/json',
@@ -221,6 +221,7 @@ export default ({
   const getBSCards = (useNewPaymentProviders: boolean): Array<BSCardType> =>
     authorizedGet({
       endPoint: `/payments/cards?cardProvider=${useNewPaymentProviders}`,
+      ignoreQueryParams: true,
       url: nabuUrl
     })
 
@@ -260,7 +261,7 @@ export default ({
       url: nabuUrl
     })
 
-  const getBSPairs = (currency: keyof FiatCurrenciesType): { pairs: Array<BSPairType> } =>
+  const getBSPairs = (currency?: keyof FiatCurrenciesType): { pairs: Array<BSPairType> } =>
     get({
       data: {
         fiatCurrency: currency
@@ -341,10 +342,10 @@ export default ({
 
   const getBuyQuote = (
     pair: string,
-    profile: string,
+    profile: 'SIMPLEBUY' | 'SIMPLETRADE' | 'SWAP_FROM_USERKEY' | 'SWAP_INTERNAL' | 'SWAP_ON_CHAIN',
     inputValue: string,
-    paymentMethod: string,
-    paymentMethodId: string
+    paymentMethod: 'FUNDS' | 'PAYMENT_CARD' | 'BANK_TRANSFER' | 'BANK_ACCOUNT',
+    paymentMethodId?: string
   ): BuyQuoteType =>
     authorizedPost({
       contentType: 'application/json',
@@ -358,6 +359,11 @@ export default ({
       endPoint: '/brokerage/quote',
       url: nabuUrl
     })
+
+  // pair
+  // inputAmount
+  // paymentMethod
+  // product
 
   type getBSTransactionsType = {
     currency: string

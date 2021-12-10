@@ -197,6 +197,9 @@ export const getStep = (state: RootState) => state.components.buySell.step
 
 export const getSwapAccount = (state: RootState) => state.components.buySell.swapAccount
 
+export const getOriginalFiatCurrency = (state: RootState) =>
+  state.components.buySell.originalFiatCurrency
+
 // Sell specific (for now!)
 // used for sell only now, eventually buy as well
 // TODO: use swap2 quote for buy AND sell
