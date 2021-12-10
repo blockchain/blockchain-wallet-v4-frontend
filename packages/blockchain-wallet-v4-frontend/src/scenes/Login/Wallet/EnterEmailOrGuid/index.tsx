@@ -9,6 +9,7 @@ import { Wrapper } from 'components/Public'
 import { ProductAuthOptions } from 'data/types'
 import { isBrowserSupported } from 'services/browser'
 import { required, validWalletIdOrEmail } from 'services/forms'
+import { media } from 'services/styles'
 
 import { Props } from '../..'
 import {
@@ -29,6 +30,9 @@ const LoginWrapper = styled(Wrapper)`
   display: flex;
   flex-direction: column;
   padding: 0 0 32px 0;
+  ${media.mobile`
+  padding: 0 0 16px 0;
+`}
 `
 
 const isSupportedBrowser = isBrowserSupported()

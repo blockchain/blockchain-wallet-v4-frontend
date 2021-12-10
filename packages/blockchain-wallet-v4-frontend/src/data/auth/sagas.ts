@@ -524,6 +524,20 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const setCachedWalletData = function* () {
+    const storedGuid = yield select(selectors.cache.getStoredGuid)
+    const lastGuid = yield select(selectors.cache.getLastGuid)
+    const email = yield select(selectors.cache.getEmail)
+    yield put(actions.auth.setProductAuthMetadata({ product: ProductAuthOptions.WALLET }))
+    if (storedGuid || lastGuid) {
+      yield put(actions.form.change(LOGIN_FORM, 'guid', lastGuid || storedGuid))
+      yield put(actions.form.change(LOGIN_FORM, 'email', email))
+      yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
+    } else {
+      yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
+    }
+  }
+
   const initializeLogin = function* () {
     try {
       // set loading
@@ -565,7 +579,6 @@ export default ({ api, coreSagas, networks }) => {
         // no guid on path, use cached/stored guid if exists
         case (storedGuid || lastGuid) && !walletGuidOrMagicLinkFromUrl:
           // select required data
-          const isMobileConnected = yield select(selectors.cache.getMobileConnected)
           const email = yield select(selectors.cache.getEmail)
           // logic to be compatible with lastGuid in cache make sure that email matches
           // guid being used for login eventually can be cleared after some time
@@ -807,6 +820,7 @@ export default ({ api, coreSagas, networks }) => {
     resetAccount,
     restore,
     restoreFromMetadata,
+    setCachedWalletData,
     triggerWalletMagicLink
   }
 }

@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 import { LoginSteps } from 'data/types'
+import { media } from 'services/styles'
 
 import { Props as OwnProps } from '../..'
 import { BackArrowFormHeader, CircleBackground, SignUpLink, WrapperWithPadding } from '../../model'
@@ -19,6 +20,9 @@ const LoginWrapper = styled(Wrapper)`
   display: flex;
   flex-direction: column;
   padding: 32px 0;
+  ${media.mobile`
+  padding: 16px 0;
+`}
 `
 
 const CheckEmail = (props: Props) => {

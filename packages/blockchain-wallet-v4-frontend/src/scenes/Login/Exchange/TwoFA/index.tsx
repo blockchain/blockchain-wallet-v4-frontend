@@ -8,6 +8,7 @@ import { FormError, FormGroup, FormItem, FormLabel, TextBox } from 'components/F
 import { Wrapper } from 'components/Public'
 import { ExchangeErrorCodes } from 'data/types'
 import { required } from 'services/forms'
+import { media } from 'services/styles'
 
 import { Props } from '../..'
 import {

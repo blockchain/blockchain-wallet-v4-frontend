@@ -15,7 +15,7 @@ import {
 import { FormLabel } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { LoginFormType, LoginSteps } from 'data/types'
-import { media } from 'services/styles'
+import { isMobile, media } from 'services/styles'
 
 export const removeWhitespace = (string) => string.replace(/\s/g, ``)
 
@@ -86,7 +86,7 @@ export const RectangleBackground = styled.div`
   border-radius: 8px;
   margin-top: 24px;
 `
-const TopRow = styled.div<{ marginTop?: string }>`
+const BackArrowWrapper = styled.div<{ marginTop?: string }>`
   display: flex;
   justify-content: space-between;
   margin-bottom: 24px;
@@ -142,7 +142,7 @@ export const BackArrowFormHeader = (props: {
   const lastPartGuid = guid && guid.slice(-4)
   return (
     <>
-      <TopRow marginTop={props.marginTop}>
+      <BackArrowWrapper marginTop={props.marginTop}>
         <BackArrow onClick={() => props.handleBackArrowClick()}>
           {!props.hideBackArrow && (
             <Icon
@@ -159,7 +159,7 @@ export const BackArrowFormHeader = (props: {
           </Text>
         </BackArrow>
         <EmailAndGuid>
-          {props.hideGuid || props.formValues.email ? (
+          {props.hideGuid || props.formValues.email || (props.formValues.email && isMobile()) ? (
             <Text
               color='blue600'
               size='12px'
@@ -176,13 +176,14 @@ export const BackArrowFormHeader = (props: {
           )}
           {props.formValues.step !== LoginSteps.CHECK_EMAIL &&
             props.formValues.email &&
-            !props.hideGuid && (
+            !props.hideGuid &&
+            !isMobile() && (
               <Text size='12px' weight={500} color='grey400'>
                 ({firstPartGuid}...{lastPartGuid})
               </Text>
             )}
         </EmailAndGuid>
-      </TopRow>
+      </BackArrowWrapper>
     </>
   )
 }

@@ -46,6 +46,9 @@ const FormWrapper = styled(Wrapper)`
   flex-direction: column;
   z-index: 1;
   padding: 0 0 32px 0;
+  ${media.mobile`
+  padding: 0 0 16px 0;
+`}
 `
 
 const MobileAuthSideWrapper = styled(Wrapper)`
