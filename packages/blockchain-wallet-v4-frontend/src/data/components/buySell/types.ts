@@ -93,6 +93,7 @@ export enum BuySellStepType {
 }
 export type BSShowModalOriginType =
   | 'CompleteProfileBanner'
+  | 'CompleteProfile'
   | 'EmptyFeed'
   | 'PendingOrder'
   | 'PriceChart'

@@ -5,8 +5,18 @@ import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
 
-export const getData = (state: RootState): { currentStep: number } => {
+type ReturnData = {
+  currentStep: number
+  isBankOrCardLinked: boolean
+  isBuyCrypto: boolean
+  isVerifiedId: boolean
+}
+
+export const getData = (state: RootState): ReturnData => {
   let currentStep = 0
+  let isVerifiedId = false
+  let isBankOrCardLinked = false
+  let isBuyCrypto = false
   const isKycStateNone =
     // @ts-ignore
     selectors.modules.profile.getUserKYCState(state).getOrElse('') === 'NONE'
@@ -14,7 +24,7 @@ export const getData = (state: RootState): { currentStep: number } => {
   const isFirstLogin = selectors.auth.getFirstLogin(state)
 
   if (isFirstLogin || isKycStateNone) {
-    return { currentStep }
+    return { currentStep, isBankOrCardLinked: false, isBuyCrypto: false, isVerifiedId: false }
   }
 
   const userDataR = selectors.modules.profile.getUserData(state)
@@ -30,6 +40,7 @@ export const getData = (state: RootState): { currentStep: number } => {
 
   if (isKycPendingOrVerified) {
     currentStep += 1
+    isVerifiedId = true
   }
 
   // user have some cards or banks linked
@@ -44,6 +55,7 @@ export const getData = (state: RootState): { currentStep: number } => {
     )
   if (cards.length > 0 || isAnyBankLinked) {
     currentStep += 1
+    isBankOrCardLinked = true
   }
 
   // user have some balance
@@ -55,8 +67,9 @@ export const getData = (state: RootState): { currentStep: number } => {
       )
     ) {
       currentStep += 1
+      isBuyCrypto = true
     }
   }
 
-  return { currentStep }
+  return { currentStep, isBankOrCardLinked, isBuyCrypto, isVerifiedId }
 }

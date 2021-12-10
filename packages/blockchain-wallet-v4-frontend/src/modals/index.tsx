@@ -103,6 +103,7 @@ const BuySell = React.lazy(() => import('./BuySell'))
 const Swap = React.lazy(() => import('./Swap'))
 const RecurringBuys = React.lazy(() => import('./RecurringBuys'))
 const InterestUploadDocuments = React.lazy(() => import('./InterestUploadDocuments'))
+const CompleteProfile = React.lazy(() => import('./CompleteProfile'))
 
 // BROKERAGE
 const BankDetails = React.lazy(() => import('./Brokerage/Banks/BankDetails'))
@@ -303,6 +304,9 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.WELCOME_MODAL) ? <Welcome /> : null}
         {props.modals.find((modal) => modal.type === ModalName.CUSTODY_WITHDRAW_MODAL) ? (
           <Withdraw />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.COMPLETE_USER_PROFILE) ? (
+          <CompleteProfile />
         ) : null}
         {props.modals.find(
           (modal) => modal.type === ModalName.SEND_XLM_CREATE_ACCOUNT_LEARN_MODAL

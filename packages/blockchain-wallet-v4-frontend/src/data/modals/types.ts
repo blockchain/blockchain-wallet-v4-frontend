@@ -23,6 +23,7 @@ export enum ModalName {
   BANK_DETAILS_MODAL = 'BANK_DETAILS_MODAL',
   BITPAY_INFORMATIONAL_MODAL = 'BITPAY_INFORMATIONAL_MODAL',
   BITPAY_INVOICE_EXPIRED_MODAL = 'BITPAY_INVOICE_EXPIRED_MODAL',
+  COMPLETE_USER_PROFILE = 'COMPLETE_USER_PROFILE',
   CONFIRMATION_MODAL = 'CONFIRMATION_MODAL',
   CONFIRM_DISABLE_2FA = 'CONFIRM_DISABLE_2FA',
   CUSTODY_WITHDRAW_MODAL = 'CUSTODY_WITHDRAW_MODAL',
@@ -98,6 +99,7 @@ export type ModalOriginType =
   | 'BankDetailsModal'
   | 'BankDeposit'
   | 'CompleteProfileBanner'
+  | 'CompleteProfile'
   | 'DepositWithdrawalModal'
   | 'EmptyFeed'
   | 'ExchangeForm'

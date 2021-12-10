@@ -14,6 +14,7 @@ import appleAppStoreBadge from './img/apple-app-store-badge.svg'
 import arrowLeft from './img/arrow-left.svg'
 import bank from './img/bank.svg'
 import bankEmpty from './img/bank-empty.svg'
+import bankEmptyBlue from './img/bank-empty-blue.svg'
 import bankError from './img/bank-error.svg'
 import bankExpired from './img/bank-expired.svg'
 import bankRejected from './img/bank-rejected.svg'
@@ -53,7 +54,9 @@ import buySellGrey from './img/buy-sell-grey.svg'
 import buySellLearnMore from './img/buy-sell-learn-more.png'
 import buySellLearnMore2 from './img/buy-sell-learn-more@2x.png'
 import buyWallet from './img/buy-wallet.svg'
+import cartGreen from './img/cart-green.svg'
 import chartPlaceholder from './img/chart-placeholder1.png'
+import checkmarkCircleGreen from './img/checkmark-circle-green.svg'
 import checkmarkGreen from './img/checkmark-green.svg'
 import circleEmpty from './img/circle-empty.svg'
 import closeError from './img/close-error.svg'
@@ -82,6 +85,7 @@ import goldNotice from './img/gold-notice.png'
 import goldVerified from './img/gold-verified.svg'
 import googleAuthenticator from './img/google-authenticator.png'
 import googlePlayBadge from './img/google-play-badge.svg'
+import identification from './img/identification.svg'
 import identityVerification from './img/identity-verification.svg'
 import interest from './img/interest.svg'
 import introBankGif from './img/intro-bank.gif'
@@ -189,6 +193,7 @@ const Images = {
   'arrow-left': arrowLeft,
   bank,
   'bank-empty': bankEmpty,
+  'bank-empty-blue': bankEmptyBlue,
   'bank-error': bankError,
   'bank-expired': bankExpired,
   'bank-logo-acorns': bankLogoAcorns,
@@ -228,7 +233,9 @@ const Images = {
   'buy-sell-learn-more': buySellLearnMore,
   'buy-sell-learn-more2': buySellLearnMore2,
   'buy-wallet': buyWallet,
+  'cart-green': cartGreen,
   'chart-placeholder': chartPlaceholder,
+  'checkmark-circle-green': checkmarkCircleGreen,
   'checkmark-green': checkmarkGreen,
   'circle-empty': circleEmpty,
   'close-error': closeError,
@@ -261,6 +268,7 @@ const Images = {
   'google-authenticator': googleAuthenticator,
   'google-play-badge': googlePlayBadge,
   'graph-recurring-buy-background': recurringBuyBackground,
+  identification,
   'identity-verification': identityVerification,
   interest,
   'intro-bank-gif': introBankGif,
