@@ -87,7 +87,8 @@ const EnterPasswordWallet = (props: Props) => {
     walletError
   } = props
 
-  const onExhangeTabClick = () => {
+  const onExchangeTabClick = () => {
+    props.routerActions.push('/login?product=exchange')
     authActions.setProductAuthMetadata({ product: ProductAuthOptions.EXCHANGE })
     props.setStep(LoginSteps.ENTER_EMAIL_GUID)
   }
@@ -108,7 +109,7 @@ const EnterPasswordWallet = (props: Props) => {
               <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
             </Text>
           </ProductTab>
-          <ProductTab backgroundColor='grey000' onClick={onExhangeTabClick}>
+          <ProductTab backgroundColor='grey000' onClick={onExchangeTabClick}>
             <Image name='exchange-grayscale' height='26px' style={{ marginRight: '12px' }} />
             <Text size='20px' weight={600} color='grey400'>
               <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />

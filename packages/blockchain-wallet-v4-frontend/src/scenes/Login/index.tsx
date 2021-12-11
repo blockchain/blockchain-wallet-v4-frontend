@@ -99,7 +99,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     const { platform, product } = productAuthMetadata
     const { step } = formValues || LoginSteps.ENTER_EMAIL_GUID
 
-    const { exchangeBusy, exchangeError } = exchangeLoginData.cata({
+    const { exchangeError } = exchangeLoginData.cata({
       Failure: (val) => ({ busy: false, exchangeError: val }),
       Loading: () => <Loading />,
       NotAsked: () => ({ busy: false, exchangeError: null }),
@@ -195,7 +195,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   cacheActions: bindActionCreators(actions.cache, dispatch),
-  formActions: bindActionCreators(actions.form, dispatch)
+  formActions: bindActionCreators(actions.form, dispatch),
+  routerActions: bindActionCreators(actions.router, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

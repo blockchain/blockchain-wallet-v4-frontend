@@ -40,7 +40,10 @@ const isSupportedBrowser = isBrowserSupported()
 const EnterEmailOrGuid = (props: Props) => {
   const { authActions, busy, formValues, invalid, submitting, walletError } = props
   const guidError = walletError && walletError.toLowerCase().includes('unknown wallet id')
-
+  const onExchangeTabClick = () => {
+    props.routerActions.push('/login?product=exchange')
+    authActions.setProductAuthMetadata({ product: ProductAuthOptions.EXCHANGE })
+  }
   return (
     <LoginWrapper>
       <TabWrapper>
@@ -50,12 +53,7 @@ const EnterEmailOrGuid = (props: Props) => {
             <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
           </Text>
         </ProductTab>
-        <ProductTab
-          backgroundColor='grey000'
-          onClick={() =>
-            authActions.setProductAuthMetadata({ product: ProductAuthOptions.EXCHANGE })
-          }
-        >
+        <ProductTab backgroundColor='grey000' onClick={onExchangeTabClick}>
           <Image name='exchange-grayscale' height='26px' style={{ marginRight: '12px' }} />
           <Text size='20px' weight={600} color='grey400'>
             <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
