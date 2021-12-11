@@ -59,12 +59,12 @@ export type RecoverFormType = {
   step: RecoverSteps
 }
 
-export type LoginPayloadType = {
-  code: string
-  guid: string
-  mobileLogin: boolean
-  password: string
-  sharedKey: string
+export type LoginRoutinePayloadType = {
+  country?: string
+  email?: string
+  firstLogin?: boolean
+  recovery?: boolean
+  state?: string
 }
 
 export type ExchangeLoginType = {

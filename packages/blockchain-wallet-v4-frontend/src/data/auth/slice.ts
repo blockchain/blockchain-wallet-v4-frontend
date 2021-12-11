@@ -11,6 +11,7 @@ import {
   ExchangeResetPasswordFailureType,
   ExchangeResetPasswordSuccessType,
   LoginFailureType,
+  LoginRoutinePayloadType,
   LoginSuccessType,
   MetadataRestoreType,
   PlatformTypes,
@@ -137,7 +138,7 @@ const authSlice = createSlice({
     loginLoading: (state) => {
       state.login = Remote.Loading
     },
-    loginRoutine: () => {},
+    loginRoutine: (state, action: PayloadAction<LoginRoutinePayloadType>) => {},
     loginSuccess: (state, action: PayloadAction<LoginSuccessType>) => {
       state.login = Remote.Success(action.payload)
     },

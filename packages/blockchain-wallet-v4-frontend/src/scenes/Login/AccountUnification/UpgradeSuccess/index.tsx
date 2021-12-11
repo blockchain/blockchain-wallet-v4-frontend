@@ -30,7 +30,9 @@ const UpgradeSuccess = (props: Props) => {
             nature='primary'
             fullwidth
             height='48px'
-            onClick={() => props.authActions.loginRoutine()}
+            // commented out for now, undeeded until upgrade flows
+            // ReturnType on login routine saga
+            // onClick={() => props.authActions.loginRoutine()}
             data-e2e='iUnderstandWalletRedirect'
             style={{ marginTop: '16px' }}
           >

@@ -18,8 +18,6 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.initializeLogin.type, authSagas.initializeLogin)
     yield takeLatest(actions.triggerWalletMagicLink.type, authSagas.triggerWalletMagicLink)
     yield takeLatest(actions.getUserGeoLocation.type, authSagas.getUserGeoLocation)
-    // @ts-ignore
-    yield takeLatest(actions.loginRoutine.type, authSagas.loginRoutineSaga)
     yield takeLatest(actions.exchangeLogin.type, authSagas.exchangeLogin)
     yield takeLatest(actions.exchangeResetPassword.type, authSagas.exchangeResetPassword)
     yield takeLatest(actions.continueLoginProcess, authSagas.continueLoginProcess)
