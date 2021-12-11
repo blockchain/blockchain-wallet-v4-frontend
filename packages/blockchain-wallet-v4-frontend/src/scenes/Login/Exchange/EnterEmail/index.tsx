@@ -91,9 +91,9 @@ const EnterEmail = (props: Props) => {
               </Text>
             )}
           </ActionButton>
+          <ExchangeNeedHelpLink authActions={authActions} origin='IDENTIFIER' />
         </LinkRow>
       </WrapperWithPadding>
-      <ExchangeNeedHelpLink authActions={authActions} origin='IDENTIFIER' />
       <SignUpLink />
     </LoginWrapper>
   )
