@@ -46,7 +46,7 @@ const MergeAccountConfirm = (props: Props) => {
     }
     if (accountUnificationFlow === AccountUnificationFlows.WALLET_MERGE) {
       // continue with second part of wallet authentication
-      authActions.loginRoutine()
+      // authActions.loginRoutine()
     }
   }
 
