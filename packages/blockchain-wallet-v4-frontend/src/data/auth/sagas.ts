@@ -529,6 +529,7 @@ export default ({ api, coreSagas, networks }) => {
     const lastGuid = yield select(selectors.cache.getLastGuid)
     const email = yield select(selectors.cache.getEmail)
     yield put(actions.auth.setProductAuthMetadata({ product: ProductAuthOptions.WALLET }))
+    yield put(actions.router.push('/login?product=wallet'))
     if (storedGuid || lastGuid) {
       yield put(actions.form.change(LOGIN_FORM, 'guid', lastGuid || storedGuid))
       yield put(actions.form.change(LOGIN_FORM, 'email', email))

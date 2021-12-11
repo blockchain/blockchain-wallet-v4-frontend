@@ -4,7 +4,6 @@ import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
 
 import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
-import { Props } from 'components/Display/FiatDisplay'
 import { Wrapper } from 'components/Public'
 
 import ResetPassword from './ResetPassword'
@@ -61,6 +60,10 @@ class Help extends React.PureComponent<Props, State> {
 
   showPasswordResetForm = () => {
     this.setState({ showHelpOptions: false })
+  }
+
+  showHelpOptions = () => {
+    this.setState({ showHelpOptions: true })
   }
 
   render() {
@@ -144,11 +147,16 @@ class Help extends React.PureComponent<Props, State> {
         </Footer>
       </Wrapper>
     ) : (
-      <ResetPassword />
+      // @ts-ignore
+      <ResetPassword showHelpOptions={this.showHelpOptions} />
     )
   }
 }
 
 type State = { showHelpOptions: boolean }
+export type Props = {
+  showHelpOptions: () => void
+  showPasswordResetForm: () => void
+}
 
 export default Help

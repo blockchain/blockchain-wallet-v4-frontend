@@ -1,7 +1,6 @@
 import React from 'react'
-import { render } from 'react-dom'
 import { FormattedMessage } from 'react-intl'
-import { connect, ConnectedProps } from 'react-redux'
+import { connect } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import { bindActionCreators, compose } from 'redux'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
@@ -20,6 +19,8 @@ import { Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
 import { required, validEmail } from 'services/forms'
+
+import { Props as OwnProps } from '..'
 
 const FormWrapper = styled(Wrapper)`
   padding: 32px 0;
@@ -147,6 +148,16 @@ class EnterEmail extends React.PureComponent<InjectedFormProps<{}, Props> & Prop
                     </Text>
                   )}
                 </Button>
+                <Text
+                  size='13px'
+                  color='blue600'
+                  weight={600}
+                  style={{ textAlign: 'center' }}
+                  cursor='pointer'
+                  onClick={this.props.showHelpOptions}
+                >
+                  <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
+                </Text>
               </Form>
             ),
             Success: () => (
@@ -208,10 +219,10 @@ type LinkStatePropsType = {
     email: string
   }
   resetExchangePasswordR: RemoteDataType<string, null>
+  showHelpOptions: () => void
 }
-type Props = LinkStatePropsType & {
-  showPasswordResetForm: () => void
-}
+type Props = LinkStatePropsType & OwnProps
+
 const enhance = compose(reduxForm<{}, Props>({ form: 'exchangePasswordReset' }), connector)
 
 export default enhance(EnterEmail) as React.ComponentType
