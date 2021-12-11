@@ -13,6 +13,7 @@ import { media } from 'services/styles'
 import { Props } from '../..'
 import {
   ActionButton,
+  ExchangeNeedHelpLink,
   LinkRow,
   LoginFormLabel,
   ProductTab,
@@ -92,6 +93,7 @@ const EnterEmail = (props: Props) => {
           </ActionButton>
         </LinkRow>
       </WrapperWithPadding>
+      <ExchangeNeedHelpLink authActions={authActions} origin='IDENTIFIER' />
       <SignUpLink />
     </LoginWrapper>
   )

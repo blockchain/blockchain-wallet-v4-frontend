@@ -51,7 +51,7 @@ const Footer = styled.div`
 `
 
 class Help extends React.PureComponent<Props, State> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       showHelpOptions: true

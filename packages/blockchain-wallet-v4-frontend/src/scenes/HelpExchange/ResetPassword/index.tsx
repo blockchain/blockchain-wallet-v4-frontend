@@ -219,9 +219,10 @@ type LinkStatePropsType = {
     email: string
   }
   resetExchangePasswordR: RemoteDataType<string, null>
+}
+type Props = LinkStatePropsType & {
   showHelpOptions: () => void
 }
-type Props = LinkStatePropsType & OwnProps
 
 const enhance = compose(reduxForm<{}, Props>({ form: 'exchangePasswordReset' }), connector)
 
