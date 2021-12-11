@@ -6,7 +6,6 @@ import styled from 'styled-components'
 import { HeartbeatLoader, Image, Text } from 'blockchain-info-components'
 import { FormGroup, FormItem, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
-import { LoginSteps, ProductAuthOptions } from 'data/types'
 import { isBrowserSupported } from 'services/browser'
 import { required, validEmail } from 'services/forms'
 import { media } from 'services/styles'
@@ -14,7 +13,6 @@ import { media } from 'services/styles'
 import { Props } from '../..'
 import {
   ActionButton,
-  ExchangeNeedHelpLink,
   LinkRow,
   LoginFormLabel,
   ProductTab,

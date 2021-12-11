@@ -16,15 +16,9 @@ import {
   ActionButton,
   BackArrowFormHeader,
   CenteredColumn,
-  GuidError,
-  LinkRow,
-  LoginFormLabel,
-  ProductTab,
   removeWhitespace,
   Row,
   SignUpLink,
-  TabWrapper,
-  UnsupportedBrowserWarning,
   WalletNeedHelpLink,
   WrapperWithPadding
 } from '../../model'
@@ -34,8 +28,6 @@ const LoginWrapper = styled(Wrapper)`
   flex-direction: column;
   padding: 0 0 32px 0;
 `
-
-const isSupportedBrowser = isBrowserSupported()
 
 const TwoFAWallet = (props: Props) => {
   const {
@@ -136,7 +128,7 @@ const TwoFAWallet = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          <WalletNeedHelpLink authActions={props.authActions} origin='PASSWORD' />
+          <WalletNeedHelpLink authActions={props.authActions} origin='2FA' />
         </CenteredColumn>
       </WrapperWithPadding>
       <SignUpLink />

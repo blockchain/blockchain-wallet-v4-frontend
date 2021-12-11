@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { HeartbeatLoader, Image, Text } from 'blockchain-info-components'
 import { FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
-import { ExchangeErrorCodes, LoginSteps, ProductAuthOptions } from 'data/types'
+import { ExchangeErrorCodes } from 'data/types'
 import { isBrowserSupported } from 'services/browser'
 import { required } from 'services/forms'
 import { media } from 'services/styles'
@@ -18,7 +18,6 @@ import {
   CenteredColumn,
   ExchangeNeedHelpLink,
   ProductTab,
-  removeWhitespace,
   SignUpLink,
   TabWrapper,
   UnsupportedBrowserWarning,

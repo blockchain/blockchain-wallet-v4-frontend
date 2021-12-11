@@ -46,7 +46,7 @@ export const parseMagicLink = function* () {
       }
     }
     // THESE ARE THE MERGE AND UPGRADE FLOWS
-    //
+    // showMergeAndUpradeFlows is the feature flag
     if (showMergeAndUpradeFlows) {
       if (!unified && (mergeable || upgradeable)) {
         if (productAuth === ProductAuthOptions.WALLET && mergeable) {
@@ -71,7 +71,6 @@ export const parseMagicLink = function* () {
         actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.UNIFIED)
       }
     }
-    // TODDO: WRAP ABOVE IN FEATURE FLAG
 
     // store data in the cache and update form values to be used to submit login
     if (productAuth === ProductAuthOptions.WALLET) {

@@ -85,7 +85,7 @@ const TwoFAExchange = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          <ExchangeNeedHelpLink authActions={authActions} origin='IDENTIFIER' />
+          <ExchangeNeedHelpLink authActions={authActions} origin='2FA' />
         </LinkRow>
       </WrapperWithPadding>
       <SignUpLink />

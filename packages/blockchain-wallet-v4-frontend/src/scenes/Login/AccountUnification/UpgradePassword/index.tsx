@@ -1,9 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { has } from 'ramda'
 import { Field } from 'redux-form'
 
-import { Text } from 'blockchain-info-components'
+import { HeartbeatLoader, Text } from 'blockchain-info-components'
 import { FormGroup, FormLabel, PasswordBox } from 'components/Form'
 import { LoginSteps } from 'data/types'
 import { required, validPasswordConfirmation, validStrongPassword } from 'services/forms'
@@ -57,15 +56,14 @@ const UpgradePassword = (props: Props) => {
           data-e2e='upgradeButton'
           style={{ margin: '16px 0 24px' }}
         >
-          {/* {submitting ? (
-          <HeartbeatLoader height='20px' width='20px' color='white' />
-        ) : ( */}
-          <Text color='whiteFade900' size='16px' weight={600}>
-            <FormattedMessage id='buttons.upgrade_account' defaultMessage='Upgrade Account' />
-          </Text>
-          {/* )} */}
+          {props.submitting ? (
+            <HeartbeatLoader height='20px' width='20px' color='white' />
+          ) : (
+            <Text color='whiteFade900' size='16px' weight={600}>
+              <FormattedMessage id='buttons.upgrade_account' defaultMessage='Upgrade Account' />
+            </Text>
+          )}
         </ActionButton>
-        {/* <NeedHelpLink authActions={props.authActions} origin='UPGRADE_ACCOUNT_NEW_PASSWORD' /> */}
       </LinkRow>
     </LoginWrapper>
   )

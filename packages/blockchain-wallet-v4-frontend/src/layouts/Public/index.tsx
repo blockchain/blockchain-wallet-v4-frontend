@@ -5,7 +5,6 @@ import styled, { css } from 'styled-components'
 
 import Alerts from 'components/Alerts'
 import { selectors } from 'data'
-import { auth } from 'data/actions'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { media } from 'services/styles'
 
