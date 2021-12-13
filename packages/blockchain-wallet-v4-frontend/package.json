@@ -160,8 +160,5 @@
     "styled-components": "4.4.1",
     "uuid": "8.3.2",
     "zxcvbn": "4.4.2"
-  },
-  "resolutions": {
-    "react-router": "6.0.2"
   }
 }

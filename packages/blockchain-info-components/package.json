@@ -73,8 +73,5 @@
     "react-tooltip": "3.10.0",
     "styled-components": "4.4.1",
     "universal-cookie": "4.0.4"
-  },
-  "resolutions": {
-    "react-router": "6.0.2"
   }
 }
