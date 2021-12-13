@@ -23,7 +23,6 @@ import {
   pollForSessionFromGuid
 } from './sagas.utils'
 import * as S from './selectors'
-import { actions as A } from './slice'
 import {
   AccountUnificationFlows,
   LoginErrorType,
