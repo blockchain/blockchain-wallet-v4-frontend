@@ -58,6 +58,7 @@ const rows: Array<RowType> = [
     ),
     handleClick: () => {},
     header: <FormattedMessage id='buttons.swap' defaultMessage='Swap' />,
+    iconColor: '#0C6CF2',
     iconName: 'swap'
   },
   {
@@ -69,6 +70,7 @@ const rows: Array<RowType> = [
     ),
     handleClick: () => {},
     header: <FormattedMessage id='buttons.send' defaultMessage='Send' />,
+    iconColor: '#0C6CF2', // blue600
     iconName: 'send'
   },
   {
@@ -80,6 +82,7 @@ const rows: Array<RowType> = [
     ),
     handleClick: () => {},
     header: <FormattedMessage id='buttons.receive' defaultMessage='Receive' />,
+    iconColor: '#0C6CF2', // blue600
     iconName: 'receive'
   },
   {
@@ -91,6 +94,7 @@ const rows: Array<RowType> = [
     ),
     handleClick: () => {},
     header: <FormattedMessage id='buttons.deposit' defaultMessage='Deposit' />,
+    iconColor: '#0C6CF2', // blue600
     iconName: 'deposit'
   },
   {
@@ -102,6 +106,7 @@ const rows: Array<RowType> = [
     ),
     handleClick: () => {},
     header: <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />,
+    iconColor: '#0C6CF2', // blue600
     iconName: 'withdraw'
   }
 ]
@@ -130,18 +135,21 @@ class TradeContainer extends React.PureComponent<Props> {
             <Icon name='close' color='grey600' role='button' data-e2e='close' size='24px' cursor />
           </IconWrapper>
           <ContentContainer>
-            {rows.map(({ description, handleClick, header, iconName }) => {
-              return (
-                <OptionRightActionRow key={iconName} onClick={handleClick}>
-                  <Text color='grey900' weight={600}>
-                    {header}
-                  </Text>
-                  <Text color='grey600' size='14px' weight={500}>
-                    {description}
-                  </Text>
-                </OptionRightActionRow>
-              )
-            })}
+            {rows.map(({ description, handleClick, header, iconColor, iconName }) => (
+              <OptionRightActionRow
+                iconColor={iconColor}
+                iconName={iconName}
+                key={iconName}
+                onClick={handleClick}
+              >
+                <Text color='grey900' weight={600}>
+                  {header}
+                </Text>
+                <Text color='grey600' size='14px' weight={500}>
+                  {description}
+                </Text>
+              </OptionRightActionRow>
+            ))}
           </ContentContainer>
           <ButtonWrapper>
             <Button
@@ -182,6 +190,7 @@ type RowType = {
   description: JSX.Element
   handleClick: () => void
   header: JSX.Element
+  iconColor: string
   iconName: string
 }
 
