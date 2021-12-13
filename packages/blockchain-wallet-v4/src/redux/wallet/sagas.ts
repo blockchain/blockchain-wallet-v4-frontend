@@ -24,7 +24,9 @@ import {
 import { set } from 'ramda-lens'
 import { call, put, select } from 'redux-saga/effects'
 
-import { HDAccount, KVStoreEntry, Wallet, Wrapper } from '../../types'
+import { DERIVATION_LIST } from '@core/types/HDAccount'
+
+import { DerivationList, HDAccount, HDWallet, KVStoreEntry, Wallet, Wrapper } from '../../types'
 import { callTask } from '../../utils/functional'
 import { generateMnemonic } from '../../walletCrypto'
 import * as A from '../actions'
@@ -310,6 +312,40 @@ export default ({ api, networks }) => {
     }
   }
 
+  const getAccountsWithIncompleteDerivations = function* () {
+    const isEncrypted = yield select(S.isSecondPasswordOn)
+    if (isEncrypted) return []
+
+    const wallet = yield select(S.getWallet)
+    const accounts = Wallet.selectHDAccounts(wallet)
+    const accountsWithMissingDerivations = accounts
+      .filter((acct) => acct.derivations.size < DERIVATION_LIST.length)
+      .toJS()
+
+    return accountsWithMissingDerivations
+  }
+
+  const replenishDerivations = function* (accounts) {
+    try {
+      const isEncrypted = yield select(S.isSecondPasswordOn)
+      if (isEncrypted) return
+
+      const getSeedHex = yield select(S.getSeedHex, null)
+      const seedHex = yield call(() => taskToPromise(getSeedHex))
+
+      if (accounts.length > 0) {
+        // eslint-disable-next-line no-restricted-syntax
+        for (const acct of accounts) {
+          const accountIdx = acct.index
+          const derivations = HDWallet.generateDerivations(seedHex, accountIdx)
+          yield put(A.wallet.setAccountDerivations(accountIdx, DerivationList.fromJS(derivations)))
+        }
+      }
+    } catch (e) {
+      // dont throw
+    }
+  }
+
   const updateMnemonicBackup = function* () {
     try {
       const sharedKey = yield select(S.getSharedKey)
@@ -337,9 +373,11 @@ export default ({ api, networks }) => {
     checkAndUpdateWalletNames,
     createWalletSaga,
     fetchWalletSaga,
+    getAccountsWithIncompleteDerivations,
     importLegacyAddress,
     newHDAccount,
     refetchContextData,
+    replenishDerivations,
     resendSmsLoginCode,
     restoreWalletCredentialsFromMetadata,
     restoreWalletSaga,
