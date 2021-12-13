@@ -6,6 +6,7 @@ import styled, { css } from 'styled-components'
 import { Button, Image, Link, Text } from 'blockchain-info-components'
 import { BlueCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
+import { ModalName } from 'data/types'
 
 import { TIER_TYPES } from '../TradingLimits/model'
 import { Props as OwnProps, SuccessStateType } from '.'
@@ -85,9 +86,18 @@ const UpgradeDescription = styled(Text)`
 type Props = OwnProps & SuccessStateType
 
 const Template: React.FC<Props> = (props) => {
-  const { identityVerificationActions, interestEDDStatus, sddEligible, userData, userTiers } = props
+  const {
+    identityVerificationActions,
+    interestEDDStatus,
+    modalActions,
+    sddEligible,
+    userData,
+    userTiers
+  } = props
   const startVerification = useCallback(
     (tier: TIER_TYPES) => () => {
+      modalActions.closeModal(ModalName.TRADING_LIMITS_MODAL)
+      modalActions.closeModal(ModalName.UPGRADE_NOW_MODAL)
       identityVerificationActions.verifyIdentity({
         needMoreInfo: false,
         origin: 'Settings',
