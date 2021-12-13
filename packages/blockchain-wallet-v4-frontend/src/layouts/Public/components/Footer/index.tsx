@@ -10,12 +10,12 @@ const FooterInner = styled.div`
   padding-bottom: 0;
 `
 
-const Footer = () => {
+const Footer = (props) => {
   return (
     <FooterInner>
       <DropdownLanguage color='grey400' size='16px' />
       <Version />
-      <Help />
+      <Help {...props} />
     </FooterInner>
   )
 }

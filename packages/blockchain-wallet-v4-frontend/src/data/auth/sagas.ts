@@ -551,7 +551,8 @@ export default ({ api, coreSagas, networks }) => {
       // get device platform param or default to web
       const platform = (queryParams.get('platform') || PlatformTypes.WEB) as PlatformTypes
       // get product param or default to wallet
-      const product = (queryParams.get('product') || undefined) as ProductAuthOptions
+      const product = (queryParams.get('product') ||
+        ProductAuthOptions.WALLET) as ProductAuthOptions
       const redirect = queryParams.get('redirect')
       // store product auth data defaulting to product=wallet and platform=web
       yield put(
@@ -579,6 +580,8 @@ export default ({ api, coreSagas, networks }) => {
           break
         // no guid on path, use cached/stored guid if exists
         case (storedGuid || lastGuid) && !walletGuidOrMagicLinkFromUrl:
+          // change product param in url to make it clear to user
+          yield put(actions.router.push('/login?product=wallet'))
           // select required data
           const email = yield select(selectors.cache.getEmail)
           // logic to be compatible with lastGuid in cache make sure that email matches
@@ -594,10 +597,14 @@ export default ({ api, coreSagas, networks }) => {
           break
         // url is just /login, take them to enter guid or email
         case !walletGuidOrMagicLinkFromUrl:
+          if (product === ProductAuthOptions.WALLET) {
+            yield put(actions.router.push('/login?product=wallet'))
+          }
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID))
           break
         // guid is on the url e.g. login/{guid}
         case isGuid(walletGuidOrMagicLinkFromUrl):
+          yield put(actions.router.push('/login?product=wallet'))
           yield put(actions.form.change(LOGIN_FORM, 'guid', walletGuidOrMagicLinkFromUrl))
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
           break

@@ -2846,6 +2846,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const site_redirect = state.auth.getOrElse({})?.productAuthMetadata?.product
 
         const origin = action.payload
 
@@ -2853,7 +2854,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           properties: {
             origin,
             originalTimestamp: getOriginalTimestamp(),
-            site_redirect: 'WALLET'
+            site_redirect
           },
           traits: {
             email,
@@ -2999,12 +3000,13 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const request_platform = state.auth.getOrElse({})?.productAuthMetadata?.product
 
         analytics.push(AnalyticsKey.LOGIN_REQUEST_APPROVED, {
           properties: {
             method: 'MAGIC_LINK',
             originalTimestamp: getOriginalTimestamp(),
-            request_platform: 'WALLET'
+            request_platform
           },
           traits: {
             email,
@@ -3023,12 +3025,13 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const error = action.payload
+        const request_platform = state.auth.getOrElse({})?.productAuthMetadata?.product
         analytics.push(AnalyticsKey.LOGIN_REQUEST_DENIED, {
           properties: {
             error,
             method: 'MAGIC_LINK',
             originalTimestamp: getOriginalTimestamp(),
-            request_platform: 'WALLET'
+            request_platform
           },
           traits: {
             email,
