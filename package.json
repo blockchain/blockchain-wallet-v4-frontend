@@ -16,8 +16,8 @@
     "blockchain",
     "blockchain.info",
     "blockchain.com",
-    "react",
-    "redux",
+    "bitcoin",
+    "ethereum",
     "wallet"
   ],
   "engines": {
