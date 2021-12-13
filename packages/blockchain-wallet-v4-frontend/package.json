@@ -139,7 +139,7 @@
     "react-qr-reader": "2.2.1",
     "react-redux": "7.2.3",
     "react-router-bootstrap": "0.25.0",
-    "react-router-dom": "4.4.0-beta.8",
+    "react-router-dom": "4.3.1",
     "react-table": "7.6.3",
     "react-tooltip": "3.10.0",
     "react-use-measure": "2.0.4",
