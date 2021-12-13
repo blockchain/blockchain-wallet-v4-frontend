@@ -93,7 +93,7 @@ const PublicLayoutContainer = ({
             </ContentContainer>
 
             <FooterContainer>
-              <Footer />
+              <Footer authProduct={authProduct} />
             </FooterContainer>
           </Wrapper>
         </ErrorBoundary>
