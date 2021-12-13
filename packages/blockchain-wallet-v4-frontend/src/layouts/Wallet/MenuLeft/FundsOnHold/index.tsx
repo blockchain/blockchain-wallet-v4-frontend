@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators } from '@redux-saga/core/node_modules/redux'
+import { bindActionCreators } from 'redux'
 
 import { FiatType } from '@core/types'
 import WithdrawalLockHold from 'components/Brokerage/WithdrawalLockHold'
