@@ -72,6 +72,8 @@ const MobileNumberChange = React.lazy(() => import('./Mobile/MobileNumberChange'
 const MobileNumberAdd = React.lazy(() => import('./Mobile/MobileNumberAdd'))
 const MobileNumberVerify = React.lazy(() => import('./Mobile/MobileNumberVerify'))
 
+const MobileNav = React.lazy(() => import('./MobileNav'))
+
 // SETTINGS
 const AutoDisconnection = React.lazy(() => import('./Settings/AutoDisconnection'))
 const ConfirmDisable2FA = React.lazy(() => import('./Settings/ConfirmDisable2FA'))
@@ -306,6 +308,7 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.SEND_XLM_RESERVE_LEARN_MODAL) ? (
           <XlmReserveLearn />
         ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.MOBILE_NAV) ? <MobileNav /> : null}
         {props.modals.find((modal) => modal.type === ModalName.NFT_ORDER) ? <NftOrder /> : null}
         {/* This should always be loaded */}
         <NewVersionAvailable disableOutsideClose />

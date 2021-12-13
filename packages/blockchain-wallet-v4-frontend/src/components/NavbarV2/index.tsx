@@ -1,3 +1,4 @@
+import MobileNav from './MobileNav'
 import Navbar from './Navbar'
 
-export { Navbar }
+export { MobileNav, Navbar }

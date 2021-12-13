@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 import { Icon, Text } from '@blockchain-com/constellation'
@@ -7,9 +7,10 @@ import styled from 'styled-components'
 import { Button } from 'blockchain-info-components'
 import FabButton from 'components/FabButton'
 import { DropdownMenu, DropdownMenuArrow, DropdownMenuItem } from 'components/Navbar/NavbarDropdown'
+import { MobileNav } from 'components/NavbarV2'
 import { Destination } from 'layouts/Wallet/components'
 import { useOnClickOutside } from 'services/misc'
-import { media } from 'services/styles'
+import { media, useMedia } from 'services/styles'
 
 export type PrimaryNavItem = {
   dest: string
@@ -71,11 +72,11 @@ const ListStyles = styled.ul`
       padding-right: 0;
     }
 
-    &.rotate {
+    &.refresh {
       transition-duration: 0.5s;
     }
 
-    &.rotate:active {
+    &.refresh:active {
       transform: rotate(360deg);
     }
   }
@@ -130,12 +131,117 @@ const Navbar = ({
   const ref = useRef(null)
   const [isMenuOpen, toggleIsMenuOpen] = useState(false)
   useOnClickOutside(ref, () => toggleIsMenuOpen(false))
+  const [isMobileNavOpen, setMobileNav] = useState(false)
+  const isMobile = useMedia('mobile')
 
   const handleMenuToggle = () => {
     toggleIsMenuOpen((isMenuOpen) => !isMenuOpen)
   }
+
+  const closeMobileNavCallback = useCallback(() => {
+    setMobileNav(false)
+  }, [])
+  const openMobileNavCallback = useCallback(() => {
+    setMobileNav(true)
+  }, [])
+
+  const tertiaryNavItems = []
+
+  const secondaryNavItems = [
+    {
+      component: <FabButton onClick={fabClickHandler} />,
+      name: 'trade'
+    },
+    {
+      component: (
+        <NavButton onClick={mobileClickHandler} data-e2e='mobileQRLink'>
+          {
+            // @ts-ignore
+            <Icon color='#98A1B2' name='phone' size='sm' />
+          }
+        </NavButton>
+      ),
+      name: 'mobile-app'
+    },
+    {
+      component: (
+        <NavButton onClick={refreshClickHandler} data-e2e='refreshLink'>
+          {
+            // @ts-ignore
+            <Icon color='#98A1B2' name='refresh' size='sm' />
+          }
+        </NavButton>
+      ),
+      name: 'refresh'
+    },
+    {
+      component: (
+        <NavButton onClick={handleMenuToggle} data-e2e='settingsLink'>
+          {
+            // @ts-ignore
+            <Icon color='#98A1B2' name='user' size='sm' />
+          }
+          {isMenuOpen && (
+            <DropdownMenu ref={ref}>
+              <DropdownMenuArrow />
+              <DropdownNavLink to='/settings/general'>
+                <DropdownMenuItem data-e2e='settings_generalLink'>
+                  <Destination>
+                    <FormattedMessage id='layouts.wallet.header.general' defaultMessage='General' />
+                  </Destination>
+                </DropdownMenuItem>
+              </DropdownNavLink>
+              <DropdownMenuItem data-e2e='settings_profileLink' onClick={limitsClickHandler}>
+                <Destination>
+                  <FormattedMessage
+                    id='layouts.wallet.header.tradinglimits'
+                    defaultMessage='Trading Limits'
+                  />
+                </Destination>
+              </DropdownMenuItem>
+              <DropdownNavLink to='/settings/preferences'>
+                <DropdownMenuItem data-e2e='settings_preferencesLink'>
+                  <Destination>
+                    <FormattedMessage
+                      id='layouts.wallet.header.preferences'
+                      defaultMessage='Preferences'
+                    />
+                  </Destination>
+                </DropdownMenuItem>
+              </DropdownNavLink>
+              <DropdownNavLink to='/settings/addresses'>
+                <DropdownMenuItem data-e2e='settings_walletsLink'>
+                  <Destination>
+                    <FormattedMessage
+                      id='layouts.wallet.header.walletsaddresses'
+                      defaultMessage='Wallets & Addresses'
+                    />
+                  </Destination>
+                </DropdownMenuItem>
+              </DropdownNavLink>
+              <DropdownMenuItem onClick={logoutClickHandler} data-e2e='logoutLink'>
+                <Destination>
+                  <FormattedMessage id='layouts.wallet.header.Sign Out' defaultMessage='Sign Out' />
+                </Destination>
+              </DropdownMenuItem>
+            </DropdownMenu>
+          )}
+        </NavButton>
+      ),
+      name: 'settings'
+    }
+  ]
+
   return (
     <NavContainer>
+      {isMobileNavOpen && (
+        <MobileNav
+          handleClose={closeMobileNavCallback}
+          primaryNavItems={primaryNavItems}
+          secondaryNavItems={secondaryNavItems}
+          tertiaryNavItems={tertiaryNavItems}
+        />
+      )}
       <NavLeft>
         <Logo>
           <NavLink to='/home' data-e2e='homeLink'>
@@ -145,96 +251,38 @@ const Navbar = ({
             }
           </NavLink>
         </Logo>
-        <PrimaryNavItems>
-          {primaryNavItems.map((item: PrimaryNavItem) => (
-            <li key={item.e2e}>
-              <NavLink to={item.dest} data-e2e={item.e2e}>
-                <Text variant='paragraph-1'>{item.text}</Text>
-              </NavLink>
-            </li>
-          ))}
-        </PrimaryNavItems>
+        {!isMobile && (
+          <PrimaryNavItems>
+            {primaryNavItems.map((item: PrimaryNavItem) => (
+              <li key={item.e2e}>
+                <NavLink to={item.dest} data-e2e={item.e2e}>
+                  <Text variant='paragraph-1'>{item.text}</Text>
+                </NavLink>
+              </li>
+            ))}
+          </PrimaryNavItems>
+        )}
       </NavLeft>
       <NavRight>
         <SecondaryNavItems>
-          <li>
-            <FabButton onClick={fabClickHandler} />
-          </li>
-          <li>
-            <NavButton onClick={mobileClickHandler} data-e2e='mobileQRLink'>
-              {
-                // @ts-ignore
-                <Icon color='#98A1B2' name='phone' size='sm' />
-              }
-            </NavButton>
-          </li>
-          <li className='rotate'>
-            <NavButton onClick={refreshClickHandler} data-e2e='refreshLink'>
-              {
-                // @ts-ignore
-                <Icon color='#98A1B2' name='refresh' size='sm' />
-              }
-            </NavButton>
-          </li>
-          <li>
-            <NavButton onClick={handleMenuToggle} data-e2e='settingsLink'>
-              {
-                // @ts-ignore
-                <Icon color='#98A1B2' name='user' size='sm' />
-              }
-              {isMenuOpen && (
-                <DropdownMenu ref={ref}>
-                  <DropdownMenuArrow />
-                  <DropdownNavLink to='/settings/general'>
-                    <DropdownMenuItem data-e2e='settings_generalLink'>
-                      <Destination>
-                        <FormattedMessage
-                          id='layouts.wallet.header.general'
-                          defaultMessage='General'
-                        />
-                      </Destination>
-                    </DropdownMenuItem>
-                  </DropdownNavLink>
-                  <DropdownMenuItem data-e2e='settings_profileLink' onClick={limitsClickHandler}>
-                    <Destination>
-                      <FormattedMessage
-                        id='layouts.wallet.header.tradinglimits'
-                        defaultMessage='Trading Limits'
-                      />
-                    </Destination>
-                  </DropdownMenuItem>
-                  <DropdownNavLink to='/settings/preferences'>
-                    <DropdownMenuItem data-e2e='settings_preferencesLink'>
-                      <Destination>
-                        <FormattedMessage
-                          id='layouts.wallet.header.preferences'
-                          defaultMessage='Preferences'
-                        />
-                      </Destination>
-                    </DropdownMenuItem>
-                  </DropdownNavLink>
-                  <DropdownNavLink to='/settings/addresses'>
-                    <DropdownMenuItem data-e2e='settings_walletsLink'>
-                      <Destination>
-                        <FormattedMessage
-                          id='layouts.wallet.header.walletsaddresses'
-                          defaultMessage='Wallets & Addresses'
-                        />
-                      </Destination>
-                    </DropdownMenuItem>
-                  </DropdownNavLink>
-                  <DropdownMenuItem onClick={logoutClickHandler} data-e2e='logoutLink'>
-                    <Destination>
-                      <FormattedMessage
-                        id='layouts.wallet.header.Sign Out'
-                        defaultMessage='Sign Out'
-                      />
-                    </Destination>
-                  </DropdownMenuItem>
-                </DropdownMenu>
-              )}
-            </NavButton>
-          </li>
+          {isMobile ? (
+            <li>
+              <NavButton onClick={openMobileNavCallback} data-e2e='mobileNavExpand'>
+                {
+                  // @ts-ignore
+                  <Icon name='menu' color='#3D89F5' size='md' />
+                }
+              </NavButton>
+            </li>
+          ) : (
+            <>
+              {secondaryNavItems.map((item) => (
+                <li key={item.name} className={item.name}>
+                  {item.component}
+                </li>
+              ))}
+            </>
+          )}
         </SecondaryNavItems>
       </NavRight>
     </NavContainer>

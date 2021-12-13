@@ -15,7 +15,26 @@ const StyledButton = styled(Button)`
   border-radius: 4px;
 `
 const FabIcon = (
-  <svg width='19' height='18' viewBox='0 0 19 18' fill='none' xmlns='http://www.w3.org/2000/svg'>
+  <svg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <mask
+      id='mask0_318_8672'
+      style={{ maskType: 'alpha' }}
+      maskUnits='userSpaceOnUse'
+      x='-2'
+      y='-1'
+      width='23'
+      height='21'
+    >
+      <path
+        fillRule='evenodd'
+        clipRule='evenodd'
+        d='M21 -1H-1V5.63587C-1.64066 6.95464 -2 8.43535 -2 10C-2 11.5646 -1.64066 13.0454 -1 14.3641V19H3.63587C4.95464 19.6407 6.43535 20 8 20C9.56465 20 11.0454 19.6407 12.3641 19H21V-1ZM12.3641 19C15.7003 17.3793 18 13.9582 18 10C18 4.47715 13.5228 0 8 0C4.0418 0 0.620721 2.2997 -1 5.63587V14.3641C-0.0199373 16.3815 1.61846 18.0199 3.63587 19H12.3641Z'
+        fill='#121D33'
+      />
+    </mask>
+    <g mask='url(#mask0_318_8672)'>
+      <ellipse cx='13' cy='6' rx='6' ry='6' fill='white' />
+    </g>
     <path
       fillRule='evenodd'
       clipRule='evenodd'
