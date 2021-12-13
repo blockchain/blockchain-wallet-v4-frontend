@@ -83,7 +83,7 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
       return this.props.buySellActions.setStep({
         cryptoCurrency: getCoinFromPair(pair.pair),
         fiatCurrency: getFiatFromPair(pair.pair),
-        orderType: this.props.orderType,
+        orderType: this.state.orderType,
         pair,
         step: 'VERIFY_EMAIL'
       })
@@ -100,7 +100,7 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
     return this.props.buySellActions.setStep({
       cryptoCurrency: getCoinFromPair(pair.pair),
       fiatCurrency: getFiatFromPair(pair.pair),
-      orderType: this.props.orderType,
+      orderType: this.state.orderType,
       pair,
       step: 'ENTER_AMOUNT'
     })
@@ -114,7 +114,7 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
     this.props.buySellActions.setStep({
       cryptoCurrency: getCoinFromPair(pair.pair),
       fiatCurrency: getFiatFromPair(pair.pair),
-      orderType: this.props.orderType,
+      orderType: this.state.orderType,
       pair,
       step: 'ENTER_AMOUNT',
       swapAccount
