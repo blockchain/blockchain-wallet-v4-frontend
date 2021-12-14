@@ -70,25 +70,14 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
   devtool: false, // default is false but needs to be set so dev config can override
   entry: {
     app: {
-      dependOn: 'polyfills',
-      filename: 'app-[contenthash:10].js',
+      filename: 'app-[fullhash:6].js',
       import: CONFIG_PATH.src + '/index.js'
-    },
-    polyfills: {
-      filename: 'polyfills-[contenthash:10].js',
-      import: [
-        '@babel/polyfill',
-        'bignumber.js',
-        'browserify-rsa',
-        'browserify-sign',
-        'stream-browserify'
-      ]
     }
   },
   output: {
     assetModuleFilename: 'resources/[name][ext]', // default asset path that is usually overwritten in specific modules.rules
     chunkFilename: (pathData) =>
-      pathData.chunk.name ? '[name]-[chunkhash:10].js' : 'chunk-[chunkhash:10].js',
+      pathData.chunk.name ? '[name]-[id]-[fullhash:6].js' : 'chunk-[id]-[fullhash:6].js',
     crossOriginLoading: 'anonymous',
     path: CONFIG_PATH.ciBuild,
     publicPath: '/'
@@ -182,10 +171,10 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
     splitChunks: {
       maxSize: 1000000, // 1 MB max chunk size
       cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
+        vendors: {
+          chunks: 'all',
           name: 'vendors',
-          chunks: 'all'
+          test: /[\\/]node_modules[\\/]/,
         },
       },
     },
