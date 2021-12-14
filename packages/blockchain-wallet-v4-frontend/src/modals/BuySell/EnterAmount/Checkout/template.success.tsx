@@ -171,8 +171,6 @@ const isLimitError = (code: number | string): boolean => {
 }
 
 const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
-  console.log('props here:', props)
-
   const {
     cards,
     crossBorderLimits,

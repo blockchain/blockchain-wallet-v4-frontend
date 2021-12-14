@@ -186,8 +186,6 @@ class Checkout extends PureComponent<Props> {
   }
 
   render() {
-    console.log('higher level props', this.props)
-
     return this.props.data.cata({
       Failure: () => (
         <FlyoutOopsError
@@ -198,10 +196,7 @@ class Checkout extends PureComponent<Props> {
       ),
       Loading: () => <Loading />,
       NotAsked: () => <Loading />,
-      Success: (val) => {
-        console.log('val here: ', val)
-        return <Success {...this.props} {...val} onSubmit={this.handleSubmit} />
-      }
+      Success: (val) => <Success {...this.props} {...val} onSubmit={this.handleSubmit} />
     })
   }
 }

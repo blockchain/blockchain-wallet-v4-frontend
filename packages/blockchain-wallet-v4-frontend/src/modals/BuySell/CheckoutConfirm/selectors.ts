@@ -24,7 +24,6 @@ export const getData = (state: RootState) => {
   return lift(
     (
       bankAccounts: ExtractSuccess<typeof bankAccountsR>,
-      buyQuote: ExtractSuccess<typeof buyQuoteR>,
       quote: ExtractSuccess<typeof quoteR>,
       sbBalances: ExtractSuccess<typeof sbBalancesR>,
       userData: ExtractSuccess<typeof userDataR>,
@@ -35,7 +34,6 @@ export const getData = (state: RootState) => {
       cards: ExtractSuccess<typeof cardsR>
     ) => ({
       bankAccounts,
-      buyQuote,
       cards,
       isSddFlow: sddEligible.eligible || userSDDTier === 3,
       isUserSddVerified,
@@ -47,7 +45,6 @@ export const getData = (state: RootState) => {
   )(
     bankAccountsR,
     quoteR,
-    buyQuoteR,
     sbBalancesR,
     userDataR,
     withdrawLockCheckR,

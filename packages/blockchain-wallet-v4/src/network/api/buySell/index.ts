@@ -360,11 +360,6 @@ export default ({
       url: nabuUrl
     })
 
-  // pair
-  // inputAmount
-  // paymentMethod
-  // product
-
   type getBSTransactionsType = {
     currency: string
     fromId?: string

@@ -75,8 +75,6 @@ class EnterAmount extends PureComponent<Props> {
             />
           )
         }
-        console.log('checkout val', val)
-        console.log('checkout props', this.props)
         return <Success {...val} {...this.props} />
       }
     })
