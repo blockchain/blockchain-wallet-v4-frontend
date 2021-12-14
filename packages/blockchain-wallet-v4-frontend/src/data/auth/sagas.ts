@@ -169,7 +169,7 @@ export default ({ api, coreSagas, networks }) => {
       yield call(saveGoals, firstLogin)
       yield put(actions.goals.runGoals())
       yield call(upgradeAddressLabelsSaga)
-      yield put(actions.auth.loginSuccess({}))
+      yield put(actions.auth.loginSuccess(true))
       yield put(actions.auth.startLogoutTimer())
       yield call(startCoinWebsockets)
       const guid = yield select(selectors.core.wallet.getGuid)
