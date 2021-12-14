@@ -87,7 +87,7 @@ class OrderSummaryContainer extends PureComponent<Props> {
   }
 
   handleRefresh = () => {
-    this.props.buySellActions.fetchCards(false)
+    this.props.buySellActions.pollOrder(this.props.order.id)
   }
 
   handleOkButton = () => {
