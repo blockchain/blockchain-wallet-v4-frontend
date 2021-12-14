@@ -4,8 +4,9 @@ import { Provider } from 'react-redux'
 import { configureStore } from '@reduxjs/toolkit'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { combineReducers } from 'redux'
+import { FormErrors } from 'redux-form'
 
-import { SBPaymentTypes } from '@core/types'
+import { BSPaymentTypes } from '@core/types'
 import form from 'data/form/reducers'
 import { BrokerageOrderType } from 'data/types'
 
@@ -74,7 +75,7 @@ DefaultDeposit.args = {
       min: '100'
     },
     subTypes: [],
-    type: SBPaymentTypes.BANK_TRANSFER
+    type: BSPaymentTypes.BANK_TRANSFER
   }
 }
 
@@ -115,7 +116,7 @@ BankTransferWithdrawal.args = {
       min: '1000'
     },
     subTypes: [],
-    type: SBPaymentTypes.BANK_TRANSFER
+    type: BSPaymentTypes.BANK_TRANSFER
   },
   withdrawableBalance: '5000'
 }
@@ -148,7 +149,7 @@ BankAccountWithdrawal.args = {
       min: '500'
     },
     subTypes: [],
-    type: SBPaymentTypes.BANK_ACCOUNT
+    type: BSPaymentTypes.BANK_ACCOUNT
   },
   withdrawableBalance: '5000'
 }
@@ -170,7 +171,41 @@ BankAccountWithdrawalNoAccount.args = {
       min: '500'
     },
     subTypes: [],
-    type: SBPaymentTypes.BANK_ACCOUNT
+    type: BSPaymentTypes.BANK_ACCOUNT
+  },
+  withdrawableBalance: '5000'
+}
+
+export const WithdrawalError = Template.bind({})
+WithdrawalError.args = {
+  fee: '2500',
+  fiatCurrency: 'USD',
+  formErrors: { amount: 'errrrr' } as FormErrors,
+  handleBack: () => {},
+  handleMethodClick: () => {},
+  minWithdrawAmount: '1',
+  orderType: BrokerageOrderType.WITHDRAW,
+  paymentAccount: {
+    address: '******1234',
+    // @ts-ignore
+    agent: { account: '123456789' },
+
+    currency: 'USD',
+    fiat: true,
+    id: '1ce999d3-e7a9-4219-bb6d-59799993ab98',
+    name: 'Ralph K Jackson',
+    state: 'ACTIVE',
+    whitelisted: false
+  },
+  paymentMethod: {
+    currency: 'USD',
+    eligible: true,
+    limits: {
+      max: '2500000',
+      min: '500'
+    },
+    subTypes: [],
+    type: BSPaymentTypes.BANK_ACCOUNT
   },
   withdrawableBalance: '5000'
 }

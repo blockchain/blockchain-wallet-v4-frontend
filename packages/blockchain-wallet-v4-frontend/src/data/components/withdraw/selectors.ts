@@ -18,6 +18,9 @@ export const getWithdrawal = (state: RootState) => state.components.withdraw.wit
 
 export const getFeesAndMinAmount = (state: RootState) => state.components.withdraw.feesAndMinAmount
 
+export const getCrossBorderLimits = (state: RootState) =>
+  state.components.withdraw.crossBorderLimits
+
 export const getFeeForCurrency = (state: RootState, currency: string) => {
   const feesR = getFeesAndMinAmount(state)
 

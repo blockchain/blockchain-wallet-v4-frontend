@@ -56,11 +56,11 @@ const MobileNav = ({
             <li
               role='menuitem'
               style={{ listStyleType: 'none' }}
-              key={item.name}
+              key={item.to}
               onClick={handleClose}
               onKeyDown={handleClose}
             >
-              {item.component}
+              {item.copy}
             </li>
           ))}
         </FlyoutContent>
@@ -73,6 +73,16 @@ type Props = {
   handleClose: () => void
   primaryNavItems: PrimaryNavItem[]
   secondaryNavItems: { component: React.ReactNode; name: string }[]
-  tertiaryNavItems: { component: React.ReactNode; name: string }[]
+  tertiaryNavItems: ({
+    'data-e2e': string
+    to?: never
+    copy: React.ReactNode
+    onClick: () => void
+  } | {
+    'data-e2e': string
+    to: string
+    copy: React.ReactNode
+    onClick?: never
+  })[]
 }
 export default MobileNav

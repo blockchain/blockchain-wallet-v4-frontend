@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from '@reduxjs/toolkit'
 import styled from 'styled-components'
@@ -8,39 +8,43 @@ import { RootState } from 'data/rootReducer'
 
 import NftHeader from './Header'
 import Marketplace from './Marketplace'
+import Offers from './Offers'
 import YourCollection from './YourCollection'
-
-const DEFAULT_NFTS = [
-  {
-    display_name: 'Doodles',
-    image_url:
-      'https://lh3.googleusercontent.com/7B0qai02OdHA8P_EOVK672qUliyjQdQDGNrACxs7WnTgZAkJa_wWURnIFKeOh5VTf8cfTqW3wQpozGedaC9mteKphEOtztls02RlWQ=s120',
-    opensea_slug: 'doodles-official'
-  }
-]
 
 const NftPage = styled.div`
   width: 100%;
 `
 
 const Nfts: React.FC<Props> = (props) => {
-  const [activeTab, setActiveTab] = useState<'explore' | 'my-collection'>('explore')
+  useEffect(() => {
+    props.nftsActions.fetchNftCollections({})
+  }, [])
+
+  const setActiveTab = (tab: 'explore' | 'my-collection' | 'offers') => {
+    props.nftsActions.setActiveTab(tab)
+  }
 
   return (
     <NftPage>
-      <NftHeader {...props} activeTab={activeTab} setActiveTab={setActiveTab} />
-      {activeTab === 'explore' ? <Marketplace {...props} /> : null}
-      {activeTab === 'my-collection' ? <YourCollection {...props} /> : null}
+      <NftHeader {...props} setActiveTab={setActiveTab} />
+      {props.activeTab === 'explore' ? <Marketplace {...props} /> : null}
+      {props.activeTab === 'my-collection' ? (
+        <YourCollection {...props} setActiveTab={setActiveTab} />
+      ) : null}
+      {props.activeTab === 'offers' ? <Offers {...props} /> : null}
     </NftPage>
   )
 }
 
 const mapStateToProps = (state: RootState) => ({
+  activeTab: selectors.components.nfts.getNftActiveTab(state),
   assets: selectors.components.nfts.getNftAssets(state),
-  collections: selectors.core.walletOptions.getNfts(state).getOrElse(DEFAULT_NFTS),
+  collectionSearch: selectors.components.nfts.getCollectionSearch(state),
+  collections: selectors.components.nfts.getNftCollections(state),
+  defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse(''),
   formValues: selectors.form.getFormValues('nftMarketplace')(state),
   marketplace: selectors.components.nfts.getMarketplace(state),
-  orders: selectors.components.nfts.getNftOrders(state)
+  offersMade: selectors.components.nfts.getOffersMade(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

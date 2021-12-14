@@ -2,13 +2,13 @@ import { call, put, select } from 'redux-saga/effects'
 
 import { displayFiatToFiat } from '@core/exchange'
 import { APIType } from '@core/network/api'
-import { FiatType, SBPaymentMethodType, SBPaymentTypes } from '@core/types'
+import { BSPaymentMethodType, BSPaymentTypes, FiatType } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
 import { WithdrawStepEnum } from 'data/types'
 
 import { convertStandardToBase } from '../exchange/services'
-import * as A from './actions'
+import { actions as A } from './slice'
 
 const SERVICE_NAME = 'simplebuy'
 
@@ -51,8 +51,8 @@ export default ({ api }: { api: APIType }) => {
 
     yield put(A.setStep({ step: WithdrawStepEnum.LOADING }))
 
-    const paymentMethods: SBPaymentMethodType[] = yield call(
-      api.getSBPaymentMethods,
+    const paymentMethods: BSPaymentMethodType[] = yield call(
+      api.getBSPaymentMethods,
       fiatCurrency,
       true
     )
@@ -60,8 +60,8 @@ export default ({ api }: { api: APIType }) => {
     const eligibleMethods = paymentMethods.filter(
       (method) =>
         method.currency === fiatCurrency &&
-        (method.type === SBPaymentTypes.BANK_ACCOUNT ||
-          method.type === SBPaymentTypes.BANK_TRANSFER)
+        (method.type === BSPaymentTypes.BANK_ACCOUNT ||
+          method.type === BSPaymentTypes.BANK_TRANSFER)
     )
 
     if (eligibleMethods.length === 0) {
@@ -114,7 +114,8 @@ export default ({ api }: { api: APIType }) => {
   const fetchWithdrawLocks = function* (action: ReturnType<typeof A.fetchWithdrawalLock>) {
     yield put(A.fetchWithdrawalFeesLoading())
     const currency =
-      action.currency || (selectors.components.withdraw.getFiatCurrency(yield select()) as FiatType)
+      action.payload.currency ||
+      (selectors.components.withdraw.getFiatCurrency(yield select()) as FiatType)
     try {
       const locks: ReturnType<typeof api.getWithdrawalLocks> = yield call(
         api.getWithdrawalLocks,
@@ -127,7 +128,28 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const fetchCrossBorderLimits = function* ({
+    payload
+  }: ReturnType<typeof A.fetchCrossBorderLimits>) {
+    const { currency, fromAccount, inputCurrency, outputCurrency, toAccount } = payload
+    try {
+      yield put(A.fetchCrossBorderLimitsLoading())
+      const limitsResponse: ReturnType<typeof api.getCrossBorderTransactions> = yield call(
+        api.getCrossBorderTransactions,
+        inputCurrency,
+        fromAccount,
+        outputCurrency,
+        toAccount,
+        currency
+      )
+      yield put(A.fetchCrossBorderLimitsSuccess(limitsResponse))
+    } catch (e) {
+      yield put(A.fetchCrossBorderLimitsFailure(e))
+    }
+  }
+
   return {
+    fetchCrossBorderLimits,
     fetchFees,
     fetchWithdrawLocks,
     handleWithdrawMaxAmountClick,

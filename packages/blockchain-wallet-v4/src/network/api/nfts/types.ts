@@ -399,6 +399,26 @@ export interface Order extends UnsignedOrder, Partial<ECSignature> {
   takerAccount?: OpenSeaAccount
 }
 
+export enum GasCalculationOperations {
+  Buy = 'buy',
+  Cancel = 'cancel',
+  Sell = 'sell',
+  Transfer = 'transfer'
+}
+
+export interface GasDataI {
+  approvalFees: number
+  gasFees: number
+  gasPrice: number
+  proxyFees: number
+  totalFees: number
+}
+
+export interface txnData {
+  gasLimit: number
+  gasPrice: number
+}
+
 export interface SellOrder {
   approved_on_chain: boolean
   base_price: string
@@ -527,6 +547,9 @@ export interface NftAsset {
     only_proxied_transfers: boolean
     opensea_buyer_fee_basis_points: string
     opensea_seller_fee_basis_points: string
+    payment_tokens: {
+      symbol: string
+    }[]
     payout_address: string
     require_email: boolean
     safelist_request_status: string
@@ -613,6 +636,7 @@ export interface NftAsset {
       username: string | null
     }
   }
+
   permalink: string
   sell_orders: SellOrder[]
   token_id: string
@@ -629,9 +653,7 @@ export interface NftAsset {
   transfer_fee_payment_token: null
 }
 
-export type NftAssetsType = {
-  assets: NftAsset[]
-}
+export type NftAssetsType = NftAsset[]
 
 export type NftOrdersType = {
   count: number
@@ -699,7 +721,49 @@ export interface Stats {
 }
 
 export type AssetEventsType = {
-  approved_account: any
-  asset: NftAsset
-  created_date: string
-}[]
+  asset_events: {
+    approved_account: any
+    asset: NftAsset
+    created_date: string
+  }[]
+}
+
+export type OfferEventsType = {
+  asset_events: {
+    approved_account: any
+    asset: NftAsset
+    bid_amount: string
+    created_date: string
+    payment_token: {
+      address: string
+      decimals: number
+      eth_price: string
+      id: number
+      image_url: string
+      name: string
+      symbol: string
+      usd_price: string
+    }
+  }[]
+}
+
+export interface ExplorerGatewayNftCollectionType {
+  added_timestamp: string
+  average_price: string
+  count: number
+  created_timestamp: string
+  floor_price: string
+  image_url: string
+  large_image_url: string
+  market_cap: string
+  name: string
+  num_owners: number
+  one_day_average_price: string
+  one_day_change: string
+  one_day_sales: string
+  one_day_volume: string
+  slug: string
+  total_sales: number
+  total_supply: number
+  total_volume: string
+}

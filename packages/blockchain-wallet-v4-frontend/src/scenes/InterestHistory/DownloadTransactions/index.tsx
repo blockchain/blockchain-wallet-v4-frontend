@@ -115,6 +115,8 @@ class DownloadTransactions extends React.PureComponent<Props> {
           </StyledIconButton>
         ),
         Success: (val) => {
+          // potential race condition in render - ensure data is always valid for csv
+          const valResults = Array.isArray(val) ? val : [[], []]
           return this.state.hasSavedReport ? (
             <SuccessIconButton
               data-e2e='interestTxReportSaved'
@@ -128,7 +130,7 @@ class DownloadTransactions extends React.PureComponent<Props> {
             </SuccessIconButton>
           ) : (
             <DownloadButton
-              data={val}
+              data={valResults}
               filename='Interest_Transactions.csv'
               onClick={this.handleSaveReport}
               target='_blank'

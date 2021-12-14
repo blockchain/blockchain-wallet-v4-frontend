@@ -2,40 +2,32 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import Remote from '@core/remote'
 
-import { ProductEligibility, SettingsState } from './types'
+import { LimitsAndDetails, SettingsState } from './types'
 
 const initialState: SettingsState = {
-  productsEligibility: Remote.NotAsked
+  limitsAndDetails: Remote.NotAsked
 }
 
 const settingsSlice = createSlice({
   initialState,
   name: 'settings',
   reducers: {
-    fetchProductsEligibility: () => {},
-    fetchProductsEligibilityFailure: (state: SettingsState, action: PayloadAction<string>) => {
-      state.productsEligibility = Remote.Failure(action.payload)
+    fetchLimitsAndDetails: () => {},
+    fetchLimitsAndDetailsFailure: (state: SettingsState, action: PayloadAction<string>) => {
+      state.limitsAndDetails = Remote.Failure(action.payload)
     },
-    fetchProductsEligibilityLoading: (state: SettingsState) => {
-      state.productsEligibility = Remote.Loading
+    fetchLimitsAndDetailsLoading: (state: SettingsState) => {
+      state.limitsAndDetails = Remote.Loading
     },
-    fetchProductsEligibilitySuccess: (
+    fetchLimitsAndDetailsSuccess: (
       state: SettingsState,
-      action: PayloadAction<ProductEligibility[]>
+      action: PayloadAction<LimitsAndDetails>
     ) => {
-      state.productsEligibility = Remote.Success(action.payload)
+      state.limitsAndDetails = Remote.Success(action.payload)
     },
     notificationsInitialized: () => {}
   }
 })
-
-export const {
-  fetchProductsEligibility,
-  fetchProductsEligibilityFailure,
-  fetchProductsEligibilityLoading,
-  fetchProductsEligibilitySuccess,
-  notificationsInitialized
-} = settingsSlice.actions
 
 const { actions } = settingsSlice
 const settingsReducer = settingsSlice.reducer

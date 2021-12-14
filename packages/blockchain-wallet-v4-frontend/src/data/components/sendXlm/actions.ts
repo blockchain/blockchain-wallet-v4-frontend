@@ -1,5 +1,4 @@
-import { CoinType, WalletAcountType, WalletFiatType } from '@core/types'
-import { SeamlessLimits } from 'data/types'
+import { CoinType, CrossBorderLimits, WalletAccountType, WalletFiatType } from '@core/types'
 
 import * as AT from './actionTypes'
 
@@ -83,9 +82,9 @@ export const showNoAccountForm = (shouldShow) => ({
 
 export const sendXlmFetchLimits = (
   inputCurrency: CoinType,
-  fromAccount: WalletAcountType,
+  fromAccount: WalletAccountType,
   outputCurrency: CoinType,
-  toAccount: WalletAcountType,
+  toAccount: WalletAccountType,
   currency?: WalletFiatType
 ) => ({
   payload: {
@@ -106,7 +105,7 @@ export const sendXlmFetchLimitsFailure = (error: string) => ({
 export const sendXlmFetchLimitsLoading = () => ({
   type: AT.SEND_XLM_FETCH_LIMITS_LOADING
 })
-export const sendXlmFetchLimitsSuccess = (limitsResponse: SeamlessLimits) => ({
+export const sendXlmFetchLimitsSuccess = (limitsResponse: CrossBorderLimits) => ({
   payload: limitsResponse,
   type: AT.SEND_XLM_FETCH_LIMITS_SUCCESS
 })

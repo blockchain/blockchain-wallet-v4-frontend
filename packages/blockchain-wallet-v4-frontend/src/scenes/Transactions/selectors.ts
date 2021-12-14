@@ -19,11 +19,11 @@ import { createSelector } from 'reselect'
 
 import {
   AddressTypesType,
+  BSOrderType,
+  BSTransactionType,
   CoinfigType,
   ProcessedTxType,
-  RemoteDataType,
-  SBOrderType,
-  SBTransactionType
+  RemoteDataType
 } from '@core/types'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -69,7 +69,7 @@ const filterTransactions = curry(
     const sourceTypeFilter = (tx: TxType) => {
       switch (sourceType) {
         case 'CUSTODIAL':
-          return (tx as SBOrderType).attributes || (tx as SBTransactionType).extraAttributes
+          return (tx as BSOrderType).attributes || (tx as BSTransactionType).extraAttributes
         case '':
           return tx
         default:

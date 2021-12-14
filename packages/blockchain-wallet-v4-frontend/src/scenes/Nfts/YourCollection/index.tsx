@@ -83,14 +83,16 @@ const YourCollection: React.FC<Props> = (props) => {
                 </PriceInfo>
               </AssetDetails>
               <CTAWrapper>
-                {asset.sell_orders ? (
+                {asset.sell_orders?.filter(
+                  ({ maker }) => maker.address.toLowerCase() === props.defaultEthAddr.toLowerCase()
+                ).length ? (
                   <Button
                     fullwidth
                     data-e2e='cancelListing'
                     nature='primary'
                     onClick={() => props.nftsActions.nftOrderFlowOpen({ asset })}
                   >
-                    {asset.sell_orders.length > 1 ? (
+                    {asset.sell_orders?.length > 1 ? (
                       <FormattedMessage
                         id='copy.cancel_listings'
                         defaultMessage='Cancel Listings'
@@ -106,16 +108,25 @@ const YourCollection: React.FC<Props> = (props) => {
                     nature='primary'
                     onClick={() => props.nftsActions.nftOrderFlowOpen({ asset })}
                   >
-                    <FormattedMessage id='copy.sell' defaultMessage='Sell' />
+                    <FormattedMessage
+                      id='copy.sell_or_transfer'
+                      defaultMessage='Sell or Transfer'
+                    />
                   </Button>
                 )}
                 <Link
-                  style={{ display: 'block', marginTop: '8px', textAlign: 'center', width: '100%' }}
+                  style={{
+                    display: 'block',
+                    marginBottom: '8px',
+                    marginTop: '14px',
+                    textAlign: 'center',
+                    width: '100%'
+                  }}
                   size='11px'
                   href={asset.permalink}
                   target='_blank'
                 >
-                  View on Opensea
+                  View on OpenSea
                 </Link>
               </CTAWrapper>
             </Asset>
@@ -125,18 +136,32 @@ const YourCollection: React.FC<Props> = (props) => {
           <SpinningLoader width='14px' height='14px' borderWidth='3px' />
         ) : null}
         {props.assets.atBound && props.assets.collection === 'all' ? (
-          <Text weight={600}>
-            <span aria-label='cry' role='img'>
-              😭
-            </span>{' '}
-            No more NFTs to view!
-          </Text>
+          props.assets.list.length === 0 ? (
+            <Text weight={600}>
+              <span aria-label='flag' role='img'>
+                🏴‍☠️
+              </span>{' '}
+              Your collection is looking a bit empty there. How about{' '}
+              <Link onClick={() => props.setActiveTab('explore')} weight={600}>
+                exploring the market?
+              </Link>
+            </Text>
+          ) : (
+            <Text weight={600}>
+              <span aria-label='cry' role='img'>
+                😭
+              </span>{' '}
+              No more NFTs to view!
+            </Text>
+          )
         ) : null}
       </LazyLoadWrapper>
     </NftPageWrapper>
   )
 }
 
-export type Props = OwnProps
+export type Props = OwnProps & {
+  setActiveTab: (tab: 'explore' | 'my-collection' | 'offers') => void
+}
 
 export default YourCollection

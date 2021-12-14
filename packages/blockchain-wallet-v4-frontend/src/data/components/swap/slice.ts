@@ -4,7 +4,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import Remote from '@core/remote'
 import {
   CoinType,
-  CrossBorderLimitsPyload,
+  CrossBorderLimits,
+  CrossBorderLimitsPayload,
   PaymentValue,
   SwapOrderType,
   SwapQuoteType,
@@ -12,7 +13,6 @@ import {
 } from '@core/types'
 import { ModalOriginType } from 'data/modals/types'
 
-import { SeamlessLimits } from '../withdraw/types'
 import { SwapAccountType, SwapCheckoutFixType, SwapState, SwapStepPayload } from './types'
 
 const initialState: SwapState = {
@@ -46,14 +46,14 @@ const swapSlice = createSlice({
     createOrder: () => {},
 
     // cross border limits
-    fetchCrossBorderLimits: (state, action: PayloadAction<CrossBorderLimitsPyload>) => {},
+    fetchCrossBorderLimits: (state, action: PayloadAction<CrossBorderLimitsPayload>) => {},
     fetchCrossBorderLimitsFailure: (state, action: PayloadAction<string>) => {
       state.crossBorderLimits = Remote.Failure(action.payload)
     },
     fetchCrossBorderLimitsLoading: (state) => {
       state.crossBorderLimits = Remote.Loading
     },
-    fetchCrossBorderLimitsSuccess: (state, action: PayloadAction<SeamlessLimits>) => {
+    fetchCrossBorderLimitsSuccess: (state, action: PayloadAction<CrossBorderLimits>) => {
       state.crossBorderLimits = Remote.Success(action.payload)
     },
 

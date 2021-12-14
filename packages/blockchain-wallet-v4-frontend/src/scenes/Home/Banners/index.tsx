@@ -7,6 +7,7 @@ import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
 
+import BSOrderBanner from './BSOrderBanner'
 import BuyCrypto from './BuyCrypto'
 import CeloEURRewards from './CeloEURRewards'
 import CoinRename from './CoinRename'
@@ -15,7 +16,6 @@ import FinishKyc from './FinishKyc'
 import KycResubmit from './KycResubmit'
 import NewCurrency from './NewCurrency'
 import RecurringBuys from './RecurringBuys'
-import SBOrderBanner from './SBOrderBanner'
 import { getData } from './selectors'
 import ServicePriceUnavailable from './ServicePriceUnavailable'
 
@@ -28,7 +28,7 @@ class Banners extends React.PureComponent<Props> {
     this.props.buySellActions.fetchOrders()
     this.props.buySellActions.fetchSDDEligibility()
     if (this.props.userData.tiers?.current > 0) {
-      // TODO move this away from SB
+      // TODO move this away from BS
       this.props.buySellActions.fetchLimits(this.props.fiatCurrency)
     }
   }
@@ -58,7 +58,7 @@ class Banners extends React.PureComponent<Props> {
       case 'sbOrder':
         return (
           <BannerWrapper>
-            <SBOrderBanner />
+            <BSOrderBanner />
           </BannerWrapper>
         )
       case 'coinRename':

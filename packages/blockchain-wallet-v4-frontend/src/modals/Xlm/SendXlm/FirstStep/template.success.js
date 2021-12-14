@@ -73,7 +73,6 @@ const MemoField = styled.div`
 const FirstStep = (props) => {
   const {
     activeField,
-    amount,
     balanceStatus,
     error,
     excludeLockbox,
@@ -194,6 +193,7 @@ const FirstStep = (props) => {
                 error={error}
                 coin='XLM'
                 validate={[required, invalidAmount, insufficientFunds, isSendLimitOver]}
+                errorBottom
                 data-e2e='sendXlm'
                 marginTop='8px'
               />

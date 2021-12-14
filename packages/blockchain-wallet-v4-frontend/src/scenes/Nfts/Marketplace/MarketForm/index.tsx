@@ -1,12 +1,13 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { map } from 'ramda'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import { convertCoinToCoin } from '@core/exchange'
-import { Text } from 'blockchain-info-components'
+import { SpinningLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
-import { Form } from 'components/Form'
+import { Form, SelectBox } from 'components/Form'
 import { media } from 'services/styles'
 
 import { Props as OwnProps } from '../..'
@@ -109,37 +110,83 @@ const MarketForm: React.FC<Props> = (props: Props) => {
               value: props.marketplace.collection?.collection_data?.stats?.floor_price || 0
             })}
           </CoinDisplay>
+          <Text style={{ marginTop: '8px' }} color='black' weight={600} size='14px'>
+            <FormattedMessage
+              id='copy.num_owners_over_total'
+              defaultMessage='Number of Owners / Total Supply'
+            />
+          </Text>
+          <Text weight={500} size='12px' color='grey600'>
+            {props.marketplace.collection?.collection_data?.stats?.num_owners || 0} /{' '}
+            {props.marketplace.collection?.collection_data?.stats?.total_supply || 0}
+          </Text>
         </InfoStatsWrapper>
         <FormWrapper>
-          {props.collections.map((collection) => (
-            <CollectionField
-              key={collection.opensea_slug}
-              // @ts-ignore
-              className={props.formValues?.collection === collection.opensea_slug ? 'active' : ''}
-            >
-              <Field
-                component='input'
-                type='radio'
-                id={collection.opensea_slug}
-                name='collection'
-                value={collection.opensea_slug}
-                onChange={() =>
-                  props.formActions.change('nftMarketplace', 'collection', collection.opensea_slug)
+          <div style={{ marginBottom: '8px' }}>
+            <Field
+              name='sortBy'
+              component={SelectBox}
+              elements={[
+                {
+                  group: '',
+                  items: map(
+                    (item) => ({
+                      text: item.text,
+                      value: item.value
+                    }),
+                    [
+                      { text: 'Volume: High to Low', value: '7_day_vol-DESC' },
+                      { text: 'Volume: Low to High', value: '7_day_vol-ASC' },
+                      { text: 'Floor Price: High to Low', value: 'floor_price-DESC' },
+                      { text: 'Floor Price: Low to High', value: 'floor_price-ASC' },
+                      { text: 'Avg. Price: High to Low', value: 'average_price-DESC' },
+                      { text: 'Avg. Price: Low to High', value: 'average_price-ASC' }
+                    ]
+                  )
                 }
-              />
-              <CollectionLabel htmlFor={collection.opensea_slug}>
-                <img src={collection.image_url} alt={collection.display_name} />
-                <Text
-                  cursor='pointer'
-                  style={{ marginLeft: '4px;', marginTop: '2px' }}
-                  color='black'
-                  weight={600}
+              ]}
+            />
+          </div>
+          {props.collections.cata({
+            Failure: () => null,
+            Loading: () => <SpinningLoader width='14px' height='14px' borderWidth='3px' />,
+            NotAsked: () => null,
+            Success: (collections) => {
+              return collections.map((collection) => (
+                <CollectionField
+                  key={collection.slug}
+                  className={
+                    // @ts-ignore
+                    props.formValues?.collection === collection.slug ? 'active' : ''
+                  }
                 >
-                  {collection.display_name}
-                </Text>
-              </CollectionLabel>
-            </CollectionField>
-          ))}
+                  <Field
+                    component='input'
+                    type='radio'
+                    id={collection.slug}
+                    name='collection'
+                    value={collection.slug}
+                    onChange={() =>
+                      props.formActions.change('nftMarketplace', 'collection', collection.slug)
+                    }
+                  />
+                  <CollectionLabel htmlFor={collection.slug}>
+                    {collection.image_url ? (
+                      <img src={collection.image_url} alt={collection.name} />
+                    ) : null}
+                    <Text
+                      cursor='pointer'
+                      style={{ marginLeft: '4px;', marginTop: '2px' }}
+                      color='black'
+                      weight={600}
+                    >
+                      {collection.name}
+                    </Text>
+                  </CollectionLabel>
+                </CollectionField>
+              ))
+            }
+          })}
         </FormWrapper>
       </Form>
     </LeftColWrapper>
@@ -151,5 +198,5 @@ type Props = OwnProps
 export default reduxForm<{}, OwnProps>({
   destroyOnUnmount: false,
   form: 'nftMarketplace',
-  initialValues: { collection: 'doodles-official' }
+  initialValues: { collection: 'doodles-official', sortBy: '7_day_vol-DESC' }
 })(MarketForm)

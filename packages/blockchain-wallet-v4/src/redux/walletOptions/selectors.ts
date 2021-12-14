@@ -1,7 +1,7 @@
 import { path, prop } from 'ramda'
 
 import { Remote } from '@core'
-import { /* AccountTokensBalancesResponseType, */ RemoteDataType } from '@core/types'
+import { /* AccountTokensBalancesResponseType, */ Product, RemoteDataType } from '@core/types'
 import { RootState } from 'data/rootReducer'
 
 import { WalletOptionsType } from './types'
@@ -29,9 +29,6 @@ export const getXlmExchangeAddresses = () => Remote.of([])
 // 3rd Party
 export const getVeriffDomain = (state) => getDomains(state).map(prop('veriff'))
 export const getSiftKey = (state) => getWebOptions(state).map(path(['sift', 'apiKey']))
-
-// Nfts
-export const getNfts = (state) => getOptions(state).map((x) => x.platforms.web.nfts)
 
 //
 // FEATURE FLAG SELECTORS
@@ -84,3 +81,24 @@ export const getCeloEurRewards = (state: RootState) =>
 
 export const getPollForMagicLinkData = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'pollForMagicLinkData']))
+
+// send the card to new payment processors feature flag (checkout)
+export const getAddCheckoutDotComPaymentProvider = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'addCheckoutPaymentProvider']))
+
+// send the card to new payment processors feature flag (stripe)
+export const getAddStripePaymentProvider = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'addStripePaymentProvider']))
+
+// use card from new payment providers (stripe and checkout)
+export const getUseNewPaymentProviders = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'useNewPaymentProviders']))
+
+// show/hide wallet connect
+export const getWalletConnectEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'walletConnect']))
+
+export const getHotWalletAddresses = (state: RootState, product: Product) =>
+  getWebOptions(state).map(path(['hotWalletAddresses', product, 'eth']))
+
+

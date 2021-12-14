@@ -4,10 +4,10 @@ import { connect, ConnectedProps } from 'react-redux'
 import styled from 'styled-components'
 
 import { formatCoin } from '@core/exchange/utils'
-import { CrossBorderLimitsPyload, ExtractSuccess, WalletAcountEnum } from '@core/types'
+import { CrossBorderLimitsPayload, ExtractSuccess, WalletAccountEnum } from '@core/types'
 import { CoinAccountIcon, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
-import { selectors } from 'data'
+import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import {
   InitSwapFormValuesType,
@@ -65,12 +65,12 @@ class EnterAmount extends PureComponent<Props> {
       // fetch crossborder limits
       const fromAccount =
         BASE.type === SwapBaseCounterTypes.CUSTODIAL
-          ? WalletAcountEnum.CUSTODIAL
-          : WalletAcountEnum.NON_CUSTODIAL
+          ? WalletAccountEnum.CUSTODIAL
+          : WalletAccountEnum.NON_CUSTODIAL
       const toAccount =
         COUNTER.type === SwapBaseCounterTypes.CUSTODIAL
-          ? WalletAcountEnum.CUSTODIAL
-          : WalletAcountEnum.NON_CUSTODIAL
+          ? WalletAccountEnum.CUSTODIAL
+          : WalletAccountEnum.NON_CUSTODIAL
       const inputCurrency = BASE.coin
       const outputCurrency = COUNTER.coin
       this.props.swapActions.fetchCrossBorderLimits({
@@ -78,7 +78,7 @@ class EnterAmount extends PureComponent<Props> {
         inputCurrency,
         outputCurrency,
         toAccount
-      } as CrossBorderLimitsPyload)
+      } as CrossBorderLimitsPayload)
     }
   }
 
@@ -235,13 +235,24 @@ const mapStateToProps = (state: RootState) => {
   }
 }
 
-const connector = connect(mapStateToProps)
+const mapDispatchToProps = (dispatch) => ({
+  verifyIdentity: () =>
+    dispatch(
+      actions.components.identityVerification.verifyIdentity({
+        needMoreInfo: false,
+        origin: 'Swap',
+        tier: 2
+      })
+    )
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = BaseProps & { handleClose: () => void }
 export type Props = OwnProps & SuccessType & ConnectedProps<typeof connector>
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>> & {
   formErrors: {
-    amount?: 'ABOVE_MAX' | 'BELOW_MIN' | 'NEGATIVE_INCOMING_AMT' | boolean
+    amount?: 'ABOVE_MAX' | 'BELOW_MIN' | 'NEGATIVE_INCOMING_AMT' | 'ABOVE_MAX_LIMIT' | boolean
   }
 }
 

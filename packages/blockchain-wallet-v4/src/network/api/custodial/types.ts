@@ -1,10 +1,10 @@
 import {
   AgentType,
+  BSPaymentTypes,
+  BSTransactionStateType,
   CoinType,
   FiatType,
-  SBPaymentTypes,
-  SBTransactionStateType,
-  WalletAcountType,
+  WalletAccountType,
   WalletCurrencyType,
   WalletFiatType
 } from '@core/types'
@@ -54,7 +54,7 @@ export type PaymentDepositPendingResponseType = {
   insertedAt: string
   owner: string
   product: NabuCustodialProductType
-  state: SBTransactionStateType
+  state: BSTransactionStateType
   txHash: string
   updatedAt: string
 }
@@ -142,7 +142,7 @@ export type PaymentMethod = {
   ineligibleReason: IneligibilityReasons
   limits: { max: string; min: string }
   subTypes: string[]
-  type: SBPaymentTypes.PAYMENT_CARD | SBPaymentTypes.BANK_ACCOUNT
+  type: BSPaymentTypes.PAYMENT_CARD | BSPaymentTypes.BANK_ACCOUNT
 }
 
 export type GetTransactionsHistoryType = {
@@ -151,10 +151,44 @@ export type GetTransactionsHistoryType = {
   toValue?: string
 }
 
-export type CrossBorderLimitsPyload = {
+export type CrossBorderLimitsPayload = {
   currency?: WalletFiatType
-  fromAccount: WalletAcountType
+  fromAccount: WalletAccountType
   inputCurrency: CoinType
   outputCurrency: CoinType
-  toAccount: WalletAcountType
+  toAccount: WalletAccountType
+}
+
+type CrossBorderLimitItem = {
+  currency: FiatType
+  value: string
+}
+
+export type LimitWithEffective = {
+  effective: boolean
+  limit: CrossBorderLimitItem
+}
+
+export type CrossBorderLimitSuggestedItem = {
+  available: CrossBorderLimitItem
+  limit: CrossBorderLimitItem
+  used: CrossBorderLimitItem
+}
+
+export type CrossBorderLimits = {
+  currency: FiatType
+  current: {
+    available: CrossBorderLimitItem
+    daily?: LimitWithEffective
+    monthly?: LimitWithEffective
+    yearly?: LimitWithEffective
+  }
+  suggestedUpgrade: {
+    available: CrossBorderLimitItem
+    daily?: CrossBorderLimitSuggestedItem
+    monthly?: CrossBorderLimitSuggestedItem
+    requiredTier: number
+    requirements: string[]
+    yearly?: CrossBorderLimitSuggestedItem
+  }
 }

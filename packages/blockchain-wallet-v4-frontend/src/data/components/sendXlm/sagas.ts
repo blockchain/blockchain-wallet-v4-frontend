@@ -6,7 +6,7 @@ import { call, delay, put, select } from 'redux-saga/effects'
 import { Exchange } from '@core'
 import { APIType } from '@core/network/api'
 import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
-import { AddressTypesType, CustodialFromType, WalletAcountEnum, XlmPaymentType } from '@core/types'
+import { AddressTypesType, CustodialFromType, WalletAccountEnum, XlmPaymentType } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
 import * as C from 'services/alerts'
@@ -175,9 +175,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             yield put(
               A.sendXlmFetchLimits(
                 coin,
-                WalletAcountEnum.CUSTODIAL,
+                WalletAccountEnum.CUSTODIAL,
                 coin,
-                WalletAcountEnum.NON_CUSTODIAL,
+                WalletAccountEnum.NON_CUSTODIAL,
                 currency
               )
             )
@@ -325,7 +325,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         if (!value.to) throw new Error('missing_to_from_custodial')
         if (!value.amount) throw new Error('missing_amount_from_custodial')
         const address = value.memo ? `${value.to.address}:${value.memo}` : value.to.address
-        api.withdrawSBFunds(address, coin, value.amount)
+        api.withdrawBSFunds(address, coin, value.amount)
       } else {
         payment = yield call(payment.publish)
       }

@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useRef, useState, useCallback } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 import { Icon, Text } from '@blockchain-com/constellation'
@@ -6,8 +6,8 @@ import styled from 'styled-components'
 
 import { Button } from 'blockchain-info-components'
 import FabButton from 'components/FabButton'
-import { DropdownMenu, DropdownMenuArrow, DropdownMenuItem } from 'components/Navbar/NavbarDropdown'
 import { MobileNav } from 'components/NavbarV2'
+import { DropdownMenu, DropdownMenuArrow, DropdownMenuItem } from 'components/Navbar/NavbarDropdown'
 import { Destination } from 'layouts/Wallet/components'
 import { useOnClickOutside } from 'services/misc'
 import { media, useMedia } from 'services/styles'
@@ -138,44 +138,65 @@ const Navbar = ({
     toggleIsMenuOpen((isMenuOpen) => !isMenuOpen)
   }
 
-  const closeMobileNavCallback = useCallback(() => {
-    setMobileNav(false)
-  }, [])
-  const openMobileNavCallback = useCallback(() => {
-    setMobileNav(true)
-  }, [])
+  const closeMobileNavCallback = useCallback(() => { setMobileNav(false) }, [])
+  const openMobileNavCallback = useCallback(() => { setMobileNav(true) }, [])
 
-  const tertiaryNavItems = []
+  type TertiaryNavProps1 = {
+    'data-e2e': string
+    to?: never
+    copy: React.ReactNode
+    onClick: () => void
+  }
+  type TertiaryNavProps2 = {
+    'data-e2e': string
+    to: string
+    copy: React.ReactNode
+    onClick?: never
+  }
+
+  const tertiaryNavItems: (TertiaryNavProps1 | TertiaryNavProps2)[]  = [
+    {
+      to: '/settings/general',
+      'data-e2e': 'settings_generalLink',
+      copy: () => <FormattedMessage id='navbar.settings.general' defaultMessage='General' />
+    },
+    {
+      'data-e2e': 'settings_pro',
+      copy: () => <FormattedMessage id='navbar.settings.general' defaultMessage='General' />,
+      onClick: limitsClickHandler
+    },
+]
 
   const secondaryNavItems = [
     {
-      component: <FabButton onClick={fabClickHandler} />,
-      name: 'trade'
+      name: 'trade',
+      component: (<FabButton onClick={fabClickHandler} />)
     },
     {
-      component: (
+      name: 'mobile-app',
+      component: () => (
         <NavButton onClick={mobileClickHandler} data-e2e='mobileQRLink'>
           {
             // @ts-ignore
             <Icon color='#98A1B2' name='phone' size='sm' />
           }
         </NavButton>
-      ),
-      name: 'mobile-app'
+      )
     },
     {
-      component: (
+      name: 'refresh',
+      component: () => (
         <NavButton onClick={refreshClickHandler} data-e2e='refreshLink'>
           {
             // @ts-ignore
             <Icon color='#98A1B2' name='refresh' size='sm' />
           }
         </NavButton>
-      ),
-      name: 'refresh'
+      )
     },
     {
-      component: (
+      name: 'settings',
+      component: () => (
         <NavButton onClick={handleMenuToggle} data-e2e='settingsLink'>
           {
             // @ts-ignore
@@ -187,7 +208,10 @@ const Navbar = ({
               <DropdownNavLink to='/settings/general'>
                 <DropdownMenuItem data-e2e='settings_generalLink'>
                   <Destination>
-                    <FormattedMessage id='layouts.wallet.header.general' defaultMessage='General' />
+                    <FormattedMessage
+                      id='layouts.wallet.header.general'
+                      defaultMessage='General'
+                    />
                   </Destination>
                 </DropdownMenuItem>
               </DropdownNavLink>
@@ -221,14 +245,16 @@ const Navbar = ({
               </DropdownNavLink>
               <DropdownMenuItem onClick={logoutClickHandler} data-e2e='logoutLink'>
                 <Destination>
-                  <FormattedMessage id='layouts.wallet.header.Sign Out' defaultMessage='Sign Out' />
+                  <FormattedMessage
+                    id='layouts.wallet.header.Sign Out'
+                    defaultMessage='Sign Out'
+                  />
                 </Destination>
               </DropdownMenuItem>
             </DropdownMenu>
           )}
         </NavButton>
-      ),
-      name: 'settings'
+      )
     }
   ]
 
@@ -252,15 +278,15 @@ const Navbar = ({
           </NavLink>
         </Logo>
         {!isMobile && (
-          <PrimaryNavItems>
-            {primaryNavItems.map((item: PrimaryNavItem) => (
-              <li key={item.e2e}>
-                <NavLink to={item.dest} data-e2e={item.e2e}>
-                  <Text variant='paragraph-1'>{item.text}</Text>
-                </NavLink>
-              </li>
-            ))}
-          </PrimaryNavItems>
+        <PrimaryNavItems>
+          {primaryNavItems.map((item: PrimaryNavItem) => (
+            <li key={item.e2e}>
+              <NavLink to={item.dest} data-e2e={item.e2e}>
+                <Text variant='paragraph-1'>{item.text}</Text>
+              </NavLink>
+            </li>
+          ))}
+        </PrimaryNavItems>
         )}
       </NavLeft>
       <NavRight>

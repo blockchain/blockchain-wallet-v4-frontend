@@ -53,7 +53,11 @@ class Airdrops extends React.PureComponent<Props> {
           />
         ) : (
           <Text size='16px' weight={500}>
-            Oops. Something went wrong and we don't know why. <b>Here's the error: {e.type}</b>
+            <FormattedMessage
+              id='scenes.airdrops.error'
+              defaultMessage='Something went wrong. Error: {error}'
+              values={{ error: e.type }}
+            />
           </Text>
         ),
       Loading: () => <Loading />,

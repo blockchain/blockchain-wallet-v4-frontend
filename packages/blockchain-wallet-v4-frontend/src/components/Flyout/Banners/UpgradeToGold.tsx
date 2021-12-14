@@ -4,10 +4,15 @@ import styled from 'styled-components'
 
 import Currencies from '@core/exchange/currencies'
 import { formatFiat } from '@core/exchange/utils'
+import { CrossBorderLimits } from '@core/types'
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { SeamlessLimits } from 'data/types'
-import { getEffectiveLimit } from 'services/custodial'
+import {
+  getEffectiveLimit,
+  getEffectivePeriod,
+  getSuggestedLimit,
+  getSuggestedPeriod
+} from 'services/custodial'
 import { media } from 'services/styles'
 
 const Wrapper = styled.div`
@@ -68,6 +73,8 @@ const Copy = styled(Text)`
 const BannerButton = styled(Button)`
   height: 32px;
   font-size: 14px;
+  width: 80px;
+  min-width: 90px;
   ${media.mobile`
     margin-top: 16px;
     padding: 10px;
@@ -89,10 +96,14 @@ const UpgradeToGoldBanner = ({ limits, verifyIdentity }: Props) => {
     hideBanner((prevValue) => !prevValue)
   }
 
+  const { currency } = limits?.current?.available
   const effectiveLimit = getEffectiveLimit(limits)
+  const suggestedLimit = getSuggestedLimit(limits)
+  const effectivePeriod = getEffectivePeriod(limits)
+  const suggestedPeriod = getSuggestedPeriod(limits)
 
   // if there is no effective limit we can't show banner
-  if (!effectiveLimit) {
+  if (!effectiveLimit || !suggestedLimit) {
     return null
   }
 
@@ -118,12 +129,16 @@ const UpgradeToGoldBanner = ({ limits, verifyIdentity }: Props) => {
           <Copy size='14px' color='grey900' weight={500}>
             <FormattedMessage
               id='modals.send.banner.description'
-              defaultMessage='Verify your ID now and unlock Gold level trading. Send up to {dayCurrencySymbol}{dayAmount} a day.'
+              defaultMessage='Verify your ID now and unlock Gold level trading. Send up to {dayCurrencySymbol}{dayAmount} a {suggestedPeriod}.  Now, your limit is {currency}{limit} a {period}.'
               values={{
-                dayAmount: formatFiat(convertBaseToStandard('FIAT', effectiveLimit.limit.value), 0),
+                currency: Currencies[currency].units[currency].symbol,
+                dayAmount: formatFiat(convertBaseToStandard('FIAT', suggestedLimit.limit.value), 0),
                 dayCurrencySymbol:
                   Currencies[effectiveLimit.limit.currency].units[effectiveLimit.limit.currency]
-                    .symbol
+                    .symbol,
+                limit: formatFiat(convertBaseToStandard('FIAT', effectiveLimit.limit.value), 0),
+                period: effectivePeriod,
+                suggestedPeriod
               }}
             />
           </Copy>
@@ -146,6 +161,6 @@ const UpgradeToGoldBanner = ({ limits, verifyIdentity }: Props) => {
   )
 }
 
-type Props = { limits: SeamlessLimits; verifyIdentity: () => void }
+type Props = { limits: CrossBorderLimits; verifyIdentity: () => void }
 
 export default UpgradeToGoldBanner

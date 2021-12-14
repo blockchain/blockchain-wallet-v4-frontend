@@ -767,7 +767,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
 
         const inputCurrency = state.components.buySell.fiatCurrency
-        const inputAmount = Number(state.form.simpleBuyCheckout.values.amount)
+        const inputAmount = Number(state.form.buySellCheckout.values.amount)
         const inputAMountMax = Number(state.components.buySell.pair.buyMax) / 100
         const outputCurrency = state.components.buySell.cryptoCurrency
 
@@ -1425,7 +1425,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
                 ? AccountType.TRADING
                 : AccountType.USERKEY
             const inputCurrency = state.components.buySell.fiatCurrency
-            const inputAmount = Number(state.form.simpleBuyCheckout.values.amount)
+            const inputAmount = Number(state.form.buySellCheckout.values.amount)
             const outputCurrency = state.components.buySell.cryptoCurrency
 
             analytics.push(AnalyticsKey.SELL_AMOUNT_ENTERED, {
@@ -1788,7 +1788,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         }
         break
       }
-      case AT.components.withdraw.SET_STEP: {
+      case actions.components.withdraw.setStep.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -1834,7 +1834,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-      case AT.components.withdraw.HANDLE_WITHDRAWAL_MAX_AMOUNT_CLICK: {
+      case actions.components.withdraw.handleWithdrawMaxAmountClick.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -1862,7 +1862,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-      case AT.components.withdraw.HANDLE_WITHDRAWAL_MIN_AMOUNT_CLICK: {
+      case actions.components.withdraw.handleWithdrawMinAmountClick.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified

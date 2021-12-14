@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
-import { SBTransactionType, WalletFiatType } from '@core/types'
+import { BSTransactionType, WalletFiatType } from '@core/types'
 import DataError from 'components/DataError'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -33,7 +33,7 @@ const mapStateToProps = (state: RootState) => ({
   account: selectors.components.brokerage.getAccount(state),
   data: getData(state),
   formValues: selectors.form.getFormValues('brokerageTx')(state) as {
-    order: SBTransactionType
+    order: BSTransactionType
   },
   walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD')
 })

@@ -1,6 +1,7 @@
 import * as bchTransactions from './bchTransactions/actions'
 import { actions as brokerage } from './brokerage/slice'
 import * as btcTransactions from './btcTransactions/actions'
+import { actions as buySell } from './buySell/slice'
 import * as coinTransactions from './coinTransactions/actions'
 import * as ethTransactions from './ethTransactions/actions'
 import * as fiatTransactions from './fiatTransactions/actions'
@@ -28,11 +29,11 @@ import * as sendEth from './sendEth/actions'
 import * as sendXlm from './sendXlm/actions'
 import { actions as settings } from './settings/slice'
 import * as signMessage from './signMessage/actions'
-import { actions as buySell } from './simpleBuy/slice'
 import { actions as swap } from './swap/slice'
 import * as uploadDocuments from './uploadDocuments/actions'
 import * as veriff from './veriff/actions'
-import * as withdraw from './withdraw/actions'
+import { actions as walletConnect } from './walletConnect/slice'
+import { actions as withdraw } from './withdraw/slice'
 import * as xlmTransactions from './xlmTransactions/actions'
 
 export {
@@ -70,6 +71,7 @@ export {
   swap,
   uploadDocuments,
   veriff,
+  walletConnect,
   withdraw,
   xlmTransactions
 }

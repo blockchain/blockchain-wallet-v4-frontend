@@ -3,9 +3,9 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import {
-  SBPaymentMethodsType,
-  SBPaymentMethodType,
-  SBPaymentTypes,
+  BSPaymentMethodsType,
+  BSPaymentMethodType,
+  BSPaymentTypes,
   WalletFiatType
 } from '@core/types'
 import { Icon, Image, Text } from 'blockchain-info-components'
@@ -18,7 +18,7 @@ import {
 } from 'data/types'
 
 // TODO: move to somewhere more generic
-import BankWire from '../../../../SimpleBuy/PaymentMethods/Methods/BankWire'
+import BankWire from '../../../../BuySell/PaymentMethods/Methods/BankWire'
 import { mapDispatchToProps, Props as _P } from '.'
 import BankTransfer from './BankTransfer'
 
@@ -53,13 +53,13 @@ const IconContainer = styled.div`
   justify-content: center;
 `
 
-const getIcon = (value: SBPaymentMethodType): ReactElement => {
+const getIcon = (value: BSPaymentMethodType): ReactElement => {
   switch (value.type) {
-    case SBPaymentTypes.BANK_TRANSFER:
-    case SBPaymentTypes.LINK_BANK:
+    case BSPaymentTypes.BANK_TRANSFER:
+    case BSPaymentTypes.LINK_BANK:
     default:
       return <Image name='bank' height='48px' />
-    case SBPaymentTypes.BANK_ACCOUNT:
+    case BSPaymentTypes.BANK_ACCOUNT:
       return (
         <IconContainer>
           <Icon size='18px' color='blue600' name='arrow-down' />
@@ -68,13 +68,13 @@ const getIcon = (value: SBPaymentMethodType): ReactElement => {
   }
 }
 
-const getType = (value: SBPaymentMethodType) => {
+const getType = (value: BSPaymentMethodType) => {
   switch (value.type) {
-    case SBPaymentTypes.BANK_TRANSFER:
-    case SBPaymentTypes.LINK_BANK:
+    case BSPaymentTypes.BANK_TRANSFER:
+    case BSPaymentTypes.LINK_BANK:
     default:
       return <FormattedMessage id='modals.simplebuy.banklink' defaultMessage='Link a Bank' />
-    case SBPaymentTypes.BANK_ACCOUNT:
+    case BSPaymentTypes.BANK_ACCOUNT:
       return <FormattedMessage id='modals.simplebuy.bankwire' defaultMessage='Wire Transfer' />
   }
 }
@@ -89,10 +89,10 @@ const Success = ({
   withdrawActions
 }: Props) => {
   const bankTransfer = paymentMethods.methods.find(
-    (method) => method.type === SBPaymentTypes.BANK_TRANSFER
+    (method) => method.type === BSPaymentTypes.BANK_TRANSFER
   )
   const bankWire = paymentMethods.methods.find(
-    (method) => method.type === SBPaymentTypes.BANK_ACCOUNT
+    (method) => method.type === BSPaymentTypes.BANK_ACCOUNT
   )
 
   return (
@@ -175,7 +175,7 @@ const Success = ({
 type Props = {
   close: () => void
   fiatCurrency: WalletFiatType
-  paymentMethods: SBPaymentMethodsType
+  paymentMethods: BSPaymentMethodsType
   userData: UserDataType
 } & ReturnType<typeof mapDispatchToProps> &
   _P
