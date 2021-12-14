@@ -10,6 +10,7 @@ import { media } from 'services/styles'
 import EnterAmount from './Brokerage/EnterAmount'
 import OnHold from './Brokerage/OnHold'
 import OrderSummary from './Brokerage/OrderSummary'
+import Trade from './Brokerage/Trade'
 // Flyout layout base components
 import FlyoutContainer from './Container'
 import FlyoutContent from './Content'
@@ -45,6 +46,7 @@ export {
   RecurringBuyDetails,
   RecurringBuyGettingStarted,
   RecurringBuyRemoveConfirm,
+  Trade,
   UploadAndVerify,
   Uploaded
 }
