@@ -161,7 +161,7 @@ export type ExchangeResetPasswordSuccessType = any
 
 export type ExchangeResetPasswordFailureType = any
 
-export type LoginSuccessType = {}
+export type LoginSuccessType = boolean
 
 export type LoginFailureType = string | boolean | undefined
 
