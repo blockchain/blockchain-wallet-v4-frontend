@@ -280,9 +280,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const buyQuote = isFlexiblePricingModel
         ? S.getBuyQuote(yield select()).getOrFail(NO_QUOTE)
         : undefined
-      // TODO: @sean @pricing remove log
-      // eslint-disable-next-line
-      console.log('buyQuote() redux state', buyQuote)
 
       if (!values) throw new Error(NO_CHECKOUT_VALUES)
       if (!pair) throw new Error(NO_PAIR_SELECTED)
@@ -1125,12 +1122,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         if (isFlexiblePricingModel) {
           const pairArr = pair.pair.split('-')
           const pairReversed = `${pairArr[1]}-${pairArr[0]}`
-          // TODO: @sean @pricing remove log
-          // eslint-disable-next-line
-          console.log('pair reversed', pairReversed)
-          // TODO: the below code is breaking @pricing @sean
-          // yield put(A.fetchBuyQuote({ amount: '0', pair: pairReversed }))
-          yield put(A.fetchQuote({ amount: '0', orderType, pair: pair.pair }))
+
+          // TODO: the below code is breaking, need to add price which is equivalent to rate
+          yield put(A.fetchBuyQuote({ amount: '0', pair: pairReversed }))
         } else {
           yield put(A.fetchQuote({ amount: '0', orderType, pair: pair.pair }))
         }
