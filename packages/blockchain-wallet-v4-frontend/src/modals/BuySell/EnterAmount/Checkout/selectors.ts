@@ -11,7 +11,6 @@ const { FORM_BS_CHECKOUT } = model.components.buySell
 const getData = (state: RootState, ownProps: OwnProps) => {
   const coin = selectors.components.buySell.getCryptoCurrency(state) || 'BTC'
   const formErrors = selectors.form.getFormSyncErrors(FORM_BS_CHECKOUT)(state)
-  console.log('formErrors: ', formErrors)
   // used for sell only now, eventually buy as well
   // TODO: use swap2 quote for buy AND sell
   const paymentR = selectors.components.buySell.getPayment(state)

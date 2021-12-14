@@ -279,6 +279,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const buyQuote = isFlexiblePricingModel
         ? S.getBuyQuote(yield select()).getOrFail(NO_QUOTE)
         : undefined
+      // TODO: @sean @pricing remove log
+      // eslint-disable-next-line
       console.log('buyQuote() redux state', buyQuote)
 
       if (!values) throw new Error(NO_CHECKOUT_VALUES)
@@ -1112,6 +1114,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (!pair) throw new Error(NO_PAIR_SELECTED)
       // Fetch rates
       if (orderType === OrderType.BUY) {
+        // TODO: @sean @pricing remove log
+        // eslint-disable-next-line
         console.log('amount/pair before buyQuote: ', amount, pair)
         const isFlexiblePricingModel = (yield select(
           selectors.core.walletOptions.getFlexiblePricingModel
@@ -1120,6 +1124,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         if (isFlexiblePricingModel) {
           const pairArr = pair.pair.split('-')
           const pairReversed = `${pairArr[1]}-${pairArr[0]}`
+          // TODO: @sean @pricing remove log
+          // eslint-disable-next-line
           console.log('pair reversed', pairReversed)
           // TODO: the below code is breaking @pricing @sean
           // yield put(A.fetchBuyQuote({ amount: '0', pair: pairReversed }))
