@@ -9,7 +9,12 @@ import { FlyoutOopsError } from 'components/Flyout'
 import { actions, model, selectors } from 'data'
 import { getValidPaymentMethod } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
-import { BSCheckoutFormValuesType, RecurringBuyPeriods, UserDataType } from 'data/types'
+import {
+  BSCheckoutFormValuesType,
+  RecurringBuyPeriods,
+  SwapBaseCounterTypes,
+  UserDataType
+} from 'data/types'
 
 import Loading from '../../template.loading'
 import {
@@ -60,12 +65,14 @@ class Checkout extends PureComponent<Props> {
       side: this.props.orderType || OrderType.BUY
     })
 
+    const swapFromAccount =
+      this.props.swapAccount?.type === SwapBaseCounterTypes.ACCOUNT
+        ? WalletAccountEnum.NON_CUSTODIAL
+        : WalletAccountEnum.CUSTODIAL
     // fetch crossborder limits
     this.props.buySellActions.fetchCrossBorderLimits({
       fromAccount:
-        this.props.orderType === OrderType.BUY
-          ? WalletAccountEnum.CUSTODIAL
-          : this.props.swapAccount?.type || WalletAccountEnum.CUSTODIAL,
+        this.props.orderType === OrderType.BUY ? WalletAccountEnum.CUSTODIAL : swapFromAccount,
       inputCurrency:
         this.props.orderType === OrderType.BUY
           ? this.props.fiatCurrency
