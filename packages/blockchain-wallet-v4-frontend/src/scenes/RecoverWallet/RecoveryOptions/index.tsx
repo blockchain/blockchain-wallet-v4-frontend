@@ -49,17 +49,17 @@ const RecoveryOptions = (props: Props) => {
   const cloudRecoveryClicked = () => {
     if (hasCloudBackup) {
       formActions.change('recover', 'step', RecoverSteps.CLOUD_RECOVERY)
-      authActions.recoveryOptionSelected('CLOUD_BACKUP')
+      authActions.analyticsRecoveryOptionSelected('CLOUD_BACKUP')
     }
   }
   const recoveryPhraseClicked = () => {
     formActions.change('recover', 'step', RecoverSteps.RECOVERY_PHRASE)
-    authActions.recoveryOptionSelected('RECOVERY_PHRASE')
+    authActions.analyticsRecoveryOptionSelected('RECOVERY_PHRASE')
   }
 
   const resetAccountClicked = () => {
     formActions.change('recover', 'step', RecoverSteps.RESET_ACCOUNT)
-    authActions.resetAccountClicked('RECOVERY_OPTIONS')
+    authActions.analyticsResetAccountClicked('RECOVERY_OPTIONS')
   }
   return (
     <Wrapper>

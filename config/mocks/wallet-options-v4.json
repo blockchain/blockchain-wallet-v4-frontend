@@ -20,6 +20,7 @@
         "cEURRewards": true,
         "completeYourProfile": true,
         "developerMobilePairing": true,
+        "mergeAndUpgrade": false,
         "eddInterestFileUpload": true,
         "pollForMagicLinkData": true,
         "recurringBuys": true,

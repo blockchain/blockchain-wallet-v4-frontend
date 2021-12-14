@@ -54,7 +54,6 @@ class LogoutContainer extends React.PureComponent<Props, State> {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  // authActions: bindActionCreators(actions.auth, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch),
   sessionActions: bindActionCreators(actions.session, dispatch)
 })

@@ -281,3 +281,47 @@ export const getStateNameFromAbbreviation = (abbreviation) => {
     ? stateList[toUpper(abbreviation)]
     : abbreviation
 }
+
+const countryToCurrencyMap = {
+  AD: 'EUR',
+  AT: 'EUR',
+  BE: 'EUR',
+  CA: 'CAD',
+  CS: 'EUR',
+  DE: 'EUR',
+  DK: 'DKK',
+  EE: 'EUR',
+  ES: 'EUR',
+  FI: 'EUR',
+  FO: 'DKK',
+  FR: 'EUR',
+  GB: 'GBP',
+  GF: 'EUR',
+  GL: 'DKK',
+  GP: 'EUR',
+  GR: 'EUR',
+  GY: 'EUR',
+  IE: 'EUR',
+  IT: 'EUR',
+  LT: 'EUR',
+  LU: 'EUR',
+  LV: 'EUR',
+  MC: 'EUR',
+  MQ: 'EUR',
+  MT: 'EUR',
+  NL: 'EUR',
+  PL: 'PLN',
+  PM: 'EUR',
+  PT: 'EUR',
+  RE: 'EUR',
+  SE: 'SEK',
+  SI: 'EUR',
+  SK: 'EUR',
+  SM: 'EUR',
+  TF: 'EUR',
+  VA: 'EUR',
+  YT: 'EUR'
+}
+
+export const getFiatCurrencyFromCountry = (countryCode: string) =>
+  countryToCurrencyMap[countryCode] || 'USD'

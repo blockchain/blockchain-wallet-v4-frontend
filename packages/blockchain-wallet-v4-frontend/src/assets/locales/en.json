@@ -1823,7 +1823,7 @@
   "scenes.login.device_verification_rejected": "Device verification rejected.",
   "scenes.login.device_verified": "Your device is verified!",
   "scenes.login.device_verified.copy": "Return to previous browser to continue logging in.",
-  "scenes.login.email_guid": "Email or Wallet ID",
+  "scenes.login.email_guid": "Your Email or Wallet ID",
   "scenes.login.enter_email_header": "Enter Your Email Address or Wallet ID",
   "scenes.login.enter_password": "Enter your password",
   "scenes.login.enter_password_login": "Enter your password to login",

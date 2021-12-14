@@ -6,29 +6,28 @@ import { bindActionCreators } from 'redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { Banner, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
-import { FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
+import { HeartbeatLoader, Image, Link, Text } from 'blockchain-info-components'
+import { FormError, FormGroup, FormItem, FormLabel, PasswordBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import { actions, selectors } from 'data'
-import { LoginSteps } from 'data/types'
+import { LoginSteps, ProductAuthOptions } from 'data/types'
 import { isBrowserSupported } from 'services/browser'
 import { required } from 'services/forms'
 import { isMobile, media } from 'services/styles'
 
-import { Props as OwnProps } from '..'
+import { Props as OwnProps } from '../..'
 import {
   ActionButton,
   BackArrowFormHeader,
-  BrowserWarning,
   CenteredColumn,
-  LOGIN_FORM_NAME,
-  NeedHelpLink,
-  removeWhitespace,
-  Row,
+  ProductTab,
   SignUpLink,
+  TabWrapper,
+  UnsupportedBrowserWarning,
+  WalletNeedHelpLink,
   WrapperWithPadding
-} from '../model'
+} from '../../model'
 
 const OuterWrapper = styled.div`
   display: flex;
@@ -46,10 +45,10 @@ const FormWrapper = styled(Wrapper)`
   display: flex;
   flex-direction: column;
   z-index: 1;
-  padding: 32px 0;
-  ${media.tabletL`
-  padding: 16px 0;
-`};
+  padding: 0 0 32px 0;
+  ${media.mobile`
+  padding: 0 0 16px 0;
+`}
 `
 
 const MobileAuthSideWrapper = styled(Wrapper)`
@@ -73,46 +72,58 @@ const TextColumn = styled.div`
     margin-bottom: 8px;
   }
 `
+
 const isSupportedBrowser = isBrowserSupported()
 
-const EnterPassword = (props: Props) => {
-  const { authType, busy, formValues, guid, invalid, loginError, password, qrData, submitting } =
-    props
-  const passwordError = loginError && loginError.toLowerCase().includes('wrong_wallet_password')
-  const accountLocked =
-    loginError &&
-    (loginError.toLowerCase().includes('this account has been locked') ||
-      loginError.toLowerCase().includes('account is locked'))
+const EnterPasswordWallet = (props: Props) => {
+  const {
+    authActions,
+    busy,
+    formValues,
+    handleBackArrowClick,
+    invalid,
+    qrData,
+    submitting,
+    walletError
+  } = props
 
-  const twoFactorError = loginError && loginError.toLowerCase().includes('authentication code')
-  const handleSmsResend = () => {
-    props.authActions.resendSmsCode({ email: formValues?.email, guid })
-  }
-
-  const handleBackArrowClick = () => {
-    props.cacheActions.removedStoredLogin()
-    props.formActions.destroy(LOGIN_FORM_NAME)
+  const onExchangeTabClick = () => {
+    props.routerActions.push('/login?product=exchange')
+    authActions.setProductAuthMetadata({ product: ProductAuthOptions.EXCHANGE })
     props.setStep(LoginSteps.ENTER_EMAIL_GUID)
-    props.authActions.clearLoginError()
-    props.initCaptcha()
   }
+
+  const passwordError = walletError && walletError.toLowerCase().includes('wrong_wallet_password')
+  const accountLocked =
+    walletError &&
+    (walletError.toLowerCase().includes('this account has been locked') ||
+      walletError.toLowerCase().includes('account is locked'))
 
   return (
     <OuterWrapper>
       <FormWrapper>
+        <TabWrapper>
+          <ProductTab>
+            <Image name='wallet-no-background' height='28px' style={{ marginRight: '12px' }} />
+            <Text size='20px' weight={600} color='purple600'>
+              <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
+            </Text>
+          </ProductTab>
+          <ProductTab backgroundColor='grey000' onClick={onExchangeTabClick}>
+            <Image name='exchange-grayscale' height='26px' style={{ marginRight: '12px' }} />
+            <Text size='20px' weight={600} color='grey400'>
+              <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
+            </Text>
+          </ProductTab>
+        </TabWrapper>
         <WrapperWithPadding>
-          <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} />
+          <BackArrowFormHeader
+            {...props}
+            handleBackArrowClick={handleBackArrowClick}
+            marginTop='28px'
+          />
           <FormGroup>
-            {!isSupportedBrowser && (
-              <BrowserWarning>
-                <Banner type='warning'>
-                  <FormattedMessage
-                    id='scenes.login.browserwarning'
-                    defaultMessage='Your browser is not supported. Please update to at least Chrome 45, Firefox 45, Safari 8, Edge, or Opera.'
-                  />
-                </Banner>
-              </BrowserWarning>
-            )}
+            {!isSupportedBrowser && <UnsupportedBrowserWarning />}
             <FormItem>
               <FormLabel htmlFor='password'>
                 <FormattedMessage
@@ -148,68 +159,17 @@ const EnterPassword = (props: Props) => {
                 </FormError>
               )}
               {accountLocked && (
-                <FormError position='relative'>{loginError?.split('.')[0]}.</FormError>
+                <FormError position='relative'>{walletError?.split('.')[0]}.</FormError>
               )}
             </FormItem>
           </FormGroup>
-          {authType > 0 && (
-            <FormGroup>
-              <FormItem>
-                <FormLabel htmlFor='code'>
-                  {authType === 1 && (
-                    <FormattedMessage
-                      id='scenes.login.yubikey_verify'
-                      defaultMessage='Verify with your Yubikey'
-                    />
-                  )}
-                  {(authType === 4 || authType === 5) && (
-                    <FormattedMessage
-                      id='scenes.logins.twofa.enter_code'
-                      defaultMessage='Enter your Two Factor Authentication Code'
-                    />
-                  )}
-                </FormLabel>
-                <Field
-                  name='code'
-                  normalize={removeWhitespace}
-                  validate={[required]}
-                  component={authType === 1 ? PasswordBox : TextBox}
-                  noLastPass
-                  autoFocus
-                  data-e2e='loginTwoFactorCode'
-                />
-                {authType === 5 && (
-                  <Link size='12px' weight={400} onClick={handleSmsResend}>
-                    <FormattedMessage id='scenes.login.resendsms' defaultMessage='Resend SMS' />
-                  </Link>
-                )}
-                {twoFactorError && <FormError position='absolute'>{loginError}</FormError>}
-                {accountLocked && (
-                  <FormError position='absolute'>{loginError?.split('.')[0]}.</FormError>
-                )}
-              </FormItem>
-              <Row style={{ marginTop: '16px' }}>
-                <Text size='14px' weight={600} color='grey600' style={{ marginRight: '4px' }}>
-                  <FormattedMessage
-                    id='scenes.logins.twofa.lost'
-                    defaultMessage='Lost access to your 2FA device?'
-                  />
-                </Text>
-                <LinkContainer to='/reset-2fa'>
-                  <Link size='14px' weight={600} data-e2e='reset2fa'>
-                    <FormattedMessage id='copy.reset_now' defaultMessage='Reset Now' />
-                  </Link>
-                </LinkContainer>
-              </Row>
-            </FormGroup>
-          )}
           <CenteredColumn>
             <ActionButton
               type='submit'
               nature='primary'
               fullwidth
               height='48px'
-              disabled={submitting || invalid || busy || !password}
+              disabled={submitting || invalid || busy || !formValues?.password}
               data-e2e='passwordButton'
               style={{ marginBottom: '16px' }}
             >
@@ -221,7 +181,7 @@ const EnterPassword = (props: Props) => {
                 </Text>
               )}
             </ActionButton>
-            <NeedHelpLink authActions={props.authActions} origin='PASSWORD' />
+            <WalletNeedHelpLink authActions={props.authActions} origin='PASSWORD' />
           </CenteredColumn>
         </WrapperWithPadding>
         <SignUpLink />
@@ -275,4 +235,4 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default connector(EnterPassword)
+export default connector(EnterPasswordWallet)

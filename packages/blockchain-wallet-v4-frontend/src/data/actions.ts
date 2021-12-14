@@ -12,6 +12,7 @@ import { actions as goals } from './goals/slice'
 import { actions as logs } from './logs/slice'
 import * as middleware from './middleware/actions'
 import * as ws from './middleware/webSocket/coins/actions'
+import { actions as misc } from './misc/slice'
 import * as modals from './modals/actions'
 import * as modules from './modules/actions'
 import * as preferences from './preferences/actions'
@@ -30,6 +31,7 @@ export {
   goals,
   logs,
   middleware,
+  misc,
   modals,
   modules,
   preferences,
