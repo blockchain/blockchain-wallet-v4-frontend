@@ -9,6 +9,7 @@ const Wrapper = styled.div`
 const StyledInput = styled.input`
   width: 100%;
   padding: 16px;
+  padding-right: 32px;
   font-size: 16px;
   font-weight: 500;
   border-radius: 8px;
@@ -23,8 +24,11 @@ const StyledInput = styled.input`
 
 const IconWrapper = styled.div`
   position: absolute;
-  right: 0;
-  top: 4px;
+  height: 100%;
+  right: 4px;
+  top: 0;
+  display: flex;
+  align-items: center;
 `
 
 const TextInputWithCopyToClipboard: React.FC<Props> = ({ value }) => {
