@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { lift } from 'ramda'
 
 import { coreSelectors } from '@core'
-import { SBBalanceType } from '@core/network/api/simpleBuy/types'
+import { BSBalanceType } from '@core/network/api/buySell/types'
 import { ExtractSuccess } from '@core/remote/types'
 import { createDeepEqualSelector } from '@core/utils'
 import { generateTradingAccount } from 'data/coins/utils'
@@ -59,7 +59,7 @@ export const getTransactionPageHeaderText = (coin) => {
 // NOT IMPLEMENTED: imported addresses/accounts
 export const getAccounts = createDeepEqualSelector(
   [
-    coreSelectors.data.eth.getDefaultAddress,
+    coreSelectors.kvStore.eth.getDefaultAddress,
     (state, { coin }) => coreSelectors.data.eth.getErc20Balance(state, coin), // non-custodial metadata
     (state, { coin }) => getTradingBalance(coin, state), // custodial accounts
     (state, ownProps) => ownProps // selector config
@@ -86,7 +86,7 @@ export const getAccounts = createDeepEqualSelector(
 
       // add trading accounts if requested
       if (ownProps?.tradingAccounts && coinfig.products.includes('CustodialWalletBalance')) {
-        accounts = accounts.concat(generateTradingAccount(coin, sbBalance as SBBalanceType))
+        accounts = accounts.concat(generateTradingAccount(coin, sbBalance as BSBalanceType))
       }
       return accounts
     }

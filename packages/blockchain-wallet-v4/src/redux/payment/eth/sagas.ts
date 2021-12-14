@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import EthUtil from 'ethereumjs-util'
+import * as ethers from 'ethers'
 import { identity, indexOf, isNil, mergeRight, path, prop } from 'ramda'
 import { call, select } from 'redux-saga/effects'
 
@@ -73,14 +73,15 @@ export default ({ api }: { api: APIType }) => {
         if (p.isErc20) {
           const { coinfig } = window.coins[p.coin]
           const contractAddress = coinfig.type.erc20Address
-          const assets: ReturnType<typeof api.getAssets> = yield call(api.getAssets)
+          const assets: ReturnType<typeof api.getErc20Assets> = yield call(api.getErc20Assets)
           const token = assets.currencies.find(({ type }) => type.erc20Address === contractAddress)
           if (!token || (token && token.symbol !== coinfig.symbol)) {
             throw new Error('Can not trust token contract')
           }
-          sign = (data) => taskToPromise(eth.signErc20(network, mnemonic, data, contractAddress))
+          sign = (txnData) =>
+            taskToPromise(eth.signErc20(network, mnemonic, txnData, contractAddress))
         } else {
-          sign = (data) => taskToPromise(eth.sign(network, mnemonic, data))
+          sign = (txnData) => taskToPromise(eth.sign(network, mnemonic, txnData))
         }
         return yield call(sign, p.raw)
       }
@@ -118,6 +119,7 @@ export default ({ api }: { api: APIType }) => {
         const index = yield call(selectIndex, fromData)
         const to = path(['to', 'address'], p)
         const amount = prop('amount', p)
+        const data = prop('data', p) || null
         const gasPrice = convertGweiToWei(prop('feeInGwei', p))
         const gasLimit =
           p.isErc20 || p.isContract
@@ -138,6 +140,7 @@ export default ({ api }: { api: APIType }) => {
         if (!isPositiveInteger(nonce)) throw new Error('invalid_nonce')
         const raw = {
           amount,
+          data,
           from,
           fromType,
           gasLimit,
@@ -182,6 +185,9 @@ export default ({ api }: { api: APIType }) => {
       },
 
       coin: 'ETH',
+      data(data) {
+        return makePayment(mergeRight(p, { data }))
+      },
 
       description(message) {
         return isString(message)
@@ -285,6 +291,7 @@ export default ({ api }: { api: APIType }) => {
       *init({ coin, isErc20 }) {
         // eslint-disable-next-line one-var
         let contractAddress, fees
+
         try {
           if (isErc20) {
             contractAddress = window.coins[coin].coinfig.type.erc20Address
@@ -376,7 +383,7 @@ export default ({ api }: { api: APIType }) => {
 
       to(destination) {
         const to = calculateTo(destination)
-        if (!EthUtil.isValidAddress(to.address)) {
+        if (!ethers.utils.isAddress(to.address)) {
           throw new Error('Invalid address')
         }
         return makePayment(mergeRight(p, { to }))

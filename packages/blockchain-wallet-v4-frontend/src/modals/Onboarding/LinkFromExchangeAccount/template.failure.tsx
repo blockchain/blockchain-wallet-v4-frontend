@@ -17,10 +17,7 @@ const Failure: React.FC<Props & { close: () => void; error: any }> = (props) => 
         <Image name='close-error' size='40px' />
         <Status style={{ marginTop: '20px' }}>
           <Text color='grey800' size='20px' weight={600}>
-            <FormattedMessage
-              id='modals.onboarding.linkfromexchange.failureheader'
-              defaultMessage='Connection Error'
-            />
+            <FormattedMessage id='copy.connection_error' defaultMessage='Connection Error' />
           </Text>
           <Text color='grey600' weight={500}>
             <FormattedMessage
@@ -30,7 +27,7 @@ const Failure: React.FC<Props & { close: () => void; error: any }> = (props) => 
           </Text>
           <TextGroup inline>
             <Text size='13px' color='grey600'>
-              Err:{' '}
+              Error:{' '}
             </Text>
             <Text size='13px' color='grey600'>
               {props.error && props.error.description}

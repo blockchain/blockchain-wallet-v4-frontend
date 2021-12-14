@@ -3,17 +3,17 @@ import { IntlProvider } from 'react-intl'
 import { action } from '@storybook/addon-actions'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 
-import { SBPaymentTypes } from '@core/network/api/simpleBuy/types'
+import { BSPaymentTypes } from '@core/network/api/buySell/types'
 
 import FrequencyScreen from './FrequencyScreen'
 
 export default {
   argTypes: {
-    method: { options: Object.values(SBPaymentTypes) }
+    method: { options: Object.values(BSPaymentTypes) }
   },
   args: {
     headerMode: 'back',
-    method: SBPaymentTypes.BANK_TRANSFER,
+    method: BSPaymentTypes.BANK_TRANSFER,
     paymentInfo: [
       {
         eligibleMethods: ['FUNDS'],

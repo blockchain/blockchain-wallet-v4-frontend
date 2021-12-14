@@ -1,5 +1,5 @@
 import { Map } from 'immutable-ext'
-import { forEach, head, isEmpty, isNil, path, pathOr, prop, toLower } from 'ramda'
+import { forEach, head, isEmpty, isNil, pathOr, prop, toLower } from 'ramda'
 import { set } from 'ramda-lens'
 import { call, put, select } from 'redux-saga/effects'
 
@@ -20,7 +20,7 @@ export default ({ api, networks } = {}) => {
       const mnemonicT = yield select(obtainMnemonic)
       const mnemonic = yield callTask(mnemonicT)
       const defaultIndex = 0
-      const addr = eth.deriveAddress(mnemonic, defaultIndex)
+      const addr = eth.deriveAddress(mnemonic)
 
       return { addr, defaultIndex }
     } catch (e) {

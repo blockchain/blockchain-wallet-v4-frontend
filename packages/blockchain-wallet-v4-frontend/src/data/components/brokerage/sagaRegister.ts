@@ -18,5 +18,6 @@ export default ({ api }) => {
     yield takeLatest(actions.deleteSavedBank.type, brokerageSagas.deleteSavedBank)
     yield takeLatest(actions.fetchBankLinkCredentials.type, brokerageSagas.fetchBankLinkCredentials)
     yield takeLatest(actions.showModal.type, brokerageSagas.showModal)
+    yield takeLatest(actions.fetchCrossBorderLimits.type, brokerageSagas.fetchCrossBorderLimits)
   }
 }

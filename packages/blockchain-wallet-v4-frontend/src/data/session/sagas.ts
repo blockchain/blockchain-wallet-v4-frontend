@@ -14,11 +14,13 @@ export default ({ api }) => {
 
   const logout = function* () {
     try {
-      yield put(actions.cache.disconnectChannelPhone())
       yield put(actions.modules.profile.clearSession())
       yield put(actions.middleware.webSocket.rates.stopSocket())
       yield put(actions.middleware.webSocket.coins.stopSocket())
       yield put(actions.middleware.webSocket.xlm.stopStreams())
+      // sets logout time so we know whether or not to
+      // send notification to mobile phone for login
+      yield put(actions.cache.lastLogoutTimestamp(Date.now()))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'logout', e))
     } finally {

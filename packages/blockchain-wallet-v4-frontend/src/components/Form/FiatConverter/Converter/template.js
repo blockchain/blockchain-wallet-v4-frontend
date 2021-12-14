@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { Exchange } from '@core'
 import { Text, TextInput } from 'blockchain-info-components'
@@ -15,6 +15,7 @@ const Wrapper = styled.div`
   align-items: flex-start;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
     Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  margin-bottom: ${(props) => (props.showError ? '20px' : '0')};
 `
 const FiatConverterInput = styled.div`
   display: flex;
@@ -49,8 +50,16 @@ const Error = styled(Text)`
   display: block;
   font-size: 12px;
   height: 15px;
-  top: ${(props) => (props.errorBottom ? '40px' : '-20px')};
-  right: 0;
+  top: ${(props) =>
+    props.showError && props.errorBottom ? '50px' : props.errorBottom ? '40px' : '-20px'};
+  ${(props) =>
+    props.showError && props.errorBottom
+      ? css`
+          left: 0;
+        `
+      : css`
+          right: 0;
+        `}
 `
 const getErrorState = (meta) => {
   return meta.touched && meta.invalid ? 'invalid' : 'initial'
@@ -74,8 +83,9 @@ const Converter = (props) => {
   } = props
   const errorState = getErrorState(meta)
 
+  const showError = !!(meta.touched && meta.error)
   return (
-    <Wrapper className={className}>
+    <Wrapper className={className} showError={showError}>
       <FiatConverterInput marginTop={marginTop}>
         <Container>
           <TextInput
@@ -115,6 +125,7 @@ const Converter = (props) => {
           color='error'
           className='error'
           data-e2e='fiatConverterError'
+          showError={showError}
         >
           {meta.error}
         </Error>
@@ -130,8 +141,7 @@ Converter.propTypes = {
   handleBlur: PropTypes.func.isRequired,
   handleCoinChange: PropTypes.func.isRequired,
   handleFiatChange: PropTypes.func.isRequired,
-  handleFocus: PropTypes.func.isRequired,
-  unit: PropTypes.string.isRequired
+  handleFocus: PropTypes.func.isRequired
 }
 
 export default Converter

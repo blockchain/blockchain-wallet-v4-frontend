@@ -1,14 +1,14 @@
 import { RootState } from 'data/rootReducer'
 
-export const getNextSBTransactionsURL = (state: RootState, currency: string) => {
-  return state.dataPath.custodial.coins[currency]?.nextSBTransactionsURL || null
+export const getNextBSTransactionsURL = (state: RootState, currency: string) => {
+  return state.dataPath.custodial.coins[currency]?.nextBSTransactionsURL || null
 }
 
-export const getSBTransactionsPending = (state: RootState, currency: string) => {
+export const getBSTransactionsPending = (state: RootState, currency: string) => {
   return state.dataPath.custodial.coins[currency]?.pendingTxsN || 0
 }
 
-export const getTotalSBTransactionsPendingN = (state: RootState) => {
+export const getTotalBSTransactionsPendingN = (state: RootState) => {
   let n = 0
   Object.keys(state.dataPath.custodial).map((coin) => {
     n += state.dataPath.custodial.coins[coin]?.pendingTxsN || 0

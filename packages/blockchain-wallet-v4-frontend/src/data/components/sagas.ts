@@ -1,6 +1,7 @@
 import bchTransactions from './bchTransactions/sagas'
 import brokerage from './brokerage/sagas'
 import btcTransactions from './btcTransactions/sagas'
+import buySell from './buySell/sagas'
 import coinTransactions from './coinTransactions/sagas'
 import ethTransactions from './ethTransactions/sagas'
 import fiatTransactions from './fiatTransactions/sagas'
@@ -10,6 +11,7 @@ import importBtcAddress from './importBtcAddress/sagas'
 import interest from './interest/sagas'
 import interestUploadDocument from './interestUploadDocument/sagas'
 import manageAddresses from './manageAddresses/sagas'
+import nfts from './nfts/sagas'
 import onboarding from './onboarding/sagas'
 import priceChart from './priceChart/sagas'
 import recurringBuy from './recurringBuy/sagas'
@@ -24,10 +26,10 @@ import sendEth from './sendEth/sagas'
 import sendXlm from './sendXlm/sagas'
 import settings from './settings/sagas'
 import signMessage from './signMessage/sagas'
-import simpleBuy from './simpleBuy/sagas'
 import swap from './swap/sagas'
 import uploadDocuments from './uploadDocuments/sagas'
 import veriff from './veriff/sagas'
+import walletConnect from './walletConnect/sagas'
 import withdraw from './withdraw/sagas'
 import xlmTransactions from './xlmTransactions/sagas'
 
@@ -35,6 +37,7 @@ export default ({ api, coreSagas, networks }) => ({
   bchTransactions: bchTransactions(),
   brokerage: brokerage({ api }),
   btcTransactions: btcTransactions(),
+  buySell: buySell({ api, coreSagas, networks }),
   coinTransactions: coinTransactions(),
   ethTransactions: ethTransactions(),
   fiatTransactions: fiatTransactions(),
@@ -44,6 +47,7 @@ export default ({ api, coreSagas, networks }) => ({
   interest: interest({ api, coreSagas, networks }),
   interestUploadDocument: interestUploadDocument({ api }),
   manageAddresses: manageAddresses({ api, networks }),
+  nfts: nfts({ api }),
   onboarding: onboarding(),
   priceChart: priceChart(),
   recurringBuy: recurringBuy({ api }),
@@ -58,10 +62,10 @@ export default ({ api, coreSagas, networks }) => ({
   sendXlm: sendXlm({ api, coreSagas, networks }),
   settings: settings({ api, coreSagas }),
   signMessage: signMessage({ coreSagas }),
-  simpleBuy: simpleBuy({ api, coreSagas, networks }),
   swap: swap({ api, coreSagas, networks }),
   uploadDocument: uploadDocuments({ api }),
   veriff: veriff({ api, coreSagas }),
+  walletConnect: walletConnect({ coreSagas }),
   withdraw: withdraw({ api }),
   xlmTransactions: xlmTransactions()
 })

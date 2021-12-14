@@ -8,7 +8,7 @@ import styled from 'styled-components'
 import { ExtractSuccess } from '@core/types'
 import { Icon, Text } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
-import { SceneWrapper } from 'components/Layout'
+import { Header, PageTitle, SceneWrapper, SubTitle, Title } from 'components/Layout'
 import { actions, selectors } from 'data'
 
 import { getData } from './selectors'
@@ -16,31 +16,6 @@ import Failure from './template.failure'
 import Loading from './template.loading'
 import PricesTable from './template.success'
 
-const Header = styled.div`
-  width: 100%;
-  margin-bottom: 32px;
-`
-const PageTitle = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-end;
-  width: 100%;
-`
-const Title = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-
-  & > :first-child {
-    margin-right: 16px;
-  }
-`
-const SubTitle = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  margin: 16px 8px 0 0;
-`
 const TextFilterWrapper = styled.div`
   display: flex;
   position: relative;

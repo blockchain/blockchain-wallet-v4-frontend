@@ -11,7 +11,9 @@ import allowCamera from './img/allow-camera.png'
 import allowCamera2 from './img/allow-camera@2x.png'
 import allowCamera3 from './img/allow-camera@3x.png'
 import appleAppStoreBadge from './img/apple-app-store-badge.svg'
+import arrowLeft from './img/arrow-left.svg'
 import bank from './img/bank.svg'
+import bankEmpty from './img/bank-empty.svg'
 import bankError from './img/bank-error.svg'
 import bankExpired from './img/bank-expired.svg'
 import bankRejected from './img/bank-rejected.svg'
@@ -35,6 +37,7 @@ import bankLogoUsaa from './img/banks/bank-logo-usaa.svg'
 import bankLogoVenmo from './img/banks/bank-logo-venmo.svg'
 import bankLogoWellsFargo from './img/banks/bank-logo-wells-fargo.svg'
 import bankLogoDagSite from './img/banks/bank-logo-yodlee-test.svg'
+import barChart from './img/bar-chart.svg'
 import blockchainIcon from './img/bc-icon.svg'
 import blockchainLogo from './img/bc-logo.svg'
 import blockchainLogoCircle from './img/bc-logo-circle.svg'
@@ -43,6 +46,8 @@ import bgBannerPatternLg from './img/bg-banner-pattern-lg.svg'
 import bgPattern from './img/bg-pattern.svg'
 import bitpayLogo from './img/bitpay-logo.svg'
 import blankCard from './img/blank-card.svg'
+import blockchainGold from './img/blockchain-gold.svg'
+import blockchainSilver from './img/blockchain-silver.svg'
 import buySellColor from './img/buy-sell-color.svg'
 import buySellGrey from './img/buy-sell-grey.svg'
 import buySellLearnMore from './img/buy-sell-learn-more.png'
@@ -54,8 +59,8 @@ import circleEmpty from './img/circle-empty.svg'
 import closeError from './img/close-error.svg'
 import cloudCheck from './img/cloud_check.svg'
 import coinPax from './img/coin-pax.svg'
-// coin logos
 import coins from './img/coins'
+import creditCard from './img/credit-card.svg'
 import emailError from './img/email-error.svg'
 import emailSuccess from './img/email-success.svg'
 import emptySearch from './img/empty-search.svg'
@@ -71,12 +76,14 @@ import failedKyc3 from './img/failed-kyc@3x.png'
 import fileDelete from './img/file-delete.svg'
 import fileDownload from './img/file-download.svg'
 import fintecture from './img/fintecture.svg'
+import globe from './img/globe.svg'
 import goldApproved from './img/gold-approved.svg'
 import goldNotice from './img/gold-notice.png'
 import goldVerified from './img/gold-verified.svg'
 import googleAuthenticator from './img/google-authenticator.png'
 import googlePlayBadge from './img/google-play-badge.svg'
 import identityVerification from './img/identity-verification.svg'
+import interest from './img/interest.svg'
 import introBankGif from './img/intro-bank.gif'
 import introCartGif from './img/intro-cart.gif'
 import introHand from './img/intro-hand.png'
@@ -122,9 +129,11 @@ import logoLoader from './img/logo-loader.gif'
 import mastercardLogo from './img/mastercard-logo.svg'
 import microDepositsWhole from './img/micro-deposits-whole.svg'
 import money from './img/money.png'
+import nft from './img/nft.png'
 import printer from './img/printer.svg'
 import proofOfAddress from './img/proof-of-address.svg'
 import qrCode from './img/qr-code.png'
+import qrCodeNew from './img/qr-code.svg'
 import recoverPadlock from './img/recover-padlock.svg'
 import recurringBuyBackground from './img/recurring-buy-background.png'
 import recurringBuyGetStarted from './img/recurring-buys-get-started.svg'
@@ -132,10 +141,13 @@ import refresh from './img/refresh.svg'
 import safeConnect from './img/safe-connect.svg'
 import search from './img/search.svg'
 import selectArrow from './img/select-arrow.png'
+import sell from './img/sell.svg'
+import sendCrypto from './img/send-crypto.svg'
 import silverApproved from './img/silver-approved.svg'
 import smartphone from './img/smartphone.png'
 import sourceOfWealth from './img/source-of-wealth.svg'
 import starfieldBannerBg from './img/starfield-banner-bg.png'
+import swap from './img/swap.svg'
 import swapCarousel1 from './img/swap-carousel1.png'
 import swapCarousel2 from './img/swap-carousel2.png'
 import swapCarousel3 from './img/swap-carousel3.png'
@@ -151,6 +163,7 @@ import visaLogo from './img/visa-logo.svg'
 import visaNewLogo from './img/visa-new-logo.svg'
 import wallet from './img/wallet.svg'
 import walletBlue from './img/wallet-blue.svg'
+import walletConnectCircleLogo from './img/walletconnect-logo-circle-blue.svg'
 import warningCircleFilled from './img/warning-circle-filled.png'
 import worldAlert from './img/world-alert.jpg'
 import worldAlert2 from './img/world-alert@2x.jpg'
@@ -173,7 +186,9 @@ const Images = {
   'allow-camera2': allowCamera2,
   'allow-camera3': allowCamera3,
   'apple-app-store-badge': appleAppStoreBadge,
+  'arrow-left': arrowLeft,
   bank,
+  'bank-empty': bankEmpty,
   'bank-error': bankError,
   'bank-expired': bankExpired,
   'bank-logo-acorns': bankLogoAcorns,
@@ -197,14 +212,17 @@ const Images = {
   'bank-logo-wells-fargo': bankLogoWellsFargo,
   'bank-rejected': bankRejected,
   'bank-success': bankSuccess,
+  'bar-chart': barChart,
   'bg-banner-pattern': bgBannerPattern,
   'bg-banner-pattern-lg': bgBannerPatternLg,
   'bg-pattern': bgPattern,
   'bitpay-logo': bitpayLogo,
   'blank-card': blankCard,
+  'blockchain-gold': blockchainGold,
   'blockchain-icon': blockchainIcon,
   'blockchain-logo': blockchainLogo,
   'blockchain-logo-circle': blockchainLogoCircle,
+  'blockchain-silver': blockchainSilver,
   'buy-sell-color': buySellColor,
   'buy-sell-grey': buySellGrey,
   'buy-sell-learn-more': buySellLearnMore,
@@ -217,6 +235,7 @@ const Images = {
   'cloud-check': cloudCheck,
   'coin-pax': coinPax,
   coins,
+  'credit-card': creditCard,
   'email-error': emailError,
   'email-success': emailSuccess,
   'empty-search': emptySearch,
@@ -235,6 +254,7 @@ const Images = {
   'firmware-connect': firmwareConnect,
   'firmware-connect2': firmwareConnect2,
   'firmware-connect3': firmwareConnect3,
+  globe,
   'gold-approved': goldApproved,
   'gold-notice': goldNotice,
   'gold-verified': goldVerified,
@@ -242,6 +262,7 @@ const Images = {
   'google-play-badge': googlePlayBadge,
   'graph-recurring-buy-background': recurringBuyBackground,
   'identity-verification': identityVerification,
+  interest,
   'intro-bank-gif': introBankGif,
   'intro-cart-gif': introCartGif,
   'intro-hand': introHand,
@@ -284,19 +305,24 @@ const Images = {
   'mastercard-logo': mastercardLogo,
   'micro-deposits-whole': microDepositsWhole,
   money,
+  nft,
   printer,
   'proof-of-address': proofOfAddress,
   'qr-code': qrCode,
+  'qr-code-new': qrCodeNew,
   'recover-padlock': recoverPadlock,
   'recurring-buy-get-started': recurringBuyGetStarted,
   refresh,
   'safe-connect': safeConnect,
   search,
   'select-arrow': selectArrow,
+  sell,
+  'send-crypto': sendCrypto,
   'silver-approved': silverApproved,
   smartphone,
   'source-of-wealth': sourceOfWealth,
   'starfield-banner-bg': starfieldBannerBg,
+  swap,
   'swap-carousel1': swapCarousel1,
   'swap-carousel2': swapCarousel2,
   'swap-carousel3': swapCarousel3,
@@ -312,6 +338,7 @@ const Images = {
   'visa-new-logo': visaNewLogo,
   wallet,
   'wallet-blue': walletBlue,
+  'walletconnect-circle-logo': walletConnectCircleLogo,
   'warning-circle-filled': warningCircleFilled,
   'world-alert': worldAlert,
   'world-alert2': worldAlert2,

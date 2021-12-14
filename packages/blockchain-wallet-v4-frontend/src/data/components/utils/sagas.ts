@@ -1,4 +1,4 @@
-import EthUtil from 'ethereumjs-util'
+import * as ethers from 'ethers'
 import { equals, identity, is, isEmpty, prop } from 'ramda'
 import { select } from 'redux-saga/effects'
 
@@ -14,7 +14,7 @@ export const selectReceiveAddress = function* (source, networks) {
   const { coinfig } = window.coins[coin]
   if (equals('XLM', coin) && is(String, address)) return address
   if ((coinfig.type.erc20Address || equals('ETH', coin)) && is(String, address)) {
-    return EthUtil.toChecksumAddress(address)
+    return ethers.utils.getAddress(address)
   }
   if (equals('BCH', coin)) {
     const selector =

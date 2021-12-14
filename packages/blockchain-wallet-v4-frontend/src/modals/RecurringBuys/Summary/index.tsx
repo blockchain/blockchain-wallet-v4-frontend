@@ -6,12 +6,12 @@ import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
-import { FiatType, SBOrderType, WithdrawalLockCheckRule } from '@core/types'
+import { BSOrderType, FiatType, WithdrawalLockCheckRule } from '@core/types'
 import { Button, Icon, Text } from 'blockchain-info-components'
 import { FlyoutContainer, FlyoutContent, FlyoutFooter } from 'components/Flyout'
 import { getPeriodTitleText } from 'components/Flyout/model'
 import { actions, selectors } from 'data'
-import { getCounterAmount, getCounterCurrency } from 'data/components/simpleBuy/model'
+import { getCounterAmount, getCounterCurrency } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
 import { RecurringBuyPeriods } from 'data/types'
 
@@ -118,10 +118,10 @@ const Success = ({ modalActions, order, period, withdrawLockCheck }: Props) => {
 
 const mapStateToProps = (state: RootState) => ({
   bankAccounts: selectors.components.brokerage.getBankTransferAccounts(state).getOrElse([]),
-  cards: selectors.components.simpleBuy.getSBCards(state).getOrElse([]),
-  order: selectors.components.simpleBuy.getSBOrder(state) as SBOrderType,
+  cards: selectors.components.buySell.getBSCards(state).getOrElse([]),
+  order: selectors.components.buySell.getBSOrder(state) as BSOrderType,
   period: selectors.components.recurringBuy.getPeriod(state) as RecurringBuyPeriods,
-  quote: selectors.components.simpleBuy.getSBQuote(state).getOrFail('Could not get exchange rate'),
+  quote: selectors.components.buySell.getBSQuote(state).getOrFail('Could not get exchange rate'),
   withdrawLockCheck: selectors.components.send
     .getWithdrawLockCheckRule(state)
     .getOrElse({ lockTime: 259200 } as WithdrawalLockCheckRule) as WithdrawalLockCheckRule

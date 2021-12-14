@@ -1,8 +1,8 @@
 import Eth from '@ledgerhq/hw-app-eth'
 import BigNumber from 'bignumber.js'
 import Task from 'data.task'
-import EthereumAbi from 'ethereumjs-abi'
 import EthereumTx from 'ethereumjs-tx'
+import * as ethers from 'ethers'
 import { curry } from 'ramda'
 
 import * as eth from '../utils/eth'
@@ -13,9 +13,9 @@ const toHex = (value) => {
   return isOdd(hex) ? `0x0${hex}` : `0x${hex}`
 }
 
-export const signErc20 = curry((network = 1, mnemonic, data, contractAddress) => {
-  const { amount, gasLimit, gasPrice, index, nonce, to } = data
-  const privateKey = eth.getPrivateKey(mnemonic, index)
+export const signErc20 = curry((network = 1, mnemonic, txnData, contractAddress) => {
+  const { amount, data, gasLimit, gasPrice, index, nonce, to } = txnData
+  const wallet = ethers.Wallet.fromMnemonic(mnemonic, `m/44'/60'/0'/0/${index}`)
   const transferMethodHex = '0xa9059cbb'
 
   // block ERC20 transfers/sends that are being created with 0 amount
@@ -27,42 +27,40 @@ export const signErc20 = curry((network = 1, mnemonic, data, contractAddress) =>
     chainId: network,
     data:
       transferMethodHex +
-      EthereumAbi.rawEncode(['address'], [to]).toString('hex') +
-      EthereumAbi.rawEncode(['uint256'], [amount.toString()]).toString('hex'),
-    gasLimit: toHex(gasLimit),
+      ethers.utils.defaultAbiCoder
+        .encode(['address', 'uint256'], [to, amount.toString()])
+        .replace('0x', '') +
+      (data !== null ? data.substring(2) : ''),
+    gasLimit: toHex(data ? gasLimit + 600 : gasLimit),
     gasPrice: toHex(gasPrice),
     nonce: toHex(nonce),
     to: contractAddress,
     value: toHex(0)
   }
-  const tx = new EthereumTx(txParams)
-  tx.sign(privateKey)
-  const rawTx = `0x${tx.serialize().toString('hex')}`
-  return Task.of(rawTx)
+  return Task.of(wallet.signTransaction(txParams))
 })
 
-export const sign = curry((network = 1, mnemonic, data) => {
-  const { amount, gasLimit, gasPrice, index, nonce, to } = data
-  const privateKey = eth.getPrivateKey(mnemonic, index)
+export const sign = curry((network = 1, mnemonic, txnData) => {
+  const { amount, data, gasLimit, gasPrice, index, nonce, to } = txnData
+  const wallet = ethers.Wallet.fromMnemonic(mnemonic, `m/44'/60'/0'/0/${index}`)
   const txParams = {
     chainId: network,
-    gasLimit: toHex(gasLimit),
+    ...(data && { data }),
+    gasLimit: toHex(data ? gasLimit + 600 : gasLimit),
     gasPrice: toHex(gasPrice),
-    nonce: toHex(nonce),
+    nonce,
     to,
     value: toHex(amount)
   }
-  const tx = new EthereumTx(txParams)
-  tx.sign(privateKey)
-  const rawTx = `0x${tx.serialize().toString('hex')}`
-  return Task.of(rawTx)
+  return Task.of(wallet.signTransaction(txParams))
 })
 
 export const serialize = (network, raw, signature) => {
-  const { amount, gasLimit, gasPrice, nonce, to } = raw
+  const { amount, data, gasLimit, gasPrice, nonce, to } = raw
   const txParams = {
     chainId: network,
-    gasLimit: toHex(gasLimit),
+    ...(data && { data }),
+    gasLimit: toHex(data ? gasLimit + 600 : gasLimit),
     gasPrice: toHex(gasPrice),
     nonce: toHex(nonce),
     r: `0x${signature.r}`,

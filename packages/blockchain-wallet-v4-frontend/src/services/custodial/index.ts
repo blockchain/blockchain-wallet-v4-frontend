@@ -1,6 +1,6 @@
-import { LimitWithEffective, SeamlessLimits } from 'data/types'
+import { CrossBorderLimits, CrossBorderLimitSuggestedItem, LimitWithEffective } from '@core/types'
 
-export const getEffectiveLimit = (limits: SeamlessLimits): LimitWithEffective | undefined => {
+export const getEffectiveLimit = (limits: CrossBorderLimits): LimitWithEffective | undefined => {
   const { current } = limits
   switch (true) {
     case current?.daily?.effective:
@@ -12,4 +12,48 @@ export const getEffectiveLimit = (limits: SeamlessLimits): LimitWithEffective | 
     default:
       return undefined
   }
+}
+
+export const getEffectivePeriod = (limits: CrossBorderLimits): string | undefined => {
+  const { current } = limits
+  switch (true) {
+    case current?.daily?.effective:
+      return 'day'
+    case current?.monthly?.effective:
+      return 'month'
+    case current?.yearly?.effective:
+      return 'year'
+    default:
+      return undefined
+  }
+}
+
+export const getSuggestedPeriod = (limits: CrossBorderLimits): string | undefined => {
+  const { suggestedUpgrade } = limits
+  if (suggestedUpgrade?.daily) {
+    return 'day'
+  }
+  if (suggestedUpgrade?.monthly) {
+    return 'month'
+  }
+  if (suggestedUpgrade?.yearly) {
+    return 'year'
+  }
+  return undefined
+}
+
+export const getSuggestedLimit = (
+  limits: CrossBorderLimits
+): CrossBorderLimitSuggestedItem | undefined => {
+  const { suggestedUpgrade } = limits
+  if (suggestedUpgrade?.daily) {
+    return suggestedUpgrade?.daily
+  }
+  if (suggestedUpgrade?.monthly) {
+    return suggestedUpgrade?.monthly
+  }
+  if (suggestedUpgrade?.yearly) {
+    return suggestedUpgrade?.yearly
+  }
+  return undefined
 }

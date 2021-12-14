@@ -2,6 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 
+import { Image } from 'blockchain-info-components'
 import {
   NavbarDivider,
   NavbarNavItem,
@@ -78,6 +79,38 @@ const FeaturesLarge = (props: Props & { showModal: (modal: 'SEND' | 'REQUEST') =
           </NavbarNavItemButton>
         </NavbarNavItem>
       </LinkContainer>
+      <NavbarDivider />
+      {props.invitations.nfts ? (
+        <LinkContainer to='/nfts' activeClassName='active'>
+          <NavbarNavItem>
+            <NavbarNavItemButton data-e2e='nftsLink'>
+              <Image name='nft' height='50%' style={{ marginRight: '8px' }} />
+              <NavbarNavItemTextHeader size='14px' weight={600}>
+                <FormattedMessage
+                  id='layouts.wallet.menuleft.navigation.nfts'
+                  defaultMessage='NFTs'
+                />
+              </NavbarNavItemTextHeader>
+            </NavbarNavItemButton>
+          </NavbarNavItem>
+        </LinkContainer>
+      ) : null}
+      <NavbarDivider />
+      {props.walletConnectEnabled ? (
+        <LinkContainer to='/dapps' activeClassName='active'>
+          <NavbarNavItem>
+            <NavbarNavItemButton data-e2e='dappsLink'>
+              <Image name='walletconnect-circle-logo' height='50%' style={{ marginRight: '8px' }} />
+              <NavbarNavItemTextHeader size='14px' weight={600}>
+                <FormattedMessage
+                  id='layouts.wallet.menuleft.navigation.dapps'
+                  defaultMessage='Dapps'
+                />
+              </NavbarNavItemTextHeader>
+            </NavbarNavItemButton>
+          </NavbarNavItem>
+        </LinkContainer>
+      ) : null}
     </>
   )
 }

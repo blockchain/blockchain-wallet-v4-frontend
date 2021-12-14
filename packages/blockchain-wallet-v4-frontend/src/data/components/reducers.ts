@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 
 import { brokerageReducer as brokerage } from './brokerage/slice'
+import { buySellReducer as buySell } from './buySell/slice'
 import { fundRecoveryReducer } from './fundRecovery/reducers'
 import identityVerificationReducer from './identityVerification/reducers'
 import { interestReducer } from './interest/slice'
@@ -8,6 +9,7 @@ import { reducer as interestUploadDocumentReducer } from './interestUploadDocume
 import { layoutWalletReducer as layoutWallet } from './layoutWallet/slice'
 import lockbox from './lockbox/reducers'
 import manageAddresses from './manageAddresses/reducers'
+import { nftsReducer } from './nfts/slice'
 import { priceChartReducer } from './priceChart/slice'
 import { recoveryPhraseReducer } from './recoveryPhrase/reducers'
 import { reducer as recurringBuy } from './recurringBuy/slice'
@@ -21,11 +23,11 @@ import { sendEthReducer } from './sendEth/reducers'
 import { sendXlmReducer } from './sendXlm/reducers'
 import { settingsReducer } from './settings/slice'
 import signMessage from './signMessage/reducers'
-import { buySellReducer as buySell } from './simpleBuy/slice'
 import { swapSliceReducer as swap } from './swap/slice'
 import uploadDocuments from './uploadDocuments/reducers'
 import veriff from './veriff/reducers'
-import { withdrawReducer } from './withdraw/reducers'
+import { walletConnectReducer as walletConnect } from './walletConnect/slice'
+import { withdrawReducer as withdraw } from './withdraw/slice'
 
 const componentReducer = combineReducers({
   brokerage,
@@ -37,6 +39,7 @@ const componentReducer = combineReducers({
   layoutWallet,
   lockbox,
   manageAddresses,
+  nfts: nftsReducer,
   priceChart: priceChartReducer,
   recoveryPhrase: recoveryPhraseReducer,
   recurringBuy,
@@ -53,7 +56,8 @@ const componentReducer = combineReducers({
   swap,
   uploadDocuments,
   veriff,
-  withdraw: withdrawReducer
+  walletConnect,
+  withdraw
 })
 
 export default componentReducer

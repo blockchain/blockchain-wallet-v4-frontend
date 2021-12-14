@@ -6,24 +6,24 @@ import styled, { css } from 'styled-components'
 import { fiatToString } from '@core/exchange/utils'
 import {
   BeneficiaryType,
+  BSBalancesType,
+  BSPaymentMethodType,
+  BSPaymentTypes,
   FiatType,
   NabuSymbolNumberType,
-  SBBalancesType,
-  SBPaymentMethodType,
-  SBPaymentTypes,
   WalletCurrencyType
 } from '@core/types'
 import { Icon, Image, Text } from 'blockchain-info-components'
-import { GreyCartridge, OrangeCartridge, SuccessCartridge } from 'components/Cartridge'
-import CoinDisplay from 'components/Display/CoinDisplay'
-import { CARD_TYPES, DEFAULT_CARD_SVG_LOGO } from 'components/Form/CreditCardBox/model'
 import {
   Content,
   DisplayContainer,
   DisplayIcon,
   DisplayPaymentIcon,
   MultiRowContainer
-} from 'components/SimpleBuy'
+} from 'components/BuySell'
+import { GreyCartridge, OrangeCartridge, SuccessCartridge } from 'components/Cartridge'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import { CARD_TYPES, DEFAULT_CARD_SVG_LOGO } from 'components/Form/CreditCardBox/model'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 import {
   ActionEnum,
@@ -80,10 +80,10 @@ const DisablableIcon = styled(Icon)<{
 
 const getDefaultMethod = (defaultMethod, bankAccounts: BankTransferAccountType[]) => {
   if (defaultMethod) {
-    return { ...defaultMethod, type: SBPaymentTypes.BANK_TRANSFER }
+    return { ...defaultMethod, type: BSPaymentTypes.BANK_TRANSFER }
   }
   if (bankAccounts.length === 1) {
-    return { ...bankAccounts[0], type: SBPaymentTypes.BANK_TRANSFER }
+    return { ...bankAccounts[0], type: BSPaymentTypes.BANK_TRANSFER }
   }
 }
 
@@ -277,19 +277,19 @@ const getActionText = (action: ActionEnum, nextDate: string | number) => {
   return text
 }
 
-const getPaymentMethodText = (paymentMethod: SBPaymentTypes) => {
+const getPaymentMethodText = (paymentMethod: BSPaymentTypes) => {
   let text
   switch (paymentMethod) {
-    case SBPaymentTypes.BANK_TRANSFER:
-    case SBPaymentTypes.LINK_BANK:
-    case SBPaymentTypes.BANK_ACCOUNT:
+    case BSPaymentTypes.BANK_TRANSFER:
+    case BSPaymentTypes.LINK_BANK:
+    case BSPaymentTypes.BANK_ACCOUNT:
       text = <FormattedMessage id='copy.bank_account' defaultMessage='Bank Account' />
       break
-    case SBPaymentTypes.FUNDS:
+    case BSPaymentTypes.FUNDS:
       text = <FormattedMessage id='copy.wallet_funds' defaultMessage='Wallet Funds' />
       break
-    case SBPaymentTypes.PAYMENT_CARD:
-    case SBPaymentTypes.USER_CARD:
+    case BSPaymentTypes.PAYMENT_CARD:
+    case BSPaymentTypes.USER_CARD:
       text = <FormattedMessage id='simplebuy.confirm.payment_card' defaultMessage='Credit Card' />
       break
     default:
@@ -299,7 +299,7 @@ const getPaymentMethodText = (paymentMethod: SBPaymentTypes) => {
   return text
 }
 
-const availableMethodsToolTip = (methods: SBPaymentTypes[]) => {
+const availableMethodsToolTip = (methods: BSPaymentTypes[]) => {
   const methodsText = methods.map((method, i, methodArray) => {
     return (
       <>
@@ -360,28 +360,44 @@ const DisplayValue = styled(Value)`
 `
 
 const renderBankText = (
-  value: SBPaymentMethodType | BankTransferAccountType | BeneficiaryType
+  value: BSPaymentMethodType | BankTransferAccountType | BeneficiaryType
 ): string | ReactElement => {
   if ('agent' in value) {
     // BeneficiaryType
     return value.name
   }
   if ('details' in value && value.details?.bankName) {
-    // BankTransferAccountType | SBPaymentMethodType
+    // BankTransferAccountType | BSPaymentMethodType
     return value.details.bankName ? value.details.bankName : value.details?.accountNumber
   }
   return <FormattedMessage id='copy.bank_account' defaultMessage='Bank Account' />
 }
 
+const renderBankFullName = (
+  method?: BSPaymentMethodType | BankTransferAccountType | BeneficiaryType
+): string => {
+  if (method) {
+    if ('agent' in method) {
+      // BeneficiaryType
+      return method.name
+    }
+    if ('details' in method && method.details?.bankName) {
+      // BankTransferAccountType | BSPaymentMethodType
+      return method.details.bankName ? method.details.bankName : method.details?.accountNumber
+    }
+  }
+  return ''
+}
+
 const renderBankSubText = (
-  value: SBPaymentMethodType | BankTransferAccountType | BeneficiaryType
+  value: BSPaymentMethodType | BankTransferAccountType | BeneficiaryType
 ): string | ReactElement => {
   if ('agent' in value) {
     // BeneficiaryType
     return value.address
   }
   if ('details' in value && value.details?.bankAccountType) {
-    // BankTransferAccountType | SBPaymentMethodType
+    // BankTransferAccountType | BSPaymentMethodType
     return `${value.details?.bankAccountType?.toLowerCase() || ''} account ${
       value.details?.accountNumber || ''
     }`
@@ -389,14 +405,14 @@ const renderBankSubText = (
   return <></>
 }
 
-const renderBank = (value: SBPaymentMethodType | BankTransferAccountType | BeneficiaryType) => (
+const renderBank = (value: BSPaymentMethodType | BankTransferAccountType | BeneficiaryType) => (
   <>
     <DisplayValue>{renderBankText(value)}</DisplayValue>
     <DisplayTitle>{renderBankSubText(value)}</DisplayTitle>
   </>
 )
 
-const renderCardText = (value: SBPaymentMethodType): string => {
+const renderCardText = (value: BSPaymentMethodType): string => {
   return value.card
     ? value.card.label
       ? value.card.label.toLowerCase()
@@ -404,7 +420,7 @@ const renderCardText = (value: SBPaymentMethodType): string => {
     : 'Credit or Debit Card'
 }
 
-const renderCard = (value: SBPaymentMethodType) => (
+const renderCard = (value: BSPaymentMethodType) => (
   <>
     <DisplayValue capitalize>{renderCardText(value)}</DisplayValue>
     <DisplayTitle>
@@ -423,7 +439,7 @@ const renderCard = (value: SBPaymentMethodType) => (
   </>
 )
 
-const renderFund = (value: SBPaymentMethodType, sbBalances: SBBalancesType) => (
+const renderFund = (value: BSPaymentMethodType, sbBalances: BSBalancesType) => (
   <>
     <DisplayValue>{value.currency}</DisplayValue>
     <DisplayTitle>
@@ -437,7 +453,7 @@ const renderFund = (value: SBPaymentMethodType, sbBalances: SBBalancesType) => (
 )
 
 const getIcon = (
-  method: SBPaymentMethodType | undefined,
+  method: BSPaymentMethodType | undefined,
   isSddFlow = false,
   disabled?: boolean
 ): ReactElement => {
@@ -457,7 +473,7 @@ const getIcon = (
   }
 
   switch (method.type) {
-    case SBPaymentTypes.USER_CARD:
+    case BSPaymentTypes.USER_CARD:
       const cardType = CARD_TYPES.find(
         (card) => card.type === (method.card ? method.card.type : '')
       )
@@ -469,18 +485,18 @@ const getIcon = (
           alt=''
         />
       )
-    case SBPaymentTypes.FUNDS:
+    case BSPaymentTypes.FUNDS:
       return <Icon size='32px' color='USD' name={method.currency as WalletCurrencyType} />
-    case SBPaymentTypes.BANK_TRANSFER:
+    case BSPaymentTypes.BANK_TRANSFER:
       return <Image name={getBankLogoImageName(method.details?.bankName)} height='48px' />
-    case SBPaymentTypes.BANK_ACCOUNT:
+    case BSPaymentTypes.BANK_ACCOUNT:
       return <Icon name='bank-filled' color='blue600' />
     default:
       return <></>
   }
 }
 
-const getBankText = (method?: SBPaymentMethodType | BankTransferAccountType | BeneficiaryType) => {
+const getBankText = (method?: BSPaymentMethodType | BankTransferAccountType | BeneficiaryType) => {
   if (!method) {
     return (
       <FormattedMessage
@@ -493,8 +509,8 @@ const getBankText = (method?: SBPaymentMethodType | BankTransferAccountType | Be
 }
 
 const getText = (
-  method: SBPaymentMethodType | undefined,
-  sbBalances: SBBalancesType,
+  method: BSPaymentMethodType | undefined,
+  sbBalances: BSBalancesType,
   isSddFlow = false
 ): ReactElement => {
   if (isSddFlow && !method) {
@@ -518,9 +534,9 @@ const getText = (
     )
   }
 
-  return method.type === SBPaymentTypes.USER_CARD
+  return method.type === BSPaymentTypes.USER_CARD
     ? renderCard(method)
-    : method.type === SBPaymentTypes.BANK_TRANSFER
+    : method.type === BSPaymentTypes.BANK_TRANSFER
     ? renderBank(method)
     : renderFund(method, sbBalances)
 }
@@ -697,7 +713,7 @@ const DepositOrWithdrawal = (props: { fiatCurrency: FiatType; orderType: Brokera
 
 type DepositBrokerageLimits = {
   orderType: BrokerageOrderType.DEPOSIT
-  paymentMethod: SBPaymentMethodType
+  paymentMethod: BSPaymentMethodType
 }
 type WithdrawalBrokerageLimits = {
   fee?: string
@@ -748,6 +764,7 @@ export {
   PaymentText,
   RECURRING_BUY_PERIOD_FETCH,
   renderBank,
+  renderBankFullName,
   renderBankText,
   renderCard,
   renderCardText,

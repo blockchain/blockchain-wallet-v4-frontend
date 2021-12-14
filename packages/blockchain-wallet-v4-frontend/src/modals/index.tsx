@@ -30,6 +30,7 @@ const SendBch = React.lazy(() => import('./Bch/SendBch'))
 // ETH
 const SendEth = React.lazy(() => import('./Eth/SendEth'))
 const TransferEth = React.lazy(() => import('./Eth/TransferEth'))
+const WalletConnect = React.lazy(() => import('./Eth/WalletConnect'))
 
 // XLM
 const SendXlm = React.lazy(() => import('./Xlm/SendXlm'))
@@ -39,6 +40,9 @@ const XlmReserveLearn = React.lazy(() => import('./Xlm/XlmReserveLearn'))
 // CRYPTO
 const RequestCrypto = React.lazy(() => import('./RequestCrypto'))
 const SendCrypto = React.lazy(() => import('./SendCrypto'))
+
+// NFTS
+const NftOrder = React.lazy(() => import('./Nfts/NftOrder'))
 
 // GENERIC
 const Confirm = React.lazy(() => import('./Generic/Confirm'))
@@ -75,6 +79,7 @@ const ConfirmDisable2FA = React.lazy(() => import('./Settings/ConfirmDisable2FA'
 const RecoveryPhrase = React.lazy(() => import('./Settings/RecoveryPhrase'))
 const SecondPassword = React.lazy(() => import('./Settings/SecondPassword'))
 const TradingLimits = React.lazy(() => import('./Settings/TradingLimits'))
+const UpgradeNow = React.lazy(() => import('./Settings/UpgradeNow'))
 const TwoStepGoogleAuthenticator = React.lazy(() => import('./Settings/TwoStepGoogleAuthenticator'))
 const TwoStepSetup = React.lazy(() => import('./Settings/TwoStepSetup'))
 const TwoStepYubico = React.lazy(() => import('./Settings/TwoStepYubico'))
@@ -94,7 +99,7 @@ const FundRecovery = React.lazy(() => import('./FundRecovery'))
 const Interest = React.lazy(() => import('./Interest'))
 const QRCode = React.lazy(() => import('./QRCode'))
 const SignMessage = React.lazy(() => import('./SignMessage'))
-const SimpleBuy = React.lazy(() => import('./SimpleBuy'))
+const BuySell = React.lazy(() => import('./BuySell'))
 const Swap = React.lazy(() => import('./Swap'))
 const RecurringBuys = React.lazy(() => import('./RecurringBuys'))
 const InterestUploadDocuments = React.lazy(() => import('./InterestUploadDocuments'))
@@ -258,7 +263,7 @@ const Modals = (props: Props) => {
           <SignMessage />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.SIMPLE_BUY_MODAL) ? (
-          <SimpleBuy />
+          <BuySell />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.SUPPORT_MODAL) ? <Support /> : null}
         {props.modals.find((modal) => modal.type === ModalName.SWAP_MODAL) ? <Swap /> : null}
@@ -267,6 +272,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.TRADING_LIMITS_MODAL) ? (
           <TradingLimits />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.UPGRADE_NOW_MODAL) ? (
+          <UpgradeNow />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.TWO_STEP_GOOGLE_AUTH_MODAL) ? (
           <TwoStepGoogleAuthenticator />
@@ -289,6 +297,9 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.VERIFY_MESSAGE_MODAL) ? (
           <VerifyMessage />
         ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.WALLET_CONNECT_MODAL) ? (
+          <WalletConnect />
+        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.WELCOME_MODAL) ? <Welcome /> : null}
         {props.modals.find((modal) => modal.type === ModalName.CUSTODY_WITHDRAW_MODAL) ? (
           <Withdraw />
@@ -301,6 +312,7 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.SEND_XLM_RESERVE_LEARN_MODAL) ? (
           <XlmReserveLearn />
         ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.NFT_ORDER) ? <NftOrder /> : null}
         {/* This should always be loaded */}
         <NewVersionAvailable disableOutsideClose />
       </>

@@ -21,7 +21,6 @@ import * as sendXlm from './sendXlm/actionTypes'
 import * as signMessage from './signMessage/actionTypes'
 import * as uploadDocuments from './uploadDocuments/actionTypes'
 import * as veriff from './veriff/actionTypes'
-import * as withdraw from './withdraw/actionTypes'
 import * as xlmTransactions from './xlmTransactions/actionTypes'
 
 export {
@@ -48,6 +47,5 @@ export {
   signMessage,
   uploadDocuments,
   veriff,
-  withdraw,
   xlmTransactions
 }

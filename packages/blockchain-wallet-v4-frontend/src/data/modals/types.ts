@@ -48,6 +48,7 @@ export enum ModalName {
   MOBILE_NUMBER_VERIFY_MODAL = 'MOBILE_NUMBER_VERIFY_MODAL',
   NABU_USER_CONFLICT_REDIRECT = 'NABU_USER_CONFLICT_REDIRECT',
   NEW_VERSION_AVAILABLE = 'NEW_VERSION_AVAILABLE',
+  NFT_ORDER = 'NFT_ORDER',
   PAIRING_CODE_MODAL = 'PAIRING_CODE_MODAL',
   PROMPT_INPUT_MODAL = 'PROMPT_INPUT_MODAL',
   QR_CODE_MODAL = 'QR_CODE_MODAL',
@@ -70,7 +71,6 @@ export enum ModalName {
   SIGN_MESSAGE_MODAL = 'SIGN_MESSAGE_MODAL',
   SIMPLE_BUY_MODAL = 'SIMPLE_BUY_MODAL',
   SUPPORT_MODAL = 'SUPPORT_MODAL',
-  SWAP_GET_STARTED_MODAL = 'SWAP_GET_STARTED_MODAL',
   SWAP_MODAL = 'SWAP_MODAL',
   TRADING_LIMITS_MODAL = 'TRADING_LIMITS_MODAL',
   TRANSACTION_REPORT_MODAL = 'TRANSACTION_REPORT_MODAL',
@@ -80,7 +80,9 @@ export enum ModalName {
   TWO_STEP_YUBICO_MODAL = 'TWO_STEP_YUBICO_MODAL',
   UPGRADE_ADDRESS_LABELS_MODAL = 'UPGRADE_ADDRESS_LABELS_MODAL',
   UPGRADE_FOR_AIRDROP_MODAL = 'UPGRADE_FOR_AIRDROP_MODAL',
+  UPGRADE_NOW_MODAL = 'UPGRADE_NOW_MODAL',
   VERIFY_MESSAGE_MODAL = 'VERIFY_MESSAGE_MODAL',
+  WALLET_CONNECT_MODAL = 'WALLET_CONNECT_MODAL',
   WELCOME_MODAL = 'WELCOME_MODAL'
 }
 
@@ -117,8 +119,8 @@ export type ModalOriginType =
   | 'RecurringBuys'
   | 'RecurringBuyPromo'
   | 'RunKycGoal'
-  | 'SBEnterAmountCheckout'
-  | 'SBPaymentMethodSelection'
+  | 'BSEnterAmountCheckout'
+  | 'BSPaymentMethodSelection'
   | 'SellEmpty'
   | 'Send'
   | 'SendBch'
@@ -129,9 +131,9 @@ export type ModalOriginType =
   | 'SettingsPage'
   | 'SettingsProfile'
   | 'SideNav'
-  | 'SimpleBuyLink'
-  | 'SimpleBuyStatus'
-  | 'SimpleBuyOrderSummary'
+  | 'BuySellLink'
+  | 'BuySellStatus'
+  | 'BuySellOrderSummary'
   | 'Swap'
   | 'SwapPrompt'
   | 'SwapLimitPrompt'
@@ -141,6 +143,7 @@ export type ModalOriginType =
   | 'TransactionList'
   | 'Unknown'
   | 'WalletBalanceDropdown'
+  | 'WalletConnect'
   | 'WelcomeModal'
   | 'WithdrawModal'
   | 'CurrencyList'

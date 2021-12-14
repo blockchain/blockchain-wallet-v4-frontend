@@ -59,7 +59,7 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchTransactionsLoading(payload.coin, reset))
       const txs: Array<any> = []
       const txPage: Array<any> = txs
-      const nextSBTransactionsURL = selectors.data.custodial.getNextSBTransactionsURL(
+      const nextBSTransactionsURL = selectors.data.custodial.getNextBSTransactionsURL(
         yield select(),
         payload.coin
       )
@@ -69,7 +69,7 @@ export default ({ api }: { api: APIType }) => {
         offset,
         true,
         payload.coin,
-        reset ? null : nextSBTransactionsURL
+        reset ? null : nextBSTransactionsURL
       )
       const page = flatten([txPage, custodialPage.orders]).sort((a, b) => {
         return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()

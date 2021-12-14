@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { any, curry, equals, filter, head, includes, lift, map, path, prop, toLower } from 'ramda'
+import { any, curry, equals, filter, head, includes, lift, map, prop, toLower } from 'ramda'
 
 import { EthRawTxType } from '@core/network/api/eth/types'
 import { calculateFee } from '@core/utils/eth'
@@ -7,7 +7,6 @@ import { calculateFee } from '@core/utils/eth'
 import {
   getDefaultAddress,
   getDefaultLabel,
-  getErc20Accounts,
   getErc20TxNote,
   getEthTxNote
 } from '../redux/kvStore/eth/selectors'

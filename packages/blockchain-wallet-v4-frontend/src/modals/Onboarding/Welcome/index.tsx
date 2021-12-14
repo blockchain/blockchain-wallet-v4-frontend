@@ -81,7 +81,7 @@ class WelcomeContainer extends React.PureComponent<Props> {
     }, duration)
   }
 
-  handleSBClick = () => {
+  handleBSClick = () => {
     const { cryptoCurrency } = this.props
     this.setState({ show: false })
     setTimeout(() => {
@@ -130,11 +130,11 @@ class WelcomeContainer extends React.PureComponent<Props> {
           <ButtonWrapper>
             <Button
               capitalize
-              data-e2e='toSimpleBuyModal'
+              data-e2e='toBuySellModal'
               fullwidth
               height='48px'
               nature='primary'
-              onClick={this.handleSBClick}
+              onClick={this.handleBSClick}
               size='16px'
             >
               <FormattedMessage
@@ -161,7 +161,7 @@ class WelcomeContainer extends React.PureComponent<Props> {
 }
 
 const mapStateToProps = (state) => ({
-  cryptoCurrency: selectors.components.simpleBuy.getCryptoCurrency(state) || undefined
+  cryptoCurrency: selectors.components.buySell.getCryptoCurrency(state) || undefined
 })
 
 const mapDispatchToProps = (dispatch): LinkDispatchPropsType => ({
