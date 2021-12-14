@@ -319,7 +319,7 @@ export default ({ api, networks }) => {
     const wallet = yield select(S.getWallet)
     const accounts = Wallet.selectHDAccounts(wallet)
     const accountsWithMissingDerivations = accounts
-      .filter((acct) => acct.derivations.size < DERIVATION_LIST.length)
+      .filter((acct) => acct.derivations.size === 0)
       .toJS()
 
     return accountsWithMissingDerivations
@@ -327,19 +327,19 @@ export default ({ api, networks }) => {
 
   const replenishDerivations = function* (accounts) {
     try {
+      if (!accounts.length) return
+
       const isEncrypted = yield select(S.isSecondPasswordOn)
       if (isEncrypted) return
 
       const getSeedHex = yield select(S.getSeedHex, null)
       const seedHex = yield call(() => taskToPromise(getSeedHex))
 
-      if (accounts.length > 0) {
-        // eslint-disable-next-line no-restricted-syntax
-        for (const acct of accounts) {
-          const accountIdx = acct.index
-          const derivations = HDWallet.generateDerivations(seedHex, accountIdx)
-          yield put(A.wallet.setAccountDerivations(accountIdx, DerivationList.fromJS(derivations)))
-        }
+      // eslint-disable-next-line no-restricted-syntax
+      for (const acct of accounts) {
+        const accountIdx = acct.index
+        const derivations = HDWallet.generateDerivations(seedHex, accountIdx)
+        yield put(A.wallet.setAccountDerivations(accountIdx, DerivationList.fromJS(derivations)))
       }
     } catch (e) {
       // dont throw
