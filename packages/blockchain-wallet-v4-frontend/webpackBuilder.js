@@ -171,10 +171,9 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
     splitChunks: {
       maxSize: 1000000, // 1 MB max chunk size
       cacheGroups: {
-        vendors: {
-          chunks: 'all',
-          name: 'vendors',
+        vendor: {
           test: /[\\/]node_modules[\\/]/,
+          chunks: 'all'
         },
       },
     },
