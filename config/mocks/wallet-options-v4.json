@@ -25,7 +25,7 @@
         "pollForMagicLinkData": true,
         "recurringBuys": true,
         "signupCountry": true,
-        "tradingCurrency": true,
+        "tradingCurrencyFlyout": true,
         "walletConnect": true,
         "withdrawalLocksFundsOnHold": true,
         "useNewPaymentProviders": true
