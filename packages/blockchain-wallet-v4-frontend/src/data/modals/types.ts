@@ -139,6 +139,7 @@ export type ModalOriginType =
   | 'SwapLimitPrompt'
   | 'SwapNoHoldings'
   | 'TheExchangePage'
+  | 'Trade'
   | 'TradingLimits'
   | 'TransactionList'
   | 'Unknown'
