@@ -115,7 +115,6 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
       cryptoCurrency: getCoinFromPair(pair.pair),
       fiatCurrency,
       orderType: this.state.orderType,
-      orderType: this.props.orderType,
       pair,
       step: 'ENTER_AMOUNT'
     })
