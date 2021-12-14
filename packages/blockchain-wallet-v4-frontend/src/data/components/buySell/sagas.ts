@@ -625,10 +625,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       if (!loadCards) return yield put(A.fetchCardsSuccess([]))
       if (!payload) yield put(A.fetchCardsLoading())
-      const cards = yield call(
-        api.getBSCards,
-        Boolean(selectors.core.walletOptions.getUseNewPaymentProviders(yield select()))
-      )
+
+      const useNewPaymentProviders = (yield select(
+        selectors.core.walletOptions.getUseNewPaymentProviders
+      )).getOrElse(false)
+
+      const cards = yield call(api.getBSCards, useNewPaymentProviders)
 
       yield put(A.fetchCardsSuccess(cards))
     } catch (e) {

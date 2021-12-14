@@ -27,7 +27,7 @@
         "withdrawalLocksFundsOnHold": true,
         "useNewPaymentProviders": true
       },
-      "hotWalletAddresses":{
+      "hotWalletAddresses": {
         "swap": {
           "eth": "0xC05f893248D843192A989AEE6dC26d21426E78AF"
         },
