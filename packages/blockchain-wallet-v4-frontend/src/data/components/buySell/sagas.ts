@@ -21,6 +21,7 @@ import {
   ProductTypes,
   ProviderDetailsType,
   SwapOrderType,
+  WalletFiatType,
   WalletOptionsType
 } from '@core/types'
 import { errorHandler, errorHandlerCode } from '@core/utils'
@@ -68,7 +69,7 @@ import {
 import * as S from './selectors'
 import { actions as A } from './slice'
 import * as T from './types'
-import { getDirection } from './utils'
+import { getDirection, getPreferredCurrency, setPreferredCurrency } from './utils'
 
 export const logLocation = 'components/buySell/sagas'
 
@@ -1420,6 +1421,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // find a pair
       const pair = pairs.filter((pair) => pair.pair === `${cryptoCurrency}-${fiatCurrency}`)[0]
       yield put(A.fetchPaymentMethods(fiatCurrency))
+      // record desired currency
+      const preferredCurrencyFromStorage = getPreferredCurrency()
+      if (!preferredCurrencyFromStorage) {
+        setPreferredCurrency(fiatCurrency as WalletFiatType)
+      }
       yield put(
         A.setStep({
           cryptoCurrency,
