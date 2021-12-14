@@ -1112,31 +1112,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (!pair) throw new Error(NO_PAIR_SELECTED)
       // Fetch rates
       if (orderType === OrderType.BUY) {
-        // Q for dylan: what is the code below for?
-        // yield put(A.fetchQuote({ amount: '0', orderType, pair: pair.pair }))
         console.log('amount/pair before buyQuote: ', amount, pair)
         const isFlexiblePricingModel = (yield select(
           selectors.core.walletOptions.getFlexiblePricingModel
         )).getOrElse(false)
+
         if (isFlexiblePricingModel) {
-          yield put(A.fetchBuyQuote({ amount: '0', pair: pair.pair }))
+          const pairArr = pair.pair.split('-')
+          const pairReversed = `${pairArr[1]}-${pairArr[0]}`
+          console.log('pair reversed', pairReversed)
+          // TODO: the below code is breaking @pricing @sean
+          // yield put(A.fetchBuyQuote({ amount: '0', pair: pairReversed }))
+          yield put(A.fetchQuote({ amount: '0', orderType, pair: pair.pair }))
         } else {
-          // Q for dylan: what is this code for?
           yield put(A.fetchQuote({ amount: '0', orderType, pair: pair.pair }))
         }
-        if (isFlexiblePricingModel) {
-          yield put(A.startPollBuyQuote({ amount, pair: pair.pair }))
-          yield race({
-            failure: take(A.fetchBuyQuoteFailure.type),
-            success: take(A.fetchBuyQuoteSuccess.type)
-          })
-          const quote = S.getBuyQuote(yield select()).getOrFail(NO_QUOTE)
-          console.log('final quote: ', quote)
-          console.log('final quote amount: ', amount)
-        }
-
-        // used for sell only now, eventually buy as well
-        // TODO: use swap2 quote for buy AND sell
       } else {
         if (!account) throw NO_ACCOUNT
         yield put(A.fetchSellQuote({ account, pair: pair.pair }))

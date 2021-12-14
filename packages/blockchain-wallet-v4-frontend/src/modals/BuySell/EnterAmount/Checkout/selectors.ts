@@ -16,8 +16,14 @@ const getData = (state: RootState, ownProps: OwnProps) => {
   // TODO: use swap2 quote for buy AND sell
   const paymentR = selectors.components.buySell.getPayment(state)
   const quoteR =
-    ownProps.orderType === 'BUY'
+    ownProps.orderType === 'BUY' &&
+    !selectors.core.walletOptions.getFlexiblePricingModel(state).getOrElse(false)
       ? selectors.components.buySell.getBSQuote(state)
+      : ownProps.orderType === 'BUY' &&
+        selectors.core.walletOptions.getFlexiblePricingModel(state).getOrElse(false)
+      ? selectors.components.buySell.getBSQuote(
+          state
+        ) /* TODO @pricing @sean when quote.rate is added remove below code for this: selectors.components.buySell.getBuyQuote(state) */
       : selectors.components.buySell.getSellQuote(state)
   const ratesR = selectors.core.data.misc.getRatesSelector(coin, state)
   const sbBalancesR = selectors.components.buySell.getBSBalances(state)

@@ -7,7 +7,11 @@ import { RootState } from 'data/rootReducer'
 export const getData = (state: RootState) => {
   const bankAccountsR = selectors.components.brokerage.getBankTransferAccounts(state)
 
-  const quoteR = selectors.components.buySell.getBSQuote(state)
+  const quoteR = !selectors.core.walletOptions.getFlexiblePricingModel(state).getOrElse(false)
+    ? selectors.components.buySell.getBSQuote(
+        state
+      ) /* TODO @pricing @sean when quote.rate is added remove below code for this: selectors.components.buySell.getBuyQuote(state) */
+    : selectors.components.buySell.getBSQuote(state)
   const buyQuoteR = selectors.components.buySell.getBuyQuote(state)
   const sbBalancesR = selectors.components.buySell.getBSBalances(state)
   const userDataR = selectors.modules.profile.getUserData(state)

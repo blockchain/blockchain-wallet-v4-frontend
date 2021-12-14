@@ -121,7 +121,7 @@ const mapStateToProps = (state: RootState) => ({
   cards: selectors.components.buySell.getBSCards(state).getOrElse([]),
   order: selectors.components.buySell.getBSOrder(state) as BSOrderType,
   period: selectors.components.recurringBuy.getPeriod(state) as RecurringBuyPeriods,
-  quote: selectors.components.buySell.getBSQuote(state).getOrFail('Could not get exchange rate'),
+  quote: selectors.components.buySell.getBSQuote(state).getOrFail('Could not get exchange rate'), // TODO @sean
   withdrawLockCheck: selectors.components.send
     .getWithdrawLockCheckRule(state)
     .getOrElse({ lockTime: 259200 } as WithdrawalLockCheckRule) as WithdrawalLockCheckRule
