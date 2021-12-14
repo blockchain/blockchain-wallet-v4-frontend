@@ -19,7 +19,6 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 
   ${media.laptop`
-    padding-left: 0px;
     margin: 0px;
   `}
 
@@ -57,7 +56,6 @@ const BalanceDropdown = styled.div`
     font-weight: 600;
     font-size: 24px;
     ${media.laptop`
-      color: ${(props) => props.theme.alwaysWhite};
       font-size: 16px;
       padding-right: 4px;
       max-width: 40vw;
@@ -99,14 +97,12 @@ const BalancesContainer = () => {
 
   return (
     <Wrapper>
-      {!isLaptop && (
-        <TitleText data-e2e='totalBalance'>
-          <FormattedMessage
-            id='scenes.wallet.menutop.balance.totalbalance'
-            defaultMessage='Total Balance'
-          />
-        </TitleText>
-      )}
+      <TitleText data-e2e='totalBalance'>
+        <FormattedMessage
+          id='scenes.wallet.menutop.balance.totalbalance'
+          defaultMessage='Total Balance'
+        />
+      </TitleText>
       <BalanceDropdown>
         <ComponentDropdown
           down

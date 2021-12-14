@@ -5,6 +5,7 @@ const Content = styled.div<{ mode: Props['mode'] }>`
   display: flex;
   flex: 1;
   flex-direction: column;
+  overflow: auto;
   justify-content: ${(p) =>
     p.mode === 'top' ? 'flex-start' : p.mode === 'middle' ? 'space-around' : 'space-between'};
   ${(p) => p.mode === 'middle' && 'align-items: center;'}

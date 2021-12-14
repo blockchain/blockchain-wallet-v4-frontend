@@ -73,6 +73,8 @@ const MobileNumberChange = React.lazy(() => import('./Mobile/MobileNumberChange'
 const MobileNumberAdd = React.lazy(() => import('./Mobile/MobileNumberAdd'))
 const MobileNumberVerify = React.lazy(() => import('./Mobile/MobileNumberVerify'))
 
+const MobileNav = React.lazy(() => import('./MobileNav'))
+
 // SETTINGS
 const AutoDisconnection = React.lazy(() => import('./Settings/AutoDisconnection'))
 const ConfirmDisable2FA = React.lazy(() => import('./Settings/ConfirmDisable2FA'))
@@ -101,6 +103,7 @@ const QRCode = React.lazy(() => import('./QRCode'))
 const SignMessage = React.lazy(() => import('./SignMessage'))
 const BuySell = React.lazy(() => import('./BuySell'))
 const Swap = React.lazy(() => import('./Swap'))
+const Trade = React.lazy(() => import('./Trade'))
 const RecurringBuys = React.lazy(() => import('./RecurringBuys'))
 const InterestUploadDocuments = React.lazy(() => import('./InterestUploadDocuments'))
 
@@ -151,9 +154,6 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.DELETE_ADDRESS_LABEL_MODAL) ? (
           <DeleteAddressLabel />
-        ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.BANK_DEPOSIT_MODAL) ? (
-          <Deposit />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.BANK_DEPOSIT_MODAL) ? (
           <Deposit />
@@ -267,6 +267,7 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.SUPPORT_MODAL) ? <Support /> : null}
         {props.modals.find((modal) => modal.type === ModalName.SWAP_MODAL) ? <Swap /> : null}
+        {props.modals.find((modal) => modal.type === ModalName.TRADE_MODAL) ? <Trade /> : null}
         {props.modals.find((modal) => modal.type === ModalName.TRANSFER_ETH_MODAL) ? (
           <TransferEth />
         ) : null}
@@ -312,6 +313,7 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.SEND_XLM_RESERVE_LEARN_MODAL) ? (
           <XlmReserveLearn />
         ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.MOBILE_NAV) ? <MobileNav /> : null}
         {props.modals.find((modal) => modal.type === ModalName.NFT_ORDER) ? <NftOrder /> : null}
         {/* This should always be loaded */}
         <NewVersionAvailable disableOutsideClose />

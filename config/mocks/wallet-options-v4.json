@@ -24,6 +24,7 @@
         "eddInterestFileUpload": true,
         "pollForMagicLinkData": true,
         "recurringBuys": true,
+        "isRedesignEnabled": true,
         "signupCountry": true,
         "walletConnect": true,
         "withdrawalLocksFundsOnHold": true,
