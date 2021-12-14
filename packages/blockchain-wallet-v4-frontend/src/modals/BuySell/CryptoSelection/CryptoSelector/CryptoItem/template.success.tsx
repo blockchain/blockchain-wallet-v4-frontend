@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { memo } from 'react'
+import { equals } from 'ramda'
 import styled from 'styled-components'
 
 import { fiatToString } from '@core/exchange/utils'
+import { OrderType } from '@core/types'
 import { Icon } from 'blockchain-info-components'
 import { DisplayContainer } from 'components/BuySell'
 import { Title, Value } from 'components/Flyout'
@@ -63,55 +65,55 @@ const PlusMinusIconWrapper = styled.div`
 
 type Props = OwnProps & ParentOwnProps & SuccessStateType
 
-const Success: React.FC<Props> = (props) => {
-  const { coin } = props
-  const { fiat } = props
-  const { coinfig } = window.coins[coin]
-  const displayName = coinfig.name
-
-  return (
-    <CheckoutDisplayContainer
-      data-e2e={`sb${props.coin}-${props.fiat}CurrencySelector`}
-      role='button'
-      onClick={props.onClick}
-    >
-      {props.onClick && <Icon size='32px' color={coin} name={coin} />}
-      <Display canClick={!!props.onClick}>
-        <Value style={{ marginTop: '0px' }}>{displayName}</Value>
-        <DisplayTitle>
-          {props.orderType === 'BUY' && (
-            <>
-              {fiatToString({
-                unit: fiat,
-                value: props.rates.price
-              })}
-              <PriceMovement {...props} />
-            </>
-          )}
-        </DisplayTitle>
-      </Display>
-      {props.onClick && <Icon name='chevron-right' size='32px' color='grey400' />}
-      {!props.onClick && (
-        <>
-          <Icon
-            size='32px'
-            color={coin}
-            name={coin}
-            style={{ left: '5px', position: 'relative' }}
-          />
-          <PlusMinusIconWrapper>
-            <IconBackground>
-              <StyledIcon
-                name={props.orderType === 'BUY' ? 'plus' : 'minus'}
-                size='24px'
-                background={coin}
-              />
-            </IconBackground>
-          </PlusMinusIconWrapper>
-        </>
-      )}
-    </CheckoutDisplayContainer>
-  )
-}
+const Success = memo(
+  ({ coin, fiat, onClick, orderType, rates }: Props) => {
+    const { coinfig } = window.coins[coin]
+    const displayName = coinfig.name
+    return (
+      <CheckoutDisplayContainer
+        data-e2e={`sb${coin}-${fiat}CurrencySelector`}
+        role='button'
+        onClick={onClick}
+      >
+        {onClick && <Icon size='32px' color={coin} name={coin} />}
+        <Display canClick={!!onClick}>
+          <Value style={{ marginTop: '0px' }}>{displayName}</Value>
+          <DisplayTitle>
+            {orderType === OrderType.BUY && (
+              <>
+                {fiatToString({
+                  unit: fiat,
+                  value: rates.price
+                })}
+                <PriceMovement coin={coin} fiat={fiat} />
+              </>
+            )}
+          </DisplayTitle>
+        </Display>
+        {onClick && <Icon name='chevron-right' size='32px' color='grey400' />}
+        {!onClick && (
+          <>
+            <Icon
+              size='32px'
+              color={coin}
+              name={coin}
+              style={{ left: '5px', position: 'relative' }}
+            />
+            <PlusMinusIconWrapper>
+              <IconBackground>
+                <StyledIcon
+                  name={orderType === OrderType.BUY ? 'plus' : 'minus'}
+                  size='24px'
+                  background={coin}
+                />
+              </IconBackground>
+            </PlusMinusIconWrapper>
+          </>
+        )}
+      </CheckoutDisplayContainer>
+    )
+  },
+  (prevProps, nextProps) => equals(prevProps, nextProps)
+)
 
 export default Success

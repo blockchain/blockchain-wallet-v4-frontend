@@ -10,10 +10,10 @@ const HelpContainer = styled.div`
   cursor: pointer;
 `
 
-const Help = () => {
+const Help = (props) => {
   return (
     <HelpContainer>
-      <LinkContainer to='/help'>
+      <LinkContainer to={props.authProduct === 'WALLET' ? '/help' : '/help-exchange'}>
         <Text color='grey400' size='16px' weight={500}>
           <FormattedMessage id='scenes.login.need.help' defaultMessage='Need Help?' />
         </Text>

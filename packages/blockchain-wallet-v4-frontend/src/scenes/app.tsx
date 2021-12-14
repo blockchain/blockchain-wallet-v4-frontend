@@ -8,6 +8,7 @@ import { map, values } from 'ramda'
 import { Store } from 'redux'
 import { PersistGate } from 'redux-persist/integration/react'
 
+import { Remote } from '@core'
 import { WalletOptionsType } from '@core/types'
 import SiftScience from 'components/SiftScience'
 import SupportChat from 'components/SupportChat'
@@ -26,11 +27,11 @@ import WalletLoading from './loading.wallet'
 // PUBLIC
 const AuthorizeLogin = React.lazy(() => import('./AuthorizeLogin'))
 const Help = React.lazy(() => import('./Help'))
+const HelpExchange = React.lazy(() => import('./HelpExchange'))
 const Login = React.lazy(() => import('./Login'))
 const Logout = React.lazy(() => import('./Logout'))
 const MobileLogin = React.lazy(() => import('./MobileLogin'))
 const RecoverWallet = React.lazy(() => import('./RecoverWallet'))
-const RecoverWalletLegacy = React.lazy(() => import('./RecoverWalletLegacy'))
 const Signup = React.lazy(() => import('./Signup'))
 const ResetWallet2fa = React.lazy(() => import('./ResetWallet2fa'))
 const ResetWallet2faToken = React.lazy(() => import('./ResetWallet2faToken'))
@@ -87,13 +88,11 @@ const App = ({
                   <Switch>
                     <PublicLayout path='/authorize-approve' component={AuthorizeLogin} />
                     <PublicLayout path='/help' component={Help} />
+                    <PublicLayout path='/help-exchange' component={HelpExchange} />
                     <PublicLayout path='/login' component={Login} />
                     <PublicLayout path='/logout' component={Logout} />
                     <PublicLayout path='/mobile-login' component={MobileLogin} />
-                    <PublicLayout
-                      path='/recover'
-                      component={legacyWalletRecoveryEnabled ? RecoverWalletLegacy : RecoverWallet}
-                    />
+                    <PublicLayout path='/recover' component={RecoverWallet} />
                     <PublicLayout path='/reset-2fa' component={ResetWallet2fa} />
                     <PublicLayout path='/reset-two-factor' component={ResetWallet2faToken} />
                     <PublicLayout path='/signup' component={Signup} />
@@ -135,7 +134,13 @@ const App = ({
                         )
                       }, coinsWithBalance)
                     )}
-                    {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
+                    {isAuthenticated ? (
+                      coinsWithBalance.length ? (
+                        <Redirect to='/home' />
+                      ) : null
+                    ) : (
+                      <Redirect to='/login' />
+                    )}
                   </Switch>
                 </Suspense>
               </ConnectedRouter>

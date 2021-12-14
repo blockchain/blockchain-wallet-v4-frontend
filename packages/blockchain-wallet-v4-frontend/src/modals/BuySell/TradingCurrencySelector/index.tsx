@@ -4,7 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
-import { FiatType } from '@core/types'
+import { WalletFiatType } from '@core/types'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { actions, selectors } from 'data'
@@ -155,7 +155,7 @@ const TradingCurrencySelector = (props: Props) => {
         {COINS.map((coin) => (
           <CoinItem
             key={coin.value}
-            onClick={() => buySellActions.setFiatTradingCurrency(coin.value as FiatType)}
+            onClick={() => buySellActions.setFiatTradingCurrency(coin.value as WalletFiatType)}
           >
             <CoinDetails>
               <CoinTitle data-e2e={coin}>{coin.title}</CoinTitle>

@@ -52,7 +52,7 @@ export default ({ coreSagas, networks }: { coreSagas: any; networks: any }) => {
         updatedPayment = yield updatedPayment.setDestinationAccountExists(true)
       } else if (hotwalletAddress && payment.coin === 'ETH') {
         // @ts-ignore
-        updatedPayment = yield updatedPayment.data(destination)
+        updatedPayment = yield updatedPayment.depositAddress(destination)
         updatedPayment = yield updatedPayment.to(hotwalletAddress)
       } else {
         updatedPayment = yield updatedPayment.to(destination, 'CUSTODIAL')

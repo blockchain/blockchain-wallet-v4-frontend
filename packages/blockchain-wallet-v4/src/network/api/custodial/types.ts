@@ -169,6 +169,12 @@ export type LimitWithEffective = {
   limit: CrossBorderLimitItem
 }
 
+export type CrossBorderLimitSuggestedItem = {
+  available: CrossBorderLimitItem
+  limit: CrossBorderLimitItem
+  used: CrossBorderLimitItem
+}
+
 export type CrossBorderLimits = {
   currency: FiatType
   current: {
@@ -179,22 +185,10 @@ export type CrossBorderLimits = {
   }
   suggestedUpgrade: {
     available: CrossBorderLimitItem
-    daily?: {
-      available: CrossBorderLimitItem
-      limit: CrossBorderLimitItem
-      used: CrossBorderLimitItem
-    }
-    monthly?: {
-      available: CrossBorderLimitItem
-      limit: CrossBorderLimitItem
-      used: CrossBorderLimitItem
-    }
+    daily?: CrossBorderLimitSuggestedItem
+    monthly?: CrossBorderLimitSuggestedItem
     requiredTier: number
     requirements: string[]
-    yearly?: {
-      available: CrossBorderLimitItem
-      limit: CrossBorderLimitItem
-      used: CrossBorderLimitItem
-    }
+    yearly?: CrossBorderLimitSuggestedItem
   }
 }

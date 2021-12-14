@@ -11,6 +11,7 @@ import BSOrderBanner from './BSOrderBanner'
 import BuyCrypto from './BuyCrypto'
 import CeloEURRewards from './CeloEURRewards'
 import CoinRename from './CoinRename'
+import CompleteYourProfile from './CompleteYourProfile'
 import ContinueToGold from './ContinueToGold'
 import FinishKyc from './FinishKyc'
 import KycResubmit from './KycResubmit'
@@ -89,6 +90,12 @@ class Banners extends React.PureComponent<Props> {
         return (
           <BannerWrapper>
             <CeloEURRewards />
+          </BannerWrapper>
+        )
+      case 'completeYourProfile':
+        return (
+          <BannerWrapper>
+            <CompleteYourProfile />
           </BannerWrapper>
         )
       case 'recurringBuys':

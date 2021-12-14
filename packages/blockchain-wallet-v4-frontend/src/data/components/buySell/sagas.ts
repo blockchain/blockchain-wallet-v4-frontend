@@ -21,6 +21,7 @@ import {
   ProductTypes,
   ProviderDetailsType,
   SwapOrderType,
+  WalletFiatType,
   WalletOptionsType
 } from '@core/types'
 import { errorHandler, errorHandlerCode } from '@core/utils'
@@ -68,7 +69,7 @@ import {
 import * as S from './selectors'
 import { actions as A } from './slice'
 import * as T from './types'
-import { getDirection } from './utils'
+import { getDirection, getPreferredCurrency, setPreferredCurrency } from './utils'
 
 export const logLocation = 'components/buySell/sagas'
 
@@ -637,11 +638,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       if (!loadCards) return yield put(A.fetchCardsSuccess([]))
       if (!payload) yield put(A.fetchCardsLoading())
-      const cards = yield call(
-        api.getBSCards,
-        Boolean(selectors.core.walletOptions.getUseNewPaymentProviders(yield select()))
-      )
 
+      const useNewPaymentProviders = (yield select(
+        selectors.core.walletOptions.getUseNewPaymentProviders
+      )).getOrElse(false)
+
+      const cards = yield call(api.getBSCards, useNewPaymentProviders)
       yield put(A.fetchCardsSuccess(cards))
     } catch (e) {
       const error = errorHandler(e)
@@ -679,7 +681,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const fetchSDDEligible = function* () {
     try {
       yield put(A.fetchSDDEligibleLoading())
-      yield call(waitForUserData)
       // check if user is already tier 2
       if (!(yield call(isTier2))) {
         // user not tier 2, call for sdd eligibility
@@ -1207,7 +1208,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const pollBSCard = function* ({ payload }: ReturnType<typeof A.pollCard>) {
     let retryAttempts = 0
-    const maxRetryAttempts = 20
+    const maxRetryAttempts = 5
 
     let card: ReturnType<typeof api.getBSCard> = yield call(api.getBSCard, payload)
     let step = S.getStep(yield select())
@@ -1226,7 +1227,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       ) {
         yield cancel()
       }
-      yield delay(3000)
+      yield delay(2000)
     }
 
     switch (card.state) {
@@ -1251,7 +1252,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
   const pollBSOrder = function* ({ payload }: ReturnType<typeof A.pollOrder>) {
     let retryAttempts = 0
-    const maxRetryAttempts = 20
+    const maxRetryAttempts = 5
 
     let order: ReturnType<typeof api.getBSOrder> = yield call(api.getBSOrder, payload)
     let step = S.getStep(yield select())
@@ -1267,7 +1268,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       ) {
         yield cancel()
       }
-      yield delay(3000)
+      yield delay(2000)
     }
 
     yield put(A.setStep({ order, step: 'ORDER_SUMMARY' }))
@@ -1473,6 +1474,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // find a pair
       const pair = pairs.filter((pair) => pair.pair === `${cryptoCurrency}-${fiatCurrency}`)[0]
       yield put(A.fetchPaymentMethods(fiatCurrency))
+      // record desired currency
+      const preferredCurrencyFromStorage = getPreferredCurrency()
+      if (!preferredCurrencyFromStorage) {
+        setPreferredCurrency(fiatCurrency as WalletFiatType)
+      }
       yield put(
         A.setStep({
           cryptoCurrency,

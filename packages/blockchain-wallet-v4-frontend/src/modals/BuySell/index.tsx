@@ -43,6 +43,7 @@ import SellOrderSummary from './SellOrderSummary'
 import Loading from './template.loading'
 import Pending from './template.pending'
 import Rejected from './template.rejected'
+import ThreeDSHandlerCheckoutDotCom from './ThreeDSHandlerCheckoutDotCom'
 import ThreeDSHandlerEverypay from './ThreeDSHandlerEverypay'
 import ThreeDSHandlerStripe from './ThreeDSHandlerStripe'
 import TradingCurrencySelector from './TradingCurrencySelector'
@@ -200,9 +201,7 @@ class BuySell extends PureComponent<Props, State> {
             )}
             {this.props.step === '3DS_HANDLER_CHECKOUTDOTCOM' && (
               <FlyoutChild>
-                {
-                  // TODO add 3ds handler checkout
-                }
+                <ThreeDSHandlerCheckoutDotCom {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
             {this.props.step === '3DS_HANDLER_STRIPE' && (

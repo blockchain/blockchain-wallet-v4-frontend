@@ -7,7 +7,12 @@ import { formatFiat } from '@core/exchange/utils'
 import { CrossBorderLimits } from '@core/types'
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { convertBaseToStandard } from 'data/components/exchange/services'
-import { getEffectiveLimit, getEffectivePeriod } from 'services/custodial'
+import {
+  getEffectiveLimit,
+  getEffectivePeriod,
+  getSuggestedLimit,
+  getSuggestedPeriod
+} from 'services/custodial'
 import { media } from 'services/styles'
 
 const Wrapper = styled.div`
@@ -93,10 +98,12 @@ const UpgradeToGoldBanner = ({ limits, verifyIdentity }: Props) => {
 
   const { currency } = limits?.current?.available
   const effectiveLimit = getEffectiveLimit(limits)
+  const suggestedLimit = getSuggestedLimit(limits)
   const effectivePeriod = getEffectivePeriod(limits)
+  const suggestedPeriod = getSuggestedPeriod(limits)
 
   // if there is no effective limit we can't show banner
-  if (!effectiveLimit) {
+  if (!effectiveLimit || !suggestedLimit) {
     return null
   }
 
@@ -122,15 +129,16 @@ const UpgradeToGoldBanner = ({ limits, verifyIdentity }: Props) => {
           <Copy size='14px' color='grey900' weight={500}>
             <FormattedMessage
               id='modals.send.banner.description'
-              defaultMessage='Verify your ID now and unlock Gold level trading. Send up to {dayCurrencySymbol}{dayAmount} a day.  Now, your limit is {currency}{limit} a {period}.'
+              defaultMessage='Verify your ID now and unlock Gold level trading. Send up to {dayCurrencySymbol}{dayAmount} a {suggestedPeriod}.  Now, your limit is {currency}{limit} a {period}.'
               values={{
                 currency: Currencies[currency].units[currency].symbol,
-                dayAmount: formatFiat(convertBaseToStandard('FIAT', effectiveLimit.limit.value), 0),
+                dayAmount: formatFiat(convertBaseToStandard('FIAT', suggestedLimit.limit.value), 0),
                 dayCurrencySymbol:
                   Currencies[effectiveLimit.limit.currency].units[effectiveLimit.limit.currency]
                     .symbol,
                 limit: formatFiat(convertBaseToStandard('FIAT', effectiveLimit.limit.value), 0),
-                period: effectivePeriod
+                period: effectivePeriod,
+                suggestedPeriod
               }}
             />
           </Copy>

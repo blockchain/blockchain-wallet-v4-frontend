@@ -7,7 +7,6 @@ import { getCoinAccounts } from 'data/coins/selectors'
 import { BSCheckoutFormValuesType } from 'data/types'
 
 const { FORM_BS_CHECKOUT } = model.components.buySell
-
 export const getData = (state) => {
   const eligibilityR = selectors.components.buySell.getBSFiatEligible(state)
   const formValues = selectors.form.getFormValues(FORM_BS_CHECKOUT)(

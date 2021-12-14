@@ -37,7 +37,7 @@ const FirstStep = (props: Props) => {
   } = props
   const resetAccountClicked = () => {
     formActions.change('recover', 'step', RecoverSteps.RESET_ACCOUNT)
-    props.authActions.resetAccountClicked('RECOVERY_PHRASE')
+    props.authActions.analyticsResetAccountClicked('RECOVERY_PHRASE')
   }
   return (
     <Wrapper>

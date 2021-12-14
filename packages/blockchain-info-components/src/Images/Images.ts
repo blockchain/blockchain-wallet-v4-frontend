@@ -1,3 +1,4 @@
+import accountIcons from './img/account-icons.svg'
 import adBitcoinGames from './img/ad-bitcoin-games.png'
 import adBitcoinGames2 from './img/ad-bitcoin-games@2x.png'
 import airdropEnrolled from './img/airdrop-enrolled.png'
@@ -68,7 +69,10 @@ import emptyTx from './img/empty-tx.svg'
 import ethAirdrop from './img/eth-airdrop.png'
 import ethAirdrop2 from './img/eth-airdrop@2x.png'
 import exchange from './img/exchange.svg'
+import exchangeGrayscale from './img/exchange-grayscale.svg'
 import exchangeLogo from './img/exchange-logo.svg'
+import exchangeNoBackground from './img/exchange-no-background.svg'
+import explorerLogo from './img/explorer-logo.svg'
 import facebookWhite from './img/facebook-white.svg'
 import failedKyc from './img/failed-kyc.png'
 import failedKyc2 from './img/failed-kyc@2x.png'
@@ -163,6 +167,9 @@ import visaLogo from './img/visa-logo.svg'
 import visaNewLogo from './img/visa-new-logo.svg'
 import wallet from './img/wallet.svg'
 import walletBlue from './img/wallet-blue.svg'
+import walletGrayscale from './img/wallet-grayscale.svg'
+import walletLogo from './img/wallet-logo.svg'
+import walletNoBackground from './img/wallet-no-background.svg'
 import walletConnectCircleLogo from './img/walletconnect-logo-circle-blue.svg'
 import warningCircleFilled from './img/warning-circle-filled.png'
 import worldAlert from './img/world-alert.jpg'
@@ -173,6 +180,7 @@ import yubikey from './img/yubikey.svg'
 
 const Images = {
   ...coins,
+  'account-icons': accountIcons,
   'ad-bitcoin-games': adBitcoinGames,
   'ad-bitcoin-games2': adBitcoinGames2,
   'airdrop-enrolled': airdropEnrolled,
@@ -243,7 +251,10 @@ const Images = {
   'eth-airdrop': ethAirdrop,
   'eth-airdrop2': ethAirdrop2,
   exchange,
+  'exchange-grayscale': exchangeGrayscale,
   'exchange-logo': exchangeLogo,
+  'exchange-no-background': exchangeNoBackground,
+  'explorer-logo': explorerLogo,
   'facebook-white': facebookWhite,
   'failed-kyc': failedKyc,
   'failed-kyc2': failedKyc2,
@@ -338,6 +349,9 @@ const Images = {
   'visa-new-logo': visaNewLogo,
   wallet,
   'wallet-blue': walletBlue,
+  'wallet-grayscale': walletGrayscale,
+  'wallet-logo': walletLogo,
+  'wallet-no-background': walletNoBackground,
   'walletconnect-circle-logo': walletConnectCircleLogo,
   'warning-circle-filled': warningCircleFilled,
   'world-alert': worldAlert,

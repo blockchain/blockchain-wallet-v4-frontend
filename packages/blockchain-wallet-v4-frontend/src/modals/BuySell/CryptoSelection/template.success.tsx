@@ -1,30 +1,32 @@
 import React from 'react'
+import { equals } from 'ramda'
 
 import { BuySellLimitReached } from 'components/Flyout'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import CryptoSelector from './CryptoSelector'
-import Unsupported from './template.unsupported'
 
-const Success: React.FC<Props> = (props) => {
-  const isUserEligible = props.pairs.length && props.eligibility.eligible && props.fiatCurrency
-  const isUserSddEligible = props.sddEligible && props.sddEligible.eligible
-  const userHitMaxPendingDeposits =
-    props.eligibility.maxPendingDepositSimpleBuyTrades ===
-    props.eligibility.pendingDepositSimpleBuyTrades
+class Success extends React.Component<Props> {
+  shouldComponentUpdate = (nextProps) => !equals(this.props, nextProps)
 
-  if (isUserEligible || isUserSddEligible) {
-    return <CryptoSelector {...props} />
+  render() {
+    const isUserEligible =
+      this.props.pairs.length && this.props.eligibility.eligible && this.props.fiatCurrency
+    const userHitMaxPendingDeposits =
+      this.props.eligibility.maxPendingDepositSimpleBuyTrades ===
+      this.props.eligibility.pendingDepositSimpleBuyTrades
+
+    if (!isUserEligible && userHitMaxPendingDeposits) {
+      return (
+        <BuySellLimitReached
+          handleClose={this.props.handleClose}
+          limitNumber={this.props.eligibility.maxPendingDepositSimpleBuyTrades}
+        />
+      )
+    }
+    // now we always return this list
+    return <CryptoSelector {...this.props} />
   }
-  if (!isUserEligible && userHitMaxPendingDeposits) {
-    return (
-      <BuySellLimitReached
-        handleClose={props.handleClose}
-        limitNumber={props.eligibility.maxPendingDepositSimpleBuyTrades}
-      />
-    )
-  }
-  return <Unsupported {...props} />
 }
 
 export type Props = OwnProps & SuccessStateType

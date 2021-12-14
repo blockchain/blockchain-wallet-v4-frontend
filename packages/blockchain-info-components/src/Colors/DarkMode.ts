@@ -143,6 +143,7 @@ const DarkTheme: DefaultTheme = {
   'logo-quaternary': '#B2D5E5',
   'logo-quinary': '#10ADE4',
   // Exchange
+  exchangeLogin: '#0E121B',
   exchangeNight: '#0A0D10',
   exchangeTurquoise: '#42F1B8',
   // Action

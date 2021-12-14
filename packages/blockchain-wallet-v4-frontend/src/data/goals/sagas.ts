@@ -617,7 +617,7 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.goals.addInitialRedirect('interest'))
   }
   const runInterestPromo = function* (goal: GoalType) {
-    // do not show immediately modal, wait 5 seconds
+    // do not show modal immediately, wait 5 seconds
     yield delay(WAIT_FOR_INTEREST_PROMO_MODAL)
     yield call(waitForUserData)
     const { id } = goal
@@ -815,9 +815,26 @@ export default ({ api, coreSagas, networks }) => {
     yield call(showInitialModal)
   }
 
+  const saveGoals = function* (firstLogin) {
+    // only for non first login users we save goal here for first login users we do that over verify email page
+    if (!firstLogin) {
+      yield put(actions.goals.saveGoal({ data: {}, name: 'welcomeModal' }))
+    }
+    yield put(actions.goals.saveGoal({ data: {}, name: 'swapUpgrade' }))
+    yield put(actions.goals.saveGoal({ data: {}, name: 'swapGetStarted' }))
+    yield put(actions.goals.saveGoal({ data: {}, name: 'kycDocResubmit' }))
+    yield put(actions.goals.saveGoal({ data: {}, name: 'transferEth' }))
+    yield put(actions.goals.saveGoal({ data: {}, name: 'syncPit' }))
+    yield put(actions.goals.saveGoal({ data: {}, name: 'interestPromo' }))
+    // when airdrops are running
+    // yield put(actions.goals.saveGoal('upgradeForAirdrop'))
+    // yield put(actions.goals.saveGoal('airdropClaim'))
+  }
+
   return {
     defineGoals,
     runGoal,
-    runGoals
+    runGoals,
+    saveGoals
   }
 }

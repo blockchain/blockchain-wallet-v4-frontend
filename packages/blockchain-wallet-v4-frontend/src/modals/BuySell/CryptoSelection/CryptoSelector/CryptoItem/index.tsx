@@ -1,42 +1,36 @@
-import React, { PureComponent } from 'react'
+import React, { memo } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators, Dispatch } from 'redux'
+import { equals } from 'ramda'
 
-import { BSOrderActionType, CoinType, FiatType } from '@core/types'
-import { actions } from 'data'
+import { BSOrderActionType, BSPairType, CoinType, FiatType } from '@core/types'
 import { RootState } from 'data/rootReducer'
-import { SwapAccountType } from 'data/types'
 
 import { getData } from './selectors'
 import Success from './template.success'
 
-class CryptoItem extends PureComponent<Props> {
-  render() {
-    return this.props.data.cata({
+const CryptoItem = memo(
+  (props: Props) =>
+    props.data.cata({
       Failure: () => null,
       Loading: () => null,
       NotAsked: () => null,
-      Success: (val) => <Success {...this.props} {...val} />
-    })
-  }
-}
+      Success: (val) => <Success {...props} {...val} />
+    }),
+  (prevProps, nextProps) => equals(prevProps, nextProps)
+)
 
 const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   data: getData(state, ownProps)
 })
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  miscActions: bindActionCreators(actions.core.data.misc, dispatch)
-})
-
-const connector = connect(mapStateToProps, mapDispatchToProps)
+const connector = connect(mapStateToProps)
 
 export type OwnProps = {
-  account?: SwapAccountType
   coin: CoinType
   fiat: FiatType
   onClick?: (string) => void
   orderType: BSOrderActionType
+  pair?: BSPairType
 }
 export type SuccessStateType = ReturnType<typeof getData>['data']
 export type Props = OwnProps & ConnectedProps<typeof connector>
