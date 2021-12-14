@@ -240,10 +240,17 @@ margin-top: 0;
     font-weight: 600;
   }
 `
+const SignUpLinkRow = styled.div`
+  display: flex;
+  ${media.mobile`
+flex-direction: column;
+align-items: center;
+`}
+`
 export const SignUpLink = () => (
   <SubCard>
     <LinkContainer data-e2e='signupLink' to='/signup'>
-      <Row>
+      <SignUpLinkRow>
         <Text
           size='16px'
           color='grey600'
@@ -259,7 +266,7 @@ export const SignUpLink = () => (
         <SignUpText size='16px' color='blue600' weight={600}>
           <FormattedMessage id='buttons.signup_now' defaultMessage='Sign up Now ->' />
         </SignUpText>
-      </Row>
+      </SignUpLinkRow>
     </LinkContainer>
   </SubCard>
 )
