@@ -1112,9 +1112,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (!pair) throw new Error(NO_PAIR_SELECTED)
       // Fetch rates
       if (orderType === OrderType.BUY) {
-        // TODO: @sean @pricing remove log
-        // eslint-disable-next-line
-        console.log('amount/pair before buyQuote: ', amount, pair)
         const isFlexiblePricingModel = (yield select(
           selectors.core.walletOptions.getFlexiblePricingModel
         )).getOrElse(false)
