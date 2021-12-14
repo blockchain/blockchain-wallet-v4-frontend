@@ -155,9 +155,12 @@ const getOrderHashHex = (order: UnhashedOrder): string => {
     { type: SolidityTypes.Uint8, value: order.saleKind },
     { type: SolidityTypes.Address, value: order.target },
     { type: SolidityTypes.Uint8, value: order.howToCall },
+    // eslint-disable-next-line no-buffer-constructor
     { type: SolidityTypes.Bytes, value: new Buffer(order.calldata.slice(2), 'hex') },
+    // eslint-disable-next-line no-buffer-constructor
     { type: SolidityTypes.Bytes, value: new Buffer(order.replacementPattern.slice(2), 'hex') },
     { type: SolidityTypes.Address, value: order.staticTarget },
+    // eslint-disable-next-line no-buffer-constructor
     { type: SolidityTypes.Bytes, value: new Buffer(order.staticExtradata.slice(2), 'hex') },
     { type: SolidityTypes.Address, value: order.paymentToken },
     { type: SolidityTypes.Uint256, value: order.basePrice.toString() },
@@ -208,8 +211,11 @@ async function safeGasEstimation(estimationFunction, args, txData, retries = 2) 
         console.error('Gas estimation failing consistently.')
       }
     } else {
+      // eslint-disable-next-line no-console
       console.log(e)
+      // eslint-disable-next-line no-console
       console.log(JSON.stringify(e, null, 4))
+      // eslint-disable-next-line no-console
       console.log(error.code)
       throw error.code
     }
@@ -1182,6 +1188,7 @@ async function _initializeProxy(signer, txnData): Promise<string> {
       ? WYVERN_PROXY_REGISTRY_ADDRESS_RINKEBY
       : WYVERN_PROXY_REGISTRY_ADDRESS
 
+  // eslint-disable-next-line no-console
   console.log(`Initializing proxy`)
   const wyvernProxyRegistry = new ethers.Contract(address, proxyRegistry_ABI, signer)
   await wyvernProxyRegistry.registerProxy(txnData)
@@ -1347,13 +1354,13 @@ async function approveSemiOrNonFungibleToken({
     // NOTE:
     // Use this long way of calling so we can check for method existence on a bool-returning method.
     const isApprovedForAll = await tokenContract.isApprovedForAll(accountAddress, proxyAddress)
-    console.log(isApprovedForAll)
     return isApprovedForAll
   }
   const isApprovedForAll = await approvalAllCheck()
 
   if (isApprovedForAll) {
     // Supports ApproveAll
+    // eslint-disable-next-line no-console
     console.log('Already approved proxy for all tokens')
     return null
   }
@@ -1363,6 +1370,7 @@ async function approveSemiOrNonFungibleToken({
     //  not approved for all yet
 
     if (skipApproveAllIfTokenAddressIn.has(tokenAddress)) {
+      // eslint-disable-next-line no-console
       console.log('Already approving proxy for all tokens in another transaction')
       return null
     }
@@ -1375,6 +1383,7 @@ async function approveSemiOrNonFungibleToken({
       }
       const receipt = await txHash.wait()
       if (receipt.status) {
+        // eslint-disable-next-line no-console
         console.log(
           `Transaction receipt : https://www.etherscan.io/tx/${receipt.logs[1].transactionHash}\n`
         )
@@ -1803,9 +1812,11 @@ async function fungibleTokenApprovals({
     await fungibleTokenInterface.allowance(accountAddress, proxyAddress)
   )
   if (approvedAmount.isGreaterThanOrEqualTo(minimumAmount)) {
+    // eslint-disable-next-line no-console
     console.log('Already approved enough ERC20 tokens')
     return null
   }
+  // eslint-disable-next-line no-console
   console.log('Not enough ERC20 allowance approved for this trade')
 
   // Note: approving maximum amount so this doesnt need to be done again for future trades.
@@ -1818,7 +1829,7 @@ async function fungibleTokenApprovals({
 }
 
 export async function _buyOrderValidationAndApprovals({
-  counterOrder,
+  // counterOrder,
   gasData,
   order,
   signer
@@ -1944,6 +1955,7 @@ async function _validateMatch(
       buy.staticExtradata,
       sell.staticExtradata
     )
+    // eslint-disable-next-line no-console
     console.log(`Orders matching: ${canMatch}`)
 
     const calldataCanMatch = await wyvernExchangeContract.orderCalldataCanMatch(
@@ -1952,6 +1964,7 @@ async function _validateMatch(
       sell.calldata,
       sell.replacementPattern
     )
+    // eslint-disable-next-line no-console
     console.log(`Order calldata matching: ${calldataCanMatch}`)
 
     if (!calldataCanMatch || !canMatch) {
@@ -1992,6 +2005,7 @@ export async function _atomicMatch({
   if (buy.paymentToken === NULL_ADDRESS) {
     // For some reason uses wyvern contract for calculating the max price?.. update if needed from basePrice => max price
     const fee = sell.takerRelayerFee.div(INVERSE_BASIS_POINT).times(sell.basePrice)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     value = sell.basePrice.plus(fee)
   }
 
@@ -2082,17 +2096,23 @@ export async function _atomicMatch({
 export async function _makeBuyOrder({
   accountAddress,
   asset,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   buyerAddress,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   endAmount,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   englishAuctionReservePrice = 0,
   expirationTime,
   extraBountyBasisPoints = 0,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   listingTime,
   network,
   paymentTokenAddress,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   quantity,
   sellOrder,
   startAmount,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   waitForHighestBid
 }: {
   accountAddress: string
@@ -2541,13 +2561,11 @@ export async function calculateAtomicMatchFees(order: Order, counterOrder: Order
       NULL_BLOCK_HASH
     ]
   ]
-  console.log(counterOrder)
   const wyvernExchangeContract = new ethers.Contract(
     counterOrder.exchange,
     wyvernExchange_ABI,
     signer
   )
-  console.log(signer)
   return new BigNumber(
     await safeGasEstimation(wyvernExchangeContract.estimateGas.atomicMatch_, args, {
       gasLimit: 350_000,
