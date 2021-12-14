@@ -158,9 +158,6 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.BANK_DEPOSIT_MODAL) ? (
           <Deposit />
         ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.BANK_DEPOSIT_MODAL) ? (
-          <Deposit />
-        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.TRANSACTION_REPORT_MODAL) ? (
           <DownloadTransactions />
         ) : null}
