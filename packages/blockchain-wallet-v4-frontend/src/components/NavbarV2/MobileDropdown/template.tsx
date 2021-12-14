@@ -3,7 +3,6 @@ import { Icon, Switch, useClickOutside } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { TextInputWithClipboard } from 'components/Form'
-import { NavbarNavItemButton } from 'components/Navbar'
 import { DropdownMenu, DropdownMenuArrow } from 'components/Navbar/NavbarDropdown'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 
@@ -23,17 +22,29 @@ const CustomDropdownMenu = styled(DropdownMenu)`
     cursor: default;
   }
 `
+const NavbarButton = styled.button`
+  position: relative;
+  background: transparent;
+  min-width: auto;
+  width: auto;
+  padding: 0;
+  border: 0;
+
+  &:hover {
+    cursor: pointer;
+  }
+`
 const QRContainer = styled.div`
   margin: 16px 0;
 `
 
 const MobileDropdown = () => {
-  const ref = useClickOutside(() => {
-    console.log('outside')
-    toggleIsMenuOpen(false)
-  })
   const [isMenuOpen, toggleIsMenuOpen] = useState(false)
   const [isFirstItemActive, setIsFirstItemActive] = useState(true)
+
+  const ref = useClickOutside(() => {
+    toggleIsMenuOpen(false)
+  })
 
   const handleMenuToggle = useCallback(() => {
     toggleIsMenuOpen(!isMenuOpen)
@@ -43,13 +54,13 @@ const MobileDropdown = () => {
   const handleSecondItemClicked = useCallback(() => setIsFirstItemActive(false), [])
 
   return (
-    <NavbarNavItemButton data-e2e='settingsLink' onClick={handleMenuToggle}>
+    <NavbarButton data-e2e='mobileQrCode' ref={ref}>
       {
         // @ts-ignore
-        <Icon color='#98A1B2' name='phone' size='sm' />
+        <Icon color='#98A1B2' name='phone' size='sm' onClick={handleMenuToggle} />
       }
       {isMenuOpen && (
-        <CustomDropdownMenu ref={ref}>
+        <CustomDropdownMenu>
           <DropdownMenuArrow />
           <Switch
             firstItem='IOS'
@@ -64,7 +75,7 @@ const MobileDropdown = () => {
           <TextInputWithClipboard value={isFirstItemActive ? IOS_URL : ANDROID_URL} />
         </CustomDropdownMenu>
       )}
-    </NavbarNavItemButton>
+    </NavbarButton>
   )
 }
 
