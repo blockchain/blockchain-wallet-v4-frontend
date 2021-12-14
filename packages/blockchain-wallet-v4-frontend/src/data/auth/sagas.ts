@@ -579,9 +579,12 @@ export default ({ api, coreSagas, networks }) => {
           yield call(initMobileAuthFlow)
           break
         // no guid on path, use cached/stored guid if exists
-        case (storedGuid || lastGuid) && !walletGuidOrMagicLinkFromUrl:
+        case (storedGuid || lastGuid) &&
+          !walletGuidOrMagicLinkFromUrl &&
+          product === ProductAuthOptions.WALLET:
           // change product param in url to make it clear to user
           yield put(actions.router.push('/login?product=wallet'))
+
           // select required data
           const email = yield select(selectors.cache.getEmail)
           // logic to be compatible with lastGuid in cache make sure that email matches
