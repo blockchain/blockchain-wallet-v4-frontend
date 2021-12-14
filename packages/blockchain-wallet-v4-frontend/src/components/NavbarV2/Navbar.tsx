@@ -1,13 +1,13 @@
-import React, { useRef, useState, useCallback } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
-import { Icon, Text } from '@blockchain-com/constellation'
+import { Icon, IconName, Text } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Button } from 'blockchain-info-components'
 import FabButton from 'components/FabButton'
-import { MobileNav } from 'components/NavbarV2'
 import { DropdownMenu, DropdownMenuArrow, DropdownMenuItem } from 'components/Navbar/NavbarDropdown'
+import { MobileNav } from 'components/NavbarV2'
 import { Destination } from 'layouts/Wallet/components'
 import { useOnClickOutside } from 'services/misc'
 import { media, useMedia } from 'services/styles'
@@ -138,80 +138,71 @@ const Navbar = ({
     toggleIsMenuOpen((isMenuOpen) => !isMenuOpen)
   }
 
-  const closeMobileNavCallback = useCallback(() => { setMobileNav(false) }, [])
-  const openMobileNavCallback = useCallback(() => { setMobileNav(true) }, [])
+  const closeMobileNavCallback = useCallback(() => {
+    setMobileNav(false)
+  }, [])
+  const openMobileNavCallback = useCallback(() => {
+    setMobileNav(true)
+  }, [])
 
   type TertiaryNavProps1 = {
-    'data-e2e': string
-    to?: never
     copy: React.ReactNode
+    'data-e2e': string
     onClick: () => void
+    to?: never
   }
   type TertiaryNavProps2 = {
-    'data-e2e': string
-    to: string
     copy: React.ReactNode
+    'data-e2e': string
     onClick?: never
+    to: string
   }
 
-  const tertiaryNavItems: (TertiaryNavProps1 | TertiaryNavProps2)[]  = [
+  const tertiaryNavItems: (TertiaryNavProps1 | TertiaryNavProps2)[] = [
     {
-      to: '/settings/general',
-      'data-e2e': 'settings_generalLink',
-      copy: () => <FormattedMessage id='navbar.settings.general' defaultMessage='General' />
-    },
-    {
-      'data-e2e': 'settings_pro',
       copy: () => <FormattedMessage id='navbar.settings.general' defaultMessage='General' />,
-      onClick: limitsClickHandler
+      'data-e2e': 'settings_generalLink',
+      to: '/settings/general'
     },
-]
+    {
+      copy: () => <FormattedMessage id='navbar.settings.general' defaultMessage='General' />,
+      'data-e2e': 'settings_pro',
+      onClick: limitsClickHandler
+    }
+  ]
 
   const secondaryNavItems = [
     {
-      name: 'trade',
-      component: (<FabButton onClick={fabClickHandler} />)
+      component: <FabButton onClick={fabClickHandler} />,
+      name: 'trade'
     },
     {
-      name: 'mobile-app',
       component: () => (
         <NavButton onClick={mobileClickHandler} data-e2e='mobileQRLink'>
-          {
-            // @ts-ignore
-            <Icon color='#98A1B2' name='phone' size='sm' />
-          }
+          <Icon color='#98A1B2' name={IconName.PHONE} size='sm' />
         </NavButton>
-      )
+      ),
+      name: 'mobile-app'
     },
     {
-      name: 'refresh',
       component: () => (
         <NavButton onClick={refreshClickHandler} data-e2e='refreshLink'>
-          {
-            // @ts-ignore
-            <Icon color='#98A1B2' name='refresh' size='sm' />
-          }
+          <Icon color='#98A1B2' name={IconName.REFRESH} size='sm' />
         </NavButton>
-      )
+      ),
+      name: 'refresh'
     },
     {
-      name: 'settings',
       component: () => (
         <NavButton onClick={handleMenuToggle} data-e2e='settingsLink'>
-          {
-            // @ts-ignore
-            <Icon color='#98A1B2' name='user' size='sm' />
-          }
+          <Icon color='#98A1B2' name={IconName.USER} size='sm' />
           {isMenuOpen && (
             <DropdownMenu ref={ref}>
               <DropdownMenuArrow />
               <DropdownNavLink to='/settings/general'>
                 <DropdownMenuItem data-e2e='settings_generalLink'>
                   <Destination>
-                    <FormattedMessage
-                      id='layouts.wallet.header.general'
-                      defaultMessage='General'
-                    />
+                    <FormattedMessage id='layouts.wallet.header.general' defaultMessage='General' />
                   </Destination>
                 </DropdownMenuItem>
               </DropdownNavLink>
@@ -245,16 +236,14 @@ const Navbar = ({
               </DropdownNavLink>
               <DropdownMenuItem onClick={logoutClickHandler} data-e2e='logoutLink'>
                 <Destination>
-                  <FormattedMessage
-                    id='layouts.wallet.header.Sign Out'
-                    defaultMessage='Sign Out'
-                  />
+                  <FormattedMessage id='layouts.wallet.header.Sign Out' defaultMessage='Sign Out' />
                 </Destination>
               </DropdownMenuItem>
             </DropdownMenu>
           )}
         </NavButton>
-      )
+      ),
+      name: 'settings'
     }
   ]
 
@@ -271,22 +260,19 @@ const Navbar = ({
       <NavLeft>
         <Logo>
           <NavLink to='/home' data-e2e='homeLink'>
-            {
-              // @ts-ignore
-              <Icon name='blockchain' color='#3D89F5' size='md' />
-            }
+            <Icon name={IconName.BLOCKCHAIN} color='#3D89F5' size='md' />
           </NavLink>
         </Logo>
         {!isMobile && (
-        <PrimaryNavItems>
-          {primaryNavItems.map((item: PrimaryNavItem) => (
-            <li key={item.e2e}>
-              <NavLink to={item.dest} data-e2e={item.e2e}>
-                <Text variant='paragraph-1'>{item.text}</Text>
-              </NavLink>
-            </li>
-          ))}
-        </PrimaryNavItems>
+          <PrimaryNavItems>
+            {primaryNavItems.map((item: PrimaryNavItem) => (
+              <li key={item.e2e}>
+                <NavLink to={item.dest} data-e2e={item.e2e}>
+                  <Text variant='paragraph-1'>{item.text}</Text>
+                </NavLink>
+              </li>
+            ))}
+          </PrimaryNavItems>
         )}
       </NavLeft>
       <NavRight>
@@ -294,10 +280,7 @@ const Navbar = ({
           {isMobile ? (
             <li>
               <NavButton onClick={openMobileNavCallback} data-e2e='mobileNavExpand'>
-                {
-                  // @ts-ignore
-                  <Icon name='menu' color='#3D89F5' size='md' />
-                }
+                <Icon name={IconName.MENU} color='#3D89F5' size='md' />
               </NavButton>
             </li>
           ) : (
