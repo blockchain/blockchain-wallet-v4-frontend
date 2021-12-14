@@ -232,6 +232,7 @@ const SubCard = styled.div`
 `
 const SignUpText = styled(Text)`
   margin-top: 16px;
+  cursor: pointer;
   ${media.tabletL`
 margin-top: 0;
 `};
@@ -240,20 +241,27 @@ margin-top: 0;
   }
 `
 export const SignUpLink = () => (
-  <LinkContainer data-e2e='signupLink' to='/signup'>
-    <SubCard>
-      <Text size='16px' color='grey600' weight={500} style={{ marginTop: '16px' }}>
-        <FormattedMessage
-          id='scenes.login.account_signup'
-          defaultMessage="Don't have a Blockchain Account?"
-        />
-      </Text>
-      &nbsp;
-      <SignUpText size='16px' color='blue600' weight={600}>
-        <FormattedMessage id='buttons.signup_now' defaultMessage='Sign up Now ->' />
-      </SignUpText>
-    </SubCard>
-  </LinkContainer>
+  <SubCard>
+    <LinkContainer data-e2e='signupLink' to='/signup'>
+      <Row>
+        <Text
+          size='16px'
+          color='grey600'
+          weight={500}
+          style={{ cursor: 'pointer', marginTop: '16px' }}
+        >
+          <FormattedMessage
+            id='scenes.login.account_signup'
+            defaultMessage="Don't have a Blockchain Account?"
+          />
+        </Text>
+        &nbsp;
+        <SignUpText size='16px' color='blue600' weight={600}>
+          <FormattedMessage id='buttons.signup_now' defaultMessage='Sign up Now ->' />
+        </SignUpText>
+      </Row>
+    </LinkContainer>
+  </SubCard>
 )
 export const UnsupportedBrowserWarning = () => (
   <BrowserWarning>
