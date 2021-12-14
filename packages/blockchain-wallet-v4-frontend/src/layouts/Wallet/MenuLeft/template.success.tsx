@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { media, useMedia } from 'services/styles'
+import { media } from 'services/styles'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import Balances from './Balances'
@@ -44,7 +44,6 @@ const Overflow = styled.div`
 `
 
 const MenuLeft = (props: Props) => {
-  const isLaptop = useMedia('laptop')
   const userTier = props.userData?.tiers?.current
   const isTier2 = userTier >= 2
 

@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { colors } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { Button, Icon, Text } from 'blockchain-info-components'
@@ -60,7 +61,7 @@ const rows = ({
     ),
     handleClick: handleSwap,
     header: <FormattedMessage id='buttons.swap' defaultMessage='Swap' />,
-    iconColor: '#0C6CF2',
+    iconColor: colors.blue600,
     iconName: 'swap'
   },
   {
@@ -72,7 +73,7 @@ const rows = ({
     ),
     handleClick: handleSend,
     header: <FormattedMessage id='buttons.send' defaultMessage='Send' />,
-    iconColor: '#0C6CF2', // blue600
+    iconColor: colors.blue600,
     iconName: 'send'
   },
   {
@@ -84,7 +85,7 @@ const rows = ({
     ),
     handleClick: handleReceive,
     header: <FormattedMessage id='buttons.receive' defaultMessage='Receive' />,
-    iconColor: '#0C6CF2', // blue600
+    iconColor: colors.blue600,
     iconName: 'receive'
   },
   {
@@ -96,7 +97,7 @@ const rows = ({
     ),
     handleClick: handleDeposit,
     header: <FormattedMessage id='buttons.deposit' defaultMessage='Deposit' />,
-    iconColor: '#0C6CF2', // blue600
+    iconColor: colors.blue600,
     iconName: 'deposit'
   },
   {
@@ -108,7 +109,7 @@ const rows = ({
     ),
     handleClick: handleWithdraw,
     header: <FormattedMessage id='buttons.withdraw' defaultMessage='Withdraw' />,
-    iconColor: '#0C6CF2', // blue600
+    iconColor: colors.blue600,
     iconName: 'withdraw'
   }
 ]
