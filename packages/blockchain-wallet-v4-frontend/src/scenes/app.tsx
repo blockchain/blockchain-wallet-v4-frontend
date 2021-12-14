@@ -8,6 +8,7 @@ import { map, values } from 'ramda'
 import { Store } from 'redux'
 import { PersistGate } from 'redux-persist/integration/react'
 
+import { Remote } from '@core'
 import { WalletOptionsType } from '@core/types'
 import SiftScience from 'components/SiftScience'
 import SupportChat from 'components/SupportChat'
@@ -133,7 +134,13 @@ const App = ({
                         )
                       }, coinsWithBalance)
                     )}
-                    {isAuthenticated ? <Redirect to='/home' /> : <Redirect to='/login' />}
+                    {isAuthenticated ? (
+                      coinsWithBalance.length ? (
+                        <Redirect to='/home' />
+                      ) : null
+                    ) : (
+                      <Redirect to='/login' />
+                    )}
                   </Switch>
                 </Suspense>
               </ConnectedRouter>

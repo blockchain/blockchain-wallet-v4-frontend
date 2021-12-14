@@ -43,12 +43,12 @@ import SellOrderSummary from './SellOrderSummary'
 import Loading from './template.loading'
 import Pending from './template.pending'
 import Rejected from './template.rejected'
+import ThreeDSHandlerCheckoutDotCom from './ThreeDSHandlerCheckoutDotCom'
 import ThreeDSHandlerEverypay from './ThreeDSHandlerEverypay'
 import ThreeDSHandlerStripe from './ThreeDSHandlerStripe'
 import TradingCurrencySelector from './TradingCurrencySelector'
 import UpgradeToGold from './UpgradeToGold'
 import VerifyEmail from './VerifyEmail'
-import ThreeDSHandlerCheckoutDotCom from './ThreeDSHandlerCheckoutDotCom'
 
 const { FORM_BS_ADD_EVERYPAY_CARD, FORM_BS_CHECKOUT, FORMS_BS_BILLING_ADDRESS } =
   model.components.buySell
