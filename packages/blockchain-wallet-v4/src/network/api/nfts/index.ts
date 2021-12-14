@@ -102,6 +102,7 @@ export default ({ apiUrl, get, post }) => {
     limit = NFT_ORDER_PAGE_LIMIT,
     asset_contract_address: string,
     token_ids: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     payment_token_address = '0x0000000000000000000000000000000000000000', // eth
     side = 1 // 0 for buy, 1 for sell,
   ): NftOrdersType => {
