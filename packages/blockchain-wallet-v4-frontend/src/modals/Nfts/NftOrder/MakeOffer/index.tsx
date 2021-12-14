@@ -22,7 +22,8 @@ const MakeOffer: React.FC<Props> = (props) => {
   const { close, formValues, nftActions, orderFlow } = props
   const { activeOrder } = orderFlow
 
-  const disabled = !formValues.amount || Remote.Loading.is(orderFlow.order)
+  const disabled =
+    !formValues.amount || Remote.Loading.is(orderFlow.order) || Remote.Loading.is(orderFlow.fees)
 
   return (
     <>

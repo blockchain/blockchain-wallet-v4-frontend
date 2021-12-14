@@ -653,9 +653,7 @@ export interface NftAsset {
   transfer_fee_payment_token: null
 }
 
-export type NftAssetsType = {
-  assets: NftAsset[]
-}
+export type NftAssetsType = NftAsset[]
 
 export type NftOrdersType = {
   count: number
