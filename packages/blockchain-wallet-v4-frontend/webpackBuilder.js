@@ -71,7 +71,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
   entry: {
     app: {
       dependOn: 'polyfills',
-      filename: 'app-[contenthash:8].js',
+      filename: 'app-[fullhash:8].js',
       import: CONFIG_PATH.src + '/index.js'
     },
     polyfills: {
