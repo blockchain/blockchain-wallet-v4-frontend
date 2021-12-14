@@ -135,6 +135,7 @@
     "babel-plugin-inline-react-svg": "2.0.1",
     "babel-plugin-module-resolver": "4.1.0",
     "babel-plugin-react-html-attrs": "3.0.5",
+    "base64url": "3.0.1",
     "bs58": "4.0.1",
     "cache-loader": "4.1.0",
     "case-sensitive-paths-webpack-plugin": "2.4.0",

@@ -1,4 +1,4 @@
-import base64 from 'base-64'
+import base64url from 'base64url'
 import { assoc, find, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, fork, put, select, take } from 'redux-saga/effects'
@@ -611,7 +611,7 @@ export default ({ api, coreSagas, networks }) => {
         // url has base64 encrypted magic link JSON
         default:
           const magicLink = JSON.parse(
-            base64.decode(walletGuidOrMagicLinkFromUrl)
+            base64url.decode(walletGuidOrMagicLinkFromUrl)
           ) as WalletDataFromMagicLink
           yield put(actions.auth.setMagicLinkInfo(magicLink))
           yield put(actions.auth.setMagicLinkInfoEncoded(walletGuidOrMagicLinkFromUrl))
