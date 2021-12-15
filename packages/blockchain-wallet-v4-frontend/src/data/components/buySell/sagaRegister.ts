@@ -87,7 +87,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(
       actions.startPollSellQuote.type,
       function* (payload: ReturnType<typeof actions.startPollSellQuote>) {
-        if (sellPollTask && sellPollTask.isRunning()) yield cancel(sellPollTask)
+        if (sellPollTask?.isRunning()) yield cancel(sellPollTask)
         sellPollTask = yield fork(buySellSagas.fetchSellQuote, payload)
         yield take(actions.stopPollSellQuote.type)
         yield cancel(sellPollTask)
@@ -97,7 +97,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(
       actions.startPollBuyQuote.type,
       function* (payload: ReturnType<typeof actions.startPollBuyQuote>) {
-        if (buyPollTask && buyPollTask.isRunning()) yield cancel(buyPollTask)
+        if (buyPollTask?.isRunning()) yield cancel(buyPollTask)
         buyPollTask = yield fork(buySellSagas.fetchBuyQuote, payload)
         yield take(actions.stopPollBuyQuote.type)
         yield cancel(buyPollTask)
