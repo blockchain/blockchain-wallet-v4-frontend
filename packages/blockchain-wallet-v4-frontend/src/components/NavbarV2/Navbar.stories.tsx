@@ -57,7 +57,6 @@ Default.args = {
   fabClickHandler: () => {},
   limitsClickHandler: () => {},
   logoutClickHandler: () => {},
-  mobileClickHandler: () => {},
   primaryNavItems: PrimaryNavItems,
   refreshClickHandler: () => {}
 }

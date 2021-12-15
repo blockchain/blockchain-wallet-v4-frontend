@@ -76,7 +76,6 @@ const Header = (props: OwnProps) => {
       <Navbar
         primaryNavItems={PrimaryNavItems}
         fabClickHandler={fabCallback}
-        mobileClickHandler={() => {}}
         refreshClickHandler={refreshCallback}
         limitsClickHandler={limitsCallback}
         logoutClickHandler={logoutCallback}

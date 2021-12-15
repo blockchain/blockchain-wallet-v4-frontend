@@ -12,6 +12,8 @@ import { Destination } from 'layouts/Wallet/components'
 import { useOnClickOutside } from 'services/misc'
 import { useMedia } from 'services/styles'
 
+import MobileDropdown from './MobileDropdown'
+
 export type PrimaryNavItem = {
   dest: string
   e2e: string
@@ -123,7 +125,6 @@ const Navbar = ({
   fabClickHandler,
   limitsClickHandler,
   logoutClickHandler,
-  mobileClickHandler,
   primaryNavItems,
   refreshClickHandler
 }: Props) => {
@@ -196,12 +197,8 @@ const Navbar = ({
       name: 'Trade'
     },
     {
-      component: () => (
-        <NavButton onClick={mobileClickHandler} data-e2e='mobileQRLink'>
-          <Icon color={colors.grey400} name={IconName.PHONE} size='sm' />
-        </NavButton>
-      ),
-      name: 'Mobile App'
+      component: () => <MobileDropdown />,
+      name: 'mobile-app'
     },
     {
       component: () => (
@@ -300,7 +297,6 @@ type Props = {
   fabClickHandler: () => void
   limitsClickHandler: () => void
   logoutClickHandler: () => void
-  mobileClickHandler: () => void
   primaryNavItems: Array<PrimaryNavItem>
   refreshClickHandler: () => void
 }
