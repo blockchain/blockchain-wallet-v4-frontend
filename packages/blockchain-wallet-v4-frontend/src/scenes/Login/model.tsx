@@ -14,7 +14,7 @@ import {
 } from 'blockchain-info-components'
 import { FormLabel } from 'components/Form'
 import { Wrapper } from 'components/Public'
-import { LoginFormType, LoginSteps } from 'data/types'
+import { LoginFormType, LoginSteps, ProductAuthOptions } from 'data/types'
 import { isMobile, media } from 'services/styles'
 
 export const removeWhitespace = (string) => string.replace(/\s/g, ``)
@@ -24,14 +24,15 @@ export const TabWrapper = styled.div`
   width: 100%;
 `
 
-export const ProductTab = styled.div<{ backgroundColor?: string }>`
+export const ProductTab = styled.div<{ backgroundColor?: string; product?: ProductAuthOptions }>`
   display: flex;
   justify-content: center;
   width: 50%;
   align-items: center;
   padding: 16px 0;
   cursor: pointer;
-  border-radius: 8px 8px 0 0;
+  border-radius: ${(props) =>
+    props.product === ProductAuthOptions.WALLET ? ' 8px 0 0 0 ' : '0 8px 0 0'};
   background-color: ${(props) =>
     props.backgroundColor ? props.theme[props.backgroundColor] : 'none'};
 `
@@ -42,6 +43,9 @@ export const LoginWrapper = styled(Wrapper)`
 
 export const WrapperWithPadding = styled.div`
   padding: 0 32px;
+  ${media.mobile`
+  padding: 0 16px;
+  `}
 `
 
 export const ActionButton = styled(Button)`

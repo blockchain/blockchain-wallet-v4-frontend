@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { HeartbeatLoader, Image, Text } from 'blockchain-info-components'
 import { FormGroup, FormItem, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
+import { ProductAuthOptions } from 'data/types'
 import { isBrowserSupported } from 'services/browser'
 import { required, validEmail } from 'services/forms'
 import { media } from 'services/styles'
@@ -27,7 +28,7 @@ import {
 const isSupportedBrowser = isBrowserSupported()
 
 const LoginWrapper = styled(Wrapper)`
-  padding: 0 0 32px 0;
+  padding: 0 0 24px 0;
   ${media.mobile`
   padding: 0 0 16px 0;
 `}
@@ -39,13 +40,17 @@ const EnterEmail = (props: Props) => {
   return (
     <LoginWrapper>
       <TabWrapper>
-        <ProductTab backgroundColor='grey000' onClick={authActions.setCachedWalletData}>
+        <ProductTab
+          backgroundColor='grey000'
+          onClick={authActions.setCachedWalletData}
+          product={ProductAuthOptions.WALLET}
+        >
           <Image name='wallet-grayscale' height='28px' style={{ marginRight: '12px' }} />
           <Text size='20px' weight={600} color='grey400'>
             <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
           </Text>
         </ProductTab>
-        <ProductTab>
+        <ProductTab product={ProductAuthOptions.EXCHANGE}>
           <Image name='exchange-no-background' height='26px' style={{ marginRight: '12px' }} />
           <Text size='20px' weight={600} color='blue600'>
             <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />

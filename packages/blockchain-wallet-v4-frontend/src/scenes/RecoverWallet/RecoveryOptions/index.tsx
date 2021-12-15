@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { Icon, Link, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 import { RecoverSteps } from 'data/types'
+import { media } from 'services/styles'
 
 import { Props } from '..'
 import { BackArrowFormHeader, CircleBackground, GoBackArrow } from '../model'
@@ -27,6 +28,9 @@ const IconTextRow = styled.div`
 `
 const RecoveryOptionRow = styled(IconTextRow)<{ hasCloudBackup?: boolean }>`
   cursor: ${(props) => (props.hasCloudBackup ? 'pointer' : 'not-allowed')};
+  ${media.mobile`
+  margin-bottom: 16px;
+  `}
 `
 
 const TextStack = styled.div`
