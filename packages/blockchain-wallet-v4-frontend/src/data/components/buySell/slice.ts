@@ -225,7 +225,10 @@ const buySellSlice = createSlice({
     fetchBuyQuoteSuccess: (
       state,
       action: PayloadAction<{
+        fee: string
+        pair: string
         quote: BuyQuoteType
+        rate: number
       }>
     ) => {
       state.buyQuote = Remote.Success(action.payload)

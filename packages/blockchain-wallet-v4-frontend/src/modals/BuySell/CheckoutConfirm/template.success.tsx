@@ -263,7 +263,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
               </IconWrapper>
             </RowIcon>
             <RowText data-e2e='sbExchangeRate'>
-              {displayFiat(props.order, props.quote.rate)}
+              {displayFiat(props.order, props.quote.rate.toString())}
             </RowText>
           </TopRow>
           {isActiveCoinTooltip && (

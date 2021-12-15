@@ -27,7 +27,7 @@ const { FORM_BS_CHECKOUT } = model.components.buySell
 
 class CheckoutConfirm extends PureComponent<Props> {
   componentDidMount() {
-    if (this.props.flexiblePricingModel) {
+    if (this.props.isFlexiblePricingModel) {
       this.props.buySellActions.fetchBuyQuote({
         amount: this.props.order.inputQuantity,
         pair: this.props.order.pair,
@@ -156,10 +156,10 @@ class CheckoutConfirm extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
-  flexiblePricingModel: selectors.core.walletOptions
+  formValues: selectors.form.getFormValues(FORM_BS_CHECKOUT)(state) as BSCheckoutFormValuesType,
+  isFlexiblePricingModel: selectors.core.walletOptions
     .getFlexiblePricingModel(state)
-    .getOrElse(false),
-  formValues: selectors.form.getFormValues(FORM_BS_CHECKOUT)(state) as BSCheckoutFormValuesType
+    .getOrElse(false)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

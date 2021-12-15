@@ -125,7 +125,7 @@ export type BuySellState = {
   account: RemoteDataType<string, BSAccountType>
   addBank: boolean | undefined
   balances: RemoteDataType<string, BSBalancesType>
-  buyQuote: RemoteDataType<string, { quote: BuyQuoteType }>
+  buyQuote: RemoteDataType<string, { fee: string; pair: string; quote: BuyQuoteType; rate: number }>
   card: RemoteDataType<string, BSCardType>
   cardId: undefined | string
   cards: RemoteDataType<string, Array<BSCardType>>

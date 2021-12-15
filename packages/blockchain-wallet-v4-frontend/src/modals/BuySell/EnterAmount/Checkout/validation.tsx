@@ -10,6 +10,7 @@ import {
   BSPaymentMethodType,
   BSPaymentTypes,
   BSQuoteType,
+  BuyQuoteType,
   OrderType,
   PaymentValue,
   SwapQuoteType,
@@ -61,7 +62,7 @@ export const getMaxMinSell = (
   minOrMax: 'min' | 'max',
   sbBalances: BSBalancesType,
   orderType: BSOrderActionType,
-  quote: { quote: SwapQuoteType; rate: number },
+  quote: { quote: SwapQuoteType | BuyQuoteType; rate: number },
   pair: BSPairType,
   payment?: PaymentValue,
   allValues?: BSCheckoutFormValuesType,
@@ -109,7 +110,10 @@ export const getMaxMin = (
   minOrMax: 'min' | 'max',
   sbBalances: BSBalancesType,
   orderType: BSOrderActionType,
-  QUOTE: BSQuoteType | { quote: SwapQuoteType; rate: number },
+  QUOTE:
+    | BSQuoteType
+    | { quote: SwapQuoteType; rate: number }
+    | { pair: string; quote: BuyQuoteType; rate: number },
   pair: BSPairType,
   payment?: PaymentValue,
   allValues?: BSCheckoutFormValuesType,
@@ -119,10 +123,13 @@ export const getMaxMin = (
   sddLimit = LIMIT,
   limits?: SwapUserLimitsType
 ): { CRYPTO: string; FIAT: string } => {
-  let quote: BSQuoteType | { quote: SwapQuoteType; rate: number }
+  let quote:
+    | BSQuoteType
+    | { quote: SwapQuoteType; rate: number }
+    | { pair: string; quote: BuyQuoteType; rate: number }
   switch (orderType as OrderType) {
     case OrderType.BUY:
-      quote = QUOTE as BSQuoteType
+      quote = QUOTE as BSQuoteType | { pair: string; quote: BuyQuoteType; rate: number }
       switch (minOrMax) {
         case 'max':
           // we need minimum of all max amounts including limits

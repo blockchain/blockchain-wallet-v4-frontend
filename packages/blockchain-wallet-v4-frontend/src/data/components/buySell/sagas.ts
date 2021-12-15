@@ -69,7 +69,7 @@ import {
 import * as S from './selectors'
 import { actions as A } from './slice'
 import * as T from './types'
-import { getDirection, getPreferredCurrency, setPreferredCurrency } from './utils'
+import { getDirection, getPreferredCurrency, reversePair, setPreferredCurrency } from './utils'
 
 export const logLocation = 'components/buySell/sagas'
 
@@ -823,32 +823,43 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const fetchBuyQuote = function* ({ payload }: ReturnType<typeof A.fetchBuyQuote>) {
-    try {
-      yield put(A.fetchQuoteLoading())
-      const { amount, pair, paymentMethod } = payload
-      let paymentMethodId
+    while (true) {
+      try {
+        yield put(A.fetchBuyQuoteLoading())
 
-      if (paymentMethod === BSPaymentTypes.BANK_TRANSFER) {
-        paymentMethodId = 'd74992e0-a462-4aeb-903e-fc8e9a11bb40'
+        const { amount, pair, paymentMethod } = payload
+        const pairReversed = reversePair(pair)
+        let paymentMethodId: string | undefined
+
+        if (paymentMethod === BSPaymentTypes.BANK_TRANSFER) {
+          paymentMethodId = 'd74992e0-a462-4aeb-903e-fc8e9a11bb40'
+        }
+
+        const quote: ReturnType<typeof api.getBuyQuote> = yield call(
+          api.getBuyQuote,
+          pairReversed,
+          'SIMPLEBUY',
+          amount,
+          paymentMethod,
+          paymentMethodId
+        )
+
+        yield put(
+          A.fetchBuyQuoteSuccess({
+            fee: quote.feeDetails.fee.toString(),
+            pair,
+            quote,
+            rate: parseInt(quote.price)
+          })
+        )
+        const refresh = -moment().diff(quote.quoteExpiresAt)
+        yield delay(refresh)
+      } catch (e) {
+        const error = errorHandler(e)
+        yield put(A.fetchBuyQuoteFailure(error))
+        yield delay(FALLBACK_DELAY)
+        yield put(A.startPollBuyQuote(payload))
       }
-
-      const quote: ReturnType<typeof api.getBuyQuote> = yield call(
-        api.getBuyQuote,
-        pair,
-        'SIMPLEBUY',
-        amount,
-        paymentMethod,
-        paymentMethodId
-      )
-
-      yield put(A.fetchBuyQuoteSuccess({ quote }))
-      const refresh = -moment().diff(quote.quoteExpiresAt)
-      yield delay(refresh)
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(A.fetchBuyQuoteFailure(error))
-      yield delay(FALLBACK_DELAY)
-      yield put(A.startPollBuyQuote(payload))
     }
   }
 
@@ -1122,17 +1133,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         )).getOrElse(false)
 
         if (isFlexiblePricingModel) {
-          const pairArr = pair.pair.split('-')
-          const pairReversed = `${pairArr[1]}-${pairArr[0]}`
+          const pairReversed = reversePair(pair.pair)
+          const amount = '500'
 
-          // TODO: the below code is breaking, need to add price which is equivalent to rate
           yield put(
-            A.fetchBuyQuote({
-              amount: '0',
+            A.startPollBuyQuote({
+              amount,
               pair: pairReversed,
               paymentMethod: BSPaymentTypes.FUNDS
             })
           )
+          yield race({
+            failure: take(A.fetchBuyQuoteFailure.type),
+            success: take(A.fetchBuyQuoteSuccess.type)
+          })
         } else {
           yield put(A.fetchQuote({ amount: '0', orderType, pair: pair.pair }))
         }

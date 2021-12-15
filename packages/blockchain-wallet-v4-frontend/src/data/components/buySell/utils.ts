@@ -28,3 +28,10 @@ export const getPreferredCurrency = (): WalletFiatType | null => {
 
   return null
 }
+
+export const reversePair = (pair: string) => {
+  const pairArr = pair.split('-')
+  const pairReversed = `${pairArr[1]}-${pairArr[0]}`
+
+  return pairReversed
+}
