@@ -825,15 +825,20 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const fetchBuyQuote = function* ({ payload }: ReturnType<typeof A.fetchBuyQuote>) {
     try {
       yield put(A.fetchQuoteLoading())
-      const { amount, pair } = payload
+      const { amount, pair, paymentMethod } = payload
+      let paymentMethodId
+
+      if (paymentMethod === BSPaymentTypes.BANK_TRANSFER) {
+        paymentMethodId = 'd74992e0-a462-4aeb-903e-fc8e9a11bb40'
+      }
 
       const quote: ReturnType<typeof api.getBuyQuote> = yield call(
         api.getBuyQuote,
         pair,
         'SIMPLEBUY',
         amount,
-        'BANK_TRANSFER',
-        'd74992e0-a462-4aeb-903e-fc8e9a11bb40'
+        paymentMethod,
+        paymentMethodId
       )
 
       yield put(A.fetchBuyQuoteSuccess({ quote }))
@@ -1121,7 +1126,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           const pairReversed = `${pairArr[1]}-${pairArr[0]}`
 
           // TODO: the below code is breaking, need to add price which is equivalent to rate
-          yield put(A.fetchBuyQuote({ amount: '0', pair: pairReversed }))
+          yield put(
+            A.fetchBuyQuote({
+              amount: '0',
+              pair: pairReversed,
+              paymentMethod: BSPaymentTypes.FUNDS
+            })
+          )
         } else {
           yield put(A.fetchQuote({ amount: '0', orderType, pair: pair.pair }))
         }

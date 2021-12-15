@@ -344,7 +344,7 @@ export default ({
     pair: string,
     profile: 'SIMPLEBUY' | 'SIMPLETRADE' | 'SWAP_FROM_USERKEY' | 'SWAP_INTERNAL' | 'SWAP_ON_CHAIN',
     inputValue: string,
-    paymentMethod: 'FUNDS' | 'PAYMENT_CARD' | 'BANK_TRANSFER' | 'BANK_ACCOUNT',
+    paymentMethod: BSPaymentTypes,
     paymentMethodId?: string
   ): BuyQuoteType =>
     authorizedPost({

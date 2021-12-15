@@ -213,6 +213,7 @@ const buySellSlice = createSlice({
       action: PayloadAction<{
         amount: string
         pair: BSPairsType
+        paymentMethod: BSPaymentTypes
       }>
     ) => {},
     fetchBuyQuoteFailure: (state, action: PayloadAction<string>) => {
@@ -523,6 +524,7 @@ const buySellSlice = createSlice({
       action: PayloadAction<{
         amount: string
         pair: BSPairsType
+        paymentMethod: BSPaymentTypes
       }>
     ) => {},
     startPollSellQuote: (

@@ -30,7 +30,11 @@ class CheckoutConfirm extends PureComponent<Props> {
     if (this.props.flexiblePricingModel) {
       this.props.buySellActions.fetchBuyQuote({
         amount: this.props.order.inputQuantity,
-        pair: this.props.order.pair
+        pair: this.props.order.pair,
+        paymentMethod:
+          this.props.order.paymentType === undefined
+            ? BSPaymentTypes.FUNDS
+            : this.props.order.paymentType
       })
     } else {
       this.props.buySellActions.fetchQuote({
