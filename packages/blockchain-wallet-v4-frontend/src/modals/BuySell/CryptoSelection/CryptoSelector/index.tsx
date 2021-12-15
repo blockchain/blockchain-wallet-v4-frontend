@@ -4,7 +4,7 @@ import { any, equals, map, values } from 'ramda'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { BSOrderActionType, BSPairType, OrderType } from '@core/types'
+import { BSOrderActionType, BSPairType, FiatType, OrderType } from '@core/types'
 import { Icon, Image, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption } from 'components/Form'
@@ -119,7 +119,7 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
     // default continue to enter amount step
     return this.props.buySellActions.setStep({
       cryptoCurrency: getCoinFromPair(pair.pair),
-      fiatCurrency,
+      fiatCurrency: fiatCurrency as FiatType,
       orderType: this.state.orderType,
       pair,
       step: 'ENTER_AMOUNT'
