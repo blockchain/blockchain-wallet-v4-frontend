@@ -767,7 +767,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
 
         const inputCurrency = state.components.buySell.fiatCurrency
-        const inputAmount = Number(state.form.simpleBuyCheckout.values.amount)
+        const inputAmount = Number(state.form.buySellCheckout.values.amount)
         const inputAMountMax = Number(state.components.buySell.pair.buyMax) / 100
         const outputCurrency = state.components.buySell.cryptoCurrency
 
@@ -1425,7 +1425,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
                 ? AccountType.TRADING
                 : AccountType.USERKEY
             const inputCurrency = state.components.buySell.fiatCurrency
-            const inputAmount = Number(state.form.simpleBuyCheckout.values.amount)
+            const inputAmount = Number(state.form.buySellCheckout.values.amount)
             const outputCurrency = state.components.buySell.cryptoCurrency
 
             analytics.push(AnalyticsKey.SELL_AMOUNT_ENTERED, {
@@ -1788,7 +1788,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         }
         break
       }
-      case AT.components.withdraw.SET_STEP: {
+      case actions.components.withdraw.setStep.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -1834,7 +1834,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-      case AT.components.withdraw.HANDLE_WITHDRAWAL_MAX_AMOUNT_CLICK: {
+      case actions.components.withdraw.handleWithdrawMaxAmountClick.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -1862,7 +1862,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
 
         break
       }
-      case AT.components.withdraw.HANDLE_WITHDRAWAL_MIN_AMOUNT_CLICK: {
+      case actions.components.withdraw.handleWithdrawMinAmountClick.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -2819,7 +2819,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
       // LOGIN EVENTS
-      case actions.auth.magicLinkParsed.type: {
+      case actions.auth.analyticsMagicLinkParsed.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -2839,13 +2839,14 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.needHelpClicked.type: {
+      case actions.auth.analyticsNeedHelpClicked.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const site_redirect = state.auth.getOrElse({})?.productAuthMetadata?.product
 
         const origin = action.payload
 
@@ -2853,7 +2854,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           properties: {
             origin,
             originalTimestamp: getOriginalTimestamp(),
-            site_redirect: 'WALLET'
+            site_redirect
           },
           traits: {
             email,
@@ -2863,7 +2864,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.loginIdEntered.type: {
+      case actions.auth.analyticsLoginIdEntered.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -2885,7 +2886,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.loginMethodSelected.type: {
+      case actions.auth.analyticsLoginMethodSelected.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -2907,7 +2908,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.loginPasswordDenied.type: {
+      case actions.auth.analyticsLoginPasswordDenied.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -2927,7 +2928,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.loginPasswordEntered.type: {
+      case actions.auth.analyticsLoginPasswordEntered.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -2999,12 +3000,13 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const request_platform = state.auth.getOrElse({})?.productAuthMetadata?.product
 
         analytics.push(AnalyticsKey.LOGIN_REQUEST_APPROVED, {
           properties: {
             method: 'MAGIC_LINK',
             originalTimestamp: getOriginalTimestamp(),
-            request_platform: 'WALLET'
+            request_platform
           },
           traits: {
             email,
@@ -3023,12 +3025,13 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const error = action.payload
+        const request_platform = state.auth.getOrElse({})?.productAuthMetadata?.product
         analytics.push(AnalyticsKey.LOGIN_REQUEST_DENIED, {
           properties: {
             error,
             method: 'MAGIC_LINK',
             originalTimestamp: getOriginalTimestamp(),
-            request_platform: 'WALLET'
+            request_platform
           },
           traits: {
             email,
@@ -3038,8 +3041,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-
-      case actions.auth.loginTwoStepVerificationDenied.type: {
+      case actions.auth.analyticsLoginTwoStepVerificationDenied.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -3059,7 +3061,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.loginTwoStepVerificationEntered.type: {
+      case actions.auth.analyticsLoginTwoStepVerificationEntered.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -3146,7 +3148,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.recoveryOptionSelected.type: {
+      case actions.auth.analyticsRecoveryOptionSelected.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -3191,7 +3193,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.resetAccountCancelled.type: {
+      case actions.auth.analyticsResetAccountCancelled.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -3215,7 +3217,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.resetAccountClicked.type: {
+      case actions.auth.analyticsResetAccountClicked.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified

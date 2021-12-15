@@ -1,4 +1,4 @@
-import { SBPaymentTypes } from '@core/types'
+import { BSPaymentTypes } from '@core/types'
 import { RecurringBuyOrigins, RecurringBuyPeriods, SetPeriodPayload } from 'data/types'
 
 enum AnalyticsKey {
@@ -150,10 +150,11 @@ enum DepositMethod {
   BANK_TRANSFER = 'BANK_TRANSFER'
 }
 
-enum LoginHelpClikedOrigin {
+enum LoginHelpClickedOrigin {
   IDENTIFIER = 'IDENTIFIER',
   PASSWORD = 'PASSWORD',
-  QR_CODe = 'QR_CODE'
+  QR_CODE = 'QR_CODE',
+  UPGRADE_ACCOUNT_NEW_PASSWORD = 'UPGRADE_ACCOUNT_NEW_PASSWORD'
 }
 
 enum SendReceive {
@@ -359,7 +360,7 @@ type LinkBankClickedPayload = BasePayload & {
 }
 
 type LoginHelpClickedPayload = BasePayload & {
-  origin: LoginHelpClikedOrigin
+  origin: LoginHelpClickedOrigin
   site_redirect: 'WALLET' | 'EXCHANGE'
 }
 
@@ -452,7 +453,7 @@ export type RecurringBuyCancelPayload = BasePayload & {
   input_currency: string
   origin: keyof typeof RecurringBuyOrigins
   output_currency: string
-  payment_method: SBPaymentTypes
+  payment_method: BSPaymentTypes
 }
 
 export type RecurringBuyClickedPayload = BasePayload & {

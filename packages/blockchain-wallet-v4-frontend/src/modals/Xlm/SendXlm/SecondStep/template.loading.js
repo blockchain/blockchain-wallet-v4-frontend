@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   box-sizing: border-box;
 `
 
-export default (props) => {
+export default () => {
   return (
     <Wrapper>
       <SkeletonRectangle height='20px' width='30%' />

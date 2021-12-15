@@ -71,11 +71,11 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
   entry: {
     app: {
       dependOn: 'polyfills',
-      filename: 'app-[contenthash:10].js',
+      filename: 'app-[fullhash:8].js',
       import: CONFIG_PATH.src + '/index.js'
     },
     polyfills: {
-      filename: 'polyfills-[contenthash:10].js',
+      filename: 'polyfills-[contenthash:8].js',
       import: [
         '@babel/polyfill',
         'bignumber.js',
@@ -88,7 +88,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
   output: {
     assetModuleFilename: 'resources/[name][ext]', // default asset path that is usually overwritten in specific modules.rules
     chunkFilename: (pathData) =>
-      pathData.chunk.name ? '[name]-[chunkhash:10].js' : 'chunk-[chunkhash:10].js',
+      pathData.chunk.name ? '[name]-[contenthash:8].js' : 'chunk-[contenthash:8].js',
     crossOriginLoading: 'anonymous',
     path: CONFIG_PATH.ciBuild,
     publicPath: '/'
@@ -238,7 +238,7 @@ const buildDevServerConfig = (
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Content-Security-Policy': [
-        `img-src 'self' *.googleusercontent.com *.zendesk.com *.yapily.com https://raw.githubusercontent.com https://login.blockchain.com data: blob:`,
+        `img-src 'self' data: blob: https:`,
         allowUnsafeScripts
           ? `script-src 'nonce-${CSP_NONCE}' 'self' 'unsafe-eval'`
           : `script-src 'nonce-${CSP_NONCE}' 'self'`,
@@ -247,14 +247,11 @@ const buildDevServerConfig = (
           : `style-src 'nonce-${CSP_NONCE}' 'self'`,
         `frame-src ${envConfig.WALLET_HELPER_DOMAIN} ${envConfig.ROOT_URL} https://magic.veriff.me https://www.google.com/ https://www.gstatic.com https://localhost:8080 http://localhost:8080 http://localhost:8081`,
         `child-src ${envConfig.WALLET_HELPER_DOMAIN} blob:`,
+        `script-src-elem 'nonce-${CSP_NONCE}' 'self' https://www.googletagmanager.com`,
         [
           'connect-src',
           "'self'",
           'data:',
-          'ws://localhost:8080',
-          'wss://localhost:8080',
-          'wss://api.ledgerwallet.com',
-          'https://api.opensea.io',
           envConfig.API_DOMAIN,
           envConfig.EVERYPAY_URL,
           envConfig.HORIZON_URL,
@@ -264,10 +261,17 @@ const buildDevServerConfig = (
           envConfig.VERIFF_URL,
           envConfig.WALLET_HELPER_DOMAIN,
           envConfig.WEB_SOCKET_URL,
+          envConfig.OPENSEA_API,
+          'http://localhost:8081',
+          'https://api-rinkeby.etherscan.io',
           'https://friendbot.stellar.org',
           'https://bitpay.com',
           'https://static.zdassets.com',
-          'https://ekr.zdassets.com'
+          'https://ekr.zdassets.com',
+          'ws://localhost:8080',
+          'wss://localhost:8080',
+          'wss://api.ledgerwallet.com',
+          'wss://*.walletconnect.org'
         ].join(' '),
         "object-src 'none'",
         "media-src 'self' https://storage.googleapis.com/bc_public_assets/ data: mediastream: blob:",
@@ -290,11 +294,11 @@ const buildDevServerConfig = (
           horizon: envConfig.HORIZON_URL,
           ledger: localhostUrl + '/ledger', // will trigger reverse proxy
           ledgerSocket: envConfig.LEDGER_SOCKET_URL,
+          opensea: envConfig.OPENSEA_API,
           root: envConfig.ROOT_URL,
           veriff: envConfig.VERIFF_URL,
           walletHelper: envConfig.WALLET_HELPER_DOMAIN,
-          webSocket: envConfig.WEB_SOCKET_URL,
-          yapilyCallbackUrl: envConfig.YAPILY_CALLBACK_URL
+          webSocket: envConfig.WEB_SOCKET_URL
         }
 
         res.json(mockWalletOptions)

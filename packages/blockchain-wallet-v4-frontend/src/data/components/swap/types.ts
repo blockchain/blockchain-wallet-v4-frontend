@@ -1,13 +1,12 @@
 import {
   CoinType,
+  CrossBorderLimits,
   PaymentValue,
   RemoteDataType,
   SwapOrderType,
-  SwapQuoteType,
+  SwapQuoteStateType,
   SwapUserLimitsType
 } from '@core/types'
-
-import { SeamlessLimits } from '../withdraw/types'
 
 export type MempoolFeeType = 'regular' | 'priority'
 
@@ -54,14 +53,14 @@ export type SwapCheckoutFixType = 'CRYPTO' | 'FIAT'
 
 // state
 export type SwapState = {
-  crossBorderLimits: RemoteDataType<string, SeamlessLimits>
+  crossBorderLimits: RemoteDataType<string, CrossBorderLimits>
   custodialEligibility: RemoteDataType<string, boolean>
   fix: SwapCheckoutFixType
   limits: RemoteDataType<string, SwapUserLimitsType>
   order?: SwapOrderType
   pairs: RemoteDataType<string, Array<string>>
   payment: RemoteDataType<string, undefined | PaymentValue>
-  quote: RemoteDataType<string, { quote: SwapQuoteType; rate: number }>
+  quote: RemoteDataType<string, SwapQuoteStateType>
   side: SwapSideType
   step: keyof typeof SwapStepType
   trades: {

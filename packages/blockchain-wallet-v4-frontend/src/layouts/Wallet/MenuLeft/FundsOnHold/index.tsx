@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { bindActionCreators } from '@redux-saga/core/node_modules/redux'
+import { bindActionCreators } from 'redux'
 
 import { FiatType } from '@core/types'
 import WithdrawalLockHold from 'components/Brokerage/WithdrawalLockHold'
@@ -12,7 +12,7 @@ import getData from './selectors'
 
 export const FundsOnHoldContainer = (props: Props) => {
   useEffect(() => {
-    props.withdrawActions.fetchWithdrawalLock(props.walletCurrency)
+    props.withdrawActions.fetchWithdrawalLock({ currency: props.walletCurrency })
   }, [props.walletCurrency])
 
   const handleClick = useCallback(() => {

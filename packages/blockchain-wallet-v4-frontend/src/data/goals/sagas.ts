@@ -85,7 +85,7 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.goals.saveGoal({ data: {}, name: 'interest' }))
   }
 
-  const defineSimpleBuyGoal = function* (search) {
+  const defineBuySellGoal = function* (search) {
     // /#/open/simple-buy?crypto={BTC | ETH | ...}&amount={1 | 99 | 200 | ...}&email={test@blockchain.com | ...}&fiatCurrency={USD | GBP | ...}
     const params = new URLSearchParams(search)
     const amount = params.get('amount')
@@ -101,7 +101,7 @@ export default ({ api, coreSagas, networks }) => {
           email,
           fiatCurrency
         },
-        name: 'simpleBuy'
+        name: 'buySell'
       })
     )
 
@@ -161,13 +161,16 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const defineDeepLinkGoals = function* (pathname, search) {
-    if (startsWith(DeepLinkGoal.LINK_ACCOUNT, pathname)) {
-      return yield call(defineLinkAccountGoal, search)
-    }
+  const defineWalletConnectGoal = function* (search) {
+    // cant use URLSearchParams as it parses the oddly formed uri incorrectly
+    const walletConnectURI = search.split('?uri=')[1]
+    yield put(actions.goals.saveGoal({ data: walletConnectURI, name: 'walletConnect' }))
+  }
 
-    if (startsWith(DeepLinkGoal.REFERRAL, pathname)) {
-      return yield call(defineReferralGoal, search)
+  const defineDeepLinkGoals = function* (pathname, search) {
+    // /#/open/wc?uri={wc_uri}
+    if (startsWith(DeepLinkGoal.WALLET_CONNECT, pathname)) {
+      return yield call(defineWalletConnectGoal, search)
     }
 
     // /#/open/kyc?tier={0 | 1 | 2 | ...} tier is optional
@@ -175,7 +178,6 @@ export default ({ api, coreSagas, networks }) => {
       return yield call(defineKycGoal, search)
     }
 
-    // TODO check why it uses includes
     // crypto send / bitpay links
     if (includes(DeepLinkGoal.BITCOIN, pathname)) {
       return yield call(defineSendCryptoGoal, pathname, search)
@@ -188,7 +190,7 @@ export default ({ api, coreSagas, networks }) => {
 
     // /#/open/simple-buy
     if (startsWith(DeepLinkGoal.SIMPLE_BUY, pathname)) {
-      return yield call(defineSimpleBuyGoal, search)
+      return yield call(defineBuySellGoal, search)
     }
 
     // /#/open/swap
@@ -199,6 +201,14 @@ export default ({ api, coreSagas, networks }) => {
     // /#/open/rewards /#/open/interest
     if (startsWith(DeepLinkGoal.REWARDS, pathname) || startsWith(DeepLinkGoal.INTEREST, pathname)) {
       return yield call(defineInterestGoal)
+    }
+
+    if (startsWith(DeepLinkGoal.LINK_ACCOUNT, pathname)) {
+      return yield call(defineLinkAccountGoal, search)
+    }
+
+    if (startsWith(DeepLinkGoal.REFERRAL, pathname)) {
+      return yield call(defineReferralGoal, search)
     }
 
     yield call(defineActionGoal, pathname, search)
@@ -260,7 +270,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runSimpleBuyGoal = function* (goal: GoalType) {
+  const runBuySellGoal = function* (goal: GoalType) {
     const {
       data: { amount, crypto, fiatCurrency, id }
     } = goal
@@ -274,7 +284,7 @@ export default ({ api, coreSagas, networks }) => {
           fiatCurrency,
           origin
         },
-        key: 'simpleBuyModal',
+        key: 'buySellModal',
         name: 'SIMPLE_BUY_MODAL'
       })
     )
@@ -505,6 +515,31 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
+  const runWalletConnectGoal = function* (goal: GoalType) {
+    try {
+      const { data: uri, id } = goal
+      const walletConnectEnabled = (yield select(
+        selectors.core.walletOptions.getWalletConnectEnabled
+      )).getOrElse(false)
+      yield put(actions.goals.deleteGoal(id))
+      if (walletConnectEnabled) {
+        yield put(
+          actions.goals.addInitialModal({
+            data: {
+              origin,
+              uri
+            },
+            key: 'walletConnect',
+            name: ModalName.WALLET_CONNECT_MODAL
+          })
+        )
+      }
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(actions.logs.logErrorMessage('goals', 'runWalletConnectGoal', error))
+    }
+  }
+
   const runSyncPitGoal = function* (goal: GoalType) {
     const { id } = goal
     yield put(actions.goals.deleteGoal(id))
@@ -582,7 +617,7 @@ export default ({ api, coreSagas, networks }) => {
     yield put(actions.goals.addInitialRedirect('interest'))
   }
   const runInterestPromo = function* (goal: GoalType) {
-    // do not show imediately modal, wait 5 seconds
+    // do not show modal immediately, wait 5 seconds
     yield delay(WAIT_FOR_INTEREST_PROMO_MODAL)
     yield call(waitForUserData)
     const { id } = goal
@@ -633,16 +668,17 @@ export default ({ api, coreSagas, networks }) => {
     const initialModals = yield select(selectors.goals.getInitialModals)
     const {
       airdropClaim,
+      buySellModal,
       interestPromo,
       kycDocResubmit,
       linkAccount,
       payment,
-      simpleBuyModal,
       swap,
       swapGetStarted,
       swapUpgrade,
       transferEth,
       upgradeForAirdrop,
+      walletConnect,
       welcomeModal
     } = initialModals
 
@@ -659,6 +695,9 @@ export default ({ api, coreSagas, networks }) => {
           origin: 'KycDocResubmitGoal'
         })
       )
+    }
+    if (walletConnect) {
+      return yield put(actions.modals.showModal(ModalName.WALLET_CONNECT_MODAL, walletConnect.data))
     }
     if (payment) {
       return yield put(actions.modals.showModal(payment.name, payment.data))
@@ -682,11 +721,11 @@ export default ({ api, coreSagas, networks }) => {
         })
       )
     }
-    if (simpleBuyModal) {
+    if (buySellModal) {
       return yield put(
         actions.components.buySell.showModal({
-          cryptoCurrency: simpleBuyModal.data.crypto,
-          origin: 'SimpleBuyLink'
+          cryptoCurrency: buySellModal.data.crypto,
+          origin: 'BuySellLink'
         })
       )
     }
@@ -729,8 +768,8 @@ export default ({ api, coreSagas, networks }) => {
         case 'referral':
           yield call(runReferralGoal, goal)
           break
-        case 'simpleBuy':
-          yield call(runSimpleBuyGoal, goal)
+        case 'buySell':
+          yield call(runBuySellGoal, goal)
           break
         case 'swap':
           yield call(runSwapModal, goal)
@@ -746,6 +785,9 @@ export default ({ api, coreSagas, networks }) => {
           break
         case 'upgradeForAirdrop':
           yield call(runUpgradeForAirdropGoal, goal)
+          break
+        case 'walletConnect':
+          yield call(runWalletConnectGoal, goal)
           break
         case 'welcomeModal':
           yield call(runWelcomeModal, goal)
@@ -773,9 +815,26 @@ export default ({ api, coreSagas, networks }) => {
     yield call(showInitialModal)
   }
 
+  const saveGoals = function* (firstLogin) {
+    // only for non first login users we save goal here for first login users we do that over verify email page
+    if (!firstLogin) {
+      yield put(actions.goals.saveGoal({ data: {}, name: 'welcomeModal' }))
+    }
+    yield put(actions.goals.saveGoal({ data: {}, name: 'swapUpgrade' }))
+    yield put(actions.goals.saveGoal({ data: {}, name: 'swapGetStarted' }))
+    yield put(actions.goals.saveGoal({ data: {}, name: 'kycDocResubmit' }))
+    yield put(actions.goals.saveGoal({ data: {}, name: 'transferEth' }))
+    yield put(actions.goals.saveGoal({ data: {}, name: 'syncPit' }))
+    yield put(actions.goals.saveGoal({ data: {}, name: 'interestPromo' }))
+    // when airdrops are running
+    // yield put(actions.goals.saveGoal('upgradeForAirdrop'))
+    // yield put(actions.goals.saveGoal('airdropClaim'))
+  }
+
   return {
     defineGoals,
     runGoal,
-    runGoals
+    runGoals,
+    saveGoals
   }
 }

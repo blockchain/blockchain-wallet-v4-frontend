@@ -4,7 +4,7 @@ import { call, put, select } from 'redux-saga/effects'
 
 import { convertCoinToCoin } from '@core/exchange'
 import { APIType } from '@core/network/api'
-import { FiatType, WalletAcountEnum } from '@core/types'
+import { FiatType, WalletAccountEnum } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, selectors } from 'data'
 import { SwapBaseCounterTypes } from 'data/components/swap/types'
@@ -88,8 +88,8 @@ export default ({ api }: { api: APIType }) => {
       const finalAmt = convertCoinToCoin({ baseToStandard: false, coin, value: amount })
       const finalFee = convertCoinToCoin({ baseToStandard: false, coin, value: fee || 0 })
 
-      const response: ReturnType<typeof api.withdrawSBFunds> = yield call(
-        api.withdrawSBFunds,
+      const response: ReturnType<typeof api.withdrawBSFunds> = yield call(
+        api.withdrawBSFunds,
         to,
         coin,
         finalAmt,
@@ -117,9 +117,9 @@ export default ({ api }: { api: APIType }) => {
       const limitsResponse: ReturnType<typeof api.getCrossBorderTransactions> = yield call(
         api.getCrossBorderTransactions,
         coin,
-        WalletAcountEnum.CUSTODIAL,
+        WalletAccountEnum.CUSTODIAL,
         coin,
-        WalletAcountEnum.NON_CUSTODIAL,
+        WalletAccountEnum.NON_CUSTODIAL,
         currency
       )
       yield put(A.fetchSendLimitsSuccess(limitsResponse))

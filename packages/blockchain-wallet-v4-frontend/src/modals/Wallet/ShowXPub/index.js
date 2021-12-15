@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
@@ -31,42 +31,33 @@ const WarningBanner = styled(Banner)`
   margin-bottom: 25px;
 `
 
-class ShowXPubContainer extends Component {
-  render() {
-    const { closeAll, position, total, xpub } = this.props
-
-    return (
-      <Modal size='large' position={position} total={total}>
-        <ModalHeader icon='lock' onClose={closeAll}>
+const ShowXPubContainer = ({ closeAll, position, total, xpub }) => (
+  <Modal size='large' position={position} total={total}>
+    <ModalHeader icon='lock' onClose={closeAll}>
+      <FormattedMessage id='modals.wallet.showxpub.title' defaultMessage='Extended Public Key' />
+    </ModalHeader>
+    <ModalBody>
+      <WarningBanner type='warning'>
+        <Text size='13px' color='error'>
           <FormattedMessage
-            id='modals.wallet.showxpub.title'
-            defaultMessage='Extended Public Key'
+            id='modals.wallet.showxpub.warning'
+            defaultMessage="Don't share your Extended Public Key (xPub) with an untrusted source. Anyone with access to this key can keep track of your payments and may be able to disrupt access to your wallet."
           />
-        </ModalHeader>
-        <ModalBody>
-          <WarningBanner type='warning'>
-            <Text size='13px' color='error'>
-              <FormattedMessage
-                id='modals.wallet.showxpub.warning'
-                defaultMessage="Don't share your Extended Public Key (xPub) with an untrusted source. Anyone with access to this key can keep track of your payments and may be able to disrupt access to your wallet."
-              />
-            </Text>
-          </WarningBanner>
-          <Content>
-            <XPubText size='12px' weight='300' data-e2e='walletXpub'>
-              {xpub}
-            </XPubText>
-            <QRCodeWrapper value={xpub} size={150} data-e2e='walletXpubQrCode' />
-          </Content>
-        </ModalBody>
-        <ModalFooter align='right'>
-          <Button nature='primary' onClick={closeAll} data-e2e='closeShowXpubModalButton'>
-            <FormattedMessage id='buttons.close' defaultMessage='Close' />
-          </Button>
-        </ModalFooter>
-      </Modal>
-    )
-  }
-}
+        </Text>
+      </WarningBanner>
+      <Content>
+        <XPubText size='12px' weight='300' data-e2e='walletXpub'>
+          {xpub}
+        </XPubText>
+        <QRCodeWrapper value={xpub} size={150} data-e2e='walletXpubQrCode' />
+      </Content>
+    </ModalBody>
+    <ModalFooter align='right'>
+      <Button nature='primary' onClick={closeAll} data-e2e='closeShowXpubModalButton'>
+        <FormattedMessage id='buttons.close' defaultMessage='Close' />
+      </Button>
+    </ModalFooter>
+  </Modal>
+)
 
 export default modalEnhancer('SHOW_XPUB_MODAL')(ShowXPubContainer)

@@ -47,7 +47,7 @@ const DepositStatus = (props) => {
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
   defaultMethod: selectors.components.brokerage.getAccount(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'USD',
+  fiatCurrency: selectors.components.buySell.getFiatCurrency(state) || 'USD',
   formValues: getFormValues('brokerageTx')(state) as BrokerageTxFormValuesType
 })
 

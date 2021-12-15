@@ -2,10 +2,10 @@ import React, { useCallback } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 
 import { Exchange } from '@core'
-import { SBOrderType } from '@core/types'
+import { BSOrderType } from '@core/types'
 import { RecurringBuyGettingStarted } from 'components/Flyout'
 import { selectors } from 'data'
-import { getCounterAmount, getCounterCurrency } from 'data/components/simpleBuy/model'
+import { getCounterAmount, getCounterCurrency } from 'data/components/buySell/model'
 import { RootState } from 'data/rootReducer'
 import { RecurringBuyOrigins, RecurringBuyStepType } from 'data/types'
 
@@ -31,7 +31,7 @@ const GetStartedContainer = ({ close, order, recurringBuyActions }: Props) => {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  order: selectors.components.simpleBuy.getSBOrder(state) as SBOrderType
+  order: selectors.components.buySell.getBSOrder(state) as BSOrderType
 })
 
 const connector = connect(mapStateToProps)

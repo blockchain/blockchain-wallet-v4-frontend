@@ -1,7 +1,7 @@
 import { TIER_TYPES } from 'blockchain-wallet-v4-frontend/src/modals/Settings/TradingLimits/model'
 import { anyPass, equals } from 'ramda'
 
-import { SBOrderType, SwapUserLimitsType } from '@core/types'
+import { SwapUserLimitsType } from '@core/types'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
@@ -19,6 +19,7 @@ export type BannerType =
   | 'coinRename'
   | 'celoEURRewards'
   | 'servicePriceUnavailable'
+  | 'completeYourProfile'
   | null
 
 export const getNewCoinAnnouncement = (coin: string) => `${coin}-homepage`
@@ -40,17 +41,14 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     .getKycDocResubmissionStatus(state)
     .map(anyPass([equals(GENERAL), equals(EXPIRED)]))
     .getOrElse(false)
-  const ordersR = selectors.components.simpleBuy.getSBOrders(state)
-  const orders: Array<SBOrderType> = ordersR.getOrElse([])
-  const isSimpleBuyOrderPending = orders.find(
-    (order) => order.state === 'PENDING_CONFIRMATION' || order.state === 'PENDING_DEPOSIT'
-  )
 
   const isUserActive =
     selectors.modules.profile.getUserActivationState(state).getOrElse('') !== 'NONE'
   const isKycStateNone =
     // @ts-ignore
     selectors.modules.profile.getUserKYCState(state).getOrElse('') === 'NONE'
+
+  const showCompleteYourProfile = selectors.core.walletOptions.getCompleteYourProfile(state)
 
   const isFirstLogin = selectors.auth.getFirstLogin(state)
 
@@ -64,10 +62,10 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     userData.kycState === KYC_STATES.PENDING ||
     userData.kycState === KYC_STATES.UNDER_REVIEW ||
     userData.kycState === KYC_STATES.VERIFIED
-  const sddEligibleTier = selectors.components.simpleBuy.getUserSddEligibleTier(state).getOrElse(1)
+  const sddEligibleTier = selectors.components.buySell.getUserSddEligibleTier(state).getOrElse(1)
 
   // continueToGold
-  const limits = selectors.components.simpleBuy.getLimits(state).getOrElse({
+  const limits = selectors.components.buySell.getLimits(state).getOrElse({
     annual: {
       available: '0'
     }
@@ -111,8 +109,6 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     bannerToShow = 'resubmit'
   } else if (isServicePriceUnavailable) {
     bannerToShow = 'servicePriceUnavailable'
-  } else if (isSimpleBuyOrderPending && !isTier3SDD) {
-    bannerToShow = 'sbOrder'
   } else if (showCEURBanner) {
     bannerToShow = 'celoEURRewards'
   } else if (isKycStateNone && isUserActive && !isFirstLogin && !isTier3SDD) {
@@ -134,6 +130,10 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     bannerToShow = 'recurringBuys'
   } else {
     bannerToShow = null
+  }
+
+  if (showCompleteYourProfile && userData?.tiers?.current !== 2) {
+    bannerToShow = 'completeYourProfile'
   }
 
   return {

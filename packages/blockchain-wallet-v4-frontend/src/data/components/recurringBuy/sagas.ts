@@ -66,7 +66,7 @@ export default ({ api }: { api: APIType }) => {
         paymentMethod: '',
         period: ''
       }
-      const order = selectors.components.simpleBuy.getSBOrder(yield select())
+      const order = selectors.components.buySell.getBSOrder(yield select())
       if (!order) throw new Error('To make a recurring buy, more information is needed')
 
       const { inputCurrency, inputQuantity, outputCurrency, paymentMethodId, paymentType } = order

@@ -1,5 +1,5 @@
 import { Map } from 'immutable-ext'
-import { forEach, head, isEmpty, isNil, path, pathOr, prop, toLower } from 'ramda'
+import { forEach, head, isEmpty, isNil, pathOr, prop, toLower } from 'ramda'
 import { set } from 'ramda-lens'
 import { call, put, select } from 'redux-saga/effects'
 
@@ -71,6 +71,18 @@ export default ({ api, networks } = {}) => {
     yield put(A.createMetadataEth(newkv))
   }
 
+  const replenishEthAccount = function* ({ newkv, password }) {
+    const { addr, defaultIndex } = yield call(deriveAccount, password)
+    newkv.value.ethereum.accounts = []
+    newkv.value.ethereum.accounts[defaultIndex] = {
+      addr,
+      archived: false,
+      correct: true,
+      label: ACCT_NAME
+    }
+    yield put(A.fetchMetadataEthSuccess(newkv))
+  }
+
   const transitionFromLegacy = function* ({ newkv, password }) {
     const { addr, defaultIndex } = yield call(deriveAccount, password)
     const erc20Entry = yield call(createNewErc20Entry)
@@ -91,6 +103,8 @@ export default ({ api, networks } = {}) => {
       const newkv = yield callTask(api.fetchKVStore(kv))
       if (isNil(newkv.value) || isEmpty(newkv.value)) {
         yield call(secondPasswordSagaEnhancer(createEth), { kv })
+      } else if (newkv.value.ethereum && newkv.value.ethereum.accounts?.length === 0) {
+        yield call(secondPasswordSagaEnhancer(replenishEthAccount), { newkv })
       } else if (newkv.value.ethereum && !prop('correct', head(newkv.value.ethereum.accounts))) {
         yield call(secondPasswordSagaEnhancer(transitionFromLegacy), { newkv })
       } else {

@@ -2,77 +2,52 @@
   "platforms": {
     "web": {
       "application": {
-        "analyticsSiteId": 2,
         "environment": "dev",
         "announcements": {
-          "lockbox": {},
           "public": {},
           "swap": {},
           "wallet": {}
         }
       },
       "coinListing": "",
-      "coinRename": "CLOUT",
+      "coinRename": "",
       "sift": {
         "apiKey": "0ecd212038"
       },
-      "nfts": [
-        {
-          "opensea_slug": "doodles-official",
-          "display_name": "Doodles",
-          "image_url": "https://lh3.googleusercontent.com/7B0qai02OdHA8P_EOVK672qUliyjQdQDGNrACxs7WnTgZAkJa_wWURnIFKeOh5VTf8cfTqW3wQpozGedaC9mteKphEOtztls02RlWQ=s120"
-        },
-        {
-          "opensea_slug": "cryptopunks",
-          "display_name": "Cryptopunks",
-          "image_url": "https://lh3.googleusercontent.com/BdxvLseXcfl57BiuQcQYdJ64v-aI8din7WPk0Pgo3qQFhAUH-B6i-dCqqc_mCkRIzULmwzwecnohLhrcH8A9mpWIZqA7ygc52Sr81hE=s120"
-        },
-        {
-          "opensea_slug": "boredapeyachtclub",
-          "display_name": "Bored Ape Yacht Club",
-          "image_url": "https://lh3.googleusercontent.com/Ju9CkWtV-1Okvf45wo8UctR-M9He2PjILP0oOvxE89AyiPPGtrR3gysu1Zgy0hjd2xKIgjJJtWIc0ybj4Vd7wv8t3pxDGHoJBzDB=s120"
-        },
-        {
-          "opensea_slug": "parallelalpha",
-          "display_name": "Parallel Alpha",
-          "image_url": "https://lh3.googleusercontent.com/nxaymgd9aJIzLXb0r3oLO0VCMFi0Zex1ubTmEYekEKwOVq1YijOULDeT1qCjk71OTsQW47zmvZ2ZuycXorgu6WA6Wosc6CiOuVnAXGk=s120"
-        },
-        {
-          "opensea_slug": "theshiboshis",
-          "display_name": "The Shiboshis",
-          "image_url": "https://lh3.googleusercontent.com/9G_SbzGpWnId_ouP-rsTfv1UIeSaaayelyZVyo7eVETYp2uDXDXeH82Yvw4AchRHuKSrixHhGQ7ri5UUepQLaK9BpwhMH1yjImnXHA=s120"
-        },
-        {
-          "opensea_slug": "sandbox",
-          "display_name": "Sandbox",
-          "image_url": "https://lh3.googleusercontent.com/SXH8tW1siikB80rwCRnjm1a5xM_MwTg9Xl9Db6mioIk9HIlDM09pVoSR7GKJgS6ulSUpgW9BDtMk_ePX_NKgO9A=s60"
-        },
-        {
-          "opensea_slug": "cryptoadz-by-gremplin",
-          "display_name": "Cryptoadz",
-          "image_url": "https://lh3.googleusercontent.com/iofetZEyiEIGcNyJKpbOafb_efJyeo7QOYnTog8qcQJhqoBU-Vu9l3lXidZhXOAdu6dj4fzWW6BZDU5vLseC-K03rMMu-_j2LvwcbHo=s120"
-        },
-        {
-          "opensea_slug": "partydegenerates",
-          "display_name": "Party Degenerates",
-          "image_url": "https://lh3.googleusercontent.com/so2WQ5_GY72dOEffETYPsjc5Z1gv35qHITyikSRdqhtxYWaXqH4mRuBmxz1m0fFe-qGCPoCLZrND3zlpTi2OWWJipln9P66vVIGr=s120"
-        },
-        {
-          "opensea_slug": "cool-cats-nft",
-          "display_name": "Cool Cats",
-          "image_url": "https://lh3.googleusercontent.com/LIov33kogXOK4XZd2ESj29sqm_Hww5JSdO7AFn5wjt8xgnJJ0UpNV9yITqxra3s_LMEW1AnnrgOVB_hDpjJRA1uF4skI5Sdi_9rULi8=s120"
-        }
-      ],
       "featureFlags": {
-        "nfts": true,
+        "addCheckoutPaymentProvider": false,
+        "addStripePaymentProvider": false,
         "cEURRewards": true,
-        "eddInterestFileUpload": true,
+        "completeYourProfile": true,
         "developerMobilePairing": true,
-        "withdrawalLocksFundsOnHold": true,
+        "mergeAndUpgrade": false,
+        "eddInterestFileUpload": true,
+        "flexiblePricingModel": true,
         "pollForMagicLinkData": true,
         "recurringBuys": true,
         "isRedesignEnabled": true,
-        "signupCountry": true
+        "signupCountry": true,
+        "tradingCurrencyFlyout": true,
+        "walletConnect": true,
+        "withdrawalLocksFundsOnHold": true,
+        "useNewPaymentProviders": true
+      },
+      "hotWalletAddresses":{
+        "swap": {
+          "eth": "0xC05f893248D843192A989AEE6dC26d21426E78AF"
+        },
+        "exchange": {
+          "eth": "0x95eFeFA0A4564BfABfBB1Ee08A359C062EB0A94b"
+        },
+        "simplebuy": {
+          "eth": "0xFF202CBC6C794516164E45621143acDe4a3FEa24"
+        },
+        "lending": {
+          "eth": "0xBA0145434A0a53E58D10680254756F679c359463"
+        },
+        "rewards": {
+          "eth": "0x7d9d70c1A99FcC952d48b781947FAa0a3795083E"
+        }
       }
     }
   },
@@ -86,10 +61,10 @@
     "horizon": "https://horizon.stellar.org",
     "ledger": "https://manager.api.live.ledger.com",
     "ledgerSocket": "wss://api.ledgerwallet.com",
+    "opensea": "https://api.opensea.io",
     "root": "https://blockchain.info",
     "veriff": "https://magic.veriff.me",
     "walletHelper": "https://wallet-helper.blockchain.com",
-    "webSocket": "wss://ws.blockchain.info",
-    "yapilyCallbackUrl": "https://blockchain.com/brokerage-link-success"
+    "webSocket": "wss://ws.blockchain.info"
   }
 }

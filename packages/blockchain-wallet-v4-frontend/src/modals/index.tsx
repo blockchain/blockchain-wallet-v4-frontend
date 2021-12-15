@@ -30,6 +30,7 @@ const SendBch = React.lazy(() => import('./Bch/SendBch'))
 // ETH
 const SendEth = React.lazy(() => import('./Eth/SendEth'))
 const TransferEth = React.lazy(() => import('./Eth/TransferEth'))
+const WalletConnect = React.lazy(() => import('./Eth/WalletConnect'))
 
 // XLM
 const SendXlm = React.lazy(() => import('./Xlm/SendXlm'))
@@ -80,6 +81,7 @@ const ConfirmDisable2FA = React.lazy(() => import('./Settings/ConfirmDisable2FA'
 const RecoveryPhrase = React.lazy(() => import('./Settings/RecoveryPhrase'))
 const SecondPassword = React.lazy(() => import('./Settings/SecondPassword'))
 const TradingLimits = React.lazy(() => import('./Settings/TradingLimits'))
+const UpgradeNow = React.lazy(() => import('./Settings/UpgradeNow'))
 const TwoStepGoogleAuthenticator = React.lazy(() => import('./Settings/TwoStepGoogleAuthenticator'))
 const TwoStepSetup = React.lazy(() => import('./Settings/TwoStepSetup'))
 const TwoStepYubico = React.lazy(() => import('./Settings/TwoStepYubico'))
@@ -99,7 +101,7 @@ const FundRecovery = React.lazy(() => import('./FundRecovery'))
 const Interest = React.lazy(() => import('./Interest'))
 const QRCode = React.lazy(() => import('./QRCode'))
 const SignMessage = React.lazy(() => import('./SignMessage'))
-const SimpleBuy = React.lazy(() => import('./SimpleBuy'))
+const BuySell = React.lazy(() => import('./BuySell'))
 const Swap = React.lazy(() => import('./Swap'))
 const Trade = React.lazy(() => import('./Trade'))
 const RecurringBuys = React.lazy(() => import('./RecurringBuys'))
@@ -156,9 +158,6 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.BANK_DEPOSIT_MODAL) ? (
           <Deposit />
         ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.BANK_DEPOSIT_MODAL) ? (
-          <Deposit />
-        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.TRANSACTION_REPORT_MODAL) ? (
           <DownloadTransactions />
         ) : null}
@@ -168,20 +167,11 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.FUND_RECOVERY_MODAL) ? (
           <FundRecovery />
         ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.KYC_MODAL) ? (
-          <IdentityVerification />
-        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.IMPORT_BTC_ADDRESS_MODAL) ? (
           <ImportBtcAddress />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.INTEREST_MODAL) ? (
           <Interest />
-        ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.KYC_RESUBMIT_MODAL) ? (
-          <KycDocResubmit />
-        ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.KYC_TIER_UPGRADE_MODAL) ? (
-          <KycTierUpgrade />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.LINK_FROM_EXCHANGE_ACCOUNT_MODAL) ? (
           <LinkFromExchangeAccount disableOutsideClose />
@@ -264,7 +254,7 @@ const Modals = (props: Props) => {
           <SignMessage />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.SIMPLE_BUY_MODAL) ? (
-          <SimpleBuy />
+          <BuySell />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.SUPPORT_MODAL) ? <Support /> : null}
         {props.modals.find((modal) => modal.type === ModalName.SWAP_MODAL) ? <Swap /> : null}
@@ -274,6 +264,9 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.TRADING_LIMITS_MODAL) ? (
           <TradingLimits />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.UPGRADE_NOW_MODAL) ? (
+          <UpgradeNow />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.TWO_STEP_GOOGLE_AUTH_MODAL) ? (
           <TwoStepGoogleAuthenticator />
@@ -296,6 +289,9 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.VERIFY_MESSAGE_MODAL) ? (
           <VerifyMessage />
         ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.WALLET_CONNECT_MODAL) ? (
+          <WalletConnect />
+        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.WELCOME_MODAL) ? <Welcome /> : null}
         {props.modals.find((modal) => modal.type === ModalName.CUSTODY_WITHDRAW_MODAL) ? (
           <Withdraw />
@@ -310,6 +306,15 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.MOBILE_NAV) ? <MobileNav /> : null}
         {props.modals.find((modal) => modal.type === ModalName.NFT_ORDER) ? <NftOrder /> : null}
+        {props.modals.find((modal) => modal.type === ModalName.KYC_MODAL) ? (
+          <IdentityVerification />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.KYC_RESUBMIT_MODAL) ? (
+          <KycDocResubmit />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.KYC_TIER_UPGRADE_MODAL) ? (
+          <KycTierUpgrade />
+        ) : null}
         {/* This should always be loaded */}
         <NewVersionAvailable disableOutsideClose />
       </>

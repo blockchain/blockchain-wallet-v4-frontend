@@ -1,15 +1,18 @@
 import React, { ReactNode } from 'react'
 import { ModalPropsType } from 'blockchain-wallet-v4-frontend/src/modals/types'
 import { AnimatePresence, motion } from 'framer-motion'
+import { equals } from 'ramda'
 import styled from 'styled-components'
 
 import { Modal, Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
+import BuySellLimitReached from './Brokerage/BuySellLimitReached'
 // Brokerage specific flyout screens
 import EnterAmount from './Brokerage/EnterAmount'
 import OnHold from './Brokerage/OnHold'
 import OrderSummary from './Brokerage/OrderSummary'
+import Trade from './Brokerage/Trade'
 // Flyout layout base components
 import FlyoutContainer from './Container'
 import FlyoutContent from './Content'
@@ -31,6 +34,7 @@ import FlyoutSubHeader from './SubHeader'
 
 export {
   AdditionalInformation,
+  BuySellLimitReached,
   EnterAmount,
   FlyoutContainer,
   FlyoutContent,
@@ -45,6 +49,7 @@ export {
   RecurringBuyDetails,
   RecurringBuyGettingStarted,
   RecurringBuyRemoveConfirm,
+  Trade,
   UploadAndVerify,
   Uploaded
 }
@@ -56,7 +61,7 @@ export const width = 480
 const AnimatedModal = motion(Modal)
 
 const FlyoutModal = styled(AnimatedModal)`
-  border-radius: 0px;
+  border-radius: 0;
   overflow: auto;
   position: absolute;
   top: 0;
@@ -154,28 +159,34 @@ export const StickyHeaderFlyoutWrapper = styled(FlyoutWrapper)`
   z-index: 99;
 `
 
-const Flyout = ({ children, isOpen, ...props }: Props) => {
-  return (
-    <AnimatePresence>
-      {isOpen && !props.userClickedOutside ? (
-        <FlyoutModal
-          transition={{
-            bounce: 0,
-            type: 'spring'
-          }}
-          initial={{ x: width }}
-          animate={{ x: 0 }}
-          exit={{ x: width }}
-          {...props}
-        >
-          <FlyoutChildren>
-            {/* Each child must be wrapped in FlyoutChild for transitioning to work */}
-            {children}
-          </FlyoutChildren>
-        </FlyoutModal>
-      ) : null}
-    </AnimatePresence>
-  )
+class Flyout extends React.Component<Props> {
+  shouldComponentUpdate = (nextProps) => !equals(this.props, nextProps)
+
+  render() {
+    const { children, isOpen, userClickedOutside } = this.props
+
+    return (
+      <AnimatePresence>
+        {isOpen && !userClickedOutside ? (
+          <FlyoutModal
+            animate={{ x: 0 }}
+            exit={{ x: width }}
+            initial={{ x: width }}
+            transition={{
+              bounce: 0,
+              duration: 1,
+              type: 'spring'
+            }}
+          >
+            <FlyoutChildren>
+              {/* Each child must be wrapped in FlyoutChild for transitioning to work */}
+              {children}
+            </FlyoutChildren>
+          </FlyoutModal>
+        ) : null}
+      </AnimatePresence>
+    )
+  }
 }
 
 type Props = Omit<ModalPropsType, 'close'> & {

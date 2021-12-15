@@ -211,12 +211,14 @@ export const _transformTx = (wallet, accountList, txNotes, tx) => {
   const inputTagger = compose(tagCoin(wallet, accountList), unpackInput)
   const outputTagger = tagCoin(wallet, accountList)
   const [oData, outs] = mapAccum(appender(outputTagger), init, prop('out', tx))
+  // eslint-disable-next-line prefer-const
   let [inputData, inputs] = ifElse(
     compose(isCoinBase, prop('inputs')),
     always([CoinBaseData(oData.total), [CoinbaseCoin(oData.total)]]),
     (t) => mapAccum(appender(inputTagger), init, prop('inputs', t))
   )(tx)
 
+  // eslint-disable-next-line prefer-const
   let [outputData, outputs] = findLegacyChanges(inputs, inputData, outs, oData)
 
   if (any(isDust, inputs) && any(isDust, outputs)) {

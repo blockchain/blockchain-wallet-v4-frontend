@@ -26,7 +26,6 @@ const Iframe = styled.iframe<{ widgetOpen: State['widgetOpen'] }>`
 class SupportChat extends React.PureComponent<LinkStatePropsType, State> {
   state = {
     chatEnabled: false,
-    intervalStarted: false,
     widgetOpen: false
   }
 
@@ -46,6 +45,7 @@ class SupportChat extends React.PureComponent<LinkStatePropsType, State> {
 
   postMsgToWalletHelper = (methodName, data) => {
     const zendeskIframe = document.getElementById('zendesk-iframe') as HTMLIFrameElement
+    let intervalStarted = false
 
     const waitForFrameLoad = () => {
       // eslint-disable-next-line @typescript-eslint/no-this-alias
@@ -61,9 +61,10 @@ class SupportChat extends React.PureComponent<LinkStatePropsType, State> {
     }
 
     // ensure iframe is loaded before sending message
-    if (zendeskIframe?.contentWindow && !this.state.intervalStarted) {
+    if (zendeskIframe?.contentWindow && !intervalStarted) {
       // component renders many times, ensure we only start one poll for the connection
-      this.setState({ intervalStarted: true })
+      // eslint-disable-next-line
+      intervalStarted = true
       waitForFrameLoad()
     }
   }
@@ -115,7 +116,6 @@ type LinkStatePropsType = {
 }
 type State = {
   chatEnabled: boolean
-  intervalStarted: boolean
   widgetOpen: boolean
 }
 

@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { Icon, Link, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 import { RecoverSteps } from 'data/types'
+import { media } from 'services/styles'
 
 import { Props } from '..'
 import { BackArrowFormHeader, CircleBackground, GoBackArrow } from '../model'
@@ -27,6 +28,9 @@ const IconTextRow = styled.div`
 `
 const RecoveryOptionRow = styled(IconTextRow)<{ hasCloudBackup?: boolean }>`
   cursor: ${(props) => (props.hasCloudBackup ? 'pointer' : 'not-allowed')};
+  ${media.mobile`
+  margin-bottom: 16px;
+  `}
 `
 
 const TextStack = styled.div`
@@ -49,17 +53,17 @@ const RecoveryOptions = (props: Props) => {
   const cloudRecoveryClicked = () => {
     if (hasCloudBackup) {
       formActions.change('recover', 'step', RecoverSteps.CLOUD_RECOVERY)
-      authActions.recoveryOptionSelected('CLOUD_BACKUP')
+      authActions.analyticsRecoveryOptionSelected('CLOUD_BACKUP')
     }
   }
   const recoveryPhraseClicked = () => {
     formActions.change('recover', 'step', RecoverSteps.RECOVERY_PHRASE)
-    authActions.recoveryOptionSelected('RECOVERY_PHRASE')
+    authActions.analyticsRecoveryOptionSelected('RECOVERY_PHRASE')
   }
 
   const resetAccountClicked = () => {
     formActions.change('recover', 'step', RecoverSteps.RESET_ACCOUNT)
-    authActions.resetAccountClicked('RECOVERY_OPTIONS')
+    authActions.analyticsResetAccountClicked('RECOVERY_OPTIONS')
   }
   return (
     <Wrapper>

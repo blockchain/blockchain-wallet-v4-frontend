@@ -4,16 +4,16 @@ import styled, { css } from 'styled-components'
 
 import { BeneficiaryType, FiatType, NabuSymbolNumberType } from '@core/types'
 import { Icon, Image } from 'blockchain-info-components'
-import { GreyCartridge, OrangeCartridge, SuccessCartridge } from 'components/Cartridge'
-import CoinDisplay from 'components/Display/CoinDisplay'
-import { Col, Title, Value } from 'components/Flyout'
 import {
   Content,
   DisplayContainer,
   DisplayIcon,
   DisplayPaymentIcon,
   MultiRowContainer
-} from 'components/SimpleBuy'
+} from 'components/BuySell'
+import { GreyCartridge, OrangeCartridge, SuccessCartridge } from 'components/Cartridge'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import { Col, Title, Value } from 'components/Flyout'
 import { BankDetails } from 'data/types'
 import { formatTextAmount } from 'services/forms'
 

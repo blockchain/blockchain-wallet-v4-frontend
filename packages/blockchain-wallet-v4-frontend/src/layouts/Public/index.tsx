@@ -1,11 +1,10 @@
 import React, { ComponentType } from 'react'
-import { connect } from 'react-redux'
+import { connect, ConnectedProps } from 'react-redux'
 import { Route } from 'react-router-dom'
-import { formValueSelector } from 'redux-form'
 import styled, { css } from 'styled-components'
 
 import Alerts from 'components/Alerts'
-import { LoginSteps } from 'data/types'
+import { selectors } from 'data'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { media } from 'services/styles'
 
@@ -27,8 +26,9 @@ const FooterContainer = styled.div`
   `}
 `
 
-const Wrapper = styled.div`
-  background-color: ${(props) => props.theme.grey900};
+const Wrapper = styled.div<{ authProduct?: string }>`
+  background-color: ${(props) =>
+    props.authProduct === 'EXCHANGE' ? props.theme.exchangeLogin : props.theme.grey900};
   height: auto;
   min-height: 100%;
   width: 100%;
@@ -64,25 +64,27 @@ const ContentContainer = styled.div<{ isLogin?: boolean }>`
     `}
 `
 
-const PublicLayoutContainer = ({ component: Component, exact = false, loginStep, path }: Props) => {
+const PublicLayoutContainer = ({
+  authProduct,
+  component: Component,
+  exact = false,
+  path
+}: Props) => {
   const isLogin = path === '/login'
-  const isFirstLoginStep = isLogin && loginStep === LoginSteps.ENTER_EMAIL_GUID
-  const isSecondLoginStep =
-    isLogin &&
-    (loginStep === LoginSteps.VERIFICATION_MOBILE || loginStep === LoginSteps.ENTER_PASSWORD)
+
   return (
     <Route
       path={path}
       exact={exact}
       render={(matchProps) => (
         <ErrorBoundary>
-          <Wrapper>
+          <Wrapper authProduct={authProduct}>
             {/* TODO: STILL NEEDS DEV/QA */}
             {/* <AndroidAppBanner /> */}
             <Alerts />
 
             <HeaderContainer>
-              <Header />
+              <Header authProduct={authProduct} />
             </HeaderContainer>
 
             <Modals />
@@ -91,7 +93,7 @@ const PublicLayoutContainer = ({ component: Component, exact = false, loginStep,
             </ContentContainer>
 
             <FooterContainer>
-              <Footer isFirstLoginStep={isFirstLoginStep} isSecondLoginStep={isSecondLoginStep} />
+              <Footer authProduct={authProduct} />
             </FooterContainer>
           </Wrapper>
         </ErrorBoundary>
@@ -100,17 +102,16 @@ const PublicLayoutContainer = ({ component: Component, exact = false, loginStep,
   )
 }
 
-type Props = {
-  component: ComponentType<any>
-  exact?: boolean
-  loginStep: LoginSteps
-  path: string
-}
-
 const mapStateToProps = (state) => ({
-  loginStep: formValueSelector('login')(state, 'step')
+  authProduct: selectors.auth.getProduct(state)
 })
 
 const connector = connect(mapStateToProps)
+
+type Props = ConnectedProps<typeof connector> & {
+  component: ComponentType<any>
+  exact?: boolean
+  path: string
+}
 
 export default connector(PublicLayoutContainer)

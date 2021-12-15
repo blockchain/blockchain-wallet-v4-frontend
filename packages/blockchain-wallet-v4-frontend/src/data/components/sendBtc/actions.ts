@@ -1,5 +1,10 @@
-import { CoinType, PaymentValue, WalletAcountType, WalletFiatType } from '@core/types'
-import { SeamlessLimits } from 'data/types'
+import {
+  CoinType,
+  CrossBorderLimits,
+  PaymentValue,
+  WalletAccountType,
+  WalletFiatType
+} from '@core/types'
 
 import * as AT from './actionTypes'
 
@@ -68,9 +73,9 @@ export const sendBtcBitPayInvoiceExpired = () => ({
 
 export const sendBtcFetchLimits = (
   inputCurrency: CoinType,
-  fromAccount: WalletAcountType,
+  fromAccount: WalletAccountType,
   outputCurrency: CoinType,
-  toAccount: WalletAcountType,
+  toAccount: WalletAccountType,
   currency?: WalletFiatType
 ) => ({
   payload: {
@@ -91,7 +96,7 @@ export const sendBtcFetchLimitsFailure = (error: string) => ({
 export const sendBtcFetchLimitsLoading = () => ({
   type: AT.SEND_BTC_FETCH_LIMITS_LOADING
 })
-export const sendBtcFetchLimitsSuccess = (limitsResponse: SeamlessLimits) => ({
+export const sendBtcFetchLimitsSuccess = (limitsResponse: CrossBorderLimits) => ({
   payload: limitsResponse,
   type: AT.SEND_BTC_FETCH_LIMITS_SUCCESS
 })

@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 import { convertCoinToFiat } from '@core/exchange'
 import { coinToString } from '@core/exchange/utils'
-import { FiatType, PaymentValue, RatesType, RemoteDataType, SwapQuoteType } from '@core/types'
+import { FiatType, PaymentValue, RatesType, RemoteDataType, SwapQuoteStateType } from '@core/types'
 import { Icon, Link, SkeletonRectangle, Text, TextGroup } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Row, Title, Value } from 'components/Flyout'
@@ -288,9 +288,7 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
     .getRatesSelector(ownProps.counter.coin, state)
     .getOrElse({} as RatesType),
   paymentR: selectors.components.swap.getPayment(state).getOrElse({} as PaymentValue),
-  quoteR: selectors.components.swap
-    .getQuote(state)
-    .getOrElse({} as { quote: SwapQuoteType; rate: number }),
+  quoteR: selectors.components.swap.getQuote(state).getOrElse({} as SwapQuoteStateType),
   walletCurrency: selectors.core.settings.getCurrency(state).getOrElse('USD') as FiatType
 })
 

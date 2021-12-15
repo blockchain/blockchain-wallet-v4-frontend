@@ -40,6 +40,7 @@ export default ({ api, socket }) => {
     }
 
     yield put(actions.auth.secureChannelLoginLoading())
+    yield put(actions.alerts.displayInfo(T.MOBILE_LOGIN_CONFIRM))
     yield put(actions.core.data.misc.sendSecureChannelMessage(payload))
   }
 
@@ -63,6 +64,17 @@ export default ({ api, socket }) => {
         param: { channelId }
       })
     )
+    // Also, if we already know a phone, let's ping it to give us it's secrets
+    const phonePubkey = yield select(selectors.cache.getPhonePubkey)
+    const guid = yield select(selectors.cache.getLastGuid)
+    const lastLogoutTime = yield select(selectors.cache.getLastLogoutTimestamp)
+
+    // only ping phone if last logout time is more than 5 minutes
+    // prevents pinging phone again right when user logs out
+    const pingPhoneOnLoad = Date.now() - lastLogoutTime > 300000
+    if (phonePubkey && guid && pingPhoneOnLoad) {
+      yield pingPhone(channelId, secretHex, phonePubkey, guid)
+    }
   }
 
   const onAuth = function* () {
@@ -276,6 +288,7 @@ export default ({ api, socket }) => {
             if (!payload.success) {
               yield put(actions.cache.channelPhoneConnected(undefined))
               yield put(actions.auth.secureChannelLoginFailure('Phone declined'))
+              yield put(actions.alerts.displayError(T.MOBILE_LOGIN_DECLINED))
               return
             }
 
@@ -296,8 +309,8 @@ export default ({ api, socket }) => {
               if (decrypted.remember) {
                 yield put(actions.cache.channelPhoneConnected(pubkey.toString('hex')))
               }
-
               yield put(actions.auth.secureChannelLoginSuccess())
+              yield put(actions.alerts.displaySuccess(T.MOBILE_LOGIN_SUCCESS))
               yield put(actions.form.change('login', 'guid', decrypted.guid))
               yield put(actions.form.change('login', 'password', decrypted.password))
               yield put(actions.form.startSubmit('login'))

@@ -53,7 +53,7 @@ class Add extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
-  fiatCurrency: selectors.components.simpleBuy.getFiatCurrency(state) || 'USD'
+  fiatCurrency: selectors.components.buySell.getFiatCurrency(state) || 'USD'
 })
 
 const mapDispatchToProps = (dispatch: Dispatch): LinkDispatchPropsType => ({

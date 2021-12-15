@@ -14,11 +14,39 @@ const getQuantity = (amt, coin) => {
   })
 }
 
+const MissedCampaign = ({ campaign }) => {
+  // filter out non-airdrops
+  if (campaign.campaignName === 'MONETARY_INCENTIVE' || campaign.campaignName === 'MIAMI_2021') {
+    return null
+  }
+  // no campaign transactions but show some info anyway
+  return (
+    <TableRow>
+      <TableCell width='18%'>
+        <Type {...campaign} />
+      </TableCell>
+      <TableCell width='18%'>
+        <Status {...campaign} />
+      </TableCell>
+      <TableCell width='18%'>
+        <Text size='14px' weight={500}>
+          -
+        </Text>
+      </TableCell>
+      <TableCell width='18%'>
+        <To {...campaign} />
+      </TableCell>
+      <TableCell width='28%'>
+        <Text>-</Text>
+      </TableCell>
+    </TableRow>
+  )
+}
+
 export default function Success({ userCampaignsInfoResponseList }: Props) {
   const completedCampaigns = userCampaignsInfoResponseList.filter(
     (campaign) => campaign.campaignState === 'ENDED'
   )
-
   return (
     <div style={{ minWidth: '500px', paddingBottom: '45px' }}>
       <Table style={{ minWidth: '500px' }}>
@@ -54,7 +82,7 @@ export default function Success({ userCampaignsInfoResponseList }: Props) {
             // User has campaign transactions
             campaign.userCampaignTransactionResponseList.map((campaignTransaction) => {
               return (
-                <TableRow>
+                <TableRow key={campaignTransaction.withdrawalCurrency}>
                   <TableCell width='18%'>
                     <Type {...campaign} />
                   </TableCell>
@@ -86,26 +114,7 @@ export default function Success({ userCampaignsInfoResponseList }: Props) {
               )
             })
           ) : (
-            // No campaign transactions but show some info anyway
-            <TableRow>
-              <TableCell width='18%'>
-                <Type {...campaign} />
-              </TableCell>
-              <TableCell width='18%'>
-                <Status {...campaign} />
-              </TableCell>
-              <TableCell width='18%'>
-                <Text size='14px' weight={500}>
-                  -
-                </Text>
-              </TableCell>
-              <TableCell width='18%'>
-                <To {...campaign} />
-              </TableCell>
-              <TableCell width='28%'>
-                <Text>-</Text>
-              </TableCell>
-            </TableRow>
+            <MissedCampaign campaign={campaign} />
           )
         })}
       </Table>

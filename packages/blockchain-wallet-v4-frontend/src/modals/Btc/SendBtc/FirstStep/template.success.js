@@ -236,6 +236,7 @@ const FirstStep = (props) => {
             ]}
             coin='BTC'
             data-e2e='sendBtc'
+            errorBottom
             disabled={isPayPro}
             marginTop='8px'
           />

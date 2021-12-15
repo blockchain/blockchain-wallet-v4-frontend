@@ -1,9 +1,9 @@
 import BigNumber from 'bignumber.js'
 
 import { Exchange } from '@core'
-import { PaymentValue, RatesType, SwapQuoteType, SwapUserLimitsType } from '@core/types'
+import { PaymentValue, RatesType, SwapQuoteStateType, SwapUserLimitsType } from '@core/types'
 import { convertBaseToStandard, convertStandardToBase } from 'data/components/exchange/services'
-import { SwapAccountType, SwapAmountFormValues } from 'data/types'
+import { BSCheckoutFormValuesType, SwapAccountType, SwapAmountFormValues } from 'data/types'
 import { CRYPTO_DECIMALS } from 'services/forms'
 
 import { Props } from '.'
@@ -13,7 +13,7 @@ export const getMaxMin = (
   limits: SwapUserLimitsType,
   baseRate: RatesType,
   payment: undefined | PaymentValue,
-  quote: { quote: SwapQuoteType; rate: number },
+  quote: SwapQuoteStateType,
   BASE: SwapAccountType,
   COUNTER: SwapAccountType
 ) => {
@@ -117,4 +117,21 @@ export const maximumAmountSilver = (restProps: Props, amtError: string | boolean
 export const incomingAmountNonZero = (value, allValues, restProps: Props) => {
   const { incomingAmount } = restProps
   return incomingAmount.isNegative ? 'NEGATIVE_INCOMING_AMT' : false
+}
+
+export const checkCrossBorderLimit = (
+  value: string,
+  allValues: BSCheckoutFormValuesType,
+  props: Props
+): boolean | string => {
+  const { crossBorderLimits } = props
+
+  if (!crossBorderLimits?.current) {
+    return false
+  }
+
+  const { value: availableAmount } = crossBorderLimits?.current?.available
+  const availableAmountInBase = convertBaseToStandard('FIAT', availableAmount)
+
+  return Number(value) > Number(availableAmountInBase) ? 'ABOVE_MAX_LIMIT' : false
 }
