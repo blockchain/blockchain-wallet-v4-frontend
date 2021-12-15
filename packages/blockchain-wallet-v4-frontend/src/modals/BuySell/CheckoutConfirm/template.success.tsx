@@ -330,7 +330,14 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
             <TopRow>
               <RowIcon>
                 <RowText>
-                  <FormattedMessage id='copy.card_fee' defaultMessage='Card Fee' />
+                  {props.isFlexiblePricingModel ? (
+                    <FormattedMessage
+                      id='copy.blockchain_fee'
+                      defaultMessage='Blockchain.com Fee'
+                    />
+                  ) : (
+                    <FormattedMessage id='copy.card_fee' defaultMessage='Card Fee' />
+                  )}
                 </RowText>
                 <IconWrapper>
                   <Icon
