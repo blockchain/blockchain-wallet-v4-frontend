@@ -46,9 +46,9 @@ const PrimaryNavItems = [
     text: <FormattedMessage id='layouts.wallet.menuleft.navigation.nfts' defaultMessage='NFTs' />
   },
   {
-    dest: '/daaps',
-    e2e: 'daapsLink',
-    text: <FormattedMessage id='copy.daaps' defaultMessage='Daaps' />
+    dest: '/dapps',
+    e2e: 'dappsLink',
+    text: <FormattedMessage id='copy.dapps' defaultMessage='Dapps' />
   }
 ]
 

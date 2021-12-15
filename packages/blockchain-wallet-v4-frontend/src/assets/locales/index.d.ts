@@ -547,7 +547,6 @@ type MessagesType = {
   'copy.available_to_trade': 'Available to Trade'
   'copy.wallet_funds': 'Wallet Funds'
   'copy.day': '1D'
-  'copy.daaps': 'Daaps'
   'copy.month': '1M'
   'copy.wallet': 'Wallet'
   'copy.week': '1W'

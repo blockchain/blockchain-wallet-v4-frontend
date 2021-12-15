@@ -55,7 +55,7 @@ const Header = (props: OwnProps) => {
     }
   ]
 
-  if (props.featureFlags.nfts) {
+  if (props.invitations.nfts) {
     PrimaryNavItems.push({
       dest: '/nfts',
       e2e: 'nftsLink',
@@ -63,11 +63,13 @@ const Header = (props: OwnProps) => {
     })
   }
 
-  if (props.featureFlags.daaps) {
+  if (props.walletConnectEnabled) {
     PrimaryNavItems.push({
-      dest: '/daaps',
-      e2e: 'daapsLink',
-      text: <FormattedMessage id='copy.daaps' defaultMessage='Daaps' />
+      dest: '/dapps',
+      e2e: 'dappsLink',
+      text: (
+        <FormattedMessage id='layouts.wallet.menuleft.navigation.dapps' defaultMessage='Dapps' />
+      )
     })
   }
 
