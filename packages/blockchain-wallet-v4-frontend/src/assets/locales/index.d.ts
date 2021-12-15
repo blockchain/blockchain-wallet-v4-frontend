@@ -790,16 +790,12 @@ type MessagesType = {
   'modal.createaccountlearn.info3': "You can read more information about Stellar's minimum balance requirement at"
   'modal.createaccountlearn.link': 'Stellar.org'
   'modal.createaccountlearn.title': 'Stellar mimimum balance requirement.'
-
   'modal.complete_profile.note': 'Your steps towards owning the future.'
-  'modal.complete_profile.finish_settings': 'Finish setting up your Blockchian.com account and start buying crypto today.'
-
+  'modal.complete_profile.finish_settings': 'Finish setting up your Blockchain.com account and start buying crypto today.'
   'modal.complete_profile.verify_your_id': 'Verify Your ID'
   'modal.complete_profile.link_a_bank': 'Link a Bank or Card'
   'modal.complete_profile.minutes': '{time} Minutes'
   'modal.complete_profile.seconds': '{time} Seconds'
-
-
   'modal.deleteaddresslabel.delete': 'Delete Label'
   'modal.deleteaddresslabel.message': 'Removing a label does not delete this address, you can still safely receive funds to it. This action cannot be undone.'
   'modal.deleteaddresslabel.title': 'Remove Label?'
