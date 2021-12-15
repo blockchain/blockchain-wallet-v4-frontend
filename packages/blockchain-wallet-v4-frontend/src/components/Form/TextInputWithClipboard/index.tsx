@@ -31,7 +31,7 @@ const IconWrapper = styled.div`
   align-items: center;
 `
 
-const TextInputWithCopyToClipboard: React.FC<Props> = ({ value }) => {
+const TextInputWithClipboard: React.FC<Props> = ({ value }) => {
   return (
     <Wrapper>
       <StyledInput disabled value={value} />
@@ -46,4 +46,4 @@ type Props = {
   value: string
 }
 
-export default TextInputWithCopyToClipboard
+export default TextInputWithClipboard
