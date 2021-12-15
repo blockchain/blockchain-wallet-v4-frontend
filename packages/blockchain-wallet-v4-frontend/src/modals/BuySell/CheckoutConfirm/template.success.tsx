@@ -324,6 +324,26 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
           </RowTextWrapper>
         </RowText>
       </RowItem>
+      {props.isFlexiblePricingModel ? (
+        <RowItem>
+          <RowText>
+            <FormattedMessage id='modals.simplebuy.confirm.purchase' defaultMessage='Purchase' />
+          </RowText>
+          <RowText>
+            <RowTextWrapper data-e2e='sbFee'>
+              {props.order.fee
+                ? displayFiat(
+                    props.order,
+                    (parseInt(props.order.inputQuantity) - parseInt(props.order.fee)).toString()
+                  )
+                : `${displayFiat(
+                    props.order,
+                    (parseInt(props.order.inputQuantity) - parseInt(props.quote.fee)).toString()
+                  )} ${props.order.inputCurrency}`}
+            </RowTextWrapper>
+          </RowText>
+        </RowItem>
+      ) : null}
       {isCardPayment && (
         <RowItem>
           <RowItemContainer>

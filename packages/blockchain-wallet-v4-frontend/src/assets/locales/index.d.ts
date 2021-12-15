@@ -1572,6 +1572,7 @@ type MessagesType = {
   'modals.simplebuy.confirm.activity_accept_terms1': 'I agree to Blockchain’s <a>Terms of Service</a> and its return, refund and cancellation policy.'
   'modals.simplebuy.confirm.funds_wallet': '{coin} Wallet'
   'modals.simplebuy.confirm.payment_card': 'Credit Card'
+  'modals.simplebuy.confirm.purchase': 'Purchase'
   'modals.simplebuy.confirm.buynow': 'Buy Now'
   'modals.simplebuy.confirm.credit_or_debit': 'Credit or Debit Card'
   'modals.simplebuy.confirm.jump_to_payment': 'Add Payment Method'
