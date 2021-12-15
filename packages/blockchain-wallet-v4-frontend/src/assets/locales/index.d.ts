@@ -1538,7 +1538,7 @@ type MessagesType = {
   'modals.simplebuy.card_creation_failed': 'We could not save your card. Please contact support.'
   'modals.simplebuy.card_number': 'Card Number'
   'modals.simplebuy.paying_with_card': 'Blockchain.com requires a fee when paying with a card.'
-  'modals.simplebuy.flexible_pricing': 'This fee price is based on trade size, payment method and asset being purchased on Blockchain.com'
+  'modals.simplebuy.flexible_pricing': 'This fee is based on trade size, payment method and asset being purchased on Blockchain.com'
   'modals.simplebuy.card_pending_after_poll': 'We waited one minute and did not receive an update from our card provider. Your card may still be approved later. Please contact support if you have any questions.'
   'modals.simplebuy.cc_info_received': 'Waiting for information from your bank...'
   'modals.simplebuy.change_billing_address': 'Change Billing Address'
