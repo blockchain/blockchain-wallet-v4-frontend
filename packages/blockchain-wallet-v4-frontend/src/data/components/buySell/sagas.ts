@@ -280,7 +280,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       if (isFlexiblePricingModel) {
         buyQuote = S.getBuyQuote(yield select()).getOrFail(NO_QUOTE)
-        if (!buyQuote) throw new Error(NO_QUOTE)
       }
       const pair = S.getBSPair(yield select())
 
