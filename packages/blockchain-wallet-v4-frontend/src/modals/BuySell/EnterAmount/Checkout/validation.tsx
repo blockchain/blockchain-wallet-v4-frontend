@@ -10,10 +10,10 @@ import {
   BSPaymentMethodType,
   BSPaymentTypes,
   BSQuoteType,
-  BuyQuoteType,
+  BuyQuoteStateType,
   OrderType,
   PaymentValue,
-  SwapQuoteType,
+  SwapQuoteStateType,
   SwapUserLimitsType
 } from '@core/types'
 import { model } from 'data'
@@ -62,7 +62,7 @@ export const getMaxMinSell = (
   minOrMax: 'min' | 'max',
   sbBalances: BSBalancesType,
   orderType: BSOrderActionType,
-  quote: { quote: SwapQuoteType | BuyQuoteType; rate: number },
+  quote: SwapQuoteStateType,
   pair: BSPairType,
   payment?: PaymentValue,
   allValues?: BSCheckoutFormValuesType,
@@ -110,10 +110,7 @@ export const getMaxMin = (
   minOrMax: 'min' | 'max',
   sbBalances: BSBalancesType,
   orderType: BSOrderActionType,
-  QUOTE:
-    | BSQuoteType
-    | { quote: SwapQuoteType; rate: number }
-    | { pair: string; quote: BuyQuoteType; rate: number },
+  QUOTE: BSQuoteType | SwapQuoteStateType | BuyQuoteStateType,
   pair: BSPairType,
   payment?: PaymentValue,
   allValues?: BSCheckoutFormValuesType,
@@ -123,13 +120,10 @@ export const getMaxMin = (
   sddLimit = LIMIT,
   limits?: SwapUserLimitsType
 ): { CRYPTO: string; FIAT: string } => {
-  let quote:
-    | BSQuoteType
-    | { quote: SwapQuoteType; rate: number }
-    | { pair: string; quote: BuyQuoteType; rate: number }
+  let quote: BSQuoteType | SwapQuoteStateType | BuyQuoteStateType
   switch (orderType as OrderType) {
     case OrderType.BUY:
-      quote = QUOTE as BSQuoteType | { pair: string; quote: BuyQuoteType; rate: number }
+      quote = QUOTE as BSQuoteType | BuyQuoteStateType
       switch (minOrMax) {
         case 'max':
           // we need minimum of all max amounts including limits
@@ -257,7 +251,7 @@ export const getMaxMin = (
           return { CRYPTO: '0', FIAT: '0' }
       }
     case OrderType.SELL:
-      quote = QUOTE as { quote: SwapQuoteType; rate: number }
+      quote = QUOTE as SwapQuoteStateType
       return getMaxMinSell(
         minOrMax,
         sbBalances,

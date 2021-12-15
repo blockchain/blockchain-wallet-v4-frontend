@@ -367,3 +367,5 @@ export type BuyQuoteType = {
   }
   staticFee: null
 }
+
+export type BuyQuoteStateType = { pair: string; quote: BuyQuoteType; rate: number }
