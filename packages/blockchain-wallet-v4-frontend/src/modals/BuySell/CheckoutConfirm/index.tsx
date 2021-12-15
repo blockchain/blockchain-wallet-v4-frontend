@@ -34,7 +34,8 @@ class CheckoutConfirm extends PureComponent<Props> {
         paymentMethod:
           this.props.order.paymentType === undefined
             ? BSPaymentTypes.FUNDS
-            : this.props.order.paymentType
+            : this.props.order.paymentType,
+        paymentMethodId: this.props.order.paymentMethodId
       })
     } else {
       this.props.buySellActions.fetchQuote({

@@ -69,13 +69,7 @@ import {
 import * as S from './selectors'
 import { actions as A } from './slice'
 import * as T from './types'
-import {
-  BANK_TRANSFER_PAYMENT_METHOD_ID,
-  getDirection,
-  getPreferredCurrency,
-  reversePair,
-  setPreferredCurrency
-} from './utils'
+import { getDirection, getPreferredCurrency, reversePair, setPreferredCurrency } from './utils'
 
 export const logLocation = 'components/buySell/sagas'
 
@@ -834,14 +828,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       try {
         yield put(A.fetchBuyQuoteLoading())
 
-        const { amount, pair, paymentMethod } = payload
-        const pairReversed = reversePair(pair)
-        let paymentMethodId: string | undefined
-
         // paymentMethodId is required when profile=SIMPLEBUY and paymentMethod=BANK_TRANSFER
-        if (paymentMethod === BSPaymentTypes.BANK_TRANSFER) {
-          paymentMethodId = BANK_TRANSFER_PAYMENT_METHOD_ID
-        }
+        const { amount, pair, paymentMethod, paymentMethodId } = payload
+        const pairReversed = reversePair(pair)
 
         const quote: ReturnType<typeof api.getBuyQuote> = yield call(
           api.getBuyQuote,
