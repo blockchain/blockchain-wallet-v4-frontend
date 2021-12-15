@@ -359,22 +359,31 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
                 <Text size='12px' weight={500} color='grey600'>
                   <TextGroup inline>
                     <Text size='14px'>
-                      <FormattedMessage
-                        id='modals.simplebuy.paying_with_card'
-                        defaultMessage='Blockchain.com requires a fee when paying with a card.'
-                      />
+                      {props.isFlexiblePricingModel ? (
+                        <FormattedMessage
+                          id='modals.simplebuy.flexible_pricing'
+                          defaultMessage='This Fee price is based on trade size, payment method and asset being purchased on Blockchain.com'
+                        />
+                      ) : (
+                        <FormattedMessage
+                          id='modals.simplebuy.paying_with_card'
+                          defaultMessage='Blockchain.com requires a fee when paying with a card.'
+                        />
+                      )}
                     </Text>
-                    <Link
-                      href='https://support.blockchain.com/hc/en-us/articles/360061672651'
-                      size='14px'
-                      rel='noopener noreferrer'
-                      target='_blank'
-                    >
-                      <FormattedMessage
-                        id='modals.simplebuy.summary.learn_more'
-                        defaultMessage='Learn more'
-                      />
-                    </Link>
+                    {props.isFlexiblePricingModel ? null : (
+                      <Link
+                        href='https://support.blockchain.com/hc/en-us/articles/360061672651'
+                        size='14px'
+                        rel='noopener noreferrer'
+                        target='_blank'
+                      >
+                        <FormattedMessage
+                          id='modals.simplebuy.summary.learn_more'
+                          defaultMessage='Learn more'
+                        />
+                      </Link>
+                    )}
                   </TextGroup>
                 </Text>
               </ToolTipText>
