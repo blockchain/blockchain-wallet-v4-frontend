@@ -14,7 +14,7 @@ import {
   BSPaymentMethodType,
   BSPaymentTypes,
   BSQuoteType,
-  BuyQuoteType,
+  BuyQuoteStateType,
   CoinType,
   CrossBorderLimits,
   CrossBorderLimitsPayload,
@@ -25,7 +25,7 @@ import {
   ProviderDetailsType,
   SDDEligibleType,
   SDDVerifiedType,
-  SwapQuoteType,
+  SwapQuoteStateType,
   SwapUserLimitsType
 } from '@core/types'
 import {
@@ -223,15 +223,7 @@ const buySellSlice = createSlice({
     fetchBuyQuoteLoading: (state) => {
       state.buyQuote = Remote.Loading
     },
-    fetchBuyQuoteSuccess: (
-      state,
-      action: PayloadAction<{
-        fee: string
-        pair: string
-        quote: BuyQuoteType
-        rate: number
-      }>
-    ) => {
+    fetchBuyQuoteSuccess: (state, action: PayloadAction<BuyQuoteStateType>) => {
       state.buyQuote = Remote.Success(action.payload)
     },
     fetchCard: () => {},
@@ -393,13 +385,7 @@ const buySellSlice = createSlice({
     fetchSellQuoteLoading: (state) => {
       state.sellQuote = Remote.Loading
     },
-    fetchSellQuoteSuccess: (
-      state,
-      action: PayloadAction<{
-        quote: SwapQuoteType
-        rate: number
-      }>
-    ) => {
+    fetchSellQuoteSuccess: (state, action: PayloadAction<SwapQuoteStateType>) => {
       state.sellQuote = Remote.Success(action.payload)
     },
     handleBuyMaxAmountClick: (
