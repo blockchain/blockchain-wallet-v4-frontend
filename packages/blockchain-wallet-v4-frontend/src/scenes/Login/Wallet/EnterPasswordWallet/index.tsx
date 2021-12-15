@@ -45,7 +45,7 @@ const FormWrapper = styled(Wrapper)`
   display: flex;
   flex-direction: column;
   z-index: 1;
-  padding: 0 0 32px 0;
+  padding: 0 0 24px 0;
   ${media.mobile`
   padding: 0 0 16px 0;
 `}
@@ -103,13 +103,17 @@ const EnterPasswordWallet = (props: Props) => {
     <OuterWrapper>
       <FormWrapper>
         <TabWrapper>
-          <ProductTab>
+          <ProductTab product={ProductAuthOptions.WALLET}>
             <Image name='wallet-no-background' height='28px' style={{ marginRight: '12px' }} />
             <Text size='20px' weight={600} color='purple600'>
               <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
             </Text>
           </ProductTab>
-          <ProductTab backgroundColor='grey000' onClick={onExchangeTabClick}>
+          <ProductTab
+            backgroundColor='grey000'
+            onClick={onExchangeTabClick}
+            product={ProductAuthOptions.EXCHANGE}
+          >
             <Image name='exchange-grayscale' height='26px' style={{ marginRight: '12px' }} />
             <Text size='20px' weight={600} color='grey400'>
               <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
