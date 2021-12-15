@@ -4,7 +4,7 @@ import { any, equals, map, values } from 'ramda'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { BSOrderActionType, BSPairType, OrderType } from '@core/types'
+import { BSOrderActionType, BSPairType, FiatType, OrderType } from '@core/types'
 import { Icon, Image, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { CoinAccountListOption } from 'components/Form'
@@ -99,7 +99,11 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
 
     // in case of not directly supported fiat currency lend user to select trading currency from list
     const preferredCurrencyFromStorage = getPreferredCurrency()
-    if (this.props.originalFiatCurrency && !preferredCurrencyFromStorage) {
+    if (
+      this.props.originalFiatCurrency &&
+      !preferredCurrencyFromStorage &&
+      this.props.showTradingCurrency
+    ) {
       return this.props.buySellActions.setStep({
         step: 'TRADING_CURRENCY_SELECTOR'
       })
@@ -107,13 +111,15 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
 
     // use preferred currency from local storage if it exists
     const fiatCurrency =
-      (this.props.originalFiatCurrency && preferredCurrencyFromStorage) ||
+      (this.props.originalFiatCurrency &&
+        preferredCurrencyFromStorage &&
+        this.props.showTradingCurrency) ||
       getFiatFromPair(pair.pair)
 
     // default continue to enter amount step
     return this.props.buySellActions.setStep({
       cryptoCurrency: getCoinFromPair(pair.pair),
-      fiatCurrency,
+      fiatCurrency: fiatCurrency as FiatType,
       orderType: this.state.orderType,
       pair,
       step: 'ENTER_AMOUNT'

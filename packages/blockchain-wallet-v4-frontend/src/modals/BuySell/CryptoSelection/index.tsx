@@ -58,7 +58,8 @@ const mapStateToProps = (state: RootState) => ({
   fiatCurrency: selectors.components.buySell.getFiatCurrency(state) || 'USD',
   isFirstLogin: selectors.auth.getFirstLogin(state),
   originalFiatCurrency: selectors.components.buySell.getOriginalFiatCurrency(state),
-  sddTransactionFinished: selectors.components.buySell.getSddTransactionFinished(state)
+  sddTransactionFinished: selectors.components.buySell.getSddTransactionFinished(state),
+  showTradingCurrency: selectors.core.walletOptions.getTradingCurrency(state).getOrElse(false)
 })
 
 export const mapDispatchToProps = (dispatch: Dispatch) => ({
