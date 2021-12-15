@@ -3,7 +3,6 @@ import { FormattedMessage } from 'react-intl'
 import { LinkContainer } from 'react-router-bootstrap'
 import styled from 'styled-components'
 
-import { Product } from '@core/types'
 import {
   Banner,
   Button,
