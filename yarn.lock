@@ -1406,10 +1406,10 @@
     react-popper "1.3.2"
     react-transition-group "2.5.3"
 
-"@blockchain-com/constellation@^0.0.19":
-  version "0.0.19"
-  resolved "https://registry.yarnpkg.com/@blockchain-com/constellation/-/constellation-0.0.19.tgz#6c0b1adcada1aa0e0607edb66f9fefc36a6caffe"
-  integrity sha512-L4vEPGmhe4axPprqJdXlT/0xDpylsOrfBpNZFVGCQpe9CWVqNn/g1AvN+j12U3/BfGilzdK5kGJ4V1F4aVHk+A==
+"@blockchain-com/constellation@^0.0.20":
+  version "0.0.20"
+  resolved "https://registry.yarnpkg.com/@blockchain-com/constellation/-/constellation-0.0.20.tgz#c696573d99800e1a11313f02029b419591a4885e"
+  integrity sha512-qFazaZ+BskIa7ibJReTsqMu5bmqkvAZIEviDyXDcVcYSg9jOkbqJTIZ1DwL1wv9bkOGUFlTxvhY8fN6ph+ozKA==
   dependencies:
     styled-components "^5.3.0"
 
