@@ -362,7 +362,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
                       {props.isFlexiblePricingModel ? (
                         <FormattedMessage
                           id='modals.simplebuy.flexible_pricing'
-                          defaultMessage='This Fee price is based on trade size, payment method and asset being purchased on Blockchain.com'
+                          defaultMessage='This fee price is based on trade size, payment method and asset being purchased on Blockchain.com'
                         />
                       ) : (
                         <FormattedMessage
