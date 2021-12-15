@@ -22,7 +22,7 @@
         "developerMobilePairing": true,
         "mergeAndUpgrade": false,
         "eddInterestFileUpload": true,
-        "flexiblePricingModel": false,
+        "flexiblePricingModel": true,
         "pollForMagicLinkData": true,
         "recurringBuys": true,
         "signupCountry": true,
