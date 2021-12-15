@@ -828,9 +828,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       try {
         yield put(A.fetchBuyQuoteLoading())
 
-        // paymentMethodId is required when profile=SIMPLEBUY and paymentMethod=BANK_TRANSFER
         const { amount, pair, paymentMethod, paymentMethodId } = payload
         const pairReversed = reversePair(pair)
+
+        // paymentMethodId is required when profile=SIMPLEBUY and paymentMethod=BANK_TRANSFER
+        const buyQuotePaymentMethodId =
+          paymentMethod === BSPaymentTypes.BANK_TRANSFER ? paymentMethodId : undefined
 
         const quote: ReturnType<typeof api.getBuyQuote> = yield call(
           api.getBuyQuote,
@@ -838,7 +841,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           'SIMPLEBUY',
           amount,
           paymentMethod,
-          paymentMethodId
+          buyQuotePaymentMethodId
         )
 
         yield put(
