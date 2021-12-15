@@ -2857,7 +2857,7 @@ type MessagesType = {
   'swap.no_holdings.buy_with_bank.title': 'Buy with a Bank Deposit'
   'swap.no_holdings.buy_with_bank.description': 'Send cash directly from your bank. Once received, we’ll use use that balance to buy the crypto of your choice.'
   'swap.no_holdings.receive_another_wallet.title': 'Receive from Another Wallet'
-  'swap.no_holdings.receive_another_wallet.description_1': 'Are you holding crypto on a different wallet? Does a friend want to send you some Bitcoin?'
+  'swap.no_holdings.receive_another_wallet.description_1': 'Are you holding crypto in a different wallet? Does a friend want to send you some Bitcoin?'
   'swap.no_holdings.receive_another_wallet.description_2': 'Copy & paste or share your unique wallet addresses QR codes.'
   'tooltip.comingsoon': 'Coming soon.'
   'tooltip.copied': 'Copied!'

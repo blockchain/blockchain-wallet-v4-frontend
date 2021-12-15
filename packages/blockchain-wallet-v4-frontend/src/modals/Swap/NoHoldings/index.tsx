@@ -177,7 +177,7 @@ const NoHoldings: React.FC<Props> = ({ buySellActions, handleClose, modalActions
             <Text size='12px' lineHeight='150%' weight={500}>
               <FormattedMessage
                 id='swap.no_holdings.receive_another_wallet.description_1'
-                defaultMessage='Are you holding crypto on a different wallet? Does a friend want to send you some Bitcoin?'
+                defaultMessage='Are you holding crypto in a different wallet? Does a friend want to send you some Bitcoin?'
               />
             </Text>
             <Text size='12px' lineHeight='150%' weight={500}>
