@@ -3,6 +3,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { bindActionCreators } from 'redux'
 
+import { InvitationsType } from '@core/types'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
@@ -23,8 +24,12 @@ const mapStateToProps = (state: RootState) => ({
   featureFlags: selectors.core.walletOptions
     .getFeatureFlags(state)
     .getOrElse({} as { [key in string]: boolean }),
+  invitations: selectors.core.settings.getInvitations(state).getOrElse({} as InvitationsType),
   isRedesignEnabled: selectors.core.walletOptions
     .getRedesignEnabled(state)
+    .getOrElse(false) as boolean,
+  walletConnectEnabled: selectors.core.walletOptions
+    .getWalletConnectEnabled(state)
     .getOrElse(false) as boolean
 })
 

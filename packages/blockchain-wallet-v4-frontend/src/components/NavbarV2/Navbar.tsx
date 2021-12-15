@@ -99,6 +99,10 @@ const ListStyles = styled.ul`
 
 const PrimaryNavItems = styled(ListStyles)`
   cursor: pointer;
+
+  & > li {
+    padding: 10px 5px;
+  }
 `
 
 const SecondaryNavItems = styled(ListStyles)`
