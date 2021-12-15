@@ -734,6 +734,9 @@ export type OfferEventsType = {
     asset: NftAsset
     bid_amount: string
     created_date: string
+    from_account: {
+      address: string
+    }
     payment_token: {
       address: string
       decimals: number

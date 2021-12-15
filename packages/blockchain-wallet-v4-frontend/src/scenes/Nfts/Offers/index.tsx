@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 
 import { displayCoinToCoin } from '@core/exchange'
-import { SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, Icon, Link, SpinningLoader, Text } from 'blockchain-info-components'
 import LazyLoadWrapper from 'components/LazyLoadContainer'
 
 import { Props as OwnProps } from '..'
@@ -45,6 +45,12 @@ const Offers: React.FC<Props> = (props) => {
     <LazyLoadContainer onLazyLoad={() => props.nftsActions.fetchNftOffersMade()}>
       {props.offersMade.list.length ? (
         props.offersMade.list.map((offer, i) => {
+          if (
+            offer.from_account.address.toLowerCase() === props.defaultEthAddr.toLowerCase() &&
+            offer.asset.owner.address.toLowerCase() === props.defaultEthAddr.toLowerCase()
+          )
+            return null
+
           return (
             <Row key={i}>
               <Col>
@@ -55,12 +61,26 @@ const Offers: React.FC<Props> = (props) => {
                 />
                 <div>{offer.asset.collection.name}</div>
                 <div>-</div>
-                <div>({offer.asset.name})</div>
+                <div style={{ display: 'flex' }}>
+                  ({offer.asset.name}){' '}
+                  <Link href={offer.asset.permalink} target='_blank' rel='noopener noreferrer'>
+                    <Icon name='open-in-new-tab' />
+                  </Link>
+                </div>
               </Col>
               <Col>
                 <div>
                   {displayCoinToCoin({ coin: offer.payment_token.symbol, value: offer.bid_amount })}
                 </div>
+                {offer.from_account.address.toLowerCase() === props.defaultEthAddr.toLowerCase() ? (
+                  <Button small height='28px' data-e2e='CancelOffer'>
+                    Cancel Offer
+                  </Button>
+                ) : (
+                  <Button small nature='primary' height='28px' data-e2e='AcceptOffer'>
+                    Accept Offer
+                  </Button>
+                )}
               </Col>
             </Row>
           )

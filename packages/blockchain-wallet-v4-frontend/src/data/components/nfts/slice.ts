@@ -77,6 +77,10 @@ const nftsSlice = createSlice({
     cancelListingSuccess: (state) => {
       state.cancelListing = Remote.Success(true)
     },
+    cancelOffer: (
+      state,
+      action: PayloadAction<{ offer: OfferEventsType['asset_events'][0] }>
+    ) => {},
     clearAndRefetchAssets: (state) => {},
     clearAndRefetchOffersMade: (state) => {},
     clearAndRefetchOrders: (state) => {},

@@ -432,6 +432,22 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  // https://etherscan.io/tx/0x4ba256c46b0aff8b9ee4cc2a7d44649bc31f88ebafd99190bc182178c418c64a
+  const cancelOffer = function* (action: ReturnType<typeof A.cancelOffer>) {
+    try {
+      const signer = yield call(getEthSigner)
+      yield put(A.cancelListingLoading())
+      // yield call(cancelNftOffer, action.payload.offer, signer)
+      yield put(A.clearAndRefetchOffersMade())
+      yield put(actions.modals.closeAllModals())
+      yield put(actions.alerts.displaySuccess(`Successfully cancelled offer!`))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(actions.alerts.displayError(error))
+      yield put(A.cancelListingFailure({ error }))
+    }
+  }
+
   const formInitialized = function* (action) {
     if (action.meta.form !== 'nftMarketplace') return
 
@@ -550,6 +566,7 @@ export default ({ api }: { api: APIType }) => {
 
   return {
     cancelListing,
+    cancelOffer,
     clearAndRefetchAssets,
     clearAndRefetchOffersMade,
     clearAndRefetchOrders,
