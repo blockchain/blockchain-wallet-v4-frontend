@@ -69,7 +69,13 @@ import {
 import * as S from './selectors'
 import { actions as A } from './slice'
 import * as T from './types'
-import { getDirection, getPreferredCurrency, reversePair, setPreferredCurrency } from './utils'
+import {
+  BANK_TRANSFER_PAYMENT_METHOD_ID,
+  getDirection,
+  getPreferredCurrency,
+  reversePair,
+  setPreferredCurrency
+} from './utils'
 
 export const logLocation = 'components/buySell/sagas'
 
@@ -832,8 +838,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         const pairReversed = reversePair(pair)
         let paymentMethodId: string | undefined
 
+        // paymentMethodId is required when profile=SIMPLEBUY and paymentMethod=BANK_TRANSFER
         if (paymentMethod === BSPaymentTypes.BANK_TRANSFER) {
-          paymentMethodId = 'd74992e0-a462-4aeb-903e-fc8e9a11bb40'
+          paymentMethodId = BANK_TRANSFER_PAYMENT_METHOD_ID
         }
 
         const quote: ReturnType<typeof api.getBuyQuote> = yield call(

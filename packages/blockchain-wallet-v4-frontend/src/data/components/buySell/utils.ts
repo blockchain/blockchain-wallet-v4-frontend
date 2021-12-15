@@ -35,3 +35,6 @@ export const reversePair = (pair: string) => {
 
   return pairReversed
 }
+
+// paymentMethodId is required when profile=SIMPLEBUY and paymentMethod=BANK_TRANSFER
+export const BANK_TRANSFER_PAYMENT_METHOD_ID = 'd74992e0-a462-4aeb-903e-fc8e9a11bb40'
