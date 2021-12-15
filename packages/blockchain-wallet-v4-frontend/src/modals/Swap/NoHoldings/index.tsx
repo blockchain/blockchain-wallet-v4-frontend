@@ -12,6 +12,16 @@ import { actions } from 'data'
 import { Border, IconBackground, TopText } from '../components'
 import { Props as BaseProps } from '../index'
 
+const IconContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+`
+
 const FlexTopRow = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -86,7 +96,9 @@ const NoHoldings: React.FC<Props> = ({ buySellActions, handleClose, modalActions
       >
         <FlexTopRow>
           <IconBackground size='32px' style={{ marginRight: '16px' }}>
-            <Icon size='16px' color='blue600' name='credit-card-sb' />
+            <IconContainer>
+              <Icon size='16px' color='blue600' name='credit-card-sb' />
+            </IconContainer>
           </IconBackground>
           <div>
             <Text color='grey900' size='14px' weight={600} lineHeight='150%'>
@@ -119,9 +131,9 @@ const NoHoldings: React.FC<Props> = ({ buySellActions, handleClose, modalActions
       >
         <FlexTopRow>
           <IconBackground size='32px' style={{ marginRight: '16px' }}>
-            <Text color='blue600' size='20px' weight={600}>
+            <IconContainer>
               <Icon size='16px' color='blue600' name='bank-filled' />
-            </Text>
+            </IconContainer>
           </IconBackground>
           <div>
             <Text color='grey900' size='14px' weight={600} lineHeight='150%'>
@@ -151,9 +163,9 @@ const NoHoldings: React.FC<Props> = ({ buySellActions, handleClose, modalActions
       >
         <FlexTopRow>
           <IconBackground size='32px' style={{ marginRight: '16px' }}>
-            <Text color='blue600' size='20px' weight={600}>
+            <IconContainer>
               <Icon size='16px' color='blue600' name='qr-code' />
-            </Text>
+            </IconContainer>
           </IconBackground>
           <div>
             <Text color='grey900' size='14px' weight={600} lineHeight='150%'>
@@ -164,8 +176,14 @@ const NoHoldings: React.FC<Props> = ({ buySellActions, handleClose, modalActions
             </Text>
             <Text size='12px' lineHeight='150%' weight={500}>
               <FormattedMessage
-                id='swap.no_holdings.receive_another_wallet.description'
-                defaultMessage='Are you holding crypto on a different wallet? Does a friend want to send you some Bitcoin? Copy & paste or share your unique wallet addresses QR codes.'
+                id='swap.no_holdings.receive_another_wallet.description_1'
+                defaultMessage='Are you holding crypto on a different wallet? Does a friend want to send you some Bitcoin?'
+              />
+            </Text>
+            <Text size='12px' lineHeight='150%' weight={500}>
+              <FormattedMessage
+                id='swap.no_holdings.receive_another_wallet.description_2'
+                defaultMessage='Copy & paste or share your unique wallet addresses QR codes.'
               />
             </Text>
           </div>
