@@ -19,7 +19,7 @@ const FormBody = styled.div`
 const LoginWrapper = styled(Wrapper)`
   display: flex;
   flex-direction: column;
-  padding: 32px 0;
+  padding: 32px 0 24px;
   ${media.mobile`
   padding: 16px 0;
 `}

@@ -22,7 +22,7 @@ import {
 } from '../../model'
 
 const LoginWrapper = styled(Wrapper)`
-  padding: 32px 0;
+  padding: 32px 0 24px;
 `
 const TwoFAExchange = (props: Props) => {
   const {
