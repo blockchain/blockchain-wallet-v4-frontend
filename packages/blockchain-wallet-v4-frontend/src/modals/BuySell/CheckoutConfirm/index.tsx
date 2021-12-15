@@ -27,11 +27,23 @@ const { FORM_BS_CHECKOUT } = model.components.buySell
 
 class CheckoutConfirm extends PureComponent<Props> {
   componentDidMount() {
-    this.props.buySellActions.fetchQuote({
-      amount: this.props.order.inputQuantity,
-      orderType: getOrderType(this.props.order),
-      pair: this.props.order.pair
-    })
+    if (this.props.isFlexiblePricingModel) {
+      this.props.buySellActions.fetchBuyQuote({
+        amount: this.props.order.inputQuantity,
+        pair: this.props.order.pair,
+        paymentMethod:
+          this.props.order.paymentType === undefined
+            ? BSPaymentTypes.FUNDS
+            : this.props.order.paymentType,
+        paymentMethodId: this.props.order.paymentMethodId
+      })
+    } else {
+      this.props.buySellActions.fetchQuote({
+        amount: this.props.order.inputQuantity,
+        orderType: getOrderType(this.props.order),
+        pair: this.props.order.pair
+      })
+    }
     this.props.sendActions.getLockRule()
     if (!Remote.Success.is(this.props.data)) {
       this.props.buySellActions.fetchSDDEligibility()
@@ -145,7 +157,10 @@ class CheckoutConfirm extends PureComponent<Props> {
 
 const mapStateToProps = (state: RootState) => ({
   data: getData(state),
-  formValues: selectors.form.getFormValues(FORM_BS_CHECKOUT)(state) as BSCheckoutFormValuesType
+  formValues: selectors.form.getFormValues(FORM_BS_CHECKOUT)(state) as BSCheckoutFormValuesType,
+  isFlexiblePricingModel: selectors.core.walletOptions
+    .getFlexiblePricingModel(state)
+    .getOrElse(false)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

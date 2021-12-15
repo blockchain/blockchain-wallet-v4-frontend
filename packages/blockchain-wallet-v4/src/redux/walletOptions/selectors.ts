@@ -97,6 +97,9 @@ export const getAddStripePaymentProvider = (state: RootState) =>
 export const getUseNewPaymentProviders = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'useNewPaymentProviders']))
 
+export const getFlexiblePricingModel = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'flexiblePricingModel']))
+
 // show/hide wallet connect
 export const getWalletConnectEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'walletConnect']))

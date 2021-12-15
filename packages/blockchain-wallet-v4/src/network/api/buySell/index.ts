@@ -30,6 +30,7 @@ import {
   BSTransactionStateType,
   BSTransactionsType,
   BSTransactionType,
+  BuyQuoteType,
   CardAcquirer,
   FiatEligibleType,
   NabuAddressType
@@ -114,7 +115,8 @@ export default ({
     output: BSMoneyType,
     paymentType: BSPaymentMethodType['type'],
     period?: RecurringBuyPeriods,
-    paymentMethodId?: BSCardType['id']
+    paymentMethodId?: BSCardType['id'],
+    quoteId?: string
   ): BSOrderType =>
     authorizedPost({
       contentType: 'application/json',
@@ -125,7 +127,8 @@ export default ({
         pair,
         paymentMethodId,
         paymentType,
-        period
+        period,
+        quoteId
       },
       endPoint: `/simple-buy/trades${pending ? '?action=pending' : ''}`,
       removeDefaultPostData: true,
@@ -337,6 +340,26 @@ export default ({
       url: nabuUrl
     })
 
+  const getBuyQuote = (
+    pair: string,
+    profile: 'SIMPLEBUY' | 'SIMPLETRADE' | 'SWAP_FROM_USERKEY' | 'SWAP_INTERNAL' | 'SWAP_ON_CHAIN',
+    inputValue: string,
+    paymentMethod: BSPaymentTypes,
+    paymentMethodId?: string
+  ): BuyQuoteType =>
+    authorizedPost({
+      contentType: 'application/json',
+      data: {
+        inputValue,
+        pair,
+        paymentMethod,
+        paymentMethodId,
+        profile
+      },
+      endPoint: '/brokerage/quote',
+      url: nabuUrl
+    })
+
   type getBSTransactionsType = {
     currency: string
     fromId?: string
@@ -500,6 +523,7 @@ export default ({
     getBSTransactions,
     getBankTransferAccountDetails,
     getBankTransferAccounts,
+    getBuyQuote,
     getCardAcquirers,
     getPaymentById,
     getRBPaymentInfo,

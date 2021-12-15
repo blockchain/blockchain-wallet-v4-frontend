@@ -1,13 +1,14 @@
 import { Task } from 'redux-saga'
 import { call, cancel, fork, put, take, takeEvery, takeLatest } from 'redux-saga/effects'
 
-import { actions as coreActions, actionTypes } from 'data'
+import { actions as coreActions, actionTypes, selectors } from 'data'
 
 import profileSagas from '../../modules/profile/sagas'
 import sagas from './sagas'
 import { actions } from './slice'
 
-let pollTask: Task
+let buyPollTask: Task
+let sellPollTask: Task
 
 export default ({ api, coreSagas, networks }) => {
   const buySellSagas = sagas({ api, coreSagas, networks })
@@ -86,10 +87,20 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(
       actions.startPollSellQuote.type,
       function* (payload: ReturnType<typeof actions.startPollSellQuote>) {
-        if (pollTask && pollTask.isRunning()) yield cancel(pollTask)
-        pollTask = yield fork(buySellSagas.fetchSellQuote, payload)
+        if (sellPollTask?.isRunning()) yield cancel(sellPollTask)
+        sellPollTask = yield fork(buySellSagas.fetchSellQuote, payload)
         yield take(actions.stopPollSellQuote.type)
-        yield cancel(pollTask)
+        yield cancel(sellPollTask)
+      }
+    )
+
+    yield takeLatest(
+      actions.startPollBuyQuote.type,
+      function* (payload: ReturnType<typeof actions.startPollBuyQuote>) {
+        if (buyPollTask?.isRunning()) yield cancel(buyPollTask)
+        buyPollTask = yield fork(buySellSagas.fetchBuyQuote, payload)
+        yield take(actions.stopPollBuyQuote.type)
+        yield cancel(buyPollTask)
       }
     )
   }
