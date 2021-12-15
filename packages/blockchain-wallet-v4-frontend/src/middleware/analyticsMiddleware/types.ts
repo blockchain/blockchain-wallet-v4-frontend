@@ -514,7 +514,7 @@ type SendFromSelectedPayload = BasePayload & {
   from_account_type: AccountType
 }
 
-type SendReceiveClickedOrigin = 'NAVIGATION'
+type SendReceiveClickedOrigin = 'CURRENCY_PAGE' | 'NAVIGATION' | 'NO_HOLDINGS' | 'TRANSACTIONS_PAGE'
 
 type SendReceiveClickedPayload = BasePayload & {
   currency: string

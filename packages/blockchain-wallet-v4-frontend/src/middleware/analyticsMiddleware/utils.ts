@@ -3,6 +3,7 @@ import type {
   InterestDepositClickedOrigin,
   LinkBankClickedOrigin,
   ManageTabSelectionClickedSelection,
+  SendReceiveClickedOrigin,
   SettingsHyperlinkClickedDestination,
   SettingsTabClickedDestination,
   SwapClickedOrigin,
@@ -129,6 +130,24 @@ const manageTabSelectionClickedSelectionDictionary = (
   }
 }
 
+const sendReceiveClickedOriginDictionary = (rawOrigin: string): SendReceiveClickedOrigin => {
+  switch (rawOrigin) {
+    case 'FeaturesTopNav':
+    case 'Send':
+      return 'NAVIGATION'
+    case 'SwapNoHoldings':
+      return 'NO_HOLDINGS'
+    case 'Prices':
+      return 'CURRENCY_PAGE'
+    case 'EmptyFeed':
+    case 'WalletBalanceDropdown':
+      return 'TRANSACTIONS_PAGE'
+    default: {
+      throw new Error('Origin not found')
+    }
+  }
+}
+
 const settingsHyperlinkClickedDestinationDictionary = (
   rawDestination: string
 ): SettingsHyperlinkClickedDestination => {
@@ -242,6 +261,7 @@ export {
   interestDepositClickedOriginDictionary,
   linkBankClickedOriginDictionary,
   manageTabSelectionClickedSelectionDictionary,
+  sendReceiveClickedOriginDictionary,
   settingsHyperlinkClickedDestinationDictionary,
   settingsTabClickedDestinationDictionary,
   swapClickedOriginDictionary,
