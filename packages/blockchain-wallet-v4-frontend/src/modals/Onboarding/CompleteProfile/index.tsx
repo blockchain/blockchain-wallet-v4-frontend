@@ -12,7 +12,7 @@ import { RootState } from 'data/rootReducer'
 import { ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
-import { ModalPropsType } from '../types'
+import { ModalPropsType } from '../../types'
 import LinkItem from './LinkItem'
 import { ActionButton } from './model'
 import { getData } from './selectors'

@@ -103,7 +103,7 @@ const BuySell = React.lazy(() => import('./BuySell'))
 const Swap = React.lazy(() => import('./Swap'))
 const RecurringBuys = React.lazy(() => import('./RecurringBuys'))
 const InterestUploadDocuments = React.lazy(() => import('./InterestUploadDocuments'))
-const CompleteProfile = React.lazy(() => import('./CompleteProfile'))
+const CompleteProfile = React.lazy(() => import('./Onboarding/CompleteProfile'))
 
 // BROKERAGE
 const BankDetails = React.lazy(() => import('./Brokerage/Banks/BankDetails'))
