@@ -276,14 +276,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       selectors.core.walletOptions.getFlexiblePricingModel
     )).getOrElse(false)
     try {
+      let buyQuote
+
+      if (isFlexiblePricingModel) {
+        buyQuote = S.getBuyQuote(yield select()).getOrFail(NO_QUOTE)
+        if (!buyQuote) throw new Error(NO_QUOTE)
+      }
       const pair = S.getBSPair(yield select())
-      const buyQuote = isFlexiblePricingModel
-        ? S.getBuyQuote(yield select()).getOrFail(NO_QUOTE)
-        : undefined
 
       if (!values) throw new Error(NO_CHECKOUT_VALUES)
       if (!pair) throw new Error(NO_PAIR_SELECTED)
-      if (!buyQuote) throw new Error(NO_QUOTE)
       const { fix, orderType, period } = values
 
       // since two screens use this order creation saga and they have different
@@ -378,7 +380,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         paymentType,
         period,
         paymentMethodId,
-        buyQuote.quote.quoteId
+        buyQuote?.quote?.quoteId
       )
 
       yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT))
