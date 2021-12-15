@@ -23,6 +23,7 @@ import {
   getNftBuyOrders,
   getNftSellOrder
 } from '@core/redux/payment/nfts'
+import { OPENSEA_SHARED_MARKETPLACE } from '@core/redux/payment/nfts/utils'
 import { Await } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { getPrivateKey } from '@core/utils/eth'
@@ -170,7 +171,9 @@ export default ({ api }: { api: APIType }) => {
       const nfts: ReturnType<typeof api.getNftOrders> = yield call(
         api.getNftOrders,
         NFT_ORDER_PAGE_LIMIT,
-        marketplace.collection.collection_data.primary_asset_contracts[0].address,
+        marketplace.collection.collection_data.primary_asset_contracts[0]
+          ? marketplace.collection.collection_data.primary_asset_contracts[0].address
+          : OPENSEA_SHARED_MARKETPLACE,
         new_unique_token_ids.join(',')
       )
 
