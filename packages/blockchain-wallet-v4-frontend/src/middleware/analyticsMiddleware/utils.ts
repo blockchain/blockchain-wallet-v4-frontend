@@ -1,3 +1,9 @@
+import { BSPaymentTypes, PaymentValue } from '@core/types'
+import {
+  BrokerageModalOriginType,
+  BSShowModalOriginType,
+  VerifyIdentityOriginType
+} from 'data/types'
 import type {
   BuySellClickedOrigin,
   InterestDepositClickedOrigin,
@@ -10,13 +16,6 @@ import type {
   UpgradeVerificationClickedOrigin
 } from 'middleware/analyticsMiddleware/types'
 import { PaymentType } from 'middleware/analyticsMiddleware/types'
-
-import { BSPaymentTypes, PaymentValue } from '@core/types'
-import {
-  BrokerageModalOriginType,
-  BSShowModalOriginType,
-  VerifyIdentityOriginType
-} from 'data/types'
 
 // The origin dictionaries are only necessary until we remove the MATOMO tracker,
 // after that, we should refactor those origins to use the correct origins with enums

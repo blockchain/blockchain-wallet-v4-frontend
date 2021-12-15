@@ -1,3 +1,13 @@
+import { actions, actionTypes as AT } from 'data'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import {
+  BankDWStepType,
+  InterestStep,
+  ModalName,
+  RecurringBuyOrigins,
+  RecurringBuyStepType,
+  SwapBaseCounterTypes
+} from 'data/types'
 import analytics from 'middleware/analyticsMiddleware/analytics'
 import {
   AccountType,
@@ -32,17 +42,6 @@ import {
   swapClickedOriginDictionary,
   upgradeVerificationClickedOriginDictionary
 } from 'middleware/analyticsMiddleware/utils'
-
-import { actions, actionTypes as AT } from 'data'
-import { convertBaseToStandard } from 'data/components/exchange/services'
-import {
-  BankDWStepType,
-  InterestStep,
-  ModalName,
-  RecurringBuyOrigins,
-  RecurringBuyStepType,
-  SwapBaseCounterTypes
-} from 'data/types'
 
 const analyticsMiddleware = () => (store) => (next) => (action) => {
   try {
