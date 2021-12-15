@@ -509,11 +509,6 @@ export const countries: Country[] = [
     value: 'JO'
   },
   {
-    emoji: '🇯�',
-    text: 'Japan',
-    value: 'JP'
-  },
-  {
     emoji: '��',
     text: 'Kenya',
     value: 'KE'
