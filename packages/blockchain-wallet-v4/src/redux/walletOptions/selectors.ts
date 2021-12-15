@@ -51,10 +51,6 @@ export const getPairingCodeFlag = (state: RootState) =>
 export const getFeatureFlagRecurringBuys = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'recurringBuys']))
 
-// legacy recovery flag
-export const getFeatureLegacyWalletRecovery = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'legacyWalletRecovery']))
-
 // legacy magic email link
 export const getFeatureLegacyMagicEmailLink = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'legacyMagicEmailLink']))

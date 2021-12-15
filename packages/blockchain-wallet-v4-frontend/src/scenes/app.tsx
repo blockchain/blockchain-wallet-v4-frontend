@@ -61,7 +61,6 @@ const App = ({
   coinsWithBalance,
   history,
   isAuthenticated,
-  legacyWalletRecoveryEnabled,
   persistor,
   store,
   userData,
@@ -160,9 +159,6 @@ const mapStateToProps = (state) => ({
   } as WalletOptionsType['domains']).api,
   coinsWithBalance: selectors.components.utils.getCoinsWithBalanceOrMethod(state).getOrElse([]),
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
-  legacyWalletRecoveryEnabled: selectors.core.walletOptions
-    .getFeatureLegacyWalletRecovery(state)
-    .getOrElse(false) as boolean,
   userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType),
   walletConnectEnabled: selectors.core.walletOptions
     .getWalletConnectEnabled(state)
