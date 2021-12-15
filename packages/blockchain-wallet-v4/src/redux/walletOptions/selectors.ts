@@ -108,6 +108,6 @@ export const getHotWalletAddresses = (state: RootState, product: Product) =>
 export const getCompleteYourProfile = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'completeYourProfile']))
 
-// show/hide complete your profile flyout
+// show/hide trading currency flyout
 export const getTradingCurrency = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'tradingCurrency']))
