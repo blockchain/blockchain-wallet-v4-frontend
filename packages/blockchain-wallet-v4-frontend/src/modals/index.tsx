@@ -167,20 +167,11 @@ const Modals = (props: Props) => {
         {props.modals.find((modal) => modal.type === ModalName.FUND_RECOVERY_MODAL) ? (
           <FundRecovery />
         ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.KYC_MODAL) ? (
-          <IdentityVerification />
-        ) : null}
         {props.modals.find((modal) => modal.type === ModalName.IMPORT_BTC_ADDRESS_MODAL) ? (
           <ImportBtcAddress />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.INTEREST_MODAL) ? (
           <Interest />
-        ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.KYC_RESUBMIT_MODAL) ? (
-          <KycDocResubmit />
-        ) : null}
-        {props.modals.find((modal) => modal.type === ModalName.KYC_TIER_UPGRADE_MODAL) ? (
-          <KycTierUpgrade />
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.LINK_FROM_EXCHANGE_ACCOUNT_MODAL) ? (
           <LinkFromExchangeAccount disableOutsideClose />
@@ -315,6 +306,15 @@ const Modals = (props: Props) => {
         ) : null}
         {props.modals.find((modal) => modal.type === ModalName.MOBILE_NAV) ? <MobileNav /> : null}
         {props.modals.find((modal) => modal.type === ModalName.NFT_ORDER) ? <NftOrder /> : null}
+        {props.modals.find((modal) => modal.type === ModalName.KYC_MODAL) ? (
+          <IdentityVerification />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.KYC_RESUBMIT_MODAL) ? (
+          <KycDocResubmit />
+        ) : null}
+        {props.modals.find((modal) => modal.type === ModalName.KYC_TIER_UPGRADE_MODAL) ? (
+          <KycTierUpgrade />
+        ) : null}
         {/* This should always be loaded */}
         <NewVersionAvailable disableOutsideClose />
       </>

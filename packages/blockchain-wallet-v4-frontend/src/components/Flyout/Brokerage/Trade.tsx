@@ -182,6 +182,4 @@ type RowType = {
   iconName: string
 }
 
-type Props = OwnPropsType
-
 export default Trade

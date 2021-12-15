@@ -180,6 +180,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     method: selectedMethod,
     orderType
   } = props
+
   const [fontRatio, setFontRatio] = useState(1)
   const setOrderFrequncy = useCallback(() => {
     props.buySellActions.setStep({ step: 'FREQUENCY' })

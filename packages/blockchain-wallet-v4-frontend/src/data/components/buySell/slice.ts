@@ -14,6 +14,7 @@ import {
   BSPaymentMethodType,
   BSPaymentTypes,
   BSQuoteType,
+  BuyQuoteType,
   CoinType,
   CrossBorderLimits,
   CrossBorderLimitsPayload,
@@ -45,6 +46,7 @@ const initialState: BuySellState = {
   account: Remote.NotAsked,
   addBank: undefined,
   balances: Remote.NotAsked,
+  buyQuote: Remote.NotAsked,
   card: Remote.NotAsked,
   cardId: undefined,
   cards: Remote.NotAsked,
@@ -206,6 +208,32 @@ const buySellSlice = createSlice({
     fetchBalanceSuccess: (state, action: PayloadAction<BSBalancesType>) => {
       state.balances = Remote.Success(action.payload)
     },
+    fetchBuyQuote: (
+      state,
+      action: PayloadAction<{
+        amount: string
+        pair: BSPairsType
+        paymentMethod: BSPaymentTypes
+        paymentMethodId?: BSCardType['id']
+      }>
+    ) => {},
+    fetchBuyQuoteFailure: (state, action: PayloadAction<string>) => {
+      state.buyQuote = Remote.Failure(action.payload)
+    },
+    fetchBuyQuoteLoading: (state) => {
+      state.buyQuote = Remote.Loading
+    },
+    fetchBuyQuoteSuccess: (
+      state,
+      action: PayloadAction<{
+        fee: string
+        pair: string
+        quote: BuyQuoteType
+        rate: number
+      }>
+    ) => {
+      state.buyQuote = Remote.Success(action.payload)
+    },
     fetchCard: () => {},
     fetchCardFailure: (state, action: PayloadAction<string>) => {
       state.card = Remote.Failure(action.payload)
@@ -229,7 +257,6 @@ const buySellSlice = createSlice({
         action.payload.filter((card) => card.state !== BSCardStateEnum.BLOCKED)
       )
     },
-
     fetchCrossBorderLimits: (state, action: PayloadAction<CrossBorderLimitsPayload>) => {},
     fetchCrossBorderLimitsFailure: (state, action: PayloadAction<unknown>) => {
       state.crossBorderLimits = Remote.Failure(action.payload)
@@ -240,8 +267,8 @@ const buySellSlice = createSlice({
     fetchCrossBorderLimitsSuccess: (state, action: PayloadAction<CrossBorderLimits>) => {
       state.crossBorderLimits = Remote.Success(action.payload)
     },
-
     fetchFiatEligible: (state, action: PayloadAction<FiatType>) => {},
+
     fetchFiatEligibleFailure: (state, action: PayloadAction<string>) => {
       state.fiatEligible = Remote.Failure(action.payload)
     },
@@ -496,6 +523,15 @@ const buySellSlice = createSlice({
       state.cryptoCurrency = action.payload.cryptoCurrency
       state.orderType = action.payload.orderType
     },
+    startPollBuyQuote: (
+      state,
+      action: PayloadAction<{
+        amount: string
+        pair: BSPairsType
+        paymentMethod: BSPaymentTypes
+        paymentMethodId?: BSCardType['id']
+      }>
+    ) => {},
     startPollSellQuote: (
       state,
       action: PayloadAction<{
@@ -503,6 +539,7 @@ const buySellSlice = createSlice({
         pair: BSPairsType
       }>
     ) => {},
+    stopPollBuyQuote: () => {},
     stopPollSellQuote: () => {},
     switchFix: (
       state,

@@ -348,3 +348,24 @@ export type CardAcquirer = {
   cardAcquirerAccountCodes: string[]
   cardAcquirerName: CardAcquirerName
 }
+
+export type BuyQuoteType = {
+  feeDetails: {
+    fee: string
+    feeFlags: []
+    feeWithoutPromo: string
+  }
+  networkFee: null
+  price: string
+  quoteCreatedAt: string
+  quoteExpiresAt: string
+  quoteId: string
+  quoteMarginPercent: number
+  sampleDepositAddress: null
+  settlementDetails: {
+    availability: string
+  }
+  staticFee: null
+}
+
+export type BuyQuoteStateType = { pair: string; quote: BuyQuoteType; rate: number }
