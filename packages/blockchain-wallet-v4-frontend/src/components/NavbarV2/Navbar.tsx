@@ -20,6 +20,7 @@ export type PrimaryNavItem = {
 
 const NavContainer = styled.div`
   width: 100%;
+  box-sizing: border-box;
   background-color: ${colors.white1};
   display: flex;
   justify-content: space-between;

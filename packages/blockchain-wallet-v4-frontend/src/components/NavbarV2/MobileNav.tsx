@@ -16,7 +16,7 @@ const MobileNavList = styled.ul`
 const StyledLi = styled.li`
   list-style-type: none;
 
-  & > a {
+  & a {
     text-decoration: none;
   }
 `
