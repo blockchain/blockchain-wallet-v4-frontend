@@ -298,13 +298,7 @@ interface OwnProps {
   base: SwapAccountType
   basePayment: RemoteDataType<string, PaymentValue | undefined>
   counter: SwapAccountType
-  counterQuote: RemoteDataType<
-    string,
-    {
-      quote: SwapQuoteType
-      rate: number
-    }
-  >
+  counterQuote: RemoteDataType<string, SwapQuoteStateType>
 }
 type Props = OwnProps & ConnectedProps<typeof connector>
 
