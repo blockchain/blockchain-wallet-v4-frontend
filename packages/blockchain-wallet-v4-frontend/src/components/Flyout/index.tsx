@@ -169,6 +169,8 @@ class Flyout extends React.Component<Props> {
       <AnimatePresence>
         {isOpen && !userClickedOutside ? (
           <FlyoutModal
+            total={this.props.total}
+            position={this.props.position}
             animate={{ x: 0 }}
             exit={{ x: width }}
             initial={{ x: width }}
