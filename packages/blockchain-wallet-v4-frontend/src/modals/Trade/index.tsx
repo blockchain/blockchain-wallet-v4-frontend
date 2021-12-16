@@ -28,7 +28,6 @@ const TradeContainer = (props: Props) => {
     setTimeout(() => {
       dispatch(
         actions.components.buySell.showModal({
-          cryptoCurrency: 'BTC',
           origin: 'Trade'
         })
       )
