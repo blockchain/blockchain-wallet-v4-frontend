@@ -6,7 +6,7 @@ import { OrderType, WalletFiatType } from '@core/types'
 import Flyout, { duration, FlyoutChild, Trade } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { BrokerageModalOriginType, ModalName } from 'data/types'
+import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 const TradeContainer = (props: Props) => {
@@ -28,8 +28,6 @@ const TradeContainer = (props: Props) => {
     setTimeout(() => {
       dispatch(
         actions.components.buySell.showModal({
-          cryptoCurrency: 'BTC',
-          orderType: OrderType.BUY,
           origin: 'Trade'
         })
       )
