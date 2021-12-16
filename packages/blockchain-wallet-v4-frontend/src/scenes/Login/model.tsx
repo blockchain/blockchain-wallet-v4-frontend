@@ -237,8 +237,8 @@ const SubCard = styled.div`
 const SignUpText = styled(Text)`
   margin-top: 16px;
   cursor: pointer;
-  ${media.tabletL`
-margin-top: 0;
+  ${media.mobile`
+  margin-top: 0;
 `};
   &:hover {
     font-weight: 600;
@@ -246,6 +246,7 @@ margin-top: 0;
 `
 const SignUpLinkRow = styled.div`
   display: flex;
+  align-items: center;
   ${media.mobile`
 flex-direction: column;
 align-items: center;
