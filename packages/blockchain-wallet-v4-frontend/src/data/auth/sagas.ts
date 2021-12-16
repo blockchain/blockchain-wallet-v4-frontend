@@ -656,16 +656,16 @@ export default ({ api, coreSagas, networks }) => {
       // CHECKS FORM STEP TO SEE IF WE WANT TO TRIGGER THE VERIFICATION LINK
       if (step === LoginSteps.ENTER_EMAIL_GUID || step === LoginSteps.CHECK_EMAIL) {
         // If it's a guid, we take them to the enter mobile verification step
-        if (isGuid(guidOrEmail)) {
+        if (isGuid(guidOrEmail) && product === ProductAuthOptions.WALLET) {
           yield put(actions.form.change(LOGIN_FORM, 'guid', guidOrEmail))
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
         } else {
           // if it's an email, we triger the magic link email
-          yield put(actions.form.change(LOGIN_FORM, 'email', guidOrEmail || email))
+          yield put(actions.form.change(LOGIN_FORM, 'email', email || guidOrEmail))
           yield put(
             actions.auth.triggerWalletMagicLink({
               captchaToken,
-              email: guidOrEmail || email
+              email: email || guidOrEmail
             })
           )
           initCaptcha()
