@@ -106,6 +106,7 @@ export type BSShowModalOriginType =
   | 'SettingsProfile'
   | 'SideNav'
   | 'BuySellLink'
+  | 'Trade'
   | 'TransactionList'
   | 'WelcomeModal'
   | 'WithdrawModal'

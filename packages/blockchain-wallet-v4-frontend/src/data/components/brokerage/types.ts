@@ -166,6 +166,7 @@ export enum BrokerageModalOriginType {
   BANK = 'BankDetailsModal',
   DEPOSIT_BUTTON = 'BankDeposit',
   DW = 'DepositWithdrawalModal',
+  TRADE = 'Trade',
   WITHDRAWAL = 'WithdrawModal'
 }
 

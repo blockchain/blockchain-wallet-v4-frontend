@@ -115,13 +115,15 @@ const rows = ({
 ]
 
 const Trade = ({
+  handleBuy,
   handleClose,
   handleDeposit,
   handleReceive,
+  handleSell,
   handleSend,
   handleSwap,
   handleWithdraw
-}: OwnPropsType) => {
+}: Props) => {
   return (
     <>
       <IconWrapper onClick={handleClose}>
@@ -154,10 +156,19 @@ const Trade = ({
           height='48px'
           nature='primary'
           size='16px'
+          onClick={handleBuy}
         >
           <FormattedMessage id='buttons.buy' defaultMessage='Buy' />
         </Button>
-        <Button capitalize data-e2e='skipTour' fullwidth height='48px' nature='dark' size='16px'>
+        <Button
+          onClick={handleSell}
+          capitalize
+          data-e2e='skipTour'
+          fullwidth
+          height='48px'
+          nature='dark'
+          size='16px'
+        >
           <FormattedMessage id='buttons.sell' defaultMessage='Sell' />
         </Button>
       </ButtonWrapper>
@@ -165,10 +176,12 @@ const Trade = ({
   )
 }
 
-type OwnPropsType = {
+type Props = {
+  handleBuy: () => void
   handleClose: () => void
   handleDeposit: () => void
   handleReceive: () => void
+  handleSell: () => void
   handleSend: () => void
   handleSwap: () => void
   handleWithdraw: () => void
