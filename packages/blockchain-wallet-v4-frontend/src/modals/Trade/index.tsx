@@ -10,90 +10,72 @@ import { ModalName } from 'data/types'
 import modalEnhancer from 'providers/ModalEnhancer'
 
 const TradeContainer = (props: Props) => {
-  const { close } = props
   const dispatch = useDispatch()
   const [show, setShow] = useState<boolean>(false)
+  const closeTradeModal = useCallback(() => {
+    dispatch(actions.modals.closeModal('TRADE_MODAL'))
+  }, [])
 
   useEffect(() => {
     setShow(true)
   }, [])
 
-  const closeFlyout = useCallback(() => {
-    setShow(false)
-    close()
-  }, [])
-
-  const handleBuy = useCallback(() => {
-    closeFlyout()
-    setTimeout(() => {
-      dispatch(
-        actions.components.buySell.showModal({
-          origin: 'Trade'
-        })
-      )
-    }, duration)
-  }, [])
-
   const handleClose = useCallback(() => {
     setShow(false)
     setTimeout(() => {
-      close()
+      props.close()
     }, duration)
+  }, [])
+
+  const handleBuy = useCallback(() => {
+    dispatch(
+      actions.components.buySell.showModal({
+        origin: 'Trade'
+      })
+    )
+    closeTradeModal()
   }, [])
 
   const handleSell = useCallback(() => {
-    closeFlyout()
-    setTimeout(() => {
-      dispatch(
-        actions.components.buySell.showModal({
-          cryptoCurrency: 'BTC',
-          orderType: OrderType.SELL,
-          origin: 'Trade'
-        })
-      )
-    }, duration)
+    dispatch(
+      actions.components.buySell.showModal({
+        cryptoCurrency: 'BTC',
+        orderType: OrderType.SELL,
+        origin: 'Trade'
+      })
+    )
+    closeTradeModal()
   }, [])
 
   const handleSwap = useCallback(() => {
-    closeFlyout()
-    setTimeout(() => {
-      dispatch(actions.components.swap.showModal({ origin: 'Trade' }))
-    }, duration)
+    dispatch(actions.components.swap.showModal({ origin: 'Trade' }))
+    closeTradeModal()
   }, [])
 
   const handleSend = useCallback(() => {
-    closeFlyout()
-    setTimeout(() => {
-      dispatch(actions.modals.showModal(ModalName.SEND_CRYPTO_MODAL, { origin: 'Trade' }))
-    }, duration)
+    dispatch(actions.modals.showModal(ModalName.SEND_CRYPTO_MODAL, { origin: 'Trade' }))
+    closeTradeModal()
   }, [])
 
   const handleReceive = useCallback(() => {
-    closeFlyout()
-    setTimeout(() => {
-      dispatch(actions.modals.showModal(ModalName.REQUEST_CRYPTO_MODAL, { origin: 'Trade' }))
-    }, duration)
+    dispatch(actions.modals.showModal(ModalName.REQUEST_CRYPTO_MODAL, { origin: 'Trade' }))
+    closeTradeModal()
   }, [])
 
   const handleDeposit = useCallback(() => {
-    closeFlyout()
-    setTimeout(() => {
-      dispatch(
-        actions.components.brokerage.handleDepositFiatClick(props.fiatCurrency as WalletFiatType)
-      )
-    }, duration)
+    dispatch(
+      actions.components.brokerage.handleDepositFiatClick(props.fiatCurrency as WalletFiatType)
+    )
+    closeTradeModal()
   }, [])
+
   const handleWithdraw = useCallback(() => {
-    closeFlyout()
-    setTimeout(() => {
-      dispatch(
-        actions.components.brokerage.handleWithdrawClick(props.fiatCurrency as WalletFiatType)
-      )
-    }, duration)
+    dispatch(actions.components.brokerage.handleWithdrawClick(props.fiatCurrency as WalletFiatType))
+    closeTradeModal()
   }, [])
 
   return (
-    <Flyout {...props} onClose={close} isOpen={show} data-e2e='tradeModal'>
+    <Flyout {...props} onClose={props.close} isOpen={show} data-e2e='tradeModal'>
       <FlyoutChild>
         <Trade
           handleBuy={handleBuy}
