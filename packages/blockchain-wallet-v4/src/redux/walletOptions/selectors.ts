@@ -51,10 +51,6 @@ export const getPairingCodeFlag = (state: RootState) =>
 export const getFeatureFlagRecurringBuys = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'recurringBuys']))
 
-// legacy recovery flag
-export const getFeatureLegacyWalletRecovery = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'legacyWalletRecovery']))
-
 // legacy magic email link
 export const getFeatureLegacyMagicEmailLink = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'legacyMagicEmailLink']))
@@ -62,6 +58,10 @@ export const getFeatureLegacyMagicEmailLink = (state: RootState) =>
 // signup country feature flag
 export const getFeatureSignupCountry = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'signupCountry']))
+
+// redesign feature flag
+export const getRedesignEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'isRedesignEnabled']))
 
 // on hold funds feature flag
 export const getWithdrawalLocksFundsOnHold = (state: RootState) =>
@@ -93,6 +93,9 @@ export const getAddStripePaymentProvider = (state: RootState) =>
 export const getUseNewPaymentProviders = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'useNewPaymentProviders']))
 
+export const getFlexiblePricingModel = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'flexiblePricingModel']))
+
 // show/hide wallet connect
 export const getWalletConnectEnabled = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'walletConnect']))
@@ -103,3 +106,7 @@ export const getHotWalletAddresses = (state: RootState, product: Product) =>
 // show/hide complete your profile flyout
 export const getCompleteYourProfile = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'completeYourProfile']))
+
+// show/hide trading currency flyout
+export const getTradingCurrency = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'tradingCurrencyFlyout']))

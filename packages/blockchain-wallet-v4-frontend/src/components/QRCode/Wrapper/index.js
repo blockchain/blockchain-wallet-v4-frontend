@@ -12,15 +12,11 @@ const Wrapper = styled.div`
   }
 `
 
-const QRCodeWrapper = (props) => {
-  const { size, value } = props
-
-  return (
-    <Wrapper>
-      <QRCodeReact value={value} size={size} />
-    </Wrapper>
-  )
-}
+const QRCodeWrapper = ({ size, value }) => (
+  <Wrapper>
+    <QRCodeReact value={value} size={size} />
+  </Wrapper>
+)
 
 QRCodeWrapper.propTypes = {
   size: PropTypes.number.isRequired,

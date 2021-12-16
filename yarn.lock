@@ -1292,10 +1292,12 @@
     react-popper "1.3.2"
     react-transition-group "2.5.3"
 
-"@blockchain-com/constellation@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@blockchain-com/constellation/-/constellation-0.0.6.tgz#514a49f09d838f926e4ad7ff2eb0f7e8a7a9f9b8"
-  integrity sha512-sqqEDrgmr6XRCkt0B8AV+dYZs1TdiBDCVCZ9kwrHpzLERRBXx7HvKkiZ3lya8T9Rm+cnhNUxBPR5QVV9tiBILQ==
+"@blockchain-com/constellation@^0.0.21":
+  version "0.0.21"
+  resolved "https://registry.yarnpkg.com/@blockchain-com/constellation/-/constellation-0.0.21.tgz#7a46b5b8527a7f0b3b67b98143b714232900d980"
+  integrity sha512-5jairvc7kdk4V0/CXd95zwwiMHuyUjb8tgXClqYyK7ba1EF0qwLeMgLeiVrpUGXg0RftCEwmXA9D7rPZI4mllw==
+  dependencies:
+    styled-components "4.4.1"
 
 "@cnakazawa/watch@^1.0.3":
   version "1.0.4"

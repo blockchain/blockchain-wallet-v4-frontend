@@ -2,13 +2,10 @@ import React, { Suspense, useEffect } from 'react'
 import { connect, ConnectedProps, Provider } from 'react-redux'
 import { Redirect, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
-import { UTM } from 'middleware/analyticsMiddleware/constants'
-import { utmParser } from 'middleware/analyticsMiddleware/utils'
 import { map, values } from 'ramda'
 import { Store } from 'redux'
 import { PersistGate } from 'redux-persist/integration/react'
 
-import { Remote } from '@core'
 import { WalletOptionsType } from '@core/types'
 import SiftScience from 'components/SiftScience'
 import SupportChat from 'components/SupportChat'
@@ -16,6 +13,8 @@ import { selectors } from 'data'
 import { UserDataType } from 'data/types'
 import PublicLayout from 'layouts/Public'
 import WalletLayout from 'layouts/Wallet'
+import { UTM } from 'middleware/analyticsMiddleware/constants'
+import { utmParser } from 'middleware/analyticsMiddleware/utils'
 import { MediaContextProvider } from 'providers/MatchMediaProvider'
 import ThemeProvider from 'providers/ThemeProvider'
 import TranslationsProvider from 'providers/TranslationsProvider'
@@ -61,7 +60,6 @@ const App = ({
   coinsWithBalance,
   history,
   isAuthenticated,
-  legacyWalletRecoveryEnabled,
   persistor,
   store,
   userData,
@@ -160,9 +158,6 @@ const mapStateToProps = (state) => ({
   } as WalletOptionsType['domains']).api,
   coinsWithBalance: selectors.components.utils.getCoinsWithBalanceOrMethod(state).getOrElse([]),
   isAuthenticated: selectors.auth.isAuthenticated(state) as boolean,
-  legacyWalletRecoveryEnabled: selectors.core.walletOptions
-    .getFeatureLegacyWalletRecovery(state)
-    .getOrElse(false) as boolean,
   userData: selectors.modules.profile.getUserData(state).getOrElse({} as UserDataType),
   walletConnectEnabled: selectors.core.walletOptions
     .getWalletConnectEnabled(state)

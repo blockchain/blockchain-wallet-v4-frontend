@@ -70,25 +70,14 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
   devtool: false, // default is false but needs to be set so dev config can override
   entry: {
     app: {
-      dependOn: 'polyfills',
-      filename: 'app-[contenthash:10].js',
+      filename: 'app-[fullhash:10].js',
       import: CONFIG_PATH.src + '/index.js'
-    },
-    polyfills: {
-      filename: 'polyfills-[contenthash:10].js',
-      import: [
-        '@babel/polyfill',
-        'bignumber.js',
-        'browserify-rsa',
-        'browserify-sign',
-        'stream-browserify'
-      ]
     }
   },
   output: {
     assetModuleFilename: 'resources/[name][ext]', // default asset path that is usually overwritten in specific modules.rules
     chunkFilename: (pathData) =>
-      pathData.chunk.name ? '[name]-[chunkhash:10].js' : 'chunk-[chunkhash:10].js',
+      pathData.chunk.name ? '[name]-[contenthash:10].js' : 'chunk-[contenthash:10].js',
     crossOriginLoading: 'anonymous',
     path: CONFIG_PATH.ciBuild,
     publicPath: '/'
@@ -128,7 +117,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
       {
         test: /\.(png|jpg|gif|svg|ico|webmanifest|xml)$/,
         type: 'asset/resource',
-        generator: { filename: 'img/[name][ext]?[contenthash]' }
+        generator: { filename: 'img/[name][ext]?[contenthash:10]' }
       },
       { test: /\.(AppImage|dmg|exe)$/, type: 'asset/resource' },
       { test: /\.(pdf)$/, type: 'asset/resource' },
@@ -162,7 +151,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
         devMode: 'light',
         logo: CONFIG_PATH.src + '/assets/favicon.png',
         mode: 'webapp',
-        prefix: 'img/favicons-[contenthash]/',
+        prefix: 'img/favicons-[contenthash:10]/',
         icons: {
           android: true,
           appleIcon: true,
@@ -178,7 +167,10 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
     extraPluginsList
   ),
   optimization: {
-    moduleIds: 'named',
+    moduleIds: 'deterministic',
+    runtimeChunk: {
+      name: (entrypoint) => `runtime-${entrypoint.name}-${Date.now()}`,
+    },
     splitChunks: {
       maxSize: 1000000, // 1 MB max chunk size
       cacheGroups: {

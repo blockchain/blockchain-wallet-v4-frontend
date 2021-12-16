@@ -26,7 +26,7 @@ import {
 const LoginWrapper = styled(Wrapper)`
   display: flex;
   flex-direction: column;
-  padding: 0 0 32px 0;
+  padding: 0 0 24px 0;
 `
 
 const TwoFAWallet = (props: Props) => {

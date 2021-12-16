@@ -28,7 +28,7 @@ const ThreeDSHandlerStripe = ({ buySellActions, domains, order }: Props) => {
   const handlePostMessage = async ({
     data
   }: {
-    data: { details: any; provider: 'stripe'; status: 'error' | 'success' }
+    data: { provider: 'stripe'; status: 'error' | 'success' }
   }) => {
     if (data.provider !== 'stripe') return
 

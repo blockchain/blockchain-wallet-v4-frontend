@@ -1,3 +1,13 @@
+import { actions, actionTypes as AT } from 'data'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import {
+  BankDWStepType,
+  InterestStep,
+  ModalName,
+  RecurringBuyOrigins,
+  RecurringBuyStepType,
+  SwapBaseCounterTypes
+} from 'data/types'
 import analytics from 'middleware/analyticsMiddleware/analytics'
 import {
   AccountType,
@@ -26,22 +36,12 @@ import {
   interestDepositClickedOriginDictionary,
   linkBankClickedOriginDictionary,
   manageTabSelectionClickedSelectionDictionary,
+  sendReceiveClickedOriginDictionary,
   settingsHyperlinkClickedDestinationDictionary,
   settingsTabClickedDestinationDictionary,
   swapClickedOriginDictionary,
   upgradeVerificationClickedOriginDictionary
 } from 'middleware/analyticsMiddleware/utils'
-
-import { actions, actionTypes as AT } from 'data'
-import { convertBaseToStandard } from 'data/components/exchange/services'
-import {
-  BankDWStepType,
-  InterestStep,
-  ModalName,
-  RecurringBuyOrigins,
-  RecurringBuyStepType,
-  SwapBaseCounterTypes
-} from 'data/types'
 
 const analyticsMiddleware = () => (store) => (next) => (action) => {
   try {
@@ -341,7 +341,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             break
           }
           case ModalName.REQUEST_CRYPTO_MODAL: {
-            const origin = 'NAVIGATION'
+            const origin = sendReceiveClickedOriginDictionary(action.payload.props.origin)
 
             analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
               properties: {
@@ -2317,7 +2317,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const { href, pathname, search } = window.location
         const { referrer, title } = document
         const currency = 'BTC'
-        const origin = 'SEND'
+        const origin = sendReceiveClickedOriginDictionary(action.payload.props.origin)
 
         analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
           properties: {
@@ -2361,7 +2361,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const { href, pathname, search } = window.location
         const { referrer, title } = document
         const currency = 'BCH'
-        const origin = 'SEND'
+        const origin = sendReceiveClickedOriginDictionary(action.payload.props.origin)
 
         analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
           properties: {
@@ -2405,7 +2405,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const { href, pathname, search } = window.location
         const { referrer, title } = document
         const currency = 'XLM'
-        const origin = 'SEND'
+        const origin = sendReceiveClickedOriginDictionary(action.payload.props.origin)
 
         analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
           properties: {
@@ -2449,7 +2449,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const { href, pathname, search } = window.location
         const { referrer, title } = document
         const currency = action.payload
-        const origin = 'SEND'
+        const origin = sendReceiveClickedOriginDictionary(action.payload.props.origin)
 
         analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
           properties: {
@@ -2895,6 +2895,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
 
         const loginMethod = action.payload
+
         analytics.push(AnalyticsKey.LOGIN_METHOD_SELECTED, {
           properties: {
             login_method: loginMethod,

@@ -90,6 +90,7 @@ const FeaturesLarge = (props: Props & { showModal: (modal: 'SEND' | 'REQUEST') =
                   id='layouts.wallet.menuleft.navigation.nfts'
                   defaultMessage='NFTs'
                 />
+                &nbsp;(Beta)
               </NavbarNavItemTextHeader>
             </NavbarNavItemButton>
           </NavbarNavItem>

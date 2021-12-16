@@ -7,15 +7,13 @@ import { UserDataType } from 'data/types'
 
 export const getData = (state: RootState): { currentStep: number } => {
   let currentStep = 0
-  const isUserActive =
-    selectors.modules.profile.getUserActivationState(state).getOrElse('') !== 'NONE'
   const isKycStateNone =
     // @ts-ignore
     selectors.modules.profile.getUserKYCState(state).getOrElse('') === 'NONE'
 
   const isFirstLogin = selectors.auth.getFirstLogin(state)
 
-  if (isFirstLogin || isKycStateNone || isUserActive) {
+  if (isFirstLogin || isKycStateNone) {
     return { currentStep }
   }
 
@@ -40,7 +38,7 @@ export const getData = (state: RootState): { currentStep: number } => {
     .getBSPaymentMethods(state)
     .getOrElse({} as BSPaymentMethodsType)
   const isAnyBankLinked =
-    paymentMethods.methods.length > 0 &&
+    paymentMethods?.methods?.length > 0 &&
     paymentMethods.methods.find(
       (method) => method.eligible && method.type === BSPaymentTypes.LINK_BANK
     )

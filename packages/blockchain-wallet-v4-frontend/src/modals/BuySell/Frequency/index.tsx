@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { buyPaymentMethodSelectedPaymentTypeDictionary } from 'middleware/analyticsMiddleware/utils'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { BSPaymentMethodType, BSPaymentTypes, RemoteDataType } from '@core/types'
@@ -9,6 +8,7 @@ import { FrequencyScreen } from 'components/Flyout'
 import { actions, model } from 'data'
 import { RootState } from 'data/rootReducer'
 import { RecurringBuyOrigins, RecurringBuyPeriods } from 'data/types'
+import { buyPaymentMethodSelectedPaymentTypeDictionary } from 'middleware/analyticsMiddleware/utils'
 
 import { Loading, LoadingTextEnum } from '../../components'
 import getData from './selectors'

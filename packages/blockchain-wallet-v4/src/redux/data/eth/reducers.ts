@@ -114,12 +114,15 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.FETCH_ETH_TRANSACTIONS_SUCCESS: {
       const { reset, transactions } = payload
+      const filteredTransactions = transactions.filter(
+        (tx) => tx.state !== 'EXPIRED' && tx.state !== 'PENDING_CONFIRMATION'
+      )
       return reset
-        ? assocPath(['transactions', 'eth'], [Remote.Success(transactions)], state)
+        ? assocPath(['transactions', 'eth'], [Remote.Success(filteredTransactions)], state)
         : over(
             lensPath(['transactions', 'eth']),
             // @ts-ignore
-            compose(append(Remote.Success(transactions)), dropLast(1)),
+            compose(append(Remote.Success(filteredTransactions)), dropLast(1)),
             state
           )
     }
@@ -177,12 +180,15 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.FETCH_ERC20_TOKEN_TRANSACTIONS_SUCCESS: {
       const { reset, token, transactions } = payload
+      const filteredTransactions = transactions.filter(
+        (tx) => tx.state !== 'EXPIRED' && tx.state !== 'PENDING_CONFIRMATION'
+      )
       return reset
-        ? assocPath(['transactions', token], [Remote.Success(transactions)], state)
+        ? assocPath(['transactions', token], [Remote.Success(filteredTransactions)], state)
         : over(
             lensPath(['transactions', token]),
             // @ts-ignore
-            compose(append(Remote.Success(transactions)), dropLast(1)),
+            compose(append(Remote.Success(filteredTransactions)), dropLast(1)),
             state
           )
     }

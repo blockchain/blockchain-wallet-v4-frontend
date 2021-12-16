@@ -8,6 +8,7 @@ import type {
   BSPaymentMethodsType,
   BSPaymentMethodType,
   BSQuoteType,
+  BuyQuoteStateType,
   CoinType,
   CrossBorderLimits,
   Everypay3DSResponseType,
@@ -20,7 +21,7 @@ import type {
   SDDEligibleType,
   SDDVerifiedType,
   SwapOrderType,
-  SwapQuoteType,
+  SwapQuoteStateType,
   SwapUserLimitsType
 } from '@core/types'
 import type { CountryType } from 'data/components/identityVerification/types'
@@ -93,6 +94,7 @@ export enum BuySellStepType {
 }
 export type BSShowModalOriginType =
   | 'CompleteProfileBanner'
+  | 'CompleteProfile'
   | 'EmptyFeed'
   | 'PendingOrder'
   | 'PriceChart'
@@ -104,6 +106,7 @@ export type BSShowModalOriginType =
   | 'SettingsProfile'
   | 'SideNav'
   | 'BuySellLink'
+  | 'Trade'
   | 'TransactionList'
   | 'WelcomeModal'
   | 'WithdrawModal'
@@ -124,6 +127,7 @@ export type BuySellState = {
   account: RemoteDataType<string, BSAccountType>
   addBank: boolean | undefined
   balances: RemoteDataType<string, BSBalancesType>
+  buyQuote: RemoteDataType<string, BuyQuoteStateType>
   card: RemoteDataType<string, BSCardType>
   cardId: undefined | string
   cards: RemoteDataType<string, Array<BSCardType>>
@@ -152,7 +156,7 @@ export type BuySellState = {
   sddTransactionFinished: boolean
   sddVerified: RemoteDataType<string, SDDVerifiedType>
   sellOrder: undefined | SwapOrderType
-  sellQuote: RemoteDataType<string, { quote: SwapQuoteType; rate: number }>
+  sellQuote: RemoteDataType<string, SwapQuoteStateType>
   step: keyof typeof BuySellStepType
   swapAccount: undefined | SwapAccountType
 }

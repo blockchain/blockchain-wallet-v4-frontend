@@ -21,6 +21,7 @@ import {
   ProductTypes,
   ProviderDetailsType,
   SwapOrderType,
+  WalletFiatType,
   WalletOptionsType
 } from '@core/types'
 import { errorHandler, errorHandlerCode } from '@core/utils'
@@ -68,7 +69,7 @@ import {
 import * as S from './selectors'
 import { actions as A } from './slice'
 import * as T from './types'
-import { getDirection } from './utils'
+import { getDirection, getPreferredCurrency, reversePair, setPreferredCurrency } from './utils'
 
 export const logLocation = 'components/buySell/sagas'
 
@@ -271,8 +272,17 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const values: T.BSCheckoutFormValuesType = yield select(
       selectors.form.getFormValues(FORM_BS_CHECKOUT)
     )
+    const isFlexiblePricingModel = (yield select(
+      selectors.core.walletOptions.getFlexiblePricingModel
+    )).getOrElse(false)
     try {
+      let buyQuote
+
+      if (isFlexiblePricingModel) {
+        buyQuote = S.getBuyQuote(yield select()).getOrFail(NO_QUOTE)
+      }
       const pair = S.getBSPair(yield select())
+
       if (!values) throw new Error(NO_CHECKOUT_VALUES)
       if (!pair) throw new Error(NO_PAIR_SELECTED)
       const { fix, orderType, period } = values
@@ -368,7 +378,8 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         output,
         paymentType,
         period,
-        paymentMethodId
+        paymentMethodId,
+        buyQuote?.quote?.quoteId
       )
 
       yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT))
@@ -625,11 +636,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       if (!loadCards) return yield put(A.fetchCardsSuccess([]))
       if (!payload) yield put(A.fetchCardsLoading())
-      const cards = yield call(
-        api.getBSCards,
-        Boolean(selectors.core.walletOptions.getUseNewPaymentProviders(yield select()))
-      )
 
+      const useNewPaymentProviders = (yield select(
+        selectors.core.walletOptions.getUseNewPaymentProviders
+      )).getOrElse(false)
+
+      const cards = yield call(api.getBSCards, useNewPaymentProviders)
       yield put(A.fetchCardsSuccess(cards))
     } catch (e) {
       const error = errorHandler(e)
@@ -799,6 +811,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   }
 
   const fetchBSQuote = function* ({ payload }: ReturnType<typeof A.fetchQuote>) {
+    // this is actually fetchQuote() action
     try {
       const { amount, orderType, pair } = payload
       yield put(A.fetchQuoteLoading())
@@ -807,6 +820,46 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchQuoteFailure(error))
+    }
+  }
+
+  const fetchBuyQuote = function* ({ payload }: ReturnType<typeof A.fetchBuyQuote>) {
+    while (true) {
+      try {
+        yield put(A.fetchBuyQuoteLoading())
+
+        const { amount, pair, paymentMethod, paymentMethodId } = payload
+        const pairReversed = reversePair(pair)
+
+        // paymentMethodId is required when profile=SIMPLEBUY and paymentMethod=BANK_TRANSFER
+        const buyQuotePaymentMethodId =
+          paymentMethod === BSPaymentTypes.BANK_TRANSFER ? paymentMethodId : undefined
+
+        const quote: ReturnType<typeof api.getBuyQuote> = yield call(
+          api.getBuyQuote,
+          pairReversed,
+          'SIMPLEBUY',
+          amount,
+          paymentMethod,
+          buyQuotePaymentMethodId
+        )
+
+        yield put(
+          A.fetchBuyQuoteSuccess({
+            fee: quote.feeDetails.fee.toString(),
+            pair,
+            quote,
+            rate: parseInt(quote.price)
+          })
+        )
+        const refresh = -moment().diff(quote.quoteExpiresAt)
+        yield delay(refresh)
+      } catch (e) {
+        const error = errorHandler(e)
+        yield put(A.fetchBuyQuoteFailure(error))
+        yield delay(FALLBACK_DELAY)
+        yield put(A.startPollBuyQuote(payload))
+      }
     }
   }
 
@@ -1075,12 +1128,30 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (!pair) throw new Error(NO_PAIR_SELECTED)
       // Fetch rates
       if (orderType === OrderType.BUY) {
-        yield put(A.fetchQuote({ amount: '0', orderType, pair: pair.pair }))
-        // used for sell only now, eventually buy as well
-        // TODO: use swap2 quote for buy AND sell
+        const isFlexiblePricingModel = (yield select(
+          selectors.core.walletOptions.getFlexiblePricingModel
+        )).getOrElse(false)
+
+        if (isFlexiblePricingModel) {
+          const pairReversed = reversePair(pair.pair)
+          const amount = '500'
+
+          yield put(
+            A.startPollBuyQuote({
+              amount,
+              pair: pairReversed,
+              paymentMethod: BSPaymentTypes.FUNDS
+            })
+          )
+          yield race({
+            failure: take(A.fetchBuyQuoteFailure.type),
+            success: take(A.fetchBuyQuoteSuccess.type)
+          })
+        } else {
+          yield put(A.fetchQuote({ amount: '0', orderType, pair: pair.pair }))
+        }
       } else {
         if (!account) throw NO_ACCOUNT
-
         yield put(A.fetchSellQuote({ account, pair: pair.pair }))
         yield put(A.startPollSellQuote({ account, pair: pair.pair }))
         yield race({
@@ -1419,6 +1490,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // find a pair
       const pair = pairs.filter((pair) => pair.pair === `${cryptoCurrency}-${fiatCurrency}`)[0]
       yield put(A.fetchPaymentMethods(fiatCurrency))
+      // record desired currency
+      const preferredCurrencyFromStorage = getPreferredCurrency()
+      if (!preferredCurrencyFromStorage) {
+        setPreferredCurrency(fiatCurrency as WalletFiatType)
+      }
       yield put(
         A.setStep({
           cryptoCurrency,
@@ -1450,6 +1526,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     fetchBSOrders,
     fetchBSPairs,
     fetchBSQuote,
+    fetchBuyQuote,
     fetchCrossBorderLimits,
     fetchFiatEligible,
     fetchLimits,

@@ -9,13 +9,18 @@ import { OwnProps } from '.'
 const { FORM_BS_CHECKOUT } = model.components.buySell
 
 const getData = (state: RootState, ownProps: OwnProps) => {
+  const isBuyOrder = ownProps.orderType === 'BUY'
+  const isFlexiblePricingModel = selectors.core.walletOptions
+    .getFlexiblePricingModel(state)
+    .getOrElse(false)
+
   const coin = selectors.components.buySell.getCryptoCurrency(state) || 'BTC'
   const formErrors = selectors.form.getFormSyncErrors(FORM_BS_CHECKOUT)(state)
-  // used for sell only now, eventually buy as well
-  // TODO: use swap2 quote for buy AND sell
   const paymentR = selectors.components.buySell.getPayment(state)
   const quoteR =
-    ownProps.orderType === 'BUY'
+    isBuyOrder && isFlexiblePricingModel
+      ? selectors.components.buySell.getBuyQuote(state)
+      : isBuyOrder && !isFlexiblePricingModel
       ? selectors.components.buySell.getBSQuote(state)
       : selectors.components.buySell.getSellQuote(state)
   const ratesR = selectors.core.data.misc.getRatesSelector(coin, state)
