@@ -45,6 +45,7 @@ const Offers: React.FC<Props> = (props) => {
     <LazyLoadContainer onLazyLoad={() => props.nftsActions.fetchNftOffersMade()}>
       {props.offersMade.list.length ? (
         props.offersMade.list.map((offer, i) => {
+          // If user already owns NFT and offer is from them don't show
           if (
             offer.from_account.address.toLowerCase() === props.defaultEthAddr.toLowerCase() &&
             offer.asset.owner.address.toLowerCase() === props.defaultEthAddr.toLowerCase()
@@ -73,11 +74,26 @@ const Offers: React.FC<Props> = (props) => {
                   {displayCoinToCoin({ coin: offer.payment_token.symbol, value: offer.bid_amount })}
                 </div>
                 {offer.from_account.address.toLowerCase() === props.defaultEthAddr.toLowerCase() ? (
-                  <Button small height='28px' data-e2e='CancelOffer'>
+                  <Button
+                    onClick={() =>
+                      props.nftsActions.nftOrderFlowOpen({ asset: offer.asset, offer })
+                    }
+                    small
+                    height='28px'
+                    data-e2e='CancelOffer'
+                  >
                     Cancel Offer
                   </Button>
                 ) : (
-                  <Button small nature='primary' height='28px' data-e2e='AcceptOffer'>
+                  <Button
+                    onClick={() =>
+                      props.nftsActions.nftOrderFlowOpen({ asset: offer.asset, offer })
+                    }
+                    small
+                    nature='primary'
+                    height='28px'
+                    data-e2e='AcceptOffer'
+                  >
                     Accept Offer
                   </Button>
                 )}

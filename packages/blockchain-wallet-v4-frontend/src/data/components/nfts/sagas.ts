@@ -33,6 +33,7 @@ import { promptForSecondPassword } from 'services/sagas'
 
 import * as S from './selectors'
 import { actions as A } from './slice'
+import { NftOrderStepEnum } from './types'
 import { orderFromJSON } from './utils'
 
 export const logLocation = 'components/nfts/sagas'
@@ -519,9 +520,25 @@ export default ({ api }: { api: APIType }) => {
       token_id = asset!.tokenId
     }
     // User wants to sell an asset
-    else if (action.payload.asset) {
+    if (action.payload.asset) {
       address = action.payload.asset.asset_contract.address
       token_id = action.payload.asset.token_id
+    }
+
+    if (action.payload.offer) {
+      // User wants to cancel offer
+      if (action.payload.offer.from_account.address.toLowerCase() === ethAddr.toLowerCase()) {
+        debugger
+        // const activeOrder = yield call(
+        //   api.getOrderByContractAndId,
+        //   action.payload.offer.asset.asset_contract.address,
+        //   action.payload.offer.asset.token_id
+        // )
+        yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.CANCEL_OFFER }))
+      } else {
+        // User wants to accept offer
+        yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.ACCEPT_OFFER }))
+      }
     }
 
     try {

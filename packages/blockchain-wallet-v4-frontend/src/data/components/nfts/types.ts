@@ -11,6 +11,8 @@ import { calculateGasFees } from '@core/redux/payment/nfts'
 import { Await, RemoteDataType } from '@core/types'
 
 export enum NftOrderStepEnum {
+  ACCEPT_OFFER = 'ACCEPT_OFFER',
+  CANCEL_OFFER = 'CANCEL_OFFER',
   CONFIRM_BUY = 'CONFIRM_BUY',
   MAKE_OFFER = 'MAKE_OFFER',
   MARK_FOR_SALE = 'MARK_FOR_SALE',

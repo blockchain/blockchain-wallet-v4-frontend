@@ -268,7 +268,9 @@ const nftsSlice = createSlice({
     nftOrderFlowOpen: (
       state,
       action: PayloadAction<
-        { asset: NftAsset; order?: never } | { asset?: never; order: NftOrdersType['orders'][0] }
+        | { asset: NftAsset; offer: OfferEventsType['asset_events'][0]; order?: never }
+        | { asset: NftAsset; offer?: never; order?: never }
+        | { asset?: never; offer?: never; order: NftOrdersType['orders'][0] }
       >
     ) => {
       if (action.payload.order) {
