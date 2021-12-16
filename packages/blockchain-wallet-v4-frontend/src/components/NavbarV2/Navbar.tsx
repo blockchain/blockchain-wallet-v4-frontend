@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom'
 import { colors, Icon, IconName, Text } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
-import { Button } from 'blockchain-info-components'
+import { Button, Image } from 'blockchain-info-components'
 import FabButton from 'components/FabButton'
 import { DropdownMenu, DropdownMenuArrow, DropdownMenuItem } from 'components/Navbar/NavbarDropdown'
 import { MobileNav } from 'components/NavbarV2'
@@ -259,7 +259,7 @@ const Navbar = ({
       <NavLeft>
         <Logo>
           <NavLink to='/home' data-e2e='homeLink'>
-            <Icon name={IconName.BLOCKCHAIN} color={colors.blue500} size='md' />
+            <Image width='25px' name='blockchain-icon' />
           </NavLink>
         </Logo>
         {!isMobile && (

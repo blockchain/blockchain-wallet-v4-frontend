@@ -1,15 +1,16 @@
 import React, { useCallback, useState } from 'react'
-import { Icon, Switch, useClickOutside } from '@blockchain-com/constellation'
+import { colors, Icon, IconName, Switch, useClickOutside } from '@blockchain-com/constellation'
 import styled from 'styled-components'
 
 import { TextInputWithClipboard } from 'components/Form'
 import { DropdownMenu, DropdownMenuArrow } from 'components/Navbar/NavbarDropdown'
 import QRCodeWrapper from 'components/QRCode/Wrapper'
 
-const ANDROID_URL = 'https://play.google.com/store/apps/details?id=com.blockchain.exchange'
-const IOS_URL = 'https://apps.apple.com/app/blockchain-exchange-buy-btc/id1557515848'
+const ANDROID_URL = 'https://play.google.com/store/apps/details?id=piuk.blockchain.android'
+const IOS_URL = 'https://apps.apple.com/us/app/blockchain-wallet-buy-bitcoin/id493253309'
 
 const CustomDropdownMenu = styled(DropdownMenu)`
+  top: 38px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,6 +30,7 @@ const NavbarButton = styled.button`
   width: auto;
   padding: 0;
   border: 0;
+  height: 16px;
 
   &:hover {
     cursor: pointer;
@@ -36,6 +38,11 @@ const NavbarButton = styled.button`
 `
 const QRContainer = styled.div`
   margin: 16px 0;
+`
+
+const StyledSwitch = styled(Switch)`
+  background: ${colors.grey100};
+  height: 15px;
 `
 
 const MobileDropdown = () => {
@@ -55,22 +62,20 @@ const MobileDropdown = () => {
 
   return (
     <NavbarButton data-e2e='mobileQrCode' ref={ref}>
-      {
-        // @ts-ignore
-        <Icon color='#98A1B2' name='phone' size='sm' onClick={handleMenuToggle} />
-      }
+      <Icon color={colors.grey400} name={IconName.PHONE} size='sm' onClick={handleMenuToggle} />
       {isMenuOpen && (
         <CustomDropdownMenu>
           <DropdownMenuArrow />
-          <Switch
-            firstItem='IOS'
+          <StyledSwitch
+            css={{ backgroundColor: 'red' }}
+            firstItem='iOS'
             secondItem='Android'
             handleFirstItemClicked={handleFirstItemClicked}
             handleSecondItemClicked={handleSecondItemClicked}
             isFirstItemActive={isFirstItemActive}
           />
           <QRContainer>
-            <QRCodeWrapper value='blockchain.com' size={120} />
+            <QRCodeWrapper value={isFirstItemActive ? IOS_URL : ANDROID_URL} size={220} />
           </QRContainer>
           <TextInputWithClipboard value={isFirstItemActive ? IOS_URL : ANDROID_URL} />
         </CustomDropdownMenu>
