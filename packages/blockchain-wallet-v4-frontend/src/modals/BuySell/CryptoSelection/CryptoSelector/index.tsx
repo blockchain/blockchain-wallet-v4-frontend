@@ -111,10 +111,11 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
 
     // use preferred currency from local storage if it exists
     const fiatCurrency =
-      (this.props.originalFiatCurrency &&
-        preferredCurrencyFromStorage &&
-        this.props.showTradingCurrency) ||
-      getFiatFromPair(pair.pair)
+      this.props.originalFiatCurrency &&
+      preferredCurrencyFromStorage &&
+      this.props.showTradingCurrency
+        ? preferredCurrencyFromStorage
+        : getFiatFromPair(pair.pair)
 
     // default continue to enter amount step
     return this.props.buySellActions.setStep({
