@@ -219,7 +219,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const baseCurrency = fix === 'FIAT' ? fiatCurrency : cryptoCurrency
   const conversionCoinType: 'FIAT' | CoinType = fix === 'FIAT' ? 'FIAT' : cryptoCurrency
 
-  const quoteAmt = getQuote(props.pair.pair, props.quote.rate, fix, props.formValues?.amount)
+  const quoteAmt = getQuote(props.pair?.pair, props.quote.rate, fix, props.formValues?.amount)
 
   if (!props.formValues) return null
   if (!fiatCurrency || !baseCurrency)
