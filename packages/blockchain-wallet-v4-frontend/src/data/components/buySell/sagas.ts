@@ -451,6 +451,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       } as WalletOptionsType['domains'])
 
       let attributes
+
+      const paymentSuccessLink = `${domains.walletHelper}/wallet-helper/3ds-payment-success/#/`
+
       if (
         order.paymentType === BSPaymentTypes.PAYMENT_CARD ||
         order.paymentType === BSPaymentTypes.USER_CARD
@@ -459,10 +462,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           order.paymentMethodId || paymentMethodId
             ? {
                 everypay: {
-                  customerUrl: `${domains.walletHelper}/wallet-helper/everypay/#/response-handler`
+                  customerUrl: paymentSuccessLink
                 },
-                // TODO add correct redirect url here for checkout, everypay and stripe, like `card-provider`
-                redirectURL: `${domains.walletHelper}/wallet-helper/everypay/#/response-handler`
+                redirectURL: paymentSuccessLink
               }
             : undefined
       } else if (account?.partner === BankPartners.YAPILY) {

@@ -51,6 +51,13 @@ const ThreeDSHandlerStripe = ({ buySellActions, domains, order }: Props) => {
     buySellActions.destroyCheckout()
   }
 
+  if (
+    !order.attributes?.cardProvider?.publishableApiKey ||
+    !order.attributes?.cardProvider?.clientSecret
+  ) {
+    return <DataError onClick={handleRefresh} />
+  }
+
   if (isError) {
     return <DataError onClick={handleRefresh} />
   }
@@ -58,7 +65,7 @@ const ThreeDSHandlerStripe = ({ buySellActions, domains, order }: Props) => {
   return (
     <CustomFlyoutWrapper>
       <Iframe
-        src={`${domains.walletHelper}/wallet-helper/stripe/#/paymentLink/${order?.attributes?.cardProvider?.publishableApiKey}/${order?.attributes?.cardProvider?.clientSecret}`}
+        src={`${domains.walletHelper}/wallet-helper/stripe/#/paymentLink/${order.attributes.cardProvider.publishableApiKey}/${order.attributes.cardProvider.clientSecret}`}
       />
     </CustomFlyoutWrapper>
   )
