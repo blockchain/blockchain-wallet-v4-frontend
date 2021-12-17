@@ -20,6 +20,7 @@
         "cEURRewards": true,
         "developerMobilePairing": true,
         "eddInterestFileUpload": true,
+        "flexiblePricingModel": true,
         "pollForMagicLinkData": true,
         "recurringBuys": true,
         "signupCountry": true,
