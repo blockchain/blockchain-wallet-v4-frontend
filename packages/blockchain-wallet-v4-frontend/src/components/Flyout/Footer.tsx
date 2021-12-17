@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Footer = styled.div`
+const Footer = styled.div<{ collapsed?: boolean }>`
   width: 100%;
   box-sizing: border-box;
   padding: 40px;
-  height: 50%;
+  ${({ collapsed }) => (!collapsed && 'height: 50%;') || ''}
 
   @media (max-width: 767px) {
     padding: 20px;
@@ -13,11 +13,12 @@ const Footer = styled.div`
 `
 
 const FlyoutFooter = (props: Props) => {
-  return <Footer>{props.children}</Footer>
+  return <Footer collapsed={props.collapsed}>{props.children}</Footer>
 }
 
 export type Props = {
   children?: React.ReactNode
+  collapsed?: boolean
 }
 
 export default React.memo(FlyoutFooter)

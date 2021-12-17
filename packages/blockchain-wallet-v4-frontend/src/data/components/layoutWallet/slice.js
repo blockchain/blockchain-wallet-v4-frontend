@@ -9,7 +9,7 @@ const layoutWalletSlice = createSlice({
   name: 'layoutWallet',
   reducers: {
     layoutWalletMenuToggleClicked: (state) => {
-      return { menuOpened: !state.menuOpened }
+      state.menuOpened = !state.menuOpened
     }
   }
 })
