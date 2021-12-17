@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  menuOpened: true
+  menuOpened: false
 }
 
 const layoutWalletSlice = createSlice({
