@@ -69,7 +69,7 @@ export default ({ apiUrl, get, post }) => {
   }
 
   const getNftCollections = (
-    sortedBy = '7_day_vol',
+    sortedBy = 'one_day_vol',
     direction = 'DESC'
   ): ExplorerGatewayNftCollectionType[] => {
     return get({
