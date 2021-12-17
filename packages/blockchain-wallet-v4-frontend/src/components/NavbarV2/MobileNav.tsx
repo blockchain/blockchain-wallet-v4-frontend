@@ -1,9 +1,13 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
+import { Button, Text } from 'blockchain-info-components'
+
 import FlyoutContainer from '../Flyout/Container'
 import FlyoutContent from '../Flyout/Content'
+import FlyoutFooter from '../Flyout/Footer'
 import FlyoutHeader from '../Flyout/Header'
 import { CheckoutRow } from '../Rows'
 import { PrimaryNavItem } from './Navbar'
@@ -15,10 +19,16 @@ const MobileNavList = styled.ul`
 
 const StyledLi = styled.li`
   list-style-type: none;
+  padding: 12px 8px;
+  margin: 10px 8px;
 
   & a {
     text-decoration: none;
   }
+`
+
+const NavAccount = styled(Text)`
+  padding: 24px 16px 0;
 `
 
 const MobileNav = ({
@@ -33,6 +43,7 @@ const MobileNav = ({
       handleClose()
     }
   }
+  const logoutInfo = tertiaryNavItems.pop()
   return (
     <div
       style={{
@@ -53,29 +64,26 @@ const MobileNav = ({
               <StyledLi key={item.e2e}>
                 <div role='button' tabIndex={0} onClick={handleClose} onKeyDown={handleClose}>
                   <NavLink to={item.dest} data-e2e={item.e2e}>
-                    <CheckoutRow title={item.text} />
+                    <Text color='grey900' size='14px' weight={600}>
+                      {item.text}
+                    </Text>
                   </NavLink>
                 </div>
               </StyledLi>
             ))}
-            {secondaryNavItems.map(({ name, clickHandler = () => {} }) => (
-              <StyledLi key={name}>
-                <div
-                  role='button'
-                  tabIndex={0}
-                  onClick={clickAndClose(clickHandler)}
-                  onKeyDown={clickHandler}
-                >
-                  <CheckoutRow title={name} />
-                </div>
-              </StyledLi>
-            ))}
+          </MobileNavList>
+          <NavAccount size='12px' color='grey600' weight={600} uppercase>
+            <FormattedMessage id='copy.account' defaultMessage='Account' />
+          </NavAccount>
+          <MobileNavList>
             {tertiaryNavItems.map(({ clickHandler, copy, 'data-e2e': e2e, to }) => (
               <StyledLi key={to}>
                 {to ? (
                   <div role='button' tabIndex={0} onClick={handleClose} onKeyDown={handleClose}>
                     <NavLink to={to} data-e2e={e2e}>
-                      <CheckoutRow title={copy} />
+                      <Text color='grey900' size='14px' weight={600}>
+                        {copy}
+                      </Text>
                     </NavLink>
                   </div>
                 ) : (
@@ -85,13 +93,27 @@ const MobileNav = ({
                     onClick={clickAndClose(clickHandler)}
                     onKeyDown={clickHandler}
                   >
-                    <CheckoutRow title={copy} />
+                    <Text color='grey900' size='14px' weight={600}>
+                      {copy}
+                    </Text>
                   </div>
                 )}
               </StyledLi>
             ))}
           </MobileNavList>
         </FlyoutContent>
+        <FlyoutFooter collapsed>
+          {logoutInfo && (
+            <Button
+              data-e2e={logoutInfo['data-e2e']}
+              nature='light-red'
+              fullwidth
+              onClick={logoutInfo.clickHandler}
+            >
+              {logoutInfo.copy}
+            </Button>
+          )}
+        </FlyoutFooter>
       </FlyoutContainer>
     </div>
   )
