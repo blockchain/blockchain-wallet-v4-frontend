@@ -5,11 +5,9 @@ import { find, findIndex, isNil, prop, propEq, sortBy, toUpper } from 'ramda'
 import '@formatjs/intl-relativetimeformat/polyfill'
 
 export const languages = [
-  { cultureCode: 'de-DE', language: 'de', name: 'German' },
   { cultureCode: 'en-GB', language: 'en', name: 'English' },
   { cultureCode: 'es-ES', language: 'es', name: 'Spanish' },
   { cultureCode: 'fr-FR', language: 'fr', name: 'French' },
-  { cultureCode: 'it-IT', language: 'it', name: 'Italian' },
   { cultureCode: 'pt-PT', language: 'pt', name: 'Portuguese' },
   { cultureCode: 'ru-RU', language: 'ru', name: 'Russian' },
   { cultureCode: 'tr-TR', language: 'tr', name: 'Turkish' }
@@ -58,23 +56,6 @@ export const loadLocaleData = (locale, callback) => {
   }
 
   switch (locale) {
-    case 'de':
-      require.ensure(
-        [
-          'moment/locale/de.js',
-          '@formatjs/intl-relativetimeformat/locale-data/de.js',
-          '../../assets/locales/de.json'
-        ],
-        (require) => {
-          require('moment/locale/de.js')
-          setLocaleData(
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
-            require('../../assets/locales/de.json')
-          )
-        },
-        'i18n-de'
-      )
-      break
     case 'en':
       require.ensure(
         [
@@ -124,23 +105,6 @@ export const loadLocaleData = (locale, callback) => {
           )
         },
         'i18n-fr'
-      )
-      break
-    case 'it':
-      require.ensure(
-        [
-          'moment/locale/it.js',
-          '@formatjs/intl-relativetimeformat/locale-data/it.js',
-          '../../assets/locales/it.json'
-        ],
-        (require) => {
-          require('moment/locale/it.js')
-          setLocaleData(
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
-            require('../../assets/locales/it.json')
-          )
-        },
-        'i18n-it'
       )
       break
     case 'pt':
