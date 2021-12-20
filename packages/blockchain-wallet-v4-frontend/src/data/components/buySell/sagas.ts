@@ -849,7 +849,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(
           A.fetchBuyQuoteSuccess({
             fee: quote.feeDetails.fee.toString(),
-            pair,
+            pair: pairReversed,
             quote,
             rate: parseInt(quote.price)
           })
@@ -1135,13 +1135,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         )).getOrElse(false)
 
         if (isFlexiblePricingModel) {
-          const pairReversed = reversePair(pair.pair)
           const amount = '500'
 
           yield put(
             A.startPollBuyQuote({
               amount,
-              pair: pairReversed,
+              pair: pair.pair,
               paymentMethod: BSPaymentTypes.FUNDS
             })
           )

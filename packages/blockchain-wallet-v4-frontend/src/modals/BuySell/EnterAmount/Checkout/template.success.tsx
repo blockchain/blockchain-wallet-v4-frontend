@@ -37,6 +37,7 @@ import Payment from './Payment'
 import {
   checkCrossBorderLimit,
   formatQuote,
+  getBuyQuote,
   getMaxMin,
   getQuote,
   maximumAmount,
@@ -219,7 +220,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const baseCurrency = fix === 'FIAT' ? fiatCurrency : cryptoCurrency
   const conversionCoinType: 'FIAT' | CoinType = fix === 'FIAT' ? 'FIAT' : cryptoCurrency
 
-  const quoteAmt = getQuote(props.pair?.pair, props.quote.rate, fix, props.formValues?.amount)
+  const quoteAmt = props.isFlexiblePricingModel
+    ? getBuyQuote(props.pair?.pair, props.quote.rate, fix, props.formValues?.amount)
+    : getQuote(props.pair?.pair, props.quote.rate, fix, props.formValues?.amount)
 
   if (!props.formValues) return null
   if (!fiatCurrency || !baseCurrency)
