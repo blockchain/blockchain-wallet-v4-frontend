@@ -245,7 +245,6 @@ class CryptoSelector extends React.Component<InjectedFormProps<{}, Props> & Prop
           </FlyoutWrapper>
           <Currencies>
             {this.state.orderType === OrderType.SELL ? (
-              // <div>ASDKJALDJASKLDSAJDLSAJD</div>
               <SellState handleSell={this.handleSell} handleClose={this.props.handleClose} />
             ) : (
               this.props.pairs.map((value) => (
