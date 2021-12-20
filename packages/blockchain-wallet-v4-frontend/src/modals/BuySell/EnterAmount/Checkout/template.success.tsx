@@ -219,7 +219,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const baseCurrency = fix === 'FIAT' ? fiatCurrency : cryptoCurrency
   const conversionCoinType: 'FIAT' | CoinType = fix === 'FIAT' ? 'FIAT' : cryptoCurrency
 
-  const quoteAmt = getQuote(props.pair.pair, props.quote.rate, fix, props.formValues?.amount)
+  const quoteAmt = getQuote(props.pair?.pair, props.quote.rate, fix, props.formValues?.amount)
 
   if (!props.formValues) return null
   if (!fiatCurrency || !baseCurrency)
@@ -392,7 +392,6 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   // Always reset back to walletCurrency
                   // Otherwise FUNDS currency and Pairs currency can mismatch
                   fiatCurrency: props.walletCurrency || 'USD',
-
                   step: 'CRYPTO_SELECTION'
                 })
               }
@@ -623,7 +622,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                       values={{
                         amount:
                           fix === 'FIAT'
-                            ? fiatToString({ unit: props.walletCurrency, value: min })
+                            ? fiatToString({ unit: props.fiatCurrency, value: min })
                             : `${min} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`
                       }}
                     />
@@ -634,7 +633,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                       values={{
                         amount:
                           fix === 'FIAT'
-                            ? fiatToString({ unit: props.walletCurrency, value: max })
+                            ? fiatToString({ unit: props.fiatCurrency, value: max })
                             : `${max} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`
                       }}
                     />
@@ -666,7 +665,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                       values={{
                         amount:
                           fix === 'FIAT'
-                            ? fiatToString({ unit: props.walletCurrency, value: min })
+                            ? fiatToString({ unit: props.fiatCurrency, value: min })
                             : `${min} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`,
                         currency: fiatCurrency
                       }}
@@ -678,7 +677,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                       values={{
                         amount:
                           fix === 'FIAT'
-                            ? fiatToString({ unit: props.walletCurrency, value: min })
+                            ? fiatToString({ unit: props.fiatCurrency, value: min })
                             : `${min} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`,
                         currency: fiatCurrency
                       }}
@@ -693,7 +692,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                       values={{
                         amount:
                           fix === 'FIAT'
-                            ? fiatToString({ unit: props.walletCurrency, value: max })
+                            ? fiatToString({ unit: props.fiatCurrency, value: max })
                             : `${min} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`,
                         coin: cryptoCurrency,
                         currency: fiatCurrency
@@ -706,7 +705,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                       values={{
                         amount:
                           fix === 'FIAT'
-                            ? fiatToString({ unit: props.walletCurrency, value: max })
+                            ? fiatToString({ unit: props.fiatCurrency, value: max })
                             : `${min} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`,
                         coin: cryptoCurrency
                       }}

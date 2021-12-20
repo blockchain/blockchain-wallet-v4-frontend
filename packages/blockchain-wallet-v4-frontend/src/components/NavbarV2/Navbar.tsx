@@ -101,7 +101,11 @@ const PrimaryNavItems = styled(ListStyles)`
   cursor: pointer;
 
   & > li {
-    padding: 10px 5px;
+    padding: 10px 8px;
+
+    & > a > span {
+      font-weight: 600;
+    }
   }
 `
 
@@ -277,11 +281,16 @@ const Navbar = ({
       <NavRight>
         <SecondaryNavItems>
           {isMobile ? (
-            <li>
-              <NavButton onClick={openMobileNavCallback} data-e2e='mobileNavExpand'>
-                <Icon name={IconName.MENU} color={colors.blue500} size='md' />
-              </NavButton>
-            </li>
+            <>
+              <li>
+                <FabButton onClick={fabClickHandler} />
+              </li>
+              <li>
+                <NavButton onClick={openMobileNavCallback} data-e2e='mobileNavExpand'>
+                  <Icon name={IconName.MENU} color={colors.blue500} size='md' />
+                </NavButton>
+              </li>
+            </>
           ) : (
             <>
               {secondaryNavItems.map((item) => (
