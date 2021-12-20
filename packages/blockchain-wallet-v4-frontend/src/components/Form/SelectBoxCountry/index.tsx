@@ -19,114 +19,79 @@ export const countries: Country[] = [
     value: 'AD'
   },
   {
-    emoji: '🇦�',
+    emoji: '🇦🇪',
     text: 'United Arab Emirates',
     value: 'AE'
   },
   {
-    emoji: '🇦�',
+    emoji: '🇦🇬',
     text: 'Antigua and Barbuda',
     value: 'AG'
   },
   {
-    emoji: '🇦�',
+    emoji: '🇦🇮',
     text: 'Anguilla',
     value: 'AI'
   },
   {
-    emoji: '🇦�',
+    emoji: '🇦🇱',
     text: 'Albania',
     value: 'AL'
   },
   {
-    emoji: '🇦�',
+    emoji: '🇦🇴',
     text: 'Armenia',
     value: 'AM'
   },
   {
-    emoji: '🇦�',
+    emoji: '🇦🇴',
     text: 'Angola',
     value: 'AO'
   },
   {
-    emoji: '🇦�',
+    emoji: '🇦🇷',
     text: 'Argentina',
     value: 'AR'
   },
   {
-    emoji: '🇦�',
+    emoji: '🇦🇸',
     text: 'American Samoa',
     value: 'AS'
   },
   {
-    emoji: '🇦�',
+    emoji: '🇦🇹',
     text: 'Austria',
     value: 'AT'
   },
   {
-    emoji: '🇦�',
+    emoji: '🇦🇺',
     text: 'Australia',
     value: 'AU'
   },
   {
-    emoji: '🇦�',
+    emoji: '🇦🇼',
     text: 'Aruba',
     value: 'AW'
   },
   {
-    emoji: '🇦�',
+    emoji: '🇦🇿',
     text: 'Azerbaijan',
     value: 'AZ'
   },
   {
-    emoji: '��',
+    emoji: '🇧🇦',
     text: 'Bosnia and Herzegovina',
     value: 'BA'
   },
   {
-    emoji: '🇧�',
+    emoji: '🇧🇧',
     text: 'Barbados',
     value: 'BB'
   },
   {
-    emoji: '🇧�',
+    emoji: '🇧🇩',
     text: 'Bangladesh',
     value: 'BD'
-  },
-  {
-    emoji: '🇧�',
-    text: 'Belgium',
-    value: 'BE'
-  },
-  {
-    emoji: '🇧�',
-    text: 'Burkina Faso',
-    value: 'BF'
-  },
-  {
-    emoji: '🇧�',
-    text: 'Bulgaria',
-    value: 'BG'
-  },
-  {
-    emoji: '🇧�',
-    text: 'Bahrain',
-    value: 'BH'
-  },
-  {
-    emoji: '🇧�',
-    text: 'Burundi',
-    value: 'BI'
-  },
-  {
-    emoji: '🇧�',
-    text: 'Benin',
-    value: 'BJ'
-  },
-  {
-    emoji: '🇧�',
-    text: 'Saint Barthélemy',
-    value: 'BL'
   },
   {
     emoji: '🇧🇾',
@@ -134,712 +99,755 @@ export const countries: Country[] = [
     value: 'BY'
   },
   {
-    emoji: '🇧�',
+    emoji: '🇧🇪',
+    text: 'Belgium',
+    value: 'BE'
+  },
+  {
+    emoji: '🇧🇫',
+    text: 'Burkina Faso',
+    value: 'BF'
+  },
+  {
+    emoji: '🇧🇬',
+    text: 'Bulgaria',
+    value: 'BG'
+  },
+  {
+    emoji: '🇧🇭',
+    text: 'Bahrain',
+    value: 'BH'
+  },
+  {
+    emoji: '🇧🇮',
+    text: 'Burundi',
+    value: 'BI'
+  },
+  {
+    emoji: '🇧🇯',
+    text: 'Benin',
+    value: 'BJ'
+  },
+  {
+    emoji: '🇧🇱',
+    text: 'Saint Barthélemy',
+    value: 'BL'
+  },
+  {
+    emoji: '🇧🇲',
     text: 'Bermuda',
     value: 'BM'
   },
   {
-    emoji: '🇧�',
+    emoji: '🇧🇳',
     text: 'Brunei Darussalam',
     value: 'BN'
   },
   {
-    emoji: '🇧�',
+    emoji: '🇧🇴',
     text: 'Bolivia',
     value: 'BO'
   },
   {
-    emoji: '🇧�',
+    emoji: '🇧🇶',
     text: 'Bonaire, Sint Eustatius and Saba',
     value: 'BQ'
   },
   {
-    emoji: '🇧�',
+    emoji: '🇧🇷',
     text: 'Brazil',
     value: 'BR'
   },
   {
-    emoji: '🇧�',
+    emoji: '🇧🇸',
     text: 'Bahamas',
     value: 'BS'
   },
   {
-    emoji: '🇧�',
+    emoji: '🇧🇹',
     text: 'Bhutan',
     value: 'BT'
   },
   {
-    emoji: '🇧�',
+    emoji: '🇧🇻',
     text: 'Bouvet Island',
     value: 'BV'
   },
   {
-    emoji: '🇧�',
+    emoji: '🇧🇼',
     text: 'Botswana',
     value: 'BW'
   },
   {
-    emoji: '🇧�',
+    emoji: '🇧🇿',
     text: 'Belize',
     value: 'BZ'
   },
   {
-    emoji: '��',
+    emoji: '🇨🇦',
     text: 'Canada',
     value: 'CA'
   },
   {
-    emoji: '🇨�',
+    emoji: '🇨🇨',
     text: 'Cocos (Keeling) Islands',
     value: 'CC'
   },
   {
-    emoji: '🇨�',
+    emoji: '🇨🇭',
     text: 'Switzerland',
     value: 'CH'
   },
   {
-    emoji: '🇨�',
+    emoji: '🇨🇰',
     text: 'Cook Islands',
     value: 'CK'
   },
   {
-    emoji: '🇨�',
+    emoji: '🇨🇱',
     text: 'Chile',
     value: 'CL'
   },
   {
-    emoji: '🇨�',
+    emoji: '🇨🇲',
     text: 'Cameroon',
     value: 'CM'
   },
   {
-    emoji: '🇨�',
+    emoji: '🇨🇳',
     text: 'China',
     value: 'CN'
   },
   {
-    emoji: '🇨�',
+    emoji: '🇨🇴',
     text: 'Colombia',
     value: 'CO'
   },
   {
-    emoji: '🇨�',
+    emoji: '🇨🇷',
     text: 'Costa Rica',
     value: 'CR'
   },
   {
-    emoji: '🇨�',
+    emoji: '🇨🇻',
     text: 'Cape Verde',
     value: 'CV'
   },
   {
-    emoji: '🇨�',
+    emoji: '🇨🇼',
     text: 'Curaçao',
     value: 'CW'
   },
   {
-    emoji: '🇨�',
+    emoji: '🇨🇽',
     text: 'Christmas Island',
     value: 'CX'
   },
   {
-    emoji: '🇨�',
+    emoji: '🇨🇾',
     text: 'Cyprus',
     value: 'CY'
   },
   {
-    emoji: '🇨�',
+    emoji: '🇨🇿',
     text: 'Czech Republic',
     value: 'CZ'
   },
   {
-    emoji: '��',
+    emoji: '🇩🇪',
     text: 'Germany',
     value: 'DE'
   },
   {
-    emoji: '🇩�',
+    emoji: '🇩🇯',
     text: 'Djibouti',
     value: 'DJ'
   },
   {
-    emoji: '🇩�',
+    emoji: '🇩🇰',
     text: 'Denmark',
     value: 'DK'
   },
   {
-    emoji: '🇩�',
+    emoji: '🇩🇲',
     text: 'Dominica',
     value: 'DM'
   },
   {
-    emoji: '🇩�',
+    emoji: '🇩🇴',
     text: 'Dominican Republic',
     value: 'DO'
   },
   {
-    emoji: '🇩�',
+    emoji: '🇩🇿',
     text: 'Algeria',
     value: 'DZ'
   },
   {
-    emoji: '��',
+    emoji: '🇪🇨',
     text: 'Ecuador',
     value: 'EC'
   },
   {
-    emoji: '🇪�',
+    emoji: '🇪🇪',
     text: 'Estonia',
     value: 'EE'
   },
   {
-    emoji: '🇪�',
+    emoji: '🇪🇬',
     text: 'Egypt',
     value: 'EG'
   },
   {
-    emoji: '🇪�',
+    emoji: '🇪🇭',
     text: 'Western Sahara',
     value: 'EH'
   },
   {
-    emoji: '🇪�',
+    emoji: '🇪🇸',
     text: 'Spain',
     value: 'ES'
   },
   {
-    emoji: '🇪�',
+    emoji: '🇪🇹',
     text: 'Ethiopia',
     value: 'ET'
   },
   {
-    emoji: '��',
+    emoji: '🇫🇮',
     text: 'Finland',
     value: 'FI'
   },
   {
-    emoji: '🇫�',
+    emoji: '🇫🇯',
     text: 'Fiji',
     value: 'FJ'
   },
   {
-    emoji: '🇫�',
+    emoji: '🇫🇰',
     text: 'Falkland Islands (Malvinas)',
     value: 'FK'
   },
   {
-    emoji: '🇫�',
+    emoji: '🇫🇲',
     text: 'Micronesia',
     value: 'FM'
   },
   {
-    emoji: '🇫�',
+    emoji: '🇫🇴',
     text: 'Faroe Islands',
     value: 'FO'
   },
   {
-    emoji: '🇫�',
+    emoji: '🇫🇷',
     text: 'France',
     value: 'FR'
   },
   {
-    emoji: '��',
+    emoji: '🇬🇦',
     text: 'Gabon',
     value: 'GA'
   },
   {
-    emoji: '🇬�',
+    emoji: '🇬🇧',
     text: 'United Kingdom',
     value: 'GB'
   },
   {
-    emoji: '🇬�',
+    emoji: '🇬🇩',
     text: 'Grenada',
     value: 'GD'
   },
   {
-    emoji: '🇬�',
+    emoji: '🇬🇪',
     text: 'Georgia',
     value: 'GE'
   },
   {
-    emoji: '🇬�',
+    emoji: '🇬🇫',
     text: 'French Guiana',
     value: 'GF'
   },
   {
-    emoji: '🇬�',
+    emoji: '🇬🇬',
     text: 'Guernsey',
     value: 'GG'
   },
   {
-    emoji: '🇬�',
+    emoji: '🇬🇭',
     text: 'Ghana',
     value: 'GH'
   },
   {
-    emoji: '🇬�',
+    emoji: '🇬🇮',
     text: 'Gibraltar',
     value: 'GI'
   },
   {
-    emoji: '🇬�',
+    emoji: '🇬🇱',
     text: 'Greenland',
     value: 'GL'
   },
   {
-    emoji: '🇬�',
+    emoji: '🇬🇲',
     text: 'Gambia',
     value: 'GM'
   },
   {
-    emoji: '🇬�',
+    emoji: '🇬🇵',
     text: 'Guadeloupe',
     value: 'GP'
   },
   {
-    emoji: '🇬�',
+    emoji: '🇬🇷',
     text: 'Greece',
     value: 'GR'
   },
   {
-    emoji: '🇬�',
+    emoji: '🇬🇸',
     text: 'South Georgia',
     value: 'GS'
   },
   {
-    emoji: '🇬�',
+    emoji: '🇬🇹',
     text: 'Guatemala',
     value: 'GT'
   },
   {
-    emoji: '🇬�',
+    emoji: '🇬🇺',
     text: 'Guam',
     value: 'GU'
   },
   {
-    emoji: '🇬�',
+    emoji: '🇬🇾',
     text: 'Guyana',
     value: 'GY'
   },
   {
-    emoji: '��',
+    emoji: '🇭🇰',
     text: 'Hong Kong',
     value: 'HK'
   },
   {
-    emoji: '🇭�',
+    emoji: '🇭🇲',
     text: 'Heard Island and Mcdonald Islands',
     value: 'HM'
   },
   {
-    emoji: '🇭�',
+    emoji: '🇭🇳',
     text: 'Honduras',
     value: 'HN'
   },
+
   {
-    emoji: '🇭�',
+    emoji: '🇭🇷',
     text: 'Croatia',
     value: 'HR'
   },
   {
-    emoji: '🇭�',
+    emoji: '🇭🇹',
     text: 'Haiti',
     value: 'HT'
   },
   {
-    emoji: '🇭�',
+    emoji: '🇭🇺',
     text: 'Hungary',
     value: 'HU'
   },
   {
-    emoji: '��',
+    emoji: '🇮🇩',
     text: 'Indonesia',
     value: 'ID'
   },
   {
-    emoji: '🇮�',
+    emoji: '🇮🇪',
     text: 'Ireland',
     value: 'IE'
   },
   {
-    emoji: '🇮�',
+    emoji: '🇮🇱',
     text: 'Israel',
     value: 'IL'
   },
   {
-    emoji: '🇮�',
+    emoji: '🇮🇲',
     text: 'Isle of Man',
     value: 'IM'
   },
   {
-    emoji: '🇮�',
+    emoji: '🇮🇳',
     text: 'India',
     value: 'IN'
   },
   {
-    emoji: '🇮�',
+    emoji: '🇮🇴',
     text: 'British Indian Ocean Territory',
     value: 'IO'
   },
   {
-    emoji: '🇮�',
+    emoji: '🇮🇸',
     text: 'Iceland',
     value: 'IS'
   },
   {
-    emoji: '🇮�',
+    emoji: '🇮🇹',
     text: 'Italy',
     value: 'IT'
   },
   {
-    emoji: '��',
+    emoji: '🇯🇪',
     text: 'Jersey',
     value: 'JE'
   },
   {
-    emoji: '🇯�',
+    emoji: '🇯🇲',
     text: 'Jamaica',
     value: 'JM'
   },
   {
-    emoji: '🇯�',
+    emoji: '🇯🇴',
     text: 'Jordan',
     value: 'JO'
   },
   {
-    emoji: '��',
+    emoji: '🇯🇵',
+    text: 'Japan',
+    value: 'JP'
+  },
+  {
+    emoji: '🇰🇪',
     text: 'Kenya',
     value: 'KE'
   },
+
   {
-    emoji: '🇰�',
+    emoji: '🇰🇬',
     text: 'Kyrgyzstan',
     value: 'KG'
   },
   {
-    emoji: '🇰�',
+    emoji: '🇰🇭',
     text: 'Cambodia',
     value: 'KH'
   },
   {
-    emoji: '🇰�',
+    emoji: '🇰🇮',
     text: 'Kiribati',
     value: 'KI'
   },
   {
-    emoji: '🇰�',
+    emoji: '🇰🇲',
     text: 'Comoros',
     value: 'KM'
   },
   {
-    emoji: '🇰�',
+    emoji: '🇰🇳',
     text: 'Saint Kitts and Nevis',
     value: 'KN'
   },
   {
-    emoji: '🇰�',
+    emoji: '🇰🇷',
     text: 'South Korea',
     value: 'KR'
   },
   {
-    emoji: '🇰�',
+    emoji: '🇰🇼',
     text: 'Kuwait',
     value: 'KW'
   },
   {
-    emoji: '🇰�',
+    emoji: '🇰🇾',
     text: 'Cayman Islands',
     value: 'KY'
   },
   {
-    emoji: '🇰�',
+    emoji: '🇰🇿',
     text: 'Kazakhstan',
     value: 'KZ'
   },
   {
-    emoji: '��',
+    emoji: '🇱🇦',
     text: "Lao People's Democratic Republic",
     value: 'LA'
   },
   {
-    emoji: '🇱�',
+    emoji: '🇱🇨',
     text: 'Saint Lucia',
     value: 'LC'
   },
   {
-    emoji: '🇱�',
+    emoji: '🇱🇮',
     text: 'Liechtenstein',
     value: 'LI'
   },
   {
-    emoji: '🇱�',
+    emoji: '🇱🇰',
     text: 'Sri Lanka',
     value: 'LK'
   },
   {
-    emoji: '🇱�',
+    emoji: '🇱🇸',
     text: 'Lesotho',
     value: 'LS'
   },
   {
-    emoji: '🇱�',
+    emoji: '🇱🇹',
     text: 'Lithuania',
     value: 'LT'
   },
   {
-    emoji: '🇱�',
+    emoji: '🇱🇺',
     text: 'Luxembourg',
     value: 'LU'
   },
+
   {
-    emoji: '🇱�',
+    emoji: '🇱🇻',
     text: 'Latvia',
     value: 'LV'
   },
   {
-    emoji: '��',
+    emoji: '🇲🇦',
     text: 'Morocco',
     value: 'MA'
   },
   {
-    emoji: '🇲�',
+    emoji: '🇲🇨',
     text: 'Monaco',
     value: 'MC'
   },
   {
-    emoji: '🇲�',
+    emoji: '🇲🇩',
     text: 'Moldova',
     value: 'MD'
   },
   {
-    emoji: '🇲�',
+    emoji: '🇲🇪',
     text: 'Montenegro',
     value: 'ME'
   },
   {
-    emoji: '🇲�',
+    emoji: '🇲🇫',
     text: 'Saint Martin (French Part)',
     value: 'MF'
   },
   {
-    emoji: '🇲�',
+    emoji: '🇲🇬',
     text: 'Madagascar',
     value: 'MG'
   },
   {
-    emoji: '🇲�',
+    emoji: '🇲🇭',
     text: 'Marshall Islands',
     value: 'MH'
   },
   {
-    emoji: '🇲�',
+    emoji: '🇲🇰',
     text: 'Macedonia',
     value: 'MK'
   },
   {
-    emoji: '🇲�',
+    emoji: '🇲🇱',
     text: 'Mali',
     value: 'ML'
   },
   {
-    emoji: '🇲�',
+    emoji: '🇲🇳',
     text: 'Mongolia',
     value: 'MN'
   },
   {
-    emoji: '🇲�',
+    emoji: '🇲🇴',
     text: 'Macao',
     value: 'MO'
   },
   {
-    emoji: '🇲�',
+    emoji: '🇲🇵',
     text: 'Northern Mariana Islands',
     value: 'MP'
   },
   {
-    emoji: '🇲�',
+    emoji: '🇲🇶',
     text: 'Martinique',
     value: 'MQ'
   },
   {
-    emoji: '🇲�',
+    emoji: '🇲🇷',
     text: 'Mauritania',
     value: 'MR'
   },
   {
-    emoji: '🇲�',
+    emoji: '🇲🇸',
     text: 'Montserrat',
     value: 'MS'
   },
   {
-    emoji: '🇲�',
+    emoji: '🇲🇹',
     text: 'Malta',
     value: 'MT'
   },
   {
-    emoji: '🇲�',
+    emoji: '🇲🇺',
     text: 'Mauritius',
     value: 'MU'
   },
   {
-    emoji: '🇲�',
+    emoji: '🇲🇻',
     text: 'Maldives',
     value: 'MV'
   },
   {
-    emoji: '🇲�',
+    emoji: '🇲🇼',
     text: 'Malawi',
     value: 'MW'
   },
   {
-    emoji: '🇲�',
+    emoji: '🇲🇽',
     text: 'Mexico',
     value: 'MX'
   },
   {
-    emoji: '🇲�',
+    emoji: '🇲🇾',
     text: 'Malaysia',
     value: 'MY'
   },
   {
-    emoji: '🇲�',
+    emoji: '🇲🇿',
     text: 'Mozambique',
     value: 'MZ'
   },
   {
-    emoji: '��',
+    emoji: '🇳🇦',
     text: 'Namibia',
     value: 'NA'
   },
   {
-    emoji: '🇳�',
+    emoji: '🇳🇨',
     text: 'New Caledonia',
     value: 'NC'
   },
   {
-    emoji: '🇳�',
+    emoji: '🇳🇪',
     text: 'Niger',
     value: 'NE'
   },
   {
-    emoji: '🇳�',
+    emoji: '🇳🇫',
     text: 'Norfolk Island',
     value: 'NF'
   },
   {
-    emoji: '🇳�',
+    emoji: '🇳🇬',
     text: 'Nigeria',
     value: 'NG'
   },
   {
-    emoji: '🇳�',
+    emoji: '🇳🇮',
     text: 'Nicaragua',
     value: 'NI'
   },
   {
-    emoji: '🇳�',
+    emoji: '🇳🇱',
     text: 'Netherlands',
     value: 'NL'
   },
   {
-    emoji: '🇳�',
+    emoji: '🇳🇴',
     text: 'Norway',
     value: 'NO'
   },
   {
-    emoji: '🇳�',
+    emoji: '🇳🇵',
     text: 'Nepal',
     value: 'NP'
   },
   {
-    emoji: '🇳�',
+    emoji: '🇳🇷',
     text: 'Nauru',
     value: 'NR'
   },
   {
-    emoji: '🇳�',
+    emoji: '🇳🇺',
     text: 'Niue',
     value: 'NU'
   },
   {
-    emoji: '🇳�',
+    emoji: '🇳🇿',
     text: 'New Zealand',
     value: 'NZ'
   },
   {
-    emoji: '��',
+    emoji: '🇴🇲',
     text: 'Oman',
     value: 'OM'
   },
   {
-    emoji: '��',
+    emoji: '🇵🇦',
     text: 'Panama',
     value: 'PA'
   },
   {
-    emoji: '🇵�',
+    emoji: '🇵🇪',
     text: 'Peru',
     value: 'PE'
   },
   {
-    emoji: '🇵�',
+    emoji: '🇵🇫',
     text: 'French Polynesia',
     value: 'PF'
   },
   {
-    emoji: '🇵�',
+    emoji: '🇵🇬',
     text: 'Papua New Guinea',
     value: 'PG'
   },
   {
-    emoji: '🇵�',
+    emoji: '🇵🇭',
     text: 'Philippines',
     value: 'PH'
   },
   {
-    emoji: '🇵�',
+    emoji: '🇵🇰',
     text: 'Pakistan',
     value: 'PK'
   },
   {
-    emoji: '🇵�',
+    emoji: '🇵🇱',
     text: 'Poland',
     value: 'PL'
   },
   {
-    emoji: '🇵�',
+    emoji: '🇵🇲',
     text: 'Saint Pierre and Miquelon',
     value: 'PM'
   },
   {
-    emoji: '🇵�',
+    emoji: '🇵🇳',
     text: 'Pitcairn',
     value: 'PN'
   },
   {
-    emoji: '🇵�',
+    emoji: '🇵🇷',
     text: 'Puerto Rico',
     value: 'PR'
   },
   {
-    emoji: '🇵�',
+    emoji: '🇵🇸',
     text: 'Palestinian Territory',
     value: 'PS'
   },
   {
-    emoji: '🇵�',
+    emoji: '🇵🇹',
     text: 'Portugal',
     value: 'PT'
   },
   {
-    emoji: '🇵�',
+    emoji: '🇵🇼',
     text: 'Palau',
     value: 'PW'
   },
   {
-    emoji: '🇵�',
+    emoji: '🇵🇾',
     text: 'Paraguay',
     value: 'PY'
   },
@@ -849,262 +857,257 @@ export const countries: Country[] = [
     value: 'RU'
   },
   {
-    emoji: '��',
+    emoji: '🇶🇦',
     text: 'Qatar',
     value: 'QA'
   },
   {
-    emoji: '��',
+    emoji: '🇷🇪',
     text: 'Réunion',
     value: 'RE'
   },
   {
-    emoji: '🇷�',
+    emoji: '🇷🇴',
     text: 'Romania',
     value: 'RO'
   },
   {
-    emoji: '🇷�',
+    emoji: '🇷🇸',
     text: 'Serbia',
     value: 'RS'
   },
   {
-    emoji: '🇷🇺',
-    text: 'Russia',
-    value: 'RU'
-  },
-  {
-    emoji: '🇷�',
+    emoji: '🇷🇼',
     text: 'Rwanda',
     value: 'RW'
   },
   {
-    emoji: '��',
+    emoji: '🇸🇦',
     text: 'Saudi Arabia',
     value: 'SA'
   },
   {
-    emoji: '🇸�',
+    emoji: '🇸🇧',
     text: 'Solomon Islands',
-    value: 'BS'
+    value: 'SB'
   },
   {
-    emoji: '🇸�',
+    emoji: '🇸🇨',
     text: 'Seychelles',
     value: 'SC'
   },
   {
-    emoji: '🇸�',
+    emoji: '🇸🇪',
     text: 'Sweden',
     value: 'SE'
   },
   {
-    emoji: '🇸�',
+    emoji: '🇸🇬',
     text: 'Singapore',
     value: 'SG'
   },
   {
-    emoji: '🇸�',
+    emoji: '🇸🇭',
     text: 'Saint Helena, Ascension and Tristan Da Cunha',
     value: 'SH'
   },
   {
-    emoji: '🇸�',
+    emoji: '🇸🇮',
     text: 'Slovenia',
     value: 'SI'
   },
   {
-    emoji: '🇸�',
+    emoji: '🇸🇰',
     text: 'Slovakia',
     value: 'SK'
   },
   {
-    emoji: '🇸�',
+    emoji: '🇸🇱',
     text: 'Sierra Leone',
     value: 'SL'
   },
   {
-    emoji: '🇸�',
+    emoji: '🇸🇲',
     text: 'San Marino',
     value: 'SM'
   },
   {
-    emoji: '🇸�',
+    emoji: '🇸🇳',
     text: 'Senegal',
     value: 'SN'
   },
   {
-    emoji: '🇸�',
+    emoji: '🇸🇷',
     text: 'Suriname',
     value: 'SR'
   },
   {
-    emoji: '🇸�',
+    emoji: '🇸🇹',
     text: 'Sao Tome and Principe',
     value: 'ST'
   },
   {
-    emoji: '🇸�',
+    emoji: '🇸🇻',
     text: 'El Salvador',
     value: 'SV'
   },
   {
-    emoji: '🇸�',
+    emoji: '🇸🇽',
     text: 'Sint Maarten (Dutch Part)',
     value: 'SX'
   },
   {
-    emoji: '🇸�',
+    emoji: '🇸🇿',
     text: 'Swaziland',
     value: 'SZ'
   },
   {
-    emoji: '��',
+    emoji: '🇹🇨',
     text: 'Turks and Caicos Islands',
     value: 'TC'
   },
   {
-    emoji: '🇹�',
+    emoji: '🇹🇩',
     text: 'Chad',
     value: 'TD'
   },
   {
-    emoji: '🇹�',
+    emoji: '🇹🇫',
     text: 'French Southern Territories',
     value: 'TF'
   },
   {
-    emoji: '🇹�',
+    emoji: '🇹🇬',
     text: 'Togo',
     value: 'TG'
   },
   {
-    emoji: '🇹�',
+    emoji: '🇹🇭',
     text: 'Thailand',
     value: 'TH'
   },
   {
-    emoji: '🇹�',
+    emoji: '🇹🇯',
     text: 'Tajikistan',
     value: 'TJ'
   },
   {
-    emoji: '🇹�',
+    emoji: '🇹🇰',
     text: 'Tokelau',
     value: 'TK'
   },
   {
-    emoji: '🇹�',
+    emoji: '🇹🇱',
     text: 'Timor-Leste',
     value: 'TL'
   },
   {
-    emoji: '🇹�',
+    emoji: '🇹🇲',
     text: 'Turkmenistan',
     value: 'TM'
   },
   {
-    emoji: '🇹�',
+    emoji: '🇹🇴',
     text: 'Tonga',
     value: 'TO'
   },
   {
-    emoji: '🇹�',
+    emoji: '🇹🇷',
     text: 'Turkey',
     value: 'TR'
   },
   {
-    emoji: '🇹�',
+    emoji: '🇹🇹',
     text: 'Trinidad and Tobago',
     value: 'TT'
   },
   {
-    emoji: '🇹�',
+    emoji: '🇹🇻',
     text: 'Tuvalu',
     value: 'TV'
   },
   {
-    emoji: '🇹�',
+    emoji: '🇹🇼',
     text: 'Taiwan',
     value: 'TW'
   },
   {
-    emoji: '🇹�',
+    emoji: '🇹🇿',
     text: 'Tanzania',
     value: 'TZ'
   },
   {
-    emoji: '��',
+    emoji: '🇺🇦',
     text: 'Ukraine',
     value: 'UA'
   },
   {
-    emoji: '🇺�',
+    emoji: '🇺🇬',
     text: 'Uganda',
     value: 'UG'
   },
   {
-    emoji: '🇺�',
+    emoji: '🇺🇲',
     text: 'United States Minor Outlying Islands',
     value: 'UM'
   },
   {
-    emoji: '🇺�',
+    emoji: '🇺🇸',
     text: 'United States',
     value: 'US'
   },
   {
-    emoji: '🇺�',
+    emoji: '🇺🇾',
     text: 'Uruguay',
     value: 'UY'
   },
   {
-    emoji: '🇺�',
+    emoji: '🇺🇿',
     text: 'Uzbekistan',
     value: 'UZ'
   },
   {
-    emoji: '��',
+    emoji: '🇻🇨',
     text: 'Saint Vincent and The Grenadines',
     value: 'VC'
   },
   {
-    emoji: '🇻�',
+    emoji: '🇻🇬',
     text: 'Virgin Islands, British',
     value: 'VG'
   },
   {
-    emoji: '🇻�',
+    emoji: '🇻🇳',
     text: 'Viet Nam',
     value: 'VN'
   },
   {
-    emoji: '🇻�',
+    emoji: '🇻🇺',
     text: 'Vanuatu',
     value: 'VU'
   },
   {
-    emoji: '��',
+    emoji: '🇼🇫',
     text: 'Wallis and Futuna',
     value: 'WF'
   },
   {
-    emoji: '🇼�',
+    emoji: '🇼🇸',
     text: 'Samoa',
     value: 'WS'
   },
   {
-    emoji: '��',
+    emoji: '🇾🇹',
     text: 'Mayotte',
     value: 'YT'
   },
   {
-    emoji: '��',
+    emoji: '🇿🇦',
     text: 'South Africa',
     value: 'ZA'
   },
   {
-    emoji: '🇿�',
+    emoji: '🇿🇲',
     text: 'Zambia',
     value: 'ZM'
   }
