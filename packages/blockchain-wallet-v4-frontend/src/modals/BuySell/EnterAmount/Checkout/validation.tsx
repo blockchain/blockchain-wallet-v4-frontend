@@ -43,6 +43,27 @@ export const getQuote = (
   return new BigNumber(baseAmount || '0').times(standardRate).toFixed(decimals)
 }
 
+export const getBuyQuote = (
+  pair: string,
+  rate: number | string,
+  fix: BSFixType,
+  baseAmount?: string
+) => {
+  if (fix === 'FIAT') {
+    const coin = getCoinFromPair(pair)
+    const decimals = window.coins[coin].coinfig.precision
+    const standardRate = convertBaseToStandard('FIAT', rate)
+    return new BigNumber(baseAmount || '0')
+      .dividedBy(standardRate)
+      .dividedBy(rate)
+      .toFixed(decimals)
+  }
+  const fiat = getFiatFromPair(pair)
+  const decimals = Currencies[fiat].units[fiat as UnitType].decimal_digits
+  const standardRate = convertBaseToStandard('FIAT', rate)
+  return new BigNumber(baseAmount || '0').times(standardRate).times(rate).toFixed(decimals)
+}
+
 export const formatQuote = (amt: string, pair: string, fix: BSFixType): string => {
   if (fix === 'FIAT') {
     return coinToString({

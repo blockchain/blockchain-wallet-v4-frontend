@@ -29,6 +29,7 @@ import {
   getOrderType,
   getPaymentMethodId
 } from 'data/components/buySell/model'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { BankPartners, BankTransferAccountType, RecurringBuyPeriods } from 'data/types'
 
 import {
@@ -263,12 +264,18 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
               </IconWrapper>
             </RowIcon>
             <RowText data-e2e='sbExchangeRate'>
-              {displayFiat(
-                props.order,
-                props.isFlexiblePricingModel
-                  ? (1 / (parseInt(props.quote.rate.toString()) * (1 / 10000000000))).toString()
-                  : props.quote.rate.toString()
-              )}
+              {props.isFlexiblePricingModel
+                ? fiatToString({
+                    unit: counterCurrency as FiatType,
+                    value:
+                      (1 /
+                        parseFloat(props.quote.rate.toString()) /
+                        parseFloat(
+                          convertBaseToStandard(baseCurrencyDisplay, props.quote.rate.toString())
+                        )) *
+                      parseFloat(props.quote.rate.toString())
+                  })
+                : displayFiat(props.order, props.quote.rate.toString())}
             </RowText>
           </TopRow>
           {isActiveCoinTooltip && (
