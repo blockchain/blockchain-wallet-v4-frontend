@@ -219,7 +219,13 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const baseCurrency = fix === 'FIAT' ? fiatCurrency : cryptoCurrency
   const conversionCoinType: 'FIAT' | CoinType = fix === 'FIAT' ? 'FIAT' : cryptoCurrency
 
-  const quoteAmt = getQuote(props.pair?.pair, props.quote.rate, fix, props.formValues?.amount)
+  const quoteAmt = props.isFlexiblePricingModel
+    ? (
+        parseInt(props.quote.rate.toString()) *
+        (1 / 100000000) *
+        (props.formValues ? parseInt(props.formValues.amount) : 0)
+      ).toString()
+    : getQuote(props.pair?.pair, props.quote.rate, fix, props.formValues?.amount)
 
   if (!props.formValues) return null
   if (!fiatCurrency || !baseCurrency)
