@@ -6,7 +6,13 @@ import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { FontGlobalStyles, IconGlobalStyles, Text, TextGroup } from 'blockchain-info-components'
+import {
+  FontGlobalStyles,
+  IconGlobalStyles,
+  Image,
+  Text,
+  TextGroup
+} from 'blockchain-info-components'
 
 import App from './scenes/app.tsx'
 import configureStore from './store'
@@ -30,7 +36,11 @@ const Row = styled.div`
   justify-content: center;
   align-items: flex-start;
   width: 100%;
-  margin-bottom: 15px;
+`
+const BlockchainLogoImage = styled(Image)`
+  display: block;
+  height: 25px;
+  width: 200px;
 `
 const ErrorText = styled(Text)`
   color: white;
@@ -50,19 +60,19 @@ configureStore()
       document.getElementById('app')
     )
   })
-  .then((e) => {
+  .catch((e) => {
     ReactDOM.render(
       <ErrorWrapper>
-        <Row>
-          <ErrorText size='24px'>We&rsquo;ll be back soon!</ErrorText>
-        </Row>
         <Row>
           <TextGroup>
             <ErrorText size='18px'>
               Sorry for the inconvenience but we&rsquo;re performing some maintenance at the moment.
+              We&rsquo;ll be back online soon!
             </ErrorText>
-            <ErrorText size='18px'>&mdash; The Blockchain.com Team</ErrorText>
           </TextGroup>
+        </Row>
+        <Row style={{ marginTop: '60px' }}>
+          <BlockchainLogoImage name='blockchain-logo' />
         </Row>
       </ErrorWrapper>,
       document.getElementById('app')
