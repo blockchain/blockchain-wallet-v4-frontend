@@ -278,9 +278,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     try {
       let buyQuote
 
-      if (isFlexiblePricingModel) {
-        buyQuote = S.getBuyQuote(yield select()).getOrFail(NO_QUOTE)
-      }
       const pair = S.getBSPair(yield select())
 
       if (!values) throw new Error(NO_CHECKOUT_VALUES)
@@ -292,6 +289,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       if (orderType === OrderType.SELL) {
         yield put(actions.form.startSubmit(FORM_BS_PREVIEW_SELL))
       } else {
+        if (isFlexiblePricingModel) {
+          buyQuote = S.getBuyQuote(yield select()).getOrFail(NO_QUOTE)
+        }
         yield put(actions.form.startSubmit(FORM_BS_CHECKOUT))
       }
 
