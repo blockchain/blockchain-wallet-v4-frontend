@@ -1,6 +1,6 @@
 import { isEmpty } from 'ramda'
 
-import { BSBalancesType, BSPaymentMethodsType, BSPaymentTypes } from '@core/types'
+import { BSPaymentMethodsType, BSPaymentTypes, TermType, TradeAccumulatedItem } from '@core/types'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
@@ -46,14 +46,15 @@ export const getData = (state: RootState): { currentStep: number } => {
     currentStep += 1
   }
 
-  // user have some balance
-  const balances = selectors.components.buySell.getBSBalances(state).getOrElse({} as BSBalancesType)
-  if (!isEmpty(balances)) {
-    if (
-      Object.values(balances).some(
-        (balance) => balance?.available && Number(balance?.available) > 0
-      )
-    ) {
+  // user accumulated amount all the time
+  const accumulatedTrades = selectors.components.buySell
+    .getAccumulatedTrades(state)
+    .getOrElse([] as TradeAccumulatedItem[])
+  if (!isEmpty(accumulatedTrades)) {
+    const allAccumulated = accumulatedTrades.find(
+      (accumulated) => accumulated.termType === TermType.ALL
+    )
+    if (Number(allAccumulated?.amount?.value) > 0) {
       currentStep += 1
     }
   }

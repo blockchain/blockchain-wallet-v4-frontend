@@ -22,11 +22,13 @@ import {
   FiatEligibleType,
   FiatType,
   PaymentValue,
+  ProductTypes,
   ProviderDetailsType,
   SDDEligibleType,
   SDDVerifiedType,
   SwapQuoteStateType,
-  SwapUserLimitsType
+  SwapUserLimitsType,
+  TradeAccumulatedItem
 } from '@core/types'
 import {
   BankTransferAccountType,
@@ -44,6 +46,7 @@ import { BuySellState } from './types'
 
 const initialState: BuySellState = {
   account: Remote.NotAsked,
+  accumulatedTrades: Remote.NotAsked,
   addBank: undefined,
   balances: Remote.NotAsked,
   buyQuote: Remote.NotAsked,
@@ -192,6 +195,16 @@ const buySellSlice = createSlice({
       state.pairs = Remote.NotAsked
       state.quote = Remote.NotAsked
       state.step = 'CRYPTO_SELECTION'
+    },
+    fetchAccumulatedTrades: (state, action: PayloadAction<{ product: ProductTypes }>) => {},
+    fetchAccumulatedTradesFailure: (state, action: PayloadAction<string>) => {
+      state.accumulatedTrades = Remote.Failure(action.payload)
+    },
+    fetchAccumulatedTradesLoading: (state) => {
+      state.accumulatedTrades = Remote.Loading
+    },
+    fetchAccumulatedTradesSuccess: (state, action: PayloadAction<Array<TradeAccumulatedItem>>) => {
+      state.accumulatedTrades = Remote.Success(action.payload)
     },
     fetchBSOrders: () => {},
     fetchBalance: (

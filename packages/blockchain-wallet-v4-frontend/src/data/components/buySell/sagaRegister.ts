@@ -51,6 +51,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.switchFix.type, buySellSagas.switchFix)
     yield takeLatest(actions.setFiatTradingCurrency.type, buySellSagas.setFiatTradingCurrency)
     yield takeLatest(actions.fetchCrossBorderLimits.type, buySellSagas.fetchCrossBorderLimits)
+    yield takeLatest(actions.fetchAccumulatedTrades.type, buySellSagas.fetchAccumulatedTrades)
 
     // Fetch balances when profile/user is fetched
     yield takeLatest(
