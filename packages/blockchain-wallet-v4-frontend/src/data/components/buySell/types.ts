@@ -22,7 +22,8 @@ import type {
   SDDVerifiedType,
   SwapOrderType,
   SwapQuoteStateType,
-  SwapUserLimitsType
+  SwapUserLimitsType,
+  TradeAccumulatedItem
 } from '@core/types'
 import type { CountryType } from 'data/components/identityVerification/types'
 import type { RecurringBuyPeriods } from 'data/components/recurringBuy/types'
@@ -125,6 +126,7 @@ export enum BSCardStateEnum {
 // State
 export type BuySellState = {
   account: RemoteDataType<string, BSAccountType>
+  accumulatedTrades: RemoteDataType<string, Array<TradeAccumulatedItem>>
   addBank: boolean | undefined
   balances: RemoteDataType<string, BSBalancesType>
   buyQuote: RemoteDataType<string, BuyQuoteStateType>

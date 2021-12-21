@@ -4,6 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import styled from 'styled-components'
 
+import { ProductTypes } from '@core/types'
 import { Icon, Text } from 'blockchain-info-components'
 import CircularProgressBar from 'components/CircularProgressBar'
 import Flyout, { duration, FlyoutChild, FlyoutWrapper } from 'components/Flyout'
@@ -103,7 +104,7 @@ class CompleteProfile extends PureComponent<Props, State> {
     /* eslint-enable */
     this.props.buySellActions.fetchCards(false)
     this.props.buySellActions.fetchPaymentMethods(this.props.fiatCurrency)
-    this.props.buySellActions.fetchBalance({ skipLoading: true })
+    this.props.buySellActions.fetchAccumulatedTrades({ product: ProductTypes.SIMPLEBUY })
   }
 
   handleClose = () => {

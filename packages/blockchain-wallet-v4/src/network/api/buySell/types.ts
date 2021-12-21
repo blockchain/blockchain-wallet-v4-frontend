@@ -369,3 +369,23 @@ export type BuyQuoteType = {
 }
 
 export type BuyQuoteStateType = { fee: string; pair: string; quote: BuyQuoteType; rate: number }
+
+export enum TermType {
+  ALL = 'ALL',
+  DAY = 'DAY',
+  MONTH = 'MONTH',
+  WEEK = 'WEEK',
+  YEAR = 'YEAR'
+}
+
+export type TradeAccumulatedItem = {
+  amount: {
+    symbol: FiatType
+    value: string
+  }
+  termType: TermType
+}
+
+export type TradesAccumulatedResponse = {
+  tradesAccumulated: Array<TradeAccumulatedItem>
+}

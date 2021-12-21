@@ -1474,6 +1474,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.fetchCrossBorderLimitsFailure(e))
     }
   }
+  const fetchAccumulatedTrades = function* ({
+    payload
+  }: ReturnType<typeof A.fetchAccumulatedTrades>) {
+    const { product } = payload
+    try {
+      yield put(A.fetchAccumulatedTradesLoading())
+      const accumulatedTradesResponse: ReturnType<typeof api.getAccumulatedTrades> = yield call(
+        api.getAccumulatedTrades,
+        product
+      )
+      yield put(A.fetchAccumulatedTradesSuccess(accumulatedTradesResponse.tradesAccumulated))
+    } catch (e) {
+      yield put(A.fetchAccumulatedTradesFailure(e))
+    }
+  }
 
   const setFiatTradingCurrency = function* () {
     try {
@@ -1519,6 +1534,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     confirmOrderPoll,
     createBSOrder,
     deleteBSCard,
+    fetchAccumulatedTrades,
     fetchBSBalances,
     fetchBSCard,
     fetchBSCardSDD,

@@ -4,6 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
+import { ProductTypes } from '@core/types'
 import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
 import CircularProgressBar from 'components/CircularProgressBar'
 import { actions, selectors } from 'data'
@@ -61,7 +62,7 @@ const CompleteYourProfile = ({ buySellActions, data, fiatCurrency, modalActions 
   useEffect(() => {
     buySellActions.fetchCards(false)
     buySellActions.fetchPaymentMethods(fiatCurrency)
-    buySellActions.fetchBalance({ skipLoading: true })
+    buySellActions.fetchAccumulatedTrades({ product: ProductTypes.SIMPLEBUY })
   }, [fiatCurrency, buySellActions])
 
   const { currentStep } = data

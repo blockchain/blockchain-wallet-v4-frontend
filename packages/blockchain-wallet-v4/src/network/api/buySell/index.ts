@@ -33,7 +33,8 @@ import {
   BuyQuoteType,
   CardAcquirer,
   FiatEligibleType,
-  NabuAddressType
+  NabuAddressType,
+  TradesAccumulatedResponse
 } from './types'
 
 export default ({
@@ -498,6 +499,14 @@ export default ({
       url: nabuUrl
     })
 
+  const getAccumulatedTrades = (product: NabuCustodialProductType): TradesAccumulatedResponse =>
+    authorizedGet({
+      contentType: 'application/json',
+      endPoint: `/trades/accumulated?product=${product}`,
+      ignoreQueryParams: true,
+      url: nabuUrl
+    })
+
   return {
     activateBSCard,
     cancelBSOrder,
@@ -509,6 +518,7 @@ export default ({
     createRecurringBuy,
     deleteRecurringBuy,
     deleteSavedAccount,
+    getAccumulatedTrades,
     getBSBalances,
     getBSCard,
     getBSCards,
