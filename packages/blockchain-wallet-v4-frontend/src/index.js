@@ -32,6 +32,10 @@ const Row = styled.div`
   width: 100%;
   margin-bottom: 15px;
 `
+const ErrorText = styled(Text)`
+  color: white;
+  font-weight: 400;
+`
 
 configureStore()
   .then((root) => {
@@ -46,22 +50,18 @@ configureStore()
       document.getElementById('app')
     )
   })
-  .catch((e) => {
+  .then((e) => {
     ReactDOM.render(
       <ErrorWrapper>
         <Row>
-          <Text size='24px' weight={400} color='blue900'>
-            We&rsquo;ll be back soon!
-          </Text>
+          <ErrorText size='24px'>We&rsquo;ll be back soon!</ErrorText>
         </Row>
         <Row>
           <TextGroup>
-            <Text size='18px' weight={400} color='blue900'>
+            <ErrorText size='18px'>
               Sorry for the inconvenience but we&rsquo;re performing some maintenance at the moment.
-            </Text>
-            <Text size='18px' weight={400} color='blue900'>
-              &mdash; The Blockchain Team
-            </Text>
+            </ErrorText>
+            <ErrorText size='18px'>&mdash; The Blockchain.com Team</ErrorText>
           </TextGroup>
         </Row>
       </ErrorWrapper>,
