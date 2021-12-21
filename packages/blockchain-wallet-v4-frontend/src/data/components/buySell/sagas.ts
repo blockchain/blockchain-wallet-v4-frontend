@@ -275,12 +275,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       selectors.core.walletOptions.getFlexiblePricingModel
     )).getOrElse(false)
     try {
-      let buyQuote
-
-      if (isFlexiblePricingModel) {
-        buyQuote = S.getBuyQuote(yield select()).getOrFail(NO_QUOTE)
-      }
-
       const pair = S.getBSPair(yield select())
       if (!values) throw new Error(NO_CHECKOUT_VALUES)
       if (!pair) throw new Error(NO_PAIR_SELECTED)
@@ -288,9 +282,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       // since two screens use this order creation saga and they have different
       // forms, detect the order type and set correct form to submitting
+      let buyQuote
       if (orderType === OrderType.SELL) {
         yield put(actions.form.startSubmit(FORM_BS_PREVIEW_SELL))
       } else {
+        if (isFlexiblePricingModel) {
+          buyQuote = S.getBuyQuote(yield select()).getOrFail(NO_QUOTE)
+        }
         yield put(actions.form.startSubmit(FORM_BS_CHECKOUT))
       }
 
