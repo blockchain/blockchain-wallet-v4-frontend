@@ -82,12 +82,12 @@ export const GoBackArrow = (props: { handleBackArrowClick: () => void }) => {
         data-e2e='recoverBack'
         name='arrow-left'
         size='24px'
-        color='grey600'
+        color='blue600'
         role='button'
         style={{ marginRight: '8px' }}
       />
       <Text size='14px' weight={600} color='grey600' cursor='pointer'>
-        <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
+        <FormattedMessage id='buttons.back' defaultMessage='Back' />
       </Text>
     </Row>
   )
