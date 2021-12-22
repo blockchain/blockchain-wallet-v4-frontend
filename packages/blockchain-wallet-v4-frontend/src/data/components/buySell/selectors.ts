@@ -187,6 +187,8 @@ export const getBSLatestPendingOrder = (state: RootState) =>
     return order.state === 'PENDING_CONFIRMATION' || order.state === 'PENDING_DEPOSIT'
   })
 
+export const getBuyQuote = (state: RootState) => state.components.buySell.buyQuote
+
 export const getSellQuote = (state: RootState) => state.components.buySell.sellQuote
 
 export const getSellOrder = (state: RootState) => state.components.buySell.sellOrder

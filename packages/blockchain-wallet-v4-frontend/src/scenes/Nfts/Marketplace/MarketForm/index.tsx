@@ -62,7 +62,7 @@ const MarketForm: React.FC<Props> = (props: Props) => {
             {props.marketplace.collection?.name}
           </Text>
           <Text style={{ marginTop: '8px' }} color='black' weight={600} size='14px'>
-            <FormattedMessage id='copy.7_day_vol' defaultMessage='7 Day Volume' />
+            <FormattedMessage id='copy.one_day_vol' defaultMessage='1 Day Volume' />
           </Text>
           <CoinDisplay
             coin='ETH'
@@ -135,8 +135,8 @@ const MarketForm: React.FC<Props> = (props: Props) => {
                       value: item.value
                     }),
                     [
-                      { text: 'Volume: High to Low', value: '7_day_vol-DESC' },
-                      { text: 'Volume: Low to High', value: '7_day_vol-ASC' },
+                      { text: 'Volume: High to Low', value: 'one_day_vol-DESC' },
+                      { text: 'Volume: Low to High', value: 'one_day_vol-ASC' },
                       { text: 'Floor Price: High to Low', value: 'floor_price-DESC' },
                       { text: 'Floor Price: Low to High', value: 'floor_price-ASC' },
                       { text: 'Avg. Price: High to Low', value: 'average_price-DESC' },
@@ -198,5 +198,5 @@ type Props = OwnProps
 export default reduxForm<{}, OwnProps>({
   destroyOnUnmount: false,
   form: 'nftMarketplace',
-  initialValues: { collection: 'doodles-official', sortBy: '7_day_vol-DESC' }
+  initialValues: { collection: 'doodles-official', sortBy: 'one_day_vol-DESC' }
 })(MarketForm)

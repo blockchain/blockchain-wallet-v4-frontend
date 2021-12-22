@@ -42,6 +42,7 @@ export const OPENSEA_SELLER_BOUNTY_BASIS_POINTS = 100
 export const DEFAULT_MAX_BOUNTY = DEFAULT_SELLER_FEE_BASIS_POINTS
 export const ENJIN_ADDRESS = '0xfaaFDc07907ff5120a76b34b731b278c38d6043C'
 export const ENJIN_COIN_ADDRESS = '0xf629cbd94d3791c9250152bd8dfbdf380e2a3b9c'
+export const OPENSEA_SHARED_MARKETPLACE = '0x495f947276749ce646f68ac8c248420045cb7b5e'
 const WETH_ADDRESS = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
 const WETH_ADDRESS_RINKEBY = '0xc778417E063141139Fce010982780140Aa0cD5Ab'
 const WYVERN_TOKEN_PAYMENT_PROXY = '0xe5c783ee536cf5e63e792988335c4255169be4e1'
@@ -651,7 +652,13 @@ export function _makeMatchingOrder({
 
   const times = _getTimeParameters(expirationTime)
   // Compat for matching buy orders that have fee recipient still on them
-  const feeRecipient = network === 'rinkeby' ? OPENSEA_FEE_RECIPIENT_RINKEBY : OPENSEA_FEE_RECIPIENT
+  // If its a buy order use NULL_ADDRESS otherwise use the fee recipient
+  const feeRecipient =
+    order.side === NftOrderSide.Sell
+      ? NULL_ADDRESS
+      : network === 'rinkeby'
+      ? OPENSEA_FEE_RECIPIENT_RINKEBY
+      : OPENSEA_FEE_RECIPIENT
 
   const matchingOrder: UnhashedOrder = {
     basePrice: offer ? new BigNumber(offer) : new BigNumber(order.basePrice),

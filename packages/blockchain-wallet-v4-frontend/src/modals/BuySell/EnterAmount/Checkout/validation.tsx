@@ -10,9 +10,10 @@ import {
   BSPaymentMethodType,
   BSPaymentTypes,
   BSQuoteType,
+  BuyQuoteStateType,
   OrderType,
   PaymentValue,
-  SwapQuoteType,
+  SwapQuoteStateType,
   SwapUserLimitsType
 } from '@core/types'
 import { model } from 'data'
@@ -42,6 +43,27 @@ export const getQuote = (
   return new BigNumber(baseAmount || '0').times(standardRate).toFixed(decimals)
 }
 
+export const getBuyQuote = (
+  pair: string,
+  rate: number | string,
+  fix: BSFixType,
+  baseAmount?: string
+) => {
+  if (fix === 'FIAT') {
+    const coin = getCoinFromPair(pair)
+    const decimals = window.coins[coin].coinfig.precision
+    const standardRate = convertBaseToStandard('FIAT', rate)
+    return new BigNumber(baseAmount || '0')
+      .dividedBy(standardRate)
+      .dividedBy(rate)
+      .toFixed(decimals)
+  }
+  const fiat = getFiatFromPair(pair)
+  const decimals = Currencies[fiat].units[fiat as UnitType].decimal_digits
+  const standardRate = convertBaseToStandard('FIAT', rate)
+  return new BigNumber(baseAmount || '0').times(standardRate).times(rate).toFixed(decimals)
+}
+
 export const formatQuote = (amt: string, pair: string, fix: BSFixType): string => {
   if (fix === 'FIAT') {
     return coinToString({
@@ -61,7 +83,7 @@ export const getMaxMinSell = (
   minOrMax: 'min' | 'max',
   sbBalances: BSBalancesType,
   orderType: BSOrderActionType,
-  quote: { quote: SwapQuoteType; rate: number },
+  quote: SwapQuoteStateType,
   pair: BSPairType,
   payment?: PaymentValue,
   allValues?: BSCheckoutFormValuesType,
@@ -109,7 +131,7 @@ export const getMaxMin = (
   minOrMax: 'min' | 'max',
   sbBalances: BSBalancesType,
   orderType: BSOrderActionType,
-  QUOTE: BSQuoteType | { quote: SwapQuoteType; rate: number },
+  QUOTE: BSQuoteType | SwapQuoteStateType | BuyQuoteStateType,
   pair: BSPairType,
   payment?: PaymentValue,
   allValues?: BSCheckoutFormValuesType,
@@ -119,10 +141,10 @@ export const getMaxMin = (
   sddLimit = LIMIT,
   limits?: SwapUserLimitsType
 ): { CRYPTO: string; FIAT: string } => {
-  let quote: BSQuoteType | { quote: SwapQuoteType; rate: number }
+  let quote: BSQuoteType | SwapQuoteStateType | BuyQuoteStateType
   switch (orderType as OrderType) {
     case OrderType.BUY:
-      quote = QUOTE as BSQuoteType
+      quote = QUOTE as BSQuoteType | BuyQuoteStateType
       switch (minOrMax) {
         case 'max':
           // we need minimum of all max amounts including limits
@@ -250,7 +272,7 @@ export const getMaxMin = (
           return { CRYPTO: '0', FIAT: '0' }
       }
     case OrderType.SELL:
-      quote = QUOTE as { quote: SwapQuoteType; rate: number }
+      quote = QUOTE as SwapQuoteStateType
       return getMaxMinSell(
         minOrMax,
         sbBalances,

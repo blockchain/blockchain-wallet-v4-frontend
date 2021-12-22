@@ -1,7 +1,13 @@
 import BigNumber from 'bignumber.js'
 
 import { Exchange } from '@core'
-import { PaymentValue, RatesType, SwapQuoteType, SwapUserLimitsType } from '@core/types'
+import {
+  PaymentValue,
+  RatesType,
+  SwapQuoteStateType,
+  SwapQuoteType,
+  SwapUserLimitsType
+} from '@core/types'
 import { convertBaseToStandard, convertStandardToBase } from 'data/components/exchange/services'
 import { BSCheckoutFormValuesType, SwapAccountType, SwapAmountFormValues } from 'data/types'
 import { CRYPTO_DECIMALS } from 'services/forms'
@@ -13,7 +19,7 @@ export const getMaxMin = (
   limits: SwapUserLimitsType,
   baseRate: RatesType,
   payment: undefined | PaymentValue,
-  quote: { quote: SwapQuoteType; rate: number },
+  quote: SwapQuoteStateType,
   BASE: SwapAccountType,
   COUNTER: SwapAccountType
 ) => {

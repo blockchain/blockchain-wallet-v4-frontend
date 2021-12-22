@@ -14,6 +14,7 @@ import {
   BSPaymentMethodType,
   BSPaymentTypes,
   BSQuoteType,
+  BuyQuoteStateType,
   CoinType,
   CrossBorderLimits,
   CrossBorderLimitsPayload,
@@ -24,7 +25,7 @@ import {
   ProviderDetailsType,
   SDDEligibleType,
   SDDVerifiedType,
-  SwapQuoteType,
+  SwapQuoteStateType,
   SwapUserLimitsType
 } from '@core/types'
 import {
@@ -45,6 +46,7 @@ const initialState: BuySellState = {
   account: Remote.NotAsked,
   addBank: undefined,
   balances: Remote.NotAsked,
+  buyQuote: Remote.NotAsked,
   card: Remote.NotAsked,
   cardId: undefined,
   cards: Remote.NotAsked,
@@ -122,7 +124,6 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
     case 'CHECKOUT_CONFIRM':
     case 'ORDER_SUMMARY':
     case 'OPEN_BANKING_CONNECT':
-      return { order: payload.order, step: payload.step }
     case '3DS_HANDLER_EVERYPAY':
     case '3DS_HANDLER_STRIPE':
     case '3DS_HANDLER_CHECKOUTDOTCOM':
@@ -205,6 +206,24 @@ const buySellSlice = createSlice({
     },
     fetchBalanceSuccess: (state, action: PayloadAction<BSBalancesType>) => {
       state.balances = Remote.Success(action.payload)
+    },
+    fetchBuyQuote: (
+      state,
+      action: PayloadAction<{
+        amount: string
+        pair: BSPairsType
+        paymentMethod: BSPaymentTypes
+        paymentMethodId?: BSCardType['id']
+      }>
+    ) => {},
+    fetchBuyQuoteFailure: (state, action: PayloadAction<string>) => {
+      state.buyQuote = Remote.Failure(action.payload)
+    },
+    fetchBuyQuoteLoading: (state) => {
+      state.buyQuote = Remote.Loading
+    },
+    fetchBuyQuoteSuccess: (state, action: PayloadAction<BuyQuoteStateType>) => {
+      state.buyQuote = Remote.Success(action.payload)
     },
     fetchCard: () => {},
     fetchCardFailure: (state, action: PayloadAction<string>) => {
@@ -366,13 +385,7 @@ const buySellSlice = createSlice({
     fetchSellQuoteLoading: (state) => {
       state.sellQuote = Remote.Loading
     },
-    fetchSellQuoteSuccess: (
-      state,
-      action: PayloadAction<{
-        quote: SwapQuoteType
-        rate: number
-      }>
-    ) => {
+    fetchSellQuoteSuccess: (state, action: PayloadAction<SwapQuoteStateType>) => {
       state.sellQuote = Remote.Success(action.payload)
     },
     handleBuyMaxAmountClick: (
@@ -457,6 +470,7 @@ const buySellSlice = createSlice({
           break
         case '3DS_HANDLER_EVERYPAY':
         case '3DS_HANDLER_STRIPE':
+        case '3DS_HANDLER_CHECKOUTDOTCOM':
         case 'CHECKOUT_CONFIRM':
         case 'OPEN_BANKING_CONNECT':
         case 'ORDER_SUMMARY':
@@ -496,6 +510,15 @@ const buySellSlice = createSlice({
       state.cryptoCurrency = action.payload.cryptoCurrency
       state.orderType = action.payload.orderType
     },
+    startPollBuyQuote: (
+      state,
+      action: PayloadAction<{
+        amount: string
+        pair: BSPairsType
+        paymentMethod: BSPaymentTypes
+        paymentMethodId?: BSCardType['id']
+      }>
+    ) => {},
     startPollSellQuote: (
       state,
       action: PayloadAction<{
@@ -503,6 +526,7 @@ const buySellSlice = createSlice({
         pair: BSPairsType
       }>
     ) => {},
+    stopPollBuyQuote: () => {},
     stopPollSellQuote: () => {},
     switchFix: (
       state,

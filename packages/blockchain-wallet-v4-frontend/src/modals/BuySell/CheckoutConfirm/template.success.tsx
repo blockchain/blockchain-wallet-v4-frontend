@@ -29,6 +29,7 @@ import {
   getOrderType,
   getPaymentMethodId
 } from 'data/components/buySell/model'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { BankPartners, BankTransferAccountType, RecurringBuyPeriods } from 'data/types'
 
 import {
@@ -263,7 +264,18 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
               </IconWrapper>
             </RowIcon>
             <RowText data-e2e='sbExchangeRate'>
-              {displayFiat(props.order, props.quote.rate)}
+              {props.isFlexiblePricingModel
+                ? fiatToString({
+                    unit: counterCurrency as FiatType,
+                    value:
+                      (1 /
+                        parseFloat(props.quote.rate.toString()) /
+                        parseFloat(
+                          convertBaseToStandard(baseCurrencyDisplay, props.quote.rate.toString())
+                        )) *
+                      parseFloat(props.quote.rate.toString())
+                  })
+                : displayFiat(props.order, props.quote.rate.toString())}
             </RowText>
           </TopRow>
           {isActiveCoinTooltip && (
@@ -323,7 +335,68 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
           </RowTextWrapper>
         </RowText>
       </RowItem>
-      {isCardPayment && (
+      {props.isFlexiblePricingModel ? (
+        <>
+          <RowItem>
+            <RowText>
+              <FormattedMessage id='modals.simplebuy.confirm.purchase' defaultMessage='Purchase' />
+            </RowText>
+            <RowText>
+              <RowTextWrapper data-e2e='sbFee'>
+                {props.order.fee
+                  ? displayFiat(
+                      props.order,
+                      (parseInt(props.order.inputQuantity) - parseInt(props.order.fee)).toString()
+                    )
+                  : `${displayFiat(
+                      props.order,
+                      (parseInt(props.order.inputQuantity) - parseInt(props.quote.fee)).toString()
+                    )} ${props.order.inputCurrency}`}
+              </RowTextWrapper>
+            </RowText>
+          </RowItem>
+          <RowItem>
+            <RowItemContainer>
+              <TopRow>
+                <RowIcon>
+                  <RowText>
+                    <FormattedMessage
+                      id='copy.blockchain_fee'
+                      defaultMessage='Blockchain.com Fee'
+                    />
+                  </RowText>
+                  <IconWrapper>
+                    <Icon
+                      name='question-in-circle-filled'
+                      size='16px'
+                      color={isActiveFeeTooltip ? 'blue600' : 'grey300'}
+                      onClick={() => setFeeToolTip(!isActiveFeeTooltip)}
+                    />
+                  </IconWrapper>
+                </RowIcon>
+                <RowText data-e2e='sbFee'>
+                  {props.order.fee
+                    ? displayFiat(props.order, props.order.fee)
+                    : `${displayFiat(props.order, props.quote.fee)} ${props.order.inputCurrency}`}
+                </RowText>
+              </TopRow>
+              <ToolTipText>
+                <Text size='12px' weight={500} color='grey600'>
+                  <TextGroup inline>
+                    <Text size='14px'>
+                      <FormattedMessage
+                        id='modals.simplebuy.flexible_pricing'
+                        defaultMessage='This fee is based on trade size, payment method and asset being purchased on Blockchain.com'
+                      />
+                    </Text>
+                  </TextGroup>
+                </Text>
+              </ToolTipText>
+            </RowItemContainer>
+          </RowItem>
+        </>
+      ) : null}
+      {isCardPayment && !props.isFlexiblePricingModel ? (
         <RowItem>
           <RowItemContainer>
             <TopRow>
@@ -373,7 +446,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
             )}
           </RowItemContainer>
         </RowItem>
-      )}
+      ) : null}
       <RowItem>
         <RowText>
           <FormattedMessage id='copy.total' defaultMessage='Total' />

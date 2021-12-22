@@ -8,7 +8,7 @@ import {
   CrossBorderLimitsPayload,
   PaymentValue,
   SwapOrderType,
-  SwapQuoteType,
+  SwapQuoteStateType,
   SwapUserLimitsType
 } from '@core/types'
 import { ModalOriginType } from 'data/modals/types'
@@ -97,10 +97,9 @@ const swapSlice = createSlice({
     fetchQuoteLoading: (state) => {
       state.quote = Remote.Loading
     },
-    fetchQuoteSuccess: (state, action: PayloadAction<{ quote: SwapQuoteType; rate: number }>) => {
+    fetchQuoteSuccess: (state, action: PayloadAction<SwapQuoteStateType>) => {
       state.quote = Remote.Success(action.payload)
     },
-
     fetchTrades: () => {},
     fetchTradesFailure: (state, action: PayloadAction<string>) => {
       state.trades = {
