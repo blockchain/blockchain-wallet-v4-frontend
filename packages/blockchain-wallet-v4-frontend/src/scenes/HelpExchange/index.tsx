@@ -112,7 +112,7 @@ class Help extends React.PureComponent<Props, State> {
     return this.state.showHelpOptions ? (
       <OuterWrapper>
         <WrapperWithPadding>
-          <LinkContainer to='/login'>
+          <LinkContainer to='/login?product=exchange'>
             <BackArrow>
               <Icon
                 data-e2e='signupBack'
