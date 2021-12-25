@@ -1010,7 +1010,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const { isFlow, method } = payload
     const cryptoCurrency = S.getCryptoCurrency(yield select()) || 'BTC'
     const originalFiatCurrency = S.getFiatCurrency(yield select())
-    const fiatCurrency = method.currency || S.getFiatCurrency(yield select())
+    // At this point fiatCurrency should be set inside buy/sell flow - fallback to USD
+    let fiatCurrency = S.getFiatCurrency(yield select()) || 'USD'
+    // keep using buy/sell flow currency unless if funds has been selected
+    if (method.type === BSPaymentTypes.FUNDS && fiatCurrency !== method.currency) {
+      fiatCurrency = method.currency
+    }
     const pair = S.getBSPair(yield select())
     const swapAccount = S.getSwapAccount(yield select())
     if (!pair) return NO_PAIR_SELECTED
