@@ -252,7 +252,13 @@ type OwnProps = BaseProps & { handleClose: () => void }
 export type Props = OwnProps & SuccessType & ConnectedProps<typeof connector>
 export type SuccessStateType = ExtractSuccess<ReturnType<typeof getData>> & {
   formErrors: {
-    amount?: 'ABOVE_MAX' | 'BELOW_MIN' | 'NEGATIVE_INCOMING_AMT' | 'ABOVE_MAX_LIMIT' | boolean
+    amount?:
+      | 'ABOVE_MAX'
+      | 'BELOW_MIN'
+      | 'NEGATIVE_INCOMING_AMT'
+      | 'ABOVE_MAX_LIMIT'
+      | 'ABOVE_BALANCE'
+      | boolean
   }
 }
 

@@ -421,18 +421,32 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
         )}
 
         {amtError === 'ABOVE_MAX' && (
-          <AlertButton>
-            <FormattedMessage
-              id='copy.above_max'
-              defaultMessage='{amount} Maximum'
-              values={{
-                amount:
-                  fix === 'FIAT'
-                    ? `${Currencies[walletCurrency].units[walletCurrency].symbol}${max}`
-                    : `${coin}${max}`
-              }}
-            />
-          </AlertButton>
+          <>
+            <AlertButton>
+              <FormattedMessage
+                id='copy.not_enough_coin'
+                defaultMessage='Not Enough {coin}'
+                values={{
+                  coin
+                }}
+              />
+            </AlertButton>
+            <Text
+              size='14px'
+              color='grey900'
+              weight={500}
+              style={{ marginBottom: '24px', marginTop: '24px', textAlign: 'center' }}
+            >
+              <FormattedMessage
+                id='modals.sendcrypto.enteramount.over_balance'
+                defaultMessage='The max you can send from this wallet is {coin} {amount}. Buy {coin} {amount} now to send this amount.'
+                values={{
+                  amount: max,
+                  coin
+                }}
+              />
+            </Text>
+          </>
         )}
         {amtError === 'BELOW_MIN' && (
           <AlertButton>
