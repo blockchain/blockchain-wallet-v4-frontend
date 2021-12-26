@@ -71,6 +71,8 @@ export const maximumAmount = (value: string, allValues: SwapAmountFormValues, re
   const cryptoMax = Number(
     getMaxMin('max', limits, baseRates, payment, quote, restProps.BASE, restProps.COUNTER)
   )
+  // const maxType = getMaxType(Number(value), limits, baseRates, payment, restProps.BASE)
+
   const fiatMax = Exchange.convertCoinToFiat({
     coin: restProps.BASE.coin,
     currency: walletCurrency,
@@ -78,7 +80,13 @@ export const maximumAmount = (value: string, allValues: SwapAmountFormValues, re
     rates: baseRates,
     value: cryptoMax
   })
-  return Number(value) > (fix === 'CRYPTO' ? cryptoMax : fiatMax) ? 'ABOVE_MAX' : false
+
+  let maxType = 'ABOVE_MAX'
+  if (Number(value) > Number(payment ? payment.effectiveBalance : restProps.BASE.balance)) {
+    maxType = 'ABOVE_BALANCE'
+  }
+
+  return Number(value) > (fix === 'CRYPTO' ? cryptoMax : fiatMax) ? maxType : false
 }
 
 export const minimumAmount = (value: string, allValues: SwapAmountFormValues, restProps: Props) => {

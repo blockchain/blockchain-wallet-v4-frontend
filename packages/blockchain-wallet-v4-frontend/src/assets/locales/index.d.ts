@@ -1440,6 +1440,7 @@ type MessagesType = {
   'modals.sendcrypto.coinselect.subtitle': 'Select the wallet you want to send from.'
   'modals.sendcrypto.coinselect.title': 'Send Crypto'
   'modals.sendcrypto.enteramount.title': 'Send'
+  'modals.sendcrypto.enteramount.over_balance': 'The max you can send from this wallet is {coin} {amount}. Buy {coin} {amount} now to send this amount.'
   'modals.sendcrypto.enteramount.over_limits': 'Sending from Trade Accounts cannot exceed {currency}{amount} a {period}. You have {currency}{remainingAmount} remaining.'
   'modals.sendeth.amountnotzeromessage': 'Invalid amount'
   'modals.sendeth.cointitle': 'Send {coinDisplayName}'
@@ -1554,6 +1555,8 @@ type MessagesType = {
   'modals.simplebuy.checkout.sell.belowmin': 'To offset fees and market volatility, the minimum amount for any sell is {amount} {currency}.'
   'modals.simplebuy.checkout.buy.abovemax': 'The maximum amount of {coin} you can buy with your {currency} {amount}'
   'modals.simplebuy.checkout.sell.abovemax': 'The maximum amount of {coin} you can sell from this account is {amount}.'
+  'modals.simplebuy.checkout.buy.over_balance': 'Swapping from Trade Accounts cannot exceed {limit} a {period}. You have {currency}{amount} remaining.'
+  'modals.simplebuy.checkout.buy.over_limit': 'You can buy up to {amount} per transaction. Upgrade to Gold & buy larger amounts with your bank or card.'
   'modals.simplebuy.checkout.not_enough_funds_for_sell': 'Not Enough funds for Sell'
   'modals.simplebuy.checkout.dailylimitexceeded': "You've reached your daily trading limit"
   'modals.simplebuy.checkout.buymax': 'Buy Max'
