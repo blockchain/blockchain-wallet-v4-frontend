@@ -5,7 +5,8 @@ import {
   NftAssetsType,
   NftOrdersType,
   OfferEventsType,
-  Order
+  Order,
+  SellOrder
 } from '@core/network/api/nfts/types'
 import { calculateGasFees } from '@core/redux/payment/nfts'
 import { Await, RemoteDataType } from '@core/types'
@@ -31,6 +32,7 @@ export type NftsStateType = {
     page: number
   }
   cancelListing: RemoteDataType<string, boolean>
+  cancelOffer: RemoteDataType<string, boolean>
   collectionSearch: ExplorerGatewayNftCollectionType[]
   collections: RemoteDataType<string, ExplorerGatewayNftCollectionType[]>
   marketplace: {
@@ -50,6 +52,7 @@ export type NftsStateType = {
     page: number
   }
   orderFlow: {
+    activeOffer: SellOrder | null
     activeOrder: NftOrdersType['orders'][0] | null
     asset: RemoteDataType<string, NftAsset>
     fees: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>

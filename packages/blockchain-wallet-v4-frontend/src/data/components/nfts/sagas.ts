@@ -16,7 +16,7 @@ import {
 } from '@core/network/api/nfts/types'
 import {
   calculateGasFees,
-  cancelNftListing,
+  cancelNftOrder,
   fulfillNftOrder,
   fulfillNftSellOrder,
   fulfillTransfer,
@@ -424,7 +424,7 @@ export default ({ api }: { api: APIType }) => {
     try {
       const signer = yield call(getEthSigner)
       yield put(A.cancelListingLoading())
-      yield call(cancelNftListing, action.payload.sell_order, signer, action.payload.gasData)
+      yield call(cancelNftOrder, action.payload.sell_order, signer, action.payload.gasData)
       yield put(A.clearAndRefetchAssets())
       yield put(A.cancelListingSuccess())
       yield put(actions.modals.closeAllModals())
@@ -439,16 +439,19 @@ export default ({ api }: { api: APIType }) => {
   // https://etherscan.io/tx/0x4ba256c46b0aff8b9ee4cc2a7d44649bc31f88ebafd99190bc182178c418c64a
   const cancelOffer = function* (action: ReturnType<typeof A.cancelOffer>) {
     try {
+      if (!action.payload.order) {
+        throw new Error('No offer found. It may have expired already!')
+      }
       const signer = yield call(getEthSigner)
-      yield put(A.cancelListingLoading())
-      // yield call(cancelNftOffer, action.payload.offer, signer)
+      yield put(A.cancelOfferLoading())
+      yield call(cancelNftOrder, action.payload.order, signer, action.payload.gasData)
       yield put(A.clearAndRefetchOffersMade())
       yield put(actions.modals.closeAllModals())
       yield put(actions.alerts.displaySuccess(`Successfully cancelled offer!`))
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.alerts.displayError(error))
-      yield put(A.cancelListingFailure({ error }))
+      yield put(A.cancelOfferFailure({ error }))
     }
   }
 
@@ -538,8 +541,11 @@ export default ({ api }: { api: APIType }) => {
           0,
           ethAddr
         )
-        console.log(activeOrders)
-        debugger
+        const nonPrefixedEthAddr = ethAddr.replace(/^0x/, '').toLowerCase()
+        const offer = activeOrders.orders.find((order) =>
+          order.calldata.toLowerCase().includes(nonPrefixedEthAddr)
+        )
+        yield put(A.setActiveOffer({ offer }))
         yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.CANCEL_OFFER }))
       } else {
         // User wants to accept offer

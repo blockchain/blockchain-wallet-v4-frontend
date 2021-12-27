@@ -27,7 +27,7 @@ import {
   verifyTransfered
 } from './utils'
 
-export const cancelNftListing = async (sellOrder: SellOrder, signer: Signer, gasData: GasDataI) => {
+export const cancelNftOrder = async (sellOrder: SellOrder, signer: Signer, gasData: GasDataI) => {
   const { gasFees, gasPrice } = gasData
   const txnData = {
     gasLimit: gasFees,

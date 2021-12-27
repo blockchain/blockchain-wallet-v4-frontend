@@ -32,6 +32,7 @@ const initialState: NftsStateType = {
     page: 0
   },
   cancelListing: Remote.NotAsked,
+  cancelOffer: Remote.NotAsked,
   collectionSearch: [],
   collections: Remote.NotAsked,
   marketplace: {
@@ -50,6 +51,7 @@ const initialState: NftsStateType = {
     page: 0
   },
   orderFlow: {
+    activeOffer: null,
     activeOrder: null,
     asset: Remote.NotAsked,
     fees: Remote.NotAsked,
@@ -79,8 +81,17 @@ const nftsSlice = createSlice({
     },
     cancelOffer: (
       state,
-      action: PayloadAction<{ offer: OfferEventsType['asset_events'][0] }>
+      action: PayloadAction<{ gasData: GasDataI; order: SellOrder | null }>
     ) => {},
+    cancelOfferFailure: (state, action: PayloadAction<{ error: string }>) => {
+      state.cancelOffer = Remote.Success(action.payload.error)
+    },
+    cancelOfferLoading: (state) => {
+      state.cancelOffer = Remote.Loading
+    },
+    cancelOfferSuccess: (state) => {
+      state.cancelOffer = Remote.Success(true)
+    },
     clearAndRefetchAssets: (state) => {},
     clearAndRefetchOffersMade: (state) => {},
     clearAndRefetchOrders: (state) => {},
@@ -309,6 +320,9 @@ const nftsSlice = createSlice({
       state,
       action: PayloadAction<{ asset_contract_address?: string; search?: string }>
     ) => {},
+    setActiveOffer: (state, action: PayloadAction<{ offer: SellOrder }>) => {
+      state.orderFlow.activeOffer = action.payload.offer
+    },
     setActiveTab: (state, action: PayloadAction<'explore' | 'my-collection' | 'offers'>) => {
       state.activeTab = action.payload
     },
