@@ -33,7 +33,6 @@ const TransactionsWrapper = styled.div`
 class TransactionList extends PureComponent<Props> {
   render() {
     const { coin, coinTicker, currency, data } = this.props
-
     return data.cata({
       Failure: (message) => <DataError onClick={this.props.onRefresh} message={message} />,
       Loading: () => <Loading />,
@@ -42,7 +41,7 @@ class TransactionList extends PureComponent<Props> {
         <TransactionsWrapper>
           {transactions.map((tx) => {
             // @ts-ignore
-            return 'hash' in tx ? (
+            return 'processingErrorType' in tx ? null : 'hash' in tx ? (
               <NonCustodialTxListItem
                 key={tx.hash}
                 transaction={tx}

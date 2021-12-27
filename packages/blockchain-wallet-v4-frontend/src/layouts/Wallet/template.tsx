@@ -66,7 +66,7 @@ const WalletLayout = (props) => {
           <Announcements type='static' />
         </Nav>
         <Container>
-          <MenuLeft menuOpened={false} />
+          <MenuLeft />
           <Content data-e2e={`page${replace(/\//g, '-', location.pathname)}`}>
             <Page>{children}</Page>
           </Content>

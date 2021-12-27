@@ -276,11 +276,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       selectors.core.walletOptions.getFlexiblePricingModel
     )).getOrElse(false)
     try {
-      let buyQuote
-
-      if (isFlexiblePricingModel) {
-        buyQuote = S.getBuyQuote(yield select()).getOrFail(NO_QUOTE)
-      }
       const pair = S.getBSPair(yield select())
 
       if (!values) throw new Error(NO_CHECKOUT_VALUES)
@@ -289,9 +284,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       // since two screens use this order creation saga and they have different
       // forms, detect the order type and set correct form to submitting
+      let buyQuote
       if (orderType === OrderType.SELL) {
         yield put(actions.form.startSubmit(FORM_BS_PREVIEW_SELL))
       } else {
+        if (isFlexiblePricingModel) {
+          buyQuote = S.getBuyQuote(yield select()).getOrFail(NO_QUOTE)
+        }
         yield put(actions.form.startSubmit(FORM_BS_CHECKOUT))
       }
 
@@ -462,6 +461,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       } as WalletOptionsType['domains'])
 
       let attributes
+
+      const paymentSuccessLink = `${domains.walletHelper}/wallet-helper/3ds-payment-success/#/`
+
       if (
         order.paymentType === BSPaymentTypes.PAYMENT_CARD ||
         order.paymentType === BSPaymentTypes.USER_CARD
@@ -470,10 +472,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           order.paymentMethodId || paymentMethodId
             ? {
                 everypay: {
-                  customerUrl: `${domains.walletHelper}/wallet-helper/everypay/#/response-handler`
+                  customerUrl: paymentSuccessLink
                 },
-                // TODO add correct redirect url here for checkout, everypay and stripe, like `card-provider`
-                redirectURL: `${domains.walletHelper}/wallet-helper/everypay/#/response-handler`
+                redirectURL: paymentSuccessLink
               }
             : undefined
       } else if (account?.partner === BankPartners.YAPILY) {
@@ -847,7 +848,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(
           A.fetchBuyQuoteSuccess({
             fee: quote.feeDetails.fee.toString(),
-            pair,
+            pair: pairReversed,
             quote,
             rate: parseInt(quote.price)
           })
@@ -1009,7 +1010,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const { isFlow, method } = payload
     const cryptoCurrency = S.getCryptoCurrency(yield select()) || 'BTC'
     const originalFiatCurrency = S.getFiatCurrency(yield select())
-    const fiatCurrency = method.currency || S.getFiatCurrency(yield select())
+    // At this point fiatCurrency should be set inside buy/sell flow - fallback to USD
+    let fiatCurrency = S.getFiatCurrency(yield select()) || 'USD'
+    // keep using buy/sell flow currency unless if funds has been selected
+    if (method.type === BSPaymentTypes.FUNDS && fiatCurrency !== method.currency) {
+      fiatCurrency = method.currency
+    }
     const pair = S.getBSPair(yield select())
     const swapAccount = S.getSwapAccount(yield select())
     if (!pair) return NO_PAIR_SELECTED
@@ -1133,13 +1139,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         )).getOrElse(false)
 
         if (isFlexiblePricingModel) {
-          const pairReversed = reversePair(pair.pair)
           const amount = '500'
 
           yield put(
             A.startPollBuyQuote({
               amount,
-              pair: pairReversed,
+              pair: pair.pair,
               paymentMethod: BSPaymentTypes.FUNDS
             })
           )
@@ -1474,6 +1479,21 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.fetchCrossBorderLimitsFailure(e))
     }
   }
+  const fetchAccumulatedTrades = function* ({
+    payload
+  }: ReturnType<typeof A.fetchAccumulatedTrades>) {
+    const { product } = payload
+    try {
+      yield put(A.fetchAccumulatedTradesLoading())
+      const accumulatedTradesResponse: ReturnType<typeof api.getAccumulatedTrades> = yield call(
+        api.getAccumulatedTrades,
+        product
+      )
+      yield put(A.fetchAccumulatedTradesSuccess(accumulatedTradesResponse.tradesAccumulated))
+    } catch (e) {
+      yield put(A.fetchAccumulatedTradesFailure(e))
+    }
+  }
 
   const setFiatTradingCurrency = function* () {
     try {
@@ -1519,6 +1539,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     confirmOrderPoll,
     createBSOrder,
     deleteBSCard,
+    fetchAccumulatedTrades,
     fetchBSBalances,
     fetchBSCard,
     fetchBSCardSDD,

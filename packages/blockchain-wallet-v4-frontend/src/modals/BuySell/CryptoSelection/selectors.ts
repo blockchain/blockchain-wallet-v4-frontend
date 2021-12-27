@@ -2,8 +2,6 @@ import { lift } from 'ramda'
 
 import { ExtractSuccess, FiatType } from '@core/types'
 import { model, selectors } from 'data'
-import { SWAP_ACCOUNTS_SELECTOR } from 'data/coins/model/swap'
-import { getCoinAccounts } from 'data/coins/selectors'
 import { BSCheckoutFormValuesType } from 'data/types'
 
 const { FORM_BS_CHECKOUT } = model.components.buySell
@@ -21,10 +19,6 @@ export const getData = (state) => {
   const userDataR = selectors.modules.profile.getUserData(state)
   const walletCurrencyR = selectors.core.settings.getCurrency(state)
 
-  // for sell, get 'swap' accounts
-  const coins = selectors.components.swap.getCoins()
-  const accounts = getCoinAccounts(state, { coins, ...SWAP_ACCOUNTS_SELECTOR })
-
   return lift(
     (
       eligibility: ExtractSuccess<typeof eligibilityR>,
@@ -35,7 +29,6 @@ export const getData = (state) => {
       sddEligible: ExtractSuccess<typeof sddEligibleR>,
       walletCurrency: FiatType
     ) => ({
-      accounts,
       eligibility,
 
       emailVerified,

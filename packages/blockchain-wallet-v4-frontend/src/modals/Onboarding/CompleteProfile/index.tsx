@@ -4,6 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import styled from 'styled-components'
 
+import { ProductTypes } from '@core/types'
 import { Icon, Text } from 'blockchain-info-components'
 import CircularProgressBar from 'components/CircularProgressBar'
 import Flyout, { duration, FlyoutChild, FlyoutWrapper } from 'components/Flyout'
@@ -103,7 +104,7 @@ class CompleteProfile extends PureComponent<Props, State> {
     /* eslint-enable */
     this.props.buySellActions.fetchCards(false)
     this.props.buySellActions.fetchPaymentMethods(this.props.fiatCurrency)
-    this.props.buySellActions.fetchBalance({ skipLoading: true })
+    this.props.buySellActions.fetchAccumulatedTrades({ product: ProductTypes.SIMPLEBUY })
   }
 
   handleClose = () => {
@@ -119,6 +120,7 @@ class CompleteProfile extends PureComponent<Props, State> {
       origin: 'CompleteProfile',
       tier: 2
     })
+    this.props.modalActions.closeModal(ModalName.COMPLETE_USER_PROFILE)
   }
 
   startAddingCards = () => {
@@ -127,7 +129,7 @@ class CompleteProfile extends PureComponent<Props, State> {
     this.props.buySellActions.setStep({
       step: 'DETERMINE_CARD_PROVIDER'
     })
-    this.props.buySellActions.addCardFinished()
+    this.props.modalActions.closeModal(ModalName.COMPLETE_USER_PROFILE)
   }
 
   handleLinkBankOrCardClick = () => {
@@ -150,6 +152,7 @@ class CompleteProfile extends PureComponent<Props, State> {
       this.props.buySellActions.setFiatCurrency(this.props.fiatCurrency || 'USD')
     } else if (isVerifiedId) {
       this.startAddingCards()
+      return
     } else {
       this.props.identityVerificationActions.verifyIdentity({
         needMoreInfo: false,
@@ -157,6 +160,7 @@ class CompleteProfile extends PureComponent<Props, State> {
         tier: 2
       })
     }
+    this.props.modalActions.closeModal(ModalName.COMPLETE_USER_PROFILE)
   }
 
   render() {
@@ -276,7 +280,11 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  identityVerificationActions: bindActionCreators(actions.components.identityVerification, dispatch)
+  identityVerificationActions: bindActionCreators(
+    actions.components.identityVerification,
+    dispatch
+  ),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

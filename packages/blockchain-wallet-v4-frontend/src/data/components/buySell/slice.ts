@@ -22,11 +22,13 @@ import {
   FiatEligibleType,
   FiatType,
   PaymentValue,
+  ProductTypes,
   ProviderDetailsType,
   SDDEligibleType,
   SDDVerifiedType,
   SwapQuoteStateType,
-  SwapUserLimitsType
+  SwapUserLimitsType,
+  TradeAccumulatedItem
 } from '@core/types'
 import {
   BankTransferAccountType,
@@ -44,6 +46,7 @@ import { BuySellState } from './types'
 
 const initialState: BuySellState = {
   account: Remote.NotAsked,
+  accumulatedTrades: Remote.NotAsked,
   addBank: undefined,
   balances: Remote.NotAsked,
   buyQuote: Remote.NotAsked,
@@ -124,7 +127,6 @@ const getPayloadObjectForStep = (payload: StepActionsPayload) => {
     case 'CHECKOUT_CONFIRM':
     case 'ORDER_SUMMARY':
     case 'OPEN_BANKING_CONNECT':
-      return { order: payload.order, step: payload.step }
     case '3DS_HANDLER_EVERYPAY':
     case '3DS_HANDLER_STRIPE':
     case '3DS_HANDLER_CHECKOUTDOTCOM':
@@ -193,6 +195,16 @@ const buySellSlice = createSlice({
       state.pairs = Remote.NotAsked
       state.quote = Remote.NotAsked
       state.step = 'CRYPTO_SELECTION'
+    },
+    fetchAccumulatedTrades: (state, action: PayloadAction<{ product: ProductTypes }>) => {},
+    fetchAccumulatedTradesFailure: (state, action: PayloadAction<string>) => {
+      state.accumulatedTrades = Remote.Failure(action.payload)
+    },
+    fetchAccumulatedTradesLoading: (state) => {
+      state.accumulatedTrades = Remote.Loading
+    },
+    fetchAccumulatedTradesSuccess: (state, action: PayloadAction<Array<TradeAccumulatedItem>>) => {
+      state.accumulatedTrades = Remote.Success(action.payload)
     },
     fetchBSOrders: () => {},
     fetchBalance: (
@@ -470,6 +482,7 @@ const buySellSlice = createSlice({
           break
         case '3DS_HANDLER_EVERYPAY':
         case '3DS_HANDLER_STRIPE':
+        case '3DS_HANDLER_CHECKOUTDOTCOM':
         case 'CHECKOUT_CONFIRM':
         case 'OPEN_BANKING_CONNECT':
         case 'ORDER_SUMMARY':

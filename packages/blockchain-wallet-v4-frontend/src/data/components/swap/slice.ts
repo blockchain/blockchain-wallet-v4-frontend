@@ -100,7 +100,6 @@ const swapSlice = createSlice({
     fetchQuoteSuccess: (state, action: PayloadAction<SwapQuoteStateType>) => {
       state.quote = Remote.Success(action.payload)
     },
-
     fetchTrades: () => {},
     fetchTradesFailure: (state, action: PayloadAction<string>) => {
       state.trades = {
