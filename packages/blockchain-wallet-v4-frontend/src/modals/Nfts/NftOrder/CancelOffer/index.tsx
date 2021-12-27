@@ -98,55 +98,6 @@ const CancelOffer: React.FC<Props> = (props) => {
                   />
                 </Value>
               </Row>
-              <>
-                <Row>
-                  <Title>
-                    <b>
-                      <FormattedMessage id='copy.amount' defaultMessage='Amount' />
-                    </b>
-                  </Title>
-                  <Value>
-                    <Field name='amount' component={NumberBox} />
-                  </Value>
-                  <Value>
-                    <FiatDisplay size='12px' weight={600} coin={formValues.coin}>
-                      {convertCoinToCoin({
-                        baseToStandard: false,
-                        coin: formValues.coin,
-                        value: formValues.amount
-                      }) || 0}
-                    </FiatDisplay>
-                  </Value>
-                </Row>
-                {activeOrder ? (
-                  <Row>
-                    <Title>
-                      <FormattedMessage id='copy.current_price' defaultMessage='Current Price' />
-                    </Title>
-                    <Value>
-                      <div style={{ display: 'flex' }}>
-                        <CoinDisplay
-                          size='14px'
-                          color='black'
-                          weight={600}
-                          coin={activeOrder.paymentTokenContract?.symbol}
-                        >
-                          {activeOrder.basePrice}
-                        </CoinDisplay>
-                        &nbsp;-&nbsp;
-                        <FiatDisplay
-                          size='12px'
-                          color='grey600'
-                          weight={600}
-                          coin={activeOrder.paymentTokenContract?.symbol}
-                        >
-                          {activeOrder.basePrice}
-                        </FiatDisplay>
-                      </div>
-                    </Value>
-                  </Row>
-                ) : null}
-              </>
             </Form>
             {activeOrder ? (
               <StickyCTA>
@@ -157,19 +108,9 @@ const CancelOffer: React.FC<Props> = (props) => {
                   fullwidth
                   data-e2e='makeOfferNft'
                   disabled={disabled}
-                  onClick={() => nftActions.createOffer({ order: activeOrder, ...formValues })}
+                  // onClick={() => nftActions.createOffer({ order: activeOrder, ...formValues })}
                 >
-                  {formValues.amount ? (
-                    <FormattedMessage
-                      id='copy.mark_for_sale'
-                      defaultMessage='Make an Offer for {val}'
-                      values={{
-                        val: `${formValues.amount} ${formValues.coin}`
-                      }}
-                    />
-                  ) : (
-                    <FormattedMessage id='copy.mark_for_sale' defaultMessage='Make an Offer' />
-                  )}
+                  <FormattedMessage id='copy.cancel_offer' defaultMessage='Cancel Offer' />
                 </Button>
               </StickyCTA>
             ) : null}

@@ -23,7 +23,7 @@ import {
   getNftBuyOrders,
   getNftSellOrder
 } from '@core/redux/payment/nfts'
-import { OPENSEA_SHARED_MARKETPLACE } from '@core/redux/payment/nfts/utils'
+import { OPENSEA_SHARED_MARKETPLACE, WETH_ADDRESS } from '@core/redux/payment/nfts/utils'
 import { Await } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { getPrivateKey } from '@core/utils/eth'
@@ -528,12 +528,18 @@ export default ({ api }: { api: APIType }) => {
     if (action.payload.offer) {
       // User wants to cancel offer
       if (action.payload.offer.from_account.address.toLowerCase() === ethAddr.toLowerCase()) {
+        const activeOrders = yield call(
+          api.getNftOrders,
+          undefined,
+          action.payload.offer.asset.asset_contract.address,
+          action.payload.offer.asset.token_id,
+          // TODO: rinkeby
+          WETH_ADDRESS,
+          0,
+          ethAddr
+        )
+        console.log(activeOrders)
         debugger
-        // const activeOrder = yield call(
-        //   api.getOrderByContractAndId,
-        //   action.payload.offer.asset.asset_contract.address,
-        //   action.payload.offer.asset.token_id
-        // )
         yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.CANCEL_OFFER }))
       } else {
         // User wants to accept offer
