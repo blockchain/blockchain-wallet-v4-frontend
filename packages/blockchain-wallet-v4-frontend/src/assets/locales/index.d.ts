@@ -2470,7 +2470,7 @@ type MessagesType = {
   'scenes.register.simplebuy.signup': 'Sign Up to Continue Your Crypto Purchase.'
   'scenes.register.backupphrase1': 'I understand that Blockchain.com never stores passwords and therefore cannot recover or reset my password. If I lose access to my wallet, I must use my'
   'scenes.register.backupphrase2': 'to access my funds.'
-  'scenes.register.wallet.link': 'Already have a wallet?'
+  'scenes.register.account.link': 'Already have a Blockchain Account?'
   'scenes.register.wallet.signin': 'Sign In'
   'scenes.register.walletcard.infotitleuppercase': 'Be Your Own Bank'
   'scenes.register.walletcard.item.1.bold': 'Easily buy and sell'

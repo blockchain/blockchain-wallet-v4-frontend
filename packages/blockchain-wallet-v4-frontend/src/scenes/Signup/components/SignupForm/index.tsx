@@ -269,10 +269,7 @@ const SignupForm = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) =
           <HeartbeatLoader height='20px' width='20px' color='white' />
         ) : (
           <Text color='whiteFade900' size='16px' weight={600}>
-            <FormattedMessage
-              id='scenes.public.register.createWallet'
-              defaultMessage='Create Wallet'
-            />
+            <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
           </Text>
         )}
       </Button>

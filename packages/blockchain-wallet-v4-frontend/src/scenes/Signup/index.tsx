@@ -11,8 +11,8 @@ import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 import BuyGoal from './BuyGoal'
+import SignupCard from './components/SignupCard'
 import ExchangeLinkGoal from './ExchangeLinkGoal'
-import SignupLanding from './SignupLanding'
 import { GeoLocationType, GoalDataType, SignupFormInitValuesType, SignupFormType } from './types'
 
 const SignupWrapper = styled.div`
@@ -96,7 +96,7 @@ class SignupContainer extends React.PureComponent<
       <SignupWrapper>
         {isLinkAccountGoal && <ExchangeLinkGoal {...subviewProps} />}
         {isBuyGoal && <BuyGoal {...subviewProps} />}
-        {!isLinkAccountGoal && !isBuyGoal && <SignupLanding {...subviewProps} />}
+        {!isLinkAccountGoal && !isBuyGoal && <SignupCard {...subviewProps} />}
       </SignupWrapper>
     )
   }

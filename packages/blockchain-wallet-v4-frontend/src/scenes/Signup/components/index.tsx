@@ -1,3 +1,6 @@
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
+import { LinkContainer } from 'react-router-bootstrap'
 import styled, { DefaultTheme } from 'styled-components'
 
 import { Text } from 'blockchain-info-components'
@@ -23,8 +26,10 @@ export const CardWrapper = styled.div<{ hideMargin?: boolean }>`
     width: 100%;
   `}
 `
+export const PaddingWrapper = styled.div`
+  padding: 2rem 2rem 0;
+`
 export const Card = styled.div`
-  padding: 2rem;
   background: ${(props) => props.theme.white};
   border-radius: 0.75rem;
   box-sizing: border-box;
@@ -106,3 +111,56 @@ export const SignInText = styled(Text)`
     font-weight: 600;
   }
 `
+const LoginCard = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+  border-top: 1px solid ${(props) => props.theme.grey000};
+  padding-bottom: 1.5rem;
+  ${media.tabletL`
+  flex-direction: column;
+  align-items: center;
+`};
+`
+const LoginLinkText = styled(Text)`
+  margin-top: 16px;
+  cursor: pointer;
+  ${media.mobile`
+  margin-top: 0;
+`};
+  &:hover {
+    font-weight: 600;
+  }
+`
+const LoginLinkRow = styled.div`
+  display: flex;
+  align-items: center;
+  ${media.mobile`
+flex-direction: column;
+align-items: center;
+`}
+`
+
+export const LoginLink = () => (
+  <LoginCard>
+    <LinkContainer data-e2e='signupLink' to='/signup'>
+      <LoginLinkRow>
+        <Text
+          size='16px'
+          color='grey600'
+          weight={500}
+          style={{ cursor: 'pointer', marginTop: '16px' }}
+        >
+          <FormattedMessage
+            id='scenes.register.account.link'
+            defaultMessage='Already have a Blockchain Account?'
+          />
+        </Text>
+        &nbsp;
+        <LoginLinkText size='16px' color='blue600' weight={600}>
+          <FormattedMessage id='scenes.login.wallet.exchange_login' defaultMessage='Log In ->' />
+        </LoginLinkText>
+      </LoginLinkRow>
+    </LinkContainer>
+  </LoginCard>
+)

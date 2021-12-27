@@ -1,6 +1,5 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { LinkContainer } from 'react-router-bootstrap'
 import { find, isEmpty, isNil, propEq, propOr } from 'ramda'
 import { InjectedFormProps } from 'redux-form'
 import styled from 'styled-components'
@@ -9,7 +8,7 @@ import Currencies from '@core/exchange/currencies'
 import { Icon, Link, Text } from 'blockchain-info-components'
 import { BuySellWidgetGoalDataType } from 'data/types'
 
-import { Card, CardHeader, CardsWrapper, SignInText, SubCard } from '../components'
+import { Card, CardHeader, CardsWrapper, LoginLink, PaddingWrapper } from '../components'
 import SignupForm from '../components/SignupForm'
 import { SubviewProps } from '../types'
 
@@ -65,68 +64,55 @@ const BuyGoal = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) => {
     <>
       <CardsWrapper>
         <BuyCard>
-          <CardHeader>
-            <Text size='24px' color='textBlack' weight={600}>
-              <FormattedMessage
-                defaultMessage='Sign Up to Continue Your Crypto Purchase.'
-                id='scenes.register.simplebuy.signup'
-              />
-            </Text>
-          </CardHeader>
-
-          {showBuyHeader && (
-            <>
-              <BuyItemWrapper>
-                <AmountWrapper>
-                  <SimpleWrapper>
-                    <Text size='16px' color='grey400' weight={500}>
-                      {Currencies[fiatCurrency].units[fiatCurrency].symbol}
-                    </Text>
-                    <Amount size='16px' color='black' weight={500}>
-                      {amount}
-                    </Amount>
-                  </SimpleWrapper>
-                </AmountWrapper>
-
-                <CryptoWrapper>
-                  <Icon color={crypto} name={crypto} size='24px' weight={400} />
-                  <Text capitalize color='black' size='16px' weight={500}>
-                    {window.coins[crypto].coinfig.name}
-                  </Text>
-                  <Text color='grey400' size='16px' uppercase weight={500}>
-                    {crypto}
-                  </Text>
-                </CryptoWrapper>
-              </BuyItemWrapper>
-
-              <Text size='14px' color='grey600' weight={500}>
+          <PaddingWrapper>
+            <CardHeader>
+              <Text size='24px' color='textBlack' weight={600}>
                 <FormattedMessage
-                  id='scenes.register.simplebuy.change'
-                  defaultMessage='You will be able to change your amount later.'
+                  defaultMessage='Sign Up to Continue Your Crypto Purchase.'
+                  id='scenes.register.simplebuy.signup'
                 />
               </Text>
-            </>
-          )}
+            </CardHeader>
 
-          <SignupForm {...props} />
+            {showBuyHeader && (
+              <>
+                <BuyItemWrapper>
+                  <AmountWrapper>
+                    <SimpleWrapper>
+                      <Text size='16px' color='grey400' weight={500}>
+                        {Currencies[fiatCurrency].units[fiatCurrency].symbol}
+                      </Text>
+                      <Amount size='16px' color='black' weight={500}>
+                        {amount}
+                      </Amount>
+                    </SimpleWrapper>
+                  </AmountWrapper>
+
+                  <CryptoWrapper>
+                    <Icon color={crypto} name={crypto} size='24px' weight={400} />
+                    <Text capitalize color='black' size='16px' weight={500}>
+                      {window.coins[crypto].coinfig.name}
+                    </Text>
+                    <Text color='grey400' size='16px' uppercase weight={500}>
+                      {crypto}
+                    </Text>
+                  </CryptoWrapper>
+                </BuyItemWrapper>
+
+                <Text size='14px' color='grey600' weight={500}>
+                  <FormattedMessage
+                    id='scenes.register.simplebuy.change'
+                    defaultMessage='You will be able to change your amount later.'
+                  />
+                </Text>
+              </>
+            )}
+
+            <SignupForm {...props} />
+          </PaddingWrapper>
+          <LoginLink />
         </BuyCard>
       </CardsWrapper>
-      <LinkContainer to='/login'>
-        <Link>
-          <SubCard>
-            <Text size='14px' color='whiteFade600' weight={500}>
-              <FormattedMessage
-                id='scenes.register.wallet.link'
-                defaultMessage='Already have a wallet?'
-              />
-            </Text>
-            &nbsp;
-            <SignInText color='whiteFade900' size='14px' weight={500}>
-              <FormattedMessage id='scenes.register.wallet.signin' defaultMessage='Sign In' />
-            </SignInText>
-          </SubCard>
-        </Link>
-      </LinkContainer>
     </>
   )
 }
