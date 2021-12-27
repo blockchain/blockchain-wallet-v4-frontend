@@ -18,10 +18,9 @@ import { media } from 'services/styles'
 import { SubviewProps } from '../../types'
 import {
   Card,
-  CardHeader,
   CardInfo,
+  CardTitle,
   CardWrapper,
-  IconWrapper,
   InfoItem,
   InfoTitle,
   SignInText,
@@ -79,11 +78,8 @@ const SignupCard = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) =
   return (
     <CardWrapper hideMargin={showOnlySignup}>
       <Card>
-        <CardHeader>
-          <IconWrapper color='blue600'>
-            <Icon color='white' name='wallet-filled' size='28px' />
-          </IconWrapper>
-          <Text size='24px' color='textBlack' weight={600}>
+        <CardTitle>
+          <Text size='24px' color='textBlack' weight={600} lineHeight='1.5'>
             {isLinkAccountGoal ? (
               <FormattedMessage
                 id='scenes.register.walletcard.linktitle'
@@ -91,12 +87,24 @@ const SignupCard = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) =
               />
             ) : (
               <FormattedMessage
-                id='scenes.register.walletcard.title'
-                defaultMessage='Blockchain Wallet'
+                id='scenes.recover.import.header'
+                defaultMessage='Create Your Blockchain.com Account'
               />
             )}
           </Text>
-        </CardHeader>
+          <Text
+            color='textBlack'
+            size='16px'
+            weight={500}
+            lineHeight='1.5'
+            style={{ marginTop: '8px' }}
+          >
+            <FormattedMessage
+              id='scenes.register.getstarted'
+              defaultMessage='Get Started For Free by Signing Up Now.'
+            />
+          </Text>
+        </CardTitle>
 
         {isLinkAccountGoal ? (
           <LinkAccountSpacer />

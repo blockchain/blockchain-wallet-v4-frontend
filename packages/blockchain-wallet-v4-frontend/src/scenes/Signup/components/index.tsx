@@ -7,7 +7,7 @@ export const CardWrapper = styled.div<{ hideMargin?: boolean }>`
   display: flex;
   align-items: center;
   flex-direction: column;
-  width: 29rem;
+  width: 32rem;
 
   &:first-child {
     margin-right: ${(props) => (props.hideMargin ? '0' : '2.5rem')};
@@ -70,6 +70,11 @@ export const CardInfo = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 2rem;
+`
+export const CardTitle = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `
 export const InfoTitle = styled(Text)`
   margin-top: 1.5rem;

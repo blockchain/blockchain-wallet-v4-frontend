@@ -16,7 +16,6 @@ import {
   InfoItem,
   InfoTitle
 } from '../components'
-import Header from '../components/Header'
 import SignupCard from '../components/SignupCard'
 import { SubviewProps } from '../types'
 
@@ -45,7 +44,6 @@ const SignupLanding = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps
   const showOnlySignup = showForm || isLinkAccountGoal
   return (
     <>
-      <Header />
       <CardsWrapper>
         <SignupCard {...props} />
 

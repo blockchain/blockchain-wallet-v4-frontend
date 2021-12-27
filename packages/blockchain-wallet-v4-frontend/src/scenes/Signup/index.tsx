@@ -31,7 +31,7 @@ class SignupContainer extends React.PureComponent<
   constructor(props) {
     super(props)
     this.state = {
-      showForm: props.search.includes('showWallet'),
+      showForm: true,
       showState: false
     }
   }

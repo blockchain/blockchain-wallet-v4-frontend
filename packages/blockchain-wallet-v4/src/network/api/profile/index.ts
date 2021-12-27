@@ -42,7 +42,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
       url: nabuUrl
     })
 
-  const createUser = (retailToken) => {
+  const createOrGetUser = (retailToken) => {
     return post({
       contentType: 'application/json',
       data: {
@@ -214,7 +214,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
 
   return {
     createLinkAccountId,
-    createUser,
+    createOrGetUser,
     exchangeResetPassword,
     exchangeSignIn,
     finaliseLinking,

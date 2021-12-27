@@ -450,7 +450,7 @@ export default ({ api, coreSagas, networks }) => {
       const { token } = yield call(api.generateRetailToken, guid, sharedKey)
       // pass that token to /user. if a user already exists, it returns
       // information associated with that user
-      const { created, token: lifetimeToken, userId } = yield call(api.createUser, token)
+      const { created, token: lifetimeToken, userId } = yield call(api.createOrGetUser, token)
       // if the recovered user never had a nabu account, we're creating a new user
       // so created will return true. No need to reset their kyc
       if (!created) {

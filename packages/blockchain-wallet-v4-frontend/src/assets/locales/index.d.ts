@@ -2454,7 +2454,7 @@ type MessagesType = {
   'scenes.register.exchangecard.item.3.bold': 'Control your money'
   'scenes.register.exchangecard.item.3.regular': 'by connecting your Wallet.'
   'scenes.register.exchangecard.title': 'Blockchain Exchange'
-  'scenes.register.getstarted': 'Get Started by Signing Up Now.'
+  'scenes.register.getstarted': 'Get Started For Free by Signing Up Now.'
   'scenes.register.invalidstrongpassword': 'Your password is not strong enough'
   'scenes.register.password': 'Password'
   'scenes.register.registerform.blockchain.default.terms': 'Terms of Service'
