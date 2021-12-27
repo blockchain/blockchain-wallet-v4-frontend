@@ -143,7 +143,7 @@ align-items: center;
 
 export const LoginLink = () => (
   <LoginCard>
-    <LinkContainer data-e2e='signupLink' to='/signup'>
+    <LinkContainer data-e2e='signupLink' to='/login'>
       <LoginLinkRow>
         <Text
           size='16px'
