@@ -420,6 +420,7 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_SUCCESS))
       } else {
         // TODO: want to pull user country off of exchange profile
+        // For account upgrade
         yield put(actions.auth.signupDetailsEntered({ country, countryState: state }))
         yield call(loginRoutineSaga, {
           country,

@@ -4,9 +4,9 @@ import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
 
-import VerifyEmail from './template'
+import ProductPicker from './template'
 
-class VerifyEmailContainer extends React.PureComponent<Props> {
+class ProductPickerContainer extends React.PureComponent<Props> {
   // to avoid react dev errors, set an initial state since we are using
   // getDerivedStateFromProps which will set a state from the component
   constructor(props) {
@@ -14,34 +14,15 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
     this.state = {}
   }
 
-  static getDerivedStateFromProps(nextProps) {
-    if (nextProps.isEmailVerified) {
-      nextProps.authActions.setRegisterEmail(undefined)
-      nextProps.routerActions.push('/select-product')
-    }
-    return null
-  }
-
-  onResendEmail = () => {
-    const { email, securityCenterActions } = this.props
-    securityCenterActions.resendVerifyEmail(email)
-  }
-
-  skipVerification = () => {
-    const { email } = this.props
-    this.props.authActions.setRegisterEmail(undefined)
-    this.props.securityCenterActions.skipVerifyEmail(email)
-    this.props.routerActions.push('/select-product')
+  walletRedirect = () => {
+    this.props.routerActions.push('/home')
+    // for first time login users we need to run goal since this is a first page we show them
+    this.props.saveGoal('welcomeModal', { firstLogin: true })
+    this.props.runGoals()
   }
 
   render() {
-    return (
-      <VerifyEmail
-        {...this.props}
-        resendEmail={this.onResendEmail}
-        skipVerification={this.skipVerification}
-      />
-    )
+    return <ProductPicker {...this.props} walletRedirect={this.walletRedirect} />
   }
 }
 
@@ -64,4 +45,4 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 
 export type Props = ConnectedProps<typeof connector>
 
-export default connector(VerifyEmailContainer)
+export default connector(ProductPickerContainer)

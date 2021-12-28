@@ -30,6 +30,7 @@ const HelpExchange = React.lazy(() => import('./HelpExchange'))
 const Login = React.lazy(() => import('./Login'))
 const Logout = React.lazy(() => import('./Logout'))
 const MobileLogin = React.lazy(() => import('./MobileLogin'))
+const ProductPicker = React.lazy(() => import('./ProductPicker'))
 const RecoverWallet = React.lazy(() => import('./RecoverWallet'))
 const Signup = React.lazy(() => import('./Signup'))
 const ResetWallet2fa = React.lazy(() => import('./ResetWallet2fa'))
@@ -93,6 +94,7 @@ const App = ({
                     <PublicLayout path='/recover' component={RecoverWallet} />
                     <PublicLayout path='/reset-2fa' component={ResetWallet2fa} />
                     <PublicLayout path='/reset-two-factor' component={ResetWallet2faToken} />
+                    <PublicLayout path='/select-product' component={ProductPicker} />
                     <PublicLayout path='/signup' component={Signup} />
                     <PublicLayout path='/verify-email' component={VerifyEmailToken} />
                     <PublicLayout
