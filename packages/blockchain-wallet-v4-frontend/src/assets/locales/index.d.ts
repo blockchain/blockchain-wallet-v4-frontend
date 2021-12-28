@@ -485,6 +485,7 @@ type MessagesType = {
   'copy.schedule': 'Schdule'
   'copy.select_swap_wallets': 'Select the Wallet you want to Swap from and the crypto you want to receive.'
   'copy.send_upgrade': 'Get Unlimited Sends'
+  'copy.skip_for_now': 'Skip for Now'
   'copy.sold': 'Sold'
   'copy.suggested': 'Suggested'
   'copy.swap': 'Swap'

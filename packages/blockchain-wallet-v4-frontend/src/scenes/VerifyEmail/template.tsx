@@ -64,8 +64,8 @@ const VerifyEmail = ({ email, resendEmail, skipVerification }: Props) => {
           >
             <Text color='blue600' size='16px' weight={600}>
               <FormattedMessage
-                id='scenes.verifyemail.button'
-                defaultMessage='Email didn’t arrive?'
+                id='components.EmailVerification.sendemailagain'
+                defaultMessage='Send Again'
               />
             </Text>
           </Button>
@@ -77,10 +77,7 @@ const VerifyEmail = ({ email, resendEmail, skipVerification }: Props) => {
             data-e2e='verifyEmailLater'
             color='blue600'
           >
-            <FormattedMessage
-              id='scenes.verifyemail.do_it_later'
-              defaultMessage='I’ll Do This Later.'
-            />
+            <FormattedMessage id='copy.skip_for_now' defaultMessage='Skip for Now' />
           </Link>
         </ContentWrapper>
       </Wrapper>
