@@ -76,18 +76,26 @@ const CancelOffer: React.FC<Props> = (props) => {
                 ),
                 Loading: () => null,
                 NotAsked: () => null,
-                Success: (val) => (
-                  <Button
-                    jumbo
-                    nature='primary'
-                    fullwidth
-                    data-e2e='cancelOfferNft'
-                    disabled={disabled}
-                    onClick={() => nftActions.cancelOffer({ gasData: val, order: activeOffer })}
-                  >
-                    <FormattedMessage id='copy.cancel_offer' defaultMessage='Cancel Offer' />
-                  </Button>
-                )
+                Success: (val) =>
+                  activeOffer ? (
+                    <Button
+                      jumbo
+                      nature='primary'
+                      fullwidth
+                      data-e2e='cancelOfferNft'
+                      disabled={disabled}
+                      onClick={() => nftActions.cancelOffer({ gasData: val, order: activeOffer })}
+                    >
+                      <FormattedMessage id='copy.cancel_offer' defaultMessage='Cancel Offer' />
+                    </Button>
+                  ) : (
+                    <Text size='14px' weight={600}>
+                      <FormattedMessage
+                        id='copy.no_active_sell_listings'
+                        defaultMessage='Error. You may not have any active offers for this asset.'
+                      />
+                    </Text>
+                  )
               })}
             </StickyCTA>
           </>

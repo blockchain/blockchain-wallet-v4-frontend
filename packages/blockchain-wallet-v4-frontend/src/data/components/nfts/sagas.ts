@@ -12,7 +12,7 @@ import {
   GasCalculationOperations,
   GasDataI,
   Order,
-  SellOrder
+  RawOrder
 } from '@core/network/api/nfts/types'
 import {
   calculateGasFees,
@@ -255,7 +255,7 @@ export default ({ api }: { api: APIType }) => {
           calculateGasFees,
           GasCalculationOperations.Cancel,
           signer,
-          action.payload.order as SellOrder
+          action.payload.order as RawOrder
         )
         yield put(A.fetchFeesSuccess(fees))
       } else if (action.payload.operation === GasCalculationOperations.Sell) {

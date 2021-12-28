@@ -6,7 +6,7 @@ import {
   NftOrdersType,
   OfferEventsType,
   Order,
-  SellOrder
+  RawOrder
 } from '@core/network/api/nfts/types'
 import { calculateGasFees } from '@core/redux/payment/nfts'
 import { Await, RemoteDataType } from '@core/types'
@@ -52,7 +52,7 @@ export type NftsStateType = {
     page: number
   }
   orderFlow: {
-    activeOffer: SellOrder | null
+    activeOffer: RawOrder | null
     activeOrder: NftOrdersType['orders'][0] | null
     asset: RemoteDataType<string, NftAsset>
     fees: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>

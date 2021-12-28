@@ -14,7 +14,7 @@ import {
   NftOrdersType,
   NftSaleKind,
   PartialReadonlyContractAbi,
-  SellOrder,
+  RawOrder,
   SolidityTypes,
   txnData,
   UnhashedOrder,
@@ -1711,7 +1711,7 @@ export async function _cancelOrder({
   signer,
   txnData
 }: {
-  sellOrder: SellOrder
+  sellOrder: RawOrder
   signer: Signer
   txnData: txnData
 }) {
@@ -2422,7 +2422,7 @@ export async function calculatePaymentProxyApprovals(order: Order, signer: Signe
   )
 }
 
-export async function calculateCancellation(sellOrder: SellOrder, signer: Signer) {
+export async function calculateCancellation(sellOrder: RawOrder, signer: Signer) {
   const order = {
     basePrice: sellOrder.base_price.toString(),
     calldata: sellOrder.calldata,

@@ -14,7 +14,7 @@ import {
   NftOrdersType,
   OfferEventsType,
   Order,
-  SellOrder
+  RawOrder
 } from '@core/network/api/nfts/types'
 import { calculateGasFees } from '@core/redux/payment/nfts'
 import { Await } from '@core/types'
@@ -68,7 +68,7 @@ const nftsSlice = createSlice({
   reducers: {
     cancelListing: (
       state,
-      action: PayloadAction<{ gasData: GasDataI; sell_order: SellOrder }>
+      action: PayloadAction<{ gasData: GasDataI; sell_order: RawOrder }>
     ) => {},
     cancelListingFailure: (state, action: PayloadAction<{ error: string }>) => {
       state.cancelListing = Remote.Success(action.payload.error)
@@ -81,7 +81,7 @@ const nftsSlice = createSlice({
     },
     cancelOffer: (
       state,
-      action: PayloadAction<{ gasData: GasDataI; order: SellOrder | null }>
+      action: PayloadAction<{ gasData: GasDataI; order: RawOrder | null }>
     ) => {},
     cancelOfferFailure: (state, action: PayloadAction<{ error: string }>) => {
       state.cancelOffer = Remote.Success(action.payload.error)
@@ -185,7 +185,7 @@ const nftsSlice = createSlice({
           }
         | {
             operation: GasCalculationOperations.Cancel
-            order: SellOrder
+            order: RawOrder
           }
       >
     ) => {},
@@ -269,6 +269,7 @@ const nftsSlice = createSlice({
     },
     nftOrderFlowClose: (state) => {
       state.orderFlow.activeOrder = null
+      state.orderFlow.activeOffer = null
       state.orderFlow.step = NftOrderStepEnum.SHOW_ASSET
       state.orderFlow.asset = Remote.NotAsked
       state.orderFlow.fees = Remote.NotAsked
@@ -320,7 +321,7 @@ const nftsSlice = createSlice({
       state,
       action: PayloadAction<{ asset_contract_address?: string; search?: string }>
     ) => {},
-    setActiveOffer: (state, action: PayloadAction<{ offer: SellOrder }>) => {
+    setActiveOffer: (state, action: PayloadAction<{ offer: RawOrder }>) => {
       state.orderFlow.activeOffer = action.payload.offer
     },
     setActiveTab: (state, action: PayloadAction<'explore' | 'my-collection' | 'offers'>) => {

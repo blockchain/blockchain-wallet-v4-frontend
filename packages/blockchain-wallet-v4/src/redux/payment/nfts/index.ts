@@ -6,7 +6,7 @@ import {
   NftAsset,
   NftOrdersType,
   Order,
-  SellOrder
+  RawOrder
 } from '@core/network/api/nfts/types'
 
 import {
@@ -27,7 +27,7 @@ import {
   verifyTransfered
 } from './utils'
 
-export const cancelNftOrder = async (sellOrder: SellOrder, signer: Signer, gasData: GasDataI) => {
+export const cancelNftOrder = async (sellOrder: RawOrder, signer: Signer, gasData: GasDataI) => {
   const { gasFees, gasPrice } = gasData
   const txnData = {
     gasLimit: gasFees,
@@ -120,7 +120,7 @@ export const getNftBuyOrders = async (
 export const calculateGasFees = async (
   operation: GasCalculationOperations,
   signer: Signer,
-  cancelOrder?: SellOrder,
+  cancelOrder?: RawOrder,
   buyOrder?: Order,
   sellOrder?: Order,
   transferAsset?: NftAsset,
