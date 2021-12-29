@@ -55,8 +55,6 @@ const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   miscActions: bindActionCreators(actions.core.data.misc, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch),
-  runGoals: () => dispatch(actions.goals.runGoals()),
-  saveGoal: (name, data) => dispatch(actions.goals.saveGoal({ data, name })),
   securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch)
 })
 

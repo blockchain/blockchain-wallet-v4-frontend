@@ -21,8 +21,18 @@ class ProductPickerContainer extends React.PureComponent<Props> {
     this.props.runGoals()
   }
 
+  exchangeRedirect = () => {
+    // TODO: this is a placeholder
+  }
+
   render() {
-    return <ProductPicker {...this.props} walletRedirect={this.walletRedirect} />
+    return (
+      <ProductPicker
+        {...this.props}
+        walletRedirect={this.walletRedirect}
+        exchangeRedirect={this.exchangeRedirect}
+      />
+    )
   }
 }
 

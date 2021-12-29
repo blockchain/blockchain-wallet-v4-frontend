@@ -34,7 +34,7 @@ const WhiteCircle = styled.div`
   border-radius: 36px;
 `
 
-const ProductPicker = ({ walletRedirect }: Props) => {
+const ProductPicker = ({ exchangeRedirect, walletRedirect }: Props) => {
   return (
     <>
       <TitleWrapper>
@@ -58,13 +58,16 @@ const ProductPicker = ({ walletRedirect }: Props) => {
         <Link onClick={walletRedirect}>
           <ProductImage name='product-redirect-wallet' height='400px' />
         </Link>
-        <ProductImage name='product-redirect-exchange' height='400px' />
+        <Link onClick={exchangeRedirect}>
+          <ProductImage name='product-redirect-exchange' height='400px' />
+        </Link>
       </ProductImageRow>
     </>
   )
 }
 
 type Props = {
+  exchangeRedirect: () => void
   walletRedirect: () => void
 }
 
