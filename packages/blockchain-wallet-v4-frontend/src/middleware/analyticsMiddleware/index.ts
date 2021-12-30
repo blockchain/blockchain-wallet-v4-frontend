@@ -3278,7 +3278,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-        analytics.push(AnalyticsKey.NFT_ORDER_SUCCESS, {
+        analytics.push(AnalyticsKey.NFT_ORDER_SUCCEEDED, {
           properties: {
             originalTimestamp: getOriginalTimestamp(),
             site_redirect: 'WALLET'
@@ -3300,8 +3300,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-        analytics.push(AnalyticsKey.NFT_ORDER_FAILURE, {
+
+        const error = action.payload
+
+        analytics.push(AnalyticsKey.NFT_ORDER_FAILED, {
           properties: {
+            error,
             originalTimestamp: getOriginalTimestamp(),
             site_redirect: 'WALLET'
           },
@@ -3322,7 +3326,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-        analytics.push(AnalyticsKey.NFT_ORDER_STARTED, {
+        analytics.push(AnalyticsKey.NFT_ORDER_CREATED, {
           properties: {
             originalTimestamp: getOriginalTimestamp(),
             site_redirect: 'WALLET'
