@@ -3269,6 +3269,72 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         }
         break
       }
+      case actions.components.nfts.createOrderSuccess.type: {
+        const state = store.getState()
+
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        analytics.push(AnalyticsKey.NFT_ORDER_SUCCESS, {
+          properties: {
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect: 'WALLET'
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case actions.components.nfts.createOrderFailure.type: {
+        const state = store.getState()
+
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        analytics.push(AnalyticsKey.NFT_ORDER_FAILURE, {
+          properties: {
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect: 'WALLET'
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case actions.components.nfts.nftOrderFlowOpen.type: {
+        const state = store.getState()
+
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        analytics.push(AnalyticsKey.NFT_ORDER_STARTED, {
+          properties: {
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect: 'WALLET'
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
       default: {
         break
       }
