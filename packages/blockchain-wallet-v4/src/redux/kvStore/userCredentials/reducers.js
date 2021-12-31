@@ -30,6 +30,14 @@ export default (state = INITIAL_STATE, action) => {
         state
       )
     }
+    case AT.SET_EXCHANGE_USER_CREDENTIALS: {
+      const { exchange_lifetime_token, exchange_user_id } = payload
+      return over(
+        compose(mapped, KVStoreEntry.value),
+        merge(__, { exchange_lifetime_token, exchange_user_id }),
+        state
+      )
+    }
     default:
       return state
   }

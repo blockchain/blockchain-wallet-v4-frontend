@@ -37,9 +37,7 @@ class ProductPickerContainer extends React.PureComponent<Props> {
 }
 
 const mapStateToProps = (state) => ({
-  appEnv: selectors.core.walletOptions.getAppEnv(state).getOrElse('prod'),
-  email: selectors.auth.getRegisterEmail(state) as string,
-  isEmailVerified: selectors.core.settings.getEmailVerified(state).getOrElse(false)
+  appEnv: selectors.core.walletOptions.getAppEnv(state).getOrElse('prod')
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -47,8 +45,7 @@ const mapDispatchToProps = (dispatch) => ({
   miscActions: bindActionCreators(actions.core.data.misc, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch),
   runGoals: () => dispatch(actions.goals.runGoals()),
-  saveGoal: (name, data) => dispatch(actions.goals.saveGoal({ data, name })),
-  securityCenterActions: bindActionCreators(actions.modules.securityCenter, dispatch)
+  saveGoal: (name, data) => dispatch(actions.goals.saveGoal({ data, name }))
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

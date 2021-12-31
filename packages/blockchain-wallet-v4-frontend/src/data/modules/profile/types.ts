@@ -145,6 +145,13 @@ export interface ProfileState {
 
 // Actions
 // Keep these sorted alphabetically
+
+interface CreateExchangeUserAction {
+  payload: {
+    country: string
+  }
+  type: typeof AT.CREATE_EXCHANGE_USER
+}
 interface FetchTiersFailureAction {
   // FIXME: TypeScript error: Error?
   payload: {
@@ -297,6 +304,7 @@ interface ShareWalletAddressWithExchangeSuccessAction {
 }
 
 export type ProfileActionTypes =
+  | CreateExchangeUserAction
   | FetchTiersFailureAction
   | FetchTiersLoadingAction
   | FetchTiersSuccessAction

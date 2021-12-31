@@ -53,6 +53,18 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     })
   }
 
+  const createExchangeUser = (retailToken, countryCode) => {
+    return post({
+      contentType: 'application/json',
+      data: {
+        countryCode,
+        retailToken
+      },
+      endPoint: '/mercury/users',
+      url: nabuUrl
+    })
+  }
+
   const linkAccount = (linkId, email, address) => {
     return authorizedPut({
       contentType: 'application/json',
@@ -213,6 +225,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     })
 
   return {
+    createExchangeUser,
     createLinkAccountId,
     createOrGetUser,
     exchangeResetPassword,

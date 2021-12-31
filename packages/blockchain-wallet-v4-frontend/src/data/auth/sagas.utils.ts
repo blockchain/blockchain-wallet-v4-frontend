@@ -30,6 +30,10 @@ export const parseMagicLink = function* () {
     const showMergeAndUpradeFlows = (yield select(
       selectors.core.walletOptions.getMergeAndUpgradeAccounts
     )).getOrElse(false)
+    // feature flag for unified accounts login
+    const unifiedAccountLogin = (yield select(
+      selectors.core.walletOptions.getUnifiedAccountLogin
+    )).getOrElse(false)
     // remove feature flag when not necessary
     const shouldPollForMagicLinkData = (yield select(
       selectors.core.walletOptions.getPollForMagicLinkData
@@ -45,6 +49,15 @@ export const parseMagicLink = function* () {
         productAuth = ProductAuthOptions.WALLET
       }
     }
+
+    // UNIFIED ACCOUNT LOGIN FOR MERGED EXCHANGE+WALLET ACCOUNTS
+    // CREATED FROM UNIFIED SIGN UP
+    if (unifiedAccountLogin) {
+      if (unified) {
+        yield put(actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.UNIFIED))
+      }
+    }
+
     // THESE ARE THE MERGE AND UPGRADE FLOWS
     // showMergeAndUpradeFlows is the feature flag
     if (showMergeAndUpradeFlows) {
@@ -67,8 +80,6 @@ export const parseMagicLink = function* () {
             actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.EXCHANGE_UPGRADE)
           )
         }
-      } else if (unified) {
-        actions.auth.setAccountUnificationFlowType(AccountUnificationFlows.UNIFIED)
       }
     }
 

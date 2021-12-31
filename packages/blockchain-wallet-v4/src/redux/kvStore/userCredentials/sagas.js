@@ -12,7 +12,13 @@ export default ({ api, networks }) => {
   const createUserCredentials = function* (kv) {
     const user_id = ''
     const lifetime_token = ''
-    const newkv = set(KVStoreEntry.value, { lifetime_token, user_id }, kv)
+    const exchange_user_id = ''
+    const exchange_lifetime_token = ''
+    const newkv = set(
+      KVStoreEntry.value,
+      { exchange_lifetime_token, exchange_user_id, lifetime_token, user_id },
+      kv
+    )
     yield put(A.createMetadataUserCredentials(newkv))
   }
 

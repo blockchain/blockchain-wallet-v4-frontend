@@ -265,6 +265,48 @@ export default ({ api, coreSagas, networks }) => {
     return { lifetimeToken, userId }
   }
 
+  const generateExchangeAuthCredentials = function* () {
+    const retailToken = yield call(generateRetailToken)
+    const { token: exchangeLifetimeToken, userId: exchangeUserId } = yield call(
+      api.createExchangeUser,
+      retailToken,
+      'UK'
+    )
+    yield put(
+      actions.core.kvStore.userCredentials.setExchangeUserCredentials(
+        exchangeUserId,
+        exchangeLifetimeToken
+      )
+    )
+    return { exchangeLifetimeToken, exchangeUserId }
+  }
+
+  const createExchangeUser = function* () {
+    const token = yield select(S.getApiToken)
+    // if (!Remote.NotAsked.is(token)) return
+
+    const exchangeUserIdR = yield select(selectors.core.kvStore.userCredentials.getExchangeUserId)
+    const exchangeLifetimeTokenR = yield select(
+      selectors.core.kvStore.userCredentials.getExchangeLifetimeToken
+    )
+    const exchangeAuthCredentialsR = lift((exchangeUserId, exchangeLifetimeToken) => ({
+      exchangeLifetimeToken,
+      exchangeUserId
+    }))(exchangeUserIdR, exchangeLifetimeTokenR)
+    const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
+    const guid = yield select(selectors.core.wallet.getGuid)
+
+    const { exchangeLifetimeToken, exchangeUserId } = yield exchangeAuthCredentialsR
+      .map((exchangeAuthCredentials) => {
+        const { exchangeLifetimeToken, exchangeUserId } = exchangeAuthCredentials
+        if (!exchangeUserId || !exchangeLifetimeToken) return call(generateExchangeAuthCredentials)
+        return exchangeAuthCredentials
+      })
+      .getOrElse({} as ExtractSuccess<typeof exchangeAuthCredentialsR>)
+
+    // NOT SURE WHAT TO DO HERE...save in meta?
+  }
+
   const createUser = function* () {
     const token = yield select(S.getApiToken)
     if (!Remote.NotAsked.is(token)) return
@@ -477,11 +519,13 @@ export default ({ api, coreSagas, networks }) => {
 
   return {
     clearSession,
+    createExchangeUser,
     createUser,
     fetchTiers,
     fetchUser,
     fetchUserCampaigns,
     generateAuthCredentials,
+    generateExchangeAuthCredentials,
     generateRetailToken,
     getCampaignData,
     isTier2,

@@ -34,7 +34,13 @@ import {
 
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'auth/sagas'
-  const { createUser, generateRetailToken, setSession } = profileSagas({
+  const {
+    createExchangeUser,
+    createUser,
+    generateExchangeAuthCredentials,
+    generateRetailToken,
+    setSession
+  } = profileSagas({
     api,
     coreSagas,
     networks
@@ -201,6 +207,7 @@ export default ({ api, coreSagas, networks }) => {
       if (firstLogin && signupCountryEnabled && !isAccountReset && !recovery) {
         // create nabu user
         yield call(createUser)
+        yield call(createExchangeUser)
         // store initial address in case of US state we add prefix
         const userState = country === 'US' ? `US-${state}` : state
         yield call(api.setUserInitialAddress, country, userState)
@@ -278,7 +285,8 @@ export default ({ api, coreSagas, networks }) => {
           if (product === ProductAuthOptions.WALLET) {
             yield call(loginRoutineSaga, {})
           } else if (product === ProductAuthOptions.EXCHANGE) {
-            // CODE HERE TO AUTOMATICALLY DIRECT TO EXCHANGE
+            // STILL NEED TO CALL LOGIN ROUTINE SAGA? BUT
+            // HOW DO WE RETRIEVE KV STORE
           } else {
             // If proudct is undefined, show user product picker to choose
             actions.form.change(LOGIN_FORM, 'step', LoginSteps.PRODUCT_PICKER_AFTER_AUTHENTICATION)

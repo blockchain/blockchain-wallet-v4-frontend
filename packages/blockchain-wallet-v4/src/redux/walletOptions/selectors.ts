@@ -81,6 +81,9 @@ export const getPollForMagicLinkData = (state: RootState) =>
 // merge and upgrade wallet + exchange accounts
 export const getMergeAndUpgradeAccounts = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'mergeAndUpgrade']))
+// login for unified accounts
+export const getUnifiedAccountLogin = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'unifiedAccountLogin']))
 // send the card to new payment processors feature flag (checkout)
 export const getAddCheckoutDotComPaymentProvider = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'addCheckoutPaymentProvider']))
