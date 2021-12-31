@@ -89,14 +89,14 @@ const GetStarted = ({ nextStep, previousStep }: Props) => {
               </TierTitle>
               <ItemSubtitle color='grey900' size='14px' weight={500}>
                 <FormattedMessage
-                  id='modals.interest.withdrawal.upload_documents.get_started.bank_acccount_statement'
+                  id='modals.interest.withdrawal.upload_documents.get_started.bank_account_statement'
                   defaultMessage='Bank Account Statement or Utility Bill'
                 />
               </ItemSubtitle>
 
               <Text color='grey600' lineHeight='1.5' size='12px' weight={500}>
                 <FormattedMessage
-                  id='modals.interest.withdrawal.upload_documents.get_started.bank_acccount_statement.description'
+                  id='modals.interest.withdrawal.upload_documents.get_started.bank_account_statement.description'
                   defaultMessage='Must be dated within the last 90 days or a council tax bill for the current tax year.'
                 />
               </Text>
