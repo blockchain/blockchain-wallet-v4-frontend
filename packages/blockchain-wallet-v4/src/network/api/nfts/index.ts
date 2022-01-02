@@ -104,10 +104,13 @@ export default ({ apiUrl, get, post }) => {
     token_ids: string,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     payment_token_address = '0x0000000000000000000000000000000000000000', // eth
-    side = 1 // 0 for buy, 1 for sell,
+    side = 1, // 0 for buy, 1 for sell
+    taker?: string
   ): NftOrdersType => {
     return get({
-      endPoint: `/orders?asset_contract_address=${asset_contract_address}&sale_kind=0&bundled=false&include_bundled=false&include_invalid=false&is_english=false&side=${side}&limit=${limit}&token_ids=${token_ids}`,
+      endPoint: `/orders?asset_contract_address=${asset_contract_address}&payment_token_address=${payment_token_address}&sale_kind=0&bundled=false&include_bundled=false&include_invalid=false&is_english=false&side=${side}&limit=${limit}&token_ids=${token_ids}${
+        taker ? `&taker=${taker}` : ''
+      }`,
       ignoreQueryParams: true,
       url: `${explorerUrl}`
     })

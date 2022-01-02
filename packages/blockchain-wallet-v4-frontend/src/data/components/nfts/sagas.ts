@@ -12,18 +12,18 @@ import {
   GasCalculationOperations,
   GasDataI,
   Order,
-  SellOrder
+  RawOrder
 } from '@core/network/api/nfts/types'
 import {
   calculateGasFees,
-  cancelNftListing,
+  cancelNftOrder,
   fulfillNftOrder,
   fulfillNftSellOrder,
   fulfillTransfer,
   getNftBuyOrders,
   getNftSellOrder
 } from '@core/redux/payment/nfts'
-import { OPENSEA_SHARED_MARKETPLACE } from '@core/redux/payment/nfts/utils'
+import { OPENSEA_SHARED_MARKETPLACE, WETH_ADDRESS } from '@core/redux/payment/nfts/utils'
 import { Await } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { getPrivateKey } from '@core/utils/eth'
@@ -33,6 +33,7 @@ import { promptForSecondPassword } from 'services/sagas'
 
 import * as S from './selectors'
 import { actions as A } from './slice'
+import { NftOrderStepEnum } from './types'
 import { orderFromJSON } from './utils'
 
 export const logLocation = 'components/nfts/sagas'
@@ -254,7 +255,7 @@ export default ({ api }: { api: APIType }) => {
           calculateGasFees,
           GasCalculationOperations.Cancel,
           signer,
-          action.payload.order as SellOrder
+          action.payload.order as RawOrder
         )
         yield put(A.fetchFeesSuccess(fees))
       } else if (action.payload.operation === GasCalculationOperations.Sell) {
@@ -423,7 +424,7 @@ export default ({ api }: { api: APIType }) => {
     try {
       const signer = yield call(getEthSigner)
       yield put(A.cancelListingLoading())
-      yield call(cancelNftListing, action.payload.sell_order, signer, action.payload.gasData)
+      yield call(cancelNftOrder, action.payload.sell_order, signer, action.payload.gasData)
       yield put(A.clearAndRefetchAssets())
       yield put(A.cancelListingSuccess())
       yield put(actions.modals.closeAllModals())
@@ -432,6 +433,25 @@ export default ({ api }: { api: APIType }) => {
       const error = errorHandler(e)
       yield put(actions.alerts.displayError(error))
       yield put(A.cancelListingFailure({ error }))
+    }
+  }
+
+  // https://etherscan.io/tx/0x4ba256c46b0aff8b9ee4cc2a7d44649bc31f88ebafd99190bc182178c418c64a
+  const cancelOffer = function* (action: ReturnType<typeof A.cancelOffer>) {
+    try {
+      if (!action.payload.order) {
+        throw new Error('No offer found. It may have expired already!')
+      }
+      const signer = yield call(getEthSigner)
+      yield put(A.cancelOfferLoading())
+      yield call(cancelNftOrder, action.payload.order, signer, action.payload.gasData)
+      yield put(A.clearAndRefetchOffersMade())
+      yield put(actions.modals.closeAllModals())
+      yield put(actions.alerts.displaySuccess(`Successfully cancelled offer!`))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(actions.alerts.displayError(error))
+      yield put(A.cancelOfferFailure({ error }))
     }
   }
 
@@ -503,9 +523,34 @@ export default ({ api }: { api: APIType }) => {
       token_id = asset!.tokenId
     }
     // User wants to sell an asset
-    else if (action.payload.asset) {
+    if (action.payload.asset) {
       address = action.payload.asset.asset_contract.address
       token_id = action.payload.asset.token_id
+    }
+
+    if (action.payload.offer) {
+      // User wants to cancel offer
+      if (action.payload.offer.from_account.address.toLowerCase() === ethAddr.toLowerCase()) {
+        const activeOrders = yield call(
+          api.getNftOrders,
+          undefined,
+          action.payload.offer.asset.asset_contract.address,
+          action.payload.offer.asset.token_id,
+          // TODO: rinkeby
+          WETH_ADDRESS,
+          0,
+          ethAddr
+        )
+        const nonPrefixedEthAddr = ethAddr.replace(/^0x/, '').toLowerCase()
+        const offer = activeOrders.orders.find((order) =>
+          order.calldata.toLowerCase().includes(nonPrefixedEthAddr)
+        )
+        yield put(A.setActiveOffer({ offer }))
+        yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.CANCEL_OFFER }))
+      } else {
+        // User wants to accept offer
+        yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.ACCEPT_OFFER }))
+      }
     }
 
     try {
@@ -553,6 +598,7 @@ export default ({ api }: { api: APIType }) => {
 
   return {
     cancelListing,
+    cancelOffer,
     clearAndRefetchAssets,
     clearAndRefetchOffersMade,
     clearAndRefetchOrders,
