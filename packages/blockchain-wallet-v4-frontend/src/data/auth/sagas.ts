@@ -34,17 +34,12 @@ import {
 
 export default ({ api, coreSagas, networks }) => {
   const logLocation = 'auth/sagas'
-  const {
-    createExchangeUser,
-    createUser,
-    generateExchangeAuthCredentials,
-    generateRetailToken,
-    setSession
-  } = profileSagas({
-    api,
-    coreSagas,
-    networks
-  })
+  const { createUser, generateExchangeAuthCredentials, generateRetailToken, setSession } =
+    profileSagas({
+      api,
+      coreSagas,
+      networks
+    })
   const {
     checkDataErrors,
     checkXpubCacheLegitimacy,
@@ -207,7 +202,7 @@ export default ({ api, coreSagas, networks }) => {
       if (firstLogin && signupCountryEnabled && !isAccountReset && !recovery) {
         // create nabu user
         yield call(createUser)
-        yield call(createExchangeUser)
+        yield call(generateExchangeAuthCredentials)
         // store initial address in case of US state we add prefix
         const userState = country === 'US' ? `US-${state}` : state
         yield call(api.setUserInitialAddress, country, userState)

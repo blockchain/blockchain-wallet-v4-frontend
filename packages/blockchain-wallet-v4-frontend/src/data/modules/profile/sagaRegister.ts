@@ -6,11 +6,11 @@ import sagas from './sagas'
 export default ({ api, coreSagas, networks }) => {
   const {
     clearSession,
-    createExchangeUser,
     createUser,
     fetchTiers,
     fetchUser,
     fetchUserCampaigns,
+    generateExchangeLoginToken,
     linkFromExchangeAccount,
     linkToExchangeAccount,
     shareWalletAddressesWithExchange,
@@ -24,12 +24,11 @@ export default ({ api, coreSagas, networks }) => {
   return function* profileSaga() {
     yield takeLatest(AT.SIGN_IN, signIn)
     yield takeLatest(AT.CLEAR_SESSION, clearSession)
-    // @ts-ignore
-    // yield takeLatest(AT.CREATE_EXCHANGE_USER, createExchangeUser)
     yield takeLatest(AT.CREATE_USER, createUser)
     yield takeLatest(AT.FETCH_USER, fetchUser)
     yield takeLatest(AT.FETCH_TIERS, fetchTiers)
     yield takeLatest(AT.FETCH_USER_CAMPAIGNS, fetchUserCampaigns)
+    yield takeLatest(AT.GENERATE_EXCHANGE_LOGIN_TOKEN, generateExchangeLoginToken)
     // @ts-ignore
     yield takeLatest(AT.LINK_FROM_EXCHANGE_ACCOUNT, linkFromExchangeAccount)
     // @ts-ignore

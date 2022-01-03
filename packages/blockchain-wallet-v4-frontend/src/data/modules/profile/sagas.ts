@@ -281,7 +281,7 @@ export default ({ api, coreSagas, networks }) => {
     return { exchangeLifetimeToken, exchangeUserId }
   }
 
-  const createExchangeUser = function* () {
+  const generateExchangeLoginToken = function* () {
     const token = yield select(S.getApiToken)
     // if (!Remote.NotAsked.is(token)) return
 
@@ -293,7 +293,6 @@ export default ({ api, coreSagas, networks }) => {
       exchangeLifetimeToken,
       exchangeUserId
     }))(exchangeUserIdR, exchangeLifetimeTokenR)
-    const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
     const guid = yield select(selectors.core.wallet.getGuid)
 
     const { exchangeLifetimeToken, exchangeUserId } = yield exchangeAuthCredentialsR
@@ -304,7 +303,7 @@ export default ({ api, coreSagas, networks }) => {
       })
       .getOrElse({} as ExtractSuccess<typeof exchangeAuthCredentialsR>)
 
-    // NOT SURE WHAT TO DO HERE...save in meta?
+    // From here we call nabu/authorize to get login token
   }
 
   const createUser = function* () {
@@ -519,13 +518,13 @@ export default ({ api, coreSagas, networks }) => {
 
   return {
     clearSession,
-    createExchangeUser,
     createUser,
     fetchTiers,
     fetchUser,
     fetchUserCampaigns,
     generateAuthCredentials,
     generateExchangeAuthCredentials,
+    generateExchangeLoginToken,
     generateRetailToken,
     getCampaignData,
     isTier2,
