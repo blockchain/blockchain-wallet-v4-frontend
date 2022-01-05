@@ -10,7 +10,7 @@ export default ({ api, coreSagas, networks }) => {
     fetchTiers,
     fetchUser,
     fetchUserCampaigns,
-    generateExchangeLoginToken,
+    getExchangeLoginToken,
     linkFromExchangeAccount,
     linkToExchangeAccount,
     shareWalletAddressesWithExchange,
@@ -28,7 +28,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(AT.FETCH_USER, fetchUser)
     yield takeLatest(AT.FETCH_TIERS, fetchTiers)
     yield takeLatest(AT.FETCH_USER_CAMPAIGNS, fetchUserCampaigns)
-    yield takeLatest(AT.GENERATE_EXCHANGE_LOGIN_TOKEN, generateExchangeLoginToken)
+    yield takeLatest(AT.GET_EXCHANGE_LOGIN_TOKEN, getExchangeLoginToken)
     // @ts-ignore
     yield takeLatest(AT.LINK_FROM_EXCHANGE_ACCOUNT, linkFromExchangeAccount)
     // @ts-ignore

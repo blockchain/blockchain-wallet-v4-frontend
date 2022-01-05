@@ -65,6 +65,27 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     })
   }
 
+  const getExchangeAuthToken = (
+    exchangeLifetimeToken,
+    userCredentialsId,
+    walletEmail,
+    walletGuid
+  ) => {
+    post({
+      contentType: 'application/json',
+      data: {
+        userCredentialsId
+      },
+      endPoint: '/merucy/auth',
+      headers: {
+        Authorization: `Bearer ${exchangeLifetimeToken}`,
+        'x-wallet-email': walletEmail,
+        'x-wallet-guid': walletGuid
+      },
+      url: nabuUrl
+    })
+  }
+
   const linkAccount = (linkId, email, address) => {
     return authorizedPut({
       contentType: 'application/json',
@@ -233,6 +254,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     finaliseLinking,
     generateRetailToken,
     generateSession,
+    getExchangeAuthToken,
     getLocation,
     getPaymentsAccountExchange,
     getUser,

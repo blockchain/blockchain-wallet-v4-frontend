@@ -200,8 +200,8 @@ interface FetchUserDataSuccessAction {
   type: typeof AT.FETCH_USER_DATA_SUCCESS
 }
 
-interface GenerateExchangeLoginTokenAction {
-  type: typeof AT.GENERATE_EXCHANGE_LOGIN_TOKEN
+interface GetExchangeLoginTokenAction {
+  type: typeof AT.GET_EXCHANGE_LOGIN_TOKEN
 }
 interface LinkFromExchangeAccountAction {
   payload: {
@@ -313,7 +313,7 @@ export type ProfileActionTypes =
   | FetchUserDataFailureAction
   | FetchUserDataLoadingAction
   | FetchUserDataSuccessAction
-  | GenerateExchangeLoginTokenAction
+  | GetExchangeLoginTokenAction
   | LinkFromExchangeAccountAction
   | LinkFromExchangeAccountFailureAction
   | LinkFromExchangeAccountLoadingAction

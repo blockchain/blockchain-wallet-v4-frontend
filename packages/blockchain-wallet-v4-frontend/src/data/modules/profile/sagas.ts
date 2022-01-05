@@ -265,26 +265,30 @@ export default ({ api, coreSagas, networks }) => {
     return { lifetimeToken, userId }
   }
 
-  const generateExchangeAuthCredentials = function* () {
-    const retailToken = yield call(generateRetailToken)
-    const { token: exchangeLifetimeToken, userId: exchangeUserId } = yield call(
-      api.createExchangeUser,
-      retailToken,
-      'UK'
-    )
-    yield put(
-      actions.core.kvStore.userCredentials.setExchangeUserCredentials(
-        exchangeUserId,
-        exchangeLifetimeToken
+  const generateExchangeAuthCredentials = function* (country) {
+    try {
+      const retailToken = yield call(generateRetailToken)
+      const { token: exchangeLifetimeToken, userId: exchangeUserId } = yield call(
+        api.createExchangeUser,
+        retailToken,
+        country
       )
-    )
-    return { exchangeLifetimeToken, exchangeUserId }
+      yield put(
+        actions.core.kvStore.userCredentials.setExchangeUserCredentials(
+          exchangeUserId,
+          exchangeLifetimeToken
+        )
+      )
+      return { exchangeLifetimeToken, exchangeUserId }
+    } catch (e) {
+      // TODO: Handle Error Here
+    }
   }
 
-  const generateExchangeLoginToken = function* () {
-    const token = yield select(S.getApiToken)
-    // if (!Remote.NotAsked.is(token)) return
+  // TODO: USE THIS TO CHECK IF INFORMATION IS ALREADY IN STORE
+  // IF YES, DON'T REWRITE
 
+  const createExchangeUser = function* (country) {
     const exchangeUserIdR = yield select(selectors.core.kvStore.userCredentials.getExchangeUserId)
     const exchangeLifetimeTokenR = yield select(
       selectors.core.kvStore.userCredentials.getExchangeLifetimeToken
@@ -293,12 +297,12 @@ export default ({ api, coreSagas, networks }) => {
       exchangeLifetimeToken,
       exchangeUserId
     }))(exchangeUserIdR, exchangeLifetimeTokenR)
-    const guid = yield select(selectors.core.wallet.getGuid)
 
     const { exchangeLifetimeToken, exchangeUserId } = yield exchangeAuthCredentialsR
       .map((exchangeAuthCredentials) => {
         const { exchangeLifetimeToken, exchangeUserId } = exchangeAuthCredentials
-        if (!exchangeUserId || !exchangeLifetimeToken) return call(generateExchangeAuthCredentials)
+        if (!exchangeUserId || !exchangeLifetimeToken)
+          return call(generateExchangeAuthCredentials, country)
         return exchangeAuthCredentials
       })
       .getOrElse({} as ExtractSuccess<typeof exchangeAuthCredentialsR>)
@@ -306,6 +310,28 @@ export default ({ api, coreSagas, networks }) => {
     // From here we call nabu/authorize to get login token
   }
 
+  const getExchangeLoginToken = function* () {
+    try {
+      const exchangeLifetimeTokenR = yield select(
+        selectors.core.kvStore.userCredentials.getExchangeLifetimeToken
+      )
+
+      const exchangeUserIdR = yield select(selectors.core.kvStore.userCredentials.getExchangeUserId)
+      const exchangeLifetimeToken = exchangeLifetimeTokenR.getOrElse(null)
+      const exchangeUserId = exchangeUserIdR.getOrElse(null)
+      const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
+      const guid = yield select(selectors.core.wallet.getGuid)
+      const response = yield call(
+        api.getExchangeAuthToken,
+        exchangeLifetimeToken,
+        exchangeUserId,
+        email,
+        guid
+      )
+    } catch (e) {
+      // TODO: Handle Error
+    }
+  }
   const createUser = function* () {
     const token = yield select(S.getApiToken)
     if (!Remote.NotAsked.is(token)) return
@@ -518,15 +544,16 @@ export default ({ api, coreSagas, networks }) => {
 
   return {
     clearSession,
+    createExchangeUser,
     createUser,
     fetchTiers,
     fetchUser,
     fetchUserCampaigns,
     generateAuthCredentials,
     generateExchangeAuthCredentials,
-    generateExchangeLoginToken,
     generateRetailToken,
     getCampaignData,
+    getExchangeLoginToken,
     isTier2,
     linkFromExchangeAccount,
     linkToExchangeAccount,

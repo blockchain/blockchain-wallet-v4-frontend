@@ -7,6 +7,7 @@ export type GoalsType =
   | 'kyc'
   | 'kycDocResubmit'
   | 'linkAccount'
+  | 'changePassword'
   | 'payment'
   | 'paymentProtocol'
   | 'referral'
@@ -43,6 +44,7 @@ export type GoalsState = {
 
 export enum DeepLinkGoal {
   BITCOIN = 'bitcoin',
+  CHANGE_PASSWORD = 'change-password',
   INTEREST = 'interest',
   KYC = 'kyc',
   LINK_ACCOUNT = 'link-account',

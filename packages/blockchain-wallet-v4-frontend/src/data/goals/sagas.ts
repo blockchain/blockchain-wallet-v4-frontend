@@ -39,6 +39,20 @@ export default ({ api, coreSagas, networks }) => {
       .getOrElse(false)
   }
 
+  const defineChangePasswordGoal = function* (search) {
+    const params = new URLSearchParams(search)
+    const guid = params.get('guid')
+    yield put(actions.cache.guidStored(guid))
+    yield put(
+      actions.goals.saveGoal({
+        data: {
+          guid
+        },
+        name: 'changePassword'
+      })
+    )
+  }
+
   const defineLinkAccountGoal = function* (search) {
     const params = new URLSearchParams(search)
     yield put(
@@ -173,6 +187,10 @@ export default ({ api, coreSagas, networks }) => {
       return yield call(defineWalletConnectGoal, search)
     }
 
+    // exchange deeplink to chanage password /#/open/change-password
+    if (startsWith(DeepLinkGoal.CHANGE_PASSWORD, pathname)) {
+      return yield call(defineChangePasswordGoal, search)
+    }
     // /#/open/kyc?tier={0 | 1 | 2 | ...} tier is optional
     if (startsWith(DeepLinkGoal.KYC, pathname)) {
       return yield call(defineKycGoal, search)
@@ -246,6 +264,12 @@ export default ({ api, coreSagas, networks }) => {
         })
       )
     }
+  }
+
+  const runChangePasswordRedirect = function* (goal: GoalType) {
+    const { id } = goal
+    yield put(actions.goals.deleteGoal(id))
+    yield put(actions.goals.addInitialRedirect('changePassword'))
   }
 
   const runKycGoal = function* (goal: GoalType) {
@@ -662,6 +686,9 @@ export default ({ api, coreSagas, networks }) => {
     if (initialRedirect === 'interest') {
       return yield put(actions.router.push(`/rewards`))
     }
+    if (initialRedirect === 'changePassword') {
+      return yield put(actions.router.push(`/security-center/advanced`))
+    }
   }
 
   const showInitialModal = function* () {
@@ -759,6 +786,9 @@ export default ({ api, coreSagas, networks }) => {
       switch (goal.name) {
         case 'airdropClaim':
           yield call(runAirdropClaimGoal, goal)
+          break
+        case 'changePassword':
+          yield call(runChangePasswordRedirect, goal)
           break
         case 'kyc':
           yield call(runKycGoal, goal)

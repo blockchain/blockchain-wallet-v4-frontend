@@ -22,6 +22,7 @@ class ProductPickerContainer extends React.PureComponent<Props> {
   }
 
   exchangeRedirect = () => {
+    this.props.profileActions.getExchangeLoginToken()
     // TODO: this is a placeholder
   }
 
@@ -43,6 +44,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(actions.auth, dispatch),
   miscActions: bindActionCreators(actions.core.data.misc, dispatch),
+  profileActions: bindActionCreators(actions.modules.profile, dispatch),
   routerActions: bindActionCreators(actions.router, dispatch),
   runGoals: () => dispatch(actions.goals.runGoals()),
   saveGoal: (name, data) => dispatch(actions.goals.saveGoal({ data, name }))
