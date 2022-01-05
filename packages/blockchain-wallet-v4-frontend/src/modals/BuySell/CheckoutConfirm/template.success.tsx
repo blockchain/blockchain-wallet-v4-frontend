@@ -265,7 +265,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
               </IconWrapper>
             </RowIcon>
             <RowText data-e2e='sbExchangeRate'>
-              {props.isFlexiblePricingModel
+              {props.isFlexiblePricingModel && orderType === OrderType.BUY
                 ? fiatToString({
                     unit: counterCurrency as FiatType,
                     value:
@@ -336,7 +336,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
           </RowTextWrapper>
         </RowText>
       </RowItem>
-      {props.isFlexiblePricingModel ? (
+      {props.isFlexiblePricingModel && orderType === OrderType.BUY ? (
         <>
           <RowItem>
             <RowText>
