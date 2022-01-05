@@ -65,22 +65,18 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     })
   }
 
-  const getExchangeAuthToken = (
-    exchangeLifetimeToken,
-    userCredentialsId,
-    walletEmail,
-    walletGuid
-  ) => {
-    post({
+  const getExchangeAuthToken = (exchangeLifetimeToken, userCredentialsId) => {
+    authorizedPost({
       contentType: 'application/json',
       data: {
         userCredentialsId
       },
-      endPoint: '/merucy/auth',
+      endPoint: '/mercury/auth',
       headers: {
         Authorization: `Bearer ${exchangeLifetimeToken}`,
-        'x-wallet-email': walletEmail,
-        'x-wallet-guid': walletGuid
+        'X-CLIENT-TYPE': 'WEB',
+        'X-DEVICE-ID': null,
+        'x-app-version': '6.11.1'
       },
       url: nabuUrl
     })
