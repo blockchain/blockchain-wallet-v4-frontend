@@ -27,6 +27,8 @@ threadLoader.warmup(threadLoaderSettings, ['babel-loader', 'ts-loader'])
 
 // csp nonce for local development
 const CSP_NONCE = '2726c7f26c'
+// timestamp to ensure cache bust
+const CACHE_KEY = Date.now().toString().substr(7)
 
 // gets and logs build config
 const getAndLogEnvConfig = () => {
@@ -70,14 +72,15 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
   devtool: false, // default is false but needs to be set so dev config can override
   entry: {
     app: {
-      filename: 'app-[fullhash:10].js',
+      filename: `app-[fullhash:6]-${CACHE_KEY}.js`,
       import: CONFIG_PATH.src + '/index.js'
     }
   },
   output: {
     assetModuleFilename: 'resources/[name][ext]', // default asset path that is usually overwritten in specific modules.rules
-    chunkFilename: (pathData) =>
-      pathData.chunk.name ? '[name]-[contenthash:10].js' : 'chunk-[contenthash:10].js',
+    chunkFilename: (pathData) => pathData.chunk.name
+      ? `[name]-[contenthash:6]-${CACHE_KEY}.js`
+      : `chunk-[contenthash:6]-${CACHE_KEY}.js`,
     crossOriginLoading: 'anonymous',
     path: CONFIG_PATH.ciBuild,
     publicPath: '/'
@@ -169,7 +172,7 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
   optimization: {
     moduleIds: 'deterministic',
     runtimeChunk: {
-      name: (entrypoint) => `runtime-${entrypoint.name}-${Date.now()}`,
+      name: (entrypoint) => `runtime-${entrypoint.name}-${CACHE_KEY}`,
     },
     splitChunks: {
       maxSize: 1000000, // 1 MB max chunk size

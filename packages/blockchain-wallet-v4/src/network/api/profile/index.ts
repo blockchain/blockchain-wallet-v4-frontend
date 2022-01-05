@@ -1,4 +1,28 @@
 export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, post, rootUrl }) => {
+  const exchangeSignIn = (code, password, username) => {
+    return authorizedPost({
+      contentType: 'application/json',
+      data: {
+        code,
+        password,
+        username
+      },
+      endPoint: '/signin',
+      url: nabuUrl
+    })
+  }
+
+  const exchangeResetPassword = (email) => {
+    post({
+      contentType: 'application/json',
+      data: {
+        email
+      },
+      endPoint: '/password/reset/create',
+      url: nabuUrl
+    })
+  }
+
   const generateRetailToken = (guid, sharedKey) =>
     post({
       data: {
@@ -191,6 +215,8 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
   return {
     createLinkAccountId,
     createUser,
+    exchangeResetPassword,
+    exchangeSignIn,
     finaliseLinking,
     generateRetailToken,
     generateSession,

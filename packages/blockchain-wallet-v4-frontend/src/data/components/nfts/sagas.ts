@@ -153,7 +153,7 @@ export default ({ api }: { api: APIType }) => {
       // how many token_ids are the same?
       const non_unique_token_ids_map = {}
       let non_unique_token_ids = 0
-      for (let i = 0; i < token_ids.length; i++) {
+      for (let i = 0; i < token_ids.length; i += 1) {
         if (non_unique_token_ids_map[token_ids[i]]) {
           non_unique_token_ids += 1
         } else {

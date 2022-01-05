@@ -8,6 +8,7 @@ import * as components from './components/selectors'
 import * as custodial from './custodial/selectors'
 import * as form from './form/selectors'
 import * as goals from './goals/selectors'
+import * as misc from './misc/selectors'
 import * as modals from './modals/selectors'
 import * as modules from './modules/selectors'
 import * as preferences from './preferences/selectors'
@@ -25,6 +26,7 @@ export {
   custodial,
   form,
   goals,
+  misc,
   modals,
   modules,
   preferences,

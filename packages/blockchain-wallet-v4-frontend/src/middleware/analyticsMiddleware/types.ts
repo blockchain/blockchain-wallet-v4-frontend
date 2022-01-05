@@ -150,10 +150,11 @@ enum DepositMethod {
   BANK_TRANSFER = 'BANK_TRANSFER'
 }
 
-enum LoginHelpClikedOrigin {
+enum LoginHelpClickedOrigin {
   IDENTIFIER = 'IDENTIFIER',
   PASSWORD = 'PASSWORD',
-  QR_CODe = 'QR_CODE'
+  QR_CODE = 'QR_CODE',
+  UPGRADE_ACCOUNT_NEW_PASSWORD = 'UPGRADE_ACCOUNT_NEW_PASSWORD'
 }
 
 enum SendReceive {
@@ -359,7 +360,7 @@ type LinkBankClickedPayload = BasePayload & {
 }
 
 type LoginHelpClickedPayload = BasePayload & {
-  origin: LoginHelpClikedOrigin
+  origin: LoginHelpClickedOrigin
   site_redirect: 'WALLET' | 'EXCHANGE'
 }
 
@@ -513,7 +514,7 @@ type SendFromSelectedPayload = BasePayload & {
   from_account_type: AccountType
 }
 
-type SendReceiveClickedOrigin = 'NAVIGATION'
+type SendReceiveClickedOrigin = 'CURRENCY_PAGE' | 'NAVIGATION' | 'NO_HOLDINGS' | 'TRANSACTIONS_PAGE'
 
 type SendReceiveClickedPayload = BasePayload & {
   currency: string

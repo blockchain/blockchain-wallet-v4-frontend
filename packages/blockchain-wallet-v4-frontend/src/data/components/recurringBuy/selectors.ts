@@ -1,9 +1,9 @@
 import { createSelector } from '@reduxjs/toolkit'
-import { buyPaymentMethodSelectedPaymentTypeDictionary } from 'middleware/analyticsMiddleware/utils'
 import { compose, flatten, uniq } from 'ramda'
 
 import { BSPaymentMethodType, BSPaymentTypes } from '@core/types'
 import { RootState } from 'data/rootReducer'
+import { buyPaymentMethodSelectedPaymentTypeDictionary } from 'middleware/analyticsMiddleware/utils'
 
 import { getPayment } from '../interest/selectors'
 import { RecurringBuyPeriods } from './types'

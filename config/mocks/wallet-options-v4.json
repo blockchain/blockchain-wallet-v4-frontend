@@ -14,20 +14,6 @@
       "sift": {
         "apiKey": "0ecd212038"
       },
-      "featureFlags": {
-        "addCheckoutPaymentProvider": false,
-        "addStripePaymentProvider": false,
-        "cEURRewards": true,
-        "developerMobilePairing": true,
-        "eddInterestFileUpload": true,
-        "flexiblePricingModel": true,
-        "pollForMagicLinkData": true,
-        "recurringBuys": true,
-        "signupCountry": true,
-        "walletConnect": true,
-        "withdrawalLocksFundsOnHold": true,
-        "useNewPaymentProviders": true
-      },
       "hotWalletAddresses":{
         "swap": {
           "eth": "0xC05f893248D843192A989AEE6dC26d21426E78AF"
@@ -44,6 +30,24 @@
         "rewards": {
           "eth": "0x7d9d70c1A99FcC952d48b781947FAa0a3795083E"
         }
+      },
+      "featureFlags": {
+        "addCheckoutPaymentProvider": false,
+        "addStripePaymentProvider": false,
+        "cEURRewards": true,
+        "completeYourProfile": true,
+        "developerMobilePairing": true,
+        "mergeAndUpgrade": false,
+        "eddInterestFileUpload": true,
+        "flexiblePricingModel": true,
+        "pollForMagicLinkData": true,
+        "recurringBuys": true,
+        "isRedesignEnabled": true,
+        "signupCountry": true,
+        "tradingCurrencyFlyout": true,
+        "walletConnect": true,
+        "withdrawalLocksFundsOnHold": true,
+        "useNewPaymentProviders": true
       }
     }
   },

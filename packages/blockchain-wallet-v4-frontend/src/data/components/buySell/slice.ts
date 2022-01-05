@@ -248,7 +248,6 @@ const buySellSlice = createSlice({
         action.payload.filter((card) => card.state !== BSCardStateEnum.BLOCKED)
       )
     },
-
     fetchCrossBorderLimits: (state, action: PayloadAction<CrossBorderLimitsPayload>) => {},
     fetchCrossBorderLimitsFailure: (state, action: PayloadAction<unknown>) => {
       state.crossBorderLimits = Remote.Failure(action.payload)
@@ -259,8 +258,8 @@ const buySellSlice = createSlice({
     fetchCrossBorderLimitsSuccess: (state, action: PayloadAction<CrossBorderLimits>) => {
       state.crossBorderLimits = Remote.Success(action.payload)
     },
-
     fetchFiatEligible: (state, action: PayloadAction<FiatType>) => {},
+
     fetchFiatEligibleFailure: (state, action: PayloadAction<string>) => {
       state.fiatEligible = Remote.Failure(action.payload)
     },

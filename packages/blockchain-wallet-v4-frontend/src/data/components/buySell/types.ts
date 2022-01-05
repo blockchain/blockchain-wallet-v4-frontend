@@ -93,6 +93,7 @@ export enum BuySellStepType {
   'VERIFY_EMAIL'
 }
 export type BSShowModalOriginType =
+  | 'CompleteProfileBanner'
   | 'EmptyFeed'
   | 'PendingOrder'
   | 'PriceChart'
@@ -104,6 +105,7 @@ export type BSShowModalOriginType =
   | 'SettingsProfile'
   | 'SideNav'
   | 'BuySellLink'
+  | 'Trade'
   | 'TransactionList'
   | 'WelcomeModal'
   | 'WithdrawModal'

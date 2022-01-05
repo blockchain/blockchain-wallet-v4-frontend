@@ -21,6 +21,7 @@ import {
   ProductTypes,
   ProviderDetailsType,
   SwapOrderType,
+  WalletFiatType,
   WalletOptionsType
 } from '@core/types'
 import { errorHandler, errorHandlerCode } from '@core/utils'
@@ -68,7 +69,7 @@ import {
 import * as S from './selectors'
 import { actions as A } from './slice'
 import * as T from './types'
-import { getDirection, reversePair } from './utils'
+import { getDirection, getPreferredCurrency, reversePair, setPreferredCurrency } from './utils'
 
 export const logLocation = 'components/buySell/sagas'
 
@@ -276,6 +277,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     )).getOrElse(false)
     try {
       const pair = S.getBSPair(yield select())
+
       if (!values) throw new Error(NO_CHECKOUT_VALUES)
       if (!pair) throw new Error(NO_PAIR_SELECTED)
       const { fix, orderType, period } = values
@@ -635,11 +637,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       if (!loadCards) return yield put(A.fetchCardsSuccess([]))
       if (!payload) yield put(A.fetchCardsLoading())
-      const cards = yield call(
-        api.getBSCards,
-        Boolean(selectors.core.walletOptions.getUseNewPaymentProviders(yield select()))
-      )
 
+      const useNewPaymentProviders = (yield select(
+        selectors.core.walletOptions.getUseNewPaymentProviders
+      )).getOrElse(false)
+
+      const cards = yield call(api.getBSCards, useNewPaymentProviders)
       yield put(A.fetchCardsSuccess(cards))
     } catch (e) {
       const error = errorHandler(e)
@@ -1149,7 +1152,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         }
       } else {
         if (!account) throw NO_ACCOUNT
-
         yield put(A.fetchSellQuote({ account, pair: pair.pair }))
         yield put(A.startPollSellQuote({ account, pair: pair.pair }))
         yield race({
@@ -1488,6 +1490,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       // find a pair
       const pair = pairs.filter((pair) => pair.pair === `${cryptoCurrency}-${fiatCurrency}`)[0]
       yield put(A.fetchPaymentMethods(fiatCurrency))
+      // record desired currency
+      const preferredCurrencyFromStorage = getPreferredCurrency()
+      if (!preferredCurrencyFromStorage) {
+        setPreferredCurrency(fiatCurrency as WalletFiatType)
+      }
       yield put(
         A.setStep({
           cryptoCurrency,

@@ -2,8 +2,10 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, Icon, Link, SpinningLoader, Text } from 'blockchain-info-components'
+import { Wrapper } from 'components/Public'
 import { RecoverSteps } from 'data/types'
+import { media } from 'services/styles'
 
 export const ActionButton = styled(Button)`
   margin-top: 15px;
@@ -61,6 +63,48 @@ export const LoaderRow = styled(Row)`
   padding: 108px 0;
 `
 
+export const OuterWrapper = styled(Wrapper)`
+  padding: 24px 0;
+  ${media.mobile`
+  padding: 16px 0;
+`}
+`
+export const WrapperWithPadding = styled.div`
+  padding: 0 32px;
+  ${media.mobile`
+  padding: 0 16px ;
+  `}
+`
+export const SubCard = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+  border-top: 1px solid ${(props) => props.theme.grey000};
+  padding: 0;
+  ${media.mobile`
+  flex-direction: column;
+  align-items: center;
+`};
+`
+
+export const TroubleLoggingInRow = styled.div`
+  display: flex;
+  align-items: center;
+  ${media.mobile`
+flex-direction: column;
+align-items: center;
+`}
+`
+export const ContactSupportText = styled(Link)`
+  margin-top: 16px;
+  cursor: pointer;
+  ${media.mobile`
+  margin-top: 0;
+`};
+  &:hover {
+    font-weight: 600;
+  }
+`
 export const ReverifyIdentityInfoBox = () => {
   return (
     <RectangleBackground>
@@ -82,12 +126,12 @@ export const GoBackArrow = (props: { handleBackArrowClick: () => void }) => {
         data-e2e='recoverBack'
         name='arrow-left'
         size='24px'
-        color='grey600'
+        color='blue600'
         role='button'
         style={{ marginRight: '8px' }}
       />
       <Text size='14px' weight={600} color='grey600' cursor='pointer'>
-        <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
+        <FormattedMessage id='buttons.back' defaultMessage='Back' />
       </Text>
     </Row>
   )
