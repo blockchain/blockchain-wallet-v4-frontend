@@ -1,10 +1,11 @@
 import React, { ReactNode } from 'react'
+import { Loading, LoadingTextEnum } from 'blockchain-wallet-v4-frontend/src/modals/components'
 import { ModalPropsType } from 'blockchain-wallet-v4-frontend/src/modals/types'
 import { AnimatePresence, motion } from 'framer-motion'
 import { equals } from 'ramda'
 import styled from 'styled-components'
 
-import { Modal, Text } from 'blockchain-info-components'
+import { BlockchainLoader, Modal, Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
 import BuySellLimitReached from './Brokerage/BuySellLimitReached'
@@ -159,8 +160,11 @@ export const StickyHeaderFlyoutWrapper = styled(FlyoutWrapper)`
   z-index: 99;
 `
 
-class Flyout extends React.Component<Props> {
-  shouldComponentUpdate = (nextProps) => !equals(this.props, nextProps)
+class Flyout extends React.Component<Props, { animationComplete: boolean }> {
+  state = { animationComplete: false }
+
+  shouldComponentUpdate = (nextProps) =>
+    !equals(this.props, nextProps) || !equals(this.state, nextProps.state)
 
   render() {
     const { children, isOpen, userClickedOutside } = this.props
@@ -169,6 +173,10 @@ class Flyout extends React.Component<Props> {
       <AnimatePresence>
         {isOpen && !userClickedOutside ? (
           <FlyoutModal
+            onAnimationComplete={() => {
+              this.setState({ animationComplete: true })
+            }}
+            key='modal'
             total={this.props.total}
             position={this.props.position}
             animate={{ x: 0 }}
@@ -176,13 +184,13 @@ class Flyout extends React.Component<Props> {
             initial={{ x: width }}
             transition={{
               bounce: 0,
-              duration: 1,
+              duration: 0.3,
               type: 'spring'
             }}
           >
             <FlyoutChildren>
               {/* Each child must be wrapped in FlyoutChild for transitioning to work */}
-              {children}
+              {this.state.animationComplete ? children : <Loading text={LoadingTextEnum.LOADING} />}
             </FlyoutChildren>
           </FlyoutModal>
         ) : null}

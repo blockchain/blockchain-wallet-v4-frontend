@@ -3,7 +3,14 @@ import { FormattedMessage } from 'react-intl'
 import { GreyBlueCartridge } from 'blockchain-wallet-v4-frontend/src/modals/Interest/DepositForm/model'
 import styled, { css } from 'styled-components'
 
-import { Button, Icon, Image, SpinningLoader, Text } from 'blockchain-info-components'
+import {
+  BlockchainLoader,
+  Button,
+  Icon,
+  Image,
+  SpinningLoader,
+  Text
+} from 'blockchain-info-components'
 import { OBInstitution } from 'data/types'
 
 const BankWrapper = styled.div`
@@ -204,7 +211,7 @@ interface Props {
 const Loading = ({ text }: Props) => {
   return (
     <Wrapper>
-      <SpinningLoader />
+      <BlockchainLoader width='80px' height='80px' />
       <Text weight={600} color='grey600' style={{ marginTop: '24px' }}>
         {text === LoadingTextEnum.LOADING && (
           <FormattedMessage id='copy.loading' defaultMessage='Loading...' />
