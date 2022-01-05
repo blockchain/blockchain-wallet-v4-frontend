@@ -5,7 +5,7 @@ import { defaultTo, filter, prop } from 'ramda'
 import { bindActionCreators, Dispatch } from 'redux'
 
 import { Remote } from '@core'
-import { BSOrderType, BSPaymentTypes, ExtractSuccess, WalletFiatType } from '@core/types'
+import { BSOrderType, BSPaymentTypes, ExtractSuccess, OrderType, WalletFiatType } from '@core/types'
 import DataError from 'components/DataError'
 import { actions, model, selectors } from 'data'
 import { getFiatFromPair, getOrderType } from 'data/components/buySell/model'
@@ -27,7 +27,9 @@ const { FORM_BS_CHECKOUT } = model.components.buySell
 
 class CheckoutConfirm extends PureComponent<Props> {
   componentDidMount() {
-    if (this.props.isFlexiblePricingModel) {
+    const orderType = getOrderType(this.props.order)
+
+    if (this.props.isFlexiblePricingModel && orderType === OrderType.BUY) {
       this.props.buySellActions.fetchBuyQuote({
         amount: this.props.order.inputQuantity,
         pair: this.props.order.pair,
@@ -40,7 +42,7 @@ class CheckoutConfirm extends PureComponent<Props> {
     } else {
       this.props.buySellActions.fetchQuote({
         amount: this.props.order.inputQuantity,
-        orderType: getOrderType(this.props.order),
+        orderType,
         pair: this.props.order.pair
       })
     }
