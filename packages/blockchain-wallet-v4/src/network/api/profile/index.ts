@@ -66,7 +66,7 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
   }
 
   const getExchangeAuthToken = (exchangeLifetimeToken, usersCredentialsId) => {
-    authorizedPost({
+    return authorizedPost({
       contentType: 'application/json',
       data: {
         usersCredentialsId

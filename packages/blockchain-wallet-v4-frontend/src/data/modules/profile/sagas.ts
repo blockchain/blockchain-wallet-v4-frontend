@@ -289,23 +289,27 @@ export default ({ api, coreSagas, networks }) => {
   // IF YES, DON'T REWRITE
 
   const createExchangeUser = function* (country) {
-    const exchangeUserIdR = yield select(selectors.core.kvStore.userCredentials.getExchangeUserId)
-    const exchangeLifetimeTokenR = yield select(
-      selectors.core.kvStore.userCredentials.getExchangeLifetimeToken
-    )
-    const exchangeAuthCredentialsR = lift((exchangeUserId, exchangeLifetimeToken) => ({
-      exchangeLifetimeToken,
-      exchangeUserId
-    }))(exchangeUserIdR, exchangeLifetimeTokenR)
+    try {
+      const exchangeUserIdR = yield select(selectors.core.kvStore.userCredentials.getExchangeUserId)
+      const exchangeLifetimeTokenR = yield select(
+        selectors.core.kvStore.userCredentials.getExchangeLifetimeToken
+      )
+      const exchangeAuthCredentialsR = lift((exchangeUserId, exchangeLifetimeToken) => ({
+        exchangeLifetimeToken,
+        exchangeUserId
+      }))(exchangeUserIdR, exchangeLifetimeTokenR)
 
-    const { exchangeLifetimeToken, exchangeUserId } = yield exchangeAuthCredentialsR
-      .map((exchangeAuthCredentials) => {
-        const { exchangeLifetimeToken, exchangeUserId } = exchangeAuthCredentials
-        if (!exchangeUserId || !exchangeLifetimeToken)
-          return call(generateExchangeAuthCredentials, country)
-        return exchangeAuthCredentials
-      })
-      .getOrElse({} as ExtractSuccess<typeof exchangeAuthCredentialsR>)
+      const { exchangeLifetimeToken, exchangeUserId } = yield exchangeAuthCredentialsR
+        .map((exchangeAuthCredentials) => {
+          const { exchangeLifetimeToken, exchangeUserId } = exchangeAuthCredentials
+          if (!exchangeUserId || !exchangeLifetimeToken)
+            return call(generateExchangeAuthCredentials, country)
+          return exchangeAuthCredentials
+        })
+        .getOrElse({} as ExtractSuccess<typeof exchangeAuthCredentialsR>)
+    } catch (e) {
+      // TODO How do we handle this error?
+    }
 
     // From here we call nabu/authorize to get login token
   }
@@ -319,14 +323,11 @@ export default ({ api, coreSagas, networks }) => {
       const exchangeUserIdR = yield select(selectors.core.kvStore.userCredentials.getExchangeUserId)
       const exchangeLifetimeToken = exchangeLifetimeTokenR.getOrElse(null)
       const exchangeUserId = exchangeUserIdR.getOrElse(null)
-      const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
-      const guid = yield select(selectors.core.wallet.getGuid)
-      const response = yield call(
-        api.getExchangeAuthToken,
-        exchangeLifetimeToken,
-        exchangeUserId,
-        email,
-        guid
+      const { token } = yield call(api.getExchangeAuthToken, exchangeLifetimeToken, exchangeUserId)
+      window.open(
+        `https://exchange.staging.blockchain.info/trade/auth?jwt=${token}`,
+        '_self',
+        'noreferrer'
       )
     } catch (e) {
       // TODO: Handle Error

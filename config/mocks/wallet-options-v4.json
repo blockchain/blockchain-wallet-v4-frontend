@@ -40,7 +40,7 @@
         "mergeAndUpgrade": false,
         "eddInterestFileUpload": true,
         "flexiblePricingModel": true,
-        "pollForMagicLinkData": false,
+        "pollForMagicLinkData": true,
         "recurringBuys": true,
         "isRedesignEnabled": true,
         "signupCountry": true,
