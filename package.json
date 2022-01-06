@@ -215,5 +215,8 @@
     "webpack-cli": "4.9.1",
     "webpack-dev-server": "4.4.0",
     "wsrun": "5.2.4"
+  },
+  "resolutions": {
+    "qr.js": "https://github.com/defunctzombie/qr.js.git"
   }
 }
