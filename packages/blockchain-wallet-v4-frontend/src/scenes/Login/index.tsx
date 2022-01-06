@@ -24,7 +24,7 @@ import UpgradeSuccess from './AccountUnification/UpgradeSuccess'
 import ExchangeEnterEmail from './Exchange/EnterEmail'
 import EnterPasswordExchange from './Exchange/EnterPasswordExchange'
 import TwoFAExchange from './Exchange/TwoFA'
-import { getLoginPageFooter, getLoginPageSubTitle, getLoginPageTitle } from './model'
+import { getLoginPageFooter } from './model'
 import { getData } from './selectors'
 import VerifyMagicLink from './VerifyMagicLink'
 import CheckEmail from './Wallet/CheckEmail'
@@ -126,16 +126,6 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
 
     return (
       <>
-        {/* TITLE */}
-        <Text color='white' size='24px' weight={600} style={{ marginBottom: '24px' }}>
-          {getLoginPageTitle(step)}
-        </Text>
-
-        {/* SUBTITLE */}
-        <Text color='grey400' weight={500} style={{ marginBottom: '32px' }}>
-          {getLoginPageSubTitle(step)}
-        </Text>
-
         {/* CONTENT */}
 
         <Form onSubmit={this.handleSubmit}>

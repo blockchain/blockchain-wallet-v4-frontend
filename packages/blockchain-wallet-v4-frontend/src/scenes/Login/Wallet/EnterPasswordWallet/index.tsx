@@ -54,20 +54,20 @@ const FormWrapper = styled(Wrapper)`
 const MobileAuthSideWrapper = styled(Wrapper)`
   position: relative;
   overflow: visible;
-  max-width: 274px;
+  max-width: 240px;
   height: 96%;
   border-radius: 0 8px 8px 0;
   background-color: ${(props) => props.theme.grey000};
   z-index: 0;
-  right: 1px;
-  padding: 16px 32px;
+  right: 0.5px;
+  padding: 16px;
 `
 
 const TextColumn = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-left: 10px;
+  margin-left: 12px;
   > div {
     margin-bottom: 8px;
   }
@@ -102,7 +102,7 @@ const EnterPasswordWallet = (props: Props) => {
   return (
     <OuterWrapper>
       <FormWrapper>
-        <TabWrapper>
+        {/* <TabWrapper>
           <ProductTab product={ProductAuthOptions.WALLET}>
             <Image name='wallet-no-background' height='28px' style={{ marginRight: '12px' }} />
             <Text size='20px' weight={600} color='purple600'>
@@ -119,7 +119,7 @@ const EnterPasswordWallet = (props: Props) => {
               <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
             </Text>
           </ProductTab>
-        </TabWrapper>
+        </TabWrapper> */}
         <WrapperWithPadding>
           <BackArrowFormHeader
             {...props}
@@ -193,7 +193,7 @@ const EnterPasswordWallet = (props: Props) => {
       {!isMobile() && (
         <MobileAuthSideWrapper>
           <TextColumn>
-            <QRCodeWrapper value={qrData} size={150} showImage />
+            <QRCodeWrapper value={qrData} size={160} showImage />
             <Text
               color='grey900'
               size='14px'
@@ -203,19 +203,13 @@ const EnterPasswordWallet = (props: Props) => {
             >
               <FormattedMessage
                 id='scenes.login.wallet.mobile_app_login.title'
-                defaultMessage='Or Log in with Mobile App'
+                defaultMessage='Log In with Mobile App'
               />
             </Text>
             <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
               <FormattedMessage
-                id='scenes.login.wallet.mobile_login.description.ios'
-                defaultMessage='<b>iOS</b> - Tap the Menu button at the top left corner of the app to reveal Web Log In option.'
-              />
-            </Text>
-            <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
-              <FormattedMessage
-                id='scenes.login.wallet.mobile_login.description.android'
-                defaultMessage='<b>Android</b> - Tap the QR code icon at the top right corner of the app.'
+                id='scenes.login.wallet.mobile_login.description'
+                defaultMessage='Tap the QR code icon at the top right corner of the app.'
               />
             </Text>
           </TextColumn>
