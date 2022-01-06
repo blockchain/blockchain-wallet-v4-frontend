@@ -24,8 +24,8 @@ const ThreeDSHandlerCheckoutDotCom = ({ buySellActions, domains, order }: Props)
     throw new Error('Order is not defined')
   }
 
-  const handlePostMessage = async ({ data }: { data: { payment: 'successful' } }) => {
-    if (data.payment !== 'successful') return
+  const handlePostMessage = async ({ data }: { data: { payment: 'success' } }) => {
+    if (data.payment !== 'success') return
 
     buySellActions.pollOrder(order.id)
   }

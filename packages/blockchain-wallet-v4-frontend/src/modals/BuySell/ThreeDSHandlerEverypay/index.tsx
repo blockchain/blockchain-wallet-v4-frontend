@@ -40,8 +40,8 @@ class ThreeDSHandlerEverypay extends PureComponent<Props, State> {
     window.removeEventListener('message', this.handlePostMessage, false)
   }
 
-  handlePostMessage = ({ data }: { data: { payment: 'successful' } }) => {
-    if (data.payment !== 'successful') return
+  handlePostMessage = ({ data }: { data: { payment: 'success' } }) => {
+    if (data.payment !== 'success') return
 
     this.setState({ threeDSCallbackReceived: true })
     // @ts-ignore

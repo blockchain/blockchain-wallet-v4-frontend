@@ -341,7 +341,7 @@ export type Limits = {
   min: string
 }
 
-type CardAcquirerName = 'stripe' | 'checkout'
+type CardAcquirerName = 'STRIPE' | 'CHECKOUTDOTCOM' | 'EVERYPAY'
 
 export type CardAcquirer = {
   apiKey: string

@@ -207,7 +207,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const error = errorHandler(e)
       yield put(
         A.setStep({
-          step: 'DETERMINE_CARD_PROVIDER'
+          step: 'ADD_CARD_EVERYPAY'
         })
       )
       yield put(actions.form.startSubmit(FORM_BS_ADD_EVERYPAY_CARD))
@@ -1320,7 +1320,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const cardAcquirers: CardAcquirer[] = yield call(api.getCardAcquirers)
 
       const checkoutAcquirers: CardAcquirer[] = cardAcquirers.filter(
-        (cardAcquirer: CardAcquirer) => cardAcquirer.cardAcquirerName === 'checkout'
+        (cardAcquirer: CardAcquirer) => cardAcquirer.cardAcquirerName === 'CHECKOUTDOTCOM'
       )
 
       if (checkoutAcquirers.length === 0) {
