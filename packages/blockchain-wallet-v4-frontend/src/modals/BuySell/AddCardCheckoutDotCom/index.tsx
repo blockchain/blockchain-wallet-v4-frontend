@@ -1,30 +1,16 @@
 import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
-import styled from 'styled-components'
 
-import { WalletOptionsType } from '@core/types'
-import { FlyoutWrapper } from 'components/Flyout'
+import { BSPairType, CoinType, WalletOptionsType } from '@core/types'
+import DataError from 'components/DataError'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
-const CustomFlyoutWrapper = styled(FlyoutWrapper)`
-  height: 100%;
-`
+import { getData } from './selectors'
+import Success from './template.success'
 
-const Iframe = styled.iframe`
-  border: 0;
-  width: 100%;
-  height: 100%;
-  margin-top: 16px;
-`
-
-const AddCardCheckoutDotCom = ({
-  buySellActions,
-  checkoutDotComAccountCodes = [],
-  checkoutDotComApiKey,
-  domains
-}: Props) => {
+const AddCardCheckoutDotCom = (props: Props) => {
   const handlePostMessage = async ({
     data
   }: {
@@ -38,7 +24,7 @@ const AddCardCheckoutDotCom = ({
     if (data.provider !== 'CHECKOUTDOTCOM') return
 
     if (data.action === 'CHANGE_BILLING_ADDRESS') {
-      buySellActions.setStep({ step: 'BILLING_ADDRESS' })
+      props.buySellActions.setStep({ step: 'BILLING_ADDRESS' })
     }
 
     if (data.action === 'ADD_CARD') {
@@ -48,7 +34,7 @@ const AddCardCheckoutDotCom = ({
       }
 
       if (data.status === 'SUCCESS' && data.token) {
-        const paymentMethodTokens = checkoutDotComAccountCodes.reduce((prev, curr) => {
+        const paymentMethodTokens = props.checkoutDotComAccountCodes?.reduce((prev, curr) => {
           return {
             ...prev,
             [curr]: data.token
@@ -67,21 +53,31 @@ const AddCardCheckoutDotCom = ({
     return () => window.removeEventListener('message', handlePostMessage, false)
   })
 
-  return (
-    <CustomFlyoutWrapper>
-      <Iframe
-        src={`${domains.walletHelper}/wallet-helper/checkoutdotcom/#/add-card/${checkoutDotComApiKey}`}
+  return props.data.cata({
+    Failure: (e) => (
+      <DataError message={{ message: e }} onClick={props.buySellActions.fetchPaymentMethods} />
+    ),
+    Loading: () => null,
+    NotAsked: () => null,
+    Success: (val) => (
+      <Success
+        {...props}
+        {...val}
+        domain={`${props.domains.walletHelper}/wallet-helper/checkoutdotcom/#/add-card/${props.checkoutDotComApiKey}`}
       />
-    </CustomFlyoutWrapper>
-  )
+    )
+  })
 }
 
 const mapStateToProps = (state: RootState) => ({
   checkoutDotComAccountCodes: selectors.components.buySell.getCheckoutAccountCodes(state),
   checkoutDotComApiKey: selectors.components.buySell.getCheckoutApiKey(state),
+  countryCode: selectors.core.settings.getCountryCode(state).getOrElse(null),
+  data: getData(state),
   domains: selectors.core.walletOptions.getDomains(state).getOrElse({
     walletHelper: 'https://wallet-helper.blockchain.com'
-  } as WalletOptionsType['domains'])
+  } as WalletOptionsType['domains']),
+  fiatCurrency: selectors.components.buySell.getFiatCurrency(state) || 'USD'
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -91,8 +87,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = {
+  cryptoCurrency?: CoinType
   handleClose: () => void
+  pair: BSPairType
 }
+
+export type SuccessStateType = ReturnType<typeof getData>['data']
 
 export type Props = OwnProps & ConnectedProps<typeof connector>
 
