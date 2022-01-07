@@ -81,7 +81,7 @@ export default ({ api, networks }) => {
     yield refetchContextData()
   }
 
-  const createWalletSaga = function* ({ email, language, password }) {
+  const createWalletSaga = function* ({ captchaToken, email, language, password }) {
     const mnemonic = yield call(generateMnemonic, api)
     const [guid, sharedKey] = yield call(api.generateUUIDs, 2)
     const wrapper = Wrapper.createNew(
@@ -94,7 +94,7 @@ export default ({ api, networks }) => {
       undefined,
       networks.btc
     )
-    yield call(api.createWallet, email, wrapper)
+    yield call(api.createWallet, email, captchaToken, wrapper)
     yield put(A.wallet.refreshWrapper(wrapper))
   }
 
@@ -208,7 +208,14 @@ export default ({ api, networks }) => {
     }
   }
 
-  const restoreWalletSaga = function* ({ email, kvCredentials, language, mnemonic, password }) {
+  const restoreWalletSaga = function* ({
+    captchaToken,
+    email,
+    kvCredentials,
+    language,
+    mnemonic,
+    password
+  }) {
     let recoveredFromMetadata
 
     // if we have retrieved credentials from metadata, use them to restore wallet
@@ -247,7 +254,7 @@ export default ({ api, networks }) => {
 
     // create new wallet if it wasn't recovered from metadata
     if (!recoveredFromMetadata) {
-      yield call(api.createWallet, email, wrapper)
+      yield call(api.createWallet, email, captchaToken, wrapper)
     }
     yield put(A.wallet.refreshWrapper(wrapper))
   }
