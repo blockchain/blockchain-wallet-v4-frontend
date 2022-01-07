@@ -482,7 +482,7 @@ export default ({ api, coreSagas, networks }) => {
 
   const restore = function* (action) {
     try {
-      const { captchaToken, email, language, mnemonic, network, password } = action.payload
+      const { captchaToken, email, language, mnemonic, password } = action.payload
       const kvCredentials = (yield select(selectors.auth.getMetadataRestore)).getOrElse({})
 
       yield put(actions.auth.restoreLoading())
@@ -494,7 +494,6 @@ export default ({ api, coreSagas, networks }) => {
         kvCredentials,
         language,
         mnemonic,
-        network,
         password
       })
 
