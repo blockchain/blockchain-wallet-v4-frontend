@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
+import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { WalletOptionsType } from '@core/types'
 import { FlyoutWrapper } from 'components/Flyout'
-import { selectors } from 'data'
+import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 
 const CustomFlyoutWrapper = styled(FlyoutWrapper)`
@@ -19,6 +20,7 @@ const Iframe = styled.iframe`
 `
 
 const AddCardCheckoutDotCom = ({
+  buySellActions,
   checkoutDotComAccountCodes = [],
   checkoutDotComApiKey,
   domains
@@ -26,25 +28,36 @@ const AddCardCheckoutDotCom = ({
   const handlePostMessage = async ({
     data
   }: {
-    data: { provider: 'checkoutdotcom'; status: 'error' | 'success'; token?: string }
+    data: {
+      action: 'ADD_CARD' | 'CHANGE_BILLING_ADDRESS'
+      provider: 'CHECKOUTDOTCOM'
+      status: 'ERROR' | 'SUCCESS'
+      token?: string
+    }
   }) => {
-    if (data.provider !== 'checkoutdotcom') return
+    if (data.provider !== 'CHECKOUTDOTCOM') return
 
-    if (data.status === 'error') {
-      // eslint-disable-next-line no-console
-      console.error('ERROR')
+    if (data.action === 'CHANGE_BILLING_ADDRESS') {
+      buySellActions.setStep({ step: 'BILLING_ADDRESS' })
     }
 
-    if (data.status === 'success' && data.token) {
-      const paymentMethodTokens = checkoutDotComAccountCodes.reduce((prev, curr) => {
-        return {
-          ...prev,
-          [curr]: data.token
-        }
-      }, {})
+    if (data.action === 'ADD_CARD') {
+      if (data.status === 'ERROR') {
+        // eslint-disable-next-line no-console
+        console.error('ERROR')
+      }
 
-      // eslint-disable-next-line no-console
-      console.log(paymentMethodTokens)
+      if (data.status === 'SUCCESS' && data.token) {
+        const paymentMethodTokens = checkoutDotComAccountCodes.reduce((prev, curr) => {
+          return {
+            ...prev,
+            [curr]: data.token
+          }
+        }, {})
+
+        // eslint-disable-next-line no-console
+        console.log(paymentMethodTokens)
+      }
     }
   }
 
@@ -71,7 +84,11 @@ const mapStateToProps = (state: RootState) => ({
   } as WalletOptionsType['domains'])
 })
 
-const connector = connect(mapStateToProps)
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type OwnProps = {
   handleClose: () => void
