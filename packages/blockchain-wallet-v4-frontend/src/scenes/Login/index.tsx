@@ -55,12 +55,12 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     window.grecaptcha.enterprise.ready(() => {
       window.grecaptcha.enterprise
         .execute(window.CAPTCHA_KEY, { action: 'LOGIN' })
-        .then((captchaToken) => {
+        .then(captchaToken => {
           console.log('Captcha success')
           this.setState({ captchaToken })
           callback && callback(captchaToken)
         })
-        .catch((e) => {
+        .catch(e => {
           console.error('Captcha error: ', e)
         })
     })
