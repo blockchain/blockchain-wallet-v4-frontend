@@ -4,7 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { Cartridge } from '@blockchain-com/components'
 import styled from 'styled-components'
 
-import { TooltipHost, TooltipIcon } from 'blockchain-info-components'
+import { Icon, Link, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import { Destination, MenuIcon, MenuItem, Separator, Wrapper } from 'layouts/Wallet/components'
 
 import { Props } from '.'
@@ -27,6 +27,16 @@ const SeparatorWrapper = styled.div<{ margin?: string }>`
   margin: ${(props) => (props.margin ? props.margin : '8px 16px')};
   box-sizing: border-box;
 `
+const ExchangeNav = styled.div`
+  display: flex;
+  justify-content: flex-start;
+`
+const ExchangeMenuItem = styled(MenuItem)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
 export const NewCartridge = styled(Cartridge)`
   color: ${(props) => props.theme.orange600} !important;
   background-color: ${(props) => props.theme.white};
@@ -36,6 +46,10 @@ export const NewCartridge = styled(Cartridge)`
   padding: 4px 4px;
   border: 1px solid ${(props) => props.theme.grey000};
   border-radius: 4px;
+`
+
+const ExchangeLink = styled(Link)`
+  display: flex;
 `
 export const Divider = (props: { margin?: string }) => (
   <SeparatorWrapper {...props}>
@@ -48,19 +62,29 @@ type OwnProps = {
 }
 
 const ExchangeNavItem = (props) => (
-  <>
-    <MenuIcon className='icon' name='blockchain-logo' style={{ marginLeft: '-2px' }} size='21px' />
-    <Destination style={{ marginLeft: '2px' }}>
-      <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
-    </Destination>
-    {props.isExchangeAccountLinked && (
-      <HelperTipContainer>
-        <HelperTip id='exchangeSideNavConnected'>
-          <TooltipIcon color='blue600' name='info' />
-        </HelperTip>
-      </HelperTipContainer>
-    )}
-  </>
+  <ExchangeMenuItem>
+    <ExchangeLink>
+      <ExchangeNav>
+        <MenuIcon
+          className='icon'
+          name='blockchain-logo'
+          style={{ marginLeft: '-2px' }}
+          size='21px'
+        />
+        <Destination style={{ marginLeft: '2px' }}>
+          <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
+        </Destination>
+        {props.isExchangeAccountLinked && (
+          <HelperTipContainer>
+            <HelperTip id='exchangeSideNavConnected'>
+              <TooltipIcon color='blue600' name='info' />
+            </HelperTip>
+          </HelperTipContainer>
+        )}
+      </ExchangeNav>
+      <Icon name='open-in-new-tab' color='marketing-primary' cursor size='16px' />
+    </ExchangeLink>
+  </ExchangeMenuItem>
 )
 
 const Navigation = (props: OwnProps & Props) => {
@@ -116,11 +140,9 @@ const Navigation = (props: OwnProps & Props) => {
           {/* </NewCartridge> */}
         </MenuItem>
       </LinkContainer>
-      <LinkContainer to='/exchange' activeClassName='active'>
-        <MenuItem data-e2e='exchangeLink'>
-          <ExchangeNavItem {...props} />
-        </MenuItem>
-      </LinkContainer>
+
+      <ExchangeNavItem {...props} />
+
       {lockboxDevices?.length > 0 ? (
         <LinkContainer to='/lockbox' activeClassName='active'>
           <MenuItem data-e2e='lockboxLink'>

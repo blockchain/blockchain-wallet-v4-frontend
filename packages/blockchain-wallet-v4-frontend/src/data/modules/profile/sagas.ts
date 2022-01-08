@@ -265,13 +265,12 @@ export default ({ api, coreSagas, networks }) => {
     return { lifetimeToken, userId }
   }
 
-  const generateExchangeAuthCredentials = function* (country) {
+  const generateExchangeAuthCredentials = function* () {
     try {
       const retailToken = yield call(generateRetailToken)
       const { token: exchangeLifetimeToken, userId: exchangeUserId } = yield call(
         api.createExchangeUser,
-        retailToken,
-        country
+        retailToken
       )
       yield put(
         actions.core.kvStore.userCredentials.setExchangeUserCredentials(
@@ -288,7 +287,7 @@ export default ({ api, coreSagas, networks }) => {
   // TODO: USE THIS TO CHECK IF INFORMATION IS ALREADY IN STORE
   // IF YES, DON'T REWRITE
 
-  const createExchangeUser = function* (country) {
+  const createExchangeUser = function* () {
     try {
       const exchangeUserIdR = yield select(selectors.core.kvStore.userCredentials.getExchangeUserId)
       const exchangeLifetimeTokenR = yield select(
@@ -303,7 +302,7 @@ export default ({ api, coreSagas, networks }) => {
         .map((exchangeAuthCredentials) => {
           const { exchangeLifetimeToken, exchangeUserId } = exchangeAuthCredentials
           if (!exchangeUserId || !exchangeLifetimeToken)
-            return call(generateExchangeAuthCredentials, country)
+            return call(generateExchangeAuthCredentials)
           return exchangeAuthCredentials
         })
         .getOrElse({} as ExtractSuccess<typeof exchangeAuthCredentialsR>)
@@ -483,7 +482,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const linkToExchangeAccount = function* ({ payload }) {
+  const linkToExchangeAccount = function*({ payload }) {
     try {
       const { utmCampaign } = payload
       yield put(A.linkToExchangeAccountLoading())
@@ -518,9 +517,8 @@ export default ({ api, coreSagas, networks }) => {
         const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
         const accountDeeplinkUrl = `${exchangeDomain}/trade/link/${exchangeLinkId}?email=${encodeURIComponent(
           email
-        )}&utm_source=web_wallet&utm_medium=referral&utm_campaign=${
-          utmCampaign || 'wallet_exchange_page'
-        }`
+        )}&utm_source=web_wallet&utm_medium=referral&utm_campaign=${utmCampaign ||
+          'wallet_exchange_page'}`
         // share addresses
         yield put(A.shareWalletAddressesWithExchange())
         // simulate wait while allowing user to read modal

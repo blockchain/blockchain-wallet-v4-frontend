@@ -53,11 +53,10 @@ export default ({ authorizedGet, authorizedPost, authorizedPut, get, nabuUrl, po
     })
   }
 
-  const createExchangeUser = (retailToken, countryCode) => {
+  const createExchangeUser = (retailToken) => {
     return post({
       contentType: 'application/json',
       data: {
-        countryCode,
         retailToken
       },
       endPoint: '/mercury/users',
