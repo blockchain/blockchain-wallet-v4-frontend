@@ -127,7 +127,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       <>
         {/* CONTENT */}
 
-        <Form id='formWrapper' onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit}>
           {(() => {
             switch (step) {
               case LoginSteps.ENTER_PASSWORD_EXCHANGE:

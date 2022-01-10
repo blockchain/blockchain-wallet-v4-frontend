@@ -47,7 +47,7 @@ const EnterPasswordExchange = (props: Props) => {
 
   return (
     <LoginWrapper>
-      {/* <TabWrapper>
+      <TabWrapper>
         <ProductTab
           backgroundColor='grey000'
           onClick={authActions.setCachedWalletData}
@@ -64,7 +64,7 @@ const EnterPasswordExchange = (props: Props) => {
             <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
           </Text>
         </ProductTab>
-      </TabWrapper> */}
+      </TabWrapper>
       <WrapperWithPadding>
         <BackArrowFormHeader
           {...props}

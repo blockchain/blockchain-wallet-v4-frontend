@@ -136,7 +136,7 @@ export const PhishingWarning = styled.div`
 
 export const BackArrowFormHeader = (props: {
   formValues: LoginFormType
-  handleBackArrowClick?: () => void
+  handleBackArrowClick: () => void
   hideBackArrow?: boolean
   hideGuid?: boolean
   marginTop?: string
