@@ -4,7 +4,6 @@ import { bindActionCreators, compose } from 'redux'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 
 import { RemoteDataType } from '@core/types'
-import { Text } from 'blockchain-info-components'
 import { Form } from 'components/Form'
 import { actions, selectors } from 'data'
 import { LOGIN_FORM } from 'data/auth/model'
@@ -55,12 +54,12 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     window.grecaptcha.enterprise.ready(() => {
       window.grecaptcha.enterprise
         .execute(window.CAPTCHA_KEY, { action: 'LOGIN' })
-        .then(captchaToken => {
+        .then((captchaToken) => {
           console.log('Captcha success')
           this.setState({ captchaToken })
           callback && callback(captchaToken)
         })
-        .catch(e => {
+        .catch((e) => {
           console.error('Captcha error: ', e)
         })
     })
@@ -128,7 +127,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       <>
         {/* CONTENT */}
 
-        <Form onSubmit={this.handleSubmit}>
+        <Form id='formWrapper' onSubmit={this.handleSubmit}>
           {(() => {
             switch (step) {
               case LoginSteps.ENTER_PASSWORD_EXCHANGE:

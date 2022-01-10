@@ -285,7 +285,11 @@ export const UnsupportedBrowserWarning = () => (
 
 const FooterWrapper = styled.div<{ step: LoginSteps }>`
   visibility: ${(props) => (props.step === LoginSteps.ENTER_EMAIL_GUID ? 'visible' : 'hidden')};
+  margin-bottom: ${(props) => (props.step === LoginSteps.ENTER_EMAIL_GUID ? '32px' : '0')};
 `
+// margin bottom above is to keep the height of the container consistent
+// when transitioning from email form to password form
+
 export const getLoginPageFooter = (step) => {
   return (
     <FooterWrapper step={step}>
