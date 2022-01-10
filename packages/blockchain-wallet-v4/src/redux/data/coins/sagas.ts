@@ -1,5 +1,5 @@
 import { BigNumber } from 'bignumber.js'
-import moment from 'moment'
+import { getTime } from 'date-fns'
 import { flatten, last, length } from 'ramda'
 import { all, call, put, select, take } from 'redux-saga/effects'
 
@@ -121,11 +121,8 @@ export default ({ api }: { api: APIType }) => {
         }))
         txList.push(history)
       }
-      const page = flatten(txList).sort((a, b) => {
-        return (
-          moment(b.insertedAt || b.timestamp).valueOf() -
-          moment(a.insertedAt || a.timestamp).valueOf()
-        )
+      const page = flatten([txPage, custodialPage.orders]).sort((a, b) => {
+        return getTime(new Date(b.insertedAt)) - getTime(new Date(a.insertedAt))
       })
       const atBounds = page.length < TX_PER_PAGE
       yield put(A.transactionsAtBound(payload.coin, atBounds))

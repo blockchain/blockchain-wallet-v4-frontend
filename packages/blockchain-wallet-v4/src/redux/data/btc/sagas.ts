@@ -1,4 +1,4 @@
-import moment from 'moment'
+import { format, getTime } from 'date-fns'
 import { concat, flatten, indexBy, length, map, path, prop, replace } from 'ramda'
 import { call, put, select, take } from 'redux-saga/effects'
 
@@ -48,8 +48,8 @@ export default ({ api }: { api: APIType }) => {
     const legacyAddress = Array.isArray(address)
       ? address.find((add) => prop('type', add) === 'legacy')
       : address
-    const startDate = moment(start).format('DD/MM/YYYY')
-    const endDate = moment(end).format('DD/MM/YYYY')
+    const startDate = format(new Date(start), 'DD/MM/YYYY')
+    const endDate = format(new Date(end), 'DD/MM/YYYY')
     try {
       yield put(A.fetchTransactionHistoryLoading())
       const currency = yield select(selectors.settings.getCurrency)
@@ -147,7 +147,7 @@ export default ({ api }: { api: APIType }) => {
         reset ? null : nextBSTransactionsURL
       )
       const page = flatten([txPage, custodialPage.orders]).sort((a, b) => {
-        return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
+        return getTime(new Date(b.insertedAt)) - getTime(new Date(a.insertedAt))
       })
       yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {

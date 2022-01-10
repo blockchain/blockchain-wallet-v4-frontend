@@ -1,4 +1,4 @@
-import moment from 'moment'
+import { formatISO } from 'date-fns'
 import { call, put, select } from 'redux-saga/effects'
 
 import { APIType } from '@core/network/api'
@@ -51,18 +51,18 @@ export default ({ api }: { api: APIType }) => {
           // get all
         } else if (oldestTx) {
           // get all after the oldest tx on the first page
-          after = moment(oldestTx.insertedAt).toISOString()
+          after = formatISO(oldestTx.insertedAt)
         }
       } else {
         if (!page[0]) return []
         // subsequent pages
         // before the newest
         if (newestTx) {
-          before = moment(newestTx.insertedAt).toISOString()
+          before = formatISO(newestTx.insertedAt)
         }
         // after the oldest
         if (oldestTx) {
-          after = moment(oldestTx.insertedAt).toISOString()
+          after = formatISO(oldestTx.insertedAt)
         }
       }
 

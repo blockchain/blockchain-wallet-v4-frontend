@@ -1,4 +1,4 @@
-import moment from 'moment'
+import { format, getTime } from 'date-fns'
 import { flatten, indexBy, length, map, path, prop } from 'ramda'
 import { call, put, select, take } from 'redux-saga/effects'
 
@@ -42,11 +42,27 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const watchTransactions = function* () {
-    while (true) {
-      const action = yield take(AT.FETCH_BCH_TRANSACTIONS)
-      yield call(fetchTransactions, action)
-    }
+  const __processTxs = function* (txs) {
+    // Page == Remote ([Tx])
+    // Remote(wallet)
+    const wallet = yield select(walletSelectors.getWallet)
+    const walletR = Remote.of(wallet)
+    const accountList = (yield select(getAccountsList)).getOrElse([])
+    const txNotes = (yield select(getBchTxNotes)).getOrElse({})
+    const lockboxAccountList = (yield select(getLockboxBchAccounts))
+      .map(HDAccountList.fromJS)
+      .getOrElse([])
+
+    // transformTx :: wallet -> Tx
+    // ProcessPage :: wallet -> [Tx] -> [Tx]
+    const ProcessTxs = (wallet, lockboxAccountList, txList, txNotes) =>
+      map(
+        transformTx.bind(undefined, wallet.getOrFail(MISSING_WALLET), lockboxAccountList, txNotes),
+        txList
+      )
+    // ProcessRemotePage :: Page -> Page
+    const processedTxs = ProcessTxs(walletR, lockboxAccountList, txs, txNotes)
+    return addFromToAccountNames(wallet, accountList, processedTxs)
   }
 
   const fetchTransactions = function* (action) {
@@ -88,7 +104,7 @@ export default ({ api }: { api: APIType }) => {
         reset ? null : nextBSTransactionsURL
       )
       const page = flatten([txPage, custodialPage.orders]).sort((a, b) => {
-        return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
+        return getTime(new Date(b.insertedAt)) - getTime(new Date(a.insertedAt))
       })
       yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {
@@ -96,33 +112,17 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const __processTxs = function* (txs) {
-    // Page == Remote ([Tx])
-    // Remote(wallet)
-    const wallet = yield select(walletSelectors.getWallet)
-    const walletR = Remote.of(wallet)
-    const accountList = (yield select(getAccountsList)).getOrElse([])
-    const txNotes = (yield select(getBchTxNotes)).getOrElse({})
-    const lockboxAccountList = (yield select(getLockboxBchAccounts))
-      .map(HDAccountList.fromJS)
-      .getOrElse([])
-
-    // transformTx :: wallet -> Tx
-    // ProcessPage :: wallet -> [Tx] -> [Tx]
-    const ProcessTxs = (wallet, lockboxAccountList, txList, txNotes) =>
-      map(
-        transformTx.bind(undefined, wallet.getOrFail(MISSING_WALLET), lockboxAccountList, txNotes),
-        txList
-      )
-    // ProcessRemotePage :: Page -> Page
-    const processedTxs = ProcessTxs(walletR, lockboxAccountList, txs, txNotes)
-    return addFromToAccountNames(wallet, accountList, processedTxs)
+  const watchTransactions = function* () {
+    while (true) {
+      const action = yield take(AT.FETCH_BCH_TRANSACTIONS)
+      yield call(fetchTransactions, action)
+    }
   }
 
   const fetchTransactionHistory = function* ({ payload }) {
     const { address, end, start } = payload
-    const startDate = moment(start).format('DD/MM/YYYY')
-    const endDate = moment(end).format('DD/MM/YYYY')
+    const startDate = format(new Date(start), 'DD/MM/YYYY')
+    const endDate = format(new Date(end), 'DD/MM/YYYY')
     try {
       yield put(A.fetchTransactionHistoryLoading())
       const currency = yield select(selectors.settings.getCurrency)

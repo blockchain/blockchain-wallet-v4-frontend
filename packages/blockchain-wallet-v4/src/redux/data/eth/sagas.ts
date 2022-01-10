@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import moment from 'moment'
+import { format, getUnixTime, getTime, isAfter, isBefore } from 'date-fns'
 import {
   addIndex,
   concat,
@@ -46,6 +46,23 @@ const CONTEXT_FAILURE = 'Could not get ETH context.'
 
 export default ({ api }: { api: APIType }) => {
   const { fetchCustodialOrdersAndTransactions } = custodialSagas({ api })
+
+  const checkForLowEthBalance = function* () {
+    // TODO: ERC20 check for any erc20 balance in future
+    const erc20Balance = (yield select(S.getErc20Balance, 'PAX')).getOrElse(0)
+    const weiBalance = (yield select(S.getBalance)).getOrFail()
+    const ethRates = selectors.data.coins.getRates('ETH', yield select()).getOrFail('No rates')
+    const ethBalance = Exchange.convertCoinToFiat({
+      coin: 'ETH',
+      currency: 'USD',
+      rates: ethRates,
+      value: weiBalance
+    })
+    // less than $1 eth and has PAX, set warning flag to true
+    const showWarning = parseInt(ethBalance) < 1 && erc20Balance > 0
+    yield put(A.checkLowEthBalanceSuccess(showWarning))
+  }
+
   //
   // ETH
   //
@@ -143,7 +160,7 @@ export default ({ api }: { api: APIType }) => {
         reset ? null : nextBSTransactionsURL
       )
       const page = flatten([processedTxPage, custodialPage.orders]).sort((a, b) => {
-        return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
+        return getTime(new Date(b.insertedAt)) - getTime(new Date(a.insertedAt))
       })
       yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {
@@ -172,11 +189,8 @@ export default ({ api }: { api: APIType }) => {
         ' ',
         takeLast(
           2,
-          moment
-            // @ts-ignore
-            .unix(tx.time)
-            .toString()
-            .split(' ')
+          // @ts-ignore
+          getUnixTime(tx.time).toString().split(' ')
         )
       )
       // @ts-ignore
@@ -199,7 +213,7 @@ export default ({ api }: { api: APIType }) => {
       return {
         amount: `${negativeSignOrEmpty}${amountBig.toString()}`,
         // @ts-ignore
-        date: moment.unix(prop('time', tx)).format('YYYY-MM-DD'),
+        date: format(getUnixTime(prop('time', tx), 'YYYY-MM-DD')),
         // @ts-ignore
         description: prop('description', tx),
 
@@ -239,7 +253,7 @@ export default ({ api }: { api: APIType }) => {
       while (
         currentPage <= Math.ceil(txCount / TX_REPORT_PAGE_SIZE) &&
         // @ts-ignore
-        moment.unix(prop('timestamp', last(fullTxList))).isAfter(startDate)
+        isAfter(getUnixTime(prop('timestamp', last(fullTxList))), startDate)
       ) {
         const txPage = yield call(
           api.getEthTransactionsV2,
@@ -356,7 +370,7 @@ export default ({ api }: { api: APIType }) => {
         reset ? null : nextBSTransactionsURL
       )
       const page = flatten([walletPage, custodialPage.orders]).sort((a, b) => {
-        return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
+        return getTime(new Date(b.insertedAt)) - getTime(new Date(a.insertedAt))
       })
       yield put(A.fetchErc20TransactionsSuccess(token, page, reset))
     } catch (e) {
@@ -407,7 +421,7 @@ export default ({ api }: { api: APIType }) => {
       while (
         currentPage <= Math.ceil(txCount / TX_REPORT_PAGE_SIZE) &&
         // @ts-ignore
-        moment.unix(prop('timestamp', last(fullTxList))).isAfter(startDate)
+        isAfter(getUnixTime(prop('timestamp', last(fullTxList))), startDate)
       ) {
         const txPage = yield call(
           api.getErc20TransactionsV2,
@@ -444,8 +458,11 @@ export default ({ api }: { api: APIType }) => {
 
     // remove txs that dont match coin type and are not within date range
     const prunedTxList = filter((tx) => {
+      // returns true if tx is inbetween startDate and endDate
       // @ts-ignore
-      return moment.unix(tx.time).isBetween(startDate, endDate)
+      return isAfter(getUnixTime(tx.time), startDate) &&
+        // @ts-ignore
+        isBefore(getUnixTime(tx.time), endDate)
     }, fullTxList)
 
     // return empty list if no tx found in filter set
@@ -476,7 +493,9 @@ export default ({ api }: { api: APIType }) => {
     // remove txs that dont match coin type and are not within date range
     const prunedTxList = filter(
       // @ts-ignore
-      (tx) => moment.unix(tx.time).isBetween(startDate, endDate),
+      (tx) => isAfter(getUnixTime(tx.time), startDate) &&
+        // @ts-ignore
+        isBefore(getUnixTime(tx.time), endDate),
       fullTxList
     )
 

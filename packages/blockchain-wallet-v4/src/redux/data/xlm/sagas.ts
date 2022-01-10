@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
-import moment from 'moment'
+import { getTime, getUnixTime, isAfter, isBefore } from 'date-fns'
+
 import {
   addIndex,
   compose,
@@ -127,7 +128,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
     // remove txs that dont match coin type and are not within date range
     const prunedTxList = filter(
       // @ts-ignore
-      (tx) => moment.unix(tx.time).isBetween(startDate, endDate),
+      (tx) => isAfter(getUnixTime(new Date(tx.time)), startDate) && isBefore(getUnixTime(new Date(tx.time)), endDate),
       fullTxList
     )
 
@@ -149,11 +150,8 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
         ' ',
         takeLast(
           2,
-          moment
-            // @ts-ignore
-            .unix(tx.time)
-            .toString()
-            .split(' ')
+          // @ts-ignore
+          getUnixTime(tx.time).toString().split(' ')
         )
       )
       // @ts-ignore
@@ -176,7 +174,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
       return {
         amount: `${negativeSignOrEmpty}${amountBig.toString()}`,
         // @ts-ignore
-        date: moment.unix(prop('time', tx)).format('YYYY-MM-DD'),
+        date: format(getUnixTime(prop('time', tx)), 'YYYY-MM-DD'),
         // @ts-ignore
         description: prop('description', tx),
 
@@ -234,7 +232,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
         reset ? null : nextBSTransactionsURL
       )
       const page = flatten([txPage, custodialPage.orders]).sort((a, b) => {
-        return moment(b.insertedAt).valueOf() - moment(a.insertedAt).valueOf()
+        return getTime(new Date(b.insertedAt)) - getTime(new Date(a.insertedAt))
       })
       yield put(A.fetchTransactionsSuccess(page, reset))
     } catch (e) {
@@ -264,7 +262,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
       // keep fetching pages until last (oldest) tx from previous page
       // is before requested start date
       // @ts-ignore
-      while (moment(prop('created_at', last(fullTxList))).isAfter(start)) {
+      while (isAfter(new Date(prop('created_at', last(fullTxList))), start)) {
         const txPage = yield call(api.getXlmTransactions, {
           limit: TX_REPORT_PAGE_SIZE,
           pagingToken,
