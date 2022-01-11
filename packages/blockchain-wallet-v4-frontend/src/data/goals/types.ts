@@ -44,13 +44,13 @@ export type GoalsState = {
 
 export enum DeepLinkGoal {
   BITCOIN = 'bitcoin',
-  CHANGE_PASSWORD = 'change-password',
   INTEREST = 'interest',
   KYC = 'kyc',
   LINK_ACCOUNT = 'link-account',
   LOG_LEVEL = 'log-level',
   REFERRAL = 'referral',
   REWARDS = 'rewards',
+  SETTINGS = 'settings',
   SIMPLE_BUY = 'simple-buy',
   SWAP = 'swap',
   WALLET_CONNECT = 'wc'

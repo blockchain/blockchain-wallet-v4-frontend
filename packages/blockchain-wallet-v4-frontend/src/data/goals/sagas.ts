@@ -39,9 +39,10 @@ export default ({ api, coreSagas, networks }) => {
       .getOrElse(false)
   }
 
-  const defineChangePasswordGoal = function* (search) {
+  const defineExchangeSettingsGoal = function* (search) {
     const params = new URLSearchParams(search)
     const guid = params.get('guid')
+    yield put(actions.cache.removedStoredLogin())
     yield put(actions.cache.guidStored(guid))
     yield put(
       actions.goals.saveGoal({
@@ -188,8 +189,8 @@ export default ({ api, coreSagas, networks }) => {
     }
 
     // exchange deeplink to chanage password /#/open/change-password
-    if (startsWith(DeepLinkGoal.CHANGE_PASSWORD, pathname)) {
-      return yield call(defineChangePasswordGoal, search)
+    if (startsWith(DeepLinkGoal.SETTINGS, pathname)) {
+      return yield call(defineExchangeSettingsGoal, search)
     }
     // /#/open/kyc?tier={0 | 1 | 2 | ...} tier is optional
     if (startsWith(DeepLinkGoal.KYC, pathname)) {
@@ -685,6 +686,9 @@ export default ({ api, coreSagas, networks }) => {
 
     if (initialRedirect === 'interest') {
       return yield put(actions.router.push(`/rewards`))
+    }
+    if (initialRedirect === 'changeEmail' || initialRedirect === 'change2fa') {
+      return yield put(actions.router.push(`/security-center/basic`))
     }
     if (initialRedirect === 'changePassword') {
       return yield put(actions.router.push(`/security-center/advanced`))
