@@ -19,7 +19,6 @@ import {
   FiatType,
   OrderType,
   ProductTypes,
-  ProviderDetailsType,
   SwapOrderType,
   WalletFiatType,
   WalletOptionsType
@@ -91,34 +90,82 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   })
   const { fetchBankTransferAccounts } = brokerageSagas({ api })
 
+  const registerBSCard = function* ({ payload }: ReturnType<typeof A.registerCard>) {
+    try {
+      const { paymentMethodTokens } = payload
+      const userDataR = selectors.modules.profile.getUserData(yield select())
+      const billingAddressForm: T.BSBillingAddressFormValuesType | undefined = yield select(
+        selectors.form.getFormValues(FORMS_BS_BILLING_ADDRESS)
+      )
+      const userData = userDataR.getOrFail('NO_USER_ADDRESS')
+      const address = billingAddressForm || userData.address
+
+      if (!address) throw new Error('NO_USER_ADDRESS')
+
+      // We always use CHECKOUTDOTCOM for now
+      // and we need 3DS to create a card
+      yield put(A.setStep({ step: '3DS_HANDLER_CHECKOUTDOTCOM' }))
+
+      yield put(A.addCardLoading())
+
+      // This creates the card on the backend
+      yield put(A.createCard(paymentMethodTokens))
+      yield take([A.createCardSuccess.type, A.createCardFailure.type])
+
+      // Check if the card was created
+      const cardR = S.getBSCard(yield select())
+      const card = cardR.getOrFail('CARD_CREATION_FAILED')
+
+      // This is for the 0 dollar payment
+      yield put(A.activateCard(card))
+      yield take([A.activateCardSuccess.type, A.activateCardFailure.type])
+
+      yield put(
+        A.addCardSuccess({
+          payment_state: null,
+          processing_errors: null
+        })
+      )
+    } catch (e) {
+      const error = errorHandler(e)
+
+      yield put(
+        A.setStep({
+          step: 'DETERMINE_CARD_PROVIDER'
+        })
+      )
+
+      yield put(A.addCardFailure(error))
+    }
+  }
+
   const activateBSCard = function* ({ payload }: ReturnType<typeof A.activateCard>) {
-    let providerDetails: ProviderDetailsType
     try {
       yield put(A.activateCardLoading())
       const domainsR = selectors.core.walletOptions.getDomains(yield select())
       const domains = domainsR.getOrElse({
         walletHelper: 'https://wallet-helper.blockchain.com'
       } as WalletOptionsType['domains'])
-      if (payload.partner === 'EVERYPAY') {
-        providerDetails = yield call(
-          api.activateBSCard,
-          payload.id,
-          `${domains.walletHelper}/wallet-helper/everypay/#/response-handler`
-        )
-        yield put(A.activateCardSuccess(providerDetails))
-      } else {
-        throw new Error('UNKNOWN_PARTNER')
-      }
+
+      const redirectUrl = `${domains.walletHelper}/wallet-helper/3ds-payment-success/#/`
+
+      const providerDetails = yield call(api.activateBSCard, {
+        cardBeneficiaryId: payload.id,
+        redirectUrl
+      })
+
+      yield put(A.activateCardSuccess(providerDetails))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.activateCardFailure(error))
     }
   }
 
-  const fetchBSCardSDD = function* (billingAddress: T.BSBillingAddressFormValuesType) {
-    let card: BSCardType
+  // TODO remove once EveryPay is deprecated
+  // START LEGACY CARD CREATION
+  const createBSCardSDD = function* (billingAddress: T.BSBillingAddressFormValuesType) {
     try {
-      yield put(A.fetchCardLoading())
+      yield put(A.createCardLoading())
       const state = yield select()
       let currency = selectors.core.settings.getCurrency(state).getOrElse('USD')
       const origin = S.getOrigin(state)
@@ -134,32 +181,33 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       if (!billingAddress) throw new Error('NO_USER_ADDRESS')
 
-      card = yield call(
-        api.createBSCard,
+      const card = yield call(api.createBSCard, {
+        address: billingAddress,
         currency,
-        {
-          ...billingAddress
-        },
-        userData.email
-      )
-      yield put(A.fetchCardSuccess(card))
+        email: userData.email
+      })
+      yield put(A.createCardSuccess(card))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.fetchCardFailure(error))
+      yield put(A.createCardFailure(error))
     }
   }
 
   const addCardDetails = function* () {
     try {
+      // Get card
       const formValues: T.BSAddCardFormValuesType = yield select(
         selectors.form.getFormValues(FORM_BS_ADD_EVERYPAY_CARD)
       )
+
+      // Check if card exists
       const existingCardsR = S.getBSCards(yield select())
       const existingCards = existingCardsR.getOrElse([] as Array<BSCardType>)
       const nextCardAlreadyExists = getNextCardExists(existingCards, formValues)
 
       if (nextCardAlreadyExists) throw new Error('CARD_ALREADY_SAVED')
 
+      // 3DS validation
       yield put(
         A.setStep({
           step: '3DS_HANDLER_EVERYPAY'
@@ -168,15 +216,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       yield put(A.addCardLoading())
 
       let waitForAction = true
-      // Create card
       if (formValues.billingaddress && !formValues.sameAsBillingAddress) {
-        yield call(fetchBSCardSDD, formValues.billingaddress)
+        yield call(createBSCardSDD, formValues.billingaddress)
         waitForAction = false
       } else {
-        yield put(A.fetchCard())
+        yield put(A.createCard({}))
       }
       if (waitForAction) {
-        yield take([A.fetchCardSuccess.type, A.fetchCardFailure.type])
+        yield take([A.createCardSuccess.type, A.createCardFailure.type])
       }
       const cardR = S.getBSCard(yield select())
       const card = cardR.getOrFail('CARD_CREATION_FAILED')
@@ -187,6 +234,11 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
 
       const providerDetailsR = S.getBSProviderDetails(yield select())
       const providerDetails = providerDetailsR.getOrFail('CARD_ACTIVATION_FAILED')
+
+      if (!providerDetails.everypay) {
+        throw new Error('CARD_ACTIVATION_FAILED')
+      }
+
       const [nonce] = yield call(api.generateUUIDs, 1)
 
       const response: { data: Everypay3DSResponseType } = yield call(
@@ -207,7 +259,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const error = errorHandler(e)
       yield put(
         A.setStep({
-          step: 'DETERMINE_CARD_PROVIDER'
+          step: 'ADD_CARD_EVERYPAY'
         })
       )
       yield put(actions.form.startSubmit(FORM_BS_ADD_EVERYPAY_CARD))
@@ -226,6 +278,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield take(A.fetchCardsSuccess.type)
     yield put(actions.modals.closeAllModals())
   }
+  // END LEGACY CARD CREATION
 
   const cancelBSOrder = function* ({ payload }: ReturnType<typeof A.cancelOrder>) {
     try {
@@ -576,10 +629,9 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     }
   }
 
-  const fetchBSCard = function* () {
-    let card: BSCardType
+  const createBSCard = function* ({ payload }: ReturnType<typeof A.createCard>) {
     try {
-      yield put(A.fetchCardLoading())
+      yield put(A.createCardLoading())
       const currency = S.getFiatCurrency(yield select())
       if (!currency) throw new Error(NO_FIAT_CURRENCY)
 
@@ -592,18 +644,16 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const address = billingAddressForm || userData.address
       if (!address) throw new Error('NO_USER_ADDRESS')
 
-      card = yield call(
-        api.createBSCard,
+      const card = yield call(api.createBSCard, {
+        address,
         currency,
-        {
-          ...address
-        },
-        userData.email
-      )
-      yield put(A.fetchCardSuccess(card))
+        email: userData.email,
+        paymentMethodTokens: payload
+      })
+      yield put(A.createCardSuccess(card))
     } catch (e) {
       const error = errorHandler(e)
-      yield put(A.fetchCardFailure(error))
+      yield put(A.createCardFailure(error))
     }
   }
 
@@ -1320,7 +1370,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       const cardAcquirers: CardAcquirer[] = yield call(api.getCardAcquirers)
 
       const checkoutAcquirers: CardAcquirer[] = cardAcquirers.filter(
-        (cardAcquirer: CardAcquirer) => cardAcquirer.cardAcquirerName === 'checkout'
+        (cardAcquirer: CardAcquirer) => cardAcquirer.cardAcquirerName === 'CHECKOUTDOTCOM'
       )
 
       if (checkoutAcquirers.length === 0) {
@@ -1491,7 +1541,10 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       )
       yield put(A.fetchAccumulatedTradesSuccess(accumulatedTradesResponse.tradesAccumulated))
     } catch (e) {
-      yield put(A.fetchAccumulatedTradesFailure(e))
+      // This is a workaround while I don't find a solution for the fetchAccumulatedTradesFailure type
+      const error = e as string
+
+      yield put(A.fetchAccumulatedTradesFailure(error))
     }
   }
 
@@ -1537,12 +1590,12 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     confirmBSFundsOrder,
     confirmOrder,
     confirmOrderPoll,
+    createBSCard,
+    createBSCardSDD,
     createBSOrder,
     deleteBSCard,
     fetchAccumulatedTrades,
     fetchBSBalances,
-    fetchBSCard,
-    fetchBSCardSDD,
     fetchBSCards,
     fetchBSOrders,
     fetchBSPairs,
@@ -1568,6 +1621,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     pollBSBalances,
     pollBSCard,
     pollBSOrder,
+    registerBSCard,
     setFiatTradingCurrency,
     setStepChange,
     showModal,

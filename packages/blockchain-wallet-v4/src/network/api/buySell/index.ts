@@ -46,15 +46,23 @@ export default ({
   get,
   nabuUrl
 }) => {
-  const activateBSCard = (cardId: BSCardType['id'], customerUrl: string): BSCardType =>
+  const activateBSCard = ({
+    cardBeneficiaryId,
+    redirectUrl
+  }: {
+    cardBeneficiaryId: BSCardType['id']
+    redirectUrl: string
+  }): BSCardType =>
     authorizedPost({
       contentType: 'application/json',
       data: {
         everypay: {
-          customerUrl
-        }
+          customerUrl: redirectUrl
+        },
+        redirectURL: redirectUrl,
+        useOnlyAlreadyValidatedCardRef: true
       },
-      endPoint: `/payments/cards/${cardId}/activate`,
+      endPoint: `/payments/cards/${cardBeneficiaryId}/activate`,
       url: nabuUrl
     })
 
@@ -64,17 +72,24 @@ export default ({
       url: nabuUrl
     })
 
-  const createBSCard = (
-    currency: FiatType,
-    address: NabuAddressType,
+  const createBSCard = ({
+    address,
+    currency,
+    email,
+    paymentMethodTokens
+  }: {
+    address: NabuAddressType
+    currency: FiatType
     email: UserDataType['email']
-  ): BSCardType =>
+    paymentMethodTokens?: { [key: string]: string }
+  }): BSCardType =>
     authorizedPost({
       contentType: 'application/json',
       data: {
         address,
         currency,
-        email
+        email,
+        paymentMethodTokens
       },
       endPoint: '/payments/cards',
       removeDefaultPostData: true,
