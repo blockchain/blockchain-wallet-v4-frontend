@@ -692,6 +692,8 @@ type MessagesType = {
   'layouts.wallet.footer.looking_product': 'Looking for another product?'
   'layouts.wallet.footer.select_product': 'Select a Product ->'
   'layouts.wallet.header.Sign Out': 'Sign Out'
+  'layouts.wallet.header.announcements.ceur.limited_time': 'Limited-Time {displaySymbol} Bonus and Rewards'
+  'layouts.wallet.header.announcements.ceur.limited_time.description': 'Buy 25 {displaySymbol}, get a 10 {displaySymbol} bonus, and earn 16% in annual rewards.'
   'layouts.wallet.header.announcements.emailreminder': 'Confirm your email address to properly secure your account'
   'layouts.wallet.header.announcements.emailreminder.change': 'Change Email'
   'layouts.wallet.header.announcements.emailreminder.emailsent': '- An email was sent to {email}'
