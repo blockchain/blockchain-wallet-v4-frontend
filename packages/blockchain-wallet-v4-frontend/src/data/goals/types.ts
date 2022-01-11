@@ -12,6 +12,7 @@ export type GoalsType =
   | 'paymentProtocol'
   | 'referral'
   | 'buySell'
+  | 'settings'
   | 'swap'
   | 'swapGetStarted'
   | 'swapUpgrade'

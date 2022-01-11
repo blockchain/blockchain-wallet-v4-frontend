@@ -42,14 +42,16 @@ export default ({ api, coreSagas, networks }) => {
   const defineExchangeSettingsGoal = function* (search) {
     const params = new URLSearchParams(search)
     const guid = params.get('guid')
+    const settingsChange = params.get('change')
     yield put(actions.cache.removedStoredLogin())
     yield put(actions.cache.guidStored(guid))
     yield put(
       actions.goals.saveGoal({
         data: {
-          guid
+          guid,
+          settingsChange
         },
-        name: 'changePassword'
+        name: 'settings'
       })
     )
   }
@@ -267,10 +269,22 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const runChangePasswordRedirect = function* (goal: GoalType) {
-    const { id } = goal
+  const runSettingsDeeplinkRedirect = function* (goal: GoalType) {
+    const { data, id } = goal
+    const { settingsChange } = data
     yield put(actions.goals.deleteGoal(id))
-    yield put(actions.goals.addInitialRedirect('changePassword'))
+    switch (settingsChange) {
+      case 'password':
+        yield put(actions.goals.addInitialRedirect('changePassword'))
+        break
+      case 'email':
+        yield put(actions.goals.addInitialRedirect('changeEmail'))
+        break
+      case '2fa':
+        yield put(actions.goals.addInitialRedirect('change2fa'))
+        break
+      default:
+    }
   }
 
   const runKycGoal = function* (goal: GoalType) {
@@ -791,8 +805,8 @@ export default ({ api, coreSagas, networks }) => {
         case 'airdropClaim':
           yield call(runAirdropClaimGoal, goal)
           break
-        case 'changePassword':
-          yield call(runChangePasswordRedirect, goal)
+        case 'settings':
+          yield call(runSettingsDeeplinkRedirect, goal)
           break
         case 'kyc':
           yield call(runKycGoal, goal)
