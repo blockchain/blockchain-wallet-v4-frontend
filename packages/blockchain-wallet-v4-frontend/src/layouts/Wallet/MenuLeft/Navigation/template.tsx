@@ -4,7 +4,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { Cartridge } from '@blockchain-com/components'
 import styled from 'styled-components'
 
-import { Icon, Link, TooltipHost, TooltipIcon } from 'blockchain-info-components'
+import { Icon, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import { Destination, MenuIcon, MenuItem, Separator, Wrapper } from 'layouts/Wallet/components'
 
 import { Props } from '.'
@@ -46,11 +46,10 @@ export const NewCartridge = styled(Cartridge)`
   padding: 4px 4px;
   border: 1px solid ${(props) => props.theme.grey000};
   border-radius: 4px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 `
 
-const ExchangeLink = styled(Link)`
-  display: flex;
-`
 export const Divider = (props: { margin?: string }) => (
   <SeparatorWrapper {...props}>
     <Separator />
@@ -62,34 +61,31 @@ type OwnProps = {
 }
 
 const ExchangeNavItem = (props) => (
-  <ExchangeMenuItem>
-    <ExchangeLink>
-      <ExchangeNav>
-        <MenuIcon
-          className='icon'
-          name='blockchain-logo'
-          style={{ marginLeft: '-2px' }}
-          size='21px'
-        />
-        <Destination style={{ marginLeft: '2px' }}>
-          <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
-        </Destination>
-        {props.isExchangeAccountLinked && (
-          <HelperTipContainer>
-            <HelperTip id='exchangeSideNavConnected'>
-              <TooltipIcon color='blue600' name='info' />
-            </HelperTip>
-          </HelperTipContainer>
-        )}
-      </ExchangeNav>
-      <Icon name='open-in-new-tab' color='marketing-primary' cursor size='16px' />
-    </ExchangeLink>
-  </ExchangeMenuItem>
+  <>
+    <ExchangeNav>
+      <MenuIcon
+        className='icon'
+        name='blockchain-logo'
+        style={{ marginLeft: '-2px' }}
+        size='21px'
+      />
+      <Destination style={{ marginLeft: '2px' }}>
+        <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
+      </Destination>
+      {props.isExchangeAccountLinked && (
+        <HelperTipContainer>
+          <HelperTip id='exchangeSideNavConnected'>
+            <TooltipIcon color='blue600' name='info' />
+          </HelperTip>
+        </HelperTipContainer>
+      )}
+    </ExchangeNav>
+    <Icon name='open-in-new-tab' color='grey600' cursor size='16px' />
+  </>
 )
 
 const Navigation = (props: OwnProps & Props) => {
   const { coinList, isRedesignEnabled, lockboxDevices, ...rest } = props
-
   return (
     <Wrapper {...rest}>
       {!isRedesignEnabled && (
@@ -140,9 +136,12 @@ const Navigation = (props: OwnProps & Props) => {
           {/* </NewCartridge> */}
         </MenuItem>
       </LinkContainer>
-
-      <ExchangeNavItem {...props} />
-
+      <ExchangeMenuItem
+        data-e2e='exchangeLink'
+        onClick={() => props.profileActions.getExchangeLoginToken()}
+      >
+        <ExchangeNavItem {...props} />
+      </ExchangeMenuItem>
       {lockboxDevices?.length > 0 ? (
         <LinkContainer to='/lockbox' activeClassName='active'>
           <MenuItem data-e2e='lockboxLink'>

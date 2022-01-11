@@ -57,7 +57,8 @@ export const fetchUserDataSuccess = (userData): ProfileActionTypes => ({
   type: AT.FETCH_USER_DATA_SUCCESS
 })
 
-export const getExchangeLoginToken = (): ProfileActionTypes => ({
+export const getExchangeLoginToken = (signUp?: boolean): ProfileActionTypes => ({
+  payload: { signUp },
   type: AT.GET_EXCHANGE_LOGIN_TOKEN
 })
 export const linkFromExchangeAccount = (linkId, email?, address?): ProfileActionTypes => ({

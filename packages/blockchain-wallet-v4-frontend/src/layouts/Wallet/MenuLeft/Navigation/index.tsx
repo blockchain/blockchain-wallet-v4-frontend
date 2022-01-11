@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { concat, prop } from 'ramda'
+import { bind, concat, prop } from 'ramda'
 import { bindActionCreators, compose } from 'redux'
 
 import { getCoinsSortedByBalance } from 'components/Balances/selectors'
@@ -21,7 +21,8 @@ const mapDispatchToProps = (dispatch) => ({
   actions: bindActionCreators(actions.components.layoutWallet, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch),
-  preferencesActions: bindActionCreators(actions.preferences, dispatch)
+  preferencesActions: bindActionCreators(actions.preferences, dispatch),
+  profileActions: bindActionCreators(actions.modules.profile, dispatch)
 })
 
 const mapStateToProps = (state) => ({

@@ -198,7 +198,6 @@ export default ({ api, coreSagas, networks }) => {
       const signupCountryEnabled = (yield select(
         selectors.core.walletOptions.getFeatureSignupCountry
       )).getOrElse(false)
-      yield call(createExchangeUser)
       if (firstLogin && signupCountryEnabled && !isAccountReset && !recovery) {
         // create nabu user
         yield call(createUser)
@@ -207,6 +206,7 @@ export default ({ api, coreSagas, networks }) => {
         yield call(api.setUserInitialAddress, country, userState)
         yield call(coreSagas.settings.fetchSettings)
       }
+      yield fork(createExchangeUser)
       // We are checking wallet metadata to see if mnemonic is verified
       // and then syncing that information with new Wallet Account model
       // being used for SSO

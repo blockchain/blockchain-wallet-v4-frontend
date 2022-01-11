@@ -307,13 +307,14 @@ export default ({ api, coreSagas, networks }) => {
         })
         .getOrElse({} as ExtractSuccess<typeof exchangeAuthCredentialsR>)
     } catch (e) {
-      // TODO How do we handle this error?
+      yield put(actions.logs.logErrorMessage(logLocation, 'exchangeUserCreation', e))
     }
 
     // From here we call nabu/authorize to get login token
   }
 
-  const getExchangeLoginToken = function* () {
+  const getExchangeLoginToken = function* (action) {
+    const { signUp } = action.payload
     try {
       const exchangeLifetimeTokenR = yield select(
         selectors.core.kvStore.userCredentials.getExchangeLifetimeToken
@@ -322,6 +323,16 @@ export default ({ api, coreSagas, networks }) => {
       const exchangeUserIdR = yield select(selectors.core.kvStore.userCredentials.getExchangeUserId)
       const exchangeLifetimeToken = exchangeLifetimeTokenR.getOrElse(null)
       const exchangeUserId = exchangeUserIdR.getOrElse(null)
+      if (!exchangeUserId || !exchangeLifetimeToken) {
+        if (signUp) {
+          return
+        }
+        return window.open(
+          `https://exchange.staging.blockchain.info/trade/`,
+          '_blank',
+          'noreferrer'
+        )
+      }
       const { token } = yield call(api.getExchangeAuthToken, exchangeLifetimeToken, exchangeUserId)
       window.open(
         `https://exchange.staging.blockchain.info/trade/auth?jwt=${token}`,
@@ -329,7 +340,7 @@ export default ({ api, coreSagas, networks }) => {
         'noreferrer'
       )
     } catch (e) {
-      // TODO: Handle Error
+      yield put(actions.logs.logErrorMessage(logLocation, 'exchangeLoginToken', e))
     }
   }
   const createUser = function* () {
@@ -482,7 +493,7 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const linkToExchangeAccount = function*({ payload }) {
+  const linkToExchangeAccount = function* ({ payload }) {
     try {
       const { utmCampaign } = payload
       yield put(A.linkToExchangeAccountLoading())
@@ -517,8 +528,9 @@ export default ({ api, coreSagas, networks }) => {
         const email = (yield select(selectors.core.settings.getEmail)).getOrFail()
         const accountDeeplinkUrl = `${exchangeDomain}/trade/link/${exchangeLinkId}?email=${encodeURIComponent(
           email
-        )}&utm_source=web_wallet&utm_medium=referral&utm_campaign=${utmCampaign ||
-          'wallet_exchange_page'}`
+        )}&utm_source=web_wallet&utm_medium=referral&utm_campaign=${
+          utmCampaign || 'wallet_exchange_page'
+        }`
         // share addresses
         yield put(A.shareWalletAddressesWithExchange())
         // simulate wait while allowing user to read modal

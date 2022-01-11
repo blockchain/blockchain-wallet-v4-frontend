@@ -22,7 +22,7 @@ class ProductPickerContainer extends React.PureComponent<Props> {
   }
 
   exchangeRedirect = () => {
-    this.props.profileActions.getExchangeLoginToken()
+    this.props.profileActions.getExchangeLoginToken(true)
     // TODO: this is a placeholder
   }
 

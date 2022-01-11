@@ -201,6 +201,9 @@ interface FetchUserDataSuccessAction {
 }
 
 interface GetExchangeLoginTokenAction {
+  payload: {
+    signUp?: boolean
+  }
   type: typeof AT.GET_EXCHANGE_LOGIN_TOKEN
 }
 interface LinkFromExchangeAccountAction {
