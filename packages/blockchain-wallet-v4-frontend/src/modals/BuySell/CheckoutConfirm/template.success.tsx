@@ -160,7 +160,7 @@ const BottomActions = styled.div`
 const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (props) => {
   const [acceptTerms, setAcceptTerms] = useState(false)
   const [isActiveCoinTooltip, setCoinToolTip] = useState(false)
-  const [isActiveFeeTooltip, setFeeToolTip] = useState(false)
+  const [isActiveFeeTooltip, setFeeToolTip] = useState(props.isFlexiblePricingModel)
   const orderType = getOrderType(props.order)
   const baseAmount = getBaseAmount(props.order)
   const baseCurrency = getBaseCurrency(props.order)
@@ -381,18 +381,20 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
                     : `${displayFiat(props.order, props.quote.fee)} ${props.order.inputCurrency}`}
                 </RowText>
               </TopRow>
-              <ToolTipText>
-                <Text size='12px' weight={500} color='grey600'>
-                  <TextGroup inline>
-                    <Text size='14px'>
-                      <FormattedMessage
-                        id='modals.simplebuy.flexible_pricing'
-                        defaultMessage='This fee is based on trade size, payment method and asset being purchased on Blockchain.com'
-                      />
-                    </Text>
-                  </TextGroup>
-                </Text>
-              </ToolTipText>
+              {isActiveFeeTooltip && (
+                <ToolTipText>
+                  <Text size='12px' weight={500} color='grey600'>
+                    <TextGroup inline>
+                      <Text size='14px'>
+                        <FormattedMessage
+                          id='modals.simplebuy.flexible_pricing'
+                          defaultMessage='This fee is based on trade size, payment method and asset being purchased on Blockchain.com'
+                        />
+                      </Text>
+                    </TextGroup>
+                  </Text>
+                </ToolTipText>
+              )}
             </RowItemContainer>
           </RowItem>
         </>

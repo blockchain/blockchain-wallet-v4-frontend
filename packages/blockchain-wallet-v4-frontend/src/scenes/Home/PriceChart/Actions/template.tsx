@@ -33,7 +33,6 @@ const Actions = ({ buySellActions, coinName, cryptoCurrency, swapActions }: Prop
         nature='primary'
         onClick={() =>
           buySellActions.showModal({
-            cryptoCurrency: cryptoCurrency as CoinType,
             orderType: 'BUY',
             origin: 'PriceChart'
           })

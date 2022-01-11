@@ -19,15 +19,20 @@ import { Form, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
 import { required, validEmail } from 'services/forms'
-
-import { Props as OwnProps } from '..'
+import { media } from 'services/styles'
 
 const FormWrapper = styled(Wrapper)`
   padding: 32px 0;
+  ${media.mobile`
+  padding: 16px 0;
+`}
 `
 
 const WrapperWithPadding = styled.div`
   padding: 0 32px;
+  ${media.mobile`
+  padding: 0 16px;
+  `}
 `
 
 const SubCard = styled.div`
@@ -36,6 +41,10 @@ const SubCard = styled.div`
   margin-top: 24px;
   border-top: 1px solid ${(props) => props.theme.grey000};
   padding: 0;
+  ${media.mobile`
+  flex-direction: column;
+  align-items: center;
+`};
 `
 const SignUpText = styled(Text)`
   &:hover {

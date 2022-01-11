@@ -57,7 +57,10 @@ const CheckEmail = (props: Props) => {
           height='48px'
           data-e2e='loginResendEmail'
         >
-          <FormattedMessage id='copy.skip_for_now' defaultMessage='Skip for Now' />
+          <FormattedMessage
+            id='components.EmailVerification.sendemailagain'
+            defaultMessage='Send Again'
+          />
         </Button>
       </WrapperWithPadding>
       <SignUpLink />
