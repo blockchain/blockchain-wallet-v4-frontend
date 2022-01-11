@@ -147,7 +147,7 @@ export const BackArrowFormHeader = (props: {
   return (
     <>
       <BackArrowWrapper marginTop={props.marginTop}>
-        <BackArrow onClick={() => props.handleBackArrowClick()}>
+        <BackArrow onClick={props.handleBackArrowClick}>
           {!props.hideBackArrow && (
             <Icon
               data-e2e='signupBack'
@@ -197,9 +197,6 @@ export const LinkRow = styled.div`
   flex-direction: column;
   align-items: center;
 `
-
-const EXCHANGE_SUPPORT_2FA_SECTION =
-  'https://exchange-support.blockchain.com/hc/en-us/articles/360029748191-How-can-I-reset-my-2-Factor-Authentication-2FA-'
 
 export const WalletNeedHelpLink = (props: { authActions; origin: string }) => (
   <LinkContainer
@@ -286,67 +283,28 @@ export const UnsupportedBrowserWarning = () => (
   </BrowserWarning>
 )
 
-export const getLoginPageTitle = (step) => {
-  switch (step) {
-    case LoginSteps.ENTER_PASSWORD_EXCHANGE:
-    case LoginSteps.ENTER_PASSWORD_WALLET:
-      return <FormattedMessage id='scenes.login.authorize' defaultMessage='Authorize login' />
-    case LoginSteps.UPGRADE_PASSWORD:
-      return (
-        <FormattedMessage
-          id='scenes.login.upgrade.password.header'
-          defaultMessage='Upgrade Your Password'
-        />
-      )
-    case LoginSteps.ENTER_EMAIL_GUID:
-      return <FormattedMessage id='scenes.login.welcome' defaultMessage='Welcome back!' />
-    default:
-      return null
-  }
-}
-
-export const getLoginPageSubTitle = (step) => {
-  switch (step) {
-    case LoginSteps.UPGRADE_PASSWORD:
-      return (
-        <FormattedMessage
-          id='scenes.login.upgrade.password.subheaderheader'
-          defaultMessage='Create a new password for all your Blockchain.com accounts.'
-        />
-      )
-    case LoginSteps.ENTER_PASSWORD_EXCHANGE:
-    case LoginSteps.ENTER_PASSWORD_WALLET:
-      return (
-        <FormattedMessage
-          id='scenes.login.enter_password_login'
-          defaultMessage='Enter your password to login'
-        />
-      )
-    default:
-      return null
-  }
-}
+const FooterWrapper = styled.div<{ step: LoginSteps }>`
+  visibility: ${(props) => (props.step === LoginSteps.ENTER_EMAIL_GUID ? 'visible' : 'hidden')};
+  margin-bottom: ${(props) => (props.step === LoginSteps.ENTER_EMAIL_GUID ? '32px' : '0')};
+`
+// margin bottom above is to keep the height of the container consistent
+// when transitioning from email form to password form
 
 export const getLoginPageFooter = (step) => {
-  switch (step) {
-    case LoginSteps.ENTER_EMAIL_GUID:
-      return (
-        <>
-          <Text size='14px' color='grey400' weight={500} style={{ margin: '24px 0 16px' }}>
-            <FormattedMessage
-              id='scenes.login.phishingwarning'
-              defaultMessage='Please check that you are visiting the correct URL'
-            />
-          </Text>
-          <PhishingWarning>
-            <Icon name='padlock' color='grey400' size='14px' />
-            <Text color='grey400' weight={500} style={{ paddingLeft: '8px' }}>
-              https://login.blockchain.com
-            </Text>
-          </PhishingWarning>
-        </>
-      )
-    default:
-      return null
-  }
+  return (
+    <FooterWrapper step={step}>
+      <Text size='14px' color='grey400' weight={500} style={{ margin: '24px 0 16px' }}>
+        <FormattedMessage
+          id='scenes.login.phishingwarning'
+          defaultMessage='Please check that you are visiting the correct URL'
+        />
+      </Text>
+      <PhishingWarning>
+        <Icon name='padlock' color='grey400' size='14px' />
+        <Text color='grey400' weight={500} style={{ paddingLeft: '8px' }}>
+          https://login.blockchain.com
+        </Text>
+      </PhishingWarning>
+    </FooterWrapper>
+  )
 }

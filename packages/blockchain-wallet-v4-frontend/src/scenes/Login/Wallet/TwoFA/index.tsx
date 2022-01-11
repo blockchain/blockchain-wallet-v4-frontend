@@ -7,8 +7,6 @@ import styled from 'styled-components'
 import { HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import { FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
-import { ProductAuthOptions } from 'data/types'
-import { isBrowserSupported } from 'services/browser'
 import { required } from 'services/forms'
 
 import { Props } from '../..'

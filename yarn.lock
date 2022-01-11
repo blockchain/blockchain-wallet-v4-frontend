@@ -17070,10 +17070,9 @@ q@^1.5.1:
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
 
-qr.js@0.0.0:
+qr.js@0.0.0, "qr.js@https://github.com/defunctzombie/qr.js.git":
   version "0.0.0"
-  resolved "https://registry.yarnpkg.com/qr.js/-/qr.js-0.0.0.tgz#cace86386f59a0db8050fa90d9b6b0e88a1e364f"
-  integrity sha1-ys6GOG9ZoNuAUPqQ2baw6IoeNk8=
+  resolved "https://github.com/defunctzombie/qr.js.git#af3e38902dfef90126d7b81e2619da8fa61b6f54"
 
 qrcode.react@1.0.1:
   version "1.0.1"
