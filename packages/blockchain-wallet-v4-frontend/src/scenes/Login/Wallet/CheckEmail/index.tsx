@@ -57,7 +57,10 @@ const CheckEmail = (props: Props) => {
           height='48px'
           data-e2e='loginResendEmail'
         >
-          <FormattedMessage id='buttons.email_didnt_arrive' defaultMessage="Email didn't arrive?" />
+          <FormattedMessage
+            id='components.EmailVerification.sendemailagain'
+            defaultMessage='Send Again'
+          />
         </Button>
       </WrapperWithPadding>
       <SignUpLink />
