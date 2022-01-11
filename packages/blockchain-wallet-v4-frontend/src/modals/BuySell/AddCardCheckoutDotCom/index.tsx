@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
@@ -11,6 +11,8 @@ import { getData } from './selectors'
 import Success from './template.success'
 
 const AddCardCheckoutDotCom = (props: Props) => {
+  const [isError, setError] = useState(false)
+
   const handlePostMessage = async ({
     data
   }: {
@@ -29,20 +31,22 @@ const AddCardCheckoutDotCom = (props: Props) => {
 
     if (data.action === 'ADD_CARD') {
       if (data.status === 'ERROR') {
-        // eslint-disable-next-line no-console
-        console.error('ERROR')
+        setError(true)
       }
 
-      if (data.status === 'SUCCESS' && data.token) {
+      if (data.status === 'SUCCESS') {
         const paymentMethodTokens = props.checkoutDotComAccountCodes?.reduce((prev, curr) => {
+          if (!data.token) return prev
+
           return {
             ...prev,
             [curr]: data.token
           }
         }, {})
 
-        // eslint-disable-next-line no-console
-        console.log(paymentMethodTokens)
+        if (!paymentMethodTokens) throw new Error('No payment method tokens')
+
+        props.buySellActions.registerCard({ paymentMethodTokens })
       }
     }
   }
@@ -52,6 +56,10 @@ const AddCardCheckoutDotCom = (props: Props) => {
 
     return () => window.removeEventListener('message', handlePostMessage, false)
   })
+
+  if (isError) {
+    return <DataError />
+  }
 
   return props.data.cata({
     Failure: (e) => (

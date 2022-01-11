@@ -2,13 +2,7 @@ import React, { PureComponent } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import {
-  BSCardType,
-  BSOrderType,
-  Everypay3DSResponseType,
-  ProviderDetailsType,
-  RemoteDataType
-} from '@core/types'
+import { BSCardType, BSOrderType, Everypay3DSResponseType, ProviderDetailsType } from '@core/types'
 import DataError from 'components/DataError'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
@@ -44,12 +38,8 @@ class ThreeDSHandlerEverypay extends PureComponent<Props, State> {
     if (data.payment !== 'SUCCESS') return
 
     this.setState({ threeDSCallbackReceived: true })
-    // @ts-ignore
-    const { card, order, type } = this.props.data.getOrElse({
-      card: { id: '' },
-      order: { id: '' },
-      type: null
-    } as SuccessStateType)
+
+    const { card, order, type } = this.props.data.getOrFail('NO ORDER/CARD TO POLL')
 
     switch (type) {
       case 'ORDER':
@@ -96,7 +86,7 @@ export type SuccessStateType =
       type: 'CARD'
     }
 type LinkStatePropsType = {
-  data: RemoteDataType<string, SuccessStateType>
+  data: ReturnType<typeof getData>
 }
 export type Props = OwnProps & ConnectedProps<typeof connector>
 export type State = { threeDSCallbackReceived: boolean }
