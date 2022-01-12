@@ -125,7 +125,7 @@
     "qr.js": "https://github.com/defunctzombie/qr.js.git",
     "qrcode.react": "1.0.1",
     "qs": "6.10.1",
-    "ramda": "0.26.1",
+    "ramda": "0.27.2",
     "react": "16.14.0",
     "react-animations": "1.0.0",
     "react-circular-progressbar": "2.0.4",
