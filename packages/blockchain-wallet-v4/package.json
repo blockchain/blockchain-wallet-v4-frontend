@@ -87,7 +87,7 @@
     "moment": "2.29.1",
     "pbkdf2": "3.1.2",
     "query-string": "7.0.0",
-    "ramda": "0.26.1",
+    "ramda": "0.27.2",
     "ramda-lens": "git+https://github.com/ramda/ramda-lens.git",
     "read-blob": "1.1.2",
     "redux": "4.0.5",
