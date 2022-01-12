@@ -25,7 +25,7 @@ const Fees: React.FC<Props> = (props) => {
 
   return (
     <>
-      {orderFlow.fees.cata({
+      {/* {orderFlow.fees.cata({
         Failure: () => null,
         Loading: () => (
           <CTARow>
@@ -53,7 +53,7 @@ const Fees: React.FC<Props> = (props) => {
             </CTARow>
           )
         }
-      })}
+      })} */}
     </>
   )
 }

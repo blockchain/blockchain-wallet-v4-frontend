@@ -226,7 +226,7 @@ export default ({ api }: { api: APIType }) => {
 
   const fetchFees = function* (action: ReturnType<typeof A.fetchFees>) {
     try {
-      yield put(A.fetchFeesLoading())
+      // yield put(A.fetchFeesLoading())
       const signer: Signer = yield call(getEthSigner)
       let fees: GasDataI
       if (action.payload.operation === GasCalculationOperations.Buy) {
