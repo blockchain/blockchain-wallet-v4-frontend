@@ -15,7 +15,7 @@ export type WalletFormType =
   | 'bsPaymentMethods'
   | 'bsChangeEmail'
   | 'cancelBSOrderForm'
-  | 'ccBillingAddress'
+  | 'billingAddress'
   | 'confirmCustodyWithdraw'
   | 'confirmRecoveryWords'
   | 'custodyWithdrawForm'

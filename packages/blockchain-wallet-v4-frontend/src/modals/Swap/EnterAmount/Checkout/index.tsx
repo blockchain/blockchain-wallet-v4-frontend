@@ -528,7 +528,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
         )}
 
         {showBalanceError && !showLimitError && (
-          <>
+          <ButtonContainer>
             <AlertButton>
               <FormattedMessage
                 id='copy.not_enough_coin'
@@ -538,18 +538,25 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                 }}
               />
             </AlertButton>
-            <FormattedMessage
-              id='copy.swap_maximum_amount'
-              defaultMessage='The maximum amount of {coin} you can swap from this wallet is {amount}.'
-              values={{
-                amount:
-                  fix === 'FIAT'
-                    ? fiatToString({ unit: walletCurrency, value: fiatMax })
-                    : `${min} ${baseCoinfig.displaySymbol}`,
-                coin: BASE.coin
-              }}
-            />
-          </>
+            <Text
+              size='14px'
+              color='textBlack'
+              weight={500}
+              style={{ marginTop: '24px', textAlign: 'center' }}
+            >
+              <FormattedMessage
+                id='copy.swap_maximum_amount'
+                defaultMessage='The maximum amount of {coin} you can swap from this wallet is {amount}.'
+                values={{
+                  amount:
+                    fix === 'FIAT'
+                      ? fiatToString({ unit: walletCurrency, value: fiatMax })
+                      : `${min} ${baseCoinfig.displaySymbol}`,
+                  coin: BASE.coin
+                }}
+              />
+            </Text>
+          </ButtonContainer>
         )}
 
         {isQuoteFailed && (

@@ -151,6 +151,14 @@ export type BSProviderAttributesType = {
 }
 
 export type ProviderDetailsType = {
+  cardProvider: {
+    cardAcquirerAccountCode: string
+    cardAcquirerName: CardAcquirerName
+    clientSecret: string
+    paymentLink: string
+    paymentState: string
+    publishableApiKey: string
+  }
   everypay: {
     apiUsername: string
     mobileToken: string
@@ -341,7 +349,7 @@ export type Limits = {
   min: string
 }
 
-type CardAcquirerName = 'stripe' | 'checkout'
+type CardAcquirerName = 'STRIPE' | 'CHECKOUTDOTCOM' | 'EVERYPAY'
 
 export type CardAcquirer = {
   apiKey: string

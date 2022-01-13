@@ -32,7 +32,7 @@
         }
       },
       "featureFlags": {
-        "addCheckoutPaymentProvider": false,
+        "addCheckoutPaymentProvider": true,
         "addStripePaymentProvider": false,
         "cEURRewards": true,
         "completeYourProfile": true,

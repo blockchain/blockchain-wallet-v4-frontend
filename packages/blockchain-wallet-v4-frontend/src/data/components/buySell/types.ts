@@ -75,7 +75,7 @@ export enum BuySellStepType {
   'ADD_CARD_EVERYPAY',
   'AUTHORIZE_PAYMENT',
   'BANK_WIRE_DETAILS',
-  'CC_BILLING_ADDRESS',
+  'BILLING_ADDRESS',
   'CHECKOUT_CONFIRM',
   'CRYPTO_SELECTION',
   'ENTER_AMOUNT',
@@ -237,7 +237,7 @@ export type StepActionsPayload =
       step:
         | 'DETERMINE_CARD_PROVIDER'
         | 'ADD_CARD_EVERYPAY'
-        | 'CC_BILLING_ADDRESS'
+        | 'BILLING_ADDRESS'
         | 'KYC_REQUIRED'
         | 'UPGRADE_TO_GOLD'
         | 'LOADING'
