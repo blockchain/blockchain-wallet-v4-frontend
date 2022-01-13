@@ -4,16 +4,20 @@ import { connect } from 'react-redux'
 import { equals } from 'ramda'
 import { compose } from 'redux'
 
+import { BSOrderType, BSPaymentTypes } from '@core/types'
 import { actions, selectors } from 'data'
-import { ModalNameType, ModalType } from 'data/types'
+import { BuySellStepType, ModalNameType, ModalType } from 'data/types'
 
 const mapDispatchToProps = (dispatch): LinkDispatchPropsType => ({
+  cancelBSOrder: compose(dispatch, actions.components.buySell.cancelOrder),
   close: compose(dispatch, actions.modals.closeModal),
   closeAll: compose(dispatch, actions.modals.closeAllModals),
   update: compose(dispatch, actions.modals.updateModalOptions)
 })
 
 const mapStateToProps = (state): LinkStatePropsType => ({
+  buySellOrder: selectors.components.buySell.getBSOrder(state),
+  buySellStep: selectors.components.buySell.getStep(state),
   modals: selectors.modals.getModals(state)
 })
 
@@ -23,11 +27,14 @@ type OwnProps = {
   disableOutsideClose?: boolean
 }
 type LinkDispatchPropsType = {
+  cancelBSOrder: (order: BSOrderType) => void
   close: (modalName?: ModalNameType) => void
   closeAll: () => void
   update: () => void
 }
 type LinkStatePropsType = {
+  buySellOrder: BSOrderType | undefined
+  buySellStep: keyof typeof BuySellStepType
   modals: Array<ModalType>
 }
 
@@ -44,8 +51,20 @@ export default (type: ModalNameType, options: OptionsType = {}) =>
       class Modal extends PureComponent<Props> {
         state = {}
 
+        handleBuySellClose = () => {
+          const { buySellOrder, buySellStep, cancelBSOrder } = this.props
+          if (
+            (buySellOrder?.paymentType === BSPaymentTypes.FUNDS ||
+              buySellOrder?.paymentType === BSPaymentTypes.PAYMENT_CARD) &&
+            buySellStep !== 'ORDER_SUMMARY'
+          ) {
+            cancelBSOrder(buySellOrder)
+          }
+        }
+
         handleClose = (modalName?: ModalNameType) => {
           if (options.transition) {
+            this.handleBuySellClose()
             this.setState({ userClickedOutside: true })
             setTimeout(() => {
               this.props.close(modalName)
@@ -58,6 +77,7 @@ export default (type: ModalNameType, options: OptionsType = {}) =>
 
         handleClick = (e) => {
           // @ts-ignore
+          // eslint-disable-next-line
           const modalContainer = ReactDOM.findDOMNode(this.node)
           if (
             modalContainer &&
@@ -90,12 +110,13 @@ export default (type: ModalNameType, options: OptionsType = {}) =>
           return filtered.length ? (
             <div>
               {filtered.map((modal, i) => (
+                // eslint-disable-next-line
                 <div
-                  key={`${type}:${i}`}
+                  key={`${type}:${i}`} // eslint-disable-line
                   onKeyDown={this.onKeyPressed}
                   onMouseDown={this.handleClick}
                   ref={setRef}
-                  tabIndex={0}
+                  tabIndex={0} // eslint-disable-line
                 >
                   <Component
                     // @ts-ignore
