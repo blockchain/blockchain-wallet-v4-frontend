@@ -23,7 +23,11 @@ import {
   getNftBuyOrders,
   getNftSellOrder
 } from '@core/redux/payment/nfts'
-import { OPENSEA_SHARED_MARKETPLACE, WETH_ADDRESS } from '@core/redux/payment/nfts/utils'
+import {
+  OPENSEA_SHARED_MARKETPLACE,
+  WETH_ADDRESS,
+  WETH_ADDRESS_RINKEBY
+} from '@core/redux/payment/nfts/utils'
 import { Await } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { getPrivateKey } from '@core/utils/eth'
@@ -536,8 +540,7 @@ export default ({ api }: { api: APIType }) => {
           undefined,
           action.payload.offer.asset.asset_contract.address,
           action.payload.offer.asset.token_id,
-          // TODO: rinkeby
-          WETH_ADDRESS,
+          IS_TESTNET ? WETH_ADDRESS_RINKEBY : WETH_ADDRESS,
           0,
           ethAddr
         )
