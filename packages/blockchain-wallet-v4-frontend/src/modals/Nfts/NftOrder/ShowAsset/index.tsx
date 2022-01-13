@@ -11,6 +11,7 @@ import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'
 import { Props as OwnProps } from '..'
 import ActiveListingsCTA from './ActiveListings/cta'
 import ActiveListingsFees from './ActiveListings/fees'
+import ActiveOffersCTA from './ActiveOffers/cta'
 import BuyCTA from './BuyNow/cta'
 import BuyFees from './BuyNow/fees'
 import SellCTA from './Sell/cta'
@@ -128,6 +129,8 @@ const ShowAsset: React.FC<Props> = (props) => {
                 <>
                   <ActiveListingsFees {...props} asset={val} />
                   <ActiveListingsCTA {...props} asset={val} />
+                  <br />
+                  <ActiveOffersCTA {...props} asset={val} />
                 </>
               ) : /* No sell_orders, can mark for sale */
               !val.sell_orders?.length ? (

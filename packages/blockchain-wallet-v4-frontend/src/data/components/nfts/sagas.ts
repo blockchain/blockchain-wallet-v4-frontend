@@ -136,6 +136,34 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  const fetchNftOffersForAsset = function* (action: ReturnType<typeof A.fetchNftOffersForAsset>) {
+    try {
+      const offers = S.getOffersForAsset(yield select())
+      if (offers.atBound) return
+      yield put(A.fetchNftOffersForAssetLoading())
+      const ethAddrR = selectors.core.kvStore.eth.getDefaultAddress(yield select())
+      const ethAddr = ethAddrR.getOrFail('No ETH address.')
+      const { asset_events }: ReturnType<typeof api.getNftOffersForAsset> = yield call(
+        api.getNftOffersForAsset,
+        ethAddr,
+        action.payload.asset_contract_address,
+        action.payload.token_id,
+        offers.page
+      )
+
+      if (asset_events.length < NFT_ORDER_PAGE_LIMIT) {
+        yield put(A.setOffersForAssetBounds({ atBound: true }))
+      } else {
+        yield put(A.setOffersForAssetData({ page: offers.page + 1 }))
+      }
+
+      yield put(A.fetchNftOffersForAssetSuccess(asset_events))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.fetchNftOffersForAssetFailure(error))
+    }
+  }
+
   const fetchNftOrders = function* () {
     try {
       const marketplace = S.getMarketplace(yield select())
@@ -609,6 +637,7 @@ export default ({ api }: { api: APIType }) => {
     fetchFees,
     fetchNftAssets,
     fetchNftCollections,
+    fetchNftOffersForAsset,
     fetchNftOffersMade,
     fetchNftOrders,
     formChanged,

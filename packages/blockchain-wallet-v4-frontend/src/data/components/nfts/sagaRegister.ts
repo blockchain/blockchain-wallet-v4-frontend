@@ -20,6 +20,7 @@ export default ({ api }) => {
     yield takeLatest(actions.fetchFees, nftsSagas.fetchFees)
     yield takeLatest(actions.fetchNftAssets, nftsSagas.fetchNftAssets)
     yield takeLatest(actions.fetchNftCollections, nftsSagas.fetchNftCollections)
+    yield takeLatest(actions.fetchNftOffersForAsset, nftsSagas.fetchNftOffersForAsset)
     yield takeLatest(actions.fetchNftOffersMade, nftsSagas.fetchNftOffersMade)
     yield takeLatest(actions.fetchNftOrders, nftsSagas.fetchNftOrders)
     yield takeLatest(actions.nftOrderFlowClose, nftsSagas.nftOrderFlowClose)
