@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
+import { NULL_ADDRESS } from '@core/redux/payment/nfts/utils'
 import { Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { BlueCartridge } from 'components/Cartridge'
 import CoinDisplay from 'components/Display/CoinDisplay'
@@ -129,14 +130,20 @@ const ShowAsset: React.FC<Props> = (props) => {
                 <>
                   <ActiveListingsFees {...props} asset={val} />
                   <ActiveListingsCTA {...props} asset={val} />
-                  <br />
-                  <ActiveOffersCTA {...props} asset={val} />
                 </>
               ) : /* No sell_orders, can mark for sale */
               !val.sell_orders?.length ? (
                 <>
                   <SellCTA {...props} />
                   <TransferCTA {...props} />
+                </>
+              ) : null}
+              {/* User is owner, show active offers */}
+              {val.owner.address.toLowerCase() === props.defaultEthAddr.toLowerCase() ||
+              val.owner.address === NULL_ADDRESS ? (
+                <>
+                  <br />
+                  <ActiveOffersCTA {...props} asset={val} />
                 </>
               ) : null}
             </StickyCTA>

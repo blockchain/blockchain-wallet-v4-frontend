@@ -51,7 +51,7 @@ const CTA: React.FC<Props> = (props) => {
               Expires
             </Text>
           </TableCell>
-          <TableCell>
+          <TableCell style={{ justifyContent: 'center' }}>
             <Text size='12px' weight={600}>
               Actions
             </Text>
@@ -74,7 +74,7 @@ const CTA: React.FC<Props> = (props) => {
                     </Text>
                   </TableCell>
                   <TableCell>-</TableCell>
-                  <TableCell>
+                  <TableCell style={{ justifyContent: 'center' }}>
                     <TooltipHost id='accept_fees'>
                       <Button
                         small

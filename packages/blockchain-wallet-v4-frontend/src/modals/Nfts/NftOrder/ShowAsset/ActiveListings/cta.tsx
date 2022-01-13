@@ -52,7 +52,7 @@ const CTA: React.FC<Props> = (props) => {
         NotAsked: () => null,
         Success: (val) => {
           return props.asset.sell_orders?.length ? (
-            <Table>
+            <Table style={{ maxHeight: '150px', overflow: 'scroll' }}>
               <TableHeader>
                 <TableCell>
                   <Text size='12px' weight={600}>
@@ -64,7 +64,7 @@ const CTA: React.FC<Props> = (props) => {
                     Expires
                   </Text>
                 </TableCell>
-                <TableCell>
+                <TableCell style={{ justifyContent: 'center' }}>
                   <Text size='12px' weight={600}>
                     Actions
                   </Text>
@@ -82,12 +82,12 @@ const CTA: React.FC<Props> = (props) => {
                           })}
                         </Text>
                       </TableCell>
-                      <TableCell>
+                      <TableCell style={{ justifyContent: 'center' }}>
                         {sell_order.expiration_time
                           ? moment(sell_order.expiration_time).fromNow()
                           : '-'}
                       </TableCell>
-                      <TableCell>
+                      <TableCell style={{ justifyContent: 'flex-end' }}>
                         <TooltipHost id='cancel_fees'>
                           <Button
                             small
