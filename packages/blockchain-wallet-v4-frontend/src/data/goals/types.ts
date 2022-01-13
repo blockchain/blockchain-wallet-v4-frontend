@@ -32,6 +32,16 @@ export type BuySellWidgetGoalDataType = {
   fiatCurrency: WalletFiatType
 }
 
+enum SettingsChangeType {
+  EMAIL = 'email',
+  PASSWORD = 'password',
+  TWOFA = '2fa'
+}
+export type SettingsGoalDataType = {
+  guid: string
+  settingsChange: SettingsChangeType
+}
+
 export type GoalsState = {
   goals: Array<GoalType>
   initialModalDisplayed: boolean

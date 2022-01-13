@@ -169,7 +169,6 @@ export default ({ api, coreSagas, networks }) => {
       yield call(saveGoals, firstLogin)
       yield put(actions.goals.runGoals())
       yield call(upgradeAddressLabelsSaga)
-      yield put(actions.auth.loginSuccess(true))
       yield put(actions.auth.startLogoutTimer())
       yield call(startCoinWebsockets)
       const guid = yield select(selectors.core.wallet.getGuid)
@@ -214,6 +213,7 @@ export default ({ api, coreSagas, networks }) => {
       // ensure xpub cache is correct
       yield fork(checkXpubCacheLegitimacy)
       yield fork(checkDataErrors)
+      yield put(actions.auth.loginSuccess(true))
     } catch (e) {
       yield put(actions.logs.logErrorMessage(logLocation, 'loginRoutineSaga', e))
       // Redirect to error page instead of notification

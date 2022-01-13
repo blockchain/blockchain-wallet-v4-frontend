@@ -2,6 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
+import { find, propEq, propOr } from 'ramda'
 import { bindActionCreators } from 'redux'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
@@ -11,7 +12,8 @@ import { FormError, FormGroup, FormItem, FormLabel, PasswordBox } from 'componen
 import { Wrapper } from 'components/Public'
 import QRCodeWrapper from 'components/QRCodeWrapper'
 import { actions, selectors } from 'data'
-import { LoginSteps, ProductAuthOptions } from 'data/types'
+import { LoginSteps, ProductAuthOptions, SettingsGoalDataType } from 'data/types'
+import Settings from 'layouts/Wallet/MenuTop/Settings/template'
 import { isBrowserSupported } from 'services/browser'
 import { required } from 'services/forms'
 import { isMobile, media } from 'services/styles'
@@ -79,6 +81,12 @@ const TextColumn = styled.div`
     margin-bottom: 8px;
   }
 `
+const SettingsGoalText = styled.div`
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 36px 0 24px;
+`
 
 const isSupportedBrowser = isBrowserSupported()
 
@@ -87,6 +95,7 @@ const EnterPasswordWallet = (props: Props) => {
     authActions,
     busy,
     formValues,
+    goals,
     handleBackArrowClick,
     invalid,
     qrData,
@@ -105,35 +114,58 @@ const EnterPasswordWallet = (props: Props) => {
     walletError &&
     (walletError.toLowerCase().includes('this account has been locked') ||
       walletError.toLowerCase().includes('account is locked'))
-
+  const settingsGoal = find(propEq('name', 'settings'), goals)
+  const goalData: SettingsGoalDataType = propOr({}, 'data', settingsGoal)
   return (
     <OuterWrapper>
       <SideWrapper />
       <FormWrapper>
-        <TabWrapper>
-          <ProductTab product={ProductAuthOptions.WALLET}>
-            <Image name='wallet-no-background' height='28px' style={{ marginRight: '12px' }} />
-            <Text size='20px' weight={600} color='purple600'>
-              <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
-            </Text>
-          </ProductTab>
-          <ProductTab
-            backgroundColor='grey000'
-            onClick={onExchangeTabClick}
-            product={ProductAuthOptions.EXCHANGE}
-          >
-            <Image name='exchange-grayscale' height='26px' style={{ marginRight: '12px' }} />
-            <Text size='20px' weight={600} color='grey400'>
-              <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
-            </Text>
-          </ProductTab>
-        </TabWrapper>
+        {!settingsGoal && (
+          <TabWrapper>
+            <ProductTab product={ProductAuthOptions.WALLET}>
+              <Image name='wallet-no-background' height='28px' style={{ marginRight: '12px' }} />
+              <Text size='20px' weight={600} color='purple600'>
+                <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
+              </Text>
+            </ProductTab>
+            <ProductTab
+              backgroundColor='grey000'
+              onClick={onExchangeTabClick}
+              product={ProductAuthOptions.EXCHANGE}
+            >
+              <Image name='exchange-grayscale' height='26px' style={{ marginRight: '12px' }} />
+              <Text size='20px' weight={600} color='grey400'>
+                <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
+              </Text>
+            </ProductTab>
+          </TabWrapper>
+        )}
+
         <WrapperWithPadding>
-          <BackArrowFormHeader
-            {...props}
-            handleBackArrowClick={handleBackArrowClick}
-            marginTop='28px'
-          />
+          {!settingsGoal && (
+            <BackArrowFormHeader
+              {...props}
+              handleBackArrowClick={handleBackArrowClick}
+              marginTop='28px'
+            />
+          )}
+          {settingsGoal && (
+            <SettingsGoalText>
+              <Text size='20px' weight={600} color='grey900' lineHeight='2'>
+                <FormattedMessage
+                  id='scenes.login.enter_password.setting_goal.title'
+                  defaultMessage='Log Into Your Wallet to Continue'
+                />
+              </Text>
+              <Text size='16px' weight={500} color='grey900' lineHeight='1.5'>
+                <FormattedMessage
+                  id='scenes.login.enter_password.setting_goal.title'
+                  defaultMessage='For your security, we ask you to enter your password to continue to update your {settingsChange} settings.'
+                  values={{ settingsChange: goalData.settingsChange }}
+                />
+              </Text>
+            </SettingsGoalText>
+          )}
           <FormGroup>
             {!isSupportedBrowser && <UnsupportedBrowserWarning />}
             <FormItem>

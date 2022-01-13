@@ -172,6 +172,7 @@ const mapStateToProps = (state) => ({
   data: getData(state),
   exchangeLoginData: selectors.auth.getExchangeLogin(state) as RemoteDataType<any, any>,
   formValues: selectors.form.getFormValues(LOGIN_FORM)(state) as LoginFormType,
+  goals: selectors.goals.getGoals(state),
   initialValues: {
     step: LoginSteps.ENTER_EMAIL_GUID
   },
