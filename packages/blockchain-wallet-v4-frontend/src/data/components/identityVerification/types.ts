@@ -6,6 +6,7 @@ export type EmailSmsStepType = 'edit' | 'verify'
 
 export type VerifyIdentityOriginType =
   | 'DashboardPromo'
+  | 'CompleteProfile'
   | 'Unknown'
   | 'Swap'
   | 'Send'

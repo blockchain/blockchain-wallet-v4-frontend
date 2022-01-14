@@ -69,7 +69,7 @@ class AddCardEverypay extends PureComponent<Props> {
 const mapStateToProps = (state: RootState) => ({
   countryCode: selectors.core.settings.getCountryCode(state).getOrElse(null),
   data: getData(state),
-  fiatCurrency: selectors.components.buySell.getFiatCurrency(state) || 'EUR'
+  fiatCurrency: selectors.components.buySell.getFiatCurrency(state) || 'USD'
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

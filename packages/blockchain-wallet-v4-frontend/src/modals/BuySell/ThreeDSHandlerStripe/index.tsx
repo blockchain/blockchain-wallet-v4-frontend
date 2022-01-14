@@ -28,15 +28,15 @@ const ThreeDSHandlerStripe = ({ buySellActions, domains, order }: Props) => {
   const handlePostMessage = async ({
     data
   }: {
-    data: { details: any; provider: 'stripe'; status: 'error' | 'success' }
+    data: { provider: 'STRIPE'; status: 'ERROR' | 'SUCCESS' }
   }) => {
-    if (data.provider !== 'stripe') return
+    if (data.provider !== 'STRIPE') return
 
-    if (data.status === 'error') {
+    if (data.status === 'ERROR') {
       setError(true)
     }
 
-    if (data.status === 'success') {
+    if (data.status === 'SUCCESS') {
       await buySellActions.pollOrder(order.id)
     }
   }

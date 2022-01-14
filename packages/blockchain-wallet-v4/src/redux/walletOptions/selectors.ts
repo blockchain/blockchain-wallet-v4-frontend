@@ -51,10 +51,6 @@ export const getPairingCodeFlag = (state: RootState) =>
 export const getFeatureFlagRecurringBuys = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'recurringBuys']))
 
-// legacy recovery flag
-export const getFeatureLegacyWalletRecovery = (state: RootState) =>
-  getWebOptions(state).map(path(['featureFlags', 'legacyWalletRecovery']))
-
 // legacy magic email link
 export const getFeatureLegacyMagicEmailLink = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'legacyMagicEmailLink']))
@@ -62,6 +58,10 @@ export const getFeatureLegacyMagicEmailLink = (state: RootState) =>
 // signup country feature flag
 export const getFeatureSignupCountry = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'signupCountry']))
+
+// redesign feature flag
+export const getRedesignEnabled = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'isRedesignEnabled']))
 
 // on hold funds feature flag
 export const getWithdrawalLocksFundsOnHold = (state: RootState) =>
@@ -78,6 +78,9 @@ export const getCeloEurRewards = (state: RootState) =>
 export const getPollForMagicLinkData = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'pollForMagicLinkData']))
 
+// merge and upgrade wallet + exchange accounts
+export const getMergeAndUpgradeAccounts = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'mergeAndUpgrade']))
 // send the card to new payment processors feature flag (checkout)
 export const getAddCheckoutDotComPaymentProvider = (state: RootState) =>
   getWebOptions(state).map(path(['featureFlags', 'addCheckoutPaymentProvider']))
@@ -99,3 +102,11 @@ export const getWalletConnectEnabled = (state: RootState) =>
 
 export const getHotWalletAddresses = (state: RootState, product: Product) =>
   getWebOptions(state).map(path(['hotWalletAddresses', product, 'eth']))
+
+// show/hide complete your profile flyout
+export const getCompleteYourProfile = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'completeYourProfile']))
+
+// show/hide trading currency flyout
+export const getTradingCurrency = (state: RootState) =>
+  getWebOptions(state).map(path(['featureFlags', 'tradingCurrencyFlyout']))

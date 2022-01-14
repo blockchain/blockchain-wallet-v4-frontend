@@ -234,7 +234,7 @@ const Success: React.FC<InjectedFormProps<{}, Props, ErrorType> & Props> = (prop
                 textAlign: 'center',
                 width: '100%'
               }}
-              onClick={() => props.buySellActions.setStep({ step: 'CC_BILLING_ADDRESS' })}
+              onClick={() => props.buySellActions.setStep({ step: 'BILLING_ADDRESS' })}
             >
               <FormattedMessage
                 id='modals.simplebuy.change_billing_address'

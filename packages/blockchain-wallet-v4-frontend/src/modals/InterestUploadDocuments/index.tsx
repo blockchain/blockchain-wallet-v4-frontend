@@ -17,7 +17,7 @@ import Loading from './template.loading'
 import UploadAndVerify from './UploadAndVerify'
 import Uploaded from './Uploaded'
 
-class InterestUploadDocumnets extends PureComponent<Props, State> {
+class InterestUploadDocuments extends PureComponent<Props, State> {
   constructor(props: Props) {
     super(props)
     this.state = { show: false }
@@ -134,4 +134,4 @@ const enhance = compose(
 export type Props = ModalPropsType & ConnectedProps<typeof connector>
 type State = { show: boolean }
 
-export default enhance(InterestUploadDocumnets)
+export default enhance(InterestUploadDocuments)

@@ -13,7 +13,17 @@ import { actions, selectors } from 'data'
 import { RecoverSteps } from 'data/types'
 
 import { Props as OwnProps } from '..'
-import { BackArrowFormHeader, Column, GoBackArrow, Row } from '../model'
+import {
+  BackArrowFormHeader,
+  Column,
+  ContactSupportText,
+  GoBackArrow,
+  OuterWrapper,
+  Row,
+  SubCard,
+  TroubleLoggingInRow,
+  WrapperWithPadding
+} from '../model'
 
 const Body = styled.div`
   display: flex;
@@ -40,104 +50,113 @@ const CloudRecovery = (props: Props) => {
   const { cachedGuid, emailFromMagicLink, lastGuid, qrData } = props
 
   return (
-    <Wrapper>
-      {emailFromMagicLink && (
-        <BackArrowFormHeader
-          handleBackArrowClick={() => props.setStep(RecoverSteps.RECOVERY_OPTIONS)}
-          email={emailFromMagicLink}
-          guid={cachedGuid || lastGuid}
-        />
-      )}
-      {!emailFromMagicLink && (
-        <GoBackArrow handleBackArrowClick={() => props.setStep(RecoverSteps.RECOVERY_OPTIONS)} />
-      )}
-      <Body>
-        {!props.phonePubKey && (
-          <TextColumn>
-            <Icon name='padlock' color='blue600' size='20px' style={{ padding: '0 0 16px 4px' }} />
-            <Text
-              color='grey900'
+    <OuterWrapper>
+      <WrapperWithPadding>
+        {emailFromMagicLink && (
+          <BackArrowFormHeader
+            handleBackArrowClick={() => props.setStep(RecoverSteps.RECOVERY_OPTIONS)}
+            email={emailFromMagicLink}
+            guid={cachedGuid || lastGuid}
+          />
+        )}
+        {!emailFromMagicLink && (
+          <GoBackArrow handleBackArrowClick={() => props.setStep(RecoverSteps.RECOVERY_OPTIONS)} />
+        )}
+        <Body>
+          {!props.phonePubKey && (
+            <TextColumn>
+              <Icon
+                name='padlock'
+                color='blue600'
+                size='20px'
+                style={{ padding: '0 0 16px 4px' }}
+              />
+              <Text
+                color='grey900'
+                size='16px'
+                weight={600}
+                lineHeight='1.5'
+                style={{ marginBottom: '8px' }}
+              >
+                <FormattedMessage id='scenes.login.qrcodelogin' defaultMessage='QR Code Log In' />
+              </Text>
+              <Text
+                color='grey900'
+                size='12px'
+                weight={500}
+                lineHeight='1.5'
+                style={{ marginBottom: '16px' }}
+              >
+                <FormattedMessage
+                  id='scenes.recovery.cloud_backup.subtitle'
+                  defaultMessage='If your wallet has been backed up to the cloud, scan this QR code with your Blockchain.com mobile app.'
+                />
+              </Text>
+              <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
+                <FormattedMessage
+                  id='scenes.login.wallet.mobile_login.description'
+                  defaultMessage='Tap the QR code icon at the top right corner of the app.'
+                />
+              </Text>
+            </TextColumn>
+          )}
+          {props.secureChannelLoginState.cata({
+            Failure: (e) => (
+              <Text>
+                {typeof e === 'string' ? (
+                  e
+                ) : (
+                  <FormattedMessage
+                    id='scenes.login.qrcodelogin_failed'
+                    defaultMessage='Login failed. Please refresh browser and try again.'
+                  />
+                )}
+              </Text>
+            ),
+            Loading: () => {
+              return (
+                <Text size='14px' weight={600}>
+                  <FormattedMessage
+                    id='scenes.login.qrcodelogin_success_confirm'
+                    defaultMessage='Please confirm the login on your mobile device.'
+                  />
+                </Text>
+              )
+            },
+            NotAsked: () => <QRCodeWrapper value={qrData} size={175} showImage />,
+            Success: () => {
+              return (
+                <Text size='14px' weight={600}>
+                  <FormattedMessage
+                    id='scenes.login.qrcodelogin_success'
+                    defaultMessage='Success! Logging in...'
+                  />
+                </Text>
+              )
+            }
+          })}
+        </Body>
+        <BadgeRow>
+          <Badge size='40px' type='applestore' />
+          <Badge size='40px' type='googleplay' />
+        </BadgeRow>
+      </WrapperWithPadding>
+      <SubCard>
+        <TroubleLoggingInRow>
+          <LinkContainer to='/help'>
+            <ContactSupportText
               size='16px'
               weight={600}
-              lineHeight='1.5'
-              style={{ marginBottom: '8px' }}
+              color='blue600'
+              data-e2e='loginGetHelp'
+              style={{ marginLeft: '4px' }}
             >
-              <FormattedMessage id='scenes.login.qrcodelogin' defaultMessage='QR Code Log In' />
-            </Text>
-            <Text
-              color='grey900'
-              size='12px'
-              weight={500}
-              lineHeight='1.5'
-              style={{ marginBottom: '16px' }}
-            >
-              <FormattedMessage
-                id='scenes.recovery.cloud_backup.subtitle'
-                defaultMessage='If your wallet has been backed up to the cloud, scan this QR code with your Blockchain.com mobile app.'
-              />
-            </Text>
-            <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
-              <FormattedMessage
-                id='scenes.login.wallet.mobile_login.description.ios'
-                defaultMessage='iOS - Tap the Menu button at the top left corner of the app to reveal Web Log In option.'
-              />
-            </Text>
-            <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
-              <FormattedMessage
-                id='scenes.login.wallet.mobile_login.description.android'
-                defaultMessage='Android - Tap the QR code icon at the top right corner of the app.'
-              />
-            </Text>
-          </TextColumn>
-        )}
-        {props.secureChannelLoginState.cata({
-          Failure: (e) => (
-            <Text>
-              {typeof e === 'string' ? (
-                e
-              ) : (
-                <FormattedMessage
-                  id='scenes.login.qrcodelogin_failed'
-                  defaultMessage='Login failed. Please refresh browser and try again.'
-                />
-              )}
-            </Text>
-          ),
-          Loading: () => {
-            return (
-              <Text size='14px' weight={600}>
-                <FormattedMessage
-                  id='scenes.login.qrcodelogin_success_confirm'
-                  defaultMessage='Please confirm the login on your mobile device.'
-                />
-              </Text>
-            )
-          },
-          NotAsked: () => <QRCodeWrapper value={qrData} size={175} showImage />,
-          Success: () => {
-            return (
-              <Text size='14px' weight={600}>
-                <FormattedMessage
-                  id='scenes.login.qrcodelogin_success'
-                  defaultMessage='Success! Logging in...'
-                />
-              </Text>
-            )
-          }
-        })}
-      </Body>
-      <BadgeRow>
-        <Badge size='40px' type='applestore' />
-        <Badge size='40px' type='googleplay' />
-      </BadgeRow>
-      <CenteredRow>
-        <LinkContainer to='/help'>
-          <Link size='13px' weight={600} data-e2e='loginGetHelp'>
-            <FormattedMessage id='copy.need_some_help' defaultMessage='Need some help?' />
-          </Link>
-        </LinkContainer>
-      </CenteredRow>
-    </Wrapper>
+              <FormattedMessage id='copy.need_some_help' defaultMessage='Need some help?' />
+            </ContactSupportText>
+          </LinkContainer>
+        </TroubleLoggingInRow>
+      </SubCard>
+    </OuterWrapper>
   )
 }
 

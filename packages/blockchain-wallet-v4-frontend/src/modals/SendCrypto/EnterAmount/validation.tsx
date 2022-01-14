@@ -1,4 +1,4 @@
-import { convertCoinToCoin, convertCoinToFiat, convertFiatToCoin } from '@core/exchange'
+import { convertCoinToCoin, convertFiatToCoin } from '@core/exchange'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 
 import { SendFormType } from '../types'

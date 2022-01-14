@@ -1,21 +1,21 @@
-import type {
-  BuySellClickedOrigin,
-  InterestDepositClickedOrigin,
-  LinkBankClickedOrigin,
-  ManageTabSelectionClickedSelection,
-  SettingsHyperlinkClickedDestination,
-  SettingsTabClickedDestination,
-  SwapClickedOrigin,
-  UpgradeVerificationClickedOrigin
-} from 'middleware/analyticsMiddleware/types'
-import { PaymentType } from 'middleware/analyticsMiddleware/types'
-
 import { BSPaymentTypes, PaymentValue } from '@core/types'
 import {
   BrokerageModalOriginType,
   BSShowModalOriginType,
   VerifyIdentityOriginType
 } from 'data/types'
+import type {
+  BuySellClickedOrigin,
+  InterestDepositClickedOrigin,
+  LinkBankClickedOrigin,
+  ManageTabSelectionClickedSelection,
+  SendReceiveClickedOrigin,
+  SettingsHyperlinkClickedDestination,
+  SettingsTabClickedDestination,
+  SwapClickedOrigin,
+  UpgradeVerificationClickedOrigin
+} from 'middleware/analyticsMiddleware/types'
+import { PaymentType } from 'middleware/analyticsMiddleware/types'
 
 // The origin dictionaries are only necessary until we remove the MATOMO tracker,
 // after that, we should refactor those origins to use the correct origins with enums
@@ -126,6 +126,24 @@ const manageTabSelectionClickedSelectionDictionary = (
       return 'SHOW_XPUB'
     default:
       throw new Error('Selection not found')
+  }
+}
+
+const sendReceiveClickedOriginDictionary = (rawOrigin: string): SendReceiveClickedOrigin => {
+  switch (rawOrigin) {
+    case 'FeaturesTopNav':
+    case 'Send':
+      return 'NAVIGATION'
+    case 'SwapNoHoldings':
+      return 'NO_HOLDINGS'
+    case 'Prices':
+      return 'CURRENCY_PAGE'
+    case 'EmptyFeed':
+    case 'WalletBalanceDropdown':
+      return 'TRANSACTIONS_PAGE'
+    default: {
+      throw new Error('Origin not found')
+    }
   }
 }
 
@@ -242,6 +260,7 @@ export {
   interestDepositClickedOriginDictionary,
   linkBankClickedOriginDictionary,
   manageTabSelectionClickedSelectionDictionary,
+  sendReceiveClickedOriginDictionary,
   settingsHyperlinkClickedDestinationDictionary,
   settingsTabClickedDestinationDictionary,
   swapClickedOriginDictionary,

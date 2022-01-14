@@ -232,6 +232,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const effectivePeriod = getEffectivePeriod(crossBorderLimits)
 
   const showLimitError = showError && amtError === 'ABOVE_MAX_LIMIT'
+  const showBalanceError = showError && amtError === 'ABOVE_BALANCE'
 
   return (
     <FlyoutWrapper style={{ paddingTop: '20px' }}>
@@ -428,7 +429,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           </MinMaxButtons>
         </Amounts>
 
-        {!showLimitError && !showError && (
+        {!showLimitError && !showError && !showBalanceError && (
           <Button
             nature='primary'
             data-e2e='previewSwap'
@@ -442,7 +443,7 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
           </Button>
         )}
 
-        {!showLimitError && showError && (
+        {!showLimitError && !showBalanceError && showError && (
           <ButtonContainer>
             <AlertButton>
               {amtError === 'BELOW_MIN' ? (
@@ -524,6 +525,38 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               }}
             />
           </>
+        )}
+
+        {showBalanceError && !showLimitError && (
+          <ButtonContainer>
+            <AlertButton>
+              <FormattedMessage
+                id='copy.not_enough_coin'
+                defaultMessage='Not Enough {coin}'
+                values={{
+                  coin: BASE.coin
+                }}
+              />
+            </AlertButton>
+            <Text
+              size='14px'
+              color='textBlack'
+              weight={500}
+              style={{ marginTop: '24px', textAlign: 'center' }}
+            >
+              <FormattedMessage
+                id='copy.swap_maximum_amount'
+                defaultMessage='The maximum amount of {coin} you can swap from this wallet is {amount}.'
+                values={{
+                  amount:
+                    fix === 'FIAT'
+                      ? fiatToString({ unit: walletCurrency, value: fiatMax })
+                      : `${min} ${baseCoinfig.displaySymbol}`,
+                  coin: BASE.coin
+                }}
+              />
+            </Text>
+          </ButtonContainer>
         )}
 
         {isQuoteFailed && (

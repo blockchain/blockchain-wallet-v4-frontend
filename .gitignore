@@ -52,3 +52,12 @@ config/env/development.js
 config/env/staging.js
 config/ssl/*
 !config/ssl/ssl.md
+
+# Yarn Files
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
