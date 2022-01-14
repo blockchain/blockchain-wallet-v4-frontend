@@ -1042,7 +1042,7 @@ export async function _makeSellOrder({
   buyerAddress,
   endAmount,
   englishAuctionReservePrice = 0,
-  expirationTime,
+  expirationTime = 0,
   extraBountyBasisPoints = 2.5,
   listingTime,
   network,
@@ -1095,7 +1095,7 @@ export async function _makeSellOrder({
     waitForHighestBid,
     englishAuctionReservePrice
   )
-  const times = _getTimeParameters(0, Math.round(Date.now() / 1000))
+  const times = _getTimeParameters(expirationTime, Math.round(Date.now() / 1000))
   const {
     feeMethod,
     feeRecipient,
@@ -1601,9 +1601,9 @@ async function validateOrderParameters({
       order.makerProtocolFee.toNumber(),
       order.takerProtocolFee.toNumber(),
       order.basePrice.toString(),
-      order.extra.toNumber(),
-      order.listingTime.toNumber(),
-      order.expirationTime.toNumber(),
+      order.extra.toString(),
+      order.listingTime.toString(),
+      order.expirationTime.toString(),
       order.salt
     ],
     order.feeMethod,

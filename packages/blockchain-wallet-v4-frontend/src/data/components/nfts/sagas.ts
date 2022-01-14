@@ -229,9 +229,9 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchFeesLoading())
       const signer: Signer = yield call(getEthSigner)
       let fees: GasDataI
+      // TODO: DONT DEFAULT TO 1 WEEK
+      const expirationTime = moment().add(7, 'day').unix()
       if (action.payload.operation === GasCalculationOperations.Buy) {
-        // TODO: DONT DEFAULT TO 1 WEEK
-        const expirationTime = moment().add(7, 'day').unix()
         const { buy, sell }: Await<ReturnType<typeof getNftBuyOrders>> = yield call(
           getNftBuyOrders,
           action.payload.order,
@@ -263,7 +263,9 @@ export default ({ api }: { api: APIType }) => {
           getNftSellOrder,
           action.payload.asset,
           signer,
+          expirationTime,
           action.payload.startPrice,
+          action.payload.endPrice,
           IS_TESTNET ? 'rinkeby' : 'mainnet'
         )
         fees = yield call(
@@ -376,13 +378,17 @@ export default ({ api }: { api: APIType }) => {
 
   const createSellOrder = function* (action: ReturnType<typeof A.createSellOrder>) {
     try {
+      // TODO: DONT DEFAULT TO 1 WEEK
+      const expirationTime = moment().add(7, 'day').unix()
       yield put(A.createSellOrderLoading())
       const signer = yield call(getEthSigner)
       const signedOrder: Await<ReturnType<typeof getNftSellOrder>> = yield call(
         getNftSellOrder,
         action.payload.asset,
         signer,
+        expirationTime,
         action.payload.startPrice,
+        action.payload.endPrice,
         IS_TESTNET ? 'rinkeby' : 'mainnet'
       )
       const order = yield call(fulfillNftSellOrder, signedOrder, signer, action.payload.gasData)
@@ -463,7 +469,7 @@ export default ({ api }: { api: APIType }) => {
       yield put(
         A.setMarketplaceData({
           // @ts-ignore
-          collection: IS_TESTNET ? { ...res, collection_data: { ...res } } : res
+          collection: res
         })
       )
       yield put(A.fetchNftOrders())
@@ -492,7 +498,7 @@ export default ({ api }: { api: APIType }) => {
             A.setMarketplaceData({
               atBound: false,
               // @ts-ignore
-              collection: IS_TESTNET ? { ...res, collection_data: { ...res } } : res,
+              collection: res,
               page: 1,
               token_ids_queried: []
             })

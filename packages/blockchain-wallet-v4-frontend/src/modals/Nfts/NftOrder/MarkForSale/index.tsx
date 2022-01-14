@@ -27,7 +27,7 @@ const MarkForSale: React.FC<Props> = (props) => {
   const disabled =
     formValues['sale-type'] === 'fixed-price'
       ? !formValues.amount || Remote.Loading.is(props.sellOrder)
-      : true
+      : !formValues.starting || !formValues.ending || Remote.Loading.is(props.sellOrder)
 
   return (
     <>
@@ -85,7 +85,15 @@ const MarkForSale: React.FC<Props> = (props) => {
                 </Title>
                 <Value>
                   <div style={{ display: 'inline-block' }}>
-                    <Field name='sale-type' component={TabMenuNftSaleType} />
+                    <Field
+                      name='sale-type'
+                      onChange={() => {
+                        formValues.amount = ''
+                        formValues.starting = ''
+                        formValues.ending = ''
+                      }}
+                      component={TabMenuNftSaleType}
+                    />
                   </div>
                 </Value>
               </Row>
@@ -141,13 +149,85 @@ const MarkForSale: React.FC<Props> = (props) => {
                   </Row>
                 </>
               ) : (
-                <Row>
-                  <Title>
-                    <ErrorCartridge>
-                      <FormattedMessage id='copy.coming_soon' defaultMessage='Coming Soon' />
-                    </ErrorCartridge>
-                  </Title>
-                </Row>
+                // Dutch Auction
+                <>
+                  <Row>
+                    <Value>
+                      <FormattedMessage
+                        id='copy.starting'
+                        defaultMessage='Sell with declining price'
+                      />
+                    </Value>
+                  </Row>
+                  <Row>
+                    <Title>
+                      <b>
+                        <FormattedMessage id='copy.starting' defaultMessage='Starting Price' />
+                      </b>
+                    </Title>
+                    <Value>
+                      <Field name='starting' component={NumberBox} />
+                    </Value>
+                    <Value>
+                      <FiatDisplay size='12px' weight={600} coin={coin}>
+                        {convertCoinToCoin({
+                          baseToStandard: false,
+                          coin,
+                          value: formValues.starting
+                        }) || 0}
+                      </FiatDisplay>
+                    </Value>
+                  </Row>
+                  <Row>
+                    <Title>
+                      <b>
+                        <FormattedMessage id='copy.ending' defaultMessage='Ending Price' />
+                      </b>
+                    </Title>
+                    <Value>
+                      <Field
+                        name='ending'
+                        component={NumberBox}
+                        onChange={(e) => {
+                          nftActions.fetchFees({
+                            asset: val,
+                            endPrice: e.target.value,
+                            operation: GasCalculationOperations.Sell,
+                            startPrice: Number(formValues.starting)
+                          })
+                        }}
+                      />
+                    </Value>
+                    <Value>
+                      <FiatDisplay size='12px' weight={600} coin={coin}>
+                        {convertCoinToCoin({
+                          baseToStandard: false,
+                          coin,
+                          value: formValues.ending
+                        }) || 0}
+                      </FiatDisplay>
+                    </Value>
+                  </Row>
+                  <Row>
+                    <Value asTitle>
+                      <FormattedMessage id='copy.service_fees' defaultMessage='Service Fees' />
+                    </Value>
+                    <Title asValue>
+                      <FormattedMessage
+                        id='copy.opensea_service_fee'
+                        defaultMessage='OpenSea Service Fee'
+                      />{' '}
+                      {val.asset_contract.opensea_seller_fee_basis_points / 100}%
+                    </Title>
+                    <Title asValue>
+                      <FormattedMessage
+                        id='copy.creator_royalty'
+                        defaultMessage='Creator Royalty'
+                      />{' '}
+                      {Number(val.collection.dev_seller_fee_basis_points) / 100}%
+                    </Title>
+                  </Row>
+                </>
               )}
             </Form>
             <StickyCTA>
@@ -171,20 +251,32 @@ const MarkForSale: React.FC<Props> = (props) => {
                     fullwidth
                     data-e2e='sellNft'
                     disabled={disabled}
-                    onClick={() =>
-                      nftActions.createSellOrder({
-                        asset: val,
-                        gasData: fees,
-                        startPrice: Number(formValues.amount)
-                      })
-                    }
+                    onClick={() => {
+                      if (formValues['sale-type'] === 'fixed-price') {
+                        nftActions.createSellOrder({
+                          asset: val,
+                          endPrice: null,
+                          gasData: fees,
+                          startPrice: Number(formValues.amount)
+                        })
+                      } else {
+                        nftActions.createSellOrder({
+                          asset: val,
+                          endPrice: Number(formValues.ending),
+                          gasData: fees,
+                          startPrice: Number(formValues.starting)
+                        })
+                      }
+                    }}
                   >
-                    {formValues.amount ? (
+                    {formValues.amount || formValues.starting ? (
                       <FormattedMessage
                         id='copy.mark_for_sale'
                         defaultMessage='Mark for Sale for {val}'
                         values={{
-                          val: `${formValues.amount} ${coin}`
+                          val: formValues.amount
+                            ? `${formValues.amount} ${coin}`
+                            : `${formValues.starting} ${coin}`
                         }}
                       />
                     ) : (
@@ -202,7 +294,11 @@ const MarkForSale: React.FC<Props> = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-  formValues: selectors.form.getFormValues('nftMarkForSale')(state) as { amount: string }
+  formValues: selectors.form.getFormValues('nftMarkForSale')(state) as {
+    amount: string
+    ending: string
+    starting: string
+  }
 })
 
 const connector = connect(mapStateToProps)

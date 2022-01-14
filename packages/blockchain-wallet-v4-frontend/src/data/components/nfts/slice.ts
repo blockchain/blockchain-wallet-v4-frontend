@@ -134,6 +134,7 @@ const nftsSlice = createSlice({
       state,
       action: PayloadAction<{
         asset: NftAssetsType[0]
+        endPrice: number | null
         gasData: GasDataI
         startPrice: number
       }>
@@ -175,6 +176,7 @@ const nftsSlice = createSlice({
           }
         | {
             asset: NftAsset
+            endPrice?: number
             operation: GasCalculationOperations.Sell
             startPrice: number
           }
