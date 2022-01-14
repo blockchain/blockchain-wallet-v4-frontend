@@ -421,22 +421,62 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         delete output.amount
       }
 
-      const buyOrder: BSOrderType = yield call(
-        api.createBSOrder,
-        pair.pair,
-        orderType,
-        true,
-        input,
-        output,
-        paymentType,
-        period,
-        paymentMethodId,
-        buyQuote?.quote?.quoteId
-      )
+      let buyOrder: BSOrderType
 
-      yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT))
-      yield put(A.fetchOrders())
-      yield put(A.setStep({ order: buyOrder, step: 'CHECKOUT_CONFIRM' }))
+      // TODO: WIP
+      if (isFlexiblePricingModel) {
+        while (true) {
+          // get the current order, if any
+          const oldBuyOrder = S.getBSOrder(yield select())
+
+          buyOrder = yield call(
+            api.createBSOrder,
+            pair.pair,
+            orderType,
+            true,
+            input,
+            output,
+            paymentType,
+            period,
+            paymentMethodId,
+            buyQuote?.quote?.quoteId
+          )
+
+          // first time creating the order
+          if (!oldBuyOrder) {
+            yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT))
+            yield put(A.fetchOrders())
+            yield put(A.setStep({ order: buyOrder, step: 'CHECKOUT_CONFIRM' }))
+          }
+
+          // create a new order when the quote expires and cancel the existing order and
+          if (oldBuyOrder) {
+            yield put(A.fetchOrders())
+            yield put(A.setStep({ order: buyOrder, step: 'CHECKOUT_CONFIRM' }))
+            yield put(A.cancelOrder(oldBuyOrder))
+          }
+
+          // execute while loop when quote expires and successfully fetches the new quote
+          yield take(A.fetchBuyQuoteSuccess)
+        }
+      } else {
+        buyOrder = yield call(
+          api.createBSOrder,
+          pair.pair,
+          orderType,
+          true,
+          input,
+          output,
+          paymentType,
+          period,
+          paymentMethodId,
+          buyQuote?.quote?.quoteId
+        )
+
+        yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT))
+        yield put(A.fetchOrders())
+        yield put(A.setStep({ order: buyOrder, step: 'CHECKOUT_CONFIRM' }))
+      }
     } catch (e) {
       // After CC has been activated we try to create an order
       // If order creation fails go back to ENTER_AMOUNT step
