@@ -157,7 +157,7 @@
     "rxjs": "6.6.7",
     "sanitize-html": "2.3.3",
     "slick-carousel": "1.8.1",
-    "styled-components": "4.4.1",
+    "styled-components": "5.3.3",
     "uuid": "8.3.2",
     "zxcvbn": "4.4.2"
   },
