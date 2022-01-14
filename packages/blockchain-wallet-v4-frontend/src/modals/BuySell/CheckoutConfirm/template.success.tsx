@@ -272,7 +272,7 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
                       (1 /
                         parseFloat(props.quote.rate.toString()) /
                         parseFloat(
-                          convertBaseToStandard(baseCurrencyDisplay, props.quote.rate.toString())
+                          convertBaseToStandard(baseCurrency, props.quote.rate.toString())
                         )) *
                       parseFloat(props.quote.rate.toString())
                   })
