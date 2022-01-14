@@ -400,6 +400,7 @@ export interface Order extends UnsignedOrder, Partial<ECSignature> {
 }
 
 export enum GasCalculationOperations {
+  Accept = 'accept',
   Buy = 'buy',
   Cancel = 'cancel',
   Sell = 'sell',

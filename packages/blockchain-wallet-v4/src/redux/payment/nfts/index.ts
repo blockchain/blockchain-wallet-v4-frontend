@@ -71,14 +71,15 @@ export const fulfillNftOrder = async (
   buy: Order,
   sell: Order,
   signer: Signer,
-  gasData: GasDataI
+  gasData: GasDataI,
+  acceptingOffer?: boolean
 ) => {
   // Perform buy order validations (abstracted away from _atomicMatch because english auction bids don't hit that function)
   // await _buyOrderValidationAndApprovals({ order: buy, signer })
   // Is an english auction sale
   if (
     sell.waitingForBestCounterOrder ||
-    (!sell.waitingForBestCounterOrder && buy.paymentToken !== NULL_ADDRESS)
+    (!sell.waitingForBestCounterOrder && buy.paymentToken !== NULL_ADDRESS && !acceptingOffer)
   ) {
     await _buyOrderValidationAndApprovals({ gasData, order: buy, signer })
     // eslint-disable-next-line no-console

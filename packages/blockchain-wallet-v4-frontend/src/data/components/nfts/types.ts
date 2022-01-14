@@ -22,6 +22,7 @@ export enum NftOrderStepEnum {
 }
 
 export type NftsStateType = {
+  acceptOffer: RemoteDataType<string, boolean>
   activeTab: 'explore' | 'my-collection' | 'offers'
   assets: {
     atBound: boolean
@@ -44,6 +45,7 @@ export type NftsStateType = {
     page: number
     token_ids_queried: string[]
   }
+  offerToAccept: { buy: Order; sell: Order } | null
   offersForAsset: {
     atBound?: boolean
     isFailure: boolean

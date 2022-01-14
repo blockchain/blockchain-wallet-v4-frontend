@@ -87,7 +87,7 @@ const CTA: React.FC<Props> = (props) => {
                           ? moment(sell_order.expiration_time).fromNow()
                           : '-'}
                       </TableCell>
-                      <TableCell style={{ justifyContent: 'flex-end' }}>
+                      <TableCell style={{ justifyContent: 'center' }}>
                         <TooltipHost id='cancel_fees'>
                           <Button
                             small

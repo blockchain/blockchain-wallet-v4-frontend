@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { init } from 'ramda'
 
 import { Remote } from '@core'
 import {
@@ -22,6 +21,7 @@ import { Await } from '@core/types'
 import { NftOrderStepEnum, NftsStateType } from './types'
 
 const initialState: NftsStateType = {
+  acceptOffer: Remote.NotAsked,
   activeTab: 'explore',
   assets: {
     atBound: false,
@@ -43,6 +43,7 @@ const initialState: NftsStateType = {
     page: 0,
     token_ids_queried: []
   },
+  offerToAccept: null,
   offersForAsset: {
     atBound: false,
     isFailure: false,
@@ -73,6 +74,19 @@ const nftsSlice = createSlice({
   initialState,
   name: 'nfts',
   reducers: {
+    acceptOffer: (
+      state,
+      action: PayloadAction<{ buy: Order; gasData: GasDataI; sell: Order }>
+    ) => {},
+    acceptOfferFailure: (state, action: PayloadAction<{ error: string }>) => {
+      state.acceptOffer = Remote.Success(action.payload.error)
+    },
+    acceptOfferLoading: (state) => {
+      state.acceptOffer = Remote.Loading
+    },
+    acceptOfferSuccess: (state) => {
+      state.acceptOffer = Remote.Success(true)
+    },
     cancelListing: (
       state,
       action: PayloadAction<{ gasData: GasDataI; sell_order: RawOrder }>
@@ -174,6 +188,10 @@ const nftsSlice = createSlice({
     fetchFees: (
       state,
       action: PayloadAction<
+        | {
+            event: OfferEventsType['asset_events'][0]
+            operation: GasCalculationOperations.Accept
+          }
         | {
             offer?: string
             operation: GasCalculationOperations.Buy
@@ -379,6 +397,9 @@ const nftsSlice = createSlice({
       if (action.payload.collection) state.marketplace.collection = action.payload.collection
       if (action.payload.token_ids_queried)
         state.marketplace.token_ids_queried = action.payload.token_ids_queried
+    },
+    setOfferToAccept: (state, action: PayloadAction<{ buy: Order; sell: Order }>) => {
+      state.offerToAccept = action.payload
     },
     setOffersForAssetBounds: (state, action: PayloadAction<{ atBound: boolean }>) => {
       state.offersForAsset.atBound = action.payload.atBound

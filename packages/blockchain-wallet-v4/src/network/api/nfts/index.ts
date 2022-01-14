@@ -10,8 +10,8 @@ import {
 export const NFT_ORDER_PAGE_LIMIT = 30
 
 export default ({ apiUrl, get, post }) => {
-  // const explorerUrl = 'http://localhost:8081/nft' // local testnet only
-  const explorerUrl = `${apiUrl}/explorer-gateway/nft`
+  const explorerUrl = 'http://localhost:8081/nft' // local testnet only
+  // const explorerUrl = `${apiUrl}/explorer-gateway/nft`
 
   const getAssetContract = (asset_contract_address: string) => {
     return get({
@@ -68,7 +68,7 @@ export default ({ apiUrl, get, post }) => {
     return get({
       endPoint: `/events?event_type=offer_entered&limit=${limit}&offset=${
         NFT_ORDER_PAGE_LIMIT * offset
-      }&account_address=${eth_addr}&asset_contract_address=${asset_contract_address}&token_id=${token_id}`,
+      }&asset_contract_address=${asset_contract_address}&token_id=${token_id}`,
       ignoreQueryParams: true,
       url: `${explorerUrl}`
     })

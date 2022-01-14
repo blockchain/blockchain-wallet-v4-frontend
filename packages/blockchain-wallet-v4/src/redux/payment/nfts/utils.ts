@@ -23,6 +23,7 @@ import {
   WyvernNFTAsset,
   WyvernSchemaName
 } from '@core/network/api/nfts/types'
+import { assetFromJSON } from 'data/components/nfts/utils'
 
 import { ERC20_ABI, ERC721_ABI, ERC1155_ABI, proxyRegistry_ABI, wyvernExchange_ABI } from './abis'
 import { schemaMap } from './schemas'
@@ -294,11 +295,10 @@ export const encodeDefaultCall = (abi, address) => {
   return encodeCall(abi, parameters)
 }
 
-export const encodeSell = (schema, asset, address) => {
+export const encodeSell = (schema, asset: WyvernAsset, address) => {
   const wyvAsset = schema.assetFromFields({
-    Address: asset.asset_contract.address,
-    ID: asset.token_id,
-    Name: asset.name,
+    Address: asset.address,
+    ID: asset.id,
     Quantity: new BigNumber(1).toString()
   })
   const transfer = schema.functions.transfer(wyvAsset)
@@ -308,7 +308,7 @@ export const encodeSell = (schema, asset, address) => {
     calldata = tokenInterface.encodeFunctionData('safeTransferFrom', [
       address.toLowerCase(),
       NULL_ADDRESS,
-      asset.token_id,
+      asset.id,
       wyvAsset.quantity,
       []
     ])
@@ -317,7 +317,7 @@ export const encodeSell = (schema, asset, address) => {
     calldata = tokenInterface.encodeFunctionData('transferFrom', [
       address.toLowerCase(),
       NULL_ADDRESS,
-      asset.token_id
+      asset.id
     ])
   } else {
     throw new Error(`Unsupported Asset Standard: ${schema.name}`)
@@ -1081,7 +1081,11 @@ export async function _makeSellOrder({
 
   const schema = await schemaMap[asset.asset_contract.schema_name ?? WyvernSchemaName.ERC721]
   // const wyAsset = getWyvernAsset(schema, asset)
-  const { calldata, replacementPattern, target } = encodeSell(schema, asset, accountAddress)
+  const { calldata, replacementPattern, target } = encodeSell(
+    schema,
+    { address: asset.asset_contract.address, id: asset.token_id },
+    accountAddress
+  )
   const orderSaleKind =
     endAmount != null && endAmount !== startAmount
       ? NftSaleKind.DutchAuction
@@ -1869,7 +1873,7 @@ export async function _buyOrderValidationAndApprovals({
     //  minimumAmount = await this._getRequiredAmountForTakingSellOrder(counterOrder)
     // }
 
-    // Check WETH balance
+    // Check balance against price
     if (balance.isLessThan(minimumAmount)) {
       if (tokenAddress === wethAddress) {
         throw new Error('Insufficient balance. You may need to wrap Ether.')
@@ -1974,9 +1978,9 @@ async function _validateMatch(
     // eslint-disable-next-line no-console
     console.log(`Order calldata matching: ${calldataCanMatch}`)
 
-    if (!calldataCanMatch || !canMatch) {
-      throw new Error('Unable to match offer data with auction data.')
-    }
+    // if (!calldataCanMatch || !canMatch) {
+    //   throw new Error('Unable to match offer data with auction data.')
+    // }
 
     return true
   } catch (error) {
@@ -2293,10 +2297,10 @@ export async function createMatchingOrders(
     ...signature
   }
 
-  const isSellValid = await _validateOrderWyvern({ order: sell, signer })
-  if (!isSellValid) throw new Error('Sell order is invalid')
-  const isBuyValid = await _validateOrderWyvern({ order: buy, signer })
-  if (!isBuyValid) throw new Error('Buy order is invalid')
+  // const isSellValid = await _validateOrderWyvern({ order: sell, signer })
+  // if (!isSellValid) throw new Error('Sell order is invalid')
+  // const isBuyValid = await _validateOrderWyvern({ order: buy, signer })
+  // if (!isBuyValid) throw new Error('Buy order is invalid')
   return { buy, sell }
 }
 

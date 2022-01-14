@@ -23,7 +23,11 @@ import {
   getNftBuyOrders,
   getNftSellOrder
 } from '@core/redux/payment/nfts'
-import { OPENSEA_SHARED_MARKETPLACE, WETH_ADDRESS } from '@core/redux/payment/nfts/utils'
+import {
+  OPENSEA_SHARED_MARKETPLACE,
+  WETH_ADDRESS,
+  WETH_ADDRESS_RINKEBY
+} from '@core/redux/payment/nfts/utils'
 import { Await } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { getPrivateKey } from '@core/utils/eth'
@@ -278,6 +282,47 @@ export default ({ api }: { api: APIType }) => {
           sell
         )
         yield put(A.fetchFeesSuccess(fees))
+      } else if (action.payload.operation === GasCalculationOperations.Accept) {
+        // get active orders
+        const { event } = action.payload
+        const activeOrders: ReturnType<typeof api.getNftOrders> = yield call(
+          api.getNftOrders,
+          undefined,
+          event.asset.asset_contract.address,
+          event.asset.token_id,
+          // TODO: rinkeby
+          IS_TESTNET ? WETH_ADDRESS_RINKEBY : WETH_ADDRESS,
+          0
+        )
+        // find the order with calldata that includes offer's from address
+        // and matches the amount of the offer
+        const order = activeOrders.orders.map(orderFromJSON).find((o) => {
+          const nonPrefixedEthAddr = event.from_account.address.replace(/^0x/, '').toLowerCase()
+          const bidAmount = event.bid_amount
+          return o.calldata.includes(nonPrefixedEthAddr) && o.basePrice.toString() === bidAmount
+        })
+        // TODO: failure?
+        if (!order) return
+        // make matching orders
+        const { buy, sell }: Await<ReturnType<typeof getNftBuyOrders>> = yield call(
+          getNftBuyOrders,
+          order,
+          signer,
+          order.expirationTime.toNumber(),
+          IS_TESTNET ? 'rinkeby' : 'mainnet'
+        )
+        // calculate atomic match fees
+        fees = yield call(
+          calculateGasFees,
+          GasCalculationOperations.Buy,
+          signer,
+          undefined,
+          buy,
+          sell
+        )
+        yield put(A.fetchFeesSuccess(fees))
+        // set the order on state
+        yield put(A.setOfferToAccept({ buy, sell }))
       } else if (action.payload.operation === GasCalculationOperations.Cancel) {
         fees = yield call(
           calculateGasFees,
@@ -321,6 +366,25 @@ export default ({ api }: { api: APIType }) => {
       console.log(e)
       const error = errorHandler(e)
       yield put(A.fetchFeesFailure(error))
+    }
+  }
+
+  const acceptOffer = function* (action: ReturnType<typeof A.acceptOffer>) {
+    try {
+      yield put(A.acceptOfferLoading())
+      const signer: Signer = yield call(getEthSigner)
+      const { buy, gasData, sell } = action.payload
+      const order = yield call(fulfillNftOrder, buy, sell, signer, gasData, true)
+      yield call(api.postNftOrder, order)
+      yield put(actions.modals.closeAllModals())
+      yield put(A.acceptOfferSuccess())
+      yield put(A.clearAndRefetchAssets())
+      yield put(actions.alerts.displaySuccess(`Successfully accepted offer!`))
+    } catch (e) {
+      const error = errorHandler(e)
+      yield put(A.acceptOfferFailure({ error }))
+      yield put(actions.logs.logErrorMessage(error))
+      yield put(actions.alerts.displayError(error))
     }
   }
 
@@ -625,6 +689,7 @@ export default ({ api }: { api: APIType }) => {
   }
 
   return {
+    acceptOffer,
     cancelListing,
     cancelOffer,
     clearAndRefetchAssets,
