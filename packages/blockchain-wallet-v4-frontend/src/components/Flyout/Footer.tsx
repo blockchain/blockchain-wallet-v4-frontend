@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import styled from 'styled-components'
 
 const Footer = styled.div<{ collapsed?: boolean }>`
@@ -12,13 +12,14 @@ const Footer = styled.div<{ collapsed?: boolean }>`
   }
 `
 
-const FlyoutFooter = (props: Props) => {
+const FlyoutFooter = memo((props: Props) => {
   return <Footer collapsed={props.collapsed}>{props.children}</Footer>
-}
+})
 
 export type Props = {
   children?: React.ReactNode
   collapsed?: boolean
 }
 
-export default React.memo(FlyoutFooter)
+export { FlyoutFooter }
+export default FlyoutFooter
