@@ -82,7 +82,7 @@
     "@ledgerhq/hw-transport-u2f": "4.32.0",
     "@reduxjs/toolkit": "1.6.0",
     "@storybook/addon-actions": "6.3.6",
-    "@storybook/react": "6.3.6",
+    "@storybook/react": "6.4.13",
     "@veriff/incontext-sdk": "0.3.0",
     "@visx/event": "1.7.0",
     "@visx/gradient": "1.7.0",
