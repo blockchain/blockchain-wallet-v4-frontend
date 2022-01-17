@@ -11,7 +11,6 @@ import { Row, Title, Value } from 'components/Flyout/model'
 import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'
 import { Props as OwnProps } from '..'
 import ActiveListingsCTA from './ActiveListings/cta'
-import ActiveListingsFees from './ActiveListings/fees'
 import ActiveOffersCTA from './ActiveOffers/cta'
 import BuyCTA from './BuyNow/cta'
 import BuyFees from './BuyNow/fees'
@@ -128,7 +127,6 @@ const ShowAsset: React.FC<Props> = (props) => {
               ) : /* User has 1 or more sell_orders, cancel them */
               val.sell_orders?.length ? (
                 <>
-                  <ActiveListingsFees {...props} asset={val} />
                   <ActiveListingsCTA {...props} asset={val} />
                 </>
               ) : /* No sell_orders, can mark for sale */

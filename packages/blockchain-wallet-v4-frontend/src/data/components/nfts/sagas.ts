@@ -258,7 +258,7 @@ export default ({ api }: { api: APIType }) => {
 
   const fetchFees = function* (action: ReturnType<typeof A.fetchFees>) {
     try {
-      // yield put(A.fetchFeesLoading())
+      yield put(A.fetchFeesLoading())
       const signer: Signer = yield call(getEthSigner)
       let fees: GasDataI
       if (action.payload.operation === GasCalculationOperations.Buy) {
@@ -290,7 +290,6 @@ export default ({ api }: { api: APIType }) => {
           undefined,
           event.asset.asset_contract.address,
           event.asset.token_id,
-          // TODO: rinkeby
           IS_TESTNET ? WETH_ADDRESS_RINKEBY : WETH_ADDRESS,
           0
         )

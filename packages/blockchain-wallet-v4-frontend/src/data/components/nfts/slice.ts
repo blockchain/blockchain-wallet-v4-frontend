@@ -340,6 +340,9 @@ const nftsSlice = createSlice({
       state.assets.isLoading = false
       state.assets.list = []
     },
+    resetNftFees: (state) => {
+      state.orderFlow.fees = Remote.NotAsked
+    },
     resetNftOffersMade: (state) => {
       state.offersMade.atBound = false
       state.offersMade.page = 0
