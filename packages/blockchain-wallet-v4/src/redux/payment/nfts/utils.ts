@@ -2297,10 +2297,10 @@ export async function createMatchingOrders(
     ...signature
   }
 
-  // const isSellValid = await _validateOrderWyvern({ order: sell, signer })
-  // if (!isSellValid) throw new Error('Sell order is invalid')
-  // const isBuyValid = await _validateOrderWyvern({ order: buy, signer })
-  // if (!isBuyValid) throw new Error('Buy order is invalid')
+  const isSellValid = await _validateOrderWyvern({ order: sell, signer })
+  if (!isSellValid) throw new Error('Sell order is invalid')
+  const isBuyValid = await _validateOrderWyvern({ order: buy, signer })
+  if (!isBuyValid) throw new Error('Buy order is invalid')
   return { buy, sell }
 }
 
