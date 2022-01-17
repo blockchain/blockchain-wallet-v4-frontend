@@ -2287,16 +2287,24 @@ export async function createMatchingOrders(
     offer,
     order,
     paymentTokenAddress,
-    recipientAddress: accountAddress
+    recipientAddress: order.side === NftOrderSide.Buy ? order.maker : accountAddress
   })
   // eslint-disable-next-line prefer-const
   let { buy, sell } = assignOrdersToSides(order, matchingOrder)
-  const signature = await _signMessage({ message: buy.hash, signer })
-  buy = {
-    ...buy,
-    ...signature
-  }
 
+  if (order.side === NftOrderSide.Sell) {
+    const signature = await _signMessage({ message: buy.hash, signer })
+    buy = {
+      ...buy,
+      ...signature
+    }
+  } else {
+    const signature = await _signMessage({ message: sell.hash, signer })
+    sell = {
+      ...sell,
+      ...signature
+    }
+  }
   const isSellValid = await _validateOrderWyvern({ order: sell, signer })
   if (!isSellValid) throw new Error('Sell order is invalid')
   const isBuyValid = await _validateOrderWyvern({ order: buy, signer })
