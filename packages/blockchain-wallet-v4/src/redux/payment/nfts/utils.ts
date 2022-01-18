@@ -23,7 +23,6 @@ import {
   WyvernNFTAsset,
   WyvernSchemaName
 } from '@core/network/api/nfts/types'
-import { assetFromJSON } from 'data/components/nfts/utils'
 
 import { ERC20_ABI, ERC721_ABI, ERC1155_ABI, proxyRegistry_ABI, wyvernExchange_ABI } from './abis'
 import { schemaMap } from './schemas'

@@ -94,7 +94,6 @@ const mapStateToProps = (state) => ({
   acceptOffer: selectors.components.nfts.getAcceptOffer(state),
   cancelListing: selectors.components.nfts.getCancelListing(state),
   defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse(''),
-  offerToAccept: selectors.components.nfts.getOfferToAccept(state),
   offersForAsset: selectors.components.nfts.getOffersForAsset(state),
   orderFlow: selectors.components.nfts.getOrderFlow(state),
   sellOrder: selectors.components.nfts.getSellOrder(state),

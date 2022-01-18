@@ -42,6 +42,7 @@ import { orderFromJSON } from './utils'
 
 export const logLocation = 'components/nfts/sagas'
 const taskToPromise = (t) => new Promise((resolve, reject) => t.fork(reject, resolve))
+const INSUFFICIENT_FUNDS = 'insufficient funds'
 
 export default ({ api }: { api: APIType }) => {
   const IS_TESTNET = api.ethProvider.network?.name === 'rinkeby'
@@ -145,23 +146,24 @@ export default ({ api }: { api: APIType }) => {
       const offers = S.getOffersForAsset(yield select())
       if (offers.atBound) return
       yield put(A.fetchNftOffersForAssetLoading())
-      const ethAddrR = selectors.core.kvStore.eth.getDefaultAddress(yield select())
-      const ethAddr = ethAddrR.getOrFail('No ETH address.')
-      const { asset_events }: ReturnType<typeof api.getNftOffersForAsset> = yield call(
-        api.getNftOffersForAsset,
-        ethAddr,
+      const activeOrders: ReturnType<typeof api.getNftOrders> = yield call(
+        api.getNftOrders,
+        undefined,
         action.payload.asset_contract_address,
         action.payload.token_id,
-        offers.page
+        IS_TESTNET ? WETH_ADDRESS_RINKEBY : WETH_ADDRESS,
+        0
       )
 
-      if (asset_events.length < NFT_ORDER_PAGE_LIMIT) {
+      // TODO: verify these are bids
+
+      if (activeOrders.orders.length < NFT_ORDER_PAGE_LIMIT) {
         yield put(A.setOffersForAssetBounds({ atBound: true }))
       } else {
         yield put(A.setOffersForAssetData({ page: offers.page + 1 }))
       }
 
-      yield put(A.fetchNftOffersForAssetSuccess(asset_events))
+      yield put(A.fetchNftOffersForAssetSuccess([...activeOrders.orders.map(orderFromJSON)]))
     } catch (e) {
       const error = errorHandler(e)
       yield put(A.fetchNftOffersForAssetFailure(error))
@@ -283,45 +285,38 @@ export default ({ api }: { api: APIType }) => {
         )
         yield put(A.fetchFeesSuccess(fees))
       } else if (action.payload.operation === GasCalculationOperations.Accept) {
-        // get active orders
-        const { event } = action.payload
-        const activeOrders: ReturnType<typeof api.getNftOrders> = yield call(
-          api.getNftOrders,
-          undefined,
-          event.asset.asset_contract.address,
-          event.asset.token_id,
-          IS_TESTNET ? WETH_ADDRESS_RINKEBY : WETH_ADDRESS,
-          0
-        )
-        // find the order with calldata that includes offer's from address
-        // and matches the amount of the offer
-        const order = activeOrders.orders.map(orderFromJSON).find((o) => {
-          const nonPrefixedEthAddr = event.from_account.address.replace(/^0x/, '').toLowerCase()
-          const bidAmount = event.bid_amount
-          return o.calldata.includes(nonPrefixedEthAddr) && o.basePrice.toString() === bidAmount
-        })
-        // TODO: failure?
-        if (!order) return
-        // make matching orders
-        const { buy, sell }: Await<ReturnType<typeof getNftBuyOrders>> = yield call(
-          getNftBuyOrders,
-          order,
-          signer,
-          order.expirationTime.toNumber(),
-          IS_TESTNET ? 'rinkeby' : 'mainnet'
-        )
-        // calculate atomic match fees
-        fees = yield call(
-          calculateGasFees,
-          GasCalculationOperations.Buy,
-          signer,
-          undefined,
-          buy,
-          sell
-        )
-        yield put(A.fetchFeesSuccess(fees))
-        // set the order on state
-        yield put(A.setOfferToAccept({ buy, sell }))
+        const { order } = action.payload
+        try {
+          if (!order) {
+            yield put(A.fetchFeesFailure('Could not find order to accept.'))
+            yield put(A.fetchOfferToAcceptFailure('Could not find order to accept.'))
+            return
+          }
+
+          // make matching orders
+          const { buy, sell }: Await<ReturnType<typeof getNftBuyOrders>> = yield call(
+            getNftBuyOrders,
+            order,
+            signer,
+            order.expirationTime.toNumber(),
+            IS_TESTNET ? 'rinkeby' : 'mainnet'
+          )
+          // calculate atomic match fees
+          fees = yield call(
+            calculateGasFees,
+            GasCalculationOperations.Buy,
+            signer,
+            undefined,
+            buy,
+            sell
+          )
+          yield put(A.fetchFeesSuccess(fees))
+          // set the order on state
+          yield put(A.fetchOfferToAcceptSuccess({ buy, sell }))
+        } catch (e) {
+          const error = errorHandler(e)
+          yield put(A.fetchOfferToAcceptFailure(error))
+        }
       } else if (action.payload.operation === GasCalculationOperations.Cancel) {
         fees = yield call(
           calculateGasFees,
@@ -380,7 +375,9 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.clearAndRefetchAssets())
       yield put(actions.alerts.displaySuccess(`Successfully accepted offer!`))
     } catch (e) {
-      const error = errorHandler(e)
+      let error = errorHandler(e)
+      if (error.includes(INSUFFICIENT_FUNDS))
+        error = 'You do not have enough funds to accept this offer.'
       yield put(A.acceptOfferFailure({ error }))
       yield put(actions.logs.logErrorMessage(error))
       yield put(actions.alerts.displayError(error))
@@ -427,7 +424,9 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.setActiveTab('offers'))
       yield put(actions.alerts.displaySuccess(`Successfully created offer!`))
     } catch (e) {
-      const error = errorHandler(e)
+      let error = errorHandler(e)
+      if (error.includes(INSUFFICIENT_FUNDS))
+        error = 'You do not have enough funds to create this offer.'
       yield put(A.createOfferFailure(error))
       yield put(actions.logs.logErrorMessage(error))
       yield put(actions.alerts.displayError(error))
@@ -458,7 +457,9 @@ export default ({ api }: { api: APIType }) => {
         )
       )
     } catch (e) {
-      const error = errorHandler(e)
+      let error = errorHandler(e)
+      if (error.includes(INSUFFICIENT_FUNDS))
+        error = 'You do not have enough funds to create this order.'
       yield put(A.createOrderFailure(error))
       yield put(actions.logs.logErrorMessage(error))
       yield put(actions.alerts.displayError(error))
@@ -483,7 +484,9 @@ export default ({ api }: { api: APIType }) => {
       yield put(actions.alerts.displaySuccess('Sell order created!'))
       yield put(A.createSellOrderSuccess(order))
     } catch (e) {
-      const error = errorHandler(e)
+      let error = errorHandler(e)
+      if (error.includes(INSUFFICIENT_FUNDS))
+        error = 'You do not have enough funds to sell this asset.'
       yield put(A.createSellOrderFailure(error))
       yield put(actions.logs.logErrorMessage(error))
       yield put(actions.alerts.displayError(error))
@@ -504,7 +507,9 @@ export default ({ api }: { api: APIType }) => {
       yield put(actions.alerts.displaySuccess('Transfer successful!'))
       yield put(A.createTransferSuccess(order))
     } catch (e) {
-      const error = errorHandler(e)
+      let error = errorHandler(e)
+      if (error.includes(INSUFFICIENT_FUNDS))
+        error = 'You do not have enough funds to transfer this asset.'
       yield put(A.createTransferFailure(error))
       yield put(actions.logs.logErrorMessage(error))
       yield put(actions.alerts.displayError(error))
@@ -521,7 +526,9 @@ export default ({ api }: { api: APIType }) => {
       yield put(actions.modals.closeAllModals())
       yield put(actions.alerts.displaySuccess(`Successfully cancelled listing!`))
     } catch (e) {
-      const error = errorHandler(e)
+      let error = errorHandler(e)
+      if (error.includes(INSUFFICIENT_FUNDS))
+        error = 'You do not have enough funds to cancel this listing.'
       yield put(actions.alerts.displayError(error))
       yield put(A.cancelListingFailure({ error }))
     }
@@ -540,7 +547,9 @@ export default ({ api }: { api: APIType }) => {
       yield put(actions.modals.closeAllModals())
       yield put(actions.alerts.displaySuccess(`Successfully cancelled offer!`))
     } catch (e) {
-      const error = errorHandler(e)
+      let error = errorHandler(e)
+      if (error.includes(INSUFFICIENT_FUNDS))
+        error = 'You do not have enough funds to cancel this offer.'
       yield put(actions.alerts.displayError(error))
       yield put(A.cancelOfferFailure({ error }))
     }

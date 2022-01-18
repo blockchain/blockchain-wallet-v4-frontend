@@ -1,23 +1,26 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
 
 import { Remote } from '@core'
 import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { Row, Title, Value } from 'components/Flyout/model'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
+import { RootState } from 'data/rootReducer'
 
 import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'
 import { Props as OwnProps } from '..'
 import AcceptOfferFees from './fees'
+import { getData } from './selectors'
 
 const AcceptOffer: React.FC<Props> = (props) => {
-  const { close, nftActions, orderFlow } = props
+  const { close, data, nftActions } = props
 
   const disabled = Remote.Loading.is(props.acceptOffer)
 
   return (
     <>
-      {orderFlow.asset.cata({
+      {data.cata({
         Failure: (e) => <Text>{e}</Text>,
         Loading: () => (
           <AssetDesc>
@@ -42,14 +45,14 @@ const AcceptOffer: React.FC<Props> = (props) => {
                 role='button'
                 style={{ position: 'absolute', right: '40px', top: '40px' }}
               />
-              <FullAssetImage cropped backgroundImage={val?.image_url.replace(/=s\d*/, '')} />
+              <FullAssetImage cropped backgroundImage={val.asset.image_url.replace(/=s\d*/, '')} />
             </div>
             <AssetDesc>
               <Text size='16px' color='grey900' weight={600}>
-                {val?.collection?.name}
+                {val.asset.collection?.name}
               </Text>
               <Text style={{ marginTop: '4px' }} size='20px' color='grey900' weight={600}>
-                {val?.name}
+                {val.asset.name}
               </Text>
             </AssetDesc>
             <Row>
@@ -57,7 +60,7 @@ const AcceptOffer: React.FC<Props> = (props) => {
                 <FormattedMessage id='copy.description' defaultMessage='Description' />
               </Title>
               <Value>
-                {val?.description || (
+                {val.asset.description || (
                   <FormattedMessage id='copy.none_found' defaultMessage='None found.' />
                 )}
               </Value>
@@ -93,12 +96,12 @@ const AcceptOffer: React.FC<Props> = (props) => {
                     data-e2e='acceptNftOffer'
                     disabled={disabled}
                     type='submit'
-                    // onClick={() =>
-                    //   nftActions.acceptOffer({
-                    //     gasData: fees
-
-                    //   })
-                    // }
+                    onClick={() =>
+                      nftActions.acceptOffer({
+                        gasData: fees,
+                        ...val.offerToAccept
+                      })
+                    }
                   >
                     <FormattedMessage id='copy.accept_offer' defaultMessage='Accept Offer' />
                   </Button>
@@ -112,6 +115,12 @@ const AcceptOffer: React.FC<Props> = (props) => {
   )
 }
 
-type Props = OwnProps
+const mapStateToProps = (state: RootState) => ({
+  data: getData(state)
+})
 
-export default AcceptOffer
+const connector = connect(mapStateToProps)
+
+type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(AcceptOffer)

@@ -1,36 +1,16 @@
 import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
-import BigNumber from 'bignumber.js'
 
 import { Remote } from '@core'
 import { displayCoinToCoin } from '@core/exchange'
 import { GasCalculationOperations, NftAsset } from '@core/network/api/nfts/types'
-import {
-  Button,
-  Table,
-  TableCell,
-  TableHeader,
-  TableRow,
-  Text,
-  Tooltip,
-  TooltipHost
-} from 'blockchain-info-components'
-import CoinDisplay from 'components/Display/CoinDisplay'
-import FiatDisplay from 'components/Display/FiatDisplay'
+import { Button, Table, TableCell, TableHeader, TableRow, Text } from 'blockchain-info-components'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 
 import { Props as OwnProps } from '../..'
 
 const CTA: React.FC<Props> = (props) => {
-  const { acceptOffer, nftActions, offerToAccept, offersForAsset, orderFlow } = props
-
-  const fees = orderFlow.fees.getOrElse({
-    approvalFees: 0,
-    gasFees: 0,
-    gasPrice: 0,
-    proxyFees: 0,
-    totalFees: 0
-  })
+  const { acceptOffer, nftActions, offersForAsset } = props
 
   useEffect(() => {
     nftActions.fetchNftOffersForAsset({
@@ -62,46 +42,42 @@ const CTA: React.FC<Props> = (props) => {
             </Text>
           </TableCell>
         </TableHeader>
-        {[...offersForAsset.list]
-          .sort((a, b) => {
-            return a.created_date < b.created_date ? 1 : -1
-          })
-          ?.map((offer) => {
-            return (
-              <>
-                <TableRow key={offer.created_date}>
-                  <TableCell>
-                    <Text size='14px' weight={600}>
-                      {displayCoinToCoin({
-                        coin: 'WETH',
-                        value: offer.bid_amount
-                      })}
-                    </Text>
-                  </TableCell>
-                  <TableCell>-</TableCell>
-                  <TableCell style={{ justifyContent: 'center' }}>
-                    <Button
-                      small
-                      disabled={Remote.Loading.is(acceptOffer)}
-                      onClick={() => {
-                        nftActions.fetchFees({
-                          event: offer,
-                          operation: GasCalculationOperations.Accept
-                        })
-                        nftActions.setOrderFlowStep({
-                          step: NftOrderStepEnum.ACCEPT_OFFER
-                        })
-                      }}
-                      nature='empty'
-                      data-e2e='acceptNftOffer'
-                    >
-                      <FormattedMessage id='button.accept' defaultMessage='Accept' />
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              </>
-            )
-          })}
+        {[...offersForAsset.list].map((offer) => {
+          return (
+            <>
+              <TableRow key={offer.createdTime?.toString()}>
+                <TableCell>
+                  <Text size='14px' weight={600}>
+                    {displayCoinToCoin({
+                      coin: 'WETH',
+                      value: offer.currentPrice?.toString() || 0
+                    })}
+                  </Text>
+                </TableCell>
+                <TableCell>-</TableCell>
+                <TableCell style={{ justifyContent: 'center' }}>
+                  <Button
+                    small
+                    disabled={Remote.Loading.is(acceptOffer)}
+                    onClick={() => {
+                      nftActions.fetchFees({
+                        operation: GasCalculationOperations.Accept,
+                        order: offer
+                      })
+                      nftActions.setOrderFlowStep({
+                        step: NftOrderStepEnum.ACCEPT_OFFER
+                      })
+                    }}
+                    nature='empty'
+                    data-e2e='acceptNftOffer'
+                  >
+                    <FormattedMessage id='button.accept' defaultMessage='Accept' />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            </>
+          )
+        })}
       </Table>
     </>
   ) : null

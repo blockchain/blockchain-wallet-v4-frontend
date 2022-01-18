@@ -45,12 +45,11 @@ export type NftsStateType = {
     page: number
     token_ids_queried: string[]
   }
-  offerToAccept: { buy: Order; sell: Order } | null
   offersForAsset: {
     atBound?: boolean
     isFailure: boolean
     isLoading: boolean
-    list: OfferEventsType['asset_events']
+    list: Order[]
     page: number
   }
   offersMade: {
@@ -65,6 +64,7 @@ export type NftsStateType = {
     activeOrder: NftOrdersType['orders'][0] | null
     asset: RemoteDataType<string, NftAsset>
     fees: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>
+    offerToAccept: RemoteDataType<string, { buy: Order; sell: Order }>
     order: RemoteDataType<string, Order>
     step: NftOrderStepEnum
   }

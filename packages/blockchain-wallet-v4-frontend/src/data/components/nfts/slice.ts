@@ -43,7 +43,6 @@ const initialState: NftsStateType = {
     page: 0,
     token_ids_queried: []
   },
-  offerToAccept: null,
   offersForAsset: {
     atBound: false,
     isFailure: false,
@@ -63,6 +62,7 @@ const initialState: NftsStateType = {
     activeOrder: null,
     asset: Remote.NotAsked,
     fees: Remote.NotAsked,
+    offerToAccept: Remote.NotAsked,
     order: Remote.NotAsked,
     step: NftOrderStepEnum.SHOW_ASSET
   },
@@ -189,8 +189,8 @@ const nftsSlice = createSlice({
       state,
       action: PayloadAction<
         | {
-            event: OfferEventsType['asset_events'][0]
             operation: GasCalculationOperations.Accept
+            order: NftOrdersType['orders'][0]
           }
         | {
             offer?: string
@@ -267,13 +267,10 @@ const nftsSlice = createSlice({
     fetchNftOffersForAssetLoading: (state) => {
       state.offersForAsset.isLoading = true
     },
-    fetchNftOffersForAssetSuccess: (
-      state,
-      action: PayloadAction<OfferEventsType['asset_events']>
-    ) => {
+    fetchNftOffersForAssetSuccess: (state, action: PayloadAction<Order[]>) => {
       state.offersForAsset.isFailure = false
       state.offersForAsset.isLoading = false
-      state.offersForAsset.list = [...state.offersMade.list, ...action.payload]
+      state.offersForAsset.list = [...state.offersForAsset.list, ...action.payload]
     },
     fetchNftOffersMade: () => {},
     fetchNftOffersMadeFailure: (state, action: PayloadAction<string>) => {
@@ -309,6 +306,16 @@ const nftsSlice = createSlice({
       state.marketplace.isFailure = false
       state.marketplace.isLoading = false
       state.marketplace.list = [...state.marketplace.list, ...action.payload]
+    },
+    fetchOfferToAccept: (state) => {},
+    fetchOfferToAcceptFailure: (state, action: PayloadAction<string>) => {
+      state.orderFlow.offerToAccept = Remote.Failure(action.payload)
+    },
+    fetchOfferToAcceptLoading: (state) => {
+      state.orderFlow.offerToAccept = Remote.Loading
+    },
+    fetchOfferToAcceptSuccess: (state, action: PayloadAction<{ buy: Order; sell: Order }>) => {
+      state.orderFlow.offerToAccept = Remote.Success(action.payload)
     },
     nftOrderFlowClose: (state) => {
       state.orderFlow.activeOrder = null
@@ -400,9 +407,6 @@ const nftsSlice = createSlice({
       if (action.payload.collection) state.marketplace.collection = action.payload.collection
       if (action.payload.token_ids_queried)
         state.marketplace.token_ids_queried = action.payload.token_ids_queried
-    },
-    setOfferToAccept: (state, action: PayloadAction<{ buy: Order; sell: Order }>) => {
-      state.offerToAccept = action.payload
     },
     setOffersForAssetBounds: (state, action: PayloadAction<{ atBound: boolean }>) => {
       state.offersForAsset.atBound = action.payload.atBound
