@@ -230,7 +230,7 @@ export default ({ api }: { api: APIType }) => {
       const signer: Signer = yield call(getEthSigner)
       let fees: GasDataI
       // TODO: DONT DEFAULT TO 1 WEEK
-      const expirationTime = moment().add(7, 'day').unix()
+      const expirationTime = moment().add(14, 'day').unix()
       if (action.payload.operation === GasCalculationOperations.Buy) {
         const { buy, sell }: Await<ReturnType<typeof getNftBuyOrders>> = yield call(
           getNftBuyOrders,
@@ -266,7 +266,9 @@ export default ({ api }: { api: APIType }) => {
           expirationTime,
           action.payload.startPrice,
           action.payload.endPrice,
-          IS_TESTNET ? 'rinkeby' : 'mainnet'
+          IS_TESTNET ? 'rinkeby' : 'mainnet',
+          action.payload.waitForHighestBid,
+          action.payload.paymentTokenAddress
         )
         fees = yield call(
           calculateGasFees,
@@ -379,7 +381,7 @@ export default ({ api }: { api: APIType }) => {
   const createSellOrder = function* (action: ReturnType<typeof A.createSellOrder>) {
     try {
       // TODO: DONT DEFAULT TO 1 WEEK
-      const expirationTime = moment().add(7, 'day').unix()
+      const expirationTime = moment().add(14, 'day').unix()
       yield put(A.createSellOrderLoading())
       const signer = yield call(getEthSigner)
       const signedOrder: Await<ReturnType<typeof getNftSellOrder>> = yield call(
@@ -389,7 +391,9 @@ export default ({ api }: { api: APIType }) => {
         expirationTime,
         action.payload.startPrice,
         action.payload.endPrice,
-        IS_TESTNET ? 'rinkeby' : 'mainnet'
+        IS_TESTNET ? 'rinkeby' : 'mainnet',
+        action.payload.waitForHighestBid,
+        action.payload.paymentTokenAddress
       )
       const order = yield call(fulfillNftSellOrder, signedOrder, signer, action.payload.gasData)
       yield call(api.postNftOrder, order)

@@ -136,7 +136,9 @@ const nftsSlice = createSlice({
         asset: NftAssetsType[0]
         endPrice: number | null
         gasData: GasDataI
+        paymentTokenAddress: string | undefined
         startPrice: number
+        waitForHighestBid: boolean | undefined
       }>
     ) => {},
     createSellOrderFailure: (state, action: PayloadAction<string>) => {
@@ -178,7 +180,9 @@ const nftsSlice = createSlice({
             asset: NftAsset
             endPrice?: number
             operation: GasCalculationOperations.Sell
+            paymentTokenAddress?: string
             startPrice: number
+            waitForHighestBid?: boolean
           }
         | {
             asset: NftAsset

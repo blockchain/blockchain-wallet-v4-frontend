@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import BN from 'bn.js'
 import { ethers, Signer } from 'ethers'
+import moment from 'moment'
 
 import {
   Asset,
@@ -1095,7 +1096,8 @@ export async function _makeSellOrder({
     waitForHighestBid,
     englishAuctionReservePrice
   )
-  const times = _getTimeParameters(expirationTime, Math.round(Date.now() / 1000))
+  // TODO: DONT DEFAULT TO 1 WEEK
+  const times = _getTimeParameters(expirationTime, moment().add(7, 'day').unix())
   const {
     feeMethod,
     feeRecipient,
@@ -2167,10 +2169,6 @@ export async function _makeBuyOrder({
   )
   const times = _getTimeParameters(expirationTime)
 
-  // const { staticExtradata, staticTarget } = await _getStaticCallTargetAndExtraData({
-  //   asset: openSeaAsset,
-  //   useTxnOriginStaticCall: false
-  // })
   const staticExtradata = '0x'
   const staticTarget = NULL_ADDRESS
 

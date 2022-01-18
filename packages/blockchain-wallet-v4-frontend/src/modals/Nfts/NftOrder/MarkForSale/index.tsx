@@ -1,33 +1,49 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import { map } from 'ramda'
 import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
+import styled from 'styled-components'
 
 import { Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
 import { GasCalculationOperations } from '@core/network/api/nfts/types'
 import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
-import { ErrorCartridge } from 'components/Cartridge'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Row, Title, Value } from 'components/Flyout/model'
-import { Form, NumberBox } from 'components/Form'
+import { Form, NumberBox, SelectBox } from 'components/Form'
 import TabMenuNftSaleType from 'components/Form/TabMenuNftSaleType'
 import { selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
+import { media } from 'services/styles'
 
 import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'
 import { Props as OwnProps } from '..'
 import SellFees from '../ShowAsset/Sell/fees'
 
+const FormWrapper = styled.div`
+  gap: 8px;
+  max-height: 500px;
+  ${media.tabletL`
+    max-height: 170px;
+  `}
+`
 const MarkForSale: React.FC<Props> = (props) => {
   const { close, formValues, nftActions, orderFlow } = props
-  const coin = 'ETH'
+  const coin = formValues.timedAuctionType === 'highestBidder' ? 'WETH' : 'ETH'
 
   const disabled =
     formValues['sale-type'] === 'fixed-price'
       ? !formValues.amount || Remote.Loading.is(props.sellOrder)
       : !formValues.starting || !formValues.ending || Remote.Loading.is(props.sellOrder)
+
+  const resetForms = () => {
+    formValues.amount = ''
+    formValues.starting = ''
+    formValues.ending = ''
+    formValues.timedAuctionType = 'decliningPrice'
+  }
 
   return (
     <>
@@ -87,11 +103,8 @@ const MarkForSale: React.FC<Props> = (props) => {
                   <div style={{ display: 'inline-block' }}>
                     <Field
                       name='sale-type'
-                      onChange={() => {
-                        formValues.amount = ''
-                        formValues.starting = ''
-                        formValues.ending = ''
-                      }}
+                      // reset values to default on toggle
+                      onChange={resetForms}
                       component={TabMenuNftSaleType}
                     />
                   </div>
@@ -149,14 +162,39 @@ const MarkForSale: React.FC<Props> = (props) => {
                   </Row>
                 </>
               ) : (
-                // Dutch Auction
+                // Time Based Auction
                 <>
                   <Row>
+                    <Title>
+                      <b>
+                        <FormattedMessage id='copy.starting' defaultMessage='Method' />
+                      </b>
+                    </Title>
                     <Value>
-                      <FormattedMessage
-                        id='copy.starting'
-                        defaultMessage='Sell with declining price'
-                      />
+                      <FormWrapper>
+                        <div style={{ marginBottom: '8px' }}>
+                          <Field
+                            name='timedAuctionType'
+                            component={SelectBox}
+                            onChange={resetForms}
+                            elements={[
+                              {
+                                group: '',
+                                items: map(
+                                  (item) => ({
+                                    text: item.text,
+                                    value: item.value
+                                  }),
+                                  [
+                                    { text: 'Sell with declining price', value: 'decliningPrice' },
+                                    { text: 'Sell to highest bidder', value: 'highestBidder' }
+                                  ]
+                                )
+                              }
+                            ]}
+                          />
+                        </div>
+                      </FormWrapper>
                     </Value>
                   </Row>
                   <Row>
@@ -178,36 +216,39 @@ const MarkForSale: React.FC<Props> = (props) => {
                       </FiatDisplay>
                     </Value>
                   </Row>
-                  <Row>
-                    <Title>
-                      <b>
-                        <FormattedMessage id='copy.ending' defaultMessage='Ending Price' />
-                      </b>
-                    </Title>
-                    <Value>
-                      <Field
-                        name='ending'
-                        component={NumberBox}
-                        onChange={(e) => {
-                          nftActions.fetchFees({
-                            asset: val,
-                            endPrice: e.target.value,
-                            operation: GasCalculationOperations.Sell,
-                            startPrice: Number(formValues.starting)
-                          })
-                        }}
-                      />
-                    </Value>
-                    <Value>
-                      <FiatDisplay size='12px' weight={600} coin={coin}>
-                        {convertCoinToCoin({
-                          baseToStandard: false,
-                          coin,
-                          value: formValues.ending
-                        }) || 0}
-                      </FiatDisplay>
-                    </Value>
-                  </Row>
+                  {formValues.timedAuctionType === 'decliningPrice' && (
+                    <Row>
+                      <Title>
+                        <b>
+                          <FormattedMessage id='copy.ending' defaultMessage='Ending Price' />
+                        </b>
+                      </Title>
+                      <Value>
+                        <Field
+                          name='ending'
+                          component={NumberBox}
+                          onChange={() => {
+                            nftActions.fetchFees({
+                              asset: val,
+                              endPrice: undefined,
+                              operation: GasCalculationOperations.Sell,
+                              paymentTokenAddress: window.coins.WETH.coinfig.type.erc20Address,
+                              startPrice: Number(formValues.starting)
+                            })
+                          }}
+                        />
+                      </Value>
+                      <Value>
+                        <FiatDisplay size='12px' weight={600} coin={coin}>
+                          {convertCoinToCoin({
+                            baseToStandard: false,
+                            coin,
+                            value: formValues.ending
+                          }) || 0}
+                        </FiatDisplay>
+                      </Value>
+                    </Row>
+                  )}
                   <Row>
                     <Value asTitle>
                       <FormattedMessage id='copy.service_fees' defaultMessage='Service Fees' />
@@ -257,14 +298,33 @@ const MarkForSale: React.FC<Props> = (props) => {
                           asset: val,
                           endPrice: null,
                           gasData: fees,
-                          startPrice: Number(formValues.amount)
+                          paymentTokenAddress: undefined,
+                          startPrice: Number(formValues.amount),
+                          waitForHighestBid: false
                         })
-                      } else {
+                        // English Auction
+                      } else if (
+                        formValues['sale-type'] === 'fixed-price' &&
+                        formValues.timedAuctionType === 'highestBidder'
+                      ) {
+                        nftActions.createSellOrder({
+                          asset: val,
+                          endPrice: null,
+                          gasData: fees,
+                          paymentTokenAddress: window.coins.WETH.coinfig.type.erc20Address,
+                          startPrice: Number(formValues.starting),
+                          waitForHighestBid: true
+                        })
+                      }
+                      // Dutch Auction
+                      else {
                         nftActions.createSellOrder({
                           asset: val,
                           endPrice: Number(formValues.ending),
                           gasData: fees,
-                          startPrice: Number(formValues.starting)
+                          paymentTokenAddress: undefined,
+                          startPrice: Number(formValues.starting),
+                          waitForHighestBid: false
                         })
                       }
                     }}
@@ -298,6 +358,7 @@ const mapStateToProps = (state) => ({
     amount: string
     ending: string
     starting: string
+    timedAuctionType: string
   }
 })
 
@@ -306,7 +367,7 @@ const connector = connect(mapStateToProps)
 const enhance = compose(
   reduxForm<{}, OwnProps>({
     form: 'nftMarkForSale',
-    initialValues: { 'sale-type': 'fixed-price' }
+    initialValues: { 'sale-type': 'fixed-price', timedAuctionType: 'decliningPrice' }
   }),
   connector
 )
