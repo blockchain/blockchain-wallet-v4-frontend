@@ -74,7 +74,7 @@
   "dependencies": {
     "@babel/polyfill": "7.12.1",
     "@blockchain-com/components": "6.1.1",
-    "@blockchain-com/constellation": "^0.0.25",
+    "@blockchain-com/constellation": "0.0.26",
     "@formatjs/intl-relativetimeformat": "7.2.10",
     "@ledgerhq/hw-app-btc": "4.33.7",
     "@ledgerhq/hw-app-eth": "4.32.0",
@@ -157,7 +157,7 @@
     "rxjs": "6.6.7",
     "sanitize-html": "2.3.3",
     "slick-carousel": "1.8.1",
-    "styled-components": "5.3.3",
+    "styled-components": "4.4.1",
     "uuid": "8.3.2",
     "zxcvbn": "4.4.2"
   },
