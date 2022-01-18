@@ -151,9 +151,9 @@ export const BackArrowFormHeader = (props: {
           {!props.hideBackArrow && (
             <Icon
               data-e2e='signupBack'
-              name='arrow-left'
+              name='arrow-back'
               size='24px'
-              color='grey400'
+              color='blue600'
               style={{ marginRight: '8px' }}
               role='button'
             />

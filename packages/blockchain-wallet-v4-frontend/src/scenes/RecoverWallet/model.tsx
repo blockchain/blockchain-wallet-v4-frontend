@@ -124,7 +124,7 @@ export const GoBackArrow = (props: { handleBackArrowClick: () => void }) => {
       <Icon
         cursor
         data-e2e='recoverBack'
-        name='arrow-left'
+        name='arrow-back'
         size='24px'
         color='blue600'
         role='button'
@@ -149,9 +149,9 @@ export const BackArrowFormHeader = (props: {
         <Icon
           cursor
           data-e2e='signupBack'
-          name='arrow-left'
+          name='arrow-back'
           size='24px'
-          color='grey600'
+          color='blue600'
           style={{ marginRight: '8px' }}
           role='button'
           onClick={() => props.handleBackArrowClick()}

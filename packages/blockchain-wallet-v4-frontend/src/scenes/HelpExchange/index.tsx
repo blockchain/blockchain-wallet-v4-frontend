@@ -116,7 +116,7 @@ class Help extends React.PureComponent<Props, State> {
             <BackArrow>
               <Icon
                 data-e2e='signupBack'
-                name='arrow-left'
+                name='arrow-back'
                 size='28px'
                 color='blue600'
                 style={{ marginRight: '4px' }}
