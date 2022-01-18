@@ -101,7 +101,10 @@ const Success: React.FC<Props> = (props) => {
               }}
             />
             <div>
-              <FormattedMessage id='modals.simplebuy.linkbank' defaultMessage='Link a Bank' />
+              <FormattedMessage
+                id='modals.simplebuy.easybanktransfer'
+                defaultMessage='Easy Bank Transfer'
+              />
             </div>
           </BackContainer>
 
@@ -134,7 +137,7 @@ const Success: React.FC<Props> = (props) => {
               ) : (
                 <FormattedMessage
                   id='modals.simplebuy.deposit.bank_transfer'
-                  defaultMessage='Bank Transfer'
+                  defaultMessage='Regular Bank Transfer'
                 />
               )}
             </TopText>

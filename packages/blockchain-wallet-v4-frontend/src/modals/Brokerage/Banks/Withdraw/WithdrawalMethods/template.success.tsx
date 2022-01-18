@@ -73,9 +73,21 @@ const getType = (value: BSPaymentMethodType) => {
     case BSPaymentTypes.BANK_TRANSFER:
     case BSPaymentTypes.LINK_BANK:
     default:
-      return <FormattedMessage id='modals.simplebuy.banklink' defaultMessage='Link a Bank' />
+      return (
+        <FormattedMessage
+          id='modals.simplebuy.easybanktransfer'
+          defaultMessage='Easy Bank Transfer'
+        />
+      )
     case BSPaymentTypes.BANK_ACCOUNT:
-      return <FormattedMessage id='modals.simplebuy.bankwire' defaultMessage='Wire Transfer' />
+      return value.currency === 'USD' ? (
+        <FormattedMessage id='modals.simplebuy.bankwire' defaultMessage='Wire Transfer' />
+      ) : (
+        <FormattedMessage
+          id='modals.simplebuy.deposit.bank_transfer'
+          defaultMessage='Regular Bank Transfer'
+        />
+      )
   }
 }
 
