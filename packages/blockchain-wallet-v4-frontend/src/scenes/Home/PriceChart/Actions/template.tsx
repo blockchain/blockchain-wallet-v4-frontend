@@ -24,7 +24,7 @@ const BuyTradeButton = styled(Button)`
   }
 `
 
-const Actions = ({ buySellActions, coinName, cryptoCurrency, swapActions }: Props) => {
+const Actions = ({ buySellActions, coinName, swapActions }: Props) => {
   return (
     <Wrapper>
       <BuyTradeButton
