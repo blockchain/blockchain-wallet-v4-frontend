@@ -115,7 +115,13 @@ const MarkForSale: React.FC<Props> = (props) => {
                   <Row>
                     <Title>
                       <b>
-                        <FormattedMessage id='copy.amount' defaultMessage='Amount' />
+                        <FormattedMessage
+                          id='copy.amount'
+                          defaultMessage='Amount ({val})'
+                          values={{
+                            val: `${coin}`
+                          }}
+                        />
                       </b>
                     </Title>
                     <Value>
@@ -200,7 +206,13 @@ const MarkForSale: React.FC<Props> = (props) => {
                   <Row>
                     <Title>
                       <b>
-                        <FormattedMessage id='copy.starting' defaultMessage='Starting Price' />
+                        <FormattedMessage
+                          id='copy.starting'
+                          defaultMessage='Starting Price ({val})'
+                          values={{
+                            val: `${coin}`
+                          }}
+                        />
                       </b>
                     </Title>
                     <Value>
@@ -220,7 +232,13 @@ const MarkForSale: React.FC<Props> = (props) => {
                     <Row>
                       <Title>
                         <b>
-                          <FormattedMessage id='copy.ending' defaultMessage='Ending Price' />
+                          <FormattedMessage
+                            id='copy.ending'
+                            defaultMessage='Ending Price ({val})'
+                            values={{
+                              val: `${coin}`
+                            }}
+                          />
                         </b>
                       </Title>
                       <Value>
