@@ -111,6 +111,7 @@ export type BSPairType = {
 }
 
 export enum BSPaymentTypes {
+  APPLE_PAY = 'APPLE_PAY',
   BANK_ACCOUNT = 'BANK_ACCOUNT',
   BANK_TRANSFER = 'BANK_TRANSFER',
   FUNDS = 'FUNDS',

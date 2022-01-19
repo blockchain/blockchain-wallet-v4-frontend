@@ -1,4 +1,4 @@
-import React, { PureComponent, ReactElement } from 'react'
+import React, { ReactElement } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Form, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
@@ -49,8 +49,8 @@ const IconContainer = styled.div`
 
 export type Props = OwnProps & SuccessStateType
 
-class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
-  getType = (value: BSPaymentMethodType) => {
+const Methods = (props: InjectedFormProps<{}, Props> & Props) => {
+  const getType = (value: BSPaymentMethodType) => {
     switch (value.type) {
       case BSPaymentTypes.BANK_TRANSFER:
       case BSPaymentTypes.LINK_BANK:
@@ -95,11 +95,11 @@ class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     }
   }
 
-  handleSubmit = (method: BSPaymentMethodType) => {
-    this.props.buySellActions.handleMethodChange({ isFlow: true, method })
+  const handleSubmit = (method: BSPaymentMethodType) => {
+    props.buySellActions.handleMethodChange({ isFlow: true, method })
   }
 
-  getIcon = (value: BSPaymentMethodType): ReactElement => {
+  const getIcon = (value: BSPaymentMethodType): ReactElement => {
     switch (value.type) {
       case BSPaymentTypes.BANK_TRANSFER:
       case BSPaymentTypes.LINK_BANK:
@@ -137,140 +137,135 @@ class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     }
   }
 
-  render() {
-    const { fiatCurrency, orderType } = this.props
-    const availableCards = this.props.cards.filter(
-      (card) => card.state === 'ACTIVE' && orderType === OrderType.BUY
-    )
+  const { fiatCurrency, orderType } = props
 
-    const defaultMethods = this.props.paymentMethods.methods.map((value) => ({
-      text: this.getType(value),
-      value
-    }))
+  const availableCards = props.cards.filter(
+    (card) => card.state === 'ACTIVE' && orderType === OrderType.BUY
+  )
 
-    const defaultCardMethod = this.props.paymentMethods.methods.find(
-      (m) => m.type === BSPaymentTypes.PAYMENT_CARD && orderType === OrderType.BUY
-    )
+  const defaultMethods = props.paymentMethods.methods.map((value) => ({
+    text: getType(value),
+    value
+  }))
 
-    const funds = defaultMethods.filter(
-      (method) =>
-        method.value.type === BSPaymentTypes.FUNDS &&
-        method.value.currency in WalletFiatEnum &&
-        (orderType === OrderType.SELL ||
-          Number(this.props.balances[method.value.currency as WalletCurrencyType]?.available) > 0)
-    )
+  const defaultCardMethod = props.paymentMethods.methods.find(
+    (m) => m.type === BSPaymentTypes.PAYMENT_CARD && orderType === OrderType.BUY
+  )
 
-    const paymentCard = defaultMethods.find(
-      (method) => method.value.type === BSPaymentTypes.PAYMENT_CARD && orderType === OrderType.BUY
-    )
-    const bankAccount = defaultMethods.find(
-      (method) => method.value.type === BSPaymentTypes.BANK_ACCOUNT && orderType === OrderType.BUY
-    )
-    const bankTransfer = defaultMethods.find(
-      (method) => method.value.type === BSPaymentTypes.BANK_TRANSFER && orderType === OrderType.BUY
-    )
+  const funds = defaultMethods.filter(
+    (method) =>
+      method.value.type === BSPaymentTypes.FUNDS &&
+      method.value.currency in WalletFiatEnum &&
+      (orderType === OrderType.SELL ||
+        Number(props.balances[method.value.currency as WalletCurrencyType]?.available) > 0)
+  )
 
-    const cardMethods = availableCards.map((card) => ({
-      text: card.card
-        ? card.card.label
-          ? card.card.label
-          : card.card.type
-        : 'Credit or Debit Card',
-      value: {
-        ...card,
-        card: card.card,
-        currency: card.currency,
-        limits:
-          defaultCardMethod && defaultCardMethod.limits
-            ? defaultCardMethod.limits
-            : { max: '500000', min: '1000' },
-        type: BSPaymentTypes.USER_CARD
-      } as BSPaymentMethodType
-    }))
+  const paymentCard = defaultMethods.find(
+    (method) => method.value.type === BSPaymentTypes.PAYMENT_CARD && orderType === OrderType.BUY
+  )
+  const bankAccount = defaultMethods.find(
+    (method) => method.value.type === BSPaymentTypes.BANK_ACCOUNT && orderType === OrderType.BUY
+  )
+  const bankTransfer = defaultMethods.find(
+    (method) => method.value.type === BSPaymentTypes.BANK_TRANSFER && orderType === OrderType.BUY
+  )
 
-    const availableMethods =
-      funds.length || cardMethods.length || paymentCard !== undefined || bankAccount !== undefined
+  const cardMethods = availableCards.map((card) => ({
+    text: card.card ? (card.card.label ? card.card.label : card.card.type) : 'Credit or Debit Card',
+    value: {
+      ...card,
+      card: card.card,
+      currency: card.currency,
+      limits:
+        defaultCardMethod && defaultCardMethod.limits
+          ? defaultCardMethod.limits
+          : { max: '500000', min: '1000' },
+      type: BSPaymentTypes.USER_CARD
+    } as BSPaymentMethodType
+  }))
 
-    return (
-      <Wrapper>
-        <Form>
-          <FlyoutWrapper>
-            <TopText color='grey800' size='20px' weight={600}>
-              <Icon
-                cursor
-                name='arrow-back'
-                size='20px'
-                color='grey600'
-                style={{ marginRight: '28px' }}
-                role='button'
-                onClick={() =>
-                  this.props.buySellActions.setStep({
-                    cryptoCurrency: getCoinFromPair(this.props.pair.pair),
-                    fiatCurrency: getFiatFromPair(this.props.pair.pair),
-                    orderType: this.props.orderType,
-                    pair: this.props.pair,
-                    step: 'ENTER_AMOUNT'
-                  })
-                }
+  const availableMethods =
+    funds.length || cardMethods.length || paymentCard !== undefined || bankAccount !== undefined
+
+  return (
+    <Wrapper>
+      <Form>
+        <FlyoutWrapper>
+          <TopText color='grey800' size='20px' weight={600}>
+            <Icon
+              cursor
+              name='arrow-back'
+              size='20px'
+              color='grey600'
+              style={{ marginRight: '28px' }}
+              role='button'
+              onClick={() =>
+                props.buySellActions.setStep({
+                  cryptoCurrency: getCoinFromPair(props.pair.pair),
+                  fiatCurrency: getFiatFromPair(props.pair.pair),
+                  orderType: props.orderType,
+                  pair: props.pair,
+                  step: 'ENTER_AMOUNT'
+                })
+              }
+            />
+            <div>
+              <FormattedMessage
+                id='modals.simplebuy.paymentmethods'
+                defaultMessage='Payment Methods'
               />
-              <div>
+            </div>
+          </TopText>
+        </FlyoutWrapper>
+        <PaymentsWrapper>
+          {!availableMethods && (
+            <NoMethods>
+              <Image
+                height='60px'
+                name='world-alert'
+                srcset={{ 'world-alert2': '2x', 'world-alert3': '3x' }}
+              />
+              <Text size='16px' weight={500} style={{ marginTop: '8px' }}>
                 <FormattedMessage
-                  id='modals.simplebuy.paymentmethods'
-                  defaultMessage='Payment Methods'
+                  id='copy.no_payment_methods'
+                  defaultMessage='No payment methods available.'
                 />
-              </div>
-            </TopText>
-          </FlyoutWrapper>
-          <PaymentsWrapper>
-            {!availableMethods && (
-              <NoMethods>
-                <Image
-                  height='60px'
-                  name='world-alert'
-                  srcset={{ 'world-alert2': '2x', 'world-alert3': '3x' }}
-                />
-                <Text size='16px' weight={500} style={{ marginTop: '8px' }}>
-                  <FormattedMessage
-                    id='copy.no_payment_methods'
-                    defaultMessage='No payment methods available.'
-                  />
-                </Text>
-              </NoMethods>
-            )}
-            {paymentCard && (
-              <PaymentCard
-                {...paymentCard}
-                icon={this.getIcon(paymentCard.value)}
-                onClick={() => this.handleSubmit(paymentCard.value)}
+              </Text>
+            </NoMethods>
+          )}
+          {paymentCard && (
+            <PaymentCard
+              {...paymentCard}
+              icon={getIcon(paymentCard.value)}
+              onClick={() => handleSubmit(paymentCard.value)}
+            />
+          )}
+          {bankTransfer && (
+            <LinkBank
+              {...bankTransfer}
+              // @ts-ignore
+              icon={getIcon({ type: BSPaymentTypes.BANK_TRANSFER })}
+              onClick={() =>
+                handleSubmit({
+                  ...bankTransfer.value,
+                  type: BSPaymentTypes.LINK_BANK
+                })
+              }
+            />
+          )}
+          {bankAccount && fiatCurrency && (
+            <>
+              <BankWire
+                {...bankAccount}
+                icon={getIcon(bankAccount.value)}
+                onClick={() => handleSubmit(bankAccount.value)}
               />
-            )}
-            {bankTransfer && (
-              <LinkBank
-                {...bankTransfer}
-                // @ts-ignore
-                icon={this.getIcon({ type: BSPaymentTypes.BANK_TRANSFER })}
-                onClick={() =>
-                  this.handleSubmit({
-                    ...bankTransfer.value,
-                    type: BSPaymentTypes.LINK_BANK
-                  })
-                }
-              />
-            )}
-            {bankAccount && fiatCurrency && (
-              <>
-                <BankWire
-                  {...bankAccount}
-                  icon={this.getIcon(bankAccount.value)}
-                  onClick={() => this.handleSubmit(bankAccount.value)}
-                />
-              </>
-            )}
-          </PaymentsWrapper>
-        </Form>
-      </Wrapper>
-    )
-  }
+            </>
+          )}
+        </PaymentsWrapper>
+      </Form>
+    </Wrapper>
+  )
 }
 
 export default reduxForm<{}, Props>({
