@@ -12,10 +12,11 @@ import { GasCalculationOperations } from '@core/network/api/nfts/types'
 import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Row, Title, Value } from 'components/Flyout/model'
-import { Form, NumberBox, SelectBox } from 'components/Form'
+import { DateBoxDebounced, Form, NumberBox, SelectBox } from 'components/Form'
 import TabMenuNftSaleType from 'components/Form/TabMenuNftSaleType'
 import { selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
+import { required } from 'services/forms'
 import { media } from 'services/styles'
 
 import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'
@@ -28,6 +29,23 @@ const FormWrapper = styled.div`
   ${media.tabletL`
     max-height: 170px;
   `}
+`
+
+const DateSelectRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+`
+const DateDivider = styled.div`
+  min-width: 18px;
+`
+const DateLabel = styled(Text)`
+  margin-bottom: 6px;
+`
+const EndDateLabel = styled(DateLabel)`
+  margin-right: 140px;
 `
 const MarkForSale: React.FC<Props> = (props) => {
   const { close, formValues, nftActions, orderFlow } = props
@@ -147,25 +165,6 @@ const MarkForSale: React.FC<Props> = (props) => {
                       </FiatDisplay>
                     </Value>
                   </Row>
-                  <Row>
-                    <Value asTitle>
-                      <FormattedMessage id='copy.service_fees' defaultMessage='Service Fees' />
-                    </Value>
-                    <Title asValue>
-                      <FormattedMessage
-                        id='copy.opensea_service_fee'
-                        defaultMessage='OpenSea Service Fee'
-                      />{' '}
-                      {val.asset_contract.opensea_seller_fee_basis_points / 100}%
-                    </Title>
-                    <Title asValue>
-                      <FormattedMessage
-                        id='copy.creator_royalty'
-                        defaultMessage='Creator Royalty'
-                      />{' '}
-                      {Number(val.collection.dev_seller_fee_basis_points) / 100}%
-                    </Title>
-                  </Row>
                 </>
               ) : (
                 // Time Based Auction
@@ -267,27 +266,59 @@ const MarkForSale: React.FC<Props> = (props) => {
                       </Value>
                     </Row>
                   )}
-                  <Row>
-                    <Value asTitle>
-                      <FormattedMessage id='copy.service_fees' defaultMessage='Service Fees' />
-                    </Value>
-                    <Title asValue>
-                      <FormattedMessage
-                        id='copy.opensea_service_fee'
-                        defaultMessage='OpenSea Service Fee'
-                      />{' '}
-                      {val.asset_contract.opensea_seller_fee_basis_points / 100}%
-                    </Title>
-                    <Title asValue>
-                      <FormattedMessage
-                        id='copy.creator_royalty'
-                        defaultMessage='Creator Royalty'
-                      />{' '}
-                      {Number(val.collection.dev_seller_fee_basis_points) / 100}%
-                    </Title>
-                  </Row>
                 </>
               )}
+              <Row>
+                <DateSelectRow>
+                  <DateLabel size='14px' weight={500} capitalize>
+                    <FormattedMessage
+                      id='modals.transactions.report.startdate'
+                      defaultMessage='start date'
+                    />
+                  </DateLabel>
+                  <EndDateLabel size='14px' weight={500} capitalize>
+                    <FormattedMessage
+                      id='modals.transactions.report.enddate'
+                      defaultMessage='end date'
+                    />
+                  </EndDateLabel>
+                </DateSelectRow>
+              </Row>
+              <Row>
+                <DateSelectRow>
+                  <Field
+                    dateFormat='MM/DD/YYYY'
+                    fullwidth
+                    name='listingTime'
+                    validate={[required]}
+                    component={DateBoxDebounced}
+                  />
+                  <DateDivider />
+                  <Field
+                    dateFormat='MM/DD/YYYY'
+                    fullwidth
+                    name='expirationTime'
+                    validate={[required]}
+                    component={DateBoxDebounced}
+                  />
+                </DateSelectRow>
+              </Row>
+              <Row>
+                <Value asTitle>
+                  <FormattedMessage id='copy.service_fees' defaultMessage='Service Fees' />
+                </Value>
+                <Title asValue>
+                  <FormattedMessage
+                    id='copy.opensea_service_fee'
+                    defaultMessage='OpenSea Service Fee'
+                  />{' '}
+                  {val.asset_contract.opensea_seller_fee_basis_points / 100}%
+                </Title>
+                <Title asValue>
+                  <FormattedMessage id='copy.creator_royalty' defaultMessage='Creator Royalty' />{' '}
+                  {Number(val.collection.dev_seller_fee_basis_points) / 100}%
+                </Title>
+              </Row>
             </Form>
             <StickyCTA>
               <SellFees {...props} asset={val} />
