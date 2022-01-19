@@ -45,13 +45,6 @@ export type NftsStateType = {
     page: number
     token_ids_queried: string[]
   }
-  offersForAsset: {
-    atBound?: boolean
-    isFailure: boolean
-    isLoading: boolean
-    list: Order[]
-    page: number
-  }
   offersMade: {
     atBound?: boolean
     isFailure: boolean

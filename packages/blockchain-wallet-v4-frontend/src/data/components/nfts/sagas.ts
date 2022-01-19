@@ -141,35 +141,6 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
-  const fetchNftOffersForAsset = function* (action: ReturnType<typeof A.fetchNftOffersForAsset>) {
-    try {
-      const offers = S.getOffersForAsset(yield select())
-      if (offers.atBound) return
-      yield put(A.fetchNftOffersForAssetLoading())
-      const activeOrders: ReturnType<typeof api.getNftOrders> = yield call(
-        api.getNftOrders,
-        undefined,
-        action.payload.asset_contract_address,
-        action.payload.token_id,
-        IS_TESTNET ? WETH_ADDRESS_RINKEBY : WETH_ADDRESS,
-        0
-      )
-
-      // TODO: verify these are bids
-
-      if (activeOrders.orders.length < NFT_ORDER_PAGE_LIMIT) {
-        yield put(A.setOffersForAssetBounds({ atBound: true }))
-      } else {
-        yield put(A.setOffersForAssetData({ page: offers.page + 1 }))
-      }
-
-      yield put(A.fetchNftOffersForAssetSuccess([...activeOrders.orders.map(orderFromJSON)]))
-    } catch (e) {
-      const error = errorHandler(e)
-      yield put(A.fetchNftOffersForAssetFailure(error))
-    }
-  }
-
   const fetchNftOrders = function* () {
     try {
       const marketplace = S.getMarketplace(yield select())
@@ -655,15 +626,12 @@ export default ({ api }: { api: APIType }) => {
 
     try {
       yield put(actions.components.nfts.fetchNftOrderAssetLoading())
-      const asset = yield call(api.getNftAsset, address, token_id)
-      yield put(
-        actions.components.nfts.fetchNftOrderAssetSuccess({
-          ...asset,
-          sell_orders: action.payload.asset?.sell_orders?.filter(
-            ({ maker }) => maker.address.toLowerCase() === ethAddr.toLowerCase()
-          )
-        })
+      const asset: ReturnType<typeof api.getNftAsset> = yield call(
+        api.getNftAsset,
+        address,
+        token_id
       )
+      yield put(actions.components.nfts.fetchNftOrderAssetSuccess(asset))
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.components.nfts.fetchNftOrderAssetFailure(error))
@@ -710,7 +678,6 @@ export default ({ api }: { api: APIType }) => {
     fetchFees,
     fetchNftAssets,
     fetchNftCollections,
-    fetchNftOffersForAsset,
     fetchNftOffersMade,
     fetchNftOrders,
     formChanged,

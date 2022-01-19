@@ -628,7 +628,7 @@ export interface NftAsset {
   listing_date: null
   name: string
   num_sales: number
-  orders: Order[]
+  orders: RawOrder[]
   owner: {
     address: string
     config: string
@@ -639,7 +639,6 @@ export interface NftAsset {
   }
 
   permalink: string
-  sell_orders: RawOrder[]
   token_id: string
   token_metadata: null
   top_bid: null

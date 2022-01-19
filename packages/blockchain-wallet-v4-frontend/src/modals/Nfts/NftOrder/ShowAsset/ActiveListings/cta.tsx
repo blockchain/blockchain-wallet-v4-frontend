@@ -19,85 +19,84 @@ import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { Props as OwnProps } from '../..'
 
 const CTA: React.FC<Props> = (props) => {
-  const { cancelListing, nftActions } = props
+  const { cancelListing, defaultEthAddr, nftActions } = props
+
+  const listings = props.asset.orders.filter(
+    (order) => order.maker.address.toLowerCase() === defaultEthAddr.toLowerCase()
+  )
 
   return (
     <>
-      <Text size='16px' weight={600} color='grey900'>
-        {Remote.Loading.is(cancelListing) ? (
-          <SpinningLoader width='11px' height='11px' borderWidth='3px' />
-        ) : (
-          <FormattedMessage id='copy.active_listings' defaultMessage='Active Listings' />
-        )}
-      </Text>
-      {props.asset.sell_orders?.length ? (
-        <Table style={{ maxHeight: '150px', overflow: 'scroll' }}>
-          <TableHeader>
-            <TableCell>
-              <Text size='12px' weight={600}>
-                Price
-              </Text>
-            </TableCell>
-            <TableCell>
-              <Text size='12px' weight={600}>
-                Expires
-              </Text>
-            </TableCell>
-            <TableCell style={{ justifyContent: 'center' }}>
-              <Text size='12px' weight={600}>
-                Actions
-              </Text>
-            </TableCell>
-          </TableHeader>
-          {props.asset.sell_orders?.map((sell_order) => {
-            return (
-              <>
-                <TableRow key={sell_order.order_hash}>
-                  <TableCell>
-                    <Text size='14px' weight={600}>
-                      {displayCoinToCoin({
-                        coin: sell_order.payment_token_contract?.symbol || 'ETH',
-                        value: sell_order.current_price
-                      })}
-                    </Text>
-                  </TableCell>
-                  <TableCell>
-                    {sell_order.expiration_time
-                      ? moment(sell_order.expiration_time).fromNow()
-                      : '-'}
-                  </TableCell>
-                  <TableCell style={{ justifyContent: 'center' }}>
-                    <Button
-                      small
-                      onClick={() => {
-                        nftActions.fetchFees({
-                          operation: GasCalculationOperations.Cancel,
-                          order: sell_order
-                        })
-                        nftActions.setActiveOffer({ offer: sell_order })
-                        nftActions.setOrderFlowStep({
-                          step: NftOrderStepEnum.CANCEL_OFFER
-                        })
-                      }}
-                      nature='primary'
-                      data-e2e='cancelListingNft'
-                    >
-                      <FormattedMessage id='button.cancel' defaultMessage='Cancel' />
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              </>
-            )
-          })}
-        </Table>
-      ) : (
-        <Text size='14px' weight={600}>
-          <FormattedMessage
-            id='copy.no_active_sell_listings'
-            defaultMessage='There are no active listings to cancel.'
-          />
-        </Text>
-      )}
+      {listings.length ? (
+        <>
+          <Text size='16px' weight={600} color='grey900'>
+            {Remote.Loading.is(cancelListing) ? (
+              <SpinningLoader width='11px' height='11px' borderWidth='3px' />
+            ) : (
+              <FormattedMessage id='copy.active_listings' defaultMessage='Active Listings:' />
+            )}
+          </Text>
+          <Table style={{ maxHeight: '150px', overflow: 'scroll' }}>
+            <TableHeader>
+              <TableCell>
+                <Text size='12px' weight={600}>
+                  Price
+                </Text>
+              </TableCell>
+              <TableCell>
+                <Text size='12px' weight={600}>
+                  Expires
+                </Text>
+              </TableCell>
+              <TableCell style={{ justifyContent: 'center' }}>
+                <Text size='12px' weight={600}>
+                  Actions
+                </Text>
+              </TableCell>
+            </TableHeader>
+            {listings.map((order) => {
+              return (
+                <>
+                  <TableRow key={order.order_hash}>
+                    <TableCell>
+                      <Text size='14px' weight={600}>
+                        {displayCoinToCoin({
+                          coin: order.payment_token_contract?.symbol || 'ETH',
+                          value: order.current_price
+                        })}
+                      </Text>
+                    </TableCell>
+                    <TableCell>
+                      <Text size='14px' weight={600}>
+                        {order.closing_date ? moment(order.closing_date).fromNow() : '-'}
+                      </Text>
+                    </TableCell>
+                    <TableCell style={{ justifyContent: 'center' }}>
+                      <Button
+                        small
+                        onClick={() => {
+                          nftActions.fetchFees({
+                            operation: GasCalculationOperations.Cancel,
+                            order
+                          })
+                          nftActions.setActiveOffer({ offer: order })
+                          nftActions.setOrderFlowStep({
+                            step: NftOrderStepEnum.CANCEL_OFFER
+                          })
+                        }}
+                        nature='primary'
+                        data-e2e='cancelListingNft'
+                      >
+                        <FormattedMessage id='button.cancel' defaultMessage='Cancel' />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                </>
+              )
+            })}
+          </Table>
+        </>
+      ) : null}
     </>
   )
 }

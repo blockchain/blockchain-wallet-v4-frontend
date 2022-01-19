@@ -43,13 +43,6 @@ const initialState: NftsStateType = {
     page: 0,
     token_ids_queried: []
   },
-  offersForAsset: {
-    atBound: false,
-    isFailure: false,
-    isLoading: true,
-    list: [],
-    page: 0
-  },
   offersMade: {
     atBound: false,
     isFailure: false,
@@ -257,21 +250,6 @@ const nftsSlice = createSlice({
     ) => {
       state.collections = Remote.Success(action.payload)
     },
-    fetchNftOffersForAsset: (
-      state,
-      action: PayloadAction<{ asset_contract_address: string; token_id: string }>
-    ) => {},
-    fetchNftOffersForAssetFailure: (state, action: PayloadAction<string>) => {
-      state.offersForAsset.isFailure = true
-    },
-    fetchNftOffersForAssetLoading: (state) => {
-      state.offersForAsset.isLoading = true
-    },
-    fetchNftOffersForAssetSuccess: (state, action: PayloadAction<Order[]>) => {
-      state.offersForAsset.isFailure = false
-      state.offersForAsset.isLoading = false
-      state.offersForAsset.list = [...state.offersForAsset.list, ...action.payload]
-    },
     fetchNftOffersMade: () => {},
     fetchNftOffersMadeFailure: (state, action: PayloadAction<string>) => {
       state.offersMade.isFailure = true
@@ -407,12 +385,6 @@ const nftsSlice = createSlice({
       if (action.payload.collection) state.marketplace.collection = action.payload.collection
       if (action.payload.token_ids_queried)
         state.marketplace.token_ids_queried = action.payload.token_ids_queried
-    },
-    setOffersForAssetBounds: (state, action: PayloadAction<{ atBound: boolean }>) => {
-      state.offersForAsset.atBound = action.payload.atBound
-    },
-    setOffersForAssetData: (state, action: PayloadAction<{ page?: number }>) => {
-      state.offersForAsset.page = action.payload.page || 0
     },
     setOffersMadeBounds: (state, action: PayloadAction<{ atBound: boolean }>) => {
       state.offersMade.atBound = action.payload.atBound

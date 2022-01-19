@@ -1,28 +1,27 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import moment from 'moment'
 
 import { Remote } from '@core'
 import { displayCoinToCoin } from '@core/exchange'
 import { GasCalculationOperations, NftAsset } from '@core/network/api/nfts/types'
 import { Button, Table, TableCell, TableHeader, TableRow, Text } from 'blockchain-info-components'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
+import { orderFromJSON } from 'data/components/nfts/utils'
 
 import { Props as OwnProps } from '../..'
 
 const CTA: React.FC<Props> = (props) => {
-  const { acceptOffer, nftActions, offersForAsset } = props
+  const { acceptOffer, defaultEthAddr, nftActions } = props
 
-  useEffect(() => {
-    nftActions.fetchNftOffersForAsset({
-      asset_contract_address: props.asset.asset_contract.address,
-      token_id: props.asset.token_id
-    })
-  }, [])
+  const offers = props.asset.orders.filter(
+    (order) => order.maker.address.toLowerCase() !== defaultEthAddr.toLowerCase()
+  )
 
-  return offersForAsset.list.length ? (
+  return offers.length ? (
     <>
       <Text size='16px' weight={600} color='grey900'>
-        <FormattedMessage id='copy.active_offers' defaultMessage='Active Offers' />
+        <FormattedMessage id='copy.active_offers' defaultMessage='Active Offers:' />
       </Text>
       <Table style={{ maxHeight: '150px', overflow: 'scroll' }}>
         <TableHeader>
@@ -42,19 +41,23 @@ const CTA: React.FC<Props> = (props) => {
             </Text>
           </TableCell>
         </TableHeader>
-        {[...offersForAsset.list].map((offer) => {
+        {[...offers].map((offer) => {
           return (
             <>
-              <TableRow key={offer.createdTime?.toString()}>
+              <TableRow key={offer.created_date.toString()}>
                 <TableCell>
                   <Text size='14px' weight={600}>
                     {displayCoinToCoin({
                       coin: 'WETH',
-                      value: offer.currentPrice?.toString() || 0
+                      value: offer.current_price.toString() || 0
                     })}
                   </Text>
                 </TableCell>
-                <TableCell>-</TableCell>
+                <TableCell>
+                  <Text size='14px' weight={600}>
+                    {offer.closing_date ? moment(offer.closing_date).fromNow() : '-'}
+                  </Text>
+                </TableCell>
                 <TableCell style={{ justifyContent: 'center' }}>
                   <Button
                     small
@@ -62,7 +65,7 @@ const CTA: React.FC<Props> = (props) => {
                     onClick={() => {
                       nftActions.fetchFees({
                         operation: GasCalculationOperations.Accept,
-                        order: offer
+                        order: orderFromJSON(offer)
                       })
                       nftActions.setOrderFlowStep({
                         step: NftOrderStepEnum.ACCEPT_OFFER

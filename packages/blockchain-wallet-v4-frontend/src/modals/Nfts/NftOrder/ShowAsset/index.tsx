@@ -53,7 +53,7 @@ const ShowAsset: React.FC<Props> = (props) => {
                 role='button'
                 style={{ position: 'absolute', right: '40px', top: '40px' }}
               />
-              <FullAssetImage backgroundImage={val?.image_url.replace(/=s\d*/, '')} />
+              <FullAssetImage cropped backgroundImage={val?.image_url.replace(/=s\d*/, '')} />
             </div>
             <AssetDesc>
               <Text size='16px' color='grey900' weight={600}>
@@ -124,26 +124,22 @@ const ShowAsset: React.FC<Props> = (props) => {
                   <BuyFees {...props} />
                   <BuyCTA {...props} />
                 </>
-              ) : /* User has 1 or more sell_orders, cancel them */
-              val.sell_orders?.length ? (
+              ) : (
                 <>
-                  <ActiveListingsCTA {...props} asset={val} />
-                </>
-              ) : /* No sell_orders, can mark for sale */
-              !val.sell_orders?.length ? (
-                <>
-                  <SellCTA {...props} />
-                  <TransferCTA {...props} />
-                </>
-              ) : null}
-              {/* User is owner, show active offers */}
-              {val.owner.address.toLowerCase() === props.defaultEthAddr.toLowerCase() ||
-              val.owner.address === NULL_ADDRESS ? (
-                <>
+                  <SellCTA {...props} asset={val} />
+                  <TransferCTA {...props} asset={val} />
                   <br />
-                  <ActiveOffersCTA {...props} asset={val} />
+                  <ActiveListingsCTA {...props} asset={val} />
+                  {/* User is owner, show active offers */}
+                  {val.owner.address.toLowerCase() === props.defaultEthAddr.toLowerCase() ||
+                  val.owner.address === NULL_ADDRESS ? (
+                    <>
+                      <br />
+                      <ActiveOffersCTA {...props} asset={val} />
+                    </>
+                  ) : null}
                 </>
-              ) : null}
+              )}
             </StickyCTA>
           </>
         )

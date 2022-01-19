@@ -1,6 +1,7 @@
 import {
   AssetEventsType,
   ExplorerGatewayNftCollectionType,
+  NftAsset,
   NftAssetsType,
   NftOrdersType,
   OfferEventsType
@@ -21,7 +22,7 @@ export default ({ apiUrl, get, post }) => {
     })
   }
 
-  const getNftAsset = (contract_address: string, token_id: string): NftAssetsType => {
+  const getNftAsset = (contract_address: string, token_id: string): NftAsset => {
     return get({
       endPoint: `/asset/${contract_address}/${token_id}`,
       ignoreQueryParams: true,
