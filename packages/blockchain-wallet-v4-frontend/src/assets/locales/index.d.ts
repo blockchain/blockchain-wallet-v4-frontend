@@ -554,6 +554,7 @@ type MessagesType = {
   'copy.year': '1Y'
   'copy.or': 'or'
   'copy.over_your_limit': 'Over Your Limit'
+  'copy.processing': 'Processing...'
   'copy.upgrade_your_wallet': 'Upgrade Your Wallet'
   'copy.verifyyourdevice': 'Verify Your Device'
   'dentityverification.verify.resubmit.reason.missing': 'The required photos are missing'

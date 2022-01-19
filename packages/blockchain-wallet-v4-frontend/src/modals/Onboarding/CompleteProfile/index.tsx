@@ -165,7 +165,7 @@ class CompleteProfile extends PureComponent<Props, State> {
 
   render() {
     const { data } = this.props
-    const { currentStep, isBankOrCardLinked, isBuyCrypto, isVerifiedId } = data
+    const { currentStep, isBankOrCardLinked, isBuyCrypto, isIdPending, isVerifiedId } = data
     const percentage = currentStep ? (currentStep / MAX_STEPS) * 100 : 0
 
     return (
@@ -191,7 +191,7 @@ class CompleteProfile extends PureComponent<Props, State> {
                 <CloseIconContainer>
                   <Icon
                     cursor
-                    data-e2e='sbCloseModalIcon'
+                    data-e2e='completeProfileCloseModalIcon'
                     name='close'
                     size='20px'
                     color='grey600'
@@ -246,6 +246,7 @@ class CompleteProfile extends PureComponent<Props, State> {
                 <LinkItem
                   onClick={this.startVerification}
                   isComplete={isVerifiedId}
+                  isPending={isIdPending}
                   type={COMPLETE_PROFILE_STEPS.VERIFY}
                 />
 

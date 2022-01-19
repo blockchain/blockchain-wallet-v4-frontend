@@ -16,7 +16,7 @@ import {
   MainSection
 } from './model'
 
-const LinkItem = ({ isComplete, onClick, type }: Props) => {
+const LinkItem = ({ isComplete, isPending, onClick, type }: Props) => {
   const ItemContainer = MainContainer[type]
   const IconWrapper = MainIconWrapper[type]
   return (
@@ -35,7 +35,9 @@ const LinkItem = ({ isComplete, onClick, type }: Props) => {
             lineHeight='20px'
             color={isComplete ? 'green600' : 'grey600'}
           >
-            {isComplete ? (
+            {isPending ? (
+              <FormattedMessage id='copy.processing' defaultMessage='Processing...' />
+            ) : isComplete ? (
               <FormattedMessage id='copy.complete' defaultMessage='Complete' />
             ) : (
               LinkExplanation[type]
@@ -58,6 +60,7 @@ const LinkItem = ({ isComplete, onClick, type }: Props) => {
 
 type Props = {
   isComplete: boolean
+  isPending?: boolean
   onClick: () => void
   type: COMPLETE_PROFILE_STEPS
 }
