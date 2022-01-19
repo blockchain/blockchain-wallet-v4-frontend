@@ -1,4 +1,4 @@
-import React, { PureComponent, useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
@@ -9,7 +9,6 @@ import { AddBankStepType } from 'data/types'
 
 import { Loading, LoadingTextEnum } from '../../../components'
 import { getData } from './selectors'
-import Success from './template.success'
 
 export type OwnProps = {
   handleClose: () => void
