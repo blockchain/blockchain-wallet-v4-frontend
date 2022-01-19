@@ -413,6 +413,7 @@ type MessagesType = {
   'copy.failed': 'Failed'
   'copy.fee': 'Fee'
   'copy.got_it': 'Got It'
+  'copy.get_more_coin': 'Get More {coin}'
   'copy.card_fee': 'Card Fee'
   'copy.find_your_bank': 'Find Your Bank'
   'copy.forgot_exchange_password': 'Forgot Exchange Password'

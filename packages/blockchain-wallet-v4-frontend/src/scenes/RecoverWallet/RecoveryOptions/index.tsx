@@ -73,13 +73,13 @@ const RecoveryOptions = (props: Props) => {
       <WrapperWithPadding>
         {emailFromMagicLink && (
           <BackArrowFormHeader
-            handleBackArrowClick={() => routerActions.push('/login')}
+            handleBackArrowClick={() => routerActions.push('/help')}
             email={emailFromMagicLink}
             guid={cachedGuid || lastGuid}
           />
         )}
         {!emailFromMagicLink && (
-          <GoBackArrow handleBackArrowClick={() => routerActions.push('/login')} />
+          <GoBackArrow handleBackArrowClick={() => routerActions.push('/help')} />
         )}
         <FormBody>
           <Text color='grey900' size='20px' weight={600} lineHeight='1.5'>
