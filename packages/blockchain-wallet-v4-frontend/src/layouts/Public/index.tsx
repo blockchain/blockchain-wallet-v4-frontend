@@ -37,9 +37,11 @@ const Wrapper = styled.div<{ authProduct?: string }>`
   ${media.atLeastTablet`
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     align-items: center;
     height: 100%;
+    > div:last-child {
+      margin-top: auto;
+    }
   `}
 `
 
