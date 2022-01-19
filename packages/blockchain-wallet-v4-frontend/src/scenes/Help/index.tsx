@@ -24,7 +24,7 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
 `
 
 const SubCard = styled.div`
@@ -47,7 +47,7 @@ const Right = styled.div`
 
 const IconTextRow = styled.div`
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   cursor: pointer;
 `
 
@@ -100,9 +100,9 @@ const Help = () => {
         <LinkContainer to='/login'>
           <BackArrow>
             <Icon
-              data-e2e='signupBack'
-              name='arrow-left'
-              size='28px'
+              data-e2e='needHelpBack'
+              name='arrow-back'
+              size='24px'
               color='blue600'
               style={{ marginRight: '4px' }}
               role='button'
@@ -117,8 +117,8 @@ const Help = () => {
             <FormattedMessage id='copy.need_some_help' defaultMessage='Need some help?' />
           </Text>
         </Header>
-        <LinkContainer to='/recover'>
-          <IconTextRow style={{ marginBottom: '4px' }}>
+        <LinkContainer to='/recover' style={{ marginBottom: '20px' }}>
+          <IconTextRow>
             <CircleBackground color='blue000'>
               <Icon name='keyboard' color='blue600' size='16px' />
             </CircleBackground>
@@ -129,7 +129,7 @@ const Help = () => {
                   defaultMessage='Forgot your password?'
                 />
               </Text>
-              <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
+              <Text color='grey600' size='12px' weight={500} lineHeight='1.5'>
                 <FormattedMessage
                   id='scenes.help.password.explain_phrase'
                   defaultMessage='Use your 12 word Secret Private Key Recovery Phrase to access your Wallet.'
@@ -150,7 +150,7 @@ const Help = () => {
               <Text color='grey900' size='14px' weight={600} lineHeight='1.5'>
                 <FormattedMessage id='scenes.help.2falost' defaultMessage='Lost your 2FA device?' />
               </Text>
-              <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
+              <Text color='grey600' size='12px' weight={500} lineHeight='1.5'>
                 <FormattedMessage
                   id='scenes.help.2fa.lostexplain'
                   defaultMessage='Reset your 2FA right now to gain access to your Wallet.'

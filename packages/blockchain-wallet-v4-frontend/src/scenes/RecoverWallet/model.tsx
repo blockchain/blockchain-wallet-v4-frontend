@@ -27,11 +27,6 @@ export const CircleBackground = styled.div<{ color?: string; size?: string }>`
   margin: 8px 8px 8px 0;
 `
 
-const TopRow = styled.div`
-  display: flex;
-  margin-bottom: 16px;
-`
-
 export const placeholder = () => {
   return (
     <FormattedMessage
@@ -61,6 +56,12 @@ export const Row = styled.div`
 export const LoaderRow = styled(Row)`
   justify-content: center;
   padding: 108px 0;
+`
+export const FormWrapper = styled(Wrapper)`
+  padding: 24px 32px 32px;
+  ${media.mobile`
+  padding: 16px;
+`}
 `
 
 export const OuterWrapper = styled(Wrapper)`
@@ -124,18 +125,34 @@ export const GoBackArrow = (props: { handleBackArrowClick: () => void }) => {
       <Icon
         cursor
         data-e2e='recoverBack'
-        name='arrow-left'
+        name='arrow-back'
         size='24px'
         color='blue600'
         role='button'
-        style={{ marginRight: '8px' }}
+        style={{ marginRight: '4px' }}
       />
-      <Text size='14px' weight={600} color='grey600' cursor='pointer'>
+      <Text size='14px' weight={500} color='grey900' cursor='pointer'>
         <FormattedMessage id='buttons.back' defaultMessage='Back' />
       </Text>
     </Row>
   )
 }
+const BackArrowWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  align-items: center;
+`
+const BackArrow = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+`
+const EmailAndGuid = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`
 
 export const BackArrowFormHeader = (props: {
   email: string
@@ -143,38 +160,42 @@ export const BackArrowFormHeader = (props: {
   handleBackArrowClick: () => void
   step?: RecoverSteps
 }) => {
+  const firstPartGuid = props.guid && props.guid.slice(0, 4)
+  const lastPartGuid = props.guid && props.guid.slice(-4)
   return (
     <>
-      <TopRow>
-        <Icon
-          cursor
-          data-e2e='signupBack'
-          name='arrow-left'
-          size='24px'
-          color='grey600'
-          style={{ marginRight: '8px' }}
-          role='button'
-          onClick={() => props.handleBackArrowClick()}
-        />
-        <Column>
-          <Text color='grey900' size='14px' weight={600} lineHeight='1.5'>
-            <FormattedMessage
-              id='scenes.recovery.email'
-              defaultMessage='Recovering {email}'
-              values={{ email: props.email }}
-            />
+      <BackArrowWrapper>
+        <BackArrow onClick={props.handleBackArrowClick}>
+          <Icon
+            cursor
+            data-e2e='recoverBack'
+            name='arrow-back'
+            size='24px'
+            color='blue600'
+            style={{ marginRight: '4px' }}
+            role='button'
+          />
+          <Text color='grey900' size='14px' weight={500} lineHeight='1.5'>
+            <FormattedMessage id='copy.back' defaultMessage='Back' />
+          </Text>
+        </BackArrow>
+        <EmailAndGuid>
+          <Text
+            color='blue600'
+            size='12px'
+            weight={600}
+            lineHeight='1.5'
+            style={{ marginRight: '2px' }}
+          >
+            {props.email}
           </Text>
           {props.step !== RecoverSteps.RESET_ACCOUNT && (
-            <Text color='grey600' size='12px' weight={600} lineHeight='1.5'>
-              <FormattedMessage
-                id='scences.login.wallet_guid'
-                defaultMessage='Wallet: {guid}'
-                values={{ guid: props.guid }}
-              />
+            <Text size='12px' weight={500} color='grey400'>
+              ({firstPartGuid}...{lastPartGuid})
             </Text>
           )}
-        </Column>
-      </TopRow>
+        </EmailAndGuid>
+      </BackArrowWrapper>
     </>
   )
 }
