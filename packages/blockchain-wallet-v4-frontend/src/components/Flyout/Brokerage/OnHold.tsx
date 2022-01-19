@@ -5,21 +5,17 @@ import moment from 'moment'
 import { fiatToString } from '@core/exchange/utils'
 import { FiatType, WithdrawalLock } from '@core/types'
 import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
+import { FlyoutContainer, FlyoutContent, FlyoutFooter, FlyoutHeader } from 'components/Flyout'
 import { CheckoutRow } from 'components/Rows'
 import { convertBaseToStandard } from 'data/components/exchange/services'
 
-import Container from '../Container'
-import Content from '../Content'
-import Footer from '../Footer'
-import Header from '../Header'
-
 const OnHold = ({ fiatCurrency, handleHeaderClick, locks, totalLockedAmount }: Props) => {
   return (
-    <Container>
-      <Header mode='close' data-e2e='fundsOnHoldFlyout' onClick={handleHeaderClick}>
+    <FlyoutContainer>
+      <FlyoutHeader mode='close' data-e2e='fundsOnHoldFlyout' onClick={handleHeaderClick}>
         <FormattedMessage id='copy.on_hold' defaultMessage='On Hold' />
-      </Header>
-      <Content mode='top'>
+      </FlyoutHeader>
+      <FlyoutContent mode='top'>
         <div style={{ padding: '0 40px 32px' }}>
           <TextGroup inline>
             <Text weight={400} lineHeight='24px' size='14px' color='grey600'>
@@ -83,13 +79,13 @@ const OnHold = ({ fiatCurrency, handleHeaderClick, locks, totalLockedAmount }: P
             />
           )
         })}
-      </Content>
-      <Footer>
+      </FlyoutContent>
+      <FlyoutFooter>
         <Button fullwidth nature='primary' onClick={handleHeaderClick} data-e2e='onHoldGotItButton'>
           <FormattedMessage id='copy.got_it' defaultMessage='Got It' />
         </Button>
-      </Footer>
-    </Container>
+      </FlyoutFooter>
+    </FlyoutContainer>
   )
 }
 

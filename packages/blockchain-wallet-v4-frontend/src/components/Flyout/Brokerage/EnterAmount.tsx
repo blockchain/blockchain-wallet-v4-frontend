@@ -19,6 +19,13 @@ import {
 import { DisplayPaymentIcon } from 'components/BuySell'
 import { AmountTextBox } from 'components/Exchange'
 import {
+  FlyoutContainer,
+  FlyoutContent,
+  FlyoutFooter,
+  FlyoutHeader,
+  FlyoutWrapper
+} from 'components/Flyout'
+import {
   DepositOrWithdrawal,
   getBankText,
   getBrokerageLimits,
@@ -38,11 +45,6 @@ import { BankTransferAccountType, BrokerageOrderType } from 'data/types'
 import { debounce, memoizer } from 'utils/helpers'
 
 import { MaxButton } from '../../../modals/components'
-import { FlyoutWrapper } from '..'
-import Container from '../Container'
-import Content from '../Content'
-import Footer from '../Footer'
-import Header from '../Header'
 
 const CustomForm = styled(Form)`
   width: 100%;
@@ -403,15 +405,15 @@ const EnterAmount = ({
 
   return (
     <CustomForm onSubmit={handleSubmit}>
-      <Container>
-        <Header
+      <FlyoutContainer>
+        <FlyoutHeader
           data-e2e='depositBackToDepositMethods'
           mode={orderType === BrokerageOrderType.DEPOSIT ? 'back' : 'close'}
           onClick={handleBack}
         >
           <DepositOrWithdrawal fiatCurrency={fiatCurrency} orderType={orderType} />
-        </Header>
-        <Content mode='top'>
+        </FlyoutHeader>
+        <FlyoutContent mode='top'>
           {(orderType === BrokerageOrderType.DEPOSIT ||
             orderType === BrokerageOrderType.WITHDRAW) && (
             <LimitSection
@@ -445,8 +447,8 @@ const EnterAmount = ({
               )
             }}
           />
-        </Content>
-        <Footer>
+        </FlyoutContent>
+        <FlyoutFooter>
           <Account
             handleMethodClick={handleMethodClick}
             invalid={invalid}
@@ -463,8 +465,8 @@ const EnterAmount = ({
             />
           )}
           {showError && <ErrorMessage error={formErrors} orderType={orderType} />}
-        </Footer>
-      </Container>
+        </FlyoutFooter>
+      </FlyoutContainer>
     </CustomForm>
   )
 }

@@ -3,11 +3,8 @@ import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
 import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
+import { FlyoutContainer, FlyoutContent, FlyoutFooter } from 'components/Flyout'
 import { BankStatusType } from 'data/types'
-
-import Container from '../Container'
-import Content from '../Content'
-import Footer from '../Footer'
 
 const Title = styled(Text)`
   margin: 56px 0 16px 0;
@@ -20,8 +17,8 @@ const Subcontent = styled(Text)`
 `
 const AddBankError = ({ bankStatus, handleClose, retryAction }: Props) => {
   return (
-    <Container>
-      <Content mode='middle'>
+    <FlyoutContainer>
+      <FlyoutContent mode='middle'>
         <div style={{ padding: '0 40px', textAlign: 'center' }}>
           <Image
             width='100px'
@@ -211,8 +208,8 @@ const AddBankError = ({ bankStatus, handleClose, retryAction }: Props) => {
             )}
           </Subcontent>
         </div>
-      </Content>
-      <Footer collapsed>
+      </FlyoutContent>
+      <FlyoutFooter collapsed>
         {bankStatus === BankStatusType.ACTIVE ? (
           <Button
             nature='primary'
@@ -248,8 +245,8 @@ const AddBankError = ({ bankStatus, handleClose, retryAction }: Props) => {
             </Button>
           </>
         )}
-      </Footer>
-    </Container>
+      </FlyoutFooter>
+    </FlyoutContainer>
   )
 }
 
