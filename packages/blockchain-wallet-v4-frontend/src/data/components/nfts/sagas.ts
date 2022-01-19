@@ -491,7 +491,7 @@ export default ({ api }: { api: APIType }) => {
     try {
       const signer = yield call(getEthSigner)
       yield put(A.cancelListingLoading())
-      yield call(cancelNftOrder, action.payload.sell_order, signer, action.payload.gasData)
+      yield call(cancelNftOrder, action.payload.order, signer, action.payload.gasData)
       yield put(A.clearAndRefetchAssets())
       yield put(A.cancelListingSuccess())
       yield put(actions.modals.closeAllModals())

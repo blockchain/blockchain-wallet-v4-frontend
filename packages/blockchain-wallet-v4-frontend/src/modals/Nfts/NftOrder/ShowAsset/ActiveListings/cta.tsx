@@ -75,13 +75,9 @@ const CTA: React.FC<Props> = (props) => {
                       <Button
                         small
                         onClick={() => {
-                          nftActions.fetchFees({
-                            operation: GasCalculationOperations.Cancel,
-                            order
-                          })
-                          nftActions.setActiveOffer({ offer: order })
+                          nftActions.setListingToCancel({ order })
                           nftActions.setOrderFlowStep({
-                            step: NftOrderStepEnum.CANCEL_OFFER
+                            step: NftOrderStepEnum.CANCEL_LISTING
                           })
                         }}
                         nature='primary'

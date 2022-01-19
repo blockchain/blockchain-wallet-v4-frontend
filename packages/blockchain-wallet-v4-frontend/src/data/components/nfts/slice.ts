@@ -55,6 +55,7 @@ const initialState: NftsStateType = {
     activeOrder: null,
     asset: Remote.NotAsked,
     fees: Remote.NotAsked,
+    listingToCancel: null,
     offerToAccept: Remote.NotAsked,
     order: Remote.NotAsked,
     step: NftOrderStepEnum.SHOW_ASSET
@@ -80,10 +81,7 @@ const nftsSlice = createSlice({
     acceptOfferSuccess: (state) => {
       state.acceptOffer = Remote.Success(true)
     },
-    cancelListing: (
-      state,
-      action: PayloadAction<{ gasData: GasDataI; sell_order: RawOrder }>
-    ) => {},
+    cancelListing: (state, action: PayloadAction<{ gasData: GasDataI; order: RawOrder }>) => {},
     cancelListingFailure: (state, action: PayloadAction<{ error: string }>) => {
       state.cancelListing = Remote.Success(action.payload.error)
     },
@@ -296,12 +294,16 @@ const nftsSlice = createSlice({
       state.orderFlow.offerToAccept = Remote.Success(action.payload)
     },
     nftOrderFlowClose: (state) => {
+      state.orderFlow.step = NftOrderStepEnum.SHOW_ASSET
+
       state.orderFlow.activeOrder = null
       state.orderFlow.activeOffer = null
-      state.orderFlow.step = NftOrderStepEnum.SHOW_ASSET
+      state.orderFlow.listingToCancel = null
+      state.orderFlow.offerToAccept = Remote.NotAsked
       state.orderFlow.asset = Remote.NotAsked
       state.orderFlow.fees = Remote.NotAsked
       state.orderFlow.order = Remote.NotAsked
+
       state.cancelListing = Remote.NotAsked
       state.sellOrder = Remote.NotAsked
     },
@@ -367,6 +369,9 @@ const nftsSlice = createSlice({
     },
     setCollectionSearch: (state, action: PayloadAction<ExplorerGatewayNftCollectionType[]>) => {
       state.collectionSearch = action.payload
+    },
+    setListingToCancel: (state, action: PayloadAction<{ order: RawOrder }>) => {
+      state.orderFlow.listingToCancel = action.payload.order
     },
     setMarketplaceBounds: (state, action: PayloadAction<{ atBound: boolean }>) => {
       state.marketplace.atBound = action.payload.atBound

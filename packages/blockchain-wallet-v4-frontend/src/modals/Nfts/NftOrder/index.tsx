@@ -10,6 +10,7 @@ import modalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../types'
 import AcceptOffer from './AcceptOffer'
+import CancelListing from './CancelListing'
 import CancelOffer from './CancelOffer'
 import MakeOffer from './MakeOffer'
 import MarkForSale from './MarkForSale'
@@ -78,6 +79,11 @@ class NftOrder extends PureComponent<Props, State> {
         {step === NftOrderStepEnum.CANCEL_OFFER && (
           <FlyoutChild>
             <CancelOffer {...this.props} />
+          </FlyoutChild>
+        )}
+        {step === NftOrderStepEnum.CANCEL_LISTING && (
+          <FlyoutChild>
+            <CancelListing {...this.props} />
           </FlyoutChild>
         )}
         {step === NftOrderStepEnum.TRANSFER && (
