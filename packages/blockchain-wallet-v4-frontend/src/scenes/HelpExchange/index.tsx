@@ -50,7 +50,7 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
 `
 
 const SubCard = styled.div`
@@ -115,9 +115,9 @@ class Help extends React.PureComponent<Props, State> {
           <LinkContainer to='/login?product=exchange'>
             <BackArrow>
               <Icon
-                data-e2e='signupBack'
+                data-e2e='needHelpExchangeBack'
                 name='arrow-back'
-                size='28px'
+                size='24px'
                 color='blue600'
                 style={{ marginRight: '4px' }}
                 role='button'
@@ -132,7 +132,7 @@ class Help extends React.PureComponent<Props, State> {
               <FormattedMessage id='copy.need_some_help' defaultMessage='Need some help?' />
             </Text>
           </Header>
-          <IconTextRow onClick={this.showPasswordResetForm}>
+          <IconTextRow onClick={this.showPasswordResetForm} style={{ marginBottom: '12px' }}>
             <CircleBackground color='blue000'>
               <Icon name='keyboard' color='blue600' size='16px' />
             </CircleBackground>
@@ -143,7 +143,7 @@ class Help extends React.PureComponent<Props, State> {
                   defaultMessage='Forgot your password?'
                 />
               </Text>
-              <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
+              <Text color='grey600' size='12px' weight={500} lineHeight='1.5'>
                 <FormattedMessage
                   id='scenes.help.password.request'
                   defaultMessage='Request a password reset for your Exchange account.'
@@ -169,7 +169,7 @@ class Help extends React.PureComponent<Props, State> {
                     defaultMessage='Lost your 2FA device?'
                   />
                 </Text>
-                <Text color='grey900' size='12px' weight={500} lineHeight='1.5'>
+                <Text color='grey600' size='12px' weight={500} lineHeight='1.5'>
                   <FormattedMessage
                     id='scenes.help.2fa.lostexplain_exchange'
                     defaultMessage='Learn how to reset 2FA for your Exchange account.'
