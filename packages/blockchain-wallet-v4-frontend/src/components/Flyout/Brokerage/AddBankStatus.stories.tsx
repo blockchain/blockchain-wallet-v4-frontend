@@ -4,10 +4,10 @@ import { ComponentMeta, ComponentStory } from '@storybook/react'
 
 import { BankStatusType } from 'data/types'
 
-import AddBankError from './AddBankError'
+import AddBankStatus from './AddBankStatus'
 
 export default {
-  component: AddBankError,
+  component: AddBankStatus,
   decorators: [
     (Story) => {
       return (
@@ -19,10 +19,10 @@ export default {
       )
     }
   ],
-  title: 'Flyouts/Brokerage/AddBankError'
-} as ComponentMeta<typeof AddBankError>
+  title: 'Flyouts/Brokerage/AddBankStatus'
+} as ComponentMeta<typeof AddBankStatus>
 
-const Template: ComponentStory<typeof AddBankError> = (args) => <AddBankError {...args} />
+const Template: ComponentStory<typeof AddBankStatus> = (args) => <AddBankStatus {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

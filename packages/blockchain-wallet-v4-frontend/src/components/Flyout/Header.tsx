@@ -69,5 +69,4 @@ export type Props = {
   onClick: () => void
 }
 
-export { FlyoutHeader }
 export default FlyoutHeader

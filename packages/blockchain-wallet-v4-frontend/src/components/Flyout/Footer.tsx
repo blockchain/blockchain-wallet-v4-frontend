@@ -21,5 +21,4 @@ export type Props = {
   collapsed?: boolean
 }
 
-export { FlyoutFooter }
 export default FlyoutFooter

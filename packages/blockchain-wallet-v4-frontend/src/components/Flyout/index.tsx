@@ -8,7 +8,7 @@ import { Modal, Text } from 'blockchain-info-components'
 import { media } from 'services/styles'
 
 // Brokerage specific flyout screens
-import AddBankError from './Brokerage/AddBankError'
+import AddBankStatus from './Brokerage/AddBankStatus'
 import BuySellLimitReached from './Brokerage/BuySellLimitReached'
 import EnterAmount from './Brokerage/EnterAmount'
 import OnHold from './Brokerage/OnHold'
@@ -34,7 +34,7 @@ import RecurringBuyRemoveConfirm from './RecurringBuy/RecurringBuyRemoveConfirm'
 import FlyoutSubHeader from './SubHeader'
 
 export {
-  AddBankError,
+  AddBankStatus,
   AdditionalInformation,
   BuySellLimitReached,
   EnterAmount,

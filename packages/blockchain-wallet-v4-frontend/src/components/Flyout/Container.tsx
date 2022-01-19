@@ -17,5 +17,4 @@ export type Props = {
   children: React.ReactNode
 }
 
-export { FlyoutContainer }
 export default FlyoutContainer

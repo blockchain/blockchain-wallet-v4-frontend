@@ -18,12 +18,11 @@ const Subcontent = styled(Text)`
   margin-bottom: 56px;
   text-align: center;
 `
-// This component is shared by Yapily and Yodlee add bank modals
 const AddBankError = ({ bankStatus, handleClose, retryAction }: Props) => {
   return (
     <Container>
       <Content mode='middle'>
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ padding: '0 40px', textAlign: 'center' }}>
           <Image
             width='100px'
             name={
@@ -32,6 +31,8 @@ const AddBankError = ({ bankStatus, handleClose, retryAction }: Props) => {
                 : bankStatus === BankStatusType.BANK_TRANSFER_ACCOUNT_REJECTED ||
                   bankStatus === BankStatusType.BANK_TRANSFER_ACCOUNT_INVALID
                 ? 'bank-rejected'
+                : bankStatus === BankStatusType.ACTIVE
+                ? 'bank-success'
                 : 'bank-error'
             }
           />
@@ -41,6 +42,8 @@ const AddBankError = ({ bankStatus, handleClose, retryAction }: Props) => {
                 id='copy.bank_linked_error_title_already_linked'
                 defaultMessage='Account Already Linked'
               />
+            ) : bankStatus === BankStatusType.ACTIVE ? (
+              <FormattedMessage id='copy.bank_linked.title' defaultMessage='Bank Linked!' />
             ) : bankStatus === BankStatusType.BANK_TRANSFER_ACCOUNT_REJECTED_FRAUD ||
               bankStatus === BankStatusType.BANK_TRANSFER_ACCOUNT_FAILED_INTERNAL ? (
               <FormattedMessage
@@ -96,6 +99,12 @@ const AddBankError = ({ bankStatus, handleClose, retryAction }: Props) => {
                 </Link>
                 .
               </>
+            ) : bankStatus === BankStatusType.ACTIVE ? (
+              // Put bank name in the title
+              <FormattedMessage
+                id='copy.bank_linked'
+                defaultMessage='Your bank account is now linked to your Blockchain.com Wallet'
+              />
             ) : bankStatus === BankStatusType.BANK_TRANSFER_ACCOUNT_NAME_MISMATCH ? (
               <>
                 <FormattedMessage
@@ -204,27 +213,41 @@ const AddBankError = ({ bankStatus, handleClose, retryAction }: Props) => {
         </div>
       </Content>
       <Footer collapsed>
-        <Button
-          data-e2e='bankLinkTryAgain'
-          height='48px'
-          size='16px'
-          nature='primary'
-          onClick={retryAction}
-          fullwidth
-        >
-          <FormattedMessage id='buttons.tryagain' defaultMessage='Try Again' />
-        </Button>
-        <Button
-          data-e2e='bankLinkCancel'
-          height='48px'
-          size='16px'
-          nature='light'
-          style={{ marginTop: '16px' }}
-          onClick={handleClose}
-          fullwidth
-        >
-          <FormattedMessage id='buttons.cancel_goback' defaultMessage='Cancel & Go Back' />
-        </Button>
+        {bankStatus === BankStatusType.ACTIVE ? (
+          <Button
+            nature='primary'
+            data-e2e='obContinueBankStatus'
+            fullwidth
+            height='48px'
+            onClick={handleClose}
+          >
+            <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
+          </Button>
+        ) : (
+          <>
+            <Button
+              data-e2e='bankLinkTryAgain'
+              height='48px'
+              size='16px'
+              nature='primary'
+              onClick={retryAction}
+              fullwidth
+            >
+              <FormattedMessage id='buttons.tryagain' defaultMessage='Try Again' />
+            </Button>
+            <Button
+              data-e2e='bankLinkCancel'
+              height='48px'
+              size='16px'
+              nature='light'
+              style={{ marginTop: '16px' }}
+              onClick={handleClose}
+              fullwidth
+            >
+              <FormattedMessage id='buttons.cancel_goback' defaultMessage='Cancel & Go Back' />
+            </Button>
+          </>
+        )}
       </Footer>
     </Container>
   )

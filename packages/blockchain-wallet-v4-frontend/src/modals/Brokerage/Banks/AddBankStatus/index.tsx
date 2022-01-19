@@ -2,7 +2,7 @@ import React, { PureComponent, useCallback } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
-import { AddBankError } from 'components/Flyout'
+import { AddBankStatus } from 'components/Flyout'
 import { actions } from 'data'
 import { RootState } from 'data/rootReducer'
 import { AddBankStepType } from 'data/types'
@@ -30,16 +30,13 @@ const LinkBankStatus = (props: Props) => {
     Failure: () => null,
     Loading: () => <Loading text={LoadingTextEnum.PROCESSING} />,
     NotAsked: () => <Loading text={LoadingTextEnum.PROCESSING} />,
-    Success: (val) =>
-      val.bankStatus === 'ACTIVE' ? (
-        <Success {...val} {...props} />
-      ) : (
-        <AddBankError
-          handleClose={props.handleClose}
-          bankStatus={val.bankStatus}
-          retryAction={cancelGoBack}
-        />
-      )
+    Success: (val) => (
+      <AddBankStatus
+        handleClose={props.handleClose}
+        bankStatus={val.bankStatus}
+        retryAction={cancelGoBack}
+      />
+    )
   })
 }
 

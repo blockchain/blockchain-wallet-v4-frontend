@@ -74,7 +74,7 @@
   "dependencies": {
     "@babel/polyfill": "7.12.1",
     "@blockchain-com/components": "6.1.1",
-    "@blockchain-com/constellation": "0.0.26",
+    "@blockchain-com/constellation": "0.0.27",
     "@formatjs/intl-relativetimeformat": "7.2.10",
     "@ledgerhq/hw-app-btc": "4.33.7",
     "@ledgerhq/hw-app-eth": "4.32.0",

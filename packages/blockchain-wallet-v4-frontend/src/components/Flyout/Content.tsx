@@ -20,5 +20,4 @@ export type Props = {
   mode: 'top' | 'middle'
 }
 
-export { Content as FlyoutContent }
 export default FlyoutContent
