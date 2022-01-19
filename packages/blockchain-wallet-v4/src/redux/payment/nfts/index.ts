@@ -95,7 +95,7 @@ export const fulfillNftOrder = async (
     throw new Error('Dutch auctions not currently supported')
     // await _atomicMatch({ buy, sell, signer })
   }
-  // Is a fixed price sale
+  // Is a fixed price sale or user is accepting offer
   await _atomicMatch({ buy, gasData, sell, signer })
 }
 

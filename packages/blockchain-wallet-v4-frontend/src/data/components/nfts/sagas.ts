@@ -257,6 +257,7 @@ export default ({ api }: { api: APIType }) => {
         yield put(A.fetchFeesSuccess(fees))
       } else if (action.payload.operation === GasCalculationOperations.Accept) {
         const { order } = action.payload
+        yield put(A.fetchOfferToAcceptLoading())
         try {
           if (!order) {
             yield put(A.fetchFeesFailure('Could not find order to accept.'))
@@ -269,7 +270,7 @@ export default ({ api }: { api: APIType }) => {
             getNftBuyOrders,
             order,
             signer,
-            order.expirationTime.toNumber(),
+            undefined,
             IS_TESTNET ? 'rinkeby' : 'mainnet'
           )
           // calculate atomic match fees
@@ -339,8 +340,7 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.acceptOfferLoading())
       const signer: Signer = yield call(getEthSigner)
       const { buy, gasData, sell } = action.payload
-      const order = yield call(fulfillNftOrder, buy, sell, signer, gasData, true)
-      yield call(api.postNftOrder, order)
+      yield call(fulfillNftOrder, buy, sell, signer, gasData, true)
       yield put(actions.modals.closeAllModals())
       yield put(A.acceptOfferSuccess())
       yield put(A.clearAndRefetchAssets())
