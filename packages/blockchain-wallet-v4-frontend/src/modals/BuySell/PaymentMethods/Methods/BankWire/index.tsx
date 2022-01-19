@@ -44,10 +44,17 @@ const BankWire: React.FC<Props> = ({ icon, onClick, text, value }) => (
         />
       </DisplaySubTitle>
       <Description>
-        <FormattedMessage
-          id='modals.simplebuy.bankwire.description_v2'
-          defaultMessage='Send funds directly from your bank to your Blockchain.com Wallet. Once we receive the wire transfer, we’ll complete your purchase.'
-        />
+        {value.currency === 'USD' ? (
+          <FormattedMessage
+            id='modals.simplebuy.bankwire.description_v2'
+            defaultMessage='Send funds directly from your bank to your Blockchain.com Wallet. Once we receive the wire transfer, we’ll complete your purchase.'
+          />
+        ) : (
+          <FormattedMessage
+            id='modals.simplebuy.banktransfer.description'
+            defaultMessage='Send funds directly from your bank to your Blockchain.com Wallet. Once we receive the bank transfer, we’ll complete your purchase.'
+          />
+        )}
       </Description>
     </Content>
     <Icon name='chevron-right' size='24px' color='grey400' />
