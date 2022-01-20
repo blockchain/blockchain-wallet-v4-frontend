@@ -13,6 +13,7 @@ import {
   ContactSupportText,
   GoBackArrow,
   OuterWrapper,
+  RECOVER_FORM,
   SubCard,
   TroubleLoggingInRow,
   WrapperWithPadding
@@ -55,17 +56,17 @@ const RecoveryOptions = (props: Props) => {
 
   const cloudRecoveryClicked = () => {
     if (hasCloudBackup) {
-      formActions.change('recover', 'step', RecoverSteps.CLOUD_RECOVERY)
+      formActions.change(RECOVER_FORM, 'step', RecoverSteps.CLOUD_RECOVERY)
       authActions.analyticsRecoveryOptionSelected('CLOUD_BACKUP')
     }
   }
   const recoveryPhraseClicked = () => {
-    formActions.change('recover', 'step', RecoverSteps.RECOVERY_PHRASE)
+    formActions.change(RECOVER_FORM, 'step', RecoverSteps.RECOVERY_PHRASE)
     authActions.analyticsRecoveryOptionSelected('RECOVERY_PHRASE')
   }
 
   const resetAccountClicked = () => {
-    formActions.change('recover', 'step', RecoverSteps.RESET_ACCOUNT)
+    formActions.change(RECOVER_FORM, 'step', RecoverSteps.RESET_ACCOUNT)
     authActions.analyticsResetAccountClicked('RECOVERY_OPTIONS')
   }
   return (

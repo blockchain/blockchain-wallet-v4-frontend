@@ -44,7 +44,7 @@ class SecondStep extends React.PureComponent<Props, State> {
   }
 
   render() {
-    const { invalid, isRestoring, isRestoringFromMetadata, recoverPassword } = this.props
+    const { formValues, invalid, isRestoring, isRestoringFromMetadata } = this.props
     return (
       <>
         {!isRestoringFromMetadata && !this.state.importWalletPrompt && (
@@ -117,7 +117,11 @@ class SecondStep extends React.PureComponent<Props, State> {
                     validate={[required, validStrongPassword]}
                     component={PasswordBox}
                     showPasswordScore
-                    passwordScore={has('zxcvbn', window) ? window.zxcvbn(recoverPassword).score : 0}
+                    passwordScore={
+                      has('zxcvbn', window)
+                        ? window.zxcvbn(formValues.recoverPassword || '').score
+                        : 0
+                    }
                   />
                 </FormGroup>
                 <FormGroup>

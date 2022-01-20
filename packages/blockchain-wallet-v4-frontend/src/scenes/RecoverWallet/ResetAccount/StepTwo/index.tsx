@@ -23,7 +23,7 @@ const Footer = styled(FormGroup)`
 const validatePasswordConfirmation = validPasswordConfirmation('resetAccountPassword')
 
 const SecondStep = (props: Props) => {
-  const { emailFromMagicLink, invalid, isRegistering, resetPassword, setStep } = props
+  const { emailFromMagicLink, formValues, invalid, isRegistering, setStep } = props
   return (
     <>
       <BackArrowFormHeader
@@ -41,7 +41,9 @@ const SecondStep = (props: Props) => {
           validate={[required, validStrongPassword]}
           component={PasswordBox}
           showPasswordScore
-          passwordScore={has('zxcvbn', window) ? window.zxcvbn(resetPassword).score : 0}
+          passwordScore={
+            has('zxcvbn', window) ? window.zxcvbn(formValues.resetPassword || '').score : 0
+          }
         />
       </FormGroup>
       <FormGroup>

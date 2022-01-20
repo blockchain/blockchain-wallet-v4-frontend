@@ -110,11 +110,11 @@ export default ({ api, coreSagas, networks }) => {
   }
 
   const loginRoutineSaga = function* ({
+    country = undefined,
     email = undefined,
     firstLogin = false,
-    country = undefined,
-    state = undefined,
-    recovery = false
+    recovery = false,
+    state = undefined
   }) {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
@@ -482,17 +482,23 @@ export default ({ api, coreSagas, networks }) => {
 
   const restore = function* (action) {
     try {
-      yield put(actions.auth.restoreLoading())
-      yield put(actions.auth.setRegisterEmail(action.payload.email))
-      yield put(actions.alerts.displayInfo(C.RESTORE_WALLET_INFO))
+      const { captchaToken, email, language, mnemonic, password } = action.payload
       const kvCredentials = (yield select(selectors.auth.getMetadataRestore)).getOrElse({})
+
+      yield put(actions.auth.restoreLoading())
+      yield put(actions.auth.setRegisterEmail(email))
+      yield put(actions.alerts.displayInfo(C.RESTORE_WALLET_INFO))
       yield call(coreSagas.wallet.restoreWalletSaga, {
-        ...action.payload,
-        kvCredentials
+        captchaToken,
+        email,
+        kvCredentials,
+        language,
+        mnemonic,
+        password
       })
 
       yield call(loginRoutineSaga, {
-        email: action.payload.email,
+        email,
         firstLogin: true,
         recovery: true
       })

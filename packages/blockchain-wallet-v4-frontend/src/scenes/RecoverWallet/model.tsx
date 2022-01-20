@@ -7,6 +7,8 @@ import { Wrapper } from 'components/Public'
 import { RecoverSteps } from 'data/types'
 import { media } from 'services/styles'
 
+export const RECOVER_FORM = 'recover'
+
 export const ActionButton = styled(Button)`
   margin-top: 15px;
 `
