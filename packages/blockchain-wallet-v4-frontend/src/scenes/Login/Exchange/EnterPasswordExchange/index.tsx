@@ -94,7 +94,7 @@ const EnterPasswordExchange = (props: Props) => {
               <FormError data-e2e='passwordError' style={{ paddingTop: '5px' }}>
                 <FormattedMessage
                   id='scenes.login.exchange.wrong_password'
-                  defaultMessage='Login failed - invalid credentials.'
+                  defaultMessage='Login failed - wrong password.'
                 />
                 {/* some sort of prompts to reset password?  */}
               </FormError>
