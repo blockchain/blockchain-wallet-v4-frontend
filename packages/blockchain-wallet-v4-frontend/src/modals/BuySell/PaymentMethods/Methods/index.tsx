@@ -1,6 +1,6 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { Form, InjectedFormProps, reduxForm } from 'redux-form'
+import { Form, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
 import {
@@ -16,6 +16,7 @@ import { CARD_TYPES, DEFAULT_CARD_SVG_LOGO } from 'components/Form/CreditCardBox
 import { getCoinFromPair, getFiatFromPair } from 'data/components/buySell/model'
 
 import { Props as OwnProps, SuccessStateType } from '../index'
+import ApplePay from './ApplePay'
 import BankWire from './BankWire'
 import LinkBank from './LinkBank'
 import PaymentCard from './PaymentCard'
@@ -49,7 +50,9 @@ const IconContainer = styled.div`
 
 export type Props = OwnProps & SuccessStateType
 
-const Methods = (props: InjectedFormProps<{}, Props> & Props) => {
+const Methods = (props: Props) => {
+  const [isApplePayAvailable, setApplePayAvailable] = useState(false)
+
   const getType = (value: BSPaymentMethodType) => {
     switch (value.type) {
       case BSPaymentTypes.BANK_TRANSFER:
@@ -169,6 +172,9 @@ const Methods = (props: InjectedFormProps<{}, Props> & Props) => {
   const bankTransfer = defaultMethods.find(
     (method) => method.value.type === BSPaymentTypes.BANK_TRANSFER && orderType === OrderType.BUY
   )
+  const applePay = defaultMethods.find(
+    (method) => method.value.type === BSPaymentTypes.APPLE_PAY && orderType === OrderType.BUY
+  )
 
   const cardMethods = availableCards.map((card) => ({
     text: card.card ? (card.card.label ? card.card.label : card.card.type) : 'Credit or Debit Card',
@@ -184,8 +190,30 @@ const Methods = (props: InjectedFormProps<{}, Props> & Props) => {
     } as BSPaymentMethodType
   }))
 
-  const availableMethods =
-    funds.length || cardMethods.length || paymentCard !== undefined || bankAccount !== undefined
+  const anyAvailableMethod =
+    funds.length || cardMethods.length || !!paymentCard || !!bankAccount || !!applePay
+
+  useEffect(() => {
+    // @ts-ignore
+    if (window.ApplePaySession) {
+      // TODO - this will come from some environment
+      const merchantIdentifier = 'merchant.com.blockchain.sandbox'
+
+      const promise = ApplePaySession.canMakePaymentsWithActiveCard(merchantIdentifier)
+
+      promise
+        .then((canMakePayments) => {
+          // eslint-disable-next-line no-console
+          console.log(canMakePayments)
+          setApplePayAvailable(canMakePayments)
+        })
+        .catch((err) => {
+          // do nothing
+
+          console.error(err)
+        })
+    }
+  }, [])
 
   return (
     <Wrapper>
@@ -218,7 +246,7 @@ const Methods = (props: InjectedFormProps<{}, Props> & Props) => {
           </TopText>
         </FlyoutWrapper>
         <PaymentsWrapper>
-          {!availableMethods && (
+          {!anyAvailableMethod ? (
             <NoMethods>
               <Image
                 height='60px'
@@ -232,15 +260,27 @@ const Methods = (props: InjectedFormProps<{}, Props> & Props) => {
                 />
               </Text>
             </NoMethods>
-          )}
-          {paymentCard && (
+          ) : null}
+
+          {paymentCard ? (
             <PaymentCard
               {...paymentCard}
               icon={getIcon(paymentCard.value)}
               onClick={() => handleSubmit(paymentCard.value)}
             />
-          )}
-          {bankTransfer && (
+          ) : null}
+
+          {
+            /* applePay &&  */ isApplePayAvailable ? (
+              <ApplePay
+                onClick={() => {
+                  /* handleSubmit(applePay.value) */
+                }}
+              />
+            ) : null
+          }
+
+          {bankTransfer ? (
             <LinkBank
               {...bankTransfer}
               // @ts-ignore
@@ -252,8 +292,9 @@ const Methods = (props: InjectedFormProps<{}, Props> & Props) => {
                 })
               }
             />
-          )}
-          {bankAccount && fiatCurrency && (
+          ) : null}
+
+          {bankAccount && fiatCurrency ? (
             <>
               <BankWire
                 {...bankAccount}
@@ -261,7 +302,7 @@ const Methods = (props: InjectedFormProps<{}, Props> & Props) => {
                 onClick={() => handleSubmit(bankAccount.value)}
               />
             </>
-          )}
+          ) : null}
         </PaymentsWrapper>
       </Form>
     </Wrapper>
