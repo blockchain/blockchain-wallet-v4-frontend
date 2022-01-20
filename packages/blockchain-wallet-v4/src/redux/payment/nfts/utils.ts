@@ -670,9 +670,9 @@ export function _makeMatchingOrder({
     howToCall: order.howToCall,
     listingTime: times.listingTime,
     maker: accountAddress,
-    makerProtocolFee: new BigNumber(order.takerProtocolFee),
+    makerProtocolFee: new BigNumber(order.makerProtocolFee),
     makerReferrerFee: new BigNumber(order.makerReferrerFee),
-    makerRelayerFee: new BigNumber(order.takerRelayerFee),
+    makerRelayerFee: new BigNumber(order.makerRelayerFee),
     metadata: order.metadata,
     paymentToken: paymentTokenAddress ?? order.paymentToken,
     quantity: order.quantity,
@@ -684,8 +684,8 @@ export function _makeMatchingOrder({
     staticExtradata: '0x',
     staticTarget: NULL_ADDRESS,
     taker: order.maker,
-    takerProtocolFee: new BigNumber(order.makerProtocolFee),
-    takerRelayerFee: new BigNumber(order.makerRelayerFee),
+    takerProtocolFee: new BigNumber(order.takerProtocolFee),
+    takerRelayerFee: new BigNumber(order.takerRelayerFee),
     target,
     waitingForBestCounterOrder: false
   }
@@ -2286,7 +2286,7 @@ export async function createMatchingOrders(
     offer,
     order,
     paymentTokenAddress,
-    recipientAddress: order.side === NftOrderSide.Buy ? order.maker : accountAddress
+    recipientAddress: accountAddress
   })
   // eslint-disable-next-line prefer-const
   let { buy, sell } = assignOrdersToSides(order, matchingOrder)
