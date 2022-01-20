@@ -37,9 +37,11 @@ const Wrapper = styled.div<{ authProduct?: string }>`
   ${media.atLeastTablet`
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     align-items: center;
     height: 100%;
+    > div:last-child {
+      margin-top: auto;
+    }
   `}
 `
 
@@ -47,7 +49,7 @@ const HeaderContainer = styled.div`
   position: relative;
   width: 100%;
 `
-const ContentContainer = styled.div<{ isLogin?: boolean }>`
+const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -56,12 +58,6 @@ const ContentContainer = styled.div<{ isLogin?: boolean }>`
   max-width: 100%;
   box-sizing: border-box;
   margin: 0 16px;
-
-  ${(props) =>
-    props.isLogin &&
-    css`
-      margin-top: 40px;
-    `}
 `
 
 const PublicLayoutContainer = ({
@@ -70,8 +66,6 @@ const PublicLayoutContainer = ({
   exact = false,
   path
 }: Props) => {
-  const isLogin = path === '/login'
-
   return (
     <Route
       path={path}
@@ -88,7 +82,7 @@ const PublicLayoutContainer = ({
             </HeaderContainer>
 
             <Modals />
-            <ContentContainer isLogin={isLogin}>
+            <ContentContainer>
               <Component {...matchProps} />
             </ContentContainer>
 

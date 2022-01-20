@@ -209,7 +209,7 @@ class BuySell extends PureComponent<Props, State> {
                 <ThreeDSHandlerStripe {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
             )}
-            {this.props.step === 'CC_BILLING_ADDRESS' && (
+            {this.props.step === 'BILLING_ADDRESS' && (
               <FlyoutChild>
                 <BillingAddress {...this.props} handleClose={this.handleClose} />
               </FlyoutChild>
@@ -341,7 +341,7 @@ type LinkStatePropsType =
         | '3DS_HANDLER_EVERYPAY'
         | '3DS_HANDLER_CHECKOUTDOTCOM'
         | '3DS_HANDLER_STRIPE'
-        | 'CC_BILLING_ADDRESS'
+        | 'BILLING_ADDRESS'
         | 'KYC_REQUIRED'
         | 'UPGRADE_TO_GOLD'
         | 'LOADING'

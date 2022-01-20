@@ -56,7 +56,7 @@ export const FORM_BS_CHECKOUT = 'buySellCheckout'
 export const FORM_BS_CRYPTO_SELECTION = 'bsCryptoSelection'
 export const FORM_BS_PREVIEW_SELL = 'previewSell'
 export const FORM_BS_LINKED_CARDS = 'linkedCards'
-export const FORMS_BS_BILLING_ADDRESS = 'ccBillingAddress'
+export const FORMS_BS_BILLING_ADDRESS = 'billingAddress'
 
 export const splitPair = (
   pair: BSPairsType

@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
+import { ProductTypes } from '@core/types'
 import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
 import CircularProgressBar from 'components/CircularProgressBar'
 import { actions, selectors } from 'data'
+import { ModalName } from 'data/modals/types'
 import { RootState } from 'data/rootReducer'
 import { media } from 'services/styles'
 
@@ -56,15 +58,21 @@ const BannerButton = styled(Button)`
   `}
 `
 
-const CompleteYourProfile = ({ buySellActions, data, fiatCurrency, verifyIdentity }: Props) => {
+const CompleteYourProfile = ({ buySellActions, data, fiatCurrency, modalActions }: Props) => {
   useEffect(() => {
     buySellActions.fetchCards(false)
     buySellActions.fetchPaymentMethods(fiatCurrency)
-    buySellActions.fetchBalance({ skipLoading: true })
+    buySellActions.fetchAccumulatedTrades({ product: ProductTypes.SIMPLEBUY })
   }, [fiatCurrency, buySellActions])
 
   const { currentStep } = data
-  const percentage = currentStep ? currentStep / MAX_STEPS : 0
+  const percentage = currentStep ? (currentStep / MAX_STEPS) * 100 : 0
+
+  const handleClick = useCallback(() => {
+    modalActions.showModal(ModalName.COMPLETE_USER_PROFILE, {
+      origin: 'SideNav'
+    })
+  }, [modalActions])
 
   return (
     <Wrapper>
@@ -99,7 +107,7 @@ const CompleteYourProfile = ({ buySellActions, data, fiatCurrency, verifyIdentit
       </Row>
 
       <BannerButton
-        onClick={verifyIdentity}
+        onClick={handleClick}
         jumbo
         data-e2e='completeMyProfileGetStarted'
         nature='primary'
@@ -117,14 +125,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
-  verifyIdentity: () =>
-    dispatch(
-      actions.components.identityVerification.verifyIdentity({
-        needMoreInfo: false,
-        origin: 'DashboardPromo',
-        tier: 2
-      })
-    )
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

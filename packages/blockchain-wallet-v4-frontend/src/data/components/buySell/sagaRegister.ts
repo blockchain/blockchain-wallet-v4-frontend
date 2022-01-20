@@ -16,6 +16,7 @@ export default ({ api, coreSagas, networks }) => {
 
   return function* buySellSaga() {
     yield takeEvery(actionTypes.form.CHANGE, buySellSagas.formChanged)
+    yield takeLatest(actions.registerCard, buySellSagas.registerBSCard)
     yield takeLatest(actions.activateCard.type, buySellSagas.activateBSCard)
     yield takeLatest(actions.addCard.type, buySellSagas.addCardDetails)
     yield takeLatest(actions.addCardFinished, buySellSagas.addCardFinished)
@@ -26,7 +27,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.confirmOrder.type, buySellSagas.confirmOrder)
     yield takeLatest(actions.fetchBalance.type, buySellSagas.fetchBSBalances)
     yield takeLatest(actions.deleteCard.type, buySellSagas.deleteBSCard)
-    yield takeLatest(actions.fetchCard.type, buySellSagas.fetchBSCard)
+    yield takeLatest(actions.createCard.type, buySellSagas.createBSCard)
     yield takeLatest(actions.fetchCards.type, buySellSagas.fetchBSCards)
     yield takeLatest(actions.fetchFiatEligible.type, buySellSagas.fetchFiatEligible)
     yield takeLatest(actions.fetchSDDEligibility.type, buySellSagas.fetchSDDEligible)
@@ -51,6 +52,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.switchFix.type, buySellSagas.switchFix)
     yield takeLatest(actions.setFiatTradingCurrency.type, buySellSagas.setFiatTradingCurrency)
     yield takeLatest(actions.fetchCrossBorderLimits.type, buySellSagas.fetchCrossBorderLimits)
+    yield takeLatest(actions.fetchAccumulatedTrades.type, buySellSagas.fetchAccumulatedTrades)
 
     // Fetch balances when profile/user is fetched
     yield takeLatest(

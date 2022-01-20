@@ -14,7 +14,7 @@
       "sift": {
         "apiKey": "0ecd212038"
       },
-      "hotWalletAddresses":{
+      "hotWalletAddresses": {
         "swap": {
           "eth": "0xC05f893248D843192A989AEE6dC26d21426E78AF"
         },
@@ -32,7 +32,7 @@
         }
       },
       "featureFlags": {
-        "addCheckoutPaymentProvider": false,
+        "addCheckoutPaymentProvider": true,
         "addStripePaymentProvider": false,
         "cEURRewards": true,
         "completeYourProfile": true,

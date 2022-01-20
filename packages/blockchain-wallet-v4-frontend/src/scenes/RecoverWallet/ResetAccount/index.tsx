@@ -5,12 +5,12 @@ import { InjectedFormProps } from 'redux-form'
 
 import { Remote } from '@core'
 import { Form } from 'components/Form'
-import { Wrapper } from 'components/Public'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { RecoverSteps } from 'data/types'
 
 import { Props as OwnProps } from '..'
+import { FormWrapper } from '../model'
 import StepOne from './StepOne'
 import StepTwo from './StepTwo'
 
@@ -35,14 +35,12 @@ class ResetAccount extends React.PureComponent<InjectedFormProps<{}, Props> & Pr
   render() {
     const isRegistering = Remote.Loading.is(this.props.registering)
     return (
-      <>
-        <Wrapper>
-          <Form onSubmit={this.handleSubmit}>
-            {this.state.step === 1 && <StepOne {...this.props} setFormStep={this.setFormStep} />}
-            {this.state.step === 2 && <StepTwo {...this.props} isRegistering={isRegistering} />}
-          </Form>
-        </Wrapper>
-      </>
+      <FormWrapper>
+        <Form onSubmit={this.handleSubmit}>
+          {this.state.step === 1 && <StepOne {...this.props} setFormStep={this.setFormStep} />}
+          {this.state.step === 2 && <StepTwo {...this.props} isRegistering={isRegistering} />}
+        </Form>
+      </FormWrapper>
     )
   }
 }

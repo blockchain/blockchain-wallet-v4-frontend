@@ -734,8 +734,18 @@ export default ({ api, coreSagas, networks }) => {
     }
     if (welcomeModal) {
       const sddEligible = yield call(api.fetchSDDEligible)
+      const showCompleteYourProfile = selectors.core.walletOptions
+        .getCompleteYourProfile(yield select())
+        .getOrElse(null)
       // show SDD flow for eligible country
       if (sddEligible.eligible) {
+        // show new complete profile modal
+        if (showCompleteYourProfile) {
+          return yield put(
+            actions.modals.showModal(ModalName.COMPLETE_USER_PROFILE, welcomeModal.data)
+          )
+        }
+
         return yield put(actions.components.buySell.showModal({ origin: 'WelcomeModal' }))
       }
       return yield put(actions.modals.showModal(welcomeModal.name, welcomeModal.data))

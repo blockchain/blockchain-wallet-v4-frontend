@@ -147,18 +147,18 @@ export const BackArrowFormHeader = (props: {
   return (
     <>
       <BackArrowWrapper marginTop={props.marginTop}>
-        <BackArrow onClick={() => props.handleBackArrowClick()}>
+        <BackArrow onClick={props.handleBackArrowClick}>
           {!props.hideBackArrow && (
             <Icon
               data-e2e='signupBack'
-              name='arrow-left'
+              name='arrow-back'
               size='24px'
-              color='grey400'
+              color='blue600'
               style={{ marginRight: '8px' }}
               role='button'
             />
           )}
-          <Text color='grey900' size='14px' weight={600} lineHeight='1.5'>
+          <Text color='grey900' size='14px' weight={500} lineHeight='1.5'>
             <FormattedMessage id='copy.back' defaultMessage='Back' />
           </Text>
         </BackArrow>
@@ -197,9 +197,6 @@ export const LinkRow = styled.div`
   flex-direction: column;
   align-items: center;
 `
-
-const EXCHANGE_SUPPORT_2FA_SECTION =
-  'https://exchange-support.blockchain.com/hc/en-us/articles/360029748191-How-can-I-reset-my-2-Factor-Authentication-2FA-'
 
 export const WalletNeedHelpLink = (props: { authActions; origin: string }) => (
   <LinkContainer
@@ -285,47 +282,6 @@ export const UnsupportedBrowserWarning = () => (
     </Banner>
   </BrowserWarning>
 )
-
-export const getLoginPageTitle = (step) => {
-  switch (step) {
-    case LoginSteps.ENTER_PASSWORD_EXCHANGE:
-    case LoginSteps.ENTER_PASSWORD_WALLET:
-      return <FormattedMessage id='scenes.login.authorize' defaultMessage='Authorize login' />
-    case LoginSteps.UPGRADE_PASSWORD:
-      return (
-        <FormattedMessage
-          id='scenes.login.upgrade.password.header'
-          defaultMessage='Upgrade Your Password'
-        />
-      )
-    case LoginSteps.ENTER_EMAIL_GUID:
-      return <FormattedMessage id='scenes.login.welcome' defaultMessage='Welcome back!' />
-    default:
-      return null
-  }
-}
-
-export const getLoginPageSubTitle = (step) => {
-  switch (step) {
-    case LoginSteps.UPGRADE_PASSWORD:
-      return (
-        <FormattedMessage
-          id='scenes.login.upgrade.password.subheaderheader'
-          defaultMessage='Create a new password for all your Blockchain.com accounts.'
-        />
-      )
-    case LoginSteps.ENTER_PASSWORD_EXCHANGE:
-    case LoginSteps.ENTER_PASSWORD_WALLET:
-      return (
-        <FormattedMessage
-          id='scenes.login.enter_password_login'
-          defaultMessage='Enter your password to login'
-        />
-      )
-    default:
-      return null
-  }
-}
 
 export const getLoginPageFooter = (step) => {
   switch (step) {

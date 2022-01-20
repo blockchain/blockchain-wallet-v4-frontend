@@ -1,21 +1,19 @@
 import { isEmpty } from 'ramda'
 
-import { BSBalancesType, BSPaymentMethodsType, BSPaymentTypes } from '@core/types'
+import { BSPaymentMethodsType, BSPaymentTypes, TermType, TradeAccumulatedItem } from '@core/types'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
 
 export const getData = (state: RootState): { currentStep: number } => {
   let currentStep = 0
-  const isUserActive =
-    selectors.modules.profile.getUserActivationState(state).getOrElse('') !== 'NONE'
   const isKycStateNone =
     // @ts-ignore
     selectors.modules.profile.getUserKYCState(state).getOrElse('') === 'NONE'
 
   const isFirstLogin = selectors.auth.getFirstLogin(state)
 
-  if (isFirstLogin || isKycStateNone || isUserActive) {
+  if (isFirstLogin || isKycStateNone) {
     return { currentStep }
   }
 
@@ -40,7 +38,7 @@ export const getData = (state: RootState): { currentStep: number } => {
     .getBSPaymentMethods(state)
     .getOrElse({} as BSPaymentMethodsType)
   const isAnyBankLinked =
-    paymentMethods.methods.length > 0 &&
+    paymentMethods?.methods?.length > 0 &&
     paymentMethods.methods.find(
       (method) => method.eligible && method.type === BSPaymentTypes.LINK_BANK
     )
@@ -48,14 +46,15 @@ export const getData = (state: RootState): { currentStep: number } => {
     currentStep += 1
   }
 
-  // user have some balance
-  const balances = selectors.components.buySell.getBSBalances(state).getOrElse({} as BSBalancesType)
-  if (!isEmpty(balances)) {
-    if (
-      Object.values(balances).some(
-        (balance) => balance?.available && Number(balance?.available) > 0
-      )
-    ) {
+  // user accumulated amount all the time
+  const accumulatedTrades = selectors.components.buySell
+    .getAccumulatedTrades(state)
+    .getOrElse([] as TradeAccumulatedItem[])
+  if (!isEmpty(accumulatedTrades)) {
+    const allAccumulated = accumulatedTrades.find(
+      (accumulated) => accumulated.termType === TermType.ALL
+    )
+    if (Number(allAccumulated?.amount?.value) > 0) {
       currentStep += 1
     }
   }

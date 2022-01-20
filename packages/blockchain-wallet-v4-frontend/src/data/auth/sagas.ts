@@ -557,7 +557,7 @@ export default ({ api, coreSagas, networks }) => {
       // get device platform param or default to web
       const platform = (queryParams.get('platform') || PlatformTypes.WEB) as PlatformTypes
       // get product param or default to wallet
-      const product = (queryParams.get('product') ||
+      const product = (queryParams.get('product')?.toUpperCase() ||
         ProductAuthOptions.WALLET) as ProductAuthOptions
       const redirect = queryParams.get('redirect')
       // store product auth data defaulting to product=wallet and platform=web
