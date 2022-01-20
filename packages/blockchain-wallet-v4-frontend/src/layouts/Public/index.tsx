@@ -1,7 +1,7 @@
 import React, { ComponentType } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Route } from 'react-router-dom'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 import Alerts from 'components/Alerts'
 import { selectors } from 'data'
