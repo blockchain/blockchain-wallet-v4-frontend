@@ -9,14 +9,14 @@ type ReturnData = {
   currentStep: number
   isBankOrCardLinked: boolean
   isBuyCrypto: boolean
-  isIdPending: boolean
+  isKycPending: boolean
   isVerifiedId: boolean
 }
 
 export const getData = (state: RootState): ReturnData => {
   let currentStep = 0
   let isVerifiedId = false
-  let isIdPending = false
+  let isKycPending = false
   let isBankOrCardLinked = false
   let isBuyCrypto = false
   const isKycStateNone =
@@ -30,7 +30,7 @@ export const getData = (state: RootState): ReturnData => {
       currentStep,
       isBankOrCardLinked: false,
       isBuyCrypto: false,
-      isIdPending: false,
+      isKycPending: false,
       isVerifiedId: false
     }
   }
@@ -41,7 +41,7 @@ export const getData = (state: RootState): ReturnData => {
   } as UserDataType)
 
   const { KYC_STATES } = model.profile
-  isIdPending =
+  isKycPending =
     userData.kycState === KYC_STATES.PENDING || userData.kycState === KYC_STATES.UNDER_REVIEW
 
   const isKycVerified = userData.kycState === KYC_STATES.VERIFIED
@@ -80,5 +80,5 @@ export const getData = (state: RootState): ReturnData => {
     }
   }
 
-  return { currentStep, isBankOrCardLinked, isBuyCrypto, isIdPending, isVerifiedId }
+  return { currentStep, isBankOrCardLinked, isBuyCrypto, isKycPending, isVerifiedId }
 }

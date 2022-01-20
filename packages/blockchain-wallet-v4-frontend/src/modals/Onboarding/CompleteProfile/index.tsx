@@ -165,7 +165,7 @@ class CompleteProfile extends PureComponent<Props, State> {
 
   render() {
     const { data } = this.props
-    const { currentStep, isBankOrCardLinked, isBuyCrypto, isIdPending, isVerifiedId } = data
+    const { currentStep, isBankOrCardLinked, isBuyCrypto, isKycPending, isVerifiedId } = data
     const percentage = currentStep ? (currentStep / MAX_STEPS) * 100 : 0
 
     return (
@@ -246,7 +246,7 @@ class CompleteProfile extends PureComponent<Props, State> {
                 <LinkItem
                   onClick={this.startVerification}
                   isComplete={isVerifiedId}
-                  isPending={isIdPending}
+                  isKycPending={isKycPending}
                   type={COMPLETE_PROFILE_STEPS.VERIFY}
                 />
 
