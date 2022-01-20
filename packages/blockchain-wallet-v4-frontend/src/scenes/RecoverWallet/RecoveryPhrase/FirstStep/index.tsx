@@ -13,6 +13,7 @@ import {
   ContactSupportText,
   GoBackArrow,
   OuterWrapper,
+  RECOVER_FORM,
   SubCard,
   TroubleLoggingInRow,
   WrapperWithPadding
@@ -26,7 +27,7 @@ const FormBody = styled.div`
 const FirstStep = (props: Props) => {
   const { formActions, invalid, nabuId, setStep, submitting } = props
   const resetAccountClicked = () => {
-    formActions.change('recover', 'step', RecoverSteps.RESET_ACCOUNT)
+    formActions.change(RECOVER_FORM, 'step', RecoverSteps.RESET_ACCOUNT)
     props.authActions.analyticsResetAccountClicked('RECOVERY_PHRASE')
   }
   return (

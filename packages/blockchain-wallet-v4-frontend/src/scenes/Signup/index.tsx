@@ -31,6 +31,7 @@ class SignupContainer extends React.PureComponent<
   constructor(props) {
     super(props)
     this.state = {
+      captchaToken: undefined,
       showForm: props.search.includes('showWallet'),
       showState: false
     }
@@ -41,17 +42,25 @@ class SignupContainer extends React.PureComponent<
     // start sockets to ensure email verify flow is detected
     websocketActions.startSocket()
     authActions.getUserGeoLocation()
+    this.initCaptcha()
   }
 
-  onSubmit = (e) => {
-    e.preventDefault()
-    const { authActions, formValues, language } = this.props
-    const { country, email, password, state } = formValues
-    authActions.register({ country, email, language, password, state })
-  }
-
-  toggleSignupFormVisibility = () => {
-    this.setState({ showForm: true })
+  initCaptcha = (callback?) => {
+    /* eslint-disable */
+    if (!window.grecaptcha || !window.grecaptcha.enterprise) return
+    window.grecaptcha.enterprise.ready(() => {
+      window.grecaptcha.enterprise
+        .execute(window.CAPTCHA_KEY, { action: 'SIGNUP' })
+        .then((captchaToken) => {
+          console.log('Captcha success')
+          this.setState({ captchaToken })
+          callback && callback(captchaToken)
+        })
+        .catch((e) => {
+          console.error('Captcha error: ', e)
+        })
+    })
+    /* eslint-enable */
   }
 
   onCountryChange = (e: React.ChangeEvent<any> | undefined, value: string) => {
@@ -59,13 +68,34 @@ class SignupContainer extends React.PureComponent<
     this.props.formActions.clearFields(SIGNUP_FORM, false, false, 'state')
   }
 
-  setDefaultCountry = (country: string) => {
-    this.setState({ showState: country === 'US' })
+  onSubmit = (e) => {
+    e.preventDefault()
+    const { captchaToken } = this.state
+    const { authActions, formValues, language } = this.props
+    const { country, email, password, state } = formValues
+
+    // sometimes captcha doesnt mount correctly (race condition?)
+    // if it's undefined, try to re-init for token
+    if (!captchaToken) {
+      return this.initCaptcha(
+        authActions.register({ captchaToken, country, email, language, password, state })
+      )
+    }
+    // we have a captcha token, continue signup process
+    authActions.register({ captchaToken, country, email, language, password, state })
   }
 
   setCountryOnLoad = (country: string) => {
     this.setDefaultCountry(country)
     this.props.formActions.change(SIGNUP_FORM, 'country', country)
+  }
+
+  setDefaultCountry = (country: string) => {
+    this.setState({ showState: country === 'US' })
+  }
+
+  toggleSignupFormVisibility = () => {
+    this.setState({ showForm: true })
   }
 
   render() {
@@ -133,6 +163,7 @@ type LinkStatePropsType = {
   userGeoData: GeoLocationType
 }
 type StateProps = {
+  captchaToken?: string
   showForm: boolean
   showState: boolean
 }
