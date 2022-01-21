@@ -2826,10 +2826,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const site_redirect = state.auth.productAuthMetadata.product
 
         analytics.push(AnalyticsKey.DEVICE_VERIFIED, {
           properties: {
-            originalTimestamp: getOriginalTimestamp()
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect
           },
           traits: {
             email,
@@ -2846,7 +2848,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-        const site_redirect = state.auth.getOrElse({})?.productAuthMetadata?.product
+        const site_redirect = state.auth.productAuthMetadata.product
 
         const origin = action.payload
 
@@ -2871,12 +2873,14 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const site_redirect = state.auth.productAuthMetadata.product
 
-        const { idType } = action.payload
+        const idType = action.payload
         analytics.push(AnalyticsKey.LOGIN_IDENTIFIER_ENTERED, {
           properties: {
             identifier_type: idType,
-            originalTimestamp: getOriginalTimestamp()
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect
           },
           traits: {
             email,
@@ -2916,10 +2920,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const site_redirect = state.auth.productAuthMetadata.product
 
         analytics.push(AnalyticsKey.LOGIN_PASSWORD_DENIED, {
           properties: {
-            originalTimestamp: getOriginalTimestamp()
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect
           },
           traits: {
             email,
@@ -2936,10 +2942,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const site_redirect = state.auth.productAuthMetadata.product
 
         analytics.push(AnalyticsKey.LOGIN_PASSWORD_ENTERED, {
           properties: {
-            originalTimestamp: getOriginalTimestamp()
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect
           },
           traits: {
             email,
@@ -3001,7 +3009,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
-        const request_platform = state.auth.getOrElse({})?.productAuthMetadata?.product
+        const request_platform = state.auth.productAuthMetadata.product
 
         analytics.push(AnalyticsKey.LOGIN_REQUEST_APPROVED, {
           properties: {
@@ -3026,7 +3034,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const error = action.payload
-        const request_platform = state.auth.getOrElse({})?.productAuthMetadata?.product
+        const request_platform = state.auth.productAuthMetadata.product
         analytics.push(AnalyticsKey.LOGIN_REQUEST_DENIED, {
           properties: {
             error,
@@ -3049,10 +3057,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const site_redirect = state.auth.productAuthMetadata.product
 
         analytics.push(AnalyticsKey.LOGIN_TWO_STEP_VERIFICATION_DENIED, {
           properties: {
-            originalTimestamp: getOriginalTimestamp()
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect
           },
           traits: {
             email,
@@ -3069,10 +3079,12 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const site_redirect = state.auth.productAuthMetadata.product
 
         analytics.push(AnalyticsKey.LOGIN_TWO_STEP_VERIFICATION_ENTERED, {
           properties: {
-            originalTimestamp: getOriginalTimestamp()
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect
           },
           traits: {
             email,
