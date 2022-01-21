@@ -54,7 +54,7 @@ const ListItem = styled.li`
   }
 `
 
-const ExchangeLinkGoal = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) => (
+const ExchangeLinkGoal = (props: InjectedFormProps<{}> & SubviewProps) => (
   <CardsWrapper>
     <InfoWrapper>
       <Image height='2rem' name='refresh' />

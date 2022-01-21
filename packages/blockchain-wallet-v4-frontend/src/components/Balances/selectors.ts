@@ -235,6 +235,7 @@ export const getFiatBalanceInfo = createDeepEqualSelector(
         })
       })
 
+      // @ts-ignore
       return balances.reduce(add, 0)
     }
 

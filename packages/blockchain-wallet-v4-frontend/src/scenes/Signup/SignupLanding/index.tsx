@@ -14,9 +14,7 @@ import {
   CardWrapper,
   IconWrapper,
   InfoItem,
-  InfoTitle,
-  SignInText,
-  SubCard
+  InfoTitle
 } from '../components'
 import Header from '../components/Header'
 import SignupCard from '../components/SignupCard'
@@ -40,133 +38,118 @@ const TabIcon = styled(Icon)`
     display: none;
   `}
 `
-const ExchangeCardWrapper = styled.div<{ $showForm: boolean }>`
-  display: flex;
-  flex-direction: column;
-  ${({ $showForm }) => $showForm && 'margin-left: 24px;'}
-`
 
-const SignupLanding = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) => (
-  <>
-    <Header />
-    <CardsWrapper>
-      <SignupCard {...props} />
+const SignupLanding = (props: InjectedFormProps<{}> & SubviewProps) => {
+  const { isLinkAccountGoal, showForm } = props
 
-      <ExchangeCardWrapper $showForm={props.showForm}>
-        <CardsWrapper>
-          <Card>
-            <CardHeader>
-              <IconWrapper color='black'>
-                <Icon color='white' name='blockchain-logo' size='32px' />
-              </IconWrapper>
-              <Text size='24px' color='textBlack' weight={600}>
-                <FormattedMessage
-                  id='scenes.register.exchangecard.title'
-                  defaultMessage='Blockchain Exchange'
-                />
-              </Text>
-            </CardHeader>
+  const showOnlySignup = showForm || isLinkAccountGoal
+  return (
+    <>
+      <Header />
+      <CardsWrapper>
+        <SignupCard {...props} />
 
-            <CardInfo>
-              <InfoTitle color='grey800' size='18px' weight={600}>
-                <FormattedMessage
-                  id='scenes.register.exchangecard.infotitle'
-                  defaultMessage='The world’s most trusted crypto exchange.'
-                />
-              </InfoTitle>
-
-              <InfoItem>
-                <TextGroup inline>
-                  <Text color='grey800' size='16px' weight={600}>
-                    <FormattedMessage
-                      id='scenes.register.exchangecard.item.1.bold'
-                      defaultMessage='Lightning-fast trades'
-                    />
-                  </Text>
-                  <Text color='grey600' size='16px' weight={500}>
-                    <FormattedMessage
-                      id='scenes.register.exchangecard.item.1.regular'
-                      defaultMessage='mean you get the best price.'
-                    />
-                  </Text>
-                </TextGroup>
-              </InfoItem>
-
-              <InfoItem>
-                <TextGroup inline>
-                  <Text color='grey800' size='16px' weight={600}>
-                    <FormattedMessage
-                      id='scenes.register.exchangecard.item.2.bold1'
-                      defaultMessage='Many trading pairs'
-                    />
-                  </Text>
-                  <Text color='grey600' size='16px' weight={500}>
-                    <FormattedMessage
-                      id='scenes.register.exchangecard.item.2.regular1'
-                      defaultMessage='including USD, GBP and EUR.'
-                    />
-                  </Text>
-                </TextGroup>
-              </InfoItem>
-
-              <InfoItem>
-                <TextGroup inline>
-                  <Text color='grey800' size='16px' weight={600}>
-                    <FormattedMessage
-                      id='scenes.register.exchangecard.item.3.bold'
-                      defaultMessage='Control your money'
-                    />
-                  </Text>
-                  <Text color='grey600' size='16px' weight={500}>
-                    <FormattedMessage
-                      id='scenes.register.exchangecard.item.3.regular'
-                      defaultMessage='by connecting your Wallet.'
-                    />
-                  </Text>
-                </TextGroup>
-              </InfoItem>
-            </CardInfo>
-            <Link
-              href='https://exchange.blockchain.com/trade/signup?utm_source=web_wallet&utm_medium=referral&utm_campaign=wallet_register_page'
-              target='_blank'
-            >
-              <ExchangeButton
-                data-e2e='createExchangeAccount'
-                fullwidth
-                height='48px'
-                nature='primary'
-                style={{ borderRadius: '8px' }}
-              >
-                <Text color='white' size='16px' weight={600}>
+        {!showOnlySignup && (
+          <CardWrapper>
+            <Card>
+              <CardHeader>
+                <IconWrapper color='black'>
+                  <Icon color='white' name='blockchain-logo' size='32px' />
+                </IconWrapper>
+                <Text size='24px' color='textBlack' weight={600}>
                   <FormattedMessage
-                    id='scenes.public.register.createExchange'
-                    defaultMessage='Create an Exchange Account'
+                    id='scenes.register.exchangecard.title'
+                    defaultMessage='Blockchain Exchange'
                   />
                 </Text>
+              </CardHeader>
 
-                <TabIcon color='white' name='open-in-new-tab' size='24px' />
-              </ExchangeButton>
-            </Link>
-          </Card>
-        </CardsWrapper>
-        <Link href='https://blockchain.com/institutional?signup'>
-          <SubCard>
-            <Text size='14px' color='whiteFade600' weight={500}>
-              <FormattedMessage
-                id='scenes.register.institutional.link'
-                defaultMessage='Looking for Institutional?'
-              />
-            </Text>
-            &nbsp;
-            <SignInText color='whiteFade900' size='14px' weight={500}>
-              <FormattedMessage id='scenes.register.wallet.signup' defaultMessage='Sign up' />
-            </SignInText>
-            <Icon size='18px' color='white' name='arrow-right' />
-          </SubCard>
-        </Link>
-      </ExchangeCardWrapper>
-    </CardsWrapper>
-  </>
-)
+              <CardInfo>
+                <InfoTitle color='grey800' size='18px' weight={600}>
+                  <FormattedMessage
+                    id='scenes.register.exchangecard.infotitle'
+                    defaultMessage='The world’s most trusted crypto exchange.'
+                  />
+                </InfoTitle>
+
+                <InfoItem>
+                  <TextGroup inline>
+                    <Text color='grey800' size='16px' weight={600}>
+                      <FormattedMessage
+                        id='scenes.register.exchangecard.item.1.bold'
+                        defaultMessage='Lightning-fast trades'
+                      />
+                    </Text>
+                    <Text color='grey600' size='16px' weight={500}>
+                      <FormattedMessage
+                        id='scenes.register.exchangecard.item.1.regular'
+                        defaultMessage='mean you get the best price.'
+                      />
+                    </Text>
+                  </TextGroup>
+                </InfoItem>
+
+                <InfoItem>
+                  <TextGroup inline>
+                    <Text color='grey800' size='16px' weight={600}>
+                      <FormattedMessage
+                        id='scenes.register.exchangecard.item.2.bold1'
+                        defaultMessage='Many trading pairs'
+                      />
+                    </Text>
+                    <Text color='grey600' size='16px' weight={500}>
+                      <FormattedMessage
+                        id='scenes.register.exchangecard.item.2.regular1'
+                        defaultMessage='including USD, GBP and EUR.'
+                      />
+                    </Text>
+                  </TextGroup>
+                </InfoItem>
+
+                <InfoItem>
+                  <TextGroup inline>
+                    <Text color='grey800' size='16px' weight={600}>
+                      <FormattedMessage
+                        id='scenes.register.exchangecard.item.3.bold'
+                        defaultMessage='Control your money'
+                      />
+                    </Text>
+                    <Text color='grey600' size='16px' weight={500}>
+                      <FormattedMessage
+                        id='scenes.register.exchangecard.item.3.regular'
+                        defaultMessage='by connecting your Wallet.'
+                      />
+                    </Text>
+                  </TextGroup>
+                </InfoItem>
+              </CardInfo>
+              <Link
+                href='https://exchange.blockchain.com/trade/signup?utm_source=web_wallet&utm_medium=referral&utm_campaign=wallet_register_page'
+                target='_blank'
+              >
+                <ExchangeButton
+                  data-e2e='createExchangeAccount'
+                  fullwidth
+                  height='48px'
+                  nature='primary'
+                  style={{ borderRadius: '8px' }}
+                >
+                  <Text color='white' size='16px' weight={600}>
+                    <FormattedMessage
+                      id='scenes.public.register.createExchange'
+                      defaultMessage='Create an Exchange Account'
+                    />
+                  </Text>
+
+                  <TabIcon color='white' name='open-in-new-tab' size='24px' />
+                </ExchangeButton>
+              </Link>
+            </Card>
+          </CardWrapper>
+        )}
+      </CardsWrapper>
+    </>
+  )
+}
 
 export default SignupLanding
