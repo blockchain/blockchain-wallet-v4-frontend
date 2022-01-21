@@ -196,22 +196,7 @@ const Methods = (props: Props) => {
   useEffect(() => {
     // @ts-ignore
     if (window.ApplePaySession) {
-      // TODO - this will come from some environment
-      const merchantIdentifier = 'merchant.com.blockchain.sandbox'
-
-      const promise = ApplePaySession.canMakePaymentsWithActiveCard(merchantIdentifier)
-
-      promise
-        .then((canMakePayments) => {
-          // eslint-disable-next-line no-console
-          console.log(canMakePayments)
-          setApplePayAvailable(canMakePayments)
-        })
-        .catch((err) => {
-          // do nothing
-
-          console.error(err)
-        })
+      setApplePayAvailable(true)
     }
   }, [])
 
@@ -270,15 +255,13 @@ const Methods = (props: Props) => {
             />
           ) : null}
 
-          {
-            /* applePay &&  */ isApplePayAvailable ? (
-              <ApplePay
-                onClick={() => {
-                  /* handleSubmit(applePay.value) */
-                }}
-              />
-            ) : null
-          }
+          {applePay && isApplePayAvailable ? (
+            <ApplePay
+              onClick={() => {
+                handleSubmit(applePay.value)
+              }}
+            />
+          ) : null}
 
           {bankTransfer ? (
             <LinkBank
