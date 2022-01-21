@@ -366,7 +366,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                         })
                         // English Auction
                       } else if (
-                        formValues['sale-type'] === 'fixed-price' &&
+                        formValues['sale-type'] === 'timed-auction' &&
                         formValues.timedAuctionType === 'highestBidder'
                       ) {
                         nftActions.createSellOrder({
