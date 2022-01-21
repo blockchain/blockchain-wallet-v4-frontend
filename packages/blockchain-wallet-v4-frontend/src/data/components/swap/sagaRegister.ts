@@ -31,7 +31,7 @@ export default ({ api, coreSagas, networks }) => {
     yield takeLatest(actions.fetchCrossBorderLimits.type, swapSagas.fetchCrossBorderLimits)
 
     yield takeLatest(actions.startPollQuote.type, function* () {
-      if (pollTask && pollTask.isRunning) yield cancel(pollTask)
+      if (pollTask && pollTask.isRunning()) yield cancel(pollTask)
       pollTask = yield fork(swapSagas.fetchQuote)
       yield take(actions.stopPollQuote)
       yield cancel(pollTask)

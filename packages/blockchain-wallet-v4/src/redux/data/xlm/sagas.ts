@@ -83,6 +83,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
     const accountIds = yield select(S.getContext)
     yield all(accountIds.map((id) => call(fetchAccount, id)))
     const accounts = yield select(S.getAccounts)
+    // @ts-ignore
     const data = { info: { final_balance: sumBalance(accounts) } }
     yield put(A.fetchDataSuccess(data))
   }
@@ -112,6 +113,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
           map(transformTx(accounts, txNotes, tx)),
           // @ts-ignore
           filter(isLumenOperation)
+          // @ts-ignore
         )(operations)
       }, txList)
     )
@@ -156,6 +158,7 @@ export default ({ api, networks }: { api: APIType; networks: any }) => {
       )
       // @ts-ignore
       const txType = prop('type', tx)
+      // @ts-ignore
       const negativeSignOrEmpty = equals('sent', txType) ? '-' : ''
       const priceAtTime = new BigNumber(
         // @ts-ignore

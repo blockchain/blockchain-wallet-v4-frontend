@@ -10,6 +10,7 @@ import NewVersionAvailable from './template'
 
 class NewVersionAvailableContainer extends React.PureComponent<Props> {
   onSubmit = () => {
+    // @ts-ignore
     window.location.reload(true)
   }
 

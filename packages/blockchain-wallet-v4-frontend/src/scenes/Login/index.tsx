@@ -67,10 +67,12 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
   }
 
   handleBackArrowClick = () => {
-    this.props.cacheActions.removedStoredLogin()
-    this.props.formActions.destroy(LOGIN_FORM)
+    const { authActions, cacheActions, formActions } = this.props
+
+    cacheActions.removedStoredLogin()
+    formActions.destroy(LOGIN_FORM)
     this.setStep(LoginSteps.ENTER_EMAIL_GUID)
-    this.props.authActions.clearLoginError()
+    authActions.clearLoginError()
     this.initCaptcha()
   }
 
@@ -112,21 +114,19 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       Success: () => ({ busy: false, walletError: null })
     })
 
-    // TODO see if we still need busy
     const loginProps = {
-      busy,
+      busy, // TODO see if we still need busy
       exchangeError,
-      handleBackArrowClick: this.handleBackArrowClick,
       isMobileViewLogin: platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS,
-      setStep: this.setStep,
       walletError,
-      ...this.props
+      ...this.props,
+      handleBackArrowClick: this.handleBackArrowClick,
+      setStep: this.setStep
     }
 
     return (
       <>
         {/* CONTENT */}
-
         <Form onSubmit={this.handleSubmit}>
           {(() => {
             switch (step) {

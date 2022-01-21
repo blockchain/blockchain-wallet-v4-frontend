@@ -138,7 +138,7 @@ export default ({ api, networks }) => {
     const getxpub = curry((nodes, i) =>
       nodes.map((node) => node.deriveHardened(i).neutered().toBase58())
     )
-    const xpubs = map(getxpub(nodes), range(0, batch))
+    const xpubs = map(getxpub(nodes), range(0, batch)) as Array<string>
     const result = yield call(
       api.fetchBlockchainData,
       {

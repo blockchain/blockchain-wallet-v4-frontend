@@ -16,6 +16,7 @@
     "strict": true,
     "strictNullChecks": true,
     "target": "es6",
+    "useUnknownInCatchVariables": false,
     "paths": {
       "@core": ["blockchain-wallet-v4/src"],
       "@core/*": ["blockchain-wallet-v4/src/*"],

@@ -13,7 +13,13 @@ import { RootState } from 'data/rootReducer'
 import BuyGoal from './BuyGoal'
 import ExchangeLinkGoal from './ExchangeLinkGoal'
 import SignupLanding from './SignupLanding'
-import { GeoLocationType, GoalDataType, SignupFormInitValuesType, SignupFormType } from './types'
+import {
+  GeoLocationType,
+  GoalDataType,
+  SignupFormInitValuesType,
+  SignupFormType,
+  SubviewProps
+} from './types'
 
 const SignupWrapper = styled.div`
   display: flex;
@@ -99,7 +105,7 @@ class SignupContainer extends React.PureComponent<
   }
 
   render() {
-    const { goals, isLoadingR, signupCountryEnabled } = this.props
+    const { goals, isLoadingR } = this.props
     const isFormSubmitting = Remote.Loading.is(isLoadingR)
 
     // pull email from simple buy goal if it exists
@@ -109,7 +115,6 @@ class SignupContainer extends React.PureComponent<
     const isBuyGoal = !!find(propEq('name', 'buySell'), goals)
 
     const subviewProps = {
-      initialValues: signupInitialValues,
       isFormSubmitting,
       isLinkAccountGoal,
       onCountrySelect: this.onCountryChange,
@@ -117,9 +122,9 @@ class SignupContainer extends React.PureComponent<
       setDefaultCountry: this.setCountryOnLoad,
       showForm: this.state.showForm,
       showState: this.state.showState,
-      signupCountryEnabled,
       toggleSignupFormVisibility: this.toggleSignupFormVisibility,
-      ...this.props
+      ...this.props, // order here matters as we may need to override initial form values!
+      initialValues: signupInitialValues
     }
 
     return (
@@ -167,10 +172,8 @@ type StateProps = {
   showForm: boolean
   showState: boolean
 }
-type ownProps = {
-  setDefaultCountry: (country: string) => void
-}
-export type Props = ConnectedProps<typeof connector> & LinkStatePropsType & ownProps
+
+export type Props = ConnectedProps<typeof connector> & LinkStatePropsType
 
 const enhance = compose(reduxForm<{}, Props>({ form: SIGNUP_FORM }), connector)
 
