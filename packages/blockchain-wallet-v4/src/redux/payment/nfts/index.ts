@@ -47,6 +47,7 @@ export const fulfillNftSellOrder = async (order: Order, signer: Signer, gasData:
 export const getNftSellOrder = async (
   asset: NftAsset,
   signer: Signer,
+  listingTime = 0,
   expirationTime = 0,
   startPrice = 0.011, // The starting price for auctions / sale price for fixed price sale orders (TODO: Remove default 0.1 value)
   endPrice: number | null = null,
@@ -57,6 +58,7 @@ export const getNftSellOrder = async (
   return createSellOrder(
     asset,
     expirationTime,
+    listingTime,
     signer,
     startPrice,
     endPrice,

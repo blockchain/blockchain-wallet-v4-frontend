@@ -1096,8 +1096,7 @@ export async function _makeSellOrder({
     waitForHighestBid,
     englishAuctionReservePrice
   )
-  // TODO: DONT DEFAULT TO 1 WEEK
-  const times = _getTimeParameters(expirationTime, moment().add(7, 'day').unix())
+  const times = _getTimeParameters(expirationTime, listingTime)
   const {
     feeMethod,
     feeRecipient,
@@ -2217,6 +2216,7 @@ export async function _makeBuyOrder({
 export async function createSellOrder(
   asset: NftAsset,
   expirationTime: number,
+  listingTime: number | undefined,
   signer: Signer,
   startPrice: number,
   endPrice: number | null,
@@ -2233,6 +2233,7 @@ export async function createSellOrder(
     endAmount: endPrice,
     expirationTime,
     extraBountyBasisPoints: 0,
+    listingTime,
     network,
     paymentTokenAddress,
     quantity: 1,

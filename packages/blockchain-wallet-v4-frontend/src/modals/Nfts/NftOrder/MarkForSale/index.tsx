@@ -53,13 +53,20 @@ const MarkForSale: React.FC<Props> = (props) => {
 
   const disabled =
     formValues['sale-type'] === 'fixed-price'
-      ? !formValues.amount || Remote.Loading.is(props.sellOrder)
-      : !formValues.starting || !formValues.ending || Remote.Loading.is(props.sellOrder)
+      ? // Fixed Price
+        !formValues.amount || Remote.Loading.is(props.sellOrder)
+      : // Dutch
+        ((!formValues.starting || !formValues.ending || Remote.Loading.is(props.sellOrder)) &&
+          formValues.timedAuctionType === 'decliningPrice') ||
+        // English
+        (!formValues.starting && formValues.timedAuctionType === 'highestBidder')
 
   const resetForms = () => {
     formValues.amount = ''
     formValues.starting = ''
     formValues.ending = ''
+    formValues.listingTime = ''
+    formValues.expirationTime = ''
     formValues.timedAuctionType = 'decliningPrice'
   }
 
@@ -149,6 +156,8 @@ const MarkForSale: React.FC<Props> = (props) => {
                         onChange={(e) =>
                           nftActions.fetchFees({
                             asset: val,
+                            expirationTime: formValues.expirationTime,
+                            listingTime: formValues.listingTime,
                             operation: GasCalculationOperations.Sell,
                             startPrice: e.target.value
                           })
@@ -248,6 +257,8 @@ const MarkForSale: React.FC<Props> = (props) => {
                             nftActions.fetchFees({
                               asset: val,
                               endPrice: undefined,
+                              expirationTime: formValues.expirationTime,
+                              listingTime: formValues.listingTime,
                               operation: GasCalculationOperations.Sell,
                               paymentTokenAddress: window.coins.WETH.coinfig.type.erc20Address,
                               startPrice: Number(formValues.starting)
@@ -346,7 +357,9 @@ const MarkForSale: React.FC<Props> = (props) => {
                         nftActions.createSellOrder({
                           asset: val,
                           endPrice: null,
+                          expirationTime: formValues.expirationTime,
                           gasData: fees,
+                          listingTime: formValues.listingTime,
                           paymentTokenAddress: undefined,
                           startPrice: Number(formValues.amount),
                           waitForHighestBid: false
@@ -359,7 +372,9 @@ const MarkForSale: React.FC<Props> = (props) => {
                         nftActions.createSellOrder({
                           asset: val,
                           endPrice: null,
+                          expirationTime: formValues.expirationTime,
                           gasData: fees,
+                          listingTime: formValues.listingTime,
                           paymentTokenAddress: window.coins.WETH.coinfig.type.erc20Address,
                           startPrice: Number(formValues.starting),
                           waitForHighestBid: true
@@ -370,7 +385,9 @@ const MarkForSale: React.FC<Props> = (props) => {
                         nftActions.createSellOrder({
                           asset: val,
                           endPrice: Number(formValues.ending),
+                          expirationTime: formValues.expirationTime,
                           gasData: fees,
+                          listingTime: formValues.listingTime,
                           paymentTokenAddress: undefined,
                           startPrice: Number(formValues.starting),
                           waitForHighestBid: false
@@ -406,6 +423,8 @@ const mapStateToProps = (state) => ({
   formValues: selectors.form.getFormValues('nftMarkForSale')(state) as {
     amount: string
     ending: string
+    expirationTime: string
+    listingTime: string
     starting: string
     timedAuctionType: string
   }
