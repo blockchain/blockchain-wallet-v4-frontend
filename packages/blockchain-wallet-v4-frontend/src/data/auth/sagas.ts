@@ -357,6 +357,7 @@ export default ({ api, coreSagas, networks }) => {
           // TODO: check on why we do this
           yield put(actions.auth.setAuthType(0))
           yield put(actions.form.clearFields(LOGIN_FORM, false, true, 'password', 'code'))
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
           yield put(actions.form.focus(LOGIN_FORM, 'password'))
           yield put(actions.auth.analyticsLoginPasswordDenied())
           yield put(actions.auth.loginFailure(errorString))
