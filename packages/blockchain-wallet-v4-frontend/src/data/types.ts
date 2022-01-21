@@ -1,3 +1,4 @@
+export * from './analytics/types'
 export * from './auth/types'
 export * from './components/brokerage/types'
 export * from './components/buySell/types'
