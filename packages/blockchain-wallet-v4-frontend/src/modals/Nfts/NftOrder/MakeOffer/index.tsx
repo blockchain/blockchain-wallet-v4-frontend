@@ -6,7 +6,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import { Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
-import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Row, Title, Value } from 'components/Flyout/model'
@@ -23,7 +23,7 @@ const MakeOffer: React.FC<Props> = (props) => {
   const { activeOrder } = orderFlow
 
   const disabled =
-    !formValues.amount || Remote.Loading.is(orderFlow.order) || Remote.Loading.is(orderFlow.fees)
+    !formValues.amount || Remote.Loading.is(orderFlow.fees) || props.orderFlow.isSubmitting
 
   return (
     <>
@@ -160,13 +160,17 @@ const MakeOffer: React.FC<Props> = (props) => {
                   onClick={() => nftActions.createOffer({ order: activeOrder, ...formValues })}
                 >
                   {formValues.amount ? (
-                    <FormattedMessage
-                      id='copy.mark_for_sale'
-                      defaultMessage='Make an Offer for {val}'
-                      values={{
-                        val: `${formValues.amount} ${formValues.coin}`
-                      }}
-                    />
+                    props.orderFlow.isSubmitting ? (
+                      <HeartbeatLoader color='blue100' height='20px' width='20px' />
+                    ) : (
+                      <FormattedMessage
+                        id='copy.mark_for_sale'
+                        defaultMessage='Make an Offer for {val}'
+                        values={{
+                          val: `${formValues.amount} ${formValues.coin}`
+                        }}
+                      />
+                    )
                   ) : (
                     <FormattedMessage id='copy.mark_for_sale' defaultMessage='Make an Offer' />
                   )}

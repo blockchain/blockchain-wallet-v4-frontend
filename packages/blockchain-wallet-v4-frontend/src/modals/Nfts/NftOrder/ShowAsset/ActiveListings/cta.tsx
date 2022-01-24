@@ -4,7 +4,7 @@ import moment from 'moment'
 
 import { Remote } from '@core'
 import { displayCoinToCoin } from '@core/exchange'
-import { GasCalculationOperations, NftAsset } from '@core/network/api/nfts/types'
+import { NftAsset } from '@core/network/api/nfts/types'
 import {
   Button,
   SpinningLoader,
@@ -19,7 +19,7 @@ import { NftOrderStepEnum } from 'data/components/nfts/types'
 import { Props as OwnProps } from '../..'
 
 const CTA: React.FC<Props> = (props) => {
-  const { cancelListing, defaultEthAddr, nftActions } = props
+  const { defaultEthAddr, nftActions } = props
 
   const listings = props.asset.orders.filter(
     (order) => order.maker.address.toLowerCase() === defaultEthAddr.toLowerCase()
@@ -30,11 +30,7 @@ const CTA: React.FC<Props> = (props) => {
       {listings.length ? (
         <>
           <Text size='16px' weight={600} color='grey900'>
-            {Remote.Loading.is(cancelListing) ? (
-              <SpinningLoader width='11px' height='11px' borderWidth='3px' />
-            ) : (
-              <FormattedMessage id='copy.active_listings' defaultMessage='Active Listings:' />
-            )}
+            <FormattedMessage id='copy.active_listings' defaultMessage='Active Listings:' />
           </Text>
           <Table style={{ maxHeight: '150px', overflow: 'scroll' }}>
             <TableHeader>

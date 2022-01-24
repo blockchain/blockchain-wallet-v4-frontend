@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Remote } from '@core'
-import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { Row, Title, Value } from 'components/Flyout/model'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 
@@ -14,7 +14,7 @@ const CancelOffer: React.FC<Props> = (props) => {
   const { close, nftActions, orderFlow } = props
   const { activeOffer } = orderFlow
 
-  const disabled = Remote.Loading.is(activeOffer) || Remote.Loading.is(orderFlow.fees)
+  const disabled = Remote.Loading.is(orderFlow.fees) || props.orderFlow.isSubmitting
 
   return (
     <>
@@ -86,7 +86,11 @@ const CancelOffer: React.FC<Props> = (props) => {
                       disabled={disabled}
                       onClick={() => nftActions.cancelOffer({ gasData: val, order: activeOffer })}
                     >
-                      <FormattedMessage id='copy.cancel_offer' defaultMessage='Cancel Offer' />
+                      {props.orderFlow.isSubmitting ? (
+                        <HeartbeatLoader color='blue100' height='20px' width='20px' />
+                      ) : (
+                        <FormattedMessage id='copy.cancel_offer' defaultMessage='Cancel Offer' />
+                      )}
                     </Button>
                   ) : (
                     <Text size='14px' weight={600}>

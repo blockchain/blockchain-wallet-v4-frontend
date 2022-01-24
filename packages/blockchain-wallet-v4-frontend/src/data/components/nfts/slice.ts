@@ -20,8 +20,11 @@ import { Await } from '@core/types'
 
 import { NftOrderStepEnum, NftsStateType } from './types'
 
+// TODO
+// remove acceptOffer, cancelListing, cancelOffer, sellOrder, transfer, orderFlow.order (clean up state when modal closed)
+// break up orderFlow (activeOffer, activeOrder, listingToCancel, offerToAccept) by gas calc op type?
+
 const initialState: NftsStateType = {
-  acceptOffer: Remote.NotAsked,
   activeTab: 'explore',
   assets: {
     atBound: false,
@@ -31,8 +34,6 @@ const initialState: NftsStateType = {
     list: [],
     page: 0
   },
-  cancelListing: Remote.NotAsked,
-  cancelOffer: Remote.NotAsked,
   collectionSearch: [],
   collections: Remote.NotAsked,
   marketplace: {
@@ -55,13 +56,11 @@ const initialState: NftsStateType = {
     activeOrder: null,
     asset: Remote.NotAsked,
     fees: Remote.NotAsked,
+    isSubmitting: false,
     listingToCancel: null,
     offerToAccept: Remote.NotAsked,
-    order: Remote.NotAsked,
     step: NftOrderStepEnum.SHOW_ASSET
-  },
-  sellOrder: Remote.NotAsked,
-  transfer: Remote.NotAsked
+  }
 }
 
 const nftsSlice = createSlice({
@@ -72,38 +71,11 @@ const nftsSlice = createSlice({
       state,
       action: PayloadAction<{ buy: Order; gasData: GasDataI; sell: Order }>
     ) => {},
-    acceptOfferFailure: (state, action: PayloadAction<{ error: string }>) => {
-      state.acceptOffer = Remote.Success(action.payload.error)
-    },
-    acceptOfferLoading: (state) => {
-      state.acceptOffer = Remote.Loading
-    },
-    acceptOfferSuccess: (state) => {
-      state.acceptOffer = Remote.Success(true)
-    },
     cancelListing: (state, action: PayloadAction<{ gasData: GasDataI; order: RawOrder }>) => {},
-    cancelListingFailure: (state, action: PayloadAction<{ error: string }>) => {
-      state.cancelListing = Remote.Success(action.payload.error)
-    },
-    cancelListingLoading: (state) => {
-      state.cancelListing = Remote.Loading
-    },
-    cancelListingSuccess: (state) => {
-      state.cancelListing = Remote.Success(true)
-    },
     cancelOffer: (
       state,
       action: PayloadAction<{ gasData: GasDataI; order: RawOrder | null }>
     ) => {},
-    cancelOfferFailure: (state, action: PayloadAction<{ error: string }>) => {
-      state.cancelOffer = Remote.Success(action.payload.error)
-    },
-    cancelOfferLoading: (state) => {
-      state.cancelOffer = Remote.Loading
-    },
-    cancelOfferSuccess: (state) => {
-      state.cancelOffer = Remote.Success(true)
-    },
     clearAndRefetchAssets: (state) => {},
     clearAndRefetchOffersMade: (state) => {},
     clearAndRefetchOrders: (state) => {},
@@ -115,15 +87,6 @@ const nftsSlice = createSlice({
         order: NftOrdersType['orders'][0]
       }>
     ) => {},
-    createOfferFailure: (state, action: PayloadAction<string>) => {
-      state.orderFlow.order = Remote.Failure(action.payload)
-    },
-    createOfferLoading: (state) => {
-      state.orderFlow.order = Remote.Loading
-    },
-    createOfferSuccess: (state, action: PayloadAction<Order>) => {
-      state.orderFlow.order = Remote.Success(action.payload)
-    },
     createOrder: (
       state,
       action: PayloadAction<{
@@ -133,15 +96,6 @@ const nftsSlice = createSlice({
         order: NftOrdersType['orders'][0]
       }>
     ) => {},
-    createOrderFailure: (state, action: PayloadAction<string>) => {
-      state.orderFlow.order = Remote.Failure(action.payload)
-    },
-    createOrderLoading: (state) => {
-      state.orderFlow.order = Remote.Loading
-    },
-    createOrderSuccess: (state, action: PayloadAction<Order>) => {
-      state.orderFlow.order = Remote.Success(action.payload)
-    },
     createSellOrder: (
       state,
       action: PayloadAction<{
@@ -150,15 +104,6 @@ const nftsSlice = createSlice({
         startPrice: number
       }>
     ) => {},
-    createSellOrderFailure: (state, action: PayloadAction<string>) => {
-      state.sellOrder = Remote.Failure(action.payload)
-    },
-    createSellOrderLoading: (state) => {
-      state.sellOrder = Remote.Loading
-    },
-    createSellOrderSuccess: (state, action: PayloadAction<Order>) => {
-      state.sellOrder = Remote.Success(action.payload)
-    },
     createTransfer: (
       state,
       action: PayloadAction<{
@@ -167,15 +112,6 @@ const nftsSlice = createSlice({
         to: string
       }>
     ) => {},
-    createTransferFailure: (state, action: PayloadAction<string>) => {
-      state.transfer = Remote.Failure(action.payload)
-    },
-    createTransferLoading: (state) => {
-      state.transfer = Remote.Loading
-    },
-    createTransferSuccess: (state, action: PayloadAction<boolean>) => {
-      state.transfer = Remote.Success(action.payload)
-    },
     fetchFees: (
       state,
       action: PayloadAction<
@@ -296,16 +232,14 @@ const nftsSlice = createSlice({
     nftOrderFlowClose: (state) => {
       state.orderFlow.step = NftOrderStepEnum.SHOW_ASSET
 
+      state.orderFlow.isSubmitting = false
+
       state.orderFlow.activeOrder = null
       state.orderFlow.activeOffer = null
       state.orderFlow.listingToCancel = null
       state.orderFlow.offerToAccept = Remote.NotAsked
       state.orderFlow.asset = Remote.NotAsked
       state.orderFlow.fees = Remote.NotAsked
-      state.orderFlow.order = Remote.NotAsked
-
-      state.cancelListing = Remote.NotAsked
-      state.sellOrder = Remote.NotAsked
     },
     nftOrderFlowOpen: (
       state,
@@ -396,6 +330,9 @@ const nftsSlice = createSlice({
     },
     setOffersMadeData: (state, action: PayloadAction<{ page?: number }>) => {
       state.offersMade.page = action.payload.page || 0
+    },
+    setOrderFlowIsSubmitting: (state, action: PayloadAction<boolean>) => {
+      state.orderFlow.isSubmitting = action.payload
     },
     setOrderFlowStep: (state, action: PayloadAction<{ step: NftOrderStepEnum }>) => {
       state.orderFlow.step = action.payload.step

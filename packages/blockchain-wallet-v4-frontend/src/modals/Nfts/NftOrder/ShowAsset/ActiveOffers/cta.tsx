@@ -12,7 +12,7 @@ import { orderFromJSON } from 'data/components/nfts/utils'
 import { Props as OwnProps } from '../..'
 
 const CTA: React.FC<Props> = (props) => {
-  const { acceptOffer, defaultEthAddr, nftActions } = props
+  const { defaultEthAddr, nftActions } = props
 
   const offers = props.asset.orders.filter(
     (order) => order.maker.address.toLowerCase() !== defaultEthAddr.toLowerCase()
@@ -61,7 +61,6 @@ const CTA: React.FC<Props> = (props) => {
                 <TableCell style={{ justifyContent: 'center' }}>
                   <Button
                     small
-                    disabled={Remote.Loading.is(acceptOffer)}
                     onClick={() => {
                       nftActions.fetchFees({
                         operation: GasCalculationOperations.Accept,

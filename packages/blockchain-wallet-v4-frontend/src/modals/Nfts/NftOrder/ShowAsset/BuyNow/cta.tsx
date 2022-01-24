@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js'
 
 import { Remote } from '@core'
 import { displayCoinToCoin } from '@core/exchange'
-import { Button, Link, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 
 import { Props as OwnProps } from '../..'
@@ -14,6 +14,8 @@ const CTA: React.FC<Props> = (props) => {
   const { activeOrder } = orderFlow
 
   if (!activeOrder) return null
+
+  const disabled = props.orderFlow.isSubmitting
 
   return (
     <>
@@ -77,22 +79,26 @@ const CTA: React.FC<Props> = (props) => {
               jumbo
               nature='primary'
               fullwidth
-              disabled={Remote.Loading.is(orderFlow.order)}
+              disabled={disabled}
               data-e2e='buyNft'
             >
-              <FormattedMessage
-                id='copy.buy_now_for'
-                values={{
-                  for: displayCoinToCoin({
-                    coin: activeOrder.paymentTokenContract?.symbol || 'ETH',
-                    value: new BigNumber(val.totalFees)
-                      .multipliedBy(val.gasPrice)
-                      .plus(activeOrder.basePrice)
-                      .toString()
-                  })
-                }}
-                defaultMessage='Buy Now for {for}'
-              />
+              {props.orderFlow.isSubmitting ? (
+                <HeartbeatLoader color='blue100' height='20px' width='20px' />
+              ) : (
+                <FormattedMessage
+                  id='copy.buy_now_for'
+                  values={{
+                    for: displayCoinToCoin({
+                      coin: activeOrder.paymentTokenContract?.symbol || 'ETH',
+                      value: new BigNumber(val.totalFees)
+                        .multipliedBy(val.gasPrice)
+                        .plus(activeOrder.basePrice)
+                        .toString()
+                    })
+                  }}
+                  defaultMessage='Buy Now for {for}'
+                />
+              )}
             </Button>
             <Text size='12px' weight={500} style={{ margin: '8px 0', textAlign: 'center' }}>
               Or

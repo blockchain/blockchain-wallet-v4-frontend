@@ -337,27 +337,27 @@ export default ({ api }: { api: APIType }) => {
 
   const acceptOffer = function* (action: ReturnType<typeof A.acceptOffer>) {
     try {
-      yield put(A.acceptOfferLoading())
+      yield put(A.setOrderFlowIsSubmitting(true))
       const signer: Signer = yield call(getEthSigner)
       const { buy, gasData, sell } = action.payload
       yield call(fulfillNftOrder, buy, sell, signer, gasData, true)
       yield put(actions.modals.closeAllModals())
-      yield put(A.acceptOfferSuccess())
       yield put(A.clearAndRefetchAssets())
       yield put(actions.alerts.displaySuccess(`Successfully accepted offer!`))
     } catch (e) {
       let error = errorHandler(e)
       if (error.includes(INSUFFICIENT_FUNDS))
         error = 'You do not have enough funds to accept this offer.'
-      yield put(A.acceptOfferFailure({ error }))
       yield put(actions.logs.logErrorMessage(error))
       yield put(actions.alerts.displayError(error))
     }
+
+    yield put(A.setOrderFlowIsSubmitting(false))
   }
 
   const createOffer = function* (action: ReturnType<typeof A.createOffer>) {
     try {
-      yield put(A.createOfferLoading())
+      yield put(A.setOrderFlowIsSubmitting(true))
       const signer = yield call(getEthSigner)
       const { coinfig } = window.coins[action.payload.coin || 'WETH']
       // TODO: DONT DEFAULT TO 1 WEEK
@@ -387,7 +387,6 @@ export default ({ api }: { api: APIType }) => {
       const order = yield call(fulfillNftOrder, buy, sell, signer, gasData)
       yield call(api.postNftOrder, order)
       yield put(actions.modals.closeAllModals())
-      yield put(A.createOfferSuccess(order))
       yield put(A.resetNftOrders())
       yield put(A.setMarketplaceData({ atBound: false, page: 1, token_ids_queried: [] }))
       yield put(A.clearAndRefetchOffersMade())
@@ -398,15 +397,16 @@ export default ({ api }: { api: APIType }) => {
       let error = errorHandler(e)
       if (error.includes(INSUFFICIENT_FUNDS))
         error = 'You do not have enough funds to create this offer.'
-      yield put(A.createOfferFailure(error))
       yield put(actions.logs.logErrorMessage(error))
       yield put(actions.alerts.displayError(error))
     }
+
+    yield put(A.setOrderFlowIsSubmitting(false))
   }
 
   const createOrder = function* (action: ReturnType<typeof A.createOrder>) {
     try {
-      yield put(A.createOrderLoading())
+      yield put(A.setOrderFlowIsSubmitting(true))
       const signer = yield call(getEthSigner)
       const { buy, sell }: Await<ReturnType<typeof getNftBuyOrders>> = yield call(
         getNftBuyOrders,
@@ -415,9 +415,8 @@ export default ({ api }: { api: APIType }) => {
         undefined,
         IS_TESTNET ? 'rinkeby' : 'mainnet'
       )
-      const order: Order = yield call(fulfillNftOrder, buy, sell, signer, action.payload.gasData)
+      yield call(fulfillNftOrder, buy, sell, signer, action.payload.gasData)
       yield put(actions.modals.closeAllModals())
-      yield put(A.createOrderSuccess(order))
       yield put(A.resetNftOrders())
       yield put(A.setMarketplaceData({ atBound: false, page: 1, token_ids_queried: [] }))
       yield put(A.fetchNftOrders())
@@ -431,15 +430,16 @@ export default ({ api }: { api: APIType }) => {
       let error = errorHandler(e)
       if (error.includes(INSUFFICIENT_FUNDS))
         error = 'You do not have enough funds to create this order.'
-      yield put(A.createOrderFailure(error))
       yield put(actions.logs.logErrorMessage(error))
       yield put(actions.alerts.displayError(error))
     }
+
+    yield put(A.setOrderFlowIsSubmitting(false))
   }
 
   const createSellOrder = function* (action: ReturnType<typeof A.createSellOrder>) {
     try {
-      yield put(A.createSellOrderLoading())
+      yield put(A.setOrderFlowIsSubmitting(true))
       const signer = yield call(getEthSigner)
       const signedOrder: Await<ReturnType<typeof getNftSellOrder>> = yield call(
         getNftSellOrder,
@@ -453,20 +453,20 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.clearAndRefetchAssets())
       yield put(actions.modals.closeAllModals())
       yield put(actions.alerts.displaySuccess('Sell order created!'))
-      yield put(A.createSellOrderSuccess(order))
     } catch (e) {
       let error = errorHandler(e)
       if (error.includes(INSUFFICIENT_FUNDS))
         error = 'You do not have enough funds to sell this asset.'
-      yield put(A.createSellOrderFailure(error))
       yield put(actions.logs.logErrorMessage(error))
       yield put(actions.alerts.displayError(error))
     }
+
+    yield put(A.setOrderFlowIsSubmitting(false))
   }
 
   const createTransfer = function* (action: ReturnType<typeof A.createTransfer>) {
     try {
-      yield put(A.createTransferLoading())
+      yield put(A.setOrderFlowIsSubmitting(true))
       const signer = yield call(getEthSigner)
       const order = yield call(fulfillTransfer, action.payload.asset, signer, action.payload.to, {
         gasLimit: action.payload.gasData.gasFees.toString(),
@@ -476,33 +476,34 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.clearAndRefetchAssets())
       yield put(actions.modals.closeAllModals())
       yield put(actions.alerts.displaySuccess('Transfer successful!'))
-      yield put(A.createTransferSuccess(order))
     } catch (e) {
       let error = errorHandler(e)
       if (error.includes(INSUFFICIENT_FUNDS))
         error = 'You do not have enough funds to transfer this asset.'
-      yield put(A.createTransferFailure(error))
       yield put(actions.logs.logErrorMessage(error))
       yield put(actions.alerts.displayError(error))
     }
+
+    yield put(A.setOrderFlowIsSubmitting(false))
   }
 
   const cancelListing = function* (action: ReturnType<typeof A.cancelListing>) {
     try {
       const signer = yield call(getEthSigner)
-      yield put(A.cancelListingLoading())
+      yield put(A.setOrderFlowIsSubmitting(true))
       yield call(cancelNftOrder, action.payload.order, signer, action.payload.gasData)
       yield put(A.clearAndRefetchAssets())
-      yield put(A.cancelListingSuccess())
       yield put(actions.modals.closeAllModals())
       yield put(actions.alerts.displaySuccess(`Successfully cancelled listing!`))
     } catch (e) {
       let error = errorHandler(e)
       if (error.includes(INSUFFICIENT_FUNDS))
         error = 'You do not have enough funds to cancel this listing.'
+      yield put(actions.logs.logErrorMessage(error))
       yield put(actions.alerts.displayError(error))
-      yield put(A.cancelListingFailure({ error }))
     }
+
+    yield put(A.setOrderFlowIsSubmitting(false))
   }
 
   // https://etherscan.io/tx/0x4ba256c46b0aff8b9ee4cc2a7d44649bc31f88ebafd99190bc182178c418c64a
@@ -512,7 +513,7 @@ export default ({ api }: { api: APIType }) => {
         throw new Error('No offer found. It may have expired already!')
       }
       const signer = yield call(getEthSigner)
-      yield put(A.cancelOfferLoading())
+      yield put(A.setOrderFlowIsSubmitting(true))
       yield call(cancelNftOrder, action.payload.order, signer, action.payload.gasData)
       yield put(A.clearAndRefetchOffersMade())
       yield put(actions.modals.closeAllModals())
@@ -522,8 +523,10 @@ export default ({ api }: { api: APIType }) => {
       if (error.includes(INSUFFICIENT_FUNDS))
         error = 'You do not have enough funds to cancel this offer.'
       yield put(actions.alerts.displayError(error))
-      yield put(A.cancelOfferFailure({ error }))
+      yield put(actions.logs.logErrorMessage(error))
     }
+
+    yield put(A.setOrderFlowIsSubmitting(false))
   }
 
   const formInitialized = function* (action) {

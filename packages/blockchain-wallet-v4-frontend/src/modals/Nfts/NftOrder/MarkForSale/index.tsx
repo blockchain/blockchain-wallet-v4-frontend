@@ -4,10 +4,9 @@ import { connect, ConnectedProps } from 'react-redux'
 import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 
-import { Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
 import { GasCalculationOperations } from '@core/network/api/nfts/types'
-import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { ErrorCartridge } from 'components/Cartridge'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Row, Title, Value } from 'components/Flyout/model'
@@ -26,7 +25,7 @@ const MarkForSale: React.FC<Props> = (props) => {
 
   const disabled =
     formValues['sale-type'] === 'fixed-price'
-      ? !formValues.amount || Remote.Loading.is(props.sellOrder)
+      ? !formValues.amount || props.orderFlow.isSubmitting
       : true
 
   return (
@@ -180,13 +179,17 @@ const MarkForSale: React.FC<Props> = (props) => {
                     }
                   >
                     {formValues.amount ? (
-                      <FormattedMessage
-                        id='copy.mark_for_sale'
-                        defaultMessage='Mark for Sale for {val}'
-                        values={{
-                          val: `${formValues.amount} ${coin}`
-                        }}
-                      />
+                      props.orderFlow.isSubmitting ? (
+                        <HeartbeatLoader color='blue100' height='20px' width='20px' />
+                      ) : (
+                        <FormattedMessage
+                          id='copy.mark_for_sale'
+                          defaultMessage='Mark for Sale for {val}'
+                          values={{
+                            val: `${formValues.amount} ${coin}`
+                          }}
+                        />
+                      )
                     ) : (
                       <FormattedMessage id='copy.mark_for_sale' defaultMessage='Mark for Sale' />
                     )}

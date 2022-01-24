@@ -23,7 +23,6 @@ export enum NftOrderStepEnum {
 }
 
 export type NftsStateType = {
-  acceptOffer: RemoteDataType<string, boolean>
   activeTab: 'explore' | 'my-collection' | 'offers'
   assets: {
     atBound: boolean
@@ -33,8 +32,6 @@ export type NftsStateType = {
     list: NftAssetsType
     page: number
   }
-  cancelListing: RemoteDataType<string, boolean>
-  cancelOffer: RemoteDataType<string, boolean>
   collectionSearch: ExplorerGatewayNftCollectionType[]
   collections: RemoteDataType<string, ExplorerGatewayNftCollectionType[]>
   marketplace: {
@@ -58,11 +55,9 @@ export type NftsStateType = {
     activeOrder: NftOrdersType['orders'][0] | null
     asset: RemoteDataType<string, NftAsset>
     fees: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>
+    isSubmitting: boolean
     listingToCancel: RawOrder | null
     offerToAccept: RemoteDataType<string, { buy: Order; sell: Order }>
-    order: RemoteDataType<string, Order>
     step: NftOrderStepEnum
   }
-  sellOrder: RemoteDataType<string, boolean>
-  transfer: RemoteDataType<string, boolean>
 }
