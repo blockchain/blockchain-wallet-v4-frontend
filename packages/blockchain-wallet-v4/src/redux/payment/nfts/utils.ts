@@ -1827,7 +1827,7 @@ async function fungibleTokenApprovals({
     return null
   }
   // eslint-disable-next-line no-console
-  console.log('Not enough ERC20 allowance approved for this trade')
+  console.log('Not enough ERC20 allowance approved for this trade. Approving now...')
 
   // Note: approving maximum amount so this doesnt need to be done again for future trades.
   const txHash = await fungibleTokenInterface.approve(
@@ -1835,6 +1835,7 @@ async function fungibleTokenApprovals({
     ethers.constants.MaxInt256.toString(),
     txnData
   )
+  await txHash.wait()
   return txHash
 }
 
