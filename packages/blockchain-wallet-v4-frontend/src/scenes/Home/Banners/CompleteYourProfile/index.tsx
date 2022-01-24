@@ -5,13 +5,14 @@ import { bindActionCreators, Dispatch } from 'redux'
 import styled from 'styled-components'
 
 import { ProductTypes } from '@core/types'
-import { Button, Link, Text, TextGroup } from 'blockchain-info-components'
+import { Button, Icon, Text } from 'blockchain-info-components'
 import CircularProgressBar from 'components/CircularProgressBar'
 import { actions, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
 import { RootState } from 'data/rootReducer'
 import { media } from 'services/styles'
 
+import { getCompleteProfileAnnouncement } from '../selectors'
 import { getData } from './selectors'
 
 const MAX_STEPS = 3
@@ -26,7 +27,7 @@ const Wrapper = styled.div`
   padding: 20px;
 
   ${media.atLeastLaptop`
-    height: 80px;
+    height: 96px;
     padding: 0 20px;
   `}
   ${media.mobile`
@@ -37,6 +38,15 @@ const Wrapper = styled.div`
 const Row = styled.div`
   display: flex;
   align-items: center;
+`
+const CentralRow = styled(Row)`
+  flex: 1;
+`
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  flex: 1;
 `
 
 const PendingIconWrapper = styled.div`
@@ -58,7 +68,18 @@ const BannerButton = styled(Button)`
   `}
 `
 
-const CompleteYourProfile = ({ buySellActions, data, fiatCurrency, modalActions }: Props) => {
+const CloseLink = styled.div`
+  margin-left: 24px;
+  cursor: pointer;
+`
+
+const CompleteYourProfile = ({
+  buySellActions,
+  cacheActions,
+  data,
+  fiatCurrency,
+  modalActions
+}: Props) => {
   useEffect(() => {
     buySellActions.fetchCards(false)
     buySellActions.fetchPaymentMethods(fiatCurrency)
@@ -74,6 +95,8 @@ const CompleteYourProfile = ({ buySellActions, data, fiatCurrency, modalActions 
     })
   }, [modalActions])
 
+  const completeAnnouncement = getCompleteProfileAnnouncement()
+
   return (
     <Wrapper>
       <Row>
@@ -85,26 +108,22 @@ const CompleteYourProfile = ({ buySellActions, data, fiatCurrency, modalActions 
           </CircularProgressBar>
         </PendingIconWrapper>
       </Row>
-      <Row>
-        <TextGroup inline>
+      <CentralRow>
+        <Column>
           <Text size='20px' weight={600} color='grey800'>
             <FormattedMessage
-              id='scenes.home.banner.complete_your_profile.complete_your_profile'
-              defaultMessage='Complete Your Profile.'
+              id='scenes.home.banner.complete_your_profile.complete_your_profile_and_buy'
+              defaultMessage='Complete Your Profile. Buy Crypto Today.'
             />
           </Text>
-          <Link
-            size='20px'
-            weight={600}
-            onClick={() => buySellActions.showModal({ origin: 'CompleteProfileBanner' })}
-          >
+          <Text size='16px' weight={500} color='grey800'>
             <FormattedMessage
-              id='scenes.home.banner.complete_your_profile.buy_crypto_today'
-              defaultMessage='Buy Crypto Today.'
+              id='scenes.home.banner.complete_your_profile.complete_your_profile_description'
+              defaultMessage='Finish setting up your Blockchain.com account and start buying crypto today.'
             />
-          </Link>
-        </TextGroup>
-      </Row>
+          </Text>
+        </Column>
+      </CentralRow>
 
       <BannerButton
         onClick={handleClick}
@@ -114,6 +133,13 @@ const CompleteYourProfile = ({ buySellActions, data, fiatCurrency, modalActions 
       >
         <FormattedMessage id='modals.send.banner.get_started' defaultMessage='Get Started' />
       </BannerButton>
+
+      <CloseLink
+        data-e2e='newCoinCloseButton'
+        onClick={() => cacheActions.announcementDismissed(completeAnnouncement)}
+      >
+        <Icon size='20px' color='grey400' name='close-circle' />
+      </CloseLink>
     </Wrapper>
   )
 }
@@ -125,6 +151,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  cacheActions: bindActionCreators(actions.cache, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)
 })
 

@@ -2157,6 +2157,8 @@ type MessagesType = {
   'scenes.home.banner.continue_to_gold.button': 'Continue to Gold'
   'scenes.home.banner.continue_to_gold.description': 'Continue your verification to become Gold level and increase your limits and payment methods'
   'scenes.home.banner.continue_to_gold.increase_your_limits': 'Increase your limits'
+  'scenes.home.banner.complete_your_profile.complete_your_profile_and_buy': 'Complete Your Profile. Buy Crypto Today.'
+  'scenes.home.banner.complete_your_profile.complete_your_profile_description': 'Finish setting up your Blockchain.com account and start buying crypto today.'
   'scenes.home.banner.complete_your_profile.complete_your_profile': 'Complete Your Profile.'
   'scenes.home.banner.complete_your_profile.buy_crypto_today': 'Buy Crypto Today.'
   'scenes.home.banner.receive_cc_order': 'Once you finalize your credit card information, your buy order will complete.'
