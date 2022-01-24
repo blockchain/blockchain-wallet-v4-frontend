@@ -22,7 +22,7 @@ import { required, validEmail } from 'services/forms'
 import { media } from 'services/styles'
 
 const FormWrapper = styled(Wrapper)`
-  padding: 32px 0;
+  padding: 24px 0;
   ${media.mobile`
   padding: 16px 0;
 `}
@@ -75,6 +75,14 @@ export const CircleBackground = styled.div`
   border-radius: 40px;
   margin: 16px 0;
 `
+
+const BackArrow = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-bottom: 20px;
+`
+
 const removeWhitespace = (string) => string.replace(/\s/g, ``)
 
 class EnterEmail extends React.PureComponent<InjectedFormProps<{}, Props> & Props> {
@@ -92,6 +100,19 @@ class EnterEmail extends React.PureComponent<InjectedFormProps<{}, Props> & Prop
     return (
       <FormWrapper>
         <WrapperWithPadding>
+          <BackArrow onClick={this.props.showHelpOptions}>
+            <Icon
+              data-e2e='needHelpBack'
+              name='arrow-back'
+              size='24px'
+              color='blue600'
+              style={{ marginRight: '4px' }}
+              role='button'
+            />
+            <Text color='grey900' size='14px' weight={500} lineHeight='1.5'>
+              <FormattedMessage id='copy.back' defaultMessage='Back' />
+            </Text>
+          </BackArrow>
           <Text color='grey900' size='20px' weight={600} style={{ textAlign: 'center' }}>
             <FormattedMessage
               id='copy.forgot_exchange_password'
@@ -157,16 +178,6 @@ class EnterEmail extends React.PureComponent<InjectedFormProps<{}, Props> & Prop
                     </Text>
                   )}
                 </Button>
-                <Text
-                  size='13px'
-                  color='blue600'
-                  weight={600}
-                  style={{ textAlign: 'center' }}
-                  cursor='pointer'
-                  onClick={this.props.showHelpOptions}
-                >
-                  <FormattedMessage id='buttons.go_back' defaultMessage='Go Back' />
-                </Text>
               </Form>
             ),
             Success: () => (

@@ -42,7 +42,7 @@ class TransferEthContainer extends React.PureComponent<Props> {
   }
 
   render() {
-    const { data, legacyEthAddr } = this.props
+    const { data } = this.props
     return data.cata({
       Failure: () => null,
       Loading: () => null,
@@ -52,7 +52,6 @@ class TransferEthContainer extends React.PureComponent<Props> {
           ethAddr={val.ethAddr}
           ethBalance={val.ethBalance}
           onSubmit={this.handleSubmit}
-          legacyEthAddr={legacyEthAddr}
           txFee={val.txFee}
           {...this.props}
         />

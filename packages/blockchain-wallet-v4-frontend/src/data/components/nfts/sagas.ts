@@ -607,8 +607,7 @@ export default ({ api }: { api: APIType }) => {
           undefined,
           action.payload.offer.asset.asset_contract.address,
           action.payload.offer.asset.token_id,
-          // TODO: rinkeby
-          WETH_ADDRESS,
+          IS_TESTNET ? WETH_ADDRESS_RINKEBY : WETH_ADDRESS,
           0,
           ethAddr
         )

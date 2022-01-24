@@ -146,7 +146,7 @@ const migrateFromV3 = (account) => {
     dissoc('address_labels'),
     dissoc('cache')
   )
-
+  // @ts-ignore
   return migrate(account)
 }
 

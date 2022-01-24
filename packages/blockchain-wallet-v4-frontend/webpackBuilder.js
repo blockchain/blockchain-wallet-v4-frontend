@@ -226,7 +226,7 @@ const buildDevServerConfig = (
     allowedHosts: 'all',
     client: {
       logging: 'info',
-      overlay: true,
+      overlay: { warnings: false },
       progress: true
     },
     historyApiFallback: true,

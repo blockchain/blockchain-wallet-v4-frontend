@@ -1,7 +1,7 @@
 import React, { ComponentType } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { Route } from 'react-router-dom'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 import Alerts from 'components/Alerts'
 import { selectors } from 'data'
@@ -37,9 +37,11 @@ const Wrapper = styled.div<{ authProduct?: string }>`
   ${media.atLeastTablet`
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     align-items: center;
     height: 100%;
+    > div:last-child {
+      margin-top: auto;
+    }
   `}
 `
 

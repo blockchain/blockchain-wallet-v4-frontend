@@ -4,7 +4,9 @@ import { find, findIndex, isNil, prop, propEq, sortBy, toUpper } from 'ramda'
 
 import '@formatjs/intl-relativetimeformat/polyfill'
 
-export const languages = [
+type Language = { cultureCode: string; language: string; name: string }
+
+export const languages: Array<Language> = [
   { cultureCode: 'en-GB', language: 'en', name: 'English' },
   { cultureCode: 'es-ES', language: 'es', name: 'Spanish' },
   { cultureCode: 'fr-FR', language: 'fr', name: 'French' },
@@ -16,21 +18,21 @@ export const languages = [
 export const languagesSortedByName = sortBy(prop('name'))(languages)
 
 export function getLanguageName(cultureCode) {
-  const selectedLanguage = find(propEq('cultureCode', cultureCode))(languages)
+  const selectedLanguage = find(propEq('cultureCode', cultureCode))(languages) as Language
   if (isNil(selectedLanguage)) return Maybe.Nothing()
 
   return Maybe.Just(selectedLanguage.name)
 }
 
 export function convertLanguageToCultureCode(language) {
-  const selectedLanguage = find(propEq('language', language))(languages)
+  const selectedLanguage = find(propEq('language', language))(languages) as Language
   if (isNil(selectedLanguage)) return Maybe.Nothing()
 
   return Maybe.Just(selectedLanguage.cultureCode)
 }
 
 export function convertCultureCodeToLanguage(cultureCode) {
-  const selectedLanguage = find(propEq('cultureCode', cultureCode))(languages)
+  const selectedLanguage = find(propEq('cultureCode', cultureCode))(languages) as Language
   if (isNil(selectedLanguage)) return Maybe.Nothing()
 
   return Maybe.Just(selectedLanguage.language)

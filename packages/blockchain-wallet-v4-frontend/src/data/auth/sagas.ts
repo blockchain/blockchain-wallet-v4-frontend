@@ -81,6 +81,12 @@ export default ({ api, coreSagas, networks }) => {
     const magicLinkData: WalletDataFromMagicLink = yield select(S.getMagicLinkData)
     const exchangeURL = magicLinkData?.exchange_auth_url
     yield put(startSubmit(LOGIN_FORM))
+    // JUST FOR ANALYTICS PURPOSES
+    if (code) {
+      yield put(actions.auth.analyticsLoginTwoStepVerificationEntered())
+    } else {
+      yield put(actions.auth.analyticsLoginPasswordEntered())
+    }
     try {
       const response = yield call(api.exchangeSignIn, code, password, username)
       const { token: jwtToken } = response
@@ -105,16 +111,22 @@ export default ({ api, coreSagas, networks }) => {
       if (e.code && e.code === 11) {
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.TWO_FA_EXCHANGE))
       }
+      if (e.code && e.code === 10) {
+        yield put(actions.auth.analyticsLoginTwoStepVerificationDenied())
+      }
+      if (e.code && e.code === 8) {
+        yield put(actions.auth.analyticsLoginPasswordDenied())
+      }
       yield put(stopSubmit(LOGIN_FORM))
     }
   }
 
   const loginRoutineSaga = function* ({
+    country = undefined,
     email = undefined,
     firstLogin = false,
-    country = undefined,
-    state = undefined,
-    recovery = false
+    recovery = false,
+    state = undefined
   }) {
     try {
       // If needed, the user should upgrade its wallet before being able to open the wallet
@@ -345,6 +357,7 @@ export default ({ api, coreSagas, networks }) => {
           // TODO: check on why we do this
           yield put(actions.auth.setAuthType(0))
           yield put(actions.form.clearFields(LOGIN_FORM, false, true, 'password', 'code'))
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
           yield put(actions.form.focus(LOGIN_FORM, 'password'))
           yield put(actions.auth.analyticsLoginPasswordDenied())
           yield put(actions.auth.loginFailure(errorString))
@@ -482,17 +495,23 @@ export default ({ api, coreSagas, networks }) => {
 
   const restore = function* (action) {
     try {
-      yield put(actions.auth.restoreLoading())
-      yield put(actions.auth.setRegisterEmail(action.payload.email))
-      yield put(actions.alerts.displayInfo(C.RESTORE_WALLET_INFO))
+      const { captchaToken, email, language, mnemonic, password } = action.payload
       const kvCredentials = (yield select(selectors.auth.getMetadataRestore)).getOrElse({})
+
+      yield put(actions.auth.restoreLoading())
+      yield put(actions.auth.setRegisterEmail(email))
+      yield put(actions.alerts.displayInfo(C.RESTORE_WALLET_INFO))
       yield call(coreSagas.wallet.restoreWalletSaga, {
-        ...action.payload,
-        kvCredentials
+        captchaToken,
+        email,
+        kvCredentials,
+        language,
+        mnemonic,
+        password
       })
 
       yield call(loginRoutineSaga, {
-        email: action.payload.email,
+        email,
         firstLogin: true,
         recovery: true
       })
@@ -551,7 +570,7 @@ export default ({ api, coreSagas, networks }) => {
       // get device platform param or default to web
       const platform = (queryParams.get('platform') || PlatformTypes.WEB) as PlatformTypes
       // get product param or default to wallet
-      const product = (queryParams.get('product') ||
+      const product = (queryParams.get('product')?.toUpperCase() ||
         ProductAuthOptions.WALLET) as ProductAuthOptions
       const redirect = queryParams.get('redirect')
       // store product auth data defaulting to product=wallet and platform=web
