@@ -17,6 +17,12 @@ export function getAuthType(state: RootState): AuthStateType['auth_type'] {
   return state.auth.auth_type
 }
 
+export function getExchangeConflictStatus(
+  state: RootState
+): AuthStateType['exchangeAuth']['exchangeAccountConflict'] {
+  return state.auth.exchangeAuth.exchangeAccountConflict
+}
+
 export function getRegistering(state: RootState): AuthStateType['registering'] {
   return state.auth.registering
 }

@@ -28,6 +28,7 @@ const initialState: AuthStateType = {
   auth_type: 0,
   authorizeVerifyDevice: Remote.NotAsked,
   exchangeAuth: {
+    exchangeAccountConflict: Remote.NotAsked,
     exchangeLogin: Remote.NotAsked,
     exchangeLoginError: undefined,
     jwtToken: undefined,
@@ -201,6 +202,12 @@ const authSlice = createSlice({
       state.auth_type = action.payload
     },
     setCachedWalletData: () => {},
+    setExchangeAccountConflict: (
+      state,
+      action: PayloadAction<AuthStateType['exchangeAuth']['exchangeAccountConflict']>
+    ) => {
+      state.exchangeAuth.exchangeAccountConflict = action.payload
+    },
     setFirstLogin: (state, action: PayloadAction<AuthStateType['firstLogin']>) => {
       state.firstLogin = action.payload
     },
