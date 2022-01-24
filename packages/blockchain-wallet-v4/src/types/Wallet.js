@@ -348,6 +348,12 @@ export const setAccountArchived = curry((index, archived, wallet) => {
   return set(lens, archived, wallet)
 })
 
+// setAccountDerivations :: Number -> Derivations -> Wallet -> Wallet
+export const setAccountDerivations = curry((index, derivations, wallet) => {
+  const lens = compose(accounts, HDAccountList.account(index), HDAccount.derivations)
+  return set(lens, derivations, wallet)
+})
+
 // setDefaultAccountIdx :: Number -> Wallet -> Wallet
 export const setDefaultAccountIdx = curry((index, wallet) => {
   return set(compose(hdwallet, HDWallet.defaultAccountIdx), index, wallet)
