@@ -181,7 +181,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                   >
                     {formValues.amount ? (
                       <FormattedMessage
-                        id='copy.mark_for_sale'
+                        id='copy.mark_for_sale_value'
                         defaultMessage='Mark for Sale for {val}'
                         values={{
                           val: `${formValues.amount} ${coin}`
