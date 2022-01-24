@@ -81,6 +81,12 @@ export default ({ api, coreSagas, networks }) => {
     const magicLinkData: WalletDataFromMagicLink = yield select(S.getMagicLinkData)
     const exchangeURL = magicLinkData?.exchange_auth_url
     yield put(startSubmit(LOGIN_FORM))
+    // JUST FOR ANALYTICS PURPOSES
+    if (code) {
+      yield put(actions.auth.analyticsLoginTwoStepVerificationEntered())
+    } else {
+      yield put(actions.auth.analyticsLoginPasswordEntered())
+    }
     try {
       const response = yield call(api.exchangeSignIn, code, password, username)
       const { token: jwtToken } = response
@@ -104,6 +110,12 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.auth.exchangeLoginFailure(e.code))
       if (e.code && e.code === 11) {
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.TWO_FA_EXCHANGE))
+      }
+      if (e.code && e.code === 10) {
+        yield put(actions.auth.analyticsLoginTwoStepVerificationDenied())
+      }
+      if (e.code && e.code === 8) {
+        yield put(actions.auth.analyticsLoginPasswordDenied())
       }
       yield put(stopSubmit(LOGIN_FORM))
     }
@@ -345,6 +357,7 @@ export default ({ api, coreSagas, networks }) => {
           // TODO: check on why we do this
           yield put(actions.auth.setAuthType(0))
           yield put(actions.form.clearFields(LOGIN_FORM, false, true, 'password', 'code'))
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
           yield put(actions.form.focus(LOGIN_FORM, 'password'))
           yield put(actions.auth.analyticsLoginPasswordDenied())
           yield put(actions.auth.loginFailure(errorString))
