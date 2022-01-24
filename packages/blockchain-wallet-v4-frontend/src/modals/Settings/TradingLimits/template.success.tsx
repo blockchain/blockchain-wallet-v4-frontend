@@ -7,6 +7,7 @@ import { fiatToString } from '@core/exchange/utils'
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { SuccessCartridge } from 'components/Cartridge'
 import { FlyoutWrapper } from 'components/Flyout'
+import { convertBaseToStandard } from 'data/components/exchange/services'
 import { ModalName } from 'data/modals/types'
 import { SettingsItem, SettingsLimit } from 'data/types'
 
@@ -242,12 +243,13 @@ const renderPeriod = (period: SETTINGS_ITEM_PERIOD) => {
 
 const renderLimit = (limit: SettingsLimit) => {
   const { currency, value } = limit.value
+
   return (
     <LimitStatus>
       {fiatToString({
         digits: 0,
         unit: currency,
-        value
+        value: convertBaseToStandard('FIAT', value)
       })}
       {` `}
       {renderPeriod(limit.period as SETTINGS_ITEM_PERIOD)}
