@@ -790,7 +790,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   <FormattedMessage id='copy.over_your_limit' defaultMessage='Over Your Limit' />
                 </AlertButton>
                 <FormattedMessage
-                  id='modals.simplebuy.checkout.sellmaxamount'
+                  id='modals.simplebuy.checkout.max_buy_upgrade'
                   defaultMessage='You can buy up to {amount} per transaction. Upgrade to Gold & buy larger amounts with your bank or card.'
                   values={{
                     amount: formatFiat(convertBaseToStandard('FIAT', effectiveLimit.limit.value), 0)

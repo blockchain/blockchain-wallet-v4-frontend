@@ -100,7 +100,7 @@ const CEURRewards = ({ cacheActions, showBanner }: Props) => {
         <CTAButton data-e2e='ceurLearnMore' nature='primary' small style={{ borderRadius: '4px' }}>
           <Link href='https://www.blockchain.com/getceur' target='_blank' rel='noopener noreferrer'>
             <Text>
-              <FormattedMessage id='copy.learn_more' defaultMessage='Learn More' />
+              <FormattedMessage id='copy.learn_more' defaultMessage='Learn more' />
             </Text>
           </Link>
         </CTAButton>
