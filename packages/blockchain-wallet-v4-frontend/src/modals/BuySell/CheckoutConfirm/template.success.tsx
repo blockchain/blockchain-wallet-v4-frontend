@@ -5,7 +5,7 @@ import { defaultTo, filter, path, prop } from 'ramda'
 import { InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { fiatToString } from '@core/exchange/utils'
+import { coinToString, fiatToString } from '@core/exchange/utils'
 import { BSPaymentTypes, FiatType, OrderType } from '@core/types'
 import {
   Button,
@@ -343,11 +343,19 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
             </RowText>
             <RowText>
               <RowTextWrapper data-e2e='sbFee'>
-                {props.order.fee
+                {props.order.fee && props.formValues?.fix === 'FIAT'
                   ? displayFiat(
                       props.order,
                       (parseInt(props.order.inputQuantity) - parseInt(props.order.fee)).toString()
                     )
+                  : props.order.fee && props.formValues?.fix === 'CRYPTO'
+                  ? coinToString({
+                      unit: { symbol: props.order.outputCurrency },
+                      value: convertBaseToStandard(
+                        props.order.outputCurrency,
+                        parseInt(props.order.outputQuantity) - parseInt(props.order.fee)
+                      )
+                    })
                   : `${displayFiat(
                       props.order,
                       (parseInt(props.order.inputQuantity) - parseInt(props.quote.fee)).toString()
@@ -375,8 +383,13 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
                   </IconWrapper>
                 </RowIcon>
                 <RowText data-e2e='sbFee'>
-                  {props.order.fee
+                  {props.order.fee && props.formValues?.fix === 'FIAT'
                     ? displayFiat(props.order, props.order.fee)
+                    : props.order.fee && props.formValues?.fix === 'CRYPTO'
+                    ? coinToString({
+                        unit: { symbol: props.order.outputCurrency },
+                        value: convertBaseToStandard(props.order.outputCurrency, props.order.fee)
+                      })
                     : `${displayFiat(props.order, props.quote.fee)} ${props.order.inputCurrency}`}
                 </RowText>
               </TopRow>
