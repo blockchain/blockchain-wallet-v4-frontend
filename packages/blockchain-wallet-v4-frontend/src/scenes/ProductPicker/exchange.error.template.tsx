@@ -27,7 +27,7 @@ const ExchangeUserConflict = ({ email, walletRedirect }: Props) => {
     <>
       <Wrapper>
         <ContentWrapper>
-          <Image name='warning-circle-filled' width='40px' />
+          <Image name='warning-circle-filled' width='44px' />
           <Text
             size='20px'
             weight={600}

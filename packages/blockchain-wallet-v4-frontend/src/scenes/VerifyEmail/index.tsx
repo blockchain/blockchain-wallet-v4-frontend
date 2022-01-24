@@ -16,7 +16,6 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
 
   static getDerivedStateFromProps(nextProps) {
     if (nextProps.isEmailVerified) {
-      nextProps.authActions.setRegisterEmail(undefined)
       nextProps.routerActions.push('/select-product')
     }
     return null
@@ -29,7 +28,7 @@ class VerifyEmailContainer extends React.PureComponent<Props> {
 
   skipVerification = () => {
     const { email } = this.props
-    this.props.authActions.setRegisterEmail(undefined)
+
     this.props.securityCenterActions.skipVerifyEmail(email)
     this.props.routerActions.push('/select-product')
   }

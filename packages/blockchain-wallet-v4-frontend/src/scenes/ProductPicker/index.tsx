@@ -16,6 +16,7 @@ class ProductPickerContainer extends React.PureComponent<Props> {
   }
 
   walletRedirect = () => {
+    this.props.authActions.setRegisterEmail(undefined)
     this.props.routerActions.push('/home')
     // for first time login users we need to run goal since this is a first page we show them
     this.props.saveGoal('welcomeModal', { firstLogin: true })
@@ -23,6 +24,7 @@ class ProductPickerContainer extends React.PureComponent<Props> {
   }
 
   exchangeRedirect = () => {
+    this.props.authActions.setRegisterEmail(undefined)
     this.props.profileActions.getExchangeLoginToken(true)
     // TODO: this is a placeholder
   }
@@ -31,7 +33,11 @@ class ProductPickerContainer extends React.PureComponent<Props> {
     return this.props.exchangeUserConflict ? (
       <ExchangeUserConflict {...this.props} walletRedirect={this.walletRedirect} />
     ) : (
-      <ExchangeUserConflict {...this.props} walletRedirect={this.walletRedirect} />
+      <ProductPicker
+        {...this.props}
+        walletRedirect={this.walletRedirect}
+        exchangeRedirect={this.exchangeRedirect}
+      />
     )
   }
 }
