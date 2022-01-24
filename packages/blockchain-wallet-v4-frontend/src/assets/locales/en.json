@@ -434,6 +434,7 @@
   "copy.next": "Next",
   "copy.next_buy": "Next Buy",
   "copy.no_active_listings": "Error. You may not have any active listings on this asset.",
+  "copy.no_active_offers": "Error. You may not have any active offers for this asset.",
   "copy.no_active_offers_listings": "Error. You may not have any active offers for this asset.",
   "copy.no_listings_cancel": "There are no active listings to cancel.",
   "copy.no_network_fees": "When using Trading Accounts, there are no network fees.",
