@@ -186,7 +186,7 @@ export type AuthStateType = {
   auth_type: number
   authorizeVerifyDevice: RemoteDataType<any, any>
   exchangeAuth: {
-    exchangeAccountConflict?: RemoteDataType<string, boolean>
+    exchangeAccountConflict?: boolean
     exchangeLogin: RemoteDataType<ExchangeLoginFailureType, ExchangeLoginSuccessType>
     exchangeLoginError?: ExchangeErrorCodes
     jwtToken?: string

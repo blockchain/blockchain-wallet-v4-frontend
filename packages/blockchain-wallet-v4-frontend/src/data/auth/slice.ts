@@ -28,7 +28,7 @@ const initialState: AuthStateType = {
   auth_type: 0,
   authorizeVerifyDevice: Remote.NotAsked,
   exchangeAuth: {
-    exchangeAccountConflict: Remote.NotAsked,
+    exchangeAccountConflict: undefined,
     exchangeLogin: Remote.NotAsked,
     exchangeLoginError: undefined,
     jwtToken: undefined,

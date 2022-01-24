@@ -280,7 +280,9 @@ export default ({ api, coreSagas, networks }) => {
       )
       return { exchangeLifetimeToken, exchangeUserId }
     } catch (e) {
-      // TODO: Handle Error Here
+      if (e.code === 4) {
+        yield put(actions.auth.setExchangeAccountConflict(true))
+      }
     }
   }
 

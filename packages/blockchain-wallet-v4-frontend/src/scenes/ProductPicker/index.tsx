@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux'
 
 import { actions, selectors } from 'data'
 
+import ExchangeUserConflict from './exchange.error.template'
 import ProductPicker from './template'
 
 class ProductPickerContainer extends React.PureComponent<Props> {
@@ -27,18 +28,18 @@ class ProductPickerContainer extends React.PureComponent<Props> {
   }
 
   render() {
-    return (
-      <ProductPicker
-        {...this.props}
-        walletRedirect={this.walletRedirect}
-        exchangeRedirect={this.exchangeRedirect}
-      />
+    return this.props.exchangeUserConflict ? (
+      <ExchangeUserConflict {...this.props} walletRedirect={this.walletRedirect} />
+    ) : (
+      <ExchangeUserConflict {...this.props} walletRedirect={this.walletRedirect} />
     )
   }
 }
 
 const mapStateToProps = (state) => ({
-  appEnv: selectors.core.walletOptions.getAppEnv(state).getOrElse('prod')
+  appEnv: selectors.core.walletOptions.getAppEnv(state).getOrElse('prod'),
+  email: selectors.auth.getRegisterEmail(state) as string,
+  exchangeUserConflict: selectors.auth.getExchangeConflictStatus(state) as boolean
 })
 
 const mapDispatchToProps = (dispatch) => ({

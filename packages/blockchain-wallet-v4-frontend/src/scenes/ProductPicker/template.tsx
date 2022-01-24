@@ -2,8 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
-import { Button, Icon, Image, Link, Text } from 'blockchain-info-components'
-import { Wrapper } from 'components/Public'
+import { Icon, Image, Link, Text } from 'blockchain-info-components'
 
 const TitleWrapper = styled.div`
   display: flex;
