@@ -50,19 +50,18 @@ export const getBuyQuote = (
   fix: BSFixType,
   baseAmount?: string
 ) => {
+  const coin = getCoinFromPair(pair)
   if (fix === 'FIAT') {
-    const coin = getCoinFromPair(pair)
     const decimals = window.coins[coin].coinfig.precision
-    const standardRate = convertBaseToStandard('FIAT', rate)
-    return new BigNumber(baseAmount || '0')
-      .dividedBy(standardRate)
-      .dividedBy(rate)
-      .toFixed(decimals)
+    const standardRate = convertBaseToStandard(coin, rate)
+    // ex. 0.00002756 BTC * 10,000 USD = 0.2756 BTC
+    return new BigNumber(standardRate || '0').times(baseAmount || '0').toFixed(decimals)
   }
   const fiat = getFiatFromPair(pair)
   const decimals = Currencies[fiat].units[fiat as UnitType].decimal_digits
-  const standardRate = convertBaseToStandard('FIAT', rate)
-  return new BigNumber(baseAmount || '0').times(standardRate).times(rate).toFixed(decimals)
+  const standardRate = convertBaseToStandard(coin, rate)
+  // ex. 0.2756 BTC / 0.00002756 BTC = 10,000 USD
+  return new BigNumber(baseAmount || '0').dividedBy(standardRate).toFixed(decimals)
 }
 
 export const formatQuote = (amt: string, pair: string, fix: BSFixType): string => {
