@@ -489,7 +489,7 @@ export default ({ api }: { api: APIType }) => {
       yield put(
         A.setMarketplaceData({
           // @ts-ignore
-          collection: res
+          collection: IS_TESTNET ? { ...res, collection_data: { ...res } } : res
         })
       )
       yield put(A.fetchNftOrders())
@@ -518,7 +518,7 @@ export default ({ api }: { api: APIType }) => {
             A.setMarketplaceData({
               atBound: false,
               // @ts-ignore
-              collection: res,
+              collection: IS_TESTNET ? { ...res, collection_data: { ...res } } : res,
               page: 1,
               token_ids_queried: []
             })
