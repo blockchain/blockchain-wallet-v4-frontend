@@ -350,7 +350,7 @@
   "copy.buy_upgrade": "Comprar mais crypto",
   "copy.cancel": "Cancelar",
   "copy.cancel_listing": "Cancelar lista",
-  "copy.copy.cancel_listings_for_val": "Cancelar listagem para {val}",
+  "copy.cancel_listings_for_val": "Cancelar listagem para {val}",
   "copy.canceled": "Cancelado",
   "copy.card_fee": "Taxa do cartão",
   "copy.close": "Fechar",
