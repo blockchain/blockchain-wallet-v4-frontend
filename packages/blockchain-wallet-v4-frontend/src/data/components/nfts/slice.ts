@@ -3,16 +3,15 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Remote } from '@core'
 import {
-  AssetEventsType,
   CollectionData,
   ExplorerGatewayNftCollectionType,
   GasCalculationOperations,
   GasDataI,
   NftAsset,
   NftAssetsType,
+  NftOrder,
   NftOrdersType,
   OfferEventsType,
-  Order,
   RawOrder
 } from '@core/network/api/nfts/types'
 import { calculateGasFees } from '@core/redux/payment/nfts'
@@ -69,7 +68,7 @@ const nftsSlice = createSlice({
   reducers: {
     acceptOffer: (
       state,
-      action: PayloadAction<{ buy: Order; gasData: GasDataI; sell: Order }>
+      action: PayloadAction<{ buy: NftOrder; gasData: GasDataI; sell: NftOrder }>
     ) => {},
     cancelListing: (state, action: PayloadAction<{ gasData: GasDataI; order: RawOrder }>) => {},
     cancelOffer: (
@@ -84,7 +83,7 @@ const nftsSlice = createSlice({
       action: PayloadAction<{
         amount?: string
         coin?: string
-        order: NftOrdersType['orders'][0]
+        order: NftOrder
       }>
     ) => {},
     createOrder: (
@@ -93,7 +92,7 @@ const nftsSlice = createSlice({
         amount?: string
         coin?: string
         gasData: GasDataI
-        order: NftOrdersType['orders'][0]
+        order: NftOrder
       }>
     ) => {},
     createSellOrder: (
@@ -117,12 +116,12 @@ const nftsSlice = createSlice({
       action: PayloadAction<
         | {
             operation: GasCalculationOperations.Accept
-            order: NftOrdersType['orders'][0]
+            order: NftOrder
           }
         | {
             offer?: string
             operation: GasCalculationOperations.Buy
-            order: NftOrdersType['orders'][0]
+            order: NftOrder
             paymentTokenAddress?: string
           }
         | {
@@ -226,7 +225,10 @@ const nftsSlice = createSlice({
     fetchOfferToAcceptLoading: (state) => {
       state.orderFlow.offerToAccept = Remote.Loading
     },
-    fetchOfferToAcceptSuccess: (state, action: PayloadAction<{ buy: Order; sell: Order }>) => {
+    fetchOfferToAcceptSuccess: (
+      state,
+      action: PayloadAction<{ buy: NftOrder; sell: NftOrder }>
+    ) => {
       state.orderFlow.offerToAccept = Remote.Success(action.payload)
     },
     nftOrderFlowClose: (state) => {
@@ -246,7 +248,7 @@ const nftsSlice = createSlice({
       action: PayloadAction<
         | { asset: NftAsset; offer: OfferEventsType['asset_events'][0]; order?: never }
         | { asset: NftAsset; offer?: never; order?: never }
-        | { asset?: never; offer?: never; order: NftOrdersType['orders'][0] }
+        | { asset?: never; offer?: never; order: NftOrder }
       >
     ) => {
       if (action.payload.order) {

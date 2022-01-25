@@ -11,7 +11,6 @@ import {
   ExplorerGatewayNftCollectionType,
   GasCalculationOperations,
   GasDataI,
-  Order,
   RawOrder
 } from '@core/network/api/nfts/types'
 import {

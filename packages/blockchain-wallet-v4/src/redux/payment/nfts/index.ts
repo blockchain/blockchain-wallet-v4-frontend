@@ -4,8 +4,7 @@ import {
   GasCalculationOperations,
   GasDataI,
   NftAsset,
-  NftOrdersType,
-  Order,
+  NftOrder,
   RawOrder
 } from '@core/network/api/nfts/types'
 
@@ -37,7 +36,7 @@ export const cancelNftOrder = async (sellOrder: RawOrder, signer: Signer, gasDat
   return cancelled
 }
 
-export const fulfillNftSellOrder = async (order: Order, signer: Signer, gasData: GasDataI) => {
+export const fulfillNftSellOrder = async (order: NftOrder, signer: Signer, gasData: GasDataI) => {
   const validatedAndApproved = await _sellOrderValidationAndApprovals({ gasData, order, signer })
   // eslint-disable-next-line no-console
   console.log(`Successful approvals and validations?: ${validatedAndApproved}`)
@@ -53,7 +52,7 @@ export const getNftSellOrder = async (
   waitForHighestBid = false, // True = English auction,
   paymentTokenAddress = '0x0000000000000000000000000000000000000000',
   expirationTime = 0
-): Promise<Order> => {
+): Promise<NftOrder> => {
   return createSellOrder(
     asset,
     expirationTime,
@@ -68,8 +67,8 @@ export const getNftSellOrder = async (
 
 // TODO: Be able to pass in custom value for price for making auction bids.
 export const fulfillNftOrder = async (
-  buy: Order,
-  sell: Order,
+  buy: NftOrder,
+  sell: NftOrder,
   signer: Signer,
   gasData: GasDataI,
   acceptingOffer?: boolean
@@ -100,13 +99,13 @@ export const fulfillNftOrder = async (
 }
 
 export const getNftBuyOrders = async (
-  order: NftOrdersType['orders'][0],
+  order: NftOrder,
   signer: Signer,
   expirationTime = 0,
   network: string,
   offer?: string,
   paymentTokenAddress?: string
-): Promise<{ buy: Order; sell: Order }> => {
+): Promise<{ buy: NftOrder; sell: NftOrder }> => {
   return createMatchingOrders(
     expirationTime,
     offer || null,
@@ -122,8 +121,8 @@ export const calculateGasFees = async (
   operation: GasCalculationOperations,
   signer: Signer,
   cancelOrder?: RawOrder,
-  buyOrder?: Order,
-  sellOrder?: Order,
+  buyOrder?: NftOrder,
+  sellOrder?: NftOrder,
   transferAsset?: NftAsset,
   transferRecipient?: string
 ): Promise<GasDataI> => {
