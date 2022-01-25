@@ -165,14 +165,23 @@ export const getMaxMin = (
           }
 
           const defaultMax = {
-            CRYPTO: getQuote(
-              quote.pair,
-              quote.rate,
-              'FIAT',
-              isSddFlow
-                ? convertBaseToStandard('FIAT', Number(sddLimit.max))
-                : convertBaseToStandard('FIAT', pair.buyMax)
-            ),
+            CRYPTO: isFlexiblePricingModel
+              ? getBuyQuote(
+                  quote.pair,
+                  quote.rate,
+                  'FIAT',
+                  isSddFlow
+                    ? convertBaseToStandard('FIAT', Number(sddLimit.max))
+                    : convertBaseToStandard('FIAT', pair.buyMax)
+                )
+              : getQuote(
+                  quote.pair,
+                  quote.rate,
+                  'FIAT',
+                  isSddFlow
+                    ? convertBaseToStandard('FIAT', Number(sddLimit.max))
+                    : convertBaseToStandard('FIAT', pair.buyMax)
+                ),
             FIAT: isSddFlow
               ? convertBaseToStandard('FIAT', Number(sddLimit.max))
               : convertBaseToStandard('FIAT', pair.buyMax),
@@ -223,7 +232,13 @@ export const getMaxMin = (
           }
 
           const maxFiat = !fundsChangedMax ? convertBaseToStandard('FIAT', max) : max
-          const maxCrypto = getQuote(quote.pair, quote.rate, 'FIAT', maxFiat)
+
+          let maxCrypto
+          if (isFlexiblePricingModel) {
+            maxCrypto = getBuyQuote(quote.pair, quote.rate, 'FIAT', maxFiat)
+          } else {
+            maxCrypto = getQuote(quote.pair, quote.rate, 'FIAT', maxFiat)
+          }
 
           return { CRYPTO: maxCrypto, FIAT: maxFiat, type: limitType }
         case 'min':
