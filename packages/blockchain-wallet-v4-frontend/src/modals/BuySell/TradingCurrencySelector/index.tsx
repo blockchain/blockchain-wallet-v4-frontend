@@ -8,7 +8,7 @@ import { WalletFiatType } from '@core/types'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { actions, selectors } from 'data'
-import { AnalyticsKey } from 'data/types'
+import { Analytics } from 'data/types'
 
 const COINS = [
   {
@@ -161,7 +161,7 @@ const TradingCurrencySelector = ({
           onClick={() => {
             buySellActions.setFiatTradingCurrency(coin.value as WalletFiatType)
             analyticsActions.trackEvent({
-              key: AnalyticsKey.FIAT_CURRENCY_SELECTED,
+              key: Analytics.VIEW_AND_CLICK_FIAT_CURRENCY_SELECTED,
               properties: { currency: coin.value }
             })
           }}
