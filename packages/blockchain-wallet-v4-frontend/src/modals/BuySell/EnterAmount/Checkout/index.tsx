@@ -218,7 +218,7 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps) => ({
   goals: selectors.goals.getGoals(state),
   isFlexiblePricingModel: selectors.core.walletOptions
     .getFlexiblePricingModel(state)
-    .getOrElse(false),
+    .getOrElse(false) as boolean,
   isPristine: selectors.form.isPristine(FORM_BS_CHECKOUT)(state),
   preferences: selectors.preferences.getBSCheckoutPreferences(state),
   sbOrders: selectors.components.buySell.getBSOrders(state).getOrElse([])
