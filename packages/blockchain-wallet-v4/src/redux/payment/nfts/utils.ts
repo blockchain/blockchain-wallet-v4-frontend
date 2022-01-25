@@ -165,8 +165,8 @@ const getOrderHashHex = (order: UnhashedOrder): string => {
     // eslint-disable-next-line no-buffer-constructor
     { type: SolidityTypes.Bytes, value: new Buffer(order.staticExtradata.slice(2), 'hex') },
     { type: SolidityTypes.Address, value: order.paymentToken },
-    { type: SolidityTypes.Uint256, value: order.basePrice.toString() },
-    { type: SolidityTypes.Uint256, value: order.extra.toString() },
+    { type: SolidityTypes.Uint256, value: order.basePrice.toString(10) },
+    { type: SolidityTypes.Uint256, value: order.extra.toString(10) },
     { type: SolidityTypes.Uint256, value: order.listingTime.toString() },
     { type: SolidityTypes.Uint256, value: order.expirationTime.toString() },
     { type: SolidityTypes.Uint256, value: order.salt.toString() }
@@ -1065,7 +1065,7 @@ export async function _makeSellOrder({
   quantity: number
   startAmount: number
   waitForHighestBid: boolean
-}): Promise<UnhashedOrder> {
+}): Promise<any> {
   // todo: re-implement this later:
   // accountAddress = validateAndFormatWalletAddress(this.web3, accountAddress)
   // const schema = _getSchema(asset.schemaName)
@@ -1118,7 +1118,7 @@ export async function _makeSellOrder({
     throw new Error('contract address not defined within asset')
   }
   return {
-    basePrice: new BigNumber(basePrice.toString()),
+    basePrice: new BigNumber(basePrice.toString()).toString(10),
     calldata,
     englishAuctionReservePrice: reservePrice ? new BigNumber(reservePrice.toString()) : undefined,
     exchange: (network === 'rinkeby'
@@ -1126,7 +1126,7 @@ export async function _makeSellOrder({
       : WYVERN_CONTRACT_ADDR_MAINNET
     ).toLowerCase(),
     expirationTime: times.expirationTime,
-    extra: new BigNumber(extra.toString()),
+    extra: new BigNumber(extra.toString()).toString(10),
     feeMethod,
     feeRecipient,
     howToCall: HowToCall.Call,
@@ -1687,8 +1687,8 @@ export async function _validateOrderWyvern({
       order.takerRelayerFee.toString(),
       order.makerProtocolFee.toString(),
       order.takerProtocolFee.toString(),
-      order.basePrice.toString(),
-      order.extra.toString(),
+      order.basePrice.toString(10),
+      order.extra.toString(10),
       order.listingTime.toString(),
       order.expirationTime.toString(),
       order.salt.toString()
