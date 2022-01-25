@@ -10,7 +10,7 @@ import CircularProgressBar from 'components/CircularProgressBar'
 import Flyout, { duration, FlyoutChild, FlyoutWrapper } from 'components/Flyout'
 import { actions, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
-import { AnalyticsKey, ModalName } from 'data/types'
+import { Analytics, ModalName } from 'data/types'
 import ModalEnhancer from 'providers/ModalEnhancer'
 
 import { ModalPropsType } from '../../types'
@@ -108,7 +108,7 @@ class CompleteProfile extends PureComponent<Props, State> {
 
     const { currentStep } = this.props.data
     this.props.analyticsActions.trackEvent({
-      key: AnalyticsKey.ONBOARDING_COMPLETE_PROFILE_MODAL_VIEWED,
+      key: Analytics.ONBOARDING_COMPLETE_PROFILE_MODAL_VIEWED,
       properties: { current_step_completed: currentStep }
     })
   }
@@ -117,7 +117,7 @@ class CompleteProfile extends PureComponent<Props, State> {
     this.setState({ show: false })
     const { currentStep } = this.props.data
     this.props.analyticsActions.trackEvent({
-      key: AnalyticsKey.ONBOARDING_COMPLETE_PROFILE_MODAL_CLOSED,
+      key: Analytics.ONBOARDING_COMPLETE_PROFILE_MODAL_CLOSED,
       properties: { current_step_completed: currentStep }
     })
     setTimeout(() => {
@@ -186,7 +186,7 @@ class CompleteProfile extends PureComponent<Props, State> {
   trackButtonEvent = (eventType: COMPLETE_PROFILE_STEPS, isButtonClick: boolean) => {
     const { currentStep } = this.props.data
     this.props.analyticsActions.trackEvent({
-      key: AnalyticsKey.ONBOARDING_COMPLETE_PROFILE_MODAL_BUTTON_CLICKED,
+      key: Analytics.ONBOARDING_COMPLETE_PROFILE_MODAL_BUTTON_CLICKED,
       properties: {
         button_clicked: isButtonClick,
         current_step_completed: currentStep,

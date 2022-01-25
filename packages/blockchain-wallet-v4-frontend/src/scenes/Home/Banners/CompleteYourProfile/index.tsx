@@ -10,7 +10,7 @@ import CircularProgressBar from 'components/CircularProgressBar'
 import { actions, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
 import { RootState } from 'data/rootReducer'
-import { AnalyticsKey } from 'data/types'
+import { Analytics } from 'data/types'
 import { media } from 'services/styles'
 
 import { getCompleteProfileAnnouncement } from '../selectors'
@@ -96,7 +96,7 @@ const CompleteYourProfile = ({
       origin: 'SideNav'
     })
     analyticsActions.trackEvent({
-      key: AnalyticsKey.ONBOARDING_COMPLETE_PROFILE_BANNER_CLICKED,
+      key: Analytics.ONBOARDING_COMPLETE_PROFILE_BANNER_CLICKED,
       properties: {
         current_step_completed: currentStep
       }

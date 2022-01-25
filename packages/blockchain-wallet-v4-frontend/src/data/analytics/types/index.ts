@@ -7,6 +7,7 @@ import {
 const TRACK_EVENT = 'trackEvent'
 
 type AnalyticsKey = OnboardingAndVerificationEvents
+const Analytics = OnboardingAndVerificationEvents
 
 // queevent properties
 type AnalyticsProperties = OnboardingAndVerificationAnalyticsProperties
@@ -29,4 +30,4 @@ type RawEvent = {
 
 type TrackEventAction = OnboardingAndVerificationTrackEventAction
 
-export { AnalyticsKey, AnalyticsValue, RawEvent, TRACK_EVENT, TrackEventAction }
+export { Analytics, AnalyticsKey, AnalyticsValue, RawEvent, TRACK_EVENT, TrackEventAction }
