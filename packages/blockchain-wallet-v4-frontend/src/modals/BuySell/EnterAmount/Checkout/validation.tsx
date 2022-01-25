@@ -240,14 +240,23 @@ export const getMaxMin = (
           }
 
           const defaultMin = {
-            CRYPTO: getQuote(
-              quote.pair,
-              quote.rate,
-              'FIAT',
-              isSddFlow
-                ? convertBaseToStandard('FIAT', Number(sddLimit.min))
-                : convertBaseToStandard('FIAT', pair.buyMin)
-            ),
+            CRYPTO: isFlexiblePricingModel
+              ? getBuyQuote(
+                  quote.pair,
+                  quote.rate,
+                  'FIAT',
+                  isSddFlow
+                    ? convertBaseToStandard('FIAT', Number(sddLimit.min))
+                    : convertBaseToStandard('FIAT', pair.buyMin)
+                )
+              : getQuote(
+                  quote.pair,
+                  quote.rate,
+                  'FIAT',
+                  isSddFlow
+                    ? convertBaseToStandard('FIAT', Number(sddLimit.min))
+                    : convertBaseToStandard('FIAT', pair.buyMin)
+                ),
             FIAT: isSddFlow
               ? convertBaseToStandard('FIAT', Number(sddLimit.min))
               : convertBaseToStandard('FIAT', pair.buyMin)
