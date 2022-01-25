@@ -16,7 +16,6 @@ const Loading = () => {
   return (
     <LoadingWrapper>
       <SpinningLoader width='40px' height='40px' />
-
       <Text size='16px' weight={400} style={{ marginTop: '24px' }}>
         <FormattedMessage
           id='scenes.login.verify'

@@ -7,6 +7,16 @@ import { actions, actionTypes, selectors } from 'data'
 export const logLocation = 'balances'
 export const balancePath = ['payload', 'info', 'final_balance']
 
+export const fetchBalances = function* () {
+  yield put(actions.core.data.bch.fetchData())
+  yield put(actions.core.data.btc.fetchData())
+  yield put(actions.core.data.xlm.fetchData())
+  yield put(actions.core.data.eth.fetchData())
+  yield put(actions.core.data.eth.fetchErc20Data())
+  yield put(actions.components.refresh.refreshRates())
+  yield put(actions.custodial.fetchRecentSwapTxs())
+}
+
 export const getEthBalance = function* () {
   try {
     const ethBalanceR = yield select(selectors.core.data.eth.getBalance)

@@ -126,7 +126,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   name='state'
                   component={SelectBoxUSState}
                   validate={[required]}
-                  normalize={(val) => val.name}
+                  normalize={(val) => val?.name}
                 />
               ) : (
                 <Field name='state' component={TextBox} />
@@ -159,7 +159,10 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
             height='48px'
             size='16px'
           >
-            <FormattedMessage id='modals.simplebuy.save_my_card' defaultMessage='Save My Card' />
+            <FormattedMessage
+              id='modals.simplebuy.save_billing_address'
+              defaultMessage='Save Billing Address'
+            />
           </Button>
         </FlyoutWrapper>
       </Form>

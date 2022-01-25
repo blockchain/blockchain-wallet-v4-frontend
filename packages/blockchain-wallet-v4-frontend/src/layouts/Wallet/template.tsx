@@ -26,7 +26,7 @@ const Container = styled.div`
 `
 const Nav = styled.div`
   flex: 0 0 60px;
-  background-color: ${(props) => props.theme.blue900};
+  background-color: ${(props) => props.theme.white};
 `
 const Content = styled.div`
   box-sizing: border-box;

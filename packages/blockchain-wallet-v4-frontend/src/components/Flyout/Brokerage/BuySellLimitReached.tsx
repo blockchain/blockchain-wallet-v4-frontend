@@ -10,7 +10,7 @@ const Title = styled(Text)`
   text-align: center;
 `
 
-const Subcontent = styled(Text)`
+const SubContent = styled(Text)`
   margin-bottom: 56px;
   text-align: center;
 `
@@ -32,13 +32,13 @@ const BuySellLimitReached: React.FC<Props> = ({ handleClose, limitNumber }) => (
             defaultMessage="You've reached your limit"
           />
         </Title>
-        <Subcontent color='grey600' weight={500}>
+        <SubContent color='grey600' weight={500}>
           <FormattedMessage
             id='modals.simplebuy.limit_reached_sub_title'
             defaultMessage='The maximum amount of pending orders is {limitNumber}'
             values={{ limitNumber }}
           />
-        </Subcontent>
+        </SubContent>
       </div>
       <FlyoutFooter>
         <Button

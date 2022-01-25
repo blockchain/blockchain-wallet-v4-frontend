@@ -22,11 +22,13 @@ import {
   FiatEligibleType,
   FiatType,
   PaymentValue,
+  ProductTypes,
   ProviderDetailsType,
   SDDEligibleType,
   SDDVerifiedType,
   SwapQuoteStateType,
-  SwapUserLimitsType
+  SwapUserLimitsType,
+  TradeAccumulatedItem
 } from '@core/types'
 import {
   BankTransferAccountType,
@@ -44,6 +46,7 @@ import { BuySellState } from './types'
 
 const initialState: BuySellState = {
   account: Remote.NotAsked,
+  accumulatedTrades: Remote.NotAsked,
   addBank: undefined,
   balances: Remote.NotAsked,
   buyQuote: Remote.NotAsked,
@@ -173,6 +176,16 @@ const buySellSlice = createSlice({
       action: PayloadAction<{ order: BSOrderType; paymentMethodId: BSCardType['id'] }>
     ) => {},
     confirmOrderPoll: (state, action: PayloadAction<BSOrderType>) => {},
+    createCard: (state, action: PayloadAction<{ [key: string]: string }>) => {},
+    createCardFailure: (state, action: PayloadAction<string>) => {
+      state.card = Remote.Failure(action.payload)
+    },
+    createCardLoading: (state) => {
+      state.card = Remote.Loading
+    },
+    createCardSuccess: (state, action: PayloadAction<BSCardType>) => {
+      state.card = Remote.Success(action.payload)
+    },
     createOrder: (
       state,
       action: PayloadAction<{
@@ -192,6 +205,16 @@ const buySellSlice = createSlice({
       state.pairs = Remote.NotAsked
       state.quote = Remote.NotAsked
       state.step = 'CRYPTO_SELECTION'
+    },
+    fetchAccumulatedTrades: (state, action: PayloadAction<{ product: ProductTypes }>) => {},
+    fetchAccumulatedTradesFailure: (state, action: PayloadAction<string>) => {
+      state.accumulatedTrades = Remote.Failure(action.payload)
+    },
+    fetchAccumulatedTradesLoading: (state) => {
+      state.accumulatedTrades = Remote.Loading
+    },
+    fetchAccumulatedTradesSuccess: (state, action: PayloadAction<Array<TradeAccumulatedItem>>) => {
+      state.accumulatedTrades = Remote.Success(action.payload)
     },
     fetchBSOrders: () => {},
     fetchBalance: (
@@ -225,16 +248,6 @@ const buySellSlice = createSlice({
     fetchBuyQuoteSuccess: (state, action: PayloadAction<BuyQuoteStateType>) => {
       state.buyQuote = Remote.Success(action.payload)
     },
-    fetchCard: () => {},
-    fetchCardFailure: (state, action: PayloadAction<string>) => {
-      state.card = Remote.Failure(action.payload)
-    },
-    fetchCardLoading: (state) => {
-      state.card = Remote.Loading
-    },
-    fetchCardSuccess: (state, action: PayloadAction<BSCardType>) => {
-      state.card = Remote.Success(action.payload)
-    },
     fetchCards: (state, action: PayloadAction<boolean>) => {},
     // cards fetch fails so often in staging that this is a temp fix
     fetchCardsFailure: (state, action: PayloadAction<string>) => {
@@ -248,7 +261,6 @@ const buySellSlice = createSlice({
         action.payload.filter((card) => card.state !== BSCardStateEnum.BLOCKED)
       )
     },
-
     fetchCrossBorderLimits: (state, action: PayloadAction<CrossBorderLimitsPayload>) => {},
     fetchCrossBorderLimitsFailure: (state, action: PayloadAction<unknown>) => {
       state.crossBorderLimits = Remote.Failure(action.payload)
@@ -259,8 +271,8 @@ const buySellSlice = createSlice({
     fetchCrossBorderLimitsSuccess: (state, action: PayloadAction<CrossBorderLimits>) => {
       state.crossBorderLimits = Remote.Success(action.payload)
     },
-
     fetchFiatEligible: (state, action: PayloadAction<FiatType>) => {},
+
     fetchFiatEligibleFailure: (state, action: PayloadAction<string>) => {
       state.fiatEligible = Remote.Failure(action.payload)
     },
@@ -425,6 +437,10 @@ const buySellSlice = createSlice({
     pollBalances: () => {},
     pollCard: (state, action: PayloadAction<BSCardType['id']>) => {},
     pollOrder: (state, action: PayloadAction<string>) => {},
+    registerCard: (
+      state,
+      action: PayloadAction<{ paymentMethodTokens: { [key: string]: string } }>
+    ) => {},
     setBuyCrypto: (state, action: PayloadAction<string>) => {},
     setFiatCurrency: (state, action: PayloadAction<FiatType>) => {
       state.fiatCurrency = action.payload

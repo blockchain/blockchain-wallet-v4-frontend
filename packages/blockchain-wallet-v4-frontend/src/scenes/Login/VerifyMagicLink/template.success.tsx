@@ -6,6 +6,15 @@ import { Banner, Button, Icon, Image, Text } from 'blockchain-info-components'
 import { Wrapper } from 'components/Public'
 import { media } from 'services/styles'
 
+import { Props } from '..'
+import { LoginWrapper } from '../model'
+
+const InfoWrapper = styled.div`
+  width: 100%;
+  text-align: left;
+  ${media.mobile`
+  text-align: center;`}
+`
 const DeviceInfoWrapper = styled.div`
   margin-top: 20px;
 `
@@ -80,7 +89,7 @@ const SuccessWrapper = styled.div`
 const Success = (props) => {
   const { approver, requester } = props
   return props.deviceAuthorized ? (
-    <Wrapper>
+    <LoginWrapper>
       <SuccessWrapper>
         <Icon color='success' name='checkmark-circle-filled' size='40px' />
 
@@ -98,9 +107,9 @@ const Success = (props) => {
           />
         </Text>
       </SuccessWrapper>
-    </Wrapper>
+    </LoginWrapper>
   ) : (
-    <Wrapper>
+    <LoginWrapper>
       <FormBody>
         <Image name='blockchain-icon' width='40px' height='40px' />
         <Text size='20px' weight={600} color='grey900' style={{ marginTop: '24px' }}>
@@ -242,7 +251,7 @@ const Success = (props) => {
           <FormattedMessage id='scenes.authorizelogin.reject' defaultMessage='Reject' />
         </ApproveRejectButtons>
       </ApproveWrapper>
-    </Wrapper>
+    </LoginWrapper>
   )
 }
 

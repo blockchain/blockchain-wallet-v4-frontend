@@ -1,7 +1,12 @@
 import { TIER_TYPES } from 'blockchain-wallet-v4-frontend/src/modals/Settings/TradingLimits/model'
-import { anyPass, equals } from 'ramda'
+import { anyPass, equals, isEmpty } from 'ramda'
 
-import { BSOrderType, SwapUserLimitsType } from '@core/types'
+import {
+  BSBalancesType,
+  BSPaymentMethodsType,
+  BSPaymentTypes,
+  SwapUserLimitsType
+} from '@core/types'
 import { model, selectors } from 'data'
 import { RootState } from 'data/rootReducer'
 import { UserDataType } from 'data/types'
@@ -19,6 +24,7 @@ export type BannerType =
   | 'coinRename'
   | 'celoEURRewards'
   | 'servicePriceUnavailable'
+  | 'completeYourProfile'
   | null
 
 export const getNewCoinAnnouncement = (coin: string) => `${coin}-homepage`
@@ -35,18 +41,24 @@ const showBanner = (flag: boolean, banner: string, announcementState) => {
 
 export const getData = (state: RootState): { bannerToShow: BannerType } => {
   const announcementState = selectors.cache.getLastAnnouncementState(state)
+
+  let isVerifiedId = false
+  let isBankOrCardLinked = false
+  let isBuyCrypto = false
+
   // @ts-ignore
   const showDocResubmitBanner = selectors.modules.profile
     .getKycDocResubmissionStatus(state)
     .map(anyPass([equals(GENERAL), equals(EXPIRED)]))
     .getOrElse(false)
-  const ordersR = selectors.components.buySell.getBSOrders(state)
 
   const isUserActive =
     selectors.modules.profile.getUserActivationState(state).getOrElse('') !== 'NONE'
   const isKycStateNone =
     // @ts-ignore
     selectors.modules.profile.getUserKYCState(state).getOrElse('') === 'NONE'
+
+  const showCompleteYourProfile = selectors.core.walletOptions.getCompleteYourProfile(state)
 
   const isFirstLogin = selectors.auth.getFirstLogin(state)
 
@@ -61,6 +73,10 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
     userData.kycState === KYC_STATES.UNDER_REVIEW ||
     userData.kycState === KYC_STATES.VERIFIED
   const sddEligibleTier = selectors.components.buySell.getUserSddEligibleTier(state).getOrElse(1)
+
+  if (isKycPendingOrVerified) {
+    isVerifiedId = true
+  }
 
   // continueToGold
   const limits = selectors.components.buySell.getLimits(state).getOrElse({
@@ -101,8 +117,37 @@ export const getData = (state: RootState): { bannerToShow: BannerType } => {
   // servicePriceUnavailable
   const isServicePriceUnavailable = selectors.core.data.coins.getIsServicePriceDown(state)
 
+  const cards = selectors.components.buySell.getBSCards(state).getOrElse([])
+  const paymentMethods = selectors.components.buySell
+    .getBSPaymentMethods(state)
+    .getOrElse({} as BSPaymentMethodsType)
+  const isAnyBankLinked =
+    paymentMethods?.methods?.length > 0 &&
+    paymentMethods.methods.find(
+      (method) => method.eligible && method.type === BSPaymentTypes.LINK_BANK
+    )
+  if (cards?.length > 0 || isAnyBankLinked) {
+    isBankOrCardLinked = true
+  }
+
+  // user have some balance
+  const balances = selectors.components.buySell.getBSBalances(state).getOrElse({} as BSBalancesType)
+  if (!isEmpty(balances)) {
+    if (
+      Object.values(balances).some(
+        (balance) => balance?.available && Number(balance?.available) > 0
+      )
+    ) {
+      isBuyCrypto = true
+    }
+  }
+
+  const isProfileCompleted = isVerifiedId && isBankOrCardLinked && isBuyCrypto
+
   let bannerToShow: BannerType = null
-  if (showDocResubmitBanner && !isKycPendingOrVerified) {
+  if (showCompleteYourProfile && !isProfileCompleted) {
+    bannerToShow = 'completeYourProfile'
+  } else if (showDocResubmitBanner && !isKycPendingOrVerified) {
     bannerToShow = 'resubmit'
   } else if (isServicePriceUnavailable) {
     bannerToShow = 'servicePriceUnavailable'

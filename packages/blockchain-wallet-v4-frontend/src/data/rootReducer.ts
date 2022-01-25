@@ -9,7 +9,8 @@ import components from './components/reducers'
 import { custodialReducer as custodial } from './custodial/reducers'
 import form from './form/reducers'
 import { goalsReducer as goals } from './goals/slice'
-import { logsReducer as logs } from './logs/slice.js'
+import { logsReducer as logs } from './logs/slice'
+import { miscReducer as misc } from './misc/slice'
 import { modalsReducer } from './modals/reducers'
 import profile from './modules/profile/reducers'
 import rates from './modules/rates/reducers'
@@ -28,6 +29,7 @@ const rootReducer = {
   form,
   goals,
   logs,
+  misc,
   modals: modalsReducer,
   preferences: preferencesReducer,
   prices,

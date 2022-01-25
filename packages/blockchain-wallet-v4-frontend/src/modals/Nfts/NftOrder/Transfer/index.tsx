@@ -80,8 +80,8 @@ const Transfer: React.FC<Props> = (props) => {
                   <Field
                     onChange={(e) =>
                       props.nftActions.fetchFees({
-                        operation: GasCalculationOperations.Transfer,
                         asset: val,
+                        operation: GasCalculationOperations.Transfer,
                         to: e.target.value
                       })
                     }

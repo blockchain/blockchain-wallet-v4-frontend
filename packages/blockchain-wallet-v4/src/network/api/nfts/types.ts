@@ -419,7 +419,7 @@ export interface txnData {
   gasPrice: number
 }
 
-export interface SellOrder {
+export interface RawOrder {
   approved_on_chain: boolean
   base_price: string
   bounty_multiple: string
@@ -638,7 +638,7 @@ export interface NftAsset {
   }
 
   permalink: string
-  sell_orders: SellOrder[]
+  sell_orders: RawOrder[]
   token_id: string
   token_metadata: null
   top_bid: null
@@ -734,6 +734,9 @@ export type OfferEventsType = {
     asset: NftAsset
     bid_amount: string
     created_date: string
+    from_account: {
+      address: string
+    }
     payment_token: {
       address: string
       decimals: number

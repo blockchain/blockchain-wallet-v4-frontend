@@ -14,7 +14,7 @@ import {
   NftOrdersType,
   NftSaleKind,
   PartialReadonlyContractAbi,
-  SellOrder,
+  RawOrder,
   SolidityTypes,
   txnData,
   UnhashedOrder,
@@ -43,8 +43,8 @@ export const DEFAULT_MAX_BOUNTY = DEFAULT_SELLER_FEE_BASIS_POINTS
 export const ENJIN_ADDRESS = '0xfaaFDc07907ff5120a76b34b731b278c38d6043C'
 export const ENJIN_COIN_ADDRESS = '0xf629cbd94d3791c9250152bd8dfbdf380e2a3b9c'
 export const OPENSEA_SHARED_MARKETPLACE = '0x495f947276749ce646f68ac8c248420045cb7b5e'
-const WETH_ADDRESS = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
-const WETH_ADDRESS_RINKEBY = '0xc778417E063141139Fce010982780140Aa0cD5Ab'
+export const WETH_ADDRESS = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
+export const WETH_ADDRESS_RINKEBY = '0xc778417E063141139Fce010982780140Aa0cD5Ab'
 const WYVERN_TOKEN_PAYMENT_PROXY = '0xe5c783ee536cf5e63e792988335c4255169be4e1'
 const WYVERN_TOKEN_PAYMENT_PROXY_RINKEBY = '0x82d102457854c985221249f86659c9d6cf12aa72'
 const WYVERN_CONTRACT_ADDR_RINKEBY = '0x5206e78b21Ce315ce284FB24cf05e0585A93B1d9'
@@ -1711,7 +1711,7 @@ export async function _cancelOrder({
   signer,
   txnData
 }: {
-  sellOrder: SellOrder
+  sellOrder: RawOrder
   signer: Signer
   txnData: txnData
 }) {
@@ -2422,7 +2422,7 @@ export async function calculatePaymentProxyApprovals(order: Order, signer: Signe
   )
 }
 
-export async function calculateCancellation(sellOrder: SellOrder, signer: Signer) {
+export async function calculateCancellation(sellOrder: RawOrder, signer: Signer) {
   const order = {
     basePrice: sellOrder.base_price.toString(),
     calldata: sellOrder.calldata,

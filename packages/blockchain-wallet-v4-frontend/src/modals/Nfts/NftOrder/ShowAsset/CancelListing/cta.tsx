@@ -26,7 +26,7 @@ const CTA: React.FC<Props> = (props) => {
         Failure: () => (
           <Text size='14px' weight={600}>
             <FormattedMessage
-              id='copy.no_active_sell_listings'
+              id='copy.no_active_listings'
               defaultMessage='Error. You may not have any active listings on this asset.'
             />
           </Text>
@@ -48,7 +48,7 @@ const CTA: React.FC<Props> = (props) => {
                       data-e2e='cancelListingNft'
                     >
                       <FormattedMessage
-                        id='copy.cancel_listings'
+                        id='copy.cancel_listings_for_val'
                         values={{
                           val: displayCoinToCoin({
                             coin: sell_order.payment_token_contract?.symbol || 'ETH',
@@ -63,7 +63,7 @@ const CTA: React.FC<Props> = (props) => {
               ) : (
                 <Text size='14px' weight={600}>
                   <FormattedMessage
-                    id='copy.no_active_sell_listings'
+                    id='copy.no_listings_cancel'
                     defaultMessage='There are no active listings to cancel.'
                   />
                 </Text>

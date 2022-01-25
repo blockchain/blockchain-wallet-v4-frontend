@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components'
 
 import { Icon, Image, Link, Text } from 'blockchain-info-components'
 
-const UploadItemConitainer = styled.div<{ error?: boolean; isDragging: boolean }>`
+const UploadItemContainer = styled.div<{ error?: boolean; isDragging: boolean }>`
   display: flex;
   flex-direction: row;
   border: 1px solid ${(props) => props.theme.grey100};
@@ -189,7 +189,7 @@ const DragAndDrop = (props: Props) => {
         style={{ display: 'none' }}
         ref={inputFile}
       />
-      <UploadItemConitainer isDragging={dragging} error={props.error}>
+      <UploadItemContainer isDragging={dragging} error={props.error}>
         <IconWrapper>
           <Icon name={getIconName()} size='22px' color={getIconColor()} />
         </IconWrapper>
@@ -241,7 +241,7 @@ const DragAndDrop = (props: Props) => {
             </ActionButtons>
           </ActionButtonsContainer>
         )}
-      </UploadItemConitainer>
+      </UploadItemContainer>
     </div>
   )
 }

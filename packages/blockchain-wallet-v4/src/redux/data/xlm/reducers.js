@@ -41,9 +41,16 @@ export default (state = INITIAL_STATE, action) => {
     }
     case AT.FETCH_TRANSACTIONS_SUCCESS: {
       const { reset, txs } = payload
+      const filteredTransactions = txs.filter(
+        (tx) => tx.state !== 'EXPIRED' && tx.state !== 'PENDING_CONFIRMATION'
+      )
       return reset
-        ? assoc('transactions', [Remote.Success(txs)], state)
-        : over(lensProp('transactions'), compose(append(Remote.Success(txs)), dropLast(1)), state)
+        ? assoc('transactions', [Remote.Success(filteredTransactions)], state)
+        : over(
+            lensProp('transactions'),
+            compose(append(Remote.Success(filteredTransactions)), dropLast(1)),
+            state
+          )
     }
     case AT.FETCH_TRANSACTIONS_FAILURE: {
       return assoc('transactions', [Remote.Failure(payload)], state)

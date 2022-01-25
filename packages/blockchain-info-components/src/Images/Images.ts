@@ -1,3 +1,4 @@
+import accountIcons from './img/account-icons.svg'
 import adBitcoinGames from './img/ad-bitcoin-games.png'
 import adBitcoinGames2 from './img/ad-bitcoin-games@2x.png'
 import airdropEnrolled from './img/airdrop-enrolled.png'
@@ -14,6 +15,7 @@ import appleAppStoreBadge from './img/apple-app-store-badge.svg'
 import arrowLeft from './img/arrow-left.svg'
 import bank from './img/bank.svg'
 import bankEmpty from './img/bank-empty.svg'
+import bankEmptyBlue from './img/bank-empty-blue.svg'
 import bankError from './img/bank-error.svg'
 import bankExpired from './img/bank-expired.svg'
 import bankRejected from './img/bank-rejected.svg'
@@ -53,7 +55,9 @@ import buySellGrey from './img/buy-sell-grey.svg'
 import buySellLearnMore from './img/buy-sell-learn-more.png'
 import buySellLearnMore2 from './img/buy-sell-learn-more@2x.png'
 import buyWallet from './img/buy-wallet.svg'
+import cartGreen from './img/cart-green.svg'
 import chartPlaceholder from './img/chart-placeholder1.png'
+import checkmarkCircleGreen from './img/checkmark-circle-green.svg'
 import checkmarkGreen from './img/checkmark-green.svg'
 import circleEmpty from './img/circle-empty.svg'
 import closeError from './img/close-error.svg'
@@ -68,7 +72,10 @@ import emptyTx from './img/empty-tx.svg'
 import ethAirdrop from './img/eth-airdrop.png'
 import ethAirdrop2 from './img/eth-airdrop@2x.png'
 import exchange from './img/exchange.svg'
+import exchangeGrayscale from './img/exchange-grayscale.svg'
 import exchangeLogo from './img/exchange-logo.svg'
+import exchangeNoBackground from './img/exchange-no-background.svg'
+import explorerLogo from './img/explorer-logo.svg'
 import facebookWhite from './img/facebook-white.svg'
 import failedKyc from './img/failed-kyc.png'
 import failedKyc2 from './img/failed-kyc@2x.png'
@@ -82,6 +89,7 @@ import goldNotice from './img/gold-notice.png'
 import goldVerified from './img/gold-verified.svg'
 import googleAuthenticator from './img/google-authenticator.png'
 import googlePlayBadge from './img/google-play-badge.svg'
+import identification from './img/identification.svg'
 import identityVerification from './img/identity-verification.svg'
 import interest from './img/interest.svg'
 import introBankGif from './img/intro-bank.gif'
@@ -163,6 +171,9 @@ import visaLogo from './img/visa-logo.svg'
 import visaNewLogo from './img/visa-new-logo.svg'
 import wallet from './img/wallet.svg'
 import walletBlue from './img/wallet-blue.svg'
+import walletGrayscale from './img/wallet-grayscale.svg'
+import walletLogo from './img/wallet-logo.svg'
+import walletNoBackground from './img/wallet-no-background.svg'
 import walletConnectCircleLogo from './img/walletconnect-logo-circle-blue.svg'
 import warningCircleFilled from './img/warning-circle-filled.png'
 import worldAlert from './img/world-alert.jpg'
@@ -173,6 +184,7 @@ import yubikey from './img/yubikey.svg'
 
 const Images = {
   ...coins,
+  'account-icons': accountIcons,
   'ad-bitcoin-games': adBitcoinGames,
   'ad-bitcoin-games2': adBitcoinGames2,
   'airdrop-enrolled': airdropEnrolled,
@@ -189,6 +201,7 @@ const Images = {
   'arrow-left': arrowLeft,
   bank,
   'bank-empty': bankEmpty,
+  'bank-empty-blue': bankEmptyBlue,
   'bank-error': bankError,
   'bank-expired': bankExpired,
   'bank-logo-acorns': bankLogoAcorns,
@@ -228,7 +241,9 @@ const Images = {
   'buy-sell-learn-more': buySellLearnMore,
   'buy-sell-learn-more2': buySellLearnMore2,
   'buy-wallet': buyWallet,
+  'cart-green': cartGreen,
   'chart-placeholder': chartPlaceholder,
+  'checkmark-circle-green': checkmarkCircleGreen,
   'checkmark-green': checkmarkGreen,
   'circle-empty': circleEmpty,
   'close-error': closeError,
@@ -243,7 +258,10 @@ const Images = {
   'eth-airdrop': ethAirdrop,
   'eth-airdrop2': ethAirdrop2,
   exchange,
+  'exchange-grayscale': exchangeGrayscale,
   'exchange-logo': exchangeLogo,
+  'exchange-no-background': exchangeNoBackground,
+  'explorer-logo': explorerLogo,
   'facebook-white': facebookWhite,
   'failed-kyc': failedKyc,
   'failed-kyc2': failedKyc2,
@@ -261,6 +279,7 @@ const Images = {
   'google-authenticator': googleAuthenticator,
   'google-play-badge': googlePlayBadge,
   'graph-recurring-buy-background': recurringBuyBackground,
+  identification,
   'identity-verification': identityVerification,
   interest,
   'intro-bank-gif': introBankGif,
@@ -338,6 +357,9 @@ const Images = {
   'visa-new-logo': visaNewLogo,
   wallet,
   'wallet-blue': walletBlue,
+  'wallet-grayscale': walletGrayscale,
+  'wallet-logo': walletLogo,
+  'wallet-no-background': walletNoBackground,
   'walletconnect-circle-logo': walletConnectCircleLogo,
   'warning-circle-filled': warningCircleFilled,
   'world-alert': worldAlert,

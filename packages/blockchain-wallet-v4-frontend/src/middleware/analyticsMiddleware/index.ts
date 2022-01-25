@@ -1,3 +1,13 @@
+import { actions, actionTypes as AT } from 'data'
+import { convertBaseToStandard } from 'data/components/exchange/services'
+import {
+  BankDWStepType,
+  InterestStep,
+  ModalName,
+  RecurringBuyOrigins,
+  RecurringBuyStepType,
+  SwapBaseCounterTypes
+} from 'data/types'
 import analytics from 'middleware/analyticsMiddleware/analytics'
 import {
   AccountType,
@@ -26,22 +36,12 @@ import {
   interestDepositClickedOriginDictionary,
   linkBankClickedOriginDictionary,
   manageTabSelectionClickedSelectionDictionary,
+  sendReceiveClickedOriginDictionary,
   settingsHyperlinkClickedDestinationDictionary,
   settingsTabClickedDestinationDictionary,
   swapClickedOriginDictionary,
   upgradeVerificationClickedOriginDictionary
 } from 'middleware/analyticsMiddleware/utils'
-
-import { actions, actionTypes as AT } from 'data'
-import { convertBaseToStandard } from 'data/components/exchange/services'
-import {
-  BankDWStepType,
-  InterestStep,
-  ModalName,
-  RecurringBuyOrigins,
-  RecurringBuyStepType,
-  SwapBaseCounterTypes
-} from 'data/types'
 
 const analyticsMiddleware = () => (store) => (next) => (action) => {
   try {
@@ -341,7 +341,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             break
           }
           case ModalName.REQUEST_CRYPTO_MODAL: {
-            const origin = 'NAVIGATION'
+            const origin = sendReceiveClickedOriginDictionary(action.payload.props.origin)
 
             analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
               properties: {
@@ -2317,7 +2317,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const { href, pathname, search } = window.location
         const { referrer, title } = document
         const currency = 'BTC'
-        const origin = 'SEND'
+        const origin = sendReceiveClickedOriginDictionary(action.payload.props.origin)
 
         analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
           properties: {
@@ -2361,7 +2361,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const { href, pathname, search } = window.location
         const { referrer, title } = document
         const currency = 'BCH'
-        const origin = 'SEND'
+        const origin = sendReceiveClickedOriginDictionary(action.payload.props.origin)
 
         analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
           properties: {
@@ -2405,7 +2405,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const { href, pathname, search } = window.location
         const { referrer, title } = document
         const currency = 'XLM'
-        const origin = 'SEND'
+        const origin = sendReceiveClickedOriginDictionary(action.payload.props.origin)
 
         analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
           properties: {
@@ -2449,7 +2449,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const { href, pathname, search } = window.location
         const { referrer, title } = document
         const currency = action.payload
-        const origin = 'SEND'
+        const origin = sendReceiveClickedOriginDictionary(action.payload.props.origin)
 
         analytics.push(AnalyticsKey.SEND_RECEIVE_CLICKED, {
           properties: {
@@ -2819,17 +2819,19 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         break
       }
       // LOGIN EVENTS
-      case actions.auth.magicLinkParsed.type: {
+      case actions.auth.analyticsMagicLinkParsed.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const site_redirect = state.auth.productAuthMetadata.product
 
         analytics.push(AnalyticsKey.DEVICE_VERIFIED, {
           properties: {
-            originalTimestamp: getOriginalTimestamp()
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect
           },
           traits: {
             email,
@@ -2839,13 +2841,14 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.needHelpClicked.type: {
+      case actions.auth.analyticsNeedHelpClicked.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const site_redirect = state.auth.productAuthMetadata.product
 
         const origin = action.payload
 
@@ -2853,7 +2856,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           properties: {
             origin,
             originalTimestamp: getOriginalTimestamp(),
-            site_redirect: 'WALLET'
+            site_redirect
           },
           traits: {
             email,
@@ -2863,19 +2866,21 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.loginIdEntered.type: {
+      case actions.auth.analyticsLoginIdEntered.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const site_redirect = state.auth.productAuthMetadata.product
 
-        const { idType } = action.payload
+        const idType = action.payload
         analytics.push(AnalyticsKey.LOGIN_IDENTIFIER_ENTERED, {
           properties: {
             identifier_type: idType,
-            originalTimestamp: getOriginalTimestamp()
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect
           },
           traits: {
             email,
@@ -2885,7 +2890,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.loginMethodSelected.type: {
+      case actions.auth.analyticsLoginMethodSelected.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -2894,6 +2899,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
 
         const loginMethod = action.payload
+
         analytics.push(AnalyticsKey.LOGIN_METHOD_SELECTED, {
           properties: {
             login_method: loginMethod,
@@ -2907,17 +2913,19 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.loginPasswordDenied.type: {
+      case actions.auth.analyticsLoginPasswordDenied.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const site_redirect = state.auth.productAuthMetadata.product
 
         analytics.push(AnalyticsKey.LOGIN_PASSWORD_DENIED, {
           properties: {
-            originalTimestamp: getOriginalTimestamp()
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect
           },
           traits: {
             email,
@@ -2927,17 +2935,19 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.loginPasswordEntered.type: {
+      case actions.auth.analyticsLoginPasswordEntered.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const site_redirect = state.auth.productAuthMetadata.product
 
         analytics.push(AnalyticsKey.LOGIN_PASSWORD_ENTERED, {
           properties: {
-            originalTimestamp: getOriginalTimestamp()
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect
           },
           traits: {
             email,
@@ -2999,12 +3009,13 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const request_platform = state.auth.productAuthMetadata.product
 
         analytics.push(AnalyticsKey.LOGIN_REQUEST_APPROVED, {
           properties: {
             method: 'MAGIC_LINK',
             originalTimestamp: getOriginalTimestamp(),
-            request_platform: 'WALLET'
+            request_platform
           },
           traits: {
             email,
@@ -3023,12 +3034,13 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
         const error = action.payload
+        const request_platform = state.auth.productAuthMetadata.product
         analytics.push(AnalyticsKey.LOGIN_REQUEST_DENIED, {
           properties: {
             error,
             method: 'MAGIC_LINK',
             originalTimestamp: getOriginalTimestamp(),
-            request_platform: 'WALLET'
+            request_platform
           },
           traits: {
             email,
@@ -3038,18 +3050,19 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-
-      case actions.auth.loginTwoStepVerificationDenied.type: {
+      case actions.auth.analyticsLoginTwoStepVerificationDenied.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const site_redirect = state.auth.productAuthMetadata.product
 
         analytics.push(AnalyticsKey.LOGIN_TWO_STEP_VERIFICATION_DENIED, {
           properties: {
-            originalTimestamp: getOriginalTimestamp()
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect
           },
           traits: {
             email,
@@ -3059,17 +3072,19 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.loginTwoStepVerificationEntered.type: {
+      case actions.auth.analyticsLoginTwoStepVerificationEntered.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
           ? state.profile.userData.getOrElse({})?.email
           : null
         const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        const site_redirect = state.auth.productAuthMetadata.product
 
         analytics.push(AnalyticsKey.LOGIN_TWO_STEP_VERIFICATION_ENTERED, {
           properties: {
-            originalTimestamp: getOriginalTimestamp()
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect
           },
           traits: {
             email,
@@ -3146,7 +3161,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.recoveryOptionSelected.type: {
+      case actions.auth.analyticsRecoveryOptionSelected.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -3191,7 +3206,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.resetAccountCancelled.type: {
+      case actions.auth.analyticsResetAccountCancelled.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -3215,7 +3230,7 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
         })
         break
       }
-      case actions.auth.resetAccountClicked.type: {
+      case actions.auth.analyticsResetAccountClicked.type: {
         const state = store.getState()
         const nabuId = state.profile.userData.getOrElse({})?.id ?? null
         const email = state.profile.userData.getOrElse({})?.emailVerified
@@ -3264,6 +3279,76 @@ const analyticsMiddleware = () => (store) => (next) => (action) => {
             }
           })
         }
+        break
+      }
+      case actions.components.nfts.createOrderSuccess.type: {
+        const state = store.getState()
+
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        analytics.push(AnalyticsKey.NFT_ORDER_SUCCEEDED, {
+          properties: {
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect: 'WALLET'
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case actions.components.nfts.createOrderFailure.type: {
+        const state = store.getState()
+
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+
+        const error = action.payload
+
+        analytics.push(AnalyticsKey.NFT_ORDER_FAILED, {
+          properties: {
+            error,
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect: 'WALLET'
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
+        break
+      }
+      case actions.components.nfts.nftOrderFlowOpen.type: {
+        const state = store.getState()
+
+        const nabuId = state.profile.userData.getOrElse({})?.id ?? null
+
+        const email = state.profile.userData.getOrElse({})?.emailVerified
+          ? state.profile.userData.getOrElse({})?.email
+          : null
+        const tier = state.profile.userData.getOrElse({})?.tiers?.current ?? null
+        analytics.push(AnalyticsKey.NFT_ORDER_CREATED, {
+          properties: {
+            originalTimestamp: getOriginalTimestamp(),
+            site_redirect: 'WALLET'
+          },
+          traits: {
+            email,
+            nabuId,
+            tier
+          }
+        })
         break
       }
       default: {

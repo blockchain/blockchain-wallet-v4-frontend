@@ -14,7 +14,7 @@ import {
   NftOrdersType,
   OfferEventsType,
   Order,
-  SellOrder
+  RawOrder
 } from '@core/network/api/nfts/types'
 import { calculateGasFees } from '@core/redux/payment/nfts'
 import { Await } from '@core/types'
@@ -32,6 +32,7 @@ const initialState: NftsStateType = {
     page: 0
   },
   cancelListing: Remote.NotAsked,
+  cancelOffer: Remote.NotAsked,
   collectionSearch: [],
   collections: Remote.NotAsked,
   marketplace: {
@@ -50,6 +51,7 @@ const initialState: NftsStateType = {
     page: 0
   },
   orderFlow: {
+    activeOffer: null,
     activeOrder: null,
     asset: Remote.NotAsked,
     fees: Remote.NotAsked,
@@ -66,7 +68,7 @@ const nftsSlice = createSlice({
   reducers: {
     cancelListing: (
       state,
-      action: PayloadAction<{ gasData: GasDataI; sell_order: SellOrder }>
+      action: PayloadAction<{ gasData: GasDataI; sell_order: RawOrder }>
     ) => {},
     cancelListingFailure: (state, action: PayloadAction<{ error: string }>) => {
       state.cancelListing = Remote.Success(action.payload.error)
@@ -76,6 +78,19 @@ const nftsSlice = createSlice({
     },
     cancelListingSuccess: (state) => {
       state.cancelListing = Remote.Success(true)
+    },
+    cancelOffer: (
+      state,
+      action: PayloadAction<{ gasData: GasDataI; order: RawOrder | null }>
+    ) => {},
+    cancelOfferFailure: (state, action: PayloadAction<{ error: string }>) => {
+      state.cancelOffer = Remote.Success(action.payload.error)
+    },
+    cancelOfferLoading: (state) => {
+      state.cancelOffer = Remote.Loading
+    },
+    cancelOfferSuccess: (state) => {
+      state.cancelOffer = Remote.Success(true)
     },
     clearAndRefetchAssets: (state) => {},
     clearAndRefetchOffersMade: (state) => {},
@@ -170,7 +185,7 @@ const nftsSlice = createSlice({
           }
         | {
             operation: GasCalculationOperations.Cancel
-            order: SellOrder
+            order: RawOrder
           }
       >
     ) => {},
@@ -254,6 +269,7 @@ const nftsSlice = createSlice({
     },
     nftOrderFlowClose: (state) => {
       state.orderFlow.activeOrder = null
+      state.orderFlow.activeOffer = null
       state.orderFlow.step = NftOrderStepEnum.SHOW_ASSET
       state.orderFlow.asset = Remote.NotAsked
       state.orderFlow.fees = Remote.NotAsked
@@ -264,7 +280,9 @@ const nftsSlice = createSlice({
     nftOrderFlowOpen: (
       state,
       action: PayloadAction<
-        { asset: NftAsset; order?: never } | { asset?: never; order: NftOrdersType['orders'][0] }
+        | { asset: NftAsset; offer: OfferEventsType['asset_events'][0]; order?: never }
+        | { asset: NftAsset; offer?: never; order?: never }
+        | { asset?: never; offer?: never; order: NftOrdersType['orders'][0] }
       >
     ) => {
       if (action.payload.order) {
@@ -303,6 +321,9 @@ const nftsSlice = createSlice({
       state,
       action: PayloadAction<{ asset_contract_address?: string; search?: string }>
     ) => {},
+    setActiveOffer: (state, action: PayloadAction<{ offer: RawOrder }>) => {
+      state.orderFlow.activeOffer = action.payload.offer
+    },
     setActiveTab: (state, action: PayloadAction<'explore' | 'my-collection' | 'offers'>) => {
       state.activeTab = action.payload
     },

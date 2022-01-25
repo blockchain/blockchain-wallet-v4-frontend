@@ -4,7 +4,7 @@ import { concat, prop } from 'ramda'
 import { bindActionCreators, compose } from 'redux'
 
 import { getCoinsSortedByBalance } from 'components/Balances/selectors'
-import { actions } from 'data'
+import { actions, selectors } from 'data'
 
 import { Props as OwnProps } from '../template.success'
 import Navigation from './template'
@@ -25,7 +25,10 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const mapStateToProps = (state) => ({
-  coinList: getCoinsSortedByBalance(state)
+  coinList: getCoinsSortedByBalance(state),
+  isRedesignEnabled: selectors.core.walletOptions
+    .getRedesignEnabled(state)
+    .getOrElse(false) as boolean
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)

@@ -161,14 +161,14 @@ const MakeOffer: React.FC<Props> = (props) => {
                 >
                   {formValues.amount ? (
                     <FormattedMessage
-                      id='copy.mark_for_sale'
+                      id='copy.make_offer_value'
                       defaultMessage='Make an Offer for {val}'
                       values={{
                         val: `${formValues.amount} ${formValues.coin}`
                       }}
                     />
                   ) : (
-                    <FormattedMessage id='copy.mark_for_sale' defaultMessage='Make an Offer' />
+                    <FormattedMessage id='copy.make_and_offer' defaultMessage='Make an Offer' />
                   )}
                 </Button>
               </StickyCTA>

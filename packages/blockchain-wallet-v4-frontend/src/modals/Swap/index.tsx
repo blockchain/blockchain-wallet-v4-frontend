@@ -18,7 +18,7 @@ import OrderDetails from './OrderDetails'
 import PreviewSwap from './PreviewSwap'
 import getData from './selectors'
 import SuccessfulSwap from './SuccessfulSwap'
-import Unsuported from './template.unsupported'
+import Unsupported from './template.unsupported'
 import UpgradePrompt from './UpgradePrompt'
 
 class Swap extends PureComponent<Props, State> {
@@ -54,7 +54,7 @@ class Swap extends PureComponent<Props, State> {
           isOpen={this.state.show}
           data-e2e='swapModal'
         >
-          <Unsuported handleClose={this.handleClose} />
+          <Unsupported handleClose={this.handleClose} />
         </Flyout>
       ),
       Loading: () => null,

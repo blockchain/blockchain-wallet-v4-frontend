@@ -18,12 +18,12 @@ const Error = (props) => {
     <ErrorWrapper>
       <Icon color='error' name='close-circle' size='40px' />
       <Text size='20px' weight={600} color='black' style={{ marginTop: '8px' }}>
-        {error.request_denied ? (
+        {error?.request_denied ? (
           <FormattedMessage
             id='scenes.login.device_verification_rejected'
             defaultMessage='Device verification rejected.'
           />
-        ) : error.link_expired ? (
+        ) : error?.link_expired ? (
           <FormattedMessage
             id='scenes.login.device_verification_expired'
             defaultMessage='Verification link expired.'
@@ -33,12 +33,12 @@ const Error = (props) => {
         )}
       </Text>
       <Text style={{ margin: '8px 0 12px' }} size='16px' color='red600' weight={500}>
-        {error.request_denied ? (
+        {error?.request_denied ? (
           <FormattedMessage
             id='scenes.authorizelogin.loading.rejected.content'
             defaultMessage='Please contact our support team if you have any questions or concerns.'
           />
-        ) : error.link_expired ? (
+        ) : error?.link_expired ? (
           <FormattedMessage
             id='scenes.login._device_verification_expired.copy'
             defaultMessage='The device approval link has expired, please try again.'

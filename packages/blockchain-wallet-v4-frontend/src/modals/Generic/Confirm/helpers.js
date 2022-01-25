@@ -124,12 +124,7 @@ export const selectMessage = (message, values) => {
 export const selectCancel = (message) => {
   switch (message) {
     case C.CANCEL_VERIFY_IDENTITY:
-      return (
-        <FormattedMessage
-          id='modals.confirm.cancel.verify_identity'
-          defaultMessage="I'll Do This Later"
-        />
-      )
+      return <FormattedMessage id='copy.ill_do_this_later' defaultMessage="I'll Do This Later" />
     case C.CANCEL_PHONE_CALL:
       return <FormattedMessage id='modals.confirm.cancel.phone_call' defaultMessage='No, Thanks' />
     default:

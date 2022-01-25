@@ -5,7 +5,6 @@ import { BuySellLimitReached } from 'components/Flyout'
 
 import { Props as OwnProps, SuccessStateType } from '.'
 import CryptoSelector from './CryptoSelector'
-import Unsupported from './template.unsupported'
 
 class Success extends React.Component<Props> {
   shouldComponentUpdate = (nextProps) => !equals(this.props, nextProps)
@@ -13,13 +12,10 @@ class Success extends React.Component<Props> {
   render() {
     const isUserEligible =
       this.props.pairs.length && this.props.eligibility.eligible && this.props.fiatCurrency
-    const isUserSddEligible = this.props.sddEligible && this.props.sddEligible.eligible
     const userHitMaxPendingDeposits =
       this.props.eligibility.maxPendingDepositSimpleBuyTrades ===
       this.props.eligibility.pendingDepositSimpleBuyTrades
-    if (isUserEligible || isUserSddEligible) {
-      return <CryptoSelector {...this.props} />
-    }
+
     if (!isUserEligible && userHitMaxPendingDeposits) {
       return (
         <BuySellLimitReached
@@ -28,7 +24,8 @@ class Success extends React.Component<Props> {
         />
       )
     }
-    return <Unsupported {...this.props} />
+    // now we always return this list
+    return <CryptoSelector {...this.props} />
   }
 }
 

@@ -10,13 +10,14 @@ import { convertCoinToCoin, convertCoinToFiat, convertFiatToCoin } from '@core/e
 import Currencies from '@core/exchange/currencies'
 import { formatFiat } from '@core/exchange/utils'
 import { getRatesSelector } from '@core/redux/data/misc/selectors'
-import { RatesType } from '@core/types'
+import { CoinType, RatesType } from '@core/types'
 import { Button, Icon, SkeletonRectangle, Text } from 'blockchain-info-components'
 import { DisplayContainer } from 'components/BuySell'
 import { BlueCartridge, ErrorCartridge } from 'components/Cartridge'
 import CollapseText from 'components/CollapseText'
 import { AmountTextBox } from 'components/Exchange'
 import { FlyoutWrapper } from 'components/Flyout'
+import BuyMoreLine from 'components/Flyout/Banners/BuyMoreLine'
 import UpgradeToGoldLine, { Flows } from 'components/Flyout/Banners/UpgradeToGoldLine'
 import { StepHeader } from 'components/Flyout/SendRequestCrypto'
 import { Form } from 'components/Form'
@@ -122,6 +123,7 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
   }
 
   const {
+    buySellActions,
     formActions,
     formErrors,
     formValues,
@@ -421,18 +423,32 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
         )}
 
         {amtError === 'ABOVE_MAX' && (
-          <AlertButton>
-            <FormattedMessage
-              id='copy.above_max'
-              defaultMessage='{amount} Maximum'
-              values={{
-                amount:
-                  fix === 'FIAT'
-                    ? `${Currencies[walletCurrency].units[walletCurrency].symbol}${max}`
-                    : `${coin}${max}`
-              }}
-            />
-          </AlertButton>
+          <>
+            <AlertButton>
+              <FormattedMessage
+                id='copy.not_enough_coin'
+                defaultMessage='Not Enough {coin}'
+                values={{
+                  coin
+                }}
+              />
+            </AlertButton>
+            <Text
+              size='14px'
+              color='grey900'
+              weight={500}
+              style={{ marginBottom: '24px', marginTop: '24px', textAlign: 'center' }}
+            >
+              <FormattedMessage
+                id='modals.sendcrypto.enteramount.over_balance'
+                defaultMessage='The max you can send from this wallet is {coin} {amount}. Buy {coin} {amount} now to send this amount.'
+                values={{
+                  amount: max,
+                  coin
+                }}
+              />
+            </Text>
+          </>
         )}
         {amtError === 'BELOW_MIN' && (
           <AlertButton>
@@ -449,8 +465,23 @@ const SendEnterAmount: React.FC<InjectedFormProps<{}, Props> & Props> = (props) 
           </AlertButton>
         )}
 
-        {sendLimits?.suggestedUpgrade?.requiredTier === TIER_TYPES.GOLD && (
+        {(sendLimits?.suggestedUpgrade?.requiredTier === TIER_TYPES.GOLD ||
+          (amtError && amtError === 'ABOVE_MAX_LIMIT' && effectiveLimit)) && (
           <UpgradeToGoldLine type={Flows.SEND} verifyIdentity={verifyIdentity} />
+        )}
+
+        {amtError === 'ABOVE_MAX' && (
+          <BuyMoreLine
+            startBuy={() =>
+              buySellActions.showModal({
+                cryptoCurrency: coin as CoinType,
+                orderType: 'BUY',
+                origin: 'Send'
+              })
+            }
+            buyAmount={`${coin} ${amount}`}
+            coin={coin}
+          />
         )}
       </FlyoutWrapper>
     </Wrapper>

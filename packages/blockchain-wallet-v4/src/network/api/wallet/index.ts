@@ -38,9 +38,18 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl
     }).then(() => data.checksum)
 
-  const createPayload = (email, data) =>
+  const createPayload = (email, captchaToken, data) =>
     post({
-      data: mergeRight({ email, format: 'plain', method: 'insert' }, data),
+      data: mergeRight(
+        {
+          captcha: captchaToken,
+          email,
+          format: 'plain',
+          method: 'insert',
+          siteKey: window.CAPTCHA_KEY
+        },
+        data
+      ),
       endPoint: '/wallet',
       url: rootUrl
     }).then(() => data.checksum)
@@ -112,10 +121,11 @@ export default ({ get, post, rootUrl }) => {
       url: rootUrl
     })
 
-  const authorizeVerifyDevice = (fromSessionId, payload, confirm_device) =>
+  const authorizeVerifyDevice = (fromSessionId, payload, confirm_device, exchange_only_login) =>
     post({
       data: {
         confirm_device,
+        exchange_only_login,
         fromSessionId,
         method: 'authorize-verify-device',
         payload
@@ -158,20 +168,6 @@ export default ({ get, post, rootUrl }) => {
       sessionToken,
       url: rootUrl
     })
-
-  const remindGuid = (email, captchaToken, sessionToken) => {
-    post({
-      data: {
-        captcha: captchaToken,
-        email,
-        method: 'send-guid-reminder',
-        siteKey: window.CAPTCHA_KEY
-      },
-      endPoint: '/wallet',
-      sessionToken,
-      url: rootUrl
-    })
-  }
 
   // marks timestamp when user last backed up phrase
   const updateMnemonicBackup = (sharedKey, guid) =>
@@ -287,7 +283,6 @@ export default ({ get, post, rootUrl }) => {
     handle2faReset,
     obtainSessionToken,
     pollForSessionGUID,
-    remindGuid,
     resendSmsLoginCode,
     reset2fa,
     savePayload,
