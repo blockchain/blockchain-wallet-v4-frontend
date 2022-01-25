@@ -10,6 +10,7 @@ import CircularProgressBar from 'components/CircularProgressBar'
 import { actions, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
 import { RootState } from 'data/rootReducer'
+import { AnalyticsKey } from 'data/types'
 import { media } from 'services/styles'
 
 import { getCompleteProfileAnnouncement } from '../selectors'
@@ -74,6 +75,7 @@ const CloseLink = styled.div`
 `
 
 const CompleteYourProfile = ({
+  analyticsActions,
   buySellActions,
   cacheActions,
   data,
@@ -92,6 +94,12 @@ const CompleteYourProfile = ({
   const handleClick = useCallback(() => {
     modalActions.showModal(ModalName.COMPLETE_USER_PROFILE, {
       origin: 'SideNav'
+    })
+    analyticsActions.trackEvent({
+      key: AnalyticsKey.ONBOARDING_COMPLETE_PROFILE_BANNER_CLICKED,
+      properties: {
+        current_step_completed: currentStep
+      }
     })
   }, [modalActions])
 
@@ -150,6 +158,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch),
   cacheActions: bindActionCreators(actions.cache, dispatch),
   modalActions: bindActionCreators(actions.modals, dispatch)

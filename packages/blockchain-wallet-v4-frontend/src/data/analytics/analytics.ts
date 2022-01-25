@@ -2,8 +2,8 @@ import { queuevent } from '@blockchain-com/constellation'
 
 import { QUEUE_NAME, UTM } from 'middleware/analyticsMiddleware/constants'
 
-import type { AnalyticsValue, RawEvent } from './types'
-import { AnalyticsKey } from './types'
+import type { AnalyticsValue, RawEvent } from './types/index'
+import { AnalyticsKey } from './types/index'
 
 const queueCallback = async (rawEvents: RawEvent[]) => {
   try {

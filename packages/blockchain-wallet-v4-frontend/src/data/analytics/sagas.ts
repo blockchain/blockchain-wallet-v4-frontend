@@ -1,7 +1,6 @@
 import { select } from '@redux-saga/core/effects'
 
 import { selectors } from 'data'
-import { getOriginalTimestamp } from 'middleware/analyticsMiddleware/utils'
 
 import analytics from './analytics'
 import { trackEvent as trackEventAction } from './slice'
@@ -11,7 +10,7 @@ export const trackEvent = function* ({ payload }: ReturnType<typeof trackEventAc
   const email = yield select(selectors.core.settings.getEmailVerified)
   const tiersState = (yield select(selectors.modules.profile.getTiers)).getOrElse({})
 
-  const originalTimestamp = getOriginalTimestamp()
+  const originalTimestamp = new Date().toISOString()
 
   const properties = { originalTimestamp, ...payload.properties }
 
