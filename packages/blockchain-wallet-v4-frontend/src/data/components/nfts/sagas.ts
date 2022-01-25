@@ -263,10 +263,9 @@ export default ({ api }: { api: APIType }) => {
         )
         yield put(A.fetchFeesSuccess(fees))
       } else if (action.payload.operation === GasCalculationOperations.Sell) {
-        const listingTime =
-          action.payload.listingTime !== '' && action.payload.listingTime !== undefined
-            ? new Date(action.payload.listingTime).getTime() / 1000
-            : undefined
+        const listingTime = action.payload.listingTime
+          ? new Date(action.payload.listingTime).getTime() / 1000
+          : undefined
         const expirationTime =
           action.payload.expirationTime !== '' && action.payload.expirationTime !== undefined
             ? new Date(action.payload.expirationTime).getTime() / 1000
@@ -393,10 +392,9 @@ export default ({ api }: { api: APIType }) => {
 
   const createSellOrder = function* (action: ReturnType<typeof A.createSellOrder>) {
     try {
-      const listingTime =
-        action.payload.listingTime !== '' && action.payload.listingTime !== undefined
-          ? new Date(action.payload.listingTime).getTime() / 1000
-          : undefined
+      const listingTime = action.payload.listingTime
+        ? new Date(action.payload.listingTime).getTime() / 1000
+        : undefined
       const expirationTime =
         action.payload.expirationTime !== '' && action.payload.expirationTime !== undefined
           ? new Date(action.payload.expirationTime).getTime() / 1000
