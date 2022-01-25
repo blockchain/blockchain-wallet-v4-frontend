@@ -350,7 +350,7 @@
   "copy.buy_upgrade": "Купить больше криптовалюты",
   "copy.cancel": "Отмена",
   "copy.cancel_listing": "Отменить листинг",
-  "copy.cancel_listings": "Отменить листинг для {val}",
+  "copy.cancel_listings_for_val": "Отменить листинг для {val}",
   "copy.canceled": "Отменено",
   "copy.card_fee": "Комиссия за карту",
   "copy.close": "Закрыть",

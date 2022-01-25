@@ -64,6 +64,10 @@ export const wrapperReducer = (state = WRAPPER_INITIAL_STATE, action) => {
       const { accountIdx, archived } = action.payload
       return over(Wrapper.wallet, Wallet.setAccountArchived(accountIdx, archived), state)
     }
+    case AT.SET_ACCOUNT_DERIVATIONS: {
+      const { accountIdx, derivations } = action.payload
+      return over(Wrapper.wallet, Wallet.setAccountDerivations(accountIdx, derivations), state)
+    }
     case AT.SET_DEFAULT_ACCOUNT: {
       const { index } = action.payload
       return over(Wrapper.wallet, Wallet.setDefaultAccountIdx(index), state)
