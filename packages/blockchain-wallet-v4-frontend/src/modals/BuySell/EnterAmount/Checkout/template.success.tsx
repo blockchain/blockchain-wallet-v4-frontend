@@ -379,6 +379,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
 
   const showLimitError = showError && amtError === 'ABOVE_MAX_LIMIT'
 
+  const isFundsMethod = method && method.type === BSPaymentTypes.FUNDS
+
   return (
     <CustomForm onSubmit={props.handleSubmit}>
       <FlyoutWrapper style={{ borderBottom: 'grey000', paddingBottom: '0px' }}>
@@ -635,8 +637,17 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                             : `${min} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`
                       }}
                     />
-                  ) : amtError === 'ABOVE_LIMIT' || amtError === 'ABOVE_BALANCE' ? (
+                  ) : amtError === 'ABOVE_LIMIT' ||
+                    (amtError === 'ABOVE_BALANCE' && !isFundsMethod) ? (
                     <FormattedMessage id='copy.over_your_limit' defaultMessage='Over Your Limit' />
+                  ) : amtError === 'ABOVE_BALANCE' && isFundsMethod ? (
+                    <FormattedMessage
+                      id='copy.not_enough_coin'
+                      defaultMessage='Not Enough {coin}'
+                      values={{
+                        coin: props.fiatCurrency
+                      }}
+                    />
                   ) : (
                     <FormattedMessage
                       id='copy.above_max'
@@ -741,7 +752,8 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                     }}
                   />
                 )}
-                {(amtError === 'ABOVE_LIMIT' || true) && (
+                {(amtError === 'ABOVE_LIMIT' ||
+                  (amtError === 'ABOVE_BALANCE' && !isFundsMethod)) && (
                   <FormattedMessage
                     id='modals.simplebuy.checkout.buy.over_limit'
                     defaultMessage='You can buy up to {amount} per transaction. Upgrade to Gold & buy larger amounts with your bank or card.'
@@ -750,6 +762,20 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                         fix === 'FIAT'
                           ? fiatToString({ unit: props.fiatCurrency, value: max })
                           : `${min} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`
+                    }}
+                  />
+                )}
+                {amtError === 'ABOVE_BALANCE' && isFundsMethod && (
+                  <FormattedMessage
+                    id='modals.simplebuy.checkout.buy.abovemax'
+                    defaultMessage='The maximum amount of {coin} you can buy with your {currency} {amount}'
+                    values={{
+                      amount:
+                        fix === 'FIAT'
+                          ? fiatToString({ unit: props.fiatCurrency, value: max })
+                          : `${min} ${Currencies[fiatCurrency].units[fiatCurrency].symbol}`,
+                      coin: cryptoCurrency,
+                      currency: fiatCurrency
                     }}
                   />
                 )}
@@ -764,7 +790,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
                   <FormattedMessage id='copy.over_your_limit' defaultMessage='Over Your Limit' />
                 </AlertButton>
                 <FormattedMessage
-                  id='modals.simplebuy.checkout.sellmaxamount'
+                  id='modals.simplebuy.checkout.max_buy_upgrade'
                   defaultMessage='You can buy up to {amount} per transaction. Upgrade to Gold & buy larger amounts with your bank or card.'
                   values={{
                     amount: formatFiat(convertBaseToStandard('FIAT', effectiveLimit.limit.value), 0)
@@ -807,7 +833,9 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       </FlyoutWrapper>
 
       {props.isSddFlow && props.orderType === OrderType.BUY && <IncreaseLimits {...props} />}
-      {(props.isSddFlow || amtError === 'ABOVE_BALANCE' || amtError === 'ABOVE_LIMIT') &&
+      {(props.isSddFlow ||
+        (amtError === 'ABOVE_BALANCE' && !isFundsMethod) ||
+        amtError === 'ABOVE_LIMIT') &&
         props.orderType === OrderType.BUY && (
           <FlyoutWrapper>
             <UpgradeToGoldLine

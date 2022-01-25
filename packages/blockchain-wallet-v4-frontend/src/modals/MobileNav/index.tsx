@@ -36,7 +36,7 @@ const rows: Array<RowType> = [
   {
     description: (
       <FormattedMessage
-        id='modals.trade.receive.description'
+        id='modals.trade.receive.receive_crypto'
         defaultMessage='Receive Crypto to Your Wallet'
       />
     ),
@@ -47,7 +47,7 @@ const rows: Array<RowType> = [
   {
     description: (
       <FormattedMessage
-        id='modals.trade.receive.description'
+        id='modals.trade.receive.add_cash'
         defaultMessage='Add Cash to Your Cash Account'
       />
     ),
@@ -58,7 +58,7 @@ const rows: Array<RowType> = [
   {
     description: (
       <FormattedMessage
-        id='modals.trade.receive.description'
+        id='modals.trade.receive.cash_out'
         defaultMessage='Cash Out to Your Bank Account'
       />
     ),

@@ -54,9 +54,21 @@ class Methods extends PureComponent<InjectedFormProps<{}, Props> & Props> {
     switch (value.type) {
       case BSPaymentTypes.BANK_TRANSFER:
       case BSPaymentTypes.LINK_BANK:
-        return <FormattedMessage id='modals.simplebuy.banklink' defaultMessage='Link a Bank' />
+        return (
+          <FormattedMessage
+            id='modals.simplebuy.easybanktrasnfer'
+            defaultMessage='Easy Bank Transfer'
+          />
+        )
       case BSPaymentTypes.BANK_ACCOUNT:
-        return <FormattedMessage id='modals.simplebuy.bankwire' defaultMessage='Wire Transfer' />
+        return value.currency === 'USD' ? (
+          <FormattedMessage id='modals.simplebuy.bankwire' defaultMessage='Wire Transfer' />
+        ) : (
+          <FormattedMessage
+            id='modals.simplebuy.deposit.bank_transfer'
+            defaultMessage='Regular Bank Transfer'
+          />
+        )
       case BSPaymentTypes.PAYMENT_CARD:
         return (
           <FormattedMessage

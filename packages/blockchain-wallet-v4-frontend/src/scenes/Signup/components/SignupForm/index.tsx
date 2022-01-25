@@ -67,7 +67,7 @@ const FieldWithoutTopRadius = styled(FormItem)<{ setBorder: boolean }>`
 
 const validatePasswordConfirmation = validPasswordConfirmation('password')
 
-const SignupForm = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) => {
+const SignupForm = (props: Props) => {
   const {
     formValues,
     invalid,
@@ -82,7 +82,7 @@ const SignupForm = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) =
   const passwordScore = window.zxcvbn ? window.zxcvbn(password).score : 0
 
   useEffect(() => {
-    if (userGeoData?.countryCode && signupCountryEnabled) {
+    if (userGeoData?.countryCode && signupCountryEnabled && props.setDefaultCountry) {
       props.setDefaultCountry(userGeoData.countryCode)
     }
   }, [])
@@ -279,5 +279,10 @@ const SignupForm = (props: InjectedFormProps<{}, SubviewProps> & SubviewProps) =
     </StyledForm>
   )
 }
+
+type Props = InjectedFormProps<{}> &
+  SubviewProps & {
+    setDefaultCountry?: (country: string) => void
+  }
 
 export default SignupForm

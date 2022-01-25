@@ -103,6 +103,7 @@ export type BSShowModalOriginType =
   | 'InterestPage'
   | 'RecurringBuyPromo'
   | 'SellEmpty'
+  | 'Send'
   | 'SettingsGeneral'
   | 'SettingsProfile'
   | 'SideNav'

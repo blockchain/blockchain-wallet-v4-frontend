@@ -191,7 +191,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
           const value = pathOr(payload, ['value', 'value'], payload) as BtcFromType
           const toType = prop('type', value)
           // @ts-ignore
-          const address = prop('address', value) || value
+          const address = (prop('address', value) || value) as string
           let payProInvoice
           const tryParsePayPro = () => {
             try {

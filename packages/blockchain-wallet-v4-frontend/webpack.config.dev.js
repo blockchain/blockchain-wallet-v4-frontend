@@ -1,6 +1,7 @@
-const { compose, evolve, adjust, set, lensProp } = require('ramda')
+const { compose, dissoc, evolve, adjust, set, lensProp } = require('ramda')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
+const ReactRefreshTypeScript = require('react-refresh-typescript')
 
 const webpackBuilder = require('./webpackBuilder')
 const CONFIG_PATH = require('../../config/paths')
@@ -32,10 +33,21 @@ const devWebpackConfig = evolve(
     mode: () => 'development',
     module: {
       rules: compose(
-        adjust(0, rule => set(lensProp('use'), ['cache-loader', 'babel-loader'], rule)
-        ),
-        // adjust(0, rule => set(lensProp('include'), /src|blockchain-info-components.src|blockchain-wallet-v4.src/, rule)),
-        adjust(1, rule => set(lensProp('options'), { transpileOnly: true }, rule))
+        // edits babel-loader config
+        adjust(0, rule => set(lensProp('use'), ['cache-loader', 'babel-loader'], rule)),
+        // next two `adjusts`, edit the ts-loader config
+        adjust(1, rule => dissoc('loader', rule)),
+        adjust(1, rule => set(lensProp('use'), [
+          {
+            loader: 'ts-loader',
+            options: {
+              getCustomTransformers: () => ({
+                before: [ReactRefreshTypeScript()]
+              }),
+              transpileOnly: true
+            }
+          }
+        ], rule))
       )
     },
     output: { path: () => CONFIG_PATH.appBuild }
