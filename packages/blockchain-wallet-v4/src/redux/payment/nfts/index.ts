@@ -46,16 +46,18 @@ export const fulfillNftSellOrder = async (order: NftOrder, signer: Signer, gasDa
 export const getNftSellOrder = async (
   asset: NftAsset,
   signer: Signer,
+  listingTime = 0,
+  expirationTime = 0,
   startPrice = 0.011, // The starting price for auctions / sale price for fixed price sale orders (TODO: Remove default 0.1 value)
+  endPrice: number | null = null,
   network: string,
-  endPrice: number | null = null, // Implement later for to enable dutch auction sales.
   waitForHighestBid = false, // True = English auction,
-  paymentTokenAddress = '0x0000000000000000000000000000000000000000',
-  expirationTime = 0
+  paymentTokenAddress = '0x0000000000000000000000000000000000000000'
 ): Promise<NftOrder> => {
   return createSellOrder(
     asset,
     expirationTime,
+    listingTime,
     signer,
     startPrice,
     endPrice,
@@ -89,12 +91,6 @@ export const fulfillNftOrder = async (
     console.log(buy)
     return buy
   }
-  // Is a dutch auction TODO: Find out why validations fail for buy order validations
-  if (sell.saleKind === 1) {
-    throw new Error('Dutch auctions not currently supported')
-    // await _atomicMatch({ buy, sell, signer })
-  }
-  // Is a fixed price sale or user is accepting offer
   await _atomicMatch({ buy, gasData, sell, signer })
 }
 

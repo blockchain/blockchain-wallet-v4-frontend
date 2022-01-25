@@ -449,9 +449,9 @@ const Checkout: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               {amtError === 'BELOW_MIN' ? (
                 <FormattedMessage
                   id='copy.below_min'
-                  defaultMessage='{value} Minimum'
+                  defaultMessage='{amount} Minimum'
                   values={{
-                    value:
+                    amount:
                       fix === 'FIAT'
                         ? fiatToString({ unit: walletCurrency, value: fiatMin })
                         : `${min} ${baseCoinfig.displaySymbol}`

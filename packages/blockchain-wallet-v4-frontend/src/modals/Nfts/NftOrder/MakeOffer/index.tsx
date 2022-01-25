@@ -164,7 +164,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                       <HeartbeatLoader color='blue100' height='20px' width='20px' />
                     ) : (
                       <FormattedMessage
-                        id='copy.mark_for_sale'
+                        id='copy.make_offer_value'
                         defaultMessage='Make an Offer for {val}'
                         values={{
                           val: `${formValues.amount} ${formValues.coin}`
@@ -172,7 +172,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                       />
                     )
                   ) : (
-                    <FormattedMessage id='copy.mark_for_sale' defaultMessage='Make an Offer' />
+                    <FormattedMessage id='copy.make_and_offer' defaultMessage='Make an Offer' />
                   )}
                 </Button>
               </StickyCTA>

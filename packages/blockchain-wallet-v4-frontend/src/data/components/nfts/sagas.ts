@@ -233,9 +233,9 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.fetchFeesLoading())
       const signer: Signer = yield call(getEthSigner)
       let fees: GasDataI
+      // TODO: DONT DEFAULT TO 1 WEEK
+      const expirationTime = moment().add(14, 'day').unix()
       if (action.payload.operation === GasCalculationOperations.Buy) {
-        // TODO: DONT DEFAULT TO 1 WEEK
-        const expirationTime = moment().add(7, 'day').unix()
         const { buy, sell }: Await<ReturnType<typeof getNftBuyOrders>> = yield call(
           getNftBuyOrders,
           action.payload.order,
@@ -297,12 +297,25 @@ export default ({ api }: { api: APIType }) => {
         )
         yield put(A.fetchFeesSuccess(fees))
       } else if (action.payload.operation === GasCalculationOperations.Sell) {
+        const listingTime =
+          action.payload.listingTime !== '' && action.payload.listingTime !== undefined
+            ? new Date(action.payload.listingTime).getTime() / 1000
+            : undefined
+        const expirationTime =
+          action.payload.expirationTime !== '' && action.payload.expirationTime !== undefined
+            ? new Date(action.payload.expirationTime).getTime() / 1000
+            : moment().add(7, 'day').unix()
         const order: Await<ReturnType<typeof getNftSellOrder>> = yield call(
           getNftSellOrder,
           action.payload.asset,
           signer,
+          listingTime,
+          expirationTime,
           action.payload.startPrice,
-          IS_TESTNET ? 'rinkeby' : 'mainnet'
+          action.payload.endPrice,
+          IS_TESTNET ? 'rinkeby' : 'mainnet',
+          action.payload.waitForHighestBid,
+          action.payload.paymentTokenAddress
         )
         fees = yield call(
           calculateGasFees,
@@ -438,14 +451,27 @@ export default ({ api }: { api: APIType }) => {
 
   const createSellOrder = function* (action: ReturnType<typeof A.createSellOrder>) {
     try {
+      const listingTime =
+        action.payload.listingTime !== '' && action.payload.listingTime !== undefined
+          ? new Date(action.payload.listingTime).getTime() / 1000
+          : undefined
+      const expirationTime =
+        action.payload.expirationTime !== '' && action.payload.expirationTime !== undefined
+          ? new Date(action.payload.expirationTime).getTime() / 1000
+          : moment().add(7, 'day').unix()
       yield put(A.setOrderFlowIsSubmitting(true))
       const signer = yield call(getEthSigner)
       const signedOrder: Await<ReturnType<typeof getNftSellOrder>> = yield call(
         getNftSellOrder,
         action.payload.asset,
         signer,
+        listingTime,
+        expirationTime,
         action.payload.startPrice,
-        IS_TESTNET ? 'rinkeby' : 'mainnet'
+        action.payload.endPrice,
+        IS_TESTNET ? 'rinkeby' : 'mainnet',
+        action.payload.waitForHighestBid,
+        action.payload.paymentTokenAddress
       )
       const order = yield call(fulfillNftSellOrder, signedOrder, signer, action.payload.gasData)
       yield call(api.postNftOrder, order)

@@ -99,8 +99,13 @@ const nftsSlice = createSlice({
       state,
       action: PayloadAction<{
         asset: NftAssetsType[0]
+        endPrice: number | null
+        expirationTime?: string
         gasData: GasDataI
+        listingTime?: string
+        paymentTokenAddress: string | undefined
         startPrice: number
+        waitForHighestBid: boolean | undefined
       }>
     ) => {},
     createTransfer: (
@@ -126,8 +131,13 @@ const nftsSlice = createSlice({
           }
         | {
             asset: NftAsset
+            endPrice?: number
+            expirationTime?: string
+            listingTime?: string
             operation: GasCalculationOperations.Sell
+            paymentTokenAddress?: string
             startPrice: number
+            waitForHighestBid?: boolean
           }
         | {
             asset: NftAsset

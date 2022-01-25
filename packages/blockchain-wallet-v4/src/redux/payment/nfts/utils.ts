@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import BN from 'bn.js'
 import { ethers, Signer } from 'ethers'
+import moment from 'moment'
 
 import {
   Asset,
@@ -1039,7 +1040,7 @@ export async function _makeSellOrder({
   buyerAddress,
   endAmount,
   englishAuctionReservePrice = 0,
-  expirationTime,
+  expirationTime = 0,
   extraBountyBasisPoints = 2.5,
   listingTime,
   network,
@@ -1096,7 +1097,7 @@ export async function _makeSellOrder({
     waitForHighestBid,
     englishAuctionReservePrice
   )
-  const times = _getTimeParameters(0, Math.round(Date.now() / 1000))
+  const times = _getTimeParameters(expirationTime, listingTime)
   const {
     feeMethod,
     feeRecipient,
@@ -1602,9 +1603,9 @@ async function validateOrderParameters({
       order.makerProtocolFee.toNumber(),
       order.takerProtocolFee.toNumber(),
       order.basePrice.toString(),
-      order.extra.toNumber(),
-      order.listingTime.toNumber(),
-      order.expirationTime.toNumber(),
+      order.extra.toString(),
+      order.listingTime.toString(),
+      order.expirationTime.toString(),
       order.salt
     ],
     order.feeMethod,
@@ -2169,10 +2170,6 @@ export async function _makeBuyOrder({
   )
   const times = _getTimeParameters(expirationTime)
 
-  // const { staticExtradata, staticTarget } = await _getStaticCallTargetAndExtraData({
-  //   asset: openSeaAsset,
-  //   useTxnOriginStaticCall: false
-  // })
   const staticExtradata = '0x'
   const staticTarget = NULL_ADDRESS
 
@@ -2221,6 +2218,7 @@ export async function _makeBuyOrder({
 export async function createSellOrder(
   asset: NftAsset,
   expirationTime: number,
+  listingTime: number | undefined,
   signer: Signer,
   startPrice: number,
   endPrice: number | null,
@@ -2237,6 +2235,7 @@ export async function createSellOrder(
     endAmount: endPrice,
     expirationTime,
     extraBountyBasisPoints: 0,
+    listingTime,
     network,
     paymentTokenAddress,
     quantity: 1,

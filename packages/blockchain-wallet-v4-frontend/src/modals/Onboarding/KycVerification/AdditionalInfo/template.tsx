@@ -77,7 +77,7 @@ const AdditionalInfo: React.FC<Props> = (props) => {
               onClick={props.closeAllModals}
             />
             <FormattedMessage
-              id='modals.kycverification.additionalinfo.title'
+              id='copy.additional_information_required'
               defaultMessage='Additional Information Required'
             />
           </LeftTopCol>
