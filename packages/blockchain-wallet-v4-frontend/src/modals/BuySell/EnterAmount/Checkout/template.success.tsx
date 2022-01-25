@@ -245,6 +245,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     props.orderType,
     props.quote,
     props.pair,
+    props.isFlexiblePricingModel,
     props.payment,
     props.formValues,
     method,
@@ -259,6 +260,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
     props.orderType,
     props.quote,
     props.pair,
+    props.isFlexiblePricingModel,
     props.payment,
     props.formValues,
     method,
@@ -292,6 +294,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       props.orderType,
       props.quote,
       props.pair,
+      props.isFlexiblePricingModel,
       props.payment,
       props.formValues,
       method,
@@ -324,6 +327,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
       props.orderType,
       props.quote,
       props.pair,
+      props.isFlexiblePricingModel,
       props.payment,
       props.formValues,
       method,
@@ -435,6 +439,7 @@ const Success: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
               component={AmountTextBox}
               validate={[maximumAmount, minimumAmount, checkCrossBorderLimit]}
               normalize={normalizeAmount}
+              isFlexiblePricingModel={props.isFlexiblePricingModel}
               // eslint-disable-next-line
               onUpdate={resizeSymbol.bind(null, fix === 'FIAT')}
               maxFontSize='56px'

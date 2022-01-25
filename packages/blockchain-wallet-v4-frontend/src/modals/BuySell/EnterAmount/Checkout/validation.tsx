@@ -52,9 +52,9 @@ export const getBuyQuote = (
   const coin = getCoinFromPair(pair)
   if (fix === 'FIAT') {
     const decimals = window.coins[coin].coinfig.precision
-    const standardRate = convertBaseToStandard(coin, rate)
+    const standardRate = convertBaseToStandard(coin, rate) // BTC, 2278 = 0.00002278
     // ex. 0.00002756 BTC * 10,000 USD = 0.2756 BTC
-    return new BigNumber(standardRate || '0').times(baseAmount || '0').toFixed(decimals)
+    return new BigNumber(standardRate).times(baseAmount || '0').toFixed(decimals)
   }
   const fiat = getFiatFromPair(pair)
   const decimals = Currencies[fiat].units[fiat as UnitType].decimal_digits
@@ -132,6 +132,7 @@ export const getMaxMin = (
   orderType: BSOrderActionType,
   QUOTE: BSQuoteType | SwapQuoteStateType | BuyQuoteStateType,
   pair: BSPairType,
+  isFlexiblePricingModel: boolean,
   payment?: PaymentValue,
   allValues?: BSCheckoutFormValuesType,
   method?: BSPaymentMethodType,
@@ -264,7 +265,13 @@ export const getMaxMin = (
           ).toString()
 
           const minFiat = convertBaseToStandard('FIAT', min)
-          const minCrypto = getQuote(quote.pair, quote.rate, 'FIAT', minFiat)
+
+          let minCrypto
+          if (isFlexiblePricingModel) {
+            minCrypto = getBuyQuote(quote.pair, quote.rate, 'FIAT', minFiat)
+          } else {
+            minCrypto = getQuote(quote.pair, quote.rate, 'FIAT', minFiat)
+          }
 
           return { CRYPTO: minCrypto, FIAT: minFiat }
         default:
@@ -304,6 +311,7 @@ export const maximumAmount = (
 
   const {
     defaultMethod,
+    isFlexiblePricingModel,
     isSddFlow,
     limits,
     method: selectedMethod,
@@ -327,6 +335,7 @@ export const maximumAmount = (
         orderType,
         quote,
         pair,
+        isFlexiblePricingModel,
         payment,
         allValues,
         method,
@@ -349,6 +358,7 @@ export const minimumAmount = (
 
   const {
     defaultMethod,
+    isFlexiblePricingModel,
     isSddFlow,
     limits,
     method: selectedMethod,
@@ -362,7 +372,6 @@ export const minimumAmount = (
   } = restProps
   const method = selectedMethod || defaultMethod
   if (!allValues) return false
-
   return Number(value) <
     Number(
       getMaxMin(
@@ -371,6 +380,7 @@ export const minimumAmount = (
         orderType,
         quote,
         pair,
+        isFlexiblePricingModel,
         payment,
         allValues,
         method,

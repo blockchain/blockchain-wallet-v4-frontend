@@ -5,6 +5,8 @@ import { defaultTo, filter, prop } from 'ramda'
 import { call, cancel, delay, fork, put, race, retry, select, take } from 'redux-saga/effects'
 
 import { Remote } from '@core'
+import { UnitType } from '@core/exchange'
+import Currencies from '@core/exchange/currencies'
 import { APIType } from '@core/network/api'
 import {
   BSAccountType,
@@ -356,14 +358,33 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       if (!paymentType) throw new Error(NO_PAYMENT_TYPE)
-
-      if (orderType === OrderType.BUY && fix === 'CRYPTO') {
-        // @ts-ignore
-        delete input.amount
-      }
-      if (orderType === OrderType.BUY && fix === 'FIAT') {
-        // @ts-ignore
-        delete output.amount
+      if (isFlexiblePricingModel) {
+        // FIXME: this temporarily enables users to purchase min amounts of crypto with the enter amount fix set to CRYPTO
+        // remove this section when backend updates the flexiblePricing APIs to handle crypto amounts
+        const decimals = Currencies[fiat].units[fiat as UnitType].decimal_digits
+        const standardRate = convertBaseToStandard(coin, buyQuote.rate)
+        const standardInputAmount = convertBaseToStandard(coin, input.amount)
+        const inputAmount = new BigNumber(standardInputAmount || '0')
+          .dividedBy(standardRate)
+          .toFixed(decimals)
+        if (orderType === OrderType.BUY && fix === 'CRYPTO') {
+          // @ts-ignore
+          delete output.amount
+          input.amount = convertStandardToBase('FIAT', inputAmount) // ex. 5 -> 500
+        }
+        if (orderType === OrderType.BUY && fix === 'FIAT') {
+          // @ts-ignore
+          delete output.amount
+        }
+      } else {
+        if (orderType === OrderType.BUY && fix === 'CRYPTO') {
+          // @ts-ignore
+          delete input.amount
+        }
+        if (orderType === OrderType.BUY && fix === 'FIAT') {
+          // @ts-ignore
+          delete output.amount
+        }
       }
 
       const buyOrder: BSOrderType = yield call(
@@ -845,7 +866,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         yield put(
           A.fetchBuyQuoteSuccess({
             fee: quote.feeDetails.fee.toString(),
-            pair: pairReversed,
+            pair,
             quote,
             rate: parseInt(quote.price)
           })
