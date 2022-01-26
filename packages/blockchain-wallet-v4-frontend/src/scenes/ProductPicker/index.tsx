@@ -2,10 +2,13 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
+import { RemoteDataType } from '@core/types'
 import { actions, selectors } from 'data'
 
-import ExchangeUserConflict from './exchange.error.template'
+import Loading from '../loading.public'
 import ProductPicker from './template'
+import Error from './template.error'
+import ExchangeUserConflict from './template.error.exchange'
 
 class ProductPickerContainer extends React.PureComponent<Props> {
   // to avoid react dev errors, set an initial state since we are using
@@ -30,22 +33,30 @@ class ProductPickerContainer extends React.PureComponent<Props> {
   }
 
   render() {
-    return this.props.exchangeUserConflict ? (
-      <ExchangeUserConflict {...this.props} walletRedirect={this.walletRedirect} />
-    ) : (
-      <ProductPicker
-        {...this.props}
-        walletRedirect={this.walletRedirect}
-        exchangeRedirect={this.exchangeRedirect}
-      />
-    )
+    return this.props.walletLoginData.cata({
+      // TODO add proper error state
+      Failure: (error) => <Error error={error} />,
+      Loading: () => <Loading />,
+      NotAsked: () => <Error />,
+      Success: () =>
+        this.props.exchangeUserConflict ? (
+          <ExchangeUserConflict {...this.props} walletRedirect={this.walletRedirect} />
+        ) : (
+          <ProductPicker
+            {...this.props}
+            walletRedirect={this.walletRedirect}
+            exchangeRedirect={this.exchangeRedirect}
+          />
+        )
+    })
   }
 }
 
 const mapStateToProps = (state) => ({
   appEnv: selectors.core.walletOptions.getAppEnv(state).getOrElse('prod'),
   email: selectors.auth.getRegisterEmail(state) as string,
-  exchangeUserConflict: selectors.auth.getExchangeConflictStatus(state) as boolean
+  exchangeUserConflict: selectors.auth.getExchangeConflictStatus(state) as boolean,
+  walletLoginData: selectors.auth.getLogin(state) as RemoteDataType<any, any>
 })
 
 const mapDispatchToProps = (dispatch) => ({

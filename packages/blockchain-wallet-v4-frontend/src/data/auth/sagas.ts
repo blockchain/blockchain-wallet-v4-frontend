@@ -241,7 +241,6 @@ export default ({ api, coreSagas, networks }) => {
         session = yield call(api.obtainSessionToken)
         yield put(actions.session.saveSession(assoc(guid, session, {})))
       }
-      yield put(actions.auth.loginLoading())
       if (emailToken) {
         yield call(
           coreSagas.data.misc.authorizeLogin,
@@ -415,6 +414,7 @@ export default ({ api, coreSagas, networks }) => {
     const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
     try {
       yield put(actions.auth.registerLoading())
+      yield put(actions.auth.loginLoading())
       yield put(actions.auth.setRegisterEmail(email))
       yield call(coreSagas.wallet.createWalletSaga, action.payload)
       yield put(actions.alerts.displaySuccess(C.REGISTER_SUCCESS))
@@ -434,6 +434,7 @@ export default ({ api, coreSagas, networks }) => {
       yield put(actions.auth.registerSuccess(undefined))
     } catch (e) {
       yield put(actions.auth.registerFailure(undefined))
+      yield put(actions.auth.loginFailure(e))
       yield put(actions.logs.logErrorMessage(logLocation, 'register', e))
       yield put(actions.alerts.displayError(C.REGISTER_ERROR))
     }
@@ -709,7 +710,8 @@ export default ({ api, coreSagas, networks }) => {
   // triggers verification email for login
   const triggerWalletMagicLink = function* (action) {
     const formValues = yield select(selectors.form.getFormValues(LOGIN_FORM))
-    const { product } = yield select(selectors.auth.getProductAuthMetadata)
+    const { product, redirect } = yield select(selectors.auth.getProductAuthMetadata)
+    const decodedRedirect = decodeURIComponent(redirect)
     const { step } = formValues
     const shouldPollForMagicLinkData = (yield select(
       selectors.core.walletOptions.getPollForMagicLinkData
@@ -720,7 +722,14 @@ export default ({ api, coreSagas, networks }) => {
       const sessionToken = yield call(api.obtainSessionToken)
       const { captchaToken, email } = action.payload
       yield put(actions.session.saveSession(assoc(email, sessionToken, {})))
-      yield call(api.triggerWalletMagicLink, sessionToken, email, captchaToken, product)
+      yield call(
+        api.triggerWalletMagicLink,
+        sessionToken,
+        email,
+        captchaToken,
+        product,
+        decodedRedirect
+      )
       if (step === LoginSteps.CHECK_EMAIL) {
         yield put(actions.alerts.displayInfo(C.VERIFY_EMAIL_SENT))
       } else {
