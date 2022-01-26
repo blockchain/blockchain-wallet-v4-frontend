@@ -924,7 +924,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             rate: parseInt(quote.price)
           })
         )
-        const refresh = -moment().diff(quote.quoteExpiresAt)
+        const refresh = -moment().add(10, 'seconds').diff(quote.quoteExpiresAt)
         yield delay(refresh)
       } catch (e) {
         const error = errorHandler(e)
