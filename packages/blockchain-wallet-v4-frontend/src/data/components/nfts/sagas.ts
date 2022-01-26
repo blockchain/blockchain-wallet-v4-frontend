@@ -140,6 +140,7 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  // TODO: clean up w/ v2 endpoint from explorer-gateway
   const fetchNftOrders = function* () {
     try {
       const marketplace = S.getMarketplace(yield select())
@@ -228,51 +229,29 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  // This is a very important function. Not only is it used to fetch fees
+  // it is also used to create matching orders for the order/offer passed in
+  // and then those matching orders are put on state.
   const fetchFees = function* (action: ReturnType<typeof A.fetchFees>) {
     try {
       yield put(A.fetchFeesLoading())
       const signer: Signer = yield call(getEthSigner)
-      let fees: GasDataI
+      let fees
+
       // TODO: DONT DEFAULT TO 1 WEEK
       const expirationTime = moment().add(14, 'day').unix()
       if (action.payload.operation === GasCalculationOperations.Buy) {
-        const { buy, sell }: Await<ReturnType<typeof getNftBuyOrders>> = yield call(
-          getNftBuyOrders,
-          action.payload.order,
-          signer,
-          action.payload.offer ? expirationTime : undefined,
-          IS_TESTNET ? 'rinkeby' : 'mainnet',
-          action.payload.offer,
-          action.payload.paymentTokenAddress
-        )
-        fees = yield call(
-          calculateGasFees,
-          GasCalculationOperations.Buy,
-          signer,
-          undefined,
-          buy,
-          sell
-        )
-        yield put(A.fetchFeesSuccess(fees))
-      } else if (action.payload.operation === GasCalculationOperations.Accept) {
-        const { order } = action.payload
-        yield put(A.fetchOfferToAcceptLoading())
+        yield put(A.fetchMatchingOrderLoading())
         try {
-          if (!order) {
-            yield put(A.fetchFeesFailure('Could not find order to accept.'))
-            yield put(A.fetchOfferToAcceptFailure('Could not find order to accept.'))
-            return
-          }
-
-          // make matching orders
           const { buy, sell }: Await<ReturnType<typeof getNftBuyOrders>> = yield call(
             getNftBuyOrders,
-            order,
+            action.payload.order,
             signer,
-            undefined,
-            IS_TESTNET ? 'rinkeby' : 'mainnet'
+            action.payload.offer ? expirationTime : undefined,
+            IS_TESTNET ? 'rinkeby' : 'mainnet',
+            action.payload.offer,
+            action.payload.paymentTokenAddress
           )
-          // calculate atomic match fees
           fees = yield call(
             calculateGasFees,
             GasCalculationOperations.Buy,
@@ -281,12 +260,36 @@ export default ({ api }: { api: APIType }) => {
             buy,
             sell
           )
-          yield put(A.fetchFeesSuccess(fees))
-          // set the order on state
-          yield put(A.fetchOfferToAcceptSuccess({ buy, sell }))
+          yield put(A.fetchMatchingOrderSuccess({ buy, sell }))
         } catch (e) {
           const error = errorHandler(e)
-          yield put(A.fetchOfferToAcceptFailure(error))
+          yield put(A.fetchMatchingOrderFailure(error))
+          throw e
+        }
+      } else if (action.payload.operation === GasCalculationOperations.Accept) {
+        const { order } = action.payload
+        yield put(A.fetchMatchingOrderLoading())
+        try {
+          const { buy, sell }: Await<ReturnType<typeof getNftBuyOrders>> = yield call(
+            getNftBuyOrders,
+            order,
+            signer,
+            undefined,
+            IS_TESTNET ? 'rinkeby' : 'mainnet'
+          )
+          fees = yield call(
+            calculateGasFees,
+            GasCalculationOperations.Buy,
+            signer,
+            undefined,
+            buy,
+            sell
+          )
+          yield put(A.fetchMatchingOrderSuccess({ buy, sell }))
+        } catch (e) {
+          const error = errorHandler(e)
+          yield put(A.fetchMatchingOrderFailure(error))
+          throw e
         }
       } else if (action.payload.operation === GasCalculationOperations.Cancel) {
         fees = yield call(
@@ -295,7 +298,6 @@ export default ({ api }: { api: APIType }) => {
           signer,
           action.payload.order as RawOrder
         )
-        yield put(A.fetchFeesSuccess(fees))
       } else if (action.payload.operation === GasCalculationOperations.Sell) {
         const listingTime =
           action.payload.listingTime !== '' && action.payload.listingTime !== undefined
@@ -325,7 +327,6 @@ export default ({ api }: { api: APIType }) => {
           undefined,
           order
         )
-        yield put(A.fetchFeesSuccess(fees))
       } else if (action.payload.operation === GasCalculationOperations.Transfer) {
         fees = yield call(
           calculateGasFees,
@@ -337,8 +338,9 @@ export default ({ api }: { api: APIType }) => {
           action.payload.asset,
           action.payload.to
         )
-        yield put(A.fetchFeesSuccess(fees))
       }
+
+      yield put(A.fetchFeesSuccess(fees as GasDataI))
     } catch (e) {
       // eslint-disable-next-line no-console
       console.log(e)
@@ -419,15 +421,9 @@ export default ({ api }: { api: APIType }) => {
   const createOrder = function* (action: ReturnType<typeof A.createOrder>) {
     try {
       yield put(A.setOrderFlowIsSubmitting(true))
+      const { buy, gasData, sell } = action.payload
       const signer = yield call(getEthSigner)
-      const { buy, sell }: Await<ReturnType<typeof getNftBuyOrders>> = yield call(
-        getNftBuyOrders,
-        action.payload.order,
-        signer,
-        undefined,
-        IS_TESTNET ? 'rinkeby' : 'mainnet'
-      )
-      yield call(fulfillNftOrder, buy, sell, signer, action.payload.gasData)
+      yield call(fulfillNftOrder, buy, sell, signer, gasData)
       yield put(actions.modals.closeAllModals())
       yield put(A.resetNftOrders())
       yield put(A.setMarketplaceData({ atBound: false, page: 1, token_ids_queried: [] }))

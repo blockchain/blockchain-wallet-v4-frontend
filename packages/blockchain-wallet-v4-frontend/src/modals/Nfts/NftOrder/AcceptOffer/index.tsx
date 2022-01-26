@@ -79,18 +79,18 @@ const AcceptOffer: React.FC<Props> = (props) => {
                       size='14px'
                       color='black'
                       weight={600}
-                      coin={val.offerToAccept.buy.paymentTokenContract?.symbol}
+                      coin={val.matchingOrder.buy.paymentTokenContract?.symbol}
                     >
-                      {val.offerToAccept.buy.basePrice}
+                      {val.matchingOrder.buy.basePrice}
                     </CoinDisplay>
                     &nbsp;-&nbsp;
                     <FiatDisplay
                       size='12px'
                       color='grey600'
                       weight={600}
-                      coin={val.offerToAccept.buy.paymentTokenContract?.symbol}
+                      coin={val.matchingOrder.buy.paymentTokenContract?.symbol}
                     >
-                      {val.offerToAccept.buy.basePrice}
+                      {val.matchingOrder.buy.basePrice}
                     </FiatDisplay>
                   </div>
                 </Value>
@@ -128,7 +128,7 @@ const AcceptOffer: React.FC<Props> = (props) => {
                     onClick={() =>
                       nftActions.acceptOffer({
                         gasData: fees,
-                        ...val.offerToAccept
+                        ...val.matchingOrder
                       })
                     }
                   >

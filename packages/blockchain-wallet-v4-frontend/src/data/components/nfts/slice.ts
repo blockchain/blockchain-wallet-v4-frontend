@@ -56,7 +56,7 @@ const initialState: NftsStateType = {
     fees: Remote.NotAsked,
     isSubmitting: false,
     listingToCancel: null,
-    offerToAccept: Remote.NotAsked,
+    matchingOrder: Remote.NotAsked,
     offerToCancel: null,
     step: NftOrderStepEnum.SHOW_ASSET
   }
@@ -88,12 +88,7 @@ const nftsSlice = createSlice({
     ) => {},
     createOrder: (
       state,
-      action: PayloadAction<{
-        amount?: string
-        coin?: string
-        gasData: GasDataI
-        order: NftOrder
-      }>
+      action: PayloadAction<{ buy: NftOrder; gasData: GasDataI; sell: NftOrder }>
     ) => {},
     createSellOrder: (
       state,
@@ -162,6 +157,19 @@ const nftsSlice = createSlice({
     ) => {
       state.orderFlow.fees = Remote.Success(action.payload)
     },
+    fetchMatchingOrder: (state) => {},
+    fetchMatchingOrderFailure: (state, action: PayloadAction<string>) => {
+      state.orderFlow.matchingOrder = Remote.Failure(action.payload)
+    },
+    fetchMatchingOrderLoading: (state) => {
+      state.orderFlow.matchingOrder = Remote.Loading
+    },
+    fetchMatchingOrderSuccess: (
+      state,
+      action: PayloadAction<{ buy: NftOrder; sell: NftOrder }>
+    ) => {
+      state.orderFlow.matchingOrder = Remote.Success(action.payload)
+    },
     fetchNftAssets: () => {},
     fetchNftAssetsFailure: (state, action: PayloadAction<string>) => {
       state.assets.isFailure = true
@@ -228,19 +236,6 @@ const nftsSlice = createSlice({
       state.marketplace.isLoading = false
       state.marketplace.list = [...state.marketplace.list, ...action.payload]
     },
-    fetchOfferToAccept: (state) => {},
-    fetchOfferToAcceptFailure: (state, action: PayloadAction<string>) => {
-      state.orderFlow.offerToAccept = Remote.Failure(action.payload)
-    },
-    fetchOfferToAcceptLoading: (state) => {
-      state.orderFlow.offerToAccept = Remote.Loading
-    },
-    fetchOfferToAcceptSuccess: (
-      state,
-      action: PayloadAction<{ buy: NftOrder; sell: NftOrder }>
-    ) => {
-      state.orderFlow.offerToAccept = Remote.Success(action.payload)
-    },
     nftOrderFlowClose: (state) => {
       state.orderFlow.step = NftOrderStepEnum.SHOW_ASSET
 
@@ -249,7 +244,7 @@ const nftsSlice = createSlice({
       state.orderFlow.activeOrder = null
       state.orderFlow.offerToCancel = null
       state.orderFlow.listingToCancel = null
-      state.orderFlow.offerToAccept = Remote.NotAsked
+      state.orderFlow.matchingOrder = Remote.NotAsked
       state.orderFlow.asset = Remote.NotAsked
       state.orderFlow.fees = Remote.NotAsked
     },

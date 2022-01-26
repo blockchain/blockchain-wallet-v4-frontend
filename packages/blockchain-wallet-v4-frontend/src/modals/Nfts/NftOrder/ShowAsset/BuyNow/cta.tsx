@@ -1,13 +1,15 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
+import { connect, ConnectedProps } from 'react-redux'
 import BigNumber from 'bignumber.js'
 
-import { Remote } from '@core'
 import { displayCoinToCoin } from '@core/exchange'
 import { Button, HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
+import { RootState } from 'data/rootReducer'
 
 import { Props as OwnProps } from '../..'
+import { getData } from './selectors'
 
 const CTA: React.FC<Props> = (props) => {
   const { nftActions, orderFlow } = props
@@ -19,7 +21,7 @@ const CTA: React.FC<Props> = (props) => {
 
   return (
     <>
-      {props.orderFlow.fees.cata({
+      {props.data.cata({
         Failure: (e) => (
           <div>
             <Button jumbo nature='sent' fullwidth disabled data-e2e='buyNft'>
@@ -39,27 +41,36 @@ const CTA: React.FC<Props> = (props) => {
                 😭
               </span>{' '}
               {e === 'INSUFFICIENT_FUNDS' ? (
-                <FormattedMessage
-                  id='copy.not_enough_funds'
-                  defaultMessage="Unfortunately you don't have enough ETH to buy this NFT."
-                />
+                <>
+                  <FormattedMessage
+                    id='copy.not_enough_funds'
+                    defaultMessage="Unfortunately you don't have enough ETH to buy this NFT."
+                  />
+                  <Link
+                    weight={600}
+                    size='14px'
+                    onClick={() =>
+                      nftActions.setOrderFlowStep({ step: NftOrderStepEnum.MAKE_OFFER })
+                    }
+                    style={{
+                      display: 'block',
+                      marginTop: '8px',
+                      textAlign: 'center',
+                      width: '100%'
+                    }}
+                  >
+                    Make an Offer
+                  </Link>
+                </>
               ) : e === 'Sell order is invalid' ? (
                 <FormattedMessage
                   id='copy.may_already_have_completed'
-                  defaultMessage='Invalid sell order. You may have already completed this transaction.'
+                  defaultMessage='Invalid order. This asset has already been purchased.'
                 />
               ) : (
                 e
               )}
             </Text>
-            <Link
-              weight={600}
-              size='14px'
-              onClick={() => nftActions.setOrderFlowStep({ step: NftOrderStepEnum.MAKE_OFFER })}
-              style={{ display: 'block', marginTop: '8px', textAlign: 'center', width: '100%' }}
-            >
-              Make an Offer
-            </Link>
           </div>
         ),
         Loading: () => (
@@ -75,7 +86,7 @@ const CTA: React.FC<Props> = (props) => {
         Success: (val) => (
           <div>
             <Button
-              onClick={() => nftActions.createOrder({ gasData: val, order: activeOrder })}
+              onClick={() => nftActions.createOrder({ gasData: val.fees, ...val.matchingOrder })}
               jumbo
               nature='primary'
               fullwidth
@@ -90,8 +101,8 @@ const CTA: React.FC<Props> = (props) => {
                   values={{
                     for: displayCoinToCoin({
                       coin: activeOrder.paymentTokenContract?.symbol || 'ETH',
-                      value: new BigNumber(val.totalFees)
-                        .multipliedBy(val.gasPrice)
+                      value: new BigNumber(val.fees.totalFees)
+                        .multipliedBy(val.fees.gasPrice)
                         .plus(activeOrder.basePrice)
                         .toString()
                     })
@@ -118,6 +129,12 @@ const CTA: React.FC<Props> = (props) => {
   )
 }
 
-type Props = OwnProps
+const mapStateToProps = (state: RootState) => ({
+  data: getData(state)
+})
 
-export default CTA
+const connector = connect(mapStateToProps)
+
+type Props = OwnProps & ConnectedProps<typeof connector>
+
+export default connector(CTA)
