@@ -938,8 +938,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const fetchBuyQuote = function* ({ payload }: ReturnType<typeof A.fetchBuyQuote>) {
     while (true) {
       try {
-        yield put(A.fetchBuyQuoteLoading())
-
         const { amount, pair, paymentMethod, paymentMethodId } = payload
         const pairReversed = reversePair(pair)
 
