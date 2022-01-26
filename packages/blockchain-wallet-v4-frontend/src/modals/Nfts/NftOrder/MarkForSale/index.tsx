@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
+import moment from 'moment'
 import { map } from 'ramda'
 import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
@@ -253,7 +254,6 @@ const MarkForSale: React.FC<Props> = (props) => {
                         <Field
                           name='ending'
                           component={NumberBox}
-                          validate={[required]}
                           onChange={() => {
                             nftActions.fetchFees({
                               asset: val,
@@ -434,7 +434,11 @@ const connector = connect(mapStateToProps)
 const enhance = compose(
   reduxForm<{}, OwnProps>({
     form: 'nftMarkForSale',
-    initialValues: { 'sale-type': 'fixed-price', timedAuctionType: 'decliningPrice' }
+    initialValues: {
+      listingTime: moment().format('MM/DD/YYYY'),
+      'sale-type': 'fixed-price',
+      timedAuctionType: 'decliningPrice'
+    }
   }),
   connector
 )
