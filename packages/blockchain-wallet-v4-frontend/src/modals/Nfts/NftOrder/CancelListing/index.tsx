@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
 import { Remote } from '@core'
-import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Row, Title, Value } from 'components/Flyout/model'
@@ -13,10 +13,10 @@ import { Props as OwnProps } from '..'
 import CancelListingFees from './fees'
 
 const CancelListing: React.FC<Props> = (props) => {
-  const { cancelListing, close, nftActions, orderFlow } = props
+  const { close, nftActions, orderFlow } = props
   const { listingToCancel } = orderFlow
 
-  const disabled = Remote.Loading.is(cancelListing) || Remote.Loading.is(orderFlow.fees)
+  const disabled = Remote.Loading.is(orderFlow.fees) || props.orderFlow.isSubmitting
 
   return (
     <>
@@ -116,7 +116,14 @@ const CancelListing: React.FC<Props> = (props) => {
                         nftActions.cancelListing({ gasData: val, order: listingToCancel })
                       }
                     >
-                      <FormattedMessage id='copy.cancel_listing' defaultMessage='Cancel Listing' />
+                      {props.orderFlow.isSubmitting ? (
+                        <HeartbeatLoader color='blue100' height='20px' width='20px' />
+                      ) : (
+                        <FormattedMessage
+                          id='copy.cancel_listing'
+                          defaultMessage='Cancel Listing'
+                        />
+                      )}
                     </Button>
                   ) : (
                     <Text size='14px' weight={600}>

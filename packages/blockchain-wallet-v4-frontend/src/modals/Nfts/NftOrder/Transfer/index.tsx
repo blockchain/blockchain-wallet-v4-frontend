@@ -4,9 +4,8 @@ import { connect, ConnectedProps } from 'react-redux'
 import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 
-import { Remote } from '@core'
 import { GasCalculationOperations } from '@core/network/api/nfts/types'
-import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { Row, Title, Value } from 'components/Flyout/model'
 import { Form, TextBox } from 'components/Form'
 import { selectors } from 'data'
@@ -20,7 +19,7 @@ import TransferFees from '../ShowAsset/Transfer/fees'
 const Transfer: React.FC<Props> = (props) => {
   const { close, formValues, nftActions, orderFlow } = props
 
-  const disabled = formValues ? !formValues.to || Remote.Loading.is(props.transfer) : true
+  const disabled = formValues ? !formValues.to || props.orderFlow.isSubmitting : true
 
   return (
     <>
@@ -131,7 +130,11 @@ const Transfer: React.FC<Props> = (props) => {
                       })
                     }
                   >
-                    <FormattedMessage id='copy.transfer' defaultMessage='Transfer' />
+                    {props.orderFlow.isSubmitting ? (
+                      <HeartbeatLoader color='blue100' height='20px' width='20px' />
+                    ) : (
+                      <FormattedMessage id='copy.transfer' defaultMessage='Transfer' />
+                    )}
                   </Button>
                 )
               })}

@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js'
-import { any } from 'ramda'
 
 /**
  * Wyvern order side: buy or sell.
@@ -340,7 +339,7 @@ export interface AssetEvent {
 export interface OpenSeaAsset extends Asset {
   assetContract: OpenSeaAssetContract
   backgroundColor: string | null
-  buyOrders: Order[] | null
+  buyOrders: NftOrder[] | null
   collection: OpenSeaCollection
   description: string
   externalLink: string
@@ -353,9 +352,9 @@ export interface OpenSeaAsset extends Asset {
   name: string
   numSales: number
   openseaLink: string
-  orders: Order[] | null
+  orders: NftOrder[] | null
   owner: OpenSeaAccount
-  sellOrders: Order[] | null
+  sellOrders: NftOrder[] | null
   traits: object[]
   transferFee: BigNumber | string | null
   transferFeePaymentToken: OpenSeaFungibleToken | null
@@ -373,7 +372,7 @@ export interface OpenSeaAssetBundle {
   maker: OpenSeaAccount
   name: string
   permalink: string
-  sellOrders: Order[] | null
+  sellOrders: NftOrder[] | null
   slug: string
 }
 export interface ECSignature {
@@ -385,7 +384,7 @@ export interface ECSignature {
  * Orders don't need to be signed if they're pre-approved
  * with a transaction on the contract to approveOrder_
  */
-export interface Order extends UnsignedOrder, Partial<ECSignature> {
+export interface NftOrder extends UnsignedOrder, Partial<ECSignature> {
   asset?: OpenSeaAsset
   assetBundle?: OpenSeaAssetBundle
   cancelledOrFinalized?: boolean
@@ -657,7 +656,7 @@ export type NftAssetsType = NftAsset[]
 
 export type NftOrdersType = {
   count: number
-  orders: Order[]
+  orders: NftOrder[]
 }
 
 export enum SolidityTypes {

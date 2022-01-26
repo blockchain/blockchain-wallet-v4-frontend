@@ -2,8 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
 
-import { Remote } from '@core'
-import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Row, Title, Value } from 'components/Flyout/model'
@@ -17,8 +16,6 @@ import { getData } from './selectors'
 
 const AcceptOffer: React.FC<Props> = (props) => {
   const { close, data, nftActions } = props
-
-  const disabled = Remote.Loading.is(props.acceptOffer)
 
   return (
     <>
@@ -82,18 +79,18 @@ const AcceptOffer: React.FC<Props> = (props) => {
                       size='14px'
                       color='black'
                       weight={600}
-                      coin={val.offerToAccept.buy.paymentTokenContract?.symbol}
+                      coin={val.matchingOrder.buy.paymentTokenContract?.symbol}
                     >
-                      {val.offerToAccept.buy.basePrice}
+                      {val.matchingOrder.buy.basePrice}
                     </CoinDisplay>
                     &nbsp;-&nbsp;
                     <FiatDisplay
                       size='12px'
                       color='grey600'
                       weight={600}
-                      coin={val.offerToAccept.buy.paymentTokenContract?.symbol}
+                      coin={val.matchingOrder.buy.paymentTokenContract?.symbol}
                     >
-                      {val.offerToAccept.buy.basePrice}
+                      {val.matchingOrder.buy.basePrice}
                     </FiatDisplay>
                   </div>
                 </Value>
@@ -126,16 +123,20 @@ const AcceptOffer: React.FC<Props> = (props) => {
                     nature='primary'
                     fullwidth
                     data-e2e='acceptNftOffer'
-                    disabled={disabled}
+                    disabled={props.orderFlow.isSubmitting}
                     type='submit'
                     onClick={() =>
                       nftActions.acceptOffer({
                         gasData: fees,
-                        ...val.offerToAccept
+                        ...val.matchingOrder
                       })
                     }
                   >
-                    <FormattedMessage id='copy.accept_offer' defaultMessage='Accept Offer' />
+                    {props.orderFlow.isSubmitting ? (
+                      <HeartbeatLoader color='blue100' height='20px' width='20px' />
+                    ) : (
+                      <FormattedMessage id='copy.accept_offer' defaultMessage='Accept Offer' />
+                    )}
                   </Button>
                 )
               })}
