@@ -21,7 +21,7 @@ import { NftOrderStepEnum, NftsStateType } from './types'
 
 // TODO
 // remove acceptOffer, cancelListing, cancelOffer, sellOrder, transfer, orderFlow.order (clean up state when modal closed)
-// break up orderFlow (activeOffer, activeOrder, listingToCancel, offerToAccept) by gas calc op type?
+// break up orderFlow (offerToCancel, activeOrder, listingToCancel, offerToAccept) by gas calc op type?
 
 const initialState: NftsStateType = {
   activeTab: 'explore',
@@ -51,13 +51,13 @@ const initialState: NftsStateType = {
     page: 0
   },
   orderFlow: {
-    activeOffer: null,
     activeOrder: null,
     asset: Remote.NotAsked,
     fees: Remote.NotAsked,
     isSubmitting: false,
     listingToCancel: null,
     offerToAccept: Remote.NotAsked,
+    offerToCancel: null,
     step: NftOrderStepEnum.SHOW_ASSET
   }
 }
@@ -247,7 +247,7 @@ const nftsSlice = createSlice({
       state.orderFlow.isSubmitting = false
 
       state.orderFlow.activeOrder = null
-      state.orderFlow.activeOffer = null
+      state.orderFlow.offerToCancel = null
       state.orderFlow.listingToCancel = null
       state.orderFlow.offerToAccept = Remote.NotAsked
       state.orderFlow.asset = Remote.NotAsked
@@ -300,9 +300,6 @@ const nftsSlice = createSlice({
       state,
       action: PayloadAction<{ asset_contract_address?: string; search?: string }>
     ) => {},
-    setActiveOffer: (state, action: PayloadAction<{ offer: RawOrder }>) => {
-      state.orderFlow.activeOffer = action.payload.offer
-    },
     setActiveTab: (state, action: PayloadAction<'explore' | 'my-collection' | 'offers'>) => {
       state.activeTab = action.payload
     },
@@ -336,6 +333,9 @@ const nftsSlice = createSlice({
       if (action.payload.collection) state.marketplace.collection = action.payload.collection
       if (action.payload.token_ids_queried)
         state.marketplace.token_ids_queried = action.payload.token_ids_queried
+    },
+    setOfferToCancel: (state, action: PayloadAction<{ offer: RawOrder }>) => {
+      state.orderFlow.offerToCancel = action.payload.offer
     },
     setOffersMadeBounds: (state, action: PayloadAction<{ atBound: boolean }>) => {
       state.offersMade.atBound = action.payload.atBound

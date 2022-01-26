@@ -610,6 +610,15 @@ export default ({ api }: { api: APIType }) => {
     }
   }
 
+  // When you open the order flow you can open directly to the following operations:
+  // 1: Buy
+  // 2: Sell
+  // 3: Cancel Offer (Made by user)
+  // Other operations are opened from within the flow itself, so you WILL NOT find
+  // find those in this function. Those include:
+  // 1: Transfer
+  // 2: Accept Offer
+  // 3: Cancel Listing
   const nftOrderFlowOpen = function* (action: ReturnType<typeof A.nftOrderFlowOpen>) {
     yield put(actions.modals.showModal(ModalName.NFT_ORDER, { origin: 'Unknown' }))
     let address
@@ -621,7 +630,7 @@ export default ({ api }: { api: APIType }) => {
       address = asset!.assetContract.address
       token_id = asset!.tokenId
     }
-    // User wants to sell an asset
+    // User wants to view an asset (that they own)
     if (action.payload.asset) {
       address = action.payload.asset.asset_contract.address
       token_id = action.payload.asset.token_id
@@ -643,11 +652,8 @@ export default ({ api }: { api: APIType }) => {
         const offer = activeOrders.orders.find((order) =>
           order.calldata.toLowerCase().includes(nonPrefixedEthAddr)
         )
-        yield put(A.setActiveOffer({ offer }))
+        yield put(A.setOfferToCancel({ offer }))
         yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.CANCEL_OFFER }))
-      } else {
-        // User wants to accept offer
-        yield put(A.setOrderFlowStep({ step: NftOrderStepEnum.ACCEPT_OFFER }))
       }
     }
 

@@ -51,13 +51,13 @@ export type NftsStateType = {
     page: number
   }
   orderFlow: {
-    activeOffer: RawOrder | null
     activeOrder: NftOrder | null
     asset: RemoteDataType<string, NftAsset>
     fees: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>
     isSubmitting: boolean
     listingToCancel: RawOrder | null
     offerToAccept: RemoteDataType<string, { buy: NftOrder; sell: NftOrder }>
+    offerToCancel: RawOrder | null
     step: NftOrderStepEnum
   }
 }

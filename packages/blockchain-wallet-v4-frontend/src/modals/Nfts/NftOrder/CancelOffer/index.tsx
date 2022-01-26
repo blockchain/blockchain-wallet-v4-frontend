@@ -12,7 +12,7 @@ import CancelOfferFees from './fees'
 
 const CancelOffer: React.FC<Props> = (props) => {
   const { close, nftActions, orderFlow } = props
-  const { activeOffer } = orderFlow
+  const { offerToCancel } = orderFlow
 
   const disabled = Remote.Loading.is(orderFlow.fees) || props.orderFlow.isSubmitting
 
@@ -77,14 +77,14 @@ const CancelOffer: React.FC<Props> = (props) => {
                 Loading: () => null,
                 NotAsked: () => null,
                 Success: (val) =>
-                  activeOffer ? (
+                  offerToCancel ? (
                     <Button
                       jumbo
                       nature='primary'
                       fullwidth
                       data-e2e='cancelOfferNft'
                       disabled={disabled}
-                      onClick={() => nftActions.cancelOffer({ gasData: val, order: activeOffer })}
+                      onClick={() => nftActions.cancelOffer({ gasData: val, order: offerToCancel })}
                     >
                       {props.orderFlow.isSubmitting ? (
                         <HeartbeatLoader color='blue100' height='20px' width='20px' />
