@@ -1,7 +1,7 @@
 import { Task } from 'redux-saga'
 import { call, cancel, fork, put, take, takeEvery, takeLatest } from 'redux-saga/effects'
 
-import { actions as coreActions, actionTypes, selectors } from 'data'
+import { actions as coreActions, actionTypes } from 'data'
 
 import profileSagas from '../../modules/profile/sagas'
 import sagas from './sagas'
