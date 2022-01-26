@@ -76,8 +76,9 @@ class DateBoxDebounced extends React.Component {
           onChange={this.handleChange}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
-          closeOnSelect={false}
-          closeOnTab={false}
+          closeOnSelect
+          closeOnTab
+          closeOnClickOutside
           open={open}
           locale={locale()}
           {...rest}

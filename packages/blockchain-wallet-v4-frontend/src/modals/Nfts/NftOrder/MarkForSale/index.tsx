@@ -36,7 +36,7 @@ const DateSelectRow = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: 84%;
 `
 const DateDivider = styled.div`
   min-width: 18px;
@@ -45,7 +45,7 @@ const DateLabel = styled(Text)`
   margin-bottom: 6px;
 `
 const EndDateLabel = styled(DateLabel)`
-  margin-right: 140px;
+  margin-right: 95px;
 `
 const MarkForSale: React.FC<Props> = (props) => {
   const { close, formValues, nftActions, orderFlow } = props
@@ -253,6 +253,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                         <Field
                           name='ending'
                           component={NumberBox}
+                          validate={[required]}
                           onChange={() => {
                             nftActions.fetchFees({
                               asset: val,
@@ -294,8 +295,6 @@ const MarkForSale: React.FC<Props> = (props) => {
                     />
                   </EndDateLabel>
                 </DateSelectRow>
-              </Row>
-              <Row>
                 <DateSelectRow>
                   <Field
                     dateFormat='MM/DD/YYYY'
