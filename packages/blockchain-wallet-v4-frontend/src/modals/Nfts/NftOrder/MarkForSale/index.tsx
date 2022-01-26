@@ -17,7 +17,7 @@ import { DateBoxDebounced, Form, NumberBox, SelectBox } from 'components/Form'
 import TabMenuNftSaleType from 'components/Form/TabMenuNftSaleType'
 import { selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
-import { required } from 'services/forms'
+import { required, validDecliningPrice } from 'services/forms'
 import { media } from 'services/styles'
 
 import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'
@@ -56,10 +56,13 @@ const MarkForSale: React.FC<Props> = (props) => {
     formValues['sale-type'] === 'fixed-price'
       ? // Fixed Price
         !formValues.amount || Remote.Loading.is(props.sellOrder)
-      : // Dutch
-        ((!formValues.starting || !formValues.ending || Remote.Loading.is(props.sellOrder)) &&
+      : // Dutch (Declining)
+        ((!formValues.starting ||
+          !formValues.ending ||
+          Remote.Loading.is(props.sellOrder) ||
+          formValues.ending > formValues.starting) &&
           formValues.timedAuctionType === 'decliningPrice') ||
-        // English
+        // English (Ascending)
         (!formValues.starting && formValues.timedAuctionType === 'highestBidder')
 
   const resetForms = () => {
@@ -254,6 +257,7 @@ const MarkForSale: React.FC<Props> = (props) => {
                         <Field
                           name='ending'
                           component={NumberBox}
+                          validate={[required, validDecliningPrice]}
                           onChange={() => {
                             nftActions.fetchFees({
                               asset: val,
