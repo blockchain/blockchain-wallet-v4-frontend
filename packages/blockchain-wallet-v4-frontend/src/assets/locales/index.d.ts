@@ -809,6 +809,7 @@ type MessagesType = {
   'modal.complete_profile.finish_settings': 'Finish setting up your Blockchain.com account and start buying crypto today.'
   'modal.complete_profile.verify_your_id': 'Verify Your ID'
   'modal.complete_profile.link_a_bank': 'Link a Bank or Card'
+  'modal.complete_profile.link_a_payment_method': 'Link a Payment Method'
   'modal.complete_profile.minutes': '{time} Minutes'
   'modal.complete_profile.seconds': '{time} Seconds'
   'modal.deleteaddresslabel.delete': 'Delete Label'

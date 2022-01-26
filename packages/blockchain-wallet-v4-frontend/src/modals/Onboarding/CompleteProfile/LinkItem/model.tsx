@@ -129,8 +129,8 @@ export const LinkTitle = {
   ),
   [COMPLETE_PROFILE_STEPS.LINK_PAYMENT]: (
     <FormattedMessage
-      id='modal.complete_profile.link_a_bank'
-      defaultMessage='Link a Bank or Card'
+      id='modal.complete_profile.link_a_payment_method'
+      defaultMessage='Link a Payment Method'
     />
   ),
   [COMPLETE_PROFILE_STEPS.BUY_CRYPTO]: (
