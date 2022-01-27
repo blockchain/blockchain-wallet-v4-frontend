@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 
 import {
   AssetEvent,
+  NftOrder,
   NftOrderSide,
   NftSaleKind,
   OpenSeaAccount,
@@ -13,7 +14,6 @@ import {
   OpenSeaFungibleToken,
   OpenSeaTraitStats,
   OpenSeaUser,
-  Order,
   Transaction
 } from '@core/network/api/nfts/types'
 import { INVERSE_BASIS_POINT, NULL_ADDRESS } from '@core/redux/payment/nfts/utils'
@@ -39,7 +39,11 @@ export function makeBigNumber(arg: number | string | BigNumber): BigNumber {
  *  to fix race conditions
  * @param shouldRoundUp Whether to round up fractional wei
  */
-export function estimateCurrentPrice(order: Order, secondsToBacktrack = 30, shouldRoundUp = true) {
+export function estimateCurrentPrice(
+  order: NftOrder,
+  secondsToBacktrack = 30,
+  shouldRoundUp = true
+) {
   let { basePrice, expirationTime, extra, listingTime } = order
   const { saleKind, side, takerRelayerFee } = order
 
@@ -196,10 +200,10 @@ export const assetBundleFromJSON = (asset_bundle: any): OpenSeaAssetBundle => {
   return fromJSON
 }
 
-export const orderFromJSON = (order: any): Order => {
+export const orderFromJSON = (order: any): NftOrder => {
   const createdDate = new Date(`${order.created_date}Z`)
 
-  const fromJSON: Order = {
+  const fromJSON: NftOrder = {
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     asset: order.asset ? assetFromJSON(order.asset) : undefined,
     assetBundle: order.asset_bundle ? assetBundleFromJSON(order.asset_bundle) : undefined,

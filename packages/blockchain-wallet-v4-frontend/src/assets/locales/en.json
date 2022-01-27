@@ -421,7 +421,7 @@
   "copy.make_offer_value": "Make an Offer for {val}",
   "copy.mark_for_sale": "Mark for Sale",
   "copy.mark_for_sale_value": "Mark for Sale for {val}",
-  "copy.may_already_have_completed": "Invalid sell order. You may have already completed this transaction.",
+  "copy.may_already_have_completed": "Invalid order. This asset has already been purchased.",
   "copy.month": "1M",
   "copy.more_information_needed": "More Information Needed",
   "copy.most_popular": "Most Popular",

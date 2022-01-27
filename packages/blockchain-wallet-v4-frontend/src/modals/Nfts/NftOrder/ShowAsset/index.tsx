@@ -1,6 +1,7 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 
+import { NULL_ADDRESS } from '@core/redux/payment/nfts/utils'
 import { Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import { BlueCartridge } from 'components/Cartridge'
 import CoinDisplay from 'components/Display/CoinDisplay'
@@ -9,10 +10,10 @@ import { Row, Title, Value } from 'components/Flyout/model'
 
 import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'
 import { Props as OwnProps } from '..'
+import ActiveListingsCTA from './ActiveListings/cta'
+import ActiveOffersCTA from './ActiveOffers/cta'
 import BuyCTA from './BuyNow/cta'
 import BuyFees from './BuyNow/fees'
-import CancelListingCTA from './CancelListing/cta'
-import CancelListingFees from './CancelListing/fees'
 import SellCTA from './Sell/cta'
 import TransferCTA from './Transfer/cta'
 
@@ -52,7 +53,7 @@ const ShowAsset: React.FC<Props> = (props) => {
                 role='button'
                 style={{ position: 'absolute', right: '40px', top: '40px' }}
               />
-              <FullAssetImage backgroundImage={val?.image_url.replace(/=s\d*/, '')} />
+              <FullAssetImage cropped backgroundImage={val?.image_url.replace(/=s\d*/, '')} />
             </div>
             <AssetDesc>
               <Text size='16px' color='grey900' weight={600}>
@@ -123,19 +124,22 @@ const ShowAsset: React.FC<Props> = (props) => {
                   <BuyFees {...props} />
                   <BuyCTA {...props} />
                 </>
-              ) : /* User has 1 or more sell_orders, cancel them */
-              val.sell_orders?.length ? (
+              ) : (
                 <>
-                  <CancelListingFees {...props} asset={val} />
-                  <CancelListingCTA {...props} asset={val} />
+                  <SellCTA {...props} asset={val} />
+                  <TransferCTA {...props} asset={val} />
+                  <br />
+                  <ActiveListingsCTA {...props} asset={val} />
+                  {/* User is owner, show active offers */}
+                  {val.owner.address.toLowerCase() === props.defaultEthAddr.toLowerCase() ||
+                  val.owner.address === NULL_ADDRESS ? (
+                    <>
+                      <br />
+                      <ActiveOffersCTA {...props} asset={val} />
+                    </>
+                  ) : null}
                 </>
-              ) : /* No sell_orders, can mark for sale */
-              !val.sell_orders?.length ? (
-                <>
-                  <SellCTA {...props} />
-                  <TransferCTA {...props} />
-                </>
-              ) : null}
+              )}
             </StickyCTA>
           </>
         )

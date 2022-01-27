@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 
-import { GasCalculationOperations, RawOrder } from '@core/network/api/nfts/types'
-import { SpinningLoader, TooltipHost, TooltipIcon } from 'blockchain-info-components'
+import { SpinningLoader } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Title, Value } from 'components/Flyout/model'
@@ -12,17 +11,7 @@ import { CTARow } from '../../components'
 import { Props as OwnProps } from '..'
 
 const Fees: React.FC<Props> = (props) => {
-  const { nftActions, orderFlow } = props
-  const { offerToCancel } = orderFlow
-
-  useEffect(() => {
-    nftActions.fetchFees({
-      operation: GasCalculationOperations.Cancel,
-      order: offerToCancel as unknown as RawOrder
-    })
-  }, [])
-
-  if (!offerToCancel) return null
+  const { orderFlow } = props
 
   return (
     <>
@@ -33,7 +22,11 @@ const Fees: React.FC<Props> = (props) => {
             <SpinningLoader width='14px' height='14px' borderWidth='3px' />
           </CTARow>
         ),
-        NotAsked: () => null,
+        NotAsked: () => (
+          <CTARow>
+            <SpinningLoader width='14px' height='14px' borderWidth='3px' />
+          </CTARow>
+        ),
         Success: (val) => {
           return (
             <>

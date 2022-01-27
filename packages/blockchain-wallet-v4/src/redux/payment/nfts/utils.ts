@@ -11,8 +11,8 @@ import {
   GasDataI,
   HowToCall,
   NftAsset,
+  NftOrder,
   NftOrderSide,
-  NftOrdersType,
   NftSaleKind,
   PartialReadonlyContractAbi,
   RawOrder,
@@ -28,8 +28,6 @@ import {
 import { ERC20_ABI, ERC721_ABI, ERC1155_ABI, proxyRegistry_ABI, wyvernExchange_ABI } from './abis'
 import { schemaMap } from './schemas'
 import { FunctionInputKind } from './types'
-
-type Order = NftOrdersType['orders'][0]
 
 export const INVERSE_BASIS_POINT = 10000
 export const NULL_BLOCK_HASH = '0x0000000000000000000000000000000000000000000000000000000000000000'
@@ -295,11 +293,10 @@ export const encodeDefaultCall = (abi, address) => {
   return encodeCall(abi, parameters)
 }
 
-export const encodeSell = (schema, asset, address) => {
+export const encodeSell = (schema, asset: WyvernAsset, address) => {
   const wyvAsset = schema.assetFromFields({
-    Address: asset.asset_contract.address,
-    ID: asset.token_id,
-    Name: asset.name,
+    Address: asset.address,
+    ID: asset.id,
     Quantity: new BigNumber(1).toString()
   })
   const transfer = schema.functions.transfer(wyvAsset)
@@ -309,7 +306,7 @@ export const encodeSell = (schema, asset, address) => {
     calldata = tokenInterface.encodeFunctionData('safeTransferFrom', [
       address.toLowerCase(),
       NULL_ADDRESS,
-      asset.token_id,
+      asset.id,
       wyvAsset.quantity,
       []
     ])
@@ -318,7 +315,7 @@ export const encodeSell = (schema, asset, address) => {
     calldata = tokenInterface.encodeFunctionData('transferFrom', [
       address.toLowerCase(),
       NULL_ADDRESS,
-      asset.token_id
+      asset.id
     ])
   } else {
     throw new Error(`Unsupported Asset Standard: ${schema.name}`)
@@ -442,13 +439,13 @@ function toBaseUnitAmount(amount: BigNumber, decimals: number): BigNumber {
 }
 
 export function assignOrdersToSides(
-  order: Order,
+  order: NftOrder,
   matchingOrder: UnsignedOrder
-): { buy: Order; sell: Order } {
+): { buy: NftOrder; sell: NftOrder } {
   const isSellOrder = order.side === NftOrderSide.Sell
 
-  let buy: Order
-  let sell: Order
+  let buy: NftOrder
+  let sell: NftOrder
   if (!isSellOrder) {
     buy = order
     sell = {
@@ -470,7 +467,7 @@ export function assignOrdersToSides(
   return { buy, sell }
 }
 
-export function _getMetadata(order: Order, referrerAddress?: string) {
+export function _getMetadata(order: NftOrder, referrerAddress?: string) {
   const referrer = referrerAddress || order.metadata.referrerAddress
   if (referrer) {
     return referrer
@@ -597,7 +594,7 @@ export function _makeMatchingOrder({
   expirationTime: number
   network: string
   offer: null | string
-  order: Order
+  order: NftOrder
   paymentTokenAddress: null | string
   recipientAddress: string
 }): UnsignedOrder {
@@ -672,9 +669,9 @@ export function _makeMatchingOrder({
     howToCall: order.howToCall,
     listingTime: times.listingTime,
     maker: accountAddress,
-    makerProtocolFee: new BigNumber(order.takerProtocolFee),
+    makerProtocolFee: new BigNumber(order.makerProtocolFee),
     makerReferrerFee: new BigNumber(order.makerReferrerFee),
-    makerRelayerFee: new BigNumber(order.takerRelayerFee),
+    makerRelayerFee: new BigNumber(order.makerRelayerFee),
     metadata: order.metadata,
     paymentToken: paymentTokenAddress ?? order.paymentToken,
     quantity: order.quantity,
@@ -686,8 +683,8 @@ export function _makeMatchingOrder({
     staticExtradata: '0x',
     staticTarget: NULL_ADDRESS,
     taker: order.maker,
-    takerProtocolFee: new BigNumber(order.makerProtocolFee),
-    takerRelayerFee: new BigNumber(order.makerRelayerFee),
+    takerProtocolFee: new BigNumber(order.takerProtocolFee),
+    takerRelayerFee: new BigNumber(order.takerRelayerFee),
     target,
     waitingForBestCounterOrder: false
   }
@@ -1082,7 +1079,11 @@ export async function _makeSellOrder({
 
   const schema = await schemaMap[asset.asset_contract.schema_name ?? WyvernSchemaName.ERC721]
   // const wyAsset = getWyvernAsset(schema, asset)
-  const { calldata, replacementPattern, target } = encodeSell(schema, asset, accountAddress)
+  const { calldata, replacementPattern, target } = encodeSell(
+    schema,
+    { address: asset.asset_contract.address, id: asset.token_id },
+    accountAddress
+  )
   const orderSaleKind =
     endAmount != null && endAmount !== startAmount
       ? NftSaleKind.DutchAuction
@@ -1668,7 +1669,7 @@ export async function _validateOrderWyvern({
   order,
   signer
 }: {
-  order: Order
+  order: NftOrder
   signer: Signer
 }): Promise<boolean> {
   const wyvernExchangeContract = new ethers.Contract(order.exchange, wyvernExchange_ABI, signer)
@@ -1825,7 +1826,7 @@ async function fungibleTokenApprovals({
     return null
   }
   // eslint-disable-next-line no-console
-  console.log('Not enough ERC20 allowance approved for this trade')
+  console.log('Not enough ERC20 allowance approved for this trade. Approving now...')
 
   // Note: approving maximum amount so this doesnt need to be done again for future trades.
   const txHash = await fungibleTokenInterface.approve(
@@ -1833,6 +1834,7 @@ async function fungibleTokenApprovals({
     ethers.constants.MaxInt256.toString(),
     txnData
   )
+  await txHash.wait()
   return txHash
 }
 
@@ -1842,9 +1844,9 @@ export async function _buyOrderValidationAndApprovals({
   order,
   signer
 }: {
-  counterOrder?: Order
+  counterOrder?: NftOrder
   gasData: GasDataI
-  order: Order
+  order: NftOrder
   signer: Signer
 }) {
   // TODO: Use getFairGasPrice after merge!
@@ -1870,7 +1872,7 @@ export async function _buyOrderValidationAndApprovals({
     //  minimumAmount = await this._getRequiredAmountForTakingSellOrder(counterOrder)
     // }
 
-    // Check WETH balance
+    // Check balance against price
     if (balance.isLessThan(minimumAmount)) {
       if (tokenAddress === wethAddress) {
         throw new Error('Insufficient balance. You may need to wrap Ether.')
@@ -1900,8 +1902,8 @@ async function _validateMatch(
     sell,
     signer
   }: {
-    buy: Order
-    sell: Order
+    buy: NftOrder
+    sell: NftOrder
     signer: Signer
   },
   retries = 1
@@ -1975,9 +1977,9 @@ async function _validateMatch(
     // eslint-disable-next-line no-console
     console.log(`Order calldata matching: ${calldataCanMatch}`)
 
-    if (!calldataCanMatch || !canMatch) {
-      throw new Error('Unable to match offer data with auction data.')
-    }
+    // if (!calldataCanMatch || !canMatch) {
+    //   throw new Error('Unable to match offer data with auction data.')
+    // }
 
     return true
   } catch (error) {
@@ -1997,9 +1999,9 @@ export async function _atomicMatch({
   sell,
   signer
 }: {
-  buy: Order
+  buy: NftOrder
   gasData: GasDataI
-  sell: Order
+  sell: NftOrder
   signer: Signer
 }) {
   const { gasFees, gasPrice } = gasData
@@ -2134,7 +2136,7 @@ export async function _makeBuyOrder({
   network: string
   paymentTokenAddress: string
   quantity: number
-  sellOrder?: Order
+  sellOrder?: NftOrder
   startAmount: number
   waitForHighestBid: boolean
 }): Promise<UnhashedOrder> {
@@ -2223,7 +2225,7 @@ export async function createSellOrder(
   waitForHighestBid: boolean,
   paymentTokenAddress: string,
   network: string
-): Promise<Order> {
+): Promise<NftOrder> {
   // 1. use the _makeSellOrder to create the object & initialize the proxy contract for this sale.
   const accountAddress = await signer.getAddress()
   const order = await _makeSellOrder({
@@ -2268,11 +2270,11 @@ export async function createSellOrder(
 export async function createMatchingOrders(
   expirationTime: number,
   offer: null | string,
-  order: NftOrdersType['orders'][0],
+  order: NftOrder,
   signer: Signer,
   network: string,
   paymentTokenAddress: null | string
-): Promise<{ buy: Order; sell: Order }> {
+): Promise<{ buy: NftOrder; sell: NftOrder }> {
   const accountAddress = await signer.getAddress()
   // TODO: If its an english auction bid above the basePrice include an offer property in the _makeMatchingOrder call
   const matchingOrder = _makeMatchingOrder({
@@ -2286,12 +2288,20 @@ export async function createMatchingOrders(
   })
   // eslint-disable-next-line prefer-const
   let { buy, sell } = assignOrdersToSides(order, matchingOrder)
-  const signature = await _signMessage({ message: buy.hash, signer })
-  buy = {
-    ...buy,
-    ...signature
-  }
 
+  if (order.side === NftOrderSide.Sell) {
+    const signature = await _signMessage({ message: buy.hash, signer })
+    buy = {
+      ...buy,
+      ...signature
+    }
+  } else {
+    const signature = await _signMessage({ message: sell.hash, signer })
+    sell = {
+      ...sell,
+      ...signature
+    }
+  }
   const isSellValid = await _validateOrderWyvern({ order: sell, signer })
   if (!isSellValid) throw new Error('Sell order is invalid')
   const isBuyValid = await _validateOrderWyvern({ order: buy, signer })
@@ -2317,7 +2327,7 @@ export async function calculateProxyFees(signer: Signer) {
       )
 }
 
-export async function calculateProxyApprovalFees(order: Order, signer: Signer) {
+export async function calculateProxyApprovalFees(order: NftOrder, signer: Signer) {
   let tokenContract
   const proxyAddress = await _getProxy(signer)
   const accountAddress = await signer.getAddress()
@@ -2401,7 +2411,7 @@ export async function calculateTransferFees(asset: NftAsset, signer: Signer, rec
   return safeGasEstimation(tokenContract.estimateGas.safeTransferFrom, args, { gasLimit: 250_000 })
 }
 
-export async function calculatePaymentProxyApprovals(order: Order, signer: Signer) {
+export async function calculatePaymentProxyApprovals(order: NftOrder, signer: Signer) {
   const minimumAmount = new BigNumber(order.basePrice)
   const tokenContract = new ethers.Contract(order.paymentToken, ERC20_ABI, signer)
   const proxyAddress =
@@ -2504,7 +2514,11 @@ export async function calculateCancellation(sellOrder: RawOrder, signer: Signer)
   return new BigNumber(gasLimit)
 }
 
-export async function calculateAtomicMatchFees(order: Order, counterOrder: Order, signer: Signer) {
+export async function calculateAtomicMatchFees(
+  order: NftOrder,
+  counterOrder: NftOrder,
+  signer: Signer
+) {
   const args = [
     [
       order.exchange,

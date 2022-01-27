@@ -1,6 +1,7 @@
 import {
   AssetEventsType,
   ExplorerGatewayNftCollectionType,
+  NftAsset,
   NftAssetsType,
   NftOrdersType,
   OfferEventsType
@@ -21,7 +22,7 @@ export default ({ apiUrl, get, post }) => {
     })
   }
 
-  const getNftAsset = (contract_address: string, token_id: string): NftAssetsType => {
+  const getNftAsset = (contract_address: string, token_id: string): NftAsset => {
     return get({
       endPoint: `/asset/${contract_address}/${token_id}`,
       ignoreQueryParams: true,
@@ -53,6 +54,22 @@ export default ({ apiUrl, get, post }) => {
       endPoint: `/events?event_type=offer_entered&limit=${limit}&offset=${
         NFT_ORDER_PAGE_LIMIT * offset
       }&account_address=${account_address}`,
+      ignoreQueryParams: true,
+      url: `${explorerUrl}`
+    })
+  }
+
+  const getNftOffersForAsset = (
+    eth_addr: string,
+    asset_contract_address: string,
+    token_id: string,
+    offset = 0,
+    limit = NFT_ORDER_PAGE_LIMIT
+  ): OfferEventsType => {
+    return get({
+      endPoint: `/events?event_type=offer_entered&limit=${limit}&offset=${
+        NFT_ORDER_PAGE_LIMIT * offset
+      }&asset_contract_address=${asset_contract_address}&token_id=${token_id}`,
       ignoreQueryParams: true,
       url: `${explorerUrl}`
     })
@@ -133,6 +150,7 @@ export default ({ apiUrl, get, post }) => {
     getNftAssets,
     getNftCollectionInfo,
     getNftCollections,
+    getNftOffersForAsset,
     getNftOrders,
     getNftRecentEvents,
     getOffersMade,

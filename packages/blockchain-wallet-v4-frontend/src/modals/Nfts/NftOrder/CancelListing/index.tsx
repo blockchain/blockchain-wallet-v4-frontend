@@ -3,16 +3,18 @@ import { FormattedMessage } from 'react-intl'
 
 import { Remote } from '@core'
 import { Button, HeartbeatLoader, Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
 import { Row, Title, Value } from 'components/Flyout/model'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
 
-import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'
+import { AssetDesc, CTARow, FullAssetImage, StickyCTA } from '../../components'
 import { Props as OwnProps } from '..'
-import CancelOfferFees from './fees'
+import CancelListingFees from './fees'
 
-const CancelOffer: React.FC<Props> = (props) => {
+const CancelListing: React.FC<Props> = (props) => {
   const { close, nftActions, orderFlow } = props
-  const { offerToCancel } = orderFlow
+  const { listingToCancel } = orderFlow
 
   const disabled = Remote.Loading.is(orderFlow.fees) || props.orderFlow.isSubmitting
 
@@ -64,39 +66,70 @@ const CancelOffer: React.FC<Props> = (props) => {
               </Value>
             </Row>
             <StickyCTA>
-              <CancelOfferFees {...props} />
+              <CTARow>
+                <Title style={{ display: 'flex' }}>
+                  <FormattedMessage id='copy.listing' defaultMessage='Listing Price' />
+                </Title>
+                <Value>
+                  <div style={{ display: 'flex' }}>
+                    <CoinDisplay
+                      size='14px'
+                      color='black'
+                      weight={600}
+                      coin={listingToCancel?.payment_token_contract?.symbol}
+                    >
+                      {listingToCancel?.base_price}
+                    </CoinDisplay>
+                    &nbsp;-&nbsp;
+                    <FiatDisplay
+                      size='12px'
+                      color='grey600'
+                      weight={600}
+                      coin={listingToCancel?.payment_token_contract?.symbol}
+                    >
+                      {listingToCancel?.base_price}
+                    </FiatDisplay>
+                  </div>
+                </Value>
+              </CTARow>
+              <CancelListingFees {...props} />
               {orderFlow.fees.cata({
                 Failure: () => (
                   <Text size='14px' weight={600}>
                     <FormattedMessage
                       id='copy.no_active_offers'
-                      defaultMessage='Error. You may not have any active offers for this asset.'
+                      defaultMessage='Error. You may not have any active listings for this asset.'
                     />
                   </Text>
                 ),
                 Loading: () => null,
                 NotAsked: () => null,
                 Success: (val) =>
-                  offerToCancel ? (
+                  listingToCancel ? (
                     <Button
                       jumbo
                       nature='primary'
                       fullwidth
-                      data-e2e='cancelOfferNft'
+                      data-e2e='cancelListingNft'
                       disabled={disabled}
-                      onClick={() => nftActions.cancelOffer({ gasData: val, order: offerToCancel })}
+                      onClick={() =>
+                        nftActions.cancelListing({ gasData: val, order: listingToCancel })
+                      }
                     >
                       {props.orderFlow.isSubmitting ? (
                         <HeartbeatLoader color='blue100' height='20px' width='20px' />
                       ) : (
-                        <FormattedMessage id='copy.cancel_offer' defaultMessage='Cancel Offer' />
+                        <FormattedMessage
+                          id='copy.cancel_listing'
+                          defaultMessage='Cancel Listing'
+                        />
                       )}
                     </Button>
                   ) : (
                     <Text size='14px' weight={600}>
                       <FormattedMessage
-                        id='copy.no_active_offers_listings'
-                        defaultMessage='Error. You may not have any active offers for this asset.'
+                        id='copy.no_active_listings'
+                        defaultMessage='Error. You may not have any active listings for this asset.'
                       />
                     </Text>
                   )
@@ -111,4 +144,4 @@ const CancelOffer: React.FC<Props> = (props) => {
 
 type Props = OwnProps
 
-export default CancelOffer
+export default CancelListing

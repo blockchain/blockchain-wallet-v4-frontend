@@ -1,36 +1,36 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { connect, ConnectedProps } from 'react-redux'
-import { compose } from 'redux'
-import { Field, reduxForm } from 'redux-form'
 
-import { GasCalculationOperations } from '@core/network/api/nfts/types'
 import { Button, HeartbeatLoader, Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import CoinDisplay from 'components/Display/CoinDisplay'
+import FiatDisplay from 'components/Display/FiatDisplay'
 import { Row, Title, Value } from 'components/Flyout/model'
-import { Form, TextBox } from 'components/Form'
-import { selectors } from 'data'
 import { NftOrderStepEnum } from 'data/components/nfts/types'
-import { required, validEthAddress } from 'services/forms'
+import { RootState } from 'data/rootReducer'
 
-import { AssetDesc, FullAssetImage, StickyCTA } from '../../components'
+import { AssetDesc, CTARow, FullAssetImage, StickyCTA } from '../../components'
 import { Props as OwnProps } from '..'
-import TransferFees from '../ShowAsset/Transfer/fees'
+import AcceptOfferFees from './fees'
+import { getData } from './selectors'
 
-const Transfer: React.FC<Props> = (props) => {
-  const { close, formValues, nftActions, orderFlow } = props
-
-  const disabled = formValues ? !formValues.to || props.orderFlow.isSubmitting : true
+const AcceptOffer: React.FC<Props> = (props) => {
+  const { close, data, nftActions } = props
 
   return (
     <>
-      {orderFlow.asset.cata({
+      {data.cata({
         Failure: (e) => <Text>{e}</Text>,
         Loading: () => (
           <AssetDesc>
             <SpinningLoader width='14px' height='14px' borderWidth='3px' />
           </AssetDesc>
         ),
-        NotAsked: () => null,
+        NotAsked: () => (
+          <AssetDesc>
+            <SpinningLoader width='14px' height='14px' borderWidth='3px' />
+          </AssetDesc>
+        ),
         Success: (val) => (
           <>
             <div style={{ position: 'relative' }}>
@@ -48,14 +48,14 @@ const Transfer: React.FC<Props> = (props) => {
                 role='button'
                 style={{ position: 'absolute', right: '40px', top: '40px' }}
               />
-              <FullAssetImage cropped backgroundImage={val?.image_url.replace(/=s\d*/, '')} />
+              <FullAssetImage cropped backgroundImage={val.asset.image_url.replace(/=s\d*/, '')} />
             </div>
             <AssetDesc>
               <Text size='16px' color='grey900' weight={600}>
-                {val?.collection?.name}
+                {val.asset.collection?.name}
               </Text>
               <Text style={{ marginTop: '4px' }} size='20px' color='grey900' weight={600}>
-                {val?.name}
+                {val.asset.name}
               </Text>
             </AssetDesc>
             <Row>
@@ -63,36 +63,39 @@ const Transfer: React.FC<Props> = (props) => {
                 <FormattedMessage id='copy.description' defaultMessage='Description' />
               </Title>
               <Value>
-                {val?.description || (
+                {val.asset.description || (
                   <FormattedMessage id='copy.none_found' defaultMessage='None found.' />
                 )}
               </Value>
             </Row>
-            <Form>
-              <Row>
-                <Title>
-                  <b>
-                    <FormattedMessage id='copy.to' defaultMessage='To' />
-                  </b>
+            <StickyCTA>
+              <CTARow>
+                <Title style={{ display: 'flex' }}>
+                  <FormattedMessage id='copy.offer' defaultMessage='Offer' />
                 </Title>
                 <Value>
-                  <Field
-                    onChange={(e) =>
-                      props.nftActions.fetchFees({
-                        asset: val,
-                        operation: GasCalculationOperations.Transfer,
-                        to: e.target.value
-                      })
-                    }
-                    name='to'
-                    component={TextBox}
-                    validate={[required, validEthAddress]}
-                  />
+                  <div style={{ display: 'flex' }}>
+                    <CoinDisplay
+                      size='14px'
+                      color='black'
+                      weight={600}
+                      coin={val.matchingOrder.buy.paymentTokenContract?.symbol}
+                    >
+                      {val.matchingOrder.buy.basePrice}
+                    </CoinDisplay>
+                    &nbsp;-&nbsp;
+                    <FiatDisplay
+                      size='12px'
+                      color='grey600'
+                      weight={600}
+                      coin={val.matchingOrder.buy.paymentTokenContract?.symbol}
+                    >
+                      {val.matchingOrder.buy.basePrice}
+                    </FiatDisplay>
+                  </div>
                 </Value>
-              </Row>
-            </Form>
-            <StickyCTA>
-              <TransferFees {...props} asset={val} />
+              </CTARow>
+              <AcceptOfferFees {...props} />
               {props.orderFlow.fees.cata({
                 Failure: (e) => (
                   <>
@@ -103,14 +106,14 @@ const Transfer: React.FC<Props> = (props) => {
                     >
                       {e}
                     </Text>
-                    <Button jumbo nature='sent' fullwidth data-e2e='sellNft' disabled>
-                      <FormattedMessage id='copy.transfer' defaultMessage='Transfer' />
+                    <Button jumbo nature='sent' fullwidth data-e2e='n/a' disabled>
+                      <FormattedMessage id='copy.transfer' defaultMessage='Accept Offer' />
                     </Button>
                   </>
                 ),
                 Loading: () => (
-                  <Button jumbo nature='primary' fullwidth data-e2e='sellNft' disabled>
-                    <FormattedMessage id='copy.transfer' defaultMessage='Transfer' />
+                  <Button jumbo nature='primary' fullwidth data-e2e='n/a' disabled>
+                    <FormattedMessage id='copy.transfer' defaultMessage='Accept Offer' />
                   </Button>
                 ),
                 NotAsked: () => null,
@@ -119,21 +122,20 @@ const Transfer: React.FC<Props> = (props) => {
                     jumbo
                     nature='primary'
                     fullwidth
-                    data-e2e='transferNft'
-                    disabled={disabled}
+                    data-e2e='acceptNftOffer'
+                    disabled={props.orderFlow.isSubmitting}
                     type='submit'
                     onClick={() =>
-                      nftActions.createTransfer({
-                        asset: val,
+                      nftActions.acceptOffer({
                         gasData: fees,
-                        to: formValues.to
+                        ...val.matchingOrder
                       })
                     }
                   >
                     {props.orderFlow.isSubmitting ? (
                       <HeartbeatLoader color='blue100' height='20px' width='20px' />
                     ) : (
-                      <FormattedMessage id='copy.transfer' defaultMessage='Transfer' />
+                      <FormattedMessage id='copy.accept_offer' defaultMessage='Accept Offer' />
                     )}
                   </Button>
                 )
@@ -146,19 +148,12 @@ const Transfer: React.FC<Props> = (props) => {
   )
 }
 
-const mapStateToProps = (state) => ({
-  formValues: selectors.form.getFormValues('nftTransfer')(state) as { to: string }
+const mapStateToProps = (state: RootState) => ({
+  data: getData(state)
 })
 
 const connector = connect(mapStateToProps)
 
-const enhance = compose(
-  reduxForm<{}, OwnProps>({
-    form: 'nftTransfer'
-  }),
-  connector
-)
-
 type Props = OwnProps & ConnectedProps<typeof connector>
 
-export default enhance(Transfer) as React.FC<OwnProps>
+export default connector(AcceptOffer)
