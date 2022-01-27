@@ -9,27 +9,32 @@ import * as S from './selectors'
 export default () => {
   const pingManifestFile = function* () {
     try {
-      const domains = (yield select(selectors.core.walletOptions.getDomains)).getOrElse({
-        comWalletApp: 'https://login.blockchain.com'
-      })
-      const response = yield fetch(domains.comWalletApp)
-      const raw = yield response.text()
-      const nextManifest = raw.match(/manifest\.\d*.js/)[0]
+      // only ping manifest if window is active
+      if (!window.document.hidden || window.document.visibilityState === 'visible') {
+        const domains = (yield select(selectors.core.walletOptions.getDomains)).getOrElse({
+          comWalletApp: 'https://login.blockchain.com'
+        })
+        const response = yield fetch(domains.comWalletApp)
+        const raw = yield response.text()
+        const nextManifest = raw.match(/manifest\.\d*.js/)[0]
 
-      const currentManifest = yield select(S.getManifest)
+        const currentManifest = yield select(S.getManifest)
 
-      if (currentManifest && nextManifest !== currentManifest) {
-        yield put(actions.modals.showModal(ModalName.NEW_VERSION_AVAILABLE, { origin: 'Unknown' }))
-      }
+        if (currentManifest && nextManifest !== currentManifest) {
+          yield put(
+            actions.modals.showModal(ModalName.NEW_VERSION_AVAILABLE, { origin: 'Unknown' })
+          )
+        }
 
-      if (!currentManifest) {
-        yield put(actions.misc.setManifestFile(nextManifest))
+        if (!currentManifest) {
+          yield put(actions.misc.setManifestFile(nextManifest))
+        }
       }
     } catch (e) {
       // ignore error, wallet failed to fetch happens rarely
     }
 
-    yield delay(10_000)
+    yield delay(15_000) // 15 second ping intervals
     yield put(actions.misc.pingManifestFile())
   }
 
