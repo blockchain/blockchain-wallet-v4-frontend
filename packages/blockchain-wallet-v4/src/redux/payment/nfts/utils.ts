@@ -1065,7 +1065,7 @@ export async function _makeSellOrder({
   quantity: number
   startAmount: number
   waitForHighestBid: boolean
-}): Promise<any> {
+}): Promise<UnhashedOrder> {
   // todo: re-implement this later:
   // accountAddress = validateAndFormatWalletAddress(this.web3, accountAddress)
   // const schema = _getSchema(asset.schemaName)
@@ -2012,7 +2012,9 @@ export async function _atomicMatch({
   }
   if (buy.paymentToken === NULL_ADDRESS) {
     // For some reason uses wyvern contract for calculating the max price?.. update if needed from basePrice => max price
-    const fee = sell.takerRelayerFee.div(INVERSE_BASIS_POINT).times(sell.basePrice)
+    let fee = sell.takerRelayerFee.div(INVERSE_BASIS_POINT).times(sell.basePrice)
+    fee = typeof fee === 'string' ? new BigNumber(fee) : fee
+    // @ts-ignore: BigNumber is guaranteed
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     value = sell.basePrice.plus(fee)
   }
