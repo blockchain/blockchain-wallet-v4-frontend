@@ -7,7 +7,7 @@ export default ({ apiUrl, get, openseaApi, post }) => {
   const IS_TESTNET = openseaApi && openseaApi.includes('rinkeby')
 
   const ethProvider = IS_TESTNET
-    ? new ethers.providers.EtherscanProvider('rinkeby', 'X4TZ5S2F3MPD3TBTMZ3JDGVKC79472VPPC')
+    ? new ethers.providers.EtherscanProvider('rinkeby')
     : ethers.providers.getDefaultProvider(`${apiUrl}/eth/nodes/rpc`)
   //
   // Deprecate
