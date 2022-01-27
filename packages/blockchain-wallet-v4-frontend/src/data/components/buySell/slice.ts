@@ -416,7 +416,10 @@ const buySellSlice = createSlice({
     ) => {},
     handleMethodChange: (
       state,
-      action: PayloadAction<{ isFlow?: boolean; method: BSPaymentMethodType }>
+      action: PayloadAction<{
+        isFlow?: boolean
+        method: BSPaymentMethodType
+      }>
     ) => {},
     handleSellMaxAmountClick: (
       state,

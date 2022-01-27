@@ -1119,12 +1119,13 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     yield put(actions.form.change(FORM_BS_CHECKOUT, 'amount', standardAmt))
   }
 
-  const handleBSMethodChange = function* ({ payload }: ReturnType<typeof A.handleMethodChange>) {
+  const handleBSMethodChange = function* ({
+    payload: { isFlow, method }
+  }: ReturnType<typeof A.handleMethodChange>) {
     const values: T.BSCheckoutFormValuesType = yield select(
       selectors.form.getFormValues(FORM_BS_CHECKOUT)
     )
 
-    const { isFlow, method } = payload
     const cryptoCurrency = S.getCryptoCurrency(yield select()) || 'BTC'
     const originalFiatCurrency = S.getFiatCurrency(yield select())
     // At this point fiatCurrency should be set inside buy/sell flow - fallback to USD

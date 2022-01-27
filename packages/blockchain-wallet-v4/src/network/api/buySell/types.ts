@@ -111,13 +111,17 @@ export type BSPairType = {
 }
 
 export enum BSPaymentTypes {
-  APPLE_PAY = 'APPLE_PAY',
   BANK_ACCOUNT = 'BANK_ACCOUNT',
   BANK_TRANSFER = 'BANK_TRANSFER',
   FUNDS = 'FUNDS',
   LINK_BANK = 'LINK_BANK',
   PAYMENT_CARD = 'PAYMENT_CARD',
   USER_CARD = 'USER_CARD'
+}
+
+export enum MobilePaymentTypes {
+  APPLE_PAY = 'apple_pay',
+  GOOGLE_PAY = 'google_pay'
 }
 
 export type BSPaymentMethodType = {
@@ -134,6 +138,7 @@ export type BSPaymentMethodType = {
     max: string
     min: string
   }
+  mobilePayment?: MobilePaymentTypes[]
   state?: 'ACTIVE' | Exclude<BSCardStateType, 'ACTIVE'>
   subTypes?: [] | [CardNameType]
   type: BSPaymentTypes

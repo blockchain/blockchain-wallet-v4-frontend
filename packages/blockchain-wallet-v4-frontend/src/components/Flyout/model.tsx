@@ -711,8 +711,8 @@ const getIcon = (
       return <Image name={getBankLogoImageName(method.details?.bankName)} height='48px' />
     case BSPaymentTypes.BANK_ACCOUNT:
       return <Icon name='bank-filled' color='blue600' />
-    case BSPaymentTypes.APPLE_PAY:
-      return <ApplePayIcon />
+    // case BSPaymentTypes.APPLE_PAY:
+    //   return <ApplePayIcon />
     default:
       return <></>
   }
@@ -756,9 +756,9 @@ const getText = (
     )
   }
 
-  if (method.type === BSPaymentTypes.APPLE_PAY) {
-    return <DisplayValue>Apple Pay</DisplayValue>
-  }
+  // if (method.type === BSPaymentTypes.APPLE_PAY) {
+  //   return <DisplayValue>Apple Pay</DisplayValue>
+  // }
 
   return method.type === BSPaymentTypes.USER_CARD
     ? renderCard(method)

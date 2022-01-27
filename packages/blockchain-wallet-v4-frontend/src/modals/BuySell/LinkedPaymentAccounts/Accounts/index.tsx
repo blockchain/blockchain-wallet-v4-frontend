@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import {
   BSPaymentMethodType,
   BSPaymentTypes,
+  MobilePaymentTypes,
   OrderType,
   WalletCurrencyType,
   WalletFiatEnum
@@ -244,7 +245,9 @@ const Accounts = (props: Props) => {
   }))
 
   const applePay = defaultMethods.find(
-    (method) => method.value.type === BSPaymentTypes.APPLE_PAY && orderType === OrderType.BUY
+    (method) =>
+      method.value.mobilePayment?.includes(MobilePaymentTypes.APPLE_PAY) &&
+      orderType === OrderType.BUY
   )
 
   const availableMethods = funds.length || cardMethods.length || bankMethods.length || !!applePay

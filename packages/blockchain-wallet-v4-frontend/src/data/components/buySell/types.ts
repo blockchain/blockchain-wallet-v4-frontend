@@ -14,6 +14,7 @@ import type {
   Everypay3DSResponseType,
   FiatEligibleType,
   FiatType,
+  MobilePaymentTypes,
   NabuAddressType,
   PaymentValue,
   ProviderDetailsType,
@@ -192,6 +193,7 @@ export type StepActionsPayload =
       order?: BSOrderType
       orderType?: BSOrderActionType
       pair: BSPairType
+      selectedMobilePayment?: MobilePaymentTypes
       step: 'ENTER_AMOUNT' | 'VERIFY_EMAIL'
       swapAccount?: SwapAccountType
     }

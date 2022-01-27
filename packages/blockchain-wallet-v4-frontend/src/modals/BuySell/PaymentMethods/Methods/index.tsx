@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import {
   BSPaymentMethodType,
   BSPaymentTypes,
+  MobilePaymentTypes,
   OrderType,
   WalletCurrencyType,
   WalletFiatEnum
@@ -173,7 +174,9 @@ const Methods = (props: Props) => {
     (method) => method.value.type === BSPaymentTypes.BANK_TRANSFER && orderType === OrderType.BUY
   )
   const applePay = defaultMethods.find(
-    (method) => method.value.type === BSPaymentTypes.APPLE_PAY && orderType === OrderType.BUY
+    (method) =>
+      method.value.mobilePayment?.includes(MobilePaymentTypes.APPLE_PAY) &&
+      orderType === OrderType.BUY
   )
 
   const cardMethods = availableCards.map((card) => ({
