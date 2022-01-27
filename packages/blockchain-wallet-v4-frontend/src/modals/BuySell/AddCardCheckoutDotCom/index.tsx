@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
 
+import { Remote } from '@core'
 import { BSPairType, CoinType, WalletOptionsType } from '@core/types'
 import DataError from 'components/DataError'
 import { actions, selectors } from 'data'
@@ -58,6 +59,12 @@ const AddCardCheckoutDotCom = (props: Props) => {
     return () => window.removeEventListener('message', handlePostMessage, false)
   })
 
+  useEffect(() => {
+    if (props.fiatCurrency && !Remote.Success.is(props.data)) {
+      props.buySellActions.fetchFiatEligible(props.fiatCurrency)
+    }
+  }, [])
+
   if (isError) {
     return <DataError />
   }
@@ -82,7 +89,11 @@ const AddCardCheckoutDotCom = (props: Props) => {
           domain={`${props.domains.walletHelper}/wallet-helper/checkoutdotcom/#/add-card/${props.checkoutDotComApiKey}`}
         />
       ) : (
-        <Unsupported handleClose={props.handleClose} />
+        <Unsupported
+          handleClose={props.handleClose}
+          paymentAccountEligible={val.eligibility?.eligible}
+          fiatCurrency={props.fiatCurrency}
+        />
       )
     }
   })

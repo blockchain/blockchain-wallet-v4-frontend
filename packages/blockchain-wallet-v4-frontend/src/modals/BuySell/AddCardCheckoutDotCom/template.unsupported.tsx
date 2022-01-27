@@ -2,6 +2,7 @@ import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 
+import { FiatType } from '@core/types'
 import { Button, Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 
@@ -38,10 +39,12 @@ const SubContent = styled(Text)`
 `
 
 type Props = {
+  fiatCurrency: FiatType
   handleClose: () => void
+  paymentAccountEligible: boolean
 }
 
-const Unsupported = ({ handleClose }: Props) => {
+const Unsupported = ({ fiatCurrency, handleClose, paymentAccountEligible }: Props) => {
   return (
     <Top>
       <CloseIcon
@@ -61,14 +64,40 @@ const Unsupported = ({ handleClose }: Props) => {
         />
         <Title color='grey800' size='20px' weight={600}>
           <FormattedMessage
-            id='modals.simplebuy.add_card.unsupported-title'
-            defaultMessage='Adding Payment Coming Soon for your region.'
-          />
+            id='modals.simplebuy.unsupported-title'
+            defaultMessage='Buy Crypto Coming Soon for'
+          />{' '}
+          {paymentAccountEligible ? (
+            fiatCurrency
+          ) : (
+            <FormattedMessage
+              id='modals.simplebuy.fiataccountineligible'
+              defaultMessage='your region.'
+            />
+          )}
         </Title>
         <SubContent color='grey600' weight={500}>
+          {paymentAccountEligible ? (
+            <>
+              <FormattedMessage
+                id='modals.simplebuy.unsupported-subcontent'
+                defaultMessage="Currently we don't support buying crypto with {currency}."
+                values={{
+                  currency: fiatCurrency
+                }}
+              />
+            </>
+          ) : (
+            <>
+              <FormattedMessage
+                id='modals.simplebuy.unsupported-subcontent-1'
+                defaultMessage="Well this is awkward. We don't support buying crypto yet for your region."
+              />
+            </>
+          )}
           <FormattedMessage
-            id='modals.simplebuy.add_card.unsupported-subcontent'
-            defaultMessage="Well this is awkward. We don't support adding payment method yet for your region."
+            id='modals.simplebuy.unsupported-subcontent-2'
+            defaultMessage="We'll send you an update when we do."
           />
         </SubContent>
         <Button
