@@ -9,6 +9,7 @@ import { RootState } from 'data/rootReducer'
 
 import { getData } from './selectors'
 import Success from './template.success'
+import Unsupported from './template.unsupported'
 
 const AddCardCheckoutDotCom = (props: Props) => {
   const [isError, setError] = useState(false)
@@ -67,13 +68,23 @@ const AddCardCheckoutDotCom = (props: Props) => {
     ),
     Loading: () => null,
     NotAsked: () => null,
-    Success: (val) => (
-      <Success
-        {...props}
-        {...val}
-        domain={`${props.domains.walletHelper}/wallet-helper/checkoutdotcom/#/add-card/${props.checkoutDotComApiKey}`}
-      />
-    )
+    Success: (val) => {
+      const isUserEligible =
+        val.paymentMethods.methods.length &&
+        val.paymentMethods.methods.find(
+          (method) => method.limits?.max !== '0' && method.currency === props.fiatCurrency
+        )
+
+      return isUserEligible ? (
+        <Success
+          {...props}
+          {...val}
+          domain={`${props.domains.walletHelper}/wallet-helper/checkoutdotcom/#/add-card/${props.checkoutDotComApiKey}`}
+        />
+      ) : (
+        <Unsupported handleClose={props.handleClose} />
+      )
+    }
   })
 }
 

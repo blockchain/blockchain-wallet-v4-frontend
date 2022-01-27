@@ -1546,6 +1546,8 @@ type MessagesType = {
   'modals.simplebuy.add_card.billing_address': 'Billing Address'
   'modals.simplebuy.add_card.residential_address': 'Same as Residential Address'
   'modals.simplebuy.add_card.pricacy_disclaimer': 'Privacy protected with 256-Bit SSL encryption.'
+  'modals.simplebuy.add_card.unsupported-title': 'Adding Payment Coming Soon for your region.'
+  'modals.simplebuy.add_card.unsupported-subcontent': "Well this is awkward. We don't support adding payment method yet for your region."
   'modals.simplebuy.fetching_methods': 'Loading Payment Options...'
   'modals.simplebuy.billing_address': 'Billing Address'
   'modals.simplebuy.canceled': 'Trade Canceled'
