@@ -1556,6 +1556,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const { product } = payload
     try {
       yield put(A.fetchAccumulatedTradesLoading())
+      yield call(waitForUserData)
       const accumulatedTradesResponse: ReturnType<typeof api.getAccumulatedTrades> = yield call(
         api.getAccumulatedTrades,
         product
