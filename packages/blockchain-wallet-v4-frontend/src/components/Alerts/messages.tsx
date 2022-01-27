@@ -504,8 +504,8 @@ const getAlertContent = (message, data = undefined) => {
     case C.MOBILE_LOGIN_ERROR:
       return buildMessageTemplate(
         <FormattedMessage
-          id='components.alerts.mobile_login_error'
-          defaultMessage='Error logging into your wallet'
+          id='components.alerts.mobile_login_account_error'
+          defaultMessage='Error logging into your account'
         />
       )
     case C.MOBILE_LOGIN_ERROR_QRCODE_EXPIRED:
@@ -560,8 +560,8 @@ const getAlertContent = (message, data = undefined) => {
     case C.NEW_WALLET_CREATE_ERROR:
       return buildMessageTemplate(
         <FormattedMessage
-          id='components.alerts.new_wallet_create_error'
-          defaultMessage='Failed to create new wallet'
+          id='components.alerts.new_account_create_error'
+          defaultMessage='Failed to create new account'
         />
       )
     case C.NEW_ADDRESS_GENERATE_ERROR:
@@ -574,8 +574,8 @@ const getAlertContent = (message, data = undefined) => {
     case C.NEW_WALLET_CREATE_SUCCESS:
       return buildMessageTemplate(
         <FormattedMessage
-          id='components.alerts.new_wallet_create_success'
-          defaultMessage='Successfully created new wallet'
+          id='components.alerts.new_account_create_success'
+          defaultMessage='Successfully created new account'
         />
       )
     case C.PAYMENT_RECEIVED_BCH:
@@ -630,8 +630,8 @@ const getAlertContent = (message, data = undefined) => {
     case C.PLEASE_LOGIN:
       return buildMessageTemplate(
         <FormattedMessage
-          id='components.alerts.please_login'
-          defaultMessage='Please login to your wallet to proceed'
+          id='components.alerts.please_login_account'
+          defaultMessage='Please login to your account to proceed'
         />
       )
     case C.PLEASE_TRY_AGAIN:
@@ -672,15 +672,15 @@ const getAlertContent = (message, data = undefined) => {
     case C.REGISTER_ERROR:
       return buildMessageTemplate(
         <FormattedMessage
-          id='components.alerts.register_error'
-          defaultMessage='Wallet could not be created'
+          id='components.alerts.register_account_error'
+          defaultMessage='Account could not be created'
         />
       )
     case C.REGISTER_SUCCESS:
       return buildMessageTemplate(
         <FormattedMessage
-          id='components.alerts.register_successful'
-          defaultMessage='Wallet successfully created'
+          id='components.alerts.register_account_successful'
+          defaultMessage='Account successfully created'
         />
       )
     case C.RENAME_BCH_WALLET_ERROR:
@@ -722,22 +722,22 @@ const getAlertContent = (message, data = undefined) => {
     case C.RESTORE_ERROR:
       return buildMessageTemplate(
         <FormattedMessage
-          id='components.alerts.restore_error'
-          defaultMessage='Error restoring your wallet'
+          id='components.alerts.restore_account_error'
+          defaultMessage='Error restoring your account'
         />
       )
     case C.RESTORE_SUCCESS:
       return buildMessageTemplate(
         <FormattedMessage
-          id='components.alerts.restore_success'
-          defaultMessage='Your wallet has been successfully restored'
+          id='components.alerts.restore_account_success'
+          defaultMessage='Your account has been successfully restored'
         />
       )
     case C.RESTORE_WALLET_INFO:
       return buildMessageTemplate(
         <FormattedMessage
-          id='components.alerts.restore_wallet_info'
-          defaultMessage='Restoring wallet...'
+          id='components.alerts.restore_account_info'
+          defaultMessage='Restoring account...'
         />
       )
     case C.SECOND_PASSWORD_INVALID_ERROR:
@@ -1013,8 +1013,8 @@ const getAlertContent = (message, data = undefined) => {
     case C.WALLET_UPGRADE_ERROR:
       return buildMessageTemplate(
         <FormattedMessage
-          id='components.alerts.wallet_upgrade_error'
-          defaultMessage='Failed to upgrade to HD and save wallet.'
+          id='components.alerts.account_upgrade_error'
+          defaultMessage='Failed to upgrade to HD and save account.'
         />
       )
     case C.YUBIKEY_VERIFY_ERROR:
