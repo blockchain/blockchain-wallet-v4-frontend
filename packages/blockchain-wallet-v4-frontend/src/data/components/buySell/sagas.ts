@@ -443,12 +443,14 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
       }
 
       let buyOrder: BSOrderType
+      let oldBuyOrder: BSOrderType | undefined
 
-      // TODO: WIP
+      // This code is handles refreshing the buy order when the user sits on
+      // the order confirmation screen.
       if (isFlexiblePricingModel) {
         while (true) {
           // get the current order, if any
-          const oldBuyOrder = S.getBSOrder(yield select())
+          const currentBuyQuote = S.getBuyQuote(yield select()).getOrFail(NO_QUOTE)
 
           buyOrder = yield call(
             api.createBSOrder,
@@ -460,25 +462,31 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             paymentType,
             period,
             paymentMethodId,
-            buyQuote?.quote?.quoteId
+            currentBuyQuote.quote.quoteId
           )
 
-          // first time creating the order
+          // first time creating the order when the user submits the enter amount form
           if (!oldBuyOrder) {
             yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT))
             yield put(A.fetchOrders())
             yield put(A.setStep({ order: buyOrder, step: 'CHECKOUT_CONFIRM' }))
-          }
-
-          // create a new order when the quote expires and cancel the existing order and
-          if (oldBuyOrder) {
+          } else {
+            // when the quote expires and a new order is created, set it it in redux and cancel the old order
             yield put(A.fetchOrders())
             yield put(A.setStep({ order: buyOrder, step: 'CHECKOUT_CONFIRM' }))
-            yield put(A.cancelOrder(oldBuyOrder))
+            yield call(api.cancelBSOrder, oldBuyOrder)
           }
 
-          // execute while loop when quote expires and successfully fetches the new quote
+          oldBuyOrder = buyOrder
+
+          // pause the while loop here until if/when the quote expires again, then refresh the order
           yield take(A.fetchBuyQuoteSuccess)
+          // need to get curren step and break if not checkout confirm
+          // usually happens when the user goes back to the enter amount form
+          const currentStep = S.getStep(yield select())
+          if (currentStep !== 'CHECKOUT_CONFIRM') {
+            break
+          }
         }
       } else {
         buyOrder = yield call(
@@ -999,7 +1007,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         )
 
         yield put(A.fetchSellQuoteSuccess({ quote, rate }))
-        const refresh = -moment().diff(quote.expiresAt)
+        const refresh = -moment().add(10, 'seconds').diff(quote.expiresAt)
         yield delay(refresh)
       } catch (e) {
         const error = errorHandler(e)
