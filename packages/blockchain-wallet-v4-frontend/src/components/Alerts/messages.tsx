@@ -1013,7 +1013,7 @@ const getAlertContent = (message, data = undefined) => {
     case C.WALLET_UPGRADE_ERROR:
       return buildMessageTemplate(
         <FormattedMessage
-          id='components.alerts.account_upgrade_error'
+          id='components.alerts.wallet_upgrade_error'
           defaultMessage='Failed to upgrade and save account.'
         />
       )
