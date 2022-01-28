@@ -326,7 +326,7 @@ export default ({ api, networks }) => {
     const wallet = yield select(S.getWallet)
     const accounts = Wallet.selectHDAccounts(wallet)
     const accountsWithMissingDerivations = accounts
-      .filter((acct) => acct.derivations.size === 0)
+      .filter((acct) => acct.derivations.size !== 2)
       .toJS()
 
     return accountsWithMissingDerivations
