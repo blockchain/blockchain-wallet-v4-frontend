@@ -76,7 +76,7 @@ export const parseMagicLink = function* () {
     if (productAuth === ProductAuthOptions.WALLET) {
       if (session !== session_id && shouldPollForMagicLinkData) {
         // TODO: question for merge, do we need the next line?
-        yield put(actions.auth.authorizeVerifyDevice())
+        yield put(actions.auth.authorizeVerifyDevice(undefined))
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.VERIFY_MAGIC_LINK))
       } else {
         // grab all the data from the JSON wallet data
@@ -101,7 +101,7 @@ export const parseMagicLink = function* () {
     if (productAuth === ProductAuthOptions.EXCHANGE) {
       if (session !== session_id && shouldPollForMagicLinkData) {
         // TODO: question for merge, do we need the next line?
-        yield put(actions.auth.authorizeVerifyDevice())
+        yield put(actions.auth.authorizeVerifyDevice(true))
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.VERIFY_MAGIC_LINK))
       } else {
         // set state with all exchange login information
