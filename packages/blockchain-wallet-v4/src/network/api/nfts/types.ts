@@ -176,6 +176,20 @@ export interface OpenSeaAssetContract extends OpenSeaFees {
   wikiLink?: string
 }
 
+export interface OpenSeaStatus {
+  page: {
+    id: string
+    name: string
+    time_zone: string
+    updated_at: string
+    url: string
+  }
+  status: {
+    description: string
+    indicator: string
+  }
+}
+
 export interface ComputedFees extends OpenSeaFees {
   // Fees that go to whoever refers the order to the taker.
   // Comes out of OpenSea fees

@@ -133,6 +133,14 @@ export default ({ apiUrl, get, post }) => {
     })
   }
 
+  const getOpenseaStatus = () => {
+    return get({
+      endPoint: `/status`,
+      ignoreQueryParams: true,
+      url: `${explorerUrl}`
+    })
+  }
+
   const postNftOrder = (order) => {
     return post({
       contentType: 'application/json',
@@ -154,6 +162,7 @@ export default ({ apiUrl, get, post }) => {
     getNftOrders,
     getNftRecentEvents,
     getOffersMade,
+    getOpenseaStatus,
     postNftOrder,
     searchNftCollectionInfo
   }

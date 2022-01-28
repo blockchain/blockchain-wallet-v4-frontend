@@ -12,6 +12,7 @@ import {
   NftOrder,
   NftOrdersType,
   OfferEventsType,
+  OpenSeaStatus,
   RawOrder
 } from '@core/network/api/nfts/types'
 import { calculateGasFees } from '@core/redux/payment/nfts'
@@ -59,7 +60,22 @@ const initialState: NftsStateType = {
     matchingOrder: Remote.NotAsked,
     offerToCancel: null,
     step: NftOrderStepEnum.SHOW_ASSET
-  }
+  },
+  sellOrder: Remote.NotAsked,
+  status: {
+    page: {
+      id: '',
+      name: '',
+      time_zone: '',
+      updated_at: '',
+      url: ''
+    },
+    status: {
+      description: '',
+      indicator: ''
+    }
+  },
+  transfer: Remote.NotAsked
 }
 
 const nftsSlice = createSlice({
@@ -235,6 +251,13 @@ const nftsSlice = createSlice({
       state.marketplace.isFailure = false
       state.marketplace.isLoading = false
       state.marketplace.list = [...state.marketplace.list, ...action.payload]
+    },
+    fetchOpenseaStatus: () => {},
+    fetchOpenseaStatusFailure: (state, action: PayloadAction<OpenSeaStatus>) => {
+      state.status = Remote.Failure(action.payload)
+    },
+    fetchOpenseaStatusSuccess: (state, action: PayloadAction<OpenSeaStatus>) => {
+      state.status = Remote.Success(action.payload)
     },
     nftOrderFlowClose: (state) => {
       state.orderFlow.step = NftOrderStepEnum.SHOW_ASSET

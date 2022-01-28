@@ -60,4 +60,19 @@ export type NftsStateType = {
     offerToCancel: RawOrder | null
     step: NftOrderStepEnum
   }
+  sellOrder: RemoteDataType<string, boolean>
+  status: {
+    page: {
+      id: string
+      name: string
+      time_zone: string
+      updated_at: string
+      url: string
+    }
+    status: {
+      description: string
+      indicator: string
+    }
+  }
+  transfer: RemoteDataType<string, boolean>
 }
