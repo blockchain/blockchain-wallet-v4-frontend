@@ -361,6 +361,9 @@ const nftsSlice = createSlice({
     setOffersMadeData: (state, action: PayloadAction<{ page?: number }>) => {
       state.offersMade.page = action.payload.page || 0
     },
+    setOpenSeaStatus: (state, action: PayloadAction<OpenSeaStatus>) => {
+      state.status = action.payload
+    },
     setOrderFlowIsSubmitting: (state, action: PayloadAction<boolean>) => {
       state.orderFlow.isSubmitting = action.payload
     },

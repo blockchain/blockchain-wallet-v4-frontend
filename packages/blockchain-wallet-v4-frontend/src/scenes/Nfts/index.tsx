@@ -44,7 +44,8 @@ const mapStateToProps = (state: RootState) => ({
   defaultEthAddr: selectors.core.kvStore.eth.getDefaultAddress(state).getOrElse(''),
   formValues: selectors.form.getFormValues('nftMarketplace')(state),
   marketplace: selectors.components.nfts.getMarketplace(state),
-  offersMade: selectors.components.nfts.getOffersMade(state)
+  offersMade: selectors.components.nfts.getOffersMade(state),
+  openSeaStatus: selectors.components.nfts.getOpenseaStatus(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

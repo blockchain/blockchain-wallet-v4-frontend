@@ -58,11 +58,13 @@ const CollectionsContainer = styled.div`
 const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = ({
   activeTab,
   nftsActions,
+  openSeaStatus,
   setActiveTab,
   ...rest
 }) => {
   const [showDropdown, setShowDropdown] = useState(false)
-
+  // @ts-ignore
+  const seaStatus = openSeaStatus?.status?.status?.description
   const handleChange = (e) => {
     rest.formActions.change('nftMarketplace', 'collection', e)
     setShowDropdown(false)
@@ -75,36 +77,38 @@ const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = ({
 
   return (
     <Wrapper>
-      <ItemWrapper>
-        <Icon name='alert' color='white' size='24px' />
-        <Text
-          style={{
-            fontFamily: 'Inter',
-            marginBottom: '1px',
-            marginLeft: '12px'
-          }}
-          color='white'
-          size='16px'
-          weight={600}
-        >
-          OpenSea is experiencing technical difficulties...
-          <Link
+      {seaStatus !== '' && seaStatus !== 'All Systems Operational' && (
+        <ItemWrapper>
+          <Icon name='alert' color='white' size='24px' />
+          <Text
             style={{
-              color: 'inherit',
               fontFamily: 'Inter',
               marginBottom: '1px',
-              marginLeft: '3px',
-              textDecoration: 'underline'
+              marginLeft: '12px'
             }}
-            weight={400}
+            color='white'
             size='16px'
-            target='_blank'
-            href='https://status.opensea.io/'
+            weight={600}
           >
-            status.opensea.io
-          </Link>
-        </Text>
-      </ItemWrapper>
+            OpenSea is experiencing technical difficulties...
+            <Link
+              style={{
+                color: 'inherit',
+                fontFamily: 'Inter',
+                marginBottom: '1px',
+                marginLeft: '3px',
+                textDecoration: 'underline'
+              }}
+              weight={400}
+              size='16px'
+              target='_blank'
+              href='https://status.opensea.io/'
+            >
+              status.opensea.io
+            </Link>
+          </Text>
+        </ItemWrapper>
+      )}
       <InnerContainer>
         <TabsContainer>
           <TabMenu>
