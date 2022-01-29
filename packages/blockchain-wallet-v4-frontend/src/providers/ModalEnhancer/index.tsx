@@ -55,7 +55,8 @@ export default (type: ModalNameType, options: OptionsType = {}) =>
           const { buySellOrder, buySellStep, cancelBSOrder } = this.props
           if (
             (buySellOrder?.paymentType === BSPaymentTypes.FUNDS ||
-              buySellOrder?.paymentType === BSPaymentTypes.PAYMENT_CARD) &&
+              buySellOrder?.paymentType === BSPaymentTypes.PAYMENT_CARD ||
+              buySellOrder?.paymentType === BSPaymentTypes.BANK_TRANSFER) &&
             buySellStep !== 'ORDER_SUMMARY'
           ) {
             cancelBSOrder(buySellOrder)
