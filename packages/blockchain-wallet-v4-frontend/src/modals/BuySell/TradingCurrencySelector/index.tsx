@@ -8,6 +8,7 @@ import { WalletFiatType } from '@core/types'
 import { Icon, Image, Text } from 'blockchain-info-components'
 import { FlyoutWrapper } from 'components/Flyout'
 import { actions, selectors } from 'data'
+import { Analytics } from 'data/types'
 
 const COINS = [
   {
@@ -113,81 +114,89 @@ const CoinItemSubtitle = styled(Text)`
   font-size: 12px;
 `
 
-const TradingCurrencySelector = (props: Props) => {
-  const { buySellActions } = props
-
-  return (
-    <div>
-      <Top>
-        <IconsContainer>
-          <CloseIconContainer>
-            <Icon
-              cursor
-              data-e2e='tradingLimitsCloseButton'
-              name='close'
-              size='20px'
-              color='grey600'
-              role='button'
-              onClick={props.handleClose}
-            />
-          </CloseIconContainer>
-        </IconsContainer>
-        <Container>
-          <Image width='32px' height='32px' name='globe' />
-          <Title color='grey800' size='20px' weight={600}>
-            <FormattedMessage
-              id='modals.simplebuy.select_trading_currency.title'
-              defaultMessage='Select a Trading Currency.'
-            />
-          </Title>
-          <SubContent color='grey600' weight={500}>
-            <FormattedMessage
-              id='modals.simplebuy.select_trading_currency.description'
-              defaultMessage='Right now, {currency} is not supported for buying crypto. You can add a bank account or card from the list of available currencies below.'
-              values={{
-                currency: props.fiatCurrency
-              }}
-            />
-          </SubContent>
-        </Container>
-      </Top>
-      <FiatCurrencies>
-        {COINS.map((coin) => (
-          <CoinItem
-            key={coin.value}
-            onClick={() => buySellActions.setFiatTradingCurrency(coin.value as WalletFiatType)}
-          >
-            <CoinDetails>
-              <CoinTitle data-e2e={coin}>{coin.title}</CoinTitle>
-              <CoinItemSubtitle>{coin.value}</CoinItemSubtitle>
-            </CoinDetails>
-            <Icon name='chevron-right' size='32px' color='grey400' />
-          </CoinItem>
-        ))}
-      </FiatCurrencies>
-
-      <DisclaimerWrapper>
-        <Text
-          color='grey600'
-          size='12px'
-          weight={500}
-          style={{ marginTop: '40px', textAlign: 'center' }}
-        >
-          <FormattedMessage
-            id='modals.simplebuy.select_trading_currency.disclaimer'
-            defaultMessage='Additional bank fees may apply. Your bank may add fee and Exchange Rates to each transaction.'
+const TradingCurrencySelector = ({
+  analyticsActions,
+  buySellActions,
+  fiatCurrency,
+  handleClose
+}: Props) => (
+  <div>
+    <Top>
+      <IconsContainer>
+        <CloseIconContainer>
+          <Icon
+            cursor
+            data-e2e='tradingLimitsCloseButton'
+            name='close'
+            size='20px'
+            color='grey600'
+            role='button'
+            onClick={handleClose}
           />
-        </Text>
-      </DisclaimerWrapper>
-    </div>
-  )
-}
+        </CloseIconContainer>
+      </IconsContainer>
+      <Container>
+        <Image width='32px' height='32px' name='globe' />
+        <Title color='grey800' size='20px' weight={600}>
+          <FormattedMessage
+            id='modals.simplebuy.select_trading_currency.title'
+            defaultMessage='Select a Trading Currency.'
+          />
+        </Title>
+        <SubContent color='grey600' weight={500}>
+          <FormattedMessage
+            id='modals.simplebuy.select_trading_currency.description'
+            defaultMessage='Right now, {currency} is not supported for buying crypto. You can add a bank account or card from the list of available currencies below.'
+            values={{
+              currency: fiatCurrency
+            }}
+          />
+        </SubContent>
+      </Container>
+    </Top>
+    <FiatCurrencies>
+      {COINS.map((coin) => (
+        <CoinItem
+          key={coin.value}
+          onClick={() => {
+            buySellActions.setFiatTradingCurrency(coin.value as WalletFiatType)
+            analyticsActions.trackEvent({
+              key: Analytics.VIEW_AND_CLICK_FIAT_CURRENCY_SELECTED,
+              properties: { currency: coin.value }
+            })
+          }}
+        >
+          <CoinDetails>
+            <CoinTitle data-e2e={coin}>{coin.title}</CoinTitle>
+            <CoinItemSubtitle>{coin.value}</CoinItemSubtitle>
+          </CoinDetails>
+          <Icon name='chevron-right' size='32px' color='grey400' />
+        </CoinItem>
+      ))}
+    </FiatCurrencies>
+
+    <DisclaimerWrapper>
+      <Text
+        color='grey600'
+        size='12px'
+        weight={500}
+        style={{ marginTop: '40px', textAlign: 'center' }}
+      >
+        <FormattedMessage
+          id='modals.simplebuy.select_trading_currency.disclaimer'
+          defaultMessage='Additional bank fees may apply. Your bank may add fee and Exchange Rates to each transaction.'
+        />
+      </Text>
+    </DisclaimerWrapper>
+  </div>
+)
 
 const mapStateToProps = (state) => ({
   fiatCurrency: selectors.components.buySell.getOriginalFiatCurrency(state)
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  analyticsActions: bindActionCreators(actions.analytics, dispatch),
   buySellActions: bindActionCreators(actions.components.buySell, dispatch)
 })
 

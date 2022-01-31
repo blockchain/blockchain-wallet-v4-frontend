@@ -3,14 +3,21 @@ import {
   Events as OnboardingAndVerificationEvents,
   TrackEventAction as OnboardingAndVerificationTrackEventAction
 } from './onboardingAndVerification'
+import {
+  AnalyticsProperties as ViewAndClickAnalyticsProperties,
+  Events as ViewAndClickEvents,
+  TrackEventAction as ViewAndClickTrackEventAction
+} from './viewAndClick'
 
 const TRACK_EVENT = 'trackEvent'
 
-type AnalyticsKey = OnboardingAndVerificationEvents
-const Analytics = OnboardingAndVerificationEvents
+type AnalyticsKey = OnboardingAndVerificationEvents | ViewAndClickEvents
+const Analytics = { ...OnboardingAndVerificationEvents, ...ViewAndClickEvents }
 
 // queevent properties
-type AnalyticsProperties = OnboardingAndVerificationAnalyticsProperties
+type AnalyticsProperties =
+  | OnboardingAndVerificationAnalyticsProperties
+  | ViewAndClickAnalyticsProperties
 
 type AnalyticsTraits = {
   email?: string
@@ -28,6 +35,6 @@ type RawEvent = {
   payload: AnalyticsValue
 }
 
-type TrackEventAction = OnboardingAndVerificationTrackEventAction
+type TrackEventAction = OnboardingAndVerificationTrackEventAction | ViewAndClickTrackEventAction
 
 export { Analytics, AnalyticsKey, AnalyticsValue, RawEvent, TRACK_EVENT, TrackEventAction }
