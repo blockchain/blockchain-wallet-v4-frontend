@@ -79,7 +79,8 @@ const AddCardCheckoutDotCom = (props: Props) => {
       const isUserEligible =
         val.paymentMethods.methods.length &&
         val.paymentMethods.methods.find(
-          (method) => method.limits?.max !== '0' && method.currency === props.fiatCurrency
+          (method) =>
+            method.limits?.max !== '0' && method.currency === props.fiatCurrency && method.eligible
         )
 
       return isUserEligible ? (
