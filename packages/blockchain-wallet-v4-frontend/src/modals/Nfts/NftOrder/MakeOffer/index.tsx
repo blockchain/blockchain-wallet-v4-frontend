@@ -88,7 +88,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                         group: '',
                         items: val.collection.payment_tokens
                           .map((token) => token.symbol)
-                          .filter((symbol) => symbol === 'WETH')
+                          .filter((symbol) => !!window.coins[symbol])
                           .map((coin) => ({
                             text: window.coins[coin].coinfig.symbol,
                             value: window.coins[coin].coinfig.symbol

@@ -42,8 +42,6 @@ export const DEFAULT_MAX_BOUNTY = DEFAULT_SELLER_FEE_BASIS_POINTS
 export const ENJIN_ADDRESS = '0xfaaFDc07907ff5120a76b34b731b278c38d6043C'
 export const ENJIN_COIN_ADDRESS = '0xf629cbd94d3791c9250152bd8dfbdf380e2a3b9c'
 export const OPENSEA_SHARED_MARKETPLACE = '0x495f947276749ce646f68ac8c248420045cb7b5e'
-export const WETH_ADDRESS = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
-export const WETH_ADDRESS_RINKEBY = '0xc778417E063141139Fce010982780140Aa0cD5Ab'
 const WYVERN_TOKEN_PAYMENT_PROXY = '0xe5c783ee536cf5e63e792988335c4255169be4e1'
 const WYVERN_TOKEN_PAYMENT_PROXY_RINKEBY = '0x82d102457854c985221249f86659c9d6cf12aa72'
 const WYVERN_CONTRACT_ADDR_RINKEBY = '0x5206e78b21Ce315ce284FB24cf05e0585A93B1d9'
@@ -671,7 +669,9 @@ export function _makeMatchingOrder({
     maker: accountAddress,
     makerProtocolFee: new BigNumber(order.makerProtocolFee),
     makerReferrerFee: new BigNumber(order.makerReferrerFee),
-    makerRelayerFee: new BigNumber(order.makerRelayerFee),
+    makerRelayerFee: offer
+      ? new BigNumber(order.takerRelayerFee)
+      : new BigNumber(order.makerRelayerFee),
     metadata: order.metadata,
     paymentToken: paymentTokenAddress ?? order.paymentToken,
     quantity: order.quantity,
@@ -684,7 +684,9 @@ export function _makeMatchingOrder({
     staticTarget: NULL_ADDRESS,
     taker: order.maker,
     takerProtocolFee: new BigNumber(order.takerProtocolFee),
-    takerRelayerFee: new BigNumber(order.takerRelayerFee),
+    takerRelayerFee: offer
+      ? new BigNumber(order.makerRelayerFee)
+      : new BigNumber(order.takerRelayerFee),
     target,
     waitingForBestCounterOrder: false
   }
@@ -1857,7 +1859,6 @@ export async function _buyOrderValidationAndApprovals({
     gasPrice
   }
   const tokenAddress = order.paymentToken
-  const wethAddress = getNetwork(signer) === 'rinkeby' ? WETH_ADDRESS_RINKEBY : WETH_ADDRESS
   const accountAddress = await signer.getAddress()
   if (tokenAddress !== NULL_ADDRESS) {
     const fungibleTokenInterface = new ethers.Contract(order.paymentToken, ERC20_ABI, signer)
@@ -1874,11 +1875,7 @@ export async function _buyOrderValidationAndApprovals({
 
     // Check balance against price
     if (balance.isLessThan(minimumAmount)) {
-      if (tokenAddress === wethAddress) {
-        throw new Error('Insufficient balance. You may need to wrap Ether.')
-      } else {
-        throw new Error('Insufficient balance.')
-      }
+      throw new Error(`Insufficient ${order.paymentToken} balance.`)
     }
 
     // Check token approval
@@ -2288,6 +2285,8 @@ export async function createMatchingOrders(
   })
   // eslint-disable-next-line prefer-const
   let { buy, sell } = assignOrdersToSides(order, matchingOrder)
+
+  debugger
 
   if (order.side === NftOrderSide.Sell) {
     const signature = await _signMessage({ message: buy.hash, signer })

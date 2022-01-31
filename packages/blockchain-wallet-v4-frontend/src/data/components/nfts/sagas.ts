@@ -22,11 +22,7 @@ import {
   getNftBuyOrders,
   getNftSellOrder
 } from '@core/redux/payment/nfts'
-import {
-  OPENSEA_SHARED_MARKETPLACE,
-  WETH_ADDRESS,
-  WETH_ADDRESS_RINKEBY
-} from '@core/redux/payment/nfts/utils'
+import { OPENSEA_SHARED_MARKETPLACE } from '@core/redux/payment/nfts/utils'
 import { Await } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { getPrivateKey } from '@core/utils/eth'
@@ -373,7 +369,8 @@ export default ({ api }: { api: APIType }) => {
     try {
       yield put(A.setOrderFlowIsSubmitting(true))
       const signer = yield call(getEthSigner)
-      const { coinfig } = window.coins[action.payload.coin || 'WETH']
+      if (!action.payload.coin) throw new Error('No coin selected for offer.')
+      const { coinfig } = window.coins[action.payload.coin]
       // TODO: DONT DEFAULT TO 1 WEEK
       const expirationTime = moment().add(7, 'day').unix()
       const amount = convertCoinToCoin({
@@ -645,7 +642,7 @@ export default ({ api }: { api: APIType }) => {
           undefined,
           action.payload.offer.asset.asset_contract.address,
           action.payload.offer.asset.token_id,
-          IS_TESTNET ? WETH_ADDRESS_RINKEBY : WETH_ADDRESS,
+          action.payload.offer.payment_token.address,
           0,
           ethAddr
         )
