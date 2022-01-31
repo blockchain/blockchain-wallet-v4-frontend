@@ -525,17 +525,6 @@ const Success: React.FC<InjectedFormProps<{ form: string }, Props> & Props> = (p
             )}
           </Button>
 
-          <Button
-            data-e2e='sbCancelCheckout'
-            disabled={props.submitting}
-            size='16px'
-            height='48px'
-            nature='light-red'
-            onClick={handleCancel}
-            style={{ marginTop: '16px' }}
-          >
-            <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
-          </Button>
           {props.error && (
             <ErrorCartridge style={{ marginTop: '16px' }} data-e2e='checkoutError'>
               <Icon name='alert-filled' color='red600' style={{ marginRight: '4px' }} />

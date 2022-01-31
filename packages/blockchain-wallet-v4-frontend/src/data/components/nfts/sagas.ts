@@ -1,6 +1,6 @@
 import { ethers, Signer } from 'ethers'
 import moment from 'moment'
-import { call, put, select } from 'redux-saga/effects'
+import { call, put, race, select, take } from 'redux-saga/effects'
 
 import { Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
@@ -31,7 +31,7 @@ import {
 import { Await } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { getPrivateKey } from '@core/utils/eth'
-import { actions, selectors } from 'data'
+import { actions, actionTypes, selectors } from 'data'
 import { ModalName } from 'data/modals/types'
 import { promptForSecondPassword } from 'services/sagas'
 
@@ -604,17 +604,22 @@ export default ({ api }: { api: APIType }) => {
       if (action.meta.field === 'collection') {
         try {
           yield put(A.resetNftOrders())
-          const res: CollectionData = yield call(api.getNftCollectionInfo, action.payload)
-          yield put(
-            A.setMarketplaceData({
-              atBound: false,
-              // @ts-ignore
-              collection: IS_TESTNET ? { ...res, collection_data: { ...res } } : res,
-              page: 1,
-              token_ids_queried: []
-            })
-          )
-          yield put(A.fetchNftOrders())
+          const { res } = yield race({
+            formChanged: take(actionTypes.form.CHANGE),
+            res: call(api.getNftCollectionInfo, action.payload)
+          })
+          if (res) {
+            yield put(
+              A.setMarketplaceData({
+                atBound: false,
+                // @ts-ignore
+                collection: IS_TESTNET ? { ...res, collection_data: { ...res } } : res,
+                page: 1,
+                token_ids_queried: []
+              })
+            )
+            yield put(A.fetchNftOrders())
+          }
         } catch (e) {
           const error = errorHandler(e)
           yield put(actions.logs.logErrorMessage(error))
