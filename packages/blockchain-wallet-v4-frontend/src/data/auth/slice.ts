@@ -76,7 +76,7 @@ const authSlice = createSlice({
     authenticate: (state) => {
       state.isAuthenticated = true
     },
-    authorizeVerifyDevice: () => {},
+    authorizeVerifyDevice: (state, action?) => {},
     authorizeVerifyDeviceFailure: (state, action) => {
       state.authorizeVerifyDevice = Remote.Failure(action.payload)
     },
