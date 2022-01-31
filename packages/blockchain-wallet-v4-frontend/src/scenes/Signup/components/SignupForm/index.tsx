@@ -75,17 +75,10 @@ const SignupForm = (props: Props) => {
     onCountrySelect,
     onSignupSubmit,
     showState,
-    signupCountryEnabled,
-    userGeoData
+    signupCountryEnabled
   } = props
   const { password = '' } = formValues || {}
   const passwordScore = window.zxcvbn ? window.zxcvbn(password).score : 0
-
-  useEffect(() => {
-    if (userGeoData?.countryCode && signupCountryEnabled && props.setDefaultCountry) {
-      props.setDefaultCountry(userGeoData.countryCode)
-    }
-  }, [])
 
   return (
     <StyledForm override onSubmit={onSignupSubmit}>
@@ -280,9 +273,6 @@ const SignupForm = (props: Props) => {
   )
 }
 
-type Props = InjectedFormProps<{}> &
-  SubviewProps & {
-    setDefaultCountry?: (country: string) => void
-  }
+type Props = InjectedFormProps<{}> & SubviewProps
 
 export default SignupForm

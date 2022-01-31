@@ -52,8 +52,7 @@ const initialState: AuthStateType = {
   registering: Remote.NotAsked,
   resetAccount: false,
   restoring: Remote.NotAsked,
-  secureChannelLogin: Remote.NotAsked,
-  userGeoData: Remote.NotAsked
+  secureChannelLogin: Remote.NotAsked
 }
 
 const authSlice = createSlice({
@@ -122,7 +121,6 @@ const authSlice = createSlice({
     ) => {
       state.exchangeAuth.resetPassword = Remote.Success(action.payload)
     },
-    getUserGeoLocation: () => {},
     initializeLogin: () => {},
     initializeLoginFailure: () => {},
     initializeLoginLoading: () => {},
@@ -235,9 +233,6 @@ const authSlice = createSlice({
     },
     setResetLogin: (state, action: PayloadAction<AuthStateType['resetAccount']>) => {
       state.resetAccount = action.payload
-    },
-    setUserGeoLocation: (state, action: PayloadAction<AuthStateType['userGeoData']>) => {
-      state.userGeoData = action.payload
     },
     signupDetailsEntered: (state, action) => {},
     startLogoutTimer: () => {},
