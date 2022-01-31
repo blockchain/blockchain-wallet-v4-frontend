@@ -38,10 +38,9 @@ class SignupContainer extends React.PureComponent<
   }
 
   componentDidMount() {
-    const { authActions, websocketActions } = this.props
+    const { websocketActions } = this.props
     // start sockets to ensure email verify flow is detected
     websocketActions.startSocket()
-    authActions.getUserGeoLocation()
     this.initCaptcha()
   }
 

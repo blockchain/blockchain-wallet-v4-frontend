@@ -801,15 +801,6 @@ export default ({ api, coreSagas, networks }) => {
     }
   }
 
-  const getUserGeoLocation = function* () {
-    try {
-      const userLocationData = yield call(api.getLocation)
-      yield put(actions.auth.setUserGeoLocation(userLocationData))
-    } catch (e) {
-      // do nothing
-    }
-  }
-
   const resetAccount = function* (action) {
     // if user is resetting their custodial account
     // create a new wallet and assign an existing custodial account to that wallet
@@ -851,7 +842,6 @@ export default ({ api, coreSagas, networks }) => {
     continueLoginProcess,
     exchangeLogin,
     exchangeResetPassword,
-    getUserGeoLocation,
     initializeLogin,
     login,
     loginRoutineSaga,

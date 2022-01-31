@@ -197,7 +197,6 @@ export type AuthStateType = {
   resetAccount: boolean
   restoring: RemoteDataType<string, RestoringType>
   secureChannelLogin: RemoteDataType<string, SecureChannelLoginType>
-  userGeoData: any
 }
 
 //
