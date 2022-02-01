@@ -1,4 +1,9 @@
 import {
+  AnalyticsProperties as DepositWithdrawalClientProperties,
+  Events as DepositWithdrawalClientEvents,
+  TrackEventAction as DepositWithdrawalClientEventAction
+} from './depositWithdrawalClient'
+import {
   AnalyticsProperties as InterestClientProperties,
   Events as InterestClientEvents,
   TrackEventAction as InterestClientTrackEventAction
@@ -16,11 +21,16 @@ import {
 
 const TRACK_EVENT = 'trackEvent'
 
-type AnalyticsKey = OnboardingAndVerificationEvents | ViewAndClickEvents | InterestClientEvents
+type AnalyticsKey =
+  | OnboardingAndVerificationEvents
+  | ViewAndClickEvents
+  | InterestClientEvents
+  | DepositWithdrawalClientEvents
 const Analytics = {
   ...OnboardingAndVerificationEvents,
   ...ViewAndClickEvents,
-  ...InterestClientEvents
+  ...InterestClientEvents,
+  ...DepositWithdrawalClientEvents
 }
 
 // queevent properties
@@ -28,6 +38,7 @@ type AnalyticsProperties =
   | OnboardingAndVerificationAnalyticsProperties
   | ViewAndClickAnalyticsProperties
   | InterestClientProperties
+  | DepositWithdrawalClientProperties
 
 type AnalyticsTraits = {
   email?: string
@@ -49,5 +60,6 @@ type TrackEventAction =
   | OnboardingAndVerificationTrackEventAction
   | ViewAndClickTrackEventAction
   | InterestClientTrackEventAction
+  | DepositWithdrawalClientEventAction
 
 export { Analytics, AnalyticsKey, AnalyticsValue, RawEvent, TRACK_EVENT, TrackEventAction }
