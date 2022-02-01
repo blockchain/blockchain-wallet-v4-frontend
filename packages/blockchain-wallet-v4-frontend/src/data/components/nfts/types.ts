@@ -50,18 +50,7 @@ export type NftsStateType = {
     list: OfferEventsType['asset_events']
     page: number
   }
-  orderFlow: {
-    activeOrder: NftOrder | null
-    asset: RemoteDataType<string, NftAsset>
-    fees: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>
-    isSubmitting: boolean
-    listingToCancel: RawOrder | null
-    matchingOrder: RemoteDataType<string, { buy: NftOrder; sell: NftOrder }>
-    offerToCancel: RawOrder | null
-    step: NftOrderStepEnum
-  }
-  sellOrder: RemoteDataType<string, boolean>
-  status: {
+  openseaStatus: {
     page: {
       id: string
       name: string
@@ -74,5 +63,16 @@ export type NftsStateType = {
       indicator: string
     }
   }
+  orderFlow: {
+    activeOrder: NftOrder | null
+    asset: RemoteDataType<string, NftAsset>
+    fees: RemoteDataType<string, Await<ReturnType<typeof calculateGasFees>>>
+    isSubmitting: boolean
+    listingToCancel: RawOrder | null
+    matchingOrder: RemoteDataType<string, { buy: NftOrder; sell: NftOrder }>
+    offerToCancel: RawOrder | null
+    step: NftOrderStepEnum
+  }
+  sellOrder: RemoteDataType<string, boolean>
   transfer: RemoteDataType<string, boolean>
 }

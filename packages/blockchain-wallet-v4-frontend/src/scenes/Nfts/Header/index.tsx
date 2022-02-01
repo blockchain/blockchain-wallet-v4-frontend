@@ -2,21 +2,13 @@ import React, { useState } from 'react'
 import { Field, InjectedFormProps, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Icon, Link, TabMenu, TabMenuItem, Text } from 'blockchain-info-components'
+import { TabMenu, TabMenuItem } from 'blockchain-info-components'
 import { Form, SelectBox, TextBox } from 'components/Form'
 import { debounce } from 'utils/helpers'
 
 import { Props as OwnProps } from '..'
+import OpenSeaStatusComponent from '../components/openSeaStatus'
 
-const ItemWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 2px;
-  border-color: rgb(242, 153, 74);
-  background: rgb(239 166 101);
-  height: 3em;
-  border-radius: 8px;
-`
 const Wrapper = styled.div`
   display: inline-block;
   width: 100%;
@@ -55,73 +47,40 @@ const CollectionsContainer = styled.div`
   left: 0;
 `
 
-const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = ({
-  activeTab,
-  nftsActions,
-  openSeaStatus,
-  setActiveTab,
-  ...rest
-}) => {
+const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = (props) => {
   const [showDropdown, setShowDropdown] = useState(false)
-  // @ts-ignore
-  const seaStatus = openSeaStatus?.status?.status?.description
   const handleChange = (e) => {
-    rest.formActions.change('nftMarketplace', 'collection', e)
+    props.formActions.change('nftMarketplace', 'collection', e)
     setShowDropdown(false)
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    nftsActions.searchNftAssetContract({ asset_contract_address: e.target[0].value })
+    props.nftsActions.searchNftAssetContract({ asset_contract_address: e.target[0].value })
   }
 
   return (
     <Wrapper>
-      {seaStatus !== '' && seaStatus !== 'All Systems Operational' && (
-        <ItemWrapper>
-          <Icon name='alert' color='white' size='24px' />
-          <Text
-            style={{
-              fontFamily: 'Inter',
-              marginBottom: '1px',
-              marginLeft: '12px'
-            }}
-            color='white'
-            size='16px'
-            weight={600}
-          >
-            OpenSea is experiencing technical difficulties...
-            <Link
-              style={{
-                color: 'inherit',
-                fontFamily: 'Inter',
-                marginBottom: '1px',
-                marginLeft: '3px',
-                textDecoration: 'underline'
-              }}
-              weight={400}
-              size='16px'
-              target='_blank'
-              href='https://status.opensea.io/'
-            >
-              status.opensea.io
-            </Link>
-          </Text>
-        </ItemWrapper>
-      )}
+      <OpenSeaStatusComponent {...props} />
       <InnerContainer>
         <TabsContainer>
           <TabMenu>
-            <TabMenuItem onClick={() => setActiveTab('explore')} selected={activeTab === 'explore'}>
+            <TabMenuItem
+              onClick={() => props.setActiveTab('explore')}
+              selected={props.activeTab === 'explore'}
+            >
               Explore
             </TabMenuItem>
             <TabMenuItem
-              onClick={() => setActiveTab('my-collection')}
-              selected={activeTab === 'my-collection'}
+              onClick={() => props.setActiveTab('my-collection')}
+              selected={props.activeTab === 'my-collection'}
             >
               My Collection
             </TabMenuItem>
-            <TabMenuItem onClick={() => setActiveTab('offers')} selected={activeTab === 'offers'}>
+            <TabMenuItem
+              onClick={() => props.setActiveTab('offers')}
+              selected={props.activeTab === 'offers'}
+            >
               Offers
             </TabMenuItem>
           </TabMenu>
@@ -134,12 +93,12 @@ const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = ({
             onBlur={() => setShowDropdown(false)}
             onChange={debounce((_, val) => {
               setShowDropdown(true)
-              nftsActions.searchNftAssetContract({ search: val })
+              props.nftsActions.searchNftAssetContract({ search: val })
             }, 500)}
             component={TextBox}
           />
           <CollectionsContainer>
-            {rest.collectionSearch.length && showDropdown ? (
+            {props.collectionSearch.length && showDropdown ? (
               <Field
                 name='collections'
                 component={SelectBox}
@@ -148,8 +107,8 @@ const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = ({
                 hideFocusedControl
                 menuIsOpen
                 onChange={handleChange}
-                templateItem={(props: { img: string; text: string; value: string }) => {
-                  const nft = rest.collectionSearch.find((nft) => nft.slug === props.value)
+                templateItem={(templateProps: { img: string; text: string; value: string }) => {
+                  const nft = props.collectionSearch.find((nft) => nft.slug === templateProps.value)
                   if (!nft) return null
                   return (
                     <div style={{ alignItems: 'center', display: 'flex' }}>
@@ -167,7 +126,7 @@ const NftHeader: React.FC<InjectedFormProps<{}, Props> & Props> = ({
                 elements={[
                   {
                     group: '',
-                    items: rest.collectionSearch.map((item) => ({
+                    items: props.collectionSearch.map((item) => ({
                       img: item.image_url,
                       text: item.name,
                       value: item.slug

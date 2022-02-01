@@ -4,7 +4,8 @@ import {
   NftAsset,
   NftAssetsType,
   NftOrdersType,
-  OfferEventsType
+  OfferEventsType,
+  OpenSeaStatus
 } from './types'
 
 // const JAYZ_ADDRESS = '0x3b417faee9d2ff636701100891dc2755b5321cc3'
@@ -133,7 +134,7 @@ export default ({ apiUrl, get, post }) => {
     })
   }
 
-  const getOpenseaStatus = () => {
+  const getOpenseaStatus = (): OpenSeaStatus => {
     return get({
       endPoint: `/status`,
       ignoreQueryParams: true,
