@@ -8,6 +8,7 @@ import { HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import { FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { required } from 'services/forms'
+import { isMobile, media } from 'services/styles'
 
 import { Props } from '../..'
 import {
@@ -25,6 +26,13 @@ const LoginWrapper = styled(Wrapper)`
   display: flex;
   flex-direction: column;
   padding: 0 0 24px 0;
+`
+const MobileRow = styled(Row)`
+  ${media.mobile`
+flex-direction: column;
+align-items: center;
+line-height: 2;
+`}
 `
 
 const TwoFAWallet = (props: Props) => {
@@ -67,12 +75,18 @@ const TwoFAWallet = (props: Props) => {
                     defaultMessage='Verify with your Yubikey'
                   />
                 )}
-                {(authType === 4 || authType === 5) && (
-                  <FormattedMessage
-                    id='scenes.logins.twofa.enter_code'
-                    defaultMessage='Enter your Two Factor Authentication Code'
-                  />
-                )}
+                {(authType === 4 || authType === 5) &&
+                  (isMobile() ? (
+                    <FormattedMessage
+                      id='scenes.logins.twofa.enter_code.mobile_width'
+                      defaultMessage='Enter your 2FA Code'
+                    />
+                  ) : (
+                    <FormattedMessage
+                      id='scenes.logins.twofa.enter_code'
+                      defaultMessage='Enter your Two Factor Authentication Code'
+                    />
+                  ))}
               </FormLabel>
               <Field
                 name='code'
@@ -93,7 +107,7 @@ const TwoFAWallet = (props: Props) => {
                 <FormError position='absolute'>{walletError?.split('.')[0]}.</FormError>
               )}
             </FormItem>
-            <Row style={{ justifyContent: 'center', marginTop: '16px' }}>
+            <MobileRow style={{ justifyContent: 'center', marginTop: '16px' }}>
               <Text size='14px' weight={600} color='grey600' style={{ marginRight: '4px' }}>
                 <FormattedMessage
                   id='scenes.logins.twofa.lost'
@@ -105,7 +119,7 @@ const TwoFAWallet = (props: Props) => {
                   <FormattedMessage id='copy.reset_now' defaultMessage='Reset Now' />
                 </Link>
               </LinkContainer>
-            </Row>
+            </MobileRow>
           </FormGroup>
         )}
         <CenteredColumn>

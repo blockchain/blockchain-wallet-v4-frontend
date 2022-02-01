@@ -4,6 +4,7 @@ import { startSubmit, stopSubmit } from 'redux-form'
 import { call, fork, put, select, take } from 'redux-saga/effects'
 
 import { DEFAULT_INVITATIONS } from '@core/model'
+import { WalletOptionsType } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, actionTypes, selectors } from 'data'
 import { fetchBalances } from 'data/balance/sagas'
@@ -80,6 +81,10 @@ export default ({ api, coreSagas, networks }) => {
     const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
     const magicLinkData: WalletDataFromMagicLink = yield select(S.getMagicLinkData)
     const exchangeURL = magicLinkData?.exchange_auth_url
+    const domainsR = selectors.core.walletOptions.getDomains(yield select())
+    const domains = domainsR.getOrElse({
+      exchange: 'https://exchange.blockchain.com'
+    } as WalletOptionsType['domains'])
     yield put(startSubmit(LOGIN_FORM))
     // JUST FOR ANALYTICS PURPOSES
     if (code) {
@@ -103,8 +108,10 @@ export default ({ api, coreSagas, networks }) => {
       } else if (unificationFlowType === AccountUnificationFlows.MOBILE_EXCHANGE_UPGRADE) {
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_PASSWORD))
         yield put(stopSubmit(LOGIN_FORM))
-      } else {
+      } else if (exchangeURL) {
         window.open(`${exchangeURL}${jwtToken}`, '_self', 'noreferrer')
+      } else {
+        window.open(`${domains.exchange}/trade/auth?jwt=${jwtToken}`, '_self', 'noreferrer')
       }
     } catch (e) {
       yield put(actions.auth.exchangeLoginFailure(e.code))
