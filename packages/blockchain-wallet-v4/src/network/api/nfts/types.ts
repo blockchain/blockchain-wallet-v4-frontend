@@ -402,6 +402,7 @@ export enum GasCalculationOperations {
   Accept = 'accept',
   Buy = 'buy',
   Cancel = 'cancel',
+  CreateOffer = 'create-offer',
   Sell = 'sell',
   Transfer = 'transfer'
 }

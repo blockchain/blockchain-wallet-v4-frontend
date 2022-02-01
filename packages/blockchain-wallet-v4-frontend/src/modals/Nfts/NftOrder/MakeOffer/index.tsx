@@ -150,14 +150,14 @@ const MakeOffer: React.FC<Props> = (props) => {
             </Form>
             {activeOrder ? (
               <StickyCTA>
-                <MakeOfferFees {...props} />
+                <MakeOfferFees {...props} asset={val} />
                 <Button
                   jumbo
                   nature='primary'
                   fullwidth
                   data-e2e='makeOfferNft'
                   disabled={disabled}
-                  onClick={() => nftActions.createOffer({ order: activeOrder, ...formValues })}
+                  onClick={() => nftActions.createOffer({ asset: val, ...formValues })}
                 >
                   {formValues.amount ? (
                     props.orderFlow.isSubmitting ? (

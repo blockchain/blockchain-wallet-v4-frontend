@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import { ethers, Signer } from 'ethers'
 import moment from 'moment'
 import { call, put, race, select, take } from 'redux-saga/effects'
@@ -19,6 +20,7 @@ import {
   fulfillNftOrder,
   fulfillNftSellOrder,
   fulfillTransfer,
+  getNftBuyOrder,
   getNftBuyOrders,
   getNftSellOrder
 } from '@core/redux/payment/nfts'
@@ -234,8 +236,6 @@ export default ({ api }: { api: APIType }) => {
       const signer: Signer = yield call(getEthSigner)
       let fees
 
-      // TODO: DONT DEFAULT TO 1 WEEK
-      const expirationTime = moment().add(14, 'day').unix()
       if (action.payload.operation === GasCalculationOperations.Buy) {
         yield put(A.fetchMatchingOrderLoading())
         try {
@@ -243,9 +243,8 @@ export default ({ api }: { api: APIType }) => {
             getNftBuyOrders,
             action.payload.order,
             signer,
-            action.payload.offer ? expirationTime : undefined,
+            undefined,
             IS_TESTNET ? 'rinkeby' : 'mainnet',
-            action.payload.offer,
             action.payload.paymentTokenAddress
           )
           fees = yield call(
@@ -262,6 +261,25 @@ export default ({ api }: { api: APIType }) => {
           yield put(A.fetchMatchingOrderFailure(error))
           throw e
         }
+      } else if (action.payload.operation === GasCalculationOperations.CreateOffer) {
+        const buy: Await<ReturnType<typeof getNftBuyOrder>> = yield call(
+          getNftBuyOrder,
+          action.payload.asset,
+          signer,
+          undefined,
+          Number(action.payload.offer),
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          action.payload.paymentTokenAddress || window.coins.WETH.coinfig.type.erc20Address!,
+          IS_TESTNET ? 'rinkeby' : 'mainnet'
+        )
+
+        fees = yield call(
+          calculateGasFees,
+          GasCalculationOperations.CreateOffer,
+          signer,
+          undefined,
+          buy
+        )
       } else if (action.payload.operation === GasCalculationOperations.Accept) {
         const { order } = action.payload
         yield put(A.fetchMatchingOrderLoading())
@@ -350,7 +368,7 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.setOrderFlowIsSubmitting(true))
       const signer: Signer = yield call(getEthSigner)
       const { buy, gasData, sell } = action.payload
-      yield call(fulfillNftOrder, buy, sell, signer, gasData, true)
+      yield call(fulfillNftOrder, { buy, gasData, sell, signer })
       yield put(actions.modals.closeAllModals())
       yield put(A.clearAndRefetchAssets())
       yield put(actions.alerts.displaySuccess(`Successfully accepted offer!`))
@@ -373,29 +391,23 @@ export default ({ api }: { api: APIType }) => {
       const { coinfig } = window.coins[action.payload.coin]
       // TODO: DONT DEFAULT TO 1 WEEK
       const expirationTime = moment().add(7, 'day').unix()
-      const amount = convertCoinToCoin({
-        baseToStandard: false,
-        coin: coinfig.symbol,
-        value: action.payload.amount || '0'
-      })
-      const { buy, sell }: Await<ReturnType<typeof getNftBuyOrders>> = yield call(
-        getNftBuyOrders,
-        action.payload.order,
+      const buy: Await<ReturnType<typeof getNftBuyOrder>> = yield call(
+        getNftBuyOrder,
+        action.payload.asset,
         signer,
         expirationTime,
-        IS_TESTNET ? 'rinkeby' : 'mainnet',
-        amount,
-        coinfig.type.erc20Address
+        Number(action.payload.amount || '0'),
+        coinfig.type.erc20Address!,
+        IS_TESTNET ? 'rinkeby' : 'mainnet'
       )
       const gasData: GasDataI = yield call(
         calculateGasFees,
-        GasCalculationOperations.Buy,
+        GasCalculationOperations.CreateOffer,
         signer,
         undefined,
-        buy,
-        sell
+        buy
       )
-      const order = yield call(fulfillNftOrder, buy, sell, signer, gasData)
+      const order = yield call(fulfillNftOrder, { buy, gasData, signer })
       yield call(api.postNftOrder, order)
       yield put(actions.modals.closeAllModals())
       yield put(A.resetNftOrders())
@@ -420,7 +432,7 @@ export default ({ api }: { api: APIType }) => {
       yield put(A.setOrderFlowIsSubmitting(true))
       const { buy, gasData, sell } = action.payload
       const signer = yield call(getEthSigner)
-      yield call(fulfillNftOrder, buy, sell, signer, gasData)
+      yield call(fulfillNftOrder, { buy, gasData, sell, signer })
       yield put(actions.modals.closeAllModals())
       yield put(A.resetNftOrders())
       yield put(A.setMarketplaceData({ atBound: false, page: 1, token_ids_queried: [] }))

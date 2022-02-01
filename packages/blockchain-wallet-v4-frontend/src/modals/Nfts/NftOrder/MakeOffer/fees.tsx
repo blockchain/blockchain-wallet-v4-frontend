@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 
-import { GasCalculationOperations } from '@core/network/api/nfts/types'
+import { GasCalculationOperations, NftAsset } from '@core/network/api/nfts/types'
 import { SpinningLoader, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -21,9 +21,9 @@ const Fees: React.FC<Props> = (props) => {
   useEffect(() => {
     if (activeOrder) {
       nftActions.fetchFees({
-        offer: '10000',
-        operation: GasCalculationOperations.Buy,
-        order: activeOrder,
+        asset: props.asset,
+        offer: '0.0001',
+        operation: GasCalculationOperations.CreateOffer,
         paymentTokenAddress: WETH
       })
     }
@@ -73,6 +73,6 @@ const Fees: React.FC<Props> = (props) => {
   )
 }
 
-type Props = OwnProps
+type Props = OwnProps & { asset: NftAsset }
 
 export default Fees
