@@ -22,6 +22,7 @@ import UpgradePassword from './AccountUnification/UpgradePassword'
 import UpgradeSuccess from './AccountUnification/UpgradeSuccess'
 import ExchangeEnterEmail from './Exchange/EnterEmail'
 import EnterPasswordExchange from './Exchange/EnterPasswordExchange'
+import InstitutionalPortal from './Exchange/Institutional'
 import TwoFAExchange from './Exchange/TwoFA'
 import { getLoginPageFooter } from './model'
 import { getData } from './selectors'
@@ -130,6 +131,8 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
         <Form onSubmit={this.handleSubmit}>
           {(() => {
             switch (step) {
+              case LoginSteps.INSTITUTIONAL_PORTAL:
+                return <InstitutionalPortal {...loginProps} />
               case LoginSteps.ENTER_PASSWORD_EXCHANGE:
                 return <EnterPasswordExchange {...loginProps} />
               case LoginSteps.ENTER_PASSWORD_WALLET:

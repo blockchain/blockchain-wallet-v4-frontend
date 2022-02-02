@@ -690,6 +690,7 @@ type MessagesType = {
   'identityverification.verify.resubmit.reason.intro': 'Main reasons for this to happen are'
   'identityverification.verify.resubmit.reason.quality': 'We were unable to read the images you submitted due to image quality'
   'identityverification.verify.supportedcountries': 'Is my country supported?'
+  'layouts.wallet.footer.institutional_portal': 'Looking for the Institutional Portal?'
   'layouts.wallet.footer.looking_product': 'Looking for another product?'
   'layouts.wallet.footer.select_product': 'Select a Product ->'
   'layouts.wallet.header.Sign Out': 'Sign Out'
@@ -2297,6 +2298,7 @@ type MessagesType = {
   'scenes.login.exchange.help.requestpasswordreset': 'Request password reset'
   'scenes.login.exchange.help.passwordresetsuccess': "If you're registered on the Exchange, you will receive an email with instructions on how to reset your password shortly."
   'scenes.login.exchange.incorrect_code': 'Incorrect code'
+  'scenes.login.exchange.institutional_portal': 'Institutional Portal'
   'scenes.login.exchange.wrong_password': 'Login failed - wrong password.'
   'scenes.login.needhelp': 'Need additional help logging in?'
   'scenes.login.now_login': 'You can now log in with your email.'

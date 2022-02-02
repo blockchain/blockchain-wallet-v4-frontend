@@ -116,7 +116,7 @@ export default ({ api, coreSagas, networks }) => {
           yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_PASSWORD))
           yield put(stopSubmit(LOGIN_FORM))
           break
-        // @theLeoB - exchange institutional?
+        // exchange institutional login
         case exchangeAuthUrl !== undefined:
           window.open(`${exchangeAuthUrl}${jwtToken}`, '_self', 'noreferrer')
           break
@@ -605,6 +605,7 @@ export default ({ api, coreSagas, networks }) => {
       const product = (queryParams.get('product')?.toUpperCase() ||
         ProductAuthOptions.WALLET) as ProductAuthOptions
       const redirect = queryParams.get('redirect')
+      const userType = queryParams.get('userType')
       // store product auth data defaulting to product=wallet and platform=web
       yield put(
         actions.auth.setProductAuthMetadata({
@@ -628,6 +629,10 @@ export default ({ api, coreSagas, networks }) => {
         // mobile webview auth flow
         case platform !== PlatformTypes.WEB:
           yield call(initMobileAuthFlow)
+          break
+        // institutional login portal for Prime exchange users
+        case userType === 'institutional':
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.INSTITUTIONAL_PORTAL))
           break
         // no guid on path, use cached/stored guid if exists
         case (storedGuid || lastGuid) &&
