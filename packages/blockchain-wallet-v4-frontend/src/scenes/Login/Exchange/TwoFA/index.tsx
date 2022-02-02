@@ -24,8 +24,8 @@ import {
 const LoginWrapper = styled(Wrapper)`
   padding: 32px 0 24px;
   ${media.mobile`
-  padding: 24px 0;
-`}
+    padding: 24px 0;
+  `}
 `
 const TwoFAExchange = (props: Props) => {
   const {

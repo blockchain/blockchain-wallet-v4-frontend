@@ -27,12 +27,14 @@ const LoginWrapper = styled(Wrapper)`
   flex-direction: column;
   padding: 0 0 24px 0;
 `
-const MobileRow = styled(Row)`
+const ResponsiveRow = styled(Row)`
+  justify-content: center;
+  margin-top: 16px;
   ${media.mobile`
-flex-direction: column;
-align-items: center;
-line-height: 2;
-`}
+    flex-direction: column;
+    align-items: center;
+    line-height: 2;
+  `}
 `
 
 const TwoFAWallet = (props: Props) => {
@@ -107,7 +109,7 @@ const TwoFAWallet = (props: Props) => {
                 <FormError position='absolute'>{walletError?.split('.')[0]}.</FormError>
               )}
             </FormItem>
-            <MobileRow style={{ justifyContent: 'center', marginTop: '16px' }}>
+            <ResponsiveRow>
               <Text size='14px' weight={600} color='grey600' style={{ marginRight: '4px' }}>
                 <FormattedMessage
                   id='scenes.logins.twofa.lost'
@@ -119,7 +121,7 @@ const TwoFAWallet = (props: Props) => {
                   <FormattedMessage id='copy.reset_now' defaultMessage='Reset Now' />
                 </Link>
               </LinkContainer>
-            </MobileRow>
+            </ResponsiveRow>
           </FormGroup>
         )}
         <CenteredColumn>

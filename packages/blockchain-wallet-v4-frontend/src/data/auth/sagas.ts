@@ -1,9 +1,10 @@
 import base64url from 'base64url'
-import { assoc, find, propEq } from 'ramda'
+import { assoc, equals, find, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, fork, put, select, take } from 'redux-saga/effects'
 
 import { DEFAULT_INVITATIONS } from '@core/model'
+import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
 import { WalletOptionsType } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, actionTypes, selectors } from 'data'
@@ -80,40 +81,53 @@ export default ({ api, coreSagas, networks }) => {
     const { code, password, username } = action.payload
     const unificationFlowType = yield select(selectors.auth.getAccountUnificationFlowType)
     const magicLinkData: WalletDataFromMagicLink = yield select(S.getMagicLinkData)
-    const exchangeURL = magicLinkData?.exchange_auth_url
-    const domainsR = selectors.core.walletOptions.getDomains(yield select())
-    const domains = domainsR.getOrElse({
-      exchange: 'https://exchange.blockchain.com'
-    } as WalletOptionsType['domains'])
+    const exchangeAuthUrl = magicLinkData?.exchange_auth_url
+    const { exchange: exchangeDomain } = selectors.core.walletOptions
+      .getDomains(yield select())
+      .getOrElse({
+        exchange: 'https://exchange.blockchain.com'
+      } as WalletOptionsType['domains'])
     yield put(startSubmit(LOGIN_FORM))
-    // JUST FOR ANALYTICS PURPOSES
+    // analytics
     if (code) {
       yield put(actions.auth.analyticsLoginTwoStepVerificationEntered())
     } else {
       yield put(actions.auth.analyticsLoginPasswordEntered())
     }
+    // start signin flow
     try {
       const response = yield call(api.exchangeSignIn, code, password, username)
       const { token: jwtToken } = response
       yield put(actions.auth.setJwtToken(jwtToken))
-      if (
-        unificationFlowType === AccountUnificationFlows.EXCHANGE_MERGE ||
-        unificationFlowType === AccountUnificationFlows.EXCHANGE_UPGRADE
-      ) {
-        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_CONFIRM))
-        yield put(stopSubmit(LOGIN_FORM))
-      } else if (unificationFlowType === AccountUnificationFlows.MOBILE_EXCHANGE_MERGE) {
-        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
-        yield put(stopSubmit(LOGIN_FORM))
-      } else if (unificationFlowType === AccountUnificationFlows.MOBILE_EXCHANGE_UPGRADE) {
-        yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_PASSWORD))
-        yield put(stopSubmit(LOGIN_FORM))
-      } else if (exchangeURL) {
-        window.open(`${exchangeURL}${jwtToken}`, '_self', 'noreferrer')
-      } else {
-        window.open(`${domains.exchange}/trade/auth?jwt=${jwtToken}`, '_self', 'noreferrer')
+      // determine login flow
+      switch (true) {
+        // account merge/upgrade web
+        case unificationFlowType ===
+          (AccountUnificationFlows.EXCHANGE_MERGE || AccountUnificationFlows.EXCHANGE_UPGRADE):
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_CONFIRM))
+          yield put(stopSubmit(LOGIN_FORM))
+          break
+        // account merge mobile
+        case unificationFlowType === AccountUnificationFlows.MOBILE_EXCHANGE_MERGE:
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET))
+          yield put(stopSubmit(LOGIN_FORM))
+          break
+        // account upgrade mobile
+        case unificationFlowType === AccountUnificationFlows.MOBILE_EXCHANGE_UPGRADE:
+          yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.UPGRADE_PASSWORD))
+          yield put(stopSubmit(LOGIN_FORM))
+          break
+        // @theLeoB - exchange institutional?
+        case exchangeAuthUrl !== undefined:
+          window.open(`${exchangeAuthUrl}${jwtToken}`, '_self', 'noreferrer')
+          break
+        // exchange sso login
+        default:
+          window.open(`${exchangeDomain}/trade/auth?jwt=${jwtToken}`, '_self', 'noreferrer')
+          break
       }
-    } catch (e) {
+      // @ts-ignore
+    } catch (e: { code?: number }) {
       yield put(actions.auth.exchangeLoginFailure(e.code))
       if (e.code && e.code === 11) {
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.TWO_FA_EXCHANGE))
@@ -490,10 +504,11 @@ export default ({ api, coreSagas, networks }) => {
           yield call(api.resetUserKyc, userId, lifetimeToken, token)
           yield put(actions.auth.setKycResetStatus(true))
           yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
-        } catch (e) {
-          // if it fails with user already being reset, shuold be allowed
+          // @ts-ignore
+        } catch (e: { status?: number }) {
+          // if it fails with user already being reset, should be allowed
           // to continue with flow
-          if (e.status === 409) {
+          if (e && e.status === 409) {
             yield put(actions.auth.restoreFromMetadataSuccess(metadataInfo))
             yield put(actions.auth.setKycResetStatus(true))
           } else {
@@ -779,6 +794,7 @@ export default ({ api, coreSagas, networks }) => {
     const { product, session_id, wallet } = yield select(selectors.auth.getMagicLinkData)
     const magicLinkDataEncoded = yield select(selectors.auth.getMagicLinkDataEncoded)
     const exchange_only_login = product === ProductAuthOptions.EXCHANGE || !wallet
+
     try {
       yield put(actions.auth.authorizeVerifyDeviceLoading())
       const data = yield call(
@@ -792,13 +808,14 @@ export default ({ api, coreSagas, networks }) => {
         yield put(actions.auth.authorizeVerifyDeviceSuccess({ deviceAuthorized: true }))
         yield put(actions.auth.analyticsAuthorizeVerifyDeviceSuccess())
       }
-    } catch (e) {
-      if (e.status === 401 && e.confirmation_required) {
+      // @ts-ignore
+    } catch (e: { confirmation_required: boolean; status?: number }) {
+      if (e && e.status === 401 && e.confirmation_required) {
         yield put(actions.auth.authorizeVerifyDeviceSuccess(e))
-      } else if (e.status === 409 && e.request_denied) {
+      } else if (e && e.status === 409 && e.request_denied) {
         yield put(actions.auth.authorizeVerifyDeviceFailure(e))
         yield put(actions.auth.analyticsAuthorizeVerifyDeviceFailure('REJECTED'))
-      } else if (e.status === 400 && e.link_expired) {
+      } else if (e && e.status === 400 && e.link_expired) {
         yield put(actions.auth.authorizeVerifyDeviceFailure(e))
         yield put(actions.auth.analyticsAuthorizeVerifyDeviceFailure('EXPIRED'))
       } else {
