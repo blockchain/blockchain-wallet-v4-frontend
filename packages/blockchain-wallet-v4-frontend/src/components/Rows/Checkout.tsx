@@ -80,7 +80,7 @@ const ToolTipContainer = styled.div`
     }
   }
 `
-const CheckoutRow = (props: Props) => {
+const CheckoutRow = memo((props: Props) => {
   const [isActiveTooltip, setToolTip] = useState(false)
   return (
     <Row>
@@ -111,7 +111,7 @@ const CheckoutRow = (props: Props) => {
       {props.toolTip && isActiveTooltip && <ToolTipContainer>{props.toolTip}</ToolTipContainer>}
     </Row>
   )
-}
+})
 
 export type Props = {
   additionalText?: string | React.ReactNode
@@ -121,4 +121,5 @@ export type Props = {
   toolTip?: string | React.ReactNode
 }
 
-export default memo(CheckoutRow)
+export { CheckoutRow }
+export default CheckoutRow
