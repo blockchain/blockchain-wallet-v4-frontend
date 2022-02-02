@@ -8,7 +8,9 @@ import { LoginSteps } from 'data/types'
 import { media } from 'services/styles'
 
 import { Props as OwnProps } from '../..'
-import { BackArrowFormHeader, CircleBackground, SignUpLink, WrapperWithPadding } from '../../model'
+import BackArrowHeader from '../../components/BackArrowHeader'
+import SignupLink from '../../components/SignupLink'
+import { CircleBackground, WrapperWithPadding } from '../../model'
 
 const FormBody = styled.div`
   display: flex;
@@ -29,7 +31,7 @@ const CheckEmail = (props: Props) => {
   return (
     <LoginWrapper>
       <WrapperWithPadding>
-        <BackArrowFormHeader {...props} handleBackArrowClick={props.handleBackArrowClick} />
+        <BackArrowHeader {...props} handleBackArrowClick={props.handleBackArrowClick} />
         <FormBody>
           <CircleBackground color='blue600'>
             <Icon name='computer' color='white' size='24px' />
@@ -63,7 +65,7 @@ const CheckEmail = (props: Props) => {
           />
         </Button>
       </WrapperWithPadding>
-      <SignUpLink />
+      <SignupLink />
     </LoginWrapper>
   )
 }

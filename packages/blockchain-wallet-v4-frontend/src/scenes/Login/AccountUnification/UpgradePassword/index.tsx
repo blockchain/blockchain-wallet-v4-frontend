@@ -7,8 +7,9 @@ import { FormGroup, FormLabel, PasswordBox } from 'components/Form'
 import { LoginSteps } from 'data/types'
 import { required, validPasswordConfirmation, validStrongPassword } from 'services/forms'
 
+import BackArrowHeader from '../../components/BackArrowHeader'
 import { Props } from '../../index'
-import { ActionButton, BackArrowFormHeader, LinkRow, LoginWrapper } from '../../model'
+import { ActionButton, LinkRow, LoginWrapper } from '../../model'
 
 const validatePasswordConfirmation = validPasswordConfirmation('upgradeAccountPassword')
 
@@ -21,7 +22,7 @@ const UpgradePassword = (props: Props) => {
 
   return (
     <LoginWrapper>
-      <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} hideGuid />
+      <BackArrowHeader {...props} handleBackArrowClick={handleBackArrowClick} hideGuid />
       <FormGroup>
         <FormLabel htmlFor='upgradePassword'>
           <FormattedMessage id='copy.enter_new_password' defaultMessage='Enter New Password' />

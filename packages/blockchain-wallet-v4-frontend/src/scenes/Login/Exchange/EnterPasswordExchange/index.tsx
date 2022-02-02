@@ -3,34 +3,26 @@ import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { HeartbeatLoader, Image, Text } from 'blockchain-info-components'
+import { HeartbeatLoader, Text } from 'blockchain-info-components'
 import { FormError, FormGroup, FormItem, FormLabel, PasswordBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { ExchangeErrorCodes, ProductAuthOptions } from 'data/types'
-import { isBrowserSupported } from 'services/browser'
 import { required } from 'services/forms'
 import { media } from 'services/styles'
 
 import { Props } from '../..'
-import {
-  ActionButton,
-  BackArrowFormHeader,
-  CenteredColumn,
-  ExchangeNeedHelpLink,
-  ProductTab,
-  SignUpLink,
-  TabWrapper,
-  UnsupportedBrowserWarning,
-  WrapperWithPadding
-} from '../../model'
-
-const isSupportedBrowser = isBrowserSupported()
+import BackArrowHeader from '../../components/BackArrowHeader'
+import NeedHelpLink from '../../components/NeedHelpLink'
+import ProductTabMenu from '../../components/ProductTabMenu'
+import SignupLink from '../../components/SignupLink'
+import UnsupportedBrowser from '../../components/UnsupportedBrowser'
+import { ActionButton, CenteredColumn, WrapperWithPadding } from '../../model'
 
 const LoginWrapper = styled(Wrapper)`
   padding: 0 0 24px 0;
   ${media.mobile`
-  padding: 0 0 16px 0;
-`}
+    padding: 0 0 16px 0;
+  `}
 `
 
 const EnterPasswordExchange = (props: Props) => {
@@ -41,39 +33,26 @@ const EnterPasswordExchange = (props: Props) => {
     formValues,
     handleBackArrowClick,
     invalid,
+    isBrowserSupported,
     submitting
   } = props
   const passwordError = exchangeError && exchangeError === ExchangeErrorCodes.INVALID_CREDENTIALS
 
   return (
     <LoginWrapper>
-      <TabWrapper>
-        <ProductTab
-          backgroundColor='grey000'
-          onClick={authActions.setCachedWalletData}
-          product={ProductAuthOptions.WALLET}
-        >
-          <Image name='wallet-grayscale' height='28px' style={{ marginRight: '12px' }} />
-          <Text size='20px' weight={600} color='grey400'>
-            <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
-          </Text>
-        </ProductTab>
-        <ProductTab product={ProductAuthOptions.EXCHANGE}>
-          <Image name='exchange-no-background' height='26px' style={{ marginRight: '12px' }} />
-          <Text size='20px' weight={600} color='blue600'>
-            <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
-          </Text>
-        </ProductTab>
-      </TabWrapper>
+      <ProductTabMenu
+        active={ProductAuthOptions.EXCHANGE}
+        onWalletTabClick={authActions.setCachedWalletData}
+      />
       <WrapperWithPadding>
-        <BackArrowFormHeader
+        <BackArrowHeader
           {...props}
           handleBackArrowClick={handleBackArrowClick}
           hideGuid
           marginTop='28px'
         />
         <FormGroup>
-          {!isSupportedBrowser && <UnsupportedBrowserWarning />}
+          <UnsupportedBrowser isSupportedBrowser={isBrowserSupported} />
           <FormItem>
             <FormLabel htmlFor='password'>
               <FormattedMessage
@@ -83,7 +62,7 @@ const EnterPasswordExchange = (props: Props) => {
             </FormLabel>
             <Field
               name='exchangePassword'
-              disabled={!isSupportedBrowser}
+              disabled={!isBrowserSupported}
               validate={[required]}
               component={PasswordBox}
               data-e2e='exchangePassword'
@@ -119,10 +98,14 @@ const EnterPasswordExchange = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          <ExchangeNeedHelpLink authActions={authActions} origin='PASSWORD' />
+          <NeedHelpLink
+            authActions={authActions}
+            origin='PASSWORD'
+            product={ProductAuthOptions.EXCHANGE}
+          />
         </CenteredColumn>
       </WrapperWithPadding>
-      <SignUpLink />
+      <SignupLink />
     </LoginWrapper>
   )
 }
