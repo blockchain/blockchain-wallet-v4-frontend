@@ -4,20 +4,21 @@ import { Field } from 'redux-form'
 import styled from 'styled-components'
 
 import { HeartbeatLoader, Image, Text } from 'blockchain-info-components'
-import { FormError, FormGroup, FormItem, FormLabel, PasswordBox } from 'components/Form'
+import { FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { ExchangeErrorCodes, ProductAuthOptions } from 'data/types'
 import { isBrowserSupported } from 'services/browser'
-import { required } from 'services/forms'
+import { required, validEmail } from 'services/forms'
 import { media } from 'services/styles'
 
 import { Props } from '../..'
 import {
   ActionButton,
-  BackArrowFormHeader,
-  CenteredColumn,
   ExchangeNeedHelpLink,
+  LinkRow,
+  LoginFormLabel,
   ProductTab,
+  removeWhitespace,
   SignUpLink,
   TabWrapper,
   UnsupportedBrowserWarning,
@@ -33,53 +34,34 @@ const LoginWrapper = styled(Wrapper)`
 `}
 `
 
-const EnterPasswordExchange = (props: Props) => {
-  const {
-    authActions,
-    busy,
-    exchangeError,
-    formValues,
-    handleBackArrowClick,
-    invalid,
-    submitting
-  } = props
+const InstitutionalPortal = (props: Props) => {
+  const { authActions, busy, exchangeError, formValues, invalid, submitting } = props
   const passwordError = exchangeError && exchangeError === ExchangeErrorCodes.INVALID_CREDENTIALS
-
   return (
     <LoginWrapper>
-      <TabWrapper>
-        <ProductTab
-          backgroundColor='grey000'
-          onClick={authActions.setCachedWalletData}
-          product={ProductAuthOptions.WALLET}
-        >
-          <Image name='wallet-grayscale' height='28px' style={{ marginRight: '12px' }} />
-          <Text size='20px' weight={600} color='grey400'>
-            <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
-          </Text>
-        </ProductTab>
-        <ProductTab product={ProductAuthOptions.EXCHANGE}>
-          <Image name='exchange-no-background' height='26px' style={{ marginRight: '12px' }} />
-          <Text size='20px' weight={600} color='blue600'>
-            <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
-          </Text>
-        </ProductTab>
-      </TabWrapper>
       <WrapperWithPadding>
-        <BackArrowFormHeader
-          {...props}
-          handleBackArrowClick={handleBackArrowClick}
-          hideGuid
-          marginTop='28px'
-        />
         <FormGroup>
           {!isSupportedBrowser && <UnsupportedBrowserWarning />}
+          <FormItem style={{ marginTop: '40px' }}>
+            <LoginFormLabel htmlFor='email'>
+              <FormattedMessage id='copy.email' defaultMessage='Email' />
+            </LoginFormLabel>
+
+            <Field
+              component={TextBox}
+              data-e2e='exchangeEmail'
+              disabled={!isSupportedBrowser}
+              disableSpellcheck
+              name='email'
+              normalize={removeWhitespace}
+              validate={[required, validEmail]}
+              placeholder='Enter your email'
+              autoFocus
+            />
+          </FormItem>
           <FormItem>
             <FormLabel htmlFor='password'>
-              <FormattedMessage
-                id='scenes.login.enter_password'
-                defaultMessage='Enter your password'
-              />
+              <FormattedMessage id='scenes.login.password' defaultMessage='Password' />
             </FormLabel>
             <Field
               name='exchangePassword'
@@ -101,30 +83,30 @@ const EnterPasswordExchange = (props: Props) => {
             )}
           </FormItem>
         </FormGroup>
-        <CenteredColumn>
+        <LinkRow>
           <ActionButton
             type='submit'
             nature='primary'
             fullwidth
             height='48px'
-            disabled={submitting || invalid || busy || !formValues?.exchangePassword}
-            data-e2e='passwordButton'
+            disabled={submitting || invalid || busy || !formValues?.email}
+            data-e2e='loginButton'
             style={{ marginBottom: '16px' }}
           >
-            {submitting || busy ? (
+            {submitting ? (
               <HeartbeatLoader height='20px' width='20px' color='white' />
             ) : (
               <Text color='whiteFade900' size='16px' weight={600}>
-                <FormattedMessage id='scenes.login.login' defaultMessage='Log In' />
+                <FormattedMessage id='buttons.continue' defaultMessage='Continue' />
               </Text>
             )}
           </ActionButton>
-          <ExchangeNeedHelpLink authActions={authActions} origin='PASSWORD' />
-        </CenteredColumn>
+          <ExchangeNeedHelpLink authActions={authActions} origin='IDENTIFIER' />
+        </LinkRow>
       </WrapperWithPadding>
       <SignUpLink />
     </LoginWrapper>
   )
 }
 
-export default EnterPasswordExchange
+export default InstitutionalPortal
