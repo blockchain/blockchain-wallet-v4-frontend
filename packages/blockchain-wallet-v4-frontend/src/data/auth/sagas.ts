@@ -1,10 +1,9 @@
 import base64url from 'base64url'
-import { assoc, equals, find, propEq } from 'ramda'
+import { assoc, find, propEq } from 'ramda'
 import { startSubmit, stopSubmit } from 'redux-form'
 import { call, fork, put, select, take } from 'redux-saga/effects'
 
 import { DEFAULT_INVITATIONS } from '@core/model'
-import { ADDRESS_TYPES } from '@core/redux/payment/btc/utils'
 import { WalletOptionsType } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { actions, actionTypes, selectors } from 'data'
