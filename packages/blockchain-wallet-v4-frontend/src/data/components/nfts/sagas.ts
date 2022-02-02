@@ -219,11 +219,10 @@ export default ({ api }: { api: APIType }) => {
   const fetchOpenseaStatus = function* () {
     try {
       yield put(A.fetchNftOffersMadeLoading())
-      const res: ReturnType<typeof api.getOpenSeaStatus> = yield call(() => {})
+      const res: ReturnType<typeof api.getOpenSeaStatus> = yield call(api.getOpenSeaStatus)
       yield put(A.fetchOpenseaStatusSuccess(res))
     } catch (e) {
-      // const error = errorHandler(e)
-      // yield put(A.fetchOpenseaStatusFailure(null))
+      yield put(A.fetchOpenseaStatusFailure(e))
     }
   }
 
