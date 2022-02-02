@@ -6,20 +6,17 @@ import styled from 'styled-components'
 import { HeartbeatLoader, Text } from 'blockchain-info-components'
 import { FormError, FormGroup, FormItem, FormLabel, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
+import { ProductAuthOptions } from 'data/auth/types'
 import { ExchangeErrorCodes } from 'data/types'
 import { required } from 'services/forms'
+import { removeWhitespace } from 'services/forms/normalizers'
 import { isMobile, media } from 'services/styles'
 
 import { Props } from '../..'
-import {
-  ActionButton,
-  BackArrowFormHeader,
-  ExchangeNeedHelpLink,
-  LinkRow,
-  removeWhitespace,
-  SignUpLink,
-  WrapperWithPadding
-} from '../../model'
+import BackArrowHeader from '../../components/BackArrowHeader'
+import NeedHelpLink from '../../components/NeedHelpLink'
+import SignupLink from '../../components/SignupLink'
+import { ActionButton, LinkRow, WrapperWithPadding } from '../../model'
 
 const LoginWrapper = styled(Wrapper)`
   padding: 32px 0 24px;
@@ -42,7 +39,7 @@ const TwoFAExchange = (props: Props) => {
   return (
     <LoginWrapper>
       <WrapperWithPadding>
-        <BackArrowFormHeader {...props} handleBackArrowClick={handleBackArrowClick} hideGuid />
+        <BackArrowHeader {...props} handleBackArrowClick={handleBackArrowClick} hideGuid />
         <FormGroup>
           <FormItem>
             <FormLabel htmlFor='code'>
@@ -95,10 +92,14 @@ const TwoFAExchange = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          <ExchangeNeedHelpLink authActions={authActions} origin='2FA' />
+          <NeedHelpLink
+            authActions={authActions}
+            origin='2FA'
+            product={ProductAuthOptions.EXCHANGE}
+          />
         </LinkRow>
       </WrapperWithPadding>
-      <SignUpLink />
+      <SignupLink />
     </LoginWrapper>
   )
 }
