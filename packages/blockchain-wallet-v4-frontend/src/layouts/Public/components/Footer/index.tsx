@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { ProductAuthOptions } from 'data/types'
+import { LoginSteps, ProductAuthOptions } from 'data/types'
 
 import DropdownLanguage from './DropdownLanguage'
 import Help from './Help'
@@ -16,11 +16,12 @@ const FooterInner = styled.div`
 const Footer = (props) => {
   return (
     <>
-      {props.authProduct === ProductAuthOptions.EXCHANGE && (
-        <FooterInner>
-          <InstitutionalPortal />
-        </FooterInner>
-      )}
+      {props.authProduct === ProductAuthOptions.EXCHANGE &&
+        props.formValues.step !== LoginSteps.INSTITUTIONAL_PORTAL && (
+          <FooterInner>
+            <InstitutionalPortal />
+          </FooterInner>
+        )}
       <FooterInner>
         <DropdownLanguage color='grey400' size='16px' />
         <Version />

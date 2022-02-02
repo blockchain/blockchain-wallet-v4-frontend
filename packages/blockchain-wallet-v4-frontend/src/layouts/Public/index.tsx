@@ -5,6 +5,7 @@ import styled from 'styled-components'
 
 import Alerts from 'components/Alerts'
 import { selectors } from 'data'
+import { LOGIN_FORM } from 'data/auth/model'
 import ErrorBoundary from 'providers/ErrorBoundaryProvider'
 import { media } from 'services/styles'
 
@@ -64,6 +65,7 @@ const PublicLayoutContainer = ({
   authProduct,
   component: Component,
   exact = false,
+  formValues,
   path
 }: Props) => {
   return (
@@ -87,7 +89,7 @@ const PublicLayoutContainer = ({
             </ContentContainer>
 
             <FooterContainer>
-              <Footer authProduct={authProduct} />
+              <Footer authProduct={authProduct} formValues={formValues} />
             </FooterContainer>
           </Wrapper>
         </ErrorBoundary>
@@ -97,7 +99,8 @@ const PublicLayoutContainer = ({
 }
 
 const mapStateToProps = (state) => ({
-  authProduct: selectors.auth.getProduct(state)
+  authProduct: selectors.auth.getProduct(state),
+  formValues: selectors.form.getFormValues(LOGIN_FORM)(state)
 })
 
 const connector = connect(mapStateToProps)
