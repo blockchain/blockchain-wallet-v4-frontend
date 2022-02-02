@@ -55,19 +55,16 @@ const EnterPasswordExchange = (props: Props) => {
           <UnsupportedBrowser isSupportedBrowser={isBrowserSupported} />
           <FormItem>
             <FormLabel htmlFor='password'>
-              <FormattedMessage
-                id='scenes.login.enter_password'
-                defaultMessage='Enter your password'
-              />
+              <FormattedMessage id='scenes.login.your_password' defaultMessage='Your Password' />
             </FormLabel>
             <Field
-              name='exchangePassword'
-              disabled={!isBrowserSupported}
-              validate={[required]}
+              autoFocus
               component={PasswordBox}
               data-e2e='exchangePassword'
-              autoFocus
+              disabled={!isBrowserSupported}
+              name='exchangePassword'
               placeholder='Enter your password'
+              validate={[required]}
             />
             {passwordError && (
               <FormError data-e2e='passwordError' style={{ paddingTop: '5px' }}>
