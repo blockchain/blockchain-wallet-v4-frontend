@@ -3,63 +3,40 @@ import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { HeartbeatLoader, Image, Text } from 'blockchain-info-components'
+import { HeartbeatLoader, Text } from 'blockchain-info-components'
 import { FormGroup, FormItem, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
 import { ProductAuthOptions } from 'data/types'
-import { isBrowserSupported } from 'services/browser'
 import { required, validEmail } from 'services/forms'
+import { removeWhitespace } from 'services/forms/normalizers'
 import { media } from 'services/styles'
 
 import { Props } from '../..'
-import {
-  ActionButton,
-  ExchangeNeedHelpLink,
-  LinkRow,
-  LoginFormLabel,
-  ProductTab,
-  removeWhitespace,
-  SignUpLink,
-  TabWrapper,
-  UnsupportedBrowserWarning,
-  WrapperWithPadding
-} from '../../model'
-
-const isSupportedBrowser = isBrowserSupported()
+import NeedHelpLink from '../../components/NeedHelpLink'
+import ProductTabMenu from '../../components/ProductTabMenu'
+import SignupLink from '../../components/SignupLink'
+import UnsupportedBrowser from '../../components/UnsupportedBrowser'
+import { ActionButton, LinkRow, LoginFormLabel, WrapperWithPadding } from '../../model'
 
 const LoginWrapper = styled(Wrapper)`
   padding: 0 0 24px 0;
   ${media.mobile`
-  padding: 0 0 16px 0;
-`}
+    padding: 0 0 16px 0;
+  `}
 `
 
 const EnterEmail = (props: Props) => {
-  const { authActions, busy, formValues, invalid, submitting } = props
+  const { authActions, busy, formValues, invalid, isBrowserSupported, submitting } = props
 
   return (
     <LoginWrapper>
-      <TabWrapper>
-        <ProductTab
-          backgroundColor='grey000'
-          onClick={authActions.setCachedWalletData}
-          product={ProductAuthOptions.WALLET}
-        >
-          <Image name='wallet-grayscale' height='28px' style={{ marginRight: '12px' }} />
-          <Text size='20px' weight={600} color='grey400'>
-            <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
-          </Text>
-        </ProductTab>
-        <ProductTab product={ProductAuthOptions.EXCHANGE}>
-          <Image name='exchange-no-background' height='26px' style={{ marginRight: '12px' }} />
-          <Text size='20px' weight={600} color='blue600'>
-            <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
-          </Text>
-        </ProductTab>
-      </TabWrapper>
+      <ProductTabMenu
+        active={ProductAuthOptions.EXCHANGE}
+        onWalletTabClick={authActions.setCachedWalletData}
+      />
       <WrapperWithPadding>
         <FormGroup>
-          {!isSupportedBrowser && <UnsupportedBrowserWarning />}
+          <UnsupportedBrowser isSupportedBrowser={isBrowserSupported} />
           <FormItem style={{ marginTop: '40px' }}>
             <LoginFormLabel htmlFor='email'>
               <FormattedMessage id='scenes.register.youremail' defaultMessage='Your Email' />
@@ -68,7 +45,7 @@ const EnterEmail = (props: Props) => {
             <Field
               component={TextBox}
               data-e2e='exchangeEmail'
-              disabled={!isSupportedBrowser}
+              disabled={!isBrowserSupported}
               disableSpellcheck
               name='email'
               normalize={removeWhitespace}
@@ -96,10 +73,14 @@ const EnterEmail = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          <ExchangeNeedHelpLink authActions={authActions} origin='IDENTIFIER' />
+          <NeedHelpLink
+            authActions={authActions}
+            origin='IDENTIFIER'
+            product={ProductAuthOptions.EXCHANGE}
+          />
         </LinkRow>
       </WrapperWithPadding>
-      <SignUpLink />
+      <SignupLink />
     </LoginWrapper>
   )
 }
