@@ -3,10 +3,10 @@ import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { HeartbeatLoader, Image, Text } from 'blockchain-info-components'
+import { HeartbeatLoader, Text } from 'blockchain-info-components'
 import { FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
-import { ExchangeErrorCodes, ProductAuthOptions } from 'data/types'
+import { ExchangeErrorCodes } from 'data/types'
 import { isBrowserSupported } from 'services/browser'
 import { required, validEmail } from 'services/forms'
 import { media } from 'services/styles'
@@ -14,13 +14,12 @@ import { media } from 'services/styles'
 import { Props } from '../..'
 import {
   ActionButton,
+  BackArrowSimple,
   ExchangeNeedHelpLink,
   LinkRow,
   LoginFormLabel,
-  ProductTab,
   removeWhitespace,
   SignUpLink,
-  TabWrapper,
   UnsupportedBrowserWarning,
   WrapperWithPadding
 } from '../../model'
@@ -28,21 +27,30 @@ import {
 const isSupportedBrowser = isBrowserSupported()
 
 const LoginWrapper = styled(Wrapper)`
-  padding: 0 0 24px 0;
+  padding: 36px 0;
   ${media.mobile`
   padding: 0 0 16px 0;
 `}
 `
 
 const InstitutionalPortal = (props: Props) => {
-  const { authActions, busy, exchangeError, formValues, invalid, submitting } = props
+  const {
+    authActions,
+    busy,
+    exchangeError,
+    formValues,
+    handleBackArrowClick,
+    invalid,
+    submitting
+  } = props
   const passwordError = exchangeError && exchangeError === ExchangeErrorCodes.INVALID_CREDENTIALS
   return (
     <LoginWrapper>
       <WrapperWithPadding>
         <FormGroup>
+          <BackArrowSimple handleBackArrowClick={handleBackArrowClick} />
           {!isSupportedBrowser && <UnsupportedBrowserWarning />}
-          <FormItem style={{ marginTop: '40px' }}>
+          <FormItem style={{ margin: '8px 0 16px' }}>
             <LoginFormLabel htmlFor='email'>
               <FormattedMessage id='copy.email' defaultMessage='Email' />
             </LoginFormLabel>
