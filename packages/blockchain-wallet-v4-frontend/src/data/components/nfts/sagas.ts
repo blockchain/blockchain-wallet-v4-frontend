@@ -574,14 +574,6 @@ export default ({ api }: { api: APIType }) => {
         })
       )
       yield put(A.fetchNftOrders())
-
-      const status: OpenSeaStatus = yield call(api.getOpenSeaStatus)
-      yield put(
-        A.setOpenSeaStatus({
-          // @ts-ignore
-          status
-        })
-      )
     } catch (e) {
       const error = errorHandler(e)
       yield put(actions.logs.logErrorMessage(error))
