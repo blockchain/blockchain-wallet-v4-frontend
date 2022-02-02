@@ -16,7 +16,7 @@ export default ({ apiUrl, get, post }) => {
 
   const getAssetContract = (asset_contract_address: string) => {
     return get({
-      endPoint: `/asset_contract/${asset_contract_address}`,
+      endPoint: `/asset-contract/${asset_contract_address}`,
       ignoreQueryParams: true,
       url: `${explorerUrl}`
     })

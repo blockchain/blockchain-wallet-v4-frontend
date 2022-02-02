@@ -6,6 +6,7 @@ import { Field, reduxForm } from 'redux-form'
 
 import { Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
+import { GasCalculationOperations } from '@core/network/api/nfts/types'
 import { Button, HeartbeatLoader, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -82,6 +83,18 @@ const MakeOffer: React.FC<Props> = (props) => {
                 <Value>
                   <Field
                     name='coin'
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    onChange={(coin: any) => {
+                      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                      const address = window.coins[coin].coinfig.type.erc20Address!
+
+                      nftActions.fetchFees({
+                        asset: val,
+                        offer: '0.0001',
+                        operation: GasCalculationOperations.CreateOffer,
+                        paymentTokenAddress: address
+                      })
+                    }}
                     component={SelectBox}
                     elements={[
                       {
@@ -89,6 +102,7 @@ const MakeOffer: React.FC<Props> = (props) => {
                         items: val.collection.payment_tokens
                           .map((token) => token.symbol)
                           .filter((symbol) => !!window.coins[symbol])
+                          .filter((symbol) => !!window.coins[symbol].coinfig.type.erc20Address)
                           .map((coin) => ({
                             text: window.coins[coin].coinfig.symbol,
                             value: window.coins[coin].coinfig.symbol

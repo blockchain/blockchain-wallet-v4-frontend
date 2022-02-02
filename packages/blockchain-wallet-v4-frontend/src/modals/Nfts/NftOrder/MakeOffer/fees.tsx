@@ -13,23 +13,18 @@ import { Props as OwnProps } from '..'
 
 const Fees: React.FC<Props> = (props) => {
   const { nftActions, orderFlow } = props
-  const { activeOrder } = orderFlow
 
-  // User can only make an offer in WETH
+  // Default to WETH
   const WETH = window.coins.WETH.coinfig.type.erc20Address
 
   useEffect(() => {
-    if (activeOrder) {
-      nftActions.fetchFees({
-        asset: props.asset,
-        offer: '0.0001',
-        operation: GasCalculationOperations.CreateOffer,
-        paymentTokenAddress: WETH
-      })
-    }
+    nftActions.fetchFees({
+      asset: props.asset,
+      offer: '0.0001',
+      operation: GasCalculationOperations.CreateOffer,
+      paymentTokenAddress: WETH
+    })
   }, [])
-
-  if (!activeOrder) return null
 
   return (
     <>

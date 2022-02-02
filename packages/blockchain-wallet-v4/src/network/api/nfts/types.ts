@@ -399,7 +399,7 @@ export interface NftOrder extends UnsignedOrder, Partial<ECSignature> {
 }
 
 export enum GasCalculationOperations {
-  Accept = 'accept',
+  AcceptOffer = 'accept-offer',
   Buy = 'buy',
   Cancel = 'cancel',
   CreateOffer = 'create-offer',

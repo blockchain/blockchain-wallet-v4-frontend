@@ -115,14 +115,14 @@ const nftsSlice = createSlice({
       state,
       action: PayloadAction<
         | {
-            operation: GasCalculationOperations.Accept
+            operation: GasCalculationOperations.AcceptOffer
             order: NftOrder
           }
         | {
             asset: NftAsset
             offer: string
             operation: GasCalculationOperations.CreateOffer
-            paymentTokenAddress?: string
+            paymentTokenAddress: string
           }
         | {
             operation: GasCalculationOperations.Buy

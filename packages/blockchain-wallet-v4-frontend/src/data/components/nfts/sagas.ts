@@ -24,7 +24,7 @@ import {
   getNftBuyOrders,
   getNftSellOrder
 } from '@core/redux/payment/nfts'
-import { OPENSEA_SHARED_MARKETPLACE } from '@core/redux/payment/nfts/utils'
+import { NULL_ADDRESS, OPENSEA_SHARED_MARKETPLACE } from '@core/redux/payment/nfts/utils'
 import { Await } from '@core/types'
 import { errorHandler } from '@core/utils'
 import { getPrivateKey } from '@core/utils/eth'
@@ -268,8 +268,7 @@ export default ({ api }: { api: APIType }) => {
           signer,
           undefined,
           Number(action.payload.offer),
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          action.payload.paymentTokenAddress || window.coins.WETH.coinfig.type.erc20Address!,
+          action.payload.paymentTokenAddress,
           IS_TESTNET ? 'rinkeby' : 'mainnet'
         )
 
@@ -280,7 +279,7 @@ export default ({ api }: { api: APIType }) => {
           undefined,
           buy
         )
-      } else if (action.payload.operation === GasCalculationOperations.Accept) {
+      } else if (action.payload.operation === GasCalculationOperations.AcceptOffer) {
         const { order } = action.payload
         yield put(A.fetchMatchingOrderLoading())
         try {
@@ -389,6 +388,7 @@ export default ({ api }: { api: APIType }) => {
       const signer = yield call(getEthSigner)
       if (!action.payload.coin) throw new Error('No coin selected for offer.')
       const { coinfig } = window.coins[action.payload.coin]
+      if (!coinfig.type.erc20Address) throw new Error('Offers must use an ERC-20 token.')
       // TODO: DONT DEFAULT TO 1 WEEK
       const expirationTime = moment().add(7, 'day').unix()
       const buy: Await<ReturnType<typeof getNftBuyOrder>> = yield call(
@@ -397,7 +397,7 @@ export default ({ api }: { api: APIType }) => {
         signer,
         expirationTime,
         Number(action.payload.amount || '0'),
-        coinfig.type.erc20Address!,
+        coinfig.type.erc20Address,
         IS_TESTNET ? 'rinkeby' : 'mainnet'
       )
       const gasData: GasDataI = yield call(
