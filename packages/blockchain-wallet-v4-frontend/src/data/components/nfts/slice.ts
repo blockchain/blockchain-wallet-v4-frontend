@@ -51,7 +51,7 @@ const initialState: NftsStateType = {
     list: [],
     page: 0
   },
-  openseaStatus: {
+  openSeaStatus: {
     page: {
       id: '',
       name: '',
@@ -254,10 +254,10 @@ const nftsSlice = createSlice({
     },
     fetchOpenseaStatus: () => {},
     fetchOpenseaStatusFailure: (state, action: PayloadAction<OpenSeaStatus>) => {
-      state.openseaStatus = Remote.Failure(action.payload)
+      state.openSeaStatus = Remote.Failure(action.payload)
     },
     fetchOpenseaStatusSuccess: (state, action: PayloadAction<OpenSeaStatus>) => {
-      state.openseaStatus = Remote.Success(action.payload)
+      state.openSeaStatus = Remote.Success(action.payload)
     },
     nftOrderFlowClose: (state) => {
       state.orderFlow.step = NftOrderStepEnum.SHOW_ASSET
@@ -362,7 +362,7 @@ const nftsSlice = createSlice({
       state.offersMade.page = action.payload.page || 0
     },
     setOpenSeaStatus: (state, action: PayloadAction<OpenSeaStatus>) => {
-      state.openseaStatus = action.payload
+      state.openSeaStatus = action.payload
     },
     setOrderFlowIsSubmitting: (state, action: PayloadAction<boolean>) => {
       state.orderFlow.isSubmitting = action.payload

@@ -45,7 +45,7 @@ const mapStateToProps = (state: RootState) => ({
   formValues: selectors.form.getFormValues('nftMarketplace')(state),
   marketplace: selectors.components.nfts.getMarketplace(state),
   offersMade: selectors.components.nfts.getOffersMade(state),
-  openSeaStatus: selectors.components.nfts.getOpenseaStatus(state)
+  openSeaStatus: selectors.components.nfts.getOpenSeaStatus(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

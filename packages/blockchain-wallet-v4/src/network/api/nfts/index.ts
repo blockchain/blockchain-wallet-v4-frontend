@@ -134,7 +134,7 @@ export default ({ apiUrl, get, post }) => {
     })
   }
 
-  const getOpenseaStatus = (): OpenSeaStatus => {
+  const getOpenSeaStatus = (): OpenSeaStatus => {
     return get({
       endPoint: `/status`,
       ignoreQueryParams: true,
@@ -163,7 +163,7 @@ export default ({ apiUrl, get, post }) => {
     getNftOrders,
     getNftRecentEvents,
     getOffersMade,
-    getOpenseaStatus,
+    getOpenSeaStatus,
     postNftOrder,
     searchNftCollectionInfo
   }

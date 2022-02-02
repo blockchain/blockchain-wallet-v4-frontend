@@ -50,7 +50,7 @@ export type NftsStateType = {
     list: OfferEventsType['asset_events']
     page: number
   }
-  openseaStatus: {
+  openSeaStatus: {
     page: {
       id: string
       name: string

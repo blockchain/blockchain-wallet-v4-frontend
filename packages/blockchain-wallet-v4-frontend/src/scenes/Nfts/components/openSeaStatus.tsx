@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 
 import { Icon, Link, Text } from 'blockchain-info-components'
@@ -15,43 +15,48 @@ const ItemWrapper = styled.div`
   border-radius: 8px;
 `
 const OpenSeaStatusComponent: React.FC<Props> = (props) => {
-  // @ts-ignore
-  const seaStatus = props?.openSeaStatus?.status?.status?.description
-
+  useEffect(() => {
+    props.nftsActions.fetchOpenseaStatus()
+  }, [])
   return (
     <div>
-      {seaStatus !== '' && seaStatus !== 'All Systems Operational' && (
-        <ItemWrapper>
-          <Icon name='alert' color='white' size='24px' />
-          <Text
-            style={{
-              fontFamily: 'Inter',
-              marginBottom: '1px',
-              marginLeft: '12px'
-            }}
-            color='white'
-            size='16px'
-            weight={600}
-          >
-            OpenSea is experiencing technical difficulties...
-            <Link
-              style={{
-                color: 'inherit',
-                fontFamily: 'Inter',
-                marginBottom: '1px',
-                marginLeft: '3px',
-                textDecoration: 'underline'
-              }}
-              weight={400}
-              size='16px'
-              target='_blank'
-              href='https://status.opensea.io/'
-            >
-              status.opensea.io
-            </Link>
-          </Text>
-        </ItemWrapper>
-      )}
+      {
+        // @ts-ignore
+        props?.openSeaStatus?.status?.status?.description &&
+          // @ts-ignore
+          props?.openSeaStatus?.status?.status?.description !== 'All Systems Operational' && (
+            <ItemWrapper>
+              <Icon name='alert' color='white' size='24px' />
+              <Text
+                style={{
+                  fontFamily: 'Inter',
+                  marginBottom: '1px',
+                  marginLeft: '12px'
+                }}
+                color='white'
+                size='16px'
+                weight={600}
+              >
+                OpenSea is experiencing technical difficulties...
+                <Link
+                  style={{
+                    color: 'inherit',
+                    fontFamily: 'Inter',
+                    marginBottom: '1px',
+                    marginLeft: '3px',
+                    textDecoration: 'underline'
+                  }}
+                  weight={400}
+                  size='16px'
+                  target='_blank'
+                  href='https://status.opensea.io/'
+                >
+                  status.opensea.io
+                </Link>
+              </Text>
+            </ItemWrapper>
+          )
+      }
     </div>
   )
 }
