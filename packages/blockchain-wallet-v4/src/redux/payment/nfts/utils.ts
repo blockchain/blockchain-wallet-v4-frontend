@@ -2138,7 +2138,7 @@ export async function _makeBuyOrder({
 
   const { calldata, replacementPattern, target } = encodeBuy(
     schema,
-    { address: asset.asset_contract.address, id: asset.id.toString() },
+    { address: asset.asset_contract.address, id: asset.token_id },
     accountAddress
   )
 
