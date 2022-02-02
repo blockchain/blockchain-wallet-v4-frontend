@@ -114,7 +114,7 @@ export const getNftBuyOrder = async (
   )
 }
 
-export const getNftBuyOrders = async (
+export const getNftMatchingOrders = async (
   order: NftOrder,
   signer: Signer,
   expirationTime = 0,

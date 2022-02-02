@@ -21,7 +21,7 @@ import {
   fulfillNftSellOrder,
   fulfillTransfer,
   getNftBuyOrder,
-  getNftBuyOrders,
+  getNftMatchingOrders,
   getNftSellOrder
 } from '@core/redux/payment/nfts'
 import { NULL_ADDRESS, OPENSEA_SHARED_MARKETPLACE } from '@core/redux/payment/nfts/utils'
@@ -239,8 +239,8 @@ export default ({ api }: { api: APIType }) => {
       if (action.payload.operation === GasCalculationOperations.Buy) {
         yield put(A.fetchMatchingOrderLoading())
         try {
-          const { buy, sell }: Await<ReturnType<typeof getNftBuyOrders>> = yield call(
-            getNftBuyOrders,
+          const { buy, sell }: Await<ReturnType<typeof getNftMatchingOrders>> = yield call(
+            getNftMatchingOrders,
             action.payload.order,
             signer,
             undefined,
@@ -283,8 +283,8 @@ export default ({ api }: { api: APIType }) => {
         const { order } = action.payload
         yield put(A.fetchMatchingOrderLoading())
         try {
-          const { buy, sell }: Await<ReturnType<typeof getNftBuyOrders>> = yield call(
-            getNftBuyOrders,
+          const { buy, sell }: Await<ReturnType<typeof getNftMatchingOrders>> = yield call(
+            getNftMatchingOrders,
             order,
             signer,
             undefined,

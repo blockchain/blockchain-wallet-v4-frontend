@@ -15,7 +15,8 @@ const Fees: React.FC<Props> = (props) => {
   const { nftActions, orderFlow } = props
 
   // Default to WETH
-  const WETH = window.coins.WETH.coinfig.type.erc20Address
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const WETH = window.coins.WETH.coinfig.type.erc20Address!
 
   useEffect(() => {
     nftActions.fetchFees({
