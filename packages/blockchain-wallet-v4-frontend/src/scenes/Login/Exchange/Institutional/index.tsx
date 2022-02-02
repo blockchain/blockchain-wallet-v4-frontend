@@ -29,8 +29,8 @@ const isSupportedBrowser = isBrowserSupported()
 const LoginWrapper = styled(Wrapper)`
   padding: 36px 0;
   ${media.mobile`
-  padding: 0 0 16px 0;
-`}
+    padding: 0 0 16px 0;
+  `}
 `
 
 const InstitutionalPortal = (props: Props) => {
