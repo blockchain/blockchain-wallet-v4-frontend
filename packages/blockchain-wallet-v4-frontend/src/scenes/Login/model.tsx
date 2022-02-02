@@ -192,6 +192,42 @@ export const BackArrowFormHeader = (props: {
   )
 }
 
+export const BackArrowSimple = (props: { handleBackArrowClick: () => void }) => {
+  return (
+    <>
+      <BackArrowWrapper>
+        <BackArrow onClick={props.handleBackArrowClick}>
+          <Icon
+            data-e2e='signupBack'
+            name='arrow-back'
+            size='24px'
+            color='blue600'
+            style={{ marginRight: '8px' }}
+            role='button'
+          />
+
+          <Text color='grey900' size='14px' weight={500} lineHeight='1.5'>
+            <FormattedMessage id='copy.back' defaultMessage='Back' />
+          </Text>
+        </BackArrow>
+
+        <Text
+          color='blue600'
+          size='12px'
+          weight={600}
+          lineHeight='1.5'
+          style={{ marginRight: '2px' }}
+        >
+          <FormattedMessage
+            id='scenes.login.exchange.institutional_portal'
+            defaultMessage='Institutional Portal'
+          />
+        </Text>
+      </BackArrowWrapper>
+    </>
+  )
+}
+
 export const LinkRow = styled.div`
   display: flex;
   flex-direction: column;
