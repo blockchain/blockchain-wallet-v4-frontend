@@ -12,7 +12,6 @@ const Container = styled.div`
   align-items: flex-start;
   width: 100%;
 `
-
 const PasswordContainer = styled.div`
   border-radius: 8px;
   overflow: hidden;
@@ -25,7 +24,6 @@ const Error = styled(Text)`
   top: -20px;
   right: 0;
 `
-
 const WarningIcon = styled(Icon)`
   position: absolute;
   margin: auto 0;
@@ -46,6 +44,7 @@ const PasswordBox = (field) => {
     meta,
     noLastPass,
     passwordScore,
+    placeholder,
     showPasswordScore
   } = field
   const { active, error, touched } = meta
@@ -64,6 +63,7 @@ const PasswordBox = (field) => {
           errorState={errorState}
           data-e2e={field['data-e2e']}
           noLastPass={noLastPass}
+          placeholder={placeholder}
         />
         {scoreVisible && <PasswordGauge score={passwordScore + 1} />}
       </PasswordContainer>
