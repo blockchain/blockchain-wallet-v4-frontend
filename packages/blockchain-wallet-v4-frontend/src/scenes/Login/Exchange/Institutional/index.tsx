@@ -109,12 +109,12 @@ const InstitutionalPortal = (props: Props) => {
               <FormattedMessage id='scenes.login.password' defaultMessage='Password' />
             </FormLabel>
             <Field
-              name='exchangePassword'
-              disabled={!isBrowserSupported}
-              validate={[required]}
               component={PasswordBox}
               data-e2e='exchangePassword'
+              disabled={!isBrowserSupported}
+              name='exchangePassword'
               placeholder='Enter your password'
+              validate={[required]}
             />
             {passwordError && (
               <FormError data-e2e='passwordError' style={{ paddingTop: '5px' }}>
