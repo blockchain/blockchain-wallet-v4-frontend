@@ -8,7 +8,7 @@ import { FormError, FormGroup, FormItem, FormLabel, TextBox } from 'components/F
 import { Wrapper } from 'components/Public'
 import { ExchangeErrorCodes } from 'data/types'
 import { required } from 'services/forms'
-import { media } from 'services/styles'
+import { isMobile, media } from 'services/styles'
 
 import { Props } from '../..'
 import {
@@ -23,6 +23,9 @@ import {
 
 const LoginWrapper = styled(Wrapper)`
   padding: 32px 0 24px;
+  ${media.mobile`
+    padding: 24px 0;
+  `}
 `
 const TwoFAExchange = (props: Props) => {
   const {
@@ -43,10 +46,17 @@ const TwoFAExchange = (props: Props) => {
         <FormGroup>
           <FormItem>
             <FormLabel htmlFor='code'>
-              <FormattedMessage
-                id='scenes.logins.twofa.enter_code'
-                defaultMessage='Enter your Two Factor Authentication Code'
-              />
+              {isMobile() ? (
+                <FormattedMessage
+                  id='scenes.logins.twofa.enter_code.mobile_width'
+                  defaultMessage='Enter your 2FA Code'
+                />
+              ) : (
+                <FormattedMessage
+                  id='scenes.logins.twofa.enter_code'
+                  defaultMessage='Enter your Two Factor Authentication Code'
+                />
+              )}
             </FormLabel>
             <Field
               name='exchangeTwoFA'
