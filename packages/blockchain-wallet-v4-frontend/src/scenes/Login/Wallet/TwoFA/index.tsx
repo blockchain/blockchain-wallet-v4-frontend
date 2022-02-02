@@ -7,20 +7,16 @@ import styled from 'styled-components'
 import { HeartbeatLoader, Link, Text } from 'blockchain-info-components'
 import { FormError, FormGroup, FormItem, FormLabel, PasswordBox, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
+import { ProductAuthOptions } from 'data/auth/types'
 import { required } from 'services/forms'
+import { removeWhitespace } from 'services/forms/normalizers'
 import { isMobile, media } from 'services/styles'
 
 import { Props } from '../..'
-import {
-  ActionButton,
-  BackArrowFormHeader,
-  CenteredColumn,
-  removeWhitespace,
-  Row,
-  SignUpLink,
-  WalletNeedHelpLink,
-  WrapperWithPadding
-} from '../../model'
+import BackArrowHeader from '../../components/BackArrowHeader'
+import NeedHelpLink from '../../components/NeedHelpLink'
+import SignupLink from '../../components/SignupLink'
+import { ActionButton, CenteredColumn, Row, WrapperWithPadding } from '../../model'
 
 const LoginWrapper = styled(Wrapper)`
   display: flex;
@@ -62,11 +58,7 @@ const TwoFAWallet = (props: Props) => {
   return (
     <LoginWrapper>
       <WrapperWithPadding>
-        <BackArrowFormHeader
-          {...props}
-          handleBackArrowClick={handleBackArrowClick}
-          marginTop='28px'
-        />
+        <BackArrowHeader {...props} handleBackArrowClick={handleBackArrowClick} marginTop='28px' />
         {authType > 0 && (
           <FormGroup>
             <FormItem>
@@ -142,10 +134,14 @@ const TwoFAWallet = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          <WalletNeedHelpLink authActions={props.authActions} origin='2FA' />
+          <NeedHelpLink
+            authActions={authActions}
+            origin='2FA'
+            product={ProductAuthOptions.WALLET}
+          />
         </CenteredColumn>
       </WrapperWithPadding>
-      <SignUpLink />
+      <SignupLink />
     </LoginWrapper>
   )
 }
