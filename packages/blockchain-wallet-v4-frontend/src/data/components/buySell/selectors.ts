@@ -27,6 +27,8 @@ const hasEligibleFiatCurrency = (currency) =>
 
 export const getAddBank = (state: RootState) => state.components.buySell.addBank
 
+export const getAddCardError = (state: RootState) => state.components.buySell.addCardError
+
 export const getOrderType = (state: RootState) => state.components.buySell.orderType
 
 export const getEverypay3DSDetails = (state: RootState) => state.components.buySell.everypay3DS
