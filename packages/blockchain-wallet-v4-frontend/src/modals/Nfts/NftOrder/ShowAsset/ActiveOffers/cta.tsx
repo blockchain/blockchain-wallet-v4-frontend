@@ -63,7 +63,7 @@ const CTA: React.FC<Props> = (props) => {
                     small
                     onClick={() => {
                       nftActions.fetchFees({
-                        operation: GasCalculationOperations.Accept,
+                        operation: GasCalculationOperations.AcceptOffer,
                         order: orderFromJSON(offer)
                       })
                       nftActions.setOrderFlowStep({

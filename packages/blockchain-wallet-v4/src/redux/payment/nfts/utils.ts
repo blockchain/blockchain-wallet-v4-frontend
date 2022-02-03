@@ -1,7 +1,6 @@
 import BigNumber from 'bignumber.js'
 import BN from 'bn.js'
 import { ethers, Signer } from 'ethers'
-import moment from 'moment'
 
 import {
   Asset,
@@ -42,8 +41,6 @@ export const DEFAULT_MAX_BOUNTY = DEFAULT_SELLER_FEE_BASIS_POINTS
 export const ENJIN_ADDRESS = '0xfaaFDc07907ff5120a76b34b731b278c38d6043C'
 export const ENJIN_COIN_ADDRESS = '0xf629cbd94d3791c9250152bd8dfbdf380e2a3b9c'
 export const OPENSEA_SHARED_MARKETPLACE = '0x495f947276749ce646f68ac8c248420045cb7b5e'
-export const WETH_ADDRESS = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
-export const WETH_ADDRESS_RINKEBY = '0xc778417E063141139Fce010982780140Aa0cD5Ab'
 const WYVERN_TOKEN_PAYMENT_PROXY = '0xe5c783ee536cf5e63e792988335c4255169be4e1'
 const WYVERN_TOKEN_PAYMENT_PROXY_RINKEBY = '0x82d102457854c985221249f86659c9d6cf12aa72'
 const WYVERN_CONTRACT_ADDR_RINKEBY = '0x5206e78b21Ce315ce284FB24cf05e0585A93B1d9'
@@ -327,7 +324,7 @@ export const encodeSell = (schema, asset: WyvernAsset, address) => {
   }
 }
 
-export const encodeBuy = (schema, asset, address) => {
+export const encodeBuy = (schema, asset: WyvernAsset, address) => {
   const transfer = schema.functions.transfer(asset)
   const replaceables = transfer.inputs.filter((i: any) => i.kind === FunctionInputKind.Replaceable)
   const ownerInputs = transfer.inputs.filter((i: any) => i.kind === FunctionInputKind.Owner)
@@ -584,7 +581,6 @@ export function _makeMatchingOrder({
   accountAddress,
   expirationTime,
   network,
-  offer,
   order,
   paymentTokenAddress,
   recipientAddress
@@ -593,7 +589,6 @@ export function _makeMatchingOrder({
   accountAddress: string
   expirationTime: number
   network: string
-  offer: null | string
   order: NftOrder
   paymentTokenAddress: null | string
   recipientAddress: string
@@ -659,7 +654,7 @@ export function _makeMatchingOrder({
       : OPENSEA_FEE_RECIPIENT
 
   const matchingOrder: UnhashedOrder = {
-    basePrice: offer ? new BigNumber(offer) : new BigNumber(order.basePrice),
+    basePrice: new BigNumber(order.basePrice),
     calldata,
     exchange: order.exchange,
     expirationTime: times.expirationTime,
@@ -1857,7 +1852,6 @@ export async function _buyOrderValidationAndApprovals({
     gasPrice
   }
   const tokenAddress = order.paymentToken
-  const wethAddress = getNetwork(signer) === 'rinkeby' ? WETH_ADDRESS_RINKEBY : WETH_ADDRESS
   const accountAddress = await signer.getAddress()
   if (tokenAddress !== NULL_ADDRESS) {
     const fungibleTokenInterface = new ethers.Contract(order.paymentToken, ERC20_ABI, signer)
@@ -1874,11 +1868,7 @@ export async function _buyOrderValidationAndApprovals({
 
     // Check balance against price
     if (balance.isLessThan(minimumAmount)) {
-      if (tokenAddress === wethAddress) {
-        throw new Error('Insufficient balance. You may need to wrap Ether.')
-      } else {
-        throw new Error('Insufficient balance.')
-      }
+      throw new Error(`Insufficient ${order.paymentToken} balance.`)
     }
 
     // Check token approval
@@ -2108,42 +2098,28 @@ export async function _atomicMatch({
 export async function _makeBuyOrder({
   accountAddress,
   asset,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  buyerAddress,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  endAmount,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  englishAuctionReservePrice = 0,
-  expirationTime,
+  expirationTime = 0,
   extraBountyBasisPoints = 0,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  listingTime,
   network,
   paymentTokenAddress,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   quantity,
+  referrerAddress,
   sellOrder,
-  startAmount,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  waitForHighestBid
+  startAmount
 }: {
   accountAddress: string
   asset: NftAsset
-  buyerAddress: string
-  endAmount?: number
-  englishAuctionReservePrice?: number
   expirationTime: number
   extraBountyBasisPoints: number
-  listingTime?: number
-  network: string
+  network: 'mainnet' | 'rinkeby'
   paymentTokenAddress: string
   quantity: number
-  sellOrder?: NftOrder
+  referrerAddress?: string
+  sellOrder?: UnhashedOrder
   startAmount: number
-  waitForHighestBid: boolean
 }): Promise<UnhashedOrder> {
-  const schema = await schemaMap[asset.asset_contract.schema_name ?? WyvernSchemaName.ERC721]
-  // const wyAsset = getWyvernAsset(schema, asset, quantityBN)
+  accountAddress = ethers.utils.getAddress(accountAddress)
+  const schema = schemaMap[asset.asset_contract.schema_name || WyvernSchemaName.ERC721]
   const taker = sellOrder ? sellOrder.maker : NULL_ADDRESS
 
   const { totalBuyerFeeBasisPoints, totalSellerFeeBasisPoints } = await computeFees({
@@ -2162,7 +2138,11 @@ export async function _makeBuyOrder({
     takerRelayerFee
   } = _getBuyFeeParameters(totalBuyerFeeBasisPoints, totalSellerFeeBasisPoints, sellOrder)
 
-  const { calldata, replacementPattern, target } = encodeBuy(schema, asset, accountAddress)
+  const { calldata, replacementPattern, target } = encodeBuy(
+    schema,
+    { address: asset.asset_contract.address, id: asset.token_id },
+    accountAddress
+  )
 
   const { basePrice, extra, paymentToken } = await _getPriceParameters(
     NftOrderSide.Buy,
@@ -2178,6 +2158,7 @@ export async function _makeBuyOrder({
   if (!asset.asset_contract) {
     throw new Error('contract address not defined within asset')
   }
+
   return {
     basePrice: new BigNumber(basePrice.toString()),
     calldata,
@@ -2269,9 +2250,46 @@ export async function createSellOrder(
   return orderWithSignature
 }
 
+export async function createBuyOrder(
+  asset: NftAsset,
+  accountAddress: string,
+  startAmount: number,
+  expirationTime: number,
+  paymentTokenAddress: string,
+  signer: Signer,
+  network: 'mainnet' | 'rinkeby'
+): Promise<NftOrder> {
+  // 1. use the _makeBuyOrder to create the object & initialize the proxy contract for this sale.
+  const order = await _makeBuyOrder({
+    accountAddress,
+    asset,
+    expirationTime,
+    extraBountyBasisPoints: 0,
+    network,
+    paymentTokenAddress,
+    quantity: 1,
+    referrerAddress: '0x0000000000000000000000000000000000000000',
+    sellOrder: undefined,
+    startAmount
+  })
+  // 2. Compute hash of the order and output {...order, hash:hash(order)}
+  const hashedOrder: UnsignedOrder = {
+    ...order,
+    hash: getOrderHash(order)
+  }
+  const signature = await _signMessage({ message: hashedOrder.hash, signer })
+  const orderWithSignature = {
+    ...hashedOrder,
+    ...signature
+  }
+  const isBuyValid = await _validateOrderWyvern({ order: orderWithSignature, signer })
+  if (!isBuyValid) throw new Error('Buy order is invalid')
+
+  return orderWithSignature
+}
+
 export async function createMatchingOrders(
   expirationTime: number,
-  offer: null | string,
   order: NftOrder,
   signer: Signer,
   network: string,
@@ -2283,7 +2301,6 @@ export async function createMatchingOrders(
     accountAddress,
     expirationTime,
     network,
-    offer,
     order,
     paymentTokenAddress,
     recipientAddress: accountAddress

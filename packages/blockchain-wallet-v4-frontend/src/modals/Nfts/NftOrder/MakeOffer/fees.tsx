@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { FormattedMessage } from 'react-intl'
 import BigNumber from 'bignumber.js'
 
-import { GasCalculationOperations } from '@core/network/api/nfts/types'
+import { GasCalculationOperations, NftAsset } from '@core/network/api/nfts/types'
 import { SpinningLoader, TooltipHost, TooltipIcon } from 'blockchain-info-components'
 import CoinDisplay from 'components/Display/CoinDisplay'
 import FiatDisplay from 'components/Display/FiatDisplay'
@@ -13,23 +13,19 @@ import { Props as OwnProps } from '..'
 
 const Fees: React.FC<Props> = (props) => {
   const { nftActions, orderFlow } = props
-  const { activeOrder } = orderFlow
 
-  // User can only make an offer in WETH
-  const WETH = window.coins.WETH.coinfig.type.erc20Address
+  // Default to WETH
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const WETH = window.coins.WETH.coinfig.type.erc20Address!
 
   useEffect(() => {
-    if (activeOrder) {
-      nftActions.fetchFees({
-        offer: '10000',
-        operation: GasCalculationOperations.Buy,
-        order: activeOrder,
-        paymentTokenAddress: WETH
-      })
-    }
+    nftActions.fetchFees({
+      asset: props.asset,
+      offer: '0.0001',
+      operation: GasCalculationOperations.CreateOffer,
+      paymentTokenAddress: WETH
+    })
   }, [])
-
-  if (!activeOrder) return null
 
   return (
     <>
@@ -73,6 +69,6 @@ const Fees: React.FC<Props> = (props) => {
   )
 }
 
-type Props = OwnProps
+type Props = OwnProps & { asset: NftAsset }
 
 export default Fees
