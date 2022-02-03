@@ -4,7 +4,9 @@ import { bindActionCreators, Dispatch } from 'redux'
 
 import { BSCardType, BSPaymentMethodsType, FiatType, RemoteDataType } from '@core/types'
 import { actions, selectors } from 'data'
+import { ModalName } from 'data/modals/types'
 import { RootState } from 'data/rootReducer'
+import { UserDataType } from 'data/types'
 
 import { getData } from './selectors'
 import Loading from './template.loading'
@@ -25,14 +27,29 @@ class LinkedCards extends PureComponent<Props> {
     await this.props.buySellActions.addCardFinished()
   }
 
+  proceedToUserVerification = () => {
+    this.props.modalActions.showModal(ModalName.COMPLETE_USER_PROFILE, {
+      origin: 'SettingsGeneral'
+    })
+  }
+
   render() {
     return this.props.data.cata({
       Failure: () => null,
       Loading: () => <Loading />,
       NotAsked: () => null,
-      Success: (val) => (
-        <Success {...val} {...this.props} handleCreditCardClick={this.handleCreditCardClick} />
-      )
+      Success: (val) => {
+        const isUserVerified = val.userData.tiers && val.userData.tiers.current > 0
+        return (
+          <Success
+            {...val}
+            {...this.props}
+            handleCreditCardClick={
+              isUserVerified ? this.handleCreditCardClick : this.proceedToUserVerification
+            }
+          />
+        )
+      }
     })
   }
 }
@@ -43,7 +60,8 @@ const mapStateToProps = (state: RootState): LinkStatePropsType => ({
 })
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  buySellActions: bindActionCreators(actions.components.buySell, dispatch)
+  buySellActions: bindActionCreators(actions.components.buySell, dispatch),
+  modalActions: bindActionCreators(actions.modals, dispatch)
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
@@ -51,6 +69,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 export type SuccessStateType = {
   cards: Array<BSCardType>
   paymentMethods: BSPaymentMethodsType
+  userData: UserDataType
 }
 type LinkStatePropsType = {
   data: RemoteDataType<string, SuccessStateType>

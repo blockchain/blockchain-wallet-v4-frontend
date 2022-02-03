@@ -268,19 +268,6 @@ class PreviewSwap extends PureComponent<InjectedFormProps<{}, Props> & Props, St
                 <FormattedMessage id='buttons.swap_now' defaultMessage='Swap Now' />
               )}
             </Button>
-            <Button
-              nature='light-red'
-              data-e2e='swapCancelBtn'
-              type='button'
-              disabled={this.props.submitting}
-              fullwidth
-              height='48px'
-              color='red400'
-              style={{ marginTop: '16px' }}
-              onClick={() => swapActions.setStep({ step: 'ENTER_AMOUNT' })}
-            >
-              <FormattedMessage id='buttons.cancel' defaultMessage='Cancel' />
-            </Button>
             {this.props.error && (
               <ErrorCartridge style={{ marginTop: '16px' }} data-e2e='checkoutError'>
                 <Icon name='alert-filled' color='red600' style={{ marginRight: '4px' }} />

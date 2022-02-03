@@ -7,10 +7,9 @@ import { compose } from 'redux'
 import { Field, reduxForm } from 'redux-form'
 import styled from 'styled-components'
 
-import { Remote } from '@core'
 import { convertCoinToCoin } from '@core/exchange'
 import { GasCalculationOperations } from '@core/network/api/nfts/types'
-import { Button, Icon, SpinningLoader, Text } from 'blockchain-info-components'
+import { Button, HeartbeatLoader, Icon, SpinningLoader, Text } from 'blockchain-info-components'
 import FiatDisplay from 'components/Display/FiatDisplay'
 import { Row, Title, Value } from 'components/Flyout/model'
 import { DateBoxDebounced, Form, NumberBox, SelectBox } from 'components/Form'
@@ -55,11 +54,11 @@ const MarkForSale: React.FC<Props> = (props) => {
   const disabled =
     formValues['sale-type'] === 'fixed-price'
       ? // Fixed Price
-        !formValues.amount || Remote.Loading.is(props.sellOrder)
+        !formValues.amount || props.orderFlow.isSubmitting
       : // Dutch (Declining)
         ((!formValues.starting ||
           !formValues.ending ||
-          Remote.Loading.is(props.sellOrder) ||
+          props.orderFlow.isSubmitting ||
           formValues.ending > formValues.starting) &&
           formValues.timedAuctionType === 'decliningPrice') ||
         // English (Ascending)
@@ -399,15 +398,19 @@ const MarkForSale: React.FC<Props> = (props) => {
                     }}
                   >
                     {formValues.amount || formValues.starting ? (
-                      <FormattedMessage
-                        id='copy.mark_for_sale_value'
-                        defaultMessage='Mark for Sale for {val}'
-                        values={{
-                          val: formValues.amount
-                            ? `${formValues.amount} ${coin}`
-                            : `${formValues.starting} ${coin}`
-                        }}
-                      />
+                      props.orderFlow.isSubmitting ? (
+                        <HeartbeatLoader color='blue100' height='20px' width='20px' />
+                      ) : (
+                        <FormattedMessage
+                          id='copy.mark_for_sale_value'
+                          defaultMessage='Mark for Sale for {val}'
+                          values={{
+                            val: formValues.amount
+                              ? `${formValues.amount} ${coin}`
+                              : `${formValues.starting} ${coin}`
+                          }}
+                        />
+                      )
                     ) : (
                       <FormattedMessage id='copy.mark_for_sale' defaultMessage='Mark for Sale' />
                     )}

@@ -1,9 +1,11 @@
 import {
   AssetEventsType,
   ExplorerGatewayNftCollectionType,
+  NftAsset,
   NftAssetsType,
   NftOrdersType,
-  OfferEventsType
+  OfferEventsType,
+  OpenSeaStatus
 } from './types'
 
 // const JAYZ_ADDRESS = '0x3b417faee9d2ff636701100891dc2755b5321cc3'
@@ -15,13 +17,13 @@ export default ({ apiUrl, get, post }) => {
 
   const getAssetContract = (asset_contract_address: string) => {
     return get({
-      endPoint: `/asset_contract/${asset_contract_address}`,
+      endPoint: `/asset-contract/${asset_contract_address}`,
       ignoreQueryParams: true,
       url: `${explorerUrl}`
     })
   }
 
-  const getNftAsset = (contract_address: string, token_id: string): NftAssetsType => {
+  const getNftAsset = (contract_address: string, token_id: string): NftAsset => {
     return get({
       endPoint: `/asset/${contract_address}/${token_id}`,
       ignoreQueryParams: true,
@@ -53,6 +55,22 @@ export default ({ apiUrl, get, post }) => {
       endPoint: `/events?event_type=offer_entered&limit=${limit}&offset=${
         NFT_ORDER_PAGE_LIMIT * offset
       }&account_address=${account_address}`,
+      ignoreQueryParams: true,
+      url: `${explorerUrl}`
+    })
+  }
+
+  const getNftOffersForAsset = (
+    eth_addr: string,
+    asset_contract_address: string,
+    token_id: string,
+    offset = 0,
+    limit = NFT_ORDER_PAGE_LIMIT
+  ): OfferEventsType => {
+    return get({
+      endPoint: `/events?event_type=offer_entered&limit=${limit}&offset=${
+        NFT_ORDER_PAGE_LIMIT * offset
+      }&asset_contract_address=${asset_contract_address}&token_id=${token_id}`,
       ignoreQueryParams: true,
       url: `${explorerUrl}`
     })
@@ -116,6 +134,14 @@ export default ({ apiUrl, get, post }) => {
     })
   }
 
+  const getOpenSeaStatus = (): OpenSeaStatus => {
+    return get({
+      endPoint: `/status`,
+      ignoreQueryParams: true,
+      url: `${explorerUrl}`
+    })
+  }
+
   const postNftOrder = (order) => {
     return post({
       contentType: 'application/json',
@@ -133,9 +159,11 @@ export default ({ apiUrl, get, post }) => {
     getNftAssets,
     getNftCollectionInfo,
     getNftCollections,
+    getNftOffersForAsset,
     getNftOrders,
     getNftRecentEvents,
     getOffersMade,
+    getOpenSeaStatus,
     postNftOrder,
     searchNftCollectionInfo
   }

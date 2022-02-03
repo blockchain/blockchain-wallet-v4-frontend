@@ -13,18 +13,16 @@ import { Props as OwnProps } from '..'
 
 const Fees: React.FC<Props> = (props) => {
   const { nftActions, orderFlow } = props
-  const { activeOffer } = orderFlow
+  const { offerToCancel } = orderFlow
 
   useEffect(() => {
-    if (props.operation === 'cancel') {
-      nftActions.fetchFees({
-        operation: GasCalculationOperations.Cancel,
-        order: activeOffer as unknown as RawOrder
-      })
-    }
+    nftActions.fetchFees({
+      operation: GasCalculationOperations.Cancel,
+      order: offerToCancel as unknown as RawOrder
+    })
   }, [])
 
-  if (!activeOffer) return null
+  if (!offerToCancel) return null
 
   return (
     <>
@@ -63,6 +61,6 @@ const Fees: React.FC<Props> = (props) => {
   )
 }
 
-type Props = OwnProps & { operation: 'cancel' | 'accept' }
+type Props = OwnProps
 
 export default Fees

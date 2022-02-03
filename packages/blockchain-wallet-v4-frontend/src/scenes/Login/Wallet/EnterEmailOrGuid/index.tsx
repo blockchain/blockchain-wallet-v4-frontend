@@ -3,70 +3,56 @@ import { FormattedMessage } from 'react-intl'
 import { Field } from 'redux-form'
 import styled from 'styled-components'
 
-import { HeartbeatLoader, Image, Text } from 'blockchain-info-components'
+import { HeartbeatLoader, Text } from 'blockchain-info-components'
 import { FormGroup, FormItem, TextBox } from 'components/Form'
 import { Wrapper } from 'components/Public'
+import { LOGIN_FORM } from 'data/auth/model'
 import { ProductAuthOptions } from 'data/types'
-import { isBrowserSupported } from 'services/browser'
 import { required, validWalletIdOrEmail } from 'services/forms'
+import { removeWhitespace } from 'services/forms/normalizers'
 import { media } from 'services/styles'
 
 import { Props } from '../..'
-import {
-  ActionButton,
-  GuidError,
-  LinkRow,
-  LoginFormLabel,
-  ProductTab,
-  removeWhitespace,
-  SignUpLink,
-  TabWrapper,
-  UnsupportedBrowserWarning,
-  WalletNeedHelpLink,
-  WrapperWithPadding
-} from '../../model'
+import NeedHelpLink from '../../components/NeedHelpLink'
+import ProductTabMenu from '../../components/ProductTabMenu'
+import SignupLink from '../../components/SignupLink'
+import UnsupportedBrowser from '../../components/UnsupportedBrowser'
+import { ActionButton, GuidError, LinkRow, LoginFormLabel, WrapperWithPadding } from '../../model'
 
 const LoginWrapper = styled(Wrapper)`
   display: flex;
   flex-direction: column;
   padding: 0 0 24px 0;
   ${media.mobile`
-  padding: 0 0 16px 0;
-`}
+    padding: 0 0 16px 0;
+  `}
 `
 
-const isSupportedBrowser = isBrowserSupported()
-
 const EnterEmailOrGuid = (props: Props) => {
-  const { authActions, busy, formValues, invalid, submitting, walletError } = props
+  const {
+    authActions,
+    busy,
+    formActions,
+    formValues,
+    invalid,
+    isBrowserSupported,
+    routerActions,
+    submitting,
+    walletError
+  } = props
   const guidError = walletError && walletError.toLowerCase().includes('unknown wallet id')
   const onExchangeTabClick = () => {
-    props.routerActions.push('/login?product=exchange')
+    routerActions.push('/login?product=exchange')
+    formActions.clearFields(LOGIN_FORM, false, false, 'email')
     authActions.setProductAuthMetadata({ product: ProductAuthOptions.EXCHANGE })
   }
+
   return (
     <LoginWrapper>
-      <TabWrapper>
-        <ProductTab product={ProductAuthOptions.WALLET}>
-          <Image name='wallet-no-background' height='28px' style={{ marginRight: '12px' }} />
-          <Text size='20px' weight={600} color='purple600'>
-            <FormattedMessage id='copy.wallet' defaultMessage='Wallet' />
-          </Text>
-        </ProductTab>
-        <ProductTab
-          backgroundColor='grey000'
-          onClick={onExchangeTabClick}
-          product={ProductAuthOptions.EXCHANGE}
-        >
-          <Image name='exchange-grayscale' height='26px' style={{ marginRight: '12px' }} />
-          <Text size='20px' weight={600} color='grey400'>
-            <FormattedMessage id='copy.exchange' defaultMessage='Exchange' />
-          </Text>
-        </ProductTab>
-      </TabWrapper>
+      <ProductTabMenu active={ProductAuthOptions.WALLET} onExchangeTabClick={onExchangeTabClick} />
       <WrapperWithPadding>
         <FormGroup>
-          {!isSupportedBrowser && <UnsupportedBrowserWarning />}
+          <UnsupportedBrowser isSupportedBrowser={isBrowserSupported} />
           <FormItem style={{ marginTop: '40px' }}>
             <LoginFormLabel htmlFor='guid'>
               <FormattedMessage
@@ -77,12 +63,12 @@ const EnterEmailOrGuid = (props: Props) => {
             <Field
               component={TextBox}
               data-e2e='loginGuidOrEmail'
-              disabled={!isSupportedBrowser}
+              disabled={!isBrowserSupported}
               disableSpellcheck
               name='guidOrEmail'
               normalize={removeWhitespace}
               validate={[required, validWalletIdOrEmail]}
-              placeholder='Enter your email or wallet ID'
+              placeholder='Enter email or wallet ID'
               autoFocus
             />
           </FormItem>
@@ -115,10 +101,14 @@ const EnterEmailOrGuid = (props: Props) => {
               </Text>
             )}
           </ActionButton>
-          <WalletNeedHelpLink authActions={authActions} origin='IDENTIFIER' />
+          <NeedHelpLink
+            authActions={authActions}
+            origin='IDENTIFIER'
+            product={ProductAuthOptions.WALLET}
+          />
         </LinkRow>
       </WrapperWithPadding>
-      <SignUpLink />
+      <SignupLink />
     </LoginWrapper>
   )
 }

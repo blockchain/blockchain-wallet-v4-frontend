@@ -36,7 +36,6 @@ jest.mock('blockchain-wallet-v4/src/redux/middleware', () => ({
 jest.mock('../middleware', () => ({
   analyticsMiddleware: jest.fn(),
   autoDisconnection: jest.fn(),
-  matomoMiddleware: jest.fn(),
   streamingXlm: jest.fn(),
   webSocketCoins: jest.fn(),
   webSocketRates: jest.fn()

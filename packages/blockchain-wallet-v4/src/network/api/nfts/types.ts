@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js'
-import { any } from 'ramda'
 
 /**
  * Wyvern order side: buy or sell.
@@ -80,11 +79,11 @@ export interface ExchangeMetadataForBundle {
 export type ExchangeMetadata = ExchangeMetadataForAsset | ExchangeMetadataForBundle
 
 export interface WyvernOrder {
-  basePrice: BigNumber
+  basePrice: BigNumber | string
   calldata: string
   exchange: string
   expirationTime: BigNumber
-  extra: BigNumber
+  extra: BigNumber | string
   feeMethod: number
   feeRecipient: string
   howToCall: number
@@ -175,6 +174,20 @@ export interface OpenSeaAssetContract extends OpenSeaFees {
   traits?: object[]
   type: AssetContractType
   wikiLink?: string
+}
+
+export interface OpenSeaStatus {
+  page: {
+    id: string
+    name: string
+    time_zone: string
+    updated_at: string
+    url: string
+  }
+  status: {
+    description: string
+    indicator: string
+  }
 }
 
 export interface ComputedFees extends OpenSeaFees {
@@ -340,7 +353,7 @@ export interface AssetEvent {
 export interface OpenSeaAsset extends Asset {
   assetContract: OpenSeaAssetContract
   backgroundColor: string | null
-  buyOrders: Order[] | null
+  buyOrders: NftOrder[] | null
   collection: OpenSeaCollection
   description: string
   externalLink: string
@@ -353,9 +366,9 @@ export interface OpenSeaAsset extends Asset {
   name: string
   numSales: number
   openseaLink: string
-  orders: Order[] | null
+  orders: NftOrder[] | null
   owner: OpenSeaAccount
-  sellOrders: Order[] | null
+  sellOrders: NftOrder[] | null
   traits: object[]
   transferFee: BigNumber | string | null
   transferFeePaymentToken: OpenSeaFungibleToken | null
@@ -373,7 +386,7 @@ export interface OpenSeaAssetBundle {
   maker: OpenSeaAccount
   name: string
   permalink: string
-  sellOrders: Order[] | null
+  sellOrders: NftOrder[] | null
   slug: string
 }
 export interface ECSignature {
@@ -385,7 +398,7 @@ export interface ECSignature {
  * Orders don't need to be signed if they're pre-approved
  * with a transaction on the contract to approveOrder_
  */
-export interface Order extends UnsignedOrder, Partial<ECSignature> {
+export interface NftOrder extends UnsignedOrder, Partial<ECSignature> {
   asset?: OpenSeaAsset
   assetBundle?: OpenSeaAssetBundle
   cancelledOrFinalized?: boolean
@@ -400,8 +413,10 @@ export interface Order extends UnsignedOrder, Partial<ECSignature> {
 }
 
 export enum GasCalculationOperations {
+  AcceptOffer = 'accept-offer',
   Buy = 'buy',
   Cancel = 'cancel',
+  CreateOffer = 'create-offer',
   Sell = 'sell',
   Transfer = 'transfer'
 }
@@ -627,7 +642,7 @@ export interface NftAsset {
   listing_date: null
   name: string
   num_sales: number
-  orders: Order[]
+  orders: RawOrder[]
   owner: {
     address: string
     config: string
@@ -638,7 +653,6 @@ export interface NftAsset {
   }
 
   permalink: string
-  sell_orders: RawOrder[]
   token_id: string
   token_metadata: null
   top_bid: null
@@ -657,7 +671,7 @@ export type NftAssetsType = NftAsset[]
 
 export type NftOrdersType = {
   count: number
-  orders: Order[]
+  orders: NftOrder[]
 }
 
 export enum SolidityTypes {

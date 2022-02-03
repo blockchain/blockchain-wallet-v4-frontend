@@ -45,7 +45,7 @@ const BaseTextInput = styled.input.attrs((props) => ({
   &:disabled {
     cursor: not-allowed;
     background-color: ${(props) => props.theme.grey100};
-    border: '1px solid transparent';
+    border: 1px solid transparent;
   }
 `
 const Container = styled.div`

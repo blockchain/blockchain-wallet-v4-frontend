@@ -83,37 +83,14 @@ const YourCollection: React.FC<Props> = (props) => {
                 </PriceInfo>
               </AssetDetails>
               <CTAWrapper>
-                {asset.sell_orders?.filter(
-                  ({ maker }) => maker.address.toLowerCase() === props.defaultEthAddr.toLowerCase()
-                ).length ? (
-                  <Button
-                    fullwidth
-                    data-e2e='cancelListing'
-                    nature='primary'
-                    onClick={() => props.nftsActions.nftOrderFlowOpen({ asset })}
-                  >
-                    {asset.sell_orders?.length > 1 ? (
-                      <FormattedMessage
-                        id='copy.cancel_listings'
-                        defaultMessage='Cancel Listings'
-                      />
-                    ) : (
-                      <FormattedMessage id='copy.cancel_listing' defaultMessage='Cancel Listing' />
-                    )}
-                  </Button>
-                ) : (
-                  <Button
-                    fullwidth
-                    data-e2e='sellNft'
-                    nature='primary'
-                    onClick={() => props.nftsActions.nftOrderFlowOpen({ asset })}
-                  >
-                    <FormattedMessage
-                      id='copy.sell_or_transfer'
-                      defaultMessage='Sell or Transfer'
-                    />
-                  </Button>
-                )}
+                <Button
+                  fullwidth
+                  data-e2e='sellNft'
+                  nature='primary'
+                  onClick={() => props.nftsActions.nftOrderFlowOpen({ asset })}
+                >
+                  <FormattedMessage id='copy.view_details' defaultMessage='View Details' />
+                </Button>
                 <Link
                   style={{
                     display: 'block',

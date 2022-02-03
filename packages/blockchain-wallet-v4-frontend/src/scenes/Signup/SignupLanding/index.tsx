@@ -11,7 +11,6 @@ import {
   CardHeader,
   CardInfo,
   CardsWrapper,
-  CardWrapper,
   IconWrapper,
   InfoItem,
   InfoTitle,

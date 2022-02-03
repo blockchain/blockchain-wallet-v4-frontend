@@ -29,6 +29,7 @@ export enum LoginSteps {
   ENTER_EMAIL_GUID = 'ENTER_EMAIL_GUID',
   ENTER_PASSWORD_EXCHANGE = 'ENTER_PASSWORD_EXCHANGE',
   ENTER_PASSWORD_WALLET = 'ENTER_PASSWORD_WALLET',
+  INSTITUTIONAL_PORTAL = 'INSTITUTIONAL_PORTAL',
   LOADING = 'LOADING',
   PRODUCT_PICKER_AFTER_AUTHENTICATION = 'PRODUCT_PICKER_AFTER_AUTHENTICATION',
   PRODUCT_PICKER_BEFORE_AUTHENTICATION = 'PRODUCT_PICKER_BEFORE_AUTHENTICATION',
@@ -197,7 +198,6 @@ export type AuthStateType = {
   resetAccount: boolean
   restoring: RemoteDataType<string, RestoringType>
   secureChannelLogin: RemoteDataType<string, SecureChannelLoginType>
-  userGeoData: any
 }
 
 //

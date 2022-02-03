@@ -442,22 +442,70 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         }
       }
 
-      const buyOrder: BSOrderType = yield call(
-        api.createBSOrder,
-        pair.pair,
-        orderType,
-        true,
-        input,
-        output,
-        paymentType,
-        period,
-        paymentMethodId,
-        buyQuote?.quote?.quoteId
-      )
+      let buyOrder: BSOrderType
+      let oldBuyOrder: BSOrderType | undefined
 
-      yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT))
-      yield put(A.fetchOrders())
-      yield put(A.setStep({ order: buyOrder, step: 'CHECKOUT_CONFIRM' }))
+      // This code is handles refreshing the buy order when the user sits on
+      // the order confirmation screen.
+      if (isFlexiblePricingModel) {
+        while (true) {
+          // get the current order, if any
+          const currentBuyQuote = S.getBuyQuote(yield select()).getOrFail(NO_QUOTE)
+
+          buyOrder = yield call(
+            api.createBSOrder,
+            pair.pair,
+            orderType,
+            true,
+            input,
+            output,
+            paymentType,
+            period,
+            paymentMethodId,
+            currentBuyQuote.quote.quoteId
+          )
+
+          // first time creating the order when the user submits the enter amount form
+          if (!oldBuyOrder) {
+            yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT))
+            yield put(A.fetchOrders())
+            yield put(A.setStep({ order: buyOrder, step: 'CHECKOUT_CONFIRM' }))
+          } else {
+            // when the quote expires and a new order is created, set it it in redux and cancel the old order
+            yield put(A.fetchOrders())
+            yield put(A.setStep({ order: buyOrder, step: 'CHECKOUT_CONFIRM' }))
+            yield call(api.cancelBSOrder, oldBuyOrder)
+          }
+
+          oldBuyOrder = buyOrder
+
+          // pause the while loop here until if/when the quote expires again, then refresh the order
+          yield take(A.fetchBuyQuoteSuccess)
+          // need to get curren step and break if not checkout confirm
+          // usually happens when the user goes back to the enter amount form
+          const currentStep = S.getStep(yield select())
+          if (currentStep !== 'CHECKOUT_CONFIRM') {
+            break
+          }
+        }
+      } else {
+        buyOrder = yield call(
+          api.createBSOrder,
+          pair.pair,
+          orderType,
+          true,
+          input,
+          output,
+          paymentType,
+          period,
+          paymentMethodId,
+          buyQuote?.quote?.quoteId
+        )
+
+        yield put(actions.form.stopSubmit(FORM_BS_CHECKOUT))
+        yield put(A.fetchOrders())
+        yield put(A.setStep({ order: buyOrder, step: 'CHECKOUT_CONFIRM' }))
+      }
     } catch (e) {
       // After CC has been activated we try to create an order
       // If order creation fails go back to ENTER_AMOUNT step
@@ -898,8 +946,6 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
   const fetchBuyQuote = function* ({ payload }: ReturnType<typeof A.fetchBuyQuote>) {
     while (true) {
       try {
-        yield put(A.fetchBuyQuoteLoading())
-
         const { amount, pair, paymentMethod, paymentMethodId } = payload
         const pairReversed = reversePair(pair)
 
@@ -924,7 +970,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
             rate: parseInt(quote.price)
           })
         )
-        const refresh = -moment().diff(quote.quoteExpiresAt)
+        const refresh = -moment().add(10, 'seconds').diff(quote.quoteExpiresAt)
         yield delay(refresh)
       } catch (e) {
         const error = errorHandler(e)
@@ -961,7 +1007,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         )
 
         yield put(A.fetchSellQuoteSuccess({ quote, rate }))
-        const refresh = -moment().diff(quote.expiresAt)
+        const refresh = -moment().add(10, 'seconds').diff(quote.expiresAt)
         yield delay(refresh)
       } catch (e) {
         const error = errorHandler(e)
@@ -1556,6 +1602,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
     const { product } = payload
     try {
       yield put(A.fetchAccumulatedTradesLoading())
+      yield call(waitForUserData)
       const accumulatedTradesResponse: ReturnType<typeof api.getAccumulatedTrades> = yield call(
         api.getAccumulatedTrades,
         product

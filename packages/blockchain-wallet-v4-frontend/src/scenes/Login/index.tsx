@@ -14,21 +14,22 @@ import {
   PlatformTypes,
   ProductAuthOptions
 } from 'data/types'
+import { isBrowserSupported } from 'services/browser'
 
-// step templates
 import Loading from '../loading.public'
 import MergeAccountConfirm from './AccountUnification/MergeAccountConfirm'
 import UpgradePassword from './AccountUnification/UpgradePassword'
 import UpgradeSuccess from './AccountUnification/UpgradeSuccess'
+import LoginSceneFooter from './components/LoginSceneFooter'
 import ExchangeEnterEmail from './Exchange/EnterEmail'
-import EnterPasswordExchange from './Exchange/EnterPasswordExchange'
+import EnterPasswordExchange from './Exchange/EnterPassword'
+import InstitutionalPortal from './Exchange/Institutional'
 import TwoFAExchange from './Exchange/TwoFA'
-import { getLoginPageFooter } from './model'
 import { getData } from './selectors'
 import VerifyMagicLink from './VerifyMagicLink'
 import CheckEmail from './Wallet/CheckEmail'
 import WalletEnterEmailOrGuid from './Wallet/EnterEmailOrGuid'
-import EnterPasswordWallet from './Wallet/EnterPasswordWallet'
+import EnterPasswordWallet from './Wallet/EnterPassword'
 import TwoFAWallet from './Wallet/TwoFA'
 
 class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StateProps> {
@@ -121,6 +122,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
       walletError,
       ...this.props,
       handleBackArrowClick: this.handleBackArrowClick,
+      isBrowserSupported: isBrowserSupported(),
       setStep: this.setStep
     }
 
@@ -130,6 +132,8 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
         <Form onSubmit={this.handleSubmit}>
           {(() => {
             switch (step) {
+              case LoginSteps.INSTITUTIONAL_PORTAL:
+                return <InstitutionalPortal {...loginProps} />
               case LoginSteps.ENTER_PASSWORD_EXCHANGE:
                 return <EnterPasswordExchange {...loginProps} />
               case LoginSteps.ENTER_PASSWORD_WALLET:
@@ -160,7 +164,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
         </Form>
 
         {/* FOOTER */}
-        {!loginProps.isMobileViewLogin && getLoginPageFooter(step)}
+        {!loginProps.isMobileViewLogin && <LoginSceneFooter step={step} />}
       </>
     )
   }
@@ -190,11 +194,12 @@ const mapDispatchToProps = (dispatch) => ({
 
 const connector = connect(mapStateToProps, mapDispatchToProps)
 
-type FormProps = {
+type OwnProps = {
   busy?: boolean
   exchangeError?: ExchangeErrorCodes
   handleBackArrowClick: () => void
   invalid: boolean
+  isBrowserSupported: boolean | undefined
   isMobileViewLogin?: boolean
   pristine: boolean
   setStep: (step: LoginSteps) => void
@@ -205,7 +210,7 @@ type FormProps = {
 type StateProps = {
   captchaToken?: string
 }
-export type Props = ConnectedProps<typeof connector> & FormProps
+export type Props = ConnectedProps<typeof connector> & OwnProps
 
 const enhance = compose<any>(reduxForm({ form: LOGIN_FORM }), connector)
 

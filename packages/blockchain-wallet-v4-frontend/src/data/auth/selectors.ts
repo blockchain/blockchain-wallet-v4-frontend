@@ -69,10 +69,6 @@ export function getMagicLinkData(state: RootState): AuthStateType['magicLinkData
   return state.auth.magicLinkData
 }
 
-export function getUserGeoData(state: RootState): AuthStateType['userGeoData'] {
-  return state.auth.userGeoData
-}
-
 export function getManifest(state: RootState): AuthStateType['manifestFile'] {
   return state.auth.manifestFile
 }

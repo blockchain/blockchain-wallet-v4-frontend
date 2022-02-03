@@ -27,8 +27,6 @@ threadLoader.warmup(threadLoaderSettings, ['babel-loader', 'ts-loader'])
 
 // csp nonce for local development
 const CSP_NONCE = '2726c7f26c'
-// timestamp to ensure cache bust
-const CACHE_KEY = Date.now().toString().substr(7)
 
 // gets and logs build config
 const getAndLogEnvConfig = () => {
@@ -71,17 +69,12 @@ const getAndLogEnvConfig = () => {
 const buildWebpackConfig = (envConfig, extraPluginsList) => ({
   devtool: false, // default is false but needs to be set so dev config can override
   entry: {
-    app: {
-      filename: `app-[fullhash:6]-${CACHE_KEY}.js`,
-      import: CONFIG_PATH.src + '/index.js'
-    }
+    app: [`${CONFIG_PATH.src}/index.js`]
   },
   output: {
     assetModuleFilename: 'resources/[name][ext]', // default asset path that is usually overwritten in specific modules.rules
-    chunkFilename: (pathData) => pathData.chunk.name
-      ? `[name]-[contenthash:6]-${CACHE_KEY}.js`
-      : `chunk-[contenthash:6]-${CACHE_KEY}.js`,
     crossOriginLoading: 'anonymous',
+    filename: 'chunk.[id].js',
     path: CONFIG_PATH.ciBuild,
     publicPath: '/'
   },
@@ -170,30 +163,18 @@ const buildWebpackConfig = (envConfig, extraPluginsList) => ({
     extraPluginsList
   ),
   optimization: {
-    moduleIds: 'deterministic',
-    runtimeChunk: {
-      name: (entrypoint) => `runtime-${entrypoint.name}-${CACHE_KEY}`,
-    },
-    splitChunks: {
-      maxSize: 1000000, // 1 MB max chunk size
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all'
-        },
-      },
-    },
     minimizer: [
       new TerserPlugin({
         terserOptions: {
           warnings: false,
           compress: { keep_fnames: true },
           mangle: { keep_fnames: true }
-        },
-        parallel: true
+        }
       })
-    ]
+    ],
+    splitChunks: {
+      chunks: 'all'
+    },
   }
 })
 
