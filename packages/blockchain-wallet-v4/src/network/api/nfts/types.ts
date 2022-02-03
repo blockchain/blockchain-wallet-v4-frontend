@@ -79,11 +79,11 @@ export interface ExchangeMetadataForBundle {
 export type ExchangeMetadata = ExchangeMetadataForAsset | ExchangeMetadataForBundle
 
 export interface WyvernOrder {
-  basePrice: BigNumber
+  basePrice: BigNumber | string
   calldata: string
   exchange: string
   expirationTime: BigNumber
-  extra: BigNumber
+  extra: BigNumber | string
   feeMethod: number
   feeRecipient: string
   howToCall: number
