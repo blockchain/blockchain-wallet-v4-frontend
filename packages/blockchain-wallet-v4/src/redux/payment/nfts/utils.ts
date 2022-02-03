@@ -2158,12 +2158,10 @@ export async function _makeBuyOrder({
   }
 
   return {
-    // @ts-ignore
     basePrice: new BigNumber(basePrice.toString()),
     calldata,
     exchange: network === 'rinkeby' ? WYVERN_CONTRACT_ADDR_RINKEBY : WYVERN_CONTRACT_ADDR_MAINNET,
     expirationTime: times.expirationTime,
-    // @ts-ignore
     extra: new BigNumber(extra.toString()),
     feeMethod,
     feeRecipient,
