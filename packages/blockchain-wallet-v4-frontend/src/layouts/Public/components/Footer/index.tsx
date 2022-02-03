@@ -15,7 +15,7 @@ const FooterInner = styled.div`
 const Footer = (props) => (
   <>
     {props.authProduct === ProductAuthOptions.EXCHANGE &&
-      props.formValues.step !== LoginSteps.INSTITUTIONAL_PORTAL && (
+      props.formValues?.step !== LoginSteps.INSTITUTIONAL_PORTAL && (
         <FooterInner>
           <InstitutionalPortal />
         </FooterInner>

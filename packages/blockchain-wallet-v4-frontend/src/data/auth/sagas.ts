@@ -779,16 +779,16 @@ export default ({ api, coreSagas, networks }) => {
       } else {
         yield put(actions.form.change(LOGIN_FORM, 'step', LoginSteps.CHECK_EMAIL))
       }
+      yield put(actions.auth.triggerWalletMagicLinkSuccess())
+      yield put(stopSubmit(LOGIN_FORM))
       // poll for session from auth payload if feature flag enabled
       if (shouldPollForMagicLinkData) {
         yield call(pollForSessionFromAuthPayload, api, sessionToken)
       }
-      yield put(actions.auth.triggerWalletMagicLinkSuccess())
     } catch (e) {
       yield put(actions.auth.triggerWalletMagicLinkFailure())
       yield put(actions.logs.logErrorMessage(logLocation, 'triggerWalletMagicLink', e))
       yield put(actions.alerts.displayError(C.VERIFY_EMAIL_SENT_ERROR))
-    } finally {
       yield put(stopSubmit(LOGIN_FORM))
     }
   }
