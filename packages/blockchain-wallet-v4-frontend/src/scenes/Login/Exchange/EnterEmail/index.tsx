@@ -26,14 +26,19 @@ const LoginWrapper = styled(Wrapper)`
 `
 
 const EnterEmail = (props: Props) => {
-  const { authActions, busy, formValues, invalid, isBrowserSupported, submitting } = props
+  const {
+    authActions,
+    busy,
+    formValues,
+    invalid,
+    isBrowserSupported,
+    submitting,
+    walletTabClicked
+  } = props
 
   return (
     <LoginWrapper>
-      <ProductTabMenu
-        active={ProductAuthOptions.EXCHANGE}
-        onWalletTabClick={authActions.setCachedWalletData}
-      />
+      <ProductTabMenu active={ProductAuthOptions.EXCHANGE} onWalletTabClick={walletTabClicked} />
       <WrapperWithPadding>
         <FormGroup>
           <UnsupportedBrowser isSupportedBrowser={isBrowserSupported} />

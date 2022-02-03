@@ -75,6 +75,7 @@ const EnterPasswordWallet = (props: Props) => {
   const {
     authActions,
     busy,
+    exchangeTabClicked,
     formValues,
     handleBackArrowClick,
     invalid,
@@ -83,12 +84,6 @@ const EnterPasswordWallet = (props: Props) => {
     submitting,
     walletError
   } = props
-
-  const onExchangeTabClick = () => {
-    props.routerActions.push('/login?product=exchange')
-    authActions.setProductAuthMetadata({ product: ProductAuthOptions.EXCHANGE })
-    props.setStep(LoginSteps.ENTER_EMAIL_GUID)
-  }
 
   const passwordError = walletError && walletError.toLowerCase().includes('wrong_wallet_password')
   const accountLocked =
@@ -102,7 +97,7 @@ const EnterPasswordWallet = (props: Props) => {
       <FormWrapper>
         <ProductTabMenu
           active={ProductAuthOptions.WALLET}
-          onExchangeTabClick={onExchangeTabClick}
+          onExchangeTabClick={exchangeTabClicked}
         />
         <WrapperWithPadding>
           <BackArrowHeader

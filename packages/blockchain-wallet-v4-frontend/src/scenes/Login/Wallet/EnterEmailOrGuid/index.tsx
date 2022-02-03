@@ -32,6 +32,7 @@ const EnterEmailOrGuid = (props: Props) => {
   const {
     authActions,
     busy,
+    exchangeTabClicked,
     formActions,
     formValues,
     invalid,
@@ -41,15 +42,10 @@ const EnterEmailOrGuid = (props: Props) => {
     walletError
   } = props
   const guidError = walletError && walletError.toLowerCase().includes('unknown wallet id')
-  const onExchangeTabClick = () => {
-    routerActions.push('/login?product=exchange')
-    formActions.clearFields(LOGIN_FORM, false, false, 'email')
-    authActions.setProductAuthMetadata({ product: ProductAuthOptions.EXCHANGE })
-  }
 
   return (
     <LoginWrapper>
-      <ProductTabMenu active={ProductAuthOptions.WALLET} onExchangeTabClick={onExchangeTabClick} />
+      <ProductTabMenu active={ProductAuthOptions.WALLET} onExchangeTabClick={exchangeTabClicked} />
       <WrapperWithPadding>
         <FormGroup>
           <UnsupportedBrowser isSupportedBrowser={isBrowserSupported} />
