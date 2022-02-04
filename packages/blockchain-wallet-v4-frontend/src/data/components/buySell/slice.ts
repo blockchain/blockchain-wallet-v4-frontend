@@ -42,12 +42,13 @@ import {
 } from 'data/types'
 
 import { getCoinFromPair, getFiatFromPair } from './model'
-import { BuySellState } from './types'
+import { BSAddCardErrorType, BuySellState } from './types'
 
 const initialState: BuySellState = {
   account: Remote.NotAsked,
   accumulatedTrades: Remote.NotAsked,
   addBank: undefined,
+  addCardError: undefined,
   balances: Remote.NotAsked,
   buyQuote: Remote.NotAsked,
   card: Remote.NotAsked,
@@ -253,6 +254,7 @@ const buySellSlice = createSlice({
     fetchCardsFailure: (state, action: PayloadAction<string>) => {
       state.cards = Remote.Success([])
     },
+
     fetchCardsLoading: (state) => {
       state.cards = Remote.Loading
     },
@@ -272,10 +274,10 @@ const buySellSlice = createSlice({
       state.crossBorderLimits = Remote.Success(action.payload)
     },
     fetchFiatEligible: (state, action: PayloadAction<FiatType>) => {},
-
     fetchFiatEligibleFailure: (state, action: PayloadAction<string>) => {
       state.fiatEligible = Remote.Failure(action.payload)
     },
+
     fetchFiatEligibleLoading: (state) => {
       state.fiatEligible = Remote.Loading
     },
@@ -441,6 +443,9 @@ const buySellSlice = createSlice({
       state,
       action: PayloadAction<{ paymentMethodTokens: { [key: string]: string } }>
     ) => {},
+    setAddCardError: (state, action: PayloadAction<undefined | BSAddCardErrorType>) => {
+      state.addCardError = action.payload
+    },
     setBuyCrypto: (state, action: PayloadAction<string>) => {},
     setFiatCurrency: (state, action: PayloadAction<FiatType>) => {
       state.fiatCurrency = action.payload
