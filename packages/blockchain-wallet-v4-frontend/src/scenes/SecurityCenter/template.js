@@ -9,6 +9,9 @@ import { media } from 'services/styles'
 const Wrapper = styled.div`
   padding: 10px 30px 30px;
   box-sizing: border-box;
+  ${media.mobile`
+    padding: 10px 0 30px;
+  `};
 `
 const StatusWrapper = styled.div`
   display: flex;
