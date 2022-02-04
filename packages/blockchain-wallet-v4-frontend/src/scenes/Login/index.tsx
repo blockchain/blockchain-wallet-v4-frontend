@@ -20,7 +20,7 @@ import Loading from '../loading.public'
 import MergeAccountConfirm from './AccountUnification/MergeAccountConfirm'
 import UpgradePassword from './AccountUnification/UpgradePassword'
 import UpgradeSuccess from './AccountUnification/UpgradeSuccess'
-import LoginSceneFooter from './components/LoginSceneFooter'
+import { loginSceneFooter } from './components/LoginSceneFooter'
 import ExchangeEnterEmail from './Exchange/EnterEmail'
 import EnterPasswordExchange from './Exchange/EnterPassword'
 import InstitutionalPortal from './Exchange/Institutional'
@@ -192,7 +192,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
         </Form>
 
         {/* FOOTER */}
-        {!loginProps.isMobileViewLogin && <LoginSceneFooter step={step} />}
+        {!loginProps.isMobileViewLogin && loginSceneFooter(step)}
       </>
     )
   }

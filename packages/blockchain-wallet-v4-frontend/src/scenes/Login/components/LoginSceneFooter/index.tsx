@@ -15,7 +15,7 @@ const PhishingWarning = styled.div`
   padding: 12px 32px;
 `
 
-const LoginSceneFooter = (step) => {
+export const loginSceneFooter = (step) => {
   switch (step) {
     case LoginSteps.ENTER_EMAIL_GUID:
       return (
@@ -38,5 +38,3 @@ const LoginSceneFooter = (step) => {
       return null
   }
 }
-
-export default LoginSceneFooter
