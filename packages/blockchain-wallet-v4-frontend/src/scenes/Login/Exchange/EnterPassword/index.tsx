@@ -34,16 +34,14 @@ const EnterPasswordExchange = (props: Props) => {
     handleBackArrowClick,
     invalid,
     isBrowserSupported,
-    submitting
+    submitting,
+    walletTabClicked
   } = props
   const passwordError = exchangeError && exchangeError === ExchangeErrorCodes.INVALID_CREDENTIALS
 
   return (
     <LoginWrapper>
-      <ProductTabMenu
-        active={ProductAuthOptions.EXCHANGE}
-        onWalletTabClick={authActions.setCachedWalletData}
-      />
+      <ProductTabMenu active={ProductAuthOptions.EXCHANGE} onWalletTabClick={walletTabClicked} />
       <WrapperWithPadding>
         <BackArrowHeader
           {...props}

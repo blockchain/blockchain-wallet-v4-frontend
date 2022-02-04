@@ -198,7 +198,6 @@ const authSlice = createSlice({
     setAuthType: (state, action) => {
       state.auth_type = action.payload
     },
-    setCachedWalletData: () => {},
     setFirstLogin: (state, action: PayloadAction<AuthStateType['firstLogin']>) => {
       state.firstLogin = action.payload
     },

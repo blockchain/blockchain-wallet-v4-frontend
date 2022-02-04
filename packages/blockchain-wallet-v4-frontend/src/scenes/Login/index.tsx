@@ -76,6 +76,33 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     this.initCaptcha()
   }
 
+  exchangeTabClicked = () => {
+    const { exchangeEmail } = this.props.cache
+    const { authActions, formActions, routerActions } = this.props
+    authActions.setProductAuthMetadata({ product: ProductAuthOptions.EXCHANGE })
+    routerActions.push('/login?product=exchange')
+    if (exchangeEmail) {
+      formActions.change(LOGIN_FORM, 'email', exchangeEmail)
+      formActions.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_EXCHANGE)
+    } else {
+      formActions.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID)
+    }
+  }
+
+  walletTabClicked = () => {
+    const { email, lastGuid, storedGuid } = this.props.cache
+    const { authActions, formActions, routerActions } = this.props
+    authActions.setProductAuthMetadata({ product: ProductAuthOptions.WALLET })
+    routerActions.push('/login?product=wallet')
+    if (storedGuid || lastGuid) {
+      formActions.change(LOGIN_FORM, 'guid', lastGuid || storedGuid)
+      formActions.change(LOGIN_FORM, 'email', email)
+      formActions.change(LOGIN_FORM, 'step', LoginSteps.ENTER_PASSWORD_WALLET)
+    } else {
+      formActions.change(LOGIN_FORM, 'step', LoginSteps.ENTER_EMAIL_GUID)
+    }
+  }
+
   handleSubmit = (e) => {
     e.preventDefault()
     // sometimes captcha doesnt mount correctly (race condition?)
@@ -117,12 +144,14 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
     const loginProps = {
       busy, // TODO see if we still need busy
       exchangeError,
+      exchangeTabClicked: this.exchangeTabClicked,
       isMobileViewLogin: platform === PlatformTypes.ANDROID || platform === PlatformTypes.IOS,
       walletError,
       ...this.props,
       handleBackArrowClick: this.handleBackArrowClick,
       isBrowserSupported: isBrowserSupported(),
-      setStep: this.setStep
+      setStep: this.setStep,
+      walletTabClicked: this.walletTabClicked
     }
 
     return (
@@ -172,6 +201,7 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
 const mapStateToProps = (state) => ({
   accountUnificationFlow: selectors.auth.getAccountUnificationFlowType(state),
   authType: selectors.auth.getAuthType(state) as Number,
+  cache: selectors.cache.getCache(state),
   data: getData(state),
   exchangeLoginData: selectors.auth.getExchangeLogin(state) as RemoteDataType<any, any>,
   formValues: selectors.form.getFormValues(LOGIN_FORM)(state) as LoginFormType,
@@ -196,6 +226,7 @@ const connector = connect(mapStateToProps, mapDispatchToProps)
 type OwnProps = {
   busy?: boolean
   exchangeError?: ExchangeErrorCodes
+  exchangeTabClicked?: () => void
   handleBackArrowClick: () => void
   invalid: boolean
   isBrowserSupported: boolean | undefined
@@ -204,6 +235,7 @@ type OwnProps = {
   setStep: (step: LoginSteps) => void
   submitting: boolean
   walletError?: any
+  walletTabClicked?: () => void
 }
 
 type StateProps = {
