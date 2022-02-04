@@ -1,11 +1,6 @@
 # OS X
 .DS_Store
 
-# analytics
-packages/blockchain-wallet-v4-frontend/src/data/analytics/segment.ts
-packages/blockchain-wallet-v4-frontend/src/data/analytics/index.ts
-!packages/blockchain-wallet-v4-frontend/src/data/analytics/plan.json
-
 # Editors
 *.swp
 *~
@@ -51,6 +46,11 @@ packages/blockchain-wallet-v4-frontend/dist
 packages/blockchain-wallet-v4-frontend/extracted-ts
 packages/blockchain-wallet-v4-frontend/node_modules
 packages/blockchain-wallet-v4-frontend/package-lock.json
+
+# analytics
+packages/blockchain-wallet-v4-frontend/src/data/analytics/segment.ts
+packages/blockchain-wallet-v4-frontend/src/data/analytics/index.ts
+!packages/blockchain-wallet-v4-frontend/src/data/analytics/plan.json
 
 # Config Files
 config/env/development.js
