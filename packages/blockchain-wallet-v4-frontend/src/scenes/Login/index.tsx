@@ -69,7 +69,6 @@ class Login extends PureComponent<InjectedFormProps<{}, Props> & Props, StatePro
 
   handleBackArrowClick = () => {
     const { authActions, cacheActions, formActions } = this.props
-
     cacheActions.removedStoredLogin()
     formActions.destroy(LOGIN_FORM)
     this.setStep(LoginSteps.ENTER_EMAIL_GUID)

@@ -31,7 +31,7 @@ const InstitutionalPortal = (props) => (
       <Text size='16px' color='grey400' weight={500}>
         <FormattedMessage
           id='layouts.wallet.footer.institutional_portal'
-          defaultMessage='Looking for the Institutional Portal?'
+          defaultMessage='Are you an institutional user?'
         />
       </Text>
       &nbsp;

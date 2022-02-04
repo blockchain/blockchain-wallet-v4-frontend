@@ -648,7 +648,7 @@
   "identityverification.tooltip.headerhelper.contactsupport": "Contact support.",
   "interest.withdrawal.validation.abovemax": "Amount is above the maximum withdrawal amount.",
   "interest.withdrawal.validation.belowminamount": "Amount is below the minimum withdrawal amount of {withdrawalMin} {currency}.",
-  "layouts.wallet.footer.institutional_portal": "Looking for the Institutional Portal?",
+  "layouts.wallet.footer.institutional_portal": "Are you an institutional user?",
   "layouts.wallet.header.Sign Out": "Sign Out",
   "layouts.wallet.header.announcements.ceur.limited_time": "Limited-Time {displaySymbol} Bonus and Rewards",
   "layouts.wallet.header.announcements.ceur.limited_time.description": "Buy 25 {displaySymbol}, get a 10 {displaySymbol} bonus, and earn 16% in annual rewards.",
