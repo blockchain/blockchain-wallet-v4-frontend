@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { Button, Text } from 'blockchain-info-components'
 import { TextBox } from 'components/Form'
 import { validEmail } from 'services/forms'
+import { media } from 'services/styles'
 
 import { SecuritySummary } from '../../../components'
 
@@ -16,6 +17,12 @@ const ChangeEmailInputWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+  ${media.mobile`
+    display: block;
+    .email-input {
+      margin-bottom: 10px;
+    }
+  `};
 `
 const ButtonContainer = styled.div`
   display: flex;
@@ -38,6 +45,7 @@ function ChangeEmailSteps(props) {
             validate={[validEmail]}
             component={TextBox}
             placeholder='email@email.com'
+            className='email-input'
           />
           <ButtonContainer>
             <Button
