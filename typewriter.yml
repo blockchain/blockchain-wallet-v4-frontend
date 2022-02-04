@@ -1,0 +1,16 @@
+# Segment Typewriter Configuration (https://segment.com/docs/protocols/typewriter)
+# Just run `npx typewriter@next` to re-generate a client with the latest versions of these events.
+
+# You can find more documentation on configuring this client in the Segment docs.
+# See: https://segment.com/docs/protocols/typewriter
+client:
+  sdk: analytics.js
+  language: typescript
+
+trackingPlans:
+  # Tracking Plan: Backend and Clients Tracking Plan
+  # https://app.segment.com/blockchain/protocols/tracking-plans/rs_1rTQPq3YJO50gUMOeV9FoPd5eY2
+  - id: rs_1rTQPq3YJO50gUMOeV9FoPd5eY2
+    workspaceSlug: blockchain
+    path: packages/blockchain-wallet-v4-frontend/src/data/analytics
+

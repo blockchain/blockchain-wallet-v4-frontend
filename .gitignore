@@ -1,6 +1,11 @@
 # OS X
 .DS_Store
 
+# analytics
+packages/blockchain-wallet-v4-frontend/src/data/analytics/segment.ts
+packages/blockchain-wallet-v4-frontend/src/data/analytics/index.ts
+!packages/blockchain-wallet-v4-frontend/src/data/analytics/plan.json
+
 # Editors
 *.swp
 *~

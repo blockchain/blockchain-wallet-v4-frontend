@@ -42,6 +42,18 @@ const devToolsConfig = {
   serialize: serializer
 }
 
+const analyticsCaller = () => store => next => action => {
+  if (window.analytics) return next(action)
+
+  window.analytics = {
+    track(key, properties) {
+      store.dispatch(actions.analytics.trackEvent({ key, properties }))
+    }
+  }
+
+  return next(action)
+}
+
 const configuredStore = async function () {
   const history = createHashHistory()
   const sagaMiddleware = createSagaMiddleware()
@@ -136,7 +148,8 @@ const configuredStore = async function () {
       webSocketCoins(coinsSocket),
       coreMiddleware.walletSync({ api, isAuthenticated, walletPath }),
       analyticsMiddleware(),
-      autoDisconnection()
+      autoDisconnection(),
+      analyticsCaller()
     ]),
     reducer: connectRouter(history)(
       persistCombineReducers(

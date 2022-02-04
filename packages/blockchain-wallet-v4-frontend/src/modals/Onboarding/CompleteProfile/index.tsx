@@ -4,6 +4,7 @@ import { connect, ConnectedProps } from 'react-redux'
 import { bindActionCreators, compose, Dispatch } from 'redux'
 import styled from 'styled-components'
 
+import { peeksheetViewed } from 'data/analytics'
 import { ProductTypes } from '@core/types'
 import { Icon, Text } from 'blockchain-info-components'
 import CircularProgressBar from 'components/CircularProgressBar'
@@ -107,6 +108,11 @@ class CompleteProfile extends PureComponent<Props, State> {
     this.props.buySellActions.fetchAccumulatedTrades({ product: ProductTypes.SIMPLEBUY })
 
     const { currentStep } = this.props.data
+    peeksheetViewed({
+      current_step_completed: String(currentStep),
+      device: '',
+      platform: ''
+    })
     this.props.analyticsActions.trackEvent({
       key: Analytics.ONBOARDING_COMPLETE_PROFILE_MODAL_VIEWED,
       properties: { current_step_completed: currentStep }
