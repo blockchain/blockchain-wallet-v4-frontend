@@ -1336,6 +1336,7 @@ export default ({ api, coreSagas, networks }: { api: APIType; coreSagas: any; ne
         _error: error
       })
     )
+    yield put(A.setAddCardError(error))
   }
 
   const pollBSBalances = function* () {
